@@ -22,8 +22,8 @@
           <h2 id="project_tagline">A chrome plugin to manage your favorite tv-shows and their schedules with automagic ThePirateBay integration</h2>
 
             <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/SchizoDuckie/seriesguide-chrome/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/SchizoDuckie/seriesguide-chrome/tarball/master">Download this project as a tar.gz file</a>
+              <a class="crx_download_link" href="https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/seriesguide-chrome.crx" title="Download the chrome extension">Download the Chrome Extension</a>
+              
             </section>
         </header>
     </div>
@@ -35,17 +35,47 @@
 
 <p>A chrome plugin to manage your favorite tv-shows and their schedules with automagic ThePirateBay integration</p>
 
-<p>Installation: </p>
+<h3>Installation: </h3>
 
 <ul>
-<li>download the .crx file</li>
-<li>Open your chrome extensions tab</li>
-<li>drag the crx to the extensions tab to install</li>
-</ul><p>Add your favorite series to the list and then click one to view the schedule.
-Behind each episode that's aired is a magnet link. Click that to automatically check thepiratebay for the torrent with the most seeds for  SE.
-Click the magnet link behind a torrent to download it.</p>
+<li><a href="https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/seriesguide-chrome.crx">download the .crx file</a></li>
+<li>Open your chrome extensions tab (menu -> extra -> extensions)</li>
+<li>drag the .crx to the extensions tab to install</li>
+</ul>
+
+<h3>Usage:</h3>
+<ul>
+  <li>Your main screen is the favorites view<br>
+    <img src="images/favorites.jpg" style="width: 300px">
+  </li>
+  <li>Add your favorite series to the list by searching for it and clicking 'Add to favorites'
+    <img src="images/search.jpg" style="width: 300px">
+  </li>
+  <li>After adding, the schedule shows under the show details.<br>
+    <img src="images/schedule.jpg" style="width: 300px"><br>
+  </li>
+  <li>Click the magnet icon behind each aired show to to a tpb search ordered by max seeds and show the first result<br>
+    <img src="images/download-magnet.jpg" style="width: 300px"><br>
+    Click the magnet link that pops up to start the torrent download!
+  </li>
+</ul>
 
 <p>C'est ca!</p>
+
+<h3>More to come</h3>
+<ul>
+  <li>better cacheing and local storage</li>
+  <li>Check for updates once a day and show alerts / automagically download</li>
+  <li>Set tpb mirrors.</li>
+  <li>Alternative searchqueries per serie</li>
+  <li>fill dates for next episode and airdate</li>
+</ul>
+
+<h3>Nerdtalk</h3>
+<p>Interested in the source? Check the couple of lines of js <a href='https://github.com/SchizoDuckie/seriesguide-chrome/blob/master/series.js'>here</a>.</p>
+<p>Feel free to extend and send pull requests</p>
+<p>This project cannot be found in the chrome extension store because the Terms of service do not allow it!</p>
+
       </section>
     </div>
 
