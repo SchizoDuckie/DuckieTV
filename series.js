@@ -1,9 +1,6 @@
-/*
- seriesguide-chrome main JavaScript file
- https://github.com/SchizoDuckie/seriesguide-chrome
- */
-
 document.addEventListener('DOMContentLoaded', function () {
+    initialSetup();
+    
     $('form').on('submit', findSeries);
     $('#searchresult').on('click', 'button.getschedule', selectShow);
     $('#favorites').on('click', 'li', selectShow);
@@ -29,6 +26,22 @@ document.addEventListener('DOMContentLoaded', function () {
     showFavorites();
 });
 
+function initialSetup() {
+    var defaultSettings = {
+        "search.720p" : "0",        // 0 || 1 ( adds 720p to every search query )
+        "notify.type": "torrent",  // aired || torrent || both (aired gives notification when episode airs on tv, torrent when there's > configured seeds on tpb)
+        "update.frequency" : "6"    // check every x hours for updates.
+    };
+
+    if(!localStorage.getItem('search.mirror')) { // ls settings are empty, setup.
+        var keys = Object.keys(defaultSettings);
+        for(var i=0; i<keys.length; i++) {
+            localStorage.setItem(keys[i], defaultSettings[keys[i]]);
+        }
+    }
+    
+}
+
 /*
  http://www.thetvdb.com/api/Updates.php?type=none
  get last update time
@@ -37,13 +50,14 @@ function selectShow(e) {
     //646990DA07A98A2B
     var id = $(this).attr('data-id');
     console.log("Selected show! ", id);
-    $.ajax('http://thetvdb.com/api/646990DA07A98A2B/series/' + id + '/all/en.xml', {
+    $.ajax({
+        url: 'http://thetvdb.com/api/646990DA07A98A2B/series/' + id + '/all/en.xml',
         dataType:'xml',
-        complete:function (xhr, status) {
+        success:function (xhr, status) {
             var curDate = new Date().getTime();
             console.log("Got schedule for show!", xhr, status);
-            var epis = $(xhr.responseXML).find("Episode");
-            var schedule = $("div[data-id=" + id + "] table.shows");
+            var epis = $(xhr).find("Episode");
+            var schedule = $("div[data-id='" + id + "'] table.shows");
             schedule.empty();
 
             for (i = epis.length - 1; i > 0; i--) {
@@ -131,15 +145,13 @@ function showFavorites() {
 function findSeries(e) {
     var name = $('input[type=search]').val();
     console.log("Finding!", name);
-    $.ajax(
-        'http://thetvdb.com/api/GetSeries.php?seriesname=' + encodeURIComponent(name), {
+    $.ajax({
+            url: 'http://thetvdb.com/api/GetSeries.php?seriesname=' + encodeURIComponent(name),
             dataType:'xml',
-            cache:true,
             complete:function (xhr, status) {
                 window.location.hash = 'searching';
                 console.log("Found it! ", xhr, status);
-                var xml = xhr.responseXML;
-                var series = $(xml).find("Series");
+                var series = $(xhr.responseXML).find("Series");
                 console.log(series);
                 $("#searching").css("display", "block");
                 $("#searchresult").empty();
@@ -156,6 +168,9 @@ function findSeries(e) {
                         "</li>"].join("")
                     );
                 }
+            },
+            error: function (e,f) {
+                console.log("FInd error!", e,f);
             }
         });
     return false;
@@ -166,13 +181,23 @@ function FindTPB(e) {
     var ep = $(this).closest('tr').attr('data-episode');
     var self = this;
     console.log("Finding! @TPB", e.target, this, what);
-    var req = new XMLHttpRequest();
-    req.open("GET", "http://pirateshit.com/search/" + encodeURIComponent(what) + '+' + ep + "/0/7/0/", true);
-    req.onload = function (e) {
-        var row = $(e.target.response).find('#searchResult tbody tr')[0];
-        var targetrow = $(self).closest('tr');
-        targetrow.after("<tr><td colspan=4><table style='border: 1px solid black; width: 100%; border-collapse: collapse;'><tr><td>" + $(row).find('td:nth-child(2) > div ').text() + "</td><td>" + $(row).find('td:nth-child(2) > a')[0].outerHTML + "</td><td>" + $(row).find("td:nth-last-child(2)").html() + "</td><td>" + $(row).find("td:last-child()").html() + "</td></tr></table></td></tr>");
-    };
-
-    req.send(null);
+    $.ajax({
+        url: "http://pirateshit.com/search/" + encodeURIComponent(what) + '+' + ep + "/0/7/0/",  /* tpb search, ordered by seeds */
+        complete: function (xhr, status) {
+            var row = $(xhr.response).find('#searchResult tbody tr')[0];
+            var targetrow = $(self).closest('tr');
+            targetrow.after(["<tr>",
+                                "<td colspan='4'>",
+                                    "<table style='border: 1px solid black; width: 100%; border-collapse: collapse;'>",
+                                        "<tr>",
+                                            "<td>", $(row).find('td:nth-child(2) > div ').text(), "</td>", /* releasename */
+                                            "<td>", $(row).find('td:nth-child(2) > a')[0].outerHTML, "</td>", /*magnet */
+                                            "<td>", $(row).find("td:nth-child(3)").html(), "</td>", /* seeders */
+                                            "<td>", $(row).find("td:nth-child(4)").html(), "</td>", /* leechers */
+                                        "</tr>",
+                                    "</table>",
+                                "</td>",
+                            "</tr>"].join(''));
+        }
+    });
 }
