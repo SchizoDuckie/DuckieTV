@@ -5,18 +5,29 @@
 
 html {
     min-height: 80px;
-    max-height: 400px;
+    max-height: 450px;
     width: 400px;
 }
+
+
+/* For small-screen devices */
+@media screen and (max-device-height: 700px) {
+	body > div {
+		height: 300px;
+	}	
+}
+
 
 body, html {
     min-height: 80px;
     max-height: 450px;
     background-color: black;
+    border-radius: 10px;
+    overflow-y:visible;
 }
 
 * {
-    font-family: Arial;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
 /* Let's get this party started */
@@ -73,6 +84,7 @@ body>div:target {
     top: 0;
     bottom: 0;
     min-height: 80px;
+    /*max-height: 760px;*/
 }
 
 body>div:not(:target) {
