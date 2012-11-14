@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    initialSetup();
-    
+       
     $('form').on('submit', findSeries);
     $('#searchresult').on('click', 'button.getschedule', selectShow);
     $('#favorites').on('click', 'li', selectShow);
@@ -25,22 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     showFavorites();
 });
-
-function initialSetup() {
-    var defaultSettings = {
-        "search.720p" : "0",        // 0 || 1 ( adds 720p to every search query )
-        "notify.type": "torrent",  // aired || torrent || both (aired gives notification when episode airs on tv, torrent when there's > configured seeds on tpb)
-        "update.frequency" : "6"    // check every x hours for updates.
-    };
-
-    if(!localStorage.getItem('search.mirror')) { // ls settings are empty, setup.
-        var keys = Object.keys(defaultSettings);
-        for(var i=0; i<keys.length; i++) {
-            localStorage.setItem(keys[i], defaultSettings[keys[i]]);
-        }
-    }
-    
-}
 
 /*
  http://www.thetvdb.com/api/Updates.php?type=none
@@ -128,11 +111,13 @@ function showFavorites() {
                           "</li>"].join(''));
             $(document.body).append(["<div id='show_", faves[i].id, "' data-id='", faves[i].id, "' data-name='", escaped, "'>",
                                          "<img src='", faves[i].banner, "'/>",
+                                         "<input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>",
                                          "<p>", faves[i].overview, "</p>",
                                          "<strong>", faves[i].name,
                                              "<span id='nextepisode'>Next Episode: <em></em></span>",
                                              "<span id='nextairdate'>Next Airdate: <em></em></span>",
                                          "</strong>",
+                                         
                                          "<div class='overflower'>",
                                              "<table class='shows'></table>",
                                          "</div><input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>",
@@ -176,17 +161,23 @@ function findSeries(e) {
     return false;
 }
 
-function FindTPB(e) {
+function FindTPB() {
     var what = $(this).closest('div[data-name]').attr('data-name');
     var ep = $(this).closest('tr').attr('data-episode');
     var self = this;
-    console.log("Finding! @TPB", e.target, this, what);
+    var p720 = localStorage.getItem("search.720p") === "1" ? "+720p" : "";
+    var mirror = localStorage.getItem("search.mirror");
     $.ajax({
-        url: "http://pirateshit.com/search/" + encodeURIComponent(what) + '+' + ep + "/0/7/0/",  /* tpb search, ordered by seeds */
+        url: mirror+"search/" + encodeURIComponent(what) + '+' + ep + p720 + "/0/7/0/",  /* tpb search, ordered by seeds */
         complete: function (xhr, status) {
             var row = $(xhr.response).find('#searchResult tbody tr')[0];
             var targetrow = $(self).closest('tr');
-            targetrow.after(["<tr>",
+            console.log("Row! ", row);
+            if(targetrow.next('tr.result')) {
+                targetrow.next('tr.result').remove();
+            }
+            if(row) {
+                targetrow.after(["<tr class='result'>",
                                 "<td colspan='4'>",
                                     "<table style='border: 1px solid black; width: 100%; border-collapse: collapse;'>",
                                         "<tr>",
@@ -198,6 +189,13 @@ function FindTPB(e) {
                                     "</table>",
                                 "</td>",
                             "</tr>"].join(''));
+            } else {
+                targetrow.after(["<tr class='result'>",
+                                "<td colspan='4'>",
+                                    "<strong>No torrents found (yet) for ", decodeURIComponent(what + ep + p720),"</strong>",
+                                "</td>",
+                            "</tr>"].join(''));
+            }
         }
     });
 }

@@ -2,67 +2,38 @@
 <html>
 <head>
 	<title>Series Guide Chrome extension options</title>
-	<style>
-
-	* { font-family: 'Segoe UI', Tahoma, sans-serif; }
-	html { height: 100%;}
-	body {
-		background: url(tpblogo.png) no-repeat right bottom #fff;
-		-webkit-background-size:contain;
-		
-	}
-	h1 { font-size: 25px;}
-	h3 { font-size: 15px;}
-	ul {
-		margin: 0;
-		padding: 0;
-		list-style-type: none;
-		
-	}
-	small {
-	 display: block;
-	 margin-left: 2em;
-	}
-
-	section {
-		background-color: rgba(255,255,255,0.8);
-
-		margin: 50px auto;
-		
-		width: 80%;
-		border: 1px solid #EFEFEF;
-		padding: 2em;
-		border-radius: 25px;
-	}
-
-	input[type=number] {
-		width: 50px;
-	}
-	</style>
-	
+	<link rel="stylesheet" href="options.css"></link>
+	<script type="text/javascript" src="zepto.js"></script>
+	<script src="config.js"></script>
+	<script type="text/javascript" src="options.js"></script>	
 <body>
 	<section>
-		<h1 style='color:red'>Work in progress! This does not work yet!</h1>
 		<h1>Series Guide Chrome Options</h1>
 		<h3>Thepiratebay searching:</h3>
 		<ul>
-			<li><input type='checkbox' name='search.720p' value='1' id='search720'> <label for='search720'>Search for 720p torrents only</label></li>
+			<li><strong>TPB Mirror</strong> <input type='url' name='search.miror' placeholder='http://www.pirateshit.com/' id='searchmirror'> <input type='button' id='testSearch' value='Test'> <small>A mirror is used by default because The Pirate Bay is blocked in some countries.<br> If the current mirror does not work for you, you can automatically select a new one: <input type='button' id='fucktimkuik' value='Find alternative ThePirateBay mirror'></small></li>
+			<li><input type='checkbox' name='search.720p' value='1' id='search720'> <label for='search720'>Search for 720p torrents only</label>
+				<small>720p versions of an episode take longer to download, but are of better quality. </small></li>
 		</ul>
-
+		<h1 style='color:red'>Work in progress! Settings below do not work yet!</h1>
 		<h3>Notifications:</h3>
 		<ul>
 			<li><input type='radio' name='notify.type' value='aired' id='notifyaired'> <label for='notifyaired'>Show notification when a new episode has aired <small>(even when no seeds are available)</small></label></li>
-			<li><input type='radio' name='notify.type' checked value='torrent' id='notifytorrent'> <label for='notifytorrent'>Show notifications only when a new episode has aired <em>and</em> there are a minimum of <input type='number' size='4' value='20'> seeders</label></li>
+			<li><input type='radio' name='notify.type' value='torrent' id='notifytorrent'> <label for='notifytorrent'>Show notifications when a new episode has been released on The Pirate Bay with a minimum of <input type='number' size='4' value='20'> seeders</label></li>
+			<li><input type='radio' name='notify.type' value='both' id='notifyboth'> <label for='notifyboth'>Show notifications both when a show has aired and when there's enough seeders.</li>
 		</ul>
 
 		<h3>Check for updates:</h3>		
 		<ul>
 			<li><input type='radio' name='update.frequency' value='browserstart' id='updatestart'> <label for='updatestart'>On Browser startup</label></li>
-			<li><input type='radio' name='update.frequency' value='3hr' id='update3'> <label for='update3'>Every 3 hours</label></li>
-			<li><input type='radio' name='update.frequency' value='6hr' id='update6' checked> <label for='update6'>Every 6 hours</label></li>
-			<li><input type='radio' name='update.frequency' value='12hr' id='update12'> <label for='update12'>Every 12 hours</label></li>
-			<li><input type='radio' name='update.frequency' value='24hr' id='update24'> <label for='update24'>Daily</label></li>
+			<li><input type='radio' name='update.frequency' value='3' id='update3'> <label for='update3'>Every 3 hours</label></li>
+			<li><input type='radio' name='update.frequency' value='6' id='update6'> <label for='update6'>Every 6 hours</label></li>
+			<li><input type='radio' name='update.frequency' value='12' id='update12'> <label for='update12'>Every 12 hours</label></li>
+			<li><input type='radio' name='update.frequency' value='24' id='update24'> <label for='update24'>Daily</label></li>
 		</ul>
+
+
+		<input type='button' id='save' value='Save Settings'>
 
 </section>
 </body>
