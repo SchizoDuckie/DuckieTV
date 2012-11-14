@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     $(document.body).on('click', 'div[data-name] table img[alt="Magnet link"]', FindTPB);
     $(document.body).on('click', '.goback', function () {
-        console.log("GOBACK!");
         window.location.hash = '#favorites';
         return false;
     });
@@ -64,7 +63,6 @@ function selectShow(e) {
 }
 
 function faveShow(e) {
-    //646990DA07A98A2B
     var id = $(this).parent('li').attr('data-id');
     var name = $(this).parent('li').attr('data-name');
     console.log("Fave show!", id, name);
@@ -79,7 +77,6 @@ function faveShow(e) {
 }
 
 function unfaveShow(e) {
-    //646990DA07A98A2B
     var id = $(this).parent('div[data-name]').attr('data-id');
     var name = $(this).parent('div[data-name]').attr('data-name');
     var faves = localStorage.getItem("favorites") !== null ? JSON.parse(localStorage.getItem("favorites")) : [];
@@ -90,6 +87,17 @@ function unfaveShow(e) {
     showFavorites();
 }
 
+function escapeName(input) {
+	return input.replace(/\'/g, "\'");
+}
+
+function notifyUpdates(amount) {
+	chrome.browserAction.setBadgeText({text: amount});
+	chrome.browserAction.setBadgeBackgroundColor({color: "#000000"});
+	var notification = webkitNotifications.createHTMLNotification('notification.html');
+	notification.show();
+}
+
 function showFavorites() {
     var favEl = $("#favorites ul").empty();
     window.location.hash = '#favorites';
@@ -97,13 +105,14 @@ function showFavorites() {
     if (faves) {
         faves = JSON.parse(faves);
         for (i = 0; i < faves.length; i++) {
-            favEl.append(["<li data-id='", faves[i].id, "' data-name='", faves[i].name, "' style='background-image:url(", faves[i].banner, ")'>",
+			var escaped = escapeName(faves[i].name);
+            favEl.append(["<li data-id='", faves[i].id, "' data-name='", escaped, "' style='background-image:url(", faves[i].banner, ")'>",
                               "<strong>", faves[i].name,
                                   "<span id='nextepisode'>Next Episode: <em></em></span>",
                                   "<span id='nextairdate'>Next Airdate: <em></em></span>",
                               "</strong>",
                           "</li>"].join(''));
-            $(document.body).append(["<div id='show_", faves[i].id, "' data-id='", faves[i].id, "' data-name='", faves[i].name, "'>",
+            $(document.body).append(["<div id='show_", faves[i].id, "' data-id='", faves[i].id, "' data-name='", escaped, "'>",
                                          "<img src='", faves[i].banner, "'/>",
                                          "<p>", faves[i].overview, "</p>",
                                          "<strong>", faves[i].name,
@@ -136,8 +145,9 @@ function findSeries(e) {
                 $("#searchresult").empty();
                 for (i = 0; i < series.length; i++) {
                     var banner = $(series[i]).find("banner").text();
+                    var escaped = escapeName($(series[i]).find("SeriesName").text());
                     $("#searchresult").append([
-                        "<li data-id='", $(series[i]).find("id").text(), "' data-name='", $(series[i]).find("SeriesName").text(), "'>",
+						"<li data-id='", $(series[i]).find("id").text(), "' data-name='", escaped, "'>",
                             banner !== '' ? "<img src='http://thetvdb.com/banners/" + banner + "'>" : "",
                             "<h5>", $(series[i]).find("SeriesName").text(), "</h5>",
                             "<p>", $(series[i]).find("Overview").text(), "</p>",

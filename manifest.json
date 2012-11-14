@@ -1,20 +1,18 @@
 {
-    "name": "Series Guide Chrome!",
-    "manifest_version": 2,
-    "version" : "0.2",
-    "description": "Manage your favorite series and download them from The Pirate Bay!",
-    "browser_action": {
-        "default_title": "TPB Series Guide for Chrome",
-        "default_icon": "icon.png",
-        "default_popup": "popup.html"
-    },
-    "icons": {
-        "16": "tpblogo.png",
-        "48": "tpblogo.png",
-        "128": "tpblogo.png"
-    },
-    "permissions": [
-        "http://pirateshit.com/*",
-        "http://thetvdb.com/*"
-    ]
+  "name": "Series Guide Chrome!",
+   "manifest_version": 2,
+   "version" : "0.2",
+  "description": "Manage your favorite series and download them from The Pirate Bay!",
+  "browser_action": {
+  	"default_title": "TPB Series Guide for Chrome",
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "tpblogo.png",
+    "48": "tpblogo.png",
+    "128": "tpblogo.png",
+    "notifications"
+  },
+  "update_url": "https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/updates.xml"
 }
