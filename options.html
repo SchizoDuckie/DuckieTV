@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Series Guide Chrome extension options</title>
+	<style>
+
+	* { font-family: 'Segoe UI', Tahoma, sans-serif; }
+	html { height: 100%;}
+	body {
+		background: url(tpblogo.png) no-repeat right bottom #fff;
+		-webkit-background-size:contain;
+		
+	}
+	h1 { font-size: 25px;}
+	h3 { font-size: 15px;}
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		
+	}
+	small {
+	 display: block;
+	 margin-left: 2em;
+	}
+
+	section {
+		background-color: rgba(255,255,255,0.8);
+
+		margin: 50px auto;
+		
+		width: 80%;
+		border: 1px solid #EFEFEF;
+		padding: 2em;
+		border-radius: 25px;
+	}
+
+	input[type=number] {
+		width: 50px;
+	}
+	</style>
+	
+<body>
+	<section>
+		<h1 style='color:red'>Work in progress! This does not work yet!</h1>
+		<h1>Series Guide Chrome Options</h1>
+		<h3>Thepiratebay searching:</h3>
+		<ul>
+			<li><input type='checkbox' name='search.720p' value='1' id='search720'> <label for='search720'>Search for 720p torrents only</label></li>
+		</ul>
+
+		<h3>Notifications:</h3>
+		<ul>
+			<li><input type='radio' name='notify.type' value='aired' id='notifyaired'> <label for='notifyaired'>Show notification when a new episode has aired <small>(even when no seeds are available)</small></label></li>
+			<li><input type='radio' name='notify.type' checked value='torrent' id='notifytorrent'> <label for='notifytorrent'>Show notifications only when a new episode has aired <em>and</em> there are a minimum of <input type='number' size='4' value='20'> seeders</label></li>
+		</ul>
+
+		<h3>Check for updates:</h3>		
+		<ul>
+			<li><input type='radio' name='update.frequency' value='browserstart' id='updatestart'> <label for='updatestart'>On Browser startup</label></li>
+			<li><input type='radio' name='update.frequency' value='3hr' id='update3'> <label for='update3'>Every 3 hours</label></li>
+			<li><input type='radio' name='update.frequency' value='6hr' id='update6' checked> <label for='update6'>Every 6 hours</label></li>
+			<li><input type='radio' name='update.frequency' value='12hr' id='update12'> <label for='update12'>Every 12 hours</label></li>
+			<li><input type='radio' name='update.frequency' value='24hr' id='update24'> <label for='update24'>Daily</label></li>
+		</ul>
+
+</section>
+</body>
+</html>

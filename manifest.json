@@ -11,8 +11,14 @@
   "icons": {
     "16": "tpblogo.png",
     "48": "tpblogo.png",
-    "128": "tpblogo.png",
-    "notifications"
+    "128": "tpblogo.png"
   },
+  "permissions" : [
+    "https://tvrage.com/",
+    "http://thetvdb.com/",
+    "http://pirateshit.com/",
+    "notifications"
+  ],
+  "options_page": "options.html",
   "update_url": "https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/updates.xml"
 }
