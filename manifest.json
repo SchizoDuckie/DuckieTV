@@ -11,7 +11,8 @@
   "icons": {
     "16": "tpblogo.png",
     "48": "tpblogo.png",
-    "128": "tpblogo.png" 
+    "128": "tpblogo.png",
+    "notifications"
   },
   "update_url": "https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/updates.xml"
 }
