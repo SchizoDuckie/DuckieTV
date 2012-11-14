@@ -13,9 +13,5 @@
     "48": "tpblogo.png",
     "128": "tpblogo.png" 
   },
-  "permissions": [
-    "http://pirateshit.com/*",
-    "http://thetvdb.com/*"
-  ],
   "update_url": "https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/updates.xml"
 }

@@ -63,6 +63,16 @@ function selectShow(e) {
     });
 }
 
+function notifyUpdates(amount) {
+	chrome.browserAction.setBadgeText({text: amount});
+	chrome.browserAction.setBadgeBackgroundColor({color: "#000000"});
+	var notification = webkitNotifications.createHTMLNotification(
+	  'notification.html'
+	);
+	notification.show();
+
+}
+
 function faveShow(e) {
     //646990DA07A98A2B
     var id = $(this).parent('li').attr('data-id');
