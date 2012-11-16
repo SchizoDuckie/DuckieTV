@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
        
-    $('form').on('submit', findSeries);
+    $('form#seriesearch').on('submit', findSeries);
+    $('form#tpbsearch').on('submit', findGeneric);
     $('#searchresult').on('click', 'button.getschedule', selectShow);
     $('#favorites').on('click', 'li', selectShow);
     $(document.body).on('click', 'button.addtofavorites', faveShow);
@@ -128,7 +129,7 @@ function showFavorites() {
 }
 
 function findSeries(e) {
-    var name = $('input[type=search]').val();
+    var name = $('input[type=search][name=series]').val();
     console.log("Finding!", name);
     $.ajax({
             url: 'http://thetvdb.com/api/GetSeries.php?seriesname=' + encodeURIComponent(name),
@@ -160,6 +161,45 @@ function findSeries(e) {
         });
     return false;
 }
+
+function findGeneric(e) {
+    var name = $('input[type=search][name=tpb]').val();
+    console.log("Finding!", name);
+
+    var p720 = localStorage.getItem("search.720p") === "1" ? "+720p" : "";
+    var mirror = localStorage.getItem("search.mirror");
+    $("#searching").css("display", "block");
+      $("#searchresult").empty();
+    window.location.hash = 'searching';
+    $.ajax({
+        url: mirror+"search/" + encodeURIComponent(name) + p720 + "/0/7/0/",  /* tpb search, ordered by seeds */
+        complete: function (xhr, status) {
+            console.log("found it!", xhr);
+            
+            var row = $(xhr.response).find('#searchResult tbody tr');
+            $("#searchresult").empty().append('<table class="shows"><tbody><tbody></table>');
+            var tbl = $("#searchresult table tbody");
+            if(row) {
+                for(var i=0; i< row.length; i++) {
+                    tbl.append(["<tr>",
+                                    "<td>", $(row[i]).find('td:nth-child(2) > div ').text(), "</td>", /* releasename */
+                                    "<td>", $(row[i]).find('td:nth-child(2) > a')[0].outerHTML, "</td>", /*magnet */
+                                    "<td>", $(row[i]).find("td:nth-child(3)").html(), "</td>", /* seeders */
+                                    "<td>", $(row[i]).find("td:nth-child(4)").html(), "</td>", /* leechers */
+                                "</tr>"].join(''));
+                }
+            } else {
+                tbl.append(["<tr class='result'>",
+                                "<td colspan='4'>",
+                                    "<strong>No torrents found for ", decodeURIComponent(name) + p720,"</strong>",
+                                "</td>",
+                            "</tr>"].join(''));
+            }
+        }
+    });
+    return false;
+}
+
 
 function FindTPB() {
     var what = $(this).closest('div[data-name]').attr('data-name');

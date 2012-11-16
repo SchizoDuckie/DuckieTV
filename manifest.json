@@ -1,7 +1,7 @@
 {
   "name": "Series Guide Chrome!",
    "manifest_version": 2,
-   "version" : "0.3",
+   "version" : "0.4",
   "description": "Manage your favorite series and download them from The Pirate Bay!",
   "browser_action": {
   	"default_title": "TPB Series Guide for Chrome",
