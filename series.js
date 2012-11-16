@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.hash = '#show_' + $(this).attr('data-id');
     });
     $(document.body).on('click', 'div[data-name] table img[alt="Magnet link"]', FindTPB);
+    $(document.body).on('click', 'button.mirrorsearch', tpbMirrorSearch);
     $(document.body).on('click', '.goback', function () {
         window.location.hash = '#favorites';
         return false;
@@ -168,74 +169,112 @@ function findGeneric(e) {
 
     var p720 = localStorage.getItem("search.720p") === "1" ? "+720p" : "";
     var mirror = localStorage.getItem("search.mirror");
+    var query = "search/" + encodeURIComponent(name) + p720 + "/0/7/0/";
     $("#searching").css("display", "block");
-      $("#searchresult").empty();
+    $("#searchresult").empty();
     window.location.hash = 'searching';
+    $("#searchresult").empty().append('<table class="shows"><tbody><tbody></table>');
     $.ajax({
-        url: mirror+"search/" + encodeURIComponent(name) + p720 + "/0/7/0/",  /* tpb search, ordered by seeds */
-        complete: function (xhr, status) {
-            console.log("found it!", xhr);
-            
-            var row = $(xhr.response).find('#searchResult tbody tr');
-            $("#searchresult").empty().append('<table class="shows"><tbody><tbody></table>');
-            var tbl = $("#searchresult table tbody");
-            if(row) {
-                for(var i=0; i< row.length; i++) {
-                    tbl.append(["<tr>",
-                                    "<td>", $(row[i]).find('td:nth-child(2) > div ').text(), "</td>", /* releasename */
-                                    "<td>", $(row[i]).find('td:nth-child(2) > a')[0].outerHTML, "</td>", /*magnet */
-                                    "<td>", $(row[i]).find("td:nth-child(3)").html(), "</td>", /* seeders */
-                                    "<td>", $(row[i]).find("td:nth-child(4)").html(), "</td>", /* leechers */
-                                "</tr>"].join(''));
-                }
-            } else {
-                tbl.append(["<tr class='result'>",
-                                "<td colspan='4'>",
-                                    "<strong>No torrents found for ", decodeURIComponent(name) + p720,"</strong>",
-                                "</td>",
-                            "</tr>"].join(''));
-            }
+        url: mirror+query,  /* tpb search, ordered by seeds */
+        success: function(xhr, status) {
+            showTpbResult(xhr,status, $("#searchresult tbody"));
+        },
+        error: function(xhr,status) {
+            tpbErrorHandler(xhr, status, query);
         }
     });
     return false;
 }
-
 
 function FindTPB() {
     var what = $(this).closest('div[data-name]').attr('data-name');
     var ep = $(this).closest('tr').attr('data-episode');
     var self = this;
     var p720 = localStorage.getItem("search.720p") === "1" ? "+720p" : "";
+    var query = "search/" + encodeURIComponent(what) + '+' + ep + p720 + "/0/7/0/";
     var mirror = localStorage.getItem("search.mirror");
+    var targetrow = $(self).closest('tr');
+    if(targetrow.next('tr.result')) {
+        targetrow.next('tr.result').remove();
+    }
+    targetrow.after("<tr class='result'><td colspan='4'></td></tr>");
     $.ajax({
-        url: mirror+"search/" + encodeURIComponent(what) + '+' + ep + p720 + "/0/7/0/",  /* tpb search, ordered by seeds */
-        complete: function (xhr, status) {
-            var row = $(xhr.response).find('#searchResult tbody tr')[0];
-            var targetrow = $(self).closest('tr');
-            console.log("Row! ", row);
-            if(targetrow.next('tr.result')) {
-                targetrow.next('tr.result').remove();
-            }
-            if(row) {
-                targetrow.after(["<tr class='result'>",
-                                "<td colspan='4'>",
-                                    "<table style='border: 1px solid black; width: 100%; border-collapse: collapse;'>",
-                                        "<tr>",
-                                            "<td>", $(row).find('td:nth-child(2) > div ').text(), "</td>", /* releasename */
-                                            "<td>", $(row).find('td:nth-child(2) > a')[0].outerHTML, "</td>", /*magnet */
-                                            "<td>", $(row).find("td:nth-child(3)").html(), "</td>", /* seeders */
-                                            "<td>", $(row).find("td:nth-child(4)").html(), "</td>", /* leechers */
-                                        "</tr>",
-                                    "</table>",
-                                "</td>",
-                            "</tr>"].join(''));
-            } else {
-                targetrow.after(["<tr class='result'>",
-                                "<td colspan='4'>",
-                                    "<strong>No torrents found (yet) for ", decodeURIComponent(what + ep + p720),"</strong>",
-                                "</td>",
-                            "</tr>"].join(''));
-            }
+        url: mirror+query,
+        success: function(xhr,status) {
+            showTpbResult(xhr,status, targetrow.next('tr.result td'), 1);
+        },
+        error: function(xhr,status) {
+            tpbErrorHandler(xhr,status,mirror, query,targetrow.next('tr.result td'));
         }
     });
+}
+
+/**
+ * Format a TPB Searchresult and inject it into the target.
+ */
+function showTpbResult(xhr, status, target, maxResults) {
+
+    var row = $(xhr.response).find('#searchResult tbody tr');
+    maxResults = maxResults || row.length;
+    if(row) {
+        for(i=0; i<maxResults;i++) {
+            target.append(["<table style='border: 1px solid black; width: 100%; border-collapse: collapse;'>",
+                                "<tr>",
+                                    "<td>", $(row)[i].find('td:nth-child(2) > div ').text(), "</td>", /* releasename */
+                                    "<td>", $(row)[i].find('td:nth-child(2) > a')[0].outerHTML, "</td>", /*magnet */
+                                    "<td>", $(row)[i].find("td:nth-child(3)").html(), "</td>", /* seeders */
+                                    "<td>", $(row)[i].find("td:nth-child(4)").html(), "</td>", /* leechers */
+                                "</tr>",
+                            "</table>"].join(''));
+        }
+    } else {
+        target.append(["<strong>No torrents found (yet) for ", decodeURIComponent(what + ep + p720),"</strong>"].join(''));
+    }
+}
+
+/**
+ * Handle erros when tpb is down. with tpb mirrorsearch.
+ */
+function tpbErrorHandler(xhr, status, mirror, query, targetrow) {
+    console.log("ERROR!", xhr, status, query);
+    var s = ['<table class="shows">',
+                '<tr><th>ThePirateBay Mirror is down!</td></tr>',
+                '<tr><td align="center">',mirror, ' (',xhr.status,') ', xhr.statusText, '</td></tr>',
+                '<tr><td align="center"><button class="mirrorsearch" data-query="'+query+'">Retry on another ThePirateBay mirror</button></td></tr>',
+            '</table>'].join('');
+    if(targetrow) {
+        targetrow.after(['<tr class="result">',
+                            '<td colspan="4">',
+                                s,
+                            '</td>',
+                        '</tr>'].join(''));
+    } else {
+        $("#searchresult").empty().append(s);
+    }
+    
+}
+
+/** 
+ * Request an alternative mirror of one is down.
+ */
+function tpbMirrorSearch(e) {
+    
+    var query = $(this).attr('data-query');
+    var targetrow = $(this).closest("tr.result");
+    $(this).text("Finding an alternative TPB mirror...");
+    var self = this;
+    fuckTimKuik(function(newMirror) {
+        $(self).text("Found mirror: "+ newMirror+ "Retrying search.");
+        $.ajax({
+            url: newMirror+query,  /* tpb search, ordered by seeds */
+            success: function(xhr,status) {
+                $(self).text("This mirror worked!");
+                showTpbResult(xhr,status, targetrow, 1);
+            },
+            error: function(xhr,status) {
+                $(self).text("Mirror is down :(");
+                tpbErrorHandler(xhr,status,newMirror, query, targetrow);
+            }
+        });
+    });  
 }

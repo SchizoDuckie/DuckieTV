@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', initialSetup);
 
 function initialSetup() {
-	$("#fucktimkuik").on("click", fuckTimKuik);
+	$("#fucktimkuik").on("click", findAndTestMirror);
 	$("#testSearch").on("click", testSearch);
 	$("#save").on("click", saveSettings);
     $("#searchmirror").on("keypress", resetTest);
@@ -34,18 +34,11 @@ function resetTest() {
 	$("#testSearch").attr("class", "");
 }
 
-/**
- * Use Fucktimkuik.org by Geenstijl.nl to find an alternative mirror for thepiratebay.org
- */
-function fuckTimKuik() {
-	$.ajax({
-		url: 'http://www.fucktimkuik.org',
-		dataType: 'html',
-		success: function(xhr, a,b,c) {
-			var newMirror = parseURL(xhr.match(/url=(.*[^\"])\"/i)[1]);										// we grep the url from the meta refresh tag.
-			$('#searchmirror').val([newMirror.protocol,'://',newMirror.host, newMirror.port,'/'].join('')); // rebuild the url from parts. It can have parameters.
-			testSearch();
-		}
+
+function findAndTestMirror() {
+	fuckTimKuik(function(newUrl) {
+			$('#searchmirror').val(newUrl);
+            testSearch();
 	});
 }
 
@@ -65,16 +58,3 @@ function testSearch(cb) {
     });
 }
 
-/**
- * Abuse the A element to parse a url.
- */
-function parseURL(url) {
-    var a =  document.createElement('a');
-    a.href = url;
-    return {
-        source: url,
-        protocol: a.protocol.replace(':',''),
-        host: a.hostname,
-        port: a.port
-    };
-}

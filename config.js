@@ -14,3 +14,32 @@ if(!localStorage.getItem('search.mirror')) { // ls settings are empty, setup.
         localStorage.setItem(keys[i], defaultSettings[keys[i]]);
     }
 }
+
+
+/**
+ * Use Fucktimkuik.org by Geenstijl.nl to find an alternative mirror for thepiratebay.org
+ */
+function fuckTimKuik(cb) {
+    $.ajax({
+        url: 'http://www.fucktimkuik.org',
+        dataType: 'html',
+        success: function(xhr, a,b,c) {
+            var newMirror = parseURL(xhr.match(/url=(.*[^\"])\"/i)[1]);                                     // we grep the url from the meta refresh tag.
+            cb([newMirror.protocol,'://',newMirror.host, newMirror.port,'/'].join(''));
+        }
+    });
+}
+
+/**
+ * Abuse the A element to parse a url.
+ */
+function parseURL(url) {
+    var a =  document.createElement('a');
+    a.href = url;
+    return {
+        source: url,
+        protocol: a.protocol.replace(':',''),
+        host: a.hostname,
+        port: a.port
+    };
+}
