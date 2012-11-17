@@ -4,6 +4,7 @@
 	<title>TPB SeriesGuide for Chrome</title>
 	<link rel="stylesheet" href="style.css">
 	<script src="zepto.js"></script>
+	<script src="icanhaz.min.js"></script>
 	<script src="config.js"></script>
 	<script src="series.js"></script>
 </head>
@@ -30,5 +31,83 @@
 	</ul>
 	<button class="goback">Go Back</button>
 </div>
+
+
+<!-- icanhzjs moustache templates -->
+<script id="showTpl" type="text/html">
+	<div id='show_{{ id }}' data-id='{{ id }}' data-name='{{ escaped }}'>
+		<img src='{{ banner }}'/>
+		<input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>
+		<p> {{ overview }} </p>
+		<strong> {{ name }}
+		<span id='nextepisode'>Next Episode: <em>{{nextepisode}}</em></span>
+		<span id='nextairdate'>Next Airdate: <em>{{nextairdate}}</em></span>
+		</strong>
+
+		<div class='overflower'>
+			<table class='shows'></table>
+		</div>
+		<input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>
+	</div>
+</script>
+
+<script id="favTpl" type="text/html">
+	<li data-id='{{ id }}' data-name='{{ escaped }}' style='background-image:url({{ banner }})'>
+		<strong> {{ name }}
+			<span id='nextepisode'>Next Episode: <em>{{nextepisode}}</em></span>
+			<span id='nextairdate'>Next Airdate: <em>{{nextairdate}}</em></span>
+		</strong>
+	</li>
+</script>
+
+<script id="showSearchResult" type="text/html">
+	<li data-id='{{ id }}' data-name='{{ escaped }}'>
+        <img src='{{ banner }}'>
+        <h5>{{ name }}</h5>
+        <p>{{ overview }}</p>
+        <button class='addtofavorites'>+ Add to favorites</button>
+        <table class='shows'></table>
+    </li>
+</script>
+
+<script id="showTpbError" type="text/html">
+	<table class="shows">
+        <tr><th>ThePirateBay Mirror is down!</td></tr>
+        <tr><td align="center">{{ mirror}} ( {{ status }}) {{ statusText }}</td></tr>
+        <tr><td align="center"><button class="mirrorsearch" data-query="{{ query }}">Retry on another ThePirateBay mirror</button></td></tr>
+    </table>
+ </script>
+
+<script id='showTpbResults' type='text/html'>
+   <table style='border: 1px solid black; width: 100%; border-collapse: collapse;'>
+    	{{#results}}
+    		<tr>
+	            <td> {{ releasename }} </td>
+	            <td> {{{ magnetlink }}} </td>
+	            <td> {{ seeders }} </td>
+	            <td> {{ leechers }} </td>
+	        </tr>
+       {{/results}}
+       {{^results}}
+       		<tr>
+       			<th>No torrents found (yet) for {{ what }} {{ ep }} {{ p720 }} </th>
+       		</tr>
+        {{/results}}
+    </table>
+</script>
+
+<script id='showEpisodes' type='text/html'>
+ 	{{#episodes}}
+	<tr data-episode="S{{ season }}E{{ episode }}">
+    	 <td>S{{ season }}E{{ episode }}</td>
+         <td>{{ episodename }}</td>
+         <td>{{ firstaired }}</td>
+         <td>{{#magnet}}<img src="/static/img/icon-magnet.gif" width="12" height="12" alt="Magnet link">{{/magnet}}         	
+         	 {{^magnet}}&nbsp;{{/magnet}}
+         </td>
+    </tr>
+    {{/episodes}}
+</script>
+
 </body>
 </html>

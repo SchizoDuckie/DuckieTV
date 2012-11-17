@@ -39,23 +39,22 @@ function selectShow(e) {
         dataType:'xml',
         success:function (xhr, status) {
             var curDate = new Date().getTime();
-            console.log("Got schedule for show!", xhr, status);
             var epis = $(xhr).find("Episode");
             var schedule = $("div[data-id='" + id + "'] table.shows");
             schedule.empty();
-
+            var data = [];
             for (i = epis.length - 1; i > 0; i--) {
                 var sn = $(epis[i]).find("SeasonNumber").text();
                 var en = $(epis[i]).find("EpisodeNumber").text();
-                if (sn.length == 1) sn = "0" + sn;
-                if (en.length == 1) en = "0" + en;
-                schedule.append([
-                    '<tr data-episode="S', sn, 'E', en, '"><td>S', sn, 'E', en, "</td>",
-                        '<td>', $(epis[i]).find("EpisodeName").text(), '</td>',
-                        '<td>', $(epis[i]).find("FirstAired").text(), '</td>',
-                        ($(epis[i]).find("FirstAired").text() === '' || Date.parse($(epis[i]).find("FirstAired").text()) > curDate) ? '<td>&nbsp;</td>' : '<td><img src="/static/img/icon-magnet.gif" width="12" height="12" alt="Magnet link"></td>',
-                    '</tr>'].join(''));
+                data.push({
+                    season: (sn.length == 1) ? "0" + sn : sn,
+                    episode: (en.length == 1) ? "0" + en : en,
+                    episodename: $(epis[i]).find("EpisodeName").text(),
+                    firstaired: $(epis[i]).find("FirstAired").text(),
+                    magnet: !(($(epis[i]).find("FirstAired").text() === '' || Date.parse($(epis[i]).find("FirstAired").text()) > curDate))
+                });
             }
+            schedule.append(ich.showEpisodes({episodes: data}));
         }
     });
 }
@@ -105,27 +104,16 @@ function showFavorites() {
     var faves = localStorage.getItem("favorites");
     if (faves) {
         faves = JSON.parse(faves);
-        for (i = 0; i < faves.length; i++) {
-			var escaped = escapeName(faves[i].name);
-            favEl.append(["<li data-id='", faves[i].id, "' data-name='", escaped, "' style='background-image:url(", faves[i].banner, ")'>",
-                              "<strong>", faves[i].name,
-                                  "<span id='nextepisode'>Next Episode: <em></em></span>",
-                                  "<span id='nextairdate'>Next Airdate: <em></em></span>",
-                              "</strong>",
-                          "</li>"].join(''));
-            $(document.body).append(["<div id='show_", faves[i].id, "' data-id='", faves[i].id, "' data-name='", escaped, "'>",
-                                         "<img src='", faves[i].banner, "'/>",
-                                         "<input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>",
-                                         "<p>", faves[i].overview, "</p>",
-                                         "<strong>", faves[i].name,
-                                             "<span id='nextepisode'>Next Episode: <em></em></span>",
-                                             "<span id='nextairdate'>Next Airdate: <em></em></span>",
-                                         "</strong>",
-                                         
-                                         "<div class='overflower'>",
-                                             "<table class='shows'></table>",
-                                         "</div><input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>",
-                                     "</div>"].join(''));
+        for (var i = 0; i < faves.length; i++) {
+            var data = {
+                id: faves[i].id,
+                name: faves[i].name,
+                escaped: escapeName(faves[i].name),
+                banner: faves[i].banner,
+                overview: faves[i].overview
+            };
+            favEl.append(ich.favTpl(data));
+			$(document.body).append(ich.showTpl(data));
         }
         $("#favorites").css("display", "block");
     }
@@ -147,15 +135,14 @@ function findSeries(e) {
                 $("#searchresult").empty();
                 for (i = 0; i < series.length; i++) {
                     var banner = $(series[i]).find("banner").text();
-                    var escaped = escapeName($(series[i]).find("SeriesName").text());
-                    $("#searchresult").append([
-						"<li data-id='", $(series[i]).find("id").text(), "' data-name='", escaped, "'>",
-                            banner !== '' ? "<img src='http://thetvdb.com/banners/" + banner + "'>" : "",
-                            "<h5>", $(series[i]).find("SeriesName").text(), "</h5>",
-                            "<p>", $(series[i]).find("Overview").text(), "</p>",
-                            "<button class='addtofavorites'>+ Add to favorites</button>",
-                            "<table class='shows'></table>",
-                        "</li>"].join("")
+                    $("#searchresult").append(
+                        ich.showSearchResult({
+                            id: $(series[i]).find("id").text(),
+                            escaped: escapeName($(series[i]).find("SeriesName").text()),
+                            banner: banner !== '' ? "http://thetvdb.com/banners/" + banner : "",
+                            name: $(series[i]).find("SeriesName").text(),
+                            overview: $(series[i]).find("Overview").text()
+                        })
                     );
                 }
             },
@@ -223,28 +210,22 @@ function FindTPB() {
  * Format a TPB Searchresult and inject it into the target.
  */
 function showTpbResult(xhr, status, target, maxResults) {
-
     var row = $(xhr).find('#searchResult tbody tr');
     maxResults = maxResults || row.length;
-    var s = [];
+    var out = [];
     if(row) {
-        s.push("<table style='border: 1px solid black; width: 100%; border-collapse: collapse;'>");
-        for(i=0; i<maxResults;i++) {
-            s.push("<tr>",
-                        "<td>", $(row[i]).find('td:nth-child(2) > div ').text(), "</td>", /* releasename */
-                        "<td>", $(row[i]).find('td:nth-child(2) > a')[0].outerHTML.replace(/img src=\"(.*)\/img\/icon-magnet.gif\"/igm, 'img src="static/img/icon-magnet.gif"'), "</td>", /*magnet */
-                        "<td>", $(row[i]).find("td:nth-child(3)").html(), "</td>", /* seeders */
-                        "<td>", $(row[i]).find("td:nth-child(4)").html(), "</td>", /* leechers */
-                    "</tr>");
+         for(i=0; i<maxResults;i++) {
+            out.push({
+                releasename :  $(row[i]).find('td:nth-child(2) > div ').text(),
+                magnetlink : $(row[i]).find('td:nth-child(2) > a')[0].outerHTML.replace(/img src=\"(.*)\/img\/icon-magnet.gif\"/igm, 'img src="static/img/icon-magnet.gif"'),
+                seeders:  $(row[i]).find("td:nth-child(3)").html(),
+                leechers: $(row[i]).find("td:nth-child(4)").html()
+            });
        }
-        s.push("</table>");
-    } else {
-        s.push("<strong>No torrents found (yet) for ", decodeURIComponent(what + ep + p720),"</strong>");
     }
     target = $(target).hasClass("result") ? target.empty() : target.after('<tr class="result"></tr>');
-    $(target).html(['<td colspan="4">',
-                            s.join(''),
-                        '</td>'].join(''));
+    var res = ich.showTpbResults( { results: out });
+    $(target).html(['<td colspan="4">',res[0].outerHTML,'</td>'].join(''));
     
 }
 
@@ -253,21 +234,22 @@ function showTpbResult(xhr, status, target, maxResults) {
  */
 function tpbErrorHandler(xhr, status, mirror, query, target) {
     console.log("ERROR!", xhr, status, query);
-    var s = ['<table class="shows">',
-                '<tr><th>ThePirateBay Mirror is down!</td></tr>',
-                '<tr><td align="center">',mirror, ' (',xhr.status,') ', xhr.statusText, '</td></tr>',
-                '<tr><td align="center"><button class="mirrorsearch" data-query="'+query+'">Retry on another ThePirateBay mirror</button></td></tr>',
-            '</table>'].join('');
+    var s = ich.showTpbError({
+                                mirror: mirror,
+                                status: xhr.status,
+                                statusText: xhr.statusText,
+                                query: query
+                            });
     if(target) {
         target = target.hasClass("result") ? target.empty() : target.after('<tr class="result"></tr>');
-        target.html(['<td colspan="4">', s, '</td>'].join(''));
+        target.html(['<td colspan="4">', s[0].outerHTML, '</td>'].join(''));
     } else {
         $("#searchresult").empty().append(s);
     }
     
 }
 
-/** 
+/**
  * Request an alternative mirror of one is down.
  */
 function tpbMirrorSearch(e) {
