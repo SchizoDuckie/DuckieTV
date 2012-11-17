@@ -214,16 +214,17 @@ function FindTPB() {
  */
 function showTpbResult(xhr, status, target, maxResults) {
 
-    var row = $(xhr.response).find('#searchResult tbody tr');
+    var row = $(xhr).find('#searchResult tbody tr');
     maxResults = maxResults || row.length;
     if(row) {
+        console.log(row, xhr);
         for(i=0; i<maxResults;i++) {
             target.append(["<table style='border: 1px solid black; width: 100%; border-collapse: collapse;'>",
                                 "<tr>",
-                                    "<td>", $(row)[i].find('td:nth-child(2) > div ').text(), "</td>", /* releasename */
-                                    "<td>", $(row)[i].find('td:nth-child(2) > a')[0].outerHTML, "</td>", /*magnet */
-                                    "<td>", $(row)[i].find("td:nth-child(3)").html(), "</td>", /* seeders */
-                                    "<td>", $(row)[i].find("td:nth-child(4)").html(), "</td>", /* leechers */
+                                    "<td>", $(row[i]).find('td:nth-child(2) > div ').text(), "</td>", /* releasename */
+                                    "<td>", $(row[i]).find('td:nth-child(2) > a')[0].outerHTML, "</td>", /*magnet */
+                                    "<td>", $(row[i]).find("td:nth-child(3)").html(), "</td>", /* seeders */
+                                    "<td>", $(row[i]).find("td:nth-child(4)").html(), "</td>", /* leechers */
                                 "</tr>",
                             "</table>"].join(''));
         }
@@ -260,7 +261,7 @@ function tpbErrorHandler(xhr, status, mirror, query, targetrow) {
 function tpbMirrorSearch(e) {
     
     var query = $(this).attr('data-query');
-    var targetrow = $(this).closest("tr.result");
+    var targetrow = $(this).closest("tr.result > td");
     $(this).text("Finding an alternative TPB mirror...");
     var self = this;
     fuckTimKuik(function(newMirror) {
@@ -269,7 +270,7 @@ function tpbMirrorSearch(e) {
             url: newMirror+query,  /* tpb search, ordered by seeds */
             success: function(xhr,status) {
                 $(self).text("This mirror worked!");
-                showTpbResult(xhr,status, targetrow, 1);
+                showTpbResult(xhr,status, targetrow.empty(), 1);
             },
             error: function(xhr,status) {
                 $(self).text("Mirror is down :(");
