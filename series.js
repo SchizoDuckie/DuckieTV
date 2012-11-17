@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $(document.body).on('click', '#favorites li[data-id]', function () {
         window.location.hash = '#show_' + $(this).attr('data-id');
     });
-    $(document.body).on('click', 'div[data-name] table img[alt="Magnet link"]', FindTPB);
+    $(document.body).on('click', 'div[data-name] table td:last-child img[alt="Magnet link"]', FindTPB);
     $(document.body).on('click', 'button.mirrorsearch', tpbMirrorSearch);
     $(document.body).on('click', '.goback', function () {
         window.location.hash = '#favorites';
@@ -19,10 +19,9 @@ document.addEventListener('DOMContentLoaded', function () {
         chrome.tabs.create({'url':this.href }, function (tab) {
             setTimeout(function () {
                 chrome.tabs.remove(tab.id);
-            }, 5000);
+            }, 2000);
         });
-        e.preventDefault();
-        return false;
+         return false;
     });
     showFavorites();
 });
@@ -97,6 +96,9 @@ function notifyUpdates(amount) {
 	notification.show();
 }
 
+/**
+ * Grab the favorites from localstorage and display them in the main layout.
+ */
 function showFavorites() {
     var favEl = $("#favorites ul").empty();
     window.location.hash = '#favorites';
@@ -129,6 +131,9 @@ function showFavorites() {
     }
 }
 
+/**
+ * Do a search on thetvdb.com for series info.
+ */
 function findSeries(e) {
     var name = $('input[type=search][name=series]').val();
     console.log("Finding!", name);
@@ -137,9 +142,7 @@ function findSeries(e) {
             dataType:'xml',
             complete:function (xhr, status) {
                 window.location.hash = 'searching';
-                console.log("Found it! ", xhr, status);
                 var series = $(xhr.responseXML).find("Series");
-                console.log(series);
                 $("#searching").css("display", "block");
                 $("#searchresult").empty();
                 for (i = 0; i < series.length; i++) {
@@ -163,10 +166,11 @@ function findSeries(e) {
     return false;
 }
 
+/**
+ * Do a generic TPB search on a mirror.
+ */
 function findGeneric(e) {
     var name = $('input[type=search][name=tpb]').val();
-    console.log("Finding!", name);
-
     var p720 = localStorage.getItem("search.720p") === "1" ? "+720p" : "";
     var mirror = localStorage.getItem("search.mirror");
     var query = "search/" + encodeURIComponent(name) + p720 + "/0/7/0/";
@@ -186,25 +190,31 @@ function findGeneric(e) {
     return false;
 }
 
+/**
+ * DO a TPB search on a mirror. Inserts a row after the current if it's not there yet.
+ */
 function FindTPB() {
-    var what = $(this).closest('div[data-name]').attr('data-name');
-    var ep = $(this).closest('tr').attr('data-episode');
-    var self = this;
+    var self = $(this);
+    var what = self.closest('div[data-name]').attr('data-name');
+    var ep = self.closest('tr').attr('data-episode');
     var p720 = localStorage.getItem("search.720p") === "1" ? "+720p" : "";
     var query = "search/" + encodeURIComponent(what) + '+' + ep + p720 + "/0/7/0/";
     var mirror = localStorage.getItem("search.mirror");
-    var targetrow = $(self).closest('tr');
-    if(targetrow.next('tr.result')) {
-        targetrow.next('tr.result').remove();
+    var targetrow = $(self.closest('tr')[0]).next();
+    if(!$(targetrow[0]).hasClass('result')) {
+        $(self.closest("tr")[0]).after("<tr class='result'><th colspan='4'>Searching...</th></tr>");
+        targetrow = self.closest("tr").next('tr.result');
     }
-    targetrow.after("<tr class='result'><td colspan='4'></td></tr>");
+    else {
+        $(targetrow).empty().append("<th colspan='4'>Searching...</th>");
+    }
     $.ajax({
         url: mirror+query,
         success: function(xhr,status) {
-            showTpbResult(xhr,status, targetrow.next('tr.result td'), 1);
+            showTpbResult(xhr,status, targetrow, 1);
         },
         error: function(xhr,status) {
-            tpbErrorHandler(xhr,status,mirror, query,targetrow.next('tr.result td'));
+            tpbErrorHandler(xhr,status,mirror, query, targetrow);
         }
     });
 }
@@ -216,39 +226,41 @@ function showTpbResult(xhr, status, target, maxResults) {
 
     var row = $(xhr).find('#searchResult tbody tr');
     maxResults = maxResults || row.length;
+    var s = [];
     if(row) {
-        console.log(row, xhr);
+        s.push("<table style='border: 1px solid black; width: 100%; border-collapse: collapse;'>");
         for(i=0; i<maxResults;i++) {
-            target.append(["<table style='border: 1px solid black; width: 100%; border-collapse: collapse;'>",
-                                "<tr>",
-                                    "<td>", $(row[i]).find('td:nth-child(2) > div ').text(), "</td>", /* releasename */
-                                    "<td>", $(row[i]).find('td:nth-child(2) > a')[0].outerHTML, "</td>", /*magnet */
-                                    "<td>", $(row[i]).find("td:nth-child(3)").html(), "</td>", /* seeders */
-                                    "<td>", $(row[i]).find("td:nth-child(4)").html(), "</td>", /* leechers */
-                                "</tr>",
-                            "</table>"].join(''));
-        }
+            s.push("<tr>",
+                        "<td>", $(row[i]).find('td:nth-child(2) > div ').text(), "</td>", /* releasename */
+                        "<td>", $(row[i]).find('td:nth-child(2) > a')[0].outerHTML.replace(/img src=\"(.*)\/img\/icon-magnet.gif\"/igm, 'img src="static/img/icon-magnet.gif"'), "</td>", /*magnet */
+                        "<td>", $(row[i]).find("td:nth-child(3)").html(), "</td>", /* seeders */
+                        "<td>", $(row[i]).find("td:nth-child(4)").html(), "</td>", /* leechers */
+                    "</tr>");
+       }
+        s.push("</table>");
     } else {
-        target.append(["<strong>No torrents found (yet) for ", decodeURIComponent(what + ep + p720),"</strong>"].join(''));
+        s.push("<strong>No torrents found (yet) for ", decodeURIComponent(what + ep + p720),"</strong>");
     }
+    target = $(target).hasClass("result") ? target.empty() : target.after('<tr class="result"></tr>');
+    $(target).html(['<td colspan="4">',
+                            s.join(''),
+                        '</td>'].join(''));
+    
 }
 
 /**
  * Handle erros when tpb is down. with tpb mirrorsearch.
  */
-function tpbErrorHandler(xhr, status, mirror, query, targetrow) {
+function tpbErrorHandler(xhr, status, mirror, query, target) {
     console.log("ERROR!", xhr, status, query);
     var s = ['<table class="shows">',
                 '<tr><th>ThePirateBay Mirror is down!</td></tr>',
                 '<tr><td align="center">',mirror, ' (',xhr.status,') ', xhr.statusText, '</td></tr>',
                 '<tr><td align="center"><button class="mirrorsearch" data-query="'+query+'">Retry on another ThePirateBay mirror</button></td></tr>',
             '</table>'].join('');
-    if(targetrow) {
-        targetrow.after(['<tr class="result">',
-                            '<td colspan="4">',
-                                s,
-                            '</td>',
-                        '</tr>'].join(''));
+    if(target) {
+        target = target.hasClass("result") ? target.empty() : target.after('<tr class="result"></tr>');
+        target.html(['<td colspan="4">', s, '</td>'].join(''));
     } else {
         $("#searchresult").empty().append(s);
     }
@@ -261,21 +273,27 @@ function tpbErrorHandler(xhr, status, mirror, query, targetrow) {
 function tpbMirrorSearch(e) {
     
     var query = $(this).attr('data-query');
-    var targetrow = $(this).closest("tr.result > td");
+    var target = $(this).closest("tr.result");
     $(this).text("Finding an alternative TPB mirror...");
     var self = this;
     fuckTimKuik(function(newMirror) {
-        $(self).text("Found mirror: "+ newMirror+ "Retrying search.");
+        $(self).text("Found mirror: "+ newMirror+ " Retrying search.");
         $.ajax({
             url: newMirror+query,  /* tpb search, ordered by seeds */
             success: function(xhr,status) {
                 $(self).text("This mirror worked!");
-                showTpbResult(xhr,status, targetrow.empty(), 1);
+                if(xhr.indexOf('magnet:') === -1) {
+                    $(self).text("This mirror doesn't support Magnet links. (click to find another)");
+                    tpbErrorHandler(xhr,status,newMirror, query, target);
+                } else {
+                    localStorage.setItem("search.mirror", newMirror);
+                    showTpbResult(xhr,status, target.empty(), 1);
+                }
             },
             error: function(xhr,status) {
                 $(self).text("Mirror is down :(");
-                tpbErrorHandler(xhr,status,newMirror, query, targetrow);
+                tpbErrorHandler(xhr,status,newMirror, query, target);
             }
         });
-    });  
+    });
 }
