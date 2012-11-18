@@ -1,8 +1,8 @@
 {
   "name": "Series Guide Chrome!",
    "manifest_version": 2,
-   "version" : "0.6",
-  "description": "Manage your favorite series and download them from The Pirate Bay!",
+   "version" : "0.61",
+  "description": "Manage your favorite series and download them from The Pirate Bay mirrors. (Works even when The Pirate Bay is blocked in your territory!)",
   "browser_action": {
   	"default_title": "TPB Series Guide for Chrome",
     "default_icon": "icon.png",
@@ -19,5 +19,6 @@
     "notifications"
   ],
   "options_page": "options.html",
-  "update_url": "https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/updates.xml"
+  "update_url": "https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/updates.xml",
+  "homepage_url": "https://schizoduckie.github.com/seriesguide-chrome"
 }

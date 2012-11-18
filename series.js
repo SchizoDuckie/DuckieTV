@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    window.faves = new Favorites();
     window.tvDB = new tvDB();
+    window.faves = new Favorites();
     window.thePirateBay = new ThePirateBay();
     window.GUI = new Gui();
 
@@ -13,11 +13,9 @@ var Favorites = klass({
     element: '#favoriteslist',
 
     initialize: function () {
-        this.read();
-        this.element = $(this.element);
-        this.show();
         $(document.body).on('click', 'button.addtofavorites', this.add.bind(this));
         $(document.body).on('click', 'input.removefromfaves', this.remove.bind(this));
+        this.element = $(this.element);
     },
 
     add: function(e) {
@@ -28,9 +26,16 @@ var Favorites = klass({
                 id: parent.attr('data-id'),
                 name: parent.attr('data-name'),
                 banner: parent.find('img').attr("src"),
-                overview: parent.find('p').text()
+                overview: parent.find('p').text(),
+                nextepisode: 'fetching...',
+                nextairdate: 'fetching...',
+                date: 'fetching...'
             });
             this.save();
+            window.tvDB.findEpisodes(parent.attr('data-id'), function(epis) {
+                console.log("Found episodes for ", id," after adding!");
+            });
+
         }
         this.show();
     },
@@ -44,11 +49,24 @@ var Favorites = klass({
 
     remove: function(e) {
         var id = $(e.target).parent('div[data-name]').attr('data-id');
+        localStorage.removeItem("serie."+id);
         this.faves = this.faves.filter(function (obj) {
             return obj.id != id;
         });
         this.save();
         this.show();
+    },
+
+    setNextEpisode: function(show, info) {
+        for(var i=0; i<this.faves.length; i++) {
+            if(this.faves[i].id == show) {
+                this.faves[i].nextepisode = info;
+                var next = new Date(Date.parse(info.firstaired));
+                this.faves[i].nextepisode.date = next > new Date() ? 'in ' + humaneDate(next) : humaneDate(next);
+                this.save();
+                this.element.html(ich.showFavorites({ favorites: this.faves }));
+            }
+        }
     },
 
     read: function() {
@@ -61,9 +79,11 @@ var Favorites = klass({
     },
 
     show: function() {
+        this.read();
         window.location.hash = this.target;
         for(i=0; i<this.faves.length; i++) {
             if(!this.faves[i].escaped) this.faves[i].escaped = this.faves[i].name.replace(/\'/g, "\'");
+            window.tvDB.findEpisodes(this.faves[i].id);
         }
         this.element.html(ich.showFavorites({ favorites: this.faves }));
         $(document.body).append(ich.showFavorite({ favorites: this.faves }));
@@ -75,10 +95,7 @@ var Favorites = klass({
 var Gui = klass({
 
     initialize: function() {
-        $(document.body).on('click', '#favorites li[data-id]', function () {
-            window.location.hash = '#show_' + $(this).attr('data-id');
-        });
-
+      
         $(document.body).on('click', '.goback', function () {
             window.location.hash = '#favorites';
             return false;
@@ -92,6 +109,7 @@ var Gui = klass({
         $(document.body).on('click', 'button.mirrorsearch', this.tpbMirrorSearch);
         $('form#tpbsearch').on('submit', this.findGeneric);
         $(document.body).on("click", "a", this.launchMagnetLink);
+        window.faves.show();
     },
 
     launchMagnetLink: function (e) {
@@ -168,11 +186,14 @@ var Gui = klass({
     },
 
     selectShow: function(e) {
+        
         var id = $(this).attr('data-id');
+        window.location.hash = '#show_' + id;
         var schedule = $("div[data-id='" + id + "'] table.shows");
         schedule.empty();
         window.scrollTo(0,1);
         window.tvDB.findEpisodes(id, function(epis) {
+            console.log("show!", epis);
             schedule.append(ich.showEpisodes(epis));
         });
     },
@@ -198,27 +219,56 @@ var tvDB = klass({
                 url: this.seriesSearch.replace('%s', encodeURIComponent(name)),
                 dataType:'xml',
                 success: function(xhr, status) {
-                    this.parseSeries(xhr,status,cb);
+                    cb(this.parseSeries(xhr,status));
                 }.bind(this)
          });
         return false;
     },
 
     findEpisodes: function(showID, cb) {
-        $.ajax({
-            url: this.episodeSearch.replace('%s', showID),
-            dataType:'xml',
-            success: function(xhr, status) {
-                this.parseEpisodes(xhr,status, cb);
-            }.bind(this)
-        });
+         var cached = localStorage.getItem("serie."+showID);
+         
+         if(!cached) {
+            $.ajax({
+                url: this.episodeSearch.replace('%s', showID),
+                dataType:'xml',
+                success: function(xhr, status) {
+                    var result = this.parseEpisodes(xhr,status);
+                    if(cb) cb(result);
+                    window.faves.setNextEpisode(showID, this.findNextEpisode(result.episodes));
+                    localStorage.setItem("serie."+showID, JSON.stringify({lastCached: new Date().getTime(), episodes: result.episodes }));
+                }.bind(this)
+            });
+        }
+        else {
+            cached = JSON.parse(cached);
+            console.log("From cache!", cached);
+            window.faves.setNextEpisode(showID, this.findNextEpisode(cached.episodes));
+            if(cb) cb(cached);
+        }
     },
 
-    parseEpisodes: function (xhr, status, callback) {
+    findNextEpisode: function(episodes) {
+        var curDate = new Date().getTime();
+        var prevAirdate = false;
+        var epi = false;
+        for (i= 0; i< episodes.length; i++) {
+            if(episodes[i].firstaired !== '') {
+                var airdate = Date.parse(episodes[i].firstaired);
+                if(!prevAirdate || (airdate < prevAirdate && airdate >= curDate)) {
+                    prevAirdate = airdate;
+                    epi = episodes[i];
+                }
+            }
+        }
+        return epi;
+    },
+
+    parseEpisodes: function (xhr, status) {
         var curDate = new Date().getTime();
         var epis = $(xhr).find("Episode");
         var data = [];
-        for (i = epis.length - 1; i > 0; i--) {
+        for (var i = epis.length - 1; i > 0; i--) {
             var sn = $(epis[i]).find("SeasonNumber").text();
             var en = $(epis[i]).find("EpisodeNumber").text();
             data.push({
@@ -229,7 +279,7 @@ var tvDB = klass({
                 magnet: !(($(epis[i]).find("FirstAired").text() === '' || Date.parse($(epis[i]).find("FirstAired").text()) > curDate))
             });
         }
-        callback({episodes: data});
+        return {episodes: data};
     },
 
     parseSeries: function(xhr, status, callback) {
@@ -245,7 +295,7 @@ var tvDB = klass({
                 overview: $(series[i]).find("Overview").text()
             });
         }
-        callback({ searchresults: results});
+        return({ searchresults: results});
     }
 });
 
@@ -261,7 +311,7 @@ ThePirateBay = klass({
 
     set720p: function(how) {
         this.p720 = how;
-        localStorage.setItem("seach.720p", how);
+        localStorage.setItem("search.720p", how);
     },
 
     setMirror: function(to) {

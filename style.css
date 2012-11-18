@@ -225,16 +225,18 @@ div > p {
 }
 
 #nextairdate, #nextepisode {
-    font-size: 10px;
+    font-size: 11px;
     line-height: 20px;
     float: right;
     position: absolute;
     right: 0;
     top: 20px;
-    width: 120px;
+    width: 135px;
     -webkit-transform: translateY(-50px);
+    -webkit-text-stroke: 0.4px rgba(26,26,26, 0.8); 
     text-shadow: 0 0 4px black;
     color: white;
+
 }
 
 #nextepisode {

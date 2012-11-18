@@ -6,6 +6,7 @@
 	<script src="zepto.js"></script>
 	<script src="icanhaz.min.js"></script>
 	<script src="klass.js"></script>
+	<script src="humane.js"></script>
 	<script src="config.js"></script>
 	<script src="series.js"></script>
 </head>
@@ -42,8 +43,8 @@
 			<input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>
 			<p> {{ overview }} </p>
 			<strong> {{ name }}
-			<span id='nextepisode'>Next Episode: <em>{{nextepisode}}</em></span>
-			<span id='nextairdate'>Next Airdate: <em>{{nextairdate}}</em></span>
+				<span id='nextepisode'>Next Episode: <em>S{{nextepisode.season}}E{{nextepisode.episode}}</em></span>
+				<span id='nextairdate'>Airdate: <em>{{nextepisode.date}}</em></span>
 			</strong>
 
 			<div class='overflower'>
@@ -58,8 +59,8 @@
 	{{#favorites}}
 		<li data-id='{{ id }}' data-name='{{ escaped }}' style='background-image:url({{ banner }})'>
 			<strong> {{ name }}
-				<span id='nextepisode'>Next Episode: <em>{{nextepisode}}</em></span>
-				<span id='nextairdate'>Next Airdate: <em>{{nextairdate}}</em></span>
+				<span id='nextepisode'>Next Episode: <em>S{{nextepisode.season}}E{{nextepisode.episode}}</em></span>
+				<span id='nextairdate'>Airdate: <em>{{nextepisode.date}}</em></span>
 			</strong>
 		</li>
 	{{/favorites}}
