@@ -5,13 +5,14 @@
 	<link rel="stylesheet" href="style.css">
 	<script src="zepto.js"></script>
 	<script src="icanhaz.min.js"></script>
+	<script src="klass.js"></script>
 	<script src="config.js"></script>
 	<script src="series.js"></script>
 </head>
 <body>
 
 <div id="favorites">
-	<ul>
+	<ul id='favoriteslist'>
 
 	</ul>
 	<form id='seriesearch'>
@@ -34,33 +35,38 @@
 
 
 <!-- icanhzjs moustache templates -->
-<script id="showTpl" type="text/html">
-	<div id='show_{{ id }}' data-id='{{ id }}' data-name='{{ escaped }}'>
-		<img src='{{ banner }}'/>
-		<input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>
-		<p> {{ overview }} </p>
-		<strong> {{ name }}
-		<span id='nextepisode'>Next Episode: <em>{{nextepisode}}</em></span>
-		<span id='nextairdate'>Next Airdate: <em>{{nextairdate}}</em></span>
-		</strong>
-
-		<div class='overflower'>
-			<table class='shows'></table>
-		</div>
-		<input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>
-	</div>
-</script>
-
-<script id="favTpl" type="text/html">
-	<li data-id='{{ id }}' data-name='{{ escaped }}' style='background-image:url({{ banner }})'>
-		<strong> {{ name }}
+<script id="showFavorite" type="text/html">
+	{{#favorites}}
+		<div id='show_{{ id }}' data-id='{{ id }}' data-name='{{ escaped }}'>
+			<img src='{{ banner }}'/>
+			<input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>
+			<p> {{ overview }} </p>
+			<strong> {{ name }}
 			<span id='nextepisode'>Next Episode: <em>{{nextepisode}}</em></span>
 			<span id='nextairdate'>Next Airdate: <em>{{nextairdate}}</em></span>
-		</strong>
-	</li>
+			</strong>
+
+			<div class='overflower'>
+				<table class='shows'></table>
+			</div>
+			<input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>
+		</div>
+	{{/favorites}}
+</script>
+
+<script id="showFavorites" type="text/html">
+	{{#favorites}}
+		<li data-id='{{ id }}' data-name='{{ escaped }}' style='background-image:url({{ banner }})'>
+			<strong> {{ name }}
+				<span id='nextepisode'>Next Episode: <em>{{nextepisode}}</em></span>
+				<span id='nextairdate'>Next Airdate: <em>{{nextairdate}}</em></span>
+			</strong>
+		</li>
+	{{/favorites}}
 </script>
 
 <script id="showSearchResult" type="text/html">
+	{{#searchresults}}
 	<li data-id='{{ id }}' data-name='{{ escaped }}'>
         <img src='{{ banner }}'>
         <h5>{{ name }}</h5>
@@ -68,6 +74,7 @@
         <button class='addtofavorites'>+ Add to favorites</button>
         <table class='shows'></table>
     </li>
+    {{/searchresults}}
 </script>
 
 <script id="showTpbError" type="text/html">
