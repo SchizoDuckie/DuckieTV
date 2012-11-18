@@ -126,7 +126,8 @@ var Gui = klass({
      */
     findTpbSerie: function(e) {
         var self = $(e.target);
-        var what = self.closest('div[data-name]').attr('data-name');
+
+        var what = $(this).closest('div[data-name]').attr('data-name');
         var ep = self.closest('tr').attr('data-episode');
         var target = $(self.closest('tr')[0]).next();
         if(!$(target[0]).hasClass('result')) {
@@ -137,6 +138,9 @@ var Gui = klass({
             $(target).empty().append("<th colspan='4'>Searching...</th>");
         }
         window.thePirateBay.search(what+' '+ep, function(res) {
+             res.results.ep = ep;
+             res.results.what = what;
+
              target = $(target).hasClass("result") ? target.empty() : target.after('<tr class="result"></tr>');
              res = (!res.error) ? ich.showTpbResults(res.results)[0].outerHTML : res.results;
              $(target).html('<td colspan="4">'+res+'</td>');
@@ -323,7 +327,8 @@ ThePirateBay = klass({
         $.ajax({
             url: this.mirror + this.query.replace('%s', encodeURIComponent(what) + (this.p720 ? ' 720p' : '')),
             success: function(xhr, status) {
-                if(xhr.indexOf('magnet:') === -1) {
+                var results = this.parseTPBResult(xhr, status, howmany);
+                if(results.length > 0 && xhr.indexOf('magnet:') === -1) {
                     //$(self).text("This mirror doesn't support Magnet links. (click to find another)");
                     callback({
                         error: true,
@@ -332,7 +337,7 @@ ThePirateBay = klass({
                 } else {
                     callback({
                         error: false,
-                        results: this.parseTPBResult(xhr, status, howmany)
+                        results: results
                     });
                 }
             }.bind(this),
@@ -366,7 +371,7 @@ ThePirateBay = klass({
         var row = $(xhr).find('#searchResult tbody tr');
         maxResults = maxResults || row.length;
         var out = [];
-        if(row) {
+        if(row && row.length > 0) {
              for(i=0; i<maxResults;i++) {
                 out.push({
                     releasename :  $(row[i]).find('td:nth-child(2) > div ').text(),

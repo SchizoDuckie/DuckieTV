@@ -38,7 +38,7 @@
 <!-- icanhzjs moustache templates -->
 <script id="showFavorite" type="text/html">
 	{{#favorites}}
-		<div id='show_{{ id }}' data-id='{{ id }}' data-name='{{ escaped }}'>
+		<div id='show_{{ id }}' data-id='{{ id }}' data-name='{{ name }}'>
 			<img src='{{ banner }}'/>
 			<input type='button' class='goback' value='back'> <input type='button' class='removefromfaves' value='Remove from favorites'>
 			<p> {{ overview }} </p>
@@ -57,7 +57,7 @@
 
 <script id="showFavorites" type="text/html">
 	{{#favorites}}
-		<li data-id='{{ id }}' data-name='{{ escaped }}' style='background-image:url({{ banner }})'>
+		<li data-id='{{ id }}' data-name='{{ name }}' style='background-image:url({{ banner }})'>
 			<strong> {{ name }}
 				<span id='nextepisode'>Next Episode: <em>S{{nextepisode.season}}E{{nextepisode.episode}}</em></span>
 				<span id='nextairdate'>Airdate: <em>{{nextepisode.date}}</em></span>
