@@ -198,6 +198,10 @@ var Gui = klass({
         window.scrollTo(0,1);
         window.tvDB.findEpisodes(id, function(epis) {
             console.log("show!", epis);
+            var curDate = new Date().getTime();
+            for(var i=0; i<epis.episodes.length; i++) { // either read from cache or fresh. Parse magnet links here.
+                epis.episodes[i].magnet = epis.episodes[i].firstaired === '' || Date.parse(epis.episodes[i].firstaired) > curDate ? false : true;
+            }
             schedule.append(ich.showEpisodes(epis));
         });
     },
@@ -280,7 +284,7 @@ var tvDB = klass({
                 episode: (en.length == 1) ? "0" + en : en,
                 episodename: $(epis[i]).find("EpisodeName").text(),
                 firstaired: $(epis[i]).find("FirstAired").text(),
-                magnet: !(($(epis[i]).find("FirstAired").text() === '' || Date.parse($(epis[i]).find("FirstAired").text()) > curDate))
+                magnet: false
             });
         }
         return {episodes: data};

@@ -1,7 +1,7 @@
 
 html { height: 100%;}
 body {
-	background: url(tpblogo.png) no-repeat right bottom #fff;
+	background: url(./../../tpblogo.png) no-repeat right bottom #fff;
 	-webkit-background-size:contain;
 	font-family: 'Segoe UI', Tahoma, sans-serif;	
 }
