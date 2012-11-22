@@ -1,244 +1,266 @@
-/*
- Stylesheet for seriesguide-chrome
- https://github.com/SchizoDuckie/seriesguide-chrome
- */
-
-html {
-    min-height: 80px;
-    max-height: 450px;
-    width: 400px;
+html
+{
+  width:400px;
+  background-color:#000;
+  border-radius:10px;
+  max-height:450px;
+  min-height:80px;
+  overflow-y:visible;
 }
 
-
-/* For small-screen devices */
-@media screen and (max-device-height: 700px) {
-	body > div {
-		height: 300px;
-	}	
+body
+{
+  background-color:#000;
+  border-radius:10px;
+  max-height:450px;
+  min-height:80px;
+  overflow-y:visible;
+  -webkit-background-size:cover;
+  background-image:url(./../../tpblogo.png);
+  background-repeat:no-repeat;
+  height:100%;
+  max-width:400px;
+  margin:0;
 }
 
-
-body, html {
-    min-height: 80px;
-    max-height: 450px;
-    background-color: black;
-    border-radius: 10px;
-    overflow-y:visible;
+*
+{
+  font-family:'Segoe UI', Tahoma, sans-serif;
 }
 
-* {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
+::-webkit-scrollbar
+{
+  width:5px;
 }
 
-/* Let's get this party started */
-::-webkit-scrollbar {
-    width: 5px;
+::-webkit-scrollbar-track
+{
+  -webkit-border-radius:10px;
+  -webkit-box-shadow:inset 0 0 6px rgba(255,255,255,0.3);
+  border-radius:10px;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
+::-webkit-scrollbar-thumb
+{
+  -webkit-border-radius:10px;
+  -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.5);
+  background:rgba(25,25,25,0.8);
+  border-radius:10px;
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    background: rgba(25, 25, 25, 0.8);
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+h5
+{
+  font-size:15px;
+  margin:10px;
 }
 
-body {
-    margin: 0;
-    height: 100%;
-    max-width: 400px;
-    background-image: url(./../../tpblogo.png);
-    -webkit-background-size: cover;
-    background-repeat: no-repeat;
+form
+{
+  background: url(./../../tpblogo.png) bottom right no-repeat, -webkit-linear-gradient(top, rgba(125, 126, 125, 1) 0%, rgba(14, 14, 14, 1) 100%);
+  -webkit-background-size:contain;
+  border:1px solid #000;
+  color:#FFF;
+  margin:0;
+  padding:10px;
 }
 
-h5 {
-    margin: 10px;
-    font-size: 15px;
+body>div:target
+{
+  -webkit-overflow-scrolling:touch;
+  -webkit-transition:all .5s ease-in;
+  background-color:rgba(255,255,255,0.9);
+  border:1px solid #efefef;
+  border-radius:5px;
+  bottom:0;
+  display:block;
+  min-height:80px;
+  overflow-y:auto;
+  top:0;
 }
 
-form {
-    background: url(./../../tpblogo.png) top right no-repeat, -webkit-linear-gradient(top, rgba(125, 126, 125, 1) 0%, rgba(14, 14, 14, 1) 100%);
-    -webkit-background-size: contain;
-    padding: 10px;
-    border: 1px solid black;
-    margin: 0;
-    color: white;
+body>div:not(:target)
+{
+  -webkit-transform:translateX(-1000px);
+  -webkit-transition:all .5s ease-in;
+  background-color:#FFF;
+  bottom:0;
+  left:0;
+  position:absolute;
+  top:0;
+  z-index:50;
 }
 
-body>div:target {
-    display: block;
-    border: 1px solid #efefef;
-    border-radius: 5px;
-    -webkit-transition: all .5s ease-in;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* one-page scrolling for safari mobile, see step4 */
-    background-color: rgba(255, 255, 255, 0.9);
-    top: 0;
-    bottom: 0;
-    min-height: 80px;
-    /*max-height: 760px;*/
+body >div:not(:target) li
+{
+  left:0;
+  position:absolute!important;
+  top:0;
 }
 
-body>div:not(:target) {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    -webkit-transition: all .5s ease-in;
-    -webkit-transform: translateX(-1000px); /* Put all inactive sections off-page */
-    z-index: 9000;
-    background-color: white;
-    z-index: 50;
+.overflower
+{
+  min-height:300px;
+  overflow-y:visible;
+  width:100%;
 }
 
-body >div:not(:target)  li {
-    position: absolute !important;
-    top: 0;
-    left: 0;
+#searchresult
+{
+  list-style-type:none;
+  max-width:400px;
+  margin:0;
+  padding:0;
 }
 
-.overflower {
-    width: 100%;
-    min-height: 300px;
-    overflow-y: visible;
+td
+{
+  vertical-align:top;
 }
 
-#searchresult {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    max-width: 400px;
+.shows
+{
+  width:95%;
 }
 
-td {
-    vertical-align: top;
+.shows td
+{
+  font-size:10px;
 }
 
-.shows {
-    width: 95%;
+div> img
+{
+  max-width:100%;
 }
 
-.shows td {
-    font-size: 10px;
+.removefromfaves
+{
+  float:right;
 }
 
-div> img {
-    max-width: 100%
+div > p
+{
+  font-size:11px;
+  padding:5px;
 }
 
-.removefromfaves {
-    float: right;
+.shows td:nth-last-child(2)
+{
+  white-space:nowrap;
 }
 
-div > p {
-    padding: 5px;
-    font-size: 11px;
+.shows td:last-child
+{
+  width:12px;
 }
 
-.shows td:nth-last-child(2) {
-    white-space: nowrap;
+#searchresult li
+{
+  border:1px solid #000;
+  list-style-type:none;
+  max-width:400px;
 }
 
-.shows td:last-child {
-    width: 12px;
+#searchresult li p
+{
+  padding:5px;
 }
 
-#searchresults {
-    display: none;
+#searchresult li img
+{
+  display:block;
+  position:relative;
+  width:100%;
 }
 
-#searchresult li {
-    border: 1px solid black;
-    max-width: 400px;
-    list-style-type: none;
+#favorites li
+{
+  -webkit-background-size:cover;
+  height:100px;
+  overflow:hidden;
+  position:relative;
+  width:100%;
+  margin:0;
 }
 
-#searching {
-    display: none;
+#favorites li strong
+{
+  -webkit-transform:translateY(40px);
+  -webkit-transition:all .2s ease-in;
+  background-color:rgba(255,255,255,0.8);
+  bottom:0;
+  box-sizing:border-box;
+  color:#000;
+  cursor:pointer;
+  display:block;
+  font-size:20px;
+  height:40px;
+  line-height:40px;
+  padding-left:20px;
+  position:absolute;
+  text-transform:capitalize;
+  width:100%;
 }
 
-#searchresult li p {
-    padding: 5px;
+#favorites li:hover strong
+{
+  -webkit-transform:translateY(0px);
 }
 
-#searchresult li img {
-    display: block;
-    position: relative;
-    width: 100%;
+#favorites li strong:hover
+{
+  text-decoration:underline;
 }
 
-#favorites {
-
+#favorites ul
+{
+  list-style:none;
+  margin:0;
+  padding:0;
 }
 
-#favorites li {
-    height: 100px;
-    -webkit-background-size: cover;
-    position: relative;
-    overflow: hidden;
+#nextairdate
+{
+  -webkit-text-stroke:.4px rgba(26,26,26,0.8);
+  -webkit-transform:translateY(-50px);
+  color:#FFF;
+  float:right;
+  font-size:11px;
+  line-height:20px;
+  position:absolute;
+  right:0;
+  text-shadow:0 0 4px #000;
+  top:20px;
+  width:135px;
 }
 
-#favorites li strong {
-    display: block;
-    cursor: pointer;
-    text-transform: capitalize;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 40px;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    color: black;
-    font-size: 20px;
-    padding-left: 20px;
-    box-sizing: border-box;
-    line-height: 40px;
-    -webkit-transform: translateY(40px);
-    -webkit-transition: all 0.2s ease-in;
+#nextepisode
+{
+  -webkit-text-stroke:.4px rgba(26,26,26,0.8);
+  -webkit-transform:translateY(-50px);
+  color:#FFF;
+  float:right;
+  font-size:11px;
+  line-height:20px;
+  position:absolute;
+  right:0;
+  text-shadow:0 0 4px #000;
+  width:135px;
+  top:0;
 }
 
-#favorites li:hover strong {
-    -webkit-transform: translateY(0px);
+#searchresults
+{
+  display:none;
 }
 
-#favorites li strong:hover {
-    text-decoration: underline;
+#searching
+{
+  display:none;
 }
 
-#favorites ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-#favorites li {
-    margin: 0;
-    width: 100%;
-}
-
-#nextairdate, #nextepisode {
-    font-size: 11px;
-    line-height: 20px;
-    float: right;
-    position: absolute;
-    right: 0;
-    top: 20px;
-    width: 135px;
-    -webkit-transform: translateY(-50px);
-    -webkit-text-stroke: 0.4px rgba(26,26,26, 0.8); 
-    text-shadow: 0 0 4px black;
-    color: white;
-
-}
-
-#nextepisode {
-    top: 0;
+@media screen and max-device-height 700px {
+  body > div
+  {
+    height:300px;
+  }
 }
