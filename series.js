@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 var Favorites = klass({
     faves: [],
+    downloaded: {},
     target: '#favorites',
     element: '#favoriteslist',
 
@@ -71,11 +72,14 @@ var Favorites = klass({
 
     read: function() {
         var faves = localStorage.getItem("favorites");
+        var downloaded = localStorage.getItem("downloaded");
         if(faves) this.faves = JSON.parse(faves);
+        if(downloaded) this.downloaded = JSON.parse(downloaded);
     },
 
     save: function() {
         localStorage.setItem("favorites", JSON.stringify(this.faves));
+        localStorage.setItem("downloaded", JSON.stringify(this.downloaded));
     },
 
     show: function() {
@@ -88,6 +92,19 @@ var Favorites = klass({
         this.element.html(ich.showFavorites({ favorites: this.faves }));
         $(document.body).append(ich.showFavorite({ favorites: this.faves }));
         $("#favorites").show();
+    },
+
+    getDownloaded: function(show, episode) {
+        if(!this.downloaded[show]) return false;
+        console.log("getDownloaded!: ", this.downloaded[show].indexOf(episode) > -1);
+        return this.downloaded[show].indexOf(episode) > -1;
+    },
+
+    setDownloaded: function(show, episode) {
+        console.log("downloaded! ", show, episode);
+        if(!this.downloaded[show]) this.downloaded[show] = [];
+        this.downloaded[show].push(episode);
+        this.save();
     }
 });
 
@@ -113,11 +130,15 @@ var Gui = klass({
     },
 
     launchMagnetLink: function (e) {
-       chrome.tabs.create({'url':this.href }, function (tab) {
+        window.faves.setDownloaded($(this).closest("div[data-id]").attr("data-id"), $(this).closest("tr.result").prev("tr[data-episode]").attr("data-episode"));
+        debugger;
+       chrome.tabs.create({'url':this.href, active: false }, function (tab) {
             setTimeout(function () {
                 chrome.tabs.remove(tab.id);
             }, 5000);
         });
+       e.stopPropagation();
+        e.preventDefault();
         return false;
     },
 
@@ -201,6 +222,7 @@ var Gui = klass({
             var curDate = new Date().getTime();
             for(var i=0; i<epis.episodes.length; i++) { // either read from cache or fresh. Parse magnet links here.
                 epis.episodes[i].magnet = epis.episodes[i].firstaired === '' || Date.parse(epis.episodes[i].firstaired) > curDate ? false : true;
+                epis.episodes[i].downloaded = window.faves.getDownloaded(id, 'S'+epis.episodes[i].season+'E'+epis.episodes[i].episode);
             }
             schedule.append(ich.showEpisodes(epis));
         });

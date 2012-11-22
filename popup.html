@@ -107,7 +107,7 @@
 <script id='showEpisodes' type='text/html'>
  	{{#episodes}}
 	<tr data-episode="S{{ season }}E{{ episode }}">
-    	 <td>S{{ season }}E{{ episode }}</td>
+    	 <td  {{#downloaded}}style="text-decoration:line-through"{{/downloaded}}>S{{ season }}E{{ episode }}</td>
          <td>{{ episodename }}</td>
          <td>{{ firstaired }}</td>
          <td>{{#magnet}}<img src="/static/img/icon-magnet.gif" width="12" height="12" alt="Magnet link">{{/magnet}}         	
