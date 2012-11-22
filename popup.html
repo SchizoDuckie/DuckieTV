@@ -7,8 +7,12 @@
 	<script src="lib/icanhaz.min.js"></script>
 	<script src="lib/klass.js"></script>
 	<script src="lib/humane.js"></script>
-	<script src="config.js"></script>
-	<script src="series.js"></script>
+	<script src="app/config.js"></script>
+	<script src="app/class.favorites.js"></script>
+	<script src="app/class.tvdb.js"></script>
+	<script src="app/class.thepiratebay.js"></script>
+	<script src="app/class.gui.js"></script>
+	<script src="app/popup.js"></script>
 </head>
 <body>
 
@@ -87,7 +91,7 @@
  </script>
 
 <script id='showTpbResults' type='text/html'>
-   <table style='border: 1px solid black; width: 100%; border-collapse: collapse;'>
+   <table style='width: 100%; border-collapse: collapse;' class='result'>
     	{{#results}}
     		<tr>
 	            <td> {{ releasename }} </td>

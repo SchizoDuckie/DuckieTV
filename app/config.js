@@ -15,21 +15,6 @@ if(!localStorage.getItem('search.mirror')) { // ls settings are empty, setup.
     }
 }
 
-
-/**
- * Use Fucktimkuik.org by Geenstijl.nl to find an alternative mirror for thepiratebay.org
- */
-function fuckTimKuik(cb) {
-    $.ajax({
-        url: 'http://www.fucktimkuik.org',
-        dataType: 'html',
-        success: function(xhr, a,b,c) {
-            var newMirror = parseURL(xhr.match(/url=(.*[^\"])\"/i)[1]);                                     // we grep the url from the meta refresh tag.
-            cb([newMirror.protocol,'://',newMirror.host, newMirror.port,'/'].join(''));
-        }
-    });
-}
-
 /**
  * Abuse the A element to parse a url.
  */
@@ -43,3 +28,25 @@ function parseURL(url) {
         port: a.port
     };
 }
+
+/**
+ * Return a short string implementation of the date
+ */
+Date.prototype.toStr = function() {
+    return [this.getFullYear(), this.getMonth()+1, this.getDate()].join('-');
+};
+
+/**
+ * move to yesterday
+ */
+Date.prototype.yesterday = function() {
+    this.setDate(this.getDate() -1);
+    return this;
+};
+
+/**
+ * Move to the start of a day.
+ */
+Date.prototype.toStart = function() {
+    return new Date(this.getFullYear(), this.getMonth(), this.getDate());
+};
