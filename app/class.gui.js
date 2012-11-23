@@ -126,16 +126,21 @@ var Gui = klass({
     notifyUpdates: function(today) {
         console.log("notify!", today, window.faves.today);
         var amount = window.faves.today.length;
-        if(amount > 0) {
+        var lastNotification = localStorage.getItem("notify.last");
+        lastNotification = !lastNotification ? 0 : parseInt(lastNotification,10);
+        var notificationInterval = parseInt(localStorage.getItem("update.frequency"),10);
+        notificationInterval = notificationInterval * 60 * 60 * 1000;
+        if(amount > 0 && (lastNotification + notificationInterval)  < new Date().getTime()) {
             amount = amount.toString();
             localStorage.setItem("today", JSON.stringify(window.faves.today));
+            localStorage.setItem("notify.last", new Date().getTime());
             chrome.browserAction.setBadgeText({text: amount});
             chrome.browserAction.setBadgeBackgroundColor({color: "#000000"});
             var notification = webkitNotifications.createHTMLNotification('notification.html');
             notification.show();
             setTimeout(function() {
                 notification.cancel();
-            }, 35000);
+            }, 15000);
         } else {
             localStorage.removeItem("today");
         }

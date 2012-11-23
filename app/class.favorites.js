@@ -89,6 +89,7 @@ var Favorites = klass({
         var downloaded = localStorage.getItem("downloaded");
         if (faves) this.faves = JSON.parse(faves);
         if (downloaded) this.downloaded = JSON.parse(downloaded);
+        this.today = [];
     },
     
     save: function() {

@@ -1,7 +1,7 @@
 {
   "name": "Series Guide Chrome!",
    "manifest_version": 2,
-   "version" : "0.62",
+   "version" : "0.65",
   "description": "Manage your favorite series and download them from The Pirate Bay mirrors. (Works even when The Pirate Bay is blocked in your territory!)",
   "browser_action": {
   	"default_title": "TPB Series Guide for Chrome",
