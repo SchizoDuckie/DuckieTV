@@ -22,8 +22,7 @@
           <h2 id="project_tagline">A chrome plugin to manage your favorite tv-shows and their schedules with automagic ThePirateBay integration</h2>
 
             <section id="downloads">
-              <a class="crx_download_link" href="https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/seriesguide-chrome.crx" title="Download the chrome extension" onmousedown="_gaq.push(['_trackEvent', 'download', 'crx', 'Download CRX']);">Download the Chrome Extension</a>
-              
+              <a class="crx_download_link" href="https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/seriesguide-chrome.crx" title="Download the chrome extension" onmousedown="_gaq.push(['_trackEvent', 'download', 'crx', 'Download CRX']);">Download the Chrome Extension</a>              
             </section>
         </header>
     </div>
@@ -32,7 +31,6 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>seriesguide-chrome</h1>
-
 <p>A chrome plugin to manage your favorite tv-shows and their schedules with automagic ThePirateBay integration</p>
 
 <h3>Installation: </h3>
@@ -43,7 +41,39 @@
 <li>drag the .crx to the extensions tab to install</li>
 </ul>
 
+<h3>Usage:</h3>
+<ul>
+  <li>Your main screen is the favorites view<br>
+    <img src="images/favorites.png" style="width: 300px">
+  </li>
+  <li>Notifications automatically pop up if a new episode has aired
+    <img src="images/notification.png" style="width: 250px">
+  </li>
+  <li>Add your favorite series to the list by searching for it and clicking 'Add to favorites'
+    <img src="images/search.jpg" style="width: 300px">
+  </li>
+  <li>After adding, the schedule shows under the show details.<br>
+    <img src="images/schedule.jpg" style="width: 300px"><br>
+  </li>
+  <li>Click the magnet icon behind each aired show to to a tpb search ordered by max seeds and show the first result<br>
+    <img src="images/download-magnet.jpg" style="width: 300px"><br>
+    Click the magnet link that pops up to start the torrent download!
+  </li>
+   <li>Use the generic search box to find anything on ThePirateBay, ordered by seeds. automagically searches for 720p if checked in settings.<br>
+    <img src="images/generalsearch.png" style="width: 300px">
+  </li>
+  <li>On the Options page (right click the icon, or open it from chrome extensions) you can configure an alternative ThePirateBay mirror and optionally search for 720p releases only.
+    <img src="images/config.png" style="width: 400px;">
+  </li>
+</ul>
+
 <h3>Changelog:</h3>
+<strong>v0.65 (2012-11-23)</strong>
+<ul>
+  <li>Implemented notifications!<br> <img src='images/notification.png' alt='chrome notification popup' style="width:250px"></li>
+  <li>Episodes are now automagically marked as downloaded when you click a magnet link</li>
+  <li>Magnet links now launch in a background tab, which auto-closes. (allows the popup to stay open after you click a link)</li>
+</ul> 
 <strong>v0.61 (2012-11-18)</strong>
 <ul>
   <li>Implemented next episode,  next airdate and show schedule cache. Almost ready for automated notification.</li>
@@ -74,38 +104,15 @@
 </ul>
 
 
-<h3>Usage:</h3>
-<ul>
-  <li>Your main screen is the favorites view<br>
-    <img src="images/favorites.png" style="width: 300px">
-  </li>
-  <li>Add your favorite series to the list by searching for it and clicking 'Add to favorites'
-    <img src="images/search.jpg" style="width: 300px">
-  </li>
-  <li>After adding, the schedule shows under the show details.<br>
-    <img src="images/schedule.jpg" style="width: 300px"><br>
-  </li>
-  <li>Click the magnet icon behind each aired show to to a tpb search ordered by max seeds and show the first result<br>
-    <img src="images/download-magnet.jpg" style="width: 300px"><br>
-    Click the magnet link that pops up to start the torrent download!
-  </li>
-   <li>Use the generic search box to find anything on ThePirateBay, ordered by seeds. automagically searches for 720p if checked in settings.<br>
-    <img src="images/generalsearch.png" style="width: 300px">
-  </li>
-  <li>On the Options page (right click the icon, or open it from chrome extensions) you can configure an alternative ThePirateBay mirror and optionally search for 720p releases only.
-    <img src="images/config.png" style="width: 400px;">
-  </li>
-</ul>
-
 <p>C'est ca!</p>
 
 <h3>More to come</h3>
 <ul>
-  <li>better cacheing and local storage</li>
-  <li>Check for updates once a day and show alerts / automagically download</li>
+  <li><s>better cacheing and local storage</s></li>
+  <li><s>Check for updates once a day and show alerts</s> / automagically download</li>
   <li><s>Set tpb mirrors.</s></li>
   <li>Alternative searchqueries per serie</li>
-  <li>fill dates for next episode and airdate</li>
+  <li><s>fill dates for next episode and airdate</s></li>
   <li>A generic watch list, that monitors R5 movie (or any?) releases, and notifies/auto-downloads.</li>
 </ul>
 
