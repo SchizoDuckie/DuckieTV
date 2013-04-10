@@ -1,0 +1,15 @@
+body>div:target
+{
+  -webkit-transition:none !important;
+}
+
+body>div:not(:target)
+{
+  -webkit-transition:none !important;
+}
+
+
+#favorites li strong
+{
+  -webkit-transition:none !important;
+}
