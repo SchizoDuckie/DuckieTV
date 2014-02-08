@@ -1,0 +1,120 @@
+/* Include this file in your html if you are using the CSP mode. */
+
+@charset "UTF-8";
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
+.ng-cloak, .x-ng-cloak,
+.ng-hide {
+  display: none !important;
+}
+
+ng\:form {
+  display: block;
+}
+
+body {
+  background-color: #eee;
+  background-image:url('/img/background.png');
+  background-repeat:no-repeat;
+  background-size: cover;
+  font-family: 'Actor', sans-serif;
+  color: #444;
+}
+@font-face {
+  font-family: 'Actor';
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/DroidSansMono.ttf');
+}
+
+h2 {
+  color: #222;
+}
+#actionbar {
+  position: absolute;
+  bottom: 0.5em;
+  right: 1.0em;
+}
+
+#actionbar a {
+  font-size: 2.2rem;
+  color: #000;
+}
+
+.typeahead ul {
+  max-height: 150px;
+  border: 1px solid #333;
+  padding: 3px;
+  overflow: auto;
+}
+
+
+serieheader > div {
+  background-color: black;
+  position: relative;
+   overflow: hidden;
+}
+serieheader.full > div {
+  background-color: rgba(0,0,0,0.5);
+}
+
+serieheader .banner {
+  height: 150px;
+  background-repeat:no-repeat; 
+  background-size: cover; 
+  width:100%;
+}
+serieheader h3 {
+  color:white; 
+  margin-top:-35px;
+  background-color: rgba(0,0,0,0.5);
+  padding: 5px; 
+  margin-bottom:0;
+  white-space:nowrap; 
+  text-overflow:ellipsis;
+}
+serieheader .overview {
+  color: white; 
+  background-color: rgba(0,0,0,0.5); 
+  padding: 5px; 
+  font-size:10px; 
+  color: white; 
+  font-family:arial;
+}
+
+serieheader.full .overview {
+  font-size: 14px;
+  padding: 10px;
+}
+serieheader aside {
+  position: absolute;
+  top:0;
+  right:-150px;
+  bottom:0;
+  width: 150px;
+  padding: 10px;
+  transition: right 0.5s ease-in-out;
+}
+
+serieheader:hover aside {
+  right: 0;
+}
+
+.dropdown-menu {
+  margin: 0;
+  padding:0;
+  border: 1px solid black;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.table.light {
+  color: white;
+  background-color: rgba(0,0,0,0.8);
+}
+
+.nobreaks {
+  white-space: nowrap;
+}
+
+.serie h1 {
+  color:black;
+}

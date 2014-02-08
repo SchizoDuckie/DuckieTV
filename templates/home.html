@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class='container-fluid' ng-controller="FindSeriesTypeAheadCtrl">
+     <h2>Find Series</h2>
+       <the-tv-db-search></the-tv-db-search>
+    </div>
+
+    <div class='container-fluid' ng-controller="FindSeriesTypeAheadCtrl">
+     <h2>Find A Movie</h2>
+       <imdb-search></imdb-search>
+    </div>
+
+    <div class='container-fluid'>
+     <h2>General ThePirateBay Search</h2>
+     <piratebay-search></piratebay-search>
+    </div> 
+  </div>
+  <div class='col-md-6' style='opacity: 0.9'>
+     <h2>Series you're watching</h2>
+    <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1"></serieHeader> 
+  </div>
+</div>
