@@ -7,8 +7,8 @@ angular.module('SeriesGuide.thepiratebay', [])
 .controller('FindTPBTypeAheadCtrl', function ($scope, ThePirateBay) {
 
   $scope.selected = undefined;
-  $scope.find = function(serie) {
-  	return ThePirateBay.find(serie).then(function(res) { return res.series; });
+  $scope.search = function(serie) {
+  	return ThePirateBay.search(serie).then(function(res) { return res; });
   };
   $scope.selectSerie = function(serie) {
   	$scope.selected = serie.name;
@@ -33,6 +33,24 @@ angular.module('SeriesGuide.thepiratebay', [])
  		return this.endpoints[type].replace('%s', encodeURIComponent(param));
  },
 
+ this.parseSearch = function(result) {
+ 	var parser = new DOMParser();
+	var doc = parser.parseFromString(result.data, "text/html");
+ 	var results = doc.querySelectorAll("#searchResult tbody tr");
+ 	var output = [];
+ 	for(var i=0; i<results.length;i++) {
+ 		output.push({
+ 			releasename: results[i].querySelector('td:nth-child(2) > div ').innerText,
+			magnetlink: results[i].querySelector('td:nth-child(2) > a').outerHTML.replace(/img src=\"(.*)\/img\/icon-magnet.gif\"/igm, 'img src="static/img/icon-magnet.gif"'),
+			seeders: results[i].querySelector("td:nth-child(3)").innerHTML,
+			leechers: results[i].querySelector("td:nth-child(4)").innerHTML,
+			row: results[i].innerHTML
+ 		})
+ 	}
+ 	console.log("parsed: ", output);
+ 	return output;
+ }
+
  /**
   * Get wrapper, providing the actual search functions and result parser
   * Provides promises so it can be used in typeahead as well as in the rest of the app
@@ -50,7 +68,8 @@ angular.module('SeriesGuide.thepiratebay', [])
 	            url: self.getUrl('search', what),
 	            cache: true
 	        }).then(function(response) {
-	           d.resolve({result: self.parseSearch(response)});
+	        	console.log("TPB search executed!", response);
+	           d.resolve(self.parseSearch(response));
 			}, function(err) {
 				console.log('error!');
 			  d.reject(err);
@@ -82,7 +101,7 @@ angular.module('SeriesGuide.thepiratebay', [])
 		restrict: 'E',
 		template: ['<div ng-controller="FindTPBTypeAheadCtrl">',
 				    '<input type="text" ng-model="selected" placeholder="Search for anything" typeahead-min-length="3" typeahead-loading="loadingTPB"',
-				    'typeahead="result for results in find($viewValue) | filter:$viewValue" typeahead-template-url="templates/typeAheadTPB.html"',
+				    'typeahead="result for results in search($viewValue) | filter:$viewValue" typeahead-template-url="templates/typeAheadTPB.html"',
 				    'typeahead-on-select="selectTPBItem($item)" class="form-control"> <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>',
 				'</div>'].join(' ')
 	};

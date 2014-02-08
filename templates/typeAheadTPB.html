@@ -1,0 +1,9 @@
+<table style='width:100%'>
+<tr>
+	<td style='width:30px; padding:5px;' ng-bind-html="match.model.magnetlink.replace('static/','/') | unsafe"></td>
+    <td ng-bind-html="match.model.releasename | unsafe"></td>
+    <td style='width:50px' ng-bind="match.model.seeders"></td>
+    <td style='width:50px'ng-bind="match.model.leechers"></td>
+   </tr>
+</table>
+</div>
