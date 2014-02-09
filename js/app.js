@@ -10,7 +10,8 @@ angular.module('SeriesGuide', [
     'SeriesGuide.controllers', 
     'SeriesGuide.thepiratebay',
     'SeriesGuide.thetvdb',
-    'SeriesGuide.imdb'
+    'SeriesGuide.imdb',
+    'Chrome.topSites'
  ])
 
 /**

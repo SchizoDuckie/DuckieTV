@@ -123,4 +123,46 @@ serieheader:hover aside {
   color: black;
   max-width: 500px;
   padding: 10px;
+  background-color: rgba(255,255,255,0.8);
+}
+
+chrome-top-sites ul {
+  margin: 0;
+  padding: 0;
+  height: 1%;
+}
+
+chrome-top-sites li {
+  background-color: rgba(255,255,255,0.5);
+  color: black;
+  padding: 15px;
+  float: left;
+  width: calc(50% - 10px);
+  text-align: center;
+  margin: 5px;
+  border-radius: 10px;
+  border: 1px solid #666;
+  height: 260px;
+  overflow: hidden;
+}
+
+chrome-top-sites a {
+  color: #333;
+  font-family: verdana;
+}
+
+chrome-top-sites a:hover {
+  color: #444;
+}
+
+chrome-top-sites img {
+  border-radius: 5px;
+  border: 1px solid #333;
+  width:200px;
+  height: 200px;
+  background-color: black;
+}
+
+chrome-top-sites li:hover {
+  background-color: rgba(255,255,255,0.7);
 }

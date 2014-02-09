@@ -101,7 +101,7 @@ angular.module('SeriesGuide.thepiratebay', [])
 		restrict: 'E',
 		template: ['<div ng-controller="FindTPBTypeAheadCtrl">',
 				    '<input type="text" ng-model="selected" placeholder="Search for anything" typeahead-min-length="3" typeahead-loading="loadingTPB"',
-				    'typeahead="result for results in search($viewValue) | filter:$viewValue" typeahead-template-url="templates/typeAheadTPB.html"',
+				    'typeahead="result for results in search($viewValue)" typeahead-template-url="templates/typeAheadTPB.html"',
 				    'typeahead-on-select="selectTPBItem($item)" class="form-control"> <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>',
 				'</div>'].join(' ')
 	};

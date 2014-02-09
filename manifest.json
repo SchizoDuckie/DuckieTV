@@ -1,11 +1,12 @@
 {
   "manifest_version": 2,
-  "name": "Presently",
-  "description": "A currently clone",
+  "name": "SeriesGudie Chrome v2",
+  "description": "Manage and download you favorite series and movies from your browser's new tab page",
   "version": "0.1",
   "permissions": [
     "http://*/*",
-    "https://*/*"
+    "https://*/*",
+    "topSites"
   ],
   "background": {
     "scripts": ["js/vendor/angular.min.js"]
