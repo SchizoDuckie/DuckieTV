@@ -16,14 +16,34 @@
 			<th>Air date</th>
 			<th>Download</th>
 		</tr>
-		<tr ng-repeat="episode in episodes">
-		<a>
+		<tr ng-repeat="episode in episodes | orderBy: 'firstaired':true ">
 		   	 <td ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}">S{{ episode.season }}E{{ episode.episode }}</td>
 		     <td>{{ episode.episodename }}</td>
-		     <td class="nobreaks">{{ episode.firstaired }}</td>
-		     <td ng-if="episode.magnet"><img src="/img/icon-magnet.gif" width="12" height="12" alt="Magnet link"></td>
-		     <td ng-if="!episode.magnet">&nbsp;</td> 
-		 </a>
+		     <td class="nobreaks">{{ episode.firstaired | date:'dd-MM-yyyy'}}</td>
+		     <td>
+		     <div class="dropdown">
+			     <a ng-if="hasAired(episode)" class="dropdown-toggle glyphicon glyphicon-search" ng-click="searchTPB(serie, episode)"
+			       class="btn btn-default"></a>
+				   <table class="dropdown-menu" style='width: 400px'>
+
+				   		<tr ng-if="searching">
+				   			<td><p>Searching Thepiratebay, please wait.</p></td>
+				   		</tr>
+					
+				   		<tr ng-if="!searching && items.length == 0">
+				   			<td><p>No results found.</p></td>
+				   		</tr>
+						<tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items">
+							<td style='width:30px; padding:5px;' ng-bind-html="seed.magnetlink.replace('static/','/') | unsafe"></td>
+						    <td ng-bind-html="seed.releasename | unsafe"></td>
+						    <td style='width:50px' ng-bind="seed.seeders"></td>
+						    <td style='width:50px'ng-bind="seed.leechers"></td>
+					    </tr>
+					</table>	
+			</div>
+			
+			
+		     </td>
 		</tr>
 		</tbody>
 	</table>

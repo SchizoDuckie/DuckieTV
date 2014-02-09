@@ -118,3 +118,9 @@ serieheader:hover aside {
 .serie h1 {
   color:black;
 }
+
+.dropdown-menu {
+  color: black;
+  max-width: 500px;
+  padding: 10px;
+}

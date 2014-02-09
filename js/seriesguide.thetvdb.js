@@ -18,11 +18,12 @@ angular.module('SeriesGuide.thetvdb',[])
         	var episode = angular.element(epis[i]);
         	var sn = episode.find("SeasonNumber").text();
             var en = episode.find("EpisodeNumber").text();
+            var airdate = episode.find("FirstAired").text()
             data.push({
                 season: (sn.length == 1) ? "0" + sn : sn,
                 episode: (en.length == 1) ? "0" + en : en,
                 episodename: episode.find("EpisodeName").text(),
-                firstaired: episode.find("FirstAired").text(),
+                firstaired: airdate != '' ? new Date(airdate) : '',
                 magnet: false
             });
         }
