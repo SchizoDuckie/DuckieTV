@@ -5,12 +5,14 @@ angular.module('SeriesGuide', [
 	'ngRoute',
 	'xml',
 	'ui.bootstrap',
+	'ui.calendar',
     'SeriesGuide.providers',
     'SeriesGuide.directives', 
     'SeriesGuide.controllers', 
     'SeriesGuide.thepiratebay',
     'SeriesGuide.thetvdb',
     'SeriesGuide.imdb',
+    'SeriesGuide.calendar',
     'Chrome.topSites'
  ])
 

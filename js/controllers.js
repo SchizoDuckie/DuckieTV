@@ -25,10 +25,14 @@ angular.module('SeriesGuide.controllers', [])
 			return serie.firstaired && serie.firstaired <= currentDate;
 		};
 
+		$scope.getSearchString = function(serie, episode) {
+			return "%s S%sE%s".replace('%s', serie.name).replace('%s', episode.season).replace('%s', episode.episode);
+		};
+
 		$scope.searchTPB = function(serie, episode) {
 			$scope.items = [];
 			$scope.searching = true;
-			var search = "%s S%sE%s".replace('%s', serie.name).replace('%s', episode.season).replace('%s', episode.episode);
+			var search = $scope.getSearchString(serie, episode);
 			console.log("Search: ", search);
 			 ThePirateBay.search(search).then(function(results) {
 			 	$scope.items = results;

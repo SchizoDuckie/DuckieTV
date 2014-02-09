@@ -2,7 +2,7 @@
 
 <div class="row serie">
   <div class="col-md-6">
-	<h1># of episodes : {{ episodes.length }}</h1>
+  	<h1># of episodes : {{ episodes.length }}</h1>
 	<table class="table table-condensed light" style='border: 1px solid #efefef; border-collapse:collapse;'>
 	<tbody  ng-if="episodes.length == 0">
 	<tr>
@@ -21,28 +21,33 @@
 		     <td>{{ episode.episodename }}</td>
 		     <td class="nobreaks">{{ episode.firstaired | date:'dd-MM-yyyy'}}</td>
 		     <td>
-		     <div class="dropdown">
-			     <a ng-if="hasAired(episode)" class="dropdown-toggle glyphicon glyphicon-search" ng-click="searchTPB(serie, episode)"
-			       class="btn btn-default"></a>
-				   <table class="dropdown-menu" style='width: 400px'>
-
-				   		<tr ng-if="searching">
-				   			<td><p>Searching Thepiratebay, please wait.</p></td>
-				   		</tr>
-					
-				   		<tr ng-if="!searching && items.length == 0">
-				   			<td><p>No results found.</p></td>
-				   		</tr>
-						<tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items">
-							<td style='width:30px; padding:5px;' ng-bind-html="seed.magnetlink.replace('static/','/') | unsafe"></td>
-						    <td ng-bind-html="seed.releasename | unsafe"></td>
-						    <td style='width:50px' ng-bind="seed.seeders"></td>
-						    <td style='width:50px'ng-bind="seed.leechers"></td>
-					    </tr>
-					</table>	
-			</div>
-			
-			
+			     <div class="dropdown">
+				     <a ng-if="hasAired(episode)" class="dropdown-toggle glyphicon glyphicon-search" ng-click="searchTPB(serie, episode)" class="btn btn-default"></a>
+				       <div class="dropdown-menu" style='width: 550px'>
+						   <table>
+						   		<tr ng-if="searching">
+						   			<td><p>Searching Thepiratebay, please wait.</p></td>
+						   		</tr>
+						   		<tr ng-if="!searching && items.length == 0">
+						   			<td >
+						   				<p>No results found for</p>
+						   				<strong>{{ getSearchString(serie,episode) }} </strong>
+						   				<p>Do you want to try an alternative tpb search?</p>
+						   				<button ng-click="searchmanual(getSearchString(serie,episode))">Seach manually</button>
+						   			</td>
+						   		</tr>
+						   		<tr ng-if="!searching && items.length > 0 ">
+						   			<th>&nbsp;</th><th>name</th><th>S</th><th>L</th>
+						   		</tr>
+								<tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items">
+									<td style='width:30px; padding:5px;' ng-bind-html="seed.magnetlink.replace('static/','/') | unsafe"></td>
+								    <td ng-bind-html="seed.releasename | unsafe"></td>
+								    <td style='width:50px' ng-bind="seed.seeders"></td>
+								    <td style='width:50px'ng-bind="seed.leechers"></td>
+							    </tr>
+							</table>	
+						</div>
+				</div>
 		     </td>
 		</tr>
 		</tbody>
