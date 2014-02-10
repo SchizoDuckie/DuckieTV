@@ -1,4 +1,4 @@
-angular.module('Chrome.topSites',[])
+angular.module('Chrome.topSites',['lazy-background'])
 /**
  * Standalone Chrome Top Site list generator.
  * Provides the <chrome-top-sites> directive
@@ -40,9 +40,9 @@ angular.module('Chrome.topSites',[])
 		restrict: 'E',
 		template: ['<div ng-controller="ChromeTopSitesCtrl" class="topSites">',
 			        '<ul>',
-          			'<li ng-animate="\'animate\'" ng-repeat="site in topSites | limitTo: 6">',
+          			'<li ng-repeat="site in topSites | limitTo: 6">',
                   '<a href="{{ site.url }}">',
-                    '<img src="http://api.webthumbnail.org/?width=200&height=200&screen=1024&url={{site.url}}">',
+                    '<img lazy-background="http://api.webthumbnail.org/?width=200&height=200&screen=1024&url={{site.url}}">',
                     '<p>{{ site.title }}</p>',
                    '</a>',
                   '</li>',

@@ -1,5 +1,5 @@
- <div>
-  <div class='banner' style='background-image:url({{serie.banner}});'></div>
+ <div class="serieheader">
+  <div class='banner' lazy-background="{{serie.banner}}"></div>
   <h3>{{ serie.name }}</h3>
   <div ng-if="!noOverview" class='overview'>{{ serie.overview }}</div>
   <aside>

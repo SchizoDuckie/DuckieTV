@@ -5,7 +5,7 @@ angular.module('SeriesGuide', [
 	'ngRoute',
 	'xml',
 	'ui.bootstrap',
-	'ui.calendar',
+	'ui.calendar',	
     'SeriesGuide.providers',
     'SeriesGuide.directives', 
     'SeriesGuide.controllers', 
@@ -13,7 +13,8 @@ angular.module('SeriesGuide', [
     'SeriesGuide.thetvdb',
     'SeriesGuide.imdb',
     'SeriesGuide.calendar',
-    'Chrome.topSites'
+    'Chrome.topSites',
+    'lazy-background'
  ])
 
 /**
