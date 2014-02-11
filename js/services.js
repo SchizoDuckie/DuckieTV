@@ -9,16 +9,17 @@ angular.module('SeriesGuide.providers',[])
   var service = {
     favorites : [],
     addFavorite: function(data) {
-    	this.favorites.push(data);
       var serie = new Serie();
       for(var i in data) {
         serie.set(i == 'id' ? 'TVDB_ID': i, data[i]);
       }
-
       serie.Persist().then(function(e) {
-      }, function(fail) {
+        this.favorites.push(serie.asObject());
+         $rootScope.$broadcast('favorites:updated',service);
+      }.bind(this), function(fail) {
        console.log("Error persisting favorite!", data, arguments); 
      });
+
     },
     getById: function(id) {
     	var output = this.favorites.filter(function(elm) {
