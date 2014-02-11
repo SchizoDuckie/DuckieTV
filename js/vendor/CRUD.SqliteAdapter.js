@@ -85,7 +85,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 				resolve(output);
 			}, function(resultSet, sqlError) {
 				CRUD.log('SQL Error in FIND : ',sqlError, resultSet, what, this, query);
-				debugger;
+				//debugger;
 				fail();
 			});
 		});
