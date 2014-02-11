@@ -2,7 +2,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 	this.databaseName = database;
 	this.dbOptions = dbOptions
 	this.lastQuery = false;
-
+	this.initializing = true;
 	CRUD.ConnectionAdapter.apply( this, arguments );
 	
 	this.Init = function() {
@@ -11,7 +11,10 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 			that.db = new CRUD.Database(that.databaseName, that.dbOptions);
 			that.db.connect().then(function() {
 				CRUD.log("SQLITE connection created to ", that.databaseName);
-				that.verifyTables().then(resolve, fail);
+				that.verifyTables().then(function() {
+					that.initializing = false;
+					resolve()
+				}, fail);
 			}, fail);
 		});
 	};
@@ -34,11 +37,11 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 							CRUD.log("No create statement found for "+entity.className+". Don't know how to create table.");
 							fail();
 						} else {
-							CRUD.log("Create statement found. Creating table for "+entity.className);
-							that.db.execute(entity.createStatement).then(function() {
+							CRUD.log("Create statement found. Creating table for "+entity.className + ':'+entity.createStatement);
+							PromiseQueue.push(that.db.execute(entity.createStatement).then(function() {
 								CRUD.log(entity.className+" table created.");
 								Promise.all(that.createFixtures(entity)).then(resolve);
-							}, function(err) { CRUD.log("Error creating "+entity.className, err); fail(); });
+							}, function(err) { CRUD.log("Error creating "+entity.className, err); fail(); }));
 						}	
 					} else {
 						resolve();
@@ -65,6 +68,14 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 		}
 		return pq;
 	}
+
+	this.delayUntilSetupDone = function(func) {
+		if(!this.initializing) {
+			return func();
+		} else {
+			setTimeout(this.delayUntilSetupDone, 500, func)
+		}
+	},
 	
 	this.Find = function(what, filters, sorting, justthese, options, filters) {
 
@@ -76,17 +87,19 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 		
 		CRUD.log("Executing query via sqliteadapter: ", options, query);
 		return new Promise(function(resolve, fail) {
-			that.db.execute(query.query, query.parameters).then(function(resultset) {
-				var row, output = [];
-				while (row = resultset.next()) {
-					var obj = new window[what]().importValues(row.row);
-					output.push(obj);
-				}
-				resolve(output);
-			}, function(resultSet, sqlError) {
-				CRUD.log('SQL Error in FIND : ',sqlError, resultSet, what, this, query);
-				debugger;
-				fail();
+			return that.delayUntilSetupDone(function() {
+				that.db.execute(query.query, query.parameters).then(function(resultset) {
+					var row, output = [];
+					while (row = resultset.next()) {
+						var obj = new window[what]().importValues(row.row);
+						output.push(obj);
+					}
+					resolve(output);
+				}, function(resultSet, sqlError) {
+					CRUD.log('SQL Error in FIND : ',sqlError, resultSet, what, this, query);
+					debugger;
+					fail();
+				});
 			});
 		});
 	},

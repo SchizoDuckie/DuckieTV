@@ -2,8 +2,6 @@
  * Handle global dependencies
  */
 
-CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide2'));
-
 angular.module('SeriesGuide', [
 	'ngRoute',
 	'xml',

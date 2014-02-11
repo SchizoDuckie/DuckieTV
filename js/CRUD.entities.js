@@ -6,7 +6,7 @@ var Serie = CRUD.define({
 		relations: {
 			'Episode': CRUD.RELATION_FOREIGN
 		},
-		createStatement: 'CREATE TABLE "Series" ("ID_Serie" INTEGER PRIMARY KEY  NOT NULL ,"name" varchar(256) DEFAULT (NULL), "banner" varchar(1024) DEFAULT (NULL), "overview" TEXT DEFAULT (NULL), "TVDB_ID" INTEGER NOT NULL, "TVRage_ID" INTEGER DEFAULT (NULL), "IMDB_ID" INTEGER DEFAULT (NULL))',
+		createStatement: 'CREATE TABLE "Series" ("ID_Serie" INTEGER PRIMARY KEY  NOT NULL ,"name" varchar(256) DEFAULT (NULL), "banner" varchar(1024) DEFAULT (NULL), "overview" TEXT DEFAULT (NULL), "TVDB_ID" INTEGER UNIQUE NOT NULL, "TVRage_ID" INTEGER DEFAULT (NULL), "IMDB_ID" INTEGER DEFAULT (NULL))',
 		adapter: 'dbAdapter',
 		defaultValues: {
 			
@@ -25,3 +25,7 @@ var Serie = CRUD.define({
 	});
 
 	
+
+
+
+CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide2'));
