@@ -27,7 +27,6 @@ angular.module('SeriesGuide.thetvdb',[])
                 magnet: false
             });
         }
-        console.log('Found episodes: ', data);
         return data;
  }
     
@@ -45,7 +44,6 @@ angular.module('SeriesGuide.thetvdb',[])
 	                overview: serie.find("Overview").text()
 	            });
 	    	}
-    	console.log(searchresults);
     	return searchresults;
 	}
 
@@ -96,7 +94,6 @@ angular.module('SeriesGuide.thetvdb',[])
   };
   $scope.selectSerie = function(serie) {
   	$scope.selected = serie.name;
-  	console.log("Serie selected!", serie);
   	FavoritesService.addFavorite(serie);
   }
 })

@@ -42,7 +42,7 @@ angular.module('Chrome.topSites',['lazy-background'])
 			        '<ul>',
           			'<li ng-repeat="site in topSites | limitTo: 6">',
                   '<a href="{{ site.url }}">',
-                    '<img lazy-background="http://api.webthumbnail.org/?width=200&height=200&screen=1024&url={{site.url}}">',
+                    '<img lazy-background="\http://api.webthumbnail.org/?width=200&height=200&screen=1024&url={{site.url}}\">',
                     '<p>{{ site.title }}</p>',
                    '</a>',
                   '</li>',

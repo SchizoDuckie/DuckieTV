@@ -11,23 +11,21 @@
     directive('lazyBackground', ['$document', '$parse', function($document, $parse) {
         return {
             restrict: 'A',
-            link: function($scope, iElement, iAttrs) {
-                iElement = angular.element(iElement);
-                var src = iAttrs.lazyBackground;
-                iElement.css({ 'transition' : 'opacity 0.5s ease-in', 'opacity':0});
-                var img = $document[0].createElement('img');
-                img.onload = function() {
-                     iElement.css({
-                        'background-image': 'url(' + this.src + ')',
-                        'opacity':'1'
-                    });
-                };
-                img.onerror= function() {
-                   iElement.css({
-                        'opacity':'1'
-                    });
-                };
-                img.src = src;
+            link: function($scope, element, attrs) {
+               element = angular.element(element);
+               attrs.$observe('lazyBackground', function(newSrc) {
+                    if(newSrc == "") return;
+                    element.css({ 'transition' : 'opacity 0.5s ease-in', 'opacity':0});
+                    var img = $document[0].createElement('img');
+                    img.onload = function() {
+                      element.css({ 'background-image': 'url(' + newSrc + ')', 'opacity':'1' });
+                    };
+                    img.onerror= function(e) {
+                      console.log("image load error!", e);
+                      element.css({ 'opacity':'1' });
+                    };
+                    img.src = newSrc;
+                });
             
             }
         };

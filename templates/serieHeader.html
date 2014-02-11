@@ -3,6 +3,6 @@
   <h3>{{ serie.name }}</h3>
   <div ng-if="!noOverview" class='overview'>{{ serie.overview }}</div>
   <aside>
-  	<a ng-if="!noListButton" ng-href="#/series/{{serie.id}}" class='btn btn-info'>Episodes</a>
+  	<a ng-if="!noListButton" ng-href="#/series/{{serie.TVDB_ID}}" class='btn btn-info'>Episodes</a>
   </aside>
 </div>

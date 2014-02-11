@@ -6,7 +6,19 @@ angular.module('SeriesGuide.controllers', [])
  */
 .controller('MainCtrl', 
   function($scope, FavoritesService) {
-    $scope.favorites = FavoritesService.favorites;
+  	var favorites = [];
+
+  	/**
+  	 * The favorites service fetches data asynchronously via SQLite, we wait for it to emit the favorites:updated event.
+  	 */
+  	$scope.favorites = FavoritesService.favorites;
+  	$scope.$on('favorites:updated', function(event,data) {
+     // you could inspect the data to see if what you care about changed, or just update your own scope
+     console.log('scope favorites changed!', data, $scope);
+     $scope.favorites = data.favorites;
+     $scope.$digest(); // notify the scope that new data came in
+   });
+
 })
 
 .controller('SerieCtrl',  
@@ -14,7 +26,14 @@ angular.module('SeriesGuide.controllers', [])
 	function(TheTVDB, ThePirateBay, FavoritesService, $routeParams, $scope) {
 		console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
 		$scope.episodes = [];
-		$scope.serie = FavoritesService.getById($routeParams.id);
+		if(FavoritesService.favorites.length > 0) {
+			$scope.serie = FavoritesService.getById($routeParams.id);
+		}
+		$scope.$on('favorites:updated', function(event,favorites) {
+			$scope.serie = favorites.getById($routeParams.id);
+			console.log("Scope serie found: ", $scope.serie);
+			$scope.$digest();
+		});
 		$scope.searching = false;
 		var currentDate = new Date();
 
