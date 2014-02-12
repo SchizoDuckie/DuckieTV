@@ -78,8 +78,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 	},
 	
 	this.Find = function(what, filters, sorting, justthese, options, filters) {
-
-		var builder = new CRUD.Database.SQLBuilder(what, filters, sorting, justthese, options);
+		var builder = new CRUD.Database.SQLBuilder(what, filters || {}, sorting || {}, justthese || {}, options ||{} );
 		var query = builder.buildQuery();
 		var opt = options;
 		this.lastQuery = query;
@@ -103,11 +102,12 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 			});
 		});
 	},
+
 	this.Persist = function(what, forceInsert) {
 		var query = [], valCount =0, values = [], valmap = [], names =[], that=this;
 		
 		for(var i in what.changedValues) {
-			if( what.changedValues.hasOwnProperty(i)) {
+			if( what.changedValues.hasOwnProperty(i) && what.hasField(i)) {
 				names.push(i);
 				values.push('?');
 				valmap.push(what.changedValues[i]);
@@ -130,7 +130,9 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 					resultSet.Action = 'inserted';
 					resolve(resultSet);
 				}, function(err, tx) {
-					fail(err, tx);
+					err.query = query.join(' ');
+					err.values = valmap;
+					fail(err);
 				});
 			});
 		} else {  // existing : build an update query.
@@ -271,7 +273,7 @@ CRUD.Database.SQLBuilder = function(entity, filters, extras, justthese) {
 	this.extras = extras || [];
 	justthese = justthese || [];
 	this.wheres = []; this.joins = []; this.fields = []; this.orders = []; this.groups = [];
-	this.limit = extras.limit ? 'LIMIT ' + extras.limit : 'LIMIT 0,100';
+	this.limit = extras.limit ? 'LIMIT ' + extras.limit : 'LIMIT 0,1000';
 	this.parameters = []; // parameters to bind to sql query.
 
 	var tableName = CRUD.EntityManager.entities[this.entity].table;
@@ -339,7 +341,7 @@ CRUD.Database.SQLBuilder.prototype = {
 			case CRUD.RELATION_SINGLE:
 			case CRUD.RELATION_FOREIGN:
 				if(entity.fields.indexOf(parent.primary) > -1) {
-					this.addJoin(entity,parent);
+					this.addJoin(parent, entity, parent.primary);
 				}
 				else if(parent.fields.indexOf(entity.primary) > -1) {
 					this.addJoin(parent,entity);

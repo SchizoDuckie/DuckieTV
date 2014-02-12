@@ -4,7 +4,7 @@ if (!CRUD)  var CRUD = {
 	RELATION_FOREIGN : 2,
 	RELATION_MANY : 3,
 	RELATION_CUSTOM : 'banana',
-	DEBUG: false,
+	DEBUG: true,
 	log: function() {
 		if(CRUD.DEBUG) {
 			console.log.apply(console, arguments);
@@ -167,11 +167,14 @@ CRUD.Find = function(obj, filters, options) {
  */			
 CRUD.FindOne = function(obj, filters, options) {
 	var that = this;
+	options = options || {};
 	return new Promise(function(success, error) {
 		options.limit = 1;
 		that.Find(obj, filters, options).then(function(result) {
 			success(result[0]);
-		}, error);
+		}, function(e) {
+			 error(e)
+		});
 
 	});
 };
@@ -244,6 +247,7 @@ CRUD.Entity.prototype = {
 	 * @returns Promise
 	 */
 	Find : function(type, filters, options) {
+		options = options || {};
 		filters = filters || {};
 		filters[this.getType()] = {} ;
 		filters[this.getType()][CRUD.EntityManager.getPrimary(this.getType())] = this.getID();
@@ -336,7 +340,7 @@ CRUD.Entity.prototype = {
 				}
 			}
 
-			CRUD.EntityManager.getAdapter().Persist(that, forceInsert).then(function(result) {
+			return CRUD.EntityManager.getAdapter().Persist(that, forceInsert).then(function(result) {
 					CRUD.log(that.getType()+" has been persisted. Result: " + result.Action + ". New Values: "+JSON.stringify(that.changedValues));
 					that._isDirty = false;
 					for(var i in that.changedValues) {

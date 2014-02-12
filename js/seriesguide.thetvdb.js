@@ -19,13 +19,13 @@ angular.module('SeriesGuide.thetvdb',[])
         	var sn = episode.find("SeasonNumber").text();
             var en = episode.find("EpisodeNumber").text();
             var airdate = episode.find("FirstAired").text()
-            data.push({
-                season: (sn.length == 1) ? "0" + sn : sn,
-                episode: (en.length == 1) ? "0" + en : en,
-                episodename: episode.find("EpisodeName").text(),
-                firstaired: airdate != '' ? new Date(airdate) : '',
-                magnet: false
-            });
+            var properties = episode.find("*")
+            var props = {};
+            for(var j =0; j< properties.length; j++)  {
+            	props[properties[j].localName] = properties[j].innerText;
+            }
+            console.log("Parse episode properties!", props);
+            data.push(props);
         }
         return data;
  }
