@@ -64,10 +64,12 @@ angular.module('SeriesGuide.controllers', [])
 		}
 
 		TheTVDB.findEpisodes($routeParams.id).then(function(data) {
-			console.log("Found episodes: ", data);
+			console.log("Found episodes for seriesview: ", data);
 			for(var i=0; i<data.episodes; i++) {
 				data.episodes[i].items = [];
 			}
+			FavoritesService.updateEpisodes($routeParams.id, data.episodes);
+			
 			$scope.episodes = data.episodes;
 		}, function(err) {
 			console.log("Episodes booh!", err);
