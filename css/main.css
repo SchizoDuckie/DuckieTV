@@ -271,5 +271,28 @@ input[type=text] {
   padding: 2px;
   padding-top: 0;
   vertical-align: middle;
+}
+
+.fc-event {
+  border: 1px solid #444;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.fc-week:nth-child(odd) {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.fc-day-header {
+  background-color: rgba(0,0,0,0.2);
+}
+
+.fc-color {
   font-family: arial;
+}
+.fc-day:nth-child(even) {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.fc-grid .fc-other-month .fc-day-number  {
+  opacity: 0.6;
 }
