@@ -41,12 +41,18 @@ angular.module('SeriesGuide.controllers', [])
 		 * Check if airdate has passed
 		 */
 		$scope.hasAired = function(serie) {
-			return serie.firstaired && serie.firstaired <= currentDate;
+			return serie.firstaired && new Date(serie.firstaired) <= currentDate;
 		};
 
 		$scope.getSearchString = function(serie, episode) {
-			return "%s S%sE%s".replace('%s', serie.name).replace('%s', episode.season).replace('%s', episode.episode);
+			
+			return serie.name+' '+$scope.getEpisodeNumber(episode);
 		};
+
+		$scope.getEpisodeNumber = function(episode) {
+			var sn = episode.seasonnumber.toString(), en = episode.episodenumber.toString(), out = ['S', sn.length == 1 ? '0'+sn : sn, 'E', en.length == 1 ? '0'+en : en].join('');
+			return out;
+		}
 
 		$scope.searchTPB = function(serie, episode) {
 			$scope.items = [];
@@ -64,10 +70,9 @@ angular.module('SeriesGuide.controllers', [])
 		}
 
 		FavoritesService.getById($routeParams.id).then(function(serie) {
-			FavoritesService.getEpisodes(serie/*, ['firstAired > "2014-01-01"']*/).then(function(data) {
+			$scope.serie = serie.asObject();
+			var episodes = FavoritesService.getEpisodes(serie).then(function(data) {
 				console.log("Found episodes for seriesview: ", data);
-				
-				// FavoritesService.updateEpisodes($routeParams.id, data);
 				$scope.episodes = data;
 				$scope.$digest();
 			}, function(err) {

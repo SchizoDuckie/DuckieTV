@@ -58,19 +58,15 @@ angular.module('SeriesGuide.providers',[])
     },
     getEpisodes: function(serie, filters) {
       serie = serie instanceof CRUD.Entity ? serie : this.getById(serie);
-       serie.Find('Episode', filters).then(function(episodes) {
+      return serie.Find('Episode', filters || {}).then(function(episodes) {
       return episodes.map(function(val, id) { return val.asObject() });
-      }, function(err) { console.log("Error in getepisodes!", serie, filters); });
+      }, function(err) { console.log("Error in getepisodes!", serie, filters || {}); });
     },
     getEpisodesForDateRange: function(start, end) {
       return CRUD.Find('Episode', [ 'firstaired > "'+start +'" AND firstaired < "'+end+'"' ]).then(function(ret) { return ret; })
     },
     getById: function(id) {
-    	var output = this.favorites.filter(function(elm) {
-        console.log(elm, id);
-        return elm['TVDB_ID'] == id;
-      });
-      return output.length ? output.pop() : CRUD.FindOne('Serie', { 'TVDB_ID' : id}).then(function(res) { return res; });
+    	 return CRUD.FindOne('Serie', { 'TVDB_ID' : id});
     },
     save: function() {
       localStorage.favorites = angular.toJson(service.favorites);

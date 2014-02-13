@@ -16,8 +16,8 @@
 			<th>Air date</th>
 			<th>Download</th>
 		</tr>
-		<tr ng-repeat="episode in episodes | orderBy: 'firstaired':true ">
-		   	 <td ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}">S{{ episode.season }}E{{ episode.episode }}</td>
+		<tr ng-repeat="episode in episodes | orderBy: getEpisodeNumber:true">
+		   	 <td ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}">{{getEpisodeNumber(episode)}}</td>
 		     <td>{{ episode.episodename }}</td>
 		     <td class="nobreaks">{{ episode.firstaired | date:'dd-MM-yyyy'}}</td>
 		     <td>

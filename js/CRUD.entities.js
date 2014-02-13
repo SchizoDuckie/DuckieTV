@@ -77,11 +77,8 @@ var Episode = CRUD.define({
 	}, { 
 
 		getFormattedEpisode: function() {
-			
-			var sn = this.get('seasonnumber').toString(), en = this.get('episodenumber').toString();
-			var out = ['S', ((sn.length == 1) ? '0'+sn : sn), 'E', ((en.length == 1) ? '0'+en : en)].join('');
-			 console.log("Formatted episode!", out);
-			 return out;
+			var sn = this.get('seasonnumber').toString(), en = this.get('episodenumber').toString(), out = ['S', sn.length == 1 ? '0'+sn : sn, 'E', en.length == 1 ? '0'+en : en].join('');
+			return out;
 		}
 	});
 
