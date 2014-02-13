@@ -10,7 +10,7 @@ angular.module('SeriesGuide.calendar', ['ui.calendar', 'ui.bootstrap','SeriesGui
     var y = date.getFullYear();
     
     this.update = function() {
-      FavoritesService.getEpisodesForDateRange("2014-01-01", "2014-09-01").then(function(data) {
+      FavoritesService.getEpisodesForDateRange("2014-01-01", "2015-01-01").then(function(data) {
           var serieIDs = { };
           for(var i=0; i<data.length; i++) {
             serieIDs[data[i].get('ID_Serie')] = data[i].get('ID_Serie');

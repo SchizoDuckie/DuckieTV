@@ -264,3 +264,12 @@ input[type=text] {
 .serie table.table tr:hover {
   background-color:rgba(0,0,0,0.7);
 }
+.fc-event-inner {
+  font-size: 10px;
+  line-height: 13px;
+  display: inline-block;
+  padding: 2px;
+  padding-top: 0;
+  vertical-align: middle;
+  font-family: arial;
+}
