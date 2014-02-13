@@ -29,7 +29,6 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 			PromiseQueue.push(new Promise(function(resolve, fail) {
 				var entity = CRUD.EntityManager.entities[i];
 				that.db.execute("SELECT count(*) as existing FROM sqlite_master WHERE type='table' AND name= ?", [entity.table]).then(function(resultSet) {
-
 					var res = resultSet.next().row;
 					if(res.existing === 0) {
 						CRUD.log(entity, ": Table does not exist.");
@@ -297,7 +296,7 @@ CRUD.Database.SQLBuilder.prototype = {
 				this.buildJoins(_class,what);
 			}
 		}
-		else if(typeof what == "Number") { // it's a custom sql where clause, just field=>value). unsafe because parameters are unbound, but very for custom queries.
+		else if(!isNaN(parseInt(what, 10))) { // it's a custom sql where clause, just field=>value). unsafe because parameters are unbound, but very for custom queries.
 			this.wheres.push(value);
 		}
 		else { // standard field=>value whereclause. Prefix with tablename for easy joins and push a value to the .
@@ -344,7 +343,7 @@ CRUD.Database.SQLBuilder.prototype = {
 					this.addJoin(parent, entity, parent.primary);
 				}
 				else if(parent.fields.indexOf(entity.primary) > -1) {
-					this.addJoin(parent,entity);
+					this.addJoin(parent, entity, entity.primary);
 				}
 			break;
 			case CRUD.RELATION_MANY: // it's a many:many relation. Join the connector table and then the related one.

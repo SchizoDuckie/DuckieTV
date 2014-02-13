@@ -63,17 +63,19 @@ angular.module('SeriesGuide.controllers', [])
 			 });
 		}
 
-		TheTVDB.findEpisodes($routeParams.id).then(function(data) {
-			console.log("Found episodes for seriesview: ", data);
-			for(var i=0; i<data.episodes; i++) {
-				data.episodes[i].items = [];
-			}
-			FavoritesService.updateEpisodes($routeParams.id, data.episodes);
-			
-			$scope.episodes = data.episodes;
-		}, function(err) {
-			console.log("Episodes booh!", err);
-	});
+		FavoritesService.getById($routeParams.id).then(function(serie) {
+			FavoritesService.getEpisodes(serie/*, ['firstAired > "2014-01-01"']*/).then(function(data) {
+				console.log("Found episodes for seriesview: ", data);
+				
+				// FavoritesService.updateEpisodes($routeParams.id, data);
+				$scope.episodes = data;
+				$scope.$digest();
+			}, function(err) {
+				debugger;
+				console.log("Episodes booh!", err);
+		});
+		})
+		
 })
 
 

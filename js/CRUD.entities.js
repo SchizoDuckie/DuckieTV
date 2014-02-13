@@ -39,12 +39,7 @@ var Serie = CRUD.define({
 			
 		},
 		fixtures: [
-			{ 
-			  name: 'Person of Interest',
-			  overview : 'Person of Interest is an American crime drama television series broadcasting on CBS. It is based on a screenplay developed by Jonathan Nolan. The series revolves around a former CIA officer (Jim Caviezel) recruited by a mysterious billionaire (Michael Emerson) to prevent violent crimes in New York City.',
-			  'TVDB_ID': 248742,
-			  banner: 'http://thetvdb.com/banners/graphical/248742-g5.jpg'
-			}
+			
 		]
 
 	}, { 
@@ -81,6 +76,13 @@ var Episode = CRUD.define({
 
 	}, { 
 
+		getFormattedEpisode: function() {
+			
+			var sn = this.get('seasonnumber').toString(), en = this.get('episodenumber').toString();
+			var out = ['S', ((sn.length == 1) ? '0'+sn : sn), 'E', ((en.length == 1) ? '0'+en : en)].join('');
+			 console.log("Formatted episode!", out);
+			 return out;
+		}
 	});
 
 	

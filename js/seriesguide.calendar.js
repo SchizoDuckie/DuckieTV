@@ -1,23 +1,48 @@
 /**
  * calendarDemoApp - 0.1.3
  */
-angular.module('SeriesGuide.calendar', ['ui.calendar', 'ui.bootstrap'])
+angular.module('SeriesGuide.calendar', ['ui.calendar', 'ui.bootstrap','SeriesGuide.providers'])
 
-.controller('CalendarCtrl', function ($scope) {
+.controller('CalendarCtrl', function ($scope, FavoritesService) {
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
     
+    this.update = function() {
+      FavoritesService.getEpisodesForDateRange("2014-01-01", "2014-09-01").then(function(data) {
+          var serieIDs = { };
+          for(var i=0; i<data.length; i++) {
+            serieIDs[data[i].get('ID_Serie')] = data[i].get('ID_Serie');
+          }
+          CRUD.Find('Serie', ['ID_Serie in ('+Object.keys(serieIDs).join(',')+')']).then(function(results) {
+             var events = [];
+             console.log("RESULTS FOR SERIES! ", serieIDs, results, data);
+             var cache = {};
+             $scope.events.length = 0;
+             for(var i=0; i<results.length; i++) {
+                cache[results[i].getID()] = results[i];
+             }
+             for(var i=0; i< data.length; i++) {
+               $scope.events.push({start : new Date(data[i].get('firstaired')), title: [
+                cache[data[i].get('ID_Serie')].get('name')/*
+                data[i].getFormattedEpisode(),
+                 ,data[i].get('episodename') */].join(' ') });
+             }
+
+             console.log("Events updated!", $scope.events);
+             $scope.$digest();
+          })
+      });
+    }
+
+    $scope.$on('episodes:updated', function(event,data) {
+     this.update();
+   }.bind(this));
+
     /* event source that contains custom events on the scope */
-    $scope.events = [
-       {title: 'All Day Event',start: new Date(y, m, 1)},
-      {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-      {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
-      {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
-      {title: 'Person Of Interest',start: new Date(y, m, 28),end: new Date(y, m, 28),url: '#/series/248742'},
-      {title: 'Arrow',start: new Date(y, m, 28),end: new Date(y, m, 28),url: '#/series/257655'}
-  
+   $scope.events = [
+     
     ];
   
     
@@ -37,7 +62,9 @@ angular.module('SeriesGuide.calendar', ['ui.calendar', 'ui.bootstrap'])
       }
     };
 
+    this.update();
+
     /* event sources array*/
-    $scope.eventSources = [$scope.events,]
+    $scope.eventSources = [$scope.events]
 });
 /* EOF */

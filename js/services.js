@@ -13,11 +13,15 @@ angular.module('SeriesGuide.providers',[])
       for(var i in data) {
         serie.set(i == 'id' ? 'TVDB_ID': i, data[i]);
       }
+      var that = this;
       serie.Persist().then(function(e) {
-        this.favorites.push(serie.asObject());
+        that.favorites.push(serie.asObject());
          $rootScope.$broadcast('favorites:updated',service);
-        // this.updateEpisodes(serie.get('TVDB_ID'));
-      }.bind(this), function(fail) {
+         TheTVDB.findEpisodes(serie.get('TVDB_ID')).then(function(res) { 
+          that.updateEpisodes(serie.get('TVDB_ID'), res.episodes);
+        }); 
+        
+      }, function(fail) {
        console.log("Error persisting favorite!", data, arguments); 
      });
 
@@ -30,7 +34,7 @@ angular.module('SeriesGuide.providers',[])
            for(var i=0; i<data.length; i++) {
               cache[data[i].get('TVDB_ID')] = data[i];
            }
-           console.log('cache! ', cache);
+           console.log('cache! ', cache, episodes);
            for(var j = 0; j< episodes.length; j++) {
            if(!(episodes[j].id in cache)) {
               var d = episodes[j];
@@ -41,21 +45,32 @@ angular.module('SeriesGuide.providers',[])
            
               var e = new Episode();
               e.changedValues = d;
-              e.Persist(true).then(function(res) { console.log("persisted ok!", res, d) } , function(err) { console.error("PERSIT ERROR!", err); debugger; })
+              e.Persist(true).then(function(res) { console.log("persisted ok!", res, d) } , function(err) { console.error("PERSIST ERROR!", err); debugger; })
             }
            }
 
+        }).then(function(data) {
+             $rootScope.$broadcast('episodes:updated');
         });
         
       });
       
+    },
+    getEpisodes: function(serie, filters) {
+      serie = serie instanceof CRUD.Entity ? serie : this.getById(serie);
+       serie.Find('Episode', filters).then(function(episodes) {
+      return episodes.map(function(val, id) { return val.asObject() });
+      }, function(err) { console.log("Error in getepisodes!", serie, filters); });
+    },
+    getEpisodesForDateRange: function(start, end) {
+      return CRUD.Find('Episode', [ 'firstaired > "'+start +'" AND firstaired < "'+end+'"' ]).then(function(ret) { return ret; })
     },
     getById: function(id) {
     	var output = this.favorites.filter(function(elm) {
         console.log(elm, id);
         return elm['TVDB_ID'] == id;
       });
-      return output.pop();
+      return output.length ? output.pop() : CRUD.FindOne('Serie', { 'TVDB_ID' : id}).then(function(res) { return res; });
     },
     save: function() {
       localStorage.favorites = angular.toJson(service.favorites);
