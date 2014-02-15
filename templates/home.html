@@ -1,15 +1,14 @@
 <div class="row">
   <div class="col-md-6">
     <div class="container-fluid">
-      <fieldset>
-        <div class="calendarContainer" ng-controller="CalendarCtrl"> 
-          <div class="calendar" ng-model="eventSources" config="uiConfig.calendar" ui-calendar="uiConfig.calendar"></div>    
-          </div> 
+      <fieldset >
+         <calendar event-service="CalendarEvents"></calendar>
+    
       </fieldset>
       <fieldset>
         <h2>Most visited sites</h2>
       </fieldset>
-      <chrome-top-sites  ng-animate="'animate'"></chrome-top-sites>
+      <chrome-top-sites></chrome-top-sites>
     </div>
   </div>
   <div class='col-md-6' style='opacity: 0.9'>

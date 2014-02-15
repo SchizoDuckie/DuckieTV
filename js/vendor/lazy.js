@@ -13,6 +13,7 @@
             restrict: 'A',
             link: function($scope, element, attrs) {
                element = angular.element(element);
+               attrs.ngHide=true;
                attrs.$observe('lazyBackground', function(newSrc) {
                     if(newSrc == "") return;
                     element.css({ 'transition' : 'opacity 0.5s ease-in', 'opacity':0});
@@ -24,6 +25,7 @@
                       console.log("image load error!", e);
                       element.css({ 'opacity':'1' });
                     };
+                    attrs.ngHide=false;
                     img.src = newSrc;
                 });
             

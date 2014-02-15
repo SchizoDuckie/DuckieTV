@@ -4,16 +4,17 @@
 
 angular.module('SeriesGuide', [
 	'ngRoute',
-	'xml',
-	'ui.bootstrap',
-	'ui.calendar',	
+    'ngAnimate',
+	'xml',	
+    'datePicker',
+    'ui.bootstrap',
+    'SeriesGuide.calendar',
     'SeriesGuide.providers',
     'SeriesGuide.directives', 
     'SeriesGuide.controllers', 
     'SeriesGuide.thepiratebay',
     'SeriesGuide.thetvdb',
     'SeriesGuide.imdb',
-    'SeriesGuide.calendar',
     'Chrome.topSites',
     'lazy-background'
  ])

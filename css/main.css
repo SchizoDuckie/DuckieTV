@@ -2,6 +2,10 @@
 
 @charset "UTF-8";
 
+* {
+  font-family: arial;
+}
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
 .ng-cloak, .x-ng-cloak,
 .ng-hide {
@@ -264,35 +268,100 @@ input[type=text] {
 .serie table.table tr:hover {
   background-color:rgba(0,0,0,0.7);
 }
-.fc-event-inner {
-  font-size: 10px;
-  line-height: 13px;
-  display: inline-block;
-  padding: 2px;
-  padding-top: 0;
-  vertical-align: middle;
-}
 
-.fc-event {
-  border: 1px solid #444;
-  background-color: rgba(0,0,0,0.6);
-}
 
-.fc-week:nth-child(odd) {
+[date-picker] tbody tr:nth-child(odd) {
   background-color: rgba(0,0,0,0.1);
 }
-
-.fc-day-header {
+[date-picker] th {
   background-color: rgba(0,0,0,0.2);
 }
 
-.fc-color {
-  font-family: arial;
-}
-.fc-day:nth-child(even) {
+[date-picker] td:nth-child(even) {
   background-color: rgba(0,0,0,0.1);
 }
 
-.fc-grid .fc-other-month .fc-day-number  {
-  opacity: 0.6;
+[date-picker] thead th {
+  background-color: transparent;
+  border:0;
+}
+
+[date-picker] thead tr:last-child th {
+   border: 1px solid black;
+}
+
+[date-picker] table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+[date-picker] td, [date-picker] th{
+  border: 1px solid black;
+  padding: 5px;
+  text-align: center;
+}
+[date-picker] [ng-switch-when=date] td {
+  width: calc(100% / 7 );
+  vertical-align: top;
+}
+
+[date-picker] td span {
+  float: right;
+  font-size: 12px;
+  display: block;
+  padding: 10px;
+  width: 33%;
+}
+[date-picker] .now {
+  color:navy;
+  font-weight:bold;
+}
+[date-picker] [ng-switch-when=date] td {
+  position: relative;
+  padding: 0;
+  padding-top:25px;
+}
+
+[date-picker] [ng-switch-when=date] td span {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  text-align: right;
+  padding:0;
+}
+
+[date-picker] .event {
+  display: block;
+  clear:both;
+  padding:2px;
+  margin: 2px;
+  color: white;
+  font-size:11px;
+  font-family:arial;
+  background-color: rgba(0,0,0,0.5); 
+  text-align: left; 
+  cursor: pointer;
+  transition: background 0.5s ease-in-out;
+}
+
+[date-picker] .event:hover {
+  background-color: rgba(0,0,0, 0.8);
+}
+
+
+[date-picker] div.tooltip.bottom {
+  width: 500px !important;
+  overflow:visible;
+   background-color: rgba(0,0,0,0.9); 
+ border-radius: 10px;
+  padding: 10px;
+}
+[date-picker] div.tooltip h2 {
+  width: 480px;
+  font-size: 14px;
+  color:white;
+}
+
+[date-picker] div.tooltip p {
+  width:450px;
 }

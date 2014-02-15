@@ -1,4 +1,4 @@
-angular.module('SeriesGuide.controllers', [])
+angular.module('SeriesGuide.controllers', ['ngAnimate'])
 
 
 /**
