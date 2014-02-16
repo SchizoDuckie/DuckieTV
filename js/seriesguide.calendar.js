@@ -4,7 +4,6 @@ angular.module('SeriesGuide.calendar', ['SeriesGuide.providers','ngAnimate'])
     var calendarEvents = {};  
     return {
         $get: function($rootScope) { 
-
           return {
             setEvents: function(events) { 
              calendarEvents = {};

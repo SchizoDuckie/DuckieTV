@@ -1,39 +1,12 @@
 var Serie = CRUD.define({
-	/*
- id: 248742
- Actors: |Jim Caviezel|Michael Emerson|Sarah Shahi|Kevin Chapman|Taraji P. Henson|Enrico Colantoni|Brett Cullen|Amy Acker|
- Airs_DayOfWeek: Tuesday
- Airs_Time: 10:00 PM
- ContentRating: TV-14
- FirstAired: 2011-09-22
- Genre: |Action|Adventure|Drama|Mystery|
- IMDB_ID: tt1839578
- Language: en
- Network: CBS
- NetworkID: 
- Overview: Person of Interest is an American crime drama television series broadcasting on CBS. It is based on a screenplay developed by Jonathan Nolan. The series revolves around a former CIA officer (Jim Caviezel) recruited by a mysterious billionaire (Michael Emerson) to prevent violent crimes in New York City.
- Rating: 8.9
- RatingCount: 168
- Runtime: 60
- SeriesID: 80967
- SeriesName: Person of Interest
- Status: Continuing
- added: 2011-05-14 07:42:59
- addedBy: 235881
- banner: graphical/248742-g5.jpg
- fanart: fanart/original/248742-14.jpg
- lastupdated: 1392155177
- poster: posters/248742-7.jpg
- zap2it_id: EP01419847
-  */
-		className: 'Serie',
+ 		className: 'Serie',
 		table : 'Series',
 		primary : 'ID_Serie',
-		fields: ['ID_Serie','name','banner', 'overview','TVDB_ID','TVRage_ID', 'IMDB_ID'],
+		fields: ['ID_Serie', 'name', 'banner', 'overview', 'TVDB_ID', 'IMDB_ID', 'TVRage_ID', 'networkid', 'seriesid', 'zap2it_id', 'actors', 'airs_dayofweek', 'airs_time', 'contentrating', 'firstaired', 'genre', 'language', 'network', 'rating', 'ratingcount', 'runtime', 'status', 'added', 'addedby', 'fanart', 'poster', 'lastupdated', 'lastfetched', 'nextupdate'],
 		relations: {
 			'Episode': CRUD.RELATION_FOREIGN
 		},
-		createStatement: 'CREATE TABLE "Series" ("ID_Serie" INTEGER PRIMARY KEY  NOT NULL ,"name" varchar(256) DEFAULT (NULL), "banner" varchar(1024) DEFAULT (NULL), "overview" TEXT DEFAULT (NULL), "TVDB_ID" INTEGER UNIQUE NOT NULL, "TVRage_ID" INTEGER DEFAULT (NULL), "IMDB_ID" INTEGER DEFAULT (NULL))',
+		createStatement: 'CREATE TABLE "Series" ("ID_Serie" INTEGER PRIMARY KEY NOT NULL,  "name" VARCHAR(250) DEFAULT(NULL),  "banner" VARCHAR(1024) DEFAULT(NULL),  "overview" TEXT DEFAULT(NULL),  "TVDB_ID" INTEGER UNIQUE NOT NULL,  "IMDB_ID" INTEGER NULL,  "TVRage_ID" INTEGER NULL,  "networkid" VARCHAR(50) DEFAULT(NULL),  "seriesid" VARCHAR(50) DEFAULT(NULL),  "zap2it_id" VARCHAR(50) DEFAULT(NULL),  "actors" VARCHAR(1024) DEFAULT(NULL),  "airs_dayofweek" VARCHAR(10) DEFAULT(NULL),  "airs_time" VARCHAR(15) DEFAULT(NULL),  "contentrating" VARCHAR(20) DEFAULT(NULL),  "firstaired" DATE DEFAULT(NULL),  "genre" VARCHAR(50) DEFAULT(NULL),  "language" VARCHAR(50) DEFAULT(NULL),  "network" VARCHAR(50) DEFAULT(NULL),  "rating" VARCHAR(10) DEFAULT(NULL),  "ratingcount" VARCHAR(10) DEFAULT(NULL),  "runtime" VARCHAR(50) DEFAULT(NULL),  "status" VARCHAR(50) DEFAULT(NULL),  "added" DATE DEFAULT(NULL),  "addedby" VARCHAR(50) DEFAULT(NULL),  "fanart" VARCHAR(150) DEFAULT(NULL),  "poster" VARCHAR(150) DEFAULT(NULL),  "lastupdated" TIMESTAMP DEFAULT (NULL),  "lastfetched" TIMESTAMP DEFAULT (NULL),  "nextupdate" TIMESTAMP DEFAULT (NULL) )',
 		adapter: 'dbAdapter',
 		defaultValues: {
 			
@@ -69,11 +42,9 @@ var Episode = CRUD.define({
 		defaultValues: {
 			
 		},
-
 		fixtures: [
 			
 		]
-
 	}, { 
 
 		getFormattedEpisode: function() {
@@ -87,4 +58,4 @@ var Episode = CRUD.define({
 
 
 
-CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide2'));
+CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome'));
