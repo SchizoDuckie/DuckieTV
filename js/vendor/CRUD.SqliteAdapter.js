@@ -106,7 +106,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 		var query = [], valCount =0, values = [], valmap = [], names =[], that=this;
 		
 		for(var i in what.changedValues) {
-			if( what.changedValues.hasOwnProperty(i) && what.hasField(i)) {
+			if( what.changedValues.hasOwnProperty(i) && what.hasField(i) && undefined !== what.changedValues[i]) {
 				names.push(i);
 				values.push('?');
 				valmap.push(what.changedValues[i]);
@@ -122,11 +122,11 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 		if(what.getID() === false || undefined ==  what.getID() || forceInsert) { // new object : insert.
 			// insert
 			query.push('INSERT INTO ',CRUD.EntityManager.entities[what.className].table,'(', names.join(","),') VALUES (', values.join(","), ');');
-			
 			CRUD.log(query.join(' '), valmap);
 			return new Promise(function(resolve, fail) { 
 				that.db.execute(query.join(' '), valmap).then(function(resultSet) {
 					resultSet.Action = 'inserted';
+					resultSet.ID = resultSet.rs.insertId;
 					resolve(resultSet);
 				}, function(err, tx) {
 					err.query = query.join(' ');
