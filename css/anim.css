@@ -1,18 +1,16 @@
 .event {
-  height: auto;
+  max-height: 50px;
+  overflow: visible;
 }
 
-.event.ng-enter {
-  height: 40px;
-}
 
 .event.ng-enter, .event.ng-enter-active {
   -webkit-animation: 0.5s animation-enter;
  }
 
 @-webkit-keyframes animation-enter {
-  from { opacity: 0; height: 0px; }
-  to { opacity:1; height: 40px; }
+  from { opacity: 0; max-height: 0px; }
+  to { opacity:1; max-height: 50px;  }
 }
 
 
