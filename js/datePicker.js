@@ -22,6 +22,7 @@ function getVisibleMinutes(date, step) {
 }
 
 function getVisibleWeeks(date) {
+  var startMonth = date.getMonth();
   date = new Date(date || new Date());
   date.setDate(1);
   date.setHours(0);
@@ -40,6 +41,7 @@ function getVisibleWeeks(date) {
 
   var weeks = [];
   while (weeks.length < 6) {
+    if(date.getMonth() > startMonth) break;
     var week = [];
     for (var i = 0; i < 7; i++) {
       week.push(new Date(date));
