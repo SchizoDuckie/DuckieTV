@@ -28,7 +28,7 @@ angular.module('SeriesGuide.calendar', ['SeriesGuide.providers','ngAnimate'])
     }
 })
 
-.directive('calendar', function (FavoritesService, CalendarEvents)  {
+.directive('calendar', function (FavoritesService, CalendarEvents, $rootScope)  {
    
    this.update = function($rootScope) {
       FavoritesService.getEpisodesForDateRange("2014-01-01", "2015-01-01").then(function(data) {
@@ -73,6 +73,9 @@ angular.module('SeriesGuide.calendar', ['SeriesGuide.providers','ngAnimate'])
         $scope.view =  'date';
 
         this.update();
+        $rootScope.$on('episodes:updated', function(event) {
+          this.update();
+        });
       },
     };
 });

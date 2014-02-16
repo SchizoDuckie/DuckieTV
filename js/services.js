@@ -18,7 +18,16 @@ angular.module('SeriesGuide.providers',[])
         that.favorites.push(serie.asObject());
          $rootScope.$broadcast('favorites:updated',service);
          TheTVDB.findEpisodes(serie.get('TVDB_ID')).then(function(res) { 
+
           that.updateEpisodes(serie.get('TVDB_ID'), res.episodes);
+          for(var prop in res.serie) {
+            serie.set(prop, res.serie[prop]);
+          }
+          serie.Persist().then(function(res) {
+            console.log("Serie update ok!", res);
+          }, function(err) {
+            debugger;
+          })
         }); 
         
       }, function(fail) {

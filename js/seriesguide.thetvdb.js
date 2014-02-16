@@ -32,17 +32,25 @@ angular.module('SeriesGuide.thetvdb',[])
     
  this.parseSeries = function(data) {
 	   var searchresults = [];
-    	var series = data.xml.find('Series'); 
+    	var series = angular.element(typeof(data) == 'string' ? data: data.xml).find('Series');  // to accomodate parsing series from within episode search as well
     	for(var i =0; i<series.length; i++) {
     		var serie = angular.element(series[i]);
 	    	 var banner = serie.find('banner').text();
-				searchresults.push({
+				var data = {
 	                id: serie.find("id").text(),
 	                escaped:serie.find("SeriesName").text().replace(/\'/g, "\'"),
 	                banner: banner !== '' ? "http://thetvdb.com/banners/" + banner : "",
 	                name: serie.find("SeriesName").text(),
 	                overview: serie.find("Overview").text()
-	            });
+	            };
+	            var properties = serie.find("*")
+	            var props = {};
+	            for(var j =0; j< properties.length; j++)  {
+	            	if(!(properties[j].localName in data)) {
+	            		data[properties[j].localName.toLowerCase()] = properties[j].innerText;
+	            	}
+	            }
+	            searchresults.push(data)
 	    	}
     	return searchresults;
 	}
@@ -72,7 +80,7 @@ angular.module('SeriesGuide.thetvdb',[])
 			  url: self.getUrl('episode', seriesID),
 			  cache: true
 			}).success(function(response) {
-			  d.resolve({episodes: self.parseEpisodes(response)});
+			  d.resolve({serie: self.parseSeries(response)[0], episodes: self.parseEpisodes(response)});
 			}).error(function(err) {
 			  d.reject(err);
 			});

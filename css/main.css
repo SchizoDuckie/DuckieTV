@@ -145,6 +145,7 @@ serieheader:hover aside {
   max-height: 400px;
   overflow-y: scroll;
   box-sizing: content-box;
+
 }
 
 .table.light {
@@ -162,9 +163,12 @@ serieheader:hover aside {
 
 .dropdown-menu {
   color: black;
-  max-width: 500px;
   padding: 10px;
+  color: black;
+  max-width: 700px;
+  min-width: 500px;
   background-color: rgba(255,255,255,0.8);
+  width: 100%;
 }
 
 .dropdown-menu table {
