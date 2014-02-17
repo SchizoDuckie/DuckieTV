@@ -18,10 +18,7 @@
             ng-class="{'now':isNow(day),'active':isSameDay(day),'disabled':(day.getMonth()!=date.getMonth()),'after':isAfter(day),'before':isBefore(day)}"
             ng-bind="day.getDate()">
             </span>
-            <div class="event" ng-if="hasEvent(day)" ng-repeat="event in getEvents(day)" ng-click="eventClick(event)" tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<h2>{{event.serie}} {{event.episode.getFormattedEpisode()}}</h2><p>{{event.episode.get('episodename')}}</p><p>{{event.episode.get('overview')}}</p>">
-                {{ event.serie }}
-            </div>
-           
+            <calendar-event event="event" ng-if="hasEvent(day)" ng-repeat="event in getEvents(day)"></calendar-event>
         </td>
       </tr>
       </tbody>

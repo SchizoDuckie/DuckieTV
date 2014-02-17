@@ -84,6 +84,61 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 })
 
 
+.controller('EpisodeCtrl',  
+
+	function(TheTVDB, ThePirateBay, FavoritesService, $routeParams, $scope) {
+		console.log('Episodes controller!', $routeParams.id, $routeParams.episode, $scope, TheTVDB);
+		
+		$scope.searching = false;
+		var currentDate = new Date();
+
+		CRUD.FindOne('Serie', { 'TVDB_ID': $routeParams.id }).then(function(serie) {
+			$scope.serie = serie.asObject();
+			serie.Find("Episode", { ID_Episode: $routeParams.episode}).then(function(epi) {
+						$scope.episode = epi[0].asObject();
+						$scope.$digest();
+					}, function(err) {
+						debugger;
+						console.log("Episodes booh!", err);
+				});
+		}, function(err) { debugger; })
+
+
+		/**
+		 * Check if airdate has passed
+		 */
+		$scope.hasAired = function(serie) {
+			return serie.firstaired && new Date(serie.firstaired) <= currentDate;
+		};
+
+		$scope.getSearchString = function(serie, episode) {
+			
+			return serie.name+' '+$scope.getEpisodeNumber(episode);
+		};
+
+		$scope.getEpisodeNumber = function(episode) {
+			var sn = episode.seasonnumber.toString(), en = episode.episodenumber.toString(), out = ['S', sn.length == 1 ? '0'+sn : sn, 'E', en.length == 1 ? '0'+en : en].join('');
+			return out;
+		}
+
+		$scope.searchTPB = function(serie, episode) {
+			$scope.items = [];
+			$scope.searching = true;
+			var search = $scope.getSearchString(serie, episode);
+			console.log("Search: ", search);
+			 ThePirateBay.search(search).then(function(results) {
+			 	$scope.items = results;
+			 	$scope.searching = false;
+			 	console.log('Added episodes: ', $scope);
+			 }, function(e) { 
+			 	console.error("TPB search failed!"); 
+			 	$scope.searching = false; 
+			 });
+		}
+		
+})
+
+
 .controller('SettingsCtrl', 
   function($scope, $location, UserService) {
     $scope.user = UserService.user;

@@ -153,6 +153,10 @@ serieheader:hover aside {
   background-color: rgba(0,0,0,0.8);
 }
 
+table.light h1 {
+    color:white;
+}
+
 .nobreaks {
   white-space: nowrap;
 }
@@ -352,6 +356,9 @@ input[type=text] {
   background-color: rgba(0,0,0, 0.8);
 }
 
+[date-picker] .event a {
+  color: white;
+}
 
 [date-picker] div.tooltip.bottom {
   width: 500px !important;

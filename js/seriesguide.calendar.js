@@ -28,6 +28,14 @@ angular.module('SeriesGuide.calendar', ['SeriesGuide.providers','ngAnimate'])
     }
 })
 
+.directive('calendarEvent', function() {
+ return {
+      restrict: 'E',
+      scope: { event:'='},
+      templateUrl: 'templates/event.html'
+    }
+})
+
 .directive('calendar', function (FavoritesService, CalendarEvents, $rootScope)  {
    
    this.update = function($rootScope) {
@@ -46,8 +54,8 @@ angular.module('SeriesGuide.calendar', ['SeriesGuide.providers','ngAnimate'])
                 events.push({
                   start : new Date(data[i].get('firstaired')), 
                   serie: cache[data[i].get('ID_Serie')].get('name'),
-                  episode: data[i],
-                  templateUrl: 'templates/calendar.episode'
+                  serieID: cache[data[i].get('ID_Serie')].get('TVDB_ID'),
+                  episode: data[i]
                 });
              }
              CalendarEvents.setEvents(events);
@@ -76,6 +84,10 @@ angular.module('SeriesGuide.calendar', ['SeriesGuide.providers','ngAnimate'])
         $rootScope.$on('episodes:updated', function(event) {
           this.update();
         });
+
+        $rootScope.eventClick = function(evt) {
+          console.debug("vent click!", evt);
+        }
       },
     };
 });

@@ -1,0 +1,58 @@
+<serieHeader no-button=1 data="serie" class="full"></serieHeader>
+
+<div class="row serie">
+  <div class="col-md-8">
+  <table class="table table-condensed light" style='margin-top: 20px; border: 1px solid #efefef; border-collapse:collapse;'>
+	<tbody  ng-if="!episode">
+	<tr>
+		<td>Fetching episode</td>
+	</tr>
+	</tbody>
+	<tbody ng-if="episode">
+		<tr><td colspan="2" ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}"><h3> <div class="dropdown" style='display:inline-block'>
+				     <a ng-if="hasAired(episode)" ng-click="searchTPB(serie, episode)" class="dropdown dropdown-toggle"><img src="img/icon-magnet.png"/></a>
+				       <div class="dropdown-menu" style='width: 550px'>
+						   <table>
+						   		<tr ng-if="searching">
+						   			<td><p>Searching Thepiratebay
+						   			 please wait.</p></td>
+						   		</tr>
+						   		<tr ng-if="!searching && items.length == 0">
+						   			<td >
+						   				<p>No results found for</p>
+						   				<strong>{{ getSearchString(serie, episode) }} </strong>
+						   				<p>Do you want to try an alternative tpb search?</p>
+						   				<button ng-click="searchmanual(getSearchString(serie, episode))">Seach manually</button>
+						   			</td>
+						   		</tr>
+						   		<tr ng-if="!searching && items.length > 0 ">
+						   			<th>&nbsp;</th><th>name</th><th>S</th><th>L</th>
+						   		</tr>
+								<tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items">
+									<td style='width:30px; padding:5px;' ng-bind-html="seed.magnetlink.replace('static/', '/') | unsafe"></td>
+								    <td ng-bind-html="seed.releasename | unsafe"></td>
+								    <td style='width:50px' ng-bind="seed.seeders"></td>
+								    <td style='width:50px'ng-bind="seed.leechers"></td>
+							    </tr>
+							</table>	
+						</div>
+				</div>{{getEpisodeNumber(episode)}} - {{ episode.episodename }}</h3>
+		</td></tr>
+		<tr><td colspan="2">
+			<div style='float:left; width: 300px; height:180px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="http://thetvdb.com/banners/{{episode.filename}}"></div>
+		{{episode.overview}}
+			
+		</td></tr>
+		<tr><th>writer</th><td>{{episode.writer}}</td></tr>
+		<tr><th>director</th><td>{{episode.director}}</td></tr>
+		<tr><th>gueststars</th><td>{{episode.gueststars}}</td></tr>
+		<tr><th>firstaired</th><td>{{episode.firstaired|date:'dd-MM-yyyy'}}</td></tr>
+		<tr><th>rating</th><td>{{episode.rating}} ({{episode.ratingcount}} ratings)</td></tr>
+		<tr><th>lastupdated</th><td>{{episode.lastupdated|date:'dd-MM-yyyy'}}</td></tr>
+	  </tbody>
+	</table>
+	</div>
+	<div class="col-md-4">
+		<serie-details serie="serie"></serie-info>
+	</div>
+</div>

@@ -11,3 +11,11 @@
     templateUrl: "templates/serieHeader.html"
  }
 })
+
+.directive('serieDetails', function() {
+  return {
+    restrict: 'E',
+    scope: { 'serie': '=serie' },
+    templateUrl: "templates/serieDetails.html"
+ }
+})

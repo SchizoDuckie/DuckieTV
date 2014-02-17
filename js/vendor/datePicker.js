@@ -22,8 +22,8 @@ function getVisibleMinutes(date, step) {
 }
 
 function getVisibleWeeks(date) {
-  var startMonth = date.getMonth();
   date = new Date(date || new Date());
+  var startMonth = date.getMonth();
   date.setDate(1);
   date.setHours(0);
   date.setMinutes(0);

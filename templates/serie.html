@@ -17,7 +17,9 @@
 			<th>Download</th>
 		</tr>
 		<tr ng-repeat="episode in episodes | orderBy: getEpisodeNumber:true">
-		   	 <td ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}">{{getEpisodeNumber(episode)}}</td>
+		   	 <td ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}">
+		   	 <a href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{getEpisodeNumber(episode)}}</a>
+		   	 </td>
 		     <td>{{ episode.episodename }}</td>
 		     <td class="nobreaks">{{ episode.firstaired | date:'dd-MM-yyyy'}}</td>
 		     <td>
@@ -53,7 +55,8 @@
 		</tbody>
 	</table>
 	</div>
-	<div class="col-md-6">
-		<h1>Series info</h1>
+	<div class="col-md-2"></div>
+	<div class="col-md-4">
+		<serie-details serie="serie"></serie-info>
 	</div>
 </div>

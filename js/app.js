@@ -52,6 +52,10 @@ angular.module('SeriesGuide', [
     	templateUrl: 'templates/serie.html',
     	controller: 'SerieCtrl'
     })
+    .when('/serie/:id/episode/:episode', {
+        templateUrl: 'templates/episode.html',
+        controller: 'EpisodeCtrl'
+    })
     .when('/settings', {
       templateUrl: 'templates/settings.html',
       controller: 'SettingsCtrl'
