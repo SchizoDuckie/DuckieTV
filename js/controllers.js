@@ -13,11 +13,17 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
   	 */
   	$scope.favorites = FavoritesService.favorites;
   	$scope.$on('favorites:updated', function(event,data) {
-     // you could inspect the data to see if what you care about changed, or just update your own scope
-     console.log('scope favorites changed!', data, $scope);
-     $scope.favorites = data.favorites;
-     $scope.$digest(); // notify the scope that new data came in
+	     // you could inspect the data to see if what you care about changed, or just update your own scope
+	     console.log('scope favorites changed!', data, $scope);
+	     $scope.favorites = data.favorites;
+	     $scope.$digest(); // notify the scope that new data came in
    });
+  	$scope.$on('episodes:inserted', function(event, serie) {
+  		if(serie.get('fanart') != '') {
+			var bg = 'url(http://thetvdb.com/banners/'+serie.get('fanart')+')';
+			document.body.style.backgroundImage = bg;	
+		}
+  	});
 
 })
 
@@ -101,6 +107,10 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 
 		CRUD.FindOne('Serie', { 'TVDB_ID': $routeParams.id }).then(function(serie) {
 			$scope.serie = serie.asObject();
+			if(serie.get('fanart') != '') {
+				var bg = 'url(http://thetvdb.com/banners/'+serie.get('fanart')+')';
+				document.body.style.backgroundImage = bg;	
+			}
 			serie.Find("Episode", { ID_Episode: $routeParams.episode}).then(function(epi) {
 						$scope.episode = epi[0].asObject();
 						$scope.$digest();

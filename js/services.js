@@ -25,6 +25,7 @@ angular.module('SeriesGuide.providers',[])
           }
           serie.Persist().then(function(res) {
             console.log("Serie update ok!", res);
+            $rootScope.$broadcast('episodes:inserted', serie);
           }, function(err) {
             debugger;
           })

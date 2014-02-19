@@ -2,9 +2,6 @@
 
 @charset "UTF-8";
 
-* {
-  font-family: arial;
-}
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
 .ng-cloak, .x-ng-cloak,
@@ -17,17 +14,12 @@ ng\:form {
 }
 
 body {
-  background-color: #eee;
-  background-image:url('/img/background.png');
+  background-color: #BBB;
   background-size: cover;
   background-attachment: fixed;
   background-repeat:no-repeat;
-  font-family: 'Actor', sans-serif;
+  font-family: helvetica, sans-serif;
   color: #444;
-}
-@font-face {
-  font-family: 'Actor';
-  src: url('chrome-extension://__MSG_@@extension_id__/fonts/DroidSansMono.ttf');
 }
 
 body > .container {
