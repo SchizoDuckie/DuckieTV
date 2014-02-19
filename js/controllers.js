@@ -69,8 +69,10 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 			 });
 		}
 
+
 		FavoritesService.getById($routeParams.id).then(function(serie) {
 			$scope.serie = serie.asObject();
+
 			var episodes = FavoritesService.getEpisodes(serie).then(function(data) {
 				console.log("Found episodes for seriesview: ", data);
 				$scope.episodes = data;
@@ -78,7 +80,12 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 			}, function(err) {
 				debugger;
 				console.log("Episodes booh!", err);
-		});
+			});
+			if(serie.get('fanart') != '') {
+				var bg = 'url(http://thetvdb.com/banners/'+serie.get('fanart')+')';
+				document.body.style.backgroundImage = bg;	
+			}
+		
 		})
 		
 })
@@ -86,7 +93,7 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 
 .controller('EpisodeCtrl',  
 
-	function(TheTVDB, ThePirateBay, FavoritesService, $routeParams, $scope) {
+	function(TheTVDB, ThePirateBay, FavoritesService, NotificationService, $routeParams, $scope) {
 		console.log('Episodes controller!', $routeParams.id, $routeParams.episode, $scope, TheTVDB);
 		
 		$scope.searching = false;
@@ -134,6 +141,17 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 			 	console.error("TPB search failed!"); 
 			 	$scope.searching = false; 
 			 });
+		}
+
+		$scope.notify = function(serie) {
+			NotificationService.notify('test', 'woei');
+
+			NotificationService.list('SeriesGuide Chrome', 'ohai', [
+				{message: 'S02E14 - Time Of Death',title: 'Arrow'},
+				{ message: 'S02E10 - Blast Radius', title: 'Arrow'},
+				{ message: 'S02E09 - Three Ghosts', title: 'Arrow'},
+				{ message: 'S02E07 - State v. Queen', title: 'Arrow'}, 
+				{ message: 'S01E05 - Girl in the Flower Dress', title: 'Marvel\'s Agents of S.H.I.E.L.D'}])
 		}
 		
 })

@@ -98,3 +98,137 @@ angular.module('SeriesGuide.providers',[])
   service.restore();
   return service;
 })
+
+.provider("NotificationService", function() {
+  var ids = {};
+
+  var create = function(options, callback) {
+    var id = 'seriesguide_' + new Date().getTime();
+    ids[id] = options;
+    var notification = chrome.notifications.create(id, options, callback || function() {});
+  }
+
+  this.$get = function() {
+    return {
+      notify: function(title, message, callback) {
+          create({
+              type: "basic",
+              title: title,
+              message: message,
+              iconUrl: "img/icon-magnet.png"
+          });
+      },
+      list: function(title, message, items, callback) {
+          create({
+            type: "list",
+            title: title,
+            message: message,
+            iconUrl: "img/icon-magnet.png",
+            items: items
+          });
+          
+      } 
+    }
+  };
+})
+/*
+
+.provider("EventScheduleService", function(EventWatcherService) {
+  var ids = {};
+
+  function alarmHandler(event) {
+    console.log('An alarm has fired! ', event);
+    EventWatcherService.onEvent(event);
+  }
+
+ 
+  this.$get = function() {
+    return {
+      get: function(title) {
+          chrome.alarms.get(title, 
+      },
+      getAll: function(title, message, items, callback) {
+          create({
+            type: "list",
+            title: title,
+            message: message,
+            iconUrl: "img/icon-magnet.png",
+            items: items
+          });
+          
+      },
+      create: function(alarm) {
+
+      },
+      clear: function(event) {
+        chrome.alarms.clear(event);
+        return event.Delete();
+      },
+      clearAll: function() {
+        chrome.alarms.clearAll();
+      }
+    }
+  };
+})
+
+
+.provider("EventWatcherService", function($rootScope) {
+  
+  this.$get = function() {
+    return {
+      onEvent: function(event) {
+        console.log("Event was fired!", event);
+        // $alarm = getScheduledEventByName(eventName);
+        $rootScope.$broadcast(alarm.get('eventchannel'), alarm.get('data'))
+        debugger;
+      }
+    }
+  };
+})
+
+.provider('EpisodeAiredService', function() {
+
+  $rootScope.$on('episode:aired', function(episode) {
+    // fetch services that check for aired episode releases
+    // fetch config for quality
+    // resolve provider to check for download
+    // cancel alarm when needed
+
+  }
+
+  this.$get = function() {
+    return {}
+  }
+
+})
+
+
+.provider('WatchListCheckerService', function() {
+
+  $rootScope.$on('watchlist:check', function(episode) {
+    // fetch services that check for aired episode releases
+    // fetch config for quality
+    // resolve provider to check for download
+    // cancel alarm when needed
+
+  }
+
+  this.$get = function() {
+    return {}
+  }
+
+})
+
+.provider('PirateBayCheckerService', function(NotificationService, ThePirateBay) {
+
+  //  $rootScope.$on()
+  this.$get = function() {
+    return {};
+
+  }
+
+
+
+
+})
+*/

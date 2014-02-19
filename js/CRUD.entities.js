@@ -37,7 +37,7 @@ var Episode = CRUD.define({
 		relations: {
 			'Serie': CRUD.RELATION_FOREIGN
 		},
-		createStatement: 'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL,TVDB_ID INTEGER NOT NULL,Director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired DATE , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT , rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1) )',
+		createStatement: 'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL,TVDB_ID INTEGER NOT NULL,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired DATE , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT , rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1) )',
 		adapter: 'dbAdapter',
 		defaultValues: {
 			watched: 0			
@@ -53,7 +53,32 @@ var Episode = CRUD.define({
 		}
 	});
 
+
+var ScheduledEvent = CRUD.define({
+		className: 'ScheduledEvent',
+		table : 'EventSchedule',
+		primary : 'ID_Event',
+		fields: ['ID_Event','type','eventchannel','data'],
+		createStatement: 'CREATE TABLE EventSchedule ( ID_Event INTEGER PRIMARY KEY NOT NULL,type varchar(25) NOT NULL, eventchannel VARCHAR(255) NULL, data TEXT NULL)',
+		adapter: 'dbAdapter'
+	}, { 
+
+});
 	
+var WatchListItem = CRUD.define({
+		className: 'WatchListItem',
+		table : 'WatchList',
+		primary : 'ID_WatchListItem',
+		fields: ['ID_WatchListItem','searchstring','type','watchservice','downloaded','watched', 'lastchecked'],
+		createStatement: 'CREATE TABLE WatchList ( ID_WatchListItem INTEGER PRIMARY KEY NOT NULL, searchstring varchar(255) NOT NULL, watchservice VARCHAR(25) NULL, downloaded SMALLINT, watched SMALLINT, lastchecked TIMESTAMP)',
+		adapter: 'dbAdapter',
+		defaultValues: {
+			watched: 0,
+			downloaded: 0,
+		}
+	}, { 
+
+});
 // watchlist (movie, imdb id, trailer, lastchecked)
 
 

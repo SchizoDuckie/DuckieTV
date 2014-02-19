@@ -6,7 +6,8 @@
   "permissions": [
     "http://*/*",
     "https://*/*",
-    "topSites"
+    "topSites",
+    "notifications" 
   ],
   "background": {
     "scripts": ["js/vendor/angular.min.js"]
