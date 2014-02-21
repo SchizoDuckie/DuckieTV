@@ -26,7 +26,7 @@
 	return {
 		restrict: 'E',
 		scope: { episode: '=' },
-		template: ['<a ng-click="markWatched()" class="glyphicon" tooltip="{{tooltip}}" ng-class="{ \'glyphicon-eye-close\' : episode.watched ==  0, \'glyphicon-eye-open\' : episode.watched == 1}"></a>'],
+		template: ['<a ng-click="markWatched()" class="glyphicon" tooltip="{{tooltip}}" ng-class="{ \'glyphicon-eye-open\' : episode.watched ==  1, \'glyphicon-eye-close\' : episode.watched != 1 }"></a>'],
 		link: function ($scope) {
 
 			$scope.tooltip = null; 
@@ -35,12 +35,14 @@
 			});
 			$scope.markWatched = function() {
 				$scope.episode.watched = $scope.episode.watched == '1' ? '0' :'1';
-				$scope.episode.watchedat = new Date().getTime();
+				$scope.episode.watchedAt = new Date().getTime();
+				
 				CRUD.FindOne('Episode', {ID : $scope.episode.ID_Episode}).then(function(epi) {
+					
 					epi.set('watched', $scope.episode.watched);
 					epi.set('watchedAt', $scope.episode.watchedAt);
+
 					epi.Persist();
-					console.log("Watched: ", $scope.episode.watched, epi);
 				});
 			}
 	      }

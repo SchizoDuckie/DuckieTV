@@ -3,6 +3,33 @@
 @charset "UTF-8";
 
 
+
+@font-face {
+    font-family: 'bebasbold';
+    src: url('../fonts/bebasneue_bold-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'bebaslight';
+    src: url('../fonts/bebasneue_light-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'bebasregular';
+    src: url('../fonts/bebasneue_regular-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+} 
+
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
 .ng-cloak, .x-ng-cloak,
 .ng-hide {
@@ -26,8 +53,16 @@ body > .container {
   padding:20px;
 }
 
+h1, h2, h3 {
+   font-family: 'bebasregular', helvetica, sans-serif;
+}
 h2 {
   color: #222;
+ 
+}
+strong {
+  font-family: 'bebasregular';
+  letter-spacing: 2px;
 }
 
 a, a:hover {
@@ -100,7 +135,10 @@ serieheader .overview {
   padding: 5px; 
   font-size:10px; 
   color: white; 
-  font-family:arial;
+}
+
+serieheader a:hover div.overview {
+  text-decoration:none !important;
 }
 
 serieheader.full .overview {
@@ -155,13 +193,25 @@ serieheader:hover aside {
   max-height: 400px;
   overflow-y: scroll;
   box-sizing: content-box;
-
+  cursor: pointer;
 }
+
 
 .table.light {
   color: white;
   background-color: rgba(0,0,0,0.8);
 }
+
+table.markingaswatched {
+  border-style: dotted !important;
+}
+
+table.markingaswatched tr td {
+  border-bottom-style: dotted;
+  border-bottom-width: 1px;
+}
+
+
 
 table.light h1 {
     color:white;
@@ -171,8 +221,18 @@ table.light h1 {
   white-space: nowrap;
 }
 
+
+.markAsWatched td {
+  background-color: rgba(252, 248, 227, 0.3);
+  cursor: n-resize; 
+}
+
 .serie h1 {
   color:black;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
 }
 
 .dropdown-menu {
@@ -236,7 +296,6 @@ chrome-top-sites li:nth-child(even) {
 
 chrome-top-sites a {
   color: #333;
-  font-family: verdana;
 }
 
 chrome-top-sites a:hover {
@@ -253,6 +312,28 @@ chrome-top-sites img {
 
 chrome-top-sites li:hover {
   background-color: rgba(255,255,255,0.7);
+}
+
+episode-watched {
+  display:block;
+  text-align:center;
+  cursor:pointer;
+  font-size: 18px;
+}
+
+episode-watched a.glyphicon-eye-open {
+  color: green;
+  font-size: 18px;
+}
+
+.markAsWatched episode-watched a.glyphicon   {
+  color: rgba(0, 255, 0, 0.4);
+  -webkit-transform: rotate(360deg);
+  -webkit-transition: all 0.5s ease-in-out;
+}
+
+episode-watched a.glyphicon-eye-close {
+  color: rgba(255,0,0,0.4);
 }
 
 fieldset {
@@ -355,7 +436,6 @@ input[type=text] {
   margin: 2px;
   color: white;
   font-size:11px;
-  font-family:arial;
   background-color: rgba(0,0,0,0.5); 
   text-align: left; 
   cursor: pointer;

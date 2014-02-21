@@ -9,7 +9,7 @@
 	</tr>
 	</tbody>
 	<tbody ng-if="episode">
-		<tr><td colspan="2" ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}"><h3> <div class="dropdown" style='display:inline-block'>
+		<tr><td><h3> <div class="dropdown" style='display:inline-block'>
 				     <a ng-if="hasAired(episode)" ng-click="searchTPB(serie, episode)" class="dropdown dropdown-toggle"><img src="img/icon-magnet.png"/></a>
 				       <div class="dropdown-menu" style='width: 550px'>
 						   <table>
@@ -37,7 +37,7 @@
 							</table>	
 						</div>
 				</div>{{getEpisodeNumber(episode)}} - {{ episode.episodename }}</h3>
-		</td></tr>
+		</td><td><episode-watched  ng-if="hasAired(episode)" episode="episode"></episode-watched></td></tr>
 		<tr><td colspan="2">
 			<div style='float:left; width: 300px; height:180px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="http://thetvdb.com/banners/{{episode.filename}}"></div>
 		{{episode.overview}}
@@ -45,7 +45,7 @@
 		</td></tr>
 		<tr><th>writer</th><td>{{episode.writer}}</td></tr>
 		<tr><th>director</th><td><ul class="list-unstyled"><li ng-repeat="director in episode.director.split('|') track by $index">{{director}}</li></ul></td></tr>
-		<tr><th>gueststars</th><td>{{episode.gueststars}}</td></tr>
+		<tr><th>gueststars</th><td><ul class="list-unstyled"><li ng-repeat="gueststar in episode.gueststars.split('|') track by $index">{{gueststar}}</li></ul></td></tr>
 		<tr><th>firstaired</th><td>{{episode.firstaired|date:'dd-MM-yyyy'}}</td></tr>
 		<tr><th>rating</th><td>{{episode.rating}} ({{episode.ratingcount}} ratings)</td></tr>
 		<tr><th>lastupdated</th><td>{{episode.lastupdated|date:'dd-MM-yyyy'}}</td></tr>
@@ -53,7 +53,7 @@
 	</table>
 	</div>
 	<div class="col-md-4">
-		<button class="btn btn-ok" ng-click="notify(serie)">click me!</button>
+		<!-- <button class="btn btn-ok" ng-click="notify(serie)">click me!</button>-->
 		<serie-details serie="serie"></serie-info>
 	</div>
 </div>

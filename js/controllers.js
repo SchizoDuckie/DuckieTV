@@ -33,6 +33,10 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 	function(TheTVDB, ThePirateBay, FavoritesService, $routeParams, $scope, $rootScope) {
 		console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
 		$scope.episodes = [];
+
+		$scope.markingAsWatched = false;
+		$scope.markUntilDate = false;
+
 		if(FavoritesService.favorites.length > 0) {
 			$scope.serie = FavoritesService.getById($routeParams.id);
 		}
@@ -49,6 +53,37 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 		$scope.hasAired = function(serie) {
 			return serie.firstaired && new Date(serie.firstaired) <= currentDate;
 		};
+
+		$scope.markRange = function(episode) {
+			if(!$scope.markingAsWatched) return;
+			$scope.markUntilDate = new Date(episode.firstaired)
+			$scope.markingAsWatched = false;
+			for(var i=0; i<$scope.episodes.length; i++) {
+				if($scope.episodes[i].firstaired != '' && new Date($scope.episodes[i].firstaired) <= $scope.markUntilDate) {
+					$scope.episodes[i].watched = '1';
+					$scope.episodes[i].watchedAt = new Date();
+
+					CRUD.FindOne('Episode', {ID : $scope.episodes[i].ID_Episode}).then(function(epi) {
+						epi.set('watched', 1);
+						epi.set('watchedAt', new Date());
+						epi.Persist();
+					});
+					
+				}
+			}
+		}
+
+		$scope.setMarkEnd = function(episode) {
+			$scope.markUntilDate = new Date(episode.firstaired);
+		}
+
+		$scope.isMarkBeforeEnd = function(episode) {
+			return $scope.markingAsWatched && $scope.markUntilDate >= new Date(episode.firstaired);
+		}
+
+		$scope.stopMarkingAsWatched = function() {
+			$scope.markingAsWatched = false;
+		}
 
 		$scope.getSearchString = function(serie, episode) {
 			
@@ -73,6 +108,10 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 			 	console.error("TPB search failed!"); 
 			 	$scope.searching = false; 
 			 });
+		}
+
+		$scope.markRangeWatchedStart = function() {
+			$scope.markingAsWatched = true;
 		}
 
 
