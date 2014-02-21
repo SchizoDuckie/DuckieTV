@@ -5,23 +5,25 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
  * Main controller: Kicks in favorites display
  */
 .controller('MainCtrl', 
-  function($scope, FavoritesService) {
+  function($scope, $rootScope, FavoritesService) {
   	var favorites = [];
 
   	/**
   	 * The favorites service fetches data asynchronously via SQLite, we wait for it to emit the favorites:updated event.
   	 */
+
   	$scope.favorites = FavoritesService.favorites;
   	$scope.$on('favorites:updated', function(event,data) {
 	     // you could inspect the data to see if what you care about changed, or just update your own scope
 	     console.log('scope favorites changed!', data, $scope);
 	     $scope.favorites = data.favorites;
 	     $scope.$digest(); // notify the scope that new data came in
+	     var serie = data.favorites[Math.floor(Math.random() * data.favorites.length)];
+	     $rootScope.$broadcast('background:load', 'http://thetvdb.com/banners/'+serie.fanart);
    });
   	$scope.$on('episodes:inserted', function(event, serie) {
   		if(serie.get('fanart') != '') {
-			var bg = 'url(http://thetvdb.com/banners/'+serie.get('fanart')+')';
-			document.body.style.backgroundImage = bg;	
+		 $rootScope.$broadcast('background:load', 'http://thetvdb.com/banners/'+serie.get('fanart'));
 		}
   	});
 
@@ -29,7 +31,7 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 
 .controller('SerieCtrl',  
 
-	function(TheTVDB, ThePirateBay, FavoritesService, $routeParams, $scope) {
+	function(TheTVDB, ThePirateBay, FavoritesService, $routeParams, $scope, $rootScope) {
 		console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
 		$scope.episodes = [];
 		if(FavoritesService.favorites.length > 0) {
@@ -88,8 +90,7 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 				console.log("Episodes booh!", err);
 			});
 			if(serie.get('fanart') != '') {
-				var bg = 'url(http://thetvdb.com/banners/'+serie.get('fanart')+')';
-				document.body.style.backgroundImage = bg;	
+				 $rootScope.$broadcast('background:load', 'http://thetvdb.com/banners/'+serie.get('fanart'));
 			}
 		
 		})
@@ -99,7 +100,7 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 
 .controller('EpisodeCtrl',  
 
-	function(TheTVDB, ThePirateBay, FavoritesService, NotificationService, $routeParams, $scope) {
+	function(TheTVDB, ThePirateBay, FavoritesService, NotificationService, $routeParams, $scope, $rootScope) {
 		console.log('Episodes controller!', $routeParams.id, $routeParams.episode, $scope, TheTVDB);
 		
 		$scope.searching = false;
@@ -108,8 +109,7 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 		CRUD.FindOne('Serie', { 'TVDB_ID': $routeParams.id }).then(function(serie) {
 			$scope.serie = serie.asObject();
 			if(serie.get('fanart') != '') {
-				var bg = 'url(http://thetvdb.com/banners/'+serie.get('fanart')+')';
-				document.body.style.backgroundImage = bg;	
+				 $rootScope.$broadcast('background:load', 'http://thetvdb.com/banners/'+serie.get('fanart'));
 			}
 			serie.Find("Episode", { ID_Episode: $routeParams.episode}).then(function(epi) {
 						$scope.episode = epi[0].asObject();

@@ -29,6 +29,15 @@ body > .container {
 h2 {
   color: #222;
 }
+
+background-rotator, background-rotator > div {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
 #actionbar {
   position: absolute;
   top: 10px ;
