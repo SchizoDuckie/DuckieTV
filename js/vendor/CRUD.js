@@ -4,7 +4,7 @@ if (!CRUD)  var CRUD = {
 	RELATION_FOREIGN : 2,
 	RELATION_MANY : 3,
 	RELATION_CUSTOM : 4,
-	DEBUG: false,
+	DEBUG: true,
 	log: function() {
 		if(CRUD.DEBUG) {
 			console.log.apply(console, arguments);

@@ -15,7 +15,6 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
   	$scope.favorites = FavoritesService.favorites;
   	$scope.$on('favorites:updated', function(event,data) {
 	     // you could inspect the data to see if what you care about changed, or just update your own scope
-	     console.log('scope favorites changed!', data, $scope);
 	     $scope.favorites = data.favorites;
 	     $scope.$digest(); // notify the scope that new data came in
 	     var serie = data.favorites[Math.floor(Math.random() * data.favorites.length)];
@@ -39,7 +38,6 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 		}
 		$scope.$on('favorites:updated', function(event,favorites) {
 			$scope.serie = favorites.getById($routeParams.id);
-			console.log("Scope serie found: ", $scope.serie);
 			$scope.$digest();
 		});
 		$scope.searching = false;
@@ -82,7 +80,6 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 			$scope.serie = serie.asObject();
 
 			var episodes = FavoritesService.getEpisodes(serie).then(function(data) {
-				console.log("Found episodes for seriesview: ", data);
 				$scope.episodes = data;
 				$scope.$digest();
 			}, function(err) {
@@ -101,7 +98,6 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 .controller('EpisodeCtrl',  
 
 	function(TheTVDB, ThePirateBay, FavoritesService, NotificationService, $routeParams, $scope, $rootScope) {
-		console.log('Episodes controller!', $routeParams.id, $routeParams.episode, $scope, TheTVDB);
 		
 		$scope.searching = false;
 		var currentDate = new Date();
@@ -142,11 +138,9 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 			$scope.items = [];
 			$scope.searching = true;
 			var search = $scope.getSearchString(serie, episode);
-			console.log("Search: ", search);
 			 ThePirateBay.search(search).then(function(results) {
 			 	$scope.items = results;
 			 	$scope.searching = false;
-			 	console.log('Added episodes: ', $scope);
 			 }, function(e) { 
 			 	console.error("TPB search failed!"); 
 			 	$scope.searching = false; 

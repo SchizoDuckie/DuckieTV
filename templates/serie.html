@@ -2,7 +2,9 @@
 
 <div class="row serie">
   <div class="col-md-6">
-  	<h1># of episodes : {{ episodes.length }}</h1>
+
+  	<p> Total number of episodes found: {{ episodes.length }}</p>
+
 	<table class="table table-condensed light" style='border: 1px solid #efefef; border-collapse:collapse;'>
 	<tbody  ng-if="episodes.length == 0">
 	<tr>
@@ -15,16 +17,17 @@
 			<th>Name</th>
 			<th>Air date</th>
 			<th>Download</th>
+			<th>Watched</th>
 		</tr>
 		<tr ng-repeat="episode in episodes | orderBy: getEpisodeNumber:true">
 		   	 <td ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}">
-		   	 <a href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{getEpisodeNumber(episode)}}</a>
+		   	 <a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{getEpisodeNumber(episode)}}</a>
 		   	 </td>
-		     <td>{{ episode.episodename }}</td>
+		     <td><a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.episodename }}</a></td>
 		     <td class="nobreaks">{{ episode.firstaired | date:'dd-MM-yyyy'}}</td>
 		     <td>
 			     <div class="dropdown">
-				     <a ng-if="hasAired(episode)" class="dropdown-toggle glyphicon glyphicon-search" ng-click="searchTPB(serie, episode)" class="btn btn-default"></a>
+				     <a ng-if="hasAired(episode)" tooltip="Search for a download for {{ serie.name }} {{ getEpisodeNumber(episode) }}" class="dropdown-toggle glyphicon glyphicon-search" ng-click="searchTPB(serie, episode)" class="btn btn-default"></a>
 				       <div class="dropdown-menu" style='width: 550px'>
 						   <table>
 						   		<tr ng-if="searching">
@@ -51,6 +54,7 @@
 						</div>
 				</div>
 		     </td>
+		     <td><a ng-if="hasAired(episode)" class="glyphicon" tooltip="{{ episode.watched == 1 ? 'You have watched this episode' : 'Mark this episode as watched' }}" ng-class="{ 'glyphicon-eye-close' : episode.watched ==  0, 'glyphicon-eye-open' : episode.watched == 1}"></a></td>
 		</tr>
 		</tbody>
 	</table>

@@ -30,6 +30,14 @@ h2 {
   color: #222;
 }
 
+a, a:hover {
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 background-rotator, background-rotator > div {
   width: 100%;
   height: 100%;
@@ -52,6 +60,7 @@ background-rotator, background-rotator > div {
   padding:20px;
   font-size: 2.2rem;
   color: #000;
+  text-shadow: 0px 0px 7px rgba(255,255,255,0.8);
 }
 
 .typeahead ul {
@@ -359,6 +368,7 @@ input[type=text] {
 
 [date-picker] .event a {
   color: white;
+  display: block;
 }
 
 [date-picker] div.tooltip.bottom {

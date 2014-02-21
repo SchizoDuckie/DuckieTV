@@ -1,8 +1,12 @@
- <div class="serieheader">
-  <div class='banner' lazy-background="{{serie.banner}}"></div>
-  <h3>{{ serie.name }}</h3>
-  <div ng-if="!noOverview" class='overview'>{{ serie.overview }}</div>
-  <aside>
-  	<a ng-if="!noListButton" ng-href="#/series/{{serie.TVDB_ID}}" class='btn btn-info'>Episodes</a>
-  </aside>
+<div class="serieheader" ng-if="!noListButton">
+  <a ng-href=" #/series/{{serie.TVDB_ID}}">
+	  <div class='banner' lazy-background="{{serie.banner}}"></div>
+	  <h3>{{ serie.name }}</h3>
+	  <div ng-if="!noOverview" class='overview'>{{ serie.overview }}</div>
+  </a>
+</div>
+<div class="serieheader" ng-if="noListButton">
+  	  <div class='banner' lazy-background="{{serie.banner}}"></div>
+	  <h3>{{ serie.name }}</h3>
+	  <div ng-if="!noOverview" class='overview'>{{ serie.overview }}</div>
 </div>
