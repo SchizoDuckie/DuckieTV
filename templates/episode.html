@@ -1,4 +1,4 @@
-<serieHeader no-button=1 data="serie" class="full"></serieHeader>
+<serieHeader data="serie" class="full"></serieHeader>
 
 <div class="row serie">
   <div class="col-md-8">
@@ -44,7 +44,7 @@
 			
 		</td></tr>
 		<tr><th>writer</th><td>{{episode.writer}}</td></tr>
-		<tr><th>director</th><td>{{episode.director}}</td></tr>
+		<tr><th>director</th><td><ul class="list-unstyled"><li ng-repeat="director in episode.director.split('|') track by $index">{{director}}</li></ul></td></tr>
 		<tr><th>gueststars</th><td>{{episode.gueststars}}</td></tr>
 		<tr><th>firstaired</th><td>{{episode.firstaired|date:'dd-MM-yyyy'}}</td></tr>
 		<tr><th>rating</th><td>{{episode.rating}} ({{episode.ratingcount}} ratings)</td></tr>
@@ -53,6 +53,7 @@
 	</table>
 	</div>
 	<div class="col-md-4">
+		<button class="btn btn-ok" ng-click="notify(serie)">click me!</button>
 		<serie-details serie="serie"></serie-info>
 	</div>
 </div>

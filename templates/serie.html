@@ -23,7 +23,9 @@
 		   	 <td ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}">
 		   	 <a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{getEpisodeNumber(episode)}}</a>
 		   	 </td>
-		     <td><a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.episodename }}</a></td>
+		     <td>
+				<a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.episodename }}</a>
+			 </td>
 		     <td class="nobreaks">{{ episode.firstaired | date:'dd-MM-yyyy'}}</td>
 		     <td>
 			     <div class="dropdown">
@@ -54,7 +56,7 @@
 						</div>
 				</div>
 		     </td>
-		     <td><a ng-if="hasAired(episode)" class="glyphicon" tooltip="{{ episode.watched == 1 ? 'You have watched this episode' : 'Mark this episode as watched' }}" ng-class="{ 'glyphicon-eye-close' : episode.watched ==  0, 'glyphicon-eye-open' : episode.watched == 1}"></a></td>
+		     <td><episode-watched  ng-if="hasAired(episode)" episode="episode"></episode-watched></td>
 		</tr>
 		</tbody>
 	</table>
