@@ -9,14 +9,21 @@
     restrict: 'E',
     scope: { 'serie': '=data', 'noListButton': "=noButton", "noOverview": "=noOverview" },
      templateUrl: "templates/serieHeader.html"
- }
+ 	}
 })
 
-.directive('serieDetails', function() {
+.directive('serieDetails', function(FavoritesService, $location) {
   return {
     restrict: 'E',
     scope: { 'serie': '=serie' },
-    templateUrl: "templates/serieDetails.html"
+    templateUrl: "templates/serieDetails.html",
+    link: function($scope) {
+    	$scope.removeFromFavorites = function(serie) {
+			console.log("Remove from favorites!", serie);
+			FavoritesService.remove(serie);
+			$location.path('/');
+		}
+    }
  }
 })
 

@@ -1,7 +1,9 @@
 
 <table class="table table-condensed light">
-<tr><th colspan="2"><h1>Series info</h1></th></tr>
-<tr><th colspan="2"><div lazy-background="http://thetvdb.com/banners/{{serie.poster}}" style='margin: 0px auto; width:300px; height:400px; background-size:contain; background-repeat:no-repeat;'></div></th></tr>
+<tr><th colspan="2"><h1>Series info</h1>
+</th></tr>
+<tr><th colspan="2" style='text-align:center'><div lazy-background="http://thetvdb.com/banners/{{serie.poster}}" style='margin: 0px auto; width:300px; height:400px; background-size:contain; background-repeat:no-repeat;'></div><button class="btn btn-danger" ng-click="removeFromFavorites(serie)">Remove from favorites</button>
+</th></tr>
 
 <tr><th>actors</th><td><ul class="list-unstyled"><li ng-repeat="actor in serie.actors.substring(1, serie.actors.length -2).split('|') track by $index">{{actor}}</li></ul></td></tr>
 <tr><th>airs_dayofweek</th><td>{{serie.airs_dayofweek}}</td></tr>

@@ -78,8 +78,21 @@ angular.module('SeriesGuide.providers',[])
     getById: function(id) {
     	 return CRUD.FindOne('Serie', { 'TVDB_ID' : id});
     },
-    save: function() {
-      localStorage.favorites = angular.toJson(service.favorites);
+    remove: function(serie) {
+        console.log("Remove serie from favorites!", serie);
+        var self = this;
+        this.getById(serie['TVDB_ID']).then(function(serie) {
+            serie.Find('Episode').then(function(episodes) {
+            console.log("Found episodes for removal of serie!", episodes);
+            for(var i=0; i<episodes.length; i++) {
+              episodes[i].Delete().then(function() { console.log("Deleted OK!")}, function(err) { debugger; });
+            }
+            episodes = null;
+            serie.Delete().then(function() {
+              self.restore()
+            });
+          });
+        })
     },
     /**
      * Fetch stored series from sqlite and store them in service.favorites
@@ -93,6 +106,7 @@ angular.module('SeriesGuide.providers',[])
             }
             service.favorites = favorites;
             $rootScope.$broadcast('favorites:updated',service);
+            $rootScope.$broadcast('episodes:updated');
         });
       }
   };
