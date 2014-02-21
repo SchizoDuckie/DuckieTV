@@ -155,9 +155,9 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 		var query = [], values = [], valmap = [], names=[], that=this;
 		if(what.getID() !== false) {
 			// insert
-			query.push('delete from',CRUD.EntityManager.entities[what.clasName].table,'where',CRUD.EntityManager.getPrimary(what.className),'= ?');
+			query.push('delete from',CRUD.EntityManager.entities[what.className].table,'where',CRUD.EntityManager.getPrimary(what.className),'= ?');
 			return new Promise(function(resolve, fail) {
-				this.db.execute(query.join(' '), [what.getID()]).then(function(resultSet) {
+				that.db.execute(query.join(' '), [what.getID()]).then(function(resultSet) {
 					resultSet.Action = 'deleted';
 					resolve(resultSet);
 				}, function(e) {

@@ -370,10 +370,10 @@ CRUD.Entity.prototype = {
 	Delete: function() {
 		var that = this;
 		return new Promise(function(resolve, fail) {
-			CRUD.getAdapter().Delete(that).then(function(result) {
+			CRUD.EntityManager.getAdapter().Delete(that).then(function(result) {
 				if(result.Action == 'deleted') {
 					CRUD.log(that.getType()+" "+that.getID()+" has been deleted! ");
-					this.dbSetup.ID = false;
+					that.values[CRUD.EntityManager.getPrimary(that.className)].ID = false;
 				};
 				resolve(result);
 			}, fail);
