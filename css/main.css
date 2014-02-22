@@ -420,10 +420,8 @@ input[type=text] {
 
 [date-picker] td, [date-picker] th{
   border: 1px solid white;
-  padding: 5px;
   text-align: center;
-   text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
-
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
 }
 
 [date-picker] td:last-child {
