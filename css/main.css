@@ -387,6 +387,10 @@ input[type=text] {
 }
 
 
+[date-picker] .glyphicon {
+  cursor: pointer;
+}
+
 [date-picker] tbody tr:nth-child(odd) {
   background-color: rgba(0,0,0,0.1);
 }
@@ -442,7 +446,7 @@ input[type=text] {
 }
 
 [date-picker] td span {
-  float: right;
+  float: left;
   font-size: 12px;
   display: block;
   padding: 10px;
@@ -451,7 +455,7 @@ input[type=text] {
   text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
 }
 [date-picker] .now {
-  color:navy;
+  color:yellow;
   font-weight:bold;
 }
 [date-picker] [ng-switch-when=date] td {
