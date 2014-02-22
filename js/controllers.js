@@ -95,6 +95,7 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 			return out;
 		}
 
+
 		$scope.searchTPB = function(serie, episode) {
 			$scope.items = [];
 			$scope.searching = true;
