@@ -51,11 +51,9 @@ angular.module('SeriesGuide.providers',[])
               d['TVDB_ID'] = d.id;
               delete d.id;
               d['ID_Serie'] = serie.getID();
-                console.log("Episode saving! ", d);
-           
               var e = new Episode();
               e.changedValues = d;
-              e.Persist(true).then(function(res) { console.log("persisted ok!", res, d) } , function(err) { console.error("PERSIST ERROR!", err); debugger; })
+              e.Persist(true).then(function(res) { } , function(err) { console.error("PERSIST ERROR!", err); debugger; })
             }
            }
 

@@ -16,16 +16,14 @@ angular.module('SeriesGuide.thetvdb',[])
         var data = [];
         for (var i = epis.length - 1; i > 0; i--) {
         	var episode = angular.element(epis[i]);
-        	var sn = episode.find("SeasonNumber").text();
-            var en = episode.find("EpisodeNumber").text();
-            var airdate = episode.find("FirstAired").text()
-            var properties = episode.find("*")
+        	var properties = episode.find("*")
             var props = {};
             for(var j =0; j< properties.length; j++)  {
             	props[properties[j].localName] = properties[j].innerText;
             }
-            console.log("Parse episode properties!", props);
-            data.push(props);
+            if(!('airsbefore_episode' in props)) { // fix vor thetvdb double episodes? (example: pawn stars)
+            	data.push(props);
+            }
         }
         return data;
  }

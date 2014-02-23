@@ -30,7 +30,7 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 
 .controller('SerieCtrl',  
 
-	function(TheTVDB, ThePirateBay, FavoritesService, $routeParams, $scope, $rootScope) {
+	function(TheTVDB, ThePirateBay, FavoritesService, TVRageSyncService, $routeParams, $scope, $rootScope) {
 		console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
 		$scope.episodes = [];
 
@@ -95,6 +95,9 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 			return out;
 		}
 
+		$scope.tvRageSync = function(serie, episodes) {
+			TVRageSyncService.syncEpisodes(serie, episodes);
+		}
 
 		$scope.searchTPB = function(serie, episode) {
 			$scope.items = [];
