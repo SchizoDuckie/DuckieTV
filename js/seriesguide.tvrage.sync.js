@@ -47,6 +47,7 @@ angular.module('SeriesGuide.tvrage.sync',['SeriesGuide.tvrage'])
 					console.log("Could not match on title or episodenumber and airdate!", existing, tvRageEpisodes)
 				}
 			}
+			$scope.$apply();
 		});
 	};
 

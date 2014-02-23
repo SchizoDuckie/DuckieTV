@@ -8,8 +8,8 @@
   return {
     restrict: 'E',
     scope: { 'serie': '=data', 'noListButton': "=noButton", "noOverview": "=noOverview" },
-     templateUrl: "templates/serieHeader.html"
- 	}
+    templateUrl: "templates/serieHeader.html"
+  }
 })
 
 .directive('serieDetails', function(FavoritesService, $location) {
@@ -69,7 +69,7 @@
 		restrict: 'E',
 		scope: { channel: '=' },
 		template: ["<div ng-style=\"{backgroundImage: bg1 ? 'url('+bg1+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg1on ? 1 : 0}\"></div>",
-				   "<div ng-style=\"{backgroundImage: bg2 ? 'url('+bg2+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg2on ? 1 : 0}\"></div>"],
+				   "<div ng-style=\"{backgroundImage: bg2 ? 'url('+bg2+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg2on ? 1 : 0}\"></div>"].join(''),
 		link: function ($scope, $attr) {
 
 			$scope.bg1 = false;

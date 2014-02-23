@@ -101,6 +101,7 @@ angular.module('SeriesGuide.thetvdb',[])
   $scope.selectSerie = function(serie) {
   	$scope.selected = serie.name;
   	FavoritesService.addFavorite(serie);
+  	$scope.selected = '';
   }
 })
 
@@ -111,11 +112,21 @@ angular.module('SeriesGuide.thetvdb',[])
 
 	return {
 		restrict: 'E',
+		scope: { 'focuswatch' : '=focusWatch' },
+     
 		template: ['<div ng-controller="FindSeriesTypeAheadCtrl">',
-			        '<input type="text" ng-model="selected" placeholder="Type a series name to add to your favorites"',
+			        '<input type="text" ng-focus="searchingForSerie" ng-model="selected" placeholder="Type a series name to add to your favorites"',
           			'typeahead-min-length="3" typeahead-loading="loadingSeries"',
           			'typeahead="serie for series in findSeries($viewValue) | filter:$viewValue" typeahead-template-url="templates/typeAheadSeries.html"', 
           			'typeahead-on-select="selectSerie($item)" class="form-control"> <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>',
-		        '</div>'].join(' ')
+		        '</div>'].join(''),
+		link: function($scope, element) {
+			if($scope.focuswatch) {
+				$scope.$watch($scope.focuswatch, function() {
+					var el = element.find('input')[0];
+					setTimeout(function() { el.focus() } , 0);			    
+				 });
+			}
+		}
 	};
 })

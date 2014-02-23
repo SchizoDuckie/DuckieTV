@@ -1,11 +1,11 @@
-angular.module('SeriesGuide.providers',[])
+angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
 /**
  * Persistent storage for favorites
  * 
  * Since it fetches asynchronously from sqlite it broadcasts a favorites:updated event
  * when data is done loading
  */
-.factory('FavoritesService', function($rootScope, TheTVDB) {
+.factory('FavoritesService', function($rootScope, TheTVDB, TVRageSyncService) {
   var service = {
     favorites : [],
     addFavorite: function(data) {
@@ -56,6 +56,9 @@ angular.module('SeriesGuide.providers',[])
               e.Persist(true).then(function(res) { } , function(err) { console.error("PERSIST ERROR!", err); debugger; })
             }
            }
+           setTimeout(function() {
+             TVRageSyncService.syncEpisodes(serie.asObject(), episodes);            
+           }, 0);
 
         }).then(function(data) {
              $rootScope.$broadcast('episodes:updated');

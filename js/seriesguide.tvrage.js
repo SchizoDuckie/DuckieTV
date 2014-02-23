@@ -2,7 +2,7 @@ angular.module('SeriesGuide.tvrage',[])
 .provider('TVRage', function() {
 
  this.endpoints = {
- 	seriesSearch: 'http://services.tvrage.com/feeds/episodeinfo.php?key=1zWislSnXYQL8WERM3c2&show=%s&exact=1',
+ 	seriesSearch: 'http://services.tvrage.com/feeds/episodeinfo.php?key=1zWislSnXYQL8WERM3c2&show=%s&exact=0',
  	episodeSearch: 'http://services.tvrage.com/myfeeds/episode_list.php?key=1zWislSnXYQL8WERM3c2&sid=%s'
  };
  
@@ -16,11 +16,14 @@ angular.module('SeriesGuide.tvrage',[])
         var seasons = angular.element(data).find('Season'); 
 
     	for(var j = 0; j<seasons.length; j++) { 
+    		if(!seasons[j].hasAttribute('no')) {
+    			continue;
+    		}
     		var sn = seasons[j].getAttribute("no");
     		if(sn.length == 1) sn = ['0',sn].join('');
 
     		var epis = angular.element(seasons[j]).find("episode");
-    		 for (var i = epis.length - 1; i > 0; i--) {
+    		 for (var i = 0; i< epis.length; i++) {
 	        	var episode = angular.element(epis[i]);
 	        	var en = episode.find("seasonnum").text();
 	            if(en.length == 1) en =  '0'+en.toString();

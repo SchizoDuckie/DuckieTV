@@ -193,16 +193,6 @@ serieheader:hover aside {
   bor
 }
 
-.dropdown-menu {
-  margin: 0;
-  padding:0;
-  border: 1px solid black;
-  max-height: 400px;
-  overflow-y: scroll;
-  box-sizing: content-box;
-  cursor: pointer;
-}
-
 
 .table.light {
   color: white;
@@ -246,7 +236,13 @@ table.light h1 {
 }
 
 .dropdown-menu {
-  color: black;
+
+  margin: 0;
+    border: 1px solid black;
+  max-height: 400px;
+  overflow-y: scroll;
+  box-sizing: content-box;
+  cursor: pointer;
   padding: 10px;
   color: black;
   max-width: 700px;
@@ -372,6 +368,7 @@ input[type=text] {
   font-style: italic;
   border-radius: 5px;
   font-family: 'bebasregular', helvetica, sans-serif;
+  text-shadow: 2px 2px 2px black;
 }
 
 .form-control:focus {
@@ -509,4 +506,39 @@ input[type=text] {
 
 [date-picker] div.tooltip p {
   width:450px;
+}
+
+ul.engineselect {
+  color: white;
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+  text-align: center;
+}
+ul.engineselect li {
+  font-family: 'bebasbold';
+  font-size: 20px;
+}
+
+ul.engineselect li strong {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+ul.engineselect li i {
+
+  font-size: 18px;
+}
+
+ul.engineselect li:hover strong {
+  cursor: pointer;
+  text-shadow: 2px 2px 2px rgba(0,0,0,1);
+  text-decoration: underline;
+  
+}
+
+the-tv-db-search .dropdown-menu, piratebay-search .dropdown-menu, kickass-torrent-search .dropdown-menu {
+  padding: 0;
+}
+
+the-tv-db-search serieheader:hover h3 {
+  text-decoration: underline;
 }

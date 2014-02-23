@@ -11,29 +11,44 @@
       <chrome-top-sites></chrome-top-sites>
     </div>
   </div>
-  <div class='col-md-6' style='opacity: 0.9'>
-      <fieldset ng-controller="FindSeriesTypeAheadCtrl">
-        <h2>Find Series</h2>
-        <the-tv-db-search></the-tv-db-search>
-      </fieldset>
-    
+  <div class='col-md-6'>
+  
      <!-- <fieldset ng-controller="FindSeriesTypeAheadCtrl">
         <h2>Find A Movie</h2>
         <imdb-search></imdb-search>
        </fieldset> -->
    
       <fieldset>
-        <h2>General ThePirateBay Search</h2>
-        <piratebay-search></piratebay-search>
-      </fieldset>
-
-      <fieldset>
-        <h2>Kickass Torrent Search</h2>
-        <kickass-torrent-search></kickass-torrent-search>
+        <h2>Torrent search</h2>
+        <piratebay-search ng-if="searchEngine == 1"></piratebay-search>
+        <kickass-torrent-search ng-if="searchEngine == 2"></kickass-torrent-search>
+        <ul class="list-inline engineselect">
+          <li>
+            <strong style='cursor:default'>Search engine:</strong>
+          </li>
+          <li ng-click="searchEngine = 1">
+            <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchEngine != 1, 'glyphicon-record': searchEngine == 1}"></i>
+            <strong>The Pirate Bay</strong>
+          </li>
+          <li ng-click="searchEngine = 2">
+            <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchEngine != 2, 'glyphicon-record': searchEngine == 2}"></i>
+            <strong>Kickass Torrents</strong>
+          </li>
+        </ul>
       </fieldset>
     
     <fieldset>
-      <h2>Series you're watching</h2>
+      <h2>Series you're watching 
+          <a  style="float:right;" tooltip="Add series to your favorites list" ng-if="searchingForSerie == false" ng-click="enableAdd();">
+             <i style="font-size:35px " class="glyphicon glyphicon-plus-sign"></i>
+          </a>
+           <a style="float:right;" tooltip="Hide the search bar" ng-if="searchingForSerie == true" ng-click="disableAdd()">
+             <i style="font-size:35px " class="glyphicon glyphicon-ok-sign"></i>
+          </a>
+      </h2>
+      <div ng-if="searchingForSerie">
+        <the-tv-db-search focus-watch="'searchingForSerie'"></the-tv-db-search>
+      </div>
     </fieldset>
     <div class="series">
       <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1"></serieHeader> 
