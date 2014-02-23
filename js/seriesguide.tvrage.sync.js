@@ -18,22 +18,23 @@ angular.module('SeriesGuide.tvrage.sync',['SeriesGuide.tvrage'])
 				// or the episode title has a prefix on tvrage
 				// or the episode title is different on tvrage
 				current = tvRageEpisodes.filter(function(el) { 
-					return  el.title.toLowerCase().trim() == existing.episodename.toLowerCase().trim() ||
-							el.title.toLowerCase().match(/([a-z])+/g).join('') == existing.episodename.toLowerCase().match(/([a-z])+/g).join('') ||
-				 			el.title.toLowerCase().trim() == existing.episodename.replace('and', '&').toLowerCase().trim() ||
-				 			(el.airdate == existing.firstaired && existing.episodenumber == el.episode) ||
-				 			el.title.indexOf(existing.episodename) > -1
-					});
+					return (
+					  (existing.firstaired == "" && parseInt(el.season,10) == existing.seasonnumber && parseInt(el.episode,10) == existing.episodenumber) ||
+					  (el.title.toLowerCase().trim() == existing.episodename.toLowerCase().trim()) ||
+					  (existing.episodename.length > 0 && el.title.toLowerCase().match(/([a-z])+/g).join('') == existing.episodename.toLowerCase().match(/([a-z])+/g).join('')) ||
+		 			  (el.title.toLowerCase().trim() == existing.episodename.replace('and', '&').toLowerCase().trim()) ||
+		 			  (el.airdate == existing.firstaired && parseInt(existing.episodenumber,10) == parseInt(el.episode,10)) ||
+		 			  (el.title.length > 0 && existing.episodename.length > 0 && (el.title.indexOf(existing.episodename) > -1 || existing.episodename.indexOf(el.title) > -1 ))
+		 			);
+				});
 				
-				if(current.length == 0) {
-					current = tvRageEpisodes.filter(function(el) { return existing.firstaired == el.airdate });
-				} 
 				
 				if(current.length > 0) {
 					current = current[0];
 					existing.episodenumber = current.episode;
 					existing.seasonnumber = current.season;
 					existing.firstaired = current.airdate;
+					existing.episodename = current.title;
 				
 					CRUD.FindOne('Episode', {ID_Episode: existing.ID_Episode }).then(function(episode) {
 						episode.set('episodenumber', this.episodenumber);
