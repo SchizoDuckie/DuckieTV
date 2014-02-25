@@ -1,4 +1,4 @@
-angular.module('SeriesGuide.calendar', ['SeriesGuide.providers','ngAnimate'])
+angular.module('SeriesGuide.calendar', ['SeriesGuide.providers'])
 
 .provider('CalendarEvents', function() {
     var calendarEvents = {};  

@@ -4,7 +4,6 @@
 
 angular.module('SeriesGuide', [
 	'ngRoute',
-    'ngAnimate',
 	'xml',	
     'datePicker',
     'ui.bootstrap',

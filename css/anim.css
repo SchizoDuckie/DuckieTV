@@ -1,56 +1,11 @@
 .event {
   max-height: 50px;
-  overflow: visible;
+  overflow: hidden;
+ -webkit-animation: anim 1s ease-in-out;
 }
 
 
-.event.ng-enter, .event.ng-enter-active {
-  -webkit-animation: 0.5s animation-enter;
- }
-
-@-webkit-keyframes animation-enter {
+@-webkit-keyframes anim {
   from { opacity: 0; max-height: 0px; }
   to { opacity:1; max-height: 50px;  }
 }
-
-
-
-[ui-view].ng-enter,
-[ui-view].ng-leave {
-  position: absolute;
-  left: 0;
-  right: 0;
-  -webkit-transition:all .5s ease-in-out;
-    -moz-transition:all .5s ease-in-out;
-    -o-transition:all .5s ease-in-out;
-    transition:all .5s ease-in-out;
-}
-
-[ui-view].ng-enter {
-  -webkit-transform: translate3d(100%, 0, 0);
-     -moz-transform: translate3d(100%, 0, 0);
-       -o-transform: translate3d(100%, 0, 0);
-          transform: translate3d(100%, 0, 0);
-}
-
-[ui-view].ng-enter-active {
-  -webkit-transform: translate3d(0, 0, 0);
-     -moz-transform: translate3d(0, 0, 0);
-       -o-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
-}
-
-[ui-view].ng-leave {
-  -webkit-transform: translate3d(0, 0, 0);
-     -moz-transform: translate3d(0, 0, 0);
-       -o-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
-}
-
-[ui-view].ng-leave-active {
-  -webkit-transform: translate3d(-100%, 0, 0);
-     -moz-transform: translate3d(-100%, 0, 0);
-       -o-transform: translate3d(-100%, 0, 0);
-          transform: translate3d(-100%, 0, 0);
-}
-
