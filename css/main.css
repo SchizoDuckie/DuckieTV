@@ -72,6 +72,7 @@ strong {
 
 a, a:hover {
   color: white;
+  cursor: pointer;
 }
 
 a:hover {
@@ -232,6 +233,10 @@ table.light h1 {
   color:black;
 }
 
+.dropdown {
+  text-align: center;
+}
+
 .dropdown-toggle {
   cursor: pointer;
 }
@@ -252,8 +257,8 @@ table.light h1 {
   width: 100%;
 }
 
-.dropdown-menu table {
-
+.dropdown-menu table.torrents {
+  width:100%;
 }
 
 .dropdown-menu tbody {
@@ -264,6 +269,8 @@ table.light h1 {
 
 }
 
+
+
 .dropdown-menu td {
   padding: 5px;
   white-space: nowrap;
@@ -271,6 +278,28 @@ table.light h1 {
   max-width: 380px;
   overflow: hidden;
 }
+
+.dropdown-menu td a {
+  color: black;
+}
+
+.dropdown-menu  table.torrents tr:hover {
+  background-color: transparent !important;
+}
+
+.dropdown-menu  table.torrents td {
+  text-align: left;
+}
+
+
+.dropdown-menu  table.torrents tbody th:nth-last-child(-n + 2) {
+  text-align: center;
+}
+
+.dropdown-menu  table.torrents tbody td:nth-last-child(-n + 2) {
+  text-align: right;
+}
+
 
 chrome-top-sites ul {
   margin: 0;
@@ -341,7 +370,11 @@ episode-watched a.glyphicon-eye-open {
 }
 
 episode-watched a.glyphicon-eye-close {
-  color: rgba(255,0,0,0.4);
+  color: rgba(255,255,255,0.5);
+}
+
+episode-watched a.glyphicon-eye-close:hover {
+  color: rgba(255,255,255,0.9);
 }
 
 fieldset {
@@ -362,7 +395,7 @@ fieldset h2 {
 
 input[type=text],input[type=url], option, select {
   border: 1px solid #333;
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(0,0,0,0.2);
   font-size: 25px;
   height: 40px;
   color: white;
@@ -370,6 +403,7 @@ input[type=text],input[type=url], option, select {
   border-radius: 5px;
   font-family: 'bebasregular', helvetica, sans-serif;
   text-shadow: 2px 2px 2px black;
+  transition: all 0.5s ease-in-out;
 }
 
 .form-control:focus {
@@ -377,13 +411,21 @@ input[type=text],input[type=url], option, select {
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(2,2,2,.6);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(2,2,2,.6);
-  background-color: rgba(255,255,255,0.4);
+  background-color: rgba(0,0,0,0.6);
 }
 
 .serie table.table tr:hover {
   background-color:rgba(0,0,0,0.7);
 }
 
+[date-picker] {
+  -webkit-user-select: none;
+}
+[date-picker]:hover {
+  background-color: rgba(0,0,0,0.4);
+  transition: all 0.5s ease-in-out;
+  border-radius: 10px;
+}
 
 [date-picker] .glyphicon {
   cursor: pointer;
@@ -407,12 +449,6 @@ input[type=text],input[type=url], option, select {
   font-weight: normal;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
 
-}
-
-[date-picker] thead tr:last-child th {
-   border: 1px solid white;
-   border-right: 0;
-   border-top: 0;
 }
 
 [date-picker] table {
@@ -443,14 +479,40 @@ input[type=text],input[type=url], option, select {
   vertical-align: top;
 }
 
-[date-picker] td span {
+[date-picker] td > span {
   float: left;
   font-size: 12px;
   display: block;
   padding: 10px;
-  width: 33%;
+  width: calc(100% / 3);
   color: white;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+}
+
+[date-picker] td:not(.day) > span {
+ border-right: 1px solid white;
+  border-bottom: 1px solid white;
+}
+
+[date-picker] td span.month, [date-picker] td span.year {
+  cursor: pointer;
+}
+
+
+[date-picker] td.day:hover, [date-picker] td span.month:hover, [date-picker] td span.year:hover {
+ background-color: rgba(0,0,0,0.4);
+}
+
+[date-picker] td span:nth-child(3n+3) {
+  border-right: 0;
+}
+
+[date-picker] td span:nth-last-child(-n+3) {
+  border-bottom: 0;
+}
+
+[date-picker] h2 {
+  cursor: pointer;
 }
 [date-picker] .now {
   color:yellow;
@@ -458,29 +520,31 @@ input[type=text],input[type=url], option, select {
 }
 [date-picker] [ng-switch-when=date] td {
   position: relative;
-  padding: 0;
+  padding: 3px;
   padding-top:25px;
 }
 
 [date-picker] [ng-switch-when=date] td span {
   position: absolute;
-  top: 5px;
+  top: 2px;
   right: 5px;
   text-align: right;
-  padding:0;
+  padding:5px;
+  cursor: default;
 }
 
 [date-picker] .event {
   display: block;
   clear:both;
-  padding:2px;
-  margin: 2px;
+  overflow: hidden;
   color: white;
   font-size:11px;
+  padding: 2px;
   background-color: rgba(0,0,0,0.5); 
   text-align: left; 
   cursor: pointer;
-  transition: background 0.5s ease-in-out;
+  margin-top: 2px;
+  transition: all 0.5s ease-in-out;
 }
 
 [date-picker] .event:hover {
@@ -542,4 +606,13 @@ the-tv-db-search .dropdown-menu, piratebay-search .dropdown-menu, kickass-torren
 
 the-tv-db-search serieheader:hover h3 {
   text-decoration: underline;
+}
+
+a.hover i.glyphicon {
+  -webkit-transition: all 1s ease-in;
+  -webkit-transform: scale(1,1);
+  
+}
+a:hover i.glyphicon {
+  -webkit-transform: scale(1.1,1.1);
 }

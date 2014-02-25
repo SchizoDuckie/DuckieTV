@@ -1,11 +1,11 @@
-angular.module('SeriesGuide.controllers', ['ngAnimate'])
+angular.module('SeriesGuide.controllers',[])
 
 
 /**
  * Main controller: Kicks in favorites display
  */
 .controller('MainCtrl', 
-  function($scope, $rootScope, FavoritesService) {
+  function($scope, $rootScope, FavoritesService, $rootElement) {
   	var favorites = [];
   	$scope.searchEngine = 1;
   	$scope.searchingForSerie = false;
@@ -41,7 +41,6 @@ angular.module('SeriesGuide.controllers', ['ngAnimate'])
 		 $rootScope.$broadcast('background:load', 'http://thetvdb.com/banners/'+serie.get('fanart'));
 		}
   	});
-
 })
 
 .controller('SerieCtrl',  
