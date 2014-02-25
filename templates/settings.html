@@ -1,15 +1,121 @@
-<h2>Settings</h2>
-<p>Hai</p>
-<!--
-<form ng-submit="save()">
-  <input type="text"
-          ng-model="user.location"
-          timezone="user.timezone"
-          auto-fill="fetchCities"
-          autocomplete="off"
-          placeholder="Location" />
-  <input class="btn btn-primary" 
-        type="submit" value="Save" />
-</form>
+<div class="row">
+  <div class="col-md-12">
+    <div class="container-fluid">
+     
+     <fieldset>
+     	 <h2>Settings</h2>
+     </fieldset>
 
--->
+     <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
+      <tr>
+        <td><strong>Page background</strong></td>
+        <td>
+          <ul class="list-unstyled">
+            <li><input type="radio" name="background" value="default" id='usebg1'> <label for="usebg1">Use series artwork</label></li>
+            <li><input type="radio" name="background" value="default" id='usebg2' style='vertical-align:top'>
+             <label for="usebg2">Use a custom background image<br>
+                  <input type='url' value='' placeholder='url to a custom background' style='width:500px'><br>
+                 
+                  <input type="radio" name="backgroundsize" value="contain" id='usebgsize1'><label for="usebgsize1" style='width: 150px'>Contain</label> 
+                  <input type="radio" name="backgroundsize" value="cover" id='usebgsize2'><label for="usebgsize2" style='width: 150px'>Cover</label> 
+                  <input type="radio" name="backgroundsize" value="repeat" id='usebgsize3'><label for="usebgsize3" style='width: 150px'>Repeat</label> 
+
+
+            </label>
+              
+            </li>
+            <li>
+              <input type="radio" name="background" value="default" id='usebg3'> <label for="usebg3">Use a custom background color    <input colorpicker="rgba" colorpicker-position="right" class="form-control" ng-model="rgbaPicker.color"  type="text" />
+            </label></li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Watchlist</strong></td>
+        <td>
+          <ul class="list-unstyled">
+            <li><input type="radio" name="update" id="radio_Automatically"><label for="radio_Automatically">Automatically check for updates to watchlist items (every 2 days) </label></li>
+            </ul>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Updates</strong></td>
+        <td>
+          <ul class="list-unstyled">
+            <li><input type="radio" name="update" id="radio_Automatically"><label for="radio_Automatically">Automatically check for updates to episodes (every 2 days) </label></li>
+            <li><input type="radio" name="update" id="radio_Use"><label for="radio_Use">Use TVRage database on top of TheTvDB by default </label></li>
+            </ul>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Notifications</strong></td>
+        <td>
+          <ul class="list-unstyled">
+            <li><input type="radio" name="notify" id="radio_aired"><label for="radio_aired">Notify me when series have aired </label></li>
+            <li><input type="radio" name="notify" id="radio_available"><label for="radio_available">Notify me when a download is available </label></li>
+            <li><input type="radio" name="notify" id="radio_subtitles"><label for="radio_subtitles">Notify me when both download and subtitles are available </label></li>
+            </ul>
+        </td>
+      </tr>
+       <tr>
+        <td><strong>Subtitles</strong></td>
+        <td>
+          <ul class="list-unstyled">
+              <li>Preferred language: </li>
+            </ul>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Preferred Quality</strong></td>
+        <td>
+          <ul class="list-unstyled">
+            <li<input type="radio" name="" id="radio_hdtv"><label for="radio_hdtv">HDTV </label></li>
+            <li><input type="radio" name="" id="radio_480p"><label for="radio_480p">480p </label></li>
+            <li><input type="radio" name="" id="radio_720p"><label for="radio_720p">720p </label></li>
+            <li><input type="radio" name="" id="radio_1080p"><label for="radio_1080p">1080p </label></li>
+            </ul>
+        </td>
+      </tr>
+       <tr>
+        <td><strong>The Pirate Bay</strong></td>
+        <td>
+          <ul class="list-unstyled">
+            <li>Piratebay main mirror:<br> <input type='url' style='width:500px' placholder='http://thepiratebay.se' value='http://thepiratebay.se'> <button class="btn btn-danger">Find a random mirror that supports Magnet links</li>
+          </ul>
+        </td>
+      </tr>
+          <tr>
+        <td><strong>Custom Trackers</strong></td>
+        <td>
+          <ul class="list-unstyled">
+            <li>Use a custom tracker for episodes</li>
+            <li>Rss feed </li>
+            <li>Row selector <br>
+              <input type='text' name='selector' value='table.results tbody tr'>
+            </li>
+             <li>For each row
+                <table>
+                  <tr><td>torrent name:</td><td> <input type='text' name='selector' value='td:nth-child(1)'></td></tr>
+                  <tr><td>magnet link:</td><td> <input type='text' name='selector' value='td:nth-child(2)'> </td></tr>
+                  <tr><td>seeders: </td><td><input type='text' name='selector' value='td:nth-child(3)'> </td></tr>
+                  <tr><td>leechers:</td><td> <input type='text' name='selector' value='td:nth-child(4)'></td></tr>
+            
+                </table>
+              </li>
+          </ul>
+        </td>
+      </tr>
+       <tr>
+        <td><strong>Torrent Handling</strong></td>
+        <td>
+          <ul class="list-unstyled">
+            <li><input type="radio" name="torrent" id="radio_Launch"><label for="radio_Launch">Launch Magnet links </label></li>
+            <li><input type="radio" name="torrent" id="radio_Use"><label for="radio_Use">Use utorrent remote  </label></li>
+            </ul>
+        </td>
+      </tr>
+     </table>
+
+    </div>
+  </div>
+</div>

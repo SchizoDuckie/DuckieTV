@@ -86,6 +86,7 @@ background-rotator, background-rotator > div {
   left: 0;
   background-size: cover;
   background-repeat: no-repeat;
+  z-index: -1;
 }
 
 #actionbar {
@@ -238,7 +239,7 @@ table.light h1 {
 .dropdown-menu {
 
   margin: 0;
-    border: 1px solid black;
+  border: 1px solid black;
   max-height: 400px;
   overflow-y: scroll;
   box-sizing: content-box;
@@ -359,7 +360,7 @@ fieldset h2 {
   text-shadow: 2px 2px 2px rgba(0,0,0,0.4);
 }
 
-input[type=text] {
+input[type=text],input[type=url], option, select {
   border: 1px solid #333;
   background-color: rgba(255,255,255,0.2);
   font-size: 25px;
