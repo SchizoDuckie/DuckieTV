@@ -308,7 +308,7 @@ chrome-top-sites ul {
 }
 
 chrome-top-sites li {
-  background-color: rgba(255,255,255,0.5);
+  background-color: rgba(255,255,255,0.2);
   color: black;
   padding: 15px;
   float: left;
@@ -319,6 +319,7 @@ chrome-top-sites li {
   border: 1px solid #666;
   height: 260px;
   overflow: hidden;
+  transition: all 0.5s ease-in-out;
 }
 
 chrome-top-sites li:nth-child(odd) {
@@ -332,6 +333,7 @@ chrome-top-sites li:nth-child(even) {
 
 chrome-top-sites a {
   color: black;
+  display: block;
   text-shadow: 1px 1px 1px rgba(255,255,255,0.2);
 }
 
@@ -348,7 +350,7 @@ chrome-top-sites img {
 }
 
 chrome-top-sites li:hover {
-  background-color: rgba(255,255,255,0.7);
+  background-color: rgba(255,255,255,0.5);
 }
 
 episode-watched {
