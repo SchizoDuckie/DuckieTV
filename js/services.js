@@ -248,3 +248,56 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
 
 })
 */
+
+
+.factory('WatchlistService', function($rootScope) {
+  var service = {
+    watchlist : [],
+
+    add: function(data) {
+      var watchlistitem = new WatchListItem();
+      for(var i in data) {
+        watchlistitem.set(i, data[i]);
+      }
+      var that = this;
+      watchlistitem.Persist().then(function(e) {
+        that.watchlist.push(watchlistitem.asObject());
+         $rootScope.$broadcast('watchlist:updated',service);
+    
+      }, function(fail) {
+       console.log("Error persisting watchlistitem!", data, arguments); 
+     });
+
+    },
+    getById: function(id) {
+       return CRUD.FindOne('WatchListItem', { 'ID_WatchlistItem' : id});
+    },
+    remove: function(watchlistitem) {
+        console.log("Remove watchlistitem from watchlist!", watchlistitem);
+        var self = this;
+        this.getById(watchlistitem['ID_WatchlistItem']).then(function(watchlistitem) {
+          watchlistitem.Delete().then(function() {
+             self.restore()
+          });
+        });
+       
+    },
+    /**
+     * Fetch stored watchlistitems from sqlite and store them in service.watchlist
+     * Notify anyone listening by broadcasting watchlist:updated 
+     */
+    restore: function() {
+       CRUD.Find('WatchListItem', {}).then(function(results) { 
+            var watchlist = [];
+            for(var i=0; i<results.length; i++) {
+                watchlist.push(results[i].asObject());
+            }
+            service.watchlist = watchlist;
+            $rootScope.$broadcast('watchlist:updated',service);
+            $rootScope.$broadcast('episodes:updated');
+        });
+      }
+  };
+  service.restore();
+  return service;
+})

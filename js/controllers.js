@@ -154,10 +154,33 @@ angular.module('SeriesGuide.controllers',[])
 
 
 
-.controller('WatchlistCtrl',  function() {
+.controller('WatchlistCtrl',  function($scope, WatchlistService) {
+	var movies = [];
+  	$scope.searchEngine = 1;
+  	$scope.searchingForMovie = false;
 
-	}
-)
+  	$scope.enableAdd = function() {
+  		$scope.searchingForMovie = true;
+  	}
+
+  	$scope.disableAdd = function() {
+	  	$scope.searchingForMovie = false;
+	  	console.log("Disable!");
+    }
+
+
+    $scope.watchlist = WatchlistService.watchlist;
+  	$scope.$on('watchlist:updated', function(event,data) {
+	     // you could inspect the data to see if what you care about changed, or just update your own scope
+	     $scope.watchlist = data.watchlist;
+	     if(!$scope.watchlist || (data.watchlist && data.watchlist.length == 0)) {
+	     	$scope.enableAdd();
+	     } 
+	     $scope.$digest(); // notify the scope that new data came in
+   	});
+  	
+
+})
 
 .controller('EpisodeCtrl',  
 

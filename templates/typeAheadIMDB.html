@@ -1,4 +1,3 @@
 <div>
-   <h4 ng-bind-html="match.model.title | unsafe"></h4>
-   <p ng-bind-html="match.model.description.split(',')[0] | unsafe"></p>
+   <strong><img src="{{match.model.image |unsafe}}"> {{match.model.title}}</strong> {{match.model.extra}}
 </div>

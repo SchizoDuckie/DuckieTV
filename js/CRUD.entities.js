@@ -69,7 +69,7 @@ var WatchListItem = CRUD.define({
 		className: 'WatchListItem',
 		table : 'WatchList',
 		primary : 'ID_WatchListItem',
-		fields: ['ID_WatchListItem','searchstring','type','watchservice','downloaded','watched', 'lastchecked'],
+		fields: ['ID_WatchListItem','searchstring','watchservice','downloaded','watched', 'lastchecked'],
 		createStatement: 'CREATE TABLE WatchList ( ID_WatchListItem INTEGER PRIMARY KEY NOT NULL, searchstring varchar(255) NOT NULL, watchservice VARCHAR(25) NULL, downloaded SMALLINT, watched SMALLINT, lastchecked TIMESTAMP)',
 		adapter: 'dbAdapter',
 		defaultValues: {
