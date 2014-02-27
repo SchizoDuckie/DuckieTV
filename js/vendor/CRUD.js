@@ -154,7 +154,7 @@ CRUD.Find = function(obj, filters, options) {
 	
 	var extras = [];
 	options = options || {};
-	if(filters.limit) {
+	if(filters && filters.limit) {
 		extras.limit = (options.start || 0) + "," + options.limit;
 	}
 	var justthese = options.justthese || [];

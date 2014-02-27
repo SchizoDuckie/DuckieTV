@@ -250,23 +250,28 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
 */
 
 
-.factory('WatchlistService', function($rootScope) {
+.factory('WatchlistService', function($rootScope, IMDB) {
   var service = {
     watchlist : [],
 
     add: function(data) {
-      var watchlistitem = new WatchListItem();
-      for(var i in data) {
-        watchlistitem.set(i, data[i]);
-      }
-      var that = this;
-      watchlistitem.Persist().then(function(e) {
-        that.watchlist.push(watchlistitem.asObject());
-         $rootScope.$broadcast('watchlist:updated',service);
-    
-      }, function(fail) {
-       console.log("Error persisting watchlistitem!", data, arguments); 
-     });
+        console.log("Add!", data);
+        var watchlistitem = new WatchListItem();
+        watchlistitem.set('searchstring', data.title );
+        console.log("Saving!", watchlistitem);
+        watchlistitem.Persist().then(function(e) {
+
+          var obj = new WatchListObject();
+          obj.set('property', 'imdb');
+          obj.set('json', angular.toJson(data, true));
+          obj.set('ID_WatchListItem', watchlistitem.get('ID_WatchListItem'));
+          obj.Persist().then(function(obj) {
+           service.restore();
+          }, function(err) { debugger; }) 
+        }, function(fail) {
+         console.log("Error persisting watchlistitem!", data, arguments); 
+       });
+       
 
     },
     getById: function(id) {
@@ -275,7 +280,7 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
     remove: function(watchlistitem) {
         console.log("Remove watchlistitem from watchlist!", watchlistitem);
         var self = this;
-        this.getById(watchlistitem['ID_WatchlistItem']).then(function(watchlistitem) {
+        this.getById(watchlistitem['ID_WatchListItem']).then(function(watchlistitem) {
           watchlistitem.Delete().then(function() {
              self.restore()
           });
@@ -287,17 +292,32 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
      * Notify anyone listening by broadcasting watchlist:updated 
      */
     restore: function() {
-       CRUD.Find('WatchListItem', {}).then(function(results) { 
+      console.log("restoring watchlist!");
+       CRUD.Find('WatchListItem').then(function(results) { 
+            console.log("Fetched watchlist results: ", results);
             var watchlist = [];
-            for(var i=0; i<results.length; i++) {
-                watchlist.push(results[i].asObject());
-            }
-            service.watchlist = watchlist;
-            $rootScope.$broadcast('watchlist:updated',service);
-            $rootScope.$broadcast('episodes:updated');
+            results.map(function(result) {
+              CRUD.Find('WatchListObject', { 'ID_WatchListItem': result.get('ID_WatchListItem')}).then(function(props) {
+
+                var item = result.asObject();
+                for(var j=0; j< props.length; j++) {
+                  item[props[j].get('property')] = angular.fromJson(props[j].get('json'));
+                }
+                watchlist.push(item);
+                if(watchlist.length == results.length) {
+                  console.log("Watchlist done!", watchlist.length, results.length, watchlist);
+                  service.watchlist = watchlist;
+                  $rootScope.$broadcast('watchlist:updated',service.watchlist);
+                }
+              })
+            }, function(err) {
+                console.log("Error fetching watchlist", err);
+            });
+
         });
-      }
-  };
-  service.restore();
-  return service;
+     }
+   };
+    service.restore();
+    return service;
+
 })

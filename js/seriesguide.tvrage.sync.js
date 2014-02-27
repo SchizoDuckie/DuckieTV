@@ -19,7 +19,7 @@ angular.module('SeriesGuide.tvrage.sync',['SeriesGuide.tvrage'])
 				// or the episode title is different on tvrage
 				current = tvRageEpisodes.filter(function(el) { 
 					return (
-					  (existing.firstaired == "" && parseInt(el.season,10) == existing.seasonnumber && parseInt(el.episode,10) == existing.episodenumber) ||
+					  (existing.firstaired == "" && parseInt(el.season,10) == parseInt(existing.seasonnumber,10) && parseInt(el.episode,10) == parseInt(existing.episodenumber,10)) ||
 					  (el.title.toLowerCase().trim() == existing.episodename.toLowerCase().trim()) ||
 					  (existing.episodename.length > 0 && el.title.toLowerCase().match(/([a-z])+/g).join('') == existing.episodename.toLowerCase().match(/([a-z])+/g).join('')) ||
 		 			  (el.title.toLowerCase().trim() == existing.episodename.replace('and', '&').toLowerCase().trim()) ||
@@ -47,7 +47,6 @@ angular.module('SeriesGuide.tvrage.sync',['SeriesGuide.tvrage'])
 					console.log("Could not match on title or episodenumber and airdate!", existing, tvRageEpisodes)
 				}
 			}
-			$scope.$apply();
 		});
 	};
 

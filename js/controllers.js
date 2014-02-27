@@ -155,7 +155,7 @@ angular.module('SeriesGuide.controllers',[])
 
 
 .controller('WatchlistCtrl',  function($scope, WatchlistService) {
-	var movies = [];
+	$scope.watchlist = WatchlistService.watchlist;
   	$scope.searchEngine = 1;
   	$scope.searchingForMovie = false;
 
@@ -168,11 +168,10 @@ angular.module('SeriesGuide.controllers',[])
 	  	console.log("Disable!");
     }
 
-
-    $scope.watchlist = WatchlistService.watchlist;
-  	$scope.$on('watchlist:updated', function(event,data) {
+    $scope.$on('watchlist:updated', function(event,data) {
 	     // you could inspect the data to see if what you care about changed, or just update your own scope
-	     $scope.watchlist = data.watchlist;
+	     $scope.watchlist = data;
+	     console.log("Watchlist came in!", $scope.watchlist, data);
 	     if(!$scope.watchlist || (data.watchlist && data.watchlist.length == 0)) {
 	     	$scope.enableAdd();
 	     } 

@@ -8,12 +8,25 @@ angular.module('SeriesGuide.imdb',[])
 .provider('IMDB', function() {
 
  this.endpoints = {
- 	search: 'http://www.imdb.com/find?q=%s&s=tt&ref_=fn_al_tt_mr',
+ 	search: 'http://www.imdb.com/find?q=%s&s=all',
+  details: 'http://www.imdb.com/title/%s'
  };
  
  this.getUrl = function(type, query) {
  		return this.endpoints[type].replace('%s', encodeURIComponent(query));
- },
+ }
+
+ this.parseDetails = function(result) {
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(result.data, "text/html");
+    var output = {
+      image: doc.querySelector('#img_primary > div > a > img').src,
+      rating: doc.querySelector('#overview-top > div.star-box.giga-star > div.titlePageSprite.star-box-giga-star').innerText,
+      overview: doc.querySelector('#overview-top > p:nth-child(6)').innerText
+    }
+    console.log("parsed details: ", output);
+    return output;
+ }
 
  this.parseSearch = function(result) {
   var parser = new DOMParser();
@@ -22,21 +35,21 @@ angular.module('SeriesGuide.imdb',[])
   var output = [];
   var max = results.length > 20 ? 20 : results.length;
   for(var i=0; i<max;i++) {
-        var link = results[i].querySelector('td:nth-child(2) a');
-        if(!link ) {
-          continue;
-        }
-        var title = link.innerText
-         var parent = link.parentNode;
-         parent.removeChild(link);
-         var extra = parent.innerText;
-    output.push({
-      image: results[i].querySelector('td a img').src,
-      title: title,
-      IMDB_ID: results[i].innerHTML,
-      extra: extra,
-      cell : results[i].innerHTML
-    })
+      var link = results[i].querySelector('td:nth-child(2) a');
+      if(!link ) { continue; }
+      var IMDB_ID = link.outerHTML.match(/(tt[0-9]+)/g);
+      if(!IMDB_ID) { continue; } // weed out non-movies
+
+      var title = link.innerText
+      var parent = link.parentNode;
+      parent.removeChild(link);
+      var extra = parent.innerText;
+      output.push({
+        image: results[i].querySelector('td a img').src,
+        title: title,
+        IMDB_ID: IMDB_ID[0],
+        extra: extra
+      });
   }
   console.log("parsed: ", output);
   return output;
@@ -47,19 +60,33 @@ angular.module('SeriesGuide.imdb',[])
     var self = this;
     return {
 	    findAnything: function(what) {
-	    	var d = $q.defer();
-	        $http({
-	        	method: 'GET',
-	            url: self.getUrl('search', what),
-	            cache: true
-	          }).then(function(response) {
-	          	d.resolve(self.parseSearch(response));
-			}, function(err) {
-				console.log('error!');
-			  d.reject(err);
-			});
-			return d.promise;
-	    }
+  	    var d = $q.defer();
+	      $http({
+      	  method: 'GET',
+          url: self.getUrl('search', what),
+          cache: true
+        }).then(function(response) {
+	          d.resolve(self.parseSearch(response));
+			  }, function(err) {
+				    console.log('error!');
+		       d.reject(err);
+		    });
+  			return d.promise;
+	    },
+      getDetails: function(imdbid) {
+        var d = $q.defer();
+        $http({
+          method: 'GET',
+          url: self.getUrl('details', imdbid),
+          cache: true
+        }).then(function(response) {
+            d.resolve(self.parseDetails(response));
+        }, function(err) {
+            console.log('error!');
+           d.reject(err);
+        });
+        return d.promise;
+      }
     }
   }
 })
@@ -88,7 +115,7 @@ angular.module('SeriesGuide.imdb',[])
    * @Todo figure out what to do with this. popover? new tab?
    */
   $scope.selectIMDB = function(item) {
-  	$scope.selected = item;
+  	$scope.selected = item.titl;
   	console.log("IMDB Item selected!", item);
     WatchlistService.add(item);
   }
