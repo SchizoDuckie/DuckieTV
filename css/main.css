@@ -549,6 +549,10 @@ input[type=text],input[type=url], option, select {
   transition: all 0.5s ease-in-out;
 }
 
+[date-picker] .event .watched {
+  text-decoration: line-through;
+}
+
 [date-picker] .event:hover {
   background-color: rgba(0,0,0, 0.8);
 }
@@ -617,4 +621,16 @@ a.hover i.glyphicon {
 }
 a:hover i.glyphicon {
   -webkit-transform: scale(1.1,1.1);
+}
+
+.watchlist ul {
+  display: table;
+}
+.watchlist li {
+  float:left; display:table-cell; width: 33.33%; vertical-align: top; text-align:center;
+}
+
+
+.watchlist li:nth-child(3n+3) {
+  float:left;
 }
