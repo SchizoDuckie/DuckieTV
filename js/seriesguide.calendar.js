@@ -51,8 +51,9 @@ angular.module('SeriesGuide.calendar', ['SeriesGuide.providers'])
                 cache[results[i].getID()] = results[i];
              }
              for(var i=0; i< data.length; i++) {
+                var d = data[i].get('firstaired').split('-');
                 events.push({
-                  start : new Date(data[i].get('firstaired')), 
+                  start : new Date((new Date(data[i].get('firstaired')).getTime() + new Date().getTimezoneOffset()*60*1000)), 
                   serie: cache[data[i].get('ID_Serie')].get('name'),
                   serieID: cache[data[i].get('ID_Serie')].get('TVDB_ID'),
                   episode: data[i]
