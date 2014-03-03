@@ -21,7 +21,9 @@ angular.module('SeriesGuide.tvrage.sync',['SeriesGuide.tvrage'])
 					return (
 					  (existing.firstaired == "" && parseInt(el.season,10) == parseInt(existing.seasonnumber,10) && parseInt(el.episode,10) == parseInt(existing.episodenumber,10)) ||
 					  (el.title.toLowerCase().trim() == existing.episodename.toLowerCase().trim()) ||
-					  (existing.episodename.length > 0 && el.title.toLowerCase().match(/([a-z])+/g).join('') == existing.episodename.toLowerCase().match(/([a-z])+/g).join('')) ||
+					  (existing.episodename != null && el.title != null && el.title.toLowerCase().match(/([a-z])+/g) != null && existing.episodename.toLowerCase().match(/([a-z])+/g) != null  &&
+					   el.title.toLowerCase().match(/([a-z])+/g).join('') == existing.episodename.toLowerCase().match(/([a-z])+/g).join('')
+					  ) ||
 		 			  (el.title.toLowerCase().trim() == existing.episodename.replace('and', '&').toLowerCase().trim()) ||
 		 			  (el.airdate == existing.firstaired && parseInt(existing.episodenumber,10) == parseInt(el.episode,10)) ||
 		 			  (el.title.length > 0 && existing.episodename.length > 0 && (el.title.indexOf(existing.episodename) > -1 || existing.episodename.indexOf(el.title) > -1 ))
