@@ -34,7 +34,7 @@
 							   		</tr>
 									<tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items">
 										<td style='width:30px; padding:5px;' ng-bind-html="seed.magnetlink.replace('static/', '/')|unsafe"></td>
-									    <td><a ng-href='{{seed.magneturl}}' ng-bind-html="seed.releasename | unsafe"></a></td>
+									    <td><a ng-href='{{seed.magneturl}}' tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe"></a></td>
 									    <td style='width:50px'><a ng-href='{{seed.magneturl}}' ng-bind="seed.seeders"></a></td>
 									    <td style='width:50px'><a ng-href='{{seed.magneturl}}' ng-bind="seed.leechers"></a></td>
 								    </tr>

@@ -623,14 +623,24 @@ a:hover i.glyphicon {
   -webkit-transform: scale(1.1,1.1);
 }
 
-.watchlist ul {
-  display: table;
-}
 .watchlist li {
-  float:left; display:table-cell; width: 33.33%; vertical-align: top; text-align:center;
+  padding: 10px;
+  width:33.3%;
+  min-height:250px; 
+  max-height:400px; 
+  vertical-align: top;
 }
 
+.watchlist li .movie {
+  height: 300px;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+}
 
-.watchlist li:nth-child(3n+3) {
-  float:left;
+.watchlist li .info {
+  text-align: center;
+  font-weight:bold;
+  display: block;
 }

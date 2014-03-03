@@ -21,16 +21,17 @@ angular.module('SeriesGuide.thepiratebay', [])
  */
 .provider('ThePirateBay', function() {
 
+ this.mirror = 'http://thepiratebay.se/';
  this.endpoints = {
- 	search: 'http://thepiratebay.se/search/%s/0/7/0',
- 	details: 'http://thepiratebay.se/torrent/%s',
+ 	search: 'search/%s/0/7/0',
+ 	details: 'torrent/%s',
  };
  
  /**
   * Switch between search and details
   */
  this.getUrl = function(type, param) {
- 		return this.endpoints[type].replace('%s', encodeURIComponent(param));
+ 		return this.mirror + this.endpoints[type].replace('%s', encodeURIComponent(param));
  },
 
  this.parseSearch = function(result) {
@@ -43,6 +44,7 @@ angular.module('SeriesGuide.thepiratebay', [])
  			releasename: results[i].querySelector('td:nth-child(2) > div ').innerText,
 			magnetlink: results[i].querySelector('td:nth-child(2) > a').outerHTML.replace(/img src=\"(.*)\/img\/icon-magnet.gif\"/igm, 'img src="static/img/icon-magnet.gif"'),
 			magneturl: results[i].querySelector('td:nth-child(2) > a').href,
+			size: results[i].querySelector('td:nth-child(2) .detDesc').innerText.match(/Size (.*)\,/)[1],
 			seeders: results[i].querySelector("td:nth-child(3)").innerHTML,
 			leechers: results[i].querySelector("td:nth-child(4)").innerHTML,
 			row: results[i].innerHTML
@@ -56,7 +58,7 @@ angular.module('SeriesGuide.thepiratebay', [])
   * Get wrapper, providing the actual search functions and result parser
   * Provides promises so it can be used in typeahead as well as in the rest of the app
   */
- this.$get = function($q, $http) {
+ this.$get = function($q, $http, MirrorResolver) {
     var self = this;
     return {
     	/**
@@ -72,8 +74,16 @@ angular.module('SeriesGuide.thepiratebay', [])
 	        	console.log("TPB search executed!", response);
 	           d.resolve(self.parseSearch(response));
 			}, function(err) {
-				console.log('error!');
-			  d.reject(err);
+				if(err.status > 300) {
+					MirrorResolver.findTPBMirror().then(function(result) {
+						console.log("Resolved a new working mirror!", result);
+						self.mirror = result;
+						return d.resolve(self.$get($q, $http, MirrorResolver).search(what));
+					}, function(err) {
+						console.debug("Could not find a working TPB mirror!", err);
+						d.reject(err);
+					})
+				}
 			});
 			return d.promise;
 	    },

@@ -19,10 +19,13 @@ angular.module('SeriesGuide.imdb',[])
  this.parseDetails = function(result) {
     var parser = new DOMParser();
     var doc = parser.parseFromString(result.data, "text/html");
+    var img = doc.querySelector('#img_primary > div > a > img');
+    var rating = doc.querySelector('#overview-top > div.star-box.giga-star > div.titlePageSprite.star-box-giga-star')
+    var overview = doc.querySelector('#overview-top > p:nth-child(6)');
     var output = {
-      image: doc.querySelector('#img_primary > div > a > img').src,
-      rating: doc.querySelector('#overview-top > div.star-box.giga-star > div.titlePageSprite.star-box-giga-star').innerText,
-      overview: doc.querySelector('#overview-top > p:nth-child(6)').innerText
+      image: img ? img.src : 'img/placeholder.png',
+      rating: rating ? rating.innerText : 'unknown',
+      overview: overview ? overview.innerText : '',
     }
     console.log("parsed details: ", output);
     return output;
@@ -115,9 +118,15 @@ angular.module('SeriesGuide.imdb',[])
    * @Todo figure out what to do with this. popover? new tab?
    */
   $scope.selectIMDB = function(item) {
-  	$scope.selected = item.titl;
+  	$scope.selected = item.title;
   	console.log("IMDB Item selected!", item);
-    WatchlistService.add(item);
+    IMDB.getDetails(item.IMDB_ID).then(function(details) {
+      item.details = details;
+      WatchlistService.add(item);
+    }, function(err) {
+      console.error(err);
+      debugger;
+    });
   }
 })
 
