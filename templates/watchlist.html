@@ -17,10 +17,9 @@
 	    </fieldset>
 	    <div class="watchlist">
 	    	<ul class="list-inline">
-	    		<li ng-repeat="item in watchlist" style='display:inline-block; width: 250px; height:250px; text-align:center;'><div ng-if="item.imdb"> 
-	    				<p> <img src="{{ item.imdb.image }}"></p>
-	    			</div>
-	    			 {{ item.searchstring }} 
+	    		<li ng-repeat="item in watchlist">
+	    			 <div class="movie" lazy-background="{{ item.imdb.details.image }}"></div>
+	    			 <strong class="info">{{ item.searchstring }} <small>{{ item.imdb.extra }}</small></strong>
 	    		</li>
 	    	</ul>
 	     <!-- <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1"></serieHeader>  -->
