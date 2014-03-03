@@ -45,7 +45,7 @@ angular.module('SeriesGuide.controllers',[])
 
 .controller('SerieCtrl',  
 
-	function(TheTVDB, ThePirateBay, FavoritesService, TVRageSyncService, $routeParams, $scope, $rootScope) {
+	function(TheTVDB, ThePirateBay, FavoritesService, SceneNameResolver, TVRageSyncService, $routeParams, $scope, $rootScope) {
 		console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
 		$scope.episodes = [];
 
@@ -101,9 +101,9 @@ angular.module('SeriesGuide.controllers',[])
 		}
 
 		$scope.getSearchString = function(serie, episode) {
-			
-			return serie.name+' '+$scope.getEpisodeNumber(episode);
-		};
+			var serieName = SceneNameResolver.getSceneName(serie.TVDB_ID) || serie.name;
+			return serieName +' '+$scope.getEpisodeNumber(episode);
+		}
 
 		$scope.getEpisodeNumber = function(episode) {
 			var sn = episode.seasonnumber.toString(), en = episode.episodenumber.toString(), out = ['S', sn.length == 1 ? '0'+sn : sn, 'E', en.length == 1 ? '0'+en : en].join('');
@@ -183,7 +183,7 @@ angular.module('SeriesGuide.controllers',[])
 
 .controller('EpisodeCtrl',  
 
-	function(TheTVDB, ThePirateBay, FavoritesService, NotificationService, $routeParams, $scope, $rootScope) {
+	function(TheTVDB, ThePirateBay, FavoritesService, SceneNameResolver, NotificationService, $routeParams, $scope, $rootScope) {
 		
 		$scope.searching = false;
 		var currentDate = new Date();
@@ -211,8 +211,8 @@ angular.module('SeriesGuide.controllers',[])
 		};
 
 		$scope.getSearchString = function(serie, episode) {
-			
-			return serie.name+' '+$scope.getEpisodeNumber(episode);
+			var serieName = SceneNameResolver.getSceneName(serie.name) || serie.name;
+			return serieName +' '+$scope.getEpisodeNumber(episode);
 		};
 
 		$scope.getEpisodeNumber = function(episode) {

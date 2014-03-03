@@ -18,6 +18,7 @@ angular.module('SeriesGuide', [
     'SeriesGuide.tvrage',
     'SeriesGuide.tvrage.sync',
     'SeriesGuide.thetvdb',
+    'SeriesGuide.scenenames',
     'SeriesGuide.imdb',
     'colorpicker.module',
     'Chrome.topSites',
