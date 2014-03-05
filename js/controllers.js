@@ -17,13 +17,11 @@ angular.module('SeriesGuide.controllers',[])
   	$scope.disableAdd = function() {
 	  	$scope.searchingForSerie = false;
 	  	console.log("Disable!");
-	  }
+	}
 
   	/**
   	 * The favorites service fetches data asynchronously via SQLite, we wait for it to emit the favorites:updated event.
   	 */
-
-
   	$scope.favorites = FavoritesService.favorites;
   	$scope.$on('favorites:updated', function(event,data) {
 	     // you could inspect the data to see if what you care about changed, or just update your own scope
@@ -248,8 +246,54 @@ angular.module('SeriesGuide.controllers',[])
 
 
 .controller('SettingsCtrl', 
-  function($scope, $location, $rootScope, FavoritesService) {
+  function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver) {
     
+    $scope.custommirror = 'http://thepiratebay.se'; //SettingsService.get('thepiratebay.mirror');
+    $scope.mirrorStatus = [];
+    $scope.getSetting = function(key) {
+    	return SettingsService.get(key);
+    }
+
+    $scope.enableSetting = function(key) {
+    	SettingsService.set(key, true);
+    }
+
+    $scope.disableSetting = function(key) {
+    	SettingsService.set(key, false);
+    }
+
+    $rootScope.$on('mirrorresolver:status', function(evt, status) {
+    	$scope.mirrorStatus.push(status);
+    });
+
+
+	$scope.findRandomTPBMirror = function() {
+		MirrorResolver.findTPBMirror().then(function(result) {
+			console.log("Resolved a new working mirror!", result);
+			$scope.customMirror = result;
+			SettingsService.set('thepiratebay.mirror', $scope.customMirror);
+		}, function(err) {
+			console.debug("Could not find a working TPB mirror!", err);
+		})
+	}
+
+	$scope.validateCustomMirror = function(mirror) {
+		console.log("Validate custom mirror: ", mirror);
+		MirrorResolver.verifyMirror(mirror).then(function() {
+			SettingsService.set('thepiratebay.mirror', mirror);
+			$scope.custommirror = mirror;
+		}, function(err) {
+			console.log("Could not validate custom mirror!",mirror);
+			//$scope.customMirror = '';
+		})
+	}
+
+	$scope.mirrorChange = function(scope) {
+		console.log("Change! ", scope.custommirror, $scope.custommirror)
+		 //$scope.customMirror = e
+	}
+
+
     $scope.favorites = FavoritesService.favorites;
   	$scope.$on('favorites:updated', function(event,data) {
 	     // you could inspect the data to see if what you care about changed, or just update your own scope

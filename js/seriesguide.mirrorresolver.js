@@ -5,7 +5,8 @@ angular.module('SeriesGuide.mirrorresolver', [])
 
  this.endpoints = {
  	thepiratebay: 'http://fucktimkuik.org/',
-};
+  };
+  this.rootScope = false;
  
  /**
   * Switch between search and details
@@ -13,6 +14,7 @@ angular.module('SeriesGuide.mirrorresolver', [])
  this.getUrl = function(type) {
  		return this.endpoints[type];
  },
+
 
  this.parseFuckTimKuik = function(result) {
  	var parser = new DOMParser();
@@ -32,13 +34,16 @@ angular.module('SeriesGuide.mirrorresolver', [])
   * Get wrapper, providing the actual search functions and result parser
   * Provides promises so it can be used in typeahead as well as in the rest of the app
   */
- this.$get = function($q, $http) {
+ this.$get = function($q, $http, $rootScope) {
     var self = this;
+    var maxAttempts = 3;
     return {
     	/**
     	 * Execute a generic Kickass search, parse the results and return them as an array
     	 */
-	    findTPBMirror: function() {
+	    findTPBMirror: function(attempt) {
+	    	attempt = attempt || 1;
+	    	$rootScope.$broadcast('mirrorresolver:status', 'Finding a random TPB Mirror, attempt '+attempt);
 	    	var d = $q.defer();
 	        $http({
 	        	method: 'GET',
@@ -46,12 +51,18 @@ angular.module('SeriesGuide.mirrorresolver', [])
 	            cache: false
 	        }).then(function(response) {
 	        	var location = self.parseFuckTimKuik(response);
-	        	console.log("Found ThePirateBay mirror!", location, " Verifying if it uses magnet links.");
-	        	self.$get($q, $http).verifyMirror(location).then(function() {
+	        	$rootScope.$broadcast('mirrorresolver:status', "Found ThePirateBay mirror! " + location + " Verifying if it uses magnet links.");
+	        	self.$get($q, $http, $rootScope).verifyMirror(location).then(function() {
 	        		d.resolve(location);
-	        	}, function(mirror) {
-	        		console.log("Mirror does not do magnet links.. trying another one.");
-	        		d.resolve(self.$get($q,$http).findTPBMirror());
+	        	}, function(err) {
+	        		if(attempt < maxAttempts) {
+	        			if(err.status)
+		        		$rootScope.$broadcast('mirrorresolver:status', "Mirror does not do magnet links.. trying another one.");
+		        		d.resolve(self.$get($q,$http, $rootScope).findTPBMirror(attempt + 1));	        			
+	        		} else {
+	        			$rootScope.$broadcast("mirrorresolver:status", "Could not resolve a working mirror in "+maxAttempts +" tries. TPB is probably down.");
+	        			d.reject("Could not resolve a working mirror in "+maxAttempts +" tries. TPB is probably down.");
+	        		}
 	        	});
 	          
 			}, function(err) {
@@ -60,8 +71,9 @@ angular.module('SeriesGuide.mirrorresolver', [])
 			});
 			return d.promise;
 	    },
-	    verifyMirror: function(location) {
-	    	console.log("Verifying if mirror is using magnet links!", location);
+	    verifyMirror: function(location, maxTries) {
+	    	if(maxTries) { maxAttempts = tries; }
+	    	$rootScope.$broadcast('mirrorresolver:status', "Verifying if mirror is using magnet links!: "+ location);
 	    	var d = $q.defer();
 	        
 	    	testLocation = location+ "/search/test/0/7/0";
@@ -69,15 +81,16 @@ angular.module('SeriesGuide.mirrorresolver', [])
 	        	method: 'GET',
 	            url: testLocation
 	        }).then(function(response) {
+	        	$rootScope.$broadcast('mirrorresolver:status', "Results received, parsing");
 	        	if(self.parseTestSearch(response)) {
-	        		console.log("Yes it does!");
+	        		$rootScope.$broadcast('mirrorresolver:status', "Yes it does!");
 	        		d.resolve(location);
 	        	} else {
-	        		console.log("mirror that intercepts magnet links. bypassing.");
+	        		$rootScope.$broadcast('mirrorresolver:status', "This is a mirror that intercepts magnet links. bypassing.");
 	        		d.reject(location);
 	        	}
 			}, function(err) {
-				console.log('error!');
+				$rootScope.$broadcast('mirrorresolver:status', 'error! HTTP Status: ' + angular.toJson(err.status));
 			   d.reject(err);
 			});
 			return d.promise;

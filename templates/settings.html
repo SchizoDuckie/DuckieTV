@@ -1,12 +1,52 @@
 <div class="row">
   <div class="col-md-12">
     <div class="container-fluid">
-     
+     <form no-validate>
      <fieldset>
      	 <h2>Settings</h2>
      </fieldset>
 
      <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
+     <tr>
+        <td style='width:150px'><strong style='white-space:nowrap'>Torrent functionality</strong>
+       
+        </td>
+        <td>
+          <ul class="list-unstyled">
+            <li>Current status:
+               <p class="label label-success" ng-if="getSetting('torrenting.enabled')">Enabled</p> 
+               <p class="label label-danger" ng-if="!getSetting('torrenting.enabled')">Disabled</p> 
+               <hr>      
+                <p ng-if="!getSetting('torrenting.enabled')" class="alert alert-info">Clicking the button below enables all torrent related functionalities throughout the app</p>
+                <p ng-if="getSetting('torrenting.enabled')" class="alert alert-warning">Clicking the button below will hide all torrent related functionalities throughout the app</p>
+                <button ng-if="!getSetting('torrenting.enabled')" ng-click="enableSetting('torrenting.enabled')" class="btn btn-success">Enable all torrent functionality</button>
+                <button ng-if="getSetting('torrenting.enabled')" ng-click="disableSetting('torrenting.enabled')" class="btn btn-danger">Disable all torrent functionality</button>
+                </li>
+          </ul>
+        </td>
+      </tr>
+     <tr ng-if="getSetting('torrenting.enabled')">
+        <td><strong>The Pirate Bay</strong></td>
+        <td>
+          <ul class="list-unstyled">
+            <p class="alert alert-warning">If for some reason ThePirateBay is blocked in your territory, use the button below to automagically resolve a working mirror that supports magnet links. If you have a preferred server, you may input that as well.
+            <p ng-if="mirrorStatus.length > 0">
+              Current Status: <ul>
+                <li ng-repeat="status in mirrorStatus track by $index">{{status}}</li>
+              </ul>
+            </p>
+            </p>
+               
+            <li>Piratebay main mirror:<br> <input type='url' style='width:500px' ng-model="custommirror" ng-change="mirrorChange(this)"> 
+
+            <button class="btn btn-success" ng-click="validateCustomMirror(custommirror)">Validate and Save</button>
+            <button class="btn btn-info" ng-click="findRandomTPBMirror()">Find a random mirror that supports Magnet links</button>
+            
+            </li>
+          </ul>
+        </td>
+      </tr>
+ <!-- 
       <tr>
         <td><strong>Page background</strong></td>
         <td>
@@ -20,18 +60,19 @@
                   <input type="radio" name="backgroundsize" value="cover" id='usebgsize2'><label for="usebgsize2" style='width: 150px'>Cover</label> 
                   <input type="radio" name="backgroundsize" value="repeat" id='usebgsize3'><label for="usebgsize3" style='width: 150px'>Repeat</label> 
 
-
             </label>
               
             </li>
             <li>
-              <input type="radio" name="background" value="default" id='usebg3'> <label for="usebg3">Use a custom background color    <input colorpicker="rgba" colorpicker-position="right" class="form-control" ng-model="rgbaPicker.color"  type="text" />
+              <input type="radio" name="background" value="default" id='usebg3'> <label for="usebg3">
+              Use a custom background color 
+              <input colorpicker="rgba" colorpicker-position="right" class="form-control" ng-model="rgbaPicker.color" type="text" placeholder="Click to pick"/>
             </label></li>
           </ul>
         </td>
       </tr>
       <tr>
-        <td><strong>Watchlist</strong></td>
+      <td><strong>Watchlist</strong></td>
         <td>
           <ul class="list-unstyled">
             <li><input type="radio" name="update" id="radio_Automatically"><label for="radio_Automatically">Automatically check for updates to watchlist items (every 2 days) </label></li>
@@ -76,15 +117,7 @@
             </ul>
         </td>
       </tr>
-       <tr>
-        <td><strong>The Pirate Bay</strong></td>
-        <td>
-          <ul class="list-unstyled">
-            <li>Piratebay main mirror:<br> <input type='url' style='width:500px' placholder='http://thepiratebay.se' value='http://thepiratebay.se'> <button class="btn btn-danger">Find a random mirror that supports Magnet links</li>
-          </ul>
-        </td>
-      </tr>
-          <tr>
+                 <tr>
         <td><strong>Custom Trackers</strong></td>
         <td>
           <ul class="list-unstyled">
@@ -113,9 +146,10 @@
             <li><input type="radio" name="torrent" id="radio_Use"><label for="radio_Use">Use utorrent remote  </label></li>
             </ul>
         </td>
-      </tr>
+      </tr>-->
      </table>
-
+ </form>
     </div>
   </div>
+
 </div>

@@ -115,6 +115,46 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
   return service;
 })
 
+
+.factory('SettingsService', function() {
+  var service = {
+    settings : {},
+    defaults: {
+      'torrenting.enabled': true,
+      'thepiratebay.mirror' : 'https://thepiratebay.se'
+    },
+
+    get: function(key) {
+      return service.settings[key];
+    },
+
+    set: function(key, value) {
+      service.settings[key] = value;
+      service.persist();
+    },
+
+    persist: function() {
+      localStorage.setItem('userPreferences', angular.toJson(service.settings,true));
+    },
+    
+    /**
+     * Fetch stored series from sqlite and store them in service.favorites
+     * Notify anyone listening by broadcasting favorites:updated 
+     */
+    restore: function() {
+      if(!localStorage.getItem('userPreferences')) {
+        service.settings = service.defaults;
+      } else {
+        service.settings = angular.fromJson(localStorage.getItem('userPreferences'));   
+      }
+    }
+  };
+  service.restore();
+  return service;
+})
+
+
+
 .provider("NotificationService", function() {
   var ids = {};
 
