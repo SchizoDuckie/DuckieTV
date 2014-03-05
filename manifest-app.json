@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "SeriesGuide Chrome v2 - 'Browser action' mode",
+  "short_name": "SeriesGuide Chrome",  
+  "version" : "0.20",
+  "description": "Manage your favorite TV series and movies from your browser's new tab page",
+    "permissions": [
+    "http://*/*",
+    "https://*/*",
+    "tabs",
+    "notifications"  
+  ],
+   "background": {
+    "scripts": ["js/vendor/angular.min.js", "launch.js"]
+  },
+  "icons": {
+    "16": "img/icon16.png",
+    "48": "img/icon48.png",
+    "128": "img/icon128.png"
+  },
+  "browser_action": {
+    "default_title": "",
+    "default_icon": "img/icon48.png"
+  },
+  "homepage_url": "http://reddit.com/r/seriesguide/",
+  "content_security_policy": "script-src 'self'; object-src 'self'"
+}

@@ -21,10 +21,10 @@ angular.module('SeriesGuide.thepiratebay', [])
  */
 .provider('ThePirateBay', function() {
 
- this.mirror = 'http://thepiratebay.se/';
+ this.mirror = null;
  this.endpoints = {
- 	search: 'search/%s/0/7/0',
- 	details: 'torrent/%s',
+ 	search: '/search/%s/0/7/0',
+ 	details: '/torrent/%s',
  };
  
  /**
@@ -58,8 +58,9 @@ angular.module('SeriesGuide.thepiratebay', [])
   * Get wrapper, providing the actual search functions and result parser
   * Provides promises so it can be used in typeahead as well as in the rest of the app
   */
- this.$get = function($q, $http, MirrorResolver) {
+ this.$get = function($q, $http, MirrorResolver, SettingsService) {
     var self = this;
+    self.mirror = SettingsService.get('thepiratebay.mirror');
     return {
     	/**
     	 * Execute a generic tpb search, parse the results and return them as an array

@@ -7,16 +7,31 @@
      </fieldset>
 
      <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
-     <tr>
-        <td style='width:150px'><strong style='white-space:nowrap'>Torrent functionality</strong>
-       
+     <tr ng-if="hasTopSites">
+        <td style='width:150px'><strong style='white-space:nowrap'>Most Visited Sites</strong>
+          <p class="label label-success" ng-if="getSetting('topSites.enabled')">Enabled</p> 
+          <p class="label label-danger" ng-if="!getSetting('topSites.enabled')">Disabled</p> 
         </td>
         <td>
           <ul class="list-unstyled">
-            <li>Current status:
-               <p class="label label-success" ng-if="getSetting('torrenting.enabled')">Enabled</p> 
+            <li>
+              
+                <p ng-if="!getSetting('topSites.enabled')" class="alert alert-info">Clicking the button will show a list of your 6 most visited sites on the new tab page</p>
+                <p ng-if="getSetting('topSites.enabled')" class="alert alert-warning">Clicking the button will hide the list of your most visited sites from the new tab page</p>
+                <button ng-if="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">Show Most Visited Sites in the new tab page</button>
+                <button ng-if="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">Hide the Most Visited Sites from the new tab page</button>
+                </li>
+          </ul>
+        </td>
+     <tr>
+        <td style='width:150px'><strong style='white-space:nowrap'>Torrent functionality</strong>
+         <p class="label label-success" ng-if="getSetting('torrenting.enabled')">Enabled</p> 
                <p class="label label-danger" ng-if="!getSetting('torrenting.enabled')">Disabled</p> 
-               <hr>      
+              
+        </td>
+        <td>
+          <ul class="list-unstyled">
+            <li>
                 <p ng-if="!getSetting('torrenting.enabled')" class="alert alert-info">Clicking the button below enables all torrent related functionalities throughout the app</p>
                 <p ng-if="getSetting('torrenting.enabled')" class="alert alert-warning">Clicking the button below will hide all torrent related functionalities throughout the app</p>
                 <button ng-if="!getSetting('torrenting.enabled')" ng-click="enableSetting('torrenting.enabled')" class="btn btn-success">Enable all torrent functionality</button>

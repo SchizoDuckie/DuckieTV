@@ -44,7 +44,6 @@ angular.module('SeriesGuide', [
         return $sce.trustAsHtml(val);
     };
 })
-
 /**
  * Routing configuration. 
  */
@@ -71,5 +70,22 @@ angular.module('SeriesGuide', [
       controller: 'SettingsCtrl'
     })
     .otherwise({redirectTo: '/'});
+}).run(function($rootScope, SettingsService) {
+    
+    $rootScope.getSetting = function(key) {
+        return SettingsService.get(key);
+    }
+
+    $rootScope.setSetting = function(key, value) {
+        return SettingsService.get(value);
+    }
+
+    $rootScope.enableSetting = function(key) {
+        SettingsService.set(key, true);
+    }
+
+    $rootScope.disableSetting = function(key) {
+        SettingsService.set(key, false);
+    }
 })
 

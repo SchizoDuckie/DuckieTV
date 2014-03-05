@@ -11,7 +11,7 @@
 	<tbody ng-if="episode">
 		<tr><td><h2> {{getEpisodeNumber(episode)}} - {{ episode.episodename }}</h2>
 		</td><td style='padding: 5px; vertical-align:middle;'><div class="dropdown" style='display:inline-block'>
-				     <a ng-if="hasAired(episode)" ng-click="searchTPB(serie, episode)" tooltip="Search for a download" class="dropdown dropdown-toggle"><i style='font-size: 20px' class="glyphicon glyphicon-download"></i> </a>
+				     <a ng-if="getSetting('torrenting.enabled') && hasAired(episode)" ng-click="searchTPB(serie, episode)" tooltip="Search for a download" class="dropdown dropdown-toggle"><i style='font-size: 20px' class="glyphicon glyphicon-download"></i> </a>
 				       <div class="dropdown-menu" style='width: 550px'>
 						   <table class="torrents">
 						   		<thead>

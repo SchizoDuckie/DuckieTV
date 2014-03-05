@@ -120,12 +120,13 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
   var service = {
     settings : {},
     defaults: {
+      'topSites.enabled' : false,
       'torrenting.enabled': true,
       'thepiratebay.mirror' : 'https://thepiratebay.se'
     },
 
     get: function(key) {
-      return service.settings[key];
+      return ((key in service.settings) ? service.settings[key] : (key in service.defaults) ? service.defaults[key] : false);
     },
 
     set: function(key, value) {

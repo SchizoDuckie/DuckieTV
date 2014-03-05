@@ -11,10 +11,15 @@ angular.module('Chrome.topSites',['lazy-background'])
      return {
 	    getTopSites: function() {
         var p = $q.defer();
-         chrome.topSites.get(function(result) {
-            console.log("Topsites result just came in ", result);
-            p.resolve(result);
-         });
+         if(('topSites' in window.chrome)) {
+           chrome.topSites.get(function(result) {
+              console.log("Topsites result just came in ", result);
+              p.resolve(result);
+           }); 
+         } else {
+           p.reject(result);
+         }
+         
          return p.promise;  
 	    }
     }
@@ -42,7 +47,7 @@ angular.module('Chrome.topSites',['lazy-background'])
 			        '<ul>',
           			'<li ng-repeat="site in topSites | limitTo: 6">',
                   '<a href="{{ site.url }}">',
-                    '<img lazy-background="\http://api.webthumbnail.org/?width=200&height=200&screen=1024&url={{site.url}}\">',
+                    '<img lazy-background="\http://chromeutils.appspot.com/t/?url={{site.url}}\">',
                     '<p>{{ site.title }}</p>',
                    '</a>',
                   '</li>',

@@ -5,6 +5,7 @@ A Chrome plugin to manage your favorite TV shows and their schedules with automa
 
 Changelog: 
 ==========
+v0.21 : Added setting to disable torrent functionality, Added piratebay mirror resolver and manual override, added setting to hide TopSites, switched to google's site screenshot service like used on their new tab (the api that I used was getting slow due to the popularity of this)
 v0.20 : Implemented Scene Name Resolver for series that have an alternate scene name 
 v0.19 : Implemented automagic PirateBay Proxy Resolver,  Display filesize for torrents in popup
 v0.18 : Fixed date bug showing items on previous day on calendar.

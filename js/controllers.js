@@ -248,19 +248,9 @@ angular.module('SeriesGuide.controllers',[])
 .controller('SettingsCtrl', 
   function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver) {
     
-    $scope.custommirror = 'http://thepiratebay.se'; //SettingsService.get('thepiratebay.mirror');
+    $scope.custommirror = SettingsService.get('thepiratebay.mirror');
     $scope.mirrorStatus = [];
-    $scope.getSetting = function(key) {
-    	return SettingsService.get(key);
-    }
-
-    $scope.enableSetting = function(key) {
-    	SettingsService.set(key, true);
-    }
-
-    $scope.disableSetting = function(key) {
-    	SettingsService.set(key, false);
-    }
+    $scope.hasTopSites = ('topSites' in window.chrome);
 
     $rootScope.$on('mirrorresolver:status', function(evt, status) {
     	$scope.mirrorStatus.push(status);
@@ -279,9 +269,11 @@ angular.module('SeriesGuide.controllers',[])
 
 	$scope.validateCustomMirror = function(mirror) {
 		console.log("Validate custom mirror: ", mirror);
+		$scope.mirrorStatus = [];
 		MirrorResolver.verifyMirror(mirror).then(function() {
 			SettingsService.set('thepiratebay.mirror', mirror);
 			$scope.custommirror = mirror;
+			$scope.mirrorStatus.push("Saved!");
 		}, function(err) {
 			console.log("Could not validate custom mirror!",mirror);
 			//$scope.customMirror = '';

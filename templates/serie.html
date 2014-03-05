@@ -23,7 +23,7 @@
 			</th></th>
 			<th><strong>Name</strong></th>
 			<th><strong>Air date</strong></th>
-			<th><strong>Download</strong></th>
+			<th ng-if="getSetting('torrenting.enabled')"><strong>Download</strong></th>
 			<th><div class="dropdown" tooltip="Click for options">
 				<strong class="dropdown-toggle" style='white-space:nowrap'>Watched&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></strong>
 				<ul class="dropdown-menu" style='min-width: 300px'>
@@ -39,7 +39,7 @@
 				<a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.episodename }}</a>
 			 </td>
 		     <td class="nobreaks">{{ episode.firstaired | date:'dd-MM-yyyy'}}</td>
-		     <td>
+		     <td ng-if="getSetting('torrenting.enabled')">
 			     <div class="dropdown">
 				     <a ng-if="hasAired(episode)" tooltip="Search for a download for {{ serie.name }} {{ getEpisodeNumber(episode) }}" class="dropdown-toggle glyphicon glyphicon-download" ng-click="searchTPB(serie, episode)" class="btn btn-default"></a>
 				       <div class="dropdown-menu" style='width: 550px'>
