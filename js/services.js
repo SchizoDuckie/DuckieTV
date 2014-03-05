@@ -120,7 +120,7 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
   var service = {
     settings : {},
     defaults: {
-      'topSites.enabled' : false,
+      'topSites.enabled' : true,
       'torrenting.enabled': true,
       'thepiratebay.mirror' : 'https://thepiratebay.se'
     },

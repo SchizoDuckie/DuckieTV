@@ -26,7 +26,7 @@ system("zip -R ../newtab-{$version}.zip *.*");
 echo "</pre>Zipping browser action version<pre style='height:150px; overflow-y:scroll'>";
 
 
-chdir($curDir.'/../deploy/newtab');
+chdir($curDir.'/../deploy/browseraction');
 system("zip -R ../browseraction-{$version}.zip *.*");
 echo "</pre>";
 

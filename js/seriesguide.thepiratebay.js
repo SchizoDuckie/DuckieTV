@@ -44,7 +44,7 @@ angular.module('SeriesGuide.thepiratebay', [])
  			releasename: results[i].querySelector('td:nth-child(2) > div ').innerText,
 			magnetlink: results[i].querySelector('td:nth-child(2) > a').outerHTML.replace(/img src=\"(.*)\/img\/icon-magnet.gif\"/igm, 'img src="static/img/icon-magnet.gif"'),
 			magneturl: results[i].querySelector('td:nth-child(2) > a').href,
-			size: results[i].querySelector('td:nth-child(2) .detDesc').innerText.match(/Size (.*)\,/)[1],
+			size: results[i].querySelector('td:nth-child(2) .detDesc').innerText.split(', ')[1].split(' ')[1],
 			seeders: results[i].querySelector("td:nth-child(3)").innerHTML,
 			leechers: results[i].querySelector("td:nth-child(4)").innerHTML,
 			row: results[i].innerHTML
