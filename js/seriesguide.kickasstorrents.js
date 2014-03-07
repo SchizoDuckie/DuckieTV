@@ -41,7 +41,8 @@ angular.module('SeriesGuide.kickasstorrents', [])
  	for(var i=0; i<results.length;i++) {
  		output.push({
  			releasename: results[i].querySelectorAll('td.torrentnameCell .torrentname a')[1].innerText,
-			magnetlink: results[i].querySelector('a[title="Torrent magnet link"]').href,
+			magneturl: results[i].querySelector('a[title="Torrent magnet link"]').href,
+			size: results[i].querySelector('td:nth-child(2)').innerText,
 			seeders: results[i].querySelector("td:nth-child(5)").innerHTML,
 			leechers: results[i].querySelector("td:nth-child(6)").innerHTML,
 			row: results[i].innerHTML
