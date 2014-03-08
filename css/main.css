@@ -49,7 +49,7 @@ ng\:form {
 }
 
 body {
-  background-color: #BBB;
+  background-color: #000;
   background-size: cover;
   background-attachment: fixed;
   background-repeat:no-repeat;
@@ -88,6 +88,7 @@ background-rotator, background-rotator > div {
   background-size: cover;
   background-repeat: no-repeat;
   z-index: -1;
+  opacity: 0.4;
 }
 
 #actionbar {
