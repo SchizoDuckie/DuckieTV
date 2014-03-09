@@ -18,16 +18,19 @@ Chrome will report that this plugin wants to access your data on all websites an
 
 The permissions are actually less scary than they look. Chrome doesn't have the granular permissions system that Android has, so labels can be confusing versus what they're actually used for.
 
-*Access your data on all websites*
+**Access your data on all websites**
+
 The plugin request permissions to access http://*.*/ to be able to allow any random mirror to be used for The Pirate Bay and custom trackers in the future. Chrome's extension model requires you to whitelist *exactly* the urls that you are accessing, which becomes impossible because of this.
-*Read and modify your browser history*
+**Read and modify your browser history**
+
 The plugin requests this to use the Chrome.Topsites API that allows to display your most favorite sites on the new tab extension. If you do not wish to give this permission, please use the 'Browser Action' version.
 
 Privacy Statement
 =================
 **I DO NOT WANT YOUR DATA**
 
-* This plugin runs locally without sending statistics anywhere. There is no logging from my side of anything you do within this plugin and there never will be.
+* The only statistics tracked are the installations by google analytics and visits to the public github site.
+* As soon you install this plugin it locally without sending statistics anywhere. There is no logging from my side of anything you do within this plugin and there never will be.
 * I do not want your money, I do this in my spare time for fun and to make my own life and that of other's easier. There is no business model.
 * There are no costs to cover: No servers, no hosting, no databases, everything runs on google's, github and reddit's infrastructure. Therefore you are *not* the product and this is free as in free beer.
 * Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.
