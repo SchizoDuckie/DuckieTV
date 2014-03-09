@@ -52,7 +52,8 @@ angular.module('SeriesGuide.mirrorresolver', [])
 	        }).then(function(response) {
 	        	var location = self.parseFuckTimKuik(response);
 	        	$rootScope.$broadcast('mirrorresolver:status', "Found ThePirateBay mirror! " + location + " Verifying if it uses magnet links.");
-	        	self.$get($q, $http, $rootScope).verifyMirror(location).then(function() {
+	        	self.$get($q, $http, $rootScope).verifyMirror(location).then(function(location) {
+	        		console.log("Mirror uses magnet links!", location);
 	        		d.resolve(location);
 	        	}, function(err) {
 	        		if(attempt < maxAttempts) {
@@ -64,7 +65,6 @@ angular.module('SeriesGuide.mirrorresolver', [])
 	        			d.reject("Could not resolve a working mirror in "+maxAttempts +" tries. TPB is probably down.");
 	        		}
 	        	});
-	          
 			}, function(err) {
 				console.log('error!');
 			  d.reject(err);
@@ -74,27 +74,26 @@ angular.module('SeriesGuide.mirrorresolver', [])
 	    verifyMirror: function(location, maxTries) {
 	    	if(maxTries) { maxAttempts = tries; }
 	    	$rootScope.$broadcast('mirrorresolver:status', "Verifying if mirror is using magnet links!: "+ location);
-	    	var d = $q.defer();
+	    	var q = $q.defer();
 	        
 	    	testLocation = location+ "/search/test/0/7/0";
-	    	 $http({
+	    	$http({
 	        	method: 'GET',
 	            url: testLocation
 	        }).then(function(response) {
 	        	$rootScope.$broadcast('mirrorresolver:status', "Results received, parsing");
 	        	if(self.parseTestSearch(response)) {
 	        		$rootScope.$broadcast('mirrorresolver:status', "Yes it does!");
-	        		d.resolve(location);
+	        		q.resolve(location);
 	        	} else {
 	        		$rootScope.$broadcast('mirrorresolver:status', "This is a mirror that intercepts magnet links. bypassing.");
-	        		d.reject(location);
+	        	    q.reject(location);
 	        	}
 			}, function(err) {
-				$rootScope.$broadcast('mirrorresolver:status', 'error! HTTP Status: ' + angular.toJson(err.status));
-			   d.reject(err);
+			   $rootScope.$broadcast('mirrorresolver:status', 'error! HTTP Status: ' + angular.toJson(err.status));
+			   q.reject(err);
 			});
-			return d.promise;
-
+			return q.promise;
 
 	    }
     }
