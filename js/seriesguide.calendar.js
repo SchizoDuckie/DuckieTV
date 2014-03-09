@@ -8,7 +8,8 @@ angular.module('SeriesGuide.calendar', ['SeriesGuide.providers'])
             setEvents: function(events) { 
              calendarEvents = {};
              for(var i=0; i<events.length; i++) {
-                var date = new Date(events[i].start).toDateString();
+                var date = new Date(new Date(events[i].start).getTime() + new Date().getTimezoneOffset()*60*1000).toDateString();
+                
                 if(!(date in calendarEvents)) {
                   calendarEvents[date] = [];
                 }
