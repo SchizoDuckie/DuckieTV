@@ -11,8 +11,29 @@ It comes in 2 flavours:
 * 'New Tab mode': Installs itself as your new tab page  https://chrome.google.com/webstore/detail/hkbamkappmgfjjahmnlngibomenmbbdf/
 * 'Browser Action mode': Adds a button next to your address bar https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/
 
-For discussion please go reddit:
-http://reddit.com/r/seriesguide/
+Permissions
+===========
+
+Chrome will report that this plugin wants to access your data on all websites and read/modify your browser history.
+
+The permissions are actually less scary than they look. Chrome doesn't have the granular permissions system that Android has, so labels can be confusing versus what they're actually used for.
+
+*Access your data on all websites*
+The plugin request permissions to access http://*.*/ to be able to allow any random mirror to be used for The Pirate Bay and custom trackers in the future. Chrome's extension model requires you to whitelist *exactly* the urls that you are accessing, which becomes impossible because of this.
+*Read and modify your browser history*
+The plugin requests this to use the Chrome.Topsites API that allows to display your most favorite sites on the new tab extension. If you do not wish to give this permission, please use the 'Browser Action' version.
+
+Privacy Statement
+=================
+**I DO NOT WANT YOUR DATA**
+
+* This plugin runs locally without sending statistics anywhere. There is no logging from my side of anything you do within this plugin and there never will be.
+* I do not want your money, I do this in my spare time for fun and to make my own life and that of other's easier. There is no business model.
+* There are no costs to cover: No servers, no hosting, no databases, everything runs on google's, github and reddit's infrastructure. Therefore you are *not* the product and this is free as in free beer.
+* Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.
+
+Please open a github ticket or start a [reddit thread](http://reddit.com/r/seriesguide/) if there is anything else that needs improvement. And remember, this is a beta.
+
 
 
 Screenshots:
