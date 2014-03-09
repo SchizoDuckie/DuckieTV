@@ -19,6 +19,10 @@ Screenshots:
 ============
 !['New Tab' mode](http://i.imgur.com/BZ7Hfhd.png)
 ![Batch mark episodes as watched](http://i.imgur.com/m98zwID.png)
+![Settings](http://i.imgur.com/lrg3pVE.png)
+![Search for a download](http://i.imgur.com/VVL4yTf.png)
+![Wide mode + series posters](http://i.imgur.com/4voB8rA.png)
+More @ http://imgur.com/gallery/l7toH
 
 
 Changelog: 
