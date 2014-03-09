@@ -122,7 +122,11 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
     defaults: {
       'topSites.enabled' : true,
       'torrenting.enabled': true,
-      'thepiratebay.mirror' : 'https://thepiratebay.se'
+      'torrenting.searchprovider' : 'thepiratebay',
+      'torrenting.searchbox' : true,
+      'thepiratebay.mirror' : 'https://thepiratebay.se',
+      'series.displaymode' : 'poster',
+      'calendar.large': true
     },
 
     get: function(key) {

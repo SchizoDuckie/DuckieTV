@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-6">
+  <div ng-class="{ 'col-md-8': getSetting('calendar.large'),'col-md-6': !getSetting('calendar.large') }">
     <div class="container-fluid">
       <fieldset >
          <calendar event-service="CalendarEvents"></calendar>
@@ -11,9 +11,9 @@
      
     </div>
   </div>
-  <div class='col-md-6'>
+  <div ng-class="{ 'col-md-4': getSetting('calendar.large'),'col-md-6': !getSetting('calendar.large') }">
   
-      <fieldset ng-if="getSetting('torrenting.enabled')">
+      <fieldset ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.searchbox')">
         <h2>Torrent search</h2>
         <piratebay-search ng-if="searchEngine == 1"></piratebay-search>
         <kickass-torrent-search ng-if="searchEngine == 2"></kickass-torrent-search>
@@ -44,9 +44,21 @@
       <div ng-if="searchingForSerie">
         <the-tv-db-search focus-watch="'searchingForSerie'"></the-tv-db-search>
       </div>
-    </fieldset>
-    <div class="series">
-      <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1"></serieHeader> 
+      <div style='width:100%; text-align: right; padding:5px;'>
+    <a tooltip="List shows in row mode" ng-if="mode == 'poster'" ng-click="setMode('banner');">
+       <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> Switch to list mode
+    </a>
+     <a tooltip="List shows in grid mode" ng-if="mode == 'banner'" ng-click="setMode('poster');">
+       <i style='font-size:15px;'class="glyphicon glyphicon-th"></i> Switch to grid mode
+    </a>
     </div>
+    </fieldset>
+    <div class="series" ng-if="mode == 'poster'">
+      <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader> 
+    </div>
+    <div class="series" ng-if="mode == 'banner'">
+      <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader> 
+    </div>
+    
   </div>
 </div>

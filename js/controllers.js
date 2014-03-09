@@ -5,10 +5,17 @@ angular.module('SeriesGuide.controllers',[])
  * Main controller: Kicks in favorites display
  */
 .controller('MainCtrl', 
-  function($scope, $rootScope, FavoritesService, $rootElement) {
+  function($scope, $rootScope, FavoritesService) {
   	var favorites = [];
   	$scope.searchEngine = 1;
   	$scope.searchingForSerie = false;
+  	$scope.mode = $rootScope.getSetting('series.displaymode');
+
+  	$scope.setMode = function(mode) {
+  		console.log("Saving setting", mode);
+  	  	$rootScope.setSetting('series.displaymode', mode);
+  		$scope.mode = mode;
+  	}
 
   	$scope.enableAdd = function() {
   		$scope.searchingForSerie = true;
@@ -43,7 +50,7 @@ angular.module('SeriesGuide.controllers',[])
 
 .controller('SerieCtrl',  
 
-	function(TheTVDB, ThePirateBay, FavoritesService, SceneNameResolver, TVRageSyncService, $routeParams, $scope, $rootScope) {
+	function(TheTVDB, ThePirateBay, FavoritesService, SceneNameResolver, TVRageSyncService, $routeParams, $scope, $rootScope, $injector) {
 		console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
 		$scope.episodes = [];
 
@@ -112,12 +119,12 @@ angular.module('SeriesGuide.controllers',[])
 			TVRageSyncService.syncEpisodes(serie, episodes);
 		}
 
-		$scope.searchTPB = function(serie, episode) {
+		$scope.searchTorrents = function(serie, episode) {
 			$scope.items = [];
 			$scope.searching = true;
 			var search = $scope.getSearchString(serie, episode);
 			console.log("Search: ", search);
-			 ThePirateBay.search(search).then(function(results) {
+				$injector.get($scope.getSetting('torrenting.searchprovider')).search(search).then(function(results) {
 			 	$scope.items = results;
 			 	$scope.searching = false;
 			 	console.log('Added episodes: ', $scope);
@@ -218,7 +225,7 @@ angular.module('SeriesGuide.controllers',[])
 			return out;
 		}
 
-		$scope.searchTPB = function(serie, episode) {
+		$scope.searchTorrents = function(serie, episode) {
 			$scope.items = [];
 			$scope.searching = true;
 			var search = $scope.getSearchString(serie, episode);
@@ -249,40 +256,40 @@ angular.module('SeriesGuide.controllers',[])
   function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver) {
     
     $scope.custommirror = SettingsService.get('thepiratebay.mirror');
+    $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
+
     $scope.mirrorStatus = [];
     $scope.hasTopSites = ('topSites' in window.chrome);
 
     $rootScope.$on('mirrorresolver:status', function(evt, status) {
-    	$scope.mirrorStatus.push(status);
+    	$scope.mirrorStatus.unshift(status);
     });
 
+    $scope.setSearchProvider = function(provider) {
+    	$scope.searchprovider = provider;
+    	SettingsService.set('torrenting.searchprovider', provider);
+    }
 
 	$scope.findRandomTPBMirror = function() {
 		MirrorResolver.findTPBMirror().then(function(result) {
-			console.log("Resolved a new working mirror!", result);
-			$scope.customMirror = result;
-			SettingsService.set('thepiratebay.mirror', $scope.customMirror);
+			$scope.custommirror = result;
+			SettingsService.set('thepiratebay.mirror', $scope.custommirror);
+			$rootScope.$broadcast('mirrorresolver:status','Saved!');
 		}, function(err) {
 			console.debug("Could not find a working TPB mirror!", err);
 		})
 	}
 
 	$scope.validateCustomMirror = function(mirror) {
-		console.log("Validate custom mirror: ", mirror);
 		$scope.mirrorStatus = [];
-		MirrorResolver.verifyMirror(mirror).then(function() {
-			SettingsService.set('thepiratebay.mirror', mirror);
-			$scope.custommirror = mirror;
-			$scope.mirrorStatus.push("Saved!");
+		MirrorResolver.verifyMirror(mirror).then(function(result) {
+			$scope.custommirror = result;
+			SettingsService.set('thepiratebay.mirror', $scope.custommirror);
+			$rootScope.$broadcast('mirrorresolver:status','Saved!');
 		}, function(err) {
 			console.log("Could not validate custom mirror!",mirror);
 			//$scope.customMirror = '';
 		})
-	}
-
-	$scope.mirrorChange = function(scope) {
-		console.log("Change! ", scope.custommirror, $scope.custommirror)
-		 //$scope.customMirror = e
 	}
 
 
@@ -296,9 +303,4 @@ angular.module('SeriesGuide.controllers',[])
 	     $scope.$digest(); // notify the scope that new data came in
    	});
 
-    $scope.save = function() {
-     // UserService.save();
-      $location.path('/');
-    }
-    //$scope.fetchCities = Weather.getCityDetails;
 });

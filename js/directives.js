@@ -7,7 +7,7 @@
 .directive('serieheader', function () {
   return {
     restrict: 'E',
-    scope: { 'serie': '=data', 'noListButton': "=noButton", "noOverview": "=noOverview" },
+    scope: { 'serie': '=data', 'noListButton': "=noButton", "noOverview": "=noOverview", "mode":"@" },
     templateUrl: "templates/serieHeader.html"
   }
 })

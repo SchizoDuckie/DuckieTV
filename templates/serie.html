@@ -33,21 +33,21 @@
 		</tr>
 		<tr ng-repeat="episode in episodes | orderBy: getEpisodeNumber:true" ng-click="markRange(episode)" ng-mouseover="setMarkEnd(episode)" ng-class="{ 'markAsWatched' : isMarkBeforeEnd(episode) }">
 		   	 <td ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}">
-		   	 <a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{getEpisodeNumber(episode)}}</a>
+		   	 	<a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{getEpisodeNumber(episode)}}</a>
 		   	 </td>
 		     <td>
 				<a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.episodename }}</a>
 			 </td>
-		     <td class="nobreaks">{{ episode.firstaired | date:'dd-MM-yyyy'}}</td>
+		     <td class="nobreaks"><a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.firstaired | date:'dd-MM-yyyy'}}</a></td>
 		     <td ng-if="getSetting('torrenting.enabled')">
 			     <div class="dropdown">
-				     <a ng-if="hasAired(episode)" tooltip="Search for a download for {{ serie.name }} {{ getEpisodeNumber(episode) }}" class="dropdown-toggle glyphicon glyphicon-download" ng-click="searchTPB(serie, episode)" class="btn btn-default"></a>
+				     <a ng-if="hasAired(episode)" tooltip="Search for a download for {{ serie.name }} {{ getEpisodeNumber(episode) }}" class="dropdown-toggle glyphicon glyphicon-download" ng-click="searchTorrents(serie, episode)" class="btn btn-default"></a>
 				       <div class="dropdown-menu" style='width: 550px'>
 						   <table class="torrents">
 						   		<thead>
 							   		<tr ng-if="searching">
 							   			<td><img style='background-color: transparent; margin:0 auto; display:block;' src='img/spinner.gif'>
-							   				<p style='text-align:center; padding:10px;'>Searching Thepiratebay, please wait.</p></td>
+							   				<p style='text-align:center; padding:10px;'>Searching {{ getSetting('torrenting.searchprovider') }}, please wait.</p></td>
 							   		</tr>
 							   		<tr ng-if="!searching && items.length == 0">
 							   			<td >
@@ -63,7 +63,7 @@
 							   			<th>&nbsp;</th><th><strong>Name</strong></th><th><strong>Seed</strong></th><th><strong>Leech</strong></th>
 							   		</tr>
 									<tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items">
-										<td style='width:30px; padding:5px;' ng-bind-html="seed.magnetlink.replace('static/', '/')|unsafe"></td>
+										<td style='width:30px; padding:5px;'><a ng-href="{{seed.magneturl}}"><img src="img/icon-magnet.gif"></a></td>
 									    <td><a ng-href='{{seed.magneturl}}' tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe"></a></td>
 									    <td style='width:50px'><a ng-href='{{seed.magneturl}}' ng-bind="seed.seeders"></a></td>
 									    <td style='width:50px'><a ng-href='{{seed.magneturl}}' ng-bind="seed.leechers"></a></td>

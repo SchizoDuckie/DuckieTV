@@ -7,56 +7,103 @@
      </fieldset>
 
      <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
-     <tr ng-if="hasTopSites">
+     <tr ng-show="hasTopSites">
         <td style='width:150px'><strong style='white-space:nowrap'>Most Visited Sites</strong>
-          <p class="label label-success" ng-if="getSetting('topSites.enabled')">Enabled</p> 
-          <p class="label label-danger" ng-if="!getSetting('topSites.enabled')">Disabled</p> 
+          <p class="label label-success" ng-show="getSetting('topSites.enabled')">Enabled</p> 
+          <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">Disabled</p> 
         </td>
         <td>
           <ul class="list-unstyled">
             <li>
-              
-                <p ng-if="!getSetting('topSites.enabled')" class="alert alert-info">Clicking the button will show a list of your 6 most visited sites on the new tab page</p>
-                <p ng-if="getSetting('topSites.enabled')" class="alert alert-warning">Clicking the button will hide the list of your most visited sites from the new tab page</p>
-                <button ng-if="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">Show Most Visited Sites in the new tab page</button>
-                <button ng-if="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">Hide the Most Visited Sites from the new tab page</button>
+                <p ng-show="!getSetting('topSites.enabled')" class="alert alert-info">Clicking the button will show a list of your 6 most visited sites on the new tab page</p>
+                <p ng-show="getSetting('topSites.enabled')" class="alert alert-warning">Clicking the button will hide the list of your most visited sites from the new tab page</p>
+                <button ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">Show Most Visited Sites in the new tab page</button>
+                <button ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">Hide the Most Visited Sites from the new tab page</button>
                 </li>
           </ul>
         </td>
+     </tr>
+     <tr>
+        <td style='width:150px'><strong style='white-space:nowrap; display:block;'>Calendar</strong>
+         <p class="label label-info" ng-show="getSetting('calendar.large')">Wide</p> 
+         <p class="label label-success" ng-show="!getSetting('calendar.large')">Normal</p> 
+        </td>
+        <td>
+          <ul class="list-unstyled">
+            <p class="alert alert-info">If you prefer to have an extra large calendar toggle it using the button below</p>
+            <li>
+                <button ng-show="!getSetting('calendar.large')" ng-click="enableSetting('calendar.large')" class="btn btn-info">Use extra-wide calendar</button>
+                <button ng-show="getSetting('calendar.large')" ng-click="disableSetting('calendar.large')" class="btn btn-success">Use normal-sized calendar</button>
+                </li>
+          </ul>
+        </td>
+     </tr>
      <tr>
         <td style='width:150px'><strong style='white-space:nowrap'>Torrent functionality</strong>
-         <p class="label label-success" ng-if="getSetting('torrenting.enabled')">Enabled</p> 
-               <p class="label label-danger" ng-if="!getSetting('torrenting.enabled')">Disabled</p> 
-              
+         <p class="label label-success" ng-show="getSetting('torrenting.enabled')">Enabled</p> 
+         <p class="label label-danger" ng-show="!getSetting('torrenting.enabled')">Disabled</p> 
         </td>
         <td>
           <ul class="list-unstyled">
             <li>
-                <p ng-if="!getSetting('torrenting.enabled')" class="alert alert-info">Clicking the button below enables all torrent related functionalities throughout the app</p>
-                <p ng-if="getSetting('torrenting.enabled')" class="alert alert-warning">Clicking the button below will hide all torrent related functionalities throughout the app</p>
-                <button ng-if="!getSetting('torrenting.enabled')" ng-click="enableSetting('torrenting.enabled')" class="btn btn-success">Enable all torrent functionality</button>
-                <button ng-if="getSetting('torrenting.enabled')" ng-click="disableSetting('torrenting.enabled')" class="btn btn-danger">Disable all torrent functionality</button>
+                <p ng-show="!getSetting('torrenting.enabled')" class="alert alert-info">Clicking the button below enables all torrent related functionalities throughout the app</p>
+                <p ng-show="getSetting('torrenting.enabled')" class="alert alert-warning">Clicking the button below will hide all torrent related functionalities throughout the app</p>
+                <button ng-show="!getSetting('torrenting.enabled')" ng-click="enableSetting('torrenting.enabled')" class="btn btn-success">Enable all torrent functionality</button>
+                <button ng-show="getSetting('torrenting.enabled')" ng-click="disableSetting('torrenting.enabled')" class="btn btn-danger">Disable all torrent functionality</button>
                 </li>
+          </ul>
+        </td>
+     </tr>
+      <tr>
+        <td style='width:150px'><strong style='white-space:nowrap'>Torrent Searchbox</strong>
+         <p class="label label-success" ng-show="getSetting('torrenting.searchbox')">Enabled</p> 
+         <p class="label label-danger" ng-show="!getSetting('torrenting.searchbox')">Disabled</p> 
+        </td>
+        <td>
+          <ul class="list-unstyled">
+            <li>
+                <p ng-show="!getSetting('torrenting.searchbox')" class="alert alert-info">Clicking the button below shows the torrent search box on the main page</p>
+                <p ng-show="getSetting('torrenting.searchbox')" class="alert alert-warning">Clicking the button below will hide all the torrent search box from the main page</p>
+                <button ng-show="!getSetting('torrenting.searchbox')" ng-click="enableSetting('torrenting.searchbox')" class="btn btn-success">Show Torrent Search box</button>
+                <button ng-show="getSetting('torrenting.searchbox')" ng-click="disableSetting('torrenting.searchbox')" class="btn btn-danger">Hide Torrent Search box</button>
+             </li>
+          </ul>
+        </td>
+     </tr>
+     <tr ng-show="getSetting('torrenting.enabled')">
+        <td><strong>The Pirate Bay</strong></td>
+        <td>
+           <p class="alert alert-warning">If for some reason ThePirateBay is blocked in your territory, use the button below to automagically resolve a working mirror that supports magnet links. If you have a preferred server, you may input that as well.
+           </p>
+           <ul class="list-unstyled">
+            <li>Piratebay main mirror:<br> <input type='url' style='width:500px' ng-model="custommirror"> 
+
+              <button class="btn btn-success" ng-click="validateCustomMirror(custommirror)">Validate and Save</button>
+              <button class="btn btn-info" ng-click="findRandomTPBMirror()">Find a random mirror that supports Magnet links</button>
+              
+              <p ng-show="mirrorStatus.length > 0">
+              Current Status: <ul style='max-height:150px; overflow-y:auto;'>
+                <li ng-repeat="status in mirrorStatus track by $index">{{status}}</li>
+              </ul>
+              </p>
+
+            </li>
           </ul>
         </td>
       </tr>
-     <tr ng-if="getSetting('torrenting.enabled')">
-        <td><strong>The Pirate Bay</strong></td>
+      <tr ng-show="getSetting('torrenting.enabled')">
+        <td><strong>Default Search Provider</strong></td>
         <td>
-          <ul class="list-unstyled">
-            <p class="alert alert-warning">If for some reason ThePirateBay is blocked in your territory, use the button below to automagically resolve a working mirror that supports magnet links. If you have a preferred server, you may input that as well.
-            <p ng-if="mirrorStatus.length > 0">
-              Current Status: <ul>
-                <li ng-repeat="status in mirrorStatus track by $index">{{status}}</li>
-              </ul>
-            </p>
-            </p>
-               
-            <li>Piratebay main mirror:<br> <input type='url' style='width:500px' ng-model="custommirror" ng-change="mirrorChange(this)"> 
-
-            <button class="btn btn-success" ng-click="validateCustomMirror(custommirror)">Validate and Save</button>
-            <button class="btn btn-info" ng-click="findRandomTPBMirror()">Find a random mirror that supports Magnet links</button>
-            
+          <p class="alert alert-info">Change your preferred torrent search provider below</p>
+              
+           <ul class="list-unstyled">
+            <li ng-click="setSearchProvider('ThePirateBay')" style='cursor:pointer'>
+              <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != 'ThePirateBay', 'glyphicon-record': searchprovider == 'ThePirateBay'}"></i>
+              <strong>The Pirate Bay</strong>
+            </li>
+            <li ng-click="setSearchProvider('KickassTorrents')" style='cursor:pointer'>
+              <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != 'KickassTorrents', 'glyphicon-record': searchprovider == 'KickassTorrents'}"></i>
+              <strong>Kickass Torrents</strong>
             </li>
           </ul>
         </td>

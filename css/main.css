@@ -118,8 +118,20 @@ background-rotator, background-rotator > div {
 serieheader > div {
   background-color: black;
   position: relative;
-   overflow: hidden;
+  overflow: hidden;
 }
+
+serieheader[mode='poster'] {
+  float: left; 
+  height: 250px;
+  width: 185px;
+}
+
+.series serieheader[mode='poster'] > div {
+  background-color: transparent;
+  border: 0;
+}
+
 serieheader.full > div {
   background-color: rgba(0,0,0,0.5);
 }
@@ -130,6 +142,27 @@ serieheader .banner {
   background-size: cover; 
   width:100%;
 }
+
+
+serieheader .poster {
+  height: 240px;
+  background-repeat:no-repeat; 
+  background-size: contain; 
+  width:200px;
+  background-position: center center;
+}
+
+.col-md-4 serieheader .poster {
+  width: 150px;
+}
+
+.col-md-4 serieheader[mode='poster'] {
+  width: 160px;
+}
+width: 160px;
+
+
+
 serieheader h3 {
   color:white; 
   margin-top:-35px;
@@ -139,6 +172,11 @@ serieheader h3 {
   white-space:nowrap; 
   text-overflow:ellipsis;
 }
+
+serieheader[mode=poster] h3 {
+  display: none;
+}
+
 serieheader .overview {
   color: white; 
   background-color: rgba(0,0,0,0.5); 
@@ -256,6 +294,7 @@ table.light h1 {
   min-width: 500px;
   background-color: rgba(255,255,255,0.8);
   width: 100%;
+  box-shadow: 4px 4px 2px rgba(255,255,255,0.7)
 }
 
 .dropdown-menu table.torrents {
@@ -616,12 +655,12 @@ the-tv-db-search serieheader:hover h3 {
   text-decoration: underline;
 }
 
-a.hover i.glyphicon {
+a.hover i.glyphicon-plus-sign {
   -webkit-transition: all 1s ease-in;
   -webkit-transform: scale(1,1);
   
 }
-a:hover i.glyphicon {
+a:hover i.glyphicon-plus-sign {
   -webkit-transform: scale(1.1,1.1);
 }
 

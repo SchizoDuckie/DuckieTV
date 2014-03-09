@@ -36,7 +36,7 @@ angular.module('SeriesGuide.kickasstorrents', [])
  this.parseSearch = function(result) {
  	var parser = new DOMParser();
 	var doc = parser.parseFromString(result.data, "text/html");
- 	var results = doc.querySelectorAll("table.data tr[id^=torrent]");
+ 	var results = doc.querySelectorAll('table.data')[1].querySelectorAll('tr[id^=torrent]');
  	var output = [];
  	for(var i=0; i<results.length;i++) {
  		output.push({

@@ -99,8 +99,5 @@ var WatchListObject = CRUD.define({
 
 });
 
-// watchlist (movie, imdb id, trailer, lastchecked)
-
-
 
 CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome'));

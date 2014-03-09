@@ -77,7 +77,7 @@ angular.module('SeriesGuide', [
     }
 
     $rootScope.setSetting = function(key, value) {
-        return SettingsService.get(value);
+        return SettingsService.set(key, value);
     }
 
     $rootScope.enableSetting = function(key) {
