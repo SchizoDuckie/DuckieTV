@@ -54,7 +54,7 @@
           </ul>
         </td>
      </tr>
-      <tr>
+      <tr  ng-show="getSetting('torrenting.enabled')">
         <td style='width:150px'><strong style='white-space:nowrap'>Torrent Searchbox</strong>
          <p class="label label-success" ng-show="getSetting('torrenting.searchbox')">Enabled</p> 
          <p class="label label-danger" ng-show="!getSetting('torrenting.searchbox')">Disabled</p> 
@@ -169,7 +169,7 @@
         </td>
       </tr>
       -->
-      <tr>
+      <tr ng-show="getSetting('torrenting.enabled')">
         <td><strong>Preferred Quality</strong></td>
         <td>
           <p class="alert alert-info">Make a choice below to limit your episode searches to a specific quality. <br><strong>Be warned:</strong> If you select '720p' this will append '720p' to the default [seriesname] S[seasonnumber]E[episodenumber] search string.<br>This does not work as a 'minimum quality' search!</p>
