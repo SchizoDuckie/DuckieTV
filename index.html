@@ -16,13 +16,14 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-          <a id="forkme_banner" href="https://github.com/SchizoDuckie/seriesguide-chrome" onmousedown="_gaq.push(['_trackEvent', 'view', 'github', 'View Github']);">View on GitHub</a>
+          <a id="forkme_banner" href="https://github.com/SchizoDuckie/seriesguide-chrome">View on GitHub</a>
 
           <h1 id="project_title">Seriesguide-chrome</h1>
           <h2 id="project_tagline">A chrome plugin to manage your favorite tv-shows and their schedules with automagic ThePirateBay integration</h2>
 
             <section id="downloads">
-              <a class="crx_download_link" href="https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/seriesguide-chrome.crx" title="Download the chrome extension" onmousedown="_gaq.push(['_trackEvent', 'download', 'crx', 'Download CRX']);">Download the Chrome Extension</a>              
+              <a class="zip_download_link" href="https://github.com/SchizoDuckie/seriesguide-chrome/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/SchizoDuckie/seriesguide-chrome/tarball/master">Download this project as a tar.gz file</a>
             </section>
         </header>
     </div>
@@ -30,129 +31,73 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h1>seriesguide-chrome</h1>
-<p>A chrome plugin to manage your favorite tv-shows and their schedules with automagic ThePirateBay integration</p>
+        <h1>
+<a name="seriesguide-chrome-v2" class="anchor" href="#seriesguide-chrome-v2"><span class="octicon octicon-link"></span></a>Seriesguide Chrome v2</h1>
 
-<h3>Installation: </h3>
+<p>Manage your favorite TV series and movies from your browser's new tab page
+Keep track of your progress in all the series you're watching and movies you want to watch in a souped up 'new tab' page.</p>
+
+<p>Allows you to browse through all your favorite series, view the schedule, and show series information.
+On top of that, it allows you to search The Pirate Bay (and others, in the future) when an episode has aired to find magnet links leading to it.</p>
+
+<p>It comes in 2 flavours:</p>
 
 <ul>
-<li><a href="https://github.com/SchizoDuckie/seriesguide-chrome/raw/master/seriesguide-chrome.crx" onmousedown="_gaq.push(['_trackEvent', 'download', 'crx', 'Download CRX']);">download the .crx file</a></li>
-<li>Open your chrome extensions tab (menu -> extra -> extensions)</li>
-<li>drag the .crx to the extensions tab to install</li>
+<li>'New Tab mode': Installs itself as your new tab page  <a href="https://chrome.google.com/webstore/detail/hkbamkappmgfjjahmnlngibomenmbbdf/">https://chrome.google.com/webstore/detail/hkbamkappmgfjjahmnlngibomenmbbdf/</a>
+</li>
+<li>'Browser Action mode': Adds a button next to your address bar <a href="https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/">https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/</a>
+</li>
+</ul><p>For discussion please go reddit:
+<a href="http://reddit.com/r/seriesguide/">http://reddit.com/r/seriesguide/</a></p>
+
+<h1>
+<a name="screenshots" class="anchor" href="#screenshots"><span class="octicon octicon-link"></span></a>Screenshots:</h1>
+
+<p><img src="http://i.imgur.com/BZ7Hfhd.png" alt="'New Tab' mode"><img src="http://i.imgur.com/m98zwID.png" alt="Batch mark episodes as watched"></p>
+
+<h1>
+<a name="changelog-" class="anchor" href="#changelog-"><span class="octicon octicon-link"></span></a>Changelog: </h1>
+
+<ul>
+<li>v0.25 : GUI updates: Made backgrounds blend with black to improve readability, Implemented new settings toggles: 'extra wide calendar' and 'hide torrent searchbox from main page', created switch to show your favorite shows in grid mode (which takes less space), various touchups. </li>
+<li>v0.24 : Implemented switch preference to select default search provider (ThePirateBay or KickassTorrents) that's used for downloads by default, fixed setting custom tpb proxy gui</li>
+<li>v0.23 : Bugfix release</li>
+<li>v0.22 : Fixed PirateBay search result size parsing, auto-translate breaks it.
+v0.21 : Added setting to disable torrent functionality, Added piratebay mirror resolver and manual override, added setting to hide TopSites, switched to google's site screenshot * service like used on their new tab (the api that I used was getting slow due to the popularity of this)</li>
+<li>v0.20 : Implemented Scene Name Resolver for series that have an alternate scene name </li>
+<li>v0.19 : Implemented automagic PirateBay Proxy Resolver,  Display filesize for torrents in popup</li>
+<li>v0.18 : Fixed date bug showing items on previous day on calendar.</li>
+<li>v0.17 : Styling improvements, layouting and useability improvements. created #/watchlist url (still hidden for now), torrentfreak top10, mocked up #/settings page</li>
+<li>v0.16 : Fixed TVRage sync and made it automagic</li>
+<li>v0.15 : Cleaned up the layout and merged search engines. 
+v0.14 : TVRage Sync under series details. Fixes wrong episode numbers in the TVDB database for shows like 'Pawn Stars'. (Github #20) Click the Episode number column in the table to * activate.</li>
+<li>v0.13 : Browser Action Mode created</li>
+<li>v0.12 : Added kickass torrent search for when thepiratebay is down. Will be reworked into something nicer soon</li>
+<li>v0.11 : First 'browser action' release</li>
+<li>v0.10 : First public release.</li>
 </ul>
-
-<h3>Usage:</h3>
-<ul>
-  <li>Your main screen is the favorites view<br>
-    <img src="images/favorites.png" style="width: 300px">
-  </li>
-  <li>Notifications automatically pop up if a new episode has aired
-    <img src="images/notification.png" style="width: 250px">
-  </li>
-  <li>Add your favorite series to the list by searching for it and clicking 'Add to favorites'
-    <img src="images/search.jpg" style="width: 300px">
-  </li>
-  <li>After adding, the schedule shows under the show details.<br>
-    <img src="images/schedule.jpg" style="width: 300px"><br>
-  </li>
-  <li>Click the magnet icon behind each aired show to to a tpb search ordered by max seeds and show the first result<br>
-    <img src="images/download-magnet.jpg" style="width: 300px"><br>
-    Click the magnet link that pops up to start the torrent download!
-  </li>
-   <li>Use the generic search box to find anything on ThePirateBay, ordered by seeds. automagically searches for 720p if checked in settings.<br>
-    <img src="images/generalsearch.png" style="width: 300px">
-  </li>
-  <li>On the Options page (right click the icon, or open it from chrome extensions) you can configure an alternative ThePirateBay mirror and optionally search for 720p releases only.
-    <img src="images/config.png" style="width: 400px;">
-  </li>
-</ul>
-
-<h3>Changelog:</h3>
-<strong>v0.65 (2012-11-23)</strong>
-<ul>
-  <li>Implemented notifications!<br> <img src='images/notification.png' alt='chrome notification popup' style="width:250px"></li>
-  <li>Episodes are now automagically marked as downloaded when you click a magnet link</li>
-  <li>Magnet links now launch in a background tab, which auto-closes. (allows the popup to stay open after you click a link)</li>
-</ul> 
-<strong>v0.61 (2012-11-18)</strong>
-<ul>
-  <li>Implemented next episode,  next airdate and show schedule cache. Almost ready for automated notification.</li>
-</ul>
-<strong>v0.6 (2012-11-17)</strong>
-<ul>
-  <li>Fixed some minor bugs in the mirror searching</li>
-  <li>Moved to <a href="http://icanhazjs.com/" target="_blank" onmousedown="_gaq.push(['_trackEvent', 'icanhaz', 'js', 'Link ICanHaz']);">ICanHaz.js</a> / <a href="https://github.com/janl/mustache.js" target='_blank'  onmousedown="_gaq.push(['_trackEvent', 'moustache', 'js', 'Link Moustache']);">moustache</a> for templating. Fixes bugs with for instance gray's anatomy.</li>
-</ul>
-<strong>v0.5</strong>
-<ul>
-  <li>Added error handling for when ThePirateBay mirrors are down with automagic mirror search.</li>
-</ul>
-
-<strong>v0.4</strong>
-<ul>
-  <li>Added generic ThePirateBay Search (listens to 720p preference)</li>
-</ul>
-
-<strong>V0.3</strong>
-<ul>
-  <li>Fixed some bugs in the layout and interaction when searching torrents</li>
-  <li>Netbook support (list now scrolls properly on low height devices)</li>
-  <li>ThePirateBay mirror is now configurable from te options page</li>
-  <li>Implemented automagic ThePirateBay Mirror Search using <a href='http://www.fucktimkuik.org' target='_blank' title='Hoi Tim!'>FuckTimKuik.org</a>
-  <li>Added an option on settings page to search only for 720p torrents</li>
-  <li>Implemented auto-update. If you installed v0.2, You will have to do a manual update. (go to extra -> extensions -> remove the plugin, re-install it)</li>
-</ul>
-
-
-<p>C'est ca!</p>
-
-<h3>More to come</h3>
-<ul>
-  <li><s>better cacheing and local storage</s></li>
-  <li><s>Check for updates once a day and show alerts</s> / automagically download</li>
-  <li><s>Set tpb mirrors.</s></li>
-  <li>Alternative searchqueries per serie</li>
-  <li><s>fill dates for next episode and airdate</s></li>
-  <li>A generic watch list, that monitors R5 movie (or any?) releases, and notifies/auto-downloads.</li>
-</ul>
-
-<h3>Nerdtalk</h3>
-<p>Interested in the source? Check the js classes <a href='https://github.com/SchizoDuckie/seriesguide-chrome/tree/master/app' onmousedown="_gaq.push(['_trackEvent', 'view', 'source', 'View Source']);">here</a>.</p>
-<p>Feel free to extend and send pull requests</p>
-<p>This project cannot be found in the chrome extension store because the Terms of service do not allow it!</p>
-
-<h3>@Mentions</h3>
-<ul>
-    <li><a href="https://twitter.com/tpb/status/270491780418519041" target="_blank">@tpb at twitter</a></li>
-    <li><a href="http://www.zeropaid.com/news/101460/leap-second-crashes-the-pirate-bay/" target="_blank">Zeropaid.com: Seriesguide: Chrome Plugin Integrates Pirate Bay with Google Chrome</a></li>
-    <li><a href="http://mashet.com/2012/11/series-guide-extension-para-chrome-integrada-con-thepiratebay/" target="_blank">Series Guide: extensión para Chrome integrada con ThePirateBay</a></li>
-</ul>
-
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Seriesguide-chrome maintained by <a href="https://github.com/SchizoDuckie" onmousedown="_gaq.push(['_trackEvent', 'external', 'github', 'github.com/schizoduckie']);">SchizoDuckie</a></p>
+        <p class="copyright">Seriesguide-chrome maintained by <a href="https://github.com/SchizoDuckie">SchizoDuckie</a></p>
         <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-        <p>Data source: the awesome <a href="http://www.thetvdb.com/" onmousedown="_gaq.push(['_trackEvent', 'external', 'thetvdb', 'thetvdb credits']);">The TvdDB.com</a>.</p>
       </footer>
     </div>
-    <script type="text/javascript">
 
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', "UA-36250980-1"]);
-      _gaq.push(['_trackPageview']);
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-36250980-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
-    </script>
- 
 
   </body>
 </html>
