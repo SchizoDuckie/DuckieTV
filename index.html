@@ -1,36 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Seriesguide-chrome : A chrome plugin to manage your favorite tv-shows and their schedules with automagic ThePirateBay integration" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Seriesguide-chrome by SchizoDuckie</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Seriesguide-chrome</title>
   </head>
-
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/SchizoDuckie/seriesguide-chrome">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/SchizoDuckie/seriesguide-chrome/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/SchizoDuckie/seriesguide-chrome/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/SchizoDuckie/seriesguide-chrome">View on GitHub</a>
+    <div class="wrapper">
 
-          <h1 id="project_title">Seriesguide-chrome</h1>
-          <h2 id="project_tagline">A chrome plugin to manage your favorite tv-shows and their schedules with automagic ThePirateBay integration</h2>
+      <section>
+        <div id="title">
+          <h1>Seriesguide-chrome</h1>
+          <p>A chrome plugin to manage your favorite tv-shows and their schedules with automagic ThePirateBay integration</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/SchizoDuckie">SchizoDuckie</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/SchizoDuckie/seriesguide-chrome/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/SchizoDuckie/seriesguide-chrome/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
         <h1>
 <a name="seriesguide-chrome-v2" class="anchor" href="#seriesguide-chrome-v2"><span class="octicon octicon-link"></span></a>Seriesguide Chrome v2</h1>
 
@@ -53,7 +60,8 @@ On top of that, it allows you to search The Pirate Bay (and others, in the futur
 <h1>
 <a name="screenshots" class="anchor" href="#screenshots"><span class="octicon octicon-link"></span></a>Screenshots:</h1>
 
-<p><img src="http://i.imgur.com/BZ7Hfhd.png" alt="'New Tab' mode"><img src="http://i.imgur.com/m98zwID.png" alt="Batch mark episodes as watched"></p>
+<p><img src="http://i.imgur.com/BZ7Hfhd.png" alt="'New Tab' mode"><img src="http://i.imgur.com/m98zwID.png" alt="Batch mark episodes as watched"><img src="http://i.imgur.com/lrg3pVE.png" alt="Settings"><img src="http://i.imgur.com/VVL4yTf.png" alt="Search for a download"><img src="http://i.imgur.com/4voB8rA.png" alt="Wide mode + series posters">
+More @ <a href="http://imgur.com/gallery/l7toH">http://imgur.com/gallery/l7toH</a></p>
 
 <h1>
 <a name="changelog-" class="anchor" href="#changelog-"><span class="octicon octicon-link"></span></a>Changelog: </h1>
@@ -77,16 +85,9 @@ v0.14 : TVRage Sync under series details. Fixes wrong episode numbers in the TVD
 <li>v0.10 : First public release.</li>
 </ul>
       </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Seriesguide-chrome maintained by <a href="https://github.com/SchizoDuckie">SchizoDuckie</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
     </div>
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -97,7 +98,6 @@ v0.14 : TVRage Sync under series details. Fixes wrong episode numbers in the TVD
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
-
 
   </body>
 </html>
