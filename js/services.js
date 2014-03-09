@@ -124,6 +124,7 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
       'torrenting.enabled': true,
       'torrenting.searchprovider' : 'thepiratebay',
       'torrenting.searchbox' : true,
+      'torrenting.searchquality' : '',
       'thepiratebay.mirror' : 'https://thepiratebay.se',
       'series.displaymode' : 'poster',
       'calendar.large': true

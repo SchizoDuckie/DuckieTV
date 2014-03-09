@@ -51,6 +51,7 @@ More @ http://imgur.com/gallery/l7toH
 
 Changelog: 
 ==========
+* v0.27 : Implemented quality selection for episode search queries in settings. You can now search by default for none/HDTV/480p/720p/1080p
 * v0.26 : Fixed a timezone offset bug for historical dates, showing shows that have already aired at the wrong date.
 * v0.25 : GUI updates: Made backgrounds blend with black to improve readability, Implemented new settings toggles: 'extra wide calendar' and 'hide torrent searchbox from main page', created switch to show your favorite shows in grid mode (which takes less space), various touchups. 
 * v0.24 : Implemented switch preference to select default search provider (ThePirateBay or KickassTorrents) that's used for downloads by default, fixed setting custom tpb proxy gui

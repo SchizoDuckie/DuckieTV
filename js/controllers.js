@@ -10,10 +10,9 @@ angular.module('SeriesGuide.controllers',[])
   	$scope.searchEngine = 1;
   	$scope.searchingForSerie = false;
   	$scope.mode = $rootScope.getSetting('series.displaymode');
-
+  	
   	$scope.setMode = function(mode) {
-  		console.log("Saving setting", mode);
-  	  	$rootScope.setSetting('series.displaymode', mode);
+  		$rootScope.setSetting('series.displaymode', mode);
   		$scope.mode = mode;
   	}
 
@@ -50,7 +49,7 @@ angular.module('SeriesGuide.controllers',[])
 
 .controller('SerieCtrl',  
 
-	function(TheTVDB, ThePirateBay, FavoritesService, SceneNameResolver, TVRageSyncService, $routeParams, $scope, $rootScope, $injector) {
+	function(TheTVDB, ThePirateBay, FavoritesService, SettingsService, SceneNameResolver, TVRageSyncService, $routeParams, $scope, $rootScope, $injector) {
 		console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
 		$scope.episodes = [];
 
@@ -107,7 +106,7 @@ angular.module('SeriesGuide.controllers',[])
 
 		$scope.getSearchString = function(serie, episode) {
 			var serieName = SceneNameResolver.getSceneName(serie.TVDB_ID) || serie.name;
-			return serieName +' '+$scope.getEpisodeNumber(episode);
+			return serieName +' '+$scope.getEpisodeNumber(episode)+' '+SettingsService.get('torrenting.searchquality');
 		}
 
 		$scope.getEpisodeNumber = function(episode) {
@@ -188,7 +187,7 @@ angular.module('SeriesGuide.controllers',[])
 
 .controller('EpisodeCtrl',  
 
-	function(TheTVDB, ThePirateBay, FavoritesService, SceneNameResolver, NotificationService, $routeParams, $scope, $rootScope) {
+	function(TheTVDB, ThePirateBay, SettingsService, FavoritesService, SceneNameResolver, NotificationService, $routeParams, $scope, $rootScope) {
 		
 		$scope.searching = false;
 		var currentDate = new Date();
@@ -217,7 +216,7 @@ angular.module('SeriesGuide.controllers',[])
 
 		$scope.getSearchString = function(serie, episode) {
 			var serieName = SceneNameResolver.getSceneName(serie.name) || serie.name;
-			return serieName +' '+$scope.getEpisodeNumber(episode);
+			return serieName +' '+$scope.getEpisodeNumber(episode)+' '+SettingsService.get('torrenting.searchquality');
 		};
 
 		$scope.getEpisodeNumber = function(episode) {
@@ -257,7 +256,7 @@ angular.module('SeriesGuide.controllers',[])
     
     $scope.custommirror = SettingsService.get('thepiratebay.mirror');
     $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
-
+    $scope.searchquality = SettingsService.get('torrenting.searchquality');
     $scope.mirrorStatus = [];
     $scope.hasTopSites = ('topSites' in window.chrome);
 
@@ -269,6 +268,12 @@ angular.module('SeriesGuide.controllers',[])
     	$scope.searchprovider = provider;
     	SettingsService.set('torrenting.searchprovider', provider);
     }
+
+  	$scope.setSearchQuality = function(quality) {
+  		console.log("Setting searchquality: ", quality);
+		$rootScope.setSetting('torrenting.searchquality',quality);
+  		$scope.searchquality = quality;
+  	}
 
 	$scope.findRandomTPBMirror = function() {
 		MirrorResolver.findTPBMirror().then(function(result) {

@@ -168,18 +168,38 @@
             </ul>
         </td>
       </tr>
+      -->
       <tr>
         <td><strong>Preferred Quality</strong></td>
         <td>
+          <p class="alert alert-info">Make a choice below to limit your episode searches to a specific quality. <br><strong>Be warned:</strong> If you select '720p' this will append '720p' to the default [seriesname] S[seasonnumber]E[episodenumber] search string.<br>This does not work as a 'minimum quality' search!</p>
           <ul class="list-unstyled">
-            <li<input type="radio" name="" id="radio_hdtv"><label for="radio_hdtv">HDTV </label></li>
-            <li><input type="radio" name="" id="radio_480p"><label for="radio_480p">480p </label></li>
-            <li><input type="radio" name="" id="radio_720p"><label for="radio_720p">720p </label></li>
-            <li><input type="radio" name="" id="radio_1080p"><label for="radio_1080p">1080p </label></li>
-            </ul>
+            <li ng-click="setSearchQuality('')" style='cursor:pointer'>
+              <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '', 'glyphicon-record': searchquality == ''}"></i>
+              <strong>Show all</strong>
+            </li>
+            <li ng-click="setSearchQuality('HDTV')" style='cursor:pointer'>
+              <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != 'HDTV', 'glyphicon-record': searchquality == 'HDTV'}"></i>
+              <strong>HDTV</strong>
+            </li>
+            <li ng-click="setSearchQuality('480p')" style='cursor:pointer'>
+              <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '480p', 'glyphicon-record': searchquality == '480p'}"></i>
+              <strong>480p</strong>
+            </li>
+            <li ng-click="setSearchQuality('720p')" style='cursor:pointer'>
+              <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '720p', 'glyphicon-record': searchquality == '720p'}"></i>
+              <strong>720p</strong>
+            </li>
+            <li ng-click="setSearchQuality('1080p')" style='cursor:pointer'>
+              <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '1080p', 'glyphicon-record': searchquality == '1080p'}"></i>
+              <strong>1080p</strong>
+            </li>
+            
+          </ul>
         </td>
       </tr>
-                 <tr>
+      <!--
+      <tr>
         <td><strong>Custom Trackers</strong></td>
         <td>
           <ul class="list-unstyled">
