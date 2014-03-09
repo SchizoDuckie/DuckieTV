@@ -30,9 +30,9 @@ Privacy Statement
 **I DO NOT WANT YOUR DATA**
 
 * The only statistics tracked are the installations by google analytics and visits to the public github site.
-* As soon you install this plugin it locally without sending statistics anywhere. There is no logging from my side of anything you do within this plugin and there never will be.
+* As soon you install this plugin it runs locally without sending statistics anywhere. There is no logging from my side of anything you do within this plugin and there never will be.
 * I do not want your money, I do this in my spare time for fun and to make my own life and that of other's easier. There is no business model.
-* There are no costs to cover: No servers, no hosting, no databases, everything runs on google's, github and reddit's infrastructure. Therefore you are *not* the product and this is free as in free beer.
+* There are no costs to cover: No servers, no hosting, no databases, everything runs on google's, github's and reddit's infrastructure. Therefore you are *not* the product and this is extension is free as in free beer.
 * Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.
 
 Please open a github ticket or start a [reddit thread](http://reddit.com/r/seriesguide/) if there is anything else that needs improvement. And remember, this is a beta.
