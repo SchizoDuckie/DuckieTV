@@ -18,9 +18,6 @@
         <piratebay-search ng-if="searchEngine == 1"></piratebay-search>
         <kickass-torrent-search ng-if="searchEngine == 2"></kickass-torrent-search>
         <ul class="list-inline engineselect">
-          <li>
-            <strong style='cursor:default'>Search engine:</strong>
-          </li>
           <li ng-click="searchEngine = 1">
             <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchEngine != 1, 'glyphicon-record': searchEngine == 1}"></i>
             <strong>The Pirate Bay</strong>
@@ -45,20 +42,20 @@
         <the-tv-db-search focus-watch="'searchingForSerie'"></the-tv-db-search>
       </div>
       <div style='width:100%; text-align: right; padding:5px;'>
-    <a tooltip="List shows in row mode" ng-if="mode == 'poster'" ng-click="setMode('banner');">
-       <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> Switch to list mode
-    </a>
-     <a tooltip="List shows in grid mode" ng-if="mode == 'banner'" ng-click="setMode('poster');">
-       <i style='font-size:15px;'class="glyphicon glyphicon-th"></i> Switch to grid mode
-    </a>
-    </div>
-    </fieldset>
-    <div class="series" ng-if="mode == 'poster'">
-      <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader> 
-    </div>
-    <div class="series" ng-if="mode == 'banner'">
-      <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader> 
-    </div>
+        <a tooltip="List shows in row mode" ng-if="mode == 'poster'" ng-click="setMode('banner');">
+           <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> Switch to list mode
+        </a>
+         <a tooltip="List shows in grid mode" ng-if="mode == 'banner'" ng-click="setMode('poster');">
+           <i style='font-size:15px;'class="glyphicon glyphicon-th"></i> Switch to grid mode
+        </a>
+      </div>
+      </fieldset>
+      <div class="series" ng-if="mode == 'poster'">
+        <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader> 
+      </div>
+      <div class="series" ng-if="mode == 'banner'">
+        <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader> 
+      </div>
     
   </div>
 </div>

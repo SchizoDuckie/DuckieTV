@@ -132,6 +132,27 @@ serieheader[mode='poster'] {
   border: 0;
 }
 
+serieheader[mode=banner] {
+  overflow:hidden;
+}
+
+serieheader[mode=banner] h3 {
+  position: absolute;
+  margin-top: 0px;
+  display: block;
+  padding: 5px;
+  width: 100%;
+  box-sizing: content-box;
+  background-color: rgba(0,0,0,0.8);
+  margin-bottom: 0;
+  -webkit-transition: all 0.2s ease-in-out;
+
+}
+
+serieheader[mode=banner]:hover h3 {
+  margin-top: -36px;
+}
+
 serieheader.full > div {
   background-color: rgba(0,0,0,0.5);
 }
@@ -352,7 +373,6 @@ chrome-top-sites li {
   color: black;
   padding: 15px;
   float: left;
-  width: calc(50% - 5px);
   text-align: center;
   margin: 5px;
   border-radius: 10px;
@@ -362,12 +382,27 @@ chrome-top-sites li {
   transition: all 0.5s ease-in-out;
 }
 
-chrome-top-sites li:nth-child(odd) {
+.col-md-8 chrome-top-sites li {
+  width: calc(33% - 5px);
+}
+
+.col-md-6 chrome-top-sites li {
+  width: calc(50% - 5px);
+}
+
+.col-md-8 chrome-top-sites li:nth-child(3n+3) {
   margin-left:0;
 }
 
+.col-md-8 chrome-top-sites li:nth-child(3n+1) {
+  margin-right:0;
+}
 
-chrome-top-sites li:nth-child(even) {
+.col-md-6 chrome-top-sites li:nth-child(odd) {
+  margin-left:0;
+}
+
+.col-md-6 chrome-top-sites li:nth-child(even) {
   margin-right:0;
 }
 

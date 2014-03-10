@@ -127,7 +127,7 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
       'torrenting.searchquality' : '',
       'thepiratebay.mirror' : 'https://thepiratebay.se',
       'series.displaymode' : 'poster',
-      'calendar.large': true
+      'calendar.large': false
     },
 
     get: function(key) {
@@ -149,6 +149,7 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
      */
     restore: function() {
       if(!localStorage.getItem('userPreferences')) {
+        service.defaults['topSites.enabled'] = ('topSites' in (window.chrome));
         service.settings = service.defaults;
       } else {
         service.settings = angular.fromJson(localStorage.getItem('userPreferences'));   

@@ -17,7 +17,7 @@ angular.module('Chrome.topSites',['lazy-background'])
               p.resolve(result);
            }); 
          } else {
-           p.reject(result);
+           p.reject();
          }
          
          return p.promise;  

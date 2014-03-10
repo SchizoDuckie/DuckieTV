@@ -8,7 +8,8 @@ angular.module('SeriesGuide.calendar', ['SeriesGuide.providers'])
             setEvents: function(events) { 
              calendarEvents = {};
              for(var i=0; i<events.length; i++) {
-                var date = new Date(new Date(events[i].start).getTime() + new Date().getTimezoneOffset()*60*1000).toDateString();
+              var offset = new Date().getTimezoneOffset() > 0 ? new Date().getTimezoneOffset()*60*1000 : 0;
+                var date = new Date(new Date(events[i].start).getTime() + offset).toDateString();
                 
                 if(!(date in calendarEvents)) {
                   calendarEvents[date] = [];
@@ -46,6 +47,7 @@ angular.module('SeriesGuide.calendar', ['SeriesGuide.providers'])
             serieIDs[data[i].get('ID_Serie')] = data[i].get('ID_Serie');
           }
           CRUD.Find('Serie', ['ID_Serie in ('+Object.keys(serieIDs).join(',')+')']).then(function(results) {
+             var offset = new Date().getTimezoneOffset() > 0 ? new Date().getTimezoneOffset()*60*1000 : 0;
              var cache = {};
              var events = [];
              for(var i=0; i<results.length; i++) {
@@ -53,7 +55,7 @@ angular.module('SeriesGuide.calendar', ['SeriesGuide.providers'])
              }
              for(var i=0; i< data.length; i++) {
                 events.push({
-                  start : new Date((new Date(data[i].get('firstaired')).getTime() + new Date().getTimezoneOffset()*60*1000)), 
+                  start : new Date((new Date(data[i].get('firstaired')).getTime() + offset)), 
                   serie: cache[data[i].get('ID_Serie')].get('name'),
                   serieID: cache[data[i].get('ID_Serie')].get('TVDB_ID'),
                   episode: data[i]
