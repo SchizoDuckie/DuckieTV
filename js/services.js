@@ -122,7 +122,7 @@ angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
     defaults: {
       'topSites.enabled' : true,
       'torrenting.enabled': true,
-      'torrenting.searchprovider' : 'thepiratebay',
+      'torrenting.searchprovider' : 'ThePirateBay',
       'torrenting.searchbox' : true,
       'torrenting.searchquality' : '',
       'thepiratebay.mirror' : 'https://thepiratebay.se',
