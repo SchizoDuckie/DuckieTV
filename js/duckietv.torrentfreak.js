@@ -1,5 +1,5 @@
 
-angular.module('SeriesGuide.torrentfreak', [])
+angular.module('DuckieTV.torrentfreak', [])
 /**
  * Autofill serie search component
  * Provides autofill proxy and adds the selected serie back to the MainController

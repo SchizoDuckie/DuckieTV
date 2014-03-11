@@ -1,4 +1,4 @@
-angular.module("SeriesGuide.notifications", [])
+angular.module("DuckieTV.notifications", [])
 
 .provider("notification", function() {
 	var ids = {};

@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "SeriesGuide Chrome v2 - 'Browser action' mode",
-  "short_name": "SeriesGuide Chrome",  
-  "version" : "0.20",
+  "name": "DuckieTV - 'Browser action' mode",
+  "short_name": "DuckieTV",  
+  "version" : "0.30",
   "description": "Manage your favorite TV series and movies from your browser's new tab page",
     "permissions": [
     "http://*/*",
@@ -22,6 +22,6 @@
     "default_title": "",
     "default_icon": "img/icon48.png"
   },
-  "homepage_url": "http://reddit.com/r/seriesguide/",
+  "homepage_url": "http://reddit.com/r/duckietv/",
   "content_security_policy": "script-src 'self'; object-src 'self'"
 }

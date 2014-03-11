@@ -1,4 +1,4 @@
-angular.module('SeriesGuide.tvrage',[])
+angular.module('DuckieTV.tvrage',[])
 .provider('TVRage', function() {
 
  this.endpoints = {

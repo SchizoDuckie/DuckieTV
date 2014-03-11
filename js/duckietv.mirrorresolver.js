@@ -1,5 +1,5 @@
 
-angular.module('SeriesGuide.mirrorresolver', [])
+angular.module('DuckieTV.mirrorresolver', [])
 
 .provider('MirrorResolver', function() {
 

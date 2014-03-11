@@ -1,4 +1,4 @@
-angular.module('SeriesGuide.thetvdb',[])
+angular.module('DuckieTV.thetvdb',[])
 .provider('TheTVDB', function() {
 
  this.endpoints = {

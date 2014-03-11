@@ -2,7 +2,7 @@
  * TheTVDB provider
  * Allows searching for series and get their episode listings
  */
- angular.module('SeriesGuide.directives',[])
+ angular.module('DuckieTV.directives',[])
 
 .directive('serieheader', function () {
   return {

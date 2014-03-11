@@ -1,4 +1,4 @@
-angular.module('SeriesGuide.controllers',[])
+angular.module('DuckieTV.controllers',[])
 
 
 /**
@@ -240,7 +240,7 @@ angular.module('SeriesGuide.controllers',[])
 		$scope.notify = function(serie) {
 			NotificationService.notify('test', 'woei');
 
-			NotificationService.list('SeriesGuide Chrome', 'ohai', [
+			NotificationService.list('DuckieTV Chrome', 'ohai', [
 				{message: 'S02E14 - Time Of Death',title: 'Arrow'},
 				{ message: 'S02E10 - Blast Radius', title: 'Arrow'},
 				{ message: 'S02E09 - Three Ghosts', title: 'Arrow'},

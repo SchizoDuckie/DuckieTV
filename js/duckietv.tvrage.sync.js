@@ -1,5 +1,5 @@
 
-angular.module('SeriesGuide.tvrage.sync',['SeriesGuide.tvrage'])
+angular.module('DuckieTV.tvrage.sync',['DuckieTV.tvrage'])
 /**
  * Matches existing episodes for a serie to their TVRage_ID and synchronizes episode numbers, airdates and titles
  */

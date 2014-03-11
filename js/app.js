@@ -2,24 +2,24 @@
  * Handle global dependencies
  */
 
-angular.module('SeriesGuide', [
+angular.module('DuckieTV', [
 	'ngRoute',
 	'xml',	
     'datePicker',
     'ui.bootstrap',
-    'SeriesGuide.calendar',
-    'SeriesGuide.providers',
-    'SeriesGuide.directives', 
-    'SeriesGuide.controllers',
-    'SeriesGuide.mirrorresolver', 
-    'SeriesGuide.thepiratebay',
-    'SeriesGuide.kickasstorrents',
-    'SeriesGuide.torrentfreak',
-    'SeriesGuide.tvrage',
-    'SeriesGuide.tvrage.sync',
-    'SeriesGuide.thetvdb',
-    'SeriesGuide.scenenames',
-    'SeriesGuide.imdb',
+    'DuckieTV.calendar',
+    'DuckieTV.providers',
+    'DuckieTV.directives', 
+    'DuckieTV.controllers',
+    'DuckieTV.mirrorresolver', 
+    'DuckieTV.thepiratebay',
+    'DuckieTV.kickasstorrents',
+    'DuckieTV.torrentfreak',
+    'DuckieTV.tvrage',
+    'DuckieTV.tvrage.sync',
+    'DuckieTV.thetvdb',
+    'DuckieTV.scenenames',
+    'DuckieTV.imdb',
     'colorpicker.module',
     'Chrome.topSites',
     'lazy-background'

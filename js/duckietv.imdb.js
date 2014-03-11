@@ -1,4 +1,4 @@
-angular.module('SeriesGuide.imdb',[])
+angular.module('DuckieTV.imdb',[])
 /**
  * Standalone IMDB search capabilities.
  * Provides IMDB api search results

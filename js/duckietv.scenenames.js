@@ -1,4 +1,4 @@
-angular.module('SeriesGuide.scenenames', [])
+angular.module('DuckieTV.scenenames', [])
 
 /**
  * Scene name provider

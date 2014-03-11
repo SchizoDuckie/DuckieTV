@@ -1,4 +1,4 @@
-angular.module('SeriesGuide.calendar', ['SeriesGuide.providers'])
+angular.module('DuckieTV.calendar', ['DuckieTV.providers'])
 
 .provider('CalendarEvents', function() {
     var calendarEvents = {};  

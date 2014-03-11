@@ -1,4 +1,4 @@
-Seriesguide Chrome v2
+DuckieTV Chrome
 =====================
 
 Manage your favorite TV series and movies from your browser's new tab page
@@ -35,7 +35,7 @@ Privacy Statement
 * There are no costs to cover: No servers, no hosting, no databases, everything runs on google's, github's and reddit's infrastructure. Therefore you are *not* the product and this is extension is free as in free beer.
 * Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.
 
-Please open a github ticket or start a [reddit thread](http://reddit.com/r/seriesguide/) if there is anything else that needs improvement. And remember, this is a beta.
+Please open a github ticket or start a [reddit thread](http://reddit.com/r/duckietv/) if there is anything else that needs improvement. And remember, this is a beta.
 
 
 

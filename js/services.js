@@ -1,4 +1,4 @@
-angular.module('SeriesGuide.providers',['SeriesGuide.tvrage.sync'])
+angular.module('DuckieTV.providers',['DuckieTV.tvrage.sync'])
 /**
  * Persistent storage for favorites
  * 
