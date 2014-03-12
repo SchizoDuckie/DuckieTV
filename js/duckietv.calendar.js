@@ -8,7 +8,7 @@ angular.module('DuckieTV.calendar', ['DuckieTV.providers'])
             setEvents: function(events) { 
              calendarEvents = {};
              for(var i=0; i<events.length; i++) {
-              var offset = new Date().getTimezoneOffset() > 0 ? new Date().getTimezoneOffset()*60*1000 : 0;
+                var offset = new Date().getTimezoneOffset() > 0 ? new Date().getTimezoneOffset()*60*1000 : 0;
                 var date = new Date(new Date(events[i].start).getTime() + offset).toDateString();
                 
                 if(!(date in calendarEvents)) {

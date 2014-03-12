@@ -1,4 +1,4 @@
-angular.module('SeriesGuide.googleimages',[])
+angular.module('DuckieTV.googleimages',[])
 /**
  * Standalone IMDB search capabilities.
  * Provides IMDB api search results

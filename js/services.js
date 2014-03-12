@@ -57,11 +57,9 @@ angular.module('DuckieTV.providers',['DuckieTV.tvrage.sync'])
             }
            }
            setTimeout(function() {
-             TVRageSyncService.syncEpisodes(serie.asObject(), episodes);            
+             TVRageSyncService.syncEpisodes(serie.asObject(), episodes, $rootScope);            
            }, 0);
 
-        }).then(function(data) {
-             $rootScope.$broadcast('episodes:updated');
         });
         
       });

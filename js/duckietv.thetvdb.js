@@ -21,7 +21,7 @@ angular.module('DuckieTV.thetvdb',[])
             for(var j =0; j< properties.length; j++)  {
             	props[properties[j].localName] = properties[j].innerText;
             }
-            if(!('airsbefore_episode' in props)) { // fix vor thetvdb double episodes? (example: pawn stars)
+            if(!('airsbefore_episode' in props) && props['seasonnumber'].length != 4) { // do not add double episodes and do not add episodes when there's seasonnumbers of 4 digits (like in pawn stars)
             	data.push(props);
             }
         }

@@ -6,56 +6,117 @@ angular.module('DuckieTV.tvrage.sync',['DuckieTV.tvrage'])
 .provider('TVRageSyncService', function() {
 	var self = this;
 	this.TVRAGE = null;
-	this.matchToTvRage = function(serie, episodes, TVRage) {
-		console.debug("Fetch TVRage info for serie!");
+
+
+	this.matchToTvRage = function(serie, episodes, scope) {
+
+		var matchSeason = function(el,existing) {
+			return parseInt(el.season,10) == parseInt(existing.seasonnumber,10)
+		}
+
+		var matchEpisode = function(el,existing) {
+			return parseInt(el.episode,10) == parseInt(existing.episodenumber,10)
+		}
+
+		var matchFirstAired = function(el, existing) {
+			return (existing.firstaired == "" && matchSeason(el,existing) && matchEpisode(el,existing));
+		}
+
+		/**
+		 * Check if the episode name matches either exact(ignore case)
+		 * or match by ignoring all interpunction.
+		 */
+		var matchByEpisodeName = function(el, existing) {
+			var a = el.title.toLowerCase().trim();
+			var b = existing.episodename.toLowerCase().trim().replace(' and ', ' & ');
+			var aMatch = a.match(/([a-z])+/g);
+			var bMatch = a.match(/([a-z])+/g);
+			return (
+				(a != null && b != null && a == b) ||
+				(a != null && b != null &&
+				 aMatch != null && bMatch != null &&
+				 aMatch.join('') == bMatch.join('')
+				)
+			);
+		}
+
+		// only use this when seasonnumbers are messed up on thetvdb.
+		// important for series like pawn stars that use a hopeless year/episodenumber format there.
+		var matchByAirdateAndEpisodeNumber = function(el, existing) {
+			return  (el.airdate == existing.firstaired && parseInt(existing.episodenumber,10) == parseInt(el.episode,10))
+		}
+		 			 
+
+		var matchByTitleSubString = function(el, existing) {
+			return (el.title.length > 0 && existing.episodename.length > 0 && (el.title.indexOf(existing.episodename) > -1 || existing.episodename.indexOf(el.title) > -1 ));
+		}
+		
+		var updateExisting = function(existing, update) {
+			console.log("Updating existing: ", existing, update);
+			existing.episodenumber = update.episode;
+			existing.seasonnumber = update.season;
+			existing.firstaired = update.airdate;
+			existing.episodename = update.title;
+		
+			CRUD.FindOne('Episode', {ID_Episode: existing.ID_Episode }).then(function(episode) {
+				episode.set('episodenumber', this.episodenumber);
+				episode.set('seasonnumber', this.seasonnumber);
+				episode.set('episodename', this.episodename);
+				episode.set('firstaired', this.firstaired);
+				episode.Persist()
+			}.bind(angular.copy(existing)));	 
+		}
+
+		var createUnmatchedEpisodes = function(serie,episodes, scope) {
+			var pq = [];
+			for(var i=0; i<episodes.length; i++) {
+				var epi = new Episode();
+				epi.set('episodenumber', episodes[i].episode);
+				epi.set('seasonnumber', episodes[i].season);
+				epi.set('firstaired', episodes[i].airdate);
+				epi.set('episodename', episodes[i].title);
+				epi.set('TVDB_ID', serie.TVDB_ID);
+				epi.set('ID_Serie', serie.ID_Serie);
+				pq.push(epi.Persist());
+			}
+			Promise.all(pq).then(function() {
+				console.log("All new Episodes updated");
+				console.log(scope);
+				scope.$broadcast('episodes:updated');
+			}, function(err) {
+				console.log("ERROR persisting new episodes!", err);
+			})
+		}
+
 		self.TVRage.findEpisodes(serie.TVRage_ID).then(function(tvRageEpisodes) {
-			
-			for(var current,i=0; i<episodes.length; i++) {
+			var updated = {};
+			for(var updateable,i=0; i<episodes.length; i++) {
 				var existing = episodes[i];
-				
-				// the names match with ampersands changed to and
-				// or just the text without non-word characters matches (slightly different spelling)
-				// or the episode title has a prefix on tvrage
-				// or the episode title is different on tvrage
-				current = tvRageEpisodes.filter(function(el) { 
-					return (
-					  (existing.firstaired == "" && parseInt(el.season,10) == parseInt(existing.seasonnumber,10) && parseInt(el.episode,10) == parseInt(existing.episodenumber,10)) ||
-					  (el.title.toLowerCase().trim() == existing.episodename.toLowerCase().trim()) ||
-					  (existing.episodename != null && el.title != null && el.title.toLowerCase().match(/([a-z])+/g) != null && existing.episodename.toLowerCase().match(/([a-z])+/g) != null  &&
-					   el.title.toLowerCase().match(/([a-z])+/g).join('') == existing.episodename.toLowerCase().match(/([a-z])+/g).join('')
-					  ) ||
-		 			  (el.title.toLowerCase().trim() == existing.episodename.replace('and', '&').toLowerCase().trim()) ||
-		 			  (el.airdate == existing.firstaired && parseInt(existing.episodenumber,10) == parseInt(el.episode,10)) ||
-		 			  (el.title.length > 0 && existing.episodename.length > 0 && (el.title.indexOf(existing.episodename) > -1 || existing.episodename.indexOf(el.title) > -1 ))
-		 			);
-				});
-				
-				
-				if(current.length > 0) {
-					current = current[0];
-					existing.episodenumber = current.episode;
-					existing.seasonnumber = current.season;
-					existing.firstaired = current.airdate;
-					existing.episodename = current.title;
-				
-					CRUD.FindOne('Episode', {ID_Episode: existing.ID_Episode }).then(function(episode) {
-						episode.set('episodenumber', this.episodenumber);
-						episode.set('seasonnumber', this.seasonnumber);
-						episode.set('episodename', this.episodename);
-						episode.set('firstaired', this.firstaired);
-						episode.Persist()
-					}.bind(angular.copy(existing)));
+				console.log("Checking if there are updates for S%sE%s %s", existing.seasonnumber, existing.episodenumber, existing.episodename);
+
+				updateable = tvRageEpisodes.filter(function(el) { return  matchSeason(el, existing) && matchEpisode(el, existing); });
+			
+				if(updateable.length > 0) {
+					console.log("Found an updateable! ", updateable[0].season, updateable[0].episode, updateable[0].airdate, updateable[0].title);
+					updateExisting(existing, updateable[0]);
+					updated[['S',updateable[0].season,'E',updateable[0].episode].join('')] = updateable;
 				} else {
-					console.log("Could not match on title or episodenumber and airdate!", existing, tvRageEpisodes)
+					console.log("Could not match on seasonnumber and episode S%sE%s %s", existing.seasonnumber, existing.episodenumber, existing.episodename);
 				}
 			}
+			console.log("Updated episodes! ", Object.keys(updated).join(' - '));
+			var unMatched = tvRageEpisodes.filter(function(el) {
+				return (!('S'+el.season+'E'+el.episode in updated));
+			});
+			console.log("There are more TVRAGE episodes than current episodes! \n", unMatched.map(function(el) { return ('S'+el.season+'E'+el.episode) }).join(' \n '), unMatched, episodes);
+			createUnmatchedEpisodes(serie, unMatched, scope);
 		});
 	};
 
 	/**
 	 * Either update directly when TVRage_ID is known, or fetch that first and then match. 
 	 */
-	this.resolveTVRageIDAndMatch = function(serie, episodes) {
+	this.resolveTVRageIDAndMatch = function(serie, episodes, scope) {
 		if(!serie.TVRage_ID) {
 			this.TVRage.findSeriesID(serie.name).then(function(id) {
 				CRUD.FindOne(Serie, { ID_Serie : serie.ID_Serie }).then(function(entity) {
@@ -63,19 +124,18 @@ angular.module('DuckieTV.tvrage.sync',['DuckieTV.tvrage'])
 					entity.Persist();
 				});
 				serie.TVRage_ID = id;
-
-				self.matchToTvRage(serie, episodes);
+				self.matchToTvRage(serie, episodes, scope);
 			});
 		} else {
-			self.matchToTvRage(serie, episodes);
+			self.matchToTvRage(serie, episodes, scope);
 		}
 	}
 
 	this.$get = function(TVRage) {
 		self.TVRage = TVRage;
 		return {
-			syncEpisodes: function(serie, episodes) {
-				self.resolveTVRageIDAndMatch(serie, episodes);
+			syncEpisodes: function(serie, episodes, scope) {
+				self.resolveTVRageIDAndMatch(serie, episodes, scope);
 			}
 		}
 	}

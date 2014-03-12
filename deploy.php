@@ -1,4 +1,4 @@
-<h1>SeriesGuide2 Deployment Script</h1>
+<h1>DuckieTV Deployment Script</h1>
 <?php
 $curDir = getcwd();
 
