@@ -51,7 +51,7 @@ More @ http://imgur.com/gallery/l7toH
 
 Changelog: 
 ==========
-* v0.3  : Renamed to DuckieTV! Reworked TVRage parsing to resolve bugs with episode numbering. Special handling for pawn stars like renaming errors means that these have less info to show for now, but more works properly. Implemented adding missing episodes from TVRage (like S01E01 that's missing for a lot of shows).
+* v0.30  : Renamed to DuckieTV! Reworked TVRage parsing to resolve bugs with episode numbering. Special handling for pawn stars like renaming errors means that these have less info to show for now, but more works properly. Implemented adding missing episodes from TVRage (like S01E01 that's missing for a lot of shows).
 * v0.28 : Fixed layout bugs, timezone offset for the other half of the world, default settings
 * v0.27 : Implemented quality selection for episode search queries in settings. You can now search by default for none/HDTV/480p/720p/1080p
 * v0.26 : Fixed a timezone offset bug for historical dates, showing shows that have already aired at the wrong date.
