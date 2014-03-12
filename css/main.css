@@ -29,6 +29,20 @@
 
 } 
 
+@media (min-width: 1200px) {
+  body > .container {
+    width: 95%;
+  }
+}
+
+.col-md-8 {
+  width: 60%;
+}
+
+.col-md-4 {
+  width: 40%;
+}
+
 input::-webkit-input-placeholder {
   color: white !important;
   font-style: italic;
@@ -122,7 +136,7 @@ serieheader > div {
 }
 
 serieheader[mode='poster'] {
-  float: left; 
+  display:inline-block;
   height: 250px;
   width: 185px;
 }
@@ -227,6 +241,10 @@ serieheader aside {
 
 serieheader:hover aside {
   right: 0;
+}
+
+.series {
+  text-align: center;
 }
 
 .series serieheader > div{
