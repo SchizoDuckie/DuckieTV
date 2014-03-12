@@ -2,7 +2,7 @@ angular.module('DuckieTV.tvrage',[])
 .provider('TVRage', function() {
 
  this.endpoints = {
- 	seriesSearch: 'http://services.tvrage.com/feeds/episodeinfo.php?key=1zWislSnXYQL8WERM3c2&show=%s&exact=0',
+ 	seriesSearch: 'http://services.tvrage.com/feeds/full_search.php?key=1zWislSnXYQL8WERM3c2&show=%s',
  	episodeSearch: 'http://services.tvrage.com/myfeeds/episode_list.php?key=1zWislSnXYQL8WERM3c2&sid=%s'
  };
  
@@ -40,24 +40,54 @@ angular.module('DuckieTV.tvrage',[])
         return out;
  }
     
- this.parseSeries = function(data) {
-	   var searchresults = [];
-    	var show = angular.element(typeof(data) == 'string' ? data: data.xml).find('show');  // to accomodate parsing series from within episode search as well
-    	return show[0].getAttribute('id');
+ this.parseSeries = function(data, name, firstaired) {
+ 	
+ 	var parseDate = function(show) {
+ 		var aired = show.querySelector('started').innerHTML.split('/');
+		if(aired && aired.length && aired.length == 3) {
+			aired[0] = ['Jan','Feb','Mar','Apr', 'May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].indexOf(aired[0]) +1
+		}
+		return new Date(aired.join('-'));
+ 	}
+ 	console.log("Match series on firstaired ", firstaired);
+ 	
+	   var searchresults = [], found = null, dateMatched = false;
+	   var show = angular.element(typeof(data) == 'string' ? data: data.xml).find('show'); 
+
+    	firstaired = new Date(firstaired);
+    	for(var i = 0; i<show.length; i++) {
+    		var strippedName = name.replace(/\([12][0-s9]{3}\)/,'').trim();
+    		var nameMatch = show[i].querySelector('name').innerHTML == strippedName || 
+    			Array.prototype.slice.call(show[i].querySelectorAll('aka')).filter( function(el) {  
+    				return el.innerHTML == strippedName
+    		}).length > 0 ;
+    		// match shows by name, strip years.
+    		if(nameMatch && !dateMatched) {
+    			found = show[i].querySelector('showid').innerHTML; // if there was no date match yet, use the first result
+    		}
+    		
+    		var aired = parseDate(show[i]);
+    		if(aired.toDateString() == firstaired.toDateString()) {
+    			dateMatched = true;
+    			console.log("THere's a match on ", aired, firstaired)
+    			found = show[i].querySelector('showid').innerHTML;
+    		}
+		}
+    	return found;
  }
 
 
  this.$get = function($q, $http) {
     var self = this;
     return {
-	    findSeriesID: function(name) {
+	    findSeriesID: function(name, firstaired) {
 	    	var d = $q.defer();
 	        $http({
 	        	method: 'GET',
 	            url: self.getUrl('series', name),
 	            cache: true
 	          }).then(function(response) {
-	           d.resolve( self.parseSeries(response));
+	           d.resolve( self.parseSeries(response, name, firstaired));
 			}, function(err) {
 				console.log('error!');
 			  d.reject(err);

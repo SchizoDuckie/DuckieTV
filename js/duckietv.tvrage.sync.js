@@ -118,10 +118,11 @@ angular.module('DuckieTV.tvrage.sync',['DuckieTV.tvrage'])
 	 */
 	this.resolveTVRageIDAndMatch = function(serie, episodes, scope) {
 		if(!serie.TVRage_ID) {
-			this.TVRage.findSeriesID(serie.name).then(function(id) {
+			this.TVRage.findSeriesID(serie.name, serie.firstaired).then(function(id) {
 				CRUD.FindOne(Serie, { ID_Serie : serie.ID_Serie }).then(function(entity) {
 					entity.set('TVRage_ID', id);
-					entity.Persist();
+					//entity.Persist();
+					console.log("Found TVRage ID: ", id);
 				});
 				serie.TVRage_ID = id;
 				self.matchToTvRage(serie, episodes, scope);
