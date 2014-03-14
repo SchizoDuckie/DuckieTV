@@ -5,7 +5,7 @@ angular.module('DuckieTV.providers',['DuckieTV.tvrage.sync'])
  * Since it fetches asynchronously from sqlite it broadcasts a favorites:updated event
  * when data is done loading
  */
-.factory('FavoritesService', function($rootScope, TheTVDB, TVRageSyncService) {
+.factory('FavoritesService', function($rootScope, TheTVDB, TVRageSyncService, $q) {
   var service = {
     favorites : [],
     addFavorite: function(data) {
@@ -93,28 +93,36 @@ angular.module('DuckieTV.providers',['DuckieTV.tvrage.sync'])
           });
         })
     },
+    getSeries: function() {
+      var d = $q.defer();
+     CRUD.Find('Serie', {}).then(function(results) { 
+          var favorites = [];
+          for(var i=0; i<results.length; i++) {
+              favorites.push(results[i].asObject());
+          }
+          d.resolve(favorites);
+      });
+      return d.promise;
+    },
+
     /**
      * Fetch stored series from sqlite and store them in service.favorites
      * Notify anyone listening by broadcasting favorites:updated 
      */
     restore: function() {
-       CRUD.Find('Serie', {}).then(function(results) { 
-            var favorites = [];
-            for(var i=0; i<results.length; i++) {
-                favorites.push(results[i].asObject());
-            }
-            service.favorites = favorites;
-            $rootScope.$broadcast('favorites:updated',service);
-            $rootScope.$broadcast('episodes:updated');
-        });
-      }
+      service.getSeries().then(function(results) {
+        service.favorites = results;
+        $rootScope.$broadcast('favorites:updated',service);
+        $rootScope.$broadcast('episodes:updated');
+      });
+    }
   };
   service.restore();
   return service;
 })
 
 
-.factory('SettingsService', function() {
+.factory('SettingsService', function(StorageSyncService) {
   var service = {
     settings : {},
     defaults: {
@@ -152,6 +160,7 @@ angular.module('DuckieTV.providers',['DuckieTV.tvrage.sync'])
       } else {
         service.settings = angular.fromJson(localStorage.getItem('userPreferences'));   
       }
+      StorageSyncService.start();
     }
   };
   service.restore();

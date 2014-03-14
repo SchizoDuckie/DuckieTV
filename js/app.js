@@ -20,6 +20,7 @@ angular.module('DuckieTV', [
     'DuckieTV.thetvdb',
     'DuckieTV.scenenames',
     'DuckieTV.imdb',
+    'DuckieTV.settingssync',
     'colorpicker.module',
     'Chrome.topSites',
     'lazy-background'

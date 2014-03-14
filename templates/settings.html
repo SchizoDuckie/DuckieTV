@@ -7,6 +7,12 @@
      </fieldset>
 
      <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
+     <tr>
+      <th>Sync</th>
+      <td>
+         <p class="alert alert-info"><strong>Experimental!</strong> Hit this button to push your current series list into the cloud. Sign in on another browser with the same google account and your series list will automagically be synced.</p>
+        <button ng-click="sync()" class="btn btn-info">Synchronize series list</button>
+      </td>
      <tr ng-show="hasTopSites">
         <td style='width:150px'><strong style='white-space:nowrap'>Most Visited Sites</strong>
           <p class="label label-success" ng-show="getSetting('topSites.enabled')">Enabled</p> 

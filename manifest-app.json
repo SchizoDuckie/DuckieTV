@@ -8,7 +8,8 @@
     "http://*/*",
     "https://*/*",
     "tabs",
-    "notifications"  
+    "notifications",
+    "storage"
   ],
    "background": {
     "scripts": ["js/vendor/angular.min.js", "launch.js"]
