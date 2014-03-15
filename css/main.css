@@ -167,6 +167,13 @@ serieheader[mode=banner]:hover h3 {
   margin-top: -36px;
 }
 
+.dropdown-menu serieheader h3 {
+  margin-top:0;
+  color:white;
+  margin-top: -45px;
+}
+
+
 serieheader.full > div {
   background-color: rgba(0,0,0,0.5);
 }
@@ -194,9 +201,6 @@ serieheader .poster {
 .col-md-4 serieheader[mode='poster'] {
   width: 160px;
 }
-width: 160px;
-
-
 
 serieheader h3 {
   color:white; 
@@ -269,10 +273,6 @@ serieheader:hover aside {
   border-bottom-right-radius: 10px;
 }
 
-.series serieheader {
-  bor
-}
-
 
 .table.light {
   color: white;
@@ -335,6 +335,7 @@ table.light h1 {
   width: 100%;
   box-shadow: 4px 4px 2px rgba(255,255,255,0.7)
 }
+
 
 .dropdown-menu table.torrents {
   width:100%;
