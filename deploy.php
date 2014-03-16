@@ -1,5 +1,9 @@
+<title>DuckieTV - Deploying</title>
 <h1>DuckieTV Deployment Script</h1>
+
 <?php
+flush();
+ob_end_flush();
 $curDir = getcwd();
 
 if(!is_dir('../deploy')) mkdir('../deploy');
@@ -7,7 +11,7 @@ if(!is_dir('../deploy/newtab'))	mkdir('../deploy/newtab');
 if(!is_dir('../deploy/browseraction')) mkdir('../deploy/browseraction');
 
 
-file_put_contents('exclude.txt', "exclude.txt\r\n.git\r\nmanifest.json\r\nmanifest-app.json\r\ndeploy.php");
+file_put_contents('exclude.txt', "exclude.txt\r\n.git\r\nmanifest.json\r\nmanifest-app.json\r\ndeploy.php\r\ndeploytowebstoremacro.exe\r\ndeploy-both.mcr\r\ndeploy-newtab.mcr\r\ndeploy-browseraction.mcr\r\nchangelog.php");
 echo "Copying to output dir.<pre style='height:150px; overflow-y:scroll'>";
 system('xcopy /EXCLUDE:exclude.txt /Y /E . ..\deploy\newtab');
 system('xcopy /EXCLUDE:exclude.txt /Y /E . ..\deploy\browseraction');
@@ -28,7 +32,17 @@ echo "</pre>Zipping browser action version<pre style='height:150px; overflow-y:s
 
 chdir($curDir.'/../deploy/browseraction');
 system("zip -R ../browseraction-{$version}.zip *.*");
+chdir($curDir.'/../deploy');
+system("rm -f browseraction-latest.zip");
+system("rm -f newtab-latest.zip");
+system("cp browseraction-{$version}.zip browseraction-latest.zip");
+system("cp newtab-{$version}.zip newtab-latest.zip");
+
 echo "</pre>";
 
 unlink("$curDir/exclude.txt");
 echo "<h1>Done</h1>";
+?>
+<script type='text/javascript'>
+document.querySelector('title').innerText = 'DuckieTV - Deployment built.';
+</script>
