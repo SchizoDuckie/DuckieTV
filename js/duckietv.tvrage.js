@@ -29,11 +29,13 @@ angular.module('DuckieTV.tvrage',[])
 	            if(en.length == 1) en =  '0'+en.toString();
 	            var airdate = episode.find("airdate").text()
 	            var title = episode.find("title").text();
+	            var rating = episode.find("rating").text();
 	            out.push({
 	            	season: sn,
 	            	episode: en,
 	            	airdate: airdate,
-	            	title: title
+	            	title: title,
+	            	rating: rating
 	            })
 	        }
     	}

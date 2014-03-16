@@ -1,4 +1,3 @@
-
 angular.module('DuckieTV.tvrage.sync',['DuckieTV.tvrage'])
 /**
  * Matches existing episodes for a serie to their TVRage_ID and synchronizes episode numbers, airdates and titles
@@ -19,7 +18,12 @@ angular.module('DuckieTV.tvrage.sync',['DuckieTV.tvrage'])
 		}
 
 		var matchFirstAired = function(el, existing) {
-			return (existing.firstaired == "" && matchSeason(el,existing) && matchEpisode(el,existing));
+			
+			var matchAired = ((existing.firstaired == "" || existing.airdate = "00-00-0000" || el.airdate == "0000-00-00") && matchSeason(el,existing) && matchEpisode(el,existing));
+			if(matchAired && parseInt(el.episode, 10) == 0 && parseInt(existing.episodenumber,10) == 0) {
+				return matchByEpisodeName(el, existing); 
+			}
+			return matchAired;
 		}
 
 		/**
@@ -46,23 +50,28 @@ angular.module('DuckieTV.tvrage.sync',['DuckieTV.tvrage'])
 			return  (el.airdate == existing.firstaired && parseInt(existing.episodenumber,10) == parseInt(el.episode,10))
 		}
 		 			 
-
+		/**
+		 * Check if the original title is a substring of the new title
+		 */
 		var matchByTitleSubString = function(el, existing) {
 			return (el.title.length > 0 && existing.episodename.length > 0 && (el.title.indexOf(existing.episodename) > -1 || existing.episodename.indexOf(el.title) > -1 ));
 		}
 		
 		var updateExisting = function(existing, update) {
-			console.log("Updating existing: ", existing, update);
+			console.log("Updating existing: ", 'S',existing.seasonnumber,'E',existing.episodenumber, existing.episodename, update);
 			existing.episodenumber = update.episode;
 			existing.seasonnumber = update.season;
-			existing.firstaired = update.airdate;
 			existing.episodename = update.title;
-		
+			if(update.airdate != '0000-00-00') {
+				existing.firstaired = update.airdate;
+			}
+			existing.rating = update.rating;
 			CRUD.FindOne('Episode', {ID_Episode: existing.ID_Episode }).then(function(episode) {
 				episode.set('episodenumber', this.episodenumber);
 				episode.set('seasonnumber', this.seasonnumber);
 				episode.set('episodename', this.episodename);
 				episode.set('firstaired', this.firstaired);
+				episode.set('rating', this.rating);
 				episode.Persist()
 			}.bind(angular.copy(existing)));	 
 		}
@@ -73,7 +82,9 @@ angular.module('DuckieTV.tvrage.sync',['DuckieTV.tvrage'])
 				var epi = new Episode();
 				epi.set('episodenumber', episodes[i].episode);
 				epi.set('seasonnumber', episodes[i].season);
-				epi.set('firstaired', episodes[i].airdate);
+				if(episodes[i].airdate != '0000-00-00') {
+					epi.set('firstaired', episodes[i].airdate);
+				}
 				epi.set('episodename', episodes[i].title);
 				epi.set('TVDB_ID', serie.TVDB_ID);
 				epi.set('ID_Serie', serie.ID_Serie);
@@ -92,24 +103,27 @@ angular.module('DuckieTV.tvrage.sync',['DuckieTV.tvrage'])
 			var updated = {};
 			for(var updateable,i=0; i<episodes.length; i++) {
 				var existing = episodes[i];
-				console.log("Checking if there are updates for S%sE%s %s", existing.seasonnumber, existing.episodenumber, existing.episodename);
-
+				
 				updateable = tvRageEpisodes.filter(function(el) { return  matchSeason(el, existing) && matchEpisode(el, existing); });
 			
-				if(updateable.length > 0) {
-					console.log("Found an updateable! ", updateable[0].season, updateable[0].episode, updateable[0].airdate, updateable[0].title);
+				if(updateable.length == 1) {
 					updateExisting(existing, updateable[0]);
 					updated[['S',updateable[0].season,'E',updateable[0].episode].join('')] = updateable;
-				} else {
-					console.log("Could not match on seasonnumber and episode S%sE%s %s", existing.seasonnumber, existing.episodenumber, existing.episodename);
+				} else if(updateable.length > 1) {
+					console.log("More than one hit for updating S%sE%s %s. not updating.", existing.seasonnumber, existing.episodenumber, existing.episodename, updateable);
+					updated[['S',updateable[0].season,'E',updateable[0].episode].join('')] = updateable;
+				} else if(updateable.length == 0) {
+					console.log("Could not match on seasonnumber and episode S%sE%s %s", existing.seasonnumber, existing.episodenumber, existing.episodename, updateable);
 				}
 			}
 			console.log("Updated episodes! ", Object.keys(updated).join(' - '));
 			var unMatched = tvRageEpisodes.filter(function(el) {
 				return (!('S'+el.season+'E'+el.episode in updated));
 			});
-			console.log("There are more TVRAGE episodes than current episodes! \n", unMatched.map(function(el) { return ('S'+el.season+'E'+el.episode) }).join(' \n '), unMatched, episodes);
-			createUnmatchedEpisodes(serie, unMatched, scope);
+			if(unMatched.length > 0) {
+				console.log("Episodes found ! \n", unMatched.map(function(el) { return ('S'+el.season+'E'+el.episode) }).join(' \n '), '\n', unMatched, episodes);
+				createUnmatchedEpisodes(serie, unMatched, scope);
+			}
 		});
 	};
 
@@ -136,7 +150,7 @@ angular.module('DuckieTV.tvrage.sync',['DuckieTV.tvrage'])
 		self.TVRage = TVRage;
 		return {
 			syncEpisodes: function(serie, episodes, scope) {
-				self.resolveTVRageIDAndMatch(serie, episodes, scope);
+				return self.resolveTVRageIDAndMatch(serie, episodes, scope);
 			}
 		}
 	}
