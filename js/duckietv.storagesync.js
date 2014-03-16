@@ -4,6 +4,7 @@ angular.module('DuckieTV.settingssync',[])
   var service = {
 
   	isSyncing: false,
+    isStarted: false,
   	syncTarget: null,
   	lastSynced: null,
 
@@ -16,11 +17,15 @@ angular.module('DuckieTV.settingssync',[])
     },
 
     synchronize: function() {
-    	console.log("[Storage.Synchronize] Syncing storage!");
+      if(!service.isSyncing) {
+        service.isSyncing = true;
+    	  console.log("[Storage.Synchronize] Syncing storage!");
         service.getSeriesList().then(function(series) {
         	service.set('series', series);
         	service.set('synctime', new Date().getTime());
+          service.isSyncing = false;
         });
+      }
     },
 
     read: function(lastSync) {
@@ -28,15 +33,30 @@ angular.module('DuckieTV.settingssync',[])
     	service.get('series').then(function(results) {
 			console.log("Fetched synced storage series: ", results);    		
     		var existingSeries = service.getSeriesList().then(function(existingSeries) {
-    			console.log("existing series for sync: ", existingSeries)
+    			console.log("existing series from sync: ", existingSeries)
     			var nonLocal = results.filter(function(el) { return existingSeries.indexOf(el) == -1 });
+          var nonRemote = existingSeries.filter(function(id) { 
+            return results.filter(function(id2) {
+              return (id == id2);
+            }).length == 0
+          });
+
 	    		console.log("Found non-local series to synchronize", nonLocal);
-	    		for(var i= 0; i<nonLocal.length; i++) {
+          console.log("Found non-remote series to delete", nonRemote)
+	    		
+          for(var i= 0; i<nonLocal.length; i++) {
 	    			TheTVDB.findEpisodes(nonLocal[i]).then(function(result) {
 	    				console.log("Fetched information for ", result.serie.seriesname, 'adding to favorites!');
 	    				FavoritesService.addFavorite(result.serie);
 	    			})
 	    		}
+
+          for(var j= 0; j<nonRemote.length; j++) {
+            FavoritesService.getById(nonRemote[j]).then(function(result) {
+              console.log("Fetched information for ", result.get('seriesname'), 'removing from favorites!');
+              FavoritesService.remove(result.asObject());
+            })
+          }
     		})
     	});
     },
@@ -63,7 +83,6 @@ angular.module('DuckieTV.settingssync',[])
     },
 
   	initialize: function() {
-  		
   		service.readIfSynced();
   	},
 
@@ -76,7 +95,7 @@ angular.module('DuckieTV.settingssync',[])
 
   	start: function() {
   		console.log("Storage sync initted");
-
+      service.isStarted = true;
   		chrome.storage.onChanged.addListener(function(changes, namespace) {
 	        service.readIfSynced();
       	});
@@ -85,6 +104,9 @@ angular.module('DuckieTV.settingssync',[])
   		return service; 		
   	}
   }	
-  return service.start();
+  if(!service.isStarted) {
+    service.start();
+  }
+  return service;
 })
 

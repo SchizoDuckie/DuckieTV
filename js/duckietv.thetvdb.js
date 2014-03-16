@@ -92,7 +92,7 @@ angular.module('DuckieTV.thetvdb',[])
  * Autofill serie search component
  * Provides autofill proxy and adds the selected serie back to the MainController
  */
-.controller('FindSeriesTypeAheadCtrl', function ($scope, TheTVDB, FavoritesService) {
+.controller('FindSeriesTypeAheadCtrl', function ($scope, TheTVDB, FavoritesService, $rootScope) {
 
   $scope.selected = undefined;
   $scope.findSeries = function(serie) {
@@ -100,7 +100,9 @@ angular.module('DuckieTV.thetvdb',[])
   };
   $scope.selectSerie = function(serie) {
   	$scope.selected = serie.name;
-  	FavoritesService.addFavorite(serie);
+  	FavoritesService.addFavorite(serie).then(function() {
+  		$rootScope.$broadcast('storage:update');
+  	});
   	$scope.selected = '';
   }
 })

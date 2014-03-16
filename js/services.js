@@ -9,32 +9,30 @@ angular.module('DuckieTV.providers',['DuckieTV.tvrage.sync'])
   var service = {
     favorites : [],
     addFavorite: function(data) {
-      var serie = new Serie();
+      var d = $q.defer(), serie = new Serie();
+
       for(var i in data) {
         serie.set(i == 'id' ? 'TVDB_ID': i, data[i]);
       }
-      var that = this;
       serie.Persist().then(function(e) {
-        that.favorites.push(serie.asObject());
-         $rootScope.$broadcast('favorites:updated',service);
-         TheTVDB.findEpisodes(serie.get('TVDB_ID')).then(function(res) { 
-
-          that.updateEpisodes(serie.get('TVDB_ID'), res.episodes);
-          for(var prop in res.serie) {
-            serie.set(prop, res.serie[prop]);
-          }
-          serie.Persist().then(function(res) {
-            console.log("Serie update ok!", res);
-            $rootScope.$broadcast('episodes:inserted', serie);
-          }, function(err) {
-            debugger;
-          })
+          service.favorites.push(serie.asObject());
+          $rootScope.$broadcast('favorites:updated',service);
+          TheTVDB.findEpisodes(serie.get('TVDB_ID')).then(function(res) { 
+            service.updateEpisodes(serie.get('TVDB_ID'), res.episodes);
+            for(var prop in res.serie) {
+              serie.set(prop, res.serie[prop]);
+            }
+            serie.Persist().then(function(res) {
+              $rootScope.$broadcast('episodes:inserted', serie);
+              d.resolve();
+            }, function(err) {
+              d.reject();
+            })
         }); 
-        
       }, function(fail) {
        console.log("Error persisting favorite!", data, arguments); 
-     });
-
+      });
+      return d.promise;
     },
     updateEpisodes: function(serieID, episodes) {
         console.log("---> Update episode: ", serieID, episodes);
@@ -88,6 +86,7 @@ angular.module('DuckieTV.providers',['DuckieTV.tvrage.sync'])
             }
             episodes = null;
             serie.Delete().then(function() {
+              $rootScope.$broadcast('storage:update');
               self.restore()
             });
           });
@@ -133,7 +132,8 @@ angular.module('DuckieTV.providers',['DuckieTV.tvrage.sync'])
       'torrenting.searchquality' : '',
       'thepiratebay.mirror' : 'https://thepiratebay.se',
       'series.displaymode' : 'poster',
-      'calendar.large': false
+      'calendar.large': false,
+      'storage.sync': true
     },
 
     get: function(key) {
@@ -160,7 +160,6 @@ angular.module('DuckieTV.providers',['DuckieTV.tvrage.sync'])
       } else {
         service.settings = angular.fromJson(localStorage.getItem('userPreferences'));   
       }
-      StorageSyncService.start();
     }
   };
   service.restore();

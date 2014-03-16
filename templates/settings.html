@@ -8,10 +8,26 @@
 
      <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
      <tr>
-      <th>Sync</th>
+      <th><strong>Sync between browser</strong>
+        <p class="label label-success" ng-show="getSetting('storage.sync')">Enabled</p> 
+          <p class="label label-danger" ng-show="!getSetting('storage.sync')">Disabled</p> </th>
       <td>
-         <p class="alert alert-info"><strong>Experimental!</strong> Hit this button to push your current series list into the cloud. Sign in on another browser with the same google account and your series list will automagically be synced.</p>
-        <button ng-click="sync()" class="btn btn-info">Synchronize series list</button>
+
+        <ul class="list-unstyled">
+           <li>
+              <p class="alert alert-info"><strong>Experimental!</strong>
+            Hit this button to push your current series list into the cloud. Sign in on another browser with the same google account and your series list will automagically be synced.</p>
+            <button ng-click="sync()" class="btn btn-success">Push local series list into the cloud</button>
+            </li>
+            <li>
+                <p ng-show="!getSetting('storage.sync')" class="alert alert-info">Clicking this button will keep your series in sync with other browsers</p>
+                <p ng-show="getSetting('storage.sync')" class="alert alert-warning">Clicking this button will stop syncing your local series list with other browsers</p>
+                <button ng-show="!getSetting('storage.sync')" ng-click="enableSetting('storage.sync')" class="btn btn-success">Keep series in sync between browsers</button>
+                <button ng-show="getSetting('storage.sync')" ng-click="disableSetting('storage.sync')" class="btn btn-danger">Don't sync between browsers</button>
+            </li>
+            <li>
+        </ul>
+
       </td>
      <tr ng-show="hasTopSites">
         <td style='width:150px'><strong style='white-space:nowrap'>Most Visited Sites</strong>

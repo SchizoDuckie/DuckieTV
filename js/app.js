@@ -71,7 +71,7 @@ angular.module('DuckieTV', [
       controller: 'SettingsCtrl'
     })
     .otherwise({redirectTo: '/'});
-}).run(function($rootScope, SettingsService) {
+}).run(function($rootScope, SettingsService, StorageSyncService) {
     
     $rootScope.getSetting = function(key) {
         return SettingsService.get(key);
@@ -88,5 +88,11 @@ angular.module('DuckieTV', [
     $rootScope.disableSetting = function(key) {
         SettingsService.set(key, false);
     }
+
+    $rootScope.$on('storage:update', function() {
+        if($rootScope.getSetting('storage.sync')) {
+            StorageSyncService.synchronize();
+        }
+    });
 })
 

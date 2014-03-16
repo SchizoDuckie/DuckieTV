@@ -38,7 +38,6 @@ angular.module('DuckieTV.controllers',['DuckieTV.settingssync'])
 		     var serie = data.favorites[Math.floor(Math.random() * data.favorites.length)];
 		     $rootScope.$broadcast('background:load', 'http://thetvdb.com/banners/'+serie.fanart);	
 	     }
-	     $scope.$digest(); // notify the scope that new data came in
    	});
   	$scope.$on('episodes:inserted', function(event, serie) {
   		if(serie.get('fanart') != '') {
@@ -49,22 +48,51 @@ angular.module('DuckieTV.controllers',['DuckieTV.settingssync'])
 
 .controller('SerieCtrl',  
 
-	function(TheTVDB, ThePirateBay, FavoritesService, SettingsService, SceneNameResolver, TVRageSyncService, $routeParams, $scope, $rootScope, $injector) {
+	function(TheTVDB, ThePirateBay, FavoritesService, SettingsService, SceneNameResolver, TVRageSyncService, $routeParams, $scope, $rootScope, $injector, $filter) {
 		console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
 		$scope.episodes = [];
+		$scope.points = [];
 
 		$scope.markingAsWatched = false;
 		$scope.markUntilDate = false;
 
-		if(FavoritesService.favorites.length > 0) {
-			$scope.serie = FavoritesService.getById($routeParams.id);
-		}
-		$scope.$on('favorites:updated', function(event,favorites) {
-			$scope.serie = favorites.getById($routeParams.id);
-			$scope.$digest();
-		});
+		$scope.$on('favorites:updated', $scope.getSerie);
+		$scope.$on('episodes:updated', $scope.getSerie);
+
 		$scope.searching = false;
 		var currentDate = new Date();
+
+
+		$scope.getSerie = function() {
+			FavoritesService.getById($routeParams.id).then(function(serie) {
+				$scope.serie = serie.asObject();
+				if(serie.get('fanart') != '') {
+					 $rootScope.$broadcast('background:load', 'http://thetvdb.com/banners/'+serie.get('fanart'));
+				}
+
+				var episodes = FavoritesService.getEpisodes(serie).then(function(data) {
+					$scope.episodes = data;
+					$scope.points = [];
+					$scope.labels = [];
+					data =  $filter('orderBy')(data, $scope.getEpisodeNumber, false);
+					for(var i =0; i<data.length; i++) {
+
+						var amt = parseFloat(data[i].rating);
+						if(isNaN(amt)) { 
+							amt  = 0;
+						}
+						if (amt < 10 ) amt *= 10;
+						$scope.points.push({x: i, y: amt, label: $scope.getEpisodeNumber(data[i]) + ' : '+data[i].rating, season:parseInt(data[i].seasonnumber,10)});
+					}
+					$scope.$digest();
+				}, function(err) {
+					console.log("Could not find episodes for serie", err);
+				});
+
+			});
+		}
+
+		$scope.getSerie();
 
 		/**
 		 * Check if airdate has passed
@@ -106,7 +134,7 @@ angular.module('DuckieTV.controllers',['DuckieTV.settingssync'])
 
 		$scope.getSearchString = function(serie, episode) {
 			var serieName = SceneNameResolver.getSceneName(serie.TVDB_ID) || serie.name;
-			return serieName +' '+$scope.getEpisodeNumber(episode)+' '+SettingsService.get('torrenting.searchquality');
+			return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ' ) +' '+$scope.getEpisodeNumber(episode)+' '+SettingsService.get('torrenting.searchquality');
 		}
 
 		$scope.getEpisodeNumber = function(episode) {
@@ -136,23 +164,6 @@ angular.module('DuckieTV.controllers',['DuckieTV.settingssync'])
 		$scope.markRangeWatchedStart = function() {
 			$scope.markingAsWatched = true;
 		}
-
-
-		FavoritesService.getById($routeParams.id).then(function(serie) {
-			$scope.serie = serie.asObject();
-
-			var episodes = FavoritesService.getEpisodes(serie).then(function(data) {
-				$scope.episodes = data;
-				$scope.$digest();
-			}, function(err) {
-				debugger;
-				console.log("Episodes booh!", err);
-			});
-			if(serie.get('fanart') != '') {
-				 $rootScope.$broadcast('background:load', 'http://thetvdb.com/banners/'+serie.get('fanart'));
-			}
-		
-		})
 		
 })
 
@@ -252,7 +263,7 @@ angular.module('DuckieTV.controllers',['DuckieTV.settingssync'])
 
 
 .controller('SettingsCtrl', 
-  function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver, StorageSyncService) {
+  function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver) {
     
     $scope.custommirror = SettingsService.get('thepiratebay.mirror');
     $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
@@ -264,10 +275,9 @@ angular.module('DuckieTV.controllers',['DuckieTV.settingssync'])
     	$scope.mirrorStatus.unshift(status);
     });
 
-
     $scope.sync = function() {
     	console.log("Synchronizging!");
-    	StorageSyncService.synchronize();
+    	$rootScope.$broadcast('storage:update');
     }
 
     $scope.setSearchProvider = function(provider) {
