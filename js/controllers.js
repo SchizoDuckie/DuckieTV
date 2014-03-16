@@ -81,7 +81,7 @@ angular.module('DuckieTV.controllers',['DuckieTV.settingssync'])
 						if(isNaN(amt)) { 
 							amt  = 0;
 						}
-						if (amt < 10 ) amt *= 10;
+						if (amt <= 10 ) amt *= 10;
 						$scope.points.push({x: i, y: amt, label: $scope.getEpisodeNumber(data[i]) + ' : '+data[i].rating, season:parseInt(data[i].seasonnumber,10)});
 					}
 					$scope.$digest();
