@@ -167,6 +167,21 @@ serieheader[mode=banner]:hover h3 {
   margin-top: -36px;
 }
 
+serieheader[mode=banner].full {
+  overflow: visible;
+}
+
+serieheader[mode=banner].full h3 {
+  margin-top: -36px;
+}
+serieheader[mode=banner].full .banner {
+  margin-bottom:36px;
+  height: 180px;
+}  
+
+serieheader[mode=banner].full h3 {
+} 
+
 .dropdown-menu serieheader h3 {
   margin-top:0;
   color:white;
@@ -738,4 +753,22 @@ a:hover i.glyphicon-plus-sign {
   text-align: center;
   font-weight:bold;
   display: block;
+}
+
+
+.chart {
+  width: 100%;
+  display:block;
+  height: 150px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.chartLine {
+  border: 1px solid rgba(0,0,0,0.2);
+  width:3px;
+  position: absolute;
+  bottom:0px;
+  color:white;
+  background-color:rgba(255,255,255,0.05);
 }
