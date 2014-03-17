@@ -48,7 +48,7 @@ angular.module('DuckieTV.controllers',['DuckieTV.settingssync'])
 
 .controller('SerieCtrl',  
 
-	function(TheTVDB, ThePirateBay, FavoritesService, SettingsService, SceneNameResolver, TVRageSyncService, $routeParams, $scope, $rootScope, $injector, $filter) {
+	function(TheTVDB, ThePirateBay, FavoritesService, SettingsService, SceneNameResolver, TVRageSyncService, TraktTV, $routeParams, $scope, $rootScope, $injector, $filter) {
 		console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
 		$scope.episodes = [];
 		$scope.points = [];
@@ -144,6 +144,10 @@ angular.module('DuckieTV.controllers',['DuckieTV.settingssync'])
 
 		$scope.tvRageSync = function(serie, episodes) {
 			TVRageSyncService.syncEpisodes(serie, episodes);
+		}
+
+		$scope.traktSync = function(serie) {
+			TraktTV.findSeriesByID(serie.TVDB_ID);
 		}
 
 		$scope.searchTorrents = function(serie, episode) {

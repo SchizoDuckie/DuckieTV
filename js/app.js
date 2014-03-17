@@ -18,6 +18,7 @@ angular.module('DuckieTV', [
     'DuckieTV.tvrage',
     'DuckieTV.tvrage.sync',
     'DuckieTV.thetvdb',
+    'DuckieTV.trakttv',
     'DuckieTV.scenenames',
     'DuckieTV.imdb',
     'DuckieTV.settingssync',
