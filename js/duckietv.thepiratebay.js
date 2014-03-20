@@ -111,7 +111,7 @@ angular.module('DuckieTV.thepiratebay', [])
 	return {
 		restrict: 'E',
 		template: ['<div ng-controller="FindTPBTypeAheadCtrl">',
-				    '<input type="text" ng-model="selected" placeholder="Search for anything on The Pirate Bay" typeahead-min-length="3" typeahead-loading="loadingTPB"',
+				    '<input type="text" ng-model="selected" placeholder="Search for anything on The Pirate Bay" typeahead-min-length="2" typeahead-loading="loadingTPB"',
 				    'typeahead="result for results in search($viewValue)" typeahead-template-url="templates/typeAheadTPB.html"',
 				    'typeahead-on-select="selectTPBItem($item)" class="form-control"> <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>',
 				'</div>'].join(' ')
