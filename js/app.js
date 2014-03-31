@@ -3,15 +3,15 @@
  */
 
 angular.module('DuckieTV', [
-	'ngRoute',
-	'xml',	
+    'ngRoute',
+    'xml',
     'datePicker',
     'ui.bootstrap',
     'DuckieTV.calendar',
     'DuckieTV.providers',
-    'DuckieTV.directives', 
+    'DuckieTV.directives',
     'DuckieTV.controllers',
-    'DuckieTV.mirrorresolver', 
+    'DuckieTV.mirrorresolver',
     'DuckieTV.thepiratebay',
     'DuckieTV.kickasstorrents',
     'DuckieTV.torrentfreak',
@@ -20,21 +20,22 @@ angular.module('DuckieTV', [
     'DuckieTV.thetvdb',
     'DuckieTV.trakttv',
     'DuckieTV.scenenames',
+    'DuckieTV.filereader',
     'DuckieTV.imdb',
     'DuckieTV.settingssync',
     'colorpicker.module',
     'Chrome.topSites',
     'lazy-background'
- ])
+])
 
 /**
  * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
  */
-.config(function ($httpProvider, $compileProvider) {
-    $httpProvider.interceptors.push('xmlHttpInterceptor');  
-    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|magnet):/);
+.config(function($httpProvider, $compileProvider) {
+    $httpProvider.interceptors.push('xmlHttpInterceptor');
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|magnet|data):/);
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
- })
+})
 
 
 /**
@@ -47,33 +48,35 @@ angular.module('DuckieTV', [
     };
 })
 /**
- * Routing configuration. 
+ * Routing configuration.
  */
 .config(function($routeProvider) {
-  $routeProvider
-    .when('/', {
-      templateUrl: 'templates/home.html', 
-      controller: 'MainCtrl'
-    })
-    .when('/watchlist', {
-        templateUrl: 'templates/watchlist.html',
-        controller: 'WatchlistCtrl'
-    })
-    .when('/series/:id', {
-    	templateUrl: 'templates/serie.html',
-    	controller: 'SerieCtrl'
-    })
-    .when('/serie/:id/episode/:episode', {
-        templateUrl: 'templates/episode.html',
-        controller: 'EpisodeCtrl'
-    })
-    .when('/settings', {
-      templateUrl: 'templates/settings.html',
-      controller: 'SettingsCtrl'
-    })
-    .otherwise({redirectTo: '/'});
+    $routeProvider
+        .when('/', {
+            templateUrl: 'templates/home.html',
+            controller: 'MainCtrl'
+        })
+        .when('/watchlist', {
+            templateUrl: 'templates/watchlist.html',
+            controller: 'WatchlistCtrl'
+        })
+        .when('/series/:id', {
+            templateUrl: 'templates/serie.html',
+            controller: 'SerieCtrl'
+        })
+        .when('/serie/:id/episode/:episode', {
+            templateUrl: 'templates/episode.html',
+            controller: 'EpisodeCtrl'
+        })
+        .when('/settings', {
+            templateUrl: 'templates/settings.html',
+            controller: 'SettingsCtrl'
+        })
+        .otherwise({
+            redirectTo: '/'
+        });
 }).run(function($rootScope, SettingsService, StorageSyncService) {
-    
+
     $rootScope.getSetting = function(key) {
         return SettingsService.get(key);
     }
@@ -91,9 +94,10 @@ angular.module('DuckieTV', [
     }
 
     $rootScope.$on('storage:update', function() {
-        if($rootScope.getSetting('storage.sync')) {
+        if ($rootScope.getSetting('storage.sync') == true) {
+            console.log("STorage sync can run!");
+            StorageSyncService.readIfSynced();
             StorageSyncService.synchronize();
         }
     });
 })
-

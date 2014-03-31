@@ -8,6 +8,15 @@
 
      <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
      <tr>
+        <tr><th>Backup / Import</th>
+        <td>
+        <h3>Create a backup of your series / episodes list. </h3>
+        <a class="btn btn-success" download="DuckieTV.backup" ng-href="{{ backup() }}">Create a backup</a>
+        <h3>Restore a backup</h3>
+        <div file-input="file" on-change="restore()"></div>
+        </td>
+
+      </tr>
       <th><strong>Sync between browser</strong>
         <p class="label label-success" ng-show="getSetting('storage.sync')">Enabled</p> 
           <p class="label label-danger" ng-show="!getSetting('storage.sync')">Disabled</p> </th>

@@ -41,7 +41,7 @@
 						</div>
 				</div> <episode-watched  ng-if="hasAired(episode)" episode="episode" style="display:inline-block;margin-left:10px"></episode-watched></td></tr>
 		<tr><td colspan="2">
-			<div style='float:left; width: 300px; height:180px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="http://thetvdb.com/banners/{{episode.filename}}"></div>
+			<div style='float:left; width: 300px; height:180px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{episode.filename}}"></div>
 		{{episode.overview}}
 			
 		</td></tr>
