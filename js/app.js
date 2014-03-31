@@ -2,30 +2,47 @@
  * Handle global dependencies
  */
 
+
+
+
+
 angular.module('DuckieTV', [
     'ngRoute',
     'xml',
     'datePicker',
     'ui.bootstrap',
-    'DuckieTV.calendar',
-    'DuckieTV.providers',
-    'DuckieTV.directives',
-    'DuckieTV.controllers',
-    'DuckieTV.mirrorresolver',
-    'DuckieTV.thepiratebay',
-    'DuckieTV.kickasstorrents',
-    'DuckieTV.torrentfreak',
-    'DuckieTV.tvrage',
-    'DuckieTV.tvrage.sync',
-    'DuckieTV.thetvdb',
-    'DuckieTV.trakttv',
-    'DuckieTV.scenenames',
-    'DuckieTV.filereader',
-    'DuckieTV.imdb',
-    'DuckieTV.settingssync',
-    'colorpicker.module',
-    'Chrome.topSites',
-    'lazy-background'
+    'DuckieTV.directives.calendar',
+    'DuckieTV.directives.chrometopsites',
+    'DuckieTV.directives.backgroundrotator',
+    'DuckieTV.directives.chrometopsites',
+    'DuckieTV.directives.lazybackground',
+    'DuckieTV.providers.episodeaired',
+    'DuckieTV.providers.eventwatcher',
+    'DuckieTV.providers.favorites',
+    'DuckieTV.providers.filereader',
+    'DuckieTV.providers.googleimages',
+    'DuckieTV.providers.imdb',
+    'DuckieTV.providers.kickasstorrents',
+    'DuckieTV.providers.mirrorresolver',
+    'DuckieTV.providers.notifications',
+    'DuckieTV.providers.piratebayChecker',
+    'DuckieTV.providers.scenenames',
+    'DuckieTV.providers.settings',
+    'DuckieTV.providers.storagesync',
+    'DuckieTV.providers.tvrage',
+    'DuckieTV.providers.tvrage',
+    'DuckieTV.providers.thepiratebay',
+    'DuckieTV.providers.thetvdb',
+    'DuckieTV.providers.torrentfreak',
+    'DuckieTV.providers.trakttv',
+    'DuckieTV.providers.watchlistchecker',
+    'DuckieTV.providers.watchlist',
+    'DuckieTV.controllers.main',
+    'DuckieTV.controllers.episodes',
+    'DuckieTV.controllers.serie',
+    'DuckieTV.controllers.settings',
+    'DuckieTV.controllers.watchlist',
+    'colorpicker.module'
 ])
 
 /**
