@@ -586,7 +586,7 @@ input[type=text],input[type=url], option, select {
   border-left: 0;
 }
 
-[date-picker] [ng-switch-when=date] td {
+[date-picker] [ng-switch-when=date] td, [date-picker] [ng-switch-when=week] td {
   width: calc(100% / 7 );
   vertical-align: top;
 }
@@ -626,17 +626,27 @@ input[type=text],input[type=url], option, select {
 [date-picker] h2 {
   cursor: pointer;
 }
+
+[date-picker] h2 .glyphicon {
+  font-size: 15px;
+  line-height: 100%;
+  vertical-align: middle;
+  clear: both;
+  display: block;
+  padding-top: 5px;
+}
+
 [date-picker] .now {
   color:yellow;
   font-weight:bold;
 }
-[date-picker] [ng-switch-when=date] td {
+[date-picker] [ng-switch-when=date] td, [date-picker] [ng-switch-when=week] td {
   position: relative;
   padding: 3px;
   padding-top:25px;
 }
 
-[date-picker] [ng-switch-when=date] td span {
+[date-picker] [ng-switch-when=date] td span, [date-picker] [ng-switch-when=week] td span {
   position: absolute;
   top: 2px;
   right: 5px;

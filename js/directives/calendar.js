@@ -1,4 +1,4 @@
-angular.module('DuckieTV.directives.calendar', [])
+angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
 
 .provider('CalendarEvents', function() {
     var calendarEvents = {};
@@ -6,6 +6,7 @@ angular.module('DuckieTV.directives.calendar', [])
         $get: function($rootScope) {
             return {
                 setEvents: function(events) {
+                    console.log("Set calendar events!", events);
                     calendarEvents = {};
                     for (var i = 0; i < events.length; i++) {
                         var offset = new Date().getTimezoneOffset() > 0 ? new Date().getTimezoneOffset() * 60 * 1000 : 0;
@@ -43,7 +44,7 @@ angular.module('DuckieTV.directives.calendar', [])
 .directive('calendar', function(FavoritesService, CalendarEvents, $rootScope) {
 
     this.update = function($rootScope) {
-        FavoritesService.getEpisodesForDateRange("2014-01-01", "2015-01-01").then(function(data) {
+        FavoritesService.getEpisodesForDateRange(new Date("2014-01-01").getTime(), new Date("2015-01-01").getTime()).then(function(data) {
             var serieIDs = {};
             for (var i = 0; i < data.length; i++) {
                 serieIDs[data[i].get('ID_Serie')] = data[i].get('ID_Serie');
@@ -77,13 +78,13 @@ angular.module('DuckieTV.directives.calendar', [])
                 '<div ' +
                 'date-picker ' +
                 (attrs.eventService ? 'event-service="' + attrs.eventService + '"' : '') +
-                (attrs.view ? 'view="' + attrs.view + '" ' : 'view="date"') +
+                (attrs.view ? 'view="' + attrs.view + '" ' : 'view="week"') +
                 (attrs.template ? 'template="' + attrs.template + '" ' : '') +
                 'min-view="' + (attrs.minView || 'date') + '"' + '></div>';
         },
         link: function($scope) {
-            $scope.views = ['year', 'month', 'date'];
-            $scope.view = 'date';
+            $scope.views = ['year', 'month', 'week', 'date'];
+            $scope.view = 'week';
 
             this.update();
             $rootScope.$on('episodes:updated', function(event) {
