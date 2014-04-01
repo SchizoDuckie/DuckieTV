@@ -125,7 +125,7 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
             after: '=?',
             before: '=?'
         },
-        link: function(scope, element, attrs) {
+        link: function(scope, element, attrs, $rootScope) {
             console.log("Link!", scope, element, attrs);
             scope.date = new Date(scope.model || new Date());
             scope.views = datePickerConfig.views.concat();
@@ -235,6 +235,7 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
                         scope.minutes = getVisibleMinutes(date, step);
                         break;
                 }
+                scope.$emit('setDate', scope.date, scope.view);
             }
 
             function watch() {

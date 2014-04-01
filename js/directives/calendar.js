@@ -1,32 +1,34 @@
 angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
 
-.provider('CalendarEvents', function() {
-    var calendarEvents = {};
-    return {
-        $get: function($rootScope) {
-            return {
-                setEvents: function(events) {
-                    console.log("Set calendar events!", events);
-                    calendarEvents = {};
-                    for (var i = 0; i < events.length; i++) {
-                        var offset = new Date().getTimezoneOffset() > 0 ? new Date().getTimezoneOffset() * 60 * 1000 : 0;
-                        var date = new Date(new Date(events[i].start).getTime() + offset).toDateString();
+.factory('CalendarEvents', function($rootScope) {
+    var calendarEvents = {
 
-                        if (!(date in calendarEvents)) {
-                            calendarEvents[date] = [];
-                        }
-                        calendarEvents[date].push(events[i]);
-                    }
-                    $rootScope.$broadcast('calendar:events', events);
-                },
-                hasEvent: function(date) {
-                    return (new Date(date).toDateString() in calendarEvents);
-                },
-                getEvents: function(date) {
-                    var date = new Date(date).toDateString();
-                    return calendarEvents[date];
+    };
+    $rootScope.$on('setDate', function(e, f, g) {
+        console.log("Setdate event!", e, f, g);
+    })
+    return {
+        setEvents: function(events) {
+            calendarEvents = {};
+            for (var i = 0; i < events.length; i++) {
+                var offset = new Date().getTimezoneOffset() > 0 ? new Date().getTimezoneOffset() * 60 * 1000 : 0;
+                var date = new Date(new Date(events[i].start).getTime() + offset).toDateString();
+
+                if (!(date in calendarEvents)) {
+                    calendarEvents[date] = [];
+                }
+                if (calendarEvents[date].indexOf(events[i]) == -1) {
+                    calendarEvents[date].push(events[i]);
                 }
             }
+            $rootScope.$broadcast('calendar:events', events);
+        },
+        hasEvent: function(date) {
+            return (new Date(date).toDateString() in calendarEvents);
+        },
+        getEvents: function(date) {
+            var date = new Date(date).toDateString();
+            return calendarEvents[date];
         }
     }
 })
@@ -90,6 +92,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
             $rootScope.$on('episodes:updated', function(event) {
                 this.update();
             });
+
 
             $rootScope.eventClick = function(evt) {
                 console.debug("vent click!", evt);
