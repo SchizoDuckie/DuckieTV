@@ -3,19 +3,11 @@
  */
 
 
-
-
-
 angular.module('DuckieTV', [
     'ngRoute',
     'xml',
     'datePicker',
     'ui.bootstrap',
-    'DuckieTV.directives.calendar',
-    'DuckieTV.directives.chrometopsites',
-    'DuckieTV.directives.backgroundrotator',
-    'DuckieTV.directives.chrometopsites',
-    'DuckieTV.directives.lazybackground',
     'DuckieTV.providers.episodeaired',
     'DuckieTV.providers.eventwatcher',
     'DuckieTV.providers.favorites',
@@ -42,6 +34,12 @@ angular.module('DuckieTV', [
     'DuckieTV.controllers.serie',
     'DuckieTV.controllers.settings',
     'DuckieTV.controllers.watchlist',
+    'DuckieTV.directives.calendar',
+    'DuckieTV.directives.chrometopsites',
+    'DuckieTV.directives.backgroundrotator',
+    'DuckieTV.directives.chrometopsites',
+    'DuckieTV.directives.lazybackground',
+
     'colorpicker.module'
 ])
 

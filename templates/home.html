@@ -2,7 +2,7 @@
   <div ng-class="{ 'col-md-8': getSetting('calendar.large'),'col-md-6': !getSetting('calendar.large') }">
     <div class="container-fluid">
       <fieldset >
-         <calendar event-service="CalendarEvents"></calendar>
+         <calendar event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}"></calendar>
       </fieldset>
       <fieldset ng-if="getSetting('topSites.enabled')">
         <h2>Most visited sites</h2>
