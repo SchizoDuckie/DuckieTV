@@ -13,7 +13,8 @@ angular.module('DuckieTV.providers.settings', [])
             'thepiratebay.mirror': 'https://thepiratebay.se',
             'series.displaymode': 'poster',
             'calendar.large': false,
-            'storage.sync': true
+            'storage.sync': true,
+            'calendar.mode': 'date'
         },
 
         get: function(key) {
