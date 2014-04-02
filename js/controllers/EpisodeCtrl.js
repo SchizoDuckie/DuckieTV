@@ -5,7 +5,7 @@ angular.module('DuckieTV.controllers.episodes', [])
     function(TheTVDB, ThePirateBay, SettingsService, FavoritesService, SceneNameResolver, $routeParams, $scope, $rootScope) {
 
         $scope.searching = false;
-        var currentDate = new Date();
+        var currentDate = new Date().getTime();
 
         CRUD.FindOne('Serie', {
             'TVDB_ID': $routeParams.id
@@ -32,7 +32,7 @@ angular.module('DuckieTV.controllers.episodes', [])
          * Check if airdate has passed
          */
         $scope.hasAired = function(serie) {
-            return serie.firstaired && new Date(serie.firstaired) <= currentDate;
+            return serie.firstaired && serie.firstaired <= currentDate;
         };
 
         $scope.getSearchString = function(serie, episode) {

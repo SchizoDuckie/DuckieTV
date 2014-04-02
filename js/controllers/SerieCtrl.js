@@ -1,4 +1,4 @@
-angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', 'DuckieTV.directives.serieheader', 'DuckieTV.directives.seriedetails'])
+angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', 'DuckieTV.directives.serieheader', 'DuckieTV.directives.seriedetails', 'DuckieTV.directives.episodewatched'])
 
 .controller('SerieCtrl',
 
