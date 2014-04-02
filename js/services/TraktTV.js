@@ -92,11 +92,28 @@ angular.module('DuckieTV.providers.trakttv', [])
                         console.log("Found seasons from trak.tv!", seasons);
                         $q.all(seasons.map(function(season, idx) {
                             var d = $q.defer();
-                            season.seasonnumber = season.number == '0' ? 0 : (seasons.length - idx + 1);
-
+                            season.seasonnumber = season.season;
+                            console.log("Season number: ", season.season, season.seasonnumber);
                             self.promiseRequest('episode', TVDB_ID, season.season, true).then(function(data) {
-                                data.season = season;
-                                d.resolve(data);
+                                var uniques = {};
+                                data.map(function(el, idx) {
+                                    var key = el.season + '_' + el.episode + '-' + el.title.toLowerCase();
+                                    console.log("Iterate: ", key, el);
+
+                                    if (!(key in uniques)) {
+                                        uniques[key] = el;
+                                    } else {
+                                        if (uniques[key] && uniques[key].first_aired == null && el.first_aired != null) {
+                                            uniques[key] = el;
+                                        }
+                                    }
+                                });
+                                var out = [];
+                                angular.forEach(uniques, function(el) {
+                                    out.push(el);
+                                });
+                                out.season = season;
+                                d.resolve(out);
                             }, d.reject);
 
                             return d.promise;
