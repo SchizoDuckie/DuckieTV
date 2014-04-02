@@ -69,7 +69,7 @@ angular.module('DuckieTV.providers.favorites', [])
                                 d.episodenumber = d.episode;
                                 d.seasonnumber = season.seasonnumber;
                                 d.episodename = d.title;
-                                d.firstaired = d.first_aired == 0 ? null : d.first_aired * 1000;
+                                d.firstaired = d.first_aired_utc == 0 ? null : d.first_aired_utc * 1000;
                                 d.filename = d.screen;
                                 var e = new Episode();
                                 e.changedValues = d;
