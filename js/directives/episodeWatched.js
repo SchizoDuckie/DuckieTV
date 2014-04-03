@@ -25,6 +25,7 @@ angular.module('DuckieTV.directives.episodewatched', [])
                     epi.set('watchedAt', $scope.episode.watchedAt);
 
                     epi.Persist();
+                    $rootScope.$broadcast('calendar:clearcache');
                 });
             }
         }

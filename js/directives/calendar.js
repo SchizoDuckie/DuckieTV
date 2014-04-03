@@ -4,25 +4,25 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
     var calendarEvents = {
 
     };
-    $rootScope.$on('setDate', function(evt, date, range, g) {
-        console.log('setDate!', date, range);
-        var endDate = new Date(date);
-        var startDate = new Date(date);
-        switch (range) {
-            case 'week':
-                startDate.setDate(startDate.getDate() - 7);
-                endDate.setDate(endDate.getDate() + 7);
-                break;
-            case 'date':
-                endDate.setDate(40);
-                startDate.setDate(-47);
-                break;
-        }
-        service.getEventsForDateRange(startDate, endDate);
-    })
     var service = {
+        setDate: function(date, range) {
+            console.log('setDate!', date, range || $rootScope.getSetting('calendar.mode'));
+            range = range || $rootScope.getSetting('calendar.mode');
+            var endDate = new Date(date);
+            var startDate = new Date(date);
+            switch (range) {
+                case 'week':
+                    startDate.setDate(startDate.getDate() - 7);
+                    endDate.setDate(endDate.getDate() + 7);
+                    break;
+                case 'date':
+                    endDate.setDate(40);
+                    startDate.setDate(-47);
+                    break;
+            }
+            service.getEventsForDateRange(startDate, endDate);
+        },
         getEventsForDateRange: function(start, end) {
-            console.log("Geteventsfordate!", start, end);
             FavoritesService.getEpisodesForDateRange(start.getTime(), end.getTime()).then(function(data) {
                 var serieIDs = {};
                 for (var i = 0; i < data.length; i++) {
@@ -43,24 +43,33 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                             episode: data[i]
                         });
                     }
+                    cache = null;
                     service.setEvents(events);
                 })
             });
         },
-        setEvents: function(events) {
+        clearCache: function() {
             calendarEvents = {};
+        },
+        /** 
+         * Merge any incoming new events with the events already in calendarEvents.
+         * Adds them otherwise.
+         * THe calendarEvents cache is updated per day so the calendar doesn't refresh unnneccesarily
+         */
+        setEvents: function(events) {
             for (var i = 0; i < events.length; i++) {
-                //var offset = new Date().getTimezoneOffset() > 0 ? new Date().getTimezoneOffset() * 60 * 1000 : 0;
                 var date = new Date(new Date(events[i].start).getTime()).toDateString();
 
                 if (!(date in calendarEvents)) {
                     calendarEvents[date] = [];
                 }
                 var existing = calendarEvents[date].filter(function(el) {
-                    return el.serieID == events[i].serieID && el.start == events[i].start
+                    return el.serieID == events[i].serieID && el.start.toDateString() == events[i].start.toDateString()
                 });
                 if (existing.length == 0) {
                     calendarEvents[date].push(events[i]);
+                } else {
+                    existing[0].episode = events[i].episode;
                 }
             }
             $rootScope.$broadcast('calendar:events', events);
@@ -74,6 +83,15 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
         }
     };
 
+    $rootScope.$on('episodes:updated', function(event) {
+        service.setDate(new Date());
+    });
+    $rootScope.$on('calendar:clearcache', function() {
+        service.clearCache();
+    });
+    $rootScope.$on('setDate', function(evt, date, range) {
+        service.setDate(date, range);
+    });
     return service;
 })
 
@@ -88,11 +106,6 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
 })
 
 .directive('calendar', function(FavoritesService, CalendarEvents, $rootScope) {
-
-    this.update = function($rootScope) {
-
-    };
-
 
     return {
         restrict: 'E',
@@ -110,10 +123,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
             $scope.views = ['year', 'month', 'week', 'date'];
             $scope.view = 'week';
 
-            this.update(new Date(), 'week');
-            $rootScope.$on('episodes:updated', function(event) {
-                this.update(new Date(), $scope.view);
-            });
+            CalendarEvents.setDate(new Date(), $rootScope.getSetting('calendar.mode'));
 
 
             $rootScope.eventClick = function(evt) {

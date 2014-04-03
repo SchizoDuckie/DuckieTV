@@ -64,20 +64,33 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', '
             if (!$scope.markingAsWatched) return;
             $scope.markUntilDate = new Date(episode.firstaired)
             $scope.markingAsWatched = false;
+            promiseQueue = null;
             for (var i = 0; i < $scope.episodes.length; i++) {
                 if ($scope.episodes[i].firstaired != '' && new Date($scope.episodes[i].firstaired) <= $scope.markUntilDate) {
                     $scope.episodes[i].watched = '1';
                     $scope.episodes[i].watchedAt = new Date();
 
-                    CRUD.FindOne('Episode', {
+                    var p = CRUD.FindOne('Episode', {
                         ID: $scope.episodes[i].ID_Episode
                     }).then(function(epi) {
                         epi.set('watched', 1);
                         epi.set('watchedAt', new Date());
                         epi.Persist();
-                    });
-
+                    })
                 }
+                if (promiseQueue !== null) {
+                    promiseQueue.then(function() {
+                        return p;
+                    });
+                } else {
+                    promiseQueue = p;
+                }
+            }
+            if (promiseQueue) {
+                promiseQueue.then(function() {
+                    console.log("All markaswatched promises done!");
+                    $rootScope.$broadcast('calendar:clearcache');
+                });
             }
         }
 
