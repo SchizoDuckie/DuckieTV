@@ -9,6 +9,7 @@ angular.module('DuckieTV.providers.favorites', [])
     var service = {
         favorites: [],
         addFavorite: function(data) {
+            console.log("Add favorite!", data);
             var d = $q.defer(),
                 serie = new Serie();
 
@@ -34,6 +35,7 @@ angular.module('DuckieTV.providers.favorites', [])
                 }
             }
             serie.Persist().then(function(e) {
+                console.log("Serie persisted!", serie);
                 service.favorites.push(serie.asObject());
                 $rootScope.$broadcast('favorites:updated', service);
                 TraktTV.findEpisodes(serie.get('TVDB_ID')).then(function(res) {

@@ -3,11 +3,13 @@ angular.module('DuckieTV.providers.trakttv', [])
         this.http = null;
         this.promise = null;
         this.activeRequest = null;
+        this.batchmode = false;
 
         this.endpoints = {
             seriesSearch: 'http://api.trakt.tv/search/shows.json/32e05d4138adb5da5b702b362bd21c52?query=%s',
             seasonSearch: 'http://api.trakt.tv/show/seasons.json/32e05d4138adb5da5b702b362bd21c52/%s',
-            episodeSearch: 'http://api.trakt.tv/show/season.json/32e05d4138adb5da5b702b362bd21c52/%s/%s'
+            episodeSearch: 'http://api.trakt.tv/show/season.json/32e05d4138adb5da5b702b362bd21c52/%s/%s',
+            shownameSearch: 'http://trakt.tv/search/tvdb/?q=%s'
         };
 
         this.parsers = {
@@ -30,6 +32,9 @@ angular.module('DuckieTV.providers.trakttv', [])
                 return {
                     series: data
                 };
+            },
+            showname: function(data) {
+                return angular.element(data.data).find('h2')[0].innerText
             }
         };
 
@@ -43,7 +48,7 @@ angular.module('DuckieTV.providers.trakttv', [])
         }
 
         this.promiseRequest = function(type, param, param2, dontCancel) {
-            if (this.activeRequest && (dontCancel !== true)) {
+            if (this.activeRequest && ((dontCancel && dontCancel !== true) || !this.batchmode)) {
                 console.log("Found realier request: aborting.'");
                 this.activeRequest.resolve();
             }
@@ -69,6 +74,14 @@ angular.module('DuckieTV.providers.trakttv', [])
             self.http = $http;
             self.promise = $q;
             return {
+                enableBatchMode: function() {
+                    self.batchmode = true;
+                    return self.$get($q, $http);
+                },
+                disableBatchMode: function() {
+                    self.batchmode = false;
+                    return self.$get($q, $http);
+                },
                 findSeriesByID: function(TVDB_ID) {
                     var d = self.promise.defer();
                     self.promiseRequest('season', TVDB_ID).then(function(seasons) {
@@ -85,6 +98,15 @@ angular.module('DuckieTV.providers.trakttv', [])
                 },
                 findSeries: function(name) {
                     return self.promiseRequest('series', name);
+                },
+                findSerieByTVDBID: function(TVDB_ID) {
+                    return self.promiseRequest('showname', TVDB_ID).then(function(showname) {
+                        return self.$get($q, $http).findSeries(showname).then(function(hits) {
+                            return hits.series.filter(function(serie) {
+                                return serie.tvdb_id == TVDB_ID;
+                            })[0];
+                        });
+                    })
                 },
                 findEpisodes: function(TVDB_ID) {
                     var d = self.promise.defer();

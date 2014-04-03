@@ -2,12 +2,13 @@
 
 
  .controller('SettingsCtrl',
-     function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver, FileReader) {
+     function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver, FileReader, TraktTV) {
 
          $scope.custommirror = SettingsService.get('thepiratebay.mirror');
          $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
          $scope.searchquality = SettingsService.get('torrenting.searchquality');
          $scope.mirrorStatus = [];
+         $scope.log = [];
          $scope.hasTopSites = ('topSites' in window.chrome);
 
          $rootScope.$on('mirrorresolver:status', function(evt, status) {
@@ -64,7 +65,22 @@
              console.log("Restore backup!", $scope);
              FileReader.readAsText($scope.file, $scope)
                  .then(function(result) {
-                     console.log("Backup read!", angular.fromJson(result));
+                     result = angular.fromJson(result);
+                     console.log("Backup read!", result);
+                     for (var i = 0; i < result.length; i++) {
+                         $scope.log.unshift('Reading backup item ' + (i + 1) + ": TVDB_ID: ", result[i]);
+                         TraktTV.enableBatchMode().findSerieByTVDBID(result[i]).then(function(serie) {
+                             $scope.log.unshift("Resolved TVDB serie: " + serie.title + ". Fetching all seasons and episodes");
+                             FavoritesService.addFavorite(serie).then(function() {
+                                 $scope.log.unshift("Finished fetching all seasons and episodes for " + serie.title);
+                                 $rootScope.$broadcast('storage:update');
+                             });
+                         });
+
+
+                     }
+
+
                  }, function(err) {
                      console.error("ERROR!", err);
                  });

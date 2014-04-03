@@ -40,7 +40,7 @@ angular.module('DuckieTV.controllers.main', [])
             }
         });
         $scope.$on('episodes:inserted', function(event, serie) {
-            if (serie.get('fanart') != '') {
+            if (serie.get('fanart') != null) {
                 $rootScope.$broadcast('background:load', serie.get('fanart'));
             }
         });

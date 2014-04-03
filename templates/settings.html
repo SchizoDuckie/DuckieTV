@@ -14,6 +14,11 @@
         <a class="btn btn-success" download="DuckieTV.backup" ng-href="{{ backup() }}">Create a backup</a>
         <h3>Restore a backup</h3>
         <div file-input="file" on-change="restore()"></div>
+        <p ng-show="log.length > 0">
+              Import Log: <ul style='max-height:150px; overflow-y:auto;'>
+                <li ng-repeat="status in log track by $index">{{status}}</li>
+              </ul>
+              </p>
         </td>
 
       </tr>
