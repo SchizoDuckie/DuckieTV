@@ -80,9 +80,7 @@ CRUD.EntityManager = (new function() {
      */
     this.setAdapter = function(adapter) {
         this.connectionAdapter = adapter;
-        return new Promise(function(resolve, fail) {
-            this.connectionAdapter.Init().then(resolve, fail);
-        }.bind(this));
+        return this.connectionAdapter.Init();
     }
 
     this.getAdapter = function() {
@@ -166,17 +164,12 @@ CRUD.Find = function(obj, filters, options) {
  * @returns Promise
  */
 CRUD.FindOne = function(obj, filters, options) {
-    var that = this;
     options = options || {};
-    return new Promise(function(success, error) {
-        options.limit = 1;
-        that.Find(obj, filters, options).then(function(result) {
-            success(result[0]);
-        }, function(e) {
-            error(e)
-        });
-
+    options.limit = 1;
+    return this.Find(obj, filters, options).then(function(result) {
+        return result[0];
     });
+
 };
 
 
@@ -384,14 +377,12 @@ CRUD.Entity.prototype = {
      */
     Delete: function() {
         var that = this;
-        return new Promise(function(resolve, fail) {
-            CRUD.EntityManager.getAdapter().Delete(that).then(function(result) {
-                if (result.Action == 'deleted') {
-                    CRUD.log(that.getType() + " " + that.getID() + " has been deleted! ");
-                    that.values[CRUD.EntityManager.getPrimary(that.className)].ID = false;
-                };
-                resolve(result);
-            }, fail);
+        return CRUD.EntityManager.getAdapter().Delete(that).then(function(result) {
+            if (result.Action == 'deleted') {
+                CRUD.log(that.getType() + " " + that.getID() + " has been deleted! ");
+                that.values[CRUD.EntityManager.getPrimary(that.className)].ID = false;
+            };
+            return result;
         });
     },
 
