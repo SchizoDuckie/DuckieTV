@@ -3,7 +3,7 @@ angular.module('DuckieTV.providers.trakttv', [])
         this.http = null;
         this.promise = null;
         this.activeRequest = null;
-        this.batchmode = false;
+        this.batchmode = true;
 
         this.endpoints = {
             seriesSearch: 'http://api.trakt.tv/search/shows.json/32e05d4138adb5da5b702b362bd21c52?query=%s',
@@ -47,8 +47,8 @@ angular.module('DuckieTV.providers.trakttv', [])
             return this.parsers[type];
         }
 
-        this.promiseRequest = function(type, param, param2, dontCancel) {
-            if (this.activeRequest && ((dontCancel && dontCancel !== true) || !this.batchmode)) {
+        this.promiseRequest = function(type, param, param2) {
+            if (this.activeRequest && !this.batchmode) {
                 console.log("Found realier request: aborting.'");
                 this.activeRequest.resolve();
             }
@@ -162,7 +162,8 @@ angular.module('DuckieTV.providers.trakttv', [])
     $scope.selected = undefined;
     $scope.activeRequest = null;
     $scope.findSeries = function(serie) {
-        return TraktTV.findSeries(serie).then(function(res) {
+        return TraktTV.disableBatchMode().findSeries(serie).then(function(res) {
+            TraktTV.enableBatchMode();
             return res.series;
         });
     };
