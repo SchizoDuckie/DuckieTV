@@ -40,7 +40,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                             PromiseQueue.push(that.db.execute(entity.createStatement).then(function() {
                                 CRUD.log(entity.className + " table created.");
                                 if ('migrations' in entity) {
-                                    localStorage.setItem('database.version', Math.max.apply(Math, Object.keys(entity.migrations)));
+                                    localStorage.setItem('database.version.' + entity.table, Math.max.apply(Math, Object.keys(entity.migrations)));
                                 }
                                 Promise.all(that.createFixtures(entity)).then(resolve);
                             }, function(err) {
@@ -50,32 +50,32 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                         }
                     } else {
                         if (entity.migrations) {
-                            var currentVersion = !localStorage.getItem('database.version') ? 1 : localStorage.getItem('database.version');
+                            var currentVersion = !localStorage.getItem('database.version.' + entity.table) ? 1 : parseInt(localStorage.getItem('database.version.' + entity.table), 10);
                             var highestVersion = Math.max.apply(Math, Object.keys(entity.migrations));
-                            CRUD.log("Migrations found!", entity.migrations, highestVersion);
+                            console.log("Migrations found!", entity.migrations, highestVersion);
                             while (currentVersion != highestVersion) {
                                 currentVersion++;
                                 if (currentVersion in entity.migrations) {
                                     var migrations = entity.migrations[currentVersion];
                                     var prq = [];
-                                    CRUD.log("Found migrations to execute!", migrations);
+                                    console.log("Found migrations to execute!", migrations);
                                     for (var i = 0; i < migrations.length; i++) {
-                                        prq.push(new Promise(function(resolve, fail) {
-                                            that.db.execute(migrations[i]).then(function() {
-                                                CRUD.log("Migration success!", result);
-                                                resolve();
+                                        var q = migrations[i];
+                                        prq.push(
+                                            that.db.execute(q).then(function(result) {
+                                                console.log("Migration success!", result);
+                                                return true;
                                             }, function(E) {
-                                                CRUD.log("Migraiton failed!", E);
-                                                fail(E);
-                                            });
-                                        }));
+                                                console.log("Migraiton failed!", E);
+                                                return false;
+                                            })
+                                        );
                                     }
                                     Promise.all(prq).then(function() {
-                                        CRUD.log("All migrations executed!");
-                                        localStorage.setItem('database.version', highestVersion);
-                                        debugger;
+                                        console.log("All migrations executed!");
+                                        localStorage.setItem('database.version.' + entity.table, highestVersion);
                                     }, function(e) {
-                                        CRUD.log("All migrations failed!", e);
+                                        console.log("Some migrations failed!", e);
                                         debugger;
                                     });
                                     //debugger;

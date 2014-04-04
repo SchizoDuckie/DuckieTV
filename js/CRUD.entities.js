@@ -13,7 +13,11 @@ var Serie = CRUD.define({
     },
     fixtures: [
 
-    ]
+    ],
+    migrations: {
+        2: ['UPDATE Series set poster = "http://www.thetvdb.com/banners/" || Series.poster'],
+        3: ['UPDATE Series set fanart =  "http://www.thetvdb.com/banners/" || Series.fanart']
+    }
 
 }, {
 
@@ -76,7 +80,8 @@ var Episode = CRUD.define({
     migrations: {
         2: ['ALTER TABLE EPISODES RENAME TO Episodes_bak',
             'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL,TVDB_ID INTEGER NULL,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL )',
-            'INSERT INTO Episodes (ID_Episode, ID_Serie, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt) select ID_Episode, ID_Serie, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt from Episodes_bak'
+            'INSERT INTO Episodes (ID_Episode, ID_Serie, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt) select ID_Episode, ID_Serie, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt from Episodes_bak',
+            'DROP TABLE Episodes_bak'
         ]
     }
 }, {
@@ -136,6 +141,4 @@ var WatchListObject = CRUD.define({
 });
 
 
-CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', {
-    version: 2
-}));
+CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome'));

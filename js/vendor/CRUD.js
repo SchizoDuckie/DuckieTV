@@ -213,7 +213,6 @@ CRUD.ConnectionAdapter = function(endpoint, options) {
 };
 
 CRUD.Entity = function(className, methods) {
-    CRUD.log("New CRUD.entity!", className, methods);
     this.className = className;
     this.values = {};
     this.changedValues = {};
