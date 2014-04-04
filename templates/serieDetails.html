@@ -15,7 +15,7 @@
 
 <tr><th>Actors</th><td><ul class="list-unstyled"><li ng-repeat="actor in serie.actors.split('|') track by $index">{{actor}}</li></ul></td></tr>
 <tr><th>Airs on</th><td>{{serie.airs_dayofweek}} {{serie.airs_time}}</td></tr>
-<tr><th>First Aired</th><td>{{serie.firstaired | date:'dd-MM-yyyy'}}</td></tr>
+<tr><th>First Aired</th><td>{{serie.firstaired * 1000 | date:'shortDate'}}</td></tr>
 <tr><th>Genre</th><td><ul class="list-unstyled"><li ng-repeat="genre in serie.genre.split('|') track by $index">{{genre}}</li></ul></td></tr>
 <tr><th>Language</th><td>{{serie.language}}</td></tr>
 <tr><th>Network</th><td>{{serie.network}}</td></tr>
