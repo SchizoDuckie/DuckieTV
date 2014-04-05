@@ -126,16 +126,16 @@ angular.module('DuckieTV.providers.favorites', [])
             console.log("Remove serie from favorites!", serie);
             var self = this;
             this.getById(serie['TVDB_ID']).then(function(serie) {
+                serie.Find('Season').then(function(seasons) {
+                    seasons.map(function(el) {
+                        el.Delete();
+                    });
+                });
                 serie.Find('Episode').then(function(episodes) {
+                    episodes.map(function(el) {
+                        el.Delete();
+                    });
                     console.log("Found episodes for removal of serie!", episodes);
-                    for (var i = 0; i < episodes.length; i++) {
-                        episodes[i].Delete().then(function() {
-                            console.log("Deleted OK!")
-                        }, function(err) {
-                            debugger;
-                        });
-                    }
-                    episodes = null;
                     serie.Delete().then(function() {
                         $rootScope.$broadcast('storage:update');
                         self.restore()
