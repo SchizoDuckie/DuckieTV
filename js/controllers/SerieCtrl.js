@@ -6,52 +6,73 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', '
         console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
         $scope.episodes = [];
         $scope.points = [];
-
+        $scope.season = null;
+        $scope.seasons = null;
+        $scope.activeSeason = null;
         $scope.markingAsWatched = false;
         $scope.markUntilDate = false;
+
 
         $scope.$on('favorites:updated', $scope.getSerie);
         $scope.$on('episodes:updated', $scope.getSerie);
 
         $scope.searching = false;
         var currentDate = new Date();
+        var allSeasons = [];
 
+        function fetchEpisodes(season) {
+            if (!season) return;
+            console.log("Set active season ", season);
+            $scope.season = season.asObject();
 
-        $scope.getSerie = function() {
-            FavoritesService.getById($routeParams.id).then(function(serie) {
-                $scope.serie = serie.asObject();
-                if (serie.get('fanart') != '') {
-                    $rootScope.$broadcast('background:load', serie.get('fanart'));
-                }
-
-                var episodes = FavoritesService.getEpisodes(serie).then(function(data) {
-                    $scope.episodes = data;
-                    $scope.points = [];
-                    $scope.labels = [];
-                    data = $filter('orderBy')(data, $scope.getEpisodeNumber, false);
-                    for (var i = 0; i < data.length; i++) {
-
-                        var amt = parseFloat(data[i].rating);
-                        if (isNaN(amt)) {
-                            amt = 0;
-                        }
-                        if (amt <= 10) amt *= 10;
-                        $scope.points.push({
-                            x: i,
-                            y: amt,
-                            label: $scope.getEpisodeNumber(data[i]) + ' : ' + data[i].rating,
-                            season: parseInt(data[i].seasonnumber, 10)
-                        });
-                    }
-                    $scope.$digest();
-                }, function(err) {
-                    console.log("Could not find episodes for serie", err);
+            var episodes = season.getEpisodes().then(function(data) {
+                $scope.episodes = data.map(function(el) {
+                    return el.asObject()
                 });
+                $scope.points = [];
+                $scope.labels = [];
+                data = $filter('orderBy')($scope.episodes, $scope.getEpisodeNumber, false);
+                for (var i = 0; i < data.length; i++) {
 
+                    $scope.points.push({
+                        x: i,
+                        y: data[i].rating,
+                        label: $scope.getEpisodeNumber(data[i]) + ' : ' + data[i].rating,
+                        season: parseInt(data[i].seasonnumber, 10)
+                    });
+                }
+                $scope.$digest();
+            }, function(err) {
+                console.log("Could not find episodes for serie", err);
+            }, function(err) {
+                console.error("Error fetching latest season's episodes!", err);
             });
         }
 
-        $scope.getSerie();
+        FavoritesService.getById($routeParams.id).then(function(serie) {
+            $scope.serie = serie.asObject();
+            if (serie.get('fanart') != '') {
+                $rootScope.$broadcast('background:load', serie.get('fanart'));
+            }
+            serie.getSeasons().then(function(result) {
+                allSeasons = result;
+                $scope.seasons = result.map(function(el) {
+                    return el.asObject()
+                });
+            });
+            serie.getLatestSeason().then(function(result) {
+                console.log("Got latest sesaon!", result);
+                $scope.activeSeason = result;
+                fetchEpisodes(result);
+            });
+
+        });
+
+        $scope.$watch('activeSeason', function(newVal, old) {
+            console.log("Active season changed!: ", newVal, old);
+            fetchEpisodes(newVal);
+        });
+
 
         /**
          * Check if airdate has passed
@@ -94,6 +115,13 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', '
             }
         }
 
+        $scope.setActiveSeason = function(season) {
+            console.log("Set active season!", season, $scope.allSeasons);
+            $scope.activeSeason = allSeasons.filter(function(el) {
+                return el.getID() == season.ID_Season
+            })[0]
+        }
+
         $scope.setMarkEnd = function(episode) {
             $scope.markUntilDate = new Date(episode.firstaired);
         }
@@ -130,8 +158,21 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', '
             TVRageSyncService.syncEpisodes(serie, episodes);
         }
 
-        $scope.traktSync = function(serie) {
-            TraktTV.findSeriesByID(serie.TVDB_ID);
+        $scope.searchSeason = function(serie, season, $event) {
+            $event.stopPropagation();
+            $scope.items = [];
+            $scope.searching = true;
+            $scope.searchingSeasons = true;
+            var search = serie.name + ' season ' + season.seasonnumber;
+            console.log("Search: ", search);
+            $injector.get($scope.getSetting('torrenting.searchprovider')).search(search).then(function(results) {
+                $scope.items = results;
+                $scope.searching = false;
+                console.log('Added episodes: ', $scope);
+            }, function(e) {
+                console.error("TPB search failed!");
+                $scope.searching = false;
+            });
         }
 
         $scope.searchTorrents = function(serie, episode) {

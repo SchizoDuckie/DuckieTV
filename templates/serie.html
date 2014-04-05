@@ -7,6 +7,13 @@
 
   	<alert ng-if="markingAsWatched" type="alert.type" close="stopMarkingAsWatched()">You are now in range selection mode. Click on an episode to set that as the last episode you have watched. All episodes up to and including that will be marked as watched. Dismiss this notification </alert>
  
+ 	<div style='text-align:center;text-align: center;overflow-x: auto;height: 230px;overflow-y: hidden; white-space: nowrap;'> 
+	 	<div class='season' ng-repeat="season in seasons" style="display:inline-block; padding:10px;">
+			<p  ng-click="setActiveSeason(season)"><img ng-src="{{season.poster}}" style='width: 120px;'></p>
+			<p><strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong></p>
+		</div>
+	</div>
+
 	<table class="table table-condensed light" ng-class="{markingaswatched: markingAsWatched }" style='border: 1px solid #efefef; border-collapse:collapse;'>
 	<tbody  ng-if="episodes.length == 0">
 	<tr>
@@ -18,14 +25,48 @@
 			<th><div class="dropdown" tooltip="Click for options">
 				<strong class="dropdown-toggle" style='white-space:nowrap'>Episodes&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></strong>
 				<ul class="dropdown-menu" style='min-width: 300px'>
-					<li ng-click="tvRageSync(serie, episodes)"><i class="glyphicon glyphicon-refresh"></i> Sync with TVRage</li>
-					<li ng-click="traktSync(serie)"><i class="glyphicon glyphicon-refresh"></i> Sync with Trakt.TV</li>
-			
+					<li ng-click="traktSync(serie)"><i class="glyphicon glyphicon-refresh"></i> Sync with Trakt.TV</li>hahaha
 				</ul>
 			</th></th>
 			<th><strong>Name</strong></th>
 			<th><strong>Air date</strong></th>
-			<th ng-if="getSetting('torrenting.enabled')"><strong>Download</strong></th>
+			<th ng-if="getSetting('torrenting.enabled')">
+				<div class="dropdown" tooltip="Click for options" ng-click="items = []; searching =false; searchingSeasons = false">
+					<strong class="dropdown-toggle" >Download&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></strong>
+					<ul class="dropdown-menu" style='min-width: 300px'>
+						<li ng-click="searchSeason(serie,season, $event);"><i class="glyphicon glyphicon-download"></i>Download whole season {{season.seasonnumber}}
+
+						<table class="torrents" ng-if="searching || searchingSeasons">
+					   		<thead>
+						   		<tr ng-if="searching">
+						   			<td><img style='background-color: transparent; margin:0 auto; display:block;' src='img/spinner.gif'>
+						   				<p style='text-align:center; padding:10px;'>Searching {{ getSetting('torrenting.searchprovider') }}, please wait.</p></td>
+						   		</tr>
+						   		<tr ng-if="!searching && items.length == 0">
+						   			<td >
+						   				<p>No results found for</p>
+						   				<strong>{{ getSearchString(serie,episode) }} </strong>
+						   			</td>
+						   		</tr>
+					   		</thead>
+					   		<tbody>
+						   		<tr ng-if="!searching && items.length > 0 ">
+						   			<th>&nbsp;</th><th><strong>Name</strong></th><th><strong>Seed</strong></th><th><strong>Leech</strong></th>
+						   		</tr>
+								<tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items">
+									<td style='width:30px; padding:5px;'><a ng-href="{{seed.magneturl}}"><img src="img/icon-magnet.gif"></a></td>
+								    <td><a ng-href='{{seed.magneturl}}' tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe"></a></td>
+								    <td style='width:50px'><a ng-href='{{seed.magneturl}}' ng-bind="seed.seeders"></a></td>
+								    <td style='width:50px'><a ng-href='{{seed.magneturl}}' ng-bind="seed.leechers"></a></td>
+							    </tr>
+						    </tbody>
+						</table>	
+						</li>
+					</ul>
+					 
+					</div>
+				</div>
+			</th>
 			<th><div class="dropdown" tooltip="Click for options">
 				<strong class="dropdown-toggle" style='white-space:nowrap'>Watched&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></strong>
 				<ul class="dropdown-menu" style='min-width: 300px'>

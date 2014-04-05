@@ -18,7 +18,6 @@ angular.module('DuckieTV.directives.seriedetails', [])
 
 
             $scope.getAirDate = function(serie) {
-                console.log("Get air date for serie", serie);
                 return new Date(serie.firstaired).toString()
             }
         }
