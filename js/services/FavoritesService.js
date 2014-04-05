@@ -63,27 +63,39 @@ angular.module('DuckieTV.providers.favorites', [])
                     for (var j = 0; j < seasons.length; j++) {
                         var episodes = seasons[j];
                         var season = episodes.season;
-                        for (var k = 0; k < episodes.length; k++) {
-                            if (!(episodes[k].tvdb_id in cache)) {
-                                var d = episodes[k];
-
-                                d.TVDB_ID = d.tvdb_id;
-                                d.ID_Serie = serie.getID();
-                                d.rating = d.ratings.percentage
-                                d.episodenumber = d.episode;
-                                d.seasonnumber = season.seasonnumber;
-                                d.episodename = d.title;
-                                d.firstaired = d.first_aired_utc == 0 ? null : new Date(d.first_aired_iso).getTime();
-                                d.filename = d.screen;
-                                var e = new Episode();
-                                e.changedValues = d;
-                                e.Persist(true).then(function(res) {}, function(err) {
-                                    console.error("PERSIST ERROR!", err);
-                                    debugger;
-                                })
-                            }
-
+                        var SE = new Season();
+                        for (var s in season) {
+                            SE.set(s, season[s]);
                         }
+                        SE.set('ID_Serie', serie.getID());
+                        (function(episodes, season, SE) {
+
+                            SE.then(function(r) {
+                                for (var k = 0; k < episodes.length; k++) {
+                                    if (!(episodes[k].tvdb_id in cache)) {
+                                        var d = episodes[k];
+                                        d.ID_Season = r.ID;
+                                        d.TVDB_ID = d.tvdb_id;
+                                        d.ID_Serie = serie.getID();
+                                        d.rating = d.ratings.percentage
+                                        d.episodenumber = d.episode;
+                                        d.seasonnumber = season.seasonnumber;
+                                        d.episodename = d.title;
+                                        d.firstaired = d.first_aired_utc == 0 ? null : new Date(d.first_aired_iso).getTime();
+                                        d.filename = d.screen;
+                                        var e = new Episode();
+                                        e.changedValues = d;
+                                        e.Persist(true).then(function(res) {}, function(err) {
+                                            console.error("PERSIST ERROR!", err);
+                                            debugger;
+                                        })
+                                    }
+
+                                }
+
+                            });
+                        })(episodes, season, SE.Persist());
+
                     }
                     $rootScope.$broadcast('episodes:updated', service);
                 });

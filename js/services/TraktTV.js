@@ -120,7 +120,6 @@ angular.module('DuckieTV.providers.trakttv', [])
                                 var uniques = {};
                                 data.map(function(el, idx) {
                                     var key = el.season + '_' + el.episode + '-' + el.title.toLowerCase();
-                                    console.log("Iterate: ", key, el);
 
                                     if (!(key in uniques)) {
                                         uniques[key] = el;
@@ -141,7 +140,6 @@ angular.module('DuckieTV.providers.trakttv', [])
                             return d.promise;
 
                         })).then(function(result) {
-                            console.log("All results came in!", result);
                             d.resolve(result);
                         });
 
