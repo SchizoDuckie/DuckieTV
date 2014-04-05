@@ -15,6 +15,12 @@ angular.module('DuckieTV.directives.seriedetails', [])
                 FavoritesService.remove(serie);
                 $location.path('/');
             }
+
+
+            $scope.getAirDate = function(serie) {
+                console.log("Get air date for serie", serie);
+                return new Date(serie.firstaired).toString()
+            }
         }
     }
 })

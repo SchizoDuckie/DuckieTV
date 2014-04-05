@@ -25,8 +25,12 @@ angular.module('DuckieTV.controllers.episodes', [])
             });
         }, function(err) {
             debugger;
-        })
+        });
 
+        $scope.getAirDate = function(episode) {
+            console.log('get air date', episode);;
+            return new Date(episode.firstaired);
+        }
 
         /**
          * Check if airdate has passed

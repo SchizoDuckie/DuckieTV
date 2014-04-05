@@ -118,6 +118,14 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', '
             return out;
         }
 
+        $scope.getSortEpisodeNumber = function(episode) {
+            var sn = episode.seasonnumber.toString(),
+                en = episode.episodenumber.toString(),
+                out = ['S', sn.length == 1 ? '0' + sn : sn, 'E', en.length == 1 ? '00' + en : en.length == 2 ? '0' + en : en].join('');
+            return out;
+        }
+
+
         $scope.tvRageSync = function(serie, episodes) {
             TVRageSyncService.syncEpisodes(serie, episodes);
         }

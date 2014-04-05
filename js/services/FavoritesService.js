@@ -17,13 +17,15 @@ angular.module('DuckieTV.providers.favorites', [])
                 'tvdb_id': 'TVDB_ID',
                 'tvrage_id': 'TVRage_ID',
                 'imdb_id': 'IMDB_ID',
-                'first_aired': 'firstaired',
                 'certification': 'contentrating',
                 'title': 'name',
                 'air_day': 'airs_dayofweek',
                 'air_time': 'airs_time',
             }
             for (var i in data) {
+                if (i == 'first_aired') {
+                    serie.set('firstaired', data.first_aired * 1000);
+                }
                 if (i == 'ratings') {
                     serie.set('rating', data.ratings.loved);
                 } else if (i == 'genres') {
@@ -71,7 +73,7 @@ angular.module('DuckieTV.providers.favorites', [])
                                 d.episodenumber = d.episode;
                                 d.seasonnumber = season.seasonnumber;
                                 d.episodename = d.title;
-                                d.firstaired = d.first_aired_utc == 0 ? null : d.first_aired_utc * 1000;
+                                d.firstaired = d.first_aired_utc == 0 ? null : new Date(d.first_aired_iso).getTime();
                                 d.filename = d.screen;
                                 var e = new Episode();
                                 e.changedValues = d;
@@ -84,10 +86,7 @@ angular.module('DuckieTV.providers.favorites', [])
                         }
                     }
                     $rootScope.$broadcast('episodes:updated', service);
-
-
                 });
-
             });
 
         },

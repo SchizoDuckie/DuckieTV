@@ -33,7 +33,7 @@
 				</ul>
 			</th>
 		</tr>
-		<tr ng-repeat="episode in episodes | orderBy: getEpisodeNumber:true" ng-click="markRange(episode)" ng-mouseover="setMarkEnd(episode)" ng-class="{ 'markAsWatched' : isMarkBeforeEnd(episode) }">
+		<tr ng-repeat="episode in episodes | orderBy: getSortEpisodeNumber:true" ng-click="markRange(episode)" ng-mouseover="setMarkEnd(episode)" ng-class="{ 'markAsWatched' : isMarkBeforeEnd(episode) }">
 		   	 <td ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}">
 		   	 	<a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{getEpisodeNumber(episode)}}</a>
 		   	 </td>
