@@ -1,18 +1,26 @@
 
-<table class="table table-condensed light">
-<tr><th colspan="2"><h1>Series info</h1>
-</th></tr>
-<tr><th colspan="2" style='text-align:center'><div lazy-background="{{serie.poster}}" style='margin: 0px auto; width:300px; height:400px; background-size:contain; background-repeat:no-repeat;'></div><button class="btn btn-danger" ng-click="removeFromFavorites(serie)">Remove from favorites</button>
-</th></tr>
-<tr>
-<td colspan='2'>
-	<h3>Episode Ratings</h3>
-	<div class="chart">
-	     <div class="chartLine" ng-repeat="p in points track by $index" ng-style="{ height: p.y + '%', left: ((100 / points.length) * $index) + '%',  width: (100 / points.length)+'%', backgroundColor: 'rgba(255,255,255, '+ (0.8/p.season)+')' }" ng-attr-tooltip="{{p.label}}"></div>
-   </div>
-</td>
-</tr>
+<div class="table table-condensed light" style='margin-bottom:0; margin-top:20px; position:relative;'>
+<div ng-if="seasons">
+	<h2 style='border-bottom: 1px solid white; padding:5px;'>Seasons <small style='float:right'>(Click to see episodes and ratings)</small></h2>
+	<div style='text-align: center; overflow-x: auto; height: 280px; overflow-y: hidden; white-space: nowrap;'>
+	 	<div class='season' ng-repeat="season in seasons" style="display:inline-block; padding:10px; cursor:pointer">
+			<p ng-click="setActiveSeason(season)"><img ng-src="{{season.poster}}" style='width: 150px;'></p>
+			<p><strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong></p>
+		</div>
+	</div>
+</div>
 
+<div ng-if="!seasons">
+	<div lazy-background="{{serie.poster}}" style='margin: 0px auto; width:300px; height:400px; background-size:contain; background-repeat:no-repeat;'></div>
+</div>
+<div>
+	<h2 style='border-bottom:1px solid white; padding:5px;'>Episode Ratings</h3>
+	<div class="chart">
+	     <div class="chartLine" ng-repeat="p in points track by $index" ng-style="{ height: p.y + '%', left: ((100 / points.length) * $index) + '%',  width: (100 / points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}"></div>
+   </div>
+</div>
+<table class="table table-condensed light">
+<tbody>
 <tr><th>Actors</th><td><ul class="list-unstyled"><li ng-repeat="actor in serie.actors.split('|') track by $index">{{actor}}</li></ul></td></tr>
 <tr><th>Airs on</th><td>{{serie.airs_dayofweek}} {{serie.airs_time}}</td></tr>
 <tr><th>First Aired</th><td ng-if="serie">{{ getAirDate(serie) }} -  {{serie.firstaired * 1000 | date:'shortDate'}}</td></tr>
@@ -22,4 +30,6 @@
 <tr><th>Rating</th><td>{{serie.rating}} ({{serie.ratingcount}} ratings)</td></tr>
 <tr><th>Runtime</th><td>{{serie.runtime}}</td></tr>
 <tr><th>Status</th><td>{{serie.status}}</td></tr>
+<tr><th colspan='2' style='text-align:center'><button class="btn btn-danger" ng-click="removeFromFavorites(serie)">Remove from favorites</button></th></tr>
+</tbody>
 </table>

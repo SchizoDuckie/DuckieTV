@@ -115,12 +115,6 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', '
             }
         }
 
-        $scope.setActiveSeason = function(season) {
-            console.log("Set active season!", season, $scope.allSeasons);
-            $scope.activeSeason = allSeasons.filter(function(el) {
-                return el.getID() == season.ID_Season
-            })[0]
-        }
 
         $scope.setMarkEnd = function(episode) {
             $scope.markUntilDate = new Date(episode.firstaired);

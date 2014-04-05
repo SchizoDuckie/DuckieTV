@@ -3,18 +3,9 @@
 <div class="row serie">
   <div class="col-md-6">
 
-  	<p> Total number of episodes found: {{ episodes.length }}</p>
-
   	<alert ng-if="markingAsWatched" type="alert.type" close="stopMarkingAsWatched()">You are now in range selection mode. Click on an episode to set that as the last episode you have watched. All episodes up to and including that will be marked as watched. Dismiss this notification </alert>
- 
- 	<div style='text-align:center;text-align: center;overflow-x: auto;height: 230px;overflow-y: hidden; white-space: nowrap;'> 
-	 	<div class='season' ng-repeat="season in seasons" style="display:inline-block; padding:10px;">
-			<p  ng-click="setActiveSeason(season)"><img ng-src="{{season.poster}}" style='width: 120px;'></p>
-			<p><strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong></p>
-		</div>
-	</div>
 
-	<table class="table table-condensed light" ng-class="{markingaswatched: markingAsWatched }" style='border: 1px solid #efefef; border-collapse:collapse;'>
+	<table class="table table-condensed light" ng-class="{markingaswatched: markingAsWatched }" style='border: 1px solid #efefef; border-collapse:collapse; margin-top:20px;'>
 	<tbody  ng-if="episodes.length == 0">
 	<tr>
 		<td>Fetching episodes</td>
@@ -119,8 +110,7 @@
 		</tbody>
 	</table>
 	</div>
-	<div class="col-md-2"></div>
-	<div class="col-md-4">
-		<serie-details serie="serie" points="points" labels="labels"></serie-info>
+	<div class="col-md-6">
+		<serie-details></serie-details>
 	</div>
 </div>

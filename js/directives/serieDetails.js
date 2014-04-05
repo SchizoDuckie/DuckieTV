@@ -3,10 +3,8 @@ angular.module('DuckieTV.directives.seriedetails', [])
 .directive('serieDetails', function(FavoritesService, $location) {
     return {
         restrict: 'E',
-        scope: {
-            'serie': '=serie',
-            'points': '=points'
-        },
+        transclude: true,
+        replace: true,
         templateUrl: "templates/serieDetails.html",
         link: function($scope) {
 
@@ -14,6 +12,15 @@ angular.module('DuckieTV.directives.seriedetails', [])
                 console.log("Remove from favorites!", serie);
                 FavoritesService.remove(serie);
                 $location.path('/');
+            }
+
+            $scope.setActiveSeason = function(season) {
+                CRUD.FindOne('Season', {
+                    ID_Season: season.ID_Season
+                }).then(function(season) {
+                    $scope.activeSeason = season;
+                    $scope.$digest();
+                })
             }
 
 
