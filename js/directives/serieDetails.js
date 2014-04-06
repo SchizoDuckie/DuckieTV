@@ -1,6 +1,6 @@
-angular.module('DuckieTV.directives.seriedetails', [])
+angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
 
-.directive('serieDetails', function(FavoritesService, $location) {
+.directive('serieDetails', function(FavoritesService, $location, $dialogs) {
     return {
         restrict: 'E',
         transclude: true,
@@ -9,9 +9,14 @@ angular.module('DuckieTV.directives.seriedetails', [])
         link: function($scope) {
 
             $scope.removeFromFavorites = function(serie) {
-                console.log("Remove from favorites!", serie);
-                FavoritesService.remove(serie);
-                $location.path('/');
+                var dlg = $dialogs.confirm('Delete serie?', 'Do you really want to delete ' + serie.name + ' from your favorites?');
+                dlg.result.then(function(btn) {
+                    console.log("Remove from favorites!", serie);
+                    FavoritesService.remove(serie);
+                    $location.path('/')
+                }, function(btn) {
+                    $scope.confirmed = 'You confirmed "No."';
+                });
             }
 
             $scope.setActiveSeason = function(season) {
