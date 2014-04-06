@@ -21,7 +21,15 @@
 }
 
 .modal-content {
-	background-color: rgba(0,0,0,0.99);
+	background-color: rgba(20,20,20,0.97);
 	padding:10px;
 	border: 1px solid white;
+}
+
+.modal-content h1 {
+	color:white;
+}
+
+.modal-content a {
+	color: #E0E0E0;;
 }
