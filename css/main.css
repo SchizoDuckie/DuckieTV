@@ -782,3 +782,20 @@ a:hover i.glyphicon-plus-sign {
   color:white;
   background-color:rgba(255,255,255,0.05);
 }
+
+[lazy-background] {
+  background-size:contain; 
+  background-repeat:no-repeat;
+}
+
+.btn-default {
+color: white;
+background-color: #333;
+border-color: #000;
+}
+
+.btn-default.active, .btn-default:hover {
+  color: white;
+  background-color: #222;
+  border-color: #111;
+}

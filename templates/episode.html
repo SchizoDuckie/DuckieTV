@@ -10,36 +10,11 @@
 	</tbody>
 	<tbody ng-if="episode">
 		<tr><td><h2> {{getEpisodeNumber(episode)}} - {{ episode.episodename }}</h2>
-		</td><td style='padding: 5px; vertical-align:middle;'><div class="dropdown" style='display:inline-block'>
-				     <a ng-if="getSetting('torrenting.enabled') && hasAired(episode)" ng-click="searchTorrents(serie, episode)" tooltip="Search for a download" class="dropdown dropdown-toggle"><i style='font-size: 20px' class="glyphicon glyphicon-download"></i> </a>
-				       <div class="dropdown-menu" style='width: 550px'>
-						   <table class="torrents">
-						   		<thead>
-							   		<tr ng-if="searching">
-							   			<td><img style='background-color: transparent; margin:0 auto; display:block;' src='img/spinner.gif'>
-							   				<p style='text-align:center; padding:10px;'>Searching {{ getSetting('torrenting.searchprovider') }}, please wait.</p></td>
-							   		</tr>
-							   		<tr ng-if="!searching && items.length == 0">
-							   			<td >
-							   				<p>No results found for</p>
-							   				<strong>{{ getSearchString(serie,episode) }} </strong>
-							   			</td>
-							   		</tr>
-						   		</thead>
-						   		<tbody>
-							   		<tr ng-if="!searching && items.length > 0 ">
-							   			<th>&nbsp;</th><th><strong>Name</strong></th><th><strong>Seed</strong></th><th><strong>Leech</strong></th>
-							   		</tr>
-									<tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items">
-										<td style='width:30px; padding:5px;'><a ng-href="{{seed.magneturl}}"><img src="img/icon-magnet.gif"></a></td>
-									    <td><a ng-href='{{seed.magneturl}}' tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe"></a></td>
-									    <td style='width:50px'><a ng-href='{{seed.magneturl}}' ng-bind="seed.seeders"></a></td>
-									    <td style='width:50px'><a ng-href='{{seed.magneturl}}' ng-bind="seed.leechers"></a></td>
-								    </tr>
-							    </tbody>
-							</table>	
-						</div>
-				</div> <episode-watched  ng-if="hasAired(episode)" episode="episode" style="display:inline-block;margin-left:10px"></episode-watched></td></tr>
+		</td><td style='padding: 5px; vertical-align:middle;'>
+			<torrent-dialog ng-if="hasAired(episode)" q='getSearchString(serie,episode)' style='font-size:20px'></torrent-dialog>
+		 	<episode-watched  ng-if="hasAired(episode)" episode="episode" style="display:inline-block;margin-left:10px"></episode-watched>
+		 	</td>
+		</tr>
 		<tr><td colspan="2">
 			<div style='float:left; width: 300px; height:180px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{episode.filename}}"></div>
 		{{episode.overview}}

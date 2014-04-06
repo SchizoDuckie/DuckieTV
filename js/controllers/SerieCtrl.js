@@ -1,8 +1,10 @@
-angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', 'DuckieTV.directives.serieheader', 'DuckieTV.directives.seriedetails', 'DuckieTV.directives.episodewatched'])
+angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', 'DuckieTV.directives.serieheader',
+    'DuckieTV.directives.seriedetails', 'DuckieTV.directives.episodewatched'
+])
 
 .controller('SerieCtrl',
 
-    function(TheTVDB, ThePirateBay, FavoritesService, SettingsService, SceneNameResolver, TVRageSyncService, TraktTV, $routeParams, $scope, $rootScope, $injector, $filter) {
+    function(TheTVDB, ThePirateBay, FavoritesService, SettingsService, SceneNameResolver, TVRageSyncService, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter) {
         console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
         $scope.episodes = [];
         $scope.points = [];
@@ -153,35 +155,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', '
         }
 
         $scope.searchSeason = function(serie, season, $event) {
-            $event.stopPropagation();
-            $scope.items = [];
-            $scope.searching = true;
-            $scope.searchingSeasons = true;
-            var search = serie.name + ' season ' + season.seasonnumber;
-            console.log("Search: ", search);
-            $injector.get($scope.getSetting('torrenting.searchprovider')).search(search).then(function(results) {
-                $scope.items = results;
-                $scope.searching = false;
-                console.log('Added episodes: ', $scope);
-            }, function(e) {
-                console.error("TPB search failed!");
-                $scope.searching = false;
-            });
-        }
-
-        $scope.searchTorrents = function(serie, episode) {
-            $scope.items = [];
-            $scope.searching = true;
-            var search = $scope.getSearchString(serie, episode);
-            console.log("Search: ", search);
-            $injector.get($scope.getSetting('torrenting.searchprovider')).search(search).then(function(results) {
-                $scope.items = results;
-                $scope.searching = false;
-                console.log('Added episodes: ', $scope);
-            }, function(e) {
-                console.error("TPB search failed!");
-                $scope.searching = false;
-            });
+            TorrentDialog.search(serie.name + ' season ' + season.seasonnumber);
         }
 
         $scope.markRangeWatchedStart = function() {

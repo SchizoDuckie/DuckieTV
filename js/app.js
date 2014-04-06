@@ -39,6 +39,7 @@ angular.module('DuckieTV', [
     'DuckieTV.directives.backgroundrotator',
     'DuckieTV.directives.chrometopsites',
     'DuckieTV.directives.lazybackground',
+    'DuckieTV.directives.torrentdialog',
 
     'colorpicker.module'
 ])

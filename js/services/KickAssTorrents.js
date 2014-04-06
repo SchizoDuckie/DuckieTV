@@ -42,7 +42,7 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
         var output = [];
         for (var i = 0; i < results.length; i++) {
             output.push({
-                releasename: results[i].querySelectorAll('td.torrentnameCell .torrentname a')[1].innerText,
+                releasename: results[i].querySelector('div.torrentname a.cellMainLink').innerText,
                 magneturl: results[i].querySelector('a[title="Torrent magnet link"]').href,
                 size: results[i].querySelector('td:nth-child(2)').innerText,
                 seeders: results[i].querySelector("td:nth-child(5)").innerHTML,
