@@ -9,7 +9,8 @@
         "https://*/*",
         "topSites",
         "notifications",
-        "storage"
+        "storage",
+        "alarms"
     ],
     "icons": {
         "16": "img/icon16.png",

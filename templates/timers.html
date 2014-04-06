@@ -1,0 +1,20 @@
+<fieldset>
+<fieldset>
+<h2>Timers overview</h2>
+
+<alert ng-if="timerFired" type="alert.type"><strong>Timer was fired!</strong> {{ timerFired | json }}</alert>
+
+<table class="table table-condensed light">
+<tr><th>Name</th><th>PeriodInMinutes</th><th>Firing next</th></tr>
+<tr ng-repeat="timer in timers">
+	<td><strong>{{timer.name}}</strong></td>
+	<td>{{timer.periodInMinutes}}</td>
+	<td>{{ timer.scheduledTime | date: 'dd-MM-yyyy H:m:s'}}</td>
+</tr>
+</table>
+
+<button class="btn btn-default" ng-click="create()">Create a new alarm in one minute</button>
+<button class="btn btn-default" ng-click="createInterval()">Create a new 2 minute interval alarm</button>
+<button class="btn btn-default" ng-click="createOnce()">Create a new single alarm in 2 minutes</button>
+
+</fieldset>

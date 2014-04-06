@@ -52,13 +52,11 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                         if (entity.migrations) {
                             var currentVersion = !localStorage.getItem('database.version.' + entity.table) ? 1 : parseInt(localStorage.getItem('database.version.' + entity.table), 10);
                             var highestVersion = Math.max.apply(Math, Object.keys(entity.migrations));
-                            console.log("Migrations found!", entity.migrations, highestVersion);
                             while (currentVersion != highestVersion) {
                                 currentVersion++;
                                 if (currentVersion in entity.migrations) {
                                     var migrations = entity.migrations[currentVersion];
                                     var prq = [];
-                                    console.log("Found migrations to execute!", migrations);
                                     for (var i = 0; i < migrations.length; i++) {
                                         var q = migrations[i];
                                         prq.push(

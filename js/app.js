@@ -10,6 +10,7 @@ angular.module('DuckieTV', [
     'ui.bootstrap',
     'DuckieTV.providers.episodeaired',
     'DuckieTV.providers.eventwatcher',
+    'DuckieTV.providers.eventscheduler',
     'DuckieTV.providers.favorites',
     'DuckieTV.providers.filereader',
     'DuckieTV.providers.googleimages',
@@ -33,6 +34,7 @@ angular.module('DuckieTV', [
     'DuckieTV.controllers.episodes',
     'DuckieTV.controllers.serie',
     'DuckieTV.controllers.settings',
+    'DuckieTV.controllers.timer',
     'DuckieTV.controllers.watchlist',
     'DuckieTV.directives.calendar',
     'DuckieTV.directives.chrometopsites',
@@ -83,6 +85,10 @@ angular.module('DuckieTV', [
         .when('/serie/:id/episode/:episode', {
             templateUrl: 'templates/episode.html',
             controller: 'EpisodeCtrl'
+        })
+        .when('/timers', {
+            templateUrl: 'templates/timers.html',
+            controller: 'TimerCtrl'
         })
         .when('/settings', {
             templateUrl: 'templates/settings.html',

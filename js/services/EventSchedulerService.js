@@ -1,31 +1,69 @@
 angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwatcher'])
 
-.provider("EventScheduleService", function(EventWatcherService) {
-    var ids = {};
+/**
+ * A wrapper around chrome.alarms
+ * Since chrome.alarms can only store a simple string that's fired when the alarm is
+ * executed, this catches them and fires them off into the EventWatcherService, that will
+ * resolve the actual alarm's detailed information and broadcast event so that it can be handled
+ * by the class that scheduled it
+ */
+.provider("EventSchedulerService", function() {
 
-    function alarmHandler(event) {
-        console.log('An alarm has fired! ', event);
-        EventWatcherService.onEvent(event);
-    }
+    this.$get = function(EventWatcherService, $q) {
 
+        var createEvent = function(name, type, eventChannel, data) {
+            var evt = new ScheduledEvent();
+            evt.set('name', name)
+            evt.set('type', type);
+            evt.set('eventchannel', eventChannel);
+            evt.set('data', angular.toJson(data, true));
+            evt.Persist().then(function() {
+                console.log("Created new event!", evt);
+            });
+        };
 
-    this.$get = function() {
+        chrome.alarms.onAlarm.addListener(function(event) {
+            EventWatcherService.onEvent(event.name);
+        });
+
         return {
             get: function(title) {
-                chrome.alarms.get(title)
+                return chrome.alarms.get(title)
             },
-            getAll: function(title, message, items, callback) {
-                create({
-                    type: "list",
-                    title: title,
-                    message: message,
-                    iconUrl: "img/icon-magnet.png",
-                    items: items
+            getAll: function() {
+                var p = $q.defer();
+                chrome.alarms.getAll(function(result) {
+                    console.log("Got results ", result);
+                    p.resolve(result);
                 });
-
+                return p.promise;
             },
-            create: function(alarm) {
-
+            createAt: function(name, timestamp, eventChannel, data) {
+                createEvent(name, 'single', eventChannel, data);
+                chrome.alarms.create(name, {
+                    when: timestamp
+                });
+            },
+            createDelay: function(name, delayInMinutes, eventChannel, data) {
+                createEvent(name, 'single', eventChannel, data);
+                chrome.alarms.create(name, {
+                    delayInMinutes: delayInMinutes
+                });
+            },
+            createInterval: function(name, periodInMinutes, eventChannel, data) {
+                CRUD.FindOne('ScheduledEvent', { name: name}).then(function(ScheduledEvent) {
+                    if(ScheduledEvent) {
+                        console.log("Alarm already exists! updating!");
+                        ScheduledEvent.set(data, angular.toJSON(data));
+                        ScheduledEvent.Persist();
+                    } else {
+                        createEvent(name, 'interval', eventChannel, data);
+                        chrome.alarms.create(name, {
+                            periodInMinutes: periodInMinutes
+                        });
+                    }
+                })
+               
             },
             clear: function(event) {
                 chrome.alarms.clear(event);
