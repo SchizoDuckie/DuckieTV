@@ -22,9 +22,6 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
             });
         };
 
-        chrome.alarms.onAlarm.addListener(function(event) {
-            EventWatcherService.onEvent(event.name);
-        });
 
         return {
             get: function(title) {
@@ -51,10 +48,12 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                 });
             },
             createInterval: function(name, periodInMinutes, eventChannel, data) {
-                CRUD.FindOne('ScheduledEvent', { name: name}).then(function(ScheduledEvent) {
-                    if(ScheduledEvent) {
+                CRUD.FindOne('ScheduledEvent', {
+                    name: name
+                }).then(function(ScheduledEvent) {
+                    if (ScheduledEvent) {
                         console.log("Alarm already exists! updating!");
-                        ScheduledEvent.set(data, angular.toJSON(data));
+                        ScheduledEvent.set(data, angular.toJson(data, true));
                         ScheduledEvent.Persist();
                     } else {
                         createEvent(name, 'interval', eventChannel, data);
@@ -63,7 +62,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                         });
                     }
                 })
-               
+
             },
             clear: function(event) {
                 chrome.alarms.clear(event);
@@ -71,6 +70,11 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
             },
             clearAll: function() {
                 chrome.alarms.clearAll();
+            },
+            initialize: function() {
+                chrome.alarms.onAlarm.addListener(function(event) {
+                    EventWatcherService.onEvent(event.name);
+                })
             }
         }
     };

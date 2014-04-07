@@ -19,8 +19,21 @@
     },
     "background": {
         "scripts": [
-            "js/vendor/angular.min.js"
-        ]
+            "js/vendor/promise-3.2.0.js",
+            "js/vendor/CRUD.js",
+            "js/vendor/CRUD.SqliteAdapter.js",
+            "js/CRUD.entities.js",
+            "js/vendor/angular.min.js",
+            "js/vendor/angular-sanitize.min.js",
+            "js/services/EventWatcherService.js",
+            "js/services/EventSchedulerService.js",
+            "js/services/FavoritesService.js",
+            "js/services/TraktTV.js",
+            "js/services/WatchlistCheckerService.js",
+            "js/services/WatchlistService.js",
+            "js/background.js"
+        ],
+        "persistent": false
     },
     "content_security_policy": "script-src 'self'; object-src 'self'",
     "chrome_url_overrides": {

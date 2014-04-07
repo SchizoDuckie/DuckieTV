@@ -1,0 +1,24 @@
+/**
+ * Handle global dependencies
+ */
+
+
+angular.module('DuckieTV', [
+    'DuckieTV.providers.eventwatcher',
+    'DuckieTV.providers.eventscheduler',
+    'DuckieTV.providers.favorites',
+    'DuckieTV.providers.trakttv'
+])
+
+/**
+ * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
+ */
+.config(function($httpProvider, $compileProvider) {
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|magnet|data):/);
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
+})
+
+.run(function($rootScope, EventSchedulerService, FavoritesService) {
+    EventSchedulerService.initialize();
+    console.log("Background page running!", $rootScope, EventSchedulerService, FavoritesService);
+})

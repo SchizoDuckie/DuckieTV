@@ -1,28 +1,44 @@
 {
-  "manifest_version": 2,
-  "name": "DuckieTV - 'Browser action' mode",
-  "short_name": "DuckieTV",  
-  "version" : "0.30",
-  "description": "Manage your favorite TV series and movies from your browser's new tab page",
+    "manifest_version": 2,
+    "name": "DuckieTV - 'Browser action' mode",
+    "short_name": "DuckieTV",
+    "version": "0.30",
+    "description": "Manage your favorite TV series and movies from your browser's new tab page",
     "permissions": [
-    "http://*/*",
-    "https://*/*",
-    "tabs",
-    "notifications",
-    "storage"
-  ],
-   "background": {
-    "scripts": ["js/vendor/angular.min.js", "launch.js"]
-  },
-  "icons": {
-    "16": "img/icon16.png",
-    "48": "img/icon48.png",
-    "128": "img/icon128.png"
-  },
-  "browser_action": {
-    "default_title": "",
-    "default_icon": "img/icon48.png"
-  },
-  "homepage_url": "http://reddit.com/r/duckietv/",
-  "content_security_policy": "script-src 'self'; object-src 'self'"
+        "http://*/*",
+        "https://*/*",
+        "tabs",
+        "notifications",
+        "storage",
+        "alarms"
+    ],
+    "background": {
+        "scripts": [
+            "js/vendor/promise-3.2.0.js",
+            "js/vendor/CRUD.js",
+            "js/vendor/CRUD.SqliteAdapter.js",
+            "js/CRUD.entities.js",
+            "js/vendor/angular.min.js",
+            "js/vendor/angular-sanitize.min.js",
+            "js/services/EventWatcherService.js",
+            "js/services/EventSchedulerService.js",
+            "js/services/FavoritesService.js",
+            "js/services/TraktTV.js",
+            "js/services/WatchlistCheckerService.js",
+            "js/services/WatchlistService.js",
+            "js/background.js"
+        ],
+        "persistent": false
+    },
+    "icons": {
+        "16": "img/icon16.png",
+        "48": "img/icon48.png",
+        "128": "img/icon128.png"
+    },
+    "browser_action": {
+        "default_title": "",
+        "default_icon": "img/icon48.png"
+    },
+    "homepage_url": "http://reddit.com/r/duckietv/",
+    "content_security_policy": "script-src 'self'; object-src 'self'"
 }

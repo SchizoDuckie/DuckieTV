@@ -6,9 +6,9 @@ angular.module('DuckieTV.providers.favorites', [])
  * when data is done loading
  */
 .factory('FavoritesService', function($rootScope, TraktTV, EventSchedulerService, $q) {
-	
-	fillSerie = function(serie, data) {
-		var mappings = {
+
+    fillSerie = function(serie, data) {
+        var mappings = {
             'tvdb_id': 'TVDB_ID',
             'tvrage_id': 'TVRage_ID',
             'imdb_id': 'IMDB_ID',
@@ -16,24 +16,26 @@ angular.module('DuckieTV.providers.favorites', [])
             'title': 'name',
             'air_day': 'airs_dayofweek',
             'air_time': 'airs_time',
+            'country': 'language'
         }
         for (var i in data) {
             if (i == 'first_aired') {
                 serie.set('firstaired', data.first_aired * 1000);
-            }
-            if (i == 'ratings') {
+            } else if (i == 'ratings') {
                 serie.set('rating', data.ratings.loved);
             } else if (i == 'genres') {
                 serie.set('genre', data.genres.join('|'));
+            } else if (i == 'ended') {
+                serie.set('status', data[i] == true ? 'Continuing' : 'Ended')
             } else if (i in mappings) {
                 serie.set(mappings[i], data[i])
             } else {
                 serie.set(i, data[i]);
             }
         }
-	}
-	fillEpisode = function(episode, d) {
-		
+    }
+    fillEpisode = function(episode, d) {
+
         d.TVDB_ID = d.tvdb_id;
         d.rating = d.ratings.percentage
         d.episodenumber = d.episode;
@@ -41,90 +43,92 @@ angular.module('DuckieTV.providers.favorites', [])
         d.firstaired = d.first_aired_utc == 0 ? null : new Date(d.first_aired_iso).getTime();
         d.filename = d.screen;
         episode.changedValues = d;
-	}
+    }
     var service = {
         favorites: [],
         addFavorite: function(data) {
             console.log("Add or update favorite!", data);
             var d = $q.defer();
             service.getById(data.tvdb_id).then(function(serie) {
-            	if(!serie) {
-            		serie = new Serie();
-            		console.log("Creating a new serie! ");
-            	} else {
-            		console.log("Updating information for existing serie!", serie);
-            	}
-	            fillSerie(serie, data);
-	            serie.Persist().then(function(e) {
-	                EventSchedulerService.createInterval(serie.get('name')+' update check',  60 * 48, 'favoritesservice:checkforupdates', { ID: serie.getID(), TVDB_ID: serie.get('TVDB_ID') });
-	                if(service.favorites.filter(function(el) {
-	                	return el.TVDB_ID == serie.get('TVDB_ID');
-	                }).length == 0) {
-	                	service.favorites.push(serie.asObject());
-	                }
+                if (!serie) {
+                    serie = new Serie();
+                    console.log("Creating a new serie! ");
+                } else {
+                    console.log("Updating information for existing serie!", serie);
+                }
+                fillSerie(serie, data);
+                serie.Persist().then(function(e) {
+                    EventSchedulerService.createInterval(serie.get('name') + ' update check', 60 * 48, 'favoritesservice:checkforupdates', {
+                        ID: serie.getID(),
+                        TVDB_ID: serie.get('TVDB_ID')
+                    });
+                    if (service.favorites.filter(function(el) {
+                        return el.TVDB_ID == serie.get('TVDB_ID');
+                    }).length == 0) {
+                        service.favorites.push(serie.asObject());
+                    }
 
-	                $rootScope.$broadcast('favorites:updated', service);
-	                setTimeout(function() {
-		                TraktTV.findEpisodes(serie.get('TVDB_ID')).then(function(res) {
-		                    return service.updateEpisodes(serie.get('TVDB_ID'), res);
-		                });
-		            }, 400);
-	            }, function(fail) {
-	                console.log("Error persisting favorite!", data, arguments);
-	            });
-	            
-            })    
-            
+                    $rootScope.$broadcast('favorites:updated', service);
+                    setTimeout(function() {
+                        TraktTV.findEpisodes(serie.get('TVDB_ID')).then(function(res) {
+                            return service.updateEpisodes(serie.get('TVDB_ID'), res);
+                        });
+                    }, 400);
+                }, function(fail) {
+                    console.log("Error persisting favorite!", data, arguments);
+                });
+
+            })
+
             return d.promise;
         },
         updateEpisodes: function(serieID, seasons) {
             return CRUD.FindOne('Serie', {
                 'TVDB_ID': serieID
             }).then(function(serie) {
-            	var cache = {};
+                var cache = {};
                 var seasonCache = {};
                 serie.getSeasons().then(function(seasons) {
-                	seasons.map(function(el) {
-                		seasonCache[el.get('seasonnumber')] = el; 
-                	})
+                    seasons.map(function(el) {
+                        seasonCache[el.get('seasonnumber')] = el;
+                    })
                 }).then(function() {
-                	return serie.getEpisodes().then(function(data) {
-                    
-	                    data.map(function(episode) {
-							cache[episode.get('TVDB_ID')] = episode;
-	                    });
+                    return serie.getEpisodes().then(function(data) {
 
-	                    for (var j = 0; j < seasons.length; j++) {
-	                        var episodes = seasons[j];
-	                        var season = episodes.season;
-	                        var SE = (season.seasonnumber in seasonCache) ? seasonCache[season.seasonnumber] : new Season();
-	                        for (var s in season) {
-	                            SE.set(s, season[s]);
-	                        }
-	                        SE.set('ID_Serie', serie.getID());
-	                        (function(episodes, season, S) {
-	                           S.Persist().then(function(r) {
-	                                for (var k = 0; k < episodes.length; k++) {
-	                                	var e = (!(episodes[k].tvdb_id in cache)) ? new Episode() : cache[episodes[k].tvdb_id];
-	                                    fillEpisode(e, episodes[k]);
-	                                    e.set('seasonnumber', season.seasonnumber);
-	                                    e.set('ID_Serie', serie.getID());
-	                                    e.set('ID_Season', S.getID());
-	                                    e.Persist().then(function(res) {
-	                                    }, function(err) {
-	                                        console.error("PERSIST ERROR!", err);
-	                                        debugger;
-	                                    });
-	                                }
-	                            });
-	                        })(episodes, season, SE);
-	                    }
-	                })
-				});
-                
+                        data.map(function(episode) {
+                            cache[episode.get('TVDB_ID')] = episode;
+                        });
+
+                        for (var j = 0; j < seasons.length; j++) {
+                            var episodes = seasons[j];
+                            var season = episodes.season;
+                            var SE = (season.seasonnumber in seasonCache) ? seasonCache[season.seasonnumber] : new Season();
+                            for (var s in season) {
+                                SE.set(s, season[s]);
+                            }
+                            SE.set('ID_Serie', serie.getID());
+                            (function(episodes, season, S) {
+                                S.Persist().then(function(r) {
+                                    for (var k = 0; k < episodes.length; k++) {
+                                        var e = (!(episodes[k].tvdb_id in cache)) ? new Episode() : cache[episodes[k].tvdb_id];
+                                        fillEpisode(e, episodes[k]);
+                                        e.set('seasonnumber', season.seasonnumber);
+                                        e.set('ID_Serie', serie.getID());
+                                        e.set('ID_Season', S.getID());
+                                        e.Persist().then(function(res) {}, function(err) {
+                                            console.error("PERSIST ERROR!", err);
+                                            debugger;
+                                        });
+                                    }
+                                });
+                            })(episodes, season, SE);
+                        }
+                    })
+                });
+
             }, function(err) {
-            	console.log("ERROR finding serie! ", err);
-            	debugger;
+                console.log("ERROR finding serie! ", err);
+                debugger;
             });
 
         },
@@ -186,12 +190,12 @@ angular.module('DuckieTV.providers.favorites', [])
          * Notify anyone listening by broadcasting favorites:updated
          */
         restore: function() {
-        	$rootScope.$on('favoritesservice:checkforupdates', function(evt, data) {
-        		TraktTV.findEpisodes(data.TVDB_ID).then(function(res) {
-        		  service.updateEpisodes(data.TVDB_ID, res);
+            $rootScope.$on('favoritesservice:checkforupdates', function(evt, data) {
+                TraktTV.findEpisodes(data.TVDB_ID).then(function(res) {
+                    service.updateEpisodes(data.TVDB_ID, res);
                 });
-        		
-        	});
+
+            });
             service.getSeries().then(function(results) {
                 service.favorites = results;
                 $rootScope.$broadcast('favorites:updated', service);
