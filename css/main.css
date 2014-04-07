@@ -476,7 +476,7 @@ input[type=text], input[type=url], option, select {
 [date-picker] td:first-child, [date-picker] tr:last-child th:first-child {
     border-left: 0;
 }
-[date-picker][ng-switch-when=date] td, [date-picker][ng-switch-when=week] td {
+[date-picker] div[ng-switch-when='date'] td, [date-picker] div[ng-switch-when='week'] td {
     width: calc(100% / 7);
     vertical-align: top;
 }
