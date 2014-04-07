@@ -175,9 +175,6 @@ angular.module('DuckieTV.providers.trakttv', [])
 
     return {
         restrict: 'E',
-        scope: {
-            'focuswatch': '=focusWatch'
-        },
 
         template: ['<div ng-controller="FindSeriesTypeAheadCtrl">',
             '<input type="text" ng-focus="searchingForSerie" ng-model="selected" placeholder="Type a series name to add to your favorites"',
@@ -187,12 +184,22 @@ angular.module('DuckieTV.providers.trakttv', [])
             '</div>'
         ].join(''),
         link: function($scope, element) {
+
+        }
+    };
+})
+
+.directive('focusWatch', function() {
+    return {
+        restrict: 'A',
+        scope: {
+            'focuswatch': '=focusWatch'
+        },
+        link: function($scope, element) {
             if ($scope.focuswatch) {
                 $scope.$watch($scope.focuswatch, function() {
-                    var el = element.find('input')[0];
-                    setTimeout(function() {
-                        el.focus()
-                    }, 0);
+                    var el = element.length == 1 && element[0].tagName == 'INPUT' ? element[0] : element.find('input')[0];
+                    el.focus()
                 });
             }
         }
