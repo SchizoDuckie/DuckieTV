@@ -32,14 +32,11 @@ angular.module('DuckieTV.providers.favorites', [])
             }
         }
 	}
-	fillEpisode = function(episode, data) {
-		var d = episodes[k];
-        d.ID_Season = r.ID;
+	fillEpisode = function(episode, d) {
+		
         d.TVDB_ID = d.tvdb_id;
-        d.ID_Serie = serie.getID();
         d.rating = d.ratings.percentage
         d.episodenumber = d.episode;
-        d.seasonnumber = season.seasonnumber;
         d.episodename = d.title;
         d.firstaired = d.first_aired_utc == 0 ? null : new Date(d.first_aired_iso).getTime();
         d.filename = d.screen;
@@ -59,13 +56,19 @@ angular.module('DuckieTV.providers.favorites', [])
             	}
 	            fillSerie(serie, data);
 	            serie.Persist().then(function(e) {
-	                EventSchedulerService.createInterval(serie.get('name')+' update check', 3 /* 60 * 48 */, 'favoriteservice:checkforupdates', { ID: serie.getID(), TVDB_ID: serie.get('TVDB_ID') });
-	                service.favorites.push(serie.asObject());
+	                EventSchedulerService.createInterval(serie.get('name')+' update check',  60 * 48, 'favoritesservice:checkforupdates', { ID: serie.getID(), TVDB_ID: serie.get('TVDB_ID') });
+	                if(service.favorites.filter(function(el) {
+	                	return el.TVDB_ID == serie.get('TVDB_ID');
+	                }).length == 0) {
+	                	service.favorites.push(serie.asObject());
+	                }
+
 	                $rootScope.$broadcast('favorites:updated', service);
-	                TraktTV.findEpisodes(serie.get('TVDB_ID')).then(function(res) {
-	                    console.log("Found episodes!", res);
-	                    return service.updateEpisodes(serie.get('TVDB_ID'), res);
-	                });
+	                setTimeout(function() {
+		                TraktTV.findEpisodes(serie.get('TVDB_ID')).then(function(res) {
+		                    return service.updateEpisodes(serie.get('TVDB_ID'), res);
+		                });
+		            }, 400);
 	            }, function(fail) {
 	                console.log("Error persisting favorite!", data, arguments);
 	            });
@@ -75,8 +78,7 @@ angular.module('DuckieTV.providers.favorites', [])
             return d.promise;
         },
         updateEpisodes: function(serieID, seasons) {
-            console.log("---> Update episode: ", serieID, seasons);
-            CRUD.FindOne(Serie, {
+            return CRUD.FindOne('Serie', {
                 'TVDB_ID': serieID
             }).then(function(serie) {
             	var cache = {};
@@ -85,36 +87,44 @@ angular.module('DuckieTV.providers.favorites', [])
                 	seasons.map(function(el) {
                 		seasonCache[el.get('seasonnumber')] = el; 
                 	})
-                }).then(serie.getEpisodes().then(function(data) {
+                }).then(function() {
+                	return serie.getEpisodes().then(function(data) {
                     
-                    data.map(function(episode) {
-						cache[episode.get('TVDB_ID')] = episode;
-                    });
+	                    data.map(function(episode) {
+							cache[episode.get('TVDB_ID')] = episode;
+	                    });
 
-                    console.log('cache! ', cache, episodes);
-                    for (var j = 0; j < seasons.length; j++) {
-                        var episodes = seasons[j];
-                        var season = episodes.season;
-                        var SE = (season.seasonnumber in seasonCache) ? seasonCache[season.seasonnumber] : new Season();
-                        for (var s in season) {
-                            SE.set(s, season[s]);
-                        }
-                        SE.set('ID_Serie', serie.getID());
-                        (function(episodes, season, SeasonPromise) {
-                            SeasonPromise.then(function(r) {
-                                for (var k = 0; k < episodes.length; k++) {
-                                	var e = (!(episodes[k].tvdb_id in cache)) ? new Episode() : cache[episodes[k]];
-                                    fillSerie(e, episodes[k]);
-                                    e.set('ID_Serie', serie.getID()).Persist(true).then(function(res) {}, function(err) {
-                                        console.error("PERSIST ERROR!", err);
-                                        debugger;
-                                    })
-                                }
-                            });
-                        })(episodes, season, SE.Persist());
-                    }
-                }));
+	                    for (var j = 0; j < seasons.length; j++) {
+	                        var episodes = seasons[j];
+	                        var season = episodes.season;
+	                        var SE = (season.seasonnumber in seasonCache) ? seasonCache[season.seasonnumber] : new Season();
+	                        for (var s in season) {
+	                            SE.set(s, season[s]);
+	                        }
+	                        SE.set('ID_Serie', serie.getID());
+	                        (function(episodes, season, S) {
+	                           S.Persist().then(function(r) {
+	                                for (var k = 0; k < episodes.length; k++) {
+	                                	var e = (!(episodes[k].tvdb_id in cache)) ? new Episode() : cache[episodes[k].tvdb_id];
+	                                    fillEpisode(e, episodes[k]);
+	                                    e.set('seasonnumber', season.seasonnumber);
+	                                    e.set('ID_Serie', serie.getID());
+	                                    e.set('ID_Season', S.getID());
+	                                    e.Persist().then(function(res) {
+	                                    }, function(err) {
+	                                        console.error("PERSIST ERROR!", err);
+	                                        debugger;
+	                                    });
+	                                }
+	                            });
+	                        })(episodes, season, SE);
+	                    }
+	                })
+				});
                 
+            }, function(err) {
+            	console.log("ERROR finding serie! ", err);
+            	debugger;
             });
 
         },
@@ -176,10 +186,11 @@ angular.module('DuckieTV.providers.favorites', [])
          * Notify anyone listening by broadcasting favorites:updated
          */
         restore: function() {
-        	$rootScope.$on('favoritesservice:checkforupdates', function(evt) {
-        		console.log("Favorites service event!", evt);
-        		debugger;
-        		service.updateEpisodes(evt.data.TVDB_ID);
+        	$rootScope.$on('favoritesservice:checkforupdates', function(evt, data) {
+        		TraktTV.findEpisodes(data.TVDB_ID).then(function(res) {
+        		  service.updateEpisodes(data.TVDB_ID, res);
+                });
+        		
         	});
             service.getSeries().then(function(results) {
                 service.favorites = results;

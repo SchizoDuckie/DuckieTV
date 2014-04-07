@@ -18,7 +18,6 @@ angular.module('DuckieTV.providers.trakttv', [])
             },
 
             episode: function(data) {
-                console.log("Parsed episodes!", data.data);
                 return data.data;
             },
 
@@ -49,7 +48,6 @@ angular.module('DuckieTV.providers.trakttv', [])
 
         this.promiseRequest = function(type, param, param2) {
             if (this.activeRequest && !this.batchmode) {
-                console.log("Found realier request: aborting.'");
                 this.activeRequest.resolve();
             }
             var d = this.promise.defer();
@@ -85,11 +83,9 @@ angular.module('DuckieTV.providers.trakttv', [])
                 findSeriesByID: function(TVDB_ID) {
                     var d = self.promise.defer();
                     self.promiseRequest('season', TVDB_ID).then(function(seasons) {
-                        console.log("Found seasons from trak.tv!", seasons);
                         $q.all(seasons.map(function(season) {
                             return self.promiseRequest('episode', TVDB_ID, season.season);
                         })).then(function(result) {
-                            console.log("All results came in!", result);
                             d.resolve(result);
                         });
 
@@ -111,11 +107,9 @@ angular.module('DuckieTV.providers.trakttv', [])
                 findEpisodes: function(TVDB_ID) {
                     var d = self.promise.defer();
                     self.promiseRequest('season', TVDB_ID, null, true).then(function(seasons) {
-                        console.log("Found seasons from trak.tv!", seasons);
                         $q.all(seasons.map(function(season, idx) {
                             var d = $q.defer();
                             season.seasonnumber = season.season;
-                            console.log("Season number: ", season.season, season.seasonnumber);
                             self.promiseRequest('episode', TVDB_ID, season.season, true).then(function(data) {
                                 var uniques = {};
                                 data.map(function(el, idx) {

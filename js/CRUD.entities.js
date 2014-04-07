@@ -23,12 +23,13 @@ var Serie = CRUD.define({
 }, {
 
     getEpisodes: function() {
-        console.log("Fetching episodes for ", this);
-        return this.Find('Episode');
+        return CRUD.Find('Episode', { ID_Serie: this.getID() }).then(function(episodes) {
+            return episodes;
+        });
     },
 
     getSeasons: function() {
-        return this.Find("Season");
+        return CRUD.Find("Season", { ID_Serie: this.getID() });
     },
 
     getLatestSeason: function() {

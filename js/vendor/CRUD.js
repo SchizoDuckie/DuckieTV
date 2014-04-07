@@ -294,7 +294,7 @@ CRUD.Entity.prototype = {
      * Accessor. Gets one field, optionally returns the default value.
      */
     get: function(field, def) {
-        if (this.changedValues[field]) {
+        if (field in this.changedValues) {
             return this.changedValues[field];
         }
         if (field in this.values || this.hasField(field)) {
