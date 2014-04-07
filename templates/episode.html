@@ -2,34 +2,62 @@
 
 <div class="row serie">
   <div class="col-md-8">
-  <table class="table table-condensed light" style='margin-top: 20px; border: 1px solid #efefef; border-collapse:collapse;'>
-	<tbody  ng-if="!episode">
-	<tr>
-		<td>Fetching episode</td>
-	</tr>
-	</tbody>
-	<tbody ng-if="episode">
-		<tr><td><h2> {{getEpisodeNumber(episode)}} - {{ episode.episodename }}</h2>
-		</td><td style='padding: 5px; vertical-align:middle;'>
-			<torrent-dialog ng-if="hasAired(episode)" q='getSearchString(serie,episode)' style='font-size:20px'></torrent-dialog>
-		 	<episode-watched  ng-if="hasAired(episode)" episode="episode" style="display:inline-block;margin-left:10px"></episode-watched>
-		 	</td>
-		</tr>
-		<tr><td colspan="2">
-			<div style='float:left; width: 300px; height:180px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{episode.filename}}"></div>
-		{{episode.overview}}
-			
-		</td></tr>
-		<tr><th>Writer</th><td>{{episode.writer}}</td></tr>
-		<tr><th>Director</th><td><ul class="list-unstyled"><li ng-repeat="director in episode.director.split('|') track by $index">{{director}}</li></ul></td></tr>
-		<tr><th>Guest stars</th><td><ul class="list-unstyled"><li ng-repeat="gueststar in episode.gueststars.split('|') track by $index">{{gueststar}}</li></ul></td></tr>
-		<tr><th>First aired</th><td>{{ getAirDate(episode) | date:'dd-MM-yyyy HH:mm:ss'}}</td></tr>
-		<tr><th>Rating</th><td>{{episode.rating}} ({{episode.ratingcount}} ratings)</td></tr>
-	  </tbody>
-	</table>
-	</div>
-	<div class="col-md-4">
-		<!-- <button class="btn btn-ok" ng-click="notify(serie)">click me!</button>-->
-		<serie-details serie="serie"></serie-info>
-	</div>
+    <table class="table table-condensed light" style='margin-top: 20px; border: 1px solid #efefef; border-collapse:collapse;'>
+      <tbody ng-if="!episode">
+        <tr>
+          <td>Fetching episode</td>
+        </tr>
+      </tbody>
+      <tbody ng-if="episode">
+        <tr>
+          <td>
+            <h2>{{getEpisodeNumber(episode)}} - {{ episode.episodename }}</h2>
+          </td>
+          <td style='padding: 5px; vertical-align:middle;'>
+            <torrent-dialog ng-if="hasAired(episode)" q='getSearchString(serie,episode)' style='font-size:20px'></torrent-dialog>
+            <episode-watched ng-if="hasAired(episode)" episode="episode" style="display:inline-block;margin-left:10px"></episode-watched>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div style='float:left; width: 300px; height:180px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{episode.filename}}"></div>
+            {{episode.overview}}
+
+          </td>
+        </tr>
+        <tr>
+          <th>Writer</th>
+          <td>{{episode.writer}}</td>
+        </tr>
+        <tr>
+          <th>Director</th>
+          <td>
+            <ul class="list-unstyled">
+              <li ng-repeat="director in episode.director.split('|') track by $index">{{director}}</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>Guest stars</th>
+          <td>
+            <ul class="list-unstyled">
+              <li ng-repeat="gueststar in episode.gueststars.split('|') track by $index">{{gueststar}}</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>First aired</th>
+          <td>{{ getAirDate(episode) | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+        </tr>
+        <tr>
+          <th>Rating</th>
+          <td>{{episode.rating}} ({{episode.ratingcount}} ratings)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-4">
+    <!-- <button class="btn btn-ok" ng-click="notify(serie)">click me!</button>-->
+    <serie-details serie="serie"></serie-info>
+  </div>
 </div>

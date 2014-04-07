@@ -1,5 +1,5 @@
 <h1>Torrent Search</h1>
-<input type="text" ng-model="query" autofocus ng-change="search(query)" placeholder="Type your search query" class="form-control">
+<input type="text" ng-model="query" focus-watch='searching' ng-change="search(query)" placeholder="Type your search query" class="form-control">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
 <div class="btn-group" style='margin:0 auto; padding:10px;'>
   <button type="button" class="btn btn-default active" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
@@ -15,27 +15,48 @@
 </div>
 
 <table class="torrents table table-condensed white">
-		<thead>
-   		<tr ng-if="searching">
-   			<td><img style='background-color: transparent; margin:0 auto; display:block;' src='img/spinner.gif'>
-   				<p style='text-align:center; padding:10px;'>Searching {{ getSetting('torrenting.searchprovider') }}, please wait.</p></td>
-   		</tr>
-   		<tr ng-if="!searching && items.length == 0">
-   			<td >
-   				<p>No results found for</p>
-   				<strong>{{ query }} </strong>
-   			</td>
-   		</tr>
-		</thead>
-		<tbody>
-   		<tr ng-if="!searching && items.length > 0">
-   			<th>&nbsp;</th><th><strong>Name</strong></th><th><strong>Seed</strong></th><th><strong>Leech</strong></th>
-   		</tr>
-		<tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items | limitTo: 20">
-			<td style='width:30px; padding:5px;'><a ng-href="{{seed.magneturl}}"><img src="img/icon-magnet.gif"></a></td>
-		    <td><a ng-href='{{seed.magneturl}}' tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe"></a></td>
-		    <td style='width:50px; text-align:right'><a ng-href='{{seed.magneturl}}' ng-bind="seed.seeders"></a></td>
-		    <td style='width:50px; text-align:right'><a ng-href='{{seed.magneturl}}' ng-bind="seed.leechers"></a></td>
-	    </tr>
-    </tbody>
-</table>		
+  <thead>
+    <tr ng-if="searching">
+      <td>
+        <img style='background-color: transparent; margin:0 auto; display:block;' src='img/spinner.gif'>
+        <p style='text-align:center; padding:10px;'>Searching {{ getSetting('torrenting.searchprovider') }}, please wait.</p>
+      </td>
+    </tr>
+    <tr ng-if="!searching && items.length == 0">
+      <td>
+        <p>No results found for</p>
+        <strong>{{ query }}</strong>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-if="!searching && items.length > 0">
+      <th>&nbsp;</th>
+      <th>
+        <strong>Name</strong>
+      </th>
+      <th>
+        <strong>Seed</strong>
+      </th>
+      <th>
+        <strong>Leech</strong>
+      </th>
+    </tr>
+    <tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items | limitTo: 20">
+      <td style='width:30px; padding:5px;'>
+        <a ng-href="{{seed.magneturl}}">
+          <img src="img/icon-magnet.gif">
+        </a>
+      </td>
+      <td>
+        <a ng-href='{{seed.magneturl}}' tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe"></a>
+      </td>
+      <td style='width:50px; text-align:right'>
+        <a ng-href='{{seed.magneturl}}' ng-bind="seed.seeders"></a>
+      </td>
+      <td style='width:50px; text-align:right'>
+        <a ng-href='{{seed.magneturl}}' ng-bind="seed.leechers"></a>
+      </td>
+    </tr>
+  </tbody>
+</table>

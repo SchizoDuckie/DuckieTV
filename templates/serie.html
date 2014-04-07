@@ -3,56 +3,69 @@
 <div class="row serie">
   <div class="col-md-6">
 
-  	<alert ng-if="markingAsWatched" type="alert.type" close="stopMarkingAsWatched()">You are now in range selection mode. Click on an episode to set that as the last episode you have watched. All episodes up to and including that will be marked as watched. Dismiss this notification </alert>
+    <alert ng-if="markingAsWatched" type="alert.type" close="stopMarkingAsWatched()">You are now in range selection mode. Click on an episode to set that as the last episode you have watched. All episodes up to and including that will be marked as watched. Dismiss this notification</alert>
 
-	<table class="table table-condensed light" ng-class="{markingaswatched: markingAsWatched }" style='border: 1px solid #efefef; border-collapse:collapse; margin-top:20px;'>
-	<tbody  ng-if="episodes.length == 0">
-	<tr>
-		<td>Fetching episodes</td>
-	</tr>
-	</tbody>
-	<tbody ng-if="episodes.length > 0">
-		<tr>
-			<th><div class="dropdown" tooltip="Click for options">
-				<strong class="dropdown-toggle" style='white-space:nowrap'>Episodes&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></strong>
-				<ul class="dropdown-menu" style='min-width: 300px'>
-					<li ng-click="traktSync(serie)"><i class="glyphicon glyphicon-refresh"></i> Sync with Trakt.TV</li>
-				</ul>
-			</th></th>
-			<th><strong>Name</strong></th>
-			<th><strong>Air date</strong></th>
-			<th ng-if="getSetting('torrenting.enabled')">
-				<div class="dropdown" tooltip="Click for options">
-				<strong class="dropdown-toggle" style='white-space:nowrap'>Download <i class="glyphicon glyphicon-chevron-down"></i></strong>
-				<ul class="dropdown-menu" style='min-width: 300px'>
-					<li ng-click="searchSeason(serie, season)"><i class="glyphicon glyphicon-download"></i> Download whole season {{season.seasonnumber}}</li>
-				</ul>
-			</th>
-			<th><div class="dropdown" tooltip="Click for options">
-				<strong class="dropdown-toggle" style='white-space:nowrap'>Watched&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></strong>
-				<ul class="dropdown-menu" style='min-width: 300px'>
-					<li ng-click="markRangeWatchedStart()"><i class="glyphicon glyphicon-pencil"></i> Batch mark episodes as watched</li>
-				</ul>
-			</th>
-		</tr>
-		<tr ng-repeat="episode in episodes | orderBy: getSortEpisodeNumber:true" ng-click="markRange(episode)" ng-mouseover="setMarkEnd(episode)" ng-class="{ 'markAsWatched' : isMarkBeforeEnd(episode) }">
-		   	 <td ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}">
-		   	 	<a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{getEpisodeNumber(episode)}}</a>
-		   	 </td>
-		     <td>
-				<a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.episodename }}</a>
-			 </td>
-		     <td class="nobreaks"><a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.firstaired | date:'dd-MM-yyyy'}}</a></td>
-		     <td ng-if="getSetting('torrenting.enabled')" style='text-align:center'>
-		     	<torrent-dialog ng-if="hasAired(episode)" q='getSearchString(serie,episode)'>
-		     	</torrent-dialog>
-		     </td>
-		     <td><episode-watched  ng-if="hasAired(episode)" episode="episode"></episode-watched></td>
-		</tr>
-		</tbody>
-	</table>
-	</div>
-	<div class="col-md-6">
-		<serie-details></serie-details>
-	</div>
-</div>
+    <table class="table table-condensed light" ng-class="{markingaswatched: markingAsWatched }" style='border: 1px solid #efefef; border-collapse:collapse; margin-top:20px;'>
+      <tbody ng-if="episodes.length == 0">
+        <tr>
+          <td>Fetching episodes</td>
+        </tr>
+      </tbody>
+      <tbody ng-if="episodes.length > 0">
+        <tr>
+          <th>
+            <div class="dropdown" tooltip="Click for options">
+              <strong class="dropdown-toggle" style='white-space:nowrap'>Episodes&nbsp;<i class="glyphicon glyphicon-chevron-down"></i>
+              </strong>
+              <ul class="dropdown-menu" style='min-width: 300px'>
+                <li ng-click="traktSync(serie)"><i class="glyphicon glyphicon-refresh"></i> Sync with Trakt.TV</li>
+              </ul>
+          </th>
+          </th>
+          <th>
+            <strong>Name</strong>
+          </th>
+          <th>
+            <strong>Air date</strong>
+          </th>
+          <th ng-if="getSetting('torrenting.enabled')">
+            <div class="dropdown" tooltip="Click for options">
+              <strong class="dropdown-toggle" style='white-space:nowrap'>Download <i class="glyphicon glyphicon-chevron-down"></i>
+              </strong>
+              <ul class="dropdown-menu" style='min-width: 300px'>
+                <li ng-click="searchSeason(serie, season)"><i class="glyphicon glyphicon-download"></i> Download whole season {{season.seasonnumber}}</li>
+              </ul>
+          </th>
+          <th>
+            <div class="dropdown" tooltip="Click for options">
+              <strong class="dropdown-toggle" style='white-space:nowrap'>Watched&nbsp;<i class="glyphicon glyphicon-chevron-down"></i>
+              </strong>
+              <ul class="dropdown-menu" style='min-width: 300px'>
+                <li ng-click="markRangeWatchedStart()"><i class="glyphicon glyphicon-pencil"></i> Batch mark episodes as watched</li>
+              </ul>
+          </th>
+        </tr>
+        <tr ng-repeat="episode in episodes | orderBy: getSortEpisodeNumber:true" ng-click="markRange(episode)" ng-mouseover="setMarkEnd(episode)" ng-class="{ 'markAsWatched' : isMarkBeforeEnd(episode) }">
+          <td ng-style="{ 'text-decoration': episode.downloaded ? 'line-through' : 'none'}">
+            <a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{getEpisodeNumber(episode)}}</a>
+          </td>
+          <td>
+            <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.episodename }}</a>
+          </td>
+          <td class="nobreaks"><a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.firstaired | date:'dd-MM-yyyy'}}</a>
+          </td>
+          <td ng-if="getSetting('torrenting.enabled')" style='text-align:center'>
+            <torrent-dialog ng-if="hasAired(episode)" q='getSearchString(serie,episode)'>
+            </torrent-dialog>
+          </td>
+          <td>
+            <episode-watched ng-if="hasAired(episode)" episode="episode"></episode-watched>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="col-md-6">
+      <serie-details></serie-details>
+    </div>
+    </div>

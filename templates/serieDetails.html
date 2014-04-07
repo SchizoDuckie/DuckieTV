@@ -1,35 +1,69 @@
-
 <div class="table table-condensed light" style='margin-bottom:0; margin-top:20px; position:relative;'>
-<div ng-if="seasons">
-	<h2 style='border-bottom: 1px solid white; padding:5px;'>Seasons <small style='float:right'>(Click to see episodes and ratings)</small></h2>
-	<div style='text-align: center; overflow-x: auto; height: 280px; overflow-y: hidden; white-space: nowrap;'>
-	 	<div class='season' ng-repeat="season in seasons" style="display:inline-block; padding:10px; cursor:pointer">
-			<p ng-click="setActiveSeason(season)" lazy-background="{{season.poster}}" style='width: 150px; height: 220px;'></p>
-			<p><strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong></p>
-		</div>
-	</div>
-</div>
+  <div ng-if="seasons">
+    <h2 style='border-bottom: 1px solid white; padding:5px;'>Seasons
+      <small style='float:right'>(Click to see episodes and ratings)</small>
+    </h2>
+    <div style='text-align: center; overflow-x: auto; height: 280px; overflow-y: hidden; white-space: nowrap;'>
+      <div class='season' ng-repeat="season in seasons" style="display:inline-block; padding:10px; cursor:pointer">
+        <p ng-click="setActiveSeason(season)" lazy-background="{{season.poster}}" style='width: 150px; height: 220px;'></p>
+        <p>
+          <strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong>
+        </p>
+      </div>
+    </div>
+  </div>
 
-<div ng-if="!seasons">
-	<div lazy-background="{{serie.poster}}" style='margin: 0px auto; width:300px; height:400px; background-size:contain; background-repeat:no-repeat;'></div>
-</div>
-<div>
-	<h2 style='border-bottom:1px solid white; padding:5px;'>Episode Ratings</h3>
-	<div class="chart">
-	     <div class="chartLine" ng-repeat="p in points track by $index" ng-style="{ height: p.y + '%', left: ((100 / points.length) * $index) + '%',  width: (100 / points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}"></div>
-   </div>
-</div>
-<table class="table table-condensed light">
-<tbody>
-<tr><th>Actors</th><td><ul class="list-unstyled"><li ng-repeat="actor in serie.actors.split('|') track by $index">{{actor}}</li></ul></td></tr>
-<tr><th>Airs on</th><td>{{serie.airs_dayofweek}} {{serie.airs_time}}</td></tr>
-<tr><th>First Aired</th><td ng-if="serie">{{ getAirDate(serie) }} -  {{serie.firstaired * 1000 | date:'shortDate'}}</td></tr>
-<tr><th>Genre</th><td><ul class="list-unstyled"><li ng-repeat="genre in serie.genre.split('|') track by $index">{{genre}}</li></ul></td></tr>
-<tr><th>Language</th><td>{{serie.language}}</td></tr>
-<tr><th>Network</th><td>{{serie.network}}</td></tr>
-<tr><th>Rating</th><td>{{serie.rating}} ({{serie.ratingcount}} ratings)</td></tr>
-<tr><th>Runtime</th><td>{{serie.runtime}}</td></tr>
-<tr><th>Status</th><td>{{serie.status}}</td></tr>
-<tr><th colspan='2' style='text-align:center'><button class="btn btn-danger" ng-click="removeFromFavorites(serie)">Remove from favorites</button></th></tr>
-</tbody>
-</table>
+  <div ng-if="!seasons">
+    <div lazy-background="{{serie.poster}}" style='margin: 0px auto; width:300px; height:400px; background-size:contain; background-repeat:no-repeat;'></div>
+  </div>
+  <div>
+    <h2 style='border-bottom:1px solid white; padding:5px;'>Episode Ratings</h3>
+      <div class="chart">
+        <div class="chartLine" ng-repeat="p in points track by $index" ng-style="{ height: p.y + '%', left: ((100 / points.length) * $index) + '%',  width: (100 / points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}"></div>
+      </div>
+  </div>
+  <table class="table table-condensed light">
+    <tbody>
+      <tr>
+        <th>Airs on</th>
+        <td>{{serie.airs_dayofweek}} {{serie.airs_time}}</td>
+      </tr>
+      <tr>
+        <th>First Aired</th>
+        <td ng-if="serie">{{ getAirDate(serie).toLocaleString() }}</td>
+      </tr>
+      <tr>
+        <th>Genre</th>
+        <td>
+          <ul class="list-unstyled">
+            <li ng-repeat="genre in serie.genre.split('|') track by $index">{{genre}}</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <th>Country</th>
+        <td>{{serie.language}}</td>
+      </tr>
+      <tr>
+        <th>Network</th>
+        <td>{{serie.network}}</td>
+      </tr>
+      <tr>
+        <th>Rating</th>
+        <td>{{serie.rating}} ({{serie.ratingcount}} ratings)</td>
+      </tr>
+      <tr>
+        <th>Runtime</th>
+        <td>{{serie.runtime}}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>{{serie.status}}</td>
+      </tr>
+      <tr>
+        <th colspan='2' style='text-align:center'>
+          <button class="btn btn-danger" ng-click="removeFromFavorites(serie)">Remove from favorites</button>
+        </th>
+      </tr>
+    </tbody>
+  </table>

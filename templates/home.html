@@ -1,61 +1,70 @@
 <div class="row">
   <div ng-class="{ 'col-md-8': getSetting('calendar.large'),'col-md-6': !getSetting('calendar.large') }">
     <div class="container-fluid">
-      <fieldset >
-         <calendar event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}"></calendar>
+      <fieldset>
+        <calendar event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}"></calendar>
       </fieldset>
       <fieldset ng-if="getSetting('topSites.enabled')">
         <h2>Most visited sites</h2>
-         <chrome-top-sites></chrome-top-sites>
+        <chrome-top-sites></chrome-top-sites>
       </fieldset>
-     
+
     </div>
   </div>
   <div ng-class="{ 'col-md-4': getSetting('calendar.large'),'col-md-6': !getSetting('calendar.large') }">
-  
-      <fieldset ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.searchbox')">
-        <h2>Torrent search</h2>
-        <piratebay-search ng-if="searchEngine == 1"></piratebay-search>
-        <kickass-torrent-search ng-if="searchEngine == 2"></kickass-torrent-search>
-        <ul class="list-inline engineselect">
-          <li ng-click="searchEngine = 1">
-            <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchEngine != 1, 'glyphicon-record': searchEngine == 1}"></i>
-            <strong>The Pirate Bay</strong>
-          </li>
-          <li ng-click="searchEngine = 2">
-            <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchEngine != 2, 'glyphicon-record': searchEngine == 2}"></i>
-            <strong>Kickass Torrents</strong>
-          </li>
-        </ul>
-      </fieldset>
-    
+
+    <fieldset ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.searchbox')">
+      <h2>Torrent search</h2>
+      <piratebay-search ng-if="searchEngine == 1"></piratebay-search>
+      <kickass-torrent-search ng-if="searchEngine == 2"></kickass-torrent-search>
+      <ul class="list-inline engineselect">
+        <li ng-click="searchEngine = 1">
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchEngine != 1, 'glyphicon-record': searchEngine == 1}"></i>
+          <strong>The Pirate Bay</strong>
+        </li>
+        <li ng-click="searchEngine = 2">
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchEngine != 2, 'glyphicon-record': searchEngine == 2}"></i>
+          <strong>Kickass Torrents</strong>
+        </li>
+      </ul>
+    </fieldset>
+
     <fieldset>
-      <h2>Series you're watching 
-          <a  style="float:right;" tooltip="Add series to your favorites list" ng-if="searchingForSerie == false" ng-click="enableAdd();">
-             <i style="font-size:35px " class="glyphicon glyphicon-plus-sign"></i>
-          </a>
-           <a style="float:right;" tooltip="Hide the search bar" ng-if="searchingForSerie == true" ng-click="disableAdd()">
-             <i style="font-size:35px " class="glyphicon glyphicon-ok-sign"></i>
-          </a>
+      <h2>Series you're watching
+        <a style="float:right;" tooltip="Add series to your favorites list" ng-if="searchingForSerie == false" ng-click="enableAdd();">
+          <i style="font-size:35px " class="glyphicon glyphicon-plus-sign"></i>
+        </a>
+        <a style="float:right;" tooltip="Hide the search bar" ng-if="searchingForSerie == true" ng-click="disableAdd()">
+          <i style="font-size:35px " class="glyphicon glyphicon-ok-sign"></i>
+        </a>
       </h2>
       <div ng-if="searchingForSerie">
         <trakt-tv-search focus-watch="'searchingForSerie'"></trakt-tv-search>
       </div>
       <div style='width:100%; text-align: right; padding:5px;'>
+        <form ng-submit="execFilter()" ng-if="mode == 'search'">
+        <input type='text' focus-watch="'isFiltering'"  placeholder='filter your local library' ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 50%;'>
+        </form>
+        <a tooltip="Search your local library" ng-click="isFiltering = true; setMode('search',true);">
+          <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> Filter
+        </a>&nbsp;
         <a tooltip="List shows in row mode" ng-if="mode == 'poster'" ng-click="setMode('banner');">
-           <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> Switch to list mode
+          <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> Switch to list mode
         </a>
-         <a tooltip="List shows in grid mode" ng-if="mode == 'banner'" ng-click="setMode('poster');">
-           <i style='font-size:15px;'class="glyphicon glyphicon-th"></i> Switch to grid mode
+        <a tooltip="List shows in grid mode" ng-if="mode == 'search' || mode == 'banner'" ng-click="setMode('poster');">
+          <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> Switch to grid mode
         </a>
       </div>
-      </fieldset>
-      <div class="series" ng-if="mode == 'poster'">
-        <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader> 
-      </div>
-      <div class="series" ng-if="mode == 'banner'">
-        <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader> 
-      </div>
-    
+    </fieldset>
+    <div class="series" ng-if="mode == 'search'">
+      <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search"></serieHeader>
+    </div>
+    <div class="series" ng-if="mode == 'poster'">
+      <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader>
+    </div>
+    <div class="series" ng-if="mode == 'banner'">
+      <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader>
+    </div>
+
   </div>
 </div>
