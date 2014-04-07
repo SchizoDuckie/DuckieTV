@@ -5,14 +5,16 @@ angular.module('DuckieTV.controllers.main', [])
  * Main controller: Kicks in favorites display
  */
 .controller('MainCtrl',
-    function($scope, $rootScope, FavoritesService) {
+    function($scope, $rootScope, $location, FavoritesService) {
         var favorites = [];
         $scope.searchEngine = 1;
         $scope.searchingForSerie = false;
         $scope.mode = $rootScope.getSetting('series.displaymode');
 
-        $scope.setMode = function(mode) {
-            $rootScope.setSetting('series.displaymode', mode);
+        $scope.setMode = function(mode, temporary) {
+            if (!temporary) {
+                $rootScope.setSetting('series.displaymode', mode);
+            }
             $scope.mode = mode;
         }
 
@@ -24,6 +26,20 @@ angular.module('DuckieTV.controllers.main', [])
             $scope.searchingForSerie = false;
             console.log("Disable!");
         }
+
+        $scope.localFilterString = '';
+
+        $scope.setFilter = function(val) {
+            $scope.localFilterString = val;
+        }
+        $scope.localFilter = function(el) {
+            return el.name.toLowerCase().indexOf($scope.localFilterString.toLowerCase()) > -1;
+        }
+
+        $scope.execFilter = function() {
+            $location.path("/series/" + $scope.favorites.filter($scope.localFilter)[0].TVDB_ID);
+        }
+
 
         /**
          * The favorites service fetches data asynchronously via SQLite, we wait for it to emit the favorites:updated event.

@@ -1,801 +1,655 @@
 /* Include this file in your html if you are using the CSP mode. */
-
-@charset "UTF-8";
-
-
-
-@font-face {
-    font-family: 'bebasbold';
+ @charset"UTF-8";
+ @font-face {
+    font-family:'bebasbold';
     src: url('../fonts/bebasneue_bold-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
-
 }
-
-
 @font-face {
-    font-family: 'bebaslight';
+    font-family:'bebaslight';
     src: url('../fonts/bebasneue_light-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
-
 }
-
 @font-face {
-    font-family: 'bebasregular';
+    font-family:'bebasregular';
     src: url('../fonts/bebasneue_regular-webfont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
-
-} 
-
+}
 @media (min-width: 1200px) {
-  body > .container {
-    width: 95%;
-  }
+    body > .container {
+        width: 95%;
+    }
 }
-
 .col-md-8 {
-  width: 60%;
+    width: 60%;
 }
-
 .col-md-4 {
-  width: 40%;
+    width: 40%;
 }
-
 input::-webkit-input-placeholder {
-  color: white !important;
-  font-style: italic;
-  font-family: 'bebasregular', helvetica, sans-serif;
-   text-shadow: 2px 2px 2px rgba(0,0,0,0.4);
-
+    color: white !important;
+    font-style: italic;
+    font-family:'bebasregular', helvetica, sans-serif;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
 }
-
-
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
-.ng-cloak, .x-ng-cloak,
-.ng-hide {
-  display: none !important;
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
+    display: none !important;
 }
-
 ng\:form {
-  display: block;
+    display: block;
 }
-
 body {
-  background-color: #000;
-  background-size: cover;
-  background-attachment: fixed;
-  background-repeat:no-repeat;
-  font-family: helvetica, sans-serif;
-  color: #444;
+    background-color: #000;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat:no-repeat;
+    font-family: helvetica, sans-serif;
+    color: #444;
 }
-
 body > .container {
-  padding:20px;
+    padding:20px;
 }
-
 h1, h2, h3 {
-   font-family: 'bebasregular', helvetica, sans-serif;
+    font-family:'bebasregular', helvetica, sans-serif;
 }
-
 strong {
-  font-family: 'bebasregular';
-  letter-spacing: 2px;
+    font-family:'bebasregular';
+    letter-spacing: 2px;
 }
-
 a, a:hover {
-  color: white;
-  cursor: pointer;
+    color: white;
+    cursor: pointer;
 }
-
 a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
-
 background-rotator, background-rotator > div {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-size: cover;
-  background-repeat: no-repeat;
-  z-index: -1;
-  opacity: 0.4;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 0.4;
 }
-
 #actionbar {
-  position: absolute;
-  top: 10px ;
-  left: 10px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
-
 #actionbar ul {
-  list-style-type:none;
+    list-style-type:none;
 }
-
 #actionbar a {
-  padding:20px;
-  font-size: 2.2rem;
-  color: #000;
-  text-shadow: 0px 0px 7px rgba(255,255,255,0.8);
+    padding:20px;
+    font-size: 2.2rem;
+    color: #000;
+    text-shadow: 0px 0px 7px rgba(255, 255, 255, 0.8);
 }
-
 .typeahead ul {
-  max-height: 150px;
-  border: 1px solid #333;
-  padding: 3px;
-  overflow: auto;
+    max-height: 150px;
+    border: 1px solid #333;
+    padding: 3px;
+    overflow: auto;
 }
-
 serieheader > div {
-  background-color: black;
-  position: relative;
-  overflow: hidden;
+    background-color: black;
+    position: relative;
+    overflow: hidden;
+}
+serieheader[mode='search'] {
+    display: block;
+    width: calc(50% - 2px);
+    height: 40px;
+    float:left;
+    text-align:left;
+    position: relative;
+    margin-right: 2px;
 }
 
+.series serieheader[mode='search']:first-child > div {
+  border-radius:0;
+}
+
+serieheader[mode='search'] h3 {
+  margin-top: 0;
+
+}
 serieheader[mode='poster'] {
-  display:inline-block;
-  height: 250px;
-  width: 185px;
+    display:inline-block;
+    height: 250px;
+    width: 185px;
 }
-
 .series serieheader[mode='poster'] > div {
-  background-color: transparent;
-  border: 0;
+    background-color: transparent;
+    border: 0;
 }
-
 serieheader[mode=banner] {
-  overflow:hidden;
+    overflow:hidden;
 }
-
 serieheader[mode=banner] h3 {
-  position: absolute;
-  margin-top: 0px;
-  display: block;
-  padding: 5px;
-  width: 100%;
-  box-sizing: content-box;
-  background-color: rgba(0,0,0,0.8);
-  margin-bottom: 0;
-  -webkit-transition: all 0.2s ease-in-out;
-
+    position: absolute;
+    margin-top: 0px;
+    display: block;
+    padding: 5px;
+    width: 100%;
+    box-sizing: content-box;
+    background-color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+    -webkit-transition: all 0.2s ease-in-out;
 }
-
 serieheader[mode=banner]:hover h3 {
-  margin-top: -36px;
+    margin-top: -36px;
 }
-
 serieheader[mode=banner].full {
-  overflow: visible;
+    overflow: visible;
 }
-
 serieheader[mode=banner].full h3 {
-  margin-top: -36px;
+    margin-top: -36px;
 }
 serieheader[mode=banner].full .banner {
-  margin-bottom:36px;
-  height: 180px;
-}  
-
+    margin-bottom:36px;
+    height: 180px;
+}
 serieheader[mode=banner].full h3 {
-} 
-
+}
 .dropdown-menu serieheader h3 {
-  margin-top:0;
-  color:white;
-  margin-top: -45px;
+    margin-top:0;
+    color:white;
+    margin-top: -45px;
 }
-
-
 serieheader.full > div {
-  background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
-
 serieheader .banner {
-  height: 150px;
-  background-repeat:no-repeat; 
-  background-size: cover; 
-  width:100%;
+    height: 150px;
+    background-repeat:no-repeat;
+    background-size: cover;
+    width:100%;
 }
-
-
 serieheader .poster {
-  height: 240px;
-  background-repeat:no-repeat; 
-  background-size: contain; 
-  width:200px;
-  background-position: center center;
+    height: 240px;
+    background-repeat:no-repeat;
+    background-size: contain;
+    width:200px;
+    background-position: center center;
 }
-
 .col-md-4 serieheader .poster {
-  width: 150px;
+    width: 150px;
 }
-
 .col-md-4 serieheader[mode='poster'] {
-  width: 160px;
+    width: 160px;
 }
-
 serieheader h3 {
-  color:white; 
-  margin-top:-35px;
-  background-color: rgba(0,0,0,0.5);
-  padding: 5px; 
-  margin-bottom:0;
-  white-space:nowrap; 
-  text-overflow:ellipsis;
+    color:white;
+    margin-top:-35px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    margin-bottom:0;
+    white-space:nowrap;
+    text-overflow:ellipsis;
 }
-
 serieheader[mode=poster] h3 {
-  display: none;
+    display: none;
 }
-
 serieheader .overview {
-  color: white; 
-  background-color: rgba(0,0,0,0.5); 
-  padding: 5px; 
-  font-size:10px; 
-  color: white; 
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    font-size:10px;
+    color: white;
 }
-
 serieheader a:hover div.overview {
-  text-decoration:none !important;
+    text-decoration:none !important;
 }
-
 serieheader.full .overview {
-  font-size: 14px;
-  padding: 10px;
+    font-size: 14px;
+    padding: 10px;
 }
-
 serieheader aside {
-  position: absolute;
-  top:0;
-  right:-150px;
-  bottom:0;
-  width: 150px;
-  padding: 10px;
-  transition: right 0.5s ease-in-out;
+    position: absolute;
+    top:0;
+    right:-150px;
+    bottom:0;
+    width: 150px;
+    padding: 10px;
+    transition: right 0.5s ease-in-out;
 }
-
 serieheader:hover aside {
-  right: 0;
+    right: 0;
 }
-
 .series {
-  text-align: center;
+    text-align: center;
 }
-
-.series serieheader > div{
-  border: 1px solid #111;
+.series serieheader > div {
+    border: 1px solid #111;
 }
-
 .series serieheader:hover > div {
-  opacity: 1;
+    opacity: 1;
 }
-
 .series serieheader+serieheader > div {
-  border-bottom:0;
+    border-bottom:0;
 }
-
 .series serieheader:first-child > div {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
-
 .series serieheader:last-child > div {
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
-
-
 .table.light {
-  color: white;
-  background-color: rgba(0,0,0,0.8);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
 }
-
 table.markingaswatched {
-  border-style: dotted !important;
+    border-style: dotted !important;
 }
-
 table.markingaswatched tr td {
-  border-bottom-style: dotted;
-  border-bottom-width: 1px;
+    border-bottom-style: dotted;
+    border-bottom-width: 1px;
 }
-
 th .btn-danger {
-  margin: 10px;
+    margin: 10px;
 }
-
-
 table.light h1 {
     color:white;
 }
-
 .nobreaks {
-  white-space: nowrap;
+    white-space: nowrap;
 }
-
-
 .markAsWatched td {
-  background-color: rgba(252, 248, 227, 0.3);
-  cursor: n-resize; 
+    background-color: rgba(252, 248, 227, 0.3);
+    cursor: n-resize;
 }
-
 .serie h1 {
-  color:black;
+    color:black;
 }
-
 .dropdown {
-  text-align: center;
+    text-align: center;
 }
-
 .dropdown-toggle {
-  cursor: pointer;
+    cursor: pointer;
 }
-
 .dropdown-menu {
-
-  margin: 0;
-  border: 1px solid black;
-  max-height: 400px;
-  overflow-y: scroll;
-  box-sizing: content-box;
-  cursor: pointer;
-  padding: 10px;
-  color: black;
-  max-width: 94%;
-  min-width: 300px;
-  background-color: rgba(255,255,255,0.8);
-  width: 100%;
-  box-shadow: 4px 4px 2px rgba(255,255,255,0.7)
+    margin: 0;
+    border: 1px solid black;
+    max-height: 400px;
+    overflow-y: scroll;
+    box-sizing: content-box;
+    cursor: pointer;
+    padding: 10px;
+    color: black;
+    max-width: 94%;
+    min-width: 300px;
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 100%;
+    box-shadow: 4px 4px 2px rgba(255, 255, 255, 0.7)
 }
-
-
 .dropdown-menu table.torrents {
-  width:100%;
+    width:100%;
 }
-
 .dropdown-menu tbody {
-
 }
-
 .dropdown-menu tr {
-
 }
-
-
-
 .dropdown-menu td {
-  padding: 5px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 380px;
-  overflow: hidden;
+    padding: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 380px;
+    overflow: hidden;
 }
-
 .dropdown-menu td a {
-  color: black;
+    color: black;
 }
-
-.dropdown-menu  table.torrents tr:hover {
-  background-color: transparent !important;
+.dropdown-menu table.torrents tr:hover {
+    background-color: transparent !important;
 }
-
-.dropdown-menu  table.torrents td {
-  text-align: left;
+.dropdown-menu table.torrents td {
+    text-align: left;
 }
-
-
-.dropdown-menu  table.torrents tbody th:nth-last-child(-n + 2) {
-  text-align: center;
+.dropdown-menu table.torrents tbody th:nth-last-child(-n + 2) {
+    text-align: center;
 }
-
-.dropdown-menu  table.torrents tbody td:nth-last-child(-n + 2) {
-  text-align: right;
+.dropdown-menu table.torrents tbody td:nth-last-child(-n + 2) {
+    text-align: right;
 }
-
-
 chrome-top-sites ul {
-  margin: 0;
-  padding: 0;
-  height: 1%;
+    margin: 0;
+    padding: 0;
+    height: 1%;
 }
-
 chrome-top-sites li {
-  background-color: rgba(255,255,255,0.2);
-  color: black;
-  padding: 15px;
-  float: left;
-  text-align: center;
-  margin: 5px;
-  border-radius: 10px;
-  border: 1px solid #666;
-  height: 260px;
-  overflow: hidden;
-  transition: all 0.5s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: black;
+    padding: 15px;
+    float: left;
+    text-align: center;
+    margin: 5px;
+    border-radius: 10px;
+    border: 1px solid #666;
+    height: 260px;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
 }
-
 .col-md-8 chrome-top-sites li {
-  width: calc(33% - 5px);
+    width: calc(33% - 5px);
 }
-
 .col-md-6 chrome-top-sites li {
-  width: calc(50% - 5px);
+    width: calc(50% - 5px);
 }
-
 .col-md-8 chrome-top-sites li:nth-child(3n+3) {
-  margin-left:0;
+    margin-left:0;
 }
-
 .col-md-8 chrome-top-sites li:nth-child(3n+1) {
-  margin-right:0;
+    margin-right:0;
 }
-
 .col-md-6 chrome-top-sites li:nth-child(odd) {
-  margin-left:0;
+    margin-left:0;
 }
-
 .col-md-6 chrome-top-sites li:nth-child(even) {
-  margin-right:0;
+    margin-right:0;
 }
-
 chrome-top-sites a {
-  color: black;
-  display: block;
-  text-shadow: 1px 1px 1px rgba(255,255,255,0.2);
+    color: black;
+    display: block;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2);
 }
-
-chrome-top-sites a:hover { 
- color: black;
+chrome-top-sites a:hover {
+    color: black;
 }
-
 chrome-top-sites img {
-  border-radius: 5px;
-  border: 1px solid #333;
-  width:200px;
-  height: 200px;
-  background-color: black;
-  background-size:cover;
+    border-radius: 5px;
+    border: 1px solid #333;
+    width:200px;
+    height: 200px;
+    background-color: black;
+    background-size:cover;
 }
-
 chrome-top-sites li:hover {
-  background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.5);
 }
-
 episode-watched {
-  display:block;
-  text-align:center;
-  cursor:pointer;
-  font-size: 18px;
+    display:block;
+    text-align:center;
+    cursor:pointer;
+    font-size: 18px;
 }
-
 episode-watched a.glyphicon-eye-open {
-  color: green;
-  font-size: 18px;
+    color: green;
+    font-size: 18px;
 }
-
-.markAsWatched episode-watched a.glyphicon   {
-  color: rgba(0, 255, 0, 0.4);
-  -webkit-transform: rotate(360deg);
-  -webkit-transition: all 0.5s ease-in-out;
+.markAsWatched episode-watched a.glyphicon {
+    color: rgba(0, 255, 0, 0.4);
+    -webkit-transform: rotate(360deg);
+    -webkit-transition: all 0.5s ease-in-out;
 }
-
 episode-watched a.glyphicon-eye-close {
-  color: rgba(255,255,255,0.5);
+    color: rgba(255, 255, 255, 0.5);
 }
-
 episode-watched a.glyphicon-eye-close:hover {
-  color: rgba(255,255,255,0.9);
+    color: rgba(255, 255, 255, 0.9);
 }
-
 fieldset {
-  background-color: transparent;
-  padding: 10px;
-  margin-bottom: 10px;
+    background-color: transparent;
+    padding: 10px;
+    margin-bottom: 10px;
 }
-
-
 fieldset h2 {
-  margin-top: 0;
-  color: white;
-  font-weight: normal;
-  font-size: 50px;
-  color: white;
-  text-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+    margin-top: 0;
+    color: white;
+    font-weight: normal;
+    font-size: 50px;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
 }
-
-input[type=text],input[type=url], option, select {
-  border: 1px solid #333;
-  background-color: rgba(0,0,0,0.2);
-  font-size: 25px;
-  height: 40px;
-  color: white;
-  font-style: italic;
-  border-radius: 5px;
-  font-family: 'bebasregular', helvetica, sans-serif;
-  text-shadow: 2px 2px 2px black;
-  transition: all 0.5s ease-in-out;
+input[type=text], input[type=url], option, select {
+    border: 1px solid #333;
+    background-color: rgba(0, 0, 0, 0.2);
+    font-size: 25px;
+    height: 40px;
+    color: white;
+    font-style: italic;
+    border-radius: 5px;
+    font-family:'bebasregular', helvetica, sans-serif;
+    text-shadow: 2px 2px 2px black;
+    transition: all 0.5s ease-in-out;
 }
-
 .form-control:focus {
-  border-color: #222;
-  outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(2,2,2,.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(2,2,2,.6);
-  background-color: rgba(0,0,0,0.6);
+    border-color: #222;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(2, 2, 2, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(2, 2, 2, .6);
+    background-color: rgba(0, 0, 0, 0.6);
 }
-
 .serie table.table tr:hover {
-  background-color:rgba(0,0,0,0.7);
+    background-color:rgba(0, 0, 0, 0.7);
 }
-
 [date-picker] {
-  -webkit-user-select: none;
+    -webkit-user-select: none;
 }
 [date-picker]:hover {
-  background-color: rgba(0,0,0,0.4);
-  transition: all 0.5s ease-in-out;
-  border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: all 0.5s ease-in-out;
+    border-radius: 10px;
 }
-
 [date-picker] .glyphicon {
-  cursor: pointer;
+    cursor: pointer;
 }
-
 [date-picker] tbody tr:nth-child(odd) {
-  background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 [date-picker] th {
-  background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
 }
-
 [date-picker] td:nth-child(even) {
-  background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
-
 [date-picker] thead th {
-  background-color: transparent;
-  border:0;
-  color: white;
-  font-weight: normal;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
-
+    background-color: transparent;
+    border:0;
+    color: white;
+    font-weight: normal;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
 }
-
 [date-picker] table {
-  border-collapse: collapse;
-  width: 100%;
+    border-collapse: collapse;
+    width: 100%;
 }
-
-[date-picker] td, [date-picker] th{
-  border: 1px solid white;
-  text-align: center;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+[date-picker] td, [date-picker] th {
+    border: 1px solid white;
+    text-align: center;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
 }
-
 [date-picker] td:last-child {
-  border-right: 0;
+    border-right: 0;
 }
-
 [date-picker] tr:last-child td {
-  border-bottom: 0;
+    border-bottom: 0;
 }
-
 [date-picker] td:first-child, [date-picker] tr:last-child th:first-child {
-  border-left: 0;
+    border-left: 0;
 }
-
-[date-picker] [ng-switch-when=date] td, [date-picker] [ng-switch-when=week] td {
-  width: calc(100% / 7 );
-  vertical-align: top;
+[date-picker][ng-switch-when=date] td, [date-picker][ng-switch-when=week] td {
+    width: calc(100% / 7);
+    vertical-align: top;
 }
-
 [date-picker] td > span {
-  float: left;
-  font-size: 12px;
-  display: block;
-  padding: 10px;
-  width: calc(100% / 3);
-  color: white;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+    float: left;
+    font-size: 12px;
+    display: block;
+    padding: 10px;
+    width: calc(100% / 3);
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
 }
-
 [date-picker] td:not(.day) > span {
- border-right: 1px solid white;
-  border-bottom: 1px solid white;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
 }
-
 [date-picker] td span.month, [date-picker] td span.year {
-  cursor: pointer;
+    cursor: pointer;
 }
-
-
 [date-picker] td.day:hover, [date-picker] td span.month:hover, [date-picker] td span.year:hover {
- background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
 }
-
 [date-picker] td span:nth-child(3n+3) {
-  border-right: 0;
+    border-right: 0;
 }
-
 [date-picker] td span:nth-last-child(-n+3) {
-  border-bottom: 0;
+    border-bottom: 0;
 }
-
 [date-picker] h2 {
-  cursor: pointer;
+    cursor: pointer;
 }
-
 [date-picker] h2 .glyphicon {
-  font-size: 15px;
-  line-height: 100%;
-  vertical-align: middle;
-  clear: both;
-  display: block;
-  padding-top: 5px;
+    font-size: 15px;
+    line-height: 100%;
+    vertical-align: middle;
+    clear: both;
+    display: block;
+    padding-top: 5px;
 }
-
 [date-picker] .now {
-  color:yellow;
-  font-weight:bold;
+    color:yellow;
+    font-weight:bold;
 }
-[date-picker] [ng-switch-when=date] td, [date-picker] [ng-switch-when=week] td {
-  position: relative;
-  padding: 3px;
-  padding-top:25px;
+[date-picker][ng-switch-when=date] td, [date-picker][ng-switch-when=week] td {
+    position: relative;
+    padding: 3px;
+    padding-top:25px;
 }
-
-[date-picker] [ng-switch-when=date] td span, [date-picker] [ng-switch-when=week] td span {
-  position: absolute;
-  top: 2px;
-  right: 5px;
-  text-align: right;
-  padding:5px;
-  cursor: default;
+[date-picker][ng-switch-when=date] td span, [date-picker][ng-switch-when=week] td span {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    text-align: right;
+    padding:5px;
+    cursor: default;
 }
-
 [date-picker] .event {
-  display: block;
-  clear:both;
-  overflow: hidden;
-  color: white;
-  font-size:11px;
-  padding: 2px;
-  background-color: rgba(0,0,0,0.5); 
-  text-align: left; 
-  cursor: pointer;
-  margin-top: 2px;
-  transition: all 0.5s ease-in-out;
+    display: block;
+    clear:both;
+    overflow: hidden;
+    color: white;
+    font-size:11px;
+    padding: 2px;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: left;
+    cursor: pointer;
+    margin-top: 2px;
+    transition: all 0.5s ease-in-out;
 }
-
 [date-picker] .event .watched {
-  text-decoration: line-through;
+    text-decoration: line-through;
 }
-
 [date-picker] .event:hover {
-  background-color: rgba(0,0,0, 0.8);
+    background-color: rgba(0, 0, 0, 0.8);
 }
-
 [date-picker] .event a {
-  color: white;
-  display: block;
+    color: white;
+    display: block;
 }
-
 [date-picker] div.tooltip.bottom {
-  width: 500px !important;
-  overflow:visible;
-   background-color: rgba(0,0,0,0.9); 
- border-radius: 10px;
-  padding: 10px;
+    width: 500px !important;
+    overflow:visible;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 10px;
+    padding: 10px;
 }
 [date-picker] div.tooltip h2 {
-  width: 480px;
-  font-size: 14px;
-  color:white;
+    width: 480px;
+    font-size: 14px;
+    color:white;
 }
-
 [date-picker] div.tooltip p {
-  width:450px;
+    width:450px;
 }
-
 ul.engineselect {
-  color: white;
-  text-shadow: 2px 2px 2px rgba(0,0,0,0.4);
-  text-align: center;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+    text-align: center;
 }
 ul.engineselect li {
-  font-family: 'bebasbold';
-  font-size: 20px;
+    font-family:'bebasbold';
+    font-size: 20px;
 }
-
 ul.engineselect li strong {
-  cursor: pointer;
-  font-size: 20px;
+    cursor: pointer;
+    font-size: 20px;
 }
-
 ul.engineselect li i {
-
-  font-size: 18px;
+    font-size: 18px;
 }
-
 ul.engineselect li:hover strong {
-  cursor: pointer;
-  text-shadow: 2px 2px 2px rgba(0,0,0,1);
-  text-decoration: underline;
-  
+    cursor: pointer;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+    text-decoration: underline;
 }
-
 the-tv-db-search .dropdown-menu, piratebay-search .dropdown-menu, kickass-torrent-search .dropdown-menu, trakt-tv-search .dropdown-menu {
-  padding: 0;
+    padding: 0;
 }
-
 the-tv-db-search serieheader:hover h3 {
-  text-decoration: underline;
+    text-decoration: underline;
 }
-
 a.hover i.glyphicon-plus-sign {
-  -webkit-transition: all 1s ease-in;
-  -webkit-transform: scale(1,1);
-  
+    -webkit-transition: all 1s ease-in;
+    -webkit-transform: scale(1, 1);
 }
 a:hover i.glyphicon-plus-sign {
-  -webkit-transform: scale(1.1,1.1);
+    -webkit-transform: scale(1.1, 1.1);
 }
-
 .watchlist li {
-  padding: 10px;
-  width:33.3%;
-  min-height:250px; 
-  max-height:400px; 
-  vertical-align: top;
+    padding: 10px;
+    width:33.3%;
+    min-height:250px;
+    max-height:400px;
+    vertical-align: top;
 }
-
 .watchlist li .movie {
-  height: 300px;
-  background-size: contain;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-color: transparent;
+    height: 300px;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: transparent;
 }
-
 .watchlist li .info {
-  text-align: center;
-  font-weight:bold;
-  display: block;
+    text-align: center;
+    font-weight:bold;
+    display: block;
 }
-
-
 .chart {
-  width: 100%;
-  display:block;
-  height: 150px;
-  border-radius: 8px;
-  position: relative;
+    width: 100%;
+    display:block;
+    height: 150px;
+    border-radius: 8px;
+    position: relative;
 }
-
 .chartLine {
-  border: 1px solid rgba(0,0,0,0.2);
-  width:3px;
-  position: absolute;
-  bottom:0px;
-  color:white;
-  background-color:rgba(255,255,255,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    width:3px;
+    position: absolute;
+    bottom:0px;
+    color:white;
+    background-color:rgba(255, 255, 255, 0.05);
 }
-
 [lazy-background] {
-  background-size:contain; 
-  background-repeat:no-repeat;
+    background-size:contain;
+    background-repeat:no-repeat;
 }
-
 .btn-default {
-color: white;
-background-color: #333;
-border-color: #000;
+    color: white;
+    background-color: #333;
+    border-color: #000;
 }
-
 .btn-default.active, .btn-default:hover {
-  color: white;
-  background-color: #222;
-  border-color: #111;
+    color: white;
+    background-color: #222;
+    border-color: #111;
 }
