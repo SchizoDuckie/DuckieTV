@@ -11,8 +11,8 @@
             <tr>
               <th>Backup / Import</th>
               <td>
-                <h3>Create a backup of your series / episodes list.</h3>
-                <a class="btn btn-success" download="DuckieTV.backup" ng-href="{{ backup() }}">Create a backup</a>
+                <h3>Create a backup of your series / episodes / watched list.</h3>
+                <a class="btn btn-success" download="DuckieTV.backup" ng-href="{{ backupString }}">Create Database Backup</a>
                 <h3>Restore a backup</h3>
                 <div file-input="file" on-change="restore()"></div>
                 <p ng-show="log.length > 0">

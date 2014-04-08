@@ -46,7 +46,7 @@ angular.module('DuckieTV.providers.favorites', [])
     }
     var service = {
         favorites: [],
-        addFavorite: function(data) {
+        addFavorite: function(data, watched) {
             console.log("Add or update favorite!", data);
             var d = $q.defer();
             service.getById(data.tvdb_id).then(function(serie) {
@@ -71,7 +71,7 @@ angular.module('DuckieTV.providers.favorites', [])
                     $rootScope.$broadcast('favorites:updated', service);
                     setTimeout(function() {
                         TraktTV.findEpisodes(serie.get('TVDB_ID')).then(function(res) {
-                            return service.updateEpisodes(serie.get('TVDB_ID'), res);
+                            return service.updateEpisodes(serie.get('TVDB_ID'), res, watched);
                         });
                     }, 400);
                 }, function(fail) {
@@ -82,7 +82,7 @@ angular.module('DuckieTV.providers.favorites', [])
 
             return d.promise;
         },
-        updateEpisodes: function(serieID, seasons) {
+        updateEpisodes: function(serieID, seasons, watched) {
             return CRUD.FindOne('Serie', {
                 'TVDB_ID': serieID
             }).then(function(serie) {
@@ -112,9 +112,19 @@ angular.module('DuckieTV.providers.favorites', [])
                                     for (var k = 0; k < episodes.length; k++) {
                                         var e = (!(episodes[k].tvdb_id in cache)) ? new Episode() : cache[episodes[k].tvdb_id];
                                         fillEpisode(e, episodes[k]);
+
+                                        var watchedEpisodes = watched.filter(function(el) {
+                                            return el.TVDB_ID == e.get('TVDB_ID');
+                                        });
+
                                         e.set('seasonnumber', season.seasonnumber);
                                         e.set('ID_Serie', serie.getID());
                                         e.set('ID_Season', S.getID());
+                                        if (watchedEpisodes.length > 0) {
+                                            console.log("Found a watched episode! ", watchedEpisodes[0], " flagging!");
+                                            e.set('watched', 1);
+                                            e.set('watchedAt', watchedEpisodes[0].watchedAt);
+                                        }
                                         e.Persist().then(function(res) {}, function(err) {
                                             console.error("PERSIST ERROR!", err);
                                             debugger;

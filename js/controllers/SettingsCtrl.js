@@ -54,12 +54,31 @@
          }
 
 
-         $scope.backup = function() {
+         $scope.backupString = '';
 
-             return 'data:text/plain;charset=utf-8,' + encodeURIComponent(angular.toJson(FavoritesService.favorites.map(function(el) {
-                 return el.TVDB_ID
-             }), true))
-         }
+         CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID from Series').then(function(series) {
+             var out = {
+                 settings: {},
+                 series: {}
+             };
+             for (var i = 0; i < localStorage.length; i++) {
+                 if (localStorage.key(i).indexOf('database.version') > -1) continue;
+                 out.settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i));
+             }
+             while (serie = series.next()) {
+                 out.series[serie.get('TVDB_ID')] = [];
+             }
+
+             CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watched = 1.0').then(function(res) {
+                 while (row = res.next()) {
+                     out.series[row.get('TVDB_ID')].push({
+                         'TVDB_ID': row.get('epTVDB_ID'),
+                         'watchedAt': new Date(row.get('watchedAt')).getTime()
+                     })
+                 }
+                 $scope.backupString = 'data:text/plain;charset=utf-8,' + encodeURIComponent(angular.toJson(out, true));
+             });
+         });
 
          $scope.restore = function() {
              console.log("Restore backup!", $scope);
@@ -67,18 +86,21 @@
                  .then(function(result) {
                      result = angular.fromJson(result);
                      console.log("Backup read!", result);
-                     for (var i = 0; i < result.length; i++) {
-                         $scope.log.unshift('Reading backup item ' + (i + 1) + ": TVDB_ID: ", result[i]);
-                         TraktTV.enableBatchMode().findSerieByTVDBID(result[i]).then(function(serie) {
+                     angular.forEach(result.settings, function(value, key) {
+                         localStorage.setItem(key, value);
+                     })
+                     angular.forEach(result.series, function(watched, TVDB_ID) {
+                         $scope.log.unshift('Reading backup item ' + TVDB_ID + ", has " + watched.length + " watched episodes");
+                         TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(serie) {
                              $scope.log.unshift("Resolved TVDB serie: " + serie.title + ". Fetching all seasons and episodes");
-                             FavoritesService.addFavorite(serie).then(function() {
+                             FavoritesService.addFavorite(serie, watched).then(function() {
                                  $scope.log.unshift("Finished fetching all seasons and episodes for " + serie.title);
                                  $rootScope.$broadcast('storage:update');
                              });
                          });
 
 
-                     }
+                     });
 
 
                  }, function(err) {
