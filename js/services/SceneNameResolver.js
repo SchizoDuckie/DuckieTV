@@ -134,7 +134,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         259047: "VGHS",
         259106: "Emily Owens M D",
         259418: "David Attenborough Kingdom Of Plants",
-        259669: "DaVincis Demons",
+        259669: "Da Vincis Demons",
         260165: "Chasing UFOs",
         260206: "Gordon Behind Bars",
         261202: "DreamWorks Dragons Riders of Berk",
