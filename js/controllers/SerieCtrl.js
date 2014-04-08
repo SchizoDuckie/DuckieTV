@@ -1,10 +1,10 @@
-angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', 'DuckieTV.directives.serieheader',
+angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
     'DuckieTV.directives.seriedetails', 'DuckieTV.directives.episodewatched'
 ])
 
 .controller('SerieCtrl',
 
-    function(TheTVDB, ThePirateBay, FavoritesService, SettingsService, SceneNameResolver, TVRageSyncService, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter) {
+    function(TheTVDB, ThePirateBay, FavoritesService, SettingsService, SceneNameResolver, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter) {
         console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
         $scope.episodes = [];
         $scope.points = [];
@@ -13,7 +13,6 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.providers.tvragesync', '
         $scope.activeSeason = null;
         $scope.markingAsWatched = false;
         $scope.markUntilDate = false;
-
 
         $scope.$on('favorites:updated', $scope.getSerie);
         $scope.$on('episodes:updated', $scope.getSerie);

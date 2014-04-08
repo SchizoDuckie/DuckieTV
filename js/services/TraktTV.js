@@ -9,7 +9,7 @@ angular.module('DuckieTV.providers.trakttv', [])
             seriesSearch: 'http://api.trakt.tv/search/shows.json/32e05d4138adb5da5b702b362bd21c52?query=%s',
             seasonSearch: 'http://api.trakt.tv/show/seasons.json/32e05d4138adb5da5b702b362bd21c52/%s',
             episodeSearch: 'http://api.trakt.tv/show/season.json/32e05d4138adb5da5b702b362bd21c52/%s/%s',
-            shownameSearch: 'http://trakt.tv/search/tvdb/?q=%s'
+            seriebyidSearch: 'http://api.trakt.tv/show/summary.json/32e05d4138adb5da5b702b362bd21c52/%s/extended',
         };
 
         this.parsers = {
@@ -32,8 +32,9 @@ angular.module('DuckieTV.providers.trakttv', [])
                     series: data
                 };
             },
-            showname: function(data) {
-                return angular.element(data.data).find('h2')[0].innerText
+
+            seriebyid: function(data) {
+                return data.data;
             }
         };
 
@@ -80,65 +81,11 @@ angular.module('DuckieTV.providers.trakttv', [])
                     self.batchmode = false;
                     return self.$get($q, $http);
                 },
-                findSeriesByID: function(TVDB_ID) {
-                    var d = self.promise.defer();
-                    self.promiseRequest('season', TVDB_ID).then(function(seasons) {
-                        $q.all(seasons.map(function(season) {
-                            return self.promiseRequest('episode', TVDB_ID, season.season);
-                        })).then(function(result) {
-                            d.resolve(result);
-                        });
-
-                    });
-                    return d.promise;
-                },
                 findSeries: function(name) {
                     return self.promiseRequest('series', name);
                 },
                 findSerieByTVDBID: function(TVDB_ID) {
-                    return self.promiseRequest('showname', TVDB_ID).then(function(showname) {
-                        return self.$get($q, $http).findSeries(showname).then(function(hits) {
-                            return hits.series.filter(function(serie) {
-                                return serie.tvdb_id == TVDB_ID;
-                            })[0];
-                        });
-                    })
-                },
-                findEpisodes: function(TVDB_ID) {
-                    var d = self.promise.defer();
-                    self.promiseRequest('season', TVDB_ID, null, true).then(function(seasons) {
-                        $q.all(seasons.map(function(season, idx) {
-                            var d = $q.defer();
-                            season.seasonnumber = season.season;
-                            self.promiseRequest('episode', TVDB_ID, season.season, true).then(function(data) {
-                                var uniques = {};
-                                data.map(function(el, idx) {
-                                    var key = el.season + '_' + el.episode + '-' + el.title.toLowerCase();
-
-                                    if (!(key in uniques)) {
-                                        uniques[key] = el;
-                                    } else {
-                                        if (uniques[key] && uniques[key].first_aired == null && el.first_aired != null) {
-                                            uniques[key] = el;
-                                        }
-                                    }
-                                });
-                                var out = [];
-                                angular.forEach(uniques, function(el) {
-                                    out.push(el);
-                                });
-                                out.season = season;
-                                d.resolve(out);
-                            }, d.reject);
-
-                            return d.promise;
-
-                        })).then(function(result) {
-                            d.resolve(result);
-                        });
-
-                    });
-                    return d.promise;
+                    return self.promiseRequest('seriebyid', TVDB_ID);
                 }
             }
         }
@@ -161,9 +108,12 @@ angular.module('DuckieTV.providers.trakttv', [])
     };
     $scope.selectSerie = function(serie) {
         $scope.selected = serie.name;
-        FavoritesService.addFavorite(serie).then(function() {
-            $rootScope.$broadcast('storage:update');
+        TraktTV.enableBatchMode().findSerieByTVDBID(serie.tvdb_id).then(function(serie) {
+            FavoritesService.addFavorite(serie).then(function() {
+                $rootScope.$broadcast('storage:update');
+            });
         });
+
         $scope.selected = '';
     }
 })

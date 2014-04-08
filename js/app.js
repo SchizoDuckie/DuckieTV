@@ -22,8 +22,6 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.scenenames',
     'DuckieTV.providers.settings',
     'DuckieTV.providers.storagesync',
-    'DuckieTV.providers.tvrage',
-    'DuckieTV.providers.tvrage',
     'DuckieTV.providers.thepiratebay',
     'DuckieTV.providers.thetvdb',
     'DuckieTV.providers.torrentfreak',
@@ -42,7 +40,6 @@ angular.module('DuckieTV', [
     'DuckieTV.directives.chrometopsites',
     'DuckieTV.directives.lazybackground',
     'DuckieTV.directives.torrentdialog',
-
     'colorpicker.module'
 ])
 
