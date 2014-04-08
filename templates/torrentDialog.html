@@ -43,9 +43,12 @@
       </th>
     </tr>
     <tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items | limitTo: 20">
-      <td style='width:30px; padding:5px;'>
+      <td style='width:50px; padding:5px;'>
         <a ng-href="{{seed.magneturl}}">
-          <img src="img/icon-magnet.gif">
+          <i class="glyphicon glyphicon-magnet" tooltip="Download magnet"></i>
+        </a>
+        <a ng-href="{{seed.torrent}}">
+          <i class="glyphicon glyphicon-download" tooltip="Download torrent"></i>
         </a>
       </td>
       <td>

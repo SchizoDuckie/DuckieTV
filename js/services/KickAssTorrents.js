@@ -41,14 +41,16 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
         var results = tables.length == 1 ? tables[(tables.length == 1) ? 0 : 1].querySelectorAll('tr[id^=torrent]') : tables[1].querySelectorAll('tr[id^=torrent]');
         var output = [];
         for (var i = 0; i < results.length; i++) {
-            output.push({
+            var out = {
                 releasename: results[i].querySelector('div.torrentname a.cellMainLink').innerText,
                 magneturl: results[i].querySelector('a[title="Torrent magnet link"]').href,
                 size: results[i].querySelector('td:nth-child(2)').innerText,
                 seeders: results[i].querySelector("td:nth-child(5)").innerHTML,
                 leechers: results[i].querySelector("td:nth-child(6)").innerHTML,
                 row: results[i].innerHTML
-            })
+            };
+            out.torrent = 'http://torcache.net/torrent/' + out.magneturl.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+            output.push(out);
         }
         console.log("parsed: ", output);
         return output;
