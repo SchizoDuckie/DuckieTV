@@ -47,7 +47,6 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
                 size: results[i].querySelector('td:nth-child(2)').innerText,
                 seeders: results[i].querySelector("td:nth-child(5)").innerHTML,
                 leechers: results[i].querySelector("td:nth-child(6)").innerHTML,
-                row: results[i].innerHTML
             };
             out.torrent = 'http://torcache.net/torrent/' + out.magneturl.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
             output.push(out);
