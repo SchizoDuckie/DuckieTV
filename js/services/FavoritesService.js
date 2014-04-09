@@ -53,14 +53,10 @@ angular.module('DuckieTV.providers.favorites', [])
         favorites: [],
         addFavorite: function(data, watched) {
             watched = watched || [];
-            console.log("Add or update favorite!", data);
             var d = $q.defer();
             service.getById(data.tvdb_id).then(function(serie) {
                 if (!serie) {
                     serie = new Serie();
-                    console.log("Creating a new serie! ");
-                } else {
-                    console.log("Updating information for existing serie!", serie);
                 }
                 fillSerie(serie, data);
                 serie.Persist().then(function(e) {
@@ -73,9 +69,8 @@ angular.module('DuckieTV.providers.favorites', [])
                     }).length == 0) {
                         service.favorites.push(serie.asObject());
                     }
-
+                    $rootScope.$broadcast('background:load', serie.get('fanart'));
                     service.updateEpisodes(serie, data.seasons, watched).then(function(result) {
-                        console.log("Episodes inserted for serie ", serie, data.seasons);
                         d.resolve(result);
                     }, function(err) {
                         d.reject(err);
@@ -94,6 +89,7 @@ angular.module('DuckieTV.providers.favorites', [])
                 sea.map(function(el) {
                     seasonCache[el.get('seasonnumber')] = el;
                 })
+
             }).then(function() {
                 serie.getEpisodes().then(function(data) {
 
@@ -125,7 +121,6 @@ angular.module('DuckieTV.providers.favorites', [])
                                     e.set('ID_Serie', serie.getID());
                                     e.set('ID_Season', S.getID());
                                     if (watchedEpisodes.length > 0) {
-                                        console.log("Found a watched episode! ", watchedEpisodes[0], " flagging!");
                                         e.set('watched', 1);
                                         e.set('watchedAt', watchedEpisodes[0].watchedAt);
                                     }
@@ -138,9 +133,7 @@ angular.module('DuckieTV.providers.favorites', [])
                         })(episodes, season, SE));
                     }
                     $q.all(pq).then(function(result) {
-                        console.log("Whole series inserted!!", result);
                         p.resolve();
-                        $rootScope.$broadcast('favorites:updated', service);
                         $rootScope.$broadcast('episodes:updated');
                     })
                 })

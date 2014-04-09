@@ -128,7 +128,7 @@ angular.module('DuckieTV.providers.trakttv', [])
 
         template: ['<div ng-controller="FindSeriesTypeAheadCtrl">',
             '<input type="text" ng-focus="searchingForSerie" ng-model="selected" placeholder="Type a series name to add to your favorites"',
-            'typeahead-min-length="3" typeahead-wait-ms="400" typeahead-loading="loadingSeries"',
+            'typeahead-min-length="2" typeahead-wait-ms="400" typeahead-loading="loadingSeries"',
             'typeahead="serie for series in findSeries($viewValue) | filter:$viewValue" typeahead-template-url="templates/typeAheadSeries.html"',
             'typeahead-on-select="selectSerie($item)" class="form-control"> <i ng-show="loadingSeries" class="glyphicon glyphicon-refresh"></i>',
             '</div>'

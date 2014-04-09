@@ -318,7 +318,7 @@ CRUD.Entity.prototype = {
             return;
         }
         if (this.hasField(field)) {
-            if (!this.get('field') || this.get(field) != value) {
+            if (!this.get(field) || this.get(field) != value) {
                 this.changedValues[field] = value;
                 this._isDirty = true;
             }

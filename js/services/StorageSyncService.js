@@ -1,6 +1,7 @@
 angular.module('DuckieTV.providers.storagesync', [])
 
 .factory('StorageSyncService', function($rootScope, $q, FavoritesService, TheTVDB) {
+    return {};
     var service = {
 
         isSyncing: false,

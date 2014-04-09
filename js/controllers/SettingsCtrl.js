@@ -54,31 +54,34 @@
          }
 
 
-         $scope.backupString = '';
+         $scope.backupString = false;
 
-         CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID from Series').then(function(series) {
-             var out = {
-                 settings: {},
-                 series: {}
-             };
-             for (var i = 0; i < localStorage.length; i++) {
-                 if (localStorage.key(i).indexOf('database.version') > -1) continue;
-                 out.settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i));
-             }
-             while (serie = series.next()) {
-                 out.series[serie.get('TVDB_ID')] = [];
-             }
-
-             CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watched = 1.0').then(function(res) {
-                 while (row = res.next()) {
-                     out.series[row.get('TVDB_ID')].push({
-                         'TVDB_ID': row.get('epTVDB_ID'),
-                         'watchedAt': new Date(row.get('watchedAt')).getTime()
-                     })
+         $scope.createBackup = function() {
+             CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID from Series').then(function(series) {
+                 var out = {
+                     settings: {},
+                     series: {}
+                 };
+                 for (var i = 0; i < localStorage.length; i++) {
+                     if (localStorage.key(i).indexOf('database.version') > -1) continue;
+                     out.settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i));
                  }
-                 $scope.backupString = 'data:text/plain;charset=utf-8,' + encodeURIComponent(angular.toJson(out, true));
+                 while (serie = series.next()) {
+                     out.series[serie.get('TVDB_ID')] = [];
+                 }
+
+                 CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watchedAt is not null').then(function(res) {
+                     while (row = res.next()) {
+                         out.series[row.get('TVDB_ID')].push({
+                             'TVDB_ID': row.get('epTVDB_ID'),
+                             'watchedAt': new Date(row.get('watchedAt')).getTime()
+                         })
+                     }
+                     $scope.backupString = 'data:text/plain;charset=utf-8,' + encodeURIComponent(angular.toJson(out, true));
+                     $scope.$digest();
+                 });
              });
-         });
+         }
 
          $scope.restore = function() {
              console.log("Restore backup!", $scope);

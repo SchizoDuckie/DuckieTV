@@ -29,63 +29,68 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
             PromiseQueue.push(new Promise(function(resolve, fail) {
                 var entity = CRUD.EntityManager.entities[i];
                 that.db.execute("SELECT count(*) as existing FROM sqlite_master WHERE type='table' AND name= ?", [entity.table]).then(function(resultSet) {
-                    var res = resultSet.next().row;
-                    if (res.existing === 0) {
-                        CRUD.log(entity, ": Table does not exist.");
-                        if (!entity.createStatement) {
-                            CRUD.log("No create statement found for " + entity.className + ". Don't know how to create table.");
-                            fail();
-                        } else {
-                            CRUD.log("Create statement found. Creating table for " + entity.className + ':' + entity.createStatement);
-                            PromiseQueue.push(that.db.execute(entity.createStatement).then(function() {
-                                CRUD.log(entity.className + " table created.");
-                                if ('migrations' in entity) {
-                                    localStorage.setItem('database.version.' + entity.table, Math.max.apply(Math, Object.keys(entity.migrations)));
-                                }
-                                Promise.all(that.createFixtures(entity)).then(resolve);
-                            }, function(err) {
-                                CRUD.log("Error creating " + entity.className, err);
+                        var res = resultSet.next().row;
+                        if (res.existing === 0) {
+                            CRUD.log(entity, ": Table does not exist.");
+                            if (!entity.createStatement) {
+                                CRUD.log("No create statement found for " + entity.className + ". Don't know how to create table.");
                                 fail();
-                            }));
-                        }
-                    } else {
-                        if (entity.migrations) {
-                            var currentVersion = !localStorage.getItem('database.version.' + entity.table) ? 1 : parseInt(localStorage.getItem('database.version.' + entity.table), 10);
-                            var highestVersion = Math.max.apply(Math, Object.keys(entity.migrations));
-                            while (currentVersion != highestVersion) {
-                                currentVersion++;
-                                if (currentVersion in entity.migrations) {
-                                    var migrations = entity.migrations[currentVersion];
-                                    var prq = [];
-                                    for (var i = 0; i < migrations.length; i++) {
-                                        var q = migrations[i];
-                                        prq.push(
-                                            that.db.execute(q).then(function(result) {
-                                                console.log("Migration success!", result);
-                                                return true;
-                                            }, function(E) {
-                                                console.log("Migraiton failed!", E);
-                                                return false;
-                                            })
-                                        );
+                            } else {
+                                CRUD.log("Create statement found. Creating table for " + entity.className + ':' + entity.createStatement);
+                                PromiseQueue.push(that.db.execute(entity.createStatement).then(function() {
+                                    CRUD.log(entity.className + " table created.");
+                                    if ('migrations' in entity) {
+                                        localStorage.setItem('database.version.' + entity.table, Math.max.apply(Math, Object.keys(entity.migrations)));
                                     }
-                                    Promise.all(prq).then(function() {
-                                        console.log("All migrations executed!");
-                                        localStorage.setItem('database.version.' + entity.table, highestVersion);
-                                    }, function(e) {
-                                        console.log("Some migrations failed!", e);
-                                        debugger;
-                                    });
-                                    //debugger;
+                                    Promise.all(that.createFixtures(entity)).then(resolve);
+                                }, function(err) {
+                                    CRUD.log("Error creating " + entity.className, err);
+                                    fail();
+                                }));
+                            }
+                        } else {
+                            var prq = [];
+
+                            if (entity.migrations) {
+                                var currentVersion = !localStorage.getItem('database.version.' + entity.table) ? 1 : parseInt(localStorage.getItem('database.version.' + entity.table), 10);
+                                var highestVersion = Math.max.apply(Math, Object.keys(entity.migrations));
+                                while (currentVersion != highestVersion) {
+                                    currentVersion++;
+                                    if (currentVersion in entity.migrations) {
+                                        var migrations = entity.migrations[currentVersion];
+                                        for (var i = 0; i < migrations.length; i++) {
+                                            var q = migrations[i];
+
+                                            prq.push(new Promise(function(r, f) {
+                                                CRUD.log('Executing migration: ', q);
+                                                that.db.execute(q).then(function(result) {
+                                                    CRUD.log("Migration success!", result);
+                                                    r();
+                                                }, function(E) {
+                                                    CRUD.log("Migration failed!", E);
+                                                    f();
+                                                })
+                                            }));
+                                        }
+                                    }
                                 }
                             }
+                            Promise.all(prq).then(function() {
+                                CRUD.log("All migrations executed!");
+                                localStorage.setItem('database.version.' + entity.table, highestVersion);
+                                resolve();
+                            }, function(e) {
+                                CRUD.log("Some migrations failed!", e);
+                                fail();
+                                debugger;
+                            });
+
                         }
-                        resolve();
-                    }
-                }, function(err) {
-                    CRUD.log("Failed!", err, entity);;
-                    fail();
-                });
+                    },
+                    function(err) {
+                        CRUD.log("Failed!", err, entity);;
+                        fail();
+                    });
             }));
 
         }
