@@ -48,10 +48,10 @@ angular.module('DuckieTV.controllers.main', [])
         $scope.$on('favorites:updated', function(event, data) {
             // you could inspect the data to see if what you care about changed, or just update your own scope
             if (FavoritesService.favorites != $scope.favorites) $scope.favorites = FavoritesService.favorites;
-            if (!$scope.favorites || (data.favorites && data.favorites.length == 0)) {
+            if (!$scope.favorites || (FavoritesService.favorites && FavoritesService.favorites.length == 0)) {
                 $scope.enableAdd();
             } else {
-                var serie = data.favorites[Math.floor(Math.random() * data.favorites.length)];
+                var serie = $scope.favorites[Math.floor(Math.random() * $scope.favorites.length)];
                 $rootScope.$broadcast('background:load', serie.fanart);
             }
         });

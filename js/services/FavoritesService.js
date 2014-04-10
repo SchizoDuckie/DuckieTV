@@ -68,8 +68,17 @@ angular.module('DuckieTV.providers.favorites', [])
                         return el.TVDB_ID == serie.get('TVDB_ID');
                     }).length == 0) {
                         service.favorites.push(serie.asObject());
+                    } else {
+                        service.favorites.map(function(el, index) {
+
+                            if (el.TVDB_ID == serie.get('TVDB_ID')) {
+                                service.favorites[index] = serie.asObject();
+                            }
+                        })
                     }
                     $rootScope.$broadcast('background:load', serie.get('fanart'));
+                    $rootScope.$broadcast('favorites:updated');
+
                     service.updateEpisodes(serie, data.seasons, watched).then(function(result) {
                         d.resolve(result);
                     }, function(err) {
@@ -163,24 +172,30 @@ angular.module('DuckieTV.providers.favorites', [])
         },
         remove: function(serie) {
             console.log("Remove serie from favorites!", serie);
-            var self = this;
-            this.getById(serie['TVDB_ID']).then(function(serie) {
-                serie.Find('Season').then(function(seasons) {
+            this.getById(serie['TVDB_ID']).then(function(s) {
+                s.Find('Season').then(function(seasons) {
                     seasons.map(function(el) {
                         el.Delete();
                     });
                 });
-                serie.Find('Episode').then(function(episodes) {
+                s.Find('Episode').then(function(episodes) {
                     episodes.map(function(el) {
                         el.Delete();
                     });
                     console.log("Found episodes for removal of serie!", episodes);
-                    serie.Delete().then(function() {
+                    s.Delete().then(function() {
                         $rootScope.$broadcast('storage:update');
-                        self.restore()
+                        service.restore()
                     });
                 });
             })
+            CRUD.FindOne('ScheduledEvent', {
+                name: serie.name + ' update check'
+            }).then(function(timer) {
+                timer.Delete();
+                console.log('deleted timer record');
+            });
+            chrome.alarms.clear(serie.name + ' update check');
         },
         getSeries: function() {
             var d = $q.defer();

@@ -145,7 +145,7 @@ CRUD.Find = function(obj, filters, options) {
 
     }
     if (!(type in CRUD.EntityManager.entities)) {
-        CRUD.log("CRUD.Find cannot search for non-CRUD objects like " + obj + "! \n" + E);
+        CRUD.log("CRUD.Find cannot search for non-CRUD objects like " + obj + "!", filters, options);
         return false;
     }
 

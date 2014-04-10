@@ -8,6 +8,7 @@ angular.module('DuckieTV', [
     'xml',
     'datePicker',
     'ui.bootstrap',
+    'dialogs.services',
     'DuckieTV.providers.episodeaired',
     'DuckieTV.providers.eventwatcher',
     'DuckieTV.providers.eventscheduler',
@@ -17,6 +18,7 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.imdb',
     'DuckieTV.providers.kickasstorrents',
     'DuckieTV.providers.mirrorresolver',
+    'DuckieTV.providers.migrations',
     'DuckieTV.providers.notifications',
     'DuckieTV.providers.piratebayChecker',
     'DuckieTV.providers.scenenames',
@@ -94,7 +96,7 @@ angular.module('DuckieTV', [
         .otherwise({
             redirectTo: '/'
         });
-}).run(function($rootScope, SettingsService, StorageSyncService, $dialogs, TraktTV, FavoritesService, $q) {
+}).run(function($rootScope, SettingsService, StorageSyncService, MigrationService) {
 
     $rootScope.getSetting = function(key) {
         return SettingsService.get(key);
@@ -120,95 +122,5 @@ angular.module('DuckieTV', [
         }*/
     });
 
-    if (!localStorage.getItem('0.4migration')) {
-
-        var out = {
-            settings: {},
-            series: {}
-        };
-        var done = 1;
-        var homany = 0;
-
-        var addDone = function() {
-            done = done + 1;
-        }
-        var isDone = function() {
-            console.log('is done? ', done, howmany);
-            return done > howmany;
-        }
-
-
-        var dlg = $dialogs.wait('Please wait while updating database', 'one-time database upgrade in progress', 0);
-
-        var addFave = function(TVDB_ID, watched) {
-            console.log("Add fave: ", TVDB_ID, watched)
-            var p = $q.defer();
-            $rootScope.$broadcast('dialogs.wait.progress', {
-                'header': 'Please wait while updating database',
-                'progress': (100 / howmany) * (done + 0.2),
-                'msg': "Resolving show " + TVDB_ID
-            });
-            TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(serie) {
-                $rootScope.$broadcast('dialogs.wait.progress', {
-                    'header': 'Please wait while updating database',
-                    'progress': (100 / howmany) * (done + 0.6),
-                    'msg': "Show found: " + serie.title + ". Updating information. "
-                });
-                FavoritesService.addFavorite(serie, watched).then(function() {
-                    addDone();
-                    $rootScope.$broadcast('dialogs.wait.progress', {
-                        header: 'Please wait while updating database',
-                        'progress': (100 / howmany) * done,
-                        'msg': "Updating: " + serie.title
-                    });
-                    p.resolve();
-                }, function() {
-                    p.reject();
-                });
-            });
-            return p.promise;
-        }
-
-        CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID from Series').then(function(series) {
-            var out = {
-                settings: {},
-                series: {}
-            };
-            var pq = [];
-            while (serie = series.next()) {
-                out.series[serie.get('TVDB_ID')] = [];
-            }
-            CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watchedAt is not null').then(function(res) {
-                while (row = res.next()) {
-                    if (!out.series[row.get('TVDB_ID')]) {
-                        out.series[row.get('TVDB_ID')] = [];
-                    }
-                    out.series[row.get('TVDB_ID')].push({
-                        'TVDB_ID': row.get('epTVDB_ID'),
-                        'watchedAt': new Date(row.get('watchedAt')).getTime()
-                    })
-                }
-                howmany = Object.keys(out.series).length;
-                if (howmany == 0) {
-                    localStorage.setItem('0.4migration', 'done');
-                }
-                var p = false;
-                angular.forEach(out.series, function(watched, TVDB_ID) {
-                    pq.push(addFave(TVDB_ID, watched));
-                });
-                $q.all(pq).then(function(res) {
-                    $rootScope.$broadcast('dialogs.wait.message', "All series processed!");
-                    if (isDone()) {
-                        $rootScope.$broadcast('favorites:updated', FavoritesService);
-                        $rootScope.$broadcast('dialogs.wait.complete');
-                        localStorage.setItem('0.4migration', 'done');
-                    }
-                });
-            });
-
-
-
-        });
-
-    }
+    MigrationService.check();
 })
