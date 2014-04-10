@@ -51,6 +51,7 @@ More @ http://imgur.com/gallery/l7toH
 
 Changelog: 
 ==========
+* v0.43 : Made sure migrations don't run on fresh installs
 * v0.42 : Fixed missing scheduled event and chrome alarm delete procedure when deleting series.
 * v0.41 : Fixed 'browser action mode' not launching on icon click.
 * v0.40 : Switched to Trakt.TV API. Created backup/restore function. Added seasons. Reworked torrent dialog. Fixed timezone mess. Added Calendar week mode. temporarily disabled browser sync. Added 'download whole season'. Added 'download .torrent' link in dialog.
