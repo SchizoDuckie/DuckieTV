@@ -9,6 +9,7 @@ angular.module('DuckieTV', [
     'datePicker',
     'ui.bootstrap',
     'dialogs.services',
+    'DuckieTV.providers.chromecast',
     'DuckieTV.providers.episodeaired',
     'DuckieTV.providers.eventwatcher',
     'DuckieTV.providers.eventscheduler',
@@ -31,6 +32,7 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.watchlistchecker',
     'DuckieTV.providers.watchlist',
     'DuckieTV.controllers.main',
+    'DuckieTV.controllers.chromecast',
     'DuckieTV.controllers.episodes',
     'DuckieTV.controllers.serie',
     'DuckieTV.controllers.settings',
@@ -92,6 +94,10 @@ angular.module('DuckieTV', [
         .when('/settings', {
             templateUrl: 'templates/settings.html',
             controller: 'SettingsCtrl'
+        })
+        .when('/cast', {
+            templateUrl: 'templates/chromecast.html',
+            controller: 'ChromeCastCtrl'
         })
         .otherwise({
             redirectTo: '/'

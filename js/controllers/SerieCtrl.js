@@ -52,6 +52,8 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
         FavoritesService.getById($routeParams.id).then(function(serie) {
             $scope.serie = serie.asObject();
+            $rootScope.$broadcast('serie:load', $scope.serie);
+
             if (serie.get('fanart') != '') {
                 $rootScope.$broadcast('background:load', serie.get('fanart'));
             }

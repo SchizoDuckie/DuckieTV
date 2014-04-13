@@ -27,6 +27,9 @@
         <li style='display:none'>
           <a class="glyphicon glyphicon-time" href="#/timers" tooltip="timers" tooltip-position="right"></a>
         </li>
+        <li >
+          <a class="glyphicon glyphicon-play-circle" href="#/cast" tooltip="ChromeCast" tooltip-position="right"></a>
+        </li>
 
       </ul>
     </div>
@@ -42,13 +45,16 @@
   <script src='./js/vendor/ui-bootstrap-tpls-0.10.0.min.js'></script>
   <script src="./js/vendor/datePicker.js"></script>
   <script src="./js/vendor/dialogs.js"></script>
+  <script src="./js/vendor/cast_sender.js"></script>
   <script src="./js/vendor/bootstrap-colorpicker-module.js"></script>
+  <script src="./js/controllers/CastCtrl.js"></script>
   <script src="./js/controllers/EpisodeCtrl.js"></script>
   <script src="./js/controllers/MainCtrl.js"></script>
   <script src="./js/controllers/SerieCtrl.js"></script>
   <script src="./js/controllers/SettingsCtrl.js"></script>
   <script src="./js/controllers/TimerCtrl.js"></script>
   <script src="./js/controllers/WatchlistCtrl.js"></script>
+  
   <script src="./js/directives/backgroundRotator.js"></script>
   <script src="./js/directives/calendar.js"></script>
   <script src="./js/directives/chromeTopSites.js"></script>
@@ -57,6 +63,7 @@
   <script src="./js/directives/serieDetails.js"></script>
   <script src="./js/directives/serieheader.js"></script>
   <script src="./js/directives/torrentDialog.js"></script>
+  <script src="./js/services/ChromeCast.js"></script>
   <script src="./js/services/EpisodeAiredService.js"></script>
   <script src="./js/services/EventWatcherService.js"></script>
   <script src="./js/services/EventSchedulerService.js"></script>

@@ -11,6 +11,7 @@ angular.module('DuckieTV.controllers.episodes', [])
             'TVDB_ID': $routeParams.id
         }).then(function(serie) {
             $scope.serie = serie.asObject();
+            $rootScope.$broadcast('serie:load', $scope.serie);
             if (serie.get('fanart') != '') {
                 $rootScope.$broadcast('background:load', serie.get('fanart'));
             }
@@ -18,6 +19,7 @@ angular.module('DuckieTV.controllers.episodes', [])
                 ID_Episode: $routeParams.episode
             }).then(function(epi) {
                 $scope.episode = epi[0].asObject();
+                $rootScope.$broadcast('episode:load', $scope.episode);
                 $scope.$digest();
             }, function(err) {
                 debugger;
