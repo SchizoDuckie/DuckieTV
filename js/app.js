@@ -44,6 +44,8 @@ angular.module('DuckieTV', [
     'DuckieTV.directives.chrometopsites',
     'DuckieTV.directives.lazybackground',
     'DuckieTV.directives.torrentdialog',
+    'DuckieTorrent.controllers',
+    'DuckieTorrent.torrent',
     'colorpicker.module'
 ])
 
@@ -98,6 +100,10 @@ angular.module('DuckieTV', [
         .when('/cast', {
             templateUrl: 'templates/chromecast.html',
             controller: 'ChromeCastCtrl'
+        })
+        .when('/torrent', {
+            templateUrl: 'templates/torrentClient.html',
+            controller: 'TorrentCtrl'
         })
         .otherwise({
             redirectTo: '/'

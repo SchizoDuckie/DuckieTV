@@ -119,6 +119,13 @@ angular.module('DuckieTV.providers.chromecast', [])
                         'episode:load': episode
                     });
                 });
+
+                $rootScope.$on('video:load', function(evt, video) {
+                    console.log("Broadcasting episode:load to chromecast video: ", video);
+                    ChromeCastSender.sendMessage({
+                        'video:load': video
+                    });
+                });
                 console.log("done initializing");
             })
 

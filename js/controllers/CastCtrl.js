@@ -6,9 +6,6 @@ angular.module('DuckieTV.controllers.chromecast', ['DuckieTV.providers.chromecas
  */
 .controller('ChromeCastCtrl', function($scope, DuckieTVCast) {
 
-    $scope.Connect = function() {
-        console.log('connecting!');
-        DuckieTVCast.initialize();
-    }
+
 
 });

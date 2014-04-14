@@ -1,0 +1,70 @@
+
+    <fieldset>
+       
+        
+        <div class="alert alert-block">Start uTorrent/BitTorrent, click the scan and then pair button.<br>
+        Then press connect and start polling to see your local list of torrents.<br>
+        <strong>You need at least utorrent v3.3 for this to work! </strong>
+        </div>
+        <h2 ng-if="localIpAddress">ChromeCast Local Streaming IP Address:: {{localIpAddress}}</h2>
+        <button class="btn btn-info" ng-click="Cast()">Connect to ChromeCast</button>
+        <button ng-click="getLocalIP()">Find Local IP Addresses</button>
+        <div ng-if="localIpAddresses">
+          <strong>Found Local ip address</strong>
+          <ul class="list-unstyled">
+              <button ng-repeat="address in localIpAddresses track by $index" class="btn btn-success" ng-click="setStreamingSource(address)">Use {{address}} as a streaming source for ChromeCast</button>
+              
+          </ul>
+        </div>
+
+        <button ng-click="Scan()">Scan for a listening torrent client</button>
+    		<button ng-click="Pair()" ng-if="!authToken">Pair on found torrent client</button>
+    		<button ng-click="Connect()" ng-if="authToken">Connect to uTorrent with auth token: {{authToken}}</button>
+        <button ng-if="session && !polling" ng-click="togglePolling();">Connect to uTorrent</button>
+      <button ng-if="session && polling" ng-click="togglePolling();">Disconnect from uTorrent</button>
+        <ul class="status">
+          <li ng-repeat="status in statusLog">{{status}}</li>
+        </ul>
+          <h2>Torrents: {{rpc.getTorrents().length}}</h2>
+         <table class="torrents table table-condensed table-striped">
+            <tr ng-repeat="torrent in rpc.getTorrents()|orderBy:'getStarted()':true">
+             <th style='white-space:nowrap'>{{torrent.getStarted() * 1000 | date:'dd-MM-yyyy'}}<br><span class="label label-info">{{torrent.getFormattedStatus()}}</span></th>
+              <td> 
+                <h3>{{torrent.properties.all.name}}</h3>
+                <table class="table table-condensed table-striped" style='width:95%'>
+                <thead>
+                <tr> <th>Filename</th><td>&nbsp;</td></tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="file in torrent.getFiles()">
+                  <td>{{ file.name }}</td>
+                  <td style='width: 150px'>
+                      <button class="btn btn-xs btn-success" ng-if="file.properties.all.is_streamable == true" ng-click="playInBrowser(file)"><i class="glyphicon glyphicon-share" style="padding-right: 5px;"></i> Play on ChromeCast</button>
+                  </td>
+                </tr>
+                </tbody>
+                </table>
+
+              </td>
+              <td style='width:220px; text-align: center'><button ng-click="torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i> Start</button>
+                  <button ng-click="torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i> Pause</button>
+                  <button ng-click="torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i> Stop</button>
+                  <button ng-if="torrent.properties.all.is_streamable"  style="margin-top: 5px" ng-click="torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i> Stream with uTorrent player</button>   
+                  <button ng-click="torrent.open_containing();" class="btn btn-xs btn-primary" style="margin-top: 5px" >
+                  <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>Open containing folder</button> 
+              </td>
+              <td>
+              <strong>Progress</strong>
+               <div class="progress-striped progress" style='width:170px'>
+                <div class="progress-bar progress-bar-success" ng-style="{ width: torrent.getProgress() + '%' }">
+                  <span>{{torrent.getProgress()}}%</span>
+
+                 </div>
+                </div>
+                
+              </td>
+            </tr> 
+            </tbody>
+          </table>
+          </fieldset>
+  
