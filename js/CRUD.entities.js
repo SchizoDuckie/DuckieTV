@@ -23,13 +23,17 @@ var Serie = CRUD.define({
 }, {
 
     getEpisodes: function() {
-        return CRUD.Find('Episode', { ID_Serie: this.getID() }).then(function(episodes) {
+        return CRUD.Find('Episode', {
+            ID_Serie: this.getID()
+        }).then(function(episodes) {
             return episodes;
         });
     },
 
     getSeasons: function() {
-        return CRUD.Find("Season", { ID_Serie: this.getID() });
+        return CRUD.Find("Season", {
+            ID_Serie: this.getID()
+        });
     },
 
     getLatestSeason: function() {
@@ -68,12 +72,12 @@ var Episode = CRUD.define({
     className: 'Episode',
     table: 'Episodes',
     primary: 'ID_Episode',
-    fields: ['ID_Episode', 'ID_Serie', 'ID_Season', 'TVDB_ID', 'director', 'episodename', 'episodenumber', 'firstaired', 'gueststars', 'imdb_id', 'language', 'overview', 'rating', 'ratingcount', 'seasonnumber', 'writer', 'filename', 'lastupdated', 'seasonid', 'seriesid', 'lastchecked', 'watched', 'watchedAt'],
+    fields: ['ID_Episode', 'ID_Serie', 'ID_Season', 'TVDB_ID', 'director', 'episodename', 'episodenumber', 'firstaired', 'gueststars', 'imdb_id', 'language', 'overview', 'rating', 'ratingcount', 'seasonnumber', 'writer', 'filename', 'lastupdated', 'seasonid', 'seriesid', 'lastchecked', 'watched', 'watchedAt', 'magnetHash'],
     relations: {
         'Serie': CRUD.RELATION_FOREIGN,
         'Season': CRUD.RELATION_FOREIGN
     },
-    createStatement: 'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER NULL,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL )',
+    createStatement: 'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER NULL,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL )',
     adapter: 'dbAdapter',
     defaultValues: {
         watched: 0
@@ -83,8 +87,14 @@ var Episode = CRUD.define({
     ],
     migrations: {
         2: ['ALTER TABLE Episodes RENAME TO Episodes_bak',
-            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER NULL,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL )',
+            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER NULL,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL)',
             'INSERT INTO Episodes (ID_Episode, ID_Serie, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt) select ID_Episode, ID_Serie, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt from Episodes_bak',
+            'DROP TABLE Episodes_bak'
+        ],
+        3: [
+            'ALTER TABLE Episodes RENAME TO Episodes_bak',
+            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER NULL,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL )',
+            'INSERT INTO Episodes (ID_Episode, ID_Serie, ID_Season, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt) select ID_Episode, ID_Serie, ID_Season, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt from Episodes_bak',
             'DROP TABLE Episodes_bak'
         ]
     }
@@ -111,7 +121,7 @@ var ScheduledEvent = CRUD.define({
     adapter: 'dbAdapter',
     migrations: {
         2: ['DROP TABLE EventSchedule',
-             'CREATE TABLE EventSchedule ( ID_Event INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, type varchar(25) NOT NULL, eventchannel VARCHAR(255) NULL, data TEXT NULL)'
+            'CREATE TABLE EventSchedule ( ID_Event INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, type varchar(25) NOT NULL, eventchannel VARCHAR(255) NULL, data TEXT NULL)'
         ]
     }
 }, {

@@ -14,6 +14,10 @@ angular.module('DuckieTorrent.controllers', ['DuckieTorrent.torrent', 'DuckieTV.
          * A btapp api runs on one of these ports
          */
 
+        $scope.isFormatSupported = function(file) {
+            return ['p3', 'aac', 'mp4', 'ogg', 'mkv'].indexOf(file.name.split('.').pop()) > -1;
+        }
+
         $scope.playInBrowser = function(torrent) {
             $rootScope.$broadcast('video:load', torrent.properties.all.streaming_url.replace('://', '://admin:admin@').replace('127.0.0.1', $rootScope.getSetting('ChromeCast.localIpAddress')));
         }
@@ -53,8 +57,8 @@ angular.module('DuckieTorrent.controllers', ['DuckieTorrent.torrent', 'DuckieTV.
          * Store the resulting session key in $scope.session
          */
         $scope.Connect = function() {
-            uTorrent.connect($scope.authToken).then(function(result) {
-                $scope.statusLog.push('Connected with authToken ' + $scope.authToken + ' to session ' + result.session);
+            uTorrent.connect(localStorage.getItem('utorrent.token')).then(function(result) {
+                $scope.statusLog.push('to session ' + result.session);
                 $scope.session = result.session;
                 $scope.rpc = uTorrent.getRemote();
             });

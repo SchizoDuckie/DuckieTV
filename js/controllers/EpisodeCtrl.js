@@ -5,6 +5,10 @@ angular.module('DuckieTV.controllers.episodes', [])
     function(TheTVDB, ThePirateBay, SettingsService, FavoritesService, SceneNameResolver, $routeParams, $scope, $rootScope) {
 
         $scope.searching = false;
+        $scope.serie = null;
+        $scope.episode = null;
+        $scope.episodeEntity = null;
+
         var currentDate = new Date().getTime();
 
         CRUD.FindOne('Serie', {
@@ -19,6 +23,7 @@ angular.module('DuckieTV.controllers.episodes', [])
                 ID_Episode: $routeParams.episode
             }).then(function(epi) {
                 $scope.episode = epi[0].asObject();
+                $scope.episodeEntity = epi[0];
                 $rootScope.$broadcast('episode:load', $scope.episode);
                 $scope.$digest();
             }, function(err) {
@@ -65,5 +70,14 @@ angular.module('DuckieTV.controllers.episodes', [])
                 $scope.searching = false;
             });
         }
+
+        $scope.$on('magnet:select', function(evt, magnet) {
+            console.debug("Found a magnet selected!", magnet);
+            $scope.episodeEntity.set('magnetHash', magnet);
+            $scope.episodeEntity.Persist();
+            $scope.episode = $scope.episodeEntity.asObject();
+
+        })
+
 
     });

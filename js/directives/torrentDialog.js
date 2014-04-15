@@ -10,7 +10,7 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
             }
         }
     })
-    .controller('torrentDialogCtrl', function($scope, $modalInstance, $injector, data) {
+    .controller('torrentDialogCtrl', function($scope, $rootScope, $modalInstance, $injector, data) {
         //-- Variables --//
 
         $scope.items = [];
@@ -56,6 +56,20 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
             if (angular.equals(evt.keyCode, 13) && !(angular.equals($scope.user.name, null) || angular.equals($scope.user.name, '')))
                 $scope.save();
         };
+
+        $scope.magnetSelect = function(magnet) {
+            console.log("Magnet selected!", magnet);
+            $modalInstance.close(magnet);
+            $rootScope.$broadcast('magnet:select', magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+            var d = document.createElement('iframe');
+            d.src = magnet;
+            d.id = 'torrentmagnet_' + new Date().getTime();
+            document.body.appendChild(d);
+            setTimeout(function() {
+                document.body.removeChild(document.getElementById(d.id));
+            })
+        }
+
 
         $scope.search($scope.query);
 

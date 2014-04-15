@@ -44,21 +44,21 @@
     </tr>
     <tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items | limitTo: 20">
       <td style='width:50px; padding:5px;'>
-        <a ng-href="{{seed.magneturl}}">
+        <a  ng-click="magnetSelect(seed.magneturl)">
           <i class="glyphicon glyphicon-magnet" tooltip="Download magnet"></i>
         </a>
-        <a ng-href="{{seed.torrent}}">
+        <a ng-href="{{seed.torrent}}" ng-click="magnetSelect(seed.magneturl)">
           <i class="glyphicon glyphicon-download" tooltip="Download torrent"></i>
         </a>
       </td>
       <td>
-        <a ng-href='{{seed.magneturl}}' tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe"></a>
+        <a tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe" ng-click="magnetSelect(seed.magneturl)"></a>
       </td>
       <td style='width:50px; text-align:right'>
-        <a ng-href='{{seed.magneturl}}' ng-bind="seed.seeders"></a>
+        <a  ng-bind="seed.seeders" ng-click="magnetSelect(seed.magneturl)"></a>
       </td>
       <td style='width:50px; text-align:right'>
-        <a ng-href='{{seed.magneturl}}' ng-bind="seed.leechers"></a>
+        <a  ng-bind="seed.leechers" ng-click="magnetSelect(seed.magneturl)"></a>
       </td>
     </tr>
   </tbody>
