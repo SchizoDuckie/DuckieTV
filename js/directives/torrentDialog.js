@@ -80,10 +80,11 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
         return {
             restrict: 'E',
             transclude: true,
+            wrap: true,
             scope: {
                 q: '=q'
             },
-            template: '<a ng-click="openDialog()" tooltip="Search for a download for {{q}}"><i class="glyphicon glyphicon-download"></i></a>',
+            template: '<a ng-click="openDialog()" tooltip="Search for a download for {{q}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
             link: function($scope) {
                 $scope.openDialog = function() {
                     console.log('open dialog! ', $scope.q);

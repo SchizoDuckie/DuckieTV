@@ -1,3 +1,25 @@
-<div class="event" tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<h2>{{event.serie.name}} {{event.episode.getFormattedEpisode()}}</h2><p>{{event.episode.get('episodename')}}</p><p>{{event.episode.get('overview')}}</p>">
-  <a href='#/serie/{{event.serieID}}/episode/{{event.episode.getID()}}' ng-class="{ watched : event.episode.get('watched') == 1 }">{{ event.serie }}</a>
+<div class="event dropdown">
+  <a class="dropdown-toggle" ng-class="{ watched : event.episode.get('watched') == 1 }">
+	  <div ng-if="event.episode.values.magnetHash">
+	  	<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 80%"><span>{{ event.serie }} (80%)</span></div></div>
+	  </div>
+	  <span ng-if="!event.episode.values.magnetHash">
+	  	{{ event.serie }}
+	  </span>
+
+  </a>
+  <ul class="dropdown-menu">
+	  <li><a href='#/serie/{{event.serieID}}/episode/{{event.episode.getID()}}'><i class="glyphicon glyphicon-info-sign"></i> Episode details</a></li>
+	  <li><a><torrent-dialog q='[event.serie,event.episode.getFormattedEpisode()].join(" ")'> Download Torrent</torrent-dialog></a></li>
+	   <li><a href='#/serie/{{event.serieID}}'><i class="glyphicon glyphicon-chromecast"></i> Play to Chromecast</a></li>
+	   <li><a href='#/serie/{{event.serieID}}'><i class="glyphicon glyphicon-play-circle"></i> Play with default uTorrent player</a></li>
+	   <li><a href='#/serie/{{event.serieID}}'><i class="glyphicon glyphicon-folder-open"></i> Show in folder</a></li>
+
+	  <li style='border-top: 1px solid white; padding-top: 10px;'>
+  		<h2>{{event.serie}} {{event.episode.getFormattedEpisode()}}</h2>
+  		<div style='float:left; width: 150px; height:85px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{event.episode.get('filename')}}"></div>
+  		<strong>{{event.episode.get('episodename')}}</strong><p>{{event.episode.get('overview')}}</p> </li>
+    </li>
+  </ul>
+  
 </div>

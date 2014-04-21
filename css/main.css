@@ -51,6 +51,7 @@ body {
 }
 body > .container {
     padding:20px;
+    padding-top:30px;
 }
 h1, h2, h3 {
     font-family:'bebasregular', helvetica, sans-serif;
@@ -79,7 +80,7 @@ background-rotator, background-rotator > div {
 }
 #actionbar {
     position: absolute;
-    top: 10px;
+    top: 30px;
     left: 10px;
 }
 #actionbar ul {
@@ -320,24 +321,74 @@ table.light h1 {
 .dropdown-menu table.torrents tbody td:nth-last-child(-n + 2) {
     text-align: right;
 }
+
+chrome-top-sites {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    left: 0px;
+    padding:20px;
+    z-index:1000;
+    background-color: rgba(0,0,0,0.9);
+    border-bottom: 1px solid white;
+    -webkit-transform: translateY(-100%); 
+    -webkit-transition: all 0.5s ease-in-out;
+}
+
+chrome-top-sites:hover {
+    -webkit-transform: translateY(0);
+}
+
+chrome-top-sites h2 {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 25px;
+    margin-top: 0;
+    padding-top: 10px;
+    left:0px;
+    background-color: transparent;
+    -webkit-transition: background-color 0.5 ease-in-out;
+}
+chrome-top-sites:hover h2 {
+    background-color: rgba(0,0,0,0.9);
+
+}
+
+chrome-top-sites h2 i {
+    font-size: 15px;
+}
 chrome-top-sites ul {
     margin: 0;
     padding: 0;
     height: 1%;
 }
 chrome-top-sites li {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: black;
-    padding: 15px;
-    float: left;
     text-align: center;
-    margin: 5px;
-    border-radius: 10px;
-    border: 1px solid #666;
-    height: 260px;
     overflow: hidden;
     transition: all 0.5s ease-in-out;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+    width: calc(100% / 6);
 }
+
+chrome-top-sites li a {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    border: 1px solid #666;
+   border-radius: 10px;
+    
+    
+}
+
+chrome-top-sites li a img {
+    height: 150px;
+    background-size: cover;     
+}
+
 .col-md-8 chrome-top-sites li {
     width: calc(33% - 5px);
 }
@@ -360,21 +411,32 @@ chrome-top-sites a {
     color: black;
     display: block;
     text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2);
+    padding:10px;
+    transition: all 0.2s ease-in;
 }
 chrome-top-sites a:hover {
     color: black;
+     background-color: rgba(255, 255, 255, 0.8);
 }
 chrome-top-sites img {
     border-radius: 5px;
     border: 1px solid #333;
-    width:200px;
-    height: 200px;
+    width: 100%;
     background-color: black;
-    background-size:cover;
+    background-size:cover !important;
 }
-chrome-top-sites li:hover {
-    background-color: rgba(255, 255, 255, 0.5);
+
+chrome-top-sites a p {
+    height: 38px;
+    overflow: hidden;
+    line-height: 16px;
+    margin-bottom: 0px;
+    padding-top: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
+
 episode-watched {
     display:block;
     text-align:center;
@@ -536,7 +598,7 @@ input[type=text], input[type=url], option, select {
 [date-picker] .event {
     display: block;
     clear:both;
-    overflow: hidden;
+    overflow: visible;
     color: white;
     font-size:11px;
     padding: 2px;
@@ -548,9 +610,11 @@ input[type=text], input[type=url], option, select {
 }
 [date-picker] .event .watched {
     text-decoration: line-through;
+
 }
 [date-picker] .event:hover {
     background-color: rgba(0, 0, 0, 0.8);
+    overflow: visible;
 }
 [date-picker] .event a {
     color: white;
@@ -652,4 +716,47 @@ a:hover i.glyphicon-plus-sign {
     color: white;
     background-color: #222;
     border-color: #111;
+}
+
+
+calendar-event .progress {
+    background-color: rgba(55,55,55,0.5);
+    height: auto;
+    margin: 3px;
+    
+}
+
+calendar-event .progress-bar {
+    color: black;
+    line-height:15px;
+    height:auto;
+}
+
+calendar-event a.glyphicon-chevron-down {
+    float:left;
+}
+
+calendar-event .dropdown-menu {
+    background-color: rgba(0,0,0,0.94);
+    overflow: visible;
+    min-width: 400px;
+    box-shadow: none;
+    color: white;
+}
+
+.glyphicon.glyphicon-chromecast {
+    background-image: url('../img/chromecast_on.png');
+    background-size: contain;
+    width: 24px;
+    height:20px;
+    background-repeat:no-repeat;
+}
+
+calendar-event .dropdown-menu .glyphicon {
+    width: 24px;
+    text-align: center;
+}
+
+calendar-event h2 {
+    font-size: 24px;
 }
