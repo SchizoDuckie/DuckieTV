@@ -224,6 +224,45 @@ serieheader aside {
 serieheader:hover aside {
     right: 0;
 }
+
+series-list {
+    position: fixed;
+    bottom: 0px;
+    height: 70%;
+    left: 0px;
+    right: 0px;
+    background-color: rgba(0,0,0,0.9);
+    border-top: 1px solid white;
+    z-index: 200;
+    -webkit-transition: all 0.5s ease-in-out;
+    -webkit-transform: translate3d(0,100%,0);
+}
+
+series-list.active {
+     -webkit-transform: translate3d(0,0,0);
+}
+
+series-list > div > h2 {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    font-size: 25px;
+    background-color: transparent;
+    padding: 6px;
+    margin-top: -40px;
+    color:white;
+    transition: background-color 0.5s ease-in-out
+}
+
+series-list > div > h2 > i {
+    font-size: 14px;
+    line-height:25px;
+    vertical-align: middle;
+}
+series-list:hover h2 {
+    background-color: rgba(0,0,0,0.9);
+}
+
 .series {
     text-align: center;
 }
@@ -328,7 +367,7 @@ chrome-top-sites {
     width: 100%;
     left: 0px;
     padding:20px;
-    z-index:1000;
+    z-index:99;
     background-color: rgba(0,0,0,0.9);
     border-bottom: 1px solid white;
     -webkit-transform: translateY(-100%); 
@@ -443,10 +482,22 @@ episode-watched {
     cursor:pointer;
     font-size: 18px;
 }
-episode-watched a.glyphicon-eye-open {
+.dropdown-menu episode-watched a.glyphicon-eye-open {
     color: green;
     font-size: 18px;
 }
+
+.dropdown-menu episode-watched span {
+    font-family: helvetica, sans-serif;
+    font-size: 14px;
+    padding-left: 7px;
+    color: white;
+}
+
+.dropdown-menu episode-watched .glyphicon-eye-open {
+    color: green;
+}
+
 .markAsWatched episode-watched a.glyphicon {
     color: rgba(0, 255, 0, 0.4);
     -webkit-transform: rotate(360deg);
@@ -742,6 +793,8 @@ calendar-event .dropdown-menu {
     min-width: 400px;
     box-shadow: none;
     color: white;
+    box-shadow: 4px 4px 4px rgba(0,0,0,0.6);
+    border: 1px solid white;
 }
 
 .glyphicon.glyphicon-chromecast {
@@ -755,8 +808,21 @@ calendar-event .dropdown-menu {
 calendar-event .dropdown-menu .glyphicon {
     width: 24px;
     text-align: center;
+    width: 25px;
+    line-height: 20px;
+    text-align: left;
 }
 
 calendar-event h2 {
     font-size: 24px;
+}
+
+.coverElement {
+    z-index: 199; 
+    background-color: transparent; 
+    position: fixed; 
+    top: 0px; 
+    left: 0px;
+    right: 0px; 
+    bottom: 0px; 
 }

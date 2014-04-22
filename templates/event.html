@@ -10,6 +10,7 @@
   </a>
   <ul class="dropdown-menu">
 	  <li><a href='#/serie/{{event.serieID}}/episode/{{event.episode.getID()}}'><i class="glyphicon glyphicon-info-sign"></i> Episode details</a></li>
+	  <li><a><episode-watched episode="event.episode"> Mark as watched</episode-watched></a></li>
 	  <li><a><torrent-dialog q='[event.serie,event.episode.getFormattedEpisode()].join(" ")'> Download Torrent</torrent-dialog></a></li>
 	   <li><a href='#/serie/{{event.serieID}}'><i class="glyphicon glyphicon-chromecast"></i> Play to Chromecast</a></li>
 	   <li><a href='#/serie/{{event.serieID}}'><i class="glyphicon glyphicon-play-circle"></i> Play with default uTorrent player</a></li>

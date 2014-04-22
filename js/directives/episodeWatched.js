@@ -3,10 +3,11 @@ angular.module('DuckieTV.directives.episodewatched', [])
 .directive('episodeWatched', function($rootScope, $document) {
     return {
         restrict: 'E',
+        transclude: true,
         scope: {
             episode: '='
         },
-        template: ['<a ng-click="markWatched()" class="glyphicon" tooltip="{{tooltip}}" ng-class="{ \'glyphicon-eye-open\' : episode.watched ==  1, \'glyphicon-eye-close\' : episode.watched != 1 }"></a>'],
+        template: ['<a ng-click="markWatched()" class="glyphicon" tooltip="{{tooltip}}" ng-class="{ \'glyphicon-eye-open\' : episode.watched ==  1, \'glyphicon-eye-close\' : episode.watched != 1 }" ng-transclude></a>'],
         link: function($scope) {
 
             $scope.tooltip = null;

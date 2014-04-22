@@ -43,6 +43,7 @@ angular.module('DuckieTV', [
     'DuckieTV.directives.backgroundrotator',
     'DuckieTV.directives.chrometopsites',
     'DuckieTV.directives.lazybackground',
+    'DuckieTV.directives.serieslist',
     'DuckieTV.directives.torrentdialog',
     'DuckieTorrent.controllers',
     'DuckieTorrent.torrent',

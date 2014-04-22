@@ -1,5 +1,5 @@
- <fieldset>
-      <h2>Series you're watching
+ <div>
+      <h2 ng-click="activate(this)"><i class="glyphicon glyphicon-chevron-up"></i> Click for series you're watching <i class="glyphicon glyphicon-chevron-up"></i> 
         <a style="float:right;" tooltip="Add series to your favorites list" ng-if="searchingForSerie == false" ng-click="enableAdd();">
           <i style="font-size:35px " class="glyphicon glyphicon-plus-sign"></i>
         </a>
@@ -24,7 +24,7 @@
           <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> Switch to grid mode
         </a>
       </div>
-    </fieldset>
+  
   <div class="series" ng-if="mode == 'search'">
     <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search"></serieHeader>
   </div>
@@ -34,3 +34,4 @@
   <div class="series" ng-if="mode == 'banner'">
     <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader>
   </div>
+</div>
