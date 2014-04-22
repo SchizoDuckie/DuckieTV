@@ -8,23 +8,28 @@ angular.module('DuckieTV.directives.serieslist', [])
         link: function($scope, iElement) {
 
             $scope.activated = false;
+            $scope.activeId = null;
 
             $scope.activate = function(el) {
                 console.log('Activating!', el);
                 if ($scope.activated) {
-                    $scope.closeDrawer();
+                    return $scope.closeDrawer();
                 }
                 var d = document.createElement('div');
                 d.id = $scope.activeId = 'cover_' + new Date().getTime();
                 d.setAttribute('class', 'coverElement');
-                d.onclick = function() {
-                    document.body.removeChild(d);
-                    iElement.toggleClass('active');
-                    this.activated = false;
-                }.bind($scope)
+                d.onclick = $scope.closeDrawer;
                 document.body.appendChild(d);
                 iElement.toggleClass('active');
                 $scope.activated = true;
+            }
+
+
+            $scope.closeDrawer = function() {
+                document.body.removeChild(document.getElementById($scope.activeId));
+                $scope.activeId = null;
+                iElement.toggleClass('active');
+                $scope.activated = false;
             }
 
             $scope.removeFromFavorites = function(serie) {

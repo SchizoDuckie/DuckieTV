@@ -1,5 +1,5 @@
  <div>
-      <h2 ng-click="activate(this)"><i class="glyphicon glyphicon-chevron-up"></i> Click for series you're watching <i class="glyphicon glyphicon-chevron-up"></i> 
+      <h2 ng-click="activate(this)"><i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i> Click for series you're watching <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i> 
         <a style="float:right;" tooltip="Add series to your favorites list" ng-if="searchingForSerie == false" ng-click="enableAdd();">
           <i style="font-size:35px " class="glyphicon glyphicon-plus-sign"></i>
         </a>
