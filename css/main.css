@@ -105,7 +105,7 @@ serieheader > div {
 }
 serieheader[mode='search'] {
     display: block;
-    width: calc(50% - 2px);
+    width: calc(33% - 2px);
     height: 40px;
     float:left;
     text-align:left;
