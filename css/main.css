@@ -132,6 +132,8 @@ serieheader[mode='poster'] {
 }
 serieheader[mode=banner] {
     overflow:hidden;
+    display: inline-block;
+    width:50%;
 }
 serieheader[mode=banner] h3 {
     position: absolute;
@@ -149,6 +151,8 @@ serieheader[mode=banner]:hover h3 {
 }
 serieheader[mode=banner].full {
     overflow: visible;
+    width: 100%;
+    display: block
 }
 serieheader[mode=banner].full h3 {
     margin-top: -36px;
