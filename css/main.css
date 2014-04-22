@@ -264,6 +264,12 @@ series-list:hover h2 {
 }
 
 .series {
+    overflow-y: scroll;
+bottom: 12px;
+top: 85px;
+position: absolute;
+right: 20px;
+left: 20px;
     text-align: center;
 }
 .series serieheader > div {
