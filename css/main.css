@@ -604,13 +604,19 @@ input[type=text], input[type=url], option, select {
     vertical-align: top;
 }
 [date-picker] td > span {
-    float: left;
-    font-size: 12px;
+  font-size: 40px;
     display: block;
     padding: 10px;
-    width: calc(100% / 3);
-    color: white;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+    color: rgba(255,255,2550,0.3);
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    line-height: 40px;
+}
+
+td.day {
+    position: relative;
+    overflow: hidden;
 }
 [date-picker] td:not(.day) > span {
     border-right: 1px solid white;
