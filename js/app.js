@@ -109,7 +109,11 @@ angular.module('DuckieTV', [
         .otherwise({
             redirectTo: '/'
         });
-}).run(function($rootScope, SettingsService, StorageSyncService, MigrationService) {
+})
+
+.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, datePickerConfig) {
+
+    datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
     $rootScope.getSetting = function(key) {
         return SettingsService.get(key);
@@ -129,10 +133,10 @@ angular.module('DuckieTV', [
 
     $rootScope.$on('storage:update', function() {
         /* if ($rootScope.getSetting('storage.sync') == true) {
-            console.log("STorage sync can run!");
-            StorageSyncService.readIfSynced();
-            StorageSyncService.synchronize();
-        }*/
+    console.log("STorage sync can run!");
+    StorageSyncService.readIfSynced();
+    StorageSyncService.synchronize();
+}*/
     });
 
     MigrationService.check();

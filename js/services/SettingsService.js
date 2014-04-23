@@ -1,7 +1,7 @@
-angular.module('DuckieTV.providers.settings', [])
+angular.module('DuckieTV.providers.settings', ['DuckieTV.directives.calendar'])
 
 
-.factory('SettingsService', function(StorageSyncService) {
+.factory('SettingsService', function(StorageSyncService, datePickerConfig) {
     var service = {
         settings: {},
         defaults: {
@@ -13,6 +13,7 @@ angular.module('DuckieTV.providers.settings', [])
             'thepiratebay.mirror': 'https://thepiratebay.se',
             'series.displaymode': 'poster',
             'calendar.large': false,
+            'calendar.startSunday': true,
             'storage.sync': true,
             'calendar.mode': 'date'
         },
@@ -23,6 +24,9 @@ angular.module('DuckieTV.providers.settings', [])
 
         set: function(key, value) {
             service.settings[key] = value;
+            if (key == 'calendar.startSunday') {
+                datePickerConfig.startSunday = value;
+            }
             service.persist();
         },
 

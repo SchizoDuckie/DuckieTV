@@ -70,8 +70,8 @@
             <tr>
               <td style='width:150px'>
                 <strong style='white-space:nowrap; display:block;'>Calendar</strong>
-                <p class="label label-info" ng-show="getSetting('calendar.large')">Wide</p>
-                <p class="label label-success" ng-show="!getSetting('calendar.large')">Normal</p>
+                <p class="label label-info" ng-show="getSetting('calendar.startSunday')">Week start: Sunday</p>
+                <p class="label label-success" ng-show="!getSetting('calendar.startSunday')">Week start:Monday</p>
                 <p class="label label-info" ng-show="getSetting('calendar.mode') == 'week'">Week</p>
                 <p class="label label-success" ng-show="getSetting('calendar.mode') == 'date'">Month</p>
 
@@ -79,10 +79,10 @@
               <td>
                 <ul class="list-unstyled">
                   <li>
-                    <p class="alert alert-info">If you prefer to have an extra large calendar toggle it using the button below</p>
+                    <p class="alert alert-info">Toggle between sunday/monday for start day of the week below</p>
 
-                    <button ng-show="!getSetting('calendar.large')" ng-click="enableSetting('calendar.large')" class="btn btn-info">Use extra-wide calendar</button>
-                    <button ng-show="getSetting('calendar.large')" ng-click="disableSetting('calendar.large')" class="btn btn-success">Use normal-sized calendar</button>
+                    <button ng-show="!getSetting('calendar.startSunday')" ng-click="enableSetting('calendar.startSunday')" class="btn btn-info">Use sunday as start day-of-week</button>
+                    <button ng-show="getSetting('calendar.startSunday')" ng-click="disableSetting('calendar.startSunday')" class="btn btn-success">Use monday as start day-of-week</button>
                   </li>
                   <li>
                     <p class="alert alert-info">If you prefer the calendar to show only the current change it here</p>
