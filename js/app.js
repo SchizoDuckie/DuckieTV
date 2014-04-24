@@ -5,6 +5,7 @@
 
 angular.module('DuckieTV', [
     'ngRoute',
+    'ngAnimate',
     'xml',
     'datePicker',
     'ui.bootstrap',
