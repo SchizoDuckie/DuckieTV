@@ -255,7 +255,8 @@ series-list > div > h2 {
     padding: 6px;
     margin-top: -40px;
     color:white;
-    transition: background-color 0.5s ease-in-out
+    transition: background-color 0.5s ease-in-out;
+    cursor: pointer;
 }
 
 series-list > div > h2 > i {
@@ -596,6 +597,11 @@ input[type=text], input[type=url], option, select {
 [date-picker] tr:last-child td {
     border-bottom: 0;
 }
+
+[date-picker] div[ng-switch-when='date'] tbody tr, [date-picker][ng-switch-when='week'] tbody tr {
+    height: 60px;
+}
+
 [date-picker] td:first-child, [date-picker] tr:last-child th:first-child {
     border-left: 0;
 }
@@ -606,8 +612,8 @@ input[type=text], input[type=url], option, select {
 [date-picker] td > span {
   font-size: 40px;
     display: block;
+    color: rgba(255,255,2550,0.2);
     padding: 10px;
-    color: rgba(255,255,2550,0.3);
     position: absolute;
     bottom: 0px;
     right: 0px;
@@ -615,8 +621,7 @@ input[type=text], input[type=url], option, select {
 }
 
 td.day {
-    position: relative;
-    overflow: hidden;
+    position: relative
 }
 [date-picker] td:not(.day) > span {
     border-right: 1px solid white;
@@ -646,9 +651,14 @@ td.day {
     padding-top: 5px;
 }
 [date-picker] .now {
-    color:yellow;
-    font-weight:bold;
+    color: rgba(255,255,0,0.4);
 }
+
+
+[date-picker][ng-switch-when='date'] tbody tr, [date-picker][ng-switch-when='week'] tbody tr {
+    height: 40px;
+}
+
 [date-picker][ng-switch-when=date] td, [date-picker][ng-switch-when=week] td {
     position: relative;
     padding: 3px;
@@ -662,12 +672,23 @@ td.day {
     padding:5px;
     cursor: default;
 }
+
+[date-picker] div[ng-switch-when=month] td > span, [date-picker] div[ng-switch-when=year] td > span {
+font-size: 40px;
+display: block;
+color: rgba(255,255,2550,0.8);
+padding: 10px;
+position: relative;
+float: left;
+width: 33%;
+
+}
 [date-picker] .event {
     display: block;
     clear:both;
     overflow: visible;
     color: white;
-    font-size:11px;
+    font-size:12px;
     padding: 2px;
     background-color: rgba(0, 0, 0, 0.5);
     text-align: left;
