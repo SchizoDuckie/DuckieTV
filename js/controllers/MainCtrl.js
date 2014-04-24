@@ -5,7 +5,7 @@ angular.module('DuckieTV.controllers.main', [])
  * Main controller: Kicks in favorites display
  */
 .controller('MainCtrl',
-    function($scope, $rootScope, $location, FavoritesService) {
+    function($scope, $rootScope, $location, $filter, FavoritesService, TraktTV) {
         var favorites = [];
         $scope.searchEngine = 1;
         $scope.searchingForSerie = false;
@@ -26,6 +26,7 @@ angular.module('DuckieTV.controllers.main', [])
             $scope.searchingForSerie = false;
             console.log("Disable!");
         }
+
 
         $scope.localFilterString = '';
 
@@ -60,4 +61,38 @@ angular.module('DuckieTV.controllers.main', [])
                 $rootScope.$broadcast('background:load', serie.get('fanart'));
             }
         });
+
+        /**
+         * Typeahead add functions
+         */
+        $scope.search = {
+            query: undefined,
+            results: null
+        }
+
+        $scope.findSeries = function() {
+            return TraktTV.disableBatchMode().findSeries($scope.search.query).then(function(res) {
+                TraktTV.enableBatchMode();
+                $scope.search.results = res.series;
+            });
+        };
+
+        $scope.selectFirstResult = function() {
+            var serie = $scope.search.results[0];
+            $scope.selectSerie(serie);
+        }
+
+        $scope.selectSerie = function(serie) {
+            $scope.selected = serie.name;
+            $scope.searchingForSerie = false;
+            $scope.search.query = undefined;
+            $scope.search.results = null;
+            TraktTV.enableBatchMode().findSerieByTVDBID(serie.tvdb_id).then(function(serie) {
+                FavoritesService.addFavorite(serie).then(function() {
+                    $rootScope.$broadcast('storage:update');
+                });
+            });
+
+            $scope.selected = '';
+        }
     })

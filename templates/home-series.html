@@ -1,37 +1,55 @@
  <div>
-      <h2 ng-click="activate(this)"><i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i> Click for series you're watching <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i> 
-        <a style="float:right;" tooltip="Add series to your favorites list" ng-if="searchingForSerie == false" ng-click="enableAdd();">
-          <i style="font-size:35px " class="glyphicon glyphicon-plus-sign"></i>
-        </a>
-        <a style="float:right;" tooltip="Hide the search bar" ng-if="searchingForSerie == true" ng-click="disableAdd()">
-          <i style="font-size:35px " class="glyphicon glyphicon-ok-sign"></i>
-        </a>
+      <h2 ng-click="activate(this)" tooltip="Hotkey: alt+s" >
+        <i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
+         <a accesskey="s">Click for series you're watching</a> 
+         <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
       </h2>
-      <div ng-if="searchingForSerie">
-        <trakt-tv-search focus-watch="'searchingForSerie'"></trakt-tv-search>
-      </div>
-      <div style='width:100%; text-align: right; padding:5px;'>
+      
+
+      <div style='width: 100%; text-align: right;padding: 30px;font-size: 20px;'>
         <form ng-submit="execFilter()" ng-if="mode == 'search'">
-        <input type='text' focus-watch="'isFiltering'"  placeholder='filter your local library' ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 50%;'>
+          <input type='text' focus-watch="'isFiltering'"  placeholder='filter your local library' ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 50%;'>
         </form>
-        <a tooltip="Search your local library" ng-click="isFiltering = true; setMode('search',true);">
+
+        <a accesskey="a" tooltip="Add series to your favorites list" ng-if="searchingForSerie == false" ng-click="enableAdd();" style='float:left'>
+          <i class="glyphicon glyphicon-plus-sign"></i> Add a show
+        </a>
+        <a tooltip="Click to return to your favorites list" ng-if="searchingForSerie == true" ng-click="disableAdd()" style='float:left'>
+          <i class="glyphicon glyphicon-ok-sign"></i> Done adding
+        </a>
+
+        <form ng-submit="selectFirstResult()" ng-if="searchingForSerie">
+           <input ng-focus="searchingForSerie" ng-model="search.query" placeholder="Type a series name to add to your favorites"
+            ng-change="findSeries()" focus-watch="searchingForSerie" class="form-control"  style='float:left; width: 50%;'> <i ng-show="loadingSeries" class="glyphicon glyphicon-refresh" ></i>
+        </form>
+
+        <a tooltip="Search your local library (hotkey: alt + / )" accesskey="/" ng-click="isFiltering = true; setMode('search',true);">
           <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> Filter
         </a>&nbsp;
-        <a tooltip="List shows in row mode" ng-if="mode == 'poster'" ng-click="setMode('banner');">
+        <a tooltip="List shows in list mode (hotkey: alt + l)" ng-if="mode == 'poster'" accesskey="l" ng-click="setMode('banner');">
           <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> Switch to list mode
         </a>
-        <a tooltip="List shows in grid mode" ng-if="mode == 'search' || mode == 'banner'" ng-click="setMode('poster');">
+        <a tooltip="List shows in grid mode (hotkey: alt + g)" ng-if="mode == 'search' || mode == 'banner'" accesskey="g"  ng-click="setMode('poster');">
           <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> Switch to grid mode
         </a>
       </div>
-  
-  <div class="series" ng-if="mode == 'search'">
-    <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search"></serieHeader>
-  </div>
-  <div class="series" ng-if="mode == 'poster'">
-    <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader>
-  </div>
-  <div class="series" ng-if="mode == 'banner'">
-    <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader>
+
+
+    <div ng-if="searchingForSerie" class="series">
+
+      <h2>Start typing to search for shows to add to your favorites list</h2>
+      <p>Hit [return] to add the first search result to your favorites</p>
+      <serieHeader ng-repeat="serie in search.results" data="serie" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)"></serieHeader>
+    </div>
+    
+    <div class="series" ng-if="!searchingForSerie && mode == 'search'">
+      <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search"></serieHeader>
+    </div>
+    <div class="series" ng-if="!searchingForSerie && mode == 'poster'">
+      <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader>
+    </div>
+    <div class="series" ng-if="!searchingForSerie && mode == 'banner'">
+      <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader>
+    </div>
   </div>
 </div>

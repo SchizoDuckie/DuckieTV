@@ -98,46 +98,9 @@ angular.module('DuckieTV.providers.trakttv', [])
  */
 .controller('FindSeriesTypeAheadCtrl', function($scope, TraktTV, FavoritesService, $rootScope) {
 
-    $scope.selected = undefined;
-    $scope.activeRequest = null;
-    $scope.findSeries = function(serie) {
-        return TraktTV.disableBatchMode().findSeries(serie).then(function(res) {
-            TraktTV.enableBatchMode();
-            return res.series;
-        });
-    };
-    $scope.selectSerie = function(serie) {
-        $scope.selected = serie.name;
-        TraktTV.enableBatchMode().findSerieByTVDBID(serie.tvdb_id).then(function(serie) {
-            FavoritesService.addFavorite(serie).then(function() {
-                $rootScope.$broadcast('storage:update');
-            });
-        });
 
-        $scope.selected = '';
-    }
 })
 
-/**
- * <trakt-tv-search>
- */
-.directive('traktTvSearch', function() {
-
-    return {
-        restrict: 'E',
-
-        template: ['<div ng-controller="FindSeriesTypeAheadCtrl">',
-            '<input type="text" ng-focus="searchingForSerie" ng-model="selected" placeholder="Type a series name to add to your favorites"',
-            'typeahead-min-length="2" typeahead-wait-ms="400" typeahead-loading="loadingSeries"',
-            'typeahead="serie for series in findSeries($viewValue) | filter:$viewValue" typeahead-template-url="templates/typeAheadSeries.html"',
-            'typeahead-on-select="selectSerie($item)" class="form-control"> <i ng-show="loadingSeries" class="glyphicon glyphicon-refresh"></i>',
-            '</div>'
-        ].join(''),
-        link: function($scope, element) {
-
-        }
-    };
-})
 
 .directive('focusWatch', function() {
     return {
