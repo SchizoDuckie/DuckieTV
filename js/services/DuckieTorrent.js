@@ -73,6 +73,7 @@ angular.module('DuckieTorrent.torrent', [])
         this.sessionKey = null;
         this.authToken = null;
         this.isPolling = false;
+        this.isConnecting = false;
         this.connected = false;
 
         this.$get = function($q, $http, URLBuilder, $parse, TorrentRemote) {
@@ -274,7 +275,18 @@ angular.module('DuckieTorrent.torrent', [])
                  * Store the resulting session key in $scope.session
                  */
                 AutoConnect: function() {
-                    var p = $q.defer();
+                    if (!self.isConnecting && !self.connected) {
+                        self.connectPromise = $q.defer();
+                        self.isConnecting = true;
+                    } else {
+                        if (!self.connected) {
+                            return self.connectPromise.promise;
+                        } else {
+                            var p = $q.defer();
+                            p.resolve(methods.getRemote());
+                            return p.promise;
+                        }
+                    }
                     methods.Scan().then(function() {
                         methods.Pair().then(function() {
                             methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
@@ -282,11 +294,12 @@ angular.module('DuckieTorrent.torrent', [])
                                     self.isPolling = true;
                                     methods.Update();
                                 }
-                                p.resolve(methods.getRemote());
+                                self.isConnecting = false;
+                                self.connectPromise.resolve(methods.getRemote());
                             });
                         });
                     });
-                    return p.promise;
+                    return self.connectPromise.promise;
                 },
 
                 /**
@@ -683,9 +696,9 @@ angular.module('DuckieTorrent.torrent', [])
                 $rootScope.$on('torrent:update:' + $scope.infoHash, function(evt, data) {
                     $scope.torrent = data;
                 });
-
-
                 $scope.torrent = TorrentRemote.getByHash(iAttrs.infoHash);
+
+                console.log("Connected to utorrent!", $scope.torrent);
             });
 
             $scope.isFormatSupported = function(file) {
