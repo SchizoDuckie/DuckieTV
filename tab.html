@@ -12,7 +12,9 @@
 <body>
   <background-rotator channel="'background:load'"></background-rotator>
   <div class="container">
+    <chrome-top-sites ng-if="getSetting('topSites.enabled')"></chrome-top-sites>
     <div data-ng-view></div>
+    <series-list></series-list>
     <div id="actionbar">
       <ul class="list-unstyled">
         <li>
@@ -33,7 +35,6 @@
          <li >
           <a class="glyphicon glyphicon-magnet" href="#/torrent" tooltip="uTorrent / Bittorrent client" tooltip-position="right"></a>
         </li>
-
       </ul>
     </div>
   </div>
