@@ -454,11 +454,12 @@ angular.module('DuckieTorrent.torrent', [])
          */
         getFormattedStatus: function() {
             var statuses = {
-                '136': 'stopped',
-                '137': 'started',
-                '152': 'Error: Files missing, please recheck',
-                '201': 'downloading',
-                '233': 'paused'
+                128: 'stopped',
+                136: 'stopped',
+                137: 'started',
+                152: 'Error: Files missing, please recheck',
+                201: 'downloading',
+                233: 'paused'
             }
             if (!(this.properties.all.status in statuses)) {
                 console.error("There's an unknown status for this torrent!", this.properties.all.status, this);
@@ -688,17 +689,16 @@ angular.module('DuckieTorrent.torrent', [])
             console.debug('Attrs: ', $iAttrs);
             return $iAttrs.templateUrl || "templates/torrentRemoteControl.html"
         },
-        link: function($scope, iAttrs) {
-
+        link: function($scope, $attr) {
 
             uTorrent.AutoConnect().then(function(remote) {
 
                 $rootScope.$on('torrent:update:' + $scope.infoHash, function(evt, data) {
                     $scope.torrent = data;
                 });
-                $scope.torrent = TorrentRemote.getByHash(iAttrs.infoHash);
+                $scope.torrent = TorrentRemote.getByHash($scope.infoHash);
 
-                console.log("Connected to utorrent!", $scope.torrent);
+                console.log("Connected to utorrent!", $scope.infoHash, $scope.torrent);
             });
 
             $scope.isFormatSupported = function(file) {
