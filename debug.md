@@ -35,4 +35,15 @@ CRUD.Find('Serie', {}, {'limit': 10000}).then(function(elements) {
 	})
 });
 
+CRUD.Find('Season', {}, {'limit': 10000}).then(function(elements) { 
+	elements.map(function(el) { 
+		el.Delete().then(
+	    	function() { 
+	    		console.log('Deleted Season!') ;
+	    })
+	})
+});
+
+
+
 `` 
