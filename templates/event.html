@@ -1,7 +1,7 @@
 <div class="event dropdown">
   <a class="dropdown-toggle" ng-class="{ watched : event.episode.get('watched') == 1 }">
 	  <div ng-if="event.episode.values.magnetHash">
-	  	<div class="progress progress-striped active"><div class="progress-bar progress-bar-info" style="width: 80%"><span>{{ event.serie }} (80%)</span></div></div>
+	   	 <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteControl.html">{{ event.serie }}</torrent-remote-control>
 	  </div>
 	  <span ng-if="!event.episode.values.magnetHash">
 	  	{{ event.serie }}

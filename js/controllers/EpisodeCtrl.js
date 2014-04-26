@@ -25,6 +25,13 @@ angular.module('DuckieTV.controllers.episodes', [])
                 $scope.episode = epi[0].asObject();
                 $scope.episodeEntity = epi[0];
                 $rootScope.$broadcast('episode:load', $scope.episode);
+
+                $scope.$on('magnet:select:' + $scope.getSearchString($scope.serie, $scope.episode), function(evt, magnet) {
+                    console.debug("Found a magnet selected!", magnet);
+                    $scope.episodeEntity.set('magnetHash', magnet);
+                    $scope.episodeEntity.Persist();
+                    $scope.episode = $scope.episodeEntity.asObject();
+                });
                 $scope.$digest();
             }, function(err) {
                 debugger;
@@ -51,6 +58,7 @@ angular.module('DuckieTV.controllers.episodes', [])
             return serieName + ' ' + $scope.getEpisodeNumber(episode) + ' ' + SettingsService.get('torrenting.searchquality');
         };
 
+
         $scope.getEpisodeNumber = function(episode) {
             var sn = episode.seasonnumber.toString(),
                 en = episode.episodenumber.toString(),
@@ -58,26 +66,6 @@ angular.module('DuckieTV.controllers.episodes', [])
             return out;
         }
 
-        $scope.searchTorrents = function(serie, episode) {
-            $scope.items = [];
-            $scope.searching = true;
-            var search = $scope.getSearchString(serie, episode);
-            ThePirateBay.search(search).then(function(results) {
-                $scope.items = results;
-                $scope.searching = false;
-            }, function(e) {
-                console.error("TPB search failed!");
-                $scope.searching = false;
-            });
-        }
-
-        $scope.$on('magnet:select', function(evt, magnet) {
-            console.debug("Found a magnet selected!", magnet);
-            $scope.episodeEntity.set('magnetHash', magnet);
-            $scope.episodeEntity.Persist();
-            $scope.episode = $scope.episodeEntity.asObject();
-
-        })
 
 
     });

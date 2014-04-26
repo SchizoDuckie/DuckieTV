@@ -668,9 +668,13 @@ angular.module('DuckieTorrent.torrent', [])
         transclude: true,
         replace: true,
         scope: {
-            infoHash: '=infoHash'
+            infoHash: '=infoHash',
+            templateUrl: '=templateUrl'
         },
-        templateUrl: "templates/torrentRemoteControl.html",
+        templateUrl: function($node, $iAttrs) {
+            console.debug('Attrs: ', $iAttrs);
+            return $iAttrs.templateUrl || "templates/torrentRemoteControl.html"
+        },
         link: function($scope, iAttrs) {
 
 

@@ -25,9 +25,7 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
             $injector.get($scope.searchprovider).search([q, $scope.searchquality].join(' ')).then(function(results) {
                 $scope.items = results;
                 $scope.searching = false;
-                console.log('Added episodes: ', $scope);
             }, function(e) {
-                console.error("TPB search failed!");
                 $scope.searching = false;
             });
         }
@@ -42,15 +40,13 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
             $scope.search($scope.query);
         }
 
-        //-- Methods --//
-
         $scope.cancel = function() {
             $modalInstance.dismiss('Canceled');
-        }; // end cancel
+        };
 
         $scope.save = function() {
             $modalInstance.close($scope.user.name);
-        }; // end save
+        };
 
         $scope.hitEnter = function(evt) {
             if (angular.equals(evt.keyCode, 13) && !(angular.equals($scope.user.name, null) || angular.equals($scope.user.name, '')))
@@ -60,14 +56,16 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
         $scope.magnetSelect = function(magnet) {
             console.log("Magnet selected!", magnet);
             $modalInstance.close(magnet);
-            $rootScope.$broadcast('magnet:select', magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+            $rootScope.$broadcast('magnet:select:' + $scope.query, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
             var d = document.createElement('iframe');
-            d.src = magnet;
+
             d.id = 'torrentmagnet_' + new Date().getTime();
             document.body.appendChild(d);
+            d.src = magnet;
+            d.style.visibility = 'hidden';
             setTimeout(function() {
                 document.body.removeChild(document.getElementById(d.id));
-            })
+            }, 1000);
         }
 
 

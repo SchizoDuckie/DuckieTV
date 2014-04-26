@@ -5,7 +5,7 @@
     </h2>
     <div style='text-align: center; overflow-x: auto; height: 280px; overflow-y: hidden; white-space: nowrap;'>
       <div class='season' ng-repeat="season in seasons" style="display:inline-block; padding:10px; cursor:pointer">
-        <p ng-click="setActiveSeason(season)" lazy-background="{{season.poster}}" style='width: 150px; height: 220px;'></p>
+        <p ng-click="setActiveSeason(season)" lazy-background="{{season.poster}}" class="seasonposter"></p>
         <p>
           <strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong>
         </p>

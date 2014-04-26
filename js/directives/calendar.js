@@ -100,7 +100,14 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
         scope: {
             event: '='
         },
-        templateUrl: 'templates/event.html'
+        templateUrl: 'templates/event.html',
+        link: function($scope) {
+            $scope.$on('magnet:select:' + [$scope.event.serie, $scope.event.episode.getFormattedEpisode()].join(" "), function(evt, magnet) {
+                console.debug("Found a magnet selected!", magnet);
+                $scope.event.episode.set('magnetHash', magnet);
+                $scope.event.episode.Persist();
+            })
+        }
     }
 })
 
