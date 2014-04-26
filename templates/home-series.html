@@ -41,7 +41,7 @@
 
         <button ng-click="enableAdd()"><i class="glyphicon glyphicon-plus-sign"></i> Add your first show now</button>
     </p>
-    <div ng-if="searchingForSerie" class="series">
+    <div ng-if="activated && searchingForSerie" class="series">
 
     
       <h2>Start typing to search for shows to add to your favorites list</h2>
@@ -49,13 +49,13 @@
       <serieHeader ng-repeat="serie in search.results" data="serie" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)"></serieHeader>
     </div>
     
-    <div class="series" ng-if="!searchingForSerie && mode == 'search'">
+    <div class="series" ng-if="activated && !searchingForSerie && mode == 'search'">
       <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search"></serieHeader>
     </div>
-    <div class="series" ng-if="!searchingForSerie && mode == 'poster'">
+    <div class="series" ng-if="activated &&  !searchingForSerie && mode == 'poster'">
       <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader>
     </div>
-    <div class="series" ng-if="!searchingForSerie && mode == 'banner'">
+    <div class="series" ng-if="activated && !searchingForSerie && mode == 'banner'">
       <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader>
     </div>
   </div>

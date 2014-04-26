@@ -1,9 +1,9 @@
 <div class="event dropdown">
   <a class="dropdown-toggle" ng-class="{ watched : event.episode.get('watched') == 1 }">
-	  <div ng-if="event.episode.values.magnetHash">
-	   	 <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteControl.html">{{ event.serie }}</torrent-remote-control>
+	  <div ng-if="event.episode.values.magnetHash" tooltip="{{ event.episode.getFormattedEpisode() }}">
+	   	 <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">{{ event.serie }} </torrent-remote-control>
 	  </div>
-	  <span ng-if="!event.episode.values.magnetHash">
+	  <span ng-if="!event.episode.values.magnetHash" tooltip="{{event.episode.getFormattedEpisode()}}">
 	  	{{ event.serie }}
 	  </span>
 
@@ -12,11 +12,10 @@
 	  <li><a href='#/serie/{{event.serieID}}/episode/{{event.episode.getID()}}'><i class="glyphicon glyphicon-info-sign"></i> Episode details</a></li>
 	  <li><a><episode-watched episode="event.episode"> Mark as watched</episode-watched></a></li>
 	  <li><a><torrent-dialog q='[event.serie,event.episode.getFormattedEpisode()].join(" ")'> Download Torrent</torrent-dialog></a></li>
-	   <li><a href='#/serie/{{event.serieID}}'><i class="glyphicon glyphicon-chromecast"></i> Play to Chromecast</a></li>
-	   <li><a href='#/serie/{{event.serieID}}'><i class="glyphicon glyphicon-play-circle"></i> Play with default uTorrent player</a></li>
-	   <li><a href='#/serie/{{event.serieID}}'><i class="glyphicon glyphicon-folder-open"></i> Show in folder</a></li>
-
-	  <li style='border-top: 1px solid white; padding-top: 10px;'>
+	  <li ng-if="event.episode.values.magnetHash">
+		 <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteControl.html"></torrent-remote-control>
+	  </li>
+	  <li style='border-top: 1px solid white; padding-top: 10px; overflow-y: auto; max-height: 270px;'>
   		<h2>{{event.serie}} {{event.episode.getFormattedEpisode()}}</h2>
   		<div style='float:left; width: 150px; height:85px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{event.episode.get('filename')}}"></div>
   		<strong>{{event.episode.get('episodename')}}</strong><p>{{event.episode.get('overview')}}</p> </li>
