@@ -1,7 +1,8 @@
  <div>
       <h2 ng-click="activate(this)" tooltip="Hotkey: alt+s" >
         <i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
-         <a accesskey="s">Click for series you're watching</a> 
+         <a accesskey="s" ng-if="!activated">Click for series you're watching</a>
+         <a accesskey="s" ng-if="activated">Hide series you're watching</a>  
          <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
       </h2>
       
@@ -11,16 +12,16 @@
           <input type='text' focus-watch="'isFiltering'"  placeholder='filter your local library' ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 50%;'>
         </form>
 
-        <a accesskey="a" tooltip="Add series to your favorites list" ng-if="searchingForSerie == false" ng-click="enableAdd();" style='float:left'>
+        <a accesskey="a" tooltip="Add series to your favorites list (Hotkey: alt+a)" ng-if="searchingForSerie == false" ng-click="enableAdd();" style='float:left'>
           <i class="glyphicon glyphicon-plus-sign"></i> Add a show
         </a>
-        <a tooltip="Click to return to your favorites list" ng-if="searchingForSerie == true" ng-click="disableAdd()" style='float:left'>
-          <i class="glyphicon glyphicon-ok-sign"></i> Done adding
+        <a tooltip="Click to return to your favorites list" ng-if="searchingForSerie == true" ng-click="disableAdd()" style='float:left; line-height:40px'>
+          <i class="glyphicon glyphicon-ok-sign"></i> I'm done adding shows
         </a>
 
         <form ng-submit="selectFirstResult()" ng-if="searchingForSerie">
-           <input ng-focus="searchingForSerie" ng-model="search.query" placeholder="Type a series name to add to your favorites"
-            ng-change="findSeries()" focus-watch="searchingForSerie" class="form-control"  style='float:left; width: 50%;'> <i ng-show="loadingSeries" class="glyphicon glyphicon-refresh" ></i>
+           <input ng-model="search.query" placeholder="Type a series name to add to your favorites"
+            ng-change="findSeries()" focus-watch="serieAddFocus" class="form-control"  style='float:left; width: 50%; margin-left: 10px;border: 1px solid white; font-size: 20px; height: auto; background-color: rgb(17, 17, 17);'> <i ng-show="loadingSeries" class="glyphicon glyphicon-refresh" ></i>
         </form>
 
         <a tooltip="Search your local library (hotkey: alt + / )" accesskey="/" ng-click="isFiltering = true; setMode('search',true);">
@@ -34,11 +35,17 @@
         </a>
       </div>
 
+    <p class="alert alert-info" ng-if="favorites.length == 0 && !searchingForSerie" style='margin:20px; position:relative; z-index:1000'>
+      <strong>You have no series yet!</strong><br>
+      Make DuckieTV work for you by adding the TV shows you like. Shows that are currently airing will appear on the calendar so that you can easily keep track of what is airing when. <br>
 
+        <button ng-click="enableAdd()"><i class="glyphicon glyphicon-plus-sign"></i> Add your first show now</button>
+    </p>
     <div ng-if="searchingForSerie" class="series">
 
+    
       <h2>Start typing to search for shows to add to your favorites list</h2>
-      <p>Hit [return] to add the first search result to your favorites</p>
+      <p>Pro Tip: Hit [return] to add the first search result to your favorites</p>
       <serieHeader ng-repeat="serie in search.results" data="serie" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)"></serieHeader>
     </div>
     

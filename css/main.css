@@ -232,7 +232,7 @@ serieheader:hover aside {
 series-list {
     position: fixed;
     bottom: 0px;
-    height: 70%;
+    height: calc(100% - 40px);
     left: 0px;
     right: 0px;
     background-color: rgba(0,0,0,0.9);
@@ -264,17 +264,17 @@ series-list > div > h2 > i {
     line-height:25px;
     vertical-align: middle;
 }
-series-list:hover h2 {
+series-list:hover h2, series-list.active h2 {
     background-color: rgba(0,0,0,0.9);
 }
 
 .series {
-    overflow-y: scroll;
-bottom: 12px;
-top: 85px;
-position: absolute;
-right: 20px;
-left: 20px;
+    overflow-y: auto;
+    bottom: 12px;
+    top: 85px;
+    position: absolute;
+    right: 20px;
+    left: 20px;
     text-align: center;
 }
 .series serieheader > div {
@@ -808,7 +808,7 @@ a:hover i.glyphicon-plus-sign {
 
 
 calendar-event .progress {
-    background-color: rgba(55,55,55,0.5);
+    background-color: rgba(200,200,200,0.5);
     height: auto;
     margin: 3px;
     
@@ -818,6 +818,10 @@ calendar-event .progress-bar {
     color: black;
     line-height:15px;
     height:auto;
+}
+
+.progress-bar {
+    color: black;
 }
 
 calendar-event a.glyphicon-chevron-down {
@@ -833,6 +837,13 @@ calendar-event .dropdown-menu {
     box-shadow: 4px 4px 4px rgba(0,0,0,0.6);
     border: 1px solid white;
 }
+
+calendar-event .dropdown-menu a:hover , calendar-event .dropdown-menu a:hover a,  calendar-event .dropdown-menu a:hover a span {
+    text-decoration: none;
+    color: #262626 !important;
+    background-color: #f5f5f5;
+}
+
 
 .glyphicon.glyphicon-chromecast {
     background-image: url('../img/chromecast_on.png');
@@ -862,4 +873,9 @@ calendar-event h2 {
     left: 0px;
     right: 0px; 
     bottom: 0px; 
+}
+
+.season p.seasonposter {
+    width: 150px;
+    height: 220px;
 }

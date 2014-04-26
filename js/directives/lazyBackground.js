@@ -13,17 +13,18 @@ angular.module('DuckieTV.directives.lazybackground', [])
         link: function($scope, element, attrs) {
             element = angular.element(element);
             attrs.ngHide = true;
+
             attrs.$observe('lazyBackground', function(newSrc) {
                 if (newSrc == "") return;
-                element.css({
-                    'transition': 'opacity 0.5s ease-in',
-                    'opacity': 0
-                });
+                element.attr('style', 'transition: opacity 0.5s ease-in; opacity: 0.5; background-image: url(../img/spinner.gif); background-position: center center; background-size: initial !important');
+
                 var img = $document[0].createElement('img');
                 img.onload = function() {
                     element.css({
                         'background-image': 'url(' + newSrc + ')',
-                        'opacity': '1'
+                        'opacity': '1',
+                        'background-position': '',
+                        'background-size': ''
                     });
                 };
                 img.onerror = function(e) {
