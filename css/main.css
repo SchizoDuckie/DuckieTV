@@ -80,7 +80,7 @@ background-rotator, background-rotator > div {
 }
 #actionbar {
     position: absolute;
-    top: 30px;
+    top: 50px;
     left: 10px;
 }
 #actionbar ul {
@@ -557,6 +557,7 @@ input[type=text], input[type=url], option, select {
 }
 [date-picker] {
     -webkit-user-select: none;
+    margin-top: 20px;
 }
 [date-picker]:hover {
     background-color: rgba(0, 0, 0, 0.4);
@@ -808,7 +809,7 @@ a:hover i.glyphicon-plus-sign {
 
 
 calendar-event .progress {
-    background-color: rgba(200,200,200,0.5);
+    background-color: transparent;
     height: auto;
     margin: 3px;
     
@@ -818,6 +819,11 @@ calendar-event .progress-bar {
     color: black;
     line-height:15px;
     height:auto;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    z-index: -1;
 }
 
 .progress-bar {

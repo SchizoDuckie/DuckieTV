@@ -16,10 +16,18 @@ angular.module('DuckieTV.directives.lazybackground', [])
 
             attrs.$observe('lazyBackground', function(newSrc) {
                 if (newSrc == "") return;
-                element.attr('style', 'transition: opacity 0.5s ease-in; opacity: 0.5; background-image: url(../img/spinner.gif); background-position: center center; background-size: initial !important');
+                var oldStyle = element.attr('style');
+                element.css({
+                    'transition': 'opacity 0.5s ease-in',
+                    'opacity': 0.5,
+                    'background-image': 'url(../img/spinner.gif)',
+                    'background-position': 'center center',
+                    'background-size': 'initial !important'
+                });
 
                 var img = $document[0].createElement('img');
                 img.onload = function() {
+                    element.attr('style', oldStyle);
                     element.css({
                         'background-image': 'url(' + newSrc + ')',
                         'opacity': '1',
