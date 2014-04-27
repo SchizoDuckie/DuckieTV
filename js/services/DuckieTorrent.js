@@ -496,6 +496,9 @@ angular.module('DuckieTorrent.torrent', [])
 
         getFiles: function() {
             var files = [];
+            angular.forEach($parse('file.all')(this), function(el, key) {
+                files.push(el);
+            });
             angular.forEach($parse('files.all')(this), function(el, key) {
                 files.push(el);
             });
