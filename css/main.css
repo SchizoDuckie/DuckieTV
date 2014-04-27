@@ -67,6 +67,17 @@ a, a:hover {
 a:hover {
     text-decoration: underline;
 }
+
+
+ .tooltip .tooltip-arrow {
+    border-top-color: white !important;
+}
+
+ .tooltip .tooltip-inner {
+    background-color: white !important;
+    color: black !important;
+}
+
 background-rotator, background-rotator > div {
     width: 100%;
     height: 100%;
@@ -276,6 +287,7 @@ series-list:hover h2, series-list.active h2 {
     right: 20px;
     left: 20px;
     text-align: center;
+    padding-top:30px;
 }
 .series serieheader > div {
     border: 1px solid #111;
@@ -402,7 +414,9 @@ chrome-top-sites h2 {
     background-color: transparent;
     -webkit-transition: background-color 0.5 ease-in-out;
 }
-chrome-top-sites:hover h2 {
+
+
+chrome-top-sites:hover h2, chrome-top-sites:hover h2 a {
     background-color: rgba(0,0,0,0.9);
 
 }
