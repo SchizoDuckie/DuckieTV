@@ -141,7 +141,9 @@ angular.module('DuckieTorrent.torrent', [])
                  * Execute a torrent client pair request, and give the user 60 seconds to respond.
                  */
                 pair: function() {
-                    return jsonp('pair', {}, {
+                    return jsonp('pair', {
+                        name: 'DuckieTV on ' + navigator.userAgent.match(/Chrome\/([0-9\.]+)/)[0]
+                    }, {
                         timeout: 60000
                     });
                 },
@@ -287,8 +289,22 @@ angular.module('DuckieTorrent.torrent', [])
                             return p.promise;
                         }
                     }
-                    methods.Scan().then(function() {
-                        methods.Pair().then(function() {
+
+                    if (!localStorage.getItem('utorrent.token')) {
+                        methods.Scan().then(function() {
+                            methods.Pair().then(function() {
+                                methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
+                                    if (!self.isPolling) {
+                                        self.isPolling = true;
+                                        methods.Update();
+                                    }
+                                    self.isConnecting = false;
+                                    self.connectPromise.resolve(methods.getRemote());
+                                });
+                            });
+                        });
+                    } else {
+                        methods.Scan().then(function() {
                             methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
                                 if (!self.isPolling) {
                                     self.isPolling = true;
@@ -297,8 +313,9 @@ angular.module('DuckieTorrent.torrent', [])
                                 self.isConnecting = false;
                                 self.connectPromise.resolve(methods.getRemote());
                             });
-                        });
-                    });
+                        })
+                    }
+
                     return self.connectPromise.promise;
                 },
 
@@ -310,8 +327,8 @@ angular.module('DuckieTorrent.torrent', [])
                 Pair: function() {
                     return methods.pair().then(function(result) {
                         console.log("Received auth token!", result);
-                        localStorage.setItem('utorrent.token', result);
-                        self.authToken = result;
+                        localStorage.setItem('utorrent.token', result); //.pairing_key); // for 3.4, still broken.
+                        self.authToken = result; // .pairing_key;
                     }, function(err) {
                         console.error("Eror pairing!", err);
                     })
