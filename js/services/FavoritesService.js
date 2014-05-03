@@ -120,14 +120,14 @@ angular.module('DuckieTV.providers.favorites', [])
                         pq.push((function(episodes, season, S) {
                             return S.Persist().then(function(r) {
                                 episodes.map(function(episode) {
-                                    var e = (!(episodes.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
+                                    var e = (!(episode.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
                                     fillEpisode(e, episode);
                                     var watchedEpisodes = watched.filter(function(el) {
                                         return el.TVDB_ID == e.get('TVDB_ID');
                                     });
 
                                     e.set('seasonnumber', season.season);
-                                    console.log('updating ', serie.get('name'), e.getFormattedEpisode());
+                                    console.log('updating ', serie.get('name'), e.getFormattedEpisode(), (!(episode.tvdb_id in cache)) ? 'new' : 'exists', e.get('TVDB_ID'));
 
                                     e.set('ID_Serie', serie.getID());
                                     e.set('ID_Season', S.getID());
