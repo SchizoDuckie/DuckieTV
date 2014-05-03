@@ -5,22 +5,22 @@ angular.module('DuckieTV.providers.migrations', ['DuckieTV.providers.favorites',
             console.log("Add fave: ", TVDB_ID, watched)
             var p = $q.defer();
             $rootScope.$broadcast('dialogs.wait.progress', {
-                'header': 'Please wait while updating database',
-                'progress': (100 / howmany) * (done + 0.2),
-                'msg': "Resolving show " + TVDB_ID
+                header: 'Please wait while updating database',
+                progress: (100 / howmany) * (done + 0.2),
+                msg: "Resolving show " + TVDB_ID
             });
             TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(serie) {
                 $rootScope.$broadcast('dialogs.wait.progress', {
-                    'header': 'Please wait while updating database',
-                    'progress': (100 / howmany) * (done + 0.6),
-                    'msg': "Show found: " + serie.title + ". Updating information. "
+                    header: 'Please wait while updating database',
+                    progress: (100 / howmany) * (done + 0.6),
+                    msg: "Show found: " + serie.title + ". Updating information. "
                 });
                 FavoritesService.addFavorite(serie, watched).then(function() {
                     addDone();
                     $rootScope.$broadcast('dialogs.wait.progress', {
                         header: 'Please wait while updating database',
-                        'progress': (100 / howmany) * done,
-                        'msg': "Updating: " + serie.title
+                        progress: (100 / howmany) * done,
+                        msg: "Updating: " + serie.title
                     });
                     $rootScope.$broadcast('favorites:updated');
                     p.resolve();
@@ -64,8 +64,8 @@ angular.module('DuckieTV.providers.migrations', ['DuckieTV.providers.favorites',
                                 out.series[row.get('TVDB_ID')] = [];
                             }
                             out.series[row.get('TVDB_ID')].push({
-                                'TVDB_ID': row.get('epTVDB_ID'),
-                                'watchedAt': new Date(row.get('watchedAt')).getTime()
+                                TVDB_ID: row.get('epTVDB_ID'),
+                                watchedAt: new Date(row.get('watchedAt')).getTime()
                             })
                         }
                         howmany = Object.keys(out.series).length;
