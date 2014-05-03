@@ -347,7 +347,7 @@ angular.module('DuckieTorrent.torrent', [])
                     if (self.isPolling == true) {
                         console.log('uTorrent status update');
                         methods.statusQuery().then(function(data) {
-                            if (self.isPolling) setTimeout(methods.Update, data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
+                            if (self.isPolling) setTimeout(methods.Update, data && data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
                         });
                     }
                 }
