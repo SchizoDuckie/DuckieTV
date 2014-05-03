@@ -140,5 +140,9 @@ angular.module('DuckieTV', [
 }*/
     });
 
+    $rootScope.$on('$locationChangeSuccess', function() {
+        $rootScope.$broadcast('serieslist:hide');
+    });
+
     MigrationService.check();
 })

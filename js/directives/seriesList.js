@@ -62,6 +62,7 @@ angular.module('DuckieTV.directives.serieslist', [])
 
 
             $scope.closeDrawer = function() {
+                if (!$scope.activated) return;
                 document.body.removeChild(document.getElementById($scope.activeId));
                 $scope.activeId = null;
                 iElement.toggleClass('active');
@@ -138,6 +139,9 @@ angular.module('DuckieTV.directives.serieslist', [])
              * The favorites service fetches data asynchronously via SQLite, we wait for it to emit the favorites:updated event.
              */
             $scope.favorites = FavoritesService.favorites;
+            $rootScope.$on('serieslist:hide', function() {
+                $scope.closeDrawer();
+            });
             $rootScope.$on('favorites:updated', function(event, data) {
                 // you could inspect the data to see if what you care about changed, or just update your own scope
                 if (FavoritesService.favorites != $scope.favorites) $scope.favorites = FavoritesService.favorites;
