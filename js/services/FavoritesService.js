@@ -51,6 +51,7 @@ angular.module('DuckieTV.providers.favorites', [])
     }
     var service = {
         favorites: [],
+        TraktTV: TraktTV,
         addFavorite: function(data, watched) {
             watched = watched || [];
             var d = $q.defer();
@@ -118,15 +119,16 @@ angular.module('DuckieTV.providers.favorites', [])
                         SE.set('ID_Serie', serie.getID());
                         pq.push((function(episodes, season, S) {
                             return S.Persist().then(function(r) {
-                                for (var k = 0; k < episodes.length; k++) {
-                                    var e = (!(episodes[k].tvdb_id in cache)) ? new Episode() : cache[episodes[k].tvdb_id];
-                                    fillEpisode(e, episodes[k]);
-
+                                episodes.map(function(episode) {
+                                    var e = (!(episodes.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
+                                    fillEpisode(e, episode);
                                     var watchedEpisodes = watched.filter(function(el) {
                                         return el.TVDB_ID == e.get('TVDB_ID');
                                     });
 
                                     e.set('seasonnumber', season.season);
+                                    console.log('updating ', serie.get('name'), e.getFormattedEpisode());
+
                                     e.set('ID_Serie', serie.getID());
                                     e.set('ID_Season', S.getID());
                                     if (watchedEpisodes.length > 0) {
@@ -137,7 +139,8 @@ angular.module('DuckieTV.providers.favorites', [])
                                         console.error("PERSIST ERROR!", err);
                                         debugger;
                                     });
-                                }
+
+                                })
                             });
                         })(episodes, season, SE));
                     }
@@ -215,8 +218,8 @@ angular.module('DuckieTV.providers.favorites', [])
          */
         restore: function() {
             $rootScope.$on('favoritesservice:checkforupdates', function(evt, data) {
-                TraktTV.findEpisodes(data.TVDB_ID).then(function(res) {
-                    service.updateEpisodes(data.TVDB_ID, res);
+                TraktTV.enableBatchMode().findSerieByTVDBID(data.TVDB_ID).then(function(res) {
+                    service.addFavorite(res);
                 });
 
             });
