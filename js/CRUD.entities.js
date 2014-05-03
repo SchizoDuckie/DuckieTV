@@ -25,6 +25,8 @@ var Serie = CRUD.define({
     getEpisodes: function() {
         return CRUD.Find('Episode', {
             ID_Serie: this.getID()
+        }, {
+            limit: 100000
         }).then(function(episodes) {
             return episodes;
         });
