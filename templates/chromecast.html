@@ -1,7 +1,18 @@
 <fieldset>
 <h2>ChromeCast! \o/</h2>
 
-
 <button class="btn btn-ok" ng-click="Connect()">Connect</button>
+<button class="btn" ng-click="getLocalIP()">Find Local IP Addresses</button>
+
+
+<h2 ng-if="localIpAddress">ChromeCast Local Streaming IP Address:: {{localIpAddress}}</h2>
+
+<div ng-if="localIpAddresses">
+  <strong>Found Local ip address</strong>
+  <ul class="list">
+      <button ng-repeat="address in localIpAddresses track by $index" class="btn btn-success" ng-click="setStreamingSource(address)">Use {{address}} as a streaming source for ChromeCast</button>
+      
+  </ul>
+</div>
 
 </fieldset>
