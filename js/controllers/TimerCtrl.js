@@ -1,15 +1,13 @@
 angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler'])
 
-.controller('TimerCtrl', function($scope, $rootScope, EventSchedulerService) {
+.controller('TimerCtrl', function($scope, $rootScope, EventSchedulerService, EventWatcherService) {
 
     $scope.timers = [];
     $scope.timerFired = false;
 
-    $scope.create = function() {
-        EventSchedulerService.createAt('single timer!', new Date().getTime() + 60 * 1000, 'timer:fired', {
-            'w00t': '/\o/'
-        });
-        refresh();
+    $scope.fire = function(timer) {
+        console.log('Timer fired manually!', timer);
+        EventWatcherService.onEvent(timer.name);
     }
 
     refresh = function() {
@@ -19,8 +17,8 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
     }
 
     $rootScope.$on('timer:fired', function(evt, data) {
-    	console.log("Timer was fired! ", evt, data);
-    	$scope.timerFired = data;
+        console.log("Timer was fired! ", evt, data);
+        $scope.timerFired = data;
     });
 
     refresh();
