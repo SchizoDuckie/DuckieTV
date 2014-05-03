@@ -387,8 +387,9 @@ table.light h1 {
 chrome-top-sites {
     position: fixed;
     top: 0px;
-    width: 100%;
-    left: 0px;
+    width: 96%;
+    left: 2%;
+    right: 2%;
     padding:20px;
     z-index:99;
     background-color: rgba(0,0,0,0.9);
