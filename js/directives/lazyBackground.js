@@ -16,24 +16,18 @@ angular.module('DuckieTV.directives.lazybackground', [])
 
             attrs.$observe('lazyBackground', function(newSrc) {
                 if (newSrc == "") return;
-                var oldStyle = element.attr('style');
-                element.css({
-                    'transition': 'opacity 0.5s ease-in',
-                    'opacity': 0.5,
-                    'background-image': 'url(../img/spinner.gif)',
-                    'background-position': 'center center',
-                    'background-size': 'initial !important'
-                });
+                element.attr('oldStyle', element.attr('style') == null ? '' : element.attr('style'));
+                element.css('transition', 'opacity 0.5s ease-in');
+                element.css('opacity', 0.5);
+                element.css('background-image', 'url(../img/spinner.gif)');
+                element.css('background-position', 'center center');
+                element.attr('style', element.attr('style') + '; background-size: initial !important');
+
 
                 var img = $document[0].createElement('img');
                 img.onload = function() {
-                    element.attr('style', oldStyle);
-                    element.css({
-                        'background-image': 'url(' + newSrc + ')',
-                        'opacity': '1',
-                        'background-position': '',
-                        'background-size': ''
-                    });
+                    element.attr('style', element.attr('oldStyle'));
+                    element.css('background-image', 'url(' + this.src + ')');
                 };
                 img.onerror = function(e) {
                     console.log("image load error!", e);
