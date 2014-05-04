@@ -4,7 +4,6 @@ angular.module('DuckieTorrent.controllers', ['DuckieTorrent.torrent', 'DuckieTV.
 .controller('TorrentCtrl',
     function($scope, $rootScope, uTorrent, $q, DuckieTVCast) {
         $scope.ports = [];
-        $scope.statusLog = [];
         $scope.session = false;
         $scope.authToken = localStorage.getItem('utorrent.token')
         uTorrent.setPort(localStorage.getItem('utorrent.port'));
@@ -19,48 +18,24 @@ angular.module('DuckieTorrent.controllers', ['DuckieTorrent.torrent', 'DuckieTV.
         }
 
         $scope.playInBrowser = function(torrent) {
-            $rootScope.$broadcast('video:load', torrent.properties.all.streaming_url.replace('://', '://admin:admin@').replace('127.0.0.1', $rootScope.getSetting('ChromeCast.localIpAddress')));
-        }
-
-        function get_port(i) {
-            return 7 * Math.pow(i, 3) + 3 * Math.pow(i, 2) + 5 * i + 10000;
-        }
-
-        $scope.AutoConnect = function() {
-            uTorrent.AutoConnect().then(function(rpc) {
-                $scope.rpc = rpc;
+            DuckieTVCast.initialize().then(function() {
+                $rootScope.$broadcast('video:load', torrent.properties.all.streaming_url.replace('://', '://admin:admin@').replace('127.0.0.1', $rootScope.getSetting('ChromeCast.localIpAddress')));
             })
         }
 
-        $scope.togglePolling = function() {
-            $scope.polling = !$scope.polling;
-            $scope.Update();
-        }
-        /**
-         * Start the status update polling.
-         * Stores the resulting TorrentClient service in $scope.rpc
-         * Starts polling every 1s.
-         */
-        $scope.Update = function() {
-            if ($scope.polling == true) {
-                uTorrent.statusQuery().then(function(data) {
-                    if ($scope.polling) setTimeout($scope.Update, data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
-                });
-            }
+        $scope.Cast = function() {
+            console.log('connecting!');
+            DuckieTVCast.initialize();
         }
 
+        $scope.removeToken = function() {
+            localStorage.removeItem("utorrent.token");
+            window.location.reload();
+        }
 
         $scope.localIpAddress = $rootScope.getSetting('ChromeCast.localIpAddress');
 
-
-
+        uTorrent.AutoConnect().then(function(rpc) {
+            $scope.rpc = rpc;
+        })
     })
-
-
-
-
-function go() {
-    enumLocalIPs(function(localIp) {
-        document.getElementById('localips').innerHTML += localIp + '<br>';
-    });
-}

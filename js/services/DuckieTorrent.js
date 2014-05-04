@@ -706,7 +706,6 @@ angular.module('DuckieTorrent.torrent', [])
             templateUrl: '=templateUrl'
         },
         templateUrl: function($node, $iAttrs) {
-            console.debug('Attrs: ', $iAttrs);
             return $iAttrs.templateUrl || "templates/torrentRemoteControl.html"
         },
         link: function($scope, $attr) {
