@@ -34,8 +34,8 @@ angular.module('DuckieTV.providers.chromecast', [])
      * Connection event logs
      */
     var log = {
-        initSuccess: function(e) {
-            console.log("ChromeCast Init Success ", e);
+        initSuccess: function(e, f) {
+            console.log("ChromeCast Init Success ", e, f);
         },
         error: function(message) {
             console.log("ChromeCast Error: ", message);
@@ -56,17 +56,23 @@ angular.module('DuckieTV.providers.chromecast', [])
 
     var service = {
 
-        connect: function() {
-            var p = $q.defer();
+        connect: function(promise) {
+            p = promise || $q.defer();
             if (!chrome.cast || !chrome.cast.isAvailable) {
-                setTimeout(service.connect, 1000);
+                console.log("cast not available yet! delaying by 1second");
+                setTimeout(function() {
+                    service.connect(p)
+                }, 1000);
             } else {
                 var sessionRequest = new chrome.cast.SessionRequest(applicationID);
                 var apiConfig = new chrome.cast.ApiConfig(sessionRequest, remote.session, remote.receiver);
-                chrome.cast.initialize(apiConfig, function(e) {
-                    log.initSuccess(e);
-                    p.resolve(e);
-                }, log.error);
+                chrome.cast.initialize(apiConfig, function(e, f) {
+                    log.initSuccess(e, f);
+                    p.resolve();
+                }, function(e) {
+                    console.error("Error connecting to chromecast: ", e);
+                    p.reject();
+                });
             }
             return p.promise;
         },
@@ -76,31 +82,50 @@ angular.module('DuckieTV.providers.chromecast', [])
         },
 
         sendMessage: function(message) {
+            var p = $q.defer();
             if (session != null) {
-                session.sendMessage(namespace, angular.toJson(message, true), log.successsent, log.error);
+                session.sendMessage(namespace, angular.toJson(message, true), function(e) {
+                    log.successsent(e);
+                    p.resolve();
+                }, function(e) {
+                    log.error(e);
+                    p.reject();
+                });
             } else {
                 chrome.cast.requestSession(function(e) {
                     session = e;
-                    session.sendMessage(namespace, angular.toJson(message, true), log.successsent, log.error);
-                }, log.error);
+                    session.sendMessage(namespace, angular.toJson(message, true), function(e) {
+                        log.successsent(e);
+                        p.resolve();
+                    }, function(e) {
+                        log.error(e);
+                        p.reject(e);
+                    });
+                }, function(e) {
+                    log.error(e);
+                    p.reject(e);
+                });
             }
-
+            return p.promise;
         }
     }
     return service;
 
 })
 
-.factory('DuckieTVCast', function(ChromeCastSender, $rootScope) {
+.factory('DuckieTVCast', function(ChromeCastSender, FavoritesService, $rootScope, $q) {
 
     var service = {
 
         initialize: function() {
             console.log("start initializing");
-
+            var p = $q.defer();
             ChromeCastSender.connect().then(function() {
                 ChromeCastSender.sendMessage({
                     oh: 'hai!'
+                }).then(function() {
+                    console.log("Connect message sent, we now have a chromecast connection!");
+                    p.resolve();
                 });
                 $rootScope.$on('background:load', function(evt, bg) {
                     ChromeCastSender.sendMessage({
@@ -126,9 +151,10 @@ angular.module('DuckieTV.providers.chromecast', [])
                         'video:load': video
                     });
                 });
-                console.log("done initializing");
+                console.log("Chromecast connect started. listening for forwarding events");
+                FavoritesService.loadRandomBackground();
             })
-
+            return p.promise;
         }
 
     }

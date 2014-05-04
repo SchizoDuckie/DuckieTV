@@ -4,15 +4,16 @@ angular.module('DuckieTV.controllers.chromecast', ['DuckieTV.providers.chromecas
 /**
  * ChromeCast controller. Can fire off ChromeCast initializer
  */
-.controller('ChromeCastCtrl', function($scope, DuckieTVCast, $q) {
+.controller('ChromeCastCtrl', function($scope, DuckieTVCast, $q, $rootScope) {
 
+    $scope.addrs = {};
+    $scope.localIpAddress = $rootScope.getSetting('ChromeCast.localIpAddress');
 
     discoverLocalIP = function() {
-        console.log("Discover local IP! ");
+        console.log("Discovering local IP Address via RTC Peer Connnection");
         var p = $q.defer();
 
         var RTCPeerConnection = window.webkitRTCPeerConnection;
-        var addrs = {};
 
         var rtc = new RTCPeerConnection({
             iceServers: []
@@ -22,17 +23,12 @@ angular.module('DuckieTV.controllers.chromecast', ['DuckieTV.providers.chromecas
         });
 
         function grepSDP(sdp) {
-            var hosts = [];
             sdp.split('\r\n').map(function(line) {
                 if (~line.indexOf('a=candidate')) {
                     var parts = line.split(' '),
                         addr = parts[4],
                         type = parts[7];
-                    if (type === 'host') addrs[addr] = true;
-                } else if (~line.indexOf('c=')) {
-                    //  var parts = line.split(' '),
-                    //     addr = parts[2];
-                    //  addrs[addr] = true;
+                    if (type === 'host') $scope.addrs[addr] = true;
                 }
             });
         }
@@ -48,7 +44,7 @@ angular.module('DuckieTV.controllers.chromecast', ['DuckieTV.providers.chromecas
         }, function(e) {});
 
         setTimeout(function() {
-            p.resolve(Object.keys(addrs));
+            p.resolve(Object.keys($scope.addrs));
         }, 1500);
 
         return p.promise;
@@ -67,4 +63,10 @@ angular.module('DuckieTV.controllers.chromecast', ['DuckieTV.providers.chromecas
         $scope.localIpAddress = address;
     }
 
+    $scope.Cast = function() {
+        console.log('connecting!');
+        DuckieTVCast.initialize();
+    }
+
+    $scope.getLocalIP();
 });

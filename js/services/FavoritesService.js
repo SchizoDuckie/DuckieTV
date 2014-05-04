@@ -211,7 +211,9 @@ angular.module('DuckieTV.providers.favorites', [])
             });
             return d.promise;
         },
-
+        loadRandomBackground: function() {
+            $rootScope.$broadcast('background:load', service.favorites[Math.floor(Math.random() * service.favorites.length)].fanart);
+        },
         /**
          * Fetch stored series from sqlite and store them in service.favorites
          * Notify anyone listening by broadcasting favorites:updated
