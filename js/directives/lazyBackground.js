@@ -15,7 +15,7 @@ angular.module('DuckieTV.directives.lazybackground', [])
             attrs.ngHide = true;
 
             attrs.$observe('lazyBackground', function(newSrc) {
-                if (newSrc == "") return;
+                if (newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/') return;
                 element.attr('oldStyle', element.attr('style') == null ? '' : element.attr('style'));
                 element.css('transition', 'opacity 0.5s ease-in');
                 element.css('opacity', 0.5);
