@@ -9,7 +9,7 @@
         <th>Firing next</th>
         <th>&nbsp;</th>
       </tr>
-      <tr ng-repeat="timer in timers">
+      <tr ng-repeat="timer in timers | orderBy : 'name'">
         <td>
           <strong>{{timer.name}}</strong>
         </td>
