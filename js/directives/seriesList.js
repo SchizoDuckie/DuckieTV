@@ -50,21 +50,12 @@ angular.module('DuckieTV.directives.serieslist', [])
                 if ($scope.activated) {
                     return $scope.closeDrawer();
                 }
-                var d = document.createElement('div');
-                d.id = $scope.activeId = 'cover_' + new Date().getTime();
-                d.setAttribute('class', 'coverElement');
-                d.onclick = $scope.closeDrawer;
-                document.body.appendChild(d);
                 iElement.toggleClass('active');
                 $scope.activated = true;
-
             }
-
 
             $scope.closeDrawer = function() {
                 if (!$scope.activated) return;
-                document.body.removeChild(document.getElementById($scope.activeId));
-                $scope.activeId = null;
                 iElement.toggleClass('active');
                 $scope.activated = false;
             }
@@ -148,8 +139,7 @@ angular.module('DuckieTV.directives.serieslist', [])
                 if (!$scope.favorites || (FavoritesService.favorites && FavoritesService.favorites.length == 0)) {
                     $rootScope.$broadcast('serieslist:empty');
                 } else {
-                    var serie = $scope.favorites[Math.floor(Math.random() * $scope.favorites.length)];
-                    $rootScope.$broadcast('background:load', serie.fanart);
+                    FavoritesService.loadRandomBackground();
                 }
             });
             $rootScope.$on('episodes:inserted', function(event, serie) {

@@ -249,7 +249,7 @@ series-list {
     background-color: rgba(0,0,0,0.9);
     border-top: 1px solid white;
     z-index: 200;
-    -webkit-transition: all 0.5s ease-in-out;
+    -webkit-transition: -webkit-transform 0.5s ease-in;
     -webkit-transform: translate3d(0,100%,0);
 }
 
