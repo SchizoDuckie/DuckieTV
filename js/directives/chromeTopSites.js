@@ -43,17 +43,6 @@ angular.module('DuckieTV.directives.chrometopsites', ['DuckieTV.directives.lazyb
 
     return {
         restrict: 'E',
-        template: ['<div ng-controller="ChromeTopSitesCtrl" class="topSites">',
-            '<h2><i class="glyphicon glyphicon-chevron-down"></i> <a style="color:white; display:inline">Pull down most visited sites</a> <i class="glyphicon glyphicon-chevron-down"></i></h2>',
-            '<ul class="list list-inline">',
-            '<li ng-repeat="site in topSites | limitTo: 12">',
-            '<a href="{{ site.url }}">',
-            '<img lazy-background="\http://chromeutils.appspot.com/t/?url={{site.url}}\">',
-            '<p>{{ site.title }}</p>',
-            '</a>',
-            '</li>',
-            '</ul>',
-            '</div>'
-        ].join(' ')
+        templateUrl: 'templates/chrome-top-sites.html'
     };
 });
