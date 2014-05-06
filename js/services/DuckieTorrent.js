@@ -494,6 +494,10 @@ angular.module('DuckieTorrent.torrent', [])
             return pr ? pr / 10 : pr;
         },
 
+        getStatusCode: function() {
+            return this.properties.all.status;
+        },
+
         getFiles: function() {
             var files = [];
             angular.forEach($parse('file.all')(this), function(el, key) {
@@ -509,7 +513,7 @@ angular.module('DuckieTorrent.torrent', [])
          * The torrent is started if the status is uneven.
          */
         isStarted: function() {
-            return this.properties.status % 2 === 1;
+            return this.properties.all.status % 2 === 1;
         },
 
         // We expect function signatures that come from the client to have a specific syntax
