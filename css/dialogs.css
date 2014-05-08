@@ -10,7 +10,7 @@
 
 .dialog-header-error { background-color: #d2322d; }
 .dialog-header-wait { background-color: #428bca; }
-.dialog-header-notify { background-color: #eeeeee; }
+.dialog-header-notify { background-color: #ABCDEF; }
 .dialog-header-confirm { background-color: #333333; }
 .dialog-header-error span, .dialog-header-error h4,
 .dialog-header-wait span, .dialog-header-wait h4,

@@ -1,5 +1,5 @@
 angular.module('DuckieTV.providers.migrations', ['DuckieTV.providers.favorites', 'DuckieTV.providers.trakttv', 'dialogs.services'])
-    .factory('MigrationService', function($rootScope, FavoritesService, TraktTV, $dialogs, $q) {
+    .factory('MigrationService', function($rootScope, FavoritesService, TraktTV, $dialogs, $q, EventSchedulerService, EventWatcherService) {
 
         var addFave = function(TVDB_ID, watched) {
             console.log("Add fave: ", TVDB_ID, watched)
@@ -124,9 +124,26 @@ angular.module('DuckieTV.providers.migrations', ['DuckieTV.providers.favorites',
                 if (!localStorage.getItem('0.4migration')) {
                     migrateFromTVDB();
                 }
-                if (!localStorage.getItem('0.42orphancheck')) {
+                if (!localStorage.getItem('0.42.orphancheck')) {
                     console.log('orphan check needs to run!');
                     orphanCheck();
+                }
+                if (!localStorage.getItem('0.5.firetimers')) {
+
+                    EventSchedulerService.getAll().then(function(timers) {
+                        if (timers.length > 0) {
+                            var out = '';
+                            for (var j = 0; j < timers.length; j++) {
+                                out += timers[j].name.replace(' update check', ', ');
+                            }
+                            var dlg = $dialogs.notify('Welcome to DuckieTV 0.5!', '<p>This release includes: <ul><li>A completely overhauled and even cleaner user interface<li>A lot improvements for better performance<li>&micro;Torrent integration<li>Experimental ChromeCast support<li>Properly fixed TV show updates in the background</ul><p>A lot has changed, I hope you like it!</p> <p><strong>Please keep this tab open for a while while so that I can update your shows!</strong></p><p>(You will see your show backgrounds flash by and the calendar updating as an indicator it\'s still working) </p>');
+                        }
+                        console.log("0.5 show info update running!");
+                        for (var i = 0; i < timers.length; i++) {
+                            EventWatcherService.onEvent(timers[i].name);
+                        }
+                        localStorage.setItem('0.5.firetimers', 'done');
+                    });
                 }
             }
         };
