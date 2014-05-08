@@ -82,8 +82,10 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
             scope: {
                 q: '=q'
             },
-            template: '<a ng-click="openDialog()" tooltip="Search for a download for {{q}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
-            link: function($scope) {
+            template: '<a ng-click="openDialog()" tooltip="{{tooltip}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
+
+            controller: function($scope) {
+                $scope.tooltip = $scope.q !== undefined ? 'Search for a download for ' + $scope.q : 'Search for any download';
                 $scope.openDialog = function() {
                     console.log('open dialog! ', $scope.q);
                     TorrentDialog.search($scope.q);
