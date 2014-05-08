@@ -1,15 +1,18 @@
-<fieldset style='width: 400px; float:right'>
-<span class="label label-info">{{torrent.getFormattedStatus()}}</span>
-  <div class="progress-striped progress" style='width:170px'>
+<fieldset>
+  
+
+
+  <h3>{{torrent.properties.all.name}} <span class="label label-info">{{torrent.getFormattedStatus()}}</span>
+</h3>
+  <table class="table table-condensed light" style='width:95%'>
+  <thead>
+  <tr> <td colspan="2">
+  <div class="progress-striped progress">
     <div class="progress-bar progress-bar-success" ng-style="{ width: torrent.getProgress() + '%' }">
       <span>{{torrent.getProgress()}}%</span>
      </div>
-  </div>
-
-  <h3>{{torrent.properties.all.name}}</h3>
-  <table class="table table-condensed light" style='width:95%'>
-  <thead>
-  <tr> <th>Filename</th><td>&nbsp;</td></tr>
+  </div></td></tr>
+  <tr> <th>Files</th><td>&nbsp;</td></tr>
   </thead>
   <tbody>
   <tr ng-repeat="file in torrent.getFiles()">
@@ -21,13 +24,13 @@
   </tbody>
   </table>
 
-<div style='width:220px; text-align: center'>
+<div >
 
-    <button ng-click="torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i> Start</button>
-    <button ng-click="torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i> Pause</button>
-    <button ng-click="torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i> Stop</button>
-    <button ng-if="torrent.properties.all.is_streamable"  style="margin-top: 5px" ng-click="torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i> Stream with uTorrent player</button>   
-    <button ng-click="torrent.open_containing();" class="btn btn-xs btn-primary" style="margin-top: 5px" >
+    <button ng-click="torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i> Start Torrent</button>
+    <button ng-click="torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i> Pause Torrent</button>
+    <button ng-click="torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i> Stop Torrent</button>
+    <button ng-if="torrent.properties.all.is_streamable" ng-click="torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i> Stream with uTorrent player</button>   
+    <button ng-click="torrent.open_containing();" class="btn btn-xs btn-primary" >
     <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>Open containing folder</button> 
 </div>
 

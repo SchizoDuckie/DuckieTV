@@ -16,13 +16,12 @@
           <td style='padding: 5px; vertical-align:middle;'>
             <torrent-dialog ng-if="getSetting('torrenting.enabled') && hasAired(episode)" q='getSearchString(serie,episode)' style='font-size:20px'></torrent-dialog>
             <episode-watched ng-if="hasAired(episode)" episode="episode" style="display:inline-block;margin-left:10px"></episode-watched>
-               <torrent-remote-control ng-if="episode.magnetHash" info-hash="episode.magnetHash"></torrent-remote-control>
             
-
           </td>
         </tr>
         <tr>
           <td colspan="2">
+
             <div style='float:left; width: 300px; height:180px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{episode.filename}}"></div>
             {{episode.overview}}
 
@@ -60,7 +59,8 @@
     </table>
   </div>
   <div class="col-md-4">
-    <!-- <button class="btn btn-ok" ng-click="notify(serie)">click me!</button>-->
-    <serie-details serie="serie"></serie-info>
+            
+    <serie-details serie="serie"><torrent-remote-control ng-if="episode.magnetHash" info-hash="episode.magnetHash"></torrent-remote-control>
+    </serie-info>
   </div>
 </div>
