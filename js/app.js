@@ -107,6 +107,9 @@ angular.module('DuckieTV', [
             templateUrl: 'templates/torrentClient.html',
             controller: 'TorrentCtrl'
         })
+        .when('/about', {
+            templateUrl: 'templates/about.html'
+        })
         .otherwise({
             redirectTo: '/'
         });
@@ -117,6 +120,9 @@ angular.module('DuckieTV', [
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
     $rootScope.getSetting = function(key) {
+        if (key == 'cast.supported') {
+            return ('cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability);
+        }
         return SettingsService.get(key);
     }
 
