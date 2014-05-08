@@ -41,11 +41,12 @@ Please open a github ticket or start a [reddit thread](http://reddit.com/r/ducki
 
 Screenshots:
 ============
-!['New Tab' mode](http://i.imgur.com/BZ7Hfhd.png)
+!['New Tab' mode](http://i.imgur.com/B5jtvrf.png)
+!['Shows you are watching'](http://i.imgur.com/EYloHBq.png)
 ![Batch mark episodes as watched](http://i.imgur.com/m98zwID.png)
 ![Settings](http://i.imgur.com/lrg3pVE.png)
-![Search for a download](http://i.imgur.com/VVL4yTf.png)
-![Wide mode + series posters](http://i.imgur.com/4voB8rA.png)
+![Stream with uTorrent player](http://i.imgur.com/h6OnmHO.png)
+![DuckieTorrent uTorrent integration](http://i.imgur.com/dTdt1DH.png)
 More @ http://imgur.com/gallery/l7toH
 
 
