@@ -15,6 +15,7 @@ angular.module('DuckieTV.directives.episodewatched', [])
                 $scope.tooltip = $scope.episode.watched == 1 ? "You marked this episode as watched at " + new Date($scope.episode.watchedAt).toLocaleString() : "Mark this episode as watched";
             });
             $scope.markWatched = function() {
+
                 $scope.episode.watched = $scope.episode.watched == '1' ? '0' : '1';
                 $scope.episode.watchedAt = new Date().getTime();
 
@@ -28,6 +29,7 @@ angular.module('DuckieTV.directives.episodewatched', [])
                     epi.Persist();
                     $rootScope.$broadcast('calendar:clearcache');
                 });
+                $scope.$digest();
             }
         }
     }
