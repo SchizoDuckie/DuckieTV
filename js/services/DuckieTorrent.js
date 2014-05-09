@@ -475,6 +475,8 @@ angular.module('DuckieTorrent.torrent', [])
                 136: 'stopped',
                 137: 'started',
                 152: 'Error: Files missing, please recheck',
+                198: 'Connecting to peers',
+                200: 'started',
                 201: 'downloading',
                 233: 'paused'
             }
