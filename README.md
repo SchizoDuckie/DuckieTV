@@ -52,6 +52,7 @@ More @ http://imgur.com/gallery/l7toH
 
 Changelog: 
 ==========
+* v0.51 : Fixed several marking episode as watched issues
 * v0.50 : Complete UI overhaul, uTorrent integration, experimental Chromecast integration, many performance improvements
 * v0.43 : Made sure migrations don't run on fresh installs
 * v0.42 : Fixed missing scheduled event and chrome alarm delete procedure when deleting series.
