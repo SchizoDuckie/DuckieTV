@@ -508,6 +508,10 @@ episode-watched {
     cursor:pointer;
     font-size: 18px;
 }
+episode-watched a.glyphicon-eye-open {
+    color: green;
+    font-size: 18px;
+}
 .dropdown-menu episode-watched a.glyphicon-eye-open {
     color: green;
     font-size: 18px;
