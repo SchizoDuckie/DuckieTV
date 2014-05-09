@@ -12,8 +12,8 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
             var startDate = new Date(date);
             switch (range) {
                 case 'week':
-                    startDate.setDate(startDate.getDate() - 7);
-                    endDate.setDate(endDate.getDate() + 7);
+                    startDate.setDate(startDate.getDate() - startDate.getDay());
+                    endDate.setDate(endDate.getDate() + (7 - endDate.getDay()));
                     break;
                 case 'date':
                     endDate.setDate(40);
