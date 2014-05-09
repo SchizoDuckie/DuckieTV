@@ -106,6 +106,10 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                 console.debug("Found a magnet selected!", magnet);
                 $scope.event.episode.set('magnetHash', magnet);
                 $scope.event.episode.Persist();
+            });
+            $scope.$on('episode:watched' + $scope.event.episode.getID(), function(evt, episode) {
+                console.log("Episdoe watched!", evt, episode);
+                $scope.event.episode = episode;
             })
         }
     }

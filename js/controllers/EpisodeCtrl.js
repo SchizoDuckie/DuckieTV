@@ -9,8 +9,6 @@ angular.module('DuckieTV.controllers.episodes', [])
         $scope.episode = null;
         $scope.episodeEntity = null;
 
-        var currentDate = new Date().getTime();
-
         CRUD.FindOne('Serie', {
             'TVDB_ID': $routeParams.id
         }).then(function(serie) {
@@ -31,8 +29,8 @@ angular.module('DuckieTV.controllers.episodes', [])
                     $scope.episodeEntity.set('magnetHash', magnet);
                     $scope.episodeEntity.Persist();
                     $scope.episode = $scope.episodeEntity.asObject();
+                    $scope.$digest();
                 });
-                $scope.$digest();
             }, function(err) {
                 debugger;
                 console.log("Episodes booh!", err);
@@ -49,9 +47,9 @@ angular.module('DuckieTV.controllers.episodes', [])
         /**
          * Check if airdate has passed
          */
-        $scope.hasAired = function(serie) {
-            return serie.firstaired && serie.firstaired <= currentDate;
-        };
+        $scope.hasAired = function(episode) {
+        return episode.firstaired && episode.firstaired <= new Date().getTime();;
+    };
 
         $scope.getSearchString = function(serie, episode) {
             var serieName = SceneNameResolver.getSceneName(serie.name) || serie.name;

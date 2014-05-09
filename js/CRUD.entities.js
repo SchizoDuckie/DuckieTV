@@ -115,6 +115,12 @@ var Episode = CRUD.define({
             en = this.get('episodenumber').toString(),
             out = ['S', sn.length == 1 ? '0' + sn : sn, 'E', en.length == 1 ? '0' + en : en].join('');
         return out;
+    },
+    getAirDate: function() {
+        return new Date(this.get('firstaired')).toLocaleString();
+    },
+    hasAired: function() {
+        return this.get('firstaired') && this.get('firstaired') <= new Date().getTime();
     }
 });
 
