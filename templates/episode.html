@@ -14,7 +14,7 @@
             <h2>{{getEpisodeNumber(episode)}} - {{ episode.episodename }}</h2>
           </td>
           <td style='padding: 5px; vertical-align:middle;'>
-            <torrent-dialog ng-if="getSetting('torrenting.enabled') && hasAired(episode)" q='getSearchString(serie,episode)' style='font-size:20px'></torrent-dialog>
+            <torrent-dialog ng-if="getSetting('torrenting.enabled') && hasAired(episode)" tvdbid='episode.TVDB_ID' q='getSearchString(serie,episode)' style='font-size:20px'></torrent-dialog>
             <episode-watched ng-if="hasAired(episode)" episode="episodeEntity" style="display:inline-block;margin-left:10px"></episode-watched>
             
           </td>

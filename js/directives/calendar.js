@@ -102,13 +102,14 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
         },
         templateUrl: 'templates/event.html',
         link: function($scope) {
-            $scope.$on('magnet:select:' + [$scope.event.serie, $scope.event.episode.getFormattedEpisode()].join(" "), function(evt, magnet) {
+            $scope.$on('magnet:select:' + $scope.event.episode.get('TVDB_ID'), function(evt, magnet) {
                 console.debug("Found a magnet selected!", magnet);
                 $scope.event.episode.set('magnetHash', magnet);
                 $scope.event.episode.Persist();
             });
+
             $scope.$on('episode:watched' + $scope.event.episode.getID(), function(evt, episode) {
-                console.log("Episdoe watched!", evt, episode);
+                console.log("Episode watched!", evt, episode);
                 $scope.event.episode = episode;
             })
         }
@@ -135,10 +136,6 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
 
             CalendarEvents.setDate(new Date(), $rootScope.getSetting('calendar.mode'));
 
-
-            $rootScope.eventClick = function(evt) {
-                console.debug("vent click!", evt);
-            }
         },
     };
 });

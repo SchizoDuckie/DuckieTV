@@ -50,7 +50,7 @@
           <td class="nobreaks"><a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.firstaired | date:'dd-MM-yyyy'}}</a>
           </td>
           <td ng-if="getSetting('torrenting.enabled')" style='text-align:center'>
-            <torrent-dialog ng-if="hasAired(episode)" q='getSearchString(serie,episode)'>
+            <torrent-dialog ng-if="hasAired(episode)" tvdbid='episode.TVDB_ID' q='getSearchString(serie,episode)'>
             </torrent-dialog>
           </td>
           <td>

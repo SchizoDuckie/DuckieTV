@@ -30,6 +30,11 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
             var episodes = season.getEpisodes().then(function(data) {
                 $scope.episodes = data.map(function(el) {
                     $scope.episodeEntities[el.getID()] = el;
+                    $scope.$on('magnet:select:' + el.get('TVDB_ID'), function(evt, magnet) {
+                        console.debug("Found a magnet selected!", magnet);
+                        this.set('magnetHash', magnet);
+                        this.Persist();
+                    }.bind(el))
                     return el.asObject();
                 });
                 $scope.points = [];

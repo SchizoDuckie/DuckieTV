@@ -13,18 +13,18 @@ angular.module('DuckieTV.controllers.episodes', [])
             'TVDB_ID': $routeParams.id
         }).then(function(serie) {
             $scope.serie = serie.asObject();
-            $rootScope.$broadcast('serie:load', $scope.serie);
-            if (serie.get('fanart') != '') {
-                $rootScope.$broadcast('background:load', serie.get('fanart'));
-            }
             serie.Find("Episode", {
                 ID_Episode: $routeParams.episode
             }).then(function(epi) {
                 $scope.episode = epi[0].asObject();
                 $scope.episodeEntity = epi[0];
+                $rootScope.$broadcast('serie:load', $scope.serie);
                 $rootScope.$broadcast('episode:load', $scope.episode);
+                if (serie.get('fanart') != '') {
+                    $rootScope.$broadcast('background:load', serie.get('fanart'));
+                }
 
-                $scope.$on('magnet:select:' + $scope.getSearchString($scope.serie, $scope.episode), function(evt, magnet) {
+                $scope.$on('magnet:select:' + $scope.episode.TVDB_ID, function(evt, magnet) {
                     console.debug("Found a magnet selected!", magnet);
                     $scope.episodeEntity.set('magnetHash', magnet);
                     $scope.episodeEntity.Persist();
@@ -48,8 +48,8 @@ angular.module('DuckieTV.controllers.episodes', [])
          * Check if airdate has passed
          */
         $scope.hasAired = function(episode) {
-        return episode.firstaired && episode.firstaired <= new Date().getTime();;
-    };
+            return episode.firstaired && episode.firstaired <= new Date().getTime();;
+        };
 
         $scope.getSearchString = function(serie, episode) {
             var serieName = SceneNameResolver.getSceneName(serie.name) || serie.name;

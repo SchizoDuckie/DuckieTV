@@ -2,9 +2,10 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
     .provider('TorrentDialog', function() {
         this.$get = function($dialogs) {
             return {
-                search: function(query, options) {
+                search: function(query, TVDB_ID, options) {
                     return $dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {
-                        query: query
+                        query: query,
+                        TVDB_ID: TVDB_ID
                     }, options || {});
                 }
             }
@@ -15,13 +16,16 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
 
         $scope.items = [];
         $scope.searching = true;
-        console.log("Search: ", data.query);
         $scope.query = angular.copy(data.query);
+        $scope.TVDB_ID = angular.copy(data.TVDB_ID);
         $scope.searchprovider = $scope.getSetting('torrenting.searchprovider');
         $scope.searchquality = $scope.getSetting('torrenting.searchquality');
 
-        $scope.search = function(q) {
+        $scope.search = function(q, TVDB_ID) {
             $scope.query = q;
+            if (TVDB_ID !== undefined) {
+                $scope.TVDB_ID = TVDB_ID;
+            }
             $injector.get($scope.searchprovider).search([q, $scope.searchquality].join(' ')).then(function(results) {
                 $scope.items = results;
                 $scope.searching = false;
@@ -56,7 +60,10 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
         $scope.magnetSelect = function(magnet) {
             console.log("Magnet selected!", magnet);
             $modalInstance.close(magnet);
-            $rootScope.$broadcast('magnet:select:' + $scope.query, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+            var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
+            console.log("Magnet broadcast channel: ", 'magnet:select:' + channel);
+            $rootScope.$broadcast('magnet:select:' + channel, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+
             var d = document.createElement('iframe');
 
             d.id = 'torrentmagnet_' + new Date().getTime();
@@ -71,8 +78,6 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
 
         $scope.search($scope.query);
 
-
-
     })
     .directive('torrentDialog', function(TorrentDialog) {
         return {
@@ -80,15 +85,14 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
             transclude: true,
             wrap: true,
             scope: {
-                q: '=q'
+                q: '=q',
+                TVDB_ID: '=tvdbid'
             },
             template: '<a ng-click="openDialog()" tooltip="{{tooltip}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
-
             controller: function($scope) {
                 $scope.tooltip = $scope.q !== undefined ? 'Search for a download for ' + $scope.q : 'Search for any download';
                 $scope.openDialog = function() {
-                    console.log('open dialog! ', $scope.q);
-                    TorrentDialog.search($scope.q);
+                    TorrentDialog.search($scope.q, $scope.TVDB_ID);
                 }
             }
         }
