@@ -10,7 +10,7 @@
   <ul class="dropdown-menu">
 	  <li><a href='#/serie/{{event.serieID}}/episode/{{event.episode.getID()}}'><i class="glyphicon glyphicon-info-sign"></i> Episode details</a></li>
 	  <li><a href='#/series/{{event.serieID}}'><i class="glyphicon glyphicon-info-sign"></i> Show details</a></li>
-	  <li ng-if="event.episode.hasAired()"><a><episode-watched episode="event.episode"><span ng-if="event.episode.get('watched') != 1">Mark as watched</span><span ng-if="event.episode.get('watched')"> Marked as watched at {{event.episode.getAirDate()}}</span></episode-watched></a></li>
+	  <li ng-if="event.episode.hasAired()"><a><episode-watched episode="event.episode"><span ng-if="event.episode.get('watched') != 1">Mark as watched</span><span ng-if="event.episode.get('watched')"> Marked as watched at {{event.episode.get('watchedAt') | date:'MMMM dd, yyyy @ h:mma'}}</span></episode-watched></a></li>
 	  <li ng-if="$root.getSetting('torrenting.enabled')"><a><torrent-dialog q='[event.serie,event.episode.getFormattedEpisode()].join(" ")'> Download Torrent</torrent-dialog></a></li>
 	  <li ng-if="$root.getSetting('torrenting.enabled') && event.episode.values.magnetHash">
 		 <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteControl.html"></torrent-remote-control>
