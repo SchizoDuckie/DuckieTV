@@ -1,4 +1,4 @@
-angular.module('DuckieTV.providers.thepiratebay', [])
+angular.module('DuckieTV.providers.thepiratebay', ['DuckieTV.providers.mirrorresolver', 'DuckieTV.providers.settings'])
 /**
  * Autofill serie search component
  * Provides autofill proxy and adds the selected serie back to the MainController
@@ -46,12 +46,12 @@ angular.module('DuckieTV.providers.thepiratebay', [])
                 magneturl: results[i].querySelector('td:nth-child(2) > a').href,
                 size: results[i].querySelector('td:nth-child(2) .detDesc').innerText.split(', ')[1].split(' ')[1],
                 seeders: results[i].querySelector("td:nth-child(3)").innerHTML,
-                leechers: results[i].querySelector("td:nth-child(4)").innerHTML
+                leechers: results[i].querySelector("td:nth-child(4)").innerHTML,
+                detailUrl: this.mirror + results[i].querySelector("a.detLink").getAttribute('href'),
             };
             out.torrent = 'http://torcache.net/torrent/' + out.magneturl.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
             output.push(out);
         }
-        console.log("parsed: ", output);
         return output;
     }
 

@@ -23,6 +23,7 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
 .provider('KickassTorrents', function() {
 
     this.endpoints = {
+        base: 'http://kickass.to',
         search: 'http://kickass.to/usearch/%s/?field=seeders&sorder=desc',
         details: 'http://kickasstorrents.se/torrent/%s',
     };
@@ -47,11 +48,11 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
                 size: results[i].querySelector('td:nth-child(2)').innerText,
                 seeders: results[i].querySelector("td:nth-child(5)").innerHTML,
                 leechers: results[i].querySelector("td:nth-child(6)").innerHTML,
+                detailUrl: this.endpoints.base + results[i].querySelector('div.torrentname a.cellMainLink').getAttribute('href')
             };
             out.torrent = 'http://torcache.net/torrent/' + out.magneturl.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
             output.push(out);
         }
-        console.log("parsed: ", output);
         return output;
     }
 

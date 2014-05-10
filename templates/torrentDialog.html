@@ -44,13 +44,19 @@
       </th>
     </tr>
     <tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items | limitTo: 20">
-      <td style='width:50px; padding:5px;'>
-        <a  ng-click="magnetSelect(seed.magneturl)">
+      <td style='width:50px; padding:5px;' class='dropdown'>
+        <a ng-click="magnetSelect(seed.magneturl)">
           <i class="glyphicon glyphicon-magnet" tooltip="Download magnet"></i>
         </a>
-        <a ng-href="{{seed.torrent}}" ng-click="magnetSelect(seed.magneturl)">
-          <i class="glyphicon glyphicon-download" tooltip="Download torrent"></i>
+        <a class="dropdown-toggle">
+          <i class="glyphicon glyphicon-download" tooltip="Options"></i>
         </a>
+        <ul class="dropdown-menu">
+          <li><a ng-href="{{seed.torrent}}"><i class="glyphicon glyphicon-download"></i> Download .torrent</a></li>
+          <li><a ng-href="{{seed.magneturl}}"><i class="glyphicon glyphicon-magnet"></i> Magnet link</a></li>
+          <li><a ng-href="{{seed.detailUrl}}" target='_blank'><i class="glyphicon glyphicon-link"></i> Torrent details</a></li>
+        </ul>
+
       </td>
       <td>
         <a tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe" ng-click="magnetSelect(seed.magneturl)"></a>
