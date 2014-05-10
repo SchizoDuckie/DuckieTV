@@ -151,4 +151,11 @@ angular.module('DuckieTV', [
     });
 
     MigrationService.check();
+
+    // delay loading of chromecast because it's creating a load delay in the rest of the scripts.
+    setTimeout(function() {
+        var s = document.createElement('script');
+        s.src = './js/vendor/cast_sender.js';
+        document.body.appendChild(s);
+    }, 5000);
 })
