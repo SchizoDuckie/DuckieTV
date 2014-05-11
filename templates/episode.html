@@ -59,8 +59,8 @@
     </table>
   </div>
   <div class="col-md-4">
-            
-    <serie-details serie="serie"><torrent-remote-control ng-if="episode.magnetHash" info-hash="episode.magnetHash"></torrent-remote-control>
-    </serie-info>
+      <serie-details ng-if="serie" serie="serie">
+        <torrent-remote-control ng-if="episode && episode.magnetHash" info-hash="episode.magnetHash"></torrent-remote-control>
+    </serie-details>
   </div>
 </div>

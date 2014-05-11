@@ -13,11 +13,14 @@ angular.module('DuckieTV.controllers.episodes', [])
             'TVDB_ID': $routeParams.id
         }).then(function(serie) {
             $scope.serie = serie.asObject();
+            $scope.$digest();
             serie.Find("Episode", {
                 ID_Episode: $routeParams.episode
             }).then(function(epi) {
                 $scope.episode = epi[0].asObject();
                 $scope.episodeEntity = epi[0];
+                $scope.$digest();
+
                 $rootScope.$broadcast('serie:load', $scope.serie);
                 $rootScope.$broadcast('episode:load', $scope.episode);
                 if (serie.get('fanart') != '') {
@@ -29,7 +32,6 @@ angular.module('DuckieTV.controllers.episodes', [])
                     $scope.episodeEntity.set('magnetHash', magnet);
                     $scope.episodeEntity.Persist();
                     $scope.episode = $scope.episodeEntity.asObject();
-                    $scope.$digest();
                 });
             }, function(err) {
                 debugger;
