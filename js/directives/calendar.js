@@ -6,14 +6,13 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
     };
     var service = {
         setDate: function(date, range) {
-            console.log('setDate!', date, range || $rootScope.getSetting('calendar.mode'));
             range = range || $rootScope.getSetting('calendar.mode');
             var endDate = new Date(date);
             var startDate = new Date(date);
             switch (range) {
                 case 'week':
-                    startDate.setDate(startDate.getDate() - startDate.getDay());
-                    endDate.setDate(endDate.getDate() + (7 - endDate.getDay()));
+                    endDate.setDate(startDate.getDate() + 7);
+                    startDate.setDate(startDate.getDate() - startDate.getDay() - 7);
                     break;
                 case 'date':
                     endDate.setDate(40);

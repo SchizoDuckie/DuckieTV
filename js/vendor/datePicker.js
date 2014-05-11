@@ -22,14 +22,15 @@ function getVisibleMinutes(date, step) {
     return minutes;
 }
 
-function getVisibleWeek(date) {
+function getVisibleWeek(date, startSunday) {
     date = new Date(date || new Date());
 
     var weeks = [];
     var day = date.getDay(),
-        diff = date.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+        diff = date.getDate() + (day == ((startSunday) ? 1 : 0) ? -6 : 0); // adjust when day is sunday
     date.setDate(diff);
     var week = [];
+
     for (var i = 0; i < 7; i++) {
         week.push(new Date(date));
         date.setDate(date.getDate() + 1);
@@ -46,7 +47,7 @@ function getVisibleWeeks(date, startSunday) {
     date.setMinutes(0);
     date.setSeconds(0);
     date.setMilliseconds(0);
-    var startSunday = startSunday ? 0 : 1;
+    startSunday = startSunday ? 0 : 1;
     if (date.getDay() === 0) {
         date.setDate(-5);
     } else {
@@ -128,7 +129,6 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
             before: '=?'
         },
         link: function(scope, element, attrs, $rootScope) {
-            console.log("Link!", scope, element, attrs);
             scope.date = new Date(scope.model || new Date());
             scope.views = datePickerConfig.views.concat();
             scope.view = attrs.view || datePickerConfig.view;
@@ -224,7 +224,7 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
                         break;
                     case 'week':
                         scope.weekdays = scope.weekdays || getDaysOfWeek(undefined, datePickerConfig.startSunday);
-                        scope.weeks = getVisibleWeek(date);
+                        scope.weeks = getVisibleWeek(date, datePickerConfig.startSunday);
                         break;
                     case 'date':
                         scope.weekdays = scope.weekdays || getDaysOfWeek(undefined, datePickerConfig.startSunday);
