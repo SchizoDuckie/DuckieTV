@@ -52,6 +52,7 @@ More @ http://imgur.com/gallery/l7toH
 
 Changelog: 
 ==========
+* v0.53 : CSS/layout fixes, Fixed the timers that went missing, fixed the auto-update service, fixed restore watchlist timers, improved memory usage on backup restore.
 * v0.52 : Fixed magnet URI catching and saving everywhere you can launch a torrent search for an episode. Added a popup menu on the torrent dialog with access to source, torrent and magnet links for each result
 * v0.51 : Fixed several marking episode as watched issues
 * v0.50 : Complete UI overhaul, uTorrent integration, experimental Chromecast integration, many performance improvements
