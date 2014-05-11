@@ -715,15 +715,22 @@ angular.module('DuckieTorrent.torrent', [])
             return $iAttrs.templateUrl || "templates/torrentRemoteControl.html"
         },
         link: function($scope, $attr) {
+            // if the connected info hash changes, remove the old event and start observing the new one.
+            $scope.$watch('infoHash', function(newVal, oldVal) {
+                if (newVal == oldVal) return;
+                $rootScope.$$listeners['torrent:update:' + oldVal] = []; // no $rootScope.$off?
+                $scope.infoHash = newVal;
+                observeTorrent(newVal);
+            });
 
-            uTorrent.AutoConnect().then(function(remote) {
-
+            function observeTorrent(infoHash) {
                 $rootScope.$on('torrent:update:' + $scope.infoHash, function(evt, data) {
                     $scope.torrent = data;
                 });
                 $scope.torrent = TorrentRemote.getByHash($scope.infoHash);
-
-                console.log("Connected to utorrent!", $scope.infoHash, $scope.torrent);
+            }
+            uTorrent.AutoConnect().then(function(remote) {
+                observeTorrent($scope.infoHash);
             });
 
             $scope.isFormatSupported = function(file) {
