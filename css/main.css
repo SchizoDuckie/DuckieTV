@@ -728,6 +728,9 @@ width: 33%;
     color: white;
     display: block;
 }
+[date-picker] .event > a > span {
+    padding-left: 3px;
+}
 [date-picker] div.tooltip.bottom {
     width: 500px !important;
     overflow:visible;
@@ -743,6 +746,18 @@ width: 33%;
 [date-picker] div.tooltip p {
     width:450px;
 }
+
+[date-picker] calendar-event:first-of-type  {
+    margin-top: 10px;
+    display:block;
+}
+
+
+[date-picker] calendar-event:last-of-type  {
+    margin-bottom: 10px;
+    display:block;
+}
+
 ul.engineselect {
     color: white;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
