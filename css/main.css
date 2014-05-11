@@ -67,17 +67,13 @@ a, a:hover {
 a:hover {
     text-decoration: underline;
 }
-
-
- .tooltip .tooltip-arrow {
+.tooltip .tooltip-arrow {
     border-top-color: white !important;
 }
-
- .tooltip .tooltip-inner {
+.tooltip .tooltip-inner {
     background-color: white !important;
     color: black !important;
 }
-
 background-rotator, background-rotator > div {
     width: 100%;
     height: 100%;
@@ -123,14 +119,11 @@ serieheader[mode='search'] {
     position: relative;
     margin-right: 2px;
 }
-
 .series serieheader[mode='search']:first-child > div {
-  border-radius:0;
+    border-radius:0;
 }
-
 serieheader[mode='search'] h3 {
-  margin-top: 0;
-
+    margin-top: 0;
 }
 serieheader[mode='poster'] {
     display:inline-block;
@@ -239,24 +232,21 @@ serieheader aside {
 serieheader:hover aside {
     right: 0;
 }
-
 series-list {
     position: fixed;
     bottom: 0px;
     height: calc(100% - 40px);
     left: 0px;
     right: 0px;
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0, 0, 0, 0.9);
     border-top: 1px solid white;
     z-index: 200;
     -webkit-transition: -webkit-transform 0.5s ease-in;
-    -webkit-transform: translate3d(0,100%,0);
+    -webkit-transform: translate3d(0, 100%, 0);
 }
-
 series-list.active {
-     -webkit-transform: translate3d(0,0,0);
+    -webkit-transform: translate3d(0, 0, 0);
 }
-
 series-list > div > h2 {
     width: 100%;
     text-align: center;
@@ -269,16 +259,14 @@ series-list > div > h2 {
     transition: background-color 0.5s ease-in-out;
     cursor: pointer;
 }
-
 series-list > div > h2 > i {
     font-size: 14px;
     line-height:25px;
     vertical-align: middle;
 }
 series-list:hover h2, series-list.active h2 {
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0, 0, 0, 0.9);
 }
-
 .series {
     overflow-y: auto;
     bottom: 12px;
@@ -383,7 +371,6 @@ table.light h1 {
 .dropdown-menu table.torrents tbody td:nth-last-child(-n + 2) {
     text-align: right;
 }
-
 chrome-top-sites {
     position: fixed;
     top: 0px;
@@ -392,16 +379,14 @@ chrome-top-sites {
     right: 2%;
     padding:20px;
     z-index:99;
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0, 0, 0, 0.9);
     border-bottom: 1px solid white;
-    -webkit-transform: translateY(-100%); 
+    -webkit-transform: translateY(-100%);
     -webkit-transition: all 0.5s ease-in-out;
 }
-
 chrome-top-sites:hover {
     -webkit-transform: translateY(0);
 }
-
 chrome-top-sites h2 {
     position: absolute;
     top: 100%;
@@ -415,13 +400,9 @@ chrome-top-sites h2 {
     background-color: transparent;
     -webkit-transition: background-color 0.5 ease-in-out;
 }
-
-
 chrome-top-sites:hover h2, chrome-top-sites:hover h2 a {
-    background-color: rgba(0,0,0,0.9);
-
+    background-color: rgba(0, 0, 0, 0.9);
 }
-
 chrome-top-sites h2 i {
     font-size: 15px;
 }
@@ -439,21 +420,16 @@ chrome-top-sites li {
     transition: all 0.5s ease-in-out;
     width: calc(100% / 6);
 }
-
 chrome-top-sites li a {
     background-color: rgba(255, 255, 255, 0.5);
     color: black;
     border: 1px solid #666;
-   border-radius: 10px;
-    
-    
+    border-radius: 10px;
 }
-
 chrome-top-sites li a img {
     height: 150px;
-    background-size: cover;     
+    background-size: cover;
 }
-
 .col-md-8 chrome-top-sites li {
     width: calc(33% - 5px);
 }
@@ -481,7 +457,7 @@ chrome-top-sites a {
 }
 chrome-top-sites a:hover {
     color: black;
-     background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 chrome-top-sites img {
     border-radius: 5px;
@@ -490,7 +466,6 @@ chrome-top-sites img {
     background-color: black;
     background-size:cover !important;
 }
-
 chrome-top-sites a p {
     height: 38px;
     overflow: hidden;
@@ -501,7 +476,6 @@ chrome-top-sites a p {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
-
 episode-watched {
     display:block;
     text-align:center;
@@ -516,18 +490,15 @@ episode-watched a.glyphicon-eye-open {
     color: green;
     font-size: 18px;
 }
-
 .dropdown-menu episode-watched span {
     font-family: helvetica, sans-serif;
     font-size: 14px;
     padding-left: 7px;
     color: white;
 }
-
 .dropdown-menu episode-watched .glyphicon-eye-open {
     color: green;
 }
-
 .markAsWatched episode-watched a.glyphicon {
     color: rgba(0, 255, 0, 0.4);
     -webkit-transform: rotate(360deg);
@@ -617,11 +588,9 @@ input[type=text], input[type=url], option, select {
 [date-picker] tr:last-child td {
     border-bottom: 0;
 }
-
 [date-picker] div[ng-switch-when='date'] tbody tr, [date-picker][ng-switch-when='week'] tbody tr {
     height: 60px;
 }
-
 [date-picker] td:first-child, [date-picker] tr:last-child th:first-child {
     border-left: 0;
 }
@@ -630,16 +599,15 @@ input[type=text], input[type=url], option, select {
     vertical-align: top;
 }
 [date-picker] td > span {
-  font-size: 40px;
+    font-size: 40px;
     display: block;
-    color: rgba(255,255,2550,0.2);
+    color: rgba(255, 255, 2550, 0.2);
     padding: 10px;
     position: absolute;
     bottom: 0px;
     right: 0px;
     line-height: 40px;
 }
-
 td.day {
     position: relative
 }
@@ -671,14 +639,11 @@ td.day {
     padding-top: 5px;
 }
 [date-picker] .now {
-    color: rgba(255,255,0,0.4) !important;
+    color: rgba(255, 255, 0, 0.4) !important;
 }
-
-
 [date-picker][ng-switch-when='date'] tbody tr, [date-picker][ng-switch-when='week'] tbody tr {
     height: 40px;
 }
-
 [date-picker][ng-switch-when=date] td, [date-picker][ng-switch-when=week] td {
     position: relative;
     padding: 3px;
@@ -692,16 +657,14 @@ td.day {
     padding:5px;
     cursor: default;
 }
-
 [date-picker] div[ng-switch-when=month] td > span, [date-picker] div[ng-switch-when=year] td > span {
-font-size: 40px;
-display: block;
-color: rgba(255,255,2550,0.8);
-padding: 10px;
-position: relative;
-float: left;
-width: 33%;
-
+    font-size: 40px;
+    display: block;
+    color: rgba(255, 255, 2550, 0.8);
+    padding: 10px;
+    position: relative;
+    float: left;
+    width: 33%;
 }
 [date-picker] .event {
     display: block;
@@ -718,7 +681,6 @@ width: 33%;
 }
 [date-picker] .event .watched {
     text-decoration: line-through;
-
 }
 [date-picker] .event:hover {
     background-color: rgba(0, 0, 0, 0.8);
@@ -746,18 +708,14 @@ width: 33%;
 [date-picker] div.tooltip p {
     width:450px;
 }
-
-[date-picker] calendar-event:first-of-type  {
+[date-picker] calendar-event:first-of-type {
     margin-top: 5px;
     display:block;
 }
-
-
-[date-picker] calendar-event:last-of-type  {
+[date-picker] calendar-event:last-of-type {
     margin-bottom: 5px;
     display:block;
 }
-
 ul.engineselect {
     color: white;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
@@ -840,15 +798,11 @@ a:hover i.glyphicon-plus-sign {
     background-color: #222;
     border-color: #111;
 }
-
-
 calendar-event .progress {
     background-color: transparent;
     height: auto;
     margin: 3px;
-    
 }
-
 calendar-event .progress-bar {
     color: black;
     line-height:15px;
@@ -859,37 +813,30 @@ calendar-event .progress-bar {
     bottom: 0px;
     z-index: -1;
 }
-
 .progress-bar {
     color: black;
 }
-
 calendar-event a.glyphicon-chevron-down {
     float:left;
 }
-
 calendar-event .dropdown-menu, .modal-content .dropdown-menu {
-    background-color: rgba(0,0,0,0.94);
+    background-color: rgba(0, 0, 0, 0.94);
     overflow: visible;
     min-width: 400px;
     box-shadow: none;
     color: white;
-    box-shadow: 4px 4px 4px rgba(0,0,0,0.6);
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.6);
     border: 1px solid white;
 }
-
-calendar-event .dropdown-menu a:hover , calendar-event .dropdown-menu a:hover a,  calendar-event .dropdown-menu a:hover a span,
-.modal-content .dropdown-menu a:hover , .modal-content .dropdown-menu a:hover a,  .modal-content .dropdown-menu a:hover a span {
+calendar-event .dropdown-menu a:hover, calendar-event .dropdown-menu a:hover a, calendar-event .dropdown-menu a:hover a span, .modal-content .dropdown-menu a:hover, .modal-content .dropdown-menu a:hover a, .modal-content .dropdown-menu a:hover a span {
     text-decoration: none;
     color: #262626 !important;
     background-color: #f5f5f5;
 }
-
 .modal-content .dropdown-menu a {
     text-align: left;
     color: white;
 }
-
 .glyphicon.glyphicon-chromecast {
     background-image: url('../img/chromecast_on.png');
     background-size: contain;
@@ -897,7 +844,6 @@ calendar-event .dropdown-menu a:hover , calendar-event .dropdown-menu a:hover a,
     height:20px;
     background-repeat:no-repeat;
 }
-
 calendar-event .dropdown-menu .glyphicon, .modal-content .dropdown-menu .glyphicon {
     width: 24px;
     text-align: center;
@@ -905,21 +851,18 @@ calendar-event .dropdown-menu .glyphicon, .modal-content .dropdown-menu .glyphic
     line-height: 20px;
     text-align: left;
 }
-
 calendar-event h2 {
     font-size: 24px;
 }
-
 .coverElement {
-    z-index: 199; 
-    background-color: transparent; 
-    position: fixed; 
-    top: 0px; 
+    z-index: 199;
+    background-color: transparent;
+    position: fixed;
+    top: 0px;
     left: 0px;
-    right: 0px; 
-    bottom: 0px; 
+    right: 0px;
+    bottom: 0px;
 }
-
 .season p.seasonposter {
     width: 150px;
     height: 220px;
