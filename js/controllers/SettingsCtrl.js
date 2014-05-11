@@ -115,12 +115,9 @@
 
          $scope.favorites = FavoritesService.favorites;
          $scope.$on('favorites:updated', function(event, data) {
-             // you could inspect the data to see if what you care about changed, or just update your own scope
-             if (data.favorites && data.favorites.length > 0) {
-                 var serie = data.favorites[Math.floor(Math.random() * data.favorites.length)];
-                 $rootScope.$broadcast('background:load', serie.fanart);
-             }
-             $scope.$digest(); // notify the scope that new data came in
+             $rootScope.$broadcast('background:load', FavoritesService.favorites[Math.floor(Math.random() * FavoritesService.favorites.length)].fanart);
+
          });
+
 
      });
