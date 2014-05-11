@@ -47,7 +47,9 @@ angular.module('DuckieTV.providers.favorites', [])
         d.episodename = d.title;
         d.firstaired = d.first_aired_utc == 0 ? null : new Date(d.first_aired_iso).getTime();
         d.filename = d.screen;
-        episode.changedValues = d;
+        for (var i in d) {
+            episode.set(i, d[i]);
+        }
     }
     var service = {
         favorites: [],
@@ -93,7 +95,6 @@ angular.module('DuckieTV.providers.favorites', [])
         updateEpisodes: function(serie, seasons, watched) {
             watched = watched || [];
 
-            var cache = {};
             var seasonCache = {};
             var p = $q.defer();
             serie.getSeasons().then(function(sea) {
@@ -103,54 +104,60 @@ angular.module('DuckieTV.providers.favorites', [])
 
             }).then(function() {
                 serie.getEpisodes().then(function(data) {
+                    var cache = {};
 
                     data.map(function(episode) {
                         cache[episode.get('TVDB_ID')] = episode;
                     });
-                    var pq = [];
+                    data = null;
 
-                    for (var j = 0; j < seasons.length; j++) {
-                        var episodes = seasons[j].episodes;
-                        var season = seasons[j];
+                    var pq = [];
+                    seasons.map(function(season) {
                         var SE = (season.season in seasonCache) ? seasonCache[season.season] : new Season();
+
                         for (var s in season) {
+                            if (s == 'episodes') continue;
                             SE.set(s, season[s]);
                         }
                         SE.set('seasonnumber', season.season);
                         SE.set('ID_Serie', serie.getID());
-                        pq.push((function(episodes, season, S) {
-                            return S.Persist().then(function(r) {
-                                episodes.map(function(episode) {
-                                    var e = (!(episode.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
-                                    fillEpisode(e, episode);
-                                    var watchedEpisodes = watched.filter(function(el) {
-                                        return el.TVDB_ID == e.get('TVDB_ID');
+                        SE.episodes = season.episodes;
+
+                        SE.Persist().then(function(r) {
+                            SE.episodes.map(function(episode, idx) {
+                                var e = (!(episode.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
+                                fillEpisode(e, episode);
+                                e.set('seasonnumber', season.season);
+                                var watchedEpisodes = watched.filter(function(el) {
+                                    return el.TVDB_ID == e.get('TVDB_ID');
+                                });
+
+                                e.set('ID_Serie', serie.getID());
+                                e.set('ID_Season', SE.getID());
+                                if (watchedEpisodes.length > 0) {
+                                    e.set('watched', 1);
+                                    e.set('watchedAt', watchedEpisodes[0].watchedAt);
+                                }
+
+                                if (Object.keys(e.changedValues).length > 0) {
+                                    e.Persist().then(function(res) {
+                                        console.log("Episode saved: ", e.getFormattedEpisode());
+                                        cache[episode.tvdb_id] = null;
+                                        e = null;
+                                        episode = null;
+                                    }, function(err) {
+                                        console.error("PERSIST ERROR!", err);
                                     });
-
-                                    e.set('seasonnumber', season.season);
-
-                                    e.set('ID_Serie', serie.getID());
-                                    e.set('ID_Season', S.getID());
-                                    if (watchedEpisodes.length > 0) {
-                                        e.set('watched', 1);
-                                        e.set('watchedAt', watchedEpisodes[0].watchedAt);
-                                    }
-                                    if (e.changedValues.length > 0) {
-                                        console.log("Found changed values for ", serie.getName(), e.getFormattedEpisode(), 'updating!', e.changedValues());
-                                        e.Persist().then(function(res) {}, function(err) {
-                                            console.error("PERSIST ERROR!", err);
-                                        });
-
-                                    }
-
-                                })
+                                }
                             });
-                        })(episodes, season, SE));
-                    }
-                    $q.all(pq).then(function(result) {
-                        p.resolve();
-                        $rootScope.$broadcast('episodes:updated');
+                            SE.episodes = null;
+                            SE = null;
+                            seasonCache[season.season] = null;
+                            season = null;
+
+                        });
                     })
+
                 })
 
             });
