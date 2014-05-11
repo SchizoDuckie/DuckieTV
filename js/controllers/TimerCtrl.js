@@ -20,12 +20,25 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
         refresh();
     }
 
+    $scope.fixMissingTimers = function() {
+        EventSchedulerService.fixMissingTimers();
+    }
+
+    $scope.clearAllTimers = function() {
+        chrome.alarms.clearAll(function() {
+            $scope.timers = [];
+        });
+    }
 
     refresh = function() {
         EventSchedulerService.getAll().then(function(res) {
             $scope.timers = res;
         })
     }
+
+    $rootScope.$on('timer:created', function(evt) {
+        refresh();
+    });
 
     $rootScope.$on('timer:fired', function(evt, data) {
         console.log("Timer was fired! ", evt, data);

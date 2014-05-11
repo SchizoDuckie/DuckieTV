@@ -142,7 +142,7 @@ angular.module('DuckieTV.providers.favorites', [])
                                         });
 
                                     }
-                                    
+
                                 })
                             });
                         })(episodes, season, SE));

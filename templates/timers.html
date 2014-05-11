@@ -1,6 +1,10 @@
 <fieldset>
   <fieldset>
-    <h2>Timers overview <button ng-click="debug=!debug" class="btn btn-xs">Toggle debug features</button></h2>
+    <h2>Timers overview <button ng-click="debug=!debug" class="btn btn-danger btn-xs" style='float:right'>Toggle debug features</button><div ng-if="debug" style='float:right; font-size:12px;'>
+    <button ng-click="fixMissingTimers();" class='btn btn-xs btn-success'>Find missing timers</button>
+    <button ng-click="clearAllTimers();" class='btn btn-xs btn-success'>Delete all timers</button>
+    </div>
+    </h2>
 
     <table class="table table-condensed light">
       <tr>

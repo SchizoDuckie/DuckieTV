@@ -145,6 +145,15 @@ angular.module('DuckieTV.providers.migrations', ['DuckieTV.providers.favorites',
                         localStorage.setItem('0.5.firetimers', 'done');
                     });
                 }
+                /**
+                 * Fix for bug #60: Repopulate the timers if they're missing and fire them while we're at it to make sure there's nothing missing.
+                 */
+                if (!localStorage.getItem('0.53.createtimers')) {
+
+                    EventSchedulerService.fixMissingTimers();
+                    localStorage.setItem('0.53.createtimers', true);
+
+                }
             }
         };
 

@@ -9,7 +9,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
  */
 .provider("EventSchedulerService", function() {
 
-    this.$get = function(EventWatcherService, $q) {
+    this.$get = function(EventWatcherService, $q, $rootScope) {
 
         var createEvent = function(name, type, eventChannel, data) {
             var evt = new ScheduledEvent();
@@ -23,14 +23,13 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
         };
 
 
-        return {
+        var service = {
             get: function(title) {
                 return chrome.alarms.get(title)
             },
             getAll: function() {
                 var p = $q.defer();
                 chrome.alarms.getAll(function(result) {
-                    console.log("Got results ", result);
                     p.resolve(result);
                 });
                 return p.promise;
@@ -48,20 +47,20 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                 });
             },
             createInterval: function(name, periodInMinutes, eventChannel, data) {
-                console.log("Create interval alarm: ", name, periodInMinutes, eventChannel, data);
                 CRUD.FindOne('ScheduledEvent', {
                     name: name
                 }).then(function(ScheduledEvent) {
                     if (ScheduledEvent) {
-                        console.log("Alarm already exists! updating!");
                         ScheduledEvent.set(data, angular.toJson(data, true));
                         ScheduledEvent.Persist();
                     } else {
                         createEvent(name, 'interval', eventChannel, data);
-                        chrome.alarms.create(name, {
-                            periodInMinutes: periodInMinutes
-                        });
                     }
+                    chrome.alarms.create(name, {
+                        periodInMinutes: periodInMinutes
+                    });
+                    $rootScope.$broadcast('timer:created');
+
                 })
 
             },
@@ -72,11 +71,34 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
             clearAll: function() {
                 chrome.alarms.clearAll();
             },
+            /**
+             * In case there's timers in the eventscheduler database but chrome.timers.clear(); has been run, this repopulates chrome's timers
+             * by firing them.
+             */
+            fixMissingTimers: function() {
+                service.getAll().then(function(timers) {
+                    console.log("Fixing missing timers check");
+                    CRUD.Find('ScheduledEvent', {}).then(function(events) {
+
+                        var missing = events.filter(function(event) {
+                            return timers.filter(function(timer) {
+                                return timer.name == event.get('name');
+                            }).length === 0;
+                        });
+
+                        for (var i = 0; i < missing.length; i++) {
+                            console.log("Re-adding show for missing timer by firing it's timer: ", missing[i].get('name'));
+                            EventWatcherService.onEvent(missing[i].get('name'));
+                        }
+                    });
+                });
+            },
             initialize: function() {
                 chrome.alarms.onAlarm.addListener(function(event) {
                     EventWatcherService.onEvent(event.name);
                 })
             }
-        }
+        };
+        return service;
     };
 })
