@@ -103,6 +103,9 @@ var Episode = CRUD.define({
         5: [
             'CREATE INDEX IF NOT EXISTS firstaired_idx ON Episodes (firstaired)',
             'CREATE INDEX IF NOT EXISTS ID_Serie_idx ON Episodes (ID_Serie)'
+        ],
+        6: [
+            'UPDATE Episodes set watched = "1" where watched = 1.0'
         ]
     }
 }, {

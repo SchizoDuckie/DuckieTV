@@ -135,7 +135,7 @@ angular.module('DuckieTV.providers.favorites', [])
                                 e.set('ID_Serie', serie.getID());
                                 e.set('ID_Season', SE.getID());
                                 if (watchedEpisodes.length > 0) {
-                                    e.set('watched', 1);
+                                    e.set('watched', '1');
                                     e.set('watchedAt', watchedEpisodes[0].watchedAt);
                                 }
 
