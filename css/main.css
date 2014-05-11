@@ -748,13 +748,13 @@ width: 33%;
 }
 
 [date-picker] calendar-event:first-of-type  {
-    margin-top: 10px;
+    margin-top: 5px;
     display:block;
 }
 
 
 [date-picker] calendar-event:last-of-type  {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     display:block;
 }
 
