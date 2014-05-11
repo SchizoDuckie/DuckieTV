@@ -53,6 +53,7 @@ angular.module('DuckieTV.providers.favorites', [])
         favorites: [],
         TraktTV: TraktTV,
         addFavorite: function(data, watched) {
+            console.log("FavoritesService.addFavorite!", data, watched);
             watched = watched || [];
             var d = $q.defer();
             service.getById(data.tvdb_id).then(function(serie) {
@@ -127,7 +128,6 @@ angular.module('DuckieTV.providers.favorites', [])
                                     });
 
                                     e.set('seasonnumber', season.season);
-                                    console.log('updating ', serie.get('name'), e.getFormattedEpisode(), (!(episode.tvdb_id in cache)) ? 'new' : 'exists', e.get('TVDB_ID'));
 
                                     e.set('ID_Serie', serie.getID());
                                     e.set('ID_Season', S.getID());
@@ -135,11 +135,14 @@ angular.module('DuckieTV.providers.favorites', [])
                                         e.set('watched', 1);
                                         e.set('watchedAt', watchedEpisodes[0].watchedAt);
                                     }
-                                    e.Persist().then(function(res) {}, function(err) {
-                                        console.error("PERSIST ERROR!", err);
-                                        debugger;
-                                    });
+                                    if (e.changedValues.length > 0) {
+                                        console.log("Found changed values for ", serie.getName(), e.getFormattedEpisode(), 'updating!', e.changedValues());
+                                        e.Persist().then(function(res) {}, function(err) {
+                                            console.error("PERSIST ERROR!", err);
+                                        });
 
+                                    }
+                                    
                                 })
                             });
                         })(episodes, season, SE));

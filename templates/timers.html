@@ -1,6 +1,6 @@
 <fieldset>
   <fieldset>
-    <h2>Timers overview</h2>
+    <h2>Timers overview <button ng-click="debug=!debug" class="btn btn-xs">Toggle debug features</button></h2>
 
     <table class="table table-condensed light">
       <tr>
@@ -15,7 +15,7 @@
         </td>
         <td>{{timer.periodInMinutes}}</td>
         <td>{{ timer.scheduledTime | date: 'dd-MM-yyyy H:m:s'}}</td>
-        <td><button class="btn-info" ng-click="fire(timer)">Fire timer now</button>
+        <td><button class="btn-info" ng-click="fire(timer)">Fire timer now</button> <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 1)">Fire every minute</button> <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 60*48)">Fire every 2 days</button></td>
       </tr>
     </table>
   </fieldset>

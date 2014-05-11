@@ -14,11 +14,10 @@ angular.module('DuckieTV.providers.eventwatcher', [])
                 console.log("Event was fired!", event);
                 getScheduledEventByName(event).then(function(alarm) {
                     if (!alarm) return;
-                    if(alarm.get("type") == "single") {
+                    if (alarm.get("type") == "single") {
                         console.log("Single alarm: Deleting.");
                         alarm.Delete();
                     }
-                    console.log("Broadcasting alarm info on it's event channel!", alarm.get('eventchannel'));
                     $rootScope.$broadcast(alarm.get('eventchannel'), angular.fromJson(alarm.get('data')));
 
                 }, function(err) {

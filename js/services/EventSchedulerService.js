@@ -48,6 +48,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                 });
             },
             createInterval: function(name, periodInMinutes, eventChannel, data) {
+                console.log("Create interval alarm: ", name, periodInMinutes, eventChannel, data);
                 CRUD.FindOne('ScheduledEvent', {
                     name: name
                 }).then(function(ScheduledEvent) {
