@@ -34,6 +34,7 @@ angular.module('DuckieTV', [
 
 .run(function($rootScope, EventSchedulerService, FavoritesService) {
     EventSchedulerService.initialize();
-    console.log("Background page running!", $rootScope, EventSchedulerService, FavoritesService);
+    console.log("Background page initialized!");
+});
 
-})
+angular.bootstrap(document, ['DuckieTV']);
