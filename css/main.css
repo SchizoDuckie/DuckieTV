@@ -395,7 +395,7 @@ chrome-top-sites h2 {
     color: white;
     font-size: 25px;
     margin-top: 0;
-    padding-top: 10px;
+    padding-top: 5px;
     left:0px;
     background-color: transparent;
     -webkit-transition: background-color 0.5 ease-in-out;
@@ -452,7 +452,7 @@ chrome-top-sites a {
     color: black;
     display: block;
     text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2);
-    padding:10px;
+    padding:10px 10px 2px 10px;
     transition: all 0.2s ease-in;
 }
 chrome-top-sites a:hover {
@@ -547,7 +547,7 @@ input[type=text], input[type=url], option, select {
 }
 [date-picker] {
     -webkit-user-select: none;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 [date-picker]:hover {
     background-color: rgba(0, 0, 0, 0.4);
@@ -672,7 +672,7 @@ td.day {
     overflow: visible;
     color: white;
     font-size:12px;
-    padding: 2px;
+    padding: 1.7px;
     background-color: rgba(0, 0, 0, 0.5);
     text-align: left;
     cursor: pointer;
@@ -709,11 +709,11 @@ td.day {
     width:450px;
 }
 [date-picker] calendar-event:first-of-type {
-    margin-top: 5px;
+    margin-top: 4px;
     display:block;
 }
 [date-picker] calendar-event:last-of-type {
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     display:block;
 }
 ul.engineselect {
