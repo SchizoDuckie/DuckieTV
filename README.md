@@ -52,6 +52,7 @@ More @ http://imgur.com/gallery/l7toH
 
 Changelog: 
 ==========
+* v0.54 : Layout CSS tuning and bugfixes by /u/Js41637 (Thanks!). Support for uTorrent 3.4.1 alpha, Fixed KAT parsing, Added extra permission for huge series (>5mb) databases.
 * v0.53 : CSS/layout fixes, Fixed the timers that went missing, fixed the auto-update service, fixed restore watchlist timers, improved memory usage on backup restore.
 * v0.52 : Fixed magnet URI catching and saving everywhere you can launch a torrent search for an episode. Added a popup menu on the torrent dialog with access to source, torrent and magnet links for each result
 * v0.51 : Fixed several marking episode as watched issues
