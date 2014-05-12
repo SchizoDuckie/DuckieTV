@@ -3,7 +3,7 @@
 	  <div ng-if="$root.getSetting('torrenting.enabled') && event.episode.values.magnetHash" tooltip="{{ event.episode.getFormattedEpisode() }}">
 	   	 <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">{{ event.serie }} </torrent-remote-control>
 	  </div>
-	  <span ng-if="!event.episode.values.magnetHash" tooltip="{{event.episode.getFormattedEpisode()}}">
+	  <span ng-if="$root.getSetting('torrenting.enabled') != 1 || !event.episode.values.magnetHash" tooltip="{{event.episode.getFormattedEpisode()}}">
 	  	{{ event.serie }}
 	  </span>
   </a>
