@@ -156,7 +156,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
             if (what.changedValues.hasOwnProperty(i) && what.hasField(i)) {
                 names.push(i);
                 values.push('?');
-                valmap.push(what.changedValues[i]);
+                valmap.push(what.changedValues[i] === undefined ? null : what.changedValues[i]);
             }
         }
         var defaults = CRUD.EntityManager.entities[what.className].defaults || {};
