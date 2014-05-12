@@ -9,6 +9,9 @@
 .modal {
 	overflow: auto;
 }
+.alert {
+	margin-bottom: 15px;
+}
 @media (min-width: 1600px) {
   .span12, .container {
     width: 1560px;

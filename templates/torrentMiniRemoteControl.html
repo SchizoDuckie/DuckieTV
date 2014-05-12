@@ -3,6 +3,6 @@
     <a ng-click="torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i>Start</a>
     <a ng-click="torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i>Pause</a>
     <a ng-click="torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i>Stop</a>
-    <a ng-if="torrent.properties.all.is_streamable" style="margin-top: 5px" ng-click="torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> Stream with uTorrent player</a>   
-    <a ng-click="torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>Open containing folder</a> 
+    <a ng-if="torrent.properties.all.is_streamable && $root.getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> Stream with uTorrent player</a>   
+    <a ng-if="$root.getSetting('torrenting.directory')" ng-click="torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>Open containing folder</a> 
 </div>
