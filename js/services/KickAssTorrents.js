@@ -42,6 +42,7 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
         var results = tables.length == 1 ? tables[(tables.length == 1) ? 0 : 1].querySelectorAll('tr[id^=torrent]') : tables[1].querySelectorAll('tr[id^=torrent]');
         var output = [];
         for (var i = 0; i < results.length; i++) {
+            if (!results[i].querySelector('a[title="Torrent magnet link"]')) continue;
             var out = {
                 releasename: results[i].querySelector('div.torrentname a.cellMainLink').innerText,
                 magneturl: results[i].querySelector('a[title="Torrent magnet link"]').href,

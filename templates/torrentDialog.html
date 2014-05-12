@@ -44,7 +44,7 @@
       </th>
     </tr>
     <tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items | limitTo: 20">
-      <td style='width:50px; padding:5px;' class='dropdown'>
+      <td style='width:50px; padding:5px; vertical-align: middle;' class='dropdown'>
         <a ng-click="magnetSelect(seed.magneturl)">
           <i class="glyphicon glyphicon-magnet" tooltip="Download magnet"></i>
         </a>
