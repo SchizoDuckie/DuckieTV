@@ -47,7 +47,7 @@
             </ul>
           </td>
         </tr>
-        <tr>
+        <tr ng-if="episode.firstaired != null">
           <th>First aired</th>
           <td>{{ getAirDate(episode) | date:'dd-MM-yyyy HH:mm:ss'}}</td>
         </tr>

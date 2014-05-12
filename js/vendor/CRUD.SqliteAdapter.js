@@ -153,7 +153,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
             that = this;
 
         for (var i in what.changedValues) {
-            if (what.changedValues.hasOwnProperty(i) && what.hasField(i) && undefined !== what.changedValues[i]) {
+            if (what.changedValues.hasOwnProperty(i) && what.hasField(i)) {
                 names.push(i);
                 values.push('?');
                 valmap.push(what.changedValues[i]);
