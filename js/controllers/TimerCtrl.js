@@ -11,12 +11,13 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
     }
 
     /**
-     * Debug function to reschedule an alarm for every 2 minutes.
+     * Debug function to reschedule an alarm for every 1 minutes.
      */
     $scope.reschedule = function(timer, minutes) {
         chrome.alarms.create(timer.name, {
             periodInMinutes: minutes
         });
+        console.log(timer.name + ' set to fire in ' + minutes + ' minute/s');
         refresh();
     }
 
