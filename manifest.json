@@ -10,7 +10,8 @@
         "topSites",
         "notifications",
         "storage",
-        "alarms"
+        "alarms",
+        "unlimitedStorage"
     ],
     "icons": {
         "16": "img/icon16.png",
