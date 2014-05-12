@@ -252,7 +252,7 @@ series-list > div > h2 {
     text-align: center;
     margin: 0;
     font-size: 25px;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.4);
     padding: 6px;
     margin-top: -40px;
     color:white;
@@ -397,7 +397,7 @@ chrome-top-sites h2 {
     margin-top: 0;
     padding-top: 5px;
     left:0px;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.4);
     -webkit-transition: background-color 0.5 ease-in-out;
 }
 chrome-top-sites:hover h2, chrome-top-sites:hover h2 a {
