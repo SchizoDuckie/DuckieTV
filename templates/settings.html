@@ -116,24 +116,6 @@
                 </ul>
               </td>
             </tr>
-              <!-- Is this needed anymore??
-			<tr ng-show="getSetting('torrenting.enabled')">
-              <td style='width:150px'>
-                <strong style='white-space:nowrap'>Torrent Searchbox</strong>
-                <p class="label label-success" ng-show="getSetting('torrenting.searchbox')">Enabled</p>
-                <p class="label label-danger" ng-show="!getSetting('torrenting.searchbox')">Disabled</p>
-              </td>
-              <td>
-                <ul class="list-unstyled">
-                  <li>
-                    <p ng-show="!getSetting('torrenting.searchbox')" class="alert alert-info">Clicking the button below shows the torrent search box on the main page</p>
-                    <p ng-show="getSetting('torrenting.searchbox')" class="alert alert-warning">Clicking the button below will hide all the torrent search box from the main page</p>
-                    <button ng-show="!getSetting('torrenting.searchbox')" ng-click="enableSetting('torrenting.searchbox')" class="btn btn-success">Show Torrent Search box</button>
-                    <button ng-show="getSetting('torrenting.searchbox')" ng-click="disableSetting('torrenting.searchbox')" class="btn btn-danger">Hide Torrent Search box</button>
-                  </li>
-                </ul>
-              </td>
-            </tr> -->
             <tr ng-show="getSetting('torrenting.enabled')">
               <td style='width:150px'>
                 <strong style='white-space:nowrap'>Torrent Streaming</strong>
@@ -160,8 +142,8 @@
               <td>
                 <ul class="list-unstyled">
                   <li>
-                    <p ng-show="!getSetting('torrenting.directory')" class="alert alert-info">Clicking the button below adds the "open containing folder" button to the episode sub-menu</p>
-                    <p ng-show="getSetting('torrenting.directory')" class="alert alert-warning">Clicking the button below removes the "open containing folder" button from the episode sub-menu</p>
+                    <p ng-show="!getSetting('torrenting.directory')" class="alert alert-info">Clicking the button below adds the "open containing folder" button to the menu in the calendar if you selected a torrent for the show</p>
+                    <p ng-show="getSetting('torrenting.directory')" class="alert alert-warning">Clicking the button below removes the "open containing folder" button from the menu in the calendar if you selected a torrent for the show</</p>
                     <button ng-show="!getSetting('torrenting.directory')" ng-click="enableSetting('torrenting.directory')" class="btn btn-success">Enable 'Open Containing Folder'</button>
                     <button ng-show="getSetting('torrenting.directory')" ng-click="disableSetting('torrenting.directory')" class="btn btn-danger">Disable 'Open Containing Folder'</button>
                   </li>
@@ -247,15 +229,6 @@
         </td>
       </tr>
       <tr>
-        <td><strong>Updates</strong></td>
-        <td>
-          <ul class="list-unstyled">
-            <li><input type="radio" name="update" id="radio_Automatically"><label for="radio_Automatically">Automatically check for updates to episodes (every 2 days) </label></li>
-            <li><input type="radio" name="update" id="radio_Use"><label for="radio_Use">Use TVRage database on top of TheTvDB by default </label></li>
-            </ul>
-        </td>
-      </tr>
-      <tr>
         <td><strong>Notifications</strong></td>
         <td>
           <ul class="list-unstyled">
@@ -330,15 +303,7 @@
           </ul>
         </td>
       </tr>
-       <tr>
-        <td><strong>Torrent Handling</strong></td>
-        <td>
-          <ul class="list-unstyled">
-            <li><input type="radio" name="torrent" id="radio_Launch"><label for="radio_Launch">Launch Magnet links </label></li>
-            <li><input type="radio" name="torrent" id="radio_Use"><label for="radio_Use">Use utorrent remote  </label></li>
-            </ul>
-        </td>
-      </tr>-->
+      -->
         </table>
       </form>
     </div>
