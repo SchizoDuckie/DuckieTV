@@ -327,7 +327,8 @@ angular.module('DuckieTorrent.torrent', [])
                 Pair: function() {
                     return methods.pair().then(function(result) {
                         console.log("Received auth token!", result);
-                        localStorage.setItem('utorrent.token', result); //.pairing_key); // for 3.4, still broken.
+                        var key = typeof result == 'object' ? result.pairing_key : result; // switch between 3.3.x and 3.4.1 build 31206 pairing method
+                        localStorage.setItem('utorrent.token', key);
                         self.authToken = result; // .pairing_key;
                     }, function(err) {
                         console.error("Eror pairing!", err);
