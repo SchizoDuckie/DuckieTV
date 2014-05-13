@@ -143,7 +143,7 @@
                 <ul class="list-unstyled">
                   <li>
                     <p ng-show="!getSetting('torrenting.directory')" class="alert alert-info">Clicking the button below adds the "open containing folder" button to the menu in the calendar if you selected a torrent for the show</p>
-                    <p ng-show="getSetting('torrenting.directory')" class="alert alert-warning">Clicking the button below removes the "open containing folder" button from the menu in the calendar if you selected a torrent for the show</</p>
+                    <p ng-show="getSetting('torrenting.directory')" class="alert alert-warning">Clicking the button below removes the "open containing folder" button from the menu in the calendar if you selected a torrent for the show</p>
                     <button ng-show="!getSetting('torrenting.directory')" ng-click="enableSetting('torrenting.directory')" class="btn btn-success">Enable 'Open Containing Folder'</button>
                     <button ng-show="getSetting('torrenting.directory')" ng-click="disableSetting('torrenting.directory')" class="btn btn-danger">Disable 'Open Containing Folder'</button>
                   </li>
