@@ -32,11 +32,7 @@ angular.module('DuckieTV.providers.favorites', [])
             } else if (i == 'genres') {
                 serie.set('genre', data.genres.join('|'));
             } else if (i == 'people') {
-                var _actors = [''];
-                for (var ii in data.people.actors) {
-                  _actors.push(data.people.actors[ii].name);
-                }
-                serie.set('actors', _actors.join('|'));
+  			    serie.set('actors', data.people.actors.map(function(actor) { return actor.name } ).join('|'));
             } else if (i == 'ended') {
                 serie.set('status', data[i] == true ? 'Continuing' : 'Ended')
             } else if (i in mappings) {
