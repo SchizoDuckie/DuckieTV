@@ -31,6 +31,8 @@ angular.module('DuckieTV.providers.favorites', [])
                 serie.set('ratingcount', data.ratings.votes);
             } else if (i == 'genres') {
                 serie.set('genre', data.genres.join('|'));
+            } else if (i == 'people') {
+  			    serie.set('actors', data.people.actors.map(function(actor) { return actor.name } ).join('|'));
             } else if (i == 'ended') {
                 serie.set('status', data[i] == true ? 'Continuing' : 'Ended')
             } else if (i in mappings) {
