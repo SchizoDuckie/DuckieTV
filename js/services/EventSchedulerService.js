@@ -92,13 +92,8 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                         }
                     });
                 });
-            },
-            initialize: function() {
-                chrome.alarms.onAlarm.addListener(function(event) {
-                    EventWatcherService.onEvent(event.name);
-                })
             }
         };
         return service;
-    };
+    }
 })
