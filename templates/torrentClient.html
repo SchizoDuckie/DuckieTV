@@ -37,7 +37,7 @@
                 <tbody>
                 <tr ng-repeat="file in torrent.getFiles()">
                   <td>{{ file.name }}</td>
-                  <td style='width: 150px'>
+                  <td ng-if="getSetting('cast.supported')" style='width: 150px'>
                       <button class="btn btn-xs btn-success" ng-if="isFormatSupported(file) && (file.properties.all.is_streamable == true || file.properties.all.size == file.properties.all.downloaded)" ng-click="playInBrowser(file)"><i class="glyphicon glyphicon-share" style="padding-right: 5px;"></i> Play on ChromeCast</button>
                   </td>
                 </tr>
