@@ -90,32 +90,6 @@ angular.module('DuckieTV.providers.migrations', ['DuckieTV.providers.favorites',
 
             }
 
-        var orphanCheck = function() {
-            CRUD.EntityManager.getAdapter().db.execute('select Series.name from Series').then(function(series) {
-                var checklist = [];
-
-                while (serie = series.next()) {
-                    checklist.push(serie.get('name') + ' update check');
-                }
-
-                chrome.alarms.getAll(function(result) {
-                    var notexisting = result.filter(function(el) {
-                        return checklist.indexOf(el.name) == -1;
-                    })
-                    notexisting.map(function(el) {
-                        chrome.alarms.clear(el.name);
-                        CRUD.FindOne('ScheduledEvent', {
-                            name: el.name
-                        }).then(function(el) {
-                            console.log("Deleting scheduled event!", el);
-                            el.Delete();
-
-                        })
-                    })
-                    localStorage.setItem('0.42.orphancheck', 'done');
-                });
-            })
-        }
 
         var service = {
 
@@ -123,10 +97,6 @@ angular.module('DuckieTV.providers.migrations', ['DuckieTV.providers.favorites',
 
                 if (!localStorage.getItem('0.4migration')) {
                     migrateFromTVDB();
-                }
-                if (!localStorage.getItem('0.42.orphancheck')) {
-                    console.log('orphan check needs to run!');
-                    orphanCheck();
                 }
                 if (!localStorage.getItem('0.5.firetimers')) {
 
@@ -151,8 +121,15 @@ angular.module('DuckieTV.providers.migrations', ['DuckieTV.providers.favorites',
                 if (!localStorage.getItem('0.53.createtimers')) {
 
                     EventSchedulerService.fixMissingTimers();
-                    localStorage.setItem('0.53.createtimers', true);
+                    localStorage.setItem('0.53.createtimers', 'done');
+                }
+                /**
+                 * Fix for bug #60: Repopulate the timers if they're missing and fire them while we're at it to make sure there's nothing missing.
+                 */
+                if (!localStorage.getItem('0.54.createtimers')) {
 
+                    EventSchedulerService.fixMissingTimers();
+                    localStorage.setItem('0.54.createtimers', 'done');
                 }
             }
         };
