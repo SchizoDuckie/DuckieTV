@@ -1,12 +1,16 @@
 angular.module('DuckieTV.providers.favorites', [])
 /**
- * Persistent storage for favorites
+ * Persistent storage for favorite series and episode
  *
- * Since it fetches asynchronously from sqlite it broadcasts a favorites:updated event
- * when data is done loading
+ * Provides functionality to add and remove series and is the glue between Trakt.TV,
+ * the EventScheduler Service and the GUI.
  */
 .factory('FavoritesService', function($rootScope, TraktTV, EventSchedulerService, $q) {
 
+    /**
+     * Helper function to map properties from the input data on a serie from Trakt.TV into a Serie CRUD object.
+     * Input information will always overwrite existing information.
+     */
     fillSerie = function(serie, data) {
         var mappings = {
             'tvdb_id': 'TVDB_ID',
@@ -32,7 +36,9 @@ angular.module('DuckieTV.providers.favorites', [])
             } else if (i == 'genres') {
                 serie.set('genre', data.genres.join('|'));
             } else if (i == 'people') {
-  			    serie.set('actors', data.people.actors.map(function(actor) { return actor.name } ).join('|'));
+                serie.set('actors', data.people.actors.map(function(actor) {
+                    return actor.name
+                }).join('|'));
             } else if (i == 'ended') {
                 serie.set('status', data[i] == true ? 'Continuing' : 'Ended')
             } else if (i in mappings) {
@@ -42,6 +48,10 @@ angular.module('DuckieTV.providers.favorites', [])
             }
         }
     }
+    /**
+     * Helper function to map properties from the input data from Trakt.TV into a Episode CRUD object.
+     * Input information will always overwrite existing information.
+     */
     fillEpisode = function(episode, d) {
 
         d.TVDB_ID = d.tvdb_id;
@@ -55,9 +65,22 @@ angular.module('DuckieTV.providers.favorites', [])
             episode.set(i, d[i]);
         }
     }
+
     var service = {
         favorites: [],
         TraktTV: TraktTV,
+        /**
+         * Handles adding (and updating) a show to the local database.
+         * Grabs the existing serie,seasons and episode from the database if they exist
+         * and inserts or updates the information.
+         * It also registers the serie with the EventScheduler service to check for updates
+         * every two days.
+         * Returns a promise that gets resolved when all the updates have been launched
+         * (but not neccesarily finished, they'll continue to run)
+         *
+         * @param object data input data from TraktTV.findSerieByTVDBID(data.TVDB_ID)
+         * @param object watched { TVDB_ID => watched episodes } mapped object to auto-mark as watched
+         */
         addFavorite: function(data, watched) {
             console.log("FavoritesService.addFavorite!", data, watched);
             watched = watched || [];
@@ -96,18 +119,26 @@ angular.module('DuckieTV.providers.favorites', [])
             });
             return d.promise;
         },
+        /** 
+         * Update the episodes and seasons attached to a serie.
+         * Builds a cache of seasons and episodes to make sure existing
+         * information is updated.
+         * If an episodes' TVDB_ID is matched in the watched object, it's marked
+         * as watched as well.
+         *
+         */
         updateEpisodes: function(serie, seasons, watched) {
             watched = watched || [];
 
             var seasonCache = {};
             var p = $q.defer();
-            serie.getSeasons().then(function(sea) {
+            serie.getSeasons().then(function(sea) { // fetch the seasons and cache them by number.
                 sea.map(function(el) {
                     seasonCache[el.get('seasonnumber')] = el;
                 })
 
             }).then(function() {
-                serie.getEpisodes().then(function(data) {
+                serie.getEpisodes().then(function(data) { // then fetch the episodes and put them in a big cache object
                     var cache = {};
 
                     data.map(function(episode) {
@@ -119,7 +150,7 @@ angular.module('DuckieTV.providers.favorites', [])
                     seasons.map(function(season) {
                         var SE = (season.season in seasonCache) ? seasonCache[season.season] : new Season();
 
-                        for (var s in season) {
+                        for (var s in season) { // update the season's properties
                             if (s == 'episodes') continue;
                             SE.set(s, season[s]);
                         }
@@ -128,21 +159,23 @@ angular.module('DuckieTV.providers.favorites', [])
                         SE.episodes = season.episodes;
 
                         SE.Persist().then(function(r) {
-                            SE.episodes.map(function(episode, idx) {
+                            SE.episodes.map(function(episode, idx) { // update the season's episodes
                                 var e = (!(episode.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
                                 fillEpisode(e, episode);
                                 e.set('seasonnumber', season.season);
-                                var watchedEpisodes = watched.filter(function(el) {
-                                    return el.TVDB_ID == e.get('TVDB_ID');
-                                });
+
 
                                 e.set('ID_Serie', serie.getID());
                                 e.set('ID_Season', SE.getID());
+                                // if there's an entry for the episode in watchedEpisodes, this is a backup restore
+                                var watchedEpisodes = watched.filter(function(el) {
+                                    return el.TVDB_ID == e.get('TVDB_ID');
+                                });
                                 if (watchedEpisodes.length > 0) {
                                     e.set('watched', '1');
                                     e.set('watchedAt', watchedEpisodes[0].watchedAt);
                                 }
-
+                                // save the changes and fee some memory, or do it immediately if there's no promise to wait for
                                 if (Object.keys(e.changedValues).length > 0) {
                                     e.Persist().then(function(res) {
                                         console.log("Episode saved: ", e.getFormattedEpisode());
@@ -152,21 +185,29 @@ angular.module('DuckieTV.providers.favorites', [])
                                     }, function(err) {
                                         console.error("PERSIST ERROR!", err);
                                     });
+                                } else {
+                                    e = null;
+                                    episode = null;
+                                    cache[episode.tvdb_id] = null;
                                 }
                             });
                             SE.episodes = null;
                             SE = null;
                             seasonCache[season.season] = null;
                             season = null;
-
                         });
                     })
-
+                    p.resolve(); // all seasons were iterated, finalize the promise
                 })
 
             });
             return p.promise;
         },
+
+        /**
+         * Helper function to fetch all the episodes for a serie
+         * Optionaly, filters can be provided which will be turned into an SQL where.
+         */
         getEpisodes: function(serie, filters) {
             serie = serie instanceof CRUD.Entity ? serie : this.getById(serie);
             return serie.Find('Episode', filters || {}).then(function(episodes) {
@@ -182,11 +223,18 @@ angular.module('DuckieTV.providers.favorites', [])
                 return ret;
             })
         },
+        /**
+         * Find a serie by it's TVDB_ID (the main identifier for series since they're consistent regardless of local config)
+         */
         getById: function(id) {
             return CRUD.FindOne('Serie', {
                 'TVDB_ID': id
             });
         },
+        /**
+         * Remove a serie, it's seasons, it's episodes and it's timers from the database.
+         * Also removes the chrome alarm that fires the update check
+         */
         remove: function(serie) {
             console.log("Remove serie from favorites!", serie);
             this.getById(serie['TVDB_ID']).then(function(s) {
@@ -214,6 +262,11 @@ angular.module('DuckieTV.providers.favorites', [])
             });
             chrome.alarms.clear(serie.name + ' update check');
         },
+        /** 
+         * Fetch all the series asynchronously and return them as POJO's
+         * (Plain Old Javascript Objects)
+         * Runs automatically when this factory is instantiated
+         */
         getSeries: function() {
             var d = $q.defer();
             CRUD.Find('Serie', {}).then(function(results) {
@@ -225,12 +278,17 @@ angular.module('DuckieTV.providers.favorites', [])
             });
             return d.promise;
         },
+        /** 
+         * Load a random background from the shows database
+         * The BackgroundRotator service is listening for this event
+         */
         loadRandomBackground: function() {
             $rootScope.$broadcast('background:load', service.favorites[Math.floor(Math.random() * service.favorites.length)].fanart);
         },
         /**
          * Fetch stored series from sqlite and store them in service.favorites
          * Notify anyone listening by broadcasting favorites:updated
+         * Also starts the listener for favoritesservice:checkforupdates
          */
         restore: function() {
             $rootScope.$on('favoritesservice:checkforupdates', function(evt, data) {
