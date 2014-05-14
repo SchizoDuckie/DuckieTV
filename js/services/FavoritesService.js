@@ -27,7 +27,8 @@ angular.module('DuckieTV.providers.favorites', [])
             if (i == 'first_aired') {
                 serie.set('firstaired', data.first_aired * 1000);
             } else if (i == 'ratings') {
-                serie.set('rating', data.ratings.loved);
+                serie.set('rating', data.ratings.percentage);
+                serie.set('ratingcount', data.ratings.votes);
             } else if (i == 'genres') {
                 serie.set('genre', data.genres.join('|'));
             } else if (i == 'ended') {
@@ -42,7 +43,8 @@ angular.module('DuckieTV.providers.favorites', [])
     fillEpisode = function(episode, d) {
 
         d.TVDB_ID = d.tvdb_id;
-        d.rating = d.ratings.percentage
+        d.rating = d.ratings.percentage;
+        d.ratingcount = d.ratings.votes;
         d.episodenumber = d.episode;
         d.episodename = d.title;
         d.firstaired = d.first_aired_utc == 0 ? null : new Date(d.first_aired_iso).getTime();
