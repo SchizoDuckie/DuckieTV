@@ -12,17 +12,18 @@
         </p>
       </div>
     </div>
+	<div>
+    <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>Episode Ratings</h2>
+      <div class="chart">
+        <div class="chartLine" ng-repeat="p in points track by $index" ng-style="{ height: p.y + '%', left: ((100 / points.length) * $index) + '%',  width: (100 / points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}"></div>
+      </div>
+  </div>
   </div>
 
   <div ng-if="!seasons">
     <div lazy-background="{{serie.poster}}" style='margin: 0px auto; width:300px; height:400px; background-size:contain; background-repeat:no-repeat;'></div>
   </div>
-  <div>
-    <h2 style='border-bottom:1px solid white; padding:5px;'>Episode Ratings</h3>
-      <div class="chart">
-        <div class="chartLine" ng-repeat="p in points track by $index" ng-style="{ height: p.y + '%', left: ((100 / points.length) * $index) + '%',  width: (100 / points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}"></div>
-      </div>
-  </div>
+  
   <table class="table table-condensed light">
     <tbody>
       <tr>
