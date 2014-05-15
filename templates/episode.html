@@ -27,26 +27,6 @@
 
           </td>
         </tr>
-        <tr>
-          <th>Writer</th>
-          <td>{{episode.writer}}</td>
-        </tr>
-        <tr>
-          <th>Director</th>
-          <td>
-            <ul class="list-unstyled">
-              <li ng-repeat="director in episode.director.split('|') track by $index">{{director}}</li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <th>Guest stars</th>
-          <td>
-            <ul class="list-unstyled">
-              <li ng-repeat="gueststar in episode.gueststars.split('|') track by $index">{{gueststar}}</li>
-            </ul>
-          </td>
-        </tr>
         <tr ng-if="episode.firstaired != null">
           <th>First aired</th>
           <td>{{ getAirDate(episode) | date:'dd-MM-yyyy HH:mm:ss'}}</td>
