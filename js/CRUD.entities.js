@@ -83,12 +83,12 @@ var Episode = CRUD.define({
     className: 'Episode',
     table: 'Episodes',
     primary: 'ID_Episode',
-    fields: ['ID_Episode', 'ID_Serie', 'ID_Season', 'TVDB_ID', 'director', 'episodename', 'episodenumber', 'firstaired', 'gueststars', 'imdb_id', 'language', 'overview', 'rating', 'ratingcount', 'seasonnumber', 'writer', 'filename', 'lastupdated', 'seasonid', 'seriesid', 'lastchecked', 'watched', 'watchedAt', 'magnetHash'],
+    fields: ['ID_Episode', 'ID_Serie', 'ID_Season', 'TVDB_ID', 'episodename', 'episodenumber', 'firstaired', 'imdb_id', 'language', 'overview', 'rating', 'ratingcount', 'seasonnumber', 'filename', 'lastupdated', 'seasonid', 'seriesid', 'lastchecked', 'watched', 'watchedAt', 'magnetHash'],
     relations: {
         'Serie': CRUD.RELATION_FOREIGN,
         'Season': CRUD.RELATION_FOREIGN
     },
-    createStatement: 'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER UNIQUE,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL )',
+    createStatement: 'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER UNIQUE, episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL )',
     adapter: 'dbAdapter',
     defaultValues: {
         watched: 0
@@ -115,6 +115,12 @@ var Episode = CRUD.define({
         ],
         6: [
             'UPDATE Episodes set watched = "1" where watched = 1.0'
+        ],
+        7: [
+            'ALTER TABLE Episodes RENAME TO Episodes_bak',
+            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER UNIQUE, episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL)',
+            'INSERT OR IGNORE INTO Episodes (ID_Episode, ID_Serie, ID_Season, TVDB_ID, episodename, episodenumber, firstaired, imdb_id, language, overview, rating, ratingcount, seasonnumber, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt, magnetHash) select ID_Episode, ID_Serie, ID_Season, TVDB_ID, episodename, episodenumber, firstaired, imdb_id, language, overview, rating, ratingcount, seasonnumber, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt, magnetHash from Episodes_bak',
+            'DROP TABLE Episodes_bak'
         ]
     }
 }, {
