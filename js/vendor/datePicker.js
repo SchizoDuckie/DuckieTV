@@ -220,6 +220,9 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
                 }
 
                 if (nextView) {
+                    if (nextView == 'week' && scope.view == 'month') {
+                        nextView = 'date';
+                    }
                     scope.setView(nextView);
                 }
             };
