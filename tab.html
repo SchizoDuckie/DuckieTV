@@ -12,33 +12,35 @@
 <body>
   <background-rotator channel="'background:load'"></background-rotator>
   <div class="container">
-    <chrome-top-sites ng-if="getSetting('topSites.enabled')"></chrome-top-sites>
-    <div data-ng-view></div>
-    <series-list></series-list>
-    <div id="actionbar">
-      <ul class="list-unstyled">
-        <li>
-          <a class="glyphicon glyphicon-home" href="#/" tooltip="Calendar" tooltip-position="right"></a>
-        </li>
-        <li style='display:none'>
-          <a class="glyphicon glyphicon-facetime-video" href="#/watchlist" tooltip="watchlist" tooltip-position="right"></a>
-        </li>
-        <li>
+  	<div class="topsites-{{getSetting('topSites.enabled')}}">
+      <chrome-top-sites ng-if="getSetting('topSites.enabled')"></chrome-top-sites>
+      <div data-ng-view></div>
+      <series-list></series-list>
+      <div id="actionbar">
+        <ul class="list-unstyled">
+          <li>
+            <a class="glyphicon glyphicon-home" href="#/" tooltip="Calendar" tooltip-position="right"></a>
+          </li>
+          <li style='display:none'>
+            <a class="glyphicon glyphicon-facetime-video" href="#/watchlist" tooltip="watchlist" tooltip-position="right"></a>
+          </li>
+          <li>
           <a class="glyphicon glyphicon-cog" href="#/settings" tooltip="Settings" tooltip-position="right"></a>
-        </li>
-        <li>
-          <a style='display:none' class="glyphicon glyphicon-time" href="#/timers" tooltip="timers" tooltip-position="right"></a>
-        </li>
-         <li ng-if="getSetting('torrenting.enabled')">
-          <a class="glyphicon glyphicon-magnet" href="#/torrent" tooltip="uTorrent / Bittorrent client" tooltip-position="right"></a>
-        </li>
-         <li ng-if="getSetting('cast.supported')">
-          <a href="#/cast" tooltip="ChromeCast" tooltip-position="right"><img src='./img/chromecast_off.png' style='width:25px;'></a>
-        </li>
-        <li>
-          <a class="glyphicon glyphicon-info-sign" href="#/about" tooltip="About DuckieTV" tooltip-position="right"></a>
-        </li>
-      </ul>
+          </li>
+          <li>
+            <a style='display:none' class="glyphicon glyphicon-time" href="#/timers" tooltip="timers" tooltip-position="right"></a>
+          </li>
+          <li ng-if="getSetting('torrenting.enabled')">
+            <a class="glyphicon glyphicon-magnet" href="#/torrent" tooltip="uTorrent / Bittorrent client" tooltip-position="right"></a>
+          </li>
+          <li ng-if="getSetting('cast.supported')">
+            <a href="#/cast" tooltip="ChromeCast" tooltip-position="right"><img src='./img/chromecast_off.png' style='width:25px;'></a>
+          </li>
+          <li>
+            <a class="glyphicon glyphicon-info-sign" href="#/about" tooltip="About DuckieTV" tooltip-position="right"></a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
   <script src='./js/vendor/promise-3.2.0.js'></script>
