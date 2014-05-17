@@ -51,7 +51,13 @@ body {
 }
 body > .container {
     padding:20px;
-    padding-top:30px;
+    padding-top:5px;
+}
+.topsites-false {
+		padding-top:5px;
+}
+.topsites-true {
+		padding-top:30px;
 }
 h1, h2, h3 {
     font-family:'bebasregular', helvetica, sans-serif;
