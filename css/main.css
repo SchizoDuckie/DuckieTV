@@ -591,6 +591,10 @@ input[type=text], input[type=url], option, select {
 [date-picker] td:last-child {
     border-right: 0;
 }
+[date-picker] td:last-child ul.dropdown-menu {
+	left: auto;
+	right: 0px;
+}
 [date-picker] tr:last-child td {
     border-bottom: 0;
 }
