@@ -73,6 +73,25 @@ a, a:hover {
 a:hover {
     text-decoration: underline;
 }
+*::-webkit-scrollbar{
+	width:10px;
+}
+*::-webkit-scrollbar-thumb{
+	background-color:#777777;
+	border-radius:5px;
+	border:1px solid #333333;
+}
+*::-webkit-scrollbar-track{
+	border:1px gray solid;
+	border-radius:5px;
+	-webkit-box-shadow:0 0 2px gray inset;
+} 
+*::-webkit-scrollbar-thumb:hover{
+	background-color:#6B6B6B;
+}
+*::-webkit-scrollbar-thumb:active{
+	background-color:#5C5C5C;
+}
 .tooltip .tooltip-arrow {
     border-top-color: white !important;
 }
