@@ -128,7 +128,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         CRUD.log("Executing query via sqliteadapter: ", options, query);
         return new Promise(function(resolve, fail) {
             return that.delayUntilSetupDone(function() {
-                that.db.execute(query.query, query.parameters).then(function(resultset) {
+                that.db.execute(query.query, query.parameters).then(function(resultSet) {
                     var row, output = [];
                     while (row = resultset.next()) {
                         var obj = new window[what]().importValues(row.row);
