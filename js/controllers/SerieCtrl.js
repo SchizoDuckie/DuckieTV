@@ -99,13 +99,13 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
             for (var i = 0; i < $scope.episodes.length; i++) {
                 if ($scope.episodes[i].firstaired != '' && new Date($scope.episodes[i].firstaired) <= $scope.markUntilDate) {
                     $scope.episodes[i].watched = '1';
-                    $scope.episodes[i].watchedAt = new Date();
+                    $scope.episodes[i].watchedAt = new Date().getTime();
 
                     var p = CRUD.FindOne('Episode', {
                         ID: $scope.episodes[i].ID_Episode
                     }).then(function(epi) {
-                        epi.set('watched', 1);
-                        epi.set('watchedAt', new Date());
+                        epi.set('watched', '1');
+                        epi.set('watchedAt', new Date().getTime());
                         epi.Persist();
                     })
                 }
