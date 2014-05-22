@@ -58,11 +58,11 @@ function getVisibleWeeks(date, startSunday) {
     date.setMinutes(0);
     date.setSeconds(0);
     date.setMilliseconds(0);
-    startSunday = startSunday ? 0 : 1;
 
     if (date.getDay() === 0) {
-        date.setDate(-5);
+        date.setDate(-5 -startSunday);
     } else {
+        startSunday = startSunday ? 0 : 1;
         date.setDate(date.getDate() - (date.getDay() - startSunday));
     }
     if (date.getDate() === 0) {
