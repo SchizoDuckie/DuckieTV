@@ -1,6 +1,9 @@
 <div ng-controller="Top10Pirated">
   <div ng-if="items.length > 0">
+   <button ng-click="prevItem()"> &lt; Previous </button>
+   <button ng-click="nextItem()"> &gt; Next </button>
     <div ng-if="activeItem">
+    <h2>{{activeItem.title}}</h2>
       <table class="table table-condensed table-light" style='background-color: black;'>
         <thead>
           <tr>
@@ -22,36 +25,7 @@
           </td>
           <td>{{row.rating}}</td>
           <td><a href="{{ row.trailer }}" tooltip="Watch Trailer" target="_blank"><i class="glyphicon glyphicon-film"></i></a> 
-            <div class="dropdown" style='display:inline-block'>
-              <a tooltip="Search for a download for {{ row.title }}" class="dropdown-toggle glyphicon glyphicon-download" ng-click="searchTPBString(row.title)" class="btn btn-default"></a>
-              <div class="dropdown-menu" style='width: 550px'>
-                <table>
-                  <tr ng-if="searching">
-                    <td>
-                      <p>Searching Thepiratebay, for {{row.title}} please wait.</p>
-                    </td>
-                  </tr>
-                  <tr ng-if="!searching && searchResults.length == 0">
-                    <td>
-                      <p>No results found for</p>
-                      <strong>{{ row.title }}</strong>
-                    </td>
-                  </tr>
-                  <tr ng-if="!searching && searchResults.length > 0 ">
-                    <th>&nbsp;</th>
-                    <th>name</th>
-                    <th>S</th>
-                    <th>L</th>
-                  </tr>
-                  <tr ng-if="!searching && searchResults.length > 0 " ng-repeat="seed in searchResults">
-                    <td style='width:30px; padding:5px;' ng-bind-html="seed.magnetlink.replace('static/','/') | unsafe"></td>
-                    <td ng-bind-html="seed.releasename | unsafe"></td>
-                    <td style='width:50px' ng-bind="seed.seeders"></td>
-                    <td style='width:50px' ng-bind="seed.leechers"></td>
-                  </tr>
-                </table>
-              </div>
-            </div>
+            <torrent-dialog q="row.title"></torrent-dialog>
           </td>
         </tr>
       </table>

@@ -1,7 +1,6 @@
 angular.module('DuckieTV.providers.torrentfreak', [])
 /**
- * Autofill serie search component
- * Provides autofill proxy and adds the selected serie back to the MainController
+ * Todo: make this a proper RSS directive.
  */
 .controller('Top10Pirated', function($scope, $compile, TorrentFreak, ThePirateBay) {
 
@@ -10,26 +9,23 @@ angular.module('DuckieTV.providers.torrentfreak', [])
     $scope.itemIndex = 0;
     $scope.activeItem = [];
 
-
-    $scope.searchTPBString = function(search) {
-        $scope.searchResults = [];
-        $scope.searching = true;
-        console.log("Search: ", search);
-        ThePirateBay.search(search).then(function(results) {
-            $scope.searchResults = results;
-            $scope.searching = false;
-        }, function(e) {
-            console.error("TPB search failed!");
-            $scope.searching = false;
-        });
+    $scope.nextItem = function() {
+        if ($scope.itemIndex < $scope.items.length - 2) {
+            $scope.itemIndex += 1;
+        }
+        $scope.activeItem = $scope.items[$scope.itemIndex];
     }
-
+    $scope.prevItem = function() {
+        if ($scope.itemIndex > 1) {
+            $scope.itemIndex -= 1;
+        }
+        $scope.activeItem = $scope.items[$scope.itemIndex];
+    }
 
     TorrentFreak.Top10($scope).then(function(result) {
         $scope.items = result;
         $scope.activeItem = result[0];
         $compile(result[0].content)($scope);
-        console.log($scope);
     });
 })
 

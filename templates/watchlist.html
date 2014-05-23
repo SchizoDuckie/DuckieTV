@@ -1,36 +1,12 @@
 <div class="row">
   <div class="col-md-6">
     <div class="container-fluid">
-      <fieldset>
-        <h2>Watchlist
-          <a style="float:right;" tooltip="Add a movie to your watchlist" ng-if="searchingForMovie == false" ng-click="enableAdd();">
-            <i style="font-size:35px " class="glyphicon glyphicon-plus-sign"></i>
-          </a>
-          <a style="float:right;" tooltip="Hide the search bar" ng-if="searchingForMovie == true" ng-click="disableAdd()">
-            <i style="font-size:35px " class="glyphicon glyphicon-ok-sign"></i>
-          </a>
-        </h2>
-        <div ng-if="searchingForMovie">
-          <imdb-search focus-watch="'searchingForMovie'"></imdb-search>
-        </div>
-      </fieldset>
-      <div class="watchlist">
-        <ul class="list-inline">
-          <li ng-repeat="item in watchlist">
-            <div class="movie" lazy-background="{{ item.imdb.details.image }}"></div>
-            <strong class="info">{{ item.searchstring }}
-              <small>{{ item.imdb.extra }}</small>
-            </strong>
-          </li>
-        </ul>
-      </div>
-    </div>
+     </div>
   </div>
 
   <div class="col-md-6">
     <div class="container-fluid">
       <fieldset>
-        <h2>Top10 Most Pirated Movies</h2>
         <top10-pirated-movies></top10-pirated-movies>
       </fieldset>
     </div>
