@@ -205,13 +205,10 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
                         case 'hours':
                             scope.model.setHours(date.getHours());
                             /*falls through*/
+                        case 'week':
                         case 'date':
                             scope.model.setDate(date.getDate());
                             /*falls through*/
-                        case 'week':
-                            var day = $scope.model.getDay(),
-                                diff = $scope.model.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-                            $scope.model.setDate(diff)
                         case 'month':
                             scope.model.setMonth(date.getMonth());
                             /*falls through*/
