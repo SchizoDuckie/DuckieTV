@@ -27,13 +27,15 @@ function getVisibleMinutes(date, step) {
 function getVisibleWeek(date, startSunday) {
     date = new Date(date || new Date());
 
-    var weeks = [];
-    var day = date.getDay(),
-        startSunday = startSunday ? 0 : 1;
+    var weeks = [],
+        day = date.getDay();
+    startSunday = startSunday ? 1 : 0;
 
-    if (date.getDay() === 0) {
-        date.setDate(-5);
+    if ( (date.getDay() === 0) && (startSunday === 1) ) {
+    } else if (date.getDay() === 0) {
+        date.setDate(-5 -startSunday);
     } else {
+        startSunday = startSunday ? 0 : 1;
         date.setDate(date.getDate() - (date.getDay() - startSunday));
     }
     if (date.getDate() === 0) {
@@ -58,11 +60,12 @@ function getVisibleWeeks(date, startSunday) {
     date.setMinutes(0);
     date.setSeconds(0);
     date.setMilliseconds(0);
-    startSunday = startSunday ? 0 : 1;
+    startSunday = startSunday ? 1 : 0;
 
     if (date.getDay() === 0) {
-        date.setDate(-5);
+        date.setDate(-5 -startSunday);
     } else {
+        startSunday = startSunday ? 0 : 1;
         date.setDate(date.getDate() - (date.getDay() - startSunday));
     }
     if (date.getDate() === 0) {
@@ -203,13 +206,10 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
                         case 'hours':
                             scope.model.setHours(date.getHours());
                             /*falls through*/
+                        case 'week':
                         case 'date':
                             scope.model.setDate(date.getDate());
                             /*falls through*/
-                        case 'week':
-                            var day = $scope.model.getDay(),
-                                diff = $scope.model.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-                            $scope.model.setDate(diff)
                         case 'month':
                             scope.model.setMonth(date.getMonth());
                             /*falls through*/
