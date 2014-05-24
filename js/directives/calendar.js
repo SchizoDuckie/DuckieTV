@@ -93,7 +93,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
     return service;
 })
 
-.directive('calendarEvent', function() {
+.directive('calendarEvent', function(uTorrent) {
     return {
         restrict: 'E',
         scope: {
@@ -101,6 +101,9 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
         },
         templateUrl: 'templates/event.html',
         link: function($scope) {
+            $scope.isTorrentClientConnected = function() {
+                return uTorrent.isConnected();
+            }
             $scope.$on('magnet:select:' + $scope.event.episode.get('TVDB_ID'), function(evt, magnet) {
                 console.debug("Found a magnet selected!", magnet);
                 $scope.event.episode.set('magnetHash', magnet);

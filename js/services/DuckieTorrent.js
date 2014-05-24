@@ -346,11 +346,13 @@ angular.module('DuckieTorrent.torrent', [])
                  */
                 Update: function() {
                     if (self.isPolling == true) {
-                        console.log('uTorrent status update');
                         methods.statusQuery().then(function(data) {
                             if (self.isPolling) setTimeout(methods.Update, data && data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
                         });
                     }
+                },
+                isConnected: function() {
+                    return self.connected;
                 }
 
             };

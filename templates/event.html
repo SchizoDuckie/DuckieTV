@@ -12,7 +12,7 @@
 	  <li><a href='#/series/{{event.serieID}}'><i class="glyphicon glyphicon-info-sign"></i> Series details</a></li>
 	  <li ng-if="event.episode.hasAired()"><a><episode-watched episode="event.episode"><span ng-if="event.episode.get('watched') != 1">Mark as watched</span><span ng-if="event.episode.get('watched')"> Marked as watched at {{event.episode.get('watchedAt') | date:'MMMM dd, yyyy @ h:mma'}}</span></episode-watched></a></li>
 	  <li ng-if="$root.getSetting('torrenting.enabled')"><a><torrent-dialog tvdbid='event.episode.get("TVDB_ID")' q='[event.serie,event.episode.getFormattedEpisode()].join(" ")'> Download Torrent</torrent-dialog></a></li>
-	  <li ng-if="$root.getSetting('torrenting.enabled') && event.episode.values.magnetHash">
+	  <li ng-if="$root.getSetting('torrenting.enabled') && event.episode.values.magnetHash && isTorrentClientConnected()">
 		 <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteControl.html"></torrent-remote-control>
 	  </li>
 	  <li style='border-top: 1px solid white; padding-top: 10px; overflow-y: auto; max-height: 270px;'>
