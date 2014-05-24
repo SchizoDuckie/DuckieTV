@@ -29,6 +29,7 @@ function getVisibleWeek(date, startSunday) {
 
     var weeks = [],
         day = date.getDay();
+    startSunday = startSunday ? 1 : 0;
 
     if (date.getDay() === 0) {
         date.setDate(-5 -startSunday);
@@ -58,6 +59,7 @@ function getVisibleWeeks(date, startSunday) {
     date.setMinutes(0);
     date.setSeconds(0);
     date.setMilliseconds(0);
+    startSunday = startSunday ? 1 : 0;
 
     if (date.getDay() === 0) {
         date.setDate(-5 -startSunday);
