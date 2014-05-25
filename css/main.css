@@ -106,6 +106,7 @@ background-rotator, background-rotator > div {
     left: 0;
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center center;
     z-index: -1;
     opacity: 0.4;
 }
