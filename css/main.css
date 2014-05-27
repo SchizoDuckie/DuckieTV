@@ -153,7 +153,7 @@ serieheader[mode='search'] h3 {
 serieheader[mode='poster'] {
     display:inline-block;
     height: 250px;
-    margin:13px;
+    margin:0px 8px 2px 8px;
 }
 .series serieheader[mode='poster'] > div {
     background-color: transparent;
@@ -210,7 +210,7 @@ serieheader .poster {
     height: 240px;
     background-repeat:no-repeat;
     background-size: contain;
-    width:163px;
+    width:169px;
     background-position: center center;
 }
 .col-md-4 serieheader .poster {
