@@ -50,14 +50,12 @@ body {
     color: #444;
 }
 body > .container {
-    padding:20px;
-    padding-top:5px;
+    padding: 15px 20px 20px 20px;
 }
 .topsites-false {
-		padding-top:5px;
 }
 .topsites-true {
-		padding-top:30px;
+    padding-top: 25px;
 }
 h1, h2, h3 {
     font-family:'bebasregular', helvetica, sans-serif;
@@ -75,6 +73,7 @@ a:hover {
 }
 *::-webkit-scrollbar{
 	width:10px;
+	height:10px;
 }
 *::-webkit-scrollbar-thumb{
 	background-color:#777777;
@@ -564,7 +563,6 @@ input[type=text], input[type=url], option, select {
 }
 [date-picker] {
     -webkit-user-select: none;
-    margin-top: 10px;
     transition: all 0.5s ease-in-out;
 }
 [date-picker]:hover {

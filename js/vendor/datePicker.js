@@ -27,13 +27,15 @@ function getVisibleMinutes(date, step) {
 function getVisibleWeek(date, startSunday) {
     date = new Date(date || new Date());
 
-    var weeks = [];
-    var day = date.getDay(),
-        startSunday = startSunday ? 0 : 1;
+    var weeks = [],
+        day = date.getDay();
+    startSunday = startSunday ? 1 : 0;
 
-    if (date.getDay() === 0) {
-        date.setDate(-5);
+    if ( (date.getDay() === 0) && (startSunday === 1) ) {
+    } else if (date.getDay() === 0) {
+        date.setDate(-5 -startSunday);
     } else {
+        startSunday = startSunday ? 0 : 1;
         date.setDate(date.getDate() - (date.getDay() - startSunday));
     }
     if (date.getDate() === 0) {
@@ -58,11 +60,12 @@ function getVisibleWeeks(date, startSunday) {
     date.setMinutes(0);
     date.setSeconds(0);
     date.setMilliseconds(0);
-    startSunday = startSunday ? 0 : 1;
+    startSunday = startSunday ? 1 : 0;
 
     if (date.getDay() === 0) {
-        date.setDate(-5);
+        date.setDate(-5 -startSunday);
     } else {
+        startSunday = startSunday ? 0 : 1;
         date.setDate(date.getDate() - (date.getDay() - startSunday));
     }
     if (date.getDate() === 0) {

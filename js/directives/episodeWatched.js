@@ -17,8 +17,13 @@ angular.module('DuckieTV.directives.episodewatched', [])
             }
             $scope.markWatched = function() {
 
-                $scope.episode.set('watched', $scope.episode.get('watched') == '1' ? '0' : '1');
-                $scope.episode.set('watchedAt', new Date().getTime());
+                if ($scope.episode.get('watched') == '1') {
+                    $scope.episode.set('watchedAt', null);
+                    $scope.episode.set('watched', '0');
+                } else {
+                    $scope.episode.set('watchedAt', new Date().getTime());
+                	$scope.episode.set('watched', '1');
+                }
 
                 $scope.episode.Persist();
             }
