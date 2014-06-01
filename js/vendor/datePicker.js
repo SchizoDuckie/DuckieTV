@@ -25,22 +25,19 @@ function getVisibleMinutes(date, step) {
 
 
 function getVisibleWeek(date, startSunday) {
+    console.log("Get visible week for ", date, startSunday);
     date = new Date(date || new Date());
 
-    var weeks = [],
-        day = date.getDay();
-    startSunday = startSunday ? 1 : 0;
-
-    if ( (date.getDay() === 0) && (startSunday === 1) ) {
-    } else if (date.getDay() === 0) {
-        date.setDate(-5 -startSunday);
-    } else {
+    var weeks = [];
+    var day = date.getDay(),
         startSunday = startSunday ? 0 : 1;
-        date.setDate(date.getDate() - (date.getDay() - startSunday));
+
+    console.log('Week: ', startSunday, date.getDate(), date.getDay());
+
+    if (startSunday === 1 && date.getDate() == 1 && date.getDay() == 0) {
+        date.setDate(date.getDate() - 6);
     }
-    if (date.getDate() === 0) {
-        date.setDate(-6);
-    }
+    date.setDate(date.getDate() - (date.getDay() - startSunday));
 
     var week = [];
 
@@ -60,12 +57,11 @@ function getVisibleWeeks(date, startSunday) {
     date.setMinutes(0);
     date.setSeconds(0);
     date.setMilliseconds(0);
-    startSunday = startSunday ? 1 : 0;
+    startSunday = startSunday ? 0 : 1;
 
     if (date.getDay() === 0) {
-        date.setDate(-5 -startSunday);
+        date.setDate(-5);
     } else {
-        startSunday = startSunday ? 0 : 1;
         date.setDate(date.getDate() - (date.getDay() - startSunday));
     }
     if (date.getDate() === 0) {
@@ -213,7 +209,6 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
                             var day = $scope.model.getDay(),
                                 diff = $scope.model.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
                             $scope.model.setDate(diff);
-                            break;
                         case 'month':
                             scope.model.setMonth(date.getMonth());
                             /*falls through*/
@@ -272,6 +267,7 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
             scope.next = function(delta) {
                 var date = scope.date;
                 delta = delta || 1;
+                console.log("Next delta: ", delta, scope.view, date.getDate());
                 switch (scope.view) {
                     case 'year':
                         /*falls through*/
@@ -290,6 +286,7 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
                         date.setHours(date.getHours() + delta);
                         break;
                 }
+                console.log(date);
                 update();
             };
 
