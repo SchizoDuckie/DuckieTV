@@ -38,6 +38,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                             start: new Date(data[i].get('firstaired')),
                             serie: cache[data[i].get('ID_Serie')].get('name'),
                             serieID: cache[data[i].get('ID_Serie')].get('TVDB_ID'),
+                            episodeID: data[i].get('TVDB_ID'),
                             episode: data[i]
                         });
                     }
@@ -62,7 +63,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                     calendarEvents[date] = [];
                 }
                 var existing = calendarEvents[date].filter(function(el) {
-                    return el.serieID == events[i].serieID && el.start.toDateString() == events[i].start.toDateString()
+                    return el.episodeID == events[i].episodeID
                 });
                 if (existing.length == 0) {
                     calendarEvents[date].push(events[i]);
