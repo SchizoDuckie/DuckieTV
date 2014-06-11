@@ -155,6 +155,14 @@ CRUD.Find = function(obj, filters, options) {
         extras.limit = (options.start || 0) + "," + options.limit;
         delete options.limit;
     }
+    if (options && options.order) {
+        extras.order = options.order;
+        delete options.order;
+    }    
+    if (options && options.group) {
+        extras.group = options.group;
+        delete options.group;
+    }    
     var justthese = options.justthese || [];
     return CRUD.EntityManager.getAdapter().Find(type, filters, extras, justthese, options, filters);
 };
