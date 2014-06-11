@@ -25,19 +25,17 @@ function getVisibleMinutes(date, step) {
 
 
 function getVisibleWeek(date, startSunday) {
-    console.log("Get visible week for ", date, startSunday);
     date = new Date(date || new Date());
 
     var weeks = [];
     var day = date.getDay(),
         startSunday = startSunday ? 0 : 1;
 
-    console.log('Week: ', startSunday, date.getDate(), date.getDay());
-
     if (startSunday === 1 && date.getDate() == 1 && date.getDay() == 0) {
         date.setDate(date.getDate() - 6);
+    } else {
+        date.setDate(date.getDate() - (date.getDay() - startSunday));
     }
-    date.setDate(date.getDate() - (date.getDay() - startSunday));
 
     var week = [];
 
@@ -60,12 +58,9 @@ function getVisibleWeeks(date, startSunday) {
     startSunday = startSunday ? 0 : 1;
 
     if (date.getDay() === 0) {
-        date.setDate(-5);
+        date.setDate(-6 +startSunday);
     } else {
         date.setDate(date.getDate() - (date.getDay() - startSunday));
-    }
-    if (date.getDate() === 0) {
-        date.setDate(-6);
     }
 
     var weeks = [];
@@ -202,13 +197,10 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
                         case 'hours':
                             scope.model.setHours(date.getHours());
                             /*falls through*/
+                        case 'week':
                         case 'date':
                             scope.model.setDate(date.getDate());
                             /*falls through*/
-                        case 'week':
-                            var day = $scope.model.getDay(),
-                                diff = $scope.model.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-                            $scope.model.setDate(diff);
                         case 'month':
                             scope.model.setMonth(date.getMonth());
                             /*falls through*/
