@@ -48,17 +48,19 @@ var Serie = CRUD.define({
     },
 
     getSeasons: function() {
-        return CRUD.Find("Season", {
+        return CRUD.Find('Season', {
             ID_Serie: this.getID()
+        }, {
+            order: 'order by seasonnumber desc'
         });
     },
 
     getLatestSeason: function() {
         return CRUD.FindOne('Season', {
-            'ID_serie': this.getID()
+            ID_Serie: this.getID()
         }, {
-            'order': 'seasonnumber desc'
-        });
+            order: 'order by seasonnumber desc'
+    	});
     }
 });
 
@@ -79,7 +81,7 @@ var Season = CRUD.define({
 }, {
 
     getEpisodes: function() {
-        return CRUD.Find("Episode", {
+        return CRUD.Find('Episode', {
             ID_Season: this.getID()
         });
     }
