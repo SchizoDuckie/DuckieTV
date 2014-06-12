@@ -110,7 +110,6 @@ background-rotator, background-rotator > div {
     z-index: -1;
     opacity: 0.4;
 }
-.bgrotateopacity-a{opacity:0.0}.bgrotateopacity-b{opacity:0.1}.bgrotateopacity-c{opacity:0.2}.bgrotateopacity-d{opacity:0.3}.bgrotateopacity-e{opacity:0.4}.bgrotateopacity-f{opacity:0.5}.bgrotateopacity-g{opacity:0.6}.bgrotateopacity-h{opacity:0.7}.bgrotateopacity-i{opacity:0.8}.bgrotateopacity-j{opacity:0.9}.bgrotateopacity-k{opacity:1.0}
 #actionbar {
     position: absolute;
     top: 50px;
