@@ -31,11 +31,9 @@
              $scope.searchquality = quality;
          }
 		 
-        $scope.setBGOpacity = function(percent, opacity) {
-             console.log("Setting Background Opacity: ", percent);
-             console.log("Setting Background Style Opacity: ", opacity);
-             $rootScope.setSetting('background-rotator.opacity', percent);
-             $rootScope.setSetting('background-rotator.opacitystyle', opacity);
+        $scope.setBGOpacity = function(opacity) {
+             console.log("Setting Background Opacity: ", opacity);
+             $rootScope.setSetting('background-rotator.opacity', opacity);
          }
 
          $scope.findRandomTPBMirror = function() {
