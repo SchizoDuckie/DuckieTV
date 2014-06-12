@@ -108,17 +108,17 @@
                 <ul class="list-unstyled">
                   <li>
                     <p class="alert alert-info">Selecting a button below will set the background opacity to the selected setting below.</p>
-						<button ng-click="setBGOpacity('0.0')" class="btn btn-success">0%</button>
-						<button ng-click="setBGOpacity('0.1')" class="btn btn-success">10%</button>
-						<button ng-click="setBGOpacity('0.2')" class="btn btn-success">20%</button>
-						<button ng-click="setBGOpacity('0.3')" class="btn btn-success">30%</button>
-						<button ng-click="setBGOpacity('0.4')" class="btn btn-success">40%</button>
-						<button ng-click="setBGOpacity('0.5')" class="btn btn-success">50%</button>
-						<button ng-click="setBGOpacity('0.6')" class="btn btn-success">60%</button>
-						<button ng-click="setBGOpacity('0.7')" class="btn btn-success">70%</button>
-						<button ng-click="setBGOpacity('0.8')" class="btn btn-success">80%</button>
-						<button ng-click="setBGOpacity('0.9')" class="btn btn-success">90%</button>
-						<button ng-click="setBGOpacity('1.0')" class="btn btn-success">100%</button>
+						<button ng-click="setBGOpacity('0.0')" class="btn" ng-class="{'btn-info': bgopacity != '0.0', 'btn-success': bgopacity == '0.0'}">0%</button>
+						<button ng-click="setBGOpacity('0.1')" class="btn" ng-class="{'btn-info': bgopacity != '0.1', 'btn-success': bgopacity == '0.1'}">10%</button>
+						<button ng-click="setBGOpacity('0.2')" class="btn" ng-class="{'btn-info': bgopacity != '0.2', 'btn-success': bgopacity == '0.2'}">20%</button>
+						<button ng-click="setBGOpacity('0.3')" class="btn" ng-class="{'btn-info': bgopacity != '0.3', 'btn-success': bgopacity == '0.3'}">30%</button>
+						<button ng-click="setBGOpacity('0.4')" class="btn" ng-class="{'btn-info': bgopacity != '0.4', 'btn-success': bgopacity == '0.4'}">40%</button>
+						<button ng-click="setBGOpacity('0.5')" class="btn" ng-class="{'btn-info': bgopacity != '0.5', 'btn-success': bgopacity == '0.5'}">50%</button>
+						<button ng-click="setBGOpacity('0.6')" class="btn" ng-class="{'btn-info': bgopacity != '0.6', 'btn-success': bgopacity == '0.6'}">60%</button>
+						<button ng-click="setBGOpacity('0.7')" class="btn" ng-class="{'btn-info': bgopacity != '0.7', 'btn-success': bgopacity == '0.7'}">70%</button>
+						<button ng-click="setBGOpacity('0.8')" class="btn" ng-class="{'btn-info': bgopacity != '0.8', 'btn-success': bgopacity == '0.8'}">80%</button>
+						<button ng-click="setBGOpacity('0.9')" class="btn" ng-class="{'btn-info': bgopacity != '0.9', 'btn-success': bgopacity == '0.9'}">90%</button>
+						<button ng-click="setBGOpacity('1.0')" class="btn" ng-class="{'btn-info': bgopacity != '1.0', 'btn-success': bgopacity == '1.0'}">100%</button>
                   </li>
                 </ul>
               </td>
