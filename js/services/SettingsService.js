@@ -16,7 +16,7 @@ angular.module('DuckieTV.providers.settings', ['DuckieTV.directives.calendar'])
             'calendar.startSunday': true,
             'storage.sync': true,
             'calendar.mode': 'date',
-            'background-rotator.opacity': '0.4',
+            'background-rotator.opacity': '0.4'
         },
 
         get: function(key) {
