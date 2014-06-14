@@ -31,7 +31,7 @@ function getVisibleWeek(date, startSunday) {
     var day = date.getDay(),
         startSunday = startSunday ? 0 : 1;
 
-    if (startSunday === 1 && date.getDate() == 1 && date.getDay() == 0) {
+    if (startSunday === 1 && date.getDay() == 0) {
         date.setDate(date.getDate() - 6);
     } else {
         date.setDate(date.getDate() - (date.getDay() - startSunday));
