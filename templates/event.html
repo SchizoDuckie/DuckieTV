@@ -1,8 +1,13 @@
 <div class="event dropdown">
   <a class="dropdown-toggle" ng-click="isOpen=true" ng-class="{ watched : event.episode.get('watched') == 1 }">
 	  <div ng-if="$root.getSetting('torrenting.enabled') && event.episode.values.magnetHash" tooltip="{{ event.episode.getFormattedEpisode() }}">
-	   	 <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">{{ event.serie }} </torrent-remote-control>
-	  </div>
+        <div ng-if="$root.getSetting('torrenting.progress')">
+	   	  <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">{{ event.serie }} </torrent-remote-control>
+	    </div>
+        <span ng-if="$root.getSetting('torrenting.progress') != 1">
+          {{ event.serie }}
+	    </span>
+      </div>
 	  <span ng-if="$root.getSetting('torrenting.enabled') != 1 || !event.episode.values.magnetHash" tooltip="{{event.episode.getFormattedEpisode()}}">
 	  	{{ event.serie }}
 	  </span>
