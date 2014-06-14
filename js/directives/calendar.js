@@ -67,8 +67,6 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                 });
                 if (existing.length == 0) {
                     calendarEvents[date].push(events[i]);
-                } else {
-                    existing[0].episode = events[i].episode;
                 }
             }
             $rootScope.$broadcast('calendar:events', events);
