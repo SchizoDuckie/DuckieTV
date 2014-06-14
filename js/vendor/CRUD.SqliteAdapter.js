@@ -361,14 +361,13 @@ CRUD.Database.SQLBuilder.prototype = {
 
     buildOrderBy: function() // filter the 'extras' parameter for order by, group by and limit clauses.
     {
-        hasorderby = false;
-        if (this.extras.length === 0) return;
+        if (!this.extras) return;
         if (this.extras.limit) {
             this.limit = "LIMIT " + this.extras.limit;
             delete this.extras.limit;
         }
         for (var key in this.extras) {
-            var extra = this.extra[key].toUpperCase();
+            var extra = this.extras[key].toUpperCase();
             if (extra.indexOf('ORDER BY') > -1) {
                 this.orders.push(extra.replace('ORDER BY', ''));
                 delete this.extras[key];

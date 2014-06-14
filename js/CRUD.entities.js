@@ -48,17 +48,15 @@ var Serie = CRUD.define({
     },
 
     getSeasons: function() {
-        return CRUD.Find("Season", {
+        return CRUD.Find('Season', {
             ID_Serie: this.getID()
         });
     },
 
     getLatestSeason: function() {
         return CRUD.FindOne('Season', {
-            'ID_serie': this.getID()
-        }, {
-            'order': 'seasonnumber desc'
-        });
+            ID_Serie: this.getID()
+    	});
     }
 });
 
@@ -73,13 +71,15 @@ var Season = CRUD.define({
         'Serie': CRUD.RELATION_FOREIGN,
         'Episode': CRUD.RELATION_FOREIGN
     },
+    orderProperty: 'seasonnumber',
+    orderDirection: 'DESC',
     createStatement: 'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER)',
     adapter: 'dbAdapter',
     defaultValues: {}
 }, {
 
     getEpisodes: function() {
-        return CRUD.Find("Episode", {
+        return CRUD.Find('Episode', {
             ID_Season: this.getID()
         });
     }
