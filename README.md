@@ -21,6 +21,7 @@ The permissions are actually less scary than they look. Chrome doesn't have the 
 **Access your data on all websites**
 
 The plugin request permissions to access http://*.*/ to be able to allow any random mirror to be used for The Pirate Bay and custom trackers in the future. Chrome's extension model requires you to whitelist *exactly* the urls that you are accessing, which becomes impossible because of this.
+
 **Read and modify your browser history**
 
 The plugin requests this to use the Chrome.Topsites API that allows to display your most favorite sites on the new tab extension. If you do not wish to give this permission, please use the 'Browser Action' version.
