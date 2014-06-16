@@ -10,7 +10,7 @@
 	overflow: auto;
 }
 .alert {
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 }
 @media (min-width: 1600px) {
   .span12, .container {
