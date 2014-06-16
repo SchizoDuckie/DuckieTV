@@ -1,0 +1,90 @@
+<table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;'>
+  <tr>
+    <td colspan="2" style="border:0">
+      <p class="alert alert-info"> <strong>Manual show updates</strong><br>
+      If for some reason one of your TV shows hasn't updated, you can go to the Timers page and fire the auto-update timer manually
+    </td>
+  </tr>
+  <tr>
+    <th width="150px">
+      <strong>Backup / Import</strong>
+    </th>
+    <td>
+      <h3>Create a backup of your series / episodes / watched list.</h3>
+      <a class="btn btn-success" download="DuckieTV.backup" ng-if="!backupString" ng-click="createBackup()">Create Database Backup</a>
+      <a class="btn btn-info" download="DuckieTV.backup" ng-if="backupString" ng-href="{{ backupString }}">Backup ready! Click to download.</a>
+      
+      <h3>Restore a backup</h3>
+      <div file-input="file" on-change="restore()"></div>
+      <p ng-show="log.length > 0">
+        Import Log:
+        <ul style='max-height:150px; overflow-y:auto;'>
+          <li ng-repeat="status in log track by $index">{{status}}</li>
+        </ul>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <th width="150px">
+      <strong style='white-space:nowrap; display:block;'>Sync between browser</strong>
+      <p class="label label-success" ng-show="getSetting('storage.sync')">Enabled</p>
+      <p class="label label-danger" ng-show="!getSetting('storage.sync')">Disabled</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <p class="alert alert-info"><strong>Experimental!</strong> Hit this button to push your current series list into the cloud. Sign in on another browser with the same google account and your series list will automagically be synced.</p>
+          <button ng-click="sync()" class="btn btn-success">Push local series list into the cloud</button>
+        </li><br>
+        <li style="padding-top:4px">
+          <p ng-show="!getSetting('storage.sync')" class="alert alert-info">Clicking this button will keep your series in sync with other browsers</p>
+          <p ng-show="getSetting('storage.sync')" class="alert alert-warning">Clicking this button will stop syncing your local series list with other browsers</p>
+          <button ng-show="!getSetting('storage.sync')" ng-click="enableSetting('storage.sync')" class="btn btn-success">Keep series in sync between browsers</button>
+          <button ng-show="getSetting('storage.sync')" ng-click="disableSetting('storage.sync')" class="btn btn-danger">Don't sync between browsers</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr ng-show="hasTopSites">
+    <th width="150px">
+      <strong style='white-space:nowrap; display:block;'>Most Visited Sites</strong>
+      <p class="label label-success" ng-show="getSetting('topSites.enabled')">Enabled</p>
+      <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">Disabled</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <p ng-show="!getSetting('topSites.enabled')" class="alert alert-info">Clicking the button will show a list of your 12 most visited sites on the new tab page</p>
+          <p ng-show="getSetting('topSites.enabled')" class="alert alert-warning">Clicking the button will hide the list of your most visited sites from the new tab page</p>
+          <button ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">Show Most Visited Sites in the new tab page</button>
+          <button ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">Hide the Most Visited Sites from the new tab page</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <th width="150px">
+      <strong style='white-space:nowrap; display:block;'>Calendar</strong>
+      <p class="label label-info" ng-show="getSetting('calendar.startSunday')">Week start: Sunday</p>
+      <p class="label label-success" ng-show="!getSetting('calendar.startSunday')">Week start:Monday</p>
+      <p class="label label-info" ng-show="getSetting('calendar.mode') == 'week'">Week</p>
+      <p class="label label-success" ng-show="getSetting('calendar.mode') == 'date'">Month</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <p class="alert alert-info">Toggle between sunday/monday for start day of the week below</p>
+          
+          <button ng-show="!getSetting('calendar.startSunday')" ng-click="enableSetting('calendar.startSunday')" class="btn btn-info">Use sunday as start day-of-week</button>
+          <button ng-show="getSetting('calendar.startSunday')" ng-click="disableSetting('calendar.startSunday')" class="btn btn-success">Use monday as start day-of-week</button>
+        </li><br>
+        <li>
+          <p class="alert alert-info">If you prefer the calendar to show only the current change it here</p>
+
+          <button ng-show="getSetting('calendar.mode') == 'date'" ng-click="setSetting('calendar.mode', 'week')" class="btn btn-info">Use one-week calendar</button>
+          <button ng-show="getSetting('calendar.mode') == 'week'" ng-click="setSetting('calendar.mode', 'date')" class="btn btn-success">Use month calendar</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>

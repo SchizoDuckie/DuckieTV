@@ -1,0 +1,147 @@
+<table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;'>
+  <tr>
+    <th width="150px" style="border:0">
+      <strong style='white-space:nowrap'>Torrent Functionality</strong>
+      <p class="label label-success" ng-show="getSetting('torrenting.enabled')">Enabled</p>
+      <p class="label label-danger" ng-show="!getSetting('torrenting.enabled')">Disabled</p>
+    </th>
+    <td style="border:0">
+      <ul class="list-unstyled">
+        <li>
+        <p ng-show="!getSetting('torrenting.enabled')" class="alert alert-info">Clicking the button below enables all torrent related functionalities throughout the app</p>
+        <p ng-show="getSetting('torrenting.enabled')" class="alert alert-warning">Clicking the button below will hide all torrent related functionalities throughout the app</p>
+        <button ng-show="!getSetting('torrenting.enabled')" ng-click="enableSetting('torrenting.enabled')" class="btn btn-success">Enable all torrent functionality</button>
+        <button ng-show="getSetting('torrenting.enabled')" ng-click="disableSetting('torrenting.enabled')" class="btn btn-danger">Disable all torrent functionality</button>
+        </li>
+      </ul>
+    </td>
+  </tr>         
+  <tr ng-show="getSetting('torrenting.enabled')">
+    <th width="150px">
+      <strong style='white-space:nowrap'>Torrent Streaming</strong>
+      <p class="label label-success" ng-show="getSetting('torrenting.streaming')">Enabled</p>
+      <p class="label label-danger" ng-show="!getSetting('torrenting.streaming')">Disabled</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <p ng-show="!getSetting('torrenting.streaming')" class="alert alert-info">Clicking the button below enables the streaming option while downloading torrents</p>
+          <p ng-show="getSetting('torrenting.streaming')" class="alert alert-warning">Clicking the button below disables the streaming option while downloading torrents</p>
+          <button ng-show="!getSetting('torrenting.streaming')" ng-click="enableSetting('torrenting.streaming')" class="btn btn-success">Enable Streaming</button>
+          <button ng-show="getSetting('torrenting.streaming')" ng-click="disableSetting('torrenting.streaming')" class="btn btn-danger">Disable Streaming</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr ng-show="getSetting('torrenting.enabled')">
+    <th width="150px">
+      <strong style='white-space:nowrap'>Torrent Directory</strong>
+      <p class="label label-success" ng-show="getSetting('torrenting.directory')">Enabled</p>
+      <p class="label label-danger" ng-show="!getSetting('torrenting.directory')">Disabled</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <p ng-show="!getSetting('torrenting.directory')" class="alert alert-info">Clicking the button below adds the "open containing folder" button to the menu in the calendar if you selected a torrent for the show</p>
+          <p ng-show="getSetting('torrenting.directory')" class="alert alert-warning">Clicking the button below removes the "open containing folder" button from the menu in the calendar if you selected a torrent for the show</p>
+          <button ng-show="!getSetting('torrenting.directory')" ng-click="enableSetting('torrenting.directory')" class="btn btn-success">Enable 'Open Containing Folder'</button>
+          <button ng-show="getSetting('torrenting.directory')" ng-click="disableSetting('torrenting.directory')" class="btn btn-danger">Disable 'Open Containing Folder'</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr ng-show="getSetting('torrenting.enabled')">
+    <th width="150px">
+      <strong style='white-space:nowrap'>Torrent Progress Bar</strong>
+      <p class="label label-success" ng-show="getSetting('torrenting.progress')">Enabled</p>
+      <p class="label label-danger" ng-show="!getSetting('torrenting.progress')">Disabled</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <p ng-show="!getSetting('torrenting.progress')" class="alert alert-info">Clicking the button below adds a progress bar that appears on an episode in the calender while downloading</p>
+          <p ng-show="getSetting('torrenting.progress')" class="alert alert-warning">Clicking the button below removes the progress bar that appears on an episode in the calender while downloading</p>
+          <button ng-show="!getSetting('torrenting.progress')" ng-click="enableSetting('torrenting.progress')" class="btn btn-success">Enable Torrent Progress Bar</button>
+          <button ng-show="getSetting('torrenting.progress')" ng-click="disableSetting('torrenting.progress')" class="btn btn-danger">Disable Torrent Progress Bar</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr ng-show="getSetting('torrenting.enabled')">
+    <th width="150px">
+      <strong style='white-space:nowrap'>The Pirate Bay</strong>
+    </th>
+    <td>
+      <p class="alert alert-warning">If for some reason ThePirateBay is blocked in your territory, use the button below to automatically resolve a working mirror that supports magnet links. If you have a preferred server, you may input that as well.
+      </p>
+      <ul class="list-unstyled">
+        <li>Piratebay main mirror:<br>
+          <input type='url' style='width:500px' ng-model="custommirror">
+
+          <button class="btn btn-success" ng-click="validateCustomMirror(custommirror)">Validate and Save</button>
+          <button class="btn btn-info" ng-click="findRandomTPBMirror()">Find a random mirror that supports Magnet links</button>
+
+          <p ng-show="mirrorStatus.length > 0">
+            Current Status:
+            <ul style='max-height:150px; overflow-y:auto;'>
+              <li ng-repeat="status in mirrorStatus track by $index">{{status}}</li>
+            </ul>
+          </p>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr ng-show="getSetting('torrenting.enabled')">
+  <th width="150px">
+    <strong>Default Search Provider</strong>
+  </th>
+    <td>
+      <p class="alert alert-info">Change your preferred torrent search provider below</p>
+
+      <ul class="list-unstyled">
+        <li ng-click="setSearchProvider('ThePirateBay')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != 'ThePirateBay', 'glyphicon-record': searchprovider == 'ThePirateBay'}"></i>
+            <strong>The Pirate Bay</strong>
+          </li>
+          <li ng-click="setSearchProvider('KickassTorrents')" style='cursor:pointer'>
+            <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != 'KickassTorrents', 'glyphicon-record': searchprovider == 'KickassTorrents'}"></i>
+              <strong>Kickass Torrents</strong>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr ng-show="getSetting('torrenting.enabled')">
+    <th width="150px">
+      <strong>Preferred Quality</strong>
+    </th>
+    <td>
+      <p class="alert alert-info">
+        Make a choice below to limit your episode searches to a specific quality.<br>
+        <strong>Be warned:</strong>If you select '720p' this will append '720p' to the default [seriesname] S[seasonnumber]E[episodenumber] search string.<br>
+        This does not work as a 'minimum quality' search!
+      </p>
+      <ul class="list-unstyled">
+        <li ng-click="setSearchQuality('')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '', 'glyphicon-record': searchquality == ''}"></i>
+          <strong>Show all</strong>
+        </li>
+        <li ng-click="setSearchQuality('HDTV')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != 'HDTV', 'glyphicon-record': searchquality == 'HDTV'}"></i>
+          <strong>HDTV</strong>
+        </li>
+        <li ng-click="setSearchQuality('480p')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '480p', 'glyphicon-record': searchquality == '480p'}"></i>
+          <strong>480p</strong>
+        </li>
+        <li ng-click="setSearchQuality('720p')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '720p', 'glyphicon-record': searchquality == '720p'}"></i>
+          <strong>720p</strong>
+        </li>
+        <li ng-click="setSearchQuality('1080p')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '1080p', 'glyphicon-record': searchquality == '1080p'}"></i>
+          <strong>1080p</strong>
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
