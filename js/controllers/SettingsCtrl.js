@@ -7,9 +7,19 @@
          $scope.custommirror = SettingsService.get('thepiratebay.mirror');
          $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
          $scope.searchquality = SettingsService.get('torrenting.searchquality');
+         $scope.bgopacity = SettingsService.get('background-rotator.opacity');
          $scope.mirrorStatus = [];
          $scope.log = [];
          $scope.hasTopSites = ('topSites' in window.chrome);
+         
+         $scope.currentsetting = ('default')
+         $scope.activesettings = ('templates/settings/default.html');
+         
+         $scope.setactivesetting = function(setting) {
+             console.log("setting active setting", setting)
+             $scope.currentsetting = setting;
+             $scope.activesettings = ('templates/settings/' + setting + '.html');
+         }
 
          $rootScope.$on('mirrorresolver:status', function(evt, status) {
              $scope.mirrorStatus.unshift(status);
@@ -29,6 +39,12 @@
              console.log("Setting searchquality: ", quality);
              $rootScope.setSetting('torrenting.searchquality', quality);
              $scope.searchquality = quality;
+         }
+		 
+        $scope.setBGOpacity = function(opacity) {
+             console.log("Setting Background Opacity: ", opacity);
+             $rootScope.setSetting('background-rotator.opacity', opacity);
+			 $scope.bgopacity = opacity;
          }
 
          $scope.findRandomTPBMirror = function() {
