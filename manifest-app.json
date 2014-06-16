@@ -3,7 +3,7 @@
     "name": "DuckieTV - 'Browser action' mode",
     "short_name": "DuckieTV",
     "version": "0.55",
-    "description": "Manage your favorite TV series and movies from your browser's new tab page",
+    "description": "Manage your favorite TV series and movies from your browser",
     "permissions": [
         "http://*/*",
         "https://*/*",
