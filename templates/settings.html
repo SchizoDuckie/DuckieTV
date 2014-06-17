@@ -8,19 +8,12 @@
 
         <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
           <tr>
-            <td colspan="2" height="50px" align="center" style="vertical-align:middle">
-              <a href='#timers'><button class="btn btn-info" style="margin:2px" tooltip="View update timers">Timers</button></a>
-              <a href='#settings/advanced'><button class="btn btn-info" style="margin:2px" tooltip="Advanced customisation options">Advanced Settings</button></a>
+          <td colspan="2">
+            <p class="alert alert-info"> <strong>Manual show updates</strong><br>
+             If for some reason one of your TV shows hasn't updated, you can go to the <a href='#timers' style='text-decoration:underline; color:black'>Timers</a> page and fire the auto-update timer manually
             </td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <p class="alert alert-info"> <strong>Manual show updates</strong><br>
-              If for some reason one of your TV shows hasn't updated, you can go to the Timers page and fire the auto-update timer manually
-            </td>
-          </tr>
-          <tr>
-          </tr>
+            
+            </tr>
             <tr>
               <th>Backup / Import</th>
               <td>
@@ -119,6 +112,40 @@
                     <p ng-show="getSetting('torrenting.enabled')" class="alert alert-warning">Clicking the button below will hide all torrent related functionalities throughout the app</p>
                     <button ng-show="!getSetting('torrenting.enabled')" ng-click="enableSetting('torrenting.enabled')" class="btn btn-success">Enable all torrent functionality</button>
                     <button ng-show="getSetting('torrenting.enabled')" ng-click="disableSetting('torrenting.enabled')" class="btn btn-danger">Disable all torrent functionality</button>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr ng-show="getSetting('torrenting.enabled')">
+              <td style='width:150px'>
+                <strong style='white-space:nowrap'>Torrent Streaming</strong>
+                <p class="label label-success" ng-show="getSetting('torrenting.streaming')">Enabled</p>
+                <p class="label label-danger" ng-show="!getSetting('torrenting.streaming')">Disabled</p>
+              </td>
+              <td>
+                <ul class="list-unstyled">
+                  <li>
+                    <p ng-show="!getSetting('torrenting.streaming')" class="alert alert-info">Clicking the button below enables the streaming option while downloading torrents</p>
+                    <p ng-show="getSetting('torrenting.streaming')" class="alert alert-warning">Clicking the button below disables the streaming option while downloading torrents</p>
+                    <button ng-show="!getSetting('torrenting.streaming')" ng-click="enableSetting('torrenting.streaming')" class="btn btn-success">Enable Streaming</button>
+                    <button ng-show="getSetting('torrenting.streaming')" ng-click="disableSetting('torrenting.streaming')" class="btn btn-danger">Disable Streaming</button>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr ng-show="getSetting('torrenting.enabled')">
+              <td style='width:150px'>
+                <strong style='white-space:nowrap'>Torrent Directory</strong>
+                <p class="label label-success" ng-show="getSetting('torrenting.directory')">Enabled</p>
+                <p class="label label-danger" ng-show="!getSetting('torrenting.directory')">Disabled</p>
+              </td>
+              <td>
+                <ul class="list-unstyled">
+                  <li>
+                    <p ng-show="!getSetting('torrenting.directory')" class="alert alert-info">Clicking the button below adds the "open containing folder" button to the menu in the calendar if you selected a torrent for the show</p>
+                    <p ng-show="getSetting('torrenting.directory')" class="alert alert-warning">Clicking the button below removes the "open containing folder" button from the menu in the calendar if you selected a torrent for the show</p>
+                    <button ng-show="!getSetting('torrenting.directory')" ng-click="enableSetting('torrenting.directory')" class="btn btn-success">Enable 'Open Containing Folder'</button>
+                    <button ng-show="getSetting('torrenting.directory')" ng-click="disableSetting('torrenting.directory')" class="btn btn-danger">Disable 'Open Containing Folder'</button>
                   </li>
                 </ul>
               </td>
