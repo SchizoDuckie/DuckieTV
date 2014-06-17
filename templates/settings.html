@@ -8,16 +8,20 @@
 
         <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
           <tr>
-            <td colspan="2" height="50px" align="center" style="vertical-align:middle">
-              <button ng-class="{'btn-info': currentsetting != 'default', 'btn-success': currentsetting == 'default'}" ng-click="setactivesetting('default')" class="btn btn-success" style="margin:2px" tooltip="General Settings">General</button>   
-              <button ng-class="{'btn-info': currentsetting != 'display', 'btn-success': currentsetting == 'display'}" ng-click="setactivesetting('display')" class="btn btn-info" style="margin:2px" tooltip="View design options">Display</button>
-              <button ng-class="{'btn-info': currentsetting != 'torrent', 'btn-success': currentsetting == 'torrent'}" ng-click="setactivesetting('torrent')" class="btn btn-info" style="margin:2px" tooltip="View torrent settings">Torrent</button>
-              <a href='#timers'><button class="btn btn-info" style="margin:2px" tooltip="View update timers">Timers</button></a>
+            <td colspan="2" height="50px" align="center" style="vertical-align:bottom;padding: 0px !important">
+              <div style="width:85%">              
+              <tabset justified="true">
+                <tab heading="General" ng-click="setActiveSetting('default')"></tab>
+                <tab heading="Display" ng-click="setActiveSetting('display')"></tab>
+                <tab heading="Torrent" ng-click="setActiveSetting('torrent')"></tab>
+                <tab heading="Timers" ng-click="setActiveSetting('timers')"></tab>
+              </tabset>
+              </div>
             </td>
           </tr>
           <tr>
             <td colspan="2">
-              <div ng-include="activesettings"></div>
+              <div ng-include="activesettings" ng-controller="TimerCtrl"></div>
             </td>
           </tr>
             <!--
