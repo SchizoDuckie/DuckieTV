@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="container-fluid">
+      <form no-validate>
+        <fieldset>
+          <h2>Advanced Settings</h2>
+        </fieldset>
+
+        <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
+          <tr>
+          <td colspan="2" align="center">
+            <a href='#settings'><button class="btn btn-info" style="margin:2px" tooltip="Go back to settings">Back</button></a>
+            <!--<p class="alert alert-info"> <strong>Alert Title</strong><br>
+             Alert Text
+             -->
+            </td>
+            </tr>
+            
+            <tr>
+              <td style='width:150px'>
+                <strong style='white-space:nowrap'>Background Opacity</strong>
+                <p class="label label-success">Current Opacity: {{100*getSetting('background-rotator.opacity')}}%</p>
+              </td>
+              <td>
+                <ul class="list-unstyled">
+                  <li>
+                    <p class="alert alert-info">Selecting a button below will set the background image transparency to the chosen percentage.</p>
+						<button ng-click="setBGOpacity('0.0')" class="btn" ng-class="{'btn-info': bgopacity != '0.0', 'btn-success': bgopacity == '0.0'}">0%</button>
+						<button ng-click="setBGOpacity('0.1')" class="btn" ng-class="{'btn-info': bgopacity != '0.1', 'btn-success': bgopacity == '0.1'}">10%</button>
+						<button ng-click="setBGOpacity('0.2')" class="btn" ng-class="{'btn-info': bgopacity != '0.2', 'btn-success': bgopacity == '0.2'}">20%</button>
+						<button ng-click="setBGOpacity('0.3')" class="btn" ng-class="{'btn-info': bgopacity != '0.3', 'btn-success': bgopacity == '0.3'}">30%</button>
+						<button ng-click="setBGOpacity('0.4')" class="btn" ng-class="{'btn-info': bgopacity != '0.4', 'btn-success': bgopacity == '0.4'}">40%</button>
+						<button ng-click="setBGOpacity('0.5')" class="btn" ng-class="{'btn-info': bgopacity != '0.5', 'btn-success': bgopacity == '0.5'}">50%</button>
+						<button ng-click="setBGOpacity('0.6')" class="btn" ng-class="{'btn-info': bgopacity != '0.6', 'btn-success': bgopacity == '0.6'}">60%</button>
+						<button ng-click="setBGOpacity('0.7')" class="btn" ng-class="{'btn-info': bgopacity != '0.7', 'btn-success': bgopacity == '0.7'}">70%</button>
+						<button ng-click="setBGOpacity('0.8')" class="btn" ng-class="{'btn-info': bgopacity != '0.8', 'btn-success': bgopacity == '0.8'}">80%</button>
+						<button ng-click="setBGOpacity('0.9')" class="btn" ng-class="{'btn-info': bgopacity != '0.9', 'btn-success': bgopacity == '0.9'}">90%</button>
+						<button ng-click="setBGOpacity('1.0')" class="btn" ng-class="{'btn-info': bgopacity != '1.0', 'btn-success': bgopacity == '1.0'}">100%</button>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+			<tr>
+			  <td colspan="2" align="center" style="vertical-align:middle;font-size:20px" height="48px"><strong>Advanced Torrent Settings</strong><br>
+                <p ng-show="!getSetting('torrenting.enabled')" class="label label-danger"><strong style="font-size:14px">Torrent Functionality Disabled!</strong></p>
+              </td>
+			</tr>
+			<tr ng-show="!getSetting('torrenting.enabled')">
+			  <td colspan="2" align="center">
+                <p class="alert alert-warning" ng-show="!getSetting('torrenting.enabled')">Advanced torrent settings cannot be used while torrent functionality is disabled. Clicking the button below will re-enable torrent functionally.</p>
+                <button ng-click="enableSetting('torrenting.enabled')" class="btn btn-success">Enable all torrent functionality</button>
+              </td>
+			</tr>                
+			<tr ng-show="getSetting('torrenting.enabled')">
+              <td style='width:150px'>
+                <strong style='white-space:nowrap'>Torrent Streaming</strong>
+                <p class="label label-success" ng-show="getSetting('torrenting.streaming')">Enabled</p>
+                <p class="label label-danger" ng-show="!getSetting('torrenting.streaming')">Disabled</p>
+              </td>
+              <td>
+                <ul class="list-unstyled">
+                  <li>
+                    <p ng-show="!getSetting('torrenting.streaming')" class="alert alert-info">Clicking the button below enables the streaming option while downloading torrents</p>
+                    <p ng-show="getSetting('torrenting.streaming')" class="alert alert-warning">Clicking the button below disables the streaming option while downloading torrents</p>
+                    <button ng-show="!getSetting('torrenting.streaming')" ng-click="enableSetting('torrenting.streaming')" class="btn btn-success">Enable Streaming</button>
+                    <button ng-show="getSetting('torrenting.streaming')" ng-click="disableSetting('torrenting.streaming')" class="btn btn-danger">Disable Streaming</button>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr ng-show="getSetting('torrenting.enabled')">
+              <td style='width:150px'>
+                <strong style='white-space:nowrap'>Torrent Directory</strong>
+                <p class="label label-success" ng-show="getSetting('torrenting.directory')">Enabled</p>
+                <p class="label label-danger" ng-show="!getSetting('torrenting.directory')">Disabled</p>
+              </td>
+              <td>
+                <ul class="list-unstyled">
+                  <li>
+                    <p ng-show="!getSetting('torrenting.directory')" class="alert alert-info">Clicking the button below adds the "open containing folder" button to the menu in the calendar if you selected a torrent for the show</p>
+                    <p ng-show="getSetting('torrenting.directory')" class="alert alert-warning">Clicking the button below removes the "open containing folder" button from the menu in the calendar if you selected a torrent for the show</p>
+                    <button ng-show="!getSetting('torrenting.directory')" ng-click="enableSetting('torrenting.directory')" class="btn btn-success">Enable 'Open Containing Folder'</button>
+                    <button ng-show="getSetting('torrenting.directory')" ng-click="disableSetting('torrenting.directory')" class="btn btn-danger">Disable 'Open Containing Folder'</button>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr ng-show="getSetting('torrenting.enabled')">
+              <td style='width:150px'>
+                <strong style='white-space:nowrap'>Torrent Progress Bar</strong>
+                <p class="label label-success" ng-show="getSetting('torrenting.progress')">Enabled</p>
+                <p class="label label-danger" ng-show="!getSetting('torrenting.progress')">Disabled</p>
+              </td>
+              <td>
+                <ul class="list-unstyled">
+                  <li>
+                    <p ng-show="!getSetting('torrenting.progress')" class="alert alert-info">Clicking the button below adds a progress bar that appears on an episode in the calender while downloading</p>
+                    <p ng-show="getSetting('torrenting.progress')" class="alert alert-warning">Clicking the button below removes the progress bar that appears on an episode in the calender while downloading</p>
+                    <button ng-show="!getSetting('torrenting.progress')" ng-click="enableSetting('torrenting.progress')" class="btn btn-success">Enable Torrent Progress Bar</button>
+                    <button ng-show="getSetting('torrenting.progress')" ng-click="disableSetting('torrenting.progress')" class="btn btn-danger">Disable Torrent Progress Bar</button>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+
+</div>

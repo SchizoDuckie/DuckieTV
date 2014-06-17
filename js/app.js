@@ -99,6 +99,10 @@ angular.module('DuckieTV', [
             templateUrl: 'templates/settings.html',
             controller: 'SettingsCtrl'
         })
+        .when('/settings/advanced', {
+            templateUrl: 'templates/settings-advanced.html',
+            controller: 'SettingsCtrl'
+        })
         .when('/cast', {
             templateUrl: 'templates/chromecast.html',
             controller: 'ChromeCastCtrl'
