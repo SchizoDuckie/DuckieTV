@@ -12,12 +12,10 @@
          $scope.log = [];
          $scope.hasTopSites = ('topSites' in window.chrome);
          
-         $scope.currentsetting = ('default')
          $scope.activesettings = ('templates/settings/default.html');
          
-         $scope.setactivesetting = function(setting) {
+         $scope.setActiveSetting = function(setting) {
              console.log("setting active setting", setting)
-             $scope.currentsetting = setting;
              $scope.activesettings = ('templates/settings/' + setting + '.html');
          }
 
@@ -44,7 +42,7 @@
         $scope.setBGOpacity = function(opacity) {
              console.log("Setting Background Opacity: ", opacity);
              $rootScope.setSetting('background-rotator.opacity', opacity);
-			 $scope.bgopacity = opacity;
+             $scope.bgopacity = opacity;
          }
 
          $scope.findRandomTPBMirror = function() {
