@@ -106,7 +106,7 @@ angular.module('DuckieTV', [
         })
         .when('/about', {
             templateUrl: 'templates/about.html',
-            controller: 'AboutCtrl as statistics'
+            controller: 'AboutCtrl'
         })
         .otherwise({
             redirectTo: '/'
