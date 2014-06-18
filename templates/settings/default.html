@@ -14,7 +14,7 @@
       <a class="btn btn-success" download="DuckieTV.backup" ng-if="!backupString" ng-click="createBackup()">Create Database Backup</a>
       <a class="btn btn-info" download="DuckieTV.backup" ng-if="backupString" ng-href="{{ backupString }}">Backup ready! Click to download.</a>
       
-      <h3>Restore a backup</h3>
+      <h3>Import a backup</h3>
       <div file-input="file" on-change="restore()"></div>
       <p ng-show="log.length > 0">
         Import Log:
