@@ -56,22 +56,13 @@
 <h3>Contributing</h3>
 <p>Want to contribute to DuckieTV and get your feet wet in Angular.js? Feel free to <a href='https://github.com/SchizoDuckie/DuckieTV/fork' target='_blank'>Fork DuckieTV and submit pull requests</a>!</p>
 
-  <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
+  <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white; border-top:0px'>
     <tr>
-        <td><h3>Statistics</h3></td>
-          <td>
-            <ul class="list-unstyled">
-              <li>
-                  <tr ng-repeat="stats in statistics">
-                    <td>
-                      <strong>{{stats.name}}</strong>
-                    </td>
-                    <td>{{stats.data}}</td>
-                  </tr>
-              </li>
-            </ul>
-          </td>
-      </td>
+        <td colspan='2' style='border-top:0px'><h3>Statistics</h3></td>
+    <tr>
+    <tr ng-repeat="stats in statistics">
+        <td width='300px'><strong>{{stats.name}}</strong></td>
+        <td>{{stats.data}}</td>
     </tr>
   </table>
 </td>
