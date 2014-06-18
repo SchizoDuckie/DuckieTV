@@ -9,9 +9,9 @@
     <th width="150px">
       <strong>Backup / Import</strong>
     </th>
-    <td>
+    <td ng-controller="BackupCtrl">
       <h3>Create a backup of your series / episodes / watched list.</h3>
-      <a class="btn btn-success" download="DuckieTV.backup" ng-if="!backupString" ng-click="createBackup()">Create Database Backup</a>
+      <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()">Create Database Backup</a>
       <a class="btn btn-info" download="DuckieTV.backup" ng-if="backupString" ng-href="{{ backupString }}">Backup ready! Click to download.</a>
       
       <h3>Import a backup</h3>

@@ -37,6 +37,7 @@ angular.module('DuckieTV', [
     'DuckieTV.controllers.episodes',
     'DuckieTV.controllers.serie',
     'DuckieTV.controllers.settings',
+    'DuckieTV.controllers.backup',
     'DuckieTV.controllers.timer',
     'DuckieTV.controllers.watchlist',
     'DuckieTV.directives.calendar',
