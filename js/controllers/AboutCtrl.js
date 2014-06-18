@@ -46,6 +46,14 @@
              version = nAgt.substring(verOffset + 8);
          }
       }
+      // Iron added by Garfield69
+      else if ((verOffset = nAgt.indexOf('Iron')) != -1) {
+         browser = 'Iron';
+         version = nAgt.substring(verOffset + 5);
+         if ((verOffset = nAgt.indexOf('Version')) != -1) {
+             version = nAgt.substring(verOffset + 8);
+         }
+      }
       // MSIE
       else if ((verOffset = nAgt.indexOf('MSIE')) != -1) {
          browser = 'Microsoft Internet Explorer';
@@ -55,14 +63,6 @@
       else if ((verOffset = nAgt.indexOf('Chrome')) != -1) {
          browser = 'Chrome';
          version = nAgt.substring(verOffset + 7);
-      }
-      // Iron added by Garfield69
-      else if ((verOffset = nAgt.indexOf('Iron')) != -1) {
-         browser = 'Iron';
-         version = nAgt.substring(verOffset + 5);
-         if ((verOffset = nAgt.indexOf('Version')) != -1) {
-             version = nAgt.substring(verOffset + 8);
-         }
       }
       // Safari
       else if ((verOffset = nAgt.indexOf('Safari')) != -1) {
