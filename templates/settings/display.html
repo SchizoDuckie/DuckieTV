@@ -1,0 +1,55 @@
+<table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;'>
+  <tr>
+    <th width="150px" style="border:0">
+      <strong style='white-space:nowrap; display:block;'>Background Opacity</strong>
+      <p class="label label-success">Current Opacity: {{100*getSetting('background-rotator.opacity')}}%</p>
+    </th>
+    <td style="border:0">
+      <ul class="list-unstyled">
+        <li>
+          <p class="alert alert-info">Selecting a button below will set the background image transparency to the chosen percentage.</p>
+          <button ng-click="setBGOpacity('0.0')" class="btn" ng-class="{'btn-info': bgopacity != '0.0', 'btn-success': bgopacity == '0.0'}">0%</button>
+          <button ng-click="setBGOpacity('0.1')" class="btn" ng-class="{'btn-info': bgopacity != '0.1', 'btn-success': bgopacity == '0.1'}">10%</button>
+          <button ng-click="setBGOpacity('0.2')" class="btn" ng-class="{'btn-info': bgopacity != '0.2', 'btn-success': bgopacity == '0.2'}">20%</button>
+          <button ng-click="setBGOpacity('0.3')" class="btn" ng-class="{'btn-info': bgopacity != '0.3', 'btn-success': bgopacity == '0.3'}">30%</button>
+          <button ng-click="setBGOpacity('0.4')" class="btn" ng-class="{'btn-info': bgopacity != '0.4', 'btn-success': bgopacity == '0.4'}">40%</button>
+          <button ng-click="setBGOpacity('0.5')" class="btn" ng-class="{'btn-info': bgopacity != '0.5', 'btn-success': bgopacity == '0.5'}">50%</button>
+          <button ng-click="setBGOpacity('0.6')" class="btn" ng-class="{'btn-info': bgopacity != '0.6', 'btn-success': bgopacity == '0.6'}">60%</button>
+          <button ng-click="setBGOpacity('0.7')" class="btn" ng-class="{'btn-info': bgopacity != '0.7', 'btn-success': bgopacity == '0.7'}">70%</button>
+          <button ng-click="setBGOpacity('0.8')" class="btn" ng-class="{'btn-info': bgopacity != '0.8', 'btn-success': bgopacity == '0.8'}">80%</button>
+          <button ng-click="setBGOpacity('0.9')" class="btn" ng-class="{'btn-info': bgopacity != '0.9', 'btn-success': bgopacity == '0.9'}">90%</button>
+          <button ng-click="setBGOpacity('1.0')" class="btn" ng-class="{'btn-info': bgopacity != '1.0', 'btn-success': bgopacity == '1.0'}">100%</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <!--<tr>
+    <th>
+      <strong>Page background</strong>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <input type="radio" name="background" value="default" id='usebg1'>
+          <label for="usebg1">Use series artwork</label>
+        </li>
+        <li>
+          <input type="radio" name="background" value="default" id='usebg2' style='vertical-align:top'>
+          <label for="usebg2">Use a custom background image<br>
+            <input type='url' value='' placeholder='url to a custom background' style='width:500px'><br>
+            <input type="radio" name="backgroundsize" value="contain" id='usebgsize1'><label for="usebgsize1" style='width: 150px'>Contain</label> 
+            <input type="radio" name="backgroundsize" value="cover" id='usebgsize2'><label for="usebgsize2" style='width: 150px'>Cover</label> 
+            <input type="radio" name="backgroundsize" value="repeat" id='usebgsize3'><label for="usebgsize3" style='width: 150px'>Repeat</label> 
+          </label>
+        </li>
+        <li>
+          <input type="radio" name="background" value="default" id='usebg3'>
+          <label for="usebg3">
+            Use a custom background color 
+            <input colorpicker="rgba" colorpicker-position="right" class="form-control" ng-model="rgbaPicker.color" type="text" placeholder="Click to pick"/>
+          </label>
+        </li>
+      </ul>
+    </td>
+  </tr> -->
+</table>

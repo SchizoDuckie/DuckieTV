@@ -12,6 +12,15 @@
 .alert {
 	margin-bottom: 10px;
 }
+.nav {
+  margin-bottom:-1px;
+  }
+.nav-tabs.nav-justified>li>a {
+  border-bottom:0px solid #ddd;
+  }
+.nav>li>a:hover,.nav>li>a:focus {
+  background-color:#D6D6D6
+  }
 @media (min-width: 1600px) {
   .span12, .container {
     width: 1560px;

@@ -91,10 +91,6 @@ angular.module('DuckieTV', [
             templateUrl: 'templates/episode.html',
             controller: 'EpisodeCtrl'
         })
-        .when('/timers', {
-            templateUrl: 'templates/timers.html',
-            controller: 'TimerCtrl'
-        })
         .when('/settings', {
             templateUrl: 'templates/settings.html',
             controller: 'SettingsCtrl'
