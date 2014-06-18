@@ -165,7 +165,7 @@
 
       countTimers = function() {
           getAllActiveTimers().then(function(timers) {
-              $scope.statistics.push({name: 'Chrome Timers', data: timers.length});
+              $scope.statistics.push({name: browser + ' Timers', data: timers.length});
           });
       };
 
