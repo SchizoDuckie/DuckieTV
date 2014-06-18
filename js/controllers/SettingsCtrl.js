@@ -98,7 +98,7 @@
          }
 
          $scope.restore = function() {
-             console.log("Restore backup!", $scope);
+             console.log("Import backup!", $scope);
              FileReader.readAsText($scope.file, $scope)
                  .then(function(result) {
                      result = angular.fromJson(result);
