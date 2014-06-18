@@ -1,7 +1,9 @@
  angular.module('DuckieTV.controllers.about', [])
 
 
- .controller('AboutCtrl',function($q) {
+ .controller('AboutCtrl',function($scope, $q) {
+    
+    $scope.statistics = [];
     
     getStats = function() {
     
@@ -28,7 +30,7 @@
       var majorVersion = parseInt(navigator.appVersion, 10);
       var nameOffset, verOffset, ix;
 
-      // Opera 15+ Garfield69
+      // Opera 15+ added by Garfield69
       if ((verOffset = nAgt.indexOf('OPR')) != -1) {
          browser = 'Opera';
          version = nAgt.substring(verOffset + 4);
@@ -161,31 +163,31 @@
           return deferred.promise;
       };
 
-      var countedTimers = 0;
       countTimers = function() {
           getAllActiveTimers().then(function(timers) {
-              countedTimers = timers.length; 
+              $scope.statistics.push({name: 'Chrome Timers', data: timers.length});
           });
       };
 
       countEntity = function(entity)  {
-          return CRUD.EntityManager.getAdapter().db.execute('select count(*) as count from ' + entity).then(  
+          CRUD.EntityManager.getAdapter().db.execute('select count(*) as count from ' + entity).then(  
               function(result) { 
-                 return result.next().row.count; 
+                 $scope.statistics.push({name: "DB " + entity, data: result.next().row.count});
           });
       };
 
-      return [
-         {name: chrome.app.getDetails().short_name,  data: chrome.app.getDetails().version},
-         {name: 'Browser', data: browser + " " + version},
-         {name: 'OS',      data: os + " " + osVersion},
-         {name: 'Screen',  data: screenSize},
-         {name: 'Active Timers', data: countedTimers},
-         {name: 'DB Series', data: countEntity('Series')},
-         {name: 'DB Seasons', data: countEntity('Seasons')},
-         {name: 'DB Episodes', data: countEntity('Episodes')},
-         {name: 'DB Timers', data: countEntity('EventSchedule')},
-      ]
+      $scope.statistics = [
+           {name: chrome.app.getDetails().short_name,  data: chrome.app.getDetails().version},
+           {name: 'Browser', data: browser + " " + version},
+           {name: 'OS',      data: os + " " + osVersion},
+           {name: 'Screen',  data: screenSize}
+      ];
+      countTimers();
+      countEntity('Series');
+      countEntity('Seasons');
+      countEntity('Episodes');
+      countEntity('EventSchedule');
+      
     }
-    this.data = getStats();
+    getStats();
 });
