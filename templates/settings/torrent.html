@@ -67,6 +67,23 @@
       </ul>
     </td>
   </tr>
+   <tr ng-show="getSetting('torrenting.enabled')">
+    <th width="150px">
+      <strong style='white-space:nowrap'>Torrent Auto-stop</strong>
+      <p class="label label-success" ng-show="getSetting('torrenting.autostop')">Enabled</p>
+      <p class="label label-danger" ng-show="!getSetting('torrenting.autostop')">Disabled</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <p ng-show="!getSetting('torrenting.autostop')" class="alert alert-info">Clicking the button below automatically stops the torrent when it reaches 100%</p>
+          <p ng-show="getSetting('torrenting.autostop')" class="alert alert-warning">Clicking the button below requires you to click stop to end seeding finished torrents</p>
+          <button ng-show="!getSetting('torrenting.autostop')" ng-click="enableSetting('torrenting.autostop')" class="btn btn-success">Enable Auto-Stop</button>
+          <button ng-show="getSetting('torrenting.autostop')" ng-click="disableSetting('torrenting.autostop')" class="btn btn-danger">Disable Auto-Stop</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
   <tr ng-show="getSetting('torrenting.enabled')">
     <th width="150px">
       <strong style='white-space:nowrap'>The Pirate Bay</strong>

@@ -9,6 +9,7 @@ angular.module('DuckieTV.providers.settings', ['DuckieTV.directives.calendar'])
             'torrenting.enabled': true,
             'torrenting.searchprovider': 'ThePirateBay',
             'torrenting.searchquality': '',
+            'torrenting.autostop': true,
             'torrenting.streaming': true,
             'torrenting.directory': true,
             'torrenting.progress': true,

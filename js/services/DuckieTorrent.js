@@ -554,6 +554,11 @@ angular.module('DuckieTorrent.torrent', [])
             return (service.getNameFunc(torrent))
         },
 
+        removeTorrent: function(torrent) {
+            this.torrents[torrent.hash] = null;
+            delete this.torrents[torrent.hash];
+        },
+
         addEvent: function(torrent) {
             console.log("Add to list: ", torrent);
             this.torrents[torrent.hash] = torrent;
@@ -729,6 +734,10 @@ angular.module('DuckieTorrent.torrent', [])
             function observeTorrent(infoHash) {
                 $rootScope.$on('torrent:update:' + $scope.infoHash, function(evt, data) {
                     $scope.torrent = data;
+                    if ($scope.$root.getSetting('torrenting.autostop') && $scope.torrent.isStarted() && $scope.torrent.getProgress() == 100) {
+                        console.log('Torrent finished. Auto-stopping', $scope.torrent);
+                        $scope.torrent.stop();
+                    }
                 });
                 $scope.torrent = TorrentRemote.getByHash($scope.infoHash);
             }
