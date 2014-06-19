@@ -32,6 +32,7 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.trakttv',
     'DuckieTV.providers.watchlistchecker',
     'DuckieTV.providers.watchlist',
+    'DuckieTV.controllers.about',
     'DuckieTV.controllers.main',
     'DuckieTV.controllers.chromecast',
     'DuckieTV.controllers.episodes',
@@ -105,7 +106,8 @@ angular.module('DuckieTV', [
             controller: 'TorrentCtrl'
         })
         .when('/about', {
-            templateUrl: 'templates/about.html'
+            templateUrl: 'templates/about.html',
+            controller: 'AboutCtrl'
         })
         .otherwise({
             redirectTo: '/'

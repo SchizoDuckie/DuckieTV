@@ -56,6 +56,15 @@
 <h3>Contributing</h3>
 <p>Want to contribute to DuckieTV and get your feet wet in Angular.js? Feel free to <a href='https://github.com/SchizoDuckie/DuckieTV/fork' target='_blank'>Fork DuckieTV and submit pull requests</a>!</p>
 
+  <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white; border-top:0px'>
+    <tr>
+        <td colspan='2' style='border-top:0px'><h3>Statistics</h3></td>
+    </tr>
+    <tr ng-repeat="stats in statistics">
+        <td width='300px'>{{stats.name}}</td>
+        <td>{{stats.data}}</td>
+    </tr>
+  </table>
 </td>
 </tr>
 </fieldset>
