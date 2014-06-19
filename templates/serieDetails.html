@@ -32,7 +32,7 @@
       </tr>
       <tr>
         <th>First Aired</th>
-        <td ng-if="serie">{{ getAirDate(serie).toLocaleString() }}</td>
+        <td ng-if="serie">{{ serie.firstaired | date:'dd-MM-yyyy HH:mm:ss' }}</td>
       </tr>
       <tr>
         <th>Genre</th>
