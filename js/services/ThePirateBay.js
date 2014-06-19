@@ -1,22 +1,5 @@
 angular.module('DuckieTV.providers.thepiratebay', ['DuckieTV.providers.mirrorresolver', 'DuckieTV.providers.settings'])
 /**
- * Autofill serie search component
- * Provides autofill proxy and adds the selected serie back to the MainController
- */
-.controller('FindTPBTypeAheadCtrl', function($scope, ThePirateBay) {
-
-    $scope.selected = undefined;
-    $scope.search = function(serie) {
-        return ThePirateBay.search(serie).then(function(res) {
-            return res;
-        });
-    };
-    $scope.selectSerie = function(serie) {
-        $scope.selected = serie.name;
-        console.log("Serie selected!", serie);
-    }
-})
-/**
  * ThePirateBay provider
  * Allows searching for any content on tpb, ordered by most seeds
  */
@@ -77,16 +60,16 @@ angular.module('DuckieTV.providers.thepiratebay', ['DuckieTV.providers.mirrorres
                     cache: true,
                     timeout: self.activeRequest.promise
                 }).then(function(response) {
-                    console.log("TPB search executed!", response);
+                    //console.log("TPB search executed!", response);
                     d.resolve(self.parseSearch(response));
                 }, function(err) {
                     if (err.status > 300) {
                         MirrorResolver.findTPBMirror().then(function(result) {
-                            console.log("Resolved a new working mirror!", result);
+                            //console.log("Resolved a new working mirror!", result);
                             self.mirror = result;
                             return d.resolve(self.$get($q, $http, MirrorResolver).search(what));
                         }, function(err) {
-                            console.debug("Could not find a working TPB mirror!", err);
+                            //console.debug("Could not find a working TPB mirror!", err);
                             d.reject(err);
                         })
                     }
@@ -114,15 +97,3 @@ angular.module('DuckieTV.providers.thepiratebay', ['DuckieTV.providers.mirrorres
         }
     }
 })
-    .directive('piratebaySearch', function() {
-
-        return {
-            restrict: 'E',
-            template: ['<div ng-controller="FindTPBTypeAheadCtrl">',
-                '<input type="text" ng-model="selected" placeholder="Search for anything on The Pirate Bay" typeahead-min-length="2" typeahead-loading="loadingTPB"',
-                'typeahead="result for results in search($viewValue)" typeahead-template-url="templates/typeAheadTPB.html"',
-                'typeahead-on-select="selectTPBItem($item)" class="form-control"> <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>',
-                '</div>'
-            ].join(' ')
-        };
-    })
