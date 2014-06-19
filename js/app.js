@@ -27,6 +27,7 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.settings',
     'DuckieTV.providers.storagesync',
     'DuckieTV.providers.thepiratebay',
+    'DuckieTV.providers.generictorrentsearch',
     'DuckieTV.providers.thetvdb',
     'DuckieTV.providers.torrentfreak',
     'DuckieTV.providers.trakttv',
