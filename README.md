@@ -9,7 +9,9 @@ On top of that, it allows you to search The Pirate Bay (and others, in the futur
 
 It comes in 2 flavours:
 * 'New Tab mode': Installs itself as your new tab page  https://chrome.google.com/webstore/detail/hkbamkappmgfjjahmnlngibomenmbbdf/
-* 'Browser Action mode': Adds a button next to your address bar https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/
+* 'Browser Action mode': Adds a button next to your address bar
+  * Chrome: https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/
+  * Opera: https://addons.opera.com/en-gb/extensions/details/duckietv-browser-action-mode/
 
 Permissions
 ===========
