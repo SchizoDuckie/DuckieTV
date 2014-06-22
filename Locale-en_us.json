@@ -42,7 +42,7 @@
     "EPISODE-fetching-hdr" : "Fetching episode",
     "EPISODE-firstaired-hdr" : "First Aired",
     "EPISODE-rating-hdr" : "Rating",
-    "EPISODE-votes-hdr" : "votes",
+    "EPISODE-votes-lbl" : "votes",
     "EVENT-dropdown-downloadtorrent-lbl" : "Download Torrent",
     "EVENT-dropdown-episodedetails-lbl" : "Episode details",
     "EVENT-dropdown-markaswatched-lbl" : " Mark as watched",
