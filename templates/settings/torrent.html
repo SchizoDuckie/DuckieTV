@@ -52,7 +52,7 @@
   </tr>
   <tr ng-show="getSetting('torrenting.enabled')">
     <th width="150px">
-      <strong style='white-space:nowrap'>{{'TORRENT-directory-hdr'|translate}}</strong>
+      <strong style='white-space:nowrap'>{{'TORRENT-progressbar-hdr'|translate}}</strong>
       <p class="label label-success" ng-show="getSetting('torrenting.progress')">{{'TORRENT-enabled-lbl'|translate}}</p>
       <p class="label label-danger" ng-show="!getSetting('torrenting.progress')">{{'TORRENT-disabled-lbl'|translate}}</p>
     </th>
@@ -62,7 +62,7 @@
           <p ng-show="!getSetting('torrenting.progress')" class="alert alert-info">{{'TORRENT-progressbar-show-alert'|translate}}</p>
           <p ng-show="getSetting('torrenting.progress')" class="alert alert-warning">{{'TORRENT-progressbar-hide-alert'|translate}}</p>
           <button ng-show="!getSetting('torrenting.progress')" ng-click="enableSetting('torrenting.progress')" class="btn btn-success">{{'TORRENT-progressbar-show-btn'|translate}}</button>
-          <button ng-show="getSetting('torrenting.progress')" ng-click="disableSetting('torrenting.progress')" class="btn btn-danger">{{'TORRENT-progressbar-hide-brn'|translate}}</button>
+          <button ng-show="getSetting('torrenting.progress')" ng-click="disableSetting('torrenting.progress')" class="btn btn-danger">{{'TORRENT-progressbar-hide-btn'|translate}}</button>
         </li>
       </ul>
     </td>
@@ -134,7 +134,7 @@
     <td>
       <p class="alert alert-info">
         {{'TORRENT-quality-desc'|translate}}<br>
-        <strong>{{'TORRENT-quality-select-hdr'|translate}}</strong>{{TORRENT-quality-select-desc}}<br>
+        <strong>{{'TORRENT-quality-select-hdr'|translate}}</strong>{{'TORRENT-quality-select-desc'|translate}}<br>
         {{'TORRENT-quality-select-desc2'|translate}}
       </p>
       <ul class="list-unstyled">
