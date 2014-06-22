@@ -47,7 +47,7 @@
     "EVENT-dropdown-episodedetails-lbl" : "Episode details",
     "EVENT-dropdown-markaswatched-lbl" : " Mark as watched",
     "EVENT-dropdown-markeddate-var" : "Marked as watched on {{value | date:'MM-dd-yyyy HH:mm:ss'}}",
-    "EVENT-dropdown-seriesdetail-lbl" : "Series details",
+    "EVENT-dropdown-seriesdetails-lbl" : "Series details",
     "EVENT-dropdown-utorrentclient-lbl" : "uTorrent / Bittorrent client",
     "HOMESEIRES-filter-placeholder-lbl" : "filter your local library",
     "HOMESERIES-addashow-glyph-lbl" : "Add a show",
