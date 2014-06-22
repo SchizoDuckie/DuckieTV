@@ -3,13 +3,13 @@
     <div class="container-fluid">
       <form no-validate>
         <fieldset>
-          <h2>Settings</h2>
+          <h2>{{ 'SETTINGS-hdr'|translate }}</h2>
         </fieldset>
 
         <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
           <tr>
             <td colspan="2" height="50px" align="center" style="vertical-align:bottom;padding: 0px !important">
-              <div style="width:85%">              
+              <div style="width:85%">
               <tabset justified="true">
                 <tab heading="General" ng-click="setActiveSetting('default')"></tab>
                 <tab heading="Display" ng-click="setActiveSetting('display')"></tab>
@@ -66,7 +66,7 @@
                   <tr><td>magnet link:</td><td> <input type='text' name='selector' value='td:nth-child(2)'> </td></tr>
                   <tr><td>seeders: </td><td><input type='text' name='selector' value='td:nth-child(3)'> </td></tr>
                   <tr><td>leechers:</td><td> <input type='text' name='selector' value='td:nth-child(4)'></td></tr>
-            
+
                 </table>
               </li>
           </ul>
