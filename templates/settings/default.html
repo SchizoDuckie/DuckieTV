@@ -26,14 +26,14 @@
   </tr>
   <tr>
     <th width="150px">
-      <strong style='white-space:nowrap; display:block;'>{{'DEFAULT-SYNC-hdr'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('storage.sync')">{{'ENABLED-lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('storage.sync')">{{'DISABLED-lbl'|translate}}</p>
+      <strong style='white-space:nowrap; display:block;'>{{'DEFAULT-sync-hdr'|translate}}</strong>
+      <p class="label label-success" ng-show="getSetting('storage.sync')">{{'DEFAULT-sync-enabled-lbl'|translate}}</p>
+      <p class="label label-danger" ng-show="!getSetting('storage.sync')">{{'DEFAULT-sync-disabled-lbl'|translate}}</p>
     </th>
     <td>
       <ul class="list-unstyled">
         <li>
-          <p class="alert alert-info"><strong>{{'DEFAULT-sync-push-hdr'|translate}}</strong> {{'DEFAULT-SYNC-push-desc'|translate}}</p>
+          <p class="alert alert-info"><strong>{{'DEFAULT-sync-push-hdr'|translate}}</strong> {{'DEFAULT-sync-push-desc'|translate}}</p>
           <button ng-click="sync()" class="btn btn-success">{{'DEFAULT-sync-push-btn'|translate}}</button>
         </li><br>
         <li style="padding-top:4px">
@@ -48,8 +48,8 @@
   <tr ng-show="hasTopSites">
     <th width="150px">
       <strong style='white-space:nowrap; display:block;'>{{'DEFAULT-topsites-hdr'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('topSites.enabled')">{{'ENABLED-lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">{{'DISABLED-lbl'|translate}}</p>
+      <p class="label label-success" ng-show="getSetting('topSites.enabled')">{{'DEFAULT-sync-enabled-lbl'|translate}}</p>
+      <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">{{'DEFAULT-sync-disabled-lbl'|translate}}</p>
     </th>
     <td>
       <ul class="list-unstyled">
