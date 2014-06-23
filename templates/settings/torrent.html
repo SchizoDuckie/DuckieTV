@@ -86,7 +86,7 @@
   </tr>
   <tr ng-show="getSetting('torrenting.enabled')">
     <th width="150px">
-      <strong style='white-space:nowrap'>{{'TORRENT-tpb-hdr'|translate}}</strong>
+      <strong style='white-space:nowrap'>The Pirate Bay</strong>
     </th>
     <td>
       <p class="alert alert-warning">{{'TORRENT-tpb-desc'|translate}}
@@ -118,11 +118,11 @@
       <ul class="list-unstyled">
         <li ng-click="setSearchProvider('ThePirateBay')" style='cursor:pointer'>
           <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != 'ThePirateBay', 'glyphicon-record': searchprovider == 'ThePirateBay'}"></i>
-            <strong>{{'TORRENT-tpb-hdr'|translate}}</strong>
+            <strong>The Pirate Bay</strong>
           </li>
           <li ng-click="setSearchProvider('KickassTorrents')" style='cursor:pointer'>
             <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != 'KickassTorrents', 'glyphicon-record': searchprovider == 'KickassTorrents'}"></i>
-              <strong>{{'TORRENT-kat-hdr'|translate}}</strong>
+              <strong>Kickass Torrents</strong>
         </li>
       </ul>
     </td>
