@@ -1,54 +1,54 @@
  <div>
-      <h2 ng-click="activate(this)" tooltip="Hotkey: alt+s" >
+      <h2 ng-click="activate(this)" tooltip="{{'HOMESERIES-hotkey-lbl'|translate}}: alt+s" >
         <i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
-         <a accesskey="s" ng-if="!activated">Click for series you're watching</a>
-         <a accesskey="s" ng-if="activated">Hide series you're watching</a>  
+         <a accesskey="s" ng-if="!activated">{{'HOMESERIES-showseries-glyph-lbl'|translate}}</a>
+         <a accesskey="s" ng-if="activated">{{'HOMESERIES-hideseries-glyph-lbl'|translate}}</a>
          <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
       </h2>
-      
+
 
       <div style='width: 100%; text-align: right;padding: 30px;font-size: 20px;'>
         <form ng-submit="execFilter()" ng-if="mode == 'search'">
-          <input type='text' focus-watch="'isFiltering'"  placeholder='filter your local library' ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 50%;'>
+          <input type='text' focus-watch="'isFiltering'"  placeholder='{{'HOMESERIES-filter-placeholder-lbl'|translate}}' ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 50%;'>
         </form>
 
-        <a accesskey="a" tooltip="Add series to your favorites list (Hotkey: alt+a)" ng-if="searchingForSerie == false" ng-click="enableAdd();" style='float:left'>
-          <i class="glyphicon glyphicon-plus-sign"></i> Add a show
+        <a accesskey="a" tooltip="{{'HOMESERIES-addshow-addtolist-tooltip'|translate}}({{'HOMESERIES-hotkey-lbl'|translate}}: alt+a)" ng-if="searchingForSerie == false" ng-click="enableAdd();" style='float:left'>
+          <i class="glyphicon glyphicon-plus-sign"></i> {{'HOMESERIES-addshow-glyph-lbl'|translate}}
         </a>
-        <a tooltip="Click to return to your favorites list" ng-if="searchingForSerie == true" ng-click="disableAdd()" style='float:left; line-height:40px'>
-          <i class="glyphicon glyphicon-ok-sign"></i> I'm done adding shows
+        <a tooltip="{{'HOMESERIES-addshow-returntofavlist-tooltip'|translate}}" ng-if="searchingForSerie == true" ng-click="disableAdd()" style='float:left; line-height:40px'>
+          <i class="glyphicon glyphicon-ok-sign"></i> {{'HOMESERIES-addshow-imdone-glyph-lbl'|translate}}
         </a>
 
         <form ng-submit="selectFirstResult()" ng-if="searchingForSerie">
-           <input ng-model="search.query" placeholder="Type a series name to add to your favorites"
+           <input ng-model="search.query" placeholder="{{'HOMESERIES-addshow-typeseriesname-placeholder'|translate}}"
             ng-change="findSeries()" focus-watch="serieAddFocus" class="form-control"  style='float:left; width: 50%; margin-left: 10px;border: 1px solid white; font-size: 20px; height: auto; background-color: rgb(17, 17, 17);'> <i ng-show="loadingSeries" class="glyphicon glyphicon-refresh" ></i>
         </form>
 
-        <a tooltip="Search your local library (hotkey: alt + / )" accesskey="/" ng-click="isFiltering = true; setMode('search',true);">
-          <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> Filter
+        <a tooltip="{{'HOMESERIES-search-tooltip'|translate}}({{'HOMESERIES-hotkey-lbl'|translate}}: alt + / )" accesskey="/" ng-click="isFiltering = true; setMode('search',true);">
+          <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'HOMESERIES-filter-glyph-lbl'|translate}}
         </a>&nbsp;
-        <a tooltip="List shows in list mode (hotkey: alt + l)" ng-if="mode == 'poster'" accesskey="l" ng-click="setMode('banner');">
-          <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> Switch to list mode
+        <a tooltip="{{'HOMESERIES-showlist-mode-tooltip'|translate}}({{'HOMESERIES-hotkey-lbl'|translate}}: alt + l)" ng-if="mode == 'poster'" accesskey="l" ng-click="setMode('banner');">
+          <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'HOMESERIES-showlist-glyph-lbl'|translate}}
         </a>
-        <a tooltip="List shows in grid mode (hotkey: alt + g)" ng-if="mode == 'search' || mode == 'banner'" accesskey="g"  ng-click="setMode('poster');">
-          <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> Switch to grid mode
+        <a tooltip="{{'HOMESERIES-showgrid-mode-tooltip'|translate}}({{'HOMESERIES-hotkey-lbl'|translate}}: alt + g)" ng-if="mode == 'search' || mode == 'banner'" accesskey="g"  ng-click="setMode('poster');">
+          <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'HOMESERIES-showgrid-glyph-lbl'|translate}}
         </a>
       </div>
 
     <p class="alert alert-info" ng-if="favorites.length == 0 && !searchingForSerie" style='margin:20px; position:relative; z-index:1000'>
-      <strong>You have no series yet!</strong><br>
-      Make DuckieTV work for you by adding the TV shows you like. Shows that are currently airing will appear on the calendar so that you can easily keep track of what is airing when. <br>
+      <strong>{{'HOMESERIES-noseries-hdr'|translate}}</strong><br>
+      {{'HOMESERIES-noseries-desc'|translate}} <br>
 
-        <button ng-click="enableAdd()"><i class="glyphicon glyphicon-plus-sign"></i> Add your first show now</button>
+        <button ng-click="enableAdd()"><i class="glyphicon glyphicon-plus-sign"></i> {{'HOMESERIES-addshow-glyph-lbl'|translate}}</button>
     </p>
     <div ng-if="activated && searchingForSerie" class="series">
 
-    
-      <h2>Start typing to search for shows to add to your favorites list</h2>
-      <p>Pro Tip: Hit [return] to add the first search result to your favorites</p>
+
+      <h2>{{'HOMESERIES-addshow-starttyping'|translate}}</h2>
+      <p>{{'HOMESERIES-addshow-protip'|translate}}</p>
       <serieHeader ng-repeat="serie in search.results" data="serie" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)"></serieHeader>
     </div>
-    
+
     <div class="series" ng-if="activated && !searchingForSerie && mode == 'search'">
       <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search"></serieHeader>
     </div>

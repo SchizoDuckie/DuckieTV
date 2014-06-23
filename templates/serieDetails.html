@@ -1,8 +1,8 @@
-<div class="table table-condensed light" style='margin-bottom:0; margin-top:20px; position:relative;'> 
+<div class="table table-condensed light" style='margin-bottom:0; margin-top:20px; position:relative;'>
   <div ng-transclude></div>
   <div ng-if="seasons">
-    <h2 style='border-bottom: 1px solid white; padding:5px;'>Seasons
-      <small style='float:right'>(Click to see episodes and ratings)</small>
+    <h2 style='border-bottom: 1px solid white; padding:5px;'>{{'SERIEDETAILS-seasons-hdr'|translate}}
+      <small style='float:right'>{{'SERIEDETAILS-clicktosee-lbl'|translate}}</small>
     </h2>
     <div style='text-align: center; overflow-x: auto; height: 280px; overflow-y: hidden; white-space: nowrap;'>
       <div class='season' ng-repeat="season in seasons" style="display:inline-block; padding:10px; cursor:pointer">
@@ -13,7 +13,7 @@
       </div>
     </div>
 	<div>
-    <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>Episode Ratings</h2>
+    <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>{{'SERIEDETAILS-episoderatings-hdr'|translate}}</h2>
       <div class="chart">
         <div class="chartLine" ng-repeat="p in points track by $index" ng-style="{ height: p.y + '%', left: ((100 / points.length) * $index) + '%',  width: (100 / points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}"></div>
       </div>
@@ -23,19 +23,19 @@
   <div ng-if="!seasons">
     <div lazy-background="{{serie.poster}}" style='margin: 0px auto; width:300px; height:400px; background-size:contain; background-repeat:no-repeat;'></div>
   </div>
-  
+
   <table class="table table-condensed light">
     <tbody>
       <tr>
-        <th>Airs on</th>
+        <th>{{'SERIEDETAILS-airson-hdr'|translate}}</th>
         <td>{{serie.airs_dayofweek}} {{serie.airs_time}}</td>
       </tr>
       <tr>
-        <th>First Aired</th>
-        <td ng-if="serie">{{ serie.firstaired | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+        <th>{{'SERIEDETAILS-firstaired-hdr'|translate}}</th>
+        <td>{{'SERIEDETAILS-firstairdate-var'|translate:translateVar(serie.firstaired) }}</td>
       </tr>
       <tr>
-        <th>Genre</th>
+        <th>{{'SERIEDETAILS-genre-hdr'|translate}}</th>
         <td>
           <ul class="list-unstyled">
             <li ng-repeat="genre in serie.genre.split('|') track by $index">{{genre}}</li>
@@ -43,31 +43,31 @@
         </td>
       </tr>
       <tr>
-        <th>Content Rating</th>
+        <th>{{'SERIEDETAILS-content-rating-hdr'|translate}}</th>
         <td>{{serie.contentrating}}</td>
       </tr>
       <tr>
-        <th>Country</th>
+        <th>{{'SERIEDETAILS-country-hdr'|translate}}</th>
         <td>{{serie.language}}</td>
       </tr>
       <tr>
-        <th>Network</th>
+        <th>{{'SERIEDETAILS-network-hdr'|translate}}</th>
         <td>{{serie.network}}</td>
       </tr>
       <tr>
-        <th>Rating</th>
-        <td>{{serie.rating}} ({{serie.ratingcount}} votes)</td>
+        <th>{{'SERIEDETAILS-rating-hdr'|translate}}</th>
+        <td>{{serie.rating}} ({{serie.ratingcount}} {{'SERIEDETAILS-votes-lbl'|translate}})</td>
       </tr>
       <tr>
-        <th>Runtime</th>
-        <td>{{serie.runtime}} minutes</td>
+        <th>{{'SERIEDETAILS-runtime-hrd'|translate}}</th>
+        <td>{{serie.runtime}} {{'SERIEDETAILS-minutes-lbl'|translate}}</td>
       </tr>
       <tr>
-        <th>Status</th>
+        <th>{{'SERIEDETAILS-status-hrd'|translate}}</th>
         <td>{{serie.status}}</td>
       </tr>
-      <tr ng-if="serie.actors.length > 0  " > 
-        <th>Actors</th>
+      <tr ng-if="serie.actors.length > 0  " >
+        <th>{{'SERIEDETAILS-actors-hdr'|translate}}</th>
         <td>
           <ul class="list-unstyled">
             <li ng-repeat="actors in serie.actors.split('|') track by $index">{{actors}}</li>
@@ -76,7 +76,7 @@
       </tr>
      <tr>
         <th colspan='2' style='text-align:center'>
-          <button class="btn btn-danger" ng-click="removeFromFavorites(serie)">Remove from favorites</button>
+          <button class="btn btn-danger" ng-click="removeFromFavorites(serie)">{{'SERIEDETAILS-delete-serie-btn'|translate}}</button>
         </th>
       </tr>
     </tbody>

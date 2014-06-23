@@ -2,7 +2,7 @@
 
 
  .controller('SettingsCtrl',
-     function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver, TraktTV) {
+     function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver, TraktTV, $translate) {
 
          $scope.custommirror = SettingsService.get('thepiratebay.mirror');
          $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
@@ -11,6 +11,7 @@
          $scope.mirrorStatus = [];
          $scope.log = [];
          $scope.hasTopSites = ('topSites' in window.chrome);
+         $scope.locale = SettingsService.get('locale');
 
          $scope.activesettings = ('templates/settings/default.html');
 
@@ -26,6 +27,14 @@
          $scope.sync = function() {
              console.log("Synchronizging!");
              $rootScope.$broadcast('storage:update');
+         }
+
+         $scope.setLocale = function(id) {
+             console.log("Setting locale: ", id);
+             $rootScope.setSetting('locale', id);
+             $scope.locale = id;
+             // load and activate replacement translation table 
+             $translate.use(id);
          }
 
          $scope.setSearchProvider = function(provider) {

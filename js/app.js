@@ -10,6 +10,7 @@ angular.module('DuckieTV', [
     'datePicker',
     'ui.bootstrap',
     'dialogs.services',
+    'pascalprecht.translate',
     'DuckieTV.providers.chromecast',
     'DuckieTV.providers.episodeaired',
     'DuckieTV.providers.eventwatcher',
@@ -114,8 +115,53 @@ angular.module('DuckieTV', [
             redirectTo: '/'
         });
 })
+/**
+ * Translation configuration.
+  */
+.config(function($translateProvider) {
+    /*
+    * setup path to the translation table files
+    * example ../Locale-en_us.json
+    */
+    $translateProvider.useStaticFilesLoader({
+        prefix: 'Locale/',
+        suffix: '.json'
+    });
+    // help the determinePreferredLanguage module match a find with one of our provided languages
+    $translateProvider.registerAvailableLanguageKeys(['en_us', 'en_nz'], {
+        'en_us': 'en_us',
+        'en_uk': 'en_us',
+        'en_au': 'en_us',
+        'en_nz': 'en_nz'
+    });
+    // if we cant find a match then use this language
+    $translateProvider.fallbackLanguage('en_us');
+    /*
+     * determine the local language
+     *
+     * Using this method at our own risk! Be aware that each browser can return different values on these properties.
+     * It searches for values in the window.navigator object in the following properties (also in this order):
+     *
+     * navigator.language
+     * navigator.browserLanguage
+     * navigator.systemLanguage
+     * navigator.userLanguage
+     *
+     * if it becomes problematic, use $translateProvider.preferredLanguage('en'); here to set a default
+     * or $translate.use('en'); in a controller or service.
+     */
+    $translateProvider.determinePreferredLanguage();
+})
 
-.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, datePickerConfig) {
+.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, datePickerConfig, $translate) {
+
+    /*
+     * if the user has previously set the locale, over-ride the determinePreferredLanguage proposed id
+     * but remember the determination, it's used as an option in the locale settings page
+     */
+    $rootScope.determinedLocale = $rootScope.determinedLocale || $translate.proposedLanguage();
+    $translate.use(SettingsService.get('locale'));
+    console.log("Locale being used",$translate.proposedLanguage());
 
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
@@ -124,19 +170,19 @@ angular.module('DuckieTV', [
             return ('cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability);
         }
         return SettingsService.get(key);
-    }
+    };
 
     $rootScope.setSetting = function(key, value) {
         return SettingsService.set(key, value);
-    }
+    };
 
     $rootScope.enableSetting = function(key) {
         SettingsService.set(key, true);
-    }
+    };
 
     $rootScope.disableSetting = function(key) {
         SettingsService.set(key, false);
-    }
+    };
 
     $rootScope.$on('storage:update', function() {
         /* if ($rootScope.getSetting('storage.sync') == true) {
@@ -149,6 +195,11 @@ angular.module('DuckieTV', [
     $rootScope.$on('$locationChangeSuccess', function() {
         $rootScope.$broadcast('serieslist:hide');
     });
+
+    // global variable translator
+    $rootScope.translateVar = function(data) {
+        return {value: data};
+    };
 
     MigrationService.check();
 

@@ -5,7 +5,7 @@
     <table class="table table-condensed light" style='margin-top: 20px; border: 1px solid #efefef; border-collapse:collapse;'>
       <tbody ng-if="!episode">
         <tr>
-          <td>Fetching episode</td>
+          <td>{{'EPISODE-fetching-hdr'|translate}}</td>
         </tr>
       </tbody>
       <tbody ng-if="episode">
@@ -16,7 +16,7 @@
           <td style='padding: 5px; vertical-align:middle;'>
             <torrent-dialog ng-if="getSetting('torrenting.enabled') && hasAired(episode)" tvdbid='episode.TVDB_ID' q='getSearchString(serie,episode)' style='font-size:20px'></torrent-dialog>
             <episode-watched ng-if="hasAired(episode)" episode="episodeEntity" style="display:inline-block;margin-left:10px"></episode-watched>
-            
+
           </td>
         </tr>
         <tr>
@@ -28,12 +28,12 @@
           </td>
         </tr>
         <tr ng-if="episode.firstaired != null">
-          <th>First aired</th>
-          <td>{{ getAirDate(episode) | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+          <th>{{'EPISODE-firstaired-hdr'|translate}}</th>
+          <td>{{ 'EPISODE-airdate-var'|translate:translateVar(episode.firstaired) }}</td>
         </tr>
         <tr>
-          <th>Rating</th>
-          <td>{{episode.rating}} ({{episode.ratingcount}} votes)</td>
+          <th>{{'EPISODE-rating-hdr'|translate}}</th>
+          <td>{{episode.rating}} ({{episode.ratingcount}} {{'EPISODE-votes-lbl'|translate}})</td>
         </tr>
       </tbody>
     </table>

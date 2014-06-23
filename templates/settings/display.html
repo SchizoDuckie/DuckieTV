@@ -1,13 +1,13 @@
 <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;'>
   <tr>
     <th width="150px" style="border:0">
-      <strong style='white-space:nowrap; display:block;'>Background Opacity</strong>
-      <p class="label label-success">Current Opacity: {{100*getSetting('background-rotator.opacity')}}%</p>
+      <strong style='white-space:nowrap; display:block;'>{{'DISPLAY-background-opacity-hdr'|translate}}</strong>
+      <p class="label label-success">{{'DISPLAY-current-opacity-lbl'|translate}}: {{100*getSetting('background-rotator.opacity')}}%</p>
     </th>
     <td style="border:0">
       <ul class="list-unstyled">
         <li>
-          <p class="alert alert-info">Selecting a button below will set the background image transparency to the chosen percentage.</p>
+          <p class="alert alert-info">{{'DISPLAY-background-opacity-alert'|translate}}</p>
           <button ng-click="setBGOpacity('0.0')" class="btn" ng-class="{'btn-info': bgopacity != '0.0', 'btn-success': bgopacity == '0.0'}">0%</button>
           <button ng-click="setBGOpacity('0.1')" class="btn" ng-class="{'btn-info': bgopacity != '0.1', 'btn-success': bgopacity == '0.1'}">10%</button>
           <button ng-click="setBGOpacity('0.2')" class="btn" ng-class="{'btn-info': bgopacity != '0.2', 'btn-success': bgopacity == '0.2'}">20%</button>
@@ -23,6 +23,30 @@
       </ul>
     </td>
   </tr>
+  <tr>
+    <th width="150px" style="border:0">
+      <strong style='white-space:nowrap; display:block;'>{{'DISPLAY-locale-hdr'|translate}}</strong>
+      <p class="label label-success">{{getSetting('locale')}}</p>
+    </th>
+    <td>
+      <p class="alert alert-info">{{'DISPLAY-locale-alert'|translate}}</p>
+      <ul class="list-unstyled">
+        <li ng-click="setLocale(determinedLocale)" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != determinedLocale, 'glyphicon-record': locale == determinedLocale}"></i>
+          {{determinedLocale}} {{'DISPLAY-locale-default-lbl'|translate}}
+        </li>
+        <li ng-click="setLocale('en_us')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_us', 'glyphicon-record': locale == 'en_us'}"></i>
+          {{'DISPLAY-locale-us'|translate}}
+        </li>
+        <li ng-click="setLocale('en_nz')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_nz', 'glyphicon-record': locale == 'en_nz'}"></i>
+          {{'DISPLAY-locale-nz'|translate}}
+        </li>
+      </ul>
+    </td>
+  </tr>
+
   <!--<tr>
     <th>
       <strong>Page background</strong>
@@ -37,15 +61,15 @@
           <input type="radio" name="background" value="default" id='usebg2' style='vertical-align:top'>
           <label for="usebg2">Use a custom background image<br>
             <input type='url' value='' placeholder='url to a custom background' style='width:500px'><br>
-            <input type="radio" name="backgroundsize" value="contain" id='usebgsize1'><label for="usebgsize1" style='width: 150px'>Contain</label> 
-            <input type="radio" name="backgroundsize" value="cover" id='usebgsize2'><label for="usebgsize2" style='width: 150px'>Cover</label> 
-            <input type="radio" name="backgroundsize" value="repeat" id='usebgsize3'><label for="usebgsize3" style='width: 150px'>Repeat</label> 
+            <input type="radio" name="backgroundsize" value="contain" id='usebgsize1'><label for="usebgsize1" style='width: 150px'>Contain</label>
+            <input type="radio" name="backgroundsize" value="cover" id='usebgsize2'><label for="usebgsize2" style='width: 150px'>Cover</label>
+            <input type="radio" name="backgroundsize" value="repeat" id='usebgsize3'><label for="usebgsize3" style='width: 150px'>Repeat</label>
           </label>
         </li>
         <li>
           <input type="radio" name="background" value="default" id='usebg3'>
           <label for="usebg3">
-            Use a custom background color 
+            Use a custom background color
             <input colorpicker="rgba" colorpicker-position="right" class="form-control" ng-model="rgbaPicker.color" type="text" placeholder="Click to pick"/>
           </label>
         </li>
