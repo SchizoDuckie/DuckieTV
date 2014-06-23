@@ -1,33 +1,33 @@
 'use strict';
 angular.module('tmh.dynamicLocale', []).provider('tmhDynamicLocale', function() {
 
-  var defaultLocale,
-    localeLocationPattern = 'angular/i18n/angular-locale_{{locale}}.js',
-    storageFactory = 'tmhDynamicLocaleStorageCache',
-    storage,
-    storeKey = 'tmhDynamicLocale.locale';
+    var defaultLocale,
+        localeLocationPattern = 'Locale/angular-locale_{{locale}}.js',
+        storageFactory = 'tmhDynamicLocaleStorageCache',
+        storage,
+        storeKey = 'tmhDynamicLocale.locale';
 
-  /**
+    /**
    * Loads a script asynchronously
    *
    * @param {string} url The url for the script
    @ @param {function) callback A function to be called once the script is loaded
    */
-  function loadScript(url, callback) {
-    var script = document.createElement('script'),
-      body = document.getElementsByTagName('body')[0];
+    function loadScript(url, callback) {
+        var script = document.createElement('script'),
+            body = document.getElementsByTagName('body')[0];
 
-    script.type = 'text/javascript';
-    if (script.readyState) { // IE
-      script.onreadystatechange = function () {
-        if (script.readyState === 'loaded' ||
-            script.readyState === 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { // Others
-      script.onload = function () {
+        script.type = 'text/javascript';
+        if (script.readyState) { // IE
+            script.onreadystatechange = function() {
+                if (script.readyState === 'loaded' ||
+                    script.readyState === 'complete') {
+                    script.onreadystatechange = null;
+                    callback();
+                }
+            };
+        } else { // Others
+        script.onload = function () {
         callback();
       };
     }

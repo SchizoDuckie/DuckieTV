@@ -47,7 +47,7 @@
           <td>
             <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}">{{ episode.episodename }}</a>
           </td>
-          <td class="nobreaks"><a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}"  ng-if="episode.firstaired != null" >{{'SERIE-firstairdate-var'|translate:translateVar(episode.firstaired)}}</a>
+          <td class="nobreaks"><a ng-href="#/serie/{{serie['TVDB_ID']}}/episode/{{episode.ID_Episode}}"  ng-if="episode.firstaired != null" >{{ episode.firstaired | date: 'short' }}</a>
           </td>
           <td ng-if="getSetting('torrenting.enabled')" style='text-align:center'>
             <torrent-dialog ng-if="hasAired(episode)" tvdbid='episode.TVDB_ID' q='getSearchString(serie,episode)'>

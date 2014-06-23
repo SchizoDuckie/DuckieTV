@@ -29,7 +29,7 @@
         </tr>
         <tr ng-if="episode.firstaired != null">
           <th>{{'EPISODE-firstaired-hdr'|translate}}</th>
-          <td>{{ 'EPISODE-airdate-var'|translate:translateVar(episode.firstaired) }}</td>
+          <td>{{ episode.firstaired | date: 'medium' }}</td>
         </tr>
         <tr>
           <th>{{'EPISODE-rating-hdr'|translate}}</th>

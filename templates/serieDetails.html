@@ -32,7 +32,7 @@
       </tr>
       <tr>
         <th>{{'SERIEDETAILS-firstaired-hdr'|translate}}</th>
-        <td>{{'SERIEDETAILS-firstairdate-var'|translate:translateVar(serie.firstaired) }}</td>
+        <td>{{ serie.firstaired | date:'medium' }}</td>
       </tr>
       <tr>
         <th>{{'SERIEDETAILS-genre-hdr'|translate}}</th>

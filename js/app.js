@@ -6,6 +6,8 @@
 angular.module('DuckieTV', [
     'ngRoute',
     'ngAnimate',
+    'ngLocale',
+    'tmh.dynamicLocale',
     'xml',
     'datePicker',
     'ui.bootstrap',
@@ -151,9 +153,10 @@ angular.module('DuckieTV', [
      * or $translate.use('en'); in a controller or service.
      */
     $translateProvider.determinePreferredLanguage();
+    
 })
 
-.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, datePickerConfig, $translate) {
+.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, datePickerConfig, $translate, tmhDynamicLocale) {
 
     /*
      * if the user has previously set the locale, over-ride the determinePreferredLanguage proposed id
@@ -161,6 +164,7 @@ angular.module('DuckieTV', [
      */
     $rootScope.determinedLocale = $rootScope.determinedLocale || $translate.proposedLanguage();
     $translate.use(SettingsService.get('locale'));
+    tmhDynamicLocale.set($translate.proposedLanguage());
     console.log("Locale being used",$translate.proposedLanguage());
 
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
