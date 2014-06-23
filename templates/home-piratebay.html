@@ -1,5 +1,5 @@
 <fieldset ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.searchbox')">
-  <h2>Torrent search</h2>
+  <h2>{{'HOMETPB-torrentsearch-hdr'|translate}}</h2>
   <piratebay-search ng-if="searchEngine == 1"></piratebay-search>
   <kickass-torrent-search ng-if="searchEngine == 2"></kickass-torrent-search>
   <ul class="list-inline engineselect">
