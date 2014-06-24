@@ -1,51 +1,51 @@
 <fieldset>
-<h2>ChromeCast support (not finished)</h2>
+<h2>{{'CHROMECAST-hdr'|translate}}</h2>
 
 <table class='table table-condensed light'>
 <tr>
 <td>
 
-<h3>Hi there!</h3>
-<p>As a proof-of-concept, I have included this experimental ChromeCast support in this build. It's not done yet, so use at your own risk and don't come knocking at my door if your computer or ChromeCast dongle implodes.</p>
+<h3>{{'CHROMECAST-desc-hdr'|translate}}</h3>
+<p>{{'CHROMECAST-desc-p1'|translate}}</p>
 
-<strong>Requirements</strong>
+<strong>{{'CHROMECAST-requirements-hdr'|translate}}</strong>
 <ul>
-<li>A ChromeCast dongle (which you already have since you see this page)</li>
-<li>&micro;Torrent 3.3.x on Windows (3.4.x will not work, yet, downgrade if you want to experiment with this feature)</li>
-<li>&micro;Torrent webUI enabled and configured for DuckieTV. For more info on how to set this up: <button class="btn btn-xs btn-info" ng-click='showWebUI = true'>click this button</button>
+<li>{{'CHROMECAST-requirements-li1'|translate}}</li>
+<li>{{'CHROMECAST-requirements-li2'|translate}}</li>
+<li>{{'CHROMECAST-requirements-li3'|translate}}<button class="btn btn-xs btn-info" ng-click='showWebUI = true'>{{'CHROMECAST-moresetup-btn'|translate}}</button>
 <p ng-if="showWebUI">
-<em>Click the 'Enable Web UI' checkbox in Preferences -> Advanced -> Web UI. Set the authentication to admin/admin (this will be configurable in the future)
-I strongly advise only to allow access from 127.0.0.1 and your ChromeCast's IP.</em>
+<em>{{'CHROMECAST-requirements-emb1'|translate}}
+{{'CHROMECAST-requirements-emb2'|translate}}</em>
 <img ng-if="showWebUI" src="img/utorrentconfig.png">
 </li>
-<li>Your local IP Address selected below</li>
+<li>{{'CHROMECAST-instructions-hdr'|translate}}</li>
 </ul>
 
-<p>The way I got Chromecast support to work is by piggy-backing on &micro;Torrent's 'stream' function. This is awesome because you can push a video directly from your local computer without DuckieTV having to worry about transcoding or anything.</p>
-<p>The downside to this is that &micro;Torrent embeds '127.0.0.1' as the default target for the streaming URL (On top of requiring HTTP authentication).</p>
+<p>{{'CHROMECAST-instructions-p1'|translate}}</p>
+<p>{{'CHROMECAST-instructions-p2'|translate}}</p>
 <p>
-To make sure I can open up a connection from your chromecast dongle to this machine, you need to click the button below to select your local machine's IP. If you have more than one IP address, please select the one belonging to your WIFI connection. 
+{{'CHROMECAST-instructions-p3'|translate}}
 </p>
 
 <div ng-if="localIpAddresses">
-  <strong>Found Local ip address</strong>
+  <strong>{{'CHROMECAST-your-local-ipaddr-hdr'|translate}}</strong>
   <ul class="list">
-      <li style='padding:10px' ng-repeat="address in localIpAddresses track by $index"><button class="btn btn-xs btn-info" ng-click="setStreamingSource(address)">Use {{address}} as my IP Address</button></li>
+      <li style='padding:10px' ng-repeat="address in localIpAddresses track by $index"><button class="btn btn-xs btn-info" ng-click="setStreamingSource(address)">{{'CHROMECAST-your-local-ipaddr-btn'|translate}}</button></li>
   </ul>
 </div>
 
-<p class="info" ng-if="localIpAddress">ChromeCast Local Streaming IP Address: <strong>{{localIpAddress}}</strong></p>
+<p class="info" ng-if="localIpAddress">{{'CHROMECAST-cast-local-ipaddr-hdr'|translate}}<strong>{{localIpAddress}}</strong></p>
 
 <p ng-if="localIpAddress">
-	You're all set now! Press Connect to start Casting!<br>
-	<button class="btn btn-success" ng-click="Cast()">Connect</button>
+	{{'CHROMECAST-connect-hdr'|translate}}<br>
+	<button class="btn btn-success" ng-click="Cast()">{{'CHROMECAST-connect-btn'|translate}}</button>
 
-	<p>After you've connected you can <a href='#/torrent' style='text-decoration:underline'>Go to the torrent remote page</a> and press the 'Play on Chromecast' button on any supported fileformat to stream it!</p> 
+	<p>{{'CHROMECAST-connect-p1'|translate}}<a href='#/torrent' style='text-decoration:underline'>{{'CHROMECAST-connect-link'|translate}}</a>{{'CHROMECAST-connect-p2'|translate}}</p> 
 </p>
 
-<strong>Notes:</strong>
+<strong>{{'CHROMECAST-notes-hdr'|translate}}</strong>
 <p>
-A lot of the required UI for ChromeCast compliance is not working. You can only start a video, not stop it, you can't control the volume, you can't resume your session. This will all be finished in v0.6! (And <a href='http://schizoduckie.github.io/DuckieTorrent' target='_blank' style='text-decoration:underline'>any help would be more than welcome</a>!) 
+{{'CHROMECAST-notes-p1'|translate}}<a href='http://schizoduckie.github.io/DuckieTorrent' target='_blank' style='text-decoration:underline'>{{'CHROMECAST-notes-p2'|translate}}</a>!) 
 </p>
 
 </td></tr></table>
