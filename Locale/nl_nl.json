@@ -2,7 +2,6 @@
     "LOCALE": "Dutch (Nederlands)",
     "ABOUT-hdr": "Over DuckieTV",
     "CALENDAR-hdr": "Kalender",
-    "CHROMECAST-hdr": "ChromeCast",
     "CHROMETOPSITES-hdr" : "Pull down most visited sites",
     "DEFAULT-backup-create-btn": "Maak een database backup",
     "DEFAULT-backup-desc": "Maak een backup van je serie / afleveringen / bekeken lijst.",
@@ -170,6 +169,5 @@
     "TYPEAHEAD-download-tooltip": "download",
     "TYPEAHEAD-leechers-tooltip": "leechers",
     "TYPEAHEAD-seeders-tooltip": "seeders",
-    "UTORRENTCLIENT-hdr": "uTorrent / Bittorrent client",
     "WATCHLIST-hdr": "Verlanglijst"
 }
