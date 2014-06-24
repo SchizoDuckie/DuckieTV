@@ -130,11 +130,12 @@ angular.module('DuckieTV', [
         suffix: '.json'
     });
     // help the determinePreferredLanguage module match a find with one of our provided languages
-    $translateProvider.registerAvailableLanguageKeys(['en_us', 'en_nz'], {
+    $translateProvider.registerAvailableLanguageKeys(['en_us', 'en_nz', 'nl_nl'], {
         'en_us': 'en_us',
         'en_uk': 'en_us',
         'en_au': 'en_us',
-        'en_nz': 'en_nz'
+        'en_nz': 'en_nz',
+        'nl_nl': 'nl_nl'
     });
     // if we cant find a match then use this language
     $translateProvider.fallbackLanguage('en_us');

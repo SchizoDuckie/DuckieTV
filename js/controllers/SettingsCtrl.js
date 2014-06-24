@@ -2,7 +2,7 @@
 
 
  .controller('SettingsCtrl',
-     function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver, TraktTV, $translate) {
+     function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver, TraktTV, $translate, tmhDynamicLocale) {
 
          $scope.custommirror = SettingsService.get('thepiratebay.mirror');
          $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
@@ -35,6 +35,7 @@
              $scope.locale = id;
              // load and activate replacement translation table 
              $translate.use(id);
+             tmhDynamicLocale.set(id);
          }
 
          $scope.setSearchProvider = function(provider) {

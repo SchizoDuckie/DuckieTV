@@ -1,6 +1,6 @@
  angular.module('DuckieTV.controllers.about', [])
 
- .controller('AboutCtrl',function($scope, $q) {
+ .controller('AboutCtrl',function($scope, $rootScope, $q, SettingsService) {
     
     $scope.statistics = [];
     
@@ -40,6 +40,8 @@
            {name: 'UserAgent', data: navigator.userAgent},
            {name: 'Platform',  data: navigator.platform},
            {name: 'Vendor',    data: navigator.vendor},
+           {name: 'Locale',    data: SettingsService.get('locale')},
+           {name: 'Determined Locale',    data: $rootScope.determinedLocale},
            {name: 'Screen',    data: screenSize}
       ];
       countTimers();
