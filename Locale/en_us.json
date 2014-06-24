@@ -2,7 +2,6 @@
     "LOCALE": "English (United States)",
     "ABOUT-hdr": "About DuckieTV",
     "CALENDAR-hdr": "Calendar",
-    "CHROMECAST-hdr": "ChromeCast",
     "CHROMETOPSITES-hdr" : "Pull down most visited sites",
     "DEFAULT-backup-create-btn": "Create Database Backup",
     "DEFAULT-backup-desc": "Create a backup of your series / episodes / watched list.",
@@ -170,6 +169,5 @@
     "TYPEAHEAD-download-tooltip": "download",
     "TYPEAHEAD-leechers-tooltip": "leechers",
     "TYPEAHEAD-seeders-tooltip": "seeders",
-    "UTORRENTCLIENT-hdr": "uTorrent / Bittorrent client",
     "WATCHLIST-hdr": "Watchlist"
 }
