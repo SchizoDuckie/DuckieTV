@@ -7,13 +7,16 @@ angular.module('DuckieTV.directives.episodewatched', [])
         scope: {
             episode: '='
         },
-        template: ['<a ng-click="markWatched()" class="glyphicon" tooltip="{{getToolTip()|translate}}" ng-class="{ \'glyphicon-eye-open\' : episode.get(\'watched\') ==  1, \'glyphicon-eye-close\' : episode.get(\'watched\') != 1 }" ng-transclude></a>'],
+        template: ['<a ng-click="markWatched()" class="glyphicon" tooltip="{{getToolTip()|translate}}{{getToolTipDate()}}" ng-class="{ \'glyphicon-eye-open\' : episode.get(\'watched\') ==  1, \'glyphicon-eye-close\' : episode.get(\'watched\') != 1 }" ng-transclude></a>'],
         link: function($scope) {
 
             $scope.tooltip = null;
 
             $scope.getToolTip = function() {
                 return $scope.episode.get('watched') == 1 ? 'EPISODEWATCHED_JS-is-marked-lbl' : 'EPISODEWATCHED_JS-not-marked-lbl';
+            }
+            $scope.getToolTipDate = function() {
+                return new Date($scope.episode.get('watchedAt')).toLocaleString();
             }
             $scope.markWatched = function() {
 
@@ -30,3 +33,4 @@ angular.module('DuckieTV.directives.episodewatched', [])
         }
     }
 })
+
