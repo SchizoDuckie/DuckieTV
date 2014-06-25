@@ -142,7 +142,7 @@ angular.module('DuckieTV.providers.imdb', [])
     return {
         restrict: 'E',
         template: ['<div ng-controller="FindIMDBTypeAheadCtrl">',
-            '<input type="text" ng-model="selected" placeholder="Search IMDB for movies or series"',
+            '<input type="text" ng-model="selected" placeholder="{{\'IMDB_JS-placeholder-lbl\'|translate}}"',
             'typeahead-min-length="3" typeahead-loading="loadingIMDB"',
             'typeahead="result for results in find($viewValue)  | filter: orderBy: \'title\'" typeahead-template-url="templates/typeAheadIMDB.html"',
             'typeahead-on-select="selectIMDB($item)" class="form-control"> <i ng-show="loadingIMDB" class="glyphicon glyphicon-refresh"></i>',
