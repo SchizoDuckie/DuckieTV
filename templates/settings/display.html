@@ -35,17 +35,21 @@
           <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != determinedLocale, 'glyphicon-record': locale == determinedLocale}"></i>
           {{determinedLocale}} {{'DISPLAY-locale-default-lbl'|translate}}
         </li>
-        <li ng-click="setLocale('en_us')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_us', 'glyphicon-record': locale == 'en_us'}"></i>
-          {{'DISPLAY-locale-us'|translate}}
+        <li ng-click="setLocale('nl_nl')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'nl_nl', 'glyphicon-record': locale == 'nl_nl'}"></i>
+          {{'DISPLAY-locale-nl'|translate}}
         </li>
         <li ng-click="setLocale('en_nz')" style='cursor:pointer'>
           <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_nz', 'glyphicon-record': locale == 'en_nz'}"></i>
           {{'DISPLAY-locale-nz'|translate}}
         </li>
-        <li ng-click="setLocale('nl_nl')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'nl_nl', 'glyphicon-record': locale == 'nl_nl'}"></i>
-          {{'DISPLAY-locale-nl'|translate}}
+        <li ng-click="setLocale('en_uk')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_uk', 'glyphicon-record': locale == 'en_uk'}"></i>
+          {{'DISPLAY-locale-uk'|translate}}
+        </li>
+        <li ng-click="setLocale('en_us')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_us', 'glyphicon-record': locale == 'en_us'}"></i>
+          {{'DISPLAY-locale-us'|translate}}
         </li>
       </ul>
     </td>
