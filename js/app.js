@@ -129,13 +129,14 @@ angular.module('DuckieTV', [
         prefix: 'Locale/',
         suffix: '.json'
     });
+
     // help the determinePreferredLanguage module match a find with one of our provided languages
-    $translateProvider.registerAvailableLanguageKeys(['en_us', 'en_nz', 'nl_nl'], {
-        'en_us': 'en_us',
-        'en_uk': 'en_us',
-        'en_au': 'en_us',
-        'en_nz': 'en_nz',
-        'nl_nl': 'nl_nl'
+    $translateProvider.registerAvailableLanguageKeys([
+        'en_nz', 'en_uk', 'en_us', 'nl_nl'
+    ], {
+        'en_au': 'en_nz',
+        'en_ca': 'en_nz', 
+        'en_gb': 'en_uk' 
     });
     // if we cant find a match then use this language
     $translateProvider.fallbackLanguage('en_us');
@@ -150,9 +151,9 @@ angular.module('DuckieTV', [
      * navigator.systemLanguage
      * navigator.userLanguage
      *
-     * if it becomes problematic, use $translateProvider.preferredLanguage('en'); here to set a default
-     * or $translate.use('en'); in a controller or service.
-     */
+     * if it becomes problematic, use $translateProvider.preferredLanguage('en_us'); here to set a default
+     * or $translate.use('en_us'); in a controller or service.
+     */  
     $translateProvider.determinePreferredLanguage();
     
 })
