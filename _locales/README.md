@@ -8,3 +8,7 @@ https://raw.githubusercontent.com/angular/code.angularjs.org/master/1.3.0-beta.6
 Make sure to rename the last dash to an underscore so that tmhDynamicLocale can find them:
 
 ./angular-locale_nl_nl.js
+
+Information on Chrome extension locales here:
+
+https://developer.chrome.com/webstore/i18n?csw=1#localeTable

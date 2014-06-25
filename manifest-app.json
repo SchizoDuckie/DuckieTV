@@ -1,9 +1,10 @@
 {
     "manifest_version": 2,
-    "name": "DuckieTV - 'Browser action' mode",
-    "short_name": "DuckieTV",
-    "version": "0.55",
-    "description": "Manage your favorite TV series and movies from your browser",
+    "name": "__MSG_appNameBrowserAction__",
+  	"short_name": "__MSG_appShortNameBrowserAction__",
+    "description": "__MSG_appDescBrowserAction__",
+  	"default_locale": "en",
+  	"version": "0.60",
     "permissions": [
         "http://*/*",
         "https://*/*",

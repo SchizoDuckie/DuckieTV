@@ -1,9 +1,10 @@
 {
     "manifest_version": 2,
-    "name": "DuckieTV - 'New Tab' mode",
-    "short_name": "DuckieTV",
-    "version": "0.55",
-    "description": "Manage your favorite TV series and movies from your browser's new tab page",
+    "name": "__MSG_appNameNewTab__",
+  	"short_name": "__MSG_appShortNameNewTab__",
+    "description": "__MSG_appDescNewTab__",
+  	"default_locale": "en",
+    "version": "0.60",
     "permissions": [
         "http://*/*",
         "https://*/*",

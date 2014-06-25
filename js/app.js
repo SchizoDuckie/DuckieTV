@@ -126,7 +126,7 @@ angular.module('DuckieTV', [
     * example ../Locale-en_us.json
     */
     $translateProvider.useStaticFilesLoader({
-        prefix: 'Locale/',
+        prefix: '_locales/',
         suffix: '.json'
     });
 
