@@ -1,6 +1,7 @@
 angular.module('DuckieTV.directives.episodewatched', [])
+angular.module('DuckieTV.directives.episodewatched', [])
 
-.directive('episodeWatched', function($rootScope, $document) {
+.directive('episodeWatched', function($rootScope, $filter, $document) {
     return {
         restrict: 'E',
         transclude: true,
@@ -16,8 +17,8 @@ angular.module('DuckieTV.directives.episodewatched', [])
                 return $scope.episode.get('watched') == 1 ? 'EPISODEWATCHED_JS-is-marked-lbl' : 'EPISODEWATCHED_JS-not-marked-lbl';
             }
             $scope.getToolTipDate = function() {
-                return new Date($scope.episode.get('watchedAt')).toLocaleString();
-            }
+                return $scope.episode.get('watched') == 1 ? $filter('date')(new Date($scope.episode.get('watchedAt')), 'medium') : null;
+           }
             $scope.markWatched = function() {
 
                 if ($scope.episode.get('watched') == '1') {
@@ -33,4 +34,3 @@ angular.module('DuckieTV.directives.episodewatched', [])
         }
     }
 })
-
