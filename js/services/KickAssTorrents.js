@@ -108,7 +108,7 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
         return {
             restrict: 'E',
             template: ['<div ng-controller="FindKickassTypeAheadCtrl">',
-                '<input type="text" ng-model="selected" placeholder="Search for anything on Kickass Torrents" typeahead-min-length="2" typeahead-loading="loadingKickass"',
+                '<input type="text" ng-model="selected" placeholder="{{\'KICKASSTORRENTS_JS-placeholder-lbl\'|translate}}" typeahead-min-length="2" typeahead-loading="loadingKickass"',
                 'typeahead="result for results in search($viewValue)" typeahead-template-url="templates/typeAheadKickass.html"',
                 'typeahead-on-select="selectKickassItem($item)" class="form-control"> <i ng-show="loadingKickass" class="glyphicon glyphicon-refresh"></i>',
                 '</div>'
