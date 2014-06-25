@@ -1,4 +1,5 @@
 angular.module('DuckieTV.directives.episodewatched', [])
+angular.module('DuckieTV.directives.episodewatched', [])
 
 .directive('episodeWatched', function($rootScope, $filter, $document) {
     return {
