@@ -152,7 +152,7 @@ angular.module('DuckieTV', [
 .factory('CORSInterceptor', ['$q', function($q) {
     return {
         request: function(config) {
-            if(window.location.href.indexOf('chrome') === -1 && config.url.indexOf('http') === 0) {
+            if(window.location.href.indexOf('chrome') === -1 && config.url.indexOf('http') === 0 && config.url.indexOf('localhost') === -1) {
                 config.url = ['http://www.corsproxy.com/', config.url.replace('http://','').replace('https://','')].join('') 
             }
             return config;
