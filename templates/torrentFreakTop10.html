@@ -1,7 +1,7 @@
 <div ng-controller="Top10Pirated">
   <div ng-if="items.length > 0">
    <button ng-click="prevItem()"> &lt; {{'TORRENTFREAK-previous-btn'|translate}} </button>
-   <button ng-click="nextItem()"> &gt; {{'TORRENTFREAK-next-btn'|translate}} </button>
+   <button ng-click="nextItem()"> {{'TORRENTFREAK-next-btn'|translate}} &gt;</button>
     <div ng-if="activeItem">
     <h2>{{activeItem.title}}</h2>
       <table class="table table-condensed table-light" style='background-color: black;'>
@@ -24,7 +24,8 @@
             </a>
           </td>
           <td>{{row.rating}}</td>
-          <td><a href="{{ row.trailer }}" tooltip="{{'TORRENTFREAK-watchtrailer-tooltip'|translate}}" target="_blank"><i class="glyphicon glyphicon-film"></i></a> 
+          <td><a href="{{ row.rottenTomatoes }}" tooltip="Rotten Tomatoes" target="_blank"><i class="glyphicon glyphicon-asterisk"></i></a>
+            <a href="{{ row.trailer }}" tooltip="{{'TORRENTFREAK-watchtrailer-tooltip'|translate}}" target="_blank"><i class="glyphicon glyphicon-film"></i></a>
             <torrent-dialog q="row.title"></torrent-dialog>
           </td>
         </tr>
