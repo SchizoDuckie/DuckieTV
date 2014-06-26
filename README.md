@@ -12,6 +12,7 @@ It comes in 2 flavours:
 * 'Browser Action mode': Adds a button next to your address bar
   * Chrome: https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/
   * Opera: https://addons.opera.com/en-gb/extensions/details/duckietv-browser-action-mode/
+* You can now also try it online, provided you have Chrome, Safari, Opera or an Android browser: http://DuckieTV.github.io/DuckieTV/
 
 Permissions
 ===========
