@@ -25,13 +25,17 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
 
         var service = {
             get: function(title) {
-                return chrome.alarms.get(title)
+                return ('chrome' in window) ? chrome.alarms.get(title) : null;
             },
             getAll: function() {
                 var p = $q.defer();
-                chrome.alarms.getAll(function(result) {
-                    p.resolve(result);
-                });
+                if('chrome' in window && 'alarms' in window.chrome) {
+	                chrome.alarms.getAll(function(result) {
+	                    p.resolve(result);
+	                });
+                } else { 
+                	p.resolve([])
+                }
                 return p.promise;
             },
             createAt: function(name, timestamp, eventChannel, data) {

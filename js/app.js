@@ -8,7 +8,6 @@ angular.module('DuckieTV', [
     'ngAnimate',
     'ngLocale',
     'tmh.dynamicLocale',
-    'xml',
     'datePicker',
     'ui.bootstrap',
     'dialogs.services',
@@ -56,17 +55,6 @@ angular.module('DuckieTV', [
     'DuckieTorrent.torrent',
     'colorpicker.module'
 ])
-
-/**
- * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
- */
-.config(function($httpProvider, $compileProvider) {
-    $httpProvider.interceptors.push('xmlHttpInterceptor');
-    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|magnet|data):/);
-    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
-})
-
-
 /**
  * Unsafe HTML entities passthrough.
  * (Used for for instance typeAheadIMDB.html)
@@ -157,6 +145,30 @@ angular.module('DuckieTV', [
     $translateProvider.determinePreferredLanguage();
     
 })
+/**
+ * Inject a cross-domain enabling http proxy for the non-chrome extension function
+ * Sweeeeet
+ */
+.factory('CORSInterceptor', ['$q', function($q) {
+    return {
+        request: function(config) {
+            if(window.location.href.indexOf('chrome') === -1 && config.url.indexOf('http') === 0) {
+                config.url = ['http://www.corsproxy.com/', config.url.replace('http://','').replace('https://','')].join('') 
+            }
+            return config;
+        }
+    };
+}])
+/**
+ * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
+ */
+.config(function($httpProvider, $compileProvider) {
+    //$httpProvider.interceptors.push('xmlHttpInterceptor');
+    $httpProvider.interceptors.push('CORSInterceptor');
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|magnet|data):/);
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
+})
+
 
 .run(function($rootScope, SettingsService, StorageSyncService, MigrationService, datePickerConfig, $translate, tmhDynamicLocale) {
 

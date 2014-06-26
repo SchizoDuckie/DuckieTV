@@ -19,7 +19,7 @@ angular.module('DuckieTV.directives.lazybackground', [])
                 element.attr('oldStyle', element.attr('style') == null ? '' : element.attr('style'));
                 element.css('transition', 'opacity 0.5s ease-in');
                 element.css('opacity', 0.5);
-                element.css('background-image', 'url(../img/spinner.gif)');
+                element.css('background-image', 'url(img/spinner.gif)');
                 element.css('background-position', 'center center');
                 element.attr('style', element.attr('style') + '; background-size: initial !important');
 
