@@ -11,10 +11,10 @@
   "appNameBrowserAction": {
     "message": "DuckieTV - 'Browser Knop' mode"
   },
-  "appShortNameNewTab": {
+  "appShortNameBrowserAction": {
     "message": "DuckieTV"
   },
-  "appDescNewTab": {
+  "appDescBrowserAction": {
     "message": "Alles wat je nodig hebt om bij te houden wanneer je favoriete internationale TV Series uitkomen"
   }
 }
