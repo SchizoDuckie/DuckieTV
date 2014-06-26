@@ -55,7 +55,7 @@
       <ul class="list-unstyled">
         <li>
           <p ng-show="!getSetting('topSites.enabled')" class="alert alert-info">{{'DEFAULT-topsites-show-alert'|translate}}</p>
-          <p ng-show="getSetting('topSites.enabled')" class="alert alert-warning">{{'DEFAULT-topsites-alert-war'|translate}}</p>
+          <p ng-show="getSetting('topSites.enabled')" class="alert alert-warning">{{'DEFAULT-topsites-hide-alert'|translate}}</p>
           <button ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">{{'DEFAULT-topsites-show-btn'|translate}}</button>
           <button ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">{{'DEFAULT-topsites-hide-btn'|translate}}</button>
         </li>
