@@ -16,7 +16,7 @@
 	  <li><a href='#/serie/{{event.serieID}}/episode/{{event.episode.getID()}}'><i class="glyphicon glyphicon-info-sign"></i> {{'EVENT-dropdown-episodedetails-lbl'|translate}}</a></li>
 	  <li><a href='#/series/{{event.serieID}}'><i class="glyphicon glyphicon-info-sign"></i> {{'EVENT-dropdown-seriesdetails-lbl'|translate}}</a></li>
 	  <li ng-if="event.episode.hasAired()"><a><episode-watched episode="event.episode"><span ng-if="event.episode.get('watched') != 1">{{'EVENT-dropdown-markaswatched-lbl'|translate}}</span><span ng-if="event.episode.get('watched')">{{'EVENT-dropdown-markedwatched-lbl'|translate}} {{ event.episode.get('watchedAt') | date:'medium' }}</span></episode-watched></a></li>
-	  <li ng-if="$root.getSetting('torrenting.enabled')"><a><torrent-dialog tvdbid='event.episode.get("TVDB_ID")' q='[event.serie,event.episode.getFormattedEpisode()].join(" ")'> {{'EVENT-dropdown-utorrentclient-lbl'|translate}}</torrent-dialog></a></li>
+	  <li ng-if="$root.getSetting('torrenting.enabled')"><a><torrent-dialog tvdbid='event.episode.get("TVDB_ID")' q='[event.serie,event.episode.getFormattedEpisode()].join(" ")'> <translate>EVENT-dropdown-utorrentclient-lbl</torrent-dialog></></a></li>
 	  <li ng-if="$root.getSetting('torrenting.enabled') && event.episode.values.magnetHash && isTorrentClientConnected()">
 		 <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteControl.html"></torrent-remote-control>
 	  </li>
