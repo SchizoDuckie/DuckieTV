@@ -155,6 +155,8 @@ angular.module('DuckieTV', [
      * or $translate.use('en_us'); in a controller or service.
      */  
     $translateProvider.determinePreferredLanguage();
+    // error handling. missing keys are sent to $log
+    $translateProvider.useMissingTranslationHandlerLog();
     
 })
 
