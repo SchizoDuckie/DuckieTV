@@ -9,7 +9,7 @@
 
       <div style='width: 100%; text-align: right;padding: 30px;font-size: 20px;'>
         <form ng-submit="execFilter()" ng-if="mode == 'search'">
-          <input type='text' focus-watch="'isFiltering'"  placeholder='{{'HOMESERIES-filter-placeholder-lbl'|translate}}' ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 50%;'>
+          <input type='text' focus-watch="'isFiltering'"  placeholder="{{'HOMESERIES-filter-placeholder-lbl'|translate}}" ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 50%;'>
         </form>
 
         <a accesskey="a" tooltip="{{'HOMESERIES-addshow-addtolist-tooltip'|translate}}({{'HOMESERIES-hotkey-lbl'|translate}}: alt+a)" ng-if="searchingForSerie == false" ng-click="enableAdd();" style='float:left'>
