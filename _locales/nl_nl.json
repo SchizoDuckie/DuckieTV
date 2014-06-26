@@ -194,6 +194,8 @@
     "TORRENT-autostop-enabled-alert": "Als je op de knop hieronder drukt wordt de wordt de torrent automatisch gestopt zodra deze de 100% bereikt",
     "TORRENT-autostop-enabled-btn": "Auto-Stop inschakelen",
     "TORRENT-autostop-hdr": "Torrent Auto-stop",
+    "TORRENT-default-provider-hdr": "Default Search Provider",
+    "TORRENT-default-provider-alert": "Change your preferred torrent search provider below",
     "TORRENT-directory-folder-hide-alert": "Als je op de knop hieronder drukt wordt de 'Open bijbehorende map' knop verborgen",
     "TORRENT-directory-folder-hide-btn": "'Open bijbehorende map' uitschakelen",
     "TORRENT-directory-folder-show-alert": "Als je op de knop hieronder drukt wordt de 'Open bijbehorende map' knop toegevoegd in de kalender voor TV-Series waar je een torrent voor gevonden hebt",
