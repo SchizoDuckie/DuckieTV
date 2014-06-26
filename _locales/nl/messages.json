@@ -1,20 +1,20 @@
 {
   "appNameNewTab": {
-    "message": "DuckieTV - 'Nieuw Tabblad' mode",
+    "message": "DuckieTV - 'Nieuw Tabblad' mode"
   },
   "appShortNameNewTab": {
-    "message": "DuckieTV",
+    "message": "DuckieTV"
   },
   "appDescNewTab": {
-    "message": "Alles wat je nodig hebt om bij te houden wanneer je favoriete internationale TV Series uitkomen",
+    "message": "Alles wat je nodig hebt om bij te houden wanneer je favoriete internationale TV Series uitkomen"
   },
   "appNameBrowserAction": {
-    "message": "DuckieTV - 'Browser Knop' mode",
+    "message": "DuckieTV - 'Browser Knop' mode"
   },
-  "appShortNameNewTab": {
-    "message": "DuckieTV",
+  "appShortNameBrowserAction": {
+    "message": "DuckieTV"
   },
-  "appDescNewTab": {
-    "message": "Alles wat je nodig hebt om bij te houden wanneer je favoriete internationale TV Series uitkomen",
+  "appDescBrowserAction": {
+    "message": "Alles wat je nodig hebt om bij te houden wanneer je favoriete internationale TV Series uitkomen"
   }
 }
