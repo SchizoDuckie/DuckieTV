@@ -15,11 +15,11 @@
     "message": "DuckieTV - 'Browser Action' mode",
     "description": "The title of the 'Browser Action' application, displayed in the web store."
   },
-  "appShortNameNewTab": {
+  "appShortNameBrowserAction": {
     "message": "DuckieTV",
     "description": "The short title of the 'Browser Action' application, for use in search and stuff."
   },
-  "appDescNewTab": {
+  "appDescBrowserAction": {
     "message": "Manage your favorite TV series and movies from within your browser with the click of a button",
     "description": "Webstore Tagline for the 'Browser Action' version."
   }
