@@ -1,55 +1,83 @@
  angular.module('DuckieTV.controllers.about', [])
 
- .controller('AboutCtrl',function($scope, $rootScope, $q, SettingsService) {
-    
-    $scope.statistics = [];
-    
-    getStats = function() {
-    
-      // screen
-      var screenSize = '';
-      if (screen.width) {
-         width = (screen.width) ? screen.width : '';
-         height = (screen.height) ? screen.height : '';
-         screenSize += '' + width + " x " + height;
-      };
+ .controller('AboutCtrl', function($scope, $rootScope, $q, $http, EventSchedulerService, SettingsService) {
 
-      getAllActiveTimers = function() {
-          var deferred = $q.defer();
-          chrome.alarms.getAll(function(result) {
-              deferred.resolve(result);
-          });
-          return deferred.promise;
-      };
+     $scope.statistics = [];
 
-      countTimers = function() {
-          getAllActiveTimers().then(function(timers) {
-              $scope.statistics.push({name: 'Timers', data: timers.length});
-          });
-      };
+     getStats = function() {
 
-      countEntity = function(entity)  {
-          CRUD.EntityManager.getAdapter().db.execute('select count(*) as count from ' + entity).then(  
-              function(result) { 
-                 $scope.statistics.push({name: "DB " + entity, data: result.next().row.count});
-          });
-      };
+         // screen
+         var screenSize = '';
+         if (screen.width) {
+             width = (screen.width) ? screen.width : '';
+             height = (screen.height) ? screen.height : '';
+             screenSize += '' + width + " x " + height;
+         };
 
-      $scope.statistics = [
-           {name: chrome.app.getDetails().short_name,  data: chrome.app.getDetails().version},
-           {name: 'UserAgent', data: navigator.userAgent},
-           {name: 'Platform',  data: navigator.platform},
-           {name: 'Vendor',    data: navigator.vendor},
-           {name: 'Locale',    data: SettingsService.get('locale')},
-           {name: 'Determined Locale',    data: $rootScope.determinedLocale},
-           {name: 'Screen',    data: screenSize}
-      ];
-      countTimers();
-      countEntity('Series');
-      countEntity('Seasons');
-      countEntity('Episodes');
-      countEntity('EventSchedule');
-      
-    }
-    getStats();
-});
+         countTimers = function() {
+             EventSchedulerService.getAll().then(function(timers) {
+                 $scope.statistics.push({
+                     name: 'Timers',
+                     data: timers.length
+                 });
+             });
+         };
+
+         countEntity = function(entity) {
+             CRUD.EntityManager.getAdapter().db.execute('select count(*) as count from ' + entity).then(
+                 function(result) {
+                     $scope.statistics.push({
+                         name: "DB " + entity,
+                         data: result.next().row.count
+                     });
+                 });
+         };
+
+
+         $scope.statistics = [{
+             name: 'UserAgent',
+             data: navigator.userAgent
+         }, {
+             name: 'Platform',
+             data: navigator.platform
+         }, {
+             name: 'Vendor',
+             data: navigator.vendor
+         }, {
+             name: 'Locale',
+             data: SettingsService.get('locale')
+         }, {
+             name: 'Determined Locale',
+             data: $rootScope.determinedLocale
+         }, {
+             name: 'Screen',
+             data: screenSize
+         }];
+
+         if ('chrome' in window && 'app' in window.chrome && 'version' in window.chrome.app) {
+             $scope.statistics.unshift({
+                 name: chrome.app.getDetails().short_name,
+                 data: chrome.app.getDetails().version
+             });
+         } else {
+             $http({
+                 method: 'GET',
+                 url: 'VERSION'
+             }).
+             success(function(data, status, headers, config) {
+                 $scope.statistics.unshift({
+                     name: 'DuckieTV webbased',
+                     data: data
+                 });
+             });
+         }
+
+         countTimers();
+         countEntity('Series');
+         countEntity('Seasons');
+         countEntity('Episodes');
+         countEntity('EventSchedule');
+
+     }
+     getStats();
+ });
