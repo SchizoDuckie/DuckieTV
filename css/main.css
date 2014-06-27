@@ -97,6 +97,7 @@ a:hover {
 .tooltip .tooltip-inner {
     background-color: white !important;
     color: black !important;
+    text-shadow: none !important;
 }
 background-rotator, background-rotator > div {
     width: 100%;
