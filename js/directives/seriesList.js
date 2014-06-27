@@ -170,6 +170,7 @@ angular.module('DuckieTV.directives.serieslist', [])
 
             $rootScope.$on('serieslist:empty', function() {
                 $scope.activate();
+                $scope.enableTrending();
             }.bind(this));
         }
     }

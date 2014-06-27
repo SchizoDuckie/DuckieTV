@@ -39,17 +39,19 @@
         <a tooltip="{{'HOMESERIES-showgrid-mode-tooltip'|translate}}({{'HOMESERIES-hotkey-lbl'|translate}}: alt + g)" ng-if="mode == 'search' || mode == 'banner'" accesskey="g"  ng-click="setMode('poster');">
           <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'HOMESERIES-showgrid-glyph-lbl'|translate}}
         </a>
+    </p>
       </div>
 
-    <p class="alert alert-info" ng-if="favorites.length == 0 && !searchingForSerie" style='margin:20px; position:relative; z-index:1000'>
+   
+    <div ng-if="activated && (trendingSeries)" class="series">
+     <p class="alert alert-info" ng-if="favorites.length == 0 && !searchingForSerie" style='margin:20px; position:relative; z-index:1000 ;text-align:left;'>
         <strong>{{'HOMESERIES-noseries-hdr'|translate}}</strong><br>
         {{'HOMESERIES-noseries-desc'|translate}} <br>
         <button ng-click="enableAdd()"><i class="glyphicon glyphicon-plus-sign"></i> {{'HOMESERIES-addshow-glyph-lbl'|translate}}</button>
-    </p>
-    <div ng-if="activated && trendingSeries" class="series">
       <h1 style='color:white'>Trending shows on Trakt.TV</h1>
       <h1>Click a show to add it to your favorites</h1>
       <p>Click 'Hide trending shows' to go back to your favorites list</p>
+      <h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>Please wait while loading Trakt.TV's Trending TV-Shows list</h1>
       <serieHeader ng-repeat="serie in trending.results" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)"></serieHeader>
     </div>
 
