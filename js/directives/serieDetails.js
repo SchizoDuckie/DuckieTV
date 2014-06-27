@@ -1,6 +1,6 @@
 angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
 
-.directive('serieDetails', function(FavoritesService, $location, $dialogs) {
+.directive('serieDetails', function(FavoritesService, $location, $dialogs, $filter) {
     return {
         restrict: 'E',
         transclude: true,
@@ -9,13 +9,17 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
         link: function($scope) {
 
             $scope.removeFromFavorites = function(serie) {
-                var dlg = $dialogs.confirm('Delete serie?', 'Do you really want to delete ' + serie.name + ' from your favorites?');
+                var dlg = $dialogs.confirm($filter('translate')('SERIEDETAILS_JS-deleteSerie-hdr'),
+                    $filter('translate')('SERIEDETAILS_JS-deleteSerie-question-p1') +
+                    serie.name +
+                    $filter('translate')('SERIEDETAILS_JS-deleteSerie-question-p2')
+                );
                 dlg.result.then(function(btn) {
                     console.log("Remove from favorites!", serie);
                     FavoritesService.remove(serie);
                     $location.path('/')
                 }, function(btn) {
-                    $scope.confirmed = 'You confirmed "No."';
+                    $scope.confirmed = $filter('translate')('SERIEDETAILS_JS-deleteSerie-confirmed');
                 });
             }
 
