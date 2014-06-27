@@ -18,7 +18,7 @@
                   <button ng-click="torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i> {{'TORRENTCLIENT-start-btn'|translate}}</button>
                   <button ng-click="torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i> {{'TORRENTCLIENT-pause-btn'|translate}}</button>
                   <button ng-click="torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i> {{'TORRENTCLIENT-stop-btn'|translate}}</button>
-                  <button ng-if="torrent.properties.all.is_streamable"  style="margin-top: 5px" ng-click="torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i translate> TORRENTCLIENT-stream-play-btn</button>
+                  <button ng-if="torrent.properties.all.is_streamable"  style="margin-top: 5px" ng-click="torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i> <translate> TORRENTCLIENT-stream-play-btn</></button>
                   <button ng-click="torrent.open_containing();" class="btn btn-xs btn-primary" style="width:80%; margin:5%;" >
                   <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTCLIENT-open-folder-btn'|translate}}</button>
 
