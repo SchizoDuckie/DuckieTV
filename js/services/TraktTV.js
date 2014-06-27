@@ -6,21 +6,14 @@ angular.module('DuckieTV.providers.trakttv', [])
         this.batchmode = true;
 
         this.endpoints = {
-            seriesSearch: 'http://api.trakt.tv/search/shows.json/32e05d4138adb5da5b702b362bd21c52?query=%s',
-            seasonSearch: 'http://api.trakt.tv/show/seasons.json/32e05d4138adb5da5b702b362bd21c52/%s',
-            episodeSearch: 'http://api.trakt.tv/show/season.json/32e05d4138adb5da5b702b362bd21c52/%s/%s',
-            seriebyidSearch: 'http://api.trakt.tv/show/summary.json/32e05d4138adb5da5b702b362bd21c52/%s/extended',
+            series: 'http://api.trakt.tv/search/shows.json/32e05d4138adb5da5b702b362bd21c52?query=%s',
+            season: 'http://api.trakt.tv/show/seasons.json/32e05d4138adb5da5b702b362bd21c52/%s',
+            episode: 'http://api.trakt.tv/show/season.json/32e05d4138adb5da5b702b362bd21c52/%s/%s',
+            seriebyid: 'http://api.trakt.tv/show/summary.json/32e05d4138adb5da5b702b362bd21c52/%s/extended',
+            trending: 'http://api.trakt.tv/shows/trending.json/32e05d4138adb5da5b702b362bd21c52'
         };
 
         this.parsers = {
-            season: function(data) {
-                return data.data;
-            },
-
-            episode: function(data) {
-                return data.data;
-            },
-
             series: function(data) {
                 data = data.data;
                 for (var i = 0; i < data.length; i++) {
@@ -31,23 +24,23 @@ angular.module('DuckieTV.providers.trakttv', [])
                 return {
                     series: data
                 };
-            },
-
-            seriebyid: function(data) {
-                return data.data;
             }
         };
 
         this.getUrl = function(type, param, param2) {
-            var out = this.endpoints[type + 'Search'].replace('%s', encodeURIComponent(param));
+            var out = this.endpoints[type].replace('%s', encodeURIComponent(param));
+            console.log("Geturl: ", out, type);
             return (param2 !== undefined) ? out.replace('%s', encodeURIComponent(param2)) : out;
         };
 
         this.getParser = function(type) {
-            return this.parsers[type];
+            return type in this.parsers ? this.parsers[type] : function(data) {
+                return data.data
+            };
         }
 
         this.promiseRequest = function(type, param, param2) {
+            console.log("new promise request!", type, param);
             if (this.activeRequest && !this.batchmode) {
                 this.activeRequest.resolve();
             }
@@ -86,6 +79,9 @@ angular.module('DuckieTV.providers.trakttv', [])
                 },
                 findSerieByTVDBID: function(TVDB_ID) {
                     return self.promiseRequest('seriebyid', TVDB_ID);
+                },
+                findTrending: function() {
+                    return self.promiseRequest('trending', '');
                 }
             }
         }

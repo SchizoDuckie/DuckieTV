@@ -42,7 +42,23 @@ angular.module('DuckieTV.directives.serieslist', [])
 
             $scope.disableAdd = function() {
                 $scope.searchingForSerie = false;
-                console.log("Disable!");
+            }
+
+            $scope.enableTrending = function() {
+                $scope.trendingSeries = true;
+                if (!$scope.trending) {
+                    $scope.trending = {
+                        results: []
+                    };
+                    TraktTV.findTrending().then(function(res) {
+                        $scope.trending.results = res;
+                    });
+                }
+
+            }
+
+            $scope.disableTrending = function() {
+                $scope.trendingSeries = false;
             }
 
 
