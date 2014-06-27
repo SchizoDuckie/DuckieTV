@@ -260,6 +260,8 @@
     "TORRENTDIALOG-noresults-lbl" : "No results found for",
     "TORRENTDIALOG-options-tooltip" : "Options",
     "TORRENTDIALOG-placeholder-lbl" : "Type your search query",
+    "TORRENTDIALOG-search-download-this-tooltip" : "Search for a download for ",
+    "TORRENTDIALOG-search-download-any-tooltip" : "Search for any download",
     "TORRENTDIALOG-searching-lbl" : "Searching ",
     "TORRENTDIALOG-searching-please-wait-lbl" : ", please wait.",
     "TORRENTDIALOG-seed-lbl" : "Seed",
