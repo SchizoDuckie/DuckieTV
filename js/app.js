@@ -107,12 +107,12 @@ angular.module('DuckieTV', [
 })
 /**
  * Translation configuration.
-  */
+ */
 .config(function($translateProvider) {
     /*
-    * setup path to the translation table files
-    * example ../Locale-en_us.json
-    */
+     * setup path to the translation table files
+     * example ../Locale-en_us.json
+     */
     $translateProvider.useStaticFilesLoader({
         prefix: '_locales/',
         suffix: '.json'
@@ -123,8 +123,8 @@ angular.module('DuckieTV', [
         'en_nz', 'en_uk', 'en_us', 'nl_nl'
     ], {
         'en_au': 'en_nz',
-        'en_ca': 'en_nz', 
-        'en_gb': 'en_uk' 
+        'en_ca': 'en_nz',
+        'en_gb': 'en_uk'
     });
     // if we cant find a match then use this language
     $translateProvider.fallbackLanguage('en_us');
@@ -141,26 +141,28 @@ angular.module('DuckieTV', [
      *
      * if it becomes problematic, use $translateProvider.preferredLanguage('en_us'); here to set a default
      * or $translate.use('en_us'); in a controller or service.
-     */  
+     */
     $translateProvider.determinePreferredLanguage();
     // error handling. missing keys are sent to $log
-    $translateProvider.useMissingTranslationHandlerLog();
-    
+    //$translateProvider.useMissingTranslationHandlerLog();
+
 })
 /**
  * Inject a cross-domain enabling http proxy for the non-chrome extension function
  * Sweeeeet
  */
-.factory('CORSInterceptor', ['$q', function($q) {
-    return {
-        request: function(config) {
-            if(window.location.href.indexOf('chrome') === -1 && config.url.indexOf('http') === 0 && config.url.indexOf('localhost') === -1) {
-                config.url = ['http://www.corsproxy.com/', config.url.replace('http://','').replace('https://','')].join('') 
+.factory('CORSInterceptor', ['$q',
+    function($q) {
+        return {
+            request: function(config) {
+                if (window.location.href.indexOf('chrome') === -1 && config.url.indexOf('http') === 0 && config.url.indexOf('localhost') === -1) {
+                    config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
+                }
+                return config;
             }
-            return config;
-        }
-    };
-}])
+        };
+    }
+])
 /**
  * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
  */
@@ -181,7 +183,7 @@ angular.module('DuckieTV', [
     $rootScope.determinedLocale = $rootScope.determinedLocale || $translate.proposedLanguage();
     $translate.use(SettingsService.get('locale'));
     tmhDynamicLocale.set($translate.proposedLanguage());
-    console.log("Locale being used",$translate.proposedLanguage());
+    console.log("Locale being used", $translate.proposedLanguage());
 
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
@@ -218,7 +220,9 @@ angular.module('DuckieTV', [
 
     // global variable translator
     $rootScope.translateVar = function(data) {
-        return {value: data};
+        return {
+            value: data
+        };
     };
 
     MigrationService.check();
