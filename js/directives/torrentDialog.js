@@ -79,7 +79,7 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
         $scope.search($scope.query);
 
     })
-    .directive('torrentDialog', function(TorrentDialog) {
+    .directive('torrentDialog', function(TorrentDialog, $filter) {
         return {
             restrict: 'E',
             transclude: true,
@@ -90,7 +90,9 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
             },
             template: '<a ng-click="openDialog()" tooltip="{{tooltip}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
             controller: function($scope) {
-                $scope.tooltip = $scope.q !== undefined ? 'Search for a download for ' + $scope.q : 'Search for any download';
+                $scope.tooltip = $scope.q !== undefined ? 
+                    $filter('translate')('TORRENTDIALOG-search-download-this-tooltip') + $scope.q :
+                    $filter('translate')('TORRENTDIALOG-search-download-any-tooltip');
                 $scope.openDialog = function() {
                     TorrentDialog.search($scope.q, $scope.TVDB_ID);
                 }
