@@ -28,6 +28,7 @@
     <h3>{{ serie.name }} {{ serie.title }}</h3>
   </a>
   <div ng-if="!noOverview" class='overview'>{{ serie.overview }}</div>
+  <div ng-transclude></div>
 </div>
 
 <div class="serieheader" ng-if="noListButton" tooltip='{{serie.title}}{{serie.name}}'>

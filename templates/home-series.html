@@ -58,7 +58,9 @@
           <h1>Click a show to add it to your favorites</h1>
           <p>Click 'Hide trending shows' to go back to your favorites list</p>
           <h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>Please wait while loading Trakt.TV's Trending TV-Shows list</h1>
-          <serieHeader ng-repeat="serie in trending.results" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)"></serieHeader>
+          <serieHeader ng-repeat="serie in trending.results" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
+            <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+          </serieHeader>
         </div>
       </div>
 

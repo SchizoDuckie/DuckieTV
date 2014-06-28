@@ -68,6 +68,7 @@ angular.module('DuckieTV.providers.favorites', [])
 
     var service = {
         favorites: [],
+        favoriteIDs: [],
         TraktTV: TraktTV,
         /**
          * Handles adding (and updating) a show to the local database.
@@ -231,6 +232,9 @@ angular.module('DuckieTV.providers.favorites', [])
                 'TVDB_ID': id
             });
         },
+        hasFavorite: function(id) {
+            return service.favoriteIDs.indexOf(id) > -1;
+        },
         /**
          * Remove a serie, it's seasons, it's episodes and it's timers from the database.
          * Also removes the chrome alarm that fires the update check
@@ -299,6 +303,11 @@ angular.module('DuckieTV.providers.favorites', [])
             });
             service.getSeries().then(function(results) {
                 service.favorites = results;
+                var ids = [];
+                results.map(function(el) {
+                    ids.push(el.TVDB_ID.toString());
+                });
+                service.favoriteIDs = ids;
                 $rootScope.$broadcast('favorites:updated', service);
                 $rootScope.$broadcast('episodes:updated');
             });

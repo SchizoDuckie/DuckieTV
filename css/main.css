@@ -258,6 +258,17 @@ serieheader aside {
 serieheader:hover aside {
     right: 0;
 }
+
+serieheader em.earmark {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    background-color: rgba(0,50,0, 0.8);
+    padding: 10px;
+    color: white;
+    font-size: 25px;
+}
+
 series-list {
     position: fixed;
     bottom: 0px;

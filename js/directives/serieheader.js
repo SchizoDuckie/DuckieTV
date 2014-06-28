@@ -4,15 +4,17 @@
  */
 angular.module('DuckieTV.directives.serieheader', [])
 
-.directive('serieheader', function() {
+.directive('serieheader', function(FavoritesService) {
     return {
         restrict: 'E',
+        transclude: true,
         scope: {
             'serie': '=data',
             'noListButton': "=noButton",
             "noOverview": "=noOverview",
-            "mode": "@"
+            "mode": "@",
+            "added": "=added"
         },
-        templateUrl: "templates/serieHeader.html"
+        templateUrl: "templates/serieHeader.html",
     }
 })

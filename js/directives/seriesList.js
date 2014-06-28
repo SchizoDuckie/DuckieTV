@@ -146,6 +146,10 @@ angular.module('DuckieTV.directives.serieslist', [])
                 $scope.selected = '';
             }
 
+            $scope.isAdded = function(tvdb_id) {
+                return FavoritesService.hasFavorite(tvdb_id.toString());
+            }
+
             $scope.favorites = [];
             $scope.searchEngine = 1;
 
