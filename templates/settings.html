@@ -5,20 +5,15 @@
         <fieldset>
           <h2>{{ 'SETTINGS-hdr'|translate }}</h2>
         </fieldset>
-
+          <div style="width:85%">
+          <tabset justified="true">
+            <tab heading="{{ 'SETTINGS-general-hdr'|translate }}" ng-click="setActiveSetting('default')"></tab>
+            <tab heading="{{ 'SETTINGS-display-hdr'|translate }}" ng-click="setActiveSetting('display')"></tab>
+            <tab heading="{{ 'SETTINGS-torrent-hdr'|translate }}" ng-click="setActiveSetting('torrent')"></tab>
+            <tab heading="{{ 'SETTINGS-timers-hdr'|translate }}" ng-click="setActiveSetting('timers')"></tab>
+          </tabset>
+          </div>
         <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
-          <tr>
-            <td colspan="2" height="50px" align="center" style="vertical-align:bottom;padding: 0px !important">
-              <div style="width:85%">
-              <tabset justified="true">
-                <tab heading="{{ 'SETTINGS-general-hdr'|translate }}" ng-click="setActiveSetting('default')"></tab>
-                <tab heading="{{ 'SETTINGS-display-hdr'|translate }}" ng-click="setActiveSetting('display')"></tab>
-                <tab heading="{{ 'SETTINGS-torrent-hdr'|translate }}" ng-click="setActiveSetting('torrent')"></tab>
-                <tab heading="{{ 'SETTINGS-timers-hdr'|translate }}" ng-click="setActiveSetting('timers')"></tab>
-              </tabset>
-              </div>
-            </td>
-          </tr>
           <tr>
             <td colspan="2">
               <div ng-include="activesettings"></div>

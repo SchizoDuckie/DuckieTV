@@ -9,25 +9,47 @@
 .modal {
 	overflow: auto;
 }
+
 .alert {
 	margin-bottom: 10px;
 }
+
 .nav {
-  margin-bottom:-1px;
-  }
+	margin-bottom:-1px;
+}
+
 .nav-tabs.nav-justified>li>a {
-  border-bottom:0px solid #ddd;
-  background-color:rgba(255,255,255,0.5);
-  }
+	border-bottom: 0px solid #ddd;
+	background-color: rgba(0,0,0,0.5);
+	border: 1px solid white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+	background-color: black;
+}
+
+.nav-tabs.nav-justified>li {
+	padding: 0px 5px 0px 5px;
+	width: 200px;
+}
+
 .nav>li>a:hover,.nav>li>a:focus {
-  background-color:#D6D6D6
-  }
+	border-bottom: 1px solid black; 
+	color: white !important;
+}
+
 .nav-tabs>li.active>a {
-  background-color: #fff !important;
-  }
+	border-bottom: 1px solid black !important;
+	color: white;
+	font-weight: bold; 
+}
+
 .nav-tabs.nav-justified>li {
   padding:0px 5px 0px 5px;
-  }
+}
+
 @media (min-width: 1600px) {
   .span12, .container {
     width: 1560px;
