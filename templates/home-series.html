@@ -43,7 +43,7 @@
       </div>
 
    
-    <div ng-if="activated && (trendingSeries)" class="series">
+    <div ng-if="activated && trendingSeries" class="series">
      <p class="alert alert-info" ng-if="favorites.length == 0 && !searchingForSerie" style='margin:20px; position:relative; z-index:1000 ;text-align:left;'>
         <strong>{{'HOMESERIES-noseries-hdr'|translate}}</strong><br>
         {{'HOMESERIES-noseries-desc'|translate}} <br>
@@ -55,13 +55,13 @@
       <serieHeader ng-repeat="serie in trending.results" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)"></serieHeader>
     </div>
 
-    <div class="series" ng-if="activated && !trendingSeries && !searchingForSerie && mode == 'search'">
+    <div class="series" ng-if="activated && !searchingForSerie && mode == 'search'">
       <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search"></serieHeader>
     </div>
-    <div class="series" ng-if="activated && !trendingSeries &&  !searchingForSerie && mode == 'poster'">
+    <div class="series" ng-if="activated && !searchingForSerie && mode == 'poster'">
       <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader>
     </div>
-    <div class="series" ng-if="activated && !trendingSeries && !searchingForSerie && mode == 'banner'">
+    <div class="series" ng-if="activated && !searchingForSerie && mode == 'banner'">
       <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader>
     </div>
   </div>
