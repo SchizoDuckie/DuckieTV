@@ -713,6 +713,10 @@ td.day {
 }
 [date-picker] .event .watched {
     text-decoration: line-through;
+    text-decoration-color: black;
+    background-color: rgba(100,100,100, 0.4);
+    margin: -1.7px;
+    padding: 1.7px;
 }
 [date-picker] .event:hover {
     background-color: rgba(0, 0, 0, 0.8);
