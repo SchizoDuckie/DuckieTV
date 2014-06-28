@@ -156,11 +156,16 @@ angular.module('DuckieTV', [
         return {
             request: function(config) {
                 if (window.location.href.indexOf('chrome') === -1 && config.url.indexOf('http') === 0 && config.url.indexOf('localhost') === -1) {
-                    config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
+                    if (config.url.indexOf(".json") == config.url.length - 5) {
+                        config.url = ['http://jsonp.jit.su/?url=', encodeURIComponent(config.url)].join('');
+                    } else {
+                        config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
+                    }
                 }
                 return config;
             }
-        };
+
+        }
     }
 ])
 /**
