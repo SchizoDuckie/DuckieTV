@@ -38,14 +38,17 @@ angular.module('DuckieTV.directives.serieslist', [])
             $scope.enableAdd = function() {
                 $scope.searchingForSerie = true;
                 $scope.serieAddFocus = true;
+                $scope.trendingSeries = false;
             }
 
             $scope.disableAdd = function() {
                 $scope.searchingForSerie = false;
+                $scope.mode = $rootScope.getSetting('series.displaymode');
             }
 
             $scope.enableTrending = function() {
                 $scope.trendingSeries = true;
+                $scope.mode = 'trending';
                 if (!$scope.trending) {
                     $scope.trending = {
                         results: []
@@ -59,6 +62,7 @@ angular.module('DuckieTV.directives.serieslist', [])
 
             $scope.disableTrending = function() {
                 $scope.trendingSeries = false;
+                $scope.mode = $rootScope.getSetting('series.displaymode');
             }
 
 

@@ -12,13 +12,13 @@
           <input type='text' focus-watch="'isFiltering'"  placeholder="{{'HOMESERIES-filter-placeholder-lbl'|translate}}" ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 50%;'>
         </form>
 
-        <a accesskey="a" tooltip="{{'HOMESERIES-addshow-addtolist-tooltip'|translate}}({{'HOMESERIES-hotkey-lbl'|translate}}: alt+a)" ng-if="searchingForSerie == false" ng-click="enableAdd();" style='float:left'>
+        <a accesskey="a" tooltip="{{'HOMESERIES-addshow-addtolist-tooltip'|translate}}({{'HOMESERIES-hotkey-lbl'|translate}}: alt+a)" ng-if="!searchingForSerie && mode !== 'search'" ng-click="enableAdd();" style='float:left'>
           <i class="glyphicon glyphicon-plus-sign"></i> {{'HOMESERIES-addshow-glyph-lbl'|translate}}
         </a>
         <a tooltip="{{'HOMESERIES-addshow-returntofavlist-tooltip'|translate}}" ng-if="searchingForSerie == true" ng-click="disableAdd()" style='float:left; line-height:40px'>
           <i class="glyphicon glyphicon-ok-sign"></i> {{'HOMESERIES-addshow-imdone-glyph-lbl'|translate}}
         </a>
-         <a tooltip="{{'HOMESERIES-addtrending-addtolist-tooltip'|translate}}" ng-if="!searchingForSerie && !trendingSeries" ng-click="enableTrending();" style='float:left; margin-left:20px'>
+         <a tooltip="{{'HOMESERIES-addtrending-addtolist-tooltip'|translate}}" ng-if="!searchingForSerie && !trendingSeries && mode !== 'search'" ng-click="enableTrending();" style='float:left; margin-left:20px'>
           <i class="glyphicon glyphicon-plus-sign"></i> Trending shows
         </a>
          <a  ng-if="!searchingForSerie && trendingSeries" ng-click="disableTrending();" style='float:left; margin-left:20px;'>
@@ -30,7 +30,7 @@
             ng-change="findSeries()" focus-watch="serieAddFocus" class="form-control"  style='float:left; width: 50%; margin-left: 10px;border: 1px solid white; font-size: 20px; height: auto; background-color: rgb(17, 17, 17);'> <i ng-show="loadingSeries" class="glyphicon glyphicon-refresh" ></i>
         </form>
 
-        <a tooltip="{{'HOMESERIES-search-tooltip'|translate}}({{'HOMESERIES-hotkey-lbl'|translate}}: alt + / )" accesskey="/" ng-click="isFiltering = true; setMode('search',true);">
+        <a tooltip="{{'HOMESERIES-search-tooltip'|translate}}({{'HOMESERIES-hotkey-lbl'|translate}}: alt + / )" accesskey="/" ng-if="!searchingForSerie && !trendingSeries" ng-click="isFiltering = true; setMode('search',true);">
           <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'HOMESERIES-filter-glyph-lbl'|translate}}
         </a>&nbsp;
         <a tooltip="{{'HOMESERIES-showlist-mode-tooltip'|translate}}({{'HOMESERIES-hotkey-lbl'|translate}}: alt + l)" ng-if="mode == 'poster'" accesskey="l" ng-click="setMode('banner');">
@@ -43,7 +43,13 @@
       </div>
 
    
-    <div ng-if="activated && (trendingSeries)" class="series">
+    <div ng-if="activated && searchingForSerie" class="series">
+      <h2>{{'HOMESERIES-addshow-starttyping'|translate}}</h2>
+      <p>{{'HOMESERIES-addshow-protip'|translate}}</p>
+      <serieHeader ng-repeat="serie in search.results" data="serie" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)"></serieHeader>
+    </div>
+    
+    <div ng-if="activated && trendingSeries" class="series">
      <p class="alert alert-info" ng-if="favorites.length == 0 && !searchingForSerie" style='margin:20px; position:relative; z-index:1000 ;text-align:left;'>
         <strong>{{'HOMESERIES-noseries-hdr'|translate}}</strong><br>
         {{'HOMESERIES-noseries-desc'|translate}} <br>
@@ -55,13 +61,13 @@
       <serieHeader ng-repeat="serie in trending.results" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)"></serieHeader>
     </div>
 
-    <div class="series" ng-if="activated && !trendingSeries && !searchingForSerie && mode == 'search'">
+    <div class="series" ng-if="activated && !searchingForSerie && mode == 'search'">
       <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search"></serieHeader>
     </div>
-    <div class="series" ng-if="activated && !trendingSeries &&  !searchingForSerie && mode == 'poster'">
+    <div class="series" ng-if="activated && !searchingForSerie && mode == 'poster'">
       <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader>
     </div>
-    <div class="series" ng-if="activated && !trendingSeries && !searchingForSerie && mode == 'banner'">
+    <div class="series" ng-if="activated && !searchingForSerie && mode == 'banner'">
       <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader>
     </div>
   </div>
