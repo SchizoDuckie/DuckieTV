@@ -5,7 +5,7 @@
     <table class="table table-condensed light" style='margin-top: 20px; border: 1px solid #efefef; border-collapse:collapse;'>
       <tbody ng-if="!episode">
         <tr>
-          <td>{{'EPISODE-fetching-hdr'|translate}}</td>
+          <td>{{'EPISODE/fetching/hdr'|translate}}</td>
         </tr>
       </tbody>
       <tbody ng-if="episode">
@@ -28,12 +28,12 @@
           </td>
         </tr>
         <tr ng-if="episode.firstaired != null">
-          <th>{{'EPISODE-firstaired-hdr'|translate}}</th>
+          <th>{{'EPISODE/first-aired/hdr'|translate}}</th>
           <td>{{ episode.firstaired | date: 'medium' }}</td>
         </tr>
         <tr>
-          <th>{{'EPISODE-rating-hdr'|translate}}</th>
-          <td>{{episode.rating}} ({{episode.ratingcount}} {{'EPISODE-votes-lbl'|translate}})</td>
+          <th>{{'EPISODE/rating/hdr'|translate}}</th>
+          <td>{{episode.rating}} ({{episode.ratingcount}} {{'EPISODE/votes/lbl'|translate}})</td>
         </tr>
       </tbody>
     </table>
