@@ -94,10 +94,6 @@ angular.module('DuckieTV.providers.migrations', ['DuckieTV.providers.favorites',
         var service = {
 
             check: function() {
-
-                if (!localStorage.getItem('0.4migration')) {
-                    migrateFromTVDB();
-                }
                 if (!localStorage.getItem('0.5.firetimers')) {
 
                     EventSchedulerService.getAll().then(function(timers) {
