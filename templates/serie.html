@@ -3,40 +3,40 @@
 <div class="row serie">
   <div class="col-md-6">
 
-    <alert ng-if="markingAsWatched" type="alert.type" close="stopMarkingAsWatched()">{{'SERIE-mark-range-desc'|translate}}</alert>
+    <alert ng-if="markingAsWatched" type="alert.type" close="stopMarkingAsWatched()">{{'SERIE/mark-range/desc'|translate}}</alert>
 
     <table class="table table-condensed light" ng-class="{markingaswatched: markingAsWatched }" style='border: 1px solid #efefef; border-collapse:collapse; margin-top:20px;'>
       <tbody ng-if="episodes.length == 0">
         <tr>
-          <td>{{'SERIE-fetching-episodes-lbl'|translate}}</td>
+          <td>{{'SERIE/fetching-episodes/lbl'|translate}}</td>
         </tr>
       </tbody>
       <tbody ng-if="episodes.length > 0">
         <tr>
           <th>
-            <strong>{{'SERIE-episode-hdr'|translate}}</strong>
+            <strong>{{'SERIE/episode/hdr'|translate}}</strong>
           </th>
           </th>
           <th style='width:80%'>
-            <strong>{{'SERIE-name-hdr'|translate}}</strong>
+            <strong>{{'SERIE/name/hdr'|translate}}</strong>
           </th>
           <th>
-            <strong>{{'SERIE-airdate-hdr'|translate}}</strong>
+            <strong>{{'SERIE/airdate/hdr'|translate}}</strong>
           </th>
           <th ng-if="getSetting('torrenting.enabled')">
-            <div class="dropdown" tooltip="{{'SERIE-clickforoptions-tooltip'|translate}}">
-              <strong class="dropdown-toggle" style='white-space:nowrap'>{{'SERIE-download-lbl'|translate}} <i class="glyphicon glyphicon-chevron-down"></i>
+            <div class="dropdown" tooltip="{{'SERIE/click-for-options/tooltip'|translate}}">
+              <strong class="dropdown-toggle" style='white-space:nowrap'>{{'SERIE/download/lbl'|translate}} <i class="glyphicon glyphicon-chevron-down"></i>
               </strong>
               <ul class="dropdown-menu" style='min-width: 300px'>
-                <li ng-click="searchSeason(serie, season)"><i class="glyphicon glyphicon-download"></i> {{'SERIE-download-season-lbl'|translate}} {{season.seasonnumber}}</li>
+                <li ng-click="searchSeason(serie, season)"><i class="glyphicon glyphicon-download"></i> {{'SERIE/download-season/lbl'|translate}} {{season.seasonnumber}}</li>
               </ul>
           </th>
           <th>
-            <div class="dropdown" tooltip="{{'SERIE-clickforoptions-tooltip'|translate}}">
-              <strong class="dropdown-toggle" style='white-space:nowrap'>{{'SERIE-watched-lbl'|translate}}&nbsp;<i class="glyphicon glyphicon-chevron-down"></i>
+            <div class="dropdown" tooltip="{{'SERIE/click-for-options/tooltip'|translate}}">
+              <strong class="dropdown-toggle" style='white-space:nowrap'>{{'SERIE/watched/lbl'|translate}}&nbsp;<i class="glyphicon glyphicon-chevron-down"></i>
               </strong>
               <ul class="dropdown-menu" style='min-width: 300px; padding: 5px; overflow-y: auto'>
-                <li ng-click="markRangeWatchedStart()" style='padding: 5px'><i class="glyphicon glyphicon-pencil"></i> {{'SERIE-mark-batch-mode-lbl'|translate}}</li>
+                <li ng-click="markRangeWatchedStart()" style='padding: 5px'><i class="glyphicon glyphicon-pencil"></i> {{'SERIE/mark-batch-mode/lbl'|translate}}</li>
               </ul>
           </th>
         </tr>
