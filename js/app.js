@@ -136,10 +136,16 @@ angular.module('DuckieTV', [
     })
 
     /*
-     * if we cant find a match then use this language
+     * if we cant find a match then use these languages
      */
 
-    .fallbackLanguage('en_us')
+    .fallbackLanguage('en_us','en_uk', 'en_us')
+    
+    /*
+     * default to using English (Unites States)
+     */
+     
+     .preferredLanguage('en_us')
     
     /*
      * determine the local language
@@ -160,7 +166,6 @@ angular.module('DuckieTV', [
     
      // error handling. missing keys are sent to $log
      //$translateProvider.useMissingTranslationHandlerLog();
-
 
 })
 /**
@@ -199,14 +204,29 @@ angular.module('DuckieTV', [
 
 .run(function($rootScope, SettingsService, StorageSyncService, MigrationService, datePickerConfig, $translate, tmhDynamicLocale) {
 
+ 
+   /*
+    * dynamic fallback based on locale
+    */
+    $rootScope.changeLanguage = function (langKey) {
+        langKey = langKey || 'en_us';
+        var fallBack = 'en_us';
+        if (langKey === 'en_nz') {
+            fallBack = 'en_uk';
+        }
+        $translate.useFallbackLanguage(fallBack);
+        $translate.use(langKey);
+        tmhDynamicLocale.set(langKey);
+        console.log("Locale being used", $translate.proposedLanguage());
+    }; 
+
+ 
     /*
      * if the user has previously set the locale, over-ride the determinePreferredLanguage proposed id
      * but remember the determination, it's used as an option in the locale settings page
      */
     $rootScope.determinedLocale = $rootScope.determinedLocale || $translate.proposedLanguage();
-    $translate.use(SettingsService.get('locale'));
-    tmhDynamicLocale.set($translate.proposedLanguage());
-    console.log("Locale being used", $translate.proposedLanguage());
+    $rootScope.changeLanguage(SettingsService.get('locale'));
 
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
