@@ -1,52 +1,53 @@
-<fieldset>
-<h2>{{'CHROMECAST/hdr'|translate}}</h2>
 
-<table class='table table-condensed light'>
-<tr>
-<td>
+    <fieldset>
+        <h2>DuckieTorrent &micro;Torrent {{'TORRENTCLIENT/hdr'|translate}}</h2>
+        <div class="alert alert-info">
+        <button class='btn btn-small btn-warning' style='float:right' ng-click='removeToken()' ><translate>TORRENTCLIENT/clear-authority/btn</translate></button>
+        <strong><translate>TORRENTCLIENT/desc/p1</translate></strong><strong><a style="color: #428bca" href='http://www.utorrent.com/downloads/complete/os/win/track/alpha'>v3.4.1 alpha Build 31206</a>{{'TORRENTCLIENT/desc/p2'|translate}}</strong>
+        <p><translate>TORRENTCLIENT/desc/p3</translate></p>
+        </div>
+        <torrent-dialog class="btn btn-success">{{'TORRENTCLIENT/search/lbl'|translate}}ThePirateBay / KickAssTorrents</torrent-dialog>
+         <h4>{{'TORRENTCLIENT/torrents-found/hdr'|translate}}{{rpc.getTorrents().length}}</h4>
 
-<h3>{{'CHROMECAST/desc/hdr'|translate}}</h3>
-<p>{{'CHROMECAST/desc/p1'|translate}}</p>
+         <table class="torrents table light">
+            <tr ng-repeat="torrent in rpc.getTorrents()|orderBy:'getStarted()':true">
 
-<strong>{{'CHROMECAST/requirements/hdr'|translate}}</strong>
-<ul>
-<li>{{'CHROMECAST/requirements/li1'|translate}}</li>
-<li translate>CHROMECAST/requirements/li2</li>
-<li><a translate>CHROMECAST/requirements/li3</a><button class="btn btn-xs btn-info" ng-click='showWebUI = true'>{{'CHROMECAST/more-setup/btn'|translate}}</button>
-<p ng-if="showWebUI">
-<em>{{'CHROMECAST/requirements/emb1'|translate}}
-{{'CHROMECAST/requirements/emb2'|translate}}</em>
-<img ng-if="showWebUI" src="img/utorrentconfig.png">
-</li>
-<li>{{'CHROMECAST/instructions/hdr'|translate}}</li>
-</ul>
+             <th style='white-space:nowrap'>{{torrent.getStarted() * 1000 | date:'shortDate'}}<br><span class="label label-info">{{torrent.getFormattedStatus()}}</span></th>
+             <td style='width:220px; text-align: center'>
 
-<p translate>CHROMECAST/instructions/p1</p>
-<p translate>CHROMECAST/instructions/p2</p>
-<p>
-{{'CHROMECAST/instructions/p3'|translate}}
-</p>
+                  <button ng-click="torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i> {{'TORRENTCLIENT/start/btn'|translate}}</button>
+                  <button ng-click="torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i> {{'TORRENTCLIENT/pause/btn'|translate}}</button>
+                  <button ng-click="torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i> {{'TORRENTCLIENT/stop/btn'|translate}}</button>
+                  <button ng-if="torrent.properties.all.is_streamable"  style="margin-top: 5px" ng-click="torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i><translate> TORRENTCLIENT/stream-play/btn</translate></button>
+                  <button ng-click="torrent.open_containing();" class="btn btn-xs btn-primary" style="width:80%; margin:5%;" >
+                  <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTCLIENT/open-folder/btn'|translate}}</button>
 
-<div ng-if="localIpAddresses">
-  <strong>{{'CHROMECAST/your-local-ipaddr/hdr'|translate}}</strong>
-  <ul class="list">
-      <li style='padding:10px' ng-repeat="address in localIpAddresses track by $index"><button class="btn btn-xs btn-info" ng-click="setStreamingSource(address)">{{'CHROMECAST/your-local-ipaddr/btn'|translate}}</button></li>
-  </ul>
-</div>
+                  <div class="progress-striped progress" style='width: 90%; margin:10px'>
+                  <div class="progress-bar progress-bar-success" ng-style="{ width: torrent.getProgress() + '%' }">
+                    <span>{{torrent.getProgress()}}%</span>
+                   </div>
+                  </div>
+              </td>
+              <td>
+                <h3>{{torrent.properties.all.name}}</h3>
+                <table class="table table-condensed light" style='width:95%'>
+                <thead>
+                <tr> <th>{{'TORRENTCLIENT/filename/hdr'|translate}}</th><td>&nbsp;</td></tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="file in torrent.getFiles()">
+                  <td>{{ file.name }}</td>
+                  <td ng-if="getSetting('cast.supported')" style='width: 150px'>
+                      <button class="btn btn-xs btn-success" ng-if="isFormatSupported(file) && (file.properties.all.is_streamable == true || file.properties.all.size == file.properties.all.downloaded)" ng-click="playInBrowser(file)"><i class="glyphicon glyphicon-share" style="padding-right: 5px;"></i> {{'TORRENTCLIENT/play-chromecast/btn'|translate}}</button>
+                  </td>
+                </tr>
+                </tbody>
+                </table>
 
-<p class="info" ng-if="localIpAddress">{{'CHROMECAST/cast-local-ipaddr/hdr'|translate}}<strong>{{localIpAddress}}</strong></p>
+              </td>
 
-<p ng-if="localIpAddress">
-	{{'CHROMECAST/connect/hdr'|translate}}<br>
-	<button class="btn btn-success" ng-click="Cast()">{{'CHROMECAST/connect/btn'|translate}}</button>
+            </tr>
+            </tbody>
+          </table>
+          </fieldset>
 
-	<p>{{'CHROMECAST/connect/p1'|translate}}<a href='#/torrent' style='text-decoration:underline'>{{'CHROMECAST/connect/link'|translate}}</a>{{'CHROMECAST/connect/p2'|translate}}</p> 
-</p>
-
-<strong>{{'CHROMECAST/notes/hdr'|translate}}</strong>
-<p>
-{{'CHROMECAST/notes/p1'|translate}}<a href='http://schizoduckie.github.io/DuckieTorrent' target='_blank' style='text-decoration:underline'>{{'CHROMECAST/notes/p2'|translate}}</a>!) 
-</p>
-
-</td></tr></table>
-</fieldset>
