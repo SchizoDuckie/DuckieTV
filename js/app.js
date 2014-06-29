@@ -109,25 +109,38 @@ angular.module('DuckieTV', [
  * Translation configuration.
  */
 .config(function($translateProvider) {
+
+    $translateProvider
+
     /*
      * setup path to the translation table files
-     * example ../Locale-en_us.json
+     * example ../_Locales/en_us.json
      */
-    $translateProvider.useStaticFilesLoader({
+     
+    .useStaticFilesLoader({
         prefix: '_locales/',
         suffix: '.json'
-    });
+    })
 
-    // help the determinePreferredLanguage module match a find with one of our provided languages
-    $translateProvider.registerAvailableLanguageKeys([
+    /*
+     * help the determinePreferredLanguage module match a find 
+     * with one of our provided languages
+     */
+     
+    .registerAvailableLanguageKeys([
         'en_nz', 'en_uk', 'en_us', 'nl_nl'
     ], {
         'en_au': 'en_nz',
         'en_ca': 'en_nz',
         'en_gb': 'en_uk'
-    });
-    // if we cant find a match then use this language
-    $translateProvider.fallbackLanguage('en_us');
+    })
+
+    /*
+     * if we cant find a match then use this language
+     */
+
+    .fallbackLanguage('en_us')
+    
     /*
      * determine the local language
      *
@@ -142,9 +155,12 @@ angular.module('DuckieTV', [
      * if it becomes problematic, use $translateProvider.preferredLanguage('en_us'); here to set a default
      * or $translate.use('en_us'); in a controller or service.
      */
-    $translateProvider.determinePreferredLanguage();
-    // error handling. missing keys are sent to $log
-    //$translateProvider.useMissingTranslationHandlerLog();
+
+    .determinePreferredLanguage();
+    
+     // error handling. missing keys are sent to $log
+     //$translateProvider.useMissingTranslationHandlerLog();
+
 
 })
 /**
