@@ -183,10 +183,18 @@ angular.module('DuckieTV.directives.serieslist', [])
                 }
             });
 
-            $rootScope.$on('serieslist:empty', function() {
-                $scope.activate();
-                $scope.enableTrending();
-            }.bind(this));
+            $rootScope.$on('serieslist:empty', function(event) {
+                this.activate();
+            }.bind($scope));
+
+            $scope.$watch('favorites', function(nw) {
+                if (nw.length == 0) {
+                    $scope.enableTrending();
+                }
+            });
+
+
+
         }
     }
 })
