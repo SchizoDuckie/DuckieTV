@@ -45,7 +45,7 @@ CRUD.Find('Season', {}, {'limit': 10000}).then(function(elements) {
 });
 
 ##Clear episodes that were not properly deleted due to too narrow limit clause in favoritesservice.remove function
-
+``
 var serieIds = []; 
 
 CRUD.EntityManager.getAdapter().db.execute('select distinct(ID_Serie) from Series').then(function(res) {
@@ -59,5 +59,19 @@ CRUD.EntityManager.getAdapter().db.execute('select distinct(ID_Serie) from Serie
 
 });
 
-
 `` 
+
+## Completely nuke the database, settings and timers.
+
+``
+CRUD.EntityManager.getAdapter().db.execute('drop table Episodes');
+CRUD.EntityManager.getAdapter().db.execute('drop table EventSchedule');
+CRUD.EntityManager.getAdapter().db.execute('drop table Series');
+CRUD.EntityManager.getAdapter().db.execute('drop table Seasons');
+CRUD.EntityManager.getAdapter().db.execute('drop table WatchList');
+CRUD.EntityManager.getAdapter().db.execute('drop table WatchListObject');
+localStorage.clear();
+if(('chrome' in window) && ('alarms' in window.chrome)) { 
+	chrome.alarms.clearAll();
+}
+``
