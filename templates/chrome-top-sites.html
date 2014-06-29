@@ -1,5 +1,5 @@
 <div ng-controller="ChromeTopSitesCtrl" class="topSites">
-<h2 ng-mouseover="isShowing=true"><i class="glyphicon glyphicon-chevron-down"></i> <a style="color:white; display:inline">{{'CHROMETOPSITES-hdr'|translate}}</a> <i class="glyphicon glyphicon-chevron-down"></i></h2>
+<h2 ng-mouseover="isShowing=true"><i class="glyphicon glyphicon-chevron-down"></i> <a style="color:white; display:inline">{{'CHROMETOPSITES/hdr'|translate}}</a> <i class="glyphicon glyphicon-chevron-down"></i></h2>
 <ul class="list list-inline" ng-if="isShowing" >
 <li ng-repeat="site in topSites | limitTo: 12">
 <a href="{{ site.url }}">

@@ -12,13 +12,13 @@
       <span>{{torrent.getProgress()}}%</span>
      </div>
   </div></td></tr>
-  <tr> <th>{{'TORRENTRC-files-hdr'|translate}}</th><td>&nbsp;</td></tr>
+  <tr> <th>{{'TORRENTRC/files/hdr'|translate}}</th><td>&nbsp;</td></tr>
   </thead>
   <tbody>
   <tr ng-repeat="file in torrent.getFiles()">
     <td>{{ file.name }}</td>
     <td style='width: 150px'>
-        <button class="btn btn-xs btn-success" ng-if="isFormatSupported(file) && (file.properties.all.is_streamable == true || file.properties.all.size == file.properties.all.downloaded)" ng-click="playInBrowser(file)"><i class="glyphicon glyphicon-share" style="padding-right: 5px;"></i>{{'TORRENTRC-playonCast-btn'|translate}}</button>
+        <button class="btn btn-xs btn-success" ng-if="isFormatSupported(file) && (file.properties.all.is_streamable == true || file.properties.all.size == file.properties.all.downloaded)" ng-click="playInBrowser(file)"><i class="glyphicon glyphicon-share" style="padding-right: 5px;"></i>{{'TORRENTRC/play-on-cast/btn'|translate}}</button>
     </td>
   </tr>
   </tbody>
@@ -26,12 +26,12 @@
 
 <div >
 
-    <button ng-click="torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i>{{'TORRENTRC-start-btn'|translate}}</button>
-    <button ng-click="torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i>{{'TORRENTRC-pause-btn'|translate}}</button>
-    <button ng-click="torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i>{{'TORRENTRC-stop-btn'|translate}}</button>
-    <button ng-if="torrent.properties.all.is_streamable" ng-click="torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTRC-streamplay-btn</translate></button>   
+    <button ng-click="torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i>{{'TORRENTRC/start/btn'|translate}}</button>
+    <button ng-click="torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i>{{'TORRENTRC/pause/btn'|translate}}</button>
+    <button ng-click="torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i>{{'TORRENTRC/stop/btn'|translate}}</button>
+    <button ng-if="torrent.properties.all.is_streamable" ng-click="torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTRC/stream-play/btn</translate></button>   
     <button ng-click="torrent.open_containing();" class="btn btn-xs btn-primary" >
-    <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTRC-openfolder-btn'|translate}}</button> 
+    <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTRC/open-folder/btn'|translate}}</button> 
 </div>
 
 </fieldset>

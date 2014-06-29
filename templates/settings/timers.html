@@ -1,19 +1,19 @@
 <div ng-controller="TimerCtrl">
 <div>
   <h2>
-    <button ng-click="debug=!debug" class="btn btn-danger btn-xs" style='float:right;margin-left:3px;margin-bottom:3px'>{{'TIMERS-toggle-debug-btn'|translate}}</button>
+    <button ng-click="debug=!debug" class="btn btn-danger btn-xs" style='float:right;margin-left:3px;margin-bottom:3px'>{{'TIMERS/toggle-debug/btn'|translate}}</button>
     <div ng-if="debug" style='float:right; font-size:12px;'>
-      <button ng-click="fixMissingTimers();" class='btn btn-xs btn-success'>{{'TIMERS-find-missing-btn'|translate}}</button>
-      <button ng-click="clearAllTimers();" class='btn btn-xs btn-success'>{{'TIMERS-delete-all-btn'|translate}}</button>
+      <button ng-click="fixMissingTimers();" class='btn btn-xs btn-success'>{{'TIMERS/find-missing/btn'|translate}}</button>
+      <button ng-click="clearAllTimers();" class='btn btn-xs btn-success'>{{'TIMERS/delete-all/btn'|translate}}</button>
     </div>
   </h2>
 </div>
 
 <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;'>
   <tr>
-    <th>{{'TIMERS-timer-name-hdr'|translate}}</th>
-    <th>{{'TIMERS-timer-period-hdr'|translate}}</th>
-    <th>{{'TIMERS-timer-firingnext-hdr'|translate}}</th>
+    <th>{{'TIMERS/timer-name/hdr'|translate}}</th>
+    <th>{{'TIMERS/timer-period/hdr'|translate}}</th>
+    <th>{{'TIMERS/timer-firingnext/hdr'|translate}}</th>
     <th></th>
   </tr>
   <tr ng-repeat="timer in timers | orderBy : 'name'">
@@ -23,9 +23,9 @@
     <td width="200px">{{timer.periodInMinutes}}</td>
     <td width="200px">{{timer.scheduledTime | date:'medium'}}</td>
     <td width="400px" align="center">
-      <button class="btn-info" ng-click="fire(timer)">{{'TIMERS-fire-now-btn'|translate}}</button>
-      <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 1)">{{'TIMERS-debug-fireeveryminute-btn'|translate}}</button>
-      <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 60*48)">{{'TIMERS-debug-fireevery2days-btn'|translate}}</button>
+      <button class="btn-info" ng-click="fire(timer)">{{'TIMERS/fire-now/btn'|translate}}</button>
+      <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 1)">{{'TIMERS/debug-fire-every-minute/btn'|translate}}</button>
+      <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 60*48)">{{'TIMERS/debug-fire-every-2-days/btn'|translate}}</button>
     </td>
   </tr>
 </table>
