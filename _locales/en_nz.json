@@ -1,10 +1,3 @@
 {
-    "LOCALE": "English (New Zealand)",
-    "HOMESERIES/addshow-add-to-list/tooltip": "Add series to your favourites list ",
-    "HOMESERIES/addshow-protip/lbl": "Pro Tip: Hit [return] to add the first search result to your favourites",
-    "HOMESERIES/addshow-return-to-fav-list/tooltip": "Click to return to your favourites list",
-    "HOMESERIES/addshow-start-typing/lbl": "Start typing to search for shows to add to your favourites list",
-    "HOMESERIES/addshow-type-series-name/placeholder": "Type a series name to add to your favourites",
-    "HOMESERIES/addtrending-add-to-list/tooltip": "Add trending series to your favourites list ",
-    "SERIEDETAILS/delete-serie/btn": "Remove from favourites"
+    "LOCALE": "English (New Zealand)"
 }
