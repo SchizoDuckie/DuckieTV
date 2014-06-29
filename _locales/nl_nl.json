@@ -145,6 +145,7 @@
     "HOMESERIES/addshow-show/glyph": "TV-Serie toevoegen",
     "HOMESERIES/addshow-start-typing/lbl": "Start met typen om een TV-Show te zoeken om toe te voegen aan favorieten lijst",
     "HOMESERIES/addshow-type-series-name/placeholder": "Type de naam van een serie hier",
+    "HOMESERIES/addtrending-add-to-list/tooltip": "Add trending series to your favourites list ",
     "HOMESERIES/addtrending-help-click-to-hide/hdr": "Click 'Hide trending shows' to go back to your favorites list",
     "HOMESERIES/addtrending-help-click-to-show/hdr": "Click a show to add it to your favorites",
     "HOMESERIES/addtrending-help-please-wait/hdr": "Please wait while loading Trakt.TV's Trending TV-Shows list",
