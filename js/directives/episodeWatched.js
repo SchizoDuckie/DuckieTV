@@ -14,9 +14,9 @@ angular.module('DuckieTV.directives.episodewatched', [])
 
             $scope.getToolTip = function() {
                 return $scope.episode.get('watched') == 1 ?
-                    $filter('translate')('EPISODEWATCHED_JS-is-marked-lbl') +
+                    $filter('translate')('EPISODEWATCHEDjs/is-marked/lbl') +
                         $filter('date')(new Date($scope.episode.get('watchedAt')), 'medium') :
-                    $filter('translate')('EPISODEWATCHED_JS-not-marked-lbl');
+                    $filter('translate')('EPISODEWATCHEDjs/not-marked/lbl');
             }
             $scope.markWatched = function() {
 

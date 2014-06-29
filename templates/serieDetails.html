@@ -1,8 +1,8 @@
 <div class="table table-condensed light" style='margin-bottom:0; margin-top:20px; position:relative;'>
   <div ng-transclude></div>
   <div ng-if="seasons">
-    <h2 style='border-bottom: 1px solid white; padding:5px;'>{{'SERIEDETAILS-seasons-hdr'|translate}}
-      <small style='float:right'>{{'SERIEDETAILS-clicktosee-lbl'|translate}}</small>
+    <h2 style='border-bottom: 1px solid white; padding:5px;'>{{'SERIEDETAILS/seasons/hdr'|translate}}
+      <small style='float:right'>{{'SERIEDETAILS/click-to-see/lbl'|translate}}</small>
     </h2>
     <div style='text-align: center; overflow-x: auto; height: 280px; overflow-y: hidden; white-space: nowrap;'>
       <div class='season' ng-repeat="season in seasons" style="display:inline-block; padding:10px; cursor:pointer">
@@ -13,9 +13,9 @@
       </div>
     </div>
 	<div>
-    <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>{{'SERIEDETAILS-episoderatings-hdr'|translate}}</h2>
+    <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>{{'SERIEDETAILS/episode-ratings/hdr'|translate}}</h2>
       <div class="chart">
-        <div class="chartLine" ng-repeat="p in points track by $index" ng-style="{ height: p.y + '%', left: ((100 / points.length) * $index) + '%',  width: (100 / points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}"></div>
+        <div class="chartLine" ng-repeat="p in points track by $index" ng-style="{ height: p.y + '%', left: ((100 / points.length) * $index) + '%',  width: (100 / points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr/tooltip="{{p.label}}"></div>
       </div>
   </div>
   </div>
@@ -27,15 +27,15 @@
   <table class="table table-condensed light">
     <tbody>
       <tr>
-        <th>{{'SERIEDETAILS-airson-hdr'|translate}}</th>
+        <th>{{'SERIEDETAILS/airs-on/hdr'|translate}}</th>
         <td>{{serie.airs_dayofweek}} {{serie.airs_time}}</td>
       </tr>
       <tr>
-        <th>{{'SERIEDETAILS-firstaired-hdr'|translate}}</th>
+        <th>{{'SERIEDETAILS/first-aired/hdr'|translate}}</th>
         <td>{{ serie.firstaired | date:'medium' }}</td>
       </tr>
       <tr>
-        <th>{{'SERIEDETAILS-genre-hdr'|translate}}</th>
+        <th>{{'SERIEDETAILS/genre/hdr'|translate}}</th>
         <td>
           <ul class="list-unstyled">
             <li ng-repeat="genre in serie.genre.split('|') track by $index">{{genre}}</li>
@@ -43,31 +43,31 @@
         </td>
       </tr>
       <tr>
-        <th>{{'SERIEDETAILS-content-rating-hdr'|translate}}</th>
+        <th>{{'SERIEDETAILS/content-rating/hdr'|translate}}</th>
         <td>{{serie.contentrating}}</td>
       </tr>
       <tr>
-        <th>{{'SERIEDETAILS-country-hdr'|translate}}</th>
+        <th>{{'SERIEDETAILS/country/hdr'|translate}}</th>
         <td>{{serie.language}}</td>
       </tr>
       <tr>
-        <th>{{'SERIEDETAILS-network-hdr'|translate}}</th>
+        <th>{{'SERIEDETAILS/network/hdr'|translate}}</th>
         <td>{{serie.network}}</td>
       </tr>
       <tr>
-        <th>{{'SERIEDETAILS-rating-hdr'|translate}}</th>
-        <td>{{serie.rating}} ({{serie.ratingcount}} {{'SERIEDETAILS-votes-lbl'|translate}})</td>
+        <th>{{'SERIEDETAILS/rating/hdr'|translate}}</th>
+        <td>{{serie.rating}} ({{serie.ratingcount}} {{'SERIEDETAILS/votes/lbl'|translate}})</td>
       </tr>
       <tr>
-        <th>{{'SERIEDETAILS-runtime-hrd'|translate}}</th>
-        <td>{{serie.runtime}} {{'SERIEDETAILS-minutes-lbl'|translate}}</td>
+        <th>{{'SERIEDETAILS/run-time/hdr'|translate}}</th>
+        <td>{{serie.runtime}} {{'SERIEDETAILS/minutes/lbl'|translate}}</td>
       </tr>
       <tr>
-        <th>{{'SERIEDETAILS-status-hrd'|translate}}</th>
+        <th>{{'SERIEDETAILS/status/hdr'|translate}}</th>
         <td>{{serie.status}}</td>
       </tr>
       <tr ng-if="serie.actors.length > 0  " >
-        <th>{{'SERIEDETAILS-actors-hdr'|translate}}</th>
+        <th>{{'SERIEDETAILS/actors/hdr'|translate}}</th>
         <td>
           <ul class="list-unstyled">
             <li ng-repeat="actors in serie.actors.split('|') track by $index">{{actors}}</li>
@@ -76,7 +76,7 @@
       </tr>
      <tr>
         <th colspan='2' style='text-align:center'>
-          <button class="btn btn-danger" ng-click="removeFromFavorites(serie)">{{'SERIEDETAILS-delete-serie-btn'|translate}}</button>
+          <button class="btn btn-danger" ng-click="removeFromFavorites(serie)">{{'SERIEDETAILS/delete-serie/btn'|translate}}</button>
         </th>
       </tr>
     </tbody>

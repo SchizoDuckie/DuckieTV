@@ -12,8 +12,8 @@ angular.module('dialogs.controllers',['ui.bootstrap.modal'])
 	.controller('errorDialogCtrl',['$scope','$filter','$modalInstance','header','msg',function($scope,$filter,$modalInstance,header,msg){
 		//-- Variables -----//
 		
-		$scope.header = (angular.isDefined(header)) ? header : $filter('translate')('DIALOGS_JS-error-hdr');
-		$scope.msg = (angular.isDefined(msg)) ? msg : $filter('translate')('DIALOGS_JS-error-msg');
+		$scope.header = (angular.isDefined(header)) ? header : $filter('translate')('DIALOGSjs/error/hdr');
+		$scope.msg = (angular.isDefined(msg)) ? msg : $filter('translate')('DIALOGSjs/error/msg');
 		
 		//-- Methods -----//
 		
@@ -29,8 +29,8 @@ angular.module('dialogs.controllers',['ui.bootstrap.modal'])
 	.controller('waitDialogCtrl',['$scope','$filter','$modalInstance','$timeout','header','msg','progress',function($scope,$filter,$modalInstance,$timeout,header,msg,progress){
 		//-- Variables -----//
 		
-		$scope.header = (angular.isDefined(header)) ? header : $filter('translate')('DIALOGS_JS-wait-hdr');
-		$scope.msg = (angular.isDefined(msg)) ? msg : $filter('translate')('DIALOGS_JS-wait-msg');
+		$scope.header = (angular.isDefined(header)) ? header : $filter('translate')('DIALOGSjs/wait/hdr');
+		$scope.msg = (angular.isDefined(msg)) ? msg : $filter('translate')('DIALOGSjs/wait/msg');
 		$scope.progress = (angular.isDefined(progress)) ? progress : 100;
 		
 		//-- Listeners -----//
@@ -66,8 +66,8 @@ angular.module('dialogs.controllers',['ui.bootstrap.modal'])
 	.controller('notifyDialogCtrl',['$scope','$filter','$modalInstance','header','msg',function($scope,$filter,$modalInstance,header,msg){
 		//-- Variables -----//
 		
-		$scope.header = (angular.isDefined(header)) ? header : $filter('translate')('DIALOGS_JS-notify-hdr');
-		$scope.msg = (angular.isDefined(msg)) ? msg : $filter('translate')('DIALOGS_JS-notify-msg');
+		$scope.header = (angular.isDefined(header)) ? header : $filter('translate')('DIALOGSjs/notify/hdr');
+		$scope.msg = (angular.isDefined(msg)) ? msg : $filter('translate')('DIALOGSjs/notify/msg');
 		
 		//-- Methods -----//
 		
@@ -83,8 +83,8 @@ angular.module('dialogs.controllers',['ui.bootstrap.modal'])
 	.controller('confirmDialogCtrl',['$scope','$filter','$modalInstance','header','msg',function($scope,$filter,$modalInstance,header,msg){
 		//-- Variables -----//
 		
-		$scope.header = (angular.isDefined(header)) ? header : $filter('translate')('DIALOGS_JS-confirm-hdr');
-		$scope.msg = (angular.isDefined(msg)) ? msg : $filter('translate')('DIALOGS_JS-confirm-msg');
+		$scope.header = (angular.isDefined(header)) ? header : $filter('translate')('DIALOGSjs/confirm/hdr');
+		$scope.msg = (angular.isDefined(msg)) ? msg : $filter('translate')('DIALOGSjs/confirm/msg');
 		
 		//-- Methods -----//
 		
@@ -190,10 +190,10 @@ angular.module('dialogs',['dialogs.services','ngSanitize']) // requires angular-
     var startSym = $interpolate.startSymbol();
     var endSym = $interpolate.endSymbol();
          
-		$templateCache.put('/dialogs/error.html','<div class="modal-header dialog-header-error"><button type="button" class="close" ng-click="close()">&times;</button><h4 class="modal-title text-danger"><span class="glyphicon glyphicon-warning-sign"></span> <span ng-bind-html="header"></span></h4></div><div class="modal-body text-danger" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="close()"><translate>DIALOGS_JS-close-btn</translate></button></div>');
+		$templateCache.put('/dialogs/error.html','<div class="modal-header dialog-header-error"><button type="button" class="close" ng-click="close()">&times;</button><h4 class="modal-title text-danger"><span class="glyphicon glyphicon-warning-sign"></span> <span ng-bind-html="header"></span></h4></div><div class="modal-body text-danger" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="close()"><translate>DIALOGSjs/close/btn</translate></button></div>');
 		$templateCache.put('/dialogs/wait.html','<div class="modal-header dialog-header-wait"><h4 class="modal-title"><span class="glyphicon glyphicon-time"></span> Please Wait</h4></div><div class="modal-body"><p ng-bind-html="msg"></p><div class="progress progress-striped active"><div class="progress-bar progress-bar-info" ng-style="getProgress()"></div><span class="sr-only">'+startSym+'progress'+endSym+'% Complete</span></div></div>');
-		$templateCache.put('/dialogs/notify.html','<div class="modal-header dialog-header-notify"><button type="button" class="close" ng-click="close()" class="pull-right">&times;</button><h4 class="modal-title text-info"><span class="glyphicon glyphicon-info-sign"></span> '+startSym+'header'+endSym+'</h4></div><div class="modal-body text-info" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-primary" ng-click="close()"><translate>DIALOGS_JS-ok-btn</translate></button></div>');
-		$templateCache.put('/dialogs/confirm.html','<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="no()">&times;</button><h4 class="modal-title"><span class="glyphicon glyphicon-check"></span> '+startSym+'header'+endSym+'</h4></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="yes()"><translate>DIALOGS_JS-yes-btn</translate></button><button type="button" class="btn btn-primary" ng-click="no()"><translate>DIALOGS_JS-no-btn</translate></button></div>');
+		$templateCache.put('/dialogs/notify.html','<div class="modal-header dialog-header-notify"><button type="button" class="close" ng-click="close()" class="pull-right">&times;</button><h4 class="modal-title text-info"><span class="glyphicon glyphicon-info-sign"></span> '+startSym+'header'+endSym+'</h4></div><div class="modal-body text-info" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-primary" ng-click="close()"><translate>DIALOGSjs/ok/btn</translate></button></div>');
+		$templateCache.put('/dialogs/confirm.html','<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="no()">&times;</button><h4 class="modal-title"><span class="glyphicon glyphicon-check"></span> '+startSym+'header'+endSym+'</h4></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="yes()"><translate>DIALOGSjs/yes/btn</translate></button><button type="button" class="btn btn-primary" ng-click="no()"><translate>DIALOGSjs/no/btn</translate></button></div>');
 	}]); // end run / dialogs
 	
 	
