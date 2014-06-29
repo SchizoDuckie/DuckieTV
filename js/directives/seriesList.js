@@ -138,9 +138,11 @@ angular.module('DuckieTV.directives.serieslist', [])
                 $scope.searchingForSerie = false;
                 $scope.search.query = undefined;
                 $scope.search.results = null;
+                $scope.adding[serie.tvdb_id] = true;
                 TraktTV.enableBatchMode().findSerieByTVDBID(serie.tvdb_id).then(function(serie) {
                     FavoritesService.addFavorite(serie).then(function() {
                         $rootScope.$broadcast('storage:update');
+                        $scope.adding[serie.tvdb_id] = false;
                     });
                 });
                 $scope.selected = '';
@@ -150,6 +152,11 @@ angular.module('DuckieTV.directives.serieslist', [])
                 return FavoritesService.hasFavorite(tvdb_id.toString());
             }
 
+            $scope.isAdding = function(tvdb_id) {
+                return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === true))
+            }
+
+            $scope.adding = {};
             $scope.favorites = [];
             $scope.searchEngine = 1;
 

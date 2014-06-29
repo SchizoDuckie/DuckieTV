@@ -102,7 +102,6 @@ angular.module('DuckieTV.providers.favorites', [])
                         service.favorites.push(serie.asObject());
                     } else {
                         service.favorites.map(function(el, index) {
-
                             if (el.TVDB_ID == serie.get('TVDB_ID')) {
                                 service.favorites[index] = serie.asObject();
                             }
@@ -114,8 +113,11 @@ angular.module('DuckieTV.providers.favorites', [])
                         $rootScope.$broadcast('episodes:updated');
                         d.resolve(result);
                     }, function(err) {
+                        console.log("Errorr updating episodes!");
+                        debugger;
                         d.reject(err);
                     }, function(notify) {
+                        debugger;
                         console.log('Service update episodes progress notification event for ', serie, notify);
                     });
                 });
@@ -186,8 +188,10 @@ angular.module('DuckieTV.providers.favorites', [])
                                 if (Object.keys(e.changedValues).length > 0) { // if the dbObject is dirty, we wait for the persist to resolve 
                                     e.Persist().then(function(res) {
                                         updatedEpisodes++;
-                                        console.log("Episode saved: ", e.getFormattedEpisode(), totalEpisodes, updatedEpisodes);
-                                        if (updatedEpisodes == totalEpisodes) { // when all episodes were done, resolve the promise.
+                                        if (updatedEpisodes == totalEpisodes) { // when all episodes are done, resolve the promise.
+                                            if (service.favoriteIDs.indexOf(serie.get('TVDB_ID')) == -1) {
+                                                service.favoriteIDs.push(serie.get('TVDB_ID'));
+                                            }
                                             p.resolve();
                                         }
                                         cache[episode.tvdb_id] = null;
@@ -202,6 +206,9 @@ angular.module('DuckieTV.providers.favorites', [])
                                     cache[episode.tvdb_id] = null;
                                     episode = null;
                                     if (updatedEpisodes == totalEpisodes) { // when all episodes are done, resolve the promise.
+                                        if (service.favoriteIDs.indexOf(serie.get('TVDB_ID')) == -1) {
+                                            service.favoriteIDs.push(serie.get('TVDB_ID'));
+                                        }
                                         p.resolve();
                                     }
                                 }
@@ -246,7 +253,9 @@ angular.module('DuckieTV.providers.favorites', [])
             });
         },
         hasFavorite: function(id) {
-            return service.favoriteIDs.indexOf(id) > -1;
+            return service.favorites.filter(function(el) {
+                return el.TVDB_ID.toString() == id.toString();
+            }).length > 0;
         },
         /**
          * Remove a serie, it's seasons, it's episodes and it's timers from the database.

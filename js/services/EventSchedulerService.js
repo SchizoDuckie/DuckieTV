@@ -29,12 +29,12 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
             },
             getAll: function() {
                 var p = $q.defer();
-                if('chrome' in window && 'alarms' in window.chrome) {
-	                chrome.alarms.getAll(function(result) {
-	                    p.resolve(result);
-	                });
-                } else { 
-                	p.resolve([])
+                if ('chrome' in window && 'alarms' in window.chrome) {
+                    chrome.alarms.getAll(function(result) {
+                        p.resolve(result);
+                    });
+                } else {
+                    p.resolve([])
                 }
                 return p.promise;
             },
@@ -60,10 +60,12 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                     } else {
                         createEvent(name, 'interval', eventChannel, data);
                     }
-                    chrome.alarms.create(name, {
-                        periodInMinutes: periodInMinutes
-                    });
-                    $rootScope.$broadcast('timer:created');
+                    if ('chrome' in window && 'alarms' in window.chrome) {
+                        chrome.alarms.create(name, {
+                            periodInMinutes: periodInMinutes
+                        });
+                        $rootScope.$broadcast('timer:created');
+                    }
 
                 })
 
