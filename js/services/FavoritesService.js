@@ -109,12 +109,14 @@ angular.module('DuckieTV.providers.favorites', [])
                         })
                     }
                     $rootScope.$broadcast('background:load', serie.get('fanart'));
-                    $rootScope.$broadcast('favorites:updated');
 
                     service.updateEpisodes(serie, data.seasons, watched).then(function(result) {
+                        $rootScope.$broadcast('episodes:updated');
                         d.resolve(result);
                     }, function(err) {
                         d.reject(err);
+                    }, function(notify) {
+                        console.log('Service update episodes progress notification event for ', serie, notify);
                     });
                 });
             });
@@ -133,12 +135,18 @@ angular.module('DuckieTV.providers.favorites', [])
 
             var seasonCache = {};
             var p = $q.defer();
+            var totalEpisodes = 0;
+            var updatedEpisodes = 0;
+            seasons.map(function(s) { // keep track of the total number of episodes for all seasons, so that we know when all promises have finished.
+                totalEpisodes += s.episodes.length;
+            });
             serie.getSeasons().then(function(sea) { // fetch the seasons and cache them by number.
                 sea.map(function(el) {
                     seasonCache[el.get('seasonnumber')] = el;
                 })
 
             }).then(function() {
+
                 serie.getEpisodes().then(function(data) { // then fetch the episodes and put them in a big cache object
                     var cache = {};
 
@@ -164,8 +172,6 @@ angular.module('DuckieTV.providers.favorites', [])
                                 var e = (!(episode.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
                                 fillEpisode(e, episode);
                                 e.set('seasonnumber', season.season);
-
-
                                 e.set('ID_Serie', serie.getID());
                                 e.set('ID_Season', SE.getID());
                                 // if there's an entry for the episode in watchedEpisodes, this is a backup restore
@@ -177,19 +183,27 @@ angular.module('DuckieTV.providers.favorites', [])
                                     e.set('watchedAt', watchedEpisodes[0].watchedAt);
                                 }
                                 // save the changes and fee some memory, or do it immediately if there's no promise to wait for
-                                if (Object.keys(e.changedValues).length > 0) {
+                                if (Object.keys(e.changedValues).length > 0) { // if the dbObject is dirty, we wait for the persist to resolve 
                                     e.Persist().then(function(res) {
-                                        console.log("Episode saved: ", e.getFormattedEpisode());
+                                        updatedEpisodes++;
+                                        console.log("Episode saved: ", e.getFormattedEpisode(), totalEpisodes, updatedEpisodes);
+                                        if (updatedEpisodes == totalEpisodes) { // when all episodes were done, resolve the promise.
+                                            p.resolve();
+                                        }
                                         cache[episode.tvdb_id] = null;
                                         e = null;
                                         episode = null;
                                     }, function(err) {
                                         console.error("PERSIST ERROR!", err);
                                     });
-                                } else {
+                                } else { // nothing has changed here, update the counter and continue or resolve.
+                                    updatedEpisodes++;
                                     e = null;
-                                    episode = null;
                                     cache[episode.tvdb_id] = null;
+                                    episode = null;
+                                    if (updatedEpisodes == totalEpisodes) { // when all episodes are done, resolve the promise.
+                                        p.resolve();
+                                    }
                                 }
                             });
                             SE.episodes = null;
@@ -198,7 +212,6 @@ angular.module('DuckieTV.providers.favorites', [])
                             season = null;
                         });
                     })
-                    p.resolve(); // all seasons were iterated, finalize the promise
                 })
 
             });
@@ -247,24 +260,25 @@ angular.module('DuckieTV.providers.favorites', [])
                         el.Delete();
                     });
                 });
-                s.Find('Episode').then(function(episodes) {
-                    episodes.map(function(el) {
-                        el.Delete();
-                    });
-                    console.log("Found episodes for removal of serie!", episodes);
-                    s.Delete().then(function() {
-                        $rootScope.$broadcast('storage:update');
-                        service.restore()
-                    });
+                CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ' + serie.ID_Serie).then(function() {
+                    s.Delete();
+
+                    setTimeout(function() {
+                        $rootScope.$broadcast('calendar:clearcache');
+                        service.restore();
+                    }.bind(this), 200);
                 });
-            })
-            CRUD.FindOne('ScheduledEvent', {
-                name: serie.name + ' update check'
-            }).then(function(timer) {
-                timer.Delete();
-                console.log('deleted timer record');
+
+
+                CRUD.FindOne('ScheduledEvent', {
+                    name: serie.name + ' update check'
+                }).then(function(timer) {
+                    if (timer) {
+                        timer.Delete();
+                    }
+                });
+                chrome.alarms.clear(serie.name + ' update check');
             });
-            chrome.alarms.clear(serie.name + ' update check');
         },
         /** 
          * Fetch all the series asynchronously and return them as POJO's

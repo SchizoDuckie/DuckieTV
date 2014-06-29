@@ -44,6 +44,20 @@ CRUD.Find('Season', {}, {'limit': 10000}).then(function(elements) {
 	})
 });
 
+##Clear episodes that were not properly deleted due to too narrow limit clause in favoritesservice.remove function
+
+var serieIds = []; 
+
+CRUD.EntityManager.getAdapter().db.execute('select distinct(ID_Serie) from Series').then(function(res) {
+	while(r = res.next()) { 
+		serieIds.push(r.row.ID_Serie) 
+	} 
+
+	CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie not in ('+serieIds.join(',')+') ').then(function(res) {
+		console.log('done!', res.rs.rowsAffected, 'items deleted!') 
+	}); 
+
+});
 
 
 `` 
