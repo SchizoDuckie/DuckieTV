@@ -116,7 +116,7 @@ angular.module('DuckieTV', [
      * setup path to the translation table files
      * example ../_Locales/en_us.json
      */
-     
+
     .useStaticFilesLoader({
         prefix: '_locales/',
         suffix: '.json'
@@ -128,10 +128,9 @@ angular.module('DuckieTV', [
      */
      
     .registerAvailableLanguageKeys([
-        'en_nz', 'en_uk', 'en_us', 'nl_nl'
+        'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl'
     ], {
-        'en_au': 'en_nz',
-        'en_ca': 'en_nz',
+        'en_ca': 'en_uk',
         'en_gb': 'en_uk'
     })
 
@@ -139,13 +138,13 @@ angular.module('DuckieTV', [
      * if we cant find a match then use these languages
      */
 
-    .fallbackLanguage('en_us','en_uk', 'en_us')
+    .fallbackLanguage(['en_uk', 'en_us'])
     
     /*
-     * default to using English (Unites States)
+     * default language
      */
-     
-     .preferredLanguage('en_us')
+    
+    .preferredLanguage('en_us')
     
     /*
      * determine the local language
@@ -208,16 +207,26 @@ angular.module('DuckieTV', [
    /*
     * dynamic fallback based on locale
     */
-    $rootScope.changeLanguage = function (langKey) {
+    $rootScope.changeLanguage = function(langKey) {
         langKey = langKey || 'en_us';
-        var fallBack = 'en_us';
-        if (langKey === 'en_nz') {
-            fallBack = 'en_uk';
+        var locale = 'en_us';
+        switch (langKey) {
+            case 'en_au':
+            case 'en_nz':
+                locale = langKey;
+                langKey = 'en_uk';
+            break;
+            case 'nl_nl':
+            case 'en_uk':
+                locale = langKey;
+            break;
+            default:
+                langKey = 'en_us';
+                locale = langKey;
         }
-        $translate.useFallbackLanguage(fallBack);
         $translate.use(langKey);
-        tmhDynamicLocale.set(langKey);
-        console.log("Locale being used", $translate.proposedLanguage());
+        tmhDynamicLocale.set(locale);
+        console.log("Language used", $translate.proposedLanguage(), "; Locale used", locale );
     }; 
 
  
@@ -226,6 +235,7 @@ angular.module('DuckieTV', [
      * but remember the determination, it's used as an option in the locale settings page
      */
     $rootScope.determinedLocale = $rootScope.determinedLocale || $translate.proposedLanguage();
+    console.log("determined Locale",$rootScope.determinedLocale);
     $rootScope.changeLanguage(SettingsService.get('locale'));
 
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
