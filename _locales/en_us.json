@@ -121,6 +121,7 @@
     "DISPLAY/locale/alert": "Select one of the following Locales to override the default.",
     "DISPLAY/locale/hdr": "Locale",
     "DISPLAY/locale/nl": "nl_nl Dutch (The Netherlands)",
+    "DISPLAY/locale/au": "en_au English (Australia)",
     "DISPLAY/locale/nz": "en_nz English (New Zealand)",
     "DISPLAY/locale/uk": "en_uk English (United Kingdom)",
     "DISPLAY/locale/us": "en_us English (United States)",

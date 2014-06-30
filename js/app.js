@@ -109,25 +109,43 @@ angular.module('DuckieTV', [
  * Translation configuration.
  */
 .config(function($translateProvider) {
+
+    $translateProvider
+
     /*
      * setup path to the translation table files
-     * example ../Locale-en_us.json
+     * example ../_Locales/en_us.json
      */
-    $translateProvider.useStaticFilesLoader({
+
+    .useStaticFilesLoader({
         prefix: '_locales/',
         suffix: '.json'
-    });
+    })
 
-    // help the determinePreferredLanguage module match a find with one of our provided languages
-    $translateProvider.registerAvailableLanguageKeys([
-        'en_nz', 'en_uk', 'en_us', 'nl_nl'
+    /*
+     * help the determinePreferredLanguage module match a find 
+     * with one of our provided languages
+     */
+     
+    .registerAvailableLanguageKeys([
+        'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl'
     ], {
-        'en_au': 'en_nz',
-        'en_ca': 'en_nz',
+        'en_ca': 'en_uk',
         'en_gb': 'en_uk'
-    });
-    // if we cant find a match then use this language
-    $translateProvider.fallbackLanguage('en_us');
+    })
+
+    /*
+     * if we cant find a match then use these languages
+     */
+
+    .fallbackLanguage(['en_uk', 'en_us'])
+    
+    /*
+     * default language
+     */
+    
+    .preferredLanguage('en_us')
+    
     /*
      * determine the local language
      *
@@ -142,9 +160,11 @@ angular.module('DuckieTV', [
      * if it becomes problematic, use $translateProvider.preferredLanguage('en_us'); here to set a default
      * or $translate.use('en_us'); in a controller or service.
      */
-    $translateProvider.determinePreferredLanguage();
-    // error handling. missing keys are sent to $log
-    //$translateProvider.useMissingTranslationHandlerLog();
+
+    .determinePreferredLanguage();
+    
+     // error handling. missing keys are sent to $log
+     //$translateProvider.useMissingTranslationHandlerLog();
 
 })
 /**
@@ -183,14 +203,40 @@ angular.module('DuckieTV', [
 
 .run(function($rootScope, SettingsService, StorageSyncService, MigrationService, datePickerConfig, $translate, tmhDynamicLocale) {
 
+ 
+   /*
+    * dynamic fallback based on locale
+    */
+    $rootScope.changeLanguage = function(langKey) {
+        langKey = langKey || 'en_us';
+        var locale = 'en_us';
+        switch (langKey) {
+            case 'en_au':
+            case 'en_nz':
+                locale = langKey;
+                langKey = 'en_uk';
+            break;
+            case 'nl_nl':
+            case 'en_uk':
+                locale = langKey;
+            break;
+            default:
+                langKey = 'en_us';
+                locale = langKey;
+        }
+        $translate.use(langKey);
+        tmhDynamicLocale.set(locale);
+        console.log("Language used", $translate.proposedLanguage(), "; Locale used", locale );
+    }; 
+
+ 
     /*
      * if the user has previously set the locale, over-ride the determinePreferredLanguage proposed id
      * but remember the determination, it's used as an option in the locale settings page
      */
     $rootScope.determinedLocale = $rootScope.determinedLocale || $translate.proposedLanguage();
-    $translate.use(SettingsService.get('locale'));
-    tmhDynamicLocale.set($translate.proposedLanguage());
-    console.log("Locale being used", $translate.proposedLanguage());
+    console.log("determined Locale",$rootScope.determinedLocale);
+    $rootScope.changeLanguage(SettingsService.get('locale'));
 
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 

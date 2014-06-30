@@ -34,8 +34,7 @@
              $rootScope.setSetting('locale', id);
              $scope.locale = id;
              // load and activate replacement translation table 
-             $translate.use(id);
-             tmhDynamicLocale.set(id);
+             $rootScope.changeLanguage(id);
          }
 
          $scope.setSearchProvider = function(provider) {
