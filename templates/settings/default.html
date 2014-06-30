@@ -16,6 +16,12 @@
 
       <h3>{{'DEFAULT/import/hdr'|translate}}</h3>
       <div file-input="file" on-change="restore()"></div>
+      <div>
+        <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" mode="poster">
+          <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+          <em class="earmark" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif"></em>
+        </serieHeader>
+      </div>
       <p ng-show="log.length > 0">
         {{'DEFAULT/import/desc'|translate}}
         <ul style='max-height:150px; overflow-y:auto;'>

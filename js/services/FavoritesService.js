@@ -111,7 +111,7 @@ angular.module('DuckieTV.providers.favorites', [])
 
                     service.updateEpisodes(serie, data.seasons, watched).then(function(result) {
                         $rootScope.$broadcast('episodes:updated');
-                        d.resolve(result);
+                        d.resolve(serie);
                     }, function(err) {
                         console.log("Errorr updating episodes!");
                         debugger;
