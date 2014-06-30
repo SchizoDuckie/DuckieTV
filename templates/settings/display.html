@@ -39,6 +39,10 @@
           <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'nl_nl', 'glyphicon-record': locale == 'nl_nl'}"></i>
           {{'DISPLAY/locale/nl'|translate}}
         </li>
+        <li ng-click="setLocale('en_au')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_au', 'glyphicon-record': locale == 'en_au'}"></i>
+          {{'DISPLAY/locale/au'|translate}}
+        </li>
         <li ng-click="setLocale('en_nz')" style='cursor:pointer'>
           <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_nz', 'glyphicon-record': locale == 'en_nz'}"></i>
           {{'DISPLAY/locale/nz'|translate}}
