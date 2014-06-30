@@ -123,10 +123,10 @@ angular.module('DuckieTV', [
     })
 
     /*
-     * help the determinePreferredLanguage module match a find 
+     * help the determinePreferredLanguage module match a find
      * with one of our provided languages
      */
-     
+
     .registerAvailableLanguageKeys([
         'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl'
     ], {
@@ -139,13 +139,13 @@ angular.module('DuckieTV', [
      */
 
     .fallbackLanguage(['en_uk', 'en_us'])
-    
+
     /*
      * default language
      */
-    
+
     .preferredLanguage('en_us')
-    
+
     /*
      * determine the local language
      *
@@ -162,9 +162,9 @@ angular.module('DuckieTV', [
      */
 
     .determinePreferredLanguage();
-    
-     // error handling. missing keys are sent to $log
-     //$translateProvider.useMissingTranslationHandlerLog();
+
+    // error handling. missing keys are sent to $log
+    //$translateProvider.useMissingTranslationHandlerLog();
 
 })
 /**
@@ -203,10 +203,10 @@ angular.module('DuckieTV', [
 
 .run(function($rootScope, SettingsService, StorageSyncService, MigrationService, datePickerConfig, $translate, tmhDynamicLocale) {
 
- 
-   /*
-    * dynamic fallback based on locale
-    */
+
+    /*
+     * dynamic fallback based on locale
+     */
     $rootScope.changeLanguage = function(langKey) {
         langKey = langKey || 'en_us';
         var locale = 'en_us';
@@ -215,34 +215,34 @@ angular.module('DuckieTV', [
             case 'en_nz':
                 locale = langKey;
                 langKey = 'en_uk';
-            break;
+                break;
             case 'nl_nl':
             case 'en_uk':
                 locale = langKey;
-            break;
+                break;
             default:
                 langKey = 'en_us';
                 locale = langKey;
         }
         $translate.use(langKey);
         tmhDynamicLocale.set(locale);
-        console.log("Language used", $translate.proposedLanguage(), "; Locale used", locale );
-    }; 
+        console.log("Language used", $translate.proposedLanguage(), "; Locale used", locale);
+    };
 
- 
+
     /*
      * if the user has previously set the locale, over-ride the determinePreferredLanguage proposed id
      * but remember the determination, it's used as an option in the locale settings page
      */
     $rootScope.determinedLocale = $rootScope.determinedLocale || $translate.proposedLanguage();
-    console.log("determined Locale",$rootScope.determinedLocale);
+    console.log("determined Locale", $rootScope.determinedLocale);
     $rootScope.changeLanguage(SettingsService.get('locale'));
 
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
     $rootScope.getSetting = function(key) {
         if (key == 'cast.supported') {
-            return ('cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability);
+            return ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability);
         }
         return SettingsService.get(key);
     };
@@ -281,9 +281,11 @@ angular.module('DuckieTV', [
     MigrationService.check();
 
     // delay loading of chromecast because it's creating a load delay in the rest of the scripts.
-    setTimeout(function() {
-        var s = document.createElement('script');
-        s.src = './js/vendor/cast_sender.js';
-        document.body.appendChild(s);
-    }, 5000);
+    if ('chrome' in window && navigator.vendor.indexOf('Google') > -1) {
+        setTimeout(function() {
+            var s = document.createElement('script');
+            s.src = './js/vendor/cast_sender.js';
+            document.body.appendChild(s);
+        }, 5000);
+    }
 })

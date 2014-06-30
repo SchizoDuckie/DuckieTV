@@ -14,11 +14,12 @@ angular.module('DuckieTV.directives.backgroundrotator', [])
         scope: {
             channel: '='
         },
-        template: ["<div ng-style=\"{backgroundImage: bg1 ? 'url(http://ir0.mobify.com/webp/'+bg1+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg1on ? 1 : 0}\"></div>",
-            "<div ng-style=\"{backgroundImage: bg2 ? 'url(http://ir0.mobify.com/webp/'+bg2+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg2on ? 1 : 0}\"></div>"
+
+        template: ["<div ng-style=\"{backgroundImage: bg1 ? 'url(http://ir0.mobify.com/'+format+'/'+bg1+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg1on ? 1 : 0}\"></div>",
+            "<div ng-style=\"{backgroundImage: bg2 ? 'url(http://ir0.mobify.com/'+format+'/'+bg2+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg2on ? 1 : 0}\"></div>"
         ].join(''),
         link: function($scope, $attr) {
-
+            $scope.format = ('chrome' in window) ? 'webp' : 'png';
             $scope.bg1 = false;
             $scope.bg2 = false;
             $scope.bg1on = false;

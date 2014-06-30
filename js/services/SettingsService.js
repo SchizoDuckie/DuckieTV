@@ -44,7 +44,7 @@ angular.module('DuckieTV.providers.settings', ['DuckieTV.directives.calendar'])
          */
         restore: function() {
             if (!localStorage.getItem('userPreferences')) {
-                service.defaults['topSites.enabled'] = ('topSites' in (window.chrome));
+                service.defaults['topSites.enabled'] = ('chrome' in window && 'topSites' in (window.chrome));
                 service.settings = service.defaults;
             } else {
                 service.settings = angular.fromJson(localStorage.getItem('userPreferences'));
