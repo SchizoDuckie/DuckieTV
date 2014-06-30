@@ -23,7 +23,7 @@
 	  <li style='border-top: 1px solid white; padding-top: 10px; overflow-y: auto; max-height: 270px;'>
   		<h2>{{event.serie}} {{event.episode.getFormattedEpisode()}}</h2>
   		<div ng-if="isOpen" style='float:left; width: 150px; height:85px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{event.episode.get('filename')}}"></div>
-  		<p>{{event.episode.get('firstaired')|date:'medium'}}</p><strong>{{event.episode.get('episodename')}}</strong><p>{{event.episode.get('overview')}}</p> </li>
+  		<strong>{{event.episode.get('episodename')}}</strong><p>{{event.episode.get('overview')}}</p> </li>
     </li>
   </ul>
 
