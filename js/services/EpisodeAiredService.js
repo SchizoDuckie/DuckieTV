@@ -4,15 +4,19 @@ angular.module('DuckieTV.providers.episodeaired', [])
 
     var service = {
         initialize: function() {
-            $rootScope.$on('episode:aired', function(episode) {
-                // fetch services that check for aired episode releases
+            console.log('initializing episode aired checker service!');
+            $rootScope.$on('episode:aired:check', function(episode) {
+                console.log("Episode air check fired");
+                // fetch a list of episodes aired from <configurable period in days in the past> until today that have no magnetLink yet
                 // fetch config for quality
                 // resolve provider to check for download
-                // cancel alarm when needed
+                // if a torrent is found with <configurable amount of seeders minimum> launch it's magnet uri
+                // set the magnetUri on the episode
+                // notify the calendar
 
             });
         }
     }
-    //service.initialize;
+    service.initialize();
     return service;
 });

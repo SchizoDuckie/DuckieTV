@@ -200,7 +200,7 @@ angular.module('DuckieTV', [
 })
 
 
-.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, datePickerConfig, $translate, tmhDynamicLocale) {
+.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, EpisodeAiredService, datePickerConfig, $translate, tmhDynamicLocale) {
 
 
     /*
