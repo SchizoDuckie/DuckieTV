@@ -44,20 +44,23 @@
              name: 'Vendor',
              data: navigator.vendor
          }, {
-             name: 'Locale',
-             data: SettingsService.get('locale')
-         }, {
              name: 'Determined Locale',
              data: $rootScope.determinedLocale
+         }, {
+             name: 'Active Locale',
+             data: SettingsService.get('locale')
+         }, {
+             name: 'Active Language',
+             data: $rootScope.languageInUse
          }, {
              name: 'Screen',
              data: screenSize
          }];
 
-         if ('chrome' in window && 'app' in window.chrome && 'version' in window.chrome.app) {
+         if ('chrome' in window && 'app' in window.chrome && 'version' in window.chrome.app.getDetails()) {
              $scope.statistics.unshift({
-                 name: chrome.app.getDetails().short_name,
-                 data: chrome.app.getDetails().version
+                 name: window.chrome.app.getDetails().short_name,
+                 data: window.chrome.app.getDetails().version
              });
          } else {
              $http({

@@ -162,7 +162,7 @@ angular.module('DuckieTV', [
 
     .determinePreferredLanguage();
 
-    // error handling. missing keys are sent to $log
+    // error logging. missing keys are sent to $log
     //$translateProvider.useMissingTranslationHandlerLog();
 
 })
@@ -225,7 +225,8 @@ angular.module('DuckieTV', [
         }
         $translate.use(langKey);
         tmhDynamicLocale.set(locale);
-        console.log("Language used", $translate.proposedLanguage(), "; Locale used", locale);
+        $rootScope.languageInUse = langKey;
+        console.log("Active Language", langKey, "; Active Locale", locale);
     };
 
 
@@ -234,7 +235,7 @@ angular.module('DuckieTV', [
      * but remember the determination, it's used as an option in the locale settings page
      */
     $rootScope.determinedLocale = $rootScope.determinedLocale || $translate.proposedLanguage();
-    console.log("determined Locale", $rootScope.determinedLocale);
+    console.log("Determined Locale", $rootScope.determinedLocale);
     $rootScope.changeLanguage(SettingsService.get('locale'));
 
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');

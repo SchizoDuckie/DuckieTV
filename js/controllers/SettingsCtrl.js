@@ -30,7 +30,6 @@
          }
 
          $scope.setLocale = function(id) {
-             console.log("Setting locale: ", id);
              $rootScope.setSetting('locale', id);
              $scope.locale = id;
              // load and activate replacement translation table 
