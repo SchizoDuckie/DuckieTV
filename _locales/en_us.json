@@ -136,7 +136,7 @@
     "EVENT/dropdown-mark-as-watched/lbl": " Mark as watched",
     "EVENT/dropdown-marked-watched/lbl": " Marked as watched on ",
     "EVENT/dropdown-series-details/lbl": "Series details",
-    "EVENT/dropdown-utorrent-client/lbl": "&micro;Torrent / Bittorrent client",
+    "EVENT/dropdown-utorrent-client/lbl": "Search for a .torrent/magnet",
     "GOOGLEIMAGESjs/placeholder": "Search IMDB for movies or series",
     "HOMESERIES/addshow-add-to-list/tooltip": "Add series to your favorites list ",
     "HOMESERIES/addshow-first-show/glyph": "Manually search for a TV-Show",
