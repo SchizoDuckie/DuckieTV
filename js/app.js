@@ -52,8 +52,7 @@ angular.module('DuckieTV', [
     'DuckieTV.directives.serieslist',
     'DuckieTV.directives.torrentdialog',
     'DuckieTorrent.controllers',
-    'DuckieTorrent.torrent',
-    'colorpicker.module'
+    'DuckieTorrent.torrent'
 ])
 /**
  * Unsafe HTML entities passthrough.
