@@ -209,6 +209,7 @@
     "TIMERS/delete-all/btn": "Delete all timers",
     "TIMERS/find-missing/btn": "Find missing timers",
     "TIMERS/fire-now/btn": "Fire timer now",
+    "TIMERS/debug-delete-timer/btn": "Delete",
     "TIMERS/timer-firingnext/hdr": "Firing Next",
     "TIMERS/timer-name/hdr": "Name of Timer",
     "TIMERS/timer-period/hdr": "Period In Minutes",

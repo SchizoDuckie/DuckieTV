@@ -3,6 +3,7 @@
   <h2>
     <button ng-click="debug=!debug" class="btn btn-danger btn-xs" style='float:right;margin-left:3px;margin-bottom:3px'>{{'TIMERS/toggle-debug/btn'|translate}}</button>
     <div ng-if="debug" style='float:right; font-size:12px;'>
+      <button class="btn btn-xs btn-warning" ng-click="injectTimer()">Inject Episode Aired Check Timer</button>
       <button ng-click="fixMissingTimers();" class='btn btn-xs btn-success'>{{'TIMERS/find-missing/btn'|translate}}</button>
       <button ng-click="clearAllTimers();" class='btn btn-xs btn-success'>{{'TIMERS/delete-all/btn'|translate}}</button>
     </div>
@@ -26,6 +27,8 @@
       <button class="btn-info" ng-click="fire(timer)">{{'TIMERS/fire-now/btn'|translate}}</button>
       <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 1)">{{'TIMERS/debug-fire-every-minute/btn'|translate}}</button>
       <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 60*48)">{{'TIMERS/debug-fire-every-2-days/btn'|translate}}</button>
+
+      <button ng-show="debug"  class="btn-danger" ng-click="removeTimer(timer)">{{'TIMERS/debug-delete-timer/btn'|translate}}</button>
     </td>
   </tr>
 </table>

@@ -72,7 +72,11 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
             },
             clear: function(event) {
                 chrome.alarms.clear(event);
-                return event.Delete();
+                CRUD.FindOne('ScheduledEvent', {
+                    name: event
+                }).then(function(ScheduledEvent) {
+                    ScheduledEvent.Delete();
+                });
             },
             clearAll: function() {
                 chrome.alarms.clearAll();
