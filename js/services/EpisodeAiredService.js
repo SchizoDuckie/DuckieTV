@@ -1,6 +1,6 @@
 angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites', 'DuckieTV.providers.scenenames', 'DuckieTV.providers.thepiratebay', 'DuckieTV.directives.torrentdialog'])
 
-.factory('EpisodeAiredService', function($rootScope, FavoritesService, SceneNameResolver, ThePirateBay, TorrentDialog, $q, $rootScope) {
+.factory('EpisodeAiredService', function($rootScope, FavoritesService, SceneNameResolver, ThePirateBay, TorrentDialog, $rootScope) {
     var period = 2; // period to check for updates up until today current time
     var minSeeders = 250;
 
@@ -14,13 +14,9 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
                 from.setHours(0);
                 from.setMinutes(0);
                 from.setSeconds(0);
-                var prom = null;
-                console.log("Get episodes from : ", from.toISOString().split('T')[0], 'until', new Date().toISOString().split('T'));
                 FavoritesService.getEpisodesForDateRange(from.getTime(), new Date().getTime()).then(function(candidates) {
-                    var pq = [];
-                    candidates.map(function(episode) {
-                        var p = $q.defer();
-                        if (episode.get('watchedAt') !== null) return;
+                    candidates.map(function(episode, episodeIndex) {
+                        //if (episode.get('watchedAt') !== null) return;
                         //if (episode.get('magnetHash') !== null) return;
 
                         CRUD.FindOne('Serie', {
@@ -28,31 +24,24 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
                         }).then(function(serie) {
                             var name = SceneNameResolver.getSceneName(serie.get('TVDB_ID'));
                             var searchString = (name || serie.get('name')) + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
-                            console.log("Update check candidate: ", searchString);
                             ThePirateBay.search(searchString).then(function(results) {
                                 if (results.length == 0) {
-                                    p.resolve(); // nothing to do here
+                                    return;
                                 }
                                 if (parseInt(results[0].seeders, 10) >= minSeeders) {
-                                    console.log("Download candidates found! for ", serie.get('name'), episode.getFormattedEpisode(), " \\o/", results[0]);
-                                    if (!prom) {
-                                        prom = TorrentDialog.magnetSelect(results[0].magneturl, serie.get('TVDB_ID'), true);
-                                    } else {
-                                        prom.then(function() {
-                                            return TorrentDialog.magnetSelect(results[0].magneturl, serie.get('TVDB_ID'), true);
-                                        })
-                                    }
-                                    episode.set('magnetHash', results[0].magneturl.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+                                    var url = results[0].magneturl;
+                                    setTimeout(function() {
+                                        TorrentDialog.magnetSelect(url, serie.get('TVDB_ID'), true);
+                                    }, episodeIndex * 10000)
+                                    episode.set('magnetHash', url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                                     episode.Persist();
                                     $rootScope.$broadcast('episodes:updated');
                                 }
                             })
 
                         })
-                        pq.push(p.promise);
+
                     });
-                    console.log("Promise queue: ", pq);
-                    $q.all(pq);
                 })
                 // fetch a list of episodes aired from <configurable period in days in the past> until today that have no magnetLink yet
                 // fetch config for quality

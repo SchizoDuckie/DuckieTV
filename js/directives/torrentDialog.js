@@ -14,27 +14,20 @@ angular.module('DuckieTV.directives.torrentdialog', ['dialogs'])
                  */
                 magnetSelect: function(magnet, TVDB_ID) {
                     console.log("Firing magnet URI! ", magnet, TVDB_ID);
-
-                    var pr = $q.defer();
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                     var d = document.createElement('iframe');
                     d.id = 'torrentmagnet_' + new Date().getTime();
-                    document.body.appendChild(d);
                     d.src = magnet;
-
                     d.style.visibility = 'hidden';
+                    document.body.appendChild(d);
                     setTimeout(function() {
-                        document.body.removeChild(document.getElementById(d.id));
-                        console.log("REmove child!, resolve p ", pr, d.id);;
-                        pr.resolve();
-                    }, 5000);
-
-                    return pr.promise;
+                        document.body.removeChild(d);
+                    }, 3000);
                 }
             }
         }
     })
-    .controller('torrentDialogCtrl', function($scope, $rootScope, $modalInstance, $injector, data) {
+    .controller('torrentDialogCtrl', function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog) {
         //-- Variables --//
 
         $scope.items = [];
