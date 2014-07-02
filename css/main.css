@@ -712,11 +712,38 @@ td.day {
     transition: all 0.5s ease-in-out;
 }
 [date-picker] .event .watched {
-    text-decoration: line-through;
-    text-decoration-color: black;
-    background-color: rgba(100,100,100, 0.4);
-    margin: -1.7px;
-    padding: 1.7px;
+    background-color: rgba(255,255,255,0.3);
+}
+[date-picker] .event .watched .progresson::after {
+    font-family: "Glyphicons Halflings";
+    content: "\e013";
+    position:absolute;
+    right:10px;
+    top:5px;
+    color:#17D5E3;
+    opacity:0.7;
+}
+[date-picker] .event .watched .progressoff::after {
+    font-family: "Glyphicons Halflings";
+    content: "\e013";
+    position:absolute;
+    right:10px;
+    top:2px;
+    color:#17D5E3;
+    opacity:0.7;
+}
+[date-picker] .event .watched span {
+    color: white;
+    font-weight: bold;
+    position: relative;
+}
+[date-picker] .event .watched span::after {
+    border-bottom: 2.5px solid black;
+    content: "";
+    left: 0px;
+    position: absolute;
+    right: 0;
+    top: 50%;
 }
 [date-picker] .event:hover {
     background-color: rgba(0, 0, 0, 0.8);
@@ -726,7 +753,7 @@ td.day {
     color: white;
     display: block;
 }
-[date-picker] .event > a > span {
+[date-picker] .event > a {
     padding-left: 3px;
 }
 [date-picker] div.tooltip.bottom {
@@ -837,7 +864,7 @@ a:hover i.glyphicon-plus-sign {
 calendar-event .progress {
     background-color: transparent;
     height: auto;
-    margin: 3px;
+    margin: 3px 3px 3px 0px;
 }
 calendar-event .progress-bar {
     color: black;

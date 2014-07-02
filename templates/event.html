@@ -1,16 +1,16 @@
 <div class="event dropdown">
   <a class="dropdown-toggle" ng-click="isOpen=true" ng-class="{ watched : event.episode.get('watched') == 1 }">
 	  <div ng-if="$root.getSetting('torrenting.enabled') && event.episode.values.magnetHash" tooltip="{{ event.episode.getFormattedEpisode() }}">
-        <div ng-if="$root.getSetting('torrenting.progress')">
-	   	  <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">{{ event.serie }} </torrent-remote-control>
-	    </div>
-        <span ng-if="$root.getSetting('torrenting.progress') != 1">
-          {{ event.serie }}
-	    </span>
+      <div ng-if="$root.getSetting('torrenting.progress')" class="progresson">
+        <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">{{ event.serie }}</torrent-remote-control>
       </div>
-	  <span ng-if="$root.getSetting('torrenting.enabled') != 1 || !event.episode.values.magnetHash" tooltip="{{event.episode.getFormattedEpisode()}}">
-	  	{{ event.serie }}
-	  </span>
+      <div ng-if="$root.getSetting('torrenting.progress') != 1" class="progressoff">
+        <span>{{ event.serie }}</span>
+      </div>
+    </div>
+	  <div ng-if="$root.getSetting('torrenting.enabled') != 1 || !event.episode.values.magnetHash" class="progressoff">
+      <span tooltip="{{event.episode.getFormattedEpisode()}}">{{ event.serie }}</span>
+    </div>
   </a>
   <ul class="dropdown-menu">
 	  <li><a href='#/serie/{{event.serieID}}/episode/{{event.episode.getID()}}'><i class="glyphicon glyphicon-info-sign"></i> {{'EVENT/dropdown-episode-details/lbl'|translate}}</a></li>
