@@ -39,6 +39,7 @@ angular.module('DuckieTV.directives.serieslist', [])
                 $scope.searchingForSerie = true;
                 $scope.serieAddFocus = true;
                 $scope.trendingSeries = false;
+                $scope.mode = $rootScope.getSetting('series.displaymode');
             }
 
             $scope.disableAdd = function() {
