@@ -140,7 +140,7 @@ angular.module('DuckieTV.directives.serieslist', [])
 
             $scope.selectSerie = function(serie) {
                 $scope.selected = serie.name;
-                $scope.searchingForSerie = false;
+                $scope.searchingForSerie = true;
                 $scope.adding[serie.tvdb_id] = true;
                 TraktTV.enableBatchMode().findSerieByTVDBID(serie.tvdb_id).then(function(serie) {
                     FavoritesService.addFavorite(serie).then(function() {
