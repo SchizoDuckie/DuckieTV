@@ -51,6 +51,7 @@ angular.module('DuckieTV.directives.serieslist', [])
             }
 
             $scope.enableTrending = function() {
+                $scope.searchingForSerie = false;
                 $scope.trendingSeries = true;
                 $scope.mode = 'trending';
                 if (!$scope.trending) {
