@@ -15,6 +15,6 @@ angular.module('DuckieTV.directives.serieheader', [])
             "mode": "@",
             "added": "=added"
         },
-        templateUrl: "templates/serieHeader.html",
+        templateUrl: "templates/serieHeader.html"
     }
 })
