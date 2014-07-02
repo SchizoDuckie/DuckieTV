@@ -51,7 +51,11 @@
         <div ng-if="searchingForSerie" class="series">
           <h2>{{'HOMESERIES/addshow-start-typing/lbl'|translate}}</h2>
           <p>{{'HOMESERIES/addshow-protip/lbl'|translate}}</p>
-          <serieHeader ng-repeat="serie in search.results" data="serie" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)"></serieHeader>
+          <h1 style='text-align:center' ng-if="search.results.length == 0"><img src="img/spinner.gif"><br>{{'HOMESERIES/addshow-start-typing/lbl'|translate}}</h1>
+          <serieHeader ng-repeat="serie in search.results" data="serie" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)">
+            <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+            <em class="earmark" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif"></em>
+          </serieHeader>
         </div>
         <div ng-if="trendingSeries">
           <h1 style='color:white'>{{'HOMESERIES/addtrending-help/hdr'|translate}}</h1>
