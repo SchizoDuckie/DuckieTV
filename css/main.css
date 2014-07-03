@@ -264,9 +264,11 @@ serieheader em.earmark {
     bottom: 0px;
     right: 0px;
     background-color: rgba(0,50,0, 0.8);
-    padding: 10px;
     color: white;
     font-size: 25px;
+    width: 45px;
+    height: 45px;
+    padding: 5px;
 }
 serieheader em.earmark.adding{
     background-color: rgba(236,210,70, 0.8);
