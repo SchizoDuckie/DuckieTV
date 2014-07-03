@@ -719,27 +719,19 @@ td.day {
 [date-picker] .event .watched {
     background-color: rgba(255,255,255,0.3);
 }
-[date-picker] .event .watched .progresson::after {
-    font-family: "Glyphicons Halflings";
-    content: "\e013";
-    position:absolute;
-    right:10px;
-    top:5px;
-    color:#17D5E3;
-    opacity:0.8;
-}
-[date-picker] .event .watched .progressoff::after {
-    font-family: "Glyphicons Halflings";
-    content: "\e013";
-    position:absolute;
-    right:10px;
-    top:2px;
-    color:#17D5E3;
-    opacity:0.8;
-}
 [date-picker] .event .watched span {
     font-weight: bold;
     text-decoration: line-through;
+}
+[date-picker] .event .watchedtick {
+    width: 82%;
+}
+[date-picker] .event .watchedpos {
+    position: absolute;
+    top: 3px;
+    right: 4.7px;
+    color:#17D5E3;
+    opacity:0.8;
 }
 [date-picker] .event:hover {
     background-color: rgba(0, 0, 0, 0.8);
