@@ -270,6 +270,7 @@ serieheader em.earmark {
 }
 serieheader em.earmark.adding{
     background-color: rgba(236,210,70, 0.8);
+}
 
 series-list {
     position: fixed;
@@ -716,9 +717,6 @@ td.day {
 [date-picker] .event .watched {
     background-color: rgba(255,255,255,0.3);
 }
-[date-picker] .event .watched .progresson, [date-picker] .event .watched .progressoff{
-    text-decoration: line-through;
-}
 [date-picker] .event .watched .progresson::after {
     font-family: "Glyphicons Halflings";
     content: "\e013";
@@ -738,9 +736,8 @@ td.day {
     opacity:0.8;
 }
 [date-picker] .event .watched span {
-    color: white;
     font-weight: bold;
-    position: relative;
+    text-decoration: line-through;
 }
 [date-picker] .event:hover {
     background-color: rgba(0, 0, 0, 0.8);
