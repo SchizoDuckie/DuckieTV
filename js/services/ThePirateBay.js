@@ -50,9 +50,9 @@ angular.module('DuckieTV.providers.thepiratebay', ['DuckieTV.providers.mirrorres
             /**
              * Execute a generic tpb search, parse the results and return them as an array
              */
-            search: function(what) {
+            search: function(what, dontCancelPrevious) {
                 var d = $q.defer();
-                if (self.activeRequest) self.activeRequest.resolve();
+                if (self.activeRequest && dontCancelPrevious === null) self.activeRequest.resolve();
                 self.activeRequest = $q.defer();
                 $http({
                     method: 'GET',

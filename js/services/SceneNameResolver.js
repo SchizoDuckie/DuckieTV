@@ -131,6 +131,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         257645: "Ultimate Spider-man",
         257804: "Too Cute!",
         258773: "Zero Hour US",
+        258959: "The Beauty And The Beast",
         259047: "VGHS",
         259106: "Emily Owens M D",
         259418: "David Attenborough Kingdom Of Plants",

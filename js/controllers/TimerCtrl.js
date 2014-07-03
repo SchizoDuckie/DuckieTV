@@ -21,6 +21,12 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
         refresh();
     }
 
+    $scope.removeTimer = function(timer) {
+        EventSchedulerService.clear(timer.name);
+        refresh();
+
+    }
+
     $scope.fixMissingTimers = function() {
         EventSchedulerService.fixMissingTimers();
     }
@@ -35,6 +41,11 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
         EventSchedulerService.getAll().then(function(res) {
             $scope.timers = res;
         })
+    }
+
+    $scope.injectTimer = function() {
+        EventSchedulerService.createInterval('** Episode Aired -> Torrent Availability check service', 60, 'episode:aired:check', {});
+        refresh();
     }
 
     $rootScope.$on('timer:created', function(evt) {
