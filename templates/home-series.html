@@ -55,7 +55,7 @@
           <h1 style='text-align:center' ng-if="search.results.length == 0"><img src="img/spinner.gif"><br>{{'HOMESERIES/addshow-start-typing/lbl'|translate}}</h1>
           <serieHeader ng-repeat="serie in search.results" data="serie" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)">
             <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
-            <em class="earmark" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif"></em>
+            <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
           </serieHeader>
         </div>
         <div ng-if="trendingSeries">
@@ -65,7 +65,7 @@
           <h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>{{'HOMESERIES/addtrending-help-please-wait/hdr'|translate}}</h1>
           <serieHeader ng-repeat="serie in trending.results" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
             <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
-            <em class="earmark" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif"></em>
+            <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
           </serieHeader>
         </div>
       </div>
