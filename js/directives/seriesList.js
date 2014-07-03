@@ -39,6 +39,10 @@ angular.module('DuckieTV.directives.serieslist', [])
                 $scope.searchingForSerie = true;
                 $scope.serieAddFocus = true;
                 $scope.trendingSeries = false;
+                $scope.mode = $rootScope.getSetting('series.displaymode');
+                $scope.search.query = undefined;
+                $scope.search.results = null;
+                $scope.selected = '';
             }
 
             $scope.disableAdd = function() {
@@ -47,6 +51,7 @@ angular.module('DuckieTV.directives.serieslist', [])
             }
 
             $scope.enableTrending = function() {
+                $scope.searchingForSerie = false;
                 $scope.trendingSeries = true;
                 $scope.mode = 'trending';
                 if (!$scope.trending) {
@@ -135,9 +140,6 @@ angular.module('DuckieTV.directives.serieslist', [])
 
             $scope.selectSerie = function(serie) {
                 $scope.selected = serie.name;
-                $scope.searchingForSerie = false;
-                $scope.search.query = undefined;
-                $scope.search.results = null;
                 $scope.adding[serie.tvdb_id] = true;
                 TraktTV.enableBatchMode().findSerieByTVDBID(serie.tvdb_id).then(function(serie) {
                     FavoritesService.addFavorite(serie).then(function() {
@@ -145,7 +147,6 @@ angular.module('DuckieTV.directives.serieslist', [])
                         $scope.adding[serie.tvdb_id] = false;
                     });
                 });
-                $scope.selected = '';
             }
 
             $scope.isAdded = function(tvdb_id) {
