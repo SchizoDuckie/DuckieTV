@@ -209,16 +209,15 @@ angular.module('DuckieTV.directives.serieslist', [])
        * Otherwise, a random background is automagically loaded.
        */
       $rootScope.$on('favorites:updated', function(event, data) {
-        FavoritesService.getSeries().then(function(series) {
-          console.log("Favorites updated!", series.length);
-          $scope.favorites = FavoritesService.favorites;
-          if (series.length == 0) {
+          console.log("Favorites updated!", data.length);
+          $scope.favorites = data;
+          if (data.length == 0) {
             $rootScope.$broadcast('serieslist:empty'); // we notify all listening channels that the series list is empty.
           } else {
             FavoritesService.loadRandomBackground();
           }
         });
-      });
+      
 
       /**
        * When a new show has been inserted, we automatically load the background fanart

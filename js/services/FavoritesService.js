@@ -110,7 +110,7 @@ angular.module('DuckieTV.providers.favorites', [])
                     $rootScope.$broadcast('background:load', serie.get('fanart'));
 
                     service.updateEpisodes(serie, data.seasons, watched).then(function(result) {
-                        $rootScope.$broadcast('episodes:updated');
+                        $rootScope.$broadcast('episodes:updated', service.favorites);
                         d.resolve(serie);
                     }, function(err) {
                         console.log("Errorr updating episodes!");
@@ -124,7 +124,7 @@ angular.module('DuckieTV.providers.favorites', [])
             });
             return d.promise;
         },
-        /** 
+        /**
          * Update the episodes and seasons attached to a serie.
          * Builds a cache of seasons and episodes to make sure existing
          * information is updated.
@@ -185,7 +185,7 @@ angular.module('DuckieTV.providers.favorites', [])
                                     e.set('watchedAt', watchedEpisodes[0].watchedAt);
                                 }
                                 // save the changes and fee some memory, or do it immediately if there's no promise to wait for
-                                if (Object.keys(e.changedValues).length > 0) { // if the dbObject is dirty, we wait for the persist to resolve 
+                                if (Object.keys(e.changedValues).length > 0) { // if the dbObject is dirty, we wait for the persist to resolve
                                     e.Persist().then(function(res) {
                                         updatedEpisodes++;
                                         if (updatedEpisodes == totalEpisodes) { // when all episodes are done, resolve the promise.
@@ -289,7 +289,7 @@ angular.module('DuckieTV.providers.favorites', [])
                 chrome.alarms.clear(serie.name + ' update check');
             });
         },
-        /** 
+        /**
          * Fetch all the series asynchronously and return them as POJO's
          * (Plain Old Javascript Objects)
          * Runs automatically when this factory is instantiated
@@ -305,7 +305,7 @@ angular.module('DuckieTV.providers.favorites', [])
             });
             return d.promise;
         },
-        /** 
+        /**
          * Load a random background from the shows database
          * The BackgroundRotator service is listening for this event
          */
@@ -331,7 +331,7 @@ angular.module('DuckieTV.providers.favorites', [])
                     ids.push(el.TVDB_ID.toString());
                 });
                 service.favoriteIDs = ids;
-                $rootScope.$broadcast('favorites:updated', service);
+                $rootScope.$broadcast('favorites:updated', service.favorites);
                 $rootScope.$broadcast('episodes:updated');
             });
         }
