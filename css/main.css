@@ -154,7 +154,7 @@ serieheader[mode='search'] h3 {
 serieheader[mode='poster'] {
     display:inline-block;
     height: 250px;
-    margin:0px 8px 2px 8px;
+    margin:0px 11px 2px 11px;
 }
 .series serieheader[mode='poster'] > div {
     background-color: transparent;
@@ -211,7 +211,7 @@ serieheader .poster {
     height: 240px;
     background-repeat:no-repeat;
     background-size: contain;
-    width:169px;
+    width: 163px;
     background-position: center center;
 }
 .col-md-4 serieheader .poster {
@@ -268,6 +268,8 @@ serieheader em.earmark {
     color: white;
     font-size: 25px;
 }
+serieheader em.earmark.adding{
+    background-color: rgba(236,210,70, 0.8);
 
 series-list {
     position: fixed;
@@ -714,6 +716,9 @@ td.day {
 [date-picker] .event .watched {
     background-color: rgba(255,255,255,0.3);
 }
+[date-picker] .event .watched .progresson, [date-picker] .event .watched .progressoff{
+    text-decoration: line-through;
+}
 [date-picker] .event .watched .progresson::after {
     font-family: "Glyphicons Halflings";
     content: "\e013";
@@ -721,7 +726,7 @@ td.day {
     right:10px;
     top:5px;
     color:#17D5E3;
-    opacity:0.7;
+    opacity:0.8;
 }
 [date-picker] .event .watched .progressoff::after {
     font-family: "Glyphicons Halflings";
@@ -730,20 +735,12 @@ td.day {
     right:10px;
     top:2px;
     color:#17D5E3;
-    opacity:0.7;
+    opacity:0.8;
 }
 [date-picker] .event .watched span {
     color: white;
     font-weight: bold;
     position: relative;
-}
-[date-picker] .event .watched span::after {
-    border-bottom: 2.5px solid black;
-    content: "";
-    left: 0px;
-    position: absolute;
-    right: 0;
-    top: 50%;
 }
 [date-picker] .event:hover {
     background-color: rgba(0, 0, 0, 0.8);
