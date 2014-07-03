@@ -76,7 +76,7 @@ angular.module('DuckieTV.directives.serieslist', [])
        * toggle or untoggle the favorites panel
        */
       $scope.activate = function(el) {
-        iElement.toggleClass('active');
+        iElement.addClass('active');
         $scope.activated = true;
         if (FavoritesService.favorites.length > 0) {
           $scope.disableAdd(); // disable add mode when the panel is activated every time. But not if favorites list is empty.
@@ -87,8 +87,7 @@ angular.module('DuckieTV.directives.serieslist', [])
        * Close the drawer
        */
       $scope.closeDrawer = function() {
-        if (!$scope.activated) return;
-        iElement.toggleClass('active');
+        iElement.removeClass('active');
         $scope.activated = false;
       }
 
@@ -210,13 +209,15 @@ angular.module('DuckieTV.directives.serieslist', [])
        * Otherwise, a random background is automagically loaded.
        */
       $rootScope.$on('favorites:updated', function(event, data) {
-        if (FavoritesService.favorites != $scope.favorites)
-          $scope.favorites = FavoritesService.favorites;
-        if (!$scope.favorites || (FavoritesService.favorites && FavoritesService.favorites.length == 0)) {
-          $rootScope.$broadcast('serieslist:empty'); // we notify all listening channels that the series list is empty.
-        } else {
-          FavoritesService.loadRandomBackground();
-        }
+        FavoritesService.getSeries().then(function(series) {
+          console.log("Favorites updated!", series.length);
+          $scope.favorites = series;
+          if (series.length == 0) {
+            $rootScope.$broadcast('serieslist:empty'); // we notify all listening channels that the series list is empty.
+          } else {
+            FavoritesService.loadRandomBackground();
+          }
+        });
       });
 
       /**
@@ -233,9 +234,10 @@ angular.module('DuckieTV.directives.serieslist', [])
        * This also enables trakt.tv most trending series download when it hasn't happen
        */
       $rootScope.$on('serieslist:empty', function(event) {
-        this.activate();
-        this.enableAdd();
-      }.bind($scope));
+        console.log("Serieslist empty!!! ");
+        $scope.activate();
+        $scope.enableAdd();
+      });
 
     }
   }
