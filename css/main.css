@@ -872,7 +872,7 @@ calendar-event a.glyphicon-chevron-down {
 }
 calendar-event .dropdown-menu, .modal-content .dropdown-menu {
     background-color: rgba(0, 0, 0, 0.94);
-    overflow: visible;
+    overflow-y: auto;
     min-width: 400px;
     box-shadow: none;
     color: white;
