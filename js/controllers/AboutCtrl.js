@@ -57,7 +57,7 @@
              data: screenSize
          }];
 
-         if ('chrome' in window && 'app' in window.chrome && 'version' in window.chrome.app.getDetails()) {
+         if ('chrome' in window && 'app' in window.chrome && 'GetDetails' in chrome.app && 'version' in window.chrome.app.getDetails()) {
              $scope.statistics.unshift({
                  name: window.chrome.app.getDetails().short_name,
                  data: window.chrome.app.getDetails().version

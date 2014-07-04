@@ -31,7 +31,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
                                 if (parseInt(results[0].seeders, 10) >= minSeeders) {
                                     var url = results[0].magneturl;
                                     setTimeout(function() {
-                                        TorrentDialog.magnetSelect(url, serie.get('TVDB_ID'), true);
+                                        TorrentDialog.launchMagnet(url, serie.get('TVDB_ID'), true);
                                     }, episodeIndex * 10000)
                                     episode.set('magnetHash', url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                                     episode.Persist();
