@@ -31,10 +31,16 @@ chrome.runtime.onInstalled.addListener(function(details) {
  * Handle global dependencies
  */
 angular.module('DuckieTV', [
+    'DuckieTV.directives.torrentdialog',
     'DuckieTV.providers.eventwatcher',
     'DuckieTV.providers.eventscheduler',
+    'DuckieTV.providers.episodeaired',
     'DuckieTV.providers.favorites',
-    'DuckieTV.providers.trakttv'
+    'DuckieTV.providers.trakttv',
+    'DuckieTV.providers.settings',
+    'DuckieTV.providers.scenenames',
+    'DuckieTV.providers.mirrorresolver',
+    'DuckieTV.providers.thepiratebay'
 ])
 
 /**
@@ -49,9 +55,14 @@ angular.module('DuckieTV', [
  * The only thing we do is start the event scheduler service, which in turn broadcasts messages to anything listening.
  * FavoritesService is added as a dependency so that it can pick up these events upon initialisation.
  */
-.run(function(EventWatcherService, FavoritesService) {
+.run(function(EventWatcherService, EpisodeAiredService, FavoritesService, SettingsService, $rootScope) {
+
+    $rootScope.getSetting = function(key) {
+        return SettingsService.get(key);
+    };
     EventWatcherService.initialize();
     console.log("Background page initialized!");
+
 });
 
 // Since there is no html document that bootstraps angular using an ang-app tag, we need to call bootstrap manually
