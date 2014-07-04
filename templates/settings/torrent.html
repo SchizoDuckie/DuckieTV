@@ -18,6 +18,23 @@
   </tr>
   <tr ng-show="getSetting('torrenting.enabled')">
     <th width="150px">
+      <strong style='white-space:nowrap'>{{'TORRENT/autodownload/hdr'|translate}}</strong>
+      <p class="label label-success" ng-show="getSetting('torrenting.autodownload')">{{'TORRENT/autodownload/lbl-enabled'|translate}}</p>
+      <p class="label label-danger" ng-show="!getSetting('torrenting.autodownload')">{{'TORRENT/autodownload/lbl-disabled'|translate}}</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <p ng-show="!getSetting('torrenting.autodownload')" class="alert alert-info">{{'TORRENT/autodownload/enable-alert'|translate}}</p>
+          <p ng-show="getSetting('torrenting.autodownload')" class="alert alert-warning">{{'TORRENT/autodownload/disable-alert'|translate}}</p>
+          <button ng-show="!getSetting('torrenting.autodownload')" ng-click="enableAutoDownload()" class="btn btn-success">{{'TORRENT/autodownload/btn-enable'|translate}}</button>
+          <button ng-show="getSetting('torrenting.autodownload')" ng-click="disableAutoDownload()" class="btn btn-danger">{{'TORRENT/autodownload/btn-disable'|translate}}</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr ng-show="getSetting('torrenting.enabled')">
+    <th width="150px">
       <strong style='white-space:nowrap'>{{'TORRENT/streaming/hdr'|translate}}</strong>
       <p class="label label-success" ng-show="getSetting('torrenting.streaming')">{{'TORRENT/enabled/lbl'|translate}}</p>
       <p class="label label-danger" ng-show="!getSetting('torrenting.streaming')">{{'TORRENT/disabled/lbl'|translate}}</p>
