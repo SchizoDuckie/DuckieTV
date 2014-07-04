@@ -1,7 +1,7 @@
 angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites', 'DuckieTV.providers.scenenames', 'DuckieTV.providers.thepiratebay', 'DuckieTV.directives.torrentdialog'])
 
 .factory('EpisodeAiredService', function($rootScope, FavoritesService, SceneNameResolver, ThePirateBay, TorrentDialog, $rootScope) {
-    var period = 2; // period to check for updates up until today current time
+    var period = 7; // period to check for updates up until today current time
     var minSeeders = 250;
 
     var service = {
@@ -16,8 +16,8 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
                 from.setSeconds(0);
                 FavoritesService.getEpisodesForDateRange(from.getTime(), new Date().getTime()).then(function(candidates) {
                     candidates.map(function(episode, episodeIndex) {
-                        //if (episode.get('watchedAt') !== null) return;
-                        //if (episode.get('magnetHash') !== null) return;
+                        if (episode.get('watchedAt') !== null) return;
+                        if (episode.get('magnetHash') !== null) return;
 
                         CRUD.FindOne('Serie', {
                             ID_Serie: episode.get('ID_Serie')
@@ -42,14 +42,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
                         })
 
                     });
-                })
-                // fetch a list of episodes aired from <configurable period in days in the past> until today that have no magnetLink yet
-                // fetch config for quality
-                // resolve provider to check for download
-                // if a torrent is found with <configurable amount of seeders minimum> launch it's magnet uri
-                // set the magnetUri on the episode
-                // notify the calendar
-
+                });
             });
         }
     }
