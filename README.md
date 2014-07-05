@@ -51,12 +51,15 @@ Screenshots:
 ![Settings](http://i.imgur.com/lrg3pVE.png)
 ![Stream with uTorrent player](http://i.imgur.com/h6OnmHO.png)
 ![DuckieTorrent uTorrent integration](http://i.imgur.com/dTdt1DH.png)
-More @ http://imgur.com/gallery/l7toH
+![Now available in 11 languages](http://i.imgur.com/JOfFMuN.png)
+![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/bUzCDbo.png)
+![DuckieTV can automatically download TV-Shows that have aired](http://i.imgur.com/3PraXCb.png)
 
 
 Changelog: 
 ==========
-* v0.60 : New tabs interface in settings thanks to /u/Js41637, Introduced Internationalisation and translations thanks to /u/Garfield69, Initial translations into English and Dutch (more coming soon!), optimized watched indicator in calendar, added Trakt.TV's trending shows to 'series you're watching', made it possible to use the basic features of DuckieTV as a regular website: http://DuckieTV.github.io/DuckieTV/ (browsers that support WebSQL only! Tested on Chrome/Opera/Android)
+* v0.61 : Fixed deployment problem for english/uk users.
+* v0.60 : New tabs interface in settings thanks to /u/Js41637, Introduced Internationalisation and translations thanks to /u/Garfield69, Initial translations into English and Dutch, the 9 other most popular languages are included in auto-translated form. Optimized watched indicator in calendar, added Trakt.TV's trending shows to 'series you're watching', made it possible to use the basic features of DuckieTV as a regular website: http://DuckieTV.github.io/DuckieTV/ (browsers that support WebSQL only! Tested on Chrome/Opera/Android)
 * v0.55 : Fixes and improvements for the calendar, double loading images and GUI by /u/Garfield69 and /u/Js41637 Thanks guys!!!
 * v0.54 : Layout CSS tuning and bugfixes by /u/Js41637 (Thanks!). Support for uTorrent 3.4.1 alpha, Fixed KAT parsing, Added extra permission for huge series (>5mb) databases.
 * v0.53 : CSS/layout fixes, Fixed the timers that went missing, fixed the auto-update service, fixed restore watchlist timers, improved memory usage on backup restore.

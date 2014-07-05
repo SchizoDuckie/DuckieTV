@@ -1,0 +1,20 @@
+{
+    "appNameNewTab": {
+        "message": "DuckieTV - modo 'Nueva pestaña' "
+    },
+    "appShortNameNewTab": {
+        "message": "DuckieTV "
+    },
+    "appDescNewTab": {
+        "message": "Todo lo que usted necesita saber cuando su favorito verdadera Series TV internacional en "
+    },
+    "appNameBrowserAction": {
+        "message": "DuckieTV - Modo 'Browser Button'"
+    },
+    "appShortNameBrowserAction": {
+        "message": "DuckieTV "
+    },
+    "appDescBrowserAction": {
+        "message": "Todo lo que usted necesita saber cuando usted viene de la serie de televisión internacional favorito en"
+    }
+}
