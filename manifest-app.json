@@ -1,10 +1,10 @@
 {
     "manifest_version": 2,
     "name": "__MSG_appNameBrowserAction__",
-  	"short_name": "__MSG_appShortNameBrowserAction__",
+    "short_name": "__MSG_appShortNameBrowserAction__",
     "description": "__MSG_appDescBrowserAction__",
-  	"default_locale": "en",
-  	"version": "0.60",
+    "default_locale": "en",
+    "version": "0.60",
     "permissions": [
         "http://*/*",
         "https://*/*",
@@ -20,15 +20,21 @@
             "js/vendor/CRUD.js",
             "js/vendor/CRUD.SqliteAdapter.js",
             "js/CRUD.entities.js",
-            "js/vendor/angular.min.js",
+            "js/vendor/angular.js",
             "js/vendor/angular-sanitize.min.js",
+            "js/directives/torrentDialog.js",
+            "js/services/SettingsService.js",
+            "js/services/SceneNameResolver.js",
             "js/services/EventWatcherService.js",
             "js/services/EventSchedulerService.js",
+            "js/services/EpisodeAiredService.js",
             "js/services/FavoritesService.js",
             "js/services/TraktTV.js",
+            "js/services/ThePirateBay.js",
+            "js/services/MirrorResolver.js",
             "js/services/WatchlistCheckerService.js",
             "js/services/WatchlistService.js",
-            "js/background.js",
+            "js/background.js"
             "launch.js"
 
         ],

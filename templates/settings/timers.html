@@ -23,7 +23,7 @@
     </td>
     <td width="200px">{{timer.periodInMinutes}}</td>
     <td width="200px">{{timer.scheduledTime | date:'medium'}}</td>
-    <td width="400px" align="center">
+    <td width="450px" align="center">
       <button class="btn-info" ng-click="fire(timer)">{{'TIMERS/fire-now/btn'|translate}}</button>
       <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 1)">{{'TIMERS/debug-fire-every-minute/btn'|translate}}</button>
       <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 60*48)">{{'TIMERS/debug-fire-every-2-days/btn'|translate}}</button>

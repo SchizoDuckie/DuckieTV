@@ -1,86 +1,130 @@
- angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync'])
+angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.eventscheduler'])
 
 
- .controller('SettingsCtrl',
-     function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver, TraktTV, $translate, tmhDynamicLocale) {
+.controller('SettingsCtrl', function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver, TraktTV, $translate, tmhDynamicLocale, EventSchedulerService) {
 
-         $scope.custommirror = SettingsService.get('thepiratebay.mirror');
-         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
-         $scope.searchquality = SettingsService.get('torrenting.searchquality');
-         $scope.bgopacity = SettingsService.get('background-rotator.opacity');
-         $scope.mirrorStatus = [];
-         $scope.log = [];
-         $scope.hasTopSites = ('topSites' in window.chrome);
-         $scope.locale = SettingsService.get('locale');
+    $scope.custommirror = SettingsService.get('thepiratebay.mirror');
+    $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
+    $scope.searchquality = SettingsService.get('torrenting.searchquality');
+    $scope.bgopacity = SettingsService.get('background-rotator.opacity');
+    $scope.mirrorStatus = [];
+    $scope.log = [];
+    $scope.hasTopSites = ('topSites' in window.chrome);
+    $scope.locale = SettingsService.get('locale');
 
-         $scope.activesettings = ('templates/settings/default.html');
+    $scope.activesettings = 'templates/settings/default.html';
 
-         $scope.setActiveSetting = function(setting) {
-             console.log("setting active setting", setting)
-             $scope.activesettings = ('templates/settings/' + setting + '.html');
-         }
+    /**
+     * Change the active settings tab
+     */
+    $scope.setActiveSetting = function(setting) {
+        console.log("setting active setting", setting)
+        $scope.activesettings = 'templates/settings/' + setting + '.html';
+    }
 
-         $rootScope.$on('mirrorresolver:status', function(evt, status) {
-             $scope.mirrorStatus.unshift(status);
-         });
+    /**
+     * Inject an event to display mirror resolving progress.
+     */
+    $rootScope.$on('mirrorresolver:status', function(evt, status) {
+        $scope.mirrorStatus.unshift(status);
+    });
 
-         $scope.sync = function() {
-             console.log("Synchronizging!");
-             $rootScope.$broadcast('storage:update');
-         }
+    /**
+     * Fire off an event that pushes the current series list into the cloud
+     */
+    $scope.sync = function() {
+        console.log("Synchronizging!");
+        $rootScope.$broadcast('storage:update');
+    }
 
-         $scope.setLocale = function(id) {
-             $rootScope.setSetting('locale', id);
-             $scope.locale = id;
-             // load and activate replacement translation table 
-             $rootScope.changeLanguage(id);
-         }
+    /**
+     * Change localization an translations, reloads translation table.
+     */
+    $scope.setLocale = function(id) {
+        $rootScope.setSetting('locale', id);
+        $scope.locale = id;
+        $rootScope.changeLanguage(id);
+    }
 
-         $scope.setSearchProvider = function(provider) {
-             $scope.searchprovider = provider;
-             SettingsService.set('torrenting.searchprovider', provider);
-         }
+    /**
+     * Change the default torrent search provider
+     */
+    $scope.setSearchProvider = function(provider) {
+        $scope.searchprovider = provider;
+        SettingsService.set('torrenting.searchprovider', provider);
+    }
 
-         $scope.setSearchQuality = function(quality) {
-             console.log("Setting searchquality: ", quality);
-             $rootScope.setSetting('torrenting.searchquality', quality);
-             $scope.searchquality = quality;
-         }
+    /**
+     * Changes the default torrent search quality (hdtv, 720p, etc)
+     */
+    $scope.setSearchQuality = function(quality) {
+        console.log("Setting searchquality: ", quality);
+        $rootScope.setSetting('torrenting.searchquality', quality);
+        $scope.searchquality = quality;
+    }
 
-         $scope.setBGOpacity = function(opacity) {
-             console.log("Setting Background Opacity: ", opacity);
-             $rootScope.setSetting('background-rotator.opacity', opacity);
-             $scope.bgopacity = opacity;
-         }
+    /**
+     * Set the various background opacity levels.
+     */
+    $scope.setBGOpacity = function(opacity) {
+        $rootScope.setSetting('background-rotator.opacity', opacity);
+        $scope.bgopacity = opacity;
+    }
 
-         $scope.findRandomTPBMirror = function() {
-             MirrorResolver.findTPBMirror().then(function(result) {
-                 $scope.custommirror = result;
-                 SettingsService.set('thepiratebay.mirror', $scope.custommirror);
-                 $rootScope.$broadcast('mirrorresolver:status', 'Saved!');
-             }, function(err) {
-                 console.debug("Could not find a working TPB mirror!", err);
-             })
-         }
+    /**
+     * Resolve a new random ThePirateBay mirror.
+     * Log progress hil this is happening.
+     * Save the new mirror in the thepiratebay.mirror settings key
+     */
+    $scope.findRandomTPBMirror = function() {
+        MirrorResolver.findTPBMirror().then(function(result) {
+            $scope.custommirror = result;
+            SettingsService.set('thepiratebay.mirror', $scope.custommirror);
+            $rootScope.$broadcast('mirrorresolver:status', 'Saved!');
+        }, function(err) {
+            console.debug("Could not find a working TPB mirror!", err);
+        })
+    }
 
-         $scope.validateCustomMirror = function(mirror) {
-             $scope.mirrorStatus = [];
-             MirrorResolver.verifyMirror(mirror).then(function(result) {
-                 $scope.custommirror = result;
-                 SettingsService.set('thepiratebay.mirror', $scope.custommirror);
-                 $rootScope.$broadcast('mirrorresolver:status', 'Saved!');
-             }, function(err) {
-                 console.log("Could not validate custom mirror!", mirror);
-                 //$scope.customMirror = '';
-             })
-         }
+    /**
+     * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
+     */
+    $scope.validateCustomMirror = function(mirror) {
+        $scope.mirrorStatus = [];
+        MirrorResolver.verifyMirror(mirror).then(function(result) {
+            $scope.custommirror = result;
+            SettingsService.set('thepiratebay.mirror', $scope.custommirror);
+            $rootScope.$broadcast('mirrorresolver:status', 'Saved!');
+        }, function(err) {
+            console.log("Could not validate custom mirror!", mirror);
+            //$scope.customMirror = '';
+        })
+    }
 
 
-         $scope.favorites = FavoritesService.favorites;
-         $scope.$on('favorites:updated', function(event, data) {
-             $rootScope.$broadcast('background:load', FavoritesService.favorites[Math.floor(Math.random() * FavoritesService.favorites.length)].fanart);
+    /**
+     * Create the automated download service.
+     * This fires the episode:aired:check timer that the kicks it off in the background page
+     */
+    $scope.enableAutoDownload = function() {
+        SettingsService.set('torrenting.autodownload', true);
+        EventSchedulerService.createInterval(' ☠ Automated torrent download service', 1, 'episode:aired:check', {});
+    }
 
-         });
+    /**
+     * Remove the auto-download event
+     */
+    $scope.disableAutoDownload = function() {
+        SettingsService.set('torrenting.autodownload', false);
+        EventSchedulerService.clear(' ☠ Automated torrent download service');
+    }
 
 
-     });
+    $scope.favorites = FavoritesService.favorites;
+    $scope.$on('favorites:updated', function(event, data) {
+        $rootScope.$broadcast('background:load', FavoritesService.favorites[Math.floor(Math.random() * FavoritesService.favorites.length)].fanart);
+
+    });
+
+
+});

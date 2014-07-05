@@ -1,12 +1,13 @@
-angular.module('DuckieTV.providers.settings', ['DuckieTV.directives.calendar'])
+angular.module('DuckieTV.providers.settings', [])
 
 
-.factory('SettingsService', function(StorageSyncService, datePickerConfig) {
+.factory('SettingsService', function($injector) {
     var service = {
         settings: {},
         defaults: {
             'topSites.enabled': true,
             'torrenting.enabled': true,
+            'torrenting.autodownload': false,
             'torrenting.searchprovider': 'ThePirateBay',
             'torrenting.searchquality': '',
             'torrenting.autostop': true,
@@ -29,7 +30,7 @@ angular.module('DuckieTV.providers.settings', ['DuckieTV.directives.calendar'])
         set: function(key, value) {
             service.settings[key] = value;
             if (key == 'calendar.startSunday') {
-                datePickerConfig.startSunday = value;
+                $injector.get('datePickerConfig').startSunday = value;
             }
             service.persist();
         },
