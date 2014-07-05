@@ -1,0 +1,20 @@
+{
+    "appNameNewTab": {
+        "message": "DuckieTV - 「新しいタブ」モード "
+    },
+    "appShortNameNewTab": {
+        "message": "DuckieTV "
+    },
+    "appDescNewTab": {
+        "message": "あなたはあなたが好きな国際的なTVシリーズを来るとき知っておく必要があるすべて "
+    },
+    "appNameBrowserAction": {
+        "message": "DuckieTV - ブラウザボタン」モード "
+    },
+    "appShortNameBrowserAction": {
+        "message": "DuckieTV "
+    },
+    "appDescBrowserAction": {
+        "message": "あなたはあなたが好きな国際的なTVシリーズを来るとき知っておく必要があるすべて"
+    }
+}

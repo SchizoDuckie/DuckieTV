@@ -1,0 +1,20 @@
+{
+    "appNameNewTab": {
+        "message": "Режим 'Новая вкладка' - DuckieTV "
+    },
+    "appShortNameNewTab": {
+        "message": "DuckieTV "
+    },
+    "appDescNewTab": {
+        "message": "Все, что вы должны знать, когда вы приходите любимый международного сериал на "
+    },
+    "appNameBrowserAction": {
+        "message": "DuckieTV - Кнопка Браузер режим"
+    },
+    "appShortNameBrowserAction": {
+        "message": "DuckieTV "
+    },
+    "appDescBrowserAction": {
+        "message": "Все, что вы должны знать, когда вы приходите любимый международного сериал на"
+    }
+}
