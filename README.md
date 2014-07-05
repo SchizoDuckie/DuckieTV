@@ -51,7 +51,9 @@ Screenshots:
 ![Settings](http://i.imgur.com/lrg3pVE.png)
 ![Stream with uTorrent player](http://i.imgur.com/h6OnmHO.png)
 ![DuckieTorrent uTorrent integration](http://i.imgur.com/dTdt1DH.png)
-More @ http://imgur.com/gallery/l7toH
+![Now available in 11 languages](http://i.imgur.com/JOfFMuN.png)
+![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/bUzCDbo.png)
+![DuckieTV can automatically download TV-Shows that have aired](http://i.imgur.com/3PraXCb.png)
 
 
 Changelog: 
