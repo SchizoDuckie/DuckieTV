@@ -12,7 +12,7 @@ if(!is_dir('../deploy/browseraction')) mkdir('../deploy/browseraction');
 if(!is_dir('../deploy/opera')) mkdir('../deploy/opera');
 
 
-file_put_contents('exclude.txt', "exclude.txt\r\n.git\r\nmanifest.json\r\nmanifest-app.json\r\ndeploy.php\r\ndeploytowebstoremacro.exe\r\ndeploy-both.mcr\r\ndeploy-newtab.mcr\r\ndeploy-browseraction.mcr\r\nchangelog.php");
+file_put_contents('exclude.txt', "exclude.txt\r\n.git\r\nmanifest.json\r\nmanifest-app.json\r\ndeploy.php\r\ndeploytowebstoremacro.exe\r\ndeploy-both.mcr\r\ndeploy-newtab.mcr\r\ndeploy-browseraction.mcr\r\nchangelog.php\r\ndeploy-gh-pages.mcr\r\nduckietv.sublime-project\r\nduckietv.sublime-workspace\r\nmanifest-opera.js\r\n.nojekyll\r\nindex.html");
 echo "Copying to output dir.<pre style='height:150px; overflow-y:scroll'>";
 system('xcopy /EXCLUDE:exclude.txt /Y /E . ..\deploy\newtab');
 system('xcopy /EXCLUDE:exclude.txt /Y /E . ..\deploy\browseraction');
@@ -23,8 +23,8 @@ $newTabSettings = json_decode(file_get_contents('manifest.json'),true);
 $browserActionSettings = json_decode(file_get_contents('manifest-app.json'),true);
 $operaSettings = json_decode(file_get_contents('manifest-opera.json'),true);
 $version = trim(file_get_contents('VERSION'));
-system("git tag -am \"{$version}\" \"{$version\"");
-system("git push --tags");
+system("git tag -am \"{$version}\" \"{$version}\"");
+//system("git push --tags");
 echo ("<h2>Current version: {$version}</h2>");
 $newTabSettings['version'] = $browserActionSettings['version'] = $operaSettings['version'] = $version;
 file_put_contents('../deploy/newtab/manifest.json', json_encode($newTabSettings,JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
