@@ -127,17 +127,19 @@ angular.module('DuckieTV', [
      */
 
     .registerAvailableLanguageKeys([
-        'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl'
+        'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl', 'de_de', 'es_es', 'fr_fr', 'jp_jp', 'ko_kr', 'pt_pt', 'ru_ru', 'sv_sv', 'zh-cn'
     ], {
         'en_ca': 'en_uk',
-        'en_gb': 'en_uk'
+        'en_gb': 'en_uk',
+        'jp': 'jp_jp',
+        'pt': 'pt_pt'
     })
 
     /*
      * if we cant find a key then search these languages in sequence
      */
 
-    .fallbackLanguage(['en_uk', 'en_us'])
+    .fallbackLanguage(['en_us'])
 
     /*
      * default language
@@ -164,7 +166,6 @@ angular.module('DuckieTV', [
 
     // error logging. missing keys are sent to $log
     //$translateProvider.useMissingTranslationHandlerLog();
-
 })
 /**
  * Inject a cross-domain enabling http proxy for the non-chrome extension function
@@ -215,7 +216,37 @@ angular.module('DuckieTV', [
                 locale = langKey;
                 langKey = 'en_uk';
                 break;
+            case 'pt':
+                locale = 'pt';
+                langKey = 'pt_pt';
+                break;
+            case 'es_419':
+                locale = langKey;
+                langKey = 'es_es';
+                break;
+            case 'ja':
+            case 'ja_jp':
+                locale = langKey;
+                langKey = 'ja_jp';
+                break;
+            case 'pt_br':
+                locale = langKey;
+                langKey = 'pt_pt';
+                break;
+            case 'ru':
+                locale = langKey;
+                langKey = 'ru_ru';
+                break;
             case 'nl_nl':
+            case 'de_de':
+            case 'es_es':
+            case 'fr_fr':
+            case 'jp_jp':
+            case 'ko_kr':
+            case 'pt_pt':
+            case 'ru_ru':
+            case 'sv_sv':
+            case 'zh_cn':
             case 'en_uk':
                 locale = langKey;
                 break;
@@ -228,6 +259,7 @@ angular.module('DuckieTV', [
         $rootScope.languageInUse = langKey;
         console.log("Active Language", langKey, "; Active Locale", locale);
     };
+
 
 
     /*
@@ -273,6 +305,8 @@ angular.module('DuckieTV', [
 
     // global variable translator
     $rootScope.translateVar = function(data) {
+        console.log("Translate var!", data);
+        debugger;
         return {
             value: data
         };
