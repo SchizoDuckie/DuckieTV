@@ -25,7 +25,10 @@ angular.module('DuckieTV.providers.settings', [])
             'storage.sync': true,
             'calendar.mode': 'date',
             'background-rotator.opacity': '0.4',
-            'locale': 'en_us'
+            'locale': 'en_us',
+            'trakttv.sync': false,
+            'trakttv.username': null,
+            'trakttv.passwordHash': null
         },
 
         /**
