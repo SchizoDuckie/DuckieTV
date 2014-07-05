@@ -4,7 +4,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
 .controller('SerieCtrl',
 
-    function(TheTVDB, ThePirateBay, FavoritesService, SettingsService, SceneNameResolver, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter) {
+    function(FavoritesService, SettingsService, SceneNameResolver, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter) {
         console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
         $scope.episodes = [];
         $scope.episodeEntities = [];

@@ -1,6 +1,6 @@
 /**
- * TheTVDB provider
- * Allows searching for series and get their episode listings
+ * Generic serie header directive
+ * Displays a poster of a banner from a tv show and provides navigation to it via the template
  */
 angular.module('DuckieTV.directives.serieheader', [])
 

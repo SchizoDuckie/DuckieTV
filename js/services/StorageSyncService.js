@@ -1,6 +1,6 @@
 angular.module('DuckieTV.providers.storagesync', [])
 
-.factory('StorageSyncService', function($rootScope, $q, FavoritesService, TheTVDB) {
+.factory('StorageSyncService', function($rootScope, $q, FavoritesService`, TraktTV) {
     return {};
     var service = {
 
@@ -50,7 +50,7 @@ angular.module('DuckieTV.providers.storagesync', [])
                     console.log("Found non-remote series to delete", nonRemote)
 
                     for (var i = 0; i < nonLocal.length; i++) {
-                        TheTVDB.findEpisodes(nonLocal[i]).then(function(result) {
+                        TraktTV.findSerieByTVDBID(nonLocal[i]).then(function(result) {
                             console.log("Fetched information for ", result.serie.seriesname, 'adding to favorites!');
                             FavoritesService.addFavorite(result.serie);
                         })
@@ -85,31 +85,8 @@ angular.module('DuckieTV.providers.storagesync', [])
             chrome.storage.sync.set(prop, function() {
                 console.log("Synced storage setting: ", key, setting);
             });
-        },
-
-        initialize: function() {
-            service.readIfSynced();
-        },
-
-        readIfSynced: function() {
-            service.get('synctime').then(function(value) {
-                console.log("Found last synced from storage!, syncing!");
-                service.read(value);
-            });
-        },
-
-        start: function() {
-            console.log("Storage sync initted");
-            service.isStarted = true;
-            chrome.storage.onChanged.addListener(function(changes, namespace) {
-                service.readIfSynced();
-            });
-
-            return service;
         }
     }
-    if (!service.isStarted) {
-        service.start();
-    }
+
     return service;
 })
