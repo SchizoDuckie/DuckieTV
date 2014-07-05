@@ -171,7 +171,7 @@ angular.module('DuckieTV', [
  * Inject a cross-domain enabling http proxy for the non-chrome extension function
  * Sweeeeet
  */
-.factory('CORSInterceptor', ['$q',
+.factory('CORSInterceptor', ['$q', '$injector',
     function($q, $injector) {
         return {
             request: function(config) {
