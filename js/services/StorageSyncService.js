@@ -1,6 +1,6 @@
 angular.module('DuckieTV.providers.storagesync', [])
 
-.factory('StorageSyncService', function($rootScope, $q, FavoritesService`, TraktTV) {
+.factory('StorageSyncService', function($rootScope, $q, FavoritesService, TraktTV) {
     return {};
     var service = {
 
