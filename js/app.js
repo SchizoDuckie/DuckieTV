@@ -134,7 +134,7 @@ angular.module('DuckieTV', [
     })
 
     /*
-     * if we cant find a match then use these languages
+     * if we cant find a key then search these languages in sequence
      */
 
     .fallbackLanguage(['en_uk', 'en_us'])
