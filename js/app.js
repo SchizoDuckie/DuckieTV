@@ -176,13 +176,13 @@ angular.module('DuckieTV', [
         return {
             request: function(config) {
                 if (window.location.href.indexOf('chrome') === -1 && config.url.indexOf('http') === 0 && config.url.indexOf('localhost') === -1) {
-                    if (config.url.indexOf(".json") == config.url.length - 5 || config.url.indexOf('api.trakt.tv') > -1) {
-                        // json requests go through this API since it's got less problems with large content blobs
-                        config.url = ['http://jsonp.jit.su/?url=', encodeURIComponent(config.url)].join('');
-                    } else {
-                        // all the other requests go through here, works well for regularxmlhttp requests.
-                        config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
-                    }
+                    //if (config.url.indexOf(".json") == config.url.length - 5 || config.url.indexOf('api.trakt.tv') > -1) {
+                    //    // json requests go through this API since it's got less problems with large content blobs
+                    //    config.url = ['http://jsonp.jit.su/?url=', encodeURIComponent(config.url)].join('');
+                    //} else {
+                    // all the other requests go through here, works well for regularxmlhttp requests.
+                    config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
+                    //}
                 }
                 return config;
             }
