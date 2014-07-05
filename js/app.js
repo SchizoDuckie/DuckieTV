@@ -41,6 +41,7 @@ angular.module('DuckieTV', [
     'DuckieTV.controllers.settings',
     'DuckieTV.controllers.backup',
     'DuckieTV.controllers.timer',
+    'DuckieTV.controllers.trakttv',
     'DuckieTV.controllers.watchlist',
     'DuckieTV.directives.calendar',
     'DuckieTV.directives.chrometopsites',
@@ -195,7 +196,7 @@ angular.module('DuckieTV', [
                 console.log("HTTP Error: ", rejection);
                 var $http = $injector.get('$http');
                 // first create new session server-side
-                rejection.config.url = rejection.config.url.replace('http://www.corsproxy.com/', '');
+                // rejection.config.url = rejection.config.url.replace('http://www.corsproxy.com/', '');
                 return $http(rejection.config);
             }
 
