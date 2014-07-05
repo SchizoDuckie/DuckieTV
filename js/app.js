@@ -197,6 +197,7 @@ angular.module('DuckieTV', [
                 console.log("HTTP Error: ", rejection);
                 var $http = $injector.get('$http');
                 // first create new session server-side
+                rejection.config.url = rejection.config.url.replace('http://www.corsproxy.com/', '');
                 return $http(rejection.config);
             }
 
