@@ -33,7 +33,7 @@
             "js/services/MirrorResolver.js",
             "js/services/WatchlistCheckerService.js",
             "js/services/WatchlistService.js",
-            "js/background.js"
+            "js/background.js",
             "launch.js"
 
         ],
