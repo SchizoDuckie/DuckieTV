@@ -172,7 +172,7 @@ angular.module('DuckieTV', [
  * Sweeeeet
  */
 .factory('CORSInterceptor', ['$q',
-    function($q) {
+    function($q, $injector) {
         return {
             request: function(config) {
                 if (window.location.href.indexOf('chrome') === -1 && config.url.indexOf('http') === 0 && config.url.indexOf('localhost') === -1) {
@@ -185,6 +185,19 @@ angular.module('DuckieTV', [
                     //}
                 }
                 return config;
+            },
+            // optional method
+            'response': function(response) {
+                // do something on success
+                return response;
+            },
+
+            // optional method
+            'responseError': function(rejection) {
+                console.log("HTTP Error: ", rejection);
+                var $http = $injector.get('$http');
+                // first create new session server-side
+                return $http(rejection.config);
             }
 
         }
