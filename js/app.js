@@ -126,7 +126,7 @@ angular.module('DuckieTV', [
      */
 
     .registerAvailableLanguageKeys([
-        'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl', 'de_de', 'es_es', 'fr_fr', 'jp_jp', 'ko_kr', 'pt_pt', 'ru_ru', 'sv_se', 'zh-cn'
+        'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl', 'de_de', 'es_es', 'fr_fr', 'ja_jp', 'ko_kr', 'pt_pt', 'ru_ru', 'sv_se', 'zh-cn'
     ], {
         'en_ca': 'en_uk',
         'en_gb': 'en_uk',
