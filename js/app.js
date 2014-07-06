@@ -24,13 +24,11 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.mirrorresolver',
     'DuckieTV.providers.migrations',
     'DuckieTV.providers.notifications',
-    'DuckieTV.providers.piratebayChecker',
     'DuckieTV.providers.scenenames',
     'DuckieTV.providers.settings',
     'DuckieTV.providers.storagesync',
     'DuckieTV.providers.thepiratebay',
     'DuckieTV.providers.generictorrentsearch',
-    'DuckieTV.providers.thetvdb',
     'DuckieTV.providers.torrentfreak',
     'DuckieTV.providers.trakttv',
     'DuckieTV.providers.watchlistchecker',
@@ -43,6 +41,7 @@ angular.module('DuckieTV', [
     'DuckieTV.controllers.settings',
     'DuckieTV.controllers.backup',
     'DuckieTV.controllers.timer',
+    'DuckieTV.controllers.trakttv',
     'DuckieTV.controllers.watchlist',
     'DuckieTV.directives.calendar',
     'DuckieTV.directives.chrometopsites',
@@ -194,10 +193,13 @@ angular.module('DuckieTV', [
 
             // optional method
             'responseError': function(rejection) {
-                console.log("HTTP Error: ", rejection);
+                if ('recovered' in rejection.config) {
+                    return rejection;
+                }
+                rejection.config.recovered = true;
                 var $http = $injector.get('$http');
                 // first create new session server-side
-                rejection.config.url = rejection.config.url.replace('http://www.corsproxy.com/', '');
+                // rejection.config.url = rejection.config.url.replace('http://www.corsproxy.com/', '');
                 return $http(rejection.config);
             }
 

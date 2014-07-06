@@ -10,7 +10,9 @@ angular.module('DuckieTV.providers.trakttv', [])
             season: 'http://api.trakt.tv/show/seasons.json/32e05d4138adb5da5b702b362bd21c52/%s',
             episode: 'http://api.trakt.tv/show/season.json/32e05d4138adb5da5b702b362bd21c52/%s/%s',
             seriebyid: 'http://api.trakt.tv/show/summary.json/32e05d4138adb5da5b702b362bd21c52/%s/extended',
-            trending: 'http://api.trakt.tv/shows/trending.json/32e05d4138adb5da5b702b362bd21c52'
+            trending: 'http://api.trakt.tv/shows/trending.json/32e05d4138adb5da5b702b362bd21c52',
+            userShows: 'http://api.trakt.tv/user/watchlist/shows.json/32e05d4138adb5da5b702b362bd21c52/%s',
+            userWatched: 'http://api.trakt.tv/user/library/shows/all.json/32e05d4138adb5da5b702b362bd21c52/%s',
         };
 
         this.parsers = {
@@ -30,7 +32,7 @@ angular.module('DuckieTV.providers.trakttv', [])
         this.getUrl = function(type, param, param2) {
             var out = this.endpoints[type].replace('%s', encodeURIComponent(param));
             console.log("Geturl: ", out, type);
-            return (param2 !== undefined) ? out.replace('%s', encodeURIComponent(param2)) : out;
+            return (param2 !== undefined) ? out.replace('%s ', encodeURIComponent(param2)) : out;
         };
 
         this.getParser = function(type) {
@@ -54,7 +56,7 @@ angular.module('DuckieTV.providers.trakttv', [])
             }).then(function(response) {
                 d.resolve(parser(response));
             }, function(err) {
-                console.log('error fetching', type);
+                console.log('error fetching ', type);
                 d.reject(err);
             });
             return d.promise;
@@ -82,20 +84,16 @@ angular.module('DuckieTV.providers.trakttv', [])
                 },
                 findTrending: function() {
                     return self.promiseRequest('trending', '');
+                },
+                getUserShows: function(username) {
+                    return self.promiseRequest('userShows', username)
+                },
+                getUserWatched: function(username) {
+                    return self.promiseRequest('userWatched', username)
                 }
             }
         }
     })
-
-
-/**
- * Autofill serie search component
- * Provides autofill proxy and adds the selected serie back to the MainController
- */
-.controller('FindSeriesTypeAheadCtrl', function($scope, TraktTV, FavoritesService, $rootScope) {
-
-
-})
 
 
 .directive('focusWatch', function() {

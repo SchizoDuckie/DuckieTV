@@ -1,5 +1,9 @@
 angular.module('DuckieTV.providers.filereader', [])
 
+/**
+ * FileReader Provider and directive
+ * Allows to read the contents of a file upload field to string
+ */
 .factory('FileReader', function($q) {
 
     var onLoad = function(reader, deferred, $scope) {

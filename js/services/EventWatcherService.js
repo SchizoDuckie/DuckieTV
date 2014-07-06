@@ -15,6 +15,10 @@ angular.module('DuckieTV.providers.eventwatcher', [])
             });
         }
         var service = {
+            /**
+             * When the event watcher's has been initialized, this catches the chrome alarm when it fires
+             * and broadcasts the detailed event stored in the ScheduledEvent table
+             */
             onEvent: function(event) {
                 console.log("Event was fired!", event);
                 getScheduledEventByName(event).then(function(alarm) {
@@ -30,6 +34,9 @@ angular.module('DuckieTV.providers.eventwatcher', [])
                 });
 
             },
+            /**
+             * Start listening for alarms fired by chrome's extension. needs to be called manually
+             */
             initialize: function() {
                 chrome.alarms.onAlarm.addListener(function(event) {
                     service.onEvent(event.name);
