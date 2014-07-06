@@ -48,6 +48,10 @@
             <button ng-click="readTraktTV()" class="btn btn-success">Read From Trakt.TV</button>
             <button ng-click="writeTraktTV()" class="btn btn-success">Push local series and episodes to Trakt.TV</button>
           </form>
+
+          <div ng-if="traktTVSeries">
+             <serieheader style='display:inline-block;' ng-repeat="show in traktTVSeries" ng-if="isDownloaded(show.tvdb_id)" data="getDownloaded(show.tvdb_id)" no-overview='1'></serieheader>
+          </ul>
           </div>
        
     </td>
