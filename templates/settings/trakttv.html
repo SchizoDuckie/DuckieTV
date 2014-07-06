@@ -1,23 +1,23 @@
 <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;'>
 <tr>
     <th>
-      <strong style='white-space:nowrap; display:block;'>Trakt.TV {{'DEFAULT/traktTV-sync/lbl'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('trakttv.sync')">{{'DEFAULT/traktTV-sync-enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('trakttv.sync')">{{'DEFAULT/traktTV-sync-disabled/lbl'|translate}}</p>
+      <strong style='white-space:nowrap; display:block;'>Trakt.TV {{'TRAKTTV/sync/lbl'|translate}}</strong>
+      <p class="label label-success" ng-show="getSetting('trakttv.sync')">{{'TRAKTTV/sync-enabled/lbl'|translate}}</p>
+      <p class="label label-danger" ng-show="!getSetting('trakttv.sync')">{{'TRAKTTV/sync-disabled/lbl'|translate}}</p>
     </th>
     <td>
       
-          <p class="alert alert-info"><strong>{{'DEFAULT/traktTV-sync/hdr'|translate}}</strong> {{'DEFAULT/traktTV-sync/desc'|translate}}</p>
+          <p class="alert alert-info"><strong>{{'TRAKTTV/sync/hdr'|translate}}</strong> {{'TRAKTTV/sync/desc'|translate}}</p>
           <div ng-controller="TraktTVCtrl">
           <form name="userCredentials">
 
-            <input type='text' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'DEFAULT/traktTV-sync-username/lbl'|translate}}" /><br>
-            <input type='text' name='password' ng-model='credentials.password' placeholder="Trakt.TV {{'DEFAULT/traktTV-sync-password/lbl'|translate}}" /><br>
-            <button ng-click='encryptPassword()' class="btn btn-danger">{{'DEFAULT/traktTV-sync-encrypt/btn'|translate}}</button><br>
+            <input type='text' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'TRAKTTV/sync-username/lbl'|translate}}" /><br>
+            <input type='text' name='password' ng-model='credentials.password' placeholder="Trakt.TV {{'TRAKTTV/sync-password/lbl'|translate}}" /><br>
+            <button ng-click='encryptPassword()' class="btn btn-danger">{{'TRAKTTV/sync-encrypt/btn'|translate}}</button><br>
             
-            <button ng-click="readTraktTV()" class="btn btn-success">{{'DEFAULT/traktTV-sync-read/btn'|translate}}</button>
+            <button ng-click="readTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-read/btn'|translate}}</button>
 
-            <button ng-click="writeTraktTV()" class="btn btn-success">{{'DEFAULT/traktTV-sync-write/btn'|translate}}</button>
+            <button ng-click="writeTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-write/btn'|translate}}</button>
           </form>
 
           <div ng-if="traktTVSeries">
