@@ -1,11 +1,11 @@
  angular.module('DuckieTV.controllers.trakttv', [])
 
- .controller('TraktTVCtrl', function($scope, $rootScope, TraktTV, FavoritesService) {
+ .controller('TraktTVCtrl', function($scope, $rootScope, TraktTV, FavoritesService, SettingsService) {
 
      $scope.credentials = {
-         username: 'schizoduckie',
-         password: null,
-         passwordHash: null
+         username: SettingsService.get('trakttv.username'),
+         password: SettingsService.get('trakttv.passwordHash'),
+         passwordHash: SettingsService.get('trakttv.passwordHash')
      };
 
      $scope.traktTVSeries = [];
@@ -15,6 +15,8 @@
          if ($scope.credentials.password !== null) {
              $scope.credentials.passwordHash = CryptoJS.SHA1($scope.credentials.password).toString();
              $scope.credentials.password = angular.copy($scope.credentials.passwordHash);
+             $rootScope.setSetting('trakttv.passwordHash', $scope.credentials.passwordHash);
+             $rootScope.setSetting('trakttv.username', $scope.credentials.username);
          }
      };
 
@@ -59,10 +61,8 @@
                                          }
                                      }).then(function(epi) {
                                          console.log("Episode marked as watched: ", serie.title, epi.getFormattedEpisode());
-                                         epi.set('watched', 1);
-                                         epi.set('watchedAt', new Date().getTime());
-                                         epi.Persist();
-                                     })
+                                         epi.markWatched();
+                                     });
                                  });
                              });
                          });
