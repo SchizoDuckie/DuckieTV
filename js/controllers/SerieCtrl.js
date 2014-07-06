@@ -1,11 +1,9 @@
-angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
-    'DuckieTV.directives.seriedetails', 'DuckieTV.directives.episodewatched'
-])
+angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader', 'DuckieTV.directives.seriedetails', 'DuckieTV.directives.episodewatched'])
 
 .controller('SerieCtrl',
 
     function(FavoritesService, SettingsService, SceneNameResolver, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter) {
-        console.log('Series controller!', $routeParams.serie, $scope, TheTVDB);
+        console.log('Series controller!', $routeParams.serie, $scope);
         $scope.episodes = [];
         $scope.episodeEntities = [];
         $scope.points = [];
