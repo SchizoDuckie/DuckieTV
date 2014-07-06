@@ -1,5 +1,5 @@
 {
-    "LOCALE": "English (United States)",
+    "LOCALE": "American English",
     "ABOUT/bugs/hdr": "Bugs",
     "ABOUT/bugs/p1": "If you find a bug, please report it on ",
     "ABOUT/bugs/p2": " So that I can keep track of it",
@@ -96,6 +96,7 @@
     "DEFAULT/sync-push/btn": "Push local series list into the cloud",
     "DEFAULT/sync-push/desc": "Hit this button to push your current series list into the cloud. Sign in on another browser with the same google account and your series list will automagically be synced.",
     "DEFAULT/sync-push/hdr": "Experimental!",
+
     "DEFAULT/traktTV-sync/desc": "TraktTV description and instructions to be added here.",
     "DEFAULT/traktTV-sync/hdr": "Experimental!",
     "DEFAULT/traktTV-sync/lbl": "sync",
@@ -220,6 +221,7 @@
     "SETTINGS/hdr": "Settings",
     "SETTINGS/timers/hdr": "Timers",
     "SETTINGS/torrent/hdr": "Torrent",
+    "SETTINGS/trakttv/hdr": "Trakt.TV",
     "TIMERS/debug-fire-every-2-days/btn": "Fire every 2 days",
     "TIMERS/debug-fire-every-minute/btn": "Fire every minute",
     "TIMERS/delete-all/btn": "Delete all timers",

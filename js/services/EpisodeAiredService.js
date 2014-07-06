@@ -7,7 +7,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
  *
  * Runs in the background page.
  */
-.factory('EpisodeAiredService', function($rootScope, FavoritesService, SceneNameResolver, ThePirateBay, TorrentDialog, $rootScope) {
+.factory('EpisodeAiredService', function($rootScope, FavoritesService, SceneNameResolver, ThePirateBay, TorrentDialog) {
     var period = 7; // period to check for updates up until today current time
     var minSeeders = 250; // minimum amount of seeders required.
 
@@ -36,28 +36,28 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
                             var name = SceneNameResolver.getSceneName(serie.get('TVDB_ID'));
                             var searchString = (name || serie.get('name')) + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
                             ThePirateBay.search(searchString).then(function(results) { // search thepiratebay for the string
-                                if (results.length == 0) {
+                                if (results.length === 0) {
                                     return; // no results, abort
                                 }
                                 if (parseInt(results[0].seeders, 10) >= minSeeders) { // enough seeders are available.
                                     var url = results[0].magneturl; // launch the magnet uri via the TorrentDialog's launchMagnet Method
                                     setTimeout(function() {
                                         TorrentDialog.launchMagnet(url, serie.get('TVDB_ID'), true);
-                                    }, episodeIndex * 10000)
+                                    }, episodeIndex * 10000);
                                     // store the magnet hash on the episode and notify the listeners of the change
                                     episode.set('magnetHash', url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                                     episode.Persist();
                                     $rootScope.$broadcast('episodes:updated');
                                 }
-                            })
+                            });
 
-                        })
+                        });
 
                     });
                 });
             });
         }
-    }
+    };
     service.initialize();
     return service;
 });

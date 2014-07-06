@@ -126,7 +126,7 @@ angular.module('DuckieTV', [
      */
 
     .registerAvailableLanguageKeys([
-        'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl', 'de_de', 'es_es', 'fr_fr', 'jp_jp', 'ko_kr', 'pt_pt', 'ru_ru', 'sv_sv', 'zh-cn'
+        'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl', 'de_de', 'es_es', 'fr_fr', 'jp_jp', 'ko_kr', 'pt_pt', 'ru_ru', 'sv_se', 'zh-cn'
     ], {
         'en_ca': 'en_uk',
         'en_gb': 'en_uk',
@@ -212,7 +212,7 @@ angular.module('DuckieTV', [
 .config(function($httpProvider, $compileProvider) {
     //$httpProvider.interceptors.push('xmlHttpInterceptor');
     $httpProvider.interceptors.push('CORSInterceptor');
-    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|magnet|data):/);
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data):/);
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
 })
 
@@ -261,7 +261,7 @@ angular.module('DuckieTV', [
             case 'ko_kr':
             case 'pt_pt':
             case 'ru_ru':
-            case 'sv_sv':
+            case 'sv_se':
             case 'zh_cn':
             case 'en_uk':
                 locale = langKey;
