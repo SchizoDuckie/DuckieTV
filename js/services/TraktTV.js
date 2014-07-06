@@ -11,8 +11,9 @@ angular.module('DuckieTV.providers.trakttv', [])
             episode: 'http://api.trakt.tv/show/season.json/32e05d4138adb5da5b702b362bd21c52/%s/%s',
             seriebyid: 'http://api.trakt.tv/show/summary.json/32e05d4138adb5da5b702b362bd21c52/%s/extended',
             trending: 'http://api.trakt.tv/shows/trending.json/32e05d4138adb5da5b702b362bd21c52',
-            userShows: 'http://api.trakt.tv/user/watchlist/shows.json/32e05d4138adb5da5b702b362bd21c52/%s',
-            userWatched: 'http://api.trakt.tv/user/library/shows/all.json/32e05d4138adb5da5b702b362bd21c52/%s',
+            userShows: 'http://api.trakt.tv/user/watchlist/shows.json/32e05d4138adb5da5b702b362bd21c52/%s/true',
+            userWatched: 'http://api.trakt.tv/user/library/shows/watched.json/32e05d4138adb5da5b702b362bd21c52/%s/true',
+            showCheckin: 'http://api.trakt.tv/show/checkin/32e05d4138adb5da5b702b362bd21c52' // https://trakt.tv/api-docs/show-checkin
         };
 
         this.parsers = {
@@ -37,9 +38,9 @@ angular.module('DuckieTV.providers.trakttv', [])
 
         this.getParser = function(type) {
             return type in this.parsers ? this.parsers[type] : function(data) {
-                return data.data
+                return data.data;
             };
-        }
+        };
 
         this.promiseRequest = function(type, param, param2) {
             console.log("new promise request!", type, param);
@@ -60,7 +61,7 @@ angular.module('DuckieTV.providers.trakttv', [])
                 d.reject(err);
             });
             return d.promise;
-        }
+        };
 
 
         this.$get = function($q, $http) {
@@ -86,13 +87,13 @@ angular.module('DuckieTV.providers.trakttv', [])
                     return self.promiseRequest('trending', '');
                 },
                 getUserShows: function(username) {
-                    return self.promiseRequest('userShows', username)
+                    return self.promiseRequest('userShows', username);
                 },
                 getUserWatched: function(username) {
-                    return self.promiseRequest('userWatched', username)
+                    return self.promiseRequest('userWatched', username);
                 }
-            }
-        }
+            };
+        };
     })
 
 
@@ -106,9 +107,9 @@ angular.module('DuckieTV.providers.trakttv', [])
             if ($scope.focuswatch) {
                 $scope.$watch($scope.focuswatch, function() {
                     var el = element.length == 1 && element[0].tagName == 'INPUT' ? element[0] : element.find('input')[0];
-                    el.focus()
+                    el.focus();
                 });
             }
         }
     };
-})
+});

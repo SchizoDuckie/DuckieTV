@@ -34,6 +34,7 @@ angular.module('DuckieTV.controllers.backup', [])
      * <a ng-if="backupString" download="DuckieTV.backup" ng-href="{{ backupString }}">Backup ready! Click to download.</a>
      */
     $scope.createBackup = function() {
+        $scope.backupTime = new Date();
         CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID from Series').then(function(series) {
             var out = {
                 settings: {},
@@ -54,7 +55,11 @@ angular.module('DuckieTV.controllers.backup', [])
                         'watchedAt': new Date(row.get('watchedAt')).getTime()
                     })
                 }
-                $scope.backupString = 'data:text/plain;charset=utf-8,' + encodeURIComponent(angular.toJson(out, true));
+                var blob = new Blob([angular.toJson(out, true)], {
+                    type: 'text/json'
+                });
+                $scope.backupString = URL.createObjectURL(blob);
+
                 $scope.$digest();
             });
         });

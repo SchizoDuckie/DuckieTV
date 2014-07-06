@@ -212,7 +212,7 @@ angular.module('DuckieTV', [
 .config(function($httpProvider, $compileProvider) {
     //$httpProvider.interceptors.push('xmlHttpInterceptor');
     $httpProvider.interceptors.push('CORSInterceptor');
-    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|magnet|data):/);
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data):/);
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
 })
 
