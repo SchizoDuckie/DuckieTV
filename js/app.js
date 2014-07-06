@@ -227,7 +227,7 @@ angular.module('DuckieTV', [
 })
 
 
-.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, EpisodeAiredService, datePickerConfig, $translate, tmhDynamicLocale) {
+.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, EpisodeAiredService, datePickerConfig, $translate, tmhDynamicLocale, $injector) {
 
 
     /*
@@ -356,10 +356,36 @@ angular.module('DuckieTV', [
         $rootScope.$broadcast('serieslist:hide');
     });
 
+    /**
+     * Catch the event when an episode is marked as watched
+     * and forward it to TraktTV if syncing enabled.
+     */
+    $rootScope.$on('episode:marked:watched', function(evt, episode) {
+        if (SettingsService.get('trakttv.sync')) {
+            CRUD.FindOne('Serie', {
+                ID_Serie: episode.get('ID_Serie')
+            }).then(function(serie) {
+                $injector.get('TraktTV').markEpisodeWatched(serie, episode);
+            });
+        }
+    });
+    /**
+     * Catch the event when an episode is marked as NOT watched
+     * and forward it to TraktTV if syncing enabled.
+     */
+    $rootScope.$on('episode:marked:notwatched', function(evt, episode) {
+        if (SettingsService.get('trakttv.sync')) {
+            CRUD.FindOne('Serie', {
+                ID_Serie: episode.get('ID_Serie')
+            }).then(function(serie) {
+                $injector.get('TraktTV').markEpisodeNotWatched(serie, episode);
+            });
+        }
+    });
+
+
     // global variable translator
     $rootScope.translateVar = function(data) {
-        console.log("Translate var!", data);
-        debugger;
         return {
             value: data
         };

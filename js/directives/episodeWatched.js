@@ -1,6 +1,10 @@
 angular.module('DuckieTV.directives.episodewatched', [])
 
-.directive('episodeWatched', function($rootScope, $filter, $document) {
+/** 
+ * The episode-watched directive shows the eye icon that marks an episode as watched.
+ * Eye becomes green and not striked through when it's watched.
+ */
+.directive('episodeWatched', function($filter, $document, $injector) {
     return {
         restrict: 'E',
         transclude: true,
@@ -12,24 +16,26 @@ angular.module('DuckieTV.directives.episodewatched', [])
 
             $scope.tooltip = null;
 
+            /**
+             * Translate the watchedAt tooltip
+             */
             $scope.getToolTip = function() {
                 return $scope.episode.get('watched') == 1 ?
                     $filter('translate')('EPISODEWATCHEDjs/is-marked/lbl') +
-                        $filter('date')(new Date($scope.episode.get('watchedAt')), 'medium') :
+                    $filter('date')(new Date($scope.episode.get('watchedAt')), 'medium') :
                     $filter('translate')('EPISODEWATCHEDjs/not-marked/lbl');
-            }
+            };
+
+            /**
+             * Pass the logic to the episode to handle marking watched in a generic way
+             */
             $scope.markWatched = function() {
-
                 if ($scope.episode.get('watched') == '1') {
-                    $scope.episode.set('watchedAt', null);
-                    $scope.episode.set('watched', '0');
+                    $scope.episode.markNotWatched($injector.get('$rootScope'));
                 } else {
-                    $scope.episode.set('watchedAt', new Date().getTime());
-                	$scope.episode.set('watched', '1');
+                    $scope.episode.markWatched($injector.get('$rootScope'));
                 }
-
-                $scope.episode.Persist();
-            }
+            };
         }
-    }
-})
+    };
+});
