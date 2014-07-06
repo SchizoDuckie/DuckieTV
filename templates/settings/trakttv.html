@@ -11,8 +11,8 @@
           <div ng-controller="TraktTVCtrl">
           <form name="userCredentials">
 
-            <input type='text' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'TRAKTTV/traktTV-sync-username/lbl'|translate}}" /><br>
-            <input type='text' name='password' ng-model='credentials.password' placeholder="Trakt.TV {{'TRAKTTV/traktTV-sync-password/lbl'|translate}}" /><br>
+            <input type='text' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'TRAKTTV/sync-username/lbl'|translate}}" /><br>
+            <input type='text' name='password' ng-model='credentials.password' placeholder="Trakt.TV {{'TRAKTTV/sync-password/lbl'|translate}}" /><br>
             <button ng-click='encryptPassword()' class="btn btn-danger">{{'TRAKTTV/sync-encrypt/btn'|translate}}</button><br>
             
             <button ng-click="readTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-read/btn'|translate}}</button>
