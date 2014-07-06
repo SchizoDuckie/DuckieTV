@@ -130,8 +130,18 @@ angular.module('DuckieTV', [
     ], {
         'en_ca': 'en_uk',
         'en_gb': 'en_uk',
-        'jp': 'jp_jp',
-        'pt': 'pt_pt'
+        'es_419': 'es_es',
+        'pt_br': 'pt_pt',
+        'de': 'de_de',
+        'en': 'en_us',
+        'es': 'es_es',
+        'fr': 'fr_fr',
+        'ja': 'jp_jp',
+        'ko': 'ko_kr',
+        'nl': 'nl_nl',
+        'pt': 'pt_pt',
+        'ru': 'ru_ru',
+        'sv': 'sv_se'
     })
 
     /*
@@ -232,18 +242,41 @@ angular.module('DuckieTV', [
                 locale = langKey;
                 langKey = 'en_uk';
                 break;
+            case 'de':
+                locale = langKey;
+                langKey = 'de_de';
+                break;
+            case 'en':
+                locale = langKey;
+                langKey = 'en_us';
+                break;
+            case 'es':
+                locale = langKey;
+                langKey = 'es_es';
+                break;
+            case 'fr':
+                locale = langKey;
+                langKey = 'fr_fr';
+                break;
+            case 'ja':
+                locale = langKey;
+                langKey = 'ja_jp';
+                break;
+            case 'ko':
+                locale = langKey;
+                langKey = 'ko_kr';
+                break;
+            case 'nl':
+                locale = langKey;
+                langKey = 'nl_nl';
+                break;
             case 'pt':
-                locale = 'pt';
+                locale = langKey;
                 langKey = 'pt_pt';
                 break;
             case 'es_419':
                 locale = langKey;
                 langKey = 'es_es';
-                break;
-            case 'ja':
-            case 'ja_jp':
-                locale = langKey;
-                langKey = 'ja_jp';
                 break;
             case 'pt_br':
                 locale = langKey;
@@ -253,17 +286,21 @@ angular.module('DuckieTV', [
                 locale = langKey;
                 langKey = 'ru_ru';
                 break;
-            case 'nl_nl':
+            case 'sv':
+                locale = langKey;
+                langKey = 'sv_se';
+                break;
             case 'de_de':
+            case 'en_uk':
             case 'es_es':
             case 'fr_fr':
-            case 'jp_jp':
+            case 'ja_jp':
             case 'ko_kr':
+            case 'nl_nl':
             case 'pt_pt':
             case 'ru_ru':
             case 'sv_se':
             case 'zh_cn':
-            case 'en_uk':
                 locale = langKey;
                 break;
             default:
