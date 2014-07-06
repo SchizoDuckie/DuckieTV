@@ -193,7 +193,10 @@ angular.module('DuckieTV', [
 
             // optional method
             'responseError': function(rejection) {
-                console.log("HTTP Error: ", rejection);
+                if ('recovered' in rejection.config) {
+                    return rejection;
+                }
+                rejection.config.recovered = true;
                 var $http = $injector.get('$http');
                 // first create new session server-side
                 // rejection.config.url = rejection.config.url.replace('http://www.corsproxy.com/', '');
