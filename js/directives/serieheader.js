@@ -12,9 +12,10 @@ angular.module('DuckieTV.directives.serieheader', [])
             'serie': '=data',
             'noListButton': "=noButton",
             "noOverview": "=noOverview",
+            "noTitle": "=noTitle",
             "mode": "@",
             "added": "=added"
         },
         templateUrl: "templates/serieHeader.html"
-    }
-})
+    };
+});

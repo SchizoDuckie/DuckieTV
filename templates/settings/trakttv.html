@@ -21,8 +21,8 @@
           </form>
 
           <div ng-if="traktTVSeries">
-             <p ng-repeat="serie in traktTVSeries">Fetched show: {{serie.title}} </p>
-             <serieheader style='display:inline-block;' ng-repeat="serie in traktTVSeries" ng-if="isDownloaded(serie.tvdb_id)" data="getDownloaded(serie.tvdb_id)" no-overview='1'>
+             <p ng-repeat="serie in traktTVSeries">Fetched show: {{serie.title}}. Watched episodes: {{ countWatchedEpisodes(serie) }} </p>
+             <serieheader style='display:inline-block;' ng-repeat="serie in traktTVSeries" ng-if="isDownloaded(serie.tvdb_id)" data="getDownloaded(serie.tvdb_id)" no-listbutton=1 no-title=1 no-overview=1>
                 <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
                 <em class="earmark" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif"></em>
              </serieheader>
