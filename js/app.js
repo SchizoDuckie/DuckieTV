@@ -299,6 +299,7 @@ angular.module('DuckieTV', [
             case 'en_uk':
             case 'es_es':
             case 'fr_fr':
+            case 'it_it':
             case 'ja_jp':
             case 'ko_kr':
             case 'nl_nl':
