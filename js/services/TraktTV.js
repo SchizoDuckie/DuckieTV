@@ -1,4 +1,4 @@
-angular.module('DuckieTV.providers.trakttv', [])
+angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
     .provider('TraktTV', function() {
         this.http = null;
         this.promise = null;
@@ -13,11 +13,16 @@ angular.module('DuckieTV.providers.trakttv', [])
             trending: 'http://api.trakt.tv/shows/trending.json/32e05d4138adb5da5b702b362bd21c52',
             userShows: 'http://api.trakt.tv/user/watchlist/shows.json/32e05d4138adb5da5b702b362bd21c52/%s/true',
             userWatched: 'http://api.trakt.tv/user/library/shows/watched.json/32e05d4138adb5da5b702b362bd21c52/%s/true',
-            showCheckin: 'http://api.trakt.tv/show/checkin/32e05d4138adb5da5b702b362bd21c52' // https://trakt.tv/api-docs/show-checkin
+            episodeSeen: 'https://api.trakt.tv/show/episode/seen/32e05d4138adb5da5b702b362bd21c52', // https://trakt.tv/api-docs/show-episode-seen
+            episodeUnseen: 'https://api.trakt.tv/show/episode/unseen/32e05d4138adb5da5b702b362bd21c52' // https://trakt.tv/api-docs/show-episode-seen
+
         };
 
         this.parsers = {
             series: function(data) {
+                if (!data) return {
+                    series: []
+                };
                 data = data.data;
                 for (var i = 0; i < data.length; i++) {
                     data[i].poster = ('images' in data[i] && 'poster' in data[i].images) ? data[i].images.poster : '';
@@ -64,7 +69,7 @@ angular.module('DuckieTV.providers.trakttv', [])
         };
 
 
-        this.$get = function($q, $http) {
+        this.$get = function($q, $http, $rootScope, SettingsService) {
             var self = this;
             self.http = $http;
             self.promise = $q;
@@ -91,9 +96,40 @@ angular.module('DuckieTV.providers.trakttv', [])
                 },
                 getUserWatched: function(username) {
                     return self.promiseRequest('userWatched', username);
+                },
+                markEpisodeWatched: function(serie, episode) {
+                    $http.post(self.endpoints.episodeSeen, {
+                        "username": SettingsService.get('trakttv.username'),
+                        "password": SettingsService.get('trakttv.passwordHash'),
+                        "tvdb_id": serie.get('TVDB_ID'),
+                        "title": serie.get('title'),
+                        "year": serie.get('year'),
+                        "episodes": [{
+                            "season": episode.get('seasonnumber'),
+                            "episode": episode.get('episodenumber')
+                        }]
+                    }).then(function(result) {
+                        console.log("Episode watched: ", serie, episode);
+                    });
+                },
+                markEpisodeNotWatched: function(serie, episode) {
+                    $http.post(self.endpoints.episodeUnseen, {
+                        "username": SettingsService.get('trakttv.username'),
+                        "password": SettingsService.get('trakttv.passwordHash'),
+                        "tvdb_id": serie.get('TVDB_ID'),
+                        "title": serie.get('title'),
+                        "year": serie.get('year'),
+                        "episodes": [{
+                            "season": episode.get('seasonnumber'),
+                            "episode": episode.get('episodenumber')
+                        }]
+                    }).then(function(result) {
+                        console.log("Episode watched: ", serie, episode);
+                    });
                 }
             };
         };
+
     })
 
 

@@ -2,7 +2,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
 .controller('SerieCtrl',
 
-    function(FavoritesService, SettingsService, SceneNameResolver, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter) {
+    function(FavoritesService, SettingsService, SceneNameResolver, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter, $q) {
         console.log('Series controller!', $routeParams.serie, $scope);
         $scope.episodes = [];
         $scope.episodeEntities = [];
@@ -32,7 +32,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
                         console.debug("Found a magnet selected!", magnet);
                         this.set('magnetHash', magnet);
                         this.Persist();
-                    }.bind(el))
+                    }.bind(el));
                     return el.asObject();
                 });
                 $scope.points = [];
@@ -81,7 +81,6 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
             fetchEpisodes(newVal);
         });
 
-
         /**
          * Check if airdate has passed
          */
@@ -91,45 +90,38 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
         $scope.markRange = function(episode) {
             if (!$scope.markingAsWatched) return;
-            $scope.markUntilDate = new Date(episode.firstaired)
+            $scope.markUntilIndex = episode.episodenumber;
             $scope.markingAsWatched = false;
-            promiseQueue = null;
-            for (var i = 0; i < $scope.episodes.length; i++) {
-                if ($scope.episodes[i].firstaired != '' && new Date($scope.episodes[i].firstaired) <= $scope.markUntilDate) {
-                    $scope.episodes[i].watched = '1';
-                    $scope.episodes[i].watchedAt = new Date().getTime();
 
-                    var p = CRUD.FindOne('Episode', {
-                        ID: $scope.episodes[i].ID_Episode
+            var pq = [];
+            $scope.episodes.map(function(episode, index) {
+                if (episode.episodenumber <= $scope.markUntilIndex) {
+                    pq.push(CRUD.FindOne('Episode', {
+                        ID: episode.ID_Episode
                     }).then(function(epi) {
-                        epi.set('watched', '1');
-                        epi.set('watchedAt', new Date().getTime());
-                        epi.Persist();
-                    })
+                        epi.markWatched($rootScope).then(function(result) {
+                            $scope.episodeEntities[result.get('ID_Episode')] = result;
+                            $scope.episodes[index] = result.asObject();
+                        });
+                    }));
                 }
-                if (promiseQueue !== null) {
-                    promiseQueue.then(function() {
-                        return p;
-                    });
-                } else {
-                    promiseQueue = p;
-                }
-            }
-            if (promiseQueue) {
-                promiseQueue.then(function() {
-                    console.log("All markaswatched promises done!");
-                    $rootScope.$broadcast('calendar:clearcache');
-                });
-            }
-        }
+            });
+
+            $q.all(pq).then(function() {
+                console.log("All markaswatched promises done!");
+                $rootScope.$broadcast('calendar:clearcache');
+            });
+
+        };
 
 
         $scope.setMarkEnd = function(episode) {
-            $scope.markUntilDate = new Date(episode.firstaired);
+            console.log("Set marker end: ", episode);
+            $scope.markUntilIndex = episode.episodenumber;
         }
 
         $scope.isMarkBeforeEnd = function(episode) {
-            return $scope.markingAsWatched && $scope.markUntilDate >= new Date(episode.firstaired);
+            return $scope.markingAsWatched && $scope.hasAired(episode) && parseInt($scope.markUntilIndex) >= parseInt(episode.episodenumber, 10);
         }
 
         $scope.stopMarkingAsWatched = function() {
