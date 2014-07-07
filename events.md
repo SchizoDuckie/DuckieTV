@@ -6,49 +6,101 @@ This keeps the configuration modular, allows easy extending at key points and pr
 
 
 Event Descriptions
-=============
-
-Published Events
-----------------------
+==================
+------------------
 
  -  **background:load**
 
     Tells the BackgroundRotator service to load a new background image. 
-   The background rotator handles queueing and switching between them.
+    The background rotator handles queueing and switching between them.
 
  -  **calendar:clearcache**
+
     Tells the calendar to clear it's cache and redraw
+
  -  **calendar:events**
+
     Feed the calendar new events
+
  -  **calendar:update**
+
     Reresh the calendar
+ 
  -  **episode:aired:check**
+ 
     Fires when the EpisodeAiredService needs to be triggered. This event is fired from the EventSchedulerService that gets instantiated by chrome's alarm API
+ 
  -  **episode:load**
+ 
     An episode has been loaded.
+ 
  -  **episode:marked:notwatched**
+ 
     An episode has been marked as not watched. Observed by Trakt.TV and forwards the markaswatched call when it's configured.
+ 
  -  **episode:marked:watched**
+ 
     An episode has been marked as not watched. Observed by Trakt.TV and forwards the markaswatched call when it's configured.
+ 
  -  **episodes:inserted**
+ 
     Fires when new episodes have been inserted into the database.
+ 
  -  **episodes:updated**
+ 
     Fires when episodes have been updated from trakt.tv
+ 
  -  **favorites:updated**
+ 
     Fires when a new favorite tv show has been inserted or removed
- -  **favoritesservice:checkforupdates**
+ 
+ -  **favoritesservice:checkforupdates**({TVDB_ID: int})
+
+    Notifies the favorites service that it needs to re-add the whole show based on the TVDB_ID
+ 
  -  **mirrorresolver:status**
+
+    A status update for the mirror resolver was published (used by SettingsCtrl to tap into verification steps)
+ 
  -  **serie:load**
+
+    Fires when a serie has been loaded from the database
+ 
  -  **serieslist:empty**
+ 
+    Fires when the series list is empty. Hooked by the seriesList directive to make it automatically pop up the suggestions when database is empty
+
  -  **serieslist:hide**
+
+    Notify the series list that it should hide itself. Fired on navigation change so that it doesn't stay in view
+ 
  -  **storage:update**
+
+    Notify the SettingsSync service that something has changed in the favorite series list.
+ 
  -  **timer:created**
+
+    Notify the TimerCtrl that a timer has been created and it should refresh
+ 
  -  **timer:fired**
+
+    Notify the TimerCtrl that a timer has fired
+ 
  -  **torrent:update:{{infoHash}}**
+
+    Notify the torrentRemoteControl directives that a torrent's data has been updated.
+ 
  -  **video:load**
+
+    Notify ChromeCast to load a video
+ 
  -  **watchlist:check**
+
+    Fires when the watchlist should be checked for updates
+ 
  -  **watchlist:updated**
 
+    Fires when the watchlist is updated
 
 
 
