@@ -126,7 +126,7 @@ angular.module('DuckieTV', [
      */
 
     .registerAvailableLanguageKeys([
-        'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl', 'de_de', 'es_es', 'fr_fr', 'ja_jp', 'ko_kr', 'pt_pt', 'ru_ru', 'sv_se', 'zh-cn'
+        'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl', 'de_de', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'pt_pt', 'ru_ru', 'sv_se', 'zh-cn'
     ], {
         'en_ca': 'en_uk',
         'en_gb': 'en_uk',
@@ -136,6 +136,7 @@ angular.module('DuckieTV', [
         'en': 'en_us',
         'es': 'es_es',
         'fr': 'fr_fr',
+        'it': 'it_it',
         'ja': 'jp_jp',
         'ko': 'ko_kr',
         'nl': 'nl_nl',
@@ -257,6 +258,10 @@ angular.module('DuckieTV', [
             case 'fr':
                 locale = langKey;
                 langKey = 'fr_fr';
+                break;
+            case 'it':
+                locale = langKey;
+                langKey = 'it_it';
                 break;
             case 'ja':
                 locale = langKey;
