@@ -20,6 +20,9 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
 
         this.parsers = {
             series: function(data) {
+                if (!data) return {
+                    series: []
+                };
                 data = data.data;
                 for (var i = 0; i < data.length; i++) {
                     data[i].poster = ('images' in data[i] && 'poster' in data[i].images) ? data[i].images.poster : '';
