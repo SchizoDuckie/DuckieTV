@@ -227,114 +227,16 @@ angular.module('DuckieTV', [
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
 })
 
+.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, EpisodeAiredService, datePickerConfig, $translate, $injector) {
 
-.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, EpisodeAiredService, datePickerConfig, $translate, tmhDynamicLocale, $injector) {
-
-
-    /*
-     * dynamic fallback based on locale
-     */
-    $rootScope.changeLanguage = function(langKey) {
-        langKey = langKey || 'en_us';
-        var locale = 'en_us';
-        switch (langKey) {
-            case 'en_au':
-            case 'en_nz':
-                locale = langKey;
-                langKey = 'en_uk';
-                break;
-            case 'de':
-                locale = langKey;
-                langKey = 'de_de';
-                break;
-            case 'en':
-                locale = langKey;
-                langKey = 'en_us';
-                break;
-            case 'es':
-                locale = langKey;
-                langKey = 'es_es';
-                break;
-            case 'fr':
-                locale = langKey;
-                langKey = 'fr_fr';
-                break;
-            case 'it':
-                locale = langKey;
-                langKey = 'it_it';
-                break;
-            case 'ja':
-                locale = langKey;
-                langKey = 'ja_jp';
-                break;
-            case 'ko':
-                locale = langKey;
-                langKey = 'ko_kr';
-                break;
-            case 'nl':
-                locale = langKey;
-                langKey = 'nl_nl';
-                break;
-            case 'pt':
-                locale = langKey;
-                langKey = 'pt_pt';
-                break;
-            case 'es_419':
-                locale = langKey;
-                langKey = 'es_es';
-                break;
-            case 'pt_br':
-                locale = langKey;
-                langKey = 'pt_pt';
-                break;
-            case 'ru':
-                locale = langKey;
-                langKey = 'ru_ru';
-                break;
-            case 'sv':
-                locale = langKey;
-                langKey = 'sv_se';
-                break;
-            case 'de_de':
-            case 'en_uk':
-            case 'es_es':
-            case 'fr_fr':
-            case 'it_it':
-            case 'ja_jp':
-            case 'ko_kr':
-            case 'nl_nl':
-            case 'pt_pt':
-            case 'ru_ru':
-            case 'sv_se':
-            case 'zh_cn':
-                locale = langKey;
-                break;
-            default:
-                langKey = 'en_us';
-                locale = langKey;
-        }
-        $translate.use(langKey);
-        tmhDynamicLocale.set(locale);
-        $rootScope.languageInUse = langKey;
-        console.log("Active Language", langKey, "; Active Locale", locale);
-    };
-
-
-
-    /*
-     * if the user has previously set the locale, over-ride the determinePreferredLanguage proposed id
-     * but remember the determination, it's used as an option in the locale settings page
-     */
-    $rootScope.determinedLocale = $rootScope.determinedLocale || $translate.proposedLanguage();
-    console.log("Determined Locale", $rootScope.determinedLocale);
-    $rootScope.changeLanguage(SettingsService.get('locale'));
-
+    // translate the application based on preference or proposed locale
+    SettingsService.set('client.determinedlocale', $translate.proposedLanguage()); // this doesn't return anything?
+    var configuredLanguage = SettingsService.get('application.language') || $translate.proposedLocale;
+    SettingsService.changeLanguage('en_us'); // this is the fallback language. any strings not loaded will be in en_us lanague.
+    SettingsService.changeLanguage(configuredLanguage);
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
     $rootScope.getSetting = function(key) {
-        if (key == 'cast.supported') {
-            return ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability);
-        }
         return SettingsService.get(key);
     };
 
@@ -352,10 +254,10 @@ angular.module('DuckieTV', [
 
     $rootScope.$on('storage:update', function() {
         /* if ($rootScope.getSetting('storage.sync') == true) {
-    console.log("STorage sync can run!");
-    StorageSyncService.readIfSynced();
-    StorageSyncService.synchronize();
-}*/
+                console.log("STorage sync can run!");
+                StorageSyncService.readIfSynced();
+                StorageSyncService.synchronize();
+            }*/
     });
 
     $rootScope.$on('$locationChangeSuccess', function() {
@@ -388,14 +290,6 @@ angular.module('DuckieTV', [
             });
         }
     });
-
-
-    // global variable translator
-    $rootScope.translateVar = function(data) {
-        return {
-            value: data
-        };
-    };
 
     MigrationService.check();
 

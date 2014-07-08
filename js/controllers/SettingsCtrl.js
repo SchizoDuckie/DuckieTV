@@ -17,60 +17,58 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     /*
      * set up the language list used in settings/display template
      */
-    $rootScope.languageList = [
-        {
-            locale: $rootScope.determinedLocale,
-            name:   $rootScope.determinedLocale + " " + $filter('translate')('DISPLAY/locale-default/lbl')
-        },{
-            locale: 'en_au',
-            name:   $filter('translate')('DISPLAY/locale/au')
-        },{
-            locale: 'en_nz',
-            name:   $filter('translate')('DISPLAY/locale/nz')
-        },{
-            locale: 'en_uk',
-            name:   $filter('translate')('DISPLAY/locale/uk')
-        },{
-            locale: 'en_us',
-            name:   $filter('translate')('DISPLAY/locale/us')
-        },{
-            locale: 'de_de',
-            name:   $filter('translate')('DISPLAY/locale/de_de')
-        },{
-            locale: 'es_419',
-            name:   $filter('translate')('DISPLAY/locale/es_419')
-        },{
-            locale: 'es_es',
-            name:   $filter('translate')('DISPLAY/locale/es_es')
-        },{
-            locale: 'fr_fr',
-            name:   $filter('translate')('DISPLAY/locale/fr_fr')
-        },{
-            locale: 'it_it',
-            name:   $filter('translate')('DISPLAY/locale/it_it')
-        },{
-            locale: 'ja_jp',
-            name:   $filter('translate')('DISPLAY/locale/ja_jp')
-        },{
-            locale: 'ko_kr',
-            name:   $filter('translate')('DISPLAY/locale/ko_kr')
-        },{
-            locale: 'nl_nl',
-            name:   $filter('translate')('DISPLAY/locale/nl_nl')
-        },{
-            locale: 'pt_pt',
-            name:   $filter('translate')('DISPLAY/locale/pt_pt')
-        },{
-            locale: 'ru_ru',
-            name:   $filter('translate')('DISPLAY/locale/ru_ru')
-        },{
-            locale: 'sv_se',
-            name:   $filter('translate')('DISPLAY/locale/sv_se')
-        },{
-            locale: 'zh_cn',
-            name:   $filter('translate')('DISPLAY/locale/zh_cn')
-        }
-    ];
+    $rootScope.languageList = [{
+        locale: SettingsService.get('application.locale'),
+        name: SettingsService.get('application.locale') + " " + $filter('translate')('DISPLAY/locale-default/lbl')
+    }, {
+        locale: 'en_au',
+        name: $filter('translate')('DISPLAY/locale/au')
+    }, {
+        locale: 'en_nz',
+        name: $filter('translate')('DISPLAY/locale/nz')
+    }, {
+        locale: 'en_uk',
+        name: $filter('translate')('DISPLAY/locale/uk')
+    }, {
+        locale: 'en_us',
+        name: $filter('translate')('DISPLAY/locale/us')
+    }, {
+        locale: 'de_de',
+        name: $filter('translate')('DISPLAY/locale/de_de')
+    }, {
+        locale: 'es_419',
+        name: $filter('translate')('DISPLAY/locale/es_419')
+    }, {
+        locale: 'es_es',
+        name: $filter('translate')('DISPLAY/locale/es_es')
+    }, {
+        locale: 'fr_fr',
+        name: $filter('translate')('DISPLAY/locale/fr_fr')
+    }, {
+        locale: 'it_it',
+        name: $filter('translate')('DISPLAY/locale/it_it')
+    }, {
+        locale: 'ja_jp',
+        name: $filter('translate')('DISPLAY/locale/ja_jp')
+    }, {
+        locale: 'ko_kr',
+        name: $filter('translate')('DISPLAY/locale/ko_kr')
+    }, {
+        locale: 'nl_nl',
+        name: $filter('translate')('DISPLAY/locale/nl_nl')
+    }, {
+        locale: 'pt_pt',
+        name: $filter('translate')('DISPLAY/locale/pt_pt')
+    }, {
+        locale: 'ru_ru',
+        name: $filter('translate')('DISPLAY/locale/ru_ru')
+    }, {
+        locale: 'sv_se',
+        name: $filter('translate')('DISPLAY/locale/sv_se')
+    }, {
+        locale: 'zh_cn',
+        name: $filter('translate')('DISPLAY/locale/zh_cn')
+    }];
 
     /**
      * Change the active settings tab
@@ -98,10 +96,9 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     /**
      * Change localization an translations, reloads translation table.
      */
-    $scope.setLocale = function(id) {
-        $rootScope.setSetting('locale', id);
-        $scope.locale = id;
-        $rootScope.changeLanguage(id);
+    $scope.setLocale = function(lang) {
+        SettingsService.changeLanguage(lang);
+        $scope.locale = lang;
     }
 
     /**

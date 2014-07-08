@@ -6,10 +6,13 @@ angular.module('DuckieTV.providers.settings', [])
  *
  * Shorthands to the get and set functions are provided in $rootScope by the getSetting and setSetting functions
  */
-.factory('SettingsService', function($injector) {
+.factory('SettingsService', function($injector, $rootScope) {
     var service = {
         settings: {},
         defaults: {
+            'application.language': null,
+            'application.locale': 'en_us',
+            'client.determinedlocale': null,
             'topSites.enabled': true,
             'torrenting.enabled': true,
             'torrenting.autodownload': false,
@@ -25,10 +28,10 @@ angular.module('DuckieTV.providers.settings', [])
             'storage.sync': true,
             'calendar.mode': 'date',
             'background-rotator.opacity': '0.4',
-            'locale': 'en_us',
             'trakttv.sync': false,
             'trakttv.username': null,
-            'trakttv.passwordHash': null
+            'trakttv.passwordHash': null,
+            'cast.supported': ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability)
         },
 
         /**
@@ -71,8 +74,98 @@ angular.module('DuckieTV.providers.settings', [])
             } else {
                 service.settings = angular.fromJson(localStorage.getItem('userPreferences'));
             }
+        },
+
+        /*
+         * Change the UI language and locale to use for translations tmhDynamicLocale
+         * Todo: clean this up.
+         */
+        changeLanguage: function(langKey) {
+            langKey = langKey || 'en_us';
+            var locale = 'en_us';
+            switch (langKey) {
+                case 'en_au':
+                case 'en_nz':
+                    locale = langKey;
+                    langKey = 'en_uk';
+                    break;
+                case 'de':
+                    locale = langKey;
+                    langKey = 'de_de';
+                    break;
+                case 'en':
+                    locale = langKey;
+                    langKey = 'en_us';
+                    break;
+                case 'es':
+                    locale = langKey;
+                    langKey = 'es_es';
+                    break;
+                case 'fr':
+                    locale = langKey;
+                    langKey = 'fr_fr';
+                    break;
+                case 'it':
+                    locale = langKey;
+                    langKey = 'it_it';
+                    break;
+                case 'ja':
+                    locale = langKey;
+                    langKey = 'ja_jp';
+                    break;
+                case 'ko':
+                    locale = langKey;
+                    langKey = 'ko_kr';
+                    break;
+                case 'nl':
+                    locale = langKey;
+                    langKey = 'nl_nl';
+                    break;
+                case 'pt':
+                    locale = langKey;
+                    langKey = 'pt_pt';
+                    break;
+                case 'es_419':
+                    locale = langKey;
+                    langKey = 'es_es';
+                    break;
+                case 'pt_br':
+                    locale = langKey;
+                    langKey = 'pt_pt';
+                    break;
+                case 'ru':
+                    locale = langKey;
+                    langKey = 'ru_ru';
+                    break;
+                case 'sv':
+                    locale = langKey;
+                    langKey = 'sv_se';
+                    break;
+                case 'de_de':
+                case 'en_uk':
+                case 'es_es':
+                case 'fr_fr':
+                case 'it_it':
+                case 'ja_jp':
+                case 'ko_kr':
+                case 'nl_nl':
+                case 'pt_pt':
+                case 'ru_ru':
+                case 'sv_se':
+                case 'zh_cn':
+                    locale = langKey;
+                    break;
+                default:
+                    langKey = 'en_us';
+                    locale = langKey;
+            }
+            service.set('application.language', langKey);
+            service.set('application.locale', locale);
+            $injector.get('$translate').use(langKey); // get these via the injector so that we don't have to use these dependencies hardcoded.
+            $injector.get('tmhDynamicLocale').set(locale); // the SettingsService is also required in the background page and we don't need $translate there
+            console.log("Active Language", langKey, "; Active Locale", locale);
         }
     };
     service.restore();
     return service;
-})
+});
