@@ -31,109 +31,11 @@
     <td>
       <p class="alert alert-info">{{'DISPLAY/locale/alert'|translate}}</p>
       <ul class="list-unstyled">
-        <li ng-click="setLocale(determinedLocale)" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != determinedLocale, 'glyphicon-record': locale == determinedLocale}"></i>
-          {{determinedLocale}} {{'DISPLAY/locale-default/lbl'|translate}}
-        </li>
-        <li ng-click="setLocale('en_au')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_au', 'glyphicon-record': locale == 'en_au'}"></i>
-          {{'DISPLAY/locale/au'|translate}}
-        </li>
-        <li ng-click="setLocale('en_nz')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_nz', 'glyphicon-record': locale == 'en_nz'}"></i>
-          {{'DISPLAY/locale/nz'|translate}}
-        </li>
-        <li ng-click="setLocale('en_uk')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_uk', 'glyphicon-record': locale == 'en_uk'}"></i>
-          {{'DISPLAY/locale/uk'|translate}}
-        </li>
-        <li ng-click="setLocale('en_us')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'en_us', 'glyphicon-record': locale == 'en_us'}"></i>
-          {{'DISPLAY/locale/us'|translate}}
-        </li>
-         <li ng-click="setLocale('de_de')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'de_de', 'glyphicon-record': locale == 'de_de'}"></i>
-          {{'DISPLAY/locale/de_de'|translate}}
-        </li>
-         <li ng-click="setLocale('es_419')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'es_419', 'glyphicon-record': locale == 'es_419'}"></i>
-          {{'DISPLAY/locale/es_419'|translate}}
-        </li>
-         <li ng-click="setLocale('es_es')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'es_es', 'glyphicon-record': locale == 'es_es'}"></i>
-          {{'DISPLAY/locale/es_es'|translate}}
-        </li>
-         <li ng-click="setLocale('fr_fr')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'fr_fr', 'glyphicon-record': locale == 'fr_fr'}"></i>
-          {{'DISPLAY/locale/fr_fr'|translate}}
-        </li>
-         <li ng-click="setLocale('it_it')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'it_it', 'glyphicon-record': locale == 'it_it'}"></i>
-          {{'DISPLAY/locale/it_it'|translate}}
-        </li>
-         <li ng-click="setLocale('ja_jp')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'ja_jp', 'glyphicon-record': locale == 'ja_jp'}"></i>
-          {{'DISPLAY/locale/ja_jp'|translate}}
-        </li>
-         <li ng-click="setLocale('ko_kr')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'ko_kr', 'glyphicon-record': locale == 'ko_kr'}"></i>
-          {{'DISPLAY/locale/ko_kr'|translate}}
-        </li>
-         <li ng-click="setLocale('nl_nl')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'nl_nl', 'glyphicon-record': locale == 'nl_nl'}"></i>
-          {{'DISPLAY/locale/nl_nl'|translate}}
-        </li>
-         <li ng-click="setLocale('pt_br')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'pt_br', 'glyphicon-record': locale == 'pt_br'}"></i>
-          {{'DISPLAY/locale/pt_br'|translate}}
-        </li>
-         <li ng-click="setLocale('pt_pt')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'pt_pt', 'glyphicon-record': locale == 'pt_pt'}"></i>
-          {{'DISPLAY/locale/pt_pt'|translate}}
-        </li>
-         <li ng-click="setLocale('ru_ru')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'ru_ru', 'glyphicon-record': locale == 'ru_ru'}"></i>
-          {{'DISPLAY/locale/ru_ru'|translate}}
-        </li>
-         <li ng-click="setLocale('sv_se')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'sv_se', 'glyphicon-record': locale == 'sv_se'}"></i>
-          {{'DISPLAY/locale/sv_se'|translate}}
-        </li>
-         <li ng-click="setLocale('zh_cn')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != 'zh_cn', 'glyphicon-record': locale == 'zh_cn'}"></i>
-          {{'DISPLAY/locale/zh_cn'|translate}}
+        <li ng-repeat="language in languageList" ng-click="setLocale(language.locale)" class="list-unstyled" style="cursor:pointer">
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != language.locale, 'glyphicon-record': locale == language.locale}"></i>
+          {{language.name}}
         </li>
       </ul>
     </td>
   </tr>
-
-  <!--<tr>
-    <th>
-      <strong>Page background</strong>
-    </th>
-    <td>
-      <ul class="list-unstyled">
-        <li>
-          <input type="radio" name="background" value="default" id='usebg1'>
-          <label for="usebg1">Use series artwork</label>
-        </li>
-        <li>
-          <input type="radio" name="background" value="default" id='usebg2' style='vertical-align:top'>
-          <label for="usebg2">Use a custom background image<br>
-            <input type='url' value='' placeholder='url to a custom background' style='width:500px'><br>
-            <input type="radio" name="backgroundsize" value="contain" id='usebgsize1'><label for="usebgsize1" style='width: 150px'>Contain</label>
-            <input type="radio" name="backgroundsize" value="cover" id='usebgsize2'><label for="usebgsize2" style='width: 150px'>Cover</label>
-            <input type="radio" name="backgroundsize" value="repeat" id='usebgsize3'><label for="usebgsize3" style='width: 150px'>Repeat</label>
-          </label>
-        </li>
-        <li>
-          <input type="radio" name="background" value="default" id='usebg3'>
-          <label for="usebg3">
-            Use a custom background color
-            <input colorpicker="rgba" colorpicker-position="right" class="form-control" ng-model="rgbaPicker.color" type="text" placeholder="Click to pick"/>
-          </label>
-        </li>
-      </ul>
-    </td>
-  </tr> -->
 </table>

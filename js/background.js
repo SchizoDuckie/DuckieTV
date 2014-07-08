@@ -17,10 +17,9 @@ chrome.runtime.onInstalled.addListener(function(details) {
     localStorage.setItem('runtime.event', angular.toJson(details, true));
     if (details.reason == "install") {
         console.log("This is a first install!");
-        localStorage.setItem('0.4migration', 'done');
-        localStorage.setItem('0.5.firetimers', 'done');
-        localStorage.setItem('0.53.createtimers', 'done');
-        localStorage.setItem('0.54.createtimers', 'done');
+        /*
+        * example: localStorage.setItem('0.54.createtimers', 'done');
+        */
     } else if (details.reason == "update") {
         var thisVersion = chrome.runtime.getManifest().version;
         console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
