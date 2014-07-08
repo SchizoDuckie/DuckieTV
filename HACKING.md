@@ -26,3 +26,7 @@ functions that can be accessed from HTML ng-* attributes and as variables betwee
 
 ## A Template ##
 Templates provide views based on $scope variables.
+
+
+If you want to get a quick overview of how events work within DuckieTV check out events.md:
+https://github.com/SchizoDuckie/DuckieTV/blob/angular/events.md
