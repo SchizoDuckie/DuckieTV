@@ -166,7 +166,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $scope.enableAutoDownload = function() {
         SettingsService.set('torrenting.autodownload', true);
-        EventSchedulerService.createInterval(' â˜  Automated torrent download service', 1, 'episode:aired:check', {});
+        EventSchedulerService.createInterval(' ☠ Automated torrent download service', 1, 'episode:aired:check', {});
     }
 
     /**
@@ -174,7 +174,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $scope.disableAutoDownload = function() {
         SettingsService.set('torrenting.autodownload', false);
-        EventSchedulerService.clear(' â˜  Automated torrent download service');
+        EventSchedulerService.clear(' ☠ Automated torrent download service');
     }
 
 
