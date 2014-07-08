@@ -45,13 +45,13 @@
              data: navigator.vendor
          }, {
              name: 'Determined Locale',
-             data: $rootScope.determinedLocale
+             data: SettingsService.get('client.determinedlocale')
          }, {
              name: 'Active Locale',
-             data: SettingsService.get('locale')
+             data: SettingsService.get('application.locale')
          }, {
              name: 'Active Language',
-             data: $rootScope.languageInUse
+             data: SettingsService.get('application.language')
          }, {
              name: 'Screen',
              data: screenSize
