@@ -2,7 +2,7 @@ angular.module('DuckieTV.providers.migrations', [])
 .factory('MigrationService', function() {
 
   /*
-   * REMINDER: background.js has corresponding migration avoidance dependants
+   * REMINDER: background.js and launch.js have corresponding migration avoidance dependence
    */
 
   var service = {
