@@ -232,7 +232,7 @@ angular.module('DuckieTV', [
     // translate the application based on preference or proposed locale
     console.log('client determined locale',$translate.proposedLanguage());
     SettingsService.set('client.determinedlocale', $translate.proposedLanguage());
-    var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLocale;
+    var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage;
     SettingsService.changeLanguage('en_us'); // this is the fallback language. any strings not loaded will be in en_us lanague.
     SettingsService.changeLanguage(configuredLocale);
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
