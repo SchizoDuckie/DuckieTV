@@ -82,82 +82,51 @@ angular.module('DuckieTV.providers.settings', [])
          */
         changeLanguage: function(langKey) {
             langKey = langKey || 'en_us';
-            var locale = 'en_us';
+            var locale = langKey;
             switch (langKey) {
                 case 'en_au':
                 case 'en_nz':
-                    locale = langKey;
                     langKey = 'en_uk';
                     break;
                 case 'de':
-                    locale = langKey;
                     langKey = 'de_de';
                     break;
                 case 'en':
-                    locale = langKey;
                     langKey = 'en_us';
                     break;
                 case 'es':
-                    locale = langKey;
                     langKey = 'es_es';
                     break;
                 case 'fr':
-                    locale = langKey;
                     langKey = 'fr_fr';
                     break;
                 case 'it':
-                    locale = langKey;
                     langKey = 'it_it';
                     break;
                 case 'ja':
-                    locale = langKey;
                     langKey = 'ja_jp';
                     break;
                 case 'ko':
-                    locale = langKey;
                     langKey = 'ko_kr';
                     break;
                 case 'nl':
-                    locale = langKey;
                     langKey = 'nl_nl';
                     break;
                 case 'pt':
-                    locale = langKey;
                     langKey = 'pt_pt';
                     break;
                 case 'es_419':
-                    locale = langKey;
                     langKey = 'es_es';
                     break;
                 case 'pt_br':
-                    locale = langKey;
                     langKey = 'pt_pt';
                     break;
                 case 'ru':
-                    locale = langKey;
                     langKey = 'ru_ru';
                     break;
                 case 'sv':
-                    locale = langKey;
                     langKey = 'sv_se';
                     break;
-                case 'de_de':
-                case 'en_uk':
-                case 'es_es':
-                case 'fr_fr':
-                case 'it_it':
-                case 'ja_jp':
-                case 'ko_kr':
-                case 'nl_nl':
-                case 'pt_pt':
-                case 'ru_ru':
-                case 'sv_se':
-                case 'zh_cn':
-                    locale = langKey;
-                    break;
-                default:
-                    langKey = 'en_us';
-                    locale = langKey;
             }
             service.set('application.language', langKey);
             service.set('application.locale', locale);
