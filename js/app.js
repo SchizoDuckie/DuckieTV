@@ -230,10 +230,11 @@ angular.module('DuckieTV', [
 .run(function($rootScope, SettingsService, StorageSyncService, MigrationService, EpisodeAiredService, datePickerConfig, $translate, $injector) {
 
     // translate the application based on preference or proposed locale
-    SettingsService.set('client.determinedlocale', $translate.proposedLanguage()); // this doesn't return anything?
-    var configuredLanguage = SettingsService.get('application.language') || $translate.proposedLocale;
+    console.log('client determined locale',$translate.proposedLanguage());
+    SettingsService.set('client.determinedlocale', $translate.proposedLanguage());
+    var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage;
     SettingsService.changeLanguage('en_us'); // this is the fallback language. any strings not loaded will be in en_us lanague.
-    SettingsService.changeLanguage(configuredLanguage);
+    SettingsService.changeLanguage(configuredLocale);
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
     $rootScope.getSetting = function(key) {

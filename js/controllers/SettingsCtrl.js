@@ -10,7 +10,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.mirrorStatus = [];
     $scope.log = [];
     $scope.hasTopSites = ('topSites' in window.chrome);
-    $scope.locale = SettingsService.get('locale');
+    $scope.locale = SettingsService.get('application.locale');
 
     $scope.activesettings = 'templates/settings/default.html';
 
@@ -18,8 +18,8 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      * set up the language list used in settings/display template
      */
     $rootScope.languageList = [{
-        locale: SettingsService.get('application.locale'),
-        name: SettingsService.get('application.locale') + " " + $filter('translate')('DISPLAY/locale-default/lbl')
+        locale: SettingsService.get('client.determinedlocale'),
+        name: SettingsService.get('client.determinedlocale') + " " + $filter('translate')('DISPLAY/locale-default/lbl')
     }, {
         locale: 'en_au',
         name: $filter('translate')('DISPLAY/locale/au')
