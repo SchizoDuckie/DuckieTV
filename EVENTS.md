@@ -118,29 +118,29 @@ Event Publishers:
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
-For the best results, select the neato layout engine for the Listeners graph, and twopi for the Publishers graph
+For the best results, select the twopi layout engine for both graphs
 
 Listeners
 -------------
 
 
-    digraph g {
+   digraph g {
       splines=true;
       sep="+5,+5";
       overlap=scalexy;
       nodesep=0.2;
       node [fontsize=11];
     
-      Listeners -> app
-      Listeners -> backgroundRotator
-      Listeners -> calendar
-      Listeners -> ChromeCast
-      Listeners -> DuckieTorrent
-      Listeners -> FavoritesService
-      Listeners -> seriesList
-      Listeners -> SettingsCtrl
-      Listeners -> TimerCtrl
-      Listeners -> WatchlistCheckerService
+      Listeners -> app [style="invis"]
+      Listeners -> backgroundRotator  [style="invis"]
+      Listeners -> calendar  [style="invis"]
+      Listeners -> ChromeCast  [style="invis"]
+      Listeners -> DuckieTorrent  [style="invis"]
+      Listeners -> FavoritesService  [style="invis"]
+      Listeners -> seriesList  [style="invis"]
+      Listeners -> SettingsCtrl  [style="invis"]
+      Listeners -> TimerCtrl  [style="invis"]
+      Listeners -> WatchlistCheckerService  [style="invis"]
     
       episodemarkednotwatched -> app
       episodemarkedwatched -> app
@@ -169,7 +169,7 @@ Listeners
       timercreated -> TimerCtrl
       watchlistcheck -> WatchlistCheckerService
     
-      Listeners [label="Event Listeners", shape=box,fillcolor="black",fontcolor="white",style="filled"];
+      Listeners [style="invis"];
     
       app [label="app.js", shape=box,fillcolor="white",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
@@ -177,46 +177,45 @@ Listeners
         episodemarkedwatched [label="episode:marked:watched", shape=box,fillcolor="white",style="filled"];
         episodemarkednotwatched [label="episode:marked:notwatched", shape=box,fillcolor="white",style="filled"];
     
-      TraktTV [ label="TraktTV", shape=box,fillcolor="#efefef",color="white",style="filled"]
+      TraktTV [ label="TraktTV", shape=box,fillcolor="#efefef",color="white",style="filled"];
         mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
     
-      SettingsCtrl [ label="SettingsCtrl", shape=box,fillcolor="#efefef",color="white",style="filled"]
+      SettingsCtrl [ label="SettingsCtrl", shape=box,fillcolor="#efefef",color="white",style="filled"];
         mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
     
-      TimerCtrl [ label="TimerCtrl", shape=box,fillcolor="#efefef",color="white",style="filled"]
+      TimerCtrl [ label="TimerCtrl", shape=box,fillcolor="#efefef",color="white",style="filled"];
         timercreated [label="timer:created", shape=box,fillcolor="white",style="filled"];
         timerfired [label="timer:fired", shape=box,fillcolor="white",style="filled"];
     
-      backgroundRotator [ label="backgroundRotator", shape=box,fillcolor="#efefef",color="white",style="filled"]
+      backgroundRotator [ label="backgroundRotator", shape=box,fillcolor="#efefef",color="white",style="filled"];
         backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
     
-      calendar [ label="calendar", shape=box,fillcolor="#efefef",color="white",style="filled"]
+      calendar [ label="calendar", shape=box,fillcolor="#efefef",color="white",style="filled"];
         episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
         calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
         setDate [label="setDate", shape=box,fillcolor="white",style="filled"];
      
-      seriesList [ label="seriesList", shape=box,fillcolor="#efefef",color="white",style="filled"]
+      seriesList [ label="seriesList", shape=box,fillcolor="#efefef",color="white",style="filled"];
         serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
         favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
         episodesinserted [label="episodes:inserted", shape=box,fillcolor="white",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
      
-      ChromeCast [ label="ChromeCast", shape=box,fillcolor="#efefef",color="white",style="filled"]
+      ChromeCast [ label="ChromeCast", shape=box,fillcolor="#efefef",color="white",style="filled"];
         serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
         episodeload [label="episode:load", shape=box,fillcolor="white",style="filled"];
         videoload [label=" background:load", shape=box,fillcolor="white",style="filled"];
      
-      DuckieTorrent [ label="DuckieTorrent", shape=box,fillcolor="#efefef",color="white",style="filled"]
+      DuckieTorrent [ label="DuckieTorrent", shape=box,fillcolor="#efefef",color="white",style="filled"];
         torrentupdateinfoHash [label="torrent:update:{{infoHash}}", shape=box,fillcolor="white",style="filled"];
         episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
        
-      FavoritesService [ label="FavoritesService", shape=box,fillcolor="#efefef",color="white",style="filled"]
+      FavoritesService [ label="FavoritesService", shape=box,fillcolor="#efefef",color="white",style="filled"];
         favoritesservicecheckforupdates [label="favoritesservice:checkforupdates", shape=box,fillcolor="white",style="filled"];
      
-      WatchlistCheckerService [ label="WatchlistCheckerService", shape=box,fillcolor="#efefef",color="white",style="filled"]
+      WatchlistCheckerService [ label="WatchlistCheckerService", shape=box,fillcolor="#efefef",color="white",style="filled"];
         watchlistcheck [label="watchlist:check", shape=box,fillcolor="white",style="filled"];
     }
-
 
 
 
@@ -224,145 +223,145 @@ Listeners
 Publishers
 
 
-    digraph g {
+   digraph g {
       splines=true;
       sep="+5,+5";
       overlap="scalexy";
       nodesep=0.2;
       node [fontsize=11];
     
-      Publishers -> app
-      Publishers -> BackupCtrl
-      Publishers -> DuckieTorrent
-      Publishers -> Episode
-      Publishers -> EpisodeAiredService
-      Publishers -> EpisodeCtrl
-      Publishers -> EventSchedulerService
-      Publishers -> EventWatcherService
-      Publishers -> FavoritesService
-      Publishers -> FileReader
-      Publishers -> MirrorResolver
-      Publishers -> ScheduledEvents
-      Publishers -> SerieCtrl
-      Publishers -> seriesList
-      Publishers -> SettingsCtrl
-      Publishers -> TorrentCtrl
-      Publishers -> torrentDialog
-      Publishers -> WatchlistService
+      Publishers -> app  [style="invis"]
+      Publishers -> BackupCtrl  [style="invis"]
+      Publishers -> DuckieTorrent  [style="invis"]
+      Publishers -> Episode  [style="invis"]
+      Publishers -> EpisodeAiredService  [style="invis"]
+      Publishers -> EpisodeCtrl  [style="invis"]
+      Publishers -> EventSchedulerService  [style="invis"]
+      Publishers -> EventWatcherService  [style="invis"]
+      Publishers -> FavoritesService  [style="invis"]
+      Publishers -> FileReader  [style="invis"]
+      Publishers -> MirrorResolver  [style="invis"]
+      Publishers -> ScheduledEvents  [style="invis"]
+      Publishers -> SerieCtrl  [style="invis"]
+      Publishers -> seriesList  [style="invis"]
+      Publishers -> SettingsCtrl  [style="invis"]
+      Publishers -> TorrentCtrl  [style="invis"]
+      Publishers -> torrentDialog  [style="invis"]
+      Publishers -> WatchlistService  [style="invis"]
     
-       CRUDentities -> app
-       serieslisthide -> app
-       calendarupdate -> BackupCtrl
-       storageupdate -> BackupCtrl
-       Episode -> CRUDEntities
-       torrentupdatemagnetHash -> DuckieTorrent
-       videoload -> DuckieTorrent
-       episodemarkednotwatched -> Episode
-       episodemarkedwatched -> Episode
-       episodesupdated -> EpisodeAiredService
-       backgroundload -> EpisodeCtrl
-       episodeload -> EpisodeCtrl
-       serieload -> EpisodeCtrl
-       timercreated -> EventSchedulerService
-       alarmeventchannel -> EventWatcherService
-       backgroundload -> FavoritesService
-       calendarclearcache -> FavoritesService
-       episodesupdated -> FavoritesService
-       favoritesupdated -> FavoritesService
-       fileProgress -> FileReader
-       mirrorresolverstatus -> MirrorResolver
-       episodeairedcheck -> ScheduledEvents
-       backgroundload -> SerieCtrl
-       serieload -> SerieCtrl
-       calendarclearcache -> SerieCtrl
-       backgroundload -> seriesList
-       episodesinserted -> seriesList
-       serieslistempty -> seriesList
-       storageupdate -> seriesList
-       backgroundload -> SettingsCtrl
-       favoritesupdated -> SettingsCtrl
-       mirrorresolverstatus -> SettingsCtrl
-       storageupdate -> SettingsCtrl
-       calendar -> TorrentCtrl
-       calendarevents -> TorrentCtrl
-       videoload -> TorrentCtrl
-       magnetselectTVDBID -> torrentDialog
-       watchlistupdated -> WatchlistService
+       CRUDentities -> app [dir="back"]
+       serieslisthide -> app  [dir="back"]
+       calendarupdate -> BackupCtrl  [dir="back"]
+       storageupdate -> BackupCtrl  [dir="back"]
+       Episode -> CRUDEntities  [dir="back"]
+       torrentupdatemagnetHash -> DuckieTorrent  [dir="back"]
+       videoload -> DuckieTorrent  [dir="back"]
+       episodemarkednotwatched -> Episode  [dir="back"]
+       episodemarkedwatched -> Episode  [dir="back"]
+       episodesupdated -> EpisodeAiredService  [dir="back"]
+       backgroundload -> EpisodeCtrl  [dir="back"]
+       episodeload -> EpisodeCtrl  [dir="back"]
+       serieload -> EpisodeCtrl  [dir="back"]
+       timercreated -> EventSchedulerService  [dir="back"]
+       alarmeventchannel -> EventWatcherService  [dir="back"]
+       backgroundload -> FavoritesService  [dir="back"]
+       calendarclearcache -> FavoritesService  [dir="back"] 
+       episodesupdated -> FavoritesService  [dir="back"]
+       favoritesupdated -> FavoritesService  [dir="back"]
+       fileProgress -> FileReader  [dir="back"]
+       mirrorresolverstatus -> MirrorResolver  [dir="back"]
+       episodeairedcheck -> ScheduledEvents  [dir="back"]
+       backgroundload -> SerieCtrl  [dir="back"]
+       serieload -> SerieCtrl  [dir="back"]
+       calendarclearcache -> SerieCtrl [dir="back"] 
+       backgroundload -> seriesList [dir="back"] 
+       episodesinserted -> seriesList [dir="back"] 
+       serieslistempty -> seriesList  [dir="back"]
+       storageupdate -> seriesList [dir="back"]
+       backgroundload -> SettingsCtrl  [dir="back"]
+       favoritesupdated -> SettingsCtrl  [dir="back"]
+       mirrorresolverstatus -> SettingsCtrl  [dir="back"]
+       storageupdate -> SettingsCtrl  [dir="back"]
+       calendar -> TorrentCtrl  [dir="back"]
+       calendarevents -> TorrentCtrl  [dir="back"]
+       videoload -> TorrentCtrl  [dir="back"]
+       magnetselectTVDBID -> torrentDialog  [dir="back"]
+       watchlistupdated -> WatchlistService  [dir="back"]
     
-      Publishers [label="Publishers",shape=box,fillcolor="black",fontcolor="white",style="filled"];
+      Publishers [style="invis"];
       
-      app [label="app",shape=box,fillcolor="#efefef",style="filled"];
+      app [label="app",shape=box,color="white",fillcolor="#efefef",style="filled"];
       serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
     
-      CRUDentities [label="CRUD.entities",shape=box,fillcolor="#efefef",style="filled"];
+      CRUDentities [label="CRUD.entities",shape=box,color="white",fillcolor="#efefef",style="filled"];
       Episode [label="Episode", shape=box,fillcolor="white",style="filled"];
       episodemarkedwatched [label="episode:marked:watched",shape=box,fillcolor="white",style="filled"];
       episodemarkednotwatched [label="episode:marked:notwatched", shape=box,fillcolor="white",style="filled"];
     
-      ScheduledEvents [label="ScheduledEvents",shape=box,fillcolor="#efefef",style="filled"];
+      ScheduledEvents [label="ScheduledEvents",shape=box,color="white",fillcolor="#efefef",style="filled"];
       episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
     
-      BackupCtrl [label="BackupCtrl",shape=box,fillcolor="#efefef",style="filled"];
+      BackupCtrl [label="BackupCtrl",shape=box,color="white",fillcolor="#efefef",style="filled"];
       storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
       calendarupdate [label="calendar:update", shape=box,fillcolor="white",style="filled"];
     
-      EpisodeCtrl [label="EpisodeCtrl",shape=box,fillcolor="#efefef",style="filled"];
+      EpisodeCtrl [label="EpisodeCtrl",shape=box,color="white",fillcolor="#efefef",style="filled"];
       serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
       episodeload [label="episode:load", shape=box,fillcolor="white",style="filled"];
       backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
     
-      SerieCtrl [label="SerieCtrl",shape=box,fillcolor="#efefef",style="filled"];
-      serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
+      SerieCtrl [label="SerieCtrl",shape=box,color="white",fillcolor="#efefef",style="filled"];
+      serieload [label="serie:load", shape=box,color="white",fillcolor="white",style="filled"];
       backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
       calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
     
-      SettingsCtrl [label="SettingsCtrl",shape=box,fillcolor="#efefef",style="filled"];
+      SettingsCtrl [label="SettingsCtrl",shape=box,color="white",fillcolor="#efefef",style="filled"];
       storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
       mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
       favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
       backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
     
-      TorrentCtrl [label="TorrentCtrl",shape=box,fillcolor="#efefef",style="filled"];
+      TorrentCtrl [label="TorrentCtrl",shape=box,color="white",fillcolor="#efefef",style="filled"];
       videoload [label="video:load", shape=box,fillcolor="white",style="filled"];
     
-      calendar [label="calendar",shape=box,fillcolor="#efefef",style="filled"];
+      calendar [label="calendar",shape=box,color="white",fillcolor="#efefef",style="filled"];
       calendarevents [label="calendar:events", shape=box,fillcolor="white",style="filled"];
     
-      seriesList [label="seriesList",shape=box,fillcolor="#efefef",style="filled"];
+      seriesList [label="seriesList",shape=box,color="white",fillcolor="#efefef",style="filled"];
       storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
       serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
       episodesinserted [label="episodes:inserted", shape=box,fillcolor="white",style="filled"];
       backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
     
-      torrentDialog [label="torrentDialog",shape=box,fillcolor="#efefef",style="filled"];
+      torrentDialog [label="torrentDialog",shape=box,color="white",fillcolor="#efefef",style="filled"];
       magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}", shape=box,fillcolor="white",style="filled"];
     
-      DuckieTorrent [label="DuckieTorrent",shape=box,fillcolor="#efefef",style="filled"];
+      DuckieTorrent [label="DuckieTorrent",shape=box,color="white",fillcolor="#efefef",style="filled"];
       torrentupdatemagnetHash [label="torrent:update:{{magnetHash}}", shape=box,fillcolor="white",style="filled"];
       videoload [label="video:load", shape=box,fillcolor="white",style="filled"];
     
-      EpisodeAiredService [label="EpisodeAiredService",shape=box,fillcolor="#efefef",style="filled"];
+      EpisodeAiredService [label="EpisodeAiredService",shape=box,color="white",fillcolor="#efefef",style="filled"];
       episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
     
-      EventSchedulerService [label="EventSchedulerService",shape=box,fillcolor="#efefef",style="filled"];
+      EventSchedulerService [label="EventSchedulerService",shape=box,color="white",fillcolor="#efefef",style="filled"];
       timercreated [label="timer:created", shape=box,fillcolor="white",style="filled"];
     
-      EventWatcherService [label="EventWatcherService",shape=box,fillcolor="#efefef",style="filled"];
+      EventWatcherService [label="EventWatcherService",shape=box,color="white",fillcolor="#efefef",style="filled"];
       alarmeventchannel [label="$alarm:eventchannel", shape=box,fillcolor="white",style="filled"];
     
-      FavoritesService [label="FavoritesService",shape=box,fillcolor="#efefef",style="filled"];
+      FavoritesService [label="FavoritesService",shape=box,color="white",fillcolor="#efefef",style="filled"];
       backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
       episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
       calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
       favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
     
-      FileReader [label="FileReader",shape=box,fillcolor="#efefef",style="filled"];
+      FileReader [label="FileReader",shape=box,color="white",fillcolor="#efefef",style="filled"];
       fileProgress [label="fileProgress", shape=box,fillcolor="white",style="filled"];
     
-      MirrorResolver [label="MirrorResolver",shape=box,fillcolor="#efefef",style="filled"];
+      MirrorResolver [label="MirrorResolver",shape=box,color="white",fillcolor="#efefef",style="filled"];
       mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
     
-      WatchlistService [label="WatchlistService",shape=box,fillcolor="#efefef",style="filled"];
+      WatchlistService [label="WatchlistService",shape=box,color="white",fillcolor="#efefef",style="filled"];
       watchlistupdated [label="watchlist:updated", shape=box,fillcolor="white",style="filled"];
     
       }
