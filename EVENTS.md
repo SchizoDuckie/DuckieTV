@@ -24,7 +24,7 @@ Event Descriptions
 
  -  **calendar:update**
 
-    Reresh the calendar
+    Refresh the calendar
  
  -  **episode:aired:check**
  

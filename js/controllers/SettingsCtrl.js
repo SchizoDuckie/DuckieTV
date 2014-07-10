@@ -17,7 +17,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     /*
      * set up the language list used in settings/display template
      */
-    $rootScope.languageList = [{
+    $scope.languageList = [{
         locale: SettingsService.get('client.determinedlocale'),
         name: SettingsService.get('client.determinedlocale') + " " + $filter('translate')('DISPLAY/locale-default/lbl')
     }, {
