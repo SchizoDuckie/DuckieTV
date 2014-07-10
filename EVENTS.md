@@ -110,11 +110,11 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](https://cloud.githubusercontent.com/assets/6933240/3533949/f5ccad10-07dd-11e4-8dfd-eec70ff67afe.png)
+![listeners](https://cloud.githubusercontent.com/assets/6933240/3536700/c320b712-0814-11e4-9c12-8d86f8fef916.png)
 
 Event Publishers:
 ------------------
-![publishers](https://cloud.githubusercontent.com/assets/6933240/3533917/409eff10-07dd-11e4-8ab8-cb555946568c.png)
+ ![image](https://cloud.githubusercontent.com/assets/111710/3501714/80dc6844-0619-11e4-9b69-b4414d612efc.png)
 
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
@@ -125,106 +125,127 @@ Listeners
 -------------
 
 
-    digraph g {
+   digraph g {
       splines=true;
       sep="+5,+5";
       overlap=scalexy;
       nodesep=0.2;
       node [fontsize=11];
-    
-      Listeners -> app [style="invis"]
-      Listeners -> backgroundRotator  [style="invis"]
-      Listeners -> calendar  [style="invis"]
-      Listeners -> ChromeCast  [style="invis"]
-      Listeners -> DuckieTorrent  [style="invis"]
-      Listeners -> FavoritesService  [style="invis"]
-      Listeners -> seriesList  [style="invis"]
-      Listeners -> SettingsCtrl  [style="invis"]
-      Listeners -> TimerCtrl  [style="invis"]
-      Listeners -> WatchlistCheckerService  [style="invis"]
-    
-      episodemarkednotwatched -> app
-      episodemarkedwatched -> app
-      episodemarkedwatched -> TraktTV
-      episodemarkednotwatched -> TraktTV
-      locationChangeSuccess -> app
-      storageupdate -> app
-      backgroundload -> backgroundRotator
-      calendarclearcache -> calendar
-      episodesupdated -> calendar
-      setDate -> calendar
-      episodeload -> ChromeCast
-      serieload -> ChromeCast
-      videoload -> ChromeCast
-      backgroundload -> ChromeCast
-      episodeairedcheck -> DuckieTorrent
-      torrentupdateinfoHash -> DuckieTorrent
-      favoritesservicecheckforupdates -> FavoritesService
-      serieslisthide -> locationChangeSuccess
-      episodesinserted -> seriesList
-      favoritesupdated -> seriesList
-      serieslisthide -> seriesList
-      serieslistempty -> seriesList
-      mirrorresolverstatus -> SettingsCtrl
-      timerfired -> TimerCtrl
-      timercreated -> TimerCtrl
-      watchlistcheck -> WatchlistCheckerService
-    
+
+      Listeners -> app [style="invis"];
+      Listeners -> backgroundRotator [style="invis"];
+      Listeners -> calendar [style="invis"];
+      Listeners -> ChromeCast [style="invis"];
+      Listeners -> datePicker [style="invis"];
+      Listeners -> DuckieTorrent [style="invis"];
+      Listeners -> EpisodeAiredService [style="invis"];
+      Listeners -> EpisodeCtrl [style="invis"];
+      Listeners -> FavoritesService [style="invis"];
+      Listeners -> SerieCtrl [style="invis"];
+      Listeners -> seriesList [style="invis"];
+      Listeners -> SettingsCtrl [style="invis"];
+      Listeners -> TimerCtrl [style="invis"];
+      Listeners -> WatchlistCtrl [style="invis"];
+      Listeners -> WatchlistCheckerService [style="invis"];
+
+      backgroundload -> backgroundRotator;
+      backgroundload -> ChromeCast;
+      calendarclearcache -> calendar;
+      calendarevents -> datePicker;
+      episodeairedcheck -> EpisodeAiredService;
+      episodeload -> ChromeCast;
+      episodemarkednotwatched -> app;
+      episodemarkednotwatched -> calendar;
+      episodemarkedwatched -> app;
+      episodemarkedwatched -> calendar;
+      episodesinserted -> seriesList;
+      episodesupdated -> calendar;
+      episodesupdated -> SerieCtrl;
+      favoritesservicecheckforupdates -> FavoritesService;
+      favoritesupdated -> SerieCtrl;
+      favoritesupdated -> seriesList;
+      favoritesupdated -> SettingsCtrl;
+      locationChangeSuccess -> app;
+      magnetselectTVDBID -> calendar;
+      magnetselectTVDBID -> EpisodeCtrl;
+      magnetselectTVDBID -> SerieCtrl;
+      mirrorresolverstatus -> SettingsCtrl;
+      serieload -> ChromeCast;
+      serieslistempty -> seriesList;
+      serieslisthide -> seriesList;
+      setDate -> calendar;
+      storageupdate -> app;
+      timercreated -> TimerCtrl;
+      timerfired -> TimerCtrl;
+      torrentupdateinfoHash -> DuckieTorrent;
+      videoload -> ChromeCast;
+      watchlistcheck -> WatchlistCheckerService;
+      watchlistupdated -> WatchlistCtrl;
+
       Listeners [style="invis"];
-    
-      app [label="app.js", shape=box,fillcolor="white",style="filled"];
+
+      app [label="app.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
         locationChangeSuccess [label="$locationChangeSuccess", shape=box,fillcolor="white",style="filled"];
         episodemarkedwatched [label="episode:marked:watched", shape=box,fillcolor="white",style="filled"];
         episodemarkednotwatched [label="episode:marked:notwatched", shape=box,fillcolor="white",style="filled"];
-    
-      TraktTV [ label="TraktTV", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
-    
-      SettingsCtrl [ label="SettingsCtrl", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
-    
-      TimerCtrl [ label="TimerCtrl", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        timercreated [label="timer:created", shape=box,fillcolor="white",style="filled"];
-        timerfired [label="timer:fired", shape=box,fillcolor="white",style="filled"];
-    
-      backgroundRotator [ label="backgroundRotator", shape=box,fillcolor="#efefef",color="white",style="filled"];
+
+      backgroundRotator [ label="backgroundRotator.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
-    
-      calendar [ label="calendar", shape=box,fillcolor="#efefef",color="white",style="filled"];
+
+      calendar [ label="calendar.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
         calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
         setDate [label="setDate", shape=box,fillcolor="white",style="filled"];
-     
-      seriesList [ label="seriesList", shape=box,fillcolor="#efefef",color="white",style="filled"];
+
+      ChromeCast [ label="ChromeCast.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
+        episodeload [label="episode:load", shape=box,fillcolor="white",style="filled"];
+        videoload [label=" video:load", shape=box,fillcolor="white",style="filled"];
+
+      datePicker [ label="datePicker.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        calendarevents [label="calendar:events", shape=box,fillcolor="white",style="filled"];
+
+      DuckieTorrent [ label="DuckieTorrent.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        torrentupdateinfoHash [label="torrent:update:{{infoHash}}", shape=box,fillcolor="white",style="filled"];
+
+      EpisodeAiredService [ label="EpisodeAiredService.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
+
+      EpisodeCtrl [ label="EpisodeCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+
+      FavoritesService [ label="FavoritesService.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        favoritesservicecheckforupdates [label="favoritesservice:checkforupdates", shape=box,fillcolor="white",style="filled"];
+
+      SerieCtrl [ label="SerieCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}", shape=box,fillcolor="white",style="filled"];
+
+      seriesList [ label="seriesList.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
         favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
         episodesinserted [label="episodes:inserted", shape=box,fillcolor="white",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
-     
-      ChromeCast [ label="ChromeCast", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
-        episodeload [label="episode:load", shape=box,fillcolor="white",style="filled"];
-        videoload [label=" background:load", shape=box,fillcolor="white",style="filled"];
-     
-      DuckieTorrent [ label="DuckieTorrent", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        torrentupdateinfoHash [label="torrent:update:{{infoHash}}", shape=box,fillcolor="white",style="filled"];
-        episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
-       
-      FavoritesService [ label="FavoritesService", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        favoritesservicecheckforupdates [label="favoritesservice:checkforupdates", shape=box,fillcolor="white",style="filled"];
-     
-      WatchlistCheckerService [ label="WatchlistCheckerService", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        watchlistcheck [label="watchlist:check", shape=box,fillcolor="white",style="filled"];
-    }
 
+      SettingsCtrl [ label="SettingsCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
+
+      TimerCtrl [ label="TimerCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        timercreated [label="timer:created", shape=box,fillcolor="white",style="filled"];
+        timerfired [label="timer:fired", shape=box,fillcolor="white",style="filled"];
+
+      WatchlistCtrl [ label="WatchlistCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        watchlistupdated [label="watchlist:updated", shape=box,fillcolor="white",style="filled"];
+
+      WatchlistCheckerService [ label="WatchlistCheckerService.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        watchlistcheck [label="watchlist:check", shape=box,fillcolor="white",style="filled"];
+}
 
 
 
 Publishers
 
 
-    digraph g {
+   digraph g {
       splines=true;
       sep="+5,+5";
       overlap="scalexy";
