@@ -110,10 +110,10 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-  ![image](https://cloud.githubusercontent.com/assets/111710/3501720/9c060756-0619-11e4-9d77-d0fd86563baf.png)
+![listeners](https://cloud.githubusercontent.com/assets/6933240/3533916/32047354-07dd-11e4-92cb-d02c86dddfe1.png)
 Event Publishers:
 ------------------
- ![image](https://cloud.githubusercontent.com/assets/111710/3501714/80dc6844-0619-11e4-9b69-b4414d612efc.png)
+![publishers](https://cloud.githubusercontent.com/assets/6933240/3533917/409eff10-07dd-11e4-8ab8-cb555946568c.png)
 
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
