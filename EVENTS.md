@@ -311,7 +311,7 @@ Publishers
       backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
     
       SerieCtrl [label="SerieCtrl",shape=box,color="white",fillcolor="#efefef",style="filled"];
-      serieload [label="serie:load", shape=box,color="white",fillcolor="white",style="filled"];
+      serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
       backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
       calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
     
