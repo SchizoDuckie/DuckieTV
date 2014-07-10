@@ -110,7 +110,8 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](https://cloud.githubusercontent.com/assets/6933240/3533916/32047354-07dd-11e4-92cb-d02c86dddfe1.png)
+![listeners](https://cloud.githubusercontent.com/assets/6933240/3533949/f5ccad10-07dd-11e4-8dfd-eec70ff67afe.png)
+
 Event Publishers:
 ------------------
 ![publishers](https://cloud.githubusercontent.com/assets/6933240/3533917/409eff10-07dd-11e4-8ab8-cb555946568c.png)
@@ -124,7 +125,7 @@ Listeners
 -------------
 
 
-   digraph g {
+    digraph g {
       splines=true;
       sep="+5,+5";
       overlap=scalexy;
@@ -223,7 +224,7 @@ Listeners
 Publishers
 
 
-   digraph g {
+    digraph g {
       splines=true;
       sep="+5,+5";
       overlap="scalexy";
