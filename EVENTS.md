@@ -303,6 +303,7 @@ Publishers
        storageupdate -> seriesList [dir="back"];
        storageupdate -> SettingsCtrl [dir="back"];
        timercreated -> EventSchedulerService [dir="back"];
+       timerfired -> EventSchedulerService [dir="back"];
        torrentupdatemagnetHash -> DuckieTorrent [dir="back"];
        videoload -> DuckieTorrent [dir="back"];
        videoload -> TorrentCtrl [dir="back"];
@@ -346,6 +347,7 @@ Publishers
         alarmeventchannel [label="$alarm:eventchannel", shape=box,fillcolor="white",style="filled"];
         episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
         favoritesservicecheckforupdates [label="favoritesservice:checkforupdates", shape=box,fillcolor="white",style="filled"];
+        timerfired [label="timer:fired", shape=box,fillcolor="white",style="filled"];
    
       FavoritesService [label="FavoritesService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
