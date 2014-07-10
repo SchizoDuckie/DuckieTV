@@ -114,7 +114,7 @@ Event Listeners:
 
 Event Publishers:
 ------------------
- ![image](https://cloud.githubusercontent.com/assets/111710/3501714/80dc6844-0619-11e4-9b69-b4414d612efc.png)
+![publishers](https://cloud.githubusercontent.com/assets/6933240/3541301/d72fba4c-084a-11e4-9f69-c957c1de16de.png)
 
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
