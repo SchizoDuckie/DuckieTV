@@ -238,7 +238,7 @@ Listeners
 
       WatchlistCheckerService [ label="WatchlistCheckerService.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         watchlistcheck [label="watchlist:check", shape=box,fillcolor="white",style="filled"];
-}
+    }
 
 
 
@@ -386,4 +386,4 @@ Publishers
       WatchlistService [label="WatchlistService",shape=box,color="white",fillcolor="#efefef",style="filled"];
       watchlistupdated [label="watchlist:updated", shape=box,fillcolor="white",style="filled"];
     
-}
+    }
