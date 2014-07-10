@@ -114,8 +114,7 @@ Event Listeners:
 
 Event Publishers:
 ------------------
-![publishers](https://cloud.githubusercontent.com/assets/6933240/3541301/d72fba4c-084a-11e4-9f69-c957c1de16de.png)
-
+![publishers](https://cloud.githubusercontent.com/assets/6933240/3542184/3976d7c2-0854-11e4-98b3-9e879c278186.png)
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
@@ -266,7 +265,6 @@ Publishers
       Publishers -> FavoritesService [style="invis"];
       Publishers -> FileReader [style="invis"];
       Publishers -> MirrorResolver [style="invis"];
-      Publishers -> ScheduledEvents [style="invis"];
       Publishers -> SerieCtrl [style="invis"];
       Publishers -> seriesList [style="invis"];
       Publishers -> SettingsCtrl [style="invis"];
@@ -284,13 +282,14 @@ Publishers
        calendarclearcache -> SerieCtrl [dir="back"];
        calendarevents -> calendar [dir="back"];
        calendarupdate -> BackupCtrl [dir="back"];
-       episodeairedcheck -> ScheduledEvents [dir="back"];
+       episodeairedcheck -> EventSchedulerService [dir="back"];
        episodeload -> EpisodeCtrl [dir="back"];
        episodemarkednotwatched -> CRUDentities [dir="back"];
        episodemarkedwatched -> CRUDentities [dir="back"];
        episodesupdated -> EpisodeAiredService [dir="back"];
        episodesupdated -> FavoritesService [dir="back"];
        favoritesupdated -> FavoritesService [dir="back"];
+       favoritesservicecheckforupdates -> EventSchedulerService [dir="back"];
        fileProgress -> FileReader [dir="back"];
        magnetselectTVDBID -> torrentDialog [dir="back"];
        mirrorresolverstatus -> MirrorResolver [dir="back"];
@@ -345,19 +344,18 @@ Publishers
     
       EventWatcherService [label="EventWatcherService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         alarmeventchannel [label="$alarm:eventchannel", shape=box,fillcolor="white",style="filled"];
-    
+        episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
+        favoritesservicecheckforupdates [label="favoritesservice:checkforupdates", shape=box,fillcolor="white",style="filled"];
+   
       FavoritesService [label="FavoritesService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
         favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
-    
+     
       FileReader [label="FileReader.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         fileProgress [label="fileProgress", shape=box,fillcolor="white",style="filled"];
     
       MirrorResolver [label="MirrorResolver.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
-    
-      ScheduledEvents [label="ScheduledEvents.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
     
       SerieCtrl [label="SerieCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
     
