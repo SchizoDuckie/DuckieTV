@@ -114,7 +114,7 @@ Event Listeners:
 
 Event Publishers:
 ------------------
- ![image](https://cloud.githubusercontent.com/assets/111710/3501714/80dc6844-0619-11e4-9b69-b4414d612efc.png)
+![image](https://cloud.githubusercontent.com/assets/111710/3501714/80dc6844-0619-11e4-9b69-b4414d612efc.png)
 
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
@@ -125,7 +125,7 @@ Listeners
 -------------
 
 
-   digraph g {
+    digraph g {
       splines=true;
       sep="+5,+5";
       overlap=scalexy;
@@ -245,7 +245,7 @@ Listeners
 Publishers
 
 
-   digraph g {
+    digraph g {
       splines=true;
       sep="+5,+5";
       overlap="scalexy";
@@ -386,5 +386,4 @@ Publishers
       WatchlistService [label="WatchlistService",shape=box,color="white",fillcolor="#efefef",style="filled"];
       watchlistupdated [label="watchlist:updated", shape=box,fillcolor="white",style="filled"];
     
-      }
-
+}
