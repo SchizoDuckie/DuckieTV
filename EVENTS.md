@@ -118,7 +118,7 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](https://cloud.githubusercontent.com/assets/6933240/3559356/53904440-0949-11e4-8394-21b58772cf74.png)
+![listeners](https://cloud.githubusercontent.com/assets/6933240/3559485/ef63f3f2-094a-11e4-99f3-e838656af396.png)
 
 Event Publishers:
 ------------------
