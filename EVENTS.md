@@ -1,4 +1,4 @@
-Event Publishers And Listeners
+¥¥Event Publishers And Listeners
 =======================
 
 Throughout Services and Directives in DuckieTV events are published on the $rootScope and subscribed to by others.
@@ -8,6 +8,15 @@ This keeps the configuration modular, allows easy extending at key points and pr
 Event Descriptions
 ==================
 ------------------
+
+ -  **$alarm:eventchannel**
+
+    This is a dynamic event that's initiated by one of the chrome.alarms api's alarms being fired and caught by the EventWatcherService. Since a chrome alarm can just be one string and we want to initiate a dynamic action when it's been fired the EventWatcher service queries the database for a ScheduledEvent entity. Each ScheduledEvent has a channel and optional event data that will automatically be fired with $rootScope.$broadcast(ScheduledEvent.eventchannel, ScheduledEvent.eventData). This results in a delayed execution mechanism where code like this can be scheduled : favoritesservice:checkforupdates { "ID": 3, "TVDB_ID": 255326 }. These events are mainly observed in background.js to keep DuckieTV up to date without user interaction, and since v0.60 also used to schedule the episode:aired:check event that provides auto-downloads.
+
+ -  **$locationChangeSuccess**
+
+  	This is an angular-route internal event that will fire when the $location.hash changes.
+  	It is observed by for instance the seriesList to auto-hide it when clicking a serie from your favorites list. 
 
  -  **background:load**
 
@@ -57,7 +66,11 @@ Event Descriptions
  -  **favoritesservice:checkforupdates**({TVDB_ID: int})
 
     Notifies the favorites service that it needs to re-add the whole show based on the TVDB_ID
- 
+
+    magnet:select:{{TVDB_ID}}**(infohash:string)
+
+    This event is fired by the TorrentDialog when a magnet uri is launched. It passes a torrent's unique 40 character hash so that it can be stored on the episode entity. The calendar and SeriesCtrl observe this event to handle persisting and triggering UI updates (like starting to watch if uTorrent is downloading this torrent by monitoring for torrent:update:{{infohash}})
+  
  -  **mirrorresolver:status**
 
     A status update for the mirror resolver was published (used by SettingsCtrl to tap into verification steps)
@@ -74,6 +87,10 @@ Event Descriptions
 
     Notify the series list that it should hide itself. Fired on navigation change so that it doesn't stay in view
  
+ -  **setDate**
+
+    Notify that the calendar's date has changed. Fired by the calendar internals and observed by the CalendarEvents provider that fetches and serves the calendar events for the date range currently in view
+  
  -  **storage:update**
 
     Notify the SettingsSync service that something has changed in the favorite series list.
@@ -114,8 +131,7 @@ Event Listeners:
 
 Event Publishers:
 ------------------
-![publishers](https://cloud.githubusercontent.com/assets/6933240/3541301/d72fba4c-084a-11e4-9f69-c957c1de16de.png)
-
+![publishers](https://cloud.githubusercontent.com/assets/6933240/3542184/3976d7c2-0854-11e4-98b3-9e879c278186.png)
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
@@ -266,7 +282,6 @@ Publishers
       Publishers -> FavoritesService [style="invis"];
       Publishers -> FileReader [style="invis"];
       Publishers -> MirrorResolver [style="invis"];
-      Publishers -> ScheduledEvents [style="invis"];
       Publishers -> SerieCtrl [style="invis"];
       Publishers -> seriesList [style="invis"];
       Publishers -> SettingsCtrl [style="invis"];
@@ -284,13 +299,14 @@ Publishers
        calendarclearcache -> SerieCtrl [dir="back"];
        calendarevents -> calendar [dir="back"];
        calendarupdate -> BackupCtrl [dir="back"];
-       episodeairedcheck -> ScheduledEvents [dir="back"];
+       episodeairedcheck -> EventSchedulerService [dir="back"];
        episodeload -> EpisodeCtrl [dir="back"];
        episodemarkednotwatched -> CRUDentities [dir="back"];
        episodemarkedwatched -> CRUDentities [dir="back"];
        episodesupdated -> EpisodeAiredService [dir="back"];
        episodesupdated -> FavoritesService [dir="back"];
        favoritesupdated -> FavoritesService [dir="back"];
+       favoritesservicecheckforupdates -> EventSchedulerService [dir="back"];
        fileProgress -> FileReader [dir="back"];
        magnetselectTVDBID -> torrentDialog [dir="back"];
        mirrorresolverstatus -> MirrorResolver [dir="back"];
@@ -304,6 +320,7 @@ Publishers
        storageupdate -> seriesList [dir="back"];
        storageupdate -> SettingsCtrl [dir="back"];
        timercreated -> EventSchedulerService [dir="back"];
+       timerfired -> EventSchedulerService [dir="back"];
        torrentupdatemagnetHash -> DuckieTorrent [dir="back"];
        videoload -> DuckieTorrent [dir="back"];
        videoload -> TorrentCtrl [dir="back"];
@@ -345,19 +362,19 @@ Publishers
     
       EventWatcherService [label="EventWatcherService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         alarmeventchannel [label="$alarm:eventchannel", shape=box,fillcolor="white",style="filled"];
-    
+        episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
+        favoritesservicecheckforupdates [label="favoritesservice:checkforupdates", shape=box,fillcolor="white",style="filled"];
+        timerfired [label="timer:fired", shape=box,fillcolor="white",style="filled"];
+   
       FavoritesService [label="FavoritesService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
         favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
-    
+     
       FileReader [label="FileReader.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         fileProgress [label="fileProgress", shape=box,fillcolor="white",style="filled"];
     
       MirrorResolver [label="MirrorResolver.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
-    
-      ScheduledEvents [label="ScheduledEvents.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
     
       SerieCtrl [label="SerieCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
     
