@@ -1,4 +1,4 @@
-¥¥Event Publishers And Listeners
+Event Publishers And Listeners
 =======================
 
 Throughout Services and Directives in DuckieTV events are published on the $rootScope and subscribed to by others.
@@ -34,87 +34,87 @@ Event Descriptions
  -  **calendar:update**
 
     Refresh the calendar
- 
+
  -  **episode:aired:check**
- 
+
     Fires when the EpisodeAiredService needs to be triggered. This event is fired from the EventSchedulerService that gets instantiated by chrome's alarm API
- 
+
  -  **episode:load**
- 
+
     An episode has been loaded.
- 
+
  -  **episode:marked:notwatched**
- 
+
     An episode has been marked as not watched. Observed by Trakt.TV and forwards the markaswatched call when it's configured.
- 
+
  -  **episode:marked:watched**
- 
+
     An episode has been marked as not watched. Observed by Trakt.TV and forwards the markaswatched call when it's configured.
- 
+
  -  **episodes:inserted**
- 
+
     Fires when new episodes have been inserted into the database.
- 
+
  -  **episodes:updated**
- 
+
     Fires when episodes have been updated from trakt.tv
- 
+
  -  **favorites:updated**
- 
+
     Fires when a new favorite tv show has been inserted or removed
- 
+
  -  **favoritesservice:checkforupdates**({TVDB_ID: int})
 
     Notifies the favorites service that it needs to re-add the whole show based on the TVDB_ID
 
-    magnet:select:{{TVDB_ID}}**(infohash:string)
+ -  **magnet:select:{{TVDB_ID}}**(infohash:string)
 
     This event is fired by the TorrentDialog when a magnet uri is launched. It passes a torrent's unique 40 character hash so that it can be stored on the episode entity. The calendar and SeriesCtrl observe this event to handle persisting and triggering UI updates (like starting to watch if uTorrent is downloading this torrent by monitoring for torrent:update:{{infohash}})
-  
+
  -  **mirrorresolver:status**
 
     A status update for the mirror resolver was published (used by SettingsCtrl to tap into verification steps)
- 
+
  -  **serie:load**
 
     Fires when a serie has been loaded from the database
- 
+
  -  **serieslist:empty**
- 
+
     Fires when the series list is empty. Hooked by the seriesList directive to make it automatically pop up the suggestions when database is empty
 
  -  **serieslist:hide**
 
     Notify the series list that it should hide itself. Fired on navigation change so that it doesn't stay in view
- 
+
  -  **setDate**
 
     Notify that the calendar's date has changed. Fired by the calendar internals and observed by the CalendarEvents provider that fetches and serves the calendar events for the date range currently in view
-  
+
  -  **storage:update**
 
     Notify the SettingsSync service that something has changed in the favorite series list.
- 
+
  -  **timer:created**
 
     Notify the TimerCtrl that a timer has been created and it should refresh
- 
+
  -  **timer:fired**
 
     Notify the TimerCtrl that a timer has fired
- 
- -  **torrent:update:{{infoHash}}**
+
+ -  **torrent:update:**{{infoHash}}
 
     Notify the torrentRemoteControl directives that a torrent's data has been updated.
- 
+
  -  **video:load**
 
     Notify ChromeCast to load a video
- 
+
  -  **watchlist:check**
 
     Fires when the watchlist should be checked for updates
- 
+
  -  **watchlist:updated**
 
     Fires when the watchlist is updated
@@ -148,6 +148,7 @@ Listeners
       nodesep=0.2;
       node [fontsize=11];
 
+      Listeners -> something [style="invis"];
       Listeners -> app [style="invis"];
       Listeners -> backgroundRotator [style="invis"];
       Listeners -> calendar [style="invis"];
@@ -168,6 +169,7 @@ Listeners
       backgroundload -> ChromeCast;
       calendarclearcache -> calendar;
       calendarevents -> datePicker;
+      calendarupdate -> something;
       episodeairedcheck -> EpisodeAiredService;
       episodeload -> ChromeCast;
       episodemarkednotwatched -> app;
@@ -199,6 +201,9 @@ Listeners
       watchlistupdated -> WatchlistCtrl;
 
       Listeners [style="invis"];
+
+      something [label="something.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        calendarupdate [label="calendar:update", shape=box,fillcolor="white",style="filled"];
 
       app [label="app.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
@@ -254,7 +259,7 @@ Listeners
 
       WatchlistCheckerService [ label="WatchlistCheckerService.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         watchlistcheck [label="watchlist:check", shape=box,fillcolor="white",style="filled"];
-}
+    }
 
 
 
@@ -269,6 +274,8 @@ Publishers
       nodesep=0.2;
       node [fontsize=11];
 
+      Publishers -> something [style="invis"];
+      Publishers -> angularjs [style="invis"];
       Publishers -> app [style="invis"];
       Publishers -> BackupCtrl [style="invis"];
       Publishers -> calendar [style="invis"];
@@ -288,108 +295,112 @@ Publishers
       Publishers -> TorrentCtrl [style="invis"];
       Publishers -> torrentDialog [style="invis"];
       Publishers -> WatchlistService [style="invis"];
-    
-       alarmeventchannel -> EventWatcherService [dir="back"];
-       backgroundload -> EpisodeCtrl [dir="back"];
-       backgroundload -> FavoritesService [dir="back"];
-       backgroundload -> SerieCtrl [dir="back"];
-       backgroundload -> seriesList [dir="back"] ;
-       backgroundload -> SettingsCtrl [dir="back"];
-       calendarclearcache -> FavoritesService [dir="back"];
-       calendarclearcache -> SerieCtrl [dir="back"];
-       calendarevents -> calendar [dir="back"];
-       calendarupdate -> BackupCtrl [dir="back"];
-       episodeairedcheck -> EventSchedulerService [dir="back"];
-       episodeload -> EpisodeCtrl [dir="back"];
-       episodemarkednotwatched -> CRUDentities [dir="back"];
-       episodemarkedwatched -> CRUDentities [dir="back"];
-       episodesupdated -> EpisodeAiredService [dir="back"];
-       episodesupdated -> FavoritesService [dir="back"];
-       favoritesupdated -> FavoritesService [dir="back"];
-       favoritesservicecheckforupdates -> EventSchedulerService [dir="back"];
-       fileProgress -> FileReader [dir="back"];
-       magnetselectTVDBID -> torrentDialog [dir="back"];
-       mirrorresolverstatus -> MirrorResolver [dir="back"];
-       mirrorresolverstatus -> SettingsCtrl [dir="back"];
-       serieload -> EpisodeCtrl [dir="back"];
-       serieload -> SerieCtrl [dir="back"];
-       serieslistempty -> seriesList [dir="back"];
-       serieslisthide -> app [dir="back"];
-       setDate -> datePicker [dir="back"];
-       storageupdate -> BackupCtrl [dir="back"];
-       storageupdate -> seriesList [dir="back"];
-       storageupdate -> SettingsCtrl [dir="back"];
-       timercreated -> EventSchedulerService [dir="back"];
-       timerfired -> EventSchedulerService [dir="back"];
-       torrentupdatemagnetHash -> DuckieTorrent [dir="back"];
-       videoload -> DuckieTorrent [dir="back"];
-       videoload -> TorrentCtrl [dir="back"];
-       watchlistupdated -> WatchlistService [dir="back"];
-    
+
+      alarmeventchannel -> EventWatcherService [dir="back"];
+      backgroundload -> EpisodeCtrl [dir="back"];
+      backgroundload -> FavoritesService [dir="back"];
+      backgroundload -> SerieCtrl [dir="back"];
+      backgroundload -> seriesList [dir="back"] ;
+      backgroundload -> SettingsCtrl [dir="back"];
+      calendarclearcache -> FavoritesService [dir="back"];
+      calendarclearcache -> SerieCtrl [dir="back"];
+      calendarevents -> calendar [dir="back"];
+      calendarupdate -> BackupCtrl [dir="back"];
+      episodeairedcheck -> EventWatcherService [dir="back"];
+      episodeload -> EpisodeCtrl [dir="back"];
+      episodesinserted -> something [dir="back"];
+      episodemarkednotwatched -> CRUDentities [dir="back"];
+      episodemarkedwatched -> CRUDentities [dir="back"];
+      episodesupdated -> EpisodeAiredService [dir="back"];
+      episodesupdated -> FavoritesService [dir="back"];
+      favoritesupdated -> FavoritesService [dir="back"];
+      favoritesservicecheckforupdates -> EventWatcherService [dir="back"];
+      locationChangeSuccess -> angularjs [dir="back"];
+      magnetselectTVDBID -> torrentDialog [dir="back"];
+      mirrorresolverstatus -> MirrorResolver [dir="back"];
+      mirrorresolverstatus -> SettingsCtrl [dir="back"];
+      serieload -> EpisodeCtrl [dir="back"];
+      serieload -> SerieCtrl [dir="back"];
+      serieslistempty -> seriesList [dir="back"];
+      serieslisthide -> app [dir="back"];
+      setDate -> datePicker [dir="back"];
+      storageupdate -> BackupCtrl [dir="back"];
+      storageupdate -> seriesList [dir="back"];
+      storageupdate -> SettingsCtrl [dir="back"];
+      timercreated -> EventSchedulerService [dir="back"];
+      timerfired -> EventWatcherService [dir="back"];
+      torrentupdateinfoHash -> DuckieTorrent [dir="back"];
+      videoload -> DuckieTorrent [dir="back"];
+      videoload -> TorrentCtrl [dir="back"];
+      watchlistupdated -> WatchlistService [dir="back"];
+
       Publishers [style="invis"];
-      
+
+      something [label="something.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        episodesinserted [label="episodes:inserted", shape=box,fillcolor="white",style="filled"];
+
+      angularjs [label="angular.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        locationChangeSuccess [label="$locationChangeSuccess", shape=box,fillcolor="white",style="filled"];
+
       app [label="app.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
-    
+
       BackupCtrl [label="BackupCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
         calendarupdate [label="calendar:update", shape=box,fillcolor="white",style="filled"];
-    
+
       calendar [label="calendar.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         calendarevents [label="calendar:events", shape=box,fillcolor="white",style="filled"];
-    
+
       CRUDentities [label="CRUD.entities.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         episodemarkedwatched [label="episode:marked:watched",shape=box,fillcolor="white",style="filled"];
         episodemarkednotwatched [label="episode:marked:notwatched", shape=box,fillcolor="white",style="filled"];
-    
+
       datePicker [label="datePicker.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         setDate [label="setDate", shape=box,fillcolor="white",style="filled"];
-        
+
       DuckieTorrent [label="DuckieTorrent.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        torrentupdatemagnetHash [label="torrent:update:{{magnetHash}}", shape=box,fillcolor="white",style="filled"];
+        torrentupdateinfoHash [label="torrent:update:{{infoHash}}", shape=box,fillcolor="white",style="filled"];
         videoload [label="video:load", shape=box,fillcolor="white",style="filled"];
-    
+
       EpisodeAiredService [label="EpisodeAiredService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
-    
+
       EpisodeCtrl [label="EpisodeCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
         episodeload [label="episode:load", shape=box,fillcolor="white",style="filled"];
         backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
-    
+
       EventSchedulerService [label="EventSchedulerService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         timercreated [label="timer:created", shape=box,fillcolor="white",style="filled"];
-    
+
       EventWatcherService [label="EventWatcherService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         alarmeventchannel [label="$alarm:eventchannel", shape=box,fillcolor="white",style="filled"];
         episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
         favoritesservicecheckforupdates [label="favoritesservice:checkforupdates", shape=box,fillcolor="white",style="filled"];
         timerfired [label="timer:fired", shape=box,fillcolor="white",style="filled"];
-   
+
       FavoritesService [label="FavoritesService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
         favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
-     
-      FileReader [label="FileReader.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        fileProgress [label="fileProgress", shape=box,fillcolor="white",style="filled"];
-    
+
       MirrorResolver [label="MirrorResolver.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
-    
+
       SerieCtrl [label="SerieCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-    
+
       seriesList [label="seriesList.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
-    
+
       SettingsCtrl [label="SettingsCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-    
+
       TorrentCtrl [label="TorrentCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-    
+
       torrentDialog [label="torrentDialog.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}", shape=box,fillcolor="white",style="filled"];
-    
+
       WatchlistService [label="WatchlistService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         watchlistupdated [label="watchlist:updated", shape=box,fillcolor="white",style="filled"];
-    
+
     }
 
