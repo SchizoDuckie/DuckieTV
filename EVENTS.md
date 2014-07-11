@@ -124,14 +124,13 @@ Event Descriptions
 Graphviz graphs
 ===============
 
-
 Event Listeners:
 -----------------------
-![listeners](https://cloud.githubusercontent.com/assets/6933240/3536700/c320b712-0814-11e4-9c12-8d86f8fef916.png)
+![listeners](https://cloud.githubusercontent.com/assets/6933240/3555821/d93932ce-091b-11e4-9ceb-940d5146b3f9.png)
 
 Event Publishers:
 ------------------
-![publishers](https://cloud.githubusercontent.com/assets/6933240/3542184/3976d7c2-0854-11e4-98b3-9e879c278186.png)
+![publishers](https://cloud.githubusercontent.com/assets/6933240/3555837/f6ea1900-091b-11e4-81af-bb713a4cc634.png)
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
