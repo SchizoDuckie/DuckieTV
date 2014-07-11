@@ -15,8 +15,8 @@ Event Descriptions
 
  -  **$locationChangeSuccess**
 
-  	This is an angular-route internal event that will fire when the $location.hash changes.
-  	It is observed by for instance the seriesList to auto-hide it when clicking a serie from your favorites list. 
+   This is an angular-route internal event that will fire when the $location.hash changes.
+    It is observed by for instance the seriesList to auto-hide it when clicking a serie from your favorites list. 
 
  -  **background:load**
 
@@ -30,10 +30,6 @@ Event Descriptions
  -  **calendar:events**
 
     Feed the calendar new events
-
- -  **calendar:update**
-
-    Refresh the calendar
 
  -  **episode:aired:check**
 
@@ -50,10 +46,6 @@ Event Descriptions
  -  **episode:marked:watched**
 
     An episode has been marked as not watched. Observed by Trakt.TV and forwards the markaswatched call when it's configured.
-
- -  **episodes:inserted**
-
-    Fires when new episodes have been inserted into the database.
 
  -  **episodes:updated**
 
@@ -126,11 +118,11 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](https://cloud.githubusercontent.com/assets/6933240/3555821/d93932ce-091b-11e4-9ceb-940d5146b3f9.png)
+![listeners](https://cloud.githubusercontent.com/assets/6933240/3559356/53904440-0949-11e4-8394-21b58772cf74.png)
 
 Event Publishers:
 ------------------
-![publishers](https://cloud.githubusercontent.com/assets/6933240/3555837/f6ea1900-091b-11e4-81af-bb713a4cc634.png)
+![publishers](https://cloud.githubusercontent.com/assets/6933240/3559359/604affd6-0949-11e4-8538-6081ea78d6be.png)
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
@@ -147,9 +139,9 @@ Listeners
       nodesep=0.2;
       node [fontsize=11];
 
-      Listeners -> something [style="invis"];
       Listeners -> app [style="invis"];
       Listeners -> backgroundRotator [style="invis"];
+      Listeners -> BackupCtrl [style="invis"];
       Listeners -> calendar [style="invis"];
       Listeners -> ChromeCast [style="invis"];
       Listeners -> datePicker [style="invis"];
@@ -168,14 +160,13 @@ Listeners
       backgroundload -> ChromeCast;
       calendarclearcache -> calendar;
       calendarevents -> datePicker;
-      calendarupdate -> something;
       episodeairedcheck -> EpisodeAiredService;
       episodeload -> ChromeCast;
       episodemarkednotwatched -> app;
       episodemarkednotwatched -> calendar;
       episodemarkedwatched -> app;
       episodemarkedwatched -> calendar;
-      episodesinserted -> seriesList;
+      episodesupdated -> BackupCtrl;
       episodesupdated -> calendar;
       episodesupdated -> SerieCtrl;
       favoritesservicecheckforupdates -> FavoritesService;
@@ -201,9 +192,6 @@ Listeners
 
       Listeners [style="invis"];
 
-      something [label="something.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        calendarupdate [label="calendar:update", shape=box,fillcolor="white",style="filled"];
-
       app [label="app.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
         locationChangeSuccess [label="$locationChangeSuccess", shape=box,fillcolor="white",style="filled"];
@@ -212,6 +200,8 @@ Listeners
 
       backgroundRotator [ label="backgroundRotator.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
+
+      BackupCtrl [label="BackupCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
       calendar [ label="calendar.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
@@ -243,7 +233,6 @@ Listeners
       seriesList [ label="seriesList.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
         favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
-        episodesinserted [label="episodes:inserted", shape=box,fillcolor="white",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
 
       SettingsCtrl [ label="SettingsCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
@@ -273,7 +262,6 @@ Publishers
       nodesep=0.2;
       node [fontsize=11];
 
-      Publishers -> something [style="invis"];
       Publishers -> angularjs [style="invis"];
       Publishers -> app [style="invis"];
       Publishers -> BackupCtrl [style="invis"];
@@ -286,7 +274,6 @@ Publishers
       Publishers -> EventSchedulerService [style="invis"];
       Publishers -> EventWatcherService [style="invis"];
       Publishers -> FavoritesService [style="invis"];
-      Publishers -> FileReader [style="invis"];
       Publishers -> MirrorResolver [style="invis"];
       Publishers -> SerieCtrl [style="invis"];
       Publishers -> seriesList [style="invis"];
@@ -304,10 +291,8 @@ Publishers
       calendarclearcache -> FavoritesService [dir="back"];
       calendarclearcache -> SerieCtrl [dir="back"];
       calendarevents -> calendar [dir="back"];
-      calendarupdate -> BackupCtrl [dir="back"];
       episodeairedcheck -> EventWatcherService [dir="back"];
       episodeload -> EpisodeCtrl [dir="back"];
-      episodesinserted -> something [dir="back"];
       episodemarkednotwatched -> CRUDentities [dir="back"];
       episodemarkedwatched -> CRUDentities [dir="back"];
       episodesupdated -> EpisodeAiredService [dir="back"];
@@ -335,9 +320,6 @@ Publishers
 
       Publishers [style="invis"];
 
-      something [label="something.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        episodesinserted [label="episodes:inserted", shape=box,fillcolor="white",style="filled"];
-
       angularjs [label="angular.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         locationChangeSuccess [label="$locationChangeSuccess", shape=box,fillcolor="white",style="filled"];
 
@@ -346,7 +328,6 @@ Publishers
 
       BackupCtrl [label="BackupCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
-        calendarupdate [label="calendar:update", shape=box,fillcolor="white",style="filled"];
 
       calendar [label="calendar.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         calendarevents [label="calendar:events", shape=box,fillcolor="white",style="filled"];
