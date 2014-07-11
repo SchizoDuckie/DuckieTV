@@ -231,4 +231,4 @@ angular.module('DuckieTV.directives.serieslist', [])
 
         }
     }
-})
+});

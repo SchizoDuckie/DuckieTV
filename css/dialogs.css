@@ -24,6 +24,11 @@
 	background-color: rgba(20,20,20,0.97);
 	padding:10px;
 	border: 1px solid white;
+	color: white;
+}
+
+.modal-content strong {
+	color: yellow;
 }
 
 .modal-content h1 {
