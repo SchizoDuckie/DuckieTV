@@ -24,12 +24,23 @@
              Should these buttons be hidden unless track.tv credentials have been stored?? 
             -->
             <button ng-click="readTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-read/btn'|translate}}</button>
-            <button ng-click="writeTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-write/btn'|translate}}</button>
+            <button ng-click="writeTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-write/btn'|translate}}</button><br><br>
+            <button ng-click="getUserSuggestions()" class="btn btn-success">Fetch Trakt.TV suggestions</button>
+        
           </form>
 
           <div ng-if="traktTVSeries">
              <p ng-repeat="serie in traktTVSeries">Fetched show: {{serie.title}}. Watched episodes: {{ countWatchedEpisodes(serie) }} </p>
              <serieheader style='display:inline-block;' ng-repeat="serie in traktTVSeries" ng-if="isDownloaded(serie.tvdb_id)" data="getDownloaded(serie.tvdb_id)" no-listbutton=1 no-title=1 no-overview=1>
+                <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+                <em class="earmark" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif"></em>
+             </serieheader>
+          </ul>
+          </div>
+
+          <div ng-if="traktTVSuggestions">
+            <h1>Fetched Suggestions from Trakt.TV based on series your Trakt.TV profile:</h1>
+             <serieheader style='display:inline-block;' ng-repeat="serie in traktTVSuggestions" data="serie" no-listbutton=1 no-title=1 no-overview=1>
                 <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
                 <em class="earmark" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif"></em>
              </serieheader>
