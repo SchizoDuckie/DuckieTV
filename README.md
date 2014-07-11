@@ -35,7 +35,7 @@ Screenshots:
 **Your main screen is a beautiful calendar with backgrounds tailored to the shows you are watching**
 !['New Tab' mode](http://i.imgur.com/B5jtvrf.png)
 
-**Instant access to uTorrent/BitTorrent features from the calendar **
+**Instant access to uTorrent/BitTorrent features from the calendar**
 ![Stream with uTorrent player](http://i.imgur.com/h6OnmHO.png)
 
 **Add your favorite shows by picking them off of TraktTV's Trending Shows list, or search manually**
