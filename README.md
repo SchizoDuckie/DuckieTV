@@ -53,7 +53,7 @@ Screenshots:
 **DuckieTV comes translated into 11 languages**
 ![Comes in 11 languages](http://i.imgur.com/KOCzdSM.png)
 
-**You can either completel turn off Torrent integration or tune it to your preference**
+**You can either completely turn off Torrent integration or tune it to your preference**
 ![Torrent Settings](http://i.imgur.com/GWDLCLh.png)
 
 **DuckieTorrent uTorrent/BitTorrent client built-in**
