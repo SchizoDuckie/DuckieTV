@@ -62,7 +62,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                 if (!(date in calendarEvents)) {
                     calendarEvents[date] = [];
                 }
-    			service.deleteDuplicate(events[i].episodeID,date);
+                service.deleteDuplicate(events[i].episodeID, date);
                 var existing = calendarEvents[date].filter(function(el) {
                     return el.episodeID == events[i].episodeID
                 });
@@ -72,17 +72,17 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
             }
             $rootScope.$broadcast('calendar:events', events);
         },
-        deleteDuplicate: function(duplicateID,eventDate) {
+        deleteDuplicate: function(duplicateID, eventDate) {
             for (var aDate in calendarEvents) {
                 if (aDate !== eventDate) {
                     var eventList = calendarEvents[aDate];
-					for (var index = 0; index < eventList.length; index++) {
-						if (eventList[index].episodeID === duplicateID) {
-							calendarEvents[aDate].splice(index,1); 
-							return;
-						}
-					}
-            	}
+                    for (var index = 0; index < eventList.length; index++) {
+                        if (eventList[index].episodeID === duplicateID) {
+                            calendarEvents[aDate].splice(index, 1);
+                            return;
+                        }
+                    }
+                }
             }
         },
         hasEvent: function(date) {
@@ -122,11 +122,6 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                 $scope.event.episode.set('magnetHash', magnet);
                 $scope.event.episode.Persist();
             });
-
-            $scope.$on('episode:watched' + $scope.event.episode.getID(), function(evt, episode) {
-                console.log("Episode watched!", evt, episode);
-                $scope.event.episode = episode;
-            })
         }
     }
 })

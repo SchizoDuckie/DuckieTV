@@ -92,19 +92,15 @@ angular.module('DuckieTV.controllers.backup', [])
                 var prom = $q.defer();
                 angular.forEach(result.series, function(watched, TVDB_ID) {
 
-                    //$scope.log.unshift('Reading backup item ' + TVDB_ID + ", has " + watched.length + " watched episodes");
                     prom.promise.then(function() {
                         TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(serie) {
                             $scope.adding[TVDB_ID] = true;
                             $scope.series.push(serie);
-                            // $scope.log.unshift("Resolved TVDB serie: " + serie.title + ". Fetching all seasons and episodes");
-                            // $scope.$digest();
                             return FavoritesService.addFavorite(serie, watched).then(function(s) {
-                                // $scope.log.unshift("Finished fetching all seasons and episodes for " + serie.title);
-                                $rootScope.$broadcast('storage:update');
-                                $rootScope.$broadcast('calendar:update');
+                                $rootScope.$broadcast('storage:update'); // synchronize settings storage
+                                $rootScope.$broadcast('episodes:updated'); // refresh the calendar in the background
                                 $scope.adding[TVDB_ID] = false;
-                                //$scope.$digest();
+
 
                             });
                         });
