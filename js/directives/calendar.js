@@ -5,6 +5,13 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
 
     };
     var service = {
+        /**
+         * setDate gets fired by the vendor/datePicker directive whenever the user navigates the calendar with the arrows back and forth
+         * It is hooked here so that the range can be determined (either one week or one whole month) and fetches episodes for that range
+         * from the database. When those are fetched, the calendar refreshes itself.
+         * @param Date date startDate of the calendar
+         * @param string range (week|date) range to fetch. A week or a month (date is a naming inconsistency caused by the directive)
+         */
         setDate: function(date, range) {
             range = range || $rootScope.getSetting('calendar.mode');
             var endDate = new Date(date);
@@ -14,37 +21,49 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                     endDate.setDate(startDate.getDate() + 7);
                     startDate.setDate(startDate.getDate() - startDate.getDay() - 7);
                     break;
-                case 'date':
+                case 'date': // actually: a month.
                     endDate.setDate(40);
                     startDate.setDate(-47);
                     break;
             }
             service.getEventsForDateRange(startDate, endDate);
         },
+        /**
+         * Optimized function to feed the calendar it's data.
+         * Fetches the episodes for a date range and the relevant series for it. Then caches and refreshes the calendar
+         * @param  Date start startdate
+         * @param  Date end enddate
+         */
         getEventsForDateRange: function(start, end) {
-            FavoritesService.getEpisodesForDateRange(start.getTime(), end.getTime()).then(function(data) {
+            // fetch episodes between 2 timestamps
+            FavoritesService.getEpisodesForDateRange(start.getTime(), end.getTime()).then(function(episodes) {
                 var serieIDs = {};
-                for (var i = 0; i < data.length; i++) {
-                    serieIDs[data[i].get('ID_Serie')] = data[i].get('ID_Serie');
-                }
-                CRUD.Find('Serie', ['ID_Serie in (' + Object.keys(serieIDs).join(',') + ')']).then(function(results) {
+                // build up a key/value map of serie ids.
+                episodes.map(function(episode) {
+                    serieIDs[episode.get('ID_Serie')] = episode.get('ID_Serie');
+                });
+                // find all unique series for episodes that were returned 
+                CRUD.Find('Serie', ['ID_Serie in (' + Object.keys(serieIDs).join(',') + ')']).then(function(series) {
                     var cache = {};
                     var events = [];
-                    for (var i = 0; i < results.length; i++) {
-                        cache[results[i].getID()] = results[i];
-                    }
-                    for (var i = 0; i < data.length; i++) {
+                    // build up a key/value map of fetched series
+                    series.map(function(serie) {
+                        cache[serie.getID()] = serie;
+                    });
+                    // iterate all the episodes and bind it together with the serie into an event array
+                    episodes.map(function(episode) {
                         events.push({
-                            start: new Date(data[i].get('firstaired')),
-                            serie: cache[data[i].get('ID_Serie')].get('name'),
-                            serieID: cache[data[i].get('ID_Serie')].get('TVDB_ID'),
-                            episodeID: data[i].get('TVDB_ID'),
-                            episode: data[i]
+                            start: new Date(episode.get('firstaired')),
+                            serie: cache[episode.get('ID_Serie')].get('name'),
+                            serieID: cache[episode.get('ID_Serie')].get('TVDB_ID'),
+                            episodeID: episode.get('TVDB_ID'),
+                            episode: episode
                         });
-                    }
-                    cache = null;
+                    });
                     service.setEvents(events);
-                })
+                    // clear used variables.
+                    events = cache = serieIDs = episodes = series = null;
+                });
             });
         },
         clearCache: function() {
@@ -56,22 +75,23 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
          * The calendarEvents cache is updated per day so the calendar doesn't refresh unnecessarily
          */
         setEvents: function(events) {
-            for (var i = 0; i < events.length; i++) {
-                var date = new Date(new Date(events[i].start).getTime()).toDateString();
+            events.map(function(event) {
+                var date = new Date(new Date(event.start).getTime()).toDateString();
 
                 if (!(date in calendarEvents)) {
                     calendarEvents[date] = [];
                 }
-                service.deleteDuplicate(events[i].episodeID, date);
+                service.deleteDuplicate(event.episodeID, date);
                 var existing = calendarEvents[date].filter(function(el) {
-                    return el.episodeID == events[i].episodeID
+                    return el.episodeID == event.episodeID;
                 });
                 if (existing.length == 0) {
-                    calendarEvents[date].push(events[i]);
+                    calendarEvents[date].push(event);
                 }
-            }
+            });
             $rootScope.$broadcast('calendar:events', events);
         },
+
         deleteDuplicate: function(duplicateID, eventDate) {
             for (var aDate in calendarEvents) {
                 if (aDate !== eventDate) {
@@ -85,12 +105,14 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                 }
             }
         },
+
         hasEvent: function(date) {
             return (new Date(date).toDateString() in calendarEvents);
         },
+
         getEvents: function(date) {
-            var date = new Date(date).toDateString();
-            return calendarEvents[date];
+            var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
+            return (str in calendarEvents) ? calendarEvents[str] : [];
         }
     };
 
@@ -116,7 +138,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
         link: function($scope) {
             $scope.isTorrentClientConnected = function() {
                 return uTorrent.isConnected();
-            }
+            };
             $scope.$on('magnet:select:' + $scope.event.episode.get('TVDB_ID'), function(evt, magnet) {
                 console.debug("Found a magnet selected!", magnet);
                 $scope.event.episode.set('magnetHash', magnet);

@@ -58,7 +58,7 @@ function getVisibleWeeks(date, startSunday) {
     startSunday = startSunday ? 0 : 1;
 
     if (date.getDay() === 0) {
-        date.setDate(-6 +startSunday);
+        date.setDate(-6 + startSunday);
     } else {
         date.setDate(date.getDate() - (date.getDay() - startSunday));
     }
@@ -208,9 +208,7 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
                             scope.model.setFullYear(date.getFullYear());
                     }
                     scope.$emit('setDate', scope.model, scope.view);
-                }
-
-                if (nextView) {
+                } else if (nextView) {
                     if (nextView == 'week' && scope.view == 'month') {
                         nextView = 'date';
                     }
@@ -259,7 +257,6 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
             scope.next = function(delta) {
                 var date = scope.date;
                 delta = delta || 1;
-                console.log("Next delta: ", delta, scope.view, date.getDate());
                 switch (scope.view) {
                     case 'year':
                         /*falls through*/
