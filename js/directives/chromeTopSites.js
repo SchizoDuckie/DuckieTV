@@ -4,45 +4,44 @@ angular.module('DuckieTV.directives.chrometopsites', ['DuckieTV.directives.lazyb
  * Provides the <chrome-top-sites> directive
  * That displays your most visited sites
  */
-
 .provider('ChromeTopSites', function() {
 
     this.$get = function($q) {
         return {
+        	/**
+	         * Service wrapper round chrome's topSites API that provides a promise
+	         * that's resolved when topistes are fetched.
+	         * If current environment is not chrome then the promise is rejected.
+	         */
             getTopSites: function() {
                 var p = $q.defer();
-                if (('topSites' in window.chrome)) {
+                if (('chrome' in window && 'topSites' in window.chrome)) {
                     chrome.topSites.get(function(result) {
-                        console.log("Topsites result just came in ", result);
                         p.resolve(result);
                     });
                 } else {
                     p.reject();
                 }
-
                 return p.promise;
             }
         }
     }
 })
 
-.controller('ChromeTopSitesCtrl', function($scope, ChromeTopSites) {
-
-    $scope.topSites = [];
-
-    ChromeTopSites.getTopSites().then(function(result) {
-        $scope.topSites = result;
-    });
-})
-
-
 /**
- * <chrome-top-sites> directive that shows the list
+ * <chrome-top-sites> directive that shows the list of most visited
+ * sites in chrome
  */
-.directive('chromeTopSites', function() {
+.directive('chromeTopSites', function(ChromeTopSites) {
 
     return {
         restrict: 'E',
-        templateUrl: 'templates/chrome-top-sites.html'
-    };
+        templateUrl: 'templates/chrome-top-sites.html',
+        link: function($scope) {
+        	$scope.topSites = [];
+		    ChromeTopSites.getTopSites().then(function(result) {
+		        $scope.topSites = result;
+		    });
+        }
+    }
 });
