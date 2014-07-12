@@ -5,7 +5,7 @@ angular.module('DuckieTV.providers.filereader', [])
  * Allows to read the contents of a file upload field to string
  */
 .factory('FileReader', function($q) {
-
+	// fires when the while file blob has been read
     var onLoad = function(reader, deferred, $scope) {
         return function() {
             $scope.$apply(function() {
@@ -13,7 +13,7 @@ angular.module('DuckieTV.providers.filereader', [])
             });
         };
     };
-
+    // fires when an error has occured during the reading of a file
     var onError = function(reader, deferred, $scope) {
         return function() {
             $scope.$apply(function() {
@@ -21,7 +21,8 @@ angular.module('DuckieTV.providers.filereader', [])
             });
         };
     };
-
+    // handle file reading progress. Only really useful for showing
+    // a progresbar on large file reads
     var onProgress = function(reader, $scope) {
         return function(event) {
             $scope.$broadcast("fileProgress", {
@@ -31,6 +32,9 @@ angular.module('DuckieTV.providers.filereader', [])
         };
     };
 
+    /** 
+     *  Create a new fileReader and hook an existing promise to it's event handlers
+     */
     var getReader = function(deferred, $scope) {
         var reader = new FileReader();
         reader.onload = onLoad(reader, deferred, $scope);
@@ -39,6 +43,10 @@ angular.module('DuckieTV.providers.filereader', [])
         return reader;
     };
 
+    /** 
+     * Read a file as text. Creates a FileReader instance and resolves a promise when
+     * the file has been read.
+     */
     var readAsText = function(file, $scope) {
         var deferred = $q.defer();
 
@@ -48,12 +56,22 @@ angular.module('DuckieTV.providers.filereader', [])
         return deferred.promise;
     };
 
+    // return only the public readAsText function
     return {
         readAsText: readAsText
     };
 
 
-}).directive('fileInput', function($parse) {
+})
+
+/** 
+ * The <file-input> directive provides a file upload box that
+ * can read the contents of the file selected into a string.
+ *
+ * When a file is selected, it fires it's onChange event and can
+ * then return the contents of the file via FileReader.readAsText(fileName)
+ */
+.directive('fileInput', function($parse) {
     return {
         restrict: "EA",
         template: "<input type='file' />",
