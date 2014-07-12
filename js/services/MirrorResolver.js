@@ -1,7 +1,12 @@
 angular.module('DuckieTV.providers.mirrorresolver', [])
 
+/** 
+ * Automatic mirror resolver for ThePirateBay by utilizing
+ * GeenStijl.nl's fucktimkuik.org
+ */
 .provider('MirrorResolver', function() {
 
+	// individual mirror resolvers can be added here
     this.endpoints = {
         thepiratebay: 'http://fucktimkuik.org/',
     };
@@ -14,7 +19,10 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
         return this.endpoints[type];
     },
 
-
+    /** 
+     * FuckTimKuik.org provides a meta refresh parameter that contains the random mirror.
+     * Parse the result as a DOM Document, and fetch the attribute from the request tag, and split the url off
+     */ 
     this.parseFuckTimKuik = function(result) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
@@ -22,6 +30,10 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
         return result;
     }
 
+    /** 
+     * When a test search has been executed, verify that at least one magnet link is available in the
+     * expected layout. (Some proxies proxy your magnet links so they can track them, we don't want that.)
+     */ 
     this.parseTestSearch = function(result) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
@@ -38,19 +50,23 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
         var maxAttempts = 3;
         return {
             /**
-             * Execute a generic Kickass search, parse the results and return them as an array
+             * Find a random mirror for ThePirateBay and return the promise when
+             * one is found and verified. If a valid working server is not found within x tries, it fails.
+             * Provides up-to-date status messages via mirrorresolver:status while doing that
              */
             findTPBMirror: function(attempt) {
                 attempt = attempt || 1;
                 $rootScope.$broadcast('mirrorresolver:status', 'Finding a random TPB Mirror, attempt ' + attempt);
                 var d = $q.defer();
-                $http({
+                $http({ // fetch the document that gives a mirror
                     method: 'GET',
                     url: self.getUrl('thepiratebay'),
                     cache: false
                 }).then(function(response) {
+                	// parse the response
                     var location = self.parseFuckTimKuik(response);
                     $rootScope.$broadcast('mirrorresolver:status', "Found ThePirateBay mirror! " + location + " Verifying if it uses magnet links.");
+                    // verify that the mirror works by executing a test search, otherwise try the process again
                     self.$get($q, $http, $rootScope).verifyMirror(location).then(function(location) {
                         console.log("Mirror uses magnet links!", location);
                         d.resolve(location);
@@ -70,6 +86,11 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
                 });
                 return d.promise;
             },
+            /** 
+             * Verify that a mirror is working and using magnet links by executing a test search
+             * Parses the results and checks that magnet links are available like they are on tpb.
+             * Some mirrors will not provide direct access to magnet links so we filter those out
+             */
             verifyMirror: function(location, maxTries) {
                 if (maxTries) {
                     maxAttempts = tries;

@@ -21,8 +21,9 @@ angular.module('DuckieTV.providers.filereader', [])
             });
         };
     };
-    // handle file reading progress. Only really useful for showing
-    // a progresbar on large file reads
+    // handle file reading progress. 
+    // Catching this with a $scope.$watch for fileProgress 
+    // is only really useful for showing a progresbar on large file reads
     var onProgress = function(reader, $scope) {
         return function(event) {
             $scope.$broadcast("fileProgress", {
