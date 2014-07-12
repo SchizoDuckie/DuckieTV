@@ -83,8 +83,8 @@ angular.module('DuckieTV.providers.favorites', [])
          * @param object watched { TVDB_ID => watched episodes } mapped object to auto-mark as watched
          */
         addFavorite: function(data, watched) {
-            console.log("FavoritesService.addFavorite!", data, watched);
             watched = watched || [];
+            console.log("FavoritesService.addFavorite!", data, watched);
             var d = $q.defer();
             service.getById(data.tvdb_id).then(function(serie) {
                 if (!serie) {
