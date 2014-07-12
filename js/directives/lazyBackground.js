@@ -4,7 +4,6 @@
  * Fades in the element that you set the lazy-background property to after the image has been loaded and
  * set as css background image.
  */
-
 angular.module('DuckieTV.directives.lazybackground', [])
 
 .directive('lazyBackground', function($document, $parse) {
@@ -14,6 +13,10 @@ angular.module('DuckieTV.directives.lazybackground', [])
             element = angular.element(element);
             attrs.ngHide = true;
 
+            /** 
+             * Observe the lazy-background attribute so that when it's set on a rendered element 
+             * it can fetch the new image and fade to it 
+             */ 
             attrs.$observe('lazyBackground', function(newSrc) {
                 if (newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/') return;
                 element.attr('oldStyle', element.attr('style') == null ? '' : element.attr('style'));
@@ -23,7 +26,10 @@ angular.module('DuckieTV.directives.lazybackground', [])
                 element.css('background-position', 'center center');
                 element.attr('style', element.attr('style') + '; background-size: initial !important');
 
-
+                /** 
+                 * Use some oldskool preloading techniques to load the image
+                 * and fade it in when done 
+                 */
                 var img = $document[0].createElement('img');
                 img.onload = function() {
                     element.attr('style', element.attr('oldStyle'));

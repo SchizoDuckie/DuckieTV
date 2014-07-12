@@ -1,8 +1,11 @@
 angular.module('DuckieTV.providers.chromecast', [])
 
-
+/** 
+ * The ChromeCast Sender knows how to send events to the DuckieTV ChromeCast app
+ * and connect to the ChromeCast interface.
+ */
 .factory('ChromeCastSender', function($q) {
-
+	// main setup
     var applicationID = 'B09C392B';
     var namespace = 'urn:x-cast:io.github.schizoduckie.duckietv';
     var session = null;
@@ -11,6 +14,7 @@ angular.module('DuckieTV.providers.chromecast', [])
      * Incoming event handlers
      */
     var remote = {
+    	// handle session update messages
         update: function(isAlive) {
             var message = isAlive ? 'Session Updated' : 'Session Removed';
             message += ': ' + session.sessionId;
@@ -19,12 +23,14 @@ angular.module('DuckieTV.providers.chromecast', [])
                 session = null;
             }
         },
+        // handle new session messages
         session: function(e) {
             console.log('Received ChromeCast Session ID', e.sessionId, e);
             session = e;
             session.addUpdateListener(remote.update);
             session.addMessageListener(namespace, log.messagereceived);
         },
+        // handle when a new receiver is available.
         receiver: function(e) {
             console.log(e === 'available' ? ["receiver found", e] : "receiver list empty");
         }
@@ -55,7 +61,11 @@ angular.module('DuckieTV.providers.chromecast', [])
     }
 
     var service = {
-
+    	/**  
+    	 * Provide a promise based function that starts connection to the device and
+    	 * resolves when the chromeCast is connected.
+    	 * Calls itself with the original promise after a 1s delay when the chromecast is not ready for action yet.
+    	 */
         connect: function(promise) {
             p = promise || $q.defer();
             if (!chrome.cast || !chrome.cast.isAvailable) {
@@ -64,6 +74,7 @@ angular.module('DuckieTV.providers.chromecast', [])
                     service.connect(p)
                 }, 1000);
             } else {
+            	// Chromecast is available, request a new session with it.
                 var sessionRequest = new chrome.cast.SessionRequest(applicationID);
                 var apiConfig = new chrome.cast.ApiConfig(sessionRequest, remote.session, remote.receiver);
                 chrome.cast.initialize(apiConfig, function(e, f) {
@@ -81,8 +92,13 @@ angular.module('DuckieTV.providers.chromecast', [])
 
         },
 
+        /** 
+         * Send a message to the ChromeCast client where it will be processed in the same way
+         * as incoming events are handled here.
+         */
         sendMessage: function(message) {
             var p = $q.defer();
+            // if there is an existing session, send the mesage there.
             if (session != null) {
                 session.sendMessage(namespace, angular.toJson(message, true), function(e) {
                     log.successsent(e);
@@ -92,6 +108,7 @@ angular.module('DuckieTV.providers.chromecast', [])
                     p.reject();
                 });
             } else {
+            	// otherwise, request a new session and send the message afterwards
                 chrome.cast.requestSession(function(e) {
                     session = e;
                     session.sendMessage(namespace, angular.toJson(message, true), function(e) {
@@ -113,6 +130,11 @@ angular.module('DuckieTV.providers.chromecast', [])
 
 })
 
+/** 
+ * The DuckieTVCast service is initiated when a chromecast connection is available.
+ * It forwards some of the main app-events to the chromecast device so it mirrors on your
+ * second screen what you're doing in your browser.
+ */
 .factory('DuckieTVCast', function(ChromeCastSender, FavoritesService, $rootScope, $q) {
 
     var service = {
@@ -144,7 +166,7 @@ angular.module('DuckieTV.providers.chromecast', [])
                         'episode:load': episode
                     });
                 });
-
+                // Start playing a video on the device. This needs more work.
                 $rootScope.$on('video:load', function(evt, video) {
                     console.log("Broadcasting episode:load to chromecast video: ", video);
                     ChromeCastSender.sendMessage({
