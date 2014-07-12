@@ -55,6 +55,18 @@
          }, {
              name: 'Screen',
              data: screenSize
+         }, {
+             name: 'ChromeCast Supported',
+             data: SettingsService.get('cast.supported')
+         }, {
+             name: 'Storage Sync',
+             data: SettingsService.get('storage.sync')
+         }, {
+             name: 'Torrenting',
+             data: SettingsService.get('torrenting.enabled')
+         }, {
+             name: 'TrakTV Sync',
+             data: SettingsService.get('trakttv.sync')
          }];
 
          if ('chrome' in window && 'app' in window.chrome && 'GetDetails' in chrome.app && 'version' in window.chrome.app.getDetails()) {
