@@ -1,7 +1,6 @@
-angular.module('DuckieTV.providers.storagesync', [])
+angular.module('DuckieTV.providers.storagesync', ['dialogs'])
 
-.factory('StorageSyncService', function($rootScope, $q, FavoritesService, TraktTV) {
-    return {};
+.factory('StorageSyncService', function($rootScope, $q, FavoritesService, TraktTV, $dialogs, $filter) {
     var service = {
 
         isSyncing: false,
@@ -20,10 +19,12 @@ angular.module('DuckieTV.providers.storagesync', [])
         },
 
         synchronize: function() {
+
             if (!service.isSyncing) {
                 service.isSyncing = true;
                 console.log("[Storage.Synchronize] Syncing storage!");
                 service.getSeriesList().then(function(series) {
+                    console.log("Storage sync Series list: ", series);
                     service.set('series', series);
                     service.set('synctime', new Date().getTime());
                     service.isSyncing = false;
@@ -36,7 +37,8 @@ angular.module('DuckieTV.providers.storagesync', [])
             service.get('series').then(function(results) {
                 console.log("Fetched synced storage series: ", results);
                 var existingSeries = service.getSeriesList().then(function(existingSeries) {
-                    console.log("existing series from sync: ", existingSeries)
+                    console.log("existing series from sync: ", existingSeries, "local series: ", results);
+
                     var nonLocal = results.filter(function(el) {
                         return existingSeries.indexOf(el) == -1
                     });
@@ -48,21 +50,34 @@ angular.module('DuckieTV.providers.storagesync', [])
 
                     console.log("Found non-local series to synchronize", nonLocal);
                     console.log("Found non-remote series to delete", nonRemote)
+                    var pq = [];
 
                     for (var i = 0; i < nonLocal.length; i++) {
-                        TraktTV.findSerieByTVDBID(nonLocal[i]).then(function(result) {
-                            console.log("Fetched information for ", result.serie.seriesname, 'adding to favorites!');
-                            FavoritesService.addFavorite(result.serie);
-                        })
+                        pq.push(TraktTV.findSerieByTVDBID(nonLocal[i]).then(function(result) {
+                            console.log("Fetched information for ", result.title, 'adding to favorites!');
+                            return FavoritesService.addFavorite(result);
+                        }));
                     }
 
                     for (var j = 0; j < nonRemote.length; j++) {
                         FavoritesService.getById(nonRemote[j]).then(function(result) {
                             console.log("Fetched information for ", result.get('seriesname'), 'removing from favorites!');
-                            FavoritesService.remove(result.asObject());
-                        })
+                            var dlg = $dialogs.confirm($filter('translate')('SYNC/serie-deleted/hdr'),
+                                $filter('translate')('SYNC/serie-deleted-remote-question/p1') + '<strong>' +
+                                result.get('name') + '</strong>' +
+                                $filter('translate')('SYNC/serie-deleted-remote-question/p2')
+                            );
+                            dlg.result.then(function(btn) {
+                                FavoritesService.remove(result.asObject());
+                            });
+                        });
                     }
-                })
+
+                    $q.all(pq).then(function() {
+                        console.log("All shows added and deleted. Syncing local settings now");
+                        service.synchronize();
+                    });
+                });
             });
         },
 
@@ -87,6 +102,6 @@ angular.module('DuckieTV.providers.storagesync', [])
             });
         }
     }
-
+    service.read();
     return service;
 })

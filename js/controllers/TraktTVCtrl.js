@@ -10,6 +10,7 @@
 
      $scope.traktTVSeries = [];
      $scope.tvdbSeries = {};
+     $scope.traktTVSuggestions = false;
 
      $scope.encryptPassword = function() {
          if ($scope.credentials.password !== null) {
@@ -38,6 +39,13 @@
          });
          console.log("Countin watched episode sfor ", show, count);
          return count;
+     };
+
+     $scope.getUserSuggestions = function() {
+         TraktTV.getUserSuggestions().then(function(data) {
+             console.log("Found user suggestions from Trakt.tV", data);
+             $scope.traktTVSuggestions = data;
+         });
      };
 
      $scope.readTraktTV = function() {

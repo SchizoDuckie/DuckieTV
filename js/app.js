@@ -230,7 +230,7 @@ angular.module('DuckieTV', [
 .run(function($rootScope, SettingsService, StorageSyncService, MigrationService, EpisodeAiredService, datePickerConfig, $translate, $injector) {
 
     // translate the application based on preference or proposed locale
-    console.log('client determined locale',$translate.proposedLanguage());
+    console.log('client determined locale', $translate.proposedLanguage());
     SettingsService.set('client.determinedlocale', $translate.proposedLanguage());
     var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage;
     SettingsService.changeLanguage('en_us'); // this is the fallback language. any strings not loaded will be in en_us lanague.
@@ -254,11 +254,10 @@ angular.module('DuckieTV', [
     };
 
     $rootScope.$on('storage:update', function() {
-        /* if ($rootScope.getSetting('storage.sync') == true) {
-                console.log("STorage sync can run!");
-                StorageSyncService.readIfSynced();
-                StorageSyncService.synchronize();
-            }*/
+        if ($rootScope.getSetting('storage.sync') == true) {
+            console.log("STorage sync can run!");
+            StorageSyncService.synchronize();
+        }
     });
 
     $rootScope.$on('$locationChangeSuccess', function() {

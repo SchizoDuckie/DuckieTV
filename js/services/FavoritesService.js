@@ -274,6 +274,7 @@ angular.module('DuckieTV.providers.favorites', [])
 
                     setTimeout(function() {
                         $rootScope.$broadcast('calendar:clearcache');
+                        $rootScope.$broadcast('storage:update');
                         service.restore();
                     }.bind(this), 200);
                 });

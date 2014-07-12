@@ -1,7 +1,7 @@
 angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.eventscheduler'])
 
 
-.controller('SettingsCtrl', function($scope, $location, $rootScope, FavoritesService, SettingsService, MirrorResolver, TraktTV, $translate, tmhDynamicLocale, EventSchedulerService, $filter) {
+.controller('SettingsCtrl', function($scope, $location, $rootScope, StorageSyncService, FavoritesService, SettingsService, MirrorResolver, TraktTV, $translate, tmhDynamicLocale, EventSchedulerService, $filter) {
 
     $scope.custommirror = SettingsService.get('thepiratebay.mirror');
     $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
@@ -90,7 +90,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $scope.sync = function() {
         console.log("Synchronizging!");
-        $rootScope.$broadcast('storage:update');
+        StorageSyncService.synchronize()
     }
 
     /**

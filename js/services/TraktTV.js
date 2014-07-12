@@ -13,6 +13,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
             trending: 'http://api.trakt.tv/shows/trending.json/32e05d4138adb5da5b702b362bd21c52',
             userShows: 'http://api.trakt.tv/user/watchlist/shows.json/32e05d4138adb5da5b702b362bd21c52/%s/true',
             userWatched: 'http://api.trakt.tv/user/library/shows/watched.json/32e05d4138adb5da5b702b362bd21c52/%s/true',
+            userSuggestions: 'http://api.trakt.tv/recommendations/shows/32e05d4138adb5da5b702b362bd21c52',
             episodeSeen: 'https://api.trakt.tv/show/episode/seen/32e05d4138adb5da5b702b362bd21c52', // https://trakt.tv/api-docs/show-episode-seen
             episodeUnseen: 'https://api.trakt.tv/show/episode/unseen/32e05d4138adb5da5b702b362bd21c52' // https://trakt.tv/api-docs/show-episode-seen
 
@@ -96,6 +97,18 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 },
                 getUserWatched: function(username) {
                     return self.promiseRequest('userWatched', username);
+                },
+                getUserSuggestions: function() {
+                    return $http.post(self.endpoints.userSuggestions, {
+                        "username": SettingsService.get('trakttv.username'),
+                        "password": SettingsService.get('trakttv.passwordHash'),
+                    }).then(function(result) {
+                        console.log("TraktTV suggestions retrieved!", result);
+                        result.data.map(function(show) {
+                            show.poster = show.images.poster;
+                        })
+                        return result.data;
+                    });
                 },
                 markEpisodeWatched: function(serie, episode) {
                     $http.post(self.endpoints.episodeSeen, {
