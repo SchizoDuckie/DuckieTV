@@ -38,13 +38,12 @@ angular.module('DuckieTorrent.torrent', [])
             api: 'http://localhost:%s/btapp/',
         };
 
+        /**
+         * If a specialized parser is needed for a response than it can be automatically picked up by adding the type and a parser
+         * function here.      
+         */
         this.parsers = {
-
-            version: function(data) {
-                console.log("Found the port!!", data.data);
-                return data.data;
-            }
-
+        
         };
 
         /**
@@ -112,21 +111,18 @@ angular.module('DuckieTorrent.torrent', [])
                     var d = $q.defer();
 
                     var nextPort = function() {
-                        console.log("Next port!", ports, self.currentPort);
                         self.port = ports[self.currentPort];
                         jsonp('version').then(function(result) {
-                            console.log("Portscan finished!", ports[self.currentPort], result);
                             d.resolve({
                                 port: ports[self.currentPort],
                                 version: result
                             });
                         }, function(err) {
-                            console.log("Reject: ", ports[self.currentPort]);
                             if (self.currentPort < 20) {
                                 self.currentPort++;
                                 nextPort();
                             } else {
-                                d.reject("No active client found!");
+                                d.reject("No active uTorrent/BitTorrent client found!");
                             }
 
                         });
@@ -560,7 +556,7 @@ angular.module('DuckieTorrent.torrent', [])
         },
 
         addEvent: function(torrent) {
-            console.log("Add to list: ", torrent);
+            // console.log("Add to list: ", torrent);
             this.torrents[torrent.hash] = torrent;
         },
 
@@ -570,7 +566,7 @@ angular.module('DuckieTorrent.torrent', [])
         },
 
         addSettings: function(data) {
-            console.log("Add Settings!", data);
+            // console.log("Add Settings!", data);
         },
 
         getTorrents: function() {
@@ -590,7 +586,7 @@ angular.module('DuckieTorrent.torrent', [])
                 Object.deepMerge(this.torrents[key], data[key]);
             } else {
                 this.torrents[key] = new RPCObject('torrent.all.' + key, data[key], RPCProxy);
-                //console.log("Add torrent!", key, this.getTorrentName(data[key]), this.torrents[key], data);
+                // //console.log("Add torrent!", key, this.getTorrentName(data[key]), this.torrents[key], data);
             }
             $rootScope.$broadcast('torrent:update:' + key, this.torrents[key]);
         },
@@ -600,55 +596,55 @@ angular.module('DuckieTorrent.torrent', [])
         },
 
         addRss: function(data) {
-            console.log("Add RSS!", data);
+            // console.log("Add RSS!", data);
 
         },
 
         addTrackerMethods: function(data) {
-            console.log("Add Tracker Methods!", data);
+            // console.log("Add Tracker Methods!", data);
         },
 
         addRsaMethods: function(data) {
-            console.log("Add RSA Methods!", data);
+            // console.log("Add RSA Methods!", data);
         },
 
         addStash: function(data) {
-            console.log("Add stash!", data);
+            // console.log("Add stash!", data);
         },
 
         addStashMethods: function(data) {
-            console.log("Add stash methods!", data);
+            // console.log("Add stash methods!", data);
         },
 
 
         addRssMethods: function(data) {
-            console.log("Add RSS Methods: ", data);
+            // console.log("Add RSS Methods: ", data);
         },
 
         addBtappMethods: function(data) {
-            console.log("Add BTAPP Methods: ", data);
+            // console.log("Add BTAPP Methods: ", data);
 
         },
 
         addOsMethods: function(data) {
-            console.log("Add BTAPP Methods: ", data);
+            // console.log("Add BTAPP Methods: ", data);
 
         },
 
         addAddMethods: function(data) {
-            console.log("Add Add Methods: ", data);
+            // console.log("Add Add Methods: ", data);
         },
 
         addDhtMethods: function(data) {
-            console.log("Add DHT Methods: ", data);
+            // console.log("Add DHT Methods: ", data);
         },
 
         addTorrentMethods: function(data) {
-            console.log("Add Torrent Methods!", data);
+            // console.log("Add Torrent Methods!", data);
         },
 
         addStream: function(data) {
-            console.log("Add stream!", data);
+            // console.log("Add stream!", data);
         },
 
         handleEvent: function(type, category, data, RPCProxy) {
