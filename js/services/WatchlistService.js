@@ -1,5 +1,9 @@
 angular.module('DuckieTV.providers.watchlist', [])
 
+/** 
+ * The Watchlist Service stores items that are to be monitored.
+ * Since the structure is not yet rock solid the items are stored as serialized json
+ */
 .factory('WatchlistService', function($rootScope, IMDB) {
     var service = {
         watchlist: [],

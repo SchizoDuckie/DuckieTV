@@ -18,6 +18,10 @@ angular.module('DuckieTV.providers.thepiratebay', ['DuckieTV.providers.mirrorres
         return this.mirror + this.endpoints[type].replace('%s', encodeURIComponent(param));
     },
 
+    /** 
+     * Pass the http result data into a DOM document and execute query selectors on it
+     * to transform the HTML into a JSON object of torrent info.
+     */
     this.parseSearch = function(result) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");

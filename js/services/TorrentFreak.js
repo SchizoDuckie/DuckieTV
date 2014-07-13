@@ -9,12 +9,18 @@ angular.module('DuckieTV.providers.torrentfreak', [])
     $scope.itemIndex = 0;
     $scope.activeItem = [];
 
+    /** 
+     * Switch to the next item in the Top10 RSS feed while the index isn't maxxed out
+     */
     $scope.nextItem = function() {
         if ($scope.itemIndex < $scope.items.length - 2) {
             $scope.itemIndex += 1;
         }
         $scope.activeItem = $scope.items[$scope.itemIndex];
     }
+    /** 
+     * Switch to the previous item in the Top10 RSS feed results while the index is > 0
+     */
     $scope.prevItem = function() {
         if ($scope.itemIndex > 1) {
             $scope.itemIndex -= 1;
@@ -22,6 +28,9 @@ angular.module('DuckieTV.providers.torrentfreak', [])
         $scope.activeItem = $scope.items[$scope.itemIndex];
     }
 
+    /** 
+     * Fetch the Top10 RSS feed, render the first item as HTML and put it on the scope.
+     */
     TorrentFreak.Top10($scope).then(function(result) {
         $scope.items = result;
         $scope.activeItem = result[0];
@@ -45,6 +54,10 @@ angular.module('DuckieTV.providers.torrentfreak', [])
         return this.endpoints[type].replace('%s', encodeURIComponent(param));
     },
 
+   	/** 
+   	 * Transform the RSS feed to a JSON structure by parsing it into a DOM document
+   	 * and executing query selectors on it.
+   	 */
     this.parseRSS = function(result, $compile, scope) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result, "text/xml");
@@ -67,13 +80,15 @@ angular.module('DuckieTV.providers.torrentfreak', [])
             var top10 = [];
             var cols = [];
             var table;
-
+            // Precompile the content snippet into an HTML table to be able to parse that.
+            // The TorrentFreak Top10 RSS feed is always in a specific table format.
             var compiled = $compile(out.content)(scope);
             for (var j = 0; j < compiled.length; j++) {
                 if (compiled[j].tagName == 'TABLE') {
                     table = compiled[j];
                 }
             }
+
             var headers = table.querySelectorAll('th');
             for (j = 0; j < headers.length; j++) {
                 cols.push(headers[j].innerText);
@@ -126,10 +141,10 @@ angular.module('DuckieTV.providers.torrentfreak', [])
         }
     }
 })
-    .directive('top10PiratedMovies', function() {
+.directive('top10PiratedMovies', function() {
 
-        return {
-            restrict: 'E',
-            templateUrl: 'templates/torrentfreakTop10.html'
-        };
-    })
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/torrentfreakTop10.html'
+    };
+})
