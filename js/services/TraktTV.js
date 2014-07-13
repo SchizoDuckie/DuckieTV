@@ -10,13 +10,13 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
             season: 'http://api.trakt.tv/show/seasons.json/32e05d4138adb5da5b702b362bd21c52/%s',
             episode: 'http://api.trakt.tv/show/season.json/32e05d4138adb5da5b702b362bd21c52/%s/%s',
             seriebyid: 'http://api.trakt.tv/show/summary.json/32e05d4138adb5da5b702b362bd21c52/%s/extended',
-            trending: 'http://api.trakt.tv/shows/trending.json/32e05d4138adb5da5b702b362bd21c52',
-            userShows: 'http://api.trakt.tv/user/watchlist/shows.json/32e05d4138adb5da5b702b362bd21c52/%s/true',
-            userWatched: 'http://api.trakt.tv/user/library/shows/watched.json/32e05d4138adb5da5b702b362bd21c52/%s/true',
+            trending: 'https://api.trakt.tv/shows/trending.json/32e05d4138adb5da5b702b362bd21c52',
+            userShows: 'https://api.trakt.tv/user/library/shows/all.json/32e05d4138adb5da5b702b362bd21c52/%s',
+            userWatched: 'https://api.trakt.tv/user/library/shows/watched.json/32e05d4138adb5da5b702b362bd21c52/%s/true',
             userSuggestions: 'http://api.trakt.tv/recommendations/shows/32e05d4138adb5da5b702b362bd21c52',
             episodeSeen: 'https://api.trakt.tv/show/episode/seen/32e05d4138adb5da5b702b362bd21c52', // https://trakt.tv/api-docs/show-episode-seen
-            episodeUnseen: 'https://api.trakt.tv/show/episode/unseen/32e05d4138adb5da5b702b362bd21c52' // https://trakt.tv/api-docs/show-episode-seen
-
+            episodeUnseen: 'https://api.trakt.tv/show/episode/unseen/32e05d4138adb5da5b702b362bd21c52', // https://trakt.tv/api-docs/show-episode-seen
+            addToLibrary: 'https://api.trakt.tv/show/library/32e05d4138adb5da5b702b362bd21c52'
         };
 
         this.parsers = {
@@ -111,34 +111,47 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                     });
                 },
                 markEpisodeWatched: function(serie, episode) {
+                    var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
+                    var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
+                    var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
+                    
                     $http.post(self.endpoints.episodeSeen, {
                         "username": SettingsService.get('trakttv.username'),
                         "password": SettingsService.get('trakttv.passwordHash'),
-                        "tvdb_id": serie.get('TVDB_ID'),
-                        "title": serie.get('title'),
-                        "year": serie.get('year'),
+                        "tvdb_id": s,
                         "episodes": [{
-                            "season": episode.get('seasonnumber'),
-                            "episode": episode.get('episodenumber')
+                            "season": sn,
+                            "episode": en
                         }]
                     }).then(function(result) {
                         console.log("Episode watched: ", serie, episode);
                     });
                 },
                 markEpisodeNotWatched: function(serie, episode) {
+                    var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
+                    var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
+                    var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
+                  
                     $http.post(self.endpoints.episodeUnseen, {
                         "username": SettingsService.get('trakttv.username'),
                         "password": SettingsService.get('trakttv.passwordHash'),
-                        "tvdb_id": serie.get('TVDB_ID'),
-                        "title": serie.get('title'),
-                        "year": serie.get('year'),
+                        "tvdb_id": s,
                         "episodes": [{
-                            "season": episode.get('seasonnumber'),
-                            "episode": episode.get('episodenumber')
+                            "season": sn,
+                            "episode": en
                         }]
                     }).then(function(result) {
                         console.log("Episode watched: ", serie, episode);
                     });
+                },
+                addToLibrary: function(serieTVDB_ID) {
+                    $http.post(self.endpoints.addToLibrary, {
+                        "username": SettingsService.get('trakttv.username'),
+                        "password": SettingsService.get('trakttv.passwordHash'),
+                        "tvdb_id": serieTVDB_ID,
+                    }).then(function(result) {
+                        console.log("Serie added to trakt.tv library: ", serieTVDB_ID);
+                    })
                 }
             };
         };

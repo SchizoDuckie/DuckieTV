@@ -100,4 +100,22 @@
          });
      };
 
+     $scope.pushToTraktTV = function() {
+        var serieIDs = {};
+           
+        FavoritesService.favorites.map(function(serie) {
+            console.log("Adding serie to trakt.tv: ", serie);
+            TraktTV.addToLibrary(serie.TVDB_ID);
+            serieIDs[serie.ID_Serie] = serie.TVDB_ID;
+        });
+
+        CRUD.Find('Episode', {'watched': '1'}, { limit: '100000'}).then(function(episodes) {
+            episodes.map(function(episode) {
+                console.log("marking episode watched: ", episode.get('ID_Serie'), episode.TVDB_ID);
+                TraktTV.markEpisodeWatched(serieIDs[episode.get('ID_Serie')], episode);    
+            });
+
+        });
+     }
+
  });
