@@ -1,5 +1,11 @@
 angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
 
+/**
+ * The CalendarEvents service provides storage and retrieve functions
+ * for episodes that are displayed on the calendar. It has built-in cache
+ * and watches for the calendar changing it's date before fetching a new
+ * set of episodes from the database
+ */ 
 .factory('CalendarEvents', function($rootScope, FavoritesService) {
     var calendarEvents = {
 
@@ -71,7 +77,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
         },
         /** 
          * Merge any incoming new events with the events already in calendarEvents.
-         * Adds them otherwise.
+         * Removes any mention of the episode that already exists and then adds the new one.
          * The calendarEvents cache is updated per day so the calendar doesn't refresh unnecessarily
          */
         setEvents: function(events) {
@@ -92,6 +98,9 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
             $rootScope.$broadcast('calendar:events', events);
         },
 
+        /** 
+         * If the episode exist in the calendarEvents object, remove it.
+         */
         deleteDuplicate: function(duplicateID, eventDate) {
             for (var aDate in calendarEvents) {
                 if (aDate !== eventDate) {
@@ -106,28 +115,49 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
             }
         },
 
+        /**
+         * Check if an event exists at the given date
+         */
         hasEvent: function(date) {
             return (new Date(date).toDateString() in calendarEvents);
         },
 
+        /**
+         * Return events for a date or an empty array
+         */
         getEvents: function(date) {
             var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
             return (str in calendarEvents) ? calendarEvents[str] : [];
         }
     };
 
+     /**
+      * Refresh the active calendar by re-fetching all data.
+      */
     $rootScope.$on('episodes:updated', function(event) {
         service.setDate(new Date());
     });
+    /**
+     * Reset the calendarEvents object so that any cache is flushed
+     */
     $rootScope.$on('calendar:clearcache', function() {
         service.clearCache();
     });
+
+    /**
+     * When the calendar broadcasts a setDate event, fetch new data for that range.
+     */
     $rootScope.$on('setDate', function(evt, date, range) {
         service.setDate(date, range);
     });
     return service;
 })
 
+/**
+ * The <calendar-event> directive displays an episode on the calendar
+ * This also watches for the magnet:select event will be fired by the
+ * TorrentDialog when a user selects a magnet link for an episode.
+ */
 .directive('calendarEvent', function(uTorrent) {
     return {
         restrict: 'E',
@@ -148,6 +178,12 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
     }
 })
 
+/**
+ * The <calendar> directive is just a little wrapper around the 3rd party datePicker directive
+ * that provides the calendar basics.
+ * 
+ * It sets up the defaults and initializes the calendar.
+ */
 .directive('calendar', function(FavoritesService, CalendarEvents, $rootScope) {
 
     return {
