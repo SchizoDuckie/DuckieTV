@@ -888,8 +888,15 @@ calendar-event .dropdown-menu a:hover, calendar-event .dropdown-menu a:hover a, 
     text-align: left;
     color: white;
 }
-.glyphicon.glyphicon-chromecast {
+.glyphicon.glyphicon-chromecast-on {
     background-image: url('../img/chromecast_on.png');
+    background-size: contain;
+    width: 24px;
+    height:20px;
+    background-repeat:no-repeat;
+}
+.glyphicon.glyphicon-chromecast-off {
+    background-image: url('../img/chromecast_off.png');
     background-size: contain;
     width: 24px;
     height:20px;
