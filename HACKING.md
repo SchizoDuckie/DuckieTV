@@ -10,7 +10,7 @@ On top of that, the following libraries (and their dependencies) are used (these
 
 Some Angular.js basics for those that are not familiar with it:
 
-## A Service (module) ## 
+## A Service (module) ##
 A service is a piece of code that has one responsibility to keep things modular.
 They can be injected into factories and directives.
 
