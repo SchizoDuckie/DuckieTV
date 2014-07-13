@@ -1,6 +1,7 @@
-#Want to help on DuckieTV ? Feel free to send pull requests!
+#Want to help on DuckieTV ? 
+###Feel free to send pull requests!
 
-DuckieTV is built with Angular.js an Bootstrap.css
+DuckieTV is built with Angular.js and Bootstrap.css
 On top of that, the following libraries (and their dependencies) are used (these are placed in the js/vendor folder):
 
 - CreateReadUpdateDelete.js (Javascript Sqlite ORM) https://github.com/SchizoDuckie/CreateReadUpdateDelete.js/
