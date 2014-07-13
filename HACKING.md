@@ -30,4 +30,4 @@ Templates provide views based on $scope variables.
 
 
 If you want to get a quick overview of how events work within DuckieTV check out events.md:
-https://github.com/SchizoDuckie/DuckieTV/blob/angular/events.md
+https://github.com/SchizoDuckie/DuckieTV/blob/angular/EVENTS.md
