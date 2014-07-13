@@ -30,8 +30,7 @@ angular.module('DuckieTV.providers.settings', [])
             'background-rotator.opacity': '0.4',
             'trakttv.sync': false,
             'trakttv.username': null,
-            'trakttv.passwordHash': null,
-            'cast.supported': ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability)
+            'trakttv.passwordHash': null
         },
 
         /**
@@ -40,6 +39,9 @@ angular.module('DuckieTV.providers.settings', [])
          * @return mixed value value of the setting
          */
         get: function(key) {
+        	if(key == 'cast.supported') {
+        		return ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability)
+        	}
             return ((key in service.settings) ? service.settings[key] : (key in service.defaults) ? service.defaults[key] : false);
         },
 
