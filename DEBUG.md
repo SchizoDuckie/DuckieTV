@@ -1,7 +1,7 @@
-##some debug calls##
+#some debug calls
 
-##Reset all watchedAt values##
-``
+##Reset all watchedAt values
+`
 CRUD.Find('Episode', {}, {'limit': 10000}).then(function(elements) {
 	elements.map(function(el) {
 		el.set('watched', 0);
@@ -12,11 +12,11 @@ CRUD.Find('Episode', {}, {'limit': 10000}).then(function(elements) {
 	    })
 	})
 })
-``
+`
 
-##Clear all series and episodes (empty database)##
+##Clear all series and episodes (empty database)
 
-``
+`
 CRUD.Find('Episode', {}, {'limit': 100000}).then(function(elements) {
 	elements.map(function(el) {
 		el.Delete().then(
@@ -43,10 +43,10 @@ CRUD.Find('Season', {}, {'limit': 10000}).then(function(elements) {
 	    })
 	})
 });
-``
+`
 
-##Clear episodes that were not properly deleted due to too narrow limit clause in favoritesservice.remove function##
-``
+##Clear episodes that were not properly deleted due to too narrow limit clause in favoritesservice.remove function
+`
 var serieIds = [];
 
 CRUD.EntityManager.getAdapter().db.execute('select distinct(ID_Serie) from Series').then(function(res) {
@@ -59,11 +59,11 @@ CRUD.EntityManager.getAdapter().db.execute('select distinct(ID_Serie) from Serie
 	});
 
 });
-``
+`
 
-##Completely nuke the database, settings and timers##
+##Completely nuke the database, settings and timers
 
-``
+`
 CRUD.EntityManager.getAdapter().db.execute('drop table Episodes');
 CRUD.EntityManager.getAdapter().db.execute('drop table EventSchedule');
 CRUD.EntityManager.getAdapter().db.execute('drop table Series');
@@ -74,4 +74,4 @@ localStorage.clear();
 if(('chrome' in window) && ('alarms' in window.chrome)) {
 	chrome.alarms.clearAll();
 }
-``
+`
