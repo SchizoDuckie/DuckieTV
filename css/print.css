@@ -1,0 +1,34 @@
+body > .container {
+	padding: 0;
+	width: 100%;
+}
+
+.container-fluid, .topsites-true {
+	margin :0;
+	padding: 0;
+}
+
+chrome-top-sites, series-list {
+	display:none;
+}
+
+#actionbar {
+	display:none;
+}
+
+
+calendar th .glyphicon {
+	display:none !important;
+}
+
+[date-picker] td > span {
+	opacity: 0.2;
+}
+
+[date-picker] .now {
+	color: black;
+}
+
+[date-picker] td, [date-picker] th {
+	border: 1px solid black;
+}
