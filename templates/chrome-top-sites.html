@@ -1,11 +1,9 @@
 <div class="topSites" ng-class="{'active' : isShowing}">
-  <div>
-    <h2 ng-click="toggleTop()">
-      <i class="glyphicon" ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
-      <a>{{'CHROMETOPSITES/hdr'|translate}}</a>
-      <i class="glyphicon"  ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
-    </h2>
-  </div>
+  <h2 ng-click="toggleTop()">
+    <i class="glyphicon" ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
+    <a>{{'CHROMETOPSITES/hdr'|translate}}</a>
+    <i class="glyphicon"  ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
+  </h2>
   <ul class="list list-inline">
     <li ng-repeat="site in topSites | limitTo: 12">
       <a href="{{ site.url }}">
