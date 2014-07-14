@@ -31,6 +31,7 @@ calendar th .glyphicon {
 
 [date-picker] td, [date-picker] th {
 	border: 1px solid black;
+	padding: 1px;
 }
 
 body:before {
