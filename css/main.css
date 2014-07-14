@@ -23,6 +23,9 @@
         width: 95%;
     }
 }
+.printlogo {
+	display: none;
+}
 .col-md-8 {
     width: 60%;
 }

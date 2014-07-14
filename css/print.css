@@ -32,3 +32,26 @@ calendar th .glyphicon {
 [date-picker] td, [date-picker] th {
 	border: 1px solid black;
 }
+
+body:before {
+	content: 'TV Show Calendar by DuckieTV';
+	font-size: 12px;
+	margin-right: 10px;
+	position: absolute;
+	top: 15px;
+	right: 50px;
+	color: #ccc;
+}
+
+body {
+	background-image: url('img/icon64.png');
+	background-position: bottom right;
+}
+
+.printlogo {
+	display: block;
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	opacity: 0.4;
+}
