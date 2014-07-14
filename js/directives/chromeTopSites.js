@@ -37,11 +37,23 @@ angular.module('DuckieTV.directives.chrometopsites', ['DuckieTV.directives.lazyb
     return {
         restrict: 'E',
         templateUrl: 'templates/chrome-top-sites.html',
-        link: function($scope) {
-        	$scope.topSites = [];
-		    ChromeTopSites.getTopSites().then(function(result) {
-		        $scope.topSites = result;
-		    });
+        link: function($scope, iElement) {
+            $scope.topSites = [];
+            ChromeTopSites.getTopSites().then(function(result) {
+                $scope.topSites = result;
+            });
+            
+            //Toggles the TopSites Panel
+            $scope.isShowing = false;      
+            $scope.toggleTop = function() {
+              if($scope.isShowing) {
+                $scope.isShowing = false;
+                iElement.removeClass('active');
+              } else {
+                $scope.isShowing = true;
+                iElement.addClass('active');
+              }
+            }
         }
     }
 });
