@@ -165,7 +165,7 @@ angular.module('DuckieTorrent.torrent', [])
                         hostname: window.location.host
                     }).then(function(session) {
                         console.log("Retreived session key!", session);
-                        self.sessionKey = session.session;
+                       self.sessionKey = session.session;
                         self.authToken = authToken;
                         self.connected = true;
                         return session;
@@ -185,6 +185,9 @@ angular.module('DuckieTorrent.torrent', [])
                         type: 'update',
                         hostname: window.location.host
                     }).then(function(data) {
+                    	if(data == "invalid request") {
+                    		throw "unauthorized";
+                    	} 
                         if ('error' in data) {
                             return {
                                 error: data
@@ -286,7 +289,7 @@ angular.module('DuckieTorrent.torrent', [])
                         }
                     }
 
-                    if (!localStorage.getItem('utorrent.token')) {
+                    if (!localStorage.getItem('utorrent.preventconnecting') && !localStorage.getItem('utorrent.token')) {
                         methods.Scan().then(function() {
                             methods.Pair().then(function() {
                                 methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
@@ -297,19 +300,25 @@ angular.module('DuckieTorrent.torrent', [])
                                     self.isConnecting = false;
                                     self.connectPromise.resolve(methods.getRemote());
                                 });
+                            }, function(error) {
+                            	if (error == "PAIR_DENIED" && confirm("You denied the uTorrent/BitTorrent Client request. \r\nDo you wish to prevent any future connection attempt?")) {
+                            		localStorage.setItem('utorrent.preventconnecting', true);
+                            	}
                             });
                         });
                     } else {
-                        methods.Scan().then(function() {
-                            methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
-                                if (!self.isPolling) {
-                                    self.isPolling = true;
-                                    methods.Update();
-                                }
-                                self.isConnecting = false;
-                                self.connectPromise.resolve(methods.getRemote());
-                            });
-                        })
+                    	if(!localStorage.getItem('utorrent.preventconnecting')) {
+	                        methods.Scan().then(function() {
+	                            methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
+	                                if (!self.isPolling) {
+	                                    self.isPolling = true;
+	                                    methods.Update();
+	                                }
+	                                self.isConnecting = false;
+	                                self.connectPromise.resolve(methods.getRemote());
+	                            });
+	                        })
+                        }
                     }
 
                     return self.connectPromise.promise;
@@ -324,8 +333,12 @@ angular.module('DuckieTorrent.torrent', [])
                     return methods.pair().then(function(result) {
                         console.log("Received auth token!", result);
                         var key = typeof result == 'object' ? result.pairing_key : result; // switch between 3.3.x and 3.4.1 build 31206 pairing method
-                        localStorage.setItem('utorrent.token', key);
-                        self.authToken = result; // .pairing_key;
+                        if(key == '<NULL>') {
+                        	throw "PAIR_DENIED";
+                        } else {
+	                        localStorage.setItem('utorrent.token', key);
+	                        self.authToken = result; // .pairing_key;
+                        }
                     }, function(err) {
                         console.error("Eror pairing!", err);
                     })
@@ -343,7 +356,9 @@ angular.module('DuckieTorrent.torrent', [])
                 Update: function() {
                     if (self.isPolling == true) {
                         methods.statusQuery().then(function(data) {
-                            if (self.isPolling) setTimeout(methods.Update, data && data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
+                            if (self.isPolling && !data.error) {
+                             setTimeout(methods.Update, data && data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
+                        	}
                         });
                     }
                 },
@@ -739,6 +754,8 @@ angular.module('DuckieTorrent.torrent', [])
             }
             uTorrent.AutoConnect().then(function(remote) {
                 observeTorrent($scope.infoHash);
+            }, function(fail) {
+            	console.log("Failed! to connect!");
             });
 
             $scope.isFormatSupported = function(file) {

@@ -30,6 +30,7 @@ angular.module('DuckieTorrent.controllers', ['DuckieTorrent.torrent', 'DuckieTV.
 
         $scope.removeToken = function() {
             localStorage.removeItem("utorrent.token");
+            localStorage.removeItem("utorrent.preventconnecting");
             window.location.reload();
         }
 

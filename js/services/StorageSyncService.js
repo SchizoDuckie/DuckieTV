@@ -13,10 +13,15 @@ angular.module('DuckieTV.providers.storagesync', ['dialogs'])
  * still running.
  */
 .factory('StorageSyncService', function($rootScope, $q, FavoritesService, TraktTV, $dialogs, $filter) {
-    var service = {
+    function isSupported() {
+    	return ('chrome' in window && 'storage' in chrome && 'sync' in chrome.storage) 
+    };
+
+	var service = {
 
         isSyncing: false, // syncing is currently in progress
         lastSynced: null, // timestamp when sync has last run
+
 
         /** 
          * Fetch the list of tvdb id's from the FavoritesService
@@ -36,7 +41,7 @@ angular.module('DuckieTV.providers.storagesync', ['dialogs'])
          * Execute a sync step if syncing is not currently already in progress
          */
         synchronize: function() {
-
+        	if(!isSupported()) return;
             if (!service.isSyncing) {
                 service.isSyncing = true;
                 console.log("[Storage.Synchronize] Syncing storage!");
@@ -56,6 +61,7 @@ angular.module('DuckieTV.providers.storagesync', ['dialogs'])
          * Remote deletion requires the user to confirm the deletion.
          */
         read: function(lastSync) {
+        	if(!isSupported()) return;
             console.log("Reading synced storage since ", lastSync);
             service.get('series').then(function(results) {
                 console.log("Fetched synced storage series: ", results);
@@ -116,6 +122,13 @@ angular.module('DuckieTV.providers.storagesync', ['dialogs'])
             return d.promise;
         },
 
+        /** 
+         * Public accessor for the global function
+         */
+        isSupported: function() {
+        	return isSupported();
+        },
+
         /**
          * Store a new value in the storage.sync api
          */
@@ -131,6 +144,8 @@ angular.module('DuckieTV.providers.storagesync', ['dialogs'])
             });
         }
     }
-    service.read();
+    if(isSupported()) { 
+	    service.read();
+	}
     return service;
 })
