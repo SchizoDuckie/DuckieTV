@@ -116,7 +116,9 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
              * @param  string name name of the alarm to remove
              */
             clear: function(name) {
-                chrome.alarms.clear(name);
+                if ('chrome' in window && 'alarms' in window.chrome) {
+               		chrome.alarms.clear(name);
+                }
                 CRUD.FindOne('ScheduledEvent', {
                     name: name
                 }).then(function(ScheduledEvent) {
