@@ -155,14 +155,12 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
      * Catch the event when an episode is marked as watched
      */
     $rootScope.$on('episode:marked:watched', function(evt, episode) {
-        console.log('epmarkedwatch at calender');
        service.clearCache();
     });
     /**
      * Catch the event when an episode is marked as NOT watched
      */
     $rootScope.$on('episode:marked:notwatched', function(evt, episode) {
-        console.log('epmarkedNOTwatch at calender');
        service.clearCache();
     });
 
