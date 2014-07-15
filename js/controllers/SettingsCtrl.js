@@ -3,11 +3,14 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
 .controller('SettingsCtrl', function($scope, $location, $rootScope, StorageSyncService, FavoritesService, SettingsService, MirrorResolver, TraktTV, $translate, tmhDynamicLocale, EventSchedulerService, $filter) {
 
-    $scope.custommirror = SettingsService.get('thepiratebay.mirror');
+    $scope.customtpbmirror = SettingsService.get('thepiratebay.mirror');
+    $scope.customkatmirror = SettingsService.get('kickasstorrents.mirror');
     $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
     $scope.searchquality = SettingsService.get('torrenting.searchquality');
     $scope.bgopacity = SettingsService.get('background-rotator.opacity');
-    $scope.mirrorStatus = [];
+    $scope.tpbmirrorStatus = [];
+    $scope.katmirrorStatus = [];
+    
     $scope.log = [];
     $scope.hasTopSites = ('topSites' in window.chrome);
     $scope.locale = SettingsService.get('application.locale');
@@ -81,8 +84,15 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     /**
      * Inject an event to display mirror resolving progress.
      */
-    $rootScope.$on('mirrorresolver:status', function(evt, status) {
-        $scope.mirrorStatus.unshift(status);
+    $rootScope.$on('tpbmirrorresolver:status', function(evt, status) {
+        $scope.tpbmirrorStatus.unshift(status);
+    });
+
+    /**
+     * Inject an event to display mirror resolving progress.
+     */
+    $rootScope.$on('katmirrorresolver:status', function(evt, status) {
+        $scope.katmirrorStatus.unshift(status);
     });
 
     /**
@@ -128,14 +138,14 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
     /**
      * Resolve a new random ThePirateBay mirror.
-     * Log progress hil this is happening.
+     * Log progress while this is happening.
      * Save the new mirror in the thepiratebay.mirror settings key
      */
     $scope.findRandomTPBMirror = function() {
         MirrorResolver.findTPBMirror().then(function(result) {
-            $scope.custommirror = result;
-            SettingsService.set('thepiratebay.mirror', $scope.custommirror);
-            $rootScope.$broadcast('mirrorresolver:status', 'Saved!');
+            $scope.customtpbmirror = result;
+            SettingsService.set('thepiratebay.mirror', $scope.customtpbmirror);
+            $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
         }, function(err) {
             console.debug("Could not find a working TPB mirror!", err);
         })
@@ -144,17 +154,48 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     /**
      * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
      */
-    $scope.validateCustomMirror = function(mirror) {
+    $scope.validateCustomTPBMirror = function(mirror) {
         $scope.mirrorStatus = [];
-        MirrorResolver.verifyMirror(mirror).then(function(result) {
-            $scope.custommirror = result;
-            SettingsService.set('thepiratebay.mirror', $scope.custommirror);
-            $rootScope.$broadcast('mirrorresolver:status', 'Saved!');
+        MirrorResolver.verifyTPBMirror(mirror).then(function(result) {
+            $scope.customtpbmirror = result;
+            SettingsService.set('thepiratebay.mirror', $scope.customtpbmirror);
+            $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
         }, function(err) {
             console.log("Could not validate custom mirror!", mirror);
             //$scope.customMirror = '';
         })
     }
+
+    /**
+     * Resolve a new random KickassTorrents  mirror.
+     * Log progress while this is happening.
+     * Save the new mirror in the kickasstorrents.mirror settings key
+     */
+    $scope.findRandomKATMirror = function() {
+        MirrorResolver.findKATMirror().then(function(result) {
+            $scope.customkatmirror = result;
+            SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
+            $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
+        }, function(err) {
+            console.debug("Could not find a working KAT mirror!", err);
+        })
+    }
+
+    /**
+     * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
+     */
+    $scope.validateCustomKATMirror = function(mirror) {
+        $scope.mirrorStatus = [];
+        MirrorResolver.verifyKATMirror(mirror).then(function(result) {
+            $scope.customkatmirror = result;
+            SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
+            $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
+        }, function(err) {
+            console.log("Could not validate custom mirror!", mirror);
+            //$scope.customMirror = '';
+        })
+    }
+
 
 
     /**
@@ -178,8 +219,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.favorites = FavoritesService.favorites;
     $scope.$on('favorites:updated', function(event, data) {
         $rootScope.$broadcast('background:load', FavoritesService.favorites[Math.floor(Math.random() * FavoritesService.favorites.length)].fanart);
-
     });
-
 
 });
