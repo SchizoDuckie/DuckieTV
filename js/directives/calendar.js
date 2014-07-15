@@ -93,6 +93,9 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                 });
                 if (existing.length == 0) {
                     calendarEvents[date].push(event);
+                } else {
+                	var index = calendarEvents[date].indexOf(existing[0]);
+                	calendarEvents[date][index].episode = event.episode;
                 }
             });
             $rootScope.$broadcast('calendar:events', events);
@@ -107,6 +110,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                     var eventList = calendarEvents[aDate];
                     for (var index = 0; index < eventList.length; index++) {
                         if (eventList[index].episodeID === duplicateID) {
+                        	console.log('removing existing event!', eventList[index]);
                             calendarEvents[aDate].splice(index, 1);
                             return;
                         }
@@ -130,6 +134,20 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
             return (str in calendarEvents) ? calendarEvents[str] : [];
         }
     };
+
+    $rootScope.$on('episode:marked:watched', function(event, data) {
+        service.setEvents([{ 
+        	episodeID: data.get('TVDB_ID'), 
+        	episode: data.asObject() 
+        }]);       
+    });
+
+    $rootScope.$on('episode:marked:notwatched', function(event, data) {
+        service.setEvents([{ 
+        	episodeID: data.get('TVDB_ID'), 
+        	episode: data.asObject() 
+        }]);       
+    });
 
      /**
       * Refresh the active calendar by re-fetching all data.
