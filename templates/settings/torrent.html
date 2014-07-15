@@ -110,15 +110,39 @@
       </p>
       <ul class="list-unstyled">
         <li>{{'TORRENT/tpb-mirror/hdr'|translate}}<br>
-          <input type='url' style='width:500px' ng-model="custommirror">
+          <input type='url' style='width:500px' ng-model="customtpbmirror">
 
-          <button class="btn btn-success" ng-click="validateCustomMirror(custommirror)">{{'TORRENT/tpb-validate/btn'|translate}}</button>
+          <button class="btn btn-success" ng-click="validateCustomTPBMirror(custommirror)">{{'TORRENT/tpb-validate/btn'|translate}}</button>
           <button class="btn btn-info" ng-click="findRandomTPBMirror()">{{'TORRENT/tpb-find-mirror/btn'|translate}}</button>
 
-          <p ng-show="mirrorStatus.length > 0">
+          <p ng-show="tpbmirrorStatus.length > 0">
             {{'TORRENT/tpb-status/hdr'|translate}}
             <ul style='max-height:150px; overflow-y:auto;'>
-              <li ng-repeat="status in mirrorStatus track by $index">{{status}}</li>
+              <li ng-repeat="status in tpbmirrorStatus track by $index">{{status}}</li>
+            </ul>
+          </p>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr ng-show="getSetting('torrenting.enabled')">
+    <th width="150px">
+      <strong style='white-space:nowrap'>KickAss Torrents</strong>
+    </th>
+    <td>
+      <p class="alert alert-warning">{{'TORRENT/kat/desc'|translate}}
+      </p>
+      <ul class="list-unstyled">
+        <li>{{'TORRENT/kat-mirror/hdr'|translate}}<br>
+          <input type='url' style='width:500px' ng-model="customkatmirror">
+
+          <button class="btn btn-success" ng-click="validateCustomKATMirror(custommirror)">{{'TORRENT/kat-validate/btn'|translate}}</button>
+          <button class="btn btn-info" ng-click="findRandomKATMirror()">{{'TORRENT/kat-find-mirror/btn'|translate}}</button>
+
+          <p ng-show="katmirrorStatus.length > 0">
+            {{'TORRENT/kat-status/hdr'|translate}}
+            <ul style='max-height:150px; overflow-y:auto;'>
+              <li ng-repeat="status in katmirrorStatus track by $index">{{status}}</li>
             </ul>
           </p>
         </li>

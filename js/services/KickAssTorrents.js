@@ -1,38 +1,25 @@
 angular.module('DuckieTV.providers.kickasstorrents', [])
 /**
- * Autofill serie search component
- * Provides autofill proxy and adds the selected serie back to the MainController
- */
-.controller('FindKickassTypeAheadCtrl', function($scope, KickassTorrents) {
-
-    $scope.selected = undefined;
-    $scope.search = function(serie) {
-        return KickassTorrents.search(serie).then(function(res) {
-            return res;
-        });
-    };
-    $scope.selectSerie = function(serie) {
-        $scope.selected = serie.name;
-        console.log("Serie selected!", serie);
-    }
-})
-/**
  * KickassTorrents provider
  * Allows searching for any content on Kickass, ordered by most seeds
  */
 .provider('KickassTorrents', function() {
 
     this.endpoints = {
-        base: 'http://kickass.to',
-        search: 'http://kickass.to/usearch/%s/?field=seeders&sorder=desc',
-        details: 'http://kickasstorrents.se/torrent/%s',
+        search: '/usearch/%s/?field=seeders&sorder=desc',
+        details: '/torrent/%s',
     };
+    this.mirror = null;
 
     /**
      * Switch between search and details
      */
     this.getUrl = function(type, param) {
-        return this.endpoints[type].replace('%s', encodeURIComponent(param));
+    	// strip last char of the mirror. kat fails if there's an extra slash.
+    	if(this.mirror[this.mirror.length -1] == '/') {
+    		this.mirror = this.mirror.substring(0, this.mirror.length -1);
+    	}
+        return this.mirror + this.endpoints[type].replace('%s', encodeURIComponent(param));
     },
 
     this.parseSearch = function(result) {
@@ -61,8 +48,9 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
      * Get wrapper, providing the actual search functions and result parser
      * Provides promises so it can be used in typeahead as well as in the rest of the app
      */
-    this.$get = function($q, $http) {
+    this.$get = function($q, $http, MirrorResolver, SettingsService) {
         var self = this;
+        self.mirror = SettingsService.get('kickasstorrents.mirror');
         return {
             /**
              * Execute a generic Kickass search, parse the results and return them as an array
@@ -76,9 +64,17 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
                 }).then(function(response) {
                     console.log("Kickass search executed!", response);
                     d.resolve(self.parseSearch(response));
-                }, function(err) {
-                    console.log('error!');
-                    d.reject(err);
+                },  function(err) {
+                    if (err.status > 300) {
+                        MirrorResolver.findKATMirror().then(function(result) {
+                            //console.log("Resolved a new working mirror!", result);
+                            self.mirror = result;
+                            return d.resolve(self.$get($q, $http, MirrorResolver).search(what));
+                        }, function(err) {
+                            //console.debug("Could not find a working TPB mirror!", err);
+                            d.reject(err);
+                        })
+                    }
                 });
                 return d.promise;
             },

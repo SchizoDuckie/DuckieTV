@@ -23,6 +23,7 @@ angular.module('DuckieTV.providers.settings', [])
             'torrenting.directory': true,
             'torrenting.progress': true,
             'thepiratebay.mirror': 'https://thepiratebay.se',
+            'kickasstorrents.mirror': 'https://kickass.to',
             'series.displaymode': 'poster',
             'calendar.startSunday': true,
             'storage.sync': true,
