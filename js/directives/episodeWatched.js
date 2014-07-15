@@ -11,7 +11,7 @@ angular.module('DuckieTV.directives.episodewatched', [])
         scope: {
             episode: '='
         },
-        template: ['<a ng-click="markWatched()" style="width:100%" class="glyphicon" tooltip="{{getToolTip()}}" ng-class="{ \'glyphicon-eye-open\' : episode.get(\'watched\') ==  1, \'glyphicon-eye-close\' : episode.get(\'watched\') != 1 }" ng-transclude></a>'],
+        template: ['<a ng-click="markWatched()" style="width:100%" class="glyphicon" tooltip="{{getToolTip()}}" ng-class="{ \'glyphicon-eye-open\' : episode.get(\'watched\') ===  \'1\', \'glyphicon-eye-close\' : episode.get(\'watched\') !== \'1\' }" ng-transclude></a>'],
         link: function($scope) {
 
             $scope.tooltip = null;
