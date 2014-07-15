@@ -20,7 +20,7 @@ angular.module('DuckieTV.directives.episodewatched', [])
              * Translate the watchedAt tooltip
              */
             $scope.getToolTip = function() {
-                return $scope.episode.get('watched') == 1 ?
+                return $scope.episode.get('watched') === '1' ?
                     $filter('translate')('EPISODEWATCHEDjs/is-marked/lbl') +
                     $filter('date')(new Date($scope.episode.get('watchedAt')), 'medium') :
                     $filter('translate')('EPISODEWATCHEDjs/not-marked/lbl');
@@ -30,7 +30,7 @@ angular.module('DuckieTV.directives.episodewatched', [])
              * Pass the logic to the episode to handle marking watched in a generic way
              */
             $scope.markWatched = function() {
-                if ($scope.episode.get('watched') == '1') {
+                if ($scope.episode.get('watched') === '1') {
                     $scope.episode.markNotWatched($injector.get('$rootScope'));
                 } else {
                     $scope.episode.markWatched($injector.get('$rootScope'));
