@@ -2,7 +2,7 @@
 
 ##Reset all watchedAt values
 ```
-CRUD.Find('Episode', {}, {'limit': 100000}).then(function(elements) {
+CRUD.Find('Episode', {}, {'limit': 10000}).then(function(elements) {
     elements.map(function(el) {
         el.set('watched', 0);
         el.set('watchedAt', null);
