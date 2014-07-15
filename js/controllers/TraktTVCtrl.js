@@ -21,6 +21,13 @@
          }
      };
 
+     $scope.clearCredentials = function() {
+		$scope.credentials.passwordHash = $scope.credentials.password = $scope.credentials.username = null;
+		$rootScope.setSetting('trakttv.passwordHash', null);
+		$rootScope.setSetting('trakttv.username', null);
+
+     }
+
      $scope.isDownloaded = function(tvdb_id) {
          return tvdb_id in $scope.tvdbSeries;
      };
@@ -42,9 +49,11 @@
      };
 
      $scope.getUserSuggestions = function() {
+     	 $scope.traktTVLoading = true;
          TraktTV.getUserSuggestions().then(function(data) {
              console.log("Found user suggestions from Trakt.tV", data);
              $scope.traktTVSuggestions = data;
+             $scope.traktTVLoading = false;
          });
      };
 

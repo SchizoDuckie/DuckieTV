@@ -928,3 +928,12 @@ calendar-event h2 {
     width: 150px;
     height: 220px;
 }
+
+
+.alert {
+	white-space: pre;
+}
+
+.alert strong {
+	display: block;
+}
