@@ -163,7 +163,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $scope.enableAutoDownload = function() {
         SettingsService.set('torrenting.autodownload', true);
-        EventSchedulerService.createInterval(' ☠ Automated torrent download service', 1, 'episode:aired:check', {});
+        EventSchedulerService.createInterval(' ☠ Automated torrent download service', 120, 'episode:aired:check', {});
     }
 
     /**
