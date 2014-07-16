@@ -66,7 +66,7 @@
     "CHROMECAST/requirements/li3": "&micro;Torrent webUI enabled and configured for DuckieTV. For more info on how to set this up: ",
     "CHROMECAST/your-local-ipaddr/btn": "Use {{address}} as my IP Address",
     "CHROMECAST/your-local-ipaddr/hdr": "Found Local ip address",
-    "CHROMETOPSITES-click/hdr": "Click for most visisted sites",
+    "CHROMETOPSITES-click/hdr": "Click for most visited sites",
     "CHROMETOPSITES-hover/hdr": "Pull down most visited sites",
     "DEFAULT/backup-create/btn": "Create Database Backup",
     "DEFAULT/backup-download/btn": "Backup ready! Click to download.",
