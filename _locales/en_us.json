@@ -285,7 +285,7 @@
     "TORRENT/tpb-validate/btn": "Validate and Save",
     "TORRENT/tpb/desc": "If for some reason ThePirateBay is blocked in your territory, use the button below to automatically resolve a working mirror that supports magnet links. If you have a preferred server, you may input that as well.",
     "TORRENTCLIENT/clear-authority/btn": "Clear &micro;Torrent authorization",
-    "TORRENTCLIENT/desc/p1": "You need to be running &micro;Torrent v3.3.x on or ",
+    "TORRENTCLIENT/desc/p1": "You need to be running &micro;Torrent v3.3.x or ",
     "TORRENTCLIENT/desc/p2": " for this to work!",
     "TORRENTCLIENT/desc/p3": "You can now control your torrents straight from DuckieTV. Make sure &micro;Torrent is running and accept the Pair request to enable automagic integration throughout the app",
     "TORRENTCLIENT/filename/hdr": "Filename",

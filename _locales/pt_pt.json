@@ -269,7 +269,7 @@
     "TORRENT/tpb-validate/btn": "Validar e salvar ",
     "TORRENT/tpb/desc": "Se por algum motivo ThePirateBay é bloqueado no seu território, use o botão abaixo para resolver automaticamente, um espelho de trabalho que suporta links magnéticos. Se você tiver um servidor preferencial, você pode introduzir isso também. ",
     "TORRENTCLIENT/clear-authority/btn": "Limpar autorização μTorrent ",
-    "TORRENTCLIENT/desc/p1": "Você precisa estar executando o μTorrent v3.3.x em ou ",
+    "TORRENTCLIENT/desc/p1": "Você precisa estar executando o μTorrent v3.3.x ou ",
     "TORRENTCLIENT/desc/p2": "  para que isso funcione! ",
     "TORRENTCLIENT/desc/p3": "Agora você pode controlar os seus torrents direto do DuckieTV. Certifique-se de μTorrent está sendo executado e aceitar o pedido de pares para permitir a integração automagic em todo o app ",
     "TORRENTCLIENT/filename/hdr": "nome do arquivo ",
