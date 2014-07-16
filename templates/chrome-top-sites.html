@@ -1,8 +1,13 @@
 <div class="topSites">
-  <h2 ng-click="toggleTop()">
+  <h2 ng-if="getSetting('topSites.mode') == 'onclick'" ng-click="toggleTop()">
     <i class="glyphicon" ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
-    <a>{{'CHROMETOPSITES/hdr'|translate}}</a>
+    <a>Click for Most Visited Sites</a>
     <i class="glyphicon"  ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
+  </h2>
+  <h2 ng-if="getSetting('topSites.mode') == 'onhover'">
+    <i class="glyphicon glyphicon-chevron-down"></i>
+    <a>{{'CHROMETOPSITES/hdr'|translate}}</a>
+    <i class="glyphicon glyphicon-chevron-down"></i>
   </h2>
   <ul class="list list-inline">
     <li ng-repeat="site in topSites | limitTo: 12">
