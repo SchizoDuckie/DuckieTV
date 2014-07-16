@@ -14,6 +14,7 @@ angular.module('DuckieTV.providers.settings', [])
             'application.locale': 'en_us',
             'client.determinedlocale': null,
             'topSites.enabled': true,
+            'topSites.mode': 'onhover',
             'torrenting.enabled': true,
             'torrenting.autodownload': false,
             'torrenting.searchprovider': 'ThePirateBay',
