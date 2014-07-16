@@ -414,14 +414,14 @@ chrome-top-sites {
     width: 96%;
     left: 2%;
     right: 2%;
-    padding:20px;
+    padding:15px;
     z-index:99;
     background-color: rgba(0, 0, 0, 0.9);
     border-bottom: 1px solid white;
+    -webkit-transition: -webkit-transform 0.5s ease-in;
     -webkit-transform: translateY(-100%);
-    -webkit-transition: all 0.5s ease-in-out;
 }
-chrome-top-sites:hover {
+chrome-top-sites.onhover:hover, chrome-top-sites.onclick.active {
     -webkit-transform: translateY(0);
 }
 chrome-top-sites h2 {
@@ -431,13 +431,18 @@ chrome-top-sites h2 {
     text-align: center;
     color: white;
     font-size: 25px;
-    margin-top: 0;
-    padding-top: 5px;
+    margin-top: 1px;
+    padding:5px;
     left:0px;
     background-color: rgba(0, 0, 0, 0.4);
-    -webkit-transition: background-color 0.5 ease-in-out;
+    -webkit-transition: background-color 0.5s ease-in-out;
+    cursor: pointer;
 }
-chrome-top-sites:hover h2, chrome-top-sites:hover h2 a {
+chrome-top-sites h2 a {
+    color:white;
+    display:inline;
+}
+chrome-top-sites h2:hover, chrome-top-sites.active h2 {
     background-color: rgba(0, 0, 0, 0.9);
 }
 chrome-top-sites h2 i {
@@ -491,10 +496,6 @@ chrome-top-sites a {
     text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2);
     padding:10px 10px 2px 10px;
     transition: all 0.2s ease-in;
-}
-chrome-top-sites a:hover {
-    color: black;
-    background-color: rgba(255, 255, 255, 0.8);
 }
 chrome-top-sites img {
     border-radius: 5px;

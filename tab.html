@@ -14,7 +14,7 @@
   <background-rotator channel="'background:load'" style="opacity:{{getSetting('background-rotator.opacity')}}"></background-rotator>
   <div class="container">
   	<div class="topsites-{{getSetting('topSites.enabled')}}">
-      <chrome-top-sites ng-if="getSetting('topSites.enabled')"></chrome-top-sites>
+      <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>
       <div data-ng-view></div>
       <series-list></series-list>
       <div id="actionbar">
