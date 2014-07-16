@@ -56,6 +56,9 @@
       <strong style='white-space:nowrap; display:block;'>{{'DEFAULT/topsites/hdr'|translate}}</strong>
       <p class="label label-success" ng-show="getSetting('topSites.enabled')">{{'DEFAULT/sync-enabled/lbl'|translate}}</p>
       <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">{{'DEFAULT/sync-disabled/lbl'|translate}}</p>
+      <br>
+      <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onhover'">Mode: Hover</p>
+      <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onclick'">Mode: Click</p>
     </th>
     <td>
       <ul class="list-unstyled">
@@ -64,6 +67,12 @@
           <p ng-show="getSetting('topSites.enabled')" class="alert alert-warning">{{'DEFAULT/topsites-hide/alert'|translate}}</p>
           <button ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">{{'DEFAULT/topsites-show/btn'|translate}}</button>
           <button ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">{{'DEFAULT/topsites-hide/btn'|translate}}</button>
+        </li><br>
+        <li style="padding-top:4px">
+          <p ng-show="getSetting('topSites.mode') == 'onhover'" class="alert alert-info">Clicking the button below will make the Top Sites bar open when you click on it.</p>
+          <p ng-show="getSetting('topSites.mode') == 'onclick'" class="alert alert-warning">Clicking the button below will make the Top Sites bar open when you hover over it.</p>
+          <button ng-show="getSetting('topSites.mode') == 'onhover'" ng-click="setSetting('topSites.mode', 'onclick')" class="btn btn-success">Require Click to Open TopSites</button>
+          <button ng-show="getSetting('topSites.mode') == 'onclick'" ng-click="setSetting('topSites.mode', 'onhover')" class="btn btn-danger">Require Hover to Open TopSites</button>
         </li>
       </ul>
     </td>
