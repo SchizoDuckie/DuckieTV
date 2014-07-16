@@ -418,7 +418,7 @@ chrome-top-sites {
     -webkit-transition: -webkit-transform 0.5s ease-in;
     -webkit-transform: translateY(-100%);
 }
-chrome-top-sites.active {
+chrome-top-sites.onhover:hover, chrome-top-sites.onclick.active {
     -webkit-transform: translateY(0);
 }
 chrome-top-sites h2 {
