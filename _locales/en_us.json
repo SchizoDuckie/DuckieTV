@@ -95,7 +95,7 @@
     "DEFAULT/sync-dont/btn": "Don't sync between browsers",
     "DEFAULT/sync-enabled/lbl": "Enabled",
     "DEFAULT/sync-push/btn": "Push local series list into the cloud",
-    "DEFAULT/sync-push/desc": "Hit this button to push your current series list into the cloud. Sign in on another browser with the same google account and your series list will automagically be synced.",
+    "DEFAULT/sync-push/desc": "If you have used the Browser settings 'Sign in' to login to your Google Account,\nthen hit this button to push your current series list into the cloud.\nSign in on another browser with the same google account and your series list will automagically be synced.",
     "DEFAULT/sync-push/hdr": "Experimental!",
     "DEFAULT/sync/hdr": "Sync between browser",
     "DEFAULT/topsites-hide/alert": "Clicking the button will hide the list of your most visited sites from the new tab page",
