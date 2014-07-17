@@ -61,7 +61,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * Remote deletion requires the user to confirm the deletion.
          */
         read: function(lastSync) {
-        	if(!isSupported()) return;
+        	if(!isSupported() || service.isSyncing) return;
             console.log("Reading synced storage since ", lastSync, ' local last sync: ', SettingsService.get('lastSync'));
 
             console.log(lastSync < SettingsService.get('lastSync'));
@@ -96,9 +96,9 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                         pq.push(TraktTV.findSerieByTVDBID(nonLocal[i]).then(function(result) {
                             console.log("Fetched information for ", result.title, 'adding to favorites!');
                             return FavoritesService.addFavorite(result).then(function() {
-                            	var progres = SettingsService.get('sync.progress');
-                            	progress.localProcessed++;
-                            	service.checkSyncProgress(progress);	
+                            		var progress = SettingsService.get('sync.progress');
+	                            	progress.localProcessed++;
+	                            	service.checkSyncProgress(progress);
                             })
                         }));
                     }
@@ -115,9 +115,11 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          */
         checkSyncProgress: function(progress) {
         	SettingsService.set('sync.progress', progress);
+        	debugger;
         	if(progress.localProcessed == progress.nonLocal.length && progress.remoteProcessed == progress.nonRemote.length) {
         		var stamp = new Date().getTime();
         		SettingsService.set('sync.progress', null);
+        		SettingsService.set('lastSync', stamp);
         		service.synchronize();
         	}
         },
@@ -193,8 +195,13 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         attach: function() {
         	console.log("Attaching chrome storage change handler!")
         	chrome.storage.onChanged.addListener(function(changes, namespace) {
-		    	console.log("synced storage chagne: ", changes, namespace);
-		    	service.read(service.get('synctime'));    
+		    	console.log("synced storage change!", changes, namespace);
+		    	debugger;
+		    	service.get('synctime').then(function(result) {
+		    		service.read(result);	    		
+		    	})
+ 
+
 		    });
         }
     }
