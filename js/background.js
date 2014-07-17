@@ -23,6 +23,9 @@ chrome.runtime.onInstalled.addListener(function(details) {
     } else if (details.reason == "update") {
         var thisVersion = chrome.runtime.getManifest().version;
         console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
+		setTimeout(function() { // on every upgrade, run the fixMissingTimers
+			angular.element(document).injector().get('EventSchedulerService').fixMissingTimers();
+		}, 5000);
     }
 });
 
