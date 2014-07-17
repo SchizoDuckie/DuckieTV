@@ -142,7 +142,7 @@ angular.module('DuckieTV.directives.serieslist', [])
                 return TraktTV.disableBatchMode().findSeries($scope.search.query).then(function(res) {
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
                     TraktTV.enableBatchMode();
-                    $scope.search.results = res.series;
+                    $scope.search.results = (res && ('series' in res)) ? res.series : [];
                 });
             };
 

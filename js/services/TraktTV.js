@@ -37,6 +37,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 series: []
             };
             data = data.data;
+            if(!data || !'length' in data) return;
             for (var i = 0; i < data.length; i++) {
                 data[i].poster = ('images' in data[i] && 'poster' in data[i].images) ? data[i].images.poster : '';
                 data[i].banner = ('images' in data[i] && 'banner' in data[i].images) ? data[i].images.banner : '';

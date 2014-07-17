@@ -29,6 +29,7 @@
             "js/vendor/angular-sanitize.min.js",
             "js/directives/torrentDialog.js",
             "js/services/SettingsService.js",
+            "js/services/StorageSyncService.js",
             "js/services/SceneNameResolver.js",
             "js/services/EventWatcherService.js",
             "js/services/EventSchedulerService.js",

@@ -110,10 +110,13 @@ angular.module('DuckieTV.providers.favorites', [])
                     $rootScope.$broadcast('background:load', serie.get('fanart'));
 
                     service.updateEpisodes(serie, data.seasons, watched).then(function(result) {
+                        debugger;
                         $rootScope.$broadcast('episodes:updated', service.favorites);
+                        console.log("Adding serie completely done, broadcasting storage sync event.");
+                        $rootScope.$broadcast('storage:update');
                         d.resolve(serie);
                     }, function(err) {
-                        console.log("Errorr updating episodes!");
+                        console.log("Error updating episodes!");
                         debugger;
                         d.reject(err);
                     }, function(notify) {

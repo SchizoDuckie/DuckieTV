@@ -253,13 +253,23 @@ angular.module('DuckieTV', [
         SettingsService.set(key, false);
     };
 
-    $rootScope.$on('storage:update', function() {
-        if ($rootScope.getSetting('storage.sync') == true) {
-            console.log("STorage sync can run!");
-            StorageSyncService.synchronize();
-        }
-    });
-
+    /** 
+     * Forward an event to the storagesync service when it's not already syncing.
+     * This make sure that local additions / deletions get stored in the cloud.
+     */ 
+     if($rootScope.getSetting('storage.sync') == true) {
+     	$rootScope.$on('storage:update', function() {
+	        if ($rootScope.getSetting('storage.sync') == true && $rootScope.getSetting('sync.progress') == null) {
+	            console.log("Storage sync can run!");
+	            StorageSyncService.synchronize();
+	        }
+	    });
+	    StorageSyncService.processRemoteDeletions();
+	}
+    
+	/** 
+	 * Hide the favorites list when navigationg to a different in-page action.
+	 */
     $rootScope.$on('$locationChangeSuccess', function() {
         $rootScope.$broadcast('serieslist:hide');
     });
@@ -290,9 +300,7 @@ angular.module('DuckieTV', [
             });
         }
     });
-
-    MigrationService.check();
-
+	
     // delay loading of chromecast because it's creating a load delay in the rest of the scripts.
     if ('chrome' in window && navigator.vendor.indexOf('Google') > -1) {
         setTimeout(function() {

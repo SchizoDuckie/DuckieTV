@@ -28,6 +28,7 @@ angular.module('DuckieTV.providers.settings', [])
             'series.displaymode': 'poster',
             'calendar.startSunday': true,
             'storage.sync': true,
+            'sync.progress': null,
             'calendar.mode': 'date',
             'background-rotator.opacity': '0.4',
             'trakttv.sync': false,

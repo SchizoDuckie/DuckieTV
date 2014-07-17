@@ -41,6 +41,7 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.trakttv',
     'DuckieTV.providers.settings',
     'DuckieTV.providers.scenenames',
+    'DuckieTV.providers.storagesync',
     'DuckieTV.providers.mirrorresolver',
     'DuckieTV.providers.thepiratebay'
 ])
@@ -57,14 +58,13 @@ angular.module('DuckieTV', [
  * The only thing we do is start the event scheduler service, which in turn broadcasts messages to anything listening.
  * FavoritesService is added as a dependency so that it can pick up these events upon initialisation.
  */
-.run(function(EventWatcherService, EpisodeAiredService, FavoritesService, SettingsService, $rootScope) {
+.run(function(EventWatcherService, EpisodeAiredService, FavoritesService, SettingsService, StorageSyncService, $rootScope) {
 
     $rootScope.getSetting = function(key) {
         return SettingsService.get(key);
     };
     EventWatcherService.initialize();
-    console.log("Background page initialized!");
-
+    StorageSyncService.attach();
 });
 
 // Since there is no html document that bootstraps angular using an ang-app tag, we need to call bootstrap manually
