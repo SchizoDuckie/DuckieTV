@@ -68,7 +68,6 @@
     "CHROMECAST/your-local-ipaddr/hdr": "Найдено Локальный адрес IP ",
     "CHROMETOPSITES-click/hdr": "Нажмите для самых посещаемых сайтов",
     "CHROMETOPSITES-hover/hdr": "Опустите наиболее посещаемые вами сайты",
-    "CHROMETOPSITES/hdr": "Опустите наиболее посещаемые вами сайты ",
     "DEFAULT/backup-create/btn": "Создание резервной копии базы данных ",
     "DEFAULT/backup-download/btn": "Резервное копирование готов! Нажмите, чтобы скачать. ",
     "DEFAULT/backup/desc": "Создать резервную копию серии / эпизодов / наблюдаемому списку. ",
