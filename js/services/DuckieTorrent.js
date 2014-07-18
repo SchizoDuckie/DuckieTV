@@ -114,7 +114,7 @@ angular.module('DuckieTorrent.torrent', [])
                         self.port = ports[self.currentPort];
                         jsonp('version').then(function(result) {
                             if(typeof result === 'undefined') {
-                                d.reject("DuckieTorrent.js:nextPort: Invalid return of undefined var from jsonp('version') call.");
+                                d.reject("no torrent client listening on port " + self.port );
                             };
                             d.resolve({
                                 port: ports[self.currentPort],
