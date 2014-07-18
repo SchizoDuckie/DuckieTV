@@ -218,7 +218,9 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
     $scope.favorites = FavoritesService.favorites;
     $scope.$on('favorites:updated', function(event, data) {
-        $rootScope.$broadcast('background:load', FavoritesService.favorites[Math.floor(Math.random() * FavoritesService.favorites.length)].fanart);
+        if (FavoritesService.favorites.length > 0) {
+            $rootScope.$broadcast('background:load', FavoritesService.favorites[Math.floor(Math.random() * FavoritesService.favorites.length)].fanart);
+        }    
     });
 
 });
