@@ -110,7 +110,6 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                     var eventList = calendarEvents[aDate];
                     for (var index = 0; index < eventList.length; index++) {
                         if (eventList[index].episodeID === duplicateID) {
-                        	console.log('removing existing event!', eventList[index]);
                             calendarEvents[aDate].splice(index, 1);
                             return;
                         }
@@ -137,14 +136,20 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
 
     $rootScope.$on('episode:marked:watched', function(event, data) {
         service.setEvents([{ 
-        	episodeID: data.get('TVDB_ID'), 
+            start: new Date(data.get('firstaired')),
+            serie: cache[data.get('ID_Serie')].get('name'),
+            serieID: cache[data.get('ID_Serie')].get('TVDB_ID'),
+            episodeID: data.get('TVDB_ID'),
         	episode: data.asObject() 
         }]);       
     });
 
     $rootScope.$on('episode:marked:notwatched', function(event, data) {
         service.setEvents([{ 
-        	episodeID: data.get('TVDB_ID'), 
+            start: new Date(data.get('firstaired')),
+            serie: cache[data.get('ID_Serie')].get('name'),
+            serieID: cache[data.get('ID_Serie')].get('TVDB_ID'),
+            episodeID: data.get('TVDB_ID'),
         	episode: data.asObject() 
         }]);       
     });
