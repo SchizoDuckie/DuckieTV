@@ -150,10 +150,10 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
 
                         var missing = events.filter(function(event) {
                             return timers.filter(function(timer) {
-                                return timer.name == event.get('name');
+                                return timer.name == event.get('name') || event.get('name').indexOf('☠') > -1;
                             }).length === 0;
                         });
-
+                       
                         for (var i = 0; i < missing.length; i++) {
                             console.log("Re-adding show for missing timer by firing it's timer: ", missing[i].get('name'));
                             EventWatcherService.onEvent(missing[i].get('name'));

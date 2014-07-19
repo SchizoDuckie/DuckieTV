@@ -257,16 +257,18 @@ angular.module('DuckieTV', [
      * Forward an event to the storagesync service when it's not already syncing.
      * This make sure that local additions / deletions get stored in the cloud.
      */ 
-     if($rootScope.getSetting('storage.sync') == true) {
+     if(SettingsService.get('storage.sync') == true) {
      	$rootScope.$on('storage:update', function() {
-	        if ($rootScope.getSetting('storage.sync') == true && $rootScope.getSetting('sync.progress') == null) {
+     		console.log("Received storage:update!");
+     		if (SettingsService.get('storage.sync') && SettingsService.get('sync.progress') == null) {
 	            console.log("Storage sync can run!");
 	            StorageSyncService.synchronize();
 	        }
 	    });
+	    console.log("Process remote deletions!");
 	    StorageSyncService.processRemoteDeletions();
 	}
-    
+
 	/** 
 	 * Hide the favorites list when navigationg to a different in-page action.
 	 */

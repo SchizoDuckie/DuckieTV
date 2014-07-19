@@ -271,14 +271,14 @@ angular.module('DuckieTV.providers.favorites', [])
                         el.Delete();
                     });
                 });
-                CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ' + serie.ID_Serie).then(function() {
-                    s.Delete();
+                CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ' + serie.ID_Serie);
+                s.Delete().then(function() {
+		    		$rootScope.$broadcast('calendar:clearcache');
+		            console.log("Serie deleted. Syncing storage.");
+		            
+		            $rootScope.$broadcast('storage:update');
+		            service.restore();
 
-                    setTimeout(function() {
-                        $rootScope.$broadcast('calendar:clearcache');
-                        $rootScope.$broadcast('storage:update');
-                        service.restore();
-                    }.bind(this), 200);
                 });
 
 
@@ -300,11 +300,10 @@ angular.module('DuckieTV.providers.favorites', [])
         getSeries: function() {
             var d = $q.defer();
             CRUD.Find('Serie', {}).then(function(results) {
-                var favorites = [];
-                for (var i = 0; i < results.length; i++) {
-                    favorites.push(results[i].asObject());
-                }
-                d.resolve(favorites);
+                results.map(function(el,idx) {
+                   results[idx] = el.asObject();
+                });
+                d.resolve(results);
             });
             return d.promise;
         },

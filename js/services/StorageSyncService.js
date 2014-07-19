@@ -62,10 +62,13 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          */
         read: function(lastSync) {
         	if(!isSupported() || service.isSyncing) return;
-            console.log("Reading synced storage since ", lastSync, ' local last sync: ', SettingsService.get('lastSync'));
+            console.log("Reading synced storage since ", new Date(lastSync), ' local last sync: ', new Date(SettingsService.get('lastSync')));
 
-            console.log(lastSync < SettingsService.get('lastSync'));
-            debugger;
+            if(lastSync < SettingsService.get('lastSync')) {
+            	console.log("Systems are in sync! nothing to do !");
+            	return; // systems are in sync, nothing to do.
+            }
+            
             service.get('series').then(function(results) {
                 console.log("Fetched synced storage series: ", results);
                 var existingSeries = service.getSeriesList().then(function(existingSeries) {
@@ -90,6 +93,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                     	'remoteProcessed': 0
                     };
                     SettingsService.set('sync.progress', inProgress);
+                    $rootScope.$broadcast('storage:hassynced'); // notify a possible foreground page listening of changes
                     var pq = [];
                     // add the non-local series
                     for (var i = 0; i < nonLocal.length; i++) {
@@ -115,7 +119,6 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          */
         checkSyncProgress: function(progress) {
         	SettingsService.set('sync.progress', progress);
-        	debugger;
         	if(progress.localProcessed == progress.nonLocal.length && progress.remoteProcessed == progress.nonRemote.length) {
         		var stamp = new Date().getTime();
         		SettingsService.set('sync.progress', null);
@@ -134,9 +137,11 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * If we're done, push the new current state to the storage sync.
          */
         processRemoteDeletions: function() {
+        	console.log("processing remote deletions: ");
         	if(!isSupported()) return;
         	var progress = SettingsService.get('sync.progress');
         	if(!progress) return;
+        	console.log("iterating non remote", progress);;
          	for (var j = 0; j < progress.nonRemote.length; j++) {
                 FavoritesService.getById(progress.nonRemote[j]).then(function(result) {
                     console.log("Fetched information for ", result.get('seriesname'), 'removing from favorites!');
@@ -155,6 +160,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                     });
                 });
             }
+            service.checkSyncProgress(progress);
         },
 
         /** 
@@ -195,13 +201,10 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         attach: function() {
         	console.log("Attaching chrome storage change handler!")
         	chrome.storage.onChanged.addListener(function(changes, namespace) {
-		    	console.log("synced storage change!", changes, namespace);
-		    	debugger;
-		    	service.get('synctime').then(function(result) {
-		    		service.read(result);	    		
-		    	})
- 
-
+        		debugger;
+		    	if('synctime' in changes && SettingsService.get('lastSync') < changes.synctime.newValue.value) {
+        			service.read(changes.synctime.newValue.value);
+        		}
 		    });
         }
     }
