@@ -41,11 +41,11 @@ Event Descriptions
 
  -  **episode:marked:notwatched**
 
-    An episode has been marked as not watched. Observed by Trakt.TV and forwards the markaswatched call when it's configured.
+    An episode has been marked as not watched. Observed by Trakt.TV and forwards the marknotwatched call when it's configured.
 
  -  **episode:marked:watched**
 
-    An episode has been marked as not watched. Observed by Trakt.TV and forwards the markaswatched call when it's configured.
+    An episode has been marked as watched. Observed by Trakt.TV and forwards the markwatched call when it's configured.
 
  -  **episodes:updated**
 
