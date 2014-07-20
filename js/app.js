@@ -227,7 +227,7 @@ angular.module('DuckieTV', [
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
 })
 
-.run(function($rootScope, SettingsService, StorageSyncService, MigrationService, EpisodeAiredService, datePickerConfig, $translate, $injector) {
+.run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, EpisodeAiredService, datePickerConfig, $translate, $injector) {
 
     // translate the application based on preference or proposed locale
     console.log('client determined locale', $translate.proposedLanguage());
