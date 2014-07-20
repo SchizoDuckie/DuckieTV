@@ -1,6 +1,6 @@
  angular.module('DuckieTV.controllers.about', [])
 
- .controller('AboutCtrl', function($scope, $rootScope, $q, $http, $injector) {
+ .controller('AboutCtrl', function($scope, $rootScope, $q, $http, EventSchedulerService, SettingsService, StorageSyncService) {
 
      $scope.statistics = [];
 
@@ -15,7 +15,7 @@
          };
 
          countTimers = function() {
-             $injector.get('EventSchedulerService').getAll().then(function(timers) {
+             EventSchedulerService.getAll().then(function(timers) {
                  $scope.statistics.push({
                      name: 'Timers',
                      data: timers.length
@@ -45,34 +45,34 @@
              data: navigator.vendor
          }, {
              name: 'Determined Locale',
-             data: $injector.get('SettingsService').get('client.determinedlocale')
+             data: SettingsService.get('client.determinedlocale')
          }, {
              name: 'Active Locale',
-             data: $injector.get('SettingsService').get('application.locale')
+             data: SettingsService.get('application.locale')
          }, {
              name: 'Active Language',
-             data: $injector.get('SettingsService').get('application.language')
+             data: SettingsService.get('application.language')
          }, {
              name: 'Screen (width x height)',
              data: screenSize
          }, {
              name: 'ChromeCast Supported',
-             data: $injector.get('SettingsService').get('cast.supported')
+             data: SettingsService.get('cast.supported')
          }, {
              name: 'Storage Sync Supported',
-             data: $injector.get('StorageSyncService').isSupported()
+             data: StorageSyncService.isSupported()
          }, {
              name: 'Storage Sync Enabled',
-             data: $injector.get('SettingsService').get('storage.sync')
+             data: SettingsService.get('storage.sync')
          }, {
              name: 'Torrenting Enabled',
-             data: $injector.get('SettingsService').get('torrenting.enabled')
+             data: SettingsService.get('torrenting.enabled')
          }, {
              name: 'Torrenting Auto-Download Active',
-             data: $injector.get('SettingsService').get('torrenting.autodownload')
+             data: SettingsService.get('torrenting.autodownload')
          }, {
              name: 'TrakTV Sync Enabled',
-             data: $injector.get('SettingsService').get('trakttv.sync')
+             data: SettingsService.get('trakttv.sync')
          }];
 
          if ('chrome' in window && 'app' in window.chrome && 'GetDetails' in chrome.app && 'version' in window.chrome.app.getDetails()) {
