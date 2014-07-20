@@ -253,10 +253,10 @@ angular.module('DuckieTV', [
         SettingsService.set(key, false);
     };
 
-    $rootScope.$on('sync:processremotedeletions', function(event, progress) {
-		console.log("Process storagesync remote deletions!", progress);
-		debugger;
-		StorageSyncService.processRemoteDeletions();
+    $rootScope.$on('sync:processremoteupdate', function(event, progress) {
+		console.log("Process storagesync remote updates!", progress);
+		FavoritesService.restore(); // message the favoritesservice something has changed and it needs to refresh.
+		StorageSyncService.checkSyncProgress(progress);
 	});
 
     /** 
@@ -272,8 +272,11 @@ angular.module('DuckieTV', [
 	            StorageSyncService.synchronize();
 	        }
 	    });
-	    $rootScope.$broadcast('sync:processremotedeletions');
+    	if (SettingsService.get('sync.progress') !== null) {
+			 $rootScope.$broadcast('sync:processremoteupdate', SettingsService.get('sync.progress'));
+    	}   
 	}
+
 
 	/** 
 	 * Handle background page message passing and broadcast it as an event.
@@ -282,7 +285,7 @@ angular.module('DuckieTV', [
 	if('chrome' in window && 'runtime' in chrome && 'onMessage' in chrome.runtime) {
 		chrome.runtime.onMessage.addListener(function(event, sender, sendResponse) {
 			if (event.channel) {
-					$rootScope.$broadcast(event.channel, event.eventData || {});	
+					$rootScope.$broadcast(event.channel, event.eventData);	
 		    }
 		});
 	}

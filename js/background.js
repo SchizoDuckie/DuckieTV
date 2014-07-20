@@ -65,11 +65,12 @@ angular.module('DuckieTV', [
     };
     // when the sync has happened, check if there's a foreground page active and notify that of changes that came in.
     $rootScope.$on('storage:hassynced', function(event, progress) {
-    	console.log('storage has synced! Messaging foreground to process deletions!')
-		chrome.runtime.sendMessage({ channel: 'sync:processremotedeletions', eventData: progress});
+    	console.log('storage has synced! Messaging foreground to process deletions!', progress);
+		chrome.runtime.sendMessage({ channel: 'sync:processremoteupdate', eventData: progress});
     });
     EventWatcherService.initialize();
     StorageSyncService.attach();
+    StorageSyncService.checkSyncProgress(SettingsService.get('sync.progress'));
 });
 
 // Since there is no html document that bootstraps angular using an ang-app tag, we need to call bootstrap manually
