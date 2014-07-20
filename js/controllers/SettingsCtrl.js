@@ -77,7 +77,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      * Change the active settings tab
      */
     $scope.setActiveSetting = function(setting) {
-        console.log("setting active setting", setting)
         $scope.activesettings = 'templates/settings/' + setting + '.html';
     }
 
