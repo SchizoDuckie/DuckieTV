@@ -99,6 +99,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $scope.sync = function() {
         console.log("Synchronizging!");
+        SettingsService.set('lastSync', new Date().getTime());
         StorageSyncService.synchronize()
     }
 
