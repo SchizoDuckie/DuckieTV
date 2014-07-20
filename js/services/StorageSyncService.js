@@ -21,7 +21,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
 
         isSyncing: false, // syncing is currently in progress
         lastSynced: null, // timestamp when sync has last run
-
+        activeDlg: null, // instance handle to an active question dialog to prevent multiple questions asked at the same time.
 
         /** 
          * Fetch the list of tvdb id's from the FavoritesService
@@ -108,8 +108,9 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * When all is iterated, synchronize the new list.
          */
         checkSyncProgress: function(progress) {
-        	console.log("Check sync progress! ", progress);
-        	if(!progress) return;
+        	console.info("Check sync progress! ", progress);
+
+        	if(!progress || service.activeDlg !== null) return;
         	SettingsService.set('sync.progress', progress);
 
         	// if we're in the background page, process the additions
@@ -161,16 +162,18 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          	
      	    FavoritesService.getById(progress.nonRemote[progress.remoteProcessed]).then(function(result) {
                 console.log("Fetched information for ", result.get('seriesname'), 'removing from favorites!');
-                var dlg = $injector.get('$dialogs').confirm($filter('translate')('SYNC/serie-deleted/hdr'),
+                service.activeDlg = $injector.get('$dialogs').confirm($filter('translate')('SYNC/serie-deleted/hdr'),
                     $filter('translate')('SYNC/serie-deleted-remote-question/p1') + '<strong>' +
                     result.get('name') + '</strong>' +
                     $filter('translate')('SYNC/serie-deleted-remote-question/p2')
                 );
-                dlg.result.then(function(btn) {
+                service.activeDlg.result.then(function(btn) {
                     FavoritesService.remove(result.asObject());
                     progress.remoteProcessed++;
+                    service.activeDlg = null;
                 	service.checkSyncProgress(progress);
                 }, function() {
+                	service.activeDlg = null;
                 	progress.remoteProcessed++;
                 	service.checkSyncProgress(progress);
                 });
