@@ -253,6 +253,12 @@ angular.module('DuckieTV', [
         SettingsService.set(key, false);
     };
 
+    $rootScope.$on('sync:processremotedeletions', function(event, progress) {
+		console.log("Process storagesync remote deletions!", progress);
+		debugger;
+		StorageSyncService.processRemoteDeletions();
+	});
+
     /** 
      * Forward an event to the storagesync service when it's not already syncing.
      * This make sure that local additions / deletions get stored in the cloud.
@@ -262,12 +268,25 @@ angular.module('DuckieTV', [
      		console.log("Received storage:update!");
      		if (SettingsService.get('storage.sync') && SettingsService.get('sync.progress') == null) {
 	            console.log("Storage sync can run!");
+	            SettingsService.set('lastSync', new Date().getTime());
 	            StorageSyncService.synchronize();
 	        }
 	    });
-	    console.log("Process remote deletions!");
-	    StorageSyncService.processRemoteDeletions();
+	    $rootScope.$broadcast('sync:processremotedeletions');
 	}
+
+	/** 
+	 * Handle background page message passing and broadcast it as an event.
+	 * Used to start the remote deletions processing
+	 */ 
+	if('chrome' in window && 'runtime' in chrome && 'onMessage' in chrome.runtime) {
+		chrome.runtime.onMessage.addListener(function(event, sender, sendResponse) {
+			if (event.channel) {
+					$rootScope.$broadcast(event.channel, event.eventData || {});	
+		    }
+		});
+	}
+
 
 	/** 
 	 * Hide the favorites list when navigationg to a different in-page action.

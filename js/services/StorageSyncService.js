@@ -42,16 +42,22 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          */
         synchronize: function() {
         	if(!isSupported()) return;
-            if (!service.isSyncing) {
-                service.isSyncing = true;
-                console.log("[Storage.Synchronize] Syncing storage!");
-                service.getSeriesList().then(function(series) {
-                    console.log("Storage sync Series list: ", series);
-                    service.set('series', series);
-                    service.set('synctime', new Date().getTime());
-                    service.isSyncing = false;
-                });
-            }
+        	//debugger;
+        	service.get('synctime').then(function(synctime) {
+        		//debugger;
+        		if((!synctime || !SettingsService.get('lastSync') || SettingsService.get('lastSync') > synctime) && !service.isSyncing) {
+        			//debugger;
+        			service.isSyncing = true;
+	                console.log("[Storage.Synchronize] Syncing storage!");
+	                service.getSeriesList().then(function(series) {
+	                    console.log("Storage sync Series list: ", series);
+	                    service.set('series', series);
+	                    var now = new Date().getTime();
+	                    service.set('synctime', now);
+	                    service.isSyncing = false;
+	                });
+        		}
+        	})
         },
 
         /** 
@@ -101,8 +107,8 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                             console.log("Fetched information for ", result.title, 'adding to favorites!');
                             return FavoritesService.addFavorite(result).then(function() {
                             		var progress = SettingsService.get('sync.progress');
-	                            	progress.localProcessed++;
-	                            	service.checkSyncProgress(progress);
+	                            	inProgress.localProcessed++;
+	                            	service.checkSyncProgress(inProgress);
                             })
                         }));
                     }
@@ -120,9 +126,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         checkSyncProgress: function(progress) {
         	SettingsService.set('sync.progress', progress);
         	if(progress.localProcessed == progress.nonLocal.length && progress.remoteProcessed == progress.nonRemote.length) {
-        		var stamp = new Date().getTime();
         		SettingsService.set('sync.progress', null);
-        		SettingsService.set('lastSync', stamp);
         		service.synchronize();
         	}
         },
@@ -137,7 +141,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * If we're done, push the new current state to the storage sync.
          */
         processRemoteDeletions: function() {
-        	console.log("processing remote deletions: ");
+        	console.log("processing remote deletions: ", SettingsService.get('sync.progress'));
         	if(!isSupported()) return;
         	var progress = SettingsService.get('sync.progress');
         	if(!progress) return;
@@ -170,7 +174,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
             var d = $q.defer();
             chrome.storage.sync.get(key, function(setting) {
                 console.log("Read storage setting: ", key, setting);
-                (key in setting) ? d.resolve(setting[key].value) : d.reject();
+                (key in setting) ? d.resolve(setting[key].value) : d.resolve(null);
             });
             return d.promise;
         },
@@ -201,8 +205,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         attach: function() {
         	console.log("Attaching chrome storage change handler!")
         	chrome.storage.onChanged.addListener(function(changes, namespace) {
-        		debugger;
-		    	if('synctime' in changes && SettingsService.get('lastSync') < changes.synctime.newValue.value) {
+        		if('synctime' in changes && SettingsService.get('lastSync') < changes.synctime.newValue.value) {
         			service.read(changes.synctime.newValue.value);
         		}
 		    });

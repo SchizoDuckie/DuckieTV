@@ -64,17 +64,9 @@ angular.module('DuckieTV', [
         return SettingsService.get(key);
     };
     // when the sync has happened, check if there's a foreground page active and notify that of changes that came in.
-    $rootScope.$on('storage:hassynced', function() {
-    	console.log('storage has synced!')
-		var views = chrome.extension.getViews();
-		views.map(function(view) {
-			console.log("iterating views: ", view);
-			if(view.location.href.indexOf('tab.html') > -1) {
-				console.log("Found it! broadcasting remotesynced event");
-				// get a handle to the active tab.html's injector and fetch the $rootScope to broadcast the event
-				angular.element(view.document).injector().get('StorageSyncService').processRemoteDeletions();
-			}	
-		});
+    $rootScope.$on('storage:hassynced', function(event, progress) {
+    	console.log('storage has synced! Messaging foreground to process deletions!')
+		chrome.runtime.sendMessage({ channel: 'sync:processremotedeletions', eventData: progress});
     });
     EventWatcherService.initialize();
     StorageSyncService.attach();
