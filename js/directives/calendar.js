@@ -137,8 +137,8 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
     $rootScope.$on('episode:marked:watched', function(event, data) {
         service.setEvents([{ 
             start: new Date(data.get('firstaired')),
-            serie: cache[data.get('ID_Serie')].get('name'),
-            serieID: cache[data.get('ID_Serie')].get('TVDB_ID'),
+            serie: data.get('ID_Serie').get('name'),
+            serieID: data.get('ID_Serie').get('TVDB_ID'),
             episodeID: data.get('TVDB_ID'),
         	episode: data.asObject() 
         }]);       
@@ -147,8 +147,8 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
     $rootScope.$on('episode:marked:notwatched', function(event, data) {
         service.setEvents([{ 
             start: new Date(data.get('firstaired')),
-            serie: cache[data.get('ID_Serie')].get('name'),
-            serieID: cache[data.get('ID_Serie')].get('TVDB_ID'),
+            serie: data.get('ID_Serie').get('name'),
+            serieID: data.get('ID_Serie').get('TVDB_ID'),
             episodeID: data.get('TVDB_ID'),
         	episode: data.asObject() 
         }]);       
