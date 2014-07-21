@@ -212,7 +212,6 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
     return {
         restrict: 'E',
         template: function(element, attrs) {
-            console.log("template: ", attrs);
             return '' +
                 '<div ' +
                 'date-picker ' +
