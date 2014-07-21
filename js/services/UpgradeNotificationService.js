@@ -11,7 +11,7 @@ angular.module('DuckieTV.providers.upgradenotification', ['dialogs'])
 
 	var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="http://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="http://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="http://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
 	var notifications = {
-		'0.70': '<ul><li>Sync your shows and watched episodes from and to Trakt.TV<br>(check it out in <a href="#/settings">Settings</a>)<li>The "Most visited sites" drawer can now be changed to open on click<br> (also from <a href="#/settings">Settings</a>)<li>Syncing your favorite shows via your Google account works again.<br>(enable it in <a href="#/settings">Settings</a>)<li>You can now print the calendar (press CTRL + P or ⌘ + P)</ul>'
+		'0.70': '<ul><li>Sync your shows and watched episodes from and to Trakt.TV<br>(check it out in <a href="#/settings">Settings</a>)<li>The "Most visited sites" drawer can now be changed to open on click<br> (also from <a href="#/settings">Settings</a>)<li>Syncing your favorite shows via your Google account works again.<br>(on by default, disable it in <a href="#/settings">Settings</a>)<li>You can now print the calendar (press CTRL + P or ⌘ + P)</ul>'
 	}
 
 	var service = {
