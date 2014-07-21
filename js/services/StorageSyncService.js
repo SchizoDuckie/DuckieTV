@@ -162,10 +162,10 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          	
      	    FavoritesService.getById(progress.nonRemote[progress.remoteProcessed]).then(function(result) {
                 console.log("Fetched information for ", result.get('seriesname'), 'removing from favorites!');
-                service.activeDlg = $injector.get('$dialogs').confirm($filter('translate')('SYNC/serie-deleted/hdr'),
-                    $filter('translate')('SYNC/serie-deleted-remote-question/p1') + '<strong>' +
+                service.activeDlg = $injector.get('$dialogs').confirm($filter('translate')('STORAGESYNCSERVICEjs/serie-deleted/hdr'),
+                    $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1') + '<strong>' +
                     result.get('name') + '</strong>' +
-                    $filter('translate')('SYNC/serie-deleted-remote-question/p2')
+                    $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2')
                 );
                 service.activeDlg.result.then(function(btn) {
                     FavoritesService.remove(result.asObject());
