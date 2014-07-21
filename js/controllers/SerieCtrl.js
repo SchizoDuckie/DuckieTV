@@ -3,7 +3,6 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 .controller('SerieCtrl',
 
     function(FavoritesService, SettingsService, SceneNameResolver, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter, $q) {
-        console.log('Series controller!', $routeParams.serie, $scope);
         $scope.episodes = [];
         $scope.episodeEntities = [];
         $scope.points = [];
@@ -22,14 +21,12 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
         function fetchEpisodes(season) {
             if (!season) return;
-            console.log("Set active season ", season);
             $scope.season = season.asObject();
 
             var episodes = season.getEpisodes().then(function(data) {
                 $scope.episodes = data.map(function(el) {
                     $scope.episodeEntities[el.getID()] = el;
                     $scope.$on('magnet:select:' + el.get('TVDB_ID'), function(evt, magnet) {
-                        console.debug("Found a magnet selected!", magnet);
                         this.set('magnetHash', magnet);
                         this.Persist();
                     }.bind(el));
@@ -69,7 +66,6 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
                 });
             });
             serie.getLatestSeason().then(function(result) {
-                console.log("Got latest sesaon!", result);
                 $scope.activeSeason = result;
                 fetchEpisodes(result);
             });
@@ -77,7 +73,6 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
         });
 
         $scope.$watch('activeSeason', function(newVal, old) {
-            console.log("Active season changed!: ", newVal, old);
             fetchEpisodes(newVal);
         });
 
@@ -108,7 +103,6 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
             });
 
             $q.all(pq).then(function() {
-                console.log("All markaswatched promises done!");
                 $rootScope.$broadcast('calendar:clearcache');
             });
 
@@ -116,7 +110,6 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
 
         $scope.setMarkEnd = function(episode) {
-            console.log("Set marker end: ", episode);
             $scope.markUntilIndex = episode.episodenumber;
         }
 
