@@ -54,7 +54,6 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
      */ 
     this.getUrl = function(type, param, param2) {
         var out = this.endpoints[type].replace('%s', encodeURIComponent(param));
-        console.log("Geturl: ", out, type);
         return (param2 !== undefined) ? out.replace('%s ', encodeURIComponent(param2)) : out;
     };
 
@@ -73,7 +72,6 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
      * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
      */
     this.promiseRequest = function(type, param, param2) {
-        console.log("new promise request!", type, param);
         if (this.activeRequest && !this.batchmode) {
             this.activeRequest.resolve();
         }
@@ -87,7 +85,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
         }).then(function(response) {
             d.resolve(parser(response));
         }, function(err) {
-            console.log('error fetching ', type);
+            console.error('error fetching ', type);
             d.reject(err);
         });
         return d.promise;
@@ -153,7 +151,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 return self.promiseRequest('userWatched', username);
             },
             /** 
-             * Fetch suggestions based on a user's libary.
+             * Fetch suggestions based on a user's library.
              * Requires the authentication hash to be calculated and stored.
              * http://trakt.tv/api-docs/recommendations-shows
              */
