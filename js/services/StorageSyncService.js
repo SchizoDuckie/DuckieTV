@@ -219,7 +219,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         attach: function() {
         	console.log("Attaching chrome storage change handler!")
         	chrome.storage.onChanged.addListener(function(changes, namespace) {
-        		if('synctime' in changes && SettingsService.get('lastSync') < changes.synctime.newValue.value) {
+        		if('synctime' in changes && 'newValue' in changes.synctime && SettingsService.get('lastSync') < changes.synctime.newValue.value) {
         			service.read(changes.synctime.newValue.value);
         		}
 		    });
