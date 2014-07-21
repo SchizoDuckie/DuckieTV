@@ -17,10 +17,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
     localStorage.setItem('runtime.event', angular.toJson(details, true));
     if (details.reason == "install") {
         console.log("This is a first install!");
-        chrome.storage.sync.get(null, function(result) {
-        	console.debug("Found synced storage: ", result);
-        }); // trigger the chrome storage initialization.
-
+        localStorage.setItem('upgrade.notify', chrome.runtime.getManifest().version);
         /*
         * example: localStorage.setItem('0.54.createtimers', 'done');
         */
