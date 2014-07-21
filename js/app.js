@@ -31,6 +31,7 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.generictorrentsearch',
     'DuckieTV.providers.torrentfreak',
     'DuckieTV.providers.trakttv',
+    'DuckieTV.providers.upgradenotification',
     'DuckieTV.providers.watchlistchecker',
     'DuckieTV.providers.watchlist',
     'DuckieTV.controllers.about',
@@ -227,7 +228,7 @@ angular.module('DuckieTV', [
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
 })
 
-.run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, EpisodeAiredService, datePickerConfig, $translate, $injector) {
+.run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
 
     // translate the application based on preference or proposed locale
     console.log('client determined locale', $translate.proposedLanguage());

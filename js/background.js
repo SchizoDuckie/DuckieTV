@@ -17,12 +17,19 @@ chrome.runtime.onInstalled.addListener(function(details) {
     localStorage.setItem('runtime.event', angular.toJson(details, true));
     if (details.reason == "install") {
         console.log("This is a first install!");
+        chrome.storage.sync.get(null, function(result) {
+        	console.debug("Found synced storage: ", result);
+        }); // trigger the chrome storage initialization.
+
         /*
         * example: localStorage.setItem('0.54.createtimers', 'done');
         */
     } else if (details.reason == "update") {
         var thisVersion = chrome.runtime.getManifest().version;
         console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
+        if(details.previousVersion != thisVersion) {
+        	localStorage.setItem('upgrade.notify', thisVersion);
+        }
 		setTimeout(function() { // on every upgrade, run the fixMissingTimers
 			angular.element(document).injector().get('EventSchedulerService').fixMissingTimers();
 		}, 5000);

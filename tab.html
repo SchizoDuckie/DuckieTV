@@ -32,7 +32,7 @@
             <a class="glyphicon glyphicon-magnet" href="#/torrent" tooltip="&micro;Torrent / Bittorrent client" tooltip-position="right"></a>
           </li>
           <li ng-if="getSetting('cast.supported')">
-            <a class="glyphicon glyphicon-chromecast-off" href="#/cast" tooltip="ChromeCast" tooltip-position="right"></a>
+            <a class="glyphicon glyphicon-chromecast-off" href="#/cast" tooltip="ChromeCast" tooltip-position="right" style='background-size: 80%; margin-left: 15px;'></a>
           </li>
           <li>
             <a class="glyphicon glyphicon-info-sign" href="#/about" tooltip="{{ 'ABOUT/hdr'|translate }}" tooltip-position="right"></a>
@@ -95,6 +95,7 @@
   <script src="./js/services/SettingsService.js"></script>
   <script src="./js/services/StorageSyncService.js"></script>
   <script src="./js/services/ThePirateBay.js"></script>
+  <script src="./js/services/UpgradeNotificationService.js"></script>
   <script src="./js/services/GenericTorrentSearch.js"></script>
   <script src="./js/services/TorrentFreak.js"></script>
   <script src="./js/services/TraktTV.js"></script>
