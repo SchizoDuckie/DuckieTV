@@ -110,6 +110,10 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         checkSyncProgress: function(progress) {
         	console.info("Check sync progress! ", progress);
 
+        	if(progress === true) {
+        		return service.read(0);
+        	}
+
         	if(!progress || service.activeDlg !== null) return;
         	SettingsService.set('sync.progress', progress);
 
@@ -219,6 +223,15 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         attach: function() {
         	console.log("Attaching chrome storage change handler!")
         	chrome.storage.onChanged.addListener(function(changes, namespace) {
+        		Object.keys(changes).map(function(key) {
+        			if(changes[key].oldValue && !changes[key].newValue) {
+        				var restore = {};
+        				restore[key] = changes[key].oldValue;
+        				chrome.storage.sync.set( restore, function() { 
+        					console.log("Re-added property ", key, " to ", changes[key].oldValue, "after it was wiped remotely!");
+        				});
+        			}
+        		})        		
         		if('synctime' in changes && 'newValue' in changes.synctime && SettingsService.get('lastSync') < changes.synctime.newValue.value) {
         			service.read(changes.synctime.newValue.value);
         		}
