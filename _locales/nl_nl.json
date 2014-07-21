@@ -95,7 +95,7 @@
     "DEFAULT/sync-dont/btn": "Synchroniseer mijn series niet",
     "DEFAULT/sync-enabled/lbl": "Ingeschakeld",
     "DEFAULT/sync-push/btn": "Stuur mijn huidige favorieten lijst naar de cloud",
-    "DEFAULT/sync-push/desc": "Druk op deze knop om je lijst met favorieten naar de cloud te sturen. Meld je aan in een andere browser met je Google account en je series zullen automatisch gedownload worden",
+    "DEFAULT/sync-push/desc": "Als je al gewend 'Sign in' de browser instellingen om in te loggen op uw Google-account,\ndruk dan op deze knop om uw huidige serie lijst duwen in de cloud.\nZorg ervoor dat u dit doet na het installeren DuckieTV en aanmelden op een andere browser met dezelfde Google-account en uw serie lijst zal automatisch magische wijze worden gesynchroniseerd.\n\nWaarschuwing! niet handmatig shows toe te voegen op een tweede installeren voordat u op deze knop! ",
     "DEFAULT/sync-push/hdr": "Experimenteel!",
     "DEFAULT/sync/hdr": "Automatisch Synchroniseren",
     "DEFAULT/topsites-hide/alert": "Als je op deze knop klikt worden de meest bezochte sites verborgen",

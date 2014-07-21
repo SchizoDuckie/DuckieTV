@@ -95,7 +95,7 @@
     "DEFAULT/sync-dont/btn": "不要浏览器之间的不同步 ",
     "DEFAULT/sync-enabled/lbl": "启用 ",
     "DEFAULT/sync-push/btn": "按当地系列列表到云 ",
-    "DEFAULT/sync-push/desc": "打到这个按钮将当前列表系列推入云。登录到另一个浏览器使用相同的谷歌帐户和系列名单将自动地同步。 ",
+    "DEFAULT/sync-push/desc": "如果你已经使用了浏览器设置'登录'登录到您的谷歌帐户，\n然后打这个按钮将当前列表系列推入云。\n请确保你这样做安装DuckieTV并签署在另一个之后浏览器使用相同的谷歌帐户，您的一系列名单将自动奇迹般地同步。\n\n警告！不要手动上按下这个按钮之前，第二个安装附加的节目！",
     "DEFAULT/sync-push/hdr": "实验！ ",
     "DEFAULT/sync/hdr": "浏览器之间同步 ",
     "DEFAULT/topsites-hide/alert": "单击该按钮将隐藏在新标签页最常访问的网站列表 ",

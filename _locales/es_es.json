@@ -95,7 +95,7 @@
     "DEFAULT/sync-dont/btn": "No sincronizar entre navegadores ",
     "DEFAULT/sync-enabled/lbl": "Activado ",
     "DEFAULT/sync-push/btn": "Empuje lista series locales a la nube ",
-    "DEFAULT/sync-push/desc": "Pulse este botón para empujar a su lista de series actuales en la nube. Iniciar sesión en otra página, con la misma cuenta de Google y su lista de series automágicamente sincronizarse. ",
+    "DEFAULT/sync-push/desc": "Si usted ha utilizado 'Entrar' la configuración del navegador para acceder a su cuenta de Google,\ndespués haga clic en este botón para empujar a su lista de series actuales en la nube.\nAsegúrese de hacer esto después de instalar DuckieTV y firmar en otro navegador con la misma cuenta de Google y su lista de series se auto-mágicamente se sincronizará.\n\nAdvertencia! no agregue manualmente shows en una segunda instalación antes de pulsar este botón! ",
     "DEFAULT/sync-push/hdr": "Experimentales! ",
     "DEFAULT/sync/hdr": "Sincronización entre el navegador ",
     "DEFAULT/topsites-hide/alert": "Al hacer clic en el botón, se oculta la lista de los sitios más visitados de la página de nueva pestaña ",

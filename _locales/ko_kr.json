@@ -95,7 +95,7 @@
     "DEFAULT/sync-dont/btn": "브라우저간에 동기화되지 않습니다 ",
     "DEFAULT/sync-enabled/lbl": "사용 ",
     "DEFAULT/sync-push/btn": "클라우드로 지역의 시리즈 목록을 눌러 ",
-    "DEFAULT/sync-push/desc": "클라우드로 현재 시리즈 목록을 누르면이 버튼을 누르십시오. 같은 구글 계정으로 다른 브라우저에 가입하고 시리즈 목록은 자동적으로 동기화됩니다. ",
+    "DEFAULT/sync-push/desc": "당신은 클라우드로 현재 시리즈 목록을 누르면이 버튼을 누르십시오. 다음 브라우저 설정 '가입'Google 계정에 로그인하려면,\n을 사용하는 경우 \n 당신이 DuckieTV를 설치하고 다른 컴퓨터에서 로그인 한 후이 작업을 수행합니다 동일한 Google 계정과 시리즈 목록을 브라우저가 자동 마술. 동기화됩니다\n\n주의! 수동으로 두 번째이 버튼을 누르기 전에 설치에 프로그램을 추가하지 마십시오! ",
     "DEFAULT/sync-push/hdr": "실험! ",
     "DEFAULT/sync/hdr": "브라우저 간의 동기화 ",
     "DEFAULT/topsites-hide/alert": "버튼을 클릭하면 새 탭 페이지에서 가장 방문한 사이트의 목록을 숨 깁니다 ",
