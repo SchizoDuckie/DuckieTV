@@ -95,7 +95,7 @@
     "DEFAULT/sync-dont/btn": "Inte synkronisera mellan webbläsare ",
     "DEFAULT/sync-enabled/lbl": "aktiverat ",
     "DEFAULT/sync-push/btn": "Skjut lokal serie listan in i molnet ",
-    "DEFAULT/sync-push/desc": "Om du har använt webbläsarinställningar 'Logga in' för att logga in på ditt Google-konto,\nsedan slå på den här knappen för att driva din nuvarande serie listan in i molnet.\nSe till att du gör detta efter att ha installerat DuckieTV och logga in på en annan webbläsaren med samma Google-konto och din serie lista kommer automatiskt magiskt synkroniseras.\n\nWarning! inte manuellt lägga till program på en andra installation innan du trycker på den här knappen! ",
+    "DEFAULT/sync-push/desc": "Hit här knappen för att driva din nuvarande serie listan i molnet. Logga in på en annan webbläsare med samma Google-konto och din serie listan kommer automagiskt att synkroniseras. ",
     "DEFAULT/sync-push/hdr": "Experimentell! ",
     "DEFAULT/sync/hdr": "Synkronisera mellan webbläsare ",
     "DEFAULT/topsites-hide/alert": "Genom att klicka på knappen kommer att dölja listan på dina mest besökta webbplatser från sidan Ny flik ",
