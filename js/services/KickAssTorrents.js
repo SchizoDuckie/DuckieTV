@@ -22,6 +22,10 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
         return this.mirror + this.endpoints[type].replace('%s', encodeURIComponent(param));
     },
 
+        /** 
+     * Pass the http result data into a DOM document and execute query selectors on it
+     * to transform the HTML into a JSON object of torrent info.
+     */
     this.parseSearch = function(result) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
@@ -36,7 +40,7 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
                 size: results[i].querySelector('td:nth-child(2)').innerText,
                 seeders: results[i].querySelector("td:nth-child(5)").innerHTML,
                 leechers: results[i].querySelector("td:nth-child(6)").innerHTML,
-                detailUrl: this.endpoints.base + results[i].querySelector('div.torrentname a.cellMainLink').getAttribute('href')
+                detailUrl: this.mirror + results[i].querySelector('div.torrentname a.cellMainLink').getAttribute('href')
             };
             out.torrent = 'http://torcache.net/torrent/' + out.magneturl.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
             output.push(out);
