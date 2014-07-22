@@ -28,7 +28,7 @@ Install DuckieTV for Opera
 Try DuckieTV online
 -------------------
 * You can now also try DuckieTV online, provided you have Chrome, Safari, Opera or an Android browser. Note that it is using a third party service to work around cross-domain limitations and can be broken at any time.
-  Try it [here](http://schizoduckie.github.io/DuckieTV)
+  Try it [here](http://DuckieTV.github.io/DuckieTV/)
 
 Screenshots:
 ============
