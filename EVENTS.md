@@ -83,9 +83,17 @@ Event Descriptions
 
     Notify that the calendar's date has changed. Fired by the calendar internals and observed by the CalendarEvents provider that fetches and serves the calendar events for the date range currently in view
 
+ -  **storage:hassynced**
+
+    Background task notifies a possibly active foreground page when a sync has happened.
+
  -  **storage:update**
 
     Notify the SettingsSync service that something has changed in the favorite series list.
+
+ -  **sync:processremoteupdate'**
+
+     When the StorageSync service is not already syncing, this make sure that local additions / deletions get stored in the cloud.
 
  -  **timer:created**
 
@@ -118,11 +126,11 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](https://cloud.githubusercontent.com/assets/6933240/3559485/ef63f3f2-094a-11e4-99f3-e838656af396.png)
+![listeners](https://cloud.githubusercontent.com/assets/6933240/3652830/1c40ce3a-1144-11e4-89fb-793aab27d4ec.png)
 
 Event Publishers:
 ------------------
-![publishers](https://cloud.githubusercontent.com/assets/6933240/3559359/604affd6-0949-11e4-8538-6081ea78d6be.png)
+![publishers](https://cloud.githubusercontent.com/assets/6933240/3652834/34782912-1144-11e4-937d-be2040de4cc7.png)
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
@@ -131,7 +139,7 @@ For the best results, select the twopi layout engine for both graphs
 Listeners
 -------------
 
-
+```
     digraph g {
       splines=true;
       sep="+5,+5";
@@ -140,6 +148,7 @@ Listeners
       node [fontsize=11];
 
       Listeners -> app [style="invis"];
+      Listeners -> background [style="invis"];
       Listeners -> backgroundRotator [style="invis"];
       Listeners -> BackupCtrl [style="invis"];
       Listeners -> calendar [style="invis"];
@@ -182,7 +191,9 @@ Listeners
       serieslistempty -> seriesList;
       serieslisthide -> seriesList;
       setDate -> calendar;
+      storagehassynced -> background;
       storageupdate -> app;
+      syncprocessremoteupdate -> app;
       timercreated -> TimerCtrl;
       timerfired -> TimerCtrl;
       torrentupdateinfoHash -> DuckieTorrent;
@@ -197,6 +208,10 @@ Listeners
         locationChangeSuccess [label="$locationChangeSuccess", shape=box,fillcolor="white",style="filled"];
         episodemarkedwatched [label="episode:marked:watched", shape=box,fillcolor="white",style="filled"];
         episodemarkednotwatched [label="episode:marked:notwatched", shape=box,fillcolor="white",style="filled"];
+        syncprocessremoteupdate [label="sync:processremoteupdate", shape=box,fillcolor="white",style="filled"];
+
+      background [ label="background.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        storagehassynced [label="storage:hassynced", shape=box,fillcolor="white",style="filled"];
 
       backgroundRotator [ label="backgroundRotator.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
@@ -248,13 +263,13 @@ Listeners
       WatchlistCheckerService [ label="WatchlistCheckerService.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         watchlistcheck [label="watchlist:check", shape=box,fillcolor="white",style="filled"];
     }
-
+```
 
 
 Publishers
 -------------
 
-
+```
     digraph g {
       splines=true;
       sep="+5,+5";
@@ -278,6 +293,7 @@ Publishers
       Publishers -> SerieCtrl [style="invis"];
       Publishers -> seriesList [style="invis"];
       Publishers -> SettingsCtrl [style="invis"];
+      Publishers -> StorageSyncService [style="invis"];
       Publishers -> TorrentCtrl [style="invis"];
       Publishers -> torrentDialog [style="invis"];
       Publishers -> WatchlistService [style="invis"];
@@ -308,9 +324,11 @@ Publishers
       serieslistempty -> seriesList [dir="back"];
       serieslisthide -> app [dir="back"];
       setDate -> datePicker [dir="back"];
+      storagehassynced -> StorageSyncService [dir="back"];
       storageupdate -> BackupCtrl [dir="back"];
       storageupdate -> seriesList [dir="back"];
       storageupdate -> SettingsCtrl [dir="back"];
+      syncprocessremoteupdate -> app [dir="back"];
       timercreated -> EventSchedulerService [dir="back"];
       timerfired -> EventWatcherService [dir="back"];
       torrentupdateinfoHash -> DuckieTorrent [dir="back"];
@@ -325,6 +343,7 @@ Publishers
 
       app [label="app.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
+        syncprocessremoteupdate [label="sync:processremoteupdate", shape=box,fillcolor="white",style="filled"];
 
       BackupCtrl [label="BackupCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
@@ -374,6 +393,9 @@ Publishers
 
       SettingsCtrl [label="SettingsCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
+      StorageSyncService [label="StorageSyncService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        storagehassynced [label="storage:hassynced", shape=box,fillcolor="white",style="filled"];
+
       TorrentCtrl [label="TorrentCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
       torrentDialog [label="torrentDialog.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
@@ -383,4 +405,4 @@ Publishers
         watchlistupdated [label="watchlist:updated", shape=box,fillcolor="white",style="filled"];
 
     }
-
+```
