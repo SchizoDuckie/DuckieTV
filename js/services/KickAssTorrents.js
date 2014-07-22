@@ -66,8 +66,13 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
                     url: self.getUrl('search', what),
                     cache: true
                 }).then(function(response) {
-                    console.log("Kickass search executed!", response);
-                    d.resolve(self.parseSearch(response));
+                    //console.log("Kickass search executed!", response);
+                    //console.debug("KAT search status=",response.status);
+                    if (response.status == 404) {
+                        d.reject(response.status);
+                    } else {
+                        d.resolve(self.parseSearch(response));
+                    };
                 },  function(err) {
                     if (err.status > 300) {
                         MirrorResolver.findKATMirror().then(function(result) {
