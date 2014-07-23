@@ -4,7 +4,7 @@ DuckieTV for Chrome, Opera and Online
 DuckieTV is a Google Chrome / Opera extension that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
 
 
-With the integrated DuckieTorrent client you can connect DuckieTV to your local uTorrent/BitTorrent client and be updated on the download progress without switching applications. Experimental ChromeCast integration even provides the possibility to stream videos to your TV while still downloading.
+With the integrated DuckieTorrent client you can connect DuckieTV to your local &micro;Torrent/BitTorrent client and be updated on the download progress without switching applications. Experimental ChromeCast integration even provides the possibility to stream videos to your TV while still downloading.
 
 
 As of v0.60 DuckieTV also is also finally becoming a worthy SickBeard competitor by introducing an automatic downloading of shows that have aired and translations into 11 languages. (English, Deutch, Español, Français, Italiano, 日本, 한국어, Nederlands, Purtugese, Русский, Svenska, 简体中文 )
@@ -35,7 +35,7 @@ Screenshots:
 **Your main screen is a beautiful calendar with backgrounds tailored to the shows you are watching**
 !['New Tab' mode](http://i.imgur.com/B5jtvrf.png)
 
-**Instant access to uTorrent/BitTorrent features from the calendar**
+**Instant access to &micro;Torrent/BitTorrent features from the calendar**
 ![Stream with uTorrent player](http://i.imgur.com/h6OnmHO.png)
 
 **Add your favorite shows by picking them off of TraktTV's Trending Shows list, or search manually**
@@ -56,7 +56,7 @@ Screenshots:
 **You can either completely turn off Torrent integration or tune it to your preference**
 ![Torrent Settings](http://i.imgur.com/GWDLCLh.png)
 
-**DuckieTorrent uTorrent/BitTorrent client built-in**
+**DuckieTorrent &micro;Torrent/BitTorrent client built-in**
 ![DuckieTorrent uTorrent integration](http://i.imgur.com/dTdt1DH.png)
 
 
@@ -67,11 +67,11 @@ Changelog:
 * v0.61 : Fixed deployment problem for english/uk users.
 * v0.60 : New tabs interface in settings thanks to /u/Js41637, Introduced Internationalisation and translations thanks to /u/Garfield69, Initial translations into English and Dutch, the 9 other most popular languages are included in auto-translated form. Optimized watched indicator in calendar, added Trakt.TV's trending shows to 'series you're watching', made it possible to use the basic features of DuckieTV as a regular website: http://DuckieTV.github.io/DuckieTV/ (browsers that support WebSQL only! Tested on Chrome/Opera/Android)
 * v0.55 : Fixes and improvements for the calendar, double loading images and GUI by /u/Garfield69 and /u/Js41637 Thanks guys!!!
-* v0.54 : Layout CSS tuning and bugfixes by /u/Js41637 (Thanks!). Support for uTorrent 3.4.1 alpha, Fixed KAT parsing, Added extra permission for huge series (>5mb) databases.
+* v0.54 : Layout CSS tuning and bugfixes by /u/Js41637 (Thanks!). Support for &micro;Torrent 3.4.1 alpha, Fixed KAT parsing, Added extra permission for huge series (>5mb) databases.
 * v0.53 : CSS/layout fixes, Fixed the timers that went missing, fixed the auto-update service, fixed restore watchlist timers, improved memory usage on backup restore.
 * v0.52 : Fixed magnet URI catching and saving everywhere you can launch a torrent search for an episode. Added a popup menu on the torrent dialog with access to source, torrent and magnet links for each result
 * v0.51 : Fixed several marking episode as watched issues
-* v0.50 : Complete UI overhaul, uTorrent integration, experimental Chromecast integration, many performance improvements
+* v0.50 : Complete UI overhaul, &micro;Torrent integration, experimental Chromecast integration, many performance improvements
 * v0.43 : Made sure migrations don't run on fresh installs
 * v0.42 : Fixed missing scheduled event and chrome alarm delete procedure when deleting series.
 * v0.41 : Fixed 'browser action mode' not launching on icon click.
