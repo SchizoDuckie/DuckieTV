@@ -115,10 +115,9 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                             return;
                         };
                     };
-                    eventList = null; // every little bit counts :-) 
                 };
             };
-            aDate = null;
+            eventList = index = aDate = null; // clear used variables, every little bit counts :-) 
         },
 
         /**
