@@ -71,13 +71,14 @@ angular.module('DuckieTV.providers.favorites', [])
         favoriteIDs: [],
         TraktTV: TraktTV,
         /**
-         * Handles adding (and updating) a show to the local database.
-         * Grabs the existing serie,seasons and episode from the database if they exist
+         * Handles adding, deleting and updating a show to the local database.
+         * Grabs the existing serie, seasons and episode from the database if they exist
          * and inserts or updates the information.
+         * Deletes the episode from the database if TraktTV no longer has it.
          * It also registers the serie with the EventScheduler service to check for updates
          * every two days.
          * Returns a promise that gets resolved when all the updates have been launched
-         * (but not neccesarily finished, they'll continue to run)
+         * (but not necessarily finished, they'll continue to run)
          *
          * @param object data input data from TraktTV.findSerieByTVDBID(data.TVDB_ID)
          * @param object watched { TVDB_ID => watched episodes } mapped object to auto-mark as watched
@@ -128,11 +129,11 @@ angular.module('DuckieTV.providers.favorites', [])
         },
         /**
          * Update the episodes and seasons attached to a serie.
-         * Builds a cache of seasons and episodes to make sure existing
+         * Builds a cache of seasons and episodes from the database to make sure existing
          * information is updated.
          * If an episodes' TVDB_ID is matched in the watched object, it's marked
          * as watched as well.
-         *
+         * If an episode in the database is no longer at TraktTV then it gets deleted.
          */
         updateEpisodes: function(serie, seasons, watched) {
             watched = watched || [];
@@ -147,7 +148,7 @@ angular.module('DuckieTV.providers.favorites', [])
             serie.getSeasons().then(function(sea) { // fetch the seasons and cache them by number.
                 sea.map(function(el) {
                     seasonCache[el.get('seasonnumber')] = el;
-                })
+                });
 
             }).then(function() {
 
@@ -161,6 +162,7 @@ angular.module('DuckieTV.providers.favorites', [])
 
                     var pq = [];
                     seasons.map(function(season) {
+
                         var SE = (season.season in seasonCache) ? seasonCache[season.season] : new Season();
 
                         for (var s in season) { // update the season's properties
@@ -172,6 +174,14 @@ angular.module('DuckieTV.providers.favorites', [])
                         SE.episodes = season.episodes;
 
                         SE.Persist().then(function(r) {
+
+                            // delete any episodes that are no longer at TraktTV
+                            var tvdbList = SE.episodes.map(function(episode) {
+                                return episode.tvdb_id;
+                            }).join(",");
+                            CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Season = '+SE.getID()+' and TVDB_ID not in ('+tvdbList+') ');
+                            tvdbList = null;
+
                             SE.episodes.map(function(episode, idx) { // update the season's episodes
                                 var e = (!(episode.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
                                 fillEpisode(e, episode);
@@ -185,8 +195,9 @@ angular.module('DuckieTV.providers.favorites', [])
                                 if (watchedEpisodes.length > 0) {
                                     e.set('watched', '1');
                                     e.set('watchedAt', watchedEpisodes[0].watchedAt);
-                                }
-                                // save the changes and fee some memory, or do it immediately if there's no promise to wait for
+                                };
+                                
+                                // save the changes and free some memory, or do it immediately if there's no promise to wait for
                                 if (Object.keys(e.changedValues).length > 0) { // if the dbObject is dirty, we wait for the persist to resolve
                                     e.Persist().then(function(res) {
                                         updatedEpisodes++;
@@ -229,7 +240,7 @@ angular.module('DuckieTV.providers.favorites', [])
 
         /**
          * Helper function to fetch all the episodes for a serie
-         * Optionaly, filters can be provided which will be turned into an SQL where.
+         * Optionally, filters can be provided which will be turned into an SQL where.
          */
         getEpisodes: function(serie, filters) {
             serie = serie instanceof CRUD.Entity ? serie : this.getById(serie);
@@ -238,7 +249,7 @@ angular.module('DuckieTV.providers.favorites', [])
                     return val.asObject()
                 });
             }, function(err) {
-                console.log("Error in getepisodes!", serie, filters || {});
+                console.log("Error in getEpisodes!", serie, filters || {});
             });
         },
         getEpisodesForDateRange: function(start, end) {
@@ -273,11 +284,11 @@ angular.module('DuckieTV.providers.favorites', [])
                 });
                 CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ' + serie.ID_Serie);
                 s.Delete().then(function() {
-		    		$rootScope.$broadcast('calendar:clearcache');
-		            console.log("Serie deleted. Syncing storage.");
-		            
-		            $rootScope.$broadcast('storage:update');
-		            service.restore();
+                    $rootScope.$broadcast('calendar:clearcache');
+                    console.log("Serie deleted. Syncing storage.");
+                    
+                    $rootScope.$broadcast('storage:update');
+                    service.restore();
 
                 });
 
