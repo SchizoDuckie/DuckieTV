@@ -98,6 +98,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                     calendarEvents[date][index].episode = event.episode;
                 }
             });
+            existing = index = null; 
             $rootScope.$broadcast('calendar:events', events);
         },
 
