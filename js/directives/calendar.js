@@ -37,8 +37,8 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
         /**
          * Optimized function to feed the calendar it's data.
          * Fetches the episodes for a date range and the relevant series for it. Then caches and refreshes the calendar
-         * @param  Date start startdate
-         * @param  Date end enddate
+         * @param  Date start startDate
+         * @param  Date end endDate
          */
         getEventsForDateRange: function(start, end) {
             // fetch episodes between 2 timestamps
@@ -94,8 +94,8 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                 if (existing.length == 0) {
                     calendarEvents[date].push(event);
                 } else {
-                	var index = calendarEvents[date].indexOf(existing[0]);
-                	calendarEvents[date][index].episode = event.episode;
+                    var index = calendarEvents[date].indexOf(existing[0]);
+                    calendarEvents[date][index].episode = event.episode;
                 }
             });
             $rootScope.$broadcast('calendar:events', events);
@@ -112,10 +112,12 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                         if (eventList[index].episodeID === duplicateID) {
                             calendarEvents[aDate].splice(index, 1);
                             return;
-                        }
-                    }
-                }
-            }
+                        };
+                    };
+                    eventList = null; // every little bit counts :-) 
+                };
+            };
+            aDate = null;
         },
 
         /**
@@ -140,7 +142,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
             serie: data.get('ID_Serie').get('name'),
             serieID: data.get('ID_Serie').get('TVDB_ID'),
             episodeID: data.get('TVDB_ID'),
-        	episode: data.asObject() 
+            episode: data.asObject() 
         }]);       
     });
 
@@ -150,7 +152,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
             serie: data.get('ID_Serie').get('name'),
             serieID: data.get('ID_Serie').get('TVDB_ID'),
             episodeID: data.get('TVDB_ID'),
-        	episode: data.asObject() 
+            episode: data.asObject() 
         }]);       
     });
 
