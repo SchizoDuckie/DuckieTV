@@ -1,104 +1,139 @@
- angular.module('DuckieTV.controllers.about', [])
+angular.module('DuckieTV.controllers.about', [])
 
- .controller('AboutCtrl', function($scope, $rootScope, $q, $http, EventSchedulerService, SettingsService, StorageSyncService) {
+.controller('AboutCtrl', function($scope, $rootScope, $q, $http, $filter, EventSchedulerService, SettingsService, StorageSyncService) {
 
-     $scope.statistics = [];
+    $scope.statistics = [];
 
-     getStats = function() {
+    getStats = function() {
 
-         // screen
-         var screenSize = '';
-         if (screen.width) {
-             width = (screen.width) ? screen.width : '';
-             height = (screen.height) ? screen.height : '';
-             screenSize += '' + width + " x " + height;
-         };
+        // screen
+        var screenSize = '';
+        if (screen.width) {
+            width = (screen.width) ? screen.width : '';
+            height = (screen.height) ? screen.height : '';
+            screenSize += '' + width + " x " + height;
+        };
 
-         countTimers = function() {
-             EventSchedulerService.getAll().then(function(timers) {
-                 $scope.statistics.push({
-                     name: 'Timers',
-                     data: timers.length
-                 });
-             });
-         };
+        // Timers
+        countTimers = function() {
+            EventSchedulerService.getAll().then(function(timers) {
+                $scope.statistics.push({
+                    name: 'Timers',
+                    data: timers.length
+                });
+            });
+        };
 
-         countEntity = function(entity) {
-             CRUD.EntityManager.getAdapter().db.execute('select count(*) as count from ' + entity).then(
-                 function(result) {
-                     $scope.statistics.push({
-                         name: "DB " + entity,
-                         data: result.next().row.count
-                     });
-                 });
-         };
+        // database statistics
+        countEntity = function(entity) {
+            CRUD.EntityManager.getAdapter().db.execute('select count(*) as count from ' + entity).then(function(result) {
+                $scope.statistics.push({
+                    name: "DB " + entity,
+                    data: result.next().row.count
+                });
+            });
+        };
 
-
-         $scope.statistics = [{
-             name: 'UserAgent',
-             data: navigator.userAgent
-         }, {
-             name: 'Platform',
-             data: navigator.platform
-         }, {
-             name: 'Vendor',
-             data: navigator.vendor
-         }, {
-             name: 'Determined Locale',
-             data: SettingsService.get('client.determinedlocale')
-         }, {
-             name: 'Active Locale',
-             data: SettingsService.get('application.locale')
-         }, {
-             name: 'Active Language',
-             data: SettingsService.get('application.language')
-         }, {
-             name: 'Screen (width x height)',
-             data: screenSize
-         }, {
-             name: 'ChromeCast Supported',
-             data: SettingsService.get('cast.supported')
-         }, {
-             name: 'Storage Sync Supported',
-             data: StorageSyncService.isSupported()
-         }, {
-             name: 'Storage Sync Enabled',
-             data: SettingsService.get('storage.sync')
-         }, {
-             name: 'Torrenting Enabled',
-             data: SettingsService.get('torrenting.enabled')
-         }, {
-             name: 'Torrenting Auto-Download Active',
-             data: SettingsService.get('torrenting.autodownload')
-         }, {
-             name: 'TrakTV Sync Enabled',
+        getSyncTime = function() {
+            /*
+             * if sync is supported get the synctime else indicate not available
+             */
+            if (StorageSyncService.isSupported()) {
+                StorageSyncService.get('synctime').then(function(syncTime) {
+                    if (syncTime != null) {
+                        $scope.statistics.push({
+                            name: 'Storage Sync Last Synced on',
+                            data: new Date(syncTime).toGMTString()
+                        });
+                    } else {
+                        $scope.statistics.push({
+                            name: 'Storage Sync has',
+                            data: 'Never Signed in to Google'
+                        });
+                    };
+                });
+            } else {
+                $scope.statistics.push({
+                    name: 'Storage Sync is',
+                    data: 'Not Available'
+                });
+            };
+        };
+        
+        // general statistics
+        $scope.statistics = [{
+            name: 'UserAgent',
+            data: navigator.userAgent
+        }, {
+            name: 'Platform',
+            data: navigator.platform
+        }, {
+            name: 'Vendor',
+            data: navigator.vendor
+        }, {
+            name: 'Determined Locale',
+            data: SettingsService.get('client.determinedlocale')
+        }, {
+            name: 'Active Locale',
+            data: SettingsService.get('application.locale')
+        }, {
+            name: 'Active Language',
+            data: SettingsService.get('application.language')
+        }, {
+            name: 'Screen (width x height)',
+            data: screenSize
+        }, {
+            name: 'ChromeCast Supported',
+            data: SettingsService.get('cast.supported')
+        }, {
+            name: 'Torrenting Enabled',
+            data: SettingsService.get('torrenting.enabled')
+        }, {
+            name: 'Torrenting Auto-Download Active',
+            data: SettingsService.get('torrenting.autodownload')
+        }, {
+            name: 'TrakTV Sync Enabled',
              data: SettingsService.get('trakttv.sync')
-         }];
+        }, {
+            name: 'Storage Sync Supported',
+            data: StorageSyncService.isSupported()
+        }, {
+            name: 'Storage Sync Enabled',
+            data: SettingsService.get('storage.sync')
+        }];
 
-         if ('chrome' in window && 'app' in window.chrome && 'getDetails' in chrome.app && 'version' in window.chrome.app.getDetails()) {
-             $scope.statistics.unshift({
-                 name: window.chrome.app.getDetails().short_name,
-                 data: window.chrome.app.getDetails().version
-             });
-         } else {
-             $http({
-                 method: 'GET',
-                 url: 'VERSION'
-             }).
-             success(function(data, status, headers, config) {
-                 $scope.statistics.unshift({
-                     name: 'DuckieTV webbased',
-                     data: data
-                 });
-             });
+        // DuckieTV version
+        if ('chrome' in window && 'app' in window.chrome && 'getDetails' in chrome.app && 'version' in window.chrome.app.getDetails()) {
+            $scope.statistics.unshift({
+                name: window.chrome.app.getDetails().short_name,
+                data: window.chrome.app.getDetails().version
+            });
+        } else {
+            $http({
+                method: 'GET',
+                url: 'VERSION'
+            }).
+            success(function(data, status, headers, config) {
+                $scope.statistics.unshift({
+                    name: 'DuckieTV webbased',
+                    data: data
+                });
+            });
          }
 
-         countTimers();
-         countEntity('Series');
-         countEntity('Seasons');
-         countEntity('Episodes');
-         countEntity('EventSchedule');
+         // local date and time in GMT presentation
+        $scope.statistics.unshift({
+            name: 'Current Date and Time',
+            data: new Date().toGMTString()
+        });
 
-     }
-     getStats();
- });
+        getSyncTime();
+        countTimers();
+        countEntity('Series');
+        countEntity('Seasons');
+        countEntity('Episodes');
+        countEntity('EventSchedule');
+
+    }
+    getStats();
+});
