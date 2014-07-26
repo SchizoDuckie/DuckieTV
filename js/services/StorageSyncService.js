@@ -14,10 +14,10 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
  */
 .factory('StorageSyncService', function($rootScope, $q, FavoritesService, SettingsService, TraktTV, $injector, $filter) {
     function isSupported() {
-    	return ('chrome' in window && 'storage' in chrome && 'sync' in chrome.storage) 
+        return ('chrome' in window && 'storage' in chrome && 'sync' in chrome.storage) 
     };
 
-	var service = {
+    var service = {
 
         isSyncing: false, // syncing is currently in progress
         lastSynced: null, // timestamp when sync has last run
@@ -41,23 +41,23 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * Execute a sync step if syncing is not currently already in progress
          */
         synchronize: function() {
-        	if(!isSupported()) return;
-        	//debugger;
-        	service.get('synctime').then(function(synctime) {
-        		//debugger;
-        		if((!synctime || !SettingsService.get('lastSync') || SettingsService.get('lastSync') > synctime) && !service.isSyncing) {
-        			//debugger;
-        			service.isSyncing = true;
-	                console.log("[Storage.Synchronize] Syncing storage!");
-	                service.getSeriesList().then(function(series) {
-	                    console.log("Storage sync Series list: ", series);
-	                    service.set('series', series);
-	                    var now = new Date().getTime();
-	                    service.set('synctime', now);
-	                    service.isSyncing = false;
-	                });
-        		}
-        	})
+            if(!isSupported()) return;
+            //debugger;
+            service.get('synctime').then(function(synctime) {
+                //debugger;
+                if((!synctime || !SettingsService.get('lastSync') || SettingsService.get('lastSync') > synctime) && !service.isSyncing) {
+                    //debugger;
+                    service.isSyncing = true;
+                    console.log("[Storage.Synchronize] Syncing storage!");
+                    service.getSeriesList().then(function(series) {
+                        console.log("Storage sync Series list: ", series);
+                        service.set('series', series);
+                        var now = new Date().getTime();
+                        service.set('synctime', now);
+                        service.isSyncing = false;
+                    });
+                }
+            })
         },
 
         /** 
@@ -67,15 +67,16 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * Remote deletion requires the user to confirm the deletion.
          */
         read: function(lastSync) {
-        	if(!isSupported() || service.isSyncing) return;
+            if(!isSupported() || service.isSyncing) return;
             console.log("Reading synced storage since ", new Date(lastSync), ' local last sync: ', new Date(SettingsService.get('lastSync')));
 
             if(lastSync < SettingsService.get('lastSync')) {
-            	console.log("Systems are in sync! nothing to do !");
-            	return; // systems are in sync, nothing to do.
+                console.log("Systems are in sync! nothing to do !");
+                return; // systems are in sync, nothing to do.
             }
             
             service.get('series').then(function(results) {
+                results = results || [];
                 console.log("Fetched synced storage series: ", results);
                 var existingSeries = service.getSeriesList().then(function(existingSeries) {
                     
@@ -92,60 +93,60 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                     console.log("Found non-remote series to delete", nonRemote);
 
                     service.checkSyncProgress({ // fire off the background and foreground deletion checks.
-                    	'nonLocal': nonLocal,
-                    	'nonRemote': nonRemote,
-                    	'localProcessed': 0,
-                    	'remoteProcessed': 0
+                        'nonLocal': nonLocal,
+                        'nonRemote': nonRemote,
+                        'localProcessed': 0,
+                        'remoteProcessed': 0
                     });
                 });
             });
         },
 
         /** 
-         * Verify if the syncing proces is done.
-         * The syncing process iterates the local and remote differences in the backdround.js and the active page.
+         * Verify if the syncing process is done.
+         * The syncing process iterates the local and remote differences in the background.js and the active page.
          * The active page is used to show the user a confirmation dialog when we need to confirm deletion of a remote series
          * When all is iterated, synchronize the new list.
          */
         checkSyncProgress: function(progress) {
-        	console.info("Check sync progress! ", progress);
+            console.info("Check sync progress! ", progress);
 
-        	if(progress === true) {
-        		return service.read(0);
-        	}
+            if(progress === true) {
+                return service.read(0);
+            }
 
-        	if(!progress || service.activeDlg !== null) return;
-        	SettingsService.set('sync.progress', progress);
+            if(!progress || service.activeDlg !== null) return;
+            SettingsService.set('sync.progress', progress);
 
-        	// if we're in the background page, process the additions
-        	if(chrome.extension.getBackgroundPage() === window && progress.localProcessed < progress.nonLocal.length) {
-        		service.processRemoteAdditions(progress);
-        	} 
-        	// if we're in the background page and done processing local additions, notify foreground page when acctive
-        	else if (chrome.extension.getBackgroundPage() === window && progress.localProcessed == progress.nonLocal.length) {
-        		$rootScope.$broadcast('storage:hassynced', progress); // notify a possible foreground page listening of changes
-        	}
-        	// if we're in the foreground window and there's stuff to do, show the deletion dialogs.
-        	else if(chrome.extension.getBackgroundPage() !== window && progress.localProcessed == progress.nonLocal.length && progress.remoteProcessed < progress.nonRemote.length) {
-        		service.processRemoteDeletions(progress);
-        	}
-        	// otherwise, sync is done. Store this as the last synced state so the remotes can sync to that.
-        	else if(progress.localProcessed == progress.nonLocal.length && progress.remoteProcessed == progress.nonRemote.length) {
-        		SettingsService.set('sync.progress', null);
-        		service.synchronize();
-        	}
+            // if we're in the background page, process the additions
+            if(chrome.extension.getBackgroundPage() === window && progress.localProcessed < progress.nonLocal.length) {
+                service.processRemoteAdditions(progress);
+            } 
+            // if we're in the background page and done processing local additions, notify foreground page when active
+            else if (chrome.extension.getBackgroundPage() === window && progress.localProcessed == progress.nonLocal.length) {
+                $rootScope.$broadcast('storage:hassynced', progress); // notify a possible foreground page listening of changes
+            }
+            // if we're in the foreground window and there's stuff to do, show the deletion dialogs.
+            else if(chrome.extension.getBackgroundPage() !== window && progress.localProcessed == progress.nonLocal.length && progress.remoteProcessed < progress.nonRemote.length) {
+                service.processRemoteDeletions(progress);
+            }
+            // otherwise, sync is done. Store this as the last synced state so the remotes can sync to that.
+            else if(progress.localProcessed == progress.nonLocal.length && progress.remoteProcessed == progress.nonRemote.length) {
+                SettingsService.set('sync.progress', null);
+                service.synchronize();
+            }
         },
 
         processRemoteAdditions: function(progress) {
-        	if(progress && progress.localProcessed < progress.nonLocal.length) {
-    			TraktTV.findSerieByTVDBID(progress.nonLocal[progress.localProcessed]).then(function(result) {
+            if(progress && progress.localProcessed < progress.nonLocal.length) {
+                TraktTV.findSerieByTVDBID(progress.nonLocal[progress.localProcessed]).then(function(result) {
                     console.log("Process remote addition: ", result.title, 'adding to favorites!');
                     FavoritesService.addFavorite(result).then(function() {
-                    		progress.localProcessed++;
-                        	service.checkSyncProgress(progress);
+                            progress.localProcessed++;
+                            service.checkSyncProgress(progress);
                     })
                 });
-    		}
+            }
         },
        
 
@@ -159,12 +160,12 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * If we're done, push the new current state to the storage sync.
          */
         processRemoteDeletions: function(progress) {
-        	console.log("processing remote deletions: ", progress);
-        	if(!isSupported()) return;
-        	if(!progress) return;
-        	console.log("iterating non remote", progress);
-         	
-     	    FavoritesService.getById(progress.nonRemote[progress.remoteProcessed]).then(function(result) {
+            console.log("processing remote deletions: ", progress);
+            if(!isSupported()) return;
+            if(!progress) return;
+            console.log("iterating non remote", progress);
+             
+             FavoritesService.getById(progress.nonRemote[progress.remoteProcessed]).then(function(result) {
                 console.log("Fetched information for ", result.get('seriesname'), 'removing from favorites!');
                 service.activeDlg = $injector.get('$dialogs').confirm($filter('translate')('STORAGESYNCSERVICEjs/serie-deleted/hdr'),
                     $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1') + '<strong>' +
@@ -175,11 +176,11 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                     FavoritesService.remove(result.asObject());
                     progress.remoteProcessed++;
                     service.activeDlg = null;
-                	service.checkSyncProgress(progress);
+                    service.checkSyncProgress(progress);
                 }, function() {
-                	service.activeDlg = null;
-                	progress.remoteProcessed++;
-                	service.checkSyncProgress(progress);
+                    service.activeDlg = null;
+                    progress.remoteProcessed++;
+                    service.checkSyncProgress(progress);
                 });
             });
         
@@ -201,7 +202,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * Public accessor for the global function
          */
         isSupported: function() {
-        	return isSupported();
+            return isSupported();
         },
 
 
@@ -221,21 +222,21 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         },
 
         attach: function() {
-        	console.log("Attaching chrome storage change handler!")
-        	chrome.storage.onChanged.addListener(function(changes, namespace) {
-        		Object.keys(changes).map(function(key) {
-        			if(changes[key].oldValue && !changes[key].newValue) {
-        				var restore = {};
-        				restore[key] = changes[key].oldValue;
-        				chrome.storage.sync.set( restore, function() { 
-        					console.log("Re-added property ", key, " to ", changes[key].oldValue, "after it was wiped remotely!");
-        				});
-        			}
-        		})        		
-        		if('synctime' in changes && 'newValue' in changes.synctime && SettingsService.get('lastSync') < changes.synctime.newValue.value) {
-        			service.read(changes.synctime.newValue.value);
-        		}
-		    });
+            console.log("Attaching chrome storage change handler!")
+            chrome.storage.onChanged.addListener(function(changes, namespace) {
+                Object.keys(changes).map(function(key) {
+                    if(changes[key].oldValue && !changes[key].newValue) {
+                        var restore = {};
+                        restore[key] = changes[key].oldValue;
+                        chrome.storage.sync.set( restore, function() { 
+                            console.log("Re-added property ", key, " to ", changes[key].oldValue, "after it was wiped remotely!");
+                        });
+                    }
+                })                
+                if('synctime' in changes && 'newValue' in changes.synctime && SettingsService.get('lastSync') < changes.synctime.newValue.value) {
+                    service.read(changes.synctime.newValue.value);
+                }
+            });
         }
     }
     return service;
