@@ -60,6 +60,18 @@ angular.module('DuckieTV.controllers.about', [])
             };
         };
         
+        // fetch active torrenting mirror
+        switch (SettingsService.get('torrenting.searchprovider')) {
+            case 'ThePirateBay':
+                var activeTorrentingMirror = SettingsService.get('thepiratebay.mirror');
+                break;
+            case 'KickAssTorrents':
+                var activeTorrentingMirror = SettingsService.get('kickasstorrents.mirror');
+                break;
+            default:
+                var activeTorrentingMirror = null;
+        };
+        
         // general statistics
         $scope.statistics = [{
             name: 'UserAgent',
@@ -88,6 +100,12 @@ angular.module('DuckieTV.controllers.about', [])
         }, {
             name: 'Torrenting Enabled',
             data: SettingsService.get('torrenting.enabled')
+        }, {
+            name: 'Torrenting Search Provider',
+            data: SettingsService.get('torrenting.searchprovider')
+        }, {
+            name: 'Torrenting URL',
+            data: activeTorrentingMirror
         }, {
             name: 'Torrenting Auto-Download Active',
             data: SettingsService.get('torrenting.autodownload')
