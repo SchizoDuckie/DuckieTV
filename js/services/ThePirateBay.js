@@ -28,6 +28,7 @@ angular.module('DuckieTV.providers.thepiratebay', ['DuckieTV.providers.mirrorres
         var results = doc.querySelectorAll("#searchResult tbody tr");
         var output = [];
         for (var i = 0; i < results.length; i++) {
+            if (!results[i].querySelector('td:nth-child(2) > div ')) continue;
             var out = {
                 releasename: results[i].querySelector('td:nth-child(2) > div ').innerText.trim(),
                 magneturl: results[i].querySelector('td:nth-child(2) > a').href,
@@ -64,10 +65,10 @@ angular.module('DuckieTV.providers.thepiratebay', ['DuckieTV.providers.mirrorres
                     cache: true,
                     timeout: self.activeRequest.promise
                 }).then(function(response) {
-                    //console.log("TPB search executed!", response);
+                    //console.debug("TPB search executed!", response);
                     d.resolve(self.parseSearch(response));
                 }, function(err) {
-                    if (err.status > 300) {
+                    if (err.status >= 300) {
                         MirrorResolver.findTPBMirror().then(function(result) {
                             //console.log("Resolved a new working mirror!", result);
                             self.mirror = result;
