@@ -15,10 +15,10 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
      * Switch between search and details
      */
     this.getUrl = function(type, param) {
-    	// strip last char of the mirror. kat fails if there's an extra slash.
-    	if(this.mirror[this.mirror.length -1] == '/') {
-    		this.mirror = this.mirror.substring(0, this.mirror.length -1);
-    	}
+        // strip last char of the mirror. kat fails if there's an extra slash.
+        if(this.mirror[this.mirror.length -1] == '/') {
+            this.mirror = this.mirror.substring(0, this.mirror.length -1);
+        }
         return this.mirror + this.endpoints[type].replace('%s', encodeURIComponent(param));
     },
 
@@ -66,21 +66,21 @@ angular.module('DuckieTV.providers.kickasstorrents', [])
                     url: self.getUrl('search', what),
                     cache: true
                 }).then(function(response) {
-                    //console.log("Kickass search executed!", response);
-                    //console.debug("KAT search status=",response.status);
+                    //console.debug("KickAss search executed!", response);
                     if (response.status == 404) {
+                        // search returned 'not found'
                         d.reject(response.status);
                     } else {
                         d.resolve(self.parseSearch(response));
                     };
                 },  function(err) {
-                    if (err.status > 300) {
+                    if (err.status >= 300) {
                         MirrorResolver.findKATMirror().then(function(result) {
                             //console.log("Resolved a new working mirror!", result);
                             self.mirror = result;
                             return d.resolve(self.$get($q, $http, MirrorResolver).search(what));
                         }, function(err) {
-                            //console.debug("Could not find a working TPB mirror!", err);
+                            //console.debug("Could not find a working KAT mirror!", err);
                             d.reject(err);
                         })
                     }
