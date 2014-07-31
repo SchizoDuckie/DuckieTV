@@ -6,7 +6,7 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
  */
 .provider('MirrorResolver', function() {
 
-	// individual mirror resolvers can be added here
+    // individual mirror resolvers can be added here
     this.endpoints = {
         thepiratebay: 'http://fucktimkuik.org/',
         kickasstorrents: 'http://unlocktorrent.com/'
@@ -42,15 +42,15 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
         var tabElement = Array.prototype.filter.call(doc.querySelectorAll(".nav li a[data-toggle]"), function(el) { 
-        	return el.innerText == 'KickAss Torrents'; 
+            return el.innerText == 'KickAss Torrents'; 
         });
         
         if(tabElement && tabElement.length ==1) { 
-        	var mirrorList = Array.prototype.map.call(doc.querySelectorAll('div'+tabElement[0].getAttribute('href') +' a '), function(el) {
-        		return el.href;
-        	})
-        	console.log("MirrorList", mirrorList);
-        	return mirrorList[Math.floor(Math.random()*mirrorList.length -1)];
+            var mirrorList = Array.prototype.map.call(doc.querySelectorAll('div'+tabElement[0].getAttribute('href') +' a '), function(el) {
+                return el.href;
+            })
+            console.log("MirrorList", mirrorList);
+            return mirrorList[Math.floor(Math.random()*mirrorList.length -1)];
         }
         return false;
     }
@@ -100,7 +100,7 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
                     url: self.getUrl('thepiratebay'),
                     cache: false
                 }).then(function(response) {
-                	// parse the response
+                    // parse the response
                     var location = self.parseFuckTimKuik(response);
                     $rootScope.$broadcast('tpbmirrorresolver:status', "Found ThePirateBay mirror! " + location + " Verifying if it uses magnet links.");
                     // verify that the mirror works by executing a test search, otherwise try the process again
@@ -125,13 +125,13 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
             },
             /** 
              * Verify that a specific TPB mirror is working and using magnet links by executing a test search
-             * Parses the results and checks that magnet links are available like they are on tpb.
+             * Parses the results and checks that magnet links are available like they are on TPB.
              * Some mirrors will not provide direct access to magnet links so we filter those out
              */
             verifyTPBMirror: function(location, maxTries) {
                 if (maxTries) {
-                    maxAttempts = tries;
-                }
+                    maxAttempts = maxTries;
+                };
                 $rootScope.$broadcast('tpbmirrorresolver:status', "Verifying if mirror is using magnet links!: " + location);
                 var q = $q.defer();
 
@@ -155,7 +155,7 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
                 return q.promise;
             },
             /**
-             * Find a random mirror for ThePirateBay and return the promise when
+             * Find a random mirror for KickAss Torrents and return the promise when
              * one is found and verified. If a valid working server is not found within x tries, it fails.
              * Provides up-to-date status messages via mirrorresolver:status while doing that
              */
@@ -168,7 +168,7 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
                     url: self.getUrl('kickasstorrents'),
                     cache: false
                 }).then(function(response) {
-                	// parse the response
+                    // parse the response
                     var location = self.parseUnlockTorrent(response, 'Kickass Torrents');
                     $rootScope.$broadcast('katmirrorresolver:status', "Found KickAss Torrents mirror! " + location + " Verifying if it uses magnet links.");
                     // verify that the mirror works by executing a test search, otherwise try the process again
@@ -181,8 +181,8 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
                                 $rootScope.$broadcast('katmirrorresolver:status', "Mirror does not do magnet links.. trying another one.");
                             d.resolve(self.$get($q, $http, $rootScope).findKATMirror(attempt + 1));
                         } else {
-                            $rootScope.$broadcast("katmirrorresolver:status", "Could not resolve a working mirror in " + maxAttempts + " tries. TPB is probably down.");
-                            d.reject("Could not resolve a working mirror in " + maxAttempts + " tries. TPB is probably down.");
+                            $rootScope.$broadcast("katmirrorresolver:status", "Could not resolve a working mirror in " + maxAttempts + " tries. KAT is probably down.");
+                            d.reject("Could not resolve a working mirror in " + maxAttempts + " tries. KAT is probably down.");
                         }
                     });
                 }, function(err) {
@@ -193,13 +193,13 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
             },
             /** 
              * Verify that a specific KAT mirror is working and using magnet links by executing a test search
-             * Parses the results and checks that magnet links are available like they are on kat.
+             * Parses the results and checks that magnet links are available like they are on KAT.
              * Some mirrors will not provide direct access to magnet links so we filter those out
              */
             verifyKATMirror: function(location, maxTries) {
                 if (maxTries) {
-                    maxAttempts = tries;
-                }
+                    maxAttempts = maxTries;
+                };
                 $rootScope.$broadcast('katmirrorresolver:status', "Verifying if mirror is using magnet links!: " + location);
                 var q = $q.defer();
 
