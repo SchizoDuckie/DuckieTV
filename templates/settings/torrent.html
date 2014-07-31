@@ -112,7 +112,7 @@
         <li>{{'TORRENT/tpb-mirror/hdr'|translate}}<br>
           <input type='url' style='width:500px' ng-model="customtpbmirror">
 
-          <button class="btn btn-success" ng-click="validateCustomTPBMirror(custommirror)">{{'TORRENT/tpb-validate/btn'|translate}}</button>
+          <button class="btn btn-success" ng-click="validateCustomTPBMirror(customtpbmirror)">{{'TORRENT/tpb-validate/btn'|translate}}</button>
           <button class="btn btn-info" ng-click="findRandomTPBMirror()">{{'TORRENT/tpb-find-mirror/btn'|translate}}</button>
 
           <p ng-show="tpbmirrorStatus.length > 0">
@@ -136,7 +136,7 @@
         <li>{{'TORRENT/kat-mirror/hdr'|translate}}<br>
           <input type='url' style='width:500px' ng-model="customkatmirror">
 
-          <button class="btn btn-success" ng-click="validateCustomKATMirror(custommirror)">{{'TORRENT/kat-validate/btn'|translate}}</button>
+          <button class="btn btn-success" ng-click="validateCustomKATMirror(customkatmirror)">{{'TORRENT/kat-validate/btn'|translate}}</button>
           <button class="btn btn-info" ng-click="findRandomKATMirror()">{{'TORRENT/kat-find-mirror/btn'|translate}}</button>
 
           <p ng-show="katmirrorStatus.length > 0">
