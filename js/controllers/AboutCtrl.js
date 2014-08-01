@@ -65,11 +65,14 @@ angular.module('DuckieTV.controllers.about', [])
             case 'ThePirateBay':
                 var activeTorrentingMirror = SettingsService.get('thepiratebay.mirror');
                 break;
-            case 'KickAssTorrents':
+            case 'KickassTorrents':
                 var activeTorrentingMirror = SettingsService.get('kickasstorrents.mirror');
                 break;
+            case 'GenericSearch':
+                var activeTorrentingMirror = 'https://torrentz.eu';
+                break;
             default:
-                var activeTorrentingMirror = null;
+                var activeTorrentingMirror = 'Not Available';
         };
         
         // general statistics
