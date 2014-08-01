@@ -192,7 +192,10 @@ angular.module('DuckieTV', [
                     //    config.url = ['http://jsonp.jit.su/?url=', encodeURIComponent(config.url)].join('');
                     //} else {
                     // all the other requests go through here, works well for regularxmlhttp requests.
-                    config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
+                    /*
+                     * if corsproxy is already in use then don't prefix it again
+                     */
+                    if (config.url.indexOf('www.corsproxy.com') == -1) config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
                     //}
                 }
                 return config;
@@ -255,46 +258,46 @@ angular.module('DuckieTV', [
     };
 
     $rootScope.$on('sync:processremoteupdate', function(event, progress) {
-		console.log("Process storagesync remote updates!", progress);
-		FavoritesService.restore(); // message the favoritesservice something has changed and it needs to refresh.
-		StorageSyncService.checkSyncProgress(progress);
-	});
+        console.log("Process storagesync remote updates!", progress);
+        FavoritesService.restore(); // message the favoritesservice something has changed and it needs to refresh.
+        StorageSyncService.checkSyncProgress(progress);
+    });
 
     /** 
      * Forward an event to the storagesync service when it's not already syncing.
      * This make sure that local additions / deletions get stored in the cloud.
      */ 
      if(SettingsService.get('storage.sync') == true) {
-     	$rootScope.$on('storage:update', function() {
-     		console.log("Received storage:update!");
-     		if (SettingsService.get('storage.sync') && SettingsService.get('sync.progress') == null) {
-	            console.log("Storage sync can run!");
-	            SettingsService.set('lastSync', new Date().getTime());
-	            StorageSyncService.synchronize();
-	        }
-	    });
-    	if (SettingsService.get('sync.progress') !== null) {
-			 $rootScope.$broadcast('sync:processremoteupdate', SettingsService.get('sync.progress'));
-    	}   
-	}
+         $rootScope.$on('storage:update', function() {
+             console.log("Received storage:update!");
+             if (SettingsService.get('storage.sync') && SettingsService.get('sync.progress') == null) {
+                console.log("Storage sync can run!");
+                SettingsService.set('lastSync', new Date().getTime());
+                StorageSyncService.synchronize();
+            }
+        });
+        if (SettingsService.get('sync.progress') !== null) {
+             $rootScope.$broadcast('sync:processremoteupdate', SettingsService.get('sync.progress'));
+        }   
+    }
 
 
-	/** 
-	 * Handle background page message passing and broadcast it as an event.
-	 * Used to start the remote deletions processing
-	 */ 
-	if('chrome' in window && 'runtime' in chrome && 'onMessage' in chrome.runtime) {
-		chrome.runtime.onMessage.addListener(function(event, sender, sendResponse) {
-			if (event.channel) {
-					$rootScope.$broadcast(event.channel, event.eventData);	
-		    }
-		});
-	}
+    /** 
+     * Handle background page message passing and broadcast it as an event.
+     * Used to start the remote deletions processing
+     */ 
+    if('chrome' in window && 'runtime' in chrome && 'onMessage' in chrome.runtime) {
+        chrome.runtime.onMessage.addListener(function(event, sender, sendResponse) {
+            if (event.channel) {
+                    $rootScope.$broadcast(event.channel, event.eventData);    
+            }
+        });
+    }
 
 
-	/** 
-	 * Hide the favorites list when navigationg to a different in-page action.
-	 */
+    /** 
+     * Hide the favorites list when navigationg to a different in-page action.
+     */
     $rootScope.$on('$locationChangeSuccess', function() {
         $rootScope.$broadcast('serieslist:hide');
     });
@@ -325,7 +328,7 @@ angular.module('DuckieTV', [
             });
         }
     });
-	
+    
     // delay loading of chromecast because it's creating a load delay in the rest of the scripts.
     if ('chrome' in window && navigator.vendor.indexOf('Google') > -1) {
         setTimeout(function() {
