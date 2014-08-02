@@ -234,7 +234,7 @@ angular.module('DuckieTV', [
 .run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
 
     // translate the application based on preference or proposed locale
-    console.log('client determined locale', $translate.proposedLanguage());
+    console.info('client determined locale', $translate.proposedLanguage());
     SettingsService.set('client.determinedlocale', $translate.proposedLanguage());
     var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage;
     SettingsService.changeLanguage('en_us'); // this is the fallback language. any strings not loaded will be in en_us lanague.
