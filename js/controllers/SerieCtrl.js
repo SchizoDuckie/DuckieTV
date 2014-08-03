@@ -18,6 +18,25 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
         $scope.searching = false;
         var currentDate = new Date();
         var allSeasons = [];
+        // used by translateDayOfWeek(), a couple arrays representing days of the week in date and word format, starting with unix epoch date (Thursday)
+        var daysOfWeekDates = [
+            new Date('1-Jan-1970'),
+            new Date('2-Jan-1970'),
+            new Date('3-Jan-1970'),
+            new Date('4-Jan-1970'),
+            new Date('5-Jan-1970'),
+            new Date('6-Jan-1970'),
+            new Date('7-Jan-1970')
+        ];
+        var daysOfWeekWords = [
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday'
+        ];
 
         function fetchEpisodes(season) {
             if (!season) return;
@@ -43,14 +62,14 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
                         label: $scope.getEpisodeNumber(data[i]) + ' : ' + data[i].rating,
                         season: parseInt(data[i].seasonnumber, 10)
                     });
-                }
+                };
                 $scope.$digest();
             }, function(err) {
                 console.log("Could not find episodes for serie", err);
             }, function(err) {
                 console.error("Error fetching latest season's episodes!", err);
             });
-        }
+        };
 
         FavoritesService.getById($routeParams.id).then(function(serie) {
             $scope.serie = serie.asObject();
@@ -58,7 +77,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
             if (serie.get('fanart') != '') {
                 $rootScope.$broadcast('background:load', serie.get('fanart'));
-            }
+            };
             serie.getSeasons().then(function(result) {
                 allSeasons = result;
                 $scope.seasons = result.map(function(el) {
@@ -99,58 +118,62 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
                             $scope.episodes[index] = result.asObject();
                         });
                     }));
-                }
+                };
             });
 
             $q.all(pq).then(function() {
                 $rootScope.$broadcast('calendar:clearcache');
             });
-
         };
-
 
         $scope.setMarkEnd = function(episode) {
             $scope.markUntilIndex = episode.episodenumber;
-        }
+        };
 
         $scope.isMarkBeforeEnd = function(episode) {
             return $scope.markingAsWatched && $scope.hasAired(episode) && parseInt($scope.markUntilIndex) >= parseInt(episode.episodenumber, 10);
-        }
+        };
 
         $scope.stopMarkingAsWatched = function() {
             $scope.markingAsWatched = false;
-        }
+        };
 
         $scope.getSearchString = function(serie, episode) {
             var serieName = SceneNameResolver.getSceneName(serie.TVDB_ID) || serie.name;
             return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + $scope.getEpisodeNumber(episode) + ' ' + SettingsService.get('torrenting.searchquality');
-        }
+        };
 
         $scope.getEpisodeNumber = function(episode) {
             var sn = episode.seasonnumber.toString(),
                 en = episode.episodenumber.toString(),
                 out = ['S', sn.length == 1 ? '0' + sn : sn, 'E', en.length == 1 ? '0' + en : en].join('');
             return out;
-        }
+        };
 
         $scope.getSortEpisodeNumber = function(episode) {
             var sn = episode.seasonnumber.toString(),
                 en = episode.episodenumber.toString(),
                 out = ['S', sn.length == 1 ? '0' + sn : sn, 'E', en.length == 1 ? '00' + en : en.length == 2 ? '0' + en : en].join('');
             return out;
-        }
-
+        };
 
         $scope.tvRageSync = function(serie, episodes) {
             TVRageSyncService.syncEpisodes(serie, episodes);
-        }
+        };
 
         $scope.searchSeason = function(serie, season, $event) {
             TorrentDialog.search(serie.name + ' season ' + season.seasonnumber);
-        }
+        };
 
         $scope.markRangeWatchedStart = function() {
             $scope.markingAsWatched = true;
-        }
+        };
+        
+        $scope.translateDayOfWeek = function(dayofweek) {
+            /*
+             * takes the English day of the week (as fetched from TrakTV) and presents it in a format that allows for language translation 
+             */
+            return $filter('date')(daysOfWeekDates[daysOfWeekWords.indexOf(dayofweek)],'EEEE');
+        };
 
     })
