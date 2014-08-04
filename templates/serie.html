@@ -3,7 +3,7 @@
 <div class="row serie">
   <div class="col-md-6">
 
-    <alert ng-if="markingAsWatched" type="alert.type" close="stopMarkingAsWatched()">{{'SERIE/mark-range/desc'|translate}}</alert>
+    <alert ng-if="markingAsWatched" type="alert.type" close="stopMarkingAsWatched()" style="white-space:normal">{{'SERIE/mark-range/desc'|translate}}</alert>
 
     <table class="table table-condensed light" ng-class="{markingaswatched: markingAsWatched }" style='border: 1px solid #efefef; border-collapse:collapse; margin-top:20px;'>
       <tbody ng-if="episodes.length == 0">
