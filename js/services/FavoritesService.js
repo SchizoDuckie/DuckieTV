@@ -18,8 +18,8 @@ angular.module('DuckieTV.providers.favorites', [])
             'imdb_id': 'IMDB_ID',
             'certification': 'contentrating',
             'title': 'name',
-            'air_day': 'airs_dayofweek',
-            'air_time': 'airs_time',
+            'air_day_utc': 'airs_dayofweek',
+            'air_time_utc': 'airs_time',
             'country': 'language'
         }
         for (var i in data) {
@@ -29,7 +29,7 @@ angular.module('DuckieTV.providers.favorites', [])
                 serie.set('banner', data[i].banner);
             }
             if (i == 'first_aired') {
-                serie.set('firstaired', data.first_aired * 1000);
+                serie.set('firstaired', data.first_aired_utc * 1000);
             } else if (i == 'ratings') {
                 serie.set('rating', data.ratings.percentage);
                 serie.set('ratingcount', data.ratings.votes);
