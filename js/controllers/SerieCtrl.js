@@ -2,7 +2,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
 .controller('SerieCtrl',
 
-    function(FavoritesService, SettingsService, SceneNameResolver, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter, $q) {
+    function(FavoritesService, SettingsService, SceneNameResolver, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter, $q, $locale) {
         $scope.episodes = [];
         $scope.episodeEntities = [];
         $scope.points = [];
@@ -18,25 +18,15 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
         $scope.searching = false;
         var currentDate = new Date();
         var allSeasons = [];
-        // used by translateDayOfWeek(), a couple arrays representing days of the week in date and word format, starting with unix epoch date (Thursday)
-        var daysOfWeekDates = [
-            new Date('1-Jan-1970'),
-            new Date('2-Jan-1970'),
-            new Date('3-Jan-1970'),
-            new Date('4-Jan-1970'),
-            new Date('5-Jan-1970'),
-            new Date('6-Jan-1970'),
-            new Date('7-Jan-1970')
-        ];
         var daysOfWeekWords = [
-            'Thursday',
-            'Friday',
-            'Saturday',
             'Sunday',
             'Monday',
             'Tuesday',
-            'Wednesday'
-        ];
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday'
+        ]; // used by translateDayOfWeek()
 
         function fetchEpisodes(season) {
             if (!season) return;
@@ -168,12 +158,12 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
         $scope.markRangeWatchedStart = function() {
             $scope.markingAsWatched = true;
         };
-        
+
         $scope.translateDayOfWeek = function(dayofweek) {
             /*
              * takes the English day of the week (as fetched from TrakTV) and presents it in a format that allows for language translation 
              */
-            return $filter('date')(daysOfWeekDates[daysOfWeekWords.indexOf(dayofweek)],'EEEE');
+            return $locale.DATETIME_FORMATS.DAY[daysOfWeekWords.indexOf(dayofweek)];
         };
 
     })
