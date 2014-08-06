@@ -177,6 +177,7 @@
     "SERIE/name/hdr": "名前 ",
     "SERIE/watched/lbl": "監視 ",
     "SERIECTRLjs/genre/list":"アクション,冒険,アニメーション,子どもたち,コメディ,犯罪,ドキュメンタリー,ドラマ,家族,ファンタジー,食品,テレビ放映ゲームショー,ホーム＆ガーデン,ホラー,ミニシリーズ,謎,ニュース,全くジャンルない,現実のもの,ロマンス,サイエンスフィクション,せっけん,スペシャル·インタレスト,スポーツ,サスペンス,トークショー,スリラー,旅行,西部の",
+    "SERIECTRLjs/status/list": "連続する,終了",
     "SERIEDETAILS/actors/hdr": "俳優 ",
     "SERIEDETAILS/airs-on/hdr": "現在でプレー",
     "SERIEDETAILS/click-to-see/lbl": "（エピソードや評価を見るにはクリックしてください） ",

@@ -177,6 +177,7 @@
     "SERIE/name/hdr": "Name ",
     "SERIE/watched/lbl": "Gesehen ",
     "SERIECTRLjs/genre/list":"Aktion,Abenteuer,Animation,Kinder,Komödie,Kriminalität,Dokumentarfilm,Drama,Familie,Fantasie,Lebensmittel,Fernsehspielshow,Haus und Garten,Horror,Mini-Serie,Geheimnis,Nachrichten,kein Genre,Realität,Romantik,Science-Fiction,Seife,Besonderes Interesse,Sport,Spannung,Talkshow,Thriller,Reise,Westlich",
+    "SERIECTRLjs/status/list": "fortgesetzt,beendet",
     "SERIEDETAILS/actors/hdr": "Schauspieler ",
     "SERIEDETAILS/airs-on/hdr": "Derzeit zeigt um",
     "SERIEDETAILS/click-to-see/lbl": "(Klicken Sie auf Episoden und Bewertungen zu sehen) ",

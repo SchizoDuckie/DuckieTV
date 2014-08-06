@@ -177,6 +177,7 @@
     "SERIE/name/hdr": "Naam",
     "SERIE/watched/lbl": "Gezien",
     "SERIECTRLjs/genre/list":"actie,avontuur,animatie,kinderen,komedie,misdaad,documentaire,drama,familie,fantasie,voedsel,televisie spelshow,huis en tuin,horror,minireeks,mysterie,nieuws,geen genre,werkelijkheid,romantiek,science fiction,zeep,speciale interesse,sporten,suspense,praatprogramma,thriller,reizen,westelijke",
+    "SERIECTRLjs/status/list": "voortdurende,eindigde",
     "SERIEDETAILS/actors/hdr": "Acteurs",
     "SERIEDETAILS/airs-on/hdr": "Op dit moment het spelen op",
     "SERIEDETAILS/click-to-see/lbl": "(Klik om afleveringen en beoordelingen te zien)",

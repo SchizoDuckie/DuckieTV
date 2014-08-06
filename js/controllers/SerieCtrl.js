@@ -18,7 +18,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
         $scope.searching = false;
         var currentDate = new Date();
         var allSeasons = [];
-        var daysOfWeekWords = [
+        var daysOfWeekList = [
             'Sunday',
             'Monday',
             'Tuesday',
@@ -60,6 +60,12 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
         ]; // used by translateGenre()
         var rawTranslatedGenreList = $filter('translate')('SERIECTRLjs/genre/list');
         var translatedGenreList = rawTranslatedGenreList.split(',');
+        var statusList = [
+            'Continuing',
+            'Ended'
+        ]; // used by translateStatus()
+        var rawTranslatedStatusList = $filter('translate')('SERIECTRLjs/status/list');
+        var translatedStatusList = rawTranslatedStatusList.split(',');
 
         function fetchEpisodes(season) {
             if (!season) return;
@@ -194,15 +200,22 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
         $scope.translateDayOfWeek = function(dayofweek) {
             /*
-             * takes the English day of the week (as fetched from TrakTV) and returns a translation
+             * takes the English day of the week (as fetched from TraktTV) and returns a translation
              */
-            return $locale.DATETIME_FORMATS.DAY[daysOfWeekWords.indexOf(dayofweek)];
+            return $locale.DATETIME_FORMATS.DAY[daysOfWeekList.indexOf(dayofweek)];
         };
 
         $scope.translateGenre = function(genre) {
             /*
-             * takes the English genre (as fetched from TrakTV) and returns a translation 
+             * takes the English genre (as fetched from TraktTV) and returns a translation 
              */
             return (genreList.indexOf(genre) != -1) ? translatedGenreList[genreList.indexOf(genre)] : genre;
+        };
+
+        $scope.translateStatus = function(status) {
+            /*
+             * takes the English status (as fetched from TraktTV) and returns a translation 
+             */
+            return (statusList.indexOf(status) != -1) ? translatedStatusList[statusList.indexOf(status)] : status;
         };
     })
