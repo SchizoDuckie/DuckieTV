@@ -113,7 +113,7 @@ angular.module('DuckieTV.controllers.about', [])
             name: 'Torrenting Auto-Download Active',
             data: SettingsService.get('torrenting.autodownload')
         }, {
-            name: 'TrakTV Sync Enabled',
+            name: 'TraktTV Sync Enabled',
              data: SettingsService.get('trakttv.sync')
         }, {
             name: 'Storage Sync Supported',
