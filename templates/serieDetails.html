@@ -38,7 +38,7 @@
         <th>{{'SERIEDETAILS/genre/hdr'|translate}}</th>
         <td>
           <ul class="list-unstyled">
-            <li ng-repeat="genre in serie.genre.split('|') track by $index">{{genre}}</li>
+            <li ng-repeat="genre in serie.genre.split('|') track by $index">{{translateGenre(genre)}}</li>
           </ul>
         </td>
       </tr>
