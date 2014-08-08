@@ -137,23 +137,31 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
     };
 
     $rootScope.$on('episode:marked:watched', function(event, data) {
-        service.setEvents([{ 
-            start: new Date(data.get('firstaired')),
-            serie: data.get('ID_Serie').get('name'),
-            serieID: data.get('ID_Serie').get('TVDB_ID'),
-            episodeID: data.get('TVDB_ID'),
-            episode: data.asObject() 
-        }]);       
+        CRUD.FindOne('Serie', {
+            ID_Serie: data.get('ID_Serie')
+        }).then(function(s) {
+            service.setEvents([{ 
+                start: new Date(data.get('firstaired')),
+                serie: s.get('name'),
+                serieID: s.get('TVDB_ID'),
+                episodeID: data.get('TVDB_ID'),
+                episode: data 
+            }]);
+        });
     });
 
     $rootScope.$on('episode:marked:notwatched', function(event, data) {
-        service.setEvents([{ 
-            start: new Date(data.get('firstaired')),
-            serie: data.get('ID_Serie').get('name'),
-            serieID: data.get('ID_Serie').get('TVDB_ID'),
-            episodeID: data.get('TVDB_ID'),
-            episode: data.asObject() 
-        }]);       
+        CRUD.FindOne('Serie', {
+            ID_Serie: data.get('ID_Serie')
+        }).then(function(s) {
+            service.setEvents([{ 
+                start: new Date(data.get('firstaired')),
+                serie: s.get('name'),
+                serieID: s.get('TVDB_ID'),
+                episodeID: data.get('TVDB_ID'),
+                episode: data
+            }]);
+        });
     });
 
      /**
