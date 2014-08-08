@@ -176,6 +176,8 @@
     "SERIE/mark-range/desc": "Du är nu i intervall-läget. Klicka på ett avsnitt för att ställa in det som det sista avsnittet som du har sett. Alla episoder fram till och med det kommer att markeras som tittade. Avfärda denna anmälan ",
     "SERIE/name/hdr": "Namn ",
     "SERIE/watched/lbl": "sett ",
+    "SERIECTRLjs/genre/list":"åtgärd,äventyr,animering,barn,komedi,brott,dokumentärfilm,dramatik,familj,fantasi,mat,TV spelet visar,hem och trädgård,fasa,mini serie,gåta,nyheter,ingen genre,verklighet,romantik,science fiction,tvål,särskilt intresse,idrott,spänning,pratprogram,thrillern,resor,västra",
+    "SERIECTRLjs/status/list": "fortsatta,avslutades",
     "SERIEDETAILS/actors/hdr": "Skådespelare ",
     "SERIEDETAILS/airs-on/hdr": "Spelar just nu vid",
     "SERIEDETAILS/click-to-see/lbl": "(Klicka för att se episoder och betyg) ",

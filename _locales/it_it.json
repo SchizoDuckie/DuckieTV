@@ -176,6 +176,8 @@
     "SERIE/mark-range/desc": "Ora sei in modalità di selezione gamma. Clicca su un episodio per impostare che, come l'ultimo episodio che hai guardato. Tutti gli episodi fino ad includere che sarà contrassegnato come visto. Dismiss this notification",
     "SERIE/name/hdr": "Nome",
     "SERIE/watched/lbl": "Visti",
+    "SERIECTRLjs/genre/list":"azione,avventura,animazione,bambini,commedia,crimine,documentario,dramma,famiglia,fantasia,cibo,spettacolo di gioco,casa e giardino,orrore,mini serie,mistero,notizie,nessun genere,realtà,romanticismo,fantascienza,sapone,interesse speciale,sport,suspense,talk show,thriller,viaggio,occidentale",
+    "SERIECTRLjs/status/list": "continuando,finito",
     "SERIEDETAILS/actors/hdr": "Attori",
     "SERIEDETAILS/airs-on/hdr": "Attualmente disputa alle",
     "SERIEDETAILS/click-to-see/lbl": "(Clicca per vedere episodi e valutazioni)",
