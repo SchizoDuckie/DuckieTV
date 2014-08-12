@@ -6,27 +6,26 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
  *  
  * For API docs: check here: http://trakt.tv/api-docs
  */
-.provider('TraktTV', function() {
-    this.http = null;
-    this.promise = null;
-    this.activeRequest = null;
-    this.batchmode = true;
+.factory('TraktTV', function(SettingsService, $q, $http, $rootScope) {
+   
+	var batchMode = false;
+	var activeRequest = false;
 
-    this.endpoints = {
-        series: 'http://api.trakt.tv/search/shows.json/32e05d4138adb5da5b702b362bd21c52?query=%s',
-        season: 'http://api.trakt.tv/show/seasons.json/32e05d4138adb5da5b702b362bd21c52/%s',
-        episode: 'http://api.trakt.tv/show/season.json/32e05d4138adb5da5b702b362bd21c52/%s/%s',
-        seriebyid: 'http://api.trakt.tv/show/summary.json/32e05d4138adb5da5b702b362bd21c52/%s/extended',
-        trending: 'https://api.trakt.tv/shows/trending.json/32e05d4138adb5da5b702b362bd21c52',
-        userShows: 'https://api.trakt.tv/user/library/shows/all.json/32e05d4138adb5da5b702b362bd21c52/%s',
-        userWatched: 'https://api.trakt.tv/user/library/shows/watched.json/32e05d4138adb5da5b702b362bd21c52/%s/true',
-        userSuggestions: 'http://api.trakt.tv/recommendations/shows/32e05d4138adb5da5b702b362bd21c52',
-        episodeSeen: 'https://api.trakt.tv/show/episode/seen/32e05d4138adb5da5b702b362bd21c52', // https://trakt.tv/api-docs/show-episode-seen
-        episodeUnseen: 'https://api.trakt.tv/show/episode/unseen/32e05d4138adb5da5b702b362bd21c52', // https://trakt.tv/api-docs/show-episode-seen
-        addToLibrary: 'https://api.trakt.tv/show/library/32e05d4138adb5da5b702b362bd21c52'
+    var endpoints = {
+        series: 'http://api.trakt.tv/search/shows.json/dc6cdb4bcbc5cb9f2b666202a10353d6?query=%s',
+        season: 'http://api.trakt.tv/show/seasons.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s',
+        episode: 'http://api.trakt.tv/show/season.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s/%s',
+        seriebyid: 'http://api.trakt.tv/show/summary.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s/extended',
+        trending: 'https://api.trakt.tv/shows/trending.json/dc6cdb4bcbc5cb9f2b666202a10353d6',
+        userShows: 'https://api.trakt.tv/user/library/shows/all.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s',
+        userWatched: 'https://api.trakt.tv/user/library/shows/watched.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s/true',
+        userSuggestions: 'http://api.trakt.tv/recommendations/shows/dc6cdb4bcbc5cb9f2b666202a10353d6',
+        episodeSeen: 'https://api.trakt.tv/show/episode/seen/dc6cdb4bcbc5cb9f2b666202a10353d6', // https://trakt.tv/api-docs/show-episode-seen
+        episodeUnseen: 'https://api.trakt.tv/show/episode/unseen/dc6cdb4bcbc5cb9f2b666202a10353d6', // https://trakt.tv/api-docs/show-episode-seen
+        addToLibrary: 'https://api.trakt.tv/show/library/dc6cdb4bcbc5cb9f2b666202a10353d6'
     };
 
-    this.parsers = {
+    var parsers = {
         /** 
          * When the series lists are fetched, put the poster / banner / fanart properties on the main
          * object instead of inside data.images. This makes sure that the API between the CRUD entity and the
@@ -52,16 +51,16 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
     /** 
      * Get one of the urls from the endpoint and replace the parameters in it when provided.
      */ 
-    this.getUrl = function(type, param, param2) {
-        var out = this.endpoints[type].replace('%s', encodeURIComponent(param));
+    var getUrl = function(type, param, param2) {
+        var out = endpoints[type].replace('%s', encodeURIComponent(param));
         return (param2 !== undefined) ? out.replace('%s ', encodeURIComponent(param2)) : out;
     };
 
     /** 
      * If a customized parser is available for the data, run it through that.
      */
-    this.getParser = function(type) {
-        return type in this.parsers ? this.parsers[type] : function(data) {
+    var getParser = function(type) {
+        return type in parsers ? parsers[type] : function(data) {
             return data.data;
         };
     };
@@ -71,17 +70,17 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
      * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple 
      * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
      */
-    this.promiseRequest = function(type, param, param2) {
-        if (this.activeRequest && !this.batchmode) {
-            this.activeRequest.resolve();
+    var promiseRequest = function(type, param, param2) {
+        if (activeRequest && !batchmode) {
+            activeRequest.resolve();
         }
-        var d = this.promise.defer();
-        var url = this.getUrl(type, param, param2);
-        var parser = this.getParser(type);
-        this.activeRequest = this.promise.defer();
-        this.http.get(url, {
+        var d = $q.defer();
+        var url = getUrl(type, param, param2);
+        var parser = getParser(type);
+        activeRequest = $q.defer();
+        $http.get(url, {
             cache: true,
-            timeout: this.activeRequest.promise
+            timeout: activeRequest.promise
         }).then(function(response) {
             d.resolve(parser(response));
         }, function(err) {
@@ -91,64 +90,77 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
         return d.promise;
     };
 
-
-    this.$get = function($q, $http, $rootScope, SettingsService) {
-        var self = this;
-        self.http = $http;
-        self.promise = $q;
-        return {
-            /** 
+    var service = {
+    	   /** 
              * enableBatchMode makes sure previous request are not aborted.
              * Batch mode is required to be turned on for FavoritesService operations
              * and batch imports, so that the previous requests can finish and all the promises
              * will run.
              */
             enableBatchMode: function() {
-                self.batchmode = true;
-                return self.$get($q, $http);
+                batchmode = true;
+                return service;
             },
             /** 
              * disableBatchMode turns off batch mode and makes sure previous active requests are
              * terminated before starting the next.
              */
             disableBatchMode: function() {
-                self.batchmode = false;
-                return self.$get($q, $http);
+                batchmode = false;
+                return service;
             },
             /** 
              * Search Trakt.TV for series info by name
              * http://trakt.tv/api-docs/search-shows
              */
             findSeries: function(name) {
-                return self.promiseRequest('series', name);
+                return promiseRequest('series', name);
             },
             /** 
              * Fetch full series info from trakt.tv by TVDB_ID
              * http://trakt.tv/api-docs/show-summary
              */
             findSerieByTVDBID: function(TVDB_ID) {
-                return self.promiseRequest('seriebyid', TVDB_ID);
+                return promiseRequest('seriebyid', TVDB_ID);
             },
             /** 
              * Fetch trending shows from trakt.tv
              * http://trakt.tv/api-docs/shows-trending
              */
             findTrending: function() {
-                return self.promiseRequest('trending', '');
+                return promiseRequest('trending', '');
             },
             /** 
              * Fetch all shows in a user's library. 
              * http://trakt.tv/api-docs/user-library-shows-all
              */
             getUserShows: function(username) {
-                return self.promiseRequest('userShows', username);
+            	return $http.post(getUrl('userShows', username), {
+            		"username": SettingsService.get('trakttv.username'),
+                    "password": SettingsService.get('trakttv.passwordHash'),
+            	}).then(function(result) {
+                    console.log("TraktTV user shows retrieved!", result);
+                    result.data.map(function(show) {
+                        show.poster = show.images.poster;
+                    });
+                    return result.data;
+                });
             },
             /** 
              * Fetch all episodes that were marked as watched foor the user
              * http://trakt.tv/api-docs/user-library-shows-watched
              */
             getUserWatched: function(username) {
-                return self.promiseRequest('userWatched', username);
+               return $http.post(getUrl('userWatched', username), {
+            		"username": SettingsService.get('trakttv.username'),
+                    "password": SettingsService.get('trakttv.passwordHash'),
+            	}).then(function(result) {
+                    console.log("TraktTV user watched retrieved!", result);
+                    result.data.map(function(show) {
+                        show.poster = show.images.poster;
+                    });
+                   return result.data;
+                });
             },
             /** 
              * Fetch suggestions based on a user's library.
@@ -156,7 +168,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
              * http://trakt.tv/api-docs/recommendations-shows
              */
             getUserSuggestions: function() {
-                return $http.post(self.endpoints.userSuggestions, {
+                return $http.post(endpoints.userSuggestions, {
                     "username": SettingsService.get('trakttv.username'),
                     "password": SettingsService.get('trakttv.passwordHash'),
                 }).then(function(result) {
@@ -177,7 +189,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
                 var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
                 
-                $http.post(self.endpoints.episodeSeen, {
+                $http.post(endpoints.episodeSeen, {
                     "username": SettingsService.get('trakttv.username'),
                     "password": SettingsService.get('trakttv.passwordHash'),
                     "tvdb_id": s,
@@ -199,7 +211,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
                 var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
               
-                $http.post(self.endpoints.episodeUnseen, {
+                $http.post(endpoints.episodeUnseen, {
                     "username": SettingsService.get('trakttv.username'),
                     "password": SettingsService.get('trakttv.passwordHash'),
                     "tvdb_id": s,
@@ -216,7 +228,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
              * http://trakt.tv/api-docs/show-library
              */
             addToLibrary: function(serieTVDB_ID) {
-                $http.post(self.endpoints.addToLibrary, {
+                $http.post(endpoints.addToLibrary, {
                     "username": SettingsService.get('trakttv.username'),
                     "password": SettingsService.get('trakttv.passwordHash'),
                     "tvdb_id": serieTVDB_ID,
@@ -225,8 +237,8 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 })
             }
         };
-    };
-
+    
+        return service;
 })
 
 /** 
