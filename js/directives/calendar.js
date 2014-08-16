@@ -137,31 +137,19 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
     };
 
     $rootScope.$on('episode:marked:watched', function(event, data) {
-        CRUD.FindOne('Serie', {
-            ID_Serie: data.get('ID_Serie')
-        }).then(function(s) {
-            service.setEvents([{ 
-                start: new Date(data.get('firstaired')),
-                serie: s.get('name'),
-                serieID: s.get('TVDB_ID'),
-                episodeID: data.get('TVDB_ID'),
-                episode: data 
-            }]);
-        });
+        service.setEvents([{ 
+            start: new Date(data.get('firstaired')),
+            episodeID: data.get('TVDB_ID'),
+            episode: data 
+        }]);
     });
 
     $rootScope.$on('episode:marked:notwatched', function(event, data) {
-        CRUD.FindOne('Serie', {
-            ID_Serie: data.get('ID_Serie')
-        }).then(function(s) {
-            service.setEvents([{ 
-                start: new Date(data.get('firstaired')),
-                serie: s.get('name'),
-                serieID: s.get('TVDB_ID'),
-                episodeID: data.get('TVDB_ID'),
-                episode: data
-            }]);
-        });
+        service.setEvents([{ 
+            start: new Date(data.get('firstaired')),
+            episodeID: data.get('TVDB_ID'),
+            episode: data
+        }]);
     });
 
      /**
