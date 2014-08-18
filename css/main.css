@@ -276,6 +276,26 @@ serieheader em.earmark {
 serieheader em.earmark.adding{
     background-color: rgba(236,210,70, 0.8);
 }
+serieheader em.earmark-cog {
+    position: absolute;
+    top: -4px;
+    right: 0px;
+    color: white;
+    font-size: 16px;
+    padding: 2px;
+    background-color: rgba(0,0,0,0.6);
+    display: none;
+}
+serieheader:hover em.earmark-cog {
+    display: inherit;
+}
+serieheader em.earmark-cog .glyphicon-cog {
+    opacity: 0.6;
+    top: 3px;
+}
+serieheader em.earmark-cog .glyphicon-cog:hover {
+    opacity: 1;
+}
 
 series-list {
     position: fixed;
