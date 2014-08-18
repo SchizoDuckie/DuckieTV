@@ -67,7 +67,9 @@
           <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search"></serieHeader>
         </div>
         <div class="series" ng-if="activated && !searchingForSerie && mode == 'poster'">
-          <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader>
+          <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster">
+           <em class="earmark-cog"><span class="glyphicon glyphicon-cog"></span></em>
+          </serieHeader>
         </div>
         <div class="series" ng-if="activated && !searchingForSerie && mode == 'banner'">
           <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader>
