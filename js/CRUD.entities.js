@@ -11,12 +11,12 @@ var Serie = CRUD.define({
     className: 'Serie',
     table: 'Series',
     primary: 'ID_Serie',
-    fields: ['ID_Serie', 'name', 'banner', 'overview', 'TVDB_ID', 'IMDB_ID', 'TVRage_ID', 'networkid', 'seriesid', 'zap2it_id', 'actors', 'airs_dayofweek', 'airs_time', 'contentrating', 'firstaired', 'genre', 'language', 'network', 'rating', 'ratingcount', 'runtime', 'status', 'added', 'addedby', 'fanart', 'poster', 'lastupdated', 'lastfetched', 'nextupdate'],
+    fields: ['ID_Serie', 'name', 'banner', 'overview', 'TVDB_ID', 'IMDB_ID', 'TVRage_ID', 'networkid', 'seriesid', 'zap2it_id', 'actors', 'airs_dayofweek', 'airs_time', 'contentrating', 'firstaired', 'genre', 'language', 'network', 'rating', 'ratingcount', 'runtime', 'status', 'added', 'addedby', 'fanart', 'poster', 'lastupdated', 'lastfetched', 'nextupdate', 'allEpsWatched'],
     relations: {
         'Episode': CRUD.RELATION_FOREIGN,
         'Season': CRUD.RELATION_FOREIGN
     },
-    createStatement: 'CREATE TABLE "Series" ("ID_Serie" INTEGER PRIMARY KEY NOT NULL,  "name" VARCHAR(250) DEFAULT(NULL),  "banner" VARCHAR(1024) DEFAULT(NULL),  "overview" TEXT DEFAULT(NULL),  "TVDB_ID" INTEGER UNIQUE NOT NULL,  "IMDB_ID" INTEGER DEFAULT(NULL),  "TVRage_ID" INTEGER DEFAULT(NULL),  "networkid" VARCHAR(50) DEFAULT(NULL),  "seriesid" VARCHAR(50) DEFAULT(NULL),  "zap2it_id" VARCHAR(50) DEFAULT(NULL),  "actors" VARCHAR(1024) DEFAULT(NULL),  "airs_dayofweek" VARCHAR(10) DEFAULT(NULL),  "airs_time" VARCHAR(15) DEFAULT(NULL),  "contentrating" VARCHAR(20) DEFAULT(NULL),  "firstaired" DATE DEFAULT(NULL),  "genre" VARCHAR(50) DEFAULT(NULL),  "language" VARCHAR(50) DEFAULT(NULL),  "network" VARCHAR(50) DEFAULT(NULL),  "rating" INTEGER DEFAULT(NULL),  "ratingcount" INTEGER DEFAULT(NULL),  "runtime" INTEGER DEFAULT(NULL),  "status" VARCHAR(50) DEFAULT(NULL),  "added" DATE DEFAULT(NULL),  "addedby" VARCHAR(50) DEFAULT(NULL),  "fanart" VARCHAR(150) DEFAULT(NULL),  "poster" VARCHAR(150) DEFAULT(NULL),  "lastupdated" TIMESTAMP DEFAULT (NULL),  "lastfetched" TIMESTAMP DEFAULT (NULL),  "nextupdate" TIMESTAMP DEFAULT (NULL) )',
+    createStatement: 'CREATE TABLE Series (ID_Serie INTEGER PRIMARY KEY NOT NULL,  name VARCHAR(250) DEFAULT(NULL),  banner VARCHAR(1024) DEFAULT(NULL),  overview TEXT DEFAULT(NULL),  TVDB_ID INTEGER UNIQUE NOT NULL,  IMDB_ID INTEGER DEFAULT(NULL),  TVRage_ID INTEGER DEFAULT(NULL),  networkid VARCHAR(50) DEFAULT(NULL),  seriesid VARCHAR(50) DEFAULT(NULL),  zap2it_id VARCHAR(50) DEFAULT(NULL),  actors VARCHAR(1024) DEFAULT(NULL),  airs_dayofweek VARCHAR(10) DEFAULT(NULL),  airs_time VARCHAR(15) DEFAULT(NULL),  contentrating VARCHAR(20) DEFAULT(NULL),  firstaired DATE DEFAULT(NULL),  genre VARCHAR(50) DEFAULT(NULL),  language VARCHAR(50) DEFAULT(NULL),  network VARCHAR(50) DEFAULT(NULL),  rating INTEGER DEFAULT(NULL),  ratingcount INTEGER DEFAULT(NULL),  runtime INTEGER DEFAULT(NULL),  status VARCHAR(50) DEFAULT(NULL),  added DATE DEFAULT(NULL),  addedby VARCHAR(50) DEFAULT(NULL),  fanart VARCHAR(150) DEFAULT(NULL),  poster VARCHAR(150) DEFAULT(NULL),  lastupdated TIMESTAMP DEFAULT(NULL),  lastfetched TIMESTAMP DEFAULT(NULL),  nextupdate TIMESTAMP DEFAULT(NULL),  allEpsWatched TINYINT DEFAULT(0) )',
     adapter: 'dbAdapter',
     defaultValues: {
 
@@ -29,8 +29,13 @@ var Serie = CRUD.define({
         3: ['UPDATE Series set fanart =  "http://www.thetvdb.com/banners/" || Series.fanart'],
         4: [
             'ALTER TABLE Series RENAME TO Series_bak',
-            'CREATE TABLE "Series" ("ID_Serie" INTEGER PRIMARY KEY NOT NULL,  "name" VARCHAR(250) DEFAULT(NULL),  "banner" VARCHAR(1024) DEFAULT(NULL),  "overview" TEXT DEFAULT(NULL),  "TVDB_ID" INTEGER UNIQUE NOT NULL,  "IMDB_ID" INTEGER DEFAULT(NULL),  "TVRage_ID" INTEGER DEFAULT(NULL),  "networkid" VARCHAR(50) DEFAULT(NULL),  "seriesid" VARCHAR(50) DEFAULT(NULL),  "zap2it_id" VARCHAR(50) DEFAULT(NULL),  "actors" VARCHAR(1024) DEFAULT(NULL),  "airs_dayofweek" VARCHAR(10) DEFAULT(NULL),  "airs_time" VARCHAR(15) DEFAULT(NULL),  "contentrating" VARCHAR(20) DEFAULT(NULL),  "firstaired" DATE DEFAULT(NULL),  "genre" VARCHAR(50) DEFAULT(NULL),  "language" VARCHAR(50) DEFAULT(NULL),  "network" VARCHAR(50) DEFAULT(NULL),  "rating" INTEGER DEFAULT(NULL),  "ratingcount" INTEGER DEFAULT(NULL),  "runtime" INTEGER DEFAULT(NULL),  "status" VARCHAR(50) DEFAULT(NULL),  "added" DATE DEFAULT(NULL),  "addedby" VARCHAR(50) DEFAULT(NULL),  "fanart" VARCHAR(150) DEFAULT(NULL),  "poster" VARCHAR(150) DEFAULT(NULL),  "lastupdated" TIMESTAMP DEFAULT (NULL),  "lastfetched" TIMESTAMP DEFAULT (NULL),  "nextupdate" TIMESTAMP DEFAULT (NULL) )',
+            'CREATE TABLE "Series" ("ID_Serie" INTEGER PRIMARY KEY NOT NULL,  "name" VARCHAR(250) DEFAULT(NULL),  "banner" VARCHAR(1024) DEFAULT(NULL),  "overview" TEXT DEFAULT(NULL),  "TVDB_ID" INTEGER UNIQUE NOT NULL,  "IMDB_ID" INTEGER DEFAULT(NULL),  "TVRage_ID" INTEGER DEFAULT(NULL),  "networkid" VARCHAR(50) DEFAULT(NULL),  "seriesid" VARCHAR(50) DEFAULT(NULL),  "zap2it_id" VARCHAR(50) DEFAULT(NULL),  "actors" VARCHAR(1024) DEFAULT(NULL),  "airs_dayofweek" VARCHAR(10) DEFAULT(NULL),  "airs_time" VARCHAR(15) DEFAULT(NULL),  "contentrating" VARCHAR(20) DEFAULT(NULL),  "firstaired" DATE DEFAULT(NULL),  "genre" VARCHAR(50) DEFAULT(NULL),  "language" VARCHAR(50) DEFAULT(NULL),  "network" VARCHAR(50) DEFAULT(NULL),  "rating" INTEGER DEFAULT(NULL),  "ratingcount" INTEGER DEFAULT(NULL),  "runtime" INTEGER DEFAULT(NULL),  "status" VARCHAR(50) DEFAULT(NULL),  "added" DATE DEFAULT(NULL),  "addedby" VARCHAR(50) DEFAULT(NULL),  "fanart" VARCHAR(150) DEFAULT(NULL),  "poster" VARCHAR(150) DEFAULT(NULL),  "lastupdated" TIMESTAMP DEFAULT(NULL),  "lastfetched" TIMESTAMP DEFAULT(NULL),  "nextupdate" TIMESTAMP DEFAULT(NULL) )',
             'INSERT OR IGNORE INTO Series (ID_Serie, name, banner, overview, TVDB_ID, IMDB_ID, TVRage_ID, networkid, seriesid, zap2it_id, actors, airs_dayofweek, airs_time, contentrating, firstaired, genre, language, network, rating, ratingcount, runtime, status, added, addedby, fanart, poster, lastupdated, lastfetched, nextupdate) select ID_Serie, name, banner, overview, TVDB_ID, IMDB_ID, TVRage_ID, networkid, seriesid, zap2it_id, actors, airs_dayofweek, airs_time, contentrating, firstaired, genre, language, network, rating, ratingcount, runtime, status, added, addedby, fanart, poster, lastupdated, lastfetched, nextupdate from Series_bak',
+            'DROP TABLE Series_bak'],
+        5: [
+            'ALTER TABLE Series RENAME TO Series_bak',
+            'CREATE TABLE Series ( ID_Serie INTEGER PRIMARY KEY NOT NULL,  name VARCHAR(250) DEFAULT(NULL),  banner VARCHAR(1024) DEFAULT(NULL),  overview TEXT DEFAULT(NULL),  TVDB_ID INTEGER UNIQUE NOT NULL,  IMDB_ID INTEGER DEFAULT(NULL),  TVRage_ID INTEGER DEFAULT(NULL),  networkid VARCHAR(50) DEFAULT(NULL),  seriesid VARCHAR(50) DEFAULT(NULL),  zap2it_id VARCHAR(50) DEFAULT(NULL),  actors VARCHAR(1024) DEFAULT(NULL),  airs_dayofweek VARCHAR(10) DEFAULT(NULL),  airs_time VARCHAR(15) DEFAULT(NULL),  contentrating VARCHAR(20) DEFAULT(NULL),  firstaired DATE DEFAULT(NULL),  genre VARCHAR(50) DEFAULT(NULL),  language VARCHAR(50) DEFAULT(NULL),  network VARCHAR(50) DEFAULT(NULL),  rating INTEGER DEFAULT(NULL),  ratingcount INTEGER DEFAULT(NULL),  runtime INTEGER DEFAULT(NULL),  status VARCHAR(50) DEFAULT(NULL),  added DATE DEFAULT(NULL),  addedby VARCHAR(50) DEFAULT(NULL),  fanart VARCHAR(150) DEFAULT(NULL),  poster VARCHAR(150) DEFAULT(NULL),  lastupdated TIMESTAMP DEFAULT(NULL),  lastfetched TIMESTAMP DEFAULT(NULL),  nextupdate TIMESTAMP DEFAULT(NULL),  allEpsWatched TINYINT DEFAULT (0) )',
+            'INSERT OR IGNORE INTO Series ( ID_Serie, name, banner, overview, TVDB_ID, IMDB_ID, TVRage_ID, networkid, seriesid, zap2it_id, actors, airs_dayofweek, airs_time, contentrating, firstaired, genre, language, network, rating, ratingcount, runtime, status, added, addedby, fanart, poster, lastupdated, lastfetched, nextupdate ) select ID_Serie, name, banner, overview, TVDB_ID, IMDB_ID, TVRage_ID, networkid, seriesid, zap2it_id, actors, airs_dayofweek, airs_time, contentrating, firstaired, genre, language, network, rating, ratingcount, runtime, status, added, addedby, fanart, poster, lastupdated, lastfetched, nextupdate from Series_bak',
             'DROP TABLE Series_bak'
         ]
     }
@@ -66,16 +71,29 @@ var Season = CRUD.define({
     className: 'Season',
     table: 'Seasons',
     primary: 'ID_Season',
-    fields: ['ID_Season', 'ID_Serie', 'poster', 'seasonnumber'],
+    fields: ['ID_Season', 'ID_Serie', 'poster', 'seasonnumber', 'allEpsWatched'],
     relations: {
         'Serie': CRUD.RELATION_FOREIGN,
         'Episode': CRUD.RELATION_FOREIGN
     },
     orderProperty: 'seasonnumber',
     orderDirection: 'DESC',
-    createStatement: 'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER)',
+    createStatement: 'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL, ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER, allEpsWatched TINYINT DEFAULT(0) )',
     adapter: 'dbAdapter',
-    defaultValues: {}
+    defaultValues: {
+
+    },
+    fixtures: [
+
+    ],
+    migrations: {
+        2: [
+            'ALTER TABLE Seasons RENAME TO Seasons_bak',
+            'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL, ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER, allEpsWatched TINYINT DEFAULT(0) )',
+            'INSERT OR IGNORE INTO Seasons ( ID_Season, ID_Serie, poster, seasonnumber ) select ID_Season, ID_Serie, poster, seasonnumber  from Seasons_bak',
+            'DROP TABLE Seasons_bak'
+        ]
+    }
 }, {
 
     getEpisodes: function() {
@@ -83,6 +101,7 @@ var Season = CRUD.define({
             ID_Season: this.getID()
         });
     }
+
 });
 
 var Episode = CRUD.define({
@@ -94,24 +113,24 @@ var Episode = CRUD.define({
         'Serie': CRUD.RELATION_FOREIGN,
         'Season': CRUD.RELATION_FOREIGN
     },
-    createStatement: 'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER UNIQUE, episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating INTEGER DEFAULT(NULL), ratingcount INTEGER DEFAULT(NULL) , seasonnumber INTEGER NULL , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL )',
+    createStatement: 'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER UNIQUE, episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT DEFAULT(NULL), rating INTEGER DEFAULT(NULL), ratingcount INTEGER DEFAULT(NULL) , seasonnumber INTEGER NULL , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL )',
     adapter: 'dbAdapter',
     defaultValues: {
-        watched: 0
+        watched: '0'
     },
     fixtures: [
 
     ],
     migrations: {
         2: ['ALTER TABLE Episodes RENAME TO Episodes_bak',
-            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER NULL,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL)',
+            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER NULL,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT DEFAULT(NULL), rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL)',
             'INSERT INTO Episodes (ID_Episode, ID_Serie, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt) select ID_Episode, ID_Serie, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt from Episodes_bak',
             'DROP TABLE Episodes_bak'
         ],
         3: [],
         4: [
             'ALTER TABLE Episodes RENAME TO Episodes_bak',
-            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER UNIQUE,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL)',
+            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER UNIQUE,director VARCHAR(255), episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , gueststars VARCHAR(255), imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT DEFAULT(NULL), rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , writer VARCHAR(100) , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL)',
             'INSERT OR IGNORE INTO Episodes (ID_Episode, ID_Serie, ID_Season, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt) select ID_Episode, ID_Serie, ID_Season, TVDB_ID, director, episodename, episodenumber, firstaired, gueststars, imdb_id, language, overview, rating, ratingcount, seasonnumber, writer, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt from Episodes_bak',
             'DROP TABLE Episodes_bak'
         ],
@@ -124,13 +143,13 @@ var Episode = CRUD.define({
         ],
         7: [
             'ALTER TABLE Episodes RENAME TO Episodes_bak',
-            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER UNIQUE, episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL)',
+            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER UNIQUE, episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT DEFAULT(NULL), rating VARCHAR(5), ratingcount INTEGER NULL , seasonnumber INTEGER NULL , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL)',
             'INSERT OR IGNORE INTO Episodes (ID_Episode, ID_Serie, ID_Season, TVDB_ID, episodename, episodenumber, firstaired, imdb_id, language, overview, rating, ratingcount, seasonnumber, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt, magnetHash) select ID_Episode, ID_Serie, ID_Season, TVDB_ID, episodename, episodenumber, firstaired, imdb_id, language, overview, rating, ratingcount, seasonnumber, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt, magnetHash from Episodes_bak',
             'DROP TABLE Episodes_bak'
         ],
         8: [
             'ALTER TABLE Episodes RENAME TO Episodes_bak',
-            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER UNIQUE, episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating INTEGER DEFAULT(NULL), ratingcount INTEGER DEFAULT(NULL) , seasonnumber INTEGER NULL , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL )',
+            'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER UNIQUE, episodename VARCHAR(255), episodenumber INTEGER , firstaired TIMESTAMP , imdb_id VARCHAR(20), language VARCHAR(3), overview TEXT DEFAULT(NULL), rating INTEGER DEFAULT(NULL), ratingcount INTEGER DEFAULT(NULL) , seasonnumber INTEGER NULL , filename VARCHAR(255) , lastupdated TIMESTAMP , seasonid INTEGER NULL , seriesid INTEGER NULL , lastchecked TIMESTAMP NULL, watched VARCHAR(1), watchedAt TIMESTAMP NULL, magnetHash VARCHAR(40) NULL )',
             'INSERT OR IGNORE INTO Episodes (ID_Episode, ID_Serie, ID_Season, TVDB_ID, episodename, episodenumber, firstaired, imdb_id, language, overview, rating, ratingcount, seasonnumber, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt, magnetHash) select ID_Episode, ID_Serie, ID_Season, TVDB_ID, episodename, episodenumber, firstaired, imdb_id, language, overview, rating, ratingcount, seasonnumber, filename, lastupdated, seasonid, seriesid, lastchecked, watched, watchedAt, magnetHash from Episodes_bak',
             'DROP TABLE Episodes_bak'
         ],
@@ -155,7 +174,6 @@ var Episode = CRUD.define({
     hasAired: function() {
         return this.get('firstaired') && this.get('firstaired') <= new Date().getTime();
     },
-
     markWatched: function($rootScope) {
         this.set('watched', '1');
         this.set('watchedAt', new Date().getTime());
@@ -166,7 +184,6 @@ var Episode = CRUD.define({
             return this;
         }.bind(this));
     },
-
     markNotWatched: function($rootScope) {
         this.set('watched', '0');
         this.set('watchedAt', null);
