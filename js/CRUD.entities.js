@@ -160,7 +160,14 @@ var Episode = CRUD.define({
 }, {
 
     getSeason: function() {
-        return this.FindOne('Season');
+        return CRUD.FindOne('Season', {
+            ID_Season: this.get('ID_Season')
+        });
+    },
+    getSerie: function() {
+        return CRUD.FindOne('Serie', {
+            ID_Serie: this.get('ID_Serie')
+        });
     },
     getFormattedEpisode: function() {
         var sn = this.get('seasonnumber').toString(),
@@ -177,6 +184,12 @@ var Episode = CRUD.define({
     markWatched: function($rootScope) {
         this.set('watched', '1');
         this.set('watchedAt', new Date().getTime());
+        /* 
+         * having marked an episode as watched, examine the other episodes.
+         * if they are all watched then set the corresponding Season to watched as well.
+         * if all the Seasons are now watched (excluding Specials) then set the corresponding Serie to Watched as well.
+         */
+        // do something :-)
         return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:watched', this);
@@ -187,6 +200,23 @@ var Episode = CRUD.define({
     markNotWatched: function($rootScope) {
         this.set('watched', '0');
         this.set('watchedAt', null);
+        /*
+         * having marked an episode as NOT watched, set (if not already so) the corresponding Season and Series to NOT watched as well.
+         */
+        this.getSeason().then(function(episodeSeasonEntity) {
+            if (episodeSeasonEntity.get('allEpsWatched') !== 1) { // save an i/o by setting season to NOTwatched only if needed)
+                episodeSeasonEntity.set('allEpsWatched',0); // mark the season as not watched
+                episodeSeasonEntity.Persist(); // save the update (presume successful i/o)
+                if (this.get('seasonnumber') !== 0) { // if the season is NOT a Special, then also mark the serie as not watched 
+                    this.getSerie().then(function(episodeSerieEntity) {
+                    if (episodeSerieEntity.get('allEpsWatched') !== 1) { // save an i/o by setting serie to NOTwatched only if needed)
+                            episodeSerieEntity.set('allEpsWatched',0); // mark the serie as not watched
+                            episodeSerieEntity.Persist(); // save the update (presume successful i/o)
+                        });
+                    };
+                };
+            };
+        });
         return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:notwatched', this);
