@@ -263,7 +263,9 @@ angular.module('DuckieTV.providers.favorites', [])
                         episodeData.map(function(episode) {
                             // set this episodes season's watched state
                             var episodeSeason = episode.get('seasonnumber');
-                            seasonWatched[episodeSeason] = seasonWatched[episodeSeason] && (episode.get('watched') === '1');
+                            if (episode.hasAired()) { // examine aired episodes only
+                                seasonWatched[episodeSeason] = seasonWatched[episodeSeason] && (episode.get('watched') === '1');
+                            };
                         });
 
                         /*
