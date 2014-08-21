@@ -298,7 +298,11 @@ angular.module('DuckieTV.providers.favorites', [])
                             console.error("PERSIST ERROR!", err);
                         });
                     });
+                }, function(err) {
+                    console.error("Error fetching serie's seasons!", err);
                 });
+            }, function(err) {
+                console.error("Error fetching serie!", err);
             });
         },
         /**
