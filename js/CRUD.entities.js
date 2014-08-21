@@ -206,14 +206,22 @@ var Episode = CRUD.define({
         this.getSeason().then(function(episodeSeasonEntity) {
             if (episodeSeasonEntity.get('allEpsWatched') !== 1) { // save an i/o by setting season to NOTwatched only if needed)
                 episodeSeasonEntity.set('allEpsWatched',0); // mark the season as not watched
-                episodeSeasonEntity.Persist(); // save the update (presume successful i/o)
+                episodeSeasonEntity.Persist().then(function(result) { // save the update
+                    // no-op
+                }, function(err) {
+                    console.error("PERSIST ERROR!", err);
+                });
                 if (this.get('seasonnumber') !== 0) { // if the season is NOT a Special, then also mark the serie as not watched 
                     this.getSerie().then(function(episodeSerieEntity) {
-                    if (episodeSerieEntity.get('allEpsWatched') !== 1) { // save an i/o by setting serie to NOTwatched only if needed)
+                        if (episodeSerieEntity.get('allEpsWatched') !== 1) { // save an i/o by setting serie to NOTwatched only if needed)
                             episodeSerieEntity.set('allEpsWatched',0); // mark the serie as not watched
-                            episodeSerieEntity.Persist(); // save the update (presume successful i/o)
-                        });
-                    };
+                            episodeSerieEntity.Persist().then(function(result) { // save the update
+                                // no-op
+                            }, function(err) {
+                                console.error("PERSIST ERROR!", err);
+                            });
+                        };
+                    });
                 };
             };
         });
