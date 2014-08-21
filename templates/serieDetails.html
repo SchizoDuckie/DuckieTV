@@ -6,18 +6,20 @@
     </h2>
     <div style='text-align: center; overflow-x: auto; height: 280px; overflow-y: hidden; white-space: nowrap;'>
       <div class='season' ng-repeat="season in seasons" style="display:inline-block; padding:10px; cursor:pointer">
-        <p ng-click="setActiveSeason(season)" lazy-background="{{season.poster}}" class="seasonposter"></p>
+        <p ng-click="setActiveSeason(season)" lazy-background="{{season.poster}}" class="seasonposter">
+          <em class="glyphicon glyphicon-eye-open" ng-show="season.allEpsWatched === 1"></em>
+        </p>
         <p>
           <strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong>
         </p>
       </div>
     </div>
-	<div>
-    <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>{{'SERIEDETAILS/episode-ratings/hdr'|translate}}</h2>
+    <div>
+      <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>{{'SERIEDETAILS/episode-ratings/hdr'|translate}}</h2>
       <div class="chart">
         <div class="chartLine" ng-repeat="p in points track by $index" ng-style="{ height: p.y + '%', left: ((100 / points.length) * $index) + '%',  width: (100 / points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}"></div>
       </div>
-  </div>
+    </div>
   </div>
 
   <div ng-if="!seasons">

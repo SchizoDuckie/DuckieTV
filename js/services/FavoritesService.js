@@ -125,6 +125,7 @@ angular.module('DuckieTV.providers.favorites', [])
                     });
                 });
             });
+            service.setAllEpsWatched(data.tvdb_id);
             return d.promise;
         },
         /**
@@ -238,6 +239,74 @@ angular.module('DuckieTV.providers.favorites', [])
             return p.promise;
         },
 
+        /**
+         * Helper function to examine the watched status of every episode and set the corresponding
+         * season's watched-state and subsequently the corresponding serie's watched-state
+         * @param object serietvdbid as passed from addFavorite(data.tvdb_id,et.al.)
+         */
+        setAllEpsWatched: function(serietvdbid) {
+            // fetch the serie entity by its tvdbid
+            service.getById(serietvdbid).then(function(serie) {
+
+                // create a season cache for this serie
+                var seasonCache = {}; //   cache of seasons' objects by season number
+                var seasonWatched = []; // cache of seasons' watched states by season number
+                serie.getSeasons().then(function(allSeasons) {
+                    allSeasons.map(function(seasonData) {
+                        var seasonNumber = seasonData.get('seasonnumber');
+                        seasonCache[seasonNumber] = seasonData;
+                        seasonWatched[seasonNumber] = true; // presume all seasons have been watched
+                    });
+
+                    // for each episode update the corresponding season's cached watched state 
+                    serie.getEpisodes().then(function(episodeData) {
+                        episodeData.map(function(episode) {
+                            // set this episodes season's watched state
+                            var episodeSeason = episode.get('seasonnumber');
+                            if (episode.hasAired()) { // examine aired episodes only
+                                seasonWatched[episodeSeason] = seasonWatched[episodeSeason] && (episode.get('watched') === '1');
+                            };
+                        });
+
+                        /*
+                         * by this point all episodes have had their watched state examined. Time to save all the season's allEpsWatched state.
+                         */
+                        for (var season in seasonCache) {
+                           var seasonEntity = seasonCache[season];
+                           var seasonNumber = seasonEntity.get('seasonnumber');
+                           var watchedState = seasonWatched[seasonNumber] ? 1 : 0;
+                            seasonEntity.set('allEpsWatched',watchedState);
+                            seasonEntity.Persist().then(function(result) {
+                                // no-op
+                            }, function(err) {
+                                console.error("PERSIST ERROR!", err);
+                            });
+                        };
+                        /*
+                         * by this point all seasons in the series have had their watched state set. Time to save the series' allEpsWatched state.
+                         */
+                        var serieWatched = true; // presume serie has been watched
+                        for (var season in seasonWatched) {
+                            if (season == 0) continue; // we ignore the Specials
+                            serieWatched = serieWatched && seasonWatched[season];
+                        };
+                        var watchedState = serieWatched ? 1 : 0;
+                        serie.set('allEpsWatched',watchedState);
+                        serie.Persist().then(function(result) {
+                            // no-op
+                        }, function(err) {
+                            console.error("PERSIST ERROR!", err);
+                        });
+                    }, function(err) {
+                        console.error("Error fetching serie's episodes!", err);
+                    });
+                }, function(err) {
+                    console.error("Error fetching serie's seasons!", err);
+                });
+            }, function(err) {
+                console.error("Error fetching serie!", err);
+            });
+        },
         /**
          * Helper function to fetch all the episodes for a serie
          * Optionally, filters can be provided which will be turned into an SQL where.
