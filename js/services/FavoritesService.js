@@ -285,11 +285,10 @@ angular.module('DuckieTV.providers.favorites', [])
                         /*
                          * by this point all seasons in the series have had their watched state set. Time to save the series' allEpsWatched state.
                          */
-                        var swLen = seasonWatched.length;
                         var serieWatched = true; // presume serie has been watched
-                        for (var i = 1; i < swLen; i++) {
-                            // we ignore the Specials, i.e. season 0, hence index starts at 1
-                            serieWatched = serieWatched && seasonWatched[i];
+                        for (var season in seasonWatched) {
+                            if (season == 0) continue; // we ignore the Specials
+                            serieWatched = serieWatched && seasonWatched[season];
                         };
                         var watchedState = serieWatched ? 1 : 0;
                         serie.set('allEpsWatched',watchedState);
