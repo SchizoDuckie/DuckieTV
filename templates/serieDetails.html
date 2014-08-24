@@ -76,6 +76,8 @@
       </tr>
      <tr>
         <th colspan='2' style='text-align:center'>
+          <button class="btn btn-danger" ng-show="serie.displaycalender == 1" ng-click="hideSerie(serie)">Hide Serie on Calender!!</button>
+          <button class="btn btn-info" ng-show="serie.displaycalender == 0" ng-click="showSerie(serie)">Display Serie on Calender</button>
           <button class="btn btn-danger" ng-click="removeFromFavorites(serie)">{{'SERIEDETAILS/delete-serie/btn'|translate}}</button>
         </th>
       </tr>
