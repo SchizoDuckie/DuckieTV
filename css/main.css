@@ -930,6 +930,21 @@ calendar-event h2 {
     height: 220px;
 }
 
+.importlog {
+    padding: 5px;
+}
+.importlog serieheader[mode='poster'] {
+    height: 200px;
+}
+.importlog .poster {
+    height: 190px;
+    width: 123px;
+}
+.importlog em.earmark {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+}
 
 .alert {
 	white-space: pre;
