@@ -14,11 +14,11 @@
       <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}">{{'DEFAULT/backup-download/btn'|translate}}</a>
 
       <h3>{{'DEFAULT/import/hdr'|translate}}</h3>
-      <div file-input="file" on-change="restore()"></div>
-      <div>
+      <div file-input="file" on-change="restore()" style="width:340px"></div>
+      <div class="importlog">
         <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" mode="poster">
           <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
-          <em class="earmark" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif"></em>
+          <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
         </serieHeader>
       </div>
       <p ng-show="log.length > 0">
