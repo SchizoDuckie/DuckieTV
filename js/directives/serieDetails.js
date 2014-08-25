@@ -57,6 +57,10 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
             /**
              * Hide or display a show on the calender
              * @param object serie Plain Old Javascript Object
+             * 
+             * Because this method edits the db directly, dynamically updating
+             * requires some more work involving brodcasting an event, for now, 
+             * it just reloads the page after 650ms which works alright
              */
             $scope.hideSerie = function(show) {
                 CRUD.FindOne('Serie', {
@@ -64,6 +68,7 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
                 }).then(function(show2) {
                     show2.set('displaycalender', 0);
                     show2.Persist();
+                    setTimeout(function(){window.location.reload(false)}, 650);
                 });
             }
             $scope.showSerie = function(show) {
@@ -72,6 +77,7 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
                 }).then(function(show2) {
                     show2.set('displaycalender', 1);
                     show2.Persist();
+                    setTimeout(function(){window.location.reload(false)}, 650);
                 });
             }
         }
