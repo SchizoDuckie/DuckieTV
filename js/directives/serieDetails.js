@@ -62,27 +62,17 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
              * requires some more work involving brodcasting an event, for now, 
              * it just reloads the page after the db has been updated
              */
-            $scope.hideSerie = function(show) {
+            $scope.toggleSerieDisplay = function(serie) {
                 CRUD.FindOne('Serie', {
-                    ID_Serie: show.ID_Serie
-                }).then(function(show2) {
-                    show2.set('displaycalendar', 0);
-                    show2.Persist().then(function(result) {
+                    ID_Serie: serie.ID_Serie
+                }).then(function(serie2) {
+                    if(serie2.get('displaycalendar') == 1) {
+                        serie2.set('displaycalendar', 0);
+                    } else {
+                        serie2.set('displaycalendar', 1);
+                    }
+                    serie2.Persist().then(function(result) {
                         window.location.reload(false);
-                    }, function(err) {
-                        console.error("PERSIST ERROR!", err);
-                    });
-                });
-            }
-            $scope.showSerie = function(show) {
-                CRUD.FindOne('Serie', {
-                    ID_Serie: show.ID_Serie
-                }).then(function(show2) {
-                    show2.set('displaycalendar', 1);
-                    show2.Persist().then(function(result) {
-                        window.location.reload(false);
-                    }, function(err) {
-                        console.error("PERSIST ERROR!", err);
                     });
                 });
             }
