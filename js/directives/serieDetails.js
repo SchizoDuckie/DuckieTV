@@ -53,6 +53,29 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
             $scope.getAirDate = function(serie) {
                 return new Date(serie.firstaired).toString();
             };
+
+            /**
+             * Hide or display a show on the calendar
+             * @param object serie Plain Old Javascript Object
+             * 
+             * Because this method edits the db directly, dynamically updating
+             * requires some more work involving brodcasting an event, for now, 
+             * it just reloads the page after the db has been updated
+             */
+            $scope.toggleSerieDisplay = function(serie) {
+                CRUD.FindOne('Serie', {
+                    ID_Serie: serie.ID_Serie
+                }).then(function(serie2) {
+                    if(serie2.get('displaycalendar') == 1) {
+                        serie2.set('displaycalendar', 0);
+                    } else {
+                        serie2.set('displaycalendar', 1);
+                    }
+                    serie2.Persist().then(function(result) {
+                        window.location.reload(false);
+                    });
+                });
+            }
         }
     };
 });

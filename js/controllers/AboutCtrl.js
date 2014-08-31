@@ -34,6 +34,16 @@ angular.module('DuckieTV.controllers.about', [])
             });
         };
 
+        // shows hidden from calendar
+        countHiddenShows = function() {
+            CRUD.EntityManager.getAdapter().db.execute("select count(displaycalendar) as count from Series where displaycalendar like 0").then(function(result) {
+                $scope.statistics.push({
+                    name: "DB Series Hidden From Calendar",
+                    data: result.next().row.count
+                });
+            });
+        };
+
         getSyncTime = function() {
             /*
              * if sync is supported get the synctime else indicate not available
@@ -151,6 +161,7 @@ angular.module('DuckieTV.controllers.about', [])
         getSyncTime();
         countTimers();
         countEntity('Series');
+        countHiddenShows();
         countEntity('Seasons');
         countEntity('Episodes');
         countEntity('EventSchedule');

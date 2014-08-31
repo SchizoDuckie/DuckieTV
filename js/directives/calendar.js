@@ -58,13 +58,18 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                     });
                     // iterate all the episodes and bind it together with the serie into an event array
                     episodes.map(function(episode) {
-                        events.push({
-                            start: new Date(episode.get('firstaired')),
-                            serie: cache[episode.get('ID_Serie')].get('name'),
-                            serieID: cache[episode.get('ID_Serie')].get('TVDB_ID'),
-                            episodeID: episode.get('TVDB_ID'),
-                            episode: episode
-                        });
+                        // if the serie is set to display else skip
+                        //display = cache[episode.get('ID_Serie')].get('displaycalendar');
+                        //if(display == 1) {
+                        if((cache[episode.get('ID_Serie')].get('displaycalendar')) == 1) {
+                            events.push({
+                                start: new Date(episode.get('firstaired')),
+                                serie: cache[episode.get('ID_Serie')].get('name'),
+                                serieID: cache[episode.get('ID_Serie')].get('TVDB_ID'),
+                                episodeID: episode.get('TVDB_ID'),
+                                episode: episode
+                            });
+                        }
                     });
                     service.setEvents(events);
                     // clear used variables.
