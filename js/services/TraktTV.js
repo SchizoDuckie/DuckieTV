@@ -8,8 +8,8 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
  */
 .factory('TraktTV', function(SettingsService, $q, $http, $rootScope) {
    
-	var batchMode = false;
-	var activeRequest = false;
+    var batchMode = false;
+    var activeRequest = false;
 
     var endpoints = {
         series: 'http://api.trakt.tv/search/shows.json/dc6cdb4bcbc5cb9f2b666202a10353d6?query=%s',
@@ -91,7 +91,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
     };
 
     var service = {
-    	   /** 
+           /** 
              * enableBatchMode makes sure previous request are not aborted.
              * Batch mode is required to be turned on for FavoritesService operations
              * and batch imports, so that the previous requests can finish and all the promises
@@ -135,10 +135,10 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
              * http://trakt.tv/api-docs/user-library-shows-all
              */
             getUserShows: function(username) {
-            	return $http.post(getUrl('userShows', username), {
-            		"username": SettingsService.get('trakttv.username'),
+                return $http.post(getUrl('userShows', username), {
+                    "username": SettingsService.get('trakttv.username'),
                     "password": SettingsService.get('trakttv.passwordHash'),
-            	}).then(function(result) {
+                }).then(function(result) {
                     console.log("TraktTV user shows retrieved!", result);
                     result.data.map(function(show) {
                         show.poster = show.images.poster;
@@ -152,9 +152,9 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
              */
             getUserWatched: function(username) {
                return $http.post(getUrl('userWatched', username), {
-            		"username": SettingsService.get('trakttv.username'),
+                    "username": SettingsService.get('trakttv.username'),
                     "password": SettingsService.get('trakttv.passwordHash'),
-            	}).then(function(result) {
+                }).then(function(result) {
                     console.log("TraktTV user watched retrieved!", result);
                     result.data.map(function(show) {
                         show.poster = show.images.poster;
@@ -198,7 +198,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                         "episode": en
                     }]
                 }).then(function(result) {
-                    console.log("Episode watched: ", serie, episode);
+                    //console.log("Episode watched: ", serie, episode);
                 });
             },
             /** 
@@ -220,7 +220,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                         "episode": en
                     }]
                 }).then(function(result) {
-                    console.log("Episode watched: ", serie, episode);
+                    //console.log("Episode un-watched: ", serie, episode);
                 });
             },
             /** 

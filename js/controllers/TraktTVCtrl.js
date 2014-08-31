@@ -22,9 +22,9 @@
      };
 
      $scope.clearCredentials = function() {
-		$scope.credentials.passwordHash = $scope.credentials.password = $scope.credentials.username = null;
-		$rootScope.setSetting('trakttv.passwordHash', null);
-		$rootScope.setSetting('trakttv.username', null);
+        $scope.credentials.passwordHash = $scope.credentials.password = $scope.credentials.username = null;
+        $rootScope.setSetting('trakttv.passwordHash', null);
+        $rootScope.setSetting('trakttv.username', null);
 
      }
 
@@ -49,7 +49,7 @@
      };
 
      $scope.getUserSuggestions = function() {
-     	 $scope.traktTVLoading = true;
+         $scope.traktTVLoading = true;
          TraktTV.getUserSuggestions().then(function(data) {
              console.log("Found user suggestions from Trakt.tV", data);
              $scope.traktTVSuggestions = data;
@@ -120,7 +120,7 @@
 
         CRUD.Find('Episode', {'watched': '1'}, { limit: '100000'}).then(function(episodes) {
             episodes.map(function(episode) {
-                console.log("marking episode watched: ", episode.get('ID_Serie'), episode.TVDB_ID);
+                //console.log("marking episode watched: ", episode.get('ID_Serie'), episode.get('TVDB_ID'));
                 TraktTV.markEpisodeWatched(serieIDs[episode.get('ID_Serie')], episode);    
             });
 
