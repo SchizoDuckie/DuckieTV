@@ -44,7 +44,7 @@
              }
              count += s.episodes.length;
          });
-         console.log("Countin watched episodes for ", show, count);
+         //console.log("Counting watched episodes for ", show, count);
          return count;
      };
 
