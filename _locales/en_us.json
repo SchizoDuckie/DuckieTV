@@ -211,6 +211,7 @@
     "SERIEDETAILS/seasons/hdr": "Seasons",
     "SERIEDETAILS/status/hdr": "Status",
     "SERIEDETAILS/votes/lbl": "votes",
+    "SERIEDETAILS/links/hdr": "Links",
     "SERIEDETAILSjs/serie-delete-confirmed": "You confirmed 'No.'",
     "SERIEDETAILSjs/serie-delete-question/p1": "Do you really want to delete ",
     "SERIEDETAILSjs/serie-delete-question/p2": " from your favorites?",
