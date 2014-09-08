@@ -53,13 +53,13 @@ $provide.value("$locale", {
       "Nov",
       "Dec"
     ],
-    "fullDate": "EEEE, MMMM d, y",
-    "longDate": "MMMM d, y",
-    "medium": "MMM d, y h:mm:ss a",
-    "mediumDate": "MMM d, y",
+    "fullDate": "EEEE, d MMMM y",
+    "longDate": "d MMMM y",
+    "medium": "d/MM/yyyy h:mm:ss a",
+    "mediumDate": "d/MM/yyyy",
     "mediumTime": "h:mm:ss a",
-    "short": "M/d/yy h:mm a",
-    "shortDate": "M/d/yy",
+    "short": "d/MM/yy h:mm a",
+    "shortDate": "d/MM/yy",
     "shortTime": "h:mm a"
   },
   "NUMBER_FORMATS": {
