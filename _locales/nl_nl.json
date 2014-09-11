@@ -180,6 +180,8 @@
     "SERIECTRLjs/status/list": "voortdurende,eindigde",
     "SERIEDETAILS/actors/hdr": "Acteurs",
     "SERIEDETAILS/airs-on/hdr": "Op dit moment het spelen op",
+    "SERIEDETAILS/calendar-hide/btn": "Verbergen Serie op Kalender !",
+    "SERIEDETAILS/calendar-show/btn": "Tonen Serie op kalender",
     "SERIEDETAILS/click-to-see/lbl": "(Klik om afleveringen en beoordelingen te zien)",
     "SERIEDETAILS/content-rating/hdr": "Classificatie",
     "SERIEDETAILS/country/hdr": "Land",

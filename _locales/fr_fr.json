@@ -180,6 +180,8 @@
     "SERIECTRLjs/status/list": "continuant,terminé",
     "SERIEDETAILS/actors/hdr": "acteurs ",
     "SERIEDETAILS/airs-on/hdr": "Joue actuellement à",
+    "SERIEDETAILS/calendar-hide/btn": "Cacher Série sur Calendrier !",
+    "SERIEDETAILS/calendar-show/btn": "Affichez Série sur Calendrier",
     "SERIEDETAILS/click-to-see/lbl": "(Cliquez pour voir les épisodes et notes) ",
     "SERIEDETAILS/content-rating/hdr": "de contenu ",
     "SERIEDETAILS/country/hdr": "pays ",
@@ -339,6 +341,5 @@
     "TYPEAHEAD/download/tooltip": "télécharger ",
     "TYPEAHEAD/leechers/tooltip": "leechers ",
     "TYPEAHEAD/seeders/tooltip": "semoirs ",
-    "SERIECTRLjs/status/list": "continuant,terminé",
     "WATCHLIST/hdr": "Suivit"
 }

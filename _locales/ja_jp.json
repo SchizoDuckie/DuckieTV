@@ -180,6 +180,8 @@
     "SERIECTRLjs/status/list": "連続する,終了",
     "SERIEDETAILS/actors/hdr": "俳優 ",
     "SERIEDETAILS/airs-on/hdr": "現在でプレー",
+    "SERIEDETAILS/calendar-hide/btn": "カレンダー上のセリエを非表示にする",
+    "SERIEDETAILS/calendar-show/btn": "カレンダー上のセリエを表示",
     "SERIEDETAILS/click-to-see/lbl": "（エピソードや評価を見るにはクリックしてください） ",
     "SERIEDETAILS/content-rating/hdr": "コンテンツのレーティング ",
     "SERIEDETAILS/country/hdr": "国 ",

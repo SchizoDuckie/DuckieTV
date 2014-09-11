@@ -180,6 +180,8 @@
     "SERIECTRLjs/status/list": "계속,종료",
     "SERIEDETAILS/actors/hdr": "배우 ",
     "SERIEDETAILS/airs-on/hdr": "현재에서 재생",
+    "SERIEDETAILS/calendar-hide/btn": "달력에 세리에 숨기기 ",
+    "SERIEDETAILS/calendar-show/btn": "달력에 세리에 표시",
     "SERIEDETAILS/click-to-see/lbl": "(에피소드 및 평가를 확인하려면 클릭하십시오) ",
     "SERIEDETAILS/content-rating/hdr": "콘텐츠 평점 ",
     "SERIEDETAILS/country/hdr": "국가 ",

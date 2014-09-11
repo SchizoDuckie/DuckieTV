@@ -180,6 +180,8 @@
     "SERIECTRLjs/status/list": "fortsatta,avslutades",
     "SERIEDETAILS/actors/hdr": "Skådespelare ",
     "SERIEDETAILS/airs-on/hdr": "Spelar just nu vid",
+    "SERIEDETAILS/calendar-hide/btn": "Göm Serie på Kalender!",
+    "SERIEDETAILS/calendar-show/btn": "Visa Serie på Kalender",
     "SERIEDETAILS/click-to-see/lbl": "(Klicka för att se episoder och betyg) ",
     "SERIEDETAILS/content-rating/hdr": "content Rating ",
     "SERIEDETAILS/country/hdr": "land ",

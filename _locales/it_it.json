@@ -180,6 +180,8 @@
     "SERIECTRLjs/status/list": "continuando,finito",
     "SERIEDETAILS/actors/hdr": "Attori",
     "SERIEDETAILS/airs-on/hdr": "Attualmente disputa alle",
+    "SERIEDETAILS/calendar-hide/btn": "Nascondi Serie sul calendario!",
+    "SERIEDETAILS/calendar-show/btn": "Mostra Serie sul calendario",
     "SERIEDETAILS/click-to-see/lbl": "(Clicca per vedere episodi e valutazioni)",
     "SERIEDETAILS/content-rating/hdr": "classificazione dei contenuti",
     "SERIEDETAILS/country/hdr": "Paese",

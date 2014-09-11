@@ -197,6 +197,8 @@
     "SERIECTRLjs/status/list": "Continuing,Ended",
     "SERIEDETAILS/actors/hdr": "Actors",
     "SERIEDETAILS/airs-on/hdr": "Currently Airs on",
+    "SERIEDETAILS/calendar-hide/btn": "Hide Serie on Calendar!",
+    "SERIEDETAILS/calendar-show/btn": "Display Serie on Calendar",
     "SERIEDETAILS/click-to-see/lbl": "(Click to see episodes and ratings)",
     "SERIEDETAILS/content-rating/hdr": "Content Rating",
     "SERIEDETAILS/country/hdr": "Country",

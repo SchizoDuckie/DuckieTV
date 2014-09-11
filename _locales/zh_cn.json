@@ -180,6 +180,8 @@
     "SERIECTRLjs/status/list": "持续,成品",
     "SERIEDETAILS/actors/hdr": "演员 ",
     "SERIEDETAILS/airs-on/hdr": "目前比赛在",
+    "SERIEDETAILS/calendar-hide/btn": "隐藏在意甲日历 ",
+    "SERIEDETAILS/calendar-show/btn": "显示在意甲日历",
     "SERIEDETAILS/click-to-see/lbl": "（点击看情节和评级） ",
     "SERIEDETAILS/content-rating/hdr": "内容分级 ",
     "SERIEDETAILS/country/hdr": "国家 ",

@@ -180,6 +180,8 @@
     "SERIECTRLjs/status/list": "continuando,finalizado",
     "SERIEDETAILS/actors/hdr": "Actores ",
     "SERIEDETAILS/airs-on/hdr": "Actualmente muestra a las",
+    "SERIEDETAILS/calendar-hide/btn": "Ocultar Serie en Calendario !",
+    "SERIEDETAILS/calendar-show/btn": "Visualizar Serie en Calendario",
     "SERIEDETAILS/click-to-see/lbl": "(Haga clic para ver los episodios y clasificaciones) ",
     "SERIEDETAILS/content-rating/hdr": "Clasificación de contenido ",
     "SERIEDETAILS/country/hdr": "país ",

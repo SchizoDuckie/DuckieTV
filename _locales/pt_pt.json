@@ -180,6 +180,8 @@
     "SERIECTRLjs/status/list": "continuando,terminou",
     "SERIEDETAILS/actors/hdr": "Atores ",
     "SERIEDETAILS/airs-on/hdr": "Actualmente a jogar em",
+    "SERIEDETAILS/calendar-hide/btn": "Esconder Serie no calendário!",
+    "SERIEDETAILS/calendar-show/btn": "Mostrar Serie no calendário",
     "SERIEDETAILS/click-to-see/lbl": "(Clique para ver episódios e votos) ",
     "SERIEDETAILS/content-rating/hdr": "Classificação de conteúdo ",
     "SERIEDETAILS/country/hdr": "país ",

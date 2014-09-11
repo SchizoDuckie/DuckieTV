@@ -59,8 +59,6 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                     // iterate all the episodes and bind it together with the serie into an event array
                     episodes.map(function(episode) {
                         // if the serie is set to display else skip
-                        //display = cache[episode.get('ID_Serie')].get('displaycalendar');
-                        //if(display == 1) {
                         if((cache[episode.get('ID_Serie')].get('displaycalendar')) == 1) {
                             events.push({
                                 start: new Date(episode.get('firstaired')),

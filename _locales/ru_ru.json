@@ -180,6 +180,8 @@
     "SERIECTRLjs/status/list": "продолжая,закончился",
     "SERIEDETAILS/actors/hdr": "Актеры ",
     "SERIEDETAILS/airs-on/hdr": "Сейчас выступает у",
+    "SERIEDETAILS/calendar-hide/btn": "Скрыть Serie на календарь!",
+    "SERIEDETAILS/calendar-show/btn": "Дисплей Serie на календарь",
     "SERIEDETAILS/click-to-see/lbl": "(Нажмите, чтобы увидеть эпизоды и рейтинги) ",
     "SERIEDETAILS/content-rating/hdr": "Содержимое Рейтинг ",
     "SERIEDETAILS/country/hdr": "страна ",
