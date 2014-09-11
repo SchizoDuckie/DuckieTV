@@ -4,7 +4,7 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
  * The serie-details directive is what handles the overview for a tv-show.
  * It shows show details, actors, if it's still airing, the individual seasons and the delete show button.
  */
-.directive('serieDetails', function(FavoritesService, $location, $dialogs, $filter) {
+.directive('serieDetails', function(FavoritesService, $location, $dialogs, $filter, $rootScope) {
     return {
         restrict: 'E',
         transclude: true,
@@ -55,27 +55,25 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
             };
 
             /**
-             * Hide or display a show on the calendar
+             * Hide or show a serie displaying on the calendar
              * @param object serie Plain Old Javascript Object
-             * 
-             * Because this method edits the db directly, dynamically updating
-             * requires some more work involving brodcasting an event, for now, 
-             * it just reloads the page after the db has been updated
              */
             $scope.toggleSerieDisplay = function(serie) {
                 CRUD.FindOne('Serie', {
                     ID_Serie: serie.ID_Serie
                 }).then(function(serie2) {
                     if(serie2.get('displaycalendar') == 1) {
-                        serie2.set('displaycalendar', 0);
+                        $scope.serie.displaycalendar = 0;   // update cached serie on serieDetails page
+                        serie2.set('displaycalendar', 0);   // update db serie (deferred)
                     } else {
-                        serie2.set('displaycalendar', 1);
-                    }
-                    serie2.Persist().then(function(result) {
-                        window.location.reload(false);
-                    });
+                        $scope.serie.displaycalendar = 1;   // update cached serie on serieDetails page
+                        serie2.set('displaycalendar', 1);   // update db serie (deferred)
+                    };
+                    $rootScope.$broadcast('calendar:clearcache');   // request a calendar reset
+                    $scope.$digest();   // refresh serieDetail page (hide/show button)
+                    serie2.Persist();   // commit updates to db
                 });
-            }
+            };
         }
     };
 });
