@@ -101,4 +101,21 @@
       </ul>
     </td>
   </tr>
+  <tr>
+    <th width="150px">
+      <strong style='white-space:nowrap; display:block;'>{{'DEFAULT/calendar-specials/hdr'|translate}}</strong>
+      <p class="label label-danger" ng-show="!getSetting('calendar.show-specials')">{{'DEFAULT/calendar-specials-hide/lbl'|translate}}</p>
+      <p class="label label-success" ng-show="getSetting('calendar.show-specials')">{{'DEFAULT/calendar-specials-show/lbl'|translate}}</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <p class="alert alert-info">{{'DEFAULT/calendar-specials/alert'|translate}}</p>
+
+          <button ng-show="!getSetting('calendar.show-specials')" ng-click="enableSpecials()" class="btn btn-success">{{'DEFAULT/calendar-specials-show/btn'|translate}}</button>
+          <button ng-show="getSetting('calendar.show-specials')" ng-click="disableSpecials()" class="btn btn-danger">{{'DEFAULT/calendar-specials-hide/btn'|translate}}</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
 </table>

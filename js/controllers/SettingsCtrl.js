@@ -196,8 +196,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         })
     }
 
-
-
     /**
      * Create the automated download service.
      * This fires the episode:aired:check timer that the kicks it off in the background page
@@ -215,6 +213,21 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         EventSchedulerService.clear(' ☠ Automated torrent download service');
     }
 
+    /**
+     * Enable the calendar to show-specials
+     */
+    $scope.enableSpecials = function() {
+        SettingsService.set('calendar.show-specials', true);
+        $rootScope.$broadcast('calendar:clearcache');
+    }
+
+    /**
+     * Disable the calendar from showing specials
+     */
+    $scope.disableSpecials = function() {
+        SettingsService.set('calendar.show-specials', false);
+        $rootScope.$broadcast('calendar:clearcache');
+    }
 
     $scope.favorites = FavoritesService.favorites;
     $scope.$on('favorites:updated', function(event, data) {
