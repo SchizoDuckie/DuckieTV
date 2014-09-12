@@ -3,7 +3,7 @@
  * It's basically a minimalist implementation of DuckieTV's favorites update mechanism.
  *
  * The way this works is simple:
- * A timer launches an on an event channel at a given time
+ * A timer launches an event channel at a given time
  * It broadcasts a message on a channel something is listening for (for instance favorites:update, which triggers the FavoritesService)
  * After that the page gets torn down again to reduce memory footprint.
  *
@@ -25,12 +25,12 @@ chrome.runtime.onInstalled.addListener(function(details) {
         var thisVersion = chrome.runtime.getManifest().version;
         console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
         if(details.previousVersion != thisVersion) {
-        	localStorage.setItem('upgrade.notify', thisVersion);
+            localStorage.setItem('upgrade.notify', thisVersion);
         }
-		setTimeout(function() { // on every upgrade, run the fixMissingTimers
-			angular.element(document).injector().get('EventSchedulerService').fixMissingTimers();
-		}, 5000);
-    }
+    };
+    setTimeout(function() { // on start-up, run the fixMissingTimers
+        angular.element(document).injector().get('EventSchedulerService').fixMissingTimers();
+    }, 5000);
 });
 
 /**
@@ -69,8 +69,8 @@ angular.module('DuckieTV', [
     };
     // when the sync has happened, check if there's a foreground page active and notify that of changes that came in.
     $rootScope.$on('storage:hassynced', function(event, progress) {
-    	console.log('storage has synced! Messaging foreground to process deletions!', progress);
-		chrome.runtime.sendMessage({ channel: 'sync:processremoteupdate', eventData: progress});
+        console.log('storage has synced! Messaging foreground to process deletions!', progress);
+        chrome.runtime.sendMessage({ channel: 'sync:processremoteupdate', eventData: progress});
     });
     EventWatcherService.initialize();
     StorageSyncService.attach();
