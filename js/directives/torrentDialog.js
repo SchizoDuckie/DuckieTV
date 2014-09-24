@@ -85,7 +85,7 @@ angular.module('DuckieTV.directives.torrentdialog', [])
         $scope.search($scope.query);
 
     })
-    .directive('torrentDialog', function(TorrentDialog, $filter) {
+    .directive('torrentDialog', function(TorrentDialog, SceneNameResolver, $filter) {
         return {
             restrict: 'E',
             transclude: true,
@@ -98,7 +98,7 @@ angular.module('DuckieTV.directives.torrentdialog', [])
             },
             template: '<a ng-click="openDialog()" tooltip="{{tooltip}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
             controller: function($scope) {
-                getName = function(epi, serieid, name) {
+                getSearchString = function(serie, episode) {
                     var serieName = SceneNameResolver.getSceneName(serieid) || name;
                     return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + epi;
                 };
