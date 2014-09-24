@@ -91,16 +91,22 @@ angular.module('DuckieTV.directives.torrentdialog', [])
             transclude: true,
             wrap: true,
             scope: {
-                q: '=q',
-                TVDB_ID: '=tvdbid'
+                epi: '=epi',
+                TVDB_ID: '=tvdbid',
+                SerieID: '=serieid',
+                SerieName: '=seriename'
             },
             template: '<a ng-click="openDialog()" tooltip="{{tooltip}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
             controller: function($scope) {
-                $scope.tooltip = $scope.q !== undefined ?
-                    $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.q :
+                getName = function(epi, serieid, name) {
+                    var serieName = SceneNameResolver.getSceneName(serieid) || name;
+                    return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + epi;
+                };
+                $scope.tooltip = getName($scope.epi, $scope.SerieID, $scope.SerieName) !== undefined ?
+                    $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + getName($scope.epi, $scope.SerieID, $scope.SerieName) :
                     $filter('translate')('TORRENTDIALOG/search-download-any/tooltip');
                 $scope.openDialog = function() {
-                    TorrentDialog.search($scope.q, $scope.TVDB_ID);
+                    TorrentDialog.search(getName($scope.epi, $scope.SerieID, $scope.SerieName), $scope.TVDB_ID);
                 }
             }
         }
