@@ -2,7 +2,7 @@ angular.module('DuckieTV.controllers.episodes', [])
 
 .controller('EpisodeCtrl',
 
-    function(FavoritesService, SceneNameResolver, $routeParams, $scope, $rootScope, $filter) {
+    function(SettingsService, FavoritesService, SceneNameResolver, $routeParams, $scope, $rootScope, $filter) {
 
         $scope.searching = false;
         $scope.serie = null;
