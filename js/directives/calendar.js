@@ -204,6 +204,10 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                 $scope.event.episode.set('magnetHash', magnet);
                 $scope.event.episode.Persist();
             });
+            $scope.getSearchString = function(event) {
+                var serieName = SceneNameResolver.getSceneName(event.serieID) || event.serie;
+                return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + event.episode.getFormattedEpisode();
+            };
         }
     }
 })
