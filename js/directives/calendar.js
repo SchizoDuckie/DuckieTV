@@ -188,7 +188,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
  * This also watches for the magnet:select event will be fired by the
  * TorrentDialog when a user selects a magnet link for an episode.
  */
-.directive('calendarEvent', function(uTorrent) {
+.directive('calendarEvent', function(uTorrent, SceneNameResolver) {
     return {
         restrict: 'E',
         scope: {
