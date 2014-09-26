@@ -930,17 +930,14 @@ calendar-event h2 {
     height: 220px;
 }
 
-.importlog {
-    padding: 5px;
-}
-.importlog serieheader[mode='poster'] {
+.miniposter serieheader[mode='poster'] {
     height: 200px;
 }
-.importlog .poster {
+.miniposter .poster {
     height: 190px;
     width: 123px;
 }
-.importlog em.earmark {
+.miniposter em.earmark {
     width: 40px;
     height: 40px;
     font-size: 22px;

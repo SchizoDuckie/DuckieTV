@@ -58,13 +58,22 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                     });
                     // iterate all the episodes and bind it together with the serie into an event array
                     episodes.map(function(episode) {
-                        events.push({
-                            start: new Date(episode.get('firstaired')),
-                            serie: cache[episode.get('ID_Serie')].get('name'),
-                            serieID: cache[episode.get('ID_Serie')].get('TVDB_ID'),
-                            episodeID: episode.get('TVDB_ID'),
-                            episode: episode
-                        });
+                        // if the serie is set to display else skip
+                        if((cache[episode.get('ID_Serie')].get('displaycalendar')) == 1) {
+                            // display only when it's not a special, or when its is a special and settings allows it
+                            if (
+                               (episode.get('seasonnumber') !== 0)
+                               || ( (episode.get('seasonnumber') === 0) && ($rootScope.getSetting('calendar.show-specials') ) )
+                            ) {
+                                events.push({
+                                    start: new Date(episode.get('firstaired')),
+                                    serie: cache[episode.get('ID_Serie')].get('name'),
+                                    serieID: cache[episode.get('ID_Serie')].get('TVDB_ID'),
+                                    episodeID: episode.get('TVDB_ID'),
+                                    episode: episode
+                                });
+                            };
+                        }
                     });
                     service.setEvents(events);
                     // clear used variables.

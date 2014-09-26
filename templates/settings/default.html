@@ -15,7 +15,7 @@
 
       <h3>{{'DEFAULT/import/hdr'|translate}}</h3>
       <div file-input="file" on-change="restore()" style="width:340px"></div>
-      <div class="importlog">
+      <div style="padding:5px" class="miniposter">
         <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" mode="poster">
           <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
           <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
@@ -97,6 +97,23 @@
 
           <button ng-show="getSetting('calendar.mode') == 'date'" ng-click="setSetting('calendar.mode', 'week')" class="btn btn-info">{{'DEFAULT/calendar-mode-week/btn'|translate}}</button>
           <button ng-show="getSetting('calendar.mode') == 'week'" ng-click="setSetting('calendar.mode', 'date')" class="btn btn-success">{{'DEFAULT/calendar-mode-month/btn'|translate}}</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <th width="150px">
+      <strong style='white-space:nowrap; display:block;'>{{'DEFAULT/calendar-specials/hdr'|translate}}</strong>
+      <p class="label label-danger" ng-show="!getSetting('calendar.show-specials')">{{'DEFAULT/calendar-specials-hide/lbl'|translate}}</p>
+      <p class="label label-success" ng-show="getSetting('calendar.show-specials')">{{'DEFAULT/calendar-specials-show/lbl'|translate}}</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <p class="alert alert-info">{{'DEFAULT/calendar-specials/alert'|translate}}</p>
+
+          <button ng-show="!getSetting('calendar.show-specials')" ng-click="enableSpecials()" class="btn btn-success">{{'DEFAULT/calendar-specials-show/btn'|translate}}</button>
+          <button ng-show="getSetting('calendar.show-specials')" ng-click="disableSpecials()" class="btn btn-danger">{{'DEFAULT/calendar-specials-hide/btn'|translate}}</button>
         </li>
       </ul>
     </td>
