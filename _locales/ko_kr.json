@@ -229,7 +229,7 @@
     "TORRENT/autodownload-disable/alert": "아래 버튼을 클릭하면 일정에 급류에 대한 자동 다운로드 프로세스를 중지합니다. ",
     "TORRENT/autodownload-disable/btn": "방송 쇼 자동 다운로드 급류를 사용하지 않도록 설정 ",
     "TORRENT/autodownload-disabled/lbl": "장애인 ",
-    "TORRENT/autodownload-enable/alert": "아래 버튼을 클릭하면 자동 검사에게 이번 주 방영 한 에피소드 다운로드 급류가 (이미 다운로드하거나 시청으로 표시되지 않은) 것을 4 시간마다 시작됩니다. 그것은 확실히 토런트 적어도 250 파종기가 만들고 자동으로 토런트 품질 환경 설정을 사용합니다. ",
+    "TORRENT/autodownload-enable/alert": "아래 버튼을 클릭하면 자동 검사에게 이번 주 방영 한 에피소드 다운로드 급류가 (이미 다운로드하거나 시청으로 표시되지 않은) 것을 2 시간마다 시작됩니다. 그것은 확실히 토런트 적어도 250 파종기가 만들고 자동으로 토런트 품질 환경 설정을 사용합니다. ",
     "TORRENT/autodownload-enable/btn": "방송 쇼 자동 다운로드 급류를 사용 ",
     "TORRENT/autodownload-enabled/lbl": "사용 ",
     "TORRENT/autodownload/hdr": "자동 다운로드 급류 ",
