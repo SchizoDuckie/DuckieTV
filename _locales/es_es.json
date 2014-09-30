@@ -229,7 +229,7 @@
     "TORRENT/autodownload-disable/alert": "Al hacer clic en el botón de abajo se detiene el proceso de auto-descarga de torrentes en su calendario. ",
     "TORRENT/autodownload-disable/btn": "Desactivar la descarga automática de los torrentes para shows emitidos ",
     "TORRENT/autodownload-disabled/lbl": "discapacitado ",
-    "TORRENT/autodownload-enable/alert": "Al hacer clic en el botón de abajo comienza una comprobación automática cada 4 horas que descarga torrentes de episodios que se han emitido esta semana (no se han descargado ya o marcados como vimos).\n Se asegura de que hay al menos 250 sembradoras para el torrente y utiliza automáticamente su preferencia calidad torrente. ",
+    "TORRENT/autodownload-enable/alert": "Al hacer clic en el botón de abajo comienza una comprobación automática cada 2 horas que descarga torrentes de episodios que se han emitido esta semana (no se han descargado ya o marcados como vimos).\n Se asegura de que hay al menos 250 sembradoras para el torrente y utiliza automáticamente su preferencia calidad torrente. ",
     "TORRENT/autodownload-enable/btn": "Habilitar torrentes descarga automática para shows emitidos ",
     "TORRENT/autodownload-enabled/lbl": "Activado ",
     "TORRENT/autodownload/hdr": "Descarga automática Torrents ",
