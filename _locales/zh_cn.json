@@ -229,7 +229,7 @@
     "TORRENT/autodownload-disable/alert": "点击下面的按钮停止自动下载程序在你的日历种子。 ",
     "TORRENT/autodownload-disable/btn": "禁用自动下载BT种子播出节目 ",
     "TORRENT/autodownload-disabled/lbl": "残 ",
-    "TORRENT/autodownload-enable/alert": "点击下面的按钮，启动自动检查每4小时即下载BT种子，本周已经播出的情节（尚未已经下载或标记为观看）。它确保至少有250种者的洪流，并自动使用您的洪流质量偏好。 ",
+    "TORRENT/autodownload-enable/alert": "点击下面的按钮，启动自动检查每2小时即下载BT种子，本周已经播出的情节（尚未已经下载或标记为观看）。它确保至少有250种者的洪流，并自动使用您的洪流质量偏好。 ",
     "TORRENT/autodownload-enable/btn": "启用自动下载BT种子播出节目 ",
     "TORRENT/autodownload-enabled/lbl": "启用 ",
     "TORRENT/autodownload/hdr": "自动下载种子 ",
