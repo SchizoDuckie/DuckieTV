@@ -229,7 +229,7 @@
     "TORRENT/autodownload-disable/alert": "下のボタンをクリックすると、あなたのカレンダーのトレントの自動ダウンロードプロセスを停止します。 ",
     "TORRENT/autodownload-disable/btn": "放映されたショーのための自動ダウンロードトレントを無効にする ",
     "TORRENT/autodownload-disabled/lbl": "使用禁止 ",
-    "TORRENT/autodownload-enable/alert": "下のボタンをクリックすると、自動チェックを今週放映されているエピソードのためにダウンロードトレントが（既にダウンロードまたは見て、マークされていない）ことを4時間ごとに開始されます。それは確かに急流のために少なくとも250シーダーがありますし、自動的にあなたの急流の品質·プリファレンスを使用しています。 ",
+    "TORRENT/autodownload-enable/alert": "下のボタンをクリックすると、自動チェックを今週放映されているエピソードのためにダウンロードトレントが（既にダウンロードまたは見て、マークされていない）ことを2時間ごとに開始されます。それは確かに急流のために少なくとも250シーダーがありますし、自動的にあなたの急流の品質·プリファレンスを使用しています。 ",
     "TORRENT/autodownload-enable/btn": "放映されたショーのための自動ダウンロードトレントを有効にする ",
     "TORRENT/autodownload-enabled/lbl": "使用可能 ",
     "TORRENT/autodownload/hdr": "自動ダウンロードトレント ",
