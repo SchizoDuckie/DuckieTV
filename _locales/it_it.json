@@ -229,7 +229,7 @@
     "TORRENT/autodownload-disable/alert": "Facendo clic sul pulsante in basso interrompe il processo di auto-download per torrent sul vostro calendario.",
     "TORRENT/autodownload-disable/btn": "Disattiva torrenti auto-download per spettacoli in onda",
     "TORRENT/autodownload-disabled/lbl": "Disattivare",
-    "TORRENT/autodownload-enable/alert": "Facendo clic sul pulsante in basso avvia un controllo automatico ogni 4 ore di download torrent per gli episodi che sono andati in onda questa settimana (non sono stati scaricati già o contrassegnati come visto).\n Rende sicuro che ci sono almeno 250 seminatrici per il torrente e lo utilizza automaticamente la vostra preferenza di qualità torrent. ",
+    "TORRENT/autodownload-enable/alert": "Facendo clic sul pulsante in basso avvia un controllo automatico ogni 2 ore di download torrent per gli episodi che sono andati in onda questa settimana (non sono stati scaricati già o contrassegnati come visto).\n Rende sicuro che ci sono almeno 250 seminatrici per il torrente e lo utilizza automaticamente la vostra preferenza di qualità torrent. ",
     "TORRENT/autodownload-enable/btn": "Abilita torrenti auto-download per spettacoli in onda",
     "TORRENT/autodownload-enabled/lbl": "Attivare",
     "TORRENT/autodownload/hdr": "Auto-scaricare i torrent",
