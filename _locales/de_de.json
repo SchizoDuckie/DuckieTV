@@ -229,7 +229,7 @@
     "TORRENT/autodownload-disable/alert": "Klicken Sie auf die Schaltfläche unten, stoppt die Auto-Download-Prozess für Torrents auf Ihrem Kalender. ",
     "TORRENT/autodownload-disable/btn": "Deaktivieren Sie die automatische Herunterladen von Torrents für Shows ausgestrahlt ",
     "TORRENT/autodownload-disabled/lbl": "behindert ",
-    "TORRENT/autodownload-enable/alert": "Klicken Sie auf die Schaltfläche unten, beginnt eine automatische Überprüfung alle 4 Stunden, dass Downloads Torrents für Episoden, die in dieser Woche ausgestrahlt wurden (nicht bereits heruntergeladen wurde, oder markiert beobachtet).\n Es stellt sicher, es gibt mindestens 250 Sämaschinen für die Wildbach-und verwendet automatisch Ihre Torrent-Qualität bevorzugt. ",
+    "TORRENT/autodownload-enable/alert": "Klicken Sie auf die Schaltfläche unten, beginnt eine automatische Überprüfung alle 2 Stunden, dass Downloads Torrents für Episoden, die in dieser Woche ausgestrahlt wurden (nicht bereits heruntergeladen wurde, oder markiert beobachtet).\n Es stellt sicher, es gibt mindestens 250 Sämaschinen für die Wildbach-und verwendet automatisch Ihre Torrent-Qualität bevorzugt. ",
     "TORRENT/autodownload-enable/btn": "Aktivieren Sie Auto-Download Torrents für Shows ausgestrahlt ",
     "TORRENT/autodownload-enabled/lbl": "Aktiviert ",
     "TORRENT/autodownload/hdr": "Auto-Download-Torrents ",
