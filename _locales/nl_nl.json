@@ -229,7 +229,7 @@
     "TORRENT/autodownload-disable/alert": "Als je op de knop hieronder klikt wordt het automatische download proces voor afleveringen gestopt.",
     "TORRENT/autodownload-disable/btn": "Niet automatisch naar torrents zoeken voor uitgezonden tv-series",
     "TORRENT/autodownload-disabled/lbl": "Uitgeschakeld",
-    "TORRENT/autodownload-enable/alert": "Als je op de knop hieronder drukt wordt er elke 4 uur een automatische check gestart die kijkt welke tv-series er afgelopen week zijn uitgezonden\n (die je nog niet gedownload of bekeken hebt) en zoekt daar een torrent voor met minimaal 250 seeders en de door jou ingestelde kwaliteit.",
+    "TORRENT/autodownload-enable/alert": "Als je op de knop hieronder drukt wordt er elke 2 uur een automatische check gestart die kijkt welke tv-series er afgelopen week zijn uitgezonden\n (die je nog niet gedownload of bekeken hebt) en zoekt daar een torrent voor met minimaal 250 seeders en de door jou ingestelde kwaliteit.",
     "TORRENT/autodownload-enable/btn": "Automatisch naar torrents zoeken voor tv-series die de afgelopen week uitgezonden zijn",
     "TORRENT/autodownload-enabled/lbl": "Ingeschakeld",
     "TORRENT/autodownload/hdr": "Auto-Torrent downloads",
