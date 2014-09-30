@@ -229,7 +229,7 @@
     "TORRENT/autodownload-disable/alert": "Clicando no botão abaixo interrompe o processo de download automático de torrents em seu calendário. ",
     "TORRENT/autodownload-disable/btn": "Desativar torrents auto-download para shows ao ar ",
     "TORRENT/autodownload-disabled/lbl": "Inválido ",
-    "TORRENT/autodownload-enable/alert": "Clicando no botão abaixo inicia uma verificação automática a cada 4 horas que baixa torrents para episódios que foi ao ar esta semana (ainda não tiverem sido baixados ou marcadas como assisti).\n Ele garante que há pelo menos 250 seeders para o torrent e usa automaticamente a sua preferência qualidade torrente. ",
+    "TORRENT/autodownload-enable/alert": "Clicando no botão abaixo inicia uma verificação automática a cada 2 horas que baixa torrents para episódios que foi ao ar esta semana (ainda não tiverem sido baixados ou marcadas como assisti).\n Ele garante que há pelo menos 250 seeders para o torrent e usa automaticamente a sua preferência qualidade torrente. ",
     "TORRENT/autodownload-enable/btn": "Ativar torrents auto-download para shows ao ar ",
     "TORRENT/autodownload-enabled/lbl": "Ativado ",
     "TORRENT/autodownload/hdr": "Download Automático Torrents ",
