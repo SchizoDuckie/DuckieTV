@@ -229,7 +229,7 @@
     "TORRENT/autodownload-disable/alert": "Genom att klicka på knappen nedan stoppar autonedladdningsprocessen för torrents på din kalender. ",
     "TORRENT/autodownload-disable/btn": "Inaktivera automatisk nedladdning av torrents för luftade shows ",
     "TORRENT/autodownload-disabled/lbl": "funktionshindrade ",
-    "TORRENT/autodownload-enable/alert": "Genom att klicka på knappen nedan startar en automatisk kontroll var 4 timmar som nedladdningar torrents för episoder som har sänts i veckan (ej har hämtats redan eller markerade som sett).\n Det ser till att det finns minst 250 såmaskiner till torrent och automatiskt använder din torrent kvalitet önskemål. ",
+    "TORRENT/autodownload-enable/alert": "Genom att klicka på knappen nedan startar en automatisk kontroll var 2 timmar som nedladdningar torrents för episoder som har sänts i veckan (ej har hämtats redan eller markerade som sett).\n Det ser till att det finns minst 250 såmaskiner till torrent och automatiskt använder din torrent kvalitet önskemål. ",
     "TORRENT/autodownload-enable/btn": "Aktivera auto-ladda ner torrents för luftade shows ",
     "TORRENT/autodownload-enabled/lbl": "aktiverat ",
     "TORRENT/autodownload/hdr": "Automatisk Hämtning Torrents ",
