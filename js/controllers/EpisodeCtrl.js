@@ -2,7 +2,7 @@ angular.module('DuckieTV.controllers.episodes', [])
 
 .controller('EpisodeCtrl',
 
-    function(SettingsService, FavoritesService, SceneNameResolver, $routeParams, $scope, $rootScope, $filter) {
+    function(FavoritesService, SceneNameResolver, $routeParams, $scope, $rootScope, $filter) {
 
         $scope.searching = false;
         $scope.serie = null;
@@ -89,7 +89,7 @@ angular.module('DuckieTV.controllers.episodes', [])
 
         $scope.getSearchString = function(serie, episode) {
             var serieName = SceneNameResolver.getSceneName(serie.TVDB_ID) || serie.name;
-            return serieName + ' ' + $scope.getEpisodeNumber(episode) + ' ' + SettingsService.get('torrenting.searchquality');
+            return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + $scope.getEpisodeNumber(episode);
         };
 
         $scope.getEpisodeNumber = function(episode) {
