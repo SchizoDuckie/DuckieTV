@@ -3,7 +3,7 @@
 <input type="text" ng-model="query" focus-watch='searching' ng-change="search(query)" placeholder="{{'TORRENTDIALOG/placeholder'|translate}}" class="form-control">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
 <div class="btn-group" style='margin:0 auto; padding:10px;'>
-  <button type="button" class="btn btn-default active" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
+  <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == '480p'}" ng-click="setQuality('480p')">480p</button>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == 'HDTV'}" ng-click="setQuality('HDTV')">HDTV</button>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == '720p'}" ng-click="setQuality('720p')">720p</button>
