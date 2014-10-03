@@ -30,11 +30,11 @@
             </p>
           </form>
 
-          <div ng-if="traktTVSeries">
+          <div class="miniposter" ng-if="traktTVSeries">
              <p ng-repeat="serie in traktTVSeries">Fetched show: {{serie.title}}. Watched episodes: {{ countWatchedEpisodes(serie) }} </p>
              <serieheader style='display:inline-block; margin:5px;' ng-repeat="serie in traktTVSeries" ng-if="isDownloaded(serie.tvdb_id)" data="getDownloaded(serie.tvdb_id)" no-listbutton=1 no-title=1 no-overview=1>
                 <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
-                <em class="earmark" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif"></em>
+                <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
              </serieheader>
           </ul>
           </div>
