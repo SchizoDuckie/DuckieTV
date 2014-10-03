@@ -96,6 +96,7 @@ a:hover {
 }
 .tooltip .tooltip-arrow {
     border-top-color: white !important;
+    border-bottom-color: white !important;
 }
 .tooltip .tooltip-inner {
     background-color: white !important;
@@ -135,7 +136,6 @@ background-rotator, background-rotator > div {
     overflow: auto;
 }
 serieheader > div {
-    background-color: black;
     position: relative;
     overflow: hidden;
 }
