@@ -154,7 +154,7 @@
     "EPISODE/first-aired/hdr": "First Aired",
     "EPISODE/rating/hdr": "Rating",
     "EPISODE/votes/lbl": "votes",
-    "EPISODEWATCHEDjs/is-marked/lbl": "You marked this episode as watched on ",
+    "EPISODEWATCHEDjs/is-marked/lbl": "Watched on ",
     "EPISODEWATCHEDjs/not-marked/lbl": "Mark this episode as watched",
     "EVENT/dropdown-download-torrent/lbl": "Download Torrent",
     "EVENT/dropdown-episode-details/lbl": "Episode details",

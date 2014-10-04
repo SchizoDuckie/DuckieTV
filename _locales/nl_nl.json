@@ -137,7 +137,7 @@
     "EPISODE/first-aired/hdr": "Uitzenddatum",
     "EPISODE/rating/hdr": "Cijfer",
     "EPISODE/votes/lbl": "Stemmen",
-    "EPISODEWATCHEDjs/is-marked/lbl": "Als gezien gemarkeerd op ",
+    "EPISODEWATCHEDjs/is-marked/lbl": "Keken op ",
     "EPISODEWATCHEDjs/not-marked/lbl": "Markeer als gezien",
     "EVENT/dropdown-download-torrent/lbl": "Download Torrent",
     "EVENT/dropdown-episode-details/lbl": "Aflevering details",
