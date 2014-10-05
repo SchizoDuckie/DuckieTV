@@ -1,0 +1,24 @@
+/** generate on flag-sprites.com */
+.flag {
+	width: 16px;
+	height: 11px;
+	background:url(../img/flags.png) no-repeat;
+	display: inline-block;
+}
+
+.flag.flag-en_au {background-position: -16px 0}
+.flag.flag-es_419 {background-position: -32px 0}
+.flag.flag-zh_cn {background-position: -48px 0}
+.flag.flag-de_de {background-position: -64px 0}
+.flag.flag-es_es {background-position: 0 -11px}
+.flag.flag-fr_fr {background-position: -16px -11px}
+.flag.flag-en_uk {background-position: -32px -11px}
+.flag.flag-it_it {background-position: -48px -11px}
+.flag.flag-ja_jp {background-position: -64px -11px}
+.flag.flag-ko_kr {background-position: 0 -22px}
+.flag.flag-nl_nl {background-position: -16px -22px}
+.flag.flag-en_nz {background-position: -32px -22px}
+.flag.flag-pt_pt {background-position: -48px -22px}
+.flag.flag-ru_ru {background-position: -64px -22px}
+.flag.flag-sv_se {background-position: 0 -33px}
+.flag.flag-en_us {background-position: -16px -33px}
