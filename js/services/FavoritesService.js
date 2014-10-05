@@ -253,7 +253,11 @@ angular.module('DuckieTV.providers.favorites', [])
             });
         },
         getEpisodesForDateRange: function(start, end) {
-            return CRUD.Find('Episode', ['firstaired > "' + start + '" AND firstaired < "' + end + '"']).then(function(ret) {
+            var filter = ['firstaired > "' + start + '" AND firstaired < "' + end + '"'];
+            if($rootScope.getSetting('specials.hide')) {
+                filter.push('seasonnumber > 0');
+            }
+            return CRUD.Find('Episode', filter).then(function(ret) {
                 return ret;
             })
         },

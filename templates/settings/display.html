@@ -24,6 +24,23 @@
     </td>
   </tr>
   <tr>
+      <th width="150px">
+      <strong style='white-space:nowrap; display:block;'>Hide 'Specials' seasons</strong>
+      <p class="label label-success" ng-show="getSetting('specials.hide')">Specials are hidden from the calendar</p>
+      <p class="label label-danger" ng-show="!getSetting('specials.hide')">Specials are shown on the calendar</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li style="padding-top:4px">
+          <p ng-show="!getSetting('specials.hide')" class="alert alert-info">Enabling this setting will hide the special seasons from the calendar (S00E*) for all shows</p>
+          <p ng-show="getSetting('specials.hide')" class="alert alert-warning">Disabling this setting will showthe special seasons on the calendar</p>
+          <button ng-show="!getSetting('specials.hide')" ng-click="enableSetting('specials.hide')" class="btn btn-success">Hide specials</button>
+          <button ng-show="getSetting('specials.hide')" ng-click="disableSetting('specials.hide')" class="btn btn-danger">Show specials</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
     <th width="150px" style="border:0">
       <strong style='white-space:nowrap; display:block;'>{{'DISPLAY/locale/hdr'|translate}}</strong>
       <p class="label label-success">{{getSetting('application.locale')}}</p>
