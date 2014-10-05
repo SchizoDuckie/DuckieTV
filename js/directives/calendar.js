@@ -10,6 +10,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
     var calendarEvents = {
 
     };
+    var activeDate = null;
     var service = {
         /**
          * setDate gets fired by the vendor/datePicker directive whenever the user navigates the calendar with the arrows back and forth
@@ -32,7 +33,11 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                     startDate.setDate(-47);
                     break;
             }
-            service.getEventsForDateRange(startDate, endDate);
+            if(startDate.toDateString() != activeDate) {
+                activeDate = startDate.toDateString();
+                service.getEventsForDateRange(startDate, endDate);    
+            }
+
         },
         /**
          * Optimized function to feed the calendar it's data.
@@ -225,9 +230,6 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
         link: function($scope) {
             $scope.views = ['year', 'month', 'week', 'date'];
             $scope.view = 'week';
-
-            CalendarEvents.setDate(new Date(), $rootScope.getSetting('calendar.mode'));
-
         },
     };
 });
