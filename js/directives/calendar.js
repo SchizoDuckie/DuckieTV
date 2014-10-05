@@ -78,6 +78,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
             });
         },
         clearCache: function() {
+            activeDate = null;
             calendarEvents = {};
         },
         /** 
@@ -161,6 +162,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
       * Refresh the active calendar by re-fetching all data.
       */
     $rootScope.$on('episodes:updated', function(event) {
+        service.clearCache();
         service.setDate(new Date());
     });
     /**
