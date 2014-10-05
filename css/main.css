@@ -297,7 +297,7 @@ series-list > div > h2 {
     text-align: center;
     margin: 0;
     font-size: 25px;
-    background-color: rgba(0, 0, 0, 0.4);
+    /** background-color: rgba(0, 0, 0, 0.4); */
     padding: 6px;
     margin-top: -40px;
     color:white;
@@ -434,7 +434,7 @@ chrome-top-sites h2 {
     margin-top: 1px;
     padding:5px;
     left:0px;
-    background-color: rgba(0, 0, 0, 0.4);
+    /** background-color: rgba(0, 0, 0, 0.4); */
     -webkit-transition: background-color 0.5s ease-in-out;
     cursor: pointer;
 }
