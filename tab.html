@@ -10,7 +10,7 @@
   <link rel="stylesheet" media="print" href="css/print.css">
   <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"/>
 </head>
-<body>
+<body kc>
   <background-rotator channel="'background:load'" style="opacity:{{getSetting('background-rotator.opacity')}}"></background-rotator>
   <div class="container">
   	<div class="topsites-{{getSetting('topSites.enabled')}}">
@@ -22,7 +22,7 @@
           <li>
             <a class="glyphicon glyphicon-home" href="#/" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-position="right"></a>
           </li>
-          <li style='display:none'>
+          <li style='display:none' id='wl'>
             <a class="glyphicon glyphicon-facetime-video" href="#/watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-position="right"></a>
           </li>
           <li>
