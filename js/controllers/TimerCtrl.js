@@ -10,6 +10,13 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
         EventWatcherService.onEvent(timer.name);
     }
 
+    $scope.fireAll = function() {
+        $scope.timers.map(function(timer) {
+            console.log('fire timer' , timer.name);
+            $scope.fire(timer);
+        })
+    }
+
     /**
      * Debug function to reschedule an alarm for every 1 minutes.
      */

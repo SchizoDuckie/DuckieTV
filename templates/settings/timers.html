@@ -4,6 +4,7 @@
     <button ng-click="debug=!debug" class="btn btn-danger btn-xs" style='float:right;margin-left:3px;margin-bottom:3px'>{{'TIMERS/toggle-debug/btn'|translate}}</button>
     <div ng-if="debug" style='float:right; font-size:12px;'>
       <button class="btn btn-xs btn-warning" ng-click="injectTimer()">Inject Episode Aired Check Timer</button>
+      <button class="btn btn-xs btn-info" ng-click="fireAll()">Fire All Timers</button>
       <button ng-click="fixMissingTimers();" class='btn btn-xs btn-success'>{{'TIMERS/find-missing/btn'|translate}}</button>
       <button ng-click="clearAllTimers();" class='btn btn-xs btn-success'>{{'TIMERS/delete-all/btn'|translate}}</button>
     </div>
