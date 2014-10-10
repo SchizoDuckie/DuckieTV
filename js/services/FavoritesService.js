@@ -270,7 +270,7 @@ angular.module('DuckieTV.providers.favorites', [])
         },
         getEpisodesForDateRange: function(start, end) {
             var filter = ['firstaired > "' + start + '" AND firstaired < "' + end + '"'];
-            if($rootScope.getSetting('specials.hide')) {
+            if(!$rootScope.getSetting('calendar.show-specials')) {
                 filter.push('seasonnumber > 0');
             }
             return CRUD.Find('Episode', filter).then(function(ret) {
