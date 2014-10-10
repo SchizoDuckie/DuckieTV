@@ -66,6 +66,25 @@ angular.module('DuckieTV.providers.favorites', [])
         }
     }
 
+    /**
+     * Wipe episodes from the database that were cached locally but are no longer in the latest update.
+     * @var series Trakt.TV series input
+     * @var ID int DuckieTV ID_Serie
+     */
+    cleanOldSeries = function(seasons, ID) {
+        var tvdbList = [];
+        seasons.map(function(season) {
+            season.episodes.map(function(episode) {
+                tvdbList.push(episode.tvdb_id);
+            })
+        });
+        CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN ('+tvdbList.join(',')+')', [ID]).then(function(result) {
+            console.log("Cleaned up ", result.rs.rowsAffected, " orphaned episodes");
+        })
+        tvdbList = null;
+    }
+
+
     var service = {
         favorites: [],
         favoriteIDs: [],
@@ -93,7 +112,9 @@ angular.module('DuckieTV.providers.favorites', [])
                 }
                 fillSerie(serie, data);
                 serie.Persist().then(function(e) {
-                    EventSchedulerService.createInterval(serie.get('name') + ' update check', 60 * 48, 'favoritesservice:checkforupdates', {
+                    var updateInterval = serie.get('status').toLowerCase() == 'ended' ? 60 * 24 * 14 : 60 * 24 * 2; // schedule updates for ended series only every 2 weeks. Saves useless updates.
+
+                    EventSchedulerService.createInterval(serie.get('name') + ' update check', updateInterval, 'favoritesservice:checkforupdates', {
                         ID: serie.getID(),
                         TVDB_ID: serie.get('TVDB_ID')
                     });
@@ -161,6 +182,8 @@ angular.module('DuckieTV.providers.favorites', [])
                     data = null;
 
                     var pq = [];
+                    cleanOldSeries(seasons, serie.getID());
+                    
                     seasons.map(function(season) {
 
                         var SE = (season.season in seasonCache) ? seasonCache[season.season] : new Season();
@@ -174,13 +197,6 @@ angular.module('DuckieTV.providers.favorites', [])
                         SE.episodes = season.episodes;
 
                         SE.Persist().then(function(r) {
-
-                            // delete any episodes that are no longer at TraktTV
-                            var tvdbList = SE.episodes.map(function(episode) {
-                                return episode.tvdb_id;
-                            }).join(",");
-                            CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Season = '+SE.getID()+' and TVDB_ID not in ('+tvdbList+') ');
-                            tvdbList = null;
 
                             SE.episodes.map(function(episode, idx) { // update the season's episodes
                                 var e = (!(episode.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
