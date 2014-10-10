@@ -1,8 +1,6 @@
 /**
  * Handle global dependencies
  */
-
-
 angular.module('DuckieTV', [
     'ngRoute',
     'ngAnimate',
@@ -221,12 +219,27 @@ angular.module('DuckieTV', [
         }
     }
 ])
+.factory('HttpErrorInterceptor', ['$q', '$rootScope', '$timeout', function ($q, $rootScope, $timeout) {
+  return  {
+    
+    requestError: function (request) {
+        console.error("Request error!", request);
+      return $q.reject(request);
+    },
+    responseError: function (response) {
+        console.error(" Response error!" , response);
+      return $q.reject(response);
+    }
+  };
+}])
+  
 /**
  * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
  */
 .config(function($httpProvider, $compileProvider) {
     //$httpProvider.interceptors.push('xmlHttpInterceptor');
     $httpProvider.interceptors.push('CORSInterceptor');
+    $httpProvider.interceptors.push('HttpErrorInterceptor');
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data):/);
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
 })
