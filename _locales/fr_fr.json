@@ -221,6 +221,7 @@
     "TIMERS/debug-fire-every-minute/btn": "Tirer toutes les minutes ",
     "TIMERS/delete-all/btn": "Supprimer toutes les minuteries ",
     "TIMERS/find-missing/btn": "Trouver minuteries manquantes ",
+    "TIMERS/fire-all-timers/btn": "Activer tous les compteurs",
     "TIMERS/fire-now/btn": "Minuterie de feu maintenant ",
     "TIMERS/timer-firingnext/hdr": "tir Suivant ",
     "TIMERS/timer-name/hdr": "Nom de la minuterie ",

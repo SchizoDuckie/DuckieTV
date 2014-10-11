@@ -221,6 +221,7 @@
     "TIMERS/debug-fire-every-minute/btn": "매 순간을 발사 ",
     "TIMERS/delete-all/btn": "모든 타이머를 삭제 ",
     "TIMERS/find-missing/btn": "누락 된 타이머 찾기 ",
+    "TIMERS/fire-all-timers/btn": "모든 타이머를 활성화",
     "TIMERS/fire-now/btn": "화재 타이머 지금 ",
     "TIMERS/timer-firingnext/hdr": "다음 발사 ",
     "TIMERS/timer-name/hdr": "타이머의 이름 ",

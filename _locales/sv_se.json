@@ -221,6 +221,7 @@
     "TIMERS/debug-fire-every-minute/btn": "Brand varje minut ",
     "TIMERS/delete-all/btn": "Ta bort alla timers ",
     "TIMERS/find-missing/btn": "Hitta saknade timers ",
+    "TIMERS/fire-all-timers/btn": "Aktivera All Timers",
     "TIMERS/fire-now/btn": "Fire timern nu ",
     "TIMERS/timer-firingnext/hdr": "Firing Nästa ",
     "TIMERS/timer-name/hdr": "Namn på Timer ",

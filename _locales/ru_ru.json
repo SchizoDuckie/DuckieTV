@@ -221,6 +221,7 @@
     "TIMERS/debug-fire-every-minute/btn": "Пожар каждую минуту ",
     "TIMERS/delete-all/btn": "Удалить все таймеры ",
     "TIMERS/find-missing/btn": "Найти недостающие таймеры ",
+    "TIMERS/fire-all-timers/btn": "Активируйте Все таймеры",
     "TIMERS/fire-now/btn": "Пожар таймер сейчас ",
     "TIMERS/timer-firingnext/hdr": "Стрельба Далее ",
     "TIMERS/timer-name/hdr": "Название Timer ",

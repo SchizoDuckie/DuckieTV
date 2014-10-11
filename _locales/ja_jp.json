@@ -221,6 +221,7 @@
     "TIMERS/debug-fire-every-minute/btn": "毎分を解雇 ",
     "TIMERS/delete-all/btn": "すべてのタイマーを削除する ",
     "TIMERS/find-missing/btn": "不足しているタイマーを見つける ",
+    "TIMERS/fire-all-timers/btn": "すべてのタイマーをアクティブに",
     "TIMERS/fire-now/btn": "火災のタイマーになりました ",
     "TIMERS/timer-firingnext/hdr": "[次へ]を発射 ",
     "TIMERS/timer-name/hdr": "タイマーの名前 ",
