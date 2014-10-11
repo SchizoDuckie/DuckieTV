@@ -238,6 +238,7 @@
     "TIMERS/debug-fire-every-minute/btn": "Fire every minute",
     "TIMERS/delete-all/btn": "Delete all timers",
     "TIMERS/find-missing/btn": "Find missing timers",
+    "TIMERS/fire-all-timers/btn": "Fire All Timers",
     "TIMERS/fire-now/btn": "Fire timer now",
     "TIMERS/timer-firingnext/hdr": "Firing Next",
     "TIMERS/timer-name/hdr": "Name of Timer",

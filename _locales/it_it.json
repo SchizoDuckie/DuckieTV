@@ -221,6 +221,7 @@
     "TIMERS/debug-fire-every-minute/btn": "Fire ogni minuto",
     "TIMERS/delete-all/btn": "Elimina tutti i timer",
     "TIMERS/find-missing/btn": "Trovare timer mancanti",
+    "TIMERS/fire-all-timers/btn": "Attivare tutti i timer",
     "TIMERS/fire-now/btn": "Timer Fire adesso",
     "TIMERS/timer-firingnext/hdr": "Firing Avanti",
     "TIMERS/timer-name/hdr": "Nome di Timer",

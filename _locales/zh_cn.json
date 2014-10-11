@@ -221,6 +221,7 @@
     "TIMERS/debug-fire-every-minute/btn": "火每分钟 ",
     "TIMERS/delete-all/btn": "删除所有的计时器 ",
     "TIMERS/find-missing/btn": "寻找失踪定时器 ",
+    "TIMERS/fire-all-timers/btn": "激活所有的计时器",
     "TIMERS/fire-now/btn": "消防定时器现在 ",
     "TIMERS/timer-firingnext/hdr": "射击下一页 ",
     "TIMERS/timer-name/hdr": "定时器的名称 ",

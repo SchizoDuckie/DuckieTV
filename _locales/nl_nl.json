@@ -221,6 +221,7 @@
     "TIMERS/debug-fire-every-minute/btn": "Elke 2 minuten uitvoeren",
     "TIMERS/delete-all/btn": "Verwijder alle timers",
     "TIMERS/find-missing/btn": "Zoek missende timers",
+    "TIMERS/fire-all-timers/btn": "Activeer alle Timers",
     "TIMERS/fire-now/btn": "Brand timer nu",
     "TIMERS/timer-firingnext/hdr": "Ingesteld voor",
     "TIMERS/timer-name/hdr": "Timer naam",

@@ -221,6 +221,7 @@
     "TIMERS/debug-fire-every-minute/btn": "Fuego cada minuto ",
     "TIMERS/delete-all/btn": "Eliminar todos los temporizadores ",
     "TIMERS/find-missing/btn": "Encuentra temporizadores desaparecidos ",
+    "TIMERS/fire-all-timers/btn": "Activar todos los temporizadores",
     "TIMERS/fire-now/btn": "Temporizador Fuego ahora ",
     "TIMERS/timer-firingnext/hdr": "Disparando Siguiente ",
     "TIMERS/timer-name/hdr": "Nombre de temporizador ",

@@ -221,6 +221,7 @@
     "TIMERS/debug-fire-every-minute/btn": "Feuern Sie jede Minute ",
     "TIMERS/delete-all/btn": "Löschen Sie alle Timer ",
     "TIMERS/find-missing/btn": "Nach fehlenden Timer ",
+    "TIMERS/fire-all-timers/btn": "Alle Timer aktivieren",
     "TIMERS/fire-now/btn": "Jetzt Feuer-Timer ",
     "TIMERS/timer-firingnext/hdr": "Firing Weiter ",
     "TIMERS/timer-name/hdr": "Name der Timer ",
