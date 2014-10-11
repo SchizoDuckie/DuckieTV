@@ -49,6 +49,7 @@ angular.module('DuckieTV', [
     'DuckieTV.directives.lazybackground',
     'DuckieTV.directives.serieslist',
     'DuckieTV.directives.torrentdialog',
+    'DuckieTV.directives.querymonitor',
     'DuckieTorrent.controllers',
     'DuckieTorrent.torrent'
 ])
@@ -219,7 +220,7 @@ angular.module('DuckieTV', [
         }
     }
 ])
-.factory('HttpErrorInterceptor', ['$q', '$rootScope', '$timeout', function ($q, $rootScope, $timeout) {
+.factory('HttpErrorInterceptor', function ($q, $rootScope, $timeout) {
   return  {
     
     requestError: function (request) {
@@ -231,12 +232,13 @@ angular.module('DuckieTV', [
       return $q.reject(response);
     }
   };
-}])
-  
+})
+
 /**
  * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
  */
 .config(function($httpProvider, $compileProvider) {
+
     //$httpProvider.interceptors.push('xmlHttpInterceptor');
     $httpProvider.interceptors.push('CORSInterceptor');
     $httpProvider.interceptors.push('HttpErrorInterceptor');
@@ -245,7 +247,6 @@ angular.module('DuckieTV', [
 })
 
 .run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
-
     // translate the application based on preference or proposed locale
     console.info('client determined locale', $translate.proposedLanguage());
     SettingsService.set('client.determinedlocale', $translate.proposedLanguage());

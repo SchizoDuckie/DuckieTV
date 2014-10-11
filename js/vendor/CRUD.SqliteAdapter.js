@@ -145,6 +145,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
     },
 
     this.Persist = function(what, forceInsert) {
+        CRUD.stats.writesQueued++;
         var query = [],
             valCount = 0,
             values = [],
@@ -174,8 +175,10 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                 that.db.execute(query.join(' '), valmap).then(function(resultSet) {
                     resultSet.Action = 'inserted';
                     resultSet.ID = resultSet.rs.insertId;
+                    CRUD.stats.writesExecuted++;
                     resolve(resultSet);
                 }, function(err, tx) {
+                    CRUD.stats.writesExecuted++;
                     err.query = query.join(' ');
                     err.values = valmap;
                     fail(err);
@@ -192,9 +195,13 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 
             return new Promise(function(resolve, fail) {
                 that.db.execute(query.join(' '), valmap).then(function(resultSet) {
+                    CRUD.stats.writesExecuted++;
                     resultSet.Action = 'updated';
                     resolve(resultSet);
-                }, fail);
+                }, function(err, tx) {
+                    CRUD.stats.writesExecuted++;
+                    fail(err);
+                });
             });
         }
     }

@@ -4,6 +4,10 @@ if (!CRUD) var CRUD = {
     RELATION_MANY: 3,
     RELATION_CUSTOM: 4,
     DEBUG: false,
+    stats: {
+        writesQueued: 0,
+        writesExecuted: 0
+    },
     log: function() {
         if (CRUD.DEBUG) {
             console.log.apply(console, arguments);

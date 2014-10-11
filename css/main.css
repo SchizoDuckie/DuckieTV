@@ -950,3 +950,33 @@ calendar-event h2 {
 .alert strong {
 	display: block;
 }
+
+query-monitor {
+    position: fixed;
+    bottom: 0px;
+    right:0px;
+    background-color: rgba(0,50,0,0.8);
+    color: white;
+    font-size: 12px;
+    padding:10px;
+    z-index:10000;
+    width: 250px;
+    border-radius: 10px;
+    height: 80px;
+    opacity:0;
+    transform: translateX(120%);
+    transition: all 0.2s ease-in;
+}
+query-monitor i {
+    float: left;
+    font-size: 35px;
+    margin: 4px;
+    margin-right:8px;
+}
+query-monitor .progress {
+    margin-bottom: 10px;
+}
+query-monitor.show {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+}
