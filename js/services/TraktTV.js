@@ -82,10 +82,13 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
             cache: true,
             timeout: activeRequest.promise
         }).then(function(response) {
-            d.resolve(parser(response));
+            return d.resolve(parser(response));
         }, function(err) {
+            debugger;
             console.error('error fetching ', type);
-            d.reject(err);
+            return d.reject(err);
+        }, function(e) {
+            debugger;
         });
         return d.promise;
     };

@@ -136,13 +136,22 @@ angular.module('DuckieTV.directives.serieslist', [])
                 if ($scope.search.query.trim() < 2) { // when query length is smaller than 2 chars, auto-show the trending results
                     $scope.trendingSeries = true;
                     $scope.search.results = null;
+                    $scope.search.searching = false;
                     return;
                 }
+                $scope.search.searching = true;
                 // disableBatchMode makes sure that previous request are aborted when a new one is started.
                 return TraktTV.disableBatchMode().findSeries($scope.search.query).then(function(res) {
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
+                    $scope.search.searching = false;
                     TraktTV.enableBatchMode();
                     $scope.search.results = (res && ('series' in res)) ? res.series : [];
+                }, function(err) {
+                    debugger;
+                    $scope.search.searching = false;
+                    $scope.trendingSeries = false; // we have a result, hide the trending series.
+                    TraktTV.enableBatchMode();
+                    $scope.search.results =[];
                 });
             };
 
@@ -212,8 +221,6 @@ angular.module('DuckieTV.directives.serieslist', [])
                 $scope.favorites = data;
                 if (data.length == 0) {
                     $rootScope.$broadcast('serieslist:empty'); // we notify all listening channels that the series list is empty.
-                } else {
-                    FavoritesService.loadRandomBackground();
                 }
             });
 

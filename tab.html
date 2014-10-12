@@ -15,7 +15,7 @@
   <div class="container">
   	<div class="topsites-{{getSetting('topSites.enabled')}}">
       <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>
-      <div data-ng-view></div>
+      <div data-ng-view style='-webkit-transform:translate3d(0,0,0);'></div>
       <series-list></series-list>
       <div id="actionbar">
         <ul class="list-unstyled">
@@ -41,7 +41,7 @@
       </div>
     </div>
   </div>
-  <query-monitor ng-class="{show: progress < 100}" />
+  <query-monitor ng-class="{show: queryStats.writesQueued - queryStats.writesExecuted > 2}" />
   <img class='printlogo' src='img/icon64.png'>
 
 <!-- for development -->

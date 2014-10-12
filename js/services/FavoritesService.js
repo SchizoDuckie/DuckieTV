@@ -343,7 +343,12 @@ angular.module('DuckieTV.providers.favorites', [])
          * The BackgroundRotator service is listening for this event
          */
         loadRandomBackground: function() {
-            $rootScope.$broadcast('background:load', service.favorites[Math.floor(Math.random() * service.favorites.length)].fanart);
+            // dafuq. no RANDOM() in sqlite in chrome... 
+            // then we pick a random array item from the resultset based on the amount.
+            CRUD.EntityManager.getAdapter().db.execute("select fanart from series where fanart != ''").then(function(result) {
+                $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1)) + 1).fanart); 
+            })
+            
         },
         /**
          * Fetch stored series from sqlite and store them in service.favorites

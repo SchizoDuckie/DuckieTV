@@ -248,6 +248,9 @@ angular.module('DuckieTV', [
 
 .run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
     // translate the application based on preference or proposed locale
+    
+    FavoritesService.loadRandomBackground();
+               
     console.info('client determined locale', $translate.proposedLanguage());
     SettingsService.set('client.determinedlocale', $translate.proposedLanguage());
     var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage;
@@ -342,7 +345,8 @@ angular.module('DuckieTV', [
             });
         }
     });
-    
+
+
     // delay loading of chromecast because it's creating a load delay in the rest of the scripts.
     if ('chrome' in window && navigator.vendor.indexOf('Google') > -1) {
         setTimeout(function() {
