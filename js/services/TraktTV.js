@@ -253,14 +253,14 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
 .directive('focusWatch', function() {
     return {
         restrict: 'A',
-        scope: {
-            'focuswatch': '=focusWatch'
-        },
+        scope: '=',
         link: function($scope, element) {
-            if ($scope.focuswatch) {
-                $scope.$watch($scope.focuswatch, function() {
+            if(element[0].getAttribute('focus-watch')) {
+                $scope.$watch(element[0].getAttribute('focus-watch'), function() {
                     var el = element.length == 1 && element[0].tagName == 'INPUT' ? element[0] : element.find('input')[0];
-                    el.focus();
+                    setTimeout(function() {
+                        this.focus()
+                    }.bind(el), 500);
                 });
             }
         }
