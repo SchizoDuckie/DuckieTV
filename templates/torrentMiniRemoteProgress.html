@@ -2,4 +2,4 @@
    <span ng-transclude></span><span ng-if="torrent.getProgress() != '' && torrent.getProgress() > 0">&nbsp;({{ torrent.getProgress() }}%)</span>
     <div class="progress-bar " ng-class="{ 'progress-bar-danger': !torrent.isStarted() && torrent.getProgress() < 100, 'progress-bar-warning': torrent.isStarted() || torrent.getProgress() < 100 , 'progress-bar-success': torrent.getProgress() == 100 }" ng-style="{ width: torrent.getProgress() + '%' }">&nbsp;
     </div>
-  </div
+  </div>
