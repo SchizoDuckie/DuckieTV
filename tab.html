@@ -3,11 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>DuckieTV</title>
+  <!-- deploy:replace='<link rel="stylesheet" href="dist/style.css">' -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/anim.css">
   <link rel="stylesheet" href="css/dialogs.css">
+  <!-- /deploy:replace -->
+  <!-- deploy:replace='<link rel="stylesheet" media="print" href="dist/print.css">' -->
   <link rel="stylesheet" media="print" href="css/print.css">
+  <!-- /deploy:replace -->
   <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"/>
 </head>
 <body kc>
@@ -15,7 +19,7 @@
   <div class="container">
   	<div class="topsites-{{getSetting('topSites.enabled')}}">
       <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>
-      <div data-ng-view style='-webkit-transform:translate3d(0,0,0);'></div>
+      <div data-ng-view style='-webkit-transform:translate3d(0,0,0)'></div>
       <series-list></series-list>
       <div id="actionbar">
         <ul class="list-unstyled">
@@ -41,12 +45,10 @@
       </div>
     </div>
   </div>
-  <query-monitor ng-class="{show: queryStats.writesQueued - queryStats.writesExecuted > 2}" />
+  <query-monitor ng-class="{show: queryStats.writesQueued - queryStats.writesExecuted > 1}" />
   <img class='printlogo' src='img/icon64.png'>
 
-<!-- for development -->
-
-  <!-- dist/deps.js -->
+  <!-- deploy:replace='<script src="dist/deps.js"></script>' -->
   <script src='./js/vendor/promise-3.2.0.js'></script>
   <script src='./js/vendor/CRUD.js'></script>
   <script src='./js/vendor/CRUD.SqliteAdapter.js'></script>
@@ -56,17 +58,15 @@
   <script src="./js/vendor/angular-sanitize.min.js"></script>
   <script src="./js/vendor/angular-route.min.js"></script>
   <script src="./js/vendor/angular-xml.min.js"></script>
-  <script src='./js/vendor/ui-bootstrap-tpls-0.10.0.min.js'></script>
+  <script src='./js/vendor/ui-bootstrap-tpls-0.11.2.min.js'></script>
   <script src='./js/vendor/tmhDynamicLocale.js'></script>  
   <script src="./js/vendor/datePicker.js"></script>
   <script src="./js/vendor/dialogs.js"></script>
   <script src="./js/vendor/angular-translate.min.js"></script>
   <script src="./js/vendor/angular-translate-loader-static-files.min.js"></script>
   <script src="./js/vendor/angular-translate-handler-log.min.js"></script>
-
-   <!-- -->
-  
-  <!-- dist/app.js -->
+  <!-- /deploy:replace -->
+  <!-- deploy:replace='<script src="dist/app.js"></script>' -->
   <script src="./js/controllers/AboutCtrl.js"></script>
   <script src="./js/controllers/CastCtrl.js"></script>
   <script src="./js/controllers/EpisodeCtrl.js"></script>
@@ -113,15 +113,7 @@
   <script src="./js/services/WatchlistService.js"></script>
   <script src="./js/app.js"></script>
   <script src='./js/vendor/sha1.js' async></script>
-  <!-- -->
-
-<!-- 
-<script src="./dist/deps.js"></script>
-<script src="./dist/app.js"></script>
-  
--->
-      
-      
+  <!-- /deploy:replace -->
 
 </body>
 
