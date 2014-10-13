@@ -15,8 +15,8 @@ angular.module('DuckieTV.directives.backgroundrotator', [])
             channel: '='
         },
 
-        template: ["<div ng-style=\"{backgroundImage: bg1 ? 'url(http://ir0.mobify.com/'+format+'/'+bg1+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg1on ? 1 : 0}\"></div>",
-            "<div ng-style=\"{backgroundImage: bg2 ? 'url(http://ir0.mobify.com/'+format+'/'+bg2+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg2on ? 1 : 0}\"></div>"
+        template: ["<div ng-style=\"{backgroundImage: bg1 ? 'url('+bg1+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg1on ? 1 : 0}\"></div>",
+            "<div ng-style=\"{backgroundImage: bg2 ? 'url('+bg2+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg2on ? 1 : 0}\"></div>"
         ].join(''),
         link: function($scope, $attr) {
             $scope.format = ('chrome' in window) ? 'webp' : 'png';
@@ -37,7 +37,7 @@ angular.module('DuckieTV.directives.backgroundrotator', [])
                 img.onerror = function(e) {
                     console.log("image load error!", e, url);
                 };
-                img.src = url;
+                img.src = url.indexOf('mobify') > -1 ? url : ['http://ir0.mobify.com',$scope.format, url].join('/');
             }
 
             $rootScope.$on($scope.channel, function(event, url) {
