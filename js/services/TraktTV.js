@@ -23,7 +23,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
         episodeSeen: 'https://api.trakt.tv/show/episode/seen/dc6cdb4bcbc5cb9f2b666202a10353d6', // https://trakt.tv/api-docs/show-episode-seen
         episodeUnseen: 'https://api.trakt.tv/show/episode/unseen/dc6cdb4bcbc5cb9f2b666202a10353d6', // https://trakt.tv/api-docs/show-episode-seen
         addToLibrary: 'https://api.trakt.tv/show/library/dc6cdb4bcbc5cb9f2b666202a10353d6',
-        accountTest: 'http://api.trakt.tv/account/test/dc6cdb4bcbc5cb9f2b666202a10353d6'
+        accountTest: 'https://api.trakt.tv/account/test/dc6cdb4bcbc5cb9f2b666202a10353d6'
     };
 
     var parsers = {
