@@ -340,6 +340,8 @@
     "TRAKTTV/sync-disabled/lbl": "behindert",
     "TRAKTTV/sync-enabled/btn": "Gesehen Sync aktivieren TraktTV",
     "TRAKTTV/sync-enabled/lbl": "Aktiviert",
+    "TRAKTTV/sync-error-event/alert": "Fehler! - Etwas schief gegangen",
+    "TRAKTTV/sync-error-reason/alert": "Ungültiger Benutzername / Passwort oder Trakt.tv ausgefallen ist jetzt.",
     "TRAKTTV/sync-import/btn": "Import serien und beobachtete Episoden Von Trakt.TV",
     "TRAKTTV/sync-push/btn": "Drücken lokalen Serien und Episoden zu Trakt.TV",
     "TRAKTTV/sync/desc": "Wenn Sie einen Trakt.TV-Konto haben, können Sie haben DuckieTV automatisch selbst, indem Sie die Zugangsdaten ein zu füllen.\n Alle Ihre Lieblingssendungen und beobachtete Episoden angezeigt werden und zu Ihrem Favoriten-Liste.\n\n Wenn Sie Trakt.TV Sync aktivieren alle Shows, die Sie hinzufügen und Episoden, die Sie in DuckieTV sah Mark wird automatisch an Ihre Trakt.TV Konto synchronisiert.",

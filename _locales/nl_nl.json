@@ -340,6 +340,8 @@
     "TRAKTTV/sync-disabled/lbl": "gedeactiveerd",
     "TRAKTTV/sync-enabled/btn": "Activeer TraktTV bekeken synchronisatie",
     "TRAKTTV/sync-enabled/lbl": "geactiveerd",
+    "TRAKTTV/sync-error-event/alert": "Fout! - Er is iets mis gegaan ",
+    "TRAKTTV/sync-error-reason/alert": "Ongeldige gebruikersnaam / wachtwoord of Trakt.tv is momenteel niet beschikbaar.",
     "TRAKTTV/sync-import/btn": "Shows importeren en keek afleveringen Van Trakt.TV",
     "TRAKTTV/sync-push/btn": "Verzenden lokale series en afleveringen Trakt.TV",
     "TRAKTTV/sync/desc": "Als je een Trakt.TV account hebt, kunt u DuckieTV zichzelf automatisch vullen door het passeren hieronder uw gegevens in.\n Alle je favoriete programma's en keken afleveringen zullen opgehaald worden en toegevoegd aan je lijst met favorieten.\n\n Als u toelaten Trakt.TV Sync alle shows die u toevoegt en afleveringen die u in DuckieTV markeren bekeken wordt automatisch gesynchroniseerd met uw Trakt.TV account.",

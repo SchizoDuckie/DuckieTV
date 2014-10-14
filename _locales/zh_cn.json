@@ -340,6 +340,8 @@
     "TRAKTTV/sync-disabled/lbl": "残",
     "TRAKTTV/sync-enabled/btn": "启用TraktTV同步观看",
     "TRAKTTV/sync-enabled/lbl": "启用",
+    "TRAKTTV/sync-error-event/alert": "错误！ - 出了问题",
+    "TRAKTTV/sync-error-reason/alert": "无效的用户名/密码或Trakt.tv不可用现在.",
     "TRAKTTV/sync-import/btn": "进口节目和观看情节从Trakt.TV",
     "TRAKTTV/sync-push/btn": "按当地系列和情节来Trakt.TV",
     "TRAKTTV/sync/desc": "如果你有一个Trakt.TV帐户，你可以有DuckieTV通过传递您的凭据下自动填充自己。\n 所有您喜爱的节目，看着节目将被提取并添加到您的收藏夹列表。\n\n 如果您启用Trakt.TV同步您添加的所有节目和您标记看着DuckieTV发作会自动同步到您的Trakt.TV帐户。",

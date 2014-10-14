@@ -21,7 +21,7 @@
               <button ng-click='encryptPassword()' class="btn btn-info" ng-disabled="credentials.passwordHash !== null">{{'TRAKTTV/encrypt/btn'|translate}}</button> <button ng-click="clearCredentials()" class="btn btn-danger" >{{'TRAKTTV/clear-credentials/btn'|translate}}<br>
             </td>
             </tr></table>
-            <div class="alert alert-danger" role="alert" ng-show="credentials.error"><strong>Error! - something has gone wrong</strong>Invalid Username / Password or Trakt.tv is down right now.</div>
+            <div class="alert alert-danger" role="alert" ng-show="credentials.error"><strong>{{'TRAKTTV/sync-error-event/alert'|translate}}</strong>{{'TRAKTTV/sync-error-reason/alert'|translate}}</div>
             <button class="btn btn-success" style="margin-bottom:10px" ng-if="credentials.passwordHash && !getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',true)">{{'TRAKTTV/sync-enabled/btn'|translate}}</button>
             <button class="btn btn-danger" style="margin-bottom:10px" ng-if="credentials.passwordHash && getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',false)">{{'TRAKTTV/sync-disabled/btn'|translate}}</button>
             <p ng-if="credentials.passwordHash">

@@ -340,6 +340,8 @@
     "TRAKTTV/sync-disabled/lbl": "장애인",
     "TRAKTTV/sync-enabled/btn": "TraktTV는 시청 에이블 동기화",
     "TRAKTTV/sync-enabled/lbl": "사용",
+    "TRAKTTV/sync-error-event/alert": "오류! - 뭔가 잘못 간 ",
+    "TRAKTTV/sync-error-reason/alert": "유효하지 않은 사용자 이름 / 암호 또는 Trakt.tv 지금은 사용할 수 없습니다.",
     "TRAKTTV/sync-import/btn": "수입 쇼 Trakt.TV에서 본 에피소드",
     "TRAKTTV/sync-push/btn": "Trakt.TV 로컬 시리즈와 에피소드를 밀어",
     "TRAKTTV/sync/desc": "당신이 Trakt.TV 계정이있는 경우, 당신은 DuckieTV가 자동으로 아래의 자격 증명을 전달하여 자신을 채울 수 있습니다.\n당신의 마음에 드는 쇼 및 본 에피소드를 가져와 즐겨 찾기 목록에 추가됩니다.\n\n당신이 Trakt.TV 동기화 모든 추가 프로그램과 당신이 DuckieTV에서 본 마르크 화를 사용하는 경우 자동으로 Trakt.TV 계정에 동기화됩니다.",

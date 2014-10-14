@@ -340,6 +340,8 @@
     "TRAKTTV/sync-disabled/lbl": "使用禁止",
     "TRAKTTV/sync-enabled/btn": "TraktTVの視聴有効に同期",
     "TRAKTTV/sync-enabled/lbl": "使用可能",
+    "TRAKTTV/sync-error-event/alert": "エラー！ - 何かが間違ってしまった",
+    "TRAKTTV/sync-error-reason/alert": "無効なユーザー名/パスワードまたはTrakt.tv今は使用できません.",
     "TRAKTTV/sync-import/btn": "輸入ショーやTrakt.TVから見たエピソード",
     "TRAKTTV/sync-push/btn": "Trakt.TVにローカルシリーズとのエピソードをプッシュ",
     "TRAKTTV/sync/desc": "あなたはTrakt.TVアカウントをお持ちの場合は、DuckieTVが自動的に以下の資格情報を渡すことによって、自分自身を埋めることができます。\nすべてのあなたのお気に入りの番組や見エピソードがフェッチされ、お気に入りリストに追加されます。\n\nあなたはTrakt.TV同期すべての追加表示され、DuckieTVで見たマークを付けエピソードを有効にした場合は自動的にTrakt.TVアカウントに同期されます。",

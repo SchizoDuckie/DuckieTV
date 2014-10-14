@@ -340,6 +340,8 @@
     "TRAKTTV/sync-disabled/lbl": "Discapacitado",
     "TRAKTTV/sync-enabled/btn": "Habilitar TraktTV vistos sincronización",
     "TRAKTTV/sync-enabled/lbl": "Activado",
+    "TRAKTTV/sync-error-event/alert": "Error! - Algo ha ido mal ",
+    "TRAKTTV/sync-error-reason/alert": "Inválido nombre de usuario / contraseña o Trakt.tv no está disponible en estos momentos.",
     "TRAKTTV/sync-import/btn": "Programas de importación y episodios observaba desde Trakt.TV",
     "TRAKTTV/sync-push/btn": "Empuje serie local y episodios de Trakt.TV",
     "TRAKTTV/sync/desc": "Si usted tiene una cuenta Trakt.TV, usted puede tener DuckieTV llenar automáticamente sí pasando sus credenciales a continuación.\n Todos sus programas favoritos y los episodios vistos sera traida y añadido a su lista de favoritos.\n\n Si habilita Trakt.TV sincronización todos los shows que se agregan y episodios que marcan vistos en DuckieTV se sincronizan automáticamente a su cuenta Trakt.TV.",

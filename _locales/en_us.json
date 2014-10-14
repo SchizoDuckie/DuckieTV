@@ -357,6 +357,8 @@
     "TRAKTTV/sync-disabled/lbl": "Disabled",
     "TRAKTTV/sync-enabled/btn": "Enable TraktTV Watched Sync",
     "TRAKTTV/sync-enabled/lbl": "Enabled",
+    "TRAKTTV/sync-error-event/alert": "Error! - something has gone wrong",
+    "TRAKTTV/sync-error-reason/alert": "Invalid Username / Password or Trakt.tv is down right now.",
     "TRAKTTV/sync-import/btn": "Import shows and watched episodes From Trakt.TV",
     "TRAKTTV/sync-push/btn": "Push local series and episodes to Trakt.TV",
     "TRAKTTV/sync/desc": "If you have a Trakt.TV account, you can have DuckieTV automatically fill itself by passing your credentials below.\n All your favorite shows and watched episodes will be fetched and added to your favorites list.\n\n If you enable Trakt.TV Sync all shows that you add and episodes that you mark watched in DuckieTV will automatically synced to your Trakt.TV account.",
