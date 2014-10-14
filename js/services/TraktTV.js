@@ -22,7 +22,8 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
         userSuggestions: 'https://api.trakt.tv/recommendations/shows/dc6cdb4bcbc5cb9f2b666202a10353d6',
         episodeSeen: 'https://api.trakt.tv/show/episode/seen/dc6cdb4bcbc5cb9f2b666202a10353d6', // https://trakt.tv/api-docs/show-episode-seen
         episodeUnseen: 'https://api.trakt.tv/show/episode/unseen/dc6cdb4bcbc5cb9f2b666202a10353d6', // https://trakt.tv/api-docs/show-episode-seen
-        addToLibrary: 'https://api.trakt.tv/show/library/dc6cdb4bcbc5cb9f2b666202a10353d6'
+        addToLibrary: 'https://api.trakt.tv/show/library/dc6cdb4bcbc5cb9f2b666202a10353d6',
+        accountTest: 'http://api.trakt.tv/account/test/dc6cdb4bcbc5cb9f2b666202a10353d6'
     };
 
     var parsers = {
@@ -238,6 +239,20 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 }).then(function(result) {
                     console.log("Serie added to trakt.tv library: ", serieTVDB_ID);
                 })
+            },
+            /** 
+             * Test authentication with trakt.tv
+             * Returns either success or failure 
+             * http://trakt.tv/api-docs/account-test
+             */
+            checkDetails: function(user, shapass) {
+                return $http.post(endpoints.accountTest, {
+                    "username": user,
+                    "password": shapass,
+                }).then(function(result) {
+                    console.log("Trakt.tv account-test request successful, response: ", result.data.status);
+                    return result.data.status;
+                });
             }
         };
     

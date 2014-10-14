@@ -14,6 +14,13 @@
 	margin-bottom: 10px;
 }
 
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+	pointer-events: auto;
+}
+button[disabled], html input[disabled] {
+	cursor: not-allowed;
+}
+
 .nav {
 	margin-bottom:-1px;
 }
