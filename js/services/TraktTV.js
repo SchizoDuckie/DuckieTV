@@ -239,7 +239,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 }).then(function(result) {
                     console.log("Serie added to trakt.tv library: ", serieTVDB_ID);
                 })
-            }
+            },
             /** 
              * Test authentication with trakt.tv
              * Returns either success or failure 
@@ -247,7 +247,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
              */
             checkDetails: function(user, shapass) {
                 return $http.post(endpoints.accountTest, {
-                    "username":user,
+                    "username": user,
                     "password": shapass,
                 }).then(function(result) {
                     console.log("Trakt.tv account-test request successful, response: ", result.data.status);
