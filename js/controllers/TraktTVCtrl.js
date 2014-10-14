@@ -5,7 +5,9 @@
      $scope.credentials = {
          username: SettingsService.get('trakttv.username'),
          password: SettingsService.get('trakttv.passwordHash'),
-         passwordHash: SettingsService.get('trakttv.passwordHash')
+         passwordHash: SettingsService.get('trakttv.passwordHash'),
+         temphash: null,
+         error: false
      };
 
      $scope.traktTVSeries = [];
@@ -13,16 +15,29 @@
      $scope.traktTVSuggestions = false;
 
      $scope.encryptPassword = function() {
-         if ($scope.credentials.password !== null) {
-             $scope.credentials.passwordHash = CryptoJS.SHA1($scope.credentials.password).toString();
-             $scope.credentials.password = angular.copy($scope.credentials.passwordHash);
-             $rootScope.setSetting('trakttv.passwordHash', $scope.credentials.passwordHash);
-             $rootScope.setSetting('trakttv.username', $scope.credentials.username);
+         if($scope.credentials.password !== null) {
+            // Use Temp Password so that the trakt page doesn't udpate (it replies on passwordHash being null)
+             $scope.credentials.temphash = CryptoJS.SHA1($scope.credentials.password).toString();
+            // Check account details (user / sha1 pass) with Trakt.TV
+             TraktTV.checkDetails($scope.credentials.username, $scope.credentials.temphash).then(function(response) {
+                 if(response == 'success') {
+                     // Update internal and set passwords
+                     $scope.credentials.passwordHash = $scope.credentials.temphash;
+                     $scope.credentials.password = angular.copy($scope.credentials.passwordHash);
+                     $rootScope.setSetting('trakttv.passwordHash', $scope.credentials.passwordHash);
+                     $rootScope.setSetting('trakttv.username', $scope.credentials.username);
+                     $scope.credentials.error = false;
+                 } else {
+                     $scope.credentials.error = true;
+                     $scope.credentials.passwordHash = $scope.credentials.password = $scope.credentials.username = $scope.credentials.temphash = null;
+                 }
+             });
          }
      };
 
      $scope.clearCredentials = function() {
-        $scope.credentials.passwordHash = $scope.credentials.password = $scope.credentials.username = null;
+        $scope.credentials.passwordHash = $scope.credentials.password = $scope.credentials.username = $scope.credentials.temphash = null;
+        $scope.credentials.error = false;
         $rootScope.setSetting('trakttv.passwordHash', null);
         $rootScope.setSetting('trakttv.username', null);
 
