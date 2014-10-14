@@ -16,10 +16,10 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
         season: 'http://api.trakt.tv/show/seasons.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s',
         episode: 'http://api.trakt.tv/show/season.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s/%s',
         seriebyid: 'http://api.trakt.tv/show/summary.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s/extended',
-        trending: 'https://api.trakt.tv/shows/trending.json/dc6cdb4bcbc5cb9f2b666202a10353d6',
+        trending: 'http://api.trakt.tv/shows/trending.json/dc6cdb4bcbc5cb9f2b666202a10353d6',
         userShows: 'https://api.trakt.tv/user/library/shows/all.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s',
         userWatched: 'https://api.trakt.tv/user/library/shows/watched.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s/true',
-        userSuggestions: 'http://api.trakt.tv/recommendations/shows/dc6cdb4bcbc5cb9f2b666202a10353d6',
+        userSuggestions: 'https://api.trakt.tv/recommendations/shows/dc6cdb4bcbc5cb9f2b666202a10353d6',
         episodeSeen: 'https://api.trakt.tv/show/episode/seen/dc6cdb4bcbc5cb9f2b666202a10353d6', // https://trakt.tv/api-docs/show-episode-seen
         episodeUnseen: 'https://api.trakt.tv/show/episode/unseen/dc6cdb4bcbc5cb9f2b666202a10353d6', // https://trakt.tv/api-docs/show-episode-seen
         addToLibrary: 'https://api.trakt.tv/show/library/dc6cdb4bcbc5cb9f2b666202a10353d6'
