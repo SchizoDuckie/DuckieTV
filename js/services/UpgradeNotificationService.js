@@ -29,5 +29,5 @@ angular.module('DuckieTV.providers.upgradenotification', ['dialogs'])
 	}
 
 	service.initialize();
-
+	return service;
 });
