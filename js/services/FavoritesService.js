@@ -370,7 +370,6 @@ angular.module('DuckieTV.providers.favorites', [])
                 });
                 service.favoriteIDs = ids;
                 $rootScope.$broadcast('favorites:updated', service.favorites);
-                $rootScope.$broadcast('episodes:updated');
             });
         }
     };
