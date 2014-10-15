@@ -7,7 +7,7 @@
          <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
       </h2>
 
-      <div ng-if="activated">
+      <div ng-if="activated" ng-class="{duckie: !searchingForSerie}">
         <!-- the top tools panel for the series list. -->
         <div style='width: 100%; text-align: right;padding: 30px;font-size: 20px;'>
 

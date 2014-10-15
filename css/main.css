@@ -289,9 +289,11 @@ series-list {
     -webkit-transition: -webkit-transform 0.5s ease-in;
     -webkit-transform: translate3d(0, 100%, 0);
 }
+
 series-list.active {
     -webkit-transform: translate3d(0, 0, 0);
 }
+
 series-list > div > h2 {
     width: 100%;
     text-align: center;
@@ -304,6 +306,7 @@ series-list > div > h2 {
     transition: background-color 0.5s ease-in-out;
     cursor: pointer;
 }
+
 series-list > div > h2 > i {
     font-size: 14px;
     line-height:25px;
@@ -312,6 +315,13 @@ series-list > div > h2 > i {
 series-list:hover h2, series-list.active h2 {
     background-color: rgba(0, 0, 0, 0.9);
 }
+
+series-list.active div.duckie {
+    background-image: url('../img/icon64-inverted.png');
+    background-repeat: no-repeat;
+    background-position: center center
+}
+
 .series {
     overflow-y: auto;
     bottom: 12px;
