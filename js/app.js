@@ -3,7 +3,6 @@
  */
 angular.module('DuckieTV', [
     'ngRoute',
-    'ngAnimate',
     'ngLocale',
     'tmh.dynamicLocale',
     'datePicker',
@@ -185,62 +184,66 @@ angular.module('DuckieTV', [
     function($q, $injector) {
         return {
             request: function(config) {
-                if (window.location.href.indexOf('chrome') === -1 && config.url.indexOf('http') === 0 && config.url.indexOf('localhost') === -1) {
-                    //if (config.url.indexOf(".json") == config.url.length - 5 || config.url.indexOf('api.trakt.tv') > -1) {
-                    //    // json requests go through this API since it's got less problems with large content blobs
-                    //    config.url = ['http://jsonp.jit.su/?url=', encodeURIComponent(config.url)].join('');
-                    //} else {
-                    // all the other requests go through here, works well for regularxmlhttp requests.
-                    /*
-                     * if corsproxy is already in use then don't prefix it again
-                     */
+                if(config.url.indexOf('http') == 0 && config.url.indexOf('localhost') === -1) {
                     if (config.url.indexOf('www.corsproxy.com') == -1) config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
-                    //}
                 }
+                
                 return config;
             },
-            // optional method
-            'response': function(response) {
-                // do something on success
-                return response;
-            },
-
-            // optional method
             'responseError': function(rejection) {
                 if ('recovered' in rejection.config) {
                     return rejection;
                 }
                 rejection.config.recovered = true;
                 var $http = $injector.get('$http');
-                // first create new session server-side
-                // rejection.config.url = rejection.config.url.replace('http://www.corsproxy.com/', '');
                 return $http(rejection.config);
             }
 
         }
     }
 ])
-.factory('HttpErrorInterceptor', function ($q, $rootScope, $timeout) {
-  return  {
-    
-    requestError: function (request) {
-        console.error("Request error!", request);
-      return $q.reject(request);
-    },
-    responseError: function (response) {
-        console.error(" Response error!" , response);
-      return $q.reject(response);
-    }
-  };
+.factory('HttpErrorInterceptor', function ($q, $rootScope) {
+    var $netStats = {
+        outstanding: 0,
+        error: 0
+    };
+    return  {
+        request: function(config) {
+            if(config.url.indexOf('http') > -1) {
+                $netStats.outstanding++;
+                $rootScope.$broadcast('http:stats', ['request', $netStats]);
+            }
+            return config;
+        },
+        response: function(response) {
+            if(response.config.url.indexOf('http') > -1) {
+                $netStats.outstanding--;
+                $rootScope.$broadcast('http:stats', ['response', $netStats]);
+            }
+            return response;
+        },
+        requestError: function (request) {
+          $netStats.error++;
+          $netStats.outstanding--;
+          $rootScope.$broadcast('http:stats', ['requestError', request, $netStats]);
+          return request;
+        },
+        responseError: function (response) {
+          $netStats.error++;
+          $netStats.outstanding--;
+          $rootScope.$broadcast('http:stats', ['responseError', response, $netStats]);
+          return response;
+        }
+      };
 })
-
 /**
  * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
  */
 .config(function($httpProvider, $compileProvider) {
 
-    //$httpProvider.interceptors.push('xmlHttpInterceptor');
-    $httpProvider.interceptors.push('CORSInterceptor');
+    if (window.location.href.indexOf('chrome-extension') === -1) {
+        $httpProvider.interceptors.push('CORSInterceptor');
+    }
     $httpProvider.interceptors.push('HttpErrorInterceptor');
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data):/);
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
@@ -311,6 +314,9 @@ angular.module('DuckieTV', [
         });
     }
 
+    $rootScope.$on('http:stats', function(error, stats) {
+        console.error(" HTTP request! " , stats[0], stats[1]);
+    });
 
     /** 
      * Hide the favorites list when navigationg to a different in-page action.
