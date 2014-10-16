@@ -674,6 +674,7 @@ input[type=text], input[type=url], input[type=password], option, select {
     bottom: 0px;
     right: 0px;
     line-height: 40px;
+    z-index: -5;
 }
 td.day {
     position: relative
@@ -747,6 +748,7 @@ td.day {
     margin-top: 2px;
     transition: all 0.5s ease-in-out;
 }
+
 [date-picker] .event .watched {
     background-color: rgba(255,255,255,0.3);
 }
@@ -1006,4 +1008,33 @@ query-monitor .progress {
 query-monitor.show {
     opacity: 1;
     -webkit-transform: translateX(0);
+}
+
+
+a span .episode-icons {
+    opacity:0;
+    visibility:hidden;
+    z-index: 1000;
+    border: 1px solid white;
+    background-color: rgba(0,50,0,0.8);
+    border-radius: 5px;
+    top: 0px;
+    height:40px;
+    left: 90%;
+    position: absolute;
+    width: 40px;
+    -webkit-transform: scale(0.01);
+    -webkit-transition: all 0.5s ease-in-out;
+    -webkit-animation-delay: 0.5s;
+
+}
+
+
+a:hover span .episode-icons {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -webkit-transition: all 0.5s ease-in-out;
+    -webkit-animation-delay: 0.5s;
+    
 }
