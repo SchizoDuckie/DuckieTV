@@ -745,6 +745,7 @@ td.day {
     cursor: pointer;
     margin-top: 2px;
     transition: all 0.5s ease-in-out;
+    z-index: 10;
 }
 [date-picker] .event .watched {
     background-color: rgba(255,255,255,0.3);
@@ -879,6 +880,7 @@ a:hover i.glyphicon-plus-sign {
     background-color: #222;
     border-color: #111;
 }
+
 calendar-event .progress {
     background-color: transparent;
     height: auto;

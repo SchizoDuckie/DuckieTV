@@ -9,13 +9,13 @@ angular.module('DuckieTV.directives.episodewatched', [])
         restrict: 'E',
         transclude: true,
         scope: {
-            episode: '='
+            episode: '=',
+            preventBubble: '='
         },
-        template: ['<a ng-click="markWatched()" style="width:100%" class="glyphicon" tooltip="{{getToolTip()}}" ng-class="{ \'glyphicon-eye-open\' : episode.get(\'watched\') ===  \'1\', \'glyphicon-eye-close\' : episode.get(\'watched\') !== \'1\' }" ng-transclude></a>'],
+        template: ['<a ng-click="markWatched($event)" style="width:100%" class="glyphicon" tooltip="{{getToolTip()}}" ng-class="{ \'glyphicon-eye-open\' : episode.get(\'watched\') ===  \'1\', \'glyphicon-eye-close\' : episode.get(\'watched\') !== \'1\' }" ng-transclude></a>'],
         link: function($scope) {
 
             $scope.tooltip = null;
-
             /**
              * Translate the watchedAt tooltip
              */
@@ -29,12 +29,16 @@ angular.module('DuckieTV.directives.episodewatched', [])
             /**
              * Pass the logic to the episode to handle marking watched in a generic way
              */
-            $scope.markWatched = function() {
+            $scope.markWatched = function($event) {
                 if ($scope.episode.get('watched') === '1') {
                     $scope.episode.markNotWatched($injector.get('$rootScope'));
                 } else {
                     $scope.episode.markWatched($injector.get('$rootScope'));
                 }
+
+                if($scope.preventBubble == 1) {
+                    $event.stopPropagation();
+                }   
             };
         }
     };
