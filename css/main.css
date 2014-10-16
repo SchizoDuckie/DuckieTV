@@ -168,6 +168,9 @@ serieheader[mode=banner] {
     display: inline-block;
     width:50%;
 }
+
+
+
 serieheader[mode=banner] h3 {
     position: absolute;
     margin-top: 0px;
@@ -276,6 +279,19 @@ serieheader em.earmark {
 serieheader em.earmark.adding{
     background-color: rgba(236,210,70, 0.8);
 }
+
+
+serieheader em.earmark.delete {
+    -webkit-transition: all 1s ease-in;
+    background-color: rgba(150,0,0, 0.4);
+    -webkit-transform: translateX(100px);
+}
+
+
+serieheader:hover em.earmark.delete {
+    -webkit-transform: translateX(0);
+}
+
 
 series-list {
     position: fixed;

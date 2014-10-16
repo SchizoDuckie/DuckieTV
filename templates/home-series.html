@@ -64,13 +64,19 @@
         </div>
 
         <div class="series" ng-if="activated && !searchingForSerie && mode == 'search'">
-          <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search"></serieHeader>
+          <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search">
+            <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
+          </serieHeader>
         </div>
         <div class="series" ng-if="activated && !searchingForSerie && mode == 'poster'">
-          <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster"></serieHeader>
+          <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="poster">   
+              <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
+          </serieHeader>
         </div>
         <div class="series" ng-if="activated && !searchingForSerie && mode == 'banner'">
-          <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner"></serieHeader>
+          <serieHeader ng-repeat="serie in favorites | orderBy: 'name'" data="serie" no-overview="1" mode="banner">
+               <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
+           </serieHeader>
         </div>
 
       </div>
