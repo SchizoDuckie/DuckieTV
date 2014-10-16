@@ -60,8 +60,8 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     };
                     TraktTV.disableBatchMode().findTrending().then(function(res) {
                         $scope.trending.results = res;
-                    }, function() { 
-                        $scope.search.error = true; 
+                    }).catch(function(error) { 
+                        $scope.search.error = error; 
                         $scope.trendingSeries = false; 
                     });
                 }
