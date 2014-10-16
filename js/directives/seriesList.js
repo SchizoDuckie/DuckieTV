@@ -51,6 +51,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 $scope.serieAddFocus = true;
                 $scope.mode = $rootScope.getSetting('series.displaymode');
                 $scope.search.query = undefined;
+                $scope.search.error = false;
                 $scope.search.results = null;
 
                 if (!$scope.trending) {
@@ -59,6 +60,9 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     };
                     TraktTV.disableBatchMode().findTrending().then(function(res) {
                         $scope.trending.results = res;
+                    }, function() { 
+                        $scope.search.error = true; 
+                        $scope.trendingSeries = false; 
                     });
                 }
 
@@ -136,22 +140,24 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 if ($scope.search.query.trim() < 2) { // when query length is smaller than 2 chars, auto-show the trending results
                     $scope.trendingSeries = true;
                     $scope.search.results = null;
+                    $scope.search.error = false;
                     $scope.search.searching = false;
                     return;
                 }
                 $scope.search.searching = true;
+                $scope.search.error = false;
                 // disableBatchMode makes sure that previous request are aborted when a new one is started.
                 return TraktTV.disableBatchMode().findSeries($scope.search.query).then(function(res) {
+                    $scope.search.error = false;
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
                     $scope.search.searching = false;
                     TraktTV.enableBatchMode();
                     $scope.search.results = (res && ('series' in res)) ? res.series : [];
-                }, function(err) {
-                    debugger;
-                    $scope.search.searching = false;
+                }).catch(function(err) {
+                    $scope.search.error = err;
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
                     TraktTV.enableBatchMode();
-                    $scope.search.results =[];
+                    $scope.search.results = false;
                 });
             };
 

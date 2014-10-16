@@ -73,7 +73,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
      */
     var promiseRequest = function(type, param, param2) {
         if (activeRequest && !batchmode) {
-            activeRequest.resolve();
+            activeRequest.resolve([]);
         }
         var d = $q.defer();
         var url = getUrl(type, param, param2);
@@ -84,13 +84,9 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
             timeout: activeRequest.promise
         }).then(function(response) {
             return d.resolve(parser(response));
-        }, function(err) {
-            debugger;
-            console.error('error fetching ', type);
-            return d.reject(err);
-        }, function(e) {
-            debugger;
-        });
+        }).catch(function(error) {
+            return d.reject(error);
+        })
         return d.promise;
     };
 
