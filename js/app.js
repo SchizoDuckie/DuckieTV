@@ -125,23 +125,38 @@ angular.module('DuckieTV', [
      */
 
     .registerAvailableLanguageKeys([
-        'en_nz', 'en_au', 'en_uk', 'en_us', 'nl_nl', 'de_de', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'pt_pt', 'ru_ru', 'sv_se', 'zh-cn'
+        'de_de', 'en_au', 'en_nz', 'en_uk', 'en_us', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nl_nl', 'pt_pt', 'ru_ru', 'sv_se', 'zh_cn'
     ], {
-        'en_ca': 'en_uk',
-        'en_gb': 'en_uk',
-        'es_419': 'es_es',
-        'pt_br': 'pt_pt',
         'de': 'de_de',
+        'de_DE': 'de_de',
         'en': 'en_us',
+        'en_US': 'en_us',
+        'en_ca': 'en_uk',
+        'en_CA': 'en_uk',
+        'en_gb': 'en_uk',
+        'en_GB': 'en_uk',
         'es': 'es_es',
+        'es_ES': 'es_es',
+        'es_419': 'es_es',
         'fr': 'fr_fr',
+        'fr_FR': 'fr_fr',
         'it': 'it_it',
+        'it_IT': 'it_it',
         'ja': 'jp_jp',
+        'ja_JP': 'jp_jp',
         'ko': 'ko_kr',
+        'ko_KR': 'ko_kr',
         'nl': 'nl_nl',
+        'nl_NL': 'nl_nl',
         'pt': 'pt_pt',
+        'pt_PT': 'pt_pt',
+        'pt_br': 'pt_pt',
         'ru': 'ru_ru',
-        'sv': 'sv_se'
+        'ru_RU': 'ru_ru',
+        'sv': 'sv_se',
+        'sv_SE': 'sv_se',
+        'zh': 'zh_cn',
+        'zh_CN': 'zh_cn'
     })
 
     /*
@@ -254,10 +269,10 @@ angular.module('DuckieTV', [
     
     FavoritesService.loadRandomBackground();
                
-    console.info('client determined locale', $translate.proposedLanguage());
-    SettingsService.set('client.determinedlocale', $translate.proposedLanguage());
-    var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage;
-    SettingsService.changeLanguage('en_us'); // this is the fallback language. any strings not loaded will be in en_us lanague.
+    console.info('client determined locale', angular.lowercase($translate.proposedLanguage()));
+    SettingsService.set('client.determinedlocale', angular.lowercase($translate.proposedLanguage()));
+    var configuredLocale = SettingsService.get('application.locale') || angular.lowercase($translate.proposedLanguage);
+    SettingsService.changeLanguage('en_us'); // this is the fall-back language. any strings not loaded will be in en_us language.
     SettingsService.changeLanguage(configuredLocale);
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 

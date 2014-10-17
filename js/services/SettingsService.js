@@ -88,10 +88,12 @@ angular.module('DuckieTV.providers.settings', [])
          * Todo: clean this up.
          */
         changeLanguage: function(langKey) {
-            langKey = langKey || 'en_us';
+            langKey = angular.lowercase(langKey) || 'en_us';
             var locale = langKey;
             switch (langKey) {
                 case 'en_au':
+                case 'en_ca':
+                case 'en_gb':
                 case 'en_nz':
                     langKey = 'en_uk';
                     break;
@@ -120,19 +122,20 @@ angular.module('DuckieTV.providers.settings', [])
                     langKey = 'nl_nl';
                     break;
                 case 'pt':
+                case 'pt_br':
                     langKey = 'pt_pt';
                     break;
                 case 'es_419':
                     langKey = 'es_es';
-                    break;
-                case 'pt_br':
-                    langKey = 'pt_pt';
                     break;
                 case 'ru':
                     langKey = 'ru_ru';
                     break;
                 case 'sv':
                     langKey = 'sv_se';
+                    break;
+                case 'zh':
+                    langKey = 'zh_cn';
                     break;
             }
             service.set('application.language', langKey);

@@ -280,18 +280,20 @@ serieheader em.earmark.adding{
     background-color: rgba(236,210,70, 0.8);
 }
 
-
 serieheader em.earmark.delete {
-    -webkit-transition: all 1s ease-in;
     background-color: rgba(150,0,0, 0.4);
+    cursor: pointer;
+    -webkit-transition: all 1s ease-in;
     -webkit-transform: translateX(100px);
 }
-
-
+serieheader em.earmark.delete i.glyphicon {
+    display: initial;
+    top: -1px;
+    vertical-align: middle;
+}
 serieheader:hover em.earmark.delete {
     -webkit-transform: translateX(0);
 }
-
 
 series-list {
     position: fixed;
