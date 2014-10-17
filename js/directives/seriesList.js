@@ -107,7 +107,9 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 dlg.result.then(function(btn) {
                     console.log("Remove from favorites!", serie);
                     FavoritesService.remove(serie);
-                    $location.path('/')
+                    if($location) {
+                        $location.path('/')
+                    }
                 }, function(btn) {
                     $scope.confirmed = $filter('translate')('SERIEDETAILSjs/serie-delete-confirmed');
                 });

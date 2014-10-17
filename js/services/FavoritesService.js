@@ -308,7 +308,7 @@ angular.module('DuckieTV.providers.favorites', [])
                     console.log("Serie deleted. Syncing storage.");
                     
                     $rootScope.$broadcast('storage:update');
-                    service.restore();
+                    service.refresh();
 
                 });
 
@@ -321,6 +321,18 @@ angular.module('DuckieTV.providers.favorites', [])
                     }
                 });
                 chrome.alarms.clear(serie.name + ' update check');
+            });
+        },
+        refresh: function() {
+            service.getSeries().then(function(results) {
+                service.favorites = results;
+                var ids = [];
+                results.map(function(el) {
+                    ids.push(el.TVDB_ID.toString());
+                });
+                service.favoriteIDs = ids;
+                $rootScope.$broadcast('favorites:updated', service.favorites);
+                $rootScope.$broadcast('episodes:updated');
             });
         },
         /**
@@ -362,15 +374,7 @@ angular.module('DuckieTV.providers.favorites', [])
                 });
 
             });
-            service.getSeries().then(function(results) {
-                service.favorites = results;
-                var ids = [];
-                results.map(function(el) {
-                    ids.push(el.TVDB_ID.toString());
-                });
-                service.favoriteIDs = ids;
-                $rootScope.$broadcast('favorites:updated', service.favorites);
-            });
+            service.refresh();
         }
     };
     service.restore();
