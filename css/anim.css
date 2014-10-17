@@ -24,3 +24,19 @@ trakt-tv-search i.glyphicon, piratebay-search i.glyphicon, kickass-torrent-searc
 	right: -94%;
 	-webkit-animation: rotate 0.4s ease-in infinite;
 }
+
+
+@-webkit-keyframes zoom {
+  from { 
+  	height:0px;
+  	overflow:hidden;
+  	-webkit-transform: translateY(-100%);
+  	opacity: 0;
+  }
+  to { 
+  	height: 40px;
+  	overflow:visible;
+  	-webkit-transform: translateY(0);
+  	opacity: 1;
+  }
+}

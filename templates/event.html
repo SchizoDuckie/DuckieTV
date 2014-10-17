@@ -1,17 +1,10 @@
 <div class="event dropdown">
-
-  <a class="dropdown-toggle" ng-click="isOpen=true" ng-class="{ watched : event.episode.get('watched') === '1' }" ng-mouseover="hovering=true" ng-mouseout="hovering=false">
+  <a class="dropdown-toggle" ng-click="isOpen=true" ng-class="{ watched : event.episode.get('watched') === '1' }">
     <div ng-if="$root.getSetting('torrenting.enabled') && $root.getSetting('torrenting.progress') && event.episode.values.magnetHash" tooltip="{{ event.episode.getFormattedEpisode() }}">
-      <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">{{ event.serie }} 
-         <span class='episode-icons'><episode-watched prevent-bubble=1 ng-show="event.episode.get('watched') !== '1'" episode="event.episode" style="float:right; display:inline-block; font-size:14px !important; margin-right:5px;"></episode-watched> </span>
-      </torrent-remote-control>
+      <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">{{ event.serie }}</torrent-remote-control>
     </div>
     <div ng-if="$root.getSetting('torrenting.enabled') != 1 || !event.episode.values.magnetHash || $root.getSetting('torrenting.progress') != 1" ng-class="{ watchedtick : event.episode.get('watched') === '1' }">
-      <span tooltip="{{event.episode.getFormattedEpisode()}}">{{ event.serie }}
-       <span class='episode-icons'>
-         <episode-watched prevent-bubble=1 ng-show="event.episode.get('watched') !== '1'" episode="event.episode" style="float:right; display:inline-block; font-size:14px !important; margin-right:5px;"></episode-watched>
-         </span>
-      </span>
+      <span tooltip="{{event.episode.getFormattedEpisode()}}">{{ event.serie }}</span>
     </div>
     <div ng-if="event.episode.get('watched') === '1'">
       <div ng-if="$root.getSetting('torrenting.enabled') && $root.getSetting('torrenting.progress') && event.episode.values.magnetHash"><span1 class="glyphicon glyphicon-ok watchedpos" style="top: 6px;"></span1></div>
