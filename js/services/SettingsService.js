@@ -88,72 +88,53 @@ angular.module('DuckieTV.providers.settings', [])
          * Todo: clean this up.
          */
         changeLanguage: function(langKey) {
-            langKey = langKey || 'en_us';
+            langKey = angular.lowercase(langKey) || 'en_us';
             var locale = langKey;
             switch (langKey) {
                 case 'en_au':
-                case 'en_AU':
                 case 'en_ca':
-                case 'en_CA':
                 case 'en_gb':
-                case 'en_GB':
                 case 'en_nz':
-                case 'en_NZ':
                     langKey = 'en_uk';
                     break;
                 case 'de':
-                case 'de_DE':
                     langKey = 'de_de';
                     break;
                 case 'en':
-                case 'en_US':
                     langKey = 'en_us';
                     break;
                 case 'es':
-                case 'es_ES':
                     langKey = 'es_es';
                     break;
                 case 'fr':
-                case 'fr_FR':
                     langKey = 'fr_fr';
                     break;
                 case 'it':
-                case 'it_IT':
                     langKey = 'it_it';
                     break;
                 case 'ja':
-                case 'ja_JP':
                     langKey = 'ja_jp';
                     break;
                 case 'ko':
-                case 'ko_KR':
                     langKey = 'ko_kr';
                     break;
                 case 'nl':
-                case 'nl_NL':
                     langKey = 'nl_nl';
                     break;
                 case 'pt':
-                case 'pt_PT':
+                case 'pt_br':
                     langKey = 'pt_pt';
                     break;
                 case 'es_419':
                     langKey = 'es_es';
                     break;
-                case 'pt_br':
-                case 'pt_BR':
-                    langKey = 'pt_pt';
-                    break;
                 case 'ru':
-                case 'ru_RU':
                     langKey = 'ru_ru';
                     break;
                 case 'sv':
-                case 'sv_SE':
                     langKey = 'sv_se';
                     break;
                 case 'zh':
-                case 'zh_CN':
                     langKey = 'zh_cn';
                     break;
             }
