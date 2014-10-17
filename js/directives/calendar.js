@@ -1,4 +1,4 @@
-angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
+angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites','DuckieTV.providers.episodeaired'])
 
 /**
  * The CalendarEvents service provides storage and retrieve functions
@@ -186,7 +186,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
  * This also watches for the magnet:select event will be fired by the
  * TorrentDialog when a user selects a magnet link for an episode.
  */
-.directive('calendarEvent', function(uTorrent, SceneNameResolver) {
+.directive('calendarEvent', function(uTorrent, SceneNameResolver,EpisodeAiredService) {
     return {
         restrict: 'E',
         scope: {
@@ -202,6 +202,12 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites'])
                 $scope.event.episode.set('magnetHash', magnet);
                 $scope.event.episode.Persist();
             });
+            $scope.autoDownload = function() {
+                CRUD.FindOne('Serie', { TVDB_ID: $scope.event.serieID }).then(function(serie) {
+
+                    EpisodeAiredService.autoDownload(serie, $scope.event.episode);
+                })
+            },
             $scope.getSearchString = function(event) {
                 var serieName = SceneNameResolver.getSceneName(event.serieID) || event.serie;
                 return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + event.episode.getFormattedEpisode();

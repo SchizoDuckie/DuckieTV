@@ -251,6 +251,44 @@ angular.module('DuckieTV', [
         }
       };
 })
+/*
+  .config(function($provide) {
+    var count = window.promiseStats = {
+        open: 0,
+        done: 0,
+        promises: {}
+    };
+    $provide.decorator('$q', function($delegate) {
+        var defer = $delegate.defer;
+        $delegate.defer = function() {
+
+            count.open++;
+            var traceId = count.open;
+            if(traceId == 61) { 
+                debugger;
+            }
+            var deferred = count.promises[traceId] = defer();
+            console.timeline('promise ' +traceId);
+            console.profile('promise '+traceId);
+            
+            deferred.promise.finally(function() {
+                count.done++;
+                console.timelineEnd('promise ' +traceId);
+                console.profileEnd('promise '+traceId);
+                delete count.promises[traceId];    
+            });
+            deferred.promise.catch(function() {
+                count.done++;
+                                console.timelineEnd('promise ' +traceId);
+                console.profileEnd('promise '+traceId);
+                delete count.promises[traceId];    
+
+            })
+            return deferred;
+        };
+        return $delegate;
+    });
+}) */
 /**
  * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
  */
@@ -259,7 +297,7 @@ angular.module('DuckieTV', [
     if (window.location.href.indexOf('chrome-extension') === -1) {
         $httpProvider.interceptors.push('CORSInterceptor');
     }
-    $httpProvider.interceptors.push('HttpErrorInterceptor');
+    //$httpProvider.interceptors.push('HttpErrorInterceptor');
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data):/);
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
 })

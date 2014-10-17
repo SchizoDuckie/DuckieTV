@@ -12,7 +12,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
     var minSeeders = 250; // minimum amount of seeders required.
 
     var service = {
-        initialize: function() {
+        attach: function() {
             console.log('initializing episode aired checker service!');
             $rootScope.$on('episode:aired:check', function(episode) {
                 console.log("Episode air check fired");
@@ -32,32 +32,33 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
                         CRUD.FindOne('Serie', {
                             ID_Serie: episode.get('ID_Serie')
                         }).then(function(serie) {
-                            // fetch the Scene Name for the serie and compile the search string for the episode with the quality requirement.
-                            var name = SceneNameResolver.getSceneName(serie.get('TVDB_ID'));
-                            var searchString = (name || serie.get('name')) + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
-                            ThePirateBay.search(searchString).then(function(results) { // search thepiratebay for the string
-                                if (results.length === 0) {
-                                    return; // no results, abort
-                                }
-                                if (parseInt(results[0].seeders, 10) >= minSeeders) { // enough seeders are available.
-                                    var url = results[0].magneturl; // launch the magnet uri via the TorrentDialog's launchMagnet Method
-                                    setTimeout(function() {
-                                        TorrentDialog.launchMagnet(url, serie.get('TVDB_ID'), true);
-                                    }, episodeIndex * 10000);
-                                    // store the magnet hash on the episode and notify the listeners of the change
-                                    episode.set('magnetHash', url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
-                                    episode.Persist();
-                                    $rootScope.$broadcast('episodes:updated');
-                                }
-                            });
-
+                            service.autoDownload(serie, episode, episodeIndex);
                         });
 
                     });
                 });
             });
+        },
+        autoDownload: function(serie,episode, episodeIndex) {
+            // fetch the Scene Name for the serie and compile the search string for the episode with the quality requirement.
+            var name = SceneNameResolver.getSceneName(serie.get('TVDB_ID'));
+            var searchString = (name || serie.get('name')) + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
+            ThePirateBay.search(searchString).then(function(results) { // search thepiratebay for the string
+                if (results.length === 0) {
+                    return; // no results, abort
+                }
+                if (parseInt(results[0].seeders, 10) >= minSeeders) { // enough seeders are available.
+                    var url = results[0].magneturl; // launch the magnet uri via the TorrentDialog's launchMagnet Method
+                    setTimeout(function() {
+                        TorrentDialog.launchMagnet(url, serie.get('TVDB_ID'), true);
+                    }, (episodeIndex || 0) * 10000);
+                    // store the magnet hash on the episode and notify the listeners of the change
+                    episode.set('magnetHash', url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+                    episode.Persist();
+                    $rootScope.$broadcast('episodes:updated');
+                }
+            });
         }
     };
-    service.initialize();
     return service;
 });

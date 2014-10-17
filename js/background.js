@@ -73,6 +73,7 @@ angular.module('DuckieTV', [
         chrome.runtime.sendMessage({ channel: 'sync:processremoteupdate', eventData: progress});
     });
     EventWatcherService.initialize();
+    EpisodeAiredService.attach();
     StorageSyncService.attach();
     StorageSyncService.checkSyncProgress(SettingsService.get('sync.progress'));
 });
