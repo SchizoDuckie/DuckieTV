@@ -73,7 +73,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
      */
     var promiseRequest = function(type, param, param2) {
         if (activeRequest && !batchmode) {
-            activeRequest.resolve([]);
+            activeRequest.resolve();
         }
         var d = $q.defer();
         var url = getUrl(type, param, param2);
@@ -85,6 +85,9 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
         }).then(function(response) {
             return d.resolve(parser(response));
         }).catch(function(error) {
+            if(error.status == 0) { // rejected promises
+                return d.resolve([]);
+            }
             return d.reject(error);
         })
         return d.promise;

@@ -156,6 +156,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     TraktTV.enableBatchMode();
                     $scope.search.results = (res && ('series' in res)) ? res.series : [];
                 }).catch(function(err) {
+                    $scope.search.searching = false;
                     $scope.search.error = err;
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
                     TraktTV.enableBatchMode();
