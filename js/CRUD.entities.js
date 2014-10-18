@@ -150,6 +150,9 @@ var Episode = CRUD.define({
     getAirDate: function() {
         return new Date(this.get('firstaired')).toLocaleString();
     },
+    getAirTime: function() {
+        return new Date(this.get('firstaired')).toTimeString().substring(0,5);
+    },
     hasAired: function() {
         return this.get('firstaired') && this.get('firstaired') <= new Date().getTime();
     },

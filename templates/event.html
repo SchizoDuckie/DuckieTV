@@ -1,10 +1,10 @@
 <div class="event dropdown">
   <a class="dropdown-toggle" ng-click="isOpen=true" ng-class="{ watched : event.episode.get('watched') === '1' }">
-    <div ng-if="$root.getSetting('torrenting.enabled') && $root.getSetting('torrenting.progress') && event.episode.values.magnetHash" tooltip="{{ event.episode.getFormattedEpisode() }}">
+    <div ng-if="$root.getSetting('torrenting.enabled') && $root.getSetting('torrenting.progress') && event.episode.values.magnetHash" tooltip="{{ event.episode.getFormattedEpisode() }} ({{event.episode.getAirTime() }}) ">
       <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">{{ event.serie }}</torrent-remote-control>
     </div>
     <div ng-if="$root.getSetting('torrenting.enabled') != 1 || !event.episode.values.magnetHash || $root.getSetting('torrenting.progress') != 1" ng-class="{ watchedtick : event.episode.get('watched') === '1' }">
-      <span tooltip="{{event.episode.getFormattedEpisode()}}">{{ event.serie }}</span>
+      <span tooltip="{{event.episode.getFormattedEpisode()}} ({{event.episode.getAirTime() }}) ">{{ event.serie }}</span>
     </div>
     <div ng-if="event.episode.get('watched') === '1'">
       <div ng-if="$root.getSetting('torrenting.enabled') && $root.getSetting('torrenting.progress') && event.episode.values.magnetHash"><span1 class="glyphicon glyphicon-ok watchedpos" style="top: 6px;"></span1></div>
