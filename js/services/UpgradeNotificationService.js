@@ -11,7 +11,7 @@ angular.module('DuckieTV.providers.upgradenotification', ['dialogs'])
 
 	var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="http://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="http://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="http://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
 	var notifications = {
-		'0.70': '<ul><li>Sync your shows and watched episodes from and to Trakt.TV<br>(check it out in <a href="#/settings">Settings</a>)<li>The "Most visited sites" drawer can now be changed to open on click<br> (also from <a href="#/settings">Settings</a>)<li>Syncing your favorite shows via your Google account works again.<br>(on by default, disable it in <a href="#/settings">Settings</a>)<li>You can now print the calendar (press CTRL + P or ⌘ + P)</ul>'
+		'0.75': "<li>Easily delete shows from series you're watching<li>Database write indicators<li>Improved error handling and credentials validation for Trakt.TV <li>Update mechanism improved to handle TheTVDB reassigning ID's (fixing duplicate/disappearing shows on your calendar after an update)<li>IMDB / Wikipedia links on the show details page<li>Added ability to hide 'Specials' for shows (like Dr. Who) (check it out in <a href="#/settings">Settings</a>)<li>Bandwidth consumption improvements<li>Shows that have ended will now only be checked for updates every 2 weeks<li>Fixed Torrent Dialog search box to automatically grab keyboard focus<li>Torrent auto-download service now runs every 2 hours instead of every 4 hours<li>Fixed 'Scenename' lookup for downloads"
 	}
 
 	var service = {
