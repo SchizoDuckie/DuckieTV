@@ -95,6 +95,13 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     });
 
     /**
+     * checks if sync is supported, used to hide/show sync panel on settings/display
+     */
+    $scope.isSyncSupported = function() {
+        return StorageSyncService.isSupported();
+    }
+
+    /**
      * Fire off an event that pushes the current series list into the cloud
      */
     $scope.sync = function() {
