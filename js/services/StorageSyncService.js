@@ -14,7 +14,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
  */
 .factory('StorageSyncService', function($rootScope, $q, FavoritesService, SettingsService, TraktTV, $injector, $filter) {
     function isSupported() {
-        return ('chrome' in window && 'storage' in chrome && 'sync' in chrome.storage && navigator.vendor.indexof('Opera') == -1) 
+        return ('chrome' in window && 'storage' in chrome && 'sync' in chrome.storage && navigator.vendor.indexOf('Opera') == -1) 
     };
 
     var service = {
