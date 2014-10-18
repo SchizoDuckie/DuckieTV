@@ -2,9 +2,9 @@
 <html>
 
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Duckietv : A chrome plugin to track your favorite tv-shows with semi-automagic torrent integration" />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Duckietv : A chrome plugin to track your favorite tv-shows with semi-automagic torrent integration">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -36,7 +36,7 @@
 
 <p>DuckieTV is a Google Chrome / Opera extension that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.</p>
 
-<p>With the integrated DuckieTorrent client you can connect DuckieTV to your local uTorrent/BitTorrent client and be updated on the download progress without switching applications. Experimental ChromeCast integration even provides the possibility to stream videos to your TV while still downloading.</p>
+<p>With the integrated DuckieTorrent client you can connect DuckieTV to your local µTorrent/BitTorrent client and be updated on the download progress without switching applications. Experimental ChromeCast integration even provides the possibility to stream videos to your TV while still downloading.</p>
 
 <p>As of v0.60 DuckieTV also is also finally becoming a worthy SickBeard competitor by introducing an automatic downloading of shows that have aired and translations into 11 languages. (English, Deutch, Español, Français, Italiano, 日本, 한국어, Nederlands, Purtugese, Русский, Svenska, 简体中文 )</p>
 
@@ -53,25 +53,31 @@
 <ul>
 <li><a href="https://chrome.google.com/webstore/detail/hkbamkappmgfjjahmnlngibomenmbbdf/">DuckieTV 'New Tab mode': Installs itself as your new tab page</a></li>
 <li><a href="https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/">DuckieTV 'Browser Action mode': Adds a button next to your address bar</a></li>
-</ul><h2>
+</ul>
+
+<h2>
 <a name="install-duckietv-for-opera" class="anchor" href="#install-duckietv-for-opera"><span class="octicon octicon-link"></span></a>Install DuckieTV for Opera</h2>
 
 <ul>
 <li><a href="https://addons.opera.com/en-gb/extensions/details/duckietv-browser-action-mode/">DuckieTV 'Browser Action mode': Adds a button next to your addres bar</a></li>
-</ul><h2>
+</ul>
+
+<h2>
 <a name="try-duckietv-online" class="anchor" href="#try-duckietv-online"><span class="octicon octicon-link"></span></a>Try DuckieTV online</h2>
 
 <ul>
 <li>You can now also try DuckieTV online, provided you have Chrome, Safari, Opera or an Android browser. Note that it is using a third party service to work around cross-domain limitations and can be broken at any time.
-Try it <a href="http://schizoduckie.github.io/DuckieTV">here</a>
+Try it <a href="http://DuckieTV.github.io/DuckieTV/">here</a>
 </li>
-</ul><h1>
+</ul>
+
+<h1>
 <a name="screenshots" class="anchor" href="#screenshots"><span class="octicon octicon-link"></span></a>Screenshots:</h1>
 
 <p><strong>Your main screen is a beautiful calendar with backgrounds tailored to the shows you are watching</strong>
 <img src="http://i.imgur.com/B5jtvrf.png" alt="'New Tab' mode"></p>
 
-<p><strong>Instant access to uTorrent/BitTorrent features from the calendar</strong>
+<p><strong>Instant access to µTorrent/BitTorrent features from the calendar</strong>
 <img src="http://i.imgur.com/h6OnmHO.png" alt="Stream with uTorrent player"></p>
 
 <p><strong>Add your favorite shows by picking them off of TraktTV's Trending Shows list, or search manually</strong>
@@ -92,23 +98,24 @@ Try it <a href="http://schizoduckie.github.io/DuckieTV">here</a>
 <p><strong>You can either completely turn off Torrent integration or tune it to your preference</strong>
 <img src="http://i.imgur.com/GWDLCLh.png" alt="Torrent Settings"></p>
 
-<p><strong>DuckieTorrent uTorrent/BitTorrent client built-in</strong>
+<p><strong>DuckieTorrent µTorrent/BitTorrent client built-in</strong>
 <img src="http://i.imgur.com/dTdt1DH.png" alt="DuckieTorrent uTorrent integration"></p>
 
 <h1>
 <a name="changelog-" class="anchor" href="#changelog-"><span class="octicon octicon-link"></span></a>Changelog: </h1>
 
 <ul>
+<li>v0.75 : DuckieTV is much faster now, Easily delete shows from series you're watching, Database write indicators, Improved error handling and credentials validation for Trakt.TV, Update mechanism improved to handle TheTVDB reassigning ID's (fixing duplicate/disappearing shows on your calendar after an update), IMDB / Wikipedia links on the show details page, Added ability to hide 'Specials' for shows (like Dr. Who), Bandwidth consumption improvements, Shows that have ended will now only be checked for updates every 2 weeks, Fixed Torrent Dialog search box to automatically grab keyboard focus, Torrent auto-download service now runs every 2 hours instead of every 4 hours, Fixed 'Scenename' lookup for downloads.</li>
 <li>v0.70 : One of the most requested features was added: You can now sync your shows and watched episodes from and to Trakt.TV! The "Most visited sites" drawer can now be changed to open on click, syncing your favorite shows via your Google account works again. and you can now print the calendar.</li>
 <li>v0.62 : Fixed a problem with the add series typeahead</li>
 <li>v0.61 : Fixed deployment problem for english/uk users.</li>
 <li>v0.60 : New tabs interface in settings thanks to /u/Js41637, Introduced Internationalisation and translations thanks to /u/Garfield69, Initial translations into English and Dutch, the 9 other most popular languages are included in auto-translated form. Optimized watched indicator in calendar, added Trakt.TV's trending shows to 'series you're watching', made it possible to use the basic features of DuckieTV as a regular website: <a href="http://DuckieTV.github.io/DuckieTV/">http://DuckieTV.github.io/DuckieTV/</a> (browsers that support WebSQL only! Tested on Chrome/Opera/Android)</li>
 <li>v0.55 : Fixes and improvements for the calendar, double loading images and GUI by /u/Garfield69 and /u/Js41637 Thanks guys!!!</li>
-<li>v0.54 : Layout CSS tuning and bugfixes by /u/Js41637 (Thanks!). Support for uTorrent 3.4.1 alpha, Fixed KAT parsing, Added extra permission for huge series (&gt;5mb) databases.</li>
+<li>v0.54 : Layout CSS tuning and bugfixes by /u/Js41637 (Thanks!). Support for µTorrent 3.4.1 alpha, Fixed KAT parsing, Added extra permission for huge series (&gt;5mb) databases.</li>
 <li>v0.53 : CSS/layout fixes, Fixed the timers that went missing, fixed the auto-update service, fixed restore watchlist timers, improved memory usage on backup restore.</li>
 <li>v0.52 : Fixed magnet URI catching and saving everywhere you can launch a torrent search for an episode. Added a popup menu on the torrent dialog with access to source, torrent and magnet links for each result</li>
 <li>v0.51 : Fixed several marking episode as watched issues</li>
-<li>v0.50 : Complete UI overhaul, uTorrent integration, experimental Chromecast integration, many performance improvements</li>
+<li>v0.50 : Complete UI overhaul, µTorrent integration, experimental Chromecast integration, many performance improvements</li>
 <li>v0.43 : Made sure migrations don't run on fresh installs</li>
 <li>v0.42 : Fixed missing scheduled event and chrome alarm delete procedure when deleting series.</li>
 <li>v0.41 : Fixed 'browser action mode' not launching on icon click.</li>
@@ -124,20 +131,22 @@ Try it <a href="http://schizoduckie.github.io/DuckieTV">here</a>
 <li>v0.25 : GUI updates: Made backgrounds blend with black to improve readability, Implemented new settings toggles: 'extra wide calendar' and 'hide torrent searchbox from main page', created switch to show your favorite shows in grid mode (which takes less space), various touchups. </li>
 <li>v0.24 : Implemented switch preference to select default search provider (ThePirateBay or KickassTorrents) that's used for downloads by default, fixed setting custom tpb proxy gui</li>
 <li>v0.23 : Bugfix release</li>
-<li>v0.22 : Fixed PirateBay search result size parsing, auto-translate breaks it.
-v0.21 : Added setting to disable torrent functionality, Added piratebay mirror resolver and manual override, added setting to hide TopSites, switched to google's site screenshot * service like used on their new tab (the api that I used was getting slow due to the popularity of this)</li>
+<li>v0.22 : Fixed PirateBay search result size parsing, auto-translate breaks it.</li>
+<li>v0.21 : Added setting to disable torrent functionality, Added piratebay mirror resolver and manual override, added setting to hide TopSites, switched to google's site screenshot * service like used on their new tab (the api that I used was getting slow due to the popularity of this)</li>
 <li>v0.20 : Implemented Scene Name Resolver for series that have an alternate scene name </li>
 <li>v0.19 : Implemented automagic PirateBay Proxy Resolver,  Display filesize for torrents in popup</li>
 <li>v0.18 : Fixed date bug showing items on previous day on calendar.</li>
 <li>v0.17 : Styling improvements, layouting and useability improvements. created #/watchlist url (still hidden for now), torrentfreak top10, mocked up #/settings page</li>
 <li>v0.16 : Fixed TVRage sync and made it automagic</li>
-<li>v0.15 : Cleaned up the layout and merged search engines. 
-v0.14 : TVRage Sync under series details. Fixes wrong episode numbers in the TVDB database for shows like 'Pawn Stars'. (Github #20) Click the Episode number column in the table to * activate.</li>
+<li>v0.15 : Cleaned up the layout and merged search engines. </li>
+<li>v0.14 : TVRage Sync under series details. Fixes wrong episode numbers in the TVDB database for shows like 'Pawn Stars'. (Github #20) Click the Episode number column in the table to * activate.</li>
 <li>v0.13 : Browser Action Mode created</li>
 <li>v0.12 : Added kickass torrent search for when thepiratebay is down. Will be reworked into something nicer soon</li>
 <li>v0.11 : First 'browser action' release</li>
 <li>v0.10 : First public release.</li>
-</ul><h1>
+</ul>
+
+<h1>
 <a name="permissions" class="anchor" href="#permissions"><span class="octicon octicon-link"></span></a>Permissions</h1>
 
 <p>Chrome will report that this plugin wants to access your data on all websites and read/modify your browser history.</p>
@@ -163,7 +172,9 @@ v0.14 : TVRage Sync under series details. Fixes wrong episode numbers in the TVD
 <li>I do not want your money, I do this in my spare time for fun and to make my own life and that of other's easier. There is no business model.</li>
 <li>There are no costs to cover: No servers, no hosting, no databases, everything runs on google's, github's and reddit's infrastructure. Therefore you are <em>not</em> the product and this is extension is free as in free beer.</li>
 <li>Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.</li>
-</ul><p>Please open a github ticket or start a <a href="http://reddit.com/r/duckietv/">reddit thread</a> if there is anything else that needs improvement. And remember, this is a beta.</p>
+</ul>
+
+<p>Please open a github ticket or start a <a href="http://reddit.com/r/duckietv/">reddit thread</a> if there is anything else that needs improvement. And remember, this is a beta.</p>
       </section>
     </div>
 
@@ -175,7 +186,17 @@ v0.14 : TVRage Sync under series details. Fixes wrong episode numbers in the TVD
       </footer>
     </div>
 
-    
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-48322896-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
 
   </body>
 </html>
