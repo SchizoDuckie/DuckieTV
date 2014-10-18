@@ -29,7 +29,7 @@
       </p>
     </td>
   </tr>
-  <tr>
+  <tr ng-if="isSyncSupported()">
     <th width="150px">
       <strong style='white-space:nowrap; display:block;'>{{'DEFAULT/sync/hdr'|translate}}</strong>
       <p class="label label-success" ng-show="getSetting('storage.sync')">{{'DEFAULT/sync-enabled/lbl'|translate}}</p>
