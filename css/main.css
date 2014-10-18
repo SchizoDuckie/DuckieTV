@@ -734,7 +734,7 @@ td.day {
     position: relative;
     float: left;
     width: 33%;
-    z-index: -5;
+    z-index: 0;
 }
 [date-picker] .event {
     display: block;
