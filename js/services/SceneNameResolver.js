@@ -359,7 +359,8 @@ angular.module('DuckieTV.providers.scenenames', [])
         	 * Return the scene name of the provided TVDB_ID if it's in the list.
         	 */
             getSceneName: function(tvdbID) {
-                return (tvdbID in exceptions) ? exceptions[tvdbID] : false;
+                return (tvdbID in exceptions) ? exceptions[tvdbID].replace(/\(([12][09][0-9]{2})\)/,
+'').replace(' and ', ' ')  : false;
             }
         }
     }
