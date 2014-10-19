@@ -90,7 +90,7 @@ var background = [
  * Default and depoyment tasks:
  * Concats scripts, dependencies, background page, styles, alters the main template to use dist versions and writes all of this the local dist/ directory
  */
-gulp.task('default', ['concatScripts','concatDeps','concatBackgroundPage','concatStyles','launch.js','tabTemplate'], function() {
+gulp.task('default', ['concatScripts','concatDeps','concatBackgroundPage','concatStyles','launch.js','tabTemplate','scenenames'], function() {
     notify('packaging to dist/ done');
 });
 
@@ -123,14 +123,18 @@ gulp.task('deploy', ['zipbrowseraction','zipnewtab','zipopera'], function() {
 gulp.task('scenenames', function() {
     notify('downloading new scene name exceptions');
     request('https://raw.githubusercontent.com/midgetspy/sb_tvdb_scene_exceptions/gh-pages/exceptions.txt', function(error,response,result) {
-        console.log('exceptions downloaded');
-
+        var output = {};
         result = result.split(/,\r\n/g).map(function(line) {
-           line = line.match(/([0-9]+)\, (\'(.*)\'\/){1,}/g);
-           console.log(line); 
-        })
-        //console.log(result);
-
+           var l = line.match(/([0-9]+): '(.*)'/);
+           if(l) {
+               var candidates = l[2].split("', '");
+               output[l[1]] = candidates[0].replace('\\\'',"'").replace(/\(US\)/,"").replace(/\([1-2][09]([0-9]{2})\)/,'').trim();
+           } 
+        });
+        var sceneNameFile = fs.readFileSync('js/services/SceneNameResolver.js');
+        var output = sceneNameFile.toString().replace(/exceptions \= (\{[\s\S]+\})\;/g, 'exceptions = '+JSON.stringify(output,null,4)+';');
+        fs.writeFileSync('js/services/SceneNameResolver.js', output);
+        notify('SceneNameResolver.js was updated');
     })
 })
 
