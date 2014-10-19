@@ -172,6 +172,7 @@
     "HOMETPB/torrent-search/hdr": "Torrent pesquisa ",
     "IMDBjs/placeholder": "Pesquisar IMDB para filmes ou séries ",
     "KICKASSTORRENTSjs/placeholder": "Procure qualquer coisa em Kickass Torrents ",
+    "QUERYMONITORjs/close-tab-prompt/lbl": "DuckieTV ainda está realizando operações de banco de dados. Você realmente deseja fechar esta aba?",
     "SERIE/airdate/hdr": "data de estréia ",
     "SERIE/click-for-options/tooltip": "Clique para opções ",
     "SERIE/download-season/lbl": "Baixe toda temporada ",

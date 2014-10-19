@@ -172,6 +172,7 @@
     "HOMETPB/torrent-search/hdr": "torrent sökning ",
     "IMDBjs/placeholder": "Sök IMDB för filmer eller serier ",
     "KICKASSTORRENTSjs/placeholder": "Sök efter något på Kickass Torrents ",
+    "QUERYMONITORjs/close-tab-prompt/lbl": "DuckieTV fortfarande utföra databasåtgärder. Vill du verkligen stänga den här fliken?",
     "SERIE/airdate/hdr": "Luft datum ",
     "SERIE/click-for-options/tooltip": "Klicka för optioner ",
     "SERIE/download-season/lbl": "Ladda ner hela säsongen ",
