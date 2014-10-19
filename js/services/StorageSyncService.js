@@ -164,7 +164,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
             if(!isSupported()) return;
             if(!progress) return;
             console.log("iterating non remote", progress);
-            var confirmDelete = function(btn) {
+            var confirmDelete = function(btn, result) {
                 if(btn == 'yes-all') {
                     window.confirmAll = true;
                 }
@@ -185,7 +185,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
 
             FavoritesService.getById(progress.nonRemote[progress.remoteProcessed]).then(function(result) {
                 if(('confirmAll' in window)) {
-                    return confirmDelete('yes-all')
+                    return confirmDelete('yes-all', result)
                 } else if (('confirmNone' in window)) {
                     return cancelDelete('no-all')
                 } else {
@@ -195,7 +195,11 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                         result.get('name') + '</strong>' +
                         $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2')
                     );
-                    service.activeDlg.result.then(confirmDelete, cancelDelete);
+                    service.activeDlg.result.then(function(btn) {
+                        confirmDelete(btn, result)
+                    }, function() {
+                        cancelDelete(btn)
+                    });
                 }
             });
         
