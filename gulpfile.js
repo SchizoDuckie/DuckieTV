@@ -20,7 +20,8 @@ var gulp = require('gulp'),
     zip = require('gulp-zip'),
     fs = require('fs');
 
-
+ var ver = String(fs.readFileSync('VERSION'));
+  
 // scripts are provided in order to prevent any problems with the load order dependencies
 var scripts = ['./js/controllers/*.js', './js/directives/*.js','./js/services/*.js', './js/app.js'];
 
@@ -73,62 +74,85 @@ var background = [
     "js/background.js"
 ]
 
-gulp.task('default', function() {
-    
-    gulp.src(scripts)
+gulp.task('concatScripts',function() {
+    return gulp.src(scripts)
         .pipe(concat('app.js', {newLine: ';'}))
         .pipe(gulp.dest('dist/'))
         .pipe(notify({ message: 'Scripts packaged to dist/app.js' }));
+})
 
-    /**
-     * Package all the app's dependencies from the vendors foldr
-     */
-    gulp.src(deps)
+gulp.task('concatDeps',function() {
+     return gulp.src(deps)
         .pipe(concat('deps.js', {newLine: ';'}))
         .pipe(gulp.dest('dist/'))
         .pipe(notify({ message: 'Deps packaged to dist/deps.js' }));
+})
 
-    /**
-     * Package all the app's dependencies from the vendors foldr
-     */
-    gulp.src(background)
+gulp.task('concatBackgroundPage', function() {
+    return gulp.src(background)
         .pipe(concat('background.js', {newLine: ';'}))
         .pipe(gulp.dest('dist/'))
         .pipe(notify({ message: 'Background page packaged to dist/background.js' }));
-    gulp.src('launch.js')
-        .pipe(gulp.dest('dist/'));
+})
 
-    /**
-     * replace tab.html's placeholders that indicate the deployment scripts 
-     */
-    gulp.src(['tab.html'])
+gulp.task('launch.js', function() {
+    return gulp.src('launch.js')
+        .pipe(gulp.dest('dist/'));
+})
+
+gulp.task('tabTemplate', function() {
+     return gulp.src(['tab.html'])
         .pipe(replace(/<!-- deploy:replace\=\'(.*)\' -->([\s\S]+?)[^\/deploy:]<!-- \/deploy:replace -->/g, '$1'))
         .pipe(gulp.dest('dist/'))
         .pipe(notify({ message: 'Tab template deployed' }));
+})
 
-     gulp.src(styles)
-        .pipe(concatCss("style.css"))
-        .pipe(gulp.dest('dist/'))
-        .pipe(notify({ message: 'Styles concatted' }));
-     gulp.src('css/print.css')
+
+gulp.task('concatStyles', function() {
+    return gulp.src(styles)
+            .pipe(concatCss("style.css"))
+            .pipe(gulp.dest('dist/'))
+            .pipe(notify({ message: 'Styles concatted' }));
+})
+
+gulp.task('print.css', function() {
+    return gulp.src('css/print.css')
         .pipe(gulp.dest('dist/'));
-
+})
+gulp.task('default', ['concatScripts','concatDeps','concatBackgroundPage','concatStyles','launch.js','tabTemplate'], function() {
+    notify('packaging to dist/ done');
 });
  
+gulp.task('copyToDeploy', ['default'], function() {
+  return gulp.src(['VERSION', '_locales/**','dist/**','fonts/**','img/**','templates/**'],{ "base" : "." })
+        .pipe(gulp.dest('../deploy/browseraction'))
+        .pipe(gulp.dest('../deploy/newtab'))
+        .pipe(gulp.dest('../deploy/opera'));
+});
 
-gulp.task('deploy', ['default'], function() {
-    // js-format formatting options used in manipulating manifest.json
+gulp.task('copytab', ['copyToDeploy'], function() {
+    return gulp.src('dist/tab.html')
+        .pipe(gulp.dest('../deploy/browseraction'))
+        .pipe(gulp.dest('../deploy/newtab'))
+        .pipe(gulp.dest('../deploy/opera'));
+});
+
+gulp.task('copychromecast',['copyToDeploy'], function() {
+     return gulp.src('js/vendor/cast_sender.js')
+            .pipe(gulp.dest('../deploy/browseraction/js/vendor/'))
+            .pipe(gulp.dest('../deploy/newtab/js/vendor/'))
+            .pipe(gulp.dest('../deploy/opera/js/vendor/'));
+});
+
+gulp.task('manifests',['copychromecast','copytab'], function() {
+     
+     // js-format formatting options used in manipulating manifest.json
     var formatOptions = {
         'indent_char': '\t',
         'indent_size': 1,
         'brace_style': 'end-expand'
     }
-    // fetch duckietv version into variable.
-    var ver = String(fs.readFileSync('VERSION'));
-    
-    /**
-     * Modify package.json to remove the whole list of background scripts and replace it with dist version
-     */
+
     var noLaunch = function(json) {
         json.version = ver;
         json.background.scripts = ['dist/background.js'];
@@ -144,41 +168,54 @@ gulp.task('deploy', ['default'], function() {
         return json;
     }
 
-    // push all files to their dirs
-    gulp.src(['VERSION', '_locales/**','dist/**','fonts/**','img/**','templates/**'],{ "base" : "." })
-        .pipe(gulp.dest('../deploy/browseraction'))
-        .pipe(gulp.dest('../deploy/newtab'))
-        .pipe(gulp.dest('../deploy/opera'));
-    // move tab.html in place
-    gulp.src('dist/tab.html')
-        .pipe(gulp.dest('../deploy/browseraction'))
-        .pipe(gulp.dest('../deploy/newtab'))
-        .pipe(gulp.dest('../deploy/opera'));
-    // copy manifest.json variants into place and adapt it for deployment
     gulp.src('manifest.json')
-        .pipe(jsonedit(noLaunch, formatOptions))
-        .pipe(gulp.dest('../deploy/newtab/'));
+            .pipe(jsonedit(noLaunch, formatOptions))
+            .pipe(gulp.dest('../deploy/newtab/'));
     gulp.src('manifest-app.json')
-        .pipe(rename('manifest.json'))
-        .pipe(jsonedit(withLaunch, formatOptions))
-        .pipe(gulp.dest('../deploy/browseraction/'));
-    gulp.src('manifest-opera.json')
-        .pipe(rename('manifest.json'))
-        .pipe(jsonedit(withLaunch, formatOptions))
-        .pipe(gulp.dest('../deploy/opera/'));
+            .pipe(rename('manifest.json'))
+            .pipe(jsonedit(withLaunch, formatOptions))
+            .pipe(gulp.dest('../deploy/browseraction/'));
+    return gulp.src('manifest-opera.json')
+            .pipe(rename('manifest.json'))
+            .pipe(jsonedit(withLaunch, formatOptions))
+            .pipe(gulp.dest('../deploy/opera/'));
+});
 
-    gulp.src('../deploy/browseraction/**')
-        .pipe(zip('browseraction-'+ver+'.zip'))
-        .pipe(gulp.dest('../deploy'));
+gulp.task('zipbrowseraction', ['manifests'], function() {
+     return gulp.src('../deploy/browseraction/**')
+            .pipe(zip('browseraction-'+ver+'.zip'))
+            .pipe(gulp.dest('../deploy'))
+});
 
-    gulp.src('../deploy/newtab/**')
-        .pipe(zip('newtab-'+ver+'.zip'))
-        .pipe(gulp.dest('../deploy'));
+gulp.task('zipnewtab', ['manifests'], function() {
+     return gulp.src('../deploy/newtab/**')
+            .pipe(zip('newtab-'+ver+'.zip'))
+            .pipe(gulp.dest('../deploy'))
+});
 
+gulp.task('zipopera', ['manifests'], function() {
     return gulp.src('../deploy/opera/**')
-        .pipe(zip('opera-'+ver+'.zip'))
-        .pipe(gulp.dest('../deploy'))
-        .pipe(notify('deployment done to ../deploy/'));
+            .pipe(zip('opera-'+ver+'.zip'))
+            .pipe(gulp.dest('../deploy'));
+});
 
+
+gulp.task('zipfiles', ['zipbrowseraction','zipnewtab','zipopera'], function() {
+   
+})
+
+
+gulp.task('deploy', ['zipfiles'], function() {
+    
+    gulp.src('../deploy/newtab-'+ver+'.zip')
+            .pipe(rename('newtab-latest.zip'))
+            .pipe(gulp.dest('../deploy/'));
+    gulp.src('../deploy/browseraction-'+ver+'.zip')
+            .pipe(rename('browseraction-latest.zip'))
+            .pipe(gulp.dest('../deploy/'));
+    gulp.src('../deploy/opera-'+ver+'.zip')
+            .pipe(rename('opera-latest.zip'))
+            .pipe(gulp.dest('../deploy/')); 
+    notify('DEPLOY done to ../deploy/ !');    
 
 });

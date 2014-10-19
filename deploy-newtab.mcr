@@ -27,7 +27,7 @@ Keyboard : Space : KeyDown
 DELAY : 84
 Keyboard : Space : KeyUp
 WAIT FOR : Open : appear : 0 : 0
-TYPE TEXT : c:\wamp\www\deploy\newtab-latest.zip
+TYPE TEXT : c:\xampp\htdocs\deploy\newtab-latest.zip
 Keyboard : Enter : KeyDown
 DELAY : 83
 Keyboard : Enter : KeyUp
