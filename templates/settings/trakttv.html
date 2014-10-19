@@ -49,7 +49,7 @@
           <div class="miniposter" ng-if="traktTVSuggestions">
             <h1>{{'TRAKTTV/suggestions-fetched/lbl'|translate}}</h1>
             <p>{{'TRAKTTV/click-add-show/lbl'|translate}}</p>
-             <serieheader style='display:inline-block; margin:5px;' ng-repeat="serie in traktTVSuggestions" data="serie" no-overview=1 no-button=1 mode="poster" ng-click="selectSerie(serie)">
+             <serieheader style='display:inline-block;margin:5px;cursor:pointer' ng-repeat="serie in traktTVSuggestions" data="serie" no-overview=1 no-button=1 mode="poster" ng-click="selectSerie(serie)">
                 <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
                 <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
              </serieheader>
