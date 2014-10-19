@@ -172,6 +172,7 @@
     "HOMETPB/torrent-search/hdr": "토런트 검색 ",
     "IMDBjs/placeholder": "영화 나 시리즈 IMDB 검색 ",
     "KICKASSTORRENTSjs/placeholder": "Kickass 급류에 아무것도 검색 ",
+    "QUERYMONITORjs/close-tab-prompt/lbl": "DuckieTV 여전히 데이터베이스 작업을 수행한다. 당신은 정말이 탭을 닫으시겠습니까?",
     "SERIE/airdate/hdr": "공기 날짜 ",
     "SERIE/click-for-options/tooltip": "옵션을 클릭 ",
     "SERIE/download-season/lbl": "시즌 전체 다운로드 ",

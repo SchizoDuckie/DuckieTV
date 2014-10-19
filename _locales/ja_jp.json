@@ -172,6 +172,7 @@
     "HOMETPB/torrent-search/hdr": "トレント検索 ",
     "IMDBjs/placeholder": "映画やシリーズのIMDBで検索 ",
     "KICKASSTORRENTSjs/placeholder": "もう最高トレント上で何かを検索 ",
+    "QUERYMONITORjs/close-tab-prompt/lbl": "DuckieTVはまだデータベース操作を実行しています。あなたは本当に、このタブを閉じますか？",
     "SERIE/airdate/hdr": "放送日 ",
     "SERIE/click-for-options/tooltip": "オプションをクリック ",
     "SERIE/download-season/lbl": "シーズン全体をダウンロードする ",

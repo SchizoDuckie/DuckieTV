@@ -3,7 +3,7 @@ angular.module('DuckieTV.directives.querymonitor',[])
 /**
  * <query-monitor> directive that shows when database writes are happening and how many are left
  */
-.directive('queryMonitor', function() {
+.directive('queryMonitor', function($filter) {
 
     return {
         restrict: 'E',
@@ -11,7 +11,7 @@ angular.module('DuckieTV.directives.querymonitor',[])
         link: function($scope, iElement) {
 
             var unloadBreaker = function() {
-                return 'DuckieTV is still performing database operations. Do you really want to close this tab?';
+                return $filter('translate')('QUERYMONITORjs/close-tab-prompt/lbl');
             } 
 
             $scope.queryStats = CRUD.stats;
@@ -24,7 +24,6 @@ angular.module('DuckieTV.directives.querymonitor',[])
                 $scope.$digest();
             });
 
-            
         }
     }
 });
