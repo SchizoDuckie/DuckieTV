@@ -104,7 +104,10 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites','
                     var index = calendarEvents[date].indexOf(existing[0]);
                     calendarEvents[date][index].episode = event.episode;
                 }
-            });
+                calendarEvents[date] = calendarEvents[date].sort(function(a,b) {
+                    return a.episode.get('firstaired') > b.episode.get('firstaired');
+                });
+            })
             existing = index = null; 
             $rootScope.$broadcast('calendar:events', events);
         },
@@ -139,9 +142,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites','
          */
         getEvents: function(date) {
             var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
-            return (str in calendarEvents) ? calendarEvents[str].sort(function(a,b) {
-                return a.episode.get('firstaired') > b.episode.get('firstaired');
-            }) : [];
+            return (str in calendarEvents) ? calendarEvents[str] : [];
         }
     };
 
