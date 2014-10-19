@@ -62,6 +62,7 @@ Screenshots:
 
 Changelog: 
 ==========
+* v0.79 : Fixed infinite digest in calendar preventing usage on huge databases. Updated torrent autoDownloader to handle the same logic as the torrentDialog
 * v0.78 : Fixed 'yes-all' and 'no-all' dialogs..
 * v0.77 : Added 'yes-all' and 'no-all' buttons for confirming remote deletions in storage sync, preventing users to potentially have to confirm loads of deletions. Fixed StorageSyncService only syncing one show at a time.
 * v0.76 : Fixed calendar not updating because of Hidden Series & DuckieTV now warns you while closing or navigating away from the app while shows are being added
