@@ -2,10 +2,13 @@
  * Gulp file (experimental) to concat all the scripts and minimize load time.
  * Usage:
  *
- * npm install gulp gulp-autoprefixer gulp-minify-css gulp-jshint gulp-concat gulp-notify gulp-rename gulp-replace gulp-json-editor js-beautify --save-dev
+ * npm install gulp gulp-autoprefixer gulp-minify-css gulp-jshint gulp-concat gulp-notify gulp-rename gulp-replace gulp-json-editor js-beautify request --save-dev
  * gulp
+ * 
+ * to generate deployment packages:
+ *
+ * gulp deploy 
  */
-
 
 var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -18,14 +21,17 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     jsonedit = require("gulp-json-editor"),
     zip = require('gulp-zip'),
-    fs = require('fs');
+    fs = require('fs'),
+    request = require('request');
 
- var ver = String(fs.readFileSync('VERSION'));
+var ver = String(fs.readFileSync('VERSION'));
   
-// scripts are provided in order to prevent any problems with the load order dependencies
+// scripts are provided in order to prevent any problems with the load order
 var scripts = ['./js/controllers/*.js', './js/directives/*.js','./js/services/*.js', './js/app.js'];
 
-
+/**
+ * Dependencies for the app, will be rolled into deps.js
+ */
 var deps = ['./js/vendor/promise-3.2.0.js',
 './js/vendor/CRUD.js',
 './js/vendor/CRUD.SqliteAdapter.js',
@@ -43,6 +49,9 @@ var deps = ['./js/vendor/promise-3.2.0.js',
 "./js/vendor/angular-translate-handler-log.min.js",
 "./js/vendor/sha1.js" ];
 
+/**
+ * CSS files to be concatted. Note that there's separate code to include print.js
+ */
 var styles = [
     './css/bootstrap.min.css',
     './css/main.css',
@@ -51,6 +60,9 @@ var styles = [
     './css/flags.css'
 ];
 
+/**
+ * Minimum app dependencies for background.js
+ */ 
 var background = [
     "js/vendor/promise-3.2.0.js",
     "js/vendor/CRUD.js",
@@ -74,6 +86,67 @@ var background = [
     "js/background.js"
 ]
 
+/**
+ * Default and depoyment tasks:
+ * Concats scripts, dependencies, background page, styles, alters the main template to use dist versions and writes all of this the local dist/ directory
+ */
+gulp.task('default', ['concatScripts','concatDeps','concatBackgroundPage','concatStyles','launch.js','tabTemplate'], function() {
+    notify('packaging to dist/ done');
+});
+
+
+/**
+ * Start the cascade to be able to create zip packages.
+ * This executes, via sequence dependencies:
+ * - default task
+ * - copy dist files and dependencies into 3 individual directories in ../deploy/
+ * - copy chromecast js and tab.html into place
+ * - adjust manifests to include version info and write that to ../deploy/<flavour>/manifest.json
+ * - zip files from ../deploy/<flavour>/ into ../deploy/<flavour>-<version>.zip
+ * - copy that file into ../deploy/<flavour>-latest.zip
+ */ 
+gulp.task('deploy', ['zipbrowseraction','zipnewtab','zipopera'], function() {
+    
+    gulp.src('../deploy/newtab-'+ver+'.zip')
+            .pipe(rename('newtab-latest.zip'))
+            .pipe(gulp.dest('../deploy/'));
+    gulp.src('../deploy/browseraction-'+ver+'.zip')
+            .pipe(rename('browseraction-latest.zip'))
+            .pipe(gulp.dest('../deploy/'));
+    gulp.src('../deploy/opera-'+ver+'.zip')
+            .pipe(rename('opera-latest.zip'))
+            .pipe(gulp.dest('../deploy/')); 
+    notify('DEPLOY done to ../deploy/ !');    
+
+});
+
+gulp.task('scenenames', function() {
+    notify('downloading new scene name exceptions');
+    request('https://raw.githubusercontent.com/midgetspy/sb_tvdb_scene_exceptions/gh-pages/exceptions.txt', function(error,response,result) {
+        console.log('exceptions downloaded');
+
+        result = result.split(/,\r\n/g).map(function(line) {
+           line = line.match(/([0-9]+)\, (\'(.*)\'\/){1,}/g);
+           console.log(line); 
+        })
+        //console.log(result);
+
+    })
+})
+
+
+
+/**
+ * Tasks for internal use
+ * Each task called by the main task is listing the tasks that need to be executed as dependencies as an array as the second argument
+ * Since tasks run in parallell by default, this can seem confusing at first 
+ */
+
+/*------------------------------------------------------------------------*/
+
+/**
+ * Concat the scripts array into a file named dist/app.js
+ */
 gulp.task('concatScripts',function() {
     return gulp.src(scripts)
         .pipe(concat('app.js', {newLine: ';'}))
@@ -81,6 +154,9 @@ gulp.task('concatScripts',function() {
         .pipe(notify({ message: 'Scripts packaged to dist/app.js' }));
 })
 
+/**
+ * Concat the dependencies array into a file named dist/deps.js
+ */
 gulp.task('concatDeps',function() {
      return gulp.src(deps)
         .pipe(concat('deps.js', {newLine: ';'}))
@@ -88,6 +164,9 @@ gulp.task('concatDeps',function() {
         .pipe(notify({ message: 'Deps packaged to dist/deps.js' }));
 })
 
+/**
+ * Concat the background page and it's dependencies into dist/background.js
+ */
 gulp.task('concatBackgroundPage', function() {
     return gulp.src(background)
         .pipe(concat('background.js', {newLine: ';'}))
@@ -95,11 +174,18 @@ gulp.task('concatBackgroundPage', function() {
         .pipe(notify({ message: 'Background page packaged to dist/background.js' }));
 })
 
+/** 
+ * Copy launch.js into place
+ */
 gulp.task('launch.js', function() {
     return gulp.src('launch.js')
         .pipe(gulp.dest('dist/'));
 })
 
+/**
+ * Parse tab.html and grab the deploy:replace comments sections.
+ * Grab the parameter value to those tags, and replace the content with that so that we're left with with just a couple of includes
+ */
 gulp.task('tabTemplate', function() {
      return gulp.src(['tab.html'])
         .pipe(replace(/<!-- deploy:replace\=\'(.*)\' -->([\s\S]+?)[^\/deploy:]<!-- \/deploy:replace -->/g, '$1'))
@@ -107,7 +193,9 @@ gulp.task('tabTemplate', function() {
         .pipe(notify({ message: 'Tab template deployed' }));
 })
 
-
+/**
+ * Concat the styles.js into dist/style.css
+ */
 gulp.task('concatStyles', function() {
     return gulp.src(styles)
             .pipe(concatCss("style.css"))
@@ -115,13 +203,17 @@ gulp.task('concatStyles', function() {
             .pipe(notify({ message: 'Styles concatted' }));
 })
 
+/**
+ * Move print.css into place
+ */
 gulp.task('print.css', function() {
     return gulp.src('css/print.css')
         .pipe(gulp.dest('dist/'));
 })
-gulp.task('default', ['concatScripts','concatDeps','concatBackgroundPage','concatStyles','launch.js','tabTemplate'], function() {
-    notify('packaging to dist/ done');
-});
+
+/**
+ * Deployment and packaging functions
+ */
  
 gulp.task('copyToDeploy', ['default'], function() {
   return gulp.src(['VERSION', '_locales/**','dist/**','fonts/**','img/**','templates/**'],{ "base" : "." })
@@ -130,6 +222,9 @@ gulp.task('copyToDeploy', ['default'], function() {
         .pipe(gulp.dest('../deploy/opera'));
 });
 
+/**
+ * Copy the altered tab.html into place
+ */
 gulp.task('copytab', ['copyToDeploy'], function() {
     return gulp.src('dist/tab.html')
         .pipe(gulp.dest('../deploy/browseraction'))
@@ -137,6 +232,10 @@ gulp.task('copytab', ['copyToDeploy'], function() {
         .pipe(gulp.dest('../deploy/opera'));
 });
 
+/**
+ * Copy the cast_sender.js into place
+ * Todo: edit the actual script that includes this to grab it from dist/ and put that into place
+ */
 gulp.task('copychromecast',['copyToDeploy'], function() {
      return gulp.src('js/vendor/cast_sender.js')
             .pipe(gulp.dest('../deploy/browseraction/js/vendor/'))
@@ -144,6 +243,11 @@ gulp.task('copychromecast',['copyToDeploy'], function() {
             .pipe(gulp.dest('../deploy/opera/js/vendor/'));
 });
 
+/**
+ * Adjust all 3 versions of manifest.json to use the dist versions of scripts
+ * launch.js contains the button attach code for browser-action mode
+ * Also updates the manifest to include the latest version defined in the VERSION file
+ */
 gulp.task('manifests',['copychromecast','copytab'], function() {
      
      // js-format formatting options used in manipulating manifest.json
@@ -181,11 +285,18 @@ gulp.task('manifests',['copychromecast','copytab'], function() {
             .pipe(gulp.dest('../deploy/opera/'));
 });
 
+/**
+ * Zip the browser action version
+ */
 gulp.task('zipbrowseraction', ['manifests'], function() {
      return gulp.src('../deploy/browseraction/**')
             .pipe(zip('browseraction-'+ver+'.zip'))
             .pipe(gulp.dest('../deploy'))
 });
+
+/**
+ * zip the new tab version
+ */
 
 gulp.task('zipnewtab', ['manifests'], function() {
      return gulp.src('../deploy/newtab/**')
@@ -193,29 +304,11 @@ gulp.task('zipnewtab', ['manifests'], function() {
             .pipe(gulp.dest('../deploy'))
 });
 
+/**
+ * zip the opera version
+ */
 gulp.task('zipopera', ['manifests'], function() {
     return gulp.src('../deploy/opera/**')
             .pipe(zip('opera-'+ver+'.zip'))
             .pipe(gulp.dest('../deploy'));
-});
-
-
-gulp.task('zipfiles', ['zipbrowseraction','zipnewtab','zipopera'], function() {
-   
-})
-
-
-gulp.task('deploy', ['zipfiles'], function() {
-    
-    gulp.src('../deploy/newtab-'+ver+'.zip')
-            .pipe(rename('newtab-latest.zip'))
-            .pipe(gulp.dest('../deploy/'));
-    gulp.src('../deploy/browseraction-'+ver+'.zip')
-            .pipe(rename('browseraction-latest.zip'))
-            .pipe(gulp.dest('../deploy/'));
-    gulp.src('../deploy/opera-'+ver+'.zip')
-            .pipe(rename('opera-latest.zip'))
-            .pipe(gulp.dest('../deploy/')); 
-    notify('DEPLOY done to ../deploy/ !');    
-
 });
