@@ -95,6 +95,14 @@ angular.module('dialogs.controllers',['ui.bootstrap.modal'])
 		$scope.yes = function(){
 			$modalInstance.close('yes');
 		}; // end yes
+
+		$scope.yesAll = function() {
+			$modalInstance.close('yes-all')
+		},
+
+		$scope.noAll = function() {
+			$modalInstance.dismiss('no-all');
+		}
 	}]); // end ConfirmDialogCtrl / dialogs.controllers
 	
 	
@@ -159,6 +167,19 @@ angular.module('dialogs.services',['ui.bootstrap.modal','dialogs.controllers'])
 					}
 				}); // end modal.open
 			}, // end confirm
+
+			confirmAll : function(header,msg,static){
+				return $modal.open({
+					templateUrl : '/dialogs/confirmall.html',
+					controller : 'confirmDialogCtrl',
+					backdrop: (static ? 'static' : true),
+					keyboard: (static ? false: true),
+					resolve : {
+						header : function() { return angular.copy(header); },
+						msg : function() { return angular.copy(msg); }
+					}
+				}); // end modal.open
+			}, // end confirm
 			
 			create : function(url,ctrlr,data,opts){
 				opts = angular.isDefined(opts) ? opts : {};
@@ -194,6 +215,8 @@ angular.module('dialogs',['dialogs.services','ngSanitize']) // requires angular-
 		$templateCache.put('/dialogs/wait.html','<div class="modal-header dialog-header-wait"><h4 class="modal-title"><span class="glyphicon glyphicon-time"></span> Please Wait</h4></div><div class="modal-body"><p ng-bind-html="msg"></p><div class="progress progress-striped active"><div class="progress-bar progress-bar-info" ng-style="getProgress()"></div><span class="sr-only">'+startSym+'progress'+endSym+'% Complete</span></div></div>');
 		$templateCache.put('/dialogs/notify.html','<div class="modal-header dialog-header-notify"><button type="button" class="close" ng-click="close()" class="pull-right">&times;</button><h4 class="modal-title text-info"><span class="glyphicon glyphicon-info-sign"></span> '+startSym+'header'+endSym+'</h4></div><div class="modal-body text-info" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-primary" ng-click="close()"><translate>DIALOGSjs/ok/btn</translate></button></div>');
 		$templateCache.put('/dialogs/confirm.html','<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="no()">&times;</button><h4 class="modal-title"><span class="glyphicon glyphicon-check"></span> '+startSym+'header'+endSym+'</h4></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="yes()"><translate>DIALOGSjs/yes/btn</translate></button><button type="button" class="btn btn-primary" ng-click="no()"><translate>DIALOGSjs/no/btn</translate></button></div>');
+		$templateCache.put('/dialogs/confirmall.html','<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="no()">&times;</button><h4 class="modal-title"><span class="glyphicon glyphicon-check"></span> '+startSym+'header'+endSym+'</h4></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="yes()"><translate>DIALOGSjs/yes/btn</translate></button><button type="button" class="btn btn-default" ng-click="yesAll()"><translate>DIALOGSjs/yes-all/btn</translate></button><button type="button" class="btn btn-primary" ng-click="no()"><translate>DIALOGSjs/no/btn</translate></button><button type="button" class="btn btn-primary" ng-click="noAll()"><translate>DIALOGSjs/no-all/btn</translate></button></div>');
+
 	}]); // end run / dialogs
 	
 	

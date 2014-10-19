@@ -127,6 +127,8 @@
     "DIALOGSjs/wait/hdr": "Please Wait...",
     "DIALOGSjs/wait/msg": "Waiting on operation to complete.",
     "DIALOGSjs/yes/btn": "Yes",
+    "DIALOGSjs/yes-all/btn": "Yes, All",
+    "DIALOGSjs/no-all/btn": "No, All",
     "DISPLAY/background-opacity/alert": "Selecting a button below will set the background image transparency to the chosen percentage.",
     "DISPLAY/background-opacity/hdr": "Background Opacity",
     "DISPLAY/current-opacity/lbl": "Current Opacity",

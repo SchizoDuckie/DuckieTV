@@ -164,24 +164,39 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
             if(!isSupported()) return;
             if(!progress) return;
             console.log("iterating non remote", progress);
-             
-             FavoritesService.getById(progress.nonRemote[progress.remoteProcessed]).then(function(result) {
-                console.log("Fetched information for ", result.get('seriesname'), 'removing from favorites!');
-                service.activeDlg = $injector.get('$dialogs').confirm($filter('translate')('STORAGESYNCSERVICEjs/serie-deleted/hdr'),
-                    $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1') + '<strong>' +
-                    result.get('name') + '</strong>' +
-                    $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2')
-                );
-                service.activeDlg.result.then(function(btn) {
-                    FavoritesService.remove(result.asObject());
-                    progress.remoteProcessed++;
-                    service.activeDlg = null;
-                    service.checkSyncProgress(progress);
-                }, function() {
-                    service.activeDlg = null;
-                    progress.remoteProcessed++;
-                    service.checkSyncProgress(progress);
-                });
+            var confirmDelete = function(btn) {
+                if(btn == 'yes-all') {
+                    window.confirmAll = true;
+                }
+                FavoritesService.remove(result.asObject());
+                progress.remoteProcessed++;
+                service.activeDlg = null;
+                service.checkSyncProgress(progress);
+            };
+
+            var cancelDelete = function(btn) {
+                if(btn == 'no-all') {
+                    window.confirmNone = true;
+                }
+                service.activeDlg = null;
+                progress.remoteProcessed++;
+                service.checkSyncProgress(progress);
+            }
+
+            FavoritesService.getById(progress.nonRemote[progress.remoteProcessed]).then(function(result) {
+                if(('confirmAll' in window)) {
+                    return confirmDelete('yes-all')
+                } else if (('confirmNone' in window)) {
+                    return cancelDelete('no-all')
+                } else {
+                    console.log("Fetched information for ", result.get('seriesname'), 'removing from favorites!');
+                    service.activeDlg = $injector.get('$dialogs').confirmAll($filter('translate')('STORAGESYNCSERVICEjs/serie-deleted/hdr'),
+                        $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1') + '<strong>' +
+                        result.get('name') + '</strong>' +
+                        $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2')
+                    );
+                    service.activeDlg.result.then(confirmDelete, cancelDelete);
+                }
             });
         
         },
