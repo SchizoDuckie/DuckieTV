@@ -8,7 +8,6 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
  */
 .factory('TraktTV', function(SettingsService, $q, $http, $rootScope) {
    
-    var batchMode = false;
     var activeRequest = false;
 
     var endpoints = {
@@ -72,7 +71,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
      * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
      */
     var promiseRequest = function(type, param, param2) {
-        if (activeRequest && !batchmode) {
+        if (activeRequest && !service.batchmode) {
             activeRequest.resolve();
         }
         var d = $q.defer();
@@ -94,6 +93,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
     };
 
     var service = {
+            batchMode: false,
            /** 
              * enableBatchMode makes sure previous request are not aborted.
              * Batch mode is required to be turned on for FavoritesService operations
@@ -101,7 +101,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
              * will run.
              */
             enableBatchMode: function() {
-                batchmode = true;
+                service.batchmode = true;
                 return service;
             },
             /** 
@@ -109,7 +109,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
              * terminated before starting the next.
              */
             disableBatchMode: function() {
-                batchmode = false;
+                service.batchmode = false;
                 return service;
             },
             /** 
