@@ -5,7 +5,7 @@ Throughout Services and Directives in DuckieTV events are published on the $root
 This keeps the configuration modular, allows easy extending at key points and prevents tight coupling
 
 
-Event Descriptions
+Event Descriptions (as at v0.80)
 ==================
 ------------------
 
@@ -58,6 +58,10 @@ Event Descriptions
  -  **favoritesservice:checkforupdates**({TVDB_ID: int})
 
     Notifies the favorites service that it needs to re-add the whole show based on the TVDB_ID
+
+ -  **http:stats**(data)
+
+    Used by the HTTP error interceptor to manage/recover from unexpected http events
 
  -  **magnet:select:{{TVDB_ID}}**(infohash:string)
 
@@ -126,11 +130,11 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](https://cloud.githubusercontent.com/assets/6933240/3652830/1c40ce3a-1144-11e4-89fb-793aab27d4ec.png)
+![listeners](http://i.imgur.com/hp1Ny8c.png)
 
 Event Publishers:
 ------------------
-![publishers](https://cloud.githubusercontent.com/assets/6933240/3652834/34782912-1144-11e4-937d-be2040de4cc7.png)
+![publishers](http://i.imgur.com/pfIa9NH.png)
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
@@ -150,7 +154,6 @@ Listeners
       Listeners -> app [style="invis"];
       Listeners -> background [style="invis"];
       Listeners -> backgroundRotator [style="invis"];
-      Listeners -> BackupCtrl [style="invis"];
       Listeners -> calendar [style="invis"];
       Listeners -> ChromeCast [style="invis"];
       Listeners -> datePicker [style="invis"];
@@ -162,8 +165,8 @@ Listeners
       Listeners -> seriesList [style="invis"];
       Listeners -> SettingsCtrl [style="invis"];
       Listeners -> TimerCtrl [style="invis"];
-      Listeners -> WatchlistCtrl [style="invis"];
       Listeners -> WatchlistCheckerService [style="invis"];
+      Listeners -> WatchlistCtrl [style="invis"];
 
       backgroundload -> backgroundRotator;
       backgroundload -> ChromeCast;
@@ -175,13 +178,12 @@ Listeners
       episodemarkednotwatched -> calendar;
       episodemarkedwatched -> app;
       episodemarkedwatched -> calendar;
-      episodesupdated -> BackupCtrl;
       episodesupdated -> calendar;
       episodesupdated -> SerieCtrl;
       favoritesservicecheckforupdates -> FavoritesService;
       favoritesupdated -> SerieCtrl;
       favoritesupdated -> seriesList;
-      favoritesupdated -> SettingsCtrl;
+      httpstats -> app;
       locationChangeSuccess -> app;
       magnetselectTVDBID -> calendar;
       magnetselectTVDBID -> EpisodeCtrl;
@@ -204,10 +206,11 @@ Listeners
       Listeners [style="invis"];
 
       app [label="app.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
-        locationChangeSuccess [label="$locationChangeSuccess", shape=box,fillcolor="white",style="filled"];
-        episodemarkedwatched [label="episode:marked:watched", shape=box,fillcolor="white",style="filled"];
         episodemarkednotwatched [label="episode:marked:notwatched", shape=box,fillcolor="white",style="filled"];
+        episodemarkedwatched [label="episode:marked:watched", shape=box,fillcolor="white",style="filled"];
+        httpstats [label="http:stats", shape=box,fillcolor="white",style="filled"];
+        locationChangeSuccess [label="$locationChangeSuccess", shape=box,fillcolor="white",style="filled"];
+        storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
         syncprocessremoteupdate [label="sync:processremoteupdate", shape=box,fillcolor="white",style="filled"];
 
       background [ label="background.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
@@ -216,16 +219,14 @@ Listeners
       backgroundRotator [ label="backgroundRotator.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
 
-      BackupCtrl [label="BackupCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-
       calendar [ label="calendar.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
         calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
+        episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
         setDate [label="setDate", shape=box,fillcolor="white",style="filled"];
 
       ChromeCast [ label="ChromeCast.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
         episodeload [label="episode:load", shape=box,fillcolor="white",style="filled"];
+        serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
         videoload [label=" video:load", shape=box,fillcolor="white",style="filled"];
 
       datePicker [ label="datePicker.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
@@ -246,9 +247,9 @@ Listeners
         magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}", shape=box,fillcolor="white",style="filled"];
 
       seriesList [ label="seriesList.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
         favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
+        serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
 
       SettingsCtrl [ label="SettingsCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
@@ -279,6 +280,7 @@ Publishers
 
       Publishers -> angularjs [style="invis"];
       Publishers -> app [style="invis"];
+      Publishers -> background [style="invis"];
       Publishers -> BackupCtrl [style="invis"];
       Publishers -> calendar [style="invis"];
       Publishers -> CRUDentities [style="invis"];
@@ -291,6 +293,7 @@ Publishers
       Publishers -> FavoritesService [style="invis"];
       Publishers -> MirrorResolver [style="invis"];
       Publishers -> SerieCtrl [style="invis"];
+      Publishers -> serieDetails [style="invis"];
       Publishers -> seriesList [style="invis"];
       Publishers -> SettingsCtrl [style="invis"];
       Publishers -> StorageSyncService [style="invis"];
@@ -299,22 +302,25 @@ Publishers
       Publishers -> WatchlistService [style="invis"];
 
       alarmeventchannel -> EventWatcherService [dir="back"];
+      alarmeventchannel -> app [dir="back"];
       backgroundload -> EpisodeCtrl [dir="back"];
       backgroundload -> FavoritesService [dir="back"];
       backgroundload -> SerieCtrl [dir="back"];
-      backgroundload -> seriesList [dir="back"] ;
-      backgroundload -> SettingsCtrl [dir="back"];
       calendarclearcache -> FavoritesService [dir="back"];
       calendarclearcache -> SerieCtrl [dir="back"];
+      calendarclearcache -> serieDetails [dir="back"];
+      calendarclearcache -> SettingsCtrl [dir="back"];
       calendarevents -> calendar [dir="back"];
-      episodeairedcheck -> EventWatcherService [dir="back"];
+      episodeairedcheck -> EventSchedulerService [dir="back"];
       episodeload -> EpisodeCtrl [dir="back"];
       episodemarkednotwatched -> CRUDentities [dir="back"];
       episodemarkedwatched -> CRUDentities [dir="back"];
+      episodesupdated -> BackupCtrl [dir="back"];
       episodesupdated -> EpisodeAiredService [dir="back"];
       episodesupdated -> FavoritesService [dir="back"];
       favoritesupdated -> FavoritesService [dir="back"];
       favoritesservicecheckforupdates -> EventWatcherService [dir="back"];
+      httpstats -> app [dir="back"];
       locationChangeSuccess -> angularjs [dir="back"];
       magnetselectTVDBID -> torrentDialog [dir="back"];
       mirrorresolverstatus -> MirrorResolver [dir="back"];
@@ -326,9 +332,10 @@ Publishers
       setDate -> datePicker [dir="back"];
       storagehassynced -> StorageSyncService [dir="back"];
       storageupdate -> BackupCtrl [dir="back"];
+      storageupdate -> FavoritesService [dir="back"];
       storageupdate -> seriesList [dir="back"];
       storageupdate -> SettingsCtrl [dir="back"];
-      syncprocessremoteupdate -> app [dir="back"];
+      syncprocessremoteupdate -> background [dir="back"];
       timercreated -> EventSchedulerService [dir="back"];
       timerfired -> EventWatcherService [dir="back"];
       torrentupdateinfoHash -> DuckieTorrent [dir="back"];
@@ -342,10 +349,14 @@ Publishers
         locationChangeSuccess [label="$locationChangeSuccess", shape=box,fillcolor="white",style="filled"];
 
       app [label="app.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        httpstats [label="http:stats", shape=box,fillcolor="white",style="filled"];
         serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
+
+      background [label="Background.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         syncprocessremoteupdate [label="sync:processremoteupdate", shape=box,fillcolor="white",style="filled"];
 
       BackupCtrl [label="BackupCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
 
       calendar [label="calendar.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
@@ -363,7 +374,6 @@ Publishers
         videoload [label="video:load", shape=box,fillcolor="white",style="filled"];
 
       EpisodeAiredService [label="EpisodeAiredService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
 
       EpisodeCtrl [label="EpisodeCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
@@ -371,13 +381,13 @@ Publishers
         backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
 
       EventSchedulerService [label="EventSchedulerService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
+        favoritesservicecheckforupdates [label="favoritesservice:checkforupdates", shape=box,fillcolor="white",style="filled"];
         timercreated [label="timer:created", shape=box,fillcolor="white",style="filled"];
+        timerfired [label="timer:fired", shape=box,fillcolor="white",style="filled"];
 
       EventWatcherService [label="EventWatcherService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         alarmeventchannel [label="$alarm:eventchannel", shape=box,fillcolor="white",style="filled"];
-        episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
-        favoritesservicecheckforupdates [label="favoritesservice:checkforupdates", shape=box,fillcolor="white",style="filled"];
-        timerfired [label="timer:fired", shape=box,fillcolor="white",style="filled"];
 
       FavoritesService [label="FavoritesService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
@@ -387,6 +397,8 @@ Publishers
         mirrorresolverstatus [label="mirrorresolver:status", shape=box,fillcolor="white",style="filled"];
 
       SerieCtrl [label="SerieCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+
+      serieDetails [label="serieDetails.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
       seriesList [label="seriesList.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
@@ -403,6 +415,5 @@ Publishers
 
       WatchlistService [label="WatchlistService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         watchlistupdated [label="watchlist:updated", shape=box,fillcolor="white",style="filled"];
-
     }
 ```
