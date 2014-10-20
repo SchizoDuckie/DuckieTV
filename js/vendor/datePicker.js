@@ -70,6 +70,7 @@ function getVisibleWeeks(date, startSunday) {
         for (var i = 0; i < 7; i++) {
             week.push(new Date(date));
             date.setDate(date.getDate() + 1);
+            date.setHours(date.getHours() > 12 ? date.getHours() + 2 : 0);
         }
         weeks.push(week);
     }
