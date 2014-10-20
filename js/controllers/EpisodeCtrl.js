@@ -89,7 +89,7 @@ angular.module('DuckieTV.controllers.episodes', [])
 
         $scope.getSearchString = function(serie, episode) {
             var serieName = SceneNameResolver.getSceneName(serie.TVDB_ID) || serie.name;
-            return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + $scope.getEpisodeNumber(episode);
+            return serieName + ' ' + $scope.getEpisodeNumber(episode);
         };
 
         $scope.getEpisodeNumber = function(episode) {
