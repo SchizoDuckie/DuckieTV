@@ -2,7 +2,7 @@
  * Gulp file (experimental) to concat all the scripts and minimize load time.
  * Usage:
  *
- * npm install gulp gulp-autoprefixer gulp-minify-css gulp-jshint gulp-concat gulp-notify gulp-rename gulp-replace gulp-json-editor js-beautify request --save-dev
+ * npm install gulp gulp-autoprefixer gulp-minify-css gulp-jshint gulp-concat gulp-notify gulp-rename gulp-replace gulp-json-editor js-beautify request webdriverio --save-dev
  * gulp
  * 
  * to generate deployment packages:
@@ -25,7 +25,9 @@ var gulp = require('gulp'),
     request = require('request');
 
 var ver = String(fs.readFileSync('VERSION'));
-  
+var nightly = false; // for nightly builds
+
+
 // scripts are provided in order to prevent any problems with the load order
 var scripts = ['./js/controllers/*.js', './js/directives/*.js','./js/services/*.js', './js/app.js'];
 
@@ -96,6 +98,58 @@ gulp.task('default', ['concatScripts','concatDeps','concatBackgroundPage','conca
 
 
 /**
+ * Create a nightly build and immediately deploy it to the webstore
+ */
+gulp.task('nightly', function() {
+    nightly = true;
+    var d = new Date();
+    ver = [d.getFullYear()+''+d.getMonth(),d.getDate(),d.getHours(),d.getMinutes()].join('.');
+    gulp.start('deploy').start('webstore-nightly');
+})
+
+
+/**
+ * Push a nightly release to the webstore.
+ * These are 
+ */
+gulp.task('webstore-nightly', function() {
+    var changelog = fs.readFileSync('./README.md').toString();
+    var start = changelog.indexOf('Changelog: \r\n==========');
+    changelog = changelog.substring(start +26).split('*')[0];
+    
+    var webdriverjs = require('webdriverio'), client = webdriverjs.remote({
+        desiredCapabilities: {
+            browserName: 'chrome',
+        },
+        logLevel: 'error'
+    }).init();
+
+    // i fucking love this
+    client
+        .url('https://chrome.google.com/webstore/developer/dashboard?hl=en&gl=NL') // login
+        .waitFor('#Email')
+        .setValue('#Email', process.env.USERNAME) 
+        .setValue('#Passwd', process.env.PWD || '');
+        if(process.env.PWD) {
+            client.click('#signIn'); // auto sign in if env user and pass provided
+        }
+        client.waitFor('form#cx-dash-form', 30000) // wait for redirect to dashboard
+        .url('https://chrome.google.com/webstore/developer/edit/gelgiagalkgliccemepngfeahpmihnjp?hl=en&gl=NL') // new tab mode canary version
+        .click('.cx-title input[type=button]') // hit upload new version
+        .waitFor('#browse-btn') // wait for page to load
+        .chooseFile('input[type=file]','../deploy/newtab-nightly.zip') // select nightly
+        .click('#upload-btn') // hit upload
+        .waitFor('.id-publish',30000) // wait for the redirect
+        .execute(function(c) { // adjust the changelog to include last update from readme
+            var el = document.querySelector('#cx-dev-edit-desc');
+            var value = el.value.split("Changelog:");
+            el.value = value[0]+"Changelog:\r\n* " + c.toString().trim() +  "\r\n" + value[1].trim();
+        },[changelog])
+        .click('.id-publish') // hit the publish button
+        //.end(); // close the browser
+});
+
+/**
  * Start the cascade to be able to create zip packages.
  * This executes, via sequence dependencies:
  * - default task
@@ -106,15 +160,15 @@ gulp.task('default', ['concatScripts','concatDeps','concatBackgroundPage','conca
  * - copy that file into ../deploy/<flavour>-latest.zip
  */ 
 gulp.task('deploy', ['zipbrowseraction','zipnewtab','zipopera'], function() {
-    
+    var latestTag = nightly ? 'nightly' : 'latest;'
     gulp.src('../deploy/newtab-'+ver+'.zip')
-            .pipe(rename('newtab-latest.zip'))
+            .pipe(rename('newtab-'+latestTag+'.zip'))
             .pipe(gulp.dest('../deploy/'));
     gulp.src('../deploy/browseraction-'+ver+'.zip')
-            .pipe(rename('browseraction-latest.zip'))
+            .pipe(rename('browseraction-'+latestTag+'.zip'))
             .pipe(gulp.dest('../deploy/'));
     gulp.src('../deploy/opera-'+ver+'.zip')
-            .pipe(rename('opera-latest.zip'))
+            .pipe(rename('opera-'+latestTag+'.zip'))
             .pipe(gulp.dest('../deploy/')); 
     notify('DEPLOY done to ../deploy/ !');    
 
@@ -274,6 +328,21 @@ gulp.task('manifests',['copychromecast','copytab'], function() {
         json.version = ver;
         json.background.scripts = ['dist/background.js','dist/launch.js'];
         return json;
+    }
+
+    if(nightly) {
+        console.log('nightly mode!');
+        gulp.src('./_locales/**/messages.json')
+            .pipe(jsonedit(function(json) {
+                json.appNameNewTab.message += " - Canary";
+                json.appShortNameNewTab.message += " - Canary";
+                json.appNameBrowserAction += " - Canary";
+                json.appShortNameBrowserAction += " - Canary";
+                return json;
+            }, formatOptions))
+            .pipe(gulp.dest('../deploy/newtab/_locales/'))
+            .pipe(gulp.dest('../deploy/browseraction/_locales/'))
+            .pipe(gulp.dest('../deploy/opera/_locales'))
     }
 
     gulp.src('manifest.json')
