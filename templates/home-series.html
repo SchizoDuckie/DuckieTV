@@ -25,7 +25,7 @@
           </form>
 
           <form ng-submit="execFilter()" ng-if="mode == 'search'">
-            <input type='text' focus-watch="'isFiltering'" placeholder="{{'HOMESERIES/filter-placeholder'|translate}}" ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 50%;'>
+            <input type='text' focus-watch="'isFiltering'" placeholder="{{'HOMESERIES/filter-placeholder'|translate}}" ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 45%;'>
           </form>
 
           <a tooltip="{{'HOMESERIES/search/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt + / )" accesskey="/" ng-if="!searchingForSerie" ng-click="isFiltering = true; setMode('search',true);">
