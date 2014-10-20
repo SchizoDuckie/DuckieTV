@@ -45,13 +45,13 @@ Screenshots:
 !['Shows you are watching'](http://i.imgur.com/EYloHBq.png)
 
 **Forgot to mark your shows as watched? Batch mode enables to mark a whole range of shows at once.**
-![Batch mark episodes as watched](http://i.imgur.com/m98zwID.png)
+![Batch mark episodes as watched](http://i.imgur.com/7ocbLef.png)
 
 **Control various settings to adjust DuckieTV to your needs**
-![Settings](http://i.imgur.com/Jr5l0PX.png)
+![Settings](http://i.imgur.com/ySbR7u6.png)
 
 **DuckieTV comes translated into 11 languages**
-![Comes in 11 languages](http://i.imgur.com/KOCzdSM.png)
+![Comes in 11 languages](http://i.imgur.com/6qYb3zh.png)
 
 **You can either completely turn off Torrent integration or tune it to your preference**
 ![Torrent Settings](http://i.imgur.com/GWDLCLh.png)
