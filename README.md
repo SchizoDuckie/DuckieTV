@@ -62,6 +62,7 @@ Screenshots:
 
 Changelog: 
 ==========
+* v0.80 : A minor update with big impact: Daylight Savings Time fix by /u/garfield69
 * v0.79 : Fixed infinite digest in calendar preventing usage on huge databases. Updated torrent autoDownloader to handle the same logic as the torrentDialog
 * v0.78 : Fixed 'yes-all' and 'no-all' dialogs..
 * v0.77 : Added 'yes-all' and 'no-all' buttons for confirming remote deletions in storage sync, preventing users to potentially have to confirm loads of deletions. Fixed StorageSyncService only syncing one show at a time.
