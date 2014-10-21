@@ -10,7 +10,6 @@
         "https://*/*",
         "topSites",
         "notifications",
-        "storage",
         "alarms",
         "unlimitedStorage"
     ],

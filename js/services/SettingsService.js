@@ -1,12 +1,39 @@
 angular.module('DuckieTV.providers.settings', [])
 
+
+.factory('ChromePermissions', function($q) {
+        var isChrome = navigator.userAgent.indexOf('Chrome') > -1,
+            isExtension = (('chrome' in window) && ('permissions' in chrome))
+        return {
+            /**
+             * Verify that a permission is available in chrome
+             */
+            checkGranted: function(permission) {
+                return $q(function(resolve, reject) {
+                    console.info('Verify if permission is granted', permission);
+                    
+                    if(!isChrome || !isExtension) { 
+                        console.info('Nope, not chrome or an extension');
+                        reject() 
+                    }
+                    chrome.permissions.contains({ permissions: [permission] }, function(supported) {
+                        console.info(supported ? 'Permission '+permission+' granted.' : 'Permission '+permission+' denied.');
+                        (supported) ? resolve() : reject();
+                    });
+                });
+            }
+        }
+
+
+
+})
 /**
  * The Settings Service stores user preferences and provides defaults.
  * Storage is in localStorage. values get serialized on save and deserialized on initialization.
  *
  * Shorthands to the get and set functions are provided in $rootScope by the getSetting and setSetting functions
  */
-.factory('SettingsService', function($injector, $rootScope) {
+.factory('SettingsService', function($injector, $rootScope, ChromePermissions) {
     var service = {
         settings: {},
         defaults: {
@@ -20,7 +47,7 @@ angular.module('DuckieTV.providers.settings', [])
             'kickasstorrents.mirror': 'https://kickass.to',
             'lastSync': -1,
             'series.displaymode': 'poster',
-            'storage.sync': true,
+            'storage.sync': false, // off by default so that permissions must be requested
             'sync.progress': true,
             'thepiratebay.mirror': 'https://thepiratebay.se',
             'topSites.enabled': true,

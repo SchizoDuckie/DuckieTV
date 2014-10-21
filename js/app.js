@@ -330,29 +330,7 @@ angular.module('DuckieTV', [
         SettingsService.set(key, false);
     };
 
-    $rootScope.$on('sync:processremoteupdate', function(event, progress) {
-        console.log("Process storagesync remote updates!", progress);
-        FavoritesService.restore(); // message the favoritesservice something has changed and it needs to refresh.
-        StorageSyncService.checkSyncProgress(progress);
-    });
-
-    /** 
-     * Forward an event to the storagesync service when it's not already syncing.
-     * This make sure that local additions / deletions get stored in the cloud.
-     */ 
-     if(SettingsService.get('storage.sync') == true) {
-         $rootScope.$on('storage:update', function() {
-             console.log("Received storage:update!");
-             if (SettingsService.get('storage.sync') && SettingsService.get('sync.progress') == null) {
-                console.log("Storage sync can run!");
-                SettingsService.set('lastSync', new Date().getTime());
-                StorageSyncService.synchronize();
-            }
-        });
-        if (SettingsService.get('sync.progress') !== null) {
-             $rootScope.$broadcast('sync:processremoteupdate', SettingsService.get('sync.progress'));
-        }   
-    }
+    StorageSyncService.initialize();
 
 
     /** 
