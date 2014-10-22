@@ -251,6 +251,11 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 }).then(function(result) {
                     console.log("Trakt.tv account-test request successful, response: ", result.data.status);
                     return result.data.status;
+                }, function(err) {
+                    //If error we stil need to return something
+                    //Could use to display more informative errors
+                    //401 - incorrect user pass ect.
+                    return err.status;
                 });
             }
         };
