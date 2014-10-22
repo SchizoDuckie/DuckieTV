@@ -17,9 +17,10 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
     var service = {
 
         isSyncing: false, // syncing is currently in progress
+        firstRun: false,  // first run?
         lastSynced: null, // timestamp when sync has last run
         activeDlg: null, // instance handle to an active question dialog to prevent multiple questions asked at the same time.
-
+        wipeMode: false,
         /** 
          * Fetch the list of tvdb id's from the FavoritesService
          * @returns array of TVDB_ID's
@@ -35,7 +36,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         },
 
         /** 
-         * Execute a sync step if syncing is not currently already in progress
+         * Execute a sync (write) step if syncing is not currently already in progress
          */
         synchronize: function() {
             ChromePermissions.checkGranted('storage').then(function() {
@@ -47,8 +48,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                         service.getSeriesList().then(function(series) {
                             service.set('series', series);
                             var time = new Date().getTime();
-                            SettingsService.set('lastSync', time);
-                            StorageSyncService.set('lastSync', time)
+                            service.set('lastSync', time)
                             service.isSyncing = false;
                             console.info("Storage sync Series list completed at", new Date());
                         });
@@ -65,18 +65,28 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * Remote deletion requires the user to confirm the deletion.
          */
         read: function(lastSync) {
-            if(service.isSyncing) return;
+            console.info("Start sync progress!");
+            if(service.isSyncing){
+                console.info("Sync already started!, cancelling");
+                return
+            }
             
-            service.get('series').then(function(results) {
-                results = results || [];
-                console.log("Fetched synced storage series: ", results);
+            service.get('series').then(function(storedSeries) {
+                if(storedSeries == null) {
+                    console.info("No series found in storage! syncing local series list!");
+                    service.firstRun = true;
+                    service.isSyncing = true;
+                    //return service.synchronize(); // break the process and store the local series list
+                }
+                console.log("Fetched synced storage series: ", storedSeries);
                 var existingSeries = service.getSeriesList().then(function(existingSeries) {
-                    
-                    var nonLocal = results.filter(function(el) {
+                    service.isSyncing = true;
+                    var nonLocal = storedSeries == null ? [] : storedSeries.filter(function(el) {
                         return existingSeries.indexOf(el) == -1
                     });
-                    var nonRemote = existingSeries.filter(function(id) {
-                        return results.filter(function(id2) {
+
+                    var nonRemote =  storedSeries == null ? existingSeries : existingSeries.filter(function(id) {
+                        return storedSeries.filter(function(id2) {
                             return (id == id2);
                         }).length == 0
                     });
@@ -84,12 +94,28 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                     console.log("Found non-local series to synchronize", nonLocal);
                     console.log("Found non-remote series to delete", nonRemote);
 
-                    service.checkSyncProgress({ // fire off the background and foreground deletion checks.
-                        'nonLocal': nonLocal,
-                        'nonRemote': nonRemote,
-                        'localProcessed': 0,
-                        'remoteProcessed': 0
-                    });
+                    if(chrome.extension.getBackgroundPage() === window && nonLocal.length > 0) {
+                      $q.all(nonLocal.map(function(TVDB_ID) {
+                            return TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(result) {
+                                return FavoritesService.addFavorite(result).then(function() {
+                                    if (chrome.extension.getBackgroundPage() === window) {
+                                        $rootScope.$broadcast('storage:hassynced', {}); // notify a possible foreground page listening of changes
+                                    }
+                                    return;
+                                })
+                            }, function(error) {
+                                console.error("Error finding serie by tvdbid on trakt!", error);
+                            });
+                      })).then(function(series) {
+                        console.log("Storagesyncservice read done, Added to favorites!" , series);
+                        service.isSyncing = false;
+                        service.firstRun = false;
+                        service.synchronize();
+                      }, function(error) {
+                        console.error("Error while syncing!" , error);
+                        service.isSyncing = false;
+                      })
+                    } 
                 });
             });
         },
@@ -103,21 +129,14 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         checkSyncProgress: function(progress) {
             console.info("Check sync progress! ", progress);
 
-            if(progress === true) {
-                return service.read(0);
-            }
+             
 
             if(!progress || service.activeDlg !== null) return;
-            SettingsService.set('sync.progress', progress);
-
+            
             // if we're in the background page, process the additions
-            if(chrome.extension.getBackgroundPage() === window && progress.localProcessed < progress.nonLocal.length) {
-                service.processRemoteAdditions(progress);
-            } 
+            
             // if we're in the background page and done processing local additions, notify foreground page when active
-            else if (chrome.extension.getBackgroundPage() === window && progress.localProcessed == progress.nonLocal.length) {
-                $rootScope.$broadcast('storage:hassynced', progress); // notify a possible foreground page listening of changes
-            }
+            
             // if we're in the foreground window and there's stuff to do, show the deletion dialogs.
             else if(chrome.extension.getBackgroundPage() !== window && progress.localProcessed == progress.nonLocal.length && progress.remoteProcessed < progress.nonRemote.length) {
                 service.processRemoteDeletions(progress);
@@ -128,19 +147,6 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                 service.synchronize();
             }
         },
-
-        processRemoteAdditions: function(progress) {
-            if(progress && progress.localProcessed < progress.nonLocal.length) {
-                TraktTV.findSerieByTVDBID(progress.nonLocal[progress.localProcessed]).then(function(result) {
-                    console.log("Process remote addition: ", result.title, 'adding to favorites!');
-                    FavoritesService.addFavorite(result).then(function() {
-                        progress.localProcessed++;
-                        service.checkSyncProgress(progress);
-                    })
-                });
-            }
-        },
-       
 
         /**
          * Check if there are non-remote series to process.
@@ -153,7 +159,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          */
         processRemoteDeletions: function(progress) {
             console.log("processing remote deletions: ", progress);
-            if(!isSupported()) return;
+            if(!service.isSupported()) return;
             if(!progress) return;
             console.log("iterating non remote", progress);
             var confirmDelete = function(btn, result) {
@@ -203,17 +209,17 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         get: function(key) {
             return $q(function(resolve, reject) {
                 chrome.storage.sync.get(key, function(setting) {
-                    console.info("Read storage setting: ", key, setting);
+                    console.info("Read storage.sync setting: ", key, setting);
                     (key in setting) ? resolve(setting[key].value) : resolve(null);
                 });
             });
         },
 
         /** 
-         * Public accessor for the global function
+         * Entry point for chrome permissions
          */
         isSupported: function() {
-            return supported;
+            return ChromePermissions.isSupported();
         },
 
 
@@ -228,8 +234,24 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
             var prop = {};
             prop[key] = setting;
             chrome.storage.sync.set(prop, function() {
-                console.log("Synced storage setting: ", key, setting);
+                console.log("Saved storage.sync setting: ", key, setting);
             });
+        },
+
+        enable: function() {
+            return ChromePermissions.requestPermission('storage')
+        },
+
+        disable: function() {
+            return ChromePermissions.revokePermission('storage')
+        },
+
+        wipe: function() {
+            service.wipeMode = true;
+            chrome.storage.sync.clear(function() {
+                console.log("Chrome storage wiped.");
+                service.wipeMode = false;
+            })
         },
 
         /**
@@ -240,28 +262,37 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                 if(SettingsService.get('storage.sync')) {
                     console.log("Attaching chrome storage change handler!")
                     chrome.storage.onChanged.addListener(function(changes, namespace) {
+                        if(service.wipeMode) {
+                            console.log("Service in wipemode, ignoring changes: ", changes, namespace);
+                            return;
+                        }
                         Object.keys(changes).map(function(key) {
                             if(changes[key].oldValue && !changes[key].newValue) {
                                 var restore = {};
                                 restore[key] = changes[key].oldValue;
                                 chrome.storage.sync.set( restore, function() { 
-                                    console.log("Re-added property ", key, " to ", changes[key].oldValue, "after it was wiped remotely!");
+                                    console.warn("Re-added property ", key, " to ", changes[key].oldValue, "after it was wiped remotely (CROME BUG?!)");
                                 });
                             }
                         })                
-                        service.read();
+                        //service.read();
                     });
+                    service.read();
                 }
             });
         },
 
-        initialize: function() {
+        /**
+         * Foreground thread update handler
+         */ 
+        initialize: function(forceCheck) {
             ChromePermissions.checkGranted('storage').then(function() {
                 if(SettingsService.get('storage.sync')) {
                     $rootScope.$on('sync:processremoteupdate', function(event, progress) {
                         console.log("Process storagesync remote updates!", progress);
+                        debugger;
                         FavoritesService.restore(); // message the favoritesservice something has changed and it needs to refresh.
-                        StorageSyncService.checkSyncProgress(progress);
+                        //service.checkSyncProgress(progress);
                     });
 
                     /** 
@@ -269,11 +300,11 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                      * This make sure that local additions / deletions get stored in the cloud.
                      */ 
                     $rootScope.$on('storage:update', function() {
-                        console.log("Received storage:update!");
-                        StorageSyncService.synchronize();
+                        console.info("Received storage:update, writing new series list to cloud storage!");
+                        if(!service.isSyncing) {
+                            service.synchronize();
+                        }
                     });
-
-                    service.checkSyncProgress(SettingsService.get('sync.progress'));
                 }        
             });
         }

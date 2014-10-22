@@ -44,8 +44,8 @@
         <li style="padding-top:4px">
           <p ng-show="!getSetting('storage.sync')" class="alert alert-info">{{'DEFAULT/sync-doit/alert'|translate}}</p>
           <p ng-show="getSetting('storage.sync')" class="alert alert-warning">{{'DEFAULT/sync-dont/alert'|translate}}</p>
-          <button ng-show="!getSetting('storage.sync')" ng-click="enableSetting('storage.sync')" class="btn btn-success">{{'DEFAULT/sync-doit/btn'|translate}}</button>
-          <button ng-show="getSetting('storage.sync')" ng-click="disableSetting('storage.sync')" class="btn btn-danger">{{'DEFAULT/sync-dont/btn'|translate}}</button>
+          <button ng-show="!getSetting('storage.sync')" ng-click="enableSync()" class="btn btn-success">{{'DEFAULT/sync-doit/btn'|translate}}</button>
+          <button ng-show="getSetting('storage.sync')" ng-click="disableSync()" class="btn btn-danger">{{'DEFAULT/sync-dont/btn'|translate}}</button>
         </li>
       </ul>
     </td>

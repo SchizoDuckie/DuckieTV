@@ -110,6 +110,20 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         StorageSyncService.synchronize()
     }
 
+    $scope.enableSync = function() {
+        StorageSyncService.enable().then(function() {
+            SettingsService.set('storage.sync', true);
+        }, function() {
+            SettingsService.set('storage.sync', false);
+        })
+    }
+
+    $scope.disableSync = function() {
+        StorageSyncService.disable().finally(function() {
+            SettingsService.set('storage.sync', false); 
+        });
+    }
+
     /**
      * Change localization an translations, reloads translation table.
      */

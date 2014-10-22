@@ -75,7 +75,6 @@ angular.module('DuckieTV', [
     EventWatcherService.initialize();
     EpisodeAiredService.attach();
     StorageSyncService.attach();
-    StorageSyncService.checkSyncProgress(SettingsService.get('sync.progress'));
 });
 
 // Since there is no html document that bootstraps angular using an ang-app tag, we need to call bootstrap manually
