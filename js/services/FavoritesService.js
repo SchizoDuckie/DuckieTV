@@ -21,7 +21,7 @@ angular.module('DuckieTV.providers.favorites', [])
             'air_day_utc': 'airs_dayofweek',
             'air_time_utc': 'airs_time',
             'country': 'language'
-        }
+        };
         for (var i in data) {
             if (i == 'images') {
                 serie.set('fanart', data[i].fanart);
@@ -37,17 +37,17 @@ angular.module('DuckieTV.providers.favorites', [])
                 serie.set('genre', data.genres.join('|'));
             } else if (i == 'people') {
                 serie.set('actors', data.people.actors.map(function(actor) {
-                    return actor.name
+                    return actor.name;
                 }).join('|'));
             } else if (i == 'ended') {
-                serie.set('status', data[i] == true ? 'Continuing' : 'Ended')
+                serie.set('status', data[i] == true ? 'Continuing' : 'Ended');
             } else if (i in mappings) {
-                serie.set(mappings[i], data[i])
+                serie.set(mappings[i], data[i]);
             } else {
                 serie.set(i, data[i]);
             }
         }
-    }
+    };
     /**
      * Helper function to map properties from the input data from Trakt.TV into a Episode CRUD object.
      * Input information will always overwrite existing information.
@@ -64,7 +64,7 @@ angular.module('DuckieTV.providers.favorites', [])
         for (var i in d) {
             episode.set(i, d[i]);
         }
-    }
+    };
 
     /**
      * Wipe episodes from the database that were cached locally but are no longer in the latest update.
@@ -76,13 +76,13 @@ angular.module('DuckieTV.providers.favorites', [])
         seasons.map(function(season) {
             season.episodes.map(function(episode) {
                 tvdbList.push(episode.tvdb_id);
-            })
+            });
         });
-        CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN ('+tvdbList.join(',')+')', [ID]).then(function(result) {
+        CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [ID]).then(function(result) {
             console.log("Cleaned up ", result.rs.rowsAffected, " orphaned episodes");
-        })
+        });
         tvdbList = null;
-    }
+    };
 
 
     var service = {
@@ -127,7 +127,7 @@ angular.module('DuckieTV.providers.favorites', [])
                             if (el.TVDB_ID == serie.get('TVDB_ID')) {
                                 service.favorites[index] = serie.asObject();
                             }
-                        })
+                        });
                     }
                     $rootScope.$broadcast('background:load', serie.get('fanart'));
 
@@ -138,10 +138,10 @@ angular.module('DuckieTV.providers.favorites', [])
                         d.resolve(serie);
                     }, function(err) {
                         console.log("Error updating episodes!");
-                        debugger;
+
                         d.reject(err);
                     }, function(notify) {
-                        debugger;
+
                         console.log('Service update episodes progress notification event for ', serie, notify);
                     });
                 });
@@ -183,7 +183,7 @@ angular.module('DuckieTV.providers.favorites', [])
 
                     var pq = [];
                     cleanOldSeries(seasons, serie.getID());
-                    
+
                     seasons.map(function(season) {
 
                         var SE = (season.season in seasonCache) ? seasonCache[season.season] : new Season();
@@ -211,8 +211,8 @@ angular.module('DuckieTV.providers.favorites', [])
                                 if (watchedEpisodes.length > 0) {
                                     e.set('watched', '1');
                                     e.set('watchedAt', watchedEpisodes[0].watchedAt);
-                                };
-                                
+                                }
+
                                 // save the changes and free some memory, or do it immediately if there's no promise to wait for
                                 if (Object.keys(e.changedValues).length > 0) { // if the dbObject is dirty, we wait for the persist to resolve
                                     e.Persist().then(function(res) {
@@ -247,8 +247,8 @@ angular.module('DuckieTV.providers.favorites', [])
                             seasonCache[season.season] = null;
                             season = null;
                         });
-                    })
-                })
+                    });
+                });
 
             });
             return p.promise;
@@ -262,7 +262,7 @@ angular.module('DuckieTV.providers.favorites', [])
             serie = serie instanceof CRUD.Entity ? serie : this.getById(serie);
             return serie.Find('Episode', filters || {}).then(function(episodes) {
                 return episodes.map(function(val, id) {
-                    return val.asObject()
+                    return val.asObject();
                 });
             }, function(err) {
                 console.log("Error in getEpisodes!", serie, filters || {});
@@ -270,13 +270,15 @@ angular.module('DuckieTV.providers.favorites', [])
         },
         getEpisodesForDateRange: function(start, end) {
             var filter = ['Episodes.firstaired > "' + start + '" AND Episodes.firstaired < "' + end + '" '];
-            filter.Serie = {'displaycalendar':1 };
-            if(!$rootScope.getSetting('calendar.show-specials')) {
+            filter.Serie = {
+                'displaycalendar': 1
+            };
+            if (!$rootScope.getSetting('calendar.show-specials')) {
                 filter.push('seasonnumber > 0');
             }
             return CRUD.Find('Episode', filter).then(function(ret) {
                 return ret;
-            })
+            });
         },
         /**
          * Find a serie by it's TVDB_ID (the main identifier for series since they're consistent regardless of local config)
@@ -297,7 +299,7 @@ angular.module('DuckieTV.providers.favorites', [])
          */
         remove: function(serie) {
             console.log("Remove serie from favorites!", serie);
-            this.getById(serie['TVDB_ID']).then(function(s) {
+            this.getById(serie.TVDB_ID).then(function(s) {
                 s.Find('Season').then(function(seasons) {
                     seasons.map(function(el) {
                         el.Delete();
@@ -307,7 +309,7 @@ angular.module('DuckieTV.providers.favorites', [])
                 s.Delete().then(function() {
                     $rootScope.$broadcast('calendar:clearcache');
                     console.log("Serie deleted. Syncing storage.");
-                    
+
                     $rootScope.$broadcast('storage:update');
                     service.refresh();
 
@@ -344,8 +346,8 @@ angular.module('DuckieTV.providers.favorites', [])
         getSeries: function() {
             var d = $q.defer();
             CRUD.Find('Serie', {}).then(function(results) {
-                results.map(function(el,idx) {
-                   results[idx] = el.asObject();
+                results.map(function(el, idx) {
+                    results[idx] = el.asObject();
                 });
                 d.resolve(results);
             });
@@ -359,9 +361,9 @@ angular.module('DuckieTV.providers.favorites', [])
             // dafuq. no RANDOM() in sqlite in chrome... 
             // then we pick a random array item from the resultset based on the amount.
             CRUD.EntityManager.getAdapter().db.execute("select fanart from series where fanart != ''").then(function(result) {
-                $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1)) + 1).fanart); 
-            })
-            
+                $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1)) + 1).fanart);
+            });
+
         },
         /**
          * Fetch stored series from sqlite and store them in service.favorites
@@ -380,4 +382,4 @@ angular.module('DuckieTV.providers.favorites', [])
     };
     service.restore();
     return service;
-})
+});

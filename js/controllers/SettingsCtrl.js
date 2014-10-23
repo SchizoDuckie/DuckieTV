@@ -10,7 +10,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.bgopacity = SettingsService.get('background-rotator.opacity');
     $scope.tpbmirrorStatus = [];
     $scope.katmirrorStatus = [];
-    
+
     $scope.log = [];
     $scope.hasTopSites = ('topSites' in window.chrome);
     $scope.locale = SettingsService.get('application.locale');
@@ -78,7 +78,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $scope.setActiveSetting = function(setting) {
         $scope.activesettings = 'templates/settings/' + setting + '.html';
-    }
+    };
 
     /**
      * Inject an event to display mirror resolving progress.
@@ -99,7 +99,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $scope.isSyncSupported = function() {
         return StorageSyncService.isSupported();
-    }
+    };
 
     /**
      * Fire off an event that pushes the current series list into the cloud
@@ -107,22 +107,23 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.sync = function() {
         console.log("Synchronizging!");
         SettingsService.set('lastSync', new Date().getTime());
-        StorageSyncService.synchronize()
-    }
+        StorageSyncService.synchronize();
+    };
 
     $scope.enableSync = function() {
         StorageSyncService.enable().then(function() {
             SettingsService.set('storage.sync', true);
+            StorageSyncService.read(); // kick off read.
         }, function() {
             SettingsService.set('storage.sync', false);
-        })
-    }
+        });
+    };
 
     $scope.disableSync = function() {
         StorageSyncService.disable().finally(function() {
-            SettingsService.set('storage.sync', false); 
+            SettingsService.set('storage.sync', false);
         });
-    }
+    };
 
     /**
      * Change localization an translations, reloads translation table.
@@ -130,7 +131,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.setLocale = function(lang) {
         SettingsService.changeLanguage(lang);
         $scope.locale = lang;
-    }
+    };
 
     /**
      * Change the default torrent search provider
@@ -138,7 +139,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.setSearchProvider = function(provider) {
         $scope.searchprovider = provider;
         SettingsService.set('torrenting.searchprovider', provider);
-    }
+    };
 
     /**
      * Changes the default torrent search quality (hdtv, 720p, etc)
@@ -147,7 +148,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         console.log("Setting searchquality: ", quality);
         $rootScope.setSetting('torrenting.searchquality', quality);
         $scope.searchquality = quality;
-    }
+    };
 
     /**
      * Set the various background opacity levels.
@@ -155,7 +156,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.setBGOpacity = function(opacity) {
         $rootScope.setSetting('background-rotator.opacity', opacity);
         $scope.bgopacity = opacity;
-    }
+    };
 
     /**
      * Resolve a new random ThePirateBay mirror.
@@ -169,8 +170,8 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
             $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
         }, function(err) {
             console.debug("Could not find a working TPB mirror!", err);
-        })
-    }
+        });
+    };
 
     /**
      * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
@@ -184,8 +185,8 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         }, function(err) {
             console.log("Could not validate custom mirror!", mirror);
             //$scope.customMirror = '';
-        })
-    }
+        });
+    };
 
     /**
      * Resolve a new random KickassTorrents  mirror.
@@ -199,8 +200,8 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
             $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
         }, function(err) {
             console.debug("Could not find a working KAT mirror!", err);
-        })
-    }
+        });
+    };
 
     /**
      * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
@@ -214,8 +215,8 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         }, function(err) {
             console.log("Could not validate custom mirror!", mirror);
             //$scope.customMirror = '';
-        })
-    }
+        });
+    };
 
     /**
      * Create the automated download service.
@@ -224,7 +225,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.enableAutoDownload = function() {
         SettingsService.set('torrenting.autodownload', true);
         EventSchedulerService.createInterval(' ☠ Automated torrent download service', 120, 'episode:aired:check', {});
-    }
+    };
 
     /**
      * Remove the auto-download event
@@ -232,7 +233,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.disableAutoDownload = function() {
         SettingsService.set('torrenting.autodownload', false);
         EventSchedulerService.clear(' ☠ Automated torrent download service');
-    }
+    };
 
     /**
      * Enable the calendar to show-specials
@@ -240,7 +241,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.enableSpecials = function() {
         SettingsService.set('calendar.show-specials', true);
         $rootScope.$broadcast('calendar:clearcache');
-    }
+    };
 
     /**
      * Disable the calendar from showing specials
@@ -248,7 +249,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.disableSpecials = function() {
         SettingsService.set('calendar.show-specials', false);
         $rootScope.$broadcast('calendar:clearcache');
-    }
+    };
 
     $scope.favorites = FavoritesService.favorites;
 });

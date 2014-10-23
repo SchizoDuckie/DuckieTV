@@ -41,7 +41,7 @@ angular.module('DuckieTV.providers.thepiratebay', ['DuckieTV.providers.mirrorres
             output.push(out);
         }
         return output;
-    }
+    };
 
     /**
      * Get wrapper, providing the actual search functions and result parser
@@ -76,7 +76,7 @@ angular.module('DuckieTV.providers.thepiratebay', ['DuckieTV.providers.mirrorres
                         }, function(err) {
                             //console.debug("Could not find a working TPB mirror!", err);
                             d.reject(err);
-                        })
+                        });
                     }
                 });
                 return d.promise;
@@ -99,6 +99,6 @@ angular.module('DuckieTV.providers.thepiratebay', ['DuckieTV.providers.mirrorres
                 });
                 return d.promise;
             }
-        }
-    }
-})
+        };
+    };
+});

@@ -3,11 +3,11 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
 /** 
  * Trakt TV API interfacing.
  * Throughout the app the API from Trakt.TV is used to fetch content about shows and optionally the user's data
- *  
+ *
  * For API docs: check here: http://trakt.tv/api-docs
  */
 .factory('TraktTV', function(SettingsService, $q, $http, $rootScope) {
-   
+
     var activeRequest = false;
 
     var endpoints = {
@@ -36,7 +36,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 series: []
             };
             data = data.data;
-            if(!data || !'length' in data) return;
+            if (!data || !'length' in data) return;
             for (var i = 0; i < data.length; i++) {
                 data[i].poster = ('images' in data[i] && 'poster' in data[i].images) ? data[i].images.poster : '';
                 data[i].banner = ('images' in data[i] && 'banner' in data[i].images) ? data[i].images.banner : '';
@@ -50,7 +50,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
 
     /** 
      * Get one of the urls from the endpoint and replace the parameters in it when provided.
-     */ 
+     */
     var getUrl = function(type, param, param2) {
         var out = endpoints[type].replace('%s', encodeURIComponent(param));
         return (param2 !== undefined) ? out.replace('%s ', encodeURIComponent(param2)) : out;
@@ -67,7 +67,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
 
     /** 
      * Promise requests with batchmode toggle to auto-kill a previous request when running.
-     * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple 
+     * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple
      * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
      */
     var promiseRequest = function(type, param, param2) {
@@ -84,178 +84,178 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
         }).then(function(response) {
             return d.resolve(parser(response));
         }).catch(function(error) {
-            if(error.status == 0) { // rejected promises
+            if (error.status == 0) { // rejected promises
                 return d.resolve([]);
             }
             return d.reject(error);
-        })
+        });
         return d.promise;
     };
 
     var service = {
-            batchMode: false,
-           /** 
-             * enableBatchMode makes sure previous request are not aborted.
-             * Batch mode is required to be turned on for FavoritesService operations
-             * and batch imports, so that the previous requests can finish and all the promises
-             * will run.
-             */
-            enableBatchMode: function() {
-                service.batchmode = true;
-                return service;
-            },
-            /** 
-             * disableBatchMode turns off batch mode and makes sure previous active requests are
-             * terminated before starting the next.
-             */
-            disableBatchMode: function() {
-                service.batchmode = false;
-                return service;
-            },
-            /** 
-             * Search Trakt.TV for series info by name
-             * http://trakt.tv/api-docs/search-shows
-             */
-            findSeries: function(name) {
-                return promiseRequest('series', name);
-            },
-            /** 
-             * Fetch full series info from trakt.tv by TVDB_ID
-             * http://trakt.tv/api-docs/show-summary
-             */
-            findSerieByTVDBID: function(TVDB_ID) {
-                return promiseRequest('seriebyid', TVDB_ID);
-            },
-            /** 
-             * Fetch trending shows from trakt.tv
-             * http://trakt.tv/api-docs/shows-trending
-             */
-            findTrending: function() {
-                return promiseRequest('trending', '');
-            },
-            /** 
-             * Fetch all shows in a user's library. 
-             * http://trakt.tv/api-docs/user-library-shows-all
-             */
-            getUserShows: function(username) {
-                return $http.post(getUrl('userShows', username), {
-                    "username": SettingsService.get('trakttv.username'),
-                    "password": SettingsService.get('trakttv.passwordHash'),
-                }).then(function(result) {
-                    console.log("TraktTV user shows retrieved!", result);
-                    result.data.map(function(show) {
-                        show.poster = show.images.poster;
-                    });
-                    return result.data;
+        batchMode: false,
+        /** 
+         * enableBatchMode makes sure previous request are not aborted.
+         * Batch mode is required to be turned on for FavoritesService operations
+         * and batch imports, so that the previous requests can finish and all the promises
+         * will run.
+         */
+        enableBatchMode: function() {
+            service.batchmode = true;
+            return service;
+        },
+        /** 
+         * disableBatchMode turns off batch mode and makes sure previous active requests are
+         * terminated before starting the next.
+         */
+        disableBatchMode: function() {
+            service.batchmode = false;
+            return service;
+        },
+        /** 
+         * Search Trakt.TV for series info by name
+         * http://trakt.tv/api-docs/search-shows
+         */
+        findSeries: function(name) {
+            return promiseRequest('series', name);
+        },
+        /** 
+         * Fetch full series info from trakt.tv by TVDB_ID
+         * http://trakt.tv/api-docs/show-summary
+         */
+        findSerieByTVDBID: function(TVDB_ID) {
+            return promiseRequest('seriebyid', TVDB_ID);
+        },
+        /** 
+         * Fetch trending shows from trakt.tv
+         * http://trakt.tv/api-docs/shows-trending
+         */
+        findTrending: function() {
+            return promiseRequest('trending', '');
+        },
+        /** 
+         * Fetch all shows in a user's library.
+         * http://trakt.tv/api-docs/user-library-shows-all
+         */
+        getUserShows: function(username) {
+            return $http.post(getUrl('userShows', username), {
+                "username": SettingsService.get('trakttv.username'),
+                "password": SettingsService.get('trakttv.passwordHash'),
+            }).then(function(result) {
+                console.log("TraktTV user shows retrieved!", result);
+                result.data.map(function(show) {
+                    show.poster = show.images.poster;
                 });
-            },
-            /** 
-             * Fetch all episodes that were marked as watched foor the user
-             * http://trakt.tv/api-docs/user-library-shows-watched
-             */
-            getUserWatched: function(username) {
-               return $http.post(getUrl('userWatched', username), {
-                    "username": SettingsService.get('trakttv.username'),
-                    "password": SettingsService.get('trakttv.passwordHash'),
-                }).then(function(result) {
-                    console.log("TraktTV user watched retrieved!", result);
-                    result.data.map(function(show) {
-                        show.poster = show.images.poster;
-                    });
-                   return result.data;
+                return result.data;
+            });
+        },
+        /** 
+         * Fetch all episodes that were marked as watched foor the user
+         * http://trakt.tv/api-docs/user-library-shows-watched
+         */
+        getUserWatched: function(username) {
+            return $http.post(getUrl('userWatched', username), {
+                "username": SettingsService.get('trakttv.username'),
+                "password": SettingsService.get('trakttv.passwordHash'),
+            }).then(function(result) {
+                console.log("TraktTV user watched retrieved!", result);
+                result.data.map(function(show) {
+                    show.poster = show.images.poster;
                 });
-            },
-            /** 
-             * Fetch suggestions based on a user's library.
-             * Requires the authentication hash to be calculated and stored.
-             * http://trakt.tv/api-docs/recommendations-shows
-             */
-            getUserSuggestions: function() {
-                return $http.post(endpoints.userSuggestions, {
-                    "username": SettingsService.get('trakttv.username'),
-                    "password": SettingsService.get('trakttv.passwordHash'),
-                }).then(function(result) {
-                    console.log("TraktTV suggestions retrieved!", result);
-                    result.data.map(function(show) {
-                        show.poster = show.images.poster;
-                    })
-                    return result.data;
+                return result.data;
+            });
+        },
+        /** 
+         * Fetch suggestions based on a user's library.
+         * Requires the authentication hash to be calculated and stored.
+         * http://trakt.tv/api-docs/recommendations-shows
+         */
+        getUserSuggestions: function() {
+            return $http.post(endpoints.userSuggestions, {
+                "username": SettingsService.get('trakttv.username'),
+                "password": SettingsService.get('trakttv.passwordHash'),
+            }).then(function(result) {
+                console.log("TraktTV suggestions retrieved!", result);
+                result.data.map(function(show) {
+                    show.poster = show.images.poster;
                 });
-            },
-            /** 
-             * Mark an episode as watched.
-             * Can be passed either a CRUD entity or a plain series object and an episode.
-             * http://trakt.tv/api-docs/show-episode-seen
-             */
-            markEpisodeWatched: function(serie, episode) {
-                var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
-                var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
-                var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
-                
-                $http.post(endpoints.episodeSeen, {
-                    "username": SettingsService.get('trakttv.username'),
-                    "password": SettingsService.get('trakttv.passwordHash'),
-                    "tvdb_id": s,
-                    "episodes": [{
-                        "season": sn,
-                        "episode": en
-                    }]
-                }).then(function(result) {
-                    //console.log("Episode watched: ", serie, episode);
-                });
-            },
-            /** 
-             * Mark an episode as not watched.
-             * Can be passed either a CRUD entity or a plain series object and an episode.
-             * http://trakt.tv/api-docs/show-episode-unseen
-             */
-            markEpisodeNotWatched: function(serie, episode) {
-                var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
-                var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
-                var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
-              
-                $http.post(endpoints.episodeUnseen, {
-                    "username": SettingsService.get('trakttv.username'),
-                    "password": SettingsService.get('trakttv.passwordHash'),
-                    "tvdb_id": s,
-                    "episodes": [{
-                        "season": sn,
-                        "episode": en
-                    }]
-                }).then(function(result) {
-                    //console.log("Episode un-watched: ", serie, episode);
-                });
-            },
-            /** 
-             * Add a show to the user's library. 
-             * http://trakt.tv/api-docs/show-library
-             */
-            addToLibrary: function(serieTVDB_ID) {
-                $http.post(endpoints.addToLibrary, {
-                    "username": SettingsService.get('trakttv.username'),
-                    "password": SettingsService.get('trakttv.passwordHash'),
-                    "tvdb_id": serieTVDB_ID,
-                }).then(function(result) {
-                    console.log("Serie added to trakt.tv library: ", serieTVDB_ID);
-                })
-            },
-            /** 
-             * Test authentication with trakt.tv
-             * Returns either success or failure 
-             * http://trakt.tv/api-docs/account-test
-             */
-            checkDetails: function(user, shapass) {
-                return $http.post(endpoints.accountTest, {
-                    "username": user,
-                    "password": shapass,
-                }).then(function(result) {
-                    console.log("Trakt.tv account-test request successful, response: ", result.data.status);
-                    return result.data.status;
-                });
-            }
-        };
-    
-        return service;
+                return result.data;
+            });
+        },
+        /** 
+         * Mark an episode as watched.
+         * Can be passed either a CRUD entity or a plain series object and an episode.
+         * http://trakt.tv/api-docs/show-episode-seen
+         */
+        markEpisodeWatched: function(serie, episode) {
+            var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
+            var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
+            var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
+
+            $http.post(endpoints.episodeSeen, {
+                "username": SettingsService.get('trakttv.username'),
+                "password": SettingsService.get('trakttv.passwordHash'),
+                "tvdb_id": s,
+                "episodes": [{
+                    "season": sn,
+                    "episode": en
+                }]
+            }).then(function(result) {
+                //console.log("Episode watched: ", serie, episode);
+            });
+        },
+        /** 
+         * Mark an episode as not watched.
+         * Can be passed either a CRUD entity or a plain series object and an episode.
+         * http://trakt.tv/api-docs/show-episode-unseen
+         */
+        markEpisodeNotWatched: function(serie, episode) {
+            var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
+            var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
+            var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
+
+            $http.post(endpoints.episodeUnseen, {
+                "username": SettingsService.get('trakttv.username'),
+                "password": SettingsService.get('trakttv.passwordHash'),
+                "tvdb_id": s,
+                "episodes": [{
+                    "season": sn,
+                    "episode": en
+                }]
+            }).then(function(result) {
+                //console.log("Episode un-watched: ", serie, episode);
+            });
+        },
+        /** 
+         * Add a show to the user's library.
+         * http://trakt.tv/api-docs/show-library
+         */
+        addToLibrary: function(serieTVDB_ID) {
+            $http.post(endpoints.addToLibrary, {
+                "username": SettingsService.get('trakttv.username'),
+                "password": SettingsService.get('trakttv.passwordHash'),
+                "tvdb_id": serieTVDB_ID,
+            }).then(function(result) {
+                console.log("Serie added to trakt.tv library: ", serieTVDB_ID);
+            });
+        },
+        /** 
+         * Test authentication with trakt.tv
+         * Returns either success or failure
+         * http://trakt.tv/api-docs/account-test
+         */
+        checkDetails: function(user, shapass) {
+            return $http.post(endpoints.accountTest, {
+                "username": user,
+                "password": shapass,
+            }).then(function(result) {
+                console.log("Trakt.tv account-test request successful, response: ", result.data.status);
+                return result.data.status;
+            });
+        }
+    };
+
+    return service;
 })
 
 /** 
@@ -269,11 +269,11 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
         restrict: 'A',
         scope: '=',
         link: function($scope, element) {
-            if(element[0].getAttribute('focus-watch')) {
+            if (element[0].getAttribute('focus-watch')) {
                 $scope.$watch(element[0].getAttribute('focus-watch'), function() {
                     var el = element.length == 1 && element[0].tagName == 'INPUT' ? element[0] : element.find('input')[0];
                     setTimeout(function() {
-                        this.focus()
+                        this.focus();
                     }.bind(el), 500);
                 });
             }

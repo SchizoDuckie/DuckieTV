@@ -19,7 +19,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
          */
         var createEvent = function(name, type, eventChannel, data) {
             var evt = new ScheduledEvent();
-            evt.set('name', name)
+            evt.set('name', name);
             evt.set('type', type);
             evt.set('eventchannel', eventChannel);
             evt.set('data', angular.toJson(data, true));
@@ -50,7 +50,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                         p.resolve(result);
                     });
                 } else {
-                    p.resolve([])
+                    p.resolve([]);
                 }
                 return p.promise;
             },
@@ -107,7 +107,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                         $rootScope.$broadcast('timer:created');
                     }
 
-                })
+                });
 
             },
 
@@ -117,7 +117,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
              */
             clear: function(name) {
                 if ('chrome' in window && 'alarms' in window.chrome) {
-               		chrome.alarms.clear(name);
+                    chrome.alarms.clear(name);
                 }
                 CRUD.FindOne('ScheduledEvent', {
                     name: name
@@ -153,7 +153,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                                 return timer.name == event.get('name') || event.get('name').indexOf('☠') > -1;
                             }).length === 0;
                         });
-                       
+
                         for (var i = 0; i < missing.length; i++) {
                             console.log("Re-adding show for missing timer by firing it's timer: ", missing[i].get('name'));
                             EventWatcherService.onEvent(missing[i].get('name'));
@@ -163,5 +163,5 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
             }
         };
         return service;
-    }
-})
+    };
+});
