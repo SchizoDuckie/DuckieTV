@@ -23,7 +23,7 @@ DuckieTV for Chrome comes in 2 versions: One that installs itself as your browse
 
 Install DuckieTV for Opera
 --------------------------
-* [DuckieTV 'Browser Action mode': Adds a button next to your addres bar](https://addons.opera.com/en-gb/extensions/details/duckietv-browser-action-mode/)
+* [DuckieTV 'Browser Action mode': Adds a button next to your address bar](https://addons.opera.com/en-gb/extensions/details/duckietv-browser-action-mode/)
 
 Try DuckieTV online
 -------------------
