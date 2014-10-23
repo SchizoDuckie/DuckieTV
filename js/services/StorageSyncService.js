@@ -71,12 +71,12 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                 console.info("Sync already started!, cancelling");
                 return;
             }
+            var activeDialogs = [];
 
             var confirmDelete = function(btn, result) {
                 if (btn == 'yes-all') {
                     window.confirmAll = true;
                 }
-                FavoritesService.remove(result.asObject());
             };
 
             var cancelDelete = function(btn) {
@@ -86,18 +86,45 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
             };
 
             var showDeleteConfirmDialog = function(serie) {
-                return $q(function(resolve, reject) {
-                    var dlg = $injector.get('$dialogs').confirmAll($filter('translate')('STORAGESYNCSERVICEjs/serie-deleted/hdr'),
-                        $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1') + '<strong>' +
-                        serie.get('name') + '</strong>' +
-                        $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2')
-                    );
-                    dlg.result.then(function(btn) {
-                        confirmDelete(btn, serie);
-                    }, function() {
-                        cancelDelete(btn);
-                    });
-                });
+                var dlg = $injector.get('$dialogs').confirmAll($filter('translate')('STORAGESYNCSERVICEjs/serie-deleted/hdr'),
+                    $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1') + '<strong>' +
+                    serie.get('name') + '</strong>' +
+                    $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2')
+                );
+
+                var resolve = function(btn) {
+                    delete activeDialogs[activeDialogs.indexOf([dlg, resolve, reject])];
+                    FavoritesService.remove(serie.asObject());
+
+                    if (btn == 'yes-all') {
+                        activeDialogs.map(function(dialog) {
+                            try {
+                                dialog[0].dismiss();
+                            } catch (e) {}
+                            dialog[1]('yes');
+                        });
+                        activeDialogs = null;
+                    }
+                }
+                var reject = function(btn) {
+                    // returns only if the yes-all / no-all have been called.
+                    if (!activeDialogs) return; // the dialogs interface sucks. Dismissing them manually causes a reject. (can't pass params).
+                    delete activeDialogs[activeDialogs.indexOf([dlg, resolve, reject])];
+                    console.log("Don't delete!", serie.asObject());
+                    if (btn == 'no-all') {
+                        activeDialogs.map(function(dialog) {
+                            try {
+                                dialog[0].dismiss();
+                            } catch (e) {}
+                        });
+                        activeDialogs = null;
+                        service.synchronize();
+                    }
+                }
+                dlg.result.then(resolve, reject);
+
+                activeDialogs.push([dlg, resolve, reject]);
+
             };
 
             service.get('series').then(function(storedSeries) {
@@ -125,21 +152,15 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
 
                     $q.all(nonLocal.map(function(TVDB_ID) {
                         return TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(result) {
-                            return FavoritesService.addFavorite(result);
+                            return FavoritesService.addFavorite(result).then(function() {
+                                $rootScope.$broadcast('episodes:updated');
+                            });
                         }, function(error) {
                             console.error("Error finding serie by tvdbid on trakt!", error);
                         });
                     }), nonRemote.map(function(TVDB_ID) {
                         return FavoritesService.getById(TVDB_ID).then(function(result) {
-                            return $q(function(resolve, reject) {
-                                if (window.confirmAll) {
-                                    resolve(confirmDelete('yes-all', result));
-                                } else if ((window.confirmNone)) {
-                                    resolve(cancelDelete('no-all'));
-                                } else {
-                                    resolve(showDeleteConfirmDialog(result));
-                                }
-                            });
+                            return showDeleteConfirmDialog(result);
                         });
                     })).then(function(remapped) {
                         service.isSyncing = false;
