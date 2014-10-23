@@ -9,6 +9,9 @@ angular.module('DuckieTV.providers.settings', [])
         isOpera = navigator.vendor.toLowerCase().indexOf('opera');
 
     var service = {
+        /**
+         * Storage sync only supported in chrome extensions
+         */
         isSupported: function() {
             return isChrome && isExtension;
         },
@@ -18,13 +21,15 @@ angular.module('DuckieTV.providers.settings', [])
         checkGranted: function(permission) {
             return $q(function(resolve, reject) {
                 console.info('Verify if permission is granted', permission);
-                
-                if(!service.isSupported()) { 
+
+                if (!service.isSupported()) {
                     console.info('Nope, not chrome or an extension');
-                    reject() 
+                    reject();
                 }
-                chrome.permissions.contains({ permissions: [permission] }, function(supported) {
-                    console.info(supported ? 'Permission '+permission+' granted.' : 'Permission '+permission+' denied.');
+                chrome.permissions.contains({
+                    permissions: [permission]
+                }, function(supported) {
+                    console.info(supported ? 'Permission ' + permission + ' granted.' : 'Permission ' + permission + ' denied.');
                     (supported) ? resolve() : reject();
                 });
             });
@@ -32,13 +37,15 @@ angular.module('DuckieTV.providers.settings', [])
         requestPermission: function(permission) {
             return $q(function(resolve, reject) {
                 console.info('Request permission', permission);
-                
-                if(!service.isSupported()) { 
+
+                if (!service.isSupported()) {
                     console.info('Nope, not chrome or an extension');
-                    reject() 
+                    reject();
                 }
-                chrome.permissions.request({ permissions: [permission] }, function(granted) {
-                    console.info(granted ? 'Permission '+permission+' granted.' : 'Permission '+permission+' denied.');
+                chrome.permissions.request({
+                    permissions: [permission]
+                }, function(granted) {
+                    console.info(granted ? 'Permission ' + permission + ' granted.' : 'Permission ' + permission + ' denied.');
                     (granted) ? resolve() : reject();
                 });
             });
@@ -47,13 +54,15 @@ angular.module('DuckieTV.providers.settings', [])
         revokePermission: function(permission) {
             return $q(function(resolve, reject) {
                 console.info('Revoke permission', permission);
-                
-                if(!service.isSupported()) { 
+
+                if (!service.isSupported()) {
                     console.info('Nope, not chrome or an extension');
-                    reject() 
+                    reject();
                 }
-                chrome.permissions.request({ permissions: [permission] }, function(result) {
-                    console.info(result ? 'Permission '+permission+' revoked.' : 'Permission '+permission+' not revoked.');
+                chrome.permissions.request({
+                    permissions: [permission]
+                }, function(result) {
+                    console.info(result ? 'Permission ' + permission + ' revoked.' : 'Permission ' + permission + ' not revoked.');
                     (result) ? resolve() : reject();
                 });
             });
@@ -110,9 +119,9 @@ angular.module('DuckieTV.providers.settings', [])
          * @return mixed value value of the setting
          */
         get: function(key) {
-        	if(key == 'cast.supported') {
-        		return ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability)
-        	}
+            if (key == 'cast.supported') {
+                return ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability);
+            }
             return ((key in service.settings) ? service.settings[key] : (key in service.defaults) ? service.defaults[key] : false);
         },
 

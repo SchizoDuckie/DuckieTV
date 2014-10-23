@@ -288,7 +288,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                 if (SettingsService.get('storage.sync')) {
                     $rootScope.$on('sync:processremoteupdate', function(event, progress) {
                         console.log("Process storagesync remote updates!", progress);
-                        debugger;
+
                         FavoritesService.restore(); // message the favoritesservice something has changed and it needs to refresh.
                         //service.checkSyncProgress(progress);
                     });
