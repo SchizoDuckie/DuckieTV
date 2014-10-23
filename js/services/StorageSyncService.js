@@ -72,6 +72,34 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                 return;
             }
 
+            var confirmDelete = function(btn, result) {
+                if (btn == 'yes-all') {
+                    window.confirmAll = true;
+                }
+                FavoritesService.remove(result.asObject());
+            };
+
+            var cancelDelete = function(btn) {
+                if (btn == 'no-all') {
+                    window.confirmNone = true;
+                }
+            };
+
+            var showDeleteConfirmDialog = function(serie) {
+                return $q(function(resolve, reject) {
+                    var dlg = $injector.get('$dialogs').confirmAll($filter('translate')('STORAGESYNCSERVICEjs/serie-deleted/hdr'),
+                        $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1') + '<strong>' +
+                        serie.get('name') + '</strong>' +
+                        $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2')
+                    );
+                    dlg.result.then(function(btn) {
+                        confirmDelete(btn, serie);
+                    }, function() {
+                        cancelDelete(btn);
+                    });
+                });
+            };
+
             service.get('series').then(function(storedSeries) {
                 if (storedSeries === null) {
                     console.info("No series found in storage! syncing local series list!");
@@ -97,17 +125,23 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
 
                     $q.all(nonLocal.map(function(TVDB_ID) {
                         return TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(result) {
-                            return FavoritesService.addFavorite(result).then(function() {
-                                if (chrome.extension.getBackgroundPage() === window) {
-                                    $rootScope.$broadcast('storage:hassynced', {}); // notify a possible foreground page listening of changes
-                                }
-                                return;
-                            });
+                            return FavoritesService.addFavorite(result);
                         }, function(error) {
                             console.error("Error finding serie by tvdbid on trakt!", error);
                         });
-                    })).then(function(series) {
-                        console.log("Storagesyncservice read done, Added to favorites!", series);
+                    }), nonRemote.map(function(TVDB_ID) {
+                        return FavoritesService.getById(TVDB_ID).then(function(result) {
+                            return $q(function(resolve, reject) {
+                                if (window.confirmAll) {
+                                    resolve(confirmDelete('yes-all', result));
+                                } else if ((window.confirmNone)) {
+                                    resolve(cancelDelete('no-all'));
+                                } else {
+                                    resolve(showDeleteConfirmDialog(result));
+                                }
+                            });
+                        });
+                    })).then(function(remapped) {
                         service.isSyncing = false;
                         service.firstRun = false;
                         service.synchronize();
@@ -119,88 +153,8 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
             });
         },
 
-        /** 
-         * Verify if the syncing process is done.
-         * The syncing process iterates the local and remote differences in the background.js and the active page.
-         * The active page is used to show the user a confirmation dialog when we need to confirm deletion of a remote series
-         * When all is iterated, synchronize the new list.
-         */
-        checkSyncProgress: function(progress) {
-            console.info("Check sync progress! ", progress);
 
 
-
-            if (!progress || service.activeDlg !== null) return;
-
-            // if we're in the background page, process the additions
-
-            // if we're in the background page and done processing local additions, notify foreground page when active
-
-            // if we're in the foreground window and there's stuff to do, show the deletion dialogs.
-            else if (chrome.extension.getBackgroundPage() !== window && progress.localProcessed == progress.nonLocal.length && progress.remoteProcessed < progress.nonRemote.length) {
-                service.processRemoteDeletions(progress);
-            }
-            // otherwise, sync is done. Store this as the last synced state so the remotes can sync to that.
-            else if (progress.localProcessed == progress.nonLocal.length && progress.remoteProcessed == progress.nonRemote.length) {
-                SettingsService.set('sync.progress', null);
-                service.synchronize();
-            }
-        },
-
-        /**
-         * Check if there are non-remote series to process.
-         * This means that a list of all the series that do not exist on the remote sync system are iterated.
-         * A question is asked on if you want to delete this serie locally too.
-         * If confirmed, the counter of processed items is updated and the serie is deleted.
-         * If not confirmed, the counter is updated and the nothing happens to this serie
-         * After each step, check if we are done syncing (this means processing both local series in the background thread and local in the foreground page)
-         * If we're done, push the new current state to the storage sync.
-         */
-        processRemoteDeletions: function(progress) {
-            console.log("processing remote deletions: ", progress);
-            if (!service.isSupported()) return;
-            if (!progress) return;
-            console.log("iterating non remote", progress);
-            var confirmDelete = function(btn, result) {
-                if (btn == 'yes-all') {
-                    window.confirmAll = true;
-                }
-                FavoritesService.remove(result.asObject());
-                progress.remoteProcessed++;
-                service.activeDlg = null;
-                service.checkSyncProgress(progress);
-            };
-
-            var cancelDelete = function(btn) {
-                if (btn == 'no-all') {
-                    window.confirmNone = true;
-                }
-                service.activeDlg = null;
-                progress.remoteProcessed++;
-                service.checkSyncProgress(progress);
-            };
-
-            FavoritesService.getById(progress.nonRemote[progress.remoteProcessed]).then(function(result) {
-                if (('confirmAll' in window)) {
-                    return confirmDelete('yes-all', result);
-                } else if (('confirmNone' in window)) {
-                    return cancelDelete('no-all');
-                } else {
-                    console.log("Fetched information for ", result.get('seriesname'), 'removing from favorites!');
-                    service.activeDlg = $injector.get('$dialogs').confirmAll($filter('translate')('STORAGESYNCSERVICEjs/serie-deleted/hdr'),
-                        $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1') + '<strong>' +
-                        result.get('name') + '</strong>' +
-                        $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2')
-                    );
-                    service.activeDlg.result.then(function(btn) {
-                        confirmDelete(btn, result);
-                    }, function() {
-                        cancelDelete(btn);
-                    });
-                }
-            });
-
-        },
 
         /** 
          * Fetch a value from the storage.sync api.
@@ -275,7 +229,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                             }
                         });
                     });
-                    service.read(); /** do initial fetch */
+                    //  service.read(); /** do initial fetch */
                 }
             });
         },
@@ -303,6 +257,8 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                             service.synchronize();
                         }
                     });
+
+                    service.read();
                 }
             });
         }

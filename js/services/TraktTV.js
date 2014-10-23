@@ -84,7 +84,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
         }).then(function(response) {
             return d.resolve(parser(response));
         }).catch(function(error) {
-            if (error.status == 0) { // rejected promises
+            if (error.status === 0) { // rejected promises
                 return d.resolve([]);
             }
             return d.reject(error);
