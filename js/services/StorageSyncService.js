@@ -141,7 +141,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                         return existingSeries.indexOf(el) == -1;
                     });
 
-                    var nonRemote = storedSeries === null ? existingSeries : existingSeries.filter(function(id) {
+                    var nonRemote = storedSeries === null ? [] : existingSeries.filter(function(id) {
                         return storedSeries.filter(function(id2) {
                             return (id == id2);
                         }).length === 0;
@@ -182,6 +182,10 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          */
         get: function(key) {
             return $q(function(resolve, reject) {
+                if (!service.isSupported()) {
+                    console.log("Not supported! StorageSync.get('" + key + "')");
+                    return resolve(null);
+                }
                 chrome.storage.sync.get(key, function(setting) {
                     console.info("Read storage.sync setting: ", key, setting);
                     (key in setting) ? resolve(setting[key].value) : resolve(null);
