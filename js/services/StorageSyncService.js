@@ -181,16 +181,22 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * Fetch a value from the storage.sync api.
          */
         get: function(key) {
-            return $q(function(resolve, reject) {
-                if (!service.isSupported()) {
-                    console.log("Not supported! StorageSync.get('" + key + "')");
-                    return resolve(null);
-                }
-                chrome.storage.sync.get(key, function(setting) {
-                    console.info("Read storage.sync setting: ", key, setting);
-                    (key in setting) ? resolve(setting[key].value) : resolve(null);
-                });
-            });
+            return service.isPermissionGranted().then(function() {
+                return $q(function(resolve, reject) {
+                    chrome.storage.sync.get(key, function(setting) {
+
+                        console.info("Read storage.sync setting: ", key, setting);
+                        (key in setting) ? resolve(setting[key].value) : resolve(null);
+                    });
+                }, function() {
+                    console.log("No permission to fetch storage sync key", key);
+                    return null;
+                })
+            })
+        },
+
+        isPermissionGranted: function() {
+            return ChromePermissions.checkGranted('storage');
         },
 
         /** 
@@ -205,15 +211,20 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * Store a new value in the storage.sync api
          */
         set: function(key, value) {
-            var setting = {
-                lastUpdated: new Date().getTime(),
-                value: value
-            };
-            var prop = {};
-            prop[key] = setting;
-            chrome.storage.sync.set(prop, function() {
-                console.log("Saved storage.sync setting: ", key, setting);
-            });
+            return service.isPermissionGranted().then(function() {
+                var setting = {
+                    lastUpdated: new Date().getTime(),
+                    value: value
+                };
+                var prop = {};
+                prop[key] = setting;
+                chrome.storage.sync.set(prop, function() {
+                    console.log("Saved storage.sync setting: ", key, setting);
+                });
+            }, function() {
+                console.log('Storage permissions not granted, cannot set ', key, 'to', value);
+                return false;
+            })
         },
 
         enable: function() {

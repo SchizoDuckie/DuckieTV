@@ -30,7 +30,7 @@ angular.module('DuckieTV.providers.settings', [])
                     permissions: [permission]
                 }, function(supported) {
                     console.info(supported ? 'Permission ' + permission + ' granted.' : 'Permission ' + permission + ' denied.');
-                    (supported) ? resolve() : reject();
+                    (supported && 'sync' in chrome.storage) ? resolve() : reject();
                 });
             });
         },
