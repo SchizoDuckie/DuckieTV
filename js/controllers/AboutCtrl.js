@@ -49,7 +49,8 @@ angular.module('DuckieTV.controllers.about', [])
              * if sync is supported get the synctime else indicate not available
              */
             if (StorageSyncService.isSupported()) {
-                StorageSyncService.get('synctime').then(function(syncTime) {
+                StorageSyncService.get('lastSync').then(function(syncTime) {
+                console.debug(syncTime);
                     if (syncTime != null) {
                         $scope.statistics.push({
                             name: 'Storage Sync Last Synced on',
