@@ -4,10 +4,10 @@
  *
  * npm install gulp gulp-autoprefixer gulp-minify-css gulp-jshint gulp-concat gulp-notify gulp-rename gulp-replace gulp-json-editor js-beautify request webdriverio --save-dev
  * gulp
- * 
+ *
  * to generate deployment packages:
  *
- * gulp deploy 
+ * gulp deploy
  */
 
 var gulp = require('gulp'),
@@ -22,34 +22,36 @@ var gulp = require('gulp'),
     jsonedit = require("gulp-json-editor"),
     zip = require('gulp-zip'),
     fs = require('fs'),
-    request = require('request');
+    request = require('request'),
+    spawn = require('child_process').spawn;
 
 var ver = String(fs.readFileSync('VERSION'));
 var nightly = false; // for nightly builds
 
 
 // scripts are provided in order to prevent any problems with the load order
-var scripts = ['./js/controllers/*.js', './js/directives/*.js','./js/services/*.js', './js/app.js'];
+var scripts = ['./js/controllers/*.js', './js/directives/*.js', './js/services/*.js', './js/app.js'];
 
 /**
  * Dependencies for the app, will be rolled into deps.js
  */
 var deps = ['./js/vendor/promise-3.2.0.js',
-'./js/vendor/CRUD.js',
-'./js/vendor/CRUD.SqliteAdapter.js',
-'./js/CRUD.entities.js',
-"./js/vendor/angular.min.js",
-"./js/vendor/angular-sanitize.min.js",
-"./js/vendor/angular-route.min.js",
-"./js/vendor/angular-xml.min.js",
-"./js/vendor/ui-bootstrap-tpls-0.10.0.min.js",
-"./js/vendor/tmhDynamicLocale.js",
-"./js/vendor/datePicker.js",
-"./js/vendor/dialogs.js",
-"./js/vendor/angular-translate.min.js",
-"./js/vendor/angular-translate-loader-static-files.min.js",
-"./js/vendor/angular-translate-handler-log.min.js",
-"./js/vendor/sha1.js" ];
+    './js/vendor/CRUD.js',
+    './js/vendor/CRUD.SqliteAdapter.js',
+    './js/CRUD.entities.js',
+    "./js/vendor/angular.min.js",
+    "./js/vendor/angular-sanitize.min.js",
+    "./js/vendor/angular-route.min.js",
+    "./js/vendor/angular-xml.min.js",
+    "./js/vendor/ui-bootstrap-tpls-0.10.0.min.js",
+    "./js/vendor/tmhDynamicLocale.js",
+    "./js/vendor/datePicker.js",
+    "./js/vendor/dialogs.js",
+    "./js/vendor/angular-translate.min.js",
+    "./js/vendor/angular-translate-loader-static-files.min.js",
+    "./js/vendor/angular-translate-handler-log.min.js",
+    "./js/vendor/sha1.js"
+];
 
 /**
  * CSS files to be concatted. Note that there's separate code to include print.js
@@ -64,7 +66,7 @@ var styles = [
 
 /**
  * Minimum app dependencies for background.js
- */ 
+ */
 var background = [
     "js/vendor/promise-3.2.0.js",
     "js/vendor/CRUD.js",
@@ -92,7 +94,7 @@ var background = [
  * Default and depoyment tasks:
  * Concats scripts, dependencies, background page, styles, alters the main template to use dist versions and writes all of this the local dist/ directory
  */
-gulp.task('default', ['concatScripts','concatDeps','concatBackgroundPage','concatStyles','launch.js','tabTemplate','scenenames'], function() {
+gulp.task('default', ['concatScripts', 'concatDeps', 'concatBackgroundPage', 'concatStyles', 'launch.js', 'tabTemplate', 'scenenames'], function() {
     notify('packaging to dist/ done');
 });
 
@@ -103,50 +105,54 @@ gulp.task('default', ['concatScripts','concatDeps','concatBackgroundPage','conca
 gulp.task('nightly', function() {
     nightly = true;
     var d = new Date();
-    ver = [d.getFullYear()+''+d.getMonth(),d.getDate(),d.getHours(),d.getMinutes()].join('.');
+    ver = [d.getFullYear() + '' + d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()].join('.');
+    spawn("java", ["-Dwebdriver.chrome.driver=..\\chromedriver.exe", ' -jar ..\\selenium-server-standalone-2.43.1.jar'], {
+        cwd: process.cwd()
+    });
     gulp.start('deploy').start('webstore-nightly');
 })
 
 
 /**
  * Push a nightly release to the webstore.
- * These are 
+ * These are
  */
 gulp.task('webstore-nightly', function() {
     var changelog = fs.readFileSync('./README.md').toString();
     var start = changelog.indexOf('Changelog: \r\n==========');
-    changelog = changelog.substring(start +26).split('*')[0];
-    
-    var webdriverjs = require('webdriverio'), client = webdriverjs.remote({
-        desiredCapabilities: {
-            browserName: 'chrome',
-        },
-        logLevel: 'error'
-    }).init();
+    changelog = changelog.substring(start + 26).split('*')[0];
+
+    var webdriverjs = require('webdriverio'),
+        client = webdriverjs.remote({
+            desiredCapabilities: {
+                browserName: 'chrome',
+            },
+            logLevel: 'error'
+        }).init();
 
     // i fucking love this
     client
         .url('https://chrome.google.com/webstore/developer/dashboard?hl=en&gl=NL') // login
-        .waitFor('#Email')
-        .setValue('#Email', process.env.USERNAME) 
+    .waitFor('#Email')
+        .setValue('#Email', process.env.USERNAME)
         .setValue('#Passwd', process.env.PWD || '');
-        if(process.env.PWD) {
-            client.click('#signIn'); // auto sign in if env user and pass provided
-        }
-        client.waitFor('form#cx-dash-form', 30000) // wait for redirect to dashboard
-        .url('https://chrome.google.com/webstore/developer/edit/gelgiagalkgliccemepngfeahpmihnjp?hl=en&gl=NL') // new tab mode canary version
-        .click('.cx-title input[type=button]') // hit upload new version
-        .waitFor('#browse-btn') // wait for page to load
-        .chooseFile('input[type=file]','../deploy/newtab-nightly.zip') // select nightly
-        .click('#upload-btn') // hit upload
-        .waitFor('.id-publish',30000) // wait for the redirect
-        .execute(function(c) { // adjust the changelog to include last update from readme
-            var el = document.querySelector('#cx-dev-edit-desc');
-            var value = el.value.split("Changelog:");
-            el.value = value[0]+"Changelog:\r\n* " + c.toString().trim() +  "\r\n" + value[1].trim();
-        },[changelog])
+    if (process.env.PWD) {
+        client.click('#signIn'); // auto sign in if env user and pass provided
+    }
+    client.waitFor('form#cx-dash-form', 30000) // wait for redirect to dashboard
+    .url('https://chrome.google.com/webstore/developer/edit/gelgiagalkgliccemepngfeahpmihnjp?hl=en&gl=NL') // new tab mode canary version
+    .click('.cx-title input[type=button]') // hit upload new version
+    .waitFor('#browse-btn') // wait for page to load
+    .chooseFile('input[type=file]', '../deploy/newtab-nightly.zip') // select nightly
+    .click('#upload-btn') // hit upload
+    .waitFor('.id-publish', 30000) // wait for the redirect
+    .execute(function(c) { // adjust the changelog to include last update from readme
+        var el = document.querySelector('#cx-dev-edit-desc');
+        var value = el.value.split("Changelog:");
+        el.value = value[0] + "Changelog:\r\n* " + c.toString().trim() + "\r\n" + value[1].trim();
+    }, [changelog])
         .click('.id-publish') // hit the publish button
-        //.end(); // close the browser
+    //.end(); // close the browser
 });
 
 /**
@@ -158,35 +164,35 @@ gulp.task('webstore-nightly', function() {
  * - adjust manifests to include version info and write that to ../deploy/<flavour>/manifest.json
  * - zip files from ../deploy/<flavour>/ into ../deploy/<flavour>-<version>.zip
  * - copy that file into ../deploy/<flavour>-latest.zip
- */ 
-gulp.task('deploy', ['zipbrowseraction','zipnewtab','zipopera'], function() {
+ */
+gulp.task('deploy', ['zipbrowseraction', 'zipnewtab', 'zipopera'], function() {
     var latestTag = nightly ? 'nightly' : 'latest;'
-    gulp.src('../deploy/newtab-'+ver+'.zip')
-            .pipe(rename('newtab-'+latestTag+'.zip'))
-            .pipe(gulp.dest('../deploy/'));
-    gulp.src('../deploy/browseraction-'+ver+'.zip')
-            .pipe(rename('browseraction-'+latestTag+'.zip'))
-            .pipe(gulp.dest('../deploy/'));
-    gulp.src('../deploy/opera-'+ver+'.zip')
-            .pipe(rename('opera-'+latestTag+'.zip'))
-            .pipe(gulp.dest('../deploy/')); 
-    notify('DEPLOY done to ../deploy/ !');    
+    gulp.src('../deploy/newtab-' + ver + '.zip')
+        .pipe(rename('newtab-' + latestTag + '.zip'))
+        .pipe(gulp.dest('../deploy/'));
+    gulp.src('../deploy/browseraction-' + ver + '.zip')
+        .pipe(rename('browseraction-' + latestTag + '.zip'))
+        .pipe(gulp.dest('../deploy/'));
+    gulp.src('../deploy/opera-' + ver + '.zip')
+        .pipe(rename('opera-' + latestTag + '.zip'))
+        .pipe(gulp.dest('../deploy/'));
+    notify('DEPLOY done to ../deploy/ !');
 
 });
 
 gulp.task('scenenames', function() {
     notify('downloading new scene name exceptions');
-    request('https://raw.githubusercontent.com/midgetspy/sb_tvdb_scene_exceptions/gh-pages/exceptions.txt', function(error,response,result) {
+    request('https://raw.githubusercontent.com/midgetspy/sb_tvdb_scene_exceptions/gh-pages/exceptions.txt', function(error, response, result) {
         var output = {};
         result = result.split(/,\r\n/g).map(function(line) {
-           var l = line.match(/([0-9]+): '(.*)'/);
-           if(l) {
-               var candidates = l[2].split("', '");
-               output[l[1]] = candidates[0].replace('\\\'',"'").replace(/\(US\)/,"").replace(/\([1-2][09]([0-9]{2})\)/,'').trim();
-           } 
+            var l = line.match(/([0-9]+): '(.*)'/);
+            if (l) {
+                var candidates = l[2].split("', '");
+                output[l[1]] = candidates[0].replace('\\\'', "'").replace(/\(US\)/, "").replace(/\([1-2][09]([0-9]{2})\)/, '').trim();
+            }
         });
         var sceneNameFile = fs.readFileSync('js/services/SceneNameResolver.js');
-        var output = sceneNameFile.toString().replace(/exceptions \= (\{[\s\S]+\})\;/g, 'exceptions = '+JSON.stringify(output,null,4)+';');
+        var output = sceneNameFile.toString().replace(/exceptions \= (\{[\s\S]+\})\;/g, 'exceptions = ' + JSON.stringify(output, null, 4) + ';');
         fs.writeFileSync('js/services/SceneNameResolver.js', output);
         notify('SceneNameResolver.js was updated');
     })
@@ -197,7 +203,7 @@ gulp.task('scenenames', function() {
 /**
  * Tasks for internal use
  * Each task called by the main task is listing the tasks that need to be executed as dependencies as an array as the second argument
- * Since tasks run in parallell by default, this can seem confusing at first 
+ * Since tasks run in parallell by default, this can seem confusing at first
  */
 
 /*------------------------------------------------------------------------*/
@@ -205,21 +211,29 @@ gulp.task('scenenames', function() {
 /**
  * Concat the scripts array into a file named dist/app.js
  */
-gulp.task('concatScripts',function() {
+gulp.task('concatScripts', function() {
     return gulp.src(scripts)
-        .pipe(concat('app.js', {newLine: ';'}))
+        .pipe(concat('app.js', {
+            newLine: ';'
+        }))
         .pipe(gulp.dest('dist/'))
-        .pipe(notify({ message: 'Scripts packaged to dist/app.js' }));
+        .pipe(notify({
+            message: 'Scripts packaged to dist/app.js'
+        }));
 })
 
 /**
  * Concat the dependencies array into a file named dist/deps.js
  */
-gulp.task('concatDeps',function() {
-     return gulp.src(deps)
-        .pipe(concat('deps.js', {newLine: ';'}))
+gulp.task('concatDeps', function() {
+    return gulp.src(deps)
+        .pipe(concat('deps.js', {
+            newLine: ';'
+        }))
         .pipe(gulp.dest('dist/'))
-        .pipe(notify({ message: 'Deps packaged to dist/deps.js' }));
+        .pipe(notify({
+            message: 'Deps packaged to dist/deps.js'
+        }));
 })
 
 /**
@@ -227,9 +241,13 @@ gulp.task('concatDeps',function() {
  */
 gulp.task('concatBackgroundPage', function() {
     return gulp.src(background)
-        .pipe(concat('background.js', {newLine: ';'}))
+        .pipe(concat('background.js', {
+            newLine: ';'
+        }))
         .pipe(gulp.dest('dist/'))
-        .pipe(notify({ message: 'Background page packaged to dist/background.js' }));
+        .pipe(notify({
+            message: 'Background page packaged to dist/background.js'
+        }));
 })
 
 /** 
@@ -245,10 +263,12 @@ gulp.task('launch.js', function() {
  * Grab the parameter value to those tags, and replace the content with that so that we're left with with just a couple of includes
  */
 gulp.task('tabTemplate', function() {
-     return gulp.src(['tab.html'])
+    return gulp.src(['tab.html'])
         .pipe(replace(/<!-- deploy:replace\=\'(.*)\' -->([\s\S]+?)[^\/deploy:]<!-- \/deploy:replace -->/g, '$1'))
         .pipe(gulp.dest('dist/'))
-        .pipe(notify({ message: 'Tab template deployed' }));
+        .pipe(notify({
+            message: 'Tab template deployed'
+        }));
 })
 
 /**
@@ -256,9 +276,11 @@ gulp.task('tabTemplate', function() {
  */
 gulp.task('concatStyles', function() {
     return gulp.src(styles)
-            .pipe(concatCss("style.css"))
-            .pipe(gulp.dest('dist/'))
-            .pipe(notify({ message: 'Styles concatted' }));
+        .pipe(concatCss("style.css"))
+        .pipe(gulp.dest('dist/'))
+        .pipe(notify({
+            message: 'Styles concatted'
+        }));
 })
 
 /**
@@ -272,9 +294,11 @@ gulp.task('print.css', function() {
 /**
  * Deployment and packaging functions
  */
- 
+
 gulp.task('copyToDeploy', ['default'], function() {
-  return gulp.src(['VERSION', '_locales/**','dist/**','fonts/**','img/**','templates/**'],{ "base" : "." })
+    return gulp.src(['VERSION', '_locales/**', 'dist/**', 'fonts/**', 'img/**', 'templates/**'], {
+            "base": "."
+        })
         .pipe(gulp.dest('../deploy/browseraction'))
         .pipe(gulp.dest('../deploy/newtab'))
         .pipe(gulp.dest('../deploy/opera'));
@@ -294,11 +318,11 @@ gulp.task('copytab', ['copyToDeploy'], function() {
  * Copy the cast_sender.js into place
  * Todo: edit the actual script that includes this to grab it from dist/ and put that into place
  */
-gulp.task('copychromecast',['copyToDeploy'], function() {
-     return gulp.src('js/vendor/cast_sender.js')
-            .pipe(gulp.dest('../deploy/browseraction/js/vendor/'))
-            .pipe(gulp.dest('../deploy/newtab/js/vendor/'))
-            .pipe(gulp.dest('../deploy/opera/js/vendor/'));
+gulp.task('copychromecast', ['copyToDeploy'], function() {
+    return gulp.src('js/vendor/cast_sender.js')
+        .pipe(gulp.dest('../deploy/browseraction/js/vendor/'))
+        .pipe(gulp.dest('../deploy/newtab/js/vendor/'))
+        .pipe(gulp.dest('../deploy/opera/js/vendor/'));
 });
 
 /**
@@ -306,9 +330,9 @@ gulp.task('copychromecast',['copyToDeploy'], function() {
  * launch.js contains the button attach code for browser-action mode
  * Also updates the manifest to include the latest version defined in the VERSION file
  */
-gulp.task('manifests',['copychromecast','copytab'], function() {
-     
-     // js-format formatting options used in manipulating manifest.json
+gulp.task('manifests', ['copychromecast', 'copytab'], function() {
+
+    // js-format formatting options used in manipulating manifest.json
     var formatOptions = {
         'indent_char': '\t',
         'indent_size': 1,
@@ -326,45 +350,45 @@ gulp.task('manifests',['copychromecast','copytab'], function() {
      */
     var withLaunch = function(json) {
         json.version = ver;
-        json.background.scripts = ['dist/background.js','dist/launch.js'];
+        json.background.scripts = ['dist/background.js', 'dist/launch.js'];
         return json;
     }
 
-    if(nightly) {
+    if (nightly) {
         console.log('nightly mode!');
         gulp.src('./_locales/**/messages.json')
             .pipe(jsonedit(function(json) {
                 json.appNameNewTab.message += " - Canary";
                 json.appShortNameNewTab.message += " - Canary";
-                json.appNameBrowserAction += " - Canary";
-                json.appShortNameBrowserAction += " - Canary";
+                json.appNameBrowserAction.message += " - Canary";
+                json.appShortNameBrowserAction.message += " - Canary";
                 return json;
             }, formatOptions))
             .pipe(gulp.dest('../deploy/newtab/_locales/'))
             .pipe(gulp.dest('../deploy/browseraction/_locales/'))
-            .pipe(gulp.dest('../deploy/opera/_locales'))
+            .pipe(gulp.dest('../deploy/opera/_locales'));
     }
 
     gulp.src('manifest.json')
-            .pipe(jsonedit(noLaunch, formatOptions))
-            .pipe(gulp.dest('../deploy/newtab/'));
+        .pipe(jsonedit(noLaunch, formatOptions))
+        .pipe(gulp.dest('../deploy/newtab/'));
     gulp.src('manifest-app.json')
-            .pipe(rename('manifest.json'))
-            .pipe(jsonedit(withLaunch, formatOptions))
-            .pipe(gulp.dest('../deploy/browseraction/'));
+        .pipe(rename('manifest.json'))
+        .pipe(jsonedit(withLaunch, formatOptions))
+        .pipe(gulp.dest('../deploy/browseraction/'));
     return gulp.src('manifest-opera.json')
-            .pipe(rename('manifest.json'))
-            .pipe(jsonedit(withLaunch, formatOptions))
-            .pipe(gulp.dest('../deploy/opera/'));
+        .pipe(rename('manifest.json'))
+        .pipe(jsonedit(withLaunch, formatOptions))
+        .pipe(gulp.dest('../deploy/opera/'));
 });
 
 /**
  * Zip the browser action version
  */
 gulp.task('zipbrowseraction', ['manifests'], function() {
-     return gulp.src('../deploy/browseraction/**')
-            .pipe(zip('browseraction-'+ver+'.zip'))
-            .pipe(gulp.dest('../deploy'))
+    return gulp.src('../deploy/browseraction/**')
+        .pipe(zip('browseraction-' + ver + '.zip'))
+        .pipe(gulp.dest('../deploy'))
 });
 
 /**
@@ -372,9 +396,9 @@ gulp.task('zipbrowseraction', ['manifests'], function() {
  */
 
 gulp.task('zipnewtab', ['manifests'], function() {
-     return gulp.src('../deploy/newtab/**')
-            .pipe(zip('newtab-'+ver+'.zip'))
-            .pipe(gulp.dest('../deploy'))
+    return gulp.src('../deploy/newtab/**')
+        .pipe(zip('newtab-' + ver + '.zip'))
+        .pipe(gulp.dest('../deploy'))
 });
 
 /**
@@ -382,6 +406,6 @@ gulp.task('zipnewtab', ['manifests'], function() {
  */
 gulp.task('zipopera', ['manifests'], function() {
     return gulp.src('../deploy/opera/**')
-            .pipe(zip('opera-'+ver+'.zip'))
-            .pipe(gulp.dest('../deploy'));
+        .pipe(zip('opera-' + ver + '.zip'))
+        .pipe(gulp.dest('../deploy'));
 });
