@@ -104,6 +104,7 @@ angular.module('DuckieTV.providers.settings', [])
                     langKey = 'en_us';
                     break;
                 case 'es':
+                case 'es_419':
                     langKey = 'es_es';
                     break;
                 case 'fr':
@@ -124,9 +125,6 @@ angular.module('DuckieTV.providers.settings', [])
                 case 'pt':
                 case 'pt_br':
                     langKey = 'pt_pt';
-                    break;
-                case 'es_419':
-                    langKey = 'es_es';
                     break;
                 case 'ru':
                     langKey = 'ru_ru';

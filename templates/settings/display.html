@@ -9,7 +9,7 @@
       <ul class="list-unstyled">
         <li ng-repeat="language in languageList" ng-click="setLocale(language.locale)" class="list-unstyled" style="cursor:pointer">
 
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': locale != language.locale, 'glyphicon-record': locale == language.locale}"></i>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': displayLocale != language.locale, 'glyphicon-record': displayLocale == language.locale}"></i>
           <i class="flag flag-{{language.locale }}" alt="Czech Republic"></i> 
           {{language.name}}
         </li>

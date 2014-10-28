@@ -142,8 +142,8 @@ angular.module('DuckieTV', [
         'fr_FR': 'fr_fr',
         'it': 'it_it',
         'it_IT': 'it_it',
-        'ja': 'jp_jp',
-        'ja_JP': 'jp_jp',
+        'ja': 'ja_jp',
+        'ja_JP': 'ja_jp',
         'ko': 'ko_kr',
         'ko_KR': 'ko_kr',
         'nl': 'nl_nl',
@@ -151,6 +151,7 @@ angular.module('DuckieTV', [
         'pt': 'pt_pt',
         'pt_PT': 'pt_pt',
         'pt_br': 'pt_pt',
+        'pt_BR': 'pt_pt',
         'ru': 'ru_ru',
         'ru_RU': 'ru_ru',
         'sv': 'sv_se',
@@ -310,8 +311,9 @@ angular.module('DuckieTV', [
     console.info('client determined locale', angular.lowercase($translate.proposedLanguage()));
     SettingsService.set('client.determinedlocale', angular.lowercase($translate.proposedLanguage()));
     var configuredLocale = SettingsService.get('application.locale') || angular.lowercase($translate.proposedLanguage);
-    SettingsService.changeLanguage('en_us'); // this is the fall-back language. any strings not loaded will be in en_us language.
-    SettingsService.changeLanguage(configuredLocale);
+    if (configuredLocale !== 'en_us') {
+        SettingsService.changeLanguage(configuredLocale);
+    };
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
     $rootScope.getSetting = function(key) {
