@@ -1,0 +1,21 @@
+<div ng-controller="SyncCtrl">
+<h1>Storage sync</h1>
+
+
+<h2> Current status: {{sync.isSyncing ? 'Syncing' : 'Not Syncing'}}</h2>
+
+<h3>Sync targets:</h3>
+<div ng-repeat="target in targets">
+<h1>Sync target:</h1> {{ target.name }}
+<strong>Last sync: </strong> {{ target.lastSync }}<br>
+<strong>Status:</strong> {{ target.status }}<br>
+<button class="btn btn-xs btn-info" ng-click="target.sync()">Sync now</button>
+<button class="btn btn-xs btn-info" ng-click="target.read()">Read</button>
+<button class="btn btn-xs btn-info" ng-click="target.write()">Write</button><br>
+
+<button class="btn btn-xs btn-info" ng-click="target.disable()">Disable</button>
+
+<button class="btn btn-xs btn-info" ng-click="target.disable()">Enable</button>
+</div>
+
+</div>

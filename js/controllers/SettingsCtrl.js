@@ -1,7 +1,11 @@
 angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.eventscheduler'])
 
+.controller('SyncCtrl', function($scope) {
 
-.controller('SettingsCtrl', function($scope, $location, $rootScope, StorageSyncService, FavoritesService, SettingsService, MirrorResolver, TraktTV, $translate, tmhDynamicLocale, EventSchedulerService, $filter) {
+
+})
+
+.controller('SettingsCtrl', function($scope, $rootScope, $routeParams, StorageSyncService, FavoritesService, SettingsService, MirrorResolver, TraktTV, $translate, tmhDynamicLocale, EventSchedulerService, $filter) {
 
     $scope.customtpbmirror = SettingsService.get('thepiratebay.mirror');
     $scope.customkatmirror = SettingsService.get('kickasstorrents.mirror');
@@ -73,12 +77,8 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         name: $filter('translate')('DISPLAY/locale/zh_cn')
     }];
 
-    /**
-     * Change the active settings tab
-     */
-    $scope.setActiveSetting = function(setting) {
-        $scope.activesettings = 'templates/settings/' + setting + '.html';
-    };
+    $scope.tab = $routeParams.tab;
+    $scope.activeTab = 'templates/settings/' + $routeParams.tab + '.html';
 
     /**
      * Inject an event to display mirror resolving progress.
@@ -98,7 +98,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      * checks if sync is supported, used to hide/show sync panel on settings/display
      */
     $scope.isSyncSupported = function() {
-        return StorageSyncService.isSupported();
+        return false; // StorageSyncService.isSupported();
     };
 
     /**

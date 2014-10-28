@@ -83,6 +83,9 @@ angular.module('DuckieTV', [
             controller: 'EpisodeCtrl'
         })
         .when('/settings', {
+            redirectTo: '/settings/default'
+        })
+        .when('/settings/:tab', {
             templateUrl: 'templates/settings.html',
             controller: 'SettingsCtrl'
         })
@@ -199,10 +202,10 @@ angular.module('DuckieTV', [
     function($q, $injector) {
         return {
             request: function(config) {
-                if(config.url.indexOf('http') == 0 && config.url.indexOf('localhost') === -1) {
+                if (config.url.indexOf('http') == 0 && config.url.indexOf('localhost') === -1) {
                     if (config.url.indexOf('www.corsproxy.com') == -1) config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
                 }
-                
+
                 return config;
             },
             'responseError': function(rejection) {
@@ -217,78 +220,7 @@ angular.module('DuckieTV', [
         }
     }
 ])
-.factory('HttpErrorInterceptor', function ($q, $rootScope) {
-    var $netStats = {
-        outstanding: 0,
-        error: 0
-    };
-    return  {
-        request: function(config) {
-            if(config.url.indexOf('http') > -1) {
-                $netStats.outstanding++;
-                $rootScope.$broadcast('http:stats', ['request', $netStats]);
-            }
-            return config;
-        },
-        response: function(response) {
-            if(response.config.url.indexOf('http') > -1) {
-                $netStats.outstanding--;
-                $rootScope.$broadcast('http:stats', ['response', $netStats]);
-            }
-            return response;
-        },
-        requestError: function (request) {
-          $netStats.error++;
-          $netStats.outstanding--;
-          $rootScope.$broadcast('http:stats', ['requestError', request, $netStats]);
-          return request;
-        },
-        responseError: function (response) {
-          $netStats.error++;
-          $netStats.outstanding--;
-          $rootScope.$broadcast('http:stats', ['responseError', response, $netStats]);
-          return response;
-        }
-      };
-})
-/*
-  .config(function($provide) {
-    var count = window.promiseStats = {
-        open: 0,
-        done: 0,
-        promises: {}
-    };
-    $provide.decorator('$q', function($delegate) {
-        var defer = $delegate.defer;
-        $delegate.defer = function() {
 
-            count.open++;
-            var traceId = count.open;
-            if(traceId == 61) { 
-                debugger;
-            }
-            var deferred = count.promises[traceId] = defer();
-            console.timeline('promise ' +traceId);
-            console.profile('promise '+traceId);
-            
-            deferred.promise.finally(function() {
-                count.done++;
-                console.timelineEnd('promise ' +traceId);
-                console.profileEnd('promise '+traceId);
-                delete count.promises[traceId];    
-            });
-            deferred.promise.catch(function() {
-                count.done++;
-                                console.timelineEnd('promise ' +traceId);
-                console.profileEnd('promise '+traceId);
-                delete count.promises[traceId];    
-
-            })
-            return deferred;
-        };
-        return $delegate;
-    });
-}) */
 /**
  * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
  */
@@ -297,16 +229,17 @@ angular.module('DuckieTV', [
     if (window.location.href.indexOf('chrome-extension') === -1) {
         $httpProvider.interceptors.push('CORSInterceptor');
     }
-    //$httpProvider.interceptors.push('HttpErrorInterceptor');
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data):/);
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
+
+    //    $compileProvider.debugInfoEnabled(false);
 })
 
 .run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
     // translate the application based on preference or proposed locale
-    
+
     FavoritesService.loadRandomBackground();
-               
+
     console.info('client determined locale', angular.lowercase($translate.proposedLanguage()));
     SettingsService.set('client.determinedlocale', angular.lowercase($translate.proposedLanguage()));
     var configuredLocale = SettingsService.get('application.locale') || angular.lowercase($translate.proposedLanguage);
@@ -336,18 +269,15 @@ angular.module('DuckieTV', [
     /** 
      * Handle background page message passing and broadcast it as an event.
      * Used to start the remote deletions processing
-     */ 
-    if('chrome' in window && 'runtime' in chrome && 'onMessage' in chrome.runtime) {
+     */
+    if ('chrome' in window && 'runtime' in chrome && 'onMessage' in chrome.runtime) {
         chrome.runtime.onMessage.addListener(function(event, sender, sendResponse) {
             if (event.channel) {
-                    $rootScope.$broadcast(event.channel, event.eventData);    
+                $rootScope.$broadcast(event.channel, event.eventData);
             }
         });
     }
 
-    $rootScope.$on('http:stats', function(error, stats) {
-        console.error(" HTTP request! " , stats[0], stats[1]);
-    });
 
     /** 
      * Hide the favorites list when navigationg to a different in-page action.
