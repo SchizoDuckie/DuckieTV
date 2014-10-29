@@ -322,4 +322,4 @@ angular.module('DuckieTV', [
             document.body.appendChild(s);
         }, 5000);
     }
-})
+});

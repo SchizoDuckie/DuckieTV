@@ -12,7 +12,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
  * that a user can close or navigate away from the current DuckieTV tab while the addToFavorites promise is
  * still running.
  */
-.factory('StorageSyncService', function($rootScope, $q, FavoritesService, ChromePermissions, SettingsService, TraktTV, $injector, $filter) {
+.factory('StorageSyncService', function($rootScope, $q, FavoritesService, SettingsService, $injector, $filter) {
 
     var service = {
 
@@ -30,7 +30,21 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                 return $q.all(series.map(function(el) {
                     return el.TVDB_ID;
                 })).then(function(series) {
-                    return series;
+                    return $q.when(CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watchedAt is not null').then(function(res) {
+                        var watchedList = {},
+                            row;
+                        series.map(function(TVDB_ID) {
+                            watchedList[TVDB_ID] = {};
+                        });
+                        while (row = res.next()) {
+                            var id = parseInt(row.get('TVDB_ID'), 10);
+                            if (!(id in watchedList)) {
+                                watchedList[id] = {};
+                            }
+                            watchedList[id][row.get('epTVDB_ID')] = new Date(row.get('watchedAt')).getTime();
+                        }
+                        return watchedList;
+                    }));
                 });
             });
         },
@@ -39,23 +53,23 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * Execute a sync (write) step if syncing is not currently already in progress
          */
         synchronize: function() {
-            ChromePermissions.checkGranted('storage').then(function() {
-                if (SettingsService.get('storage.sync')) {
-                    console.log("Storage sync can run!");
-                    if (!service.isSyncing) {
-                        service.isSyncing = true;
-                        console.log("[Storage.Synchronize] Syncing storage!");
-                        service.getSeriesList().then(function(series) {
-                            service.set('series', series);
-                            var time = new Date().getTime();
-                            service.set('lastSync', time);
-                            SettingsService.set('lastSync', time);
-                            service.isSyncing = false;
-                            console.info("Storage sync Series list completed at", time);
-                        });
-                    }
-                }
+            if (service.isSyncing) {
+                console.info("Storage sync: Not synchronizing, already working.");
+                return;
+            }
+            console.log("Storage sync: Starting sync process on registered target");
+            $q.all(service.targets.map(function(target) {
+                return target.sync(watchedList);
+            }, function(err) {
+                // an error occured during sync
+                debugger;
+            })).then(function() {
+                SettingsService.set('lastSync', time);
+                service.isSyncing = false;
             });
+
+
+
 
         },
 
@@ -72,18 +86,6 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                 return;
             }
             var activeDialogs = [];
-
-            var confirmDelete = function(btn, result) {
-                if (btn == 'yes-all') {
-                    window.confirmAll = true;
-                }
-            };
-
-            var cancelDelete = function(btn) {
-                if (btn == 'no-all') {
-                    window.confirmNone = true;
-                }
-            };
 
             var showDeleteConfirmDialog = function(serie) {
                 var dlg = $injector.get('$dialogs').confirmAll($filter('translate')('STORAGESYNCSERVICEjs/serie-deleted/hdr'),
@@ -151,17 +153,19 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                     console.log("Found non-remote series to delete", nonRemote);
 
                     $q.all(nonLocal.map(function(TVDB_ID) {
-                        return TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(result) {
-                            return FavoritesService.addFavorite(result).then(function() {
+                        return TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(serie) {
+                            service.get(TVDB_ID.toString()).then(function(watched) {
+                                console.log("Found watched items from storage sync!", watched);
+                                debugger;
+                                FavoritesService.addFavorite(serie, watched);
+                            }).then(function() {
                                 $rootScope.$broadcast('episodes:updated');
+                            }).catch(function(error) {
+                                console.error("Error finding serie by tvdbid on trakt!", error);
                             });
-                        }, function(error) {
-                            console.error("Error finding serie by tvdbid on trakt!", error);
                         });
                     }), nonRemote.map(function(TVDB_ID) {
-                        return FavoritesService.getById(TVDB_ID).then(function(result) {
-                            return showDeleteConfirmDialog(result);
-                        });
+                        return FavoritesService.getById(TVDB_ID).then(showDeleteConfirmDialog);
                     })).then(function(remapped) {
                         service.isSyncing = false;
                         service.firstRun = false;
@@ -175,128 +179,13 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
         },
 
 
-
-
-        /** 
-         * Fetch a value from the storage.sync api.
-         */
-        get: function(key) {
-            return service.isPermissionGranted().then(function() {
-                return $q(function(resolve, reject) {
-                    chrome.storage.sync.get(key, function(setting) {
-
-                        console.info("Read storage.sync setting: ", key, setting);
-                        (key in setting) ? resolve(setting[key].value) : resolve(null);
-                    });
-                }, function() {
-                    console.log("No permission to fetch storage sync key", key);
-                    return null;
-                })
-            })
-        },
-
-        isPermissionGranted: function() {
-            return ChromePermissions.checkGranted('storage');
-        },
-
-        /** 
-         * Entry point for chrome permissions
-         */
-        isSupported: function() {
-            return ChromePermissions.isSupported();
-        },
-
-
-        /**
-         * Store a new value in the storage.sync api
-         */
-        set: function(key, value) {
-            return service.isPermissionGranted().then(function() {
-                var setting = {
-                    lastUpdated: new Date().getTime(),
-                    value: value
-                };
-                var prop = {};
-                prop[key] = setting;
-                chrome.storage.sync.set(prop, function() {
-                    console.log("Saved storage.sync setting: ", key, setting);
-                });
-            }, function() {
-                console.log('Storage permissions not granted, cannot set ', key, 'to', value);
-                return false;
-            })
-        },
-
-        enable: function() {
-            return ChromePermissions.requestPermission('storage');
-        },
-
-        disable: function() {
-            return ChromePermissions.revokePermission('storage');
-        },
-
-        wipe: function() {
-            service.wipeMode = true;
-            chrome.storage.sync.clear(function() {
-                console.log("Chrome storage wiped.");
-                service.wipeMode = false;
-            });
-        },
-
-        /**
-         * Attach background page sync event
-         */
-        attach: function() {
-            ChromePermissions.checkGranted('storage').then(function() {
-                if (SettingsService.get('storage.sync')) {
-                    console.log("Attaching chrome storage change handler!");
-                    chrome.storage.onChanged.addListener(function(changes, namespace) {
-                        if (service.wipeMode) {
-                            console.log("Service in wipemode, ignoring changes: ", changes, namespace);
-                            return;
-                        }
-                        Object.keys(changes).map(function(key) {
-                            if (changes[key].oldValue && !changes[key].newValue) {
-                                var restore = {};
-                                restore[key] = changes[key].oldValue;
-                                chrome.storage.sync.set(restore, function() {
-                                    console.warn("Re-added property ", key, " to ", changes[key].oldValue, "after it was wiped remotely (CROME BUG?!)");
-                                });
-                            }
-                        });
-                    });
-                    //  service.read(); /** do initial fetch */
-                }
-            });
-        },
-
         /**
          * Foreground thread update handler
          */
         initialize: function(forceCheck) {
-            ChromePermissions.checkGranted('storage').then(function() {
-                if (SettingsService.get('storage.sync')) {
-                    $rootScope.$on('sync:processremoteupdate', function(event, progress) {
-                        console.log("Process storagesync remote updates!", progress);
-
-                        FavoritesService.restore(); // message the favoritesservice something has changed and it needs to refresh.
-                        //service.checkSyncProgress(progress);
-                    });
-
-                    /** 
-                     * Forward an event to the storagesync service when it's not already syncing.
-                     * This make sure that local additions / deletions get stored in the cloud.
-                     */
-                    $rootScope.$on('storage:update', function() {
-                        console.info("Received storage:update, writing new series list to cloud storage!");
-                        if (!service.isSyncing) {
-                            service.synchronize();
-                        }
-                    });
-
-                    service.read();
-                }
-            });
+            if (SettingsService.get('storage.sync')) {
+                SyncManager.Synchronize();
+            }
         }
     };
     return service;
