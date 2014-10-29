@@ -20,9 +20,10 @@ angular.module('DuckieTV.providers.settings', [])
             'kickasstorrents.mirror': 'https://kickass.to',
             'lastSync': -1,
             'series.displaymode': 'poster',
-            'storage.sync': true,
+            'storage.sync': false,
             'sync.progress': true,
             'thepiratebay.mirror': 'https://thepiratebay.se',
+            'proxy.allowUnsafe': false,
             'topSites.enabled': true,
             'topSites.mode': 'onhover',
             'torrenting.autodownload': false,
@@ -44,9 +45,9 @@ angular.module('DuckieTV.providers.settings', [])
          * @return mixed value value of the setting
          */
         get: function(key) {
-        	if(key == 'cast.supported') {
-        		return ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability)
-        	}
+            if (key == 'cast.supported') {
+                return ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability)
+            }
             return ((key in service.settings) ? service.settings[key] : (key in service.defaults) ? service.defaults[key] : false);
         },
 

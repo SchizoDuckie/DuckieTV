@@ -202,4 +202,21 @@
       </ul>
     </td>
   </tr>
+    <tr ng-show="getSetting('torrenting.enabled')">
+    <th width="150px">
+      <strong style='white-space:nowrap'>Allow unsafe proxies</strong>
+      <p class="label label-success" ng-show="getSetting('proxy.allowUnsafe')">enabled</p>
+      <p class="label label-danger" ng-show="!getSetting('proxy.allowUnsafe')">disabled</p>
+    </th>
+    <td>
+      <ul class="list-unstyled">
+        <li>
+          <p ng-show="!getSetting('proxy.allowUnsafe')" class="alert alert-info">Enabling this setting will allow you to use Torrent Proxies that proxy your magnet links (Which DuckieTV prevents by default to protect your privacy)</p>
+          <p ng-show="getSetting('proxy.allowUnsafe')" class="alert alert-warning">Unsafe torrent proxies are enabled.</p>
+          <button ng-show="!getSetting('proxy.allowUnsafe')" ng-click="enableSetting('proxy.allowUnsafe')" class="btn btn-success">Enable</button>
+          <button ng-show="getSetting('proxy.allowUnsafe')" ng-click="disableSetting('proxy.allowUnsafe')" class="btn btn-danger">Disable</button>
+        </li>
+      </ul>
+    </td>
+  </tr>
 </table>

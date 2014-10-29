@@ -8,7 +8,7 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
 
     // individual mirror resolvers can be added here
     this.endpoints = {
-        thepiratebay: 'http://fucktimkuik.org/',
+        thepiratebay: 'http://www.piratebayproxylist.com/',
         kickasstorrents: 'http://unlocktorrent.com/'
     };
     this.rootScope = false;
@@ -23,12 +23,23 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
     /** 
      * FuckTimKuik.org provides a meta refresh parameter that contains the random mirror.
      * Parse the result as a DOM Document, and fetch the attribute from the request tag, and split the url off
-     */ 
+     */
     this.parseFuckTimKuik = function(result) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
         var result = doc.querySelector("meta[http-equiv=refresh]").content.split('url=')[1];
         return result;
+    }
+
+    /**
+     * Find a random mirror from piratebayproxylist.com
+     */
+    this.parsePirateBayProxyList = function(result) {
+
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(result.data, "text/html");
+        var resultList = doc.querySelectorAll('.post-body a[rel=nofollow]');
+        return resultList[Math.floor(Math.random() * resultList.length)].href;
     }
 
     /** 
@@ -37,20 +48,20 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
      * div id and return a random item.
      * Voodo magic alert: To be able to use array slice, filter and map calls on a NodeList (like returned by querySelectorAll) you
      * run them through array.prototype.<function>.call
-     */ 
+     */
     this.parseUnlockTorrent = function(result, filter) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
-        var tabElement = Array.prototype.filter.call(doc.querySelectorAll(".nav li a[data-toggle]"), function(el) { 
-            return el.innerText == 'KickAss Torrents'; 
+        var tabElement = Array.prototype.filter.call(doc.querySelectorAll(".nav li a[data-toggle]"), function(el) {
+            return el.innerText == 'KickAss Torrents';
         });
-        
-        if(tabElement && tabElement.length ==1) { 
-            var mirrorList = Array.prototype.map.call(doc.querySelectorAll('div'+tabElement[0].getAttribute('href') +' a '), function(el) {
+
+        if (tabElement && tabElement.length == 1) {
+            var mirrorList = Array.prototype.map.call(doc.querySelectorAll('div' + tabElement[0].getAttribute('href') + ' a '), function(el) {
                 return el.href;
             })
             console.log("MirrorList", mirrorList);
-            return mirrorList[Math.floor(Math.random()*mirrorList.length -1)];
+            return mirrorList[Math.floor(Math.random() * mirrorList.length - 1)];
         }
         return false;
     }
@@ -58,23 +69,23 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
     /** 
      * When a TPB test search has been executed, verify that at least one magnet link is available in the
      * expected layout. (Some proxies proxy your magnet links so they can track them, we don't want that.)
-     */ 
-    this.parseTPBTestSearch = function(result) {
+     */
+    this.parseTPBTestSearch = function(result, allowUnsafe) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
-        var result = doc.querySelector("#searchResult > tbody > tr:nth-child(1) > td:nth-child(2) > a:nth-child(2)");
-        return result && result.href && result.href.indexOf('magnet') == 0;
+        var result = doc.querySelector("#searchResult > tbody > tr:nth-child(2) > td:nth-child(2) > a:nth-child(2)");
+        return result && result.href && (allowUnsafe ? true : result.href.indexOf('magnet') == 0);
     }
 
     /** 
      * When a Kickass Torrent test search has been executed, verify that at least one magnet link is available in the
      * expected layout. (Some proxies proxy your magnet links so they can track them, we don't want that.)
-     */ 
-    this.parseKATTestSearch = function(result) {
+     */
+    this.parseKATTestSearch = function(result, allowUnsafe) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
         var result = doc.querySelector('table.data tr > td:nth-child(1) > div.iaconbox.floatright > a.imagnet.icon16');
-        return result && result.href && result.href.indexOf('magnet') == 0;
+        return result && result.href && (allowUnsafe ? true : result.href.indexOf('magnet') == 0);
     }
 
 
@@ -101,7 +112,7 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
                     cache: false
                 }).then(function(response) {
                     // parse the response
-                    var location = self.parseFuckTimKuik(response);
+                    var location = self.parsePirateBayProxyList(response);
                     $rootScope.$broadcast('tpbmirrorresolver:status', "Found ThePirateBay mirror! " + location + " Verifying if it uses magnet links.");
                     // verify that the mirror works by executing a test search, otherwise try the process again
                     self.$get($q, $http, $rootScope).verifyTPBMirror(location).then(function(location) {
@@ -141,7 +152,7 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
                     url: testLocation
                 }).then(function(response) {
                     $rootScope.$broadcast('tpbmirrorresolver:status', "Results received, parsing");
-                    if (self.parseTPBTestSearch(response)) {
+                    if (self.parseTPBTestSearch(response, $rootScope.getSetting('proxy.allowUnsafe'))) {
                         $rootScope.$broadcast('tpbmirrorresolver:status', "Yes it does!");
                         q.resolve(location);
                     } else {
@@ -209,7 +220,7 @@ angular.module('DuckieTV.providers.mirrorresolver', [])
                     url: testLocation
                 }).then(function(response) {
                     $rootScope.$broadcast('katmirrorresolver:status', "Results received, parsing");
-                    if (self.parseKATTestSearch(response)) {
+                    if (self.parseKATTestSearch(response, $rootScope.getSetting('proxy.allowUnsafe'))) {
                         $rootScope.$broadcast('katmirrorresolver:status', "Yes it does!");
                         q.resolve(location);
                     } else {
