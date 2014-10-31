@@ -1,8 +1,19 @@
-angular.module('DuckieTV.providers.syncmanager')
+angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.settings'])
 
-.factory('ChromeStorageSyncTarget', function(ChromePermissions) {
+.factory('ChromeStorageSyncTarget', function(StorageSyncService, ChromePermissions, $injector) {
 
     var service = {
+        name: 'Chrome Storage Sync Target',
+        lastSync: 'never',
+        status: 'idle',
+
+        enable: function() {
+            return ChromePermissions.requestPermission('storage');
+        },
+
+        disable: function() {
+            return ChromePermissions.revokePermission('storage');
+        },
 
         isPermissionGranted: function() {
             return ChromePermissions.checkGranted('storage');
@@ -22,7 +33,6 @@ angular.module('DuckieTV.providers.syncmanager')
                 service.wipeMode = false;
             });
         },
-
 
         /** 
          * Fetch a value from the storage.sync api.
@@ -68,13 +78,6 @@ angular.module('DuckieTV.providers.syncmanager')
             });
         },
 
-        enable: function() {
-            return ChromePermissions.requestPermission('storage');
-        },
-
-        disable: function() {
-            return ChromePermissions.revokePermission('storage');
-        },
 
         /**
          * Attach background page sync event
@@ -102,7 +105,7 @@ angular.module('DuckieTV.providers.syncmanager')
 
         write: function() {
             service.set(tvdb, watchedList[tvdb]);
-        }
+        },
 
         initialize: function() {
             ChromePermissions.checkGranted('storage').then(function() {
@@ -114,6 +117,11 @@ angular.module('DuckieTV.providers.syncmanager')
         }
     };
 
+    console.log("Registering ChromeStorageSyncTarget!");
     return service;
 
 });
+
+window.addEventListener('load', function() {
+    angular.element(document.body).injector().get('StorageSyncService').registerTarget('ChromeStorageSyncTarget');
+})

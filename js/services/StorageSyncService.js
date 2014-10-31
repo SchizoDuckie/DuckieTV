@@ -15,12 +15,20 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
 .factory('StorageSyncService', function($rootScope, $q, FavoritesService, SettingsService, $injector, $filter) {
 
     var service = {
+        targets: [
 
+        ],
         isSyncing: false, // syncing is currently in progress
         firstRun: false, // first run?
         lastSynced: null, // timestamp when sync has last run
         activeDlg: null, // instance handle to an active question dialog to prevent multiple questions asked at the same time.
         wipeMode: false,
+
+        registerTarget: function(targetName) {
+            console.log("Register new storage sync target!", targetName);
+            service.targets.push($injector.get(targetName));
+        },
+
         /** 
          * Fetch the list of tvdb id's from the FavoritesService
          * @returns array of TVDB_ID's

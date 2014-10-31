@@ -31,6 +31,8 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.upgradenotification',
     'DuckieTV.providers.watchlistchecker',
     'DuckieTV.providers.watchlist',
+    'DuckieTV.providers.trakttvstoragesync',
+    'DuckieTV.providers.chromestoragesync',
     'DuckieTV.controllers.about',
     'DuckieTV.controllers.main',
     'DuckieTV.controllers.chromecast',

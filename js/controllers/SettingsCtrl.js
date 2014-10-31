@@ -1,7 +1,13 @@
 angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.eventscheduler'])
 
-.controller('SyncCtrl', function($scope) {
+.controller('SyncCtrl', function($scope, StorageSyncService, $injector) {
+    $scope.targets = StorageSyncService.targets;
 
+    Object.observe(StorageSyncService.targets, function(newTargets) {
+        $scope.$digest();
+    })
+
+    console.log($scope.targets);
 
 })
 
@@ -18,7 +24,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      * Fire off an event that pushes the current series list into the cloud
      */
     $scope.sync = function() {
-        console.log("Synchronizging!");
+        console.log("Synchronizing!");
         SettingsService.set('lastSync', new Date().getTime());
         StorageSyncService.synchronize();
     };
