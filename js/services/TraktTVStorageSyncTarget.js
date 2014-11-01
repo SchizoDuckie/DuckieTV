@@ -20,11 +20,15 @@ angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.set
         },
 
         disable: function() {
-            SettingsService.set('TraktTV.Sync', true);
+            SettingsService.set('TraktTV.Sync', false);
         },
 
         read: function() {
-
+            return TraktTV.enableBatchMode().getUserWatched(SettingsService.get('trakttv.username')).then(function(series) {
+                return series.map(function(el) {
+                    return el.tvdb_id;
+                });
+            });
         },
 
         write: function(series) {
@@ -39,6 +43,6 @@ angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.set
 });
 
 
-window.addEventListener('load', function() {
+window.addEventListener('DOMContentLoaded', function() {
     angular.element(document.body).injector().get('StorageSyncService').registerTarget('TraktTVStorageSyncTarget');
-})
+});

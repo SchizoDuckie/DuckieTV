@@ -1,11 +1,23 @@
 angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.eventscheduler'])
 
-.controller('SyncCtrl', function($scope, StorageSyncService, $injector) {
+.controller('SyncCtrl', function($scope, StorageSyncService, $injector, TraktTV) {
     $scope.targets = StorageSyncService.targets;
+    $scope.targetSeries = {};
+    StorageSyncService.targets.map(function(target) {
+        $scope.targetSeries[target.name] = [];
+    });
 
-    Object.observe(StorageSyncService.targets, function(newTargets) {
-        $scope.$digest();
-    })
+
+
+    $scope.read = function(StorageEngine) {
+        StorageSyncService.read(StorageEngine).then(function(result) {
+            result.map(function(TVDB_ID) {
+                return TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(serie) {
+                    $scope.targetSeries[StorageEngine.name].push(serie);
+                });
+            });
+        });
+    };
 
     console.log($scope.targets);
 

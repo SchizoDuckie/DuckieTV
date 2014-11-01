@@ -1,6 +1,6 @@
 angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.settings'])
 
-.factory('ChromeStorageSyncTarget', function(StorageSyncService, ChromePermissions, $injector) {
+.factory('ChromeStorageSyncTarget', function(SettingsService, StorageSyncService, ChromePermissions, $injector, $q) {
 
     var service = {
         name: 'Chrome Storage Sync Target',
@@ -8,15 +8,25 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
         status: 'idle',
 
         enable: function() {
+            SettingsService.set('Chrome.Sync', true);
             return ChromePermissions.requestPermission('storage');
         },
 
         disable: function() {
+            SettingsService.set('Chrome.Sync', false);
             return ChromePermissions.revokePermission('storage');
+        },
+
+        isEnabled: function() {
+            return SettingsService.get('Chrome.Sync');
         },
 
         isPermissionGranted: function() {
             return ChromePermissions.checkGranted('storage');
+        },
+
+        read: function() {
+            return service.get('series');
         },
 
         /** 
@@ -117,11 +127,11 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
         }
     };
 
-    console.log("Registering ChromeStorageSyncTarget!");
+    console.log("ChromeStorageSyncTarget initialized");
     return service;
 
 });
 
-window.addEventListener('load', function() {
+window.addEventListener('DOMContentLoaded', function() {
     angular.element(document.body).injector().get('StorageSyncService').registerTarget('ChromeStorageSyncTarget');
 })
