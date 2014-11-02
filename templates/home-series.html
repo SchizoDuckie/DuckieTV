@@ -41,12 +41,12 @@
 
 
         <!-- if we're in search mode, this panel pops up -->
-        <div ng-if="searchingForSerie" class="series">
+        <div ng-if="searchingForSerie" class="series" style='right:350px'>
           <h1 style='text-align:center' ng-if="search.results"><img ng-if="search.searching" src="img/spinner.gif"><br>{{'HOMESERIES/addshow-start-typing/lbl'|translate}}</h1>
           <h1 ng-if="search.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />There was an error contacting Trakt.TV, it might be down. Please try again later <br>{{ search.error.statusText }} </h1>
 
           <h1 ng-if="search.results.length == 0">No results found for {{search.query}}</h1>
-          <serieHeader ng-if="search.results" ng-repeat="serie in search.results" data="serie" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)">
+          <serieHeader ng-if="search.results" ng-repeat="serie in search.results" data="serie" ng-mouseenter="setHoverSerie(serie)" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)">
             <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
             <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
           </serieHeader>
@@ -59,12 +59,14 @@
 
             <h1 style='color:white'>{{'HOMESERIES/addtrending-help/hdr'|translate}} - {{'HOMESERIES/addtrending-help-click-to-show/hdr'|translate}}</h1>
             <h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>{{'HOMESERIES/addtrending-help-please-wait/hdr'|translate}}</h1>
-            <serieHeader ng-repeat="serie in trending.results" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
+            <serieHeader ng-repeat="serie in trending.results" ng-mouseenter="setHoverSerie(serie)" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
               <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
               <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
             </serieHeader>
           </div>
         </div>
+       <serie-details ng-show="serie" template-url="templates/traktSerieDetails.html" style="position:fixed !important; top:80px; right:0px; width:350px;"></serie-details>
+      
 
         <div class="series" ng-if="activated && !searchingForSerie && mode == 'search'">
           <serieHeader ng-repeat="serie in favorites | orderBy: 'name' | filter: localFilter" data="serie" no-overview="1" mode="search">

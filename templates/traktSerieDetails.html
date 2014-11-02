@@ -1,0 +1,67 @@
+<div class="table table-condensed light" style='margin-bottom:0; margin-top:20px; position:relative;'>
+   <table class="table table-condensed light">
+    <tbody>
+      <tr>
+        <td colspan="2">
+          <h3>{{serie.title}}</h3>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <center><serieheader mode="poster" data="serie"></serieheader></center>
+        </td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/airs-on/hdr'|translate}}</th>
+        <td>{{translateDayOfWeek(serie.air_day)}} {{serie.air_time}} (UTC)</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/airs-on/hdr'|translate}}</th>
+        <td>{{translateDayOfWeek(serie.air_day)}} {{serie.air_time}} (UTC)</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/first-aired/hdr'|translate}}</th>
+        <td>{{ serie.first_aired | date:'medium' }}</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/genre/hdr'|translate}}</th>
+        <td>
+          <ul class="list-unstyled">
+            <li ng-repeat="genre in serie.genres track by $index">{{translateGenre(genre)}}</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/content-rating/hdr'|translate}}</th>
+        <td>{{serie.certification}}</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/country/hdr'|translate}}</th>
+        <td>{{serie.country}}</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/network/hdr'|translate}}</th>
+        <td>{{serie.network}}</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/rating/hdr'|translate}}</th>
+        <td>{{serie.ratings.loved}} ({{serie.rating.votes}} {{'SERIEDETAILS/votes/lbl'|translate}})</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/run-time/hdr'|translate}}</th>
+        <td>{{serie.runtime}} {{'SERIEDETAILS/minutes/lbl'|translate}}</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/status/hdr'|translate}}</th>
+        <td>{{translateStatus(serie.ended ? 'Ended' : 'Continuing')}}</td>
+      </tr>
+      <tr ng-if="serie.actors" >
+        <th>{{'SERIEDETAILS/actors/hdr'|translate}}</th>
+        <td>
+          <ul class="list-unstyled">
+            <li ng-repeat="actors in serie.actors track by $index">{{actors}}</li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>

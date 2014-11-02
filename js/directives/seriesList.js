@@ -41,6 +41,11 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 window.location.href = '#/serie/' + serieID + '/episode/' + episode.getID();
             }
 
+            $rootScope.setHoverSerie = function(serie) {
+                console.log("Set hover serie to ", serie);
+                $scope.serie = serie;
+            }
+
             /**
              * Enabled 'add' serie mode.
              * Toggles the search panel and populates the trending mode when needed.
@@ -60,9 +65,9 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     };
                     TraktTV.disableBatchMode().findTrending().then(function(res) {
                         $scope.trending.results = res;
-                    }).catch(function(error) { 
-                        $scope.search.error = error; 
-                        $scope.trendingSeries = false; 
+                    }).catch(function(error) {
+                        $scope.search.error = error;
+                        $scope.trendingSeries = false;
                     });
                 }
 
@@ -73,6 +78,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              */
             $scope.disableAdd = function() {
                 $scope.searchingForSerie = false;
+                $scope.serie = null;
                 $scope.mode = $rootScope.getSetting('series.displaymode');
             }
 
@@ -107,7 +113,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 dlg.result.then(function(btn) {
                     console.log("Remove from favorites!", serie);
                     FavoritesService.remove(serie);
-                    if(typeof $location != "undefined") {
+                    if (typeof $location != "undefined") {
                         $location.path('/')
                     }
                 }, function(btn) {
