@@ -10,6 +10,9 @@ angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.set
         name: 'TraktTV Sync Target',
         lastSync: 'never',
         status: 'idle',
+        series: [],
+        nonRemote: [],
+        nonLocal: [],
 
         isEnabled: function() {
             return SettingsService.get('TraktTV.Sync')
@@ -23,11 +26,14 @@ angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.set
             SettingsService.set('TraktTV.Sync', false);
         },
 
-        read: function() {
+        getSeriesList: function() {
+            service.status = 'reading';
             return TraktTV.enableBatchMode().getUserWatched(SettingsService.get('trakttv.username')).then(function(series) {
-                return series.map(function(el) {
-                    return el.tvdb_id;
+                series = series.map(function(el) {
+                    return parseInt(el.tvdb_id);
                 });
+                service.status = 'idle';
+                return series;
             });
         },
 

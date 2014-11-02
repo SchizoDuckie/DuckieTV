@@ -6,6 +6,9 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
         name: 'Chrome Storage Sync Target',
         lastSync: 'never',
         status: 'idle',
+        series: [],
+        nonRemote: [],
+        nonLocal: [],
 
         enable: function() {
             SettingsService.set('Chrome.Sync', true);
@@ -25,8 +28,11 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
             return ChromePermissions.checkGranted('storage');
         },
 
-        read: function() {
-            return service.get('series');
+
+        getSeriesList: function() {
+            return service.get('series').map(function(el) {
+                return parseInt(el);
+            })
         },
 
         /** 

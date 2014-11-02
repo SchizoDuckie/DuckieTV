@@ -33,11 +33,37 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
          * Fetch the list of tvdb id's from the FavoritesService
          * @returns array of TVDB_ID's
          */
-        getSeriesList: function() {
+        getLocalSeriesList: function() {
             return FavoritesService.getSeries().then(function(series) {
                 return $q.all(series.map(function(el) {
                     return el.TVDB_ID;
-                })).then(function(series) {
+                }));
+            });
+        },
+
+        compareTarget: function(target) {
+            console.log(" Compare to target!", target);
+            return service.getLocalSeriesList().then(function(localSeries) {
+                return target.getSeriesList().then(function(remoteSeries) {
+                    console.log(" Compare local to remote series list: ", localSeries, remoteSeries);
+                    target.nonLocal = remoteSeries === null ? [] : localSeries.filter(function(el) {
+                        return remoteSeries.indexOf(el) == -1;
+                    });
+
+                    target.nonRemote = localSeries === null ? [] : remoteSeries.filter(function(id) {
+                        return localSeries.filter(function(id2) {
+                            return (id == id2);
+                        }).length === 0;
+                    });
+                    return {
+                        nonLocal: target.nonLocal,
+                        nonRemote: target.nonRemote
+                    };
+                });
+            });
+        },
+
+        /*.then(function(series) {
                     return $q.when(CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watchedAt is not null').then(function(res) {
                         var watchedList = {},
                             row;
@@ -55,7 +81,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                     }));
                 });
             });
-        },
+        },*/
 
         /** 
          * Execute a sync (write) step if syncing is not currently already in progress
@@ -76,31 +102,14 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
                 service.isSyncing = false;
             });
 
-
-
-
         },
 
-        /** 
-         * Read from synced storage
-         * Fetches the the remote list of series and runs them through trakt.tv
-         * Notifies the promise when new detailed data has been fetched
-         */
-        read: function(StorageService) {
-
-            console.log("Read from ", StorageService);
-            return StorageService.read()
-        },
+        initialize: function() {
 
 
-        /**
-         * Foreground thread update handler
-         */
-        initialize: function(forceCheck) {
-            if (SettingsService.get('storage.sync')) {
-                SyncManager.Synchronize();
-            }
         }
+
+
     };
     return service;
 });
