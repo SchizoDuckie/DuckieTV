@@ -8,45 +8,7 @@ angular.module('DuckieTV.controllers.episodes', [])
         $scope.serie = null;
         $scope.episode = null;
         $scope.episodeEntity = null;
-        var genreList = [
-            'Action',
-            'Adventure',
-            'Animation',
-            'Children',
-            'Comedy',
-            'Crime',
-            'Documentary',
-            'Drama',
-            'Family',
-            'Fantasy',
-            'Food',
-            'Game Show',
-            'Home and Garden',
-            'Horror',
-            'Mini Series',
-            'Mystery',
-            'News',
-            'No Genre',
-            'Reality',
-            'Romance',
-            'Science Fiction',
-            'Soap',
-            'Special Interest',
-            'Sport',
-            'Suspense',
-            'Talk Show',
-            'Thriller',
-            'Travel',
-            'Western'
-        ]; // used by translateGenre()
-        var rawTranslatedGenreList = $filter('translate')('SERIECTRLjs/genre/list');
-        var translatedGenreList = rawTranslatedGenreList.split(',');
-        var statusList = [
-            'Continuing',
-            'Ended'
-        ]; // used by translateStatus()
-        var rawTranslatedStatusList = $filter('translate')('SERIECTRLjs/status/list');
-        var translatedStatusList = rawTranslatedStatusList.split(',');
+
 
         CRUD.FindOne('Serie', {
             'TVDB_ID': $routeParams.id
@@ -81,7 +43,7 @@ angular.module('DuckieTV.controllers.episodes', [])
         });
 
         /**
-         * Check if airdate has passed
+ * Check    if airdate has passed
          */
         $scope.hasAired = function(episode) {
             return episode.firstaired && episode.firstaired <= new Date().getTime();;
@@ -97,20 +59,6 @@ angular.module('DuckieTV.controllers.episodes', [])
                 en = episode.episodenumber.toString(),
                 out = ['S', sn.length == 1 ? '0' + sn : sn, 'E', en.length == 1 ? '0' + en : en].join('');
             return out;
-        };
-
-        $scope.translateGenre = function(genre) {
-            /*
-             * takes the English genre (as fetched from TraktTV) and returns a translation 
-             */
-            return (genreList.indexOf(genre) != -1) ? translatedGenreList[genreList.indexOf(genre)] : genre;
-        };
-
-        $scope.translateStatus = function(status) {
-            /*
-             * takes the English status (as fetched from TraktTV) and returns a translation 
-             */
-            return (statusList.indexOf(status) != -1) ? translatedStatusList[statusList.indexOf(status)] : status;
         };
 
     });
