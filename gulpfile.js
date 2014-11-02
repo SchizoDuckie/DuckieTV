@@ -99,6 +99,28 @@ gulp.task('default', ['concatScripts', 'concatDeps', 'concatBackgroundPage', 'co
 });
 
 
+gulp.task('build-standalone', ['deploy'], function() {
+    var NwBuilder = require('node-webkit-builder');
+    var nw = new NwBuilder({
+        files: './dist/*.*', // use the glob format
+        platforms: ['win'], //, 'osx', 'linux32', 'linux64'],
+        buildDir: '../deploy/binaries',
+        cacheDir: '../deploy/cache',
+        buildType: 'versioned',
+        winIco: './img/favicon.ico'
+    });
+
+    // Log stuff you want
+    nw.on('log', console.log);
+
+    // Build returns a promise
+    return nw.build().then(function() {
+        console.log('all done!');
+    }).catch(function(error) {
+        console.error(error);
+    });
+})
+
 /**
  * Create a nightly build and immediately deploy it to the webstore
  */
@@ -254,7 +276,7 @@ gulp.task('concatBackgroundPage', function() {
  * Copy launch.js into place
  */
 gulp.task('launch.js', function() {
-    return gulp.src('launch.js')
+    return gulp.src(['launch.js', 'package.json'])
         .pipe(gulp.dest('dist/'));
 })
 

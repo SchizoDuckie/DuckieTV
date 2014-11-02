@@ -1,7 +1,7 @@
 angular.module('DuckieTV.providers.syncmanager', [])
 
 .factory('SyncManager', function() {
-
+    /*
     targets: [],
 
     registerTarget

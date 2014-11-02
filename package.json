@@ -1,0 +1,32 @@
+{
+  "name": "DuckieTV-Standalone",
+  "user-agent": "DuckieTV Standalone v0.80",
+  "version": "0.80.0",
+  "description": "DuckieTV helps you manage your favorite TV Shows on a sweet calendar",
+  "main": "index.html",
+  "private": true,
+  "keywords": [
+    "series",
+    "tv-shows",
+    "trakt",
+    "DuckieTV",
+    "utorrent",
+    "bittorrent"
+  ],
+  "window": {
+    "title": "DuckieTV Standalone v0.80",
+    "toolbar": true,
+    "icon": "img/icon48.png",
+    "resizable": true,
+    "width": 1000,
+    "height": 600,
+    "min_width": 600,
+    "min_height": 400,
+    "position": "center"
+  },
+  "author": "DuckieTV",
+  "license": "MIT",
+  "devDependencies": {
+    "node-webkit-builder": "^0.2.0"
+  }
+}
