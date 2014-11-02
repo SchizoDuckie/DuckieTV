@@ -41,28 +41,45 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
             });
         },
 
-        compareTarget: function(target) {
+        compareTarget: function(target, resolveInfo) {
             console.log(" Compare to target!", target);
             return service.getLocalSeriesList().then(function(localSeries) {
                 return target.getSeriesList().then(function(remoteSeries) {
                     console.log(" Compare local to remote series list: ", localSeries, remoteSeries);
-                    target.nonLocal = remoteSeries === null ? [] : localSeries.filter(function(el) {
-                        return remoteSeries.indexOf(el) == -1;
+                    target.nonLocal = remoteSeries === null ? [] : remoteSeries.filter(function(id) {
+                        return localSeries.indexOf(id) == -1;
                     });
+                    console.log(" Non-local series: ", target.nonLocal);
 
-                    target.nonRemote = localSeries === null ? [] : remoteSeries.filter(function(id) {
-                        return localSeries.filter(function(id2) {
-                            return (id == id2);
-                        }).length === 0;
+                    target.nonRemote = localSeries === null ? [] : localSeries.filter(function(id) {
+                        return remoteSeries.indexOf(id) == -1;
                     });
-                    return {
-                        nonLocal: target.nonLocal,
-                        nonRemote: target.nonRemote
-                    };
+                    console.log(" Non-remote series: ", target.nonRemote);
+
+                    function fetchDetailedInfo(tvdb_id) {
+                        return TraktTV.enableBatchMode().findSerieByTVDBID(tvdb_id, true).then(function(result) {
+                            console.log("found serie!");
+                            return result;
+                        });
+                    }
+
+                    function detailFetchError(err) {
+                        console.log("Error fetching detailed trakt.tv info:", err);
+                        return result;
+                    }
+
+                    if (resolveInfo) {
+                        $q.all(target.nonLocal.map(fetchDetailedInfo, detailFetchError)).then(function(results) {
+                            target.nonLocal = results;
+                        });
+                        $q.all(target.nonRemote.map(fetchDetailedInfo, detailFetchError)).then(function(results) {
+                            target.nonRemote = results;
+                        });
+                    }
+
                 });
             });
         },
-
         /*.then(function(series) {
                     return $q.when(CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watchedAt is not null').then(function(res) {
                         var watchedList = {},

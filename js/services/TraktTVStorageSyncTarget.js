@@ -10,6 +10,7 @@ angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.set
         name: 'TraktTV Sync Target',
         lastSync: 'never',
         status: 'idle',
+        statusMessage: '',
         series: [],
         nonRemote: [],
         nonLocal: [],
@@ -34,6 +35,10 @@ angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.set
                 });
                 service.status = 'idle';
                 return series;
+            }, function(err) {
+                service.status = 'read error';
+                service.statusMessage = [err.status, err.statusText].join(' : ');
+                return [];
             });
         },
 

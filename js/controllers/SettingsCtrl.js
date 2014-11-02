@@ -6,8 +6,9 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
     $scope.read = function(StorageEngine) {
         StorageEngine.getSeriesList().then(function(result) {
+            StorageEngine.series = [];
             result.map(function(TVDB_ID) {
-                return TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(serie) {
+                return TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID, true).then(function(serie) {
                     StorageEngine.series.push(serie);
                 });
             });
@@ -15,8 +16,9 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     };
 
     $scope.compare = function(StorageEngine) {
-        StorageSyncService.compareTarget(StorageEngine)
-    }
+        StorageSyncService.compareTarget(StorageEngine, true)
+    };
+
 
     console.log($scope.targets);
 

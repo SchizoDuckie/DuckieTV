@@ -15,6 +15,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
         season: 'http://api.trakt.tv/show/seasons.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s',
         episode: 'http://api.trakt.tv/show/season.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s/%s',
         seriebyid: 'http://api.trakt.tv/show/summary.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s/extended',
+        summarybyid: 'http://api.trakt.tv/show/summary.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s',
         trending: 'http://api.trakt.tv/shows/trending.json/dc6cdb4bcbc5cb9f2b666202a10353d6',
         userShows: 'https://api.trakt.tv/user/library/shows/all.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s',
         userWatched: 'https://api.trakt.tv/user/library/shows/watched.json/dc6cdb4bcbc5cb9f2b666202a10353d6/%s/true',
@@ -123,8 +124,8 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
          * Fetch full series info from trakt.tv by TVDB_ID
          * http://trakt.tv/api-docs/show-summary
          */
-        findSerieByTVDBID: function(TVDB_ID) {
-            return promiseRequest('seriebyid', TVDB_ID);
+        findSerieByTVDBID: function(TVDB_ID, summaryOnly) {
+            return promiseRequest(summaryOnly ? 'summarybyid' : 'seriebyid', TVDB_ID);
         },
         /** 
          * Fetch trending shows from trakt.tv

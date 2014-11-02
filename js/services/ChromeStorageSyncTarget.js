@@ -6,6 +6,7 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
         name: 'Chrome Storage Sync Target',
         lastSync: 'never',
         status: 'idle',
+        statusMessage: '',
         series: [],
         nonRemote: [],
         nonLocal: [],
@@ -30,9 +31,11 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
 
 
         getSeriesList: function() {
-            return service.get('series').map(function(el) {
-                return parseInt(el);
-            })
+            return service.get('series').then(function(series) {
+                return series ? series.map(function(el) {
+                    return parseInt(el);
+                }) : [];
+            });
         },
 
         /** 
