@@ -3,7 +3,7 @@
     <tbody>
       <tr>
         <td colspan="2">
-          <h3>{{serie.title}}</h3>
+          <h3 style="text-align:center">{{serie.title}}</h3>
         </td>
       </tr>
       <tr>
@@ -16,12 +16,12 @@
         <td>{{translateDayOfWeek(serie.air_day)}} {{serie.air_time}} (UTC)</td>
       </tr>
       <tr>
-        <th>{{'SERIEDETAILS/airs-on/hdr'|translate}}</th>
-        <td>{{translateDayOfWeek(serie.air_day)}} {{serie.air_time}} (UTC)</td>
-      </tr>
-      <tr>
         <th>{{'SERIEDETAILS/first-aired/hdr'|translate}}</th>
-        <td>{{ serie.first_aired | date:'medium' }}</td>
+        <td>{{ serie.first_aired * 1000 | date:'mediumDate' }}</td>
+      </tr>
+     <tr>
+        <th>{{'SERIEDETAILS/status/hdr'|translate}}</th>
+        <td>{{translateStatus(serie.ended ? 'Ended' : 'Continuing')}}</td>
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/genre/hdr'|translate}}</th>
@@ -50,10 +50,6 @@
       <tr>
         <th>{{'SERIEDETAILS/run-time/hdr'|translate}}</th>
         <td>{{serie.runtime}} {{'SERIEDETAILS/minutes/lbl'|translate}}</td>
-      </tr>
-      <tr>
-        <th>{{'SERIEDETAILS/status/hdr'|translate}}</th>
-        <td>{{translateStatus(serie.ended ? 'Ended' : 'Continuing')}}</td>
       </tr>
       <tr ng-if="serie.actors" >
         <th>{{'SERIEDETAILS/actors/hdr'|translate}}</th>
