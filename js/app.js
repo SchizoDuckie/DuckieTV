@@ -9,10 +9,12 @@ angular.module('DuckieTV', [
     'ui.bootstrap',
     'dialogs.services',
     'pascalprecht.translate',
+
+    'DuckieTV.providers.alarms',
     'DuckieTV.providers.chromecast',
     'DuckieTV.providers.episodeaired',
     'DuckieTV.providers.eventwatcher',
-    'DuckieTV.providers.eventscheduler',
+        'DuckieTV.providers.eventscheduler',
     'DuckieTV.providers.favorites',
     'DuckieTV.providers.filereader',
     'DuckieTV.providers.googleimages',

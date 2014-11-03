@@ -1,4 +1,4 @@
-angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwatcher'])
+angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwatcher', 'DuckieTV.providers.alarms'])
 
 /**
  * A wrapper around chrome.alarms
@@ -9,7 +9,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
  */
 .provider("EventSchedulerService", function() {
 
-    this.$get = function(EventWatcherService, $q, $rootScope) {
+    this.$get = function(EventWatcherService, AlarmService, $q, $rootScope) {
         /**
          * Create a new ScheduledEvent entity
          * @param  string name Readable name of the event
@@ -44,15 +44,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
              * @return promise
              */
             getAll: function() {
-                var p = $q.defer();
-                if ('chrome' in window && 'alarms' in window.chrome) {
-                    chrome.alarms.getAll(function(result) {
-                        p.resolve(result);
-                    });
-                } else {
-                    p.resolve([]);
-                }
-                return p.promise;
+                return AlarmService.getAll();
             },
 
             /**
@@ -64,9 +56,8 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
              */
             createAt: function(name, timestamp, eventChannel, data) {
                 createEvent(name, 'single', eventChannel, data);
-                chrome.alarms.create(name, {
-                    when: timestamp
-                });
+                return AlarmService.createAt(name, timestamp);
+
             },
 
             /**
@@ -78,9 +69,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
              */
             createDelay: function(name, delayInMinutes, eventChannel, data) {
                 createEvent(name, 'single', eventChannel, data);
-                chrome.alarms.create(name, {
-                    delayInMinutes: delayInMinutes
-                });
+                return AlarmService.createDelay(name, delayInMinutes);
             },
 
             /**
@@ -100,13 +89,8 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                     } else {
                         createEvent(name, 'interval', eventChannel, data);
                     }
-                    if ('chrome' in window && 'alarms' in window.chrome) {
-                        chrome.alarms.create(name, {
-                            periodInMinutes: periodInMinutes
-                        });
-                        $rootScope.$broadcast('timer:created');
-                    }
-
+                    AlarmService.createInterval(name, periodInMinutes);
+                    $rootScope.$broadcast('timer:created');
                 });
 
             },
@@ -116,9 +100,8 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
              * @param  string name name of the alarm to remove
              */
             clear: function(name) {
-                if ('chrome' in window && 'alarms' in window.chrome) {
-                    chrome.alarms.clear(name);
-                }
+                AlarmService.clear(name);
+
                 CRUD.FindOne('ScheduledEvent', {
                     name: name
                 }).then(function(ScheduledEvent) {
@@ -131,7 +114,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
              * @return {[type]}
              */
             clearAll: function() {
-                chrome.alarms.clearAll();
+                AlarmService.clearAll();
                 CRUD.Find('ScheduledEvent', {}).then(function(ScheduledEvents) {
                     ScheduledEvents.map(function(el) {
                         el.Delete();
@@ -145,7 +128,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
              */
             fixMissingTimers: function() {
                 service.getAll().then(function(timers) {
-                    console.log("Fixing missing timers check");
+                    console.log("Fixing missing timers check ");
                     CRUD.Find('ScheduledEvent', {}).then(function(events) {
 
                         var missing = events.filter(function(event) {
@@ -155,7 +138,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                         });
 
                         for (var i = 0; i < missing.length; i++) {
-                            console.log("Re-adding show for missing timer by firing it's timer: ", missing[i].get('name'));
+                            console.log("Re - adding show for missing timer by firing it 's timer: ", missing[i].get('name'));
                             EventWatcherService.onEvent(missing[i].get('name'));
                         }
                     });

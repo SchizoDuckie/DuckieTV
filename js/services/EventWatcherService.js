@@ -1,4 +1,4 @@
-angular.module('DuckieTV.providers.eventwatcher', [])
+angular.module('DuckieTV.providers.eventwatcher', ['DuckieTV.providers.alarms'])
 
 /**
  * The eventwatcher factory handles incoming chrome alarms
@@ -7,7 +7,7 @@ angular.module('DuckieTV.providers.eventwatcher', [])
  */
 .provider("EventWatcherService", function() {
 
-    this.$get = function($rootScope) {
+    this.$get = function($rootScope, AlarmService) {
 
         getScheduledEventByName = function(name) {
             return CRUD.FindOne('ScheduledEvent', {
@@ -38,7 +38,7 @@ angular.module('DuckieTV.providers.eventwatcher', [])
              * Start listening for alarms fired by chrome's extension. needs to be called manually
              */
             initialize: function() {
-                chrome.alarms.onAlarm.addListener(function(event) {
+                AlarmService.addListener(function(event) {
                     service.onEvent(event.name);
                 })
             }
