@@ -241,7 +241,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     .controller('SettingsCtrl', function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, MirrorResolver, TraktTV, EventSchedulerService, $filter) {
 
         $scope.log = [];
-        $scope.hasTopSites = ('topSites' in window.chrome);
+        $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
 
         $scope.activesettings = 'templates/settings/default.html';
 

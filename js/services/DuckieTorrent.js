@@ -141,7 +141,7 @@ angular.module('DuckieTorrent.torrent', [])
                  */
                 pair: function() {
                     return jsonp('pair', {
-                        name: 'DuckieTV on ' + navigator.userAgent.match(/Chrome\/([0-9\.]+)/)[0]
+                        name: 'DuckieTV'
                     }, {
                         timeout: 60000
                     });
