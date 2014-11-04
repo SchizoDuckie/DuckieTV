@@ -69,7 +69,7 @@ angular.module('DuckieTV.controllers.about', [])
                 });
             };
         };
-        
+
         // fetch active torrenting mirror
         switch (SettingsService.get('torrenting.searchprovider')) {
             case 'ThePirateBay':
@@ -84,7 +84,7 @@ angular.module('DuckieTV.controllers.about', [])
             default:
                 var activeTorrentingMirror = 'Not Available';
         };
-        
+
         // general statistics
         $scope.statistics = [{
             name: 'UserAgent',
@@ -124,10 +124,7 @@ angular.module('DuckieTV.controllers.about', [])
             data: SettingsService.get('torrenting.autodownload')
         }, {
             name: 'TraktTV Sync Enabled',
-             data: SettingsService.get('trakttv.sync')
-        }, {
-            name: 'Storage Sync Supported',
-            data: StorageSyncService.isSupported()
+            data: SettingsService.get('trakttv.sync')
         }, {
             name: 'Storage Sync Enabled',
             data: SettingsService.get('storage.sync')
@@ -150,15 +147,15 @@ angular.module('DuckieTV.controllers.about', [])
                     data: data
                 });
             });
-         }
+        }
 
-         // local date and time in GMT presentation
+        // local date and time in GMT presentation
         $scope.statistics.unshift({
             name: 'Current Date and Time',
             data: new Date().toGMTString()
         });
 
-        getSyncTime();
+        //getSyncTime();
         countTimers();
         countEntity('Series');
         countHiddenShows();
