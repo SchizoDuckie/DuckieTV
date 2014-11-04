@@ -13,7 +13,7 @@ angular.module('DuckieTV.providers.eventwatcher', ['DuckieTV.providers.alarms'])
             return CRUD.FindOne('ScheduledEvent', {
                 name: name
             });
-        }
+        };
         var service = {
             /**
              * When the event watcher's has been initialized, this catches the chrome alarm when it fires

@@ -11,9 +11,10 @@ angular.module('DuckieTV.providers.alarms', [])
 
         getAll: function(cb) {
             return $q(function(resolve, reject) {
-                if (!chrome.alarms.getAll(resolve)) {
-                    resolve([]);
-                }
+                chrome.alarms.getAll(function(alarms) {
+                    resolve(alarms || []);
+                });
+
             });
         },
 
@@ -54,9 +55,9 @@ angular.module('DuckieTV.providers.alarms', [])
         }
     };
 
-
     var DuckieTVAdapter = {
         alarms: {},
+        callback: null,
         /**
          * Pure JS implementation of the chrome alarm
          * @param string name   Name of this alarm.
@@ -67,66 +68,21 @@ angular.module('DuckieTV.providers.alarms', [])
 
             function alarm(name, scheduledTime, delayInMinutes, periodInMinutes) {
                 this.name = name;
-                this.scheduledTime = scheduledTime || 0;
+                this.scheduledTime = !scheduledTime ? 0 : scheduledTime;
                 this.delayInMinutes = delayInMinutes || null;
                 this.periodInMinutes = periodInMinutes || null;
-
                 this.timeout = null;
-
-                this.cancel = function() {
-                    clearTimeout(this.timeout);
-                };
-
-                this.attach = function() {
-                    var at;
-                    if (this.scheduledTime > new Date().getTime()) {
-                        at = this.scheduledTime;
-                    }
-                    if (this.scheduledTime < new Date().getTime() && this.delayInMinutes) {
-                        at = new Date().getTime() + (this.delayInMinutes * 60 * 1000);
-                    }
-                    if (this.scheduledTime < new Date().getTime() && this.periodInMinutes) {
-                        at = new Date().getTime() + (this.periodInMinutes * 60 * 1000);
-                    }
-                    this.scheduledTime = at;
-                    this.timeout = setTimeout(this.fire.bind(this), this.scheduledTime);
-                };
-
-                this.toString = function() {
-                    extra = this.delayInMinutes ? ' and restarts in ' + this.delayInMinutes + ' minutes' : '';
-                    return "Alarm: " + this.name + " Scheduled at " + new Date(this.scheduledTime) + extra;
-                };
-
-                this.fire = function() {
-                    console.info("Firing custom alarm!", this.name);
-                    service.callback(this.name);
-                    if (this.periodInMinutes) {
-                        this.attach();
-                        service.persist();
-                    }
-                };
-
-                /**
-                 * Run after deserialization
-                 */
-                this.wakeUp = function() {
-                    if (this.scheduledTime < new Date().getTime()) {
-                        this.fire();
-                    }
-                    this.attach();
-                };
-
                 this.attach();
             }
 
-            return new alarm(name, scheduledTime, delayInMinutes);
+            alarm.prototype = alarmProto;
+
+            return new alarm(name, scheduledTime, delayInMinutes, periodInMinutes);
         },
 
         getAll: function(cb) {
             return $q(function(resolve, reject) {
-                resolve(Object.keys(this.alarms || {}).map(function(alarmName) {
-                    return this.alarms[alarmName];
-                }));
+                resolve(service.alarms);
             });
         },
 
@@ -157,6 +113,15 @@ angular.module('DuckieTV.providers.alarms', [])
             service.persist();
         },
 
+        clear: function(alarmName) {
+            console.info("DuckieTV alarm clear:", alarmName);
+            if (alarmName in service.alarms) {
+                service.alarms[alarmName].cancel();
+                delete this.alarms[alarmName];
+                service.persist();
+            }
+        },
+
         clearAll: function() {
             console.info("DuckieTV alarm clear all!:");
             Object.keys(this.alarms).map(function(alarmname) {
@@ -168,7 +133,7 @@ angular.module('DuckieTV.providers.alarms', [])
 
         addListener: function(cb) {
             console.info("DuckieTV alarm add listener!", cb);
-            service.callback = cb;
+            this.callback = cb;
         },
 
         persist: function() {
@@ -180,8 +145,10 @@ angular.module('DuckieTV.providers.alarms', [])
             if (localStorage.getItem('alarms')) {
                 this.alarms = JSON.parse(localStorage.getItem('alarms'));
                 Object.keys(this.alarms).map(function(alarmName) {
-                    //  this.alarms[alarmName].wakeUp();
+                    service.alarms[alarmName].__proto__ = alarmProto;
+                    service.alarms[alarmName].wakeUp();
                 });
+
             }
 
             console.info("DuckieTV alarm initialize!", this.alarms);
@@ -189,7 +156,61 @@ angular.module('DuckieTV.providers.alarms', [])
     };
 
 
-    var service = ('chrome' in window && 'alarms' in window.chrome) ? ChromeAdapter : DuckieTVAdapter;
+    service = ('chrome' in window && 'alarms' in window.chrome) ? ChromeAdapter : DuckieTVAdapter;
+
+    var alarmProto = {
+
+        attach: function() {
+            if (this.scheduledTime < new Date().getTime() && this.delayInMinutes) {
+                this.scheduledTime = new Date().getTime() + (this.delayInMinutes * 60 * 1000);
+            } else if (this.scheduledTime < new Date().getTime() && this.periodInMinutes) {
+                this.scheduledTime = new Date().getTime() + (this.periodInMinutes * 60 * 1000);
+            } else if (this.scheduledTime < new Date().getTime()) {
+                return;
+            }
+            this.timeout = setTimeout(this.fire.bind(this), this.scheduledTime - new Date().getTime());
+        },
+
+        fire: function() {
+            console.info("Firing custom alarm!", this.name);
+            if (typeof service.callback == "function") {
+                service.callback({
+                    name: this.name
+                });
+            }
+            if (this.periodInMinutes) {
+                console.log("Periodicalarm! re-attach!");
+                this.attach();
+                service.persist();
+            } else {
+                service.clear(this.name);
+            }
+        },
+
+        cancel: function() {
+            clearTimeout(this.timeout);
+        },
+
+        /**
+         * Run after deserialization
+         */
+        wakeUp: function() {
+            console.log("Wake up alarm!", this.name, this.scheduledTime, new Date().getTime());
+            if (this.scheduledTime < new Date().getTime()) {
+                console.log("Alarm needs to fire!", this.scheduledTime);
+                this.fire();
+            }
+            this.attach();
+        },
+
+        toString: function() {
+            extra = this.periodInMinutes ? ' and restarts in ' + this.delayInMinutes + ' minutes' : '';
+            return "Alarm: " + this.name + " Scheduled at " + new Date(this.scheduledTime) + extra;
+        }
+    };
+
+
+
     service.initialize();
 
     return service;
