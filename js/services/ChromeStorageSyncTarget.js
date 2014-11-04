@@ -141,6 +141,10 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
 
 });
 
-window.addEventListener('DOMContentLoaded', function() {
-    angular.element(document.body).injector().get('StorageSyncService').registerTarget('ChromeStorageSyncTarget');
-})
+if ('chrome' in window && 'storage' in window.chrome && 'sync' in chrome.storage) {
+    window.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            angular.element(document.body).injector().get('StorageSyncService').registerTarget('ChromeStorageSyncTarget');
+        }, 500);
+    });
+}
