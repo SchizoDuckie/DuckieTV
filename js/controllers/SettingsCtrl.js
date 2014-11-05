@@ -1,6 +1,7 @@
 angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.eventscheduler'])
 
 .controller('SyncCtrl', function($scope, StorageSyncService, $injector, TraktTV) {
+
     $scope.targets = StorageSyncService.targets;
 
 
@@ -62,6 +63,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 .controller('DisplayCtrl', function($scope, $rootScope, $filter, SettingsService) {
 
     $scope.activeLocale = SettingsService.get('application.locale');
+    $scope.bgopacity = SettingsService.get('background-rotator.opacity');
 
     /*
      * set up the language list used in settings/display template
@@ -119,134 +121,135 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     };
 
 })
-    .controller('TorrentCtrl', function($scope, $rootScope, SettingsService, MirrorResolver, EventSchedulerService) {
 
-        $scope.customtpbmirror = SettingsService.get('thepiratebay.mirror');
-        $scope.customkatmirror = SettingsService.get('kickasstorrents.mirror');
-        $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
-        $scope.searchquality = SettingsService.get('torrenting.searchquality');
-        $scope.bgopacity = SettingsService.get('background-rotator.opacity');
-        $scope.tpbmirrorStatus = [];
-        $scope.katmirrorStatus = [];
+.controller('SettingsTorrentCtrl', function($scope, $rootScope, SettingsService, MirrorResolver, EventSchedulerService) {
 
-        /**
-         * Inject an event to display mirror resolving progress.
-         */
-        $rootScope.$on('tpbmirrorresolver:status', function(evt, status) {
-            $scope.tpbmirrorStatus.unshift(status);
-        });
+    $scope.customtpbmirror = SettingsService.get('thepiratebay.mirror');
+    $scope.customkatmirror = SettingsService.get('kickasstorrents.mirror');
+    $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
+    $scope.searchquality = SettingsService.get('torrenting.searchquality');
+    $scope.tpbmirrorStatus = [];
+    $scope.katmirrorStatus = [];
 
-        /**
-         * Inject an event to display mirror resolving progress.
-         */
-        $rootScope.$on('katmirrorresolver:status', function(evt, status) {
-            $scope.katmirrorStatus.unshift(status);
-        });
-
-        /**
-         * Resolve a new random ThePirateBay mirror.
-         * Log progress while this is happening.
-         * Save the new mirror in the thepiratebay.mirror settings key
-         */
-        $scope.findRandomTPBMirror = function() {
-            MirrorResolver.findTPBMirror().then(function(result) {
-                $scope.customtpbmirror = result;
-                SettingsService.set('thepiratebay.mirror', $scope.customtpbmirror);
-                $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
-            }, function(err) {
-                console.debug("Could not find a working TPB mirror!", err);
-            });
-        };
-
-        /**
-         * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
-         */
-        $scope.validateCustomTPBMirror = function(mirror) {
-            $scope.mirrorStatus = [];
-            MirrorResolver.verifyTPBMirror(mirror).then(function(result) {
-                $scope.customtpbmirror = result;
-                SettingsService.set('thepiratebay.mirror', $scope.customtpbmirror);
-                $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
-            }, function(err) {
-                console.log("Could not validate custom mirror!", mirror);
-                //$scope.customMirror = '';
-            });
-        };
-
-        /**
-         * Resolve a new random KickassTorrents  mirror.
-         * Log progress while this is happening.
-         * Save the new mirror in the kickasstorrents.mirror settings key
-         */
-        $scope.findRandomKATMirror = function() {
-            MirrorResolver.findKATMirror().then(function(result) {
-                $scope.customkatmirror = result;
-                SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
-                $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
-            }, function(err) {
-                console.debug("Could not find a working KAT mirror!", err);
-            });
-        };
-
-        /**
-         * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
-         */
-        $scope.validateCustomKATMirror = function(mirror) {
-            $scope.mirrorStatus = [];
-            MirrorResolver.verifyKATMirror(mirror).then(function(result) {
-                $scope.customkatmirror = result;
-                SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
-                $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
-            }, function(err) {
-                console.log("Could not validate custom mirror!", mirror);
-                //$scope.customMirror = '';
-            });
-        };
-
-        /**
-         * Create the automated download service.
-         * This fires the episode:aired:check timer that the kicks it off in the background page
-         */
-        $scope.enableAutoDownload = function() {
-            SettingsService.set('torrenting.autodownload', true);
-            EventSchedulerService.createInterval(' ☠ Automated torrent download service', 120, 'episode:aired:check', {});
-        };
-
-        /**
-         * Remove the auto-download event
-         */
-        $scope.disableAutoDownload = function() {
-            SettingsService.set('torrenting.autodownload', false);
-            EventSchedulerService.clear(' ☠ Automated torrent download service');
-        };
-
-        /**
-         * Change the default torrent search provider
-         */
-        $scope.setSearchProvider = function(provider) {
-            $scope.searchprovider = provider;
-            SettingsService.set('torrenting.searchprovider', provider);
-        };
-
-        /**
-         * Changes the default torrent search quality (hdtv, 720p, etc)
-         */
-        $scope.setSearchQuality = function(quality) {
-            console.log("Setting searchquality: ", quality);
-            SettingsService.setSetting('torrenting.searchquality', quality);
-            $scope.searchquality = quality;
-        };
-
-    })
-    .controller('SettingsCtrl', function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, MirrorResolver, TraktTV, EventSchedulerService, $filter) {
-
-        $scope.log = [];
-        $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
-
-        $scope.activesettings = 'templates/settings/default.html';
-
-        $scope.tab = $routeParams.tab;
-        $scope.activeTab = 'templates/settings/' + $routeParams.tab + '.html';
-
-        $scope.favorites = FavoritesService.favorites;
+    /**
+     * Inject an event to display mirror resolving progress.
+     */
+    $rootScope.$on('tpbmirrorresolver:status', function(evt, status) {
+        $scope.tpbmirrorStatus.unshift(status);
     });
+
+    /**
+     * Inject an event to display mirror resolving progress.
+     */
+    $rootScope.$on('katmirrorresolver:status', function(evt, status) {
+        $scope.katmirrorStatus.unshift(status);
+    });
+
+    /**
+     * Resolve a new random ThePirateBay mirror.
+     * Log progress while this is happening.
+     * Save the new mirror in the thepiratebay.mirror settings key
+     */
+    $scope.findRandomTPBMirror = function() {
+        MirrorResolver.findTPBMirror().then(function(result) {
+            $scope.customtpbmirror = result;
+            SettingsService.set('thepiratebay.mirror', $scope.customtpbmirror);
+            $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
+        }, function(err) {
+            console.debug("Could not find a working TPB mirror!", err);
+        });
+    };
+
+    /**
+     * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
+     */
+    $scope.validateCustomTPBMirror = function(mirror) {
+        $scope.mirrorStatus = [];
+        MirrorResolver.verifyTPBMirror(mirror).then(function(result) {
+            $scope.customtpbmirror = result;
+            SettingsService.set('thepiratebay.mirror', $scope.customtpbmirror);
+            $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
+        }, function(err) {
+            console.log("Could not validate custom mirror!", mirror);
+            //$scope.customMirror = '';
+        });
+    };
+
+    /**
+     * Resolve a new random KickassTorrents  mirror.
+     * Log progress while this is happening.
+     * Save the new mirror in the kickasstorrents.mirror settings key
+     */
+    $scope.findRandomKATMirror = function() {
+        MirrorResolver.findKATMirror().then(function(result) {
+            $scope.customkatmirror = result;
+            SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
+            $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
+        }, function(err) {
+            console.debug("Could not find a working KAT mirror!", err);
+        });
+    };
+
+    /**
+     * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
+     */
+    $scope.validateCustomKATMirror = function(mirror) {
+        $scope.mirrorStatus = [];
+        MirrorResolver.verifyKATMirror(mirror).then(function(result) {
+            $scope.customkatmirror = result;
+            SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
+            $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
+        }, function(err) {
+            console.log("Could not validate custom mirror!", mirror);
+            //$scope.customMirror = '';
+        });
+    };
+
+    /**
+     * Create the automated download service.
+     * This fires the episode:aired:check timer that the kicks it off in the background page
+     */
+    $scope.enableAutoDownload = function() {
+        SettingsService.set('torrenting.autodownload', true);
+        EventSchedulerService.createInterval(' ☠ Automated torrent download service', 120, 'episode:aired:check', {});
+    };
+
+    /**
+     * Remove the auto-download event
+     */
+    $scope.disableAutoDownload = function() {
+        SettingsService.set('torrenting.autodownload', false);
+        EventSchedulerService.clear(' ☠ Automated torrent download service');
+    };
+
+    /**
+     * Change the default torrent search provider
+     */
+    $scope.setSearchProvider = function(provider) {
+        $scope.searchprovider = provider;
+        SettingsService.set('torrenting.searchprovider', provider);
+    };
+
+    /**
+     * Changes the default torrent search quality (hdtv, 720p, etc)
+     */
+    $scope.setSearchQuality = function(quality) {
+        console.log("Setting searchquality: ", quality);
+        SettingsService.set('torrenting.searchquality', quality);
+        $scope.searchquality = quality;
+    };
+
+})
+
+.controller('SettingsCtrl', function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, MirrorResolver, TraktTV, EventSchedulerService, $filter) {
+
+    $scope.log = [];
+    $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
+
+    $scope.activesettings = 'templates/settings/default.html';
+
+    $scope.tab = $routeParams.tab;
+    $scope.activeTab = 'templates/settings/' + $routeParams.tab + '.html';
+
+    $scope.favorites = FavoritesService.favorites;
+});
