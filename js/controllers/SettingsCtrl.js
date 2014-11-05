@@ -122,7 +122,9 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
 })
 
-.controller('SettingsTorrentCtrl', function($scope, $rootScope, SettingsService, MirrorResolver, EventSchedulerService) {
+.controller('SettingsTorrentCtrl', function($scope, $rootScope, SettingsService, MirrorResolver, TraktTV, EventSchedulerService) {
+    console.log("Init settingstorrentctrl!");
+    $scope.log = [];
 
     $scope.customtpbmirror = SettingsService.get('thepiratebay.mirror');
     $scope.customkatmirror = SettingsService.get('kickasstorrents.mirror');
@@ -226,6 +228,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      * Change the default torrent search provider
      */
     $scope.setSearchProvider = function(provider) {
+        console.log("Set search provider!", provider);
         $scope.searchprovider = provider;
         SettingsService.set('torrenting.searchprovider', provider);
     };
@@ -243,7 +246,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
 .controller('SettingsCtrl', function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, MirrorResolver, TraktTV, EventSchedulerService, $filter) {
 
-    $scope.log = [];
+
     $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
 
     $scope.activesettings = 'templates/settings/default.html';
