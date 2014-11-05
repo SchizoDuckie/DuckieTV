@@ -20,7 +20,8 @@ As of v0.81, DuckieTV is available as a standalone build (no Chrome or Opera req
 Get the latest release here:
 
 https://github.com/SchizoDuckie/DuckieTV/releases/
-(Note: The debug builds include the webkit inspector toolbar to be able to track down bugs)
+
+**Note: The debug builds include the webkit inspector toolbar to be able to track down bugs**
 
 
 Install DuckieTV For Chrome
