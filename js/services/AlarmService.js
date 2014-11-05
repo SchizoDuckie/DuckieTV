@@ -161,14 +161,15 @@ angular.module('DuckieTV.providers.alarms', [])
     var alarmProto = {
 
         attach: function() {
-            if (this.scheduledTime < new Date().getTime() && this.delayInMinutes) {
-                this.scheduledTime = new Date().getTime() + (this.delayInMinutes * 60 * 1000);
-            } else if (this.scheduledTime < new Date().getTime() && this.periodInMinutes) {
-                this.scheduledTime = new Date().getTime() + (this.periodInMinutes * 60 * 1000);
-            } else if (this.scheduledTime < new Date().getTime()) {
+            var now = new Date().getTime();
+            if (this.scheduledTime < now && this.delayInMinutes) {
+                this.scheduledTime = now + (this.delayInMinutes * 60 * 1000);
+            } else if (this.scheduledTime < now && this.periodInMinutes) {
+                this.scheduledTime = now + (this.periodInMinutes * 60 * 1000);
+            } else if (this.scheduledTime < now) {
                 return;
             }
-            this.timeout = setTimeout(this.fire.bind(this), this.scheduledTime - new Date().getTime());
+            this.timeout = setTimeout(this.fire.bind(this), this.scheduledTime - now);
         },
 
         fire: function() {
