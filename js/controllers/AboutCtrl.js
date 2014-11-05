@@ -1,6 +1,6 @@
 angular.module('DuckieTV.controllers.about', [])
 
-.controller('AboutCtrl', function($scope, $rootScope, $q, $http, $filter, EventSchedulerService, SettingsService, StorageSyncService) {
+.controller('AboutCtrl', function($scope, $rootScope, $q, $http, $filter, AlarmService, SettingsService, StorageSyncService) {
 
     $scope.statistics = [];
 
@@ -16,7 +16,7 @@ angular.module('DuckieTV.controllers.about', [])
 
         // Timers
         countTimers = function() {
-            EventSchedulerService.getAll().then(function(timers) {
+            AlarmService.getAll().then(function(timers) {
                 $scope.statistics.push({
                     name: 'Timers',
                     data: timers.length
