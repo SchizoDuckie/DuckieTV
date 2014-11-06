@@ -97,7 +97,7 @@ angular.module('DuckieTV.controllers.about', [])
             data: navigator.vendor
         }, {
             name: 'Determined Locale',
-            data: SettingsService.get('client.determinedlocale')
+            data: SettingsService.get('client.determinedlocale') || 'n/a'
         }, {
             name: 'Active Locale',
             data: SettingsService.get('application.locale')
