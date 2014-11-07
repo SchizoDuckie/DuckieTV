@@ -121,16 +121,16 @@ angular.module('DuckieTV.providers.alarms', [])
             console.info("DuckieTV alarm clear:", alarmName);
             if (alarmName in service.alarms) {
                 service.alarms[alarmName].cancel();
-                delete this.alarms[alarmName];
+                delete service.alarms[alarmName];
                 service.persist();
             }
         },
 
         clearAll: function() {
             console.info("DuckieTV alarm clear all!:");
-            Object.keys(this.alarms).map(function(alarmName) {
-                this.alarms[alarmName].cancel();
-                delete this.alarms[alarmName];
+            Object.keys(service.alarms).map(function(alarmName) {
+                service.alarms[alarmName].cancel();
+                delete service.alarms[alarmName];
             });
             service.persist();
         },
