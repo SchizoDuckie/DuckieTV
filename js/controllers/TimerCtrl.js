@@ -37,9 +37,8 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
     };
 
     $scope.clearAllTimers = function() {
-        AlarmService.clearAll(function() {
-            $scope.timers = [];
-        });
+        EventSchedulerService.clearAll();
+        $scope.timers = [];
     };
 
     refresh = function() {

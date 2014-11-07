@@ -38,7 +38,7 @@ angular.module('DuckieTV.providers.alarms', [])
 
         clearAll: function() {
             return ($q(function(resolve, reject) {
-                chrome.alarms.getAll(resolve);
+                chrome.alarms.clearAll(resolve);
             }));
         },
 
