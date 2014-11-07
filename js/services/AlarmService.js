@@ -81,8 +81,12 @@ angular.module('DuckieTV.providers.alarms', [])
         },
 
         getAll: function(cb) {
+            var alarmList = [];
             return $q(function(resolve, reject) {
-                resolve(service.alarms);
+                Object.keys(service.alarms).map(function(alarmName) {
+                    alarmList.push(service.alarms[alarmName]);
+                });
+                resolve(alarmList);
             });
         },
 
@@ -124,9 +128,9 @@ angular.module('DuckieTV.providers.alarms', [])
 
         clearAll: function() {
             console.info("DuckieTV alarm clear all!:");
-            Object.keys(this.alarms).map(function(alarmname) {
+            Object.keys(this.alarms).map(function(alarmName) {
                 this.alarms[alarmName].cancel();
-                delete this.alarms[alarmname];
+                delete this.alarms[alarmName];
             });
             service.persist();
         },
@@ -180,7 +184,7 @@ angular.module('DuckieTV.providers.alarms', [])
                 });
             }
             if (this.periodInMinutes) {
-                console.log("Periodicalarm! re-attach!");
+                console.log("Periodic alarm! re-attach!");
                 this.attach();
                 service.persist();
             } else {
