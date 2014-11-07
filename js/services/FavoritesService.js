@@ -5,7 +5,7 @@ angular.module('DuckieTV.providers.favorites', [])
  * Provides functionality to add and remove series and is the glue between Trakt.TV,
  * the EventScheduler Service and the GUI.
  */
-.factory('FavoritesService', function($rootScope, TraktTV, EventSchedulerService, $q) {
+.factory('FavoritesService', function($rootScope, AlarmService, TraktTV, EventSchedulerService, $q) {
 
     /**
      * Helper function to map properties from the input data on a serie from Trakt.TV into a Serie CRUD object.
@@ -323,7 +323,7 @@ angular.module('DuckieTV.providers.favorites', [])
                         timer.Delete();
                     }
                 });
-                chrome.alarms.clear(serie.name + ' update check');
+                AlarmService.clear(serie.name + ' update check');
             });
         },
         refresh: function() {
