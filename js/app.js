@@ -149,8 +149,8 @@ angular.module('DuckieTV', [
         'fr_FR': 'fr_fr',
         'it': 'it_it',
         'it_IT': 'it_it',
-        'ja': 'jp_jp',
-        'ja_JP': 'jp_jp',
+        'ja': 'ja_jp',
+        'ja_JP': 'ja_jp',
         'ko': 'ko_kr',
         'ko_KR': 'ko_kr',
         'nl': 'nl_nl',
@@ -245,8 +245,9 @@ angular.module('DuckieTV', [
     console.info('client determined locale', angular.lowercase($translate.proposedLanguage()));
     SettingsService.set('client.determinedlocale', angular.lowercase($translate.proposedLanguage()));
     var configuredLocale = SettingsService.get('application.locale') || angular.lowercase($translate.proposedLanguage);
-    SettingsService.changeLanguage('en_us'); // this is the fall-back language. any strings not loaded will be in en_us language.
-    SettingsService.changeLanguage(configuredLocale);
+    if (configuredLocale !== 'en_us') {
+        SettingsService.changeLanguage(configuredLocale);
+    };
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
     $rootScope.getSetting = function(key) {
@@ -288,7 +289,7 @@ angular.module('DuckieTV', [
 
 
     /** 
-     * Hide the favorites list when navigationg to a different in-page action.
+     * Hide the favorites list when navigating to a different in-page action.
      */
     $rootScope.$on('$locationChangeSuccess', function() {
         $rootScope.$broadcast('serieslist:hide');
@@ -329,5 +330,31 @@ angular.module('DuckieTV', [
             s.src = './js/vendor/cast_sender.js';
             document.body.appendChild(s);
         }, 5000);
-    }
+    };
+    
+    // system tray settings for Standalone
+    if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
+        // Load library
+        var gui = require('nw.gui');
+
+        // Reference to window and tray
+        var win = gui.Window.get();
+        var tray;
+
+        // Get the minimize event
+        win.on('minimize', function() {
+            // Hide window
+            this.hide();
+
+            // Show tray
+            tray = new gui.Tray({ icon: 'img/icon64.png' });
+
+            // Show window and remove tray when clicked
+            tray.on('click', function() {
+                win.show();
+                this.remove();
+                tray = null;
+            });
+        });
+    };
 });
