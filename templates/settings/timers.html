@@ -12,19 +12,21 @@
 </div>
 
 <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;'>
-  <tr>
-    <th>{{'TIMERS/timer-name/hdr'|translate}}</th>
-    <th>{{'TIMERS/timer-period/hdr'|translate}}</th>
-    <th>{{'TIMERS/timer-firingnext/hdr'|translate}}</th>
+  <tr style="font-family: 'bebasregular', helvetica, sans-serif; font-size:16px">
+    <th><strong><a href="" ng-click="orderPreference = 'name'">{{'TIMERS/timer-name/hdr'|translate}}</a></strong>
+      (<a href="" ng-click="orderPreference= '-name'">^</a>)</th>
+    <th><strong>{{'TIMERS/timer-period/hdr'|translate}}</strong></th>
+    <th><strong><a href="" ng-click="orderPreference = 'scheduledTime'">{{'TIMERS/timer-firingnext/hdr'|translate}}</a></strong>
+      (<a href="" ng-click="orderPreference= '-scheduledTime'">^</a>)</th>
     <th></th>
   </tr>
-  <tr ng-repeat="timer in timers | orderBy : 'name'">
+  <tr ng-repeat="timer in timers | orderBy : orderPreference">
     <td>
       <strong>{{timer.name}}</strong>
     </td>
     <td width="200px">{{timer.periodInMinutes}}</td>
     <td width="200px">{{timer.scheduledTime | date:'medium'}}</td>
-    <td width="450px" align="center">
+    <td width="475px" align="center">
       <button class="btn-info" ng-click="fire(timer)">{{'TIMERS/fire-now/btn'|translate}}</button>
       <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 1)">{{'TIMERS/debug-fire-every-minute/btn'|translate}}</button>
       <button ng-show="debug"  class="btn-warning" ng-click="reschedule(timer, 60*48)">{{'TIMERS/debug-fire-every-2-days/btn'|translate}}</button>
