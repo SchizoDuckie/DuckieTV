@@ -17,7 +17,7 @@ angular.module('DuckieTV.providers.settings', [])
             'calendar.show-specials': true,
             'calendar.startSunday': true,
             'client.determinedlocale': null,
-            'kickasstorrents.mirror': 'https://kickass.to',
+            'kickasstorrents.mirror': 'https://kickass.so',
             'lastSync': -1,
             'series.displaymode': 'poster',
             'storage.sync': false,
