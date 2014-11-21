@@ -22,13 +22,13 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
         function fetchEpisodes(season) {
             if (!season) return;
-            $scope.season = season.asObject();
+            $scope.season = season;
 
             var episodes = season.getEpisodes().then(function(data) {
                 $scope.episodes = data.map(function(el) {
                     $scope.episodeEntities[el.getID()] = el;
-                    $scope.$on('magnet:select:' + el.get('TVDB_ID'), function(evt, magnet) {
-                        this.set('magnetHash', magnet);
+                    $scope.$on('magnet:select:' + el.TVDB_ID, function(evt, magnet) {
+                        this.magnetHash = magnet;
                         this.Persist();
                     }.bind(el));
                     return el.asObject();
@@ -54,17 +54,14 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
         };
 
         FavoritesService.getById($routeParams.id).then(function(serie) {
-            $scope.serie = serie.asObject();
+            $scope.serie = serie;
             $rootScope.$broadcast('serie:load', $scope.serie);
 
-            if (serie.get('fanart') != '') {
-                $rootScope.$broadcast('background:load', serie.get('fanart'));
+            if (serie.fanart != '') {
+                $rootScope.$broadcast('background:load', serie.fanart);
             };
             serie.getSeasons().then(function(result) {
-                allSeasons = result;
-                $scope.seasons = result.map(function(el) {
-                    return el.asObject()
-                });
+                $scope.seasons = result;
             });
             serie.getLatestSeason().then(function(result) {
                 $scope.activeSeason = result;
@@ -96,7 +93,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
                         ID: episode.ID_Episode
                     }).then(function(epi) {
                         epi.markWatched($rootScope).then(function(result) {
-                            $scope.episodeEntities[result.get('ID_Episode')] = result;
+                            $scope.episodeEntities[result.ID_Episode] = result;
                             $scope.episodes[index] = result.asObject();
                         });
                     }));

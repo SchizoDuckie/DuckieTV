@@ -19,7 +19,7 @@ angular.module('DuckieTV.providers.syncmanager', [])
 
         var resolve = function(btn) {
             delete activeDialogs[activeDialogs.indexOf([dlg, resolve, reject])];
-            FavoritesService.remove(serie.asObject());
+            FavoritesService.remove(serie);
 
             if (btn == 'yes-all') {
                 activeDialogs.map(function(dialog) {
@@ -35,7 +35,7 @@ angular.module('DuckieTV.providers.syncmanager', [])
             // returns only if the yes-all / no-all have been called.
             if (!activeDialogs) return; // the dialogs interface sucks. Dismissing them manually causes a reject. (can't pass params).
             delete activeDialogs[activeDialogs.indexOf([dlg, resolve, reject])];
-            console.log("Don't delete!", serie.asObject());
+            console.log("Don't delete!", serie);
             if (btn == 'no-all') {
                 activeDialogs.map(function(dialog) {
                     try {

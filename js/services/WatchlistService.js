@@ -18,7 +18,7 @@ angular.module('DuckieTV.providers.watchlist', [])
                 var obj = new WatchListObject();
                 obj.set('property', 'imdb');
                 obj.set('json', angular.toJson(data, true));
-                obj.set('ID_WatchListItem', watchlistitem.get('ID_WatchListItem'));
+                obj.set('ID_WatchListItem', watchlistitem.ID_WatchListItem);
                 obj.Persist().then(function(obj) {
                     service.restore();
                 }, function(err) {
@@ -56,7 +56,7 @@ angular.module('DuckieTV.providers.watchlist', [])
                 var watchlist = [];
                 results.map(function(result) {
                     CRUD.Find('WatchListObject', {
-                        'ID_WatchListItem': result.get('ID_WatchListItem')
+                        'ID_WatchListItem': result.ID_WatchListItem
                     }).then(function(props) {
 
                         var item = result.asObject();

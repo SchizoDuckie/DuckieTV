@@ -45,7 +45,7 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
              */
             getAll: function() {
                 return AlarmService.getAll().then(function(alarms) {
-                    return alarms
+                    return alarms;
                 });
             },
 

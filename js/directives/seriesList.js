@@ -15,7 +15,9 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             $scope.search = {
                 query: undefined,
                 results: null
-            }
+            };
+
+            $scope.hideEnded = false;
 
             $scope.activated = false; // toggles when the favorites panel activated
             $scope.searchingForSerie = false; // toggles when 'add a show' is clicked
@@ -41,8 +43,12 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 window.location.href = '#/serie/' + serieID + '/episode/' + episode.getID();
             }
 
+            /**
+             * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
+             * by the seriedetails directive
+             * @param {[type]} serie [description]
+             */
             $rootScope.setHoverSerie = function(serie) {
-                console.log("Set hover serie to ", serie);
                 $scope.serie = serie;
             }
 
