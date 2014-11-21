@@ -4,6 +4,7 @@
 angular.module('DuckieTV', [
     'ngRoute',
     'ngLocale',
+    'ngAnimate',
     'tmh.dynamicLocale',
     'datePicker',
     'ui.bootstrap',
@@ -331,7 +332,7 @@ angular.module('DuckieTV', [
             document.body.appendChild(s);
         }, 5000);
     };
-    
+
     // system tray settings for Standalone
     if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
         // Load library
@@ -347,7 +348,9 @@ angular.module('DuckieTV', [
             this.hide();
 
             // Show tray
-            tray = new gui.Tray({ icon: 'img/icon64.png' });
+            tray = new gui.Tray({
+                icon: 'img/icon64.png'
+            });
 
             // Show window and remove tray when clicked
             tray.on('click', function() {
