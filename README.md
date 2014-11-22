@@ -69,6 +69,7 @@ Screenshots:
 
 Changelog: 
 ==========
+* v0.82 : Fixed chrome v39 compatibility, sync engine still a work in progress.
 * v0.81 : Some changes to the add to favorites screen, now showing detailed show information on hover. Also, some changes to make DuckieTV work in standalone mode, no chrome required! Get it at https://github.com/SchizoDuckie/DuckieTV/releases/
 * v0.80 : A minor update with big impact: Daylight Savings Time fix by /u/garfield69
 * v0.79 : Fixed infinite digest in calendar preventing usage on huge databases. Updated torrent autoDownloader to handle the same logic as the torrentDialog
