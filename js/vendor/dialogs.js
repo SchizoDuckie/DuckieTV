@@ -258,4 +258,4 @@ angular.module('dialogs', ['dialogs.services', 'ngSanitize']) // requires angula
         $templateCache.put('/dialogs/confirmall.html', '<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="no()">&times;</button><h4 class="modal-title"><span class="glyphicon glyphicon-check"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="yes()"><translate>DIALOGSjs/yes/btn</translate></button><button type="button" class="btn btn-default" ng-click="yesAll()"><translate>DIALOGSjs/yes-all/btn</translate></button><button type="button" class="btn btn-primary" ng-click="no()"><translate>DIALOGSjs/no/btn</translate></button><button type="button" class="btn btn-primary" ng-click="noAll()"><translate>DIALOGSjs/no-all/btn</translate></button></div>');
 
     }
-]); // end run / dialogs
+]);
