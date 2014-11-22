@@ -204,17 +204,17 @@
   </tr>
     <tr ng-show="getSetting('torrenting.enabled')">
     <th width="150px">
-      <strong style='white-space:nowrap'>Allow unsafe proxies</strong>
-      <p class="label label-success" ng-show="getSetting('proxy.allowUnsafe')">enabled</p>
-      <p class="label label-danger" ng-show="!getSetting('proxy.allowUnsafe')">disabled</p>
+      <strong style='white-space:nowrap'>{{'TORRENT/unsafe-proxies/hdr'|translate}}</strong>
+      <p class="label label-success" ng-show="getSetting('proxy.allowUnsafe')">{{'TORRENT/enabled/lbl'|translate}}</p>
+      <p class="label label-danger" ng-show="!getSetting('proxy.allowUnsafe')">{{'TORRENT/disabled/lbl'|translate}}</p>
     </th>
     <td>
       <ul class="list-unstyled">
         <li>
-          <p ng-show="!getSetting('proxy.allowUnsafe')" class="alert alert-info">Enabling this setting will allow you to use Torrent Proxies that proxy your magnet links (Which DuckieTV prevents by default to protect your privacy)</p>
-          <p ng-show="getSetting('proxy.allowUnsafe')" class="alert alert-warning">Unsafe torrent proxies are enabled.</p>
-          <button ng-show="!getSetting('proxy.allowUnsafe')" ng-click="enableSetting('proxy.allowUnsafe')" class="btn btn-success">Enable</button>
-          <button ng-show="getSetting('proxy.allowUnsafe')" ng-click="disableSetting('proxy.allowUnsafe')" class="btn btn-danger">Disable</button>
+          <p ng-show="!getSetting('proxy.allowUnsafe')" class="alert alert-info">{{'TORRENT/unsafe-proxies-disabled/alert'|translate}}</p>
+          <p ng-show="getSetting('proxy.allowUnsafe')" class="alert alert-warning">{{'TORRENT/unsafe-proxies-enabled/alert'|translate}}</p>
+          <button ng-show="!getSetting('proxy.allowUnsafe')" ng-click="enableSetting('proxy.allowUnsafe')" class="btn btn-success">{{'TORRENT/unsafe-proxies-enable/btn'|translate}}</button>
+          <button ng-show="getSetting('proxy.allowUnsafe')" ng-click="disableSetting('proxy.allowUnsafe')" class="btn btn-danger">{{'TORRENT/unsafe-proxies-disable/btn'|translate}}</button>
         </li>
       </ul>
     </td>

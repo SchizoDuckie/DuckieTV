@@ -1,7 +1,7 @@
-DuckieTV for Chrome, Opera and Online
-=====================================
+DuckieTV Binary, for Chrome, Opera  and Online
+==============================================
 
-DuckieTV is a Google Chrome / Opera extension that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
+DuckieTV is a Google Chrome / Opera extension (Now also available as standalone builds for Windows/Mac/Linux!) that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
 
 
 With the integrated DuckieTorrent client you can connect DuckieTV to your local &micro;Torrent/BitTorrent client and be updated on the download progress without switching applications. Experimental ChromeCast integration even provides the possibility to stream videos to your TV while still downloading.
@@ -12,7 +12,17 @@ As of v0.60 DuckieTV also is also finally becoming a worthy SickBeard competitor
 How can I get it?
 =================
 
-DuckieTV can be installed as either a Chrome Extension or an Opera Extension, and you can try the basic features in the online version. 
+DuckieTV can be installed as either a standalone application, a Chrome Extension or an Opera Extension, and you can try the basic features in the online version. 
+
+Install DuckieTV Standalone (Experimental!)
+-------------------------------------------
+As of v0.81, DuckieTV is available as a standalone build (no Chrome or Opera required)
+Get the latest release here:
+
+https://github.com/SchizoDuckie/DuckieTV/releases/
+
+**Note: The debug builds include the webkit inspector toolbar to be able to track down bugs**
+
 
 Install DuckieTV For Chrome
 ---------------------------
@@ -59,6 +69,7 @@ Screenshots:
 
 Changelog: 
 ==========
+* v0.81 : Some changes to the add to favorites screen, now showing detailed show information on hover. Also, some changes to make DuckieTV work in standalone mode, no chrome required! Get it at https://github.com/SchizoDuckie/DuckieTV/releases/
 * v0.80 : A minor update with big impact: Daylight Savings Time fix by /u/garfield69
 * v0.79 : Fixed infinite digest in calendar preventing usage on huge databases. Updated torrent autoDownloader to handle the same logic as the torrentDialog
 * v0.78 : Fixed 'yes-all' and 'no-all' dialogs..
