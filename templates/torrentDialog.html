@@ -45,11 +45,11 @@
       </th>
     </tr>
     <tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items | limitTo: 20">
-      <td style='width:50px; padding:5px; vertical-align: middle;' class='dropdown'>
+      <td style='width:50px; padding:5px; vertical-align: middle;' class='dropdown' dropdown>
         <a ng-click="magnetSelect(seed.magneturl)">
           <i class="glyphicon glyphicon-magnet" tooltip="{{'TORRENTDIALOG/download-magnet/tooltip'|translate}}"></i>
         </a>
-        <a class="dropdown-toggle">
+        <a class="dropdown-toggle" dropdown-toggle>
           <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/options/tooltip'|translate}}"></i>
         </a>
         <ul class="dropdown-menu">
