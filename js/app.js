@@ -4,11 +4,14 @@
 angular.module('DuckieTV', [
     'ngRoute',
     'ngLocale',
+    'ngAnimate',
     'tmh.dynamicLocale',
     'datePicker',
     'ui.bootstrap',
     'dialogs.services',
     'pascalprecht.translate',
+
+    'DuckieTV.providers.alarms',
     'DuckieTV.providers.chromecast',
     'DuckieTV.providers.episodeaired',
     'DuckieTV.providers.eventwatcher',
@@ -31,6 +34,8 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.upgradenotification',
     'DuckieTV.providers.watchlistchecker',
     'DuckieTV.providers.watchlist',
+    'DuckieTV.providers.trakttvstoragesync',
+    'DuckieTV.providers.chromestoragesync',
     'DuckieTV.controllers.about',
     'DuckieTV.controllers.main',
     'DuckieTV.controllers.chromecast',
@@ -83,6 +88,9 @@ angular.module('DuckieTV', [
             controller: 'EpisodeCtrl'
         })
         .when('/settings', {
+            redirectTo: '/settings/default'
+        })
+        .when('/settings/:tab', {
             templateUrl: 'templates/settings.html',
             controller: 'SettingsCtrl'
         })
@@ -200,10 +208,10 @@ angular.module('DuckieTV', [
     function($q, $injector) {
         return {
             request: function(config) {
-                if(config.url.indexOf('http') == 0 && config.url.indexOf('localhost') === -1) {
+                if (config.url.indexOf('http') == 0 && config.url.indexOf('localhost') === -1) {
                     if (config.url.indexOf('www.corsproxy.com') == -1) config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
                 }
-                
+
                 return config;
             },
             'responseError': function(rejection) {
@@ -218,96 +226,24 @@ angular.module('DuckieTV', [
         }
     }
 ])
-.factory('HttpErrorInterceptor', function ($q, $rootScope) {
-    var $netStats = {
-        outstanding: 0,
-        error: 0
-    };
-    return  {
-        request: function(config) {
-            if(config.url.indexOf('http') > -1) {
-                $netStats.outstanding++;
-                $rootScope.$broadcast('http:stats', ['request', $netStats]);
-            }
-            return config;
-        },
-        response: function(response) {
-            if(response.config.url.indexOf('http') > -1) {
-                $netStats.outstanding--;
-                $rootScope.$broadcast('http:stats', ['response', $netStats]);
-            }
-            return response;
-        },
-        requestError: function (request) {
-          $netStats.error++;
-          $netStats.outstanding--;
-          $rootScope.$broadcast('http:stats', ['requestError', request, $netStats]);
-          return request;
-        },
-        responseError: function (response) {
-          $netStats.error++;
-          $netStats.outstanding--;
-          $rootScope.$broadcast('http:stats', ['responseError', response, $netStats]);
-          return response;
-        }
-      };
-})
-/*
-  .config(function($provide) {
-    var count = window.promiseStats = {
-        open: 0,
-        done: 0,
-        promises: {}
-    };
-    $provide.decorator('$q', function($delegate) {
-        var defer = $delegate.defer;
-        $delegate.defer = function() {
 
-            count.open++;
-            var traceId = count.open;
-            if(traceId == 61) { 
-                debugger;
-            }
-            var deferred = count.promises[traceId] = defer();
-            console.timeline('promise ' +traceId);
-            console.profile('promise '+traceId);
-            
-            deferred.promise.finally(function() {
-                count.done++;
-                console.timelineEnd('promise ' +traceId);
-                console.profileEnd('promise '+traceId);
-                delete count.promises[traceId];    
-            });
-            deferred.promise.catch(function() {
-                count.done++;
-                                console.timelineEnd('promise ' +traceId);
-                console.profileEnd('promise '+traceId);
-                delete count.promises[traceId];    
-
-            })
-            return deferred;
-        };
-        return $delegate;
-    });
-}) */
 /**
  * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
  */
 .config(function($httpProvider, $compileProvider) {
 
-    if (window.location.href.indexOf('chrome-extension') === -1) {
+    if (window.location.href.indexOf('chrome-extension') === -1 && navigator.userAgent.indexOf('DuckieTV') == -1) {
         $httpProvider.interceptors.push('CORSInterceptor');
     }
-    //$httpProvider.interceptors.push('HttpErrorInterceptor');
-    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data):/);
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data|file):/);
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
 })
 
-.run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
+.run(function($rootScope, SettingsService, StorageSyncService, EventWatcherService, FavoritesService, MigrationService, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
     // translate the application based on preference or proposed locale
-    
+
     FavoritesService.loadRandomBackground();
-               
+
     console.info('client determined locale', angular.lowercase($translate.proposedLanguage()));
     SettingsService.set('client.determinedlocale', angular.lowercase($translate.proposedLanguage()));
     var configuredLocale = SettingsService.get('application.locale') || angular.lowercase($translate.proposedLanguage);
@@ -332,49 +268,30 @@ angular.module('DuckieTV', [
         SettingsService.set(key, false);
     };
 
-    $rootScope.$on('sync:processremoteupdate', function(event, progress) {
-        console.log("Process storagesync remote updates!", progress);
-        FavoritesService.restore(); // message the favoritesservice something has changed and it needs to refresh.
-        StorageSyncService.checkSyncProgress(progress);
-    });
+    StorageSyncService.initialize();
 
-    /** 
-     * Forward an event to the storagesync service when it's not already syncing.
-     * This make sure that local additions / deletions get stored in the cloud.
-     */ 
-     if(SettingsService.get('storage.sync') == true) {
-         $rootScope.$on('storage:update', function() {
-             console.log("Received storage:update!");
-             if (SettingsService.get('storage.sync') && SettingsService.get('sync.progress') == null) {
-                console.log("Storage sync can run!");
-                SettingsService.set('lastSync', new Date().getTime());
-                StorageSyncService.synchronize();
-            }
-        });
-        if (SettingsService.get('sync.progress') !== null) {
-             $rootScope.$broadcast('sync:processremoteupdate', SettingsService.get('sync.progress'));
-        }   
+    /**
+     * If we're not a chrome extension, Attach the event watcher that runs the timers
+     */
+    if (!('chrome' in window) || (chrome in window && !('alarms' in window.chrome))) {
+        EventWatcherService.initialize();
     }
-
 
     /** 
      * Handle background page message passing and broadcast it as an event.
      * Used to start the remote deletions processing
-     */ 
-    if('chrome' in window && 'runtime' in chrome && 'onMessage' in chrome.runtime) {
+     */
+    if ('chrome' in window && 'runtime' in chrome && 'onMessage' in chrome.runtime) {
         chrome.runtime.onMessage.addListener(function(event, sender, sendResponse) {
             if (event.channel) {
-                    $rootScope.$broadcast(event.channel, event.eventData);    
+                $rootScope.$broadcast(event.channel, event.eventData);
             }
         });
     }
 
-    $rootScope.$on('http:stats', function(error, stats) {
-        console.error(" HTTP request! " , stats[0], stats[1]);
-    });
 
     /** 
-     * Hide the favorites list when navigationg to a different in-page action.
+     * Hide the favorites list when navigating to a different in-page action.
      */
     $rootScope.$on('$locationChangeSuccess', function() {
         $rootScope.$broadcast('serieslist:hide');
@@ -415,5 +332,33 @@ angular.module('DuckieTV', [
             s.src = './js/vendor/cast_sender.js';
             document.body.appendChild(s);
         }, 5000);
-    }
-})
+    };
+
+    // system tray settings for Standalone
+    if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
+        // Load library
+        var gui = require('nw.gui');
+
+        // Reference to window and tray
+        var win = gui.Window.get();
+        var tray;
+
+        // Get the minimize event
+        win.on('minimize', function() {
+            // Hide window
+            this.hide();
+
+            // Show tray
+            tray = new gui.Tray({
+                icon: 'img/icon64.png'
+            });
+
+            // Show window and remove tray when clicked
+            tray.on('click', function() {
+                win.show();
+                this.remove();
+                tray = null;
+            });
+        });
+    };
+});

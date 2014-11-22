@@ -63,21 +63,21 @@ CRUD.EntityManager = (new function() {
         return this.constructors[className] = function(ID) {
             return ID ? new CRUD.Entity(className, methods).primaryKeyInit(ID) : new CRUD.Entity(className, methods);
         };
-    }
+    };
 
     this.getPrimary = function(className) {
         if (!className || !this.entities[className]) {
             throw "Invalid className passed to CRUD.EntityManager.getPrimary : " + className;
         }
         return this.entities[className].primary;
-    }
+    };
 
     this.getDefaultValues = function(className) {
         if (!className || !this.entities[className]) {
             throw "Invalid className passed to CRUD.EntityManager.getDefaultValues : " + className;
         }
         return this.entities[className].defaultValues
-    }
+    };
 
     /** 
      * Set and initialize the connection adapter.
@@ -85,22 +85,22 @@ CRUD.EntityManager = (new function() {
     this.setAdapter = function(adapter) {
         this.connectionAdapter = adapter;
         return this.connectionAdapter.Init();
-    }
+    };
 
     this.getAdapter = function() {
         return this.connectionAdapter;
-    }
+    };
 
     this.hasField = function(className, property) {
         return (this.entities[className] && this.entities[className].fields.indexOf(property) > -1)
-    }
+    };
 
     this.getFields = function(className) {
         return this.entities[className].fields;
-    }
+    };
     this.hasRelation = function(className, related) {
         return ((related in this.entities[className].relations));
-    }
+    };
 
     return this;
 
@@ -113,7 +113,7 @@ CRUD.define = function(properties, methods) {
 
 CRUD.setAdapter = function(adapter) {
     return CRUD.EntityManager.setAdapter(adapter);
-}
+};
 
 
 /**
@@ -162,11 +162,11 @@ CRUD.Find = function(obj, filters, options) {
     if (options && options.order) {
         extras.order = options.order;
         delete options.order;
-    }    
+    }
     if (options && options.group) {
         extras.group = options.group;
         delete options.group;
-    }    
+    }
     var justthese = options.justthese || [];
     return CRUD.EntityManager.getAdapter().Find(type, filters, extras, justthese, options, filters);
 };
@@ -193,7 +193,7 @@ CRUD.fromCache = function(obj, values) {
         CRUD.log("CRUD.fromCache cannot create for non-CRUD objects like " + obj + "! \n" + E);
         return false;
     }
-    obj.importValues(values, true)
+    obj.importValues(values, true);
     return obj;
 };
 
@@ -235,12 +235,20 @@ CRUD.Entity = function(className, methods) {
     for (var j in methods) {
         this[j] = methods[j];
     }
-
-    this.asObject = function() {
-        return this.values;
-    }
+    CRUD.EntityManager.getFields(className).map(function(field) {
+        Object.defineProperty(this, field, {
+            get: function() {
+                return this.get(field);
+            },
+            set: function(newValue) {
+                this.set(field, newValue);
+            },
+            enumerable: true,
+            configurable: false
+        });
+    }.bind(this));
     return this;
-}
+};
 
 
 CRUD.Entity.prototype = {
@@ -249,6 +257,9 @@ CRUD.Entity.prototype = {
         return this.get(CRUD.EntityManager.getPrimary(this.getType()));
     },
 
+    asObject: function() {
+        return this.values;
+    },
     /** 
      * Proxy find function, that can be run on the entity instance itself.
      * Makes sure you can create object A, and find just relations connected to it.
@@ -403,6 +414,7 @@ CRUD.Entity.prototype = {
     toString: function() {
         return 'CRUD';
     },
+
 
     /** 
      * Returns the actual className. Should be provided in the entity object.

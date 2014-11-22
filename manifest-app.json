@@ -10,9 +10,11 @@
         "https://*/*",
         "tabs",
         "notifications",
-        "storage",
         "alarms",
         "unlimitedStorage"
+    ],
+    "optional_permissions": [
+        "storage"
     ],
     "background": {
         "scripts": [

@@ -1,4 +1,4 @@
-<table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;'>
+<table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;' ng-controller="DefaultCtrl">
   <tr>
     <td colspan="2" style="border:0">
       <p class="alert alert-info"><strong>{{'DEFAULT/manual/hdr'|translate}}</strong>{{'DEFAULT/manual/desc'|translate}}</p>
@@ -39,13 +39,12 @@
       <ul class="list-unstyled">
         <li>
           <p class="alert alert-info"><strong>{{'DEFAULT/sync-push/hdr'|translate}}</strong> {{'DEFAULT/sync-push/desc'|translate}}</p>
-          <button ng-click="sync()" class="btn btn-success">{{'DEFAULT/sync-push/btn'|translate}}</button>
         </li><br>
         <li style="padding-top:4px">
           <p ng-show="!getSetting('storage.sync')" class="alert alert-info">{{'DEFAULT/sync-doit/alert'|translate}}</p>
           <p ng-show="getSetting('storage.sync')" class="alert alert-warning">{{'DEFAULT/sync-dont/alert'|translate}}</p>
-          <button ng-show="!getSetting('storage.sync')" ng-click="enableSetting('storage.sync')" class="btn btn-success">{{'DEFAULT/sync-doit/btn'|translate}}</button>
-          <button ng-show="getSetting('storage.sync')" ng-click="disableSetting('storage.sync')" class="btn btn-danger">{{'DEFAULT/sync-dont/btn'|translate}}</button>
+          <button ng-show="!getSetting('storage.sync')" ng-click="enableSync()" class="btn btn-success">{{'DEFAULT/sync-doit/btn'|translate}}</button>
+          <button ng-show="getSetting('storage.sync')" ng-click="disableSync()" class="btn btn-danger">{{'DEFAULT/sync-dont/btn'|translate}}</button>
         </li>
       </ul>
     </td>

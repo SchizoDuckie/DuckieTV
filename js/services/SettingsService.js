@@ -1,12 +1,87 @@
 angular.module('DuckieTV.providers.settings', [])
 
 /**
+ * Wrapper from accessing and requesting chrome permissions
+ */
+.factory('ChromePermissions', function($q) {
+    var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1,
+        isExtension = (('chrome' in window) && ('permissions' in chrome)),
+        isOpera = navigator.vendor.toLowerCase().indexOf('opera');
+
+    var service = {
+        /**
+         * Storage sync only supported in chrome extensions
+         */
+        isSupported: function() {
+            return isChrome && isExtension;
+        },
+        /**
+         * Verify that a permission is available in chrome
+         */
+        checkGranted: function(permission) {
+            return $q(function(resolve, reject) {
+                console.info('Verify if permission is granted', permission);
+
+                if (!service.isSupported()) {
+                    console.info('Nope, not chrome or an extension');
+                    reject();
+                }
+                chrome.permissions.contains({
+                    permissions: [permission]
+                }, function(supported) {
+                    console.info(supported ? 'Permission ' + permission + ' granted.' : 'Permission ' + permission + ' denied.');
+                    (supported && 'sync' in chrome.storage) ? resolve() : reject();
+                });
+            });
+        },
+        requestPermission: function(permission) {
+            return $q(function(resolve, reject) {
+                console.info('Request permission', permission);
+
+                if (!service.isSupported()) {
+                    console.info('Nope, not chrome or an extension');
+                    reject();
+                }
+                chrome.permissions.request({
+                    permissions: [permission]
+                }, function(granted) {
+                    console.info(granted ? 'Permission ' + permission + ' granted.' : 'Permission ' + permission + ' denied.');
+                    (granted) ? resolve() : reject();
+                });
+            });
+
+        },
+        revokePermission: function(permission) {
+            return $q(function(resolve, reject) {
+                console.info('Revoke permission', permission);
+
+                if (!service.isSupported()) {
+                    console.info('Nope, not chrome or an extension');
+                    reject();
+                }
+                chrome.permissions.request({
+                    permissions: [permission]
+                }, function(result) {
+                    console.info(result ? 'Permission ' + permission + ' revoked.' : 'Permission ' + permission + ' not revoked.');
+                    (result) ? resolve() : reject();
+                });
+            });
+
+        }
+    };
+
+    return service;
+
+
+
+})
+/**
  * The Settings Service stores user preferences and provides defaults.
  * Storage is in localStorage. values get serialized on save and deserialized on initialization.
  *
  * Shorthands to the get and set functions are provided in $rootScope by the getSetting and setSetting functions
  */
-.factory('SettingsService', function($injector, $rootScope) {
+.factory('SettingsService', function($injector, $rootScope, ChromePermissions) {
     var service = {
         settings: {},
         defaults: {
@@ -20,10 +95,9 @@ angular.module('DuckieTV.providers.settings', [])
             'kickasstorrents.mirror': 'https://kickass.to',
             'lastSync': -1,
             'series.displaymode': 'poster',
-            'storage.sync': false,
+            'storage.sync': false, // off by default so that permissions must be requested
             'sync.progress': true,
             'thepiratebay.mirror': 'https://thepiratebay.se',
-            'proxy.allowUnsafe': false,
             'topSites.enabled': true,
             'topSites.mode': 'onhover',
             'torrenting.autodownload': false,
@@ -46,7 +120,7 @@ angular.module('DuckieTV.providers.settings', [])
          */
         get: function(key) {
             if (key == 'cast.supported') {
-                return ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability)
+                return ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability);
             }
             return ((key in service.settings) ? service.settings[key] : (key in service.defaults) ? service.defaults[key] : false);
         },
@@ -105,7 +179,6 @@ angular.module('DuckieTV.providers.settings', [])
                     langKey = 'en_us';
                     break;
                 case 'es':
-                case 'es_419':
                     langKey = 'es_es';
                     break;
                 case 'fr':
@@ -126,6 +199,9 @@ angular.module('DuckieTV.providers.settings', [])
                 case 'pt':
                 case 'pt_br':
                     langKey = 'pt_pt';
+                    break;
+                case 'es_419':
+                    langKey = 'es_es';
                     break;
                 case 'ru':
                     langKey = 'ru_ru';

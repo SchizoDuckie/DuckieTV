@@ -1,4 +1,4 @@
-<table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;'>
+<table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;' ng-controller="DisplayCtrl">
   <tr>
     <th width="150px" style="border:0">
       <strong style='white-space:nowrap; display:block;'>{{'DISPLAY/locale/hdr'|translate}}</strong>
@@ -7,11 +7,11 @@
     <td>
       <p class="alert alert-info">{{'DISPLAY/locale/alert'|translate}}</p>
       <ul class="list-unstyled">
-        <li ng-repeat="language in languageList" ng-click="setLocale(language.locale)" class="list-unstyled" style="cursor:pointer">
-
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': displayLocale != language.locale, 'glyphicon-record': displayLocale == language.locale}"></i>
-          <i class="flag flag-{{language.locale }}" alt="Czech Republic"></i> 
-          {{language.name}}
+        
+        <li ng-repeat="(locale, name) in languageList" ng-click="setLocale(locale)" class="list-unstyled" style="cursor:pointer">
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != locale, 'glyphicon-record': activeLocale == locale}"></i>
+          <i class="flag flag-{{ locale }}"></i> 
+          {{ 'DISPLAY/locale/'+name | translate }}
         </li>
       </ul>
     </td>

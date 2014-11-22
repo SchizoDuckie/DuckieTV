@@ -9,7 +9,6 @@
         "http://*/*",
         "https://*/*",
         "tabs",
-        "storage",
         "alarms",
         "unlimitedStorage"
     ],

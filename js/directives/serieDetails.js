@@ -4,13 +4,90 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
  * The serie-details directive is what handles the overview for a tv-show.
  * It shows show details, actors, if it's still airing, the individual seasons and the delete show button.
  */
-.directive('serieDetails', function(FavoritesService, $location, $dialogs, $filter, $rootScope) {
+.directive('serieDetails', function(FavoritesService, $location, $dialogs, $filter, $locale, $rootScope) {
     return {
         restrict: 'E',
         transclude: true,
         replace: true,
-        templateUrl: "templates/serieDetails.html",
+        templateUrl: function(elem, attr) {
+            return attr.templateUrl || "templates/serieDetails.html";
+        },
         link: function($scope) {
+
+            var daysOfWeekList = [
+                'Sunday',
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday'
+            ]; // used by translateDayOfWeek()
+
+
+            var genreList = [
+                'Action',
+                'Adventure',
+                'Animation',
+                'Children',
+                'Comedy',
+                'Crime',
+                'Documentary',
+                'Drama',
+                'Family',
+                'Fantasy',
+                'Food',
+                'Game Show',
+                'Home and Garden',
+                'Horror',
+                'Mini Series',
+                'Mystery',
+                'News',
+                'No Genre',
+                'Reality',
+                'Romance',
+                'Science Fiction',
+                'Soap',
+                'Special Interest',
+                'Sport',
+                'Suspense',
+                'Talk Show',
+                'Thriller',
+                'Travel',
+                'Western'
+            ]; // used by translateGenre()
+            var rawTranslatedGenreList = $filter('translate')('SERIECTRLjs/genre/list');
+            var translatedGenreList = rawTranslatedGenreList.split(',');
+            var statusList = [
+                'Continuing',
+                'Ended'
+            ]; // used by translateStatus()
+            var rawTranslatedStatusList = $filter('translate')('SERIECTRLjs/status/list');
+            var translatedStatusList = rawTranslatedStatusList.split(',');
+
+            /*
+             * takes the English day of the week (as fetched from TraktTV) and returns a translation
+             */
+            $scope.translateDayOfWeek = function(dayofweek) {
+                return $locale.DATETIME_FORMATS.DAY[daysOfWeekList.indexOf(dayofweek)];
+            };
+
+            /*
+             * takes the English genre (as fetched from TraktTV) and returns a translation
+             */
+            $scope.translateGenre = function(genre) {
+                return (genreList.indexOf(genre) != -1) ? translatedGenreList[genreList.indexOf(genre)] : genre;
+            };
+
+            /*
+             * takes the English status (as fetched from TraktTV) and returns a translation
+             */
+            $scope.translateStatus = function(status) {
+                return (statusList.indexOf(status) != -1) ? translatedStatusList[statusList.indexOf(status)] : status;
+            };
+
+
+
             /**
              * Show the user a delete confirmation dialog before removing the show from favorites.
              * If confirmed: Remove from favorites and navigate back to the calendar.
@@ -62,16 +139,16 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
                 CRUD.FindOne('Serie', {
                     ID_Serie: serie.ID_Serie
                 }).then(function(serie2) {
-                    if(serie2.get('displaycalendar') == 1) {
-                        $scope.serie.displaycalendar = 0;   // update cached serie on serieDetails page
-                        serie2.set('displaycalendar', 0);   // update db serie (deferred)
+                    if (serie2.get('displaycalendar') == 1) {
+                        $scope.serie.displaycalendar = 0; // update cached serie on serieDetails page
+                        serie2.set('displaycalendar', 0); // update db serie (deferred)
                     } else {
-                        $scope.serie.displaycalendar = 1;   // update cached serie on serieDetails page
-                        serie2.set('displaycalendar', 1);   // update db serie (deferred)
+                        $scope.serie.displaycalendar = 1; // update cached serie on serieDetails page
+                        serie2.set('displaycalendar', 1); // update db serie (deferred)
                     };
-                    $rootScope.$broadcast('calendar:clearcache');   // request a calendar reset
-                    $scope.$digest();   // refresh serieDetail page (hide/show button)
-                    serie2.Persist();   // commit updates to db
+                    $rootScope.$broadcast('calendar:clearcache'); // request a calendar reset
+                    $scope.$digest(); // refresh serieDetail page (hide/show button)
+                    serie2.Persist(); // commit updates to db
                 });
             };
         }

@@ -24,16 +24,16 @@
             <strong>{{'SERIE/airdate/hdr'|translate}}</strong>
           </th>
           <th ng-if="getSetting('torrenting.enabled')">
-            <div class="dropdown" tooltip="{{'SERIE/click-for-options/tooltip'|translate}}">
-              <strong class="dropdown-toggle" style='white-space:nowrap'>{{'SERIE/download/lbl'|translate}} <i class="glyphicon glyphicon-chevron-down"></i>
+            <div class="dropdown" dropdown tooltip="{{'SERIE/click-for-options/tooltip'|translate}}">
+              <strong class="dropdown-toggle" dropdown-toggle style='white-space:nowrap'>{{'SERIE/download/lbl'|translate}} <i class="glyphicon glyphicon-chevron-down"></i>
               </strong>
               <ul class="dropdown-menu" style='min-width: 300px'>
                 <li ng-click="searchSeason(serie, season)"><i class="glyphicon glyphicon-download"></i> {{'SERIE/download-season/lbl'|translate}} {{season.seasonnumber}}</li>
               </ul>
           </th>
           <th>
-            <div class="dropdown" tooltip="{{'SERIE/click-for-options/tooltip'|translate}}">
-              <strong class="dropdown-toggle" style='white-space:nowrap'>{{'SERIE/watched/lbl'|translate}}&nbsp;<i class="glyphicon glyphicon-chevron-down"></i>
+            <div class="dropdown" dropdown tooltip="{{'SERIE/click-for-options/tooltip'|translate}}">
+              <strong class="dropdown-toggle" dropdown-toggle style='white-space:nowrap'>{{'SERIE/watched/lbl'|translate}}&nbsp;<i class="glyphicon glyphicon-chevron-down"></i>
               </strong>
               <ul class="dropdown-menu" style='min-width: 300px; padding: 5px; overflow-y: auto'>
                 <li ng-click="markRangeWatchedStart()" style='padding: 5px'><i class="glyphicon glyphicon-pencil"></i> {{'SERIE/mark-batch-mode/lbl'|translate}}</li>

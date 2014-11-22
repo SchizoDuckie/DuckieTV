@@ -4,19 +4,32 @@
         <fieldset>
           <h2>{{ 'SETTINGS/hdr'|translate }}</h2>
         </fieldset>
-          <div style="width:85%">
-          <tabset justified="true">
-            <tab heading="{{ 'SETTINGS/general/hdr'|translate }}" ng-click="setActiveSetting('default')"></tab>
-            <tab heading="{{ 'SETTINGS/display/hdr'|translate }}" ng-click="setActiveSetting('display')"></tab>
-            <tab heading="{{ 'SETTINGS/torrent/hdr'|translate }}" ng-click="setActiveSetting('torrent')"></tab>
-            <tab heading="{{ 'SETTINGS/trakttv/hdr'|translate }}" ng-click="setActiveSetting('trakttv')"></tab>
-            <tab heading="{{ 'SETTINGS/timers/hdr'|translate }}" ng-click="setActiveSetting('timers')"></tab>
-          </tabset>
+          <div style="tabbable width:85%">
+            <ul class="nav nav-tabs nav-justified">
+                  <li ng-class="{active: tab == 'default' }">
+                    <a href="#/settings/default">{{ 'SETTINGS/general/hdr'|translate }}</a>
+                  </li>
+                  <li ng-class="{active: tab == 'display' }">
+                    <a href="#/settings/display">{{ 'SETTINGS/display/hdr'|translate }}</a>
+                  </li>
+                  <li ng-class="{active: tab == 'torrent' }">
+                    <a href="#/settings/torrent">{{ 'SETTINGS/torrent/hdr'|translate }}</a>
+                  </li>
+                  <li ng-class="{active: tab == 'trakttv' }">
+                    <a href="#/settings/trakttv">{{ 'SETTINGS/trakttv/hdr'|translate }}</a>
+                  </li>
+                   <li ng-class="{active: tab == 'sync' }">
+                    <a href="#/settings/sync">Sync</a>
+                  </li>
+                  <li ng-class="{active: tab == 'timers' }">
+                    <a href="#/settings/timers">{{ 'SETTINGS/timers/hdr'|translate }}</a>
+                  </li>
+              </ul>
           </div>
         <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.8); color:white;'>
           <tr>
-            <td colspan="2">
-              <div ng-include="activesettings"></div>
+            <td colspan="2" ng-include="activeTab">
+              
             </td>
           </tr>
             <!--

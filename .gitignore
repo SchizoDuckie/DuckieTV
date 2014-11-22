@@ -1,2 +1,10 @@
 node_modules/
 dist/
+npm-debug.log
+DuckieTV.exe
+ffmpegsumo.dll
+icudt.dll
+icudtl.dat
+libEGL.dll
+libGLESv2.dll
+nw.pak

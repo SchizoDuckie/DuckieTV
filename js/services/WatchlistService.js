@@ -18,12 +18,12 @@ angular.module('DuckieTV.providers.watchlist', [])
                 var obj = new WatchListObject();
                 obj.set('property', 'imdb');
                 obj.set('json', angular.toJson(data, true));
-                obj.set('ID_WatchListItem', watchlistitem.get('ID_WatchListItem'));
+                obj.set('ID_WatchListItem', watchlistitem.ID_WatchListItem);
                 obj.Persist().then(function(obj) {
                     service.restore();
                 }, function(err) {
-                    debugger;
-                })
+
+                });
             }, function(fail) {
                 console.log("Error persisting watchlistitem!", data, arguments);
             });
@@ -38,9 +38,9 @@ angular.module('DuckieTV.providers.watchlist', [])
         remove: function(watchlistitem) {
             console.log("Remove watchlistitem from watchlist!", watchlistitem);
             var self = this;
-            this.getById(watchlistitem['ID_WatchListItem']).then(function(watchlistitem) {
+            this.getById(watchlistitem.ID_WatchListItem).then(function(watchlistitem) {
                 watchlistitem.Delete().then(function() {
-                    self.restore()
+                    self.restore();
                 });
             });
 
@@ -56,7 +56,7 @@ angular.module('DuckieTV.providers.watchlist', [])
                 var watchlist = [];
                 results.map(function(result) {
                     CRUD.Find('WatchListObject', {
-                        'ID_WatchListItem': result.get('ID_WatchListItem')
+                        'ID_WatchListItem': result.ID_WatchListItem
                     }).then(function(props) {
 
                         var item = result.asObject();
@@ -69,7 +69,7 @@ angular.module('DuckieTV.providers.watchlist', [])
                             service.watchlist = watchlist;
                             $rootScope.$broadcast('watchlist:updated', service.watchlist);
                         }
-                    })
+                    });
                 }, function(err) {
                     console.log("Error fetching watchlist", err);
                 });
@@ -80,4 +80,4 @@ angular.module('DuckieTV.providers.watchlist', [])
     service.restore();
     return service;
 
-})
+});

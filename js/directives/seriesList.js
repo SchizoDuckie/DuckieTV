@@ -15,7 +15,9 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             $scope.search = {
                 query: undefined,
                 results: null
-            }
+            };
+
+            $scope.hideEnded = false;
 
             $scope.activated = false; // toggles when the favorites panel activated
             $scope.searchingForSerie = false; // toggles when 'add a show' is clicked
@@ -42,6 +44,15 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             }
 
             /**
+             * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
+             * by the seriedetails directive
+             * @param {[type]} serie [description]
+             */
+            $rootScope.setHoverSerie = function(serie) {
+                $scope.serie = serie;
+            }
+
+            /**
              * Enabled 'add' serie mode.
              * Toggles the search panel and populates the trending mode when needed.
              */
@@ -60,9 +71,9 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     };
                     TraktTV.disableBatchMode().findTrending().then(function(res) {
                         $scope.trending.results = res;
-                    }).catch(function(error) { 
-                        $scope.search.error = error; 
-                        $scope.trendingSeries = false; 
+                    }).catch(function(error) {
+                        $scope.search.error = error;
+                        $scope.trendingSeries = false;
                     });
                 }
 
@@ -73,6 +84,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              */
             $scope.disableAdd = function() {
                 $scope.searchingForSerie = false;
+                $scope.serie = null;
                 $scope.mode = $rootScope.getSetting('series.displaymode');
             }
 
@@ -107,7 +119,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 dlg.result.then(function(btn) {
                     console.log("Remove from favorites!", serie);
                     FavoritesService.remove(serie);
-                    if(typeof $location != "undefined") {
+                    if (typeof $location != "undefined") {
                         $location.path('/')
                     }
                 }, function(btn) {

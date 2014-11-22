@@ -1,6 +1,6 @@
 angular.module('DuckieTV.controllers.about', [])
 
-.controller('AboutCtrl', function($scope, $rootScope, $q, $http, $filter, EventSchedulerService, SettingsService, StorageSyncService) {
+.controller('AboutCtrl', function($scope, $rootScope, $q, $http, $filter, AlarmService, SettingsService, StorageSyncService) {
 
     $scope.statistics = [];
 
@@ -16,7 +16,7 @@ angular.module('DuckieTV.controllers.about', [])
 
         // Timers
         countTimers = function() {
-            EventSchedulerService.getAll().then(function(timers) {
+            AlarmService.getAll().then(function(timers) {
                 $scope.statistics.push({
                     name: 'Timers',
                     data: timers.length
@@ -49,7 +49,7 @@ angular.module('DuckieTV.controllers.about', [])
              * if sync is supported get the synctime else indicate not available
              */
             if (StorageSyncService.isSupported()) {
-                StorageSyncService.get('synctime').then(function(syncTime) {
+                StorageSyncService.get('lastSync').then(function(syncTime) {
                     if (syncTime != null) {
                         $scope.statistics.push({
                             name: 'Storage Sync Last Synced on',
@@ -69,7 +69,7 @@ angular.module('DuckieTV.controllers.about', [])
                 });
             };
         };
-        
+
         // fetch active torrenting mirror
         switch (SettingsService.get('torrenting.searchprovider')) {
             case 'ThePirateBay':
@@ -84,7 +84,7 @@ angular.module('DuckieTV.controllers.about', [])
             default:
                 var activeTorrentingMirror = 'Not Available';
         };
-        
+
         // general statistics
         $scope.statistics = [{
             name: 'UserAgent',
@@ -97,7 +97,7 @@ angular.module('DuckieTV.controllers.about', [])
             data: navigator.vendor
         }, {
             name: 'Determined Locale',
-            data: SettingsService.get('client.determinedlocale')
+            data: SettingsService.get('client.determinedlocale') || 'n/a'
         }, {
             name: 'Active Locale',
             data: SettingsService.get('application.locale')
@@ -124,10 +124,7 @@ angular.module('DuckieTV.controllers.about', [])
             data: SettingsService.get('torrenting.autodownload')
         }, {
             name: 'TraktTV Sync Enabled',
-             data: SettingsService.get('trakttv.sync')
-        }, {
-            name: 'Storage Sync Supported',
-            data: StorageSyncService.isSupported()
+            data: SettingsService.get('trakttv.sync')
         }, {
             name: 'Storage Sync Enabled',
             data: SettingsService.get('storage.sync')
@@ -150,15 +147,15 @@ angular.module('DuckieTV.controllers.about', [])
                     data: data
                 });
             });
-         }
+        }
 
-         // local date and time in GMT presentation
+        // local date and time in GMT presentation
         $scope.statistics.unshift({
             name: 'Current Date and Time',
             data: new Date().toGMTString()
         });
 
-        getSyncTime();
+        //getSyncTime();
         countTimers();
         countEntity('Series');
         countHiddenShows();

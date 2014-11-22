@@ -10,9 +10,11 @@
         "https://*/*",
         "topSites",
         "notifications",
-        "storage",
         "alarms",
         "unlimitedStorage"
+    ],
+    "optional_permissions": [
+        "storage"
     ],
     "icons": {
         "16": "img/icon16.png",

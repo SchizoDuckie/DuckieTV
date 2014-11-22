@@ -18,64 +18,17 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
         $scope.searching = false;
         var currentDate = new Date();
         var allSeasons = [];
-        var daysOfWeekList = [
-            'Sunday',
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday'
-        ]; // used by translateDayOfWeek()
-        var genreList = [
-            'Action',
-            'Adventure',
-            'Animation',
-            'Children',
-            'Comedy',
-            'Crime',
-            'Documentary',
-            'Drama',
-            'Family',
-            'Fantasy',
-            'Food',
-            'Game Show',
-            'Home and Garden',
-            'Horror',
-            'Mini Series',
-            'Mystery',
-            'News',
-            'No Genre',
-            'Reality',
-            'Romance',
-            'Science Fiction',
-            'Soap',
-            'Special Interest',
-            'Sport',
-            'Suspense',
-            'Talk Show',
-            'Thriller',
-            'Travel',
-            'Western'
-        ]; // used by translateGenre()
-        var rawTranslatedGenreList = $filter('translate')('SERIECTRLjs/genre/list');
-        var translatedGenreList = rawTranslatedGenreList.split(',');
-        var statusList = [
-            'Continuing',
-            'Ended'
-        ]; // used by translateStatus()
-        var rawTranslatedStatusList = $filter('translate')('SERIECTRLjs/status/list');
-        var translatedStatusList = rawTranslatedStatusList.split(',');
+
 
         function fetchEpisodes(season) {
             if (!season) return;
-            $scope.season = season.asObject();
+            $scope.season = season;
 
             var episodes = season.getEpisodes().then(function(data) {
                 $scope.episodes = data.map(function(el) {
                     $scope.episodeEntities[el.getID()] = el;
-                    $scope.$on('magnet:select:' + el.get('TVDB_ID'), function(evt, magnet) {
-                        this.set('magnetHash', magnet);
+                    $scope.$on('magnet:select:' + el.TVDB_ID, function(evt, magnet) {
+                        this.magnetHash = magnet;
                         this.Persist();
                     }.bind(el));
                     return el.asObject();
@@ -101,17 +54,14 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
         };
 
         FavoritesService.getById($routeParams.id).then(function(serie) {
-            $scope.serie = serie.asObject();
+            $scope.serie = serie;
             $rootScope.$broadcast('serie:load', $scope.serie);
 
-            if (serie.get('fanart') != '') {
-                $rootScope.$broadcast('background:load', serie.get('fanart'));
+            if (serie.fanart != '') {
+                $rootScope.$broadcast('background:load', serie.fanart);
             };
             serie.getSeasons().then(function(result) {
-                allSeasons = result;
-                $scope.seasons = result.map(function(el) {
-                    return el.asObject()
-                });
+                $scope.seasons = result;
             });
             serie.getLatestSeason().then(function(result) {
                 $scope.activeSeason = result;
@@ -143,7 +93,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
                         ID: episode.ID_Episode
                     }).then(function(epi) {
                         epi.markWatched($rootScope).then(function(result) {
-                            $scope.episodeEntities[result.get('ID_Episode')] = result;
+                            $scope.episodeEntities[result.ID_Episode] = result;
                             $scope.episodes[index] = result.asObject();
                         });
                     }));
@@ -198,24 +148,4 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
             $scope.markingAsWatched = true;
         };
 
-        $scope.translateDayOfWeek = function(dayofweek) {
-            /*
-             * takes the English day of the week (as fetched from TraktTV) and returns a translation
-             */
-            return $locale.DATETIME_FORMATS.DAY[daysOfWeekList.indexOf(dayofweek)];
-        };
-
-        $scope.translateGenre = function(genre) {
-            /*
-             * takes the English genre (as fetched from TraktTV) and returns a translation 
-             */
-            return (genreList.indexOf(genre) != -1) ? translatedGenreList[genreList.indexOf(genre)] : genre;
-        };
-
-        $scope.translateStatus = function(status) {
-            /*
-             * takes the English status (as fetched from TraktTV) and returns a translation 
-             */
-            return (statusList.indexOf(status) != -1) ? translatedStatusList[statusList.indexOf(status)] : status;
-        };
     })

@@ -40,10 +40,10 @@ angular.module('DuckieTorrent.torrent', [])
 
         /**
          * If a specialized parser is needed for a response than it can be automatically picked up by adding the type and a parser
-         * function here.      
+         * function here.
          */
         this.parsers = {
-        
+
         };
 
         /**
@@ -51,9 +51,9 @@ angular.module('DuckieTorrent.torrent', [])
          */
         this.getParser = function(type) {
             return (type in this.parsers) ? this.parsers[type] : function(data) {
-                return data.data
+                return data.data;
             };
-        }
+        };
 
         /**
          * Fetches the url, auto-replaces the port in the url if it was found.
@@ -99,7 +99,7 @@ angular.module('DuckieTorrent.torrent', [])
                     d.reject(err);
                 });
                 return d.promise;
-            }
+            };
 
 
             var methods = {
@@ -113,9 +113,9 @@ angular.module('DuckieTorrent.torrent', [])
                     var nextPort = function() {
                         self.port = ports[self.currentPort];
                         jsonp('version').then(function(result) {
-                            if(typeof result === 'undefined') {
-                                d.reject("no torrent client listening on port " + self.port );
-                            };
+                            if (typeof result === 'undefined') {
+                                d.reject("no torrent client listening on port " + self.port);
+                            }
                             d.resolve({
                                 port: ports[self.currentPort],
                                 version: result
@@ -129,7 +129,7 @@ angular.module('DuckieTorrent.torrent', [])
                             }
 
                         });
-                    }
+                    };
                     nextPort();
                     return d.promise;
                 },
@@ -141,7 +141,7 @@ angular.module('DuckieTorrent.torrent', [])
                  */
                 pair: function() {
                     return jsonp('pair', {
-                        name: 'DuckieTV on ' + navigator.userAgent.match(/Chrome\/([0-9\.]+)/)[0]
+                        name: 'DuckieTV'
                     }, {
                         timeout: 60000
                     });
@@ -157,7 +157,7 @@ angular.module('DuckieTorrent.torrent', [])
                             return {
                                 session: self.sessionKey,
                                 authToken: self.authToken
-                            }
+                            };
                         });
                         return p.promise;
                     }
@@ -168,7 +168,7 @@ angular.module('DuckieTorrent.torrent', [])
                         hostname: window.location.host
                     }).then(function(session) {
                         console.log("Retreived session key!", session);
-                       self.sessionKey = session.session;
+                        self.sessionKey = session.session;
                         self.authToken = authToken;
                         self.connected = true;
                         return session;
@@ -188,9 +188,9 @@ angular.module('DuckieTorrent.torrent', [])
                         type: 'update',
                         hostname: window.location.host
                     }).then(function(data) {
-                    	if(data == "invalid request") {
-                    		throw "unauthorized";
-                    	} 
+                        if (data == "invalid request") {
+                            throw "unauthorized";
+                        }
                         if ('error' in data) {
                             return {
                                 error: data
@@ -212,7 +212,7 @@ angular.module('DuckieTorrent.torrent', [])
                         return data;
                     }, function(error) {
                         console.error("Error executing get status query!", error);
-                    })
+                    });
                 },
                 /**
                  * Return the interface that handles the remote data.
@@ -226,7 +226,7 @@ angular.module('DuckieTorrent.torrent', [])
                  */
                 RPC: function(path, args) {
                     p = path.split('.');
-                    console.debug("Path:", p);;
+                    console.debug("Path:", p);
                     if (!args) args = [];
                     return jsonp('api', {
                         pairing: self.authToken,
@@ -304,23 +304,23 @@ angular.module('DuckieTorrent.torrent', [])
                                     self.connectPromise.resolve(methods.getRemote());
                                 });
                             }, function(error) {
-                            	if (error == "PAIR_DENIED" && confirm("You denied the uTorrent/BitTorrent Client request. \r\nDo you wish to prevent any future connection attempt?")) {
-                            		localStorage.setItem('utorrent.preventconnecting', true);
-                            	}
+                                if (error == "PAIR_DENIED" && confirm("You denied the uTorrent/BitTorrent Client request. \r\nDo you wish to prevent any future connection attempt?")) {
+                                    localStorage.setItem('utorrent.preventconnecting', true);
+                                }
                             });
                         });
                     } else {
-                    	if(!localStorage.getItem('utorrent.preventconnecting')) {
-	                        methods.Scan().then(function() {
-	                            methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
-	                                if (!self.isPolling) {
-	                                    self.isPolling = true;
-	                                    methods.Update();
-	                                }
-	                                self.isConnecting = false;
-	                                self.connectPromise.resolve(methods.getRemote());
-	                            });
-	                        })
+                        if (!localStorage.getItem('utorrent.preventconnecting')) {
+                            methods.Scan().then(function() {
+                                methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
+                                    if (!self.isPolling) {
+                                        self.isPolling = true;
+                                        methods.Update();
+                                    }
+                                    self.isConnecting = false;
+                                    self.connectPromise.resolve(methods.getRemote());
+                                });
+                            });
                         }
                     }
 
@@ -336,15 +336,15 @@ angular.module('DuckieTorrent.torrent', [])
                     return methods.pair().then(function(result) {
                         console.log("Received auth token!", result);
                         var key = typeof result == 'object' ? result.pairing_key : result; // switch between 3.3.x and 3.4.1 build 31206 pairing method
-                        if(key == '<NULL>') {
-                        	throw "PAIR_DENIED";
+                        if (key == '<NULL>') {
+                            throw "PAIR_DENIED";
                         } else {
-	                        localStorage.setItem('utorrent.token', key);
-	                        self.authToken = result; // .pairing_key;
+                            localStorage.setItem('utorrent.token', key);
+                            self.authToken = result; // .pairing_key;
                         }
                     }, function(err) {
                         console.error("Eror pairing!", err);
-                    })
+                    });
                 },
 
                 togglePolling: function() {
@@ -360,8 +360,8 @@ angular.module('DuckieTorrent.torrent', [])
                     if (self.isPolling == true) {
                         methods.statusQuery().then(function(data) {
                             if (self.isPolling && !data.error) {
-                             setTimeout(methods.Update, data && data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
-                        	}
+                                setTimeout(methods.Update, data && data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
+                            }
                         });
                     }
                 },
@@ -371,7 +371,7 @@ angular.module('DuckieTorrent.torrent', [])
 
             };
             return methods;
-        }
+        };
     })
 /**
  * Some RPC Call validation methods taken mostly directly from btapp.js
@@ -479,7 +479,7 @@ angular.module('DuckieTorrent.torrent', [])
 
         for (var property in data) {
             this[property] = this.isRPCFunctionSignature(data[property]) ? this.createFunction(path, property, data[property], RPCProxy) : data[property];
-        };
+        }
     };
 
     RPCObject.prototype = {
@@ -496,7 +496,7 @@ angular.module('DuckieTorrent.torrent', [])
                 200: 'started',
                 201: 'downloading',
                 233: 'paused'
-            }
+            };
             if (!(this.properties.all.status in statuses)) {
                 console.error("There's an unknown status for this torrent!", this.properties.all.status, this);
                 return this.properties.all.status;
@@ -548,9 +548,9 @@ angular.module('DuckieTorrent.torrent', [])
                     args.push(arguments[i]);
                 }
                 return RPCCallService.call(path, signature, args, RPCProxy);
-            }
+            };
             func.valueOf = function() {
-                return 'function' + signatures.substring(4) + ' (returns promise)'
+                return 'function' + signatures.substring(4) + ' (returns promise)';
             };
             return func;
         }
@@ -565,7 +565,7 @@ angular.module('DuckieTorrent.torrent', [])
             if (!service.getNameFunc) {
                 service.getNameFunc = $parse('properties.all.name');
             }
-            return (service.getNameFunc(torrent))
+            return (service.getNameFunc(torrent));
         },
 
         removeTorrent: function(torrent) {
@@ -591,7 +591,7 @@ angular.module('DuckieTorrent.torrent', [])
             var out = [];
             angular.forEach(service.torrents, function(el) {
                 out.push(el);
-            })
+            });
             return out;
         },
         getByHash: function(hash) {
@@ -719,9 +719,9 @@ angular.module('DuckieTorrent.torrent', [])
             build: function(url, params) {
                 return buildUrl(url, params);
             }
-        }
+        };
 
-    }
+    };
 })
 
 .directive('torrentRemoteControl', function(TorrentRemote, uTorrent, DuckieTVCast, $rootScope) {
@@ -734,7 +734,7 @@ angular.module('DuckieTorrent.torrent', [])
             templateUrl: '=templateUrl'
         },
         templateUrl: function($node, $iAttrs) {
-            return $iAttrs.templateUrl || "templates/torrentRemoteControl.html"
+            return $iAttrs.templateUrl || "templates/torrentRemoteControl.html";
         },
         link: function($scope, $attr) {
             // if the connected info hash changes, remove the old event and start observing the new one.
@@ -758,16 +758,16 @@ angular.module('DuckieTorrent.torrent', [])
             uTorrent.AutoConnect().then(function(remote) {
                 observeTorrent($scope.infoHash);
             }, function(fail) {
-            	console.log("Failed! to connect!");
+                console.log("Failed! to connect!");
             });
 
             $scope.isFormatSupported = function(file) {
                 return ['p3', 'aac', 'mp4', 'ogg', 'mkv'].indexOf(file.name.split('.').pop()) > -1;
-            }
+            };
 
             $scope.playInBrowser = function(torrent) {
                 $rootScope.$broadcast('video:load', torrent.properties.all.streaming_url.replace('://', '://admin:admin@').replace('127.0.0.1', $rootScope.getSetting('ChromeCast.localIpAddress')));
-            }
+            };
 
             function get_port(i) {
                 return 7 * Math.pow(i, 3) + 3 * Math.pow(i, 2) + 5 * i + 10000;
@@ -776,10 +776,10 @@ angular.module('DuckieTorrent.torrent', [])
             $scope.Cast = function() {
                 console.log('connecting!');
                 DuckieTVCast.initialize();
-            }
+            };
 
         }
-    }
+    };
 
 });
 
@@ -800,4 +800,4 @@ Object.deepMerge = function(obj1, obj2) {
         }
     }
     return obj1;
-}
+};
