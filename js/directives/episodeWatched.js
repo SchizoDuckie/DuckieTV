@@ -11,7 +11,7 @@ angular.module('DuckieTV.directives.episodewatched', [])
         scope: {
             episode: '='
         },
-        template: ['<a ng-click="markWatched()" style="width:100%" class="glyphicon" tooltip="{{getToolTip()}}" ng-class="{ \'glyphicon-eye-open\' : episode.get(\'watched\') ===  \'1\', \'glyphicon-eye-close\' : episode.get(\'watched\') !== \'1\' }" ng-transclude></a>'],
+        template: ['<a ng-click="markWatched(episode)" style="width:100%" class="glyphicon" tooltip="{{getToolTip(episode)}}" ng-class="{ \'glyphicon-eye-open\' : episode.watched ===  \'1\', \'glyphicon-eye-close\' : episode.watched !== \'1\' }" ng-transclude></a>'],
         link: function($scope) {
 
             $scope.tooltip = null;
@@ -19,21 +19,21 @@ angular.module('DuckieTV.directives.episodewatched', [])
             /**
              * Translate the watchedAt tooltip
              */
-            $scope.getToolTip = function() {
-                return $scope.episode.get('watched') === '1' ?
+            $scope.getToolTip = function(episode) {
+                return episode.watched === '1' ?
                     $filter('translate')('EPISODEWATCHEDjs/is-marked/lbl') +
-                    $filter('date')(new Date($scope.episode.get('watchedAt')), 'medium') :
+                    $filter('date')(new Date(episode.watchedAt), 'medium') :
                     $filter('translate')('EPISODEWATCHEDjs/not-marked/lbl');
             };
 
             /**
              * Pass the logic to the episode to handle marking watched in a generic way
              */
-            $scope.markWatched = function() {
-                if ($scope.episode.get('watched') === '1') {
-                    $scope.episode.markNotWatched($injector.get('$rootScope'));
+            $scope.markWatched = function(episode) {
+                if (episode.watched === '1') {
+                    episode.markNotWatched($injector.get('$rootScope'));
                 } else {
-                    $scope.episode.markWatched($injector.get('$rootScope'));
+                    episode.markWatched($injector.get('$rootScope'));
                 }
             };
         }

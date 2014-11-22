@@ -14,10 +14,10 @@ angular.module('DuckieTV.controllers.episodes', [])
         }).then(function(serie) {
             $scope.serie = serie;
             $scope.$digest();
-            serie.Find("Episode", {
+            CRUD.FindOne("Episode", {
                 ID_Episode: $routeParams.episode
             }).then(function(epi) {
-                $scope.episode = epi[0];
+                $scope.episode = epi;
                 $scope.$digest();
 
                 $rootScope.$broadcast('serie:load', $scope.serie);
@@ -52,7 +52,7 @@ angular.module('DuckieTV.controllers.episodes', [])
         };
 
         $scope.getEpisodeNumber = function(episode) {
-        var sn = episode.seasonnumber.toString(),
+            var sn = episode.seasonnumber.toString(),
                 en = episode.episodenumber.toString(),
                 out = ['S', sn.length == 1 ? '0' + sn : sn, 'E', en.length == 1 ? '0' + en : en].join('');
             return out;

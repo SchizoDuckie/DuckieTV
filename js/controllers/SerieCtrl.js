@@ -4,7 +4,6 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
     function(FavoritesService, SceneNameResolver, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter, $q, $locale) {
         $scope.episodes = [];
-        $scope.episodeEntities = [];
         $scope.points = [];
         $scope.season = null;
         $scope.seasons = null;
@@ -20,18 +19,17 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
         var allSeasons = [];
 
 
-        function fetchEpisodes(season) {
+    function fetchEpisodes(season) {
             if (!season) return;
             $scope.season = season;
 
             var episodes = season.getEpisodes().then(function(data) {
                 $scope.episodes = data.map(function(el) {
-                    $scope.episodeEntities[el.getID()] = el;
                     $scope.$on('magnet:select:' + el.TVDB_ID, function(evt, magnet) {
                         this.magnetHash = magnet;
                         this.Persist();
                     }.bind(el));
-                    return el.asObject();
+                    return el;
                 });
                 $scope.points = [];
                 $scope.labels = [];
@@ -89,15 +87,8 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
             var pq = [];
             $scope.episodes.map(function(episode, index) {
                 if (episode.episodenumber <= $scope.markUntilIndex) {
-                    pq.push(CRUD.FindOne('Episode', {
-                        ID: episode.ID_Episode
-                    }).then(function(epi) {
-                        epi.markWatched($rootScope).then(function(result) {
-                            $scope.episodeEntities[result.ID_Episode] = result;
-                            $scope.episodes[index] = result.asObject();
-                        });
-                    }));
-                };
+                    episode.markWatched($rootScope);
+                }
             });
 
             $q.all(pq).then(function() {
