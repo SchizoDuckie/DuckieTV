@@ -15,7 +15,7 @@
     "description": "DuckieTV helps you manage your favorite TV Shows on a sweet calendar", 
     "author": "DuckieTV", 
     "private": true, 
-    "user-agent": "DuckieTV Standalone v0.80", 
+    "user-agent": "DuckieTV Standalone v0.82", 
     "keywords": [
         "series", 
         "tv", 
