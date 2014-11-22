@@ -7,7 +7,11 @@
     <td>
       <p class="alert alert-info">{{'DISPLAY/locale/alert'|translate}}</p>
       <ul class="list-unstyled">
-        
+         <li ng-click="setLocale(getSetting('client.determinedlocale'))" class="list-unstyled" style="cursor:pointer">
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != getSetting('client.determinedlocale'), 'glyphicon-record': activeLocale == getSetting('client.determinedlocale')}"></i>
+          <i class="flag flag-{{ getSetting('client.determinedlocale') }}"></i> 
+          {{ getSetting('client.determinedlocale') }} {{ 'DISPLAY/locale-default/lbl' | translate }}
+        </li>
         <li ng-repeat="(locale, name) in languageList" ng-click="setLocale(locale)" class="list-unstyled" style="cursor:pointer">
           <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != locale, 'glyphicon-record': activeLocale == locale}"></i>
           <i class="flag flag-{{ locale }}"></i> 

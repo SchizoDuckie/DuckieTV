@@ -180,86 +180,87 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 result.data.map(function(show) {
                     show.poster = show.images.poster;
                 });
-            },
-            /** 
-             * Mark an episode as watched.
-             * Can be passed either a CRUD entity or a plain series object and an episode.
-             * http://trakt.tv/api-docs/show-episode-seen
-             */
-            markEpisodeWatched: function(serie, episode) {
-                var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
-                var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
-                var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
-                
-                $http.post(endpoints.episodeSeen, {
-                    "username": SettingsService.get('trakttv.username'),
-                    "password": SettingsService.get('trakttv.passwordHash'),
-                    "tvdb_id": s,
-                    "episodes": [{
-                        "season": sn,
-                        "episode": en
-                    }]
-                }).then(function(result) {
-                    //console.log("Episode watched: ", serie, episode);
-                });
-            },
-            /** 
-             * Mark an episode as not watched.
-             * Can be passed either a CRUD entity or a plain series object and an episode.
-             * http://trakt.tv/api-docs/show-episode-unseen
-             */
-            markEpisodeNotWatched: function(serie, episode) {
-                var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
-                var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
-                var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
-              
-                $http.post(endpoints.episodeUnseen, {
-                    "username": SettingsService.get('trakttv.username'),
-                    "password": SettingsService.get('trakttv.passwordHash'),
-                    "tvdb_id": s,
-                    "episodes": [{
-                        "season": sn,
-                        "episode": en
-                    }]
-                }).then(function(result) {
-                    //console.log("Episode un-watched: ", serie, episode);
-                });
-            },
-            /** 
-             * Add a show to the user's library. 
-             * http://trakt.tv/api-docs/show-library
-             */
-            addToLibrary: function(serieTVDB_ID) {
-                $http.post(endpoints.addToLibrary, {
-                    "username": SettingsService.get('trakttv.username'),
-                    "password": SettingsService.get('trakttv.passwordHash'),
-                    "tvdb_id": serieTVDB_ID,
-                }).then(function(result) {
-                    console.log("Serie added to trakt.tv library: ", serieTVDB_ID);
-                })
-            },
-            /** 
-             * Test authentication with trakt.tv
-             * Returns either success or failure 
-             * http://trakt.tv/api-docs/account-test
-             */
-            checkDetails: function(user, shapass) {
-                return $http.post(endpoints.accountTest, {
-                    "username": user,
-                    "password": shapass,
-                }).then(function(result) {
-                    console.log("Trakt.tv account-test request successful, response: ", result.data.status);
-                    return result.data.status;
-                }, function(err) {
-                    //If error we stil need to return something
-                    //Could use to display more informative errors
-                    //401 - incorrect user pass ect.
-                    return err.status;
-                });
-            }
-        };
-    
-        return service;
+            });
+        },
+        /** 
+         * Mark an episode as watched.
+         * Can be passed either a CRUD entity or a plain series object and an episode.
+         * http://trakt.tv/api-docs/show-episode-seen
+         */
+        markEpisodeWatched: function(serie, episode) {
+            var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
+            var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
+            var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
+
+            $http.post(endpoints.episodeSeen, {
+                "username": SettingsService.get('trakttv.username'),
+                "password": SettingsService.get('trakttv.passwordHash'),
+                "tvdb_id": s,
+                "episodes": [{
+                    "season": sn,
+                    "episode": en
+                }]
+            }).then(function(result) {
+                //console.log("Episode watched: ", serie, episode);
+            });
+        },
+        /** 
+         * Mark an episode as not watched.
+         * Can be passed either a CRUD entity or a plain series object and an episode.
+         * http://trakt.tv/api-docs/show-episode-unseen
+         */
+        markEpisodeNotWatched: function(serie, episode) {
+            var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
+            var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
+            var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
+
+            $http.post(endpoints.episodeUnseen, {
+                "username": SettingsService.get('trakttv.username'),
+                "password": SettingsService.get('trakttv.passwordHash'),
+                "tvdb_id": s,
+                "episodes": [{
+                    "season": sn,
+                    "episode": en
+                }]
+            }).then(function(result) {
+                //console.log("Episode un-watched: ", serie, episode);
+            });
+        },
+        /** 
+         * Add a show to the user's library.
+         * http://trakt.tv/api-docs/show-library
+         */
+        addToLibrary: function(serieTVDB_ID) {
+            $http.post(endpoints.addToLibrary, {
+                "username": SettingsService.get('trakttv.username'),
+                "password": SettingsService.get('trakttv.passwordHash'),
+                "tvdb_id": serieTVDB_ID,
+            }).then(function(result) {
+                console.log("Serie added to trakt.tv library: ", serieTVDB_ID);
+            });
+        },
+        /** 
+         * Test authentication with trakt.tv
+         * Returns either success or failure
+         * http://trakt.tv/api-docs/account-test
+         */
+        checkDetails: function(user, shapass) {
+            return $http.post(endpoints.accountTest, {
+                "username": user,
+                "password": shapass,
+            }).then(function(result) {
+                console.log("Trakt.tv account-test request successful, response: ", result.data.status);
+                return result.data.status;
+            }, function(err) {
+                //If error we stil need to return something
+                //Could use to display more informative errors
+                //401 - incorrect user pass ect.
+                return err.status;
+            });
+        }
+    };
+
+    return service;
 })
 
 /** 
