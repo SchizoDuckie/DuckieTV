@@ -1,5 +1,5 @@
 <div class="event dropdown" dropdown>
-  <a dropdown-toggle ng-click="isOpen=true" ng-class="{ watched : event.episode.get('watched') === '1' }">
+  <a dropdown-toggle ng-class="{ watched : event.episode.get('watched') === '1' }" on-toggle="isOpen=true" >
     <div ng-if="$root.getSetting('torrenting.enabled') && $root.getSetting('torrenting.progress') && event.episode.values.magnetHash" tooltip="{{ event.episode.getFormattedEpisode() }} ({{event.episode.getAirTime() }}) ">
       <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">{{ event.serie }}</torrent-remote-control>
     </div>
@@ -23,7 +23,7 @@
   </li>
   <li style='border-top: 1px solid white; padding-top: 10px; overflow-y: auto; max-height: 270px;'>
     <h2>{{event.serie}} {{event.episode.getFormattedEpisode()}}</h2>
-    <div ng-if="isOpen" style='float:left; width: 150px; height:85px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{event.episode.get('filename')}}"></div>
+    <div style='float:left; width: 150px; height:85px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{event.episode.get('filename')}}"></div>
     <strong>{{event.episode.get('episodename')}}</strong><p>{{event.episode.get('overview')}}</p>
   </li>
   </ul>
