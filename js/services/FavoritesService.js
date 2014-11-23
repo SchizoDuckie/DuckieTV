@@ -110,6 +110,10 @@ angular.module('DuckieTV.providers.favorites', [])
                 if (!serie) {
                     serie = new Serie();
                 }
+                if (serie.name.toLowerCase() != data.title.toLowerCase()) {
+                    console.log("Serie name has changed versus database name, removing it's updatecheck.");
+                    EventSchedulerService.clear(serie.name + ' update check');
+                }
                 fillSerie(serie, data);
                 serie.Persist().then(function(e) {
                     var updateInterval = serie.status.toLowerCase() == 'ended' ? 60 * 24 * 14 : 60 * 24 * 2; // schedule updates for ended series only every 2 weeks. Saves useless updates.
