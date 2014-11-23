@@ -8,10 +8,7 @@ angular.module('DuckieTV.directives.episodewatched', [])
     return {
         restrict: 'E',
         transclude: true,
-        scope: {
-            episode: '='
-        },
-        template: ['<a ng-click="markWatched(episode)" style="width:100%" class="glyphicon" tooltip="{{getToolTip(episode)}}" ng-class="{ \'glyphicon-eye-open\' : episode.watched ===  \'1\', \'glyphicon-eye-close\' : episode.watched !== \'1\' }" ng-transclude></a>'],
+        template: ['<a ng-click="markWatched(episode)" style="width:100%" class="glyphicon" tooltip="{{getToolTip(episode)}}" ng-class="{ \'glyphicon-eye-open\' : episode.watched == 1, \'glyphicon-eye-close\' : episode.watched !== 1 }" ng-transclude></a>'],
         link: function($scope) {
 
             $scope.tooltip = null;
@@ -20,7 +17,7 @@ angular.module('DuckieTV.directives.episodewatched', [])
              * Translate the watchedAt tooltip
              */
             $scope.getToolTip = function(episode) {
-                return episode.watched === '1' ?
+                return parseInt(episode.watched) == 1 ?
                     $filter('translate')('EPISODEWATCHEDjs/is-marked/lbl') +
                     $filter('date')(new Date(episode.watchedAt), 'medium') :
                     $filter('translate')('EPISODEWATCHEDjs/not-marked/lbl');
@@ -30,11 +27,15 @@ angular.module('DuckieTV.directives.episodewatched', [])
              * Pass the logic to the episode to handle marking watched in a generic way
              */
             $scope.markWatched = function(episode) {
-                if (episode.watched === '1') {
+                console.log("Mark as watched!", episode);
+                if (parseInt(episode.watched) == 1) {
                     episode.markNotWatched($injector.get('$rootScope'));
+                    console.log("mark not watched");
                 } else {
                     episode.markWatched($injector.get('$rootScope'));
+                    console.log('mark watched!');
                 }
+                console.log($scope.episode.watched, $scope.episode.watchedAt);
             };
         }
     };

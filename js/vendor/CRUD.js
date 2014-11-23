@@ -232,21 +232,25 @@ CRUD.Entity = function(className, methods) {
     this.customData = {};
     this._customProperties = []; // custom properties to send along to the adapter (handy for form persists)
 
-    for (var j in methods) {
-        this[j] = methods[j];
-    }
     CRUD.EntityManager.getFields(className).map(function(field) {
         Object.defineProperty(this, field, {
-            get: function() {
+            get: ((field in methods) && 'get' in methods[field]) ? methods[field].get : function() {
                 return this.get(field);
             },
-            set: function(newValue) {
+            set: ((field in methods) && 'set' in methods[field]) ? methods[field].set : function(newValue) {
                 this.set(field, newValue);
             },
             enumerable: true,
             configurable: false
         });
     }.bind(this));
+
+    for (var j in methods) {
+        if (CRUD.EntityManager.getFields(className).indexOf(j) == -1) {
+            this[j] = methods[j];
+        }
+    }
+
     return this;
 };
 

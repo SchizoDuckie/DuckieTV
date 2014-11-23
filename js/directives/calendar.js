@@ -1,11 +1,11 @@
-angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites','DuckieTV.providers.episodeaired'])
+angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 'DuckieTV.providers.episodeaired'])
 
 /**
  * The CalendarEvents service provides storage and retrieve functions
  * for episodes that are displayed on the calendar. It has built-in cache
  * and watches for the calendar changing it's date before fetching a new
  * set of episodes from the database
- */ 
+ */
 .factory('CalendarEvents', function($rootScope, FavoritesService) {
     var calendarEvents = {
 
@@ -34,9 +34,9 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites','
                     startDate.setDate(-47);
                     break;
             }
-            if(startDate.toDateString() != activeDate) {
+            if (startDate.toDateString() != activeDate) {
                 activeDate = startDate.toDateString();
-                service.getEventsForDateRange(startDate, endDate);    
+                service.getEventsForDateRange(startDate, endDate);
             }
 
         },
@@ -55,7 +55,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites','
                     serieIDs[episode.get('ID_Serie')] = episode.get('ID_Serie');
                 });
                 // find all unique series for episodes that were returned (only when they should be shown on the calendar)
-                CRUD.Find('Serie', ['ID_Serie in (' + Object.keys(serieIDs).join(',') + ')' ,'displaycalendar = 1']).then(function(series) {
+                CRUD.Find('Serie', ['ID_Serie in (' + Object.keys(serieIDs).join(',') + ')', 'displaycalendar = 1']).then(function(series) {
                     var cache = {};
                     var events = [];
                     // build up a key/value map of fetched series
@@ -66,7 +66,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites','
                     episodes.map(function(episode) {
                         events.push({
                             start: new Date(episode.get('firstaired')),
-                            serie: cache[episode.get('ID_Serie')].get('name'),
+                            serie: cache[episode.get('ID_Serie')],
                             serieID: cache[episode.get('ID_Serie')].get('TVDB_ID'),
                             episodeID: episode.get('TVDB_ID'),
                             episode: episode
@@ -104,11 +104,11 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites','
                     var index = calendarEvents[date].indexOf(existing[0]);
                     calendarEvents[date][index].episode = event.episode;
                 }
-                calendarEvents[date] = calendarEvents[date].sort(function(a,b) {
+                calendarEvents[date] = calendarEvents[date].sort(function(a, b) {
                     return a.episode.get('firstaired') > b.episode.get('firstaired');
                 });
             })
-            existing = index = null; 
+            existing = index = null;
             $rootScope.$broadcast('calendar:events', events);
         },
 
@@ -147,24 +147,24 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites','
     };
 
     $rootScope.$on('episode:marked:watched', function(event, data) {
-        service.setEvents([{ 
-            start: new Date(data.get('firstaired')),
-            episodeID: data.get('TVDB_ID'),
-            episode: data 
-        }]);
-    });
-
-    $rootScope.$on('episode:marked:notwatched', function(event, data) {
-        service.setEvents([{ 
+        service.setEvents([{
             start: new Date(data.get('firstaired')),
             episodeID: data.get('TVDB_ID'),
             episode: data
         }]);
     });
 
-     /**
-      * Refresh the active calendar by re-fetching all data.
-      */
+    $rootScope.$on('episode:marked:notwatched', function(event, data) {
+        service.setEvents([{
+            start: new Date(data.get('firstaired')),
+            episodeID: data.get('TVDB_ID'),
+            episode: data
+        }]);
+    });
+
+    /**
+     * Refresh the active calendar by re-fetching all data.
+     */
     $rootScope.$on('episodes:updated', function(event) {
         service.clearCache();
         service.setDate(new Date());
@@ -190,31 +190,37 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites','
  * This also watches for the magnet:select event will be fired by the
  * TorrentDialog when a user selects a magnet link for an episode.
  */
-.directive('calendarEvent', function(uTorrent, SceneNameResolver,EpisodeAiredService) {
+.directive('calendarEvent', function(uTorrent, SceneNameResolver, EpisodeAiredService, SettingsService) {
     return {
         restrict: 'E',
         scope: {
-            event: '='
+            serie: '=',
+            episode: '='
         },
         templateUrl: 'templates/event.html',
         link: function($scope) {
+
+            $scope.getSetting = SettingsService.get;
+
             $scope.isTorrentClientConnected = function() {
                 return uTorrent.isConnected();
             };
-            $scope.$on('magnet:select:' + $scope.event.episode.get('TVDB_ID'), function(evt, magnet) {
+            $scope.$on('magnet:select:' + $scope.episode.TVDB_ID, function(evt, magnet) {
                 console.debug("Found a magnet selected!", magnet);
-                $scope.event.episode.set('magnetHash', magnet);
-                $scope.event.episode.Persist();
+                $scope.episode.set('magnetHash', magnet);
+                $scope.episode.Persist();
             });
             $scope.autoDownload = function() {
-                CRUD.FindOne('Serie', { TVDB_ID: $scope.event.serieID }).then(function(serie) {
-
-                    EpisodeAiredService.autoDownload(serie, $scope.event.episode);
-                })
+                CRUD.FindOne('Serie', {
+                    TVDB_ID: $scope.serie.TVDB_ID
+                }).then(function(serie) {
+                    EpisodeAiredService.autoDownload(serie, $scope.episode);
+                });
             },
             $scope.getSearchString = function(event) {
-                var serieName = SceneNameResolver.getSceneName(event.serieID) || event.serie;
-                return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + event.episode.getFormattedEpisode();
+
+                var serieName = SceneNameResolver.getSceneName($scope.serie.TVDB_ID) || $scope.serie.name;
+                return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + $scope.episode.getFormattedEpisode();
             };
         }
     }
@@ -223,7 +229,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites','
 /**
  * The <calendar> directive is just a little wrapper around the 3rd party datePicker directive
  * that provides the calendar basics.
- * 
+ *
  * It sets up the defaults and initializes the calendar.
  */
 .directive('calendar', function(FavoritesService, CalendarEvents, $rootScope) {

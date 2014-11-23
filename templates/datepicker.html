@@ -19,7 +19,7 @@
       <tbody>
         <tr ng-repeat="week in weeks">
           <td ng-repeat="day in week" class="day">
-            <calendar-event event="event" ng-if="hasEvent(day)" ng-repeat="event in getEvents(day)"></calendar-event>
+            <calendar-event serie="event.serie" episode="event.episode" ng-if="hasEvent(day)" ng-repeat="event in getEvents(day)"></calendar-event>
 
             <span ng-class="{'now':isNow(day),'active':isSameDay(day),'disabled':(day.getMonth()!=date.getMonth()),'after':isAfter(day),'before':isBefore(day)}" ng-bind="day.getDate()">
             </span>
@@ -48,7 +48,7 @@
       <tbody>
         <tr ng-repeat="week in weeks">
           <td ng-repeat="day in week" class="day">
-            <calendar-event event="event" ng-if="hasEvent(day)" ng-repeat="event in getEvents(day)"></calendar-event>
+            <calendar-event serie="event.serie" episode="event.episode" ng-if="hasEvent(day)" ng-repeat="event in getEvents(day)"></calendar-event>
             <span ng-class="{'now':isNow(day),'active':isSameDay(day),'disabled':(day.getMonth()!=date.getMonth()),'after':isAfter(day),'before':isBefore(day)}" ng-bind="day.getDate()">
             </span>
           </td>

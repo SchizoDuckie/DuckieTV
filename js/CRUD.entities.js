@@ -137,29 +137,34 @@ var Episode = CRUD.define({
         ]
     }
 }, {
-
+    watched: {
+        get: function() {
+            //console.log("accessor override");
+            return parseInt(this.get('watched'));
+        }
+    },
     getSeason: function() {
         return this.FindOne('Season');
     },
     getFormattedEpisode: function() {
-        var sn = this.get('seasonnumber').toString(),
-            en = this.get('episodenumber').toString(),
+        var sn = this.seasonnumber.toString(),
+            en = this.episodenumber.toString(),
             out = ['S', sn.length == 1 ? '0' + sn : sn, 'E', en.length == 1 ? '0' + en : en].join('');
         return out;
     },
     getAirDate: function() {
-        return new Date(this.get('firstaired')).toLocaleString();
+        return new Date(this.firstaired).toLocaleString();
     },
     getAirTime: function() {
-        return new Date(this.get('firstaired')).toTimeString().substring(0,5);
+        return new Date(this.firstaired).toTimeString().substring(0, 5);
     },
     hasAired: function() {
-        return this.get('firstaired') && this.get('firstaired') <= new Date().getTime();
+        return this.firstaired && this.firstaired <= new Date().getTime();
     },
 
     markWatched: function($rootScope) {
-        this.set('watched', '1');
-        this.set('watchedAt', new Date().getTime());
+        this.watched = 1;
+        this.watchedAt = new Date().getTime();
         return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:watched', this);
@@ -169,8 +174,8 @@ var Episode = CRUD.define({
     },
 
     markNotWatched: function($rootScope) {
-        this.set('watched', '0');
-        this.set('watchedAt', null);
+        this.watched = 0;
+        this.watchedAt = null;
         return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:notwatched', this);

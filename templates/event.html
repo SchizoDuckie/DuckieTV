@@ -1,30 +1,55 @@
-<div class="event dropdown" dropdown>
-  <a dropdown-toggle ng-class="{ watched : event.episode.get('watched') === '1' }" on-toggle="isOpen=true" >
-    <div ng-if="$root.getSetting('torrenting.enabled') && $root.getSetting('torrenting.progress') && event.episode.values.magnetHash" tooltip="{{ event.episode.getFormattedEpisode() }} ({{event.episode.getAirTime() }}) ">
-      <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">{{ event.serie }}</torrent-remote-control>
+<div class="event dropdown" dropdown on-toggle="isOpen=true">
+  <!-- dropdown toggler -->
+  <a dropdown-toggle ng-class="{ watched : episode.watched }" >
+    <!-- if we have a torrent, show the progress -->
+    <div ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash" tooltip="{{ episode.getFormattedEpisode() }} ({{episode.getAirTime() }}) ">
+      <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">
+        {{ serie.name }}
+      </torrent-remote-control>
     </div>
-    <div ng-if="$root.getSetting('torrenting.enabled') != 1 || !event.episode.values.magnetHash || $root.getSetting('torrenting.progress') != 1" ng-class="{ watchedtick : event.episode.get('watched') === '1' }">
-      <span tooltip="{{event.episode.getFormattedEpisode()}} ({{event.episode.getAirTime() }}) ">{{ event.serie }}</span>
+    <!-- no torrent, or don't show torrent: just show the name --> 
+    <div ng-if="!getSetting('torrenting.enabled') || !episode.magnetHash || !getSetting('torrenting.progress')" ng-class="{ watchedtick : episode.watched }">
+      <span tooltip="{{episode.getFormattedEpisode()}} ({{episode.getAirTime() }}) ">{{ serie.name }}</span>
     </div>
-    <div ng-if="event.episode.get('watched') === '1'">
-      <div ng-if="$root.getSetting('torrenting.enabled') && $root.getSetting('torrenting.progress') && event.episode.values.magnetHash"><span1 class="glyphicon glyphicon-ok watchedpos" style="top: 6px;"></span1></div>
-      <div ng-if="$root.getSetting('torrenting.enabled') != 1 || !event.episode.values.magnetHash || $root.getSetting('torrenting.progress') != 1"><span1 class="glyphicon glyphicon-ok watchedpos"></span1></div>
+    <!-- episode watched, show icon. -->
+    <div ng-if="episode.watched">
+      <div>
+        <span class="glyphicon glyphicon-ok watchedpos" ng-style="{ top: getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash ? '6px' : 0 }"></span>
+      </div>
+     
     </div>
   </a>
-  <ul class="dropdown-menu">
-  <li><a href='#/serie/{{event.serieID}}/episode/{{event.episode.getID()}}'><i class="glyphicon glyphicon-info-sign"></i> {{'EVENT/dropdown-episode-details/lbl'|translate}}</a></li>
-  <li><a href='#/series/{{event.serieID}}'><i class="glyphicon glyphicon-info-sign"></i> {{'EVENT/dropdown-series-details/lbl'|translate}}</a></li>
-  <li ng-if="event.episode.hasAired()"><a><episode-watched episode="event.episode"><span ng-if="event.episode.get('watched') !== '1'">{{'EVENT/dropdown-mark-as-watched/lbl'|translate}}</span><span ng-if="event.episode.get('watched') === '1'">{{'EVENT/dropdown-marked-watched/lbl'|translate}} {{ event.episode.get('watchedAt') | date:'medium' }}</span></episode-watched></a></li>
-  <li ng-if="$root.getSetting('torrenting.enabled')">
-    <a style='display:inline-block'><torrent-dialog tvdbid='event.episode.get("TVDB_ID")' q='getSearchString(event)'> <translate>EVENT/dropdown-utorrent-client/lbl</translate></torrent-dialog></a>
-    <a ng-click="autoDownload(event.episode)" style='display:inline-block'><i class="glyphicon glyphicon-cloud-download" tooltip="perform magic"></i></a></li>
-  <li ng-if="$root.getSetting('torrenting.enabled') && event.episode.values.magnetHash && isTorrentClientConnected()">
-    <torrent-remote-control info-hash="event.episode.values.magnetHash" template-url="templates/torrentMiniRemoteControl.html"></torrent-remote-control>
+  <!-- dropdown -->
+  <ul class="dropdown-menu" ng-if="isOpen">
+  <li>
+    <a href='#/serie/{{serie.getID()}}/episode/{{episode.getID()}}'><i class="glyphicon glyphicon-info-sign"></i> {{'EVENT/dropdown-episode-details/lbl'|translate}}</a>
+  </li>
+  <li>
+    <a href='#/series/{{serie.getID()}}'><i class="glyphicon glyphicon-info-sign"></i> {{'EVENT/dropdown-series-details/lbl'|translate}}</a>
+  </li>
+  <li ng-if="episode.hasAired()">
+    <a>
+      <episode-watched episode="episode">
+        <span ng-if="!episode.watched">{{'EVENT/dropdown-mark-as-watched/lbl'|translate}}</span>
+        <span ng-if="episode.watched">{{'EVENT/dropdown-marked-watched/lbl'|translate}} {{ episode.watchedAt | date:'medium' }}</span>
+      </episode-watched>
+    </a>
+  </li>
+  <li ng-if="getSetting('torrenting.enabled')">
+    <a style='display:inline-block'>
+      <torrent-dialog tvdbid='episode.TVDB_ID' q='getSearchString(event)'> <translate>EVENT/dropdown-utorrent-client/lbl</translate></torrent-dialog>
+    </a>
+    <a ng-click="autoDownload(episode)" style='display:inline-block'>
+      <i class="glyphicon glyphicon-cloud-download" tooltip="perform magic"></i>
+    </a>
+  </li>
+  <li ng-if="getSetting('torrenting.enabled') && episode.magnetHash && isTorrentClientConnected()">
+    <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteControl.html"></torrent-remote-control>
   </li>
   <li style='border-top: 1px solid white; padding-top: 10px; overflow-y: auto; max-height: 270px;'>
-    <h2>{{event.serie}} {{event.episode.getFormattedEpisode()}}</h2>
-    <div style='float:left; width: 150px; height:85px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{event.episode.get('filename')}}"></div>
-    <strong>{{event.episode.get('episodename')}}</strong><p>{{event.episode.get('overview')}}</p>
+    <h2>{{serie.name}} {{episode.getFormattedEpisode()}}</h2>
+    <div style='float:left; width: 150px; height:85px; background-size:contain; background-repeat:no-repeat; margin: 10px; ' lazy-background="{{episode.filename}}"></div>
+    <strong>{{episode.episodename}}</strong><p>{{episode.overview}}</p>
   </li>
   </ul>
 </div>
