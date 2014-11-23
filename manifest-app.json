@@ -37,7 +37,8 @@
             "js/services/MirrorResolver.js",
             "js/services/WatchlistCheckerService.js",
             "js/services/WatchlistService.js",
-            "js/background.js"
+            "js/background.js",
+            "launch.js"
         ],
         "persistent": false
     },
@@ -51,5 +52,5 @@
         "default_title": "",
         "default_icon": "img/icon48.png"
     },
-    "homepage_url": "http://reddit.com/r/duckietv/",
+    "homepage_url": "http://reddit.com/r/duckietv/"
 }
