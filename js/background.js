@@ -11,7 +11,7 @@
 
 
 /** 
- * Make sure missing timers get restored. Fired when a profile that has this extension installed first starts up. 
+ * Make sure missing timers get restored. Fired when a profile that has this extension installed first starts up.
  */
 chrome.runtime.onStartup.addListener(function() {
     setTimeout(function() {
@@ -29,12 +29,12 @@ chrome.runtime.onInstalled.addListener(function(details) {
         console.log("This is a first install!");
         localStorage.setItem('upgrade.notify', chrome.runtime.getManifest().version);
         /*
-        * example: localStorage.setItem('0.54.createtimers', 'done');
-        */
+         * example: localStorage.setItem('0.54.createtimers', 'done');
+         */
     } else if (details.reason == "update") {
         var thisVersion = chrome.runtime.getManifest().version;
         console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
-        if(details.previousVersion != thisVersion) {
+        if (details.previousVersion != thisVersion) {
             localStorage.setItem('upgrade.notify', thisVersion);
         }
     };
@@ -46,6 +46,8 @@ chrome.runtime.onInstalled.addListener(function(details) {
  */
 angular.module('DuckieTV', [
     'DuckieTV.directives.torrentdialog',
+    'DuckieTV.providers.alarms',
+    'DuckieTV.providers.storagesync',
     'DuckieTV.providers.eventwatcher',
     'DuckieTV.providers.eventscheduler',
     'DuckieTV.providers.episodeaired',
@@ -53,7 +55,6 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.trakttv',
     'DuckieTV.providers.settings',
     'DuckieTV.providers.scenenames',
-    'DuckieTV.providers.storagesync',
     'DuckieTV.providers.mirrorresolver',
     'DuckieTV.providers.thepiratebay'
 ])
@@ -70,7 +71,7 @@ angular.module('DuckieTV', [
  * The only thing we do is start the event scheduler service, which in turn broadcasts messages to anything listening.
  * FavoritesService is added as a dependency so that it can pick up these events upon initialisation.
  */
-.run(function(EventWatcherService, EpisodeAiredService, FavoritesService, SettingsService, StorageSyncService, $rootScope) {
+.run(function(EventWatcherService, EpisodeAiredService, FavoritesService, SettingsService, $rootScope) {
 
     $rootScope.getSetting = function(key) {
         return SettingsService.get(key);
@@ -78,11 +79,13 @@ angular.module('DuckieTV', [
     // when the sync has happened, check if there's a foreground page active and notify that of changes that came in.
     $rootScope.$on('storage:hassynced', function(event, progress) {
         console.log('storage has synced! Messaging foreground to process deletions!', progress);
-        chrome.runtime.sendMessage({ channel: 'sync:processremoteupdate', eventData: progress});
+        chrome.runtime.sendMessage({
+            channel: 'sync:processremoteupdate',
+            eventData: progress
+        });
     });
     EventWatcherService.initialize();
     EpisodeAiredService.attach();
-    StorageSyncService.attach();
 });
 
 // Since there is no html document that bootstraps angular using an ang-app tag, we need to call bootstrap manually

@@ -25,9 +25,9 @@
             "js/vendor/angular.js",
             "js/vendor/angular-sanitize.min.js",
             "js/directives/torrentDialog.js",
+            "js/services/AlarmService.js",
             "js/services/SettingsService.js",
-			"js/services/StorageSyncService.js",
-			"js/services/SceneNameResolver.js",
+            "js/services/SceneNameResolver.js",
             "js/services/EventWatcherService.js",
             "js/services/EventSchedulerService.js",
             "js/services/EpisodeAiredService.js",
@@ -37,12 +37,11 @@
             "js/services/MirrorResolver.js",
             "js/services/WatchlistCheckerService.js",
             "js/services/WatchlistService.js",
-            "js/background.js",
-            "launch.js"
-
+            "js/background.js"
         ],
         "persistent": false
     },
+    "content_security_policy": "script-src 'self' 'unsafe-eval' http://localhost:10000 http://localhost:10015 http://localhost:10078 http://localhost:10231 http://localhost:10516 http://localhost:10975 http://localhost:11650 http://localhost:12583 http://localhost:13816 http://localhost:15391 http://localhost:17350 http://localhost:19735 http://localhost:22588 http://localhost:25951 http://localhost:29866 http://localhost:34375 http://localhost:39520 http://localhost:45343 http://localhost:51886 http://localhost:59191; object-src 'self';",
     "icons": {
         "16": "img/icon16.png",
         "48": "img/icon48.png",
@@ -53,5 +52,4 @@
         "default_icon": "img/icon48.png"
     },
     "homepage_url": "http://reddit.com/r/duckietv/",
-    "content_security_policy": "script-src 'self' http://localhost:10000 http://localhost:10015 http://localhost:10078 http://localhost:10231 http://localhost:10516 http://localhost:10975 http://localhost:11650 http://localhost:12583 http://localhost:13816 http://localhost:15391 http://localhost:17350 http://localhost:19735 http://localhost:22588 http://localhost:25951 http://localhost:29866 http://localhost:34375 http://localhost:39520 http://localhost:45343 http://localhost:51886 http://localhost:59191; object-src 'self';"
 }
