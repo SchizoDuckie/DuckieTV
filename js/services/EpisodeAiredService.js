@@ -7,7 +7,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
  *
  * Runs in the background page.
  */
-.factory('EpisodeAiredService', function($rootScope, FavoritesService, SceneNameResolver, ThePirateBay, TorrentDialog) {
+.factory('EpisodeAiredService', function($rootScope, FavoritesService, SceneNameResolver, SettingsService, $injector, TorrentDialog) {
     var period = 7; // period to check for updates up until today current time
     var minSeeders = 250; // minimum amount of seeders required.
 
@@ -43,7 +43,8 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
             // fetch the Scene Name for the serie and compile the search string for the episode with the quality requirement.
             var name = SceneNameResolver.getSceneName(serie.get('TVDB_ID')) || serie.get('name');
             var searchString = name.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
-            ThePirateBay.search(searchString).then(function(results) { // search thepiratebay for the string
+            var SearchProvider = $injector.get(SettingsService.get('torrenting.searchprovider'));
+            SearchProvider.search(searchString).then(function(results) { // search thepiratebay for the string
                 if (results.length === 0) {
                     return; // no results, abort
                 }
