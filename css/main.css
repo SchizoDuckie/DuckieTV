@@ -547,6 +547,7 @@ episode-watched {
     text-align:center;
     cursor:pointer;
     font-size: 18px;
+    margin: 0;
 }
 episode-watched a.glyphicon-eye-open {
     color: green;
@@ -559,8 +560,13 @@ episode-watched a.glyphicon-eye-open {
 .dropdown-menu episode-watched span {
     font-family: helvetica, sans-serif;
     font-size: 14px;
-    padding-left: 7px;
+    line-height: 14px;
+    vertical-align: middle;
     color: white;
+    /* display: inline-block; */
+    position: absolute;
+    left: 29px;
+    top: 2px;
 }
 .dropdown-menu episode-watched .glyphicon-eye-open {
     color: green;
