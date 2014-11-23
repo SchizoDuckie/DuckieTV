@@ -218,7 +218,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
             $scope.getSearchString = function(event) {
 
                 var serieName = SceneNameResolver.getSceneName($scope.serie.TVDB_ID) || $scope.serie.name;
-                return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + $scope.episode.getFormattedEpisode();
+                return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode);
             };
         }
     }

@@ -427,7 +427,11 @@ angular.module('DuckieTV.providers.scenenames', [])
 
             getSearchStringForEpisode: function(serie, episode) {
                 if (episodesByDate.indexOf(serie.TVDB_ID.toString()) > -1) {
-                    var d = new Date(episode.firstaired);
+                    var d = new Date(episode.firstaired + (new Date().getTimezoneOffset() * 60000));
+
+                    d.setTime(d.getTime() - 6 * 60 * 60 * 1000);
+                    // set timezone for episode date to central us. this works for the dayly show and stuff, for now, but needs to check serie.country in the future.
+
 
                     return [d.getFullYear(), d.getMonth() + 1, d.getDate()].join(' ');
                 } else {
