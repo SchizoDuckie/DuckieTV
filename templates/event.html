@@ -22,10 +22,10 @@
   <!-- dropdown -->
   <ul class="dropdown-menu" ng-if="isOpen">
   <li>
-    <a href='#/serie/{{serie.getID()}}/episode/{{episode.getID()}}'><i class="glyphicon glyphicon-info-sign"></i> {{'EVENT/dropdown-episode-details/lbl'|translate}}</a>
+    <a href='#/serie/{{serie.TVDB_ID}}/episode/{{episode.TVDB_ID}}'><i class="glyphicon glyphicon-info-sign"></i> {{'EVENT/dropdown-episode-details/lbl'|translate}}</a>
   </li>
   <li>
-    <a href='#/series/{{serie.getID()}}'><i class="glyphicon glyphicon-info-sign"></i> {{'EVENT/dropdown-series-details/lbl'|translate}}</a>
+    <a href='#/series/{{serie.TVDB_ID}}'><i class="glyphicon glyphicon-info-sign"></i> {{'EVENT/dropdown-series-details/lbl'|translate}}</a>
   </li>
   <li ng-if="episode.hasAired()">
     <a>

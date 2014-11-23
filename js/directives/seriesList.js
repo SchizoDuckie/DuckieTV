@@ -40,7 +40,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              * Change location to the series details when clicked from display mode.
              */
             $scope.go = function(serieID, episode) {
-                window.location.href = '#/serie/' + serieID + '/episode/' + episode.getID();
+                window.location.href = '#/serie/' + serieID + '/episode/' + episode.TVDB_ID;
             }
 
             /**

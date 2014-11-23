@@ -15,7 +15,7 @@ angular.module('DuckieTV.controllers.episodes', [])
             $scope.serie = serie;
             $scope.$digest();
             CRUD.FindOne("Episode", {
-                ID_Episode: $routeParams.episode
+                TVDB_ID: $routeParams.episode
             }).then(function(epi) {
                 $scope.episode = epi;
                 $scope.$digest();
