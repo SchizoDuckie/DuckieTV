@@ -53,9 +53,8 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
                         TorrentDialog.launchMagnet(url, serie.get('TVDB_ID'), true);
                     }, (episodeIndex || 0) * 10000);
                     // store the magnet hash on the episode and notify the listeners of the change
-                    episode.set('magnetHash', url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
-                    episode.Persist();
-                    $rootScope.$broadcast('episodes:updated');
+
+                    $rootScope.$broadcast('magnet:select:' + episode.TVDB_ID, [url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase()]);
                 }
             });
         }

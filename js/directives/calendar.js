@@ -211,11 +211,9 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                 $scope.episode.Persist();
             });
             $scope.autoDownload = function() {
-                CRUD.FindOne('Serie', {
-                    TVDB_ID: $scope.serie.TVDB_ID
-                }).then(function(serie) {
-                    EpisodeAiredService.autoDownload(serie, $scope.episode);
-                });
+
+                EpisodeAiredService.autoDownload($scope.serie, $scope.episode);
+
             },
             $scope.getSearchString = function(event) {
 
