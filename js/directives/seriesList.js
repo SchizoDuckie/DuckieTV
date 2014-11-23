@@ -4,7 +4,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
  * The Serieslist directive is what's holds the favorites list and allows you to add/remove series and episodes to your calendar.
  * It also is used as the main navigation to get to any of your series.
  */
-.directive('seriesList', function(FavoritesService, $rootScope, $filter, $dialogs, TraktTV) {
+.directive('seriesList', function(FavoritesService, $rootScope, $filter, $dialogs, $location, TraktTV) {
     return {
         restrict: 'E',
         transclude: true,
