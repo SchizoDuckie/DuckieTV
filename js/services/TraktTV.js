@@ -9,6 +9,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
 .factory('TraktTV', function(SettingsService, $q, $http, $rootScope) {
 
     var activeRequest = false;
+    var hasActiveRequest = false;
 
     var endpoints = {
         series: 'http://api.trakt.tv/search/shows.json/dc6cdb4bcbc5cb9f2b666202a10353d6?query=%s',
@@ -79,15 +80,18 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
         var url = getUrl(type, param, param2);
         var parser = getParser(type);
         activeRequest = $q.defer();
+        hasActiveRequest = true;
         $http.get(url, {
             cache: true,
             timeout: activeRequest.promise
         }).then(function(response) {
+            hasActiveRequest = false;
             return d.resolve(parser(response));
         }).catch(function(error) {
             if (error.status === 0) { // rejected promises
                 return d.resolve([]);
             }
+            hasActiveRequest = false;
             return d.reject(error);
         });
         return d.promise;
@@ -257,6 +261,11 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
                 //401 - incorrect user pass ect.
                 return err.status;
             });
+        },
+        hasActiveRequest: function() {
+            console.log("Has active request?", hasActiveRequest);
+
+            return hasActiveRequest;
         }
     };
 

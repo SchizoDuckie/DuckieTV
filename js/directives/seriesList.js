@@ -151,7 +151,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              * Fires when user types in the search box. Executes trakt.tv search based on find-while-you type.
              */
             $scope.findSeries = function() {
-                if ($scope.search.query.trim() < 2) { // when query length is smaller than 2 chars, auto-show the trending results
+                if ($scope.search.query.trim().length < 2) { // when query length is smaller than 2 chars, auto-show the trending results
                     $scope.trendingSeries = true;
                     $scope.search.results = null;
                     $scope.search.error = false;
@@ -163,12 +163,16 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 // disableBatchMode makes sure that previous request are aborted when a new one is started.
                 return TraktTV.disableBatchMode().findSeries($scope.search.query).then(function(res) {
                     $scope.search.error = false;
+                    if (!TraktTV.hasActiveRequest()) {
+                        console.log("Has active request?nope.");
+                        $scope.search.searching = false;
+                    }
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
-                    $scope.search.searching = false;
                     TraktTV.enableBatchMode();
                     $scope.search.results = (res && ('series' in res)) ? res.series : [];
                 }).catch(function(err) {
-                    $scope.search.searching = false;
+                    console.log("Search error!", err);
+
                     $scope.search.error = err;
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
                     TraktTV.enableBatchMode();
