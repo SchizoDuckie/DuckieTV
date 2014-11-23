@@ -53,6 +53,9 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 
                             if (entity.migrations) {
                                 var currentVersion = !localStorage.getItem('database.version.' + entity.table) ? 1 : parseInt(localStorage.getItem('database.version.' + entity.table), 10);
+                                if (isNaN(currentVersion)) {
+                                    currentVersion = 1;
+                                };
                                 var highestVersion = Math.max.apply(Math, Object.keys(entity.migrations));
                                 while (currentVersion != highestVersion) {
                                     currentVersion++;

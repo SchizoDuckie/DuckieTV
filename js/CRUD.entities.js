@@ -71,9 +71,17 @@ var Season = CRUD.define({
     },
     orderProperty: 'seasonnumber',
     orderDirection: 'DESC',
-    createStatement: 'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER)',
+    createStatement: 'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER, UNIQUE (ID_Serie, seasonnumber) ON CONFLICT REPLACE)',
     adapter: 'dbAdapter',
-    defaultValues: {}
+    defaultValues: {},
+    migrations: {
+        2: [
+            'ALTER TABLE Seasons RENAME TO Seasons_bak',
+            'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER, UNIQUE (ID_Serie, seasonnumber) ON CONFLICT REPLACE)',
+            'INSERT OR IGNORE INTO Seasons (ID_Season, ID_Serie, poster, seasonnumber) select ID_Season, ID_Serie, poster, seasonnumber from Seasons_bak',
+            'DROP TABLE Seasons_bak'
+        ]
+    }
 }, {
 
     getEpisodes: function() {
@@ -236,6 +244,5 @@ var WatchListObject = CRUD.define({
 }, {
 
 });
-
 
 CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome'));
