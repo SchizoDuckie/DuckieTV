@@ -765,6 +765,7 @@ td.day {
     right: 4.7px;
     color:#17D5E3;
     opacity:0.8;
+    text-decoration: none !important;
 }
 [date-picker] .event:hover {
     background-color: rgba(0, 0, 0, 0.8);
