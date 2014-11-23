@@ -47,7 +47,6 @@ chrome.runtime.onInstalled.addListener(function(details) {
 angular.module('DuckieTV', [
     'DuckieTV.directives.torrentdialog',
     'DuckieTV.providers.alarms',
-    'DuckieTV.providers.storagesync',
     'DuckieTV.providers.eventwatcher',
     'DuckieTV.providers.eventscheduler',
     'DuckieTV.providers.episodeaired',
