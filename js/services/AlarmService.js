@@ -179,6 +179,7 @@ angular.module('DuckieTV.providers.alarms', [])
         fire: function() {
             console.info("Firing custom alarm!", this.name);
             if (typeof service.callback == "function") {
+                console.log("Running callback!", this.name, service.callback);
                 service.callback({
                     name: this.name
                 });
@@ -215,8 +216,9 @@ angular.module('DuckieTV.providers.alarms', [])
     };
 
 
-
-    service.initialize();
+    setTimeout(function() {
+        service.initialize();
+    }, 10000);
 
     return service;
 });
