@@ -244,12 +244,12 @@ angular.module('DuckieTV', [
 
     FavoritesService.loadRandomBackground();
 
-    console.info('client determined locale', angular.lowercase($translate.proposedLanguage()));
-    SettingsService.set('client.determinedlocale', angular.lowercase($translate.proposedLanguage()));
-    var configuredLocale = SettingsService.get('application.locale') || angular.lowercase($translate.proposedLanguage);
-    if (configuredLocale !== 'en_us') {
-        SettingsService.changeLanguage(configuredLocale);
-    };
+    SettingsService.set('client.determinedlocale', $translate.proposedLanguage() == undefined ? 'en_us' : angular.lowercase($translate.proposedLanguage()));
+
+    var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage();
+    SettingsService.changeLanguage(angular.lowercase(configuredLocale));
+
+    console.info('client determined locale proposed:', $translate.proposedLanguage(), 'set:', SettingsService.get('client.determinedlocale'), 'configured:', configuredLocale);
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
     $rootScope.getSetting = function(key) {
