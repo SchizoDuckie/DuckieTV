@@ -412,11 +412,20 @@ angular.module('DuckieTV.providers.scenenames', [])
         "285507": "The Code AU"
     };
 
-    var episodesByDate = [
-        "71256" /* "The Daily Show" */
-    ];
+    var episodesWithDateFormat = {
+        71256: "yyyy.MM.dd", // The Daily Show : 2014.11.13.
+        70366: "EEE, MMM d yyyy", // Days of our lives:  Thu, Nov 6, 2014 
+        261676: "yyyy MM dd", // wwe superstars: 2014 11 20
+        75332: "dd MMM yy", // General Hospital : 20 Nov 14
+        71998: "yyyy.MM.dd", // Jimmy Kimmel Live: 2014.11.13
+        85355: "yyyy.MM.dd", // Late Night with Jimmy Fallon: 2014.11.13
+        270262: "yyyy MM dd", // Late Night with Seth Meyers: 2014.11.13 
+        274099: "yyyy.MM.dd", // @midnight: 2014.11.13
+        79274: "yyyy.MM.dd", // The Colbert Report: 2014.11.13 
+        72194: "yyyy.MM.dd" // The Ellen DeGeneres Show: 2014.11.13 
+    };
 
-    this.$get = function() {
+    this.$get = function($filter) {
         return {
             /** 
              * Return the scene name of the provided TVDB_ID if it's in the list.
@@ -426,14 +435,10 @@ angular.module('DuckieTV.providers.scenenames', [])
             },
 
             getSearchStringForEpisode: function(serie, episode) {
-                if (episodesByDate.indexOf(serie.TVDB_ID.toString()) > -1) {
-                    var d = new Date(episode.firstaired + (new Date().getTimezoneOffset() * 60000));
+                if (serie.TVDB_ID in episodesWithDateFormat) {
 
-                    d.setTime(d.getTime() - 6 * 60 * 60 * 1000);
-                    // set timezone for episode date to central us. this works for the dayly show and stuff, for now, but needs to check serie.country in the future.
-
-
-                    return [d.getFullYear(), d.getMonth() + 1, d.getDate()].join(' ');
+                    var d = new Date(episode.firstaired);
+                    return $filter('date')(d, episodesWithDateFormat[serie.TVDB_ID]);
                 } else {
                     return episode.getFormattedEpisode();
                 }
