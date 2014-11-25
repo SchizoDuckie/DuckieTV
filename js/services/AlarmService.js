@@ -149,7 +149,9 @@ angular.module('DuckieTV.providers.alarms', [])
             if (localStorage.getItem('alarms')) {
                 this.alarms = JSON.parse(localStorage.getItem('alarms'));
                 Object.keys(this.alarms).map(function(alarmName) {
-                    service.alarms[alarmName].__proto__ = alarmProto;
+                    for (var key in alarmProto) {
+                        service.alarms[alarmName][key] = alarmProto[key];
+                    }
                     service.alarms[alarmName].wakeUp();
                 });
 
