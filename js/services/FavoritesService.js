@@ -110,7 +110,7 @@ angular.module('DuckieTV.providers.favorites', [])
                 if (!serie) {
                     serie = new Serie();
                 }
-                if (serie.name.toLowerCase() != data.title.toLowerCase()) {
+                if (serie.getID() !== false && serie.name.toLowerCase() != data.title.toLowerCase()) {
                     console.log("Serie name has changed versus database name, removing it's updatecheck.");
                     EventSchedulerService.clear(serie.name + ' update check');
                 }
@@ -349,7 +349,7 @@ angular.module('DuckieTV.providers.favorites', [])
             var d = $q.defer();
             CRUD.Find('Serie', {}).then(function(results) {
                 results.map(function(el, idx) {
-                    results[idx] = el
+                    results[idx] = el;
                 });
                 d.resolve(results);
             });
@@ -363,7 +363,9 @@ angular.module('DuckieTV.providers.favorites', [])
             // dafuq. no RANDOM() in sqlite in chrome... 
             // then we pick a random array item from the resultset based on the amount.
             CRUD.EntityManager.getAdapter().db.execute("select fanart from series where fanart != ''").then(function(result) {
-                $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1)) + 1).fanart);
+                if (result.rs.rows.length > 0) {
+                    $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1)) + 1).fanart);
+                }
             });
 
         },

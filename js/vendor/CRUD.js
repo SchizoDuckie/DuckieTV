@@ -258,7 +258,7 @@ CRUD.Entity = function(className, methods) {
 CRUD.Entity.prototype = {
 
     getID: function() {
-        return this.get(CRUD.EntityManager.getPrimary(this.getType()));
+        return this.get(CRUD.EntityManager.getPrimary(this.getType())) || false;
     },
 
     asObject: function() {
