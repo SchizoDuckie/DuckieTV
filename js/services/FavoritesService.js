@@ -79,7 +79,7 @@ angular.module('DuckieTV.providers.favorites', [])
             });
         });
         CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [ID]).then(function(result) {
-            console.log("Cleaned up ", result.rs.rowsAffected, " orphaned episodes");
+            console.log("Cleaned up", result.rs.rowsAffected, "orphaned episodes");
         });
         tvdbList = null;
     };
