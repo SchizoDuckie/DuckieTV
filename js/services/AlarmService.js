@@ -142,13 +142,21 @@ angular.module('DuckieTV.providers.alarms', [])
 
         persist: function() {
             console.info("DuckieTV alarm persist!");
-            localStorage.setItem('alarms', JSON.stringify(this.alarms));
+            var storage = {};
+            for (var i in this.alarms) {
+                storage[i] = JSON.parse(JSON.stringify(this.alarms[i]));
+                for (var key in alarmProto) {
+                    delete storage[i][key];
+                }
+            }
+            console.log("store!", storage, this.alarms);
+            localStorage.setItem('alarms', JSON.stringify(storage));
         },
 
         initialize: function() {
             if (localStorage.getItem('alarms')) {
-                this.alarms = JSON.parse(localStorage.getItem('alarms'));
-                Object.keys(this.alarms).map(function(alarmName) {
+                service.alarms = JSON.parse(localStorage.getItem('alarms'));
+                Object.keys(service.alarms).map(function(alarmName) {
                     for (var key in alarmProto) {
                         service.alarms[alarmName][key] = alarmProto[key];
                     }
@@ -218,9 +226,8 @@ angular.module('DuckieTV.providers.alarms', [])
     };
 
 
-    setTimeout(function() {
-        service.initialize();
-    }, 10000);
+    service.initialize();
+
 
     return service;
 });
