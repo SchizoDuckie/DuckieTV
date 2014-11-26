@@ -51,6 +51,29 @@ var Serie = CRUD.define({
         });
     },
 
+    /** 
+     * Fetch episodes as object mapped by TVDB_ID
+     */
+    getEpisodesMap: function() {
+        return this.getEpisodes().then(function(result) {
+            var out = {};
+            result.map(function(episode) {
+                out[episode.TVDB_ID] = episode;
+            });
+            return out;
+        });
+    },
+
+    getSeasonsByNumber: function() {
+        return this.getSeasons().then(function(seasons) {
+            var out = {};
+            seasons.map(function(el) {
+                out[el.seasonnumber] = el;
+            });
+            return out;
+        });
+    },
+
     getLatestSeason: function() {
         return CRUD.FindOne('Season', {
             ID_Serie: this.getID()

@@ -7,6 +7,22 @@ angular.module('DuckieTV.providers.favorites', [])
  */
 .factory('FavoritesService', function($rootScope, AlarmService, TraktTV, EventSchedulerService, $q) {
 
+    /** 
+     * Helper function to add a serie to the service.favorites hash if it doesn't already exist.
+     * update existing otherwise.
+     */
+    addToFavoritesList = function(serie) {
+        var existing = service.favorites.filter(function(el) {
+            return el.TVDB_ID == serie.TVDB_ID;
+        });
+        if (existing.length === 0) {
+            service.favorites.push(serie);
+        } else {
+            service.favorites[service.favorites.indexOf(existing[0])] = serie;
+        }
+    };
+
+
     /**
      * Helper function to map properties from the input data on a serie from Trakt.TV into a Serie CRUD object.
      * Input information will always overwrite existing information.
@@ -22,47 +38,49 @@ angular.module('DuckieTV.providers.favorites', [])
             'air_time_utc': 'airs_time',
             'country': 'language'
         };
+        if ('images' in data) {
+            data.fanart = data.images.fanart;
+            data.poster = data.images.poster;
+            data.banner = data.images.banner;
+        }
+        data.firstaired = data.first_aired_utc * 1000;
+        data.rating = data.ratings.percentage;
+        data.ratingcount = data.ratings.votes;
+        data.genre = data.genres.join('|');
+        data.actors = data.people.actors.map(function(actor) {
+            return actor.name;
+        }).join('|');
+        data.status = data.ended === true ? 'Ended' : 'Continuing';
+
         for (var i in data) {
-            if (i == 'images') {
-                serie.set('fanart', data[i].fanart);
-                serie.set('poster', data[i].poster);
-                serie.set('banner', data[i].banner);
-            }
-            if (i == 'first_aired') {
-                serie.set('firstaired', data.first_aired_utc * 1000);
-            } else if (i == 'ratings') {
-                serie.set('rating', data.ratings.percentage);
-                serie.set('ratingcount', data.ratings.votes);
-            } else if (i == 'genres') {
-                serie.set('genre', data.genres.join('|'));
-            } else if (i == 'people') {
-                serie.set('actors', data.people.actors.map(function(actor) {
-                    return actor.name;
-                }).join('|'));
-            } else if (i == 'ended') {
-                serie.set('status', data[i] == true ? 'Continuing' : 'Ended');
-            } else if (i in mappings) {
-                serie.set(mappings[i], data[i]);
-            } else {
-                serie.set(i, data[i]);
-            }
+            serie.set(i, data[i]);
         }
     };
     /**
      * Helper function to map properties from the input data from Trakt.TV into a Episode CRUD object.
      * Input information will always overwrite existing information.
      */
-    fillEpisode = function(episode, d) {
+    fillEpisode = function(episode, data, season, watched) {
+        // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
+        data.TVDB_ID = data.tvdb_id;
+        data.rating = data.ratings.percentage;
+        data.ratingcount = data.ratings.votes;
+        data.episodenumber = data.episode;
+        data.episodename = data.title;
+        data.firstaired = data.first_aired_utc == 0 ? null : new Date(data.first_aired_iso).getTime();
+        data.filename = data.screen;
 
-        d.TVDB_ID = d.tvdb_id;
-        d.rating = d.ratings.percentage;
-        d.ratingcount = d.ratings.votes;
-        d.episodenumber = d.episode;
-        d.episodename = d.title;
-        d.firstaired = d.first_aired_utc == 0 ? null : new Date(d.first_aired_iso).getTime();
-        d.filename = d.screen;
-        for (var i in d) {
-            episode.set(i, d[i]);
+        for (var i in data) {
+            episode.set(i, data[i]);
+        }
+        episode.season = season.season;
+        // if there's an entry for the episode in watchedEpisodes, this is a backup restore
+        var watchedEpisodes = watched.filter(function(el) {
+            return el.TVDB_ID == e.TVDB_ID;
+        });
+        if (watchedEpisodes.length > 0) {
+            episode.set('watched', '1');
+            episode.set('watchedAt', watchedEpisodes[0].watchedAt);
         }
     };
 
@@ -105,52 +123,30 @@ angular.module('DuckieTV.providers.favorites', [])
         addFavorite: function(data, watched) {
             watched = watched || [];
             console.log("FavoritesService.addFavorite!", data, watched);
-            var d = $q.defer();
-            service.getById(data.tvdb_id).then(function(serie) {
+            return service.getById(data.tvdb_id).then(function(serie) {
                 if (!serie) {
                     serie = new Serie();
-                }
-                if (serie.getID() !== false && serie.name.toLowerCase() != data.title.toLowerCase()) {
-                    console.log("Serie name has changed versus database name, removing it's updatecheck.");
+                } else if (serie.name.toLowerCase() != data.title.toLowerCase()) { // remove update checks for series that have their name changed (will be re-added with new name)
                     EventSchedulerService.clear(serie.name + ' update check');
                 }
                 fillSerie(serie, data);
-                serie.Persist().then(function(e) {
-                    var updateInterval = serie.status.toLowerCase() == 'ended' ? 60 * 24 * 14 : 60 * 24 * 2; // schedule updates for ended series only every 2 weeks. Saves useless updates.
-
-                    EventSchedulerService.createInterval(serie.name + ' update check', updateInterval, 'favoritesservice:checkforupdates', {
+                return serie.Persist().then(function(e) {
+                    // schedule updates for ended series only every 2 weeks. Saves useless updates otherwise update every 2 days.
+                    EventSchedulerService.createInterval(serie.name + ' update check', serie.status.toLowerCase() == 'ended' ? 60 * 24 * 14 : 60 * 24 * 2, 'favoritesservice:checkforupdates', {
                         ID: serie.getID(),
                         TVDB_ID: serie.TVDB_ID
                     });
-                    if (service.favorites.filter(function(el) {
-                        return el.TVDB_ID == serie.TVDB_ID;
-                    }).length == 0) {
-                        service.favorites.push(serie);
-                    } else {
-                        service.favorites.map(function(el, index) {
-                            if (el.TVDB_ID == serie.TVDB_ID) {
-                                service.favorites[index] = serie;
-                            }
-                        });
-                    }
+                    addToFavoritesList(serie); // cache serie in favoritesservice.favorites
                     $rootScope.$broadcast('background:load', serie.fanart);
-
-                    service.updateEpisodes(serie, data.seasons, watched).then(function(result) {
-                        $rootScope.$broadcast('episodes:updated', service.favorites);
+                    return service.updateEpisodes(serie, data.seasons, watched).then(function(result) { // add serie completely done, broadcast sync and update event.
                         console.log("Adding serie completely done, broadcasting storage sync event.");
+                        $rootScope.$broadcast('episodes:updated', service.favorites);
                         $rootScope.$broadcast('storage:update');
-                        d.resolve(serie);
-                    }, function(err) {
-                        console.log("Error updating episodes!");
-
-                        d.reject(err);
-                    }, function(notify) {
-
-                        console.log('Service update episodes progress notification event for ', serie, notify);
+                        return result;
                     });
                 });
             });
-            return d.promise;
+
         },
         /**
          * Update the episodes and seasons attached to a serie.
@@ -163,66 +159,29 @@ angular.module('DuckieTV.providers.favorites', [])
         updateEpisodes: function(serie, seasons, watched) {
             watched = watched || [];
 
-            var seasonCache = {};
-            var p = $q.defer();
-            var totalEpisodes = 0;
-            var updatedEpisodes = 0;
-            seasons.map(function(s) { // keep track of the total number of episodes for all seasons, so that we know when all promises have finished.
-                totalEpisodes += s.episodes.length;
-            });
-            return serie.getSeasons().then(function(sea) { // fetch the seasons and cache them by number.
-                sea.map(function(el) {
-                    seasonCache[el.seasonnumber] = el;
-                });
+            return serie.getSeasonsByNumber().then(function(seasonCache) { // fetch the seasons and cache them by number.
 
-            }).then(function() {
+                return serie.getEpisodesMap().then(function(cache) { // then fetch the episodes already existing mapped by tvdb_id as cache object
 
-                return serie.getEpisodes().then(function(data) { // then fetch the episodes and put them in a big cache object
-                    var cache = {};
-
-                    data.map(function(episode) {
-                        cache[episode.TVDB_ID] = episode;
-                    });
-                    data = null;
-
-                    var pq = [];
-                    cleanOldSeries(seasons, serie.getID());
+                    cleanOldSeries(seasons, serie.getID()); // clean up episodes from the database that were saved but are no longer in the latest update
 
                     return $q.all(seasons.map(function(season) {
 
                         var SE = (season.season in seasonCache) ? seasonCache[season.season] : new Season();
-
                         for (var s in season) { // update the season's properties
-                            if (s == 'episodes') continue;
-                            SE.set(s, season[s]);
+                            SE[s] = season[s];
                         }
-                        SE.set('seasonnumber', season.season);
-                        SE.set('ID_Serie', serie.getID());
-                        SE.episodes = season.episodes;
+                        SE.seasonnumber = season.season;
+                        SE.ID_Serie = serie.getID();
 
                         return SE.Persist().then(function(r) {
 
                             return $q.all(SE.episodes.map(function(episode, idx) { // update the season's episodes
                                 var e = (!(episode.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
-                                fillEpisode(e, episode);
-                                e.seasonnumber = season.season;
+                                fillEpisode(e, episode, season, watched);
                                 e.ID_Serie = serie.getID();
                                 e.ID_Season = SE.getID();
-                                // if there's an entry for the episode in watchedEpisodes, this is a backup restore
-                                var watchedEpisodes = watched.filter(function(el) {
-                                    return el.TVDB_ID == e.TVDB_ID;
-                                });
-                                if (watchedEpisodes.length > 0) {
-                                    e.set('watched', '1');
-                                    e.set('watchedAt', watchedEpisodes[0].watchedAt);
-                                }
-
-                                // save the changes and free some memory, or do it immediately if there's no promise to wait for
-                                if (Object.keys(e.changedValues).length > 0) { // if the dbObject is dirty, we wait for the persist to resolve
-                                    return e.Persist();
-                                } else {
-                                    return true;
-                                }
+                                return e.Persist();
                             }));
                         });
                     }));
