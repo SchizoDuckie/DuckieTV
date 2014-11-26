@@ -16,7 +16,7 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
     };
 
     $scope.fireAll = function() {
-        if(theFireAlarm[0] == true) return;
+        if (theFireAlarm[0] == true) return;
         theFireAlarm[0] = true;
         $scope.timers.map(function(timer) {
             console.log('fire timer', timer.name);
@@ -40,7 +40,7 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
     };
 
     $scope.fixMissingTimers = function() {
-        if(theFireAlarm[1] == true) return;
+        if (theFireAlarm[1] == true) return;
         theFireAlarm[1] = true;
         EventSchedulerService.fixMissingTimers();
     };
@@ -62,7 +62,7 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
     }
 
     $scope.injectTimer = function() {
-        EventSchedulerService.createInterval('** Episode Aired -> Torrent Availability check service', 60, 'episode:aired:check', {});
+        EventSchedulerService.createInterval('$$$$ Episode Aired - Torrent Availability check service', 60, 'episode:aired:check', {});
         refresh();
     };
 
