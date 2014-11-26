@@ -174,19 +174,18 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
             // insert
             query.push('INSERT INTO ', CRUD.EntityManager.entities[what.className].table, '(', names.join(","), ') VALUES (', values.join(","), ');');
             CRUD.log(query.join(' '), valmap);
-            return new Promise(function(resolve, fail) {
-                that.db.execute(query.join(' '), valmap).then(function(resultSet) {
-                    resultSet.Action = 'inserted';
-                    resultSet.ID = resultSet.rs.insertId;
-                    CRUD.stats.writesExecuted++;
-                    resolve(resultSet);
-                }, function(err, tx) {
-                    CRUD.stats.writesExecuted++;
-                    err.query = query.join(' ');
-                    err.values = valmap;
-                    fail(err);
-                });
+            return that.db.execute(query.join(' '), valmap).then(function(resultSet) {
+                resultSet.Action = 'inserted';
+                resultSet.ID = resultSet.rs.insertId;
+                CRUD.stats.writesExecuted++;
+                return resultSet;
+            }, function(err, tx) {
+                CRUD.stats.writesExecuted++;
+                err.query = query.join(' ');
+                err.values = valmap;
+                return err;
             });
+
         } else { // existing : build an update query.
             query.push('UPDATE', CRUD.EntityManager.entities[what.className].table, 'SET');
             for (i = 0; i < names.length; i++) {
@@ -196,15 +195,13 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
             valmap.push(what.getID());
             query.push('WHERE', CRUD.EntityManager.getPrimary(what.className), '= ?');
 
-            return new Promise(function(resolve, fail) {
-                that.db.execute(query.join(' '), valmap).then(function(resultSet) {
-                    CRUD.stats.writesExecuted++;
-                    resultSet.Action = 'updated';
-                    resolve(resultSet);
-                }, function(err, tx) {
-                    CRUD.stats.writesExecuted++;
-                    fail(err);
-                });
+            return that.db.execute(query.join(' '), valmap).then(function(resultSet) {
+                CRUD.stats.writesExecuted++;
+                resultSet.Action = 'updated';
+                return resultSet;
+            }, function(err, tx) {
+                CRUD.stats.writesExecuted++;
+                return;
             });
         }
     }
@@ -245,50 +242,61 @@ December 2013: Updated for use of promises.
 ...
 */
 CRUD.Database = function(name, options) {
-    this.options = options || {
+    options = options || {
         version: '1.0',
         estimatedSize: 655360
     };
 
-    this.lastInsertRowId = 0;
-    this.db = false;
-    this.dbName = name || false;
+    var lastInsertRowId = 0;
+    var db = false;
+    var dbName = name || false;
 
     this.lastInsertId = function() {
-        return this.lastInsertRowId;
+        return lastInsertRowId;
     };
 
     this.close = function() {
-        return this.db.close();
+        return db.close();
     };
+
+    this.getDB = function() {
+        return db;
+    }
+
+
 
     /** 
      * Execute a db query and promise a resultset.
      */
     this.execute = function(sql, valueBindings) {
-        if (!this.db) return;
-        var that = this;
+        if (!db) return;
+        if (!db.transaction) {
+
+        }
         return new Promise(function(resolve, fail) {
-            that.db.transaction(function(transaction) {
+            function sqlOK(transaction, rs) {
+                resolve(new CRUD.Database.ResultSet(rs));
+            }
+
+            function sqlFail(transaction, error) {
+                fail(error, transaction);
+            }
+
+            db.transaction(function(transaction) {
                 CRUD.log("execing sql: ", sql);
-                transaction.executeSql(sql, valueBindings, function(transaction, rs) {
-                    resolve(new CRUD.Database.ResultSet(rs));
-                }, function(transaction, error) {
-                    fail(error, transaction)
-                });
+                transaction.executeSql(sql, valueBindings, sqlOK, sqlFail);
             });
         });
     }
 
     this.connect = function() {
-        var that = this;
         return new Promise(function(resolve, fail) {
             try {
-                that.db = openDatabase(that.dbName, that.options.version, '', that.options.estimatedSize);
-                if (!that.db) {
-                    fail("could not open database " + that.dbName);
+                db = openDatabase(dbName, options.version, '', options.estimatedSize);
+                if (!db) {
+                    fail("could not open database " + dbName);
                 } else {
-                    CRUD.log("DB connection to ", that.dbName, " opened!");
+                    CRUD.log("DB connection to ", dbName, " opened!");
                     resolve(this);
                 }
             } catch (E) {
