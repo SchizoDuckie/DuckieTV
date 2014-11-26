@@ -18,7 +18,7 @@ angular.module('DuckieTV.directives.lazybackground', [])
              * it can fetch the new image and fade to it 
              */ 
             attrs.$observe('lazyBackground', function(newSrc) {
-                if (newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/') return;
+                if (newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/' || newSrc == 'http://ir0.mobify.com/webp/250/') return;
                 element.attr('oldStyle', element.attr('style') == null ? '' : element.attr('style'));
                 element.css('transition', 'opacity 0.5s ease-in');
                 element.css('opacity', 0.5);
