@@ -170,14 +170,14 @@ angular.module('DuckieTV.providers.favorites', [])
             seasons.map(function(s) { // keep track of the total number of episodes for all seasons, so that we know when all promises have finished.
                 totalEpisodes += s.episodes.length;
             });
-            serie.getSeasons().then(function(sea) { // fetch the seasons and cache them by number.
+            return serie.getSeasons().then(function(sea) { // fetch the seasons and cache them by number.
                 sea.map(function(el) {
                     seasonCache[el.seasonnumber] = el;
                 });
 
             }).then(function() {
 
-                serie.getEpisodes().then(function(data) { // then fetch the episodes and put them in a big cache object
+                return serie.getEpisodes().then(function(data) { // then fetch the episodes and put them in a big cache object
                     var cache = {};
 
                     data.map(function(episode) {
@@ -188,7 +188,7 @@ angular.module('DuckieTV.providers.favorites', [])
                     var pq = [];
                     cleanOldSeries(seasons, serie.getID());
 
-                    seasons.map(function(season) {
+                    return $q.all(seasons.map(function(season) {
 
                         var SE = (season.season in seasonCache) ? seasonCache[season.season] : new Season();
 
@@ -200,9 +200,9 @@ angular.module('DuckieTV.providers.favorites', [])
                         SE.set('ID_Serie', serie.getID());
                         SE.episodes = season.episodes;
 
-                        SE.Persist().then(function(r) {
+                        return SE.Persist().then(function(r) {
 
-                            SE.episodes.map(function(episode, idx) { // update the season's episodes
+                            return $q.all(SE.episodes.map(function(episode, idx) { // update the season's episodes
                                 var e = (!(episode.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
                                 fillEpisode(e, episode);
                                 e.seasonnumber = season.season;
@@ -219,43 +219,15 @@ angular.module('DuckieTV.providers.favorites', [])
 
                                 // save the changes and free some memory, or do it immediately if there's no promise to wait for
                                 if (Object.keys(e.changedValues).length > 0) { // if the dbObject is dirty, we wait for the persist to resolve
-                                    e.Persist().then(function(res) {
-                                        updatedEpisodes++;
-                                        if (updatedEpisodes == totalEpisodes) { // when all episodes are done, resolve the promise.
-                                            if (service.favoriteIDs.indexOf(serie.TVDB_ID) == -1) {
-                                                service.favoriteIDs.push(serie.TVDB_ID);
-                                            }
-                                            p.resolve();
-                                        }
-                                        cache[episode.tvdb_id] = null;
-                                        e = null;
-                                        episode = null;
-                                    }, function(err) {
-                                        console.error("PERSIST ERROR!", err);
-                                    });
-                                } else { // nothing has changed here, update the counter and continue or resolve.
-                                    updatedEpisodes++;
-                                    e = null;
-                                    cache[episode.tvdb_id] = null;
-                                    episode = null;
-                                    if (updatedEpisodes == totalEpisodes) { // when all episodes are done, resolve the promise.
-                                        if (service.favoriteIDs.indexOf(serie.TVDB_ID) == -1) {
-                                            service.favoriteIDs.push(serie.TVDB_ID);
-                                        }
-                                        p.resolve();
-                                    }
+                                    return e.Persist();
+                                } else {
+                                    return true;
                                 }
-                            });
-                            SE.episodes = null;
-                            SE = null;
-                            seasonCache[season.season] = null;
-                            season = null;
+                            }));
                         });
-                    });
+                    }));
                 });
-
             });
-            return p.promise;
         },
 
         /**
