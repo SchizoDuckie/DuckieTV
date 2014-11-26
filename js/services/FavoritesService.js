@@ -73,7 +73,7 @@ angular.module('DuckieTV.providers.favorites', [])
         for (var i in data) {
             episode.set(i, data[i]);
         }
-        episode.season = season.season;
+        episode.seasonnumber = season.season;
         // if there's an entry for the episode in watchedEpisodes, this is a backup restore
         var watchedEpisodes = watched.filter(function(el) {
             return el.TVDB_ID == e.TVDB_ID;
