@@ -89,26 +89,19 @@ angular.module('DuckieTV.controllers.backup', [])
                 angular.forEach(result.settings, function(value, key) {
                     localStorage.setItem(key, value);
                 })
-                var prom = $q.defer();
                 angular.forEach(result.series, function(watched, TVDB_ID) {
-
-                    prom.promise.then(function() {
-                        TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(serie) {
-                            $scope.adding[TVDB_ID] = true;
-                            $scope.series.push(serie);
-                            return FavoritesService.addFavorite(serie, watched).then(function(s) {
-                                $rootScope.$broadcast('storage:update'); // synchronize settings storage
-                                $rootScope.$broadcast('episodes:updated'); // refresh the calendar in the background
-                                $scope.adding[TVDB_ID] = false;
-
-
-                            });
+                    TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(serie) {
+                        $scope.adding[TVDB_ID] = true;
+                        $scope.series.push(serie);
+                        FavoritesService.addFavorite(serie, watched).then(function(s) {
+                            $rootScope.$broadcast('storage:update'); // synchronize settings storage
+                            $rootScope.$broadcast('episodes:updated'); // refresh the calendar in the background
+                            $scope.adding[TVDB_ID] = false;
                         });
-
                     });
 
                 });
-                prom.resolve();
+
             }, function(err) {
                 console.error("ERROR!", err);
             });
