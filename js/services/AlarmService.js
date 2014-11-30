@@ -42,8 +42,8 @@ angular.module('DuckieTV.providers.alarms', [])
             }));
         },
 
-        clear: function() {
-            chrome.alarms.clear(name);
+        clear: function(alarmName) {
+            chrome.alarms.clear(alarmName);
         },
 
         addListener: function(cb) {
