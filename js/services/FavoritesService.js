@@ -20,6 +20,8 @@ angular.module('DuckieTV.providers.favorites', [])
         } else {
             service.favorites[service.favorites.indexOf(existing[0])] = serie;
         }
+        service.favoriteIDs.push(serie.TVDB_ID.toString());
+
     };
 
 
@@ -28,16 +30,15 @@ angular.module('DuckieTV.providers.favorites', [])
      * Input information will always overwrite existing information.
      */
     fillSerie = function(serie, data) {
-        var mappings = {
-            'tvdb_id': 'TVDB_ID',
-            'tvrage_id': 'TVRage_ID',
-            'imdb_id': 'IMDB_ID',
-            'certification': 'contentrating',
-            'title': 'name',
-            'air_day_utc': 'airs_dayofweek',
-            'air_time_utc': 'airs_time',
-            'country': 'language'
-        };
+        data.TVDB_ID = data.tvdb_id;
+        data.TVRage_ID = data.tvrage_id;
+        data.IMDB_ID = data.imdb_id;
+        data.contentrating = data.certification;
+        data.name = data.title;
+        data.airs_dayofweek = data.air_day_utc;
+        data.airs_time = data.air_time_utc;
+        data.language = data.country;
+
         if ('images' in data) {
             data.fanart = data.images.fanart;
             data.poster = data.images.poster;
@@ -146,7 +147,6 @@ angular.module('DuckieTV.providers.favorites', [])
                     });
                 });
             });
-
         },
         /**
          * Update the episodes and seasons attached to a serie.
@@ -158,24 +158,17 @@ angular.module('DuckieTV.providers.favorites', [])
          */
         updateEpisodes: function(serie, seasons, watched) {
             watched = watched || [];
-
             return serie.getSeasonsByNumber().then(function(seasonCache) { // fetch the seasons and cache them by number.
-
                 return serie.getEpisodesMap().then(function(cache) { // then fetch the episodes already existing mapped by tvdb_id as cache object
-
                     cleanOldSeries(seasons, serie.getID()); // clean up episodes from the database that were saved but are no longer in the latest update
-
                     return $q.all(seasons.map(function(season) {
-
                         var SE = (season.season in seasonCache) ? seasonCache[season.season] : new Season();
                         for (var s in season) { // update the season's properties
                             SE[s] = season[s];
                         }
                         SE.seasonnumber = season.season;
                         SE.ID_Serie = serie.getID();
-
                         return SE.Persist().then(function(r) {
-
                             return $q.all(SE.episodes.map(function(episode, idx) { // update the season's episodes
                                 var e = (!(episode.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
                                 fillEpisode(e, episode, season, watched);
@@ -222,9 +215,7 @@ angular.module('DuckieTV.providers.favorites', [])
             });
         },
         hasFavorite: function(id) {
-            return service.favorites.filter(function(el) {
-                return el.TVDB_ID.toString() == id.toString();
-            }).length > 0;
+            return service.favoriteIDs.indexOf(id) > -1;
         },
         /**
          * Remove a serie, it's seasons, it's episodes and it's timers from the database.
@@ -295,7 +286,7 @@ angular.module('DuckieTV.providers.favorites', [])
             // then we pick a random array item from the resultset based on the amount.
             CRUD.EntityManager.getAdapter().db.execute("select fanart from series where fanart != ''").then(function(result) {
                 if (result.rs.rows.length > 0) {
-                    $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1)) + 1).fanart);
+                    $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1))).fanart);
                 }
             });
 
