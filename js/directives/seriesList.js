@@ -11,7 +11,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         templateUrl: "templates/home-series.html",
         link: function($scope, iElement) {
 
-
             $scope.search = {
                 query: undefined,
                 results: null
@@ -117,7 +116,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     $filter('translate')('SERIEDETAILSjs/serie-delete-question/p2')
                 );
                 dlg.result.then(function(btn) {
-                    console.log("Remove from favorites!", serie);
+                    console.log("Removing serie '" + serie.name + "' from favorites!", serie);
                     FavoritesService.remove(serie);
                     if (typeof $location != "undefined") {
                         $location.path('/')
@@ -126,7 +125,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     $scope.confirmed = $filter('translate')('SERIEDETAILSjs/serie-delete-confirmed');
                 });
             }
-
 
             /**
              * When mode == 'filter', these are in effect.
@@ -171,7 +169,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     TraktTV.enableBatchMode();
                     $scope.search.results = (res && ('series' in res)) ? res.series : [];
                 }).catch(function(err) {
-                    console.log("Search error!", err);
+                    console.error("Search error!", err);
 
                     $scope.search.error = err;
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
@@ -206,7 +204,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     });
                 });
             }
-
 
             /**
              * Verify with the favoritesservice if a specific TVDB_ID is registered.
@@ -249,7 +246,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 }
             });
 
-
             /**
              * When we detect the serieslist is empty, we pop up the panel and enable add mode.
              * This also enables trakt.tv most trending series download when it hasn't happen
@@ -259,7 +255,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 $scope.activate();
                 $scope.enableAdd();
             });
-
         }
     }
 });

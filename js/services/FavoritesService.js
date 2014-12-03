@@ -98,7 +98,7 @@ angular.module('DuckieTV.providers.favorites', [])
             });
         });
         CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [ID]).then(function(result) {
-            console.log("Cleaned up", result.rs.rowsAffected, "orphaned episodes");
+            console.log("Cleaned up " + result.rs.rowsAffected + " orphaned episodes");
         });
         tvdbList = null;
     };
@@ -123,7 +123,7 @@ angular.module('DuckieTV.providers.favorites', [])
          */
         addFavorite: function(data, watched) {
             watched = watched || [];
-            console.log("FavoritesService.addFavorite!", data, watched);
+            console.info("FavoritesService.addFavorite!", data, watched);
             return service.getById(data.tvdb_id).then(function(serie) {
                 if (!serie) {
                     serie = new Serie();
@@ -140,7 +140,7 @@ angular.module('DuckieTV.providers.favorites', [])
                     addToFavoritesList(serie); // cache serie in favoritesservice.favorites
                     $rootScope.$broadcast('background:load', serie.fanart);
                     return service.updateEpisodes(serie, data.seasons, watched).then(function(result) { // add serie completely done, broadcast sync and update event.
-                        console.log("Adding serie completely done, broadcasting storage sync event.");
+                        console.log("Adding serie '" + serie.name + "' completely done, broadcasting storage sync event.");
                         $rootScope.$broadcast('episodes:updated', service.favorites);
                         $rootScope.$broadcast('storage:update');
                         return result;
@@ -191,7 +191,7 @@ angular.module('DuckieTV.providers.favorites', [])
             return serie.Find('Episode', filters || {}).then(function(episodes) {
                 return episodes;
             }, function(err) {
-                console.log("Error in getEpisodes!", serie, filters || {});
+                console.error("Error in getEpisodes", serie, filters || {});
             });
         },
         getEpisodesForDateRange: function(start, end) {
@@ -232,7 +232,7 @@ angular.module('DuckieTV.providers.favorites', [])
                 CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ' + serie.ID_Serie);
                 s.Delete().then(function() {
                     $rootScope.$broadcast('calendar:clearcache');
-                    console.log("Serie deleted. Syncing storage.");
+                    console.log("Serie '" + serie.name + "' deleted. Syncing storage.");
 
                     $rootScope.$broadcast('storage:update');
                     service.refresh();

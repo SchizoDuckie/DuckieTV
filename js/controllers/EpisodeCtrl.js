@@ -33,7 +33,7 @@ angular.module('DuckieTV.controllers.episodes', [])
                 });
             }, function(err) {
                 debugger;
-                console.log("Episodes booh!", err);
+                console.error("Episodes booh!", err);
             });
         }, function(err) {
             debugger;

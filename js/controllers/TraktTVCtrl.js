@@ -16,12 +16,12 @@
 
      $scope.encryptPassword = function() {
          if($scope.credentials.password !== null) {
-            // Use Temp Password so that the trakt page doesn't udpate (it replies on passwordHash being null)
+            // Use Temp Password so that the trakt page doesn't update (it relies on passwordHash being null)
              $scope.credentials.temphash = CryptoJS.SHA1($scope.credentials.password).toString();
             // Check account details (user / sha1 pass) with Trakt.TV
              TraktTV.checkDetails($scope.credentials.username, $scope.credentials.temphash).then(function(response) {
                  if(response == 'success') {
-                     // Update internal and set passwords
+                     // Update internal  values and save passwords in settings
                      $scope.credentials.passwordHash = $scope.credentials.temphash;
                      $scope.credentials.password = angular.copy($scope.credentials.passwordHash);
                      $rootScope.setSetting('trakttv.passwordHash', $scope.credentials.passwordHash);
@@ -66,7 +66,7 @@
      $scope.getUserSuggestions = function() {
          $scope.traktTVLoading = true;
          TraktTV.getUserSuggestions().then(function(data) {
-             console.log("Found user suggestions from Trakt.tV", data);
+             console.info("Found user suggestions from Trakt.tv", data);
              $scope.traktTVSuggestions = data;
              $scope.traktTVLoading = false;
          });
@@ -74,7 +74,7 @@
 
      $scope.readTraktTV = function() {
          TraktTV.enableBatchMode().getUserWatched($scope.credentials.username).then(function(data) {
-             console.log("Found watched from Trakt.TV", data);
+             console.info("Found watched from Trakt.TV", data);
              data.map(function(show) {
                  $scope.traktTVSeries.push(show);
                  if (!(show.tvdb_id in $scope.tvdbSeries)) {
@@ -92,7 +92,7 @@
                                              TVDB_ID: show.tvdb_id
                                          }
                                      }).then(function(epi) {
-                                         console.log("Episode marked as watched: ", serie.title, epi.getFormattedEpisode());
+                                         console.info("Episode marked as watched: ", serie.title, epi.getFormattedEpisode());
                                          epi.markWatched();
                                      });
                                  });
@@ -118,9 +118,7 @@
                          }
                      });
                  }
-
              });
-
          });
      };
 
@@ -128,7 +126,7 @@
         var serieIDs = {};
            
         FavoritesService.favorites.map(function(serie) {
-            console.log("Adding serie to trakt.tv: ", serie);
+            console.log("Adding serie '" + serie.name + "' to Trakt.tv: ", serie);
             TraktTV.addToLibrary(serie.TVDB_ID);
             serieIDs[serie.ID_Serie] = serie.TVDB_ID;
         });

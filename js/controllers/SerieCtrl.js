@@ -45,7 +45,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
                 };
                 $scope.$digest();
             }, function(err) {
-                console.log("Could not find episodes for serie", err);
+                console.error("Could not find episodes for serie", err);
             }, function(err) {
                 console.error("Error fetching latest season's episodes!", err);
             });

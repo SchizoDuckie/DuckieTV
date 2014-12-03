@@ -35,7 +35,7 @@ angular.module('DuckieTV.directives.backgroundrotator', [])
                     $scope.$digest();
                 };
                 img.onerror = function(e) {
-                    console.log("image load error!", e, url);
+                    console.error("image load error!", e, url);
                 };
                 img.src = url.indexOf('mobify') > -1 ? url : ['http://ir0.mobify.com',$scope.format, url].join('/');
             }

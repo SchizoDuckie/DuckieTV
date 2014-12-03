@@ -4,7 +4,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
     $scope.targets = StorageSyncService.targets;
 
-
     $scope.read = function(StorageEngine) {
         StorageEngine.getSeriesList().then(function(result) {
             StorageEngine.series = [];
@@ -20,9 +19,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         StorageSyncService.compareTarget(StorageEngine, true)
     };
 
-
     console.log($scope.targets);
-
 })
 
 .controller('DefaultCtrl', function($scope, StorageSyncService, SettingsService) {
@@ -103,7 +100,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         $scope.activeLocale = lang;
     };
 
-
     /**
      * Enable the calendar to show-specials
      */
@@ -158,7 +154,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
             SettingsService.set('thepiratebay.mirror', $scope.customtpbmirror);
             $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
         }, function(err) {
-            console.debug("Could not find a working TPB mirror!", err);
+            console.error("Could not find a working TPB mirror!", err);
         });
     };
 
@@ -172,7 +168,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
             SettingsService.set('thepiratebay.mirror', $scope.customtpbmirror);
             $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
         }, function(err) {
-            console.log("Could not validate custom mirror!", mirror);
+            console.error("Could not validate custom mirror!", mirror);
             //$scope.customMirror = '';
         });
     };
@@ -188,7 +184,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
             SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
             $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
         }, function(err) {
-            console.debug("Could not find a working KAT mirror!", err);
+            console.error("Could not find a working KAT mirror!", err);
         });
     };
 
@@ -202,7 +198,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
             SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
             $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
         }, function(err) {
-            console.log("Could not validate custom mirror!", mirror);
+            console.error("Could not validate custom mirror!", mirror);
             //$scope.customMirror = '';
         });
     };
@@ -228,7 +224,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      * Change the default torrent search provider
      */
     $scope.setSearchProvider = function(provider) {
-        console.log("Set search provider!", provider);
         $scope.searchprovider = provider;
         SettingsService.set('torrenting.searchprovider', provider);
     };
@@ -237,7 +232,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      * Changes the default torrent search quality (hdtv, 720p, etc)
      */
     $scope.setSearchQuality = function(quality) {
-        console.log("Setting searchquality: ", quality);
         SettingsService.set('torrenting.searchquality', quality);
         $scope.searchquality = quality;
     };
@@ -245,7 +239,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 })
 
 .controller('SettingsCtrl', function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, MirrorResolver, TraktTV, EventSchedulerService, $filter) {
-
 
     $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
 
