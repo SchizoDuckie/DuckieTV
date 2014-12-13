@@ -1,7 +1,7 @@
 angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.settings'])
 /**
- * ThePirateBay provider
- * Allows searching for any content on tpb, ordered by most seeds
+ * Generic Torrent Search provider
+ * Allows searching for any content on a configurable torrent client
  */
 .provider('GenericSearch', function() {
 
@@ -18,7 +18,7 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
             releasename: ['dt a', 'innerHTML'],
             magneturl: ['dt a', 'attributes',
                 function(a) {
-                    return 'magnet:?xt=urn:sha1:' + a[0].nodeValue.substring(1);
+                    return 'magnet:?xt=urn:sha1:' + a.substring(1);
                 }
             ],
             size: ['dd span.s', 'innerText'],
@@ -45,26 +45,32 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
         var config = this.config.selectors;
         var results = doc.querySelectorAll(config.resultContainer);
         var output = [];
+
+        function getPropertyForSelector(parentNode, propertyConfig) {
+            var node = parentNode.querySelector(propertyConfig[0]);
+            if (!node) return null;
+            var propertyValue = node.getAttribute(propertyConfig[1]) !== null ? node.getAttribute(propertyConfig[1]) : node[propertyConfig[1]];
+            return propertyConfig.length == 3 ? propertyConfig[2](propertyValue) : propertyValue;
+        }
         for (var i = 0; i < results.length; i++) {
-            if (results[i].querySelector(config.magneturl[0]) !== null) {
-                var magnet = results[i].querySelector(config.magneturl[0])[config.magneturl[1]],
-                    releasename = results[i].querySelector(config.releasename[0])[config.releasename[1]],
-                    size = results[i].querySelector(config.size[0])[config.size[1]],
-                    seeders = results[i].querySelector(config.seeders[0])[config.seeders[1]],
-                    leechers = results[i].querySelector(config.leechers[0])[config.leechers[1]],
-                    detailUrl = this.mirror + results[i].querySelector(config.detailUrl[0])[config.detailUrl[1]],
-                    out = {
-                        releasename: config.releasename.length == 3 ? config.releasename[2](releasename) : releasename,
-                        magneturl: config.magneturl.length == 3 ? config.magneturl[2](magnet) : magnet,
-                        size: config.size.length == 3 ? config.size[2](size) : size,
-                        seeders: config.seeders.length == 3 ? config.seeders[2](seeders) : seeders,
-                        leechers: config.leechers.length == 3 ? config.leechers[2](leechers) : leechers,
-                        detailUrl: config.detailUrl.length == 3 ? config.detailUrl[2](detailUrl) : detailUrl
-                    };
-                out.torrent = 'http://torcache.net/torrent/' + out.magneturl.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+            var magnet = getPropertyForSelector(results[i], config.magneturl);
+            var releasename = getPropertyForSelector(results[i], config.releasename);
+            if (releasename === null || (magnet === null && !config.detailUrlMagnet)) continue;
+            var out = {
+                magneturl: magnet,
+                releasename: releasename,
+                size: getPropertyForSelector(results[i], config.size),
+                seeders: getPropertyForSelector(results[i], config.seeders),
+                leechers: getPropertyForSelector(results[i], config.leechers),
+                detailUrl: this.mirror + getPropertyForSelector(results[i], config.detailUrl)
+            };
+            var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
+            if (magnetHash && magnetHash.length) {
+                out.torrent = 'http://torcache.net/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                 output.push(out);
             }
         }
+
         return output;
     };
 
@@ -77,6 +83,10 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
         self.mirror = this.config.mirror;
         self.activeRequest = null;
         return {
+            setConfig: function(config) {
+                self.config = config;
+                self.mirror = config.mirror;
+            },
             /**
              * Execute a generic tpb search, parse the results and return them as an array
              */
@@ -94,11 +104,11 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
                     d.resolve(self.parseSearch(response));
                 }, function(err) {
                     if (err.status > 300) {
-                        if (config.mirrorResolver) {
-                            MirrorResolver.findirror().then(function(result) {
+                        if (self.config.mirrorResolver && self.config.mirrorResolver != null) {
+                            $injector.get(self.config.mirrorResolver).findMirror().then(function(result) {
                                 //console.log("Resolved a new working mirror!", result);
                                 self.mirror = result;
-                                return d.resolve(self.$get($q, $http, MirrorResolver).search(what));
+                                return d.resolve(self.$get($q, $http, $injector.get(self.config.mirrorResolver)).search(what));
                             }, function(err) {
                                 //console.debug("Could not find a working TPB mirror!", err);
                                 d.reject(err);

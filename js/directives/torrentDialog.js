@@ -37,17 +37,32 @@ angular.module('DuckieTV.directives.torrentdialog', [])
         $scope.searchprovider = $scope.getSetting('torrenting.searchprovider');
         $scope.searchquality = $scope.getSetting('torrenting.searchquality');
 
+        $scope.getName = function(provider) {
+            return provider.replace('GenericSearch.', '');
+        };
+
         $scope.search = function(q, TVDB_ID) {
+            $scope.searching = true;
             $scope.query = q;
             if (TVDB_ID !== undefined) {
                 $scope.TVDB_ID = TVDB_ID;
             }
-            $injector.get($scope.searchprovider).search([q, $scope.searchquality].join(' ')).then(function(results) {
+            var searchProvider;
+            if ($scope.searchprovider.indexOf('GenericSearch') === 0) {
+                searchProvider = $injector.get('GenericSearch');
+                console.log("Setting config: ", $scope.getSetting('torrenting.genericClients')[$scope.searchprovider.replace('GenericSearch.', '')]);
+                searchProvider.setConfig($scope.getSetting('torrenting.genericClients')[$scope.searchprovider.replace('GenericSearch.', '')]);
+            } else {
+                searchProvider = $injector.get($scope.searchprovider);
+            }
+
+            searchProvider.search([q, $scope.searchquality].join(' ')).then(function(results) {
                 $scope.items = results;
                 $scope.searching = false;
             }, function(e) {
                 $scope.searching = false;
             });
+
         }
 
         $scope.setQuality = function(quality) {
