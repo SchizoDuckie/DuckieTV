@@ -11,8 +11,6 @@
 </div>
 
 <div class="btn-group">
-  <button type="button" class="btn btn-default" ng-class="{'active': searchprovider == 'ThePirateBay'}" ng-click="setProvider('ThePirateBay')">ThePirateBay</button>
-  <button type="button" class="btn btn-default" ng-class="{'active': searchprovider == 'KickassTorrents'}" ng-click="setProvider('KickassTorrents')">KickAss</button>
  <button ng-repeat="(name, config) in getSetting('torrenting.genericClients')" type="button" class="btn btn-default" ng-class="{'active': searchprovider == 'GenericSearch.'+name}" ng-click="setProvider('GenericSearch.'+name)">{{name}}</button>
 </div>
 
