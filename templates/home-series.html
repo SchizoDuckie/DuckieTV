@@ -43,9 +43,9 @@
         <!-- if we're in search mode, this panel pops up -->
         <div ng-if="searchingForSerie" class="series" style='right:350px'>
           <h1 style='text-align:center' ng-if="search.searching"><img ng-if="search.searching" src="img/spinner.gif"><br>{{'HOMESERIES/addshow-start-typing/lbl'|translate}}</h1>
-          <h1 ng-if="search.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />There was an error contacting Trakt.TV, it might be down. Please try again later <br>{{ search.error.statusText }} </h1>
+          <h1 ng-if="search.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'HOMESERIES/error-with-trakttv/lbl'|translate}}<br>{{ search.error.statusText }} </h1>
 
-          <h1 ng-if="!search.searching && search.results.length == 0">No results found for {{search.query}}</h1>
+          <h1 ng-if="!search.searching && search.results.length == 0">{{'HOMESERIES/no-results/lbl'|translate}}{{search.query}}</h1>
           <serieHeader ng-if="search.results" ng-repeat="serie in search.results" data="serie" ng-mouseenter="setHoverSerie(serie)" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)">
             <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
             <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
@@ -56,7 +56,7 @@
             <strong>{{'HOMESERIES/series-no/hdr'|translate}}</strong><br>
             {{'HOMESERIES/series-no/desc'|translate}}
 
-            <strong><a href="#/settings/default" style='color:black'>You can also {{'DEFAULT/import/hdr'|translate}}</a></strong>
+            <strong><a href="#/settings/default" style='color:black'>{{'HOMESERIES/import/lbl'|translate}}</a></strong>
               
             </p>
 
