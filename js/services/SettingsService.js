@@ -97,7 +97,6 @@ angular.module('DuckieTV.providers.settings', [])
             'series.displaymode': 'poster',
             'storage.sync': false, // off by default so that permissions must be requested
             'sync.progress': true,
-            'thepiratebay.mirror': 'https://thepiratebay.se',
             'topSites.enabled': true,
             'topSites.mode': 'onhover',
             'torrenting.autodownload': false,
@@ -105,16 +104,17 @@ angular.module('DuckieTV.providers.settings', [])
             'torrenting.directory': true,
             'torrenting.enabled': true,
             'torrenting.progress': true,
-            'torrenting.searchprovider': 'ThePirateBay',
+            'torrenting.searchprovider': 'OldPirateBay',
             'torrenting.searchquality': '',
             'torrenting.streaming': true,
             'trakttv.passwordHash': null,
             'trakttv.sync': false,
             'trakttv.username': null,
             'torrenting.genericClients': {
+                /* R.I.P. TPB
                 'ThePirateBay': {
                     mirror: 'https://thepiratebay.cr',
-                    mirrorResolver: 'MirrorResolver',
+                mirrorResolver: 'MirrorResolver',
                     endpoints: {
                         search: '/search/%s/0/7/0',
                         details: '/torrent/%s'
@@ -136,7 +136,7 @@ angular.module('DuckieTV.providers.settings', [])
                         leechers: ['td:nth-child(4)', 'innerHTML'],
                         detailUrl: ['a.detLink', 'href'],
                     }
-                },
+                }, */
                 'KickAssTorrents': {
                     mirror: 'https://kickass.to',
                     mirrorResolver: null, //'KickassMirrorResolver'

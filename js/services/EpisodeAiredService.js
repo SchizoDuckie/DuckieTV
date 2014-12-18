@@ -1,4 +1,4 @@
-angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites', 'DuckieTV.providers.scenenames', 'DuckieTV.providers.thepiratebay', 'DuckieTV.directives.torrentdialog'])
+angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites', 'DuckieTV.providers.scenenames', 'DuckieTV.directives.torrentdialog'])
 
 
 /**
@@ -44,7 +44,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
             var name = SceneNameResolver.getSceneName(serie.get('TVDB_ID')) || serie.get('name');
             var searchString = name.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
             var SearchProvider = $injector.get(SettingsService.get('torrenting.searchprovider'));
-            SearchProvider.search(searchString).then(function(results) { // search thepiratebay for the string
+            SearchProvider.search(searchString).then(function(results) { // search torrent provider for the string
                 if (results.length === 0) {
                     return; // no results, abort
                 }

@@ -16,7 +16,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     };
 
     $scope.compare = function(StorageEngine) {
-        StorageSyncService.compareTarget(StorageEngine, true)
+        StorageSyncService.compareTarget(StorageEngine, true);
     };
 
     console.log($scope.targets);
@@ -118,23 +118,16 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
 })
 
-.controller('SettingsTorrentCtrl', function($scope, $rootScope, SettingsService, MirrorResolver, TraktTV, EventSchedulerService) {
+.controller('SettingsTorrentCtrl', function($scope, $rootScope, SettingsService, KickassMirrorResolver, TraktTV, EventSchedulerService) {
     console.log("Init settingstorrentctrl!");
     $scope.log = [];
 
-    $scope.customtpbmirror = SettingsService.get('thepiratebay.mirror');
     $scope.customkatmirror = SettingsService.get('kickasstorrents.mirror');
     $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
     $scope.searchquality = SettingsService.get('torrenting.searchquality');
-    $scope.tpbmirrorStatus = [];
     $scope.katmirrorStatus = [];
 
-    /**
-     * Inject an event to display mirror resolving progress.
-     */
-    $rootScope.$on('tpbmirrorresolver:status', function(evt, status) {
-        $scope.tpbmirrorStatus.unshift(status);
-    });
+    $scope.searchProviders = Object.keys(SettingsService.get('torrenting.genericClients'));
 
     /**
      * Inject an event to display mirror resolving progress.
@@ -144,42 +137,12 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     });
 
     /**
-     * Resolve a new random ThePirateBay mirror.
-     * Log progress while this is happening.
-     * Save the new mirror in the thepiratebay.mirror settings key
-     */
-    $scope.findRandomTPBMirror = function() {
-        MirrorResolver.findTPBMirror().then(function(result) {
-            $scope.customtpbmirror = result;
-            SettingsService.set('thepiratebay.mirror', $scope.customtpbmirror);
-            $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
-        }, function(err) {
-            console.error("Could not find a working TPB mirror!", err);
-        });
-    };
-
-    /**
-     * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
-     */
-    $scope.validateCustomTPBMirror = function(mirror) {
-        $scope.mirrorStatus = [];
-        MirrorResolver.verifyTPBMirror(mirror).then(function(result) {
-            $scope.customtpbmirror = result;
-            SettingsService.set('thepiratebay.mirror', $scope.customtpbmirror);
-            $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
-        }, function(err) {
-            console.error("Could not validate custom mirror!", mirror);
-            //$scope.customMirror = '';
-        });
-    };
-
-    /**
      * Resolve a new random KickassTorrents  mirror.
      * Log progress while this is happening.
      * Save the new mirror in the kickasstorrents.mirror settings key
      */
     $scope.findRandomKATMirror = function() {
-        MirrorResolver.findKATMirror().then(function(result) {
+        KickassMirrorResolver.findKATMirror().then(function(result) {
             $scope.customkatmirror = result;
             SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
             $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
@@ -193,7 +156,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $scope.validateCustomKATMirror = function(mirror) {
         $scope.mirrorStatus = [];
-        MirrorResolver.verifyKATMirror(mirror).then(function(result) {
+        KickassMirrorResolver.verifyKATMirror(mirror).then(function(result) {
             $scope.customkatmirror = result;
             SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
             $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
@@ -238,7 +201,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
 })
 
-.controller('SettingsCtrl', function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, MirrorResolver, TraktTV, EventSchedulerService, $filter) {
+.controller('SettingsCtrl', function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, KickassMirrorResolver, TraktTV, EventSchedulerService, $filter) {
 
     $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
 

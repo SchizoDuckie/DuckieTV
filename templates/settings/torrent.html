@@ -103,30 +103,6 @@
   </tr>
   <tr ng-show="getSetting('torrenting.enabled')">
     <th width="150px">
-      <strong style='white-space:nowrap'>The Pirate Bay</strong>
-    </th>
-    <td>
-      <p class="alert alert-warning" style='text-align:left;white-space:normal'>{{'TORRENT/tpb/desc'|translate}}
-      </p>
-      <ul class="list-unstyled">
-        <li>{{'TORRENT/tpb-mirror/hdr'|translate}}<br>
-          <input type='url' style='width:500px' ng-model="customtpbmirror">
-
-          <button class="btn btn-success" ng-click="validateCustomTPBMirror(customtpbmirror)">{{'TORRENT/tpb-validate/btn'|translate}}</button>
-          <button class="btn btn-info" ng-click="findRandomTPBMirror()">{{'TORRENT/tpb-find-mirror/btn'|translate}}</button>
-
-          <p ng-show="tpbmirrorStatus.length > 0">
-            {{'TORRENT/tpb-status/hdr'|translate}}
-            <ul style='max-height:150px; overflow-y:auto;'>
-              <li ng-repeat="status in tpbmirrorStatus track by $index">{{status}}</li>
-            </ul>
-          </p>
-        </li>
-      </ul>
-    </td>
-  </tr>
-  <tr ng-show="getSetting('torrenting.enabled')">
-    <th width="150px">
       <strong style='white-space:nowrap'>KickAss Torrents</strong>
     </th>
     <td>
@@ -157,14 +133,10 @@
       <p class="alert alert-info" style='text-align:left;white-space:normal'>{{'TORRENT/default-provider/alert'|translate}}</p>
 
       <ul class="list-unstyled">
-        <li ng-click="setSearchProvider('ThePirateBay')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != 'ThePirateBay', 'glyphicon-record': searchprovider == 'ThePirateBay'}"></i>
-            <strong>The Pirate Bay</strong>
+        <li ng-repeat="provider in searchProviders" ng-click="setSearchProvider(provider)" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != provider, 'glyphicon-record': searchprovider == provider}"></i>
+            <strong>{{provider}}</strong>
           </li>
-          <li ng-click="setSearchProvider('KickassTorrents')" style='cursor:pointer'>
-            <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != 'KickassTorrents', 'glyphicon-record': searchprovider == 'KickassTorrents'}"></i>
-              <strong>Kickass Torrents</strong>
-        </li>
       </ul>
     </td>
   </tr>

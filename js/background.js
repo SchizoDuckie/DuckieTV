@@ -54,12 +54,11 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.trakttv',
     'DuckieTV.providers.settings',
     'DuckieTV.providers.scenenames',
-    'DuckieTV.providers.mirrorresolver',
-    'DuckieTV.providers.thepiratebay'
+    'DuckieTV.providers.generictorrentsearch',
 ])
 
 /**
- * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
+ * Set up the xml interceptor and whitelist the chrome extension 's filesystem and magnet links
  */
 .config(function($httpProvider, $compileProvider) {
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|magnet|data):/);

@@ -1,6 +1,6 @@
 angular.module('DuckieTV.controllers.about', [])
 
-.controller('AboutCtrl', function($scope, $rootScope, $q, $http, $filter, AlarmService, SettingsService, StorageSyncService) {
+.controller('AboutCtrl', function($scope, $rootScope, $q, $http, $filter, $injector, AlarmService, SettingsService, StorageSyncService, GenericSearch) {
 
     $scope.statistics = [];
 
@@ -70,20 +70,8 @@ angular.module('DuckieTV.controllers.about', [])
             };
         };
 
-        // fetch active torrenting mirror
-        switch (SettingsService.get('torrenting.searchprovider')) {
-            case 'ThePirateBay':
-                var activeTorrentingMirror = SettingsService.get('thepiratebay.mirror');
-                break;
-            case 'KickassTorrents':
-                var activeTorrentingMirror = SettingsService.get('kickasstorrents.mirror');
-                break;
-            case 'GenericSearch':
-                var activeTorrentingMirror = 'https://torrentz.eu';
-                break;
-            default:
-                var activeTorrentingMirror = 'Not Available';
-        };
+
+        var activeTorrentingMirror = GenericSearch.getConfig().mirror;
 
         // general statistics
         $scope.statistics = [{

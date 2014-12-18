@@ -27,7 +27,7 @@ angular.module('DuckieTV.directives.torrentdialog', [])
             }
         }
     })
-    .controller('torrentDialogCtrl', function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog) {
+    .controller('torrentDialogCtrl', function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog, GenericSearch) {
         //-- Variables --//
 
         $scope.items = [];
@@ -47,16 +47,9 @@ angular.module('DuckieTV.directives.torrentdialog', [])
             if (TVDB_ID !== undefined) {
                 $scope.TVDB_ID = TVDB_ID;
             }
-            var searchProvider;
-            if ($scope.searchprovider.indexOf('GenericSearch') === 0) {
-                searchProvider = $injector.get('GenericSearch');
-                console.log("Setting config: ", $scope.getSetting('torrenting.genericClients')[$scope.searchprovider.replace('GenericSearch.', '')]);
-                searchProvider.setConfig($scope.getSetting('torrenting.genericClients')[$scope.searchprovider.replace('GenericSearch.', '')]);
-            } else {
-                searchProvider = $injector.get($scope.searchprovider);
-            }
 
-            searchProvider.search([q, $scope.searchquality].join(' ')).then(function(results) {
+
+            GenericSearch.search([q, $scope.searchquality].join(' ')).then(function(results) {
                 $scope.items = results;
                 $scope.searching = false;
             }, function(e) {
@@ -72,6 +65,7 @@ angular.module('DuckieTV.directives.torrentdialog', [])
 
         $scope.setProvider = function(provider) {
             $scope.searchprovider = provider;
+            GenericSearch.setProvider(provider);
             $scope.search($scope.query);
         }
 
@@ -109,7 +103,7 @@ angular.module('DuckieTV.directives.torrentdialog', [])
                 q: '=q',
                 TVDB_ID: '=tvdbid'
             },
-            template: '<a ng-click="openDialog()" tooltip="{{tooltip}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
+            template: '<a ng-click="openDialog()" tooltip-append-to-body=true tooltip="{{tooltip}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
             controller: function($scope) {
                 $scope.tooltip = $scope.q !== undefined ?
                     $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.q :

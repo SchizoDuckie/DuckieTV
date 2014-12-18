@@ -2,7 +2,7 @@ angular.module('DuckieTV.providers.torrentfreak', [])
 /**
  * Todo: make this a proper RSS directive.
  */
-.controller('Top10Pirated', function($scope, $compile, TorrentFreak, ThePirateBay) {
+.controller('Top10Pirated', function($scope, $compile, TorrentFreak) {
 
     $scope.activeItem;
     $scope.items = [];
@@ -54,10 +54,10 @@ angular.module('DuckieTV.providers.torrentfreak', [])
         return this.endpoints[type].replace('%s', encodeURIComponent(param));
     },
 
-   	/** 
-   	 * Transform the RSS feed to a JSON structure by parsing it into a DOM document
-   	 * and executing query selectors on it.
-   	 */
+    /** 
+     * Transform the RSS feed to a JSON structure by parsing it into a DOM document
+     * and executing query selectors on it.
+     */
     this.parseRSS = function(result, $compile, scope) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result, "text/xml");
@@ -141,10 +141,10 @@ angular.module('DuckieTV.providers.torrentfreak', [])
         }
     }
 })
-.directive('top10PiratedMovies', function() {
+    .directive('top10PiratedMovies', function() {
 
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/torrentfreakTop10.html'
-    };
-})
+        return {
+            restrict: 'E',
+            templateUrl: 'templates/torrentfreakTop10.html'
+        };
+    })

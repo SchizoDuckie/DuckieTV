@@ -3,10 +3,11 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
  * Generic Torrent Search provider
  * Allows searching for any content on a configurable torrent client
  */
-.provider('GenericSearch', function() {
+.factory('GenericSearch', function(SettingsService, $q, $http) {
 
-    this.mirror = null;
-    this.config = {
+    var mirror = null;
+    var activeRequest = null;
+    var config = {
         mirror: 'https://torrentz.eu',
         mirrorResolver: null,
         endpoints: {
@@ -32,18 +33,18 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
     /**
      * Switch between search and details
      */
-    this.getUrl = function(type, param) {
-        return this.mirror + this.config.endpoints[type].replace('%s', encodeURIComponent(param));
+    function getUrl(type, param) {
+        return mirror + config.endpoints[type].replace('%s', encodeURIComponent(param));
     };
 
     /**
      * Generic search parser that has a selector, a property to fetch from the selector and an optional callback function for formatting/modifying
      */
-    this.parseSearch = function(result) {
+    function parseSearch(result) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
-        var config = this.config.selectors;
-        var results = doc.querySelectorAll(config.resultContainer);
+        var selectors = config.selectors;
+        var results = doc.querySelectorAll(selectors.resultContainer);
         var output = [];
 
         function getPropertyForSelector(parentNode, propertyConfig) {
@@ -53,16 +54,16 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
             return propertyConfig.length == 3 ? propertyConfig[2](propertyValue) : propertyValue;
         }
         for (var i = 0; i < results.length; i++) {
-            var magnet = getPropertyForSelector(results[i], config.magneturl);
-            var releasename = getPropertyForSelector(results[i], config.releasename);
-            if (releasename === null || (magnet === null && !config.detailUrlMagnet)) continue;
+            var magnet = getPropertyForSelector(results[i], selectors.magneturl);
+            var releasename = getPropertyForSelector(results[i], selectors.releasename);
+            if (releasename === null || (magnet === null && !selectors.detailUrlMagnet)) continue;
             var out = {
                 magneturl: magnet,
                 releasename: releasename,
-                size: getPropertyForSelector(results[i], config.size),
-                seeders: getPropertyForSelector(results[i], config.seeders),
-                leechers: getPropertyForSelector(results[i], config.leechers),
-                detailUrl: this.mirror + getPropertyForSelector(results[i], config.detailUrl)
+                size: getPropertyForSelector(results[i], selectors.size),
+                seeders: getPropertyForSelector(results[i], selectors.seeders),
+                leechers: getPropertyForSelector(results[i], selectors.leechers),
+                detailUrl: this.mirror + getPropertyForSelector(results[i], selectors.detailUrl)
             };
             var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
             if (magnetHash && magnetHash.length) {
@@ -74,68 +75,83 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
         return output;
     };
 
+
     /**
      * Get wrapper, providing the actual search functions and result parser
      * Provides promises so it can be used in typeahead as well as in the rest of the app
      */
-    this.$get = function($q, $http, MirrorResolver, SettingsService) {
-        var self = this;
-        self.mirror = this.config.mirror;
-        self.activeRequest = null;
-        return {
-            setConfig: function(config) {
-                self.config = config;
-                self.mirror = config.mirror;
-            },
-            /**
-             * Execute a generic tpb search, parse the results and return them as an array
-             */
-            search: function(what) {
-                var d = $q.defer();
-                if (self.activeRequest) self.activeRequest.resolve();
-                self.activeRequest = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: self.getUrl('search', what),
-                    cache: true,
-                    timeout: self.activeRequest.promise
-                }).then(function(response) {
-                    //console.log("TPB search executed!", response);
-                    d.resolve(self.parseSearch(response));
-                }, function(err) {
-                    if (err.status > 300) {
-                        if (self.config.mirrorResolver && self.config.mirrorResolver != null) {
-                            $injector.get(self.config.mirrorResolver).findMirror().then(function(result) {
-                                //console.log("Resolved a new working mirror!", result);
-                                self.mirror = result;
-                                return d.resolve(self.$get($q, $http, $injector.get(self.config.mirrorResolver)).search(what));
-                            }, function(err) {
-                                //console.debug("Could not find a working TPB mirror!", err);
-                                d.reject(err);
-                            })
-                        }
-                    }
-                });
-                return d.promise;
-            },
-            /**
-             * Fetch details for a specific torrent id
-             */
-            torrentDetails: function(id) {
-                var d = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: self.getUrl('details', id),
-                    cache: true
-                }).success(function(response) {
-                    d.resolve({
-                        result: self.parseDetails(response)
-                    });
-                }).error(function(err) {
-                    d.reject(err);
-                });
-                return d.promise;
+    var service = {
+        getMirror: function() {
+            return mirror;
+        },
+        setConfig: function(newConfig) {
+            config = newConfig;
+            mirror = newConfig.mirror;
+        },
+        getConfig: function() {
+            return config;
+        },
+        getProviders: function() {
+            return SettingsService.get('torrenting.genericClients');
+        },
+        setProvider: function(provider) {
+            if ((provider in providers)) {
+                service.setConfig(providers[provider]);
             }
+        },
+        /**
+         * Execute a generic tpb search, parse the results and return them as an array
+         */
+        search: function(what) {
+            var d = $q.defer();
+            if (activeRequest) activeRequest.resolve();
+            activeRequest = $q.defer();
+            $http({
+                method: 'GET',
+                url: getUrl('search', what),
+                cache: true,
+                timeout: activeRequest.promise
+            }).then(function(response) {
+                //console.log("TPB search executed!", response);
+                d.resolve(parseSearch(response));
+            }, function(err) {
+                if (err.status > 300) {
+                    if (config.mirrorResolver && config.mirrorResolver !== null) {
+                        $injector.get(config.mirrorResolver).findMirror().then(function(result) {
+                            //console.log("Resolved a new working mirror!", result);
+                            mirror = result;
+                            return service.search(what);
+                        }, function(err) {
+                            d.reject(err);
+                        });
+                    }
+                }
+            });
+            return d.promise;
+        },
+        /**
+         * Fetch details for a specific torrent id
+         */
+        torrentDetails: function(id) {
+            return $http({
+                method: 'GET',
+                url: self.getUrl('details', id),
+                cache: true
+            }).success(function(response) {
+                return {
+                    result: self.parseDetails(response)
+                };
+            });
         }
+    };
+
+    // auto-initialize 
+    var providers = service.getProviders();
+    if (!(SettingsService.get('torrenting.searchprovider') in providers)) {
+        // autoconfig migration, fallback to first provider in the list when we detect an invalid provider.
+        console.log("Invalid search provider detected: ", SettingsService.get('torrenting.searchprovider'), " defaulting to ", Object.keys(providers)[0]);
+        SettingsService.set('torrenting.searchprovider', Object.keys(providers)[0]);
     }
-})
+    service.setProvider(SettingsService.get('torrenting.searchprovider'));
+    return service;
+});
