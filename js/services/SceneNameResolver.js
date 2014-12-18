@@ -422,7 +422,8 @@ angular.module('DuckieTV.providers.scenenames', [])
         270262: "yyyy MM dd", // Late Night with Seth Meyers: 2014.11.13 
         274099: "yyyy.MM.dd", // @midnight: 2014.11.13
         79274: "yyyy.MM.dd", // The Colbert Report: 2014.11.13 
-        72194: "yyyy.MM.dd" // The Ellen DeGeneres Show: 2014.11.13 
+        72194: "yyyy.MM.dd", // The Ellen DeGeneres Show: 2014.11.13 
+        77075: "yyyy-MM-dd" // Jeopardy! 2014-05-27
     };
 
     this.$get = function($filter) {
