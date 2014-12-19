@@ -138,7 +138,7 @@ angular.module('DuckieTV.providers.settings', [])
                     }
                 }, */
                 'KickAssTorrents': {
-                    mirror: 'https://kickass.to',
+                    mirror: 'https://kickass.so',
                     mirrorResolver: null, //'KickassMirrorResolver'
                     endpoints: {
                         search: '/usearch/%s/?field=seeders&sorder=desc',
