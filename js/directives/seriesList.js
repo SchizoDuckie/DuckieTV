@@ -220,11 +220,15 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === true))
             }
 
+            var titleSorter = function(serie) {
+                serie.sortName = serie.name.replace('The ', '');
+                return serie;
+            };
 
             /**
              * The favorites service fetches data asynchronously via SQLite, we wait for it to emit the favorites:updated event.
              */
-            $scope.favorites = FavoritesService.favorites;
+            $scope.favorites = FavoritesService.favorites.map(titleSorter);
 
             /**
              * Another class could fire an event that says this thing should close.
@@ -240,7 +244,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              * Otherwise, a random background is automagically loaded.
              */
             $rootScope.$on('favorites:updated', function(event, data) {
-                $scope.favorites = data;
+                $scope.favorites = data.map(titleSorter);
                 if (data.length == 0) {
                     $rootScope.$broadcast('serieslist:empty'); // we notify all listening channels that the series list is empty.
                 }
