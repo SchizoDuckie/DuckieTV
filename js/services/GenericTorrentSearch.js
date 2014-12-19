@@ -100,7 +100,7 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
             }
         },
         /**
-         * Execute a generic tpb search, parse the results and return them as an array
+         * Execute a generic torrent search, parse the results and return them as an array
          */
         search: function(what) {
             var d = $q.defer();
@@ -112,7 +112,7 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
                 cache: true,
                 timeout: activeRequest.promise
             }).then(function(response) {
-                //console.log("TPB search executed!", response);
+                //console.log("Torrent search executed!", response);
                 d.resolve(parseSearch(response));
             }, function(err) {
                 if (err.status > 300) {
