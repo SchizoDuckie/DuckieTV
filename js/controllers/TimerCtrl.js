@@ -4,7 +4,7 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
 
     $scope.timers = [];
     $scope.timerFired = false;
-    $scope.orderPreference = 'name';
+    $scope.orderPreference = 'sortName';
 
     /**
      * Safety check to prevent multiple launching of intensive timer functions 
@@ -58,9 +58,14 @@ angular.module('DuckieTV.controllers.timer', ['DuckieTV.providers.eventscheduler
         $scope.timers = [];
     };
 
+    var titleSorter = function(timer) {
+        timer.sortName = timer.name.replace('The ', '');
+        return timer;
+    };
+
     refresh = function() {
         EventSchedulerService.getAll().then(function(res) {
-            $scope.timers = res;
+            $scope.timers = res.map(titleSorter);
         });
     }
 
