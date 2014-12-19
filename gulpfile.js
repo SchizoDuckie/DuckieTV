@@ -83,7 +83,7 @@ var background = [
     "js/services/EventSchedulerService.js",
     "js/services/EpisodeAiredService.js",
     "js/services/FavoritesService.js",
-    "js/services/TraktTV.js", ,
+    "js/services/TraktTV.js",
     "js/services/GenericTorrentSearch.js",
     "js/services/KickassMirrorResolver.js",
     "js/services/WatchlistCheckerService.js",
