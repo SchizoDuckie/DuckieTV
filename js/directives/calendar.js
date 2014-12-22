@@ -52,7 +52,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                 var serieIDs = {};
                 // build up a key/value map of serie ids.
                 episodes.map(function(episode) {
-                    serieIDs[episode.get('ID_Serie')] = episode.get('ID_Serie');
+                    serieIDs[episode.ID_Serie] = episode.ID_Serie;
                 });
                 // find all unique series for episodes that were returned (only when they should be shown on the calendar)
                 CRUD.Find('Serie', ['ID_Serie in (' + Object.keys(serieIDs).join(',') + ')', 'displaycalendar = 1']).then(function(series) {
@@ -60,15 +60,15 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                     var events = [];
                     // build up a key/value map of fetched series
                     series.map(function(serie) {
-                        cache[serie.getID()] = serie;
+                        cache[serie.ID_Serie] = serie;
                     });
                     // iterate all the episodes and bind it together with the serie into an event array
                     episodes.map(function(episode) {
                         events.push({
-                            start: new Date(episode.get('firstaired')),
-                            serie: cache[episode.get('ID_Serie')],
-                            serieID: cache[episode.get('ID_Serie')].get('TVDB_ID'),
-                            episodeID: episode.get('TVDB_ID'),
+                            start: new Date(episode.firstaired),
+                            serie: cache[episode.ID_Serie],
+                            serieID: cache[episode.ID_Serie].TVDB_ID,
+                            episodeID: episode.TVDB_ID,
                             episode: episode
                         });
                     });
@@ -105,7 +105,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                     calendarEvents[date][index].episode = event.episode;
                 }
                 calendarEvents[date] = calendarEvents[date].sort(function(a, b) {
-                    return a.episode.get('firstaired') > b.episode.get('firstaired');
+                    return a.episode.firstaired > b.episode.firstaired;
                 });
             })
             existing = index = null;
@@ -148,16 +148,16 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
 
     $rootScope.$on('episode:marked:watched', function(event, data) {
         service.setEvents([{
-            start: new Date(data.get('firstaired')),
-            episodeID: data.get('TVDB_ID'),
+            start: new Date(data.firstaired),
+            episodeID: data.TVDB_ID,
             episode: data
         }]);
     });
 
     $rootScope.$on('episode:marked:notwatched', function(event, data) {
         service.setEvents([{
-            start: new Date(data.get('firstaired')),
-            episodeID: data.get('TVDB_ID'),
+            start: new Date(data.firstaired),
+            episodeID: data.TVDB_ID,
             episode: data
         }]);
     });
