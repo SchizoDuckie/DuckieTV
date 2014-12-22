@@ -63,7 +63,7 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
                 size: getPropertyForSelector(results[i], selectors.size),
                 seeders: getPropertyForSelector(results[i], selectors.seeders),
                 leechers: getPropertyForSelector(results[i], selectors.leechers),
-                detailUrl: this.mirror + getPropertyForSelector(results[i], selectors.detailUrl)
+                detailUrl: mirror + getPropertyForSelector(results[i], selectors.detailUrl)
             };
             var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
             if (magnetHash && magnetHash.length) {
