@@ -1,4 +1,4 @@
-<div class="event dropdown" dropdown on-toggle="isOpen=true">
+<div class="event dropdown" dropdown on-toggle="isOpen=true" ng-mouseenter="startHoverTimer()" ng-mouseleave="clearHoverTimer()">
   <!-- dropdown toggler -->
   <a dropdown-toggle ng-class="{ watched : episode.watched }" >
     <!-- if we have a torrent, show the progress -->

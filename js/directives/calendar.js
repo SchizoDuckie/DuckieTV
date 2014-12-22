@@ -201,6 +201,24 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
         link: function($scope) {
 
             $scope.getSetting = SettingsService.get;
+            $scope.hoverTimer = null;
+
+            $scope.clearHoverTimer = function() {
+                clearTimeout($scope.hoverTimer);
+            };
+
+            /**
+             * Auto-switch background image to a relevant one for the calendar item when
+             * hovering over an item for 1.5s
+             * @return {[type]} [description]
+             */
+            $scope.startHoverTimer = function() {
+                $scope.clearHoverTimer();
+                var background = $scope.serie.fanart;
+                $scope.hoverTimer = setTimeout(function() {
+                    $scope.$root.$broadcast('background:load', background);
+                }.bind(this), 1500);
+            };
 
             $scope.isTorrentClientConnected = function() {
                 return uTorrent.isConnected();
@@ -210,18 +228,21 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                 $scope.episode.set('magnetHash', magnet);
                 $scope.episode.Persist();
             });
+
+
+
             $scope.autoDownload = function() {
 
                 EpisodeAiredService.autoDownload($scope.serie, $scope.episode);
 
-            },
+            };
             $scope.getSearchString = function(event) {
 
                 var serieName = SceneNameResolver.getSceneName($scope.serie.TVDB_ID) || $scope.serie.name;
                 return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode);
             };
         }
-    }
+    };
 })
 
 /**
@@ -230,7 +251,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
  *
  * It sets up the defaults and initializes the calendar.
  */
-.directive('calendar', function(FavoritesService, CalendarEvents, $rootScope) {
+.directive('calendar', function() {
 
     return {
         restrict: 'E',
