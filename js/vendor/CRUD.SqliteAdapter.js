@@ -279,6 +279,7 @@ CRUD.Database = function(name, options) {
             }
 
             function sqlFail(transaction, error) {
+                CRUD.log("SQL FAIL!!", error, transaction, sql, valueBindings);
                 fail(error, transaction);
             }
 
