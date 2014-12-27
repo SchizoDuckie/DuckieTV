@@ -158,6 +158,7 @@ serieheader[mode='poster'] {
     display:inline-block;
     height: 250px;
     margin:0px 11px 2px 11px;
+    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(255,255,255,0.2)));
 }
 .series serieheader[mode='poster'] > div {
     background-color: transparent;
@@ -219,6 +220,7 @@ serieheader .poster {
     background-size: 100% 100%;
     width: 163px;
     background-position: center center;
+    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(255,255,255,0.2)));
 }
 .col-md-4 serieheader .poster {
     width: 150px;
