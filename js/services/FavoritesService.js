@@ -61,48 +61,93 @@ angular.module('DuckieTV.providers.favorites', [])
      * Helper function to map properties from the input data from Trakt.TV into a Episode CRUD object.
      * Input information will always overwrite existing information.
      */
-    fillEpisode = function(episode, data, season, watched) {
+    fillEpisode = function(episode, data, season, serie, watched) {
         // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
         data.TVDB_ID = data.tvdb_id;
         data.rating = data.ratings.percentage;
         data.ratingcount = data.ratings.votes;
         data.episodenumber = data.episode;
         data.episodename = data.title;
-        data.firstaired = data.first_aired_utc == 0 ? null : new Date(data.first_aired_iso).getTime();
+        data.firstaired = data.first_aired_utc === 0 ? null : new Date(data.first_aired_iso).getTime();
         data.filename = data.screen;
 
         for (var i in data) {
-            episode.set(i, data[i]);
+            episode[i] = data[i];
         }
-        episode.seasonnumber = season.season;
+        episode.seasonnumber = season.seasonnumber;
         // if there's an entry for the episode in watchedEpisodes, this is a backup restore
-        var watchedEpisodes = watched.filter(function(el) {
-            return el.TVDB_ID == episode.TVDB_ID;
+        watched.map(function(el) {
+            if (el.TVDB_ID == episode.TVDB_ID) {
+                episode.watchedAt = el.watchedAt;
+                episode.watched = '1';
+            }
         });
-        if (watchedEpisodes.length > 0) {
-            episode.set('watched', '1');
-            episode.set('watchedAt', watchedEpisodes[0].watchedAt);
-        }
+        episode.ID_Serie = serie.getID();
+        episode.ID_Season = season.getID()
     };
+
 
     /**
      * Wipe episodes from the database that were cached locally but are no longer in the latest update.
      * @var series Trakt.TV series input
      * @var ID int DuckieTV ID_Serie
      */
-    cleanOldSeries = function(seasons, ID) {
+    cleanupEpisodes = function(seasons, ID) {
         var tvdbList = [];
         seasons.map(function(season) {
             season.episodes.map(function(episode) {
                 tvdbList.push(episode.tvdb_id);
             });
         });
-        CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [ID]).then(function(result) {
+
+
+        return CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [ID]).then(function(result) {
             console.log("Cleaned up " + result.rs.rowsAffected + " orphaned episodes");
+            return seasons;
         });
-        tvdbList = null;
     };
 
+    /**
+     * Insert all seasons into the database and return a cached array map
+     * @param  CRUD.Entity serie serie to update seasons for
+     * @param  object seasons extended seasons input data from Trakt
+     * @return object seasonCache indexed by seasonnumber
+     */
+    updateSeasons = function(serie, seasons) {
+        console.log("Update seasons!", seasons);
+        return serie.getSeasonsByNumber().then(function(seasonCache) { // fetch the seasons and cache them by number.
+            return $q.all(seasons.map(function(season) {
+                var SE = (season.season in seasonCache) ? seasonCache[season.season] : new Season();
+                for (var s in season) { // update the season's properties
+                    SE[s] = season[s];
+                }
+                SE.seasonnumber = season.season;
+                SE.ID_Serie = serie.getID();
+                seasonCache[season.season] = SE;
+                return SE.Persist();
+            })).then(function() {
+                return seasonCache;
+            });
+        });
+    };
+
+    updateEpisodes = function(serie, seasons, watched, seasonCache) {
+        console.log(" Update episodes!", serie, seasons, watched, seasonCache);
+        return serie.getEpisodesMap().then(function(episodeCache) {
+            var epis = [];
+            seasons.map(function(season) {
+                season.episodes.map(function(episode) {
+                    var dbEpisode = (!(episode.tvdb_id in episodeCache)) ? new Episode() : episodeCache[episode.tvdb_id];
+                    fillEpisode(dbEpisode, episode, seasonCache[season.season], serie, watched);
+                    epis.push(dbEpisode);
+                });
+            });
+
+            return $q.all(epis.map(function(episode) {
+                return episode.Persist();
+            }));
+        });
+    };
 
     var service = {
         favorites: [],
@@ -139,45 +184,18 @@ angular.module('DuckieTV.providers.favorites', [])
                     });
                     addToFavoritesList(serie); // cache serie in favoritesservice.favorites
                     $rootScope.$broadcast('background:load', serie.fanart);
-                    return service.updateEpisodes(serie, data.seasons, watched).then(function(result) { // add serie completely done, broadcast sync and update event.
-                        console.log("Adding serie '" + serie.name + "' completely done, broadcasting storage sync event.");
-                        $rootScope.$broadcast('episodes:updated', service.favorites);
-                        $rootScope.$broadcast('storage:update');
-                        return result;
-                    });
-                });
-            });
-        },
-        /**
-         * Update the episodes and seasons attached to a serie.
-         * Builds a cache of seasons and episodes from the database to make sure existing
-         * information is updated.
-         * If an episodes' TVDB_ID is matched in the watched object, it's marked
-         * as watched as well.
-         * If an episode in the database is no longer at TraktTV then it gets deleted.
-         */
-        updateEpisodes: function(serie, seasons, watched) {
-            watched = watched || [];
-            return serie.getSeasonsByNumber().then(function(seasonCache) { // fetch the seasons and cache them by number.
-                return serie.getEpisodesMap().then(function(cache) { // then fetch the episodes already existing mapped by tvdb_id as cache object
-                    cleanOldSeries(seasons, serie.getID()); // clean up episodes from the database that were saved but are no longer in the latest update
-                    return $q.all(seasons.map(function(season) {
-                        var SE = (season.season in seasonCache) ? seasonCache[season.season] : new Season();
-                        for (var s in season) { // update the season's properties
-                            SE[s] = season[s];
-                        }
-                        SE.seasonnumber = season.season;
-                        SE.ID_Serie = serie.getID();
-                        return SE.Persist().then(function(r) {
-                            return $q.all(SE.episodes.map(function(episode, idx) { // update the season's episodes
-                                var e = (!(episode.tvdb_id in cache)) ? new Episode() : cache[episode.tvdb_id];
-                                fillEpisode(e, episode, season, watched);
-                                e.ID_Serie = serie.getID();
-                                e.ID_Season = SE.getID();
-                                return e.Persist();
-                            }));
+
+                    // then fetch the episodes already existing mapped by tvdb_id as cache object
+                    return cleanupEpisodes(data.seasons, serie).then(function() {
+                        return updateSeasons(serie, data.seasons).then(function(seasonCache) {
+                            return updateEpisodes(serie, data.seasons, watched, seasonCache).then(function() {
+                                console.log("Adding serie '" + serie.name + "' completely done, broadcasting storage sync event.");
+                                $rootScope.$broadcast('episodes:updated', service.favorites);
+                                $rootScope.$broadcast('storage:update');
+                                return serie;
+                            });
                         });
-                    }));
+                    });
                 });
             });
         },
