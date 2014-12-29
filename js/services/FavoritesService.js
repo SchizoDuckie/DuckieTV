@@ -54,7 +54,7 @@ angular.module('DuckieTV.providers.favorites', [])
         data.status = data.ended === true ? 'Ended' : 'Continuing';
 
         for (var i in data) {
-            serie.set(i, data[i]);
+            serie[i] = data[i];
         }
     };
     /**
