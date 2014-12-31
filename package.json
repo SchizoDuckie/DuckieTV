@@ -1,58 +1,62 @@
 {
-    "webexe_settings": {
-        "linux-x32": true, 
-        "download_dir": "C:\\xampp\\htdocs\\deploy\\Web2ExeWin\\files\\downloads", 
-        "windows": true, 
-        "mac": true, 
-        "nw_version": "0.10.5", 
-        "force_download": false, 
-        "linux-x64": true
-    }, 
-    "main": "tab.html", 
-    "name": "DuckieTV-Standalone", 
-    "license": "MIT", 
-    "nodejs": true, 
-    "description": "DuckieTV helps you manage your favorite TV Shows on a sweet calendar", 
-    "author": "DuckieTV", 
-    "private": true, 
-    "user-agent": "DuckieTV Standalone v0.82", 
-    "keywords": [
-        "series", 
-        "tv", 
-        "shows", 
-        "trakt", 
-        "DuckieTV", 
-        "utorrent", 
-        "bittorrent"
-    ], 
-    "window": {
-        "fullscreen": false, 
-        "icon": "icon48.png", 
-        "resizable": true, 
-        "title": "DuckieTV Standalone v0.82", 
-        "always-on-top": false, 
-        "frame": true, 
-        "height": 750, 
-        "min_height": 400, 
-        "visible": true, 
-        "as_desktop": false, 
-        "min_width": 600, 
-        "position": "center", 
-        "show_in_taskbar": true, 
-        "mac_app_icon": "", 
-        "width": 1000, 
-        "toolbar": true, 
-        "exe_icon": "icon64.png"
-    }, 
-    "version": "0.82.0", 
-    "webkit": {
-        "page-cache": true, 
-        "java": false, 
-        "plugin": false
-    }, 
-    "devDependencies": {
-        "node-webkit-builder": "^0.2.0"
-    }, 
-    "single-instance": true, 
-    "node-main": ""
+  "webexe_settings": {
+    "linux-x32": true,
+    "download_dir": "C:\\xampp\\htdocs\\deploy\\Web2ExeWin\\files\\downloads",
+    "windows": true,
+    "mac": true,
+    "nw_version": "0.10.5",
+    "force_download": false,
+    "linux-x64": true
+  },
+  "main": "tab.html",
+  "name": "DuckieTV-Standalone",
+  "license": "MIT",
+  "nodejs": true,
+  "description": "DuckieTV helps you manage your favorite TV Shows on a sweet calendar",
+  "author": "DuckieTV",
+  "private": true,
+  "user-agent": "DuckieTV Standalone v0.82",
+  "keywords": [
+    "series",
+    "tv",
+    "shows",
+    "trakt",
+    "DuckieTV",
+    "utorrent",
+    "bittorrent"
+  ],
+  "window": {
+    "fullscreen": false,
+    "icon": "icon48.png",
+    "resizable": true,
+    "title": "DuckieTV Standalone v0.82",
+    "always-on-top": false,
+    "frame": true,
+    "height": 750,
+    "min_height": 400,
+    "visible": true,
+    "as_desktop": false,
+    "min_width": 600,
+    "position": "center",
+    "show_in_taskbar": true,
+    "mac_app_icon": "",
+    "width": 1000,
+    "toolbar": true,
+    "exe_icon": "icon64.png"
+  },
+  "version": "0.82.0",
+  "webkit": {
+    "page-cache": true,
+    "java": false,
+    "plugin": false
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-angular-architecture-graph": "^0.2.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-graphviz": "^0.1.0",
+    "node-webkit-builder": "^0.2.0"
+  },
+  "single-instance": true,
+  "node-main": ""
 }
