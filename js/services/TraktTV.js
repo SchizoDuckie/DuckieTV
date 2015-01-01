@@ -136,7 +136,12 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
          * http://trakt.tv/api-docs/shows-trending
          */
         findTrending: function() {
-            return promiseRequest('trending', '');
+            return promiseRequest('trending', '').then(function(series) {
+                return series.map(function(serie) {
+                    serie.poster = serie.images.poster;
+                    return serie;
+                });
+            });
         },
         /** 
          * Fetch all shows in a user's library.
