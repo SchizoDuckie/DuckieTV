@@ -268,7 +268,7 @@ angular.module('DuckieTV.providers.trakttv', ['DuckieTV.providers.settings'])
             });
         },
         hasActiveRequest: function() {
-            console.log("Has active request?", hasActiveRequest);
+            //console.log("Has active request?", hasActiveRequest);
 
             return hasActiveRequest;
         }
