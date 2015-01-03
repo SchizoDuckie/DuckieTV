@@ -284,7 +284,7 @@ CRUD.Database = function(name, options) {
             }
 
             db.transaction(function(transaction) {
-                CRUD.log("execing sql: ", sql);
+                CRUD.log("execing sql: ", sql, valueBindings);
                 transaction.executeSql(sql, valueBindings, sqlOK, sqlFail);
             });
         });
