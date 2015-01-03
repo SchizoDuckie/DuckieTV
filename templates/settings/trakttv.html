@@ -21,12 +21,16 @@
               <button ng-click='encryptPassword()' class="btn btn-info" ng-disabled="credentials.passwordHash !== null">{{'TRAKTTV/encrypt/btn'|translate}}</button> <button ng-click="clearCredentials()" class="btn btn-danger" >{{'TRAKTTV/clear-credentials/btn'|translate}}<br>
             </td>
             </tr></table>
-            <div class="alert alert-danger" role="alert" ng-show="credentials.error"><strong>{{'TRAKTTV/sync-error-event/alert'|translate}}</strong>{{'TRAKTTV/sync-error-reason/alert'|translate}}</div>
+            <div class="alert alert-danger" role="alert" ng-show="credentials.error">{{'TRAKTTV/sync-error-reason/alert'|translate}}</div>
             <button class="btn btn-success" style="margin-bottom:10px" ng-if="credentials.passwordHash && !getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',true)">{{'TRAKTTV/sync-enabled/btn'|translate}}</button>
             <button class="btn btn-danger" style="margin-bottom:10px" ng-if="credentials.passwordHash && getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',false)">{{'TRAKTTV/sync-disabled/btn'|translate}}</button>
             <p ng-if="credentials.passwordHash">
               <button ng-click="readTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-import/btn'|translate}}</button>
-              <button ng-click="pushToTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-push/btn'|translate}}</button><br><br>
+              <button ng-click="pushToTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-push/btn'|translate}}</button><br>
+              <div class="alert alert-danger" role="alert" ng-show="pushError[0]" style="white-space:initial">
+                <strong>{{pushError[1].status}} - {{pushError[1].statusText}}</strong>
+                    {{pushError[1].data.status}} - {{pushError[1].data.error}}
+              </div><br>
             </p>
           </form>
 
@@ -42,9 +46,14 @@
               <div class="alert alert-info">{{'TRAKTTV/suggestions/alert'|translate}}</p></div>
               <button ng-click="getUserSuggestions()" class="btn btn-success">{{'TRAKTTV/suggestions-fetch/btn'|translate}}</button>
           </div>
-          <div ng-if="traktTVLoading" style='text-align:center; padding: 40px;'>
-            <p>{{'TRAKTTV/please-wait/lbl'|translate}}</p>
-            <img src='img/spinner.gif'>
+          <br>
+          <div class="alert alert-danger" role="alert" ng-show="suggestionError[0]" style="white-space:initial;text-align:left">
+              <strong>{{suggestionError[1].status}} - {{suggestionError[1].statusText}}</strong>
+              {{suggestionError[1].data.status}} - {{suggestionError[1].data.error}}
+          </div>
+          <div ng-if="traktTVLoading && !suggestionError[0]" style='text-align:center; padding: 20px;'>
+              <p>{{'TRAKTTV/please-wait/lbl'|translate}}</p>
+              <img src='img/spinner.gif'>
           </div>
           <div class="miniposter" ng-if="traktTVSuggestions">
             <h1>{{'TRAKTTV/suggestions-fetched/lbl'|translate}}</h1>

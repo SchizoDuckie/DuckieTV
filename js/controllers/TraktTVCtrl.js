@@ -13,6 +13,8 @@
      $scope.traktTVSeries = [];
      $scope.tvdbSeries = {};
      $scope.traktTVSuggestions = false;
+     $scope.pushError = [false, null];
+     $scope.suggestionError = [false, null];
 
      $scope.encryptPassword = function() {
          if($scope.credentials.password !== null) {
@@ -21,7 +23,7 @@
             // Check account details (user / sha1 pass) with Trakt.TV
              TraktTV.checkDetails($scope.credentials.username, $scope.credentials.temphash).then(function(response) {
                  if(response == 'success') {
-                     // Update internal  values and save passwords in settings
+                     // Update internal values and save passwords in settings
                      $scope.credentials.passwordHash = $scope.credentials.temphash;
                      $scope.credentials.password = angular.copy($scope.credentials.passwordHash);
                      $rootScope.setSetting('trakttv.passwordHash', $scope.credentials.passwordHash);
@@ -40,7 +42,6 @@
         $scope.credentials.error = false;
         $rootScope.setSetting('trakttv.passwordHash', null);
         $rootScope.setSetting('trakttv.username', null);
-
      }
 
      $scope.isDownloaded = function(tvdb_id) {
@@ -69,6 +70,8 @@
              console.info("Found user suggestions from Trakt.tv", data);
              $scope.traktTVSuggestions = data;
              $scope.traktTVLoading = false;
+         }, function(err) {
+                $scope.suggestionError = [true, err];
          });
      };
 
@@ -102,6 +105,8 @@
                  }
              });
              $scope.traktTVSeries = data;
+         }, function(err) {
+                $scope.pushError = [true, err]
          });
 
          TraktTV.getUserShows($scope.credentials.username).then(function(data) {
