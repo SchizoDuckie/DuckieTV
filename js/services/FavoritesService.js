@@ -57,7 +57,7 @@ angular.module('DuckieTV.providers.favorites', [])
 
         for (var i in data) {
             if (serie.hasField(i)) {
-                serie.set(i, data[i]);
+                serie[i] = data[i];
             }
         }
     };
