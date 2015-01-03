@@ -162,7 +162,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 return TraktTV.disableBatchMode().findSeries($scope.search.query).then(function(res) {
                     $scope.search.error = false;
                     if (!TraktTV.hasActiveRequest()) {
-                        console.log("Has active request?nope.");
+                        //console.log("Has active request?nope.");
                         $scope.search.searching = false;
                     }
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
