@@ -15,7 +15,7 @@ angular.module('DuckieTV.directives.backgroundrotator', [])
             channel: '='
         },
 
-        template: ["<div ng-style=\"{backgroundImage: bg1 ? 'url('+bg1+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg1on ? 1 : 0}\"></div>",
+        template: ["<div style='z-index:-2; background-image:url(img/duckietv.png);background-color:darkgrey;background-size:initial;'></div><div ng-style=\"{backgroundImage: bg1 ? 'url('+bg1+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg1on ? 1 : 0}\"></div>",
             "<div ng-style=\"{backgroundImage: bg2 ? 'url('+bg2+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg2on ? 1 : 0}\"></div>"
         ].join(''),
         link: function($scope, $attr) {
