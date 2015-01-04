@@ -177,7 +177,7 @@ angular.module('DuckieTV.providers.favorites', [])
                     if (!serie) {
                         serie = new Serie();
                     } else if (serie.name.toLowerCase() != data.title.toLowerCase()) { // remove update checks for series that have their name changed (will be re-added with new name)
-                        EventSchedulerService.clear(s.name + ' update check');
+                        EventSchedulerService.clear(serie.name + ' update check');
                     }
                     fillSerie(serie, data);
                     EventSchedulerService.createInterval(serie.name + ' update check', serie.status.toLowerCase() == 'ended' ? 60 * 24 * 14 : 60 * 24 * 2, 'favoritesservice:checkforupdates', {
