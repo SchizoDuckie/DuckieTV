@@ -341,6 +341,15 @@ series-list.active div.duckie {
     background-repeat: no-repeat;
     background-position: center center
 }
+series-list .sidepanel {
+    position:fixed !important;
+    top:65px;
+    right:0px;
+    width:350px;
+}
+series-list .sidepanel li {
+    text-transform: capitalize;
+}
 
 .series {
     overflow-y: auto;
