@@ -24,7 +24,7 @@
     }
 }
 .printlogo {
-	display: none;
+    display: none;
 }
 .col-md-8 {
     width: 60%;
@@ -75,24 +75,24 @@ a:hover {
     text-decoration: underline;
 }
 *::-webkit-scrollbar{
-	width:10px;
-	height:10px;
+    width:10px;
+    height:10px;
 }
 *::-webkit-scrollbar-thumb{
-	background-color:#777777;
-	border-radius:5px;
-	border:1px solid #333333;
+    background-color:#777777;
+    border-radius:5px;
+    border:1px solid #333333;
 }
 *::-webkit-scrollbar-track{
-	border:1px gray solid;
-	border-radius:5px;
-	-webkit-box-shadow:0 0 2px gray inset;
+    border:1px gray solid;
+    border-radius:5px;
+    -webkit-box-shadow:0 0 2px gray inset;
 } 
 *::-webkit-scrollbar-thumb:hover{
-	background-color:#6B6B6B;
+    background-color:#6B6B6B;
 }
 *::-webkit-scrollbar-thumb:active{
-	background-color:#5C5C5C;
+    background-color:#5C5C5C;
 }
 .tooltip .tooltip-arrow {
     border-top-color: white !important;
@@ -668,8 +668,8 @@ input[type=text], input[type=url], input[type=password], option, select {
     border-right: 0;
 }
 [date-picker] td:last-child ul.dropdown-menu {
-	left: auto;
-	right: 0px;
+    left: auto;
+    right: 0px;
 }
 [date-picker] tr:last-child td {
     border-bottom: 0;
@@ -991,11 +991,11 @@ calendar-event h2 {
 }
 
 .alert {
-	white-space: pre;
+    white-space: pre;
 }
 
 .alert strong {
-	display: block;
+    display: block;
 }
 
 query-monitor {
