@@ -177,10 +177,10 @@ angular.module('DuckieTV.providers.favorites', [])
                     if (!serie) {
                         serie = new Serie();
                     } else if (serie.name.toLowerCase() != data.title.toLowerCase()) { // remove update checks for series that have their name changed (will be re-added with new name)
-                        EventSchedulerService.clear(serie.name + ' update check');
+                        EventSchedulerService.clear(serie.name + ' [' + serie.TVDB_ID + ']');
                     }
                     fillSerie(serie, data);
-                    EventSchedulerService.createInterval(serie.name + ' update check', serie.status.toLowerCase() == 'ended' ? 60 * 24 * 14 : 60 * 24 * 2, 'favoritesservice:checkforupdates', {
+                    EventSchedulerService.createInterval(serie.name + ' [' + serie.TVDB_ID + ']', serie.status.toLowerCase() == 'ended' ? 60 * 24 * 14 : 60 * 24 * 2, 'favoritesservice:checkforupdates', {
                         ID: serie.getID(),
                         TVDB_ID: serie.TVDB_ID
                     });
@@ -266,13 +266,13 @@ angular.module('DuckieTV.providers.favorites', [])
 
 
                 CRUD.FindOne('ScheduledEvent', {
-                    name: serie.name + ' update check'
+                    name: serie.name + ' [' + serie.TVDB_ID + ']'
                 }).then(function(timer) {
                     if (timer) {
                         timer.Delete();
                     }
                 });
-                AlarmService.clear(serie.name + ' update check');
+                AlarmService.clear(serie.name + ' [' + serie.TVDB_ID + ']');
             });
         },
         refresh: function() {
