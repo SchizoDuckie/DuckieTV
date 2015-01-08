@@ -347,8 +347,13 @@ series-list .sidepanel {
     right:0px;
     width:350px;
 }
+series-list .sidepanel th {
+    width: 135px;
+}
 series-list .sidepanel li {
     text-transform: capitalize;
+    display: inline-block;
+    width: 50%;
 }
 
 .series {
