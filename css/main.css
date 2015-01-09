@@ -455,6 +455,13 @@ table.light h1 {
 .dropdown-menu table.torrents tbody td:nth-last-child(-n + 2) {
     text-align: right;
 }
+
+.dropdown-menu table.torrents tbody td:nth-child(2) {
+    max-width: 144px;
+    width: 420px;
+    overflow: hidden;
+}
+
 chrome-top-sites {
     position: fixed;
     top: 0px;
