@@ -23,6 +23,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             $scope.serieAddFocus = false; // toggles this to automatically bring focus to the 'start typing to search for a serie' textbox
 
             $scope.mode = $rootScope.getSetting('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
+            $scope.isSmall = false;
 
             /**
              * Set the series list display mode to either banner or poster.
@@ -33,6 +34,14 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     $rootScope.setSetting('series.displaymode', mode);
                 }
                 $scope.mode = mode;
+            }
+
+            /**
+             * Toggles small mode on off
+             * I tried to do this in the ng-click but it didn't seem to work
+             */
+            $scope.toggleSmall = function() {
+                $scope.isSmall = !$scope.isSmall;
             }
 
             /**

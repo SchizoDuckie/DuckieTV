@@ -32,6 +32,14 @@
                 <input type='text' focus-watch="'isFiltering'" placeholder="{{'HOMESERIES/filter-placeholder'|translate}}" ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width:45%; padding:5px'>
             </form>
 
+            <!--  Make posters smaller button -->
+            <a style="position:absolute;top:77px;right:50px;z-index:1" ng-if="!isSmall && mode == 'poster' && !searchingForSerie" ng-click="toggleSmall(true)">
+                <i tooltip="Make posters smaller" style='font-size:24px;' class="glyphicon glyphicon-zoom-out"></i>
+            </a>
+            <!-- Normal size posters button -->
+            <a style="position:absolute;top:77px;right:50px;z-index:1" ng-if="isSmall && mode == 'poster' && !searchingForSerie"  ng-click="toggleSmall(false)">
+                <i style='font-size:24px;' tooltip="Make posters larger" class="glyphicon glyphicon-zoom-in"></i>
+            </a>
             <!-- Filter library button -->
             <a tooltip="{{'HOMESERIES/search/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt + / )" accesskey="/" ng-if="!searchingForSerie" ng-click="isFiltering = true; setMode('search',true);">
                 <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'HOMESERIES/filter/glyph'|translate}}
@@ -86,23 +94,25 @@
         <!-- Sidepanel for trending/search mode to display extended serie details -->
         <serie-details class="sidepanel" ng-show="serie" template-url="templates/traktSerieDetails.html"></serie-details>
 
-        <!-- Display favourites in filtering mode -->
-        <div class="series" ng-if="activated && !searchingForSerie && mode == 'search'">
-            <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName' | filter: localFilter" data="serie" no-overview="1" mode="search">
-                <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
-            </serieHeader>
-        </div>
-        <!-- Display favourites in poster mode -->
-        <div class="series" ng-if="activated && !searchingForSerie && mode == 'poster'">
-            <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName'" data="serie" no-overview="1" mode="poster">   
-                <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
-            </serieHeader>
-        </div>
-        <!-- Display favourites in banner mode -->
-        <div class="series" ng-if="activated && !searchingForSerie && mode == 'banner'">
-            <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName'" data="serie" no-overview="1" mode="banner">
-                <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
-            </serieHeader>
+        <div id="favslist">
+            <!-- Display favourites in filtering mode -->
+            <div class="series" ng-if="activated && !searchingForSerie && mode == 'search'">
+                <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName' | filter: localFilter" data="serie" no-overview="1" mode="search">
+                    <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
+                </serieHeader>
+            </div>
+            <!-- Display favourites in poster mode -->
+            <div class="series" ng-if="activated && !searchingForSerie && mode == 'poster'" ng-class="{'miniposter': isSmall}">
+                <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName'" data="serie" no-overview="1" mode="poster">   
+                    <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
+                </serieHeader>
+            </div>
+            <!-- Display favourites in banner mode -->
+            <div class="series" ng-if="activated && !searchingForSerie && mode == 'banner'">
+                <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName'" data="serie" no-overview="1" mode="banner">
+                    <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
+                </serieHeader>
+            </div>
         </div>
     </div>
 </div>

@@ -135,6 +135,11 @@ background-rotator, background-rotator > div {
     padding: 3px;
     overflow: auto;
 }
+
+#favslist serieheader[mode='poster'], #favslist serieheader .poster {
+    transition: width 1s, height 1s;
+}
+
 serieheader > div {
     position: relative;
     overflow: hidden;
@@ -169,8 +174,6 @@ serieheader[mode=banner] {
     display: inline-block;
     width:50%;
 }
-
-
 
 serieheader[mode=banner] h3 {
     position: absolute;
