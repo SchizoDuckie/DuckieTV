@@ -1,92 +1,88 @@
 <!-- template/home-series.html -->
- <div>
-      <h2 ng-click="activated ? closeDrawer() : activate()" tooltip="{{'HOMESERIES/hotkey/lbl'|translate}}: alt+s" >
+<div>
+    <h2 ng-click="activated ? closeDrawer() : activate()" tooltip="{{'HOMESERIES/hotkey/lbl'|translate}}: alt+s" >
         <i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
-         <a accesskey="s" ng-if="!activated">{{'HOMESERIES/series-show/glyph'|translate}}</a>
-         <a accesskey="s" ng-if="activated">{{'HOMESERIES/series-hide/glyph'|translate}}</a>
-         <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
-      </h2>
+        <a accesskey="s" ng-if="!activated">{{'HOMESERIES/series-show/glyph'|translate}}</a>
+        <a accesskey="s" ng-if="activated">{{'HOMESERIES/series-hide/glyph'|translate}}</a>
+        <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
+    </h2>
 
-      <div ng-if="activated" ng-class="{duckie: !searchingForSerie}">
+    <div ng-if="activated" ng-class="{duckie: !searchingForSerie}">
         <!-- the top tools panel for the series list. -->
         <div style='width: 100%; text-align: right;padding: 30px;font-size: 20px;'>
 
-          <a accesskey="a" tooltip="{{'HOMESERIES/addshow-add-to-list/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt+a)" ng-if="!searchingForSerie && mode !== 'search'" ng-click="enableAdd();" style='float:left'>
-            <i class="glyphicon glyphicon-plus-sign"></i> {{'HOMESERIES/addshow-show/glyph'|translate}}
-          </a>
-          <a tooltip="{{'HOMESERIES/addshow-return-to-fav-list/tooltip'|translate}}" ng-if="searchingForSerie == true" ng-click="disableAdd()" style='float:left; line-height:40px'>
-            <i class="glyphicon glyphicon-ok-sign"></i> {{'HOMESERIES/addshow-hide/glyph'|translate}}
-          </a>
+            <a accesskey="a" tooltip="{{'HOMESERIES/addshow-add-to-list/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt+a)" ng-if="!searchingForSerie && mode !== 'search'" ng-click="enableAdd();" style='float:left'>
+                <i class="glyphicon glyphicon-plus-sign"></i> {{'HOMESERIES/addshow-show/glyph'|translate}}
+            </a>
+            <a tooltip="{{'HOMESERIES/addshow-return-to-fav-list/tooltip'|translate}}" ng-if="searchingForSerie == true" ng-click="disableAdd()" style='float:left; line-height:40px'>
+                <i class="glyphicon glyphicon-ok-sign"></i> {{'HOMESERIES/addshow-hide/glyph'|translate}}
+            </a>
 
-          <form ng-submit="selectFirstResult()" ng-if="searchingForSerie">
-             <input ng-model="search.query" ng-model-options="{debounce: 500}" placeholder="{{'HOMESERIES/addshow-type-series-name/placeholder'|translate}}"
-              ng-change="findSeries()" focus-watch="'searchingForSerie'" class="form-control"  style='float:left; width: 50%; margin-left: 10px;border: 1px solid white; font-size: 20px; height: auto; background-color: rgb(17, 17, 17);'> <i ng-show="loadingSeries" class="glyphicon glyphicon-refresh" ></i>
-            <p>{{'HOMESERIES/addshow-protip/lbl'|translate}}</p>
-          </form>
+            <form ng-submit="selectFirstResult()" ng-if="searchingForSerie">
+                <input ng-model="search.query" ng-model-options="{debounce: 500}" placeholder="{{'HOMESERIES/addshow-type-series-name/placeholder'|translate}}"
+                ng-change="findSeries()" focus-watch="'searchingForSerie'" class="form-control"  style='float:left; width: 50%; margin-left: 10px;border: 1px solid white; font-size: 20px; height: auto; background-color: rgb(17, 17, 17);'> <i ng-show="loadingSeries" class="glyphicon glyphicon-refresh" ></i>
+                <p>{{'HOMESERIES/addshow-protip/lbl'|translate}}</p>
+            </form>
 
-          <form ng-submit="execFilter()" ng-if="mode == 'search'">
-            <input type='text' focus-watch="'isFiltering'" placeholder="{{'HOMESERIES/filter-placeholder'|translate}}" ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 45%;'>
-          </form>
+            <form ng-submit="execFilter()" ng-if="mode == 'search'">
+                <input type='text' focus-watch="'isFiltering'" placeholder="{{'HOMESERIES/filter-placeholder'|translate}}" ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width: 45%;'>
+            </form>
 
-          <a tooltip="{{'HOMESERIES/search/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt + / )" accesskey="/" ng-if="!searchingForSerie" ng-click="isFiltering = true; setMode('search',true);">
-            <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'HOMESERIES/filter/glyph'|translate}}
-          </a>&nbsp;
-          <a tooltip="{{'HOMESERIES/list-show-mode/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt + l)" ng-if="!searchingForSerie && mode == 'poster'" accesskey="l" ng-click="setMode('banner');">
-            <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'HOMESERIES/list-show/glyph'|translate}}
-          </a>
-          <a tooltip="{{'HOMESERIES/grid-show-mode/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt + g)" ng-if="!searchingForSerie && mode == 'search' || mode == 'banner'" accesskey="g"  ng-click="setMode('poster');">
-            <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'HOMESERIES/grid-show/glyph'|translate}}
-          </a>
+            <a tooltip="{{'HOMESERIES/search/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt + / )" accesskey="/" ng-if="!searchingForSerie" ng-click="isFiltering = true; setMode('search',true);">
+                <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'HOMESERIES/filter/glyph'|translate}}
+            </a>&nbsp;
+
+            <a tooltip="{{'HOMESERIES/list-show-mode/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt + l)" ng-if="!searchingForSerie && mode == 'poster'" accesskey="l" ng-click="setMode('banner');">
+                <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'HOMESERIES/list-show/glyph'|translate}}
+            </a>
+
+            <a tooltip="{{'HOMESERIES/grid-show-mode/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt + g)" ng-if="!searchingForSerie && mode == 'search' || mode == 'banner'" accesskey="g"  ng-click="setMode('poster');">
+                <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'HOMESERIES/grid-show/glyph'|translate}}
+            </a>
         </div>
-
 
         <!-- if we're in search mode, this panel pops up -->
         <div ng-if="searchingForSerie" class="series" style='right:350px'>
-          <h1 style='text-align:center' ng-if="search.searching"><img ng-if="search.searching" src="img/spinner.gif"><br>{{'HOMESERIES/addshow-start-typing/lbl'|translate}}</h1>
-          <h1 ng-if="search.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'HOMESERIES/error-with-trakttv/lbl'|translate}}<br>{{ search.error.statusText }} </h1>
+            <h1 style='text-align:center' ng-if="search.searching"><img ng-if="search.searching" src="img/spinner.gif"><br>{{'HOMESERIES/addshow-start-typing/lbl'|translate}}</h1>
+            <h1 ng-if="search.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'HOMESERIES/error-with-trakttv/lbl'|translate}}<br>{{ search.error.statusText }} </h1>
 
-          <h1 ng-if="!search.searching && search.results.length == 0">{{'HOMESERIES/no-results/lbl'|translate}}{{search.query}}</h1>
-          <serieHeader ng-if="search.results" ng-repeat="serie in search.results" data="serie" ng-mouseenter="setHoverSerie(serie)" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)">
-            <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
-            <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
-          </serieHeader>
-
-          <div ng-if="trendingSeries">
-            <p class="alert alert-info" ng-if="favorites.length == 0" style='margin:20px;text-align:left;white-space:normal'>
-            <strong>{{'HOMESERIES/series-no/hdr'|translate}}</strong><br>
-            {{'HOMESERIES/series-no/desc'|translate}}
-
-            <strong><a href="#/settings/default" style='color:black'>{{'HOMESERIES/import/lbl'|translate}}</a></strong>
-              
-            </p>
-
-            <h1 style='color:white'>{{'HOMESERIES/addtrending-help/hdr'|translate}} - {{'HOMESERIES/addtrending-help-click-to-show/hdr'|translate}}</h1>
-            <h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>{{'HOMESERIES/addtrending-help-please-wait/hdr'|translate}}</h1>
-            <serieHeader ng-repeat="serie in trending.results" ng-mouseenter="setHoverSerie(serie)" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
-              <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
-              <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
+            <h1 ng-if="!search.searching && search.results.length == 0">{{'HOMESERIES/no-results/lbl'|translate}}{{search.query}}</h1>
+            <serieHeader ng-if="search.results" ng-repeat="serie in search.results" data="serie" ng-mouseenter="setHoverSerie(serie)" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)">
+                <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+                <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
             </serieHeader>
-          </div>
-        </div>
-       <serie-details class="sidepanel" ng-show="serie" template-url="templates/traktSerieDetails.html"></serie-details>
-      
 
+            <div ng-if="trendingSeries">
+                <p class="alert alert-info" ng-if="favorites.length == 0" style='margin:20px;text-align:left;white-space:normal'>
+                    <strong>{{'HOMESERIES/series-no/hdr'|translate}}</strong><br>
+                    {{'HOMESERIES/series-no/desc'|translate}}
+                    <strong><a href="#/settings/default" style='color:black'>{{'HOMESERIES/import/lbl'|translate}}</a></strong>
+                </p>
+                <h1 style='color:white'>{{'HOMESERIES/addtrending-help/hdr'|translate}} - {{'HOMESERIES/addtrending-help-click-to-show/hdr'|translate}}</h1>
+                <h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>{{'HOMESERIES/addtrending-help-please-wait/hdr'|translate}}</h1>
+                <serieHeader ng-repeat="serie in trending.results" ng-mouseenter="setHoverSerie(serie)" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
+                    <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+                    <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
+                </serieHeader>
+            </div>
+        </div>
+
+        <serie-details class="sidepanel" ng-show="serie" template-url="templates/traktSerieDetails.html"></serie-details>
+        
         <div class="series" ng-if="activated && !searchingForSerie && mode == 'search'">
-          <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName' | filter: localFilter" data="serie" no-overview="1" mode="search">
+            <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName' | filter: localFilter" data="serie" no-overview="1" mode="search">
             <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
-          </serieHeader>
+            </serieHeader>
         </div>
         <div class="series" ng-if="activated && !searchingForSerie && mode == 'poster'">
-          <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName'" data="serie" no-overview="1" mode="poster">   
-              <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
-          </serieHeader>
+            <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName'" data="serie" no-overview="1" mode="poster">
+            <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
+            </serieHeader>
         </div>
         <div class="series" ng-if="activated && !searchingForSerie && mode == 'banner'">
-          <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName'" data="serie" no-overview="1" mode="banner">
-               <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
-           </serieHeader>
+            <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName'" data="serie" no-overview="1" mode="banner">
+            <em class="earmark delete" tooltip="{{'SERIEDETAILS/delete-serie/btn'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
+            </serieHeader>
         </div>
-
-      </div>
-
-  </div>
+    </div>
+</div>
