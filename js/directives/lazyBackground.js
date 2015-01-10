@@ -18,18 +18,18 @@ angular.module('DuckieTV.directives.lazybackground', [])
              * it can fetch the new image and fade to it 
              */ 
             attrs.$observe('lazyBackground', function(newSrc) {
-              /**
-                * Check if an image url is provided or valid
-                * NOTE: I thought the serieHeader template prevented sending empty srcs however
-                * in my tests numerous empty newSrcs are being sent?
-                */
-                if (newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/' || newSrc == 'http://ir0.mobify.com/webp/250/') {
-                    element.addClass('poster-load-error');
+                //Check if the image url is not empty and valid and if it isn't apply error class
+                if (newSrc == null || newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/' || newSrc == 'http://ir0.mobify.com/webp/250/') {
+                    element.addClass('img-load-error');
                     return;
                 }
 
-                element.removeClass('poster-load-error');
-                element.addClass('poster-loading');
+                /**
+                 * Removes any error class on the element and then adds the loading class to the element.
+                 * This is required in cases where the element can load more than 1 image.
+                 */
+                element.removeClass('img-load-error');
+                element.addClass('img-loading');
 
                 /** 
                  * Use some oldskool preloading techniques to load the image
@@ -37,12 +37,13 @@ angular.module('DuckieTV.directives.lazybackground', [])
                  */
                 var img = $document[0].createElement('img');
                 img.onload = function() {
-                    element.removeClass('poster-loading');
+                    element.removeClass('img-loading');
                     element.css('background-image', 'url(' + this.src + ')');
                 };
                 img.onerror = function(e) {
-                    element.removeClass('poster-loading');
-                    element.addClass('poster-load-error');
+                    //Remove loading class and apply error class
+                    element.removeClass('img-loading');
+                    element.addClass('img-load-error');
                     console.error("image load error!", e);
                 };
                 attrs.ngHide = false;

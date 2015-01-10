@@ -1019,12 +1019,12 @@ query-monitor.show {
     -webkit-transform: translateX(0);
 }
 
-.poster-loading {
+.img-loading {
     opacity: 0.5 !important;
     background: url('../img/spinner.gif') no-repeat 50% !important;
 }
 
-.poster-load-error {
+.img-load-error {
     opacity: 0.8 !important;
     background: #000 url('../img/icon256-inverted.png') no-repeat center !important;
     background-size: contain !important;
