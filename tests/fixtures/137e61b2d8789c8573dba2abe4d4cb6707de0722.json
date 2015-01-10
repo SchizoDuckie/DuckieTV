@@ -1,0 +1,17 @@
+{
+    "url": "https:\/\/api.trakt.tv\/shows\/doctor-who-2005\/seasons\/9\/episodes?extended=full,images",
+    "headers": {
+        "Server": "cloudflare-nginx",
+        "Content-Type": "application\/json; charset=utf-8",
+        "Connection": "close",
+        "Cache-Control": "public, max-age=86400",
+        "Status": "200 OK",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-Powered-By": "Phusion Passenger 4.0.57",
+        "X-XSS-Protection": "1; mode=block",
+        "CF-Cache-Status": "HIT"
+    },
+    "content": "[{\r\n    \"season\": 9,\r\n    \"number\": 1,\r\n    \"title\": \"The Magician's Apprentice\",\r\n    \"ids\": {\r\n        \"trakt\": 1405455,\r\n        \"tvdb\": 5076329,\r\n        \"imdb\": null,\r\n        \"tmdb\": null,\r\n        \"tvrage\": null\r\n    },\r\n    \"number_abs\": null,\r\n    \"overview\": null,\r\n    \"first_aired\": null,\r\n    \"updated_at\": \"2015-01-10T06:03:54.000-08:00\",\r\n    \"rating\": 10.0,\r\n    \"votes\": 1,\r\n    \"available_translations\": [],\r\n    \"images\": {\r\n        \"screenshot\": {\r\n            \"full\": null,\r\n            \"medium\": null,\r\n            \"thumb\": null\r\n        }\r\n    }\r\n}]"
+}

@@ -1,0 +1,24 @@
+{
+    "url": "https:\/\/api.trakt.tv\/shows\/nikita?extended=full,images",
+    "headers": {
+        "Server": "cloudflare-nginx",
+        "Date": "Sat, 10 Jan 2015 21",
+        "Content-Type": "application\/json; charset=utf-8",
+        "Connection": "close",
+        "Set-Cookie": "__cfduid=dd4f58ca638ed47c164446b35133bf7eb1420926314; expires=Sun, 10-Jan-16 21",
+        "Cache-Control": "public, max-age=86400",
+        "Expires": "Sun, 11 Jan 2015 21",
+        "Last-Modified": "Sat, 10 Jan 2015 21",
+        "Status": "200 OK",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-Powered-By": "Phusion Passenger 4.0.57",
+        "X-Request-Id": "bab683de-b368-44a5-a979-8cb7b26d21c6",
+        "X-Runtime": "0.122322",
+        "X-XSS-Protection": "1; mode=block",
+        "CF-Cache-Status": "HIT",
+        "CF-RAY": "1a6c0f7a35850c6b-AMS"
+    },
+    "content": "{\"title\":\"Nikita\",\"year\":2010,\"ids\":{\"trakt\":32726,\"slug\":\"nikita\",\"tvdb\":164301,\"imdb\":\"tt1592154\",\"tmdb\":32868,\"tvrage\":null},\"overview\":\"When she was a deeply troubled teenager, Nikita was rescued from death row and given a second chance by a secret U.S. agency known only as Division. What they didn't tell her was that she was being trained as a spy and assassin. Having escaped Division, Nikita is seeking retribution and will stop at nothing to expose and destroy their covert operation. \",\"first_aired\":\"2010-09-09T18:00:00.000-07:00\",\"airs\":{\"day\":\"Friday\",\"time\":\"21:00\",\"timezone\":\"America\/New_York\"},\"runtime\":60,\"certification\":\"TV-14\",\"network\":\"The CW\",\"country\":\"us\",\"updated_at\":\"2015-01-10T13:01:43.000-08:00\",\"trailer\":\"http:\/\/youtube.com\/watch?v=ySr1u6jguHQ\",\"homepage\":null,\"status\":\"ended\",\"rating\":8.03337,\"votes\":3147,\"language\":\"en\",\"available_translations\":[\"en\",\"da\",\"bg\",\"it\",\"fr\",\"de\",\"hu\"],\"genres\":[\"drama\"],\"aired_episodes\":73,\"images\":{\"fanart\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/032\/726\/fanarts\/original\/c85459f66b.jpg?1419736260\",\"medium\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/032\/726\/fanarts\/medium\/c85459f66b.jpg?1419736260\",\"thumb\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/032\/726\/fanarts\/thumb\/c85459f66b.jpg?1419736260\"},\"poster\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/032\/726\/posters\/original\/2ec9a871fa.jpg?1419736241\",\"medium\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/032\/726\/posters\/medium\/2ec9a871fa.jpg?1419736241\",\"thumb\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/032\/726\/posters\/thumb\/2ec9a871fa.jpg?1419736241\"},\"logo\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/032\/726\/logos\/original\/b79bf56e4f.png?1419736273\"},\"clearart\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/032\/726\/cleararts\/original\/4eb0e91c10.png?1419736275\"},\"banner\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/032\/726\/banners\/original\/012a771884.jpg?1419736282\"},\"thumb\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/032\/726\/thumbs\/original\/ceab3e7a0d.jpg?1419736287\"}}}"
+}
