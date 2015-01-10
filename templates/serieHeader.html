@@ -7,11 +7,11 @@
 
 <div class="serieheader" ng-if="!noListButton && (mode == 'banner')" >
   <a ng-if="serie.TVDB_ID" ng-href="#/series/{{serie.TVDB_ID}}">
-    <div ng-if="!mode || mode == 'banner'" class='banner' lazy-background="http://ir0.mobify.com/webp/{{serie.banner}}"></div>
+    <div ng-if="!mode || mode == 'banner'" class='banner' lazy-background="{{serie.banner}}"></div>
     <h3>{{ serie.name }} {{ serie.title }}</h3>
   </a>
   <a ng-if="!serie.TVDB_ID">
-    <div ng-if="!mode || mode == 'banner'" class='banner' lazy-background="http://ir0.mobify.com/webp/{{serie.banner}}"></div>
+    <div ng-if="!mode || mode == 'banner'" class='banner' lazy-background="{{serie.banner}}"></div>
     <h3>{{ serie.name }} {{ serie.title }}</h3>
   </a>
   <div ng-if="!noOverview" class='overview'>{{ serie.overview }}</div>
@@ -20,12 +20,12 @@
 
 <div class="serieheader" ng-if="!noListButton && (!mode || mode == 'poster')" tooltip='{{serie.title}}{{serie.name}}'>
   <a ng-if="serie.TVDB_ID" ng-href="#/series/{{serie.TVDB_ID}}">
-    <div ng-if="serie.poster != '' " class='poster' lazy-background="http://ir0.mobify.com/webp/250/{{serie.poster}}"></div>
+    <div ng-if="serie.poster != '' " class='poster' lazy-background="{{serie.poster}}"></div>
     <div ng-if="serie.poster == '' " class='poster' lazy-background="img/icon128.png" style='background-color: rgba(255,255,255,0.4)'></div>
     <h3>{{ serie.name }} {{ serie.title }}</h3>
   </a>
    <a ng-if="!serie.TVDB_ID">
-    <div ng-if="serie.poster != '' " class='poster' lazy-background="http://ir0.mobify.com/webp/250/{{serie.poster}}"></div>
+    <div ng-if="serie.poster != '' " class='poster' lazy-background="{{serie.poster}}"></div>
     <div ng-if="serie.poster == '' " class='poster' lazy-background="img/icon128.png" style='background-color: rgba(255,255,255,0.4)'></div>
     <h3 ng-if="!noTitle">{{ serie.name }} {{ serie.title }}</h3>
   </a>
@@ -34,9 +34,9 @@
 </div>
 
 <div class="serieheader" ng-if="noListButton" tooltip='{{serie.title}}{{serie.name}}'>
-  <div ng-if="mode == 'poster' && serie.poster != '' " class='poster' lazy-background="http://ir0.mobify.com/webp/{{serie.poster}}"></div>
+  <div ng-if="mode == 'poster' && serie.poster != '' " class='poster' lazy-background="{{serie.poster}}"></div>
   <div ng-if="mode == 'poster' && serie.poster == '' " class='poster' lazy-background="img/icon128.png" style='background-color: rgba(255,255,255,0.4)'></div>
-  <div ng-if="!mode || mode == 'banner'" class='banner' lazy-background="http://ir0.mobify.com/webp/{{serie.banner}}"></div>
+  <div ng-if="!mode || mode == 'banner'" class='banner' lazy-background="{{serie.banner}}"></div>
 
   <h3>{{ serie.name }} {{ serie.title }}</h3>
   <div ng-if="!noOverview" class='overview'>{{ serie.overview }}</div>
