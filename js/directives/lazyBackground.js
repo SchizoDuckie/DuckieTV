@@ -18,13 +18,18 @@ angular.module('DuckieTV.directives.lazybackground', [])
              * it can fetch the new image and fade to it 
              */ 
             attrs.$observe('lazyBackground', function(newSrc) {
-                if (newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/' || newSrc == 'http://ir0.mobify.com/webp/250/') return;
-                element.attr('oldStyle', element.attr('style') == null ? '' : element.attr('style'));
-                element.css('transition', 'opacity 0.5s ease-in');
-                element.css('opacity', 0.5);
-                element.css('background-image', 'url(img/spinner.gif)');
-                element.css('background-position', 'center center');
-                element.attr('style', element.attr('style') + '; background-size: initial !important');
+              /**
+                * Check if an image url is provided or valid
+                * NOTE: I thought the serieHeader template prevented sending empty srcs however
+                * in my tests numerous empty newSrcs are being sent?
+                */
+                if (newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/' || newSrc == 'http://ir0.mobify.com/webp/250/') {
+                    element.addClass('poster-load-error');
+                    return;
+                }
+
+                element.removeClass('poster-load-error');
+                element.addClass('poster-loading');
 
                 /** 
                  * Use some oldskool preloading techniques to load the image
@@ -32,14 +37,13 @@ angular.module('DuckieTV.directives.lazybackground', [])
                  */
                 var img = $document[0].createElement('img');
                 img.onload = function() {
-                    element.attr('style', element.attr('oldStyle'));
+                    element.removeClass('poster-loading');
                     element.css('background-image', 'url(' + this.src + ')');
                 };
                 img.onerror = function(e) {
-                    console.log("image load error!", e);
-                    element.css({
-                        'opacity': '1'
-                    });
+                    element.removeClass('poster-loading');
+                    element.addClass('poster-load-error');
+                    console.error("image load error!", e);
                 };
                 attrs.ngHide = false;
                 img.src = newSrc;
