@@ -29,6 +29,7 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.generictorrentsearch',
     'DuckieTV.providers.torrentfreak',
     'DuckieTV.providers.trakttv',
+    'DuckieTV.providers.trakttvv2',
     'DuckieTV.providers.upgradenotification',
     'DuckieTV.providers.watchlistchecker',
     'DuckieTV.providers.watchlist',
@@ -206,10 +207,12 @@ angular.module('DuckieTV', [
     function($q, $injector) {
         return {
             request: function(config) {
-                if (config.url.indexOf('http') == 0 && config.url.indexOf('localhost') === -1) {
+                if (document.domain != 'localhost' && config.url.indexOf('http') == 0 && config.url.indexOf('localhost') === -1) {
                     if (config.url.indexOf('www.corsproxy.com') == -1) config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
+                } else if (document.domain == 'localhost' && config.url.indexOf('localhost') === -1 && config.url.indexOf('http') == 0) {
+                    // for local protractor tests
+                    config.url = './tests/proxy.php?url=' + encodeURIComponent(config.url);
                 }
-
                 return config;
             },
             'responseError': function(rejection) {
@@ -221,9 +224,10 @@ angular.module('DuckieTV', [
                 return $http(rejection.config);
             }
 
-        }
+        };
     }
 ])
+
 
 /**
  * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
