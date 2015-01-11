@@ -1,11 +1,11 @@
-angular.module('DuckieTV.providers.favorites', [])
+angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'DuckieTV.providers.eventscheduler'])
 /**
  * Persistent storage for favorite series and episode
  *
  * Provides functionality to add and remove series and is the glue between Trakt.TV,
  * the EventScheduler Service and the GUI.
  */
-.factory('FavoritesService', function($rootScope, AlarmService, TraktTV, EventSchedulerService) {
+.factory('FavoritesService', function($rootScope, AlarmService, EventSchedulerService) {
 
     /** 
      * Helper function to add a serie to the service.favorites hash if it doesn't already exist.
@@ -155,7 +155,7 @@ angular.module('DuckieTV.providers.favorites', [])
     var service = {
         favorites: [],
         favoriteIDs: [],
-        TraktTV: TraktTV,
+        // TraktTV: TraktTV,
         /**
          * Handles adding, deleting and updating a show to the local database.
          * Grabs the existing serie, seasons and episode from the database if they exist
@@ -330,9 +330,9 @@ angular.module('DuckieTV.providers.favorites', [])
          */
         restore: function() {
             $rootScope.$on('favoritesservice:checkforupdates', function(evt, data) {
-                TraktTV.enableBatchMode().findSerieByTVDBID(data.TVDB_ID).then(function(res) {
-                    service.addFavorite(res);
-                });
+                //TraktTV.enableBatchMode().findSerieByTVDBID(data.TVDB_ID).then(function(res) {
+                //    service.addFavorite(res);
+                //});
 
             });
             service.refresh();

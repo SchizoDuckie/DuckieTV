@@ -1,4 +1,4 @@
-angular.module('DuckieTV.providers.trakttvv2', [])
+angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
 
 /** 
  * Trakt TV V2 API interfacing.

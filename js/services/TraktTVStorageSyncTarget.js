@@ -56,6 +56,6 @@ angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.set
 
 window.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
-        angular.element(document.body).injector().get('StorageSyncService').registerTarget('TraktTVStorageSyncTarget');
+        //  angular.element(document.body).injector().get('StorageSyncService').registerTarget('TraktTVStorageSyncTarget');
     }, 500);
 });
