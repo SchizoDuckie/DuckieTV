@@ -316,7 +316,7 @@ angular.module('DuckieTV.providers.settings', [])
             service.set('application.locale', locale);
             $injector.get('$translate').use(langKey); // get these via the injector so that we don't have to use these dependencies hardcoded.
             $injector.get('tmhDynamicLocale').set(locale); // the SettingsService is also required in the background page and we don't need $translate there
-            console.info("Active Language", langKey, "; Active Locale", locale);
+            //console.info("Active Language", langKey, "; Active Locale", locale);
         }
     };
     service.restore();

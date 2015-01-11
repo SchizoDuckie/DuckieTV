@@ -165,7 +165,6 @@ angular.module('DuckieTV.providers.alarms', [])
 
             }
 
-            console.info("DuckieTV alarm initialize!", this.alarms);
         }
     };
 
