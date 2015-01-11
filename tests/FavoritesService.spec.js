@@ -1,7 +1,12 @@
 describe("Favorites Tests", function() {
 
     var page = require('./Favorites');
+    var util = require('util');
     browser.get('/duckietv');
+
+    browser.manage().logs().get('browser').then(function(browserLog) {
+        console.log('browser log: ' + util.inspect(browserLog));
+    });
 
     it("Should be showing the favorites page with the search box", function() {
         browser.wait(function() {
@@ -20,38 +25,22 @@ describe("Favorites Tests", function() {
         })).toEqual(11);
     });
 
+    it("Should start adding 'Doctor Who 2005' when clicking it", function() {
+        page.getSearchResults().then(function(elements) {
+            elements[1].click();
+            expect(page.getDoctorWhoAddingEarmark().isDisplayed()).toBeTruthy();
 
-    /*
-    it("Should wipe the existing form when clicking 'wis formulier'", function() {
-        page.wipeForm();
-        expect(element.all(by.css("form fieldset table tbody tr td input[name=number]")).count()).toEqual(1);
-
-        page.getSamples().then(function(samples) {
-            element.all(by.binding('data.project.samples')).then(function(res) {
-                expect(res.length).toEqual(0);
-            });
-        })
+        });
     });
 
+    it("Should result in an 'added' check mark on 'Doctor Who 2005' has finished", function() {
+        page.getSearchResults().then(function(elements) {
+            browser.wait(function() {
+                expect(page.getDoctorWhoAddedEarmark().isDisplayed()).toBeTruthy();
+            }, 60000);
+        });
+    });
 
-    var randomAmount = 5;
-    it("should be able to add a random amount (" + randomAmount + ") of samples", function() {
-
-        page.getClientReference().sendKeys('Automated ' + new Date().toDateString());
-        page.getLocation().sendKeys('Samson-IT Rijswijk');
-        page.getNote().sendKeys("Automated test project " + new Date().toString());
-
-        for (var i = 0; i < randomAmount; i++) {
-            page.addSample(i, page.getRandomSampleType());
-            if (i < randomAmount - 1) {
-                page.getAddSampleButton().click();
-            }
-        }
-
-
-    })
-
-*/
 
 
 });
