@@ -4,7 +4,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
  * The Serieslist directive is what's holds the favorites list and allows you to add/remove series and episodes to your calendar.
  * It also is used as the main navigation to get to any of your series.
  */
-.directive('seriesList', function(FavoritesService, $rootScope, $filter, $dialogs, $location, TraktTV) {
+.directive('seriesList', function(FavoritesService, $rootScope, $filter, $dialogs, $location, TraktTVv2) {
     return {
         restrict: 'E',
         transclude: true,
@@ -77,7 +77,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     $scope.trending = {
                         results: []
                     };
-                    TraktTV.disableBatchMode().findTrending().then(function(res) {
+                    TraktTVv2.trending().then(function(res) {
                         $scope.trending.results = res;
                     }).catch(function(error) {
                         $scope.search.error = error;
@@ -167,22 +167,16 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 }
                 $scope.search.searching = true;
                 $scope.search.error = false;
+                $scope.trendingSeries = false;
                 // disableBatchMode makes sure that previous request are aborted when a new one is started.
-                return TraktTV.disableBatchMode().findSeries($scope.search.query).then(function(res) {
+                return TraktTVv2.search($scope.search.query).then(function(res) {
                     $scope.search.error = false;
-                    if (!TraktTV.hasActiveRequest()) {
-                        //console.log("Has active request?nope.");
-                        $scope.search.searching = false;
-                    }
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
-                    TraktTV.enableBatchMode();
-                    $scope.search.results = (res && ('series' in res)) ? res.series : [];
+                    $scope.search.results = res || [];
                 }).catch(function(err) {
                     console.error("Search error!", err);
-
                     $scope.search.error = err;
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
-                    TraktTV.enableBatchMode();
                     $scope.search.results = false;
                 });
             };
@@ -206,7 +200,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              */
             $scope.selectSerie = function(serie) {
                 $scope.adding[serie.tvdb_id] = true;
-                TraktTV.enableBatchMode().findSerieByTVDBID(serie.tvdb_id).then(function(serie) {
+                TraktTVv2.serie(serie.slug_id).then(function(serie) {
                     FavoritesService.addFavorite(serie).then(function() {
                         $rootScope.$broadcast('storage:update');
                         $scope.adding[serie.tvdb_id] = false;
@@ -219,6 +213,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              * Used to show checkmarks in the add modes for series that you already have.
              */
             $scope.isAdded = function(tvdb_id) {
+                if (tvdb_id == null) return false;
                 return FavoritesService.hasFavorite(tvdb_id.toString());
             }
 
@@ -226,11 +221,12 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              * Returns true as long as the add a show to favorites promise is running.
              */
             $scope.isAdding = function(tvdb_id) {
+                if (tvdb_id == null) return false;
                 return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === true))
             }
 
             var titleSorter = function(serie) {
-                serie.sortName = serie.name.replace('The ', '');
+                serie.sortName = serie.name ? serie.name.replace('The ', '') : '';
                 return serie;
             };
 
