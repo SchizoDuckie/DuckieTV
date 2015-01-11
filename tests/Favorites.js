@@ -12,10 +12,19 @@ function Favorites() {
         return element(by.css('series-list'));
     };
 
-    this.getSearchResults = function(cb) {
+    this.getSearchResults = function() {
         return element.all(by.css('series-list serieheader')).then(function(elements) {
             return elements;
         });
+    };
+
+    this.getDoctorWhoAddingEarmark = function() {
+        return element(by.css('series-list serieheader:nth-child(3) em.earmark.adding'));
+    };
+
+
+    this.getDoctorWhoAddedEarmark = function() {
+        return element(by.cssContainingText('series-list serieheader:nth-child(3) em.earmark', '✓'));
     };
 
     /*

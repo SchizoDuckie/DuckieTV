@@ -9,7 +9,7 @@ if(array_search($_SERVER['REMOTE_ADDR'], array('::1', '127.0.0.1')) === false) {
 
 
 // if there's a cached version of this request in fixtures, serve it.
-$cache = dirname(__FILE__).'/tests/fixtures/'.sha1($_GET['url']).'.json'; 
+$cache = dirname(__FILE__).'/fixtures/'.sha1($_GET['url']).'.json'; 
 if(file_exists($cache)) {
     $out = json_decode(file_get_contents($cache),true);
     foreach($out['headers'] as $key=>$val) {
