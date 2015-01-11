@@ -35,8 +35,10 @@ module.exports = function(config) {
             'js/*.js',
             'js/directives/*.js',
             'js/services/*.js',
-            'js/controllers/*.js',
-            'tests/**.test.js', {
+            'js/controllers/*.js', {
+                pattern: 'tests/**.test.js',
+                included: false
+            }, {
                 pattern: 'tests/fixtures/*.json',
                 included: false
             }
