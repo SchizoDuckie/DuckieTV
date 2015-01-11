@@ -251,7 +251,7 @@ angular.module('DuckieTV', [
     var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage();
     SettingsService.changeLanguage(angular.lowercase(configuredLocale));
 
-    console.info('client determined locale proposed:', $translate.proposedLanguage(), 'set:', SettingsService.get('client.determinedlocale'), 'configured:', configuredLocale);
+    //console.info('client determined locale proposed:', $translate.proposedLanguage(), 'set:', SettingsService.get('client.determinedlocale'), 'configured:', configuredLocale);
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
     $rootScope.getSetting = function(key) {
