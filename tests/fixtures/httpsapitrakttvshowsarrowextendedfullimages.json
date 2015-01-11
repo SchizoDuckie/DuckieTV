@@ -1,0 +1,25 @@
+{
+    "url": "https:\/\/api.trakt.tv\/shows\/arrow?extended=full,images",
+    "headers": {
+        "Server": " cloudflare-nginx",
+        "Date": " Sun, 11 Jan 2015 21",
+        "Content-Type": " application\/json; charset=utf-8",
+        "Transfer-Encoding": " chunked",
+        "Connection": " keep-alive",
+        "Set-Cookie": " __cfduid=dd19bef1b16196bea2258407a5da3f4f11421012117; expires=Mon, 11-Jan-16 21",
+        "Cache-Control": " public, max-age=86400",
+        "Expires": " Mon, 12 Jan 2015 21",
+        "Last-Modified": " Sun, 11 Jan 2015 20",
+        "Status": " 200 OK",
+        "Vary": " Accept-Encoding",
+        "X-Content-Type-Options": " nosniff",
+        "X-Frame-Options": " SAMEORIGIN",
+        "X-Powered-By": " Phusion Passenger 4.0.57",
+        "X-Request-Id": " 94bf9f86-2048-4af1-8619-d2341869f1b5",
+        "X-Runtime": " 0.045309",
+        "X-XSS-Protection": " 1; mode=block",
+        "CF-Cache-Status": " HIT",
+        "CF-RAY": " 1a743e438b9700e0-AMS"
+    },
+    "content": "{\"title\":\"Arrow\",\"year\":2012,\"ids\":{\"trakt\":1403,\"slug\":\"arrow\",\"tvdb\":257655,\"imdb\":\"tt2193021\",\"tmdb\":1412,\"tvrage\":30715},\"overview\":\"Oliver Queen and his father are lost at sea when their luxury yacht sinks. His father doesn't survive. Oliver survives on an uncharted island for five years learning to fight, but also learning about his father's corruption and unscrupulous business dealings. He returns to civilization a changed man, determined to put things right. He disguises himself with the hood of one of his mysterious island mentors, arms himself with a bow and sets about hunting down the men and women who have corrupted his city.\",\"first_aired\":\"2012-10-10T17:00:00.000-07:00\",\"airs\":{\"day\":\"Wednesday\",\"time\":\"20:00\",\"timezone\":\"America\/New_York\"},\"runtime\":42,\"certification\":\"TV-PG\",\"network\":\"The CW\",\"country\":\"us\",\"updated_at\":\"2015-01-11T12:49:07.000-08:00\",\"trailer\":null,\"homepage\":null,\"status\":\"returning series\",\"rating\":8.09985,\"votes\":14862,\"language\":\"en\",\"available_translations\":[\"en\",\"hu\",\"it\",\"da\",\"pl\",\"pt\",\"el\",\"nl\",\"sk\",\"es\",\"tr\",\"fr\",\"de\",\"ru\",\"zh\",\"uk\",\"bg\"],\"genres\":[\"action\",\"adventure\",\"crime\",\"drama\",\"mystery\",\"science-fiction\"],\"aired_episodes\":55,\"images\":{\"fanart\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/001\/403\/fanarts\/original\/bbe10773b5.jpg?1420875786\",\"medium\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/001\/403\/fanarts\/medium\/bbe10773b5.jpg?1420875786\",\"thumb\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/001\/403\/fanarts\/thumb\/bbe10773b5.jpg?1420875786\"},\"poster\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/001\/403\/posters\/original\/defb148c55.jpg?1420875785\",\"medium\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/001\/403\/posters\/medium\/defb148c55.jpg?1420875785\",\"thumb\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/001\/403\/posters\/thumb\/defb148c55.jpg?1420875785\"},\"logo\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/001\/403\/logos\/original\/42673e65fd.png?1420875787\"},\"clearart\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/001\/403\/cleararts\/original\/b859003114.png?1420875787\"},\"banner\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/001\/403\/banners\/original\/bcb318ed5d.jpg?1420875787\"},\"thumb\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/001\/403\/thumbs\/original\/bdc790c1e5.jpg?1420875787\"}}}"
+}

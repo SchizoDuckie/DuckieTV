@@ -36,7 +36,10 @@ module.exports = function(config) {
             'js/directives/*.js',
             'js/services/*.js',
             'js/controllers/*.js',
-            'tests/**.test.js'
+            'tests/**.test.js', {
+                pattern: 'tests/fixtures/*.json',
+                included: false
+            }
         ],
 
         exclude: [
@@ -54,8 +57,8 @@ module.exports = function(config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['mocha', 'html'],
-
+        //reporters: ['mocha'],
+        reporters: ['mocha'],
 
         // web server port
         port: 9876,
@@ -81,12 +84,6 @@ module.exports = function(config) {
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false,
-
-        plugins: [
-            'karma-jasmine',
-            'karma-jasmine-html-reporter',
-            'karma-mocha-reporter'
-        ]
+        singleRun: false
     });
 };

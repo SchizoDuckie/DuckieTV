@@ -1,0 +1,25 @@
+{
+    "url": "https:\/\/api.trakt.tv\/shows\/doctor-who-2005?extended=full,images",
+    "headers": {
+        "Server": " cloudflare-nginx",
+        "Date": " Sun, 11 Jan 2015 21",
+        "Content-Type": " application\/json; charset=utf-8",
+        "Transfer-Encoding": " chunked",
+        "Connection": " keep-alive",
+        "Set-Cookie": " __cfduid=d6ce614e7f98254cf591e6ed523002f8a1421012046; expires=Mon, 11-Jan-16 21",
+        "Cache-Control": " public, max-age=86400",
+        "Expires": " Mon, 12 Jan 2015 21",
+        "Last-Modified": " Sun, 11 Jan 2015 21",
+        "Status": " 200 OK",
+        "Vary": " Accept-Encoding",
+        "X-Content-Type-Options": " nosniff",
+        "X-Frame-Options": " SAMEORIGIN",
+        "X-Powered-By": " Phusion Passenger 4.0.57",
+        "X-Request-Id": " 618da5fe-3b4f-4777-b520-c712d00fadce",
+        "X-Runtime": " 0.034504",
+        "X-XSS-Protection": " 1; mode=block",
+        "CF-Cache-Status": " HIT",
+        "CF-RAY": " 1a743c8b038700e0-AMS"
+    },
+    "content": "{\"title\":\"Doctor Who\",\"year\":2005,\"ids\":{\"trakt\":56872,\"slug\":\"doctor-who-2005\",\"tvdb\":78804,\"imdb\":\"tt0436992\",\"tmdb\":57243,\"tvrage\":3332},\"overview\":\"The Doctor is an alien Time Lord from the planet Gallifrey who travels through all of time and space in his TARDIS. His current travel companion is Clara Oswald, though he has a long list of friends and companions who have shared journeys with him. Instead of dying, the Doctor is able to \u201cregenerate\u201d into a new body, taking on a new personality with each regeneration. Twelve actors, plus John Hurt, have played The Doctor thus far.\",\"first_aired\":\"2005-03-26T12:30:00.000-08:00\",\"airs\":{\"day\":\"Saturday\",\"time\":\"20:30\",\"timezone\":\"Europe\/London\"},\"runtime\":50,\"certification\":\"TV-PG\",\"network\":\"BBC One\",\"country\":\"gb\",\"updated_at\":\"2015-01-11T13:24:34.000-08:00\",\"trailer\":\"http:\/\/youtube.com\/watch?v=kLxBYDff6RE\",\"homepage\":null,\"status\":\"returning series\",\"rating\":9.11989,\"votes\":10176,\"language\":\"en\",\"available_translations\":[\"da\",\"en\",\"hu\",\"ru\",\"nl\",\"pt\",\"pl\",\"de\",\"bg\",\"es\",\"fr\",\"zh\",\"tr\",\"cs\",\"it\",\"el\",\"no\"],\"genres\":[\"action\",\"adventure\",\"drama\",\"science-fiction\"],\"aired_episodes\":103,\"images\":{\"fanart\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/fanarts\/original\/f5b14363ae.jpg?1420722413\",\"medium\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/fanarts\/medium\/f5b14363ae.jpg?1420722413\",\"thumb\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/fanarts\/thumb\/f5b14363ae.jpg?1420722413\"},\"poster\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/posters\/original\/8c421e339d.jpg?1420722412\",\"medium\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/posters\/medium\/8c421e339d.jpg?1420722412\",\"thumb\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/posters\/thumb\/8c421e339d.jpg?1420722412\"},\"logo\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/logos\/original\/908c4e7ff2.png?1420722414\"},\"clearart\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/cleararts\/original\/9ee95ac313.png?1420722414\"},\"banner\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/banners\/original\/eb6561d0ee.jpg?1420722414\"},\"thumb\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/thumbs\/original\/6066c7e461.jpg?1420722414\"}}}"
+}

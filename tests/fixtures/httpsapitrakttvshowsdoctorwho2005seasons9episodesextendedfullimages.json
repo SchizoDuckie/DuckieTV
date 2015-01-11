@@ -1,0 +1,25 @@
+{
+    "url": "https:\/\/api.trakt.tv\/shows\/doctor-who-2005\/seasons\/9\/episodes?extended=full,images",
+    "headers": {
+        "Server": " cloudflare-nginx",
+        "Date": " Sun, 11 Jan 2015 21",
+        "Content-Type": " application\/json; charset=utf-8",
+        "Transfer-Encoding": " chunked",
+        "Connection": " keep-alive",
+        "Set-Cookie": " __cfduid=d16ca3ec0caf4e42f389106e3e49101ac1421012047; expires=Mon, 11-Jan-16 21",
+        "Cache-Control": " public, max-age=86400",
+        "ETag": " W\/\"87d0e1da0ce2fad160c7234aa4cf8c8f\"",
+        "Expires": " Mon, 12 Jan 2015 21",
+        "Status": " 200 OK",
+        "Vary": " Accept-Encoding",
+        "X-Content-Type-Options": " nosniff",
+        "X-Frame-Options": " SAMEORIGIN",
+        "X-Powered-By": " Phusion Passenger 4.0.57",
+        "X-Request-Id": " 8b9fcdf2-afd9-4976-9629-ca61b3abfce8",
+        "X-Runtime": " 0.019573",
+        "X-XSS-Protection": " 1; mode=block",
+        "CF-Cache-Status": " HIT",
+        "CF-RAY": " 1a743c90d51700e0-AMS"
+    },
+    "content": "[{\"season\":9,\"number\":1,\"title\":\"The Magician's Apprentice\",\"ids\":{\"trakt\":1405455,\"tvdb\":5076329,\"imdb\":null,\"tmdb\":null,\"tvrage\":null},\"number_abs\":null,\"overview\":null,\"first_aired\":null,\"updated_at\":\"2015-01-10T06:03:54.000-08:00\",\"rating\":10.0,\"votes\":1,\"available_translations\":[],\"images\":{\"screenshot\":{\"full\":null,\"medium\":null,\"thumb\":null}}}]"
+}

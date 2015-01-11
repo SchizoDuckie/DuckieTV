@@ -7,17 +7,21 @@ if(array_search($_SERVER['REMOTE_ADDR'], array('::1', '127.0.0.1')) === false) {
 }
 
 
+$cache = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $_GET['url'])).'.json'; 
 
 // if there's a cached version of this request in fixtures, serve it.
-$cache = dirname(__FILE__).'/fixtures/'.sha1($_GET['url']).'.json'; 
-if(file_exists($cache)) {
-    $out = json_decode(file_get_contents($cache),true);
+if(file_exists(dirname(__FILE__).'/fixtures/'.$cache)) {
+    $out = json_decode(file_get_contents(dirname(__FILE__).'/fixtures/'.$cache),true);
+    $out['headers']['Content-Length'] = strlen($out['content']);
+    unset($out['headers']['Transfer-Encoding']);
     foreach($out['headers'] as $key=>$val) {
         if($key =='Cookie') { continue; }
         header("{$key}: {$val}");
     }
-    header('DuckieTV-Cache-hit: '.sha1($_GET['url']).'.json');
+    header('DuckieTV-Cache-hit: '.$cache);
     die($out['content']);
+} else {
+     header('DuckieTV-Cache-miss: '.$cache);
 }
 
 
@@ -102,7 +106,7 @@ echo($body);
 
 if($body != false && $body != "") {
 // create cache
-file_put_contents(dirname(__FILE__).'/fixtures/'.sha1($_GET['url']).'.json', json_encode(array(
+file_put_contents(dirname(__FILE__).'/fixtures/'.$cache, json_encode(array(
     'url' => $_GET['url'],
     'headers' => $hs,
     'content' => $body
