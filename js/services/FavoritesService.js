@@ -45,8 +45,8 @@ angular.module('DuckieTV.providers.favorites', [])
             data.banner = data.images.banner;
         }
         data.firstaired = data.first_aired_utc * 1000;
-        data.rating = data.ratings.percentage;
-        data.ratingcount = data.ratings.votes;
+        data.rating = data.rating;
+        data.ratingcount = data.votes;
         data.genre = data.genres.join('|');
         if (data.people && 'actors' in data.people) {
             data.actors = data.people.actors.map(function(actor) {
@@ -173,13 +173,22 @@ angular.module('DuckieTV.providers.favorites', [])
             watched = watched || [];
             console.info("FavoritesService.addFavorite!", data, watched);
             var entity = null;
+            debugger;
+            if (data.title == null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
+                return service.remove({
+                    name: data.title,
+                    TVDB_ID: data.tvdb_id
+                });
+            }
             return service.getById(data.tvdb_id).then(function(serie) {
+
                     if (!serie) {
                         serie = new Serie();
                     } else if (serie.name.toLowerCase() != data.title.toLowerCase()) { // remove update checks for series that have their name changed (will be re-added with new name)
                         EventSchedulerService.clear(serie.name + ' [' + serie.TVDB_ID + ']');
                     }
                     fillSerie(serie, data);
+                    EventSchedulerService.clear(serie.name + ' update check'); // clean up old format.  
                     EventSchedulerService.createInterval(serie.name + ' [' + serie.TVDB_ID + ']', serie.status.toLowerCase() == 'ended' ? 60 * 24 * 14 : 60 * 24 * 2, 'favoritesservice:checkforupdates', {
                         ID: serie.getID(),
                         TVDB_ID: serie.TVDB_ID
@@ -194,7 +203,7 @@ angular.module('DuckieTV.providers.favorites', [])
                     return cleanupEpisodes(data.seasons, entity);
                 })
                 .then(function() {
-                    return updateSeasons(entity, data.seasons);
+                    return updateSeasons(entity, data);
                 })
                 .then(function(seasonCache) {
                     return updateEpisodes(entity, data.seasons, watched, seasonCache);
