@@ -1,4 +1,4 @@
-DuckieTV Binary, for Chrome, Opera  and Online
+DuckieTV Binary, for Chrome, Opera  and Online [![Build Status](https://travis-ci.org/SchizoDuckie/DuckieTV.svg?branch=trakt-api-v2)](https://travis-ci.org/SchizoDuckie/DuckieTV)
 ==============================================
 
 DuckieTV is a Google Chrome / Opera extension (Now also available as standalone builds for Windows/Mac/Linux!) that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
