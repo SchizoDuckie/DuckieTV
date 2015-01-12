@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - '0.10'
+
+branches:
+  only:
+    - trakt-api-v2
+    - angular
