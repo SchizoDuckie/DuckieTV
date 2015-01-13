@@ -1,10 +1,29 @@
-function fixture(url, cb) {
-    //var CryptoJS = require(['./js/vendor/sha1']);
+/**
+ * Synchronous Fixture loader using Plain Old Javascript.
+ * Strips all non alphabet/numeric characters out of the HTTP request URL
+ * e.g.
+ * https://api.trakt.tv/shows/doctor-who-2005/seasons?extended=full,images
+ * becomes
+ * 'httpsapitrakttvshowsdoctorwho2005seasonsextendedfullimages.json'
+ * for
+ * (not perfect, but sufficient for me)
+ *
+ * The file format is a simple json structure:
+ * {
+ *   url: 'string',
+ *   headers: {
+ *       //map
+ *   },
+ *   content: 'string'
+ * }
+ *
+ *
+ */
+function fixture(url) {
     url = './base/tests/fixtures/' + url.replace(/\W/g, '').toLowerCase() + '.json';
 
     var x = new XMLHttpRequest();
     x.open("GET", url, false);
-
     x.send();
 
     if (x.status === 200) {
@@ -18,7 +37,6 @@ function fixture(url, cb) {
         return null;
     }
 }
-
 
 describe('TrakTVv2', function() {
     var TraktTVv2, $httpBackend;
@@ -34,7 +52,6 @@ describe('TrakTVv2', function() {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
 
-        // todo: don't mind this.
         $httpBackend.whenGET(/.*/).respond(function(method, url, data) {
             var response = fixture(url);
             return [response ? 200 : 404, response];

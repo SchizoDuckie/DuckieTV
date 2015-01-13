@@ -199,6 +199,32 @@ angular.module('DuckieTV', [
     // error logging. missing keys are sent to $log
     //$translateProvider.useMissingTranslationHandlerLog();
 })
+
+/**
+ * Inject a (dev-env only) HTTP request interceptor that transparently proxies your requests to an external server and saves them
+ */
+.factory('TransparentFixtureProxyInterceptor', ['$q', '$injector',
+    function($q, $injector) {
+        if (document.domain == 'localhost') { // or the domain your dev instance runs on
+            return {
+                request: function(config) {
+                    if (config.url.indexOf('localhost') === -1 && config.url.indexOf('http') === 0) {
+                        config.url = './tests/proxy.php?url=' + encodeURIComponent(config.url);
+                    }
+                    return config;
+                }
+            };
+        } else {
+            return {};
+        }
+    }
+])
+    .config(function($httpProvider, $compileProvider) {
+        if (document.domain == 'localhost') {
+            $httpProvider.interceptors.push('TransparentFixtureProxyInterceptor');
+        }
+    })
+
 /**
  * Inject a cross-domain enabling http proxy for the non-chrome extension function
  * Sweeeeet
@@ -209,9 +235,6 @@ angular.module('DuckieTV', [
             request: function(config) {
                 if (document.domain != 'localhost' && config.url.indexOf('http') == 0 && config.url.indexOf('localhost') === -1) {
                     if (config.url.indexOf('www.corsproxy.com') == -1) config.url = ['http://www.corsproxy.com/', config.url.replace('http://', '').replace('https://', '')].join('')
-                } else if (document.domain == 'localhost' && config.url.indexOf('localhost') === -1 && config.url.indexOf('http') == 0) {
-                    // for local protractor tests
-                    config.url = './tests/proxy.php?url=' + encodeURIComponent(config.url);
                 }
                 return config;
             },
@@ -235,7 +258,7 @@ angular.module('DuckieTV', [
 .config(function($httpProvider, $compileProvider) {
 
     if (window.location.href.indexOf('chrome-extension') === -1 && navigator.userAgent.indexOf('DuckieTV') == -1) {
-        $httpProvider.interceptors.push('CORSInterceptor');
+        //  $httpProvider.interceptors.push('CORSInterceptor');
     }
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data|file):/);
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);

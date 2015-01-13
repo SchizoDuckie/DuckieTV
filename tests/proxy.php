@@ -1,11 +1,47 @@
 <?php
-set_time_limit(0);
-error_reporting(E_ALL);
+/**
+ * A transparent and caching proxy in PHP using CURL.
+ * Saves responses to a JSON file in ./fixtures/
+ * 
+ * Usage: 
+ * proxy.php?url=https%3A%2F%2Fapi.trakt.tv%2Fsearch%3Ftype%3Dshow%26extended%3Dfull%2Cimages%26query%3Ddoctor%2520who
+ *
+ * Cache files are saved as a alphanumeric-versions of the urls (a-zA-Z0-9)
+ * E.g.:
+ * 
+ * https://api.trakt.tv/shows/doctor-who-2005/seasons/2/episodes?extended=full,images
+ * becomes
+ * fixtures/httpsapitrakttvshowsdoctorwho2005seasons2episodesextendedfullimages.json
+ * 
+ * Includes the full response headers and url in the file for debugging.
+ * The resulting cache files have this structure:
+ * 
+ * {
+ *   url: 'string',
+ *   headers: { 
+ *      headerName: 'headerValue'
+ *   },
+ *   content: 'string'
+ * }
+ *
+ * When a fixture is available for the outstanding request it will be automatically served with the correct response headers.
+ *
+ * Note that for ease-of-use some things are happening:
+ *
+ * - Content-Transfer-Encoding is stripped so that the output is text by default
+ * - Chunked responses are sent at as a whole
+ * - Cookies are stripped from requests and responses (change this to your needs)
+ * - By default, requests to this file are only allowed from localhost.
+ *
+ */
+
+set_time_limit(60); // i deal with a slow api
+//error_reporting(E_ALL);
+
 if(array_search($_SERVER['REMOTE_ADDR'], array('::1', '127.0.0.1')) === false) {
     header('HTTP/1.0 403 Forbidden');
     die('kthxbye');
 }
-
 
 $cache = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $_GET['url'])).'.json'; 
 
@@ -14,34 +50,34 @@ if(file_exists(dirname(__FILE__).'/fixtures/'.$cache)) {
     $out = json_decode(file_get_contents(dirname(__FILE__).'/fixtures/'.$cache),true);
     $out['headers']['Content-Length'] = strlen($out['content']);
     unset($out['headers']['Transfer-Encoding']);
+    unset($out['headers']['Cookie']);
     foreach($out['headers'] as $key=>$val) {
-        if($key =='Cookie') { continue; }
         header("{$key}: {$val}");
     }
-    header('DuckieTV-Cache-hit: '.$cache);
+    header('Proxy-Cache-hit: '.$cache);
     die($out['content']);
 } else {
-     header('DuckieTV-Cache-miss: '.$cache);
+    header('Proxy-Cache-miss: '.$cache);
 }
 
+// parse the passed url and rebuild it
+$parsedUrl = parse_url(urldecode($_GET['url']));
+$hdrs['Host'] = $parsedUrl['host'];
+parse_str($parsedUrl['query'], $output);
+$targetUrl = $parsedUrl['scheme'].'://'.$parsedUrl['host'].$parsedUrl['path'].'?'.http_build_query($output);
 
-// preparse and format headers for 
-
+// fetch all relevant request headers and forward them to CURL.
 $hdrs = apache_request_headers();
 unset($hdrs['Cookie']);
 unset($hdrs['Referer']);
 unset($hdrs['Accept-Encoding']);
-$parsedUrl = parse_url(urldecode($_GET['url']));
-$hdrs['Host'] = $parsedUrl['host'];
 
 $curlHeaders = [];
 foreach($hdrs as $key=>$val) {
     $curlHeaders[] = "{$key}: {$val}";
 }
 
-parse_str($parsedUrl['query'], $output);
-
-$targetUrl = $parsedUrl['scheme'].'://'.$parsedUrl['host'].$parsedUrl['path'].'?'.http_build_query($output);
+// init curl (Save cacert.pem from curl.haxx.se/ca/cacert.pem and enable if you need it)
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $targetUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -56,7 +92,7 @@ curl_setopt($ch, CURLOPT_TIMEOUT ,0);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_VERBOSE, true);
 
-
+// proxy post requests
 if( sizeof($_POST) > 0 ) { 
     curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST); 
 }
@@ -64,53 +100,38 @@ if( sizeof($_POST) > 0 ) {
 $res = curl_exec($ch);
 $err = curl_error($ch);
 
-//die(print_r($res));
-
 $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
 curl_close($ch);
-
-if($err != '') {
-    header('HTTP 1.1/500 Internal Server Error');
-    die($err);
-
-}
 
 /* parse response */
 $headers = substr($res, 0, $header_size);
 $body = substr($res, $header_size);
 $headers = explode("\r\n", $headers);
-$hs = array();
+
+$responseHeaders = array();
 
 foreach($headers as $header) {
-    if(false !== strpos($header, ':')) {
-        list($h, $v) = explode(':', $header);
-        $hs[$h] = $v;
+    if(strpos($header, ':') !== false) {
+        $header = explode(':', $header);
+        $responseHeaders[$header[0]] = $header[1];
     }
 }
 
-/* forward headers to client */
-
-foreach($hs as $hname=> $v) {
-    if($hname == 'Transfer-Encoding') {
+// forward headers to client
+foreach($responseHeaders as $key=> $value) {
+    if(in_array($key, array('Transfer-Encoding', 'Content-Length', 'Set-Cookie'))) { // omit headers that make chrome unhappy
         continue;
-    } elseif($hname == 'Content-Length') {
-        continue;
-    } elseif($hname === 'Set-Cookie') {
-        header($hname.": " . $v, false);
-    } else {
-        header($hname.": " . $v);
     }
+    header($hname.": " . $v);
 }
 
 echo($body);
 
+// cache non-empty responses in fixtures folder (make sure you make it writeable)
 if($body != false && $body != "") {
-// create cache
-file_put_contents(dirname(__FILE__).'/fixtures/'.$cache, json_encode(array(
-    'url' => $_GET['url'],
-    'headers' => $hs,
-    'content' => $body
-),JSON_PRETTY_PRINT));
-
+    file_put_contents(dirname(__FILE__).'/fixtures/'.$cache, json_encode(array(
+        'url' => $_GET['url'],
+        'headers' => $hs,
+        'content' => $body
+    ),JSON_PRETTY_PRINT));
 }
-die();
