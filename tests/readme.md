@@ -5,8 +5,9 @@ https://github.com/angular/protractor/blob/master/docs/tutorial.md
 
 Install Karma, The Chrome Driver, Protraktor and all other testing dependencies by typing ``npm install``
 
-To run karma unit tests on PhantomJS: type ``npm test``
-To run karma unit tests on Chrome (For debugging) type ``karma start``
+To run Karma tests:
+- on PhantomJS: type ``npm test``
+- on Chrome (For debugging) type ``karma start``
 
 To run Protractor tests:
 - Make sure you run apache on localhost
