@@ -1,7 +1,11 @@
 End2End and unit testing with Protractor and Karma
+==================================================
 
-Follow the installation part of the tutorial here.
+Based loosely (to get started) on
 https://github.com/angular/protractor/blob/master/docs/tutorial.md
+
+Usage
+=====
 
 Install Karma, The Chrome Driver, Protraktor and all other testing dependencies by typing ``npm install``
 
