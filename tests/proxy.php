@@ -113,16 +113,11 @@ $responseHeaders = array();
 foreach($headers as $header) {
     if(strpos($header, ':') !== false) {
         $header = explode(':', $header);
-        $responseHeaders[$header[0]] = $header[1];
+        if(in_array($header[0], array('Transfer-Encoding', 'Content-Length', 'Set-Cookie'))) { // omit headers that make chrome unhappy
+            continue; 
+        }   
+        header(implode(':', $header));
     }
-}
-
-// forward headers to client
-foreach($responseHeaders as $key=> $value) {
-    if(in_array($key, array('Transfer-Encoding', 'Content-Length', 'Set-Cookie'))) { // omit headers that make chrome unhappy
-        continue;
-    }
-    header($hname.": " . $v);
 }
 
 echo($body);
