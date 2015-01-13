@@ -61,14 +61,13 @@ if(file_exists(dirname(__FILE__).'/fixtures/'.$cache)) {
 }
 
 // parse the passed url and rebuild it
-$parsedUrl = parse_url(urldecode($_GET['url']));
-$hdrs['Host'] = $parsedUrl['host'];
-parse_str($parsedUrl['query'], $output);
-$targetUrl = $parsedUrl['scheme'].'://'.$parsedUrl['host'].$parsedUrl['path'].'?'.http_build_query($output);
+//parse_str($parsedUrl['query'], $output);
+//$targetUrl = $parsedUrl['scheme'].'://'.$parsedUrl['host'].$parsedUrl['path'].'?'.http_build_query($output);
 
+$parsedUrl = parse_url(urldecode($_GET['url']));
 // fetch all relevant request headers and forward them to CURL.
 $hdrs = apache_request_headers();
-unset($hdrs['Cookie']);
+$hdrs['Host'] = $parsedUrl['host'];
 unset($hdrs['Referer']);
 unset($hdrs['Accept-Encoding']);
 
@@ -79,7 +78,7 @@ foreach($hdrs as $key=>$val) {
 
 // init curl (Save cacert.pem from curl.haxx.se/ca/cacert.pem and enable if you need it)
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $targetUrl);
+curl_setopt($ch, CURLOPT_URL, urldecode($_GET['url']));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__)."/cacert.pem");
 curl_setopt($ch, CURLOPT_HEADER, 1);
@@ -88,9 +87,18 @@ curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $curlHeaders);
 curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,0); 
-curl_setopt($ch, CURLOPT_TIMEOUT ,0); 
+curl_setopt($ch, CURLOPT_TIMEOUT,0); 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_VERBOSE, true);
+curl_setopt($ch, CURLOPT_VERBOSE, 1);
+//enable for debugging
+//curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+//$f = fopen(dirname(__FILE__).'/fixtures/request.txt', 'w');
+//curl_setopt($ch, CURLOPT_STDERR, $f);
+$response = curl_exec($ch);
+//fputs($f, print_r(curl_getinfo($ch,CURLINFO_HEADER_OUT),true));
+//fputs($f, $response);
+//fclose($f);
+
 
 // proxy post requests
 if( sizeof($_POST) > 0 ) { 
@@ -107,16 +115,19 @@ curl_close($ch);
 $headers = substr($res, 0, $header_size);
 $body = substr($res, $header_size);
 $headers = explode("\r\n", $headers);
-
 $responseHeaders = array();
-
 foreach($headers as $header) {
     if(strpos($header, ':') !== false) {
         $header = explode(':', $header);
-        if(in_array($header[0], array('Transfer-Encoding', 'Content-Length', 'Set-Cookie'))) { // omit headers that make chrome unhappy
+        $responseHeaders[$header[0]] = $header[1];
+        if(in_array($header[0], array('Transfer-Encoding', 'Content-Length'))) { // omit headers that make chrome unhappy
             continue; 
-        }   
-        header(implode(':', $header));
+        }
+        if($header[0] == 'Set-Cookie') {
+            header(implode(':', $header), false);
+        } else {
+            header(implode(':', $header));
+        }
     }
 }
 
@@ -126,7 +137,7 @@ echo($body);
 if($body != false && $body != "") {
     file_put_contents(dirname(__FILE__).'/fixtures/'.$cache, json_encode(array(
         'url' => $_GET['url'],
-        'headers' => $hs,
+        'headers' => $responseHeaders,
         'content' => $body
     ),JSON_PRETTY_PRINT));
 }
