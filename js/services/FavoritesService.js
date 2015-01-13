@@ -68,8 +68,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
     fillEpisode = function(episode, data, season, serie, watched) {
         // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
         data.TVDB_ID = data.tvdb_id;
-        data.rating = data.ratings.percentage;
-        data.ratingcount = data.ratings.votes;
+        data.ratingcount = data.votes;
         data.episodenumber = data.episode;
         data.episodename = data.title;
         data.firstaired = data.first_aired_utc === 0 ? null : new Date(data.first_aired_iso).getTime();
@@ -173,15 +172,15 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
             watched = watched || [];
             console.info("FavoritesService.addFavorite!", data, watched);
             var entity = null;
-            debugger;
-            if (data.title == null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
+            if (data.title == null || data.tvdb_id == null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
+                console.error("received error data as input, removing from favorites.");
                 return service.remove({
                     name: data.title,
                     TVDB_ID: data.tvdb_id
                 });
             }
             return service.getById(data.tvdb_id).then(function(serie) {
-
+                    console.log("Favoritesservice.getbyid executed: ", serie);
                     if (!serie) {
                         serie = new Serie();
                     } else if (serie.name.toLowerCase() != data.title.toLowerCase()) { // remove update checks for series that have their name changed (will be re-added with new name)
@@ -203,7 +202,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
                     return cleanupEpisodes(data.seasons, entity);
                 })
                 .then(function() {
-                    return updateSeasons(entity, data);
+                    return updateSeasons(entity, data.seasons);
                 })
                 .then(function(seasonCache) {
                     return updateEpisodes(entity, data.seasons, watched, seasonCache);

@@ -38,15 +38,12 @@ function fixture(url) {
     }
 }
 
-describe('TrakTVv2', function() {
-    var TraktTVv2, $httpBackend;
+describe('FavoritesService', function() {
 
+    var FavoritesService, TraktTVv2, $httpBackend;
+
+    beforeEach(module('DuckieTV.providers.favorites'));
     beforeEach(module('DuckieTV.providers.trakttvv2'));
-
-    beforeEach(inject(function(_$httpBackend_, _TraktTVv2_) {
-        TraktTVv2 = _TraktTVv2_;
-        $httpBackend = _$httpBackend_;
-    }));
 
     beforeEach(inject(function($injector) {
         // Set up the mock http service responses
@@ -58,46 +55,10 @@ describe('TrakTVv2', function() {
         });
     }));
 
-
-    describe('It should be able to search for a serie', function() {
-
-        it("should have executed a search for 'Doctor Who'", function() {
-            TraktTVv2.search('Doctor Who').then(function(searchResults) {
-                expect(angular.isArray(searchResults)).toBe(true);
-            });
-
-            $httpBackend.flush();
-        });
-
-        it("Should be finding 10 items", function() {
-            TraktTVv2.search('Doctor Who').then(function(searchResults) {
-                expect(searchResults.length).toEqual(10);
-            });
-
-            $httpBackend.flush();
-        });
-
-        it('Should have Doctor Who as the second search result', function() {
-            TraktTVv2.search('Doctor Who').then(function(searchResults) {
-                expect(searchResults[1].title).toMatch('Doctor Who');
-            });
-
-            $httpBackend.flush();
-        });
-
-    });
-
-
-});
-
-describe('FavoritesService', function() {
-
-    var FavoritesService, $httpBackend;
-
-    beforeEach(module('DuckieTV.providers.favorites'));
-    beforeEach(inject(function(_FavoritesService_) {
+    beforeEach(inject(function(_FavoritesService_, _TraktTVv2_, _$httpBackend_) {
         FavoritesService = _FavoritesService_;
-
+        TraktTVv2 = _TraktTVv2_;
+        $httpBackend = _$httpBackend_;
     }));
 
     describe('It should be initialized', function() {
@@ -112,6 +73,25 @@ describe('FavoritesService', function() {
             });
 
         });
+
+    });
+
+    describe("It should be able to add Doctor Who to the database", function() {
+
+        it('Should be able to add Doctor Who from a parsed search result', function() {
+            TraktTVv2.serie('doctor-who-2005').then(function(searchResults) {
+                expect(searchResults.title).toMatch('Doctor Who');
+                return searchResults;
+            }).then(FavoritesService.addFavorite).then(function(serie) {
+                expect(serie.id).not.toBe(false);
+            });
+
+            $httpBackend.flush();
+        });
+
+
+
+
     });
 
 
