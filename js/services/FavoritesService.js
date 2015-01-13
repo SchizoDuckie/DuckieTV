@@ -170,7 +170,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
          */
         addFavorite: function(data, watched) {
             watched = watched || [];
-            console.info("FavoritesService.addFavorite!", data, watched);
+            // console.log("FavoritesService.addFavorite!", data, watched);
             var entity = null;
             if (data.title == null || data.tvdb_id == null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
                 console.error("received error data as input, removing from favorites.");
