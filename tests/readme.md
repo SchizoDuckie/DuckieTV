@@ -22,5 +22,3 @@ To run Protractor tests:
 Current build status: [![Build Status](https://travis-ci.org/SchizoDuckie/DuckieTV.svg?branch=trakt-api-v2)](https://travis-ci.org/SchizoDuckie/DuckieTV)
 
 Travis-CI Details: https://travis-ci.org/SchizoDuckie/DuckieTV
-
-Mailing list: (If you want to subscribe to all build updates)
