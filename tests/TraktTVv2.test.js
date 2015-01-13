@@ -45,8 +45,12 @@ describe('TrakTVv2', function() {
             $httpBackend.flush();
         });
 
+        it('Should be able to find Doctor Who by it\'s TVDB_ID', function() {
+            TraktTVv2.resolveTVDBID(78804).then(function(serie) {
+                expect(serie.title == 'Doctor Who').toBe(true);
 
+            });
+            $httpBackend.flush();
+        });
     });
-
-
 });

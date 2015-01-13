@@ -20,7 +20,8 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         seasons: 'shows/%s/seasons?extended=full,images',
         episodes: 'shows/%s/seasons/%s/episodes?extended=full,images',
         search: 'search?type=show&extended=full,images&query=%s',
-        trending: 'shows/trending?extended=full,images&limit=100'
+        trending: 'shows/trending?extended=full,images&limit=100',
+        tvdb_id: 'search?id_type=tvdb&id=%s'
     };
 
     var parsers = {
@@ -61,6 +62,11 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
          */
         serie: function(result) {
             return parsers.trakt(result.data);
+        },
+        tvdb_id: function(result) {
+            return parsers.trakt(result.data.filter(function(record) {
+                return record.type == "show";
+            })[0].show);
         }
 
     };
@@ -139,6 +145,9 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         },
         trending: function() {
             return promiseRequest('trending');
+        },
+        resolveTVDBID: function(id) {
+            return promiseRequest('tvdb_id', id);
         }
     };
 

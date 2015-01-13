@@ -1,0 +1,24 @@
+{
+    "url": "https:\/\/api.trakt.tv\/search?id_type=tvdb&id=78804",
+    "headers": {
+        "Server": " cloudflare-nginx",
+        "Date": " Tue, 13 Jan 2015 22",
+        "Content-Type": " application\/json; charset=utf-8",
+        "Transfer-Encoding": " chunked",
+        "Connection": " keep-alive",
+        "Cache-Control": " public, max-age=14400",
+        "ETag": " W\/\"7c35160068e45b4d369a4905704c5dfd\"",
+        "Status": " 200 OK",
+        "Vary": " Accept-Encoding",
+        "X-Content-Type-Options": " nosniff",
+        "X-Frame-Options": " SAMEORIGIN",
+        "X-Powered-By": " Phusion Passenger 4.0.57",
+        "X-Request-Id": " fded6d46-10c6-4c60-b296-3fe3c7dd8787",
+        "X-Runtime": " 0.065625",
+        "X-XSS-Protection": " 1; mode=block",
+        "CF-Cache-Status": " HIT",
+        "Expires": " Wed, 14 Jan 2015 02",
+        "CF-RAY": " 1a8523a9a8cd00e0-AMS"
+    },
+    "content": "[{\"type\":\"episode\",\"score\":null,\"episode\":{\"season\":1,\"number\":38,\"title\":\"Prophecy\",\"overview\":\"The digi-destined must learn how to warp digivolve before VenomMyotismon succeeds in eating their parents. Will they succeed?\",\"images\":{\"screenshot\":{\"full\":\"https:\/\/walter.trakt.us\/images\/episodes\/001\/534\/081\/screenshots\/original\/6d942e1827.jpg?1420458783\",\"medium\":\"https:\/\/walter.trakt.us\/images\/episodes\/001\/534\/081\/screenshots\/medium\/6d942e1827.jpg?1420458783\",\"thumb\":\"https:\/\/walter.trakt.us\/images\/episodes\/001\/534\/081\/screenshots\/thumb\/6d942e1827.jpg?1420458783\"}},\"ids\":{\"trakt\":1534081,\"tvdb\":78804,\"imdb\":null,\"tmdb\":null,\"tvrage\":null}},\"show\":{\"title\":\"Digimon: Digital Monsters\",\"year\":\"1999\",\"ids\":{\"trakt\":31517,\"slug\":\"digimon-digital-monsters\"},\"images\":{\"poster\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/031\/517\/posters\/original\/b070eb83a0.jpg?1420039810\",\"medium\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/031\/517\/posters\/medium\/b070eb83a0.jpg?1420039810\",\"thumb\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/031\/517\/posters\/thumb\/b070eb83a0.jpg?1420039810\"},\"fanart\":{\"full\":null,\"medium\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/031\/517\/fanarts\/medium\/731b945213.jpg?1420039811\",\"thumb\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/031\/517\/fanarts\/thumb\/731b945213.jpg?1420039811\"}}}},{\"type\":\"show\",\"score\":null,\"show\":{\"title\":\"Doctor Who\",\"overview\":\"The Doctor is an alien Time Lord from the planet Gallifrey who travels through all of time and space in his TARDIS. His current travel companion is Clara Oswald, though he has a long list of friends and companions who have shared journeys with him. Instead of dying, the Doctor is able to \u201cregenerate\u201d into a new body, taking on a new personality with each regeneration. Twelve actors, plus John Hurt, have played The Doctor thus far.\",\"year\":2005,\"images\":{\"poster\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/posters\/original\/8c421e339d.jpg?1420722412\",\"medium\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/posters\/medium\/8c421e339d.jpg?1420722412\",\"thumb\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/posters\/thumb\/8c421e339d.jpg?1420722412\"},\"fanart\":{\"full\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/fanarts\/original\/f5b14363ae.jpg?1420722413\",\"medium\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/fanarts\/medium\/f5b14363ae.jpg?1420722413\",\"thumb\":\"https:\/\/walter.trakt.us\/images\/shows\/000\/056\/872\/fanarts\/thumb\/f5b14363ae.jpg?1420722413\"}},\"ids\":{\"trakt\":56872,\"slug\":\"doctor-who-2005\",\"tvdb\":78804,\"imdb\":\"tt0436992\",\"tmdb\":57243,\"tvrage\":3332}}}]"
+}
