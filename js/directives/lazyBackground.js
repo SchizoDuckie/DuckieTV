@@ -12,41 +12,39 @@ angular.module('DuckieTV.directives.lazybackground', [])
         link: function($scope, element, attrs) {
             element = angular.element(element);
             attrs.ngHide = true;
-            var isLoading = false;
 
             /** 
              * Observe the lazy-background attribute so that when it's set on a rendered element 
              * it can fetch the new image and fade to it 
              */ 
             attrs.$observe('lazyBackground', function(newSrc) {
-                if (newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/' || newSrc == 'http://ir0.mobify.com/webp/250/') return;
-                //If an element already has the loading style applied, don't update the styles
-                if(!isLoading) {
-                    element.attr('oldStyle', element.attr('style') == null ? '' : element.attr('style'));
-                    element.css('transition', 'opacity 0.5s ease-in');
-                    element.css('opacity', 0.5);
-                    element.css('background-image', 'url(img/spinner.gif)');
-                    element.css('background-position', 'center center');
-                    element.attr('style', element.attr('style') + '; background-size: initial !important');
-                };
+                //Check if the image url is not empty and valid and if it isn't apply error class
+                if (newSrc == null || newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/' || newSrc == 'http://ir0.mobify.com/webp/250/') {
+                    element.addClass('img-load-error');
+                    return;
+                }
+
+                /**
+                 * Removes any error class on the element and then adds the loading class to the element.
+                 * This is required in cases where the element can load more than 1 image.
+                 */
+                element.removeClass('img-load-error');
+                element.addClass('img-loading');
 
                 /** 
                  * Use some oldskool preloading techniques to load the image
                  * and fade it in when done 
                  */
-                isLoading = true;
                 var img = $document[0].createElement('img');
                 img.onload = function() {
-                    element.attr('style', element.attr('oldStyle'));
+                    element.removeClass('img-loading');
                     element.css('background-image', 'url(' + this.src + ')');
-                    isLoading = false;
                 };
                 img.onerror = function(e) {
-                    console.log("image load error!", e);
-                    isLoading = false;
-                    element.css({
-                        'opacity': '1'
-                    });
+                    //Remove loading class and apply error class
+                    element.removeClass('img-loading');
+                    element.addClass('img-load-error');
+                    console.error("image load error!", e);
                 };
                 attrs.ngHide = false;
                 img.src = newSrc;
