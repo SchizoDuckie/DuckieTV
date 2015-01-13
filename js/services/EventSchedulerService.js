@@ -107,7 +107,9 @@ angular.module('DuckieTV.providers.eventscheduler', ['DuckieTV.providers.eventwa
                 CRUD.FindOne('ScheduledEvent', {
                     name: name
                 }).then(function(ScheduledEvent) {
-                    ScheduledEvent.Delete();
+                    if (ScheduledEvent) {
+                        ScheduledEvent.Delete();
+                    }
                 });
             },
 
