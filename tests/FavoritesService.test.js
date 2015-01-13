@@ -19,25 +19,6 @@
  *
  *
  */
-function fixture(url) {
-    url = './base/tests/fixtures/' + url.replace(/\W/g, '').toLowerCase() + '.json';
-
-    var x = new XMLHttpRequest();
-    x.open("GET", url, false);
-    x.send();
-
-    if (x.status === 200) {
-        var out = JSON.parse(x.responseText);
-        if (out.headers['Content-Type'].indexOf('json') > -1) {
-            return JSON.parse(out.content);
-        } else {
-            return out.content;
-        }
-    } else {
-        return null;
-    }
-}
-
 describe('FavoritesService', function() {
 
     var FavoritesService, TraktTVv2, $httpBackend;
