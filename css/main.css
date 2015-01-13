@@ -137,7 +137,7 @@ background-rotator, background-rotator > div {
 }
 
 #favslist serieheader[mode='poster'], #favslist serieheader .poster {
-    transition: width 1s, height 1s;
+    transition: width 1s, height 1s, opacity 0.5s;
 }
 
 serieheader > div {
@@ -1041,4 +1041,15 @@ query-monitor .progress {
 query-monitor.show {
     opacity: 1;
     -webkit-transform: translateX(0);
+}
+
+.img-loading {
+    opacity: 0.5 !important;
+    background: url('../img/spinner.gif') no-repeat 50% !important;
+}
+
+.img-load-error {
+    opacity: 0.8 !important;
+    background: #000 url('../img/icon256-inverted.png') no-repeat center !important;
+    background-size: contain !important;
 }
