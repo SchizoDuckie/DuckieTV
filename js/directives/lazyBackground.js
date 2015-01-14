@@ -19,7 +19,8 @@ angular.module('DuckieTV.directives.lazybackground', [])
              */ 
             attrs.$observe('lazyBackground', function(newSrc) {
                 //Check if the image url is not empty and valid and if it isn't apply error class
-                if (newSrc == null || newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/' || newSrc == 'http://ir0.mobify.com/webp/250/') {
+                //if (newSrc == null || newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/' || newSrc == 'http://ir0.mobify.com/webp/250/') {
+                if (newSrc == null || newSrc == "") {
                     element.addClass('img-load-error');
                     return;
                 }
