@@ -4,7 +4,7 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
  * Trakt TV V2 API interfacing.
  * Throughout the app the API from Trakt.TV is used to fetch content about shows and optionally the user's data
  *
- * For API docs: check here: http://trakt.tv/api-docs
+ * For API docs: check here: http://docs.trakt.apiary.io/#
  */
 .factory('TraktTVv2', function(SettingsService, $q, $http) {
 
