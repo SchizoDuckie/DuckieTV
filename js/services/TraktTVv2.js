@@ -34,8 +34,17 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             Object.keys(show.ids).map(function(key) {
                 show[key + '_id'] = show.ids[key];
             });
-            show.poster = show.images.poster.thumb || '';
-            show.banner = ('banner' in show.images) ? show.images.banner.thumb : '';
+            if ('images' in show) {
+                if ('fanart' in show.images) {
+                    show.fanart = show.images.fanart.full;
+                }
+                if ('poster' in show.images) {
+                    show.poster = show.images.poster.thumb;
+                }
+                if ('banner' in show.images) {
+                    show.banner = 'thumb' in show.images.banner ? show.images.banner.thumb : show.images.banner.full;
+                }
+            }
             return show;
         },
         seasons: function(result) {

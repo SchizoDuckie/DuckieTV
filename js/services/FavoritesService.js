@@ -39,11 +39,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
         data.airs_time = data.air_time_utc;
         data.language = data.country;
 
-        if ('images' in data) {
-            data.fanart = data.images.fanart;
-            data.poster = data.images.poster;
-            data.banner = data.images.banner;
-        }
+
         data.firstaired = data.first_aired_utc * 1000;
         data.rating = data.rating;
         data.ratingcount = data.votes;
