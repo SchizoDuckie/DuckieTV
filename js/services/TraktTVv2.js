@@ -64,6 +64,11 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             });
             return data;
         },
+        episodes: function(result) {
+            return result.data.map(function(episode) {
+                return parsers.trakt(episode);
+            });
+        },
         /**
          * Trakt returns a list of search results here. We want only the first object that has a serie detail object in it.
          * @param  trakt result data

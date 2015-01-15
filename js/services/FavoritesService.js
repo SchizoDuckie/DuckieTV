@@ -52,10 +52,10 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
         switch (data.status.toLowerCase()) {
             case 'ended':
             case 'canceled':
-              data.status = 'Ended';
-            break;
+                data.status = 'Ended';
+                break;
             default:
-              data.status = 'Continuing';
+                data.status = 'Continuing';
         }
 
         for (var i in data) {
@@ -72,10 +72,10 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
         // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
         data.TVDB_ID = data.tvdb_id;
         data.ratingcount = data.votes;
-        data.episodenumber = data.episode;
+        data.episodenumber = data.number;
         data.episodename = data.title;
-        data.firstaired = data.first_aired_utc === 0 ? null : new Date(data.first_aired_iso).getTime();
-        data.filename = data.screen;
+        data.firstaired = new Date(data.first_aired).getTime();
+        data.filename = 'screenshot' in data && 'thumb' in data.screenshot ? data.screenshot.thumb : '';
 
         for (var i in data) {
             if (episode.hasField(i)) {
@@ -123,14 +123,14 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
      * @return object seasonCache indexed by seasonnumber
      */
     updateSeasons = function(serie, seasons) {
-        console.log("Update seasons!", seasons);
+        //console.log("Update seasons!", seasons);
         return serie.getSeasonsByNumber().then(function(seasonCache) { // fetch the seasons and cache them by number.
-            return Promise.race(seasons.map(function(season) {
-                var SE = (season.season in seasonCache) ? seasonCache[season.season] : new Season();
+            return Promise.all(seasons.map(function(season) {
+                var SE = (season.number in seasonCache) ? seasonCache[season.number] : new Season();
                 SE.poster = season.poster;
-                SE.seasonnumber = season.season;
+                SE.seasonnumber = season.number;
                 SE.ID_Serie = serie.getID();
-                seasonCache[season.season] = SE;
+                seasonCache[season.number] = SE;
                 return SE.Persist();
             })).then(function() {
                 return seasonCache;
@@ -139,14 +139,12 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
     };
 
     updateEpisodes = function(serie, seasons, watched, seasonCache) {
-        console.log(" Update episodes!", serie, seasons, watched, seasonCache);
+        // console.log(" Update episodes!", serie, seasons, watched, seasonCache);
         return serie.getEpisodesMap().then(function(episodeCache) {
             return Promise.all(seasons.map(function(season) {
                 return Promise.all(season.episodes.map(function(episode) {
                     var dbEpisode = (!(episode.tvdb_id in episodeCache)) ? new Episode() : episodeCache[episode.tvdb_id];
-                    return fillEpisode(dbEpisode, episode, seasonCache[season.season], serie, watched).Persist().then(function() {
-                        return true;
-                    });
+                    return fillEpisode(dbEpisode, episode, seasonCache[season.number], serie, watched).Persist();
                 })).then(function() {
                     return seasonCache;
                 });
