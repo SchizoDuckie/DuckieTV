@@ -131,7 +131,9 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
                 SE.seasonnumber = season.number;
                 SE.ID_Serie = serie.getID();
                 seasonCache[season.number] = SE;
-                return SE.Persist();
+                return SE.Persist().then(function() {
+                    return true;
+                });
             })).then(function() {
                 return seasonCache;
             });

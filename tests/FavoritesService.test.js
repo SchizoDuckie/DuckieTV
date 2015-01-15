@@ -80,7 +80,7 @@ describe('FavoritesService', function() {
 
         });
 
-        it('Shoud have finished adding it', function() {
+        it('Shoud have finished adding it', function(done) {
             var serie = null;
             CRUD.FindOne('Serie', {
                 name: 'Doctor Who'
