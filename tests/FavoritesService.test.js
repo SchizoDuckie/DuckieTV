@@ -118,7 +118,7 @@ describe('FavoritesService', function() {
                     title: 'Doctor Who'
                 }
             }).then(function(result) {
-                expect(result.length).toEqual(9);
+                expect(result.length).toEqual(10);
                 done();
             });
 
