@@ -31,6 +31,10 @@ function fixture(url) {
     }
 }
 
+
+
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
 require.config({
     // Karma serves files under /base, which is the basePath from your config file
     baseUrl: '/base',

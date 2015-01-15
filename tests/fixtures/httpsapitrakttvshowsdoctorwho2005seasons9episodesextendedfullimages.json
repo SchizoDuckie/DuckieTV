@@ -21,5 +21,5 @@
         "CF-Cache-Status": " HIT",
         "CF-RAY": " 1a743c90d51700e0-AMS"
     },
-    "content": "[{\"season\":9,\"number\":1,\"title\":\"The Magician's Apprentice\",\"ids\":{\"trakt\":1405455,\"tvdb\":5076329,\"imdb\":null,\"tmdb\":null,\"tvrage\":null},\"number_abs\":null,\"overview\":null,\"first_aired\":null,\"updated_at\":\"2015-01-10T06:03:54.000-08:00\",\"rating\":10.0,\"votes\":1,\"available_translations\":[],\"images\":{\"screenshot\":{\"full\":null,\"medium\":null,\"thumb\":null}}}]"
+    "content": "[{\"season\":9,\"number\":1,\"title\":\"The Magician's Apprentice\",\"ids\":{\"trakt\":1405455,\"tvdb\":5076329,\"imdb\":null,\"tmdb\":null,\"tvrage\":null},\"number_abs\":null,\"overview\":null,\"first_aired\":null,\"updated_at\":\"2015-01-10T06:03:54.000-08:00\",\"rating\":10,\"votes\":1,\"available_translations\":[],\"images\":{\"screenshot\":{\"full\":null,\"medium\":null,\"thumb\":null}}}]"
 }
