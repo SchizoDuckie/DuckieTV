@@ -49,7 +49,14 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
                 return actor.name;
             }).join('|');
         }
-        data.status = data.ended === true ? 'Ended' : 'Continuing';
+        switch (data.status.toLowerCase()) {
+            case 'ended':
+            case 'canceled':
+              data.status = 'Ended';
+            break;
+            default:
+              data.status = 'Continuing';
+        }
 
         for (var i in data) {
             if (serie.hasField(i)) {
