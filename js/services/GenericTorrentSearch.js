@@ -67,7 +67,7 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
             };
             var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
             if (magnetHash && magnetHash.length) {
-                out.torrent = 'http://torcache.net/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                out.torrent = 'http://torcache.gs/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                 output.push(out);
             }
         }
