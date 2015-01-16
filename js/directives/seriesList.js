@@ -34,7 +34,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     $rootScope.setSetting('series.displaymode', mode);
                 }
                 $scope.mode = mode;
-            }
+            };
 
             /**
              * Toggles small mode on off
@@ -42,14 +42,14 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              */
             $scope.toggleSmall = function() {
                 $scope.isSmall = !$scope.isSmall;
-            }
+            };
 
             /**
              * Change location to the series details when clicked from display mode.
              */
             $scope.go = function(serieID, episode) {
                 window.location.href = '#/serie/' + serieID + '/episode/' + episode.TVDB_ID;
-            }
+            };
 
             /**
              * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
@@ -58,7 +58,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              */
             $rootScope.setHoverSerie = function(serie) {
                 $scope.serie = serie;
-            }
+            };
 
             /**
              * Enabled 'add' serie mode.
@@ -85,7 +85,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     });
                 }
 
-            }
+            };
 
             /**
              * Turn 'add serie' mode off, reset to stored display mode.
@@ -94,7 +94,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 $scope.searchingForSerie = false;
                 $scope.serie = null;
                 $scope.mode = $rootScope.getSetting('series.displaymode');
-            }
+            };
 
             /**
              * toggle or untoggle the favorites panel
@@ -105,7 +105,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 if (FavoritesService.favorites.length > 0) {
                     $scope.disableAdd(); // disable add mode when the panel is activated every time. But not if favorites list is empty.
                 }
-            }
+            };
 
             /**
              * Close the drawer
@@ -113,7 +113,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             $scope.closeDrawer = function() {
                 iElement.removeClass('active');
                 $scope.activated = false;
-            }
+            };
 
             /**
              * Pop up a confirm dialog and remove the serie from favorites when confirmed.
@@ -128,12 +128,12 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     console.log("Removing serie '" + serie.name + "' from favorites!", serie);
                     FavoritesService.remove(serie);
                     if (typeof $location != "undefined") {
-                        $location.path('/')
+                        $location.path('/');
                     }
                 }, function(btn) {
                     $scope.confirmed = $filter('translate')('SERIEDETAILSjs/serie-delete-confirmed');
                 });
-            }
+            };
 
             /**
              * When mode == 'filter', these are in effect.
@@ -142,17 +142,18 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             $scope.localFilterString = '';
             $scope.setFilter = function(val) {
                 $scope.localFilterString = val;
-            }
+            };
+
             $scope.localFilter = function(el) {
                 return el.name.toLowerCase().indexOf($scope.localFilterString.toLowerCase()) > -1;
-            }
+            };
 
             /**
              * Automatically launch the first search result when user hits enter in the filter form
              */
             $scope.execFilter = function() {
                 $location.path("/series/" + $scope.favorites.filter($scope.localFilter)[0].TVDB_ID);
-            }
+            };
 
             /**
              * Fires when user types in the search box. Executes trakt.tv search based on find-while-you type.
@@ -187,7 +188,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             $scope.selectFirstResult = function() {
                 var serie = $scope.search.results[0];
                 $scope.selectSerie(serie);
-            }
+            };
 
             $scope.adding = {}; // object that will hold tvdb_id's of shows that are currently being added to the database
 
@@ -199,31 +200,33 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              * It can show the checkmark.
              */
             $scope.selectSerie = function(serie) {
-                $scope.adding[serie.tvdb_id] = true;
-                TraktTVv2.serie(serie.slug_id).then(function(serie) {
-                    FavoritesService.addFavorite(serie).then(function() {
-                        $rootScope.$broadcast('storage:update');
-                        $scope.adding[serie.tvdb_id] = false;
+                if (!(serie.tvdb_id in $scope.adding)) {
+                    $scope.adding[serie.tvdb_id] = true;
+                    TraktTVv2.serie(serie.slug_id).then(function(serie) {
+                        FavoritesService.addFavorite(serie).then(function() {
+                            $rootScope.$broadcast('storage:update');
+                            $scope.adding[serie.tvdb_id] = false;
+                        });
                     });
-                });
-            }
+                }
+            };
 
             /**
              * Verify with the favoritesservice if a specific TVDB_ID is registered.
              * Used to show checkmarks in the add modes for series that you already have.
              */
             $scope.isAdded = function(tvdb_id) {
-                if (tvdb_id == null) return false;
+                if (tvdb_id === null) return false;
                 return FavoritesService.hasFavorite(tvdb_id.toString());
-            }
+            };
 
             /**
              * Returns true as long as the add a show to favorites promise is running.
              */
             $scope.isAdding = function(tvdb_id) {
-                if (tvdb_id == null) return false;
-                return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === true))
-            }
+                if (tvdb_id === null) return false;
+                return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === true));
+            };
 
             var titleSorter = function(serie) {
                 serie.sortName = serie.name ? serie.name.replace('The ', '') : '';
@@ -250,7 +253,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              */
             $rootScope.$on('favorites:updated', function(event, data) {
                 $scope.favorites = FavoritesService.favorites.map(titleSorter);
-                if ($scope.favorites.length == 0) {
+                if ($scope.favorites.length === 0) {
                     $rootScope.$broadcast('serieslist:empty'); // we notify all listening channels that the series list is empty.
                 }
             });
@@ -265,5 +268,5 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 $scope.enableAdd();
             });
         }
-    }
+    };
 });

@@ -3,8 +3,6 @@ node_js:
   - '0.10'
 
 install:
-  - sudo apt-get update
-  - sudo apt-get install libc6:i386 libstdc++6:i386
   - npm install
   - export CHROME_URL=https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64
   - export CHROME_REV=$(curl -s ${CHROME_URL}/LAST_CHANGE)

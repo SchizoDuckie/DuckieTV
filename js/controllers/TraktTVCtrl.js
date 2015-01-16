@@ -1,6 +1,6 @@
  angular.module('DuckieTV.controllers.trakttv', [])
 
- .controller('TraktTVCtrl', function($scope, $rootScope, TraktTV, FavoritesService, SettingsService) {
+ .controller('TraktTVCtrl', function($scope, $rootScope, TraktTV, TraktTVv2, FavoritesService, SettingsService) {
 
      $scope.credentials = {
          username: SettingsService.get('trakttv.username'),
@@ -16,13 +16,17 @@
      $scope.pushError = [false, null];
      $scope.suggestionError = [false, null];
 
+     $scope.TestV2Api = function() {
+         TraktTVv2.watched();
+     };
+
      $scope.encryptPassword = function() {
-         if($scope.credentials.password !== null) {
-            // Use Temp Password so that the trakt page doesn't update (it relies on passwordHash being null)
+         if ($scope.credentials.password !== null) {
+             // Use Temp Password so that the trakt page doesn't update (it relies on passwordHash being null)
              $scope.credentials.temphash = CryptoJS.SHA1($scope.credentials.password).toString();
-            // Check account details (user / sha1 pass) with Trakt.TV
+             // Check account details (user / sha1 pass) with Trakt.TV
              TraktTV.checkDetails($scope.credentials.username, $scope.credentials.temphash).then(function(response) {
-                 if(response == 'success') {
+                 if (response == 'success') {
                      // Update internal values and save passwords in settings
                      $scope.credentials.passwordHash = $scope.credentials.temphash;
                      $scope.credentials.password = angular.copy($scope.credentials.passwordHash);
@@ -38,10 +42,10 @@
      };
 
      $scope.clearCredentials = function() {
-        $scope.credentials.passwordHash = $scope.credentials.password = $scope.credentials.username = $scope.credentials.temphash = null;
-        $scope.credentials.error = false;
-        $rootScope.setSetting('trakttv.passwordHash', null);
-        $rootScope.setSetting('trakttv.username', null);
+         $scope.credentials.passwordHash = $scope.credentials.password = $scope.credentials.username = $scope.credentials.temphash = null;
+         $scope.credentials.error = false;
+         $rootScope.setSetting('trakttv.passwordHash', null);
+         $rootScope.setSetting('trakttv.username', null);
      }
 
      $scope.isDownloaded = function(tvdb_id) {
@@ -71,7 +75,7 @@
              $scope.traktTVSuggestions = data;
              $scope.traktTVLoading = false;
          }, function(err) {
-                $scope.suggestionError = [true, err];
+             $scope.suggestionError = [true, err];
          });
      };
 
@@ -106,7 +110,7 @@
              });
              $scope.traktTVSeries = data;
          }, function(err) {
-                $scope.pushError = [true, err]
+             $scope.pushError = [true, err]
          });
 
          TraktTV.getUserShows($scope.credentials.username).then(function(data) {
@@ -128,21 +132,25 @@
      };
 
      $scope.pushToTraktTV = function() {
-        var serieIDs = {};
-           
-        FavoritesService.favorites.map(function(serie) {
-            console.log("Adding serie '" + serie.name + "' to Trakt.tv: ", serie);
-            TraktTV.addToLibrary(serie.TVDB_ID);
-            serieIDs[serie.ID_Serie] = serie.TVDB_ID;
-        });
+         var serieIDs = {};
 
-        CRUD.Find('Episode', {'watched': '1'}, { limit: '100000'}).then(function(episodes) {
-            episodes.map(function(episode) {
-                //console.log("marking episode watched: ", episode.get('ID_Serie'), episode.get('TVDB_ID'));
-                TraktTV.markEpisodeWatched(serieIDs[episode.get('ID_Serie')], episode);    
-            });
+         FavoritesService.favorites.map(function(serie) {
+             console.log("Adding serie '" + serie.name + "' to Trakt.tv: ", serie);
+             TraktTV.addToLibrary(serie.TVDB_ID);
+             serieIDs[serie.ID_Serie] = serie.TVDB_ID;
+         });
 
-        });
+         CRUD.Find('Episode', {
+             'watched': '1'
+         }, {
+             limit: '100000'
+         }).then(function(episodes) {
+             episodes.map(function(episode) {
+                 //console.log("marking episode watched: ", episode.get('ID_Serie'), episode.get('TVDB_ID'));
+                 TraktTV.markEpisodeWatched(serieIDs[episode.get('ID_Serie')], episode);
+             });
+
+         });
      }
 
  });

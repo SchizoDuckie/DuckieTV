@@ -21,49 +21,50 @@
  */
 describe('FavoritesService', function() {
 
-    var FavoritesService, TraktTVv2, $httpBackend, $q, $rootScope, $scope;
+var FavoritesService, TraktTVv2, $httpBackend, $q, $rootScope, $scope;
 
-    beforeEach(module('DuckieTV.providers.favorites'));
-    beforeEach(module('DuckieTV.providers.trakttvv2'));
+beforeEach(module('DuckieTV.providers.favorites'));
+beforeEach(module('DuckieTV.providers.trakttvv2'));
 
-    beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
-        $httpBackend = $injector.get('$httpBackend');
+beforeEach(inject(function($injector) {
+    // Set up the mock http service responses
+    $httpBackend = $injector.get('$httpBackend');
 
-        $httpBackend.whenGET(/.*/).respond(function(method, url, data) {
-            var response = fixture(url);
-            return [response ? 200 : 404, response];
-        });
-    }));
+    $httpBackend.whenGET(/.*/).respond(function(method, url, data) {
+        var response = fixture(url);
+        return [response ? 200 : 404, response];
+    });
+}));
 
-    beforeEach(inject(function(_FavoritesService_, _TraktTVv2_, _$httpBackend_) {
-        FavoritesService = _FavoritesService_;
-        TraktTVv2 = _TraktTVv2_;
-        $httpBackend = _$httpBackend_;
+beforeEach(inject(function(_FavoritesService_, _TraktTVv2_, _$httpBackend_) {
+    FavoritesService = _FavoritesService_;
+    TraktTVv2 = _TraktTVv2_;
+    $httpBackend = _$httpBackend_;
 
-    }));
+}));
 
-    afterEach(inject(function($rootScope) {
-        $rootScope.$apply();
-    }));
+afterEach(inject(function($rootScope) {
+    $rootScope.$apply();
+}));
 
 
-    describe('It should be initialized', function() {
+describe('It should be initialized', function() {
 
-        it('should have a favorites property', function() {
-            expect(angular.isObject(FavoritesService.favorites)).toBe(true);
-        });
-
-        it('should list all series', function() {
-            FavoritesService.getSeries().then(function(result) {
-                expect(angular.isArray(result)).toBe(true);
-            });
-        });
-
+    it('should have a favorites property', function() {
+        expect(angular.isObject(FavoritesService.favorites)).toBe(true);
     });
 
-    describe("It should be able to add Doctor Who to the database", function() {
+    it('should list all series', function() {
+        FavoritesService.getSeries().then(function(result) {
+            expect(angular.isArray(result)).toBe(true);
+        });
+    });
 
+    //describe("It should be able to add Doctor Who to the database", function() {
+
+    // todo: move this to protractor test, test only the parsing of what goes into CRUD objects
+    // (e.g. one serie, one episode, one season) here
+    /*
         it('Should be able to add Doctor Who from a parsed search result', function(done) {
             var serie = null;
             TraktTVv2.serie('doctor-who-2005').then(function(searchResults) {
@@ -101,7 +102,7 @@ describe('FavoritesService', function() {
                     serie.IMDB_ID == 'tt0436992' &&
                     serie.contentrating == 'TV-PG' &&
                     serie.name == 'Doctor Who' &&
-                    /* serie.firstaired == NaN && */
+                    /* serie.firstaired == NaN && 
                     serie.ratingcount == 10176 &&
                     serie.genre == 'action|adventure|drama|science-fiction' &&
                     serie.ID_Serie == 1
@@ -147,8 +148,6 @@ describe('FavoritesService', function() {
         });
 
 
-
-    });
 
 
 });

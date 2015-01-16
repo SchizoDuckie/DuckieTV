@@ -26,41 +26,44 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
 
 
             var genreList = [
-                'Action',
-                'Adventure',
-                'Animation',
-                'Children',
-                'Comedy',
-                'Crime',
-                'Documentary',
-                'Drama',
-                'Family',
-                'Fantasy',
-                'Food',
-                'Game Show',
-                'Home and Garden',
-                'Horror',
-                'Mini Series',
-                'Mystery',
-                'News',
-                'No Genre',
-                'Reality',
-                'Romance',
-                'Science Fiction',
-                'Soap',
-                'Special Interest',
-                'Sport',
-                'Suspense',
-                'Talk Show',
-                'Thriller',
-                'Travel',
-                'Western'
+                'action',
+                'adventure',
+                'animation',
+                'children',
+                'comedy',
+                'crime',
+                'documentary',
+                'drama',
+                'family',
+                'fantasy',
+                'food',
+                'game show',
+                'history',
+                'home and garden',
+                'horror',
+                'mini series',
+                'mystery',
+                'news',
+                'no genre',
+                'reality',
+                'romance',
+                'science-fiction',
+                'soap',
+                'special interest',
+                'sport',
+                'suspense',
+                'talk show',
+                'thriller',
+                'travel',
+                'western'
             ]; // used by translateGenre()
             var rawTranslatedGenreList = $filter('translate')('SERIECTRLjs/genre/list');
             var translatedGenreList = rawTranslatedGenreList.split(',');
             var statusList = [
-                'Continuing',
-                'Ended'
+                'canceled',
+                'ended',
+                'in production',
+                'returning series'
             ]; // used by translateStatus()
             var rawTranslatedStatusList = $filter('translate')('SERIECTRLjs/status/list');
             var translatedStatusList = rawTranslatedStatusList.split(',');

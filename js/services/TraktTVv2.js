@@ -21,7 +21,9 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         episodes: 'shows/%s/seasons/%s/episodes?extended=full,images',
         search: 'search?type=show&extended=full,images&query=%s',
         trending: 'shows/trending?extended=full,images&limit=100',
-        tvdb_id: 'search?id_type=tvdb&id=%s'
+        tvdb_id: 'search?id_type=tvdb&id=%s',
+        login: 'auth/login',
+        watched: 'sync/watched/shows'
     };
 
     var parsers = {
@@ -82,8 +84,12 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
                 return record.type == "show";
             })[0].show);
         }
-
     };
+
+    // trakt api methods that require authorisation
+    var authorized = [
+        'watched'
+    ];
 
     /** 
      * Get one of the urls from the endpoint and replace the parameters in it when provided.
@@ -111,16 +117,21 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
 
         var url = getUrl(type, param, param2);
         var parser = getParser(type);
+        var headers = {
+            'trakt-api-key': APIkey,
+            'trakt-api-version': 2,
+            'accept': 'application/json'
+        };
+        if (authorized.indexOf(type) > -1) {
+            headers['trakt-user-login'] = localStorage.getItem('trakt.username');
+            headers['trakt-user-token'] = localStorage.getItem('trakt.token');
+        };
         return $http.get(url, {
             timeout: promise ? promise : 60000,
-            headers: {
-                'trakt-api-key': APIkey,
-                'trakt-api-version': 2,
-                'accept': 'application/json'
-            }
+            headers: headers
         }).then(function(result) {
             return parser(result);
-        })
+        });
     };
 
     var service = {
@@ -162,7 +173,31 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         },
         resolveTVDBID: function(id) {
             return promiseRequest('tvdb_id', id);
+        },
+        login: function(username, password) {
+            var url = getUrl('login');
+            return $http.post(url, JSON.stringify({
+                login: username,
+                password: password
+            }), {
+                headers: {
+                    'trakt-api-key': APIkey,
+                    'trakt-api-version': 2,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(function(result) {
+                localStorage.setItem('trakt.username', username);
+                localStorage.setItem('trakt.token', result.data.token);
+                return true;
+            });
+        },
+        watched: function() {
+            return promiseRequest('watched').then(function(result) {
+                console.log("Fetched V2 API watched results: ", result);
+            })
         }
+
     };
 
     return service;

@@ -52,6 +52,7 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.episodeaired',
     'DuckieTV.providers.favorites',
     'DuckieTV.providers.trakttv',
+    'DuckieTV.providers.trakttvv2',
     'DuckieTV.providers.settings',
     'DuckieTV.providers.scenenames',
     'DuckieTV.providers.generictorrentsearch',

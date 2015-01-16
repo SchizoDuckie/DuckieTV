@@ -6,7 +6,7 @@
       <p class="label label-danger" ng-show="!getSetting('trakttv.sync')">{{'TRAKTTV/sync-disabled/lbl'|translate}}</p>
     </th>
     <td style="border:0">
-      
+
           <p class="alert alert-info"><strong>{{'TRAKTTV/sync/hdr'|translate}}</strong> {{'TRAKTTV/sync/desc'|translate}}</p>
           <div ng-controller="TraktTVCtrl">
           <form name="userCredentials">
@@ -18,11 +18,18 @@
               <td style="padding: 10px">
               <h3>Trakt.TV {{'TRAKTTV/password/placeholder'|translate}}:</h3> <input type='password' name='password' ng-model='credentials.password' placeholder="Trakt.TV {{'TRAKTTV/password/placeholder'|translate}}" ng-disabled="credentials.passwordHash !== null" />
             </td><td valign='bottom' style="padding: 13px">
-              <button ng-click='encryptPassword()' class="btn btn-info" ng-disabled="credentials.passwordHash !== null">{{'TRAKTTV/encrypt/btn'|translate}}</button> <button ng-click="clearCredentials()" class="btn btn-danger" >{{'TRAKTTV/clear-credentials/btn'|translate}}<br>
+            <button ng-click="authorize(credentials.username, credentials.password)" class="btn btn-info" >Authorize v2 api</button>
+
+
+              <!--button ng-click='encryptPassword()' class="btn btn-info" ng-disabled="credentials.passwordHash !== null">{{'TRAKTTV/encrypt/btn'|translate}}</button--> <button ng-click="clearCredentials()" class="btn btn-danger" >{{'TRAKTTV/clear-credentials/btn'|translate}}<br>
             </td>
             </tr></table>
+
+            <button class="btn btn-danger" style="margin-bottom:10px" ng-click="TestV2Api()">Test V2 api (profile to console.log)</button>
+            
+
             <div class="alert alert-danger" role="alert" ng-show="credentials.error">{{'TRAKTTV/sync-error-reason/alert'|translate}}</div>
-            <button class="btn btn-success" style="margin-bottom:10px" ng-if="credentials.passwordHash && !getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',true)">{{'TRAKTTV/sync-enabled/btn'|translate}}</button>
+            
             <button class="btn btn-danger" style="margin-bottom:10px" ng-if="credentials.passwordHash && getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',false)">{{'TRAKTTV/sync-disabled/btn'|translate}}</button>
             <p ng-if="credentials.passwordHash">
               <button ng-click="readTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-import/btn'|translate}}</button>
