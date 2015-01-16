@@ -97,8 +97,6 @@ angular.module('DuckieTV.controllers.backup', [])
                         $scope.series.push(serie);
                         return FavoritesService.addFavorite(serie, watched);
                     }).then(function() {
-                        $rootScope.$broadcast('storage:update'); // synchronize settings storage
-                        $rootScope.$broadcast('episodes:updated'); // refresh the calendar in the background
                         $scope.adding[TVDB_ID] = false;
                     });
                 });

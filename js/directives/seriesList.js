@@ -249,7 +249,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              * Otherwise, a random background is automagically loaded.
              */
             $rootScope.$on('favorites:updated', function(event, data) {
-                $scope.favorites = data.map(titleSorter);
+                $scope.favorites = FavoritesService.favorites.map(titleSorter);
                 if (data.length == 0) {
                     $rootScope.$broadcast('serieslist:empty'); // we notify all listening channels that the series list is empty.
                 }

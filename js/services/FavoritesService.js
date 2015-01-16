@@ -212,7 +212,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
                     return updateEpisodes(entity, data.seasons, watched, seasonCache);
                 })
                 .then(function() {
-                    $rootScope.$broadcast('episodes:updated', service.favorites);
+                    $rootScope.$broadcast('favorites:updated');
                     $rootScope.$broadcast('storage:update');
                     return entity;
                 });
