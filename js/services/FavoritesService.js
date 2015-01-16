@@ -35,12 +35,12 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
         data.IMDB_ID = data.imdb_id;
         data.contentrating = data.certification;
         data.name = data.title;
-        data.airs_dayofweek = data.air_day_utc;
-        data.airs_time = data.air_time_utc;
+        data.airs_dayofweek = data.airs.day;
+        data.airs_time = data.airs.time;
         data.language = data.country;
 
 
-        data.firstaired = data.first_aired_utc * 1000;
+        data.firstaired = new Date(data.first_aired).getTime();
         data.rating = data.rating;
         data.ratingcount = data.votes;
         data.genre = data.genres.join('|');
