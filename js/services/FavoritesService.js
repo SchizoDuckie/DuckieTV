@@ -41,7 +41,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
 
 
         data.firstaired = new Date(data.first_aired).getTime();
-        data.rating = data.rating;
+        data.rating = Math.round(data.rating * 10);
         data.ratingcount = data.votes;
         data.genre = data.genres.join('|');
         if (data.people && 'actors' in data.people) {
@@ -72,6 +72,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
         // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
         data.TVDB_ID = data.tvdb_id;
         data.ratingcount = data.votes;
+        data.rating = Math.round(data.rating * 10);
         data.episodenumber = data.number;
         data.episodename = data.title;
         data.firstaired = new Date(data.first_aired).getTime();
