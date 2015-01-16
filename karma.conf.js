@@ -49,6 +49,9 @@ module.exports = function(config) {
             'tests/*.spec.js'
         ],
 
+        plugins: [
+            'karma-chrome-launcher'
+        ],
 
 
         // preprocess matching files before serving them to the browser
@@ -73,31 +76,26 @@ module.exports = function(config) {
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
         logLevel: config.LOG_INFO,
-        browserDisconnectTimeout: 60000,
-        browserNoActivityTimeout: 60000,
 
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: true,
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['Chrome'],
+        browsers: process.env.TRAVIS ? ['ChromeTravis'] : ['Chrome'],
+
         customLaunchers: {
-            Chrome_travis_ci: {
+            ChromeTravis: {
                 base: 'Chrome',
-                flags: ['--no-sandbox']
-            }
+                flags: ['--no-sandbox'],
+            },
         },
+
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false
+        singleRun: true
     };
-
-
-    if (process.env.TRAVIS) {
-        configuration.browsers = ['Chrome_travis_ci'];
-    }
 
     config.set(configuration);
 };
