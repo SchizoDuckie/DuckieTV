@@ -91,7 +91,7 @@ describe('FavoritesService', function() {
                     serie.runtime == 50 &&
                     serie.network == 'BBC One' &&
                     serie.status == 'Continuing' &&
-                    serie.rating == 9.11989 &&
+                    serie.rating == 91 &&
                     serie.language == 'gb' &&
                     serie.fanart == 'https://walter.trakt.us/images/shows/000/056/872/fanarts/original/f5b14363ae.jpg?1420722413' &&
                     serie.poster == 'https://walter.trakt.us/images/shows/000/056/872/posters/thumb/8c421e339d.jpg?1420722412' &&
@@ -138,7 +138,7 @@ describe('FavoritesService', function() {
             expect(false).toBe(true); // placeholder
         });
 
-        it('should execute 0 insert/update queries when adding the same show twice', function() {
+        it('on new series it should have triggered a refresh of the library', function() {
             expect(false).toBe(true); // placeholder
         });
 
