@@ -90,7 +90,7 @@ describe('FavoritesService', function() {
                     serie.overview == "The Doctor is an alien Time Lord from the planet Gallifrey who travels through all of time and space in his TARDIS. His current travel companion is Clara Oswald, though he has a long list of friends and companions who have shared journeys with him. Instead of dying, the Doctor is able to “regenerate” into a new body, taking on a new personality with each regeneration. Twelve actors, plus John Hurt, have played The Doctor thus far." &&
                     serie.runtime == 50 &&
                     serie.network == 'BBC One' &&
-                    serie.status == 'Continuing' &&
+                    serie.status == 'returning series' &&
                     serie.rating == 91 &&
                     serie.language == 'gb' &&
                     serie.fanart == 'https://walter.trakt.us/images/shows/000/056/872/fanarts/original/f5b14363ae.jpg?1420722413' &&
