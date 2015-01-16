@@ -13,15 +13,15 @@
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/airs-on/hdr'|translate}}</th>
-        <td>{{translateDayOfWeek(serie.air_day)}} {{serie.air_time}} (UTC)</td>
+        <td>{{translateDayOfWeek(serie.airs.day)}} {{serie.airs.time}} (UTC)</td>
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/first-aired/hdr'|translate}}</th>
-        <td>{{ serie.first_aired * 1000 | date:'mediumDate' }}</td>
+        <td>{{ serie.first_aired | date:'mediumDate' }}</td>
       </tr>
      <tr>
         <th>{{'SERIEDETAILS/status/hdr'|translate}}</th>
-        <td>{{translateStatus(serie.ended ? 'Ended' : 'Continuing')}}</td>
+        <td>{{translateStatus(serie.status)}}</td>
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/genre/hdr'|translate}}</th>
@@ -45,7 +45,7 @@
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/rating/hdr'|translate}}</th>
-        <td>{{serie.ratings.loved}} ({{serie.rating.votes}} {{'SERIEDETAILS/votes/lbl'|translate}})</td>
+        <td>{{serie.rating}} ({{serie.votes}} {{'SERIEDETAILS/votes/lbl'|translate}})</td>
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/run-time/hdr'|translate}}</th>
