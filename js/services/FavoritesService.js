@@ -49,14 +49,6 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
                 return actor.name;
             }).join('|');
         }
-        switch (data.status.toLowerCase()) {
-            case 'ended':
-            case 'canceled':
-                data.status = 'Ended';
-                break;
-            default:
-                data.status = 'Continuing';
-        }
 
         for (var i in data) {
             if (serie.hasField(i)) {
@@ -192,7 +184,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
                     }
                     fillSerie(serie, data);
                     EventSchedulerService.clear(serie.name + ' update check'); // clean up old format.  
-                    EventSchedulerService.createInterval(serie.name + ' [' + serie.TVDB_ID + ']', serie.status.toLowerCase() == 'ended' ? 60 * 24 * 14 : 60 * 24 * 2, 'favoritesservice:checkforupdates', {
+                    EventSchedulerService.createInterval(serie.name + ' [' + serie.TVDB_ID + ']', serie.status.toLowerCase() == 'ended'  || serie.status.toLowerCase() == 'canceled' ? 60 * 24 * 14 : 60 * 24 * 2, 'favoritesservice:checkforupdates', {
                         ID: serie.getID(),
                         TVDB_ID: serie.TVDB_ID
                     });
