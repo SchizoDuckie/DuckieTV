@@ -22,7 +22,7 @@ angular.module('DuckieTV.controllers.backup', [])
  *
  *
  */
-.controller('BackupCtrl', function($scope, $rootScope, FileReader, TraktTV, FavoritesService, $q) {
+.controller('BackupCtrl', function($scope, $rootScope, FileReader, TraktTVv2, FavoritesService, $q) {
 
     $scope.backupString = false;
     $scope.series = [];
@@ -88,22 +88,23 @@ angular.module('DuckieTV.controllers.backup', [])
                 console.log("Backup read!", result);
                 angular.forEach(result.settings, function(value, key) {
                     localStorage.setItem(key, value);
-                })
+                });
                 angular.forEach(result.series, function(watched, TVDB_ID) {
-                    TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID).then(function(serie) {
+                    TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
+                        return TraktTVv2.serie(searchResult.slug_id);
+                    }).then(function(serie) {
                         $scope.adding[TVDB_ID] = true;
                         $scope.series.push(serie);
-                        FavoritesService.addFavorite(serie, watched).then(function(s) {
-                            $rootScope.$broadcast('storage:update'); // synchronize settings storage
-                            $rootScope.$broadcast('episodes:updated'); // refresh the calendar in the background
-                            $scope.adding[TVDB_ID] = false;
-                        });
+                        return FavoritesService.addFavorite(serie, watched);
+                    }).then(function() {
+                        $rootScope.$broadcast('storage:update'); // synchronize settings storage
+                        $rootScope.$broadcast('episodes:updated'); // refresh the calendar in the background
+                        $scope.adding[TVDB_ID] = false;
                     });
-
                 });
 
             }, function(err) {
                 console.error("ERROR!", err);
             });
-    }
+    };
 });

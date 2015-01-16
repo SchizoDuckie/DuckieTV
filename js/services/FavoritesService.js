@@ -35,19 +35,27 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
         data.IMDB_ID = data.imdb_id;
         data.contentrating = data.certification;
         data.name = data.title;
-        data.airs_dayofweek = data.airs.day;
-        data.airs_time = data.airs.time;
+        data.airs_dayofweek = data.air_day_utc;
+        data.airs_time = data.air_time_utc;
         data.language = data.country;
 
 
-        data.firstaired = new Date(data.first_aired).getTime();
-        data.rating = Math.round(data.rating * 10);
+        data.firstaired = data.first_aired_utc * 1000;
+        data.rating = data.rating;
         data.ratingcount = data.votes;
         data.genre = data.genres.join('|');
         if (data.people && 'actors' in data.people) {
             data.actors = data.people.actors.map(function(actor) {
                 return actor.name;
             }).join('|');
+        }
+        switch (data.status.toLowerCase()) {
+            case 'ended':
+            case 'canceled':
+                data.status = 'Ended';
+                break;
+            default:
+                data.status = 'Continuing';
         }
 
         for (var i in data) {
@@ -64,11 +72,11 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
         // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
         data.TVDB_ID = data.tvdb_id;
         data.ratingcount = data.votes;
-        data.rating = Math.round(data.rating * 10);
         data.episodenumber = data.number;
         data.episodename = data.title;
         data.firstaired = new Date(data.first_aired).getTime();
-        data.filename = 'screenshot' in data && 'thumb' in data.screenshot ? data.screenshot.thumb : '';
+
+        data.filename = (('screenshot' in data.images) && ('thumb' in data.images.screenshot)) ? data.images.screenshot.thumb : '';
 
         for (var i in data) {
             if (episode.hasField(i)) {
@@ -184,7 +192,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
                     }
                     fillSerie(serie, data);
                     EventSchedulerService.clear(serie.name + ' update check'); // clean up old format.  
-                    EventSchedulerService.createInterval(serie.name + ' [' + serie.TVDB_ID + ']', serie.status.toLowerCase() == 'ended'  || serie.status.toLowerCase() == 'canceled' ? 60 * 24 * 14 : 60 * 24 * 2, 'favoritesservice:checkforupdates', {
+                    EventSchedulerService.createInterval(serie.name + ' [' + serie.TVDB_ID + ']', serie.status.toLowerCase() == 'ended' ? 60 * 24 * 14 : 60 * 24 * 2, 'favoritesservice:checkforupdates', {
                         ID: serie.getID(),
                         TVDB_ID: serie.TVDB_ID
                     });
