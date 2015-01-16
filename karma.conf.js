@@ -5,13 +5,12 @@ module.exports = function(config) {
     var configuration = {
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '.',
+        basePath: '',
 
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: ['jasmine', 'requirejs'],
-
 
         // list of files / patterns to load in the browser
         files: [
@@ -49,10 +48,6 @@ module.exports = function(config) {
             'tests/*.spec.js'
         ],
 
-        plugins: [
-            'karma-chrome-launcher'
-        ],
-
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -83,6 +78,10 @@ module.exports = function(config) {
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
         browsers: process.env.TRAVIS ? ['ChromeTravis'] : ['Chrome'],
+
+        browserDisconnectTimeout: 60000,
+        browserNoActivityTimeout: 60000,
+
 
         customLaunchers: {
             ChromeTravis: {
