@@ -250,7 +250,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              */
             $rootScope.$on('favorites:updated', function(event, data) {
                 $scope.favorites = FavoritesService.favorites.map(titleSorter);
-                if (data.length == 0) {
+                if ($scope.favorites.length == 0) {
                     $rootScope.$broadcast('serieslist:empty'); // we notify all listening channels that the series list is empty.
                 }
             });
