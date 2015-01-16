@@ -119,6 +119,7 @@ background-rotator, background-rotator > div {
     position: absolute;
     top: 50px;
     left: 10px;
+    z-index: 1;
 }
 #actionbar ul {
     list-style-type:none;
