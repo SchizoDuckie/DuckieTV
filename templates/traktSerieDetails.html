@@ -11,19 +11,19 @@
           <center><serieheader mode="poster" data="serie"></serieheader></center>
         </td>
       </tr>
-      <tr>
+      <tr ng-if="serie.airs.day" >
         <th>{{'SERIEDETAILS/airs-on/hdr'|translate}}</th>
         <td>{{translateDayOfWeek(serie.airs.day)}} {{serie.airs.time}} (UTC)</td>
       </tr>
-      <tr>
+      <tr ng-if="serie.first_aired" >
         <th>{{'SERIEDETAILS/first-aired/hdr'|translate}}</th>
         <td>{{ serie.first_aired | date:'mediumDate' }}</td>
       </tr>
-     <tr>
+      <tr ng-if="serie.status" >
         <th>{{'SERIEDETAILS/status/hdr'|translate}}</th>
         <td>{{translateStatus(serie.status)}}</td>
       </tr>
-      <tr>
+      <tr ng-if="serie.genres" >
         <th>{{'SERIEDETAILS/genre/hdr'|translate}}</th>
         <td>
           <ul class="list-unstyled">
@@ -31,23 +31,23 @@
           </ul>
         </td>
       </tr>
-      <tr>
+      <tr ng-if="serie.certification" >
         <th>{{'SERIEDETAILS/content-rating/hdr'|translate}}</th>
         <td>{{serie.certification}}</td>
       </tr>
-      <tr>
+      <tr ng-if="serie.country" >
         <th>{{'SERIEDETAILS/country/hdr'|translate}}</th>
         <td>{{serie.country}}</td>
       </tr>
-      <tr>
+      <tr ng-if="serie.network" >
         <th>{{'SERIEDETAILS/network/hdr'|translate}}</th>
         <td>{{serie.network}}</td>
       </tr>
-      <tr>
+      <tr ng-if="serie.rating" >
         <th>{{'SERIEDETAILS/rating/hdr'|translate}}</th>
         <td>{{serie.rating}} ({{serie.votes}} {{'SERIEDETAILS/votes/lbl'|translate}})</td>
       </tr>
-      <tr>
+      <tr ng-if="serie.runtime" >
         <th>{{'SERIEDETAILS/run-time/hdr'|translate}}</th>
         <td>{{serie.runtime}} {{'SERIEDETAILS/minutes/lbl'|translate}}</td>
       </tr>
