@@ -25,6 +25,7 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.generictorrentsearch',
     'DuckieTV.providers.torrentfreak',
     'DuckieTV.providers.trakttvv2',
+    'DuckieTV.providers.trakttvupdates',
     'DuckieTV.providers.upgradenotification',
     'DuckieTV.providers.watchlistchecker',
     'DuckieTV.providers.watchlist',
@@ -43,6 +44,7 @@ angular.module('DuckieTV', [
     'DuckieTV.directives.chrometopsites',
     'DuckieTV.directives.backgroundrotator',
     'DuckieTV.directives.chrometopsites',
+    'DuckieTV.directives.focuswatch',
     'DuckieTV.directives.lazybackground',
     'DuckieTV.directives.serieslist',
     'DuckieTV.directives.torrentdialog',
@@ -258,7 +260,7 @@ angular.module('DuckieTV', [
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
 })
 
-.run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
+.run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, TraktTVUpdateService, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
     // translate the application based on preference or proposed locale
 
     FavoritesService.loadRandomBackground();

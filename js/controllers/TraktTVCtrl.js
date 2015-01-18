@@ -1,6 +1,6 @@
  angular.module('DuckieTV.controllers.trakttv', ['DuckieTV.providers.trakttvv2', 'DuckieTV.providers.settings', 'DuckieTV.providers.favorites'])
 
- .controller('TraktTVCtrl', function($scope, $rootScope, TraktTVv2, FavoritesService, SettingsService) {
+ .controller('TraktTVCtrl', function($scope, $rootScope, $q, TraktTVv2, FavoritesService, SettingsService) {
 
      $scope.credentials = {
          username: SettingsService.get('trakttv.username'),
@@ -12,11 +12,6 @@
      $scope.traktTVSuggestions = false;
      $scope.pushError = [false, null];
      $scope.suggestionError = [false, null];
-
-     $scope.TestV2Api = function() {
-         TraktTVv2.watched();
-     };
-
 
      $scope.clearCredentials = function() {
          $scope.credentials.error = false;

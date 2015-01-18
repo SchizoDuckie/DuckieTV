@@ -36,13 +36,11 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
         data.name = data.title;
         data.airs_dayofweek = data.airs.day;
         data.airs_time = data.airs.time;
-        data.language = data.country;
-
-
         data.firstaired = new Date(data.first_aired).getTime();
         data.rating = Math.round(data.rating * 10);
         data.ratingcount = data.votes;
         data.genre = data.genres.join('|');
+        data.lastupdated = data.updated_at;
         if (data.people && 'actors' in data.people) {
             data.actors = data.people.actors.map(function(actor) {
                 return actor.name;
@@ -139,9 +137,11 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
             return Promise.all(seasons.map(function(season) {
                 return Promise.all(season.episodes.map(function(episode) {
                     var dbEpisode = (!(episode.tvdb_id in episodeCache)) ? new Episode() : episodeCache[episode.tvdb_id];
-                    return fillEpisode(dbEpisode, episode, seasonCache[season.number], serie, watched).Persist();
+                    return fillEpisode(dbEpisode, episode, seasonCache[season.number], serie, watched).Persist().then(function() {
+                        episodeCache[episode.tvdb_id] = dbEpisode;
+                    });
                 })).then(function() {
-                    return seasonCache;
+                    return episodeCache;
                 });
             }));
         });
@@ -194,9 +194,11 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
                 .then(function(seasonCache) {
                     return updateEpisodes(entity, data.seasons, watched, seasonCache);
                 })
-                .then(function() {
+                .then(function(episodeCache) {
                     $rootScope.$broadcast('favorites:updated');
+                    $rootScope.$broadcast('episodes:updated', episodeCache);
                     $rootScope.$broadcast('storage:update');
+                    $rootScope.$digest();
                     return entity;
                 });
 

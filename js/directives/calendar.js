@@ -107,7 +107,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                 calendarEvents[date] = calendarEvents[date].sort(function(a, b) {
                     return a.episode.firstaired > b.episode.firstaired;
                 });
-            })
+            });
             existing = index = null;
             $rootScope.$broadcast('calendar:events', events);
         },
@@ -166,7 +166,8 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
      * Refresh the active calendar by re-fetching all data.
      */
     $rootScope.$on('favorites:updated', function(event) {
-        service.clearCache();
+        //service.clearCache();
+        activeDate = null;
         service.setDate(new Date());
     });
     /**

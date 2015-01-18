@@ -19,11 +19,12 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         serie: 'shows/%s?extended=full,images',
         seasons: 'shows/%s/seasons?extended=full,images',
         episodes: 'shows/%s/seasons/%s/episodes?extended=full,images',
-        search: 'search?type=show&extended=full,images&query=%s',
+        search: 'search?type=show&extended=full,images&query=%s&limit=50',
         trending: 'shows/trending?extended=full,images&limit=100',
         tvdb_id: 'search?id_type=tvdb&id=%s',
         login: 'auth/login',
-        watched: 'sync/watched/shows'
+        watched: 'sync/watched/shows',
+        updated: 'shows/updates/%s?limit=10000'
     };
 
     var parsers = {
@@ -55,16 +56,14 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             });
         },
         search: function(result) {
-            data = result.data.map(function(show) {
+            return result.data.map(function(show) {
                 return parsers.trakt(show.show);
             });
-            return data;
         },
         trending: function(result) {
-            data = result.data.map(function(show) {
+            return result.data.map(function(show) {
                 return parsers.trakt(show.show);
             });
-            return data;
         },
         episodes: function(result) {
             var map = [],
@@ -94,6 +93,13 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             } else {
                 throw "No results for search by tvdb_id";
             }
+        },
+        updated: function(result) {
+            return result.data.map(function(show) {
+                out = parsers.trakt(show.show);
+                out.remote_updated = show.refreshed_at;
+                return out;
+            });
         }
     };
 
@@ -136,12 +142,18 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         if (authorized.indexOf(type) > -1) {
             headers['trakt-user-login'] = localStorage.getItem('trakt.username');
             headers['trakt-user-token'] = localStorage.getItem('trakt.token');
-        };
+        }
         return $http.get(url, {
-            timeout: promise ? promise : 60000,
+            timeout: promise ? promise : 120000,
             headers: headers
         }).then(function(result) {
             return parser(result);
+        }, function(err) {
+            console.error("Trakt tv error!", err);
+            // if err.code == 400 
+            // token auth expired
+            // show re-auth dialog
+            // restart request and return original promise
         });
     };
 
@@ -206,7 +218,10 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         watched: function() {
             return promiseRequest('watched').then(function(result) {
                 console.log("Fetched V2 API watched results: ", result);
-            })
+            });
+        },
+        updated: function(since) {
+            return promiseRequest('updated', since);
         }
 
     };

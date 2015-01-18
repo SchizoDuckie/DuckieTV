@@ -6,6 +6,7 @@
       <p class="label label-danger" ng-show="!getSetting('trakttv.sync')">{{'TRAKTTV/sync-disabled/lbl'|translate}}</p>
     </th>
     <td style="border:0">
+         <button ng-click="test()" class="btn btn-info">Test update call</button>
 
           <p class="alert alert-info"><strong>{{'TRAKTTV/sync/hdr'|translate}}</strong> {{'TRAKTTV/sync/desc'|translate}}</p>
           <div ng-controller="TraktTVCtrl">
@@ -21,7 +22,7 @@
             <button ng-click="authorize(credentials.username, credentials.password)" class="btn btn-info" >Authorize v2 api</button>
 
 
-              <!--button ng-click='encryptPassword()' class="btn btn-info" ng-disabled="credentials.passwordHash !== null">{{'TRAKTTV/encrypt/btn'|translate}}</button--> <button ng-click="clearCredentials()" class="btn btn-danger" >{{'TRAKTTV/clear-credentials/btn'|translate}}<br>
+              <button ng-click="clearCredentials()" class="btn btn-danger" >{{'TRAKTTV/clear-credentials/btn'|translate}}<br>
             </td>
             </tr></table>
 
