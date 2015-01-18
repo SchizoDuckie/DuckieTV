@@ -48,6 +48,9 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
                     show.banner = 'thumb' in show.images.banner ? show.images.banner.thumb : show.images.banner.full;
                 }
             }
+            if ('title' in show) {
+                show.name = show.title;
+            }
             return show;
         },
         seasons: function(result) {
