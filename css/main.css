@@ -307,7 +307,7 @@ series-list {
     height: calc(100% - 40px);
     left: 0px;
     right: 0px;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 1);
     border-top: 1px solid white;
     z-index: 200;
     -webkit-transition: -webkit-transform 0.5s ease-in;
