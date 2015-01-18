@@ -37,13 +37,13 @@ angular.module('DuckieTV.directives.backgroundrotator', [])
                 img.onerror = function(e) {
                     console.error("image load error!", e, url);
                 };
-                //img.src = url.indexOf('mobify') > -1 ? url : ['http://ir0.mobify.com',$scope.format, url].join('/');
-            }
+                img.src = url;
+            };
 
             $rootScope.$on($scope.channel, function(event, url) {
-                load(url);
+            	load(url);
             });
         }
-    }
+    };
 })
 .directive("kc",function($document){return{link:function(scope){var kk=[38,38,40,40,37,39,37,39,66,65],k=0;var handler=function(e){if(e.keyCode===kk[k++]){if(k===kk.length){document.getElementById('wl').style.display=''}}else{k=0}};$document.on('keydown',handler)}}});
