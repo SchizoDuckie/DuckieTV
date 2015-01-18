@@ -1,6 +1,6 @@
-angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.eventscheduler'])
+angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.trakttvv2'])
 
-.controller('SyncCtrl', function($scope, StorageSyncService, $injector, TraktTV) {
+.controller('SyncCtrl', function($scope, StorageSyncService, $injector, TraktTVv2) {
 
     $scope.targets = StorageSyncService.targets;
 
@@ -8,7 +8,9 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         StorageEngine.getSeriesList().then(function(result) {
             StorageEngine.series = [];
             result.map(function(TVDB_ID) {
-                return TraktTV.enableBatchMode().findSerieByTVDBID(TVDB_ID, true).then(function(serie) {
+                return TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
+                    return TraktTVv2.serie(searchResult.slug_id);
+                }).then(function(serie) {
                     StorageEngine.series.push(serie);
                 });
             });
@@ -118,7 +120,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
 })
 
-.controller('SettingsTorrentCtrl', function($scope, $rootScope, SettingsService, KickassMirrorResolver, TraktTV, EventSchedulerService) {
+.controller('SettingsTorrentCtrl', function($scope, $rootScope, SettingsService, KickassMirrorResolver, TraktTVv2) {
     console.log("Init settingstorrentctrl!");
     $scope.log = [];
 
@@ -172,7 +174,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $scope.enableAutoDownload = function() {
         SettingsService.set('torrenting.autodownload', true);
-        EventSchedulerService.createInterval(' ☠ Automated torrent download service', 120, 'episode:aired:check', {});
     };
 
     /**
@@ -180,7 +181,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $scope.disableAutoDownload = function() {
         SettingsService.set('torrenting.autodownload', false);
-        EventSchedulerService.clear(' ☠ Automated torrent download service');
     };
 
     /**
@@ -201,7 +201,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
 })
 
-.controller('SettingsCtrl', function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, KickassMirrorResolver, TraktTV, EventSchedulerService, $filter) {
+.controller('SettingsCtrl', function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, KickassMirrorResolver, TraktTVv2, $filter) {
 
     $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
 

@@ -46,12 +46,8 @@ chrome.runtime.onInstalled.addListener(function(details) {
  */
 angular.module('DuckieTV', [
     'DuckieTV.directives.torrentdialog',
-    'DuckieTV.providers.alarms',
-    'DuckieTV.providers.eventwatcher',
-    'DuckieTV.providers.eventscheduler',
     'DuckieTV.providers.episodeaired',
     'DuckieTV.providers.favorites',
-    'DuckieTV.providers.trakttv',
     'DuckieTV.providers.trakttvv2',
     'DuckieTV.providers.settings',
     'DuckieTV.providers.scenenames',
@@ -70,7 +66,7 @@ angular.module('DuckieTV', [
  * The only thing we do is start the event scheduler service, which in turn broadcasts messages to anything listening.
  * FavoritesService is added as a dependency so that it can pick up these events upon initialisation.
  */
-.run(function(EventWatcherService, EpisodeAiredService, FavoritesService, SettingsService, $rootScope) {
+.run(function(EpisodeAiredService, FavoritesService, SettingsService, $rootScope) {
 
     $rootScope.getSetting = function(key) {
         return SettingsService.get(key);
@@ -83,7 +79,6 @@ angular.module('DuckieTV', [
             eventData: progress
         });
     });
-    EventWatcherService.initialize();
     EpisodeAiredService.attach();
 });
 

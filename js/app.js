@@ -10,12 +10,8 @@ angular.module('DuckieTV', [
     'ui.bootstrap',
     'dialogs.services',
     'pascalprecht.translate',
-
-    'DuckieTV.providers.alarms',
     'DuckieTV.providers.chromecast',
     'DuckieTV.providers.episodeaired',
-    'DuckieTV.providers.eventwatcher',
-    'DuckieTV.providers.eventscheduler',
     'DuckieTV.providers.favorites',
     'DuckieTV.providers.filereader',
     'DuckieTV.providers.googleimages',
@@ -28,7 +24,6 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.storagesync',
     'DuckieTV.providers.generictorrentsearch',
     'DuckieTV.providers.torrentfreak',
-    'DuckieTV.providers.trakttv',
     'DuckieTV.providers.trakttvv2',
     'DuckieTV.providers.upgradenotification',
     'DuckieTV.providers.watchlistchecker',
@@ -42,7 +37,6 @@ angular.module('DuckieTV', [
     'DuckieTV.controllers.serie',
     'DuckieTV.controllers.settings',
     'DuckieTV.controllers.backup',
-    'DuckieTV.controllers.timer',
     'DuckieTV.controllers.trakttv',
     'DuckieTV.controllers.watchlist',
     'DuckieTV.directives.calendar',
@@ -264,7 +258,7 @@ angular.module('DuckieTV', [
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
 })
 
-.run(function($rootScope, SettingsService, StorageSyncService, EventWatcherService, FavoritesService, MigrationService, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
+.run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
     // translate the application based on preference or proposed locale
 
     FavoritesService.loadRandomBackground();
@@ -294,13 +288,6 @@ angular.module('DuckieTV', [
     };
 
     StorageSyncService.initialize();
-
-    /**
-     * If we're not a chrome extension, Attach the event watcher that runs the timers
-     */
-    if (!('chrome' in window) || (chrome in window && !('alarms' in window.chrome))) {
-        EventWatcherService.initialize();
-    }
 
     /** 
      * Handle background page message passing and broadcast it as an event.

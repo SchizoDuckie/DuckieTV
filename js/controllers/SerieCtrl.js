@@ -2,7 +2,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
 
 .controller('SerieCtrl',
 
-    function(FavoritesService, SceneNameResolver, TraktTV, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter, $q, $locale) {
+    function(FavoritesService, SceneNameResolver, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter, $q, $locale) {
         $scope.episodes = [];
         $scope.points = [];
         $scope.season = null;

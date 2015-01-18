@@ -9,7 +9,6 @@
         "http://*/*",
         "https://*/*",
         "tabs",
-        "alarms",
         "unlimitedStorage"
     ],
     "background": {
@@ -21,14 +20,10 @@
             "js/vendor/angular.js",
             "js/vendor/angular-sanitize.min.js",
             "js/directives/torrentDialog.js",
-            "js/services/AlarmService.js",
             "js/services/SettingsService.js",
             "js/services/SceneNameResolver.js",
-            "js/services/EventWatcherService.js",
-            "js/services/EventSchedulerService.js",
             "js/services/EpisodeAiredService.js",
             "js/services/FavoritesService.js",
-            "js/services/TraktTV.js",
             "js/services/TraktTVv2.js",
             "js/services/GenericTorrentSearch.js",
             "js/services/KickassMirrorResolver.js",

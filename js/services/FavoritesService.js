@@ -1,11 +1,10 @@
-angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'DuckieTV.providers.eventscheduler'])
+angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
 /**
  * Persistent storage for favorite series and episode
  *
  * Provides functionality to add and remove series and is the glue between Trakt.TV,
- * the EventScheduler Service and the GUI.
  */
-.factory('FavoritesService', function($rootScope, AlarmService, EventSchedulerService, TraktTVv2) {
+.factory('FavoritesService', function($rootScope, TraktTVv2) {
 
     /** 
      * Helper function to add a serie to the service.favorites hash if it doesn't already exist.
@@ -157,8 +156,6 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
          * Grabs the existing serie, seasons and episode from the database if they exist
          * and inserts or updates the information.
          * Deletes the episode from the database if TraktTV no longer has it.
-         * It also registers the serie with the EventScheduler service to check for updates
-         * every two days.
          * Returns a promise that gets resolved when all the updates have been launched
          * (but not necessarily finished, they'll continue to run)
          *
@@ -180,15 +177,8 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
                     console.log("Favoritesservice.getbyid executed: ", serie);
                     if (!serie) {
                         serie = new Serie();
-                    } else if (serie.name.toLowerCase() != data.title.toLowerCase()) { // remove update checks for series that have their name changed (will be re-added with new name)
-                        EventSchedulerService.clear(serie.name + ' [' + serie.TVDB_ID + ']');
                     }
                     fillSerie(serie, data);
-                    EventSchedulerService.clear(serie.name + ' update check'); // clean up old format.  
-                    EventSchedulerService.createInterval(serie.name + ' [' + serie.TVDB_ID + ']', serie.status.toLowerCase() == 'ended'  || serie.status.toLowerCase() == 'canceled' ? 60 * 24 * 14 : 60 * 24 * 2, 'favoritesservice:checkforupdates', {
-                        ID: serie.getID(),
-                        TVDB_ID: serie.TVDB_ID
-                    });
                     return serie.Persist().then(function() {
                         return serie;
                     });
@@ -249,7 +239,6 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
         },
         /**
          * Remove a serie, it's seasons, it's episodes and it's timers from the database.
-         * Also removes the chrome alarm that fires the update check
          */
         remove: function(serie) {
             console.log("Remove serie from favorites!", serie);
@@ -269,15 +258,6 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.alarms', 'Du
 
                 });
 
-
-                CRUD.FindOne('ScheduledEvent', {
-                    name: serie.name + ' [' + serie.TVDB_ID + ']'
-                }).then(function(timer) {
-                    if (timer) {
-                        timer.Delete();
-                    }
-                });
-                AlarmService.clear(serie.name + ' [' + serie.TVDB_ID + ']');
             });
         },
         refresh: function() {

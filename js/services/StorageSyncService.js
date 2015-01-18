@@ -12,7 +12,7 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
  * that a user can close or navigate away from the current DuckieTV tab while the addToFavorites promise is
  * still running.
  */
-.factory('StorageSyncService', function($rootScope, $q, FavoritesService, TraktTV, SettingsService, $injector, $filter) {
+.factory('StorageSyncService', function($rootScope, $q, FavoritesService, TraktTVv2, SettingsService, $injector, $filter) {
 
     var service = {
         targets: [

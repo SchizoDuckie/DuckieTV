@@ -217,22 +217,6 @@ var Episode = CRUD.define({
 
 });
 
-/** 
- * ScheduledEvents are hooked into the EventScheduler / EventWatcher services.
- * A $rootScope.$broadcast is executed when a timer is executed and the parameters from $data are passed.
- * The EventScheduler creates timers in chrome's alarms database for efficient timer execution and background
- * processing.
- */
-var ScheduledEvent = CRUD.define({
-    className: 'ScheduledEvent',
-    table: 'EventSchedule',
-    primary: 'ID_Event',
-    fields: ['ID_Event', 'name', 'type', 'eventchannel', 'data'],
-    createStatement: 'CREATE TABLE EventSchedule ( ID_Event INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255) NOT NULL, type varchar(25) NOT NULL, eventchannel VARCHAR(255) NULL, data TEXT NULL)',
-    adapter: 'dbAdapter'
-}, {
-
-});
 
 var WatchListItem = CRUD.define({
     className: 'WatchListItem',
