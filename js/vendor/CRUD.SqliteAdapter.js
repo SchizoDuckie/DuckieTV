@@ -279,7 +279,11 @@ CRUD.Database = function(name, options) {
             }
 
             function sqlFail(transaction, error) {
-                CRUD.log("SQL FAIL!!", error, transaction, [sql.split(' VALUES (')[0], (s = JSON.stringify(valueBindings)).substr(1, s.length - 2)].join(' VALUES ') + ')');
+                if (sql && valueBindings) {
+                    CRUD.log("SQL FAIL!!", error, transaction, [sql.split(' VALUES (')[0], (s = JSON.stringify(valueBindings)).substr(1, s.length - 2)].join(' VALUES (') + ')');
+                } else {
+                    CRUD.log("SQL FAIL!!", error, transaction);
+                };
                 fail(error, transaction);
             }
 
