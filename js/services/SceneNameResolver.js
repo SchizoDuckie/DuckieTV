@@ -437,8 +437,8 @@ angular.module('DuckieTV.providers.scenenames', [])
 
             getSearchStringForEpisode: function(serie, episode) {
                 if (serie.TVDB_ID in episodesWithDateFormat) {
-
-                    var d = new Date(episode.firstaired);
+                    var parts = episode.firstaired_iso.split(/([0-9]{4})-([0-9]{2})-([0-9]{2})T.*/);
+                    d = new Date([parts[1], parts[2], parts[3]].join('-'));
                     return $filter('date')(d, episodesWithDateFormat[serie.TVDB_ID]);
                 } else {
                     return episode.getFormattedEpisode();
