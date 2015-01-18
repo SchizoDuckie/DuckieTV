@@ -60,12 +60,13 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
     fillEpisode = function(episode, data, season, serie, watched) {
         // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
         data.TVDB_ID = data.tvdb_id;
+        data.IMDB_ID = data.imdb_id;
         data.ratingcount = data.votes;
         data.rating = Math.round(data.rating * 10);
         data.episodenumber = data.number;
         data.episodename = data.title;
         data.firstaired = new Date(data.first_aired).getTime();
-
+        data.firstaired_iso = data.first_aired;
         data.filename = (('screenshot' in data.images) && ('thumb' in data.images.screenshot)) ? data.images.screenshot.thumb : '';
 
         for (var i in data) {
