@@ -67,9 +67,15 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             return data;
         },
         episodes: function(result) {
-            return result.data.map(function(episode) {
-                return parsers.trakt(episode);
+            var map = [],
+                episodes = [];
+
+            result.data.map(function(episode) {
+                if (map.indexOf(episode.number) > -1 || episode.number === 0) return;
+                episodes.push(parsers.trakt(episode));
+                map.push(episode.number);
             });
+            return episodes;
         },
         /**
          * Trakt returns a list of search results here. We want only the first object that has a serie detail object in it.
@@ -80,9 +86,14 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             return parsers.trakt(result.data);
         },
         tvdb_id: function(result) {
-            return parsers.trakt(result.data.filter(function(record) {
+            var results = result.data.filter(function(record) {
                 return record.type == "show";
-            })[0].show);
+            });
+            if (results.length > 0) {
+                return parsers.trakt(results[0].show);
+            } else {
+                throw "No results for search by tvdb_id";
+            }
         }
     };
 
