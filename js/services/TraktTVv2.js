@@ -8,8 +8,8 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
  */
 .factory('TraktTVv2', function(SettingsService, $q, $http) {
 
-    var activeSearchRequest = false;
-    var hasActiveRequest = false;
+    var activeSearchRequest = false,
+        activeTrendingRequest = false;
 
     var APIkey = '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0';
     var endpoint = 'https://api.trakt.tv/';
@@ -184,9 +184,13 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             return promiseRequest('episodes', slug, seasonNumber);
         },
         search: function(what) {
+            service.cancelTrending();
             service.cancelSearch();
             activeSearchRequest = $q.defer();
-            return promiseRequest('search', what, null, activeSearchRequest.promise);
+            return promiseRequest('search', what, null, activeSearchRequest.promise).then(function(results) {
+                activeSearchRequest = false;
+                return results;
+            });
         },
         cancelSearch: function() {
             if (activeSearchRequest && activeSearchRequest.resolve) {
@@ -194,8 +198,23 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
                 activeSearchRequest = false;
             }
         },
+        hasActiveSearchRequest: function() {
+            return (activeSearchRequest && activeSearchRequest.resolve);
+        },
         trending: function() {
-            return promiseRequest('trending');
+            service.cancelTrending();
+            service.cancelSearch();
+            activeTrendingRequest = $q.defer();
+            return promiseRequest('trending', null, null, activeTrendingRequest.promise).then(function(results) {
+                activePromiseRequest = false;
+                return results;
+            });
+        },
+        cancelTrending: function() {
+            if (activeTrendingRequest && activeTrendingRequest.resolve) {
+                activeTrendingRequest.resolve();
+                activeTrendingRequest = false;
+            }
         },
         resolveTVDBID: function(id) {
             return promiseRequest('tvdb_id', id);

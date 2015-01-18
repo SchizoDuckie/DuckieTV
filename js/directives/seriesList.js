@@ -78,7 +78,9 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                         results: []
                     };
                     TraktTVv2.trending().then(function(res) {
-                        $scope.trending.results = res;
+                        $scope.trending = {
+                            results: res
+                        };
                     }).catch(function(error) {
                         $scope.search.error = error;
                         $scope.trendingSeries = false;
@@ -164,6 +166,8 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     $scope.search.results = null;
                     $scope.search.error = false;
                     $scope.search.searching = false;
+                    TraktTVv2.cancelSearch();
+                    $scope.enableAdd();
                     return;
                 }
                 $scope.search.searching = true;
@@ -172,11 +176,13 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 // disableBatchMode makes sure that previous request are aborted when a new one is started.
                 return TraktTVv2.search($scope.search.query).then(function(res) {
                     $scope.search.error = false;
+                    $scope.search.searching = TraktTVv2.hasActiveSearchRequest();
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
                     $scope.search.results = res || [];
                 }).catch(function(err) {
                     console.error("Search error!", err);
                     $scope.search.error = err;
+                    $scope.search.searching = TraktTVv2.hasActiveSearchRequest();
                     $scope.trendingSeries = false; // we have a result, hide the trending series.
                     $scope.search.results = false;
                 });
