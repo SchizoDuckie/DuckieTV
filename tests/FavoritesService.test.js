@@ -21,50 +21,50 @@
  */
 describe('FavoritesService', function() {
 
-var FavoritesService, TraktTVv2, $httpBackend, $q, $rootScope, $scope;
+    var FavoritesService, TraktTVv2, $httpBackend, $q, $rootScope, $scope;
 
-beforeEach(module('DuckieTV.providers.favorites'));
-beforeEach(module('DuckieTV.providers.trakttvv2'));
+    beforeEach(module('DuckieTV.providers.favorites'));
+    beforeEach(module('DuckieTV.providers.trakttvv2'));
 
-beforeEach(inject(function($injector) {
-    // Set up the mock http service responses
-    $httpBackend = $injector.get('$httpBackend');
+    beforeEach(inject(function($injector) {
+        // Set up the mock http service responses
+        $httpBackend = $injector.get('$httpBackend');
 
-    $httpBackend.whenGET(/.*/).respond(function(method, url, data) {
-        var response = fixture(url);
-        return [response ? 200 : 404, response];
-    });
-}));
-
-beforeEach(inject(function(_FavoritesService_, _TraktTVv2_, _$httpBackend_) {
-    FavoritesService = _FavoritesService_;
-    TraktTVv2 = _TraktTVv2_;
-    $httpBackend = _$httpBackend_;
-
-}));
-
-afterEach(inject(function($rootScope) {
-    $rootScope.$apply();
-}));
-
-
-describe('It should be initialized', function() {
-
-    it('should have a favorites property', function() {
-        expect(angular.isObject(FavoritesService.favorites)).toBe(true);
-    });
-
-    it('should list all series', function() {
-        FavoritesService.getSeries().then(function(result) {
-            expect(angular.isArray(result)).toBe(true);
+        $httpBackend.whenGET(/.*/).respond(function(method, url, data) {
+            var response = fixture(url);
+            return [response ? 200 : 404, response];
         });
-    });
+    }));
 
-    //describe("It should be able to add Doctor Who to the database", function() {
+    beforeEach(inject(function(_FavoritesService_, _TraktTVv2_, _$httpBackend_) {
+        FavoritesService = _FavoritesService_;
+        TraktTVv2 = _TraktTVv2_;
+        $httpBackend = _$httpBackend_;
 
-    // todo: move this to protractor test, test only the parsing of what goes into CRUD objects
-    // (e.g. one serie, one episode, one season) here
-    /*
+    }));
+
+    afterEach(inject(function($rootScope) {
+        $rootScope.$apply();
+    }));
+
+
+    describe('It should be initialized', function() {
+
+        it('should have a favorites property', function() {
+            expect(angular.isObject(FavoritesService.favorites)).toBe(true);
+        });
+
+        it('should list all series', function() {
+            FavoritesService.getSeries().then(function(result) {
+                expect(angular.isArray(result)).toBe(true);
+            });
+        });
+
+        //describe("It should be able to add Doctor Who to the database", function() {
+
+        // todo: move this to protractor test, test only the parsing of what goes into CRUD objects
+        // (e.g. one serie, one episode, one season) here
+        /*
         it('Should be able to add Doctor Who from a parsed search result', function(done) {
             var serie = null;
             TraktTVv2.serie('doctor-who-2005').then(function(searchResults) {
@@ -147,7 +147,9 @@ describe('It should be initialized', function() {
             expect(false).toBe(true); // placeholder
         });
 
+    */
 
 
+    });
 
 });
