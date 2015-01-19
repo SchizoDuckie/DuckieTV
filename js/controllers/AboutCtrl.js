@@ -1,6 +1,6 @@
 angular.module('DuckieTV.controllers.about', [])
 
-.controller('AboutCtrl', function($scope, $rootScope, $q, $http, $filter, $injector, AlarmService, SettingsService, StorageSyncService, GenericSearch) {
+.controller('AboutCtrl', function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, GenericSearch) {
 
     $scope.statistics = [];
 
@@ -12,16 +12,6 @@ angular.module('DuckieTV.controllers.about', [])
             width = (screen.width) ? screen.width : '';
             height = (screen.height) ? screen.height : '';
             screenSize += '' + width + " x " + height;
-        };
-
-        // Timers
-        countTimers = function() {
-            AlarmService.getAll().then(function(timers) {
-                $scope.statistics.push({
-                    name: 'Timers',
-                    data: timers.length
-                });
-            });
         };
 
         // database statistics
@@ -72,6 +62,8 @@ angular.module('DuckieTV.controllers.about', [])
 
 
         var activeTorrentingMirror = GenericSearch.getConfig().mirror;
+        var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
+
 
         // general statistics
         $scope.statistics = [{
@@ -116,6 +108,9 @@ angular.module('DuckieTV.controllers.about', [])
         }, {
             name: 'Storage Sync Enabled',
             data: SettingsService.get('storage.sync')
+        }, {
+            name: 'DB last updated from TraktTV on',
+            data: lastUpdated.toGMTString()
         }];
 
         // DuckieTV version
@@ -144,12 +139,10 @@ angular.module('DuckieTV.controllers.about', [])
         });
 
         //getSyncTime();
-        countTimers();
         countEntity('Series');
         countHiddenShows();
         countEntity('Seasons');
         countEntity('Episodes');
-        countEntity('EventSchedule');
 
     }
     getStats();
