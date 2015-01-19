@@ -167,7 +167,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
             watched = watched || [];
             // console.log("FavoritesService.addFavorite!", data, watched);
             var entity = null;
-            if (data.title == null || data.tvdb_id == null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
+            if (data.title === null || data.tvdb_id === null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
                 console.error("received error data as input, removing from favorites.");
                 return service.remove({
                     name: data.title,
@@ -301,21 +301,14 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
                 }
             });
 
-        },
-        /**
-         * Fetch stored series from sqlite and store them in service.favorites
-         * Notify anyone listening by broadcasting favorites:updated
-         * Also starts the listener for favoritesservice:checkforupdates
-         */
-        restore: function() {
-            $rootScope.$on('favoritesservice:checkforupdates', function(evt, data) {
-                TraktTVv2.resolveTVDBID(data.TVDB_ID).then(function(searchResult) {
-                    return TraktTVv2.serie(searchResult.slug_id);
-                }).then(service.addFavorite);
-            });
-            service.refresh();
         }
     };
-    service.restore();
+
+    $rootScope.$on('favoritesservice:checkforupdates', function(evt, data) {
+        TraktTVv2.resolveTVDBID(data.TVDB_ID).then(function(searchResult) {
+            return TraktTVv2.serie(searchResult.slug_id);
+        }).then(service.addFavorite);
+    });
+
     return service;
 });
