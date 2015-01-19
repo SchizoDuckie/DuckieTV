@@ -109,7 +109,7 @@ angular.module('DuckieTV.controllers.about', [])
             name: 'Storage Sync Enabled',
             data: SettingsService.get('storage.sync')
         }, {
-            name: 'DB last updated from TraktTV on',
+            name: 'Last checked TraktTV for DB updates on',
             data: lastUpdated.toGMTString()
         }];
 
