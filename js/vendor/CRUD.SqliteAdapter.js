@@ -1,127 +1,136 @@
 CRUD.SQLiteAdapter = function(database, dbOptions) {
     this.databaseName = database;
-    this.dbOptions = dbOptions
+    this.dbOptions = dbOptions;
     this.lastQuery = false;
     this.initializing = true;
     CRUD.ConnectionAdapter.apply(this, arguments);
+    var db;
+    var self = this;
 
     this.Init = function() {
-        var that = this;
-        return new Promise(function(resolve, fail) {
-            that.db = new CRUD.Database(that.databaseName);
-            that.db.connect().then(function() {
-                CRUD.log("SQLITE connection created to ", that.databaseName);
-                that.verifyTables().then(function() {
-                    that.initializing = false;
-                    resolve()
-                }, fail);
-            }, fail);
+        this.db = db = new CRUD.Database(self.databaseName);
+        return db.connect().then(function() {
+            CRUD.log("SQLITE connection created to ", self.databaseName);
+            return verifyTables().then(function() {
+                self.initializing = false;
+            });
         });
     };
 
-    this.verifyTables = function() {
-        CRUD.log('verifying that tables exist');
-        var that = this;
-        var PromiseQueue = [];
-
-        for (var i in CRUD.EntityManager.entities) {
-
-            PromiseQueue.push(new Promise(function(resolve, fail) {
-                var entity = CRUD.EntityManager.entities[i];
-                that.db.execute("SELECT count(*) as existing FROM sqlite_master WHERE type='table' AND name= ?", [entity.table]).then(function(resultSet) {
-                        var res = resultSet.next().row;
-                        if (res.existing === 0) {
-                            CRUD.log(entity, ": Table does not exist.");
-                            if (!entity.createStatement) {
-                                CRUD.log("No create statement found for " + entity.className + ". Don't know how to create table.");
-                                fail();
-                            } else {
-                                CRUD.log("Create statement found. Creating table for " + entity.className + ':' + entity.createStatement);
-                                PromiseQueue.push(that.db.execute(entity.createStatement).then(function() {
-                                    CRUD.log(entity.className + " table created.");
-                                    if ('migrations' in entity) {
-                                        localStorage.setItem('database.version.' + entity.table, Math.max.apply(Math, Object.keys(entity.migrations)));
-                                    }
-                                    Promise.all(that.createFixtures(entity)).then(resolve);
-                                }, function(err) {
-                                    CRUD.log("Error creating " + entity.className, err);
-                                    fail();
-                                }));
-                            }
-                        } else {
-                            var prq = [];
-
-                            if (entity.migrations) {
-                                var currentVersion = !localStorage.getItem('database.version.' + entity.table) ? 1 : parseInt(localStorage.getItem('database.version.' + entity.table), 10);
-                                if (isNaN(currentVersion)) {
-                                    currentVersion = 1;
-                                };
-                                var highestVersion = Math.max.apply(Math, Object.keys(entity.migrations));
-                                while (currentVersion != highestVersion) {
-                                    currentVersion++;
-                                    if (currentVersion in entity.migrations) {
-                                        var migrations = entity.migrations[currentVersion];
-                                        for (var i = 0; i < migrations.length; i++) {
-                                            var q = migrations[i];
-
-                                            prq.push(new Promise(function(r, f) {
-                                                CRUD.log('Executing migration: ', q);
-                                                that.db.execute(q).then(function(result) {
-                                                    CRUD.log("Migration success!", result);
-                                                    r();
-                                                }, function(E) {
-                                                    CRUD.log("Migration failed!", E);
-                                                    f();
-                                                })
-                                            }));
-                                        }
-                                    }
-                                }
-                            }
-                            Promise.all(prq).then(function() {
-                                CRUD.log("All migrations executed!");
-                                localStorage.setItem('database.version.' + entity.table, highestVersion);
-                                resolve();
-                            }, function(e) {
-                                CRUD.log("Some migrations failed!", e);
-                                fail();
-                                debugger;
-                            });
-
+    var verifyTables = function() {
+            CRUD.log('verifying that tables exist');
+            var tables = [],
+                indexes = {};
+            // fetch existing tables
+            return db.execute("select type,name,tbl_name from sqlite_master").then(function(resultset) {
+                while (r = resultset.next()) {
+                    if (r.row.name.indexOf('sqlite_autoindex') > -1 || r.row.name == '__WebKitDatabaseInfoTable__') continue;
+                    if (r.row.type == 'table') {
+                        tables.push(r.row.tbl_name);
+                    } else if (r.row.type == 'index') {
+                        if (!(r.row.tbl_name in indexes)) {
+                            indexes[r.row.tbl_name] = [];
                         }
-                    },
-                    function(err) {
-                        CRUD.log("Failed!", err, entity);;
-                        fail();
-                    });
-            }));
+                        indexes[r.row.tbl_name].push(r.row.name);
+                    }
+                }
+                return;
+            }).then(function() {
+                // verify that all tables exist
+                return Promise.all(Object.keys(CRUD.EntityManager.entities).map(function(entityName) {
+                    var entity = CRUD.EntityManager.entities[entityName];
+                    if (tables.indexOf(entity.table) == -1) {
+                        if (!entity.createStatement) {
+                            throw "No create statement found for " + entity.className + ". Don't know how to create table.";
+                        }
+                        return db.execute(entity.createStatement).then(function() {
+                            tables.push(entity.table);
+                            localStorage.setItem('database.version.' + entity.table, ('migrations' in entity) ? Math.max.apply(Math, Object.keys(entity.migrations)) : 1);
+                            CRUD.log(entity.className + " table created.");
+                            return entity;
+                        }, function(err) {
+                            CRUD.log("Error creating " + entity.className, err);
+                            throw "Error creating table: " + entity.table + " for " + entity.className;
+                        }).then(createFixtures).then(function() {
+                            CRUD.log("Table created and fixtures inserted for ", entity.className);
+                            return;
+                        });
+                    }
+                    return;
+                }));
+            }).then(function() {
+                // verify that all indexes exist.
+                return Promise.all(Object.keys(CRUD.EntityManager.entities).map(function(entityName) {
+                    var entity = CRUD.EntityManager.entities[entityName];
+                    if (entity.migrations) {
+                        var currentVersion = !localStorage.getItem('database.version.' + entity.table) ? 1 : parseInt(localStorage.getItem('database.version.' + entity.table), 10);
+                        if (isNaN(currentVersion)) {
+                            currentVersion = 1;
+                        }
+                        var highestVersion = Math.max.apply(Math, Object.keys(entity.migrations));
+                        if (currentVersion == highestVersion) return;
+                        return Promise.all(Object.keys(entity.migrations).map(function(version) {
+                            if (parseInt(version) > currentVersion) {
+                                return Promise.all(entity.migrations[version].map(function(migration) {
+                                    CRUD.log('Executing migration: ', migration);
+                                    return db.execute(migration).then(function(result) {
+                                        CRUD.log("Migration success!", result);
+                                        return true;
+                                    }, function(err) {
+                                        throw "Migration " + version + " failed for entity " + entityName;
+                                    });
+                                })).then(function() {
+                                    CRUD.log("All migrations executed for version ", version);
+                                    localStorage.setItem('database.version.' + entity.table, version);
+                                    return true;
+                                });
+                            }
+                            return true;
+                        }));
+                    }
+                }));
+            }).then(function() {
+                // create listed indexes if they don't already exist.
+                return Promise.all(Object.keys(CRUD.EntityManager.entities).map(function(entityName) {
+                    var entity = CRUD.EntityManager.entities[entityName];
+                    if (('indexes' in entity)) {
+                        return Promise.all(entity.indexes.map(function(index) {
+                            var indexName = index.replace(/\W/g, '') + '_idx';
+                            if (!(entity.table in indexes) || indexes[entity.table].indexOf(indexName) == -1) {
+                                return db.execute("create index if not exists " + indexName + " on " + entity.table + " (" + index + ")").then(function(result) {
+                                    CRUD.log("index created: ", entity.table, index, indexName);
+                                    if (!(entity.table in indexes)) {
+                                        indexes[entity.table] = [];
+                                    }
+                                    indexes[entity.table].push(indexName);
+                                    return;
+                                });
+                            }
+                            return;
+                        }));
+                    }
+                }));
+            });
+        },
 
-        }
+        createFixtures = function(entity) {
+            return new Promise(function(resolve, reject) {
+                if (!entity.fixtures) resolve();
+                return Promise.all(entity.fixtures.map(function(fixture) {
+                    CRUD.fromCache(entity.className, entity.fixtures[i]).Persist(true, 'INSERT');
+                }));
+            });
+        },
 
-        return Promise.all(PromiseQueue);
-
-    };
-
-    this.createFixtures = function(entity) {
-        var pq = [];
-        if (entity.fixtures) {
-            CRUD.log(entity.fixtures.length + ' Fixtures found for ' + entity.className + ' inserting.')
-            for (var i = 0; i < entity.fixtures.length; i++) {
-                pq.push(CRUD.fromCache(entity.className, entity.fixtures[i]).Persist(true, 'INSERT'));
+        delayUntilSetupDone = function(func) {
+            if (!this.initializing) {
+                return func();
+            } else {
+                setTimeout(delayUntilSetupDone, 500, func);
             }
-        }
-        return pq;
-    }
+        };
 
-    this.delayUntilSetupDone = function(func) {
-        if (!this.initializing) {
-            return func();
-        } else {
-            setTimeout(this.delayUntilSetupDone, 500, func)
-        }
-    },
-
-    this.Find = function(what, filters, sorting, justthese, options, filters) {
+    this.Find = function(what, filters, sorting, justthese, options) {
         var builder = new CRUD.Database.SQLBuilder(what, filters || {}, sorting || {}, justthese || {}, options || {});
         var query = builder.buildQuery();
         var opt = options;
@@ -130,8 +139,8 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 
         CRUD.log("Executing query via sqliteadapter: ", options, query);
         return new Promise(function(resolve, fail) {
-            return that.delayUntilSetupDone(function() {
-                that.db.execute(query.query, query.parameters).then(function(resultset) {
+            return delayUntilSetupDone(function() {
+                db.execute(query.query, query.parameters).then(function(resultset) {
                     var row, output = [];
                     while (row = resultset.next()) {
                         var obj = new window[what]().importValues(row.row);
@@ -145,7 +154,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                 });
             });
         });
-    },
+    };
 
     this.Persist = function(what, forceInsert) {
         CRUD.stats.writesQueued++;
@@ -164,17 +173,17 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
             }
         }
         var defaults = CRUD.EntityManager.entities[what.className].defaults || {};
-        for (var i in defaults) {
-            names.push(i);
+        for (var j in defaults) {
+            names.push(j);
             values.push('?');
-            valmap.push(defaults[i]);
+            valmap.push(defaults[j]);
         }
 
-        if (what.getID() === false || undefined == what.getID() || forceInsert) { // new object : insert.
+        if (what.getID() === false || undefined === what.getID() || forceInsert) { // new object : insert.
             // insert
             query.push('INSERT INTO ', CRUD.EntityManager.entities[what.className].table, '(', names.join(","), ') VALUES (', values.join(","), ');');
             CRUD.log(query.join(' '), valmap);
-            return that.db.execute(query.join(' '), valmap).then(function(resultSet) {
+            return db.execute(query.join(' '), valmap).then(function(resultSet) {
                 resultSet.Action = 'inserted';
                 resultSet.ID = resultSet.rs.insertId;
                 CRUD.stats.writesExecuted++;
@@ -195,7 +204,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
             valmap.push(what.getID());
             query.push('WHERE', CRUD.EntityManager.getPrimary(what.className), '= ?');
 
-            return that.db.execute(query.join(' '), valmap).then(function(resultSet) {
+            return db.execute(query.join(' '), valmap).then(function(resultSet) {
                 CRUD.stats.writesExecuted++;
                 resultSet.Action = 'updated';
                 return resultSet;
@@ -204,7 +213,8 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                 return;
             });
         }
-    }
+    };
+
     this.Delete = function(what, events) {
         var query = [],
             values = [],
@@ -214,19 +224,17 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         if (what.getID() !== false) {
             // insert
             query.push('delete from', CRUD.EntityManager.entities[what.className].table, 'where', CRUD.EntityManager.getPrimary(what.className), '= ?');
-            return new Promise(function(resolve, fail) {
-                that.db.execute(query.join(' '), [what.getID()]).then(function(resultSet) {
-                    resultSet.Action = 'deleted';
-                    resolve(resultSet);
-                }, function(e) {
-                    CRUD.log("error deleting element from db: ", e);
-                    fail(e);
-                })
+            return db.execute(query.join(' '), [what.getID()]).then(function(resultSet) {
+                resultSet.Action = 'deleted';
+                return resultSet;
+            }, function(e) {
+                CRUD.log("error deleting element from db: ", e);
+                throw e;
             });
         } else {
             return false;
         }
-    }
+    };
 
     return this;
 };
@@ -261,9 +269,7 @@ CRUD.Database = function(name, options) {
 
     this.getDB = function() {
         return db;
-    }
-
-
+    };
 
     /** 
      * Execute a db query and promise a resultset.
@@ -283,7 +289,7 @@ CRUD.Database = function(name, options) {
                     CRUD.log("SQL FAIL!!", error, transaction, [sql.split(' VALUES (')[0], (s = JSON.stringify(valueBindings)).substr(1, s.length - 2)].join(' VALUES (') + ')');
                 } else {
                     CRUD.log("SQL FAIL!!", error, transaction);
-                };
+                }
                 fail(error, transaction);
             }
 
@@ -292,7 +298,7 @@ CRUD.Database = function(name, options) {
                 transaction.executeSql(sql, valueBindings, sqlOK, sqlFail);
             });
         });
-    }
+    };
 
     this.connect = function() {
         return new Promise(function(resolve, fail) {
@@ -310,7 +316,7 @@ CRUD.Database = function(name, options) {
             }
         });
     };
-}
+};
 
 CRUD.Database.ResultSet = function(rs) {
     this.rs = rs;
@@ -334,7 +340,7 @@ CRUD.Database.ResultSet.Row = function(row) {
 CRUD.Database.ResultSet.Row.prototype.get = function(index, defaultValue) {
     var col = this.row[index];
     return (col) ? col : defaultValue;
-}
+};
 
 /**
  * My own query builder, ported from PHP to JS.
@@ -409,7 +415,7 @@ CRUD.Database.SQLBuilder.prototype = {
     buildJoins: function(theClass, parent) { // determine what joins to use
         if (!parent) return; // nothing to join on, skip.
         var entity = CRUD.EntityManager.entities[theClass];
-        var parent = CRUD.EntityManager.entities[parent];
+        parent = CRUD.EntityManager.entities[parent];
 
         switch (parent.relations[entity.className]) { // then check the relationtype
             case CRUD.RELATION_SINGLE:
@@ -423,7 +429,7 @@ CRUD.Database.SQLBuilder.prototype = {
             case CRUD.RELATION_MANY: // it's a many:many relation. Join the connector table and then the related one.
                 connectorClass = parent.connectors[entity.className];
                 conn = CRUD.EntityManager.entities[connectorClass];
-                this.addJoin(conn, entity, entity.primary).addJoin(parent, conn, parent.primary)
+                this.addJoin(conn, entity, entity.primary).addJoin(parent, conn, parent.primary);
                 break;
             case CRUD.RELATION_CUSTOM:
                 var rel = parent.relations[entity.className];
@@ -457,4 +463,4 @@ CRUD.Database.SQLBuilder.prototype = {
         var query = "SELECT count(*) FROM \n\t" + CRUD.EntityManager.entities[this.entity].table + "\n " + this.joins.join("\n ") + where + ' ' + group + ' ' + order + ' ';
         return (query);
     }
-}
+};

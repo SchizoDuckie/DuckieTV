@@ -16,6 +16,9 @@ var Serie = CRUD.define({
         'Episode': CRUD.RELATION_FOREIGN,
         'Season': CRUD.RELATION_FOREIGN
     },
+    indexes: [
+        'fanart',
+    ],
     createStatement: 'CREATE TABLE "Series" ("ID_Serie" INTEGER PRIMARY KEY NOT NULL,  "name" VARCHAR(250) DEFAULT(NULL),  "banner" VARCHAR(1024) DEFAULT(NULL),  "overview" TEXT DEFAULT(NULL),  "TVDB_ID" INTEGER UNIQUE NOT NULL,  "IMDB_ID" INTEGER DEFAULT(NULL),  "TVRage_ID" INTEGER DEFAULT(NULL),  "networkid" VARCHAR(50) DEFAULT(NULL),  "seriesid" VARCHAR(50) DEFAULT(NULL),  "zap2it_id" VARCHAR(50) DEFAULT(NULL),  "actors" VARCHAR(1024) DEFAULT(NULL),  "airs_dayofweek" VARCHAR(10) DEFAULT(NULL),  "airs_time" VARCHAR(15) DEFAULT(NULL),  "contentrating" VARCHAR(20) DEFAULT(NULL),  "firstaired" DATE DEFAULT(NULL),  "genre" VARCHAR(50) DEFAULT(NULL),  "language" VARCHAR(50) DEFAULT(NULL),  "network" VARCHAR(50) DEFAULT(NULL),  "rating" INTEGER DEFAULT(NULL),  "ratingcount" INTEGER DEFAULT(NULL),  "runtime" INTEGER DEFAULT(NULL),  "status" VARCHAR(50) DEFAULT(NULL),  "added" DATE DEFAULT(NULL),  "addedby" VARCHAR(50) DEFAULT(NULL),  "fanart" VARCHAR(150) DEFAULT(NULL),  "poster" VARCHAR(150) DEFAULT(NULL),  "lastupdated" TIMESTAMP DEFAULT (NULL),  "lastfetched" TIMESTAMP DEFAULT (NULL),  "nextupdate" TIMESTAMP DEFAULT (NULL), "displaycalendar" TINYINT DEFAULT(1) )',
     adapter: 'dbAdapter',
     defaultValues: {
@@ -92,6 +95,9 @@ var Season = CRUD.define({
         'Serie': CRUD.RELATION_FOREIGN,
         'Episode': CRUD.RELATION_FOREIGN
     },
+    indexes: [
+        'ID_Serie'
+    ],
     orderProperty: 'seasonnumber',
     orderDirection: 'DESC',
     createStatement: 'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER, UNIQUE (ID_Serie, seasonnumber) ON CONFLICT REPLACE)',
@@ -129,6 +135,12 @@ var Episode = CRUD.define({
     defaultValues: {
         watched: 0
     },
+    indexes: [
+        'watched',
+        'TVDB_ID',
+        'ID_Serie, firstaired',
+        'ID_Season'
+    ],
     fixtures: [
 
     ],
@@ -258,6 +270,8 @@ var WatchListObject = CRUD.define({
 }, {
 
 });
+
+CRUD.DEBUG = true;
 
 CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', {
     estimatedSize: 25 * 1024 * 1024
