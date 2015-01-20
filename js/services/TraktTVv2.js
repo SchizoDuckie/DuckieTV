@@ -23,8 +23,9 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         trending: 'shows/trending?extended=full,images&limit=100',
         tvdb_id: 'search?id_type=tvdb&id=%s',
         login: 'auth/login',
-        watched: 'sync/watched/shows',
-        updated: 'shows/updates/%s?limit=10000'
+        watched: 'sync/watched/shows?extended=full,images&limit=10000',
+        usershows: 'users/%s/collection/shows?extended=full,images&limit=10000',
+        updated: 'shows/updates/%s?limit=10000',
     };
 
     var parsers = {
@@ -103,12 +104,27 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
                 out.remote_updated = show.refreshed_at;
                 return out;
             });
+        },
+        usershows: function(result) {
+            return result.data.map(function(show) {
+                out = parsers.trakt(show.show);
+                return out;
+            });
+
+        },
+        watched: function(result) {
+            return result.data.map(function(show) {
+                out = parsers.trakt(show.show);
+                out.seasons = show.seasons;
+                return out;
+            });
+
         }
     };
 
     // trakt api methods that require authorisation
     var authorized = [
-        'watched'
+        'watched', 'usershows'
     ];
 
     /** 
@@ -234,12 +250,22 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             }).then(function(result) {
                 localStorage.setItem('trakt.username', username);
                 localStorage.setItem('trakt.token', result.data.token);
-                return true;
+                return result.data.token;
+            }, function(error) {
+                return JSON.stringify(error);
             });
         },
         watched: function() {
             return promiseRequest('watched').then(function(result) {
                 console.log("Fetched V2 API watched results: ", result);
+                return result;
+            });
+        },
+        usershows: function() {
+            return promiseRequest('usershows', localStorage.getItem('trakt.username')).then(function(result) {
+                console.log("Fetched V2 API User Shows: ", result);
+
+                return result;
             });
         },
         updated: function(since) {

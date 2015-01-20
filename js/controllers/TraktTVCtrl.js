@@ -3,19 +3,30 @@
  .controller('TraktTVCtrl', function($scope, $rootScope, $q, TraktTVv2, FavoritesService, SettingsService) {
 
      $scope.credentials = {
-         username: SettingsService.get('trakttv.username'),
-         error: false
+         username: localStorage.getItem('trakt.username') || '',
+         error: false,
+         success: localStorage.getItem('trakt.token') || false
      };
 
      $scope.traktTVSeries = [];
      $scope.tvdbSeries = {};
+     $scope.adding = {};
      $scope.traktTVSuggestions = false;
      $scope.pushError = [false, null];
      $scope.suggestionError = [false, null];
 
      $scope.clearCredentials = function() {
          $scope.credentials.error = false;
-         $rootScope.setSetting('trakttv.username', null);
+         localStorage.removeItem('trakt.token');
+     };
+
+     $scope.authorize = function(username, password) {
+         return TraktTVv2.login(username, password).then(function(result) {
+             $scope.credentials.success = result;
+         }, function(result) {
+             $scope.credentials.password = '';
+             $scope.credentials.error = result;
+         });
      };
 
      $scope.isDownloaded = function(tvdb_id) {
@@ -26,12 +37,19 @@
          return $scope.tvdbSeries[tvdb_id];
      };
 
+     $scope.isAdded = function(tvdb_id) {
+         return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === false));
+     };
+
+     $scope.isAdding = function(tvdb_id) {
+         return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === true));
+     };
+
+
      $scope.countWatchedEpisodes = function(show) {
+         if (!show.seasons) return 0;
          var count = 0;
          show.seasons.map(function(s) {
-             if (typeof s.episodes[0] == 'object') {
-                 return;
-             }
              count += s.episodes.length;
          });
          //console.log("Counting watched episodes for ", show, count);
@@ -50,55 +68,81 @@
      };
 
      $scope.readTraktTV = function() {
-         TraktTVv2.getUserWatched($scope.credentials.username).then(function(data) {
-             console.info("Found watched from Trakt.TV", data);
-             data.map(function(show) {
+         FavoritesService.getSeries().then(function(series) {
+             series.map(function(serie) {
+                 $scope.tvdbSeries[serie.TVDB_ID] = serie;
+             });
+         })
+         // fetch all watched shows
+         /*
+         .then(TraktTVv2.watched).then(function(shows) {
+             console.info("Found watched from Trakt.TV", shows);
+             Promise.all(shows.map(function(show) {
                  $scope.traktTVSeries.push(show);
-                 if (!(show.tvdb_id in $scope.tvdbSeries)) {
+                 // flag it as added if we already cached it.
+                 if ((show.tvdb_id in $scope.tvdbSeries)) {
+                     $scope.adding[show.tvdb_id] = false;
+                 } else if (!(show.tvdb_id in $scope.tvdbSeries)) {
+                     // otherwise add to favorites, show spinner.
                      $scope.adding[show.tvdb_id] = true;
-
-                     return TraktTVv2.serie(searchResult.slug_id).then(function(serie) {
-                         $scope.tvdbSeries[show.tvdb_id] = serie;
-                         return FavoritesService.addFavorite(serie);
-                     }).then(function(serie) {
+                     $scope.tvdbSeries[show.tvdb_id] = show;
+                     return FavoritesService.addFavorite(show).then(function(serie) {
                          $scope.adding[show.tvdb_id] = false;
-                         show.seasons.map(function(season) {
-                             season.episodes.map(function(episode) {
-                                 CRUD.FindOne('Episode', {
-                                     seasonnumber: season.season,
-                                     episodenumber: episode,
-                                     'Serie': {
-                                         TVDB_ID: show.tvdb_id
-                                     }
-                                 }).then(function(epi) {
-                                     console.info("Episode marked as watched: ", serie.title, epi.getFormattedEpisode());
-                                     epi.markWatched();
-                                 });
-                             });
-                         });
+                         return serie;
                      });
                  }
-             });
-             $scope.traktTVSeries = data;
-         }, function(err) {
-             $scope.pushError = [true, err];
-         });
+             })).then(function() {
+                 // process seasons and episodes marked as watched.
+                 return Promise.all(shows.map(function(show) {
+                     $scope.adding[show.tvdb_id] = true;
+                     return Promise.all(show.seasons.map(function(season) {
+                         return Promise.all(season.episodes.map(function(episode) {
+                             return CRUD.FindOne('Episode', {
+                                 seasonnumber: season.number,
+                                 episodenumber: episode.number,
+                                 'Serie': {
+                                     TVDB_ID: show.tvdb_id
+                                 }
+                             }).then(function(epi) {
+                                 if (!epi) {
+                                     console.log("Episode not found", season.number, 'e', episode.number, ' for ', show.name);
+                                 } else {
+                                     console.info("Episode marked as watched: ", show.name, epi.getFormattedEpisode());
+                                     return epi.markWatched();
+                                 }
+                             });
+                         }));
+                     })).then(function() {
+                         // flag spinner done.
+                         $scope.adding[show.tvdb_id] = false;
+                         $scope.$digest();
+                     });
+                 });
 
-         TraktTVv2.getUserShows($scope.credentials.username).then(function(data) {
+             }));
+         }) */
+
+
+         // user shows times out for me still too often to test proerly
+         .then(TraktTVv2.usershows().then(function(data) {
              console.log("Found user shows from Trakt.tV", data);
              data.map(function(show) {
-                 if ($scope.traktTVSeries.filter(function(el) {
-                     return el.tvdb_id == show.tvdb_id;
-                 }).length === 0) {
-                     return TraktTVv2.serie(show.slug_id).then(function(serie) {
-                         if (!(serie.tvdb_id in $scope.tvdbSeries)) {
-                             $scope.tvdbSeries[show.tvdb_id] = serie;
-                             return FavoritesService.addFavorite(serie);
-                         }
+                 $scope.traktTVSeries.push(show);
+
+                 if (!(show.tvdb_id in $scope.tvdbSeries)) {
+                     $scope.adding[show.tvdb_id] = true;
+                     $scope.$digest();
+                     return FavoritesService.addFavorite(show).then(function() {
+                         $scope.adding[show.tvdb_id] = false;
                      });
+
+                 } else {
+                     $scope.tvdbSeries[show.tvdb_id] = show;
+                     $scope.adding[show.tvdb_id] = false;
                  }
              });
-         });
+         }));
+
      };
 
      $scope.pushToTraktTV = function() {
