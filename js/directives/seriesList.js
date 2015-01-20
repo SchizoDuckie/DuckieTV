@@ -104,6 +104,11 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             $scope.activate = function(el) {
                 iElement.addClass('active');
                 $scope.activated = true;
+
+                $scope.favorites = FavoritesService.refresh().then(function(result) {
+                    return results.map(titleSorter);
+                });
+
                 if (FavoritesService.favorites.length > 0) {
                     $scope.disableAdd(); // disable add mode when the panel is activated every time. But not if favorites list is empty.
                 }
@@ -238,11 +243,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 serie.sortName = serie.name ? serie.name.replace('The ', '') : '';
                 return serie;
             };
-
-            /**
-             * The favorites service fetches data asynchronously via SQLite, we wait for it to emit the favorites:updated event.
-             */
-            $scope.favorites = FavoritesService.favorites.map(titleSorter);
 
             /**
              * Another class could fire an event that says this thing should close.

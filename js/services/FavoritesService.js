@@ -264,7 +264,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
             });
         },
         refresh: function() {
-            service.getSeries().then(function(results) {
+            return service.getSeries().then(function(results) {
                 service.favorites = results;
                 var ids = [];
                 results.map(function(el) {
@@ -273,6 +273,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
                 service.favoriteIDs = ids;
                 $rootScope.$broadcast('favorites:updated', service.favorites);
                 $rootScope.$broadcast('episodes:updated');
+                return service.favorites;
             });
         },
         /**
