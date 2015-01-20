@@ -105,15 +105,13 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 iElement.addClass('active');
                 $scope.activated = true;
 
-                $scope.favorites = FavoritesService.refresh().then(function(result) {
-                    return results.map(titleSorter);
-                });
-
-                if (FavoritesService.favorites.length > 0) {
+                $scope.favorites = FavoritesService.favorites.map(titleSorter);
+                if ($scope.favorites.length > 0) {
                     $scope.disableAdd(); // disable add mode when the panel is activated every time. But not if favorites list is empty.
+                } else {
+                    $scope.enableAdd();
                 }
             };
-
             /**
              * Close the drawer
              */
@@ -260,7 +258,8 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             $rootScope.$on('favorites:updated', function(event, data) {
                 $scope.favorites = FavoritesService.favorites.map(titleSorter);
                 if ($scope.favorites.length === 0) {
-                    $rootScope.$broadcast('serieslist:empty'); // we notify all listening channels that the series list is empty.
+                    $scope.activate();
+                    $scope.enableAdd();
                 }
             });
 
@@ -271,7 +270,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             $rootScope.$on('serieslist:empty', function(event) {
                 console.log("Serieslist empty!!! ");
                 $scope.activate();
-                $scope.enableAdd();
             });
         }
     };
