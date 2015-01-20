@@ -9,17 +9,6 @@
  *
  */
 
-
-/** 
- * Make sure missing timers get restored. Fired when a profile that has this extension installed first starts up.
- */
-chrome.runtime.onStartup.addListener(function() {
-    setTimeout(function() {
-        angular.element(document).injector().get('EventSchedulerService').fixMissingTimers();
-    }, 5000);
-});
-
-
 /** 
  * Make sure migrations don't run on the latest versions.
  */
