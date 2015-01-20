@@ -74,7 +74,7 @@
              });
          })
          // fetch all watched shows
-         /*
+
          .then(TraktTVv2.watched).then(function(shows) {
              console.info("Found watched from Trakt.TV", shows);
              Promise.all(shows.map(function(show) {
@@ -115,12 +115,12 @@
                      })).then(function() {
                          // flag spinner done.
                          $scope.adding[show.tvdb_id] = false;
-                         $scope.$digest();
-                     });
-                 });
 
-             }));
-         }) */
+                     });
+                 }));
+
+             });
+         })
 
 
          // user shows times out for me still too often to test proerly
@@ -131,7 +131,6 @@
 
                  if (!(show.tvdb_id in $scope.tvdbSeries)) {
                      $scope.adding[show.tvdb_id] = true;
-                     $scope.$digest();
                      return FavoritesService.addFavorite(show).then(function() {
                          $scope.adding[show.tvdb_id] = false;
                      });
