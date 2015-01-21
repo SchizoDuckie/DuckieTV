@@ -86,7 +86,7 @@
                      // otherwise add to favorites, show spinner.
                      $scope.adding[show.tvdb_id] = true;
                      $scope.tvdbSeries[show.tvdb_id] = show;
-                     return FavoritesService.addFavorite(show).then(function(serie) {
+                     return TraktTVv2.serie(show.slug_id).then(FavoritesService.addFavorite).then(function(serie) {
                          $scope.adding[show.tvdb_id] = false;
                          return serie;
                      });
@@ -131,7 +131,7 @@
 
                  if (!(show.tvdb_id in $scope.tvdbSeries)) {
                      $scope.adding[show.tvdb_id] = true;
-                     return FavoritesService.addFavorite(show).then(function() {
+                     return TraktTVv2.serie(show.slug_id).then(FavoritesService.addFavorite).then(function() {
                          $scope.adding[show.tvdb_id] = false;
                      });
 

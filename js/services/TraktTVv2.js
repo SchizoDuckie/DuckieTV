@@ -270,7 +270,69 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         },
         updated: function(since) {
             return promiseRequest('updated', since);
-        }
+        },
+        /** 
+         * Mark an episode as watched.
+         * Can be passed either a CRUD entity or a plain series object and an episode.
+         * http://trakt.tv/api-docs/show-episode-seen
+         */
+        markEpisodeWatched: function(serie, episode) {
+            var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
+            var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
+            var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
+
+            $http.post(endpoints.episodeSeen, {
+                ids: {
+                    tvdb: s
+                },
+                episodes: [{
+                    "season": sn,
+                    "episode": en
+                }]
+            }, {
+                headers: {
+                    'trakt-api-key': APIkey,
+                    'trakt-api-version': 2,
+                    'trakt-user-login': localStorage.getItem('trakt.username'),
+                    'trakt-user-token': localStorage.getItem('trakt.token'),
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(function(result) {
+                console.log("Episode watched: ", serie, episode);
+            });
+        },
+        /** 
+         * Mark an episode as not watched.
+         * Can be passed either a CRUD entity or a plain series object and an episode.
+         * http://trakt.tv/api-docs/show-episode-unseen
+         */
+        markEpisodeNotWatched: function(serie, episode) {
+            var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
+            var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
+            var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
+
+            $http.post(endpoints.episodeUnseen, {
+                ids: {
+                    tvdb: s
+                },
+                episodes: [{
+                    "season": sn,
+                    "episode": en
+                }]
+            }, {
+                headers: {
+                    'trakt-api-key': APIkey,
+                    'trakt-api-version': 2,
+                    'trakt-user-login': localStorage.getItem('trakt.username'),
+                    'trakt-user-token': localStorage.getItem('trakt.token'),
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(function(result) {
+                console.log("Episode un-watched: ", serie, episode);
+            });
+        },
 
     };
 
