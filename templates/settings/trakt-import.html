@@ -1,0 +1,69 @@
+<div ng-controller="TraktTVCtrl">
+  
+  <!-- description box -->
+  <div class="alert alert-info" style='margin:20px;text-align:left;white-space:normal'>
+    <div style='float:left; margin-right:20px;'><img src="img/trakt.png"></div>
+    <strong>{{'TRAKTTV/sync/hdr'|translate}}</strong> 
+    {{'TRAKTTV/sync/desc'|translate}}
+
+    <!-- loginn form -->
+    <form name="userCredentials">
+        <table style="margin:20px;">
+          <tr>
+            <td style='padding:10px'>
+              <input type='text' style='background-color: rgba(0,0,0,0.8);' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'TRAKTTV/username/placeholder'|translate}}" />
+            </td>
+            <td style="padding: 10px">
+              <input type='password' style='background-color: rgba(0,0,0,0.8);' name='password' ng-model='credentials.password' placeholder="Trakt.TV {{'TRAKTTV/password/placeholder'|translate}}" />
+            </td>
+            <td style="padding: 10px; text-align:center;">
+              <button ng-click="authorize(credentials.username, credentials.password)" class="btn btn-success">Login to Trakt.TV</button>
+              <button ng-click="clearCredentials()" ng-if="credentials.success" class="btn btn-danger" >{{'TRAKTTV/clear-credentials/btn'|translate}}</button>
+            </td>
+          </tr>
+        </table>
+
+  
+        <p ng-if="credentials.success">
+            <button ng-click="readTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-import/btn'|translate}}</button>
+        </p>
+
+    </form>
+  </div>
+
+   <p class="alert alert-success" role="alert" ng-show="credentials.success != false">TraktTV autohorized.<br>token {{credentials.success}}</p>
+        <p class="alert alert-danger" role="alert" ng-show="credentials.error != false">{{ credentials.error }}</p>
+
+
+  
+  <div class="miniposter" ng-if="traktTVSeries" ng-repeat="serie in traktTVSeries" style="float:left">
+     <serieheader style='display:inline-block; margin:5px;' data="serie" no-overview="1" mode="poster">
+        <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+        <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
+     </serieheader>
+      <small style="display:block">Watched episodes: {{ countWatchedEpisodes(serie) }} </small>
+  </div>
+
+  <div ng-if="!traktTVSuggestions && credentials.passwordHash">
+      <div class="alert alert-info">{{'TRAKTTV/suggestions/alert'|translate}}</p></div>
+      <button ng-click="getUserSuggestions()" class="btn btn-success">{{'TRAKTTV/suggestions-fetch/btn'|translate}}</button>
+  </div>
+  <br>
+  <div class="alert alert-danger" role="alert" ng-show="suggestionError[0]" style="white-space:initial;text-align:left">
+      <strong>{{suggestionError[1].status}} - {{suggestionError[1].statusText}}</strong>
+      {{suggestionError[1].data.status}} - {{suggestionError[1].data.error}}
+  </div>
+  <div ng-if="traktTVLoading && !suggestionError[0]" style='text-align:center; padding: 20px;'>
+      <p>{{'TRAKTTV/please-wait/lbl'|translate}}</p>
+      <img src='img/spinner.gif' >
+  </div>
+  <div class="miniposter" ng-if="traktTVSuggestions">
+    <h1>{{'TRAKTTV/suggestions-fetched/lbl'|translate}}</h1>
+    <p>{{'TRAKTTV/click-add-show/lbl'|translate}}</p>
+     <serieheader style='display:inline-block;margin:5px;cursor:pointer' ng-repeat="serie in traktTVSuggestions" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
+        <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+        <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
+     </serieheader>
+  </div>
+
+</div>

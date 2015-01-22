@@ -1,0 +1,27 @@
+<!-- template/home-series.html -->
+<div>
+    <h2 ng-click="activated ? closeDrawer() : activate()" tooltip="{{'HOMESERIES/hotkey/lbl'|translate}}: alt+s" >
+        <i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
+        <a accesskey="s" ng-if="!activated">{{'HOMESERIES/series-show/glyph'|translate}}</a>
+        <a accesskey="s" ng-if="activated">{{'HOMESERIES/series-hide/glyph'|translate}}</a>
+        <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
+    </h2>
+
+    <div ng-if="activated" ng-class="{duckie: !searchingForSerie}">
+        <!-- The top tools panel for the series list -->
+        <div style='width: 100%; text-align: right;padding: 30px;font-size: 20px;' ng-include="'templates/serieslist/tools.html'">
+
+        </div>
+        <!-- END Tools Panel -->
+
+        <!-- If we're in search/add mode, this panel pops up -->
+        <div ng-if="searchingForSerie" class="series" style='right:350px' ng-include="'templates/serieslist/searching.html'">
+            
+        </div>
+        <!-- END Search/Add Mode -->
+        
+        <div id="favslist" ng-include="'templates/serieslist/favorites.html'">
+          
+        </div>
+    </div>
+</div>

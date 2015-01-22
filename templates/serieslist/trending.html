@@ -1,0 +1,9 @@
+<h1 style='color:white'>{{'HOMESERIES/addtrending-help/hdr'|translate}} - {{'HOMESERIES/addtrending-help-click-to-show/hdr'|translate}}</h1>
+<!-- Trending series loading -->
+<h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>{{'HOMESERIES/addtrending-help-please-wait/hdr'|translate}}</h1>
+
+<!-- Repeated trending serie results -->
+<serieHeader ng-repeat="serie in trending.results track by serie.tvdb_id" ng-mouseenter="setHoverSerie(serie)" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
+    <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+    <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
+</serieHeader>

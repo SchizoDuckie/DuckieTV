@@ -9,7 +9,7 @@
      };
 
      $scope.traktTVSeries = [];
-     $scope.tvdbSeries = {};
+     $scope.localSeries = {};
      $scope.adding = {};
      $scope.traktTVSuggestions = false;
      $scope.pushError = [false, null];
@@ -23,18 +23,20 @@
      $scope.authorize = function(username, password) {
          return TraktTVv2.login(username, password).then(function(result) {
              $scope.credentials.success = result;
+             $scope.credentials.error = false;
          }, function(result) {
+             $scope.credentials.success = false;
              $scope.credentials.password = '';
              $scope.credentials.error = result;
          });
      };
 
      $scope.isDownloaded = function(tvdb_id) {
-         return tvdb_id in $scope.tvdbSeries;
+         return tvdb_id in $scope.localSeries;
      };
 
      $scope.getDownloaded = function(tvdb_id) {
-         return $scope.tvdbSeries[tvdb_id];
+         return $scope.localSeries[tvdb_id];
      };
 
      $scope.isAdded = function(tvdb_id) {
@@ -70,7 +72,7 @@
      $scope.readTraktTV = function() {
          FavoritesService.getSeries().then(function(series) {
              series.map(function(serie) {
-                 $scope.tvdbSeries[serie.TVDB_ID] = serie;
+                 $scope.localSeries[serie.TVDB_ID] = serie;
              });
          })
          // fetch all watched shows
@@ -80,13 +82,16 @@
              Promise.all(shows.map(function(show) {
                  $scope.traktTVSeries.push(show);
                  // flag it as added if we already cached it.
-                 if ((show.tvdb_id in $scope.tvdbSeries)) {
+                 if ((show.tvdb_id in $scope.localSeries)) {
                      $scope.adding[show.tvdb_id] = false;
-                 } else if (!(show.tvdb_id in $scope.tvdbSeries)) {
+                 } else if (!(show.tvdb_id in $scope.localSeries)) {
                      // otherwise add to favorites, show spinner.
                      $scope.adding[show.tvdb_id] = true;
-                     $scope.tvdbSeries[show.tvdb_id] = show;
-                     return TraktTVv2.serie(show.slug_id).then(FavoritesService.addFavorite).then(function(serie) {
+                     return TraktTVv2.serie(show.slug_id).then(function(serie) {
+                         return FavoritesService.addFavorite(serie).then(function(s) {
+                             $scope.localSeries[s.tvdb_id] = s;
+                         });
+                     }).then(function(serie) {
                          $scope.adding[show.tvdb_id] = false;
                          return serie;
                      });
@@ -113,9 +118,7 @@
                              });
                          }));
                      })).then(function() {
-                         // flag spinner done.
                          $scope.adding[show.tvdb_id] = false;
-
                      });
                  }));
 
@@ -129,14 +132,17 @@
              data.map(function(show) {
                  $scope.traktTVSeries.push(show);
 
-                 if (!(show.tvdb_id in $scope.tvdbSeries)) {
+                 if (!(show.tvdb_id in $scope.localSeries)) {
                      $scope.adding[show.tvdb_id] = true;
-                     return TraktTVv2.serie(show.slug_id).then(FavoritesService.addFavorite).then(function() {
+                     return TraktTVv2.serie(show.slug_id).then(function(serie) {
+                         return FavoritesService.addFavorite(serie).then(function(s) {
+                             $scope.localSeries[s.tvdb_id] = s;
+                         });
+                     }).then(function() {
                          $scope.adding[show.tvdb_id] = false;
                      });
 
                  } else {
-                     $scope.tvdbSeries[show.tvdb_id] = show;
                      $scope.adding[show.tvdb_id] = false;
                  }
              });

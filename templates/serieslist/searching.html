@@ -1,0 +1,33 @@
+<div ng-style="{ right: showTrakt ? '350px' : '0px' }">   
+    <h1 style='text-align:center' ng-if="search.searching"><img ng-if="search.searching" src="img/spinner.gif"><br>{{'HOMESERIES/addshow-start-typing/lbl'|translate}}</h1>
+    <!-- Search error panel -->
+    <h1 ng-if="search.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'HOMESERIES/error-with-trakttv/lbl'|translate}}<br>{{ search.error.statusText }} </h1>
+
+    <!-- If no results -->
+    <h1 ng-if="!search.searching && search.results.length == 0">{{'HOMESERIES/no-results/lbl'|translate}}{{search.query}}</h1>
+
+    <!-- Repeated serie search results -->
+    <serieHeader ng-if="search.results" ng-repeat="serie in search.results" data="serie" ng-mouseenter="setHoverSerie(serie)" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)">
+        <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+        <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
+    </serieHeader>
+
+    <!-- no series, show intro text and trakt connect/ backup import -->
+    <p class="alert alert-info" ng-show="favorites.length == 0 && !showTrakt" style='margin:20px;text-align:left;white-space:normal'>
+        <strong>{{'HOMESERIES/series-no/hdr'|translate}}</strong><br>
+        {{'HOMESERIES/series-no/desc'|translate}}<br>
+        <strong style='display:inline'><a href="#/settings/default" style='color:black'>{{'HOMESERIES/import/lbl'|translate}}</a></strong> or <strong  style='display:inline'><button ng-click="showTrakt = true"  style='color:black'>Connect DuckieTV to your Trakt.tv account</button></strong>
+        <div ng-if="showTrakt == true" ng-controller='TraktTVCtrl' ng-include="'templates/settings/trakt-import.html'"></div>
+    </p>
+
+    <!-- Trending series to display while search is empty -->
+    <div ng-if="trendingSeries && !showTrakt" ng-include="'templates/serieslist/trending.html'">
+       
+    </div>
+
+
+
+    <!-- Sidepanel for trending/search mode to display extended serie details -->
+    <serie-details class="sidepanel" ng-show="serie && !showTrakt" template-url="templates/traktSerieDetails.html"></serie-details>
+
+</div>

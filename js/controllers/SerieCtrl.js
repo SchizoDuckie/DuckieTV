@@ -19,7 +19,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
         var allSeasons = [];
 
 
-    function fetchEpisodes(season) {
+        function fetchEpisodes(season) {
             if (!season) return;
             $scope.season = season;
 
@@ -51,22 +51,22 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
             });
         };
 
-        FavoritesService.getById($routeParams.id).then(function(serie) {
-            $scope.serie = serie;
-            $rootScope.$broadcast('serie:load', $scope.serie);
-
-            if (serie.fanart != '') {
-                $rootScope.$broadcast('background:load', serie.fanart);
+        FavoritesService.refresh(true).then(function(series) {
+            $scope.serie = FavoritesService.getById($routeParams.id);
+            if ($scope.serie.fanart != '') {
+                $rootScope.$broadcast('background:load', $scope.serie.fanart);
             };
-            serie.getSeasons().then(function(result) {
+            $scope.serie.getSeasons().then(function(result) {
                 $scope.seasons = result;
             });
-            serie.getLatestSeason().then(function(result) {
+            $scope.serie.getLatestSeason().then(function(result) {
                 $scope.activeSeason = result;
                 fetchEpisodes(result);
             });
-
+            $rootScope.$broadcast('serie:load', $scope.serie);
         });
+
+
 
         $scope.$watch('activeSeason', function(newVal, old) {
             fetchEpisodes(newVal);

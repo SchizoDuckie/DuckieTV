@@ -252,7 +252,7 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
                 localStorage.setItem('trakt.token', result.data.token);
                 return result.data.token;
             }, function(error) {
-                return JSON.stringify(error);
+                throw error.data.message;
             });
         },
         watched: function() {

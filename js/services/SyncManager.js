@@ -89,7 +89,7 @@ angular.module('DuckieTV.providers.syncmanager', [])
                     });
                 });
             }), nonRemote.map(function(TVDB_ID) {
-                return FavoritesService.getById(TVDB_ID).then(showDeleteConfirmDialog);
+    return showDeleteConfirmDialog(FavoritesService.getById(TVDB_ID));
             })).then(function(remapped) {
                 service.isSyncing = false;
                 service.firstRun = false;

@@ -1,0 +1,41 @@
+<!-- Add series button -->
+<a accesskey="a" tooltip="{{'HOMESERIES/addshow-add-to-list/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt+a)" ng-if="!searchingForSerie && mode !== 'search'" ng-click="enableAdd();" style='float:left'>
+    <i class="glyphicon glyphicon-plus-sign"></i> {{'HOMESERIES/addshow-show/glyph'|translate}}
+</a>
+<!-- Disable adding button -->
+<a tooltip="{{'HOMESERIES/addshow-return-to-fav-list/tooltip'|translate}}" ng-if="searchingForSerie == true" ng-click="disableAdd()" style='float:left; line-height:40px'>
+    <i class="glyphicon glyphicon-ok-sign"></i> {{'HOMESERIES/addshow-hide/glyph'|translate}}
+</a>
+
+<!-- Search bar for adding series -->
+<form ng-submit="selectFirstResult()" ng-if="searchingForSerie">
+    <input ng-model="search.query" ng-model-options="{debounce: 500}" placeholder="{{'HOMESERIES/addshow-type-series-name/placeholder'|translate}}" ng-change="findSeries()" focus-watch="'searchingForSerie'" class="form-control" style='float:left; width:50%; margin-left:10px; border:1px solid white;font-size:20px; height:auto; background-color:rgb(17, 17, 17);'>
+    <i ng-show="loadingSeries" class="glyphicon glyphicon-refresh" ></i>
+    <p>{{'HOMESERIES/addshow-protip/lbl'|translate}}</p>
+</form>
+
+<!-- Search bar filtering library -->
+<form ng-submit="execFilter()" ng-if="mode == 'search'">
+    <input type='text' focus-watch="'isFiltering'" placeholder="{{'HOMESERIES/filter-placeholder'|translate}}" ng-change='setFilter(localFilterString)' ng-model='localFilterString' style='float:left; width:45%; padding:5px'>
+</form>
+
+<!--  Make posters smaller button -->
+<a style="position:absolute;top:77px;right:50px;z-index:1" ng-if="!isSmall && mode == 'poster' && !searchingForSerie" ng-click="toggleSmall(true)">
+    <i tooltip="Make posters smaller" style='font-size:24px;' class="glyphicon glyphicon-zoom-out"></i>
+</a>
+<!-- Normal size posters button -->
+<a style="position:absolute;top:77px;right:50px;z-index:1" ng-if="isSmall && mode == 'poster' && !searchingForSerie"  ng-click="toggleSmall(false)">
+    <i style='font-size:24px;' tooltip="Make posters larger" class="glyphicon glyphicon-zoom-in"></i>
+</a>
+<!-- Filter library button -->
+<a tooltip="{{'HOMESERIES/search/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt + / )" accesskey="/" ng-if="!searchingForSerie" ng-click="isFiltering = true; setMode('search',true);">
+    <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'HOMESERIES/filter/glyph'|translate}}
+</a>&nbsp;
+<!-- Banner mode button -->
+<a tooltip="{{'HOMESERIES/list-show-mode/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt + l)" ng-if="!searchingForSerie && mode == 'poster'" accesskey="l" ng-click="setMode('banner');">
+    <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'HOMESERIES/list-show/glyph'|translate}}
+</a>
+<!-- Poster mode button -->
+<a tooltip="{{'HOMESERIES/grid-show-mode/tooltip'|translate}}({{'HOMESERIES/hotkey/lbl'|translate}}: alt + g)" ng-if="!searchingForSerie && mode == 'search' || mode == 'banner'" accesskey="g"  ng-click="setMode('poster');">
+    <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'HOMESERIES/grid-show/glyph'|translate}}
+</a>

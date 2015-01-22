@@ -8,7 +8,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     return {
         restrict: 'E',
         transclude: true,
-        templateUrl: "templates/home-series.html",
+        templateUrl: "templates/seriesList.html",
         link: function($scope, iElement) {
 
             $scope.search = {
@@ -256,11 +256,12 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
              * Otherwise, a random background is automagically loaded.
              */
             $rootScope.$on('favorites:updated', function(event, data) {
-                $scope.favorites = FavoritesService.favorites.map(titleSorter);
+                $scope.favorites = data.map(titleSorter);
                 if ($scope.favorites.length === 0) {
                     $scope.activate();
                     $scope.enableAdd();
                 }
+                $scope.$digest;
             });
 
             /**

@@ -20,7 +20,6 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
             service.favorites[service.favorites.indexOf(existing[0])] = serie;
         }
         service.favoriteIDs.push(serie.TVDB_ID.toString());
-
     };
 
 
@@ -174,15 +173,10 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
                     TVDB_ID: data.tvdb_id
                 });
             }
-            return service.getById(data.tvdb_id).then(function(serie) {
-                    console.log("Favoritesservice.getbyid executed: ", serie);
-                    if (!serie) {
-                        serie = new Serie();
-                    }
-                    fillSerie(serie, data);
-                    return serie.Persist().then(function() {
-                        return serie;
-                    });
+            var serie = service.getById(data.tvdb_id) || new Serie();
+            fillSerie(serie, data);
+            return serie.Persist().then(function() {
+                    return serie;
                 }).then(function(serie) {
                     addToFavoritesList(serie); // cache serie in favoritesservice.favorites
                     $rootScope.$broadcast('background:load', serie.fanart);
@@ -196,13 +190,12 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
                     return updateEpisodes(entity, data.seasons, watched, seasonCache);
                 })
                 .then(function(episodeCache) {
-                    $rootScope.$broadcast('favorites:updated');
+                    $rootScope.$broadcast('favorites:updated', service.favorites);
                     $rootScope.$broadcast('episodes:updated', episodeCache);
                     $rootScope.$broadcast('storage:update');
                     $rootScope.$digest();
                     return entity;
                 });
-
         },
 
         /**
@@ -233,9 +226,14 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
          * Find a serie by it's TVDB_ID (the main identifier for series since they're consistent regardless of local config)
          */
         getById: function(id) {
-            return CRUD.FindOne('Serie', {
-                'TVDB_ID': id
-            });
+            return service.favorites.filter(function(el) {
+                return el.TVDB_ID == id;
+            })[0];
+        },
+        getByID_Serie: function(id) {
+            return service.favorites.filter(function(el) {
+                return el.ID_Serie == id;
+            })[0];
         },
         hasFavorite: function(id) {
             return service.favoriteIDs.indexOf(id) > -1;
@@ -245,25 +243,26 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
          */
         remove: function(serie) {
             console.log("Remove serie from favorites!", serie);
-            this.getById(serie.TVDB_ID).then(function(s) {
-                s.Find('Season').then(function(seasons) {
-                    seasons.map(function(el) {
-                        el.Delete();
-                    });
+            service.getById(serie.TVDB_ID).Find('Season').then(function(seasons) {
+                seasons.map(function(el) {
+                    el.Delete();
                 });
-                CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ' + serie.ID_Serie);
-                s.Delete().then(function() {
-                    $rootScope.$broadcast('calendar:clearcache');
-                    console.log("Serie '" + serie.name + "' deleted. Syncing storage.");
-
-                    $rootScope.$broadcast('storage:update');
-                    service.refresh();
-
+            });
+            CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ' + serie.ID_Serie);
+            delete service.favoriteIDs[serie.getID()];
+            serie.Delete().then(function() {
+                service.favorites = service.favorites.filter(function(el) {
+                    return el.getID() != serie.getID()
                 });
-
+                console.log("Serie '" + serie.name + "' deleted. Syncing storage.");
+                $rootScope.$broadcast('storage:update');
+                $rootScope.$broadcast('favorites:updated', service.favorites);
+                if (service.favorites.length === 0) {
+                    $rootScope.$broadcast('serieslist:empty');
+                }
             });
         },
-        refresh: function() {
+        refresh: function(silent) {
             return service.getSeries().then(function(results) {
                 service.favorites = results;
                 var ids = [];
@@ -274,6 +273,10 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
                 $rootScope.$broadcast('episodes:updated');
                 if (service.favorites.length === 0) {
                     $rootScope.$broadcast('serieslist:empty');
+                } else {
+                    if (!silent) {
+                        $rootScope.$broadcast('favorites:updated', service.favorites);
+                    }
                 }
                 return service.favorites;
             });
@@ -313,5 +316,6 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
         }).then(service.addFavorite);
     });
 
+    service.refresh(false);
     return service;
 });
