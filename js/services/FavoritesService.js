@@ -35,6 +35,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
         data.name = data.title;
         data.airs_dayofweek = data.airs.day;
         data.airs_time = data.airs.time;
+        data.timezone = data.airs.timezone;
         data.firstaired = new Date(data.first_aired).getTime();
         data.rating = Math.round(data.rating * 10);
         data.ratingcount = data.votes;

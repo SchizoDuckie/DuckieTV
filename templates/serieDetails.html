@@ -32,7 +32,7 @@
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/airs-on/hdr'|translate}}</th>
-        <td>{{translateDayOfWeek(serie.airs_dayofweek)}} {{serie.airs_time}} (UTC)</td>
+        <td>{{translateDayOfWeek(serie.airs_dayofweek)}} {{serie.airs_time}} {{serie.timezone}}</td>
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/first-aired/hdr'|translate}}</th>
@@ -52,7 +52,7 @@
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/country/hdr'|translate}}</th>
-        <td>{{serie.language}}</td>
+        <td>{{serie.country}}</td>
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/network/hdr'|translate}}</th>

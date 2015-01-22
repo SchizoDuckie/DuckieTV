@@ -13,7 +13,7 @@
       </tr>
       <tr ng-if="serie.airs.day" >
         <th>{{'SERIEDETAILS/airs-on/hdr'|translate}}</th>
-        <td>{{translateDayOfWeek(serie.airs.day)}} {{serie.airs.time}} (UTC)</td>
+        <td>{{translateDayOfWeek(serie.airs.day)}} {{serie.airs.time}} {{serie.airs.timezone}}</td>
       </tr>
       <tr ng-if="serie.first_aired" >
         <th>{{'SERIEDETAILS/first-aired/hdr'|translate}}</th>
