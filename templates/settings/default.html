@@ -8,25 +8,8 @@
     <th width="150px">
       <strong>{{'DEFAULT/backup/hdr'|translate}}</strong>
     </th>
-    <td ng-controller="BackupCtrl">
-      <h3>{{'DEFAULT/backup/desc'|translate}}</h3>
-      <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()">{{'DEFAULT/backup-create/btn'|translate}}</a>
-      <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}">{{'DEFAULT/backup-download/btn'|translate}}</a>
-
-      <h3>{{'DEFAULT/import/hdr'|translate}}</h3>
-      <div file-input="file" on-change="restore()" style="width:340px"></div>
-      <div style="padding:5px" class="miniposter">
-        <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" mode="poster">
-          <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
-          <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
-        </serieHeader>
-      </div>
-      <p ng-show="log.length > 0">
-        {{'DEFAULT/import/desc'|translate}}
-        <ul style='max-height:150px; overflow-y:auto;'>
-          <li ng-repeat="status in log track by $index">{{status}}</li>
-        </ul>
-      </p>
+    <td ng-controller="BackupCtrl" ng-include="'templates/settings/backup.html'">
+      
     </td>
   </tr>
   <tr ng-if="isSyncSupported()">

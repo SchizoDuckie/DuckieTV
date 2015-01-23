@@ -1,4 +1,4 @@
-angular.module('DuckieTV.controllers.backup', [])
+angular.module('DuckieTV.controllers.backup', ['DuckieTV.providers.filereader'])
 
 /**
  * Handles creating and importing a backup.
@@ -67,11 +67,11 @@ angular.module('DuckieTV.controllers.backup', [])
 
     $scope.isAdded = function(tvdb_id) {
         return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === false))
-    }
+    };
 
     $scope.isAdding = function(tvdb_id) {
         return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === true))
-    }
+    };
 
     /**
      * Read the backup file and feed it to the FavoritesService to resolve and add.
