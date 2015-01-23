@@ -1,7 +1,7 @@
-<div ng-controller="TraktTVCtrl">
+<div ng-controller="TraktTVCtrl" style="margin:20px; margin-bottom:0">
   
   <!-- description box -->
-  <div class="alert alert-info" style='margin:20px;text-align:left;white-space:normal'>
+  <div class="alert alert-info" style='margin-bottom:15px;text-align:left;white-space:normal'>
     <div style='float:left; margin-right:20px;'><img src="img/trakt.png"></div>
     <strong>{{'TRAKTTV/sync/hdr'|translate}}</strong> 
     {{'TRAKTTV/sync/desc'|translate}}
@@ -11,19 +11,18 @@
         <table style="margin:20px;">
           <tr>
             <td style='padding:10px'>
-              <input type='text' style='background-color: rgba(0,0,0,0.8);' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'TRAKTTV/username/placeholder'|translate}}" />
+              <input type='text' style='background-color: rgba(0,0,0,0.8);' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'TRAKTTV/username/placeholder'|translate}}" ng-disabled="credentials.success" />
             </td>
             <td style="padding: 10px">
-              <input type='password' style='background-color: rgba(0,0,0,0.8);' name='password' ng-model='credentials.password' placeholder="Trakt.TV {{'TRAKTTV/password/placeholder'|translate}}" />
+              <input type='password' style='background-color: rgba(0,0,0,0.8);' name='password' ng-model='credentials.password' placeholder="Trakt.TV {{'TRAKTTV/password/placeholder'|translate}}" ng-disabled="credentials.success" />
             </td>
             <td style="padding: 10px; text-align:center;">
-              <button ng-click="authorize(credentials.username, credentials.password)" class="btn btn-success">Login to Trakt.TV</button>
+              <button ng-click="authorize(credentials.username, credentials.password)" class="btn btn-success" ng-disabled="credentials.success">Login to Trakt.TV</button>
               <button ng-click="clearCredentials()" ng-if="credentials.success" class="btn btn-danger" >{{'TRAKTTV/clear-credentials/btn'|translate}}</button>
             </td>
           </tr>
         </table>
 
-  
         <p ng-if="credentials.success">
             <button ng-click="readTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-import/btn'|translate}}</button>
         </p>
@@ -31,8 +30,8 @@
     </form>
   </div>
 
-   <p class="alert alert-success" role="alert" ng-show="credentials.success != false">TraktTV autohorized.<br>token {{credentials.success}}</p>
-        <p class="alert alert-danger" role="alert" ng-show="credentials.error != false">{{ credentials.error }}</p>
+   <p class="alert alert-success" role="alert" ng-show="credentials.success != false" style="white-space:normal"><strong>TraktTV authorized</strong> Token: {{credentials.success}}</p>
+   <p class="alert alert-danger" role="alert" ng-show="credentials.error != false" style="white-space:normal">{{ credentials.error }}</p>
 
 
   

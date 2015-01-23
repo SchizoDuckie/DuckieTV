@@ -17,6 +17,8 @@
 
      $scope.clearCredentials = function() {
          $scope.credentials.error = false;
+         $scope.credentials.success = false;
+         $scope.credentials.username = '';
          localStorage.removeItem('trakt.token');
      };
 
@@ -26,7 +28,7 @@
              $scope.credentials.error = false;
          }, function(result) {
              $scope.credentials.success = false;
-             $scope.credentials.password = '';
+             $scope.credentials.password = null;
              $scope.credentials.error = result;
          });
      };
