@@ -278,7 +278,7 @@ var WatchListObject = CRUD.define({
 
 });
 
-CRUD.DEBUG = true;
+CRUD.DEBUG = false;
 
 CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', {
     estimatedSize: 25 * 1024 * 1024
