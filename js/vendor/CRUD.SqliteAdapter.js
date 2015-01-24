@@ -135,7 +135,6 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         var query = builder.buildQuery();
         var opt = options;
         this.lastQuery = query;
-        var that = this;
 
         CRUD.log("Executing query via sqliteadapter: ", options, query);
         return new Promise(function(resolve, fail) {
@@ -159,25 +158,32 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
     this.Persist = function(what, forceInsert) {
         CRUD.stats.writesQueued++;
         var query = [],
-            valCount = 0,
             values = [],
             valmap = [],
-            names = [],
-            that = this;
+            names = [];
 
-        for (var i in what.changedValues) {
-            if (what.changedValues.hasOwnProperty(i) && what.hasField(i)) {
-                names.push(i);
-                values.push('?');
-                valmap.push(what.changedValues[i] === undefined ? null : CRUD.EntityManager.entities[what.className].autoSerialize.indexOf(i) > -1 ? JSON.stringify(what.changedValues[i]) : what.changedValues[i]);
-            }
-        }
-        var defaults = CRUD.EntityManager.entities[what.className].defaults || {};
-        for (var j in defaults) {
-            names.push(j);
+        // iterate all fields changed 
+        Object.keys(what.changedValues).map(function(field) {
+            names.push(field);
             values.push('?');
-            valmap.push(defaults[j]);
-        }
+            valmap.push(what.changedValues[field]);
+        });
+
+        // add defaults
+        Object.keys(CRUD.EntityManager.entities[what.className].defaultValues).map(function(field) {
+            if (!(field in what.changedValues)) {
+                names.push(field);
+                values.push('?');
+                valmap.push(CRUD.EntityManager.entities[what.className].defaultValues[field]);
+            }
+        });
+
+        // json_encode any fields that are defined as needing serializing
+        CRUD.EntityManager.entities[what.className].autoSerialize.map(function(field) {
+            if (names.indexOf(field) > -1) {
+                valmap[names.indexOf(field)] = JSON.stringify(valmap[names.indexOf(field)]);
+            }
+        });
 
         if (what.getID() === false || undefined === what.getID() || forceInsert) { // new object : insert.
             // insert
@@ -194,16 +200,12 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                 err.values = valmap;
                 return err;
             });
-
         } else { // existing : build an update query.
-            query.push('UPDATE', CRUD.EntityManager.entities[what.className].table, 'SET');
-            for (i = 0; i < names.length; i++) {
-                query.push(names[i] + ' = ?');
-                if (i < names.length - 1) query.push(',');
-            }
+            query.push('UPDATE', CRUD.EntityManager.entities[what.className].table, 'SET', names.map(function(name) {
+                return name + ' = ?';
+            }).join(','));
             valmap.push(what.getID());
             query.push('WHERE', CRUD.EntityManager.getPrimary(what.className), '= ?');
-
             return db.execute(query.join(' '), valmap).then(function(resultSet) {
                 CRUD.stats.writesExecuted++;
                 resultSet.Action = 'updated';
@@ -216,15 +218,9 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
     };
 
     this.Delete = function(what, events) {
-        var query = [],
-            values = [],
-            valmap = [],
-            names = [],
-            that = this;
         if (what.getID() !== false) {
-            // insert
-            query.push('delete from', CRUD.EntityManager.entities[what.className].table, 'where', CRUD.EntityManager.getPrimary(what.className), '= ?');
-            return db.execute(query.join(' '), [what.getID()]).then(function(resultSet) {
+            query = ['delete from', CRUD.EntityManager.entities[what.className].table, 'where', CRUD.EntityManager.getPrimary(what.className), '= ?'].join(' ');
+            return db.execute(query, [what.getID()]).then(function(resultSet) {
                 resultSet.Action = 'deleted';
                 return resultSet;
             }, function(e) {
