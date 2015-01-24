@@ -253,7 +253,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
             delete service.favoriteIDs[serie.getID()];
             serie.Delete().then(function() {
                 service.favorites = service.favorites.filter(function(el) {
-                    return el.getID() != serie.getID()
+                    return el.getID() != serie.getID();
                 });
                 console.log("Serie '" + serie.name + "' deleted. Syncing storage.");
                 $rootScope.$broadcast('storage:update');
