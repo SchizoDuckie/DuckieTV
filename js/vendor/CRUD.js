@@ -39,6 +39,8 @@ CRUD.EntityManager = (new function() {
         table: false,
         primary: false,
         fields: [],
+        indexes: [],
+        autoSerialize: [],
         defaultValues: {},
         adapter: false,
         orderProperty: false,
@@ -76,7 +78,7 @@ CRUD.EntityManager = (new function() {
         if (!className || !this.entities[className]) {
             throw "Invalid className passed to CRUD.EntityManager.getDefaultValues : " + className;
         }
-        return this.entities[className].defaultValues
+        return this.entities[className].defaultValues;
     };
 
     /** 
@@ -322,12 +324,11 @@ CRUD.Entity.prototype = {
      */
     get: function(field, def) {
         if (field in this.changedValues) {
-            return this.changedValues[field];
+            return CRUD.EntityManager.entities[this.className].autoSerialize.indexOf(field) > -1 && this.changedValues[field] != undefined ? (this.changedValues[field][0] == '{' ? JSON.parse(this.changedValues[field]) : null) : this.changedValues[field];
         }
         if (field in this.values || this.hasField(field)) {
-            return this.values[field];
+            return CRUD.EntityManager.entities[this.className].autoSerialize.indexOf(field) > -1 && this.values[field] != undefined ? (this.values[field][0] == '{' ? JSON.parse(this.values[field]) : null) : this.values[field];
         }
-
         CRUD.log("Could not find field '" + field + "' in '" + this.getType() + "' for getting.");
 
     },
@@ -336,7 +337,7 @@ CRUD.Entity.prototype = {
      * Setter, accepts key / value or object with keys/values
      */
     set: function(field, value) {
-        if (typeof field === "object") {
+        if (typeof field === "object" && CRUD.EntityManager.entities[this.className].autoSerialize.indexOf(field) == -1) {
             for (var i in field) {
                 if (field.hasOwnProperty(i) && this.hasField(i)) {
                     this.set(i, field[i]);
@@ -346,7 +347,7 @@ CRUD.Entity.prototype = {
         }
         if (this.hasField(field)) {
             if (this.get(field) !== value && !([null, undefined].indexOf(this.get(field)) > -1 && [null, undefined].indexOf(value) > -1)) {
-                this.changedValues[field] = value;
+                this.changedValues[field] = CRUD.EntityManager.entities[this.className].autoSerialize.indexOf(field) > -1 ? JSON.stringify(value) : value;
                 this._isDirty = true;
             }
         } else if (this._customProperties.indexOf(field) > -1) {
