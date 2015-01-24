@@ -104,7 +104,7 @@ angular.module('DuckieTV.providers.settings', [])
             'torrenting.directory': true,
             'torrenting.enabled': true,
             'torrenting.progress': true,
-            'torrenting.searchprovider': 'OldPirateBay',
+            'torrenting.searchprovider': 'KickassTorrents',
             'torrenting.searchquality': '',
             'torrenting.streaming': true,
             'trakttv.passwordHash': null,

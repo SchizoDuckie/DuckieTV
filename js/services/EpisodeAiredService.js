@@ -14,7 +14,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
     var service = {
         attach: function() {
             console.log('initializing episode aired checker service!');
-            $rootScope.$on('episode:aired:check', function(episode) {
+            $rootScope.$on('episode:aired:check', function() {
                 console.log("Episode air check fired");
 
                 var from = new Date(); // create a date for the from range period
@@ -37,13 +37,18 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
 
                     });
                 });
+                setTimeout(function() {
+                    $rootScope.$broadcast('episode:aired:check');
+                }, 60 * 60 * 2 * 1000);
             });
         },
         autoDownload: function(serie, episode, episodeIndex) {
+
             // fetch the Scene Name for the serie and compile the search string for the episode with the quality requirement.
             var name = SceneNameResolver.getSceneName(serie.get('TVDB_ID')) || serie.get('name');
             var searchString = name.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
-            GenericSearch.search(searchString).then(function(results) { // search torrent provider for the string
+            console.log("Auto download!", searchString);
+            GenericSearch.search(searchString, true).then(function(results) { // search torrent provider for the string
                 if (results.length === 0) {
                     return; // no results, abort
                 }

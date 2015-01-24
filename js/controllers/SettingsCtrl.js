@@ -174,6 +174,9 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $scope.enableAutoDownload = function() {
         SettingsService.set('torrenting.autodownload', true);
+        setTimeout(function() {
+            $rootScope.$broadcast('episode:aired:check');
+        }, 1000);
     };
 
     /**

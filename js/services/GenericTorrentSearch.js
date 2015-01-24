@@ -102,9 +102,11 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
         /**
          * Execute a generic torrent search, parse the results and return them as an array
          */
-        search: function(what) {
+        search: function(what, noCancel) {
             var d = $q.defer();
-            if (activeRequest) activeRequest.resolve();
+            if (noCancel !== true && activeRequest) {
+                activeRequest.resolve();
+            }
             activeRequest = $q.defer();
             $http({
                 method: 'GET',

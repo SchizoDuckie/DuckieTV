@@ -291,18 +291,12 @@ angular.module('DuckieTV', [
 
     StorageSyncService.initialize();
 
-    /** 
-     * Handle background page message passing and broadcast it as an event.
-     * Used to start the remote deletions processing
-     */
-    if ('chrome' in window && 'runtime' in chrome && 'onMessage' in chrome.runtime) {
-        chrome.runtime.onMessage.addListener(function(event, sender, sendResponse) {
-            if (event.channel) {
-                $rootScope.$broadcast(event.channel, event.eventData);
-            }
-        });
+    EpisodeAiredService.attach();
+    if (SettingsService.get('torrenting.autodownload') === true) {
+        setTimeout(function() {
+            $rootScope.$broadcast('episode:aired:check');
+        }, 1000);
     }
-
 
     /** 
      * Hide the favorites list when navigating to a different in-page action.
@@ -346,7 +340,7 @@ angular.module('DuckieTV', [
             s.src = './js/vendor/cast_sender.js';
             document.body.appendChild(s);
         }, 5000);
-    };
+    }
 
     // system tray settings for Standalone
     if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
@@ -374,5 +368,5 @@ angular.module('DuckieTV', [
                 tray = null;
             });
         });
-    };
+    }
 });
