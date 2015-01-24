@@ -302,7 +302,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
         loadRandomBackground: function() {
             // dafuq. no RANDOM() in sqlite in chrome... 
             // then we pick a random array item from the resultset based on the amount.
-            CRUD.EntityManager.getAdapter().db.execute("select fanart from series where fanart != ''").then(function(result) {
+            CRUD.EntityManager.getAdapter().db.execute("select fanart from Series where fanart != ''").then(function(result) {
                 if (result.rs.rows.length > 0) {
                     $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1))).fanart);
                 }
