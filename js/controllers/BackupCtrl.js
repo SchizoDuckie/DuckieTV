@@ -22,7 +22,7 @@ angular.module('DuckieTV.controllers.backup', ['DuckieTV.providers.filereader'])
  *
  *
  */
-.controller('BackupCtrl', function($scope, $rootScope, FileReader, TraktTVv2, FavoritesService, $q) {
+.controller('BackupCtrl', function($scope, $rootScope, FileReader, TraktTVv2, SettingsService, FavoritesService, $q) {
 
     $scope.backupString = false;
     $scope.series = [];
