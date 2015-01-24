@@ -1055,3 +1055,8 @@ query-monitor.show {
     background: #000 url('../img/icon256-inverted.png') no-repeat center !important;
     background-size: contain !important;
 }
+
+.binputhover {
+    background-color: #47a447;
+    border-color: #398439;
+}
