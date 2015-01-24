@@ -13,22 +13,6 @@
     ],
     "background": {
         "scripts": [
-            "js/vendor/promise-3.2.0.js",
-            "js/vendor/CRUD.js",
-            "js/vendor/CRUD.SqliteAdapter.js",
-            "js/CRUD.entities.js",
-            "js/vendor/angular.js",
-            "js/vendor/angular-sanitize.min.js",
-            "js/directives/torrentDialog.js",
-            "js/services/SettingsService.js",
-            "js/services/SceneNameResolver.js",
-            "js/services/EpisodeAiredService.js",
-            "js/services/FavoritesService.js",
-            "js/services/TraktTVv2.js",
-            "js/services/GenericTorrentSearch.js",
-            "js/services/KickassMirrorResolver.js",
-            "js/services/WatchlistCheckerService.js",
-            "js/services/WatchlistService.js",
             "js/background.js",
             "launch.js"
         ],
