@@ -1,17 +1,23 @@
-angular.module('DuckieTV.providers.migrations', [])
-.factory('MigrationService', function() {
+angular.module('DuckieTV.providers.migrations', ['ui.bootstrap.modal'])
+    .factory('MigrationService', function($modal) {
 
-  /*
-   * REMINDER: background.js and launch.js have corresponding migration avoidance dependence
-   */
+        var service = {
 
-  var service = {
+            check: function() {
 
-    check: function() {
-      // no migrations needed for this version
-    }
-  };
+                if (!localStorage.getItem('0.9migration')) {
+                    CRUD.EntityManager.getAdapter().db.execute('drop table if exists EventSchedule');
+                    //localStorage.setItem('0.9migration', true);
+                    $modal.open({
+                        templateUrl: 'templates/upgrade.html',
+                        windowClass: 'dialogs-default',
+                        size: 'lg',
+                    });
+                }
+            }
+        };
 
-  return service;
+        service.check();
+        return service;
 
-})
+    });
