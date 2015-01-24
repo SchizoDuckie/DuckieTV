@@ -89,6 +89,7 @@ angular.module('DuckieTV.controllers.backup', ['DuckieTV.providers.filereader'])
                 angular.forEach(result.settings, function(value, key) {
                     localStorage.setItem(key, value);
                 });
+                SettingsService.restore();
                 angular.forEach(result.series, function(watched, TVDB_ID) {
                     TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
                         return TraktTVv2.serie(searchResult.slug_id);
