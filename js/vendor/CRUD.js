@@ -342,7 +342,7 @@ CRUD.Entity.prototype = {
             if (this.get(field) !== value && !([null, undefined].indexOf(this.get(field)) > -1 && [null, undefined].indexOf(value) > -1)) {
                 if (CRUD.EntityManager.entities[this.className].autoSerialize.indexOf(field) > -1) {
                     if (JSON.stringify(this.get(field)) != JSON.stringify(value)) {
-                        sthis.changedValues[field] = value;
+                        this.changedValues[field] = value;
                         this._isDirty = true;
                     }
                 } else {
