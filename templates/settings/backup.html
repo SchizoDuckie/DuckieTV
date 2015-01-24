@@ -1,14 +1,16 @@
-<DIV ng-controller="BackupCtrl">
+<div ng-controller="BackupCtrl">
   <h3>{{'DEFAULT/backup/desc'|translate}}</h3>
-  <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()">{{'DEFAULT/backup-create/btn'|translate}}</a>
+  <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()" style="width:250px">{{'DEFAULT/backup-create/btn'|translate}}</a>
   <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}">{{'DEFAULT/backup-download/btn'|translate}}</a>
 
   <h3>{{'DEFAULT/import/hdr'|translate}}</h3>
-    <button ng-show="!restoring" class="btn btn-success" style="width: 80%; left: 10%; position: absolute; right: 10%;">Choose a backup to load</button>
-  <input ng-show="!restoring"  file-input="file" on-change="restoring = true; restore()" style="position: absolute; opacity: 0; padding:5px; width: 80%; left: 10%; position: absolute; right: 10%;"></button>
+  <div style="position:relative">
+    <button ng-show="!restoring" class="btn btn-success" style="width:250px" ng-style="inputhover">Choose a backup to load</button>
+    <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute; opacity:0; width:250px; top:0; padding:0; height:100%; cursor: pointer;" ng-mouseenter="inputhover={'background-color':'#47a447','border-color':'#398439'}" ng-mouseleave="inputhover={}"></button>
+  </div>
   <div style="padding:5px" class="miniposter">
-  <h1 ng-if="restoring" style='margin-top: 20px;'>Loading, please wait</h1>
-    <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" mode="poster" ng-mouseenter="setHoverSerie(serie)" >
+    <h1 ng-if="restoring" style='margin-top: 20px;'>Loading, please wait</h1>
+    <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
       <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
       <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
     </serieHeader>
