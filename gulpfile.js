@@ -50,8 +50,7 @@ var deps = ['./js/vendor/promise-3.2.0.js',
     "./js/vendor/dialogs.js",
     "./js/vendor/angular-translate.min.js",
     "./js/vendor/angular-translate-loader-static-files.min.js",
-    "./js/vendor/angular-translate-handler-log.min.js",
-    "./js/vendor/sha1.js"
+    "./js/vendor/angular-translate-handler-log.min.js"
 ];
 
 /**
@@ -69,33 +68,14 @@ var styles = [
  * Minimum app dependencies for background.js
  */
 var background = [
-    "js/vendor/promise-3.2.0.js",
-    "js/vendor/CRUD.js",
-    "js/vendor/CRUD.SqliteAdapter.js",
-    "js/CRUD.entities.js",
-    "js/vendor/angular.min.js",
-    "js/vendor/angular-sanitize.min.js",
-    "js/directives/torrentDialog.js",
-    "js/services/SettingsService.js",
-    "js/services/StorageSyncService.js",
-    "js/services/SceneNameResolver.js",
-    "js/services/EventWatcherService.js",
-    "js/services/EventSchedulerService.js",
-    "js/services/EpisodeAiredService.js",
-    "js/services/FavoritesService.js",
-    "js/services/TraktTV.js",
-    "js/services/GenericTorrentSearch.js",
-    "js/services/KickassMirrorResolver.js",
-    "js/services/WatchlistCheckerService.js",
-    "js/services/WatchlistService.js",
     "js/background.js"
-]
+];
 
 /**
  * Default and depoyment tasks:
  * Concats scripts, dependencies, background page, styles, alters the main template to use dist versions and writes all of this the local dist/ directory
  */
-gulp.task('default', ['concatScripts', 'concatDeps', 'concatBackgroundPage', 'concatStyles', 'launch.js', 'tabTemplate', 'scenenames'], function() {
+gulp.task('default', ['concatScripts', 'concatDeps', 'concatBackgroundPage', 'concatStyles', 'launch.js', 'tabTemplate' /*, 'scenenames'*/ ], function() {
     notify('packaging to dist/ done');
 });
 
@@ -120,7 +100,7 @@ gulp.task('build-standalone', ['deploy'], function() {
     }).catch(function(error) {
         console.error(error);
     });
-})
+});
 
 /**
  * Create a nightly build and immediately deploy it to the webstore
@@ -133,7 +113,7 @@ gulp.task('nightly', function() {
         cwd: process.cwd()
     });
     gulp.start('deploy').start('webstore-nightly');
-})
+});
 
 
 /**
@@ -174,7 +154,7 @@ gulp.task('webstore-nightly', function() {
         var value = el.value.split("Changelog:");
         el.value = value[0] + "Changelog:\r\n* " + c.toString().trim() + "\r\n" + value[1].trim();
     }, [changelog])
-        .click('.id-publish') // hit the publish button
+        .click('.id-publish'); // hit the publish button
     //.end(); // close the browser
 });
 
@@ -189,7 +169,7 @@ gulp.task('webstore-nightly', function() {
  * - copy that file into ../deploy/<flavour>-latest.zip
  */
 gulp.task('deploy', ['zipbrowseraction', 'zipnewtab', 'zipopera'], function() {
-    var latestTag = nightly ? 'nightly' : 'latest;'
+    var latestTag = nightly ? 'nightly' : 'latest';
     gulp.src('../deploy/newtab-' + ver + '.zip')
         .pipe(rename('newtab-' + latestTag + '.zip'))
         .pipe(gulp.dest('../deploy/'));
@@ -215,11 +195,11 @@ gulp.task('scenenames', function() {
             }
         });
         var sceneNameFile = fs.readFileSync('js/services/SceneNameResolver.js');
-        var output = sceneNameFile.toString().replace(/exceptions \= (\{[\s\S]+\})\;/g, 'exceptions = ' + JSON.stringify(output, null, 4) + ';');
+        output = sceneNameFile.toString().replace(/exceptions \= (\{[\s\S]+\})\;/g, 'exceptions = ' + JSON.stringify(output, null, 4) + ';');
         fs.writeFileSync('js/services/SceneNameResolver.js', output);
         notify('SceneNameResolver.js was updated');
-    })
-})
+    });
+});
 
 
 
@@ -243,7 +223,7 @@ gulp.task('concatScripts', function() {
         .pipe(notify({
             message: 'Scripts packaged to dist/app.js'
         }));
-})
+});
 
 /**
  * Concat the dependencies array into a file named dist/deps.js
@@ -257,7 +237,7 @@ gulp.task('concatDeps', function() {
         .pipe(notify({
             message: 'Deps packaged to dist/deps.js'
         }));
-})
+});
 
 /**
  * Concat the background page and it's dependencies into dist/background.js
@@ -271,7 +251,7 @@ gulp.task('concatBackgroundPage', function() {
         .pipe(notify({
             message: 'Background page packaged to dist/background.js'
         }));
-})
+});
 
 /** 
  * Copy launch.js into place
@@ -279,7 +259,7 @@ gulp.task('concatBackgroundPage', function() {
 gulp.task('launch.js', function() {
     return gulp.src(['launch.js', 'package.json'])
         .pipe(gulp.dest('dist/'));
-})
+});
 
 /**
  * Parse tab.html and grab the deploy:replace comments sections.
@@ -292,7 +272,7 @@ gulp.task('tabTemplate', function() {
         .pipe(notify({
             message: 'Tab template deployed'
         }));
-})
+});
 
 /**
  * Concat the styles.js into dist/style.css
@@ -304,7 +284,7 @@ gulp.task('concatStyles', function() {
         .pipe(notify({
             message: 'Styles concatted'
         }));
-})
+});
 
 /**
  * Move print.css into place
@@ -312,7 +292,7 @@ gulp.task('concatStyles', function() {
 gulp.task('print.css', function() {
     return gulp.src('css/print.css')
         .pipe(gulp.dest('dist/'));
-})
+});
 
 /**
  * Deployment and packaging functions
@@ -360,13 +340,13 @@ gulp.task('manifests', ['copychromecast', 'copytab'], function() {
         'indent_char': '\t',
         'indent_size': 1,
         'brace_style': 'end-expand'
-    }
+    };
 
     var noLaunch = function(json) {
         json.version = ver;
         json.background.scripts = ['dist/background.js'];
         return json;
-    }
+    };
 
     /**
      * Modify package.json to remove the whole list of background scripts and replace it with dist version and launch.js
@@ -375,7 +355,7 @@ gulp.task('manifests', ['copychromecast', 'copytab'], function() {
         json.version = ver;
         json.background.scripts = ['dist/background.js', 'dist/launch.js'];
         return json;
-    }
+    };
 
     if (nightly) {
         console.log('nightly mode!');
@@ -411,7 +391,7 @@ gulp.task('manifests', ['copychromecast', 'copytab'], function() {
 gulp.task('zipbrowseraction', ['manifests'], function() {
     return gulp.src('../deploy/browseraction/**')
         .pipe(zip('browseraction-' + ver + '.zip'))
-        .pipe(gulp.dest('../deploy'))
+        .pipe(gulp.dest('../deploy'));
 });
 
 /**
@@ -421,7 +401,7 @@ gulp.task('zipbrowseraction', ['manifests'], function() {
 gulp.task('zipnewtab', ['manifests'], function() {
     return gulp.src('../deploy/newtab/**')
         .pipe(zip('newtab-' + ver + '.zip'))
-        .pipe(gulp.dest('../deploy'))
+        .pipe(gulp.dest('../deploy'));
 });
 
 /**
