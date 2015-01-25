@@ -272,8 +272,10 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
                 });
                 service.favoriteIDs = ids;
                 $rootScope.$broadcast('episodes:updated');
-                if (service.favorites.length === 0) {
-                    $rootScope.$broadcast('serieslist:empty');
+                if (ids.length === 0) {
+                    setTimeout(function() {
+                        $rootScope.$broadcast('serieslist:empty');
+                    }, 0);
                 } else {
                     if (!silent) {
                         $rootScope.$broadcast('favorites:updated', service.favorites);
