@@ -6,7 +6,7 @@
     "SERIESLIST/SEARCHING/addshow-start-typing/lbl": "Start typing to search for shows to add to your favourites list",
     "SERIESLIST/TOOLS/addshow-type-series-name/placeholder": "Type a series name to add to your favourites",
     "SERIESLIST/TRENDING/addtrending-help-click-to-show/hdr": "Click a show to add it to your favourites",
-    "SERIEDETAILS/delete-serie/tooltip": "Remove from favourites",
+    "SERIEDETAILS/delete-serie/btn": "Remove from favourites",
     "SERIESLIST/FAVORITES/delete-serie/tooltip": "Remove from favourites",
     "SERIEDETAILSjs/serie-delete-question/p2": " from your favourites?",
     "SETTINGS/TRAKT-IMPORT/authorized/alert": "authorised",
