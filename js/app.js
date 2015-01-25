@@ -310,11 +310,12 @@ angular.module('DuckieTV', [
      * and forward it to TraktTV if syncing enabled.
      */
     $rootScope.$on('episode:marked:watched', function(evt, episode) {
+        console.log("Mark as watched and sync!");
         if (SettingsService.get('trakttv.sync')) {
             CRUD.FindOne('Serie', {
                 ID_Serie: episode.get('ID_Serie')
             }).then(function(serie) {
-                $injector.get('TraktTV').markEpisodeWatched(serie, episode);
+                $injector.get('TraktTVv2').markEpisodeWatched(serie, episode);
             });
         }
     });
@@ -327,7 +328,7 @@ angular.module('DuckieTV', [
             CRUD.FindOne('Serie', {
                 ID_Serie: episode.get('ID_Serie')
             }).then(function(serie) {
-                $injector.get('TraktTV').markEpisodeNotWatched(serie, episode);
+                $injector.get('TraktTVv2').markEpisodeNotWatched(serie, episode);
             });
         }
     });

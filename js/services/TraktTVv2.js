@@ -26,6 +26,8 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         watched: 'sync/watched/shows?extended=full,images&limit=10000',
         usershows: 'users/%s/collection/shows?extended=full,images&limit=10000',
         updated: 'shows/updates/%s?limit=10000',
+        episodeSeen: 'https://api.trakt.tv/sync/history',
+        episodeUnseen: 'https://api.trakt.tv/sync/history/remove'
     };
 
     var parsers = {
@@ -282,12 +284,16 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
 
             $http.post(endpoints.episodeSeen, {
-                ids: {
-                    tvdb: s
-                },
-                episodes: [{
-                    "season": sn,
-                    "episode": en
+                shows: [{
+                    ids: {
+                        tvdb: s
+                    },
+                    seasons: [{
+                        number: sn,
+                        episodes: [{
+                            number: en
+                        }]
+                    }]
                 }]
             }, {
                 headers: {
@@ -313,12 +319,16 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
 
             $http.post(endpoints.episodeUnseen, {
-                ids: {
-                    tvdb: s
-                },
-                episodes: [{
-                    "season": sn,
-                    "episode": en
+                shows: [{
+                    ids: {
+                        tvdb: s
+                    },
+                    seasons: [{
+                        number: sn,
+                        episodes: [{
+                            number: en
+                        }]
+                    }]
                 }]
             }, {
                 headers: {

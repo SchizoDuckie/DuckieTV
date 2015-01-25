@@ -19,12 +19,14 @@
             <td style="padding: 10px; text-align:center;">
               <button ng-click="authorize(credentials.username, credentials.password)" class="btn btn-success" ng-disabled="credentials.success">Login to Trakt.TV</button>
               <button ng-click="clearCredentials()" ng-if="credentials.success" class="btn btn-danger" >{{'TRAKTTV/clear-credentials/btn'|translate}}</button>
+             
             </td>
           </tr>
         </table>
 
         <p ng-if="credentials.success">
-            <button ng-click="readTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-import/btn'|translate}}</button>
+            <button ng-click="readTraktTV()" class="btn btn-success">{{'TRAKTTV/sync-import/btn'|translate}}</button>  <button class="btn btn-success" ng-if="credentials.success && !getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',true)">{{'TRAKTTV/sync-enabled/btn'|translate}}</button>
+            <button class="btn btn-danger" ng-if="credentials.success && getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',false)">{{'TRAKTTV/sync-disabled/btn'|translate}}</button>
         </p>
 
     </form>

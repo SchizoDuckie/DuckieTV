@@ -307,7 +307,6 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
                     $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1))).fanart);
                 }
             });
-
         }
     };
 
