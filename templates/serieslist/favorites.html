@@ -8,7 +8,7 @@
 <!-- Display favourites in selected mode -->
 <div class="series" ng-if="activated && !searchingForSerie && mode != 'search'" ng-class="{'miniposter': isSmall}">
     <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName'" data="serie" no-overview="1" mode="{{mode}}">   
-        <em class="earmark refresh" tooltip="Refresh" ng-click='refresh(serie)'>
+        <em class="earmark refresh" tooltip="{{'SERIESLIST/FAVORITES/refresh-serie/tooltip'|translate}}" ng-click='refresh(serie)'>
             <i ng-show="!isAdding(serie.TVDB_ID)" class="glyphicon glyphicon-refresh"></i>
             <img ng-show="isAdding(serie.TVDB_ID)" src="img/spinner.gif" width="37px" height="37px"></em>
         </em>
