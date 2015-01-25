@@ -300,4 +300,3 @@
         }
     ]
 }, {}, [6]);
-//# sourceMappingURL=/polyfills/promise-6.0.0.min.js.map
