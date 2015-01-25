@@ -164,7 +164,7 @@ serieheader[mode='poster'] {
     display:inline-block;
     height: 250px;
     margin:0px 11px 2px 11px;
-    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(255,255,255,0.2)));
+    overflow:hidden;
 }
 .series serieheader[mode='poster'] > div {
     background-color: transparent;
@@ -224,7 +224,6 @@ serieheader .poster {
     background-size: 100% 100%;
     width: 163px;
     background-position: center center;
-    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(255,255,255,0.2)));
 }
 .col-md-4 serieheader .poster {
     width: 150px;
@@ -307,7 +306,7 @@ series-list {
     height: calc(100% - 40px);
     left: 0px;
     right: 0px;
-    background-color: rgba(0, 0, 0, 1);
+    background-color: rgba(0, 0, 0, 0.9);
     border-top: 1px solid white;
     z-index: 200;
     -webkit-transition: -webkit-transform 0.5s ease-in;
