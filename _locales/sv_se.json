@@ -138,6 +138,7 @@
     "SERIEDETAILSjs/serie-delete-question/p2": "  från dina favoriter? ",
     "SERIEDETAILSjs/serie-delete/hdr": "Radera serie? ",
     "SERIESLIST/FAVORITES/delete-serie/tooltip": "Ta bort från favoriter ",
+    "SERIESLIST/FAVORITES/refresh-serie/tooltip": "Uppdatera",
     "SERIESLIST/SEARCHING/addshow-start-typing/lbl": "Börja skriva för att söka efter program att lägga till i din favoritlista ",
     "SERIESLIST/SEARCHING/connect-to-traktTV/btn": "Anslut DuckieTV till ditt Trakt.tv konto",
     "SERIESLIST/SEARCHING/error-with-trakttv/lbl": "Det uppstod ett fel kontaktar Trakt.TV, kan det vara nere. Försök igen senare.",

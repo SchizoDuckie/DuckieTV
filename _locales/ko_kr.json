@@ -138,6 +138,7 @@
     "SERIEDETAILSjs/serie-delete-question/p2": "  즐겨 찾기에서? ",
     "SERIEDETAILSjs/serie-delete/hdr": "세리을 삭제 하시겠습니까? ",
     "SERIESLIST/FAVORITES/delete-serie/tooltip": "즐겨 찾기에서 제거 ",
+    "SERIESLIST/FAVORITES/refresh-serie/tooltip": "새로 고침",
     "SERIESLIST/SEARCHING/addshow-start-typing/lbl": "즐겨 찾기 목록에 추가 할 쇼를 검색하는 입력을 시작 ",
     "SERIESLIST/SEARCHING/connect-to-traktTV/btn": "당신의 Trakt.tv 계정에 DuckieTV 연결",
     "SERIESLIST/SEARCHING/error-with-trakttv/lbl": "Trakt.TV 문의 오류가 발생했습니다, 그것은 아래로 수 있습니다. 나중에 다시 시도하십시오.",

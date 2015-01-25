@@ -138,6 +138,7 @@
     "SERIEDETAILSjs/serie-delete-question/p2": "  dos seus favoritos? ",
     "SERIEDETAILSjs/serie-delete/hdr": "Excluir serie? ",
     "SERIESLIST/FAVORITES/delete-serie/tooltip": "Remover dos favoritos ",
+    "SERIESLIST/FAVORITES/refresh-serie/tooltip": "Refrescar",
     "SERIESLIST/SEARCHING/addshow-start-typing/lbl": "Comece a digitar para procurar shows para adicionar à sua lista de favoritos ",
     "SERIESLIST/SEARCHING/connect-to-traktTV/btn": "Conecte-se à sua conta DuckieTV Trakt.tv",
     "SERIESLIST/SEARCHING/error-with-trakttv/lbl": "Houve um erro ao entrar em contato com Trakt.TV, pode ser para baixo. Por favor, tente novamente mais tarde.",

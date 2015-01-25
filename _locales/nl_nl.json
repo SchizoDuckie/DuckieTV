@@ -138,6 +138,7 @@
     "SERIEDETAILSjs/serie-delete-question/p2": " uit je favorieten wilt verwijderen?",
     "SERIEDETAILSjs/serie-delete/hdr": "Serie verwijderen?",
     "SERIESLIST/FAVORITES/delete-serie/tooltip": "Verwijderen uit favorieten",
+    "SERIESLIST/FAVORITES/refresh-serie/tooltip": "Verfrissen",
     "SERIESLIST/SEARCHING/addshow-start-typing/lbl": "Start met typen om een TV-Show te zoeken om toe te voegen aan favorieten lijst",
     "SERIESLIST/SEARCHING/connect-to-traktTV/btn": "Sluit DuckieTV uw Trakt.tv rekening",
     "SERIESLIST/SEARCHING/error-with-trakttv/lbl": "Er is een fout opgetreden bij het contacteren van Trakt.TV. Probeer het later opnieuw.",
