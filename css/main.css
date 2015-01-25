@@ -290,12 +290,23 @@ serieheader em.earmark.delete {
     -webkit-transition: all 1s ease-in;
     -webkit-transform: translateX(100px);
 }
+
+serieheader em.earmark.refresh {
+    bottom: 0px;
+    left: 0px;
+    right: initial;
+    cursor: pointer;
+    -webkit-transition: all 1s ease-in;
+    -webkit-transform: translateX(-100px);
+}
+
+
 serieheader em.earmark.delete i.glyphicon {
     display: initial;
     top: -1px;
     vertical-align: middle;
 }
-serieheader:hover em.earmark.delete {
+serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
     -webkit-transform: translateX(0);
 }
 
