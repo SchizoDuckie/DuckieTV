@@ -1,9 +1,9 @@
-<!-- template/home-series.html -->
+<!-- seriesList.html -->
 <div>
-    <h2 ng-click="activated ? closeDrawer() : activate()" tooltip="{{'HOMESERIES/hotkey/lbl'|translate}}: alt+s" >
+    <h2 ng-click="activated ? closeDrawer() : activate()" tooltip="{{'SERIESLIST/hotkey/lbl'|translate}}: alt+s" >
         <i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
-        <a accesskey="s" ng-if="!activated">{{'HOMESERIES/series-show/glyph'|translate}}</a>
-        <a accesskey="s" ng-if="activated">{{'HOMESERIES/series-hide/glyph'|translate}}</a>
+        <a accesskey="s" ng-if="!activated">{{'SERIESLIST/series-show/glyph'|translate}}</a>
+        <a accesskey="s" ng-if="activated">{{'SERIESLIST/series-hide/glyph'|translate}}</a>
         <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
     </h2>
 

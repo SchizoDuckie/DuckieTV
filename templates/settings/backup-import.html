@@ -1,8 +1,9 @@
+<!-- settings\backup-import.html -->
  <div ng-controller='BackupCtrl' style='postition: relative;'>
-  <button ng-show="!restoring" class="btn btn-success" style="width: 80%; left: 10%; position: absolute; right: 10%;">Choose a backup to load</button>
+  <button ng-show="!restoring" class="btn btn-success" style="width: 80%; left: 10%; position: absolute; right: 10%;">{{'SETTINGS/BACKUP-IMPORT/choose-backup-load/btn|translate}}</button>
   <input ng-show="!restoring"  file-input="file" on-change="restoring = true; restore()" style="position: absolute; opacity: 0; padding:5px; width: 80%; left: 10%; position: absolute; right: 10%;"></button>
   <div style="padding:5px" class="miniposter">
-  <h1 ng-if="restoring" style='margin-top: 20px;'>Loading, please wait</h1>
+  <h1 ng-if="restoring" style='margin-top: 20px;'>{{'SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl|translate}}</h1>
     <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" mode="poster" ng-mouseenter="setHoverSerie(serie)" >
       <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
       <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>

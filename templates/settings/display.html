@@ -1,47 +1,47 @@
 <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;' ng-controller="DisplayCtrl">
   <tr>
     <th width="150px" style="border:0">
-      <strong style='white-space:nowrap; display:block;'>{{'DISPLAY/locale/hdr'|translate}}</strong>
+      <strong style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/locale/hdr'|translate}}</strong>
       <p class="label label-success">{{getSetting('application.locale')}}</p>
     </th>
     <td style="border:0">
-      <p class="alert alert-info">{{'DISPLAY/locale/alert'|translate}}</p>
+      <p class="alert alert-info">{{'SETTINGS/DISPLAY/locale/alert'|translate}}</p>
       <ul class="list-unstyled">
          <li ng-click="setLocale(getSetting('client.determinedlocale'))" class="list-unstyled" style="cursor:pointer">
           <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != getSetting('client.determinedlocale'), 'glyphicon-record': activeLocale == getSetting('client.determinedlocale')}"></i>
           <i class="flag flag-{{ getSetting('client.determinedlocale') }}"></i> 
-          {{ getSetting('client.determinedlocale') }} {{ 'DISPLAY/locale-default/lbl' | translate }}
+          {{ getSetting('client.determinedlocale') }} {{ 'SETTINGS/DISPLAY/locale-default/lbl' | translate }}
         </li>
         <li ng-repeat="(locale, name) in languageList" ng-click="setLocale(locale)" class="list-unstyled" style="cursor:pointer">
           <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != locale, 'glyphicon-record': activeLocale == locale}"></i>
           <i class="flag flag-{{ locale }}"></i> 
-          {{ 'DISPLAY/locale/'+name | translate }}
+          {{ 'SETTINGS/DISPLAY/locale/'+name | translate }}
         </li>
       </ul>
     </td>
   </tr>
     <tr ng-show="hasTopSites">
     <th width="150px">
-      <strong style='white-space:nowrap; display:block;'>{{'DEFAULT/topsites/hdr'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('topSites.enabled')">{{'DEFAULT/sync-enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">{{'DEFAULT/sync-disabled/lbl'|translate}}</p>
+      <strong style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/topsites/hdr'|translate}}</strong>
+      <p class="label label-success" ng-show="getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/sync-enabled/lbl'|translate}}</p>
+      <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/sync-disabled/lbl'|translate}}</p>
       <br>
-      <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onhover'">{{'DEFAULT/topsites-mode-hover/lbl'|translate}}</p>
-      <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onclick'">{{'DEFAULT/topsites-mode-click/lbl'|translate}}</p>
+      <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onhover'">{{'SETTINGS/DISPLAY/topsites-mode-hover/lbl'|translate}}</p>
+      <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onclick'">{{'SETTINGS/DISPLAY/topsites-mode-click/lbl'|translate}}</p>
     </th>
     <td>
       <ul class="list-unstyled">
         <li>
-          <p ng-show="!getSetting('topSites.enabled')" class="alert alert-info">{{'DEFAULT/topsites-show/alert'|translate}}</p>
-          <p ng-show="getSetting('topSites.enabled')" class="alert alert-warning">{{'DEFAULT/topsites-hide/alert'|translate}}</p>
-          <button ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">{{'DEFAULT/topsites-show/btn'|translate}}</button>
-          <button ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">{{'DEFAULT/topsites-hide/btn'|translate}}</button>
+          <p ng-show="!getSetting('topSites.enabled')" class="alert alert-info">{{'SETTINGS/DISPLAY/topsites-show/alert'|translate}}</p>
+          <p ng-show="getSetting('topSites.enabled')" class="alert alert-warning">{{'SETTINGS/DISPLAY/topsites-hide/alert'|translate}}</p>
+          <button ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">{{'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</button>
+          <button ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">{{'SETTINGS/DISPLAY/topsites-hide/btn'|translate}}</button>
         </li><br>
         <li ng-show="getSetting('topSites.enabled')" style="padding-top:4px">
-          <p ng-show="getSetting('topSites.mode') == 'onhover'" class="alert alert-info">{{'DEFAULT/topsites-mode-click/alert'|translate}}</p>
-          <p ng-show="getSetting('topSites.mode') == 'onclick'" class="alert alert-warning">{{'DEFAULT/topsites-mode-hover/alert'|translate}}</p>
-          <button ng-show="getSetting('topSites.mode') == 'onhover'" ng-click="setSetting('topSites.mode', 'onclick')" class="btn btn-success">{{'DEFAULT/topsites-mode-click/btn'|translate}}</button>
-          <button ng-show="getSetting('topSites.mode') == 'onclick'" ng-click="setSetting('topSites.mode', 'onhover')" class="btn btn-danger">{{'DEFAULT/topsites-mode-hover/btn'|translate}}</button>
+          <p ng-show="getSetting('topSites.mode') == 'onhover'" class="alert alert-info">{{'SETTINGS/DISPLAY/topsites-mode-click/alert'|translate}}</p>
+          <p ng-show="getSetting('topSites.mode') == 'onclick'" class="alert alert-warning">{{'SETTINGS/DISPLAY/topsites-mode-hover/alert'|translate}}</p>
+          <button ng-show="getSetting('topSites.mode') == 'onhover'" ng-click="setSetting('topSites.mode', 'onclick')" class="btn btn-success">{{'SETTINGS/DISPLAY/topsites-mode-click/btn'|translate}}</button>
+          <button ng-show="getSetting('topSites.mode') == 'onclick'" ng-click="setSetting('topSites.mode', 'onhover')" class="btn btn-danger">{{'SETTINGS/DISPLAY/topsites-mode-hover/btn'|translate}}</button>
         </li>
       </ul>
     </td>
@@ -49,54 +49,54 @@
   <tr>
     <th width="150px">
       <strong style='white-space:nowrap; display:block;'>{{'CALENDAR/hdr'|translate}}</strong>
-      <p class="label label-info" ng-show="getSetting('calendar.startSunday')">{{'DEFAULT/calendar-start-sun/lbl'|translate}}</p>
-      <p class="label label-success" ng-show="!getSetting('calendar.startSunday')">{{'DEFAULT/calendar-start-mon/lbl'|translate}}</p>
-      <p class="label label-info" ng-show="getSetting('calendar.mode') == 'week'">{{'DEFAULT/calendar-mode-week/lbl'|translate}}</p>
-      <p class="label label-success" ng-show="getSetting('calendar.mode') == 'date'">{{'DEFAULT/calendar-mode-month/lbl'|translate}}</p>
+      <p class="label label-info" ng-show="getSetting('calendar.startSunday')">{{'SETTINGS/DISPLAY/calendar-start-sun/lbl'|translate}}</p>
+      <p class="label label-success" ng-show="!getSetting('calendar.startSunday')">{{'SETTINGS/DISPLAY/calendar-start-mon/lbl'|translate}}</p>
+      <p class="label label-info" ng-show="getSetting('calendar.mode') == 'week'">{{'SETTINGS/DISPLAY/calendar-mode-week/lbl'|translate}}</p>
+      <p class="label label-success" ng-show="getSetting('calendar.mode') == 'date'">{{'SETTINGS/DISPLAY/calendar-mode-month/lbl'|translate}}</p>
     </th>
     <td>
       <ul class="list-unstyled">
         <li>
-          <p class="alert alert-info">{{'DEFAULT/calendar-start/alert'|translate}}</p>
+          <p class="alert alert-info">{{'SETTINGS/DISPLAY/calendar-start/alert'|translate}}</p>
 
-          <button ng-show="!getSetting('calendar.startSunday')" ng-click="enableSetting('calendar.startSunday')" class="btn btn-info">{{'DEFAULT/calendar-start-sun/btn'|translate}}</button>
-          <button ng-show="getSetting('calendar.startSunday')" ng-click="disableSetting('calendar.startSunday')" class="btn btn-success">{{'DEFAULT/calendar-start-mon/btn'|translate}}</button>
+          <button ng-show="!getSetting('calendar.startSunday')" ng-click="enableSetting('calendar.startSunday')" class="btn btn-info">{{'SETTINGS/DISPLAY/calendar-start-sun/btn'|translate}}</button>
+          <button ng-show="getSetting('calendar.startSunday')" ng-click="disableSetting('calendar.startSunday')" class="btn btn-success">{{'SETTINGS/DISPLAY/calendar-start-mon/btn'|translate}}</button>
         </li><br>
         <li>
-          <p class="alert alert-info">{{'DEFAULT/calendar-mode/alert'|translate}}</p>
+          <p class="alert alert-info">{{'SETTINGS/DISPLAY/calendar-mode/alert'|translate}}</p>
 
-          <button ng-show="getSetting('calendar.mode') == 'date'" ng-click="setSetting('calendar.mode', 'week')" class="btn btn-info">{{'DEFAULT/calendar-mode-week/btn'|translate}}</button>
-          <button ng-show="getSetting('calendar.mode') == 'week'" ng-click="setSetting('calendar.mode', 'date')" class="btn btn-success">{{'DEFAULT/calendar-mode-month/btn'|translate}}</button>
+          <button ng-show="getSetting('calendar.mode') == 'date'" ng-click="setSetting('calendar.mode', 'week')" class="btn btn-info">{{'SETTINGS/DISPLAY/calendar-mode-week/btn'|translate}}</button>
+          <button ng-show="getSetting('calendar.mode') == 'week'" ng-click="setSetting('calendar.mode', 'date')" class="btn btn-success">{{'SETTINGS/DISPLAY/calendar-mode-month/btn'|translate}}</button>
         </li>
       </ul>
     </td>
   </tr>
   <tr>
     <th width="150px">
-      <strong style='white-space:nowrap; display:block;'>{{'DEFAULT/calendar-specials/hdr'|translate}}</strong>
-      <p class="label label-danger" ng-show="!getSetting('calendar.show-specials')">{{'DEFAULT/calendar-specials-hide/lbl'|translate}}</p>
-      <p class="label label-success" ng-show="getSetting('calendar.show-specials')">{{'DEFAULT/calendar-specials-show/lbl'|translate}}</p>
+      <strong style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/calendar-specials/hdr'|translate}}</strong>
+      <p class="label label-danger" ng-show="!getSetting('calendar.show-specials')">{{'SETTINGS/DISPLAY/calendar-specials-hide/lbl'|translate}}</p>
+      <p class="label label-success" ng-show="getSetting('calendar.show-specials')">{{'SETTINGS/DISPLAY/calendar-specials-show/lbl'|translate}}</p>
     </th>
     <td>
       <ul class="list-unstyled">
         <li>
-          <p class="alert alert-info">{{'DEFAULT/calendar-specials/alert'|translate}}</p>
+          <p class="alert alert-info">{{'SETTINGS/DISPLAY/calendar-specials/alert'|translate}}</p>
 
-          <button ng-show="!getSetting('calendar.show-specials')" ng-click="enableSpecials()" class="btn btn-success">{{'DEFAULT/calendar-specials-show/btn'|translate}}</button>
-          <button ng-show="getSetting('calendar.show-specials')" ng-click="disableSpecials()" class="btn btn-danger">{{'DEFAULT/calendar-specials-hide/btn'|translate}}</button>
+          <button ng-show="!getSetting('calendar.show-specials')" ng-click="enableSpecials()" class="btn btn-success">{{'SETTINGS/DISPLAY/calendar-specials-show/btn'|translate}}</button>
+          <button ng-show="getSetting('calendar.show-specials')" ng-click="disableSpecials()" class="btn btn-danger">{{'SETTINGS/DISPLAY/calendar-specials-hide/btn'|translate}}</button>
         </li>
       </ul>
     </td>
   </tr> 
   <tr>
     <th width="150px" style="border:0">
-      <strong style='white-space:nowrap; display:block;'>{{'DISPLAY/background-opacity/hdr'|translate}}</strong>
-      <p class="label label-success">{{'DISPLAY/current-opacity/lbl'|translate}}: {{100*getSetting('background-rotator.opacity')}}%</p>
+      <strong style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/background-opacity/hdr'|translate}}</strong>
+      <p class="label label-success">{{'SETTINGS/DISPLAY/current-opacity/lbl'|translate}}: {{100*getSetting('background-rotator.opacity')}}%</p>
     </th>
     <td style="border:0">
       <ul class="list-unstyled">
         <li>
-          <p class="alert alert-info">{{'DISPLAY/background-opacity/alert'|translate}}</p>
+          <p class="alert alert-info">{{'SETTINGS/DISPLAY/background-opacity/alert'|translate}}</p>
           <button ng-click="setBGOpacity('0.0')" class="btn" ng-class="{'btn-info': bgopacity != '0.0', 'btn-success': bgopacity == '0.0'}">0%</button>
           <button ng-click="setBGOpacity('0.1')" class="btn" ng-class="{'btn-info': bgopacity != '0.1', 'btn-success': bgopacity == '0.1'}">10%</button>
           <button ng-click="setBGOpacity('0.2')" class="btn" ng-class="{'btn-info': bgopacity != '0.2', 'btn-success': bgopacity == '0.2'}">20%</button>

@@ -1,13 +1,14 @@
 {
     "LOCALE": "British English",
-    "HOMESERIES/addshow-add-to-list/tooltip": "Add series to your favourites list ",
-    "HOMESERIES/addshow-protip/lbl": "Pro Tip: Hit [return] to add the first search result to your favourites",
-    "HOMESERIES/addshow-return-to-fav-list/tooltip": "Click to return to your favourites list",
-    "HOMESERIES/addshow-start-typing/lbl": "Start typing to search for shows to add to your favourites list",
-    "HOMESERIES/addshow-type-series-name/placeholder": "Type a series name to add to your favourites",
-    "HOMESERIES/addtrending-help-click-to-hide/hdr": "Click 'Hide trending shows' to go back to your favourites list",
-    "HOMESERIES/addtrending-help-click-to-show/hdr": "Click a show to add it to your favourites",
-    "SERIEDETAILS/delete-serie/btn": "Remove from favourites",
+    "SERIESLIST/TOOLS/addshow-add-to-list/tooltip": "Add series to your favourites list ",
+    "SERIESLIST/TOOLS/addshow-protip/lbl": "Pro Tip: Hit [return] to add the first search result to your favourites",
+    "SERIESLIST/TOOLS/addshow-return-to-fav-list/tooltip": "Click to return to your favourites list",
+    "SERIESLIST/SEARCHING/addshow-start-typing/lbl": "Start typing to search for shows to add to your favourites list",
+    "SERIESLIST/TOOLS/addshow-type-series-name/placeholder": "Type a series name to add to your favourites",
+    "SERIESLIST/TRENDING/addtrending-help-click-to-show/hdr": "Click a show to add it to your favourites",
+    "SERIEDETAILS/delete-serie/tooltip": "Remove from favourites",
+    "SERIESLIST/FAVORITES/delete-serie/tooltip": "Remove from favourites",
     "SERIEDETAILSjs/serie-delete-question/p2": " from your favourites?",
-    "TRAKTTV/sync/desc": "If you have a Trakt.TV account, you can have DuckieTV automatically fill itself by passing your credentials below.\n All your favourite shows and watched episodes will be fetched and added to your favourites list.\n\n If you enable Trakt.TV Sync all shows that you add and episodes that you mark watched in DuckieTV will automatically synced to your Trakt.TV account."
+    "SETTINGS/TRAKT-IMPORT/authorized/alert": "authorised",
+    "SETTINGS/TRAKT-IMPORT/sync/desc": "If you have a Trakt.TV account, you can have DuckieTV automatically fill itself by passing your credentials below.\n All your favourite shows and watched episodes will be fetched and added to your favourites list.\n\n If you enable Trakt.TV Sync all shows that you add and episodes that you mark watched in DuckieTV will automatically synced to your Trakt.TV account."
 }

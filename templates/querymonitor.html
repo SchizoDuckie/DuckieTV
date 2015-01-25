@@ -1,10 +1,11 @@
+<!-- querymonitor.html -->
 <div>
 <i class="glyphicon glyphicon-info-sign"></i>
-Writing to db: {{queryStats.writesExecuted}}/{{queryStats.writesQueued}}
+{{'QUERYMONITOR/writing/lbl'|translate}}: {{queryStats.writesExecuted}}/{{queryStats.writesQueued}}
  <div class="progress-striped progress" class='active' >
     <span ng-if="queryStats.writesQueued != queryStats.writesExecuted"></span>
     <div class="progress-bar progress-bar-success" ng-style="{ width: progress + '%' }">&nbsp;
     </div>
   </div>
-  <small>Please don't close DuckieTV until this is done</small>
+  <small>{{'QUERYMONITOR/please-wait/lbl'|translate}}</small>
 </div>

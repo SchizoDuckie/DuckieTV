@@ -1,31 +1,31 @@
 <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;' ng-controller="DefaultCtrl">
   <tr>
     <td colspan="2" style="border:0">
-      <p class="alert alert-info"><strong>{{'DEFAULT/manual/hdr'|translate}}</strong>{{'DEFAULT/manual/desc'|translate}}</p>
+      <p class="alert alert-info"><strong>{{'SETTINGS/DEFAULT/manual/hdr'|translate}}</strong>{{'SETTINGS/DEFAULT/manual/desc'|translate}}</p>
     </td>
   </tr>
   <tr>
     <th width="150px">
-      <strong>{{'DEFAULT/backup/hdr'|translate}}</strong>
+      <strong>{{'SETTINGS/DEFAULT/backup/hdr'|translate}}</strong>
     </th>
     <td ng-include="'templates/settings/backup.html'"></td>
   </tr>
   <tr ng-if="isSyncSupported()">
     <th width="150px">
-      <strong style='white-space:nowrap; display:block;'>{{'DEFAULT/sync/hdr'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('storage.sync')">{{'DEFAULT/sync-enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('storage.sync')">{{'DEFAULT/sync-disabled/lbl'|translate}}</p>
+      <strong style='white-space:nowrap; display:block;'>{{'SETTINGS/DEFAULT/sync/hdr'|translate}}</strong>
+      <p class="label label-success" ng-show="getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-enabled/lbl'|translate}}</p>
+      <p class="label label-danger" ng-show="!getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-disabled/lbl'|translate}}</p>
     </th>
     <td>
       <ul class="list-unstyled">
         <li>
-          <p class="alert alert-info"><strong>{{'DEFAULT/sync-push/hdr'|translate}}</strong> {{'DEFAULT/sync-push/desc'|translate}}</p>
+          <p class="alert alert-info"><strong>{{'SETTINGS/DEFAULT/sync-push/hdr'|translate}}</strong> {{'SETTINGS/DEFAULT/sync-push/desc'|translate}}</p>
         </li><br>
         <li style="padding-top:4px">
-          <p ng-show="!getSetting('storage.sync')" class="alert alert-info">{{'DEFAULT/sync-doit/alert'|translate}}</p>
-          <p ng-show="getSetting('storage.sync')" class="alert alert-warning">{{'DEFAULT/sync-dont/alert'|translate}}</p>
-          <button ng-show="!getSetting('storage.sync')" ng-click="enableSync()" class="btn btn-success">{{'DEFAULT/sync-doit/btn'|translate}}</button>
-          <button ng-show="getSetting('storage.sync')" ng-click="disableSync()" class="btn btn-danger">{{'DEFAULT/sync-dont/btn'|translate}}</button>
+          <p ng-show="!getSetting('storage.sync')" class="alert alert-info">{{'SETTINGS/DEFAULT/sync-doit/alert'|translate}}</p>
+          <p ng-show="getSetting('storage.sync')" class="alert alert-warning">{{'SETTINGS/DEFAULT/sync-dont/alert'|translate}}</p>
+          <button ng-show="!getSetting('storage.sync')" ng-click="enableSync()" class="btn btn-success">{{'SETTINGS/DEFAULT/sync-doit/btn'|translate}}</button>
+          <button ng-show="getSetting('storage.sync')" ng-click="disableSync()" class="btn btn-danger">{{'SETTINGS/DEFAULT/sync-dont/btn'|translate}}</button>
         </li>
       </ul>
     </td>
