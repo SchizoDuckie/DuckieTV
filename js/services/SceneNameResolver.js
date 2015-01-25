@@ -183,6 +183,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         "122281": "Garrow's Law - Tales from the Old Bailey",
         "122401": "Discovery Channel Cool Stuff and How it works",
         "122521": "The Fresh Beat Band",
+        "128051": "30 for 30",
         "128521": "Million Dollar Listing",
         "129261": "Spartacus",
         "131791": "Sci-Fi Science",
@@ -203,7 +204,6 @@ angular.module('DuckieTV.providers.scenenames', [])
         "166851": "Noise Control (NZ)",
         "168161": "Law & Order: Los Angeles",
         "168621": "Melissa & Joey",
-        "172381": "Silent Library",
         "174681": "Scooby-Doo! Mystery Incorporated",
         "175101": "Travel Channel Culture Shock",
         "178141": "My Ghost Story",
@@ -242,6 +242,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         "247824": "The Voice",
         "248261": "National Terrorism Strike Force: San Diego: Sport Utility Vehicle",
         "248503": "The Hour",
+        "248596": "Atlantis",
         "248618": "The Amazing Race Australia",
         "248699": "24 Hours In A And E",
         "248789": "Smash",
@@ -303,6 +304,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         "261222": "The Burn With Jeff Ross",
         "261240": "H+",
         "261690": "The Americans",
+        "261999": "Border Security Canadas Front Line",
         "262353": "Leaving",
         "262368": "Vikings",
         "262377": "Sarah Beenys Double Your House for Half the Money",
@@ -317,6 +319,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         "264030": "Avengers Assemble",
         "264085": "The Bridge US",
         "264141": "Falcon",
+        "264347": "Ghost Inside My Child",
         "264450": "Legit",
         "264535": "Storage Wars NY",
         "264679": "National Geographic UFO Europe Untold Stories",
@@ -399,6 +402,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         "281535": "Forever US",
         "281624": "Manhattan Love Story US",
         "281664": "Partners 2014",
+        "281709": "The Librarians US",
         "281776": "Youre the Worst",
         "282654": "Utopia US",
         "282786": "Utopia AU",
@@ -409,7 +413,11 @@ angular.module('DuckieTV.providers.scenenames', [])
         "284076": "Thats Incredible 2014",
         "284458": "The Chair",
         "284881": "My Kitchen Rules New Zealand",
-        "285507": "The Code AU"
+        "285507": "The Code AU",
+        "286373": "The Nightly Show",
+        "287236": "American Supernatural",
+        "290038": "Troy-Street Magic",
+        "290865": "Salem Rogers Model Of The Year 1998"
     };
 
     var episodesWithDateFormat = {
