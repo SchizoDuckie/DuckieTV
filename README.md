@@ -69,6 +69,7 @@ Screenshots:
 
 Changelog: 
 ==========
+* v0.90 : Fixed TraktTV v2 API, compensated for TPB being down, many performance improvements, updated dutch and italian translations
 * v0.82 : Fixed chrome v39 compatibility, sync engine still a work in progress.
 * v0.81 : Some changes to the add to favorites screen, now showing detailed show information on hover. Also, some changes to make DuckieTV work in standalone mode, no chrome required! Get it at https://github.com/SchizoDuckie/DuckieTV/releases/
 * v0.80 : A minor update with big impact: Daylight Savings Time fix by /u/garfield69
