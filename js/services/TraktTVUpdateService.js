@@ -30,7 +30,7 @@ angular.module('DuckieTV.providers.trakttvupdates', ['DuckieTV.providers.trakttv
                 var toUpdate = results.filter(function(res) {
                     if (!res || !res.tvdb_id) return false;
                     return FavoritesService.favorites.filter(function(favorite) {
-                        return favorite.TVDB_ID == res.tvdb_id && favorite.lastupdated < res.remote_updated;
+                        return favorite.TVDB_ID == res.tvdb_id && (favorite.lastupdated == null || new Date(favorite.lastupdated) < new Date(res.remote_updated));
                     }).length > 0;
                 });
                 return $q.all(
