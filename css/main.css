@@ -164,7 +164,6 @@ serieheader[mode='poster'] {
     display:inline-block;
     height: 250px;
     margin:0px 11px 2px 11px;
-    overflow:hidden;
 }
 .series serieheader[mode='poster'] > div {
     background-color: transparent;
