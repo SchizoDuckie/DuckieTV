@@ -1,5 +1,5 @@
-angular.module('DuckieTV.providers.migrations', ['ui.bootstrap.modal', 'DuckieTV.providers.favorites', 'DuckieTV.providers.trakttvv2'])
-    .factory('MigrationService', function($modal, $q, $rootScope, FavoritesService, TraktTVv2) {
+angular.module('DuckieTV.providers.migrations', ['ui.bootstrap.modal', 'DuckieTV.providers.settings', 'DuckieTV.providers.favorites', 'DuckieTV.providers.trakttvv2'])
+    .factory('MigrationService', function($modal, $q, $rootScope, SettingsService, FavoritesService, TraktTVv2) {
 
         var service = {
 
@@ -50,6 +50,14 @@ angular.module('DuckieTV.providers.migrations', ['ui.bootstrap.modal', 'DuckieTV
 
 
                     }, 3000);
+                }
+
+                if (!localStorage.getItem('0.91fixoldpiratebay')) {
+                    var clients = SettingsService.get('torrenting.genericClients');
+                    clients.OldPirateBay.mirror = 'https://oldpiratebay.org';
+                    delete clients['Torrents.fm'];
+                    SettingsService.set('torrenting.genericClients', clients);
+                    localStorage.setItem('0.91fixoldpiratebay', true);
                 }
             }
         };

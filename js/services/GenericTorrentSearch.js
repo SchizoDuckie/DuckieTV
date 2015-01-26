@@ -51,7 +51,7 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
             var node = parentNode.querySelector(propertyConfig[0]);
             if (!node) return null;
             var propertyValue = node.getAttribute(propertyConfig[1]) !== null ? node.getAttribute(propertyConfig[1]) : node[propertyConfig[1]];
-            return propertyConfig.length == 3 ? propertyConfig[2](propertyValue) : propertyValue;
+            return propertyConfig.length == 3 && null !== propertyConfig[2] && typeof(propertyConfig[2]) == 'function' ? propertyConfig[2](propertyValue) : propertyValue;
         }
         for (var i = 0; i < results.length; i++) {
             var magnet = getPropertyForSelector(results[i], selectors.magneturl);

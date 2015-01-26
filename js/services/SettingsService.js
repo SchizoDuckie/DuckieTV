@@ -176,7 +176,7 @@ angular.module('DuckieTV.providers.settings', [])
                     }
                 },
                 'OldPirateBay': {
-                    mirror: 'http://oldpiratebay.org',
+                    mirror: 'https://oldpiratebay.org',
                     mirrorResolver: null,
                     endpoints: {
                         search: '/search.php?q=%s&Torrent_sort=seeders.desc',
@@ -190,23 +190,6 @@ angular.module('DuckieTV.providers.settings', [])
                         seeders: ['td.seeders-row', 'innerText'],
                         leechers: ['td.leechers-row', 'innerText'],
                         detailUrl: ['td.title-row > a', 'href']
-                    }
-                },
-                'Torrents.fm': {
-                    mirror: 'http://torrents.fm',
-                    mirrorResolver: null,
-                    endpoints: {
-                        search: '/search/%s?o=s',
-                        details: '/%s'
-                    },
-                    selectors: {
-                        resultContainer: 'table.results tbody tr',
-                        releasename: ['td:nth-child(2) a', 'innerText'],
-                        magneturl: ['td:nth-child(4) a', 'href'],
-                        size: ['td:nth-child(5)', 'innerText'],
-                        seeders: ['td:nth-child(7)', 'innerText'],
-                        leechers: ['td:nth-child(8)', 'innerText'],
-                        detailUrl: ['td:nth-child(2) a', 'href']
                     }
                 }
             }

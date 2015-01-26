@@ -7,7 +7,9 @@ angular.module('DuckieTV.directives.torrentdialog', [])
                     return $injector.get('$dialogs').create('templates/torrentDialog.html', 'torrentDialogCtrl', {
                         query: query,
                         TVDB_ID: TVDB_ID
-                    }, options || {});
+                    }, options || {
+                        size: 'lg'
+                    });
                 },
                 /**
                  * launch magnet via a hidden iframe and broadcast the fact that it's selected to anyone listening
@@ -24,8 +26,8 @@ angular.module('DuckieTV.directives.torrentdialog', [])
                         document.body.removeChild(d);
                     }, 3000);
                 }
-            }
-        }
+            };
+        };
     })
     .controller('torrentDialogCtrl', function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog, GenericSearch) {
         //-- Variables --//

@@ -222,12 +222,14 @@ angular.module('dialogs.services', ['ui.bootstrap.modal', 'dialogs.controllers']
                 var k = (angular.isDefined(opts.keyboard)) ? opts.keyboard : true; // values: true,false
                 var b = (angular.isDefined(opts.backdrop)) ? opts.backdrop : true; // values: 'static',true,false
                 var w = (angular.isDefined(opts.windowClass)) ? opts.windowClass : 'dialogs-default'; // additional CSS class(es) to be added to a modal window
+                var s = (angular.isDefined(opts.size)) ? opts.size : 'sm';
                 return $modal.open({
                     templateUrl: url,
                     controller: ctrlr,
                     keyboard: k,
                     backdrop: b,
                     windowClass: w,
+                    size: s,
                     resolve: {
                         data: function() {
                             return angular.copy(data);
