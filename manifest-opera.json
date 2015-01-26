@@ -4,7 +4,7 @@
     "short_name": "__MSG_appShortNameBrowserAction__",
     "description": "__MSG_appDescBrowserAction__",
     "default_locale": "en",
-    "version": "0.90",
+    "version": "0.91",
     "permissions": [
         "http://*/*",
         "https://*/*",

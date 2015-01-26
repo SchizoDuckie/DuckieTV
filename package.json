@@ -15,7 +15,7 @@
     "description": "DuckieTV helps you manage your favorite TV Shows on a sweet calendar",
     "author": "DuckieTV",
     "private": true,
-    "user-agent": "DuckieTV Standalone v0.90",
+    "user-agent": "DuckieTV Standalone v0.91",
     "keywords": [
         "series",
         "tv",
@@ -29,7 +29,7 @@
         "fullscreen": false,
         "icon": "icon48.png",
         "resizable": true,
-        "title": "DuckieTV Standalone v0.90",
+        "title": "DuckieTV Standalone v0.91",
         "always-on-top": false,
         "frame": true,
         "height": 750,
@@ -44,7 +44,7 @@
         "toolbar": true,
         "exe_icon": "icon64.png"
     },
-    "version": "0.90.0",
+    "version": "0.91.0",
     "webkit": {
         "page-cache": true,
         "java": false,
