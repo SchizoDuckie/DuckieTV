@@ -23,15 +23,5 @@
     </p>
 
     <!-- Trending series to display while search is empty -->
-    <div ng-if="trendingSeries && !showTrakt && !showBackup" ng-include="'templates/serieslist/trending.html'">
-       
-    </div>
-
-    
-
-
-
-    <!-- Sidepanel for trending/search mode to display extended serie details -->
-    <serie-details class="sidepanel" ng-show="serie && !showTrakt" template-url="templates/traktSerieDetails.html"></serie-details>
-
+    <div ng-if="trendingSeries && !showTrakt && !showBackup" ng-include="'templates/serieslist/trending.html'"></div>
 </div>

@@ -15,9 +15,10 @@
         <!-- END Tools Panel -->
 
         <!-- If we're in search/add mode, this panel pops up -->
-        <div ng-if="searchingForSerie" class="series" style='right:350px' ng-include="'templates/serieslist/searching.html'">
-            
+        <div ng-if="searchingForSerie" class="series" style='right:350px' ng-include="'templates/serieslist/searching.html'">          
         </div>
+        <!-- Sidepanel for trending/search mode to display extended serie details -->
+         <serie-details class="sidepanel" ng-show="serie && !showTrakt" template-url="templates/serieslist/searching-sidepanel.html"></serie-details>
         <!-- END Search/Add Mode -->
         
         <div id="favslist" ng-include="'templates/serieslist/favorites.html'">
