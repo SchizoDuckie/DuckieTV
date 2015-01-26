@@ -75,6 +75,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         "75567": "The Xtra Factor",
         "75692": "Law & Order: SVU",
         "75748": "The Culture Show Uncut",
+        "75805": "Its Always Sunny in Philadelphia",
         "76104": "The Mole AU",
         "76107": "Doctor Who Classic",
         "76119": "NOVA",
@@ -212,6 +213,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         "192061": "Young Justice",
         "193501": "XIII",
         "193821": "Iron Man 2010",
+        "194031": "Bobs Burgers",
         "194261": "PhoneShop",
         "194751": "Conan",
         "195831": "Zane Lamprey's Drinking Made Easy",
@@ -343,7 +345,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         "269586": "Brooklyn Nine Nine",
         "269589": "Dads",
         "269637": "The Michael J Fox Show",
-        "269641": "Chicago P D",
+        "269641": "Chicago PD",
         "269650": "Resurrection US",
         "269651": "Mind Games",
         "269653": "The Goldbergs",
@@ -431,7 +433,8 @@ angular.module('DuckieTV.providers.scenenames', [])
         274099: "yyyy.MM.dd", // @midnight: 2014.11.13
         79274: "yyyy.MM.dd", // The Colbert Report: 2014.11.13 
         72194: "yyyy.MM.dd", // The Ellen DeGeneres Show: 2014.11.13 
-        77075: "yyyy-MM-dd" // Jeopardy! 2014-05-27
+        77075: "yyyy-MM-dd", // Jeopardy! 2014-05-27
+        72231: "yyyy MM dd" // Real Time With Bill Maher
     };
 
     this.$get = function($filter) {
@@ -446,7 +449,7 @@ angular.module('DuckieTV.providers.scenenames', [])
             getSearchStringForEpisode: function(serie, episode) {
                 if (serie.TVDB_ID in episodesWithDateFormat) {
                     var parts = episode.firstaired_iso.split(/([0-9]{4})-([0-9]{2})-([0-9]{2})T.*/);
-                    d = new Date([parts[1], parts[2], parts[3]].join('-'));
+                    d = new Date(Date.parse(episode.firstaired_iso));
                     return $filter('date')(d, episodesWithDateFormat[serie.TVDB_ID]);
                 } else {
                     return episode.getFormattedEpisode();
