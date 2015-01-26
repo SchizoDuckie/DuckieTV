@@ -197,10 +197,12 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
              */
             $scope.startHoverTimer = function() {
                 $scope.clearHoverTimer();
-                var background = $scope.serie.fanart;
-                $scope.hoverTimer = setTimeout(function() {
-                    $scope.$root.$broadcast('background:load', background);
-                }.bind(this), 1500);
+                if ($scope.serie.fanart) {
+                    var background = $scope.serie.fanart;
+                    $scope.hoverTimer = setTimeout(function() {
+                        $scope.$root.$broadcast('background:load', background);
+                    }.bind(this), 1500);
+                };
             };
 
             $scope.isTorrentClientConnected = function() {
