@@ -26,10 +26,14 @@
          return TraktTVv2.login(username, password).then(function(result) {
              $scope.credentials.success = result;
              $scope.credentials.error = false;
-         }, function(result) {
+         }, function(error) {
              $scope.credentials.success = false;
              $scope.credentials.password = null;
-             $scope.credentials.error = result;
+             if (error.data.message) {
+                 $scope.credentials.error = error.data.message;
+             } else {
+                 $scope.credentials.error = error.status+' - '+error.statusText;
+             }
          });
      };
 
@@ -48,7 +52,6 @@
      $scope.isAdding = function(tvdb_id) {
          return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === true));
      };
-
 
      $scope.countWatchedEpisodes = function(show) {
          if (!show.seasons) return 0;
@@ -78,7 +81,6 @@
              });
          })
          // fetch all watched shows
-
          .then(TraktTVv2.watched).then(function(shows) {
              console.info("Found watched from Trakt.TV", shows);
              Promise.all(shows.map(function(show) {
@@ -126,8 +128,6 @@
 
              });
          })
-
-
          // user shows times out for me still too often to test proerly
          .then(TraktTVv2.usershows().then(function(data) {
              console.log("Found user shows from Trakt.tV", data);
