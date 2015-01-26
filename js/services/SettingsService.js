@@ -229,7 +229,6 @@ angular.module('DuckieTV.providers.settings', [])
 
         /**
          * Fetch stored series from sqlite and store them in service.favorites
-         * Notify anyone listening by broadcasting favorites:updated
          */
         restore: function() {
             if (!localStorage.getItem('userPreferences')) {
