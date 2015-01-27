@@ -6,20 +6,23 @@ angular.module('DuckieTV.providers.migrations', ['ui.bootstrap.modal', 'DuckieTV
             check: function() {
 
                 if (!localStorage.getItem('0.9migration')) {
-                    CRUD.EntityManager.getAdapter().db.execute('drop table if exists EventSchedule');
-                    CRUD.EntityManager.getAdapter().db.execute('update series set lastupdated = null').then(function() {
-                        FavoritesService.refresh();
-                    })
+                    setTimeout(function() {
+                        CRUD.EntityManager.getAdapter().db.execute('update series set lastupdated = null').then(function() {
+                            return CRUD.EntityManager.getAdapter().db.execute('update series set lastupdated = null');
+                        }).then(function() {
+                            return CRUD.EntityManager.getAdapter().db.execute('drop table if exists EventSchedule');
+                        }).then(function() {
+                            localStorage.setItem('0.9migration', new Date());
+                            return FavoritesService.refresh();
+                        });
+                    }, 5000);
 
-
-                    //localStorage.setItem('0.9migration', true);
                     $modal.open({
                         templateUrl: 'templates/upgrade.html',
                         windowClass: 'dialogs-default',
                         size: 'lg',
                     });
 
-                    localStorage.setItem('0.9migration', new Date());
 
                 }
 
@@ -49,7 +52,7 @@ angular.module('DuckieTV.providers.migrations', ['ui.bootstrap.modal', 'DuckieTV
                         });
 
 
-                    }, 3000);
+                    }, 10000);
                 }
 
                 if (!localStorage.getItem('0.91fixoldpiratebay')) {
@@ -58,6 +61,19 @@ angular.module('DuckieTV.providers.migrations', ['ui.bootstrap.modal', 'DuckieTV
                     delete clients['Torrents.fm'];
                     SettingsService.set('torrenting.genericClients', clients);
                     localStorage.setItem('0.91fixoldpiratebay', true);
+                }
+
+                // fix shows that have no watched but do have watchedAt
+                if (!localStorage.getItem('0.91migration')) {
+                    setTimeout(function() {
+                        console.info("Executing the 0.91 migration to fix watched episodes");
+                        CRUD.EntityManager.getAdapter().db.execute('update episodes set watched = 1 where watchedAt is not null')
+                            .then(function() {
+                                console.log("0.91 migration done.");
+                                localStorage.setItem('0.91migration', new Date());
+                                return FavoritesService.refresh();
+                            });
+                    }, 7000);
                 }
             }
         };
