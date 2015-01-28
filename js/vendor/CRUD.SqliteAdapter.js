@@ -171,7 +171,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 
         // add defaults
         Object.keys(CRUD.EntityManager.entities[what.className].defaultValues).map(function(field) {
-            if (!(field in what.changedValues)) {
+            if (!(field in what.changedValues) && !(field in what.values)) {
                 names.push(field);
                 values.push('?');
                 valmap.push(CRUD.EntityManager.entities[what.className].defaultValues[field]);
