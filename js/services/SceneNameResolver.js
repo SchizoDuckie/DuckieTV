@@ -450,6 +450,9 @@ angular.module('DuckieTV.providers.scenenames', [])
             getSearchStringForEpisode: function(serie, episode) {
                 if (serie.TVDB_ID in episodesWithDateFormat) {
                     var parts = episode.firstaired_iso.split(/([0-9]{4})-([0-9]{2})-([0-9]{2})T.*/);
+                    if("undefined" == typeof(moment)) {
+                        moment = require('./js/vendor/moment.min');
+                    }
                     return moment.parseZone(episode.firstaired_iso).format(episodesWithDateFormat[serie.TVDB_ID]);
                 } else {
                     return episode.getFormattedEpisode();
