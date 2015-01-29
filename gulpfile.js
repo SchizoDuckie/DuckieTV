@@ -48,6 +48,7 @@ var deps = ['./js/vendor/promise-3.2.0.js',
     "./js/vendor/tmhDynamicLocale.js",
     "./js/vendor/datePicker.js",
     "./js/vendor/dialogs.js",
+    "./js/vendor/moment.min.js",
     "./js/vendor/angular-translate.min.js",
     "./js/vendor/angular-translate-loader-static-files.min.js",
     "./js/vendor/angular-translate-handler-log.min.js"
