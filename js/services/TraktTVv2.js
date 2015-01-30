@@ -146,6 +146,13 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         };
     };
 
+    /**
+     * Generic error-catching and re-throwing
+     */
+    var rethrow = function(err) {
+        throw err;
+    };
+
     /** 
      * Promise requests with batchmode toggle to auto-kill a previous request when running.
      * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple
@@ -170,11 +177,14 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         }).then(function(result) {
             return parser(result);
         }, function(err) {
-            console.error("Trakt tv error!", err);
             // if err.code == 400 
             // token auth expired
             // show re-auth dialog
             // restart request and return original promise
+            if (err.status != 0) { // only if this is not a cancelled request, rethrow
+                console.error("Trakt tv error!", err);
+                throw "Error " + err.status + ":" + err.statusText;
+            }
         });
     };
 
@@ -183,16 +193,16 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             return promiseRequest('serie', slug).then(function(serie) {
                 return service.seasons(serie.slug_id).then(function(result) {
                     serie.seasons = result;
-                }).then(function() {
+                }, rethrow).then(function() {
                     return $q.all(serie.seasons.map(function(season, index) {
                         return service.episodes(serie.slug_id, season.number).then(function(episodes) {
                             serie.seasons[index].episodes = episodes;
                             return true;
-                        });
+                        }, rethrow);
                     }));
-                }).then(function() {
+                }, rethrow).then(function() {
                     return serie;
-                });
+                }, rethrow);
             });
         },
         seasons: function(slug) {
@@ -212,7 +222,7 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         },
         cancelSearch: function() {
             if (activeSearchRequest && activeSearchRequest.resolve) {
-                activeSearchRequest.resolve();
+                activeSearchRequest.reject("search abort");
                 activeSearchRequest = false;
             }
         },

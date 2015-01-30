@@ -200,8 +200,10 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             };
 
             $scope.adding = {}; // object that will hold tvdb_id's of shows that are currently being added to the database
+            $scope.error = {};
 
             $scope.refresh = function(serie) {
+                $scope.adding[serie.tvdb_id] = true;
                 TraktTVv2.resolveTVDBID(serie.TVDB_ID).then($scope.selectSerie);
             };
 
@@ -215,11 +217,18 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             $scope.selectSerie = function(serie) {
                 if (!(serie.tvdb_id in $scope.adding)) {
                     $scope.adding[serie.tvdb_id] = true;
+                    if ((serie.tvdb_id in $scope.error)) {
+                        delete $scope.error[serie.tvdb_id];
+                    }
                     return TraktTVv2.serie(serie.slug_id).then(function(serie) {
                         return FavoritesService.addFavorite(serie).then(function() {
                             $rootScope.$broadcast('storage:update');
                             $scope.adding[serie.tvdb_id] = false;
                         });
+                    }, function(error) {
+                        console.error("Error adding show!", error);
+                        $scope.adding[serie.tvdb_id] = false;
+                        $scope.error[serie.tvdb_id] = error;
                     });
                 }
             };
@@ -240,6 +249,15 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 if (tvdb_id === null) return false;
                 return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === true));
             };
+
+            /**
+             * Returns true as long as the add a show to favorites promise is running.
+             */
+            $scope.isError = function(tvdb_id) {
+                if (tvdb_id === null) return false;
+                return ((tvdb_id in $scope.error));
+            };
+
 
             var titleSorter = function(serie) {
                 serie.sortName = serie.name ? serie.name.replace('The ', '') : '';

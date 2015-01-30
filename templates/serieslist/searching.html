@@ -11,6 +11,7 @@
     <serieHeader ng-if="search.results" ng-repeat="serie in search.results" data="serie" ng-mouseenter="setHoverSerie(serie)" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)">
         <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
         <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
+        <em class="earmark error" ng-show="isError(serie.tvdb_id)" tooltip="{{error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
     </serieHeader>
 
     <!-- no series, show intro text and trakt connect/ backup import -->

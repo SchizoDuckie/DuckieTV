@@ -284,11 +284,16 @@ serieheader em.earmark.adding{
     background-color: rgba(236,210,70, 0.8);
 }
 
-serieheader em.earmark.delete {
+serieheader em.earmark.delete, serieheader em.earmark.error {
     background-color: rgba(150,0,0, 0.4);
     cursor: pointer;
     -webkit-transition: all 1s ease-in;
     -webkit-transform: translateX(100px);
+}
+
+serieheader em.earmark.adding, serieheader em.earmark.error {
+	-webkit-transform: translateX(0px);
+    -webkit-transition: all 2s ease-in;
 }
 
 serieheader em.earmark.refresh {
@@ -300,6 +305,9 @@ serieheader em.earmark.refresh {
     -webkit-transform: translateX(-100px);
 }
 
+serieheader em.earmark.refresh.adding {
+	-webkit-transform: translateX(0px);	
+}
 
 serieheader em.earmark.delete i.glyphicon {
     display: initial;
