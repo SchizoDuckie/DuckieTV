@@ -100,7 +100,19 @@ angular.module('DuckieTV.providers.showrss', [])
                     return query.indexOf(value) == 0
                 });
                 if (found.length == 1) {
-                    return promiseRequest('serie', results[found[0]]);
+                    var serie = found[0];
+                    return promiseRequest('serie', results[found[0]]).then(function(results) {
+                        var seasonepisode = query.replace(serie, '').trim();
+                        var parts = seasonepisode.match(/S([0-9]{1,2})E([0-9]{1,2})/);
+                        seasonepisode = seasonepisode.replace('S' + parts[1], parseInt(parts[1], 10)).replace('E' + parts[2], 'x' + parts[2]);
+                        var searchparts = seasonepisode.split(' ');
+                        return results.filter(function(el) {
+                            if (searchparts.length > 1 && el.releasename.indexOf(searchparts[1]) == -1) {
+                                return false;
+                            }
+                            return el.releasename.indexOf(searchparts[0]) > -1;
+                        })
+                    })
                 }
             });
         }
