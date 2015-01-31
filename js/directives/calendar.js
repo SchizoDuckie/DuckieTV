@@ -185,6 +185,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
 
             $scope.getSetting = SettingsService.get;
             $scope.hoverTimer = null;
+            var cachedSearchString = false;
 
             $scope.clearHoverTimer = function() {
                 clearTimeout($scope.hoverTimer);
@@ -218,9 +219,11 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                 EpisodeAiredService.autoDownload($scope.serie, $scope.episode);
             };
             $scope.getSearchString = function(event) {
-
-                var serieName = SceneNameResolver.getSceneName($scope.serie.TVDB_ID) || $scope.serie.name;
-                return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode);
+                if (!cachedSearchString) {
+                    var serieName = SceneNameResolver.getSceneName($scope.serie.TVDB_ID) || $scope.serie.name;
+                    cachedSearchString = serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode);
+                }
+                return cachedSearchString;
             };
         }
     };
