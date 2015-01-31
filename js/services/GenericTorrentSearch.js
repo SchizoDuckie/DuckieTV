@@ -92,7 +92,7 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
             return config;
         },
         getProviders: function() {
-            return SettingsService.get('torrenting.genericClients');
+            return window.TorrentSearchProviders;
         },
         setProvider: function(provider) {
             if ((provider in providers)) {

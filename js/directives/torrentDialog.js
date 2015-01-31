@@ -98,7 +98,7 @@ angular.module('DuckieTV.directives.torrentdialog', [])
         };
 
         $scope.getClients = function() {
-            var clients = SettingsService.get('torrenting.genericClients');
+            var clients = window.TorrentSearchProviders;
             clients['ShowRSS.info'] = true;
             customClients['ShowRSS.info'] = 'ShowRSS';
             return clients;
