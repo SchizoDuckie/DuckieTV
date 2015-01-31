@@ -55,14 +55,6 @@ angular.module('DuckieTV.providers.migrations', ['ui.bootstrap.modal', 'DuckieTV
                     }, 10000);
                 }
 
-                if (!localStorage.getItem('0.91fixoldpiratebay')) {
-                    var clients = SettingsService.get('torrenting.genericClients');
-                    clients.OldPirateBay.mirror = 'https://oldpiratebay.org';
-                    delete clients['Torrents.fm'];
-                    SettingsService.set('torrenting.genericClients', clients);
-                    localStorage.setItem('0.91fixoldpiratebay', true);
-                }
-
                 // fix shows that have no watched but do have watchedAt
                 if (!localStorage.getItem('0.91migration')) {
                     setTimeout(function() {
