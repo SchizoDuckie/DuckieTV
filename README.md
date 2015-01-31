@@ -51,7 +51,7 @@ Screenshots:
 **Add your favorite shows by picking them off of TraktTV's Trending Shows list, or search manually**
 ![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/bUzCDbo.png)
 
-**Navigate to any of your shows easily by opening the "series you're watching" panel**
+**Navigate to any of your shows easily by opening the "view your local library" panel**
 !['Shows you are watching'](http://i.imgur.com/EYloHBq.png)
 
 **Forgot to mark your shows as watched? Batch mode enables to mark a whole range of shows at once.**
