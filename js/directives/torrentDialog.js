@@ -29,8 +29,10 @@ angular.module('DuckieTV.directives.torrentdialog', [])
             };
         };
     })
-    .controller('torrentDialogCtrl', function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog, GenericSearch) {
+    .controller('torrentDialogCtrl', function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog, GenericSearch, SettingsService) {
         //-- Variables --//
+
+        var customClients = {};
 
         $scope.items = [];
         $scope.searching = true;
@@ -40,7 +42,7 @@ angular.module('DuckieTV.directives.torrentdialog', [])
         $scope.searchquality = $scope.getSetting('torrenting.searchquality');
 
         $scope.getName = function(provider) {
-            return provider.replace('GenericSearch.', '');
+            return provider;
         };
 
         $scope.search = function(q, TVDB_ID) {
@@ -50,24 +52,27 @@ angular.module('DuckieTV.directives.torrentdialog', [])
                 $scope.TVDB_ID = TVDB_ID;
             }
 
+            var searchProvider = (!($scope.searchprovider in customClients)) ? GenericSearch : $injector.get(customClients[$scope.searchprovider]);
 
-            GenericSearch.search([q, $scope.searchquality].join(' ')).then(function(results) {
-                $scope.items = results;
-                $scope.searching = false;
-            }, function(e) {
-                $scope.searching = false;
-            });
-
-        }
+            searchProvider.search([q, $scope.searchquality].join(' ')).then(function(results) {
+                    $scope.items = results;
+                    $scope.searching = false;
+                },
+                function(e) {
+                    $scope.searching = false;
+                });
+        };
 
         $scope.setQuality = function(quality) {
             $scope.searchquality = quality;
             $scope.search($scope.query);
-        }
+        };
 
         $scope.setProvider = function(provider) {
             $scope.searchprovider = provider;
-            GenericSearch.setProvider(provider);
+            if (!(provider in customClients)) {
+                GenericSearch.setProvider(provider);
+            }
             $scope.search($scope.query);
         }
 
@@ -90,7 +95,14 @@ angular.module('DuckieTV.directives.torrentdialog', [])
 
             var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
             TorrentDialog.launchMagnet(magnet, channel);
-        }
+        };
+
+        $scope.getClients = function() {
+            var clients = SettingsService.get('torrenting.genericClients');
+            clients['ShowRSS.info'] = true;
+            customClients['ShowRSS.info'] = 'ShowRSS';
+            return clients;
+        };
 
 
         $scope.search($scope.query);

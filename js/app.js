@@ -26,6 +26,7 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.torrentfreak',
     'DuckieTV.providers.trakttvv2',
     'DuckieTV.providers.trakttvupdates',
+    'DuckieTV.providers.showrss',
     'DuckieTV.providers.upgradenotification',
     'DuckieTV.providers.watchlistchecker',
     'DuckieTV.providers.watchlist',
