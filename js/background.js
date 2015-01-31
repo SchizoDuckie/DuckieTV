@@ -13,7 +13,7 @@
  * Make sure migrations don't run on the latest versions.
  */
 chrome.runtime.onInstalled.addListener(function(details) {
-    localStorage.setItem('runtime.event', angular.toJson(details, true));
+    localStorage.setItem('runtime.event', JSON.stringify(details));
     if (details.reason == "install") {
         console.log("This is a first install!");
         localStorage.setItem('upgrade.notify', chrome.runtime.getManifest().version);
