@@ -10,18 +10,18 @@ angular.module('DuckieTV.providers.torrentfreak', [])
     $scope.activeItem = [];
 
     /** 
-     * Switch to the next item in the Top10 RSS feed while the index isn't maxxed out
+     * Switch to the previous item in the Top10 RSS feed while the index isn't maxxed out
      */
-    $scope.nextItem = function() {
+    $scope.prevItem = function() {
         if ($scope.itemIndex < $scope.items.length - 2) {
             $scope.itemIndex += 1;
         }
         $scope.activeItem = $scope.items[$scope.itemIndex];
     }
     /** 
-     * Switch to the previous item in the Top10 RSS feed results while the index is > 0
+     * Switch to the next item in the Top10 RSS feed results while the index is > 0
      */
-    $scope.prevItem = function() {
+    $scope.nextItem = function() {
         if ($scope.itemIndex > 1) {
             $scope.itemIndex -= 1;
         }
