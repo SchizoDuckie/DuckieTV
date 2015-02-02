@@ -45,7 +45,7 @@
       </tr>
       <tr ng-if="serie.rating" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/rating/hdr'|translate}}</th>
-        <td>{{serie.rating}} ({{serie.votes}} {{'SERIESLIST/SEARCHING-SIDEPANEL/votes/lbl'|translate}})</td>
+        <td>{{ratingPercentage(serie.rating)}}% ({{serie.votes}} {{'SERIESLIST/SEARCHING-SIDEPANEL/votes/lbl'|translate}})</td>
       </tr>
       <tr ng-if="serie.runtime" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/run-time/hdr'|translate}}</th>
