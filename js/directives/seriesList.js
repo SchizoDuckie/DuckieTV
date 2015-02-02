@@ -190,6 +190,11 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     $scope.search.results = false;
                 });
             };
+            
+            // used by the searching-sidepanel.html
+            $scope.ratingPercentage = function (rating) {
+                return Math.round(rating * 10);
+            };
 
             /**
              * Fires when user hits enter in the search serie box. Auto-selects the first result and adds it to favorites.
