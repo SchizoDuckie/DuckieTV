@@ -189,8 +189,6 @@
     "SETTINGS/BACKUP/import/hdr": "Importa un backup",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Caricamento in corso, attendere prego",
     "SETTINGS/DEFAULT/backup/hdr": "Backup / Importa",
-    "SETTINGS/DEFAULT/manual/desc": "Se per qualche motivo uno dei vostri programmi TV non è aggiornato, è possibile andare alla pagina Timer e avviare l'aggiornamento manualmente",
-    "SETTINGS/DEFAULT/manual/hdr": "Mostra aggiornamenti manuali",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "Disattivare",
     "SETTINGS/DEFAULT/sync-doit/alert": "Facendo clic su questo pulsante manterrà la vostra serie in sincronia con altri browser",
     "SETTINGS/DEFAULT/sync-doit/btn": "Mantenere serie in sincronia tra i browser",

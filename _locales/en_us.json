@@ -188,8 +188,6 @@
     "SETTINGS/BACKUP/import/hdr": "Import a backup",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Loading, please wait",
     "SETTINGS/DEFAULT/backup/hdr": "Backup / Import",
-    "SETTINGS/DEFAULT/manual/desc": "If for some reason one of your TV shows hasn't updated, you can go to the Timers page and fire the auto-update timer manually",
-    "SETTINGS/DEFAULT/manual/hdr": "Manual show updates",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "Disabled",
     "SETTINGS/DEFAULT/sync-doit/alert": "Clicking this button will keep your series in sync with other browsers",
     "SETTINGS/DEFAULT/sync-doit/btn": "Keep series in sync between browsers",

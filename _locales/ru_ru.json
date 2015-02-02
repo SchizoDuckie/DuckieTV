@@ -189,8 +189,6 @@
     "SETTINGS/BACKUP/import/hdr": "Импорт резервную копию ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Подождите, идет загрузка",
     "SETTINGS/DEFAULT/backup/hdr": "Резервное копирование / Импорт ",
-    "SETTINGS/DEFAULT/manual/desc": "Если по каким-то причинам один из ваших телевизионных шоу не обновлял, вы можете перейти на страницу Таймеры и стрелять таймера автоматического обновления вручную ",
-    "SETTINGS/DEFAULT/manual/hdr": "Обновление вручную шоу ",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "инвалид ",
     "SETTINGS/DEFAULT/sync-doit/alert": "Нажатие на эту кнопку держать серию в синхронизации с другими браузерами ",
     "SETTINGS/DEFAULT/sync-doit/btn": "Держите серию в синхронизации между браузерами ",

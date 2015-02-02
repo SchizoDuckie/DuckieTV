@@ -189,8 +189,6 @@
     "SETTINGS/BACKUP/import/hdr": "Importar una copia de seguridad ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Cargando, por favor espere",
     "SETTINGS/DEFAULT/backup/hdr": "Copia de seguridad / Import ",
-    "SETTINGS/DEFAULT/manual/desc": "Si por algún motivo uno de sus programas de televisión no ha actualizado, se puede ir a la página de temporizadores y disparar el temporizador de auto-actualización manualmente ",
-    "SETTINGS/DEFAULT/manual/hdr": "Mostrar actualizaciones manuales ",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "discapacitado ",
     "SETTINGS/DEFAULT/sync-doit/alert": "Al hacer clic en este botón, mantendrá su serie en sincronía con otros navegadores ",
     "SETTINGS/DEFAULT/sync-doit/btn": "Mantenga serie sincronizados entre navegadores ",

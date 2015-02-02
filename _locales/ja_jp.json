@@ -189,8 +189,6 @@
     "SETTINGS/BACKUP/import/hdr": "バックアップをインポートする ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "読み込んでいます、お待ちください",
     "SETTINGS/DEFAULT/backup/hdr": "バックアップ/インポート ",
-    "SETTINGS/DEFAULT/manual/desc": "何らかの理由でテレビ番組の一つが更新されていません場合は、タイマーのページに移動し、手動で自動更新タイマを起動することができます ",
-    "SETTINGS/DEFAULT/manual/hdr": "手動更新プログラムの表示 ",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "使用禁止 ",
     "SETTINGS/DEFAULT/sync-doit/alert": "このボタンをクリックすると、他のブラウザと同期して、あなたのシリーズを維持します ",
     "SETTINGS/DEFAULT/sync-doit/btn": "ブラウザ間の同期がシリーズを保つ ",

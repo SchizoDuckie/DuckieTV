@@ -189,8 +189,6 @@
     "SETTINGS/BACKUP/import/hdr": "백업을 가져 오기 ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "로딩 중, 잠시 기다려주십시오",
     "SETTINGS/DEFAULT/backup/hdr": "백업 / 가져 오기 ",
-    "SETTINGS/DEFAULT/manual/desc": "어떤 이유로 당신의 TV 쇼 중 하나가 업데이트되지 않은 경우, 당신은 타이머 페이지로 이동하여 수동으로 자동 업데이트 타이머를 해고 할 수 ",
-    "SETTINGS/DEFAULT/manual/hdr": "수동 업데이트 표시 ",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "장애인 ",
     "SETTINGS/DEFAULT/sync-doit/alert": "이 버튼을 클릭하면 다른 브라우저와의 동기화에 시리즈를 유지합니다 ",
     "SETTINGS/DEFAULT/sync-doit/btn": "브라우저 간의 동기화 시리즈를 계속 ",

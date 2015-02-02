@@ -189,8 +189,6 @@
     "SETTINGS/BACKUP/import/hdr": "Importar um backup ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Carregando, por favor aguarde",
     "SETTINGS/DEFAULT/backup/hdr": "Backup / Importação ",
-    "SETTINGS/DEFAULT/manual/desc": "Se por algum motivo um dos seus programas de TV não atualiza, você pode ir para a página de temporizadores e disparar o cronômetro auto-update manualmente ",
-    "SETTINGS/DEFAULT/manual/hdr": "Mostrar atualizações manuais ",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "inválido ",
     "SETTINGS/DEFAULT/sync-doit/alert": "Ao clicar neste botão irá manter a sua série em sincronia com outros navegadores ",
     "SETTINGS/DEFAULT/sync-doit/btn": "Mantenha série em sincronia entre os navegadores ",
