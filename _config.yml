@@ -1,0 +1,40 @@
+---
+
+port: 4000
+host: 0.0.0.0
+safe: false
+
+
+### site serving configuration ###
+exclude: [CNAME, README.md, .gitignore]
+permalink: / ## disables post output
+timezone: null
+lsi: false
+markdown: kramdown
+highlighter: pygments
+
+
+### content configuration ###
+title:       "DuckieTV - TV Show Tracker"
+keywords:    "DuckieTV, tv-shows, torrents, calendar, shows, series, trakt, angularjs, html5, node-webkit"
+description: "The TV-Show tracker you've always been waiting for"
+source_link: "https://github.com/SchizoDuckie/DuckieTV"
+favicon:     "img/favicon.ico"
+touch_icon:  "img/icon256.png"
+google_analytics_key: "UA-48322896-1" ## put YOUR key here to enable tracking! (blank to disable)
+
+
+### template colors, used site-wide via css ###
+colors:
+  black:     '#111111'
+  white:     '#f8f8f8'
+  blue:      '#49a7e9'
+  lightgray: '#FCFCFC'
+  purple:    '#c869bf'
+  orange:    '#fab125'
+  turquoise: '#0fbfcf'
+  yellow:    '#FFFF00'
+  green:     'rgba(155, 207, 47, 0.27)'
+  pink:		 'rgba(237, 66, 66, 0.1)'
+
+
