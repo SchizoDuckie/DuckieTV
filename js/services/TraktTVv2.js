@@ -103,7 +103,7 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         updated: function(result) {
             return result.data.map(function(show) {
                 out = parsers.trakt(show.show);
-                out.remote_updated = show.refreshed_at;
+                out.remote_updated = show.updated_at;
                 return out;
             });
         },
