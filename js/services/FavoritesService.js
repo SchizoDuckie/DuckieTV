@@ -41,9 +41,9 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
         data.ratingcount = data.votes;
         data.genre = data.genres.join('|');
         data.lastupdated = data.updated_at;
-        if (data.people && 'actors' in data.people) {
-            data.actors = data.people.actors.map(function(actor) {
-                return actor.name;
+        if (data.people && 'cast' in data.people) {
+            data.actors = data.people.cast.map(function(actor) {
+                return actor.person.name;
             }).join('|');
         }
 

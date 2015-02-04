@@ -16,6 +16,7 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
     /// shows / game - of - thrones / seasons ? extended = full, images
 
     var endpoints = {
+        people: 'shows/%s/people',
         serie: 'shows/%s?extended=full,images',
         seasons: 'shows/%s/seasons?extended=full,images',
         episodes: 'shows/%s/seasons/%s/episodes?extended=full,images',
@@ -55,6 +56,9 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
                 show.name = show.title;
             }
             return show;
+        },
+        people: function(result) {
+            return result.data;
         },
         seasons: function(result) {
             return result.data.map(function(season) {
@@ -191,17 +195,20 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
     var service = {
         serie: function(slug) {
             return promiseRequest('serie', slug).then(function(serie) {
-                return service.seasons(serie.slug_id).then(function(result) {
-                    serie.seasons = result;
-                }, rethrow).then(function() {
-                    return $q.all(serie.seasons.map(function(season, index) {
-                        return service.episodes(serie.slug_id, season.number).then(function(episodes) {
-                            serie.seasons[index].episodes = episodes;
-                            return true;
-                        }, rethrow);
-                    }));
-                }, rethrow).then(function() {
-                    return serie;
+                return service.people(serie.slug_id).then(function(result) {
+                    serie.people = result;
+                    return service.seasons(serie.slug_id).then(function(result) {
+                        serie.seasons = result;
+                    }, rethrow).then(function() {
+                        return $q.all(serie.seasons.map(function(season, index) {
+                            return service.episodes(serie.slug_id, season.number).then(function(episodes) {
+                                serie.seasons[index].episodes = episodes;
+                                return true;
+                            }, rethrow);
+                        }));
+                    }, rethrow).then(function() {
+                        return serie;
+                    }, rethrow);
                 }, rethrow);
             });
         },
@@ -210,6 +217,9 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         },
         episodes: function(slug, seasonNumber) {
             return promiseRequest('episodes', slug, seasonNumber);
+        },
+        people: function(slug) {
+            return promiseRequest('people', slug);
         },
         search: function(what) {
             service.cancelTrending();
