@@ -153,6 +153,10 @@ hr {
   background:#2e2e2e;
 }
 
+@media handheld{
+    #main > nav { display: none; }
+}
+
 #main > nav ul {
   list-style:none;
   text-align:center;
