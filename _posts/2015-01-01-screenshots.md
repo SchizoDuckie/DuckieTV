@@ -26,15 +26,14 @@ Translations are available in 11 languages. (English, Deutch, Español, Françai
  data-galleryeffectprev="zoomOut"
  data-cover="false">
 
-<img  src="img/screenshots/calendar.png" data-highres="img/screenshots/full/calendar.png" alt="calendar" data-caption="calendar" />
-<img src="img/screenshots/duckietorrent.png" data-highres="img/screenshots/full/duckietorrent.png" alt="duckietorrent" data-caption="duckietorrent" />
-<img  src="img/screenshots/torrentsettings.png" data-highres="img/screenshots/full/torrentsettings.png" alt="torrentsettings" data-caption="torrentsettings" />
-<img src="img/screenshots/settings.png" data-highres="img/screenshots/full/settings.png" alt="settings" data-caption="settings" />
-<img src="img/screenshots/batchmark.png" data-highres="img/screenshots/full/batchmark.png" alt="batchmark" data-caption="batchmark" />
-<img src="img/screenshots/library.png" data-highres="img/screenshots/full/library.png" alt="library" data-caption="library" />
-<img  src="img/screenshots/trending.png" data-highres="img/screenshots/full/trending.png" alt="trending" data-caption="trending" />
-<img  src="img/screenshots/popup.png" data-highres="img/screenshots/full/popup.png" alt="popup" data-caption="popup" />
-
+<img  src="img/screenshots/calendar.png" data-highres="img/screenshots/full/calendar.png" alt="calendar" data-caption="Your main screen is a beautiful calendar with backgrounds tailored to the shows you are watching" />
+<img  src="img/screenshots/popup.png" data-highres="img/screenshots/full/popup.png" alt="popup" data-caption="Instant access to &micro;Torrent/BitTorrent features from the calendar" />
+<img  src="img/screenshots/trending.png" data-highres="img/screenshots/full/trending.png" alt="trending" data-caption="Add your favorite shows by picking them off of TraktTV's Trending Shows list, or search manually" />
+<img src="img/screenshots/batchmark.png" data-highres="img/screenshots/full/batchmark.png" alt="batchmark" data-caption="Forgot to mark your shows as watched? Batch mode enables to mark a whole range of shows at once." />
+<img src="img/screenshots/library.png" data-highres="img/screenshots/full/library.png" alt="library" data-caption='Navigate to any of your shows easily by opening the "view your local library" panel' />
+<img src="img/screenshots/duckietorrent.png" data-highres="img/screenshots/full/duckietorrent.png" alt="duckietorrent" data-caption="DuckieTorrent &micro;Torrent/BitTorrent client built-in" />
+<img  src="img/screenshots/torrentsettings.png" data-highres="img/screenshots/full/torrentsettings.png" alt="torrentsettings" data-caption="You can either completely turn off Torrent integration or tune it to your preference" />
+<img src="img/screenshots/settings.png" data-highres="img/screenshots/full/settings.png" alt="settings" data-caption="Control various settings to adjust DuckieTV to your needs, translated into your choice of 12 languages" />
 </div>
 
 ### Here's a little sneak peek of what we're up to
