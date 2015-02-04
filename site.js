@@ -109,7 +109,7 @@ jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').th
     $('#date').html(new Date(result[0].published_at).toLocaleDateString());
     $("#releasenotes").html('<p style="text-align:left">' + marked(result[0].body) + '</p>');
 
-    var isX64 = navigator.userAgent.match(/x86_64|x86-64|Win64|x64;|amd64|AMD64|WOW64|x64_64/).length > 0;
+    var isX64 = navigator.userAgent.search(/x86_64|x86-64|Win64|x64;|amd64|AMD64|WOW64|x64_64/) > -1;
 
     result[0].assets.map(function(release) {
         console.log(release.name);
