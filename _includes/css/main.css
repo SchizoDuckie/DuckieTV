@@ -672,6 +672,9 @@ nav.thumbGridNav a.sel {
   background: rgba(0,0,0,0.6);
   width: 100%;
   padding: 10px;
+  color: white;
+  font-size: 17px;
+  text-align: center;
 }
 
 .ss-img-wrapper label .ss-img-index{
