@@ -145,6 +145,8 @@ angular.module('DuckieTV', [
         'es_ES': 'es_es',
         'es_419': 'es_es',
         'fr': 'fr_fr',
+        'fr_ca': 'fr_fr',
+        'fr_CA': 'fr_fr',
         'fr_FR': 'fr_fr',
         'it': 'it_it',
         'it_IT': 'it_it',
