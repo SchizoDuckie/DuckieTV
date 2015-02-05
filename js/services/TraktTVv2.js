@@ -197,6 +197,7 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             return promiseRequest('serie', slug).then(function(serie) {
                 return service.people(serie.slug_id).then(function(result) {
                     serie.people = result;
+                }, rethrow).then(function() {
                     return service.seasons(serie.slug_id).then(function(result) {
                         serie.seasons = result;
                     }, rethrow).then(function() {
@@ -209,7 +210,7 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
                     }, rethrow).then(function() {
                         return serie;
                     }, rethrow);
-                }, rethrow);
+                });
             });
         },
         seasons: function(slug) {
