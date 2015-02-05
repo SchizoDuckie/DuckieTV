@@ -12,7 +12,7 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         activeTrendingRequest = false;
 
     var APIkey = '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0';
-    var endpoint = 'https://api.trakt.tv/';
+    var endpoint = 'https://api-v2launch.trakt.tv/';
     /// shows / game - of - thrones / seasons ? extended = full, images
 
     var endpoints = {
