@@ -43,7 +43,11 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
         data.lastupdated = data.updated_at;
         if (data.people && 'cast' in data.people) {
             data.actors = data.people.cast.map(function(actor) {
+                if ('character' in actor && actor.character != '') {
+                return actor.person.name + ' (' + actor.character + ')';
+                } else {
                 return actor.person.name;
+                };
             }).join('|');
         }
 
