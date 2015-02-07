@@ -315,7 +315,7 @@ angular.module('DuckieTV', [
      * and forward it to TraktTV if syncing enabled.
      */
     $rootScope.$on('episode:marked:watched', function(evt, episode) {
-        console.log("Mark as watched and sync!");
+        //console.log("Mark as watched and sync!");
         if (SettingsService.get('trakttv.sync')) {
             CRUD.FindOne('Serie', {
                 ID_Serie: episode.get('ID_Serie')
