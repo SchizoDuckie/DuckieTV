@@ -204,9 +204,10 @@ angular.module('DuckieTorrent.torrent', [])
                                 category = 'btappMethods';
                                 data = el[type].btapp;
                             } else {
-                                data = 'all' in el[type].btapp[category] ? el[type].btapp[category].all : el[type].btapp[category];
-                                if (!('all' in el[type].btapp[category])) category += 'Methods';
+                                data = 'all' in el[type].btapp[category] && !('set' in el[type].btapp[category]) ? el[type].btapp[category].all : el[type].btapp[category];
+                                if (!('all' in el[type].btapp[category]) || 'set' in el[type].btapp[category]) category += 'Methods';
                             }
+                            //console.log("Handle remote", el, type, category, data);
                             TorrentRemote.handleEvent(type, category, data, methods.RPC);
                         });
                         return data;
@@ -233,7 +234,7 @@ angular.module('DuckieTorrent.torrent', [])
                         session: self.sessionKey,
                         type: 'function',
                         path: [p],
-                        'args': '[]',
+                        'args': JSON.stringify(args),
                         hostname: window.location.host
                     });
                 },
@@ -437,7 +438,7 @@ angular.module('DuckieTorrent.torrent', [])
         // the name and args back to us. We're responsible for making the call to the function
         // when we detect this. This is the same way that jquery handles ajax callbacks.
         storeCallbackFunction: function(cb) {
-            console.log("Create a callback function for ", cb);
+            //console.log("Create a callback function for ", cb);
             cb = cb || function() {};
             var str = 'bt_' + new Date().getTime();
             this.btappCallbacks[str] = cb;
@@ -445,7 +446,7 @@ angular.module('DuckieTorrent.torrent', [])
         },
 
         call: function(path, signature, args, rpcTarget) {
-            console.log("Trying to call RPC function: ", path, signature, args);
+            //console.log("Trying to call RPC function: ", path, signature, args);
             // This is as close to a static class function as you can get in javascript i guess
             // we should be able to use verifySignaturesArguments to determine if the client will
             // consider the arguments that we're passing to be valid
@@ -454,7 +455,7 @@ angular.module('DuckieTorrent.torrent', [])
                 throw 'arguments do not match any of the function signatures exposed by the client';
             }
             service.convertCallbackFunctionArgs(args);
-            console.log("Calling RPC Function!", path, signature, args);
+            //console.log("Calling RPC Function!", path, signature, args, rpcTarget);
             return rpcTarget(path, args);
 
         }
@@ -559,6 +560,7 @@ angular.module('DuckieTorrent.torrent', [])
     var service = {
         torrents: {},
         settings: {},
+
         getNameFunc: null,
 
         getTorrentName: function(torrent) {
@@ -579,12 +581,17 @@ angular.module('DuckieTorrent.torrent', [])
         },
 
         removeEvent: function(torrent) {
-            console.log("Remove from list: ", torrent);
-            //delete this.torrents[torrent.hash];
+            //console.log("Remove from list: ", torrent);
+            delete this.torrents[torrent.hash];
         },
 
-        addSettings: function(data) {
-            // console.log("Add Settings!", data);
+        addSettings: function(data, rpc) {
+            //console.log("Add Settings!", data, rpc);
+        },
+
+        addSettingsMethods: function(data, rpc) {
+            //console.log("Add Settings methods!", data, rpc, a, b, c);
+            service.settings = new RPCObject('settings', data, rpc);
         },
 
         getTorrents: function() {
@@ -610,7 +617,7 @@ angular.module('DuckieTorrent.torrent', [])
         },
 
         addEvents: function(data) {
-            console.info("Add events!", data);
+            //console.info("Add events!", data);
         },
 
         addRss: function(data) {
@@ -619,7 +626,7 @@ angular.module('DuckieTorrent.torrent', [])
         },
 
         addTrackerMethods: function(data) {
-            // console.log("Add Tracker Methods!", data);
+            console.log("Add Tracker Methods!", data);
         },
 
         addRsaMethods: function(data) {
@@ -634,6 +641,9 @@ angular.module('DuckieTorrent.torrent', [])
             // console.log("Add stash methods!", data);
         },
 
+        addEventsMethods: function(data, RPCObject) {
+            // console.log("Add Events methods!", data, RPCObject)
+        },
 
         addRssMethods: function(data) {
             // console.log("Add RSS Methods: ", data);
@@ -645,7 +655,7 @@ angular.module('DuckieTorrent.torrent', [])
         },
 
         addOsMethods: function(data) {
-            // console.log("Add BTAPP Methods: ", data);
+            // console.log("Add OS Methods: ", data);
 
         },
 
@@ -665,16 +675,17 @@ angular.module('DuckieTorrent.torrent', [])
             // console.log("Add stream!", data);
         },
 
-        handleEvent: function(type, category, data, RPCProxy) {
+        handleEvent: function(type, category, data, RPCProxy, input) {
             if (!(type + String.capitalize(category) in this)) {
-                console.error("Method not implemented: " + type + category.capitalize(), data);
+                console.error("Method not implemented: " + type + String.capitalize(category), data);
             } else {
-                this[type + String.capitalize(category)](data, RPCProxy);
+                this[type + String.capitalize(category)](data, RPCProxy, type, category, input);
             }
         }
 
 
     };
+    window.bt = service;
     return service;
 })
 
