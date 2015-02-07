@@ -137,11 +137,11 @@ The plugin requests this to use the Chrome.Topsites API that allows to display y
 
 Privacy Statement
 =================
-**I DO NOT WANT YOUR DATA**
+**WE DO NOT WANT YOUR DATA**
 
-* The only statistics tracked are the installations by google analytics and visits to the public github site.
-* As soon you install this plugin it runs locally without sending statistics anywhere. There is no logging from my side of anything you do within this plugin and there never will be.
-* I do not want your money, I do this in my spare time for fun and to make my own life and that of other's easier. There is no business model.
+* The only statistics tracked for DuckieTV are the visits to the public github site (by Google Analytics) and the installations in the Chrome Webstore.
+* As soon you install DuckieTV it runs locally without sending statistics anywhere. There is no server to connect to, no infrastructure to bring down, and no logging from DuckieTV’s side of anything you do within the app, and there never will be.
+* We do not want your money! We do this in our spare time for fun and to make our own lives and that of other’s easier. There is no business model, no ads, no profit.
 * There are no costs to cover: No servers, no hosting, no databases, everything runs on google's, github's and reddit's infrastructure. Therefore you are *not* the product and this is extension is free as in free beer.
 * Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.
 
