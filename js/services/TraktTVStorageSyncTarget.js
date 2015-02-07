@@ -1,11 +1,11 @@
-angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.settings', 'DuckieTV.providers.storagesync'])
+angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.settings', 'DuckieTV.providers.storagesync', 'DuckieTV.providers.trakttvv2'])
 
 /** 
  * Trakt TV Sync interface.
  *
  * Reads and writes from and to trakt.tv
  */
-.factory('TraktTVStorageSyncTarget', function(StorageSyncService, SettingsService, TraktTV) {
+.factory('TraktTVStorageSyncTarget', function(StorageSyncService, SettingsService, TraktTVv2) {
     var service = {
         name: 'TraktTV Sync Target',
         lastSync: 'never',
@@ -29,7 +29,7 @@ angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.set
 
         getSeriesList: function() {
             service.status = 'reading';
-            return TraktTV.enableBatchMode().getUserWatched(SettingsService.get('trakttv.username')).then(function(series) {
+            return TraktTVv2.watched().then(function(series) {
                 series = series.map(function(el) {
                     return parseInt(el.tvdb_id);
                 });
@@ -56,6 +56,6 @@ angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.set
 
 window.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
-        //  angular.element(document.body).injector().get('StorageSyncService').registerTarget('TraktTVStorageSyncTarget');
+        angular.element(document.body).injector().get('StorageSyncService').registerTarget('TraktTVStorageSyncTarget');
     }, 500);
 });
