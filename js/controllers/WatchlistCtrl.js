@@ -1,6 +1,12 @@
 angular.module('DuckieTV.controllers.watchlist', [])
 
+/**
+ * Watchlist controller for movies
+ * Currently not implemented
+ */
+ 
 .controller('WatchlistCtrl', function($scope, WatchlistService) {
+
     $scope.watchlist = WatchlistService.watchlist;
     $scope.searchEngine = 1;
     $scope.searchingForMovie = false;
@@ -11,7 +17,6 @@ angular.module('DuckieTV.controllers.watchlist', [])
 
     $scope.disableAdd = function() {
         $scope.searchingForMovie = false;
-        console.log("Disable!");
     }
 
     $scope.$on('watchlist:updated', function(event, data) {

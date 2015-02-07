@@ -74,16 +74,16 @@
   <tr>
     <th width="150px">
       <strong style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/calendar-specials/hdr'|translate}}</strong>
-      <p class="label label-danger" ng-show="!getSetting('calendar.show-specials')">{{'SETTINGS/DISPLAY/calendar-specials-hide/lbl'|translate}}</p>
-      <p class="label label-success" ng-show="getSetting('calendar.show-specials')">{{'SETTINGS/DISPLAY/calendar-specials-show/lbl'|translate}}</p>
-    </th>
+      <p class="label label-danger" ng-hide="showSpecials">{{'SETTINGS/DISPLAY/calendar-specials-hide/lbl'|translate}}</p>
+      <p class="label label-success" ng-show="showSpecials">{{'SETTINGS/DISPLAY/calendar-specials-show/lbl'|translate}}</p>
+    </th>swag
     <td>
       <ul class="list-unstyled">
         <li>
           <p class="alert alert-info">{{'SETTINGS/DISPLAY/calendar-specials/alert'|translate}}</p>
 
-          <button ng-show="!getSetting('calendar.show-specials')" ng-click="enableSpecials()" class="btn btn-success">{{'SETTINGS/DISPLAY/calendar-specials-show/btn'|translate}}</button>
-          <button ng-show="getSetting('calendar.show-specials')" ng-click="disableSpecials()" class="btn btn-danger">{{'SETTINGS/DISPLAY/calendar-specials-hide/btn'|translate}}</button>
+          <button ng-hide="showSpecials" ng-click="toggleSpecials()" class="btn btn-success">{{'SETTINGS/DISPLAY/calendar-specials-show/btn'|translate}}</button>
+          <button ng-show="showSpecials" ng-click="toggleSpecials()" class="btn btn-danger">{{'SETTINGS/DISPLAY/calendar-specials-hide/btn'|translate}}</button>
         </li>
       </ul>
     </td>

@@ -10,17 +10,15 @@ angular.module('DuckieTV.controllers.backup', ['DuckieTV.providers.filereader'])
  *   // serialized settings
  * },
  * "series": {
- * 	<SHOW_TVDB_ID> : [ // array of objects
- * 		{
- * 			"TVDB_ID": <Episode_TVDB_ID>,
- * 			"watchedAt": <timestamp watchedAt>
- *		},
- *		// repeat
- *	  ],
- *	  // repeat
- * 	}
- *
- *
+ *  <SHOW_TVDB_ID> : [ // array of objects
+ *      {
+ *          "TVDB_ID": <Episode_TVDB_ID>,
+ *          "watchedAt": <timestamp watchedAt>
+ *      },
+ *      // repeat
+ *    ],
+ *    // repeat
+ *  }
  */
 .controller('BackupCtrl', function($scope, $rootScope, FileReader, TraktTVv2, SettingsService, FavoritesService, $q) {
 
@@ -35,19 +33,23 @@ angular.module('DuckieTV.controllers.backup', ['DuckieTV.providers.filereader'])
      */
     $scope.createBackup = function() {
         $scope.backupTime = new Date();
+        // Fetch all the series
         CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID from Series').then(function(series) {
             var out = {
                 settings: {},
                 series: {}
             };
+            // Store all the settings
             for (var i = 0; i < localStorage.length; i++) {
                 if (localStorage.key(i).indexOf('database.version') > -1) continue;
                 out.settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i));
             }
+            // Store all the series
             while (serie = series.next()) {
                 out.series[serie.get('TVDB_ID')] = [];
             }
 
+            // Store watched episodes for each serie
             CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watchedAt is not null').then(function(res) {
                 while (row = res.next()) {
                     out.series[row.get('TVDB_ID')].push({
@@ -101,7 +103,6 @@ angular.module('DuckieTV.controllers.backup', ['DuckieTV.providers.filereader'])
                         $scope.adding[TVDB_ID] = false;
                     });
                 });
-
             }, function(err) {
                 console.error("ERROR!", err);
             });

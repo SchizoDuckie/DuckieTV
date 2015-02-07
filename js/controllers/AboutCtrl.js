@@ -1,12 +1,15 @@
 angular.module('DuckieTV.controllers.about', [])
 
+/**
+ * Fetches and displays various statistics about current DuckieTV Setup on About Page
+ */
 .controller('AboutCtrl', function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, GenericSearch) {
 
     $scope.statistics = [];
 
     getStats = function() {
 
-        // screen
+        // Get Screen Size
         var screenSize = '';
         if (screen.width) {
             width = (screen.width) ? screen.width : '';
@@ -14,7 +17,7 @@ angular.module('DuckieTV.controllers.about', [])
             screenSize += '' + width + " x " + height;
         };
 
-        // database statistics
+        // Get Database Stats
         countEntity = function(entity) {
             CRUD.EntityManager.getAdapter().db.execute('select count(*) as count from ' + entity).then(function(result) {
                 $scope.statistics.push({
@@ -24,7 +27,7 @@ angular.module('DuckieTV.controllers.about', [])
             });
         };
 
-        // shows hidden from calendar
+        // Count shows hidden from calendar
         countHiddenShows = function() {
             CRUD.EntityManager.getAdapter().db.execute("select count(displaycalendar) as count from Series where displaycalendar like 0").then(function(result) {
                 $scope.statistics.push({
@@ -34,6 +37,7 @@ angular.module('DuckieTV.controllers.about', [])
             });
         };
 
+        // Get sync stats
         getSyncTime = function() {
             /*
              * if sync is supported get the synctime else indicate not available
@@ -60,12 +64,13 @@ angular.module('DuckieTV.controllers.about', [])
             };
         };
 
-
+        // Get current torrent mirror
         var activeTorrentingMirror = GenericSearch.getConfig().mirror;
+
+        // Get date of last trakt update
         var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
 
-
-        // general statistics
+        // General misc stats
         $scope.statistics = [{
             name: 'UserAgent',
             data: navigator.userAgent
@@ -132,7 +137,7 @@ angular.module('DuckieTV.controllers.about', [])
             });
         }
 
-        // local date and time in GMT presentation
+        // Local date and time in GMT presentation
         $scope.statistics.unshift({
             name: 'Current Date and Time',
             data: new Date().toGMTString()
@@ -143,7 +148,6 @@ angular.module('DuckieTV.controllers.about', [])
         countHiddenShows();
         countEntity('Seasons');
         countEntity('Episodes');
-
     }
     getStats();
 });

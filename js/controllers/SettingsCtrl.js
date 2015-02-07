@@ -1,5 +1,14 @@
 angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.trakttvv2'])
 
+/**
+ * Setting controller for the settings pages
+ *
+ * Contains various controllers for different settings tabs
+ */
+
+/**
+ * Controller for Sync settings tab
+ */
 .controller('SyncCtrl', function($scope, StorageSyncService, $injector, TraktTVv2) {
 
     $scope.targets = StorageSyncService.targets;
@@ -24,18 +33,20 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     console.log($scope.targets);
 })
 
+/**
+ * Controller for main settings tab
+ */
 .controller('DefaultCtrl', function($scope, StorageSyncService, SettingsService) {
+// Nothing here D:
 
-    /**
-     * checks if sync is supported, used to hide/show sync panel on settings/display
-     */
+// Deprecated sync functions, no longer relevant to this settings tab
+/**
+    //Checks if sync is supported, used to hide/show sync panel on settings/display
     $scope.isSyncSupported = function() {
         return false; // StorageSyncService.isSupported();
     };
 
-    /**
-     * Fire off an event that pushes the current series list into the cloud
-     */
+    //Fire off an event that pushes the current series list into the cloud
     $scope.sync = function() {
         console.log("Synchronizing!");
         SettingsService.set('lastSync', new Date().getTime());
@@ -56,75 +67,68 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
             SettingsService.set('storage.sync', false);
         });
     };
-
+*/
 })
 
+/*
+ * Controller for the display settings tab
+ */
 .controller('DisplayCtrl', function($scope, $rootScope, $filter, SettingsService) {
 
     $scope.activeLocale = SettingsService.get('application.locale');
     $scope.bgopacity = SettingsService.get('background-rotator.opacity');
+    $scope.showSpecials = SettingsService.get('calendar.show-specials');
 
-    /*
-     * set up the language list used in settings/display template
-     */
+    // Set up the language list used in settings/display template
     $scope.languageList = {
         'en_au': 'au',
-        'en_ca': 'ca',
         'en_nz': 'nz',
         'en_uk': 'uk',
         'en_us': 'us',
         'de_de': 'de_de',
         'es_419': 'es_419',
         'es_es': 'es_es',
-        'fr_ca': 'fr_ca',
         'fr_fr': 'fr_fr',
         'it_it': 'it_it',
         'ja_jp': 'ja_jp',
         'ko_kr': 'ko_kr',
         'nl_nl': 'nl_nl',
-        'pt_br': 'pt_br',
         'pt_pt': 'pt_pt',
         'ru_ru': 'ru_ru',
         'sv_se': 'sv_se',
         'zh_cn': 'zh_cn'
     };
 
-    /**
-     * Set the various background opacity levels.
-     */
-    $scope.setBGOpacity = function(opacity) {
-        SettingsService.set('background-rotator.opacity', opacity);
-        $scope.bgopacity = opacity;
-    };
-
-    /**
-     * Change localization an translations, reloads translation table.
-     */
+    // Change localization an translations, reloads translation table.
     $scope.setLocale = function(lang) {
         SettingsService.changeLanguage(lang);
         $scope.activeLocale = lang;
     };
 
-    /**
-     * Enable the calendar to show-specials
-     */
-    $scope.enableSpecials = function() {
-        SettingsService.set('calendar.show-specials', true);
-        $rootScope.$broadcast('calendar:clearcache');
+    // Set the various background opacity levels.
+    $scope.setBGOpacity = function(opacity) {
+        SettingsService.set('background-rotator.opacity', opacity);
+        $scope.bgopacity = opacity;
     };
 
-    /**
-     * Disable the calendar from showing specials
-     */
-    $scope.disableSpecials = function() {
-        SettingsService.set('calendar.show-specials', false);
+    // Toggle if calendar shows specials or not
+    $scope.toggleSpecials = function() {
+        if ($scope.showSpecials == true) {
+            SettingsService.set('calendar.show-specials', false);
+            $scope.showSpecials = false;
+        } else {
+            SettingsService.set('calendar.show-specials', true);
+            $scope.showSpecials = true;
+        }
         $rootScope.$broadcast('calendar:clearcache');
     };
-
 })
 
+/**
+ * Controller for the torrent settings tab
+ */
 .controller('SettingsTorrentCtrl', function($scope, $rootScope, SettingsService, KickassMirrorResolver, TraktTVv2) {
-    console.log("Init settingstorrentctrl!");
+
     $scope.log = [];
 
     $scope.customkatmirror = SettingsService.get('kickasstorrents.mirror');
@@ -207,6 +211,9 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 
 })
 
+/** 
+ * Root controller for settings pages
+ */
 .controller('SettingsCtrl', function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, KickassMirrorResolver, TraktTVv2, $filter) {
 
     $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
