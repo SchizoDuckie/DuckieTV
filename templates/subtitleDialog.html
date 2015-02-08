@@ -1,0 +1,61 @@
+<!-- torrentDialog.html -->
+<button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
+<h1>Find A Subtitle</h1>
+<input type="text" value="{{serie.name}} {{seasonNumber}} {{episodeNumber}}" focus-watch='searching' onchange="search(query)" placeholder="{{'TORRENTDIALOG/placeholder'|translate}}" class="form-control">
+<i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
+
+<table class="torrents table table-condensed white">
+  <thead>
+    <tr ng-if="searching">
+      <td>
+        <img style='background-color: transparent; margin:0 auto; display:block;' src='img/spinner.gif'>
+        <p style='text-align:center; padding:10px;'>{{'TORRENTDIALOG/searching/lbl'|translate}} {{'TORRENTDIALOG/searching-please-wait/lbl'|translate}}.</p>
+      </td>
+    </tr>
+    <tr ng-if="!searching && items.length == 0">
+      <td>
+        <p>{{'TORRENTDIALOG/no-results/lbl'|translate}}</p>
+        <strong>{{ query }}</strong>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-if="!searching && items.length > 0">
+      <th>&nbsp;</th>
+      <th>
+        <strong>{{'TORRENTDIALOG/name/lbl'|translate}}</strong>
+      </th>
+      <th>
+        <strong>{{'TORRENTDIALOG/seed/lbl'|translate}}</strong>
+      </th>
+      <th>
+        <strong>{{'TORRENTDIALOG/leech/lbl'|translate}}</strong>
+      </th>
+    </tr>
+    <tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items | limitTo: 20">
+      <td style='width:50px; padding:5px; vertical-align: middle;' class='dropdown' dropdown>
+        <a ng-click="magnetSelect(seed.magneturl)">
+          <i class="glyphicon glyphicon-magnet" tooltip="{{'TORRENTDIALOG/download-magnet/tooltip'|translate}}"></i>
+        </a>
+        <a class="dropdown-toggle" dropdown-toggle>
+          <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/options/tooltip'|translate}}"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a ng-href="{{seed.torrent}}"><i class="glyphicon glyphicon-download"></i>{{'TORRENTDIALOG/download-torrent/lbl'|translate}}</a></li>
+          <li><a ng-href="{{seed.magneturl}}"><i class="glyphicon glyphicon-magnet"></i>{{'TORRENTDIALOG/magnet/link/lbl'|translate}}</a></li>
+          <li><a ng-href="{{seed.detailUrl}}" target='_blank'><i class="glyphicon glyphicon-link"></i>{{'TORRENTDIALOG/torrent-details/lbl'|translate}}</a></li>
+        </ul>
+
+      </td>
+      <td>
+        <a tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe" ng-click="magnetSelect(seed.magneturl)"></a>
+      </td>
+      <td style='width:50px; text-align:right'>
+        <a  ng-bind="seed.seeders" ng-click="magnetSelect(seed.magneturl)"></a>
+      </td>
+      <td style='width:50px; text-align:right'>
+        <a  ng-bind="seed.leechers" ng-click="magnetSelect(seed.magneturl)"></a>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,19 +1,13 @@
-angular.module('DuckieTV.providers.showrss', [])
+angular.module('DuckieTV.providers.addic7ed', [])
 
-/** 
- * ShowRSS.info custom Torrent API interfacing.
- * Scrapes the shows list from ShowRSS.info and tries to fetch the magnet links for an episode.
- */
-.factory('ShowRSS', function($q, $http) {
 
-    var activeSearchRequest = false,
-        activeTrendingRequest = false;
+.factory('Addic7ed', function($q, $http) {
 
-    var endpoint = 'https://showrss.info/';
+    var endpoint = 'http://www.addic7ed.com/';
 
     var endpoints = {
-        list: '?cs=browse',
-        serie: '?cs=browse&show=%s'
+        list: 'shows.php',
+        serie: 'show/%s'
     };
 
 
@@ -26,11 +20,11 @@ angular.module('DuckieTV.providers.showrss', [])
         list: function(result) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(result.data, "text/html");
-            var results = doc.querySelectorAll("select option");
+            var results = document.querySelectorAll('td.version a[href^="/show"]')
             var output = {};
             Array.prototype.map.call(results, function(node) {
                 if (node.value == "") return;
-                output[node.innerText.trim()] = node.value;
+                output[node.innerText.trim()] = node.href.replace('/show/');
             });
             return output;
         },

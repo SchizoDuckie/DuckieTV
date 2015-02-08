@@ -10,6 +10,7 @@ angular.module('DuckieTV', [
     'ui.bootstrap',
     'dialogs.services',
     'pascalprecht.translate',
+    'DuckieTV.providers.addic7ed',
     'DuckieTV.providers.chromecast',
     'DuckieTV.providers.episodeaired',
     'DuckieTV.providers.favorites',
@@ -25,7 +26,6 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.generictorrentsearch',
     'DuckieTV.providers.torrentfreak',
     'DuckieTV.providers.mirrorresolver',
-
     'DuckieTV.providers.trakttvv2',
     'DuckieTV.providers.trakttvupdates',
     'DuckieTV.providers.showrss',
@@ -49,6 +49,7 @@ angular.module('DuckieTV', [
     'DuckieTV.directives.chrometopsites',
     'DuckieTV.directives.focuswatch',
     'DuckieTV.directives.lazybackground',
+    'DuckieTV.directives.subtitledialog',
     'DuckieTV.directives.serieslist',
     'DuckieTV.directives.torrentdialog',
     'DuckieTV.directives.querymonitor',
