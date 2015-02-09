@@ -25,7 +25,7 @@ window.TorrentSearchProviders = {
         }
     },
     'KickAssTorrents': {
-        mirror: 'https://kickass.so',
+        mirror: 'https://kickass.to',
         mirrorResolver: null, //'KickassMirrorResolver'
         endpoints: {
             search: '/usearch/%s/?field=seeders&sorder=desc',
