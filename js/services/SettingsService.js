@@ -92,7 +92,8 @@ angular.module('DuckieTV.providers.settings', [])
             'calendar.show-specials': true,
             'calendar.startSunday': true,
             'client.determinedlocale': null,
-            'kickasstorrents.mirror': 'https://kickass.to',
+            'KickAssTorrents.mirror': 'https://kickass.to',
+            'ThePirateBay.mirror': 'https://thepiratebay.se',
             'lastSync': -1,
             'series.displaymode': 'poster',
             'storage.sync': false, // off by default so that permissions must be requested

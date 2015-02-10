@@ -101,9 +101,15 @@ angular.module('DuckieTV.directives.torrentdialog', [])
             var clients = window.TorrentSearchProviders;
             clients['ShowRSS.info'] = true;
             customClients['ShowRSS.info'] = 'ShowRSS';
-            return clients;
+            for (var name in clients) {
+                if (SettingsService.get(name + '.mirror')) {
+                    clients[name].mirror = SettingsService.get(name + '.mirror');
+                }
+            }
+            $scope.clients = clients;
         };
 
+        $scope.getClients();
 
         $scope.search($scope.query);
 

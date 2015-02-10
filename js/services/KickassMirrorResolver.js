@@ -7,9 +7,9 @@ angular.module('DuckieTV.providers.kickassmirrorresolver', [])
 
     // individual mirror resolvers can be added here
     this.endpoints = {
-        kickasstorrents: 'http://unlocktorrent.com/'
+        kickasstorrents: 'http://www.rockaproxy.com/allTorrentLinksPage.php'
     };
-    this.rootScope = false;
+    var failedMirrors = []; // keep a list of failed mirrors so that we don't try the same one twice.
 
     /**
      * Switch between search and details
@@ -19,27 +19,29 @@ angular.module('DuckieTV.providers.kickassmirrorresolver', [])
     },
 
     /** 
-     * Pick a random mirror for KickAssTorrents from UnlockTorrent's reponse
-     * Parse the result as a DOM Document, fetch the tab that has KickAss Torrents on it, fetch the corresponding links from the resulting
-     * div id and return a random item.
-     * Voodo magic alert: To be able to use array slice, filter and map calls on a NodeList (like returned by querySelectorAll) you
+     * Pick a random mirror for KickAssTorrents from piratelist.net
      * run them through array.prototype.<function>.call
      */
-    this.parseUnlockTorrent = function(result, filter) {
+    this.parseRockAProxy = function(result) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
-        var tabElement = Array.prototype.filter.call(doc.querySelectorAll(".nav li a[data-toggle]"), function(el) {
-            return el.innerText == 'KickAss Torrents';
-        });
 
-        if (tabElement && tabElement.length == 1) {
-            var mirrorList = Array.prototype.map.call(doc.querySelectorAll('div' + tabElement[0].getAttribute('href') + ' a '), function(el) {
-                return el.href;
-            })
-            console.log("MirrorList", mirrorList);
-            return mirrorList[Math.floor(Math.random() * mirrorList.length - 1)];
-        }
-        return false;
+        var mirrorList = [];
+        Array.prototype.map.call(doc.querySelectorAll('td span[id="linknametext"]'), function(el) {
+            if (el.parentNode.innerText.indexOf('KickAssTorrents') > -1) {
+                mirrorList.push(el.parentNode.innerText.trim().replace('KickAssTorrents - ', ''));
+            }
+        });
+        console.log("MirrorList", mirrorList);
+        return pickRandomMirror(mirrorList);
+    }
+
+    function pickRandomMirror(mirrorList) {
+        var item = mirrorList[Math.floor(Math.random() * mirrorList.length - 1)];
+        do {
+            item = mirrorList[Math.floor(Math.random() * mirrorList.length - 1)];
+        } while (failedMirrors.indexOf(item) > -1)
+        return item;
     }
 
     /** 
@@ -50,6 +52,8 @@ angular.module('DuckieTV.providers.kickassmirrorresolver', [])
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
         var result = doc.querySelector('table.data tr > td:nth-child(1) > div.iaconbox.floatright > a.imagnet.icon16');
+        doc = null;
+        parser = null;
         return result && result.href && (allowUnsafe ? true : result.href.indexOf('magnet') == 0);
     }
 
@@ -60,7 +64,7 @@ angular.module('DuckieTV.providers.kickassmirrorresolver', [])
      */
     this.$get = function($q, $http, $rootScope) {
         var self = this;
-        var maxAttempts = 3;
+        var maxAttempts = 50;
         return {
             /**
              * Find a random mirror for KickAss Torrents and return the promise when
@@ -77,7 +81,8 @@ angular.module('DuckieTV.providers.kickassmirrorresolver', [])
                     cache: false
                 }).then(function(response) {
                     // parse the response
-                    var location = self.parseUnlockTorrent(response, 'Kickass Torrents');
+                    var location = self.parseRockAProxy(response);
+                    console.log('mirror picked', response);
                     $rootScope.$broadcast('katmirrorresolver:status', "Found KickAss Torrents mirror! " + location + " Verifying if it uses magnet links.");
                     // verify that the mirror works by executing a test search, otherwise try the process again
                     self.$get($q, $http, $rootScope).verifyKATMirror(location).then(function(location) {
@@ -85,6 +90,7 @@ angular.module('DuckieTV.providers.kickassmirrorresolver', [])
                         d.resolve(location);
                     }, function(err) {
                         if (attempt < maxAttempts) {
+                            failedMirrors.push(location);
                             if (err.status)
                                 $rootScope.$broadcast('katmirrorresolver:status', "Mirror does not do magnet links.. trying another one.");
                             d.resolve(self.$get($q, $http, $rootScope).findKATMirror(attempt + 1));
@@ -111,7 +117,7 @@ angular.module('DuckieTV.providers.kickassmirrorresolver', [])
                 $rootScope.$broadcast('katmirrorresolver:status', "Verifying if mirror is using magnet links!: " + location);
                 var q = $q.defer();
 
-                testLocation = location + "/usearch/test";
+                testLocation = location + "usearch/test";
                 $http({
                     method: 'GET',
                     url: testLocation

@@ -1,4 +1,4 @@
-angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.trakttvv2'])
+angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.trakttvv2', 'DuckieTV.providers.tpbmirrorresolver'])
 
 /**
  * Setting controller for the settings pages
@@ -37,10 +37,10 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
  * Controller for main settings tab
  */
 .controller('DefaultCtrl', function($scope, StorageSyncService, SettingsService) {
-// Nothing here D:
+    // Nothing here D:
 
-// Deprecated sync functions, no longer relevant to this settings tab
-/**
+    // Deprecated sync functions, no longer relevant to this settings tab
+    /**
     //Checks if sync is supported, used to hide/show sync panel on settings/display
     $scope.isSyncSupported = function() {
         return false; // StorageSyncService.isSupported();
@@ -130,14 +130,16 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 /**
  * Controller for the torrent settings tab
  */
-.controller('SettingsTorrentCtrl', function($scope, $rootScope, SettingsService, KickassMirrorResolver, TraktTVv2) {
+.controller('SettingsTorrentCtrl', function($scope, $rootScope, SettingsService, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2) {
 
     $scope.log = [];
 
-    $scope.customkatmirror = SettingsService.get('kickasstorrents.mirror');
+    $scope.customkatmirror = SettingsService.get('KickAssTorrents.mirror');
+    $scope.customtpbmirror = SettingsService.get('ThePirateBay.mirror');
     $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
     $scope.searchquality = SettingsService.get('torrenting.searchquality');
     $scope.katmirrorStatus = [];
+    $scope.tpbmirrorStatus = [];
 
     $scope.searchProviders = Object.keys(window.TorrentSearchProviders);
 
@@ -146,6 +148,9 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
      */
     $rootScope.$on('katmirrorresolver:status', function(evt, status) {
         $scope.katmirrorStatus.unshift(status);
+    });
+    $rootScope.$on('tpbmirrorresolver:status', function(evt, status) {
+        $scope.tpbmirrorStatus.unshift(status);
     });
 
     /**
@@ -156,7 +161,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.findRandomKATMirror = function() {
         KickassMirrorResolver.findKATMirror().then(function(result) {
             $scope.customkatmirror = result;
-            SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
+            SettingsService.set('KickAssTorrents.mirror', $scope.customkatmirror);
             $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
         }, function(err) {
             console.error("Could not find a working KAT mirror!", err);
@@ -170,13 +175,48 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         $scope.mirrorStatus = [];
         KickassMirrorResolver.verifyKATMirror(mirror).then(function(result) {
             $scope.customkatmirror = result;
-            SettingsService.set('kickasstorrents.mirror', $scope.customkatmirror);
+            SettingsService.set('KickAssTorrents.mirror', $scope.customkatmirror);
             $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
         }, function(err) {
             console.error("Could not validate custom mirror!", mirror);
             //$scope.customMirror = '';
         });
     };
+
+    /**
+     * @todo : migrate these to a directive that's a generic interface for mirror resolvers based on the config.MirrorResolver properties
+     */
+
+    /*
+     * Resolve a new random ThePirateBay mirror.
+     * Log progress while this is happening.
+     * Save the new mirror in the thepiratebay.mirror settings key
+     */
+    $scope.findRandomTPBMirror = function() {
+        ThePirateBayMirrorResolver.findTPBMirror().then(function(result) {
+            $scope.customtpbmirror = result;
+            SettingsService.set('ThePirateBay.mirror', $scope.customtpbmirror);
+            $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
+        }, function(err) {
+            console.error("Could not find a working TPB mirror!", err);
+        });
+    };
+
+    /**
+     * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
+     */
+    $scope.validateCustomTPBMirror = function(mirror) {
+        $scope.mirrorStatus = [];
+        ThePirateBayMirrorResolver.verifyTPBMirror(mirror).then(function(result) {
+            $scope.customtpbmirror = result;
+            SettingsService.set('ThePirateBay.mirror', $scope.customtpbmirror);
+            $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!');
+        }, function(err) {
+            console.error("Could not validate custom mirror!", mirror);
+            //$scope.customMirror = '';
+        });
+    };
+
 
     /**
      * Create the automated download service.
