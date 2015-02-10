@@ -7,9 +7,9 @@ angular.module('DuckieTV.providers.addic7ed', [])
 
     var endpoints = {
         list: 'shows.php',
-        serie: 'show/%s'
+        serie: 'ajax_loadShow.php?show=%s&season=%s&langs=&hd=undefined&hi=undefined'
     };
-
+    var cachedList = null;
 
     var getUrl = function(type, param, param2) {
         var out = endpoint + endpoints[type].replace('%s', encodeURIComponent(param));
@@ -20,36 +20,38 @@ angular.module('DuckieTV.providers.addic7ed', [])
         list: function(result) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(result.data, "text/html");
-            var results = document.querySelectorAll('td.version a[href^="/show"]')
+            var results = doc.querySelectorAll('td.version a[href^="/show"]')
             var output = {};
             Array.prototype.map.call(results, function(node) {
                 if (node.value == "") return;
-                output[node.innerText.trim()] = node.href.replace('/show/');
+                output[node.innerText.trim()] = node.getAttribute('href').replace('/show/', '');
             });
+            cachedList = output;
             return output;
         },
         serie: function(result) {
 
             var parser = new DOMParser();
-            var doc = parser.parseFromString(result.data, "text/html");
-            var results = doc.querySelectorAll("#show_timeline div.showentry > a");
+            var doc = parser.parseFromString('<html><body>' + result.data + '</body></html>', "text/html");
+            var results = doc.querySelectorAll('div#season tbody tr');
             var output = [];
             Array.prototype.map.call(results, function(node) {
-
-                var out = {
-                    magneturl: node.href,
-                    releasename: node.innerText,
-                    size: 'n/a',
-                    seeders: 'n/a',
-                    leechers: 'n/a',
-                    detailUrl: ''
-                };
-
-                var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
-                if (magnetHash && magnetHash.length) {
-                    out.torrent = 'http://torcache.gs/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
-                    output.push(out);
+                if (node.querySelector('td:nth-child(10)')) {
+                    output.push({
+                        season: node.querySelector('td:nth-child(1)').innerText,
+                        episode: node.querySelector('td:nth-child(2)').innerText,
+                        title: node.querySelector('td:nth-child(3)').innerText,
+                        language: node.querySelector('td:nth-child(4)').innerText,
+                        release: node.querySelector('td:nth-child(5)').innerText,
+                        progress: node.querySelector('td:nth-child(6)').innerText,
+                        isHearingImpaired: node.querySelector('td:nth-child(6)').innerText,
+                        isCorrected: node.querySelector('td:nth-child(7)').innerText,
+                        is720p: node.querySelector('td:nth-child(8)').innerText == '✔',
+                        is1080p: node.querySelector('td:nth-child(9)').innerText == '✔',
+                        link: 'http://www.addic7ed.com' + node.querySelector('td:nth-child(10) a').getAttribute('href'),
+                    });
                 }
+
             });
             return output;
         }
@@ -85,24 +87,24 @@ angular.module('DuckieTV.providers.addic7ed', [])
         });
     };
 
+    var listShows = function() {
+        if (cachedList != null) {
+            return $q(function() {
+                return cachedList;
+            });
+        }
+        return promiseRequest('list')
+    }
+
     return {
-        search: function(query) {
-            return promiseRequest('list').then(function(results) {
-                var found = Object.keys(results).filter(function(value) {
-                    return query.indexOf(value) == 0
-                });
-                if (found.length == 1) {
-                    var serie = found[0];
-                    return promiseRequest('serie', results[found[0]]).then(function(results) {
-                        var seasonepisode = query.replace(serie, '').trim();
-                        var parts = seasonepisode.match(/S([0-9]{1,2})E([0-9]{1,2})/);
-                        seasonepisode = seasonepisode.replace('S' + parts[1], parseInt(parts[1], 10)).replace('E' + parts[2], 'x' + parts[2]);
-                        var searchparts = seasonepisode.split(' ');
+
+        search: function(serie, seasonNumber, episodeNumber) {
+            return listShows().then(function(results) {
+                var found = results[serie.name];
+                if (found !== undefined) {
+                    return promiseRequest('serie', found, seasonNumber).then(function(results) {
                         return results.filter(function(el) {
-                            if (searchparts.length > 1 && el.releasename.indexOf(searchparts[1]) == -1) {
-                                return false;
-                            }
-                            return el.releasename.indexOf(searchparts[0]) > -1;
+                            return el.episode == episodeNumber;
                         })
                     })
                 }

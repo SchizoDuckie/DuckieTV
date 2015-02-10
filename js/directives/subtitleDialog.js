@@ -21,19 +21,19 @@ angular.module('DuckieTV.directives.subtitledialog', [])
 
         $scope.items = [];
         $scope.searching = true;
-        $scope.query = angular.copy(data.query);
+        $scope.serie = data.serie;
         $scope.seasonNumber = angular.copy(data.seasonNumber);
         $scope.episodeNumber = angular.copy(data.episodeNumber);
         $scope.searchquality = $scope.getSetting('torrenting.searchquality');
 
 
-        $scope.search = function(serie, seasonNumber, episodeNumber) {
+        $scope.fetch = function() {
+            // needs iframe solution.
+        }
+        $scope.search = function() {
             $scope.searching = true;
-            $scope.serie = serie;
-            $scope.seasonNumber = seasonNumber;
-            $scope.episodeNumber = episodeNumber;
 
-            Addic7ed.search([serie, seasonNumber, episodeNumber, $scope.searchquality].join(' ')).then(function(results) {
+            Addic7ed.search($scope.serie, $scope.seasonNumber, $scope.episodeNumber, $scope.searchquality).then(function(results) {
                     $scope.items = results;
                     console.log(results);
                     $scope.searching = false;
@@ -75,12 +75,12 @@ angular.module('DuckieTV.directives.subtitledialog', [])
             },
             template: '<a ng-click="openDialog()" tooltip-append-to-body=true tooltip="{{tooltip}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
             controller: function($scope) {
-                $scope.tooltip = $scope.q !== undefined ?
-                    'Find a subtitle for ' + $scope.q :
+                $scope.tooltip = $scope.serie !== undefined ?
+                    'Find a subtitle for ' + $scope.serie.name :
                     'Find a subtitle'
                 $scope.openDialog = function() {
-                    SubtitleDialog.search($scope.q, $scope.TVDB_ID);
+                    SubtitleDialog.search($scope.serie, $scope.seasonNumber, $scope.episodeNumber);
                 }
             }
         }
-    })
+    });

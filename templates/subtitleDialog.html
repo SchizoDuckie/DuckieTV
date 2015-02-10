@@ -21,41 +21,47 @@
   </thead>
   <tbody>
     <tr ng-if="!searching && items.length > 0">
-      <th>&nbsp;</th>
       <th>
-        <strong>{{'TORRENTDIALOG/name/lbl'|translate}}</strong>
+        <strong>S/E</strong>
       </th>
       <th>
-        <strong>{{'TORRENTDIALOG/seed/lbl'|translate}}</strong>
+        <strong>Title</strong>
       </th>
       <th>
-        <strong>{{'TORRENTDIALOG/leech/lbl'|translate}}</strong>
+        <strong>Language</strong>
       </th>
+      <th>
+        <strong>Release</strong>
+      </th>
+      <th>
+        <strong>Completed</strong>
+      </th>
+      <th>
+        <strong>Flags</strong>
+      </th>
+     
     </tr>
-    <tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items | limitTo: 20">
-      <td style='width:50px; padding:5px; vertical-align: middle;' class='dropdown' dropdown>
-        <a ng-click="magnetSelect(seed.magneturl)">
-          <i class="glyphicon glyphicon-magnet" tooltip="{{'TORRENTDIALOG/download-magnet/tooltip'|translate}}"></i>
-        </a>
-        <a class="dropdown-toggle" dropdown-toggle>
-          <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/options/tooltip'|translate}}"></i>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a ng-href="{{seed.torrent}}"><i class="glyphicon glyphicon-download"></i>{{'TORRENTDIALOG/download-torrent/lbl'|translate}}</a></li>
-          <li><a ng-href="{{seed.magneturl}}"><i class="glyphicon glyphicon-magnet"></i>{{'TORRENTDIALOG/magnet/link/lbl'|translate}}</a></li>
-          <li><a ng-href="{{seed.detailUrl}}" target='_blank'><i class="glyphicon glyphicon-link"></i>{{'TORRENTDIALOG/torrent-details/lbl'|translate}}</a></li>
-        </ul>
-
+    <tr ng-if="!searching && items.length > 0 " ng-repeat="subtitle in items">
+      <td>
+        S{{ subtitle.season }}E{{subtitle.episode}}
       </td>
       <td>
-        <a tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe" ng-click="magnetSelect(seed.magneturl)"></a>
+        {{ subtitle.title }}
       </td>
-      <td style='width:50px; text-align:right'>
-        <a  ng-bind="seed.seeders" ng-click="magnetSelect(seed.magneturl)"></a>
+      <td>
+        {{ subtitle.language }}
       </td>
-      <td style='width:50px; text-align:right'>
-        <a  ng-bind="seed.leechers" ng-click="magnetSelect(seed.magneturl)"></a>
+       <td>  
+        <a href="fetch()" target="_blank">{{subtitle.release }}
       </td>
+      <td>
+        {{ subtitle.progress }}
+      </td>
+     
+      <td>  
+        
+      </td>
+
     </tr>
   </tbody>
 </table>
