@@ -139,7 +139,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.searchquality = SettingsService.get('torrenting.searchquality');
     $scope.katmirrorStatus = [];
 
-    $scope.searchProviders = Object.keys(SettingsService.get('torrenting.genericClients'));
+    $scope.searchProviders = Object.keys(window.TorrentSearchProviders);
 
     /**
      * Inject an event to display mirror resolving progress.
