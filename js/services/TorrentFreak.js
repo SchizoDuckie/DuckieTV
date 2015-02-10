@@ -22,7 +22,7 @@ angular.module('DuckieTV.providers.torrentfreak', [])
      * Switch to the next item in the Top10 RSS feed results while the index is > 0
      */
     $scope.nextItem = function() {
-        if ($scope.itemIndex > 1) {
+        if ($scope.itemIndex > 0) {
             $scope.itemIndex -= 1;
         }
         $scope.activeItem = $scope.items[$scope.itemIndex];
