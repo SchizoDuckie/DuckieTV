@@ -7,28 +7,7 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
 
     var mirror = null;
     var activeRequest = null;
-    var config = {
-        mirror: 'https://torrentz.eu',
-        mirrorResolver: null,
-        endpoints: {
-            search: '/search?f=%s',
-            details: '/%s',
-        },
-        selectors: {
-            resultContainer: 'div.results dl',
-            releasename: ['dt a', 'innerHTML'],
-            magneturl: ['dt a', 'attributes',
-                function(a) {
-                    return 'magnet:?xt=urn:sha1:' + a.substring(1);
-                }
-            ],
-            size: ['dd span.s', 'innerText'],
-            seeders: ['dd span.u', 'innerText'],
-            leechers: ['dd span.d', 'innerText'],
-            detailUrl: ['dt a', 'href']
-        }
-    };
-
+    var config = null;
 
     /**
      * Switch between search and details
