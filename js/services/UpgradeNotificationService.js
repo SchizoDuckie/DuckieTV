@@ -9,25 +9,39 @@ angular.module('DuckieTV.providers.upgradenotification', ['dialogs'])
  */
 .factory('UpgradeNotificationService', function($dialogs, $http, $q) {
 
-	var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="http://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="http://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="http://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
-	var notifications = {
-		'0.75': "<li>DuckieTV is much faster now<li>Easily delete shows from series you're watching<li>Database write indicators<li>Improved error handling and credentials validation for Trakt.TV <li>Update mechanism improved to handle TheTVDB reassigning ID's (fixing duplicate/disappearing shows on your calendar after an update)<li>IMDB / Wikipedia links on the show details page<li>Added ability to hide 'Specials' for shows (like Dr. Who) (check it out in <a href='#/settings'>Settings</a>)<li>Bandwidth consumption improvements<li>Shows that have ended will now only be checked for updates every 2 weeks<li>Fixed Torrent Dialog search box to automatically grab keyboard focus<li>Torrent auto-download service now runs every 2 hours instead of every 4 hours<li>Fixed 'Scenename' lookup for downloads"
-	}
+    var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="http://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="http://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="http://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
+    var notifications = {
+        '0.94': ["<li>Switched to the new (hopefully more stable) trakt.tv endpoint",
+            "<li>Added actor and rating info back to serie details",
+            "<li>Fixed KAT Mirror Resolver and custom setting and added back TPB mirror selection to torrent settings",
+            "<li>Changed default KAT mirror back to kickass.to",
+            "<li>Minor tweaks to auto-download and updatecheck mechanisms",
+            "<li>Built a little standalone website to turn off uTorrent's ads with one click.<br><center><a href='http://schizoduckie.github.io/PimpMyuTorrent/?fd' target='_blank'><strong>Click here to turn off your uTorrent ads</a></center>"
+        ].join('')
+    }
 
-	var service = {
+    var service = {
 
-		initialize: function() {
-			var notifyVersion = localStorage.getItem('upgrade.notify');
-			if(notifyVersion != null && (notifyVersion in notifications)) {
-				var dlg = $dialogs.notify('DuckieTV was upgraded to '+notifyVersion,
-					"<h2>What's new in this version:</h2>"+ notifications[notifyVersion]+dlgLinks);
-				 dlg.result.then(function() {
-	                localStorage.setItem('upgrade.notify', null);
-	            });
-			}
-		}
-	}
+        initialize: function() {
+            $http({
+                method: 'GET',
+                url: 'VERSION'
+            }).
+            success(function(data, status, headers, config) {
+                var notifyVersion = data.trim();
+                if (notifyVersion != null && (notifyVersion in notifications) && localStorage.getItem('upgrade.notify') != notifyVersion) {
+                    var dlg = $dialogs.notify('DuckieTV was upgraded to ' + notifyVersion,
+                        "<h2>What's new in this version:</h2>" + notifications[notifyVersion] + dlgLinks, {}, {
+                            size: 'lg'
+                        });
+                    dlg.result.then(function() {
+                        localStorage.setItem('upgrade.notify', notifyVersion);
+                    });
+                }
+            });
+        }
+    }
 
-	service.initialize();
-	return service;
+    service.initialize();
+    return service;
 });

@@ -4,7 +4,7 @@
     "short_name": "__MSG_appShortNameNewTab__",
     "description": "__MSG_appDescNewTab__",
     "default_locale": "en",
-    "version": "0.93",
+    "version": "0.94",
     "permissions": [
         "http://*/*",
         "https://*/*",
