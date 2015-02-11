@@ -44,14 +44,15 @@ angular.module('DuckieTV.providers.trakttvupdates', ['DuckieTV.providers.trakttv
 
     var updateFunc = function() {
         var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
-        if (getDateString(lastUpdated) != getDateString(new Date())) {
+        var localDate = new Date();
+        if (getDateString(lastUpdated) != getDateString(localDate)) {
             service.update(lastUpdated).then(function(result) {
                 console.info('TraktTV update check completed. ' + result.length + ' shows updated since ' + lastUpdated);
-                localStorage.setItem('trakttv.lastupdated', new Date().getTime());
+                localStorage.setItem('trakttv.lastupdated', localDate.getTime());
             });
         } else {
             console.info("Not performing trakttv update check. already done today.");
-            localStorage.setItem('trakttv.lastupdated', new Date().getTime());
+            localStorage.setItem('trakttv.lastupdated', localDate.getTime());
         }
         setTimeout(updateFunc, 60 * 60 * 12 * 1000); // schedule update check in 12 hours for long running apps.
     };
