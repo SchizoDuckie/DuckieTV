@@ -5,7 +5,7 @@ Throughout Services and Directives in DuckieTV events are published on the $root
 This keeps the configuration modular, allows easy extending at key points and prevents tight coupling
 
 
-Event Descriptions (as at v0.91)
+Event Descriptions (as at v0.93)
 ==================
 ------------------
 
@@ -87,7 +87,11 @@ Event Descriptions (as at v0.91)
 
     Notify the torrentRemoteControl directives that a torrent's data has been updated.
 
- -  **video:load**
+  -  **tpbmirrorresolver:status**
+
+    A status update for the TPB mirror resolver was published (used by SettingsCtrl to tap into verification steps).
+
+-  **video:load**
 
     Notify ChromeCast to load a video.
 
@@ -106,11 +110,11 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](http://i.imgur.com/5NuMxG2.png)
+![listeners](http://i.imgur.com/7UTp3Ib.png)
 
 Event Publishers:
 ------------------
-![publishers](http://i.imgur.com/lY0Miwa.png)
+![publishers](http://i.imgur.com/7QoC5ka.png)
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
@@ -127,22 +131,22 @@ Listeners
       nodesep=0.2;
       node [fontsize=11];
 
-      Listeners -> app [style="invis"];
-      Listeners -> backgroundRotator [style="invis"];
-      Listeners -> calendar [style="invis"];
       Listeners -> ChromeCast [style="invis"];
-      Listeners -> datePicker [style="invis"];
       Listeners -> DuckieTorrent [style="invis"];
       Listeners -> EpisodeAiredService [style="invis"];
       Listeners -> EpisodeCtrl [style="invis"];
       Listeners -> SerieCtrl [style="invis"];
-      Listeners -> seriesList [style="invis"];
       Listeners -> SettingsCtrl [style="invis"];
       Listeners -> WatchlistCheckerService [style="invis"];
       Listeners -> WatchlistCtrl [style="invis"];
+      Listeners -> app [style="invis"];
+      Listeners -> backgroundRotator [style="invis"];
+      Listeners -> calendar [style="invis"];
+      Listeners -> datePicker [style="invis"];
+      Listeners -> seriesList [style="invis"];
 
-      backgroundload -> backgroundRotator;
       backgroundload -> ChromeCast;
+      backgroundload -> backgroundRotator;
       calendarclearcache -> calendar;
       calendarevents -> datePicker;
       episodeairedcheck -> EpisodeAiredService;
@@ -152,20 +156,21 @@ Listeners
       episodemarkedwatched -> app;
       episodemarkedwatched -> calendar;
       episodesupdated -> SerieCtrl;
-      favoritesupdated -> calendar;
       favoritesupdated -> SerieCtrl;
+      favoritesupdated -> calendar;
       favoritesupdated -> seriesList;
+      katmirrorresolverstatus -> SettingsCtrl;
       locationChangeSuccess -> app;
-      magnetselectTVDBID -> calendar;
       magnetselectTVDBID -> EpisodeCtrl;
       magnetselectTVDBID -> SerieCtrl;
-      katmirrorresolverstatus -> SettingsCtrl;
+      magnetselectTVDBID -> calendar;
       serieload -> ChromeCast;
       serieslistempty -> seriesList;
       serieslisthide -> seriesList;
       setDate -> calendar;
       storageupdate -> SyncManager;
       torrentupdateinfoHash -> DuckieTorrent;
+      tpbmirrorresolverstatus -> SettingsCtrl;
       videoload -> ChromeCast;
       watchlistcheck -> WatchlistCheckerService;
       watchlistupdated -> WatchlistCtrl;
@@ -211,6 +216,7 @@ Listeners
 
       SettingsCtrl [ label="SettingsCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         katmirrorresolverstatus [label="katmirrorresolver:status", shape=box,fillcolor="white",style="filled"];
+        tpbmirrorresolverstatus [label="tpbmirrorresolver:status", shape=box,fillcolor="white",style="filled"];
 
       SyncManager [ label="SyncManager.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
@@ -235,47 +241,48 @@ Publishers
       nodesep=0.2;
       node [fontsize=11];
 
-      Publishers -> angularjs [style="invis"];
-      Publishers -> app [style="invis"];
-      Publishers -> background [style="invis"];
-      Publishers -> calendar [style="invis"];
       Publishers -> CRUDentities [style="invis"];
-      Publishers -> datePicker [style="invis"];
       Publishers -> DuckieTorrent [style="invis"];
       Publishers -> EpisodeAiredService [style="invis"];
       Publishers -> EpisodeCtrl [style="invis"];
       Publishers -> FavoritesService [style="invis"];
       Publishers -> KickassMirrorResolver [style="invis"];
       Publishers -> SerieCtrl [style="invis"];
+      Publishers -> SettingsCtrl [style="invis"];
+      Publishers -> ThePirateBayMirrorResolver [style="invis"];
+      Publishers -> TorrentCtrl [style="invis"];
+      Publishers -> WatchlistService [style="invis"];
+      Publishers -> angularjs [style="invis"];
+      Publishers -> app [style="invis"];
+      Publishers -> background [style="invis"];
+      Publishers -> calendar [style="invis"];
+      Publishers -> datePicker [style="invis"];
       Publishers -> serieDetails [style="invis"];
       Publishers -> seriesList [style="invis"];
-      Publishers -> SettingsCtrl [style="invis"];
-      Publishers -> TorrentCtrl [style="invis"];
       Publishers -> torrentDialog [style="invis"];
-      Publishers -> WatchlistService [style="invis"];
 
-      backgroundload -> calendar [dir="back"];
       backgroundload -> EpisodeCtrl [dir="back"];
       backgroundload -> FavoritesService [dir="back"];
       backgroundload -> SerieCtrl [dir="back"];
+      backgroundload -> calendar [dir="back"];
       calendarclearcache -> SerieCtrl [dir="back"];
-      calendarclearcache -> serieDetails [dir="back"];
       calendarclearcache -> SettingsCtrl [dir="back"];
+      calendarclearcache -> serieDetails [dir="back"];
       calendarevents -> calendar [dir="back"];
-      episodeairedcheck -> app [dir="back"];
       episodeairedcheck -> EpisodeAiredService [dir="back"];
       episodeairedcheck -> SettingsCtrl [dir="back"];
+      episodeairedcheck -> app [dir="back"];
       episodeload -> EpisodeCtrl [dir="back"];
       episodemarkednotwatched -> CRUDentities [dir="back"];
       episodemarkedwatched -> CRUDentities [dir="back"];
-      episodesupdated -> SyncManager [dir="back"];
       episodesupdated -> FavoritesService [dir="back"];
+      episodesupdated -> SyncManager [dir="back"];
       favoritesupdated -> FavoritesService [dir="back"];
-      locationChangeSuccess -> angularjs [dir="back"];
-      magnetselectTVDBID -> torrentDialog [dir="back"];
-      magnetselectTVDBID -> EpisodeAiredService [dir="back"];
       katmirrorresolverstatus -> KickassMirrorResolver [dir="back"];
       katmirrorresolverstatus -> SettingsCtrl [dir="back"];
+      locationChangeSuccess -> angularjs [dir="back"];
+      magnetselectTVDBID -> EpisodeAiredService [dir="back"];
+      magnetselectTVDBID -> torrentDialog [dir="back"];
       serieload -> EpisodeCtrl [dir="back"];
       serieload -> SerieCtrl [dir="back"];
       serieslistempty -> FavoritesService [dir="back"];
@@ -285,6 +292,8 @@ Publishers
       storageupdate -> seriesList [dir="back"];
       syncprocessremoteupdate -> background [dir="back"];
       torrentupdateinfoHash -> DuckieTorrent [dir="back"];
+      tpbmirrorresolverstatus -> SettingsCtrl [dir="back"];
+      tpbmirrorresolverstatus -> ThePirateBayMirrorResolver [dir="back"];
       videoload -> DuckieTorrent [dir="back"];
       videoload -> TorrentCtrl [dir="back"];
       watchlistupdated -> WatchlistService [dir="back"];
@@ -346,6 +355,9 @@ Publishers
 
       torrentDialog [label="torrentDialog.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}", shape=box,fillcolor="white",style="filled"];
+
+      ThePirateBayMirrorResolver [label="ThePirateBayMirrorResolver.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        tpbmirrorresolverstatus [label="tpbmirrorresolver:status", shape=box,fillcolor="white",style="filled"];
 
       WatchlistService [label="WatchlistService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         watchlistupdated [label="watchlist:updated", shape=box,fillcolor="white",style="filled"];
