@@ -18,8 +18,7 @@ angular.module('DuckieTV.directives.lazybackground', [])
              * it can fetch the new image and fade to it 
              */ 
             attrs.$observe('lazyBackground', function(newSrc) {
-                //Check if the image url is not empty and valid and if it isn't apply error class
-                //if (newSrc == null || newSrc == "" || newSrc == 'http://ir0.mobify.com/webp/' || newSrc == 'http://ir0.mobify.com/webp/250/') {
+                // Make sure newSrc is valid else return error
                 if (newSrc == null || newSrc == "") {
                     element.addClass('img-load-error');
                     return;
@@ -34,7 +33,8 @@ angular.module('DuckieTV.directives.lazybackground', [])
 
                 /** 
                  * Use some oldskool preloading techniques to load the image
-                 * and fade it in when done 
+                 * and fade it in when done
+                 * ToDo: Maybe change to a promise system so we can stop loading an image and have a timeout
                  */
                 var img = $document[0].createElement('img');
                 img.onload = function() {
@@ -45,12 +45,10 @@ angular.module('DuckieTV.directives.lazybackground', [])
                     //Remove loading class and apply error class
                     element.removeClass('img-loading');
                     element.addClass('img-load-error');
-                    console.error("image load error!", e);
                 };
                 attrs.ngHide = false;
                 img.src = newSrc;
             });
-
         }
     };
 })

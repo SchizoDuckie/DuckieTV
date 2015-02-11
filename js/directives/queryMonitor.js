@@ -4,7 +4,6 @@ angular.module('DuckieTV.directives.querymonitor',[])
  * <query-monitor> directive that shows when database writes are happening and how many are left
  */
 .directive('queryMonitor', function($filter) {
-
     return {
         restrict: 'E',
         templateUrl: 'templates/querymonitor.html',
@@ -23,7 +22,6 @@ angular.module('DuckieTV.directives.querymonitor',[])
                 window.onbeforeunload = ($scope.queryStats.writesExecuted < $scope.queryStats.writesQueued) ? unloadBreaker : null;
                 $scope.$digest();
             });
-
         }
     }
 });

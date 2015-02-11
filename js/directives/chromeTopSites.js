@@ -33,7 +33,6 @@ angular.module('DuckieTV.directives.chrometopsites', ['DuckieTV.directives.lazyb
  * sites in chrome
  */
 .directive('chromeTopSites', function(ChromeTopSites) {
-
     return {
         restrict: 'E',
         templateUrl: 'templates/chrome-top-sites.html',

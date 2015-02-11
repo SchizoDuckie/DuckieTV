@@ -24,7 +24,6 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
                 'Saturday'
             ]; // used by translateDayOfWeek()
 
-
             var genreList = [
                 'action',
                 'adventure',
@@ -59,6 +58,7 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
             ]; // used by translateGenre()
             var rawTranslatedGenreList = $filter('translate')('SERIECTRLjs/genre/list');
             var translatedGenreList = rawTranslatedGenreList.split(',');
+
             var statusList = [
                 'canceled',
                 'ended',
@@ -69,27 +69,25 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
             var translatedStatusList = rawTranslatedStatusList.split(',');
 
             /*
-             * takes the English day of the week (as fetched from TraktTV) and returns a translation
+             * Takes the English day of the week (as fetched from TraktTV) and returns a translation
              */
             $scope.translateDayOfWeek = function(dayofweek) {
                 return $locale.DATETIME_FORMATS.DAY[daysOfWeekList.indexOf(dayofweek)];
             };
 
             /*
-             * takes the English genre (as fetched from TraktTV) and returns a translation
+             * Takes the English genre (as fetched from TraktTV) and returns a translation
              */
             $scope.translateGenre = function(genre) {
                 return (genreList.indexOf(genre) != -1) ? translatedGenreList[genreList.indexOf(genre)] : genre;
             };
 
             /*
-             * takes the English status (as fetched from TraktTV) and returns a translation
+             * Takes the English status (as fetched from TraktTV) and returns a translation
              */
             $scope.translateStatus = function(status) {
                 return (statusList.indexOf(status) != -1) ? translatedStatusList[statusList.indexOf(status)] : status;
             };
-
-
 
             /**
              * Show the user a delete confirmation dialog before removing the show from favorites.
@@ -143,15 +141,16 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
                     ID_Serie: serie.ID_Serie
                 }).then(function(serie2) {
                     if (serie2.get('displaycalendar') == 1) {
-                        $scope.serie.displaycalendar = 0; // update cached serie on serieDetails page
-                        serie2.set('displaycalendar', 0); // update db serie (deferred)
+                        $scope.serie.displaycalendar = 0;
+                        serie2.set('displaycalendar', 0);
                     } else {
-                        $scope.serie.displaycalendar = 1; // update cached serie on serieDetails page
-                        serie2.set('displaycalendar', 1); // update db serie (deferred)
+                        $scope.serie.displaycalendar = 1;
+                        serie2.set('displaycalendar', 1);
                     };
-                    $rootScope.$broadcast('calendar:clearcache'); // request a calendar reset
-                    $scope.$digest(); // refresh serieDetail page (hide/show button)
-                    serie2.Persist(); // commit updates to db
+                    // Refresh calendar & page and save updates to db
+                    $rootScope.$broadcast('calendar:clearcache');
+                    $scope.$digest();
+                    serie2.Persist();
                 });
             };
         }

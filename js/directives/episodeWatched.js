@@ -14,7 +14,7 @@ angular.module('DuckieTV.directives.episodewatched', [])
             $scope.tooltip = null;
 
             /**
-             * Translate the watchedAt tooltip
+             * Translates the watchedAt tooltip
              */
             $scope.getToolTip = function(episode) {
                 return parseInt(episode.watched) == 1 ?
@@ -27,15 +27,11 @@ angular.module('DuckieTV.directives.episodewatched', [])
              * Pass the logic to the episode to handle marking watched in a generic way
              */
             $scope.markWatched = function(episode) {
-                //console.log("Mark as watched!", episode);
                 if (parseInt(episode.watched) == 1) {
                     episode.markNotWatched($injector.get('$rootScope'));
-                    //console.log("mark not watched");
                 } else {
                     episode.markWatched($injector.get('$rootScope'));
-                    //console.log('mark watched!');
                 }
-                //console.log($scope.episode.watched, $scope.episode.watchedAt);
             };
         }
     };

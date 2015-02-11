@@ -17,13 +17,12 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             };
 
             $scope.hideEnded = false;
-
-            $scope.activated = false; // toggles when the favorites panel activated
-            $scope.searchingForSerie = false; // toggles when 'add a show' is clicked
-            $scope.serieAddFocus = false; // toggles this to automatically bring focus to the 'start typing to search for a serie' textbox
+            $scope.activated = false; // Toggles when the favorites panel activated
+            $scope.searchingForSerie = false; // Toggles when 'add a show' is clicked
+            $scope.serieAddFocus = false; // Toggles this to automatically bring focus to the 'start typing to search for a serie' textbox
 
             $scope.mode = $rootScope.getSetting('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
-            $scope.isSmall = false;
+            $scope.isSmall = false; // Toggles the poster zoom
 
             /**
              * Set the series list display mode to either banner or poster.
@@ -38,7 +37,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
 
             /**
              * Toggles small mode on off
-             * I tried to do this in the ng-click but it didn't seem to work
              */
             $scope.toggleSmall = function() {
                 $scope.isSmall = !$scope.isSmall;
@@ -86,7 +84,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                         $scope.trendingSeries = false;
                     });
                 }
-
             };
 
             /**
@@ -99,7 +96,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             };
 
             /**
-             * toggle or untoggle the favorites panel
+             * Toggle or untoggle the favorites panel
              */
             $scope.activate = function(el) {
                 iElement.addClass('active');
@@ -112,6 +109,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                     $scope.enableAdd();
                 }
             };
+
             /**
              * Close the drawer
              */
@@ -262,7 +260,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 if (tvdb_id === null) return false;
                 return ((tvdb_id in $scope.error));
             };
-
 
             var titleSorter = function(serie) {
                 serie.sortName = serie.name ? serie.name.replace('The ', '') : '';

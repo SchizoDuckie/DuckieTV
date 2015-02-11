@@ -34,9 +34,6 @@ angular.module('DuckieTV.directives.backgroundrotator', [])
                     $scope[(target == 'bg1' ? 'bg2on' : 'bg1on')] = false;
                     $scope.$digest();
                 };
-                img.onerror = function(e) {
-                    console.error("image load error!", e, url);
-                };
                 img.src = url;
             };
 

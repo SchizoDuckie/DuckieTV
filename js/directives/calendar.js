@@ -7,9 +7,8 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
  * set of episodes from the database
  */
 .factory('CalendarEvents', function($rootScope, FavoritesService) {
-    var calendarEvents = {
 
-    };
+    var calendarEvents = {};
     var activeDate = null;
 
     var service = {
@@ -91,7 +90,6 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
             existing = index = null;
             $rootScope.$broadcast('calendar:events', events);
         },
-
         /** 
          * If the episode exist in the calendarEvents object, remove it.
          */
@@ -109,14 +107,12 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
             }
             eventList = index = aDate = null; // clear used variables, every little bit counts :-) 
         },
-
         /**
          * Check if an event exists at the given date
          */
         hasEvent: function(date) {
             return (new Date(date).toDateString() in calendarEvents);
         },
-
         /**
          * Return events for a date or an empty array
          */
@@ -147,9 +143,9 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
      */
     $rootScope.$on('favorites:updated', function(event, favorites) {
         service.clearCache();
-        activeDate = null;
         service.setDate(new Date());
     });
+
     /**
      * Reset the calendarEvents object so that any cache is flushed
      */
@@ -183,13 +179,8 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
         templateUrl: 'templates/event.html',
         link: function($scope) {
 
-            $scope.getSetting = SettingsService.get;
             $scope.hoverTimer = null;
             var cachedSearchString = false;
-
-            $scope.clearHoverTimer = function() {
-                clearTimeout($scope.hoverTimer);
-            };
 
             /**
              * Auto-switch background image to a relevant one for the calendar item when
@@ -198,6 +189,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
              */
             $scope.startHoverTimer = function() {
                 $scope.clearHoverTimer();
+                // Make sure serie has fanart defined
                 if ($scope.serie.fanart) {
                     var background = $scope.serie.fanart;
                     $scope.hoverTimer = setTimeout(function() {
@@ -206,11 +198,16 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                 };
             };
 
+            $scope.clearHoverTimer = function() {
+                clearTimeout($scope.hoverTimer);
+            };
+
             $scope.isTorrentClientConnected = function() {
                 return uTorrent.isConnected();
             };
+
             $scope.$on('magnet:select:' + $scope.episode.TVDB_ID, function(evt, magnet) {
-                console.debug("Found a magnet selected!", magnet);
+                console.info("Found a magnet selected!", magnet);
                 $scope.episode.set('magnetHash', magnet);
                 $scope.episode.Persist();
             });
@@ -218,6 +215,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
             $scope.autoDownload = function() {
                 EpisodeAiredService.autoDownload($scope.serie, $scope.episode);
             };
+
             $scope.getSearchString = function(event) {
                 if (!cachedSearchString) {
                     var serieName = SceneNameResolver.getSceneName($scope.serie.TVDB_ID) || $scope.serie.name;
@@ -236,13 +234,10 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
  * It sets up the defaults and initializes the calendar.
  */
 .directive('calendar', function() {
-
     return {
         restrict: 'E',
         template: function(element, attrs) {
-            return '' +
-                '<div ' +
-                'date-picker ' +
+            return '<div date-picker ' +
                 (attrs.eventService ? 'event-service="' + attrs.eventService + '"' : '') +
                 (attrs.view ? 'view="' + attrs.view + '" ' : 'view="week"') +
                 (attrs.template ? 'template="' + attrs.template + '" ' : '') +
