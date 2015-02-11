@@ -26,13 +26,18 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
                 // Get the list of episodes that have aired since period, and iterate them.
                 FavoritesService.getEpisodesForDateRange(from.getTime(), new Date().getTime()).then(function(candidates) {
                     candidates.map(function(episode, episodeIndex) {
-                        if (episode.get('watchedAt') !== null) return; // if the episode has been marked as watched, skip it.
-                        if (episode.get('magnetHash') !== null) return; // if the episode already has a magnetHash, skip it.
-
+                        if (episode.watchedAt !== null) return; // if the episode has been marked as watched, skip it.
+                        if (episode.magnetHash !== null) return; // if the episode was already downloaded, skip it.
                         CRUD.FindOne('Serie', {
                             ID_Serie: episode.get('ID_Serie')
                         }).then(function(serie) {
-                            service.autoDownload(serie, episode, episodeIndex);
+                            service.autoDownload(serie, episode, episodeIndex).then(function(result) {
+                                if (result) {
+                                    episode.magnetHash = result;
+                                    episode.Persist();
+                                    $rootScope.$broadcast('magnet:select:' + episode.TVDB_ID, [result]);
+                                }
+                            });
                         });
 
                     });
@@ -48,7 +53,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
             var name = SceneNameResolver.getSceneName(serie.get('TVDB_ID')) || serie.get('name');
             var searchString = name.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
             console.log("Auto download!", searchString);
-            GenericSearch.search(searchString, true).then(function(results) { // search torrent provider for the string
+            return GenericSearch.search(searchString, true).then(function(results) { // search torrent provider for the string
                 if (results.length === 0) {
                     return; // no results, abort
                 }
@@ -56,10 +61,9 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
                     var url = results[0].magneturl; // launch the magnet uri via the TorrentDialog's launchMagnet Method
                     setTimeout(function() {
                         TorrentDialog.launchMagnet(url, serie.get('TVDB_ID'), true);
-                    }, (episodeIndex || 0) * 10000);
+                    }, (episodeIndex || 0) * 100);
                     // store the magnet hash on the episode and notify the listeners of the change
-
-                    $rootScope.$broadcast('magnet:select:' + episode.TVDB_ID, [url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase()]);
+                    return url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
                 }
             });
         }
