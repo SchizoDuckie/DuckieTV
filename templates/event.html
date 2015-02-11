@@ -36,11 +36,11 @@
       </episode-watched>
     </a>
   </li>
-  <li>
+ <!-- <li>
     <a style='display:inline-block'>
       <subtitle-dialog serie='serie' episode-number='episode.episodenumber' season-number='episode.seasonnumber'> Find a subtitle</subtitle-dialog>
     </a>
-  </li>
+  </li> -->
   <li ng-if="getSetting('torrenting.enabled')">
     <a style='display:inline-block'>
       <torrent-dialog tvdbid='episode.TVDB_ID' q='getSearchString(event)'> <translate>EVENT/dropdown-utorrent-client/lbl</translate></torrent-dialog>
