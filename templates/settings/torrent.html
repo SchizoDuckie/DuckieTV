@@ -106,17 +106,17 @@
      <strong style='white-space:nowrap'>The Pirate Bay</strong>
     </th>
     <td>
-      <p class="alert alert-warning" style='text-align:left;white-space:normal'>{{'TORRENT/tpb/desc'|translate}}
+      <p class="alert alert-warning" style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT/tpb/desc'|translate}}
       </p>
       <ul class="list-unstyled">
-        <li>{{'TORRENT/tpb-mirror/hdr'|translate}}<br>
+        <li>{{'SETTINGS/TORRENT/tpb-mirror/hdr'|translate}}<br>
           <input type='url' style='width:500px' ng-model="customtpbmirror">
 
-          <button class="btn btn-success" ng-click="validateCustomTPBMirror(customtpbmirror)">{{'TORRENT/tpb-validate/btn'|translate}}</button>
-          <button class="btn btn-info" ng-click="findRandomTPBMirror()">{{'TORRENT/tpb-find-mirror/btn'|translate}}</button>
+          <button class="btn btn-success" ng-click="validateCustomTPBMirror(customtpbmirror)">{{'SETTINGS/TORRENT/tpb-validate/btn'|translate}}</button>
+          <button class="btn btn-info" ng-click="findRandomTPBMirror()">{{'SETTINGS/TORRENT/tpb-find-mirror/btn'|translate}}</button>
 
           <p ng-show="tpbmirrorStatus.length > 0">
-            {{'TORRENT/tpb-status/hdr'|translate}}
+            {{'SETTINGS/TORRENT/tpb-status/hdr'|translate}}
             <ul style='max-height:150px; overflow-y:auto;'>
               <li ng-repeat="status in tpbmirrorStatus track by $index">{{status}}</li>
             </ul>
