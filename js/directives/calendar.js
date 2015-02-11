@@ -179,6 +179,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
         templateUrl: 'templates/event.html',
         link: function($scope) {
 
+            $scope.getSetting = SettingsService.get;
             $scope.hoverTimer = null;
             var cachedSearchString = false;
 
