@@ -17,13 +17,6 @@ angular.module('DuckieTV.providers.migrations', ['ui.bootstrap.modal', 'DuckieTV
                         });
                     }, 5000);
 
-                    $modal.open({
-                        templateUrl: 'templates/upgrade.html',
-                        windowClass: 'dialogs-default',
-                        size: 'lg',
-                    });
-
-
                 }
 
                 // until the TraktTV api is stabilized, we perform this check on every startup until we find no more series with a lastUpdated of null

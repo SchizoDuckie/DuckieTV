@@ -16,7 +16,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
     localStorage.setItem('runtime.event', JSON.stringify(details));
     if (details.reason == "install") {
         console.log("This is a first install!");
-        localStorage.setItem('upgrade.notify', chrome.runtime.getManifest().version);
+        localStorage.setItem('install.notify', chrome.runtime.getManifest().version);
         /*
          * example: localStorage.setItem('0.54.createtimers', 'done');
          */
@@ -24,7 +24,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
         var thisVersion = chrome.runtime.getManifest().version;
         console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
         if (details.previousVersion != thisVersion) {
-            localStorage.setItem('upgrade.notify', thisVersion);
+            localStorage.setItem('install.notify', thisVersion);
         }
     };
 });
