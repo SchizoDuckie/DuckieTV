@@ -8,7 +8,9 @@ angular.module('DuckieTV.directives.episodewatched', [])
     return {
         restrict: 'E',
         transclude: true,
-        template: ['<a ng-click="markWatched(episode)" style="width:100%" class="glyphicon" tooltip="{{getToolTip(episode)}}" ng-class="{ \'glyphicon-eye-open\' : episode.watched == 1, \'glyphicon-eye-close\' : episode.watched !== 1 }" ng-transclude></a>'],
+        templateUrl: function(elem, attr) {
+            return attr.templateUrl || "templates/episodeWatched.html";
+        },
         link: function($scope) {
 
             $scope.tooltip = null;
