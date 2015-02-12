@@ -536,8 +536,8 @@ angular.module('DuckieTorrent.torrent', [])
             };
             return func;
         }
-
     };
+
     var service = {
         torrents: {},
         settings: {},
@@ -711,18 +711,25 @@ angular.module('DuckieTorrent.torrent', [])
                 $rootScope.$$listeners['torrent:update:' + oldVal] = []; // no $rootScope.$off?
                 $scope.infoHash = newVal;
                 observeTorrent(newVal);
+                // $scope.episode.set('downloaded', 0);
+                // $scope.episode.downloaded = 0;
             });
 
             /**
              * Observes the torrent and watchs for changes (progress)
              * If Auto-Stop is enabled, automatically stops torrent (seeding)
+             * Todo: Marks episode as downloaded as well
              */
             function observeTorrent(infoHash) {
                 $rootScope.$on('torrent:update:' + $scope.infoHash, function(evt, data) {
                     $scope.torrent = data;
-                    if ($scope.$root.getSetting('torrenting.autostop') && $scope.torrent.isStarted() && $scope.torrent.getProgress() == 100) {
-                        console.log('Torrent finished. Auto-stopping', $scope.torrent);
-                        $scope.torrent.stop();
+                    if ($scope.torrent.isStarted() && $scope.torrent.getProgress() == 100) {
+                        if ($scope.$root.getSetting('torrenting.autostop')) {
+                            console.info('Torrent finished. Auto-stopping', $scope.torrent);
+                            $scope.torrent.stop();
+                        }
+                        // $scope.episode.set('downloaded', 1);
+                        // $scope.episode.downloaded = 1;
                     }
                 });
                 $scope.torrent = TorrentRemote.getByHash($scope.infoHash);
