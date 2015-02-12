@@ -7,7 +7,7 @@
          <h4>{{'TORRENTCLIENT/torrents-found/hdr'|translate}}{{rpc.getTorrents().length}}</h4>
 
          <table class="torrents table light">
-            <tr ng-repeat="torrent in rpc.getTorrents()|orderBy:'getStarted()':true">
+            <tr ng-repeat="torrent in rpc.getTorrents()| orderBy:'getStarted()'">
 
              <th style='white-space:nowrap'>{{torrent.getStarted() * 1000 | date:'shortDate'}}<br><span class="label label-info">{{torrent.getFormattedStatus()}}</span></th>
              <td style='width:220px; text-align: center'>
