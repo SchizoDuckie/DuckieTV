@@ -110,11 +110,11 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](http://i.imgur.com/7UTp3Ib.png)
+![listeners](http://i.imgur.com/5ptAGs8.png)
 
 Event Publishers:
 ------------------
-![publishers](http://i.imgur.com/7QoC5ka.png)
+![publishers](http://i.imgur.com/79221Pf.png)
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
@@ -131,22 +131,22 @@ Listeners
       nodesep=0.2;
       node [fontsize=11];
 
+      Listeners -> app [style="invis"];
+      Listeners -> backgroundRotator [style="invis"];
+      Listeners -> calendar [style="invis"];
       Listeners -> ChromeCast [style="invis"];
+      Listeners -> datePicker [style="invis"];
       Listeners -> DuckieTorrent [style="invis"];
       Listeners -> EpisodeAiredService [style="invis"];
       Listeners -> EpisodeCtrl [style="invis"];
       Listeners -> SerieCtrl [style="invis"];
+      Listeners -> seriesList [style="invis"];
       Listeners -> SettingsCtrl [style="invis"];
       Listeners -> WatchlistCheckerService [style="invis"];
       Listeners -> WatchlistCtrl [style="invis"];
-      Listeners -> app [style="invis"];
-      Listeners -> backgroundRotator [style="invis"];
-      Listeners -> calendar [style="invis"];
-      Listeners -> datePicker [style="invis"];
-      Listeners -> seriesList [style="invis"];
 
-      backgroundload -> ChromeCast;
       backgroundload -> backgroundRotator;
+      backgroundload -> ChromeCast;
       calendarclearcache -> calendar;
       calendarevents -> datePicker;
       episodeairedcheck -> EpisodeAiredService;
@@ -156,14 +156,14 @@ Listeners
       episodemarkedwatched -> app;
       episodemarkedwatched -> calendar;
       episodesupdated -> SerieCtrl;
-      favoritesupdated -> SerieCtrl;
       favoritesupdated -> calendar;
+      favoritesupdated -> SerieCtrl;
       favoritesupdated -> seriesList;
       katmirrorresolverstatus -> SettingsCtrl;
       locationChangeSuccess -> app;
+      magnetselectTVDBID -> calendar;
       magnetselectTVDBID -> EpisodeCtrl;
       magnetselectTVDBID -> SerieCtrl;
-      magnetselectTVDBID -> calendar;
       serieload -> ChromeCast;
       serieslistempty -> seriesList;
       serieslisthide -> seriesList;
@@ -174,7 +174,7 @@ Listeners
       videoload -> ChromeCast;
       watchlistcheck -> WatchlistCheckerService;
       watchlistupdated -> WatchlistCtrl;
-
+      
       Listeners [style="invis"];
 
       app [label="app.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
@@ -241,37 +241,37 @@ Publishers
       nodesep=0.2;
       node [fontsize=11];
 
+      Publishers -> angularjs [style="invis"];
+      Publishers -> app [style="invis"];
+      Publishers -> background [style="invis"];
+      Publishers -> calendar [style="invis"];
       Publishers -> CRUDentities [style="invis"];
+      Publishers -> datePicker [style="invis"];
       Publishers -> DuckieTorrent [style="invis"];
       Publishers -> EpisodeAiredService [style="invis"];
       Publishers -> EpisodeCtrl [style="invis"];
       Publishers -> FavoritesService [style="invis"];
       Publishers -> KickassMirrorResolver [style="invis"];
       Publishers -> SerieCtrl [style="invis"];
+      Publishers -> serieDetails [style="invis"];
+      Publishers -> seriesList [style="invis"];
       Publishers -> SettingsCtrl [style="invis"];
       Publishers -> ThePirateBayMirrorResolver [style="invis"];
       Publishers -> TorrentCtrl [style="invis"];
-      Publishers -> WatchlistService [style="invis"];
-      Publishers -> angularjs [style="invis"];
-      Publishers -> app [style="invis"];
-      Publishers -> background [style="invis"];
-      Publishers -> calendar [style="invis"];
-      Publishers -> datePicker [style="invis"];
-      Publishers -> serieDetails [style="invis"];
-      Publishers -> seriesList [style="invis"];
       Publishers -> torrentDialog [style="invis"];
+      Publishers -> WatchlistService [style="invis"];
 
+      backgroundload -> calendar [dir="back"];
       backgroundload -> EpisodeCtrl [dir="back"];
       backgroundload -> FavoritesService [dir="back"];
       backgroundload -> SerieCtrl [dir="back"];
-      backgroundload -> calendar [dir="back"];
       calendarclearcache -> SerieCtrl [dir="back"];
-      calendarclearcache -> SettingsCtrl [dir="back"];
       calendarclearcache -> serieDetails [dir="back"];
+      calendarclearcache -> SettingsCtrl [dir="back"];
       calendarevents -> calendar [dir="back"];
+      episodeairedcheck -> app [dir="back"];
       episodeairedcheck -> EpisodeAiredService [dir="back"];
       episodeairedcheck -> SettingsCtrl [dir="back"];
-      episodeairedcheck -> app [dir="back"];
       episodeload -> EpisodeCtrl [dir="back"];
       episodemarkednotwatched -> CRUDentities [dir="back"];
       episodemarkedwatched -> CRUDentities [dir="back"];
