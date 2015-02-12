@@ -5,11 +5,11 @@ angular.module('DuckieTV.providers.kickassmirrorresolver', [])
  */
 .provider('KickassMirrorResolver', function() {
 
-    // individual mirror resolvers can be added here
+    // Individual mirror resolvers can be added here
     this.endpoints = {
         kickasstorrents: 'http://www.rockaproxy.com/allTorrentLinksPage.php'
     };
-    var failedMirrors = []; // keep a list of failed mirrors so that we don't try the same one twice.
+    var failedMirrors = []; // Keep a list of failed mirrors so that we don't try the same one twice.
 
     /**
      * Switch between search and details
@@ -57,7 +57,6 @@ angular.module('DuckieTV.providers.kickassmirrorresolver', [])
         return result && result.href && (allowUnsafe ? true : result.href.indexOf('magnet') == 0);
     }
 
-
     /**
      * Get wrapper, providing the actual search functions and result parser
      * Provides promises so it can be used in typeahead as well as in the rest of the app
@@ -75,16 +74,16 @@ angular.module('DuckieTV.providers.kickassmirrorresolver', [])
                 attempt = attempt || 1;
                 $rootScope.$broadcast('katmirrorresolver:status', 'Finding a random KAT Mirror, attempt ' + attempt);
                 var d = $q.defer();
-                $http({ // fetch the document that gives a mirror
+                $http({ // Fetch the document that gives a mirror
                     method: 'GET',
                     url: self.getUrl('kickasstorrents'),
                     cache: false
                 }).then(function(response) {
-                    // parse the response
+                    // Parse the response
                     var location = self.parseRockAProxy(response);
                     console.log('mirror picked', response);
                     $rootScope.$broadcast('katmirrorresolver:status', "Found KickAss Torrents mirror! " + location + " Verifying if it uses magnet links.");
-                    // verify that the mirror works by executing a test search, otherwise try the process again
+                    // Verify that the mirror works by executing a test search, otherwise try the process again
                     self.$get($q, $http, $rootScope).verifyKATMirror(location).then(function(location) {
                         console.log("Mirror uses magnet links!", location);
                         d.resolve(location);

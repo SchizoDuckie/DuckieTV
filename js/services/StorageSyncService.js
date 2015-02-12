@@ -15,9 +15,8 @@ angular.module('DuckieTV.providers.storagesync', ['DuckieTV.providers.settings']
 .factory('StorageSyncService', function($rootScope, $q, FavoritesService, TraktTVv2, SettingsService, $injector, $filter) {
 
     var service = {
-        targets: [
-
-        ],
+        
+        targets: [],
         isSyncing: false, // syncing is currently in progress
         firstRun: false, // first run?
         lastSynced: null, // timestamp when sync has last run

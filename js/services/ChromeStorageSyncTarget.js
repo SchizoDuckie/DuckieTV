@@ -15,21 +15,16 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
             SettingsService.set('Chrome.Sync', true);
             return ChromePermissions.requestPermission('storage');
         },
-
         disable: function() {
             SettingsService.set('Chrome.Sync', false);
             return ChromePermissions.revokePermission('storage');
         },
-
         isEnabled: function() {
             return SettingsService.get('Chrome.Sync');
         },
-
         isPermissionGranted: function() {
             return ChromePermissions.checkGranted('storage');
         },
-
-
         getSeriesList: function() {
             return service.get('series').then(function(series) {
                 return series ? series.map(function(el) {
@@ -37,14 +32,12 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
                 }) : [];
             });
         },
-
         /** 
          * Entry point for chrome permissions
          */
         isSupported: function() {
             return ChromePermissions.isSupported();
         },
-
         wipe: function() {
             service.wipeMode = true;
             chrome.storage.sync.clear(function() {
@@ -52,7 +45,6 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
                 service.wipeMode = false;
             });
         },
-
         /** 
          * Fetch a value from the storage.sync api.
          */
@@ -70,7 +62,6 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
                 });
             });
         },
-
         /**
          * Store a new value in the storage.sync api
          */
@@ -96,8 +87,6 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
                 return false;
             });
         },
-
-
         /**
          * Attach background page sync event
          */
@@ -121,24 +110,19 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
 
             });
         },
-
         write: function() {
             service.set(tvdb, watchedList[tvdb]);
         },
-
         initialize: function() {
             ChromePermissions.checkGranted('storage').then(function() {
-
                 service.read();
-                // service.set('series', series);
-
+                //service.set('series', series);
             });
         }
     };
 
-    console.log("ChromeStorageSyncTarget initialized");
+    console.info("ChromeStorageSyncTarget initialized");
     return service;
-
 });
 
 if ('chrome' in window && 'storage' in window.chrome && 'sync' in chrome.storage) {

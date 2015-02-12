@@ -49,7 +49,6 @@ angular.module('DuckieTV.providers.settings', [])
                     (granted) ? resolve() : reject();
                 });
             });
-
         },
         revokePermission: function(permission) {
             return $q(function(resolve, reject) {
@@ -66,15 +65,12 @@ angular.module('DuckieTV.providers.settings', [])
                     (result) ? resolve() : reject();
                 });
             });
-
         }
     };
 
     return service;
-
-
-
 })
+
 /**
  * The Settings Service stores user preferences and provides defaults.
  * Storage is in localStorage. values get serialized on save and deserialized on initialization.
@@ -112,7 +108,6 @@ angular.module('DuckieTV.providers.settings', [])
             'trakttv.sync': false,
             'trakttv.username': null
         },
-
         /**
          * Read a setting key and return either the stored value or the default
          * @param  string key to read
@@ -124,7 +119,6 @@ angular.module('DuckieTV.providers.settings', [])
             }
             return ((key in service.settings) ? service.settings[key] : (key in service.defaults) ? service.defaults[key] : false);
         },
-
         /**
          * Store a value in the settings object and persist the changes automatically.
          * @param string key key to store
@@ -137,14 +131,12 @@ angular.module('DuckieTV.providers.settings', [])
             }
             service.persist();
         },
-
         /**
          * Serialize the data and persist it in localStorage
          */
         persist: function() {
             localStorage.setItem('userPreferences', angular.toJson(service.settings, true));
         },
-
         /**
          * Fetch stored series from sqlite and store them in service.favorites
          */
@@ -156,7 +148,6 @@ angular.module('DuckieTV.providers.settings', [])
                 service.settings = angular.fromJson(localStorage.getItem('userPreferences'));
             }
         },
-
         /*
          * Change the UI language and locale to use for translations tmhDynamicLocale
          * Todo: clean this up.

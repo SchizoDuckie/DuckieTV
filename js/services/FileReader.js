@@ -5,7 +5,7 @@ angular.module('DuckieTV.providers.filereader', [])
  * Allows to read the contents of a file upload field to string
  */
 .factory('FileReader', function($q) {
-	// fires when the while file blob has been read
+	// Fires when the while file blob has been read
     var onLoad = function(reader, deferred, $scope) {
         return function() {
             $scope.$apply(function() {
@@ -13,7 +13,7 @@ angular.module('DuckieTV.providers.filereader', [])
             });
         };
     };
-    // fires when an error has occured during the reading of a file
+    // Fires when an error has occured during the reading of a file
     var onError = function(reader, deferred, $scope) {
         return function() {
             $scope.$apply(function() {
@@ -21,7 +21,7 @@ angular.module('DuckieTV.providers.filereader', [])
             });
         };
     };
-    // handle file reading progress. 
+    // Handle file reading progress. 
     // Catching this with a $scope.$watch for fileProgress 
     // is only really useful for showing a progresbar on large file reads
     var onProgress = function(reader, $scope) {
@@ -50,10 +50,8 @@ angular.module('DuckieTV.providers.filereader', [])
      */
     var readAsText = function(file, $scope) {
         var deferred = $q.defer();
-
         var reader = getReader(deferred, $scope);
         reader.readAsText(file);
-
         return deferred.promise;
     };
 
@@ -61,8 +59,6 @@ angular.module('DuckieTV.providers.filereader', [])
     return {
         readAsText: readAsText
     };
-
-
 })
 
 /** 
@@ -90,7 +86,7 @@ angular.module('DuckieTV.providers.filereader', [])
                     onChange(scope);
                 });
             };
-
+            
             element.bind('change', updateModel);
         }
     };

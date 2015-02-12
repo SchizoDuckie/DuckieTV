@@ -19,12 +19,10 @@ angular.module('DuckieTV.providers.tpbmirrorresolver', [])
         return this.endpoints[type];
     },
 
-
     /**
      * Find a random mirror from piratebayproxylist.com
      */
     this.parsePirateBayProxyList = function(result) {
-
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
         var resultList = doc.querySelectorAll('.post-body a[rel=nofollow]');
@@ -65,7 +63,6 @@ angular.module('DuckieTV.providers.tpbmirrorresolver', [])
         var result = doc.querySelector("#searchResult > tbody > tr:nth-child(2) > td:nth-child(2) > a:nth-child(2)");
         return result && result.href && (allowUnsafe ? true : result.href.indexOf('magnet') == 0);
     }
-
 
     /**
      * Get wrapper, providing the actual search functions and result parser
@@ -143,7 +140,6 @@ angular.module('DuckieTV.providers.tpbmirrorresolver', [])
                 });
                 return q.promise;
             }
-
         }
     }
 });

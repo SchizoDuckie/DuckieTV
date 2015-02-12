@@ -40,7 +40,6 @@ angular.module('DuckieTV.providers.notifications', [])
                     iconUrl: "img/icon64.png",
                     items: items
                 });
-
             }
         }
     };

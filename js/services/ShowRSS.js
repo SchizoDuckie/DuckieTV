@@ -16,7 +16,6 @@ angular.module('DuckieTV.providers.showrss', [])
         serie: '?cs=browse&show=%s'
     };
 
-
     var getUrl = function(type, param, param2) {
         var out = endpoint + endpoints[type].replace('%s', encodeURIComponent(param));
         return (param2 !== undefined) ? out.replace('%s', encodeURIComponent(param2)) : out;
@@ -61,7 +60,6 @@ angular.module('DuckieTV.providers.showrss', [])
         }
     };
 
-
     /** 
      * If a customized parser is available for the data, run it through that.
      */
@@ -70,8 +68,6 @@ angular.module('DuckieTV.providers.showrss', [])
             return data.data;
         };
     };
-
-
 
     /** 
      * Promise requests with batchmode toggle to auto-kill a previous request when running.
@@ -115,5 +111,4 @@ angular.module('DuckieTV.providers.showrss', [])
             });
         }
     }
-
 });

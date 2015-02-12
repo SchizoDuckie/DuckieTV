@@ -1,6 +1,8 @@
 angular.module('DuckieTV.providers.addic7ed', [])
 
-
+/**
+ * Service to fetch subtiles for an episode
+ */
 .factory('Addic7ed', function($q, $http) {
 
     var endpoint = 'http://www.addic7ed.com/';
@@ -51,12 +53,10 @@ angular.module('DuckieTV.providers.addic7ed', [])
                         link: 'http://www.addic7ed.com' + node.querySelector('td:nth-child(10) a').getAttribute('href'),
                     });
                 }
-
             });
             return output;
         }
     };
-
 
     /** 
      * If a customized parser is available for the data, run it through that.
@@ -66,8 +66,6 @@ angular.module('DuckieTV.providers.addic7ed', [])
             return data.data;
         };
     };
-
-
 
     /** 
      * Promise requests with batchmode toggle to auto-kill a previous request when running.
@@ -97,7 +95,6 @@ angular.module('DuckieTV.providers.addic7ed', [])
     }
 
     return {
-
         search: function(serie, seasonNumber, episodeNumber) {
             return listShows().then(function(results) {
                 var found = results[serie.name];
@@ -111,5 +108,4 @@ angular.module('DuckieTV.providers.addic7ed', [])
             });
         }
     }
-
 });

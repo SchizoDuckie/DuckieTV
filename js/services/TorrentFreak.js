@@ -1,4 +1,5 @@
 angular.module('DuckieTV.providers.torrentfreak', [])
+
 /**
  * Todo: make this a proper RSS directive.
  */
@@ -141,10 +142,11 @@ angular.module('DuckieTV.providers.torrentfreak', [])
         }
     }
 })
-    .directive('top10PiratedMovies', function() {
 
-        return {
-            restrict: 'E',
-            templateUrl: 'templates/torrentfreakTop10.html'
-        };
-    })
+.directive('top10PiratedMovies', function() {
+
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/torrentfreakTop10.html'
+    };
+})

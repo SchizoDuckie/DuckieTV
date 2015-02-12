@@ -1,6 +1,5 @@
 angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites', 'DuckieTV.providers.scenenames', 'DuckieTV.directives.torrentdialog'])
 
-
 /**
  * The EpisodeAiredService checks if a download is availabe for a TV-Show that's aired
  * and automatically downloads the first search result if more than minSeeders seeders are available.
@@ -8,16 +7,17 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
  * Runs in the background page.
  */
 .factory('EpisodeAiredService', function($rootScope, FavoritesService, SceneNameResolver, SettingsService, GenericSearch, TorrentDialog) {
+    
     var period = 7; // period to check for updates up until today current time
     var minSeeders = 250; // minimum amount of seeders required.
 
     var service = {
         attach: function() {
-            console.log('initializing episode aired checker service!');
+            console.info('Initializing episode aired checker service!');
             $rootScope.$on('episode:aired:check', function() {
                 console.log("Episode air check fired");
 
-                var from = new Date(); // create a date for the from range period
+                var from = new Date(); // Create a date for the from range period
                 from.setDate(from.getDate() - period);
                 from.setHours(0);
                 from.setMinutes(0);
@@ -33,6 +33,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
                         }).then(function(serie) {
                             service.autoDownload(serie, episode, episodeIndex).then(function(result) {
                                 if (result) {
+                                    // store the magnet hash on the episode and notify the listeners of the change
                                     episode.magnetHash = result;
                                     episode.Persist();
                                     $rootScope.$broadcast('magnet:select:' + episode.TVDB_ID, [result]);
@@ -49,20 +50,22 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
         },
         autoDownload: function(serie, episode, episodeIndex) {
 
-            // fetch the Scene Name for the serie and compile the search string for the episode with the quality requirement.
+            // Fetch the Scene Name for the serie and compile the search string for the episode with the quality requirement.
             var name = SceneNameResolver.getSceneName(serie.get('TVDB_ID')) || serie.get('name');
             var searchString = name.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
             console.log("Auto download!", searchString);
-            return GenericSearch.search(searchString, true).then(function(results) { // search torrent provider for the string
+            
+            // search torrent provider for the string
+            return GenericSearch.search(searchString, true).then(function(results) {
                 if (results.length === 0) {
                     return; // no results, abort
                 }
                 if (parseInt(results[0].seeders, 10) >= minSeeders) { // enough seeders are available.
-                    var url = results[0].magneturl; // launch the magnet uri via the TorrentDialog's launchMagnet Method
+                    var url = results[0].magneturl;
+                    // launch the magnet uri via the TorrentDialog's launchMagnet Method
                     setTimeout(function() {
                         TorrentDialog.launchMagnet(url, serie.get('TVDB_ID'), true);
                     }, (episodeIndex || 0) * 100);
-                    // store the magnet hash on the episode and notify the listeners of the change
                     return url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
                 }
             });

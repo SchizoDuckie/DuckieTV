@@ -1,5 +1,6 @@
 angular.module('DuckieTV.providers.imdb', [])
-/**
+
+/** CURRENTLY UNUSED!
  * Standalone IMDB search capabilities.
  * Provides IMDB api search results
  * and the <imdb-search> tag with autocomplete.
@@ -62,7 +63,6 @@ angular.module('DuckieTV.providers.imdb', [])
         return output;
     }
 
-
     this.$get = function($q, $http) {
         var self = this;
         return {
@@ -112,7 +112,6 @@ angular.module('DuckieTV.providers.imdb', [])
      */
     $scope.find = function(what) {
         return IMDB.findAnything(what).then(function(res) {
-
             return res;
         });
     };

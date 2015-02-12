@@ -16,7 +16,6 @@ angular.module('DuckieTV.providers.trakttvupdates', ['DuckieTV.providers.trakttv
     }
 
     var service = {
-
         /**
          * Update shows in favorites list
          * Fetches all updated shows from trakt.tv since date of passed timestamp, checks if local series were updated
@@ -58,7 +57,6 @@ angular.module('DuckieTV.providers.trakttvupdates', ['DuckieTV.providers.trakttv
     };
 
     setTimeout(updateFunc, 8000);
-
 
     return service;
 });

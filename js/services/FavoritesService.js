@@ -22,7 +22,6 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
         service.favoriteIDs.push(serie.TVDB_ID.toString());
     };
 
-
     /**
      * Helper function to map properties from the input data on a serie from Trakt.TV into a Serie CRUD object.
      * Input information will always overwrite existing information.
@@ -90,7 +89,6 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
         episode.ID_Season = season.getID();
         return episode;
     };
-
 
     /**
      * Wipe episodes from the database that were cached locally but are no longer in the latest update.
@@ -202,7 +200,6 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
                     return entity;
                 });
         },
-
         /**
          * Helper function to fetch all the episodes for a serie
          * Optionally, filters can be provided which will be turned into an SQL where.

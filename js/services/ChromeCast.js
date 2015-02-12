@@ -5,7 +5,8 @@ angular.module('DuckieTV.providers.chromecast', [])
  * and connect to the ChromeCast interface.
  */
 .factory('ChromeCastSender', function($q) {
-	// main setup
+
+	// Main setup
     var applicationID = 'B09C392B';
     var namespace = 'urn:x-cast:io.github.schizoduckie.duckietv';
     var session = null;
@@ -14,7 +15,7 @@ angular.module('DuckieTV.providers.chromecast', [])
      * Incoming event handlers
      */
     var remote = {
-    	// handle session update messages
+    	// Handle session update messages
         update: function(isAlive) {
             var message = isAlive ? 'Session Updated' : 'Session Removed';
             message += ': ' + session.sessionId;
@@ -23,14 +24,14 @@ angular.module('DuckieTV.providers.chromecast', [])
                 session = null;
             }
         },
-        // handle new session messages
+        // Handle new session messages
         session: function(e) {
             console.log('Received ChromeCast Session ID', e.sessionId, e);
             session = e;
             session.addUpdateListener(remote.update);
             session.addMessageListener(namespace, log.messagereceived);
         },
-        // handle when a new receiver is available.
+        // Handle when a new receiver is available
         receiver: function(e) {
             console.log(e === 'available' ? ["receiver found", e] : "receiver list empty");
         }
@@ -74,7 +75,7 @@ angular.module('DuckieTV.providers.chromecast', [])
                     service.connect(p)
                 }, 1000);
             } else {
-            	// Chromecast is available, request a new session with it.
+            	// Chromecast is available, request a new session with it
                 var sessionRequest = new chrome.cast.SessionRequest(applicationID);
                 var apiConfig = new chrome.cast.ApiConfig(sessionRequest, remote.session, remote.receiver);
                 chrome.cast.initialize(apiConfig, function(e, f) {
@@ -87,11 +88,9 @@ angular.module('DuckieTV.providers.chromecast', [])
             }
             return p.promise;
         },
-
         stop: function() {
 
         },
-
         /** 
          * Send a message to the ChromeCast client where it will be processed in the same way
          * as incoming events are handled here.
@@ -127,7 +126,6 @@ angular.module('DuckieTV.providers.chromecast', [])
         }
     }
     return service;
-
 })
 
 /** 
@@ -178,7 +176,6 @@ angular.module('DuckieTV.providers.chromecast', [])
             })
             return p.promise;
         }
-
     }
     return service;
 })

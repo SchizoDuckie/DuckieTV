@@ -27,8 +27,6 @@ angular.module('DuckieTV.providers.watchlist', [])
             }, function(fail) {
                 console.log("Error persisting watchlistitem!", data, arguments);
             });
-
-
         },
         getById: function(id) {
             return CRUD.FindOne('WatchListItem', {
@@ -43,7 +41,6 @@ angular.module('DuckieTV.providers.watchlist', [])
                     self.restore();
                 });
             });
-
         },
         /**
          * Fetch stored watchlistitems from sqlite and store them in service.watchlist
@@ -73,11 +70,10 @@ angular.module('DuckieTV.providers.watchlist', [])
                 }, function(err) {
                     console.log("Error fetching watchlist", err);
                 });
-
             });
         }
     };
+    
     service.restore();
     return service;
-
 });

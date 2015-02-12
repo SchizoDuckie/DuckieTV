@@ -54,7 +54,6 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
         return output;
     };
 
-
     /**
      * Get wrapper, providing the actual search functions and result parser
      * Provides promises so it can be used in typeahead as well as in the rest of the app
@@ -130,7 +129,7 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
     var providers = service.getProviders();
     if (!(SettingsService.get('torrenting.searchprovider') in providers)) {
         // autoconfig migration, fallback to first provider in the list when we detect an invalid provider.
-        console.log("Invalid search provider detected: ", SettingsService.get('torrenting.searchprovider'), " defaulting to ", Object.keys(providers)[0]);
+        console.warn("Invalid search provider detected: ", SettingsService.get('torrenting.searchprovider'), " defaulting to ", Object.keys(providers)[0]);
         SettingsService.set('torrenting.searchprovider', Object.keys(providers)[0]);
     }
     service.setProvider(SettingsService.get('torrenting.searchprovider'));
