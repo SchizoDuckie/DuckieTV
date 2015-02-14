@@ -1,65 +1,26 @@
 angular.module('DuckieTV.providers.torrentfreak', [])
 
 /**
- * Todo: make this a proper RSS directive.
- */
-.controller('Top10Pirated', function($scope, $compile, TorrentFreak) {
-
-    $scope.activeItem;
-    $scope.items = [];
-    $scope.itemIndex = 0;
-    $scope.activeItem = [];
-
-    /** 
-     * Switch to the previous item in the Top10 RSS feed while the index isn't maxxed out
-     */
-    $scope.prevItem = function() {
-        if ($scope.itemIndex < $scope.items.length - 2) {
-            $scope.itemIndex += 1;
-        }
-        $scope.activeItem = $scope.items[$scope.itemIndex];
-    }
-    /** 
-     * Switch to the next item in the Top10 RSS feed results while the index is > 0
-     */
-    $scope.nextItem = function() {
-        if ($scope.itemIndex > 0) {
-            $scope.itemIndex -= 1;
-        }
-        $scope.activeItem = $scope.items[$scope.itemIndex];
-    }
-
-    /** 
-     * Fetch the Top10 RSS feed, render the first item as HTML and put it on the scope.
-     */
-    TorrentFreak.Top10($scope).then(function(result) {
-        $scope.items = result;
-        $scope.activeItem = result[0];
-        $compile(result[0].content)($scope);
-    });
-})
-
-/**
  * TorrentFreak Top 10 Most Pirated Movies
  */
 .provider('TorrentFreak', function() {
 
-    this.endpoints = {
+    var endpoints = {
         top10rss: 'http://torrentfreak.com/category/dvdrip/feed/'
     };
 
     /**
      * Switch between search and details
      */
-    this.getUrl = function(type, param) {
-        return this.endpoints[type].replace('%s', encodeURIComponent(param));
-    },
+    function getUrl(type, param) {
+        return endpoints[type].replace('%s', encodeURIComponent(param));
+    }
 
     /** 
      * Transform the RSS feed to a JSON structure by parsing it into a DOM document
      * and executing query selectors on it.
      */
-    this.parseRSS = function(result, $compile, scope) {
+    function parseRSS(result, $compile, scope) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result, "text/xml");
         var results = doc.querySelectorAll("item");
@@ -121,32 +82,63 @@ angular.module('DuckieTV.providers.torrentfreak', [])
      * Provides promises so it can be used in typeahead as well as in the rest of the app
      */
     this.$get = function($q, $http, $compile) {
-        var self = this;
         return {
             /**
              * Fetch details for a specific Kickass torrent id
              */
             Top10: function(scope) {
-                var d = $q.defer();
-                $http({
+                return $http({
                     method: 'GET',
-                    url: self.getUrl('top10rss', null),
+                    url: getUrl('top10rss', null),
                     cache: true
-                }).success(function(response) {
-                    d.resolve(self.parseRSS(response, $compile, scope));
-                }).error(function(err) {
-                    d.reject(err);
-                });
-                return d.promise;
+                }).then(function(response) {
+                    return parseRSS(response.data, $compile, scope);
+                })
             }
         }
     }
 })
+    .directive('top10PiratedMovies', function() {
 
-.directive('top10PiratedMovies', function() {
+        return {
+            restrict: 'E',
+            templateUrl: 'templates/torrentfreakTop10.html',
+            controller: function($compile, TorrentFreak, $rootScope) {
+                var vm = this;
+                this.activeItem;
+                this.items = [];
+                this.itemIndex = 0;
+                this.activeItem = [];
 
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/torrentfreakTop10.html'
-    };
-})
+                /** 
+                 * Switch to the previous item in the Top10 RSS feed while the index isn't maxxed out
+                 */
+                this.prevItem = function() {
+                    if (this.itemIndex < vm.items.length - 2) {
+                        this.itemIndex += 1;
+                    }
+                    this.activeItem = vm.items[vm.itemIndex];
+                }
+                /** 
+                 * Switch to the next item in the Top10 RSS feed results while the index is > 0
+                 */
+                this.nextItem = function() {
+                    if (this.itemIndex > 0) {
+                        this.itemIndex -= 1;
+                    }
+                    this.activeItem = vm.items[vm.itemIndex];
+                }
+
+                /** 
+                 * Fetch the Top10 RSS feed, render the first item as HTML and put it on the scope.
+                 */
+                TorrentFreak.Top10($rootScope).then(function(result) {
+                    vm.items = result;
+                    vm.activeItem = result[0];
+                    $compile(result[0].content)($rootScope);
+                });
+            },
+            controllerAs: 'vm',
+            bindToController: true
+        };
+    })
