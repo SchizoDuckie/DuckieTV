@@ -84,7 +84,22 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                     calendarEvents[date][index].episode = event.episode;
                 }
                 calendarEvents[date] = calendarEvents[date].sort(function(a, b) {
-                    return a.episode.firstaired > b.episode.firstaired;
+                    var ad = new Date(a.episode.firstaired_iso).getTime();
+                    var bd = new Date(b.episode.firstaired_iso).getTime()
+                    if (ad < bd) return -1;
+                    else if (ad > bd) return 1;
+                    else {
+                        // air at the same time, now order by title first and if the names match by episode
+                        if (a.ID_Serie == b.ID_Serie) {
+                            if (a.episode.episodenumber < b.episode.episodenumber) return -1;
+                            if (a.episode.episodenumber > b.episode.episodenumber) return 1;
+
+                        } else {
+                            return a.serie.title > b.serie.title;
+                        }
+
+                    }
+
                 });
             });
             existing = index = null;
