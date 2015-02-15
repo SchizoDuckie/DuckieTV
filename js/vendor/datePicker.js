@@ -178,10 +178,6 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
                 }
             };
 
-            scope.eventClick = function(event) {
-                console.log("Event cick!", event);
-            }
-
             scope.setDate = function(date) {
                 scope.date = date;
                 // change next view
@@ -276,7 +272,7 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
                         date.setHours(date.getHours() + delta);
                         break;
                 }
-                console.log(date);
+                //console.log(date);
                 update();
             };
 
