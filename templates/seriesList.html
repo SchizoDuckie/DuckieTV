@@ -21,8 +21,7 @@
          <serie-details class="sidepanel" ng-show="serie && !showTrakt" template-url="templates/serieslist/searching-sidepanel.html"></serie-details>
         <!-- END Search/Add Mode -->
         
-        <div id="favslist" ng-include="'templates/serieslist/favorites.html'">
-          
-        </div>
+        <local-series id='favslist'></local-series>
+        <search-results ng-if="searching"></search-results>
     </div>
 </div>
