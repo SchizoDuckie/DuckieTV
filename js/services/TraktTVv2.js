@@ -9,7 +9,8 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
 .factory('TraktTVv2', function(SettingsService, $q, $http) {
 
     var activeSearchRequest = false,
-        activeTrendingRequest = false;
+        activeTrendingRequest = false,
+        cachedTrending = null;
 
     var APIkey = '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0';
     var endpoint = 'https://api-v2launch.trakt.tv/';
@@ -21,7 +22,7 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
         seasons: 'shows/%s/seasons?extended=full,images',
         episodes: 'shows/%s/seasons/%s/episodes?extended=full,images',
         search: 'search?type=show&extended=full,images&query=%s&limit=50',
-        trending: 'shows/trending?extended=full,images&limit=100',
+        trending: 'shows/trending?extended=full,images&limit=500',
         tvdb_id: 'search?id_type=tvdb&id=%s',
         login: 'auth/login',
         watched: 'sync/watched/shows?extended=full,images&limit=10000',
@@ -241,11 +242,18 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
             return (activeSearchRequest && activeSearchRequest.resolve);
         },
         trending: function() {
+            if (null !== cachedTrending) {
+                return $q(function(resolve) {
+                    resolve(cachedTrending);
+                });
+            }
+
             service.cancelTrending();
             service.cancelSearch();
             activeTrendingRequest = $q.defer();
             return promiseRequest('trending', null, null, activeTrendingRequest.promise).then(function(results) {
                 activePromiseRequest = false;
+                cachedTrending = results;
                 return results;
             });
         },

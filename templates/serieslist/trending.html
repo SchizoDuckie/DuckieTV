@@ -4,9 +4,9 @@
 <h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>{{'SERIESLIST/TRENDING/addtrending-help-please-wait/hdr'|translate}}</h1>
 
 <!-- Repeated trending serie results -->
-<serieHeader ng-repeat="serie in trending.results track by serie.tvdb_id" ng-mouseenter="setHoverSerie(serie)" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
-    <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
-    <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
-    <em class="earmark error" ng-show="isError(serie.tvdb_id)" tooltip="{{error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
-
+<serieHeader ng-repeat="serie in trending.results  | limitTo: trending.limit track by serie.tvdb_id" ng-mouseenter="serieslist.setHoverSerie(serie)" data="serie" no-overview="1" mode="poster" ng-click="serieslist.selectSerie(serie)">
+    <em class="earmark" ng-show="serieslist.isAdded(serie.tvdb_id)">&check;</em>
+    <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
+    <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{serieslist.error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
 </serieHeader>
+<button class="btn btn-info" ng-click="trending.limit = trending.limit + 100" ng-if="trending.results && trending.limit < trending.results.length" style="display:block; margin:0 auto; width: 50%;"><i class="glyphicon glyphicon-plus"></i> Show more</button>
