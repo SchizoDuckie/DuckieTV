@@ -6,7 +6,7 @@
 <a tooltip="{{'SERIESLIST/TOOLS/addshow-return-to-fav-list/tooltip'|translate}}" ng-if="serieslist.searchingForSerie == true" ng-click="serieslist.disableAdd()" style='float:left; line-height:40px; font-size:18px;'>
     <i class="glyphicon glyphicon-ok-sign"></i> {{'SERIESLIST/TOOLS/addshow-hide/glyph'|translate}}
 </a>
-    <input ng-model="serieslist.search.query" ng-model-options="{debounce: 500}" placeholder="{{'SERIESLIST/TOOLS/addshow-type-series-name/placeholder'|translate}}" ng-change="traktSearch.findSeries(serieslist.search.query)" focus-watch="'serieslist.searchingForSerie'" class="form-control" style='float:left; width:50%; margin-left:10px; border:1px solid white;font-size:20px; height:auto; background-color:rgb(17, 17, 17);'>
+    <input ng-model="traktSearch.search.query" ng-model-options="{debounce: 500}" placeholder="{{'SERIESLIST/TOOLS/addshow-type-series-name/placeholder'|translate}}" ng-change="traktSearch.findSeries(traktSearch.search.query)" focus-watch="'serieslist.searchingForSerie'" class="form-control" style='float:left; width:50%; margin-left:10px; border:1px solid white;font-size:20px; height:auto; background-color:rgb(17, 17, 17);'>
     <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh" ></i>
     <p class="protip">{{'SERIESLIST/TOOLS/addshow-protip/lbl'|translate}}</p>
 </form>
