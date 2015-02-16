@@ -44,7 +44,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
 
     var traktSearch = this;
 
-    this.results = [];
+    this.results = false;
     this.searching = false;
     this.error = false;
 
@@ -54,7 +54,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     this.findSeries = function(query) {
         if (query.trim().length < 2) { // when query length is smaller than 2 chars, auto-show the trending results
             $scope.$broadcast('trending:show');
-            this.results = [];
+            this.results = false;
             this.error = false;
             this.searching = false;
             TraktTVv2.cancelSearch();
@@ -181,7 +181,12 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     this.searchingForSerie = false; // Toggles when 'add a show' is clicked
     this.serieAddFocus = false; // Toggles this to automatically bring focus to the 'start typing to search for a serie' textbox
     this.showTrakt = false;
+    this.showTrending = false;
     this.serie = null; // active hover serie to pass to the sidepanel
+
+    this.search = {
+        query: ''
+    };
 
 
     this.adding = { // holds any TVDB_ID's that are adding
@@ -255,7 +260,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     });
 
     $rootScope.$on('trending:hide', function(event) {
-        serieslist.showTrakt = false;
+        serieslist.showTrending = false;
     });
 
     /**
@@ -298,7 +303,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
      */
     this.enableAdd = function() {
         this.searchingForSerie = true;
-        this.showTrakt = true;
+        this.showTrending = true;
 
     };
 
@@ -307,7 +312,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
      */
     this.disableAdd = function() {
         this.searchingForSerie = false;
-        this.showTrakt = false;
+        this.showTrending = false;
     };
 
 

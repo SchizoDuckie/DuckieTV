@@ -876,12 +876,7 @@ ul.engineselect li:hover strong {
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
     text-decoration: underline;
 }
-the-tv-db-search .dropdown-menu, piratebay-search .dropdown-menu, kickass-torrent-search .dropdown-menu, trakt-tv-search .dropdown-menu, .modal-content .dropdown-menu {
-    padding: 0;
-}
-the-tv-db-search serieheader:hover h3 {
-    text-decoration: underline;
-}
+
 a.hover i.glyphicon-plus-sign {
     -webkit-transition: all 1s ease-in;
     -webkit-transform: scale(1, 1);
@@ -1089,4 +1084,34 @@ trakt-tv-trending {
     top: 108px;
     margin: 5px;
     width: calc(100% - 380px);
+    z-index:100;
+}
+
+trakt-tv-search {
+    position: absolute;
+    left: 0px;
+    right: 370px;
+    padding: 20px;
+    bottom: 0;
+    top: 0px;
+}
+
+trakt-tv-search > form {
+    padding: 20px;
+}
+
+trakt-tv-search serieheader {
+    float:left;
+    margin: 10px;
+
+}
+
+trakt-tv-search p.tip {
+    color: white;
+    padding: 20px;
+    display: inline-block;
+    font-size: 13px;
+    position: absolute;
+    top: 10px;
+    margin-right: 20px;
 }

@@ -3,22 +3,6 @@
 <a accesskey="a" tooltip="{{'SERIESLIST/TOOLS/addshow-add-to-list/tooltip'|translate}}({{'SERIESLIST/TOOLS/hotkey/lbl'|translate}}: alt+a)" ng-if="!serieslist.searchingForSerie && mode !== 'search'" ng-click="serieslist.enableAdd();" style='float:left'>
     <i class="glyphicon glyphicon-plus-sign"></i> {{'SERIESLIST/TOOLS/addshow-show/glyph'|translate}}
 </a>
-<!-- Disable adding button -->
-<a tooltip="{{'SERIESLIST/TOOLS/addshow-return-to-fav-list/tooltip'|translate}}" ng-if="serieslist.searchingForSerie == true" ng-click="serieslist.disableAdd()" style='float:left; line-height:40px'>
-    <i class="glyphicon glyphicon-ok-sign"></i> {{'SERIESLIST/TOOLS/addshow-hide/glyph'|translate}}
-</a>
-
-<!-- Search bar for adding series -->
-<form ng-submit="serieslist.selectFirstResult()" ng-show="serieslist.searchingForSerie" name="traktSearch.searchForm" ng-controller="traktTvSearchCtrl as traktSearch">
-    <input ng-model="serieslist.search.query" ng-model-options="{debounce: 500}" placeholder="{{'SERIESLIST/TOOLS/addshow-type-series-name/placeholder'|translate}}" ng-change="traktSearch.findSeries(search.query)" focus-watch="'serieslist.searchingForSerie'" class="form-control" style='float:left; width:50%; margin-left:10px; border:1px solid white;font-size:20px; height:auto; background-color:rgb(17, 17, 17);'>
-    <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh" ></i>
-    <p>{{'SERIESLIST/TOOLS/addshow-protip/lbl'|translate}}</p>
-</form>
-
-<!-- Search bar filtering library -->
-<form ng-submit="localsearch.execFilter()" ng-if="mode == 'search'">
-    <input type='text' focus-watch="'localsearch.isFiltering'" placeholder="{{'SERIESLIST/TOOLS/filter-placeholder'|translate}}" ng-change='setFilter(localsearch.localFilterString)' ng-model='localsearch.localFilterString' style='float:left; width:45%; padding:5px'>
-</form>
 
 <!--  Make posters smaller button -->
 <a style="position:absolute;top:77px;right:50px;z-index:1" ng-if="!serieslist.isSmall && serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall(true)">
@@ -32,6 +16,7 @@
 <a tooltip="{{'SERIESLIST/TOOLS/search/tooltip'|translate}}({{'SERIESLIST/TOOLS/hotkey/lbl'|translate}}: alt + / )" accesskey="/" ng-if="!serieslist.searchingForSerie" ng-click="localSearch.isFiltering = true; serieslist.setMode('search',true);">
     <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'SERIESLIST/TOOLS/filter/glyph'|translate}}
 </a>&nbsp;
+
 <!-- Banner mode button -->
 <a tooltip="{{'SERIESLIST/TOOLS/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/hotkey/lbl'|translate}}: alt + l)" ng-if="!serieslist.searchingForSerie && serieslist.mode == 'poster'" accesskey="l" ng-click="serieslist.setMode('banner');">
     <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'SERIESLIST/TOOLS/list-show/glyph'|translate}}

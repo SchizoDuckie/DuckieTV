@@ -16,16 +16,6 @@
 }
 
 
-trakt-tv-search i.glyphicon, piratebay-search i.glyphicon, kickass-torrent-search i.glyphicon {
-	position: relative;
-	color: white;
-	top: -30px;
-	font-size: 22px;
-	right: -94%;
-	-webkit-animation: rotate 0.4s ease-in infinite;
-}
-
-
 @-webkit-keyframes zoom {
   from { 
   	height:0px;

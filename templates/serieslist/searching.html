@@ -1,14 +1,29 @@
 <!-- serieslist\searching.html -->
-<div>   
-    <h1 style='text-align:center' ng-if="traktSearch.searching"><img ng-if="traktSearch.searching" src="img/spinner.gif"><br>{{'SERIESLIST/SEARCHING/addshow-start-typing/lbl'|translate}}</h1>
-    <!-- Search error panel -->
-    <h1 ng-if="traktSearch.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'SERIESLIST/SEARCHING/error-with-trakttv/lbl'|translate}}<br>{{ traktSearch.error.statusText }} </h1>
+
+<!-- Search bar for adding series -->
+<form ng-submit="serieslist.selectFirstResult()" name="traktSearch.searchForm">
+<!-- Disable adding button -->
+<a tooltip="{{'SERIESLIST/TOOLS/addshow-return-to-fav-list/tooltip'|translate}}" ng-if="serieslist.searchingForSerie == true" ng-click="serieslist.disableAdd()" style='float:left; line-height:40px; font-size:18px;'>
+    <i class="glyphicon glyphicon-ok-sign"></i> {{'SERIESLIST/TOOLS/addshow-hide/glyph'|translate}}
+</a>
+    <input ng-model="serieslist.search.query" ng-model-options="{debounce: 500}" placeholder="{{'SERIESLIST/TOOLS/addshow-type-series-name/placeholder'|translate}}" ng-change="traktSearch.findSeries(serieslist.search.query)" focus-watch="'serieslist.searchingForSerie'" class="form-control" style='float:left; width:50%; margin-left:10px; border:1px solid white;font-size:20px; height:auto; background-color:rgb(17, 17, 17);'>
+    <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh" ></i>
+    <p class="protip">{{'SERIESLIST/TOOLS/addshow-protip/lbl'|translate}}</p>
+</form>
+
+<h1 style='text-align:center' ng-if="traktSearch.searching"><img ng-if="traktSearch.searching" src="img/spinner.gif"><br>{{'SERIESLIST/SEARCHING/addshow-start-typing/lbl'|translate}}</h1>
+
+<h1 ng-if="traktSearch.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'SERIESLIST/SEARCHING/error-with-trakttv/lbl'|translate}}<br>{{ traktSearch.error.statusText }} </h1>
+
+
+<!-- search results -->
+<div class="series" ng-if="traktSearch.results" ng-class="{'miniposter': serieslist.isSmall}">   
 
     <!-- If no results -->
-    <h1 ng-if="!traktSearch.searching && traktSearch.results.length == 0">{{'SERIESLIST/SEARCHING/no-results/lbl'|translate}}{{search.query}}</h1>
+    <h1 ng-if="!traktSearch.searching && traktSearch.results.length == 0">{{'SERIESLIST/SEARCHING/no-results/lbl'|translate}}{{traktSearch.search.query}}</h1>
 
     <!-- Repeated serie search results -->
-    <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results" data="serie" ng-mouseenter="serieslist.setHoverSerie(serie)" no-overview="1" mode="{{serieslist.mode}}" ng-click="serieslist.selectSerie(serie)">
+    <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results" data="serie" ng-mouseenter="serieslist.setHoverSerie(serie)" no-title="1" no-overview="1" mode="{{serieslist.mode}}" ng-click="serieslist.selectSerie(serie)">
         <em class="earmark" ng-show="serieslist.isAdded(serie.tvdb_id)">&check;</em>
         <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
         <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
