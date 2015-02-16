@@ -1,13 +1,13 @@
 <!-- seriesList.html -->
-<div>
-    <h2 ng-click="activated ? closeDrawer() : activate()" tooltip="{{'SERIESLIST/hotkey/lbl'|translate}}: alt+s" >
-        <i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
-        <a accesskey="s" ng-if="!activated">{{'SERIESLIST/series-show/glyph'|translate}}</a>
-        <a accesskey="s" ng-if="activated">{{'SERIESLIST/series-hide/glyph'|translate}}</a>
-        <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !activated, 'glyphicon-chevron-down': activated }"></i>
+<div ng-class="{active: serieslist.activated}">
+    <h2 ng-click="serieslist.activated ? serieslist.closeDrawer() : serieslist.activate()" tooltip="{{'SERIESLIST/hotkey/lbl'|translate}}: alt+s" >
+        <i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !serieslist.activated, 'glyphicon-chevron-down': serieslist.activated }"></i>
+        <a accesskey="s" ng-if="!serieslist.activated">{{'SERIESLIST/series-show/glyph'|translate}}</a>
+        <a accesskey="s" ng-if="serieslist.activated">{{'SERIESLIST/series-hide/glyph'|translate}}</a>
+        <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !serieslist.activated, 'glyphicon-chevron-down': serieslist.activated }"></i>
     </h2>
 
-    <div ng-if="activated" ng-class="{duckie: !searchingForSerie}">
+    <div ng-if="serieslist.activated" ng-class="{ duckie: !serieslist.searchingForSerie}">
         <!-- The top tools panel for the series list -->
         <div style='width: 100%; text-align: right;padding: 30px;font-size: 20px;' ng-include="'templates/serieslist/tools.html'">
 
@@ -15,13 +15,15 @@
         <!-- END Tools Panel -->
 
         <!-- If we're in search/add mode, this panel pops up -->
-        <div ng-if="searchingForSerie" class="series" style='right:350px' ng-include="'templates/serieslist/searching.html'">          
+        <div ng-if="serieslist.searchingForSerie && !serieslist.showTrakt" class="series" style='right:350px' ng-include="'templates/serieslist/searching.html'">          
         </div>
         <!-- Sidepanel for trending/search mode to display extended serie details -->
-         <serie-details class="sidepanel" ng-show="serie && !showTrakt" template-url="templates/serieslist/searching-sidepanel.html"></serie-details>
+         <serie-details class="sidepanel" ng-show="serieslist.searchingForSerie || serieslist.showTrakt" template-url="templates/serieslist/searching-sidepanel.html"></serie-details>
         <!-- END Search/Add Mode -->
         
-        <local-series id='favslist'></local-series>
-        <search-results ng-if="searching"></search-results>
+        <local-series id='favslist' ng-if="!serieslist.searchingForSerie && !serieslist.showTrakt"></local-series>
+
+        <trakt-tv-trending ng-if="serieslist.searchingForSerie && serieslist.showTrakt"></trakt-tv-trending>
+        <trakt-tv-search ng-if="serieslist.searchingForSerie"></trakt-tv-search>
     </div>
 </div>

@@ -3,59 +3,59 @@
     <tbody>
       <tr>
         <td colspan="2">
-          <h3 style="text-align:center">{{serie.title}}</h3>
+          <h3 style="text-align:center">{{serieslist.serie.title}}</h3>
         </td>
       </tr>
       <tr>
         <td colspan="2">
-          <center><serieheader mode="poster" data="serie"></serieheader></center>
+          <center><serieheader mode="poster" data="serieslist.serie"></serieheader></center>
         </td>
       </tr>
-      <tr ng-if="serie.airs.day" >
+      <tr ng-if="serieslist.serie.airs.day" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/airs-on/hdr'|translate}}</th>
-        <td>{{translateDayOfWeek(serie.airs.day)}} {{serie.airs.time}} {{serie.airs.timezone}}</td>
+        <td>{{translateDayOfWeek(serieslist.serie.airs.day)}} {{serieslist.serie.airs.time}} {{serieslist.serie.airs.timezone}}</td>
       </tr>
-      <tr ng-if="serie.first_aired" >
+      <tr ng-if="serieslist.serie.first_aired" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/first-aired/hdr'|translate}}</th>
-        <td>{{ serie.first_aired | date:'mediumDate' }}</td>
+        <td>{{ serieslist.serie.first_aired | date:'mediumDate' }}</td>
       </tr>
-      <tr ng-if="serie.status" >
+      <tr ng-if="serieslist.serie.status" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/status/hdr'|translate}}</th>
-        <td>{{translateStatus(serie.status)}}</td>
+        <td>{{translateStatus(serieslist.serie.status)}}</td>
       </tr>
-      <tr ng-if="serie.genres" >
+      <tr ng-if="serieslist.serie.genres" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/genre/hdr'|translate}}</th>
         <td>
           <ul class="list-unstyled">
-            <li ng-repeat="genre in serie.genres track by $index">{{translateGenre(genre)}}</li>
+            <li ng-repeat="genre in serieslist.serie.genres track by $index">{{translateGenre(genre)}}</li>
           </ul>
         </td>
       </tr>
-      <tr ng-if="serie.certification" >
+      <tr ng-if="serieslist.serie.certification" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/content-rating/hdr'|translate}}</th>
-        <td>{{serie.certification}}</td>
+        <td>{{serieslist.serie.certification}}</td>
       </tr>
-      <tr ng-if="serie.country" >
+      <tr ng-if="serieslist.serie.country" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/country/hdr'|translate}}</th>
-        <td>{{serie.country}}</td>
+        <td>{{serieslist.serie.country}}</td>
       </tr>
-      <tr ng-if="serie.network" >
+      <tr ng-if="serieslist.serie.network" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/network/hdr'|translate}}</th>
-        <td>{{serie.network}}</td>
+        <td>{{serieslist.serie.network}}</td>
       </tr>
-      <tr ng-if="serie.rating" >
+      <tr ng-if="serieslist.serie.rating" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/rating/hdr'|translate}}</th>
-        <td>{{ratingPercentage(serie.rating)}}% ({{serie.votes}} {{'SERIESLIST/SEARCHING-SIDEPANEL/votes/lbl'|translate}})</td>
+        <td>{{ratingPercentage(serieslist.serie.rating)}}% ({{serieslist.serie.votes}} {{'SERIESLIST/SEARCHING-SIDEPANEL/votes/lbl'|translate}})</td>
       </tr>
-      <tr ng-if="serie.runtime" >
+      <tr ng-if="serieslist.serie.runtime" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/run-time/hdr'|translate}}</th>
-        <td>{{serie.runtime}} {{'SERIESLIST/SEARCHING-SIDEPANEL/minutes/lbl'|translate}}</td>
+        <td>{{serieslist.serie.runtime}} {{'SERIESLIST/SEARCHING-SIDEPANEL/minutes/lbl'|translate}}</td>
       </tr>
-      <tr ng-if="serie.actors" >
+      <tr ng-if="serieslist.serie.actors" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/actors/hdr'|translate}}</th>
         <td>
           <ul class="list-unstyled">
-            <li ng-repeat="actors in serie.actors track by $index">{{actors}}</li>
+            <li ng-repeat="actors in serieslist.serie.actors track by $index">{{actors}}</li>
           </ul>
         </td>
       </tr>

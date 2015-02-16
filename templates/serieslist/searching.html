@@ -1,28 +1,25 @@
 <!-- serieslist\searching.html -->
-<div ng-style="{ right: showTrakt ? '350px' : '0px' }">   
-    <h1 style='text-align:center' ng-if="search.searching"><img ng-if="search.searching" src="img/spinner.gif"><br>{{'SERIESLIST/SEARCHING/addshow-start-typing/lbl'|translate}}</h1>
+<div>   
+    <h1 style='text-align:center' ng-if="traktSearch.searching"><img ng-if="traktSearch.searching" src="img/spinner.gif"><br>{{'SERIESLIST/SEARCHING/addshow-start-typing/lbl'|translate}}</h1>
     <!-- Search error panel -->
-    <h1 ng-if="search.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'SERIESLIST/SEARCHING/error-with-trakttv/lbl'|translate}}<br>{{ search.error.statusText }} </h1>
+    <h1 ng-if="traktSearch.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'SERIESLIST/SEARCHING/error-with-trakttv/lbl'|translate}}<br>{{ traktSearch.error.statusText }} </h1>
 
     <!-- If no results -->
-    <h1 ng-if="!search.searching && search.results.length == 0">{{'SERIESLIST/SEARCHING/no-results/lbl'|translate}}{{search.query}}</h1>
+    <h1 ng-if="!traktSearch.searching && traktSearch.results.length == 0">{{'SERIESLIST/SEARCHING/no-results/lbl'|translate}}{{search.query}}</h1>
 
     <!-- Repeated serie search results -->
-    <serieHeader ng-if="search.results" ng-repeat="serie in search.results" data="serie" ng-mouseenter="setHoverSerie(serie)" no-overview="1" mode="{{mode}}" ng-click="selectSerie(serie)">
-        <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
-        <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
-        <em class="earmark error" ng-show="isError(serie.tvdb_id)" tooltip="{{error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
+    <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results" data="serie" ng-mouseenter="serieslist.setHoverSerie(serie)" no-overview="1" mode="{{serieslist.mode}}" ng-click="serieslist.selectSerie(serie)">
+        <em class="earmark" ng-show="serieslist.isAdded(serie.tvdb_id)">&check;</em>
+        <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
+        <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
     </serieHeader>
 
     <!-- no series, show intro text and trakt connect/ backup import -->
-    <p class="alert alert-info" ng-show="favorites.length == 0 && !showTrakt" style='margin:20px;text-align:left;white-space:normal'>
+    <p class="alert alert-info" ng-show="serieslist.favorites.length == 0 && !serieslist.showTrakt" style='margin:20px;text-align:left;white-space:normal'>
         <strong>{{'SERIESLIST/SEARCHING/series-no/hdr'|translate}}</strong><br>
         {{'SERIESLIST/SEARCHING/series-no/desc'|translate}}<br>
-        <strong style='display:inline'><button ng-click="showBackup = true" style='color:black; position:relative;'>{{'SERIESLIST/SEARCHING/import/btn'|translate}} </button></strong> or <strong  style='display:inline'><button ng-click="showTrakt = true" style='color:black'>{{'SERIESLIST/SEARCHING/connect-to-traktTV/btn'|translate}}</button></strong>
-        <div ng-if="showTrakt == true" ng-controller='TraktTVCtrl' ng-include="'templates/settings/trakt-import.html'"></div>
-        <div ng-if="showBackup == true" ng-include="'templates/settings/backup-import.html'"></div>
+        <strong style='display:inline'><button ng-click="showBackup = true" style='color:black; position:relative;'>{{'SERIESLIST/SEARCHING/import/btn'|translate}} </button></strong> or <strong  style='display:inline'><button ng-click="serieslist.showTrakt = true" style='color:black'>{{'SERIESLIST/SEARCHING/connect-to-traktTV/btn'|translate}}</button></strong>
+        <div ng-if="serieslist.showTrakt == true" ng-controller='TraktTVCtrl' ng-include="'templates/settings/trakt-import.html'"></div>
+        <div ng-if="serieslist.showBackup == true" ng-include="'templates/settings/backup-import.html'"></div>
     </p>
-
-    <!-- Trending series to display while search is empty -->
-    <div ng-if="trendingSeries && !showTrakt && !showBackup" ng-include="'templates/serieslist/trending.html'"></div>
 </div>

@@ -318,7 +318,7 @@ serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
     -webkit-transform: translateX(0);
 }
 
-series-list {
+series-list > div {
     position: fixed;
     bottom: 0px;
     height: calc(100% - 40px);
@@ -331,7 +331,7 @@ series-list {
     -webkit-transform: translate3d(0, 100%, 0);
 }
 
-series-list.active {
+series-list >div.active {
     -webkit-transform: translate3d(0, 0, 0);
 }
 
@@ -365,7 +365,7 @@ series-list.active div.duckie {
 series-list .sidepanel {
     position:fixed !important;
     top:65px;
-    right:0px;
+    right:10px;
     width:350px;
 }
 series-list .sidepanel th {
@@ -1079,4 +1079,14 @@ query-monitor.show {
 .binputhover {
     background-color: #47a447;
     border-color: #398439;
+}
+
+
+trakt-tv-trending {
+    position: absolute;
+    overflow-y: scroll;
+    bottom: 0px;
+    top: 108px;
+    margin: 5px;
+    width: calc(100% - 380px);
 }
