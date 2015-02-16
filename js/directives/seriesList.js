@@ -9,19 +9,19 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         restrict: 'E',
         templateUrl: 'templates/serieslist/trending.html',
         controller: 'traktTvTrendingCtrl',
-        controllerAs: 'trend',
+        controllerAs: 'trending',
+        bindToController: true,
         require: '^seriesList'
     }
 })
 
 .controller('traktTvTrendingCtrl', function($scope, TraktTVv2) {
-    var trend = this;
-    this.trending = {
-        results: []
-    };
+    var trending = this;
+    this.results = [];
+    this.limit = 100;
 
     TraktTVv2.trending().then(function(res) {
-        trend.trending.results = res
+        trending.results = res
     }).catch(function(error) {
         $scope.$emit('trending:error', error);
     });
@@ -29,43 +29,32 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
 })
 
 
-.directive('traktTvSearch', function(TraktTVv2) {
+.directive('traktTvSearch', function() {
     return {
         restrict: 'E',
         templateUrl: 'templates/serieslist/searching.html',
         controller: 'traktTvSearchCtrl',
-        controllerAs: 'search',
+        controllerAs: 'traktSearch',
+        bindToController: true,
         require: '^seriesList',
     }
 })
 
-.controller('traktTvSearchCtrl', function() {
+.controller('traktTvSearchCtrl', function($scope, $rootScope, TraktTVv2) {
 
-    var search = this;
+    var traktSearch = this;
 
-    this.query = undefined;
-    this.results = null;
+    this.results = [];
     this.searching = false;
-
-
-    this.serie = null; // active hover serie
-
-    /**
-     * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
-     * by the seriedetails directive
-     * @param {[type]} serie [description]
-     */
-    $this.setHoverSerie = function(serie) {
-        this.serie = serie;
-    };
+    this.error = false;
 
     /**
      * Fires when user types in the search box. Executes trakt.tv search based on find-while-you type.
      */
-    this.findSeries = function() {
-        if (this.query.trim().length < 2) { // when query length is smaller than 2 chars, auto-show the trending results
-            this.trendingSeries = true;
-            this.results = null;
+    this.findSeries = function(query) {
+        if (query.trim().length < 2) { // when query length is smaller than 2 chars, auto-show the trending results
+            $scope.$broadcast('trending:show');
+            this.results = [];
             this.error = false;
             this.searching = false;
             TraktTVv2.cancelSearch();
@@ -73,20 +62,19 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             return;
         }
         // $scope.search.searching = true;
-        this.search.error = false;
-        this.trendingSeries = false;
-        // disableBatchMode makes sure that previous request are aborted when a new one is started.
-        return TraktTVv2.search($scope.search.query).then(function(res) {
-            this.error = false;
-            this.searching = TraktTVv2.hasActiveSearchRequest();
-            this.trendingSeries = false; // we have a result, hide the trending series.
-            this.results = res || [];
+        this.error = false;
+
+        return TraktTVv2.search(query).then(function(res) {
+            traktSearch.error = false;
+            traktSearch.searching = TraktTVv2.hasActiveSearchRequest();
+            traktSearch.results = res || [];
+            $rootScope.$broadcast('trending:hide');
+            $scope.$applyAsync();
         }).catch(function(err) {
             console.error("Search error!", err);
-            this.error = err;
-            this.searching = TraktTVv2.hasActiveSearchRequest();
-            this.trendingSeries = false; // we have a result, hide the trending series.
-            this.results = false;
+            traktSearch.error = err;
+            traktSearch.searching = TraktTVv2.hasActiveSearchRequest();
+            traktSearch.results = [];
         });
     };
 
@@ -109,11 +97,12 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         templateUrl: 'templates/serieslist/favorites.html',
         controller: 'localSeriesCtrl',
         controllerAs: 'local',
+        bindToController: true,
         require: '^seriesList',
     }
 })
 
-.controller('localSeriesCtrl', function(FavoritesService, TraktTvV2, SettingsService, $dialogs, $filter, $location) {
+.controller('localSeriesCtrl', function(FavoritesService, TraktTVv2, SettingsService, $dialogs, $filter, $scope) {
 
     this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
     this.isSmall = false; // Toggles the poster zoom
@@ -145,9 +134,8 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     };
 
 
-    $scope.refresh = function(serie) {
-        serieslist.adding[serie.tvdb_id] = true;
-        TraktTVv2.resolveTVDBID(serie.TVDB_ID).then($scope.selectSerie);
+    this.refresh = function(serie) {
+        $scope.$emit('serie:updating', serie);
     };
 
 
@@ -180,45 +168,23 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         templateUrl: "templates/seriesList.html",
         controllerAs: 'serieslist',
         bindToController: true,
-        controller: 'seriesListCtrl',
-        link: function($scope, iElement) {
-
-            /**
-             * Toggle or untoggle the favorites panel
-             */
-            $scope.activate = function(el) {
-                iElement.addClass('active');
-                serieslist.activated = true;
-
-                if (serieslist.favorites.length > 0) {
-                    serieslist.disableAdd(); // disable add mode when the panel is activated every time. But not if favorites list is empty.
-                } else {
-                    serieslist.enableAdd();
-                }
-            };
-
-            /**
-             * Close the drawer
-             */
-            $scope.closeDrawer = function() {
-                iElement.removeClass('active');
-                $scope.activated = false;
-            };
-
-        }
+        controller: 'seriesListCtrl'
     }
 })
 
-.controller('seriesListCtrl', function(FavoritesService, $rootScope, $scope) {
+.controller('seriesListCtrl', function(FavoritesService, $rootScope, $scope, TraktTVv2) {
 
-    var serieslist = this;
+    var serieslist = $scope.serieslist = this;
 
     this.activated = false; // Toggles when the favorites panel activated
 
     this.searchingForSerie = false; // Toggles when 'add a show' is clicked
     this.serieAddFocus = false; // Toggles this to automatically bring focus to the 'start typing to search for a serie' textbox
+    this.showTrakt = false;
+    this.serie = null; // active hover serie to pass to the sidepanel
 
-    this.addings = { // holds any TVDB_ID's that are adding
+
+    this.adding = { // holds any TVDB_ID's that are adding
 
     };
 
@@ -234,7 +200,27 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
 
     this.favorites = FavoritesService.favorites.map(titleSorter);
 
+    /**
+     * Toggle or untoggle the favorites panel
+     */
+    this.activate = function(el) {
+        this.activated = true;
+        document.body.style.overflowY = 'hidden';
 
+        if (this.favorites.length > 0) {
+            this.disableAdd(); // disable add mode when the panel is activated every time. But not if favorites list is empty.
+        } else {
+            this.enableAdd();
+        }
+    };
+
+    /**
+     * Close the drawer
+     */
+    this.closeDrawer = function() {
+        this.activated = false;
+        document.body.style.overflowY = 'auto';
+    };
 
     /**
      * Another class could fire an event that says this thing should close.
@@ -251,11 +237,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
      */
     $rootScope.$on('favorites:updated', function(event, data) {
         serieslist.favorites = data.map(titleSorter);
-        if (serieslist.favorites.length === 0) {
-            serieslist.activate();
-            serieslist.enableAdd();
-        }
-        $scope.$digest();
     });
 
     /**
@@ -265,7 +246,26 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     $rootScope.$on('serieslist:empty', function(event) {
         console.log("Serieslist empty!!! ");
         serieslist.activate();
+        serieslist.enableAdd();
     });
+
+    $scope.$on('serie:updating', function(event, serie) {
+        serieslist.adding[serie.tvdb_id] = true;
+        TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(serieslist.selectSerie);
+    });
+
+    $rootScope.$on('trending:hide', function(event) {
+        serieslist.showTrakt = false;
+    });
+
+    /**
+     * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
+     * by the seriedetails directive
+     * @param {[type]} serie [description]
+     */
+    this.setHoverSerie = function(serie) {
+        this.serie = serie;
+    };
 
     /**
      * Add a show to favorites.*The serie object is a Trakt.TV TV Show Object.
@@ -274,20 +274,20 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
      * It can show the checkmark.
      */
     this.selectSerie = function(serie) {
-        if (!(serie.tvdb_id in this.adding)) { // serieslist is coming from the parent directive. aliassed there.
-            this.adding[serie.tvdb_id] = true;
-            if ((serie.tvdb_id in this.error)) {
-                delete this.error[serie.tvdb_id];
+        if (!(serie.tvdb_id in serieslist.adding)) { // serieslist is coming from the parent directive. aliassed there.
+            serieslist.adding[serie.tvdb_id] = true;
+            if ((serie.tvdb_id in serieslist.error)) {
+                delete serieslist.error[serie.tvdb_id];
             }
             return TraktTVv2.serie(serie.slug_id).then(function(serie) {
                 return FavoritesService.addFavorite(serie).then(function() {
                     $rootScope.$broadcast('storage:update');
-                    this.adding[serie.tvdb_id] = false;
+                    serieslist.adding[serie.tvdb_id] = false;
                 });
             }, function(error) {
                 console.error("Error adding show!", error);
-                this.adding[serie.tvdb_id] = false;
-                this.error[serie.tvdb_id] = error;
+                serieslist.adding[serie.tvdb_id] = false;
+                serieslist.error[serie.tvdb_id] = error;
             });
         }
     };
@@ -298,6 +298,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
      */
     this.enableAdd = function() {
         this.searchingForSerie = true;
+        this.showTrakt = true;
 
     };
 
@@ -306,6 +307,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
      */
     this.disableAdd = function() {
         this.searchingForSerie = false;
+        this.showTrakt = false;
     };
 
 
