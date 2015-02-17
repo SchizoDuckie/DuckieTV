@@ -82,15 +82,6 @@ angular.module('DuckieTV.directives.torrentdialog', [])
         $modalInstance.dismiss('Canceled');
     };
 
-    $scope.save = function() {
-        $modalInstance.close($scope.user.name);
-    };
-
-    $scope.hitEnter = function(evt) {
-        if (angular.equals(evt.keyCode, 13) && !(angular.equals($scope.user.name, null) || angular.equals($scope.user.name, '')))
-            $scope.save();
-    };
-
     // Selects and launchs magnet
     $scope.magnetSelect = function(magnet) {
         console.info("Magnet selected!", magnet);
