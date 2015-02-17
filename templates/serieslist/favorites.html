@@ -1,7 +1,38 @@
 <!-- serieslist\favorites.html -->
+
+<div class="tools">
+<!--  Make posters smaller button -->
+<a style="position:absolute;top:2px;right:-30px;z-index:1" ng-if="!serieslist.isSmall && serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall(true)">
+    <i tooltip="{{'SERIESLIST/TOOLS/make-posters-small/tooltip'|translate}}" style='font-size:24px;' class="glyphicon glyphicon-zoom-out"></i>
+</a>
+<!-- Normal size posters button -->
+<a style="position:absolute;top:2px;right:-30px;z-index:1" ng-if="serieslist.isSmall && serieslist.mode == 'poster'"  ng-click="serieslist.toggleSmall(false)">
+    <i style='font-size:24px;' tooltip="{{'SERIESLIST/TOOLS/make-posters-large/tooltip'|translate}}" class="glyphicon glyphicon-zoom-in"></i>
+</a>
+<!-- Filter library button -->
+<a tooltip="{{'SERIESLIST/TOOLS/search/tooltip'|translate}}({{'SERIESLIST/TOOLS/hotkey/lbl'|translate}}: alt + / )" accesskey="/" ng-if="!serieslist.searchingForSerie" ng-click="localSearch.isFiltering = true; serieslist.setMode('search',true);">
+    <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'SERIESLIST/TOOLS/filter/glyph'|translate}}
+</a>&nbsp;
+
+<!-- Banner mode button -->
+<a tooltip="{{'SERIESLIST/TOOLS/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/hotkey/lbl'|translate}}: alt + l)" ng-if="!serieslist.searchingForSerie && serieslist.mode == 'poster'" accesskey="l" ng-click="serieslist.setMode('banner');">
+    <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'SERIESLIST/TOOLS/list-show/glyph'|translate}}
+</a>
+<!-- Poster mode button -->
+<a tooltip="{{'SERIESLIST/TOOLS/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/hotkey/lbl'|translate}}: alt + g)" ng-if="!serieslist.searchingForSerie && serieslist.mode == 'search' || serieslist.mode == 'banner'" accesskey="g"  ng-click="serieslist.setMode('poster');">
+    <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'SERIESLIST/TOOLS/grid-show/glyph'|translate}}
+</a>
+</div>
+
+<!-- Search bar filtering library -->
+<form ng-submit="local.execFilter()" name="local.filterForm" ng-if="serieslist.mode == 'search'">
+    <input type='text' focus-watch="'local.isFiltering'" placeholder="{{'SERIESLIST/TOOLS/filter-placeholder'|translate}}" ng-change='setFilter(local.filter.localFilterString)' ng-model='local.filter.localFilterString' style='display:block; margin:0 auto; width:45%; padding:5px'>
+</form>
+
+
 <!-- Display favourites in selected mode -->
-<div class="series" ng-if="serieslist.activated" ng-class="{'miniposter': local.isSmall}">
-    <serieHeader ng-repeat="serie in serieslist.favorites | orderBy: 'sortName'" data="serie" no-overview="1" mode="{{local.mode}}">   
+<div class="series" ng-if="serieslist.activated" ng-class="{'miniposter': serieslist.isSmall}">
+    <serieHeader ng-repeat="serie in serieslist.favorites | orderBy: 'sortName' | filter: local.localFilter" data="serie" no-overview="1" mode="{{serieslist.mode}}">   
 		<em class="earmark refresh" ng-class="{adding: serieslist.isAdding(serie.TVDB_ID)}" tooltip="{{'SERIESLIST/FAVORITES/refresh-serie/tooltip'|translate}}"  tooltip-append-to-body="true" ng-click='local.refresh(serie)'>
 			<i ng-show="!serieslist.isAdding(serie.TVDB_ID)" class="glyphicon glyphicon-refresh"></i>
             <img ng-show="serieslist.isAdding(serie.TVDB_ID)" src="img/spinner.gif" width="37px" height="37px"></em>

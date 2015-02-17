@@ -15,17 +15,53 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     }
 })
 
-.controller('traktTvTrendingCtrl', function($scope, TraktTVv2) {
+.controller('traktTvTrendingCtrl', function($rootScope, TraktTVv2) {
     var trending = this;
     this.results = [];
+    this.filtered = [];
     this.limit = 100;
+    this.categories = {};
+    this.activeCategory = false;
 
-    TraktTVv2.trending().then(function(res) {
-        trending.results = res
-    }).catch(function(error) {
-        $scope.$emit('trending:error', error);
+    this.fetch = function() {
+        console.log('fetch trending!');
+        if (trending.results.length == 0) {
+            TraktTVv2.trending().then(function(res) {
+                trending.results = res || [];
+                trending.results.map(function(el) {
+                    el.genres.map(function(genre) {
+                        trending.categories[genre] = true;
+                    })
+                    trending.filtered.push(el);
+                })
+
+                $rootScope.$applyAsync();
+            }).catch(function(error) {
+                $rootScope.$broadcast('trending:error', error);
+            });
+        }
+    }
+
+    this.toggleCategory = function(category) {
+        if (this.activeCategory == category) {
+            this.activeCategory = false;
+        } else {
+            this.activeCategory = category;
+        }
+        this.filtered = this.results.filter(function(show) {
+            return !trending.activeCategory ? true : (show.genres.indexOf(category) > -1);
+        })
+        return this.filtered;
+    }
+
+    this.getFilteredResults = function() {
+        return this.filtered;
+    }
+
+    $rootScope.$on('trending:show', function() {
+        trending.fetch();
     });
-
+    this.fetch();
 })
 
 
@@ -44,31 +80,34 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
 
     var traktSearch = this;
 
-    this.results = [];
+    this.results = false;
     this.searching = false;
     this.error = false;
+
+    this.search = {
+        query: ''
+    };
 
     /**
      * Fires when user types in the search box. Executes trakt.tv search based on find-while-you type.
      */
     this.findSeries = function(query) {
+
         if (query.trim().length < 2) { // when query length is smaller than 2 chars, auto-show the trending results
-            $scope.$broadcast('trending:show');
-            this.results = [];
+            this.results = false;
             this.error = false;
             this.searching = false;
-            TraktTVv2.cancelSearch();
-            // emit $scope.enableAdd();
+            $rootScope.$broadcast('trending:show');
             return;
         }
         // $scope.search.searching = true;
         this.error = false;
 
+        $rootScope.$broadcast('trending:hide');
         return TraktTVv2.search(query).then(function(res) {
             traktSearch.error = false;
             traktSearch.searching = TraktTVv2.hasActiveSearchRequest();
             traktSearch.results = res || [];
-            $rootScope.$broadcast('trending:hide');
             $scope.$applyAsync();
         }).catch(function(err) {
             console.error("Search error!", err);
@@ -102,29 +141,31 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     }
 })
 
-.controller('localSeriesCtrl', function(FavoritesService, TraktTVv2, SettingsService, $dialogs, $filter, $scope) {
+.controller('localSeriesCtrl', function(FavoritesService, TraktTVv2, $dialogs, $location, $filter, $scope) {
 
-    this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
-    this.isSmall = false; // Toggles the poster zoom
-    this.hideEnded = false;
-
+    var local = this;
     /**
-     * Set the series list display mode to either banner or poster.
-     * Temporary mode is for enabling for instance the search, it's not stored.
+     * When mode == 'filter', these are in effect.
+     * Filters the local series list by substring.
      */
-    this.setMode = function(mode, temporary) {
-        if (!temporary) {
-            SettingsService.set('series.displaymode', mode);
-        }
-        this.mode = mode;
+    this.filter = {
+        localFilterString: ''
+    };
+
+    this.localFilter = function(el) {
+        return el.name.toLowerCase().indexOf(local.filter.localFilterString.toLowerCase()) > -1;
     };
 
     /**
-     * Toggles small mode on off
+     * Automatically launch the first search result when user hits enter in the filter form
      */
-    this.toggleSmall = function() {
-        this.isSmall = !this.isSmall;
+    this.execFilter = function() {
+        setTimeout(function() {
+            console.log('execing quer!');
+            document.querySelector('.series serieheader a').click();
+        }, 0)
     };
+
 
     /**
      * Change location to the series details when clicked from display mode.
@@ -172,7 +213,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     }
 })
 
-.controller('seriesListCtrl', function(FavoritesService, $rootScope, $scope, TraktTVv2) {
+.controller('seriesListCtrl', function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2) {
 
     var serieslist = $scope.serieslist = this;
 
@@ -181,7 +222,11 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     this.searchingForSerie = false; // Toggles when 'add a show' is clicked
     this.serieAddFocus = false; // Toggles this to automatically bring focus to the 'start typing to search for a serie' textbox
     this.showTrakt = false;
+    this.showTrending = false;
     this.serie = null; // active hover serie to pass to the sidepanel
+    this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
+    this.isSmall = false; // Toggles the poster zoom
+    this.hideEnded = false;
 
 
     this.adding = { // holds any TVDB_ID's that are adding
@@ -199,6 +244,24 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
 
 
     this.favorites = FavoritesService.favorites.map(titleSorter);
+
+    /**
+     * Set the series list display mode to either banner or poster.
+     * Temporary mode is for enabling for instance the search, it's not stored.
+     */
+    this.setMode = function(mode, temporary) {
+        if (!temporary) {
+            SettingsService.set('series.displaymode', mode);
+        }
+        this.mode = mode;
+    };
+
+    /**
+     * Toggles small mode on off
+     */
+    this.toggleSmall = function() {
+        this.isSmall = !this.isSmall;
+    };
 
     /**
      * Toggle or untoggle the favorites panel
@@ -255,7 +318,13 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     });
 
     $rootScope.$on('trending:hide', function(event) {
-        serieslist.showTrakt = false;
+        serieslist.showTrending = false;
+        TraktTVv2.cancelTrending();
+    });
+
+    $rootScope.$on('trending:show', function(event) {
+        TraktTVv2.cancelSearch();
+        serieslist.showTrending = true;
     });
 
     /**
@@ -298,7 +367,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
      */
     this.enableAdd = function() {
         this.searchingForSerie = true;
-        this.showTrakt = true;
+        this.showTrending = true;
 
     };
 
@@ -307,7 +376,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
      */
     this.disableAdd = function() {
         this.searchingForSerie = false;
-        this.showTrakt = false;
+        this.showTrending = false;
     };
 
 
