@@ -18,18 +18,44 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
 .controller('traktTvTrendingCtrl', function($rootScope, TraktTVv2) {
     var trending = this;
     this.results = [];
+    this.filtered = [];
     this.limit = 100;
+    this.categories = {};
+    this.activeCategory = false;
 
     this.fetch = function() {
         console.log('fetch trending!');
         if (trending.results.length == 0) {
             TraktTVv2.trending().then(function(res) {
                 trending.results = res || [];
+                trending.results.map(function(el) {
+                    el.genres.map(function(genre) {
+                        trending.categories[genre] = true;
+                    })
+                    trending.filtered.push(el);
+                })
+
                 $rootScope.$applyAsync();
             }).catch(function(error) {
                 $rootScope.$broadcast('trending:error', error);
             });
         }
+    }
+
+    this.toggleCategory = function(category) {
+        if (this.activeCategory == category) {
+            this.activeCategory = false;
+        } else {
+            this.activeCategory = category;
+        }
+        this.filtered = this.results.filter(function(show) {
+            return !trending.activeCategory ? true : (show.genres.indexOf(category) > -1);
+        })
+        return this.filtered;
+    }
+
+    this.getFilteredResults = function() {
+        return this.filtered;
     }
 
     $rootScope.$on('trending:show', function() {
