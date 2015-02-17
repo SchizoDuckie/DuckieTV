@@ -10,11 +10,6 @@
     <div ng-if="serieslist.activated" ng-class="{ duckie: !serieslist.searchingForSerie}">
         <!-- The top tools panel for the series list -->
         <div style='width: 100%; text-align: right;padding: 30px;font-size: 20px;' ng-show="!serieslist.searchingForSerie" ng-include="'templates/serieslist/tools.html'">
-
-        </div>
-        <!-- END Tools Panel -->
-
-        
         </div>
         <!-- Sidepanel for trending/search mode to display extended serie details -->
          <serie-details class="sidepanel" ng-show="serieslist.searchingForSerie || serieslist.showTrakt" template-url="templates/serieslist/searching-sidepanel.html"></serie-details>

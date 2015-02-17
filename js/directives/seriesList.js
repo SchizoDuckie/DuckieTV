@@ -141,29 +141,31 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     }
 })
 
-.controller('localSeriesCtrl', function(FavoritesService, TraktTVv2, SettingsService, $dialogs, $filter, $scope) {
+.controller('localSeriesCtrl', function(FavoritesService, TraktTVv2, $dialogs, $location, $filter, $scope) {
 
-    this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
-    this.isSmall = false; // Toggles the poster zoom
-    this.hideEnded = false;
-
+    var local = this;
     /**
-     * Set the series list display mode to either banner or poster.
-     * Temporary mode is for enabling for instance the search, it's not stored.
+     * When mode == 'filter', these are in effect.
+     * Filters the local series list by substring.
      */
-    this.setMode = function(mode, temporary) {
-        if (!temporary) {
-            SettingsService.set('series.displaymode', mode);
-        }
-        this.mode = mode;
+    this.filter = {
+        localFilterString: ''
+    };
+
+    this.localFilter = function(el) {
+        return el.name.toLowerCase().indexOf(local.filter.localFilterString.toLowerCase()) > -1;
     };
 
     /**
-     * Toggles small mode on off
+     * Automatically launch the first search result when user hits enter in the filter form
      */
-    this.toggleSmall = function() {
-        this.isSmall = !this.isSmall;
+    this.execFilter = function() {
+        setTimeout(function() {
+            console.log('execing quer!');
+            document.querySelector('.series serieheader a').click();
+        }, 0)
     };
+
 
     /**
      * Change location to the series details when clicked from display mode.
@@ -211,7 +213,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     }
 })
 
-.controller('seriesListCtrl', function(FavoritesService, $rootScope, $scope, TraktTVv2) {
+.controller('seriesListCtrl', function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2) {
 
     var serieslist = $scope.serieslist = this;
 
@@ -222,6 +224,9 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     this.showTrakt = false;
     this.showTrending = false;
     this.serie = null; // active hover serie to pass to the sidepanel
+    this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
+    this.isSmall = false; // Toggles the poster zoom
+    this.hideEnded = false;
 
 
     this.adding = { // holds any TVDB_ID's that are adding
@@ -239,6 +244,24 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
 
 
     this.favorites = FavoritesService.favorites.map(titleSorter);
+
+    /**
+     * Set the series list display mode to either banner or poster.
+     * Temporary mode is for enabling for instance the search, it's not stored.
+     */
+    this.setMode = function(mode, temporary) {
+        if (!temporary) {
+            SettingsService.set('series.displaymode', mode);
+        }
+        this.mode = mode;
+    };
+
+    /**
+     * Toggles small mode on off
+     */
+    this.toggleSmall = function() {
+        this.isSmall = !this.isSmall;
+    };
 
     /**
      * Toggle or untoggle the favorites panel
