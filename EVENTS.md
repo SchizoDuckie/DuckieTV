@@ -5,7 +5,7 @@ Throughout Services and Directives in DuckieTV events are published on the $root
 This keeps the configuration modular, allows easy extending at key points and prevents tight coupling
 
 
-Event Descriptions (as at v0.93)
+Event Descriptions (as at v0.94)
 ==================
 ------------------
 
@@ -91,6 +91,14 @@ Event Descriptions (as at v0.93)
 
     A status update for the TPB mirror resolver was published (used by SettingsCtrl to tap into verification steps).
 
+  -  **trending:hide**
+
+    Used internally by the seriesList directive to stop fetching the Trakt.TV trending list.
+
+  -  **trending:show**
+
+    Used internally by the seriesList directive to start fetching the Trakt.TV trending list.
+
 -  **video:load**
 
     Notify ChromeCast to load a video.
@@ -110,11 +118,11 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](http://i.imgur.com/5ptAGs8.png)
+![listeners](http://i.imgur.com/pJ61g1w.png)
 
 Event Publishers:
 ------------------
-![publishers](http://i.imgur.com/79221Pf.png)
+![publishers](http://i.imgur.com/gSwZTin.png)
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
@@ -171,6 +179,8 @@ Listeners
       storageupdate -> SyncManager;
       torrentupdateinfoHash -> DuckieTorrent;
       tpbmirrorresolverstatus -> SettingsCtrl;
+      trendinghide -> seriesList;
+      trendingshow -> seriesList;
       videoload -> ChromeCast;
       watchlistcheck -> WatchlistCheckerService;
       watchlistupdated -> WatchlistCtrl;
@@ -213,6 +223,8 @@ Listeners
         favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
         serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
+        trendinghide [label="trending:hide", shape=box,fillcolor="white",style="filled"];
+        trendingshow [label="trending:show", shape=box,fillcolor="white",style="filled"];
 
       SettingsCtrl [ label="SettingsCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         katmirrorresolverstatus [label="katmirrorresolver:status", shape=box,fillcolor="white",style="filled"];
@@ -294,6 +306,8 @@ Publishers
       torrentupdateinfoHash -> DuckieTorrent [dir="back"];
       tpbmirrorresolverstatus -> SettingsCtrl [dir="back"];
       tpbmirrorresolverstatus -> ThePirateBayMirrorResolver [dir="back"];
+      trendinghide -> seriesList [dir="back"];
+      trendingshow -> seriesList [dir="back"];
       videoload -> DuckieTorrent [dir="back"];
       videoload -> TorrentCtrl [dir="back"];
       watchlistupdated -> WatchlistService [dir="back"];
@@ -346,6 +360,8 @@ Publishers
       serieDetails [label="serieDetails.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
       seriesList [label="seriesList.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        trendinghide [label="trending:hide", shape=box,fillcolor="white",style="filled"];
+        trendingshow [label="trending:show", shape=box,fillcolor="white",style="filled"];
 
       SettingsCtrl [label="SettingsCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
