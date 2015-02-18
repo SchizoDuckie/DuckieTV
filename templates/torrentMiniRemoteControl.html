@@ -1,8 +1,8 @@
 <div style='padding-left:20px'>
     <i class="glyphicon glyphicon-magnet"></i>{{'TORRENTMRC/hdr'|translate}} 
-    <a ng-click="torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i>{{'TORRENTMRC/start/glyph'|translate}}</a>
-    <a ng-click="torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i>{{'TORRENTMRC/pause/glyph'|translate}}</a>
-    <a ng-click="torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i>{{'TORRENTMRC/stop/glyph'|translate}}</a>
-    <a ng-if="torrent.properties.all.is_streamable && $root.getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTMRC/stream-play/lbl</translate></a>   
-    <a ng-if="$root.getSetting('torrenting.directory')" ng-click="torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTMRC/open-folder/lbl'|translate}}</a> 
+    <a ng-click="remote.torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i>{{'TORRENTMRC/start/glyph'|translate}}</a>
+    <a ng-click="remote.torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i>{{'TORRENTMRC/pause/glyph'|translate}}</a>
+    <a ng-click="remote.torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i>{{'TORRENTMRC/stop/glyph'|translate}}</a>
+    <a ng-if="remote.torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="remote.torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTMRC/stream-play/lbl</translate></a>   
+    <a ng-if="getSetting('torrenting.directory')" ng-click="remote.torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTMRC/open-folder/lbl'|translate}}</a> 
 </div>

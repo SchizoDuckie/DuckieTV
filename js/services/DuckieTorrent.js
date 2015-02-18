@@ -538,57 +538,8 @@ angular.module('DuckieTorrent.torrent', [])
         }
     };
 
-    var service = {
-        torrents: {},
-        settings: {},
 
-        getNameFunc: null,
-
-        getTorrentName: function(torrent) {
-            if (!service.getNameFunc) {
-                service.getNameFunc = $parse('properties.all.name');
-            }
-            return (service.getNameFunc(torrent));
-        },
-        removeTorrent: function(torrent) {
-            this.torrents[torrent.hash] = null;
-            delete this.torrents[torrent.hash];
-        },
-        addEvent: function(torrent) {
-            // console.log("Add to list: ", torrent);
-            this.torrents[torrent.hash] = torrent;
-        },
-        removeEvent: function(torrent) {
-            //console.log("Remove from list: ", torrent);
-            delete this.torrents[torrent.hash];
-        },
-        addSettings: function(data, rpc) {
-            //console.log("Add Settings!", data, rpc);
-        },
-        addSettingsMethods: function(data, rpc) {
-            //console.log("Add Settings methods!", data, rpc, a, b, c);
-            service.settings = new RPCObject('settings', data, rpc);
-        },
-        getTorrents: function() {
-            var out = [];
-            angular.forEach(service.torrents, function(el) {
-                out.push(el);
-            });
-            return out;
-        },
-        getByHash: function(hash) {
-            return (hash in service.torrents) ? service.torrents[hash] : null;
-        },
-        addTorrent: function(data, RPCProxy) {
-            var key = Object.keys(data)[0];
-            if (key in this.torrents) {
-                Object.deepMerge(this.torrents[key], data[key]);
-            } else {
-                this.torrents[key] = new RPCObject('torrent.all.' + key, data[key], RPCProxy);
-                // //console.log("Add torrent!", key, this.getTorrentName(data[key]), this.torrents[key], data);
-            }
-            $rootScope.$broadcast('torrent:update:' + key, this.torrents[key]);
-        },
+    var hookMethods = {
         addEvents: function(data) {
             //console.info("Add events!", data);
         },
@@ -610,32 +561,125 @@ angular.module('DuckieTorrent.torrent', [])
         addEventsMethods: function(data, RPCObject) {
             // console.log("Add Events methods!", data, RPCObject)
         },
-        addRssMethods: function(data) {
+        addRssMethods: function(data, rpc) {
             // console.log("Add RSS Methods: ", data);
         },
-        addBtappMethods: function(data) {
+        addBtappMethods: function(data, rpc) {
             // console.log("Add BTAPP Methods: ", data);
+            service.btapp = new RPCObject('btapp', data, rpc);
         },
-        addOsMethods: function(data) {
+        addOsMethods: function(data, rpc) {
+            service.os = new RPCObject('os', data, rpc);
+
             // console.log("Add OS Methods: ", data);
         },
-        addAddMethods: function(data) {
+        addAddMethods: function(data, rpc) {
+            service.add = new RPCObject('add', data, rpc);
             // console.log("Add Add Methods: ", data);
         },
         addDhtMethods: function(data) {
             // console.log("Add DHT Methods: ", data);
         },
-        addTorrentMethods: function(data) {
+        addTorrentMethods: function(data, rpc) {
+            service.torrent = new RPCObject('torrent', data, rpc);
             // console.log("Add Torrent Methods!", data);
         },
         addStream: function(data) {
             // console.log("Add stream!", data);
         },
-        handleEvent: function(type, category, data, RPCProxy, input) {
-            if (!(type + String.capitalize(category) in this)) {
-                console.error("Method not implemented: " + type + String.capitalize(category), data);
+        addSettings: function(data, rpc) {
+            //console.log("Add Settings!", data, rpc);
+        },
+        addSettingsMethods: function(data, rpc) {
+            //console.log("Add Settings methods!", data, rpc, a, b, c);
+            service.settings = new RPCObject('settings', data, rpc);
+        },
+        removeTorrent: function(torrent) {
+            service.torrents[torrent.hash] = null;
+            delete service.torrents[torrent.hash];
+            delete service.eventHandlers[torrent.hash];
+        },
+        /**
+         * Incoming torrent detail data, add it to the local cached list
+         */
+        addTorrent: function(data, RPCProxy) {
+            var key = Object.keys(data)[0];
+            if (key in service.torrents) {
+                Object.deepMerge(service.torrents[key], data[key]);
             } else {
-                this[type + String.capitalize(category)](data, RPCProxy, type, category, input);
+                service.torrents[key] = new RPCObject('torrent.all.' + key, data[key], RPCProxy);
+                // //console.log("Add torrent!", key, this.getTorrentName(data[key]), this.torrents[key], data);
+            }
+            if (key in service.eventHandlers) {
+                service.eventHandlers[key].map(function(monitorFunc) {
+                    monitorFunc(service.torrents[key]);
+                });
+            }
+            $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
+            if ('all' in service.eventHandlers) {
+                service.eventHandlers['all'].map(function(monitorFunc) {
+                    monitorFunc(service.torrents[key]);
+                });
+            }
+        },
+    };
+
+
+
+    var service = {
+        torrents: {},
+        settings: {},
+        eventHandlers: {},
+
+        getNameFunc: null,
+
+        getTorrentName: function(torrent) {
+            if (!service.getNameFunc) {
+                service.getNameFunc = $parse('properties.all.name');
+            }
+            return (service.getNameFunc(torrent));
+        },
+
+        getTorrents: function() {
+            var out = [];
+            angular.forEach(service.torrents, function(el) {
+                out.push(el);
+            });
+            return out;
+        },
+        getByHash: function(hash) {
+            return (hash in service.torrents) ? service.torrents[hash] : null;
+        },
+
+
+        onTorrentUpdate: function(hash, handler) {
+            if (hash === null) {
+                hash = 'all';
+            }
+            if (!(hash in service.eventHandlers)) {
+                service.eventHandlers[hash] = [];
+            }
+            service.eventHandlers[hash].push(handler);
+
+        },
+        offTorrentUpdate: function(hash, handler) {
+            if (hash === null) {
+                hash = 'all';
+            }
+            if (!(hash in service.eventHandlers)) {
+                return;
+            }
+            if (service.eventHandlers[hash].indexOf(handler)) {
+                service.eventHandlers[hash].splice(service.eventHandlers[hash].indexOf(handler), 1);
+            }
+        },
+
+        handleEvent: function(type, category, data, RPCProxy, input) {
+            var func = type + String.capitalize(category);
+            if (!(func in hookMethods)) {
+                console.error("Method not implemented: ", func, data);
+            } else {
+                hookMethods[func](data, RPCProxy, type, category, input);
             }
         }
     };
@@ -704,38 +748,32 @@ angular.module('DuckieTorrent.torrent', [])
         templateUrl: function($node, $iAttrs) {
             return $iAttrs.templateUrl || "templates/torrentRemoteControl.html";
         },
-        link: function($scope, $attr) {
-            // If the connected info hash changes, remove the old event and start observing the new one.
-            $scope.$watch('infoHash', function(newVal, oldVal) {
-                if (newVal == oldVal) return;
-                $rootScope.$$listeners['torrent:update:' + oldVal] = []; // no $rootScope.$off?
-                $scope.infoHash = newVal;
-                observeTorrent(newVal);
-                // $scope.episode.set('downloaded', 0);
-                // $scope.episode.downloaded = 0;
-            });
+        controllerAs: 'remote',
+        controller: function($scope, $rootScope) {
+
+            var remote = this;
+            remote.infoHash = $scope.infoHash;
 
             /**
              * Observes the torrent and watchs for changes (progress)
-             * If Auto-Stop is enabled, automatically stops torrent (seeding)
-             * Todo: Marks episode as downloaded as well
              */
             function observeTorrent(infoHash) {
-                $rootScope.$on('torrent:update:' + $scope.infoHash, function(evt, data) {
-                    $scope.torrent = data;
-                    if ($scope.torrent.isStarted() && $scope.torrent.getProgress() == 100) {
-                        if ($scope.$root.getSetting('torrenting.autostop')) {
-                            console.info('Torrent finished. Auto-stopping', $scope.torrent);
-                            $scope.torrent.stop();
-                        }
-                        // $scope.episode.set('downloaded', 1);
-                        // $scope.episode.downloaded = 1;
-                    }
+                TorrentRemote.onTorrentUpdate(infoHash, function(newData) {
+                    remote.torrent = newData;
                 });
-                $scope.torrent = TorrentRemote.getByHash($scope.infoHash);
             }
 
-            uTorrent.AutoConnect().then(function(remote) {
+            // If the connected info hash changes, remove the old event and start observing the new one.
+            $scope.$watch('infoHash', function(newVal, oldVal) {
+                if (newVal == oldVal) return;
+                TorrentRemote.offTorrentUpdate(oldVal) = [];
+                remote.infoHash = newVal;
+                remote.torrent = TorrentRemote.getByHash(remote.infoHash);
+                observeTorrent(remote.infoHash);
+            });
+
+            uTorrent.AutoConnect().then(function() {
+                remote
                 observeTorrent($scope.infoHash);
             }, function(fail) {
                 console.log("Failed! to connect!");
@@ -749,9 +787,6 @@ angular.module('DuckieTorrent.torrent', [])
                 $rootScope.$broadcast('video:load', torrent.properties.all.streaming_url.replace('://', '://admin:admin@').replace('127.0.0.1', $rootScope.getSetting('ChromeCast.localIpAddress')));
             };
 
-            function get_port(i) {
-                return 7 * Math.pow(i, 3) + 3 * Math.pow(i, 2) + 5 * i + 10000;
-            }
 
             $scope.Cast = function() {
                 console.log('connecting!');
