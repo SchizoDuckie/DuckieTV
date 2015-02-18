@@ -313,12 +313,6 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
         }
     };
 
-    $rootScope.$on('favoritesservice:checkforupdates', function(evt, data) {
-        TraktTVv2.resolveTVDBID(data.TVDB_ID).then(function(searchResult) {
-            return TraktTVv2.serie(searchResult.slug_id);
-        }).then(service.addFavorite);
-    });
-
     service.refresh(false);
     return service;
 });
