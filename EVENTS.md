@@ -63,6 +63,10 @@ Event Descriptions (as at v0.94)
 
     Fires when a serie has been loaded from the database.
 
+ -  **serie:updating**
+
+    Used internally by seriesList to notify when an add-a-series process in active.
+
  -  **serieslist:empty**
 
     Fires when the series list is empty. Hooked by the seriesList directive to make it automatically pop up the suggestions when database is empty.
@@ -118,11 +122,11 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](http://i.imgur.com/pJ61g1w.png)
+![listeners](http://i.imgur.com/zWN8lSd.png)
 
 Event Publishers:
 ------------------
-![publishers](http://i.imgur.com/gSwZTin.png)
+![publishers](http://i.imgur.com/3DlUGcT.png)
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
@@ -173,6 +177,7 @@ Listeners
       magnetselectTVDBID -> EpisodeCtrl;
       magnetselectTVDBID -> SerieCtrl;
       serieload -> ChromeCast;
+      serieupdating -> seriesList;
       serieslistempty -> seriesList;
       serieslisthide -> seriesList;
       setDate -> calendar;
@@ -223,6 +228,7 @@ Listeners
         favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
         serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
+        serieupdating [label="serie:updating", shape=box,fillcolor="white",style="filled"];
         trendinghide [label="trending:hide", shape=box,fillcolor="white",style="filled"];
         trendingshow [label="trending:show", shape=box,fillcolor="white",style="filled"];
 
@@ -297,6 +303,7 @@ Publishers
       magnetselectTVDBID -> torrentDialog [dir="back"];
       serieload -> EpisodeCtrl [dir="back"];
       serieload -> SerieCtrl [dir="back"];
+      serieupdating -> seriesList [dir="back"];
       serieslistempty -> FavoritesService [dir="back"];
       serieslisthide -> app [dir="back"];
       setDate -> datePicker [dir="back"];
@@ -360,6 +367,7 @@ Publishers
       serieDetails [label="serieDetails.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
       seriesList [label="seriesList.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        serieupdating [label="serie:updating", shape=box,fillcolor="white",style="filled"];
         trendinghide [label="trending:hide", shape=box,fillcolor="white",style="filled"];
         trendingshow [label="trending:show", shape=box,fillcolor="white",style="filled"];
 
