@@ -3,30 +3,30 @@
 <div class="tools">
 <!--  Make posters smaller button -->
 <a style="position:absolute;top:2px;right:-30px;z-index:1" ng-if="!serieslist.isSmall && serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall(true)">
-    <i tooltip="{{'SERIESLIST/TOOLS/make-posters-small/tooltip'|translate}}" style='font-size:24px;' class="glyphicon glyphicon-zoom-out"></i>
+    <i tooltip="{{'SERIESLIST/FAVORITES/make-posters-small/tooltip'|translate}}" style='font-size:24px;' class="glyphicon glyphicon-zoom-out"></i>
 </a>
 <!-- Normal size posters button -->
 <a style="position:absolute;top:2px;right:-30px;z-index:1" ng-if="serieslist.isSmall && serieslist.mode == 'poster'"  ng-click="serieslist.toggleSmall(false)">
-    <i style='font-size:24px;' tooltip="{{'SERIESLIST/TOOLS/make-posters-large/tooltip'|translate}}" class="glyphicon glyphicon-zoom-in"></i>
+    <i style='font-size:24px;' tooltip="{{'SERIESLIST/FAVORITES/make-posters-large/tooltip'|translate}}" class="glyphicon glyphicon-zoom-in"></i>
 </a>
 <!-- Filter library button -->
-<a tooltip="{{'SERIESLIST/TOOLS/search/tooltip'|translate}}({{'SERIESLIST/TOOLS/hotkey/lbl'|translate}}: alt + / )" accesskey="/" ng-if="!serieslist.searchingForSerie" ng-click="localSearch.isFiltering = true; serieslist.setMode('search',true);">
-    <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'SERIESLIST/TOOLS/filter/glyph'|translate}}
+<a tooltip="{{'SERIESLIST/FAVORITES/search/tooltip'|translate}}({{'SERIESLIST/FAVORITES/hotkey/lbl'|translate}}: alt + / )" accesskey="/" ng-if="!serieslist.searchingForSerie" ng-click="localSearch.isFiltering = true; serieslist.setMode('search',true);">
+    <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'SERIESLIST/FAVORITES/filter/glyph'|translate}}
 </a>&nbsp;
 
 <!-- Banner mode button -->
-<a tooltip="{{'SERIESLIST/TOOLS/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/hotkey/lbl'|translate}}: alt + l)" ng-if="!serieslist.searchingForSerie && serieslist.mode == 'poster'" accesskey="l" ng-click="serieslist.setMode('banner');">
-    <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'SERIESLIST/TOOLS/list-show/glyph'|translate}}
+<a tooltip="{{'SERIESLIST/FAVORITES/list-show-mode/tooltip'|translate}}({{'SERIESLIST/FAVORITES/hotkey/lbl'|translate}}: alt + l)" ng-if="!serieslist.searchingForSerie && serieslist.mode == 'poster'" accesskey="l" ng-click="serieslist.setMode('banner');">
+    <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'SERIESLIST/FAVORITES/list-show/glyph'|translate}}
 </a>
 <!-- Poster mode button -->
-<a tooltip="{{'SERIESLIST/TOOLS/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/hotkey/lbl'|translate}}: alt + g)" ng-if="!serieslist.searchingForSerie && serieslist.mode == 'search' || serieslist.mode == 'banner'" accesskey="g"  ng-click="serieslist.setMode('poster');">
-    <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'SERIESLIST/TOOLS/grid-show/glyph'|translate}}
+<a tooltip="{{'SERIESLIST/FAVORITES/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/FAVORITES/hotkey/lbl'|translate}}: alt + g)" ng-if="!serieslist.searchingForSerie && serieslist.mode == 'search' || serieslist.mode == 'banner'" accesskey="g"  ng-click="serieslist.setMode('poster');">
+    <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'SERIESLIST/FAVORITES/grid-show/glyph'|translate}}
 </a>
 </div>
 
 <!-- Search bar filtering library -->
 <form ng-submit="local.execFilter()" name="local.filterForm" ng-if="serieslist.mode == 'search'">
-    <input type='text' focus-watch="'local.isFiltering'" placeholder="{{'SERIESLIST/TOOLS/filter-placeholder'|translate}}" ng-change='setFilter(local.filter.localFilterString)' ng-model='local.filter.localFilterString' style='display:block; margin:0 auto; width:45%; padding:5px'>
+    <input type='text' focus-watch="'local.isFiltering'" placeholder="{{'SERIESLIST/FAVORITES/filter-placeholder'|translate}}" ng-change='setFilter(local.filter.localFilterString)' ng-model='local.filter.localFilterString' style='display:block; margin:0 auto; width:45%; padding:5px'>
 </form>
 
 

@@ -1,5 +1,5 @@
 <div class="series">
     <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName' | filter: localFilter" data="serie" no-overview="1" mode="search">
-        <em class="earmark delete" tooltip="{{'SERIESLIST/FAVORITES/delete-serie/tooltip'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
+        <em class="earmark delete" tooltip="{{'SERIESLIST/SEARCHRESULTS/delete-serie/tooltip'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
     </serieHeader>
 </div>
