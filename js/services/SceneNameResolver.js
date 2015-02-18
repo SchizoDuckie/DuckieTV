@@ -435,6 +435,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         79274: "YYYY.MM.DD", // The Colbert Report: 2014.11.13 
         72194: "YYYY.MM.DD", // The Ellen DeGeneres Show: 2014.11.13 
         77075: "YYYY-MM-DD", // Jeopardy! 2014-05-27
+        194751: "YYYY MM DD", // Conan 2015 02 17
         72231: "YYYY MM DD" // Real Time With Bill Maher
     };
 
