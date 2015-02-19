@@ -9,7 +9,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 /**
  * Controller for Sync settings tab
  */
-.controller('SyncCtrl', function($scope, StorageSyncService, $injector, TraktTVv2) {
+.controller('SyncCtrl', ["$scope", "StorageSyncService", "$injector", "TraktTVv2", function($scope, StorageSyncService, $injector, TraktTVv2) {
 
     $scope.targets = StorageSyncService.targets;
 
@@ -31,12 +31,12 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     };
 
     console.log($scope.targets);
-})
+}])
 
 /**
  * Controller for main settings tab
  */
-.controller('DefaultCtrl', function($scope, StorageSyncService, SettingsService) {
+.controller('DefaultCtrl', ["$scope", "StorageSyncService", "SettingsService", function($scope, StorageSyncService, SettingsService) {
     // Nothing here D:
 
     // Deprecated sync functions, no longer relevant to this settings tab
@@ -68,12 +68,12 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         });
     };
 */
-})
+}])
 
 /*
  * Controller for the display settings tab
  */
-.controller('DisplayCtrl', function($scope, $rootScope, $filter, SettingsService) {
+.controller('DisplayCtrl', ["$scope", "$rootScope", "$filter", "SettingsService", function($scope, $rootScope, $filter, SettingsService) {
 
     $scope.activeLocale = SettingsService.get('application.locale');
     $scope.bgopacity = SettingsService.get('background-rotator.opacity');
@@ -125,12 +125,12 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         }
         $rootScope.$broadcast('calendar:clearcache');
     };
-})
+}])
 
 /**
  * Controller for the torrent settings tab
  */
-.controller('SettingsTorrentCtrl', function($scope, $rootScope, SettingsService, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2) {
+.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", function($scope, $rootScope, SettingsService, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2) {
 
     $scope.log = [];
 
@@ -252,12 +252,12 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
         $scope.searchquality = quality;
     };
 
-})
+}])
 
 /** 
  * Root controller for settings pages
  */
-.controller('SettingsCtrl', function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, KickassMirrorResolver, TraktTVv2, $filter) {
+.controller('SettingsCtrl', ["$scope", "$rootScope", "$routeParams", "FavoritesService", "SettingsService", "KickassMirrorResolver", "TraktTVv2", "$filter", function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, KickassMirrorResolver, TraktTVv2, $filter) {
 
     $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
 
@@ -267,4 +267,4 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.activeTab = 'templates/settings/' + $routeParams.tab + '.html';
 
     $scope.favorites = FavoritesService.favorites;
-});
+}]);

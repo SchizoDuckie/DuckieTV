@@ -5,7 +5,7 @@
  *
  * TraktTV is special so it gets it's own controller file :)
  */
- .controller('TraktTVCtrl', function($scope, $rootScope, $q, TraktTVv2, FavoritesService, SettingsService) {
+ .controller('TraktTVCtrl', ["$scope", "$rootScope", "$q", "TraktTVv2", "FavoritesService", "SettingsService", function($scope, $rootScope, $q, TraktTVv2, FavoritesService, SettingsService) {
 
      // Array for credentials
      $scope.credentials = {
@@ -186,4 +186,4 @@
          });
      };
 
- });
+ }]);

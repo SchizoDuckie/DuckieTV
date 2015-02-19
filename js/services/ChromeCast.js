@@ -4,7 +4,7 @@ angular.module('DuckieTV.providers.chromecast', [])
  * The ChromeCast Sender knows how to send events to the DuckieTV ChromeCast app
  * and connect to the ChromeCast interface.
  */
-.factory('ChromeCastSender', function($q) {
+.factory('ChromeCastSender', ["$q", function($q) {
 
 	// Main setup
     var applicationID = 'B09C392B';
@@ -126,14 +126,14 @@ angular.module('DuckieTV.providers.chromecast', [])
         }
     }
     return service;
-})
+}])
 
 /** 
  * The DuckieTVCast service is initiated when a chromecast connection is available.
  * It forwards some of the main app-events to the chromecast device so it mirrors on your
  * second screen what you're doing in your browser.
  */
-.factory('DuckieTVCast', function(ChromeCastSender, FavoritesService, $rootScope, $q) {
+.factory('DuckieTVCast', ["ChromeCastSender", "FavoritesService", "$rootScope", "$q", function(ChromeCastSender, FavoritesService, $rootScope, $q) {
 
     var service = {
 
@@ -178,4 +178,4 @@ angular.module('DuckieTV.providers.chromecast', [])
         }
     }
     return service;
-})
+}])

@@ -3,7 +3,7 @@ angular.module('DuckieTV.controllers.about', [])
 /**
  * Fetches and displays various statistics about current DuckieTV Setup on About Page
  */
-.controller('AboutCtrl', function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, GenericSearch) {
+.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "GenericSearch", function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, GenericSearch) {
 
     $scope.statistics = [];
 
@@ -150,4 +150,4 @@ angular.module('DuckieTV.controllers.about', [])
         countEntity('Episodes');
     }
     getStats();
-});
+}]);

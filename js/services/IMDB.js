@@ -63,7 +63,7 @@ angular.module('DuckieTV.providers.imdb', [])
         return output;
     }
 
-    this.$get = function($q, $http) {
+    this.$get = ["$q", "$http", function($q, $http) {
         var self = this;
         return {
             findAnything: function(what) {
@@ -95,14 +95,14 @@ angular.module('DuckieTV.providers.imdb', [])
                 return d.promise;
             }
         }
-    }
+    }]
 })
 
 /**
  * Autofill serie search component
  * Provides autofill proxy and adds the selected serie back to the MainController
  */
-.controller('FindIMDBTypeAheadCtrl', function($scope, IMDB, WatchlistService) {
+.controller('FindIMDBTypeAheadCtrl', ["$scope", "IMDB", "WatchlistService", function($scope, IMDB, WatchlistService) {
 
     $scope.selected = undefined;
     /**
@@ -131,7 +131,7 @@ angular.module('DuckieTV.providers.imdb', [])
             debugger;
         });
     }
-})
+}])
 
 /**
  * <the-tv-db-search>

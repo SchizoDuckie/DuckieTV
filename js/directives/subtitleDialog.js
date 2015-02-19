@@ -1,6 +1,6 @@
 angular.module('DuckieTV.directives.subtitledialog', [])
     .provider('SubtitleDialog', function() {
-        this.$get = function($injector, $rootScope, $q) {
+        this.$get = ["$injector", "$rootScope", "$q", function($injector, $rootScope, $q) {
             return {
                 search: function(serie, seasonNumber, episodeNumber) {
                     return $injector.get('$dialogs').create('templates/subtitleDialog.html', 'subtitleDialogCtrl', {
@@ -12,9 +12,9 @@ angular.module('DuckieTV.directives.subtitledialog', [])
                     });
                 }
             };
-        };
+        }];
     })
-    .controller('subtitleDialogCtrl', function($scope, $rootScope, $modalInstance, $injector, data, Addic7ed, SettingsService) {
+    .controller('subtitleDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "Addic7ed", "SettingsService", function($scope, $rootScope, $modalInstance, $injector, data, Addic7ed, SettingsService) {
         //-- Variables --//
 
         var customClients = {};
@@ -62,8 +62,8 @@ angular.module('DuckieTV.directives.subtitledialog', [])
 
         $scope.search($scope.query);
 
-    })
-    .directive('subtitleDialog', function(SubtitleDialog, $filter) {
+    }])
+    .directive('subtitleDialog', ["SubtitleDialog", "$filter", function(SubtitleDialog, $filter) {
         return {
             restrict: 'E',
             transclude: true,
@@ -74,13 +74,13 @@ angular.module('DuckieTV.directives.subtitledialog', [])
                 episodeNumber: '=episodeNumber'
             },
             template: '<a ng-click="openDialog()" tooltip-append-to-body=true tooltip="{{tooltip}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
-            controller: function($scope) {
+            controller: ["$scope", function($scope) {
                 $scope.tooltip = $scope.serie !== undefined ?
                     'Find a subtitle for ' + $scope.serie.name :
                     'Find a subtitle'
                 $scope.openDialog = function() {
                     SubtitleDialog.search($scope.serie, $scope.seasonNumber, $scope.episodeNumber);
                 }
-            }
+            }]
         }
-    });
+    }]);

@@ -4,7 +4,7 @@ angular.module('DuckieTV.controllers.chromecast', ['DuckieTV.providers.chromecas
 /**
  * ChromeCast controller. Can fire off ChromeCast initializer
  */
-.controller('ChromeCastCtrl', function($scope, DuckieTVCast, $q, $rootScope) {
+.controller('ChromeCastCtrl', ["$scope", "DuckieTVCast", "$q", "$rootScope", function($scope, DuckieTVCast, $q, $rootScope) {
 
     $scope.addrs = {};
     $scope.localIpAddress = $rootScope.getSetting('ChromeCast.localIpAddress');
@@ -69,4 +69,4 @@ angular.module('DuckieTV.controllers.chromecast', ['DuckieTV.providers.chromecas
     }
 
     $scope.getLocalIP();
-});
+}]);

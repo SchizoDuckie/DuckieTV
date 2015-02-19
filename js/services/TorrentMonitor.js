@@ -7,7 +7,7 @@ angular.module('DuckieTV.providers.torrentmonitor', ['DuckieTV.providers.setting
  * - Matching incoming torrents names / filenames to existing series/episodes in the database
  * - Mark as downloaded
  */
-.factory('TorrentMonitor', function(TorrentRemote, SettingsService) {
+.factory('TorrentMonitor', ["TorrentRemote", "SettingsService", function(TorrentRemote, SettingsService) {
 
     function autoStop(torrent) {
         if (torrent.isStarted() && torrent.getProgress() == 100) {
@@ -38,4 +38,4 @@ angular.module('DuckieTV.providers.torrentmonitor', ['DuckieTV.providers.setting
 
     service.initialize();
     return service;
-})
+}])

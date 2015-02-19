@@ -68,7 +68,7 @@ angular.module('DuckieTV.providers.tpbmirrorresolver', [])
      * Get wrapper, providing the actual search functions and result parser
      * Provides promises so it can be used in typeahead as well as in the rest of the app
      */
-    this.$get = function($q, $http, $rootScope) {
+    this.$get = ["$q", "$http", "$rootScope", function($q, $http, $rootScope) {
         var self = this;
         var maxAttempts = 3;
         return {
@@ -141,5 +141,5 @@ angular.module('DuckieTV.providers.tpbmirrorresolver', [])
                 return q.promise;
             }
         }
-    }
+    }]
 });

@@ -4,7 +4,7 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
  * Serie controller for when in the Serie view
  */
 
-.controller('SerieCtrl', function(FavoritesService, SceneNameResolver, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter, $q, $locale) {
+.controller('SerieCtrl', ["FavoritesService", "SceneNameResolver", "TorrentDialog", "$routeParams", "$scope", "$rootScope", "$injector", "$filter", "$q", "$locale", function(FavoritesService, SceneNameResolver, TorrentDialog, $routeParams, $scope, $rootScope, $injector, $filter, $q, $locale) {
 
     $scope.episodes = [];
     $scope.points = [];
@@ -141,4 +141,4 @@ angular.module('DuckieTV.controllers.serie', ['DuckieTV.directives.serieheader',
     $scope.searchSeason = function(serie, season, $event) {
         TorrentDialog.search(serie.name + ' season ' + season.seasonnumber);
     };
-})
+}])

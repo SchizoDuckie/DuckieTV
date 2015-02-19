@@ -6,7 +6,7 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
  *
  * For API docs: check here: http://docs.trakt.apiary.io/#
  */
-.factory('TraktTVv2', function(SettingsService, $q, $http) {
+.factory('TraktTVv2', ["SettingsService", "$q", "$http", function(SettingsService, $q, $http) {
 
     var activeSearchRequest = false,
         activeTrendingRequest = false,
@@ -376,4 +376,4 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
     };
 
     return service;
-});
+}]);

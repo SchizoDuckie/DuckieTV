@@ -81,7 +81,7 @@ angular.module('DuckieTV.providers.torrentfreak', [])
      * Get wrapper, providing the actual search functions and result parser
      * Provides promises so it can be used in typeahead as well as in the rest of the app
      */
-    this.$get = function($q, $http, $compile) {
+    this.$get = ["$q", "$http", "$compile", function($q, $http, $compile) {
         return {
             /**
              * Fetch details for a specific Kickass torrent id
@@ -96,14 +96,14 @@ angular.module('DuckieTV.providers.torrentfreak', [])
                 })
             }
         }
-    }
+    }]
 })
     .directive('top10PiratedMovies', function() {
 
         return {
             restrict: 'E',
             templateUrl: 'templates/torrentfreakTop10.html',
-            controller: function($compile, TorrentFreak, $rootScope) {
+            controller: ["$compile", "TorrentFreak", "$rootScope", function($compile, TorrentFreak, $rootScope) {
                 var vm = this;
                 this.activeItem;
                 this.items = [];
@@ -137,7 +137,7 @@ angular.module('DuckieTV.providers.torrentfreak', [])
                     vm.activeItem = result[0];
                     $compile(result[0].content)($rootScope);
                 });
-            },
+            }],
             controllerAs: 'vm',
             bindToController: true
         };

@@ -6,7 +6,7 @@ angular.module('DuckieTV.providers.trakttvupdates', ['DuckieTV.providers.trakttv
  *
  * For API docs: check here: http://docs.trakt.apiary.io/#
  */
-.factory('TraktTVUpdateService', function($q, TraktTVv2, FavoritesService) {
+.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService", function($q, TraktTVv2, FavoritesService) {
 
     function getDateString(date) {
         if (!date || isNaN(date.getTime())) {
@@ -60,4 +60,4 @@ angular.module('DuckieTV.providers.trakttvupdates', ['DuckieTV.providers.trakttv
     setTimeout(updateFunc, 8000);
 
     return service;
-});
+}]);

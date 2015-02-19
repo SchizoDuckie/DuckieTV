@@ -3,7 +3,7 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
  * Generic Torrent Search provider
  * Allows searching for any content on a configurable torrent client
  */
-.factory('GenericSearch', function(SettingsService, $q, $http) {
+.factory('GenericSearch', ["SettingsService", "$q", "$http", function(SettingsService, $q, $http) {
 
     var mirror = null;
     var activeRequest = null;
@@ -134,4 +134,4 @@ angular.module('DuckieTV.providers.generictorrentsearch', ['DuckieTV.providers.s
     }
     service.setProvider(SettingsService.get('torrenting.searchprovider'));
     return service;
-});
+}]);

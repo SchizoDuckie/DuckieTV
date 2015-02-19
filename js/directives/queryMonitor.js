@@ -3,7 +3,7 @@ angular.module('DuckieTV.directives.querymonitor',[])
 /**
  * <query-monitor> directive that shows when database writes are happening and how many are left
  */
-.directive('queryMonitor', function($filter) {
+.directive('queryMonitor', ["$filter", function($filter) {
     return {
         restrict: 'E',
         templateUrl: 'templates/querymonitor.html',
@@ -24,4 +24,4 @@ angular.module('DuckieTV.directives.querymonitor',[])
             });
         }
     }
-});
+}]);

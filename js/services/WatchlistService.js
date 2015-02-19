@@ -4,7 +4,7 @@ angular.module('DuckieTV.providers.watchlist', [])
  * The Watchlist Service stores items that are to be monitored.
  * Since the structure is not yet rock solid the items are stored as serialized json
  */
-.factory('WatchlistService', function($rootScope, IMDB) {
+.factory('WatchlistService', ["$rootScope", "IMDB", function($rootScope, IMDB) {
     var service = {
         watchlist: [],
 
@@ -76,4 +76,4 @@ angular.module('DuckieTV.providers.watchlist', [])
     
     service.restore();
     return service;
-});
+}]);

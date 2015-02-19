@@ -3,7 +3,7 @@ angular.module('DuckieTV.providers.addic7ed', [])
 /**
  * Service to fetch subtiles for an episode
  */
-.factory('Addic7ed', function($q, $http) {
+.factory('Addic7ed', ["$q", "$http", function($q, $http) {
 
     var endpoint = 'http://www.addic7ed.com/';
 
@@ -108,4 +108,4 @@ angular.module('DuckieTV.providers.addic7ed', [])
             });
         }
     }
-});
+}]);

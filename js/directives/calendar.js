@@ -6,7 +6,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
  * and watches for the calendar changing it's date before fetching a new
  * set of episodes from the database
  */
-.factory('CalendarEvents', function($rootScope, FavoritesService) {
+.factory('CalendarEvents', ["$rootScope", "FavoritesService", function($rootScope, FavoritesService) {
 
     var calendarEvents = {};
     var activeDate = null;
@@ -177,14 +177,14 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
         }
     });
     return service;
-})
+}])
 
 /**
  * The <calendar-event> directive displays an episode on the calendar
  * This also watches for the magnet:select event will be fired by the
  * TorrentDialog when a user selects a magnet link for an episode.
  */
-.directive('calendarEvent', function(uTorrent, SceneNameResolver, EpisodeAiredService, SettingsService) {
+.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "EpisodeAiredService", "SettingsService", function(uTorrent, SceneNameResolver, EpisodeAiredService, SettingsService) {
     return {
         restrict: 'E',
         scope: {
@@ -241,7 +241,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
             };
         }
     };
-})
+}])
 
 /**
  * The <calendar> directive is just a little wrapper around the 3rd party datePicker directive

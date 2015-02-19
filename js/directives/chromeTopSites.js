@@ -6,7 +6,7 @@ angular.module('DuckieTV.directives.chrometopsites', ['DuckieTV.directives.lazyb
  */
 .provider('ChromeTopSites', function() {
 
-    this.$get = function($q) {
+    this.$get = ["$q", function($q) {
         return {
         	/**
 	         * Service wrapper round chrome's topSites API that provides a promise
@@ -25,14 +25,14 @@ angular.module('DuckieTV.directives.chrometopsites', ['DuckieTV.directives.lazyb
                 return p.promise;
             }
         }
-    }
+    }]
 })
 
 /**
  * <chrome-top-sites> directive that shows the list of most visited
  * sites in chrome
  */
-.directive('chromeTopSites', function(ChromeTopSites) {
+.directive('chromeTopSites', ["ChromeTopSites", function(ChromeTopSites) {
     return {
         restrict: 'E',
         templateUrl: 'templates/chrome-top-sites.html',
@@ -55,4 +55,4 @@ angular.module('DuckieTV.directives.chrometopsites', ['DuckieTV.directives.lazyb
             }
         }
     }
-});
+}]);

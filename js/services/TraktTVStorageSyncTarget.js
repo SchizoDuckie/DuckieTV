@@ -5,7 +5,7 @@ angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.set
  *
  * Reads and writes from and to trakt.tv
  */
-.factory('TraktTVStorageSyncTarget', function(StorageSyncService, SettingsService, TraktTVv2) {
+.factory('TraktTVStorageSyncTarget', ["StorageSyncService", "SettingsService", "TraktTVv2", function(StorageSyncService, SettingsService, TraktTVv2) {
     var service = {
         name: 'TraktTV Sync Target',
         lastSync: 'never',
@@ -45,7 +45,7 @@ angular.module('DuckieTV.providers.trakttvstoragesync', ['DuckieTV.providers.set
 
     console.info("TraktTV storage sync target initialized!");
     return service;
-});
+}]);
 
 
 window.addEventListener('DOMContentLoaded', function() {

@@ -6,7 +6,7 @@
  */
 angular.module('DuckieTV.directives.lazybackground', [])
 
-.directive('lazyBackground', function($document, $parse) {
+.directive('lazyBackground', ["$document", "$parse", function($document, $parse) {
     return {
         restrict: 'A',
         link: function($scope, element, attrs) {
@@ -51,4 +51,4 @@ angular.module('DuckieTV.directives.lazybackground', [])
             });
         }
     };
-})
+}])

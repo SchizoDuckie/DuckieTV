@@ -75,7 +75,7 @@ angular.module('DuckieTorrent.torrent', [])
         this.connected = false;
         this.initialized = false;
 
-        this.$get = function($q, $http, URLBuilder, $parse, TorrentRemote) {
+        this.$get = ["$q", "$http", "URLBuilder", "$parse", "TorrentRemote", function($q, $http, URLBuilder, $parse, TorrentRemote) {
             var self = this;
 
             /**
@@ -382,7 +382,7 @@ angular.module('DuckieTorrent.torrent', [])
                 }
             };
             return methods;
-        };
+        }];
     })
 /**
  * Some RPC Call validation methods taken mostly directly from btapp.js
@@ -472,7 +472,7 @@ angular.module('DuckieTorrent.torrent', [])
 /**
  * uTorrent/Bittorrent remote singleton that receives the incoming data
  */
-.factory('TorrentRemote', function($parse, $rootScope, RPCCallService) {
+.factory('TorrentRemote', ["$parse", "$rootScope", "RPCCallService", function($parse, $rootScope, RPCCallService) {
 
     /**
      * RPC Object that wraps the remote data that comes in from uTorrent.
@@ -704,7 +704,7 @@ angular.module('DuckieTorrent.torrent', [])
 
     window.bt = service;
     return service;
-})
+}])
 
 /**
  * Angular's private URL Builder method + unpublished dependencies converted to a public service
@@ -754,7 +754,7 @@ angular.module('DuckieTorrent.torrent', [])
 /**
  * Torrent Remote Control Directive
  */
-.directive('torrentRemoteControl', function(TorrentRemote, uTorrent, DuckieTVCast, $rootScope) {
+.directive('torrentRemoteControl', ["TorrentRemote", "uTorrent", "DuckieTVCast", "$rootScope", function(TorrentRemote, uTorrent, DuckieTVCast, $rootScope) {
     return {
         restrict: 'E',
         transclude: true,
@@ -767,7 +767,7 @@ angular.module('DuckieTorrent.torrent', [])
             return $iAttrs.templateUrl || "templates/torrentRemoteControl.html";
         },
         controllerAs: 'remote',
-        controller: function($scope, $rootScope) {
+        controller: ["$scope", "$rootScope", function($scope, $rootScope) {
 
             var remote = this;
             remote.infoHash = $scope.infoHash;
@@ -816,10 +816,10 @@ angular.module('DuckieTorrent.torrent', [])
                 console.log('connecting!');
                 DuckieTVCast.initialize();
             };
-        }
+        }]
     };
 
-});
+}]);
 
 String.capitalize = function(s) {
     return s.charAt(0).toUpperCase() + s.slice(1);

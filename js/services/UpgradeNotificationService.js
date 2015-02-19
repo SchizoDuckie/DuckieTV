@@ -7,7 +7,7 @@ angular.module('DuckieTV.providers.upgradenotification', ['dialogs'])
  *
  * If the user closes the dialog, the notification is dismissed and not shown again.
  */
-.factory('UpgradeNotificationService', function($dialogs, $http, $q) {
+.factory('UpgradeNotificationService', ["$dialogs", "$http", "$q", function($dialogs, $http, $q) {
 
     var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="http://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="http://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="http://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
     var notifications = {
@@ -44,4 +44,4 @@ angular.module('DuckieTV.providers.upgradenotification', ['dialogs'])
 
     service.initialize();
     return service;
-});
+}]);

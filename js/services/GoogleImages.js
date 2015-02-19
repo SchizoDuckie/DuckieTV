@@ -27,7 +27,7 @@ angular.module('DuckieTV.providers.googleimages', [])
         return output;
     }
 
-    this.$get = function($q, $http) {
+    this.$get = ["$q", "$http", function($q, $http) {
         var self = this;
         return {
             wallpaper: function(what) {
@@ -59,5 +59,5 @@ angular.module('DuckieTV.providers.googleimages', [])
                 return d.promise;
             }
         }
-    }
+    }]
 })

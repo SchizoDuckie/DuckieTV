@@ -61,15 +61,15 @@ angular.module('DuckieTV', [
  * Unsafe HTML entities passthrough.
  * (Used for for instance typeAheadIMDB.html)
  */
-.filter('unsafe', function($sce) {
+.filter('unsafe', ["$sce", function($sce) {
     return function(val) {
         return $sce.trustAsHtml(val);
     };
-})
+}])
 /**
  * Routing configuration.
  */
-.config(function($routeProvider) {
+.config(["$routeProvider", function($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'templates/home.html',
@@ -109,11 +109,11 @@ angular.module('DuckieTV', [
         .otherwise({
             redirectTo: '/'
         });
-})
+}])
 /**
  * Translation configuration.
  */
-.config(function($translateProvider) {
+.config(["$translateProvider", function($translateProvider) {
 
     $translateProvider
 
@@ -201,7 +201,7 @@ angular.module('DuckieTV', [
 
     // error logging. missing keys are sent to $log
     //$translateProvider.useMissingTranslationHandlerLog();
-})
+}])
 
 /**
  * Inject a (dev-env only) HTTP request interceptor that transparently proxies your requests to an external server and saves them
@@ -222,11 +222,11 @@ angular.module('DuckieTV', [
         }
     }
 ])
-    .config(function($httpProvider, $compileProvider) {
+    .config(["$httpProvider", "$compileProvider", function($httpProvider, $compileProvider) {
         if (document.domain == 'localhost') {
             $httpProvider.interceptors.push('TransparentFixtureProxyInterceptor');
         }
-    })
+    }])
 
 /**
  * Inject a cross-domain enabling http proxy for the non-chrome extension function
@@ -258,16 +258,16 @@ angular.module('DuckieTV', [
 /**
  * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
  */
-.config(function($httpProvider, $compileProvider) {
+.config(["$httpProvider", "$compileProvider", function($httpProvider, $compileProvider) {
 
     if (window.location.href.indexOf('chrome-extension') === -1 && navigator.userAgent.indexOf('DuckieTV') == -1) {
         //  $httpProvider.interceptors.push('CORSInterceptor');
     }
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data|file):/);
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
-})
+}])
 
-.run(function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, TraktTVUpdateService, TorrentMonitor, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
+.run(["$rootScope", "SettingsService", "StorageSyncService", "FavoritesService", "MigrationService", "TraktTVUpdateService", "TorrentMonitor", "EpisodeAiredService", "UpgradeNotificationService", "datePickerConfig", "$translate", "$injector", function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, TraktTVUpdateService, TorrentMonitor, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
     // translate the application based on preference or proposed locale
 
     FavoritesService.loadRandomBackground();
@@ -377,4 +377,4 @@ angular.module('DuckieTV', [
             });
         });
     }
-});
+}]);

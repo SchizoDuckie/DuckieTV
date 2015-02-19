@@ -4,7 +4,7 @@ angular.module('DuckieTV.directives.episodewatched', [])
  * The <episode-watched> directive shows the eye icon that marks an episode as watched.
  * Eye becomes green and not striked through when it's watched.
  */
-.directive('episodeWatched', function($filter, $document, $injector) {
+.directive('episodeWatched', ["$filter", "$document", "$injector", function($filter, $document, $injector) {
     return {
         restrict: 'E',
         transclude: true,
@@ -37,4 +37,4 @@ angular.module('DuckieTV.directives.episodewatched', [])
             };
         }
     };
-});
+}]);

@@ -2,7 +2,7 @@ angular.module('DuckieTV.directives.torrentdialog', [])
 
 .provider('TorrentDialog', function() {
     var activeMagnet = false;
-    this.$get = function($injector, $rootScope, $q) {
+    this.$get = ["$injector", "$rootScope", "$q", function($injector, $rootScope, $q) {
         return {
             search: function(query, TVDB_ID, options) {
                 return $injector.get('$dialogs').create('templates/torrentDialog.html', 'torrentDialogCtrl', {
@@ -36,9 +36,9 @@ angular.module('DuckieTV.directives.torrentdialog', [])
                 }
             }
         };
-    };
+    }];
 })
-    .controller('torrentDialogCtrl', function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog, GenericSearch, SettingsService) {
+    .controller('torrentDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "TorrentDialog", "GenericSearch", "SettingsService", function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog, GenericSearch, SettingsService) {
         //-- Variables --//
         var customClients = {};
 
@@ -114,8 +114,8 @@ angular.module('DuckieTV.directives.torrentdialog', [])
         $scope.getClients();
 
         $scope.search($scope.query);
-    })
-    .directive('torrentDialog', function(TorrentDialog, $filter) {
+    }])
+    .directive('torrentDialog', ["TorrentDialog", "$filter", function(TorrentDialog, $filter) {
         return {
             restrict: 'E',
             transclude: true,
@@ -125,7 +125,7 @@ angular.module('DuckieTV.directives.torrentdialog', [])
                 TVDB_ID: '=tvdbid'
             },
             template: '<a ng-click="openDialog()" tooltip-append-to-body=true tooltip="{{tooltip}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
-            controller: function($scope) {
+            controller: ["$scope", function($scope) {
                 // Translates the tooltip
                 $scope.tooltip = $scope.q !== undefined ?
                     $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.q :
@@ -135,6 +135,6 @@ angular.module('DuckieTV.directives.torrentdialog', [])
                 $scope.openDialog = function() {
                     TorrentDialog.search($scope.q, $scope.TVDB_ID);
                 }
-            }
+            }]
         }
-    })
+    }])

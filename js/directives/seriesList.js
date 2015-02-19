@@ -15,7 +15,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     }
 })
 
-.controller('traktTvTrendingCtrl', function($rootScope, TraktTVv2) {
+.controller('traktTvTrendingCtrl', ["$rootScope", "TraktTVv2", function($rootScope, TraktTVv2) {
     var trending = this;
     this.results = [];
     this.filtered = [];
@@ -62,7 +62,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         trending.fetch();
     });
     this.fetch();
-})
+}])
 
 
 .directive('traktTvSearch', function() {
@@ -76,7 +76,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     }
 })
 
-.controller('traktTvSearchCtrl', function($scope, $rootScope, TraktTVv2) {
+.controller('traktTvSearchCtrl', ["$scope", "$rootScope", "TraktTVv2", function($scope, $rootScope, TraktTVv2) {
 
     var traktSearch = this;
 
@@ -128,9 +128,9 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
 
 
 
-})
+}])
 
-.directive('localSeries', function(FavoritesService) {
+.directive('localSeries', ["FavoritesService", function(FavoritesService) {
     return {
         restrict: 'E',
         templateUrl: 'templates/serieslist/favorites.html',
@@ -139,9 +139,9 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         bindToController: true,
         require: '^seriesList',
     }
-})
+}])
 
-.controller('localSeriesCtrl', function(FavoritesService, TraktTVv2, $dialogs, $location, $filter, $scope) {
+.controller('localSeriesCtrl', ["FavoritesService", "TraktTVv2", "$dialogs", "$location", "$filter", "$scope", function(FavoritesService, TraktTVv2, $dialogs, $location, $filter, $scope) {
 
     var local = this;
     /**
@@ -200,7 +200,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         });
     };
 
-})
+}])
 
 .directive('seriesList', function() {
     return {
@@ -213,7 +213,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     }
 })
 
-.controller('seriesListCtrl', function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2) {
+.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2) {
 
     var serieslist = $scope.serieslist = this;
 
@@ -411,4 +411,4 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         return ((tvdb_id in this.error));
     };
 
-});
+}]);

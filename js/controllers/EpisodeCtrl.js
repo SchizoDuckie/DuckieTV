@@ -4,7 +4,7 @@ angular.module('DuckieTV.controllers.episodes', [])
  * Episode controller for when in the episode view
  */
 
-.controller('EpisodeCtrl', function(FavoritesService, SceneNameResolver, $routeParams, $scope, $rootScope, $filter) {
+.controller('EpisodeCtrl', ["FavoritesService", "SceneNameResolver", "$routeParams", "$scope", "$rootScope", "$filter", function(FavoritesService, SceneNameResolver, $routeParams, $scope, $rootScope, $filter) {
 
         $scope.searching = false;
         $scope.serie = null;
@@ -60,4 +60,4 @@ angular.module('DuckieTV.controllers.episodes', [])
         $scope.getEpisodeNumber = function(episode) {
             return episode.getFormattedEpisode();
         };
-    });
+    }]);

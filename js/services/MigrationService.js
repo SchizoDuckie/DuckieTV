@@ -1,6 +1,6 @@
 angular.module('DuckieTV.providers.migrations', ['ui.bootstrap.modal', 'DuckieTV.providers.settings', 'DuckieTV.providers.favorites', 'DuckieTV.providers.trakttvv2'])
     
-.factory('MigrationService', function($modal, $q, $rootScope, SettingsService, FavoritesService, TraktTVv2) {
+.factory('MigrationService', ["$modal", "$q", "$rootScope", "SettingsService", "FavoritesService", "TraktTVv2", function($modal, $q, $rootScope, SettingsService, FavoritesService, TraktTVv2) {
 
     var service = {
 
@@ -61,4 +61,4 @@ angular.module('DuckieTV.providers.migrations', ['ui.bootstrap.modal', 'DuckieTV
 
     service.check();
     return service;
-});
+}]);

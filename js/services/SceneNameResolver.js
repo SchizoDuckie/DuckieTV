@@ -439,7 +439,7 @@ angular.module('DuckieTV.providers.scenenames', [])
         72231: "YYYY MM DD" // Real Time With Bill Maher
     };
 
-    this.$get = function($filter) {
+    this.$get = ["$filter", function($filter) {
         return {
             /** 
              * Return the scene name of the provided TVDB_ID if it's in the list.
@@ -460,5 +460,5 @@ angular.module('DuckieTV.providers.scenenames', [])
                 }
             }
         };
-    };
+    }];
 });

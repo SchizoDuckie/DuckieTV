@@ -124,7 +124,7 @@ function getVisibleHours(date) {
     return hours;
 }
 
-Module.directive('datePicker', function datePickerDirective(datePickerConfig, $injector) {
+Module.directive('datePicker', ["datePickerConfig", "$injector", function datePickerDirective(datePickerConfig, $injector) {
 
     //noinspection JSUnusedLocalSymbols
     return {
@@ -333,4 +333,4 @@ Module.directive('datePicker', function datePickerDirective(datePickerConfig, $i
             };
         }
     };
-});
+}]);

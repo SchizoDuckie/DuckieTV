@@ -4,7 +4,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
  *
  * Provides functionality to add and remove series and is the glue between Trakt.TV,
  */
-.factory('FavoritesService', function($rootScope, TraktTVv2) {
+.factory('FavoritesService', ["$rootScope", "TraktTVv2", function($rootScope, TraktTVv2) {
 
     /** 
      * Helper function to add a serie to the service.favorites hash if it doesn't already exist.
@@ -315,4 +315,4 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
 
     service.refresh(false);
     return service;
-});
+}]);

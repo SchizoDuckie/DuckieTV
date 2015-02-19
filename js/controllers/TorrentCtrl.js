@@ -3,7 +3,7 @@ angular.module('DuckieTorrent.controllers', ['DuckieTorrent.torrent', 'DuckieTV.
 /**
  * Torrent Control for the torrenting window
  */
-.controller('TorrentCtrl', function($scope, $rootScope, uTorrent, $q, DuckieTVCast) {
+.controller('TorrentCtrl', ["$scope", "$rootScope", "uTorrent", "$q", "DuckieTVCast", function($scope, $rootScope, uTorrent, $q, DuckieTVCast) {
 
     $scope.ports = [];
     $scope.session = false;
@@ -38,4 +38,4 @@ angular.module('DuckieTorrent.controllers', ['DuckieTorrent.torrent', 'DuckieTV.
     uTorrent.AutoConnect().then(function(rpc) {
         $scope.rpc = rpc;
     })
-})
+}])

@@ -4,7 +4,7 @@ angular.module('DuckieTV.providers.filereader', [])
  * FileReader Provider and directive
  * Allows to read the contents of a file upload field to string
  */
-.factory('FileReader', function($q) {
+.factory('FileReader', ["$q", function($q) {
 	// Fires when the while file blob has been read
     var onLoad = function(reader, deferred, $scope) {
         return function() {
@@ -59,7 +59,7 @@ angular.module('DuckieTV.providers.filereader', [])
     return {
         readAsText: readAsText
     };
-})
+}])
 
 /** 
  * The <file-input> directive provides a file upload box that
@@ -68,7 +68,7 @@ angular.module('DuckieTV.providers.filereader', [])
  * When a file is selected, it fires it's onChange event and can
  * then return the contents of the file via FileReader.readAsText(fileName)
  */
-.directive('fileInput', function($parse) {
+.directive('fileInput', ["$parse", function($parse) {
     return {
         restrict: "EA",
         template: "<input type='file' />",
@@ -90,4 +90,4 @@ angular.module('DuckieTV.providers.filereader', [])
             element.bind('change', updateModel);
         }
     };
-})
+}])

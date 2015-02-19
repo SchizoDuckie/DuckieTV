@@ -20,7 +20,7 @@ angular.module('DuckieTV.controllers.backup', ['DuckieTV.providers.filereader'])
  *    // repeat
  *  }
  */
-.controller('BackupCtrl', function($scope, $rootScope, FileReader, TraktTVv2, SettingsService, FavoritesService, $q) {
+.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "$q", function($scope, $rootScope, FileReader, TraktTVv2, SettingsService, FavoritesService, $q) {
 
     $scope.backupString = false;
     $scope.series = [];
@@ -107,4 +107,4 @@ angular.module('DuckieTV.controllers.backup', ['DuckieTV.providers.filereader'])
                 console.error("ERROR!", err);
             });
     };
-});
+}]);

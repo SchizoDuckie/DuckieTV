@@ -5,7 +5,7 @@ angular.module('DuckieTV.controllers.watchlist', [])
  * Currently not implemented
  */
  
-.controller('WatchlistCtrl', function($scope, WatchlistService) {
+.controller('WatchlistCtrl', ["$scope", "WatchlistService", function($scope, WatchlistService) {
 
     $scope.watchlist = WatchlistService.watchlist;
     $scope.searchEngine = 1;
@@ -30,4 +30,4 @@ angular.module('DuckieTV.controllers.watchlist', [])
     });
 
 
-})
+}])

@@ -6,7 +6,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
  *
  * Runs in the background page.
  */
-.factory('EpisodeAiredService', function($rootScope, FavoritesService, SceneNameResolver, SettingsService, GenericSearch, TorrentDialog, uTorrent) {
+.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "GenericSearch", "TorrentDialog", "uTorrent", function($rootScope, FavoritesService, SceneNameResolver, SettingsService, GenericSearch, TorrentDialog, uTorrent) {
 
     var period = 7; // period to check for updates up until today current time
     var minSeeders = 250; // minimum amount of seeders required.
@@ -77,4 +77,4 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
         }
     };
     return service;
-});
+}]);

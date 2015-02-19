@@ -4,7 +4,7 @@ angular.module('DuckieTV.providers.showrss', [])
  * ShowRSS.info custom Torrent API interfacing.
  * Scrapes the shows list from ShowRSS.info and tries to fetch the magnet links for an episode.
  */
-.factory('ShowRSS', function($q, $http) {
+.factory('ShowRSS', ["$q", "$http", function($q, $http) {
 
     var activeSearchRequest = false,
         activeTrendingRequest = false;
@@ -111,4 +111,4 @@ angular.module('DuckieTV.providers.showrss', [])
             });
         }
     }
-});
+}]);

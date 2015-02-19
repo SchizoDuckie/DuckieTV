@@ -1,6 +1,6 @@
 angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.storagesync', 'DuckieTV.providers.settings'])
 
-.factory('ChromeStorageSyncTarget', function(SettingsService, StorageSyncService, ChromePermissions, $injector, $q) {
+.factory('ChromeStorageSyncTarget', ["SettingsService", "StorageSyncService", "ChromePermissions", "$injector", "$q", function(SettingsService, StorageSyncService, ChromePermissions, $injector, $q) {
 
     var service = {
         name: 'Chrome Storage Sync Target',
@@ -123,7 +123,7 @@ angular.module('DuckieTV.providers.chromestoragesync', ['DuckieTV.providers.stor
 
     console.info("ChromeStorageSyncTarget initialized");
     return service;
-});
+}]);
 
 if ('chrome' in window && 'storage' in window.chrome && 'sync' in chrome.storage) {
     window.addEventListener('DOMContentLoaded', function() {

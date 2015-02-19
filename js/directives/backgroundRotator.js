@@ -8,7 +8,7 @@ angular.module('DuckieTV.directives.backgroundrotator', [])
  * preloads new image
  * Cross-fades between current loaded image and the new image
  */
-.directive('backgroundRotator', function($rootScope, $document) {
+.directive('backgroundRotator', ["$rootScope", "$document", function($rootScope, $document) {
     return {
         restrict: 'E',
         scope: {
@@ -42,5 +42,5 @@ angular.module('DuckieTV.directives.backgroundrotator', [])
             });
         }
     };
-})
-.directive("kc",function($document){return{link:function(scope){var kk=[38,38,40,40,37,39,37,39,66,65],k=0;var handler=function(e){if(e.keyCode===kk[k++]){if(k===kk.length){document.getElementById('wl').style.display=''}}else{k=0}};$document.on('keydown',handler)}}});
+}])
+.directive("kc",["$document", function($document){return{link:function(scope){var kk=[38,38,40,40,37,39,37,39,66,65],k=0;var handler=function(e){if(e.keyCode===kk[k++]){if(k===kk.length){document.getElementById('wl').style.display=''}}else{k=0}};$document.on('keydown',handler)}}}]);

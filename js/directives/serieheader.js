@@ -4,7 +4,7 @@
  */
 angular.module('DuckieTV.directives.serieheader', [])
 
-.directive('serieheader', function(FavoritesService) {
+.directive('serieheader', ["FavoritesService", function(FavoritesService) {
     return {
         restrict: 'E',
         transclude: true,
@@ -18,4 +18,4 @@ angular.module('DuckieTV.directives.serieheader', [])
         },
         templateUrl: "templates/serieHeader.html"
     };
-});
+}]);

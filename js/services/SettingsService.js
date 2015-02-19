@@ -3,7 +3,7 @@ angular.module('DuckieTV.providers.settings', [])
 /**
  * Wrapper from accessing and requesting chrome permissions
  */
-.factory('ChromePermissions', function($q) {
+.factory('ChromePermissions', ["$q", function($q) {
     var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1,
         isExtension = (('chrome' in window) && ('permissions' in chrome)),
         isOpera = navigator.vendor.toLowerCase().indexOf('opera');
@@ -69,7 +69,7 @@ angular.module('DuckieTV.providers.settings', [])
     };
 
     return service;
-})
+}])
 
 /**
  * The Settings Service stores user preferences and provides defaults.
@@ -77,7 +77,7 @@ angular.module('DuckieTV.providers.settings', [])
  *
  * Shorthands to the get and set functions are provided in $rootScope by the getSetting and setSetting functions
  */
-.factory('SettingsService', function($injector, $rootScope, ChromePermissions) {
+.factory('SettingsService', ["$injector", "$rootScope", "ChromePermissions", function($injector, $rootScope, ChromePermissions) {
     var service = {
         settings: {},
         defaults: {
@@ -212,4 +212,4 @@ angular.module('DuckieTV.providers.settings', [])
     };
     service.restore();
     return service;
-});
+}]);

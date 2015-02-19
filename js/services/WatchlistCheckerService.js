@@ -9,7 +9,7 @@ angular.module('DuckieTV.providers.watchlistchecker', [])
  * This is useful for being reminded when proper releases of movies finally
  * come out.
  */
-.factory('WatchListCheckerService', function($rootScope) {
+.factory('WatchListCheckerService', ["$rootScope", function($rootScope) {
 
     var service = {
         initialize: function() {
@@ -17,4 +17,4 @@ angular.module('DuckieTV.providers.watchlistchecker', [])
     }
     //service.initialize()
     return service;
-})
+}])
