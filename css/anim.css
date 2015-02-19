@@ -16,6 +16,17 @@
 }
 
 
+@-webkit-keyframes spin {
+  from { -webkit-tranform:rotateY(0deg); }
+  to { -webkit-transform: rotateY(180deg);  }
+}
+
+.spin {
+  -webkit-animation: spin 1s infinite;
+  -webkit-backface-visibility: visible;
+}
+
+
 @-webkit-keyframes zoom {
   from { 
   	height:0px;

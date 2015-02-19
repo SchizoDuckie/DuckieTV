@@ -1,5 +1,8 @@
   <div class="progress-striped progress" ng-class="{ 'active': remote.torrent.isStarted() }">
-   <span ng-transclude></span><span ng-if="remote.torrent.getProgress() != '' && remote.torrent.getProgress() > 0">&nbsp;({{ torrent.getProgress() }}%)</span>
+   <span ng-transclude></span><span ng-if="remote.torrent.getProgress() != '' && remote.torrent.getProgress() > 0">&nbsp;({{ remote.torrent.getProgress() }}%)</span>
+   <span ng-if="remote.torrent.getProgress() == ''">&nbsp;
+   <i class="glyphicon glyphicon-magnet spin" style='float:right' tooltip="Connecting to peers. please wait." tooltip-position="right"></i>
+   </span>
     <div class="progress-bar " ng-class="{ 'progress-bar-danger': !remote.torrent.isStarted() && remote.torrent.getProgress() < 100, 'progress-bar-warning': remote.torrent.isStarted() || remote.torrent.getProgress() < 100 , 'progress-bar-success': remote.torrent.getProgress() == 100 }" ng-style="{ width: remote.torrent.getProgress() + '%' }">&nbsp;
     </div>
   </div>

@@ -21,6 +21,9 @@ angular.module('DuckieTV.directives.torrentdialog', [])
                 var uTorrent = $injector.get('uTorrent');
                 if (uTorrent.isConnected()) { // fast method when using utorrent api.
                     uTorrent.getRemote().add.torrent(magnet);
+                    setTimeout(function() {
+                        uTorrent.Update(true); // force an update from utorrent after 1.5 second to show the user that the torrent has been added.
+                    }, 1500);
                 } else {
                     var d = document.createElement('iframe');
                     d.id = 'torrentmagnet_' + new Date().getTime();

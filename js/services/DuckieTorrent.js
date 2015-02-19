@@ -73,6 +73,7 @@ angular.module('DuckieTorrent.torrent', [])
         this.isPolling = false;
         this.isConnecting = false;
         this.connected = false;
+        this.initialized = false;
 
         this.$get = function($q, $http, URLBuilder, $parse, TorrentRemote) {
             var self = this;
@@ -224,7 +225,6 @@ angular.module('DuckieTorrent.torrent', [])
                  */
                 RPC: function(path, args) {
                     p = path.split('.');
-                    console.log("Path:", p);
                     if (!args) args = [];
                     return jsonp('api', {
                         pairing: self.authToken,
@@ -272,33 +272,57 @@ angular.module('DuckieTorrent.torrent', [])
                 /**
                  * Connect with an auth token obtained by the Pair function.
                  * Store the resulting session key in $scope.session
+                 * You can call this method as often as you want. It'll return a promise that holds
+                 * off on resolving until the client is connected.
+                 * If it's connected and initialized, a promise will return that immediately resolves with the remote interface.
                  */
                 AutoConnect: function() {
                     if (!self.isConnecting && !self.connected) {
                         self.connectPromise = $q.defer();
                         self.isConnecting = true;
                     } else {
-                        if (!self.connected) {
-                            return self.connectPromise.promise;
-                        } else {
-                            var p = $q.defer();
-                            p.resolve(methods.getRemote());
-                            return p.promise;
+                        return (!self.connected || !self.initialized) ? self.connectPromise.promise : $q(function(resolve) {
+                            resolve(methods.getRemote());
+                        });
+                    }
+
+                    /**
+                     * A little promise-settimeout loop to wait for uTorrent to finish flushing all it's torrent data
+                     * The once we're connected
+                     */
+                    var waitForInitialisation = function() {
+                        if (!self.initPromise) {
+                            self.initPromise = $q.defer();
                         }
+
+                        if (self.connected && self.initialized) {
+                            self.initPromise.resolve(true);
+                            return;
+                        }
+
+                        if (!self.connected || !self.initialized) {
+                            setTimeout(waitForInitialisation, 50);
+                        }
+
+                        return self.initPromise.promise;
+                    }
+
+                    var connectFunc = function() {
+                        methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
+                            if (!self.isPolling) {
+                                self.isPolling = true;
+                                methods.Update();
+                            }
+                            self.isConnecting = false;
+                            waitForInitialisation().then(function() {
+                                self.connectPromise.resolve(methods.getRemote());
+                            })
+                        });
                     }
 
                     if (!localStorage.getItem('utorrent.preventconnecting') && !localStorage.getItem('utorrent.token')) {
                         methods.Scan().then(function() {
-                            methods.Pair().then(function() {
-                                methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
-                                    if (!self.isPolling) {
-                                        self.isPolling = true;
-                                        methods.Update();
-                                    }
-                                    self.isConnecting = false;
-                                    self.connectPromise.resolve(methods.getRemote());
-                                });
-                            }, function(error) {
+                            methods.Pair().then(connectFunc, function(error) {
                                 if (error == "PAIR_DENIED" && confirm("You denied the uTorrent/BitTorrent Client request. \r\nDo you wish to prevent any future connection attempt?")) {
                                     localStorage.setItem('utorrent.preventconnecting', true);
                                 }
@@ -306,16 +330,7 @@ angular.module('DuckieTorrent.torrent', [])
                         });
                     } else {
                         if (!localStorage.getItem('utorrent.preventconnecting')) {
-                            methods.Scan().then(function() {
-                                methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
-                                    if (!self.isPolling) {
-                                        self.isPolling = true;
-                                        methods.Update();
-                                    }
-                                    self.isConnecting = false;
-                                    self.connectPromise.resolve(methods.getRemote());
-                                });
-                            });
+                            methods.Scan().then(connectFunc);
                         }
                     }
 
@@ -350,10 +365,13 @@ angular.module('DuckieTorrent.torrent', [])
                  * Stores the resulting TorrentClient service in $scope.rpc
                  * Starts polling every 1s.
                  */
-                Update: function() {
+                Update: function(dontLoop) {
                     if (self.isPolling == true) {
                         methods.statusQuery().then(function(data) {
-                            if (self.isPolling && !data.error) {
+                            if (data.length == 0) {
+                                self.initialized = true;
+                            }
+                            if (undefined === dontLoop && self.isPolling && !data.error) {
                                 setTimeout(methods.Update, data && data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
                             }
                         });
@@ -753,11 +771,12 @@ angular.module('DuckieTorrent.torrent', [])
 
             var remote = this;
             remote.infoHash = $scope.infoHash;
+            remote.torrent = null;
 
             /**
-             * Observes the torrent and watchs for changes (progress)
+             * Observes the torrent and watches for changes (progress)
              */
-            function observeTorrent(infoHash) {
+            function observeTorrent(rpc, infoHash) {
                 TorrentRemote.onTorrentUpdate(infoHash, function(newData) {
                     remote.torrent = newData;
                 });
@@ -765,18 +784,23 @@ angular.module('DuckieTorrent.torrent', [])
 
             // If the connected info hash changes, remove the old event and start observing the new one.
             $scope.$watch('infoHash', function(newVal, oldVal) {
-                if (newVal == oldVal) return;
-                TorrentRemote.offTorrentUpdate(oldVal) = [];
-                remote.infoHash = newVal;
-                remote.torrent = TorrentRemote.getByHash(remote.infoHash);
-                observeTorrent(remote.infoHash);
+                uTorrent.AutoConnect().then(function(rpc) {
+                    if (newVal == oldVal) return;
+                    remote.infoHash = newVal;
+                    remote.torrent = TorrentRemote.getByHash(remote.infoHash);
+                    TorrentRemote.offTorrentUpdate(oldVal, observeTorrent);
+                    observeTorrent(rpc, remote.infoHash);
+                });
             });
 
-            uTorrent.AutoConnect().then(function() {
-                remote
-                observeTorrent($scope.infoHash);
+            /**
+             * Autoconnect and wait for initialisation, then start monitoring updates for the torrent hash in the infoHash
+             */
+            uTorrent.AutoConnect().then(function(rpc) {
+                remote.torrent = TorrentRemote.getByHash(remote.infoHash);
+                observeTorrent(rpc, remote.infoHash);
             }, function(fail) {
-                console.log("Failed! to connect!");
+                console.log("Failed to connect connect to torrent client for monitoring!");
             });
 
             $scope.isFormatSupported = function(file) {
