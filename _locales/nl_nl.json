@@ -358,6 +358,7 @@
     "TORRENTMRC/start/glyph": "Starten",
     "TORRENTMRC/stop/glyph": "Stop",
     "TORRENTMRC/stream-play/lbl": " Streamen met &micro;Torrent speler",
+    "TORRENTMRP/please-wait/tooltip": "Verbinding maken met leeftijdsgenoten. wacht alstublieft.",
     "TORRENTRC/files/hdr": "Bestanden",
     "TORRENTRC/open-folder/btn": "Open bijbehorende map",
     "TORRENTRC/pause/btn": " Pauzeer Torrent",

@@ -358,6 +358,7 @@
     "TORRENTMRC/start/glyph": "comienzo ",
     "TORRENTMRC/stop/glyph": "Deténgase ",
     "TORRENTMRC/stream-play/lbl": "  Stream con reproductor de uTorrent ",
+    "TORRENTMRP/please-wait/tooltip": "Conexión a pares. por favor espera.",
     "TORRENTRC/files/hdr": "Archivos ",
     "TORRENTRC/open-folder/btn": "Abra la carpeta que contiene ",
     "TORRENTRC/pause/btn": "  Pausa torrent ",

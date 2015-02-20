@@ -358,6 +358,7 @@
     "TORRENTMRC/start/glyph": "Inizio",
     "TORRENTMRC/stop/glyph": "Stop",
     "TORRENTMRC/stream-play/lbl": "Streaming con lettore uTorrent",
+    "TORRENTMRP/please-wait/tooltip": "Attendere prego, contattando dei peers.",
     "TORRENTRC/files/hdr": "Cartella",
     "TORRENTRC/open-folder/btn": "Apri la cartella contenente",
     "TORRENTRC/pause/btn": "Pausa Torrent",

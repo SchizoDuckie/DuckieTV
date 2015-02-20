@@ -358,6 +358,7 @@
     "TORRENTMRC/start/glyph": "começo ",
     "TORRENTMRC/stop/glyph": "Pare ",
     "TORRENTMRC/stream-play/lbl": "  Córrego com μTorrent jogador ",
+    "TORRENTMRP/please-wait/tooltip": "Conectando-se a pares. por favor, aguarde.",
     "TORRENTRC/files/hdr": "Arquivos ",
     "TORRENTRC/open-folder/btn": "Abra contendo pasta ",
     "TORRENTRC/pause/btn": "  Pausa Torrent ",

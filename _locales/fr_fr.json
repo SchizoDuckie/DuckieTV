@@ -358,6 +358,7 @@
     "TORRENTMRC/start/glyph": "Démarrer ",
     "TORRENTMRC/stop/glyph": "Arrêtez ",
     "TORRENTMRC/stream-play/lbl": "  Diffuser avec uTorrent joueur ",
+    "TORRENTMRP/please-wait/tooltip": "Connexion à leurs pairs. se il vous plaît attendre.",
     "TORRENTRC/files/hdr": "fichiers ",
     "TORRENTRC/open-folder/btn": "Ouvrez contenant dossier ",
     "TORRENTRC/pause/btn": "  Pause Torrent ",

@@ -358,6 +358,7 @@
     "TORRENTMRC/start/glyph": "Början ",
     "TORRENTMRC/stop/glyph": "Stopp ",
     "TORRENTMRC/stream-play/lbl": "  Strömma med calibre spelare ",
+    "TORRENTMRP/please-wait/tooltip": "Anslutning till kamrater. var god vänta.",
     "TORRENTRC/files/hdr": "filer ",
     "TORRENTRC/open-folder/btn": "Öppna innehåller mapp ",
     "TORRENTRC/pause/btn": "  Paus Torrent ",

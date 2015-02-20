@@ -376,6 +376,7 @@
     "TORRENTMRC/start/glyph": "Start",
     "TORRENTMRC/stop/glyph": "Stop",
     "TORRENTMRC/stream-play/lbl": " Stream with &micro;Torrent player",
+    "TORRENTMRP/please-wait/tooltip": "Connecting to peers. please wait.",
     "TORRENTRC/files/hdr": "Files",
     "TORRENTRC/open-folder/btn": "Open containing folder",
     "TORRENTRC/pause/btn": " Pause Torrent",

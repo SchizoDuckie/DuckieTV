@@ -358,6 +358,7 @@
     "TORRENTMRC/start/glyph": "スタート ",
     "TORRENTMRC/stop/glyph": "停止 ",
     "TORRENTMRC/stream-play/lbl": " μTorrentのプレーヤーでストリーミング ",
+    "TORRENTMRP/please-wait/tooltip": "ピアへの接続。お待ちください.",
     "TORRENTRC/files/hdr": "ファイル ",
     "TORRENTRC/open-folder/btn": "フォルダを含む開く ",
     "TORRENTRC/pause/btn": " トレントを一時停止 ",

@@ -358,6 +358,7 @@
     "TORRENTMRC/start/glyph": "начало ",
     "TORRENTMRC/stop/glyph": "Стоп ",
     "TORRENTMRC/stream-play/lbl": "  Поток с трекеры игрока ",
+    "TORRENTMRP/please-wait/tooltip": "Подключение к сверстникам. пожалуйста, подождите.",
     "TORRENTRC/files/hdr": "Файлы ",
     "TORRENTRC/open-folder/btn": "Откройте содержащий папку ",
     "TORRENTRC/pause/btn": "  Пауза Torrent ",

@@ -358,6 +358,7 @@
     "TORRENTMRC/start/glyph": "Starten",
     "TORRENTMRC/stop/glyph": "Stopp ",
     "TORRENTMRC/stream-play/lbl": "  Streamen mit μTorrent-Player ",
+    "TORRENTMRP/please-wait/tooltip": "Anschließen an Gleichaltrigen. bitte warten.",
     "TORRENTRC/files/hdr": "Dateien ",
     "TORRENTRC/open-folder/btn": "Öffnen Sie Ordner mit ",
     "TORRENTRC/pause/btn": "  Pause Torrent ",
