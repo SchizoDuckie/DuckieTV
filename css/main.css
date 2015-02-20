@@ -353,7 +353,7 @@ series-list > div > h2 > i {
     line-height:25px;
     vertical-align: middle;
 }
-series-list:hover h2, series-list.active h2 {
+series-list:hover h2, series-list .active h2 {
     background-color: rgba(0, 0, 0, 0.9);
 }
 
