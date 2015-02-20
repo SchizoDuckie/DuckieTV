@@ -23,8 +23,8 @@
     <tr ng-show="hasTopSites">
     <th width="150px">
       <strong style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/topsites/hdr'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/sync-enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/sync-disabled/lbl'|translate}}</p>
+      <p class="label label-success" ng-show="getSetting('topSites.enabled')">{{'SETTINGS/DEFAULT/sync-enabled/lbl'|translate}}</p>
+      <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">{{'SETTINGS/DEFAULT/sync-disabled/lbl'|translate}}</p>
       <br>
       <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onhover'">{{'SETTINGS/DISPLAY/topsites-mode-hover/lbl'|translate}}</p>
       <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onclick'">{{'SETTINGS/DISPLAY/topsites-mode-click/lbl'|translate}}</p>

@@ -1,9 +1,9 @@
 <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;' ng-controller="DefaultCtrl">
   <tr>
-    <th width="150px">
+    <th width="150px" style="border:0">
       <strong>{{'SETTINGS/DEFAULT/backup/hdr'|translate}}</strong>
     </th>
-    <td ng-include="'templates/settings/backup.html'"></td>
+    <td style="border:0" ng-include="'templates/settings/backup.html'"></td>
   </tr>
   <tr ng-if="isSyncSupported()">
     <th width="150px">

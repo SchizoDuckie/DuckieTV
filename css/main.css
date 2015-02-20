@@ -18,6 +18,7 @@
     font-weight: normal;
     font-style: normal;
 }
+
 @media (min-width: 1200px) {
     body > .container {
         width: 95%;
@@ -44,6 +45,17 @@ input::-webkit-input-placeholder {
 ng\:form {
     display: block;
 }
+
+@media (min-width: 768px) {
+    body > .container {
+        padding: 15px 20px 20px 20px;
+    }
+}
+@media (max-width: 768px) {
+    body > .container {
+        padding: 15px 20px 20px 40px;
+    }
+}
 body {
     background-color: #000;
     background-size: cover;
@@ -52,9 +64,7 @@ body {
     font-family: helvetica, sans-serif;
     color: #444;
 }
-body > .container {
-    padding: 15px 20px 20px 20px;
-}
+
 .topsites-false {
 }
 .topsites-true {
@@ -1058,6 +1068,14 @@ query-monitor .progress {
 query-monitor.show {
     opacity: 1;
     -webkit-transform: translateX(0);
+}
+
+.settings .nav-tabs.nav-justified>li {
+    min-width: 100px;
+    display: table-cell;
+}
+.settings .nav-tabs.nav-justified>li>a {
+    margin-bottom: 0;
 }
 
 .img-loading {

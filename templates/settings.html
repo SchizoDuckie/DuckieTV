@@ -5,7 +5,7 @@
         <fieldset>
           <h2>{{ 'SETTINGS/hdr'|translate }}</h2>
         </fieldset>
-          <div style="tabbable width:85%">
+          <div class="settings">
             <ul class="nav nav-tabs nav-justified">
                   <li ng-class="{active: tab == 'default' }">
                     <a href="#/settings/default">{{ 'SETTINGS/general/hdr'|translate }}</a>
@@ -19,7 +19,7 @@
                   <li ng-class="{active: tab == 'trakttv' }">
                     <a href="#/settings/trakttv">{{ 'SETTINGS/trakttv/hdr'|translate }}</a>
                   </li>
-                   <li ng-class="{active: tab == 'sync' }">
+                   <li ng-class="{active: tab == 'sync' }" style="display:none">
                     <a href="#/settings/sync">Sync</a>
                   </li>
               </ul>
