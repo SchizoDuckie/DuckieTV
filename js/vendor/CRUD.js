@@ -170,7 +170,18 @@ CRUD.Find = function(obj, filters, options) {
         delete options.group;
     }
     var justthese = options.justthese || [];
-    return CRUD.EntityManager.getAdapter().Find(type, filters, extras, justthese, options, filters);
+    return CRUD.EntityManager.getAdapter().Find(type, filters, extras, justthese, options).then(function(results) {
+        return results.map(function(el) {
+            if (!(type in CRUD.EntityManager.cache)) {
+                CRUD.EntityManager.cache[type] = {};
+            }
+            var idProp = CRUD.EntityManager.entities[type].primary;
+            if (!(el[idProp] in CRUD.EntityManager.cache[type])) {
+                CRUD.EntityManager.cache[type][el[idProp]] = new CRUD.EntityManager.constructors[type]();
+            }
+            return CRUD.EntityManager.cache[type][el[idProp]].importValues(el);
+        });
+    })
 };
 
 /** 
@@ -380,6 +391,10 @@ CRUD.Entity.prototype = {
                 CRUD.log(that.getType() + " has been persisted. Result: " + result.Action + ". New Values: " + JSON.stringify(that.changedValues));
                 if (result.Action == "inserted") {
                     that.changedValues[CRUD.EntityManager.getPrimary(that.className)] = result.ID;
+                    if (!(that.className in CRUD.EntityManager.cache)) {
+                        CRUD.EntityManager.cache[that.className] = {};
+                    }
+                    CRUD.EntityManager.cache[that.className][result.ID] = that;
                 }
                 that._isDirty = false;
                 for (var i in that.changedValues) {
@@ -407,6 +422,7 @@ CRUD.Entity.prototype = {
         return CRUD.EntityManager.getAdapter().Delete(that).then(function(result) {
             if (result.Action == 'deleted') {
                 CRUD.log(that.getType() + " " + that.getID() + " has been deleted! ");
+                delete CRUD.EntityManager.cache[that.className][that.getID()];
                 that.values[CRUD.EntityManager.getPrimary(that.className)].ID = false;
             };
             return result;

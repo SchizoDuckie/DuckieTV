@@ -142,8 +142,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                 db.execute(query.query, query.parameters).then(function(resultset) {
                     var row, output = [];
                     while (row = resultset.next()) {
-                        var obj = new window[what]().importValues(row.row);
-                        output.push(obj);
+                        output.push(row.row);
                     }
                     resolve(output);
                 }, function(resultSet, sqlError) {
