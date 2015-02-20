@@ -15,7 +15,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     }
 })
 
-.controller('traktTvTrendingCtrl', ["$rootScope", "TraktTVv2", function($rootScope, TraktTVv2) {
+.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2", function($rootScope, $filter, TraktTVv2) {
     var trending = this;
     this.results = [];
     this.filtered = [];
