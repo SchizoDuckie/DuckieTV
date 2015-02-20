@@ -61,147 +61,153 @@ angular.module('DuckieTV', [
  * Unsafe HTML entities passthrough.
  * (Used for for instance typeAheadIMDB.html)
  */
-.filter('unsafe', ["$sce", function($sce) {
-    return function(val) {
-        return $sce.trustAsHtml(val);
-    };
-}])
+.filter('unsafe', ["$sce",
+    function($sce) {
+        return function(val) {
+            return $sce.trustAsHtml(val);
+        };
+    }
+])
 /**
  * Routing configuration.
  */
-.config(["$routeProvider", function($routeProvider) {
-    $routeProvider
-        .when('/', {
-            templateUrl: 'templates/home.html',
-            controller: 'MainCtrl'
-        })
-        .when('/watchlist', {
-            templateUrl: 'templates/watchlist.html',
-            controller: 'WatchlistCtrl'
-        })
-        .when('/series/:id', {
-            templateUrl: 'templates/serie.html',
-            controller: 'SerieCtrl'
-        })
-        .when('/serie/:id/episode/:episode', {
-            templateUrl: 'templates/episode.html',
-            controller: 'EpisodeCtrl'
-        })
-        .when('/settings', {
-            redirectTo: '/settings/default'
-        })
-        .when('/settings/:tab', {
-            templateUrl: 'templates/settings.html',
-            controller: 'SettingsCtrl'
-        })
-        .when('/cast', {
-            templateUrl: 'templates/chromecast.html',
-            controller: 'ChromeCastCtrl'
-        })
-        .when('/torrent', {
-            templateUrl: 'templates/torrentClient.html',
-            controller: 'TorrentCtrl'
-        })
-        .when('/about', {
-            templateUrl: 'templates/about.html',
-            controller: 'AboutCtrl'
-        })
-        .otherwise({
-            redirectTo: '/'
-        });
-}])
+.config(["$routeProvider",
+    function($routeProvider) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'templates/home.html',
+                controller: 'MainCtrl'
+            })
+            .when('/watchlist', {
+                templateUrl: 'templates/watchlist.html',
+                controller: 'WatchlistCtrl'
+            })
+            .when('/series/:id', {
+                templateUrl: 'templates/serie.html',
+                controller: 'SerieCtrl'
+            })
+            .when('/serie/:id/episode/:episode', {
+                templateUrl: 'templates/episode.html',
+                controller: 'EpisodeCtrl'
+            })
+            .when('/settings', {
+                redirectTo: '/settings/default'
+            })
+            .when('/settings/:tab', {
+                templateUrl: 'templates/settings.html',
+                controller: 'SettingsCtrl'
+            })
+            .when('/cast', {
+                templateUrl: 'templates/chromecast.html',
+                controller: 'ChromeCastCtrl'
+            })
+            .when('/torrent', {
+                templateUrl: 'templates/torrentClient.html',
+                controller: 'TorrentCtrl'
+            })
+            .when('/about', {
+                templateUrl: 'templates/about.html',
+                controller: 'AboutCtrl'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+    }
+])
 /**
  * Translation configuration.
  */
-.config(["$translateProvider", function($translateProvider) {
+.config(["$translateProvider",
+    function($translateProvider) {
 
-    $translateProvider
+        $translateProvider
 
-    /*
-     * setup path to the translation table files
-     * example ../_Locales/en_us.json
-     */
+        /*
+         * setup path to the translation table files
+         * example ../_Locales/en_us.json
+         */
 
-    .useStaticFilesLoader({
-        prefix: '_locales/',
-        suffix: '.json'
-    })
+        .useStaticFilesLoader({
+            prefix: '_locales/',
+            suffix: '.json'
+        })
 
-    /*
-     * help the determinePreferredLanguage module match a find
-     * with one of our provided languages
-     */
+        /*
+         * help the determinePreferredLanguage module match a find
+         * with one of our provided languages
+         */
 
-    .registerAvailableLanguageKeys([
-        'de_de', 'en_au', 'en_nz', 'en_uk', 'en_us', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nl_nl', 'pt_pt', 'ru_ru', 'sv_se', 'zh_cn'
-    ], {
-        'de': 'de_de',
-        'de_DE': 'de_de',
-        'en': 'en_us',
-        'en_US': 'en_us',
-        'en_ca': 'en_uk',
-        'en_CA': 'en_uk',
-        'en_gb': 'en_uk',
-        'en_GB': 'en_uk',
-        'es': 'es_es',
-        'es_ES': 'es_es',
-        'es_419': 'es_es',
-        'fr': 'fr_fr',
-        'fr_ca': 'fr_fr',
-        'fr_CA': 'fr_fr',
-        'fr_FR': 'fr_fr',
-        'it': 'it_it',
-        'it_IT': 'it_it',
-        'ja': 'ja_jp',
-        'ja_JP': 'ja_jp',
-        'ko': 'ko_kr',
-        'ko_KR': 'ko_kr',
-        'nl': 'nl_nl',
-        'nl_NL': 'nl_nl',
-        'pt': 'pt_pt',
-        'pt_PT': 'pt_pt',
-        'pt_br': 'pt_pt',
-        'pt_BR': 'pt_pt',
-        'ru': 'ru_ru',
-        'ru_RU': 'ru_ru',
-        'sv': 'sv_se',
-        'sv_SE': 'sv_se',
-        'zh': 'zh_cn',
-        'zh_CN': 'zh_cn'
-    })
+        .registerAvailableLanguageKeys([
+            'de_de', 'en_au', 'en_nz', 'en_uk', 'en_us', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nl_nl', 'pt_pt', 'ru_ru', 'sv_se', 'zh_cn'
+        ], {
+            'de': 'de_de',
+            'de_DE': 'de_de',
+            'en': 'en_us',
+            'en_US': 'en_us',
+            'en_ca': 'en_uk',
+            'en_CA': 'en_uk',
+            'en_gb': 'en_uk',
+            'en_GB': 'en_uk',
+            'es': 'es_es',
+            'es_ES': 'es_es',
+            'es_419': 'es_es',
+            'fr': 'fr_fr',
+            'fr_ca': 'fr_fr',
+            'fr_CA': 'fr_fr',
+            'fr_FR': 'fr_fr',
+            'it': 'it_it',
+            'it_IT': 'it_it',
+            'ja': 'ja_jp',
+            'ja_JP': 'ja_jp',
+            'ko': 'ko_kr',
+            'ko_KR': 'ko_kr',
+            'nl': 'nl_nl',
+            'nl_NL': 'nl_nl',
+            'pt': 'pt_pt',
+            'pt_PT': 'pt_pt',
+            'pt_br': 'pt_pt',
+            'pt_BR': 'pt_pt',
+            'ru': 'ru_ru',
+            'ru_RU': 'ru_ru',
+            'sv': 'sv_se',
+            'sv_SE': 'sv_se',
+            'zh': 'zh_cn',
+            'zh_CN': 'zh_cn'
+        })
 
-    /*
-     * if we cant find a key then search these languages in sequence
-     */
+        /*
+         * if we cant find a key then search these languages in sequence
+         */
 
-    .fallbackLanguage(['en_us'])
+        .fallbackLanguage(['en_us'])
 
-    /*
-     * default language
-     */
+        /*
+         * default language
+         */
 
-    .preferredLanguage('en_us')
+        .preferredLanguage('en_us')
 
-    /*
-     * determine the local language
-     *
-     * Using this method at our own risk! Be aware that each browser can return different values on these properties.
-     * It searches for values in the window.navigator object in the following properties (also in this order):
-     *
-     * navigator.language
-     * navigator.browserLanguage
-     * navigator.systemLanguage
-     * navigator.userLanguage
-     *
-     * if it becomes problematic, use $translateProvider.preferredLanguage('en_us'); here to set a default
-     * or $translate.use('en_us'); in a controller or service.
-     */
+        /*
+         * determine the local language
+         *
+         * Using this method at our own risk! Be aware that each browser can return different values on these properties.
+         * It searches for values in the window.navigator object in the following properties (also in this order):
+         *
+         * navigator.language
+         * navigator.browserLanguage
+         * navigator.systemLanguage
+         * navigator.userLanguage
+         *
+         * if it becomes problematic, use $translateProvider.preferredLanguage('en_us'); here to set a default
+         * or $translate.use('en_us'); in a controller or service.
+         */
 
-    .determinePreferredLanguage();
+        .determinePreferredLanguage();
 
-    // error logging. missing keys are sent to $log
-    //$translateProvider.useMissingTranslationHandlerLog();
-}])
+        // error logging. missing keys are sent to $log
+        //$translateProvider.useMissingTranslationHandlerLog();
+    }
+])
 
 /**
  * Inject a (dev-env only) HTTP request interceptor that transparently proxies your requests to an external server and saves them
@@ -222,11 +228,13 @@ angular.module('DuckieTV', [
         }
     }
 ])
-    .config(["$httpProvider", "$compileProvider", function($httpProvider, $compileProvider) {
-        if (document.domain == 'localhost') {
-            $httpProvider.interceptors.push('TransparentFixtureProxyInterceptor');
+    .config(["$httpProvider", "$compileProvider",
+        function($httpProvider, $compileProvider) {
+            if (document.domain == 'localhost') {
+                $httpProvider.interceptors.push('TransparentFixtureProxyInterceptor');
+            }
         }
-    }])
+    ])
 
 /**
  * Inject a cross-domain enabling http proxy for the non-chrome extension function
@@ -258,123 +266,127 @@ angular.module('DuckieTV', [
 /**
  * Set up the xml interceptor and whitelist the chrome extension's filesystem and magnet links
  */
-.config(["$httpProvider", "$compileProvider", function($httpProvider, $compileProvider) {
+.config(["$httpProvider", "$compileProvider",
+    function($httpProvider, $compileProvider) {
 
-    if (window.location.href.indexOf('chrome-extension') === -1 && navigator.userAgent.indexOf('DuckieTV') == -1) {
-        //  $httpProvider.interceptors.push('CORSInterceptor');
-    }
-    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data|file):/);
-    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
-}])
-
-.run(["$rootScope", "SettingsService", "StorageSyncService", "FavoritesService", "MigrationService", "TraktTVUpdateService", "TorrentMonitor", "EpisodeAiredService", "UpgradeNotificationService", "datePickerConfig", "$translate", "$injector", function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, TraktTVUpdateService, TorrentMonitor, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
-    // translate the application based on preference or proposed locale
-
-    FavoritesService.loadRandomBackground();
-
-    SettingsService.set('client.determinedlocale', $translate.proposedLanguage() == undefined ? 'en_us' : angular.lowercase($translate.proposedLanguage()));
-
-    var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage();
-    SettingsService.changeLanguage(angular.lowercase(configuredLocale));
-
-    //console.info('client determined locale proposed:', $translate.proposedLanguage(), 'set:', SettingsService.get('client.determinedlocale'), 'configured:', configuredLocale);
-    datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
-
-    $rootScope.getSetting = function(key) {
-        return SettingsService.get(key);
-    };
-
-    $rootScope.setSetting = function(key, value) {
-        return SettingsService.set(key, value);
-    };
-
-    $rootScope.enableSetting = function(key) {
-        SettingsService.set(key, true);
-    };
-
-    $rootScope.disableSetting = function(key) {
-        SettingsService.set(key, false);
-    };
-
-    StorageSyncService.initialize();
-
-    EpisodeAiredService.attach();
-    if (SettingsService.get('torrenting.autodownload') === true) {
-        setTimeout(function() {
-            $rootScope.$broadcast('episode:aired:check');
-        }, 1000);
-    }
-
-    /** 
-     * Hide the favorites list when navigating to a different in-page action.
-     */
-    $rootScope.$on('$locationChangeSuccess', function() {
-        $rootScope.$broadcast('serieslist:hide');
-    });
-
-    /**
-     * Catch the event when an episode is marked as watched
-     * and forward it to TraktTV if syncing enabled.
-     */
-    $rootScope.$on('episode:marked:watched', function(evt, episode) {
-        //console.log("Mark as watched and sync!");
-        if (SettingsService.get('trakttv.sync')) {
-            CRUD.FindOne('Serie', {
-                ID_Serie: episode.get('ID_Serie')
-            }).then(function(serie) {
-                $injector.get('TraktTVv2').markEpisodeWatched(serie, episode);
-            });
+        if (window.location.href.indexOf('chrome-extension') === -1 && navigator.userAgent.indexOf('DuckieTV') == -1) {
+            //  $httpProvider.interceptors.push('CORSInterceptor');
         }
-    });
-    /**
-     * Catch the event when an episode is marked as NOT watched
-     * and forward it to TraktTV if syncing enabled.
-     */
-    $rootScope.$on('episode:marked:notwatched', function(evt, episode) {
-        if (SettingsService.get('trakttv.sync')) {
-            CRUD.FindOne('Serie', {
-                ID_Serie: episode.get('ID_Serie')
-            }).then(function(serie) {
-                $injector.get('TraktTVv2').markEpisodeNotWatched(serie, episode);
-            });
-        }
-    });
-
-
-    // delay loading of chromecast because it's creating a load delay in the rest of the scripts.
-    if ('chrome' in window && navigator.vendor.indexOf('Google') > -1) {
-        setTimeout(function() {
-            var s = document.createElement('script');
-            s.src = './js/vendor/cast_sender.js';
-            document.body.appendChild(s);
-        }, 5000);
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data|file):/);
+        $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:chrome-extension:/);
     }
+])
 
-    // system tray settings for Standalone
-    if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
-        // Load library
-        var gui = require('nw.gui');
+.run(["$rootScope", "SettingsService", "StorageSyncService", "FavoritesService", "MigrationService", "TraktTVUpdateService", "TorrentMonitor", "EpisodeAiredService", "UpgradeNotificationService", "datePickerConfig", "$translate", "$injector",
+    function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, TraktTVUpdateService, TorrentMonitor, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
+        // translate the application based on preference or proposed locale
 
-        // Reference to window and tray
-        var win = gui.Window.get();
-        var tray;
+        FavoritesService.loadRandomBackground();
 
-        // Get the minimize event
-        win.on('minimize', function() {
-            // Hide window
-            this.hide();
+        SettingsService.set('client.determinedlocale', $translate.proposedLanguage() == undefined ? 'en_us' : angular.lowercase($translate.proposedLanguage()));
 
-            // Show tray
-            tray = new gui.Tray({
-                icon: 'img/icon64.png'
-            });
+        var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage();
+        SettingsService.changeLanguage(angular.lowercase(configuredLocale));
 
-            // Show window and remove tray when clicked
-            tray.on('click', function() {
-                win.show();
-                this.remove();
-                tray = null;
-            });
+        //console.info('client determined locale proposed:', $translate.proposedLanguage(), 'set:', SettingsService.get('client.determinedlocale'), 'configured:', configuredLocale);
+        datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
+
+        $rootScope.getSetting = function(key) {
+            return SettingsService.get(key);
+        };
+
+        $rootScope.setSetting = function(key, value) {
+            return SettingsService.set(key, value);
+        };
+
+        $rootScope.enableSetting = function(key) {
+            SettingsService.set(key, true);
+        };
+
+        $rootScope.disableSetting = function(key) {
+            SettingsService.set(key, false);
+        };
+
+        StorageSyncService.initialize();
+
+        EpisodeAiredService.attach();
+        if (SettingsService.get('torrenting.autodownload') === true) {
+            setTimeout(function() {
+                $rootScope.$broadcast('episode:aired:check');
+            }, 1000);
+        }
+
+        /** 
+         * Hide the favorites list when navigating to a different in-page action.
+         */
+        $rootScope.$on('$locationChangeSuccess', function() {
+            $rootScope.$broadcast('serieslist:hide');
         });
+
+        /**
+         * Catch the event when an episode is marked as watched
+         * and forward it to TraktTV if syncing enabled.
+         */
+        $rootScope.$on('episode:marked:watched', function(evt, episode) {
+            //console.log("Mark as watched and sync!");
+            if (SettingsService.get('trakttv.sync')) {
+                CRUD.FindOne('Serie', {
+                    ID_Serie: episode.get('ID_Serie')
+                }).then(function(serie) {
+                    $injector.get('TraktTVv2').markEpisodeWatched(serie, episode);
+                });
+            }
+        });
+        /**
+         * Catch the event when an episode is marked as NOT watched
+         * and forward it to TraktTV if syncing enabled.
+         */
+        $rootScope.$on('episode:marked:notwatched', function(evt, episode) {
+            if (SettingsService.get('trakttv.sync')) {
+                CRUD.FindOne('Serie', {
+                    ID_Serie: episode.get('ID_Serie')
+                }).then(function(serie) {
+                    $injector.get('TraktTVv2').markEpisodeNotWatched(serie, episode);
+                });
+            }
+        });
+
+
+        // delay loading of chromecast because it's creating a load delay in the rest of the scripts.
+        if ('chrome' in window && navigator.vendor.indexOf('Google') > -1) {
+            setTimeout(function() {
+                var s = document.createElement('script');
+                s.src = './js/vendor/cast_sender.js';
+                document.body.appendChild(s);
+            }, 5000);
+        }
+
+        // system tray settings for Standalone
+        if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
+            // Load library
+            var gui = require('nw.gui');
+
+            // Reference to window and tray
+            var win = gui.Window.get();
+            var tray;
+
+            // Get the minimize event
+            win.on('minimize', function() {
+                // Hide window
+                this.hide();
+
+                // Show tray
+                tray = new gui.Tray({
+                    icon: 'img/icon64.png'
+                });
+
+                // Show window and remove tray when clicked
+                tray.on('click', function() {
+                    win.show();
+                    this.remove();
+                    tray = null;
+                });
+            });
+        }
     }
-}]);
+]);
