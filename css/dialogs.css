@@ -1,40 +1,46 @@
-.dialog-header-error{background-color:#d2322d}
-.dialog-header-wait{background-color:#428bca}
-.dialog-header-notify{background-color:#eee}
-.dialog-header-confirm{background-color:#333}
-.dialog-header-error span,.dialog-header-error h4,.dialog-header-wait span,.dialog-header-wait h4,.dialog-header-confirm span,.dialog-header-confirm h4{
-	color:#fff
-}
-
 /* Custom dialog/modal headers */
 
-.dialog-header-error { background-color: #d2322d; }
-.dialog-header-wait { background-color: #428bca; }
-.dialog-header-notify { background-color: #ABCDEF; }
-.dialog-header-confirm { background-color: #333333; }
+.dialog-header-error {
+    background-color: #d2322d;
+}
+
+.dialog-header-wait {
+    background-color: #428bca;
+}
+
+.dialog-header-notify {
+    background-color: #ABCDEF;
+}
+
+.dialog-header-confirm {
+    background-color: #333333;
+}
+
 .dialog-header-error span, .dialog-header-error h4,
 .dialog-header-wait span, .dialog-header-wait h4,
-.dialog-header-confirm span, .dialog-header-confirm h4 { color: #ffffff; } 
+.dialog-header-confirm span, .dialog-header-confirm h4 {
+    color: #ffffff;
+} 
 
 .modal-backdrop {
-	background-color: transparent;
+    background-color: transparent;
 }
 
 .modal-content {
-	background-color: rgba(20,20,20,0.97);
-	padding:10px;
-	border: 1px solid white;
-	color: white;
+    background-color: rgba(20,20,20,0.97);
+    padding:10px;
+    border: 1px solid white;
+    color: white;
 }
 
 .modal-content strong {
-	color: yellow;
+    color: yellow;
 }
 
 .modal-content h1 {
-	color:white;
+    color:white;
 }
 
 .modal-content a {
-	color: #E0E0E0;;
+    color: #E0E0E0;
 }
