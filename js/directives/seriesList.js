@@ -22,9 +22,61 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
     this.limit = 100;
     this.categories = {};
     this.activeCategory = false;
+    this.categoryList = [
+        'action',
+        'adventure',
+        'animation',
+        'children',
+        'comedy',
+        'crime',
+        'disaster',
+        'documentary',
+        'drama',
+        'eastern',
+        'family',
+        'fan-film',
+        'fantasy',
+        'film-noir',
+        'food',
+        'game-show',
+        'history',
+        'holiday',
+        'home and garden',
+        'horror',
+        'indie',
+        'mini-series',
+        'music',
+        'musical',
+        'mystery',
+        'news',
+        'none',
+        'reality',
+        'road',
+        'romance',
+        'science-fiction',
+        'short',
+        'soap',
+        'special-interest',
+        'sport',
+        'suspense',
+        'talk-show',
+        'thriller',
+        'travel',
+        'tv-movie',
+        'war',
+        'western'
+    ]; // used by this.translateCategory()
+    this.rawTranslatedCategoryList = $filter('translate')('SERIESLISTjs/category/list');
+    this.translatedCategoryList = this.rawTranslatedCategoryList.split(',');
+    /*
+     * Takes the English Category (as fetched from TraktTV) and returns a translation
+     */
+    this.translateCategory = function(category) {
+        return (this.categoryList.indexOf(category) != -1) ? this.translatedCategoryList[this.categoryList.indexOf(category)] : category;
+    };
 
     this.fetch = function() {
-        console.log('fetch trending!');
+        //console.log('fetch trending!');
         if (trending.results.length == 0) {
             TraktTVv2.trending().then(function(res) {
                 trending.results = res || [];
@@ -184,10 +236,10 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
      * Pop up a confirm dialog and remove the serie from favorites when confirmed.
      */
     this.removeFromFavorites = function(serie) {
-        var dlg = $dialogs.confirm($filter('translate')('SERIEDETAILSjs/serie-delete/hdr'),
-            $filter('translate')('SERIEDETAILSjs/serie-delete-question/p1') +
+        var dlg = $dialogs.confirm($filter('translate')('SERIESLISTjs/serie-delete/hdr'),
+            $filter('translate')('SERIESLISTjs/serie-delete-question/p1') +
             serie.name +
-            $filter('translate')('SERIEDETAILSjs/serie-delete-question/p2')
+            $filter('translate')('SERIESLISTjs/serie-delete-question/p2')
         );
         dlg.result.then(function(btn) {
             console.log("Removing serie '" + serie.name + "' from favorites!", serie);
@@ -196,7 +248,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
                 $location.path('/');
             }
         }, function(btn) {
-            this.confirmed = $filter('translate')('SERIEDETAILSjs/serie-delete-confirmed');
+            this.confirmed = $filter('translate')('SERIESLISTjs/serie-delete-confirmed');
         });
     };
 

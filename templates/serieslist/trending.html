@@ -2,7 +2,7 @@
 <h1 style='color:white; text-align:center'>{{'SERIESLIST/TRENDING/addtrending-help/hdr'|translate}} - {{'SERIESLIST/TRENDING/addtrending-help-click-to-show/hdr'|translate}}</h1>
 
 <div class="filters" style='text-align:center; padding:20px;'>
-	<button ng-repeat="(category, on) in trending.categories" class="btn btn-xs btn-default" ng-click="trending.toggleCategory(category)">{{category}}</button>
+	<button ng-repeat="(category, on) in trending.categories" class="btn btn-xs btn-default" ng-click="trending.toggleCategory(category)">{{trending.translateCategory(category)}}</button>
 </div>
 <!-- Trending series loading -->
 <h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>{{'SERIESLIST/TRENDING/addtrending-help-please-wait/hdr'|translate}}</h1>
@@ -13,4 +13,4 @@
     <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
     <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{serieslist.error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
 </serieHeader>
-<button class="btn btn-info" ng-click="trending.limit = trending.limit + 100" ng-if="trending.filtered && trending.limit < trending.filtered.length" style="display:block; margin:0 auto; width: 50%;"><i class="glyphicon glyphicon-plus"></i> Show more</button>
+<button class="btn btn-info" ng-click="trending.limit = trending.limit + 100" ng-if="trending.filtered && trending.limit < trending.filtered.length" style="display:block; margin:0 auto; width: 50%;"><i class="glyphicon glyphicon-plus"></i>{{'SERIESLIST/TRENDING/show-more/btn'|translate}}</button>
