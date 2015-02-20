@@ -228,6 +228,8 @@
     "SETTINGS/DISPLAY/locale-default/lbl": "Locale por defecto del navegador ",
     "SETTINGS/DISPLAY/locale/alert": "Seleccione una de las siguientes configuraciones regionales para anular el valor predeterminado. ",
     "SETTINGS/DISPLAY/locale/hdr": "lugar ",
+    "SETTINGS/DISPLAY/sync-disabled/lbl": "discapacitado ",
+    "SETTINGS/DISPLAY/sync-enabled/lbl": "Activado ",
     "SETTINGS/DISPLAY/topsites-hide/alert": "Al hacer clic en el botón, se oculta la lista de los sitios más visitados de la página de nueva pestaña ",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Ocultar los sitios más visitados de la página de nueva pestaña ",
     "SETTINGS/DISPLAY/topsites-mode-click/alert": "Al hacer clic en el botón de abajo hará que la barra de Top Sites abierta cuando hace clic en él",

@@ -228,6 +228,8 @@
     "SETTINGS/DISPLAY/locale-default/lbl": "Browser-Standardgebietsschema ",
     "SETTINGS/DISPLAY/locale/alert": "Wählen Sie eine der folgenden Sprachumgebungen, um die Standardeinstellung zu überschreiben. ",
     "SETTINGS/DISPLAY/locale/hdr": "Ort ",
+    "SETTINGS/DISPLAY/sync-disabled/lbl": "behindert ",
+    "SETTINGS/DISPLAY/sync-enabled/lbl": "Aktiviert ",
     "SETTINGS/DISPLAY/topsites-hide/alert": "Klicken auf die Schaltfläche wird die Liste der am häufigsten besuchten Websites aus dem neuen Registerkarte verstecken ",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Blenden Sie die am häufigsten besuchten Websites von der neuen Registerkarte ",
     "SETTINGS/DISPLAY/topsites-mode-click/alert": "Wenn Sie auf die Schaltfläche unten machen das Top-Webseiten Bar geöffnet, wenn Sie darauf klicken",

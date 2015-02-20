@@ -228,6 +228,8 @@
     "SETTINGS/DISPLAY/locale-default/lbl": "浏览器的默认语言环境 ",
     "SETTINGS/DISPLAY/locale/alert": "选择下列区域设置来覆盖默认之一. ",
     "SETTINGS/DISPLAY/locale/hdr": "语言环境 ",
+    "SETTINGS/DISPLAY/sync-disabled/lbl": "残 ",
+    "SETTINGS/DISPLAY/sync-enabled/lbl": "启用 ",
     "SETTINGS/DISPLAY/topsites-hide/alert": "单击该按钮将隐藏在新标签页最常访问的网站列表 ",
     "SETTINGS/DISPLAY/topsites-hide/btn": "隐藏最常访问的网站在新标签页 ",
     "SETTINGS/DISPLAY/topsites-mode-click/alert": "点击下面的按钮会使热门网站栏打开，当你点击它",

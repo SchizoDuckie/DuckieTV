@@ -228,6 +228,8 @@
     "SETTINGS/DISPLAY/locale-default/lbl": "Webbläsare default språk ",
     "SETTINGS/DISPLAY/locale/alert": "Välj en av följande språkversioner för att åsidosätta standard. ",
     "SETTINGS/DISPLAY/locale/hdr": "Val av språk ",
+    "SETTINGS/DISPLAY/sync-disabled/lbl": "funktionshindrade ",
+    "SETTINGS/DISPLAY/sync-enabled/lbl": "aktiverat ",
     "SETTINGS/DISPLAY/topsites-hide/alert": "Genom att klicka på knappen kommer att dölja listan på dina mest besökta webbplatser från sidan Ny flik ",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Hide de mest besökta webbplatser från sidan Ny flik ",
     "SETTINGS/DISPLAY/topsites-mode-click/alert": "Om du klickar på knappen nedan kommer att göra Top Sites bar öppen när du klickar på det",

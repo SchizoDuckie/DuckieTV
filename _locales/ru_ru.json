@@ -228,6 +228,8 @@
     "SETTINGS/DISPLAY/locale-default/lbl": "Браузер по умолчанию Язык ",
     "SETTINGS/DISPLAY/locale/alert": "Выберите один из следующих языковых стандартов переопределить значение по умолчанию. ",
     "SETTINGS/DISPLAY/locale/hdr": "место действия ",
+    "SETTINGS/DISPLAY/sync-disabled/lbl": "инвалид ",
+    "SETTINGS/DISPLAY/sync-enabled/lbl": "Включено ",
     "SETTINGS/DISPLAY/topsites-hide/alert": "При нажатии кнопки будет скрыть список ваших самых посещаемых сайтов из новой закладке ",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Скрыть самых посещаемых мест от нового закладке ",
     "SETTINGS/DISPLAY/topsites-mode-click/alert": "При нажатии на кнопку ниже сделает бар Top Sites открыт при нажатии на него",

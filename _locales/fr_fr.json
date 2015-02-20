@@ -228,6 +228,8 @@
     "SETTINGS/DISPLAY/locale-default/lbl": "Locale navigateur par défaut ",
     "SETTINGS/DISPLAY/locale/alert": "Sélectionnez l'un des paramètres régionaux suivants pour passer outre le défaut. ",
     "SETTINGS/DISPLAY/locale/hdr": "lieu ",
+    "SETTINGS/DISPLAY/sync-disabled/lbl": "handicapés ",
+    "SETTINGS/DISPLAY/sync-enabled/lbl": "activé ",
     "SETTINGS/DISPLAY/topsites-hide/alert": "En cliquant sur le bouton permet de masquer la liste de vos sites les plus visités de la page nouvel onglet ",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Cachez sites les plus visités de la page nouvel onglet ",
     "SETTINGS/DISPLAY/topsites-mode-click/alert": "En cliquant sur le bouton ci-dessous rendra la barre Top Sites ouverte lorsque vous cliquez sur elle",

@@ -246,6 +246,8 @@
     "SETTINGS/DISPLAY/locale/uk": "en_uk English (United Kingdom)",
     "SETTINGS/DISPLAY/locale/us": "en_us English (United States)",
     "SETTINGS/DISPLAY/locale/zh_cn": "zh_cn 简体中文（中国）",
+    "SETTINGS/DISPLAY/sync-disabled/lbl": "Disabled",
+    "SETTINGS/DISPLAY/sync-enabled/lbl": "Enabled",
     "SETTINGS/DISPLAY/topsites-hide/alert": "Clicking the button will hide the list of your most visited sites from the new tab page",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Hide the Most Visited Sites from the new tab page",
     "SETTINGS/DISPLAY/topsites-mode-click/alert": "Clicking the button below will make the Top Sites bar open when you click on it",

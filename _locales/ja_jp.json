@@ -228,6 +228,8 @@
     "SETTINGS/DISPLAY/locale-default/lbl": "ブラウザのデフォルトロケール ",
     "SETTINGS/DISPLAY/locale/alert": "デフォルトを上書きする次のロケールのいずれかを選択します。 ",
     "SETTINGS/DISPLAY/locale/hdr": "ロケール ",
+    "SETTINGS/DISPLAY/sync-disabled/lbl": "使用禁止 ",
+    "SETTINGS/DISPLAY/sync-enabled/lbl": "使用可能 ",
     "SETTINGS/DISPLAY/topsites-hide/alert": "ボタンをクリックすると、新しいタブページからあなたの最も訪問されたサイトのリストが非表示になります ",
     "SETTINGS/DISPLAY/topsites-hide/btn": "新しいタブページからほとんどの訪問したサイトを非表示に ",
     "SETTINGS/DISPLAY/topsites-mode-click/alert": "あなたがそれをクリックすると、下のボタンをクリックすると、トップサイトバーがオープンになります",

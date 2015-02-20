@@ -228,6 +228,8 @@
     "SETTINGS/DISPLAY/locale-default/lbl": "Standaard browser taal",
     "SETTINGS/DISPLAY/locale/alert": "Selecteer een van de volgende taal instellingen om de standaard te overschrijven.",
     "SETTINGS/DISPLAY/locale/hdr": "Vertalingen",
+    "SETTINGS/DISPLAY/sync-disabled/lbl": "Uitgeschakeld",
+    "SETTINGS/DISPLAY/sync-enabled/lbl": "Ingeschakeld",
     "SETTINGS/DISPLAY/topsites-hide/alert": "Als je op deze knop klikt worden de meest bezochte sites verborgen",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Verberg de meest bezochte sites",
     "SETTINGS/DISPLAY/topsites-mode-click/alert": "Meest bezochte sites tonen bij:",
