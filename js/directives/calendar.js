@@ -6,242 +6,249 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
  * and watches for the calendar changing it's date before fetching a new
  * set of episodes from the database
  */
-.factory('CalendarEvents', ["$rootScope", "FavoritesService", function($rootScope, FavoritesService) {
+.factory('CalendarEvents', ["$rootScope", "FavoritesService",
+    function($rootScope, FavoritesService) {
 
-    var calendarEvents = {};
-    var activeDate = null;
+        var calendarEvents = {};
+        var activeDate = null;
 
-    var service = {
-        /**
-         * setDate gets fired by the vendor/datePicker directive whenever the user navigates the calendar with the arrows back and forth
-         * It is hooked here so that the range can be determined (either one week or one whole month) and fetches episodes for that range
-         * from the database. When those are fetched, the calendar refreshes itself.
-         * @param Date date startDate of the calendar
-         * @param string range (week|date) range to fetch. A week or a month (date is a naming inconsistency caused by the directive)
-         */
-        setDate: function(date, range) {
-            range = range || $rootScope.getSetting('calendar.mode');
-            var endDate = new Date(date);
-            var startDate = new Date(date);
-            switch (range) {
-                case 'week':
-                    endDate.setDate(startDate.getDate() + 7);
-                    startDate.setDate(startDate.getDate() - startDate.getDay() - 7);
-                    break;
-                case 'date': // actually: a month.
-                    endDate.setDate(40);
-                    startDate.setDate(-47);
-                    break;
-            }
-            if (startDate.toDateString() != activeDate) {
-                activeDate = startDate.toDateString();
-                service.getEventsForDateRange(startDate, endDate);
-            }
-        },
-        /**
-         * Optimized function to feed the calendar it's data.
-         * Fetches the episodes for a date range and the relevant series for it. Then caches and refreshes the calendar
-         * @param  Date start startDate
-         * @param  Date end endDate
-         */
-        getEventsForDateRange: function(start, end) {
-            // fetch episodes between 2 timestamps
-            FavoritesService.getEpisodesForDateRange(start.getTime(), end.getTime()).then(function(episodes) {
-                // iterate all the episodes and bind it together with the serie into an event array
-                service.setEvents(episodes.map(function(episode) {
-                    return {
-                        start: new Date(episode.firstaired),
-                        serie: FavoritesService.getByID_Serie(episode.ID_Serie),
-                        episode: episode
-                    };
-                }));
-            });
-        },
-        clearCache: function() {
-            activeDate = null;
-            calendarEvents = {};
-        },
-        /** 
-         * Merge any incoming new events with the events already in calendarEvents.
-         * Removes any mention of the episode that already exists and then adds the new one.
-         * The calendarEvents cache is updated per day so the calendar doesn't refresh unnecessarily
-         */
-        setEvents: function(events) {
-            events.map(function(event) {
-                var date = new Date(new Date(event.start).getTime()).toDateString();
-
-                if (!(date in calendarEvents)) {
-                    calendarEvents[date] = [];
+        var service = {
+            /**
+             * setDate gets fired by the vendor/datePicker directive whenever the user navigates the calendar with the arrows back and forth
+             * It is hooked here so that the range can be determined (either one week or one whole month) and fetches episodes for that range
+             * from the database. When those are fetched, the calendar refreshes itself.
+             * @param Date date startDate of the calendar
+             * @param string range (week|date) range to fetch. A week or a month (date is a naming inconsistency caused by the directive)
+             */
+            setDate: function(date, range) {
+                range = range || $rootScope.getSetting('calendar.mode');
+                var endDate = new Date(date);
+                var startDate = new Date(date);
+                switch (range) {
+                    case 'week':
+                        endDate.setDate(startDate.getDate() + 7);
+                        startDate.setDate(startDate.getDate() - startDate.getDay() - 7);
+                        break;
+                    case 'date': // actually: a month.
+                        endDate.setDate(40);
+                        startDate.setDate(-47);
+                        break;
                 }
-                service.deleteDuplicate(event.episode.getID(), date);
-                var existing = calendarEvents[date].filter(function(el) {
-                    return el.episode.getID() == event.episode.getID();
+                if (startDate.toDateString() != activeDate) {
+                    activeDate = startDate.toDateString();
+                    service.getEventsForDateRange(startDate, endDate);
+                }
+            },
+            /**
+             * Optimized function to feed the calendar it's data.
+             * Fetches the episodes for a date range and the relevant series for it. Then caches and refreshes the calendar
+             * @param  Date start startDate
+             * @param  Date end endDate
+             */
+            getEventsForDateRange: function(start, end) {
+                // fetch episodes between 2 timestamps
+                FavoritesService.getEpisodesForDateRange(start.getTime(), end.getTime()).then(function(episodes) {
+                    // iterate all the episodes and bind it together with the serie into an event array
+                    service.setEvents(episodes.map(function(episode) {
+                        return {
+                            start: new Date(episode.firstaired),
+                            serie: FavoritesService.getByID_Serie(episode.ID_Serie),
+                            episode: episode
+                        };
+                    }));
                 });
-                if (existing.length === 0) {
-                    calendarEvents[date].push(event);
-                } else {
-                    var index = calendarEvents[date].indexOf(existing[0]);
-                    calendarEvents[date][index].episode = event.episode;
-                }
-                calendarEvents[date] = calendarEvents[date].sort(function(a, b) {
-                    var ad = new Date(a.episode.firstaired_iso).getTime();
-                    var bd = new Date(b.episode.firstaired_iso).getTime()
-                    if (ad < bd) return -1;
-                    else if (ad > bd) return 1;
-                    else {
-                        // air at the same time, now order by title first and if the names match by episode
-                        if (a.ID_Serie == b.ID_Serie) {
-                            if (a.episode.episodenumber < b.episode.episodenumber) return -1;
-                            if (a.episode.episodenumber > b.episode.episodenumber) return 1;
+            },
+            clearCache: function() {
+                activeDate = null;
+                calendarEvents = {};
+            },
+            /** 
+             * Merge any incoming new events with the events already in calendarEvents.
+             * Removes any mention of the episode that already exists and then adds the new one.
+             * The calendarEvents cache is updated per day so the calendar doesn't refresh unnecessarily
+             */
+            setEvents: function(events) {
+                events.map(function(event) {
+                    var date = new Date(new Date(event.start).getTime()).toDateString();
 
-                        } else {
-                            return a.serie.title > b.serie.title;
+                    if (!(date in calendarEvents)) {
+                        calendarEvents[date] = [];
+                    }
+                    service.deleteDuplicate(event.episode.getID(), date);
+                    var existing = calendarEvents[date].filter(function(el) {
+                        return el.episode.getID() == event.episode.getID();
+                    });
+                    if (existing.length === 0) {
+                        calendarEvents[date].push(event);
+                    } else {
+                        var index = calendarEvents[date].indexOf(existing[0]);
+                        calendarEvents[date][index].episode = event.episode;
+                    }
+                    calendarEvents[date] = calendarEvents[date].sort(function(a, b) {
+                        var ad = new Date(a.episode.firstaired_iso).getTime();
+                        var bd = new Date(b.episode.firstaired_iso).getTime()
+                        if (ad < bd) return -1;
+                        else if (ad > bd) return 1;
+                        else {
+                            // air at the same time, now order by title first and if the names match by episode
+                            if (a.ID_Serie == b.ID_Serie) {
+                                if (a.episode.episodenumber < b.episode.episodenumber) return -1;
+                                if (a.episode.episodenumber > b.episode.episodenumber) return 1;
+
+                            } else {
+                                return a.serie.title > b.serie.title;
+                            }
+
                         }
 
-                    }
-
+                    });
                 });
-            });
-            existing = index = null;
-            $rootScope.$broadcast('calendar:events', events);
-        },
-        /** 
-         * If the episode exist in the calendarEvents object, remove it.
-         */
-        deleteDuplicate: function(duplicateID, eventDate) {
-            for (var aDate in calendarEvents) {
-                if (aDate !== eventDate) {
-                    var eventList = calendarEvents[aDate];
-                    for (var index = 0; index < eventList.length; index++) {
-                        if (eventList[index].episodeID === duplicateID) {
-                            calendarEvents[aDate].splice(index, 1);
-                            return;
+                existing = index = null;
+                $rootScope.$broadcast('calendar:events', events);
+            },
+            /** 
+             * If the episode exist in the calendarEvents object, remove it.
+             */
+            deleteDuplicate: function(duplicateID, eventDate) {
+                for (var aDate in calendarEvents) {
+                    if (aDate !== eventDate) {
+                        var eventList = calendarEvents[aDate];
+                        for (var index = 0; index < eventList.length; index++) {
+                            if (eventList[index].episodeID === duplicateID) {
+                                calendarEvents[aDate].splice(index, 1);
+                                return;
+                            }
                         }
                     }
                 }
+                eventList = index = aDate = null; // clear used variables, every little bit counts :-) 
+            },
+            /**
+             * Check if an event exists at the given date
+             */
+            hasEvent: function(date) {
+                return (new Date(date).toDateString() in calendarEvents);
+            },
+            /**
+             * Return events for a date or an empty array
+             */
+            getEvents: function(date) {
+                var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
+                return (str in calendarEvents) ? calendarEvents[str] : [];
             }
-            eventList = index = aDate = null; // clear used variables, every little bit counts :-) 
-        },
+        };
+
+        $rootScope.$on('episode:marked:watched', function(event, data) {
+            service.setEvents([{
+                start: new Date(data.firstaired),
+                episodeID: data.TVDB_ID,
+                episode: data
+            }]);
+        });
+
+        $rootScope.$on('episode:marked:notwatched', function(event, data) {
+            service.setEvents([{
+                start: new Date(data.firstaired),
+                episodeID: data.TVDB_ID,
+                episode: data
+            }]);
+        });
+
         /**
-         * Check if an event exists at the given date
+         * Refresh the active calendar by re-fetching all data.
          */
-        hasEvent: function(date) {
-            return (new Date(date).toDateString() in calendarEvents);
-        },
+        $rootScope.$on('favorites:updated', function(event, favorites) {
+            service.clearCache();
+            service.setDate(new Date());
+        });
+
         /**
-         * Return events for a date or an empty array
+         * Reset the calendarEvents object so that any cache is flushed
          */
-        getEvents: function(date) {
-            var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
-            return (str in calendarEvents) ? calendarEvents[str] : [];
-        }
-    };
+        $rootScope.$on('calendar:clearcache', function() {
+            service.clearCache();
+        });
 
-    $rootScope.$on('episode:marked:watched', function(event, data) {
-        service.setEvents([{
-            start: new Date(data.firstaired),
-            episodeID: data.TVDB_ID,
-            episode: data
-        }]);
-    });
-
-    $rootScope.$on('episode:marked:notwatched', function(event, data) {
-        service.setEvents([{
-            start: new Date(data.firstaired),
-            episodeID: data.TVDB_ID,
-            episode: data
-        }]);
-    });
-
-    /**
-     * Refresh the active calendar by re-fetching all data.
-     */
-    $rootScope.$on('favorites:updated', function(event, favorites) {
-        service.clearCache();
-        service.setDate(new Date());
-    });
-
-    /**
-     * Reset the calendarEvents object so that any cache is flushed
-     */
-    $rootScope.$on('calendar:clearcache', function() {
-        service.clearCache();
-    });
-
-    /**
-     * When the calendar broadcasts a setDate event, fetch new data for that range.
-     */
-    $rootScope.$on('setDate', function(evt, date, range) {
-        if (FavoritesService.favorites.length > 0) {
-            service.setDate(date, range);
-        }
-    });
-    return service;
-}])
+        /**
+         * When the calendar broadcasts a setDate event, fetch new data for that range.
+         */
+        $rootScope.$on('setDate', function(evt, date, range) {
+            if (FavoritesService.favorites.length > 0) {
+                service.setDate(date, range);
+            }
+        });
+        return service;
+    }
+])
 
 /**
  * The <calendar-event> directive displays an episode on the calendar
  * This also watches for the magnet:select event will be fired by the
  * TorrentDialog when a user selects a magnet link for an episode.
  */
-.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "EpisodeAiredService", "SettingsService", function(uTorrent, SceneNameResolver, EpisodeAiredService, SettingsService) {
-    return {
-        restrict: 'E',
-        scope: {
-            serie: '=',
-            episode: '='
-        },
-        templateUrl: 'templates/event.html',
-        link: function($scope) {
+.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "EpisodeAiredService", "SettingsService",
+    function(uTorrent, SceneNameResolver, EpisodeAiredService, SettingsService) {
+        return {
+            restrict: 'E',
+            scope: {
+                serie: '=',
+                episode: '='
+            },
+            templateUrl: 'templates/event.html',
+            link: function($scope) {
 
-            $scope.getSetting = SettingsService.get;
-            $scope.hoverTimer = null;
-            var cachedSearchString = false;
+                $scope.getSetting = SettingsService.get;
+                $scope.hoverTimer = null;
+                var cachedSearchString = false;
 
-            /**
-             * Auto-switch background image to a relevant one for the calendar item when
-             * hovering over an item for 1.5s
-             * @return {[type]} [description]
-             */
-            $scope.startHoverTimer = function() {
-                $scope.clearHoverTimer();
-                // Make sure serie has fanart defined
-                if ($scope.serie.fanart) {
-                    var background = $scope.serie.fanart;
-                    $scope.hoverTimer = setTimeout(function() {
-                        $scope.$root.$broadcast('background:load', background);
-                    }.bind(this), 1500);
+                /**
+                 * Auto-switch background image to a relevant one for the calendar item when
+                 * hovering over an item for 1.5s
+                 * @return {[type]} [description]
+                 */
+                $scope.startHoverTimer = function() {
+                    $scope.clearHoverTimer();
+                    // Make sure serie has fanart defined
+                    if ($scope.serie.fanart) {
+                        var background = $scope.serie.fanart;
+                        $scope.hoverTimer = setTimeout(function() {
+                            $scope.$root.$broadcast('background:load', background);
+                        }.bind(this), 1500);
+                    };
                 };
-            };
 
-            $scope.clearHoverTimer = function() {
-                clearTimeout($scope.hoverTimer);
-            };
+                $scope.clearHoverTimer = function() {
+                    clearTimeout($scope.hoverTimer);
+                };
 
-            $scope.isTorrentClientConnected = function() {
-                return uTorrent.isConnected();
-            };
+                $scope.isTorrentClientConnected = function() {
+                    return uTorrent.isConnected();
+                };
 
-            $scope.$on('magnet:select:' + $scope.episode.TVDB_ID, function(evt, magnet) {
-                console.info("Found a magnet selected!", magnet);
-                $scope.episode.set('magnetHash', magnet);
-                $scope.episode.Persist();
-            });
+                $scope.$on('magnet:select:' + $scope.episode.TVDB_ID, function(evt, magnet) {
+                    console.info("Found a magnet selected!", magnet);
+                    $scope.episode.set('magnetHash', magnet);
+                    $scope.episode.Persist();
+                });
 
-            $scope.autoDownload = function() {
-                EpisodeAiredService.autoDownload($scope.serie, $scope.episode);
-            };
+                $scope.autoDownload = function() {
+                    EpisodeAiredService.autoDownload($scope.serie, $scope.episode).then(function(magnet) {
+                        $scope.episode.set('magnetHash', magnet);
+                        $scope.episode.Persist();
+                    });
+                };
 
-            $scope.getSearchString = function(event) {
-                if (!cachedSearchString) {
-                    var serieName = SceneNameResolver.getSceneName($scope.serie.TVDB_ID) || $scope.serie.name;
-                    cachedSearchString = serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode);
-                }
-                return cachedSearchString;
-            };
-        }
-    };
-}])
+                $scope.getSearchString = function(event) {
+                    if (!cachedSearchString) {
+                        var serieName = SceneNameResolver.getSceneName($scope.serie.TVDB_ID) || $scope.serie.name;
+                        cachedSearchString = serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode);
+                    }
+                    return cachedSearchString;
+                };
+            }
+        };
+    }
+])
 
 /**
  * The <calendar> directive is just a little wrapper around the 3rd party datePicker directive
