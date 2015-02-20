@@ -1076,7 +1076,6 @@ query-monitor.show {
     border-color: #398439;
 }
 
-
 trakt-tv-trending {
     position: absolute;
     overflow-y: scroll;
@@ -1085,6 +1084,10 @@ trakt-tv-trending {
     margin: 5px;
     width: calc(100% - 380px);
     z-index:100;
+}
+trakt-tv-trending .filters button.active {
+    background-color: #ebebeb;
+    color: #333;
 }
 
 trakt-tv-search {
