@@ -291,7 +291,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
          * Runs automatically when this factory is instantiated
          */
         getSeries: function() {
-            return CRUD.Find('Serie', {}).then(function(results) {
+            return CRUD.Find('Serie', ['name is not NULL']).then(function(results) {
                 results.map(function(el, idx) {
                     results[idx] = el;
                 });

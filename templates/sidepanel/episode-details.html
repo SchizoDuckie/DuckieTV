@@ -1,0 +1,51 @@
+<div class="episode-img" lazy-background="{{sidepanel.episode.filename}}"></div>
+<h2>{{sidepanel.serie.name}} - {{sidepanel.episode.getFormattedEpisode()}}</h2>
+<h3>{{sidepanel.episode.episodename}}</h3>
+<p>{{sidepanel.episode.overview}}</p>
+
+<table class="buttons" width="100%" border="0">
+  <tr class="two-face">
+    <td>
+        <a ng-click="sidepanel.showSerie()" style="margin-right: 5px">
+            <i class="glyphicon glyphicon-info-sign"></i><strong>{{'EVENT/dropdown-series-details/lbl'|translate}}</strong>
+        </a>
+    </td>
+    <td>
+        <a ng-click="sidepanel.showEpisodes()" style="margin-left: 5px">
+            <i class="glyphicon glyphicon-info-sign"></i><strong>Episodes</strong>
+        </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <episode-watched ng-if="sidepanel.episode.hasAired()" template-url="templates/sidepanel/mark-watched.html" episode="sidepanel.episode" ng-click="markWatched(episode)"></episode-watched>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <torrent-dialog ng-if="getSetting('torrenting.enabled')" tvdbid='sidepanel.episode.TVDB_ID' q='sidepanel.getSearchString(sidepanel.serie, sidepanel.episode)'><strong><translate>EVENT/dropdown-utorrent-client/lbl</translate></strong></torrent-dialog>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <a ng-click="sidepanel.autoDownload(episode)">
+            <i class="glyphicon glyphicon-cloud-download"></i><strong>Auto Download</strong>
+        </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <a class="no-hover" ng-if="getSetting('torrenting.enabled') && sidepanel.episode.magnetHash && sidepanel.isTorrentClientConnected()">
+            <torrent-remote-control info-hash="sidepanel.episode.magnetHash" template-url="templates/torrentMiniRemoteControl.html"></torrent-remote-control>
+        </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <a class="no-hover" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && sidepanel.episode.magnetHash">
+            <strong>Download Progress</strong>
+            <torrent-remote-control info-hash="sidepanel.episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html"></torrent-remote-control>
+        </a>
+    </td>
+  </tr>
+</table>

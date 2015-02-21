@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="DuckieTV" ng-csp ng-strict-di>
+<html ng-app="DuckieTV" ng-csp>
 <head>
   <meta charset="UTF-8">
   <title>DuckieTV</title>
@@ -46,6 +46,7 @@
       </div>
     </div>
   </div>
+  <sidepanel></sidepanel>
   <query-monitor ng-class="{show: queryStats.writesQueued - queryStats.writesExecuted > 1}" />
   <img class='printlogo' src='img/icon64.png'>
 
@@ -87,6 +88,7 @@
   <script src="./js/directives/serieDetails.js"></script>
   <script src="./js/directives/serieheader.js"></script>
   <script src="./js/directives/seriesList.js"></script>
+  <script src="./js/directives/seriesSidePanel.js"></script>
   <script src="./js/directives/subtitleDialog.js"></script>
   <script src="./js/directives/queryMonitor.js"></script>
   <script src="./js/directives/torrentDialog.js"></script>

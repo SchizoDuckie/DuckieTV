@@ -351,6 +351,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
      * Otherwise, a random background is automagically loaded.
      */
     $rootScope.$on('favorites:updated', function(event, data) {
+        if (!data) return;
         serieslist.favorites = data.map(titleSorter);
     });
 

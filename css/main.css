@@ -433,6 +433,11 @@ table.light h1 {
 .serie h1 {
     color:black;
 }
+.torrent-dialog {
+    display: inline-block;
+    list-style: none;
+}
+
 .dropdown {
     text-align: center;
 }
@@ -483,11 +488,13 @@ table.light h1 {
 .dropdown-menu table.torrents tbody td:nth-last-child(-n + 2) {
     text-align: right;
 }
-
 .dropdown-menu table.torrents tbody td:nth-child(2) {
     max-width: 144px;
     width: 420px;
     overflow: hidden;
+}
+.dropdown-menu .torrent-remote-control {
+    padding-left: 20px;
 }
 
 chrome-top-sites {
@@ -596,25 +603,25 @@ chrome-top-sites a p {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
-episode-watched {
+.episode-watched {
     display:block;
     text-align:center;
     cursor:pointer;
     font-size: 18px;
     margin: 0;
 }
-episode-watched a.glyphicon-eye-open {
+.episode-watched a.glyphicon-eye-open {
     color: green;
     font-size: 18px;
 }
-.dropdown-menu episode-watched a.glyphicon-eye-open {
+.dropdown-menu .episode-watched a.glyphicon-eye-open {
     color: green;
     font-size: 18px;
 }
-.dropdown-menu episode-watched a.glyphicon {
+.dropdown-menu .episode-watched a.glyphicon {
     left: -2px;
 }
-.dropdown-menu episode-watched span {
+.dropdown-menu .episode-watched span {
     font-family: helvetica, sans-serif;
     font-size: 14px;
     line-height: 14px;
@@ -625,18 +632,18 @@ episode-watched a.glyphicon-eye-open {
     left: 29px;
     top: 2px;
 }
-.dropdown-menu episode-watched .glyphicon-eye-open {
+.dropdown-menu .episode-watched .glyphicon-eye-open {
     color: green;
 }
-.markAsWatched episode-watched a.glyphicon {
+.markAsWatched .episode-watched a.glyphicon {
     color: rgba(0, 255, 0, 0.4);
     -webkit-transform: rotate(360deg);
     -webkit-transition: all 0.5s ease-in-out;
 }
-episode-watched a.glyphicon-eye-close {
+.episode-watched a.glyphicon-eye-close {
     color: rgba(255, 255, 255, 0.5);
 }
-episode-watched a.glyphicon-eye-close:hover {
+.episode-watched a.glyphicon-eye-close:hover {
     color: rgba(255, 255, 255, 0.9);
 }
 fieldset {
@@ -1142,4 +1149,261 @@ series-list .tools {
     font-size:20px;
     top:30px;
     position: absolute;
+}
+
+sidepanel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 800px;
+    z-index: 850;
+    background-color: rgba(25,25,25,1);
+    transform: translateX(800px);
+    transition: transform 0.3s ease-in;
+}
+
+sidepanel.active {
+    transform: translateX(400px);   
+}
+
+sidepanel.active.expanded {
+    transform: translateX(0);   
+}
+
+sidepanel .handle {
+    position: absolute;
+    top: 35px;
+    left: -64px;
+    width: 100px;
+    height: 32px;
+    border: 1px solid black;
+    -webkit-transform: rotate(-90deg);
+    background-color: rgba(255,255,255,0.4);
+    padding: 5px;
+}
+
+sidepanel .leftpanel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 400px;
+    height: 100%;
+    padding: 15px;
+}
+
+sidepanel .rightpanel {
+    /* Should be position:absolute, relative seems to work but only for the right panel
+    this is needed if you want the serie poster to be a background */
+    position: relative;
+    top: 0px;
+    left: 400px;
+    width: 400px;
+    height: 100%;
+    padding: 15px;
+    background-color: rgb(23, 23, 23);
+    z-index: 0;
+}
+
+sidepanel .leftpanel .episode .episode-img {
+    height: 195px;
+    width: 325px;
+    margin: 0 auto;
+    border: 8px solid #3a3a3a;
+    border-radius: 5px;
+    background-size: 100% 100%;
+}
+
+sidepanel .leftpanel .episode h2 {
+    text-align: center;
+    color: #fff;
+    margin-top: 13px;
+    margin-bottom: 0;
+    font-size: 28px;
+}
+sidepanel .leftpanel .episode h3 {
+    text-align: center;
+    color: #fff;
+    margin-top: 8px;
+    margin-bottom: 0;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+}
+
+sidepanel .leftpanel .episode p {
+    margin: 8px;
+    color: rgb(208, 208, 208);
+    font-size: 13px;
+    overflow-y: auto;
+    max-height: 255px;
+    padding-right: 5px;
+}
+
+sidepanel .leftpanel .episode a:hover {
+    text-decoration: none;
+}
+
+sidepanel .leftpanel .episode .buttons {
+    list-style: none;
+    margin: 0;
+    padding: 0px;
+    text-align: center;
+}
+
+sidepanel .leftpanel .episode .buttons strong {
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-weight: normal;
+    color: white;
+}
+
+sidepanel .leftpanel .episode .buttons a {
+    display: block;
+    padding: 15px;
+    margin: 5px 20px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+sidepanel .leftpanel .episode .buttons a:hover {
+    background-color: rgba(66,66,66,0.8);
+    cursor: pointer;
+}
+
+sidepanel .leftpanel .episode .buttons a.no-hover {
+    background-color: initial;
+    cursor: initial;
+}
+
+sidepanel .leftpanel .episode .buttons tr.two-face td {
+    width: 50%;
+}
+
+sidepanel .leftpanel .episode i.glyphicon {
+    float: left;
+    font-size: 22px;
+    color: white;
+}
+sidepanel .leftpanel .episode i.glyphicon.glyphicon-eye-open {
+    color: green !important;
+}
+
+sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control > span {
+    /* Replicate of the strong tag */
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-weight: normal;
+    color: white;
+    font-family: 'bebasregular';
+    display: block;
+    margin-bottom: 4px;
+}
+sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control a {
+    margin: 0;
+    padding: 7px;
+}
+sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control a i.glyphicon {
+    font-size: 18px;
+    margin-right: 2px;
+}
+sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control-progress {
+    margin-bottom: 0px;
+    background-color: rgba(210,210,210,0.4);
+}
+sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control-progress > span {
+    /* Somehow positions it in the center dont even know */
+    position: absolute;
+    left: 0px;
+    width: 100%;
+}
+
+sidepanel .rightpanel .serie-overview h1 {
+    margin: 0 0 5px 0;
+    text-align: center;
+    color: white;
+}
+
+sidepanel .rightpanel .serie-overview .serie-bg-img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    opacity: 0.2;
+    z-index: -1;
+    background-position: 50%;
+}
+
+sidepanel .rightpanel .serie-overview .serie-img {
+    margin: 5px auto;
+    height: 275px;
+    width: 195px;
+    background-size: 100% 100%;
+}
+
+sidepanel .rightpanel .serie-overview .metadata {
+    color: white;
+}
+
+@media (min-width: 1800px) {
+    calendar.zoomout > div {
+        transform: scale(0.80) translateY(25%);
+        transform-origin: top left;
+    }
+
+    calendar.zoomout.more > div {
+        transform: scale(0.57) translateY(25%);
+        transform-origin: top left;
+    }
+}
+
+@media (min-width: 1500px) and (max-width:1800px) {
+    calendar.zoomout > div {
+        transform: scale(0.75) translateY(25%);
+        transform-origin: top left;
+    }
+
+    calendar.zoomout.more > div {
+        transform: scale(0.57) translateY(25%);
+        transform-origin: top left;
+    }
+}
+
+@media (min-width: 1200px) and (max-width:1500px) {
+    calendar.zoomout > div {
+        transform: scale(0.68) translateY(25%);
+        transform-origin: top left;
+    }
+
+    calendar.zoomout.more > div {
+        transform: scale(0.45) translateY(25%);
+        transform-origin: top left;
+    }
+}
+
+@media (min-width: 900px) and (max-width:1200px) {
+    calendar.zoomout > div {
+        transform: scale(0.61) translateY(25%);
+        transform-origin: top left;
+    }
+
+    calendar.zoomout.more > div {
+        transform: scale(0.2) translateY(25%) translateX(-25%);
+        transform-origin: top left;
+    }
+}
+
+@media (max-width:900px) {
+    calendar.zoomout > div {
+        transform: scale(0.45) translateY(25%);
+        transform-origin: top left;
+    }
+
+    calendar.zoomout.more > div {
+        transform: scale(0.1) translateY(25%);
+        transform-origin: top left;
+    }
 }

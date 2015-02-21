@@ -195,7 +195,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                 episode: '='
             },
             templateUrl: 'templates/event.html',
-            link: function($scope) {
+            controller: function($scope, $rootScope) {
 
                 $scope.getSetting = SettingsService.get;
                 $scope.hoverTimer = null;
@@ -238,6 +238,10 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                     });
                 };
 
+                $scope.selectEpisode = function(serie, episode) {
+                    $rootScope.$broadcast('episode:select', serie, episode);
+                }
+
                 $scope.getSearchString = function(event) {
                     if (!cachedSearchString) {
                         var serieName = SceneNameResolver.getSceneName($scope.serie.TVDB_ID) || $scope.serie.name;
@@ -266,9 +270,33 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                 (attrs.template ? 'template="' + attrs.template + '" ' : '') +
                 'min-view="' + (attrs.minView || 'date') + '"' + '></div>';
         },
-        link: function($scope) {
+        link: function($scope, iElement) {
             $scope.views = ['year', 'month', 'week', 'date'];
             $scope.view = 'week';
+
+            $scope.zoomOut = function() {
+                iElement.addClass('zoomout');
+                iElement.removeClass('more');
+            }
+            $scope.zoomIn = function() {
+                iElement.removeClass('zoomout');
+                iElement.removeClass('more');
+            }
+            $scope.zoomoutMore = function() {
+                iElement.addClass('more');
+            }
         },
+        controller: function($rootScope, $scope) {
+            $rootScope.$on('calendar:zoomout', function() {
+                $scope.zoomOut();
+            });
+            $rootScope.$on('calendar:zoomoutmore', function() {
+                $scope.zoomOut();
+                $scope.zoomoutMore();
+            });
+            $rootScope.$on('calendar:zoomin', function() {
+                $scope.zoomIn();
+            });
+        }
     };
 });

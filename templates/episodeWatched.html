@@ -1,3 +1,1 @@
-<div tooltip="{{getToolTip(episode)}}">
-	<a ng-click="markWatched(episode)" class="glyphicon" ng-class="{ 'glyphicon-eye-open' : episode.watched == 1, 'glyphicon-eye-close' : episode.watched !== 1 }" ng-transclude></a>
-</div>
+<div class="episode-watched"><a ng-click="markWatched(episode)" style="width:100%" class="glyphicon" tooltip="{{getToolTip(episode)}}" ng-class="{ 'glyphicon-eye-open' : episode.watched == 1, 'glyphicon-eye-close' : episode.watched !== 1 }" ng-transclude></a></div>

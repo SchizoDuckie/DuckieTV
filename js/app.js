@@ -50,6 +50,7 @@ angular.module('DuckieTV', [
     'DuckieTV.directives.chrometopsites',
     'DuckieTV.directives.focuswatch',
     'DuckieTV.directives.lazybackground',
+    'DuckieTV.directives.sidepanel',
     'DuckieTV.directives.subtitledialog',
     'DuckieTV.directives.serieslist',
     'DuckieTV.directives.torrentdialog',

@@ -6,10 +6,14 @@ angular.module('DuckieTV.directives.episodewatched', [])
  */
 .directive('episodeWatched', ["$filter", "$document", "$injector", function($filter, $document, $injector) {
     return {
-        restrict: 'E',
+        restrict: 'EA',
         transclude: true,
-        templateUrl: function(elem, attr) {
-            return attr.templateUrl || "templates/episodeWatched.html";
+        replace: true,
+        scope: {
+            'episode': '=episode'
+        },
+        templateUrl: function($node, $iAttrs) {
+            return $iAttrs.templateUrl || "templates/episodeWatched.html";
         },
         link: function($scope) {
 

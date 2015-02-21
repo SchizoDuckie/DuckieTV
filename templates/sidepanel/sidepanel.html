@@ -1,0 +1,14 @@
+<div ng-if="sidepanel.isShowing" ng-class="{ active: sidepanel.isShowing }" style=" position: relative; width: 100%; height: 100%;">
+    <!-- Temp Close Sidepanel Button -->
+    <div class="handle" ng-click="sidepanel.hide()">Hide</div>
+    
+    <div class="leftpanel">
+      <div class="episode" ng-include="'templates/sidepanel/episode-details.html'"></div>
+      <!--<div class="serie" ng-include="'templates/sidepanel/serie-details.html'" ng-if="expression"></div> -->
+    </div>
+
+    <div class="rightpanel"> 
+        <serie-details ng-if="sidepanel.state == 'serie'" template-url="templates/sidepanel/serie-overview.html"></serie-details>
+        <div ng-if="sidepanel.state == 'episodes'" ng-include="'templates/sidepanel/episodes.html'"></div>
+    </div>
+</div>

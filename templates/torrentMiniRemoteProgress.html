@@ -1,4 +1,4 @@
-  <div class="progress-striped progress" ng-class="{ 'active': remote.torrent.isStarted() }">
+  <div class="torrent-mini-remote-control-progress progress-striped progress" ng-class="{ 'active': remote.torrent.isStarted() }">
    <span ng-transclude></span><span ng-if="remote.torrent.getProgress() != '' && remote.torrent.getProgress() > 0">&nbsp;({{ remote.torrent.getProgress() }}%)</span>
    <span ng-if="remote.torrent.getProgress() == ''">&nbsp;
    <i class="glyphicon glyphicon-magnet spin" style='float:right' tooltip="{{'TORRENTMRP/please-wait/tooltip'|translate}}" tooltip-position="right"></i>

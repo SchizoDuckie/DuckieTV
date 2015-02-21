@@ -1,0 +1,74 @@
+<div class="serie-overview">
+  <div lazy-background="{{sidepanel.serie.poster}}" class="serie-bg-img" ng-hide="bgtest"></div>
+
+  <div class="serie-img" lazy-background="{{sidepanel.serie.poster}}" popover="{{sidepanel.serie.name}}" popover-trigger="mouseenter" popover-placement="left"></div>
+
+  <table class="metadata" width="100%" border="0" style="margin-top: 10px">
+    <tbody>
+      <tr>
+        <th>{{'SERIEDETAILS/links/hdr'|translate}}</th>
+        <td><a style="text-decoration: underline" ng-href="http://www.google.com/search?q={{sidepanel.serie.name}}+Wikipedia&btnI=745" target="_blank">Wikipedia</a> <a style="text-decoration: underline" ng-href="http://www.imdb.com/title/{{sidepanel.serie.IMDB_ID}}" ng-hide="serie.IMDB_ID < 1" target="_blank">IMDB</a></td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/airs-on/hdr'|translate}}</th>
+        <td>{{translateDayOfWeek(serie.airs_dayofweek)}} {{sidepanel.serie.airs_time}} (UTC)</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/first-aired/hdr'|translate}}</th>
+        <td>{{sidepanel.serie.firstaired | date:'medium'}}</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/genre/hdr'|translate}}</th>
+        <td>
+          <ul class="list-unstyled">
+            <li ng-repeat="genre in sidepanel.serie.genre.split('|') track by $index">{{translateGenre(genre)}}</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/content-rating/hdr'|translate}}</th>
+        <td>{{sidepanel.serie.contentrating}}</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/country/hdr'|translate}}</th>
+        <td>{{sidepanel.serie.language}}</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/network/hdr'|translate}}</th>
+        <td>{{sidepanel.serie.network}}</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/rating/hdr'|translate}}</th>
+        <td>{{sidepanel.serie.rating}} ({{sidepanel.serie.ratingcount}} {{'SERIEDETAILS/votes/lbl'|translate}})</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/run-time/hdr'|translate}}</th>
+        <td>{{sidepanel.serie.runtime}} {{'SERIEDETAILS/minutes/lbl'|translate}}</td>
+      </tr>
+      <tr>
+        <th>{{'SERIEDETAILS/status/hdr'|translate}}</th>
+        <td>{{translateStatus(sidepanel.serie.status)}}</td>
+      </tr>
+      <tr ng-if="serie.actors.length > 0  " >
+        <th>{{'SERIEDETAILS/actors/hdr'|translate}}</th>
+        <td>
+          <ul class="list-unstyled">
+            <li ng-repeat="actors in sidepanel.serie.actors.split('|') track by $index">{{actors}}</li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="buttons" width="100%" border="0">
+    <tbody>
+      <tr>
+        <th style='text-align:center'>
+          <button class="btn btn-danger" ng-show="sidepanel.serie.displaycalendar == 1" ng-click="sidepanel.toggleSerieDisplay(sidepanel.serie)">{{'SERIEDETAILS/calendar-hide/btn'|translate}}</button>
+          <button class="btn btn-info" ng-show="sidepanel.serie.displaycalendar == 0" ng-click="sidepanel.toggleSerieDisplay(sidepanel.serie)">{{'SERIEDETAILS/calendar-show/btn'|translate}}</button>
+          <button class="btn btn-danger" ng-click="removeFromFavorites(sidepanel.serie)">{{'SERIEDETAILS/delete-serie/btn'|translate}}</button>
+          <button class="btn btn-danger" ng-click="bgtest = !bgtest">Test Toggle background overlay</button>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</div>
