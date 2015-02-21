@@ -1332,62 +1332,6 @@ sidepanel .rightpanel .serie-overview .metadata {
     color: white;
 }
 
-@media (min-width: 1800px) {
-    calendar.zoomout > div {
-        transform: scale(0.80) translateY(25%);
-        transform-origin: top left;
-    }
-
-    calendar.zoomout.more > div {
-        transform: scale(0.57) translateY(25%);
-        transform-origin: top left;
-    }
-}
-
-@media (min-width: 1500px) and (max-width:1800px) {
-    calendar.zoomout > div {
-        transform: scale(0.75) translateY(25%);
-        transform-origin: top left;
-    }
-
-    calendar.zoomout.more > div {
-        transform: scale(0.57) translateY(25%);
-        transform-origin: top left;
-    }
-}
-
-@media (min-width: 1200px) and (max-width:1500px) {
-    calendar.zoomout > div {
-        transform: scale(0.68) translateY(25%);
-        transform-origin: top left;
-    }
-
-    calendar.zoomout.more > div {
-        transform: scale(0.45) translateY(25%);
-        transform-origin: top left;
-    }
-}
-
-@media (min-width: 900px) and (max-width:1200px) {
-    calendar.zoomout > div {
-        transform: scale(0.61) translateY(25%);
-        transform-origin: top left;
-    }
-
-    calendar.zoomout.more > div {
-        transform: scale(0.2) translateY(25%) translateX(-25%);
-        transform-origin: top left;
-    }
-}
-
-@media (max-width:900px) {
-    calendar.zoomout > div {
-        transform: scale(0.45) translateY(25%);
-        transform-origin: top left;
-    }
-
-    calendar.zoomout.more > div {
-        transform: scale(0.1) translateY(25%);
-        transform-origin: top left;
-    }
+div [date-picker] {
+    transform-origin: top left;
 }
