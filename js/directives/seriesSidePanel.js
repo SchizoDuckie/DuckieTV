@@ -4,7 +4,6 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
     return {
         restrict: 'E',
         templateUrl: 'templates/sidepanel/sidepanel.html',
-        controller: 'sidepanelCtrl',
         controllerAs: 'sidepanel',
         bindToController: true,
         link: function($scope, iElement, $rootScope) {
@@ -73,51 +72,27 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
             }
 
             this.zoomOut = function() {
-                setTimeout(function() {
-                    $rootScope.$broadcast('calendar:zoomout');
-                }, 50);
+                $rootScope.$broadcast('calendar:zoomout');
             };
 
             this.zoomIn = function() {
-                setTimeout(function() {
-                    $rootScope.$broadcast('calendar:zoomin');
-                }, 50);
+                $rootScope.$broadcast('calendar:zoomin');
             }
 
             this.showSerie = function() {
                 this.expand();
                 this.state = 'serie';
-                setTimeout(function() {
-                    $rootScope.$broadcast('calendar:zoomoutmore');
-                }, 50);
+                $rootScope.$broadcast('calendar:zoomoutmore');
             };
 
             this.showEpisodes = function() {
-                console.info("Showing Episodes");
                 this.expand();
                 this.state = 'episodes';
 
-                setTimeout(function() {
-                    $rootScope.$broadcast('calendar:zoomoutmore');
-                }, 50);
+                $rootScope.$broadcast('calendar:zoomoutmore');
 
-                console.info("Fetching seasons");
-                console.info("Season should be null", this.season, "Seasons should be null", this.seasons);
-                this.serie.getSeasons().then(function(result) {
-                    console.info("Fetched Seasons", result)
-                    sidepanel.seasons = result;
-                    sidepanel.serie.getLatestSeason().then(function(season) {
-                        console.info("Fetched latest season", season);
-                        console.info("Fetching episodes");
-                        console.info("Episode should not be null", sidepanel.episode);
-                        console.info("Episodes should be null", sidepanel.episodes);
-                        season.getEpisodes().then(function(data) {
-                            console.info("Fetched episodes", data);
-                            sidepanel.episodes = data;
-                            console.info("Episode data should be saved", sidepanel.episodes);
-                        });
-                    });
-                });
+
+
             };
 
             this.getSortEpisodeNumber = function(episode) {
@@ -132,7 +107,7 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
             };
 
             this.getSearchString = function(serie, episode) {
-                if(!serie || !episode) return;
+                if (!serie || !episode) return;
                 var serieName = SceneNameResolver.getSceneName(serie.TVDB_ID) || serie.name;
                 return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
             };
@@ -141,31 +116,27 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 return uTorrent.isConnected();
             };
 
-            this.toggleSerieDisplay = function(serie) {
-                CRUD.FindOne('Serie', {
-                    ID_Serie: serie.ID_Serie
-                }).then(function(serie2) {
-                    if (serie2.get('displaycalendar') == 1) {
-                        sidepanel.serie.displaycalendar = 0;
-                        serie2.set('displaycalendar', 0);
-                    } else {
-                        sidepanel.serie.displaycalendar = 1;
-                        serie2.set('displaycalendar', 1);
-                    };
-                    // Refresh calendar & page and save updates to db
-                    $scope.$digest();
-                    serie2.Persist();
-                    $rootScope.$broadcast('favorites:updated');
-                });
+            this.toggleSerieDisplay = function() {
+                sidepanel.serie.displaycalendar = 0;
+                sidepanel.serie.Persist();
+
             };
 
             $rootScope.$on('episode:select', function(event, serie, episode) {
                 console.info("Episode Select detected");
-                sidepanel.clearCache();
                 sidepanel.serie = serie;
                 sidepanel.episode = episode;
                 sidepanel.show();
-                setTimeout(this.$digest, 50);
+
+                sidepanel.serie.getSeasons().then(function(result) {
+                    console.info("Fetched Seasons", result)
+                    sidepanel.seasons = result;
+                    sidepanel.serie.getLatestSeason().then(function(season) {
+                        season.getEpisodes().then(function(data) {
+                            sidepanel.episodes = data;
+                        });
+                    });
+                });
             });
 
             $rootScope.$on('season:select', function() {
