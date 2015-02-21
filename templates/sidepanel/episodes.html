@@ -1,4 +1,4 @@
- <div>
+ <div class="episodes">
     <h2>Episodes</h2>
     <table class="table table-condensed light" style='border: 1px solid #efefef; border-collapse:collapse; margin-top:10px;'>
       <tbody ng-if="!sidepanel.episodes">
@@ -14,7 +14,7 @@
           <td>
             <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{sidepanel.serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>">{{ episode.episodename }}</a>
           </td>
-          <td>
+          <td style="width:55px">
             <episode-watched ng-if="episode.hasAired()"></episode-watched>
           </td>
         </tr>

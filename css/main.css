@@ -1162,11 +1162,9 @@ sidepanel {
     transform: translateX(800px);
     transition: transform 0.3s ease-in;
 }
-
 sidepanel.active {
     transform: translateX(400px);   
 }
-
 sidepanel.active.expanded {
     transform: translateX(0);   
 }
@@ -1183,6 +1181,14 @@ sidepanel .handle {
     padding: 5px;
 }
 
+sidepanel h2 {
+    text-align: center;
+    color: #fff;
+    margin-top: 13px;
+    margin-bottom: 0;
+    font-size: 28px;
+}
+
 sidepanel .leftpanel {
     position: absolute;
     top: 0px;
@@ -1191,7 +1197,6 @@ sidepanel .leftpanel {
     height: 100%;
     padding: 15px;
 }
-
 sidepanel .rightpanel {
     /* Should be position:absolute, relative seems to work but only for the right panel
     this is needed if you want the serie poster to be a background */
@@ -1213,14 +1218,6 @@ sidepanel .leftpanel .episode .episode-img {
     border-radius: 5px;
     background-size: 100% 100%;
 }
-
-sidepanel .leftpanel .episode h2 {
-    text-align: center;
-    color: #fff;
-    margin-top: 13px;
-    margin-bottom: 0;
-    font-size: 28px;
-}
 sidepanel .leftpanel .episode h3 {
     text-align: center;
     color: #fff;
@@ -1229,7 +1226,6 @@ sidepanel .leftpanel .episode h3 {
     font-size: 20px;
     letter-spacing: 0.5px;
 }
-
 sidepanel .leftpanel .episode p {
     margin: 8px;
     color: rgb(208, 208, 208);
@@ -1238,25 +1234,21 @@ sidepanel .leftpanel .episode p {
     max-height: 255px;
     padding-right: 5px;
 }
-
 sidepanel .leftpanel .episode a:hover {
     text-decoration: none;
 }
-
 sidepanel .leftpanel .episode .buttons {
     list-style: none;
     margin: 0;
     padding: 0px;
     text-align: center;
 }
-
 sidepanel .leftpanel .episode .buttons strong {
     font-size: 18px;
     letter-spacing: 1px;
     font-weight: normal;
     color: white;
 }
-
 sidepanel .leftpanel .episode .buttons a {
     display: block;
     padding: 15px;
@@ -1266,21 +1258,17 @@ sidepanel .leftpanel .episode .buttons a {
     text-align: center;
     transition: background-color 0.3s;
 }
-
 sidepanel .leftpanel .episode .buttons a:hover {
     background-color: rgba(66,66,66,0.8);
     cursor: pointer;
 }
-
 sidepanel .leftpanel .episode .buttons a.no-hover {
     background-color: initial;
     cursor: initial;
 }
-
 sidepanel .leftpanel .episode .buttons tr.two-face td {
     width: 50%;
 }
-
 sidepanel .leftpanel .episode i.glyphicon {
     float: left;
     font-size: 22px;
@@ -1289,7 +1277,6 @@ sidepanel .leftpanel .episode i.glyphicon {
 sidepanel .leftpanel .episode i.glyphicon.glyphicon-eye-open {
     color: green !important;
 }
-
 sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control > span {
     /* Replicate of the strong tag */
     font-size: 18px;
@@ -1301,8 +1288,8 @@ sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control > span {
     margin-bottom: 4px;
 }
 sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control a {
-    margin: 0;
-    padding: 7px;
+    margin: 0 1px;
+    padding: 5px;
 }
 sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control a i.glyphicon {
     font-size: 18px;
@@ -1324,7 +1311,6 @@ sidepanel .rightpanel .serie-overview h1 {
     text-align: center;
     color: white;
 }
-
 sidepanel .rightpanel .serie-overview .serie-bg-img {
     position: absolute;
     left: 0;
@@ -1336,14 +1322,12 @@ sidepanel .rightpanel .serie-overview .serie-bg-img {
     z-index: -1;
     background-position: 50%;
 }
-
 sidepanel .rightpanel .serie-overview .serie-img {
     margin: 5px auto;
     height: 275px;
     width: 195px;
     background-size: 100% 100%;
 }
-
 sidepanel .rightpanel .serie-overview .metadata {
     color: white;
 }

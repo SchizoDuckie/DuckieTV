@@ -25,8 +25,6 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
 
             var sidepanel = this;
 
-            var allSeasons = [];
-
             this.state = '';
             this.serie = null;
             this.season = null;
@@ -37,19 +35,11 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
             this.isShowing = false;
             this.isExpanded = false;
 
-            this.clearCache = function() {
-                this.serie = this.season = this.seasons = this.episode = this.episodes = null;
-                console.info("Cache cleared!");
-                console.info("Following 4 variables should be null (season | seasons | episode | episodes)");
-                console.info(this.season, this.seasons, this.episode, this.episodes);
-            }
-
             this.toggle = function() {
                 this.isShowing ? this.hide() : this.show();
 
             };
             this.show = function() {
-                console.info("Showing Sidepanel");
                 this.isShowing = true;
                 this.contract();
                 this.zoomOut();
@@ -119,8 +109,11 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 });
             };
 
+            /*
+             * When an episode has been selected from the calendar
+             * load all relevant data, seasons, episodes serie details.
+             */
             $rootScope.$on('episode:select', function(event, serie, episode) {
-                console.info("Episode Select detected");
                 sidepanel.serie = serie;
                 sidepanel.episode = episode;
                 sidepanel.show();
