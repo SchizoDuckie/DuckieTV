@@ -117,9 +117,10 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
             };
 
             this.toggleSerieDisplay = function() {
-                sidepanel.serie.displaycalendar = 0;
-                sidepanel.serie.Persist();
-                $rootScope.$broadcast('favorites:updated');
+                sidepanel.serie.displaycalendar = sidepanel.serie.displaycalendar == '1' ? '0' : '1';
+                sidepanel.serie.Persist().then(function() {
+                    $rootScope.$broadcast('favorites:updated');
+                });
             };
 
             $rootScope.$on('episode:select', function(event, serie, episode) {
