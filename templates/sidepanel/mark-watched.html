@@ -1,13 +1,13 @@
 <a>
   <strong>
-		<div ng-if="!episode.watched">
+		<div ng-if="!sidepanel.episode.watched">
 	    	<i class="glyphicon glyphicon-eye-close"></i>{{'EVENT/dropdown-mark-as-watched/lbl'|translate}}
 		</div>
-		<div ng-if="episode.watched">
+		<div ng-if="sidepanel.episode.watched">
 		    <i class="glyphicon glyphicon-eye-open"></i>
 		    <div style="display: inline-block">
 			    <span style="display: block">{{'EVENT/dropdown-marked-watched/lbl'|translate}}</span>
-			    <span style="display: block">{{ episode.watchedAt | date:'medium' }}<span>
+			    <span style="display: block">{{ sidepanel.episode.watchedAt | date:'medium' }}<span>
 			</div>
 		</div>
 	</strong>

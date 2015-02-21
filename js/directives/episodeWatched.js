@@ -9,9 +9,6 @@ angular.module('DuckieTV.directives.episodewatched', [])
         restrict: 'EA',
         transclude: true,
         replace: true,
-        scope: {
-            'episode': '=episode'
-        },
         templateUrl: function($node, $iAttrs) {
             return $iAttrs.templateUrl || "templates/episodeWatched.html";
         },
