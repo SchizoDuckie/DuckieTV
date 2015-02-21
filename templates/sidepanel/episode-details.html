@@ -23,29 +23,16 @@
   </tr>
   <tr>
     <td colspan="2">
-        <torrent-dialog ng-if="getSetting('torrenting.enabled')" tvdbid='sidepanel.episode.TVDB_ID' q='sidepanel.getSearchString(sidepanel.serie, sidepanel.episode)'><strong><translate>EVENT/dropdown-utorrent-client/lbl</translate></strong></torrent-dialog>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2">
-        <a ng-click="sidepanel.autoDownload(episode)">
-            <i class="glyphicon glyphicon-cloud-download"></i><strong>Auto Download</strong>
+        <torrent-dialog ng-if="getSetting('torrenting.enabled')" tvdbid='sidepanel.episode.TVDB_ID' q='sidepanel.getSearchString(sidepanel.serie, sidepanel.episode)' style='right: 40px;font-size: 11px;float: left;'><strong><translate style="font-size: 18px;padding-left: 10px;">EVENT/dropdown-utorrent-client/lbl</translate></strong></torrent-dialog> <a ng-click="sidepanel.autoDownload(episode)" style="    width: 13%;    position: absolute;    right: 16px;" tooltip="Auto Download">
+            <i class="glyphicon glyphicon-cloud-download"></i>
         </a>
     </td>
   </tr>
+  
   <tr>
     <td colspan="2">
         <a class="no-hover" ng-if="getSetting('torrenting.enabled') && sidepanel.episode.magnetHash && sidepanel.isTorrentClientConnected()">
-            <torrent-remote-control info-hash="sidepanel.episode.magnetHash" template-url="templates/torrentMiniRemoteControl.html"></torrent-remote-control>
+            <torrent-remote-control info-hash="sidepanel.episode.magnetHash" template-url="templates/sidepanel/torrentRemoteControl.html"></torrent-remote-control>
         </a>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2">
-        <a class="no-hover" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && sidepanel.episode.magnetHash">
-            <strong>Download Progress</strong>
-            <torrent-remote-control info-hash="sidepanel.episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html"></torrent-remote-control>
-        </a>
-    </td>
   </tr>
 </table>

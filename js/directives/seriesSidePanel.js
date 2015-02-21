@@ -88,11 +88,7 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
             this.showEpisodes = function() {
                 this.expand();
                 this.state = 'episodes';
-
                 $rootScope.$broadcast('calendar:zoomoutmore');
-
-
-
             };
 
             this.getSortEpisodeNumber = function(episode) {
