@@ -1,19 +1,62 @@
-    <h2>{{ 'SETTINGS/hdr'|translate }}</h2>
+<div class="episode">
+<h2><i class="glyphicon glyphicon-cog"></i> {{ 'SETTINGS/hdr'|translate }}</h2>
 
-    <ul class="nav nav-tabs nav-justified">
-        <li ng-class="{active: tab == 'default' }">
-          <a href="#/settings/default">{{ 'SETTINGS/general/hdr'|translate }}</a>
-        </li>
-        <li ng-class="{active: tab == 'display' }">
-          <a href="#/settings/display">{{ 'SETTINGS/display/hdr'|translate }}</a>
-        </li>
-        <li ng-class="{active: tab == 'torrent' }">
-          <a href="#/settings/torrent">{{ 'SETTINGS/torrent/hdr'|translate }}</a>
-        </li>
-        <li ng-class="{active: tab == 'trakttv' }">
-          <a href="#/settings/trakttv">{{ 'SETTINGS/trakttv/hdr'|translate }}</a>
-        </li>
-         <li ng-class="{active: tab == 'sync' }" style="display:none">
-          <a href="#/settings/sync">Sync</a>
-        </li>
-    </ul>
+<table class="buttons" width="100%" border="0">
+ <tr>
+    <td colspan="2">
+        <a href="#/settings/display">
+            <i class="glyphicon glyphicon-picture"></i><strong>{{ 'SETTINGS/display/hdr'|translate }}</strong>
+        </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <a href="#/settings/backup">
+             <i class="glyphicon glyphicon-cloud-download"></i><strong>Backup</strong>
+        </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <a href="#/settings/calendar">
+            <i class="glyphicon glyphicon-calendar"></i><strong>{{ 'CALENDAR/hdr'|translate}}</strong>
+        </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <a href="#/settings/torrent">
+            <i class="glyphicon glyphicon-magnet"></i><strong>{{ 'SETTINGS/torrent/hdr'|translate }}</strong>
+        </a>
+    </td>
+  </tr>
+   <tr ng-if="getSetting('torrenting.enabled')">
+    <td colspan="2">
+        <a href="#/settings/utorrent">
+            <i class="glyphicon glyphicon-magnet"></i><strong>uTorrent Integration</strong>
+        </a>
+    </td>
+  </tr>
+   <tr ng-if="getSetting('torrenting.enabled')">
+    <td colspan="2">
+        <a href="#/settings/torrent-search">
+            <i class="glyphicon glyphicon-search"></i><strong>Torrent Search Engines</strong>
+        </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <a href="#/settings/trakttv">
+            <i class="glyphicon glyphicon-cloud-upload"></i><strong>{{ 'SETTINGS/trakttv/hdr'|translate }}</strong>
+        </a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <a href="#/settings/sync">
+            <i class="glyphicon glyphicon-retweet"></i><strong>Sync</strong>
+        </a>
+    </td>
+  </tr>
+ </table>
+ </div>

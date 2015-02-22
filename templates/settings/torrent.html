@@ -1,11 +1,9 @@
-<table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;' ng-controller="SettingsTorrentCtrl">
-  <tr>
-    <th width="150px" style="border:0">
-      <strong style='white-space:nowrap'>{{'SETTINGS/TORRENT/hdr'|translate}}</strong>
+<div ng-controller="SettingsTorrentCtrl">
+  
+      <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/hdr'|translate}}</h2>
       <p class="label label-success" ng-show="getSetting('torrenting.enabled')">{{'SETTINGS/TORRENT/enabled/lbl'|translate}}</p>
       <p class="label label-danger" ng-show="!getSetting('torrenting.enabled')">{{'SETTINGS/TORRENT/disabled/lbl'|translate}}</p>
-    </th>
-    <td style="border:0">
+   
       <ul class="list-unstyled">
         <li>
         <p ng-show="!getSetting('torrenting.enabled')" class="alert alert-info">{{'SETTINGS/TORRENT/functions-show/alert'|translate}}</p>
@@ -14,15 +12,12 @@
         <button ng-show="getSetting('torrenting.enabled')" ng-click="disableSetting('torrenting.enabled')" class="btn btn-danger">{{'SETTINGS/TORRENT/functions-hide/btn'|translate}}</button>
         </li>
       </ul>
-    </td>
-  </tr>
-  <tr ng-show="getSetting('torrenting.enabled')">
-    <th width="150px">
-      <strong style='white-space:nowrap'>{{'SETTINGS/TORRENT/autodownload/hdr'|translate}}</strong>
+   
+
+  <div ng-show="getSetting('torrenting.enabled')">
+      <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/autodownload/hdr'|translate}}</h2>
       <p class="label label-success" ng-show="getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-enabled/lbl'|translate}}</p>
       <p class="label label-danger" ng-show="!getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-disabled/lbl'|translate}}</p>
-    </th>
-    <td>
       <ul class="list-unstyled">
         <li>
           <p ng-show="!getSetting('torrenting.autodownload')" class="alert alert-info">{{'SETTINGS/TORRENT/autodownload-enable/alert'|translate}}</p>
@@ -31,188 +26,6 @@
           <button ng-show="getSetting('torrenting.autodownload')" ng-click="disableAutoDownload()" class="btn btn-danger">{{'SETTINGS/TORRENT/autodownload-disable/btn'|translate}}</button>
         </li>
       </ul>
-    </td>
-  </tr>
-  <tr ng-show="getSetting('torrenting.enabled')">
-    <th width="150px">
-      <strong style='white-space:nowrap'>{{'SETTINGS/TORRENT/streaming/hdr'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('torrenting.streaming')">{{'SETTINGS/TORRENT/enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('torrenting.streaming')">{{'SETTINGS/TORRENT/disabled/lbl'|translate}}</p>
-    </th>
-    <td>
-      <ul class="list-unstyled">
-        <li>
-          <p ng-show="!getSetting('torrenting.streaming')" class="alert alert-info">{{'SETTINGS/TORRENT/streaming-enabled/alert'|translate}}</p>
-          <p ng-show="getSetting('torrenting.streaming')" class="alert alert-warning">{{'SETTINGS/TORRENT/streaming-disabled/alert'|translate}}</p>
-          <button ng-show="!getSetting('torrenting.streaming')" ng-click="enableSetting('torrenting.streaming')" class="btn btn-success">{{'SETTINGS/TORRENT/streaming-enabled/btn'|translate}}</button>
-          <button ng-show="getSetting('torrenting.streaming')" ng-click="disableSetting('torrenting.streaming')" class="btn btn-danger">{{'SETTINGS/TORRENT/streaming-disabled/btn'|translate}}</button>
-        </li>
-      </ul>
-    </td>
-  </tr>
-  <tr ng-show="getSetting('torrenting.enabled')">
-    <th width="150px">
-      <strong style='white-space:nowrap'>{{'SETTINGS/TORRENT/directory/hdr'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('torrenting.directory')">{{'SETTINGS/TORRENT/enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('torrenting.directory')">{{'SETTINGS/TORRENT/disabled/lbl'|translate}}</p>
-    </th>
-    <td>
-      <ul class="list-unstyled">
-        <li>
-          <p ng-show="!getSetting('torrenting.directory')" class="alert alert-info">{{'SETTINGS/TORRENT/directory-folder-show/alert'|translate}}</p>
-          <p ng-show="getSetting('torrenting.directory')" class="alert alert-warning">{{'SETTINGS/TORRENT/directory-folder-hide/alert'|translate}}</p>
-          <button ng-show="!getSetting('torrenting.directory')" ng-click="enableSetting('torrenting.directory')" class="btn btn-success">{{'SETTINGS/TORRENT/directory-folder-show/btn'|translate}}</button>
-          <button ng-show="getSetting('torrenting.directory')" ng-click="disableSetting('torrenting.directory')" class="btn btn-danger">{{'SETTINGS/TORRENT/directory-folder-hide/btn'|translate}}</button>
-        </li>
-      </ul>
-    </td>
-  </tr>
-  <tr ng-show="getSetting('torrenting.enabled')">
-    <th width="150px">
-      <strong style='white-space:nowrap'>{{'SETTINGS/TORRENT/progressbar/hdr'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('torrenting.progress')">{{'SETTINGS/TORRENT/enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('torrenting.progress')">{{'SETTINGS/TORRENT/disabled/lbl'|translate}}</p>
-    </th>
-    <td>
-      <ul class="list-unstyled">
-        <li>
-          <p ng-show="!getSetting('torrenting.progress')" class="alert alert-info">{{'SETTINGS/TORRENT/progressbar-show/alert'|translate}}</p>
-          <p ng-show="getSetting('torrenting.progress')" class="alert alert-warning">{{'SETTINGS/TORRENT/progressbar-hide/alert'|translate}}</p>
-          <button ng-show="!getSetting('torrenting.progress')" ng-click="enableSetting('torrenting.progress')" class="btn btn-success">{{'SETTINGS/TORRENT/progressbar-show/btn'|translate}}</button>
-          <button ng-show="getSetting('torrenting.progress')" ng-click="disableSetting('torrenting.progress')" class="btn btn-danger">{{'SETTINGS/TORRENT/progressbar-hide/btn'|translate}}</button>
-        </li>
-      </ul>
-    </td>
-  </tr>
-   <tr ng-show="getSetting('torrenting.enabled')">
-    <th width="150px">
-      <strong style='white-space:nowrap'>{{'SETTINGS/TORRENT/autostop/hdr'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('torrenting.autostop')">{{'SETTINGS/TORRENT/enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('torrenting.autostop')">{{'SETTINGS/TORRENT/disabled/lbl'|translate}}</p>
-    </th>
-    <td>
-      <ul class="list-unstyled">
-        <li>
-          <p ng-show="!getSetting('torrenting.autostop')" class="alert alert-info">{{'SETTINGS/TORRENT/autostop-enabled/alert'|translate}}</p>
-          <p ng-show="getSetting('torrenting.autostop')" class="alert alert-warning">{{'SETTINGS/TORRENT/autostop-disabled/alert'|translate}}</p>
-          <button ng-show="!getSetting('torrenting.autostop')" ng-click="enableSetting('torrenting.autostop')" class="btn btn-success">{{'SETTINGS/TORRENT/autostop-enabled/btn'|translate}}</button>
-          <button ng-show="getSetting('torrenting.autostop')" ng-click="disableSetting('torrenting.autostop')" class="btn btn-danger">{{'SETTINGS/TORRENT/autostop-disabled/btn'|translate}}</button>
-        </li>
-      </ul>
-    </td>
-  </tr>
-  <tr ng-show="getSetting('torrenting.enabled')">
-    <th width="150px">     
-     <strong style='white-space:nowrap'>The Pirate Bay</strong>
-    </th>
-    <td>
-      <p class="alert alert-warning" style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT/tpb/desc'|translate}}
-      </p>
-      <ul class="list-unstyled">
-        <li>{{'SETTINGS/TORRENT/tpb-mirror/hdr'|translate}}<br>
-          <input type='url' style='width:500px' ng-model="customtpbmirror">
-
-          <button class="btn btn-success" ng-click="validateCustomTPBMirror(customtpbmirror)">{{'SETTINGS/TORRENT/tpb-validate/btn'|translate}}</button>
-          <button class="btn btn-info" ng-click="findRandomTPBMirror()">{{'SETTINGS/TORRENT/tpb-find-mirror/btn'|translate}}</button>
-
-          <p ng-show="tpbmirrorStatus.length > 0">
-            {{'SETTINGS/TORRENT/tpb-status/hdr'|translate}}
-            <ul style='max-height:150px; overflow-y:auto;'>
-              <li ng-repeat="status in tpbmirrorStatus track by $index">{{status}}</li>
-            </ul>
-          </p>
-        </li>
-      </ul>
-    </td>
-  </tr>
-  <tr ng-show="getSetting('torrenting.enabled')">
-    <th width="150px">
-      <strong style='white-space:nowrap'>KickAss Torrents</strong>
-    </th>
-    <td>
-      <p class="alert alert-warning" style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT/kat/desc'|translate}}
-      </p>
-      <ul class="list-unstyled">
-        <li>{{'SETTINGS/TORRENT/kat-mirror/hdr'|translate}}<br>
-          <input type='url' style='width:500px' ng-model="customkatmirror">
-
-          <button class="btn btn-success" ng-click="validateCustomKATMirror(customkatmirror)">{{'SETTINGS/TORRENT/kat-validate/btn'|translate}}</button>
-          <button class="btn btn-info" ng-click="findRandomKATMirror()">{{'SETTINGS/TORRENT/kat-find-mirror/btn'|translate}}</button>
-
-          <p ng-show="katmirrorStatus.length > 0">
-            {{'SETTINGS/TORRENT/kat-status/hdr'|translate}}
-            <ul style='max-height:150px; overflow-y:auto;'>
-              <li ng-repeat="status in katmirrorStatus track by $index">{{status}}</li>
-            </ul>
-          </p>
-        </li>
-      </ul>
-    </td>
-  </tr>
-  <tr ng-show="getSetting('torrenting.enabled')">
-  <th width="150px">
-    <strong>{{'SETTINGS/TORRENT/default-provider/hdr'|translate}}</strong>
-  </th>
-    <td>
-      <p class="alert alert-info" style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT/default-provider/alert'|translate}}</p>
-
-      <ul class="list-unstyled">
-        <li ng-repeat="provider in searchProviders" ng-click="setSearchProvider(provider)" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != provider, 'glyphicon-record': searchprovider == provider}"></i>
-            <strong>{{provider}}</strong>
-          </li>
-      </ul>
-    </td>
-  </tr>
-  <tr ng-show="getSetting('torrenting.enabled')">
-    <th width="150px">
-      <strong>{{'SETTINGS/TORRENT/quality/hdr'|translate}}</strong>
-    </th>
-    <td>
-      <p class="alert alert-info" style='text-align:left;white-space:normal'>
-        {{'SETTINGS/TORRENT/quality/desc'|translate}}<br>
-        <strong>{{'SETTINGS/TORRENT/quality-select/hdr'|translate}}</strong>{{'SETTINGS/TORRENT/quality-select/desc'|translate}}<br>
-        {{'SETTINGS/TORRENT/quality-select/desc2'|translate}}
-      </p>
-      <ul class="list-unstyled">
-        <li ng-click="setSearchQuality('')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '', 'glyphicon-record': searchquality == ''}"></i>
-          <strong>{{'SETTINGS/TORRENT/quality-select-all/lbl'|translate}}</strong>
-        </li>
-        <li ng-click="setSearchQuality('HDTV')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != 'HDTV', 'glyphicon-record': searchquality == 'HDTV'}"></i>
-          <strong>HDTV</strong>
-        </li>
-        <li ng-click="setSearchQuality('480p')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '480p', 'glyphicon-record': searchquality == '480p'}"></i>
-          <strong>480p</strong>
-        </li>
-        <li ng-click="setSearchQuality('720p')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '720p', 'glyphicon-record': searchquality == '720p'}"></i>
-          <strong>720p</strong>
-        </li>
-        <li ng-click="setSearchQuality('1080p')" style='cursor:pointer'>
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '1080p', 'glyphicon-record': searchquality == '1080p'}"></i>
-          <strong>1080p</strong>
-        </li>
-      </ul>
-    </td>
-  </tr>
-    <tr ng-show="getSetting('torrenting.enabled')">
-    <th width="150px">
-      <strong style='white-space:nowrap'>{{'SETTINGS/TORRENT/unsafe-proxies/hdr'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT/enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT/disabled/lbl'|translate}}</p>
-    </th>
-    <td>
-      <ul class="list-unstyled">
-        <li>
-          <p ng-show="!getSetting('proxy.allowUnsafe')" class="alert alert-info">{{'SETTINGS/TORRENT/unsafe-proxies-disabled/alert'|translate}}</p>
-          <p ng-show="getSetting('proxy.allowUnsafe')" class="alert alert-warning">{{'SETTINGS/TORRENT/unsafe-proxies-enabled/alert'|translate}}</p>
-          <button ng-show="!getSetting('proxy.allowUnsafe')" ng-click="enableSetting('proxy.allowUnsafe')" class="btn btn-success">{{'SETTINGS/TORRENT/unsafe-proxies-enable/btn'|translate}}</button>
-          <button ng-show="getSetting('proxy.allowUnsafe')" ng-click="disableSetting('proxy.allowUnsafe')" class="btn btn-danger">{{'SETTINGS/TORRENT/unsafe-proxies-disable/btn'|translate}}</button>
-        </li>
-      </ul>
-    </td>
-  </tr>
-</table>
+    
+</div>
+   

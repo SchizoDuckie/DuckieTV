@@ -1050,7 +1050,7 @@ calendar-event h2 {
 }
 
 .alert {
-    white-space: pre;
+    white-space: pre-wrap;
 }
 
 .alert strong {

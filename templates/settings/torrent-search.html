@@ -1,0 +1,106 @@
+<div ng-controller="SettingsTorrentCtrl">
+
+  <h2>{{'SETTINGS/TORRENT/default-provider/hdr'|translate}}</h2>
+ 
+
+      <p class="alert alert-info" style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT/default-provider/alert'|translate}}</p>
+
+      <ul class="list-unstyled">
+        <li ng-repeat="provider in searchProviders" ng-click="setSearchProvider(provider)" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != provider, 'glyphicon-record': searchprovider == provider}"></i>
+            <strong>{{provider}}</strong>
+          </li>
+      </ul>
+   
+
+      <h2>{{'SETTINGS/TORRENT/quality/hdr'|translate}}</h2>
+    
+
+      <p class="alert alert-info" style='text-align:left;white-space:normal'>
+        {{'SETTINGS/TORRENT/quality/desc'|translate}}<br>
+        <strong>{{'SETTINGS/TORRENT/quality-select/hdr'|translate}}</strong>{{'SETTINGS/TORRENT/quality-select/desc'|translate}}<br>
+        {{'SETTINGS/TORRENT/quality-select/desc2'|translate}}
+      </p>
+      <ul class="list-unstyled">
+        <li ng-click="setSearchQuality('')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '', 'glyphicon-record': searchquality == ''}"></i>
+          <strong>{{'SETTINGS/TORRENT/quality-select-all/lbl'|translate}}</strong>
+        </li>
+        <li ng-click="setSearchQuality('HDTV')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != 'HDTV', 'glyphicon-record': searchquality == 'HDTV'}"></i>
+          <strong>HDTV</strong>
+        </li>
+        <li ng-click="setSearchQuality('480p')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '480p', 'glyphicon-record': searchquality == '480p'}"></i>
+          <strong>480p</strong>
+        </li>
+        <li ng-click="setSearchQuality('720p')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '720p', 'glyphicon-record': searchquality == '720p'}"></i>
+          <strong>720p</strong>
+        </li>
+        <li ng-click="setSearchQuality('1080p')" style='cursor:pointer'>
+          <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '1080p', 'glyphicon-record': searchquality == '1080p'}"></i>
+          <strong>1080p</strong>
+        </li>
+      </ul>
+
+
+     <h2 style='white-space:nowrap'>The Pirate Bay</h2>
+   
+       <p class="alert alert-warning" style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT/tpb/desc'|translate}}
+      </p>
+      <ul class="list-unstyled">
+        <li>{{'SETTINGS/TORRENT/tpb-mirror/hdr'|translate}}<br>
+          <input type='url' style='width:500px' ng-model="customtpbmirror">
+
+          <button class="btn btn-success" ng-click="validateCustomTPBMirror(customtpbmirror)">{{'SETTINGS/TORRENT/tpb-validate/btn'|translate}}</button>
+          <button class="btn btn-info" ng-click="findRandomTPBMirror()">{{'SETTINGS/TORRENT/tpb-find-mirror/btn'|translate}}</button>
+
+          <p ng-show="tpbmirrorStatus.length > 0">
+            {{'SETTINGS/TORRENT/tpb-status/hdr'|translate}}
+            <ul style='max-height:150px; overflow-y:auto;'>
+              <li ng-repeat="status in tpbmirrorStatus track by $index">{{status}}</li>
+            </ul>
+          </p>
+        </li>
+      </ul>
+   
+
+      <h2 style='white-space:nowrap'>KickAss Torrents</h2>
+   
+      <p class="alert alert-warning" style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT/kat/desc'|translate}}
+      </p>
+      <ul class="list-unstyled">
+        <li>{{'SETTINGS/TORRENT/kat-mirror/hdr'|translate}}<br>
+          <input type='url' style='width:500px' ng-model="customkatmirror">
+
+          <button class="btn btn-success" ng-click="validateCustomKATMirror(customkatmirror)">{{'SETTINGS/TORRENT/kat-validate/btn'|translate}}</button>
+          <button class="btn btn-info" ng-click="findRandomKATMirror()">{{'SETTINGS/TORRENT/kat-find-mirror/btn'|translate}}</button>
+
+          <p ng-show="katmirrorStatus.length > 0">
+            {{'SETTINGS/TORRENT/kat-status/hdr'|translate}}
+            <ul style='max-height:150px; overflow-y:auto;'>
+              <li ng-repeat="status in katmirrorStatus track by $index">{{status}}</li>
+            </ul>
+          </p>
+        </li>
+      </ul>
+    
+
+  
+
+      <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/unsafe-proxies/hdr'|translate}}</h2>
+      <p class="label label-success" ng-show="getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT/enabled/lbl'|translate}}</p>
+      <p class="label label-danger" ng-show="!getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT/disabled/lbl'|translate}}</p>
+   
+
+      <ul class="list-unstyled">
+        <li>
+          <p ng-show="!getSetting('proxy.allowUnsafe')" class="alert alert-info">{{'SETTINGS/TORRENT/unsafe-proxies-disabled/alert'|translate}}</p>
+          <p ng-show="getSetting('proxy.allowUnsafe')" class="alert alert-warning">{{'SETTINGS/TORRENT/unsafe-proxies-enabled/alert'|translate}}</p>
+          <button ng-show="!getSetting('proxy.allowUnsafe')" ng-click="enableSetting('proxy.allowUnsafe')" class="btn btn-success">{{'SETTINGS/TORRENT/unsafe-proxies-enable/btn'|translate}}</button>
+          <button ng-show="getSetting('proxy.allowUnsafe')" ng-click="disableSetting('proxy.allowUnsafe')" class="btn btn-danger">{{'SETTINGS/TORRENT/unsafe-proxies-disable/btn'|translate}}</button>
+        </li>
+      </ul>
+
+      </div>

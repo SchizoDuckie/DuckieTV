@@ -101,7 +101,7 @@ angular.module('DuckieTV', [
                 controller: 'EpisodeCtrl'
             })
             .when('/settings', {
-                redirectTo: '/settings/default'
+                redirectTo: '/settings/display'
             })
             .when('/settings/:tab', {
                 templateUrl: 'templates/home.html',

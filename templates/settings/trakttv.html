@@ -1,12 +1,7 @@
-<table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white;' ng-controller="TraktTVCtrl ">
-<tr>
-    <th width="150px" style="border:0">
-      <strong style='white-space:nowrap; display:block;'>Trakt.TV {{'SETTINGS/TRAKTTV/sync/lbl'|translate}}</strong>
-      <p class="label label-success" ng-show="getSetting('trakttv.sync')">{{'SETTINGS/TRAKTTV/sync-enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('trakttv.sync')">{{'SETTINGS/TRAKTTV/sync-disabled/lbl'|translate}}</p>
-    </th>
-    <td style="border:0;" ng-include="'templates/settings/trakt-import.html'">
-       
-    </td>
-  </tr>
-</table
+
+<h2>Trakt.TV {{'SETTINGS/TRAKTTV/sync/lbl'|translate}}</h2>
+<p class="label label-success" ng-show="getSetting('trakttv.sync')">{{'SETTINGS/TRAKTTV/sync-enabled/lbl'|translate}}</p>
+<p class="label label-danger" ng-show="!getSetting('trakttv.sync')">{{'SETTINGS/TRAKTTV/sync-disabled/lbl'|translate}}</p>
+<div ng-include="'templates/settings/trakt-import.html'">
+
+</div>
