@@ -1,9 +1,9 @@
 <div ng-controller="BackupCtrl">
-  <h3>{{'SETTINGS/BACKUP/backup/desc'|translate}}</h3>
+  <h2>{{'SETTINGS/BACKUP/backup/desc'|translate}}</h2>
   <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()" style="width:250px">{{'SETTINGS/BACKUP/backup-create/btn'|translate}}</a>
   <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}">{{'SETTINGS/BACKUP/backup-download/btn'|translate}}</a>
 
-  <h3>{{'SETTINGS/BACKUP/import/hdr'|translate}}</h3>
+  <h2>{{'SETTINGS/BACKUP/import/hdr'|translate}}</h2>
   <div style="position:relative">
     <button ng-show="!restoring" class="btn btn-success" style="width:250px" ng-class="{binputhover:inputhover}">{{'SETTINGS/BACKUP/choose-backup-load/btn'|translate}}</button>
     <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute; opacity:0; width:250px; top:0; padding:0; height:100%; cursor: pointer;" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false"></button>

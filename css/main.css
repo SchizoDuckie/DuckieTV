@@ -1172,6 +1172,7 @@ sidepanel {
     bottom: 0;
     width: 800px;
     z-index: 850;
+    color:white;
     background-color: rgba(25,25,25,1);
     transform: translateX(800px);
     transition: transform 0.3s ease-in;
