@@ -19,7 +19,7 @@
     font-style: normal;
 }
 body > .container {
-    width: calc(100% - 62px);
+    width: calc(100% - 52px);
     padding: 15px;
     float: right;
     margin: 0;
