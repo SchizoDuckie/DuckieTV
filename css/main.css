@@ -120,7 +120,11 @@ background-rotator, background-rotator > div {
     left: 0px;
     z-index: 1;
     height: 100%;
-    background-color: rgba(30,30,30,0.9);
+    -webkit-transition: background-color .5s;
+    background-color: rgba(30,30,30,0.5);
+}
+#actionbar:hover {
+    background-color: rgba(30,30,30,0.85);
 }
 #actionbar ul {
     list-style-type:none;
@@ -130,6 +134,7 @@ background-rotator, background-rotator > div {
     padding: 20px;
     font-size: 2.2rem;
     color: white;
+    -webkit-transition: background-color .5s;
 }
 #actionbar a:hover {
     background-color: rgba(70,70,70,1);
