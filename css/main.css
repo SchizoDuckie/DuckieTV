@@ -1359,6 +1359,22 @@ sidepanel .rightpanel .serie-overview .serie-img {
 sidepanel .rightpanel .serie-overview .metadata {
     color: white;
 }
+sidepanel .rightpanel .serie-overview .metadata th {
+    width: 90px;
+    padding-bottom: 1px;
+}
+sidepanel .rightpanel .serie-overview .metadata ul.genres {
+    width: 220px;
+}
+sidepanel .rightpanel .serie-overview .metadata .genres li {
+    display: inline-block;
+    width: 50%;
+}
+sidepanel .rightpanel .serie-overview .metadata ul.actors {
+    overflow-y: auto;
+    max-height: 144px;
+    font-size: 13px;
+}
 
 div [date-picker] {
     transform-origin: top left;
