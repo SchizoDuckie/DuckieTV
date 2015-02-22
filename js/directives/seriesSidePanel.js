@@ -168,7 +168,10 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 sidepanel.state = 'settings';
                 sidepanel.settingsTab = tab;
                 sidepanel.expand();
-                $rootScope.$broadcast('calendar:zoomoutmore');
+                setTimeout(function() {
+                    $rootScope.$broadcast('calendar:zoomoutmore');
+
+                })
             });
         }
     }
