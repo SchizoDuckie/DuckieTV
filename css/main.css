@@ -809,6 +809,7 @@ td.day {
 }
 [date-picker] .event {
     display: block;
+    position: relative;
     clear:both;
     overflow: visible;
     color: white;
