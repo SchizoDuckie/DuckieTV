@@ -84,8 +84,17 @@ angular.module('DuckieTV', [
                 controller: 'WatchlistCtrl'
             })
             .when('/series/:id', {
-                templateUrl: 'templates/serie.html',
-                controller: 'SerieCtrl'
+                templateUrl: 'templates/home.html',
+                controller: 'MainCtrl',
+                resolve: {
+                    serie: function($rootScope, $route) {
+                        return CRUD.FindOne('Serie', {
+                            TVDB_ID: $route.current.params.id
+                        }).then(function(s) {
+                            return $rootScope.$broadcast('serie:select', s);
+                        })
+                    }
+                }
             })
             .when('/serie/:id/episode/:episode', {
                 templateUrl: 'templates/episode.html',

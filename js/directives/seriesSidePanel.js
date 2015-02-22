@@ -123,11 +123,28 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
 
                 season.getEpisodes().then(function(data) {
                     sidepanel.episodes = data;
+                    $scope.$digest();
 
                 });
 
             }
 
+
+            /*
+             * When an episode has been selected from the calendar
+             * load all relevant data, seasons, episodes serie details.
+             */
+            $rootScope.$on('serie:select', function(event, serie) {
+                sidepanel.serie = serie;
+                sidepanel.episode = null;
+                sidepanel.showSerie();
+
+                sidepanel.serie.getSeasons().then(function(result) {
+                    console.info("Fetched Seasons", result)
+                    sidepanel.seasons = result;
+                    sidepanel.serie.getLatestSeason().then(sidepanel.setSeason);
+                });
+            });
             /*
              * When an episode has been selected from the calendar
              * load all relevant data, seasons, episodes serie details.
@@ -135,12 +152,12 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
             $rootScope.$on('episode:select', function(event, serie, episode) {
                 sidepanel.serie = serie;
                 sidepanel.episode = episode;
+                sidepanel.state = 'serie';
                 sidepanel.show();
 
                 sidepanel.serie.getSeasons().then(function(result) {
                     console.info("Fetched Seasons", result)
                     sidepanel.seasons = result;
-                    sidepanel.serie.getLatestSeason().then(sidepanel.setSeason);
                 });
             });
 
