@@ -33,49 +33,14 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     console.log($scope.targets);
 }])
 
-/**
- * Controller for main settings tab
- */
-.controller('DefaultCtrl', ["$scope", "StorageSyncService", "SettingsService", function($scope, StorageSyncService, SettingsService) {
-    // Nothing here D:
-
-    // Deprecated sync functions, no longer relevant to this settings tab
-    /**
-    //Checks if sync is supported, used to hide/show sync panel on settings/display
-    $scope.isSyncSupported = function() {
-        return false; // StorageSyncService.isSupported();
-    };
-
-    //Fire off an event that pushes the current series list into the cloud
-    $scope.sync = function() {
-        console.log("Synchronizing!");
-        SettingsService.set('lastSync', new Date().getTime());
-        StorageSyncService.synchronize();
-    };
-
-    $scope.enableSync = function() {
-        StorageSyncService.enable().then(function() {
-            SettingsService.set('storage.sync', true);
-            StorageSyncService.read(); // kick off read.
-        }, function() {
-            SettingsService.set('storage.sync', false);
-        });
-    };
-
-    $scope.disableSync = function() {
-        StorageSyncService.disable().finally(function() {
-            SettingsService.set('storage.sync', false);
-        });
-    };
-*/
-}])
 
 /*
  * Controller for the display settings tab
  */
 .controller('DisplayCtrl', ["$scope", "$rootScope", "$filter", "SettingsService", function($scope, $rootScope, $filter, SettingsService) {
-
-    $scope.activeLocale = SettingsService.get('application.locale');
+	
+	$scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
+	$scope.activeLocale = SettingsService.get('application.locale');
     $scope.bgopacity = SettingsService.get('background-rotator.opacity');
     $scope.showSpecials = SettingsService.get('calendar.show-specials');
 
@@ -258,13 +223,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
  * Root controller for settings pages
  */
 .controller('SettingsCtrl', ["$scope", "$rootScope", "$routeParams", "FavoritesService", "SettingsService", "KickassMirrorResolver", "TraktTVv2", "$filter", function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, KickassMirrorResolver, TraktTVv2, $filter) {
-
-    $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
-
-    $scope.activesettings = 'templates/settings/default.html';
-
-    $scope.tab = $routeParams.tab;
-    $scope.activeTab = 'templates/settings/' + $routeParams.tab + '.html';
 
     $scope.favorites = FavoritesService.favorites;
 }]);

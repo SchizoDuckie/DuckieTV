@@ -121,7 +121,7 @@ background-rotator, background-rotator > div {
     z-index: 1;
     height: 100%;
     -webkit-transition: background-color .5s;
-    background-color: rgba(30,30,30,0.5);
+    background-color: transparent
 }
 #actionbar:hover {
     background-color: rgba(30,30,30,0.85);
