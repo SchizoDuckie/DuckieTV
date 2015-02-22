@@ -337,12 +337,21 @@ series-list > div {
     background-color: rgba(0, 0, 0, 0.9);
     border-top: 1px solid white;
     z-index: 200;
-    -webkit-transition: -webkit-transform 0.5s ease-in;
+    width: 100%;
+    -webkit-transition: all 0.5s ease-in;
     -webkit-transform: translate3d(0, 100%, 0);
 }
 
-series-list >div.active {
+series-list > div.active {
     -webkit-transform: translate3d(0, 0, 0);
+}
+
+series-list >div.zoomout  {
+    width: calc(100% - 400px);
+}
+
+series-list >div.zoomoutmore {
+    width: calc(100% - 800px);
 }
 
 series-list > div > h2 {
