@@ -330,7 +330,7 @@ angular.module('DuckieTV', [
          * Hide the favorites list when navigating to a different in-page action.
          */
         $rootScope.$on('$locationChangeSuccess', function() {
-            $rootScope.$broadcast('serieslist:hide');
+            //$rootScope.$broadcast('serieslist:hide');
         });
 
         /**
