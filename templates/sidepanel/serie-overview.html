@@ -11,7 +11,7 @@
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/airs-on/hdr'|translate}}</th>
-        <td>{{translateDayOfWeek(serie.airs_dayofweek)}} {{sidepanel.serie.airs_time}} (UTC)</td>
+        <td>{{translateDayOfWeek(sidepanel.serie.airs_dayofweek)}} {{sidepanel.serie.airs_time}} {{sidepanel.serie.timezone}}</td>
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/first-aired/hdr'|translate}}</th>
@@ -31,7 +31,7 @@
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/country/hdr'|translate}}</th>
-        <td>{{sidepanel.serie.language}}</td>
+        <td>{{sidepanel.serie.country}}</td>
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/network/hdr'|translate}}</th>
@@ -39,7 +39,7 @@
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/rating/hdr'|translate}}</th>
-        <td>{{sidepanel.serie.rating}} ({{sidepanel.serie.ratingcount}} {{'SERIEDETAILS/votes/lbl'|translate}})</td>
+        <td>{{sidepanel.serie.rating}}% ({{sidepanel.serie.ratingcount}} {{'SERIEDETAILS/votes/lbl'|translate}})</td>
       </tr>
       <tr>
         <th>{{'SERIEDETAILS/run-time/hdr'|translate}}</th>
@@ -49,7 +49,7 @@
         <th>{{'SERIEDETAILS/status/hdr'|translate}}</th>
         <td>{{translateStatus(sidepanel.serie.status)}}</td>
       </tr>
-      <tr ng-if="serie.actors.length > 0  " >
+      <tr ng-if="sidepanel.serie.actors.length > 0  " >
         <th>{{'SERIEDETAILS/actors/hdr'|translate}}</th>
         <td>
           <ul class="list-unstyled">
