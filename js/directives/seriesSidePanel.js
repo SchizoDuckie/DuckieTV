@@ -128,7 +128,6 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                     $scope.$digest();
 
                 });
-
             }
 
 
@@ -165,8 +164,10 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 });
             });
 
-            $rootScope.$on('season:select', function() {
-
+            $rootScope.$on('settings:show', function(event, tab) {
+                sidepanel.state = 'settings';
+                sidepanel.settingsTab = tab;
+                sidepanel.expand();
             });
         }
     }

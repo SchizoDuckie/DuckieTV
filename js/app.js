@@ -104,8 +104,13 @@ angular.module('DuckieTV', [
                 redirectTo: '/settings/default'
             })
             .when('/settings/:tab', {
-                templateUrl: 'templates/settings.html',
-                controller: 'SettingsCtrl'
+                templateUrl: 'templates/home.html',
+                controller: 'MainCtrl',
+                resolve: {
+                    settings: function($rootScope, $route) {
+                        return $rootScope.$broadcast('settings:show', $route.current.params.tab);
+                    }
+                }
             })
             .when('/cast', {
                 templateUrl: 'templates/chromecast.html',

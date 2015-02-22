@@ -3,13 +3,14 @@
     <div class="handle" ng-click="sidepanel.hide()">Hide</div>
     
     <div class="leftpanel">
-      <div class="episode" ng-include="'templates/sidepanel/episode-details.html'"></div>
-      <!--<div class="serie" ng-include="'templates/sidepanel/serie-details.html'" ng-if="expression"></div> -->
+      <div class="episode" ng-if="sidepanel.state == 'serie' || sidepanel.state == 'episodes' || sidepanel.state =='seasons'" ng-include="'templates/sidepanel/episode-details.html'"></div>
+      <div class="setting" ng-if="sidepanel.state == 'settings'" ng-include="'templates/sidepanel/settings.html'"></div>
     </div>
 
     <div class="rightpanel"> 
         <serie-details ng-if="sidepanel.state == 'serie'" template-url="templates/sidepanel/serie-overview.html"></serie-details>
         <div ng-if="sidepanel.state == 'episodes'" ng-include="'templates/sidepanel/episodes.html'"></div>
         <div ng-if="sidepanel.state == 'seasons'" ng-include="'templates/sidepanel/seasons.html'"></div>
+        <div ng-if="sidepanel.state == 'settings'" ng-include="'templates/settings/'+sidepanel.settingsTab+'.html'" ng-controller="SettingsCtrl"></div>
     </div>
 </div>
