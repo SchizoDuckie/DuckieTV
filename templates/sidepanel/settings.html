@@ -1,0 +1,19 @@
+    <h2>{{ 'SETTINGS/hdr'|translate }}</h2>
+
+    <ul class="nav nav-tabs nav-justified">
+        <li ng-class="{active: tab == 'default' }">
+          <a href="#/settings/default">{{ 'SETTINGS/general/hdr'|translate }}</a>
+        </li>
+        <li ng-class="{active: tab == 'display' }">
+          <a href="#/settings/display">{{ 'SETTINGS/display/hdr'|translate }}</a>
+        </li>
+        <li ng-class="{active: tab == 'torrent' }">
+          <a href="#/settings/torrent">{{ 'SETTINGS/torrent/hdr'|translate }}</a>
+        </li>
+        <li ng-class="{active: tab == 'trakttv' }">
+          <a href="#/settings/trakttv">{{ 'SETTINGS/trakttv/hdr'|translate }}</a>
+        </li>
+         <li ng-class="{active: tab == 'sync' }" style="display:none">
+          <a href="#/settings/sync">Sync</a>
+        </li>
+    </ul>
