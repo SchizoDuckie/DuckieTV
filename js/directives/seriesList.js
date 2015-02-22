@@ -432,13 +432,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         this.showTrending = false;
     };
 
-
-
-    // used by the searching-sidepanel.html
-    this.ratingPercentage = function(rating) {
-        return Math.round(rating * 10);
-    };
-
     /**
      * Verify with the favoritesservice if a specific TVDB_ID is registered.
      * Used to show checkmarks in the add modes for series that you already have.
