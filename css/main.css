@@ -1272,6 +1272,12 @@ sidepanel .leftpanel .episode .buttons a.no-hover {
 sidepanel .leftpanel .episode .buttons tr.two-face td {
     width: 50%;
 }
+sidepanel .leftpanel .episode .buttons tr.two-face td:nth-child(1) a {
+    margin-right: 5px;
+}
+sidepanel .leftpanel .episode .buttons tr.two-face td:nth-child(2) a {
+    margin-left: 5px;
+}
 sidepanel .leftpanel .episode i.glyphicon {
     float: left;
     font-size: 22px;
