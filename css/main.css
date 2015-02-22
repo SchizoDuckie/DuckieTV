@@ -1197,6 +1197,7 @@ sidepanel .leftpanel {
     width: 400px;
     height: 100%;
     padding: 15px;
+    overflow-y: auto;
 }
 sidepanel .rightpanel {
     /* Should be position:absolute, relative seems to work but only for the right panel
@@ -1209,6 +1210,7 @@ sidepanel .rightpanel {
     padding: 15px;
     background-color: rgb(23, 23, 23);
     z-index: 0;
+    overflow-y: auto;
 }
 
 sidepanel .leftpanel .episode .episode-img {
