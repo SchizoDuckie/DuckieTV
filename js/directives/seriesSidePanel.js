@@ -115,10 +115,12 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 });
             };
 
-            this.setSeason = function(season) {
+            this.setSeason = function(season, dontActivate) {
                 sidepanel.season = season;
                 sidepanel.episodes = [];
-                sidepanel.state = 'episodes';
+                if (undefined === dontActivate) {
+                    sidepanel.state = 'episodes';
+                }
                 sidepanel.showSeason = false;
 
                 season.getEpisodes().then(function(data) {
@@ -142,6 +144,9 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 sidepanel.serie.getSeasons().then(function(result) {
                     console.info("Fetched Seasons", result)
                     sidepanel.seasons = result;
+                    sidepanel.serie.getLatestSeason().then(function(season) {
+                        sidepanel.setSeason(season, true);
+                    })
                 });
             });
             /*
