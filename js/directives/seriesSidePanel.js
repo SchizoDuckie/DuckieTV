@@ -69,6 +69,12 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 $rootScope.$broadcast('calendar:zoomin');
             }
 
+             this.showSettings = function() {
+                this.expand();
+                this.state = 'serie';
+                $rootScope.$broadcast('calendar:zoomoutmore');
+            };
+
             this.showSerie = function() {
                 this.expand();
                 this.state = 'serie';
@@ -85,6 +91,19 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 this.expand();
                 this.state = 'seasons';
                 $rootScope.$broadcast('calendar:zoomoutmore');
+            };
+
+            this.showSettings = function(tab) {
+                this.expand();
+                this.state = 'settings';
+                this.settingsTab = tab;
+                this.zoomOut();
+            }
+
+            this.showTorrents = function() {
+                this.show();
+                this.state = 'torrents';
+                this.zoomOut();
             };
 
             this.getSortEpisodeNumber = function(episode) {
@@ -165,12 +184,13 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
             });
 
             $rootScope.$on('settings:show', function(event, tab) {
-                sidepanel.state = 'settings';
-                sidepanel.settingsTab = tab;
-                sidepanel.expand();
-                setTimeout(function() {
-                    $rootScope.$broadcast('calendar:zoomoutmore');
+                sidepanel.showSettings(tab);
+            });
 
+             $rootScope.$on('torrents:show', function(event, tab) {
+                setTimeout(function() {
+                sidepanel.showTorrents();
+                    
                 })
             });
         }

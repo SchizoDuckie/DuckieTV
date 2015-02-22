@@ -117,8 +117,13 @@ angular.module('DuckieTV', [
                 controller: 'ChromeCastCtrl'
             })
             .when('/torrent', {
-                templateUrl: 'templates/torrentClient.html',
-                controller: 'TorrentCtrl'
+               templateUrl: 'templates/home.html',
+                controller: 'MainCtrl',
+                resolve: {
+                    settings: function($rootScope, $route) {
+                        return $rootScope.$broadcast('torrents:show');
+                    }
+                }
             })
             .when('/about', {
                 templateUrl: 'templates/about.html',

@@ -5,6 +5,7 @@
     <div class="leftpanel">
       <div class="episode" ng-if="sidepanel.state == 'serie' || sidepanel.state == 'episodes' || sidepanel.state =='seasons'" ng-include="'templates/sidepanel/episode-details.html'"></div>
       <div class="setting" ng-if="sidepanel.state == 'settings'" ng-include="'templates/sidepanel/settings.html'"></div>
+      <div ng-if="sidepanel.state == 'torrents' || sidepanel.state == 'torrentdetails'" ng-include="'templates/torrentClient.html'" ng-controller="TorrentCtrl"></div>
     </div>
 
     <div class="rightpanel"> 
@@ -12,5 +13,6 @@
         <div ng-if="sidepanel.state == 'episodes'" ng-include="'templates/sidepanel/episodes.html'"></div>
         <div ng-if="sidepanel.state == 'seasons'" ng-include="'templates/sidepanel/seasons.html'"></div>
         <div ng-if="sidepanel.state == 'settings'" ng-include="'templates/settings/'+sidepanel.settingsTab+'.html'" ng-controller="SettingsCtrl"></div>
+        <div ng-if="sidepanel.state == 'torrentdetails'" ng-include="'templates/sidepanel/torrent-details.html'" ng-controller="TorrentCtrl"></div>
     </div>
 </div>
