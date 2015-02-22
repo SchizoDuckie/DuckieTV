@@ -115,7 +115,7 @@ background-rotator, background-rotator > div {
     opacity: 0.4;
 }
 #actionbar {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
     z-index: 1;
