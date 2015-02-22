@@ -29,8 +29,11 @@
     </td>
   </tr>
   <tr>
-    <td colspan="2">
-        <torrent-dialog ng-if="getSetting('torrenting.enabled')" tvdbid='sidepanel.episode.TVDB_ID' q='sidepanel.getSearchString(sidepanel.serie, sidepanel.episode)' style='right: 40px;font-size: 11px;float: left;'><strong><translate style="font-size: 18px;padding-left: 10px;">EVENT/dropdown-utorrent-client/lbl</translate></strong></torrent-dialog> <a ng-click="sidepanel.autoDownload(episode)" style="    width: 13%;    position: absolute;    right: 16px;" tooltip="Auto Download">
+    <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled')">
+        <torrent-dialog class="download" tvdbid='sidepanel.episode.TVDB_ID' q='sidepanel.getSearchString(sidepanel.serie, sidepanel.episode)'>
+          <strong style="padding-left:21px">Find a torrent</strong>
+        </torrent-dialog>
+        <a class="auto-download" ng-click="sidepanel.autoDownload(episode)" tooltip="Auto Download">
             <i class="glyphicon glyphicon-cloud-download"></i>
         </a>
     </td>

@@ -1,22 +1,20 @@
 <div>
-<div class="torrent-mini-remote-control">
-    <i class="glyphicon glyphicon-magnet"></i><span>{{'TORRENTMRC/hdr'|translate}}</span>
-   <a ng-click="remote.torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i>{{'TORRENTMRC/start/glyph'|translate}}</a>
-    <a ng-click="remote.torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i>{{'TORRENTMRC/pause/glyph'|translate}}</a>
-    <a ng-click="remote.torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i>{{'TORRENTMRC/stop/glyph'|translate}}</a>
-    <a ng-if="remote.torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="remote.torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTMRC/stream-play/lbl</translate></a>   
-    <a ng-if="getSetting('torrenting.directory')" ng-click="remote.torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTMRC/open-folder/lbl'|translate}}</a> 
-</div>
-<p><strong>Download Progress</strong></p>
- <small style='display:block; text-align:center; padding:5px;'>{{remote.torrent.properties.all.name}}</small>
-    
+  <div class="torrent-mini-remote-control">
+      <i ng-hide="remote.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet"></i>
+      <i ng-if="remote.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet spin" tooltip="{{'TORRENTMRP/please-wait/tooltip'|translate}}" tooltip-append-to-body="true"></i>
+      <span>{{'TORRENTMRC/hdr'|translate}}</span>
+      <a ng-click="remote.torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i>{{'TORRENTMRC/start/glyph'|translate}}</a>
+      <a ng-click="remote.torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i>{{'TORRENTMRC/pause/glyph'|translate}}</a>
+      <a ng-click="remote.torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i>{{'TORRENTMRC/stop/glyph'|translate}}</a>
+      <a ng-if="remote.torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="remote.torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTMRC/stream-play/lbl</translate></a>   
+      <a ng-if="getSetting('torrenting.directory')" ng-click="remote.torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTMRC/open-folder/lbl'|translate}}</a> 
+  </div>
+  <p style="margin-bottom: 3px"><strong>Download Progress</strong></p>
+
+  <small style='display:block; text-align:center; padding-bottom:2px'>{{remote.torrent.properties.all.name || "N/A"}}</small>
   <div class="torrent-mini-remote-control-progress progress-striped progress" ng-class="{ 'active': remote.torrent.isStarted() }">
-  
-   <span ng-transclude></span><span ng-if="remote.torrent.getProgress() != '' && remote.torrent.getProgress() > 0">&nbsp;({{ remote.torrent.getProgress() }}%)</span>
-   <span ng-if="remote.torrent.getProgress() == ''">&nbsp;
-   <i class="glyphicon glyphicon-magnet spin" style='float:right' tooltip="{{'TORRENTMRP/please-wait/tooltip'|translate}}" tooltip-position="right"></i>
-   </span>
-    <div class="progress-bar " ng-class="{ 'progress-bar-danger': !remote.torrent.isStarted() && remote.torrent.getProgress() < 100, 'progress-bar-warning': remote.torrent.isStarted() || remote.torrent.getProgress() < 100 , 'progress-bar-success': remote.torrent.getProgress() == 100 }" ng-style="{ width: remote.torrent.getProgress() + '%' }">&nbsp;
-    </div>
-</div>
+      <span ng-transclude></span><span ng-if="remote.torrent.getProgress() != '' && remote.torrent.getProgress() > 0">&nbsp;({{ remote.torrent.getProgress() }}%)</span>
+      <div class="progress-bar " ng-class="{ 'progress-bar-danger': !remote.torrent.isStarted() && remote.torrent.getProgress() < 100, 'progress-bar-warning': remote.torrent.isStarted() || remote.torrent.getProgress() < 100 , 'progress-bar-success': remote.torrent.getProgress() == 100 }" ng-style="{ width: remote.torrent.getProgress() + '%' }">&nbsp;
+      </div>
+  </div>
 </div>

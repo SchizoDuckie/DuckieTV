@@ -1286,6 +1286,25 @@ sidepanel .leftpanel .episode i.glyphicon {
 sidepanel .leftpanel .episode i.glyphicon.glyphicon-eye-open {
     color: green !important;
 }
+sidepanel .leftpanel .episode .buttons .two-face-torrent .download {
+    float: left;
+    padding-right: 0;
+    margin-right: 0;
+    border-right: 0px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    width: 287px;
+}
+sidepanel .leftpanel .episode .buttons .two-face-torrent .auto-download {
+    padding: 15px 10px;
+    margin: 5px 0;
+    border-left: 0px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    height: 57px;
+    position: absolute;
+    right: 35px;
+}
 sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control > span {
     /* Replicate of the strong tag */
     font-size: 18px;
