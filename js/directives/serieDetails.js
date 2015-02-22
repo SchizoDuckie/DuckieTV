@@ -81,6 +81,13 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
             var translatedStatusList = rawTranslatedStatusList.split(',');
 
             /*
+             * Takes a rating (8.12345) and coverts it percentage presentation (81)
+            */
+            $scope.ratingPercentage = function(rating) {
+                return Math.round(rating * 10);
+            };
+
+            /*
              * Takes the English day of the week (as fetched from TraktTV) and returns a translation
              */
             $scope.translateDayOfWeek = function(dayofweek) {
