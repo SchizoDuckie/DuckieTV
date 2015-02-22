@@ -1,5 +1,7 @@
 <div class="episodes">
-    <h2>Episodes</h2>
+    <h2 style='color:white'>{{sidepanel.season.seasonnumber == 0 ? 'Specials' : 'Season '+sidepanel.season.seasonnumber}}</h2>
+    <p>{{sidepanel.season.overview}}</p>
+    <strong>Episodes</strong>
     <table class="table table-condensed light" style='margin-top:10px; background-color:transparent'>
       <tbody ng-if="!sidepanel.episodes || sidepanel.episodes.length == 0">
         <tr>

@@ -96,7 +96,7 @@ var Season = CRUD.define({
     className: 'Season',
     table: 'Seasons',
     primary: 'ID_Season',
-    fields: ['ID_Season', 'ID_Serie', 'poster', 'seasonnumber'],
+    fields: ['ID_Season', 'ID_Serie', 'poster', 'overview', 'seasonnumber', 'ratings', 'ratingcount'],
     relations: {
         'Serie': CRUD.RELATION_FOREIGN,
         'Episode': CRUD.RELATION_FOREIGN
@@ -106,10 +106,16 @@ var Season = CRUD.define({
     ],
     orderProperty: 'seasonnumber',
     orderDirection: 'DESC',
-    createStatement: 'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER, UNIQUE (ID_Serie, seasonnumber) ON CONFLICT REPLACE)',
+    createStatement: 'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER, overview TEXT NULL, ratings INTEGER NULL, ratingcount INTEGER NULL,  UNIQUE (ID_Serie, seasonnumber) ON CONFLICT REPLACE)',
     adapter: 'dbAdapter',
     defaultValues: {},
     migrations: {
+        3: [
+            'ALTER TABLE Seasons RENAME TO Seasons_bak',
+            'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER, overview TEXT NULL, ratings INTEGER NULL, ratingcount INTEGER NULL,  UNIQUE (ID_Serie, seasonnumber) ON CONFLICT REPLACE)',
+            'INSERT OR IGNORE INTO Seasons (ID_Season, ID_Serie, poster, seasonnumber) select ID_Season, ID_Serie, poster, seasonnumber from Seasons_bak',
+            'DROP TABLE Seasons_bak'
+        ],
         2: [
             'ALTER TABLE Seasons RENAME TO Seasons_bak',
             'CREATE TABLE Seasons ( ID_Season INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, poster VARCHAR(255), seasonnumber INTEGER, UNIQUE (ID_Serie, seasonnumber) ON CONFLICT REPLACE)',
