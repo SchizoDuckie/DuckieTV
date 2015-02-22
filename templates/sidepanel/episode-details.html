@@ -5,13 +5,20 @@
 
 <table class="buttons" width="100%" border="0">
   <tr class="two-face">
-    <td>
-        <a ng-click="sidepanel.showSerie()" style="margin-right: 5px">
+    <td colspan="2">
+        <a ng-click="sidepanel.showSerie()">
             <i class="glyphicon glyphicon-info-sign"></i><strong>{{'EVENT/dropdown-series-details/lbl'|translate}}</strong>
         </a>
     </td>
-    <td>
-        <a ng-click="sidepanel.showEpisodes()" style="margin-left: 5px">
+  </tr>
+  <tr>
+   <td>
+        <a ng-click="sidepanel.showSeasons()">
+            <i class="glyphicon glyphicon-info-sign"></i><strong>Seasons</strong>
+        </a>
+   </td>
+   <td>
+        <a ng-click="sidepanel.showEpisodes()">
             <i class="glyphicon glyphicon-info-sign"></i><strong>Episodes</strong>
         </a>
     </td>

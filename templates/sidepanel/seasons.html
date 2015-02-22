@@ -1,0 +1,18 @@
+<div class="seasons">
+    <h2 ng-click="sidepanel.showSeasons=true">Seasons</h2>
+    <div ng-if="sidepanel.showSeasons">
+    <h2 style='border-bottom: 1px solid white; padding:5px;'>{{'SERIEDETAILS/seasons/hdr'|translate}}
+      <small style='float:right'>{{'SERIEDETAILS/click-to-see/lbl'|translate}}</small>
+    </h2>
+    
+      <div class='season' ng-repeat="season in sidepanel.seasons" style="display:inline-block; padding:10px; cursor:pointer">
+        <p ng-click="sidepanel.setSeason(season)" lazy-background="{{season.poster}}" class="seasonposter"></p>
+        <p>
+          <strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong>
+        </p>
+      </div>
+    </div>
+    <div>
+   
+ 
+</div>

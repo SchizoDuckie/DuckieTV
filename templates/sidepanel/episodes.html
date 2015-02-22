@@ -1,7 +1,7 @@
- <div class="episodes">
+<div class="episodes">
     <h2>Episodes</h2>
     <table class="table table-condensed light" style='margin-top:10px; background-color:transparent'>
-      <tbody ng-if="!sidepanel.episodes">
+      <tbody ng-if="!sidepanel.episodes || sidepanel.episodes.length == 0">
         <tr>
           <td>{{'SERIE/fetching-episodes/lbl'|translate}}</td>
         </tr>

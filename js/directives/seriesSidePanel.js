@@ -81,6 +81,12 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 $rootScope.$broadcast('calendar:zoomoutmore');
             };
 
+            this.showSeasons = function() {
+                this.expand();
+                this.state = 'seasons';
+                $rootScope.$broadcast('calendar:zoomoutmore');
+            };
+
             this.getSortEpisodeNumber = function(episode) {
                 var sn = episode.seasonnumber.toString(),
                     en = episode.episodenumber.toString(),
@@ -109,6 +115,19 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 });
             };
 
+            this.setSeason = function(season) {
+                sidepanel.season = season;
+                sidepanel.episodes = [];
+                sidepanel.state = 'episodes';
+                sidepanel.showSeason = false;
+
+                season.getEpisodes().then(function(data) {
+                    sidepanel.episodes = data;
+
+                });
+
+            }
+
             /*
              * When an episode has been selected from the calendar
              * load all relevant data, seasons, episodes serie details.
@@ -121,11 +140,7 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 sidepanel.serie.getSeasons().then(function(result) {
                     console.info("Fetched Seasons", result)
                     sidepanel.seasons = result;
-                    sidepanel.serie.getLatestSeason().then(function(season) {
-                        season.getEpisodes().then(function(data) {
-                            sidepanel.episodes = data;
-                        });
-                    });
+                    sidepanel.serie.getLatestSeason().then(sidepanel.setSeason);
                 });
             });
 
