@@ -18,12 +18,16 @@
     font-weight: normal;
     font-style: normal;
 }
-
-@media (min-width: 1200px) {
-    body > .container {
-        width: 95%;
-    }
+body > .container {
+    width: calc(100% - 62px);
+    padding: 15px;
+    float: right;
+    margin: 0;
 }
+body > .container.topsites {
+    padding-top: 40px;
+}
+
 .printlogo {
     display: none;
 }
@@ -46,16 +50,6 @@ ng\:form {
     display: block;
 }
 
-@media (min-width: 768px) {
-    body > .container {
-        padding: 15px 20px 20px 20px;
-    }
-}
-@media (max-width: 768px) {
-    body > .container {
-        padding: 15px 20px 20px 40px;
-    }
-}
 body {
     background-color: #000;
     background-size: cover;
@@ -65,11 +59,6 @@ body {
     color: #444;
 }
 
-.topsites-false {
-}
-.topsites-true {
-    padding-top: 25px;
-}
 h1, h2, h3 {
     font-family:'bebasregular', helvetica, sans-serif;
 }
@@ -127,18 +116,30 @@ background-rotator, background-rotator > div {
 }
 #actionbar {
     position: absolute;
-    top: 50px;
-    left: 10px;
+    top: 0px;
+    left: 0px;
     z-index: 1;
+    height: 100%;
+    background-color: rgba(30,30,30,0.9);
 }
 #actionbar ul {
     list-style-type:none;
+    margin-top: 60px;
 }
 #actionbar a {
-    padding:20px;
+    padding: 20px;
     font-size: 2.2rem;
-    color: #000;
-    text-shadow: 0px 0px 7px rgba(255, 255, 255, 0.8);
+    color: white;
+}
+#actionbar a:hover {
+    background-color: rgba(70,70,70,1);
+}
+#actionbar .tooltip .tooltip-arrow {
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+#actionbar .tooltip.right .tooltip-arrow {
+    border-right-color: white;
 }
 .typeahead ul {
     max-height: 150px;
@@ -509,9 +510,7 @@ table.light h1 {
 chrome-top-sites {
     position: fixed;
     top: 0px;
-    width: 96%;
-    left: 2%;
-    right: 2%;
+    width: 100%;
     padding:15px;
     z-index:99;
     background-color: rgba(0, 0, 0, 0.9);
