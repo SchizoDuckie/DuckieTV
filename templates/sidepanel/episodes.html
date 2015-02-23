@@ -11,10 +11,10 @@
       <tbody ng-if="sidepanel.episodes">
         <tr ng-repeat="episode in sidepanel.episodes | orderBy: sidepanel.getSortEpisodeNumber:true">
           <td style="width:70px">
-            <a>{{episode.getFormattedEpisode()}}</a>
+            <a href="#/serie/{{sidepanel.serie.TVDB_ID}}/episode/{{episode.TVDB_ID}}">{{episode.getFormattedEpisode()}}</a>
           </td>
           <td>
-            <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{sidepanel.serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>">{{ episode.episodename }}</a>
+            <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{sidepanel.serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" href="#/serie/{{sidepanel.serie.TVDB_ID}}/episode/{{episode.TVDB_ID}}">{{ episode.episodename }}</a>
           </td>
           <td style="width:55px">
             <episode-watched ng-if="episode.hasAired()"></episode-watched>
