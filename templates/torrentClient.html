@@ -3,8 +3,6 @@
 	<h2>DuckieTorrent &micro;Torrent {{'TORRENTCLIENT/hdr'|translate}}</h2>
 	<div class="alert alert-info"><button class='btn btn-small btn-warning' style='float:right' ng-click='removeToken()' translate>TORRENTCLIENT/clear-authority/btn</button><strong><translate>TORRENTCLIENT/desc/p1</translate><a style="color: #428bca" href='http://www.utorrent.com/downloads/complete/os/win/track/alpha'>v3.4.1+</a>{{'TORRENTCLIENT/desc/p2'|translate}}</strong><span translate>TORRENTCLIENT/desc/p3</span></div>
 
-	<torrent-dialog class="btn btn-success">{{'TORRENTCLIENT/search/lbl'|translate}}{{getSetting('torrenting.searchprovider')}}</torrent-dialog>
-
 	 <h4>{{'TORRENTCLIENT/torrents-found/hdr'|translate}}{{rpc.getTorrents().length}}</h4>
 	<div ng-repeat="torrent in rpc.getTorrents()| orderBy:'getStarted()'">
 	 
