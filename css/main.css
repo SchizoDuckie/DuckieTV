@@ -118,7 +118,7 @@ background-rotator, background-rotator > div {
     position: fixed;
     top: 0px;
     left: 0px;
-    z-index: 1;
+    z-index: 1000;
     height: 100%;
     -webkit-transition: background-color .5s;
 }
@@ -352,15 +352,15 @@ serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
 series-list > div {
     position: fixed;
     bottom: 0px;
-    height: calc(100% - 40px);
+    height: 100%;
+    top:0px;
     left: 0px;
     right: 0px;
     background-color: rgba(20, 22, 24, 0.925);
-    border-top: 1px solid white;
     z-index: 200;
     width: 100%;
     -webkit-transition: all 0.5s ease-in;
-    -webkit-transform: translate3d(0, 100%, 0);
+    -webkit-transform: translate3d(-100%, 0, 0);
 }
 
 series-list > div.active {
@@ -426,7 +426,7 @@ series-list .sidepanel li {
     top: 85px;
     position: absolute;
     right: 20px;
-    left: 20px;
+    left: 60px;
     text-align: center;
     padding-top:30px;
 }

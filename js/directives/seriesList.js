@@ -347,10 +347,13 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         };
 
         /**
-         * Another class could fire an event that says this thing should close.
+         * Another class could fire an event that says this thing should open or close.
          * This is hooked from app.js, which monitors location changes.
          */
-        $rootScope.$on('serieslist:hide', function() {
+        $rootScope.$on('serieslist:toggle', function() {
+            if (!serieslist.activated) {
+                return serieslist.activate();
+            }
             serieslist.closeDrawer();
         });
 
@@ -362,6 +365,8 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         $rootScope.$on('favorites:updated', function(event, data) {
             if (!data) return;
             serieslist.favorites = data.map(titleSorter);
+            serieslist.background = data[Math.floor(Math.random() * (data.length - 1))].fanart;
+
         });
 
         /**
@@ -388,19 +393,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
             TraktTVv2.cancelSearch();
             serieslist.showTrending = true;
         });
-
-        $rootScope.$on('calendar:zoomoutmore', function() {
-            serieslist.zoom = 2;
-        });
-
-        $rootScope.$on('calendar:zoomout', function() {
-            serieslist.zoom = 1;
-        });
-
-        $rootScope.$on('calendar:zoomin', function() {
-            serieslist.zoom = 0;
-        })
-
 
 
         /**

@@ -1,17 +1,9 @@
 <!-- seriesList.html -->
 <div ng-class="{active: serieslist.activated, zoomoutmore: serieslist.zoom == 2, zoomout: serieslist.zoom == 1}">
-    <h2 ng-click="serieslist.activated ? serieslist.closeDrawer() : serieslist.activate()" tooltip="{{'SERIESLIST/hotkey/lbl'|translate}}: alt+s" >
-        <div>
-            <i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !serieslist.activated, 'glyphicon-chevron-down': serieslist.activated }"></i>
-            <a accesskey="s" ng-if="!serieslist.activated">{{'SERIESLIST/series-show/glyph'|translate}}</a>
-            <a accesskey="s" ng-if="serieslist.activated">{{'SERIESLIST/series-hide/glyph'|translate}}</a>
-            <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !serieslist.activated, 'glyphicon-chevron-down': serieslist.activated }"></i>
-        </div>
-    </h2>
 
     <div ng-if="serieslist.activated" ng-class="{ duckie: !serieslist.searchingForSerie }">
         <!-- The top tools panel for the series list -->
-        <div style='width: 100%; text-align: right;padding: 30px;font-size: 20px;' ng-show="!serieslist.searchingForSerie" ng-include="'templates/serieslist/tools.html'">
+        <div style='width: 100%; padding-left:60px; text-align: right; padding: 30px;font-size: 20px;' ng-show="!serieslist.searchingForSerie" ng-include="'templates/serieslist/tools.html'">
         </div>
         <!-- Sidepanel for trending/search mode to display extended serie details -->
          <serie-details class="sidepanel" ng-show="serieslist.searchingForSerie || serieslist.showTrakt" template-url="templates/serieslist/searching-sidepanel.html"></serie-details>

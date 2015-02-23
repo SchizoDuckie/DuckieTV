@@ -36,6 +36,7 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.chromestoragesync',
     'DuckieTV.providers.torrentmonitor',
     'DuckieTV.controllers.about',
+    'DuckieTV.controllers.actionbar',
     'DuckieTV.controllers.chromecast',
     'DuckieTV.controllers.episodes',
     'DuckieTV.controllers.serie',
@@ -109,6 +110,9 @@ angular.module('DuckieTV', [
                     episode: function() {
                         return false
                     },
+                    episodes: function() {
+                        return false
+                    },
                     season: function() {
                         return false
                     }
@@ -120,8 +124,9 @@ angular.module('DuckieTV', [
                 controllerAs: 'sidepanel',
                 resolve: {
                     SidePanelState: function(SidePanelState) {
-                        SidePanelState.show();
-                        SidePanelState.expand();
+                        if (!SidePanelState.state.isShowing && !SidePanelState.isExpanded) {
+                            SidePanelState.show();
+                        }
                         return SidePanelState;
                     },
                     serie: function($route, FavoritesService) {
@@ -135,6 +140,15 @@ angular.module('DuckieTV', [
                         return CRUD.FindOne('Episode', {
                             TVDB_ID: $route.current.params.episode
                         });
+                    },
+                    episodes: function($route) {
+                        return CRUD.FindOne('Season', {
+                            'Episode': {
+                                TVDB_ID: $route.current.params.episode
+                            }
+                        }).then(function(season) {
+                            return season.getEpisodes();
+                        })
                     },
                     season: function($route) {
                         return CRUD.FindOne('Season', {
