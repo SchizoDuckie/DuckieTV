@@ -367,14 +367,6 @@ series-list > div.active {
     -webkit-transform: translate3d(0, 0, 0);
 }
 
-series-list >div.zoomout  {
-    width: calc(100% - 400px);
-}
-
-series-list >div.zoomoutmore {
-    width: calc(100% - 800px);
-}
-
 series-list > div > h2 {
     width: 100%;
     text-align: center;
@@ -430,6 +422,7 @@ series-list .sidepanel li {
     text-align: center;
     padding-top:30px;
 }
+
 .series serieheader > div {
     border: 1px solid #111;
 }

@@ -1,4 +1,4 @@
-angular.module('DuckieTV.directives.serieslist', ['dialogs'])
+angular.module('DuckieTV.directives.serieslist', ['dialogs', 'DuckieTV.directives.sidepanel'])
 
 /**
  * The Serieslist directive is what's holds the favorites list and allows you to add/remove series and episodes to your calendar.
@@ -269,15 +269,16 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         templateUrl: "templates/seriesList.html",
         controllerAs: 'serieslist',
         bindToController: true,
-        controller: 'seriesListCtrl'
+        controller: 'seriesListCtrl',
     }
 })
 
-.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2",
-    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2) {
+.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState",
+    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState) {
 
         var serieslist = $scope.serieslist = this;
 
+        this.width = SidePanelState.state.isExpanded ? document.body.clientWidth - 800 : SidePanelState.state.isShowing ? document.body.clientWidth - 400 : document.body.clientWidth;
         this.activated = false; // Toggles when the favorites panel activated
 
         this.searchingForSerie = false; // Toggles when 'add a show' is clicked
@@ -297,6 +298,36 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs'])
         this.error = {
 
         };
+
+        this.isSidepanelShowing = false;
+        this.isSidePanelExpanded = false;
+
+        Object.observe(SidePanelState.state, function(newValue) {
+            if (newValue[0].object.isExpanded) {
+                serieslist.width = document.body.clientWidth - 800;
+
+            } else if (newValue[0].object.isShowing) {
+                serieslist.width = document.body.clientWidth - 400;
+
+            } else {
+                serieslist.width = document.body.clientWidth;
+            }
+            $scope.$applyAsync();
+        });
+
+        window.addEventListener('resize', function() {
+            console.log('window resize!');
+            if (SidePanelState.state.isExpanded) {
+                serieslist.width = document.body.clientWidth - 800;
+            } else if (SidePanelState.isShowing) {
+                serieslist.width = document.body.clientWidth - 400;
+            } else {
+                serieslist.width = document.body.clientWidth;
+            }
+            $scope.$applyAsync();
+        }, false);
+
+
 
         var titleSorter = function(serie) {
             serie.sortName = serie.name ? serie.name.replace('The ', '') : '';

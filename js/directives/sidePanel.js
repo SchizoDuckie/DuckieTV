@@ -60,16 +60,6 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 this.hide = function() {
                     SidePanelState.hide();
                 };
-
-
-                this.zoomOut = function() {
-                    $rootScope.$broadcast('calendar:zoomout');
-                };
-
-                this.zoomIn = function() {
-                    $rootScope.$broadcast('calendar:zoomin');
-                };
-
             }
         }
     })

@@ -1,5 +1,5 @@
 <!-- seriesList.html -->
-<div ng-class="{active: serieslist.activated, zoomoutmore: serieslist.zoom == 2, zoomout: serieslist.zoom == 1}">
+<div ng-class="{active: serieslist.activated }" style="width:{{serieslist.width}}px">
 
     <div ng-if="serieslist.activated" ng-class="{ duckie: !serieslist.searchingForSerie }">
         <!-- The top tools panel for the series list -->
