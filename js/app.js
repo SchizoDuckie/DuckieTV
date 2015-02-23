@@ -181,6 +181,7 @@ angular.module('DuckieTV', [
                 controllerAs: 'sidepanel',
                 resolve: {
                     SidePanelState: function(SidePanelState) {
+                        SidePanelState.show();
                         SidePanelState.expand();
                         return SidePanelState;
                     },
@@ -194,6 +195,7 @@ angular.module('DuckieTV', [
                 controller: 'ChromeCastCtrl',
                 resolve: {
                     SidePanelState: function(SidePanelState) {
+                        SidePanelState.show();
                         SidePanelState.expand();
                         return SidePanelState;
                     }
@@ -215,6 +217,7 @@ angular.module('DuckieTV', [
                 controller: 'AboutCtrl',
                 resolve: {
                     SidePanelState: function(SidePanelState) {
+                        SidePanelState.show();
                         SidePanelState.expand();
                         return SidePanelState;
                     }
