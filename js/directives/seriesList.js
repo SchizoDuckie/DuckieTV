@@ -389,6 +389,14 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs', 'DuckieTV.directive
         });
 
         /**
+         * Another class could fire an event that says this thing should open or close.
+         * This is hooked from app.js, which monitors location changes.
+         */
+        $rootScope.$on('serieslist:hide', function() {
+            serieslist.closeDrawer();
+        });
+
+        /**
          * When the favorites list signals it's updated, we update the favorites here as well.
          * when the series list is empty, this makes it automatically pop up.
          * Otherwise, a random background is automagically loaded.

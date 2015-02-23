@@ -78,27 +78,29 @@ angular.module('DuckieTV', [
         $routeProvider
             .when('/', {
                 resolve: {
-                    state: function(SidePanelState) {
+                    state: function(SidePanelState, $rootScope) {
                         SidePanelState.hide();
+                        $rootScope.$broadcast('serieslist:hide');
+                        $rootScope.$applyAsync();
                     }
-                },
-                controller: function(state, $rootScope) {
-                    console.log("Hide sidepanel!");
-                    try {
-                        $rootScope.$digest();
-                    } catch (E) {};
                 }
             })
             .when('/watchlist', {
                 templateUrl: 'templates/watchlist.html',
-                controller: 'WatchlistCtrl'
+                controller: 'WatchlistCtrl',
+                resolve: {
+                    SidePanelState: function(SidePanelState) {
+                        SidePanelState.show();
+                        return SidePanelState
+                    }
+                }
             })
             .when('/series/:id', {
                 templateUrl: 'templates/sidepanel/serie-episode.html',
                 controller: 'SidepanelSerieCtrl',
                 controllerAs: 'sidepanel',
                 resolve: {
-                    SidePanelState: function(SidePanelState, $rootScope) {
+                    SidePanelState: function(SidePanelState) {
                         SidePanelState.show();
                         return SidePanelState
                     },
@@ -169,7 +171,7 @@ angular.module('DuckieTV', [
                         return SidePanelState;
                     },
                     tab: function() {
-                        return undefined;
+                        return false;
                     }
                 }
             })
@@ -189,7 +191,13 @@ angular.module('DuckieTV', [
             })
             .when('/cast', {
                 templateUrl: 'templates/chromecast.html',
-                controller: 'ChromeCastCtrl'
+                controller: 'ChromeCastCtrl',
+                resolve: {
+                    SidePanelState: function(SidePanelState) {
+                        SidePanelState.expand();
+                        return SidePanelState;
+                    }
+                }
             })
             .when('/torrent', {
                 templateUrl: 'templates/torrentClient.html',
@@ -204,7 +212,13 @@ angular.module('DuckieTV', [
             })
             .when('/about', {
                 templateUrl: 'templates/about.html',
-                controller: 'AboutCtrl'
+                controller: 'AboutCtrl',
+                resolve: {
+                    SidePanelState: function(SidePanelState) {
+                        SidePanelState.expand();
+                        return SidePanelState;
+                    }
+                }
             })
             .otherwise({
                 redirectTo: '/'
