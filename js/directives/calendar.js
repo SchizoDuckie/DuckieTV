@@ -1,4 +1,4 @@
-angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 'DuckieTV.providers.episodeaired'])
+angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 'DuckieTV.providers.episodeaired', 'DuckieTV.directives.sidepanel'])
 
 /**
  * The CalendarEvents service provides storage and retrieve functions
@@ -256,38 +256,26 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
 
             var calendar = iElement[0].querySelector('div[date-picker]');
 
-            function zoom(spaceToTheRight) {
+            $scope.zoom = function(spaceToTheRight) {
                 var cw = document.body.clientWidth;
                 var avail = cw - spaceToTheRight;
                 var zoom = avail / cw;
                 console.log('transform:', 'scale(' + zoom + ')');
                 calendar.style.transform = 'scale(' + zoom + ')';
             }
-
-            $scope.zoomOut = function() {
-                iElement.addClass('zoomout');
-                iElement.removeClass('more');
-                zoom(400)
-            }
-            $scope.zoomIn = function() {
-                iElement.removeClass('zoomout');
-                iElement.removeClass('more');
-                zoom(0);
-            }
-            $scope.zoomoutMore = function() {
-                iElement.addClass('zoomout more');
-                zoom(800)
-            }
         },
-        controller: function($rootScope, $scope) {
-            $rootScope.$on('calendar:zoomout', function() {
-                $scope.zoomOut();
-            });
-            $rootScope.$on('calendar:zoomoutmore', function() {
-                $scope.zoomoutMore();
-            });
-            $rootScope.$on('calendar:zoomin', function() {
-                $scope.zoomIn();
+        controller: function($scope, SidePanelState) {
+
+            Object.observe(SidePanelState.state, function(newValue) {
+                if (newValue[0].object.isExpanded) {
+                    $scope.zoom(840);
+                } else if (newValue[0].object.isShowing) {
+                    $scope.zoom(450);
+                } else {
+                    $scope.zoom(0);
+                }
+                $scope.$applyAsync();
+
             });
         }
     };
