@@ -43,7 +43,7 @@ angular.module('DuckieTV.directives.seriedetails', ['dialogs'])
                 'game-show',
                 'history',
                 'holiday',
-                'home and garden',
+                'home-and-garden',
                 'horror',
                 'indie',
                 'mini-series',
