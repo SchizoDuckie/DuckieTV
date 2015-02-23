@@ -1214,10 +1214,9 @@ sidepanel .leftpanel {
     overflow-y: auto;
 }
 sidepanel .rightpanel {
-    /* Should be position:absolute, relative seems to work but only for the right panel
-    this is needed if you want the serie poster to be a background */
-    position: relative;
+    position: absolute;
     top: 0px;
+    bottom: 0px;
     left: 400px;
     width: 400px;
     height: 100%;
