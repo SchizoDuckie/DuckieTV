@@ -37,7 +37,7 @@
         <a class="glyphicon glyphicon-home" href="#/" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right"></a>
       </li>
       <li>
-        <a class="glyphicon glyphicon-heart" ng-click="toggleSeriesList()" tooltip="{{'SERIESLIST/series-show/glyph'|translate}}" tooltip-placement="right"></a>
+        <a class="glyphicon glyphicon-heart" ng-click="toggleSeriesList()" tooltip="{{serieslist.activated?'SERIESLIST/series-hide/glyph':'SERIESLIST/series-show/glyph'|translate}}" tooltip-placement="right"></a>
       </li>
       <li style='display:none' id='wl'>
         <a class="glyphicon glyphicon-facetime-video" href="#/watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-placement="right"></a>
