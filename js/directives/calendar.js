@@ -265,18 +265,33 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
             }
         },
         controller: function($scope, SidePanelState) {
-
+            var calendar = this;
+            this.isShowing = false;
+            this.isExpanded = false;
             Object.observe(SidePanelState.state, function(newValue) {
                 if (newValue[0].object.isExpanded) {
+                    calendar.isExpanded = true;
                     $scope.zoom(840);
                 } else if (newValue[0].object.isShowing) {
+                    calendar.isShowing = true;
                     $scope.zoom(450);
                 } else {
+                    calendar.isExpanded = calendar.isShowing = false;
+
                     $scope.zoom(0);
                 }
                 $scope.$applyAsync();
-
             });
+
+            window.onresize = function() {
+                console.log('window resize!');
+                if (calendar.isExpanded) {
+                    $scope.zoom(840);
+                } else if (calendar.isShowing) {
+                    $scope.zoom(450);
+                }
+                $scope.$applyAsync();
+            };
         }
     };
 });
