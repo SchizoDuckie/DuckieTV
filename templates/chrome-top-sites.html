@@ -1,9 +1,11 @@
 <!-- chrome-top-sites.html -->
 <div class="topSites">
   <h2 ng-if="getSetting('topSites.mode') == 'onclick'" ng-click="toggleTop()">
-    <i class="glyphicon" ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
-    <a>{{'CHROMETOPSITES-click/hdr'|translate}}</a>
-    <i class="glyphicon"  ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
+    <div>
+      <i class="glyphicon" ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
+      <a>{{'CHROMETOPSITES-click/hdr'|translate}}</a>
+      <i class="glyphicon"  ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
+   </div>
   </h2>
   <h2 ng-if="getSetting('topSites.mode') == 'onhover'">
     <i class="glyphicon glyphicon-chevron-down"></i>

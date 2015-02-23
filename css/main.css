@@ -19,13 +19,13 @@
     font-style: normal;
 }
 body > .container {
-    width: calc(100% - 52px);
-    padding: 15px;
+    width: calc(100% - 48px);
+    padding: 20px;
     float: right;
     margin: 0;
 }
 body > .container.topsites {
-    padding-top: 40px;
+    padding-top: 45px;
 }
 
 .printlogo {
@@ -121,23 +121,38 @@ background-rotator, background-rotator > div {
     z-index: 1;
     height: 100%;
     -webkit-transition: background-color .5s;
-    background-color: transparent
 }
 #actionbar:hover {
-    background-color: rgba(30,30,30,0.85);
+    background-color: rgb(26, 29, 31);
+}
+#actionbar .logo {
+    background-image: url("../img/icon64-inverted.png");
+    background-size: 48px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    width: 58px;
+    height: 58px;
+    -webkit-transition: transform .6s ease;
+}
+#actionbar .logo:hover {
+    -webkit-transform: rotate(360deg);
 }
 #actionbar ul {
     list-style-type:none;
-    margin-top: 60px;
+    margin-top: 50px;
 }
 #actionbar a {
-    padding: 20px;
+    padding: 18px;
     font-size: 2.2rem;
     color: white;
+}
+#actionbar a:hover, #actionbar .logo:hover {
+    background-color: rgba(70,70,70,1);
     -webkit-transition: background-color .5s;
 }
-#actionbar a:hover {
-    background-color: rgba(70,70,70,1);
+#actionbar a:active, #actionbar .logo:active {
+    background-color: rgba(90,90,90,1);
+    -webkit-transition: background-color .125s;
 }
 #actionbar .tooltip .tooltip-arrow {
     border-top-color: transparent !important;
@@ -340,7 +355,7 @@ series-list > div {
     height: calc(100% - 40px);
     left: 0px;
     right: 0px;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(20, 22, 24, 0.925);
     border-top: 1px solid white;
     z-index: 200;
     width: 100%;
@@ -365,21 +380,24 @@ series-list > div > h2 {
     text-align: center;
     margin: 0;
     font-size: 25px;
-    /** background-color: rgba(0, 0, 0, 0.4); */
     padding: 6px;
     margin-top: -40px;
     color:white;
     transition: background-color 0.5s ease-in-out;
     cursor: pointer;
 }
+series-list > div > h2 div {
+    /* Line it up with the calendar month */
+    margin-left: 45px;
+}
 
-series-list > div > h2 > i {
+series-list > div > h2 i {
     font-size: 14px;
     line-height:25px;
     vertical-align: middle;
 }
 series-list:hover h2, series-list .active h2 {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgb(26, 29, 31);
 }
 
 series-list.active div.duckie {
@@ -515,10 +533,11 @@ table.light h1 {
 chrome-top-sites {
     position: fixed;
     top: 0px;
-    width: 100%;
+    left: 58px;
+    width: calc(100% - 116px);
     padding:15px;
     z-index:99;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(20, 22, 24, 0.925);
     border-bottom: 1px solid white;
     -webkit-transition: -webkit-transform 0.5s ease-in;
     -webkit-transform: translateY(-100%);
@@ -534,18 +553,21 @@ chrome-top-sites h2 {
     color: white;
     font-size: 25px;
     margin-top: 1px;
-    padding:5px;
-    left:0px;
-    /** background-color: rgba(0, 0, 0, 0.4); */
+    padding: 5px;
+    left: 0px;
     -webkit-transition: background-color 0.5s ease-in-out;
     cursor: pointer;
 }
+chrome-top-sites h2 div {
+    /* Line it up with the calendar month */
+    margin-left: 45px;
+}
 chrome-top-sites h2 a {
-    color:white;
-    display:inline;
+    color: white;
+    display: inline;
 }
 chrome-top-sites h2:hover, chrome-top-sites.active h2 {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgb(26, 29, 31);
 }
 chrome-top-sites h2 i {
     font-size: 15px;
@@ -782,6 +804,7 @@ td.day {
 }
 [date-picker] h2 {
     cursor: pointer;
+    font-size: 48px;
 }
 [date-picker] h2 .glyphicon {
     font-size: 15px;

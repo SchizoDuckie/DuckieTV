@@ -19,39 +19,19 @@
   <background-rotator channel="'background:load'" style="opacity:{{getSetting('background-rotator.opacity')}}"></background-rotator>
   <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>
   <div class="container" ng-class="{'topsites': getSetting('topSites.enabled')}">
-      <div class="row">
+    <div class="row">
       <div class="col-md-12">
         <div class="container-fluid">
-            <calendar event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" style='-webkit-transform:translate3d(0,0,0)'></calendar>
+          <calendar event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" style='-webkit-transform:translate3d(0,0,0)'></calendar>
         </div>
       </div>
     </div>
-    <series-list></series-list>
-    <div id="actionbar">
-      <ul class="list-unstyled">
-        <li>
-          <a class="glyphicon glyphicon-home" href="#/" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-position="right"></a>
-        </li>
-        <li style='display:none' id='wl'>
-          <a class="glyphicon glyphicon-facetime-video" href="#/watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-position="right"></a>
-        </li>
-        <li>
-        <a class="glyphicon glyphicon-cog" href="#/settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-position="right"></a>
-        </li>
-        <li ng-if="getSetting('torrenting.enabled')">
-          <a class="glyphicon glyphicon-magnet" href="#/torrent" tooltip="&micro;Torrent / Bittorrent client" tooltip-position="right"></a>
-        </li>
-        <li ng-if="getSetting('cast.supported')">
-          <a class="glyphicon glyphicon-chromecast-off" href="#/cast" tooltip="ChromeCast" tooltip-position="right" style='background-size: 80%; margin-left: 15px;'></a>
-        </li>
-        <li>
-          <a class="glyphicon glyphicon-info-sign" href="#/about" tooltip="{{ 'ABOUT/hdr'|translate }}" tooltip-position="right"></a>
-        </li>
-      </ul>
-    </div>
   </div>
 
-    <div id="actionbar">
+  <series-list></series-list>
+
+  <div id="actionbar">
+    <div class="logo" href="#/"></div>
     <ul class="list-unstyled">
       <li>
         <a class="glyphicon glyphicon-home" href="#/" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right"></a>

@@ -1,10 +1,12 @@
 <!-- seriesList.html -->
 <div ng-class="{active: serieslist.activated, zoomoutmore: serieslist.zoom == 2, zoomout: serieslist.zoom == 1}">
     <h2 ng-click="serieslist.activated ? serieslist.closeDrawer() : serieslist.activate()" tooltip="{{'SERIESLIST/hotkey/lbl'|translate}}: alt+s" >
-        <i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !serieslist.activated, 'glyphicon-chevron-down': serieslist.activated }"></i>
-        <a accesskey="s" ng-if="!serieslist.activated">{{'SERIESLIST/series-show/glyph'|translate}}</a>
-        <a accesskey="s" ng-if="serieslist.activated">{{'SERIESLIST/series-hide/glyph'|translate}}</a>
-        <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !serieslist.activated, 'glyphicon-chevron-down': serieslist.activated }"></i>
+        <div>
+            <i class="glyphicon glyphicon-chevron-up" ng-class="{'glyphicon-chevron-up' : !serieslist.activated, 'glyphicon-chevron-down': serieslist.activated }"></i>
+            <a accesskey="s" ng-if="!serieslist.activated">{{'SERIESLIST/series-show/glyph'|translate}}</a>
+            <a accesskey="s" ng-if="serieslist.activated">{{'SERIESLIST/series-hide/glyph'|translate}}</a>
+            <i class="glyphicon"  ng-class="{'glyphicon-chevron-up' : !serieslist.activated, 'glyphicon-chevron-down': serieslist.activated }"></i>
+        </div>
     </h2>
 
     <div ng-if="serieslist.activated" ng-class="{ duckie: !serieslist.searchingForSerie }">
