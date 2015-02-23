@@ -1165,7 +1165,7 @@ series-list .tools {
     position: absolute;
 }
 
-sidepanel {
+sidepanel > div {
     position: fixed;
     top: 0;
     right: 0;
@@ -1177,10 +1177,10 @@ sidepanel {
     transform: translateX(800px);
     transition: transform 0.3s ease-in;
 }
-sidepanel.active {
+sidepanel > div.active {
     transform: translateX(400px);   
 }
-sidepanel.active.expanded {
+sidepanel > div.active.expanded {
     transform: translateX(0);   
 }
 

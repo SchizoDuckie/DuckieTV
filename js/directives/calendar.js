@@ -187,7 +187,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
  * TorrentDialog when a user selects a magnet link for an episode.
  */
 .directive('calendarEvent', ["uTorrent", "SceneNameResolver", "EpisodeAiredService", "SettingsService",
-    function(uTorrent, SceneNameResolver, EpisodeAiredService, SettingsService) {
+    function(uTorrent, SceneNameResolver, EpisodeAiredService, SettingsService, $location) {
         return {
             restrict: 'E',
             scope: {
@@ -195,7 +195,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                 episode: '='
             },
             templateUrl: 'templates/event.html',
-            controller: function($scope, $rootScope) {
+            controller: function($scope, $rootScope, $location) {
 
                 $scope.getSetting = SettingsService.get;
                 $scope.hoverTimer = null;
@@ -225,30 +225,10 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                     return uTorrent.isConnected();
                 };
 
-                $scope.$on('magnet:select:' + $scope.episode.TVDB_ID, function(evt, magnet) {
-                    console.info("Found a magnet selected!", magnet);
-                    $scope.episode.set('magnetHash', magnet);
-                    $scope.episode.Persist();
-                });
-
-                $scope.autoDownload = function() {
-                    EpisodeAiredService.autoDownload($scope.serie, $scope.episode).then(function(magnet) {
-                        $scope.episode.set('magnetHash', magnet);
-                        $scope.episode.Persist();
-                    });
-                };
-
                 $scope.selectEpisode = function(serie, episode) {
-                    $rootScope.$broadcast('episode:select', serie, episode);
+                    $location.path('/serie/' + serie.TVDB_ID + '/episode/' + episode.TVDB_ID);
                 }
 
-                $scope.getSearchString = function(event) {
-                    if (!cachedSearchString) {
-                        var serieName = SceneNameResolver.getSceneName($scope.serie.TVDB_ID) || $scope.serie.name;
-                        cachedSearchString = serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode);
-                    }
-                    return cachedSearchString;
-                };
             }
         };
     }

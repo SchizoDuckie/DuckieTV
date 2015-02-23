@@ -36,10 +36,10 @@ angular.module('DuckieTV', [
     'DuckieTV.providers.chromestoragesync',
     'DuckieTV.providers.torrentmonitor',
     'DuckieTV.controllers.about',
-    'DuckieTV.controllers.main',
     'DuckieTV.controllers.chromecast',
     'DuckieTV.controllers.episodes',
     'DuckieTV.controllers.serie',
+    'DuckieTV.controllers.sidepanel',
     'DuckieTV.controllers.settings',
     'DuckieTV.controllers.backup',
     'DuckieTV.controllers.trakttv',
@@ -76,39 +76,100 @@ angular.module('DuckieTV', [
     function($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'templates/home.html',
-                controller: 'MainCtrl'
+                resolve: {
+                    state: function(SidePanelState) {
+                        SidePanelState.hide();
+                    }
+                },
+                controller: function(state, $rootScope) {
+                    console.log("Hide sidepanel!");
+                    try {
+                        $rootScope.$digest();
+                    } catch (E) {};
+                }
             })
             .when('/watchlist', {
                 templateUrl: 'templates/watchlist.html',
                 controller: 'WatchlistCtrl'
             })
             .when('/series/:id', {
-                templateUrl: 'templates/home.html',
-                controller: 'MainCtrl',
+                templateUrl: 'templates/sidepanel/serie-episode.html',
+                controller: 'SidepanelSerieCtrl',
+                controllerAs: 'sidepanel',
                 resolve: {
-                    serie: function($rootScope, $route) {
+                    SidePanelState: function(SidePanelState, $rootScope) {
+                        SidePanelState.show();
+                        return SidePanelState
+                    },
+                    serie: function($route) {
                         return CRUD.FindOne('Serie', {
                             TVDB_ID: $route.current.params.id
-                        }).then(function(s) {
-                            return $rootScope.$broadcast('serie:select', s);
-                        })
+                        });
+                    },
+                    episode: function() {
+                        return false
+                    },
+                    season: function() {
+                        return false
                     }
                 }
             })
             .when('/serie/:id/episode/:episode', {
-                templateUrl: 'templates/episode.html',
-                controller: 'EpisodeCtrl'
+                templateUrl: 'templates/sidepanel/serie-episode.html',
+                controller: 'SidepanelSerieCtrl',
+                controllerAs: 'sidepanel',
+                resolve: {
+                    SidePanelState: function(SidePanelState) {
+                        SidePanelState.show();
+                        SidePanelState.expand();
+                        return SidePanelState;
+                    },
+                    serie: function($route, FavoritesService) {
+                        return CRUD.FindOne('Serie', {
+                            TVDB_ID: $route.current.params.id
+                        }).then(function(result) {
+                            return result;
+                        });
+                    },
+                    episode: function($route) {
+                        return CRUD.FindOne('Episode', {
+                            TVDB_ID: $route.current.params.episode
+                        });
+                    },
+                    season: function($route) {
+                        return CRUD.FindOne('Season', {
+                            'Episode': {
+                                TVDB_ID: $route.current.params.episode
+                            }
+                        });
+                    }
+                }
             })
             .when('/settings', {
-                redirectTo: '/settings/display'
+                templateUrl: 'templates/sidepanel/settings.html',
+                controller: 'SidepanelSettingsCtrl',
+                controllerAs: 'sidepanel',
+                resolve: {
+                    SidePanelState: function(SidePanelState) {
+                        SidePanelState.show();
+                        return SidePanelState;
+                    },
+                    tab: function() {
+                        return undefined;
+                    }
+                }
             })
             .when('/settings/:tab', {
-                templateUrl: 'templates/home.html',
-                controller: 'MainCtrl',
+                templateUrl: 'templates/sidepanel/settings.html',
+                controller: 'SidepanelSettingsCtrl',
+                controllerAs: 'sidepanel',
                 resolve: {
-                    settings: function($rootScope, $route) {
-                        return $rootScope.$broadcast('settings:show', $route.current.params.tab);
+                    SidePanelState: function(SidePanelState) {
+                        SidePanelState.expand();
+                        return SidePanelState;
+                    },
+                    tab: function($route) {
+                        return $route.current.params.tab
                     }
                 }
             })
@@ -117,11 +178,13 @@ angular.module('DuckieTV', [
                 controller: 'ChromeCastCtrl'
             })
             .when('/torrent', {
-               templateUrl: 'templates/home.html',
-                controller: 'MainCtrl',
+                templateUrl: 'templates/torrentClient.html',
+                controller: 'TorrentCtrl',
+                controllerAs: 'torrent',
                 resolve: {
-                    settings: function($rootScope, $route) {
-                        return $rootScope.$broadcast('torrents:show');
+                    SidePanelState: function(SidePanelState) {
+                        SidePanelState.show();
+                        return SidePanelState;
                     }
                 }
             })

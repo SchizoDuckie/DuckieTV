@@ -1,0 +1,9 @@
+<div class="leftpanel">
+  <div class="episode" ng-include="'templates/sidepanel/episode-details.html'"></div>
+</div>
+
+<div class="rightpanel"> 
+    <serie-details ng-if="sidepanel.state == 'serie'" template-url="templates/sidepanel/serie-overview.html"></serie-details>
+    <div ng-if="sidepanel.state == 'episodes'" ng-include="'templates/sidepanel/episodes.html'"></div>
+    <div ng-if="sidepanel.state == 'seasons'" ng-include="'templates/sidepanel/seasons.html'"></div>
+</div>

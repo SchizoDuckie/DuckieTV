@@ -19,7 +19,13 @@
   <background-rotator channel="'background:load'" style="opacity:{{getSetting('background-rotator.opacity')}}"></background-rotator>
   <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>
   <div class="container" ng-class="{'topsites': getSetting('topSites.enabled')}">
-    <div data-ng-view style='-webkit-transform:translate3d(0,0,0)'></div>
+      <div class="row">
+      <div class="col-md-12">
+        <div class="container-fluid">
+            <calendar event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" style='-webkit-transform:translate3d(0,0,0)'></calendar>
+        </div>
+      </div>
+    </div>
     <series-list></series-list>
     <div id="actionbar">
       <ul class="list-unstyled">
@@ -67,7 +73,9 @@
       </li>
     </ul>
   </div>
-  <sidepanel></sidepanel>
+  <sidepanel>
+    <div ng-view></div>
+  </sidepanel>
   <query-monitor ng-class="{show: queryStats.writesQueued - queryStats.writesExecuted > 1}" />
   <img class='printlogo' src='img/icon64.png'>
 
@@ -93,8 +101,8 @@
   <script src="./js/controllers/AboutCtrl.js"></script>
   <script src="./js/controllers/CastCtrl.js"></script>
   <script src="./js/controllers/EpisodeCtrl.js"></script>
-  <script src="./js/controllers/MainCtrl.js"></script>
   <script src="./js/controllers/SerieCtrl.js"></script>
+  <script src="./js/controllers/SidepanelSerieCtrl.js"></script>
   <script src="./js/controllers/BackupCtrl.js"></script>
   <script src="./js/controllers/SettingsCtrl.js"></script>
   <script src="./js/controllers/TorrentCtrl.js"></script>
@@ -109,7 +117,7 @@
   <script src="./js/directives/serieDetails.js"></script>
   <script src="./js/directives/serieheader.js"></script>
   <script src="./js/directives/seriesList.js"></script>
-  <script src="./js/directives/seriesSidePanel.js"></script>
+  <script src="./js/directives/sidePanel.js"></script>
   <script src="./js/directives/subtitleDialog.js"></script>
   <script src="./js/directives/queryMonitor.js"></script>
   <script src="./js/directives/torrentDialog.js"></script>

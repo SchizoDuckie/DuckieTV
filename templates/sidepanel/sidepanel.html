@@ -1,18 +1,5 @@
-<div ng-if="sidepanel.isShowing" ng-class="{ active: sidepanel.isShowing }" style=" position: relative; width: 100%; height: 100%;">
+<div ng-class="{ active: panel.isShowing, expanded: panel.isExpanded }">
     <!-- Temp Close Sidepanel Button -->
-    <div class="handle" ng-click="sidepanel.hide()">Hide</div>
-    
-    <div class="leftpanel">
-      <div class="episode" ng-if="sidepanel.state == 'serie' || sidepanel.state == 'episodes' || sidepanel.state =='seasons'" ng-include="'templates/sidepanel/episode-details.html'"></div>
-      <div class="setting" ng-if="sidepanel.state == 'settings'" ng-include="'templates/sidepanel/settings.html'"></div>
-      <div ng-if="sidepanel.state == 'torrents' || sidepanel.state == 'torrentdetails'" ng-include="'templates/torrentClient.html'" ng-controller="TorrentCtrl"></div>
-    </div>
-
-    <div class="rightpanel"> 
-        <serie-details ng-if="sidepanel.state == 'serie'" template-url="templates/sidepanel/serie-overview.html"></serie-details>
-        <div ng-if="sidepanel.state == 'episodes'" ng-include="'templates/sidepanel/episodes.html'"></div>
-        <div ng-if="sidepanel.state == 'seasons'" ng-include="'templates/sidepanel/seasons.html'"></div>
-        <div ng-if="sidepanel.state == 'settings'" ng-include="'templates/settings/'+sidepanel.settingsTab+'.html'" ng-controller="SettingsCtrl"></div>
-        <div ng-if="sidepanel.state == 'torrentdetails'" ng-include="'templates/sidepanel/torrent-details.html'" ng-controller="TorrentCtrl"></div>
-    </div>
+    <div class="handle" ng-click="panel.hide()">Hide</div>
+    <div ng-transclude></div>
 </div>
