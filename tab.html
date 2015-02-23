@@ -60,7 +60,7 @@
         <a class="glyphicon glyphicon-facetime-video" href="#/watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-placement="right"></a>
       </li>
       <li>
-      <a class="glyphicon glyphicon-cog" href="#/settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right"></a>
+        <a class="glyphicon glyphicon-cog" href="#/settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right"></a>
       </li>
       <li ng-if="getSetting('torrenting.enabled')">
         <a class="glyphicon glyphicon-magnet" href="#/torrent" tooltip="&micro;Torrent / Bittorrent client" tooltip-placement="right"></a>
@@ -70,6 +70,9 @@
       </li>
       <li>
         <a class="glyphicon glyphicon-info-sign" href="#/about" tooltip="{{ 'ABOUT/hdr'|translate }}" tooltip-placement="right"></a>
+      </li>
+      <li ng-if="getSetting('torrenting.enabled')">
+        <torrent-dialog tooltip-placement="right"></torrent-dialog>
       </li>
     </ul>
   </div>
