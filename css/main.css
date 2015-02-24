@@ -1191,6 +1191,41 @@ sidepanel h2 {
     font-size: 28px;
 }
 
+sidepanel .buttons {
+    list-style: none;
+    margin: 0;
+    padding: 0px;
+    text-align: center;
+}
+sidepanel .buttons strong {
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-weight: normal;
+    color: white;
+}
+sidepanel .buttons a {
+    display: block;
+    padding: 15px;
+    margin: 5px 20px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+sidepanel .buttons a:hover {
+    background-color: rgba(66,66,66,0.8);
+    cursor: pointer;
+}
+sidepanel .buttons a.no-hover {
+    background-color: initial;
+    cursor: initial;
+}
+sidepanel .buttons i.glyphicon {
+    float: left;
+    font-size: 22px;
+    color: white;
+}
+
 sidepanel .leftpanel {
     position: absolute;
     top: 0px;
@@ -1240,35 +1275,6 @@ sidepanel .leftpanel .episode p {
 sidepanel .leftpanel .episode a:hover {
     text-decoration: none;
 }
-sidepanel .leftpanel .episode .buttons {
-    list-style: none;
-    margin: 0;
-    padding: 0px;
-    text-align: center;
-}
-sidepanel .leftpanel .episode .buttons strong {
-    font-size: 18px;
-    letter-spacing: 1px;
-    font-weight: normal;
-    color: white;
-}
-sidepanel .leftpanel .episode .buttons a {
-    display: block;
-    padding: 15px;
-    margin: 5px 20px;
-    border: 1px solid #fff;
-    border-radius: 10px;
-    text-align: center;
-    transition: background-color 0.3s;
-}
-sidepanel .leftpanel .episode .buttons a:hover {
-    background-color: rgba(66,66,66,0.8);
-    cursor: pointer;
-}
-sidepanel .leftpanel .episode .buttons a.no-hover {
-    background-color: initial;
-    cursor: initial;
-}
 sidepanel .leftpanel .episode .buttons tr.two-face td {
     width: 50%;
 }
@@ -1277,11 +1283,6 @@ sidepanel .leftpanel .episode .buttons tr.two-face td:nth-child(1) a {
 }
 sidepanel .leftpanel .episode .buttons tr.two-face td:nth-child(2) a {
     margin-left: 5px;
-}
-sidepanel .leftpanel .episode i.glyphicon {
-    float: left;
-    font-size: 22px;
-    color: white;
 }
 sidepanel .leftpanel .episode i.glyphicon.glyphicon-eye-open {
     color: green !important;

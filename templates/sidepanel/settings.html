@@ -1,5 +1,4 @@
 <div class="leftpanel">
-  <div class="episode">
   <h2><i class="glyphicon glyphicon-cog"></i> {{ 'SETTINGS/hdr'|translate }}</h2>
 
   <table class="buttons" width="100%" border="0">
@@ -38,7 +37,7 @@
           </a>
       </td>
     </tr>
-     <tr ng-if="getSetting('torrenting.enabled')">
+    <tr ng-if="getSetting('torrenting.enabled')">
       <td colspan="2">
           <a href="#/settings/torrent-search">
               <i class="glyphicon glyphicon-search"></i><strong>Torrent Search Engines</strong>
@@ -59,10 +58,8 @@
           </a>
       </td>
     </tr>
-   </table>
-   </div>
+  </table>
 </div>
 <div class="rightpanel">
-<div ng-if="sidepanel.tab" ng-include="'templates/settings/'+sidepanel.tab+'.html'" ng-controller="SettingsCtrl"></div>
-    
+  <div ng-if="sidepanel.tab" ng-include="'templates/settings/'+sidepanel.tab+'.html'" ng-controller="SettingsCtrl"></div>
 </div>
