@@ -91,6 +91,7 @@ angular.module('DuckieTV', [
                 resolve: {
                     SidePanelState: function(SidePanelState) {
                         SidePanelState.show();
+                        SidePanelState.expand();
                         return SidePanelState
                     }
                 }
