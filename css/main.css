@@ -365,8 +365,8 @@ series-list .tools {
     text-align: right;
     padding: 22px 60px 22px 85px;
     font-size: 20px;
-    background-color: rgb(102, 51, 153);
     box-shadow: 0 3px 8px black;
+    background-color: rgb(51, 51, 51);
 }
 series-list #favslist serieheader[mode='poster'], #favslist serieheader .poster {
     transition: width 1s, height 1s, opacity 0.5s;
