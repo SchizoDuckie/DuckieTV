@@ -1,10 +1,14 @@
 <!-- about.html -->
-<fieldset>
+<fieldset >
 <style> 
  .table a {
  	text-decoration:underline;
  }
+ div {
+   overflow-y:auto;
+ }
  </style>
+<div>
 <h2>{{'ABOUT/hdr'|translate}} v<ng-include src="'VERSION'"></ng-include> (Beta)</h2>
 
 <table class="table light">
@@ -68,4 +72,5 @@
   </table>
 </td>
 </tr>
+</div>
 </fieldset>
