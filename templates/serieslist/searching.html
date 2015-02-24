@@ -1,19 +1,21 @@
 <!-- serieslist\searching.html -->
 
 <!-- Search bar for adding series -->
-<form ng-submit="serieslist.selectFirstResult()" name="traktSearch.searchForm">
-<!-- Disable adding button -->
-<a tooltip="{{'SERIESLIST/SEARCHING/addshow-return-to-fav-list/tooltip'|translate}}" ng-if="serieslist.searchingForSerie == true" ng-click="serieslist.disableAdd()" style='float:left; line-height:40px; font-size:18px;'>
-    <i class="glyphicon glyphicon-ok-sign"></i> {{'SERIESLIST/SEARCHING/addshow-hide/glyph'|translate}}
-</a>
-    <input ng-model="traktSearch.search.query" ng-model-options="{debounce: 500}" placeholder="{{'SERIESLIST/SEARCHING/addshow-type-series-name/placeholder'|translate}}" ng-change="traktSearch.findSeries(traktSearch.search.query)" focus-watch="'serieslist.searchingForSerie'" class="form-control" style='float:left; width:50%; margin-left:10px; border:1px solid white;font-size:20px; height:auto; background-color:rgb(17, 17, 17);'>
-    <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh" ></i>
-    <p class="protip">{{'SERIESLIST/SEARCHING/addshow-protip/lbl'|translate}}</p>
-</form>
+<div class="tools">
+    <form ng-submit="serieslist.selectFirstResult()" name="traktSearch.searchForm">
+        <!-- Disable adding button -->
+        <a tooltip="{{'SERIESLIST/SEARCHING/addshow-return-to-fav-list/tooltip'|translate}}" tooltip-placement="bottom" ng-if="serieslist.searchingForSerie == true" ng-click="serieslist.disableAdd()" style='float:left; margin-top:-3px;'>
+            <i class="glyphicon glyphicon-ok-sign" style="top: 2px"></i> {{'SERIESLIST/SEARCHING/addshow-hide/glyph'|translate}}
+        </a>
+        <input type="text" focus-watch="'serieslist.searchingForSerie'" ng-model="traktSearch.search.query" placeholder="{{'SERIESLIST/SEARCHING/addshow-type-series-name/placeholder'|translate}}" ng-model-options="{debounce: 500}"  ng-change="traktSearch.findSeries(traktSearch.search.query)" style='float:left; margin-left:10px; width:35%; margin-right:10px; font-size:20px; margin-top:-8px;'>
+        <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh" ></i>
+        <p class="protip">{{'SERIESLIST/SEARCHING/addshow-protip/lbl'|translate}}</p>
+    </form>
 
-<h1 style='text-align:center' ng-if="traktSearch.searching"><img ng-if="traktSearch.searching" src="img/spinner.gif"><br>{{'SERIESLIST/SEARCHING/addshow-start-typing/lbl'|translate}}</h1>
+    <h1 style='text-align:center' ng-if="traktSearch.searching"><img ng-if="traktSearch.searching" src="img/spinner.gif"><br>{{'SERIESLIST/SEARCHING/addshow-start-typing/lbl'|translate}}</h1>
 
-<h1 ng-if="traktSearch.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'SERIESLIST/SEARCHING/error-with-trakttv/lbl'|translate}}<br>{{ traktSearch.error.statusText }} </h1>
+    <h1 ng-if="traktSearch.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'SERIESLIST/SEARCHING/error-with-trakttv/lbl'|translate}}<br>{{ traktSearch.error.statusText }} </h1>
+</div>
 
 
 <!-- search results -->

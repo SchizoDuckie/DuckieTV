@@ -1,7 +1,7 @@
 <!-- serieslist\trending.html -->
 <h1 style='color:white; text-align:center'>{{'SERIESLIST/TRENDING/addtrending-help/hdr'|translate}} - {{'SERIESLIST/TRENDING/addtrending-help-click-to-show/hdr'|translate}}</h1>
 
-<div class="filters" style='text-align:center;padding:10px 20px 20px 20px'>
+<div class="filters" style='text-align:center;padding:10px 20px 20px 20px;'>
 	<button ng-repeat="(category, on) in trending.categories" class="btn btn-xs btn-default" ng-click="trending.toggleCategory(category)" ng-class="{'active': trending.activeCategory == category}">{{trending.translateCategory(category)}}</button>
 </div>
 <!-- Trending series loading -->

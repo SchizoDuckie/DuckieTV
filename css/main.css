@@ -27,7 +27,12 @@ body > .container {
 body > .container.topsites {
     padding-top: 45px;
 }
-
+/* Fix bootstraps Right placed arrows */
+body .tooltip.right .tooltip-arrow {
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+    border-right-color: white;
+}
 .printlogo {
     display: none;
 }
@@ -122,7 +127,7 @@ background-rotator, background-rotator > div {
     height: 100%;
     -webkit-transition: background-color .5s;
 }
-#actionbar:hover {
+#actionbar:hover, #actionbar.active {
     background-color: rgb(26, 29, 31);
 }
 #actionbar .logo {
@@ -154,22 +159,12 @@ background-rotator, background-rotator > div {
     background-color: rgba(90,90,90,1);
     -webkit-transition: background-color .125s;
 }
-#actionbar .tooltip .tooltip-arrow {
-    border-top-color: transparent !important;
-    border-bottom-color: transparent !important;
-}
-#actionbar .tooltip.right .tooltip-arrow {
-    border-right-color: white;
-}
+
 .typeahead ul {
     max-height: 150px;
     border: 1px solid #333;
     padding: 3px;
     overflow: auto;
-}
-
-#favslist serieheader[mode='poster'], #favslist serieheader .poster {
-    transition: width 1s, height 1s, opacity 0.5s;
 }
 
 serieheader > div {
@@ -362,46 +357,36 @@ series-list > div {
     -webkit-transition: all 0.5s ease-in;
     -webkit-transform: translate3d(-100%, 0, 0);
 }
-
 series-list > div.active {
     -webkit-transform: translate3d(0, 0, 0);
 }
-
-series-list > div > h2 {
+series-list .tools {
     width: 100%;
-    text-align: center;
-    margin: 0;
-    font-size: 25px;
-    padding: 6px;
-    margin-top: -40px;
-    color:white;
-    transition: background-color 0.5s ease-in-out;
-    cursor: pointer;
+    text-align: right;
+    padding: 22px 60px 22px 85px;
+    font-size: 20px;
+    background-color: rgb(102, 51, 153);
+    box-shadow: 0 4px 12px 2px black;
 }
-series-list > div > h2 div {
-    /* Line it up with the calendar month */
-    margin-left: 45px;
-}
-
-series-list > div > h2 i {
-    font-size: 14px;
-    line-height:25px;
-    vertical-align: middle;
-}
-series-list:hover h2, series-list .active h2 {
-    background-color: rgb(26, 29, 31);
-}
-
-series-list.active div.duckie {
-    background-image: url('../img/icon64-inverted.png');
-    background-repeat: no-repeat;
-    background-position: center center
+series-list #favslist serieheader[mode='poster'], #favslist serieheader .poster {
+    transition: width 1s, height 1s, opacity 0.5s;
 }
 series-list .sidepanel {
     position:fixed !important;
-    top:65px;
-    right:10px;
-    width:350px;
+    top: 72px;
+    right: 10px;
+    width: 350px;
+    background-color: transparent !important;
+    margin-top: 35px;
+}
+series-list .sidepanel .table.light, series-list .sidepanel serieheader .overview {
+    background-color: transparent;
+}
+series-list .sidepanel serieheader .overview p {
+    font-size: 11px;
+    overflow-y: auto;
+    max-height: 152px;
+    padding-right: 5px;
 }
 series-list .sidepanel th {
     width: 135px;
@@ -411,27 +396,63 @@ series-list .sidepanel li {
     display: inline-block;
     width: 50%;
 }
-
-.series {
+series-list .series {
     overflow-y: auto;
     bottom: 12px;
-    top: 85px;
+    top: 72px;
     position: absolute;
     right: 20px;
-    left: 60px;
+    left: 58px;
     text-align: center;
-    padding-top:30px;
+    padding: 35px 25px 15px 15px;
+    /* So the boxshadow on .tools is overlayed */
+    z-index: -1
 }
-
-.series serieheader > div {
+series-list .series serieheader > div {
     border: 1px solid #111;
 }
-.series serieheader:hover > div {
+series-list .series serieheader:hover > div {
     opacity: 1;
 }
-.series serieheader+serieheader > div {
+series-list .series serieheader+serieheader > div {
     border-bottom:0;
 }
+
+trakt-tv-trending.series {
+    width: calc(100% - 430px);
+    z-index: 500;
+    padding-top: 0;
+    margin-top: 35px;
+}
+trakt-tv-trending .filters button.active {
+    background-color: #ebebeb;
+    color: #333;
+}
+trakt-tv-search .tools {
+    box-shadow: none;
+    text-align: left;
+    padding: 22px 60px 22px 85px;
+}
+trakt-tv-search .series {
+    z-index: 0;
+    width: calc(100% - 430px);
+    padding-top: 0;
+    margin-top: 35px;
+}
+trakt-tv-search > form {
+    padding: 20px;
+}
+trakt-tv-search serieheader {
+    float:left;
+    margin: 10px;
+
+}
+trakt-tv-search .protip {
+    color: white;
+    font-size: 14px;
+    margin: 4px 0 4px 0;
+}
+
 .table.light {
     color: white;
     background-color: rgba(0, 0, 0, 0.8);
@@ -1129,56 +1150,6 @@ query-monitor.show {
 .binputhover {
     background-color: #47a447;
     border-color: #398439;
-}
-
-trakt-tv-trending {
-    position: absolute;
-    overflow-y: scroll;
-    bottom: 0px;
-    top: 108px;
-    margin: 5px;
-    width: calc(100% - 380px);
-    z-index:100;
-}
-trakt-tv-trending .filters button.active {
-    background-color: #ebebeb;
-    color: #333;
-}
-
-trakt-tv-search {
-    position: absolute;
-    left: 0px;
-    right: 370px;
-    padding: 20px;
-    bottom: 0;
-    top: 0px;
-}
-
-trakt-tv-search > form {
-    padding: 20px;
-}
-
-trakt-tv-search serieheader {
-    float:left;
-    margin: 10px;
-
-}
-
-trakt-tv-search p.tip {
-    color: white;
-    padding: 20px;
-    display: inline-block;
-    font-size: 13px;
-    position: absolute;
-    top: 10px;
-    margin-right: 20px;
-}
-
-series-list .tools {
-    right: 70px;
-    font-size:20px;
-    top:30px;
-    position: absolute;
 }
 
 sidepanel > div {

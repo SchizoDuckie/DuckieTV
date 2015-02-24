@@ -1,8 +1,7 @@
 angular.module('DuckieTV.controllers.actionbar', [])
 
 /**
- * Watchlist controller for movies
- * Currently not implemented
+ * Actionbar Controller
  */
 
 .controller('ActionBarCtrl', ["$scope", "$rootScope",

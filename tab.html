@@ -30,35 +30,37 @@
 
   <series-list></series-list>
 
-  <div id="actionbar" ng-controller="ActionBarCtrl">
-    <div class="logo" href="#/" tooltip="Quack!" tooltip-placement="right"></div>
-    <ul class="list-unstyled">
-      <li>
-        <a class="glyphicon glyphicon-home" href="#/" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right"></a>
-      </li>
-      <li>
-        <a class="glyphicon glyphicon-heart" ng-click="toggleSeriesList()" tooltip="{{serieslist.activated?'SERIESLIST/series-hide/glyph':'SERIESLIST/series-show/glyph'|translate}}" tooltip-placement="right"></a>
-      </li>
-      <li style='display:none' id='wl'>
-        <a class="glyphicon glyphicon-facetime-video" href="#/watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-placement="right"></a>
-      </li>
-      <li>
-        <a class="glyphicon glyphicon-cog" href="#/settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right"></a>
-      </li>
-      <li ng-if="getSetting('torrenting.enabled')">
-        <a class="glyphicon glyphicon-magnet" href="#/torrent" tooltip="&micro;Torrent / Bittorrent client" tooltip-placement="right"></a>
-      </li>
-      <li ng-if="getSetting('cast.supported')">
-        <a class="glyphicon glyphicon-chromecast-off" href="#/cast" tooltip="ChromeCast" tooltip-placement="right" style='background-size: 80%; margin-left: 15px;'></a>
-      </li>
-      <li>
-        <a class="glyphicon glyphicon-info-sign" href="#/about" tooltip="{{ 'ABOUT/hdr'|translate }}" tooltip-placement="right"></a>
-      </li>
-      <li ng-if="getSetting('torrenting.enabled')">
-        <torrent-dialog tooltip-placement="right"></torrent-dialog>
-      </li>
-    </ul>
-  </div>
+  <div ng-controller="ActionBarCtrl">
+    <div id="actionbar" ng-class="{'active':serieslist.activated}">
+      <div class="logo" href="#/" tooltip="Quack!" tooltip-placement="right" ></div>
+      <ul class="list-unstyled">
+        <li>
+          <a class="glyphicon glyphicon-home" href="#/" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right"></a>
+        </li>
+        <li>
+          <a class="glyphicon glyphicon-heart" ng-click="toggleSeriesList()" tooltip="{{serieslist.activated?'SERIESLIST/series-hide/glyph':'SERIESLIST/series-show/glyph'|translate}}" tooltip-placement="right"></a>
+        </li>
+        <li style='display:none' id='wl'>
+          <a class="glyphicon glyphicon-facetime-video" href="#/watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-placement="right"></a>
+        </li>
+        <li>
+          <a class="glyphicon glyphicon-cog" href="#/settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right"></a>
+        </li>
+        <li ng-if="getSetting('torrenting.enabled')">
+          <a class="glyphicon glyphicon-magnet" href="#/torrent" tooltip="&micro;Torrent / Bittorrent client" tooltip-placement="right"></a>
+        </li>
+        <li ng-if="getSetting('cast.supported')">
+          <a class="glyphicon glyphicon-chromecast-off" href="#/cast" tooltip="ChromeCast" tooltip-placement="right" style='background-size: 80%; margin-left: 15px;'></a>
+        </li>
+        <li>
+          <a class="glyphicon glyphicon-info-sign" href="#/about" tooltip="{{ 'ABOUT/hdr'|translate }}" tooltip-placement="right"></a>
+        </li>
+        <li ng-if="getSetting('torrenting.enabled')">
+          <torrent-dialog tooltip-placement="right"></torrent-dialog>
+        </li>
+      </ul>
+    </div>
+  <div>
   <sidepanel>
     <div ng-view></div>
   </sidepanel>

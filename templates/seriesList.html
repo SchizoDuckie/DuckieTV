@@ -1,9 +1,9 @@
 <!-- seriesList.html -->
 <div ng-class="{active: serieslist.activated }" style="width:{{serieslist.width}}px">
 
-    <div ng-if="serieslist.activated" ng-class="{ duckie: !serieslist.searchingForSerie }">
+    <div ng-if="serieslist.activated">
         <!-- The top tools panel for the series list -->
-        <div style='width: 100%; margin-left:60px; text-align: right; padding: 30px;font-size: 20px;' ng-show="!serieslist.searchingForSerie" ng-include="'templates/serieslist/tools.html'">
+        <div class="tools" ng-show="!serieslist.searchingForSerie" ng-include="'templates/serieslist/tools.html'">
         </div>
         <!-- Sidepanel for trending/search mode to display extended serie details -->
          <serie-details class="sidepanel" ng-show="serieslist.searchingForSerie || serieslist.showTrakt" template-url="templates/serieslist/searching-sidepanel.html"></serie-details>
@@ -12,7 +12,7 @@
         <local-series id='favslist' ng-if="!serieslist.searchingForSerie && !serieslist.showTrakt"></local-series>
         
         <!-- If we're in search/add mode, this panel pops up -->
-        <trakt-tv-trending ng-if="serieslist.searchingForSerie && serieslist.showTrending"></trakt-tv-trending>
+        <trakt-tv-trending ng-if="serieslist.searchingForSerie && serieslist.showTrending" class="series"></trakt-tv-trending>
         <trakt-tv-search ng-if="serieslist.searchingForSerie"></trakt-tv-search>
     </div>
 </div>
