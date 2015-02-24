@@ -1,6 +1,6 @@
 angular.module('DuckieTV.controllers.sidepanel', ['dialogs'])
 
-.controller('SidepanelSerieCtrl', function($dialogs, FavoritesService, SceneNameResolver, EpisodeAiredService, TorrentDialog, uTorrent, $location, serie, episode, season, episodes, SidePanelState) {
+.controller('SidepanelSerieCtrl', function($dialogs, $filter, FavoritesService, SceneNameResolver, EpisodeAiredService, TorrentDialog, uTorrent, $location, serie, episode, season, episodes, SidePanelState) {
 
     var sidepanel = this;
 
