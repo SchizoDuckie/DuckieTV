@@ -32,10 +32,10 @@
 
   <div ng-controller="ActionBarCtrl">
     <div id="actionbar" ng-class="{'active':serieslist.activated}">
-      <div class="logo" href="#/" tooltip="Quack!" tooltip-placement="right" ></div>
+      <div class="logo" href="#/" tooltip="Quack!" tooltip-placement="right" ng-click="hideSeriesList()"></div>
       <ul class="list-unstyled">
         <li>
-          <a class="glyphicon glyphicon-home" href="#/" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right"></a>
+          <a class="glyphicon glyphicon-home" href="#/" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right" ng-click="hideSeriesList()"></a>
         </li>
         <li>
           <a class="glyphicon glyphicon-heart" ng-click="toggleSeriesList()" tooltip="{{serieslist.activated?'SERIESLIST/series-hide/glyph':'SERIESLIST/series-show/glyph'|translate}}" tooltip-placement="right"></a>
