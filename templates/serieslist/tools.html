@@ -18,5 +18,5 @@
 </a>
 <!-- Make posters smaller button -->
 <a ng-if="!serieslist.searchingForSerie && serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">
-    <i tooltip="{{'SERIESLIST/FAVORITES/make-posters-small/tooltip'|translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-zoom-in':serieslist.isSmall, 'glyphicon-zoom-out': !serieslist.isSmall}"></i>
+    <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/FAVORITES/make-posters-large/tooltip' : 'SERIESLIST/FAVORITES/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-zoom-in':serieslist.isSmall, 'glyphicon-zoom-out': !serieslist.isSmall}"></i>
 </a>
