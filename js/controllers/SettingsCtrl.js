@@ -33,6 +33,22 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     console.log($scope.targets);
 }])
 
+.controller('CalendarCtrl', ["$scope", "$rootScope", "$filter", "SettingsService", function($scope, $rootScope, $filter, SettingsService) {
+
+    $scope.showSpecials = SettingsService.get('calendar.show-specials');
+
+    // Toggle if calendar shows specials or not
+    $scope.toggleSpecials = function() {
+        if ($scope.showSpecials == true) {
+            SettingsService.set('calendar.show-specials', false);
+            $scope.showSpecials = false;
+        } else {
+            SettingsService.set('calendar.show-specials', true);
+            $scope.showSpecials = true;
+        }
+        $rootScope.$broadcast('favorites:updated');
+    };
+}])
 
 /*
  * Controller for the display settings tab
@@ -42,8 +58,7 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
 	$scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
 	$scope.activeLocale = SettingsService.get('application.locale');
     $scope.bgopacity = SettingsService.get('background-rotator.opacity');
-    $scope.showSpecials = SettingsService.get('calendar.show-specials');
-
+    
     // Set up the language list used in settings/display template
     $scope.languageList = {
         'en_au': 'au',
@@ -77,18 +92,6 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.setBGOpacity = function(opacity) {
         SettingsService.set('background-rotator.opacity', opacity);
         $scope.bgopacity = opacity;
-    };
-
-    // Toggle if calendar shows specials or not
-    $scope.toggleSpecials = function() {
-        if ($scope.showSpecials == true) {
-            SettingsService.set('calendar.show-specials', false);
-            $scope.showSpecials = false;
-        } else {
-            SettingsService.set('calendar.show-specials', true);
-            $scope.showSpecials = true;
-        }
-        $rootScope.$broadcast('calendar:clearcache');
     };
 }])
 
@@ -223,6 +226,5 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
  * Root controller for settings pages
  */
 .controller('SettingsCtrl', ["$scope", "$rootScope", "$routeParams", "FavoritesService", "SettingsService", "KickassMirrorResolver", "TraktTVv2", "$filter", function($scope, $rootScope, $routeParams, FavoritesService, SettingsService, KickassMirrorResolver, TraktTVv2, $filter) {
-
     $scope.favorites = FavoritesService.favorites;
 }]);

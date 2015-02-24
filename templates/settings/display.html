@@ -1,68 +1,62 @@
 <div ng-controller="DisplayCtrl">
-  
-      <h2 style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/locale/hdr'|translate}}</h2>
-      <p class="label label-success">{{getSetting('application.locale')}}</p>
-   
+  <h2 style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/locale/hdr'|translate}}</h2>
+  <p class="label label-success">{{getSetting('application.locale')}}</p>
 
-      <p class="alert alert-info">{{'SETTINGS/DISPLAY/locale/alert'|translate}}</p>
-      <ul class="list-unstyled">
-         <li ng-click="setLocale(getSetting('client.determinedlocale'))" class="list-unstyled" style="cursor:pointer">
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != getSetting('client.determinedlocale'), 'glyphicon-record': activeLocale == getSetting('client.determinedlocale')}"></i>
-          <i class="flag flag-{{ getSetting('client.determinedlocale') }}"></i> 
-          {{ getSetting('client.determinedlocale') }} {{ 'SETTINGS/DISPLAY/locale-default/lbl' | translate }}
-        </li>
-        <li ng-repeat="(locale, name) in languageList" ng-click="setLocale(locale)" class="list-unstyled" style="cursor:pointer">
-          <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != locale, 'glyphicon-record': activeLocale == locale}"></i>
-          <i class="flag flag-{{ locale }}"></i> 
-          {{ 'SETTINGS/DISPLAY/locale/'+name | translate }}
-        </li>
-      </ul>
- </div>
+  <p class="alert alert-info">{{'SETTINGS/DISPLAY/locale/alert'|translate}}</p>
+  <ul class="list-unstyled">
+     <li ng-click="setLocale(getSetting('client.determinedlocale'))" class="list-unstyled" style="cursor:pointer">
+      <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != getSetting('client.determinedlocale'), 'glyphicon-record': activeLocale == getSetting('client.determinedlocale')}"></i>
+      <i class="flag flag-{{ getSetting('client.determinedlocale') }}"></i> 
+      {{ getSetting('client.determinedlocale') }} {{ 'SETTINGS/DISPLAY/locale-default/lbl' | translate }}
+    </li>
+    <li ng-repeat="(locale, name) in languageList" ng-click="setLocale(locale)" class="list-unstyled" style="cursor:pointer">
+      <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != locale, 'glyphicon-record': activeLocale == locale}"></i>
+      <i class="flag flag-{{ locale }}"></i> 
+      {{ 'SETTINGS/DISPLAY/locale/'+name | translate }}
+    </li>
+  </ul>
   
   <div ng-show="hasTopSites">
-    
-
-      <h2 style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/topsites/hdr'|translate}}</h2>
-      <p class="label label-success" ng-show="getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/sync-enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/sync-disabled/lbl'|translate}}</p>
-      <br>
-      <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onhover'">{{'SETTINGS/DISPLAY/topsites-mode-hover/lbl'|translate}}</p>
-      <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onclick'">{{'SETTINGS/DISPLAY/topsites-mode-click/lbl'|translate}}</p>
-   
-      <ul class="list-unstyled">
-        <li>
-          <p ng-show="!getSetting('topSites.enabled')" class="alert alert-info">{{'SETTINGS/DISPLAY/topsites-show/alert'|translate}}</p>
-          <p ng-show="getSetting('topSites.enabled')" class="alert alert-warning">{{'SETTINGS/DISPLAY/topsites-hide/alert'|translate}}</p>
-          <button ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">{{'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</button>
-          <button ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">{{'SETTINGS/DISPLAY/topsites-hide/btn'|translate}}</button>
-        </li><br>
-        <li ng-show="getSetting('topSites.enabled')" style="padding-top:4px">
-          <p ng-show="getSetting('topSites.mode') == 'onhover'" class="alert alert-info">{{'SETTINGS/DISPLAY/topsites-mode-click/alert'|translate}}</p>
-          <p ng-show="getSetting('topSites.mode') == 'onclick'" class="alert alert-warning">{{'SETTINGS/DISPLAY/topsites-mode-hover/alert'|translate}}</p>
-          <button ng-show="getSetting('topSites.mode') == 'onhover'" ng-click="setSetting('topSites.mode', 'onclick')" class="btn btn-success">{{'SETTINGS/DISPLAY/topsites-mode-click/btn'|translate}}</button>
-          <button ng-show="getSetting('topSites.mode') == 'onclick'" ng-click="setSetting('topSites.mode', 'onhover')" class="btn btn-danger">{{'SETTINGS/DISPLAY/topsites-mode-hover/btn'|translate}}</button>
-        </li>
-      </ul>
-  
+    <h2 style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/topsites/hdr'|translate}}</h2>
+    <p class="label label-success" ng-show="getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/sync-enabled/lbl'|translate}}</p>
+    <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/sync-disabled/lbl'|translate}}</p>
+    <br>
+    <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onhover'">{{'SETTINGS/DISPLAY/topsites-mode-hover/lbl'|translate}}</p>
+    <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onclick'">{{'SETTINGS/DISPLAY/topsites-mode-click/lbl'|translate}}</p>
+ 
+    <ul class="list-unstyled">
+      <li>
+        <p ng-show="!getSetting('topSites.enabled')" class="alert alert-info">{{'SETTINGS/DISPLAY/topsites-show/alert'|translate}}</p>
+        <p ng-show="getSetting('topSites.enabled')" class="alert alert-warning">{{'SETTINGS/DISPLAY/topsites-hide/alert'|translate}}</p>
+        <button ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">{{'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</button>
+        <button ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">{{'SETTINGS/DISPLAY/topsites-hide/btn'|translate}}</button>
+      </li><br>
+      <li ng-show="getSetting('topSites.enabled')" style="padding-top:4px">
+        <p ng-show="getSetting('topSites.mode') == 'onhover'" class="alert alert-info">{{'SETTINGS/DISPLAY/topsites-mode-click/alert'|translate}}</p>
+        <p ng-show="getSetting('topSites.mode') == 'onclick'" class="alert alert-warning">{{'SETTINGS/DISPLAY/topsites-mode-hover/alert'|translate}}</p>
+        <button ng-show="getSetting('topSites.mode') == 'onhover'" ng-click="setSetting('topSites.mode', 'onclick')" class="btn btn-success">{{'SETTINGS/DISPLAY/topsites-mode-click/btn'|translate}}</button>
+        <button ng-show="getSetting('topSites.mode') == 'onclick'" ng-click="setSetting('topSites.mode', 'onhover')" class="btn btn-danger">{{'SETTINGS/DISPLAY/topsites-mode-hover/btn'|translate}}</button>
+      </li>
+    </ul>
   </div>
 
-      <h2 style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/background-opacity/hdr'|translate}}</h2>
-      <p class="label label-success">{{'SETTINGS/DISPLAY/current-opacity/lbl'|translate}}: {{100*getSetting('background-rotator.opacity')}}%</p>
-    
-      <ul class="list-unstyled">
-        <li>
-          <p class="alert alert-info">{{'SETTINGS/DISPLAY/background-opacity/alert'|translate}}</p>
-          <button ng-click="setBGOpacity('0.0')" class="btn" ng-class="{'btn-info': bgopacity != '0.0', 'btn-success': bgopacity == '0.0'}">0%</button>
-          <button ng-click="setBGOpacity('0.1')" class="btn" ng-class="{'btn-info': bgopacity != '0.1', 'btn-success': bgopacity == '0.1'}">10%</button>
-          <button ng-click="setBGOpacity('0.2')" class="btn" ng-class="{'btn-info': bgopacity != '0.2', 'btn-success': bgopacity == '0.2'}">20%</button>
-          <button ng-click="setBGOpacity('0.3')" class="btn" ng-class="{'btn-info': bgopacity != '0.3', 'btn-success': bgopacity == '0.3'}">30%</button>
-          <button ng-click="setBGOpacity('0.4')" class="btn" ng-class="{'btn-info': bgopacity != '0.4', 'btn-success': bgopacity == '0.4'}">40%</button>
-          <button ng-click="setBGOpacity('0.5')" class="btn" ng-class="{'btn-info': bgopacity != '0.5', 'btn-success': bgopacity == '0.5'}">50%</button>
-          <button ng-click="setBGOpacity('0.6')" class="btn" ng-class="{'btn-info': bgopacity != '0.6', 'btn-success': bgopacity == '0.6'}">60%</button>
-          <button ng-click="setBGOpacity('0.7')" class="btn" ng-class="{'btn-info': bgopacity != '0.7', 'btn-success': bgopacity == '0.7'}">70%</button>
-          <button ng-click="setBGOpacity('0.8')" class="btn" ng-class="{'btn-info': bgopacity != '0.8', 'btn-success': bgopacity == '0.8'}">80%</button>
-          <button ng-click="setBGOpacity('0.9')" class="btn" ng-class="{'btn-info': bgopacity != '0.9', 'btn-success': bgopacity == '0.9'}">90%</button>
-          <button ng-click="setBGOpacity('1.0')" class="btn" ng-class="{'btn-info': bgopacity != '1.0', 'btn-success': bgopacity == '1.0'}">100%</button>
-        </li>
-      </ul>
-  
+  <h2 style='white-space:nowrap; display:block;'>{{'SETTINGS/DISPLAY/background-opacity/hdr'|translate}}</h2>
+  <p class="label label-success">{{'SETTINGS/DISPLAY/current-opacity/lbl'|translate}}: {{100*getSetting('background-rotator.opacity')}}%</p>
+
+  <ul class="list-unstyled">
+    <li>
+      <p class="alert alert-info">{{'SETTINGS/DISPLAY/background-opacity/alert'|translate}}</p>
+      <button ng-click="setBGOpacity('0.0')" class="btn" ng-class="{'btn-info': bgopacity != '0.0', 'btn-success': bgopacity == '0.0'}">0%</button>
+      <button ng-click="setBGOpacity('0.1')" class="btn" ng-class="{'btn-info': bgopacity != '0.1', 'btn-success': bgopacity == '0.1'}">10%</button>
+      <button ng-click="setBGOpacity('0.2')" class="btn" ng-class="{'btn-info': bgopacity != '0.2', 'btn-success': bgopacity == '0.2'}">20%</button>
+      <button ng-click="setBGOpacity('0.3')" class="btn" ng-class="{'btn-info': bgopacity != '0.3', 'btn-success': bgopacity == '0.3'}">30%</button>
+      <button ng-click="setBGOpacity('0.4')" class="btn" ng-class="{'btn-info': bgopacity != '0.4', 'btn-success': bgopacity == '0.4'}">40%</button>
+      <button ng-click="setBGOpacity('0.5')" class="btn" ng-class="{'btn-info': bgopacity != '0.5', 'btn-success': bgopacity == '0.5'}">50%</button>
+      <button ng-click="setBGOpacity('0.6')" class="btn" ng-class="{'btn-info': bgopacity != '0.6', 'btn-success': bgopacity == '0.6'}">60%</button>
+      <button ng-click="setBGOpacity('0.7')" class="btn" ng-class="{'btn-info': bgopacity != '0.7', 'btn-success': bgopacity == '0.7'}">70%</button>
+      <button ng-click="setBGOpacity('0.8')" class="btn" ng-class="{'btn-info': bgopacity != '0.8', 'btn-success': bgopacity == '0.8'}">80%</button>
+      <button ng-click="setBGOpacity('0.9')" class="btn" ng-class="{'btn-info': bgopacity != '0.9', 'btn-success': bgopacity == '0.9'}">90%</button>
+      <button ng-click="setBGOpacity('1.0')" class="btn" ng-class="{'btn-info': bgopacity != '1.0', 'btn-success': bgopacity == '1.0'}">100%</button>
+    </li>
+  </ul>
+</div>  
