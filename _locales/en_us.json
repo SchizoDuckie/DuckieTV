@@ -195,7 +195,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "Choose a backup to load",
     "SETTINGS/BACKUP/import/hdr": "Import a backup",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Loading, please wait",
-    "SETTINGS/DEFAULT/backup/hdr": "Backup / Import",
+    "SETTINGS/BACKUP-IMPORT/backup/hdr": "Backup / Import",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "Disabled",
     "SETTINGS/DEFAULT/sync-doit/alert": "Clicking this button will keep your series in sync with other browsers",
     "SETTINGS/DEFAULT/sync-doit/btn": "Keep series in sync between browsers",

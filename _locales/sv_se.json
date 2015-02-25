@@ -196,7 +196,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "Välj en backup för att ladda",
     "SETTINGS/BACKUP/import/hdr": "Importera en backup ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Laddar, var god vänta",
-    "SETTINGS/DEFAULT/backup/hdr": "Säkerhetskopia / Import ",
+    "SETTINGS/BACKUP-IMPORT/backup/hdr": "Säkerhetskopia / Import ",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "funktionshindrade ",
     "SETTINGS/DEFAULT/sync-doit/alert": "Om du klickar på denna knapp kommer att hålla din serie i synk med andra webbläsare ",
     "SETTINGS/DEFAULT/sync-doit/btn": "Håll serie i synk mellan webbläsare ",

@@ -196,7 +196,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "选择备份加载",
     "SETTINGS/BACKUP/import/hdr": "导入备份 ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "载入中，请稍候",
-    "SETTINGS/DEFAULT/backup/hdr": "备份/导入 ",
+    "SETTINGS/BACKUP-IMPORT/backup/hdr": "备份/导入 ",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "残 ",
     "SETTINGS/DEFAULT/sync-doit/alert": "单击此按钮将让您在一系列与其他浏览器同步 ",
     "SETTINGS/DEFAULT/sync-doit/btn": "保持系列的浏览器之间同步 ",

@@ -196,7 +196,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "로드 백업을 선택",
     "SETTINGS/BACKUP/import/hdr": "백업을 가져 오기 ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "로딩 중, 잠시 기다려주십시오",
-    "SETTINGS/DEFAULT/backup/hdr": "백업 / 가져 오기 ",
+    "SETTINGS/BACKUP-IMPORT/backup/hdr": "백업 / 가져 오기 ",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "장애인 ",
     "SETTINGS/DEFAULT/sync-doit/alert": "이 버튼을 클릭하면 다른 브라우저와의 동기화에 시리즈를 유지합니다 ",
     "SETTINGS/DEFAULT/sync-doit/btn": "브라우저 간의 동기화 시리즈를 계속 ",

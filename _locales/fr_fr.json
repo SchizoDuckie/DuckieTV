@@ -196,7 +196,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "Choisissez une sauvegarde à charger",
     "SETTINGS/BACKUP/import/hdr": "Importer une sauvegarde ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Chargement, se il vous plaît attendre",
-    "SETTINGS/DEFAULT/backup/hdr": "Backup / Importer ",
+    "SETTINGS/BACKUP-IMPORT/backup/hdr": "Backup / Importer ",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "handicapés ",
     "SETTINGS/DEFAULT/sync-doit/alert": "En cliquant sur ce bouton permet de garder votre série en synchronisation avec d'autres navigateurs ",
     "SETTINGS/DEFAULT/sync-doit/btn": "Gardez série en synchronisation entre les navigateurs ",

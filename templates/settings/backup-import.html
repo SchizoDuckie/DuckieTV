@@ -1,6 +1,6 @@
 <!-- settings\backup-import.html -->
  <div ng-controller='BackupCtrl' style='postition: relative;'>
- 	<h2>{{'SETTINGS/DEFAULT/backup/hdr'|translate}}</h2>
+ 	<h2>{{'SETTINGS/BACKUP-IMPORT/backup/hdr'|translate}}</h2>
   <button ng-show="!restoring" class="btn btn-success" style="width: 80%; left: 10%; position: absolute; right: 10%;">{{'SETTINGS/BACKUP-IMPORT/choose-backup-load/btn'|translate}}</button>
   <input ng-show="!restoring"  file-input="file" on-change="restoring = true; restore()" style="position: absolute; opacity: 0; padding:5px; width: 80%; left: 10%; position: absolute; right: 10%;"></button>
   <div style="padding:5px" class="miniposter">

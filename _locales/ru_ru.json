@@ -196,7 +196,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "Выберите резервную копию для загрузки",
     "SETTINGS/BACKUP/import/hdr": "Импорт резервную копию ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Подождите, идет загрузка",
-    "SETTINGS/DEFAULT/backup/hdr": "Резервное копирование / Импорт ",
+    "SETTINGS/BACKUP-IMPORT/backup/hdr": "Резервное копирование / Импорт ",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "инвалид ",
     "SETTINGS/DEFAULT/sync-doit/alert": "Нажатие на эту кнопку держать серию в синхронизации с другими браузерами ",
     "SETTINGS/DEFAULT/sync-doit/btn": "Держите серию в синхронизации между браузерами ",

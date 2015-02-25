@@ -196,7 +196,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "Kies een back-up om in te laden",
     "SETTINGS/BACKUP/import/hdr": "Importeer een backup",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Momentje a.u.b. bezig met laden",
-    "SETTINGS/DEFAULT/backup/hdr": "Backup / Importeren",
+    "SETTINGS/BACKUP-IMPORT/backup/hdr": "Backup / Importeren",
     "SETTINGS/DEFAULT/sync-disabled/lbl": "Uitgeschakeld",
     "SETTINGS/DEFAULT/sync-doit/alert": "Als je op deze knop drukt worden je favoriete series automatisch gesynchroniseerd naar andere browsers waar je in aangemeld hebt",
     "SETTINGS/DEFAULT/sync-doit/btn": "Synchroniseer mijn series",
