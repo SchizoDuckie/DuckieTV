@@ -245,7 +245,7 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
                 return service.favoriteIDs.indexOf(id) > -1;
             },
             /**
-             * Remove a serie, it's seasons, it's episodes and it's timers from the database.
+             * Remove a serie, it's seasons, and it's episodes from the database.
              */
             remove: function(serie) {
                 console.log("Remove serie from favorites!", serie);
