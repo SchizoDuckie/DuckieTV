@@ -87,6 +87,20 @@ var Serie = CRUD.define({
         return CRUD.FindOne('Season', {
             ID_Serie: this.getID()
         });
+    },
+
+    getActiveSeason: function() {
+        var firstAiredFilter = {
+            Episode: ['firstaired < ' + new Date().getTime()]
+        };
+
+        firstAiredFilter.Episode.ID_Serie = this.getID();
+
+        return CRUD.FindOne('Season', firstAiredFilter, {
+            orderBy: 'ID_Season desc'
+        }).then(function(result) {
+            return (result instanceof CRUD.Entity) ? result : this.getLatestSeason();
+        });
     }
 });
 
