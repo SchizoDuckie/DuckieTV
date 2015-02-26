@@ -2,7 +2,7 @@
  * Handle global dependencies
  */
 angular.module('DuckieTV', [
-    'ngRoute',
+    'ui.router',
     'ngLocale',
     'ngAnimate',
     'tmh.dynamicLocale',
@@ -70,163 +70,278 @@ angular.module('DuckieTV', [
         };
     }
 ])
+
+
+
 /**
  * Routing configuration.
  */
-.config(["$routeProvider",
-    function($routeProvider) {
-        $routeProvider
-            .when('/', {
-                resolve: {
-                    state: function(SidePanelState, $rootScope) {
-                        SidePanelState.hide();
-                        $rootScope.$broadcast('serieslist:hide');
-                        $rootScope.$applyAsync();
-                    }
-                }
-            })
-            .when('/watchlist', {
-                templateUrl: 'templates/watchlist.html',
-                controller: 'WatchlistCtrl',
-                resolve: {
-                    SidePanelState: function(SidePanelState) {
-                        SidePanelState.show();
-                        SidePanelState.expand();
-                        return SidePanelState
-                    }
-                }
-            })
-            .when('/series/:id', {
-                templateUrl: 'templates/sidepanel/serie-episode.html',
-                controller: 'SidepanelSerieCtrl',
-                controllerAs: 'sidepanel',
-                resolve: {
-                    SidePanelState: function(SidePanelState) {
-                        SidePanelState.show();
-                        return SidePanelState
-                    },
-                    serie: function($route) {
-                        return CRUD.FindOne('Serie', {
-                            TVDB_ID: $route.current.params.id
-                        });
-                    },
-                    episode: function() {
-                        return false
-                    },
-                    episodes: function() {
-                        return false
-                    },
-                    season: function() {
-                        return false
-                    }
-                }
-            })
-            .when('/serie/:id/episode/:episode', {
-                templateUrl: 'templates/sidepanel/serie-episode.html',
-                controller: 'SidepanelSerieCtrl',
-                controllerAs: 'sidepanel',
-                resolve: {
-                    SidePanelState: function(SidePanelState) {
-                        if (!SidePanelState.state.isShowing && !SidePanelState.isExpanded) {
-                            SidePanelState.show();
-                        }
-                        return SidePanelState;
-                    },
-                    serie: function($route, FavoritesService) {
-                        return CRUD.FindOne('Serie', {
-                            TVDB_ID: $route.current.params.id
-                        }).then(function(result) {
-                            return result;
-                        });
-                    },
-                    episode: function($route) {
-                        return CRUD.FindOne('Episode', {
-                            TVDB_ID: $route.current.params.episode
-                        });
-                    },
-                    episodes: function($route) {
-                        return CRUD.FindOne('Season', {
-                            'Episode': {
-                                TVDB_ID: $route.current.params.episode
-                            }
-                        }).then(function(season) {
-                            return season.getEpisodes();
-                        })
-                    },
-                    season: function($route) {
-                        return CRUD.FindOne('Season', {
-                            'Episode': {
-                                TVDB_ID: $route.current.params.episode
-                            }
-                        });
-                    }
-                }
-            })
-            .when('/settings', {
-                templateUrl: 'templates/sidepanel/settings.html',
-                controller: 'SidepanelSettingsCtrl',
-                controllerAs: 'sidepanel',
-                resolve: {
-                    SidePanelState: function(SidePanelState) {
-                        SidePanelState.show();
-                        return SidePanelState;
-                    },
-                    tab: function() {
-                        return false;
-                    }
-                }
-            })
-            .when('/settings/:tab', {
-                templateUrl: 'templates/sidepanel/settings.html',
-                controller: 'SidepanelSettingsCtrl',
-                controllerAs: 'sidepanel',
-                resolve: {
-                    SidePanelState: function(SidePanelState) {
-                        SidePanelState.show();
-                        SidePanelState.expand();
-                        return SidePanelState;
-                    },
-                    tab: function($route) {
-                        return $route.current.params.tab
-                    }
-                }
-            })
-            .when('/cast', {
-                templateUrl: 'templates/chromecast.html',
-                controller: 'ChromeCastCtrl',
-                resolve: {
-                    SidePanelState: function(SidePanelState) {
-                        SidePanelState.show();
-                        SidePanelState.expand();
-                        return SidePanelState;
-                    }
-                }
-            })
-            .when('/torrent', {
-                templateUrl: 'templates/torrentClient.html',
-                controller: 'TorrentCtrl',
-                controllerAs: 'torrent',
-                resolve: {
-                    SidePanelState: function(SidePanelState) {
-                        SidePanelState.show();
-                        return SidePanelState;
-                    }
-                }
-            })
-            .when('/about', {
-                templateUrl: 'templates/about.html',
-                controller: 'AboutCtrl',
-                resolve: {
-                    SidePanelState: function(SidePanelState) {
-                        SidePanelState.show();
-                        SidePanelState.expand();
-                        return SidePanelState;
-                    }
-                }
-            })
-            .otherwise({
-                redirectTo: '/'
+.config(["$stateProvider",
+    function($stateProvider) {
+        var applyTranslation = function($translate, SettingsService) {
+            $translate.use(SettingsService.get('application.locale'));
+        }
+
+        function showSidePanel(SidePanelState) {
+            SidePanelState.show();
+            return SidePanelState;
+        }
+
+        function expandSidePanel(SidePanelState) {
+            SidePanelState.show();
+            SidePanelState.expand();
+            return SidePanelState;
+        }
+
+        function expandSidePanelIfOpen(SidePanelState) {
+            if (SidePanelState.state.isShowing) {
+                SidePanelState.expand();
+            } else {
+                SidePanelState.show();
+            }
+            return SidePanelState;
+        }
+
+        function hideSidePanel(SidePanelState, $rootScope) {
+            $rootScope.$broadcast('serieslist:hide');
+            $rootScope.$applyAsync();
+            SidePanelState.hide();
+            return SidePanelState
+        }
+
+        function findEpisodes($stateParams) {
+            return CRUD.Find('Episode', {
+                ID_Season: $stateParams.season_id
             });
+        }
+
+        function findEpisode($stateParams) {
+            return CRUD.FindOne('Episode', {
+                ID_Episode: $stateParams.episode_id
+            });
+        }
+
+        function findSeasonByID($stateParams) {
+            return CRUD.FindOne('Season', {
+                ID_Season: $stateParams.season_id
+            });
+        }
+
+        function findSerieByID($stateParams) {
+            return CRUD.FindOne('Serie', {
+                ID_Serie: $stateParams.id
+            })
+        }
+
+        $stateProvider
+            .state('calendar', {
+                url: '/',
+                resolve: {
+                    SidePanelState: hideSidePanel
+                }
+            })
+            .state('watchlist', {
+                url: '/watchlist',
+                resolve: {
+                    SidePanelState: expandSidePanel
+                },
+                views: {
+                    sidePanel: {
+                        templateUrl: 'templates/watchlist.html',
+                        controller: 'WatchlistCtrl'
+                    }
+                }
+            })
+
+        // note: separate state from serie.season.episode navigation because we want to only open the sidepanel from the calendar, not expand it
+        .state('episode', {
+            url: '/episode/:episode_id',
+            resolve: {
+                SidePanelState: showSidePanel,
+                serie: function($stateParams) {
+                    return CRUD.FindOne('Serie', {
+                        Episode: {
+                            ID_Episode: $stateParams.episode_id
+                        }
+                    })
+                },
+                season: function($stateParams) {
+                    return CRUD.FindOne('Serie', {
+                        Episode: {
+                            ID_Episode: $stateParams.episode_id
+                        }
+                    }).then(function(result) {
+                        return result.getActiveSeason();
+                    });
+                },
+                episode: findEpisode
+            },
+
+            views: {
+                'sidePanel': {
+                    controller: 'SidepanelEpisodeCtrl',
+                    controllerAs: 'sidepanel',
+                    templateUrl: 'templates/sidepanel/episode-details.html'
+                }
+            }
+        })
+
+        .state('serie', {
+            url: '/series/:id',
+            resolve: {
+                SidePanelState: showSidePanel,
+                serie: findSerieByID,
+                latestSeason: function($stateParams) {
+                    return CRUD.FindOne('Serie', {
+                        ID_Serie: $stateParams.id
+                    }).then(function(result) {
+                        return result.getActiveSeason();
+                    });
+                },
+
+            },
+            views: {
+                sidePanel: {
+                    templateUrl: 'templates/sidepanel/serie-overview.html',
+                    controller: 'SidepanelSerieCtrl',
+                    controllerAs: 'sidepanel'
+                }
+            }
+        })
+            .state('serie.details', {
+                url: '/details',
+                resolve: {
+                    SidePanelState: expandSidePanel,
+                },
+                views: {
+                    serieDetails: {
+                        templateUrl: 'templates/sidepanel/serie-details.html'
+                    }
+                }
+            })
+            .state('serie.seasons', {
+                url: '/seasons',
+                resolve: {
+                    SidePanelState: expandSidePanel,
+                    seasons: function($stateParams) {
+                        return CRUD.Find('Season', {
+                            Serie: {
+                                ID_Serie: $stateParams.id
+                            }
+                        })
+                    }
+                },
+                views: {
+                    serieDetails: {
+                        controller: 'SidepanelSeasonsCtrl',
+                        controllerAs: 'seasons',
+                        templateUrl: 'templates/sidepanel/seasons.html'
+                    }
+                }
+            })
+        // note: this is a sub state of the serie state. the serie is already resolved here and doesn't need to be redeclared!
+        .state('serie.season', {
+            url: '/season/:season_id',
+            resolve: {
+                SidePanelState: expandSidePanel,
+                season: findSeasonByID,
+                episodes: findEpisodes
+            },
+            views: {
+                serieDetails: {
+                    templateUrl: 'templates/sidepanel/episodes.html',
+                    controller: 'SidepanelSeasonCtrl',
+                    controllerAs: 'season',
+                }
+            }
+        })
+        // note: this is a sub state of the serie state. the serie is already resolved here and doesn't need to be redeclared!
+        .state('serie.season.episode', {
+            url: '/episode/:episode_id',
+            resolve: {
+                SidePanelState: expandSidePanelIfOpen,
+                episode: findEpisode
+            },
+            views: {
+                'sidePanel@': {
+                    controller: 'SidepanelEpisodeCtrl',
+                    controllerAs: 'sidepanel',
+                    templateUrl: 'templates/sidepanel/episode-details.html'
+                },
+                'serieDetails@serie.season.episode': {
+                    templateUrl: 'templates/sidepanel/episodes.html',
+                    controller: 'SidepanelSeasonCtrl',
+                    controllerAs: 'season',
+                }
+            }
+        })
+
+        .state('settings', {
+            url: '/settings',
+            resolve: {
+                SidePanelState: showSidePanel
+            },
+            views: {
+                sidePanel: {
+                    templateUrl: 'templates/sidepanel/settings.html',
+                }
+            }
+        })
+
+        .state('settings.tab', {
+            url: '/:tab',
+            resolve: {
+                SidePanelState: expandSidePanel
+            },
+            views: {
+                settingsTab: {
+                    templateUrl: function($stateParams) {
+                        return 'templates/settings/' + $stateParams.tab + '.html'
+                    }
+                }
+            }
+        })
+
+        .state('cast', {
+            url: '/cast',
+            resolve: {
+                SidePanelState: expandSidePanel
+            },
+            views: {
+                sidePanel: {
+                    controller: 'ChromeCastCtrl',
+                    templateUrl: 'templates/chromecast.html',
+
+                }
+            }
+        })
+
+        .state('torrent', {
+            url: '/torrent',
+            resolve: {
+                SidePanelState: showSidePanel
+            },
+            views: {
+                sidePanel: {
+                    templateUrl: 'templates/torrentClient.html',
+                    controller: 'TorrentCtrl',
+                    controllerAs: 'torrent'
+                }
+            }
+        })
+
+        .state('about', {
+            url: '/about',
+            resolve: {
+                SidePanelState: expandSidePanel
+            },
+            views: {
+                sidePanel: {
+                    templateUrl: 'templates/about.html',
+                    controller: 'AboutCtrl'
+                }
+            }
+        })
     }
 ])
 /**
@@ -241,7 +356,6 @@ angular.module('DuckieTV', [
          * setup path to the translation table files
          * example ../_Locales/en_us.json
          */
-
         .useStaticFilesLoader({
             prefix: '_locales/',
             suffix: '.json'
@@ -392,8 +506,8 @@ angular.module('DuckieTV', [
     }
 ])
 
-.run(["$rootScope", "SettingsService", "StorageSyncService", "FavoritesService", "MigrationService", "TraktTVUpdateService", "TorrentMonitor", "EpisodeAiredService", "UpgradeNotificationService", "datePickerConfig", "$translate", "$injector",
-    function($rootScope, SettingsService, StorageSyncService, FavoritesService, MigrationService, TraktTVUpdateService, TorrentMonitor, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
+.run(["$rootScope", "$state", "SettingsService", "StorageSyncService", "FavoritesService", "MigrationService", "TraktTVUpdateService", "TorrentMonitor", "EpisodeAiredService", "UpgradeNotificationService", "datePickerConfig", "$translate", "$injector",
+    function($rootScope, $state, SettingsService, StorageSyncService, FavoritesService, MigrationService, TraktTVUpdateService, TorrentMonitor, EpisodeAiredService, UpgradeNotificationService, datePickerConfig, $translate, $injector) {
         // translate the application based on preference or proposed locale
 
         FavoritesService.loadRandomBackground();
@@ -422,6 +536,8 @@ angular.module('DuckieTV', [
             SettingsService.set(key, false);
         };
 
+        //$state.transitionTo('calendar');
+
         StorageSyncService.initialize();
 
         EpisodeAiredService.attach();
@@ -431,12 +547,6 @@ angular.module('DuckieTV', [
             }, 1000);
         }
 
-        /** 
-         * Hide the favorites list when navigating to a different in-page action.
-         */
-        $rootScope.$on('$locationChangeSuccess', function() {
-            //$rootScope.$broadcast('serieslist:hide');
-        });
 
         /**
          * Catch the event when an episode is marked as watched

@@ -1,5 +1,5 @@
 <!-- event.html -->
-<div class="event" ng-click="selectEpisode(serie,episode)" ng-mouseenter="startHoverTimer()" ng-mouseleave="clearHoverTimer()">
+<div class="event" ui-sref="episode({episode_id: episode.ID_Episode})" ng-mouseenter="startHoverTimer()" ng-mouseleave="clearHoverTimer()">
   <!-- dropdown toggler -->
   <a ng-class="{ watched : episode.watched }" >
     <!-- if we have a torrent, show the progress -->

@@ -4,8 +4,8 @@ angular.module('DuckieTV.controllers.actionbar', [])
  * Actionbar Controller
  */
 
-.controller('ActionBarCtrl', ["$scope", "$rootScope",
-    function($scope, $rootScope) {
+.controller('ActionBarCtrl', ["$scope", "$rootScope", "SidePanelState",
+    function($scope, $rootScope, SidePanelState) {
 
         $scope.hideSeriesList = function() {
             $rootScope.$broadcast('serieslist:hide');
@@ -14,6 +14,12 @@ angular.module('DuckieTV.controllers.actionbar', [])
         $scope.toggleSeriesList = function() {
             $rootScope.$broadcast('serieslist:toggle');
         };
+
+
+        $scope.contractSidePanel = function() {
+            SidePanelState.contract()
+        };
+
 
     }
 ])

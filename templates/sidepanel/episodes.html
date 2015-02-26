@@ -1,20 +1,29 @@
 <div class="episodes">
-    <h2 style='color:white'>{{sidepanel.season.seasonnumber == 0 ? 'Specials' : 'Season '+sidepanel.season.seasonnumber}}</h2>
-    <p>{{sidepanel.season.overview}}</p>
+    <h2 style='color:white'>{{season.season.seasonnumber == 0 ? 'Specials' : 'Season '+season.season.seasonnumber}}</h2>
+    <p>{{season.season.overview}}</p>
     <strong>Episodes</strong>
     <table class="table table-condensed light" style='margin-top:10px; background-color:transparent'>
-      <tbody ng-if="!sidepanel.episodes || sidepanel.episodes.length == 0">
+      <tbody ng-if="!season.episodes || season.episodes.length == 0">
         <tr>
           <td>{{'SERIE/fetching-episodes/lbl'|translate}}</td>
         </tr>
       </tbody>
-      <tbody ng-if="sidepanel.episodes">
-        <tr ng-repeat="episode in sidepanel.episodes | orderBy: sidepanel.getSortEpisodeNumber:true">
+      <tbody ng-if="season.episodes">
+        <tr ng-repeat="episode in season.episodes | orderBy: season.getSortEpisodeNumber:true" ng-mouseenter="showHover=true" ng-mouseleave="showHover=false">
           <td style="width:70px">
-            <a href="#/serie/{{sidepanel.serie.TVDB_ID}}/episode/{{episode.TVDB_ID}}">{{episode.getFormattedEpisode()}}</a>
+            <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{episode.getFormattedEpisode()}}</a>
           </td>
           <td>
-            <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{sidepanel.serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" href="#/serie/{{sidepanel.serie.TVDB_ID}}/episode/{{episode.TVDB_ID}}">{{ episode.episodename }}</a>
+            <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{sidepanel.serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{ episode.episodename }}</a>
+          </td>
+          <td class="nobreaks" align="right" >
+          <a ng-if="episode.hasAired() && (!showHover || !getSetting('torrenting.enabled'))" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{ episode.firstaired | date: 'short' }}" >{{ episode.firstaired | date: 'shortDate' }}</a>
+          <div ng-if="showHover && episode.hasAired() && getSetting('torrenting.enabled')">
+           <torrent-dialog tvdbid='episode.TVDB_ID' q='season.getSearchString(sidepanel.serie,episode)'></torrent-dialog>
+           <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="Auto Download">
+                  <i class="glyphicon glyphicon-cloud-download"></i>
+              </a>
+          </div>
           </td>
           <td style="width:55px">
             <episode-watched ng-if="episode.hasAired()"></episode-watched>
@@ -22,4 +31,20 @@
         </tr>
       </tbody>
     </table>
+    <table class="buttons" width="100%" border="0">
+        <tr>
+          <td colspan="2">
+              <a >
+                  <i class="glyphicon glyphicon-info-sign"></i><strong>Auto download all</strong>
+              </a>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+              <a>
+                <i class="glyphicon glyphicon-eye-open"></i><strong>Mark all watched</strong>
+              </a>
+          </td>
+        </tr>
+        </table>
 </div>

@@ -3,9 +3,9 @@
       <small style='float:right'>{{'SERIEDETAILS/click-to-see/lbl'|translate}}</small>
     </h2>
     
-      <div class='season' ng-repeat="season in sidepanel.seasons" style="display:inline-block; padding:10px; cursor:pointer">
-        <p ng-click="sidepanel.setSeason(season)" lazy-background="{{season.poster}}" class="seasonposter"></p>
-        <p>
+      <div class='season' ng-repeat="season in seasons.seasons" style="display:inline-block; padding:10px; cursor:pointer" ui-sref="serie.season({season_id: season.ID_Season})">
+        <p lazy-background="{{season.poster}}" class="seasonposter"></p>
+        <p style="text-align:center">
           <strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong>
         </p>
       </div>

@@ -226,7 +226,7 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                 };
 
                 $scope.selectEpisode = function(serie, episode) {
-                    $location.path('/serie/' + serie.TVDB_ID + '/episode/' + episode.TVDB_ID);
+                    $location.path('/serie/' + serie.TVDB_ID + '/season/' + episode.seasonnumber + '?episode=' + episode.TVDB_ID);
                 }
 
             }

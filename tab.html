@@ -44,7 +44,7 @@
           <a class="glyphicon glyphicon-facetime-video" href="#/watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-placement="right"></a>
         </li>
         <li>
-          <a class="glyphicon glyphicon-cog" href="#/settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right"></a>
+          <a class="glyphicon glyphicon-cog" href="#/settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right" ng-click="contractSidePanel()"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
           <a class="glyphicon glyphicon-magnet" href="#/torrent" tooltip="&micro;Torrent / Bittorrent client" tooltip-placement="right"></a>
@@ -62,7 +62,7 @@
     </div>
   <div>
   <sidepanel>
-    <div ng-view></div>
+    <div ui-view="sidePanel"></div>
   </sidepanel>
   <query-monitor ng-class="{show: queryStats.writesQueued - queryStats.writesExecuted > 1}" />
   <img class='printlogo' src='img/icon64.png'>
@@ -75,7 +75,8 @@
   <script src="./js/vendor/angular.js"></script>
   <script src="./js/vendor/angular-animate.min.js"></script>
   <script src="./js/vendor/angular-sanitize.min.js"></script>
-  <script src="./js/vendor/angular-route.min.js"></script>
+  <script src="./js/vendor/ui-router.js"></script>  
+ <!-- <script src="./js/vendor/ui-router-0.2.13.min.js"></script>  -->
   <script src="./js/vendor/angular-xml.min.js"></script>
   <script src='./js/vendor/ui-bootstrap-tpls-0.10.0.min.js'></script>
   <script src='./js/vendor/tmhDynamicLocale.js'></script>  

@@ -1,12 +1,12 @@
 <!-- serieHeader.html -->
 <div class="serieheader" ng-if="(mode == 'search')">
-  <a ng-href=" #/series/{{serie.TVDB_ID}}">
+  <a ui-sref="serie({id: serie.ID_Serie})">
     <h3>{{ serie.name }}</h3>
   </a>
 </div>
 
 <div class="serieheader" ng-if="!noListButton && (mode == 'banner')" >
-  <a ng-if="serie.TVDB_ID" ng-href="#/series/{{serie.TVDB_ID}}">
+  <a ng-if="serie.TVDB_ID"  ui-sref="serie({id: serie.ID_Serie})">
     <div ng-if="!mode || mode == 'banner'" class='banner' lazy-background="{{serie.banner}}"></div>
     <h3>{{ serie.name }}</h3>
   </a>
@@ -19,7 +19,7 @@
 </div>
 
 <div class="serieheader" ng-if="!noListButton && (!mode || mode == 'poster')" tooltip='{{serie.name}}'>
-  <a ng-if="serie.TVDB_ID" ng-href="#/series/{{serie.TVDB_ID}}">
+  <a ng-if="serie.TVDB_ID"  ui-sref="serie({id: serie.ID_Serie})">
     <div ng-if="serie.poster != '' " class='poster' lazy-background="{{serie.poster}}"></div>
     <div ng-if="serie.poster == '' " class='poster' lazy-background="img/icon128.png" style='background-color: rgba(255,255,255,0.4)'></div>
     <h3>{{ serie.name }}</h3>

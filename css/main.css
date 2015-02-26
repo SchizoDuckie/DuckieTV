@@ -351,7 +351,7 @@ series-list > div {
     top:0px;
     left: 0px;
     right: 0px;
-    background-color: rgba(20, 22, 24, 0.925);
+    background-color: rgb(20, 22, 24);
     z-index: 200;
     width: 100%;
     -webkit-transition: all 0.5s ease-in;
@@ -455,7 +455,6 @@ trakt-tv-search .protip {
 
 .table.light {
     color: white;
-    background-color: rgba(0, 0, 0, 0.8);
 }
 table.markingaswatched {
     border-style: dotted !important;
@@ -1219,6 +1218,7 @@ sidepanel .buttons a:hover {
 sidepanel .buttons a.no-hover {
     background-color: initial;
     cursor: initial;
+    text-decoration: none;
 }
 sidepanel .buttons i.glyphicon {
     float: left;
@@ -1248,7 +1248,7 @@ sidepanel .rightpanel {
     overflow-y: auto;
 }
 
-sidepanel .leftpanel .episode .episode-img {
+sidepanel .leftpanel .episode-img {
     height: 195px;
     width: 325px;
     margin: 0 auto;
@@ -1256,7 +1256,7 @@ sidepanel .leftpanel .episode .episode-img {
     border-radius: 5px;
     background-size: 100% 100%;
 }
-sidepanel .leftpanel .episode h3 {
+sidepanel .leftpanel  h3 {
     text-align: center;
     color: #fff;
     margin-top: 8px;
@@ -1264,7 +1264,7 @@ sidepanel .leftpanel .episode h3 {
     font-size: 20px;
     letter-spacing: 0.5px;
 }
-sidepanel .leftpanel .episode p {
+sidepanel .leftpanel p {
     margin: 8px;
     color: rgb(208, 208, 208);
     font-size: 13px;
@@ -1272,22 +1272,22 @@ sidepanel .leftpanel .episode p {
     max-height: 255px;
     padding-right: 5px;
 }
-sidepanel .leftpanel .episode a:hover {
+sidepanel .episode a:hover {
     text-decoration: none;
 }
-sidepanel .leftpanel .episode .buttons tr.two-face td {
+sidepanel .buttons tr.two-face td {
     width: 50%;
 }
-sidepanel .leftpanel .episode .buttons tr.two-face td:nth-child(1) a {
+sidepanel .buttons tr.two-face td:nth-child(1) a {
     margin-right: 5px;
 }
-sidepanel .leftpanel .episode .buttons tr.two-face td:nth-child(2) a {
+sidepanel .buttons tr.two-face td:nth-child(2) a {
     margin-left: 5px;
 }
-sidepanel .leftpanel .episode i.glyphicon.glyphicon-eye-open {
+sidepanel  i.glyphicon.glyphicon-eye-open {
     color: green !important;
 }
-sidepanel .leftpanel .episode .buttons .two-face-torrent .download {
+sidepanel  .buttons .two-face-torrent .download {
     float: left;
     padding-right: 0;
     margin-right: 0;
@@ -1296,7 +1296,7 @@ sidepanel .leftpanel .episode .buttons .two-face-torrent .download {
     border-top-right-radius: 0;
     width: 287px;
 }
-sidepanel .leftpanel .episode .buttons .two-face-torrent .auto-download {
+sidepanel .buttons .two-face-torrent .auto-download {
     padding: 15px 10px;
     margin: 5px 0;
     border-left: 0px;
@@ -1306,7 +1306,7 @@ sidepanel .leftpanel .episode .buttons .two-face-torrent .auto-download {
     position: absolute;
     right: 35px;
 }
-sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control > span {
+sidepanel .buttons .torrent-mini-remote-control > span {
     /* Replicate of the strong tag */
     font-size: 18px;
     letter-spacing: 1px;
@@ -1316,62 +1316,62 @@ sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control > span {
     display: block;
     margin-bottom: 4px;
 }
-sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control a {
+sidepanel .buttons .torrent-mini-remote-control a {
     margin: 0 1px;
     padding: 5px;
 }
-sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control a i.glyphicon {
+sidepanel  .buttons .torrent-mini-remote-control a i.glyphicon {
     font-size: 18px;
     margin-right: 2px;
 }
-sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control-progress {
+sidepanel  .buttons .torrent-mini-remote-control-progress {
     margin-bottom: 0px;
     background-color: rgba(210,210,210,0.4);
 }
-sidepanel .leftpanel .episode .buttons .torrent-mini-remote-control-progress > span {
+sidepanel  .buttons .torrent-mini-remote-control-progress > span {
     /* Somehow positions it in the center dont even know */
     position: absolute;
     left: 0px;
     width: 100%;
 }
 
-sidepanel .rightpanel .serie-overview h1 {
+sidepanel h1 {
     margin: 0 0 5px 0;
     text-align: center;
     color: white;
 }
-sidepanel .rightpanel .serie-overview .serie-bg-img {
+sidepanel .serie-bg-img {
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-size: cover;
-    opacity: 0.2;
+    opacity: 0.15 !important; /** override any image load error opacities */
     z-index: -1;
     background-position: 50%;
 }
-sidepanel .rightpanel .serie-overview .serie-img {
+sidepanel  .serie-img {
     margin: 5px auto;
     height: 275px;
     width: 195px;
     background-size: 100% 100%;
 }
-sidepanel .rightpanel .serie-overview .metadata {
+sidepanel .metadata {
     color: white;
 }
-sidepanel .rightpanel .serie-overview .metadata th {
+sidepanel .metadata th {
     width: 90px;
     padding-bottom: 1px;
 }
-sidepanel .rightpanel .serie-overview .metadata ul.genres {
+sidepanel .metadata ul.genres {
     width: 220px;
 }
-sidepanel .rightpanel .serie-overview .metadata .genres li {
+sidepanel .metadata .genres li {
     display: inline-block;
     width: 50%;
 }
-sidepanel .rightpanel .serie-overview .metadata ul.actors {
+sidepanel .metadata ul.actors {
     overflow-y: auto;
     max-height: 144px;
     font-size: 13px;

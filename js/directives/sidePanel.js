@@ -8,6 +8,7 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
             },
             show: function() {
                 document.body.style.overflowY = 'hidden';
+                document.body.scrollTop = 0;
                 service.state.isShowing = true;
                 service.state.isExpanded = false;
             },
