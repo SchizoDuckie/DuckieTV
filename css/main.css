@@ -1380,3 +1380,19 @@ sidepanel .metadata ul.actors {
 div [date-picker] {
     transform-origin: top left;
 }
+
+
+sidepanel .episodes .torrent-mini-remote-control-progress div.progress-bar {
+    position: absolute;
+    top: 0;
+}
+
+sidepanel .episodes .torrent-mini-remote-control-progress  span {
+    position: absolute;
+    top: 0px;
+    height: 20px;
+    z-index: 100;
+    width: 100%;
+    text-align: center;
+    color: black;
+}

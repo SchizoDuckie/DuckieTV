@@ -8,8 +8,8 @@
           <td>{{'SERIE/fetching-episodes/lbl'|translate}}</td>
         </tr>
       </tbody>
-      <tbody ng-if="season.episodes">
-        <tr ng-repeat="episode in season.episodes | orderBy: season.getSortEpisodeNumber:true" ng-mouseenter="showHover=true" ng-mouseleave="showHover=false">
+      <tbody ng-if="season.episodes" ng-repeat="episode in season.episodes | orderBy: season.getSortEpisodeNumber:true" ng-mouseenter="showHover=true" ng-mouseleave="showHover=false">
+        <tr>
           <td style="width:70px">
             <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{episode.getFormattedEpisode()}}</a>
           </td>
@@ -27,6 +27,11 @@
           </td>
           <td style="width:55px">
             <episode-watched ng-if="episode.hasAired()"></episode-watched>
+          </td>
+        </tr>
+        <tr ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash" tooltip="{{ episode.getFormattedEpisode() }} ({{episode.getAirTime() }}) ">
+          <td colspan="4" style="border: none">
+            <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html" style="position:relative"></torrent-remote-control>
           </td>
         </tr>
       </tbody>
