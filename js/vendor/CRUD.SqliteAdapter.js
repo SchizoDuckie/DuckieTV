@@ -436,7 +436,10 @@ CRUD.Database.SQLBuilder.prototype = {
     },
 
     addJoin: function(what, on, fromPrimary, toPrimary) {
-        this.joins.push(['LEFT JOIN', what.table, 'ON', on.table + "." + fromPrimary, '=', what.table + '.' + (toPrimary || fromPrimary)].join(' '));
+        var join = ['LEFT JOIN', what.table, 'ON', on.table + "." + fromPrimary, '=', what.table + '.' + (toPrimary || fromPrimary)].join(' ');
+        if (this.joins.indexOf(join) == -1) {
+            this.joins.push(join);
+        }
         return this;
     },
 
