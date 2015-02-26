@@ -1396,3 +1396,10 @@ sidepanel .episodes .torrent-mini-remote-control-progress  span {
     text-align: center;
     color: black;
 }
+
+sidepanel .rightpanel tbody .torrent-mini-remote-control-progress.progress {
+    position: relative;
+    margin-top: 0px;
+    height: 4px;
+    margin-bottom: -5px;
+}
