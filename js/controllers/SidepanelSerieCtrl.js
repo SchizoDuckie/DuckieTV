@@ -40,9 +40,16 @@ angular.module('DuckieTV.controllers.sidepanel', ['dialogs'])
 /**
  * Show one season
  */
-.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameResolver, EpisodeAiredService) {
+.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameResolver, EpisodeAiredService, $scope) {
     this.season = season;
     this.episodes = episodes;
+
+    this.episodes.map(function(episode) {
+        $scope.$on('magnet:select:' + episode.TVDB_ID, function(evt, magnet) {
+            this.magnetHash = magnet;
+            this.Persist();
+        }.bind(episode));
+    });
 
     this.getSortEpisodeNumber = function(episode) {
         var sn = episode.seasonnumber.toString(),
@@ -53,7 +60,6 @@ angular.module('DuckieTV.controllers.sidepanel', ['dialogs'])
 
     this.autoDownload = function(serie, episode) {
         EpisodeAiredService.autoDownload(serie, episode);
-        debugger;
     };
 
     this.getSearchString = function(serie, episode) {
