@@ -32,7 +32,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled') && sidepanel.episode.hasAired() && sidepanel.episode.magnetHash != null">
+          <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled') && sidepanel.episode.hasAired()">
               <torrent-dialog class="download" tvdbid='sidepanel.episode.TVDB_ID' q='sidepanel.getSearchString(sidepanel.serie, sidepanel.episode)'>
                 <strong style="padding-left:21px">Find a torrent</strong>
               </torrent-dialog>
@@ -42,9 +42,9 @@
           </td>
         </tr>
         
-        <tr>
+        <tr ng-if="getSetting('torrenting.enabled') && sidepanel.episode.magnetHash">
           <td colspan="2">
-              <a class="no-hover" ng-if="getSetting('torrenting.enabled') && sidepanel.episode.magnetHash && sidepanel.isTorrentClientConnected()">
+              <a class="no-hover" >
                   <torrent-remote-control info-hash="sidepanel.episode.magnetHash" template-url="templates/sidepanel/torrentRemoteControl.html"></torrent-remote-control>
               </a>
             </td>

@@ -65,7 +65,7 @@ angular.module('DuckieTV.controllers.sidepanel', ['dialogs'])
 
 })
 
-.controller('SidepanelEpisodeCtrl', function(serie, episode, season, SceneNameResolver, EpisodeAiredService, TorrentDialog, uTorrent) {
+.controller('SidepanelEpisodeCtrl', function(serie, episode, season, SceneNameResolver, EpisodeAiredService, TorrentDialog, uTorrent, $scope) {
 
     this.serie = serie;
     this.episode = episode;
@@ -86,4 +86,9 @@ angular.module('DuckieTV.controllers.sidepanel', ['dialogs'])
     this.isTorrentClientConnected = function() {
         return uTorrent.isConnected();
     };
+
+    $scope.$on('magnet:select:' + this.episode.TVDB_ID, function(evt, magnet) {
+        this.magnetHash = magnet;
+        this.Persist();
+    }.bind(this.episode));
 })

@@ -40,20 +40,15 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
                 this.isShowing = false;
                 this.isExpanded = false;
 
-                console.log('sidepanel state ', SidePanelState)
                 Object.observe(SidePanelState.state, function(newValue) {
                     panel.isShowing = newValue[0].object.isShowing;
                     panel.isExpanded = newValue[0].object.isExpanded;
-                    console.log("Sidepanelstate param changed!", newValue[0].object);
                     $scope.$applyAsync();
-
                 })
                 if (SidePanelState.state.isShowing) {
-                    console.log("SidepanelState showing!");
                     this.isShowing = true;
                 }
                 if (SidePanelState.state.isExpanded) {
-                    console.log("SidepanelState expanded!");
                     this.isExpanded = true;
                 }
 
