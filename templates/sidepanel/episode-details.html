@@ -43,7 +43,7 @@
         </tr>
         
         <tr ng-if="getSetting('torrenting.enabled') && sidepanel.episode.magnetHash">
-          <td colspan="2">
+          <td colspan="2" class="buttons">
               <a class="no-hover" >
                   <torrent-remote-control info-hash="sidepanel.episode.magnetHash" template-url="templates/sidepanel/torrentRemoteControl.html"></torrent-remote-control>
               </a>

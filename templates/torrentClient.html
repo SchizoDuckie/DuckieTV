@@ -1,20 +1,41 @@
 <!-- torrentClient.html -->
-<div class="leftpanel">
+<div class="leftpanel torrents">
+	<div style='padding:20px'>
 	<h2>DuckieTorrent &micro;Torrent {{'TORRENTCLIENT/hdr'|translate}}</h2>
 	<div class="alert alert-info"><button class='btn btn-small btn-warning' style='float:right' ng-click='removeToken()' translate>TORRENTCLIENT/clear-authority/btn</button><strong><translate>TORRENTCLIENT/desc/p1</translate><a style="color: #428bca" href='http://www.utorrent.com/downloads/complete/os/win/track/alpha'>v3.4.1+</a>{{'TORRENTCLIENT/desc/p2'|translate}}</strong><span translate>TORRENTCLIENT/desc/p3</span></div>
 
-	 <h4>{{'TORRENTCLIENT/torrents-found/hdr'|translate}}{{rpc.getTorrents().length}}</h4>
-	<div ng-repeat="torrent in rpc.getTorrents()| orderBy:'getStarted()':true">
-	 
-	 		<h3>{{torrent.properties.all.name}}</h3>
-	 		{{torrent.getStarted() * 1000 | date:'shortDate'}}<br><span class="label label-info">{{torrent.getFormattedStatus()}}</span>
-	 
-	      <div class="progress-striped progress" style='width: 90%; margin:10px'>
-		      <div class="progress-bar progress-bar-success" ng-style="{ width: torrent.getProgress() + '%' }">
-		        <span>{{torrent.getProgress()}}%</span>
-		      </div>
-	      </div>
+	<div ng-if="!rpc" style='padding:40px; text-align;center'>
+		<img src="img/icon-utorrent.png" class="spin">
+
+		<h2>Connecting to uTorrent</h2>
+		<strong style=' display:block; text-align:center;'>Please wait</strong>
+
+	</div>
+	 <h4 ng-if="rpc">{{'TORRENTCLIENT/torrents-found/hdr'|translate}}{{rpc.getTorrents().length}}</h4>
 	 </div>
+	 <div class="torrent no-hover" ng-repeat="torrent in rpc.getTorrents()| orderBy:'getStarted()':true" ng-class="{active: torrent.isShowing}">
+	 	
+		 <strong ng-click="torrent.isShowing = !torrent.isShowing">{{torrent.properties.all.name}}</strong>	
+	 		
+		      <div class="progress-striped progress">
+			      <div class="progress-bar progress-bar-success" ng-style="{ width: torrent.getProgress() + '%' }">
+			        <span>{{torrent.getProgress()}}%</span>
+			      </div>
+		      </div>
+	      	
+	      	<div class="buttons" ng-show="torrent.isShowing">
+	      		<div class="torrent-mini-remote-control">
+		 		  <i ng-hide="remote.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet"></i>
+			      <i ng-if="remote.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet spin" tooltip="{{'TORRENTMRP/please-wait/tooltip'|translate}}" tooltip-append-to-body="true"></i>
+	
+			      <a ng-click="remote.torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i>{{'TORRENTMRC/start/glyph'|translate}}</a>
+			      <a ng-click="remote.torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i>{{'TORRENTMRC/pause/glyph'|translate}}</a>
+			      <a ng-click="remote.torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i>{{'TORRENTMRC/stop/glyph'|translate}}</a>
+			      <a ng-if="remote.torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="remote.torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTMRC/stream-play/lbl</translate></a>   
+			      <a ng-if="getSetting('torrenting.directory')" ng-click="remote.torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTMRC/open-folder/lbl'|translate}}</a>
+			      <span class="label label-info">{{torrent.getFormattedStatus()}}</span>			     
+			  </div>
+		</div>
 </div>
 <div class="rightpanel">
 

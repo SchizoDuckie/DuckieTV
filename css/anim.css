@@ -12,17 +12,18 @@
 
 @-webkit-keyframes rotate {
   from { -webkit-tranform:rotate(0deg); }
-  to { -webkit-transform: rotate(180deg);  }
+  to { -webkit-transform: rotate(360deg);  }
 }
 
 
 @-webkit-keyframes spin {
   from { -webkit-tranform:rotateY(0deg); }
-  to { -webkit-transform: rotateY(180deg);  }
+  to { -webkit-transform: rotateY(360deg);  }
 }
 
 .spin {
-  -webkit-animation: spin 1s infinite;
+  -webkit-animation: spin 2s infinite;
+  -webkit-animation-timing-function: ease-in-out;
   -webkit-backface-visibility: visible;
 }
 

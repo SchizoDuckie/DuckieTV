@@ -1401,9 +1401,67 @@ sidepanel .episodes .torrent-mini-remote-control-progress  span {
     color: black;
 }
 
-sidepanel .rightpanel tbody .torrent-mini-remote-control-progress.progress {
+sidepanel .torrents .torrent .progress, sidepanel .torrent-mini-remote-control-progress.progress {
     position: relative;
     margin-top: 0px;
     height: 4px;
     margin-bottom: -5px;
+}
+
+sidepanel .torrents .torrent .buttons .torrent-mini-remote-control {
+    border: 1px solid white;
+    border-radius:10px;
+    padding:20px;
+}
+
+sidepanel .leftpanel.torrents {
+    color: #E0E0E0;
+    padding:0;
+}
+
+.torrents .torrent {
+    background-color: rgba(55,55,55,0);
+    transition: all 0.1s ease-in;
+}
+
+.torrents .torrent {
+   
+}
+
+.torrents .torrent:hover {
+    background-color: rgba(55,55,55,0.4);
+    color:white;
+}
+
+.torrents .torrent div.buttons {
+    height: 0px;
+    overflow:hidden;
+    transition: all 0.25s ease-in;
+    overflow: hidden;
+    padding: 20px;
+    margin: 20px 0px;
+    position: relative;
+}
+
+.torrents .torrent.active div.buttons {
+    height: 180px;
+    overflow:hidden;
+}
+
+.torrents .torrent strong {
+    text-align: left;
+    display: block;
+    font-size: 14px;
+    cursor: pointer;
+    padding:10px;
+    font-family: helvetica;
+    font-weight:normal;
+}
+
+.torrents .torrent .label {
+    top: 4px;
+    right: 30px;
+    position: absolute;
+    background-color: #505050;
+    display:inline-block;
 }
