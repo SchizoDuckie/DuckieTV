@@ -1013,9 +1013,13 @@ calendar-event .progress-bar {
     left: 0px;
     bottom: 0px;
     z-index: -1;
+
 }
 .progress-bar {
     color: black;
+}
+calendar-event .torrent-mini-remote-control-progress div.progress-bar  {
+    opacity: 0.4;
 }
 calendar-event a.glyphicon-chevron-down {
     float:left;
