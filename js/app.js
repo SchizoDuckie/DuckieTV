@@ -3,6 +3,8 @@
  */
 angular.module('DuckieTV', [
     'ui.router',
+    'ct.ui.router.extras.core',
+    'ct.ui.router.extras.sticky',
     'ngLocale',
     'ngAnimate',
     'tmh.dynamicLocale',
@@ -138,6 +140,25 @@ angular.module('DuckieTV', [
                 url: '/',
                 resolve: {
                     SidePanelState: hideSidePanel
+                }
+            })
+            .state('favorites', {
+                sticky: true,
+                url: '/favorites',
+                views: {
+                    favorites: {
+                        templateUrl: 'templates/seriesList.html',
+                        controller: 'seriesListCtrl',
+                        controllerAs: 'serieslist'
+                    },
+                    'tools@favorites': {
+                        templateUrl: 'templates/serieslist/tools.html'
+                    },
+                    'content@favorites': {
+                        templateUrl: 'templates/serieslist/favorites.html',
+                        controller: 'localSeriesCtrl',
+                        controllerAs: 'local',
+                    }
                 }
             })
             .state('watchlist', {

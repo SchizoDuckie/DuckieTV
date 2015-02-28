@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <series-list></series-list>
+  <series-list ui-view="favorites"></series-list>
 
   <div ng-controller="ActionBarCtrl">
     <div id="actionbar" ng-class="{'active':serieslist.activated}">
@@ -38,7 +38,7 @@
           <a class="glyphicon glyphicon-home" href="#/" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right" ng-click="hideSeriesList()"></a>
         </li>
         <li>
-          <a class="glyphicon glyphicon-heart" ng-click="toggleSeriesList()" tooltip="{{serieslist.activated?'SERIESLIST/series-hide/glyph':'SERIESLIST/series-show/glyph'|translate}}" tooltip-placement="right"></a>
+          <a class="glyphicon glyphicon-heart" ui-sref="favorites()" ng-click="toggleSeriesList()" tooltip="{{serieslist.activated?'SERIESLIST/series-hide/glyph':'SERIESLIST/series-show/glyph'|translate}}" tooltip-placement="right"></a>
         </li>
         <li style='display:none' id='wl'>
           <a class="glyphicon glyphicon-facetime-video" href="#/watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-placement="right"></a>
@@ -75,7 +75,9 @@
   <script src="./js/vendor/angular.js"></script>
   <script src="./js/vendor/angular-animate.min.js"></script>
   <script src="./js/vendor/angular-sanitize.min.js"></script>
-  <script src="./js/vendor/ui-router.js"></script>  
+  <script src="./js/vendor/ui-router.js"></script>
+  <script src="./js/vendor/ct-ui-router-extras.core.min.js"></script>  
+  <script src="./js/vendor/ct-ui-router-extras.sticky.min.js"></script>  
  <!-- <script src="./js/vendor/ui-router-0.2.13.min.js"></script>  -->
   <script src="./js/vendor/angular-xml.min.js"></script>
   <script src='./js/vendor/ui-bootstrap-tpls-0.10.0.min.js'></script>
@@ -139,7 +141,7 @@
   <script src="./js/services/TraktTVStorageSyncTarget.js"></script>
   <script src="./js/services/ChromeStorageSyncTarget.js"></script>
   <script src="./js/app.js"></script>
-  <script src="./js/vendor/moment.min.js"></script>
+  <script src="./js/vendor/moment.min.js" async></script>
   <script src="./js/services/TorrentSearchProviders.js"></script>
   <!-- /deploy:replace -->
 

@@ -260,7 +260,6 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
                 var cw = document.body.clientWidth;
                 var avail = cw - spaceToTheRight;
                 var zoom = avail / cw;
-                console.log('transform:', 'scale(' + zoom + ')');
                 calendar.style.transform = 'scale(' + zoom + ')';
             }
         },
@@ -284,7 +283,6 @@ angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 
             });
 
             window.addEventListener('resize', function() {
-                console.log('window resize!');
                 if (calendar.isExpanded) {
                     $scope.zoom(840);
                 } else if (calendar.isShowing) {

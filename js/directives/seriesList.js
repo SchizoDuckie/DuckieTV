@@ -186,18 +186,7 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs', 'DuckieTV.directive
     }
 ])
 
-.directive('localSeries', ["FavoritesService",
-    function(FavoritesService) {
-        return {
-            restrict: 'E',
-            templateUrl: 'templates/serieslist/favorites.html',
-            controller: 'localSeriesCtrl',
-            controllerAs: 'local',
-            bindToController: true,
-            require: '^seriesList',
-        }
-    }
-])
+
 
 .controller('localSeriesCtrl', ["FavoritesService", "TraktTVv2", "$dialogs", "$location", "$filter", "$scope",
     function(FavoritesService, TraktTVv2, $dialogs, $location, $filter, $scope) {
@@ -265,11 +254,11 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs', 'DuckieTV.directive
 .directive('seriesList', function() {
     return {
         restrict: 'E',
-        transclude: true,
-        templateUrl: "templates/seriesList.html",
-        controllerAs: 'serieslist',
+
+        /*templateUrl: "templates/seriesList.html",
+       /* controllerAs: 'serieslist',
         bindToController: true,
-        controller: 'seriesListCtrl',
+        controller: 'seriesListCtrl',*/
     }
 })
 
@@ -281,11 +270,6 @@ angular.module('DuckieTV.directives.serieslist', ['dialogs', 'DuckieTV.directive
         this.width = SidePanelState.state.isExpanded ? document.body.clientWidth - 800 : SidePanelState.state.isShowing ? document.body.clientWidth - 400 : document.body.clientWidth;
         this.activated = false; // Toggles when the favorites panel activated
 
-        this.searchingForSerie = false; // Toggles when 'add a show' is clicked
-        this.serieAddFocus = false; // Toggles this to automatically bring focus to the 'start typing to search for a serie' textbox
-        this.showTrakt = false;
-        this.showTrending = false;
-        this.serie = null; // active hover serie to pass to the sidepanel
         this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
         this.isSmall = false; // Toggles the poster zoom
         this.hideEnded = false;

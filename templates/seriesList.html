@@ -3,8 +3,8 @@
 
     <div ng-if="serieslist.activated">
         <!-- The top tools panel for the series list -->
-        <div class="tools" ng-show="!serieslist.searchingForSerie" ng-include="'templates/serieslist/tools.html'">
-        </div>
+        <div ui-view="tools" class="tools"> </div>
+        <div ui-view="content"></div>
         <!-- Sidepanel for trending/search mode to display extended serie details -->
          <serie-details class="sidepanel" ng-show="serieslist.searchingForSerie || serieslist.showTrakt" template-url="templates/serieslist/searching-sidepanel.html"></serie-details>
         <!-- END Search/Add Mode -->
