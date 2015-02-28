@@ -6,13 +6,6 @@
         <div ui-view="tools" class="tools"> </div>
         <div ui-view="content"></div>
         <!-- Sidepanel for trending/search mode to display extended serie details -->
-         <serie-details class="sidepanel" ng-show="serieslist.searchingForSerie || serieslist.showTrakt" template-url="templates/serieslist/searching-sidepanel.html"></serie-details>
-        <!-- END Search/Add Mode -->
-        
-        <local-series id='favslist' ng-if="!serieslist.searchingForSerie && !serieslist.showTrakt"></local-series>
-        
-        <!-- If we're in search/add mode, this panel pops up -->
-        <trakt-tv-trending ng-if="serieslist.searchingForSerie && serieslist.showTrending" class="series"></trakt-tv-trending>
-        <trakt-tv-search ng-if="serieslist.searchingForSerie"></trakt-tv-search>
+
     </div>
 </div>

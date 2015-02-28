@@ -1,9 +1,3 @@
-<!-- serieslist\favorites.html -->
-<!-- Search bar filtering library -->
-<form ng-submit="local.execFilter()" name="local.filterForm" ng-if="serieslist.mode == 'search'">
-    <input type='text' focus-watch="'local.isFiltering'" placeholder="{{'SERIESLIST/FAVORITES/filter-placeholder'|translate}}" ng-change='setFilter(local.filter.localFilterString)' ng-model='local.filter.localFilterString' style='padding:5px; position:absolute; left:83px; width:35%; top:16px'>
-</form>
-
 <!-- Display favourites in selected mode -->
 <div class="series" ng-if="serieslist.activated" ng-class="{'miniposter': serieslist.isSmall}">
     <serieHeader ng-repeat="serie in serieslist.favorites | orderBy: 'sortName' | filter: local.localFilter" data="serie" no-overview="1" mode="{{serieslist.mode}}">   

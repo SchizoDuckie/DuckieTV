@@ -1,0 +1,21 @@
+<!-- Add series button -->
+<a accesskey="a" ui-sref=".add()" tooltip="{{'SERIESLIST/TOOLS/addshow-add-to-list/tooltip'|translate}}({{'SERIESLIST/TOOLS/hotkey/lbl'|translate}}: alt+a)" tooltip-placement="right" style='float:left'>
+    <i class="glyphicon glyphicon-plus-sign" style="top:3px"></i> {{'SERIESLIST/TOOLS/addshow-show/glyph'|translate}}
+</a>
+<!-- Filter library button -->
+<a accesskey="/" ui-sref=".search()" tooltip="{{'SERIESLIST/FAVORITES/search/tooltip'|translate}}({{'SERIESLIST/FAVORITES/hotkey/lbl'|translate}}: alt + / )" tooltip-placement="bottom">
+    <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'SERIESLIST/FAVORITES/filter/glyph'|translate}}
+</a>&nbsp;
+
+<!-- Banner mode button -->
+<a accesskey="l" ng-if="serieslist.mode == 'poster'"  ng-click="serieslist.setMode('banner');" tooltip="{{'SERIESLIST/FAVORITES/list-show-mode/tooltip'|translate}}({{'SERIESLIST/FAVORITES/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom">
+    <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'SERIESLIST/FAVORITES/list-show/glyph'|translate}}
+</a>
+<!-- Poster mode button -->
+<a accesskey="g" ng-if="serieslist.mode == 'search' || serieslist.mode == 'banner'" ng-click="serieslist.setMode('poster');" tooltip="{{'SERIESLIST/FAVORITES/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/FAVORITES/hotkey/lbl'|translate}}: alt + g)" tooltip-placement="bottom">
+    <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'SERIESLIST/FAVORITES/grid-show/glyph'|translate}}
+</a>
+<!-- Make posters smaller button -->
+<a ng-if="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">
+    <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/FAVORITES/make-posters-large/tooltip' : 'SERIESLIST/FAVORITES/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-zoom-in':serieslist.isSmall, 'glyphicon-zoom-out': !serieslist.isSmall}"></i>
+</a>

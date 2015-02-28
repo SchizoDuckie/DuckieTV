@@ -270,8 +270,6 @@ serieheader[mode=poster] h3 {
 }
 serieheader .overview {
     color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 5px;
     font-size:10px;
     color: white;
 }
@@ -347,7 +345,6 @@ serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
 series-list > div {
     position: fixed;
     bottom: 0px;
-    height: 100%;
     top:0px;
     left: 0px;
     right: 0px;

@@ -148,11 +148,9 @@ angular.module('DuckieTV', [
                 views: {
                     favorites: {
                         templateUrl: 'templates/seriesList.html',
-                        controller: 'seriesListCtrl',
-                        controllerAs: 'serieslist'
                     },
                     'tools@favorites': {
-                        templateUrl: 'templates/serieslist/tools.html'
+                        templateUrl: 'templates/serieslist/tools/favorites.html'
                     },
                     'content@favorites': {
                         templateUrl: 'templates/serieslist/favorites.html',
@@ -161,18 +159,59 @@ angular.module('DuckieTV', [
                     }
                 }
             })
-            .state('watchlist', {
-                url: '/watchlist',
-                resolve: {
-                    SidePanelState: expandSidePanel
-                },
+            .state('favorites.add', {
+                sticky: true,
+                url: '/favorites/add',
                 views: {
-                    sidePanel: {
-                        templateUrl: 'templates/watchlist.html',
-                        controller: 'WatchlistCtrl'
+                    favorites: {
+                        controller: 'traktTvSearchCtrl',
+                        controllerAs: 'traktSearch',
+                    },
+                    'tools@favorites': {
+                        templateUrl: 'templates/serieslist/tools/adding.html'
+                    },
+                    'content@favorites': {
+                        templateUrl: 'templates/serieslist/trakt-trending.html',
+                        controller: 'traktTvTrendingCtrl',
+                        controllerAs: 'trending'
                     }
                 }
             })
+            .state('favorites.add.search', {
+                sticky: true,
+                url: '/favorites/add',
+                views: {
+                    'content@favorites': {
+                        templateUrl: 'templates/serieslist/trakt-searching.html'
+                    }
+                }
+            })
+            .state('trakt-serie', {
+                resolve: {
+                    SidePanelState: showSidePanel
+                },
+                views: {
+                    sidePanel: {
+                        templateUrl: 'templates/sidepanel/trakt-serie-details.html',
+                        controller: 'sidepanelTraktSerieCtrl',
+                        controllerAs: 'sidepanel'
+                    }
+                }
+            })
+
+
+        .state('watchlist', {
+            url: '/watchlist',
+            resolve: {
+                SidePanelState: expandSidePanel
+            },
+            views: {
+                sidePanel: {
+                    templateUrl: 'templates/watchlist.html',
+                    controller: 'WatchlistCtrl'
+                }
+            }
+        })
 
         // note: separate state from serie.season.episode navigation because we want to only open the sidepanel from the calendar, not expand it
         .state('episode', {
