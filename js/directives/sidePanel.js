@@ -143,28 +143,28 @@ angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites',
     /*
      * Takes a rating (8.12345) and coverts it percentage presentation (81)
      */
-    $scope.ratingPercentage = function(rating) {
+    this.ratingPercentage = function(rating) {
         return Math.round(rating * 10);
     };
 
     /*
      * Takes the English day of the week (as fetched from TraktTV) and returns a translation
      */
-    $scope.translateDayOfWeek = function(dayofweek) {
+    this.translateDayOfWeek = function(dayofweek) {
         return $locale.DATETIME_FORMATS.DAY[daysOfWeekList.indexOf(dayofweek)];
     };
 
     /*
      * Takes the English genre (as fetched from TraktTV) and returns a translation
      */
-    $scope.translateGenre = function(genre) {
+    this.translateGenre = function(genre) {
         return (genreList.indexOf(genre) != -1) ? translatedGenreList[genreList.indexOf(genre)] : genre;
     };
 
     /*
      * Takes the English status (as fetched from TraktTV) and returns a translation
      */
-    $scope.translateStatus = function(status) {
+    this.translateStatus = function(status) {
         return (statusList.indexOf(status) != -1) ? translatedStatusList[statusList.indexOf(status)] : status;
     };
 });
