@@ -31,7 +31,7 @@
       <p class="label label-success">Period: {{adPeriod}} days</p>
       <p class="alert alert-info">Changes the period auto download looks for episodes to download. If an episode is more than than the set amount of days old, it will not be downloaded. Default: 7 Days</p>
 
-      <form name="p"><input type='number' style='width:100px;color:black' name="period" ng-model="customadPeriod" min="1" max="21" ng-keyup="adPeriod=adPeriod.replace(/[^\d]/,'')"></form>
+      <form name="p"><input type='number' style='width:100px;color:black' name="period" ng-model="customadPeriod" min="1" max="21"></form>
       <button class="btn btn-success" ng-click="setadPeriod(customadPeriod)" ng-disabled="p.period.$error.number">Save</button>
       <span class="alert alert-danger" style="display:inline-block" ng-show="p.period.$error.number">Can only contain numbers!</span>
 

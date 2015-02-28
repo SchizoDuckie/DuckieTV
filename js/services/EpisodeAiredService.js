@@ -31,7 +31,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
 							candidates.map(function(episode, episodeIndex) {
 								if (episode.watchedAt !== null) return; // if the episode has been marked as watched, skip it.
 								if (episode.magnetHash !== null && (episode.magnetHash in remote.torrents)) return; // if the episode was already downloaded, skip it.
-								if (episode.downloaded !== null) return; // if the episode was already downloaded, skip it.
+								//if (episode.downloaded !== null) return; // if the episode was already downloaded, skip it.
 
 								CRUD.FindOne('Serie', {
 									ID_Serie: episode.get('ID_Serie')
