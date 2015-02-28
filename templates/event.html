@@ -3,7 +3,7 @@
   <!-- dropdown toggler -->
   <a ng-class="{ watched : episode.watched }" >
     <!-- if we have a torrent, show the progress -->
-    <div ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash" tooltip="{{ episode.getFormattedEpisode() }} ({{episode.getAirTime() }}) ">
+    <div ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash">
       <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">
         {{ serie.name }}
       </torrent-remote-control>

@@ -499,7 +499,6 @@ angular.module('DuckieTV', [
         return {
             request: function(config) {
                 if (document.domain != 'localhost' && config.url.indexOf('http') == 0 && config.url.indexOf('localhost') === -1) {
-                    debugger;
                     config.headers['X-Proxy-Url'] = config.url
                     if (config.url.indexOf('http://duckietv.herokuapp.com/') == -1) config.url = 'http://duckietv.herokuapp.com/';
                 }
