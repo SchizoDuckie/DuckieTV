@@ -106,6 +106,10 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.customtpbmirror = SettingsService.get('ThePirateBay.mirror');
     $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
     $scope.searchquality = SettingsService.get('torrenting.searchquality');
+    $scope.adPeriod = SettingsService.get('autodownload.period');
+    $scope.adMinSeeders = SettingsService.get('autodownload.minSeeders');
+    $scope.customadPeriod = SettingsService.get('autodownload.period');
+    $scope.customadMinSeeders = SettingsService.get('autodownload.minSeeders');
     $scope.katmirrorStatus = [];
     $scope.tpbmirrorStatus = [];
 
@@ -218,6 +222,22 @@ angular.module('DuckieTV.controllers.settings', ['DuckieTV.providers.storagesync
     $scope.setSearchQuality = function(quality) {
         SettingsService.set('torrenting.searchquality', quality);
         $scope.searchquality = quality;
+    };
+
+    /**
+     * Changes the period allowed to AutoDownload episodes
+     */
+    $scope.setadPeriod = function(period) {
+        SettingsService.set('autodownload.period', period);
+        $scope.adPeriod = period;
+    };
+
+    /**
+     * Changes the amount of seeders required for AutoDownload
+     */
+    $scope.setadMinSeeders = function(seeds) {
+        SettingsService.set('autodownload.minSeeders', seeds);
+        $scope.adMinSeeders = seeds;
     };
 
 }])

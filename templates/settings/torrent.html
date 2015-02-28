@@ -1,31 +1,50 @@
 <div ng-controller="SettingsTorrentCtrl">
   
-      <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/hdr'|translate}}</h2>
-      <p class="label label-success" ng-show="getSetting('torrenting.enabled')">{{'SETTINGS/TORRENT/enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('torrenting.enabled')">{{'SETTINGS/TORRENT/disabled/lbl'|translate}}</p>
-   
-      <ul class="list-unstyled">
-        <li>
-        <p ng-show="!getSetting('torrenting.enabled')" class="alert alert-info">{{'SETTINGS/TORRENT/functions-show/alert'|translate}}</p>
-        <p ng-show="getSetting('torrenting.enabled')" class="alert alert-warning">{{'SETTINGS/TORRENT/functions-hide/alert'|translate}}</p>
-        <button ng-show="!getSetting('torrenting.enabled')" ng-click="enableSetting('torrenting.enabled')" class="btn btn-success">{{'SETTINGS/TORRENT/functions-show/btn'|translate}}</button>
-        <button ng-show="getSetting('torrenting.enabled')" ng-click="disableSetting('torrenting.enabled')" class="btn btn-danger">{{'SETTINGS/TORRENT/functions-hide/btn'|translate}}</button>
-        </li>
-      </ul>
-   
+  <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/hdr'|translate}}</h2>
+  <p class="label label-success" ng-show="getSetting('torrenting.enabled')">{{'SETTINGS/TORRENT/enabled/lbl'|translate}}</p>
+  <p class="label label-danger" ng-show="!getSetting('torrenting.enabled')">{{'SETTINGS/TORRENT/disabled/lbl'|translate}}</p>
 
+  <ul class="list-unstyled">
+    <li>
+      <p ng-show="!getSetting('torrenting.enabled')" class="alert alert-info">{{'SETTINGS/TORRENT/functions-show/alert'|translate}}</p>
+      <p ng-show="getSetting('torrenting.enabled')" class="alert alert-warning">{{'SETTINGS/TORRENT/functions-hide/alert'|translate}}</p>
+      <button ng-show="!getSetting('torrenting.enabled')" ng-click="enableSetting('torrenting.enabled')" class="btn btn-success">{{'SETTINGS/TORRENT/functions-show/btn'|translate}}</button>
+      <button ng-show="getSetting('torrenting.enabled')" ng-click="disableSetting('torrenting.enabled')" class="btn btn-danger">{{'SETTINGS/TORRENT/functions-hide/btn'|translate}}</button>
+    </li>
+  </ul>
+  </br>
   <div ng-show="getSetting('torrenting.enabled')">
-      <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/autodownload/hdr'|translate}}</h2>
-      <p class="label label-success" ng-show="getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-enabled/lbl'|translate}}</p>
-      <p class="label label-danger" ng-show="!getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-disabled/lbl'|translate}}</p>
-      <ul class="list-unstyled">
-        <li>
-          <p ng-show="!getSetting('torrenting.autodownload')" class="alert alert-info">{{'SETTINGS/TORRENT/autodownload-enable/alert'|translate}}</p>
-          <p ng-show="getSetting('torrenting.autodownload')" class="alert alert-warning">{{'SETTINGS/TORRENT/autodownload-disable/alert'|translate}}</p>
-          <button ng-show="!getSetting('torrenting.autodownload')" ng-click="enableAutoDownload()" class="btn btn-success">{{'SETTINGS/TORRENT/autodownload-enable/btn'|translate}}</button>
-          <button ng-show="getSetting('torrenting.autodownload')" ng-click="disableAutoDownload()" class="btn btn-danger">{{'SETTINGS/TORRENT/autodownload-disable/btn'|translate}}</button>
-        </li>
-      </ul>
+    <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/autodownload/hdr'|translate}}</h2>
+    <p class="label label-success" ng-show="getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-enabled/lbl'|translate}}</p>
+    <p class="label label-danger" ng-show="!getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-disabled/lbl'|translate}}</p>
+    <ul class="list-unstyled">
+      <li>
+        <p ng-show="!getSetting('torrenting.autodownload')" class="alert alert-info">{{'SETTINGS/TORRENT/autodownload-enable/alert'|translate}}</p>
+        <p ng-show="getSetting('torrenting.autodownload')" class="alert alert-warning">{{'SETTINGS/TORRENT/autodownload-disable/alert'|translate}}</p>
+        <button ng-show="!getSetting('torrenting.autodownload')" ng-click="enableAutoDownload()" class="btn btn-success">{{'SETTINGS/TORRENT/autodownload-enable/btn'|translate}}</button>
+        <button ng-show="getSetting('torrenting.autodownload')" ng-click="disableAutoDownload()" class="btn btn-danger">{{'SETTINGS/TORRENT/autodownload-disable/btn'|translate}}</button>
+      </li>
+    </ul>
     
+    <div>
+      <h3 style='white-space:nowrap;text-align:left'>Period to download shows</h2>
+      <p class="label label-success">Period: {{adPeriod}} days</p>
+      <p class="alert alert-info">Changes the period auto download looks for episodes to download. If an episode is more than than the set amount of days old, it will not be downloaded. Default: 7 Days</p>
+
+      <form name="p"><input type='number' style='width:100px;color:black' name="period" ng-model="customadPeriod" min="1" max="21"></form>
+      <button class="btn btn-success" ng-click="setadPeriod(customadPeriod)" ng-disabled="p.period.$error.number">Save</button>
+      <span class="alert alert-danger" style="display:inline-block" ng-show="p.period.$error.number">Can only contain numbers!</span>
+
+
+      <h3 style='white-space:nowrap;text-align:left'>Min. Seeders Required</h2>
+      <p class="label label-success">Min. Seeders: {{adMinSeeders}}</p>
+      <p class="alert alert-info">Changes the amount of seeders required for an episode before it starts to download it. Default: 250</p>
+
+      <form name="s"><input type='number' style='width:100px;color:black' name="seeders" ng-model="customadMinSeeders" min="0" max="3000"></form>
+      <button class="btn btn-success" ng-click="setadMinSeeders(customadMinSeeders)" ng-disabled="s.seeders.$error.number">Save</button>
+      <span class="alert alert-danger" style="display:inline-block" ng-show="s.seeders.$error.number">Can only contain numbers!</span>
+
+    </div>
+  </div>
 </div>
    
