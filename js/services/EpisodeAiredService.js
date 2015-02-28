@@ -9,8 +9,8 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
 .factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "GenericSearch", "TorrentDialog", "uTorrent",
 	function($rootScope, FavoritesService, SceneNameResolver, SettingsService, GenericSearch, TorrentDialog, uTorrent) {
 
-		var period = 7; // period to check for updates up until today current time
-		var minSeeders = 250; // minimum amount of seeders required.
+		var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 7
+		var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 250
 
 		var service = {
 			attach: function() {
@@ -31,6 +31,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
 							candidates.map(function(episode, episodeIndex) {
 								if (episode.watchedAt !== null) return; // if the episode has been marked as watched, skip it.
 								if (episode.magnetHash !== null && (episode.magnetHash in remote.torrents)) return; // if the episode was already downloaded, skip it.
+								if (episode.downloaded !== null) return; // if the episode was already downloaded, skip it.
 
 								CRUD.FindOne('Serie', {
 									ID_Serie: episode.get('ID_Serie')
@@ -38,7 +39,6 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
 									service.autoDownload(serie, episode, episodeIndex).then(function(result) {
 										if (result) {
 											// store the magnet hash on the episode and notify the listeners of the change
-
 											$rootScope.$broadcast('magnet:select:' + episode.TVDB_ID, [result]);
 										}
 									});
@@ -57,7 +57,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
 				var searchString = name.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
 				console.log("Auto download!", searchString);
 
-				// search torrent provider for the string
+				// Search torrent provider for the string
 				return GenericSearch.search(searchString, true).then(function(results) {
 					if (results.length === 0) {
 						return; // no results, abort
@@ -76,7 +76,7 @@ angular.module('DuckieTV.providers.episodeaired', ['DuckieTV.providers.favorites
 				});
 			}
 		};
-		
+
 		return service;
 	}
 ]);

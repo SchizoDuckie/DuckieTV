@@ -96,7 +96,6 @@ angular.module('DuckieTV.providers.settings', [])
             'sync.progress': true,
             'topSites.enabled': true,
             'topSites.mode': 'onhover',
-            'torrenting.autodownload': false,
             'torrenting.autostop': true,
             'torrenting.directory': true,
             'torrenting.enabled': true,
@@ -104,6 +103,9 @@ angular.module('DuckieTV.providers.settings', [])
             'torrenting.searchprovider': 'KickAssTorrents',
             'torrenting.searchquality': '',
             'torrenting.streaming': true,
+            'torrenting.autodownload': false,
+            'autodownload.period': 7,
+            'autodownload.minSeeders': 250,
             'trakttv.passwordHash': null,
             'trakttv.sync': false,
             'trakttv.username': null
