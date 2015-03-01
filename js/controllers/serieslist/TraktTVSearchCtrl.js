@@ -1,5 +1,5 @@
-DuckieTV.controller('traktTvSearchCtrl', ["$scope", "TraktTVv2",
-    function($scope, $rootScope, TraktTVv2) {
+DuckieTV.controller('traktTvSearchCtrl', ["$scope", "TraktTVv2", "$stateParams",
+    function($scope, TraktTVv2, $stateParams) {
 
         var traktSearch = this;
 
@@ -7,9 +7,19 @@ DuckieTV.controller('traktTvSearchCtrl', ["$scope", "TraktTVv2",
         this.searching = false;
         this.error = false;
 
-        this.search = {
-            query: ''
-        };
+
+        TraktTVv2.search($stateParams.query).then(function(res) {
+            traktSearch.error = false;
+            traktSearch.searching = TraktTVv2.hasActiveSearchRequest();
+            traktSearch.results = res || [];
+            $scope.$applyAsync();
+        }).catch(function(err) {
+            console.error("Search error!", err);
+            traktSearch.error = err;
+            traktSearch.searching = TraktTVv2.hasActiveSearchRequest();
+            traktSearch.results = [];
+        });
+
 
     }
 ])

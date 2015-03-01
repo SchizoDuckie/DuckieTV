@@ -83,15 +83,24 @@ DuckieTV.config(["$stateProvider",
                 }
             })
             .state('favorites.add', {
-                sticky: true,
                 url: '/add',
                 views: {
-                    favorites: {
-                        controller: 'traktTvSearchCtrl',
-                        controllerAs: 'traktSearch',
-                    },
                     'tools@favorites': {
-                        templateUrl: 'templates/serieslist/tools/adding.html'
+                        templateUrl: 'templates/serieslist/tools/adding.html',
+                        controller: function($state, $stateParams) {
+                            this.query = $stateParams.query
+                            this.search = function(q) {
+                                console.log('search!')
+                                if (q.length > 0) {
+                                    $state.go('favorites.add.search', {
+                                        query: q
+                                    });
+                                } else {
+                                    $state.go('favorites.add');
+                                }
+                            }
+                        },
+                        controllerAs: 'search'
                     },
                     'content@favorites': {
                         templateUrl: 'templates/serieslist/trakt-trending.html',
@@ -101,7 +110,6 @@ DuckieTV.config(["$stateProvider",
                 }
             })
             .state('favorites.add.empty', {
-                sticky: true,
                 url: '/empty',
                 views: {
                     'content@favorites': {
@@ -112,11 +120,12 @@ DuckieTV.config(["$stateProvider",
                 }
             })
             .state('favorites.add.search', {
-                sticky: true,
-                url: '/search',
+                url: '/search/:query',
                 views: {
                     'content@favorites': {
-                        templateUrl: 'templates/serieslist/trakt-searching.html'
+                        templateUrl: 'templates/serieslist/trakt-searching.html',
+                        controller: 'traktTvSearchCtrl',
+                        controllerAs: 'traktSearch'
                     }
                 }
             })

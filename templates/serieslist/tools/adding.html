@@ -1,9 +1,9 @@
-<form ng-submit="serieslist.selectFirstResult()" name="traktSearch.searchForm">
+<form ng-submit="serieslist.selectFirstResult()" name="search.searchForm">
     <!-- Disable adding button -->
     <a tooltip="{{'SERIESLIST/SEARCHING/addshow-return-to-fav-list/tooltip'|translate}}" tooltip-placement="bottom" ui-sref="favorites()" style='float:left; margin-top:-3px;'>
         <i class="glyphicon glyphicon-ok-sign" style="top: 2px"></i> {{'SERIESLIST/SEARCHING/addshow-hide/glyph'|translate}}
     </a>
-    <input type="text" focus-watch="'serieslist.searchingForSerie'" ng-model="traktSearch.search.query" placeholder="{{'SERIESLIST/SEARCHING/addshow-type-series-name/placeholder'|translate}}" ng-model-options="{debounce: 500}"  ng-change="traktSearch.findSeries(traktSearch.search.query)" style='float:left; margin-left:10px; width:35%; margin-right:10px; font-size:20px; margin-top:-8px;'>
+    <input type="text" focus-watch="'serieslist.searchingForSerie'" ng-model="search.query" placeholder="{{'SERIESLIST/SEARCHING/addshow-type-series-name/placeholder'|translate}}" ng-model-options="{debounce: 500}"  ng-change="search.search(search.query)" style='float:left; margin-left:10px; width:35%; margin-right:10px; font-size:20px; margin-top:-8px;'>
     <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh" ></i>
     <p class="protip">{{'SERIESLIST/SEARCHING/addshow-protip/lbl'|translate}}</p>
 </form>
