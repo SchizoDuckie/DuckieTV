@@ -120,6 +120,7 @@ DuckieTV.config(["$stateProvider",
                 }
             })
             .state('favorites.add.search', {
+                sticky: true,
                 url: '/search/:query',
                 views: {
                     'content@favorites': {
