@@ -1,11 +1,9 @@
-angular.module('DuckieTV.providers.googleimages', [])
-
 /** CURRENTLY UNUSED!
  * Standalone Google search capabilities.
  * Provides Google search results.
  */
 
-.provider('GoogleImages', function() {
+DuckieTV.provider('GoogleImages', function() {
 
     this.endpoints = {
         searchWallpaper: 'https://www.google.nl/search?q=%s+movie+wallpaper&source=lnms&tbm=isch&sa=X&tbs=isz:lt,islt:2mp',
@@ -27,37 +25,39 @@ angular.module('DuckieTV.providers.googleimages', [])
         return output;
     }
 
-    this.$get = ["$q", "$http", function($q, $http) {
-        var self = this;
-        return {
-            wallpaper: function(what) {
-                var d = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: self.getUrl('searchWallpaper', what),
-                    cache: true
-                }).then(function(response) {
-                    d.resolve(self.parseSearch(response));
-                }, function(err) {
-                    console.log('error!');
-                    d.reject(err);
-                });
-                return d.promise;
-            },
-            getDetails: function(imdbid) {
-                var d = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: self.getUrl('details', imdbid),
-                    cache: true
-                }).then(function(response) {
-                    d.resolve(self.parseDetails(response));
-                }, function(err) {
-                    console.log('error!');
-                    d.reject(err);
-                });
-                return d.promise;
+    this.$get = ["$q", "$http",
+        function($q, $http) {
+            var self = this;
+            return {
+                wallpaper: function(what) {
+                    var d = $q.defer();
+                    $http({
+                        method: 'GET',
+                        url: self.getUrl('searchWallpaper', what),
+                        cache: true
+                    }).then(function(response) {
+                        d.resolve(self.parseSearch(response));
+                    }, function(err) {
+                        console.log('error!');
+                        d.reject(err);
+                    });
+                    return d.promise;
+                },
+                getDetails: function(imdbid) {
+                    var d = $q.defer();
+                    $http({
+                        method: 'GET',
+                        url: self.getUrl('details', imdbid),
+                        cache: true
+                    }).then(function(response) {
+                        d.resolve(self.parseDetails(response));
+                    }, function(err) {
+                        console.log('error!');
+                        d.reject(err);
+                    });
+                    return d.promise;
+                }
             }
         }
-    }]
+    ]
 })

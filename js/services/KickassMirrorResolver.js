@@ -1,9 +1,7 @@
-angular.module('DuckieTV.providers.kickassmirrorresolver', [])
-
 /** 
  * Automatic mirror resolver for KickassTorrent by utilizing unlocktorrent.com
  */
-.provider('KickassMirrorResolver', function() {
+DuckieTV.provider('KickassMirrorResolver', function() {
 
     // Individual mirror resolvers can be added here
     this.endpoints = {
@@ -61,81 +59,83 @@ angular.module('DuckieTV.providers.kickassmirrorresolver', [])
      * Get wrapper, providing the actual search functions and result parser
      * Provides promises so it can be used in typeahead as well as in the rest of the app
      */
-    this.$get = ["$q", "$http", "$rootScope", function($q, $http, $rootScope) {
-        var self = this;
-        var maxAttempts = 50;
-        return {
-            /**
-             * Find a random mirror for KickAss Torrents and return the promise when
-             * one is found and verified. If a valid working server is not found within x tries, it fails.
-             * Provides up-to-date status messages via mirrorresolver:status while doing that
-             */
-            findKATMirror: function(attempt) {
-                attempt = attempt || 1;
-                $rootScope.$broadcast('katmirrorresolver:status', 'Finding a random KAT Mirror, attempt ' + attempt);
-                var d = $q.defer();
-                $http({ // Fetch the document that gives a mirror
-                    method: 'GET',
-                    url: self.getUrl('kickasstorrents'),
-                    cache: false
-                }).then(function(response) {
-                    // Parse the response
-                    var location = self.parseRockAProxy(response);
-                    console.log('mirror picked', response);
-                    $rootScope.$broadcast('katmirrorresolver:status', "Found KickAss Torrents mirror! " + location + " Verifying if it uses magnet links.");
-                    // Verify that the mirror works by executing a test search, otherwise try the process again
-                    self.$get($q, $http, $rootScope).verifyKATMirror(location).then(function(location) {
-                        console.log("Mirror uses magnet links!", location);
-                        d.resolve(location);
+    this.$get = ["$q", "$http", "$rootScope",
+        function($q, $http, $rootScope) {
+            var self = this;
+            var maxAttempts = 50;
+            return {
+                /**
+                 * Find a random mirror for KickAss Torrents and return the promise when
+                 * one is found and verified. If a valid working server is not found within x tries, it fails.
+                 * Provides up-to-date status messages via mirrorresolver:status while doing that
+                 */
+                findKATMirror: function(attempt) {
+                    attempt = attempt || 1;
+                    $rootScope.$broadcast('katmirrorresolver:status', 'Finding a random KAT Mirror, attempt ' + attempt);
+                    var d = $q.defer();
+                    $http({ // Fetch the document that gives a mirror
+                        method: 'GET',
+                        url: self.getUrl('kickasstorrents'),
+                        cache: false
+                    }).then(function(response) {
+                        // Parse the response
+                        var location = self.parseRockAProxy(response);
+                        console.log('mirror picked', response);
+                        $rootScope.$broadcast('katmirrorresolver:status', "Found KickAss Torrents mirror! " + location + " Verifying if it uses magnet links.");
+                        // Verify that the mirror works by executing a test search, otherwise try the process again
+                        self.$get($q, $http, $rootScope).verifyKATMirror(location).then(function(location) {
+                            console.log("Mirror uses magnet links!", location);
+                            d.resolve(location);
+                        }, function(err) {
+                            if (attempt < maxAttempts) {
+                                failedMirrors.push(location);
+                                if (err.status)
+                                    $rootScope.$broadcast('katmirrorresolver:status', "Mirror does not do magnet links.. trying another one.");
+                                d.resolve(self.$get($q, $http, $rootScope).findKATMirror(attempt + 1));
+                            } else {
+                                $rootScope.$broadcast("katmirrorresolver:status", "Could not resolve a working mirror in " + maxAttempts + " tries. KAT is probably down.");
+                                d.reject("Could not resolve a working mirror in " + maxAttempts + " tries. KAT is probably down.");
+                            }
+                        });
                     }, function(err) {
-                        if (attempt < maxAttempts) {
-                            failedMirrors.push(location);
-                            if (err.status)
-                                $rootScope.$broadcast('katmirrorresolver:status', "Mirror does not do magnet links.. trying another one.");
-                            d.resolve(self.$get($q, $http, $rootScope).findKATMirror(attempt + 1));
-                        } else {
-                            $rootScope.$broadcast("katmirrorresolver:status", "Could not resolve a working mirror in " + maxAttempts + " tries. KAT is probably down.");
-                            d.reject("Could not resolve a working mirror in " + maxAttempts + " tries. KAT is probably down.");
-                        }
+                        console.log('error!');
+                        d.reject(err);
                     });
-                }, function(err) {
-                    console.log('error!');
-                    d.reject(err);
-                });
-                return d.promise;
-            },
-            /** 
-             * Verify that a specific KAT mirror is working and using magnet links by executing a test search
-             * Parses the results and checks that magnet links are available like they are on KAT.
-             * Some mirrors will not provide direct access to magnet links so we filter those out
-             */
-            verifyKATMirror: function(location, maxTries) {
-                if (maxTries) {
-                    maxAttempts = maxTries;
-                };
-                $rootScope.$broadcast('katmirrorresolver:status', "Verifying if mirror is using magnet links!: " + location);
-                var q = $q.defer();
+                    return d.promise;
+                },
+                /** 
+                 * Verify that a specific KAT mirror is working and using magnet links by executing a test search
+                 * Parses the results and checks that magnet links are available like they are on KAT.
+                 * Some mirrors will not provide direct access to magnet links so we filter those out
+                 */
+                verifyKATMirror: function(location, maxTries) {
+                    if (maxTries) {
+                        maxAttempts = maxTries;
+                    };
+                    $rootScope.$broadcast('katmirrorresolver:status', "Verifying if mirror is using magnet links!: " + location);
+                    var q = $q.defer();
 
-                testLocation = location + "usearch/test";
-                $http({
-                    method: 'GET',
-                    url: testLocation
-                }).then(function(response) {
-                    $rootScope.$broadcast('katmirrorresolver:status', "Results received, parsing");
-                    if (self.parseKATTestSearch(response, $rootScope.getSetting('proxy.allowUnsafe'))) {
-                        $rootScope.$broadcast('katmirrorresolver:status', "Yes it does!");
-                        q.resolve(location);
-                    } else {
-                        $rootScope.$broadcast('katmirrorresolver:status', "This is a mirror that intercepts magnet links. bypassing.");
-                        q.reject(location);
-                    }
-                }, function(err) {
-                    $rootScope.$broadcast('katmirrorresolver:status', 'error! HTTP Status: ' + angular.toJson(err.status));
-                    q.reject(err);
-                });
-                return q.promise;
-            },
+                    testLocation = location + "usearch/test";
+                    $http({
+                        method: 'GET',
+                        url: testLocation
+                    }).then(function(response) {
+                        $rootScope.$broadcast('katmirrorresolver:status', "Results received, parsing");
+                        if (self.parseKATTestSearch(response, $rootScope.getSetting('proxy.allowUnsafe'))) {
+                            $rootScope.$broadcast('katmirrorresolver:status', "Yes it does!");
+                            q.resolve(location);
+                        } else {
+                            $rootScope.$broadcast('katmirrorresolver:status', "This is a mirror that intercepts magnet links. bypassing.");
+                            q.reject(location);
+                        }
+                    }, function(err) {
+                        $rootScope.$broadcast('katmirrorresolver:status', 'error! HTTP Status: ' + angular.toJson(err.status));
+                        q.reject(err);
+                    });
+                    return q.promise;
+                },
 
+            }
         }
-    }]
+    ]
 });

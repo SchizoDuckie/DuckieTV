@@ -1,31 +1,30 @@
-angular.module('DuckieTV.directives.sidepanel', ['DuckieTV.providers.favorites', 'DuckieTV.providers.episodeaired'])
-    .factory('SidePanelState', function() {
+DuckieTV.factory('SidePanelState', function() {
 
-        var service = {
-            state: {
-                isShowing: false,
-                isExpanded: false
-            },
-            show: function() {
-                document.body.style.overflowY = 'hidden';
-                document.body.scrollTop = 0;
-                service.state.isShowing = true;
-                service.state.isExpanded = false;
-            },
-            hide: function() {
-                document.body.style.overflowY = 'auto';
-                service.contract();
-                service.state.isShowing = false;
-            },
-            expand: function() {
-                service.state.isExpanded = true;
-            },
-            contract: function() {
-                service.state.isExpanded = false;
-            }
-        };
-        return service;
-    })
+    var service = {
+        state: {
+            isShowing: false,
+            isExpanded: false
+        },
+        show: function() {
+            document.body.style.overflowY = 'hidden';
+            document.body.scrollTop = 0;
+            service.state.isShowing = true;
+            service.state.isExpanded = false;
+        },
+        hide: function() {
+            document.body.style.overflowY = 'auto';
+            service.contract();
+            service.state.isShowing = false;
+        },
+        expand: function() {
+            service.state.isExpanded = true;
+        },
+        contract: function() {
+            service.state.isExpanded = false;
+        }
+    };
+    return service;
+})
 
 .directive('sidepanel', function() {
     return {

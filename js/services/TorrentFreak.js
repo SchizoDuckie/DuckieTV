@@ -1,9 +1,7 @@
-angular.module('DuckieTV.providers.torrentfreak', [])
-
 /**
  * TorrentFreak Top 10 Most Pirated Movies
  */
-.provider('TorrentFreak', function() {
+DuckieTV.provider('TorrentFreak', function() {
 
     var endpoints = {
         top10rss: 'http://torrentfreak.com/category/dvdrip/feed/'
@@ -81,63 +79,67 @@ angular.module('DuckieTV.providers.torrentfreak', [])
      * Get wrapper, providing the actual search functions and result parser
      * Provides promises so it can be used in typeahead as well as in the rest of the app
      */
-    this.$get = ["$q", "$http", "$compile", function($q, $http, $compile) {
-        return {
-            /**
-             * Fetch details for a specific Kickass torrent id
-             */
-            Top10: function(scope) {
-                return $http({
-                    method: 'GET',
-                    url: getUrl('top10rss', null),
-                    cache: true
-                }).then(function(response) {
-                    return parseRSS(response.data, $compile, scope);
-                })
+    this.$get = ["$q", "$http", "$compile",
+        function($q, $http, $compile) {
+            return {
+                /**
+                 * Fetch details for a specific Kickass torrent id
+                 */
+                Top10: function(scope) {
+                    return $http({
+                        method: 'GET',
+                        url: getUrl('top10rss', null),
+                        cache: true
+                    }).then(function(response) {
+                        return parseRSS(response.data, $compile, scope);
+                    })
+                }
             }
         }
-    }]
+    ]
 })
     .directive('top10PiratedMovies', function() {
 
         return {
             restrict: 'E',
             templateUrl: 'templates/torrentfreakTop10.html',
-            controller: ["$compile", "TorrentFreak", "$rootScope", function($compile, TorrentFreak, $rootScope) {
-                var vm = this;
-                this.activeItem;
-                this.items = [];
-                this.itemIndex = 0;
-                this.activeItem = [];
+            controller: ["$compile", "TorrentFreak", "$rootScope",
+                function($compile, TorrentFreak, $rootScope) {
+                    var vm = this;
+                    this.activeItem;
+                    this.items = [];
+                    this.itemIndex = 0;
+                    this.activeItem = [];
 
-                /** 
-                 * Switch to the previous item in the Top10 RSS feed while the index isn't maxxed out
-                 */
-                this.prevItem = function() {
-                    if (this.itemIndex < vm.items.length - 2) {
-                        this.itemIndex += 1;
+                    /** 
+                     * Switch to the previous item in the Top10 RSS feed while the index isn't maxxed out
+                     */
+                    this.prevItem = function() {
+                        if (this.itemIndex < vm.items.length - 2) {
+                            this.itemIndex += 1;
+                        }
+                        this.activeItem = vm.items[vm.itemIndex];
                     }
-                    this.activeItem = vm.items[vm.itemIndex];
-                }
-                /** 
-                 * Switch to the next item in the Top10 RSS feed results while the index is > 0
-                 */
-                this.nextItem = function() {
-                    if (this.itemIndex > 0) {
-                        this.itemIndex -= 1;
+                    /** 
+                     * Switch to the next item in the Top10 RSS feed results while the index is > 0
+                     */
+                    this.nextItem = function() {
+                        if (this.itemIndex > 0) {
+                            this.itemIndex -= 1;
+                        }
+                        this.activeItem = vm.items[vm.itemIndex];
                     }
-                    this.activeItem = vm.items[vm.itemIndex];
-                }
 
-                /** 
-                 * Fetch the Top10 RSS feed, render the first item as HTML and put it on the scope.
-                 */
-                TorrentFreak.Top10($rootScope).then(function(result) {
-                    vm.items = result;
-                    vm.activeItem = result[0];
-                    $compile(result[0].content)($rootScope);
-                });
-            }],
+                    /** 
+                     * Fetch the Top10 RSS feed, render the first item as HTML and put it on the scope.
+                     */
+                    TorrentFreak.Top10($rootScope).then(function(result) {
+                        vm.items = result;
+                        vm.activeItem = result[0];
+                        $compile(result[0].content)($rootScope);
+                    });
+                }
+            ],
             controllerAs: 'vm',
             bindToController: true
         };

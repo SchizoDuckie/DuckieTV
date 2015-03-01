@@ -1,10 +1,8 @@
-angular.module('DuckieTV.providers.tpbmirrorresolver', [])
-
 /** 
  * Automatic mirror resolver for ThePirateBay by utilizing
  * GeenStijl.nl's fucktimkuik.org
  */
-.provider('ThePirateBayMirrorResolver', function() {
+DuckieTV.provider('ThePirateBayMirrorResolver', function() {
 
     // individual mirror resolvers can be added here
     this.endpoints = {
@@ -68,78 +66,80 @@ angular.module('DuckieTV.providers.tpbmirrorresolver', [])
      * Get wrapper, providing the actual search functions and result parser
      * Provides promises so it can be used in typeahead as well as in the rest of the app
      */
-    this.$get = ["$q", "$http", "$rootScope", function($q, $http, $rootScope) {
-        var self = this;
-        var maxAttempts = 3;
-        return {
-            /**
-             * Find a random mirror for ThePirateBay and return the promise when
-             * one is found and verified. If a valid working server is not found within x tries, it fails.
-             * Provides up-to-date status messages via mirrorresolver:status while doing that
-             */
-            findTPBMirror: function(attempt) {
-                attempt = attempt || 1;
-                $rootScope.$broadcast('tpbmirrorresolver:status', 'Finding a random TPB Mirror, attempt ' + attempt);
-                var d = $q.defer();
-                $http({ // fetch the document that gives a mirror
-                    method: 'GET',
-                    url: self.getUrl('thepiratebay'),
-                    cache: false
-                }).then(function(response) {
-                    // parse the response
-                    var location = self.parsePirateBayProxyList(response);
-                    $rootScope.$broadcast('tpbmirrorresolver:status', "Found ThePirateBay mirror! " + location + " Verifying if it uses magnet links.");
-                    // verify that the mirror works by executing a test search, otherwise try the process again
-                    self.$get($q, $http, $rootScope).verifyTPBMirror(location).then(function(location) {
-                        console.log("Mirror uses magnet links!", location);
-                        d.resolve(location);
+    this.$get = ["$q", "$http", "$rootScope",
+        function($q, $http, $rootScope) {
+            var self = this;
+            var maxAttempts = 3;
+            return {
+                /**
+                 * Find a random mirror for ThePirateBay and return the promise when
+                 * one is found and verified. If a valid working server is not found within x tries, it fails.
+                 * Provides up-to-date status messages via mirrorresolver:status while doing that
+                 */
+                findTPBMirror: function(attempt) {
+                    attempt = attempt || 1;
+                    $rootScope.$broadcast('tpbmirrorresolver:status', 'Finding a random TPB Mirror, attempt ' + attempt);
+                    var d = $q.defer();
+                    $http({ // fetch the document that gives a mirror
+                        method: 'GET',
+                        url: self.getUrl('thepiratebay'),
+                        cache: false
+                    }).then(function(response) {
+                        // parse the response
+                        var location = self.parsePirateBayProxyList(response);
+                        $rootScope.$broadcast('tpbmirrorresolver:status', "Found ThePirateBay mirror! " + location + " Verifying if it uses magnet links.");
+                        // verify that the mirror works by executing a test search, otherwise try the process again
+                        self.$get($q, $http, $rootScope).verifyTPBMirror(location).then(function(location) {
+                            console.log("Mirror uses magnet links!", location);
+                            d.resolve(location);
+                        }, function(err) {
+                            if (attempt < maxAttempts) {
+                                if (err.status)
+                                    $rootScope.$broadcast('tpbmirrorresolver:status', "Mirror does not do magnet links.. trying another one.");
+                                d.resolve(self.$get($q, $http, $rootScope).findTPBMirror(attempt + 1));
+                            } else {
+                                $rootScope.$broadcast("tpbmirrorresolver:status", "Could not resolve a working mirror in " + maxAttempts + " tries. TPB is probably down.");
+                                d.reject("Could not resolve a working mirror in " + maxAttempts + " tries. TPB is probably down.");
+                            }
+                        });
                     }, function(err) {
-                        if (attempt < maxAttempts) {
-                            if (err.status)
-                                $rootScope.$broadcast('tpbmirrorresolver:status', "Mirror does not do magnet links.. trying another one.");
-                            d.resolve(self.$get($q, $http, $rootScope).findTPBMirror(attempt + 1));
-                        } else {
-                            $rootScope.$broadcast("tpbmirrorresolver:status", "Could not resolve a working mirror in " + maxAttempts + " tries. TPB is probably down.");
-                            d.reject("Could not resolve a working mirror in " + maxAttempts + " tries. TPB is probably down.");
-                        }
+                        console.log('error!');
+                        d.reject(err);
                     });
-                }, function(err) {
-                    console.log('error!');
-                    d.reject(err);
-                });
-                return d.promise;
-            },
-            /** 
-             * Verify that a specific TPB mirror is working and using magnet links by executing a test search
-             * Parses the results and checks that magnet links are available like they are on TPB.
-             * Some mirrors will not provide direct access to magnet links so we filter those out
-             */
-            verifyTPBMirror: function(location, maxTries) {
-                if (maxTries) {
-                    maxAttempts = maxTries;
-                };
-                $rootScope.$broadcast('tpbmirrorresolver:status', "Verifying if mirror is using magnet links!: " + location);
-                var q = $q.defer();
+                    return d.promise;
+                },
+                /** 
+                 * Verify that a specific TPB mirror is working and using magnet links by executing a test search
+                 * Parses the results and checks that magnet links are available like they are on TPB.
+                 * Some mirrors will not provide direct access to magnet links so we filter those out
+                 */
+                verifyTPBMirror: function(location, maxTries) {
+                    if (maxTries) {
+                        maxAttempts = maxTries;
+                    };
+                    $rootScope.$broadcast('tpbmirrorresolver:status', "Verifying if mirror is using magnet links!: " + location);
+                    var q = $q.defer();
 
-                testLocation = location + "/search/test/0/7/0";
-                $http({
-                    method: 'GET',
-                    url: testLocation
-                }).then(function(response) {
-                    $rootScope.$broadcast('tpbmirrorresolver:status', "Results received, parsing");
-                    if (self.parseTPBTestSearch(response, $rootScope.getSetting('proxy.allowUnsafe'))) {
-                        $rootScope.$broadcast('tpbmirrorresolver:status', "Yes it does!");
-                        q.resolve(location);
-                    } else {
-                        $rootScope.$broadcast('tpbmirrorresolver:status', "This is a mirror that intercepts magnet links. bypassing.");
-                        q.reject(location);
-                    }
-                }, function(err) {
-                    $rootScope.$broadcast('tpbmirrorresolver:status', 'error! HTTP Status: ' + angular.toJson(err.status));
-                    q.reject(err);
-                });
-                return q.promise;
+                    testLocation = location + "/search/test/0/7/0";
+                    $http({
+                        method: 'GET',
+                        url: testLocation
+                    }).then(function(response) {
+                        $rootScope.$broadcast('tpbmirrorresolver:status', "Results received, parsing");
+                        if (self.parseTPBTestSearch(response, $rootScope.getSetting('proxy.allowUnsafe'))) {
+                            $rootScope.$broadcast('tpbmirrorresolver:status', "Yes it does!");
+                            q.resolve(location);
+                        } else {
+                            $rootScope.$broadcast('tpbmirrorresolver:status', "This is a mirror that intercepts magnet links. bypassing.");
+                            q.reject(location);
+                        }
+                    }, function(err) {
+                        $rootScope.$broadcast('tpbmirrorresolver:status', 'error! HTTP Status: ' + angular.toJson(err.status));
+                        q.reject(err);
+                    });
+                    return q.promise;
+                }
             }
         }
-    }]
+    ]
 });

@@ -1,6 +1,4 @@
-angular.module('DuckieTV.controllers.sidepanel', ['dialogs'])
-
-.controller('SidepanelSerieCtrl', function($dialogs, $filter, FavoritesService, $location, serie, latestSeason) {
+DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $filter, FavoritesService, $location, serie, latestSeason) {
 
     this.serie = serie;
     this.latestSeason = latestSeason;

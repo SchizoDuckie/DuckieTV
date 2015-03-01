@@ -1,12 +1,10 @@
-angular.module('DuckieTV.directives.calendar', ['DuckieTV.providers.favorites', 'DuckieTV.providers.episodeaired', 'DuckieTV.directives.sidepanel'])
-
 /**
  * The CalendarEvents service provides storage and retrieve functions
  * for episodes that are displayed on the calendar. It has built-in cache
  * and watches for the calendar changing it's date before fetching a new
  * set of episodes from the database
  */
-.factory('CalendarEvents', ["$rootScope", "FavoritesService",
+DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService",
     function($rootScope, FavoritesService) {
 
         var calendarEvents = {};

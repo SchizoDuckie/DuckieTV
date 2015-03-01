@@ -1,155 +1,4 @@
-DuckieTV
-
-.directive('seriesList', function() {
-    return {
-        restrict: 'E',
-        controller: 'seriesListCtrl'
-
-    }
-})
-
-.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2",
-    function($rootScope, $filter, TraktTVv2) {
-        var trending = this;
-        this.results = [];
-        this.filtered = [];
-        this.limit = 100;
-        this.categories = {};
-        this.activeCategory = false;
-        this.rawTranslatedCategoryList = $filter('translate')('SERIESLISTjs/category/list');
-        this.categoryList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateCategory()
-        this.translatedCategoryList = this.rawTranslatedCategoryList.split(',');
-        /*
-         * Takes the English Category (as fetched from TraktTV) and returns a translation
-         */
-        this.translateCategory = function(category) {
-            return (this.categoryList.indexOf(category) != -1) ? this.translatedCategoryList[this.categoryList.indexOf(category)] : category;
-        };
-
-        this.fetch = function() {
-            //console.log('fetch trending!');
-            if (trending.results.length == 0) {
-                TraktTVv2.trending().then(function(res) {
-                    trending.results = res || [];
-                    trending.results.map(function(el) {
-                        el.genres.map(function(genre) {
-                            trending.categories[genre] = true;
-                        })
-                        trending.filtered.push(el);
-                    })
-
-                    $rootScope.$applyAsync();
-                }).catch(function(error) {
-                    $rootScope.$broadcast('trending:error', error);
-                });
-            }
-        }
-
-        this.toggleCategory = function(category) {
-            if (this.activeCategory == category) {
-                this.activeCategory = false;
-            } else {
-                this.activeCategory = category;
-            }
-            this.filtered = this.results.filter(function(show) {
-                return !trending.activeCategory ? true : (show.genres.indexOf(category) > -1);
-            })
-            return this.filtered;
-        }
-
-        this.getFilteredResults = function() {
-            return this.filtered;
-        }
-
-        $rootScope.$on('trending:show', function() {
-            trending.fetch();
-        });
-        this.fetch();
-    }
-])
-
-.controller('traktTvSearchCtrl', ["$scope", "TraktTVv2",
-    function($scope, $rootScope, TraktTVv2) {
-
-        var traktSearch = this;
-
-        this.results = false;
-        this.searching = false;
-        this.error = false;
-
-        this.search = {
-            query: ''
-        };
-
-    }
-])
-
-
-
-.controller('localSeriesCtrl', ["FavoritesService", "TraktTVv2", "$dialogs", "$location", "$filter", "$scope",
-    function(FavoritesService, TraktTVv2, $dialogs, $location, $filter, $scope) {
-
-        var local = this;
-        /**
-         * When mode == 'filter', these are in effect.
-         * Filters the local series list by substring.
-         */
-        this.filter = {
-            localFilterString: ''
-        };
-
-        this.localFilter = function(el) {
-            return el.name.toLowerCase().indexOf(local.filter.localFilterString.toLowerCase()) > -1;
-        };
-
-        /**
-         * Automatically launch the first search result when user hits enter in the filter form
-         */
-        this.execFilter = function() {
-            setTimeout(function() {
-                console.log('execing quer!');
-                document.querySelector('.series serieheader a').click();
-            }, 0)
-        };
-
-
-        /**
-         * Change location to the series details when clicked from display mode.
-         */
-        this.go = function(serieID, episode) {
-            window.location.href = '#/serie/' + serieID + '/episode/' + episode.TVDB_ID;
-        };
-
-
-        this.refresh = function(serie) {
-            $scope.$emit('serie:updating', serie);
-        };
-
-
-        /**
-         * Pop up a confirm dialog and remove the serie from favorites when confirmed.
-         */
-        this.removeFromFavorites = function(serie) {
-            var dlg = $dialogs.confirm($filter('translate')('SERIESLISTjs/serie-delete/hdr'),
-                $filter('translate')('SERIESLISTjs/serie-delete-question/p1') +
-                serie.name +
-                $filter('translate')('SERIESLISTjs/serie-delete-question/p2')
-            );
-            dlg.result.then(function(btn) {
-                console.log("Removing serie '" + serie.name + "' from favorites!", serie);
-                FavoritesService.remove(serie);
-                if (typeof $location != "undefined") {
-                    $location.path('/');
-                }
-            }, function(btn) {
-                this.confirmed = $filter('translate')('SERIESLISTjs/serie-delete-confirmed');
-            });
-        };
-
-    }
-])
-
-.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "$state",
+DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "$state",
     function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, $state) {
 
         var serieslist = $scope.serieslist = this;
@@ -170,8 +19,6 @@ DuckieTV
         this.error = {
 
         };
-
-
 
         this.isSidepanelShowing = false;
         this.isSidePanelExpanded = false;
@@ -312,45 +159,6 @@ DuckieTV
         };
 
         /**
-         * Fires when user types in the search box. Executes trakt.tv search based on find-while-you type.
-         */
-        this.findSeries = function(query) {
-            console.log("Searching!", query);
-
-            if (query.trim().length < 2) { // when query length is smaller than 2 chars, auto-show the trending results
-                this.results = false;
-                this.error = false;
-                this.searching = false;
-                $rootScope.$broadcast('trending:show');
-                return;
-            }
-            // $scope.search.searching = true;
-            this.error = false;
-
-            return TraktTVv2.search(query).then(function(res) {
-                traktSearch.error = false;
-                traktSearch.searching = TraktTVv2.hasActiveSearchRequest();
-                traktSearch.results = res || [];
-                $scope.$applyAsync();
-            }).catch(function(err) {
-                console.error("Search error!", err);
-                traktSearch.error = err;
-                traktSearch.searching = TraktTVv2.hasActiveSearchRequest();
-                traktSearch.results = [];
-            });
-        };
-
-        /**
-         * Fires when user hits enter in the search serie box.Auto - selects the first result and adds it to favorites.
-         */
-
-        this.selectFirstResult = function() {
-            this.selectSerie(this.results[0]);
-
-        };
-
-
-        /**
          * Add a show to favorites.*The serie object is a Trakt.TV TV Show Object.
          * Queues up the tvdb_id in the $scope.adding array so that the spinner can be shown.
          * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
@@ -373,6 +181,24 @@ DuckieTV
                     serieslist.error[serie.tvdb_id] = error;
                 });
             }
+        };
+
+        /**
+         * Enabled 'add' serie mode.
+         * Toggles the search panel and populates the trending mode when needed.
+         */
+        this.enableAdd = function() {
+            this.searchingForSerie = true;
+            this.showTrending = true;
+
+        };
+
+        /**
+         * Turn 'add serie' mode off, reset to stored display mode.
+         */
+        this.disableAdd = function() {
+            this.searchingForSerie = false;
+            this.showTrending = false;
         };
 
         /**

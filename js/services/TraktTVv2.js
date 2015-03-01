@@ -1,12 +1,10 @@
-angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
-
 /** 
  * Trakt TV V2 API interfacing.
  * Throughout the app the API from Trakt.TV is used to fetch content about shows and optionally the user's data
  *
  * For API docs: check here: http://docs.trakt.apiary.io/#
  */
-.factory('TraktTVv2', ["SettingsService", "$q", "$http",
+DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
     function(SettingsService, $q, $http) {
 
         var activeSearchRequest = false,
@@ -378,4 +376,35 @@ angular.module('DuckieTV.providers.trakttvv2', ['DuckieTV.providers.settings'])
 
         return service;
     }
-]);
+])
+
+.run(function($rootScope, SettingsService, TraktTVv2) {
+
+    /**
+     * Catch the event when an episode is marked as watched
+     * and forward it to TraktTV if syncing enabled.
+     */
+    $rootScope.$on('episode:marked:watched', function(evt, episode) {
+        //console.log("Mark as watched and sync!");
+        if (SettingsService.get('trakttv.sync')) {
+            CRUD.FindOne('Serie', {
+                ID_Serie: episode.get('ID_Serie')
+            }).then(function(serie) {
+                TraktTVv2.markEpisodeWatched(serie, episode);
+            });
+        }
+    });
+    /**
+     * Catch the event when an episode is marked as NOT watched
+     * and forward it to TraktTV if syncing enabled.
+     */
+    $rootScope.$on('episode:marked:notwatched', function(evt, episode) {
+        if (SettingsService.get('trakttv.sync')) {
+            CRUD.FindOne('Serie', {
+                ID_Serie: episode.get('ID_Serie')
+            }).then(function(serie) {
+                TraktTVv2.markEpisodeNotWatched(serie, episode);
+            });
+        }
+    });
+})

@@ -1,10 +1,8 @@
-angular.module('DuckieTV.providers.notifications', [])
-
 /** 
  * The notification service can create Chrome Notifications to notify users of aired episodes.
  * Currently still needs to be implemented by hooking into the EpisodeAiredService
  */
-.provider("NotificationService", function() {
+DuckieTV.provider("NotificationService", function() {
     var ids = {}; // track existing notifications
 
     /** 
@@ -18,9 +16,9 @@ angular.module('DuckieTV.providers.notifications', [])
 
     this.$get = function() {
         return {
-        	/** 
-        	 * Create a basic notification with the duckietv icon
-        	 */
+            /** 
+             * Create a basic notification with the duckietv icon
+             */
             notify: function(title, message, callback) {
                 create({
                     type: "basic",

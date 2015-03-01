@@ -1,10 +1,9 @@
-angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
 /**
  * Persistent storage for favorite series and episode
  *
  * Provides functionality to add and remove series and is the glue between Trakt.TV,
  */
-.factory('FavoritesService', ["$rootScope", "TraktTVv2",
+DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2",
     function($rootScope, TraktTVv2) {
 
         /** 
@@ -320,4 +319,8 @@ angular.module('DuckieTV.providers.favorites', ['DuckieTV.providers.trakttvv2'])
         service.refresh(false);
         return service;
     }
-]);
+])
+
+.run(function($rootScope, FavoritesService) {
+    FavoritesService.loadRandomBackground();
+})

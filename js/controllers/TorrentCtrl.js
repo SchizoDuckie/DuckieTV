@@ -1,9 +1,7 @@
-angular.module('DuckieTorrent.controllers', ['DuckieTorrent.torrent', 'DuckieTV.providers.chromecast'])
-
 /**
  * Torrent Control for the torrenting window
  */
-.controller('TorrentCtrl', ["$scope", "$rootScope", "uTorrent", "$q", "DuckieTVCast", "SidePanelState",
+DuckieTV.controller('TorrentCtrl', ["$scope", "$rootScope", "uTorrent", "$q", "DuckieTVCast", "SidePanelState",
     function($scope, $rootScope, uTorrent, $q, DuckieTVCast, SidePanelState) {
 
         $scope.ports = [];

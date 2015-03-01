@@ -1,12 +1,10 @@
-angular.module('DuckieTV.providers.imdb', [])
-
 /** CURRENTLY UNUSED!
  * Standalone IMDB search capabilities.
  * Provides IMDB api search results
  * and the <imdb-search> tag with autocomplete.
  */
 
-.provider('IMDB', function() {
+DuckieTV.provider('IMDB', function() {
 
     this.endpoints = {
         search: 'http://www.imdb.com/find?q=%s&s=all',
@@ -63,75 +61,79 @@ angular.module('DuckieTV.providers.imdb', [])
         return output;
     }
 
-    this.$get = ["$q", "$http", function($q, $http) {
-        var self = this;
-        return {
-            findAnything: function(what) {
-                var d = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: self.getUrl('search', what),
-                    cache: true
-                }).then(function(response) {
-                    d.resolve(self.parseSearch(response));
-                }, function(err) {
-                    console.log('error!');
-                    d.reject(err);
-                });
-                return d.promise;
-            },
-            getDetails: function(imdbid) {
-                var d = $q.defer();
-                $http({
-                    method: 'GET',
-                    url: self.getUrl('details', imdbid),
-                    cache: true
-                }).then(function(response) {
-                    d.resolve(self.parseDetails(response));
-                }, function(err) {
-                    console.log('error!');
-                    d.reject(err);
-                });
-                return d.promise;
+    this.$get = ["$q", "$http",
+        function($q, $http) {
+            var self = this;
+            return {
+                findAnything: function(what) {
+                    var d = $q.defer();
+                    $http({
+                        method: 'GET',
+                        url: self.getUrl('search', what),
+                        cache: true
+                    }).then(function(response) {
+                        d.resolve(self.parseSearch(response));
+                    }, function(err) {
+                        console.log('error!');
+                        d.reject(err);
+                    });
+                    return d.promise;
+                },
+                getDetails: function(imdbid) {
+                    var d = $q.defer();
+                    $http({
+                        method: 'GET',
+                        url: self.getUrl('details', imdbid),
+                        cache: true
+                    }).then(function(response) {
+                        d.resolve(self.parseDetails(response));
+                    }, function(err) {
+                        console.log('error!');
+                        d.reject(err);
+                    });
+                    return d.promise;
+                }
             }
         }
-    }]
+    ]
 })
 
 /**
  * Autofill serie search component
  * Provides autofill proxy and adds the selected serie back to the MainController
  */
-.controller('FindIMDBTypeAheadCtrl', ["$scope", "IMDB", "WatchlistService", function($scope, IMDB, WatchlistService) {
+.controller('FindIMDBTypeAheadCtrl', ["$scope", "IMDB", "WatchlistService",
+    function($scope, IMDB, WatchlistService) {
 
-    $scope.selected = undefined;
-    /**
-     * Perform search and concat the interesting results when we find them.
-     * Imdb api sends 3 some array keys based on exact, popular and substring results.
-     * We include only the first 2 for the autocomplete.
-     */
-    $scope.find = function(what) {
-        return IMDB.findAnything(what).then(function(res) {
-            return res;
-        });
-    };
+        $scope.selected = undefined;
+        /**
+         * Perform search and concat the interesting results when we find them.
+         * Imdb api sends 3 some array keys based on exact, popular and substring results.
+         * We include only the first 2 for the autocomplete.
+         */
+        $scope.find = function(what) {
+            return IMDB.findAnything(what).then(function(res) {
+                return res;
+            });
+        };
 
-    /**
-     * Handle imdb click.
-     * @Todo figure out what to do with this. popover? new tab?
-     */
-    $scope.selectIMDB = function(item) {
-        $scope.selected = item.title;
-        console.log("IMDB Item selected!", item);
-        IMDB.getDetails(item.IMDB_ID).then(function(details) {
-            item.details = details;
-            WatchlistService.add(item);
-        }, function(err) {
-            console.error(err);
-            debugger;
-        });
+        /**
+         * Handle imdb click.
+         * @Todo figure out what to do with this. popover? new tab?
+         */
+        $scope.selectIMDB = function(item) {
+            $scope.selected = item.title;
+            console.log("IMDB Item selected!", item);
+            IMDB.getDetails(item.IMDB_ID).then(function(details) {
+                item.details = details;
+                WatchlistService.add(item);
+            }, function(err) {
+                console.error(err);
+                debugger;
+            });
+        }
     }
-}])
+])
 
 /**
  * <the-tv-db-search>

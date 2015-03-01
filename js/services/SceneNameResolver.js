@@ -1,10 +1,8 @@
-angular.module('DuckieTV.providers.scenenames', [])
-
 /**
  * Scene name provider
  * Resolves TheTvDB ID's into something that you can use on search engines.
  */
-.provider('SceneNameResolver', function() {
+DuckieTV.provider('SceneNameResolver', function() {
 
     // credits to Sickbeard's exception list https://raw.github.com/midgetspy/sb_tvdb_scene_exceptions/gh-pages/exceptions.txt
     // filters applied: 
@@ -439,26 +437,28 @@ angular.module('DuckieTV.providers.scenenames', [])
         72231: "YYYY MM DD" // Real Time With Bill Maher
     };
 
-    this.$get = ["$filter", function($filter) {
-        return {
-            /** 
-             * Return the scene name of the provided TVDB_ID if it's in the list.
-             */
-            getSceneName: function(tvdbID) {
-                return (tvdbID in exceptions) ? exceptions[tvdbID].replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') : false;
-            },
+    this.$get = ["$filter",
+        function($filter) {
+            return {
+                /** 
+                 * Return the scene name of the provided TVDB_ID if it's in the list.
+                 */
+                getSceneName: function(tvdbID) {
+                    return (tvdbID in exceptions) ? exceptions[tvdbID].replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') : false;
+                },
 
-            getSearchStringForEpisode: function(serie, episode) {
-                if (serie.TVDB_ID in episodesWithDateFormat) {
-                    var parts = episode.firstaired_iso.split(/([0-9]{4})-([0-9]{2})-([0-9]{2})T.*/);
-                    if("undefined" == typeof(moment)) {
-                        moment = require('./js/vendor/moment.min');
+                getSearchStringForEpisode: function(serie, episode) {
+                    if (serie.TVDB_ID in episodesWithDateFormat) {
+                        var parts = episode.firstaired_iso.split(/([0-9]{4})-([0-9]{2})-([0-9]{2})T.*/);
+                        if ("undefined" == typeof(moment)) {
+                            moment = require('./js/vendor/moment.min');
+                        }
+                        return moment.parseZone(episode.firstaired_iso).format(episodesWithDateFormat[serie.TVDB_ID]);
+                    } else {
+                        return episode.getFormattedEpisode();
                     }
-                    return moment.parseZone(episode.firstaired_iso).format(episodesWithDateFormat[serie.TVDB_ID]);
-                } else {
-                    return episode.getFormattedEpisode();
                 }
-            }
-        };
-    }];
+            };
+        }
+    ];
 });

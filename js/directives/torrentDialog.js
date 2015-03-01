@@ -1,6 +1,4 @@
-angular.module('DuckieTV.directives.torrentdialog', [])
-
-.provider('TorrentDialog', function() {
+DuckieTV.provider('TorrentDialog', function() {
     var activeMagnet = false;
     this.$get = ["$injector", "$rootScope", "$q",
         function($injector, $rootScope, $q) {
@@ -40,111 +38,113 @@ angular.module('DuckieTV.directives.torrentdialog', [])
         }
     ];
 })
-    .controller('torrentDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "TorrentDialog", "GenericSearch", "SettingsService",
-        function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog, GenericSearch, SettingsService) {
-            //-- Variables --//
-            var customClients = {};
 
-            $scope.items = [];
+.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "TorrentDialog", "GenericSearch", "SettingsService",
+    function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog, GenericSearch, SettingsService) {
+        //-- Variables --//
+        var customClients = {};
+
+        $scope.items = [];
+        $scope.searching = true;
+        $scope.query = angular.copy(data.query);
+        $scope.TVDB_ID = angular.copy(data.TVDB_ID);
+        $scope.searchprovider = $scope.getSetting('torrenting.searchprovider');
+        $scope.searchquality = $scope.getSetting('torrenting.searchquality');
+
+        $scope.getName = function(provider) {
+            return provider;
+        };
+
+        $scope.search = function(q, TVDB_ID) {
             $scope.searching = true;
-            $scope.query = angular.copy(data.query);
-            $scope.TVDB_ID = angular.copy(data.TVDB_ID);
-            $scope.searchprovider = $scope.getSetting('torrenting.searchprovider');
-            $scope.searchquality = $scope.getSetting('torrenting.searchquality');
-
-            $scope.getName = function(provider) {
-                return provider;
-            };
-
-            $scope.search = function(q, TVDB_ID) {
-                $scope.searching = true;
-                $scope.query = q;
-                if (TVDB_ID !== undefined) {
-                    $scope.TVDB_ID = TVDB_ID;
-                }
-
-                var searchProvider = (!($scope.searchprovider in customClients)) ? GenericSearch : $injector.get(customClients[$scope.searchprovider]);
-
-                searchProvider.search([q, $scope.searchquality].join(' ')).then(function(results) {
-                        $scope.items = results;
-                        $scope.searching = false;
-                    },
-                    function(e) {
-                        $scope.searching = false;
-                    });
-            };
-
-            // Changes the search quality while searching for a torrent
-            $scope.setQuality = function(quality) {
-                $scope.searchquality = quality;
-                $scope.search($scope.query);
-            };
-
-            // Changes what search provider you search with
-            $scope.setProvider = function(provider) {
-                $scope.searchprovider = provider;
-                if (!(provider in customClients)) {
-                    GenericSearch.setProvider(provider);
-                }
-                $scope.search($scope.query);
+            $scope.query = q;
+            if (TVDB_ID !== undefined) {
+                $scope.TVDB_ID = TVDB_ID;
             }
 
-            $scope.cancel = function() {
-                $modalInstance.dismiss('Canceled');
-            };
+            var searchProvider = (!($scope.searchprovider in customClients)) ? GenericSearch : $injector.get(customClients[$scope.searchprovider]);
 
-            // Selects and launchs magnet
-            $scope.magnetSelect = function(magnet) {
-                console.info("Magnet selected!", magnet);
-                $modalInstance.close(magnet);
+            searchProvider.search([q, $scope.searchquality].join(' ')).then(function(results) {
+                    $scope.items = results;
+                    $scope.searching = false;
+                },
+                function(e) {
+                    $scope.searching = false;
+                });
+        };
 
-                var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-                TorrentDialog.launchMagnet(magnet, channel);
-            };
+        // Changes the search quality while searching for a torrent
+        $scope.setQuality = function(quality) {
+            $scope.searchquality = quality;
+            $scope.search($scope.query);
+        };
 
-            $scope.getClients = function() {
-                var clients = window.TorrentSearchProviders;
-                clients['ShowRSS.info'] = true;
-                customClients['ShowRSS.info'] = 'ShowRSS';
-                for (var name in clients) {
-                    if (SettingsService.get(name + '.mirror')) {
-                        clients[name].mirror = SettingsService.get(name + '.mirror');
-                    }
-                }
-                $scope.clients = clients;
-            };
-
-            $scope.getClients();
-
+        // Changes what search provider you search with
+        $scope.setProvider = function(provider) {
+            $scope.searchprovider = provider;
+            if (!(provider in customClients)) {
+                GenericSearch.setProvider(provider);
+            }
             $scope.search($scope.query);
         }
-    ])
-    .directive('torrentDialog', ["TorrentDialog", "$filter",
-        function(TorrentDialog, $filter) {
-            return {
-                restrict: 'E',
-                transclude: true,
-                wrap: true,
-                replace: true,
-                scope: {
-                    q: '=q',
-                    TVDB_ID: '=tvdbid'
-                },
-                template: '<a class="torrent-dialog" ng-click="openDialog()"><i class="glyphicon glyphicon-download" tooltip-append-to-body="true" tooltip="{{getTooltip()}}"></i><span ng-transclude></span></a>',
-                controller: ["$scope",
-                    function($scope) {
-                        // Translates the tooltip
-                        $scope.getTooltip = function() {
-                            return $scope.q !== undefined ?
-                                $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.q :
-                                $filter('translate')('TORRENTDIALOG/search-download-any/tooltip');
-                        }
-                        // Opens the torrent search with the episode selected
-                        $scope.openDialog = function() {
-                            TorrentDialog.search($scope.q, $scope.TVDB_ID);
-                        }
-                    }
-                ]
+
+        $scope.cancel = function() {
+            $modalInstance.dismiss('Canceled');
+        };
+
+        // Selects and launchs magnet
+        $scope.magnetSelect = function(magnet) {
+            console.info("Magnet selected!", magnet);
+            $modalInstance.close(magnet);
+
+            var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
+            TorrentDialog.launchMagnet(magnet, channel);
+        };
+
+        $scope.getClients = function() {
+            var clients = window.TorrentSearchProviders;
+            clients['ShowRSS.info'] = true;
+            customClients['ShowRSS.info'] = 'ShowRSS';
+            for (var name in clients) {
+                if (SettingsService.get(name + '.mirror')) {
+                    clients[name].mirror = SettingsService.get(name + '.mirror');
+                }
             }
+            $scope.clients = clients;
+        };
+
+        $scope.getClients();
+
+        $scope.search($scope.query);
+    }
+])
+
+.directive('torrentDialog', ["TorrentDialog", "$filter",
+    function(TorrentDialog, $filter) {
+        return {
+            restrict: 'E',
+            transclude: true,
+            wrap: true,
+            replace: true,
+            scope: {
+                q: '=q',
+                TVDB_ID: '=tvdbid'
+            },
+            template: '<a class="torrent-dialog" ng-click="openDialog()"><i class="glyphicon glyphicon-download" tooltip-append-to-body="true" tooltip="{{getTooltip()}}"></i><span ng-transclude></span></a>',
+            controller: ["$scope",
+                function($scope) {
+                    // Translates the tooltip
+                    $scope.getTooltip = function() {
+                        return $scope.q !== undefined ?
+                            $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.q :
+                            $filter('translate')('TORRENTDIALOG/search-download-any/tooltip');
+                    }
+                    // Opens the torrent search with the episode selected
+                    $scope.openDialog = function() {
+                        TorrentDialog.search($scope.q, $scope.TVDB_ID);
+                    }
+                }
+            ]
         }
-    ])
+    }
+])

@@ -2,10 +2,7 @@
 <div ng-class="{active: serieslist.activated }" style="width:{{serieslist.width}}px">
 
     <div ng-if="serieslist.activated">
-        <!-- The top tools panel for the series list -->
         <div ui-view="tools" class="tools"> </div>
         <div ui-view="content"></div>
-        <!-- Sidepanel for trending/search mode to display extended serie details -->
-
     </div>
 </div>

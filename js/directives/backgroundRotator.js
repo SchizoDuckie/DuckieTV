@@ -1,5 +1,3 @@
-angular.module('DuckieTV.directives.backgroundrotator', [])
-
 /**
  * A <background-rotator channel="'event:channel'"> directive.
  * Usage:
@@ -8,7 +6,7 @@ angular.module('DuckieTV.directives.backgroundrotator', [])
  * preloads new image
  * Cross-fades between current loaded image and the new image
  */
-.directive('backgroundRotator', ["$rootScope", "$document", function($rootScope, $document) {
+DuckieTV.directive('backgroundRotator', ["$rootScope", "$document", function($rootScope, $document) {
     return {
         restrict: 'E',
         scope: {

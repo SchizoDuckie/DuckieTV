@@ -32,28 +32,28 @@
 
   <div ng-controller="ActionBarCtrl">
     <div id="actionbar" ng-class="{'active':serieslist.activated}">
-      <div class="logo" href="#/" tooltip="Quack!" tooltip-placement="right" ng-click="hideSeriesList()"></div>
+      <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="hideSeriesList()"></div>
       <ul class="list-unstyled">
         <li>
-          <a class="glyphicon glyphicon-home" href="#/" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right" ng-click="hideSeriesList()"></a>
+          <a class="glyphicon glyphicon-home" ui-sref="calendar" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right" ng-click="hideSeriesList()"></a>
         </li>
         <li>
-          <a class="glyphicon glyphicon-heart" ui-sref="favorites()" ng-click="toggleSeriesList()" tooltip="{{serieslist.activated?'SERIESLIST/series-hide/glyph':'SERIESLIST/series-show/glyph'|translate}}" tooltip-placement="right"></a>
+          <a class="glyphicon glyphicon-heart" ng-click="toggleSeriesList()" tooltip="{{serieslist.activated?'SERIESLIST/series-hide/glyph':'SERIESLIST/series-show/glyph'|translate}}" tooltip-placement="right"></a>
         </li>
         <li style='display:none' id='wl'>
-          <a class="glyphicon glyphicon-facetime-video" href="#/watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-placement="right"></a>
+          <a class="glyphicon glyphicon-facetime-video" ui-sref="watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-placement="right"></a>
         </li>
         <li>
-          <a class="glyphicon glyphicon-cog" href="#/settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right" ng-click="contractSidePanel()"></a>
+          <a class="glyphicon glyphicon-cog" ui-sref="settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right" ng-click="contractSidePanel()"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
-          <a class="glyphicon glyphicon-magnet" href="#/torrent" tooltip="&micro;Torrent / Bittorrent client" tooltip-placement="right"></a>
+          <a class="glyphicon glyphicon-magnet" ui-sref="torrent" tooltip="&micro;Torrent / Bittorrent client" tooltip-placement="right"></a>
         </li>
         <li ng-if="getSetting('cast.supported')">
-          <a class="glyphicon glyphicon-chromecast-off" href="#/cast" tooltip="ChromeCast" tooltip-placement="right" style='background-size: 80%; margin-left: 15px;'></a>
+          <a class="glyphicon glyphicon-chromecast-off" ui-sref="cast" tooltip="ChromeCast" tooltip-placement="right" style='background-size: 80%; margin-left: 15px;'></a>
         </li>
         <li>
-          <a class="glyphicon glyphicon-info-sign" href="#/about" tooltip="{{ 'ABOUT/hdr'|translate }}" tooltip-placement="right"></a>
+          <a class="glyphicon glyphicon-info-sign" ui-sref="about" tooltip="{{ 'ABOUT/hdr'|translate }}" tooltip-placement="right"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
           <torrent-dialog tooltip-placement="right"></torrent-dialog>
@@ -89,6 +89,11 @@
   <script src="./js/vendor/angular-translate-handler-log.min.js"></script>
   <!-- /deploy:replace -->
   <!-- deploy:replace='<script src="dist/app.js"></script>' -->
+
+  <script src="./js/app.js"></script>
+  <script src="./js/app.routes.js"></script>
+  <script src="./js/app.translate.js"></script>
+  <script src="./js/app.standalone.js"></script>
   <script src="./js/controllers/AboutCtrl.js"></script>
   <script src="./js/controllers/ActionBarCtrl.js"></script>
   <script src="./js/controllers/CastCtrl.js"></script>
@@ -113,8 +118,6 @@
   <script src="./js/directives/subtitleDialog.js"></script>
   <script src="./js/directives/queryMonitor.js"></script>
   <script src="./js/directives/torrentDialog.js"></script>
-  <script src="./js/directives/seriesList.js"></script>
-  <script src="./js/services/Addic7ed.js"></script>
   <script src="./js/services/ChromeCast.js"></script>
   <script src="./js/services/DuckieTorrent.js"></script>
   <script src="./js/services/EpisodeAiredService.js"></script>
@@ -140,7 +143,6 @@
   <script src="./js/services/WatchlistService.js"></script>
   <script src="./js/services/TraktTVStorageSyncTarget.js"></script>
   <script src="./js/services/ChromeStorageSyncTarget.js"></script>
-  <script src="./js/app.js"></script>
   <script src="./js/vendor/moment.min.js" async></script>
   <script src="./js/services/TorrentSearchProviders.js"></script>
   <!-- /deploy:replace -->
