@@ -21,37 +21,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         };
 
 
-
-        this.isSidepanelShowing = false;
-        this.isSidePanelExpanded = false;
-
-        Object.observe(SidePanelState.state, function(newValue) {
-            if (newValue[0].object.isExpanded) {
-                serieslist.width = document.body.clientWidth - 800;
-
-            } else if (newValue[0].object.isShowing) {
-                serieslist.width = document.body.clientWidth - 400;
-
-            } else {
-                serieslist.width = document.body.clientWidth;
-            }
-            $scope.$applyAsync();
-        });
-
-        window.addEventListener('resize', function() {
-            console.log('window resize!');
-            if (SidePanelState.state.isExpanded) {
-                serieslist.width = document.body.clientWidth - 800;
-            } else if (SidePanelState.isShowing) {
-                serieslist.width = document.body.clientWidth - 400;
-            } else {
-                serieslist.width = document.body.clientWidth;
-            }
-            $scope.$applyAsync();
-        }, false);
-
-
-
         var titleSorter = function(serie) {
             serie.sortName = serie.name ? serie.name.replace('The ', '') : '';
             return serie;
@@ -89,9 +58,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             } else {
                 $state.go('favorites');
             }
-
         }
-
 
         /**
          * Close the drawer
@@ -147,47 +114,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(serieslist.selectSerie);
         });
 
-        /**
-         * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
-         * by the seriedetails directive
-         * @param {[type]} serie [description]
-         */
-        this.setHoverSerie = function(serie) {
-            $state.go('trakt-serie');
-            setTimeout(function() {
-                $rootScope.$broadcast('traktserie:preview', serie);
-            }, 50);
-
-        };
-
-        /**
-         * Fires when user types in the search box. Executes trakt.tv search based on find-while-you type.
-         */
-        this.findSeries = function(query) {
-            console.log("Searching!", query);
-
-            if (query.trim().length < 2) { // when query length is smaller than 2 chars, auto-show the trending results
-                this.results = false;
-                this.error = false;
-                this.searching = false;
-                $rootScope.$broadcast('trending:show');
-                return;
-            }
-            // $scope.search.searching = true;
-            this.error = false;
-
-            return TraktTVv2.search(query).then(function(res) {
-                traktSearch.error = false;
-                traktSearch.searching = TraktTVv2.hasActiveSearchRequest();
-                traktSearch.results = res || [];
-                $scope.$applyAsync();
-            }).catch(function(err) {
-                console.error("Search error!", err);
-                traktSearch.error = err;
-                traktSearch.searching = TraktTVv2.hasActiveSearchRequest();
-                traktSearch.results = [];
-            });
-        };
 
         /**
          * Fires when user hits enter in the search serie box.Auto - selects the first result and adds it to favorites.

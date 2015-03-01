@@ -83,6 +83,7 @@ DuckieTV.config(["$stateProvider",
                 }
             })
             .state('favorites.add', {
+                sticky: true,
                 url: '/add',
                 views: {
                     'tools@favorites': {
@@ -100,7 +101,8 @@ DuckieTV.config(["$stateProvider",
                                 }
                             }
                         },
-                        controllerAs: 'search'
+                        controllerAs: 'search',
+                        bindToController: true
                     },
                     'content@favorites': {
                         templateUrl: 'templates/serieslist/trakt-trending.html',
@@ -131,6 +133,7 @@ DuckieTV.config(["$stateProvider",
                 }
             })
             .state('trakt-serie', {
+                sticky: true,
                 resolve: {
                     SidePanelState: showSidePanel
                 },

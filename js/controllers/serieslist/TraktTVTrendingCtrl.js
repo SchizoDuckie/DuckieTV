@@ -1,5 +1,5 @@
-DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2",
-    function($rootScope, $filter, TraktTVv2) {
+DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2", "$state",
+    function($rootScope, $filter, TraktTVv2, $state) {
         var trending = this;
         this.results = [];
         this.filtered = [];
@@ -50,6 +50,21 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
         this.getFilteredResults = function() {
             return this.filtered;
         }
+
+
+    /**
+     * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
+     * by the seriedetails directive
+     * @param {[type]} serie [description]
+     */
+    this.setHoverSerie = function(serie) {
+        console.log("hover!", serie);
+        if ($state.current.name != "trakt-serie") {
+            $state.go('trakt-serie');
+        }
+        $rootScope.$broadcast('traktserie:preview', serie);
+        $rootScope.$applyAsync();
+    };
 
         $rootScope.$on('trending:show', function() {
             trending.fetch();

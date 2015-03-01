@@ -258,16 +258,26 @@ serieheader .poster {
 }
 serieheader h3 {
     color:white;
-    margin-top:-35px;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 5px;
     margin-bottom:0;
     white-space:nowrap;
     text-overflow:ellipsis;
+    position: absolute;
+    bottom:0px;
+    left:0px;
+    right:0px;
 }
+
 serieheader[mode=poster] h3 {
     display: none;
 }
+
+.series.adding serieheader[mode=poster] h3 {
+    display:inline-block;
+}
+
+
 serieheader .overview {
     color: white;
     font-size:10px;
@@ -351,7 +361,7 @@ series-list > div {
     background-color: rgb(20, 22, 24);
     z-index: 200;
     width: 100%;
-    -webkit-transition: all 0.5s ease-in;
+    -webkit-transition: all 0.2s ease-in;
     -webkit-transform: translate3d(-100%, 0, 0);
 }
 series-list > div.active {
@@ -364,35 +374,12 @@ series-list .tools {
     font-size: 20px;
     box-shadow: 0 3px 8px black;
     background-color: rgb(51, 51, 51);
+    z-index:1000;
 }
 series-list #favslist serieheader[mode='poster'], #favslist serieheader .poster {
     transition: width 1s, height 1s, opacity 0.5s;
 }
-series-list .sidepanel {
-    position:fixed !important;
-    top: 72px;
-    right: 10px;
-    width: 350px;
-    background-color: transparent !important;
-    margin-top: 35px;
-}
-series-list .sidepanel .table.light, series-list .sidepanel serieheader .overview {
-    background-color: transparent;
-}
-series-list .sidepanel serieheader .overview p {
-    font-size: 11px;
-    overflow-y: auto;
-    max-height: 152px;
-    padding-right: 5px;
-}
-series-list .sidepanel th {
-    width: 135px;
-}
-series-list .sidepanel li {
-    text-transform: capitalize;
-    display: inline-block;
-    width: 50%;
-}
+
 series-list .series {
     overflow-y: auto;
     bottom: 12px;
@@ -403,7 +390,15 @@ series-list .series {
     text-align: center;
     padding: 35px 25px 15px 15px;
     /* So the boxshadow on .tools is overlayed */
-    z-index: -1
+    z-index: 10
+}
+series-list .series.adding {
+    top: 145px;
+}
+
+series-list p.protip {
+    color: #ccc;
+    font-size: 12px;
 }
 series-list .series serieheader > div {
     border: 1px solid #111;
@@ -1143,8 +1138,9 @@ query-monitor.show {
 
 .img-load-error {
     opacity: 0.8 !important;
-    background: #000 url('../img/icon256-inverted.png') no-repeat center !important;
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%), url('../img/icon256-inverted.png');
     background-size: contain !important;
+    border: 5px solid #111;
 }
 
 .binputhover {
@@ -1212,6 +1208,11 @@ sidepanel .buttons a {
     text-align: center;
     transition: background-color 0.3s;
 }
+
+sidepanel .buttons a.delete {
+    background-color: rgba(250,66,66,0.3)x;
+}
+
 sidepanel .buttons a:hover {
     background-color: rgba(66,66,66,0.8);
     cursor: pointer;
