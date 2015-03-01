@@ -20,6 +20,8 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         };
 
+
+
         this.isSidepanelShowing = false;
         this.isSidePanelExpanded = false;
 
@@ -159,6 +161,45 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         };
 
         /**
+         * Fires when user types in the search box. Executes trakt.tv search based on find-while-you type.
+         */
+        this.findSeries = function(query) {
+            console.log("Searching!", query);
+
+            if (query.trim().length < 2) { // when query length is smaller than 2 chars, auto-show the trending results
+                this.results = false;
+                this.error = false;
+                this.searching = false;
+                $rootScope.$broadcast('trending:show');
+                return;
+            }
+            // $scope.search.searching = true;
+            this.error = false;
+
+            return TraktTVv2.search(query).then(function(res) {
+                traktSearch.error = false;
+                traktSearch.searching = TraktTVv2.hasActiveSearchRequest();
+                traktSearch.results = res || [];
+                $scope.$applyAsync();
+            }).catch(function(err) {
+                console.error("Search error!", err);
+                traktSearch.error = err;
+                traktSearch.searching = TraktTVv2.hasActiveSearchRequest();
+                traktSearch.results = [];
+            });
+        };
+
+        /**
+         * Fires when user hits enter in the search serie box.Auto - selects the first result and adds it to favorites.
+         */
+
+        this.selectFirstResult = function() {
+            this.selectSerie(this.results[0]);
+
+        };
+
+
+        /**
          * Add a show to favorites.*The serie object is a Trakt.TV TV Show Object.
          * Queues up the tvdb_id in the $scope.adding array so that the spinner can be shown.
          * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
@@ -181,24 +222,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                     serieslist.error[serie.tvdb_id] = error;
                 });
             }
-        };
-
-        /**
-         * Enabled 'add' serie mode.
-         * Toggles the search panel and populates the trending mode when needed.
-         */
-        this.enableAdd = function() {
-            this.searchingForSerie = true;
-            this.showTrending = true;
-
-        };
-
-        /**
-         * Turn 'add serie' mode off, reset to stored display mode.
-         */
-        this.disableAdd = function() {
-            this.searchingForSerie = false;
-            this.showTrending = false;
         };
 
         /**
