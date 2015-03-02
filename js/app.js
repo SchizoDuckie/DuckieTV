@@ -10,7 +10,7 @@ var DuckieTV = angular.module('DuckieTV', [
     'tmh.dynamicLocale',
     'datePicker',
     'ui.bootstrap',
-    'dialogs.services',
+    'dialogs',
     'pascalprecht.translate',
     'DuckieTorrent.torrent'
 ])
