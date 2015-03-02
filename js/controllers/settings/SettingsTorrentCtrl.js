@@ -1,8 +1,9 @@
 /**
  * Controller for the torrent settings tab
  */
-DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2",
-    function($scope, $rootScope, SettingsService, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2) {
+DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "EpisodeAiredService",
+
+    function($scope, $rootScope, SettingsService, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, EpisodeAiredService) {
 
         $scope.log = [];
 
@@ -100,9 +101,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
          */
         $scope.enableAutoDownload = function() {
             SettingsService.set('torrenting.autodownload', true);
-            setTimeout(function() {
-                $rootScope.$broadcast('episode:aired:check');
-            }, 1000);
+            EpisodeAiredService.attach();
         };
 
         /**
@@ -110,6 +109,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
          */
         $scope.disableAutoDownload = function() {
             SettingsService.set('torrenting.autodownload', false);
+            EpisodeAiredService.detach();
         };
 
         /**
@@ -134,6 +134,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         $scope.setadPeriod = function(period) {
             SettingsService.set('autodownload.period', period);
             $scope.adPeriod = period;
+            EpisodeAiredService.detach(); // restart kickoff method when changing search period and seeders.
+            EpisodeAiredService.attach();
         };
 
         /**
@@ -142,6 +144,9 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         $scope.setadMinSeeders = function(seeds) {
             SettingsService.set('autodownload.minSeeders', seeds);
             $scope.adMinSeeders = seeds;
+            EpisodeAiredService.detach(); // restart kickoff method when changing search period and seeders.
+            EpisodeAiredService.attach();
+
         };
 
     }
