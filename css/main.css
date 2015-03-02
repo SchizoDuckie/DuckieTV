@@ -321,13 +321,13 @@ serieheader em.earmark.adding{
 serieheader em.earmark.delete, serieheader em.earmark.error {
     background-color: rgba(150,0,0, 0.4);
     cursor: pointer;
-    -webkit-transition: all 1s ease-in;
+    -webkit-transition: all 0.2s ease-in;
     -webkit-transform: translateX(100px);
 }
 
 serieheader em.earmark.adding, serieheader em.earmark.error {
 	-webkit-transform: translateX(0px);
-    -webkit-transition: all 2s ease-in;
+    -webkit-transition: all 0.2s ease-in;
 }
 
 serieheader em.earmark.refresh {
@@ -335,7 +335,7 @@ serieheader em.earmark.refresh {
     left: 0px;
     right: initial;
     cursor: pointer;
-    -webkit-transition: all 1s ease-in;
+    -webkit-transition: all 0.2s ease-in;
     -webkit-transform: translateX(-100px);
 }
 
@@ -1141,6 +1141,8 @@ query-monitor.show {
     background: -webkit-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%), url('../img/icon256-inverted.png');
     background-size: contain !important;
     border: 5px solid #111;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .binputhover {
@@ -1357,7 +1359,9 @@ sidepanel  .serie-img {
     margin: 5px auto;
     height: 275px;
     width: 195px;
-    background-size: 100% 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 sidepanel .metadata {
     color: white;
