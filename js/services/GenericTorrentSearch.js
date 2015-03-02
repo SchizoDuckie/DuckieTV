@@ -89,7 +89,7 @@ DuckieTV.factory('GenericSearch', ["SettingsService", "$q", "$http",
                 $http({
                     method: 'GET',
                     url: getUrl('search', what),
-                    cache: true,
+                    cache: false,
                     timeout: activeRequest.promise
                 }).then(function(response) {
                     //console.log("Torrent search executed!", response);

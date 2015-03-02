@@ -106,7 +106,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         $rootScope.$on('serieslist:empty', function(event) {
             console.log("Serieslist empty!!! ");
             serieslist.activate();
-            serieslist.enableAdd();
         });
 
         $scope.$on('serie:updating', function(event, serie) {

@@ -175,9 +175,10 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
                 headers['trakt-user-login'] = localStorage.getItem('trakt.username');
                 headers['trakt-user-token'] = localStorage.getItem('trakt.token');
             }
-            return $http.get(url, {
+        return $http.get(url, {
                 timeout: promise ? promise : 120000,
-                headers: headers
+                headers: headers,
+                cache: false,
             }).then(function(result) {
                 return parser(result);
             }, function(err) {
