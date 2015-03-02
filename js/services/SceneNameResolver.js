@@ -57,6 +57,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "73599": "Dark Shadows",
         "73641": "King of Queens",
         "73696": "CSI: New York",
+        "73762": "Greys Anatomy",
         "73893": "Enterprise",
         "74281": "Have I Got News for You Uncut",
         "74372": "Blue Planet",
