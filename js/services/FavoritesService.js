@@ -321,6 +321,6 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2",
     }
 ])
 
-.run(function($rootScope, FavoritesService) {
+.run(function(FavoritesService) {
     FavoritesService.loadRandomBackground();
 })
