@@ -4,8 +4,18 @@ DuckieTV.directive('seriesList', function(SidePanelState) {
         controller: 'seriesListCtrl',
         link: function($scope, iElement, iAttrs, controller) {
 
+            var timeout = null;;
+
             function setWidthMinus(minus) {
-                document.querySelector('series-list > div').style.width = (document.body.clientWidth - minus) + 'px';
+                if (timeout) {
+                    clearTimeout(timeout);
+                }
+                timeout = setTimeout(function() {
+                    var serieslist = document.querySelector('series-list > div');
+                    if (serieslist) {
+                        serieslist.style.width = (document.body.clientWidth - minus) + 'px';
+                    }
+                }, 0);
             };
 
             Object.observe(SidePanelState.state, function(newValue) {
