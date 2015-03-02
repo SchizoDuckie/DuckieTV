@@ -699,7 +699,7 @@ fieldset h2 {
     color: white;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
 }
-input[type=text], input[type=url], input[type=password], option, select {
+input[type=text], input[type=url], input[type=password], input[type=number], option, select {
     border: 1px solid #333;
     background-color: rgba(0, 0, 0, 0.2);
     font-size: 25px;
@@ -1079,6 +1079,14 @@ calendar-event h2 {
     height: 190px;
     width: 123px;
 }
+.miniposter.x2 serieheader[mode='poster'] {
+    height: 150px;
+}
+.miniposter.x2 .poster {
+    height: 140px;
+    width: 93px;
+}
+
 .miniposter em.earmark {
     width: 40px;
     height: 40px;
@@ -1121,14 +1129,6 @@ query-monitor .progress {
 query-monitor.show {
     opacity: 1;
     -webkit-transform: translateX(0);
-}
-
-.settings .nav-tabs.nav-justified>li {
-    min-width: 100px;
-    display: table-cell;
-}
-.settings .nav-tabs.nav-justified>li>a {
-    margin-bottom: 0;
 }
 
 .img-loading {
@@ -1379,16 +1379,10 @@ sidepanel .metadata ul.actors {
     font-size: 13px;
 }
 
-div [date-picker] {
-    transform-origin: top left;
-}
-
-
 sidepanel .episodes .torrent-mini-remote-control-progress div.progress-bar {
     position: absolute;
     top: 0;
 }
-
 sidepanel .episodes .torrent-mini-remote-control-progress  span {
     position: absolute;
     top: 0px;
@@ -1398,20 +1392,17 @@ sidepanel .episodes .torrent-mini-remote-control-progress  span {
     text-align: center;
     color: black;
 }
-
 sidepanel .torrents .torrent .progress, sidepanel .torrent-mini-remote-control-progress.progress {
     position: relative;
     margin-top: 0px;
     height: 4px;
     margin-bottom: -5px;
 }
-
 sidepanel .torrents .torrent .buttons .torrent-mini-remote-control {
     border: 1px solid white;
     border-radius:10px;
     padding:20px;
 }
-
 sidepanel .leftpanel.torrents {
     color: #E0E0E0;
     padding:0;
@@ -1421,16 +1412,10 @@ sidepanel .leftpanel.torrents {
     background-color: rgba(55,55,55,0);
     transition: all 0.1s ease-in;
 }
-
-.torrents .torrent {
-   
-}
-
 .torrents .torrent:hover {
     background-color: rgba(55,55,55,0.4);
     color:white;
 }
-
 .torrents .torrent div.buttons {
     height: 0px;
     overflow:hidden;
@@ -1440,12 +1425,10 @@ sidepanel .leftpanel.torrents {
     margin: 20px 0px;
     position: relative;
 }
-
 .torrents .torrent.active div.buttons {
     height: 180px;
     overflow:hidden;
 }
-
 .torrents .torrent strong {
     text-align: left;
     display: block;
@@ -1455,11 +1438,57 @@ sidepanel .leftpanel.torrents {
     font-family: helvetica;
     font-weight:normal;
 }
-
 .torrents .torrent .label {
     top: 4px;
     right: 30px;
     position: absolute;
     background-color: #505050;
     display:inline-block;
+}
+
+.settings h2 {
+    white-space: normal;
+    display: block;
+    margin-top: 20px;
+}
+.settings .label {
+    display: block;
+    width: 45%;
+    margin: 0 auto 5px auto;
+    /* Just in case different languages are too long */
+    word-wrap: break-word;
+    white-space: normal;
+}
+.settings .btn {
+    margin: 4px auto;
+    display: block;
+}
+.settings .btns {
+    text-align: center;
+}
+.settings .btns .btn {
+    display: inline-block;
+    margin: 3px 1px;
+}
+.settings .autodownload form {
+    text-align: center;
+}
+.settings .autodownload form input {
+    width: 70px;
+    text-align: -webkit-center;
+    font-size: 22px;
+}
+.settings .autodownload .btn {
+    display: inline-block;
+    margin-top: -3px;
+    margin-left: 5px;
+}
+.settings .autodownload .alert-danger {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+div [date-picker] {
+    transform-origin: top left;
 }

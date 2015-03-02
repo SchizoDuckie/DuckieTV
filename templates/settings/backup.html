@@ -1,5 +1,5 @@
 <div ng-controller="BackupCtrl">
-  <h2>{{'SETTINGS/BACKUP/backup/desc'|translate}}</h2>
+  <h2 style="margin-top: 13px">{{'SETTINGS/BACKUP/backup/desc'|translate}}</h2>
   <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()" style="width:250px">{{'SETTINGS/BACKUP/backup-create/btn'|translate}}</a>
   <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}">{{'SETTINGS/BACKUP/backup-download/btn'|translate}}</a>
 
@@ -8,7 +8,7 @@
     <button ng-show="!restoring" class="btn btn-success" style="width:250px" ng-class="{binputhover:inputhover}">{{'SETTINGS/BACKUP/choose-backup-load/btn'|translate}}</button>
     <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute; opacity:0; width:250px; top:0; padding:0; height:100%; cursor: pointer;" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false"></button>
   </div>
-  <div style="padding:5px" class="miniposter">
+  <div style="padding:5px" class="miniposter x2">
     <h1 ng-if="restoring" style='margin-top: 20px;'>{{'SETTINGS/BACKUP/loading-please-wait/lbl'|translate}}</h1>
     <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
       <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
