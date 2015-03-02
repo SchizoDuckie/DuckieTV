@@ -23,19 +23,17 @@ DuckieTV.factory('TorrentMonitor', ["TorrentRemote", "SettingsService",
 
             disableAutoStop: function() {
                 TorrentRemote.offTorrentUpdate(null, autoStop);
-            },
-
-            initialize: function() {
-
-                if (SettingsService.get('torrenting.enabled') && SettingsService.get('torrenting.autostop')) {
-                    console.log("Enabling torrent auto-stop!");
-                    service.enableAutoStop();
-                }
             }
-
         };
-
-        service.initialize();
         return service;
     }
 ])
+
+.run(["SettingsService", "TorrentMonitor",
+    function(SettingsService, TorrentMonitor) {
+        if (SettingsService.get('torrenting.enabled') && SettingsService.get('torrenting.autostop')) {
+            console.log("Enabling torrent auto-stop!");
+            TorrentMonitor.enableAutoStop();
+        }
+    }
+]);
