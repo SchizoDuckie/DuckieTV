@@ -1115,8 +1115,8 @@ query-monitor {
     border-radius: 10px;
     height: 80px;
     opacity:0;
-    transform: translateX(120%);
-    transition: all 0.2s ease-in;
+    -webkit-transform: translateX(120%);
+    -webkit-transition: all 0.2s ease-in;
 }
 query-monitor i {
     float: left;
@@ -1160,14 +1160,14 @@ sidepanel > div {
     z-index: 850;
     color:white;
     background-color: rgba(25,25,25,1);
-    transform: translateX(800px);
-    transition: transform 0.3s ease-in;
+    -webkit-transform: translateX(800px);
+    -webkit-transition: transform 0.3s ease-in;
 }
 sidepanel > div.active {
-    transform: translateX(400px);   
+    -webkit-transform: translateX(400px);   
 }
 sidepanel > div.active.expanded {
-    transform: translateX(0);   
+    -webkit-transform: translateX(0);   
 }
 
 sidepanel .handle {
