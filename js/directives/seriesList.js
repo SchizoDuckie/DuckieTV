@@ -44,3 +44,20 @@ DuckieTV.directive('seriesList', function(SidePanelState) {
         }
     }
 })
+
+/**
+ * <chrome-top-sites> directive that shows the list of most visited
+ * sites in chrome
+ */
+.directive('clicktrap', ["$state",
+    function($state) {
+        return {
+            restrict: 'E',
+            link: function($scope, iElement) {
+                iElement[0].onclick = function() {
+                    $state.go('calendar');
+                }
+            }
+        }
+    }
+]);
