@@ -92,6 +92,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'KickAssTorrents.mirror': 'https://kickass.to',
                 'ThePirateBay.mirror': 'https://thepiratebay.se',
                 'lastSync': -1,
+                'library.smallposters': false,
                 'series.displaymode': 'poster',
                 'storage.sync': false, // off by default so that permissions must be requested
                 'sync.progress': true,

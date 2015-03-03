@@ -7,7 +7,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.activated = true; // Toggles when the favorites panel activated
 
         this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
-        this.isSmall = false; // Toggles the poster zoom
+        this.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
         this.hideEnded = false;
         document.body.style.overflowY = 'hidden';
 
@@ -45,6 +45,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          */
         this.toggleSmall = function() {
             this.isSmall = !this.isSmall;
+            SettingsService.set('library.smallposters', this.isSmall);
         };
 
         /**
