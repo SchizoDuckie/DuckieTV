@@ -175,7 +175,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
                 headers['trakt-user-login'] = localStorage.getItem('trakt.username');
                 headers['trakt-user-token'] = localStorage.getItem('trakt.token');
             }
-        return $http.get(url, {
+            return $http.get(url, {
                 timeout: promise ? promise : 120000,
                 headers: headers,
                 cache: false,
@@ -241,11 +241,17 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
             hasActiveSearchRequest: function() {
                 return (activeSearchRequest && activeSearchRequest.resolve);
             },
-            trending: function() {
-                if (null !== cachedTrending) {
-                    return $q(function(resolve) {
-                        resolve(cachedTrending);
-                    });
+            trending: function(noCache) {
+                if (undefined == noCache) {
+                    if (!localStorage.getItem('trakttv.trending.cache')) {
+                        return $http.get('js/fixtures/trakt-trending-500.json').then(function(result) {
+                            return result.data;
+                        })
+                    } else {
+                        return $q(function(resolve) {
+                            resolve(JSON.parse(localStorage.getItem('trakttv.trending.cache')));
+                        });
+                    }
                 }
 
                 service.cancelTrending();

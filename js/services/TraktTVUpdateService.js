@@ -7,12 +7,7 @@
 DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
     function($q, TraktTVv2, FavoritesService) {
 
-        function getDateString(date) {
-            if (!date || isNaN(date.getTime())) {
-                date = new Date();
-            }
-            return date.toISOString().split('T')[0];
-        }
+
 
         var service = {
             /**
@@ -22,9 +17,15 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
              * @param Date from fetch all updates from Trakt.TV since this date (limited to 10.000)
              * @return promise updated items
              */
+            getDateString: function(date) {
+                if (!date || isNaN(date.getTime())) {
+                    date = new Date();
+                }
+                return date.toISOString().split('T')[0];
+            },
             update: function(from) {
 
-                return TraktTVv2.updated(getDateString(from)).then(function(results) {
+                return TraktTVv2.updated(service.getDateString(from)).then(function(results) {
                     var toUpdate = results.filter(function(res) {
                         if (!res || !res.tvdb_id) return false;
                         return FavoritesService.favorites.filter(function(favorite) {
@@ -37,27 +38,58 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
                         })
                     );
                 });
+            },
+            /**
+             * Save Trakt.TV's trending list to localstorage once a week
+             */
+            updateCachedTrending: function() {
+                return TraktTVv2.trending(true).then(function(result) {
+                    localStorage.setItem('trakttv.trending.cache', JSON.stringify(result.map(function(serie) {
+                        delete serie.images;
+                        delete serie.ids;
+                        delete serie.available_translations;
+                        delete serie.fanart;
+                        delete serie.banner;
+                        delete serie.tmdb_id;
+                        delete serie.trakt_id;
+                        return serie;
+                    })));
+                    return true;
+                });
             }
         };
 
-        var updateFunc = function() {
-            var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
-            var localDate = new Date();
-            if (getDateString(lastUpdated) != getDateString(localDate)) {
-                service.update(lastUpdated).then(function(result) {
-                    console.info('TraktTV update check completed. ' + result.length + ' shows updated since ' + lastUpdated);
-                    if (result.length > 0) {
-                        localStorage.setItem('trakttv.lastupdated', localDate.getTime());
-                    };
-                });
-            } else {
-                console.info("Not performing trakttv update check. already done today.");
-            };
-            setTimeout(updateFunc, 60 * 60 * 12 * 1000); // schedule update check in 12 hours for long running apps.
-        };
-
-        setTimeout(updateFunc, 8000);
-
         return service;
     }
-]);
+])
+
+.run(function(TraktTVUpdateService) {
+
+    var updateFunc = function() {
+        var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
+        var localDate = new Date();
+        if (TraktTVUpdateService.getDateString(lastUpdated) != TraktTVUpdateService.getDateString(localDate)) {
+            TraktTVUpdateService.update(lastUpdated).then(function(result) {
+                console.info('TraktTV update check completed. ' + result.length + ' shows updated since ' + lastUpdated);
+                localStorage.setItem('trakttv.lastupdated', localDate.getTime()); // undid the if here. check was happening on every refresh!
+            });
+        } else {
+            console.info("Not performing trakttv update check. already done today.");
+        };
+
+        if (!localStorage.getItem('trakttv.lastupdated.trending')) {
+            localStorage.setItem('trakttv.lastupdated.trending', 0);
+        }
+        if ((parseInt(localStorage.getItem('trakttv.lastupdated.trending')) + (1000 * 60 * 60 * 24 * 7)) /* 1 week */ < new Date().getTime()) {
+            TraktTVUpdateService.updateCachedTrending().then(function() {
+                console.info('TraktTV trending update completed. last updated:' + localStorage.getItem('trakttv.lastupdated.trending'));
+                localStorage.setItem('trakttv.lastupdated.trending', new Date().getTime());
+            });
+        } else {
+            console.info("Not performing trakttv trending update check. last done ", new Date(parseInt(localStorage.getItem('trakttv.lastupdated.trending'))).toString());
+        };
+        setTimeout(updateFunc, 60 * 60 * 12 * 1000); // schedule update check in 12 hours for long running apps.
+    };
+
+    setTimeout(updateFunc, 8000);
+})
