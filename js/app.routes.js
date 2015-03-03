@@ -72,6 +72,10 @@ DuckieTV.config(["$stateProvider",
                     SeriesListState: function(SeriesListState) {
                         SeriesListState.show();
                         return SeriesListState;
+                    },
+                    SidePanelState: function(SidePanelState) {
+                        SidePanelState.contract();
+                        return SidePanelState;
                     }
                 },
                 views: {
