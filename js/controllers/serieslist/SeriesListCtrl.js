@@ -8,7 +8,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
         this.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
         this.hideEnded = false;
-        document.body.style.overflowY = 'hidden';
 
         this.adding = {} // holds any TVDB_ID's that are adding (todo: move to favoritesservice)
         this.error = {};
@@ -16,6 +15,18 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         Object.observe(SeriesListState.state, function(newValue) {
             serieslist.activated = newValue[0].object.isShowing;
+            $scope.$applyAsync();
+        });
+
+        Object.observe(SidePanelState.state, function(newValue) {
+            if (!SeriesListState.state.isShowing) return;
+            if (newValue[0].object.isExpanded) {
+                $scope.setWidthMinus(800);
+            } else if (newValue[0].object.isShowing) {
+                $scope.setWidthMinus(400);
+            } else {
+                $scope.setWidthMinus(0)
+            }
             $scope.$applyAsync();
         });
 

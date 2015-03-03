@@ -22,7 +22,7 @@ DuckieTV.factory('SeriesListState', function() {
     return service;
 })
 
-.directive('seriesList', function(SidePanelState, SeriesListState) {
+.directive('seriesList', function() {
     return {
         restrict: 'E',
         controller: 'seriesListCtrl',
@@ -30,7 +30,7 @@ DuckieTV.factory('SeriesListState', function() {
 
             var timeout = null;
 
-            function setWidthMinus(minus) {
+            $scope.setWidthMinus = function(minus) {
                 if (timeout) {
                     clearTimeout(timeout);
                 }
@@ -41,38 +41,6 @@ DuckieTV.factory('SeriesListState', function() {
                     }
                 }, 0);
             };
-
-            Object.observe(SidePanelState.state, function(newValue) {
-                if (!SeriesListState.state.isShowing) return;
-                if (newValue[0].object.isExpanded) {
-                    setWidthMinus(800);
-                } else if (newValue[0].object.isShowing) {
-                    setWidthMinus(400);
-                } else {
-                    setWidthMinus(0)
-                }
-                $scope.$applyAsync();
-            });
         }
     }
 })
-
-/**
- * <chrome-top-sites> directive that shows the list of most visited
- * sites in chrome
- */
-.directive('clicktrap', ["SidePanelState",
-    function(SidePanelState) {
-        return {
-            restrict: 'E',
-            link: function($scope, iElement) {
-                iElement[0].onclick = function() {
-                    debugger;
-                    if (SidePanelState.state.isShowing) {
-                        SidePanelState.hide();
-                    }
-                }
-            }
-        }
-    }
-]);
