@@ -375,6 +375,7 @@ series-list .tools {
     box-shadow: 0 3px 8px black;
     background-color: rgb(51, 51, 51);
     z-index:1000;
+    position: absolute;
 }
 series-list #favslist serieheader[mode='poster'], #favslist serieheader .poster {
     transition: width 1s, height 1s, opacity 0.5s;
@@ -393,7 +394,7 @@ series-list .series {
     z-index: 10
 }
 series-list .series.adding {
-    top: 145px;
+    top: 70px;
 }
 
 series-list p.protip {

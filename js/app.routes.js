@@ -68,6 +68,11 @@ DuckieTV.config(["$stateProvider",
             .state('favorites', {
                 sticky: true,
                 url: '/favorites',
+                resolve: {
+                    SeriesListState: function(SeriesListState) {
+                        return SeriesListState.show();
+                    }
+                },
                 views: {
                     favorites: {
                         templateUrl: 'templates/seriesList.html',
