@@ -53,19 +53,6 @@ DuckieTV.factory('SeriesListState', function() {
                 }
                 $scope.$applyAsync();
             });
-
-            window.addEventListener('resize', function() {
-                console.log('window resize!');
-                if (SeriesListState.state.isShowing && SidePanelState.state.isExpanded) {
-                    setWidthMinus(800);
-
-                } else if (SeriesListState.state.isShowing && SidePanelState.state.isShowing) {
-                    setWidthMinus(400);
-                } else {
-                    setWidthMinus(0);
-                }
-                $scope.$applyAsync();
-            }, false);
         }
     }
 })

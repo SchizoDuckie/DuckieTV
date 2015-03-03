@@ -70,7 +70,8 @@ DuckieTV.config(["$stateProvider",
                 url: '/favorites',
                 resolve: {
                     SeriesListState: function(SeriesListState) {
-                        return SeriesListState.show();
+                        SeriesListState.show();
+                        return SeriesListState;
                     }
                 },
                 views: {

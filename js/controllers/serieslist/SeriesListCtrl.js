@@ -1,25 +1,23 @@
-DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "$state",
-    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, $state) {
+DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "$state",
+    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state) {
 
         var serieslist = $scope.serieslist = this;
 
         this.width = SidePanelState.state.isExpanded ? document.body.clientWidth - 800 : SidePanelState.state.isShowing ? document.body.clientWidth - 400 : document.body.clientWidth;
-        this.activated = false; // Toggles when the favorites panel activated
-
+        this.activated = SeriesListState.state.isShowing; // Toggles when the favorites panel activated
         this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
         this.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
         this.hideEnded = false;
         document.body.style.overflowY = 'hidden';
 
+        this.adding = {} // holds any TVDB_ID's that are adding (todo: move to favoritesservice)
+        this.error = {};
 
-        this.adding = { // holds any TVDB_ID's that are adding
 
-        };
-
-        this.error = {
-
-        };
-
+        Object.observe(SeriesListState.state, function(newValue) {
+            serieslist.activated = newValue[0].object.isShowing;
+            $scope.$applyAsync();
+        });
 
         var titleSorter = function(serie) {
             serie.sortName = serie.name ? serie.name.replace('The ', '') : '';

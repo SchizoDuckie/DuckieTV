@@ -2,18 +2,16 @@
  * Actionbar Controller
  */
 
-DuckieTV.controller('ActionBarCtrl', ["$scope", "$rootScope", "SidePanelState",
-    function($scope, $rootScope, SidePanelState, FavoritesService) {
+DuckieTV.controller('ActionBarCtrl', ["$scope", "SeriesListState", "SidePanelState",
+    function($scope, SeriesListState, SidePanelState) {
 
 
         $scope.hideSeriesList = function() {
-            $rootScope.$broadcast('serieslist:hide');
+            SeriesListState.hide();
         };
 
         $scope.toggleSeriesList = function() {
-
-            $rootScope.$broadcast('serieslist:toggle');
-
+            SeriesListState.toggle()
         };
 
 
