@@ -4,13 +4,13 @@
   <a ng-class="{ watched : episode.watched }" >
     <!-- if we have a torrent, show the progress -->
     <div ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash">
-      <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html">
-        {{ serie.name }}
+      <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) ">
+        {{ ::serie.name }}
       </torrent-remote-control>
     </div>
     <!-- no torrent, or don't show torrent: just show the name --> 
     <div ng-if="!getSetting('torrenting.enabled') || !episode.magnetHash || !getSetting('torrenting.progress')" ng-class="{ watchedtick : episode.watched }">
-      <span tooltip="{{episode.getFormattedEpisode()}} ({{episode.getAirTime() }}) ">{{ serie.name }}</span>
+      <span tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) ">{{ ::serie.name }}</span>
     </div>
     <!-- episode watched, show icon. -->
     <div ng-if="episode.watched">
