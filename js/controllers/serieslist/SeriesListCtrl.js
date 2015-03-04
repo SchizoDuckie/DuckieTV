@@ -11,6 +11,26 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         this.adding = {} // holds any TVDB_ID's that are adding (todo: move to favoritesservice)
         this.error = {};
+        this.query = ''; // local filter query, set from LocalSerieCtrl
+
+
+        /**
+         * Automatically launch the first search result when user hits enter in the filter form
+         */
+        this.execFilter = function() {
+            setTimeout(function() {
+                console.log('execing quer!');
+                document.querySelector('.series serieheader a').click();
+            }, 0)
+        };
+
+        $rootScope.$on('serieslist:filter', function(evt, query) {
+            serieslist.query = query;
+        })
+
+        this.localFilter = function(el) {
+            return el.name.toLowerCase().indexOf(serieslist.query.toLowerCase()) > -1;
+        };
 
 
         Object.observe(SeriesListState.state, function(newValue) {

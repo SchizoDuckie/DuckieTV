@@ -1,8 +1,8 @@
 /**
  * Routing configuration.
  */
-DuckieTV.config(["$stateProvider",
-    function($stateProvider) {
+DuckieTV.config(["$stateProvider", "$urlRouterProvider",
+    function($stateProvider, $urlRouterProvider) {
         var applyTranslation = function($translate, SettingsService) {
             $translate.use(SettingsService.get('application.locale'));
         }
@@ -57,85 +57,92 @@ DuckieTV.config(["$stateProvider",
             })
         }
 
+        // if the path doesn't match any of the urls you configured
+        // otherwise will take care of routing the user to the specified url
+
         $stateProvider
-            .state('calendar', {
-                url: '/',
-                resolve: {
-                    SidePanelState: hideSidePanel
-                }
-            })
-            .state('favorites', {
-                sticky: true,
-                url: '/favorites',
-                resolve: {
-                    SeriesListState: function(SeriesListState) {
-                        SeriesListState.show();
-                        return SeriesListState;
-                    },
-                    SidePanelState: function(SidePanelState) {
-                        SidePanelState.contract();
-                        return SidePanelState;
-                    }
+
+        .state('calendar', {
+            url: '/',
+            resolve: {
+                SidePanelState: hideSidePanel
+            }
+        })
+
+        .state('favorites', {
+            sticky: true,
+            url: '/favorites',
+            resolve: {
+                SeriesListState: function(SeriesListState) {
+                    SeriesListState.show();
+                    return SeriesListState;
                 },
-                views: {
-                    favorites: {
-                        templateUrl: 'templates/seriesList.html',
-                    },
-                    'tools@favorites': {
-                        templateUrl: 'templates/serieslist/tools/favorites.html'
-                    },
-                    'content@favorites': {
-                        templateUrl: 'templates/serieslist/favorites.html',
-                        controller: 'localSeriesCtrl',
-                        controllerAs: 'local',
-                    }
+                SidePanelState: function(SidePanelState) {
+                    SidePanelState.contract();
+                    return SidePanelState;
                 }
-            })
-            .state('favorites.search', {
-                sticky: true,
-                url: '/search',
-                views: {
-                    'tools@favorites': {
-                        templateUrl: 'templates/serieslist/tools/localfilter.html',
-                        controller: 'localSeriesCtrl',
-                        controllerAs: 'local',
-                    },
-                    'content@favorites': {
-                        templateUrl: 'templates/serieslist/searchresults.html',
-                        controller: 'localSeriesCtrl',
-                        controllerAs: 'local',
-                    }
+            },
+            views: {
+                favorites: {
+                    templateUrl: 'templates/seriesList.html',
+                },
+                'tools@favorites': {
+                    templateUrl: 'templates/serieslist/tools/favorites.html'
+                },
+                'content@favorites': {
+                    templateUrl: 'templates/serieslist/favorites.html',
+                    controller: 'localSeriesCtrl',
+                    controllerAs: 'local',
+                    bindToController: true
                 }
-            })
-            .state('favorites.add', {
-                sticky: true,
-                url: '/add',
-                views: {
-                    'tools@favorites': {
-                        templateUrl: 'templates/serieslist/tools/adding.html',
-                        controller: function($state, $stateParams) {
-                            this.query = $stateParams.query
-                            this.search = function(q) {
-                                console.log('search!')
-                                if (q.length > 0) {
-                                    $state.go('favorites.add.search', {
-                                        query: q
-                                    });
-                                } else {
-                                    $state.go('favorites.add');
-                                }
+            }
+        })
+
+        .state('favorites.search', {
+            sticky: true,
+            url: '/search',
+            views: {
+                'tools@favorites': {
+                    templateUrl: 'templates/serieslist/tools/localfilter.html',
+                    controller: 'localSeriesCtrl',
+                    controllerAs: 'localFilter',
+                    bindToController: true
+                },
+                'content@favorites': {
+                    templateUrl: 'templates/serieslist/searchresults.html'
+                }
+            }
+        })
+
+        .state('favorites.add', {
+            sticky: true,
+            url: '/add',
+            views: {
+                'tools@favorites': {
+                    templateUrl: 'templates/serieslist/tools/adding.html',
+                    controller: function($state, $stateParams) {
+                        this.query = $stateParams.query
+                        this.search = function(q) {
+                            console.log('search!')
+                            if (q.length > 0) {
+                                $state.go('favorites.add.search', {
+                                    query: q
+                                });
+                            } else {
+                                $state.go('favorites.add');
                             }
-                        },
-                        controllerAs: 'search',
-                        bindToController: true
+                        }
                     },
-                    'content@favorites': {
-                        templateUrl: 'templates/serieslist/trakt-trending.html',
-                        controller: 'traktTvTrendingCtrl',
-                        controllerAs: 'trending'
-                    }
+                    controllerAs: 'search',
+                    bindToController: true
+                },
+                'content@favorites': {
+                    templateUrl: 'templates/serieslist/trakt-trending.html',
+                    controller: 'traktTvTrendingCtrl',
+                    controllerAs: 'trending'
                 }
-            })
+            }
+        })
             .state('favorites.add.empty', {
                 url: '/empty',
                 views: {
@@ -242,37 +249,40 @@ DuckieTV.config(["$stateProvider",
                 }
             }
         })
-            .state('serie.details', {
-                url: '/details',
-                resolve: {
-                    SidePanelState: expandSidePanel,
-                },
-                views: {
-                    serieDetails: {
-                        templateUrl: 'templates/sidepanel/serie-details.html'
-                    }
+
+        .state('serie.details', {
+            url: '/details',
+            resolve: {
+                SidePanelState: expandSidePanel,
+            },
+            views: {
+                serieDetails: {
+                    templateUrl: 'templates/sidepanel/serie-details.html'
                 }
-            })
-            .state('serie.seasons', {
-                url: '/seasons',
-                resolve: {
-                    SidePanelState: expandSidePanel,
-                    seasons: function($stateParams) {
-                        return CRUD.Find('Season', {
-                            Serie: {
-                                ID_Serie: $stateParams.id
-                            }
-                        })
-                    }
-                },
-                views: {
-                    serieDetails: {
-                        controller: 'SidepanelSeasonsCtrl',
-                        controllerAs: 'seasons',
-                        templateUrl: 'templates/sidepanel/seasons.html'
-                    }
+            }
+        })
+
+        .state('serie.seasons', {
+            url: '/seasons',
+            resolve: {
+                SidePanelState: expandSidePanel,
+                seasons: function($stateParams) {
+                    return CRUD.Find('Season', {
+                        Serie: {
+                            ID_Serie: $stateParams.id
+                        }
+                    })
                 }
-            })
+            },
+            views: {
+                serieDetails: {
+                    controller: 'SidepanelSeasonsCtrl',
+                    controllerAs: 'seasons',
+                    templateUrl: 'templates/sidepanel/seasons.html'
+                }
+            }
+        })
+
         // note: this is a sub state of the serie state. the serie is already resolved here and doesn't need to be redeclared!
         .state('serie.season', {
             url: '/season/:season_id',
@@ -289,6 +299,7 @@ DuckieTV.config(["$stateProvider",
                 }
             }
         })
+
         // note: this is a sub state of the serie state. the serie is already resolved here and doesn't need to be redeclared!
         .state('serie.season.episode', {
             url: '/episode/:episode_id',
@@ -377,6 +388,10 @@ DuckieTV.config(["$stateProvider",
                     controller: 'AboutCtrl'
                 }
             }
-        })
+        });
+
+
+        $urlRouterProvider.otherwise('/');
+
     }
 ])

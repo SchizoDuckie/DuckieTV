@@ -1,6 +1,6 @@
 <!-- Display favourites in search mode -->
 <div class="series">
 <h1>Your favorite series. Click one to view details</h1>
-    <serieHeader ng-repeat="serie in serieslist.favorites | orderBy: 'sortName' | filter: local.localFilter" data="serie" no-overview="1" mode="search">   
+    <serieHeader ng-repeat="serie in serieslist.favorites | orderBy: 'sortName' | filter: serieslist.localFilter" data="serie" no-overview="1" mode="{{serieslist.mode}}">   
     </serieHeader>
 </div>
