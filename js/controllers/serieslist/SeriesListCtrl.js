@@ -55,7 +55,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             timeout = setTimeout(function() {
                 var serieslist = document.querySelector('series-list > div');
                 if (serieslist) {
-                    serieslist.style.width = (document.body.clientWidth - minus) + 'px';
+                    serieslist.style.width = 'calc(100% - ' + minus + 'px)';
                 }
             }, 0);
         };
