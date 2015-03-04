@@ -23,8 +23,7 @@ describe('FavoritesService', function() {
 
     var FavoritesService, TraktTVv2, $httpBackend, $q, $rootScope, $scope;
 
-    beforeEach(module('DuckieTV.providers.favorites'));
-    beforeEach(module('DuckieTV.providers.trakttvv2'));
+    beforeEach(module('DuckieTV'));
 
     beforeEach(inject(function($injector) {
         // Set up the mock http service responses

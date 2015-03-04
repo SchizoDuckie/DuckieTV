@@ -1,5 +1,5 @@
 {
-    "url": "https:\/\/api.trakt.tv\/shows\/arrow\/seasons\/1\/episodes?extended=full,images",
+    "url": "https:\/\/api-v2launch.trakt.tv\/shows\/arrow\/seasons\/1\/episodes?extended=full,images",
     "headers": {
         "Server": " cloudflare-nginx",
         "Date": " Sun, 11 Jan 2015 21",

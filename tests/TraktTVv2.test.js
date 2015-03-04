@@ -1,7 +1,7 @@
 describe('TrakTVv2', function() {
     var TraktTVv2, $httpBackend;
 
-    beforeEach(module('DuckieTV.providers.trakttvv2'));
+    beforeEach(module('DuckieTV'));
 
     beforeEach(inject(function(_$httpBackend_, _TraktTVv2_) {
         TraktTVv2 = _TraktTVv2_;

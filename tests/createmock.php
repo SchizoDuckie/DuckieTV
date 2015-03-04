@@ -1,9 +1,9 @@
 <?php
 
 
-$url = 'https://api.trakt.tv/shows/doctor-who-2005/seasons/%d/episodes?extended=full,images';
+$url = 'https://api-v2launch.trakt.tv/shows/doctor-who-2005/seasons/%d/episodes?extended=full,images';
 
-//$url = 'https://api.trakt.tv/search?type=show&extended=full,images&query=doctor%20who';
+//$url = 'https://api-v2launch.trakt.tv/search?type=show&extended=full,images&query=doctor%20who';
 
 for($i=0; $i<10;$i++) {
 

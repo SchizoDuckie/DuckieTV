@@ -1,5 +1,5 @@
 {
-    "url": "https:\/\/api.trakt.tv\/search?id_type=tvdb&id=78804",
+    "url": "https:\/\/api-v2launch.trakt.tv\/search?id_type=tvdb&id=78804",
     "headers": {
         "Server": " cloudflare-nginx",
         "Date": " Tue, 13 Jan 2015 22",

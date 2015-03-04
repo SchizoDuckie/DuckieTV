@@ -1,5 +1,5 @@
 {
-    "url": "https:\/\/api.trakt.tv\/shows\/trending?extended=full,images&limit=100",
+    "url": "https:\/\/api-v2launch.trakt.tv\/shows\/trending?extended=full,images&limit=100",
     "headers": {
         "Server": " cloudflare-nginx",
         "Date": " Sun, 11 Jan 2015 21",

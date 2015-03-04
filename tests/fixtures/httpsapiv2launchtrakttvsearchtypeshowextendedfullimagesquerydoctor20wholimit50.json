@@ -1,5 +1,5 @@
 {
-    "url": "https:\/\/api.trakt.tv\/search?type=show&extended=full,images&query=doctor%20who",
+    "url": "https:\/\/api-v2launch.trakt.tv\/search?type=show&extended=full,images&query=doctor%20who",
     "headers": {
         "Server": " cloudflare-nginx",
         "Date": " Sun, 11 Jan 2015 21",
