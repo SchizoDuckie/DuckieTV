@@ -325,7 +325,6 @@
     "SETTINGS/hdr": "Configuración ",
     "SETTINGS/torrent/hdr": "torrente ",
     "SETTINGS/trakttv/hdr": "Trakt.TV",
-    "SIDEPANEL/SIDEPANEL/hide/lbl": "Ocultar",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV detectó que el espectáculo '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' ha sido eliminada en otro equipo que está a conectado en. ¿Quieres eliminar aquí también? (Si selecciona no, se vuelve a agregar al equipo remoto en la próxima sincronización)",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "Borrado remoto detectado",

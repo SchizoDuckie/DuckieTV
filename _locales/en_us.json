@@ -343,7 +343,6 @@
     "SETTINGS/hdr": "Settings",
     "SETTINGS/torrent/hdr": "Torrent",
     "SETTINGS/trakttv/hdr": "Trakt.TV",
-    "SIDEPANEL/SIDEPANEL/hide/lbl": "Hide",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV detected that the show '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' was deleted on another computer you're logged in on. Do you want to delete it here as well? (If you select no, it will be re-added to the remote computer on next sync)",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "Detected remote deletion",

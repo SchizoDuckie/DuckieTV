@@ -325,7 +325,6 @@
     "SETTINGS/hdr": "Configurações ",
     "SETTINGS/torrent/hdr": "torrente ",
     "SETTINGS/trakttv/hdr": "Trakt.TV",
-    "SIDEPANEL/SIDEPANEL/hide/lbl": "Esconder",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV detectou que o show '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' foi eliminado em outro computador que você está LoggedIn diante. Você quer excluí-lo aqui também? (Se você selecionar não, ele vai voltar a ser adicionado ao computador remoto na próxima sincronização)",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "Apagamento remoto Detectado",

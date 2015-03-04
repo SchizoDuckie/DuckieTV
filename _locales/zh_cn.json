@@ -325,7 +325,6 @@
     "SETTINGS/hdr": "设置 ",
     "SETTINGS/torrent/hdr": "激流 ",
     "SETTINGS/trakttv/hdr": "Trakt.TV",
-    "SIDEPANEL/SIDEPANEL/hide/lbl": "隐藏",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV检测到展会 '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "'对了你在登录另一台计算机中删除.你要在这里删除呢？（如果你没有选择,它将被重新加入到远程计算机上的下一个同步）",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "检测远程删除",

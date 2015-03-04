@@ -325,7 +325,6 @@
     "SETTINGS/hdr": "[設定] ",
     "SETTINGS/torrent/hdr": "急流 ",
     "SETTINGS/trakttv/hdr": "Trakt.TV",
-    "SIDEPANEL/SIDEPANEL/hide/lbl": "隠す",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTVは、検出されたことを示して '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "'あなたがログオンしている別のコンピュータ上で削除されました。あなたにもここでそれを削除しますか？（[いいえ]を選択する場合は,次回の同期時にリモートコンピュータに再度追加されます）",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "検出されたリモート削除",
