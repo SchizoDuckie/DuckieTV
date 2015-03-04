@@ -1,5 +1,6 @@
+<!-- Display favourites in search mode -->
 <div class="series">
-    <serieHeader ng-repeat="serie in favorites | orderBy: 'sortName' | filter: localFilter" data="serie" no-overview="1" mode="search">
-        <em class="earmark delete" tooltip="{{'SERIESLIST/SEARCHRESULTS/delete-serie/tooltip'|translate}}" ng-click='removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
+<h1>Your favorite series. Click one to view details</h1>
+    <serieHeader ng-repeat="serie in serieslist.favorites | orderBy: 'sortName' | filter: local.localFilter" data="serie" no-overview="1" mode="search">   
     </serieHeader>
 </div>

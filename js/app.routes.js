@@ -91,6 +91,20 @@ DuckieTV.config(["$stateProvider",
                     }
                 }
             })
+            .state('favorites.search', {
+                sticky: true,
+                url: '/search',
+                views: {
+                    'tools@favorites': {
+                        templateUrl: 'templates/serieslist/tools/favorites.html'
+                    },
+                    'content@favorites': {
+                        templateUrl: 'templates/serieslist/searchresults.html',
+                        controller: 'localSeriesCtrl',
+                        controllerAs: 'local',
+                    }
+                }
+            })
             .state('favorites.add', {
                 sticky: true,
                 url: '/add',
