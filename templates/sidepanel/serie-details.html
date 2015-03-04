@@ -9,7 +9,7 @@
         </tr>
         <tr>
           <th>{{'SERIEDETAILS/airs-on/hdr'|translate}}</th>
-          <td>{{translateDayOfWeek(sidepanel.serie.airs_dayofweek)}} {{sidepanel.serie.airs_time}} {{sidepanel.serie.timezone}}</td>
+          <td>{{sidepanel.translateDayOfWeek(sidepanel.serie.airs_dayofweek)}} {{sidepanel.serie.airs_time}} {{sidepanel.serie.timezone}}</td>
         </tr>
         <tr>
           <th>{{'SERIEDETAILS/first-aired/hdr'|translate}}</th>
@@ -19,7 +19,7 @@
           <th>{{'SERIEDETAILS/genre/hdr'|translate}}</th>
           <td>
             <ul class="list-unstyled" ng-class="{'genres': sidepanel.serie.genre.split('|').length > 3}">
-              <li ng-repeat="genre in sidepanel.serie.genre.split('|') track by $index">{{translateGenre(genre)}}</li>
+              <li ng-repeat="genre in sidepanel.serie.genre.split('|') track by $index">{{sidepanel.translateGenre(genre)}}</li>
             </ul>
           </td>
         </tr>
@@ -45,7 +45,7 @@
         </tr>
         <tr>
           <th>{{'SERIEDETAILS/status/hdr'|translate}}</th>
-          <td>{{translateStatus(sidepanel.serie.status)}}</td>
+          <td>{{sidepanel.translateStatus(sidepanel.serie.status)}}</td>
         </tr>
         <tr ng-if="sidepanel.serie.actors.length > 0  " >
           <th>{{'SERIEDETAILS/actors/hdr'|translate}}</th>
