@@ -130,7 +130,7 @@ DuckieTV.provider('TorrentDialog', function() {
                 q: '=q',
                 TVDB_ID: '=tvdbid'
             },
-            template: '<a class="torrent-dialog" ng-click="openDialog()"><i class="glyphicon glyphicon-download" tooltip-append-to-body="true" tooltip="{{getTooltip()}}"></i><span ng-transclude></span></a>',
+            template: '<a class="torrent-dialog" ng-click="openDialog()" tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
             controller: ["$scope",
                 function($scope) {
                     // Translates the tooltip

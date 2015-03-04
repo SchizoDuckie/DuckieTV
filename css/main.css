@@ -1311,6 +1311,13 @@ sidepanel .buttons .two-face-torrent .auto-download {
     position: absolute;
     right: 35px;
 }
+/* Fix the tooltip positions */
+#ttd .tooltip {
+    left: 106.5px !important;
+}
+#tad .tooltip {
+    left: 290.5px !important;
+}
 sidepanel .buttons .torrent-mini-remote-control > span {
     /* Replicate of the strong tag */
     font-size: 18px;
