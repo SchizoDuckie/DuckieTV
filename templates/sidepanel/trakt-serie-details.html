@@ -13,7 +13,7 @@
       </tr>
       <tr ng-if="sidepanel.serie.airs.day" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/airs-on/hdr'|translate}}</th>
-        <td>{{translateDayOfWeek(sidepanel.serie.airs.day)}} {{sidepanel.serie.airs.time}} {{sidepanel.serie.airs.timezone}}</td>
+        <td>{{sidepanel.translateDayOfWeek(sidepanel.serie.airs.day)}} {{sidepanel.serie.airs.time}} {{sidepanel.serie.airs.timezone}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.first_aired" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/first-aired/hdr'|translate}}</th>
@@ -21,13 +21,13 @@
       </tr>
       <tr ng-if="sidepanel.serie.status" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/status/hdr'|translate}}</th>
-        <td>{{translateStatus(sidepanel.serie.status)}}</td>
+        <td>{{sidepanel.translateStatus(sidepanel.serie.status)}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.genres" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/genre/hdr'|translate}}</th>
         <td>
           <ul class="list-unstyled">
-            <li ng-repeat="genre in sidepanel.serie.genres track by $index">{{translateGenre(genre)}}</li>
+            <li ng-repeat="genre in sidepanel.serie.genres track by $index">{{sidepanel.translateGenre(genre)}}</li>
           </ul>
         </td>
       </tr>
@@ -45,7 +45,7 @@
       </tr>
       <tr ng-if="sidepanel.serie.rating" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/rating/hdr'|translate}}</th>
-        <td>{{ratingPercentage(sidepanel.serie.rating)}}% ({{sidepanel.serie.votes}} {{'SERIESLIST/SEARCHING-SIDEPANEL/votes/lbl'|translate}})</td>
+        <td>{{sidepanel.ratingPercentage(sidepanel.serie.rating)}}% ({{sidepanel.serie.votes}} {{'SERIESLIST/SEARCHING-SIDEPANEL/votes/lbl'|translate}})</td>
       </tr>
       <tr ng-if="sidepanel.serie.runtime" >
         <th>{{'SERIESLIST/SEARCHING-SIDEPANEL/run-time/hdr'|translate}}</th>
