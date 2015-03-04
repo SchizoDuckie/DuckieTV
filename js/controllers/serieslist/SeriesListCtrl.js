@@ -15,20 +15,47 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         Object.observe(SeriesListState.state, function(newValue) {
             serieslist.activated = newValue[0].object.isShowing;
+            if (!serieslist.activated) {
+                SidePanelState.hide();
+            }
+
+            sidepanelMonitor([{
+                object: SidePanelState.state
+            }]);
             $scope.$applyAsync();
         });
 
-        Object.observe(SidePanelState.state, function(newValue) {
+
+        var timeout = null;
+
+        function setWidthMinus(minus) {
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+            timeout = setTimeout(function() {
+                var serieslist = document.querySelector('series-list > div');
+                if (serieslist) {
+                    serieslist.style.width = (document.body.clientWidth - minus) + 'px';
+                }
+            }, 0);
+        };
+
+        function sidepanelMonitor(newValue) {
             if (!SeriesListState.state.isShowing) return;
             if (newValue[0].object.isExpanded) {
-                $scope.setWidthMinus(800);
+                setWidthMinus(800);
             } else if (newValue[0].object.isShowing) {
-                $scope.setWidthMinus(400);
+                setWidthMinus(400);
             } else {
-                $scope.setWidthMinus(0)
+                setWidthMinus(0)
             }
-            $scope.$applyAsync();
-        });
+        }
+
+        Object.observe(SidePanelState.state, sidepanelMonitor);
+        sidepanelMonitor([{
+            object: SidePanelState.state
+        }]);
+
 
         var titleSorter = function(serie) {
             serie.sortName = serie.name ? serie.name.replace('The ', '') : '';
@@ -79,25 +106,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         };
 
         /**
-         * Another class could fire an event that says this thing should open or close.
-         * This is hooked from app.js, which monitors location changes.
-         */
-        $rootScope.$on('serieslist:toggle', function() {
-            if (!serieslist.activated) {
-                return serieslist.activate();
-            }
-            serieslist.closeDrawer();
-        });
-
-        /**
-         * Another class could fire an event that says this thing should open or close.
-         * This is hooked from app.js, which monitors location changes.
-         */
-        $rootScope.$on('serieslist:hide', function() {
-            serieslist.closeDrawer();
-        });
-
-        /**
          * When the favorites list signals it's updated, we update the favorites here as well.
          * when the series list is empty, this makes it automatically pop up.
          * Otherwise, a random background is automagically loaded.
@@ -130,7 +138,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         this.selectFirstResult = function() {
             this.selectSerie(this.results[0]);
-
         };
 
 

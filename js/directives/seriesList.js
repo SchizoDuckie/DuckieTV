@@ -25,22 +25,6 @@ DuckieTV.factory('SeriesListState', function() {
 .directive('seriesList', function() {
     return {
         restrict: 'E',
-        controller: 'seriesListCtrl',
-        link: function($scope, iElement, iAttrs, controller) {
-
-            var timeout = null;
-
-            $scope.setWidthMinus = function(minus) {
-                if (timeout) {
-                    clearTimeout(timeout);
-                }
-                timeout = setTimeout(function() {
-                    var serieslist = document.querySelector('series-list > div');
-                    if (serieslist) {
-                        serieslist.style.width = (document.body.clientWidth - minus) + 'px';
-                    }
-                }, 0);
-            };
-        }
+        controller: 'seriesListCtrl'
     }
 })

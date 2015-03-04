@@ -27,9 +27,8 @@ DuckieTV.config(["$stateProvider",
             return SidePanelState;
         }
 
-        function hideSidePanel(SidePanelState, $rootScope) {
-            $rootScope.$broadcast('serieslist:hide');
-            $rootScope.$applyAsync();
+        function hideSidePanel(SidePanelState, SeriesListState) {
+            SeriesListState.hide();
             SidePanelState.hide();
             return SidePanelState
         }
