@@ -1,3 +1,3 @@
 <form ng-submit="local.execFilter()" name="local.filterForm" ng-if="serieslist.mode == 'search'">
-    <input type='text' focus-watch="'local.isFiltering'" placeholder="{{'SERIESLIST/FAVORITES/filter-placeholder'|translate}}" ng-change='setFilter(local.filter.localFilterString)' ng-model='local.filter.localFilterString' style='padding:5px; position:absolute; left:83px; width:35%; top:16px'>
+    <input type='text' focus-watch="'local.isFiltering'" placeholder="{{'SERIESLIST/FAVORITES/filter-placeholder'|translate}}" ng-change='local.setFilter(local.filter.localFilterString)' ng-model='local.filter.localFilterString' style='padding:5px; position:absolute; left:83px; width:35%; top:16px'>
 </form>

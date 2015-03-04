@@ -268,6 +268,9 @@ serieheader h3 {
     left:0px;
     right:0px;
 }
+serieheader[mode=search] h3 {
+    position: initial;
+}
 
 serieheader[mode=poster] h3 {
     display: none;

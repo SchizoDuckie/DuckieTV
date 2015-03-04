@@ -14,6 +14,11 @@ DuckieTV.controller('localSeriesCtrl', ["FavoritesService", "TraktTVv2", "$dialo
             return el.name.toLowerCase().indexOf(local.filter.localFilterString.toLowerCase()) > -1;
         };
 
+        this.setFilter = function(val) {
+            local.filter.localFilterString = val;
+            console.log(val);
+        };
+        
         /**
          * Automatically launch the first search result when user hits enter in the filter form
          */
