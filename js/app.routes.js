@@ -96,7 +96,7 @@ DuckieTV.config(["$stateProvider",
                 url: '/search',
                 views: {
                     'tools@favorites': {
-                        templateUrl: 'templates/serieslist/tools/favorites.html'
+                        templateUrl: 'templates/serieslist/tools/localfilter.html'
                     },
                     'content@favorites': {
                         templateUrl: 'templates/serieslist/searchresults.html',
