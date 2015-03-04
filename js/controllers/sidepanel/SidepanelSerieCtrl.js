@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $filter, $locale, FavoritesService, $location, serie, latestSeason) {
+DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $filter, $locale, FavoritesService, $location, serie, latestSeason, SidePanelState) {
 
     this.serie = serie;
     this.latestSeason = latestSeason;
@@ -22,7 +22,7 @@ DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $filter, $locale, F
         dlg.result.then(function(btn) {
             console.log("Removing serie '" + serie.name + "' from favorites!", serie);
             FavoritesService.remove(serie);
-            $location.path('/');
+            SidePanelState.hide();
         }, function(btn) {
             this.confirmed = $filter('translate')('SERIESLISTjs/serie-delete-confirmed');
         });

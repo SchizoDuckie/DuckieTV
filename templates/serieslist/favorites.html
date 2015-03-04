@@ -2,11 +2,5 @@
 <div class="series" ng-if="serieslist.activated" ng-class="{'miniposter': serieslist.isSmall}">
 <h1>Your favorite series. Click one to view details {{local.filter}}</h1>
     <serieHeader ng-repeat="serie in serieslist.favorites | orderBy: 'sortName' | filter: localSearch.localFilter" data="serie" no-overview="1" mode="{{serieslist.mode}}">   
-		<em class="earmark refresh" ng-class="{adding: serieslist.isAdding(serie.TVDB_ID)}" tooltip="{{'SERIESLIST/FAVORITES/refresh-serie/tooltip'|translate}}"  tooltip-append-to-body="true" ng-click='local.refresh(serie)'>
-			<i ng-show="!serieslist.isAdding(serie.TVDB_ID)" class="glyphicon glyphicon-refresh"></i>
-            <img ng-show="serieslist.isAdding(serie.TVDB_ID)" src="img/spinner.gif" width="37px" height="37px"></em>
-        </em>
-        <em class="earmark delete" tooltip="{{'SERIESLIST/FAVORITES/delete-serie/tooltip'|translate}}" tooltip-append-to-body="true" ng-click='local.removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
-        <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{serieslist.error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
     </serieHeader>
 </div>
