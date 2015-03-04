@@ -71,7 +71,6 @@ DuckieTV.factory('SidePanelState', function() {
             restrict: 'E',
             link: function($scope, iElement) {
                 iElement[0].onclick = function() {
-                    debugger;
                     if (SidePanelState.state.isShowing) {
                         SidePanelState.hide();
                     }
