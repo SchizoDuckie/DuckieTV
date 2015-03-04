@@ -292,6 +292,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "257804": "Too Cute!",
         "258773": "Zero Hour US",
         "259047": "VGHS",
+        "259055": "Nashville 2012",
         "259106": "Emily Owens M D",
         "259418": "David Attenborough Kingdom Of Plants",
         "259669": "DaVincis Demons",
