@@ -254,7 +254,9 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2",
                     });
                 });
                 CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ' + serie.ID_Serie);
-                delete service.favoriteIDs[serie.getID()];
+                service.favoriteIDs = service.favoriteIDs.filter(function(id) {
+                    return id != serie.TVDB_ID;
+                });
                 serie.Delete().then(function() {
                     service.favorites = service.favorites.filter(function(el) {
                         return el.getID() != serie.getID();
