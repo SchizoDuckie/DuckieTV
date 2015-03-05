@@ -4,7 +4,7 @@ DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $filter, $locale, F
     this.latestSeason = latestSeason;
 
     this.toggleSerieDisplay = function() {
-        this.serie.displaycalendar = sidepanel.serie.displaycalendar == '1' ? '0' : '1';
+        this.serie.displaycalendar = this.serie.displaycalendar == '1' ? '0' : '1';
         this.serie.Persist().then(function() {
             $rootScope.$broadcast('favorites:updated');
         });
