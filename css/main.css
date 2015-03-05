@@ -388,7 +388,7 @@ series-list .series {
     right: 20px;
     left: 58px;
     text-align: center;
-    padding: 35px 25px 15px 15px;
+    padding: 20px 25px 15px 15px;
     /* So the boxshadow on .tools is overlayed */
     z-index: 10
 }
