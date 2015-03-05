@@ -272,10 +272,6 @@ serieheader[mode=search] h3 {
     position: initial;
 }
 
-serieheader[mode=poster] h3 {
-    display: none;
-}
-
 .series.adding serieheader[mode=poster] h3 {
     display:inline-block;
 }
