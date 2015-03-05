@@ -16,10 +16,7 @@
     <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results" data="serie" ng-mouseenter="traktSearch.setHoverSerie(serie)" no-overview="1" mode="{{serieslist.mode}}" ng-click="serieslist.selectSerie(serie)">
         <em class="earmark" ng-show="serieslist.isAdded(serie.tvdb_id)">&check;</em>
         <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
-        <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
-
-        <em class="earmark delete" ng-show="serieslist.isAdded(serie.tvdb_id)" tooltip="{{'SERIESLIST/FAVORITES/delete-serie/tooltip'|translate}}" tooltip-append-to-body="true" ng-click='serieslist.removeFromFavorites(serie)'><i class="glyphicon glyphicon-trash"></i></em>
-        
+        <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>        
     </serieHeader>
 
     <!-- no series, show intro text and trakt connect/ backup import -->
