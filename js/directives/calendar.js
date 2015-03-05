@@ -4,8 +4,8 @@
  * and watches for the calendar changing it's date before fetching a new
  * set of episodes from the database
  */
-DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService",
-    function($rootScope, FavoritesService) {
+DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsService",
+    function($rootScope, FavoritesService, SettingsService) {
 
         var calendarEvents = {};
         var activeDate = null;
@@ -66,6 +66,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService",
              * The calendarEvents cache is updated per day so the calendar doesn't refresh unnecessarily
              */
             setEvents: function(events) {
+                service.removeDeleted();
                 events.map(function(event) {
                     var date = new Date(new Date(event.start).getTime()).toDateString();
 
@@ -73,6 +74,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService",
                         calendarEvents[date] = [];
                     }
                     service.deleteDuplicate(event.episode.getID(), date);
+
                     var existing = calendarEvents[date].filter(function(el) {
                         return el.episode.getID() == event.episode.getID();
                     });
@@ -82,7 +84,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService",
                         var index = calendarEvents[date].indexOf(existing[0]);
                         calendarEvents[date][index].episode = event.episode;
                     }
-                    calendarEvents[date] = calendarEvents[date].sort(function(a, b) {
+                    calendarEvents[date].sort(function(a, b) {
                         var ad = new Date(a.episode.firstaired_iso).getTime();
                         var bd = new Date(b.episode.firstaired_iso).getTime()
                         if (ad < bd) return -1;
@@ -111,7 +113,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService",
                 for (var aDate in calendarEvents) {
                     if (aDate !== eventDate) {
                         var eventList = calendarEvents[aDate];
-                        for (var index = 0; index < eventList.length; index++) {
+                        for (var index = eventList.length - 1; index > -1; index--) {
                             if (eventList[index].episodeID === duplicateID) {
                                 calendarEvents[aDate].splice(index, 1);
                                 return;
@@ -119,7 +121,19 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService",
                         }
                     }
                 }
-                eventList = index = aDate = null; // clear used variables, every little bit counts :-) 
+            },
+            /** 
+             * If the episode exist in the calendarEvents object, remove it.
+             */
+            removeDeleted: function() {
+                Object.keys(calendarEvents).map(function(date) {
+                    var eventList = calendarEvents[date];
+                    for (var index = eventList.length - 1; index > -1; index--) {
+                        if (FavoritesService.favoriteIDs.indexOf(eventList[index].TVDB_ID) == -1) {
+                            calendarEvents[date].splice(index, 1);
+                        }
+                    }
+                });
             },
             /**
              * Check if an event exists at the given date
@@ -156,7 +170,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService",
          * Refresh the active calendar by re-fetching all data.
          */
         $rootScope.$on('favorites:updated', function(event, favorites) {
-            service.clearCache();
+            //service.clearCache();
             service.setDate(new Date());
         });
 
@@ -172,6 +186,8 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService",
          */
         $rootScope.$on('setDate', function(evt, date, range) {
             if (FavoritesService.favorites.length > 0) {
+                console.log("rootscope setdate!", date, range);
+                console.trace();
                 service.setDate(date, range);
             }
         });

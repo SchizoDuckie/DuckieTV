@@ -12,7 +12,7 @@ DuckieTV.controller('CalendarCtrl', ["$scope", "$rootScope", "$filter", "Setting
                 SettingsService.set('calendar.show-specials', true);
                 $scope.showSpecials = true;
             }
-            $rootScope.$broadcast('favorites:updated');
+            // $rootScope.$broadcast('favorites:updated');
         };
     }
 ])

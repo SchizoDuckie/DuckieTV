@@ -217,12 +217,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2",
             },
             getEpisodesForDateRange: function(start, end) {
                 var filter = ['Episodes.firstaired > "' + start + '" AND Episodes.firstaired < "' + end + '" '];
-                filter.Serie = {
-                    'displaycalendar': 1
-                };
-                if (!$rootScope.getSetting('calendar.show-specials')) {
-                    filter.push('seasonnumber > 0');
-                }
+
                 return CRUD.Find('Episode', filter).then(function(ret) {
                     return ret;
                 });
