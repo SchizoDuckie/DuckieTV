@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $filter, $locale, FavoritesService, $location, serie, latestSeason, SidePanelState) {
+DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $rootScope, $filter, $locale, FavoritesService, $location, serie, latestSeason, SidePanelState) {
 
     this.serie = serie;
     this.latestSeason = latestSeason;
