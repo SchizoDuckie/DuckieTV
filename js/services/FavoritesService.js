@@ -242,6 +242,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2",
              * Remove a serie, it's seasons, and it's episodes from the database.
              */
             remove: function(serie) {
+                serie.displaycalendar = '0';
                 console.log("Remove serie from favorites!", serie);
                 service.getById(serie.TVDB_ID).Find('Season').then(function(seasons) {
                     seasons.map(function(el) {
