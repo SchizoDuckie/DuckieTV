@@ -124,213 +124,223 @@ function getVisibleHours(date) {
     return hours;
 }
 
-Module.directive('datePicker', ["datePickerConfig", "$injector", function datePickerDirective(datePickerConfig, $injector) {
+Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injector",
+    function datePickerDirective(datePickerConfig, SettingsService, $injector) {
 
-    //noinspection JSUnusedLocalSymbols
-    return {
-        // this is a bug ?
-        template: '<div ng-include="template"></div>',
-        scope: {
-            model: '=datePicker',
-            after: '=?',
-            before: '=?'
-        },
-        link: function(scope, element, attrs, $rootScope) {
-            scope.date = new Date(scope.model || new Date());
-            scope.views = datePickerConfig.views.concat();
-            scope.view = attrs.view || datePickerConfig.view;
-            scope.now = new Date();
-            scope.template = attrs.template || datePickerConfig.template;
+        //noinspection JSUnusedLocalSymbols
+        return {
+            // this is a bug ?
+            template: '<div ng-include="template"></div>',
+            scope: {
+                model: '=datePicker',
+                after: '=?',
+                before: '=?'
+            },
+            link: function(scope, element, attrs, $rootScope) {
+                scope.date = new Date(scope.model || new Date());
+                scope.views = datePickerConfig.views.concat();
+                scope.view = attrs.view || datePickerConfig.view;
+                scope.now = new Date();
+                scope.template = attrs.template || datePickerConfig.template;
 
-            var step = parseInt(attrs.step || datePickerConfig.step, 10);
+                var step = parseInt(attrs.step || datePickerConfig.step, 10);
 
-            /** @namespace attrs.minView, attrs.maxView */
-            scope.views = scope.views.slice(
-                scope.views.indexOf(attrs.maxView || 'year'),
-                scope.views.indexOf(attrs.minView || 'minutes') + 1
-            );
+                /** @namespace attrs.minView, attrs.maxView */
+                scope.views = scope.views.slice(
+                    scope.views.indexOf(attrs.maxView || 'year'),
+                    scope.views.indexOf(attrs.minView || 'minutes') + 1
+                );
 
-            if (scope.views.length === 1 || scope.views.indexOf(scope.view) === -1) {
-                scope.view = scope.views[0];
-            }
-
-            scope.eventService = attrs.eventService || false;
-            if (scope.eventService) {
-                if ($injector.has(scope.eventService)) {
-                    scope.eventService = $injector.get(scope.eventService);
-                    scope.$on('calendar:events', function(newCount) {
-                        scope.$apply();
-                    })
+                if (scope.views.length === 1 || scope.views.indexOf(scope.view) === -1) {
+                    scope.view = scope.views[0];
                 }
-            }
 
-            scope.hasEvent = function(date) {
-                return (scope.eventService) ? scope.eventService.hasEvent(date) : false;
-            }
-
-            scope.getEvents = function(date) {
-                return (scope.eventService) ? scope.eventService.getEvents(date) : false;
-            }
-
-            scope.setView = function(nextView) {
-                if (scope.views.indexOf(nextView) !== -1) {
-                    scope.view = nextView;
+                scope.eventService = attrs.eventService || false;
+                if (scope.eventService) {
+                    if ($injector.has(scope.eventService)) {
+                        scope.eventService = $injector.get(scope.eventService);
+                        scope.$on('calendar:events', function(newCount) {
+                            scope.$apply();
+                        })
+                    }
                 }
-            };
 
-            scope.setDate = function(date) {
-                scope.date = date;
-                // change next view
-                var nextView = scope.views[scope.views.indexOf(scope.view) + 1];
-                if (!nextView || scope.model) {
+                scope.hasEvent = function(date) {
+                    return (scope.eventService) ? scope.eventService.hasEvent(date) : false;
+                }
 
-                    scope.model = new Date(scope.model || date);
+                scope.getEvents = function(date) {
+                    return (scope.eventService) ? scope.eventService.getEvents(date) : false;
+                }
 
+
+                scope.filterSpecials = function(event) {
+                    if (!event.serie) return false;
+                    if (event.serie.displaycalendar == '0') return false;
+                    if (SettingsService.get('calendar.show-specials')) return true;
+                    else return event.episode.seasonnumber > 0;
+                }
+
+                scope.setView = function(nextView) {
+                    if (scope.views.indexOf(nextView) !== -1) {
+                        scope.view = nextView;
+                    }
+                };
+
+                scope.setDate = function(date) {
+                    scope.date = date;
+                    // change next view
+                    var nextView = scope.views[scope.views.indexOf(scope.view) + 1];
+                    if (!nextView || scope.model) {
+
+                        scope.model = new Date(scope.model || date);
+
+                        //noinspection FallThroughInSwitchStatementJS
+                        switch (scope.view) {
+                            case 'minutes':
+                                scope.model.setMinutes(date.getMinutes());
+                                /*falls through*/
+                            case 'hours':
+                                scope.model.setHours(date.getHours());
+                                /*falls through*/
+                            case 'week':
+                            case 'date':
+                                scope.model.setDate(date.getDate());
+                                /*falls through*/
+                            case 'month':
+                                scope.model.setMonth(date.getMonth());
+                                /*falls through*/
+                            case 'year':
+                                scope.model.setFullYear(date.getFullYear());
+                        }
+                        scope.$emit('setDate', scope.model, scope.view);
+                    } else if (nextView) {
+                        if (nextView == 'week' && scope.view == 'month') {
+                            nextView = 'date';
+                        }
+                        scope.setView(nextView);
+                    }
+                };
+
+                function update() {
+                    var view = scope.view;
+                    var date = scope.date;
+                    switch (view) {
+                        case 'year':
+                            scope.years = getVisibleYears(date);
+                            break;
+                        case 'month':
+                            scope.months = getVisibleMonths(date);
+                            break;
+                        case 'week':
+                            scope.weekdays = scope.weekdays || getDaysOfWeek(undefined, datePickerConfig.startSunday);
+                            scope.weeks = getVisibleWeek(date, datePickerConfig.startSunday);
+                            break;
+                        case 'date':
+                            scope.weekdays = scope.weekdays || getDaysOfWeek(undefined, datePickerConfig.startSunday);
+                            scope.weeks = getVisibleWeeks(date, datePickerConfig.startSunday);
+                            break;
+                        case 'hours':
+                            scope.hours = getVisibleHours(date);
+                            break;
+                        case 'minutes':
+                            scope.minutes = getVisibleMinutes(date, step);
+                            break;
+                    }
+                    scope.$emit('setDate', scope.date, scope.view);
+                }
+
+                function watch() {
+                    if (scope.view !== 'date') {
+                        return scope.view;
+                    }
+                    return scope.model ? scope.model.getMonth() : null;
+                }
+
+
+                scope.$watch(watch, update);
+
+                scope.next = function(delta) {
+                    var date = scope.date;
+                    delta = delta || 1;
+                    switch (scope.view) {
+                        case 'year':
+                            /*falls through*/
+                        case 'month':
+                            date.setFullYear(date.getFullYear() + delta);
+                            break;
+                        case 'week':
+                            date.setDate(date.getDate() + (7 * delta));
+                            break;
+                        case 'date':
+                            date.setMonth(date.getMonth() + delta);
+                            break;
+                        case 'hours':
+                            /*falls through*/
+                        case 'minutes':
+                            date.setHours(date.getHours() + delta);
+                            break;
+                    }
+                    //console.log(date);
+                    update();
+                };
+
+                scope.prev = function(delta) {
+                    return scope.next(-delta || -1);
+                };
+
+                scope.isAfter = function(date) {
+                    return scope.after ? scope.after.getTime() <= date.getTime() : false;
+                };
+
+                scope.isBefore = function(date) {
+                    return scope.before ? scope.before.getTime() >= date.getTime() : false;
+                };
+
+                scope.isSameMonth = function(date) {
+                    return scope.isSameYear(date) && scope.model.getMonth() === date.getMonth();
+                };
+
+                scope.isSameYear = function(date) {
+                    return (scope.model ? scope.model.getFullYear() === date.getFullYear() : false);
+                };
+
+                scope.isSameDay = function(date) {
+                    return scope.isSameMonth(date) && scope.model.getDate() === date.getDate();
+                };
+
+                scope.isSameHour = function(date) {
+                    return scope.isSameDay(date) && scope.model.getHours() === date.getHours();
+                };
+
+                scope.isSameMinutes = function(date) {
+                    return scope.isSameHour(date) && scope.model.getMinutes() === date.getMinutes();
+                };
+
+                scope.isNow = function(date) {
+                    var is = true;
+                    var now = scope.now;
                     //noinspection FallThroughInSwitchStatementJS
                     switch (scope.view) {
                         case 'minutes':
-                            scope.model.setMinutes(date.getMinutes());
+                            is &= ~~(date.getMinutes() / step) === ~~(now.getMinutes() / step);
                             /*falls through*/
                         case 'hours':
-                            scope.model.setHours(date.getHours());
+                            is &= date.getHours() === now.getHours();
                             /*falls through*/
-                        case 'week':
                         case 'date':
-                            scope.model.setDate(date.getDate());
+                        case 'week':
+                            is &= date.getDate() === now.getDate();
                             /*falls through*/
                         case 'month':
-                            scope.model.setMonth(date.getMonth());
+                            is &= date.getMonth() === now.getMonth();
                             /*falls through*/
                         case 'year':
-                            scope.model.setFullYear(date.getFullYear());
+                            is &= date.getFullYear() === now.getFullYear();
                     }
-                    scope.$emit('setDate', scope.model, scope.view);
-                } else if (nextView) {
-                    if (nextView == 'week' && scope.view == 'month') {
-                        nextView = 'date';
-                    }
-                    scope.setView(nextView);
-                }
-            };
-
-            function update() {
-                var view = scope.view;
-                var date = scope.date;
-                switch (view) {
-                    case 'year':
-                        scope.years = getVisibleYears(date);
-                        break;
-                    case 'month':
-                        scope.months = getVisibleMonths(date);
-                        break;
-                    case 'week':
-                        scope.weekdays = scope.weekdays || getDaysOfWeek(undefined, datePickerConfig.startSunday);
-                        scope.weeks = getVisibleWeek(date, datePickerConfig.startSunday);
-                        break;
-                    case 'date':
-                        scope.weekdays = scope.weekdays || getDaysOfWeek(undefined, datePickerConfig.startSunday);
-                        scope.weeks = getVisibleWeeks(date, datePickerConfig.startSunday);
-                        break;
-                    case 'hours':
-                        scope.hours = getVisibleHours(date);
-                        break;
-                    case 'minutes':
-                        scope.minutes = getVisibleMinutes(date, step);
-                        break;
-                }
-                scope.$emit('setDate', scope.date, scope.view);
+                    return is;
+                };
             }
-
-            function watch() {
-                if (scope.view !== 'date') {
-                    return scope.view;
-                }
-                return scope.model ? scope.model.getMonth() : null;
-            }
-
-
-            scope.$watch(watch, update);
-
-            scope.next = function(delta) {
-                var date = scope.date;
-                delta = delta || 1;
-                switch (scope.view) {
-                    case 'year':
-                        /*falls through*/
-                    case 'month':
-                        date.setFullYear(date.getFullYear() + delta);
-                        break;
-                    case 'week':
-                        date.setDate(date.getDate() + (7 * delta));
-                        break;
-                    case 'date':
-                        date.setMonth(date.getMonth() + delta);
-                        break;
-                    case 'hours':
-                        /*falls through*/
-                    case 'minutes':
-                        date.setHours(date.getHours() + delta);
-                        break;
-                }
-                //console.log(date);
-                update();
-            };
-
-            scope.prev = function(delta) {
-                return scope.next(-delta || -1);
-            };
-
-            scope.isAfter = function(date) {
-                return scope.after ? scope.after.getTime() <= date.getTime() : false;
-            };
-
-            scope.isBefore = function(date) {
-                return scope.before ? scope.before.getTime() >= date.getTime() : false;
-            };
-
-            scope.isSameMonth = function(date) {
-                return scope.isSameYear(date) && scope.model.getMonth() === date.getMonth();
-            };
-
-            scope.isSameYear = function(date) {
-                return (scope.model ? scope.model.getFullYear() === date.getFullYear() : false);
-            };
-
-            scope.isSameDay = function(date) {
-                return scope.isSameMonth(date) && scope.model.getDate() === date.getDate();
-            };
-
-            scope.isSameHour = function(date) {
-                return scope.isSameDay(date) && scope.model.getHours() === date.getHours();
-            };
-
-            scope.isSameMinutes = function(date) {
-                return scope.isSameHour(date) && scope.model.getMinutes() === date.getMinutes();
-            };
-
-            scope.isNow = function(date) {
-                var is = true;
-                var now = scope.now;
-                //noinspection FallThroughInSwitchStatementJS
-                switch (scope.view) {
-                    case 'minutes':
-                        is &= ~~(date.getMinutes() / step) === ~~(now.getMinutes() / step);
-                        /*falls through*/
-                    case 'hours':
-                        is &= date.getHours() === now.getHours();
-                        /*falls through*/
-                    case 'date':
-                    case 'week':
-                        is &= date.getDate() === now.getDate();
-                        /*falls through*/
-                    case 'month':
-                        is &= date.getMonth() === now.getMonth();
-                        /*falls through*/
-                    case 'year':
-                        is &= date.getFullYear() === now.getFullYear();
-                }
-                return is;
-            };
-        }
-    };
-}]);
+        };
+    }
+]);
