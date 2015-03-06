@@ -18,8 +18,8 @@
     </ul>
 
     <h2>{{'SETTINGS/DISPLAY/topsites/hdr'|translate}}</h2>
-    <p class="label label-success" ng-show="getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/sync-enabled/lbl'|translate}}</p>
-    <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/sync-disabled/lbl'|translate}}</p>
+    <p class="label label-success" ng-show="getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/topsites-enabled/lbl'|translate}}</p>
+    <p class="label label-danger" ng-show="!getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/topsites-disabled/lbl'|translate}}</p>
     <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onhover'">{{'SETTINGS/DISPLAY/topsites-mode-hover/lbl'|translate}}</p>
     <p class="label label-info" ng-show="getSetting('topSites.mode') == 'onclick'">{{'SETTINGS/DISPLAY/topsites-mode-click/lbl'|translate}}</p>
  
@@ -27,8 +27,8 @@
       <li>
         <p ng-show="!getSetting('topSites.enabled')" class="alert alert-info">{{'SETTINGS/DISPLAY/topsites-show/alert'|translate}}</p>
         <p ng-show="getSetting('topSites.enabled')" class="alert alert-warning">{{'SETTINGS/DISPLAY/topsites-hide/alert'|translate}}</p>
-        <button ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">Enable Most Visited Sites</button>
-        <button ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">Disable Most Visited Sites</button>
+        <button ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">{{'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</button>
+        <button ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">{{'SETTINGS/DISPLAY/topsites-hide/btn'|translate}}</button>
       </li>
       <li ng-show="getSetting('topSites.enabled')"></br>
         <p ng-show="getSetting('topSites.mode') == 'onhover'" class="alert alert-info">{{'SETTINGS/DISPLAY/topsites-mode-click/alert'|translate}}</p>
