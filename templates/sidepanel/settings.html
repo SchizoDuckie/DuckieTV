@@ -1,53 +1,53 @@
 <div class="leftpanel">
-  <h2><i class="glyphicon glyphicon-cog"></i> {{ 'SETTINGS/hdr'|translate }}</h2>
+  <h2><i class="glyphicon glyphicon-cog"></i> {{ 'SIDEPANEL/SETTINGS/hdr'|translate }}</h2>
 
   <table class="buttons" width="100%" border="0">
    <tr>
       <td colspan="2">
           <a ui-sref=".tab({tab: 'display'})">
-              <i class="glyphicon glyphicon-picture"></i><strong>{{ 'SETTINGS/display/hdr'|translate }}</strong>
+              <i class="glyphicon glyphicon-picture"></i><strong>{{ 'SIDEPANEL/SETTINGS/display/hdr'|translate }}</strong>
           </a>
       </td>
     </tr>
     <tr>
       <td colspan="2">
           <a ui-sref=".tab({tab: 'backup'})">
-               <i class="glyphicon glyphicon-cloud-download"></i><strong>Backup</strong>
+               <i class="glyphicon glyphicon-cloud-download"></i><strong>{{ 'SIDEPANEL/SETTINGS/backup/hdr'|translate }}</strong>
           </a>
       </td>
     </tr>
     <tr>
       <td colspan="2">
           <a ui-sref=".tab({tab: 'calendar'})">
-              <i class="glyphicon glyphicon-calendar"></i><strong>{{ 'CALENDAR/hdr'|translate}}</strong>
+              <i class="glyphicon glyphicon-calendar"></i><strong>{{ 'SIDEPANEL/CALENDAR/hdr'|translate}}</strong>
           </a>
       </td>
     </tr>
     <tr>
       <td colspan="2">
           <a ui-sref=".tab({tab: 'torrent'})">
-              <i class="glyphicon glyphicon-magnet"></i><strong>{{ 'SETTINGS/torrent/hdr'|translate }}</strong>
+              <i class="glyphicon glyphicon-magnet"></i><strong>{{ 'SIDEPANEL/SETTINGS/torrent/hdr'|translate }}</strong>
           </a>
       </td>
     </tr>
      <tr ui-sref=".tab({tab: 'utorrent'})">
       <td colspan="2">
           <a href="#/settings/utorrent">
-              <img src="img/icon-utorrent.png" style="width: 35px; height: 35px; margin-left: -5px; margin-top:-5px; float:left;"> <strong>uTorrent Integration</strong>
+              <img src="img/icon-utorrent.png" style="width: 35px; height: 35px; margin-left: -5px; margin-top:-5px; float:left;"> <strong>&micro;Torrent {{ 'SIDEPANEL/SETTINGS/integration/hdr'|translate }}</strong>
           </a>
       </td>
     </tr>
     <tr ui-sref=".tab({tab: 'torrent-search'})">
       <td colspan="2">
           <a href="#/settings/torrent-search">
-              <i class="glyphicon glyphicon-search"></i><strong>Torrent Search Engines</strong>
+              <i class="glyphicon glyphicon-search"></i><strong>{{ 'SIDEPANEL/SETTINGS/search-engines/hdr'|translate }}</strong>
           </a>
       </td>
     </tr>
     <tr>
       <td colspan="2">
           <a ui-sref=".tab({tab: 'trakttv'})">
-              <i class="glyphicon glyphicon-cloud-upload"></i><strong>{{ 'SETTINGS/trakttv/hdr'|translate }}</strong>
+              <i class="glyphicon glyphicon-cloud-upload"></i><strong>Trakt.TV</strong>
           </a>
       </td>
     </tr>

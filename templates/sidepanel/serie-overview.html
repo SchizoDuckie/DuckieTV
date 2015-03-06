@@ -14,19 +14,19 @@
       <tr>
         <td colspan="2">
             <a ui-sref="serie.details()">
-                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'EVENT/dropdown-series-details/lbl'|translate}}</strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/SERIE-OVERVIEW/series-details/lbl'|translate}}</strong>
             </a>
         </td>
       </tr>
       <tr class="two-face">
         <td>
             <a ui-sref="serie.seasons({id: sidepanel.serie.ID_Serie})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong>Seasons</strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/SERIE-OVERVIEW/seasons/lbl'|translate}}</strong>
             </a>
         </td>
         <td>
             <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong>Episodes</strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/SERIE-OVERVIEW/episodes/lbl'|translate}}</strong>
             </a>
         </td>
       </tr>
@@ -34,7 +34,7 @@
           <td colspan="2">
             <a ng-click="sidepanel.refresh(sidepanel.serie)">
               <i class="glyphicon glyphicon-refresh"></i>
-              <strong>{{'SERIESLIST/FAVORITES/refresh-serie/tooltip'|translate}}</strong>
+              <strong>{{'SIDEPANEL/SERIE-OVERVIEW/refresh/lbl'|translate}}</strong>
             </a>
           </th>
         </tr>
@@ -42,11 +42,11 @@
           <td colspan="2">
             <a ng-show="sidepanel.serie.displaycalendar == 1" ng-click="sidepanel.toggleSerieDisplay(sidepanel.serie)">
               <i class="glyphicon glyphicon-ban-circle"></i>
-              <strong>{{'SERIEDETAILS/calendar-hide/btn'|translate}}</strong>
+              <strong>{{'SIDEPANEL/SERIE-OVERVIEW/calendar-hide/btn'|translate}}</strong>
               </a>
             <a ng-show="sidepanel.serie.displaycalendar == 0" ng-click="sidepanel.toggleSerieDisplay(sidepanel.serie)">
                <i class="glyphicon glyphicon-ban-circle"></i>
-               <strong>{{'SERIEDETAILS/calendar-show/btn'|translate}}</strong>
+               <strong>{{'SIDEPANEL/SERIE-OVERVIEW/calendar-show/btn'|translate}}</strong>
             </a>
           </td>
         </tr>

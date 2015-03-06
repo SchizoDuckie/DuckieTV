@@ -7,8 +7,8 @@
 	<div ng-if="!rpc" style='padding:40px; text-align;center'>
 		<img src="img/icon-utorrent.png" class="spin">
 
-		<h2>Connecting to uTorrent</h2>
-		<strong style=' display:block; text-align:center;'>Please wait</strong>
+		<h2>{{'TORRENTCLIENT/connecting/hdr'|translate}} &micro;Torrent</h2>
+		<strong style=' display:block; text-align:center;'>{{'TORRENTCLIENT/please-wait/lbl'|translate}}</strong>
 
 	</div>
 	 <h4 ng-if="rpc">{{'TORRENTCLIENT/torrents-found/hdr'|translate}}{{rpc.getTorrents().length}}</h4>
@@ -26,13 +26,13 @@
 	      	<div class="buttons" ng-show="torrent.isShowing">
 	      		<div class="torrent-mini-remote-control">
 		 		  <i ng-hide="remote.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet"></i>
-			      <i ng-if="remote.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet spin" tooltip="{{'TORRENTMRP/please-wait/tooltip'|translate}}" tooltip-append-to-body="true"></i>
+			      <i ng-if="remote.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet spin" tooltip="{{'TORRENTCLIENT/please-wait/tooltip'|translate}}" tooltip-append-to-body="true"></i>
 	
-			      <a ng-click="remote.torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i>{{'TORRENTMRC/start/glyph'|translate}}</a>
-			      <a ng-click="remote.torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i>{{'TORRENTMRC/pause/glyph'|translate}}</a>
-			      <a ng-click="remote.torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i>{{'TORRENTMRC/stop/glyph'|translate}}</a>
-			      <a ng-if="remote.torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="remote.torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTMRC/stream-play/lbl</translate></a>   
-			      <a ng-if="getSetting('torrenting.directory')" ng-click="remote.torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTMRC/open-folder/lbl'|translate}}</a>
+			      <a ng-click="remote.torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i>{{'TORRENTCLIENT/start/glyph'|translate}}</a>
+			      <a ng-click="remote.torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i>{{'TORRENTCLIENT/pause/glyph'|translate}}</a>
+			      <a ng-click="remote.torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i>{{'TORRENTCLIENT/stop/glyph'|translate}}</a>
+			      <a ng-if="remote.torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="remote.torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTCLIENT/stream-play/lbl</translate></a>   
+			      <a ng-if="getSetting('torrenting.directory')" ng-click="remote.torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTCLIENT/open-folder/lbl'|translate}}</a>
 			      <span class="label label-info">{{torrent.getFormattedStatus()}}</span>			     
 			  </div>
 		</div>
