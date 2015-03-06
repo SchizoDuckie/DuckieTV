@@ -81,7 +81,7 @@ DuckieTV.factory('GenericSearch', ["SettingsService", "$q", "$http",
              * Execute a generic torrent search, parse the results and return them as an array
              */
             search: function(what, noCancel) {
-                what = what.replace(/\'/, '');
+                what = what.replace(/\'/g, '');
                 var d = $q.defer();
                 if (noCancel !== true && activeRequest) {
                     activeRequest.resolve();
