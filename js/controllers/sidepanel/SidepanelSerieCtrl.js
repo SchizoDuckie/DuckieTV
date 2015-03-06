@@ -3,6 +3,10 @@ DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $rootScope, $filter
     this.serie = serie;
     this.latestSeason = latestSeason;
 
+    this.refresh = function(serie) {
+        $rootScope.$broadcast('serie:updating', serie);
+    };
+
     this.toggleSerieDisplay = function() {
         this.serie.displaycalendar = this.serie.displaycalendar == '1' ? '0' : '1';
         this.serie.Persist().then(function() {

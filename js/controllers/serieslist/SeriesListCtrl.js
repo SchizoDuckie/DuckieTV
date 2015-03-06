@@ -147,7 +147,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         });
 
         $scope.$on('serie:updating', function(event, serie) {
-            serieslist.adding[serie.tvdb_id] = true;
+            // note: this serie is a CRUD.entity
             TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(serieslist.selectSerie);
         });
 
@@ -163,7 +163,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         /**
          * Add a show to favorites.*The serie object is a Trakt.TV TV Show Object.
-         * Queues up the tvdb_id in the $scope.adding array so that the spinner can be shown.
+         * Queues up the tvdb_id in the serieslist.adding array so that the spinner can be shown.
          * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
          * It can show the checkmark.
          */
