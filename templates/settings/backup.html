@@ -6,7 +6,7 @@
   <h2>{{'SETTINGS/BACKUP/import/hdr'|translate}}</h2>
   <div style="position:relative">
     <button ng-show="!restoring" class="btn btn-success" style="width:250px" ng-class="{binputhover:inputhover}">{{'SETTINGS/BACKUP/choose-backup-load/btn'|translate}}</button>
-    <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute; opacity:0; width:250px; top:0; padding:0; height:100%; cursor: pointer;" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false"></button>
+    <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute; opacity:0; width:250px; top:0; padding:0; height:100%; cursor: pointer;" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false"></input>
   </div>
   <div style="padding:5px" class="miniposter x2">
     <h1 ng-if="restoring" style='margin-top: 20px;'>{{'SETTINGS/BACKUP/loading-please-wait/lbl'|translate}}</h1>
