@@ -1,5 +1,5 @@
 <div class="episodes">
-    <h2 style='color:white'>{{season.season.seasonnumber == 0 ? 'Specials' : 'Season '+season.season.seasonnumber}}</h2>
+    <h2 style='color:white'>{{season.getPageHeader(season.season)}}</h2>
     <p>{{season.season.overview}}</p>
     <strong>{{'SIDEPANEL/EPISODES/episodes/lbl'|translate}}</strong>
     <table class="table table-condensed light" style='margin-top:10px; background-color:transparent'>

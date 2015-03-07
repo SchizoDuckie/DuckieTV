@@ -12,6 +12,10 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
         }.bind(episode));
     });
 
+    this.getPageHeader = function(season) {
+         return season.seasonnumber == 0 ? $filter('translate')('SIDEPANEL/EPISODES/specials/lbl') : $filter('translate')('SIDEPANEL/EPISODES/season/lbl') + ' ' + season.seasonnumber;
+    };
+
     this.getSortEpisodeNumber = function(episode) {
         var sn = episode.seasonnumber.toString(),
             en = episode.episodenumber.toString(),
