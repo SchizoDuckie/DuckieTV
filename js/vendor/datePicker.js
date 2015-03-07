@@ -159,9 +159,6 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                 if (scope.eventService) {
                     if ($injector.has(scope.eventService)) {
                         scope.eventService = $injector.get(scope.eventService);
-                        scope.$on('calendar:events', function(newCount) {
-                            scope.$apply();
-                        })
                     }
                 }
 
@@ -235,10 +232,16 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                         case 'week':
                             scope.weekdays = scope.weekdays || getDaysOfWeek(undefined, datePickerConfig.startSunday);
                             scope.weeks = getVisibleWeek(date, datePickerConfig.startSunday);
+                            if (scope.eventService) {
+                                scope.eventService.setVisibleDays(scope.weekdays)
+                            }
                             break;
                         case 'date':
                             scope.weekdays = scope.weekdays || getDaysOfWeek(undefined, datePickerConfig.startSunday);
                             scope.weeks = getVisibleWeeks(date, datePickerConfig.startSunday);
+                            if (scope.eventService) {
+                                scope.eventService.setVisibleDays(scope.weeks)
+                            }
                             break;
                         case 'hours':
                             scope.hours = getVisibleHours(date);
