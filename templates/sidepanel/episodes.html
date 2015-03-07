@@ -1,11 +1,11 @@
 <div class="episodes">
     <h2 style='color:white'>{{season.season.seasonnumber == 0 ? 'Specials' : 'Season '+season.season.seasonnumber}}</h2>
     <p>{{season.season.overview}}</p>
-    <strong>Episodes</strong>
+    <strong>{{'SIDEPANEL/EPISODES/episodes/lbl'|translate}}</strong>
     <table class="table table-condensed light" style='margin-top:10px; background-color:transparent'>
       <tbody ng-if="!season.episodes || season.episodes.length == 0">
         <tr>
-          <td>{{'SERIE/fetching-episodes/lbl'|translate}}</td>
+          <td>{{'SIDEPANEL/EPISODES/fetching-episodes/lbl'|translate}}</td>
         </tr>
       </tbody>
       <tbody ng-if="season.episodes" ng-repeat="episode in season.episodes | orderBy: season.getSortEpisodeNumber:true" ng-mouseenter="showHover=true" ng-mouseleave="showHover=false">
@@ -20,7 +20,7 @@
           <a ng-if="episode.hasAired() && (!showHover || !getSetting('torrenting.enabled'))" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{ episode.firstaired | date: 'short' }}" >{{ episode.firstaired | date: 'shortDate' }}</a>
           <div ng-if="showHover && episode.hasAired() && getSetting('torrenting.enabled')">
            <torrent-dialog tvdbid='episode.TVDB_ID' q='season.getSearchString(sidepanel.serie,episode)'></torrent-dialog>
-           <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="Auto Download">
+           <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'SIDEPANEL/EPISODES/auto-download/tooltip'|translate}}">
                   <i class="glyphicon glyphicon-cloud-download"></i>
               </a>
           </div>
@@ -36,7 +36,7 @@
         </tr>
       </tbody>
     </table>
-     <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>{{'SERIEDETAILS/episode-ratings/hdr'|translate}}</h2>
+     <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>{{'SIDEPANEL/EPISODES/episode-ratings/hdr'|translate}}</h2>
     <div class="chart">
       <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}"></div>
     </div>
@@ -44,14 +44,14 @@
         <tr>
           <td colspan="2">
               <a >
-                  <i class="glyphicon glyphicon-info-sign"></i><strong>Auto download all</strong>
+                  <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/EPISODES/auto-download-all/lbl'|translate}}</strong>
               </a>
           </td>
         </tr>
         <tr>
           <td colspan="2">
               <a>
-                <i class="glyphicon glyphicon-eye-open"></i><strong>Mark all watched</strong>
+                <i class="glyphicon glyphicon-eye-open"></i><strong>{{'SIDEPANEL/EPISODES/mark-all-watched/lbl'|translate}}</strong>
               </a>
           </td>
         </tr>
