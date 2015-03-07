@@ -86,20 +86,15 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktT
             $scope.adding = {};
             $scope.series = [];
             if ($scope.wipeBeforeImport) {
-                var db = CRUD.EntityManager.getAdapter().db;
-                ['Series', 'Seasons', 'Episodes'].map(function(table) {
-                    db.execute('DELETE from ' + table + ' where 1');
-                });
-                setTimeout(function() {
-                    FavoritesService.refresh();
-                }, 500);
+                $scope.wipe();
             }
             FileReader.readAsText($scope.file, $scope)
                 .then(function(result) {
                     result = angular.fromJson(result);
                     console.log("Backup read!", result);
                     angular.forEach(result.settings, function(value, key) {
-                        localStorage.setItem(key, value);
+                        if (key == 'utorrent.')
+                            localStorage.setItem(key, value);
                     });
                     SettingsService.restore();
                     angular.forEach(result.series, function(watched, TVDB_ID) {
@@ -117,5 +112,14 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktT
                     console.error("ERROR!", err);
                 });
         };
+
+        $scope.wipe = function() {
+            var db = CRUD.EntityManager.getAdapter().db;
+            return Promise.all(['Series', 'Seasons', 'Episodes'].map(function(table) {
+                return db.execute('DELETE from ' + table + ' where 1');
+            }))
+            FavoritesService.favorites = [];
+            FavoritesService.favoriteIDs = [];
+        }
     }
 ]);
