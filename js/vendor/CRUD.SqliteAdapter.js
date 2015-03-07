@@ -17,6 +17,34 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         });
     };
 
+    function updateQuerySuccess(resultSet) {
+        CRUD.stats.writesExecuted++;
+        resultSet.Action = 'updated';
+        return resultSet;
+    }
+
+    function updateQueryError(err, tx) {
+        console.error("Update query error!", err);
+        CRUD.stats.writesExecuted++;
+        return;
+    }
+
+    function insertQuerySuccess(resultSet) {
+        resultSet.Action = 'inserted';
+        resultSet.ID = resultSet.rs.insertId;
+        CRUD.stats.writesExecuted++;
+        return resultSet;
+    }
+
+    function insertQueryError(err, tx) {
+        CRUD.stats.writesExecuted++;
+        //err.query = query.join(' ');
+        //err.values = valmap;
+        console.error("Insert query error: ", err);
+        debugger;
+        return err;
+    }
+
     var verifyTables = function() {
             CRUD.log('verifying that tables exist');
             var tables = [],
@@ -161,58 +189,47 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
             valmap = [],
             names = [];
 
-        // iterate all fields changed 
-        Object.keys(what.changedValues).map(function(field) {
+        function mapValues(field) {
             names.push(field);
             values.push('?');
             valmap.push(what.changedValues[field]);
-        });
+        }
 
-        // add defaults
-        Object.keys(CRUD.EntityManager.entities[what.className].defaultValues).map(function(field) {
+        function mapChangedValues(field) {
             if (!(field in what.changedValues) && !(field in what.values)) {
                 names.push(field);
                 values.push('?');
                 valmap.push(CRUD.EntityManager.entities[what.className].defaultValues[field]);
             }
-        });
+        }
 
-        // json_encode any fields that are defined as needing serializing
-        CRUD.EntityManager.entities[what.className].autoSerialize.map(function(field) {
+        function mapAutoSerialize(field) {
             if (names.indexOf(field) > -1) {
                 valmap[names.indexOf(field)] = JSON.stringify(valmap[names.indexOf(field)]);
             }
-        });
+        }
+
+        // iterate all fields changed 
+        Object.keys(what.changedValues).map(mapValues);
+        // add defaults
+        Object.keys(CRUD.EntityManager.entities[what.className].defaultValues).map(mapChangedValues);
+
+        // json_encode any fields that are defined as needing serializing
+        CRUD.EntityManager.entities[what.className].autoSerialize.map(mapAutoSerialize);
 
         if (what.getID() === false || undefined === what.getID() || forceInsert) { // new object : insert.
             // insert
             query.push('INSERT INTO ', CRUD.EntityManager.entities[what.className].table, '(', names.join(","), ') VALUES (', values.join(","), ');');
             CRUD.log(query.join(' '), valmap);
-            return db.execute(query.join(' '), valmap).then(function(resultSet) {
-                resultSet.Action = 'inserted';
-                resultSet.ID = resultSet.rs.insertId;
-                CRUD.stats.writesExecuted++;
-                return resultSet;
-            }, function(err, tx) {
-                CRUD.stats.writesExecuted++;
-                err.query = query.join(' ');
-                err.values = valmap;
-                return err;
-            });
+            return db.execute(query.join(' '), valmap).then(insertQuerySuccess, insertQueryError);
         } else { // existing : build an update query.
             query.push('UPDATE', CRUD.EntityManager.entities[what.className].table, 'SET', names.map(function(name) {
                 return name + ' = ?';
             }).join(','));
             valmap.push(what.getID());
             query.push('WHERE', CRUD.EntityManager.getPrimary(what.className), '= ?');
-            return db.execute(query.join(' '), valmap).then(function(resultSet) {
-                CRUD.stats.writesExecuted++;
-                resultSet.Action = 'updated';
-                return resultSet;
-            }, function(err, tx) {
-                CRUD.stats.writesExecuted++;
-                return;
-            });
+
+            return db.execute(query.join(' '), valmap).then(updateQuerySuccess, updateQueryError);
         }
     };
 
@@ -275,21 +292,22 @@ CRUD.Database = function(name, options) {
 
         }
         return new Promise(function(resolve, fail) {
-            function sqlOK(transaction, rs) {
-                resolve(new CRUD.Database.ResultSet(rs));
-            }
-
-            function sqlFail(transaction, error) {
-                if (sql && valueBindings) {
-                    CRUD.log("SQL FAIL!!", error, transaction, [sql.split(' VALUES (')[0], (s = JSON.stringify(valueBindings)).substr(1, s.length - 2)].join(' VALUES (') + ')');
-                } else {
-                    CRUD.log("SQL FAIL!!", error, transaction);
-                }
-                fail(error, transaction);
-            }
-
             db.transaction(function(transaction) {
                 CRUD.log("execing sql: ", sql, valueBindings);
+
+                function sqlOK(transaction, rs) {
+                    resolve(new CRUD.Database.ResultSet(rs));
+                }
+
+                function sqlFail(transaction, error) {
+                    if (sql && valueBindings) {
+                        CRUD.log("SQL FAIL!!", error, transaction, [sql.split(' VALUES (')[0], (s = JSON.stringify(valueBindings)).substr(1, s.length - 2)].join(' VALUES (') + ')');
+                    } else {
+                        CRUD.log("SQL FAIL!!", error, transaction);
+                    }
+                    fail(error, transaction);
+                }
+
                 transaction.executeSql(sql, valueBindings, sqlOK, sqlFail);
             });
         });
