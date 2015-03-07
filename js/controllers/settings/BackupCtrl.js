@@ -24,6 +24,8 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktT
         $scope.backupString = false;
         $scope.series = [];
         $scope.adding = {};
+        $scope.wipeBeforeImport = false;
+
 
         /**
          * Select all series from the database in the format described above, serialize them as a data uri string
@@ -83,6 +85,15 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktT
             console.log("Import backup!", $scope);
             $scope.adding = {};
             $scope.series = [];
+            if ($scope.wipeBeforeImport) {
+                var db = CRUD.EntityManager.getAdapter().db;
+                ['Series', 'Seasons', 'Episodes'].map(function(table) {
+                    db.execute('DELETE from ' + table + ' where 1');
+                });
+                setTimeout(function() {
+                    FavoritesService.refresh();
+                }, 500);
+            }
             FileReader.readAsText($scope.file, $scope)
                 .then(function(result) {
                     result = angular.fromJson(result);
