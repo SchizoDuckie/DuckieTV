@@ -1,16 +1,16 @@
-<!-- serieslist\searching.html -->
+<!-- serieslist\trakt-searching.html -->
 <!-- search results -->
 <div class="series adding" ng-class="{'miniposter': serieslist.isSmall}">   
 
-    <h1 ng-if="traktSearch.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'SERIESLIST/SEARCHING/error-with-trakttv/lbl'|translate}}<br>{{ traktSearch.error.statusText }} </h1>
+    <h1 ng-if="traktSearch.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' />{{'SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl'|translate}}<br>{{ traktSearch.error.statusText }} </h1>
 
     <div ng-show="traktSearch.searching">
     <img src="img/trakt.png" class="spin">
-    <h3> {{ "SETTINGS/TRAKT-IMPORT/please-wait/lbl"|translate }}</h3>
+    <h3> {{ "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl"|translate }}</h3>
     </div>
 
     <!-- If no results -->
-    <h1 ng-if="!traktSearch.searching && traktSearch.results.length == 0">{{'SERIESLIST/SEARCHING/no-results/lbl'|translate}}{{traktSearch.search.query}}</h1>
+    <h1 ng-if="!traktSearch.searching && traktSearch.results.length == 0">{{'SERIESLIST/TRAKT-SEARCHING/no-results/lbl'|translate}}{{traktSearch.search.query}}</h1>
 
     <!-- Repeated serie search results -->
     <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results" data="serie" ng-mouseenter="traktSearch.setHoverSerie(serie)" no-overview="1" mode="{{serieslist.mode}}" ng-click="serieslist.selectSerie(serie)">
@@ -21,9 +21,9 @@
 
     <!-- no series, show intro text and trakt connect/ backup import -->
     <p class="alert alert-info" ng-show="serieslist.favorites.length == 0 && !serieslist.showTrakt" style='margin:20px;text-align:left;white-space:normal'>
-        <strong>{{'SERIESLIST/SEARCHING/series-no/hdr'|translate}}</strong><br>
-        {{'SERIESLIST/SEARCHING/series-no/desc'|translate}}<br>
-        <strong style='display:inline'><button ng-click="showBackup = true" style='color:black; position:relative;'>{{'SERIESLIST/SEARCHING/import/btn'|translate}} </button></strong> or <strong  style='display:inline'><button ng-click="serieslist.showTrakt = true" style='color:black'>{{'SERIESLIST/SEARCHING/connect-to-traktTV/btn'|translate}}</button></strong>
+        <strong>{{'SERIESLIST/TRAKT-SEARCHING/series-no/hdr'|translate}}</strong><br>
+        {{'SERIESLIST/TRAKT-SEARCHING/series-no/desc'|translate}}<br>
+        <strong style='display:inline'><button ng-click="showBackup = true" style='color:black; position:relative;'>{{'SERIESLIST/TRAKT-SEARCHING/import/btn'|translate}} </button></strong> or <strong  style='display:inline'><button ng-click="serieslist.showTrakt = true" style='color:black'>{{'SERIESLIST/TRAKT-SEARCHING/connect-to-traktTV/btn'|translate}}</button></strong>
         <div ng-if="serieslist.showTrakt == true" ng-controller='TraktTVCtrl' ng-include="'templates/settings/trakt-import.html'"></div>
         <div ng-if="serieslist.showBackup == true" ng-include="'templates/settings/backup-import.html'"></div>
     </p>

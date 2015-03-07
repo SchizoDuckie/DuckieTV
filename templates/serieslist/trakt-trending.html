@@ -1,4 +1,4 @@
-<!-- serieslist\trending.html -->
+<!-- serieslist\trakt-trending.html -->
 
 <div class="filters" ng-if="trending.categories"  style='text-align:center;padding:10px 20px 20px 20px; position: absolute; left: 65px; top: 50px;'>
 	<button ng-repeat="(category, on) in trending.categories" class="btn btn-xs btn-default" ng-click="trending.toggleCategory(category)" ng-class="{'active': trending.activeCategory == category}">{{trending.translateCategory(category)}}</button>
@@ -6,10 +6,10 @@
 
 <div class="series adding" ng-class="{'miniposter': serieslist.isSmall}">
 
-<h1 style='color:white; text-align:center'>{{'SERIESLIST/TRENDING/addtrending-help/hdr'|translate}} - {{'SERIESLIST/TRENDING/addtrending-help-click-to-show/hdr'|translate}}</h1>
+<h1 style='color:white; text-align:center'>{{'SERIESLIST/TRAKT-TRENDING/addtrending-help/hdr'|translate}} - {{'SERIESLIST/TRAKT-TRENDING/addtrending-help-click-to-show/hdr'|translate}}</h1>
 
 <!-- Trending series loading -->
-<h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>{{'SERIESLIST/TRENDING/addtrending-help-please-wait/hdr'|translate}}</h1>
+<h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>{{'SERIESLIST/TRAKT-TRENDING/addtrending-help-please-wait/hdr'|translate}}</h1>
 
 <!-- Repeated trending serie results -->
 <serieHeader ng-repeat="serie in trending.getFilteredResults()  | limitTo: trending.limit track by serie.tvdb_id" ng-mouseenter="trending.setHoverSerie(serie)" data="serie" no-overview="1" mode="poster" ng-click="serieslist.selectSerie(serie)">
@@ -17,5 +17,5 @@
     <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
     <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{serieslist.error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
 </serieHeader>
-<button class="btn btn-info" ng-click="trending.limit = trending.limit + 100" ng-if="trending.filtered && trending.limit < trending.filtered.length" style="display:block; margin:0 auto; width: 50%;"><i class="glyphicon glyphicon-plus"></i>{{'SERIESLIST/TRENDING/show-more/btn'|translate}}</button>
+<button class="btn btn-info" ng-click="trending.limit = trending.limit + 100" ng-if="trending.filtered && trending.limit < trending.filtered.length" style="display:block; margin:0 auto; width: 50%;"><i class="glyphicon glyphicon-plus"></i>{{'SERIESLIST/TRAKT-TRENDING/show-more/btn'|translate}}</button>
 </div>

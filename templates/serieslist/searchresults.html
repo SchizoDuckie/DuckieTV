@@ -1,6 +1,6 @@
 <!-- Display favourites in search mode -->
 <div class="series" ng-class="{'miniposter': serieslist.isSmall}">
-<h1>Your favorite series. Click one to view details</h1>
+<h1>{{'SERIESLIST/SEARCHRESULTS/click-to-see/lbl'|translate}}</h1>
     <serieHeader ng-repeat="serie in serieslist.favorites | orderBy: 'sortName' | filter: serieslist.localFilter" data="serie" no-overview="1" no-title="0" mode="{{serieslist.mode}}">   
     </serieHeader>
 </div>
