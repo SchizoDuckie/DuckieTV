@@ -725,6 +725,8 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
 [date-picker] {
     -webkit-user-select: none;
     transition: all 0.5s ease-in-out;
+    z-index:101; 
+    position:relative;
 }
 [date-picker]:hover {
     background-color: rgba(0, 0, 0, 0.4);
@@ -913,6 +915,14 @@ td.day {
 [date-picker] calendar-event:last-of-type {
     margin-bottom: 4px;
     display:block;
+}
+clicktrap {
+    position:fixed; 
+    top:0px; 
+    left:0px;
+    right:0px;
+    bottom:0px; 
+    z-index:100
 }
 ul.engineselect {
     color: white;
