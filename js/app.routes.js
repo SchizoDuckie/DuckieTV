@@ -330,7 +330,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('settings', {
-            sticky: true,
             url: '/settings',
             resolve: {
                 SidePanelState: showSidePanel
@@ -371,7 +370,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('torrent', {
-            sticky: true,
             url: '/torrent',
             resolve: {
                 SidePanelState: showSidePanel
