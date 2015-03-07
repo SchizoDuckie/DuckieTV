@@ -177,6 +177,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "选择备份加载",
     "SETTINGS/BACKUP/import/hdr": "导入备份 ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "载入中，请稍候",
+    "SETTINGS/BACKUP/wipe-before-import/lbl": "进口前擦拭",
     "SETTINGS/CALENDAR/mode-month/btn": "使用一个月的日历 ",
     "SETTINGS/CALENDAR/mode-month/lbl": "月 ",
     "SETTINGS/CALENDAR/mode-week/btn": "使用单周历 ",

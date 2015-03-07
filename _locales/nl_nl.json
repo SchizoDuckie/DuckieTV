@@ -177,6 +177,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "Kies een back-up om in te laden",
     "SETTINGS/BACKUP/import/hdr": "Importeer een backup",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Momentje a.u.b. bezig met laden",
+    "SETTINGS/BACKUP/wipe-before-import/lbl": "Veeg vóór import",
     "SETTINGS/CALENDAR/mode-month/btn": "Gebruik maandkalender",
     "SETTINGS/CALENDAR/mode-month/lbl": "Maand",
     "SETTINGS/CALENDAR/mode-week/btn": "Gebruik de weekkalender",

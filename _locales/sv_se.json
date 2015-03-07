@@ -177,6 +177,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "Välj en backup för att ladda",
     "SETTINGS/BACKUP/import/hdr": "Importera en backup ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Laddar, var god vänta",
+    "SETTINGS/BACKUP/wipe-before-import/lbl": "Torka av före import",
     "SETTINGS/CALENDAR/mode-month/btn": "Använd månadskalender ",
     "SETTINGS/CALENDAR/mode-month/lbl": "månad ",
     "SETTINGS/CALENDAR/mode-week/btn": "Använd en veckas kalender ",

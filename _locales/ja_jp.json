@@ -177,6 +177,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "負荷へのバックアップを選択してください",
     "SETTINGS/BACKUP/import/hdr": "バックアップをインポートする ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "読み込んでいます、お待ちください",
+    "SETTINGS/BACKUP/wipe-before-import/lbl": "インポートする前に、ワイプ",
     "SETTINGS/CALENDAR/mode-month/btn": "月のカレンダーを使用 ",
     "SETTINGS/CALENDAR/mode-month/lbl": "月 ",
     "SETTINGS/CALENDAR/mode-week/btn": "1週間の予定表を使用して、 ",

@@ -177,6 +177,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "Scegliere un backup per caricare",
     "SETTINGS/BACKUP/import/hdr": "Importa un backup",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Caricamento in corso, attendere prego",
+    "SETTINGS/BACKUP/wipe-before-import/lbl": "Rimuovere prima dell'importazione",
     "SETTINGS/CALENDAR/mode-month/btn": "Passa alla visualizzazione mese",
     "SETTINGS/CALENDAR/mode-month/lbl": "Mese",
     "SETTINGS/CALENDAR/mode-week/btn": "Passa alla visualizzazione settimana",

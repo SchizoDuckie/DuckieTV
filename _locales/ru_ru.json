@@ -178,6 +178,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "Выберите резервную копию для загрузки",
     "SETTINGS/BACKUP/import/hdr": "Импорт резервную копию ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "Подождите, идет загрузка",
+    "SETTINGS/BACKUP/wipe-before-import/lbl": "Протрите перед импортом",
     "SETTINGS/CALENDAR/mode-month/btn": "Используйте месячный календарь ",
     "SETTINGS/CALENDAR/mode-month/lbl": "месяц ",
     "SETTINGS/CALENDAR/mode-week/btn": "Используйте одну неделю календаря ",

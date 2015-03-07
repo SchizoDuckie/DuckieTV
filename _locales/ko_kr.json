@@ -177,6 +177,7 @@
     "SETTINGS/BACKUP/choose-backup-load/btn": "로드 백업을 선택",
     "SETTINGS/BACKUP/import/hdr": "백업을 가져 오기 ",
     "SETTINGS/BACKUP/loading-please-wait/lbl": "로딩 중, 잠시 기다려주십시오",
+    "SETTINGS/BACKUP/wipe-before-import/lbl": "가져 오기 전에 닦아",
     "SETTINGS/CALENDAR/mode-month/btn": "월 달력을 사용하여 ",
     "SETTINGS/CALENDAR/mode-month/lbl": "월 ",
     "SETTINGS/CALENDAR/mode-week/btn": "한 주 달력을 사용하여 ",
