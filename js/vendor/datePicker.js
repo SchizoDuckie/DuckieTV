@@ -124,9 +124,8 @@ function getVisibleHours(date) {
     return hours;
 }
 
-Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injector",
-    function datePickerDirective(datePickerConfig, SettingsService, $injector) {
-
+Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injector", "$rootScope",
+    function datePickerDirective(datePickerConfig, SettingsService, $injector, $rootScope) {
         //noinspection JSUnusedLocalSymbols
         return {
             // this is a bug ?
@@ -136,7 +135,7 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                 after: '=?',
                 before: '=?'
             },
-            link: function(scope, element, attrs, $rootScope) {
+            link: function(scope, element, attrs) {
                 scope.date = new Date(scope.model || new Date());
                 scope.views = datePickerConfig.views.concat();
                 scope.view = attrs.view || datePickerConfig.view;
@@ -160,7 +159,17 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                     if ($injector.has(scope.eventService)) {
                         scope.eventService = $injector.get(scope.eventService);
                     }
+
                 }
+
+                $rootScope.$on('calendar:setdate', function(evt, newDate) {
+                    if (newDate !== undefined) {
+                        scope.date = newDate;
+                        update();
+                    }
+                });
+
+
 
                 scope.hasEvent = function(date) {
                     return (scope.eventService) ? scope.eventService.hasEvent(date) : false;
@@ -233,7 +242,7 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                             scope.weekdays = scope.weekdays || getDaysOfWeek(undefined, datePickerConfig.startSunday);
                             scope.weeks = getVisibleWeek(date, datePickerConfig.startSunday);
                             if (scope.eventService) {
-                                scope.eventService.setVisibleDays(scope.weekdays)
+                                scope.eventService.setVisibleDays(scope.weeks)
                             }
                             break;
                         case 'date':
@@ -284,7 +293,6 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                             date.setHours(date.getHours() + delta);
                             break;
                     }
-                    //console.log(date);
                     update();
                 };
 

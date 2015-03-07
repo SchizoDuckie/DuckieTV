@@ -10,7 +10,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         var calendarEvents = {};
         var calendarStartDate = null;
         var calendarEndDate = null;
-        var activeDate = null;
 
         /**
          * Check if an episode already exists on a date in the calendar.
@@ -26,7 +25,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
          */
         function addEvent(date, event) {
             if (!hasEvent(date, event)) {
-                console.log("Adding: ", date, event.serie.name);
                 calendarEvents[date].push(event);
                 calendarEvents[date].sort(calendarEpisodeSort);
             }
@@ -86,11 +84,18 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         }
 
         var service = {
+            /**
+             * setVisibleDays function is called from the calendar directive.
+             * It fills the CalendarEvents with days that are currently on display and makes sure
+             * that days that are not currently displayed are purged from cache
+             */
             setVisibleDays: function(range) {
+                if (!range || range.length == 1 && range[0].length == 1) return;
                 console.info("Set visible dates!", range);
                 var dates = [];
                 calendarStartDate = new Date(range[0][0]);
                 calendarEndDate = new Date(range[range.length - 1][range[range.length - 1].length - 1]);
+
                 range.map(function(week) {
                     week.map(function(day) {
                         day = new Date(day).toDateString();
@@ -102,22 +107,11 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 });
                 Object.keys(calendarEvents).map(function(day) {
                     if (dates.indexOf(day) == -1) {
-                        console.log("removing: ", day, calendarEvents[day]);;
                         delete calendarEvents[day];
                     }
                 });
-
                 service.getEventsForDateRange(calendarStartDate, calendarEndDate);
-
             },
-            /**
-             * setDate gets fired by the vendor/datePicker directive whenever the user navigates the calendar with the arrows back and forth
-             * It is hooked here so that the range can be determined (either one week or one whole month) and fetches episodes for that range
-             * from the database. When those are fetched, the calendar refreshes itself.
-             * @param Date date startDate of the calendar
-             * @param string range (week|date) range to fetch. A week or a month (date is a naming inconsistency caused by the directive)
-             */
-
 
             /**
              * Optimized function to feed the calendar it's data.
@@ -127,9 +121,9 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
              */
             getEventsForDateRange: function(start, end) {
                 // fetch episodes between 2 timestamps
-                FavoritesService.getEpisodesForDateRange(start.getTime(), end.getTime()).then(function(episodes) {
+                return FavoritesService.getEpisodesForDateRange(start.getTime(), end.getTime()).then(function(episodes) {
                     // iterate all the episodes and bind it together with the serie into an event array
-                    service.setEvents(episodes.map(function(episode) {
+                    return service.setEvents(episodes.map(function(episode) {
                         return {
                             start: new Date(episode.firstaired),
                             serie: FavoritesService.getByID_Serie(episode.ID_Serie),
@@ -192,37 +186,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 return (str in calendarEvents) ? calendarEvents[str] : [];
             }
         };
-
-        $rootScope.$on('episode:marked:watched', function(event, data) {
-            service.setEvents([{
-                start: new Date(data.firstaired),
-                episodeID: data.TVDB_ID,
-                episode: data
-            }]);
-        });
-
-        $rootScope.$on('episode:marked:notwatched', function(event, data) {
-            service.setEvents([{
-                start: new Date(data.firstaired),
-                episodeID: data.TVDB_ID,
-                episode: data
-            }]);
-        });
-
-        /**
-         * Refresh the active calendar by re-fetching all data.
-         */
-        $rootScope.$on('favorites:updated', function(event, favorites) {
-            //service.clearCache();
-            //service.setDate(new Date());
-        });
-
-        /**
-         * Reset the calendarEvents object so that any cache is flushed
-         */
-        $rootScope.$on('calendar:clearcache', function() {
-            service.clearCache();
-        });
 
         return service;
     }

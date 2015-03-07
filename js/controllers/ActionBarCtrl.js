@@ -2,23 +2,26 @@
  * Actionbar Controller
  */
 
-DuckieTV.controller('ActionBarCtrl', ["$scope", "SeriesListState", "SidePanelState",
-    function($scope, SeriesListState, SidePanelState) {
+DuckieTV.controller('ActionBarCtrl', ["$rootScope", "SeriesListState", "SidePanelState",
+    function($rootScope, SeriesListState, SidePanelState) {
 
 
-        $scope.hideSeriesList = function() {
+        this.hideSeriesList = function() {
             SeriesListState.hide();
         };
 
-        $scope.toggleSeriesList = function() {
+        this.toggleSeriesList = function() {
             SeriesListState.toggle()
         };
 
 
-        $scope.contractSidePanel = function() {
+        this.contractSidePanel = function() {
             SidePanelState.contract()
         };
 
+        this.resetCalendar = function() {
+            $rootScope.$broadcast('calendar:setdate', new Date());
+        }
 
     }
 ])

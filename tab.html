@@ -23,7 +23,7 @@
       <div class="col-md-12">
         <div class="container-fluid">
           <clicktrap style="position:fixed; top:0px; left:0px; right:0px; bottom:0px;"></clicktrap>
-          <calendar event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" style='-webkit-transform:translate3d(0,0,0)'></calendar>
+          <calendar event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" style='-webkit-transform:translate3d(0,0,0); position: relative'></calendar>
         </div>
       </div>
     </div>
@@ -31,21 +31,21 @@
 
   <series-list ui-view="favorites"></series-list>
 
-  <div ng-controller="ActionBarCtrl">
+  <div ng-controller="ActionBarCtrl as actionbar">
     <div id="actionbar" ng-class="{'active':serieslist.activated}">
-      <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="hideSeriesList()"></div>
+      <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hideSeriesList()"></div>
       <ul class="list-unstyled">
         <li>
-          <a class="glyphicon glyphicon-home" ui-sref="calendar" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right" ng-click="hideSeriesList()"></a>
+          <a class="glyphicon glyphicon-home" ui-sref="calendar" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right" ng-click="actionbar.hideSeriesList(); actionbar.resetCalendar();"></a>
         </li>
         <li>
-          <a class="glyphicon glyphicon-heart" ui-sref="favorites" ng-click="toggleSeriesList()" tooltip="{{serieslist.activated?'SERIESLIST/series-hide/glyph':'SERIESLIST/series-show/glyph'|translate}}" tooltip-placement="right"></a>
+          <a class="glyphicon glyphicon-heart" ui-sref="favorites" ng-click="actionbar.toggleSeriesList()" tooltip="{{serieslist.activated?'SERIESLIST/series-hide/glyph':'SERIESLIST/series-show/glyph'|translate}}" tooltip-placement="right"></a>
         </li>
         <li style='display:none' id='wl'>
           <a class="glyphicon glyphicon-facetime-video" ui-sref="watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-placement="right"></a>
         </li>
         <li>
-          <a class="glyphicon glyphicon-cog" ui-sref="settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right" ng-click="contractSidePanel()"></a>
+          <a class="glyphicon glyphicon-cog" ui-sref="settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
           <a class="glyphicon glyphicon-magnet" ui-sref="torrent" tooltip="&micro;Torrent / Bittorrent client" tooltip-placement="right"></a>
