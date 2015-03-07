@@ -163,7 +163,7 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                 }
 
                 $rootScope.$on('calendar:setdate', function(evt, newDate) {
-                    if (newDate !== undefined) {
+                    if (newDate !== undefined && scope.date.toDateString() != newDate.toDateString()) {
                         scope.date = newDate;
                         update();
                     }

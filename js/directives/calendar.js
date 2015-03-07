@@ -91,7 +91,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
              */
             setVisibleDays: function(range) {
                 if (!range || range.length == 1 && range[0].length == 1) return;
-                console.info("Set visible dates!", range);
                 var dates = [];
                 calendarStartDate = new Date(range[0][0]);
                 calendarEndDate = new Date(range[range.length - 1][range[range.length - 1].length - 1]);

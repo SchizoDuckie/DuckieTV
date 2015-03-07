@@ -80,11 +80,19 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 SidePanelState: function(SidePanelState) {
                     SidePanelState.contract();
                     return SidePanelState;
+                },
+                FavoritesService: function(FavoritesService) {
+                    return FavoritesService.refresh().then(function() {
+                        return FavoritesService;
+                    })
                 }
             },
             views: {
                 favorites: {
                     templateUrl: 'templates/seriesList.html',
+                    controller: 'seriesListCtrl',
+                    controllerAs: 'serieslist',
+                    bindToController: true
                 },
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/favorites.html'

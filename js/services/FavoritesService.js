@@ -259,13 +259,12 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                     });
                     console.log("Serie '" + serie.name + "' deleted. Syncing storage.");
                     $rootScope.$broadcast('storage:update');
-                    $rootScope.$broadcast('favorites:updated', service.favorites);
                     if (service.favorites.length === 0) {
                         $rootScope.$broadcast('serieslist:empty');
                     }
                 });
             },
-            refresh: function(silent) {
+            refresh: function() {
                 return service.getSeries().then(function(results) {
                     service.favorites = results;
                     var ids = [];
@@ -273,6 +272,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                         ids.push(el.TVDB_ID.toString());
                     });
                     service.favoriteIDs = ids;
+                    // $rootScope.$broadcast('favorites:updated');
                     if (ids.length === 0) {
                         setTimeout(function() {
                             $rootScope.$broadcast('serieslist:empty');
@@ -308,8 +308,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                 });
             }
         };
-
-        service.refresh(false);
+        service.refresh();
         return service;
     }
 ])

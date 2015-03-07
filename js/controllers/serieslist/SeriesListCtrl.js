@@ -1,7 +1,7 @@
 DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "$state",
     function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state) {
 
-        var serieslist = $scope.serieslist = this;
+        var serieslist = this;
 
         this.width = SidePanelState.state.isExpanded ? document.body.clientWidth - 800 : SidePanelState.state.isShowing ? document.body.clientWidth - 400 : document.body.clientWidth;
         this.activated = SeriesListState.state.isShowing; // Toggles when the favorites panel activated
@@ -82,8 +82,15 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             return serie;
         };
 
+        serieslist.favorites = FavoritesService.favorites.map(titleSorter);
 
-        this.favorites = FavoritesService.favorites.map(titleSorter);
+        /**
+         * When the favorites list updates, repopulate the values here.
+         */
+        $scope.$watch(FavoritesService.favorites, function(newValue) {
+            if (newValue == undefined) return;
+            serieslist.favorites = newValue.map(titleSorter)
+        })
 
         /**
          * Set the series list display mode to either banner or poster.
@@ -125,17 +132,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             document.body.style.overflowY = 'auto';
         };
 
-        /**
-         * When the favorites list signals it's updated, we update the favorites here as well.
-         * when the series list is empty, this makes it automatically pop up.
-         * Otherwise, a random background is automagically loaded.
-         */
-        $rootScope.$on('favorites:updated', function(event, data) {
-            if (!data) return;
-            serieslist.favorites = data.map(titleSorter);
-            serieslist.background = data[Math.floor(Math.random() * (data.length - 1))].fanart;
-
-        });
 
         /**
          * When we detect the serieslist is empty, we pop up the panel and enable add mode.

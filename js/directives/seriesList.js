@@ -28,9 +28,6 @@ DuckieTV.factory('SeriesListState', ["$rootScope",
 
 .directive('seriesList', function() {
     return {
-        restrict: 'E',
-        controller: 'seriesListCtrl',
-        controllerAs: 'serieslist',
-        bindToController: true
+        restrict: 'E'
     }
 })
