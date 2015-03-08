@@ -19,7 +19,7 @@
 </a>
 <!-- Make posters smaller button -->
 <a ng-if="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">
-    <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/LOCALFILTER/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/LOCALFILTER/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-zoom-in':serieslist.isSmall, 'glyphicon-zoom-out': !serieslist.isSmall}"></i>
+    <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/LOCALFILTER/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/LOCALFILTER/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
 </a>
 
 <!-- todo: filter local series list by available trakt categories, toggle ended, continuing and stuff -->

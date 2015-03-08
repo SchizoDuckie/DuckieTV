@@ -6,7 +6,7 @@
     <input type="text" focus-watch="'serieslist.searchingForSerie'" ng-model="search.query" placeholder="{{'SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder'|translate}}" ng-model-options="{debounce: 500}"  ng-change="search.search(search.query)" style='float:left; margin-left:10px; width:35%; margin-right:10px; font-size:20px; margin-top:-8px;'>
     <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh" ></i>
     <p class="protip">{{'SERIESLIST/TOOLS/ADDING/addshow-protip/lbl'|translate}}  <a ng-if="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();" style="display:inline-block;">
-	    <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/ADDING/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/ADDING/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-zoom-in':serieslist.isSmall, 'glyphicon-zoom-out': !serieslist.isSmall}"></i>
+	    <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/ADDING/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/ADDING/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
 	</a></p>
 	    <!-- Make posters smaller button -->
 	
