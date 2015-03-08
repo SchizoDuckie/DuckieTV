@@ -227,33 +227,42 @@ serieheader[mode=banner].full .banner {
 serieheader[mode=banner].full h3 {
 }
 
-.series serieheader[mode='poster'] > div {
-    background-color: transparent;
-    border: 0;
-}
-serieheader[mode='poster'] {
-    display: inline-block;
-    margin: 0px 9px 11px 9px;
-}
-
 serieheader .banner {
     height: 150px;
     width:100%;
     background-repeat:no-repeat;
     background-size: cover;
 }
+
+.series serieheader[mode='poster'] > div {
+    background-color: transparent;
+    border: 0;
+}
+
+/* Main container for the posters 
+ * Note: The posters class itself has no margins or paddings and is just the size of the poster
+ * this means the only thing seperating the posters is this margin here. This allows easy distancing
+ * of the posters but also easily allows a no-gap mode between posters which looks kinda nice. */
+serieheader[mode='poster'] {
+    display: inline-block;
+    margin: 0px 9px 11px 9px;
+}
+/* Standard Poster Size */
 serieheader .poster {
     height: 240px;
     width: 160px;
+    /* Standard size fits most posters however some are slightly smaller
+     *  and need to be slightly stretched using 100% */
     background-size: 100% 100%;
     background-position: center center;
     background-repeat:no-repeat;
 }
-
+/* Mini Poster style for series-list */
 .miniposter .poster {
     height: 195px;
     width: 130px;
 }
+/* Minier Poster Style used for the sidepanel where space is much smaller */
 .miniposter.x2 .poster {
     height: 140px;
     width: 93px;
@@ -409,6 +418,8 @@ series-list .series {
     left: 58px;
     text-align: center;
     padding: 20px 25px 15px 15px;
+    /* To remove added spacing between posters */
+    font-size: 0;
     /* So the boxshadow on .tools is overlayed */
     z-index: 10
 }
