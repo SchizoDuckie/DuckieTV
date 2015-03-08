@@ -97,8 +97,8 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktT
                         result = angular.fromJson(result);
                         console.log("Backup read!", result);
                         angular.forEach(result.settings, function(value, key) {
-                            if (key == 'utorrent.')
-                                localStorage.setItem(key, value);
+                            if (key == 'utorrent.token') continue; // skip utorrent auth token since it can be invalid.
+                            localStorage.setItem(key, value);
                         });
                         SettingsService.restore();
                         angular.forEach(result.series, function(watched, TVDB_ID) {
@@ -122,6 +122,7 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktT
 
         $scope.wipe = function() {
             var db = CRUD.EntityManager.getAdapter().db;
+            localStorage.clear();
             FavoritesService.favorites = [];
             FavoritesService.favoriteIDs = [];
             CalendarEvents.clearCache();
