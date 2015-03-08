@@ -97,7 +97,7 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktT
                         result = angular.fromJson(result);
                         console.log("Backup read!", result);
                         angular.forEach(result.settings, function(value, key) {
-                            if (key == 'utorrent.token') continue; // skip utorrent auth token since it can be invalid.
+                            if (key == 'utorrent.token') return; // skip utorrent auth token since it can be invalid.
                             localStorage.setItem(key, value);
                         });
                         SettingsService.restore();
