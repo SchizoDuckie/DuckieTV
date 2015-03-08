@@ -14,8 +14,17 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$filter", "SeriesListState"
         };
 
         this.contractSidePanel = function() {
+            SidePanelState.show();
             SidePanelState.contract();
         };
+
+        this.showSidePanel = function() {
+            SidePanelState.show();
+        }
+
+        this.expandSidePanel = function() {
+            SidePanelState.expand();
+        }
 
         this.resetCalendar = function() {
             $rootScope.$broadcast('calendar:setdate', new Date());
