@@ -5,7 +5,6 @@
 DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$filter", "SeriesListState", "SidePanelState",
     function($rootScope, $filter, SeriesListState, SidePanelState) {
 
-
         this.hideSeriesList = function() {
             SeriesListState.hide();
         };
@@ -13,7 +12,6 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$filter", "SeriesListState"
         this.toggleSeriesList = function() {
             SeriesListState.toggle();
         };
-
 
         this.contractSidePanel = function() {
             SidePanelState.contract();

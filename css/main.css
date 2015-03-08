@@ -27,11 +27,16 @@ body > .container {
 body > .container.topsites {
     padding-top: 45px;
 }
-/* Fix bootstraps Right placed arrows */
+/* Fix bootstraps tooltips */
 body .tooltip.right .tooltip-arrow {
     border-top-color: transparent !important;
     border-bottom-color: transparent !important;
     border-right-color: white;
+}
+body .tooltip.left .tooltip-arrow {
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+    border-left-color: white;
 }
 .printlogo {
     display: none;
@@ -127,7 +132,7 @@ background-rotator, background-rotator > div {
     height: 100%;
     -webkit-transition: background-color .5s;
 }
-#actionbar:hover, #actionbar.active {
+#actionbar:hover {
     background-color: rgb(26, 29, 31);
 }
 #actionbar .logo {
@@ -273,9 +278,11 @@ serieheader[mode=search] h3 {
 }
 
 .series.adding serieheader[mode=poster] h3 {
-    display:inline-block;
+    display: inline-block;
+    font-size: 22px;
+    word-break: break-word;
+    white-space: normal;
 }
-
 
 serieheader .overview {
     color: white;
@@ -476,65 +483,6 @@ table.light h1 {
     list-style: none;
 }
 
-.dropdown {
-    text-align: center;
-}
-.dropdown-toggle {
-    cursor: pointer;
-}
-.dropdown-menu {
-    margin: 0;
-    border: 1px solid black;
-    max-height: 400px;
-    overflow-y: scroll;
-    box-sizing: content-box;
-    cursor: pointer;
-    padding: 10px;
-    color: black;
-    max-width: 94%;
-    min-width: 300px;
-    background-color: rgba(255, 255, 255, 0.8);
-    width: 100%;
-    box-shadow: 4px 4px 2px rgba(255, 255, 255, 0.7)
-}
-.dropdown-menu table.torrents {
-    width:100%;
-}
-.dropdown-menu tbody {
-}
-.dropdown-menu tr {
-}
-.dropdown-menu td {
-    padding: 5px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 380px;
-    overflow: hidden;
-}
-.dropdown-menu td a {
-    color: black;
-}
-.dropdown-menu table.torrents tr:hover {
-    background-color: transparent !important;
-}
-.dropdown-menu table.torrents td {
-    text-align: left;
-}
-.dropdown-menu table.torrents tbody th:nth-last-child(-n + 2) {
-    text-align: center;
-}
-.dropdown-menu table.torrents tbody td:nth-last-child(-n + 2) {
-    text-align: right;
-}
-.dropdown-menu table.torrents tbody td:nth-child(2) {
-    max-width: 144px;
-    width: 420px;
-    overflow: hidden;
-}
-.dropdown-menu .torrent-remote-control {
-    padding-left: 20px;
-}
-
 chrome-top-sites {
     position: fixed;
     top: 0px;
@@ -653,38 +601,6 @@ chrome-top-sites a p {
 .episode-watched a.glyphicon-eye-open {
     color: green;
     font-size: 18px;
-}
-.dropdown-menu .episode-watched a.glyphicon-eye-open {
-    color: green;
-    font-size: 18px;
-}
-.dropdown-menu .episode-watched a.glyphicon {
-    left: -2px;
-}
-.dropdown-menu .episode-watched span {
-    font-family: helvetica, sans-serif;
-    font-size: 14px;
-    line-height: 14px;
-    vertical-align: middle;
-    color: white;
-    /* display: inline-block; */
-    position: absolute;
-    left: 29px;
-    top: 2px;
-}
-.dropdown-menu .episode-watched .glyphicon-eye-open {
-    color: green;
-}
-.markAsWatched .episode-watched a.glyphicon {
-    color: rgba(0, 255, 0, 0.4);
-    -webkit-transform: rotate(360deg);
-    -webkit-transition: all 0.5s ease-in-out;
-}
-.episode-watched a.glyphicon-eye-close {
-    color: rgba(255, 255, 255, 0.5);
-}
-.episode-watched a.glyphicon-eye-close:hover {
-    color: rgba(255, 255, 255, 0.9);
 }
 fieldset {
     background-color: transparent;
@@ -871,7 +787,7 @@ td.day {
     font-weight: bold;
     text-decoration: line-through;
 }
-[date-picker] .event .watchedtick {
+[date-picker] .event .watched .watchedwidth {
     width: 82%;
 }
 [date-picker] .event .watchedpos {
@@ -1017,33 +933,7 @@ calendar-event .progress-bar {
     z-index: -1;
 
 }
-.progress-bar {
-    color: black;
-}
-calendar-event .torrent-mini-remote-control-progress div.progress-bar  {
-    opacity: 0.4;
-}
-calendar-event a.glyphicon-chevron-down {
-    float:left;
-}
-calendar-event .dropdown-menu, .modal-content .dropdown-menu {
-    background-color: rgba(0, 0, 0, 0.94);
-    overflow-y: auto;
-    min-width: 400px;
-    box-shadow: none;
-    color: white;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.6);
-    border: 1px solid white;
-}
-calendar-event .dropdown-menu a:hover, calendar-event .dropdown-menu a:hover a, calendar-event .dropdown-menu a:hover a span, .modal-content .dropdown-menu a:hover, .modal-content .dropdown-menu a:hover a, .modal-content .dropdown-menu a:hover a span {
-    text-decoration: none;
-    color: #262626 !important;
-    background-color: #f5f5f5;
-}
-.modal-content .dropdown-menu a {
-    text-align: left;
-    color: white;
-}
+
 .glyphicon.glyphicon-chromecast-on {
     background-image: url('../img/chromecast_on.png');
     background-size: contain;
@@ -1057,13 +947,6 @@ calendar-event .dropdown-menu a:hover, calendar-event .dropdown-menu a:hover a, 
     width: 24px;
     height:20px;
     background-repeat:no-repeat;
-}
-calendar-event .dropdown-menu .glyphicon, .modal-content .dropdown-menu .glyphicon {
-    width: 24px;
-    text-align: center;
-    width: 25px;
-    line-height: 20px;
-    text-align: left;
 }
 calendar-event h2 {
     font-size: 24px;
@@ -1096,7 +979,6 @@ calendar-event h2 {
     height: 140px;
     width: 93px;
 }
-
 .miniposter em.earmark {
     width: 40px;
     height: 40px;
@@ -1106,7 +988,6 @@ calendar-event h2 {
 .alert {
     white-space: pre-wrap;
 }
-
 .alert strong {
     display: block;
 }
