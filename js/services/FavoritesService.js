@@ -187,6 +187,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                         return serie;
                     }).then(function(serie) {
                         addToFavoritesList(serie); // cache serie in favoritesservice.favorites
+                        $rootScope.$applyAsync();
                         $rootScope.$broadcast('background:load', serie.fanart);
                         entity = serie;
                         return cleanupEpisodes(data.seasons, entity);
