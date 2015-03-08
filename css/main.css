@@ -1118,6 +1118,10 @@ sidepanel .buttons i.glyphicon {
     font-size: 22px;
 }
 
+sidepanel .leftpanel .buttons i.glyphicon {
+    color: white !important;
+}
+
 sidepanel .leftpanel {
     position: absolute;
     top: 0px;
