@@ -270,6 +270,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 var avail = cw - spaceToTheRight;
                 var zoom = avail / cw;
                 calendar.style.transform = 'scale(' + zoom + ')';
+                calendar.setAttribute('class', (zoom < 1) ? 'zoom' : '');
             }
         },
         controller: function($scope, SidePanelState) {

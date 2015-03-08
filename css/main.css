@@ -672,10 +672,16 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
     width: 100%;
 }
 [date-picker] td, [date-picker] th {
-    border: 1px solid white;
+    border: 1px solid rgba(255,255,255,0.2);
     text-align: center;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+    -webkit-transition: border 0.1s ease-in;
 }
+
+[date-picker].zoom td, [date-picker].zoom th {
+    border: 5px solid rgba(255,255,255,0);
+}
+
 [date-picker] td:last-child {
     border-right: 0;
 }
