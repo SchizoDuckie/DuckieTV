@@ -32,7 +32,7 @@
   <series-list ui-view="favorites"></series-list>
 
   <div ng-controller="ActionBarCtrl as actionbar">
-    <div id="actionbar" ng-class="{'active':serieslist.activated}">
+    <div id="actionbar">
       <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hideSeriesList()"></div>
       <ul class="list-unstyled">
         <li>
