@@ -176,6 +176,7 @@ serieheader > div {
     position: relative;
     overflow: hidden;
 }
+
 serieheader[mode='search'] {
     display: block;
     width: calc(33% - 2px);
@@ -191,21 +192,12 @@ serieheader[mode='search'] {
 serieheader[mode='search'] h3 {
     margin-top: 0;
 }
-serieheader[mode='poster'] {
-    display:inline-block;
-    height: 250px;
-    margin:0px 11px 2px 11px;
-}
-.series serieheader[mode='poster'] > div {
-    background-color: transparent;
-    border: 0;
-}
+
 serieheader[mode=banner] {
     overflow:hidden;
     display: inline-block;
     width:50%;
 }
-
 serieheader[mode=banner] h3 {
     position: absolute;
     margin-top: 0px;
@@ -234,27 +226,48 @@ serieheader[mode=banner].full .banner {
 }
 serieheader[mode=banner].full h3 {
 }
-.dropdown-menu serieheader h3 {
-    margin-top:0;
-    color:white;
-    margin-top: -45px;
+
+.series serieheader[mode='poster'] > div {
+    background-color: transparent;
+    border: 0;
 }
-serieheader.full > div {
-    background-color: rgba(0, 0, 0, 0.5);
+serieheader[mode='poster'] {
+    display: inline-block;
+    margin: 0px 9px 11px 9px;
 }
+
 serieheader .banner {
     height: 150px;
+    width:100%;
     background-repeat:no-repeat;
     background-size: cover;
-    width:100%;
 }
 serieheader .poster {
     height: 240px;
-    background-repeat:no-repeat;
+    width: 160px;
     background-size: 100% 100%;
-    width: 163px;
     background-position: center center;
+    background-repeat:no-repeat;
 }
+
+.miniposter .poster {
+    height: 195px;
+    width: 130px;
+}
+.miniposter.x2 .poster {
+    height: 140px;
+    width: 93px;
+}
+.miniposter em.earmark {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+}
+
+serieheader.full > div {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 .col-md-4 serieheader .poster {
     width: 150px;
 }
@@ -969,26 +982,6 @@ calendar-event h2 {
 .season p.seasonposter {
     width: 150px;
     height: 220px;
-}
-
-.miniposter serieheader[mode='poster'] {
-    height: 200px;
-}
-.miniposter .poster {
-    height: 190px;
-    width: 123px;
-}
-.miniposter.x2 serieheader[mode='poster'] {
-    height: 150px;
-}
-.miniposter.x2 .poster {
-    height: 140px;
-    width: 93px;
-}
-.miniposter em.earmark {
-    width: 40px;
-    height: 40px;
-    font-size: 22px;
 }
 
 .alert {

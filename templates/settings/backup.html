@@ -11,7 +11,7 @@
   </div>
   <div style="padding:5px;text-align:center" class="miniposter x2">
     <h1 ng-if="restoring" style='margin-top: 20px;'>{{'SETTINGS/BACKUP/loading-please-wait/lbl'|translate}}</h1>
-    <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
+    <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" no-title="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
       <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
       <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
     </serieHeader>
