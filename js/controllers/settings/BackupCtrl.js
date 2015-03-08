@@ -85,41 +85,51 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktT
             console.log("Import backup!", $scope);
             $scope.adding = {};
             $scope.series = [];
-            if ($scope.wipeBeforeImport) {
-                $scope.wipe();
-            }
-            FileReader.readAsText($scope.file, $scope)
-                .then(function(result) {
-                    result = angular.fromJson(result);
-                    console.log("Backup read!", result);
-                    angular.forEach(result.settings, function(value, key) {
-                        if (key == 'utorrent.')
-                            localStorage.setItem(key, value);
-                    });
-                    SettingsService.restore();
-                    angular.forEach(result.series, function(watched, TVDB_ID) {
-                        TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
-                            return TraktTVv2.serie(searchResult.slug_id);
-                        }).then(function(serie) {
-                            $scope.adding[TVDB_ID] = true;
-                            $scope.series.push(serie);
-                            return FavoritesService.addFavorite(serie, watched);
-                        }).then(function() {
-                            $scope.adding[TVDB_ID] = false;
+            $q(function(resolve, reject) {
+                if ($scope.wipeBeforeImport) {
+                    $scope.wipe().then(resolve)
+                }
+                resolve();
+            }).then(function() {
+
+                FileReader.readAsText($scope.file, $scope)
+                    .then(function(result) {
+                        result = angular.fromJson(result);
+                        console.log("Backup read!", result);
+                        angular.forEach(result.settings, function(value, key) {
+                            if (key == 'utorrent.')
+                                localStorage.setItem(key, value);
                         });
+                        SettingsService.restore();
+                        angular.forEach(result.series, function(watched, TVDB_ID) {
+                            TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
+                                return TraktTVv2.serie(searchResult.slug_id);
+                            }).then(function(serie) {
+                                $scope.adding[TVDB_ID] = true;
+                                $scope.series.push(serie);
+                                return FavoritesService.addFavorite(serie, watched);
+                            }).then(function() {
+                                $scope.adding[TVDB_ID] = false;
+                            });
+                        });
+                    }, function(err) {
+                        console.error("ERROR!", err);
                     });
-                }, function(err) {
-                    console.error("ERROR!", err);
-                });
+
+            })
+
         };
 
         $scope.wipe = function() {
             var db = CRUD.EntityManager.getAdapter().db;
-            return Promise.all(['Series', 'Seasons', 'Episodes'].map(function(table) {
-                return db.execute('DELETE from ' + table + ' where 1');
-            }))
             FavoritesService.favorites = [];
             FavoritesService.favoriteIDs = [];
+
+            return Promise.all(['Series', 'Seasons', 'Episodes'].map(function(table) {
+                return db.execute('DELETE from ' + table + ' where 1').then(function(result) {
+                    return true;
+                })
+            }))
         }
     }
 ]);
