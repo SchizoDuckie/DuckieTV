@@ -101,6 +101,14 @@ var Serie = CRUD.define({
         }).then(function(result) {
             return (result instanceof CRUD.Entity) ? result : this.getLatestSeason();
         });
+    },
+
+    getSortName: function() {
+        if (!this.sortName) {
+            this.sortName = this.name.replace('The ', '');
+        }
+        return this.sortName;
+
     }
 });
 

@@ -1,6 +1,6 @@
 <!-- Display favourites in selected mode -->
 <div class="series" ng-if="serieslist.activated" ng-class="{'miniposter': serieslist.isSmall}">
 <h1 style="margin-bottom:20px;margin-top:15px;color:rgb(225,225,225);">{{'SERIESLIST/FAVORITES/click-to-see/lbl'|translate}}</h1>
-    <serieHeader ng-repeat="serie in serieslist.favorites | orderBy: 'sortName' | filter: localSearch.localFilter" data="serie"  no-title="1" no-overview="1" mode="{{serieslist.mode}}">   
+    <serieHeader ng-repeat="serie in serieslist.favorites | orderBy: 'getSortName()' | filter: localSearch.localFilter" data="serie"  no-title="1" no-overview="1" mode="{{serieslist.mode}}">   
     </serieHeader>
 </div>

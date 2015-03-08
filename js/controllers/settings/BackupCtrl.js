@@ -18,8 +18,8 @@
  *    // repeat
  *  }
  */
-DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "$q",
-    function($scope, $rootScope, FileReader, TraktTVv2, SettingsService, FavoritesService, $q) {
+DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q",
+    function($scope, $rootScope, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q) {
 
         $scope.backupString = false;
         $scope.series = [];
@@ -124,6 +124,7 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktT
             var db = CRUD.EntityManager.getAdapter().db;
             FavoritesService.favorites = [];
             FavoritesService.favoriteIDs = [];
+            CalendarEvents.clearCache();
 
             return Promise.all(['Series', 'Seasons', 'Episodes'].map(function(table) {
                 return db.execute('DELETE from ' + table + ' where 1').then(function(result) {

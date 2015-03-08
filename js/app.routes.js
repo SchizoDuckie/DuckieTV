@@ -107,8 +107,8 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('favorites.search', {
-            sticky: true,
             url: '/search',
+            sticky: true,
             views: {
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/localfilter.html',
@@ -123,8 +123,8 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('favorites.add', {
-            sticky: true,
             url: '/add',
+            sticky: true,
             views: {
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/adding.html',
@@ -152,6 +152,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             }
         })
             .state('favorites.add.empty', {
+                sticky: true,
                 url: '/empty',
                 views: {
                     'content@favorites': {

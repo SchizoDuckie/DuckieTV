@@ -52,19 +52,18 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
         }
 
 
-    /**
-     * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
-     * by the seriedetails directive
-     * @param {[type]} serie [description]
-     */
-    this.setHoverSerie = function(serie) {
-        console.log("hover!", serie);
-        if ($state.current.name != "trakt-serie") {
-            $state.go('trakt-serie');
-        }
-        $rootScope.$broadcast('traktserie:preview', serie);
-        $rootScope.$applyAsync();
-    };
+        /**
+         * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
+         * by the seriedetails directive
+         * @param {[type]} serie [description]
+         */
+        this.setHoverSerie = function(serie) {
+            if ($state.current.name != "trakt-serie") {
+                $state.go('trakt-serie');
+            }
+            $rootScope.$broadcast('traktserie:preview', serie);
+            $rootScope.$applyAsync();
+        };
 
         $rootScope.$on('trending:show', function() {
             trending.fetch();

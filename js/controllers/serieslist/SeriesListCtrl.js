@@ -76,21 +76,8 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             object: SidePanelState.state
         }]);
 
+        serieslist.favorites = FavoritesService.favorites;
 
-        var titleSorter = function(serie) {
-            serie.sortName = serie.name ? serie.name.replace('The ', '') : '';
-            return serie;
-        };
-
-        serieslist.favorites = FavoritesService.favorites.map(titleSorter);
-
-        /**
-         * When the favorites list updates, repopulate the values here.
-         */
-        $scope.$watch(FavoritesService.favorites, function(newValue) {
-            if (newValue == undefined) return;
-            serieslist.favorites = newValue.map(titleSorter)
-        })
 
         /**
          * Set the series list display mode to either banner or poster.
@@ -146,6 +133,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             // note: this serie is a CRUD.entity
             TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(serieslist.selectSerie);
         });
+
 
 
         /**
