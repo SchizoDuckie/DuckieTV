@@ -1070,18 +1070,6 @@ sidepanel > div.active.expanded {
     -webkit-transform: translateX(0);   
 }
 
-sidepanel .handle {
-    position: absolute;
-    top: 35px;
-    left: -64px;
-    width: 100px;
-    height: 32px;
-    border: 1px solid black;
-    -webkit-transform: rotate(-90deg);
-    background-color: rgba(255,255,255,0.4);
-    padding: 5px;
-}
-
 sidepanel h2 {
     text-align: center;
     color: #fff;
@@ -1128,7 +1116,6 @@ sidepanel .buttons a.no-hover {
 sidepanel .buttons i.glyphicon {
     float: left;
     font-size: 22px;
-    color: white;
 }
 
 sidepanel .leftpanel {
@@ -1151,6 +1138,10 @@ sidepanel .rightpanel {
     background-color: rgb(23, 23, 23);
     z-index: 0;
     overflow-y: auto;
+}
+
+sidepanel .rightpanel h2 {
+    text-align: left;
 }
 
 sidepanel .leftpanel .episode-img {
@@ -1364,16 +1355,25 @@ sidepanel .leftpanel.torrents {
     margin-top: 20px;
 }
 .settings .label {
-    display: block;
-    width: 45%;
+   
     margin: 0 auto 5px auto;
     /* Just in case different languages are too long */
     word-wrap: break-word;
     white-space: normal;
 }
+
+.settings h2 span {
+    float:right;
+}
+.settings h2 span i {
+    background-color:transparent !important;
+   
+}
+
 .settings .btn {
     margin: 4px auto;
     display: block;
+    font-weight: bold;
 }
 .settings .btns {
     text-align: center;
@@ -1382,6 +1382,28 @@ sidepanel .leftpanel.torrents {
     display: inline-block;
     margin: 3px 1px;
 }
+
+.settings .buttons .btn {
+    font-family: 'bebasregular';
+    font-size: 18px;
+}
+
+.settings .btn-danger {
+    background-color: rgba(217, 83, 79, 0.4) !important;
+    border-color: rgba(217, 83, 79, 0.8) !important;
+}
+
+.settings .btn-warning {
+    background-color: rgba(240, 173, 78, 0.4) !important;
+   border-color: rgba(240, 173, 78, 0.8) !important;
+}
+
+.settings .btn-success {
+    background-color: rgba(71, 164, 71, 0.4) !important;
+    border-color: rgba(71, 164, 71, 0.8) !important;
+}
+
+
 .settings .autodownload form {
     text-align: center;
 }

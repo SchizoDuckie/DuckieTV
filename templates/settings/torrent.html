@@ -1,19 +1,20 @@
-<div ng-controller="SettingsTorrentCtrl">
+<div ng-controller="SettingsTorrentCtrl" class="buttons">
   
-  <h2 style='margin-top: 13px'>{{'SETTINGS/TORRENT/hdr'|translate}}</h2>
-  <p class="label label-success" ng-show="getSetting('torrenting.enabled')">{{'SETTINGS/TORRENT/enabled/lbl'|translate}}</p>
-  <p class="label label-danger" ng-show="!getSetting('torrenting.enabled')">{{'SETTINGS/TORRENT/disabled/lbl'|translate}}</p>
+  <h2 style='margin-top: 13px'>{{'SETTINGS/TORRENT/hdr'|translate}}
+  <span ng-show="getSetting('torrenting.enabled')" tooltip="{{'SETTINGS/TORRENT/enabled/lbl'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
+  <span ng-show="!getSetting('torrenting.enabled')" tooltip="{{'SETTINGS/TORRENT/disabled/lbl'|translate}}"><i class="glyphicon glyphicon-ok alert-danger" ></i></span>
+  </h2>
 
   <ul class="list-unstyled">
     <li>
       <p ng-show="!getSetting('torrenting.enabled')" >{{'SETTINGS/TORRENT/functions-show/alert'|translate}}</p>
       <p ng-show="getSetting('torrenting.enabled')">{{'SETTINGS/TORRENT/functions-hide/alert'|translate}}</p>
-      <button ng-show="!getSetting('torrenting.enabled')" ng-click="enableSetting('torrenting.enabled')" class="btn btn-success">{{'SETTINGS/TORRENT/functions-show/btn'|translate}}</button>
-      <button ng-show="getSetting('torrenting.enabled')" ng-click="disableSetting('torrenting.enabled')" class="btn btn-danger">{{'SETTINGS/TORRENT/functions-hide/btn'|translate}}</button>
+      <a ng-show="!getSetting('torrenting.enabled')" ng-click="enableSetting('torrenting.enabled')" class="btn btn-success">{{'SETTINGS/TORRENT/functions-show/btn'|translate}}</a>
+      <a ng-show="getSetting('torrenting.enabled')" ng-click="disableSetting('torrenting.enabled')" class="btn btn-danger">{{'SETTINGS/TORRENT/functions-hide/btn'|translate}}</a>
     </li>
   </ul>
   <div ng-show="getSetting('torrenting.enabled')">
-
+  <hr style='padding:10px'>
     <h2>uTorrent Integration</h2>
 
     <p ng-if="isuTorrentAuthenticated()">
@@ -24,43 +25,45 @@
       DuckieTV is not currently connected to uTorrent. Click the button below and accept the uTorrent access request that pops up to integrate DuckieTV with uTorrent.
     </p>
 
-    <button class='btn btn-small btn-warning' ng-if="isuTorrentAuthenticated()" ng-click='removeToken()' translate>TORRENTCLIENT/clear-authority/btn</button>
+    <a class='btn btn-small btn-warning' ng-if="isuTorrentAuthenticated()" ng-click='removeToken()' translate>TORRENTCLIENT/clear-authority/btn</a>
 
 
-    <button class='btn btn-small btn-warning' ng-if="!isuTorrentAuthenticated()" ng-click='connect()' translate>Connect to uTorrent</button>
+    <a class='btn btn-small btn-warning' ng-if="!isuTorrentAuthenticated()" ng-click='connect()' translate>Connect to uTorrent</a>
     
+    <hr style='padding:10px'>
 
-
-    <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/autodownload/hdr'|translate}}</h2>
-    <p class="label label-success" ng-show="getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-enabled/lbl'|translate}}</p>
-    <p class="label label-danger" ng-show="!getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-disabled/lbl'|translate}}</p>
+    <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/autodownload/hdr'|translate}}
+    <span ng-show="getSetting('torrenting.autodownload')" tooltip="{{'SETTINGS/TORRENT/autodownload-enabled/lbl'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i> </span>
+    <span ng-show="!getSetting('torrenting.autodownload')" tooltip="{{'SETTINGS/TORRENT/autodownload-disabled/lbl'|translate}}"><i class="glyphicon glyphicon-remove  alert-danger" ></i></span>
+    </h2>
+    
     <ul class="list-unstyled">
       <li>
         <p ng-show="!getSetting('torrenting.autodownload')" >{{'SETTINGS/TORRENT/autodownload-enable/alert'|translate}}</p>
         <p ng-show="getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-disable/alert'|translate}}</p>
-        <button ng-show="!getSetting('torrenting.autodownload')" ng-click="enableAutoDownload()" class="btn btn-success">{{'SETTINGS/TORRENT/autodownload-enable/btn'|translate}}</button>
-        <button ng-show="getSetting('torrenting.autodownload')" ng-click="disableAutoDownload()" class="btn btn-danger">{{'SETTINGS/TORRENT/autodownload-disable/btn'|translate}}</button>
+        <a ng-show="!getSetting('torrenting.autodownload')" ng-click="enableAutoDownload()" class="btn btn-success">{{'SETTINGS/TORRENT/autodownload-enable/btn'|translate}}</a>
+        <a ng-show="getSetting('torrenting.autodownload')" ng-click="disableAutoDownload()" class="btn btn-danger">{{'SETTINGS/TORRENT/autodownload-disable/btn'|translate}}</a>
       </li>
     </ul>
 
+<hr style='padding:10px'>
 
     <div class="autodownload">
       <h2>Period to download shows</h2>
-      <p class="label label-success">Period: {{adPeriod}} day(s)</p>
       <p >Changes the period auto download looks for episodes to download. If an episode is more than than the set amount of days old, it will not be downloaded. Default: 1 Day</p>
 
       <form name="p"><input type='number' name="period" ng-model="customadPeriod" min="1" max="21">
-        <button class="btn btn-success" ng-click="setadPeriod(customadPeriod)" ng-disabled="p.period.$error.number">Save</button>
+        <a class="btn btn-success" ng-click="setadPeriod(customadPeriod)" ng-disabled="p.period.$error.number">Save</a>
       </form>
       <span class="alert alert-danger" ng-show="p.period.$error.number">Can only contain numbers!</span>
 
+<hr style='padding:10px'>
 
       <h2>Min. Seeders Required</h2>
-      <p class="label label-success">Min. Seeders: {{adMinSeeders}}</p>
       <p >Changes the amount of seeders required for an episode before it starts to download it. Default: 250</p>
 
       <form name="s"><input type='number'name="seeders" ng-model="customadMinSeeders" min="0" max="3000">
-        <button class="btn btn-success" ng-click="setadMinSeeders(customadMinSeeders)" ng-disabled="s.seeders.$error.number">Save</button>
+        <a class="btn btn-success" ng-click="setadMinSeeders(customadMinSeeders)" ng-disabled="s.seeders.$error.number">Save</a>
       </form>
       <span class="alert alert-danger" ng-show="s.seeders.$error.number">Can only contain numbers!</span>
     </div>
