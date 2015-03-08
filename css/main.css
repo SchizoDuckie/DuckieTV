@@ -23,6 +23,7 @@ body > .container {
     padding: 20px;
     float: right;
     margin: 0;
+    -webkit-transition: padding-top 0.2s ease-in;
 }
 body > .container.topsites {
     padding-top: 45px;
@@ -1144,7 +1145,7 @@ sidepanel .rightpanel {
     width: 400px;
     height: 100%;
     padding: 15px;
-    background-color: rgb(23, 23, 23);
+    background-color: rgba(23, 23, 23,0.8);
     z-index: 0;
     overflow-y: auto;
 }
@@ -1410,6 +1411,12 @@ sidepanel .leftpanel.torrents {
 .settings .btn-success {
     background-color: rgba(71, 164, 71, 0.4) !important;
     border-color: rgba(71, 164, 71, 0.8) !important;
+}
+
+.settings .btn-info {
+    background-color: rgba(91, 192, 222, 0.52) !important;
+       border-color: rgba(91, 192, 222, 0.8) !important;
+    
 }
 
 

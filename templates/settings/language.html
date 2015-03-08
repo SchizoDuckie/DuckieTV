@@ -1,0 +1,20 @@
+<div ng-controller="DisplayCtrl">
+
+    <h2 style='margin-top: 13px'>Language</h2>
+
+    <p>Translate DuckieTV into your local language and date/time formats by changing the setting below</p>
+    <p>Note that most of the translations are auto-translated. We are still <a href="http://www.reddit.com/r/duckietv/comments/28wtr5/announcement_want_to_have_duckietv_in_your_native/" style='text-decoration:underline' target='_blank'>looking for translators!</a></p>
+    <p>Current: {{getSetting('application.locale')}}</p>
+    <ul class="list-unstyled" style='font-size:16px'>
+       <li ng-click="setLocale(getSetting('client.determinedlocale'))" class="list-unstyled" style="cursor:pointer; padding:5px;">
+        <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != getSetting('client.determinedlocale'), 'glyphicon-record': activeLocale == getSetting('client.determinedlocale')}"></i>&nbsp;
+        <i class="flag flag-{{ getSetting('client.determinedlocale') }}" style="-webkit-transform:scale(1.2)"></i> 
+        {{ getSetting('client.determinedlocale') }} {{ 'SETTINGS/DISPLAY/locale-default/lbl' | translate }}
+      </li>
+      <li ng-repeat="(locale, name) in languageList" ng-click="setLocale(locale)" class="list-unstyled" style="cursor:pointer; padding:5px;">
+        <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != locale, 'glyphicon-record': activeLocale == locale}"></i>&nbsp;
+        <i class="flag flag-{{ locale }}" style="-webkit-transform:scale(1.2)"></i> 
+        {{ 'SETTINGS/DISPLAY/locale/'+name | translate }}
+      </li>
+    </ul>
+</div>
