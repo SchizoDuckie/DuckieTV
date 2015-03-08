@@ -1,12 +1,13 @@
-<div ng-controller="BackupCtrl">
+<div ng-controller="BackupCtrl" class="buttons">
   <h2 style="margin-top: 13px">{{'SETTINGS/BACKUP/backup/desc'|translate}}</h2>
-  <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()" style="width:250px">{{'SETTINGS/BACKUP/backup-create/btn'|translate}}</a>
-  <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}">{{'SETTINGS/BACKUP/backup-download/btn'|translate}}</a>
+  <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()"><i class="glyphicon glyphicon-download"></i>  {{'SETTINGS/BACKUP/backup-create/btn'|translate}}</a>
+  <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}"><i class="glyphicon glyphicon-download"></i> {{'SETTINGS/BACKUP/backup-download/btn'|translate}}</a>
 
+  <hr style="padding:10px">
   <h2>{{'SETTINGS/BACKUP/import/hdr'|translate}}</h2>
   <input type="checkbox" ng-model="wipeBeforeImport" id="wipebeforeImport"> <label for="wipebeforeImport">{{'SETTINGS/BACKUP/wipe-before-import/lbl'|translate}}</label>
   <div style="position:relative">
-    <button ng-show="!restoring" class="btn btn-success" style="width:250px" ng-class="{binputhover:inputhover}">{{'SETTINGS/BACKUP/choose-backup-load/btn'|translate}}</button>
+    <a ng-show="!restoring" class="btn btn-success" ng-class="{binputhover:inputhover}">{{'SETTINGS/BACKUP/choose-backup-load/btn'|translate}}</a>
     <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute; opacity:0; width:250px; top:0; padding:0; height:100%; cursor: pointer;" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false" />
   </div>
   <div style="padding:5px;text-align:center" class="miniposter x2">
@@ -16,8 +17,8 @@
       <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
     </serieHeader>
   </div>
-
+  <hr style="padding:10px">
   <h2>Wipe database and settings</h2>
   <p>Remove all series and episodes from the DuckieTV database. Clear all settings and start completely fresh.</p>
-  <button class="btn btn-danger" ng-click="wipe()"><i class="glyphicon glyphicon-trash"></i>Wipe now</button>
+  <a class="btn btn-danger" ng-click="wipe()"><i class="glyphicon glyphicon-trash"></i>Wipe now</a>
 </div>
