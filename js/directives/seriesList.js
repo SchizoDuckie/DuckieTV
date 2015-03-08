@@ -1,6 +1,6 @@
-DuckieTV.factory('SeriesListState', ["$rootScope",
+DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
 
-    function($rootScope) {
+    function($rootScope, FavoritesService, $state) {
         var service = {
             state: {
                 isShowing: false,
@@ -10,6 +10,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope",
                 document.body.style.overflowY = 'hidden';
                 document.body.scrollTop = 0;
                 service.state.isShowing = true;
+
                 $rootScope.$applyAsync();
             },
             hide: function() {
@@ -18,7 +19,11 @@ DuckieTV.factory('SeriesListState', ["$rootScope",
                 $rootScope.$applyAsync();
             },
             toggle: function() {
-                service.state.isShowing = !service.state.isShowing;
+                if (!service.state.isShowing) {
+                    service.show();
+                } else {
+                    service.hide();
+                }
                 $rootScope.$applyAsync();
             }
         };

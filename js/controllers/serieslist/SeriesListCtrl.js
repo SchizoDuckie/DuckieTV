@@ -78,6 +78,12 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
 
         this.getFavorites = function() {
+            setTimeout(function() {
+                if (FavoritesService.favorites.length == 0 && $state.current != 'favorites.add.empty') {
+                    $state.go('favorites.add.empty');
+                }
+            }, 50);
+
             return FavoritesService.favorites;
         }
 
@@ -105,12 +111,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          */
         this.activate = function(el) {
             this.activated = true;
-            document.body.style.overflowY = 'hidden';
-            if (FavoritesService.favorites.length == 0) {
-                $state.go('favorites.add.empty');
-            } else {
-                $state.go('favorites');
-            }
         }
 
         /**

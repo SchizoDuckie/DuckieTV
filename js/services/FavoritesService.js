@@ -311,11 +311,17 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                 });
             }
         };
-        service.refresh();
+
         return service;
     }
 ])
 
-.run(function(FavoritesService) {
+.run(function(FavoritesService, $state) {
     FavoritesService.loadRandomBackground();
+
+    FavoritesService.refresh().then(function(favorites) {
+        if (favorites.length == 0 && $state.current.name != 'favorites.add.empty') {
+            $state.go('favorites.add.empty');
+        }
+    })
 })
