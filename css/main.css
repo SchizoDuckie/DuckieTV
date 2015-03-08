@@ -1084,6 +1084,11 @@ sidepanel .buttons {
     padding: 0px;
     text-align: center;
 }
+
+sidepanel .buttons p {
+    text-align: left;
+    padding-top:5px;
+}
 sidepanel .buttons strong {
     font-size: 18px;
     letter-spacing: 1px;
