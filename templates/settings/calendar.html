@@ -5,11 +5,11 @@
   <p class="label label-info" ng-show="getSetting('calendar.mode') == 'week'">{{'SETTINGS/CALENDAR/mode-week/lbl'|translate}}</p>
   <p class="label label-success" ng-show="getSetting('calendar.mode') == 'date'">{{'SETTINGS/CALENDAR/mode-month/lbl'|translate}}</p>
 
-  <p class="alert alert-info">{{'SETTINGS/CALENDAR/start/alert'|translate}}</p>
+  <p>{{'SETTINGS/CALENDAR/start/alert'|translate}}</p>
   <button ng-show="!getSetting('calendar.startSunday')" ng-click="enableSetting('calendar.startSunday')" class="btn btn-info">{{'SETTINGS/CALENDAR/start-sun/btn'|translate}}</button>
   <button ng-show="getSetting('calendar.startSunday')" ng-click="disableSetting('calendar.startSunday')" class="btn btn-success">{{'SETTINGS/CALENDAR/start-mon/btn'|translate}}</button>
   </br>
-  <p class="alert alert-info">{{'SETTINGS/CALENDAR/mode/alert'|translate}}</p>
+  <p>{{'SETTINGS/CALENDAR/mode/alert'|translate}}</p>
   <button ng-show="getSetting('calendar.mode') == 'date'" ng-click="setSetting('calendar.mode', 'week')" class="btn btn-info">{{'SETTINGS/CALENDAR/mode-week/btn'|translate}}</button>
   <button ng-show="getSetting('calendar.mode') == 'week'" ng-click="setSetting('calendar.mode', 'date')" class="btn btn-success">{{'SETTINGS/CALENDAR/mode-month/btn'|translate}}</button>
 
@@ -17,7 +17,7 @@
   <p class="label label-danger" ng-hide="showSpecials">{{'SETTINGS/CALENDAR/specials-hide/lbl'|translate}}</p>
   <p class="label label-success" ng-show="showSpecials">{{'SETTINGS/CALENDAR/specials-show/lbl'|translate}}</p>
 
-  <p class="alert alert-info">{{'SETTINGS/CALENDAR/specials/alert'|translate}}</p>
+  <p>{{'SETTINGS/CALENDAR/specials/alert'|translate}}</p>
   <button ng-hide="showSpecials" ng-click="toggleSpecials()" class="btn btn-success">{{'SETTINGS/CALENDAR/specials-show/btn'|translate}}</button>
   <button ng-show="showSpecials" ng-click="toggleSpecials()" class="btn btn-danger">{{'SETTINGS/CALENDAR/specials-hide/btn'|translate}}</button>
 </div>

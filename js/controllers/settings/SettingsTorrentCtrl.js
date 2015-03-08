@@ -1,9 +1,9 @@
 /**
  * Controller for the torrent settings tab
  */
-DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "EpisodeAiredService",
+DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "EpisodeAiredService", "uTorrent",
 
-    function($scope, $rootScope, SettingsService, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, EpisodeAiredService) {
+    function($scope, $rootScope, SettingsService, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, EpisodeAiredService, uTorrent) {
 
         $scope.log = [];
 
@@ -148,6 +148,22 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
             EpisodeAiredService.attach();
 
         };
+
+        $scope.isuTorrentAuthenticated = function() {
+            return localStorage.getItem('utorrent.token') !== null;
+        }
+
+        $scope.getToken = function() {
+            return localStorage.getItem('utorrent.token');
+        }
+
+        $scope.removeToken = function() {
+            localStorage.removeItem('utorrent.token');
+        }
+
+        $scope.connect = function() {
+            uTorrent.AutoConnect();
+        }
 
     }
 ])

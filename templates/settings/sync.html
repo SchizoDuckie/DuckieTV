@@ -7,11 +7,11 @@
 
 <ul class="list-unstyled">
         <li>
-          <p class="alert alert-info"><strong>{{'SETTINGS/DEFAULT/sync-push/hdr'|translate}}</strong> {{'SETTINGS/DEFAULT/sync-push/desc'|translate}}</p>
+          <p><strong>{{'SETTINGS/DEFAULT/sync-push/hdr'|translate}}</strong> {{'SETTINGS/DEFAULT/sync-push/desc'|translate}}</p>
         </li><br>
         <li style="padding-top:4px">
-          <p ng-show="!getSetting('storage.sync')" class="alert alert-info">{{'SETTINGS/DEFAULT/sync-doit/alert'|translate}}</p>
-          <p ng-show="getSetting('storage.sync')" class="alert alert-warning">{{'SETTINGS/DEFAULT/sync-dont/alert'|translate}}</p>
+          <p ng-show="!getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-doit/alert'|translate}}</p>
+          <p ng-show="getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-dont/alert'|translate}}</p>
           <button ng-show="!getSetting('storage.sync')" ng-click="enableSync()" class="btn btn-success">{{'SETTINGS/DEFAULT/sync-doit/btn'|translate}}</button>
           <button ng-show="getSetting('storage.sync')" ng-click="disableSync()" class="btn btn-danger">{{'SETTINGS/DEFAULT/sync-dont/btn'|translate}}</button>
         </li>

@@ -6,8 +6,8 @@
 
   <ul class="list-unstyled">
     <li>
-    <p ng-show="!getSetting('torrenting.streaming')" class="alert alert-info">{{'SETTINGS/UTORRENT/streaming-enabled/alert'|translate}}</p>
-    <p ng-show="getSetting('torrenting.streaming')" class="alert alert-warning">{{'SETTINGS/UTORRENT/streaming-disabled/alert'|translate}}</p>
+    <p ng-show="!getSetting('torrenting.streaming')">{{'SETTINGS/UTORRENT/streaming-enabled/alert'|translate}}</p>
+    <p ng-show="getSetting('torrenting.streaming')">{{'SETTINGS/UTORRENT/streaming-disabled/alert'|translate}}</p>
     <button ng-show="!getSetting('torrenting.streaming')" ng-click="enableSetting('torrenting.streaming')" class="btn btn-success">{{'SETTINGS/UTORRENT/streaming-enabled/btn'|translate}}</button>
     <button ng-show="getSetting('torrenting.streaming')" ng-click="disableSetting('torrenting.streaming')" class="btn btn-danger">{{'SETTINGS/UTORRENT/streaming-disabled/btn'|translate}}</button>
     </li>
@@ -19,8 +19,8 @@
 
   <ul class="list-unstyled">
     <li>
-    <p ng-show="!getSetting('torrenting.directory')" class="alert alert-info">{{'SETTINGS/UTORRENT/directory-folder-show/alert'|translate}}</p>
-    <p ng-show="getSetting('torrenting.directory')" class="alert alert-warning">{{'SETTINGS/UTORRENT/directory-folder-hide/alert'|translate}}</p>
+    <p ng-show="!getSetting('torrenting.directory')">{{'SETTINGS/UTORRENT/directory-folder-show/alert'|translate}}</p>
+    <p ng-show="getSetting('torrenting.directory')">{{'SETTINGS/UTORRENT/directory-folder-hide/alert'|translate}}</p>
     <button ng-show="!getSetting('torrenting.directory')" ng-click="enableSetting('torrenting.directory')" class="btn btn-success">{{'SETTINGS/UTORRENT/directory-folder-show/btn'|translate}}</button>
     <button ng-show="getSetting('torrenting.directory')" ng-click="disableSetting('torrenting.directory')" class="btn btn-danger">{{'SETTINGS/UTORRENT/directory-folder-hide/btn'|translate}}</button>
     </li>
@@ -32,8 +32,8 @@
 
   <ul class="list-unstyled">
     <li>
-    <p ng-show="!getSetting('torrenting.progress')" class="alert alert-info">{{'SETTINGS/UTORRENT/progressbar-show/alert'|translate}}</p>
-    <p ng-show="getSetting('torrenting.progress')" class="alert alert-warning">{{'SETTINGS/UTORRENT/progressbar-hide/alert'|translate}}</p>
+    <p ng-show="!getSetting('torrenting.progress')">{{'SETTINGS/UTORRENT/progressbar-show/alert'|translate}}</p>
+    <p ng-show="getSetting('torrenting.progress')">{{'SETTINGS/UTORRENT/progressbar-hide/alert'|translate}}</p>
     <button ng-show="!getSetting('torrenting.progress')" ng-click="enableSetting('torrenting.progress')" class="btn btn-success">{{'SETTINGS/UTORRENT/progressbar-show/btn'|translate}}</button>
     <button ng-show="getSetting('torrenting.progress')" ng-click="disableSetting('torrenting.progress')" class="btn btn-danger">{{'SETTINGS/UTORRENT/progressbar-hide/btn'|translate}}</button>
     </li>
@@ -45,8 +45,8 @@
 
   <ul class="list-unstyled">
     <li>
-    <p ng-show="!getSetting('torrenting.autostop')" class="alert alert-info">{{'SETTINGS/UTORRENT/autostop-enabled/alert'|translate}}</p>
-    <p ng-show="getSetting('torrenting.autostop')" class="alert alert-warning">{{'SETTINGS/UTORRENT/autostop-disabled/alert'|translate}}</p>
+    <p ng-show="!getSetting('torrenting.autostop')">{{'SETTINGS/UTORRENT/autostop-enabled/alert'|translate}}</p>
+    <p ng-show="getSetting('torrenting.autostop')">{{'SETTINGS/UTORRENT/autostop-disabled/alert'|translate}}</p>
     <button ng-show="!getSetting('torrenting.autostop')" ng-click="enableSetting('torrenting.autostop')" class="btn btn-success">{{'SETTINGS/UTORRENT/autostop-enabled/btn'|translate}}</button>
     <button ng-show="getSetting('torrenting.autostop')" ng-click="disableSetting('torrenting.autostop')" class="btn btn-danger">{{'SETTINGS/UTORRENT/autostop-disabled/btn'|translate}}</button>
     </li>

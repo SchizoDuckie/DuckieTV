@@ -1,7 +1,7 @@
 <div ng-controller="TraktTVCtrl" style="margin:20px; margin-bottom:0">
   
   <!-- description box -->
-  <div class="alert alert-info" style='margin-bottom:15px;text-align:left;white-space:normal'>
+  <div style='margin-bottom:15px;text-align:left;white-space:normal'>
     <div style='float:left; margin-right:20px;'><img src="img/trakt.png"></div>
     <h2>{{'SETTINGS/TRAKT-IMPORT/sync/hdr'|translate}}</h2> 
     {{'SETTINGS/TRAKT-IMPORT/sync/desc'|translate}}
@@ -46,7 +46,7 @@
   </div>
 
   <div ng-if="!traktTVSuggestions && credentials.passwordHash">
-      <div class="alert alert-info">{{'SETTINGS/TRAKT-IMPORT/suggestions/alert'|translate}}</p></div>
+      <div>{{'SETTINGS/TRAKT-IMPORT/suggestions/alert'|translate}}</p></div>
       <button ng-click="getUserSuggestions()" class="btn btn-success">{{'SETTINGS/TRAKT-IMPORT/suggestions-fetch/btn'|translate}}</button>
   </div>
   <br>
