@@ -76,8 +76,10 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             object: SidePanelState.state
         }]);
 
-        serieslist.favorites = FavoritesService.favorites;
 
+        this.getFavorites = function() {
+            return FavoritesService.favorites;
+        }
 
         /**
          * Set the series list display mode to either banner or poster.

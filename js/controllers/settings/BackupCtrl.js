@@ -122,7 +122,11 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktT
 
         $scope.wipe = function() {
             var db = CRUD.EntityManager.getAdapter().db;
-            localStorage.clear();
+            for (var i in localStorage) {
+                if (i.indexOf('database.version') == 0) continue;
+                if (i.indexOf('utorrent.token') == 0) continue;
+                localStorage.removeItem(i);
+            }
             FavoritesService.favorites = [];
             FavoritesService.favoriteIDs = [];
             CalendarEvents.clearCache();

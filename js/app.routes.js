@@ -331,6 +331,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('settings', {
+            sticky: true,
             url: '/settings',
             resolve: {
                 SidePanelState: showSidePanel
@@ -343,6 +344,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('settings.tab', {
+            sticky: true,
             url: '/:tab',
             resolve: {
                 SidePanelState: expandSidePanel
