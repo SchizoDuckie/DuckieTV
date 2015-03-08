@@ -13,7 +13,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
     });
 
     this.getPageHeader = function(season) {
-         return season.seasonnumber == 0 ? $filter('translate')('SIDEPANEL/EPISODES/specials/lbl') : $filter('translate')('SIDEPANEL/EPISODES/season/lbl') + ' ' + season.seasonnumber;
+        return season.seasonnumber == 0 ? $filter('translate')('SIDEPANEL/EPISODES/specials/lbl') : $filter('translate')('SIDEPANEL/EPISODES/season/lbl') + ' ' + season.seasonnumber;
     };
 
     this.getSortEpisodeNumber = function(episode) {
@@ -26,6 +26,16 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
     this.autoDownload = function(serie, episode) {
         EpisodeAiredService.autoDownload(serie, episode);
     };
+
+    this.autoDownloadAll = function() {
+        Array.prototype.map.call(document.querySelectorAll(".rightpanel .auto-download"), function(el, idx) {
+            setTimeout(function() {
+                el.click();
+            }, idx * 100);
+        })
+    }
+
+
 
     this.getSearchString = function(serie, episode) {
         if (!serie || !episode) return;
@@ -50,6 +60,6 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
             label: this.getEpisodeNumber(data[i]) + ' : ' + data[i].rating,
             season: parseInt(data[i].seasonnumber, 10)
         });
-    };    
+    };
 
 })

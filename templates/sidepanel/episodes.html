@@ -16,14 +16,17 @@
           <td>
             <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{sidepanel.serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{ episode.episodename }}</a>
           </td>
-          <td class="nobreaks" align="right" >
-          <a ng-if="episode.hasAired() && (!showHover || !getSetting('torrenting.enabled'))" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{ episode.firstaired | date: 'short' }}" >{{ episode.firstaired | date: 'shortDate' }}</a>
-          <div ng-if="showHover && episode.hasAired() && getSetting('torrenting.enabled')">
+          <td class="nobreaks" align="right" ng-if="episode.hasAired()">
+          <a ng-show="episode.hasAired() && (!showHover || !getSetting('torrenting.enabled'))" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{ episode.firstaired | date: 'short' }}" >{{ episode.firstaired | date: 'shortDate' }}</a>
+          <div ng-show="showHover && episode.hasAired() && getSetting('torrenting.enabled')">
            <torrent-dialog tvdbid='episode.TVDB_ID' q='season.getSearchString(sidepanel.serie,episode)'></torrent-dialog>
            <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'SIDEPANEL/EPISODES/auto-download/tooltip'|translate}}">
                   <i class="glyphicon glyphicon-cloud-download"></i>
               </a>
           </div>
+          </td>
+          <td ng-if="!episode.hasAired()">
+            
           </td>
           <td style="width:55px">
             <episode-watched ng-if="episode.hasAired()"></episode-watched>
@@ -43,7 +46,7 @@
     <table class="buttons" width="100%" border="0">
         <tr>
           <td colspan="2">
-              <a >
+              <a ng-click="season.autoDownloadAll()">
                   <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/EPISODES/auto-download-all/lbl'|translate}}</strong>
               </a>
           </td>
