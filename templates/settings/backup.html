@@ -9,7 +9,7 @@
     <button ng-show="!restoring" class="btn btn-success" style="width:250px" ng-class="{binputhover:inputhover}">{{'SETTINGS/BACKUP/choose-backup-load/btn'|translate}}</button>
     <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute; opacity:0; width:250px; top:0; padding:0; height:100%; cursor: pointer;" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false" />
   </div>
-  <div style="padding:5px" class="miniposter x2">
+  <div style="padding:5px;text-align:center" class="miniposter x2">
     <h1 ng-if="restoring" style='margin-top: 20px;'>{{'SETTINGS/BACKUP/loading-please-wait/lbl'|translate}}</h1>
     <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
       <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
