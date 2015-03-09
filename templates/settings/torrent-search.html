@@ -9,6 +9,9 @@
         <strong>{{provider}}</strong>
     </li>
   </ul>
+
+   <hr style="padding:10px">
+
    
   <h2>{{'SETTINGS/TORRENT-SEARCH/quality/hdr'|translate}}</h2>
   <p style='text-align:left;white-space:normal'>
@@ -16,6 +19,7 @@
     <strong>{{'SETTINGS/TORRENT-SEARCH/quality-select/hdr'|translate}}</strong>{{'SETTINGS/TORRENT-SEARCH/quality-select/desc'|translate}}<br>
     {{'SETTINGS/TORRENT-SEARCH/quality-select/desc2'|translate}}
   </p>
+
 
   <ul class="list-unstyled">
     <li ng-click="setSearchQuality('')" style='cursor:pointer'>
@@ -40,6 +44,9 @@
     </li>
   </ul>
 
+   <hr style="padding:10px">
+
+
   <h2 style='white-space:nowrap'>The Pirate Bay</h2>
   <p style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT-SEARCH/tpb/desc'|translate}}
   </p>
@@ -47,8 +54,8 @@
   <ul class="list-unstyled">
     <li>{{'SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr'|translate}}<br>
       <input type='url' style='width:350px' ng-model="customtpbmirror">
-      <button class="btn btn-success" ng-click="validateCustomTPBMirror(customtpbmirror)">{{'SETTINGS/TORRENT-SEARCH/tpb-validate/btn'|translate}}</button>
-      <button class="btn btn-info" ng-click="findRandomTPBMirror()">{{'SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn'|translate}}</button>
+      <a class="btn btn-success" ng-click="validateCustomTPBMirror(customtpbmirror)">{{'SETTINGS/TORRENT-SEARCH/tpb-validate/btn'|translate}}</a>
+      <a class="btn btn-info" ng-click="findRandomTPBMirror()">{{'SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn'|translate}}</a>
 
       <p ng-show="tpbmirrorStatus.length > 0">
         {{'SETTINGS/TORRENT-SEARCH/tpb-status/hdr'|translate}}
@@ -59,6 +66,9 @@
     </li>
   </ul>
    
+    <hr style="padding:10px">
+
+
   <h2 style='white-space:nowrap'>KickAss Torrents</h2>
   <p style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT-SEARCH/kat/desc'|translate}}
   </p>
@@ -66,8 +76,8 @@
   <ul class="list-unstyled">
     <li>{{'SETTINGS/TORRENT-SEARCH/kat-mirror/hdr'|translate}}<br>
       <input type='url' style='width:350px' ng-model="customkatmirror">
-      <button class="btn btn-success" ng-click="validateCustomKATMirror(customkatmirror)">{{'SETTINGS/TORRENT-SEARCH/kat-validate/btn'|translate}}</button>
-      <button class="btn btn-info" ng-click="findRandomKATMirror()">{{'SETTINGS/TORRENT-SEARCH/kat-find-mirror/btn'|translate}}</button>
+      <a class="btn btn-success" ng-click="validateCustomKATMirror(customkatmirror)">{{'SETTINGS/TORRENT-SEARCH/kat-validate/btn'|translate}}</a>
+      <a class="btn btn-info" ng-click="findRandomKATMirror()">{{'SETTINGS/TORRENT-SEARCH/kat-find-mirror/btn'|translate}}</a>
 
       <p ng-show="katmirrorStatus.length > 0">
         {{'SETTINGS/TORRENT-SEARCH/kat-status/hdr'|translate}}
@@ -78,6 +88,9 @@
     </li>
   </ul>
 
+   <hr style="padding:10px">
+
+
   <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr'|translate}}</h2>
   <p class="label label-success" ng-show="getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT-SEARCH/enabled/lbl'|translate}}</p>
   <p class="label label-danger" ng-show="!getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT-SEARCH/disabled/lbl'|translate}}</p>
@@ -86,8 +99,8 @@
     <li>
       <p ng-show="!getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disabled/desc'|translate}}</p>
       <p ng-show="getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enabled/desc'|translate}}</p>
-      <button ng-show="!getSetting('proxy.allowUnsafe')" ng-click="enableSetting('proxy.allowUnsafe')" class="btn btn-success">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enable/btn'|translate}}</button>
-      <button ng-show="getSetting('proxy.allowUnsafe')" ng-click="disableSetting('proxy.allowUnsafe')" class="btn btn-danger">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disable/btn'|translate}}</button>
+      <a ng-show="!getSetting('proxy.allowUnsafe')" ng-click="enableSetting('proxy.allowUnsafe')" class="btn btn-success">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enable/btn'|translate}}</a>
+      <a ng-show="getSetting('proxy.allowUnsafe')" ng-click="disableSetting('proxy.allowUnsafe')" class="btn btn-danger">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disable/btn'|translate}}</a>
     </li>
   </ul>
 </div>
