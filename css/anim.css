@@ -28,6 +28,12 @@
 }
 
 
+.fastspin {
+  -webkit-animation: spin 0.5s infinite;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-backface-visibility: visible;
+}
+
 @-webkit-keyframes zoom {
   from { 
   	height:0px;

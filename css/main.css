@@ -156,7 +156,14 @@ background-rotator, background-rotator > div {
     padding: 18px;
     font-size: 2.2rem;
     color: white;
+    text-decoration:none;
+    text-shadow: 2px 2px rgba(25,25,25,0.8);
 }
+
+#actionbar a.active {
+     background-color: rgba(70,70,70,0.8);
+}
+
 #actionbar a:hover, #actionbar .logo:hover {
     background-color: rgba(70,70,70,1);
     -webkit-transition: background-color .5s;

@@ -13,8 +13,8 @@ DuckieTV.factory('SidePanelState', function() {
         },
         hide: function() {
             document.body.style.overflowY = 'auto';
-            service.contract();
             service.state.isShowing = false;
+            service.state.isExpanded = false;
         },
         expand: function() {
             service.state.isExpanded = true;

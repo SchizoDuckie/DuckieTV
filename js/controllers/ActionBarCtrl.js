@@ -2,11 +2,12 @@
  * Actionbar Controller
  */
 
-DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$filter", "SeriesListState", "SidePanelState",
-    function($rootScope, $filter, SeriesListState, SidePanelState) {
+DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "SeriesListState", "SidePanelState",
+    function($rootScope, $state, $filter, SeriesListState, SidePanelState) {
 
-        this.hideSeriesList = function() {
+        this.hidePanels = function() {
             SeriesListState.hide();
+            SidePanelState.hide();
         };
 
         this.toggleSeriesList = function() {
@@ -18,8 +19,14 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$filter", "SeriesListState"
             SidePanelState.contract();
         };
 
+        this.hideSidePanel = function() {
+            SidePanelState.hide();
+        };
+
         this.showSidePanel = function() {
-            SidePanelState.show();
+            setTimeout(function() { // i have no idea why, but transitioning from serieslist to settings doesnt work otherwise.
+                SidePanelState.show();
+            }, 500)
         }
 
         this.expandSidePanel = function() {
@@ -33,5 +40,22 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$filter", "SeriesListState"
         this.getHeartTooltip = function() {
             return SeriesListState.state.isShowing ? $filter('translate')('TAB/library-hide/glyph') : $filter('translate')('TAB/library-show/glyph');
         };
+
+        this.go = function(state) {
+            Array.prototype.map.call(document.querySelectorAll('#actionbar a'), function(el) {
+                el.classList.remove('active');
+            });
+            var stateEl = document.querySelector('#actionbar_' + state);
+            stateEl.classList.add('active');
+            stateEl.classList.add('fastspin');
+            setTimeout(function() {
+                $state.go(state).then(function() {
+                    setTimeout(function() {
+                        stateEl.classList.remove('fastspin');
+                    }, 500)
+                })
+
+            })
+        }
     }
 ])
