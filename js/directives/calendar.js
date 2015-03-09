@@ -154,12 +154,12 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
             },
 
             processEpisodes: function(serie, seasons) {
-                console.log("Process episodes ", serie.name, seasons);
+                //console.debug("Process episodes ", serie.name, seasons);
                 var filtered = [];
                 seasons.map(function(episodes) {
                     Object.keys(episodes).map(function(id) {
                         var date = new Date(new Date(episodes[id].firstaired).getTime()).toDateString();
-                        //console.log("matching date: ", date, calendarEvents[date]);
+                        //console.debug("matching date: ", date, calendarEvents[date]);
                         if (!(date in calendarEvents)) return;
 
                         addEvent(date, {

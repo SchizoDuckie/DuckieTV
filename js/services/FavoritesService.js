@@ -105,7 +105,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
             });
 
             return CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [ID]).then(function(result) {
-                //console.log("Cleaned up " + result.rs.rowsAffected + " orphaned episodes");
+                //console.debug("Cleaned up " + result.rs.rowsAffected + " orphaned episodes");
                 return seasons;
             });
         };
@@ -117,7 +117,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
          * @return object seasonCache indexed by seasonnumber
          */
         updateSeasons = function(serie, seasons) {
-            //console.log("Update seasons!", seasons);
+            //console.debug("Update seasons!", seasons);
             return serie.getSeasonsByNumber().then(function(seasonCache) { // fetch the seasons and cache them by number.
                 return Promise.all(seasons.map(function(season) {
                     var SE = (season.number in seasonCache) ? seasonCache[season.number] : new Season();
@@ -138,7 +138,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
         };
 
         updateEpisodes = function(serie, seasons, watched, seasonCache) {
-            // console.log(" Update episodes!", serie, seasons, watched, seasonCache);
+            // console.debug(" Update episodes!", serie, seasons, watched, seasonCache);
             return serie.getEpisodesMap().then(function(episodeCache) {
                 return Promise.all(seasons.map(function(season) {
                     return Promise.all(season.episodes.map(function(episode) {
@@ -172,7 +172,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
              */
             addFavorite: function(data, watched) {
                 watched = watched || [];
-                // console.log("FavoritesService.addFavorite!", data, watched);
+                // console.debug("FavoritesService.addFavorite!", data, watched);
                 var entity = null;
                 if (data.title === null || data.tvdb_id === null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
                     console.error("received error data as input, removing from favorites.");
@@ -200,7 +200,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                     })
                     .then(function(episodeCache) {
                         $injector.get('CalendarEvents').processEpisodes(serie, episodeCache);
-                        console.info("FavoritesService.Favorites", service.favorites)
+                        //console.debug("FavoritesService.Favorites", service.favorites)
                         $rootScope.$applyAsync();
                         $rootScope.$broadcast('storage:update');
                         return entity;
@@ -246,7 +246,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
              */
             remove: function(serie) {
                 serie.displaycalendar = '0';
-                console.log("Remove serie from favorites!", serie);
+                //console.debug("Remove serie from favorites!", serie);
                 service.getById(serie.TVDB_ID).Find('Season').then(function(seasons) {
                     seasons.map(function(el) {
                         el.Delete();
@@ -260,7 +260,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                     service.favorites = service.favorites.filter(function(el) {
                         return el.getID() != serie.getID();
                     });
-                    console.log("Serie '" + serie.name + "' deleted. Syncing storage.");
+                    console.info("Serie '" + serie.name + "' deleted. Syncing storage.");
                     $rootScope.$broadcast('storage:update');
                     if (service.favorites.length === 0) {
                         $rootScope.$broadcast('serieslist:empty');
