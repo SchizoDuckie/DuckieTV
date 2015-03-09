@@ -147,8 +147,6 @@
     "SERIESLIST/TRAKT-TRENDING/addtrending-help/hdr": "Trending visar på Trakt.TV ",
     "SERIESLIST/TRAKT-TRENDING/show-more/btn": " Visa Mer",
     "SERIESLIST/hotkey/lbl": "hotkey ",
-    "SERIESLIST/series-hide/glyph": "Göm ditt lokala bibliotek",
-    "SERIESLIST/series-show/glyph": "Visa ditt lokala bibliotek",
     "SERIESLISTjs/category/list": "åtgärd,äventyr,Animering,Barn,Komedi,Brott,Katastrof,Dokumentärfilm,Dramatik,Mellanöstern,Familj,Fan-film,Fantasi,Film noir,Mat,TV Spelet Visar,Historia,Holiday,Hem och Trädgård,Fasa,Indie,Mini Serie,Gåta,Musik,Musikal,Nyheter,Inget,Verklighet,Väg,Romantik,Science Fiction,Kort,Tvål,Särskilt Intresse,Idrott,Spänning,Pratprogram,Thrillern,Resor,TV-film,War,Västra",
     "SERIESLISTjs/serie-delete-confirmed": "Du bekräftade 'Nej' ",
     "SERIESLISTjs/serie-delete-question/p1": "Vill du verkligen ta bort ",
@@ -318,7 +316,6 @@
     "SETTINGS/UTORRENT/streaming-enabled/btn": "aktivera Streaming ",
     "SETTINGS/UTORRENT/streaming-enabled/desc": "Om du klickar på knappen nedan möjliggör strömning vid nedladdning torrents ",
     "SETTINGS/UTORRENT/streaming/hdr": "torrent Streaming ",
-    "SETTINGS/hdr": "Inställningar ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Auto Download",
     "SIDEPANEL/EPISODE-DETAILS/episodes/lbl": "episoder",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/lbl": "Hitta en torrent",
@@ -406,6 +403,12 @@
     "SUBTITLEDIALOG/searching-please-wait/lbl": ", Var god vänta. ",
     "SUBTITLEDIALOG/searching/lbl": "söka ",
     "SUBTITLEDIALOG/title/lbl": "Titel ",
+    "TAB/about/glyph": "Om DuckieTV ",
+    "TAB/calendar/glyph": "Kalender ",
+    "TAB/library-hide/glyph": "Göm ditt lokala bibliotek",
+    "TAB/library-show/glyph": "Visa ditt lokala bibliotek",
+    "TAB/settings/glyph": "Inställningar ",
+    "TAB/watchlist/glyph": "bevakningslistort",
     "TORRENTCLIENT/clear-authority/btn": "Rensa utorrent auktorisation ",
     "TORRENTCLIENT/connecting/hdr": "Anslutning till",
     "TORRENTCLIENT/desc/p1": "Du måste köra utorrent v3.3.x på eller ",
@@ -456,6 +459,5 @@
     "TORRENTRC/play-on-cast/btn": "  Spela på ChromeCast ",
     "TORRENTRC/start/btn": "  Börja Torrent ",
     "TORRENTRC/stop/btn": "  Stoppa Torrent ",
-    "TORRENTRC/stream-play/btn": "  Strömma med calibre spelare ",
-    "WATCHLIST/hdr": "bevakningslistort"
+    "TORRENTRC/stream-play/btn": "  Strömma med calibre spelare "
 }

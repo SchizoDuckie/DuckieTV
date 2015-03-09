@@ -147,8 +147,6 @@
     "SERIESLIST/TRAKT-TRENDING/addtrending-help/hdr": "Актуальные шоу на Trakt.TV ",
     "SERIESLIST/TRAKT-TRENDING/show-more/btn": " Показать больше",
     "SERIESLIST/hotkey/lbl": "Горячая клавиша ",
-    "SERIESLIST/series-hide/glyph": "Скрыть местную библиотеку",
-    "SERIESLIST/series-show/glyph": "Смотреть местную библиотеку",
     "SERIESLISTjs/category/list": "действие,приключения,анимация,дети,комедия,преступление,катастрофа,документальный,драма,восточной,семья,Фан-фильм,фантазия,Фильм-нуар,еда,по телевидению игрового шоу,история,праздник,дом и сад,ужас,Indie,мини-серии,тайна,музыка,музыкальный,новости,Ни один,реальность,дорога,романтика,фантаст,короткая,мыло,особый интерес,спорт,саспенс,ток-шоу,триллер,поездки,TV-Movie,война,западная",
     "SERIESLISTjs/serie-delete-confirmed": "Вы подтвердили: \"Нет\" ",
     "SERIESLISTjs/serie-delete-question/p1": "Вы действительно хотите удалить ",
@@ -318,7 +316,6 @@
     "SETTINGS/UTORRENT/streaming-enabled/btn": "Включить слушали ",
     "SETTINGS/UTORRENT/streaming-enabled/desc": "Нажатие на кнопку ниже включает возможность потокового при загрузке торрентов ",
     "SETTINGS/UTORRENT/streaming/hdr": "торрент Потоковое ",
-    "SETTINGS/hdr": "настройки ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Авто Скачать",
     "SIDEPANEL/EPISODE-DETAILS/episodes/lbl": "Эпизоды",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/lbl": "Найти торрент",
@@ -406,6 +403,12 @@
     "SUBTITLEDIALOG/searching-please-wait/lbl": ", Пожалуйста, подождите. ",
     "SUBTITLEDIALOG/searching/lbl": "поиск ",
     "SUBTITLEDIALOG/title/lbl": "название ",
+    "TAB/about/glyph": "О DuckieTV ",
+    "TAB/calendar/glyph": "календарь ",
+    "TAB/library-hide/glyph": "Скрыть местную библиотеку",
+    "TAB/library-show/glyph": "Смотреть местную библиотеку",
+    "TAB/settings/glyph": "настройки ",
+    "TAB/watchlist/glyph": "Списокt",
     "TORRENTCLIENT/clear-authority/btn": "Ясно авторизации трекеры ",
     "TORRENTCLIENT/connecting/hdr": "Подключение к",
     "TORRENTCLIENT/desc/p1": "Вы должны быть запущены трекеры v3.3.x или ",
@@ -456,6 +459,5 @@
     "TORRENTRC/play-on-cast/btn": "  Играть на ChromeCast ",
     "TORRENTRC/start/btn": "  Начните Torrent ",
     "TORRENTRC/stop/btn": "  Остановить Torrent ",
-    "TORRENTRC/stream-play/btn": "  Поток с трекеры игрока ",
-    "WATCHLIST/hdr": "Списокt"
+    "TORRENTRC/stream-play/btn": "  Поток с трекеры игрока "
 }

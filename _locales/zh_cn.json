@@ -147,8 +147,6 @@
     "SERIESLIST/TRAKT-TRENDING/addtrending-help/hdr": "上Trakt.TV趋势显示 ",
     "SERIESLIST/TRAKT-TRENDING/show-more/btn": " 显示更多",
     "SERIESLIST/hotkey/lbl": "热键 ",
-    "SERIESLIST/series-hide/glyph": "隐藏你的本地图书馆",
-    "SERIESLIST/series-show/glyph": "查看你的本地图书馆",
     "SERIESLISTjs/category/list": "动作,冒险,动画,儿童,喜剧,犯罪,灾难,纪实,电视剧,东,家庭,范电影,幻想,黑色电影,食物,电视游戏节目,历史,节日,家庭和花园,恐怖,独立,迷你系列,谜,音乐,音乐,新闻,无,现实,路,浪漫,科幻小说,短,肥皂,特别关注,体育,悬念,脱口秀,惊悚片,旅游,电视电影,战争,西部",
     "SERIESLISTjs/serie-delete-confirmed": "你确认“没有.”",
     "SERIESLISTjs/serie-delete-question/p1": "你真的要删除 ",
@@ -318,7 +316,6 @@
     "SETTINGS/UTORRENT/streaming-enabled/btn": "启用流 ",
     "SETTINGS/UTORRENT/streaming-enabled/desc": "点击下面的按钮，使流媒体选项而下载种子 ",
     "SETTINGS/UTORRENT/streaming/hdr": "洪流流 ",
-    "SETTINGS/hdr": "设置 ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "自动下载",
     "SIDEPANEL/EPISODE-DETAILS/episodes/lbl": "集",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/lbl": "查找洪流",
@@ -406,6 +403,12 @@
     "SUBTITLEDIALOG/searching-please-wait/lbl": "，请耐心等待. ",
     "SUBTITLEDIALOG/searching/lbl": "搜索 ",
     "SUBTITLEDIALOG/title/lbl": "标题 ",
+    "TAB/about/glyph": "关于DuckieTV ",
+    "TAB/calendar/glyph": "日历 ",
+    "TAB/library-hide/glyph": "隐藏你的本地图书馆",
+    "TAB/library-show/glyph": "查看你的本地图书馆",
+    "TAB/settings/glyph": "设置 ",
+    "TAB/watchlist/glyph": "收藏夹 ",
     "TORRENTCLIENT/clear-authority/btn": "清除μTorrent的授权 ",
     "TORRENTCLIENT/connecting/hdr": "连接到",
     "TORRENTCLIENT/desc/p1": "你需要在运行μTorrent的v3.3.x或 ",
@@ -456,6 +459,5 @@
     "TORRENTRC/play-on-cast/btn": " 玩ChromeCast ",
     "TORRENTRC/start/btn": " 启动洪流 ",
     "TORRENTRC/stop/btn": " 停止洪流 ",
-    "TORRENTRC/stream-play/btn": " 流与μTorrent播放器 ",
-    "WATCHLIST/hdr": "收藏夹 "
+    "TORRENTRC/stream-play/btn": " 流与μTorrent播放器 "
 }

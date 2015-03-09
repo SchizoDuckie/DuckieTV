@@ -31,7 +31,7 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$filter", "SeriesListState"
         };
 
         this.getHeartTooltip = function() {
-            return SeriesListState.state.isShowing ? $filter('translate')('SERIESLIST/series-hide/glyph') : $filter('translate')('SERIESLIST/series-show/glyph');
+            return SeriesListState.state.isShowing ? $filter('translate')('TAB/library-hide/glyph') : $filter('translate')('TAB/library-show/glyph');
         };
     }
 ])

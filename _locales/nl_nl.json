@@ -147,8 +147,6 @@
     "SERIESLIST/TRAKT-TRENDING/addtrending-help/hdr": "Trending shows op Trakt.TV",
     "SERIESLIST/TRAKT-TRENDING/show-more/btn": " Laat Meer Zien",
     "SERIESLIST/hotkey/lbl": "Sneltoets",
-    "SERIESLIST/series-hide/glyph": "Verberg favoriete series",
-    "SERIESLIST/series-show/glyph": "Bekijk je favoriete series",
     "SERIESLISTjs/category/list": "Actie,Avontuur,Animatie,Kinderen,Komedie,Misdaad,Ramp,Documentaire,Drama,Oostelijk,Familie,Fan-Film,Fantasie,Film-Noir,Koken,Televisie Spelshow,Historie,Vakantie,Huis en Tuin,Horror,Indie,Minireeks,Mysterie,Muziek,Muzikaal,Nieuws,None,Reality,Weg,Romantiek,Science Fiction,Kort,Soap,Speciale Interesse,Sporten,Spanning,Praatprogramma,Thriller,Reizen,Tv-film,Oorlog,Western",
     "SERIESLISTjs/serie-delete-confirmed": "Je hebt 'Nee.' gekozen",
     "SERIESLISTjs/serie-delete-question/p1": "Weet je zeker dat je  ",
@@ -318,7 +316,6 @@
     "SETTINGS/UTORRENT/streaming-enabled/btn": "Streaming inschakelen",
     "SETTINGS/UTORRENT/streaming-enabled/desc": "Klik op deze knop om de 'stream' knop in te schakelen bij torrents die dit ondersteunen en aan het downloaden zijn",
     "SETTINGS/UTORRENT/streaming/hdr": "Torrent Streamen",
-    "SETTINGS/hdr": "Instellingen",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Automatisch Download",
     "SIDEPANEL/EPISODE-DETAILS/episodes/lbl": "Episodes",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/lbl": "Vind een torrent",
@@ -406,6 +403,12 @@
     "SUBTITLEDIALOG/searching-please-wait/lbl": ", even geduld a.u.b.",
     "SUBTITLEDIALOG/searching/lbl": "Bezig met zoeken ",
     "SUBTITLEDIALOG/title/lbl": "Titel",
+    "TAB/about/glyph": "Over DuckieTV",
+    "TAB/calendar/glyph": "Kalender",
+    "TAB/library-hide/glyph": "Verberg favoriete series",
+    "TAB/library-show/glyph": "Bekijk je favoriete series",
+    "TAB/settings/glyph": "Instellingen",
+    "TAB/watchlist/glyph": "Verlanglijst",
     "TORRENTCLIENT/clear-authority/btn": "&micro;Torrent authorisatie intrekken",
     "TORRENTCLIENT/connecting/hdr": "Aansluiten op",
     "TORRENTCLIENT/desc/p1": "Je hebt op zijn minst &micro;Torrent v3.3.x nodig of",
@@ -456,6 +459,5 @@
     "TORRENTRC/play-on-cast/btn": " Afspelen op ChromeCast",
     "TORRENTRC/start/btn": " Start Torrent",
     "TORRENTRC/stop/btn": " Stop Torrent",
-    "TORRENTRC/stream-play/btn": " Streamen met &micro;Torrent speler",
-    "WATCHLIST/hdr": "Verlanglijst"
+    "TORRENTRC/stream-play/btn": " Streamen met &micro;Torrent speler"
 }

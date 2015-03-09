@@ -147,8 +147,6 @@
     "SERIESLIST/TRAKT-TRENDING/addtrending-help/hdr": "Mostras de tendências no Trakt.TV ",
     "SERIESLIST/TRAKT-TRENDING/show-more/btn": " Mostre Mais",
     "SERIESLIST/hotkey/lbl": "hotkey ",
-    "SERIESLIST/series-hide/glyph": "Esconder sua biblioteca local",
-    "SERIESLIST/series-show/glyph": "Ver sua biblioteca local",
     "SERIESLISTjs/category/list": "Ação,Aventura,Animação,Crianças,Comédia,Crime,Desastre,Documentário,o Drama,Oriental,Família,Fan-Film,Fantasia,Film-Noir,Alimentos,Programa de Jogos,História,Férias,Casa e Jardim,Horror,Indie,Mini-Série,Mistério,Música,Musical,Notícias,Nada,Realidade,Estrada,Romântico,Ficção Científica,Curto,Sabão,Interesse Especial,Esporte,Suspense,Mostra da Conversa,Suspense,Viagens,TV-Movie,Guerra,Ocidental",
     "SERIESLISTjs/serie-delete-confirmed": "Você confirmado 'Não.'",
     "SERIESLISTjs/serie-delete-question/p1": "Você realmente quer apagar ",
@@ -318,7 +316,6 @@
     "SETTINGS/UTORRENT/streaming-enabled/btn": "Ativar Transmissão ",
     "SETTINGS/UTORRENT/streaming-enabled/desc": "Clicando no botão abaixo permite a opção de streaming ao baixar torrents ",
     "SETTINGS/UTORRENT/streaming/hdr": "Torrent Transmissão ",
-    "SETTINGS/hdr": "Configurações ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Baixar Automático",
     "SIDEPANEL/EPISODE-DETAILS/episodes/lbl": "episódios",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/lbl": "Encontre uma torrente",
@@ -406,6 +403,12 @@
     "SUBTITLEDIALOG/searching-please-wait/lbl": ", Por favor, aguarde. ",
     "SUBTITLEDIALOG/searching/lbl": "Pesquisando ",
     "SUBTITLEDIALOG/title/lbl": "título ",
+    "TAB/about/glyph": "sobre DuckieTV ",
+    "TAB/calendar/glyph": "calendário ",
+    "TAB/library-hide/glyph": "Esconder sua biblioteca local",
+    "TAB/library-show/glyph": "Ver sua biblioteca local",
+    "TAB/settings/glyph": "Configurações ",
+    "TAB/watchlist/glyph": "lista",
     "TORRENTCLIENT/clear-authority/btn": "Limpar autorização μTorrent ",
     "TORRENTCLIENT/connecting/hdr": "Conectando-se",
     "TORRENTCLIENT/desc/p1": "Você precisa estar executando o μTorrent v3.3.x ou ",
@@ -456,6 +459,5 @@
     "TORRENTRC/play-on-cast/btn": "  Jogar em ChromeCast ",
     "TORRENTRC/start/btn": "  Comece Torrent ",
     "TORRENTRC/stop/btn": "  Pare Torrent ",
-    "TORRENTRC/stream-play/btn": "  Córrego com μTorrent jogador ",
-    "WATCHLIST/hdr": "lista"
+    "TORRENTRC/stream-play/btn": "  Córrego com μTorrent jogador "
 }

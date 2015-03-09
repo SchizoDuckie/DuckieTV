@@ -36,16 +36,16 @@
       <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hideSeriesList()"></div>
       <ul class="list-unstyled">
         <li>
-          <a class="glyphicon glyphicon-calendar" ui-sref="calendar" tooltip="{{ 'CALENDAR/hdr'|translate }}" tooltip-placement="right" ng-click="actionbar.hideSeriesList(); actionbar.resetCalendar();"></a>
+          <a class="glyphicon glyphicon-calendar" ui-sref="calendar" tooltip="{{ 'TAB/calendar/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.hideSeriesList(); actionbar.resetCalendar();"></a>
         </li>
         <li>
           <a class="glyphicon glyphicon-heart" ui-sref="favorites" ng-click="actionbar.toggleSeriesList()" tooltip="{{actionbar.getHeartTooltip()}}" tooltip-placement="right"></a>
         </li>
         <li style='display:none' id='wl'>
-          <a class="glyphicon glyphicon-facetime-video" ui-sref="watchlist" tooltip="{{ 'WATCHLIST/hdr'|translate }}" tooltip-placement="right"></a>
+          <a class="glyphicon glyphicon-facetime-video" ui-sref="watchlist" tooltip="{{ 'TAB/watchlist/glyph'|translate }}" tooltip-placement="right"></a>
         </li>
         <li>
-          <a class="glyphicon glyphicon-cog" ui-sref="settings" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
+          <a class="glyphicon glyphicon-cog" ui-sref="settings" tooltip="{{ 'TAB/settings/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
           <a class="glyphicon glyphicon-magnet" ui-sref="torrent" tooltip="&micro;Torrent / Bittorrent client" tooltip-placement="right"></a>
@@ -54,7 +54,7 @@
           <a class="glyphicon glyphicon-chromecast-off" ui-sref="cast" tooltip="ChromeCast" tooltip-placement="right" style='background-size: 80%; margin-left: 15px;'></a>
         </li>
         <li>
-          <a class="glyphicon glyphicon-info-sign" ui-sref="about" tooltip="{{ 'ABOUT/hdr'|translate }}" tooltip-placement="right"></a>
+          <a class="glyphicon glyphicon-info-sign" ui-sref="about" tooltip="{{ 'TAB/about/glyph'|translate }}" tooltip-placement="right"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
           <torrent-dialog tooltip-placement="right"></torrent-dialog>

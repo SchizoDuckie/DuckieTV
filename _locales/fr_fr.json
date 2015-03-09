@@ -147,8 +147,6 @@
     "SERIESLIST/TRAKT-TRENDING/addtrending-help/hdr": "Spectacles orientés sur Trakt.TV ",
     "SERIESLIST/TRAKT-TRENDING/show-more/btn": " Montrer Plus",
     "SERIESLIST/hotkey/lbl": "Hotkey ",
-    "SERIESLIST/series-hide/glyph": "Cacher votre bibliothèque locale",
-    "SERIESLIST/series-show/glyph": "Afficher votre bibliothèque locale",
     "SERIESLISTjs/category/list": "Action,Aventure,Animation,Enfants,Comédie,Crime,Désastre,Documentaire,Drame,Orientale,Famille,Fan-Film,Fantaisie,Film-Noir,Nourriture,Télévisée émission de jeu,Histoire,Vacances,Maison et le Jardin,Horreur,Indie,Mini-Série,Mystère,Musique,Musical,Nouvelles,None,Réalité,Route,Romance,la Science-Fiction,Court,Savon,un Intérêt Particulier,Sport,Suspens,Talk-Show,Thriller,Voyage,TV-Movie,Guerre,Occidental",
     "SERIESLISTjs/serie-delete-confirmed": "Vous avez confirmé «Non» ",
     "SERIESLISTjs/serie-delete-question/p1": "Voulez-vous vraiment supprimer ",
@@ -318,7 +316,6 @@
     "SETTINGS/UTORRENT/streaming-enabled/btn": "Activer streaming ",
     "SETTINGS/UTORRENT/streaming-enabled/desc": "En cliquant sur le bouton ci-dessous permet l'option de streaming tout en téléchargeant des torrents ",
     "SETTINGS/UTORRENT/streaming/hdr": "Torrent streaming ",
-    "SETTINGS/hdr": "Paramètres ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Téléchargement automatique",
     "SIDEPANEL/EPISODE-DETAILS/episodes/lbl": "Episodes",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/lbl": "Trouver un torrent",
@@ -406,6 +403,12 @@
     "SUBTITLEDIALOG/searching-please-wait/lbl": ", S'il vous plaît, attendez. ",
     "SUBTITLEDIALOG/searching/lbl": "recherche ",
     "SUBTITLEDIALOG/title/lbl": "titre ",
+    "TAB/about/glyph": "À propos de DuckieTV ",
+    "TAB/calendar/glyph": "calendrier ",
+    "TAB/library-hide/glyph": "Cacher votre bibliothèque locale",
+    "TAB/library-show/glyph": "Afficher votre bibliothèque locale",
+    "TAB/settings/glyph": "Paramètres ",
+    "TAB/watchlist/glyph": "Suivit",
     "TORRENTCLIENT/clear-authority/btn": "Autorisation claire uTorrent ",
     "TORRENTCLIENT/connecting/hdr": "Connexion à",
     "TORRENTCLIENT/desc/p1": "Vous devez exécuter uTorrent v3.3.x ou ",
@@ -456,6 +459,5 @@
     "TORRENTRC/play-on-cast/btn": "  Jouer sur ChromeCast ",
     "TORRENTRC/start/btn": "  Lancer Torrent ",
     "TORRENTRC/stop/btn": "  Arrêtez Torrent ",
-    "TORRENTRC/stream-play/btn": "  Diffuser avec uTorrent joueur ",
-    "WATCHLIST/hdr": "Suivit"
+    "TORRENTRC/stream-play/btn": "  Diffuser avec uTorrent joueur "
 }

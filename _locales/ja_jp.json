@@ -147,8 +147,6 @@
     "SERIESLIST/TRAKT-TRENDING/addtrending-help/hdr": "Trakt.TV上の傾向を示して ",
     "SERIESLIST/TRAKT-TRENDING/show-more/btn": " 詳細を表示",
     "SERIESLIST/hotkey/lbl": "ホットキー ",
-    "SERIESLIST/series-hide/glyph": "あなたの地元の図書館を隠す",
-    "SERIESLIST/series-show/glyph": "あなたの地元の図書館を見る",
     "SERIESLISTjs/category/list": "アクション,冒険,アニメーション,子どもたち,コメディ,犯罪,災害,ドキュメンタリー,ドラマ,東の,家族,ファンフィルム,ファンタジー,フィルム·ノワール,食品,テレビ放映ゲームショー,歴史,ホリデー,ホーム＆ガーデン,ホラー,インディー,ミニシリーズ,謎,音楽,ミュージカル,ニュース,なし,全くジャンルない,道路,現実のもの,ロマンス,ショート,サイエンスフィクション,せっけん,スペシャル·インタレスト,スポーツ,サスペンス,トークショー,スリラー,ドラマ,戦争,旅行,西部の",
     "SERIESLISTjs/serie-delete-confirmed": "あなたは、「いいえ」が確認され ",
     "SERIESLISTjs/serie-delete-question/p1": "あなたが本当に削除しますか ",
@@ -318,7 +316,6 @@
     "SETTINGS/UTORRENT/streaming-enabled/btn": "ストリーミングを有効にする ",
     "SETTINGS/UTORRENT/streaming-enabled/desc": "トレントのダウンロード中は、以下のボタンをクリックすると、ストリーミングオプションを有効に",
     "SETTINGS/UTORRENT/streaming/hdr": "トレントストリーミング ",
-    "SETTINGS/hdr": "[設定] ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "自動ダウンロード",
     "SIDEPANEL/EPISODE-DETAILS/episodes/lbl": "エピソード",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/lbl": "急流を探す",
@@ -406,6 +403,12 @@
     "SUBTITLEDIALOG/searching-please-wait/lbl": "、お待ちください。 ",
     "SUBTITLEDIALOG/searching/lbl": "検索 ",
     "SUBTITLEDIALOG/title/lbl": "タイトル ",
+    "TAB/about/glyph": "DuckieTVについて ",
+    "TAB/calendar/glyph": "カレンダー ",
+    "TAB/library-hide/glyph": "あなたの地元の図書館を隠す",
+    "TAB/library-show/glyph": "あなたの地元の図書館を見る",
+    "TAB/settings/glyph": "[設定] ",
+    "TAB/watchlist/glyph": "ウォッチリストt",
     "TORRENTCLIENT/clear-authority/btn": "クリアμTorrentの承認 ",
     "TORRENTCLIENT/connecting/hdr": "への接続",
     "TORRENTCLIENT/desc/p1": "あなたは上のμTorrentののv3.3.xを実行する必要があるか ",
@@ -456,6 +459,5 @@
     "TORRENTRC/play-on-cast/btn": " ChromeCastで遊ぶ ",
     "TORRENTRC/start/btn": " トレントを開始 ",
     "TORRENTRC/stop/btn": " トレントを停止 ",
-    "TORRENTRC/stream-play/btn": " μTorrentのプレーヤーでストリーミング ",
-    "WATCHLIST/hdr": "ウォッチリストt"
+    "TORRENTRC/stream-play/btn": " μTorrentのプレーヤーでストリーミング "
 }
