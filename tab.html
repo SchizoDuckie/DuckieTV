@@ -54,7 +54,7 @@
           <a id="actionbar_cast" ng-click="actionbar.showSidePanel(); actionbar.go('cast');" class="glyphicon glyphicon-chromecast-off" tooltip="ChromeCast" tooltip-placement="right" style='background-size: 80%; margin-left: 15px;'></a>
         </li>
         <li>
-          <a id="actionbar_about" ng-click="actionbar.go('about');"  class="glyphicon glyphicon-info-sign" tooltip="{{ 'ABOUT/hdr'|translate }}" tooltip-placement="right"></a>
+          <a id="actionbar_about" ng-click="actionbar.go('about');"  class="glyphicon glyphicon-info-sign" tooltip="{{ 'TAB/about/hdr'|translate }}" tooltip-placement="right"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
           <torrent-dialog tooltip-placement="right"></torrent-dialog>
