@@ -1,8 +1,8 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
   
   <h2 style='margin-top: 13px'>{{'SETTINGS/TORRENT/hdr'|translate}}
-  <span ng-show="getSetting('torrenting.enabled')" tooltip="{{'SETTINGS/TORRENT/enabled/lbl'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
-  <span ng-show="!getSetting('torrenting.enabled')" tooltip="{{'SETTINGS/TORRENT/disabled/lbl'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
+  <span ng-show="getSetting('torrenting.enabled')" tooltip="{{'SETTINGS/TORRENT/enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
+  <span ng-show="!getSetting('torrenting.enabled')" tooltip="{{'SETTINGS/TORRENT/disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
   </h2>
 
   <ul class="list-unstyled">
@@ -16,26 +16,26 @@
   </ul>
   <div ng-show="getSetting('torrenting.enabled')">
   <hr style='padding:10px'>
-    <h2>uTorrent Integration</h2>
+    <h2>&micro;Torrent {{'SETTINGS/TORRENT/integration/hdr'|translate}}</h2>
 
     <p ng-if="isuTorrentAuthenticated()">
-    DuckieTV is currently connected to uTorrent using token <em>{{getToken()}}</em>. <br>
-    You can revoke DuckieTV's access by clicking the button below.
+    <translate>SETTINGS/TORRENT/is-authenticated/desc</translate> <em>{{getToken()}}</em>. <br />
+    {{'SETTINGS/TORRENT/is-authenticated/desc2'|translate}}
     </p>
     <p ng-if="!isuTorrentAuthenticated()">
-      DuckieTV is not currently connected to uTorrent. Click the button below and accept the uTorrent access request that pops up to integrate DuckieTV with uTorrent.
+      <translate>SETTINGS/TORRENT/is-not-authenticated/desc</translate>
     </p>
 
     <a class='btn btn-small btn-warning' ng-if="isuTorrentAuthenticated()" ng-click='removeToken()'><i class="glyphicon glyphicon-ban-circle"></i> <span translate>TORRENTCLIENT/clear-authority/btn</span></a>
 
 
-    <a class='btn btn-small btn-warning' ng-if="!isuTorrentAuthenticated()" ng-click='connect()'><i class="glyphicon glyphicon-refresh"></i> <span >Connect to uTorrent</span></a>
+    <a class='btn btn-small btn-warning' ng-if="!isuTorrentAuthenticated()" ng-click='connect()'><i class="glyphicon glyphicon-refresh"></i> <span ><translate>SETTINGS/TORRENT/connect-to-utorrent/btn</translate></span></a>
     
     <hr style='padding:10px'>
 
     <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/autodownload/hdr'|translate}}
-    <span ng-show="getSetting('torrenting.autodownload')" tooltip="{{'SETTINGS/TORRENT/autodownload-enabled/lbl'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i> </span>
-    <span ng-show="!getSetting('torrenting.autodownload')" tooltip="{{'SETTINGS/TORRENT/autodownload-disabled/lbl'|translate}}"><i class="glyphicon glyphicon-remove  alert-danger" ></i></span>
+    <span ng-show="getSetting('torrenting.autodownload')" tooltip="{{'SETTINGS/TORRENT/autodownload-enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i> </span>
+    <span ng-show="!getSetting('torrenting.autodownload')" tooltip="{{'SETTINGS/TORRENT/autodownload-disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove  alert-danger" ></i></span>
     </h2>
     
     <ul class="list-unstyled">
@@ -50,25 +50,25 @@
 <hr style='padding:10px'>
 
     <div class="autodownload">
-      <h2>Auto-Download period</h2>
-      <p>Automatically try to find a download for shows that aired in the last {{customadPeriod}} days. Increase this value if you don't use DuckieTV every day.</p><br>Default: 1 Day</p>
+      <h2>{{'SETTINGS/TORRENT/autodownload-period/hdr'|translate}}</h2>
+      <p>{{'SETTINGS/TORRENT/autodownload-period/desc'|translate}}<br>{{'SETTINGS/TORRENT/autodownload-period-default/lbl'|translate}}</p>
 
       <form name="p">
-        Days: <input type='number' name="period" ng-model="customadPeriod" min="1" max="21">
-        <a class="btn btn-success" ng-click="setadPeriod(customadPeriod)" ng-disabled="p.period.$error.number" style="float:right; margin-top:-10px;"><i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; Save</a>
+        {{'SETTINGS/TORRENT/autodownload-period/form'|translate}}<input type='number' name="period" ng-model="customadPeriod" min="1" max="21">
+        <a class="btn btn-success" ng-click="setadPeriod(customadPeriod)" ng-disabled="p.period.$error.number" style="float:right; margin-top:-10px;"><i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; {{'SETTINGS/TORRENT/autodownload-save/btn'|translate}}</a>
       </form>
-      <span class="alert alert-danger" ng-show="p.period.$error.number">Can only contain numbers!</span>
+      <span class="alert alert-danger" ng-show="p.period.$error.number">{{'SETTINGS/TORRENT/autodownload-only-numbers/alert'|translate}}</span>
 
 <hr style='padding:10px'>
 
-      <h2>Min. Seeders Required</h2>
-      <p >Changes the amount of seeders required for an episode before it starts to download it.<br>Default: 50</p>
+      <h2>{{'SETTINGS/TORRENT/autodownload-seeders/hdr'|translate}}</h2>
+      <p >{{'SETTINGS/TORRENT/autodownload-seeders/desc'|translate}}<br>{{'SETTINGS/TORRENT/autodownload-seeders-default/lbl'|translate}}</p>
 
       <form name="s">
-      Seeders:<input type='number'name="seeders" ng-model="customadMinSeeders" min="0" max="3000">
-         <a class="btn btn-success" ng-click="setadMinSeeders(customadMinSeeders)" ng-disabled="s.seeders.$error.number"  style="float:right; margin-top:-10px;"><i class="glyphicon glyphicon-floppy-save"></i>&nbsp; Save</a>
+      {{'SETTINGS/TORRENT/autodownload-seeders/form'|translate}}<input type='number'name="seeders" ng-model="customadMinSeeders" min="0" max="3000">
+         <a class="btn btn-success" ng-click="setadMinSeeders(customadMinSeeders)" ng-disabled="s.seeders.$error.number"  style="float:right; margin-top:-10px;"><i class="glyphicon glyphicon-floppy-save"></i>&nbsp; {{'SETTINGS/TORRENT/autodownload-save/btn'|translate}}</a>
       </form>
-      <span class="alert alert-danger" ng-show="s.seeders.$error.number">Can only contain numbers!</span>
+      <span class="alert alert-danger" ng-show="s.seeders.$error.number">{{'SETTINGS/TORRENT/autodownload-only-numbers/alert'|translate}}</span>
     </div>
   </div>
 </div>
