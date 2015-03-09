@@ -1,7 +1,7 @@
 <div ng-controller="SyncCtrl" ng-if="getSetting('sync.supported')">
 	<h1>Storage sync</h1>
 
-  <strong style='white-space:nowrap; display:block;'>{{'SETTINGS/DEFAULT/sync/hdr'|translate}}</strong>
+  <strong style='white-space:nowrap; display:block;'>{{'SETTINGS/DEFAULT/sync/desc'|translate}}</strong>
       <p class="label label-success" ng-show="getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-enabled/lbl'|translate}}</p>
       <p class="label label-danger" ng-show="!getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-disabled/lbl'|translate}}</p>
 
@@ -10,8 +10,8 @@
           <p><strong>{{'SETTINGS/DEFAULT/sync-push/hdr'|translate}}</strong> {{'SETTINGS/DEFAULT/sync-push/desc'|translate}}</p>
         </li><br>
         <li style="padding-top:4px">
-          <p ng-show="!getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-doit/alert'|translate}}</p>
-          <p ng-show="getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-dont/alert'|translate}}</p>
+          <p ng-show="!getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-doit/desc'|translate}}</p>
+          <p ng-show="getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-dont/desc'|translate}}</p>
           <button ng-show="!getSetting('storage.sync')" ng-click="enableSync()" class="btn btn-success">{{'SETTINGS/DEFAULT/sync-doit/btn'|translate}}</button>
           <button ng-show="getSetting('storage.sync')" ng-click="disableSync()" class="btn btn-danger">{{'SETTINGS/DEFAULT/sync-dont/btn'|translate}}</button>
         </li>

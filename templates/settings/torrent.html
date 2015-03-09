@@ -7,8 +7,8 @@
 
   <ul class="list-unstyled">
     <li>
-      <p ng-show="!getSetting('torrenting.enabled')" >{{'SETTINGS/TORRENT/functions-show/alert'|translate}}</p>
-      <p ng-show="getSetting('torrenting.enabled')">{{'SETTINGS/TORRENT/functions-hide/alert'|translate}}</p>
+      <p ng-show="!getSetting('torrenting.enabled')" >{{'SETTINGS/TORRENT/functions-show/desc'|translate}}</p>
+      <p ng-show="getSetting('torrenting.enabled')">{{'SETTINGS/TORRENT/functions-hide/desc'|translate}}</p>
       <a ng-show="!getSetting('torrenting.enabled')" ng-click="enableSetting('torrenting.enabled')" class="btn btn-success"><i class="glyphicon glyphicon-ok-sign"></i> {{'SETTINGS/TORRENT/functions-show/btn'|translate}}</a>
       <a ng-show="getSetting('torrenting.enabled')" ng-click="disableSetting('torrenting.enabled')" class="btn btn-danger">
       <i class="glyphicon glyphicon-remove-sign"></i>{{'SETTINGS/TORRENT/functions-hide/btn'|translate}}</a>
@@ -40,8 +40,8 @@
     
     <ul class="list-unstyled">
       <li>
-        <p ng-show="!getSetting('torrenting.autodownload')" >{{'SETTINGS/TORRENT/autodownload-enable/alert'|translate}}</p>
-        <p ng-show="getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-disable/alert'|translate}}</p>
+        <p ng-show="!getSetting('torrenting.autodownload')" >{{'SETTINGS/TORRENT/autodownload-enable/desc'|translate}}</p>
+        <p ng-show="getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-disable/desc'|translate}}</p>
         <a ng-show="!getSetting('torrenting.autodownload')" ng-click="enableAutoDownload()" class="btn btn-success"><i class="glyphicon glyphicon-cloud-download"></i>&nbsp;{{'SETTINGS/TORRENT/autodownload-enable/btn'|translate}}</a>
         <a ng-show="getSetting('torrenting.autodownload')" ng-click="disableAutoDownload()" class="btn btn-danger"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;{{'SETTINGS/TORRENT/autodownload-disable/btn'|translate}}</a>
       </li>

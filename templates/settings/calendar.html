@@ -1,25 +1,25 @@
 <div ng-controller="CalendarCtrl" class="buttons">
-  <h1 style='margin-top: 13px'>{{'CALENDAR/hdr'|translate}}</h1>
+  <h1 style='margin-top: 13px'>{{'SETTINGS/CALENDAR/hdr'|translate}}</h1>
 
-  <h2>Week Start Day
+  <h2>{{'SETTINGS/CALENDAR/week/hdr'|translate}}
 
-  <span ng-show="getSetting('calendar.startSunday')" tooltip="{{'SETTINGS/CALENDAR/start-sun/lbl'|translate}}"><i class="glyphicon glyphicon-indent-left alert-info" ></i></span>
-  <span ng-show="!getSetting('calendar.startSunday')" tooltip="{{'SETTINGS/CALENDAR/start-mon/lbl'|translate}}"><i class="glyphicon glyphicon-indent-right alert-success" ></i></span>
+  <span ng-show="getSetting('calendar.startSunday')" tooltip="{{'SETTINGS/CALENDAR/start-sun/tooltip'|translate}}"><i class="glyphicon glyphicon-indent-left alert-info" ></i></span>
+  <span ng-show="!getSetting('calendar.startSunday')" tooltip="{{'SETTINGS/CALENDAR/start-mon/tooltip'|translate}}"><i class="glyphicon glyphicon-indent-right alert-success" ></i></span>
 
   </h2>
 
-  <p>{{'SETTINGS/CALENDAR/start/alert'|translate}}</p>
+  <p>{{'SETTINGS/CALENDAR/start/desc'|translate}}</p>
   <a ng-show="!getSetting('calendar.startSunday')" ng-click="enableSetting('calendar.startSunday')" class="btn btn-info">
   <i class="glyphicon glyphicon-indent-left" ></i> {{'SETTINGS/CALENDAR/start-sun/btn'|translate}}</a>
   <a ng-show="getSetting('calendar.startSunday')" ng-click="disableSetting('calendar.startSunday')" class="btn btn-success">
   <i class="glyphicon glyphicon-indent-right" ></i>{{'SETTINGS/CALENDAR/start-mon/btn'|translate}}</a>
   
   <hr style="padding:10px">
-  <h2>Calendar display mode
-    <span ng-show="getSetting('calendar.mode') == 'week'" tooltip="{{'SETTINGS/CALENDAR/mode-week/lbl'|translate}}"><i class="glyphicon glyphicon-th-list alert-info"></i></span>
-    <span ng-show="getSetting('calendar.mode') == 'date'" tooltip="{{'SETTINGS/CALENDAR/mode-month/lbl'|translate}}"><i  class="glyphicon glyphicon-calendar alert-success"></i></span>
+  <h2>{{'SETTINGS/CALENDAR/mode/hdr'|translate}}
+    <span ng-show="getSetting('calendar.mode') == 'week'" tooltip="{{'SETTINGS/CALENDAR/mode-week/tooltip'|translate}}"><i class="glyphicon glyphicon-th-list alert-info"></i></span>
+    <span ng-show="getSetting('calendar.mode') == 'date'" tooltip="{{'SETTINGS/CALENDAR/mode-month/tooltip'|translate}}"><i  class="glyphicon glyphicon-calendar alert-success"></i></span>
   </h2>
-  <p>{{'SETTINGS/CALENDAR/mode/alert'|translate}}</p>
+  <p>{{'SETTINGS/CALENDAR/mode/desc'|translate}}</p>
   <a ng-show="getSetting('calendar.mode') == 'date'" ng-click="setSetting('calendar.mode', 'week')" class="btn btn-info">
     <i class="glyphicon glyphicon-th-list"></i>
     {{'SETTINGS/CALENDAR/mode-week/btn'|translate}}
@@ -31,11 +31,11 @@
 
   <hr style="padding:10px">
   <h2>{{'SETTINGS/CALENDAR/specials/hdr'|translate}}
-  <span ng-show="showSpecials" tooltip="{{'SETTINGS/CALENDAR/specials-show/lbl'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
-  <span ng-show="!showSpecials" tooltip="{{'SETTINGS/CALENDAR/specials-hide/lbl'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
+  <span ng-show="showSpecials" tooltip="{{'SETTINGS/CALENDAR/specials-show/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
+  <span ng-show="!showSpecials" tooltip="{{'SETTINGS/CALENDAR/specials-hide/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
   </h2>
   
-  <p>{{'SETTINGS/CALENDAR/specials/alert'|translate}}</p>
+  <p>{{'SETTINGS/CALENDAR/specials/desc'|translate}}</p>
   <a ng-hide="showSpecials" ng-click="toggleSpecials()" class="btn btn-success">
   <i class="glyphicon glyphicon-ok" ></i>{{'SETTINGS/CALENDAR/specials-show/btn'|translate}}</a>
   <a ng-show="showSpecials" ng-click="toggleSpecials()" class="btn btn-danger">

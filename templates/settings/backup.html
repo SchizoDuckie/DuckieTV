@@ -1,7 +1,7 @@
 <div ng-controller="BackupCtrl" class="buttons">
-  <h2 style="margin-top: 13px">{{'SETTINGS/BACKUP/backup/desc'|translate}}</h2>
-  <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()"><i class="glyphicon glyphicon-floppy-save"></i>  {{'SETTINGS/BACKUP/backup-create/btn'|translate}}</a>
-  <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}"><i class="glyphicon glyphicon-floppy-saved"></i> {{'SETTINGS/BACKUP/backup-download/btn'|translate}}</a>
+  <h2 style="margin-top: 13px">{{'SETTINGS/BACKUP/desc'|translate}}</h2>
+  <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()"><i class="glyphicon glyphicon-floppy-save"></i>  {{'SETTINGS/BACKUP/create/btn'|translate}}</a>
+  <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}"><i class="glyphicon glyphicon-floppy-saved"></i> {{'SETTINGS/BACKUP/download/btn'|translate}}</a>
 
   <hr style="padding:10px">
   <h2>{{'SETTINGS/BACKUP/import/hdr'|translate}}</h2>
@@ -18,7 +18,7 @@
     </serieHeader>
   </div>
   <hr style="padding:10px">
-  <h2>Wipe database and settings</h2>
-  <p>Remove all series and episodes from the DuckieTV database. Clear all settings and start completely fresh.</p>
-  <a class="btn btn-danger" ng-click="wipe()"><i class="glyphicon glyphicon-trash"></i>Wipe now</a>
+  <h2>{{'SETTINGS/BACKUP/wipe/hdr'|translate}}</h2>
+  <p>{{'SETTINGS/BACKUP/wipe/desc'|translate}}</p>
+  <a class="btn btn-danger" ng-click="wipe()"><i class="glyphicon glyphicon-trash"></i>{{'SETTINGS/BACKUP/wipe/btn'|translate}}</a>
 </div>

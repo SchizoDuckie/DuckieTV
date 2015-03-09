@@ -1,7 +1,7 @@
 <div ng-controller="SettingsTorrentCtrl">
 
   <h2 style="margin-top: 13px">{{'SETTINGS/TORRENT-SEARCH/default-provider/hdr'|translate}}</h2>
-  <p style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT-SEARCH/default-provider/alert'|translate}}</p>
+  <p style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT-SEARCH/default-provider/desc'|translate}}</p>
 
   <ul class="list-unstyled">
     <li ng-repeat="provider in searchProviders" ng-click="setSearchProvider(provider)" style='cursor:pointer'>
@@ -84,8 +84,8 @@
 
   <ul class="list-unstyled">
     <li>
-      <p ng-show="!getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disabled/alert'|translate}}</p>
-      <p ng-show="getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enabled/alert'|translate}}</p>
+      <p ng-show="!getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disabled/desc'|translate}}</p>
+      <p ng-show="getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enabled/desc'|translate}}</p>
       <button ng-show="!getSetting('proxy.allowUnsafe')" ng-click="enableSetting('proxy.allowUnsafe')" class="btn btn-success">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enable/btn'|translate}}</button>
       <button ng-show="getSetting('proxy.allowUnsafe')" ng-click="disableSetting('proxy.allowUnsafe')" class="btn btn-danger">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disable/btn'|translate}}</button>
     </li>

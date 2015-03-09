@@ -42,11 +42,11 @@
         <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
         <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
      </serieheader>
-      <small style="display:block">Watched episodes: {{ countWatchedEpisodes(serie) }} </small>
+      <small style="display:block">{{'SETTINGS/TRAKT-IMPORT/watched-episodes/lbl'|translate}} {{ countWatchedEpisodes(serie) }} </small>
   </div>
 
   <div ng-if="!traktTVSuggestions && credentials.passwordHash">
-      <div>{{'SETTINGS/TRAKT-IMPORT/suggestions/alert'|translate}}</p></div>
+      <div>{{'SETTINGS/TRAKT-IMPORT/suggestions/lbl'|translate}}</p></div>
       <button ng-click="getUserSuggestions()" class="btn btn-success">{{'SETTINGS/TRAKT-IMPORT/suggestions-fetch/btn'|translate}}</button>
   </div>
   <br>
@@ -59,7 +59,7 @@
       <img src='img/spinner.gif' >
   </div>
   <div class="miniposter" ng-if="traktTVSuggestions">
-    <h1>{{'SETTINGS/TRAKT-IMPORT/suggestions-fetched/lbl'|translate}}</h1>
+    <h1>{{'SETTINGS/TRAKT-IMPORT/suggestions-fetched/hdr'|translate}}</h1>
     <p>{{'SETTINGS/TRAKT-IMPORT/click-add-show/lbl'|translate}}</p>
      <serieheader style='display:inline-block;margin:5px;cursor:pointer' ng-repeat="serie in traktTVSuggestions" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
         <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
