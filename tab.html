@@ -33,7 +33,7 @@
 
   <div ng-controller="ActionBarCtrl as actionbar">
     <div id="actionbar">
-      <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hideSeriesList()"></div>
+      <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.resetCalendar(); actionbar.hideSeriesList()"></div>
       <ul class="list-unstyled">
         <li>
           <a id="actionbar_calendar" class="glyphicon glyphicon-calendar" tooltip="{{ 'SETTINGS/CALENDAR/hdr'|translate }}" tooltip-placement="right" ng-click="actionbar.hidePanels(); actionbar.resetCalendar(); actionbar.go('calendar');" style="padding-left:20px"></a>
@@ -48,10 +48,10 @@
           <a id="actionbar_settings" ng-click="actionbar.showSidePanel(); actionbar.go('settings');" class="glyphicon glyphicon-cog" tooltip="{{ 'SETTINGS/hdr'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
-          <a id="actionbar_torrent" ng-click="actionbar.go('torrent');"  class="glyphicon glyphicon-magnet" tooltip="&micro;Torrent / Bittorrent client" tooltip-placement="right"></a>
+          <a id="actionbar_torrent" ng-click="actionbar.showSidePanel(); actionbar.go('torrent');"  class="glyphicon glyphicon-magnet" tooltip="&micro;Torrent / Bittorrent client" tooltip-placement="right"></a>
         </li>
         <li ng-if="getSetting('cast.supported')">
-          <a id="actionbar_cast" ng-click="actionbar.go('cast');" class="glyphicon glyphicon-chromecast-off" tooltip="ChromeCast" tooltip-placement="right" style='background-size: 80%; margin-left: 15px;'></a>
+          <a id="actionbar_cast" ng-click="actionbar.showSidePanel(); actionbar.go('cast');" class="glyphicon glyphicon-chromecast-off" tooltip="ChromeCast" tooltip-placement="right" style='background-size: 80%; margin-left: 15px;'></a>
         </li>
         <li>
           <a id="actionbar_about" ng-click="actionbar.go('about');"  class="glyphicon glyphicon-info-sign" tooltip="{{ 'ABOUT/hdr'|translate }}" tooltip-placement="right"></a>
