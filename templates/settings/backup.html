@@ -1,13 +1,13 @@
 <div ng-controller="BackupCtrl" class="buttons">
   <h2 style="margin-top: 13px">{{'SETTINGS/BACKUP/backup/desc'|translate}}</h2>
-  <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()"><i class="glyphicon glyphicon-download"></i>  {{'SETTINGS/BACKUP/backup-create/btn'|translate}}</a>
-  <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}"><i class="glyphicon glyphicon-download"></i> {{'SETTINGS/BACKUP/backup-download/btn'|translate}}</a>
+  <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()"><i class="glyphicon glyphicon-floppy-save"></i>  {{'SETTINGS/BACKUP/backup-create/btn'|translate}}</a>
+  <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}"><i class="glyphicon glyphicon-floppy-saved"></i> {{'SETTINGS/BACKUP/backup-download/btn'|translate}}</a>
 
   <hr style="padding:10px">
   <h2>{{'SETTINGS/BACKUP/import/hdr'|translate}}</h2>
   <input type="checkbox" ng-model="wipeBeforeImport" id="wipebeforeImport"> <label for="wipebeforeImport">{{'SETTINGS/BACKUP/wipe-before-import/lbl'|translate}}</label>
   <div style="position:relative">
-    <a ng-show="!restoring" class="btn btn-success" ng-class="{binputhover:inputhover}">{{'SETTINGS/BACKUP/choose-backup-load/btn'|translate}}</a>
+    <a ng-show="!restoring" class="btn btn-success" ng-class="{binputhover:inputhover}"><i class="glyphicon glyphicon-floppy-open"></i>{{'SETTINGS/BACKUP/choose-backup-load/btn'|translate}}</a>
     <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute; opacity:0; width:250px; top:0; padding:0; height:100%; cursor: pointer;" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false" />
   </div>
   <div style="padding:5px;text-align:center" class="miniposter x2">
