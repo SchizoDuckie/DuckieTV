@@ -1,51 +1,51 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
 
   <h2 style='margin-top: 13px'>{{'SETTINGS/UTORRENT/streaming/hdr'|translate}}
-  <span ng-show="getSetting('torrenting.streaming')" tooltip="{{'SETTINGS/UTORRENT/enabled/lbl'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
-  <span ng-show="!getSetting('torrenting.streaming')" tooltip="{{'SETTINGS/UTORRENT/disabled/lbl'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
+  <span ng-show="getSetting('torrenting.streaming')" tooltip="{{'SETTINGS/UTORRENT/enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
+  <span ng-show="!getSetting('torrenting.streaming')" tooltip="{{'SETTINGS/UTORRENT/disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
   </h2>
 
-    <p ng-show="!getSetting('torrenting.streaming')">{{'SETTINGS/UTORRENT/streaming-enabled/alert'|translate}}</p>
-    <p ng-show="getSetting('torrenting.streaming')">{{'SETTINGS/UTORRENT/streaming-disabled/alert'|translate}}</p>
-    <a ng-show="!getSetting('torrenting.streaming')" ng-click="enableSetting('torrenting.streaming')" class="btn btn-success"><i class="glyphicon glyphicon-film"></i>{{'SETTINGS/UTORRENT/streaming-enabled/btn'|translate}}</a>
-    <a ng-show="getSetting('torrenting.streaming')" ng-click="disableSetting('torrenting.streaming')" class="btn btn-danger"><i class="glyphicon glyphicon-ban-circle"></i>{{'SETTINGS/UTORRENT/streaming-disabled/btn'|translate}}</a>
+    <p ng-show="!getSetting('torrenting.streaming')">{{'SETTINGS/UTORRENT/streaming-enabled/desc'|translate}}</p>
+    <p ng-show="getSetting('torrenting.streaming')">{{'SETTINGS/UTORRENT/streaming-disabled/desc'|translate}}</p>
+    <a ng-show="!getSetting('torrenting.streaming')" ng-click="enableSetting('torrenting.streaming')" class="btn btn-success">{{'SETTINGS/UTORRENT/streaming-enabled/btn'|translate}}</a>
+    <a ng-show="getSetting('torrenting.streaming')" ng-click="disableSetting('torrenting.streaming')" class="btn btn-danger">{{'SETTINGS/UTORRENT/streaming-disabled/btn'|translate}}</a>
    
   <hr style="padding:10px">
 
   <h2>{{'SETTINGS/UTORRENT/directory/hdr'|translate}}
-  <span ng-show="getSetting('torrenting.directory')" tooltip="{{'SETTINGS/UTORRENT/enabled/lbl'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
-  <span ng-show="!getSetting('torrenting.directory')" tooltip="{{'SETTINGS/UTORRENT/disabled/lbl'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
+  <span ng-show="getSetting('torrenting.directory')" tooltip="{{'SETTINGS/UTORRENT/enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
+  <span ng-show="!getSetting('torrenting.directory')" tooltip="{{'SETTINGS/UTORRENT/disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
   </h2>
  
-    <p ng-show="!getSetting('torrenting.directory')">{{'SETTINGS/UTORRENT/directory-folder-show/alert'|translate}}</p>
-    <p ng-show="getSetting('torrenting.directory')">{{'SETTINGS/UTORRENT/directory-folder-hide/alert'|translate}}</p>
-    <a ng-show="!getSetting('torrenting.directory')" ng-click="enableSetting('torrenting.directory')" class="btn btn-success"><i class="glyphicon glyphicon-folder-open"></i>{{'SETTINGS/UTORRENT/directory-folder-show/btn'|translate}}</a>
-    <a ng-show="getSetting('torrenting.directory')" ng-click="disableSetting('torrenting.directory')" class="btn btn-danger"><i class="glyphicon glyphicon-ban-circle"></i>{{'SETTINGS/UTORRENT/directory-folder-hide/btn'|translate}}</a>
+    <p ng-show="!getSetting('torrenting.directory')">{{'SETTINGS/UTORRENT/directory-folder-show/desc'|translate}}</p>
+    <p ng-show="getSetting('torrenting.directory')">{{'SETTINGS/UTORRENT/directory-folder-hide/desc'|translate}}</p>
+    <a ng-show="!getSetting('torrenting.directory')" ng-click="enableSetting('torrenting.directory')" class="btn btn-success">{{'SETTINGS/UTORRENT/directory-folder-show/btn'|translate}}</a>
+    <a ng-show="getSetting('torrenting.directory')" ng-click="disableSetting('torrenting.directory')" class="btn btn-danger">{{'SETTINGS/UTORRENT/directory-folder-hide/btn'|translate}}</a>
   
 
 <hr style="padding:10px">
   
   <h2>{{'SETTINGS/UTORRENT/progressbar/hdr'|translate}}
-    <span ng-show="getSetting('torrenting.progress')" tooltip="{{'SETTINGS/UTORRENT/enabled/lbl'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
-  <span ng-show="!getSetting('torrenting.progress')" tooltip="{{'SETTINGS/UTORRENT/disabled/lbl'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
+    <span ng-show="getSetting('torrenting.progress')" tooltip="{{'SETTINGS/UTORRENT/enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
+  <span ng-show="!getSetting('torrenting.progress')" tooltip="{{'SETTINGS/UTORRENT/disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
   </h2>
   
-    <p ng-show="!getSetting('torrenting.progress')">{{'SETTINGS/UTORRENT/progressbar-show/alert'|translate}}</p>
-    <p ng-show="getSetting('torrenting.progress')">{{'SETTINGS/UTORRENT/progressbar-hide/alert'|translate}}</p>
-    <a ng-show="!getSetting('torrenting.progress')" ng-click="enableSetting('torrenting.progress')" class="btn btn-success"><i class="glyphicon glyphicon-minus"></i>{{'SETTINGS/UTORRENT/progressbar-show/btn'|translate}}</a>
-    <a ng-show="getSetting('torrenting.progress')" ng-click="disableSetting('torrenting.progress')" class="btn btn-danger"><i class="glyphicon glyphicon-ban-circle"></i>{{'SETTINGS/UTORRENT/progressbar-hide/btn'|translate}}</a>
+    <p ng-show="!getSetting('torrenting.progress')">{{'SETTINGS/UTORRENT/progressbar-show/desc'|translate}}</p>
+    <p ng-show="getSetting('torrenting.progress')">{{'SETTINGS/UTORRENT/progressbar-hide/desc'|translate}}</p>
+    <a ng-show="!getSetting('torrenting.progress')" ng-click="enableSetting('torrenting.progress')" class="btn btn-success">{{'SETTINGS/UTORRENT/progressbar-show/btn'|translate}}</a>
+    <a ng-show="getSetting('torrenting.progress')" ng-click="disableSetting('torrenting.progress')" class="btn btn-danger">{{'SETTINGS/UTORRENT/progressbar-hide/btn'|translate}}</a>
    
   <hr style="padding:10px">
   
 
   <h2>{{'SETTINGS/UTORRENT/autostop/hdr'|translate}} 
-  <span ng-show="getSetting('torrenting.autostop')" tooltip="{{'SETTINGS/UTORRENT/enabled/lbl'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
-  <span ng-show="!getSetting('torrenting.autostop')" tooltip="{{'SETTINGS/UTORRENT/disabled/lbl'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
+  <span ng-show="getSetting('torrenting.autostop')" tooltip="{{'SETTINGS/UTORRENT/enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
+  <span ng-show="!getSetting('torrenting.autostop')" tooltip="{{'SETTINGS/UTORRENT/disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
   </h2>
-    <p ng-show="!getSetting('torrenting.autostop')">{{'SETTINGS/UTORRENT/autostop-enabled/alert'|translate}}</p>
-    <p ng-show="getSetting('torrenting.autostop')">{{'SETTINGS/UTORRENT/autostop-disabled/alert'|translate}}</p>
-    <a ng-show="!getSetting('torrenting.autostop')" ng-click="enableSetting('torrenting.autostop')" class="btn btn-success"><i class="glyphicon glyphicon-stop"></i>{{'SETTINGS/UTORRENT/autostop-enabled/btn'|translate}}</a>
-    <a ng-show="getSetting('torrenting.autostop')" ng-click="disableSetting('torrenting.autostop')" class="btn btn-danger"><i class="glyphicon glyphicon-ban-circle"></i>{{'SETTINGS/UTORRENT/autostop-disabled/btn'|translate}}</a>
+    <p ng-show="!getSetting('torrenting.autostop')">{{'SETTINGS/UTORRENT/autostop-enabled/desc'|translate}}</p>
+    <p ng-show="getSetting('torrenting.autostop')">{{'SETTINGS/UTORRENT/autostop-disabled/desc'|translate}}</p>
+    <a ng-show="!getSetting('torrenting.autostop')" ng-click="enableSetting('torrenting.autostop')" class="btn btn-success">{{'SETTINGS/UTORRENT/autostop-enabled/btn'|translate}}</a>
+    <a ng-show="getSetting('torrenting.autostop')" ng-click="disableSetting('torrenting.autostop')" class="btn btn-danger">{{'SETTINGS/UTORRENT/autostop-disabled/btn'|translate}}</a>
     
 
 </div>
