@@ -10,8 +10,8 @@
    
 <p ng-show="!getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/topsites-show/desc'|translate}}</p>
 <p ng-show="getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/topsites-hide/desc'|translate}}</p>
-<a ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success">{{'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</a>
-<a ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger">{{'SETTINGS/DISPLAY/topsites-hide/btn'|translate}}</a>
+<a ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success"><i class="glyphicon glyphicon-th"></i>{{'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</a>
+<a ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger"><i class="glyphicon glyphicon-ban-circle"></i>{{'SETTINGS/DISPLAY/topsites-hide/btn'|translate}}</a>
  
  <div ng-show="getSetting('topSites.enabled')">
  <hr style="padding:10px">
