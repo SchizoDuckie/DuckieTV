@@ -162,6 +162,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         }
 
         $scope.connect = function() {
+            localStorage.removeItem('utorrent.preventconnecting');
             uTorrent.AutoConnect();
         }
 

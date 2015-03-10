@@ -15,22 +15,7 @@
     </li>
   </ul>
   <div ng-show="getSetting('torrenting.enabled')">
-  <hr style='padding:10px'>
-    <h2>&micro;Torrent {{'SETTINGS/TORRENT/integration/hdr'|translate}}</h2>
-
-    <p ng-if="isuTorrentAuthenticated()">
-    <translate>SETTINGS/TORRENT/is-authenticated/desc</translate> <em>{{getToken()}}</em>. <br />
-    {{'SETTINGS/TORRENT/is-authenticated/desc2'|translate}}
-    </p>
-    <p ng-if="!isuTorrentAuthenticated()">
-      <translate>SETTINGS/TORRENT/is-not-authenticated/desc</translate>
-    </p>
-
-    <a class='btn btn-small btn-warning' ng-if="isuTorrentAuthenticated()" ng-click='removeToken()'><i class="glyphicon glyphicon-ban-circle"></i> <span translate>TORRENTCLIENT/clear-authority/btn</span></a>
-
-
-    <a class='btn btn-small btn-warning' ng-if="!isuTorrentAuthenticated()" ng-click='connect()'><i class="glyphicon glyphicon-refresh"></i> <span ><translate>SETTINGS/TORRENT/connect-to-utorrent/btn</translate></span></a>
-    
+      
     <hr style='padding:10px'>
 
     <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/autodownload/hdr'|translate}}
