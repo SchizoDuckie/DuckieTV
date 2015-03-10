@@ -396,7 +396,7 @@ series-list > div {
     left: 0px;
     right: 0px;
     background-color: rgb(20, 22, 24);
-    z-index: 200;
+    z-index: 1000;
     width: 100%;
     -webkit-transition: all 0.2s ease-in;
     -webkit-transform: translate3d(-100%, 0, 0);
@@ -522,7 +522,7 @@ chrome-top-sites {
     left: 58px;
     width: calc(100% - 116px);
     padding:15px;
-    z-index:99;
+    z-index:9999;
     background-color: rgba(20, 22, 24, 0.925);
     border-bottom: 1px solid white;
     -webkit-transition: -webkit-transform 0.5s ease-in;
