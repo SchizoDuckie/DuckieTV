@@ -26,7 +26,10 @@
    
       <div ng-if="credentials.success">
            <hr style='padding:10px'>
-         <h2>{{'SETTINGS/TRAKT-IMPORT/watched-sync/hdr'|translate}}</h2>
+         <h2>{{'SETTINGS/TRAKT-IMPORT/watched-sync/hdr'|translate}}
+              <span ng-show="credentials.success && getSetting('trakttv.sync')" tooltip="{{'SETTINGS/TRAKTTV/sync-enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
+              <span ng-show="credentials.success && !getSetting('trakttv.sync')" tooltip="{{'SETTINGS/TRAKTTV/sync-disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
+         </h2>
 
          <p>{{'SETTINGS/TRAKT-IMPORT/watched-sync/desc'|translate}}</p>
 
