@@ -37,14 +37,21 @@
           </a>
       </td>
     </tr>
-     <tr ui-sref=".tab({tab: 'utorrent'})">
+     <tr ui-sref=".tab({tab: 'utorrent'})" ng-if="getSetting('torrenting.enabled')">
       <td colspan="2">
           <a href="#/settings/utorrent">
               <img src="img/icon-utorrent.png" style="width: 35px; height: 35px; margin-left: -5px; margin-top:-5px; float:left;"> <strong>&micro;Torrent {{ 'SIDEPANEL/SETTINGS/integration/hdr'|translate }}</strong>
           </a>
       </td>
     </tr>
-    <tr ui-sref=".tab({tab: 'torrent-search'})">
+      <tr ui-sref=".tab({tab: 'qbittorrent'})" ng-if="getSetting('torrenting.enabled')">
+      <td colspan="2">
+          <a href="#/settings/qbittorrent">
+              <img src="img/icon-utorrent.png" style="width: 35px; height: 35px; margin-left: -5px; margin-top:-5px; float:left;"> <strong>qBittorrent integration</strong>
+          </a>
+      </td>
+    </tr>
+    <tr ui-sref=".tab({tab: 'torrent-search'})" ng-if="getSetting('torrenting.enabled')">
       <td colspan="2">
           <a href="#/settings/torrent-search">
               <i class="glyphicon glyphicon-search"></i><strong>{{ 'SIDEPANEL/SETTINGS/search-engines/hdr'|translate }}</strong>
