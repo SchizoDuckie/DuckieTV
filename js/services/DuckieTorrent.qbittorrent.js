@@ -99,6 +99,7 @@ DuckieTV
                 return json('torrents', {}).then(function(data) {
                         data.map(function(el) {
                             console.log("Handle remote", el);
+                            qBittorrentRemote.handleEvent(el);
                         });
                         return data;
                     },
@@ -180,6 +181,7 @@ DuckieTV
 
 
         var methods = {
+
             /**
              * Return a human-readable status for a torrent
              */
@@ -232,15 +234,9 @@ DuckieTV
         var service = {
             torrents: {},
             settings: {},
-            eventHandlers: {},
-
-            getNameFunc: null,
 
             getTorrentName: function(torrent) {
-                if (!service.getNameFunc) {
-                    service.getNameFunc = $parse('properties.all.name');
-                }
-                return (service.getNameFunc(torrent));
+                return torrent.name;
             },
 
             getTorrents: function() {
@@ -250,44 +246,24 @@ DuckieTV
                 });
                 return out;
             },
+
             getByHash: function(hash) {
                 return (hash in service.torrents) ? service.torrents[hash] : null;
             },
 
 
-            onTorrentUpdate: function(hash, handler) {
-                if (hash === null) {
-                    hash = 'all';
-                }
-                if (!(hash in service.eventHandlers)) {
-                    service.eventHandlers[hash] = [];
-                }
-                service.eventHandlers[hash].push(handler);
-
-            },
-            offTorrentUpdate: function(hash, handler) {
-                if (hash === null) {
-                    hash = 'all';
-                }
-                if (!(hash in service.eventHandlers)) {
-                    return;
-                }
-                if (service.eventHandlers[hash].indexOf(handler)) {
-                    service.eventHandlers[hash].splice(service.eventHandlers[hash].indexOf(handler), 1);
-                }
-            },
-
-            handleEvent: function(type, category, data, RPCProxy, input) {
-                var func = type + String.capitalize(category);
-                if (!(func in hookMethods)) {
-                    console.error("Method not implemented: ", func, data);
+            handleEvent: function(data) {
+                var key = data.hash;
+                if (key in service.torrents) {
+                    Object.deepMerge(service.torrents[key], data[key]);
                 } else {
-                    hookMethods[func](data, RPCProxy, type, category, input);
+                    service.torrents[key] = data;
                 }
+                $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
             }
         };
 
-        window.bt = service;
+        window.qbt = service;
         return service;
     }
 ])
