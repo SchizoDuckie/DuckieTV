@@ -8,17 +8,17 @@
 
       <!-- login form -->
       <form name="userCredentials">
-          Username: 
+          {{'SETTINGS/TRAKT-IMPORT/username/hdr'|translate}} 
                 <input type='text' style='background-color: rgba(0,0,0,0.8);' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'SETTINGS/TRAKT-IMPORT/username/placeholder'|translate}}" ng-disabled="credentials.success" />
-          Password:
+          {{'SETTINGS/TRAKT-IMPORT/password/hdr'|translate}}
                 <input type='password' style='background-color: rgba(0,0,0,0.8);' name='password' ng-model='credentials.password' placeholder="Trakt.TV {{'SETTINGS/TRAKT-IMPORT/password/placeholder'|translate}}" ng-disabled="credentials.success" />
 
                 <p class="alert alert-success" style='background-color:transparent'  role="alert" ng-show="credentials.success" style="white-space:normal"><strong>TraktTV {{'SETTINGS/TRAKT-IMPORT/authorized/alert'|translate}}</strong> Token: {{credentials.success}}</p>
      <p class="alert alert-danger" style='background-color:transparent' role="alert" ng-show="credentials.error != false" style="white-space:normal">{{ credentials.error }}</p>
 
              
-                <a ng-click="authorize(credentials.username, credentials.password)" class="btn btn-success" ng-disabled="credentials.success" ng-show="!credentials.success">{{'SETTINGS/TRAKT-IMPORT/login-to/btn'|translate}}Trakt.TV</a>
-                <a ng-click="clearCredentials()" ng-if="credentials.success" class="btn btn-danger" >{{'SETTINGS/TRAKT-IMPORT/clear-credentials/btn'|translate}}</a>
+                <a ng-click="authorize(credentials.username, credentials.password)" class="btn btn-success" ng-disabled="credentials.success" ng-show="!credentials.success"><i class="glyphicon glyphicon-log-in"></i>{{'SETTINGS/TRAKT-IMPORT/login-to/btn'|translate}}Trakt.TV</a>
+                <a ng-click="clearCredentials()" ng-if="credentials.success" class="btn btn-danger" ><i class="glyphicon glyphicon-trash"></i>{{'SETTINGS/TRAKT-IMPORT/clear-credentials/btn'|translate}}</a>
          
       </form>
     </div>
@@ -27,29 +27,29 @@
    
       <div ng-if="credentials.success">
            <hr style='padding:10px'>
-         <h1>Trakt.TV Watched Sync</h1>
+         <h1>{{'SETTINGS/TRAKT-IMPORT/watched-sync/hdr'|translate}}</h1>
 
-         <p>DuckieTV can automatically push your watched episodes to Trakt.TV now that you are authenticated. Toggle the integration below</p>
+         <p>{{'SETTINGS/TRAKT-IMPORT/watched-sync/desc'|translate}}</p>
 
          
-<a class="btn btn-success" ng-if="credentials.success && !getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',true)">{{'SETTINGS/TRAKT-IMPORT/sync-enabled/btn'|translate}}</a>
+<a class="btn btn-success" ng-if="credentials.success && !getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',true)"><i class="glyphicon glyphicon-export"></i>{{'SETTINGS/TRAKT-IMPORT/sync-enabled/btn'|translate}}</a>
 
     
- <a class="btn btn-danger" ng-if="credentials.success && getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',false)">{{'SETTINGS/TRAKT-IMPORT/sync-disabled/btn'|translate}}</a>
+ <a class="btn btn-danger" ng-if="credentials.success && getSetting('trakttv.sync')" ng-click="setSetting('trakttv.sync',false)"><i class="glyphicon glyphicon-remove-circle"></i>{{'SETTINGS/TRAKT-IMPORT/sync-disabled/btn'|translate}}</a>
       </div>
 
 
     
     <hr style='padding:10px'>
-    <h1>Trakt.TV Import</h1>
+    <h1>{{'SETTINGS/TRAKT-IMPORT/hdr'|translate}}</h1>
 
-    <p>You can import all shows and watched episodes from your Trakt.TV acount into DuckieTV using the button below</p>
+    <p>{{'SETTINGS/TRAKT-IMPORT/desc'|translate}}</p>
     
     
-    <a ng-click="readTraktTV()" class="btn btn-success">{{'SETTINGS/TRAKT-IMPORT/sync-import/btn'|translate}}</a>  
+    <a ng-click="readTraktTV()" class="btn btn-success"><i class="glyphicon glyphicon-import"></i>{{'SETTINGS/TRAKT-IMPORT/sync-import/btn'|translate}}</a>  
     <div ng-if="!traktTVSuggestions && credentials.passwordHash">
         <div>{{'SETTINGS/TRAKT-IMPORT/suggestions/lbl'|translate}}</p></div>
-        <a ng-click="getUserSuggestions()" class="btn btn-success">{{'SETTINGS/TRAKT-IMPORT/suggestions-fetch/btn'|translate}}</a>
+        <a ng-click="getUserSuggestions()" class="btn btn-success"><i class="glyphicon glyphicon-save-file"></i>{{'SETTINGS/TRAKT-IMPORT/suggestions-fetch/btn'|translate}}</a>
     </div>
     <br>
     <div style='background-color:transparent' role="alert" ng-show="suggestionError[0]" style="white-space:initial;text-align:left">
