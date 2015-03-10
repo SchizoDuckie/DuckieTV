@@ -3,7 +3,6 @@
     <!-- description box -->
     <div style='margin-bottom:15px;text-align:left;white-space:normal'>
       <div style='float:left; margin-right:20px;'><img src="img/trakt.png"></div>
-      <h2>{{'SETTINGS/TRAKT-IMPORT/sync/hdr'|translate}}</h2> 
       {{'SETTINGS/TRAKT-IMPORT/sync/desc'|translate}}
 
       <!-- login form -->
@@ -27,7 +26,7 @@
    
       <div ng-if="credentials.success">
            <hr style='padding:10px'>
-         <h1>{{'SETTINGS/TRAKT-IMPORT/watched-sync/hdr'|translate}}</h1>
+         <h2>{{'SETTINGS/TRAKT-IMPORT/watched-sync/hdr'|translate}}</h2>
 
          <p>{{'SETTINGS/TRAKT-IMPORT/watched-sync/desc'|translate}}</p>
 
@@ -41,7 +40,7 @@
 
     
     <hr style='padding:10px'>
-    <h1>{{'SETTINGS/TRAKT-IMPORT/hdr'|translate}}</h1>
+    <h2>{{'SETTINGS/TRAKT-IMPORT/hdr'|translate}}</h2>
 
     <p>{{'SETTINGS/TRAKT-IMPORT/desc'|translate}}</p>
     
@@ -72,7 +71,7 @@
   </div>
 
   <div class="series miniposter" ng-if="traktTVSuggestions">
-    <h1>{{'SETTINGS/TRAKT-IMPORT/suggestions-fetched/hdr'|translate}}</h1>
+    <h2>{{'SETTINGS/TRAKT-IMPORT/suggestions-fetched/hdr'|translate}}</h2>
     <p>{{'SETTINGS/TRAKT-IMPORT/click-add-show/lbl'|translate}}</p>
      <serieheader style='display:inline-block;margin:5px;cursor:pointer; border:0;' ng-repeat="serie in traktTVSuggestions" data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
         <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
