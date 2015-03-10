@@ -131,6 +131,7 @@ background-rotator, background-rotator > div {
     left: 0px;
     z-index: 1000;
     height: 100%;
+    width: 58px;
     -webkit-transition: background-color .5s;
 }
 #actionbar:hover {
