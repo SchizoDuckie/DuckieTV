@@ -1404,29 +1404,44 @@ sidepanel .leftpanel.torrents {
 .settings .buttons .btn {
     font-family: 'bebasregular';
     font-size: 18px;
+    font-weight: normal;
 }
 
 .settings .btn-danger {
     background-color: rgba(217, 83, 79, 0.4) !important;
     border-color: rgba(217, 83, 79, 0.8) !important;
 }
+.settings .btn-danger:hover {
+    background-color: rgba(217, 83, 79, 0.6) !important;
+    border-color: rgba(217, 83, 79, 1) !important;
+}
 
 .settings .btn-warning {
     background-color: rgba(240, 173, 78, 0.4) !important;
    border-color: rgba(240, 173, 78, 0.8) !important;
+}
+.settings .btn-warning:hover {
+    background-color: rgba(240, 173, 78, 0.6) !important;
+   border-color: rgba(240, 173, 78, 1) !important;
 }
 
 .settings .btn-success {
     background-color: rgba(71, 164, 71, 0.4) !important;
     border-color: rgba(71, 164, 71, 0.8) !important;
 }
+.settings .btn-success:hover {
+    background-color: rgba(71, 164, 71, 0.6) !important;
+    border-color: rgba(71, 164, 71, 1) !important;
+}
 
 .settings .btn-info {
     background-color: rgba(91, 192, 222, 0.52) !important;
-       border-color: rgba(91, 192, 222, 0.8) !important;
-    
+    border-color: rgba(91, 192, 222, 0.8) !important;
 }
-
+.settings .btn-info:hover{
+    background-color: rgba(91, 192, 222, 0.72) !important;
+    border-color: rgba(91, 192, 222, 1) !important;
+}
 
 .settings .autodownload form {
     text-align: center;
