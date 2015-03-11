@@ -116,15 +116,15 @@ DuckieTV.directive('serieDetails', ["FavoritesService", "$location", "$dialogs",
                  */
                 $scope.removeFromFavorites = function(serie) {
                     var dlg = $dialogs.confirm($filter('translate')('SERIEDETAILSjs/serie-delete/hdr'),
-                        $filter('translate')('SERIEDETAILSjs/serie-delete-question/p1') +
+                        $filter('translate')('SERIEDETAILSjs/serie-delete-question/desc') +
                         serie.name +
-                        $filter('translate')('SERIEDETAILSjs/serie-delete-question/p2')
+                        $filter('translate')('SERIEDETAILSjs/serie-delete-question/desc2')
                     );
                     dlg.result.then(function(btn) {
                         FavoritesService.remove(serie);
                         $location.path('/');
                     }, function(btn) {
-                        $scope.confirmed = $filter('translate')('SERIEDETAILSjs/serie-delete-confirmed');
+                        $scope.confirmed = $filter('translate')('SERIEDETAILSjs/serie-delete-cancelled/lbl');
                     });
                 };
 

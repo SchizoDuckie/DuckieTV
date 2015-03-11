@@ -18,8 +18,8 @@
  *    // repeat
  *  }
  */
-DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q",
-    function($scope, $rootScope, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q) {
+DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "$dialogs", "$filter", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q",
+    function($scope, $rootScope, $dialogs, $filter, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q) {
 
         $scope.backupString = false;
         $scope.series = [];
@@ -121,21 +121,28 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "FileReader", "TraktT
         };
 
         $scope.wipe = function() {
-            var db = CRUD.EntityManager.getAdapter().db;
-            for (var i in localStorage) {
-                if (i.indexOf('database.version') == 0) continue;
-                if (i.indexOf('utorrent.token') == 0) continue;
-                localStorage.removeItem(i);
-            }
-            FavoritesService.favorites = [];
-            FavoritesService.favoriteIDs = [];
-            CalendarEvents.clearCache();
+            var dlg = $dialogs.confirm($filter('translate')('BACKUPCTRLjs/wipe/hdr'),
+                $filter('translate')('BACKUPCTRLjs/wipe/desc') 
+            );
+            dlg.result.then(function(btn) {
+               var db = CRUD.EntityManager.getAdapter().db;
+                for (var i in localStorage) {
+                    if (i.indexOf('database.version') == 0) continue;
+                    if (i.indexOf('utorrent.token') == 0) continue;
+                    localStorage.removeItem(i);
+                };
+                FavoritesService.favorites = [];
+                FavoritesService.favoriteIDs = [];
+                CalendarEvents.clearCache();
 
-            return Promise.all(['Series', 'Seasons', 'Episodes'].map(function(table) {
-                return db.execute('DELETE from ' + table + ' where 1').then(function(result) {
-                    return true;
-                })
-            }))
-        }
+                return Promise.all(['Series', 'Seasons', 'Episodes'].map(function(table) {
+                    return db.execute('DELETE from ' + table + ' where 1').then(function(result) {
+                        return true;
+                    })
+                }))
+            }, function(btn) {
+                $scope.confirmed = $filter('translate')('BACKUPCTRLjs/wipe-cancelled/lbl');
+            });
+        };
     }
 ]);

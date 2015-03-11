@@ -16,17 +16,17 @@ DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $rootScope, $filter
      * Pop up a confirm dialog and remove the serie from favorites when confirmed.
      */
     this.removeFromFavorites = function() {
-        var dlg = $dialogs.confirm($filter('translate')('SERIESLISTjs/serie-delete/hdr'),
-            $filter('translate')('SERIESLISTjs/serie-delete-question/p1') +
+        var dlg = $dialogs.confirm($filter('translate')('SIDEPANELSERIECTRLjs/serie-delete/hdr'),
+            $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-question/desc') +
             this.serie.name +
-            $filter('translate')('SERIESLISTjs/serie-delete-question/p2')
+            $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-question/desc2')
         );
         dlg.result.then(function(btn) {
             console.log("Removing serie '" + serie.name + "' from favorites!", serie);
             FavoritesService.remove(serie);
             SidePanelState.hide();
         }, function(btn) {
-            this.confirmed = $filter('translate')('SERIESLISTjs/serie-delete-confirmed');
+            this.confirmed = $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-cancelled/lbl');
         });
     };
 
