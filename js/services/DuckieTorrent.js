@@ -16,7 +16,10 @@ DuckieTorrent.provider('DuckieTorrent', function() {
                 clients[name] = client;
             },
             getClient: function() {
-                return clients['tixati']
+                return clients['qBittorrent']
+            },
+            getClientName: function() {
+                return 'qBittorrent';
             }
         }
     };

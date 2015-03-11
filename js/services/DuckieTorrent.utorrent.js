@@ -513,6 +513,9 @@ DuckieTorrent
                 }
                 return statuses[this.properties.all.status];
             },
+            getName: function() {
+                return $parse('properties.all.name')(this);
+            },
             getStarted: function() {
                 return $parse('properties.all.added_on')(this);
             },

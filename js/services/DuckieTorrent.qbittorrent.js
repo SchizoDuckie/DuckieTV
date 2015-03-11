@@ -173,60 +173,8 @@ DuckieTorrent
 /**
  * uTorrent/Bittorrent remote singleton that receives the incoming data
  */
-.factory('qBittorrentRemote', ["$parse", "$rootScope",
-    function($parse, $rootScope) {
-
-
-        var methods = {
-
-            /**
-             * Return a human-readable status for a torrent
-             */
-            getFormattedStatus: function() {
-                var statuses = {
-                    128: 'stopped',
-                    136: 'stopped',
-                    137: 'started',
-                    152: 'Error: Files missing, please recheck',
-                    198: 'Connecting to peers',
-                    200: 'started',
-                    201: 'downloading',
-                    233: 'paused'
-                };
-                if (!(this.properties.all.status in statuses)) {
-                    console.warn("There's an unknown status for this torrent!", this.properties.all.status, this);
-                    return this.properties.all.status;
-                }
-                return statuses[this.properties.all.status];
-            },
-            getStarted: function() {
-                return $parse('properties.all.added_on')(this);
-            },
-            getProgress: function() {
-                var pr = $parse('properties.all.progress')(this);
-                return pr ? pr / 10 : pr;
-            },
-            getStatusCode: function() {
-                return this.properties.all.status;
-            },
-            getFiles: function() {
-                var files = [];
-                angular.forEach($parse('file.all')(this), function(el, key) {
-                    files.push(el);
-                });
-                angular.forEach($parse('files.all')(this), function(el, key) {
-                    files.push(el);
-                });
-                return files;
-            },
-            /**
-             * The torrent is started if the status is uneven.
-             */
-            isStarted: function() {
-                return this.properties.all.status % 2 === 1;
-            }
-        };
-
+.factory('qBittorrentRemote', ["$rootScope",
+    function($rootScope) {
 
         var service = {
             torrents: {},
@@ -252,11 +200,26 @@ DuckieTorrent
             handleEvent: function(data) {
                 var key = data.hash;
                 if (key in service.torrents) {
-                    Object.deepMerge(service.torrents[key], data[key]);
+                    Object.deepMerge(service.torrents[key], data);
                 } else {
+                    data.getName = function() {
+                        return this.name;
+                    };
+                    data.getProgress = function() {
+                        return this.progress * 100;
+                    }
                     service.torrents[key] = data;
+
                 }
                 $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
+            },
+
+
+            onTorrentUpdate: function(hash, callback) {
+
+            },
+            offTorrentUpdate: function(hash, callback) {
+
             }
         };
 

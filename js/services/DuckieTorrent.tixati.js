@@ -64,6 +64,14 @@ DuckieTorrent
                 var doc = parser.parseFromString(result.data, "text/html");
                 var torrents = [];
 
+                var nameFunc = function() {
+                    return this.name;
+                }
+
+                var progressFunc = function() {
+                    return this.progress;
+                }
+
                 Array.prototype.map.call(doc.querySelectorAll('.xferstable tr:not(:first-child)'), function(node) {
                     var tds = node.querySelectorAll('td');
 
@@ -76,7 +84,9 @@ DuckieTorrent
                         upSpeed: tds[6].innerText,
                         priority: tds[7].innerText,
                         eta: tds[8].innerText,
-                        guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1]
+                        guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1],
+                        getName: nameFunc,
+                        getProgress: progressFunc
                     };
                     if ((torrent.guid in infohashCache)) {
                         torrent.hash = infohashCache[torrent.guid];
@@ -252,57 +262,6 @@ DuckieTorrent
 .factory('tixatiRemote', ["$parse", "$rootScope",
     function($parse, $rootScope) {
 
-        var methods = {
-
-            /**
-             * Return a human-readable status for a torrent
-             */
-            getFormattedStatus: function() {
-                var statuses = {
-                    128: 'stopped',
-                    136: 'stopped',
-                    137: 'started',
-                    152: 'Error: Files missing, please recheck',
-                    198: 'Connecting to peers',
-                    200: 'started',
-                    201: 'downloading',
-                    233: 'paused'
-                };
-                if (!(this.properties.all.status in statuses)) {
-                    console.warn("There's an unknown status for this torrent!", this.properties.all.status, this);
-                    return this.properties.all.status;
-                }
-                return statuses[this.properties.all.status];
-            },
-            getStarted: function() {
-                return true;
-            },
-            getProgress: function() {
-                var pr = $parse('properties.all.progress')(this);
-                return pr ? pr / 10 : pr;
-            },
-            getStatusCode: function() {
-                return this.properties.all.status;
-            },
-            getFiles: function() {
-                var files = [];
-                angular.forEach($parse('file.all')(this), function(el, key) {
-                    files.push(el);
-                });
-                angular.forEach($parse('files.all')(this), function(el, key) {
-                    files.push(el);
-                });
-                return files;
-            },
-            /**
-             * The torrent is started if the status is uneven.
-             */
-            isStarted: function() {
-                return this.properties.all.status % 2 === 1;
-            }
-        };
-
-
         var service = {
             torrents: {},
             settings: {},
@@ -326,8 +285,11 @@ DuckieTorrent
 
             handleEvent: function(data) {
                 var key = data.hash;
-
-                service.torrents[key] = data;
+                if (!(key in service.torrents)) {
+                    service.torrents[key] = data;
+                } else {
+                    Object.deepMerge(service.torrents[key], data);
+                }
 
                 $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
             },

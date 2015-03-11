@@ -32,6 +32,10 @@ DuckieTV.controller('TorrentCtrl', ["$scope", "$rootScope", "DuckieTorrent", "$q
             window.location.reload();
         }
 
+        $scope.getTorrentClientName = function() {
+            return DuckieTorrent.getClientName();
+        }
+
         $scope.localIpAddress = $rootScope.getSetting('ChromeCast.localIpAddress');
 
         DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
