@@ -44,10 +44,17 @@
           </a>
       </td>
     </tr>
-      <tr ui-sref=".tab({tab: 'qbittorrent'})" ng-if="getSetting('torrenting.enabled')">
+    <tr ui-sref=".tab({tab: 'qbittorrent'})" ng-if="getSetting('torrenting.enabled')">
       <td colspan="2">
           <a href="#/settings/qbittorrent">
               <img src="img/icon-qbittorent.png" style="width: 34px; height: 34px; margin-left: -3px; margin-top:-5px; float:left;"> <strong>qBittorrent integration</strong>
+          </a>
+      </td>
+    </tr>
+    <tr ui-sref=".tab({tab: 'tixati'})" ng-if="getSetting('torrenting.enabled')">
+      <td colspan="2">
+          <a href="#/settings/tixati">
+              <img src="img/icon-qbittorent.png" style="width: 34px; height: 34px; margin-left: -3px; margin-top:-5px; float:left;"> <strong>tixati integration</strong>
           </a>
       </td>
     </tr>

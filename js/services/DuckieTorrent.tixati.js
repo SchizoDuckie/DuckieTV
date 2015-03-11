@@ -1,34 +1,97 @@
 DuckieTorrent
 
-.controller("qbtCtrl", ["qBittorrent",
-    function(qBittorrent) {
+.controller("tixatiCtrl", ["tixati",
+    function(tixati) {
 
         this.connect = function() {
-            qBittorrent.AutoConnect();
+            tixati.AutoConnect();
         }
     }
 ])
 
-.factory('qBittorrent', ["$q", "$http", "URLBuilder", "$parse", "qBittorrentRemote",
-    function($q, $http, URLBuilder, $parse, qBittorrentRemote) {
+.factory('tixati', ["$q", "$http", "URLBuilder", "$parse", "tixatiRemote",
+    function($q, $http, URLBuilder, $parse, tixatiRemote) {
         var self = this;
 
-        this.port = 8080;
+        this.port = 8888;
 
         /** 
          * Predefined endpoints for API actions.
          */
         this.endpoints = {
 
-            torrents: 'http://127.0.0.1:%s/json/torrents',
-            portscan: 'http://127.0.0.1:%s/json/transferInfo'
+            torrents: 'http://127.0.0.1:%s/transfers',
+            portscan: 'http://127.0.0.1:%s/home',
+            action: 'http://127.0.0.1:%s/transfers/action', // POST [add]
+            infohash: 'http://127.0.0.1:%s/transfers/%s/eventlog',
+            torrentcontrol: 'http://127.0.0.1:%s/transfers/%s/details/action', // POST [start, stop, remove, searchdht, checkfiles, delete] */
+
         };
+        var hashMap = {
+
+        }; // will hold a hash of Tixati internal identifiers vs magnet hashes fetched from the events page.
 
         /**
          * If a specialized parser is needed for a response than it can be automatically picked up by adding the type and a parser
          * function here.
          */
         this.parsers = {
+            portscan: function(result) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(result.data, "text/html");
+
+                categories = {};
+                categoriesList = [];
+                Array.prototype.map.call(doc.querySelectorAll('.homestats tr:first-child th'), function(node) {
+                    categoriesList.push(node.innerText);
+                    categories[node.innerText] = {};
+                });
+
+                Array.prototype.map.call(doc.querySelectorAll('.homestats tr:not(:first-child)'), function(node) {
+                    Array.prototype.map.call(node.querySelectorAll('td'), function(cell, idx) {
+                        var cat = cell.innerText.split('  ');
+                        categories[categoriesList[idx]][cat[0]] = cat[1];
+                    });
+                });
+
+                return categories;
+            },
+
+            torrents: function(result) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(result.data, "text/html");
+
+                Array.prototype.map.call(doc.querySelectorAll('.xferstable tr:not(:first-child)'), function(node) {
+                    var tds = node.querySelectorAll('td');
+
+                    var torrent = {
+                        name: tds[1].innerText,
+                        bytes: tds[2].innerText,
+                        progress: tds[3].innerText,
+                        status: tds[4].innerText,
+                        downSpeed: tds[5].innerText,
+                        upSpeed: tds[6].innerText,
+                        priority: tds[7].innerText,
+                        eta: tds[8].innerText,
+                        guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1]
+                    };
+                    request('infohash', torrent.guid).then(function(result) {
+                        torrent.hash = result;
+                        torrents[torrent.hash] = torrent;
+                    });
+
+                    console.log("Found torrent: ", torrent);
+                    var torrents = {};
+                })
+            },
+
+            infohash: function(result) {
+                return result.data.match(/([0-9ABCDEFabcdef]{40})/);
+                if (magnet && magnet.length) {
+                    return magnet[0].toUpperCase();
+                }
+            }
+
 
         };
 
@@ -63,12 +126,16 @@ DuckieTorrent
          * @param object params GET parameters
          * @param object options $http optional options
          */
-        var json = function(type, params, options) {
+        var request = function(type, params, options) {
             var d = $q.defer();
             params = params || {};
             var url = self.getUrl(type)
             var parser = self.getParser(type);
-            $http.get(url, options || {}).then(function(response) {
+            $http.get(url, options || {}, {
+                headers: {
+                    'Authorization': Base64.encode('admin:nimda')
+                }
+            }).then(function(response) {
                 d.resolve(parser ? parser(response) : response.data);
             }, function(err) {
                 console.log('error fetching', type);
@@ -83,8 +150,8 @@ DuckieTorrent
 
             connect: function() {
 
-                return json('portscan').then(function(result) {
-                    console.log("qBittorrent check result: ", result);
+                return request('portscan').then(function(result) {
+                    console.log("Tixati check result: ", result);
                     self.connected = true;
                 })
             },
@@ -95,10 +162,10 @@ DuckieTorrent
              * for storage, handling and attaching RPC methods.
              */
             statusQuery: function() {
-                return json('torrents', {}).then(function(data) {
+                return request('torrents', {}).then(function(data) {
                         data.map(function(el) {
                             console.log("Handle remote", el);
-                            qBittorrentRemote.handleEvent(el);
+                            tixatiRemote.handleEvent(el);
                         });
                         return data;
                     },
@@ -111,9 +178,8 @@ DuckieTorrent
              * Return the interface that handles the remote data.
              */
             getRemote: function() {
-                return qBittorrentRemote;
+                return tixatiRemote;
             },
-
 
             /**
              * Connect with an auth token obtained by the Pair function.
@@ -139,12 +205,8 @@ DuckieTorrent
                     }
                 });
 
-
-
-
                 return self.connectPromise.promise;
             },
-
 
             togglePolling: function() {
                 self.isPolling = !self.isPolling;
@@ -175,9 +237,8 @@ DuckieTorrent
 /**
  * uTorrent/Bittorrent remote singleton that receives the incoming data
  */
-.factory('qBittorrentRemote', ["$parse", "$rootScope",
+.factory('tixatiRemote', ["$parse", "$rootScope",
     function($parse, $rootScope) {
-
 
         var methods = {
 
@@ -267,11 +328,11 @@ DuckieTorrent
     }
 ])
 
-.run(["DuckieTorrent", "qBittorrent",
-    function(DuckieTorrent, qBittorrent) {
+.run(["DuckieTorrent", "tixati",
+    function(DuckieTorrent, tixati) {
 
-        DuckieTorrent.register('qBittorrent', qBittorrent);
-        console.log("qBittorrent registered with DuckieTorrentProvider!");
+        DuckieTorrent.register('tixati', tixati);
+        console.log("tixati registered with DuckieTorrentProvider!");
 
         setTimeout(function() {
             console.warn("Registered providers with DuckieTorrentProvider:", DuckieTorrent.getClients());
