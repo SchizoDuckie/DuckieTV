@@ -1,32 +1,8 @@
-/**
- * DuckieTorrent Utorrent (v3.3+)/ Bittorrent interface
- * Inspired by and reverse-engineered from Bittorrent's Torque labs btapp.js
- *
- * https://github.com/bittorrenttorque
- * https://github.com/bittorrenttorque/btapp
- * https://github.com/bittorrenttorque/visualizer
- *
- * This project was started because I have an angular.js app and I do not want the
- * dependencies to Torque, Backbone, Lodash, etc that btapp.js has. This should be a service with
- * a completely separated GUI, which it is now.
- *
- * The Utorrent/Bittorrent clients listen on one of 20 ports on localhost to allow other apps to connect
- * to them.
- * Discovery is done by performing a /version request to these ports until the first hit
- * After that, an authentication token is requested on the client (you need to save this somewhere, the demo does so in localStorage)
- * With the token you can get a session ID, and with the session ID you can start polling for data. Don't poll and the session will expire
- * and you will need to fetch a new session ID with the token.
- *
- * Polling for data results in a tree structure of RPC functions and object data
- * The RPC structures are matched against regexes and the parameters are type-checked.
- * Passing the wrong data into a callback will crash uTorrent/BitTorrent violently (Which could be an attack angle for security researchers)
- *
- * Since the amount of data that's returned from the torrent application to the browser can be quite large, multiple requests will build up your
- * local state (stored in the TorrentRemote service)
- *
- */
 var DuckieTorrent = angular.module('DuckieTorrent.torrent', []);
-
+/**
+ * Generic DuckieTorrent abstraction layer.
+ * Torrent clients register themselves in the app.run block and you get a handle to them by using getClient();
+ */
 DuckieTorrent.provider('DuckieTorrent', function() {
 
     var clients = {};
@@ -40,7 +16,7 @@ DuckieTorrent.provider('DuckieTorrent', function() {
                 clients[name] = client;
             },
             getClient: function() {
-                return clients['uTorrent']
+                return clients['tixati']
             }
         }
     };

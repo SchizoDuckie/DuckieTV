@@ -1,219 +1,246 @@
 DuckieTorrent
-    .provider('uTorrent', function() {
+/**
+ * DuckieTorrent Utorrent (v3.3+)/ Bittorrent interface
+ * Inspired by and reverse-engineered from Bittorrent's Torque labs btapp.js
+ *
+ * https://github.com/bittorrenttorque
+ * https://github.com/bittorrenttorque/btapp
+ * https://github.com/bittorrenttorque/visualizer
+ *
+ * This project was started because I have an angular.js app and I do not want the
+ * dependencies to Torque, Backbone, Lodash, etc that btapp.js has. This should be a service with
+ * a completely separated GUI, which it is now.
+ *
+ * The Utorrent/Bittorrent clients listen on one of 20 ports on localhost to allow other apps to connect
+ * to them.
+ * Discovery is done by performing a /version request to these ports until the first hit
+ * After that, an authentication token is requested on the client (you need to save this somewhere, the demo does so in localStorage)
+ * With the token you can get a session ID, and with the session ID you can start polling for data. Don't poll and the session will expire
+ * and you will need to fetch a new session ID with the token.
+ *
+ * Polling for data results in a tree structure of RPC functions and object data
+ * The RPC structures are matched against regexes and the parameters are type-checked.
+ * Passing the wrong data into a callback will crash uTorrent/BitTorrent violently (Which could be an attack angle for security researchers)
+ *
+ * Since the amount of data that's returned from the torrent application to the browser can be quite large, multiple requests will build up your
+ * local state (stored in the TorrentRemote service)
+ *
+ */
+.provider('uTorrent', function() {
 
-        /** 
-         * Predefined endpoints for API actions.
-         */
-        this.endpoints = {
-            pair: 'http://localhost:%s/gui/pair',
-            version: 'http://localhost:%s/version/',
-            ping: 'http://localhost:%s/gui/pingimg',
-            api: 'http://localhost:%s/btapp/',
+    /** 
+     * Predefined endpoints for API actions.
+     */
+    this.endpoints = {
+        pair: 'http://localhost:%s/gui/pair',
+        version: 'http://localhost:%s/version/',
+        ping: 'http://localhost:%s/gui/pingimg',
+        api: 'http://localhost:%s/btapp/',
+    };
+
+    /**
+     * If a specialized parser is needed for a response than it can be automatically picked up by adding the type and a parser
+     * function here.
+     */
+    this.parsers = {
+
+    };
+
+    /**
+     * Automated parser for responses for usage when neccesary
+     */
+    this.getParser = function(type) {
+        return (type in this.parsers) ? this.parsers[type] : function(data) {
+            return data.data;
         };
+    };
 
-        /**
-         * If a specialized parser is needed for a response than it can be automatically picked up by adding the type and a parser
-         * function here.
-         */
-        this.parsers = {
+    /**
+     * Fetches the url, auto-replaces the port in the url if it was found.
+     */
+    this.getUrl = function(type, param) {
+        var out = this.endpoints[type];
+        if (this.port != null) {
+            out = out.replace('%s', this.port);
+        }
+        return out.replace('%s', encodeURIComponent(param));
+    };
 
-        };
+    this.currentPort = 0;
+    this.port = null;
+    this.sessionKey = null;
+    this.authToken = null;
+    this.isPolling = false;
+    this.isConnecting = false;
+    this.connected = false;
+    this.initialized = false;
 
-        /**
-         * Automated parser for responses for usage when neccesary
-         */
-        this.getParser = function(type) {
-            return (type in this.parsers) ? this.parsers[type] : function(data) {
-                return data.data;
+    this.$get = ["$q", "$http", "URLBuilder", "$parse", "TorrentRemote",
+        function($q, $http, URLBuilder, $parse, TorrentRemote) {
+            var self = this;
+
+            /**
+             * Build a JSONP request using the URLBuilder service.
+             * Automagically adds the JSON_CALLBACK option and executes the built in parser, or returns the result
+             * @param string type url to fetch from the request types
+             * @param object params GET parameters
+             * @param object options $http optional options
+             */
+            var jsonp = function(type, params, options) {
+                var d = $q.defer();
+                params = angular.extend(params || {}, {
+                    callback: 'JSON_CALLBACK'
+                });
+                var url = URLBuilder.build(self.getUrl(type), params);
+                var parser = self.getParser(type);
+                $http.jsonp(url, options || {}).then(function(response) {
+                    d.resolve(parser ? parser(response) : response.data);
+                }, function(err) {
+                    console.log('error fetching', type);
+                    d.reject(err);
+                });
+                return d.promise;
             };
-        };
 
-        /**
-         * Fetches the url, auto-replaces the port in the url if it was found.
-         */
-        this.getUrl = function(type, param) {
-            var out = this.endpoints[type];
-            if (this.port != null) {
-                out = out.replace('%s', this.port);
-            }
-            return out.replace('%s', encodeURIComponent(param));
-        };
-
-        this.currentPort = 0;
-        this.port = null;
-        this.sessionKey = null;
-        this.authToken = null;
-        this.isPolling = false;
-        this.isConnecting = false;
-        this.connected = false;
-        this.initialized = false;
-
-        this.$get = ["$q", "$http", "URLBuilder", "$parse", "TorrentRemote",
-            function($q, $http, URLBuilder, $parse, TorrentRemote) {
-                var self = this;
-
+            var methods = {
                 /**
-                 * Build a JSONP request using the URLBuilder service.
-                 * Automagically adds the JSON_CALLBACK option and executes the built in parser, or returns the result
-                 * @param string type url to fetch from the request types
-                 * @param object params GET parameters
-                 * @param object options $http optional options
+                 * Execute a portscan on one of the 20 ports that were generated with the algorthm, stop scanning when a response is found.
+                 * Sets the found port index in self.currentPort;
                  */
-                var jsonp = function(type, params, options) {
+                portScan: function(ports) {
                     var d = $q.defer();
-                    params = angular.extend(params || {}, {
-                        callback: 'JSON_CALLBACK'
-                    });
-                    var url = URLBuilder.build(self.getUrl(type), params);
-                    var parser = self.getParser(type);
-                    $http.jsonp(url, options || {}).then(function(response) {
-                        d.resolve(parser ? parser(response) : response.data);
-                    }, function(err) {
-                        console.log('error fetching', type);
-                        d.reject(err);
-                    });
+
+                    var nextPort = function() {
+                        self.port = ports[self.currentPort];
+                        jsonp('version').then(function(result) {
+                            if (typeof result === 'undefined') {
+                                d.reject("no torrent client listening on port " + self.port);
+                            }
+                            d.resolve({
+                                port: ports[self.currentPort],
+                                version: result
+                            });
+                        }, function(err) {
+                            if (self.currentPort < 20) {
+                                self.currentPort++;
+                                nextPort();
+                            } else {
+                                d.reject("No active uTorrent/BitTorrent client found!");
+                            }
+                        });
+                    };
+                    nextPort();
                     return d.promise;
-                };
-
-                var methods = {
-                    /**
-                     * Execute a portscan on one of the 20 ports that were generated with the algorthm, stop scanning when a response is found.
-                     * Sets the found port index in self.currentPort;
-                     */
-                    portScan: function(ports) {
-                        var d = $q.defer();
-
-                        var nextPort = function() {
-                            self.port = ports[self.currentPort];
-                            jsonp('version').then(function(result) {
-                                if (typeof result === 'undefined') {
-                                    d.reject("no torrent client listening on port " + self.port);
-                                }
-                                d.resolve({
-                                    port: ports[self.currentPort],
-                                    version: result
-                                });
-                            }, function(err) {
-                                if (self.currentPort < 20) {
-                                    self.currentPort++;
-                                    nextPort();
-                                } else {
-                                    d.reject("No active uTorrent/BitTorrent client found!");
-                                }
-                            });
-                        };
-                        nextPort();
-                        return d.promise;
-                    },
-                    setPort: function(port) {
-                        self.port = port;
-                    },
-                    /**
-                     * Execute a torrent client pair request, and give the user 60 seconds to respond.
-                     */
-                    pair: function() {
-                        return jsonp('pair', {
-                            name: 'DuckieTV'
-                        }, {
-                            timeout: 60000
+                },
+                setPort: function(port) {
+                    self.port = port;
+                },
+                /**
+                 * Execute a torrent client pair request, and give the user 60 seconds to respond.
+                 */
+                pair: function() {
+                    return jsonp('pair', {
+                        name: 'DuckieTV'
+                    }, {
+                        timeout: 60000
+                    });
+                },
+                /**
+                 * Once you've fetched an authentication token, call this function with it to establish a connection.
+                 * Note : The connection needs to be kept open by polling or the session will time out.
+                 */
+                connect: function(authToken) {
+                    if (self.connected) {
+                        var p = $q.defer();
+                        p.resolve(function() {
+                            return {
+                                session: self.sessionKey,
+                                authToken: self.authToken
+                            };
                         });
-                    },
-                    /**
-                     * Once you've fetched an authentication token, call this function with it to establish a connection.
-                     * Note : The connection needs to be kept open by polling or the session will time out.
-                     */
-                    connect: function(authToken) {
-                        if (self.connected) {
-                            var p = $q.defer();
-                            p.resolve(function() {
-                                return {
-                                    session: self.sessionKey,
-                                    authToken: self.authToken
-                                };
-                            });
-                            return p.promise;
+                        return p.promise;
+                    }
+                    return jsonp('api', {
+                        pairing: authToken,
+                        type: 'state',
+                        queries: '[["btapp"]]',
+                        hostname: window.location.host
+                    }).then(function(session) {
+                        console.info("Retreived session key!", session);
+                        self.sessionKey = session.session;
+                        self.authToken = authToken;
+                        self.connected = true;
+                        return session;
+                    }, function(fail) {
+                        console.error("Error starting session with auth token %s!", authToken);
+                    });
+                },
+                /** 
+                 * Execute and handle the api's 'update' query.
+                 * Parses out the events, updates, properties and methods and dispatches them to the TorrentRemote interface
+                 * for storage, handling and attaching RPC methods.
+                 */
+                statusQuery: function() {
+                    return jsonp('api', {
+                        pairing: self.authToken,
+                        session: self.sessionKey,
+                        type: 'update',
+                        hostname: window.location.host
+                    }).then(function(data) {
+                        if (data == "invalid request") {
+                            throw "unauthorized";
                         }
-                        return jsonp('api', {
-                            pairing: authToken,
-                            type: 'state',
-                            queries: '[["btapp"]]',
-                            hostname: window.location.host
-                        }).then(function(session) {
-                            console.info("Retreived session key!", session);
-                            self.sessionKey = session.session;
-                            self.authToken = authToken;
-                            self.connected = true;
-                            return session;
-                        }, function(fail) {
-                            console.error("Error starting session with auth token %s!", authToken);
-                        });
-                    },
-                    /** 
-                     * Execute and handle the api's 'update' query.
-                     * Parses out the events, updates, properties and methods and dispatches them to the TorrentRemote interface
-                     * for storage, handling and attaching RPC methods.
-                     */
-                    statusQuery: function() {
-                        return jsonp('api', {
-                            pairing: self.authToken,
-                            session: self.sessionKey,
-                            type: 'update',
-                            hostname: window.location.host
-                        }).then(function(data) {
-                            if (data == "invalid request") {
-                                throw "unauthorized";
+                        if ('error' in data) {
+                            return {
+                                error: data
+                            };
+                        }
+                        data.map(function(el) {
+                            var type = Object.keys(el)[0];
+                            var category = Object.keys(el[type].btapp)[0];
+                            var data;
+                            if (typeof el[type].btapp[category] == 'string') {
+                                category = 'btappMethods';
+                                data = el[type].btapp;
+                            } else {
+                                data = 'all' in el[type].btapp[category] && !('set' in el[type].btapp[category]) ? el[type].btapp[category].all : el[type].btapp[category];
+                                if (!('all' in el[type].btapp[category]) || 'set' in el[type].btapp[category]) category += 'Methods';
                             }
-                            if ('error' in data) {
-                                return {
-                                    error: data
-                                };
-                            }
-                            data.map(function(el) {
-                                var type = Object.keys(el)[0];
-                                var category = Object.keys(el[type].btapp)[0];
-                                var data;
-                                if (typeof el[type].btapp[category] == 'string') {
-                                    category = 'btappMethods';
-                                    data = el[type].btapp;
-                                } else {
-                                    data = 'all' in el[type].btapp[category] && !('set' in el[type].btapp[category]) ? el[type].btapp[category].all : el[type].btapp[category];
-                                    if (!('all' in el[type].btapp[category]) || 'set' in el[type].btapp[category]) category += 'Methods';
-                                }
-                                //console.log("Handle remote", el, type, category, data);
-                                TorrentRemote.handleEvent(type, category, data, methods.RPC);
-                            });
-                            return data;
-                        }, function(error) {
-                            console.error("Error executing get status query!", error);
+                            //console.log("Handle remote", el, type, category, data);
+                            TorrentRemote.handleEvent(type, category, data, methods.RPC);
                         });
-                    },
-                    /**
-                     * Return the interface that handles the remote data.
-                     */
-                    getRemote: function() {
-                        return TorrentRemote;
-                    },
-                    /** 
-                     * Execute a remote procedure function.
-                     * This function is passed all the way from here to the actual RPCObject's function.
-                     */
-                    RPC: function(path, args) {
-                        p = path.split('.');
-                        if (!args) args = [];
-                        return jsonp('api', {
-                            pairing: self.authToken,
-                            session: self.sessionKey,
-                            type: 'function',
-                            path: [p],
-                            'args': JSON.stringify(args),
-                            hostname: window.location.host
-                        });
-                    },
-                    /**
-                     * Todo: listen for these events
-                     */
-                    attachEvents: function() {
-                        /*{ "add": { "btapp": { "events": { "all": { "
+                        return data;
+                    }, function(error) {
+                        console.error("Error executing get status query!", error);
+                    });
+                },
+                /**
+                 * Return the interface that handles the remote data.
+                 */
+                getRemote: function() {
+                    return TorrentRemote;
+                },
+                /** 
+                 * Execute a remote procedure function.
+                 * This function is passed all the way from here to the actual RPCObject's function.
+                 */
+                RPC: function(path, args) {
+                    p = path.split('.');
+                    if (!args) args = [];
+                    return jsonp('api', {
+                        pairing: self.authToken,
+                        session: self.sessionKey,
+                        type: 'function',
+                        path: [p],
+                        'args': JSON.stringify(args),
+                        hostname: window.location.host
+                    });
+                },
+                /**
+                 * Todo: listen for these events
+                 */
+                attachEvents: function() {
+                    /*{ "add": { "btapp": { "events": { "all": { "
                     path:["btapp","events","set"]
                     args:["appDownloadProgress","bt_05321785204295053489"]
                     path:["btapp","events","set"]
@@ -222,143 +249,143 @@ DuckieTorrent
                     args:["appStopping","bt_78413389069652724491"]
                     path:["btapp","events","set"]
                     args:["appUninstall","bt_61359101496962791011"] */
-                    },
-                    /**
-                     * Execute a portscan on any of the 20 ports that are generated by the get_port api until one works.
-                     * If it works, store it in uTorrent.port
-                     */
-                    Scan: function() {
-                        var p = $q.defer();
-                        var ports = [];
-                        for (var i = 0; i < 20; i++) {
-                            ports.push(7 * Math.pow(i, 3) + 3 * Math.pow(i, 2) + 5 * i + 10000);
-                        }
-                        methods.portScan(ports).then(function(result) {
-                            console.info("Ping result on port", result);
-                            localStorage.setItem('utorrent.port', result.port);
-                            methods.setPort(result.port);
-                            p.resolve(result.port);
-                        }, function(err) {
-                            console.warn('Could not connect to one of the ports!');
-                        });
-                        return p.promise;
-                    },
-                    /**
-                     * Connect with an auth token obtained by the Pair function.
-                     * Store the resulting session key in $scope.session
-                     * You can call this method as often as you want. It'll return a promise that holds
-                     * off on resolving until the client is connected.
-                     * If it's connected and initialized, a promise will return that immediately resolves with the remote interface.
-                     */
-                    AutoConnect: function() {
-                        if (!self.isConnecting && !self.connected) {
-                            self.connectPromise = $q.defer();
-                            self.isConnecting = true;
-                        } else {
-                            return (!self.connected || !self.initialized) ? self.connectPromise.promise : $q(function(resolve) {
-                                resolve(methods.getRemote());
-                            });
-                        }
-
-                        /**
-                         * A little promise-settimeout loop to wait for uTorrent to finish flushing all it's torrent data
-                         * The once we're connected
-                         */
-                        var waitForInitialisation = function() {
-                            if (!self.initPromise) {
-                                self.initPromise = $q.defer();
-                            }
-
-                            if (self.connected && self.initialized) {
-                                self.initPromise.resolve(true);
-                                return;
-                            }
-
-                            if (!self.connected || !self.initialized) {
-                                setTimeout(waitForInitialisation, 50);
-                            }
-
-                            return self.initPromise.promise;
-                        }
-
-                        var connectFunc = function() {
-                            methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
-                                if (!self.isPolling) {
-                                    self.isPolling = true;
-                                    methods.Update();
-                                }
-                                self.isConnecting = false;
-                                waitForInitialisation().then(function() {
-                                    self.connectPromise.resolve(methods.getRemote());
-                                })
-                            });
-                        }
-
-                        if (!localStorage.getItem('utorrent.preventconnecting') && !localStorage.getItem('utorrent.token')) {
-                            methods.Scan().then(function() {
-                                methods.Pair().then(connectFunc, function(error) {
-                                    if (error == "PAIR_DENIED" && confirm("You denied the uTorrent/BitTorrent Client request. \r\nDo you wish to prevent any future connection attempt?")) {
-                                        localStorage.setItem('utorrent.preventconnecting', true);
-                                    }
-                                });
-                            });
-                        } else {
-                            if (!localStorage.getItem('utorrent.preventconnecting')) {
-                                methods.Scan().then(connectFunc);
-                            }
-                        }
-
-                        return self.connectPromise.promise;
-                    },
-
-                    /**
-                     * Execute a pair promise against utorrent
-                     * It waits 30 seconds for the promise to timeout.
-                     * When it works, it stores the returned auth token for connecting with the Connect function
-                     */
-                    Pair: function() {
-                        return methods.pair().then(function(result) {
-                            console.log("Received auth token!", result);
-                            var key = typeof result == 'object' ? result.pairing_key : result; // switch between 3.3.x and 3.4.1 build 31206 pairing method
-                            if (key == '<NULL>') {
-                                throw "PAIR_DENIED";
-                            } else {
-                                localStorage.setItem('utorrent.token', key);
-                                self.authToken = result; // .pairing_key;
-                            }
-                        }, function(err) {
-                            console.error("Eror pairing!", err);
-                        });
-                    },
-                    togglePolling: function() {
-                        self.isPolling = !self.isPolling;
-                        self.Update();
-                    },
-                    /**
-                     * Start the status update polling.
-                     * Stores the resulting TorrentClient service in $scope.rpc
-                     * Starts polling every 1s.
-                     */
-                    Update: function(dontLoop) {
-                        if (self.isPolling == true) {
-                            methods.statusQuery().then(function(data) {
-                                if (data.length == 0) {
-                                    self.initialized = true;
-                                }
-                                if (undefined === dontLoop && self.isPolling && !data.error) {
-                                    setTimeout(methods.Update, data && data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
-                                }
-                            });
-                        }
-                    },
-                    isConnected: function() {
-                        return self.connected;
+                },
+                /**
+                 * Execute a portscan on any of the 20 ports that are generated by the get_port api until one works.
+                 * If it works, store it in uTorrent.port
+                 */
+                Scan: function() {
+                    var p = $q.defer();
+                    var ports = [];
+                    for (var i = 0; i < 20; i++) {
+                        ports.push(7 * Math.pow(i, 3) + 3 * Math.pow(i, 2) + 5 * i + 10000);
                     }
-                };
-                return methods;
-            }
-        ];
-    })
+                    methods.portScan(ports).then(function(result) {
+                        console.info("Ping result on port", result);
+                        localStorage.setItem('utorrent.port', result.port);
+                        methods.setPort(result.port);
+                        p.resolve(result.port);
+                    }, function(err) {
+                        console.warn('Could not connect to one of the ports!');
+                    });
+                    return p.promise;
+                },
+                /**
+                 * Connect with an auth token obtained by the Pair function.
+                 * Store the resulting session key in $scope.session
+                 * You can call this method as often as you want. It'll return a promise that holds
+                 * off on resolving until the client is connected.
+                 * If it's connected and initialized, a promise will return that immediately resolves with the remote interface.
+                 */
+                AutoConnect: function() {
+                    if (!self.isConnecting && !self.connected) {
+                        self.connectPromise = $q.defer();
+                        self.isConnecting = true;
+                    } else {
+                        return (!self.connected || !self.initialized) ? self.connectPromise.promise : $q(function(resolve) {
+                            resolve(methods.getRemote());
+                        });
+                    }
+
+                    /**
+                     * A little promise-settimeout loop to wait for uTorrent to finish flushing all it's torrent data
+                     * The once we're connected
+                     */
+                    var waitForInitialisation = function() {
+                        if (!self.initPromise) {
+                            self.initPromise = $q.defer();
+                        }
+
+                        if (self.connected && self.initialized) {
+                            self.initPromise.resolve(true);
+                            return;
+                        }
+
+                        if (!self.connected || !self.initialized) {
+                            setTimeout(waitForInitialisation, 50);
+                        }
+
+                        return self.initPromise.promise;
+                    }
+
+                    var connectFunc = function() {
+                        methods.connect(localStorage.getItem('utorrent.token')).then(function(result) {
+                            if (!self.isPolling) {
+                                self.isPolling = true;
+                                methods.Update();
+                            }
+                            self.isConnecting = false;
+                            waitForInitialisation().then(function() {
+                                self.connectPromise.resolve(methods.getRemote());
+                            })
+                        });
+                    }
+
+                    if (!localStorage.getItem('utorrent.preventconnecting') && !localStorage.getItem('utorrent.token')) {
+                        methods.Scan().then(function() {
+                            methods.Pair().then(connectFunc, function(error) {
+                                if (error == "PAIR_DENIED" && confirm("You denied the uTorrent/BitTorrent Client request. \r\nDo you wish to prevent any future connection attempt?")) {
+                                    localStorage.setItem('utorrent.preventconnecting', true);
+                                }
+                            });
+                        });
+                    } else {
+                        if (!localStorage.getItem('utorrent.preventconnecting')) {
+                            methods.Scan().then(connectFunc);
+                        }
+                    }
+
+                    return self.connectPromise.promise;
+                },
+
+                /**
+                 * Execute a pair promise against utorrent
+                 * It waits 30 seconds for the promise to timeout.
+                 * When it works, it stores the returned auth token for connecting with the Connect function
+                 */
+                Pair: function() {
+                    return methods.pair().then(function(result) {
+                        console.log("Received auth token!", result);
+                        var key = typeof result == 'object' ? result.pairing_key : result; // switch between 3.3.x and 3.4.1 build 31206 pairing method
+                        if (key == '<NULL>') {
+                            throw "PAIR_DENIED";
+                        } else {
+                            localStorage.setItem('utorrent.token', key);
+                            self.authToken = result; // .pairing_key;
+                        }
+                    }, function(err) {
+                        console.error("Eror pairing!", err);
+                    });
+                },
+                togglePolling: function() {
+                    self.isPolling = !self.isPolling;
+                    self.Update();
+                },
+                /**
+                 * Start the status update polling.
+                 * Stores the resulting TorrentClient service in $scope.rpc
+                 * Starts polling every 1s.
+                 */
+                Update: function(dontLoop) {
+                    if (self.isPolling == true) {
+                        methods.statusQuery().then(function(data) {
+                            if (data.length == 0) {
+                                self.initialized = true;
+                            }
+                            if (undefined === dontLoop && self.isPolling && !data.error) {
+                                setTimeout(methods.Update, data && data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
+                            }
+                        });
+                    }
+                },
+                isConnected: function() {
+                    return self.connected;
+                }
+            };
+            return methods;
+        }
+    ];
+})
 /**
  * Some RPC Call validation methods taken mostly directly from btapp.js
  * Converted to plain angular / javascript to keep this dependency-free

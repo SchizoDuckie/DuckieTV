@@ -27,9 +27,11 @@ DuckieTorrent
             torrentcontrol: 'http://127.0.0.1:%s/transfers/%s/details/action', // POST [start, stop, remove, searchdht, checkfiles, delete] */
 
         };
-        var hashMap = {
 
-        }; // will hold a hash of Tixati internal identifiers vs magnet hashes fetched from the events page.
+        // will hold a hash of Tixati internal identifiers vs magnet hashes fetched from the events page.
+        var infohashCache = {
+
+        };
 
         /**
          * If a specialized parser is needed for a response than it can be automatically picked up by adding the type and a parser
@@ -60,6 +62,7 @@ DuckieTorrent
             torrents: function(result) {
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(result.data, "text/html");
+                var torrents = [];
 
                 Array.prototype.map.call(doc.querySelectorAll('.xferstable tr:not(:first-child)'), function(node) {
                     var tds = node.querySelectorAll('td');
@@ -75,18 +78,21 @@ DuckieTorrent
                         eta: tds[8].innerText,
                         guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1]
                     };
-                    request('infohash', torrent.guid).then(function(result) {
-                        torrent.hash = result;
-                        torrents[torrent.hash] = torrent;
-                    });
-
-                    console.log("Found torrent: ", torrent);
-                    var torrents = {};
-                })
+                    if ((torrent.guid in infohashCache)) {
+                        torrent.hash = infohashCache[torrent.guid];
+                        torrents.push(torrent);
+                    } else {
+                        request('infohash', torrent.guid).then(function(result) {
+                            torrent.hash = infohashCache[torrent.guid] = result;
+                            torrents.push(torrent);
+                        });
+                    }
+                });
+                return torrents;
             },
 
             infohash: function(result) {
-                return result.data.match(/([0-9ABCDEFabcdef]{40})/);
+                var magnet = result.data.match(/([0-9ABCDEFabcdef]{40})/);
                 if (magnet && magnet.length) {
                     return magnet[0].toUpperCase();
                 }
@@ -129,12 +135,13 @@ DuckieTorrent
         var request = function(type, params, options) {
             var d = $q.defer();
             params = params || {};
-            var url = self.getUrl(type)
+            var url = self.getUrl(type, params)
             var parser = self.getParser(type);
-            $http.get(url, options || {}, {
-                headers: {
-                    'Authorization': Base64.encode('admin:nimda')
-                }
+            $http.get(url, {
+                data: options,
+                headers: [
+                    'Authorization: ' + Base64.encode('admin:nimda')
+                ]
             }).then(function(response) {
                 d.resolve(parser ? parser(response) : response.data);
             }, function(err) {
@@ -153,6 +160,8 @@ DuckieTorrent
                 return request('portscan').then(function(result) {
                     console.log("Tixati check result: ", result);
                     self.connected = true;
+                    self.isConnecting = false;
+                    return true;
                 })
             },
 
@@ -178,6 +187,7 @@ DuckieTorrent
              * Return the interface that handles the remote data.
              */
             getRemote: function() {
+                console.log('getting remote');
                 return tixatiRemote;
             },
 
@@ -199,10 +209,12 @@ DuckieTorrent
                 }
 
                 methods.connect().then(function(result) {
+                    console.log("Tixati connected!");
                     if (!self.isPolling) {
                         self.isPolling = true;
                         methods.Update();
                     }
+                    self.connectPromise.resolve(methods.getRemote());
                 });
 
                 return self.connectPromise.promise;
@@ -263,7 +275,7 @@ DuckieTorrent
                 return statuses[this.properties.all.status];
             },
             getStarted: function() {
-                return $parse('properties.all.added_on')(this);
+                return true;
             },
             getProgress: function() {
                 var pr = $parse('properties.all.progress')(this);
@@ -314,12 +326,17 @@ DuckieTorrent
 
             handleEvent: function(data) {
                 var key = data.hash;
-                if (key in service.torrents) {
-                    Object.deepMerge(service.torrents[key], data[key]);
-                } else {
-                    service.torrents[key] = data;
-                }
+
+                service.torrents[key] = data;
+
                 $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
+            },
+
+            onTorrentUpdate: function(hash, callback) {
+
+            },
+            offTorrentUpdate: function(hash, callback) {
+
             }
         };
 
@@ -334,8 +351,5 @@ DuckieTorrent
         DuckieTorrent.register('tixati', tixati);
         console.log("tixati registered with DuckieTorrentProvider!");
 
-        setTimeout(function() {
-            console.warn("Registered providers with DuckieTorrentProvider:", DuckieTorrent.getClients());
-        }, 1000);
     }
 ])

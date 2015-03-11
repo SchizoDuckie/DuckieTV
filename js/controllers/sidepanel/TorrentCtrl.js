@@ -1,13 +1,13 @@
 /**
  * Torrent Control for the torrenting window
  */
-DuckieTV.controller('TorrentCtrl', ["$scope", "$rootScope", "uTorrent", "$q", "DuckieTVCast", "SidePanelState",
-    function($scope, $rootScope, uTorrent, $q, DuckieTVCast, SidePanelState) {
+DuckieTV.controller('TorrentCtrl', ["$scope", "$rootScope", "DuckieTorrent", "$q", "DuckieTVCast", "SidePanelState",
+    function($scope, $rootScope, DuckieTorrent, $q, DuckieTVCast, SidePanelState) {
 
         $scope.ports = [];
         $scope.session = false;
         $scope.authToken = localStorage.getItem('utorrent.token');
-        uTorrent.setPort(localStorage.getItem('utorrent.port'));
+        //uTorrent.setPort(localStorage.getItem('utorrent.port'));
         $scope.rpc = null;
         $scope.polling = false;
 
@@ -34,7 +34,7 @@ DuckieTV.controller('TorrentCtrl', ["$scope", "$rootScope", "uTorrent", "$q", "D
 
         $scope.localIpAddress = $rootScope.getSetting('ChromeCast.localIpAddress');
 
-        uTorrent.AutoConnect().then(function(rpc) {
+        DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
             $scope.rpc = rpc;
         })
     }

@@ -137,11 +137,9 @@ DuckieTorrent
                         self.isPolling = true;
                         methods.Update();
                     }
+                    self.connectPromise.resolve(methods.getRemote());
+
                 });
-
-
-
-
                 return self.connectPromise.promise;
             },
 
