@@ -22,10 +22,9 @@ DuckieTorrent
 
             torrents: 'http://127.0.0.1:%s/transfers',
             portscan: 'http://127.0.0.1:%s/home',
-            action: 'http://127.0.0.1:%s/transfers/action', // POST [add]
             infohash: 'http://127.0.0.1:%s/transfers/%s/eventlog',
             torrentcontrol: 'http://127.0.0.1:%s/transfers/%s/details/action', // POST [start, stop, remove, searchdht, checkfiles, delete] */
-
+            addmagnet: 'http://127.0.0.1:%s/transfers/action'
         };
 
         // will hold a hash of Tixati internal identifiers vs magnet hashes fetched from the events page.
@@ -255,6 +254,20 @@ DuckieTorrent
                 self.isPolling = false;
                 tixatiRemote.torrents = {};
                 tixatiRemote.eventHandlers = {};
+            },
+            addMagnet: function(magnet) {
+                var fd = new FormData();
+                fd.append('addlinktext', magnet);
+                fd.append('addlink', 'Add');
+
+                $http.post(self.getUrl('addmagnet'), fd, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                })
+                    .success(function() {})
+                    .error(function() {});
             }
         };
         return methods;
