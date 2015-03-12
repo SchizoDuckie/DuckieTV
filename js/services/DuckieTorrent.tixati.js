@@ -71,6 +71,31 @@ DuckieTorrent
                     return this.progress;
                 }
 
+                function sendCommand(formData) {
+                    return $http.post(self.getUrl('torrentcontrol', this.guid), formData, {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    })
+                }
+
+                var stopFunc = function(guid) {
+                    var fd = new FormData();
+                    fd.append('stop', 'Stop');
+                    return this.sendCommand(fd);
+                }
+
+                var startFunc = function(guid) {
+                    var fd = new FormData();
+                    fd.append('start', 'Start');
+                    return this.sendCommand(fd);
+                }
+
+                var startedFunc = function() {
+                    return this.status != 'Offline';
+                }
+
                 Array.prototype.map.call(doc.querySelectorAll('.xferstable tr:not(:first-child)'), function(node) {
                     var tds = node.querySelectorAll('td');
 
@@ -85,7 +110,12 @@ DuckieTorrent
                         eta: tds[8].innerText,
                         guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1],
                         getName: nameFunc,
-                        getProgress: progressFunc
+                        getProgress: progressFunc,
+                        start: startFunc,
+                        stop: stopFunc,
+                        pause: stopFunc,
+                        sendCommand: sendCommand,
+                        isStarted: startedFunc,
                     };
                     if ((torrent.guid in infohashCache)) {
                         torrent.hash = infohashCache[torrent.guid];
@@ -182,7 +212,6 @@ DuckieTorrent
             statusQuery: function() {
                 return request('torrents', {}).then(function(data) {
                         data.map(function(el) {
-                            console.log("Handle remote", el);
                             tixatiRemote.handleEvent(el);
                         });
                         return data;
@@ -196,7 +225,6 @@ DuckieTorrent
              * Return the interface that handles the remote data.
              */
             getRemote: function() {
-                console.log('getting remote');
                 return tixatiRemote;
             },
 
@@ -260,14 +288,12 @@ DuckieTorrent
                 fd.append('addlinktext', magnet);
                 fd.append('addlink', 'Add');
 
-                $http.post(self.getUrl('addmagnet'), fd, {
+                return $http.post(self.getUrl('addmagnet'), fd, {
                     transformRequest: angular.identity,
                     headers: {
                         'Content-Type': undefined
                     }
                 })
-                    .success(function() {})
-                    .error(function() {});
             }
         };
         return methods;
