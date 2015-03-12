@@ -1,9 +1,9 @@
 /**
  * Controller for the torrent settings tab
  */
-DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "DuckieTorrent", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "EpisodeAiredService", "uTorrent",
+DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "DuckieTorrent", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "EpisodeAiredService",
 
-    function($scope, $rootScope, SettingsService, DuckieTorrent, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, EpisodeAiredService, uTorrent) {
+    function($scope, $rootScope, SettingsService, DuckieTorrent, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, EpisodeAiredService) {
 
         $scope.log = [];
 
@@ -163,7 +163,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
 
         $scope.connect = function() {
             localStorage.removeItem('utorrent.preventconnecting');
-            uTorrent.AutoConnect();
+            DuckieTorrent.getClient().AutoConnect();
         }
 
         $scope.getTorrentClients = function() {
@@ -172,11 +172,12 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
 
         $scope.setTorrentClient = function(name) {
             localStorage.setItem('torrenting.client', name);
+            DuckieTorrent.getClient().Disconnect();
+            $scope.currentClient = name;
+            $scope.connect();
         }
 
-        $scope.getTorrentClient = function() {
-            return localStorage.getItem('torrenting.client');
-        }
+        $scope.currentClient = localStorage.getItem('torrenting.client');
 
         $scope.reload = function() {
             window.location.reload();

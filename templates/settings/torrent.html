@@ -20,12 +20,10 @@
 
     <ul class="list-unstyled" style='font-size:16px'>
        <li ng-click="setTorrentClient(client)" ng-repeat="client in getTorrentClients()" class="list-unstyled" style="cursor:pointer; padding:5px;">
-        <i class="glyphicon" ng-class="{'glyphicon-unchecked': getTorrentClient() != client, 'glyphicon-record': getTorrentClient() == client}"></i>&nbsp;
-        
-      {{client}}
+        <i class="glyphicon" ng-class="{'glyphicon-unchecked': currentClient != client, 'glyphicon-record': currentClient == client}"></i>&nbsp; {{client}}
     </li>
     </ul>
-    <a class="btn btn-warning" ng-click="reload()"><i class="glyphicon glyphicon-refresh"></i> Reload DuckieTV to use {{getSetting('torrenting.client')}}</a>
+    <a class="btn btn-warning" ng-click="reload()"><i class="glyphicon glyphicon-refresh"></i> Reload DuckieTV to use {{currentClient}}</a>
       
     <hr style='padding:10px'>
 

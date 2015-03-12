@@ -250,6 +250,11 @@ DuckieTorrent
             },
             isConnected: function() {
                 return self.connected;
+            },
+            Disconnect: function() {
+                self.isPolling = false;
+                tixatiRemote.torrents = {};
+                tixatiRemote.eventHandlers = {};
             }
         };
         return methods;

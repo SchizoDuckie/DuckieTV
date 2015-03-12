@@ -21,7 +21,8 @@ DuckieTorrent
         this.endpoints = {
 
             torrents: 'http://127.0.0.1:%s/json/torrents',
-            portscan: 'http://127.0.0.1:%s/json/transferInfo'
+            portscan: 'http://127.0.0.1:%s/json/transferInfo',
+            addmagnet: 'http://127.0.0.1:%s/command/download'
         };
 
         /**
@@ -164,7 +165,23 @@ DuckieTorrent
             },
             isConnected: function() {
                 return self.connected;
+            },
+
+            Disconnect: function() {
+                self.isPolling = false;
+                qBittorrentRemote.torrents = {};
+                qBittorrentRemote.eventHandlers = {};
+            },
+
+            addMagnet: function(magnet) {
+                return $http.post(self.getUrl('addmagnet'), 'urls=' + encodeURIComponent(magnet), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                });
             }
+
+
         };
         return methods;
     }

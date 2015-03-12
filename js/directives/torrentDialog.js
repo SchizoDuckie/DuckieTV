@@ -17,11 +17,12 @@ DuckieTV.provider('TorrentDialog', function() {
                 launchMagnet: function(magnet, TVDB_ID) {
                     console.log("Firing magnet URI! ", magnet, TVDB_ID);
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
-                    var uTorrent = $injector.get('uTorrent');
-                    if (uTorrent.isConnected()) { // fast method when using utorrent api.
-                        uTorrent.getRemote().add.torrent(magnet);
+                    var DuckieTorrent = $injector.get('DuckieTorrent');
+                    if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
+                        console.log("Adding via TorrentClient.addMagnet API! ", magnet, TVDB_ID);
+                        DuckieTorrent.getClient().addMagnet(magnet);
                         setTimeout(function() {
-                            uTorrent.Update(true); // force an update from utorrent after 1.5 second to show the user that the torrent has been added.
+                            DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
                         }, 1500);
                     } else {
                         var d = document.createElement('iframe');

@@ -4,8 +4,8 @@
  *
  * Runs in the background page.
  */
-DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "GenericSearch", "TorrentDialog", "uTorrent",
-    function($rootScope, FavoritesService, SceneNameResolver, SettingsService, GenericSearch, TorrentDialog, uTorrent) {
+DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "GenericSearch", "TorrentDialog", "DuckieTorrent",
+    function($rootScope, FavoritesService, SceneNameResolver, SettingsService, GenericSearch, TorrentDialog, DuckieTorrent) {
 
         var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 7
         var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 250
@@ -25,8 +25,8 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                 from.setMinutes(0);
                 from.setSeconds(0);
 
-                uTorrent.AutoConnect().then(function(remote) {
-                    console.log("Utorrent connected: ", remote);
+                DuckieTorrent.getClient().AutoConnect().then(function(remote) {
+                    console.log(DuckieTorrent.getClientName() + " connected: ", remote);
                     // Get the list of episodes that have aired since period, and iterate them.
                     FavoritesService.getEpisodesForDateRange(from.getTime(), new Date().getTime()).then(function(candidates) {
                         candidates.map(function(episode, episodeIndex) {
@@ -64,7 +64,7 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                     if (parseInt(results[0].seeders, 10) >= minSeeders) { // enough seeders are available.
                         var url = results[0].magneturl;
                         // launch the magnet uri via the TorrentDialog's launchMagnet Method
-                        uTorrent.AutoConnect().then(function() {
+                        DuckieTorrent.getClient().AutoConnect().then(function() {
                             TorrentDialog.launchMagnet(url, serie.get('TVDB_ID'), true);
                             episode.magnetHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
                             episode.Persist();

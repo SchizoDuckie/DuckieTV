@@ -23,7 +23,7 @@ DuckieTorrent
  * Passing the wrong data into a callback will crash uTorrent/BitTorrent violently (Which could be an attack angle for security researchers)
  *
  * Since the amount of data that's returned from the torrent application to the browser can be quite large, multiple requests will build up your
- * local state (stored in the TorrentRemote service)
+ * local state (stored in the uTorrentRemote service)
  *
  */
 .provider('uTorrent', function() {
@@ -75,8 +75,8 @@ DuckieTorrent
     this.connected = false;
     this.initialized = false;
 
-    this.$get = ["$q", "$http", "URLBuilder", "$parse", "TorrentRemote",
-        function($q, $http, URLBuilder, $parse, TorrentRemote) {
+    this.$get = ["$q", "$http", "URLBuilder", "$parse", "uTorrentRemote",
+        function($q, $http, URLBuilder, $parse, uTorrentRemote) {
             var self = this;
 
             /**
@@ -177,7 +177,7 @@ DuckieTorrent
                 },
                 /** 
                  * Execute and handle the api's 'update' query.
-                 * Parses out the events, updates, properties and methods and dispatches them to the TorrentRemote interface
+                 * Parses out the events, updates, properties and methods and dispatches them to the uTorrentRemote interface
                  * for storage, handling and attaching RPC methods.
                  */
                 statusQuery: function() {
@@ -207,7 +207,7 @@ DuckieTorrent
                                 if (!('all' in el[type].btapp[category]) || 'set' in el[type].btapp[category]) category += 'Methods';
                             }
                             //console.log("Handle remote", el, type, category, data);
-                            TorrentRemote.handleEvent(type, category, data, methods.RPC);
+                            uTorrentRemote.handleEvent(type, category, data, methods.RPC);
                         });
                         return data;
                     }, function(error) {
@@ -218,7 +218,7 @@ DuckieTorrent
                  * Return the interface that handles the remote data.
                  */
                 getRemote: function() {
-                    return TorrentRemote;
+                    return uTorrentRemote;
                 },
                 /** 
                  * Execute a remote procedure function.
@@ -380,6 +380,18 @@ DuckieTorrent
                 },
                 isConnected: function() {
                     return self.connected;
+                },
+                Disconnect: function() {
+                    self.isPolling = false;
+                    uTorrentRemote.torrents = {};
+                    uTorrentRemote.eventHandlers = {};
+                },
+                addMagnet: function(hash) {
+                    uTorrentRemote.add.torrent(hash);
+                },
+
+                addTorrent: function(hash) {
+                    uTorrentRemote.add.torrent(hash);
                 }
             };
             return methods;
@@ -474,7 +486,7 @@ DuckieTorrent
 /**
  * uTorrent/Bittorrent remote singleton that receives the incoming data
  */
-.factory('TorrentRemote', ["$parse", "$rootScope", "RPCCallService",
+.factory('uTorrentRemote', ["$parse", "$rootScope", "RPCCallService",
     function($parse, $rootScope, RPCCallService) {
 
         /**

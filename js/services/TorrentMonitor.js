@@ -5,8 +5,8 @@
  * - Matching incoming torrents names / filenames to existing series/episodes in the database
  * - Mark as downloaded
  */
-DuckieTV.factory('TorrentMonitor', ["TorrentRemote", "SettingsService",
-    function(TorrentRemote, SettingsService) {
+DuckieTV.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService",
+    function(DuckieTorrent, SettingsService) {
 
         function autoStop(torrent) {
             if (torrent.isStarted() && torrent.getProgress() == 100) {
@@ -18,11 +18,11 @@ DuckieTV.factory('TorrentMonitor', ["TorrentRemote", "SettingsService",
         var service = {
 
             enableAutoStop: function() {
-                TorrentRemote.onTorrentUpdate(null, autoStop);
+                DuckieTorrent.getClient().getRemote().onTorrentUpdate(null, autoStop);
             },
 
             disableAutoStop: function() {
-                TorrentRemote.offTorrentUpdate(null, autoStop);
+                DuckieTorrent.getClient().getRemote().offTorrentUpdate(null, autoStop);
             }
         };
         return service;

@@ -37,8 +37,8 @@ DuckieTV
                         DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
                             if (newVal == oldVal) return;
                             remote.infoHash = newVal;
-                            remote.torrent = TorrentRemote.getByHash(remote.infoHash);
-                            DuckieTorrent.getClient().offTorrentUpdate(oldVal, observeTorrent);
+                            remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash);
+                            DuckieTorrent.getClient().getRemote().offTorrentUpdate(oldVal, observeTorrent);
                             observeTorrent(rpc, remote.infoHash);
                         });
                     });
