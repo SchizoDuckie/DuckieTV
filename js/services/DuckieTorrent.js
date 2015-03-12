@@ -1,4 +1,4 @@
-var DuckieTorrent = angular.module('DuckieTorrent.torrent', []);
+var DuckieTorrent = angular.module('DuckieTorrent.torrent', ['DuckieTV']);
 /**
  * Generic DuckieTorrent abstraction layer.
  * Torrent clients register themselves in the app.run block and you get a handle to them by using getClient();
@@ -16,13 +16,19 @@ DuckieTorrent.provider('DuckieTorrent', function() {
                 clients[name] = client;
             },
             getClient: function() {
-                return clients['qBittorrent']
+                return clients[localStorage.getItem('torrenting.client')];
             },
             getClientName: function() {
-                return 'qBittorrent';
+                return localStorage.getItem('torrenting.client');
             }
         }
     };
+})
+
+.run(function() {
+    if (!localStorage.getItem('torrenting.client')) {
+        localStorage.setItem('torrenting.client', 'uTorrent')
+    }
 })
 
 
