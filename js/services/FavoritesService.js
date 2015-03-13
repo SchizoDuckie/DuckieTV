@@ -92,10 +92,10 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
 
         /**
          * Wipe episodes from the database that were cached locally but are no longer in the latest update.
-         * @var series Trakt.TV series input
-         * @var ID int DuckieTV ID_Serie
+         * @param object seasons Trakt.TV seasons/episodes input
+         * @param object series serie entity
          */
-        cleanupEpisodes = function(seasons, ID) {
+        cleanupEpisodes = function(seasons, serie) {
             var tvdbList = [];
             seasons.map(function(season) {
                 season.episodes.map(function(episode) {
@@ -104,8 +104,10 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                 });
             });
 
-            return CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [ID.ID_Serie]).then(function(result) {
-                console.info("Cleaned up " + result.rs.rowsAffected + " orphaned episodes for series " + ID.ID_Serie + " " + ID.name);
+            return CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [serie.ID_Serie]).then(function(result) {
+                if (result.rs.rowsAffected > 0) {
+                    console.info("Cleaned up " + result.rs.rowsAffected + " orphaned episodes for series [" + serie.ID_Serie + "] " + serie.name);
+                };
                 return seasons;
             });
         };
