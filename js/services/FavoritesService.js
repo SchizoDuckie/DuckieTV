@@ -104,8 +104,8 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                 });
             });
 
-            return CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [ID]).then(function(result) {
-                //console.debug("Cleaned up " + result.rs.rowsAffected + " orphaned episodes");
+            return CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [ID.ID_Serie]).then(function(result) {
+                console.info("Cleaned up " + result.rs.rowsAffected + " orphaned episodes for series " + ID.ID_Serie + " " + ID.name);
                 return seasons;
             });
         };
