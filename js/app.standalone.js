@@ -24,4 +24,21 @@ if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
             tray = null;
         });
     });
+
+    DuckieTV.directive('target', function() {
+        return {
+            restrict: 'A',
+            scope: '=',
+            link: function($scope, element) {
+                if (element[0].getAttribute('target')) {
+                    if (element[0].getAttribute('target').toLowerCase() == '_blank') {
+                        element[0].onclick = function(e) {
+                            window.open(element[0].getAttribute('href'), '_blank');
+                            return false;
+                        }
+                    }
+                }
+            }
+        };
+    });
 }
