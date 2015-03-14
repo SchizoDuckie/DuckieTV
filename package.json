@@ -53,7 +53,7 @@
         "mac_app_icon": "",
         "exe_icon": "C:/xampp/htdocs/deploy/newtab/img/icon128.png",
         "width": 1000,
-        "toolbar": true,
+        "toolbar": false,
         "icon": "C:/xampp/htdocs/deploy/newtab/img/icon128.png"
     },
     "version": "0.95.0",

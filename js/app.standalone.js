@@ -25,6 +25,28 @@ if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
         });
     });
 
+    window.addEventListener('keydown', function(event) {
+        switch (event.keyCode) {
+            case 123: // F12, show inspector
+                win.showDevTools();
+                break;
+            case 187: // +
+                if (event.ctrlKey == true) {
+                    win.zoomLevel = win.zoomLevel + 0.25;
+                }
+                break;
+            case 189: // -
+                if (event.ctrlKey == true) {
+                    win.zoomLevel = win.zoomLevel - 0.25;
+                }
+                break;
+            case 48: // 0
+                if (event.ctrlKey == true) {
+                    win.zoomLevel = 1;
+                }
+        }
+    });
+
     DuckieTV.directive('target', function() {
         return {
             restrict: 'A',
