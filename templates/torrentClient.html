@@ -5,9 +5,9 @@
 	<div class="alert alert-info" ng-if="getTorrentClientName()  == 'uTorrent'"><button class='btn btn-small btn-warning' style='float:right' ng-click='removeToken()' translate>TORRENTCLIENT/clear-authority/btn</button><strong><translate>TORRENTCLIENT/desc/p1</translate><a style="color: #428bca" href='http://www.utorrent.com/downloads/complete/os/win/track/alpha'>v3.4.1+</a>{{'TORRENTCLIENT/desc/p2'|translate}}</strong><span translate>TORRENTCLIENT/desc/p3</span></div>
 
 	<div ng-if="!rpc" style='padding:40px; text-align;center'>
-		<img src="img/icon-utorrent.png" class="spin" style="width: 100%; height: 100%">
+		<img ng-src="img/icon-{{getTorrentClientName().toLowerCase()}}.png" class="spin" style="width: 100%; height: 100%">
 
-		<h2>{{'TORRENTCLIENT/connecting/hdr'|translate}} &micro;Torrent</h2>
+		<h2>{{'TORRENTCLIENT/connecting/hdr'|translate}} {{getTorrentClientName()}}</h2>
 		<strong style=' display:block; text-align:center;'>{{'TORRENTCLIENT/please-wait/lbl'|translate}}</strong>
 
 	</div>
