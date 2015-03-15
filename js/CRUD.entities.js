@@ -246,6 +246,9 @@ var Episode = CRUD.define({
     hasAired: function() {
         return this.firstaired && this.firstaired <= new Date().getTime();
     },
+    isWatched: function() {
+        return this.watched && parseInt(this.watched) == 1;
+    },
 
     markWatched: function($rootScope) {
         this.watched = 1;

@@ -37,7 +37,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
 
     this.markAllWatched = function(episodes) {
         episodes.map(function(episode) {
-            if ((episode.hasAired()) && (parseInt(episode.watched) != 1)) {
+            if ((episode.hasAired()) && (!episode.isWatched())) {
                 episode.markWatched();
             };
         });
