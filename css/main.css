@@ -310,7 +310,7 @@ serieheader[mode=search] h3 {
     position: initial;
 }
 
-.series.adding serieheader[mode=poster] h3 {
+serieheader[mode=poster] h3 {
     display: inline-block;
     font-size: 22px;
     word-break: break-word;
