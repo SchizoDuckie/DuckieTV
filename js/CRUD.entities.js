@@ -96,11 +96,10 @@ var Serie = CRUD.define({
 
         firstAiredFilter.Episode.ID_Serie = this.getID();
 
-        return CRUD.FindOne('Season', firstAiredFilter, {
+        var result = CRUD.FindOne('Season', firstAiredFilter, {
             orderBy: 'ID_Season desc'
-        }).then(function(result) {
-            return (result instanceof CRUD.Entity) ? result : this.getLatestSeason();
         });
+        return (result instanceof CRUD.Entity) ? result : this.getLatestSeason();
     },
 
     getSortName: function() {
