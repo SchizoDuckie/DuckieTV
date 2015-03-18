@@ -218,6 +218,7 @@ serieheader[mode=banner] h3 {
     background-color: rgba(0, 0, 0, 0.8);
     margin-bottom: 0;
     -webkit-transition: all 0.2s ease-in-out;
+    bottom: initial;
 }
 serieheader[mode=banner]:hover h3 {
     margin-top: -36px;
