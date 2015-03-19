@@ -82,11 +82,11 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
         }
         if ((parseInt(localStorage.getItem('trakttv.lastupdated.trending')) + (1000 * 60 * 60 * 24 * 7)) /* 1 week */ < new Date().getTime()) {
             TraktTVUpdateService.updateCachedTrending().then(function() {
-                console.info('TraktTV trending update completed. last updated:' + localStorage.getItem('trakttv.lastupdated.trending'));
+                console.info('TraktTV trending update completed. last updated:' + new Date(parseInt(localStorage.getItem('trakttv.lastupdated.trending'))).toString());
                 localStorage.setItem('trakttv.lastupdated.trending', new Date().getTime());
             });
         } else {
-            console.info("Not performing trakttv trending update check. last done ", new Date(parseInt(localStorage.getItem('trakttv.lastupdated.trending'))).toString());
+            console.info("Not performing trakttv trending update check. last done " + new Date(parseInt(localStorage.getItem('trakttv.lastupdated.trending'))).toString());
         };
         setTimeout(updateFunc, 60 * 60 * 12 * 1000); // schedule update check in 12 hours for long running apps.
     };
