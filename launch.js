@@ -1,21 +1,33 @@
+/** 
+ * Make sure migrations don't run on the latest versions.
+ */
 chrome.runtime.onInstalled.addListener(function(details) {
-
-    localStorage.setItem('runtime.event', angular.toJson(details, true));
+    localStorage.setItem('runtime.event', JSON.stringify(details));
     if (details.reason == "install") {
         console.log("This is a first install!");
+        localStorage.setItem('install.notify', chrome.runtime.getManifest().version);
         /*
-         * example: localStorage.setItem('0.4migration', 'done');
-        */
+         * example: localStorage.setItem('0.54.createtimers', 'done');
+         */
     } else if (details.reason == "update") {
         var thisVersion = chrome.runtime.getManifest().version;
         console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
-    }
+        if (details.previousVersion != thisVersion) {
+            localStorage.setItem('install.notify', thisVersion);
+        }
+    };
 });
 
 chrome.browserAction.onClicked.addListener(function(tab) {
-    chrome.tabs.create({
-        'url': chrome.extension.getURL('tab.html')
-    }, function(tab) {
-        // Tab opened.
-    });
+    chrome.tabs.getAllInWindow(undefined, function(tabs) {
+    for (var i = 0, tab; tab = tabs[i]; i++) {
+      if (tab.url.indexOf(chrome.extension.getURL('tab.html')) == 0) {
+        console.log('Found DuckieTV Tab');
+        chrome.tabs.update(tab.id, {selected: true});
+        return;
+      }
+    }
+    console.log('Could not find DuckieTV tab. Creating one...');
+    chrome.tabs.create({url: chrome.extension.getURL('tab.html')});
+  });
 });
