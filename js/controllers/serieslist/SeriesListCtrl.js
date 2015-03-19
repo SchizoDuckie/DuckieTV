@@ -13,7 +13,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.error = {};
         this.query = ''; // local filter query, set from LocalSerieCtrl
 
-
         /**
          * Automatically launch the first search result when user hits enter in the filter form
          */
@@ -44,7 +43,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             }]);
             $scope.$applyAsync();
         });
-
 
         var timeout = null;
 
@@ -136,8 +134,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(serieslist.selectSerie);
         });
 
-
-
         /**
          * Fires when user hits enter in the search serie box.Auto - selects the first result and adds it to favorites.
          */
@@ -145,7 +141,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.selectFirstResult = function() {
             this.selectSerie(this.results[0]);
         };
-
 
         /**
          * Add a show to favorites.*The serie object is a Trakt.TV TV Show Object.

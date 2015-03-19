@@ -2,10 +2,11 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope",
     function($rootScope) {
         var localFilter = this;
         this.isFiltering = true;
-        this.query = '';
+
+        // Broadcast empty filter to reset the value in the SeriesList Ctrl        
+        $rootScope.$broadcast('serieslist:filter', '');
 
         this.setFilter = function(val) {
-            localFilter.query = val;
             $rootScope.$broadcast('serieslist:filter', val);
         };
 

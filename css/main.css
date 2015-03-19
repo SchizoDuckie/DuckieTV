@@ -415,6 +415,7 @@ series-list .tools {
     background-color: rgb(51, 51, 51);
     z-index:1000;
     position: absolute;
+    height: 72px;
 }
 series-list #favslist serieheader[mode='poster'], #favslist serieheader .poster {
     transition: width 1s, height 1s, opacity 0.5s;
