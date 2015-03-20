@@ -41,7 +41,8 @@ DuckieTV.directive('lazyBackground', ["$document", "$parse",
                         element.css('background-image', 'url(' + this.src + ')');
                     };
                     img.onerror = function(e) {
-                        //Remove loading class and apply error class
+                        //Remove any existing background-image & loading class and apply error class
+                        element.css('background-image', '');
                         element.removeClass('img-loading');
                         element.addClass('img-load-error');
                     };
