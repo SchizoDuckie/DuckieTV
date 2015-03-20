@@ -61,7 +61,7 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "$rootScope", "$q", "TraktTVv2", "
         };
 
         $scope.countWatchedEpisodes = function(show) {
-            if (!show.seasons) return 0;
+            if (undefined === show) return 0;
             var count = 0;
             show.seasons.map(function(s) {
                 count += s.episodes.length;
