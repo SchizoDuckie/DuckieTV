@@ -429,7 +429,7 @@ series-list .series {
     right: 20px;
     left: 58px;
     text-align: center;
-    padding: 20px 25px 15px 15px;
+    padding: 20px 25px 15px 25px;
     /* To remove added spacing between posters */
     font-size: 0;
     /* So the boxshadow on .tools is overlayed */
@@ -437,6 +437,9 @@ series-list .series {
 }
 series-list .series.adding {
     top: 70px;
+}
+series-list .filters {
+    padding: 0px 30px 15px 30px;
 }
 
 series-list p.protip {
