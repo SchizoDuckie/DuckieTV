@@ -1,8 +1,8 @@
 <div ng-controller="DisplayCtrl">
 
     <h2 style='margin-top: 13px'>{{'SETTINGS/LANGUAGE/hdr'|translate}}
-	<span tooltip="{{ 'SETTINGS/LANGUAGE/current/lbl' | translate }} {{getSetting('application.locale')}}"><i class="flag flag-{{getSetting('application.locale')}}" style="-webkit-transform:scale(2)"></i></span>
-	</h2>
+        <span tooltip="{{getSetting('application.locale')}}"><i class="flag flag-{{getSetting('application.locale')}}" style="-webkit-transform:scale(2)"></i></span>
+    </h2>
 
     <p>{{'SETTINGS/LANGUAGE/desc'|translate}}</p>
     <p>{{'SETTINGS/LANGUAGE/desc2'|translate}}<a href="http://www.reddit.com/r/duckietv/comments/28wtr5/announcement_want_to_have_duckietv_in_your_native/" style='text-decoration:underline' target='_blank'>{{'SETTINGS/LANGUAGE/desc3'|translate}}</a></p>
