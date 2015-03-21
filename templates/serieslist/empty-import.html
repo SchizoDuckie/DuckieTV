@@ -1,6 +1,6 @@
 <div class="series adding" ng-class="{'miniposter': serieslist.isSmall}">
 
-	<h1 style='margin-bottom:15px;margin-top:15px;color:rgb(225,225,225);'>{{'SERIESLIST/TRAKT-TRENDING/addtrending-help/hdr'|translate}} - {{'SERIESLIST/TRAKT-TRENDING/addtrending-help-click-to-show/hdr'|translate}}</h1>
+	<h1 style='margin-bottom:15px;margin-top:15px;color:rgb(225,225,225);'>{{'SERIESLIST/EMPTY-IMPORT/addtrending-help/hdr'|translate}} - {{'SERIESLIST/EMPTY-IMPORT/addtrending-help-click-to-show/hdr'|translate}}</h1>
 
 	<!-- no series, show intro text and trakt connect/ backup import -->
 	<div class="alert alert-info" style='margin:20px;text-align:left;white-space:normal;font-size: 14px'>
@@ -12,7 +12,7 @@
 	</div>
 
 	<!-- Trending series loading -->
-	<h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>{{'SERIESLIST/TRAKT-TRENDING/addtrending-help-please-wait/hdr'|translate}}</h1>
+	<h1 style='text-align:center' ng-if="trending.results.length == 0"><img src="img/spinner.gif"><br>{{'SERIESLIST/EMPTY-IMPORT/addtrending-help-please-wait/hdr'|translate}}</h1>
 
 	<div class="filters" ng-if="trending.categories && !trending.results.length == 0">
 		<button ng-repeat="(category, on) in trending.categories" class="btn btn-xs btn-default" style="padding: 1px 7px" ng-click="trending.toggleCategory(category)" ng-class="{'active': trending.activeCategory == category}">{{trending.translateCategory(category)}}</button>
