@@ -13,37 +13,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.error = {};
         this.query = ''; // local filter query, set from LocalSerieCtrl
 
-        /**
-         * Automatically launch the first search result when user hits enter in the filter form
-         */
-        this.execFilter = function() {
-            setTimeout(function() {
-                console.log('execing quer!');
-                document.querySelector('.series serieheader a').click();
-            }, 0)
-        };
-
-        $rootScope.$on('serieslist:filter', function(evt, query) {
-            serieslist.query = query;
-        })
-
-        this.localFilter = function(el) {
-            return el.name.toLowerCase().indexOf(serieslist.query.toLowerCase()) > -1;
-        };
-
-
-        Object.observe(SeriesListState.state, function(newValue) {
-            serieslist.activated = newValue[0].object.isShowing;
-            if (!serieslist.activated) {
-                SidePanelState.hide();
-            }
-
-            sidepanelMonitor([{
-                object: SidePanelState.state
-            }]);
-            $scope.$applyAsync();
-        });
-
         var timeout = null;
 
         function setWidthMinus(minus) {
@@ -74,14 +43,37 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             object: SidePanelState.state
         }]);
 
+        $rootScope.$on('serieslist:filter', function(evt, query) {
+            serieslist.query = query;
+        });
+
+        this.localFilter = function(el) {
+            return el.name.toLowerCase().indexOf(serieslist.query.toLowerCase()) > -1;
+        };
+
+        /**
+         * Automatically launch the first search result when user hits enter in the filter form
+         */
+        this.execFilter = function() {
+            setTimeout(function() {
+                console.log('Execing query!');
+                document.querySelector('.series serieheader a').click();
+            }, 0)
+        };
+
+        Object.observe(SeriesListState.state, function(newValue) {
+            serieslist.activated = newValue[0].object.isShowing;
+            if (!serieslist.activated) {
+                SidePanelState.hide();
+            }
+
+            sidepanelMonitor([{
+                object: SidePanelState.state
+            }]);
+            $scope.$applyAsync();
+        });
 
         this.getFavorites = function() {
-            setTimeout(function() {
-                if (FavoritesService.favorites.length == 0 && $state.current != 'favorites.add.empty') {
-                    $state.go('favorites.add.empty');
-                }
-            }, 50);
-
             return FavoritesService.favorites;
         }
 
@@ -118,16 +110,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             this.activated = false;
             document.body.style.overflowY = 'auto';
         };
-
-
-        /**
-         * When we detect the serieslist is empty, we pop up the panel and enable add mode.
-         * This also enables trakt.tv most trending series download when it hasn't happen
-         */
-        $rootScope.$on('serieslist:empty', function(event) {
-            console.log("Serieslist empty!!! ");
-            serieslist.activate();
-        });
 
         $scope.$on('serie:updating', function(event, serie) {
             // note: this serie is a CRUD.entity
@@ -191,6 +173,5 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             if (tvdb_id === null) return false;
             return ((tvdb_id in this.error));
         };
-
     }
 ]);
