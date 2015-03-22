@@ -9,4 +9,4 @@ You have:
 
 You do not have:
 
-- The permission to ask money for DuckieTV, in any shape, way or form, for instance by wrapping it in an adware-installer, requiring payment to download (evolutions of) DuckieTV, or by injecting ads to the program ever. (But nor will I)
+- The permission to ask money for DuckieTV, in any shape, way or form, for instance by wrapping it in an adware-installer, requiring payment to download (evolutions of) DuckieTV, or by injecting ads to the program ever. (This applies to the original authors of DuckieTV too) 
