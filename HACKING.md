@@ -31,3 +31,14 @@ Templates provide views based on $scope variables.
 
 If you want to get a quick overview of how events work within DuckieTV check out events.md:
 https://github.com/SchizoDuckie/DuckieTV/blob/angular/EVENTS.md
+
+## Building DuckieTV-Standalone
+If you want to run and hack on DuckieTV standalone yourself, the process is really simple:
+
+- Clone the repo
+- DuckieTV Standalone builds are currently built with [web2executable](https://github.com/jyapayne/Web2Executable)
+- Download [nw.js](http://nwjs.io/) for your platform
+- Extract all files to the DuckieTV repository
+- run nw.exe or ./nw
+- Now you can just work in the directory and pull repo updates with git if you want to run the latest version always
+- 
