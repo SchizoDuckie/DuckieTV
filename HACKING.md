@@ -41,4 +41,3 @@ If you want to run and hack on DuckieTV standalone yourself, the process is real
 - Extract all files to the DuckieTV repository
 - run nw.exe or ./nw
 - Now you can just work in the directory and pull repo updates with git if you want to run the latest version always
-- 
