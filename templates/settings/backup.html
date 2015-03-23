@@ -1,14 +1,14 @@
-<div ng-controller="BackupCtrl" class="buttons">
+<div ng-controller="BackupCtrl">
   <h2 style="margin-top: 13px">{{'SETTINGS/BACKUP/desc'|translate}}</h2>
-  <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()"><i class="glyphicon glyphicon-floppy-save"></i>  {{'SETTINGS/BACKUP/create/btn'|translate}}</a>
+  <div class="buttons"><a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()"><i class="glyphicon glyphicon-floppy-save"></i>  {{'SETTINGS/BACKUP/create/btn'|translate}}</a></div>
   <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}"><i class="glyphicon glyphicon-floppy-saved"></i> {{'SETTINGS/BACKUP/download/btn'|translate}}</a>
 
   <hr style="padding:10px">
   <h2>{{'SETTINGS/BACKUP/import/hdr'|translate}}</h2>
   <input type="checkbox" ng-model="wipeBeforeImport" id="wipebeforeImport"> <label for="wipebeforeImport">{{'SETTINGS/BACKUP/wipe-before-import/lbl'|translate}}</label>
   <div style="position:relative">
-    <a ng-show="!restoring" class="btn btn-success" ng-class="{binputhover:inputhover}"><i class="glyphicon glyphicon-floppy-open"></i>{{'SETTINGS/BACKUP/choose-backup-load/btn'|translate}}</a>
-    <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute; opacity:0; width:250px; top:0; padding:0; height:100%; cursor: pointer;" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false" />
+    <div class="buttons"><a ng-show="!restoring" class="btn btn-success" ng-class="{binputhover:inputhover}"><i class="glyphicon glyphicon-floppy-open"></i>{{'SETTINGS/BACKUP/choose-backup-load/btn'|translate}}</a></div>
+    <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute; opacity:0; width:100% top:0; padding:0; height:100%; cursor: pointer;" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false" />
   </div>
   <div style="padding:5px;text-align:center" class="miniposter x2">
     <h1 ng-if="restoring" style='margin-top: 20px;'>{{'SETTINGS/BACKUP/loading-please-wait/lbl'|translate}}</h1>
@@ -20,5 +20,5 @@
   <hr style="padding:10px">
   <h2>{{'SETTINGS/BACKUP/wipe/hdr'|translate}}</h2>
   <p>{{'SETTINGS/BACKUP/wipe/desc'|translate}}</p>
-  <a class="btn btn-danger" ng-click="wipe()"><i class="glyphicon glyphicon-trash"></i>{{'SETTINGS/BACKUP/wipe/btn'|translate}}</a>
+  <div class="buttons"><a class="btn btn-danger" ng-click="wipe()"><i class="glyphicon glyphicon-trash"></i>{{'SETTINGS/BACKUP/wipe/btn'|translate}}</a></div>
 </div>

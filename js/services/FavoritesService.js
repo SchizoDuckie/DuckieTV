@@ -324,8 +324,8 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
     FavoritesService.refresh().then(function(favorites) {
         if (favorites.length == 0 && $state.current.name != 'favorites.add.empty') {
             setTimeout(function() {
-                $state.go('favorites.add.empty');
-            }, 1000);
+                $state.go('favorites.add');
+            }, 500);
         }
     })
 })

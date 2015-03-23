@@ -2,12 +2,12 @@
  <div ng-controller="BackupCtrl">
 	<h2 style="margin-top: 13px">{{'SETTINGS/BACKUP-IMPORT/hdr'|translate}}</h2>
 
-	<button ng-show="!restoring" class="btn btn-success" style="width: 80%; left: 10%; position: absolute; right: 10%;">{{'SETTINGS/BACKUP-IMPORT/choose-backup-load/btn'|translate}}</button>
-	<input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position: absolute; opacity: 0; padding:5px; width: 80%; left: 10%; position: absolute; right: 10%;">
-
-	<div style="padding:5px" class="miniposter">
+	<div style="position: relative; height: 34px; width: 275px" ng-show="!restoring">
+		<button class="btn btn-success" style="width:100%;height:100%" ng-class="{binputhover:inputhover}">{{'SETTINGS/BACKUP-IMPORT/choose-backup-load/btn'|translate}}</button>
+		<input file-input="file" on-change="restoring = true; restore()" style="position:absolute;opacity:0;width:275px;height:34px;top:0;" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false">
+	</div>
+	<div style="padding:5px" class="miniposter x2">
 		<h1 ng-if="restoring" style='margin-top: 20px;'>{{'SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl'|translate}}</h1>
-
 		<serieHeader ng-repeat="serie in series" data="serie" no-overview="1" no-title="1" mode="poster" ng-mouseenter="setHoverSerie(serie)" >
 			<em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
 			<em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>

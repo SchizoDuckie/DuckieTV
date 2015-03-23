@@ -283,6 +283,9 @@ serieheader .poster {
     height: 40px;
     font-size: 22px;
 }
+.miniposter em.earmark img {
+
+}
 
 serieheader.full > div {
     background-color: rgba(0, 0, 0, 0.5);
@@ -353,8 +356,12 @@ serieheader em.earmark {
     height: 45px;
     padding: 5px;
 }
-serieheader em.earmark.adding{
+serieheader em.earmark.adding {
     background-color: rgba(236,210,70, 0.8);
+}
+serieheader em.earmark.adding img {
+    width: 100%;
+    height: 100%;
 }
 
 serieheader em.earmark.delete, serieheader em.earmark.error {
@@ -491,6 +498,22 @@ trakt-tv-search .protip {
     margin: 4px 0 4px 0;
 }
 
+sidepanel .trakt-import .trakt-logo {
+    margin-right: 15px;
+}
+
+series-list .trakt-import .trakt-login {
+    /* To accomadate for the logo */
+    width: calc(100% - 145px);
+    margin-left: 145px;
+}
+.trakt-import .trakt-login td {
+    padding: 5px 5px 1px 0px;
+}
+.trakt-import .trakt-login td p {
+    margin-bottom: 0;
+}
+
 .table.light {
     color: white;
 }
@@ -527,8 +550,8 @@ chrome-top-sites {
     top: 0px;
     left: 58px;
     width: calc(100% - 116px);
-    padding:15px;
-    z-index:1000;
+    padding: 15px;
+    z-index: 500;
     background-color: rgba(20, 22, 24, 0.925);
     border-bottom: 1px solid white;
     -webkit-transition: -webkit-transform 0.5s ease-in;
@@ -1061,9 +1084,13 @@ query-monitor.show {
     background-position: center center;
 }
 
-.binputhover {
+series-list .binputhover {
     background-color: #47a447;
     border-color: #398439;
+}
+sidepanel a.btn.btn-success.binputhover {
+    background-color: rgba(71,164,71,0.6) !important;
+    border-color: rgba(71,164,71,1) !important;
 }
 
 sidepanel > div {
