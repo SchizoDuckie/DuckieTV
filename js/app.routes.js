@@ -152,16 +152,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 }
             }
         })
-            .state('favorites.add.empty', {
-                url: '/empty',
-                views: {
-                    'content@favorites': {
-                        templateUrl: 'templates/serieslist/empty-import.html',
-                        controller: 'traktTvTrendingCtrl',
-                        controllerAs: 'trending'
-                    }
-                }
-            })
             .state('favorites.add.search', {
                 url: '/search/:query',
                 views: {

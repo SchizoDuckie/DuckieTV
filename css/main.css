@@ -283,9 +283,6 @@ serieheader .poster {
     height: 40px;
     font-size: 22px;
 }
-.miniposter em.earmark img {
-
-}
 
 serieheader.full > div {
     background-color: rgba(0, 0, 0, 0.5);
