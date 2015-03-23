@@ -1,7 +1,7 @@
 <div ng-controller="BackupCtrl">
   <h2 style="margin-top: 13px">{{'SETTINGS/BACKUP/desc'|translate}}</h2>
   <div class="buttons"><a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()"><i class="glyphicon glyphicon-floppy-save"></i>  {{'SETTINGS/BACKUP/create/btn'|translate}}</a></div>
-  <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}"><i class="glyphicon glyphicon-floppy-saved"></i> {{'SETTINGS/BACKUP/download/btn'|translate}}</a>
+  <div class="buttons"><a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}"><i class="glyphicon glyphicon-floppy-saved"></i> {{'SETTINGS/BACKUP/download/btn'|translate}}</a></div>
 
   <hr style="padding:10px">
   <h2>{{'SETTINGS/BACKUP/import/hdr'|translate}}</h2>
