@@ -3,9 +3,9 @@
 
 	<!-- no series, show intro text and trakt connect/ backup import -->
 	<div ng-if="trending.currentFavs == 0" class="alert alert-info" style='margin:20px;text-align:left;white-space:normal;font-size: 14px'>
-	    <strong>{{'SERIESLIST/EMPTY-IMPORT/series-no/hdr'|translate}}</strong>
-	    {{'SERIESLIST/EMPTY-IMPORT/series-no/desc'|translate}}<br>
-	    <strong style='display:inline'><button ng-click="showBackup = true; showTrakt = false" style='color:black; position:relative;'>{{'SERIESLIST/EMPTY-IMPORT/import/btn'|translate}} </button></strong> or <strong  style='display:inline'><button ng-click="showTrakt = true;showBackup = false" style='color:black'>{{'SERIESLIST/EMPTY-IMPORT/connect-to-traktTV/btn'|translate}}</button></strong>
+	    <strong>{{'SERIESLIST/TRAKT-TRENDING/series-no/hdr'|translate}}</strong>
+	    {{'SERIESLIST/TRAKT-TRENDING/series-no/desc'|translate}}<br>
+	    <strong style='display:inline'><button ng-click="showBackup = true; showTrakt = false" style='color:black; position:relative;'>{{'SERIESLIST/TRAKT-TRENDING/import/btn'|translate}} </button></strong> or <strong  style='display:inline'><button ng-click="showTrakt = true;showBackup = false" style='color:black'>{{'SERIESLIST/TRAKT-TRENDING/connect-to-traktTV/btn'|translate}}</button></strong>
 	    <div ng-if="showTrakt == true" ng-controller='TraktTVCtrl' ng-include="'templates/settings/trakt-import.html'"></div>
 	    <div ng-if="showBackup == true" ng-include="'templates/settings/backup-import.html'"></div>
 	</div>
