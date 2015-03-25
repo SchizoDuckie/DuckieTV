@@ -31,7 +31,7 @@
 <div ng-if="localIpAddresses">
   <strong>{{'CHROMECAST/your-local-ipaddr/hdr'|translate}}</strong>
   <ul class="list">
-      <li style='padding:10px' ng-repeat="address in localIpAddresses track by $index"><button class="btn btn-xs btn-info" ng-click="setStreamingSource(address)">{{'CHROMECAST/your-local-ipaddr/btn'|translate}}</button></li>
+      <li style='padding:10px' ng-repeat="address in localIpAddresses track by $index"><button class="btn btn-xs btn-info" ng-click="setStreamingSource(address)">{{'CHROMECAST/your-local-ipaddr/btn'|translate}}{{address}}{{'CHROMECAST/your-local-ipaddr2/btn'|translate}}</button></li>
   </ul>
 </div>
 

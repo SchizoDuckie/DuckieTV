@@ -16,14 +16,14 @@
   </ul>
   <div ng-show="getSetting('torrenting.enabled')">
 
-    <h2>Choose your torrent client</h2>
+    <h2>{{'SETTINGS/TORRENT/choose-client/hdr'|translate}}</h2>
 
     <ul class="list-unstyled" style='font-size:16px'>
        <li ng-click="setTorrentClient(client)" ng-repeat="client in getTorrentClients()" class="list-unstyled" style="cursor:pointer; padding:5px;">
         <i class="glyphicon" ng-class="{'glyphicon-unchecked': currentClient != client, 'glyphicon-record': currentClient == client}"></i>&nbsp; {{client}}
     </li>
     </ul>
-    <a class="btn btn-warning" ng-click="reload()"><i class="glyphicon glyphicon-refresh"></i> Reload DuckieTV to use {{currentClient}}</a>
+    <a class="btn btn-warning" ng-click="reload()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;{{'SETTINGS/TORRENT/reload-duckie/btn'|translate}}&nbsp;{{currentClient}}</a>
       
     <hr style='padding:10px'>
 
@@ -34,7 +34,7 @@
     
     <ul class="list-unstyled">
       <li>
-        <p ng-show="!getSetting('torrenting.autodownload')" >{{'SETTINGS/TORRENT/autodownload-enable/desc'|translate}}</p>
+        <p ng-show="!getSetting('torrenting.autodownload')" >{{'SETTINGS/TORRENT/autodownload-enable/desc'|translate}}{{getSetting('autodownload.period')}}{{'SETTINGS/TORRENT/autodownload-enable/desc2'|translate}}{{getSetting('autodownload.minSeeders')}}{{'SETTINGS/TORRENT/autodownload-enable/desc3'|translate}}</p>
         <p ng-show="getSetting('torrenting.autodownload')">{{'SETTINGS/TORRENT/autodownload-disable/desc'|translate}}</p>
         <a ng-show="!getSetting('torrenting.autodownload')" ng-click="enableAutoDownload()" class="btn btn-success"><i class="glyphicon glyphicon-cloud-download"></i>&nbsp;{{'SETTINGS/TORRENT/autodownload-enable/btn'|translate}}</a>
         <a ng-show="getSetting('torrenting.autodownload')" ng-click="disableAutoDownload()" class="btn btn-danger"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;{{'SETTINGS/TORRENT/autodownload-disable/btn'|translate}}</a>
@@ -45,7 +45,7 @@
 
     <div class="autodownload">
       <h2>{{'SETTINGS/TORRENT/autodownload-period/hdr'|translate}}</h2>
-      <p>{{'SETTINGS/TORRENT/autodownload-period/desc'|translate}}<br>{{'SETTINGS/TORRENT/autodownload-period-default/lbl'|translate}}</p>
+      <p>{{'SETTINGS/TORRENT/autodownload-period/desc'|translate}}{{customadPeriod}}{{'SETTINGS/TORRENT/autodownload-period/desc2'|translate}}<br>{{'SETTINGS/TORRENT/autodownload-period-default/lbl'|translate}}</p>
 
       <form name="p">
         {{'SETTINGS/TORRENT/autodownload-period/form'|translate}}<input type='number' name="period" ng-model="customadPeriod" min="1" max="21">
