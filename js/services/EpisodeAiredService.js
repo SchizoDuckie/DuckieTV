@@ -7,8 +7,8 @@
 DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "GenericSearch", "TorrentDialog", "DuckieTorrent",
     function($rootScope, FavoritesService, SceneNameResolver, SettingsService, GenericSearch, TorrentDialog, DuckieTorrent) {
 
-        var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 7
-        var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 250
+        var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 1
+        var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 50
 
         var service = {
             checkTimeout: null,
