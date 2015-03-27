@@ -549,7 +549,7 @@ chrome-top-sites {
     width: calc(100% - 116px);
     padding: 15px;
     z-index: 500;
-    background-color: rgba(20, 22, 24, 0.925);
+    background-color: rgb(20, 22, 24);
     border-bottom: 1px solid white;
     -webkit-transition: -webkit-transform 0.5s ease-in;
     -webkit-transform: translateY(-100%);
