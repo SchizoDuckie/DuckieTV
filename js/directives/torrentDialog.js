@@ -104,8 +104,12 @@ DuckieTV.provider('TorrentDialog', function() {
 
         $scope.getClients = function() {
             var clients = window.TorrentSearchProviders;
+            // Manually add them to the list of available providers
             clients['ShowRSS.info'] = true;
+            clients['Strike'] = true;
+            // Specify them as customClients
             customClients['ShowRSS.info'] = 'ShowRSS';
+            customClients['Strike'] = 'Strike';
             for (var name in clients) {
                 if (SettingsService.get(name + '.mirror')) {
                     clients[name].mirror = SettingsService.get(name + '.mirror');
