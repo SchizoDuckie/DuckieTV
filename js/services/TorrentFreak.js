@@ -102,7 +102,7 @@ DuckieTV.provider('TorrentFreak', function() {
 
         return {
             restrict: 'E',
-            templateUrl: 'templates/torrentfreakTop10.html',
+            templateUrl: 'templates/torrentFreakTop10.html',
             controller: ["$compile", "TorrentFreak", "$rootScope",
                 function($compile, TorrentFreak, $rootScope) {
                     var vm = this;
