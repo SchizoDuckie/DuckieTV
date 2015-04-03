@@ -43,9 +43,9 @@
 
   <hr style='padding:10px'>
   <h2>Event Limit</h2>
-  <p >Set the number of events that can show up in each of the calendar's day boxes</p>
+  <p >Set the number of events that are displayed in each of the calendar's day boxes, along with a show-more button.<br>The default value of 0 disables this feature.</p>
   <form name="e">
-  event limit <input type="number" name="eventLimit" ng-model="customadEventLimit" min="1" max="99">
+  event limit <input type="number" name="eventLimit" ng-model="customadEventLimit" min="0" max="99">
 	 <a class="btn btn-success" ng-click="setadEventLimit(customadEventLimit)" ng-disabled="e.eventLimit.$error.number"  style="float:right; margin-top:-10px;"><i class="glyphicon glyphicon-floppy-save"></i>&nbsp; {{'SETTINGS/TORRENT/autodownload-save/btn'|translate}}</a>
   </form>
   <span class="alert alert-danger" ng-show="e.eventLimit.$error.number">{{'SETTINGS/TORRENT/autodownload-only-numbers/alert'|translate}}</span>
