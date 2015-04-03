@@ -10,6 +10,8 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         var calendarEvents = {};
         var calendarStartDate = null;
         var calendarEndDate = null;
+        var eventLimitDefault  = SettingsService.get('calendar.event-limit');       
+        var eventLimit = [];  // one entry for every calendar day on display      
 
         /**
          * Check if an episode already exists on a date in the calendar.
@@ -110,6 +112,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     }
                 });
                 service.getEventsForDateRange(calendarStartDate, calendarEndDate);
+                eventLimit = []; // reset after navigation      
             },
 
             /**
@@ -183,6 +186,20 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
             getEvents: function(date) {
                 var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
                 return (str in calendarEvents) ? calendarEvents[str] : [];
+            },
+            /**
+             * increase the calendar day eventLimit by 100 thus showing all the days events
+             */
+            bumpEventLimit: function(date) {
+                var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
+                eventLimit[str] = (str in eventLimit) ? eventLimit[str] + 100: eventLimitDefault + 100;     
+            },
+            /**
+             * fetch the calendar's day eventLimit to enable restricted list of days events
+             */
+            getEventLimit: function(date) {
+                var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
+                return (str in eventLimit) ? eventLimit[str] : eventLimitDefault;        
             }
         };
 

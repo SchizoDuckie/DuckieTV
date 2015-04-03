@@ -179,6 +179,13 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                     return (scope.eventService) ? scope.eventService.getEvents(date) : false;
                 }
 
+                scope.bumpEventLimit = function(date) {
+                    return (scope.eventService) ? scope.eventService.bumpEventLimit(date) : false;
+                }
+
+                scope.getEventLimit = function(date) {
+                    return (scope.eventService) ? scope.eventService.getEventLimit(date) : false;
+                }
 
                 scope.filterSpecials = function(event) {
                     if (!event.serie) return false;

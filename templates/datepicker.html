@@ -21,7 +21,6 @@
         <tr ng-repeat="week in weeks">
           <td ng-repeat="day in week" class="day">
             <calendar-event serie="event.serie" episode="event.episode" ng-if="hasEvent(day)" ng-repeat="event in getEvents(day)|filter:filterSpecials"></calendar-event>
-
             <span ng-class="{'now':isNow(day),'active':isSameDay(day),'disabled':(day.getMonth()!=date.getMonth()),'after':isAfter(day),'before':isBefore(day)}" ng-bind="day.getDate()">
             </span>
           </td>
@@ -49,9 +48,10 @@
       <tbody>
         <tr ng-repeat="week in weeks">
           <td ng-repeat="day in week" class="day">
-            <calendar-event serie="event.serie" episode="event.episode" ng-if="hasEvent(day)" ng-repeat="event in getEvents(day)|filter: filterSpecials"></calendar-event>
+            <calendar-event serie="event.serie" episode="event.episode" ng-if="hasEvent(day)" ng-repeat="event in getEvents(day)|limitTo: getEventLimit(day)|filter: filterSpecials as eventCount"></calendar-event>
             <span ng-class="{'now':isNow(day),'active':isSameDay(day),'disabled':(day.getMonth()!=date.getMonth()),'after':isAfter(day),'before':isBefore(day)}" ng-bind="day.getDate()">
             </span>
+			  <button ng-if="eventCount.length==getEventLimit(day)" ng-click="bumpEventLimit(day)" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>{{'SERIESLIST/TRAKT-TRENDING/show-more/btn'|translate}}</button>
           </td>
         </tr>
       </tbody>
