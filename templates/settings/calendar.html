@@ -42,15 +42,15 @@
   <i class="glyphicon glyphicon-remove" ></i>{{'SETTINGS/CALENDAR/specials-hide/btn'|translate}}</a>
 
   <hr style='padding:10px'>
-  <h2>Event Limit
-  <span ng-show="getSetting('calendar.event-limit')!=0" tooltip="Enabled"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
-  <span ng-show="getSetting('calendar.event-limit')==0" tooltip="disabled"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
+  <h2>{{'SETTINGS/CALENDAR/event-limit/hdr'|translate}}
+  <span ng-show="getSetting('calendar.event-limit')!=0" tooltip="{{'SETTINGS/CALENDAR/event-limit-enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
+  <span ng-show="getSetting('calendar.event-limit')==0" tooltip="{{'SETTINGS/CALENDAR/event-limit-disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
   </h2>
 
-  <p >Set the number of events that are displayed in each of the calendar's day boxes, along with a show-more button.<br>The default value of 0 disables this feature.</p>
+  <p >{{'SETTINGS/CALENDAR/event-limit/desc'|translate}}<br>{{'SETTINGS/CALENDAR/event-limit/desc2'|translate}}</p>
   <form name="e">
-  event limit <input type="number" name="eventLimit" ng-model="customadEventLimit" min="0" max="99">
-	 <a class="btn btn-success" ng-click="setadEventLimit(customadEventLimit)" ng-disabled="e.eventLimit.$error.number"  style="float:right; margin-top:-10px;"><i class="glyphicon glyphicon-floppy-save"></i>&nbsp; {{'SETTINGS/TORRENT/autodownload-save/btn'|translate}}</a>
+  {{'SETTINGS/CALENDAR/event-limit/hdr'|translate}} <input type="number" name="eventLimit" ng-model="customadEventLimit" min="0" max="99">
+	 <a class="btn btn-success" ng-click="setadEventLimit(customadEventLimit)" ng-disabled="e.eventLimit.$error.number"  style="float:right; margin-top:-10px;"><i class="glyphicon glyphicon-floppy-save"></i>&nbsp; {{'SETTINGS/CALENDAR/event-limit-save/btn'|translate}}</a>
   </form>
-  <span class="alert alert-danger" ng-show="e.eventLimit.$error.number">{{'SETTINGS/TORRENT/autodownload-only-numbers/alert'|translate}}</span>
+  <span class="alert alert-danger" ng-show="e.eventLimit.$error.number">{{'SETTINGS/CALENDAR/event-limit-only-numbers/alert'|translate}}</span>
 </div>
