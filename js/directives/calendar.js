@@ -95,7 +95,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 if (!range || range.length == 1 && range[0].length == 1) return;
                 var dates = [];
                 calendarStartDate = new Date(range[0][0]);
-                calendarEndDate = new Date(range[range.length - 1][range[range.length - 1].length - 1]);
+                calendarEndDate = new Date((range[range.length - 1][range[range.length - 1].length - 1].getTime())+86399999); // add 23:59:59 to endDate
 
                 range.map(function(week) {
                     week.map(function(day) {
