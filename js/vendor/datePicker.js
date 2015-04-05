@@ -201,8 +201,8 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                 /**
                  * returns number of events that passed filterSpecials for use by calendar's show-more button.
                  */
-                scope.filteredEvents = function(calendarEvents) {
-                    return calendarEvents.filter(scope.filterSpecials).length;
+                scope.filteredEventsCount = function(date) {
+                    return scope.getEvents(date).filter(scope.filterSpecials).length;
                 };
             
                 scope.setView = function(nextView) {
