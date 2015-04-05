@@ -48,15 +48,11 @@
       <tbody>
         <tr ng-repeat="week in weeks">
           <td ng-if="getEventLimit(day)!=0" ng-repeat="day in week" class="day">
-            <calendar-event serie="event.serie" episode="event.episode" ng-if="hasEvent(day)" ng-repeat="event in getEvents(day)|filter: filterSpecials|limitTo: getEventLimit(day) as eventCount"></calendar-event>
+            <calendar-event serie="event.serie" episode="event.episode" ng-if="hasEvent(day) && getEventLimit(day)!=0" ng-repeat="event in getEvents(day)|filter: filterSpecials|limitTo: getEventLimit(day)"></calendar-event>
+            <calendar-event serie="event.serie" episode="event.episode" ng-if="hasEvent(day) && getEventLimit(day)==0" ng-repeat="event in getEvents(day)|filter: filterSpecials"></calendar-event>
             <span ng-class="{'now':isNow(day),'active':isSameDay(day),'disabled':(day.getMonth()!=date.getMonth()),'after':isAfter(day),'before':isBefore(day)}" ng-bind="day.getDate()">
             </span>
-            <button ng-if="eventCount.length==getEventLimit(day)" ng-click="bumpEventLimit(day)" class="btn btn-info" style="padding:0"><i class="glyphicon glyphicon-plus"></i>{{'DATEPICKER/show-more/btn'|translate}}</button>
-          </td>
-          <td ng-if="getEventLimit(day)==0" ng-repeat="day in week" class="day">
-            <calendar-event serie="event.serie" episode="event.episode" ng-if="hasEvent(day)" ng-repeat="event in getEvents(day)|filter: filterSpecials"></calendar-event>
-            <span ng-class="{'now':isNow(day),'active':isSameDay(day),'disabled':(day.getMonth()!=date.getMonth()),'after':isAfter(day),'before':isBefore(day)}" ng-bind="day.getDate()">
-            </span>
+            <button ng-if="hasEvent(day) && getEventLimit(day)!=0 && filteredEvents(getEvents(day))>getEventLimit(day)" ng-click="bumpEventLimit(day)" class="btn btn-info" style="padding:0"><i class="glyphicon glyphicon-plus"></i>{{'DATEPICKER/show-more/btn'|translate}}</button>
           </td>
         </tr>
       </tbody>

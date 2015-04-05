@@ -198,6 +198,13 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                     else return event.episode.seasonnumber > 0;
                 }
 
+                /**
+                 * returns number of events that passed filterSpecials for use by calendar's show-more button.
+                 */
+                scope.filteredEvents = function(calendarEvents) {
+                    return calendarEvents.filter(scope.filterSpecials).length;
+                };
+            
                 scope.setView = function(nextView) {
                     if (scope.views.indexOf(nextView) !== -1) {
                         scope.view = nextView;
