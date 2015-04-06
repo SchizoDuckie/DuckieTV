@@ -1,46 +1,40 @@
 <div ng-controller="DisplayCtrl" class="buttons">
+  <div ng-show="hasTopSites">
+    <h2>{{'SETTINGS/DISPLAY/topsites/hdr'|translate}}
+      <span tooltip="{{topSites ? 'SETTINGS/DISPLAY/topsites-enabled/tooltip' : 'SETTINGS/DISPLAY/topsites-disabled/tooltip'|translate}}">
+        <i class="glyphicon glyphicon-{{topSites ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+      </span>
+    </h2>
 
-<div ng-show="hasTopSites">   
+    <p>{{topSites ? 'SETTINGS/DISPLAY/topsites-hide/desc' : 'SETTINGS/DISPLAY/topsites-show/desc'|translate}}</p>
+    <a ng-click="toggleTopSites()" class="btn btn-{{topSites ? 'danger' : 'success'}}"><i class="glyphicon glyphicon-{{topSites ? 'ban-circle' : 'th'}}"></i>{{topSites ? 'SETTINGS/DISPLAY/topsites-hide/btn' : 'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</a>
 
-        <h2>{{'SETTINGS/DISPLAY/topsites/hdr'|translate}}
+    <div ng-show="topSites">
+      <hr style="padding:10px">
 
-        <span ng-show="getSetting('topSites.enabled')" tooltip="{{'SETTINGS/DISPLAY/topsites-enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
-      <span ng-show="!getSetting('topSites.enabled')" tooltip="{{'SETTINGS/DISPLAY/topsites-disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
-
-      </h2>
-   
-    <p ng-show="!getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/topsites-show/desc'|translate}}</p>
-    <p ng-show="getSetting('topSites.enabled')">{{'SETTINGS/DISPLAY/topsites-hide/desc'|translate}}</p>
-    <a ng-show="!getSetting('topSites.enabled')" ng-click="enableSetting('topSites.enabled')" class="btn btn-success"><i class="glyphicon glyphicon-th"></i>{{'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</a>
-    <a ng-show="getSetting('topSites.enabled')" ng-click="disableSetting('topSites.enabled')" class="btn btn-danger"><i class="glyphicon glyphicon-ban-circle"></i>{{'SETTINGS/DISPLAY/topsites-hide/btn'|translate}}</a>
-     
-     <div ng-show="getSetting('topSites.enabled')">
-     <hr style="padding:10px">
       <h2>{{'SETTINGS/DISPLAY/topsites-activation/hdr'|translate}}
-      <span ng-show="getSetting('topSites.mode') == 'onhover'" tooltip="{{'SETTINGS/DISPLAY/topsites-mode-hover/tooltip'|translate}}"><i class="glyphicon glyphicon-screenshot alert-info" ></i></span>
-      <span ng-show="getSetting('topSites.mode') == 'onclick'" tooltip="{{'SETTINGS/DISPLAY/topsites-mode-click/tooltip'|translate}}"><i class="glyphicon glyphicon-download-alt alert-success" ></i></span>
+        <span tooltip="{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-hover/tooltip' : 'SETTINGS/DISPLAY/topsites-mode-click/tooltip'|translate}}">
+          <i class="glyphicon glyphicon-{{topSitesMode == 'onhover' ? 'download-alt alert-info' : 'screenshot alert-success'}}" ></i>
+        </span>
       </h2>
 
-            <p ng-show="getSetting('topSites.mode') == 'onhover'">{{'SETTINGS/DISPLAY/topsites-mode-click/desc'|translate}}</p>
-            <p ng-show="getSetting('topSites.mode') == 'onclick'">{{'SETTINGS/DISPLAY/topsites-mode-hover/desc'|translate}}</p>
-            <a ng-show="getSetting('topSites.mode') == 'onhover'" ng-click="setSetting('topSites.mode', 'onclick')" class="btn btn-info">
-            <i class="glyphicon glyphicon-download-alt"></i>&nbsp; {{'SETTINGS/DISPLAY/topsites-mode-click/btn'|translate}}</a>
-            <a ng-show="getSetting('topSites.mode') == 'onclick'" ng-click="setSetting('topSites.mode', 'onhover')" class="btn btn-success">
-            <i class="glyphicon glyphicon-screenshot"></i>&nbsp;{{'SETTINGS/DISPLAY/topsites-mode-hover/btn'|translate}}</a>
+      <p>{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-click/desc' : 'SETTINGS/DISPLAY/topsites-mode-hover/desc'|translate}}</p>
+      <a ng-click="toggleTopSitesMode()" class="btn btn-{{topSitesMode == 'onhover' ? 'info' : 'success'}}">
+        <i class="glyphicon glyphicon-{{topSitesMode == 'onhover' ? 'download-alt' : 'screenshot'}}"></i>
+        &nbsp;{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-click/btn' : 'SETTINGS/DISPLAY/topsites-mode-hover/btn'|translate}}
+      </a>
     </div>
+  </div>
 
-    <hr style="padding:10px">
+  <hr style="padding:10px">
 
-</div>
+  <h2>{{'SETTINGS/DISPLAY/background-opacity/hdr'|translate}}</h2>
 
-    <h2>{{'SETTINGS/DISPLAY/background-opacity/hdr'|translate}}</h2>
-   
-
-    <ul class="list-unstyled btns">
-      <li>
-        <p>{{'SETTINGS/DISPLAY/background-opacity/desc'|translate}}</p>
-        <input type="range" ng-model="bgopacity" min="0" max="1" step="any" ng-change="setBGOpacity(bgopacity)">
-        <strong style="float:left">0%</strong> <strong style='float:right'>100%</strong>
-      </li>
-    </ul>
+  <ul class="list-unstyled btns">
+    <li>
+      <p>{{'SETTINGS/DISPLAY/background-opacity/desc'|translate}}</p> <span>{{bgOpacity * 100|number:0}}%</span>
+      <input type="range" ng-model="bgOpacity" min="0" max="1" step="0.05" ng-change="setBGOpacity(bgOpacity)" />
+      <strong style="float:left">0%</strong> <strong style='float:right'>100%</strong>
+    </li>
+  </ul>
 </div>  
