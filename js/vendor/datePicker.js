@@ -183,13 +183,21 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                     return (scope.eventService) ? scope.eventService.getEvents(date) : false;
                 }
 
-                scope.bumpEventLimit = function(date) {
-                    return (scope.eventService) ? scope.eventService.bumpEventLimit(date) : false;
+                scope.getSeries = function(date) {
+                    return (scope.eventService) ? scope.eventService.getSeries(date) : false;
                 }
 
-                scope.getEventLimit = function(date) {
-                    return (scope.eventService) ? scope.eventService.getEventLimit(date) : false;
+                var expandedSeries = {};
+
+                scope.isExpanded = function(date, serie) {
+                    var key = [new Date(date).toDateString(), '_', serie].join('');
+                    return ((key in expandedSeries) && expandedSeries[key] == true);
                 }
+
+                scope.$on('expand:serie', function(event, date, serie) {
+                    var key = [new Date(date).toDateString(), '_', serie].join('');
+                    expandedSeries[key] = true;
+                })
 
                 scope.filterSpecials = function(event) {
                     if (!event.serie) return false;

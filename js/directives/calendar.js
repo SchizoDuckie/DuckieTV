@@ -8,10 +8,12 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
     function($rootScope, FavoritesService, SettingsService) {
 
         var calendarEvents = {};
+        var seriesForDate = {};
+        var expandedSeries = {};
         var calendarStartDate = null;
         var calendarEndDate = null;
-        var eventLimitDefault  = SettingsService.get('calendar.event-limit');       
-        var eventLimit = [];  // one entry for every calendar day on display      
+        var eventLimitDefault = SettingsService.get('calendar.event-limit');
+        var eventLimit = []; // one entry for every calendar day on display      
 
         /**
          * Check if an episode already exists on a date in the calendar.
@@ -29,6 +31,10 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
             if (!hasEvent(date, event)) {
                 calendarEvents[date].push(event);
                 calendarEvents[date].sort(calendarEpisodeSort);
+                if (!(event.ID_Serie in seriesForDate[date])) {
+                    seriesForDate[date][event.ID_Serie] = [];
+                }
+                seriesForDate[date][event.ID_Serie].push(event);
             }
         }
 
@@ -64,6 +70,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     for (var index = eventList.length - 1; index > -1; index--) {
                         if (eventList[index].episodeID === duplicateID) {
                             calendarEvents[aDate].splice(index, 1);
+                            delete seriesForDate[aDate][eventList[index].TVDB_ID];
                             return;
                         }
                     }
@@ -95,20 +102,25 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 if (!range || range.length == 1 && range[0].length == 1) return;
                 var dates = [];
                 calendarStartDate = new Date(range[0][0]);
-                calendarEndDate = new Date((range[range.length - 1][range[range.length - 1].length - 1].getTime())+86399999); // add 23:59:59 to endDate
-
+                calendarEndDate = new Date((range[range.length - 1][range[range.length - 1].length - 1].getTime()) + 86399999); // add 23:59:59 to endDate
+                calendarEvents = {};
+                seriesForDate = {};
+                expandedSeries = {};
                 range.map(function(week) {
                     week.map(function(day) {
                         day = new Date(day).toDateString();
                         dates.push(day);
                         if (!(day in calendarEvents)) {
                             calendarEvents[day] = [];
+                            seriesForDate[day] = {};
                         }
                     })
                 });
                 Object.keys(calendarEvents).map(function(day) {
                     if (dates.indexOf(day) == -1) {
+                        console.log("Cleaning up day: ", day);
                         delete calendarEvents[day];
+                        delete seriesForDate[day];
                     }
                 });
                 service.getEventsForDateRange(calendarStartDate, calendarEndDate);
@@ -128,6 +140,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     return service.setEvents(episodes.map(function(episode) {
                         return {
                             start: new Date(episode.firstaired),
+                            ID_Serie: episode.ID_Serie,
                             serie: FavoritesService.getByID_Serie(episode.ID_Serie),
                             episode: episode
                         };
@@ -167,6 +180,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
 
                         addEvent(date, {
                             start: new Date(episodes[id].firstaired),
+                            ID_Serie: episode.ID_Serie,
                             serie: serie,
                             episode: episodes[id]
                         });
@@ -187,19 +201,9 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
                 return (str in calendarEvents) ? calendarEvents[str] : [];
             },
-            /**
-             * increase the calendar day eventLimit by 100 thus showing all the days events
-             */
-            bumpEventLimit: function(date) {
+            getSeries: function(date) {
                 var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
-                eventLimit[str] = (str in eventLimit) ? eventLimit[str] + 100: eventLimitDefault + 100;     
-            },
-            /**
-             * fetch the calendar's day eventLimit to enable restricted list of days events
-             */
-            getEventLimit: function(date) {
-                var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
-                return (str in eventLimit) ? eventLimit[str] : eventLimitDefault;        
+                return (str in seriesForDate) ? seriesForDate[str] : [];
             }
         };
 
@@ -218,8 +222,10 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
             restrict: 'E',
             scope: {
                 serie: '=',
-                episode: '='
+                episode: '=',
+                count: '='
             },
+            transclude: true,
             templateUrl: 'templates/event.html',
             controller: function($scope, $rootScope, $location) {
 
@@ -253,6 +259,10 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
 
                 $scope.selectEpisode = function(serie, episode) {
                     $location.path('/serie/' + serie.TVDB_ID + '/season/' + episode.seasonnumber + '?episode=' + episode.TVDB_ID);
+                }
+
+                $scope.expand = function() {
+                    $scope.$emit('expand:serie', $scope.episode.firstaired, $scope.serie.ID_Serie)
                 }
 
             }
@@ -289,6 +299,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 calendar.style.transform = 'scale(' + zoom + ')';
                 calendar.setAttribute('class', (zoom < 1) ? 'zoom' : '');
             }
+
         },
         controller: function($scope, SidePanelState) {
             var calendar = this;

@@ -30,12 +30,12 @@ var DuckieTV = angular.module('DuckieTV', [
  * at start-up set up a timer to refresh DuckieTV a second after midnight, to force a calendar date refresh
  */
 .run(
-window.onload = function(){
-    var today = new Date();
-    var tommorow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-    var timeToMidnight = (tommorow - today) + 1000; // a second after midnight
-    var timer = setTimeout(function(){
-        window.location.reload();
-        },timeToMidnight);
+    window.onload = function() {
+        var today = new Date();
+        var tommorow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+        var timeToMidnight = (tommorow - today) + 1000; // a second after midnight
+        var timer = setTimeout(function() {
+            window.location.reload();
+        }, timeToMidnight);
     }
 )
