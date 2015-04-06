@@ -1,12 +1,44 @@
 /*
  * Controller for the display settings tab
  */
-DuckieTV.controller('DisplayCtrl', ["$scope", "$rootScope", "$filter", "SettingsService",
-    function($scope, $rootScope, $filter, SettingsService) {
+DuckieTV.controller('DisplayCtrl', ["$scope", "$rootScope", "SettingsService",
+    function($scope, $rootScope, SettingsService) {
 
         $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
+        $scope.topSites = SettingsService.get('topSites.enabled');
+        $scope.topSitesMode = SettingsService.get('topSites.mode');
+        $scope.bgOpacity = SettingsService.get('background-rotator.opacity');
+
+        $scope.toggleTopSites = function() {
+            if ($scope.topSites == true) {
+                SettingsService.set('topSites.enabled', false);
+                $scope.topSites = false;
+            } else {
+                SettingsService.set('topSites.enabled', true);
+                $scope.topSites = true;  
+            }
+        }
+        $scope.toggleTopSitesMode = function() {
+            if ($scope.topSitesMode == "onhover") {
+                SettingsService.set('topSites.mode', "onclick");
+                $scope.topSitesMode = "onclick";
+            } else {
+                SettingsService.set('topSites.mode', "onhover");
+                $scope.topSitesMode = "onhover";  
+            }
+        }
+
+        // Set the various background opacity levels.
+        $scope.setBGOpacity = function(opacity) {
+            SettingsService.set('background-rotator.opacity', opacity);
+            $scope.bgOpacity = opacity;
+        };
+    }
+])
+
+DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "SettingsService",
+    function($scope, $filter, SettingsService) {
         $scope.activeLocale = SettingsService.get('application.locale');
-        $scope.bgopacity = SettingsService.get('background-rotator.opacity');
 
         // Set up the language list used in settings/display template
         $scope.languageList = {
@@ -35,12 +67,6 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "$rootScope", "$filter", "Settings
         $scope.setLocale = function(lang) {
             SettingsService.changeLanguage(lang);
             $scope.activeLocale = lang;
-        };
-
-        // Set the various background opacity levels.
-        $scope.setBGOpacity = function(opacity) {
-            SettingsService.set('background-rotator.opacity', opacity);
-            $scope.bgopacity = opacity;
         };
     }
 ])
