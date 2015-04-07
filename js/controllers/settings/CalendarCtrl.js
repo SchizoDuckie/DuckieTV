@@ -1,8 +1,7 @@
-DuckieTV.controller('CalendarCtrl', ["$scope", "$rootScope", "$filter", "SettingsService",
-    function($scope, $rootScope, $filter, SettingsService) {
+DuckieTV.controller('CalendarCtrl', ["$scope",  "$filter", "SettingsService",
+    function($scope, $filter, SettingsService) {
 
         $scope.showSpecials = SettingsService.get('calendar.show-specials');
-        $scope.customadEventLimit = $scope.adEventLimit = SettingsService.get('calendar.event-limit');
 
         // Toggle if calendar shows specials or not
         $scope.toggleSpecials = function() {
@@ -13,15 +12,6 @@ DuckieTV.controller('CalendarCtrl', ["$scope", "$rootScope", "$filter", "Setting
                 SettingsService.set('calendar.show-specials', true);
                 $scope.showSpecials = true;
             }
-            // $rootScope.$broadcast('favorites:updated');
-        };
-        /**
-         * Changes the calendar's day boxex event-limit 
-         */
-        $scope.setadEventLimit = function(eventLimit) {
-            SettingsService.set('calendar.event-limit', eventLimit);
-            $scope.adEventLimit = eventLimit;
-            window.location.reload(); // force reload to apply settings to calendar
         };
     }
 ])

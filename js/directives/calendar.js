@@ -12,8 +12,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         var expandedSeries = {};
         var calendarStartDate = null;
         var calendarEndDate = null;
-        var eventLimitDefault = SettingsService.get('calendar.event-limit');
-        var eventLimit = []; // one entry for every calendar day on display      
 
         /**
          * Check if an episode already exists on a date in the calendar.
@@ -124,7 +122,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     }
                 });
                 service.getEventsForDateRange(calendarStartDate, calendarEndDate);
-                eventLimit = []; // reset after navigation      
             },
 
             /**
@@ -180,7 +177,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
 
                         addEvent(date, {
                             start: new Date(episodes[id].firstaired),
-                            ID_Serie: episode.ID_Serie,
+                            ID_Serie: episodes[id].ID_Serie,
                             serie: serie,
                             episode: episodes[id]
                         });

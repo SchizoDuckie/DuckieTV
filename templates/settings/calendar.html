@@ -40,17 +40,4 @@
   <i class="glyphicon glyphicon-ok" ></i>{{'SETTINGS/CALENDAR/specials-show/btn'|translate}}</a>
   <a ng-show="showSpecials" ng-click="toggleSpecials()" class="btn btn-danger">
   <i class="glyphicon glyphicon-remove" ></i>{{'SETTINGS/CALENDAR/specials-hide/btn'|translate}}</a>
-
-  <hr style='padding:10px'>
-  <h2>{{'SETTINGS/CALENDAR/event-limit/hdr'|translate}}
-  <span ng-show="getSetting('calendar.event-limit')!=0" tooltip="{{'SETTINGS/CALENDAR/event-limit-enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
-  <span ng-show="getSetting('calendar.event-limit')==0" tooltip="{{'SETTINGS/CALENDAR/event-limit-disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
-  </h2>
-
-  <p >{{'SETTINGS/CALENDAR/event-limit/desc'|translate}}<br>{{'SETTINGS/CALENDAR/event-limit/desc2'|translate}}</p>
-  <form name="e">
-  {{'SETTINGS/CALENDAR/event-limit/hdr'|translate}} <input type="number" name="eventLimit" ng-model="customadEventLimit" min="0" max="99">
-	 <a class="btn btn-success" ng-click="setadEventLimit(customadEventLimit)" ng-disabled="e.eventLimit.$error.number"  style="float:right; margin-top:-10px;"><i class="glyphicon glyphicon-floppy-save"></i>&nbsp; {{'SETTINGS/CALENDAR/event-limit-save/btn'|translate}}</a>
-  </form>
-  <span class="alert alert-danger" ng-show="e.eventLimit.$error.number">{{'SETTINGS/CALENDAR/event-limit-only-numbers/alert'|translate}}</span>
 </div>
