@@ -1504,3 +1504,26 @@ sidepanel .leftpanel.torrents {
 div [date-picker] {
     transform-origin: top left;
 }
+
+[ui-view]:before {
+  -webkit-transition: all 0.8s ease-in;
+  -webkit-transform: translateY(-500px);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 100px;
+  background-color: rgba(0,0,0,0.7);
+  content: 'Loading...';
+  vertical-align: middle;
+  line-height: 100px;
+  text-align: left;
+  z-index: 100;
+  padding-left: 20%;
+}
+
+
+.ui-loading:before {
+  
+      -webkit-transform: translateY(0px);
+}

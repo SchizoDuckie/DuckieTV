@@ -39,3 +39,19 @@ var DuckieTV = angular.module('DuckieTV', [
         }, timeToMidnight);
     }
 )
+
+.run(function($rootScope, $state) {
+    $rootScope.$on('$stateChangeStart',
+        function(e, toState, toParams, fromState, fromParams) {
+            Object.keys(toState.views).map(function(viewname) {
+                document.querySelector("[ui-view=" + viewname + "]").classList.add('ui-loading')
+            })
+        });
+
+    $rootScope.$on('$stateChangeSuccess',
+        function(e, toState, toParams, fromState, fromParams) {
+            Object.keys(toState.views).map(function(viewname) {
+                document.querySelector("[ui-view=" + viewname + "]").classList.remove('ui-loading')
+            })
+        });
+})
