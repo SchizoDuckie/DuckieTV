@@ -1,8 +1,12 @@
-DuckieTV.controller('CalendarCtrl', ["$scope", "$rootScope", "$filter", "SettingsService",
-    function($scope, $rootScope, $filter, SettingsService) {
+/*
+ * Controller for the calendar settings tab
+ */
+DuckieTV.controller('CalendarCtrl', ["$scope",  "SettingsService",
+    function($scope, SettingsService) {
 
         $scope.showSpecials = SettingsService.get('calendar.show-specials');
-        $scope.customadEventLimit = $scope.adEventLimit = SettingsService.get('calendar.event-limit');
+        $scope.startSunday = SettingsService.get('calendar.startSunday');
+        $scope.displayMode = SettingsService.get('calendar.mode');
 
         // Toggle if calendar shows specials or not
         $scope.toggleSpecials = function() {
@@ -13,15 +17,28 @@ DuckieTV.controller('CalendarCtrl', ["$scope", "$rootScope", "$filter", "Setting
                 SettingsService.set('calendar.show-specials', true);
                 $scope.showSpecials = true;
             }
-            // $rootScope.$broadcast('favorites:updated');
         };
-        /**
-         * Changes the calendar's day boxex event-limit 
-         */
-        $scope.setadEventLimit = function(eventLimit) {
-            SettingsService.set('calendar.event-limit', eventLimit);
-            $scope.adEventLimit = eventLimit;
-            window.location.reload(); // force reload to apply settings to calendar
+
+        // Toggles calendar starting on Sunday or Monday
+        $scope.toggleCalendarStartDay = function() {
+            if ($scope.startSunday == true) {
+                SettingsService.set('calendar.startSunday', false);
+                $scope.startSunday = false;
+            } else {
+                SettingsService.set('calendar.startSunday', true);
+                $scope.startSunday = true;
+            }
+        };
+
+        // Toggles calendar view mode, week or month
+        $scope.toggleCalendarDisplayMode = function() {
+            if ($scope.displayMode == 'date') {
+                SettingsService.set('calendar.mode', 'week');
+                $scope.displayMode = 'week';
+            } else {
+                SettingsService.set('calendar.mode', 'date');
+                $scope.displayMode = 'date';
+            }
         };
     }
 ])
