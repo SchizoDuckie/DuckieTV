@@ -2,7 +2,6 @@
  * Controller for the torrent settings tab
  */
 DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "DuckieTorrent", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "EpisodeAiredService",
-
     function($scope, $rootScope, SettingsService, DuckieTorrent, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, EpisodeAiredService) {
 
         $scope.log = [];

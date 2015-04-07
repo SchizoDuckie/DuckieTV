@@ -18,8 +18,8 @@
  *    // repeat
  *  }
  */
-DuckieTV.controller('BackupCtrl', ["$scope", "$rootScope", "$dialogs", "$filter", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q",
-    function($scope, $rootScope, $dialogs, $filter, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q) {
+DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q",
+    function($scope, $dialogs, $filter, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q) {
 
         $scope.backupString = false;
         $scope.series = [];

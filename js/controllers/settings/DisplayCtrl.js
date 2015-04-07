@@ -1,8 +1,10 @@
-/*
+/**
+ * DisplayCtrl containing the controller for the Display Settings and Language Settings
+ *
  * Controller for the display settings tab
  */
-DuckieTV.controller('DisplayCtrl', ["$scope", "$rootScope", "SettingsService",
-    function($scope, $rootScope, SettingsService) {
+DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
+    function($scope, SettingsService) {
 
         $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
         $scope.topSites = SettingsService.get('topSites.enabled');
@@ -36,6 +38,9 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "$rootScope", "SettingsService",
     }
 ])
 
+/*
+ * Controller for the language settings tab
+ */
 DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "SettingsService",
     function($scope, $filter, SettingsService) {
         $scope.activeLocale = SettingsService.get('application.locale');
