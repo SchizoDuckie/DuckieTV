@@ -8,7 +8,6 @@ var DuckieTV = angular.module('DuckieTV', [
     'ngLocale',
     'ngAnimate',
     'tmh.dynamicLocale',
-    'datePicker',
     'ui.bootstrap',
     'dialogs',
     'pascalprecht.translate',
@@ -43,6 +42,9 @@ var DuckieTV = angular.module('DuckieTV', [
 .run(function($rootScope, $state) {
     $rootScope.$on('$stateChangeStart',
         function(e, toState, toParams, fromState, fromParams) {
+            if (!toState.views) {
+                return;
+            }
             Object.keys(toState.views).map(function(viewname) {
                 document.querySelector("[ui-view=" + viewname + "]").classList.add('ui-loading')
             })
@@ -50,6 +52,10 @@ var DuckieTV = angular.module('DuckieTV', [
 
     $rootScope.$on('$stateChangeSuccess',
         function(e, toState, toParams, fromState, fromParams) {
+            if (!toState.views) {
+                return;
+            }
+
             Object.keys(toState.views).map(function(viewname) {
                 document.querySelector("[ui-view=" + viewname + "]").classList.remove('ui-loading')
             })

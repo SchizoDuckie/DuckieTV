@@ -1,138 +1,18 @@
-'use strict';
+DuckieTV
 
-var Module = angular.module('datePicker', []);
-
-Module.constant('datePickerConfig', {
+.constant('datePickerConfig', {
     template: 'templates/datepicker.html',
     view: 'month',
     views: ['year', 'month', 'week', 'date', 'hours', 'minutes'],
     step: 5,
     startSunday: true
-});
-
-function getVisibleMinutes(date, step) {
-    date = new Date(date || new Date());
-    date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours());
-    var minutes = [];
-    var stop = date.getTime() + 60 * 60 * 1000;
-    while (date.getTime() < stop) {
-        minutes.push(date);
-        date = new Date(date.getTime() + step * 60 * 1000);
-    }
-    return minutes;
-}
+})
 
 
-
-function getVisibleWeek(date, startSunday) {
-    date = new Date(date || new Date());
-    date.setHours(0);
-    date.setMinutes(0);
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-
-    var weeks = [];
-    var day = date.getDay(),
-        startSunday = startSunday ? 0 : 1;
-
-    if (startSunday === 1 && date.getDay() == 0) {
-        date.setDate(date.getDate() - 6);
-    } else {
-        date.setDate(date.getDate() - (date.getDay() - startSunday));
-    }
-
-    var week = [];
-
-    for (var i = 0; i < 7; i++) {
-        week.push(new Date(date));
-        date.setDate(date.getDate() + 1);
-    }
-    return [week];
-}
-
-function getVisibleWeeks(date, startSunday) {
-    date = new Date(date || new Date());
-    var startMonth = date.getMonth(),
-        startYear = date.getYear();
-    date.setDate(1);
-    date.setHours(0);
-    date.setMinutes(0);
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-    startSunday = startSunday ? 0 : 1;
-
-    if (date.getDay() === 0) {
-        date.setDate(-6 + startSunday);
-    } else {
-        date.setDate(date.getDate() - (date.getDay() - startSunday));
-    }
-
-    var weeks = [];
-    while (weeks.length < 6) {
-        if (date.getYear() == startYear && date.getMonth() > startMonth) break;
-        var week = [];
-        for (var i = 0; i < 7; i++) {
-            week.push(new Date(date));
-            date.setDate(date.getDate() + 1);
-            date.setHours(date.getHours() > 12 ? date.getHours() + 2 : 0);
-        }
-        weeks.push(week);
-    }
-    return weeks;
-}
-
-function getVisibleYears(date) {
-    var years = [];
-    date = new Date(date || new Date());
-    date.setFullYear(date.getFullYear() - (date.getFullYear() % 10));
-    for (var i = 0; i < 12; i++) {
-        years.push(new Date(date.getFullYear() + (i - 1), 0, 1));
-    }
-    return years;
-}
-
-function getDaysOfWeek(date, startSunday) {
-    date = new Date(date || new Date());
-    date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-    date.setDate(date.getDate() - (date.getDay() - (startSunday ? 0 : 1)));
-    var days = [];
-    for (var i = 0; i < 7; i++) {
-        days.push(new Date(date));
-        date.setDate(date.getDate() + 1);
-    }
-    return days;
-}
-
-function getVisibleMonths(date) {
-    date = new Date(date || new Date());
-    var year = date.getFullYear();
-    var months = [];
-    for (var month = 0; month < 12; month++) {
-        months.push(new Date(year, month, 1));
-    }
-    return months;
-}
-
-function getVisibleHours(date) {
-    date = new Date(date || new Date());
-    date.setHours(0);
-    date.setMinutes(0);
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-    var hours = [];
-    for (var i = 0; i < 24; i++) {
-        hours.push(date);
-        date = new Date(date.getTime() + 60 * 60 * 1000);
-    }
-    return hours;
-}
-
-Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injector", "$rootScope",
+.directive('datePicker', ["datePickerConfig", "SettingsService", "$injector", "$rootScope",
     function datePickerDirective(datePickerConfig, SettingsService, $injector, $rootScope) {
         //noinspection JSUnusedLocalSymbols
         return {
-            // this is a bug ?
             template: '<div ng-include="template"></div>',
             scope: {
                 model: '=datePicker',
@@ -140,6 +20,126 @@ Module.directive('datePicker', ["datePickerConfig", "SettingsService", "$injecto
                 before: '=?'
             },
             link: function(scope, element, attrs) {
+
+                function getVisibleMinutes(date, step) {
+                    date = new Date(date || new Date());
+                    date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours());
+                    var minutes = [];
+                    var stop = date.getTime() + 60 * 60 * 1000;
+                    while (date.getTime() < stop) {
+                        minutes.push(date);
+                        date = new Date(date.getTime() + step * 60 * 1000);
+                    }
+                    return minutes;
+                }
+
+
+
+                function getVisibleWeek(date, startSunday) {
+                    date = new Date(date || new Date());
+                    date.setHours(0);
+                    date.setMinutes(0);
+                    date.setSeconds(0);
+                    date.setMilliseconds(0);
+
+                    var weeks = [];
+                    var day = date.getDay(),
+                        startSunday = startSunday ? 0 : 1;
+
+                    if (startSunday === 1 && date.getDay() == 0) {
+                        date.setDate(date.getDate() - 6);
+                    } else {
+                        date.setDate(date.getDate() - (date.getDay() - startSunday));
+                    }
+
+                    var week = [];
+
+                    for (var i = 0; i < 7; i++) {
+                        week.push(new Date(date));
+                        date.setDate(date.getDate() + 1);
+                    }
+                    return [week];
+                }
+
+                function getVisibleWeeks(date, startSunday) {
+                    date = new Date(date || new Date());
+                    var startMonth = date.getMonth(),
+                        startYear = date.getYear();
+                    date.setDate(1);
+                    date.setHours(0);
+                    date.setMinutes(0);
+                    date.setSeconds(0);
+                    date.setMilliseconds(0);
+                    startSunday = startSunday ? 0 : 1;
+
+                    if (date.getDay() === 0) {
+                        date.setDate(-6 + startSunday);
+                    } else {
+                        date.setDate(date.getDate() - (date.getDay() - startSunday));
+                    }
+
+                    var weeks = [];
+                    while (weeks.length < 6) {
+                        if (date.getYear() == startYear && date.getMonth() > startMonth) break;
+                        var week = [];
+                        for (var i = 0; i < 7; i++) {
+                            week.push(new Date(date));
+                            date.setDate(date.getDate() + 1);
+                            date.setHours(date.getHours() > 12 ? date.getHours() + 2 : 0);
+                        }
+                        weeks.push(week);
+                    }
+                    return weeks;
+                }
+
+                function getVisibleYears(date) {
+                    var years = [];
+                    date = new Date(date || new Date());
+                    date.setFullYear(date.getFullYear() - (date.getFullYear() % 10));
+                    for (var i = 0; i < 12; i++) {
+                        years.push(new Date(date.getFullYear() + (i - 1), 0, 1));
+                    }
+                    return years;
+                }
+
+                function getDaysOfWeek(date, startSunday) {
+                    date = new Date(date || new Date());
+                    date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+                    date.setDate(date.getDate() - (date.getDay() - (startSunday ? 0 : 1)));
+                    var days = [];
+                    for (var i = 0; i < 7; i++) {
+                        days.push(new Date(date));
+                        date.setDate(date.getDate() + 1);
+                    }
+                    return days;
+                }
+
+                function getVisibleMonths(date) {
+                    date = new Date(date || new Date());
+                    var year = date.getFullYear();
+                    var months = [];
+                    for (var month = 0; month < 12; month++) {
+                        months.push(new Date(year, month, 1));
+                    }
+                    return months;
+                }
+
+                function getVisibleHours(date) {
+                    date = new Date(date || new Date());
+                    date.setHours(0);
+                    date.setMinutes(0);
+                    date.setSeconds(0);
+                    date.setMilliseconds(0);
+                    var hours = [];
+                    for (var i = 0; i < 24; i++) {
+                        hours.push(date);
+                        date = new Date(date.getTime() + 60 * 60 * 1000);
+                    }
+                    return hours;
+                }
+
+
                 scope.date = new Date(scope.model || new Date());
                 scope.views = datePickerConfig.views.concat();
                 scope.view = attrs.view || datePickerConfig.view;
