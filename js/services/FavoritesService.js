@@ -36,8 +36,13 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
             data.airs_time = data.airs.time;
             data.timezone = data.airs.timezone;
             data.firstaired = new Date(data.first_aired).getTime();
-            data.rating = Math.round(data.rating * 10);
-            data.ratingcount = data.votes;
+            if (!serie.ratingcount || serie.ratingcount + 25 > data.votes) {
+                data.rating = Math.round(data.rating * 10);
+                data.ratingcount = data.votes;
+            } else {
+                delete data.rating;
+                delete data.ratingcount;
+            }
             data.genre = data.genres.join('|');
             data.lastupdated = data.updated_at;
             if (data.people && 'cast' in data.people) {
@@ -64,8 +69,13 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
             // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
             data.TVDB_ID = data.tvdb_id;
             data.IMDB_ID = data.imdb_id;
-            data.ratingcount = data.votes;
-            data.rating = Math.round(data.rating * 10);
+            if (!episode.ratingcount || episode.ratingcount + 25 > data.votes) {
+                data.rating = Math.round(data.rating * 10);
+                data.ratingcount = data.votes;
+            } else {
+                delete data.rating;
+                delete data.ratingcount;
+            }
             data.episodenumber = data.number;
             data.episodename = data.title;
             data.firstaired = new Date(data.first_aired).getTime();
@@ -127,8 +137,10 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                     SE.seasonnumber = season.number;
                     SE.ID_Serie = serie.getID();
                     SE.overview = season.overview;
-                    SE.ratings = season.rating;
-                    SE.ratingcount = season.votes;
+                    if (!SE.ratingcount || SE.ratingcount + 25 > season.votes) {
+                        SE.ratings = Math.round(season.rating * 10);
+                        SE.ratingcount = season.votes;
+                    }
                     seasonCache[season.number] = SE;
                     return SE.Persist().then(function() {
                         return true;
