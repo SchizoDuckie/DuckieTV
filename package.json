@@ -36,16 +36,16 @@
     "author": "DuckieTV",
     "user-agent": "DuckieTV Standalone v0.95",
     "window": {
-        "transparent": false,
+        "transparent": true,
         "fullscreen": false,
         "resizable": true,
         "title": "DuckieTV Standalone v0.95",
         "always-on-top": false,
-        "frame": true,
+        "frame": false,
         "height": 750,
         "min_height": 400,
         "visible": true,
-        "as_desktop": false,
+        "as_desktop": true,
         "mac_icon": "C:/xampp/htdocs/deploy/newtab/img/icon128.png",
         "min_width": 600,
         "position": "center",
@@ -76,7 +76,7 @@
     },
     "description": "DuckieTV helps you manage your favorite TV Shows on a sweet calendar",
     "scripts": {
-        "test": "node_modules/.bin/karma start --single-run",
+        "test": "#node_modules/.bin/karma start --single-run",
         "test-watch": "node_modules/.bin/karma start --no-single-run --auto-watch --browsers PhantomJS"
     },
     "webkit": {
@@ -89,5 +89,8 @@
     "license": "MIT",
     "single-instance": true,
     "snapshot": "",
-    "node-main": ""
+    "node-main": "",
+    "dependencies": {
+        "karma": "^0.12.31"
+    }
 }
