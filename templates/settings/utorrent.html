@@ -14,7 +14,7 @@
 
     <a class='btn btn-small btn-success' ng-if="!isuTorrentAuthenticated()" ng-click='connect()'><i class="glyphicon glyphicon-refresh"></i> <span ><translate>SETTINGS/UTORRENT/connect-to-utorrent/btn</translate></span></a>
 
-  <hr style='padding:10px'>
+  <hr class="setting-divider">
   <h2 style='margin-top: 13px'>{{'SETTINGS/UTORRENT/streaming/hdr'|translate}}
   <span ng-show="getSetting('torrenting.streaming')" tooltip="{{'SETTINGS/UTORRENT/enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
   <span ng-show="!getSetting('torrenting.streaming')" tooltip="{{'SETTINGS/UTORRENT/disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
@@ -25,7 +25,7 @@
     <a ng-show="!getSetting('torrenting.streaming')" ng-click="enableSetting('torrenting.streaming')" class="btn btn-success"><i class="glyphicon glyphicon-film"></i>{{'SETTINGS/UTORRENT/streaming-enabled/btn'|translate}}</a>
     <a ng-show="getSetting('torrenting.streaming')" ng-click="disableSetting('torrenting.streaming')" class="btn btn-danger"><i class="glyphicon glyphicon-ban-circle"></i>{{'SETTINGS/UTORRENT/streaming-disabled/btn'|translate}}</a>
    
-  <hr style="padding:10px">
+  <hr class="setting-divider">
 
   <h2>{{'SETTINGS/UTORRENT/directory/hdr'|translate}}
   <span ng-show="getSetting('torrenting.directory')" tooltip="{{'SETTINGS/UTORRENT/enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
@@ -38,7 +38,7 @@
     <a ng-show="getSetting('torrenting.directory')" ng-click="disableSetting('torrenting.directory')" class="btn btn-danger"><i class="glyphicon glyphicon-ban-circle"></i>{{'SETTINGS/UTORRENT/directory-folder-hide/btn'|translate}}</a>
   
 
-<hr style="padding:10px">
+<hr class="setting-divider">
   
   <h2>{{'SETTINGS/UTORRENT/progressbar/hdr'|translate}}
     <span ng-show="getSetting('torrenting.progress')" tooltip="{{'SETTINGS/UTORRENT/enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
@@ -50,7 +50,7 @@
     <a ng-show="!getSetting('torrenting.progress')" ng-click="enableSetting('torrenting.progress')" class="btn btn-success"><i class="glyphicon glyphicon-minus"></i>{{'SETTINGS/UTORRENT/progressbar-show/btn'|translate}}</a>
     <a ng-show="getSetting('torrenting.progress')" ng-click="disableSetting('torrenting.progress')" class="btn btn-danger"><i class="glyphicon glyphicon-ban-circle"></i>{{'SETTINGS/UTORRENT/progressbar-hide/btn'|translate}}</a>
    
-  <hr style="padding:10px">
+  <hr class="setting-divider">
   
 
   <h2>{{'SETTINGS/UTORRENT/autostop/hdr'|translate}} 

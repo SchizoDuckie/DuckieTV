@@ -1,5 +1,4 @@
 <div ng-controller="SettingsTorrentCtrl">
-
   <h2 style="margin-top: 13px">{{'SETTINGS/TORRENT-SEARCH/default-provider/hdr'|translate}}</h2>
   <p style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT-SEARCH/default-provider/desc'|translate}}</p>
 
@@ -10,9 +9,8 @@
     </li>
   </ul>
 
-   <hr style="padding:10px">
+  <hr class="setting-divider">
 
-   
   <h2>{{'SETTINGS/TORRENT-SEARCH/quality/hdr'|translate}}</h2>
   <p style='text-align:left;white-space:normal'>
     {{'SETTINGS/TORRENT-SEARCH/quality/desc'|translate}}<br>
@@ -44,12 +42,10 @@
     </li>
   </ul>
 
-   <hr style="padding:10px">
-
+  <hr class="setting-divider">
 
   <h2 style='white-space:nowrap'>The Pirate Bay</h2>
-  <p style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT-SEARCH/tpb/desc'|translate}}
-  </p>
+  <p style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT-SEARCH/tpb/desc'|translate}}</p>
 
   <ul class="list-unstyled">
     <li>{{'SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr'|translate}}<br>
@@ -59,19 +55,17 @@
 
       <p ng-show="tpbmirrorStatus.length > 0">
         {{'SETTINGS/TORRENT-SEARCH/tpb-status/hdr'|translate}}
-        <ul style='max-height:150px; overflow-y:auto;'>
+        <ul style='max-height:150px; overflow-y:auto'>
           <li ng-repeat="status in tpbmirrorStatus track by $index">{{status}}</li>
         </ul>
       </p>
     </li>
   </ul>
    
-    <hr style="padding:10px">
+  <hr class="setting-divider">
 
-
-  <h2 style='white-space:nowrap'>KickAss Torrents</h2>
-  <p style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT-SEARCH/kat/desc'|translate}}
-  </p>
+  <h2 style='white-space:nowrap'>KickAssTorrents</h2>
+  <p style='text-align:left;white-space:normal'>{{'SETTINGS/TORRENT-SEARCH/kat/desc'|translate}}</p>
 
   <ul class="list-unstyled">
     <li>{{'SETTINGS/TORRENT-SEARCH/kat-mirror/hdr'|translate}}<br>
@@ -81,27 +75,25 @@
 
       <p ng-show="katmirrorStatus.length > 0">
         {{'SETTINGS/TORRENT-SEARCH/kat-status/hdr'|translate}}
-        <ul style='max-height:150px; overflow-y:auto;'>
+        <ul style='max-height:150px; overflow-y:auto'>
           <li ng-repeat="status in katmirrorStatus track by $index">{{status}}</li>
         </ul>
       </p>
     </li>
   </ul>
 
-   <hr style="padding:10px">
-
+  <hr class="setting-divider">
 
   <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr'|translate}}
-  <span ng-show="getSetting('proxy.allowUnsafe')" tooltip="{{'SETTINGS/TORRENT-SEARCH/enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i></span>
-  <span ng-show="!getSetting('proxy.allowUnsafe')" tooltip="{{'SETTINGS/TORRENT-SEARCH/disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove alert-danger" ></i></span>
+    <span tooltip="{{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/enabled/tooltip' : 'SETTINGS/TORRENT-SEARCH/disabled/tooltip'|translate}}">
+      <i class="glyphicon glyphicon-{{allowUnsafe ? 'ok alert-success' : 'remove alert-danger'}}" ></i>
+    </span>
   </h2>
 
   <ul class="list-unstyled">
     <li>
-      <p ng-show="!getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disabled/desc'|translate}}</p>
-      <p ng-show="getSetting('proxy.allowUnsafe')">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enabled/desc'|translate}}</p>
-      <a ng-show="!getSetting('proxy.allowUnsafe')" ng-click="enableSetting('proxy.allowUnsafe')" class="btn btn-success">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enable/btn'|translate}}</a>
-      <a ng-show="getSetting('proxy.allowUnsafe')" ng-click="disableSetting('proxy.allowUnsafe')" class="btn btn-danger">{{'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disable/btn'|translate}}</a>
+      <p>{{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enabled/desc' : 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disabled/desc'|translate}}</p>
+      <a ng-click="toggleUnsafeProxy()" class="btn btn-{{allowUnsafe ? 'danger' : 'success'}}">{{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disable/btn' : 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enable/btn'|translate}}</a>
     </li>
   </ul>
 </div>

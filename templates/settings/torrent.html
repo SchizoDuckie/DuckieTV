@@ -25,7 +25,7 @@
     </ul>
     <a class="btn btn-warning" ng-click="reload()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;{{'SETTINGS/TORRENT/reload-duckie/btn'|translate}}&nbsp;{{currentClient}}</a>
       
-    <hr style='padding:10px'>
+    <hr class="setting-divider">
 
     <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/autodownload/hdr'|translate}}
     <span ng-show="getSetting('torrenting.autodownload')" tooltip="{{'SETTINGS/TORRENT/autodownload-enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i> </span>
@@ -41,7 +41,7 @@
       </li>
     </ul>
 
-<hr style='padding:10px'>
+<hr class="setting-divider">
 
     <div class="autodownload">
       <h2>{{'SETTINGS/TORRENT/autodownload-period/hdr'|translate}}</h2>
@@ -53,7 +53,7 @@
       </form>
       <span class="alert alert-danger" ng-show="p.period.$error.number">{{'SETTINGS/TORRENT/autodownload-only-numbers/alert'|translate}}</span>
 
-<hr style='padding:10px'>
+<hr class="setting-divider">
 
       <h2>{{'SETTINGS/TORRENT/autodownload-seeders/hdr'|translate}}</h2>
       <p >{{'SETTINGS/TORRENT/autodownload-seeders/desc'|translate}}<br>{{'SETTINGS/TORRENT/autodownload-seeders-default/lbl'|translate}}</p>

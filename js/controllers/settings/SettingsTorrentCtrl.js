@@ -14,6 +14,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         $scope.adMinSeeders = SettingsService.get('autodownload.minSeeders');
         $scope.customadPeriod = SettingsService.get('autodownload.period');
         $scope.customadMinSeeders = SettingsService.get('autodownload.minSeeders');
+        $scope.allowUnsafe = SettingsService.get('proxy.allowUnsafe');
         $scope.katmirrorStatus = [];
         $scope.tpbmirrorStatus = [];
 
@@ -93,6 +94,15 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
             });
         };
 
+        $scope.toggleUnsafeProxy = function() {
+            if ($scope.allowUnsafe) {
+                SettingsService.set('proxy.allowUnsafe', false);
+                $scope.allowUnsafe = false
+            } else {
+                SettingsService.set('proxy.allowUnsafe', true);
+                $scope.allowUnsafe = true
+            }
+        };
 
         /**
          * Create the automated download service.

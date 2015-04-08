@@ -10,7 +10,7 @@
     <a ng-click="toggleTopSites()" class="btn btn-{{topSites ? 'danger' : 'success'}}"><i class="glyphicon glyphicon-{{topSites ? 'ban-circle' : 'th'}}"></i>{{topSites ? 'SETTINGS/DISPLAY/topsites-hide/btn' : 'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</a>
 
     <div ng-show="topSites">
-      <hr style="padding:10px">
+      <hr class="setting-divider">
 
       <h2>{{'SETTINGS/DISPLAY/topsites-activation/hdr'|translate}}
         <span tooltip="{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-hover/tooltip' : 'SETTINGS/DISPLAY/topsites-mode-click/tooltip'|translate}}">
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <hr style="padding:10px">
+  <hr class="setting-divider">
 
   <h2>{{'SETTINGS/DISPLAY/background-opacity/hdr'|translate}}</h2>
 

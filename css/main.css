@@ -1411,6 +1411,10 @@ sidepanel .leftpanel.torrents {
     display: block;
     margin-top: 20px;
 }
+.setting-divider {
+    margin-top: 22.5px;
+    margin-bottom: 22.5px;
+}
 .settings .label {
    
     margin: 0 auto 5px auto;
