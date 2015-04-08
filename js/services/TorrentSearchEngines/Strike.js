@@ -58,13 +58,13 @@ DuckieTV.factory('Strike', ["$q", "$http",
                 throw "Error " + err.status + ":" + err.statusText;
             });
         }
-           
+
         var service = {
             search: function(what) {
                 service.cancelSearch();
                 activeSearchRequest = $q.defer();
                 // Strike doesn't seem to like trailing spaces
-                return promiseRequest('search', what.trim() , null, activeSearchRequest.promise).then(function(results) {
+                return promiseRequest('search', what.trim(), null, activeSearchRequest.promise).then(function(results) {
                     activeSearchRequest = false;
                     return results;
                 });
@@ -78,4 +78,10 @@ DuckieTV.factory('Strike', ["$q", "$http",
         }
         return service;
     }
-]);
+])
+
+.run(["TorrentDialog", "Strike",
+    function(TorrentDialog, Strike) {
+        TorrentDialog.registerSearchEngine('Strike', Strike);
+    }
+])

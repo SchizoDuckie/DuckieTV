@@ -1,44 +1,62 @@
-DuckieTV.provider('TorrentDialog', function() {
-    var activeMagnet = false;
-    this.$get = ["$injector", "$rootScope", "$q",
-        function($injector, $rootScope, $q) {
-            return {
-                search: function(query, TVDB_ID, options) {
-                    return $injector.get('$dialogs').create('templates/torrentDialog.html', 'torrentDialogCtrl', {
-                        query: query,
-                        TVDB_ID: TVDB_ID
-                    }, options || {
-                        size: 'lg'
-                    });
-                },
-                /**
-                 * launch magnet via a hidden iframe and broadcast the fact that it's selected to anyone listening
-                 */
-                launchMagnet: function(magnet, TVDB_ID) {
-                    console.log("Firing magnet URI! ", magnet, TVDB_ID);
-                    $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
-                    var DuckieTorrent = $injector.get('DuckieTorrent');
-                    if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
-                        console.log("Adding via TorrentClient.addMagnet API! ", magnet, TVDB_ID);
-                        DuckieTorrent.getClient().addMagnet(magnet);
-                        setTimeout(function() {
-                            DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
-                        }, 1500);
-                    } else {
-                        var d = document.createElement('iframe');
-                        d.id = 'torrentmagnet_' + new Date().getTime();
-                        d.src = magnet;
-                        d.style.visibility = 'hidden';
-                        document.body.appendChild(d);
-                        setTimeout(function() {
-                            document.body.removeChild(d);
-                        }, 3000);
-                    }
+DuckieTV.factory('TorrentDialog', ["DuckieTorrent", "$rootScope", "$dialogs", "$q",
+    function(DuckieTorrent, $rootScope, $dialogs, $q) {
+        var activeMagnet = false;
+        var engines = {};
+        var defaultEngine = 'ThePirateBay';
+
+        var service = {
+
+            registerSearchEngine: function(name, implementation) {
+                console.log("Registering torrent search engine:", name);
+                engines[name] = implementation;
+            },
+
+            getSearchEngines: function() {
+                return engines;
+            },
+
+            setDefault: function(name) {
+                if (name in engines) {
+                    defaultEngine = name;
                 }
-            };
-        }
-    ];
-})
+            },
+
+            search: function(query, TVDB_ID, options) {
+                return $dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {
+                    query: query,
+                    TVDB_ID: TVDB_ID
+                }, options || {
+                    size: 'lg'
+                });
+            },
+            /**
+             * launch magnet via a hidden iframe and broadcast the fact that it's selected to anyone listening
+             */
+            launchMagnet: function(magnet, TVDB_ID) {
+                console.log("Firing magnet URI! ", magnet, TVDB_ID);
+                $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+
+                if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
+                    console.log("Adding via TorrentClient.addMagnet API! ", magnet, TVDB_ID);
+                    DuckieTorrent.getClient().addMagnet(magnet);
+                    setTimeout(function() {
+                        DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
+                    }, 1500);
+                } else {
+                    var d = document.createElement('iframe');
+                    d.id = 'torrentmagnet_' + new Date().getTime();
+                    d.src = magnet;
+                    d.style.visibility = 'hidden';
+                    document.body.appendChild(d);
+                    setTimeout(function() {
+                        document.body.removeChild(d);
+                    }, 3000);
+                }
+            }
+        };
+        return service;
+    }
+])
 
 .controller('torrentDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "TorrentDialog", "GenericSearch", "SettingsService",
     function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog, GenericSearch, SettingsService) {
@@ -151,5 +169,19 @@ DuckieTV.provider('TorrentDialog', function() {
                 }
             ]
         }
+    }
+])
+
+
+.run(["TorrentDialog", "SettingsService",
+    function(TorrentDialog, SettingsService) {
+        // auto-initialize 
+        var providers = TorrentDialog.getSearchEngines();
+        if (!(SettingsService.get('torrenting.searchprovider') in providers)) {
+            // autoconfig migration, fallback to first provider in the list when we detect an invalid provider.
+            console.warn("Invalid search provider detected: ", SettingsService.get('torrenting.searchprovider'), " defaulting to ", Object.keys(providers)[0]);
+            SettingsService.set('torrenting.searchprovider', Object.keys(providers)[0]);
+        }
+        TorrentDialog.setDefault(SettingsService.get('torrenting.searchprovider'));
     }
 ])
