@@ -748,6 +748,25 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
   box-shadow: 5px 5px rgba(25,25,25,0.91);
   z-index: 1;
 }
+
+[date-picker].zoom td:hover > span {
+  position: absolute;
+  top: 0px;
+  left: -45%;
+  display: block;
+  color: white;
+  width: 150%;
+  background-color: rgba(25,25,25,0.9);
+  z-index: -1;
+  text-align: left;
+}
+
+[date-picker].zoom td:hover > span em.dayofweek {
+    display: block;
+}
+
+[date-picker].zoom td:hover div a:hover {
+    text-decoration: none;
 }
 
 [date-picker] td:last-child {
@@ -787,6 +806,15 @@ td.day {
     border-right: 1px solid white;
     border-bottom: 1px solid white;
 }
+
+[date-picker] td span em.dayofweek {
+    font-size: 12px;
+    display: none;
+    padding: 0px;
+    margin: 0px;
+    line-height: 16px;
+}
+
 [date-picker] td span.month, [date-picker] td span.year {
     cursor: pointer;
 }
@@ -883,6 +911,11 @@ td.day {
 [date-picker] .event > a {
     padding-left: 3px;
 }
+
+[date-picker] .event > a span {
+    display: block;
+}
+
 [date-picker] div.tooltip.bottom {
     width: 500px !important;
     overflow:visible;
