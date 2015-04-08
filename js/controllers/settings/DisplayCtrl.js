@@ -12,23 +12,14 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.bgOpacity = SettingsService.get('background-rotator.opacity');
 
         $scope.toggleTopSites = function() {
-            if ($scope.topSites == true) {
-                SettingsService.set('topSites.enabled', false);
-                $scope.topSites = false;
-            } else {
-                SettingsService.set('topSites.enabled', true);
-                $scope.topSites = true;  
-            }
-        }
+            $scope.topSites = !$scope.topSites;
+            SettingsService.set('topSites.enabled', $scope.topSites);
+        };
+        
         $scope.toggleTopSitesMode = function() {
-            if ($scope.topSitesMode == "onhover") {
-                SettingsService.set('topSites.mode', "onclick");
-                $scope.topSitesMode = "onclick";
-            } else {
-                SettingsService.set('topSites.mode', "onhover");
-                $scope.topSitesMode = "onhover";  
-            }
-        }
+            $scope.topSitesMode = $scope.topSitesMode == "onhover" ? "onclick" : "onhover";
+            SettingsService.set('topSites.mode', $scope.topSitesMode);
+        };
 
         // Set the various background opacity levels.
         $scope.setBGOpacity = function(opacity) {

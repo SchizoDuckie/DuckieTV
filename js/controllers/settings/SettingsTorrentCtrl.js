@@ -95,13 +95,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         };
 
         $scope.toggleUnsafeProxy = function() {
-            if ($scope.allowUnsafe) {
-                SettingsService.set('proxy.allowUnsafe', false);
-                $scope.allowUnsafe = false
-            } else {
-                SettingsService.set('proxy.allowUnsafe', true);
-                $scope.allowUnsafe = true
-            }
+            $scope.allowUnsafe = !$scope.allowUnsafe;
+            SettingsService.set('proxy.allowUnsafe', $scope.allowUnsafe);
         };
 
         /**
@@ -160,37 +155,37 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
 
         $scope.isuTorrentAuthenticated = function() {
             return localStorage.getItem('utorrent.token') !== null;
-        }
+        };
 
         $scope.getToken = function() {
             return localStorage.getItem('utorrent.token');
-        }
+        };
 
         $scope.removeToken = function() {
             localStorage.removeItem('utorrent.token');
-        }
+        };
 
         $scope.connect = function() {
             localStorage.removeItem('utorrent.preventconnecting');
             DuckieTorrent.getClient().AutoConnect();
-        }
+        };
 
         $scope.getTorrentClients = function() {
             return Object.keys(DuckieTorrent.getClients());
-        }
+        };
 
         $scope.setTorrentClient = function(name) {
             localStorage.setItem('torrenting.client', name);
             DuckieTorrent.getClient().Disconnect();
             $scope.currentClient = name;
             $scope.connect();
-        }
+        };
 
         $scope.currentClient = localStorage.getItem('torrenting.client');
 
         $scope.reload = function() {
             window.location.reload();
-        }
+        };
 
     }
 ])

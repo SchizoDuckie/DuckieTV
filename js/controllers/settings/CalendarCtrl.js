@@ -10,35 +10,20 @@ DuckieTV.controller('CalendarCtrl', ["$scope",  "SettingsService",
 
         // Toggle if calendar shows specials or not
         $scope.toggleSpecials = function() {
-            if ($scope.showSpecials == true) {
-                SettingsService.set('calendar.show-specials', false);
-                $scope.showSpecials = false;
-            } else {
-                SettingsService.set('calendar.show-specials', true);
-                $scope.showSpecials = true;
-            }
+            $scope.showSpecials = !$scope.showSpecials;
+            SettingsService.set('calendar.show-specials', $scope.showSpecials);
         };
 
         // Toggles calendar starting on Sunday or Monday
         $scope.toggleCalendarStartDay = function() {
-            if ($scope.startSunday == true) {
-                SettingsService.set('calendar.startSunday', false);
-                $scope.startSunday = false;
-            } else {
-                SettingsService.set('calendar.startSunday', true);
-                $scope.startSunday = true;
-            }
+                $scope.startSunday = !$scope.startSunday;
+                SettingsService.set('calendar.startSunday', $scope.startSunday);
         };
 
         // Toggles calendar view mode, week or month
         $scope.toggleCalendarDisplayMode = function() {
-            if ($scope.displayMode == 'date') {
-                SettingsService.set('calendar.mode', 'week');
-                $scope.displayMode = 'week';
-            } else {
-                SettingsService.set('calendar.mode', 'date');
-                $scope.displayMode = 'date';
-            }
+            $scope.displayMode = $scope.displayMode == 'date' ? 'week' : 'date';
+                SettingsService.set('calendar.mode', $scope.displayMode);
         };
     }
 ])
