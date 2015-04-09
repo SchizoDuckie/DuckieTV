@@ -12,7 +12,7 @@
 </div>
 
 <div class="btn-group">
- <button ng-repeat="(name, config) in clients" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{name}}</button>
+ <button ng-repeat="name in clients" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{name}}</button>
 </div>
 
 <table class="torrents table table-condensed white">

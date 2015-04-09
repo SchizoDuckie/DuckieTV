@@ -46,7 +46,8 @@ var DuckieTV = angular.module('DuckieTV', [
                 return;
             }
             Object.keys(toState.views).map(function(viewname) {
-                document.querySelector("[ui-view=" + viewname + "]").classList.add('ui-loading')
+                var view = document.querySelector("[ui-view=" + viewname + "]");
+                if (view) view.classList.add('ui-loading')
             })
         });
 
@@ -57,7 +58,8 @@ var DuckieTV = angular.module('DuckieTV', [
             }
 
             Object.keys(toState.views).map(function(viewname) {
-                document.querySelector("[ui-view=" + viewname + "]").classList.remove('ui-loading')
+                var view = document.querySelector("[ui-view=" + viewname + "]");
+                if (view) view.classList.remove('ui-loading')
             })
         });
 })

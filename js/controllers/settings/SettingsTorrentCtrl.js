@@ -1,8 +1,8 @@
 /**
  * Controller for the torrent settings tab
  */
-DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "DuckieTorrent", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "EpisodeAiredService",
-    function($scope, $rootScope, SettingsService, DuckieTorrent, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, EpisodeAiredService) {
+DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "DuckieTorrent", "TorrentDialog", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "EpisodeAiredService",
+    function($scope, $rootScope, SettingsService, DuckieTorrent, TorrentDialog, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, EpisodeAiredService) {
 
         $scope.log = [];
 
@@ -24,7 +24,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         $scope.katmirrorStatus = [];
         $scope.tpbmirrorStatus = [];
 
-        $scope.searchProviders = Object.keys(window.TorrentSearchProviders);
+        $scope.searchProviders = Object.keys(TorrentDialog.getSearchEngines());
 
         /**
          * Inject an event to display mirror resolving progress.

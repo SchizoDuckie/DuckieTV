@@ -1,21 +1,22 @@
-DuckieTV.run(["TorrentDialog",
-    function(TorrentDialog) {
-        TorrentDialog.registerSearchEngine('OldPirateBay', {
+DuckieTV.run(["TorrentDialog", "$q", "$http", "$injector",
+    function(TorrentDialog, $q, $http, $injector) {
+
+        TorrentDialog.registerSearchEngine('OldPirateBay', new GenericTorrentSearchEngine({
             mirror: 'https://oldpiratebay.org',
             mirrorResolver: null,
             endpoints: {
-                search: '/search.php?q=%s&Torrent_sort=seeders.desc',
+                search: '/search?q=%s&sort=-seeders',
                 details: '/%s',
             },
             selectors: {
-                resultContainer: 'table.table-torrents tbody tr',
-                releasename: ['td.title-row a span', 'innerText'],
-                magneturl: ['td.title-row a[title="MAGNET LINK"]', 'href'],
-                size: ['td.size-row', 'innerText'],
-                seeders: ['td.seeders-row', 'innerText'],
-                leechers: ['td.leechers-row', 'innerText'],
-                detailUrl: ['td.title-row > a', 'href']
+                resultContainer: 'table.search-result tbody tr',
+                releasename: ['td:nth-child(2)', 'innerText'],
+                magneturl: ['td a[title="MAGNET LINK"]', 'href'],
+                size: ['td:nth-child(4)', 'innerText'],
+                seeders: ['td:nth-child(5)', 'innerText'],
+                leechers: ['td:nth-child(6)', 'innerText'],
+                detailUrl: ['td:nth-child(2) a', 'href']
             }
-        });
+        }, $q, $http, $injector));
     }
 ])

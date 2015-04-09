@@ -1,8 +1,8 @@
 /**
  * Fetches and displays various statistics about current DuckieTV Setup on About Page
  */
-DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "GenericSearch",
-    function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, GenericSearch) {
+DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "TorrentDialog",
+    function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, TorrentDialog) {
 
         $scope.statistics = [];
 
@@ -64,7 +64,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             };
 
             // Get current torrent mirror
-            var activeTorrentingMirror = GenericSearch.getConfig().mirror;
+            var activeTorrentingMirror = TorrentDialog.getDefaultEngine().config.mirror;
 
             // Get date of last trakt update
             var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));

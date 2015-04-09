@@ -4,8 +4,8 @@
  *
  * Runs in the background page.
  */
-DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "GenericSearch", "TorrentDialog", "DuckieTorrent",
-    function($rootScope, FavoritesService, SceneNameResolver, SettingsService, GenericSearch, TorrentDialog, DuckieTorrent) {
+DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentDialog", "DuckieTorrent",
+    function($rootScope, FavoritesService, SceneNameResolver, SettingsService, TorrentDialog, DuckieTorrent) {
 
         var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 1
         var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 50
@@ -57,7 +57,7 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                 console.log("Auto download!", searchString);
 
                 // Search torrent provider for the string
-                return GenericSearch.search(searchString, true).then(function(results) {
+                return TorrentDialog.getDefaultEngine().search(searchString, true).then(function(results) {
                     if (results.length === 0) {
                         return; // no results, abort
                     }

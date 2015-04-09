@@ -1,8 +1,10 @@
-DuckieTV.factory('TorrentDialog', ["DuckieTorrent", "$rootScope", "$dialogs", "$q",
-    function(DuckieTorrent, $rootScope, $dialogs, $q) {
+DuckieTV.factory('TorrentDialog', ["DuckieTorrent", "$rootScope", "$dialogs", "$q", "SettingsService",
+    function(DuckieTorrent, $rootScope, $dialogs, $q, SettingsService) {
         var activeMagnet = false;
         var engines = {};
         var defaultEngine = 'ThePirateBay';
+
+
 
         var service = {
 
@@ -13,6 +15,18 @@ DuckieTV.factory('TorrentDialog', ["DuckieTorrent", "$rootScope", "$dialogs", "$
 
             getSearchEngines: function() {
                 return engines;
+            },
+
+            getDefaultEngine: function() {
+                return engines[defaultEngine];
+            },
+
+            getDefault: function() {
+                return defaultEngine;
+            },
+
+            getSearchEngine: function(engine) {
+                return engines[engine];
             },
 
             setDefault: function(name) {
@@ -54,21 +68,23 @@ DuckieTV.factory('TorrentDialog', ["DuckieTorrent", "$rootScope", "$dialogs", "$
                 }
             }
         };
+
+        service.setDefault(SettingsService.get('torrenting.searchprovider'));
+
         return service;
     }
 ])
 
-.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "TorrentDialog", "GenericSearch", "SettingsService",
-    function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog, GenericSearch, SettingsService) {
+.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "TorrentDialog", "SettingsService",
+    function($scope, $rootScope, $modalInstance, $injector, data, TorrentDialog, SettingsService) {
         //-- Variables --//
-        var customClients = {};
 
         $scope.items = [];
         $scope.searching = true;
         $scope.query = angular.copy(data.query);
         $scope.TVDB_ID = angular.copy(data.TVDB_ID);
-        $scope.searchprovider = $scope.getSetting('torrenting.searchprovider');
-        $scope.searchquality = $scope.getSetting('torrenting.searchquality');
+        $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
+        $scope.searchquality = SettingsService.get('torrenting.searchquality');
 
         $scope.getName = function(provider) {
             return provider;
@@ -81,9 +97,7 @@ DuckieTV.factory('TorrentDialog', ["DuckieTorrent", "$rootScope", "$dialogs", "$
                 $scope.TVDB_ID = TVDB_ID;
             }
 
-            var searchProvider = (!($scope.searchprovider in customClients)) ? GenericSearch : $injector.get(customClients[$scope.searchprovider]);
-
-            searchProvider.search([q, $scope.searchquality].join(' ')).then(function(results) {
+            TorrentDialog.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' ')).then(function(results) {
                     $scope.items = results;
                     $scope.searching = false;
                 },
@@ -101,9 +115,6 @@ DuckieTV.factory('TorrentDialog', ["DuckieTorrent", "$rootScope", "$dialogs", "$
         // Changes what search provider you search with
         $scope.setProvider = function(provider) {
             $scope.searchprovider = provider;
-            if (!(provider in customClients)) {
-                GenericSearch.setProvider(provider);
-            }
             $scope.search($scope.query);
         }
 
@@ -120,23 +131,7 @@ DuckieTV.factory('TorrentDialog', ["DuckieTorrent", "$rootScope", "$dialogs", "$
             TorrentDialog.launchMagnet(magnet, channel);
         };
 
-        $scope.getClients = function() {
-            var clients = window.TorrentSearchProviders;
-            // Manually add them to the list of available providers
-            clients['ShowRSS.info'] = true;
-            clients['Strike'] = true;
-            // Specify them as customClients
-            customClients['ShowRSS.info'] = 'ShowRSS';
-            customClients['Strike'] = 'Strike';
-            for (var name in clients) {
-                if (SettingsService.get(name + '.mirror')) {
-                    clients[name].mirror = SettingsService.get(name + '.mirror');
-                }
-            }
-            $scope.clients = clients;
-        };
-
-        $scope.getClients();
+        $scope.clients = Object.keys(TorrentDialog.getSearchEngines());
 
         $scope.search($scope.query);
     }
@@ -175,13 +170,17 @@ DuckieTV.factory('TorrentDialog', ["DuckieTorrent", "$rootScope", "$dialogs", "$
 
 .run(["TorrentDialog", "SettingsService",
     function(TorrentDialog, SettingsService) {
-        // auto-initialize 
-        var providers = TorrentDialog.getSearchEngines();
-        if (!(SettingsService.get('torrenting.searchprovider') in providers)) {
-            // autoconfig migration, fallback to first provider in the list when we detect an invalid provider.
-            console.warn("Invalid search provider detected: ", SettingsService.get('torrenting.searchprovider'), " defaulting to ", Object.keys(providers)[0]);
-            SettingsService.set('torrenting.searchprovider', Object.keys(providers)[0]);
-        }
-        TorrentDialog.setDefault(SettingsService.get('torrenting.searchprovider'));
+        // delay for 500ms so that custom clients can register themselves before determining default enigne. 
+        setTimeout(function() {
+
+            var providers = TorrentDialog.getSearchEngines();
+            if (!(SettingsService.get('torrenting.searchprovider') in providers)) {
+                // autoconfig migration, fallback to first provider in the list when we detect an invalid provider.
+                console.warn("Invalid search provider detected: ", SettingsService.get('torrenting.searchprovider'), " defaulting to ", Object.keys(providers)[0]);
+                SettingsService.set('torrenting.searchprovider', Object.keys(providers)[0]);
+            }
+            TorrentDialog.setDefault(SettingsService.get('torrenting.searchprovider'));
+
+        }, 500);
     }
 ])

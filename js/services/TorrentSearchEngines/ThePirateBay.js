@@ -1,7 +1,7 @@
-DuckieTV.run(["TorrentDialog",
-    function(TorrentDialog) {
+DuckieTV.run(["TorrentDialog", "$q", "$http", "$injector",
+    function(TorrentDialog, $q, $http, $injector) {
 
-        TorrentDialog.registerSearchEngine('ThePirateBay', {
+    TorrentDialog.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({
             mirror: 'https://thepiratebay.cr',
             mirrorResolver: 'MirrorResolver',
             endpoints: {
@@ -25,6 +25,6 @@ DuckieTV.run(["TorrentDialog",
                 leechers: ['td:nth-child(4)', 'innerHTML'],
                 detailUrl: ['a.detLink', 'href'],
             }
-        });
+        }, $q, $http, $injector));
     }
 ]);

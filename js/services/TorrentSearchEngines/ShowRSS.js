@@ -88,6 +88,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
 
         return {
             search: function(query) {
+                console.log("Searching showrss!");
                 return promiseRequest('list').then(function(results) {
                     var found = Object.keys(results).filter(function(value) {
                         return query.indexOf(value) == 0
@@ -97,6 +98,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                         return promiseRequest('serie', results[found[0]]).then(function(results) {
                             var seasonepisode = query.replace(serie, '').trim();
                             var parts = seasonepisode.match(/S([0-9]{1,2})E([0-9]{1,2})/);
+                            if (seasonepisode.length == 0) return results;
                             seasonepisode = seasonepisode.replace('S' + parts[1], parseInt(parts[1], 10)).replace('E' + parts[2], 'x' + parts[2]);
                             var searchparts = seasonepisode.split(' ');
                             return results.filter(function(el) {
