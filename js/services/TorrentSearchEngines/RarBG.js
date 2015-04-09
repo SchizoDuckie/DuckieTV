@@ -1,5 +1,5 @@
 /** 
- * GetStrike.net custom Torrent API interfacing.
+ * RARBG.com API interface via torrentapi.org..
  * Fetches list of torrent results and tries to fetch the magnet links for an episode.
  */
 DuckieTV.factory('RarBG', ["$q", "$http",
