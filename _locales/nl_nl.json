@@ -287,7 +287,7 @@
     "SETTINGS/TRAKT-IMPORT/suggestions/lbl": "Trakt.TV kan ook suggesties doen op basis van programma's die je hebt toegevoegd aan je profiel. Klik hier om zete bekijken",
     "SETTINGS/TRAKT-IMPORT/sync-disabled/btn": "TraktTV bekeken synchronisatie uitschakelen",
     "SETTINGS/TRAKT-IMPORT/sync-enabled/btn": "Activeer TraktTV bekeken synchronisatie",
-    "SETTINGS/TRAKT-IMPORT/sync-import/btn": "Shows en en bekeken afleveringen importeren vanaf Trakt.TV",
+    "SETTINGS/TRAKT-IMPORT/sync-import/btn": "Import Trakt.TV serie",
     "SETTINGS/TRAKT-IMPORT/sync/desc": "Als je een Trakt.TV account hebt, kunt je DuckieTV zichzelf automatisch laten vullen met je gegevens uit je Trakt.TV account.\n Al je favoriete programma's en bekeken afleveringen zullen opgehaald worden en toegevoegd aan je lijst met favorieten.\n\n DuckieTV kan ook alle afleveringen die je kijkt gelijk synchroniseren naar je Trakt.TV account.",
     "SETTINGS/TRAKT-IMPORT/sync/hdr": "Trakt.TV Synchroniseren",
     "SETTINGS/TRAKT-IMPORT/username/hdr": "Gebruikersnaam:",

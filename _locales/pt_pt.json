@@ -287,7 +287,7 @@
     "SETTINGS/TRAKT-IMPORT/suggestions/lbl": "Trakt.TV também pode fornecer TV sugestões com base em programas que você adicionou ao seu perfil. Você pode buscá-los aqui",
     "SETTINGS/TRAKT-IMPORT/sync-disabled/btn": "Desativar TraktTV assistidos Sincronização",
     "SETTINGS/TRAKT-IMPORT/sync-enabled/btn": "Ativar TraktTV assistidos Sincronização",
-    "SETTINGS/TRAKT-IMPORT/sync-import/btn": "Mostras de importação e episódios assistiu Trakt.TV",
+    "SETTINGS/TRAKT-IMPORT/sync-import/btn": "Série Import Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/sync/desc": "Se você tiver uma conta Trakt.TV, você pode ter DuckieTV encher-se automaticamente, passando suas credenciais abaixo.\n Todas seus programas favoritos e episódios assistidos será obtida e adicionado à sua lista de favoritos. \n\n Se você ativar Trakt.TV Sincronização todos os shows que você adicionar e episódios que marcam assistidos em DuckieTV será automaticamente sincronizado com sua conta Trakt.TV.",
     "SETTINGS/TRAKT-IMPORT/sync/hdr": "Trakt.TV sincronização",
     "SETTINGS/TRAKT-IMPORT/username/hdr": "Nome de Usuário:",

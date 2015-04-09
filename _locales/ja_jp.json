@@ -287,7 +287,7 @@
     "SETTINGS/TRAKT-IMPORT/suggestions/lbl": "Trakt.TVはまた,あなたのプロファイルに追加ショーに基づいてテレビを表示する提案を提供することができます.あなたがここでそれらを取得することができます",
     "SETTINGS/TRAKT-IMPORT/sync-disabled/btn": "無効化TraktTVランキングシンク",
     "SETTINGS/TRAKT-IMPORT/sync-enabled/btn": "TraktTVの視聴有効に同期",
-    "SETTINGS/TRAKT-IMPORT/sync-import/btn": "輸入ショーやTrakt.TVから見たエピソード",
+    "SETTINGS/TRAKT-IMPORT/sync-import/btn": "インポートTrakt.TVシリーズ",
     "SETTINGS/TRAKT-IMPORT/sync/desc": "あなたはTrakt.TVアカウントをお持ちの場合は,DuckieTVが自動的に以下の資格情報を渡すことによって,自分自身を埋めることができます.\nすべてのあなたのお気に入りの番組や見エピソードがフェッチされ,お気に入りリストに追加されます.\n\nあなたはTrakt.TV同期すべての追加表示され,DuckieTVで見たマークを付けエピソードを有効にした場合は自動的にTrakt.TVアカウントに同期されます.",
     "SETTINGS/TRAKT-IMPORT/sync/hdr": "Trakt.TV同期",
     "SETTINGS/TRAKT-IMPORT/username/hdr": "ユーザ名:",
