@@ -504,6 +504,13 @@ series-list .trakt-import .trakt-login {
     width: calc(100% - 145px);
     margin-left: 145px;
 }
+series-list .trakt-import .trakt-login .btn {
+    display: block;
+    width: initial;
+}
+series-list .trakt-import .btn {
+    width: 290px;
+}
 .trakt-import .trakt-login td {
     padding: 5px 5px 1px 0px;
 }
@@ -1183,6 +1190,10 @@ sidepanel .buttons a {
     border: 1px solid #fff;
     border-radius: 10px;
     text-align: center;
+    transition: background-color 0.3s;
+}
+
+sidepanel a {
     transition: background-color 0.3s;
 }
 

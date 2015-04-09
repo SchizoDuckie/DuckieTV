@@ -15,9 +15,9 @@
       {{getSetting('client.determinedlocale')}} {{'SETTINGS/DISPLAY/locale-default/lbl'|translate}}
     </li>
     <li ng-repeat="(locale, name) in languageList" ng-click="setLocale(locale)" class="list-unstyled" style="cursor:pointer; padding:5px;">
-      <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != locale, 'glyphicon-record': activeLocale == locale}"></i>&nbsp;
+      <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != locale, 'glyphicon-record': activeLocale == locale}" style="top:3px"></i>&nbsp;
       <i class="flag flag-{{ locale }}" style="-webkit-transform:scale(1.2)"></i> 
-      {{'SETTINGS/DISPLAY/locale/'+name|translate }
+      {{'SETTINGS/DISPLAY/locale/'+name|translate }}
     </li>
   </ul>
 </div>

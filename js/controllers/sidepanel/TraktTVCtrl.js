@@ -3,22 +3,22 @@
  *
  * TraktTV is special so it gets it's own controller file :)
  */
-DuckieTV.controller('TraktTVCtrl', ["$scope", "$rootScope", "$q", "TraktTVv2", "FavoritesService", "SettingsService",
-    function($scope, $rootScope, $q, TraktTVv2, FavoritesService, SettingsService) {
+DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "SettingsService",
+    function($scope, TraktTVv2, FavoritesService, SettingsService) {
 
         // Array for credentials
         $scope.credentials = {
             username: localStorage.getItem('trakt.username') || '',
             error: false,
-            success: localStorage.getItem('trakt.token') || false
+            success: localStorage.getItem('trakt.token') || false,
+            authorizing: false
         };
 
+        $scope.traktSync = SettingsService.get('trakttv.sync');
         $scope.traktTVSeries = [];
         $scope.localSeries = {};
         $scope.adding = {};
-        $scope.traktTVSuggestions = false;
         $scope.pushError = [false, null];
-        $scope.suggestionError = [false, null];
 
         // Clears all local credentials and token in local storage
         $scope.clearCredentials = function() {
@@ -30,11 +30,14 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "$rootScope", "$q", "TraktTVv2", "
 
         // Validates username and password with TraktTV
         $scope.authorize = function(username, password) {
+            $scope.credentials.authorizing = true
             return TraktTVv2.login(username, password).then(function(result) {
                 $scope.credentials.success = result;
                 $scope.credentials.error = false;
+                $scope.credentials.authorizing = false
             }, function(error) {
                 $scope.credentials.success = false;
+                $scope.credentials.authorizing = false
                 $scope.credentials.password = null;
                 if (error.data.message) {
                     $scope.credentials.error = error.data.message;
@@ -68,19 +71,6 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "$rootScope", "$q", "TraktTVv2", "
             });
             //console.log("Counting watched episodes for ", show, count);
             return count;
-        };
-
-        // Fetchs recommended shows by Trakt for user
-        // Currently not working
-        $scope.getUserSuggestions = function() {
-            $scope.traktTVLoading = true;
-            TraktTVv2.getUserSuggestions().then(function(data) {
-                console.info("Found user suggestions from Trakt.tv", data);
-                $scope.traktTVSuggestions = data;
-                $scope.traktTVLoading = false;
-            }, function(err) {
-                $scope.suggestionError = [true, err];
-            });
         };
 
         // Imports users Series and Watched episodes from TraktTV
@@ -185,5 +175,9 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "$rootScope", "$q", "TraktTVv2", "
             });
         };
 
+        $scope.toggleTraktSync = function() {
+            $scope.traktSync = !$scope.traktSync;
+            SettingsService.set('trakttv.sync', $scope.traktSync);
+        };
     }
 ]);
