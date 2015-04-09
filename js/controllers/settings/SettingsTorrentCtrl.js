@@ -6,15 +6,21 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
 
         $scope.log = [];
 
-        $scope.customkatmirror = SettingsService.get('KickAssTorrents.mirror');
-        $scope.customtpbmirror = SettingsService.get('ThePirateBay.mirror');
-        $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
-        $scope.searchquality = SettingsService.get('torrenting.searchquality');
-        $scope.adPeriod = SettingsService.get('autodownload.period');
-        $scope.adMinSeeders = SettingsService.get('autodownload.minSeeders');
-        $scope.customadPeriod = SettingsService.get('autodownload.period');
-        $scope.customadMinSeeders = SettingsService.get('autodownload.minSeeders');
-        $scope.allowUnsafe = SettingsService.get('proxy.allowUnsafe');
+        $scope.customkatmirror =  SettingsService.get('KickAssTorrents.mirror');
+        $scope.customtpbmirror =  SettingsService.get('ThePirateBay.mirror');
+        $scope.searchprovider =   SettingsService.get('torrenting.searchprovider');
+        $scope.searchquality =    SettingsService.get('torrenting.searchquality');
+        
+        $scope.torrentEnabled =   SettingsService.get('torrenting.enabled');
+        $scope.allowUnsafe =      SettingsService.get('proxy.allowUnsafe');
+        $scope.directoryEnabled = SettingsService.get('torrenting.directory');
+        $scope.streamingEnabled = SettingsService.get('torrenting.streaming');
+        $scope.progressEnabled =  SettingsService.get('torrenting.progress');
+        $scope.autostopEnabled =  SettingsService.get('torrenting.autostop');
+        $scope.adEnabled =        SettingsService.get('torrenting.autodownload');
+        $scope.adPeriod =         SettingsService.get('autodownload.period');
+        $scope.adMinSeeders =     SettingsService.get('autodownload.minSeeders');
+        
         $scope.katmirrorStatus = [];
         $scope.tpbmirrorStatus = [];
 
@@ -93,27 +99,47 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
                 //$scope.customMirror = '';
             });
         };
+        
+        $scope.toggleTorrent = function() {
+            $scope.torrentEnabled = !$scope.torrentEnabled;
+            SettingsService.set('torrenting.enabled', $scope.torrentEnabled);
+        };
 
         $scope.toggleUnsafeProxy = function() {
             $scope.allowUnsafe = !$scope.allowUnsafe;
             SettingsService.set('proxy.allowUnsafe', $scope.allowUnsafe);
         };
-
-        /**
-         * Create the automated download service.
-         * This fires the episode:aired:check timer that the kicks it off in the background page
-         */
-        $scope.enableAutoDownload = function() {
-            SettingsService.set('torrenting.autodownload', true);
-            EpisodeAiredService.attach();
+        
+        $scope.toggleDirectory = function() {
+            $scope.directoryEnabled = !$scope.directoryEnabled;
+            SettingsService.set('torrenting.directory', $scope.directoryEnabled);
         };
 
-        /**
-         * Remove the auto-download event
-         */
-        $scope.disableAutoDownload = function() {
-            SettingsService.set('torrenting.autodownload', false);
-            EpisodeAiredService.detach();
+        $scope.toggleProgress = function() {
+            $scope.progressEnabled = !$scope.progressEnabled;
+            SettingsService.set('torrenting.progress', $scope.progressEnabled);
+        };
+        
+        $scope.toggleStreaming = function() {
+            $scope.streamingEnabled = !$scope.streamingEnabled;
+            SettingsService.set('torrenting.streaming', $scope.streamingEnabled);
+        };
+        
+        $scope.toggleAutoStop = function() {
+            $scope.autostopEnabled = !$scope.autostopEnabled;
+            SettingsService.set('torrenting.autostop', $scope.autostopEnabled);
+        };
+        
+        $scope.toggleAutoDownload = function() {
+            if ($scope.adEnabled == true) {
+              SettingsService.set('torrenting.autodownload', false);
+              $scope.adEnabled = false;
+              EpisodeAiredService.detach();
+            } else {
+              SettingsService.set('torrenting.autodownload', true);
+              $scope.adEnabled = true;
+              EpisodeAiredService.attach();
+            }
         };
 
         /**
@@ -135,9 +161,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         /**
          * Changes the period allowed to AutoDownload episodes
          */
-        $scope.setadPeriod = function(period) {
+        $scope.saveADPeriod = function(period) {
             SettingsService.set('autodownload.period', period);
-            $scope.adPeriod = period;
             EpisodeAiredService.detach(); // restart kickoff method when changing search period and seeders.
             EpisodeAiredService.attach();
         };
@@ -145,9 +170,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         /**
          * Changes the amount of seeders required for AutoDownload
          */
-        $scope.setadMinSeeders = function(seeds) {
+        $scope.saveADMinSeeders = function(seeds) {
             SettingsService.set('autodownload.minSeeders', seeds);
-            $scope.adMinSeeders = seeds;
             EpisodeAiredService.detach(); // restart kickoff method when changing search period and seeders.
             EpisodeAiredService.attach();
 

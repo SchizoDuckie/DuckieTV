@@ -15,7 +15,9 @@
 }
 
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
-	pointer-events: auto;
+	/* Why did we make this Auto again?
+	pointer-events: auto; */
+	pointer-events: disabled;
 }
 button[disabled], html input[disabled] {
 	cursor: not-allowed;
