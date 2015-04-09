@@ -116,8 +116,8 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
 ])
 
 
-.run(["TorrentDialog", "ShowRSS",
-    function(TorrentDialog, ShowRSS) {
-        TorrentDialog.registerSearchEngine('ShowRSS', ShowRSS);
+.run(["TorrentSearchEngines", "ShowRSS",
+    function(TorrentSearchEngines, ShowRSS) {
+        TorrentSearchEngines.registerSearchEngine('ShowRSS', ShowRSS);
     }
 ])

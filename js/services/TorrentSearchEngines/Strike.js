@@ -80,8 +80,8 @@ DuckieTV.factory('Strike', ["$q", "$http",
     }
 ])
 
-.run(["TorrentDialog", "Strike",
-    function(TorrentDialog, Strike) {
-        TorrentDialog.registerSearchEngine('Strike', Strike);
+.run(["TorrentSearchEngines", "Strike",
+    function(TorrentSearchEngines, Strike) {
+        TorrentSearchEngines.registerSearchEngine('Strike', Strike);
     }
 ])

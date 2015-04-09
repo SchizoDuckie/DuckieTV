@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, SceneNameResolver, EpisodeAiredService, TorrentDialog, uTorrent, $scope) {
+DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, SceneNameResolver, EpisodeAiredService, TorrentSearchEngines, uTorrent, $scope) {
 
     this.serie = serie;
     this.episode = episode;

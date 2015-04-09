@@ -1,30 +1,30 @@
 /**
  * Controller for the torrent settings tab
  */
-DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "DuckieTorrent", "TorrentDialog", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "EpisodeAiredService",
-    function($scope, $rootScope, SettingsService, DuckieTorrent, TorrentDialog, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, EpisodeAiredService) {
+DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "DuckieTorrent", "TorrentSearchEngines", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "EpisodeAiredService",
+    function($scope, $rootScope, SettingsService, DuckieTorrent, TorrentSearchEngines, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, EpisodeAiredService) {
 
         $scope.log = [];
 
-        $scope.customkatmirror =  SettingsService.get('KickAssTorrents.mirror');
-        $scope.customtpbmirror =  SettingsService.get('ThePirateBay.mirror');
-        $scope.searchprovider =   SettingsService.get('torrenting.searchprovider');
-        $scope.searchquality =    SettingsService.get('torrenting.searchquality');
-        
-        $scope.torrentEnabled =   SettingsService.get('torrenting.enabled');
-        $scope.allowUnsafe =      SettingsService.get('proxy.allowUnsafe');
+        $scope.customkatmirror = SettingsService.get('KickAssTorrents.mirror');
+        $scope.customtpbmirror = SettingsService.get('ThePirateBay.mirror');
+        $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
+        $scope.searchquality = SettingsService.get('torrenting.searchquality');
+
+        $scope.torrentEnabled = SettingsService.get('torrenting.enabled');
+        $scope.allowUnsafe = SettingsService.get('proxy.allowUnsafe');
         $scope.directoryEnabled = SettingsService.get('torrenting.directory');
         $scope.streamingEnabled = SettingsService.get('torrenting.streaming');
-        $scope.progressEnabled =  SettingsService.get('torrenting.progress');
-        $scope.autostopEnabled =  SettingsService.get('torrenting.autostop');
-        $scope.adEnabled =        SettingsService.get('torrenting.autodownload');
-        $scope.adPeriod =         SettingsService.get('autodownload.period');
-        $scope.adMinSeeders =     SettingsService.get('autodownload.minSeeders');
-        
+        $scope.progressEnabled = SettingsService.get('torrenting.progress');
+        $scope.autostopEnabled = SettingsService.get('torrenting.autostop');
+        $scope.adEnabled = SettingsService.get('torrenting.autodownload');
+        $scope.adPeriod = SettingsService.get('autodownload.period');
+        $scope.adMinSeeders = SettingsService.get('autodownload.minSeeders');
+
         $scope.katmirrorStatus = [];
         $scope.tpbmirrorStatus = [];
 
-        $scope.searchProviders = Object.keys(TorrentDialog.getSearchEngines());
+        $scope.searchProviders = Object.keys(TorrentSearchEngines.getSearchEngines());
 
         /**
          * Inject an event to display mirror resolving progress.
@@ -99,7 +99,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
                 //$scope.customMirror = '';
             });
         };
-        
+
         $scope.toggleTorrent = function() {
             $scope.torrentEnabled = !$scope.torrentEnabled;
             SettingsService.set('torrenting.enabled', $scope.torrentEnabled);
@@ -109,7 +109,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
             $scope.allowUnsafe = !$scope.allowUnsafe;
             SettingsService.set('proxy.allowUnsafe', $scope.allowUnsafe);
         };
-        
+
         $scope.toggleDirectory = function() {
             $scope.directoryEnabled = !$scope.directoryEnabled;
             SettingsService.set('torrenting.directory', $scope.directoryEnabled);
@@ -119,26 +119,26 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
             $scope.progressEnabled = !$scope.progressEnabled;
             SettingsService.set('torrenting.progress', $scope.progressEnabled);
         };
-        
+
         $scope.toggleStreaming = function() {
             $scope.streamingEnabled = !$scope.streamingEnabled;
             SettingsService.set('torrenting.streaming', $scope.streamingEnabled);
         };
-        
+
         $scope.toggleAutoStop = function() {
             $scope.autostopEnabled = !$scope.autostopEnabled;
             SettingsService.set('torrenting.autostop', $scope.autostopEnabled);
         };
-        
+
         $scope.toggleAutoDownload = function() {
             if ($scope.adEnabled == true) {
-              SettingsService.set('torrenting.autodownload', false);
-              $scope.adEnabled = false;
-              EpisodeAiredService.detach();
+                SettingsService.set('torrenting.autodownload', false);
+                $scope.adEnabled = false;
+                EpisodeAiredService.detach();
             } else {
-              SettingsService.set('torrenting.autodownload', true);
-              $scope.adEnabled = true;
-              EpisodeAiredService.attach();
+                SettingsService.set('torrenting.autodownload', true);
+                $scope.adEnabled = true;
+                EpisodeAiredService.attach();
             }
         };
 

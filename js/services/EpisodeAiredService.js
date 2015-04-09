@@ -4,8 +4,8 @@
  *
  * Runs in the background page.
  */
-DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentDialog", "DuckieTorrent",
-    function($rootScope, FavoritesService, SceneNameResolver, SettingsService, TorrentDialog, DuckieTorrent) {
+DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentSearchEngines", "DuckieTorrent",
+    function($rootScope, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, DuckieTorrent) {
 
         var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 1
         var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 50
@@ -57,15 +57,15 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                 console.log("Auto download!", searchString);
 
                 // Search torrent provider for the string
-                return TorrentDialog.getDefaultEngine().search(searchString, true).then(function(results) {
+                return TorrentSearchEngines.getDefaultEngine().search(searchString, true).then(function(results) {
                     if (results.length === 0) {
                         return; // no results, abort
                     }
                     if (parseInt(results[0].seeders, 10) >= minSeeders) { // enough seeders are available.
                         var url = results[0].magneturl;
-                        // launch the magnet uri via the TorrentDialog's launchMagnet Method
+                        // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                         DuckieTorrent.getClient().AutoConnect().then(function() {
-                            TorrentDialog.launchMagnet(url, serie.get('TVDB_ID'), true);
+                            TorrentSearchEngines.launchMagnet(url, serie.get('TVDB_ID'), true);
                             episode.magnetHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
                             episode.Persist();
                         })

@@ -1,7 +1,7 @@
-DuckieTV.run(["TorrentDialog", "$q", "$http", "$injector",
-    function(TorrentDialog, $q, $http, $injector) {
+DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector",
+    function(TorrentSearchEngines, $q, $http, $injector) {
 
-        TorrentDialog.registerSearchEngine('KickAssTorrents', new GenericTorrentSearchEngine({
+        TorrentSearchEngines.registerSearchEngine('KickAssTorrents', new GenericTorrentSearchEngine({
             mirror: 'https://kickass.to',
             mirrorResolver: null, //'KickassMirrorResolver'
             endpoints: {

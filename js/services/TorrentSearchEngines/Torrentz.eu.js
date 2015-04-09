@@ -1,7 +1,7 @@
-DuckieTV.run(["TorrentDialog", "$q", "$http", "$injector",
-    function(TorrentDialog, $q, $http, $injector) {
+DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector",
+    function(TorrentSearchEngines, $q, $http, $injector) {
 
-        TorrentDialog.registerSearchEngine('Torrentz.eu', new GenericTorrentSearchEngine({
+        TorrentSearchEngines.registerSearchEngine('Torrentz.eu', new GenericTorrentSearchEngine({
             mirror: 'https://torrentz.eu',
             mirrorResolver: null,
             endpoints: {

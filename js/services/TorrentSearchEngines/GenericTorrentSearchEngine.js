@@ -1,3 +1,44 @@
+/** 
+ *  'Generic' torrent search engine scraper for environments where CORS is permitted. (Like node-webkit, chrome extension, phonegap, or when using a CORS proxy)
+ *
+ *   Usage:
+ *   - Instantiate a new GenericTorrentSearchEngine and register it to the TorrentSearchEngines factory by creating a new app.run() block.
+ *   - The engine will automatically be added in the TorrentDialog directive and become available in settings for autoselection.
+ *   - Each search engine should provide at least the properties described below.
+ *   - This is problematic in cases where the magnet link and torrent hash are hidden on a details page. (will be fixed in the future using the details field)
+ *
+ *   Heavily annotated Example:
+ *
+ *   DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector", function(TorrentSearchEngines, $q, $http, $injector) {
+ *
+ *       TorrentSearchEngines.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({ // name, instance
+ *          mirror: 'https://thepiratebay.cr',                                                      // base endpoint
+ *          mirrorResolver: 'MirrorResolver',                                                       // Angular class to $inject to fetch a mirror
+ *          endpoints: {                                                                            // endpoints for details and search calls. Needs to be GET
+ *              search: '/search/%s/0/7/0',                                                         // use %s to pass in the search query.
+ *              details: '/torrent/%s'                                                              // unimplemented currently, but should fetch details from the torrent's details page.
+ *          },
+ *           selectors: {                                                                           // CSS selectors to grab content from search page.
+ *              resultContainer: '#searchResult tbody tr',                                          // css selector to select repeating results.
+ *              releasename: ['td:nth-child(2) > div', 'innerText',                                 // selector, element attribute, [parser function].
+ *                  function(text) {
+ *                      return text.trim();
+ *                  }
+ *              ],
+ *              magneturl: ['td:nth-child(2) > a', 'href'],
+ *              size: ['td:nth-child(2) .detDesc', 'innerText',
+ *                  function(innerText) {
+ *                      return innerText.split(', ')[1].split(' ')[1];
+ *                  }
+ *              ],
+ *              seeders: ['td:nth-child(3)', 'innerHTML'],
+ *              leechers: ['td:nth-child(4)', 'innerHTML'],
+ *              detailUrl: ['a.detLink', 'href'],
+ *          }
+ *      }, $q, $http, $injector));
+ *   }
+ *  ]);
+ */
 function GenericTorrentSearchEngine(config, $q, $http, $injector) {
 
     var activeRequest = null;

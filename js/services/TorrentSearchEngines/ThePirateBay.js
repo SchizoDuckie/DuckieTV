@@ -1,7 +1,7 @@
-DuckieTV.run(["TorrentDialog", "$q", "$http", "$injector",
-    function(TorrentDialog, $q, $http, $injector) {
+DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector",
+    function(TorrentSearchEngines, $q, $http, $injector) {
 
-    TorrentDialog.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({
+        TorrentSearchEngines.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({
             mirror: 'https://thepiratebay.cr',
             mirrorResolver: 'MirrorResolver',
             endpoints: {
