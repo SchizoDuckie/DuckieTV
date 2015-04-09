@@ -52,7 +52,7 @@
         </a>
       </form>
       <span class="alert alert-danger" ng-show="p.period.$error.number">{{'SETTINGS/TORRENT/autodownload-only-numbers/alert'|translate}}</span>
-      <span class="alert alert-danger" ng-show="p.period.$error.min || p.period.$error.max">Days must be within 1 - 21</span>
+      <span class="alert alert-danger" ng-show="p.period.$error.min || p.period.$error.max">{{'SETTINGS/TORRENT/autodownload-days-range/alert'|translate}}</span>
 
       <hr class="setting-divider">
 
@@ -66,7 +66,7 @@
         </a>
       </form>
       <span class="alert alert-danger" ng-show="s.seeders.$error.number">{{'SETTINGS/TORRENT/autodownload-only-numbers/alert'|translate}}</span>
-      <span class="alert alert-danger" ng-show="s.seeders.$error.min || s.seeders.$error.max">Seeders must be within 0 - 3000</span>
+      <span class="alert alert-danger" ng-show="s.seeders.$error.min || s.seeders.$error.max">{{'SETTINGS/TORRENT/autodownload-seeders-range/alert'|translate}}</span>
     </div>
   </div>
 </div>
