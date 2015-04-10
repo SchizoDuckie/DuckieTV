@@ -61,7 +61,7 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                     if (results.length === 0) {
                         return; // no results, abort
                     }
-                    if (result[0].seeders == 'N/A' || parseInt(results[0].seeders, 10) >= minSeeders) { // enough seeders are available.
+                    if (results[0].seeders == 'N/A' || parseInt(results[0].seeders, 10) >= minSeeders) { // enough seeders are available.
                         var url = results[0].magneturl;
                         // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                         DuckieTorrent.getClient().AutoConnect().then(function() {

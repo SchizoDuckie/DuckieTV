@@ -98,7 +98,6 @@ DuckieTorrent
             statusQuery: function() {
                 return json('torrents', {}).then(function(data) {
                         data.map(function(el) {
-                            console.log("Handle remote", el);
                             qBittorrentRemote.handleEvent(el);
                         });
                         return data;
@@ -215,28 +214,31 @@ DuckieTorrent
 
 
             handleEvent: function(data) {
-                var key = data.hash;
-                if (key in service.torrents) {
-                    Object.deepMerge(service.torrents[key], data);
-                } else {
-                    data.getName = function() {
-                        return this.name;
-                    };
-                    data.getProgress = function() {
-                        return this.progress * 100;
-                    }
-                    service.torrents[key] = data;
+                var key = data.hash.toUpperCase();
 
+                data.getName = function() {
+                    return this.name;
+                };
+                data.getProgress = function() {
+                    return this.progress * 100;
                 }
+                service.torrents[key] = data;
+
+
                 $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
             },
 
 
             onTorrentUpdate: function(hash, callback) {
-
+                $rootScope.$on('torrent:update:' + hash, function(evt, torrent) {
+                    callback(torrent)
+                });
             },
-            offTorrentUpdate: function(hash, callback) {
 
+            offTorrentUpdate: function(hash, callback) {
+                $rootScope.$off('torrent:update:' + hash, function(evt, torrent) {
+                    callback(torrent)
+                });
             }
         };
 

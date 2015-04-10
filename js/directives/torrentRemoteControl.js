@@ -7,7 +7,7 @@ DuckieTV
         return {
             restrict: 'E',
             transclude: true,
-            replace: true,
+            replace: false,
             scope: {
                 infoHash: '=infoHash',
                 templateUrl: '=templateUrl'
@@ -34,9 +34,9 @@ DuckieTV
 
                     // If the connected info hash changes, remove the old event and start observing the new one.
                     $scope.$watch('infoHash', function(newVal, oldVal) {
+                        if (newVal == oldVal) return;
+                        remote.infoHash = newVal;
                         DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
-                            if (newVal == oldVal) return;
-                            remote.infoHash = newVal;
                             remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash);
                             DuckieTorrent.getClient().getRemote().offTorrentUpdate(oldVal, observeTorrent);
                             observeTorrent(rpc, remote.infoHash);
