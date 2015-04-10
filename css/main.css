@@ -920,7 +920,7 @@ td.day {
 }
 
 [date-picker] .event > a span {
-    display: block;
+    display: inline;
 }
 
 [date-picker] div.tooltip.bottom {
