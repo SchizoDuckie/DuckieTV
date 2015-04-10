@@ -14,15 +14,19 @@ DuckieTorrent
         var self = this;
 
         this.port = 8080;
+        this.base = 'http://127.0.0.1';
 
         /** 
          * Predefined endpoints for API actions.
          */
         this.endpoints = {
 
-            torrents: 'http://127.0.0.1:%s/json/torrents',
-            portscan: 'http://127.0.0.1:%s/json/transferInfo',
-            addmagnet: 'http://127.0.0.1:%s/command/download'
+            torrents: '/json/torrents',
+            portscan: '/json/transferInfo',
+            addmagnet: '/command/download',
+            resume: '/command/resume',
+            pause: '/command/pause'
+
         };
 
         /**
@@ -46,11 +50,8 @@ DuckieTorrent
          * Fetches the url, auto-replaces the port in the url if it was found.
          */
         this.getUrl = function(type, param) {
-            var out = this.endpoints[type];
-            if (this.port != null) {
-                out = out.replace('%s', this.port);
-            }
-            return out.replace('%s', encodeURIComponent(param));
+            var url = this.base + ':' + this.port + this.endpoints[type];
+            return url.replace('%s', encodeURIComponent(param));
         };
 
         this.isPolling = false;
@@ -178,6 +179,14 @@ DuckieTorrent
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                 });
+            },
+
+            execute: function(method, hash) {
+                return $http.post(self.getUrl(method), 'hash=' + hash, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                });
             }
 
 
@@ -189,8 +198,8 @@ DuckieTorrent
 /**
  * uTorrent/Bittorrent remote singleton that receives the incoming data
  */
-.factory('qBittorrentRemote', ["$rootScope",
-    function($rootScope) {
+.factory('qBittorrentRemote', ["$rootScope", "DuckieTorrent",
+    function($rootScope, DuckieTorrent) {
 
         var service = {
             torrents: {},
@@ -221,6 +230,17 @@ DuckieTorrent
                 };
                 data.getProgress = function() {
                     return this.progress * 100;
+                }
+                data.start = function() {
+                    DuckieTorrent.getClient().execute('resume', this.hash);
+                };
+
+                data.stop = function() {
+                    return this.pause();
+                }
+                data.pause = function() {
+                    DuckieTorrent.getClient().execute('pause', this.hash)
+
                 }
                 service.torrents[key] = data;
 
