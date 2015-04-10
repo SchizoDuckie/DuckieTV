@@ -21,7 +21,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         var parsers = {
             search: function(result) {
                 var output = [];
-                if (result.data == "No results found" || result.data = "Too many requests per minute. Please try again later!") {
+                if (result.data == "No results found" || result.data == "Too many requests per minute. Please try again later!") {
                     return output;
                 }
                 result.data.map(function(hit) {
