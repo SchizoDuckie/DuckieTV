@@ -764,7 +764,7 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
   color: white;
   width: 150%;
   background-color: rgba(25,25,25,0.9);
-  z-index: -1;
+  z-index: -2;
   text-align: left;
 }
 
