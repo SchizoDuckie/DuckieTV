@@ -107,6 +107,7 @@ DuckieTorrent
                         "fields": ["id", "name", "hashString", "status", "error", "errorString", "eta", "isFinished", "isStalled", "leftUntilDone", "metadataPercentComplete", "percentDone", "sizeWhenDone", "files"]
                     }
                 }).then(function(data) {
+                        if (!data) throw "No response. Client not active?";
                         data.arguments.torrents.map(function(el) {
                             el.hash = el.hashString.toUpperCase();
                             TransmissionRemote.handleEvent(el);
@@ -302,8 +303,5 @@ DuckieTorrent
         DuckieTorrent.register('Transmission', Transmission);
         console.log("Transmission registered with DuckieTorrentProvider!");
 
-        setTimeout(function() {
-            console.warn("Registered providers with DuckieTorrentProvider:", DuckieTorrent.getClients());
-        }, 1000);
     }
 ])

@@ -289,9 +289,5 @@ DuckieTorrent
 
         DuckieTorrent.register('qBittorrent', qBittorrent);
         console.log("qBittorrent registered with DuckieTorrentProvider!");
-
-        setTimeout(function() {
-            console.warn("Registered providers with DuckieTorrentProvider:", DuckieTorrent.getClients());
-        }, 1000);
     }
 ])
