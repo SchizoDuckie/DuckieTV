@@ -245,7 +245,13 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
                 if (undefined == noCache) {
                     if (!localStorage.getItem('trakttv.trending.cache')) {
                         return $http.get('js/fixtures/trakt-trending-500.json').then(function(result) {
-                            return result.data;
+                            var output = result.data.filter(function(show) {
+                                return typeof(show.show.ids.tvdb) !== "undefined"
+                            }).map(function(show) {
+                                return parsers.trakt(show.show);
+                            });
+                            debugger;
+                            return output;
                         })
                     } else {
                         return $q(function(resolve) {

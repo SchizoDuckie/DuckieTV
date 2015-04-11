@@ -10,6 +10,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         var calendarEvents = {};
         var seriesForDate = {};
         var expandedSeries = {};
+        var calendarEpisodeSortCache = {};
         var calendarStartDate = null;
         var calendarEndDate = null;
 
@@ -33,6 +34,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     seriesForDate[date][event.ID_Serie] = [];
                 }
                 seriesForDate[date][event.ID_Serie].push(event);
+                delete calendarEpisodeSortCache[date];
             }
         }
 
@@ -198,9 +200,22 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
                 return (str in calendarEvents) ? calendarEvents[str] : [];
             },
+            /**
+             * Sort the series for a day, that are now grouped by ID_Serie. It needs to return
+             * an array (so that it can be sorted) instead of an object, and cache it, for angular.
+             * Cache is cleared and regenerated when an episode is added to the list.
+             */
             getSeries: function(date) {
                 var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
-                return (str in seriesForDate) ? seriesForDate[str] : [];
+                if (!(str in calendarEpisodeSortCache)) { // no cache yet?
+                    var seriesForDay = seriesForDate[str] || {};
+                    calendarEpisodeSortCache[str] = Object.keys(seriesForDay).map(function(serieId) { // turn the object into an array
+                        return seriesForDay[serieId];
+                    }).sort(function(a, b) {
+                        return calendarEpisodeSort(a[0], b[0]); // and sort it by the first item in it.
+                    });
+                }
+                return calendarEpisodeSortCache[str];
             }
         };
 
