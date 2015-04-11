@@ -115,7 +115,10 @@ DuckieTorrent
                         stop: stopFunc,
                         pause: stopFunc,
                         sendCommand: sendCommand,
-                        isStarted: startedFunc,
+                        isStarted: startedFunc
+                        /*getFiles: function() {
+
+                        }*/
                     };
                     if ((torrent.guid in infohashCache)) {
                         torrent.hash = infohashCache[torrent.guid];
@@ -323,12 +326,13 @@ DuckieTorrent
             },
 
             getByHash: function(hash) {
+                hash = hash.toUpperCase();
                 return (hash in service.torrents) ? service.torrents[hash] : null;
             },
 
-
             handleEvent: function(data) {
-                var key = data.hash;
+                console.log("handle torrent event!", data, data.hash.toUpperCase())
+                var key = data.hash.toUpperCase();
                 if (!(key in service.torrents)) {
                     service.torrents[key] = data;
                 } else {
@@ -339,10 +343,15 @@ DuckieTorrent
             },
 
             onTorrentUpdate: function(hash, callback) {
-
+                $rootScope.$on('torrent:update:' + hash, function(evt, torrent) {
+                    callback(torrent)
+                });
             },
-            offTorrentUpdate: function(hash, callback) {
 
+            offTorrentUpdate: function(hash, callback) {
+                $rootScope.$off('torrent:update:' + hash, function(evt, torrent) {
+                    callback(torrent)
+                });
             }
         };
 
