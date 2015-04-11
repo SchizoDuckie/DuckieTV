@@ -6,11 +6,11 @@
       <a ng-click="remote.torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i>{{'SIDEPANEL/TORRENTRC/start/glyph'|translate}}</a>
       <a ng-click="remote.torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i>{{'SIDEPANEL/TORRENTRC/pause/glyph'|translate}}</a>
       <a ng-click="remote.torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i>{{'SIDEPANEL/TORRENTRC/stop/glyph'|translate}}</a>
-      <a ng-if="remote.torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="remote.torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <translate>SIDEPANEL/TORRENTRC/stream-play/lbl</translate></a>   
+      <a ng-if="remote.torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="remote.torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <translate>SIDEPANEL/TORRENTRC/stream-play/glyph</translate></a>   
 
-      <a ng-if="getSetting('torrenting.directory') && remote.torrent.open_containing" ng-click="remote.torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTMRC/open-folder/lbl'|translate}}</a> 
+      <a ng-if="getSetting('torrenting.directory') && remote.torrent.open_containing" ng-click="remote.torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'SIDEPANEL/TORRENTRC/open-folder/glyph'|translate}}</a> 
 
-     <a ng-click="remote.torrent.getFiles();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>Show files</a>
+     <a ng-click="remote.torrent.getFiles();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'SIDEPANEL/TORRENTRC/show-files/glyph'|translate}}</a>
      <ul ng-if="remote.torrent.files">
      <li ng-repeat="file in remote.torrent.files">{{file.name }}</li>
 

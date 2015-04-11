@@ -31,11 +31,11 @@
 			      <a ng-click="torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i>{{'TORRENTCLIENT/start/glyph'|translate}}</a>
 			      <a ng-click="torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i>{{'TORRENTCLIENT/pause/glyph'|translate}}</a>
 			      <a ng-click="torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i>{{'TORRENTCLIENT/stop/glyph'|translate}}</a>
-			      <a ng-if="torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTCLIENT/stream-play/lbl</translate></a>   
+			      <a ng-if="torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top: 5px" ng-click="torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTCLIENT/stream-play/glyph</translate></a>   
 			      
-      <a ng-if="getSetting('torrenting.directory') && torrent.open_containing" ng-click="torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTMRC/open-folder/lbl'|translate}}</a> 
+      <a ng-if="getSetting('torrenting.directory') && torrent.open_containing" ng-click="torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTCLIENT/open-folder/glyph'|translate}}</a> 
 
-			     <a ng-click="torrent.getFiles()" ng-if="torrent.getFiles" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>Show files</a>
+			     <a ng-click="torrent.getFiles()" ng-if="torrent.getFiles" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTCLIENT/show-files/glyph'|translate}}</a>
 			     <div ng-if="torrent.files">
 			     <p ng-repeat="file in torrent.files">{{file.name }}</p>
 
