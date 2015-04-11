@@ -103,9 +103,12 @@ DuckieTorrent
              */
             statusQuery: function() {
                 return rpc('torrent-get', {
-                    "fields": ["id", "error", "errorString", "eta", "isFinished", "isStalled", "leftUntilDone", "metadataPercentComplete", "peersConnected", "peersGettingFromUs", "peersSendingToUs", "percentDone", "queuePosition", "rateDownload", "rateUpload", "recheckProgress", "seedRatioMode", "seedRatioLimit", "sizeWhenDone", "status", "trackers", "downloadDir", "uploadedEver", "uploadRatio", "webseedsSendingToUs"]
+                    arguments: {
+                        "fields": ["id", "name", "hashString", "status", "error", "errorString", "eta", "isFinished", "isStalled", "leftUntilDone", "metadataPercentComplete", "percentDone", "sizeWhenDone", "files"]
+                    }
                 }).then(function(data) {
-                        data.map(function(el) {
+                        data.arguments.torrents.map(function(el) {
+                            el.hash = el.hashString.toUpperCase();
                             TransmissionRemote.handleEvent(el);
                         });
                         return data;
@@ -249,10 +252,13 @@ DuckieTorrent
                         DuckieTorrent.getClient().execute('pause', this.hash)
                     }
                     data.getFiles = function() {
-                        DuckieTorrent.getClient().getFilesList(this.hash).then(function(results) {
-                            service.torrents[key].files = results;
-                            $rootScope.$applyAsync();
-                        })
+
+                    }
+                    data.isStarted = function() {
+                        return this.status > 0;
+                    }
+                    data.getProgress = function() {
+                        return Math.round(this.percentDone * 100);
                     }
                     service.torrents[key] = data;
                 } else {
