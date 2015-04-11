@@ -14,17 +14,19 @@ DuckieTorrent
         var self = this;
 
         this.port = 8888;
+        this.base = 'http://127.0.0.1';
 
         /** 
          * Predefined endpoints for API actions.
          */
         this.endpoints = {
 
-            torrents: 'http://127.0.0.1:%s/transfers',
-            portscan: 'http://127.0.0.1:%s/home',
-            infohash: 'http://127.0.0.1:%s/transfers/%s/eventlog',
-            torrentcontrol: 'http://127.0.0.1:%s/transfers/%s/details/action', // POST [start, stop, remove, searchdht, checkfiles, delete] */
-            addmagnet: 'http://127.0.0.1:%s/transfers/action'
+            torrents: '/transfers',
+            portscan: '/home',
+            infohash: '/transfers/%s/eventlog',
+            torrentcontrol: '/transfers/%s/details/action', // POST [start, stop, remove, searchdht, checkfiles, delete] */
+            addmagnet: '/transfers/action',
+            files: '/transfers/%s/files'
         };
 
         // will hold a hash of Tixati internal identifiers vs magnet hashes fetched from the events page.
@@ -68,7 +70,7 @@ DuckieTorrent
                 }
 
                 var progressFunc = function() {
-                    return this.progress;
+                    return parseInt(this.progress);
                 }
 
                 function sendCommand(formData) {
@@ -93,7 +95,14 @@ DuckieTorrent
                 }
 
                 var startedFunc = function() {
-                    return this.status != 'Offline';
+                    return this.status.toLowerCase().indexOf('offline') == -1;
+                }
+
+                var filesFunc = function() {
+                    this.files = [];
+                    request('files', this.guid).then(function(data) {
+                        this.files = data;
+                    }.bind(this));
                 }
 
                 Array.prototype.map.call(doc.querySelectorAll('.xferstable tr:not(:first-child)'), function(node) {
@@ -102,7 +111,7 @@ DuckieTorrent
                     var torrent = {
                         name: tds[1].innerText,
                         bytes: tds[2].innerText,
-                        progress: tds[3].innerText,
+                        progress: parseInt(tds[3].innerText),
                         status: tds[4].innerText,
                         downSpeed: tds[5].innerText,
                         upSpeed: tds[6].innerText,
@@ -115,10 +124,8 @@ DuckieTorrent
                         stop: stopFunc,
                         pause: stopFunc,
                         sendCommand: sendCommand,
-                        isStarted: startedFunc
-                        /*getFiles: function() {
-
-                        }*/
+                        isStarted: startedFunc,
+                        getFiles: filesFunc
                     };
                     if ((torrent.guid in infohashCache)) {
                         torrent.hash = infohashCache[torrent.guid];
@@ -138,6 +145,26 @@ DuckieTorrent
                 if (magnet && magnet.length) {
                     return magnet[0].toUpperCase();
                 }
+            },
+
+            files: function(result) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(result.data, "text/html");
+
+                var files = [];
+
+                Array.prototype.map.call(doc.querySelectorAll('.xferstable tr:not(:first-child)'), function(node) {
+                    var cells = node.querySelectorAll('td')
+                    files.push({
+                        name: cells[1].innerText.trim(),
+                        priority: cells[2].innerText.trim(),
+                        bytes: cells[3].innerText.trim(),
+                        progress: cells[4].innerText.trim()
+                    });
+                });
+
+                return files;
+
             }
 
 
@@ -156,10 +183,7 @@ DuckieTorrent
          * Fetches the url, auto-replaces the port in the url if it was found.
          */
         this.getUrl = function(type, param) {
-            var out = this.endpoints[type];
-            if (this.port != null) {
-                out = out.replace('%s', this.port);
-            }
+            var out = this.base + ':' + this.port + this.endpoints[type];
             return out.replace('%s', encodeURIComponent(param));
         };
 
