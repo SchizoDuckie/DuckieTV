@@ -3,13 +3,13 @@
   <a ng-class="{ watched : episode.watched }">
     <!-- if we have a torrent, show the progress -->
     <div ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash">
-      <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) " tooltip-append-to-body="true" tooltip-placement="right">
+      <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) " tooltip-append-to-body="true" tooltip-placement="left">
         {{ ::serie.name }}
       </torrent-remote-control>
     </div>
     <!-- no torrent, or don't show torrent: just show the name --> 
     <div ng-if="!getSetting('torrenting.enabled') || !episode.magnetHash || !getSetting('torrenting.progress')" class="watchedwidth">
-      <span tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) " tooltip-append-to-body="true" tooltip-placement="right">{{ ::serie.name }}</span>
+      <span style="display:block" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) " tooltip-append-to-body="true" tooltip-placement="left">{{ ::serie.name }}</span>
     </div>
     <!-- episode watched, show icon. -->
     <div ng-if="episode.watched">
