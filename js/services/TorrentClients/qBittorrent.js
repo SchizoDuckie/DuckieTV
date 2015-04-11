@@ -25,7 +25,8 @@ DuckieTorrent
             portscan: '/json/transferInfo',
             addmagnet: '/command/download',
             resume: '/command/resume',
-            pause: '/command/pause'
+            pause: '/command/pause',
+            files: '/json/propertiesFiles/%s'
 
         };
 
@@ -65,10 +66,10 @@ DuckieTorrent
          * @param object params GET parameters
          * @param object options $http optional options
          */
-        var json = function(type, params, options) {
+        var json = function(type, param, options) {
             var d = $q.defer();
-            params = params || {};
-            var url = self.getUrl(type)
+            param = param || '';
+            var url = self.getUrl(type, param)
             var parser = self.getParser(type);
             $http.get(url, options || {}).then(function(response) {
                 d.resolve(parser ? parser(response) : response.data);
@@ -173,6 +174,12 @@ DuckieTorrent
                 qBittorrentRemote.eventHandlers = {};
             },
 
+            getFilesList: function(hash) {
+                return json('files', hash).then(function(data) {
+                    return data;
+                });
+            },
+
             addMagnet: function(magnet) {
                 return $http.post(self.getUrl('addmagnet'), 'urls=' + encodeURIComponent(magnet), {
                     headers: {
@@ -224,25 +231,35 @@ DuckieTorrent
 
             handleEvent: function(data) {
                 var key = data.hash.toUpperCase();
+                if (!(key in service.torrents)) {
+                    data.getName = function() {
+                        return this.name;
+                    };
+                    data.getProgress = function() {
+                        return Math.round(this.progress * 100);
+                    }
+                    data.start = function() {
+                        DuckieTorrent.getClient().execute('resume', this.hash);
+                    };
 
-                data.getName = function() {
-                    return this.name;
-                };
-                data.getProgress = function() {
-                    return this.progress * 100;
+                    data.stop = function() {
+                        return this.pause();
+                    }
+                    data.pause = function() {
+                        DuckieTorrent.getClient().execute('pause', this.hash)
+                    }
+                    data.getFiles = function() {
+                        DuckieTorrent.getClient().getFilesList(this.hash).then(function(results) {
+                            service.torrents[key].files = results;
+                            $rootScope.$applyAsync();
+                        })
+                    }
+                    service.torrents[key] = data;
+                } else {
+                    Object.keys(data).map(function(property) {
+                        service.torrents[key][property] = data[property];
+                    })
                 }
-                data.start = function() {
-                    DuckieTorrent.getClient().execute('resume', this.hash);
-                };
-
-                data.stop = function() {
-                    return this.pause();
-                }
-                data.pause = function() {
-                    DuckieTorrent.getClient().execute('pause', this.hash)
-
-                }
-                service.torrents[key] = data;
 
 
                 $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
