@@ -190,11 +190,17 @@ DuckieTorrent
             },
 
             addMagnet: function(magnet) {
-                debugger;
                 return rpc('torrent-add', {
                     "arguments": {
                         "paused": false,
                         "filename": magnet
+                    }
+                })
+            },
+            execute: function(method, id) {
+                return rpc(method, {
+                    "arguments": {
+                        ids: [id]
                     }
                 })
             }
@@ -242,14 +248,14 @@ DuckieTorrent
                         return Math.round(this.progress * 100);
                     }
                     data.start = function() {
-                        DuckieTorrent.getClient().execute('resume', this.hash);
+                        DuckieTorrent.getClient().execute('torrent-start', this.id);
                     };
 
                     data.stop = function() {
-                        return this.pause();
+                        DuckieTorrent.getClient().execute('torrent-stop', this.id);
                     }
                     data.pause = function() {
-                        DuckieTorrent.getClient().execute('pause', this.hash)
+                        this.stop();
                     }
                     data.getFiles = function() {
 
