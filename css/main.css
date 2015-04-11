@@ -756,6 +756,11 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
   z-index: 1;
 }
 
+
+[date-picker].zoom td:first-child:hover {
+-webkit-transform: scale(1.5) translateX(45%);
+ }
+
 [date-picker].zoom td:hover > span {
   position: absolute;
   top: 0px;
@@ -805,6 +810,7 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
     bottom: 0px;
     right: 0px;
     line-height: 40px;
+      z-index: -1;
 }
 td.day {
     position: relative
