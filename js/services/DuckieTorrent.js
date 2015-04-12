@@ -13,6 +13,7 @@ DuckieTorrent.provider('DuckieTorrent', function() {
             },
 
             register: function(name, client) {
+                console.info("Registering torrent client: " + name);
                 clients[name] = client;
             },
             getClient: function() {

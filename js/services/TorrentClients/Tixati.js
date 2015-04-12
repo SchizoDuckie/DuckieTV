@@ -388,7 +388,6 @@ DuckieTorrent
     function(DuckieTorrent, tixati) {
 
         DuckieTorrent.register('tixati', tixati);
-        console.info("tixati registered with DuckieTorrentProvider!");
 
     }
 ])
