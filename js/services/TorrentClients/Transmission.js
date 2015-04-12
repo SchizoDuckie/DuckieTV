@@ -301,7 +301,7 @@ DuckieTorrent
     function(DuckieTorrent, Transmission) {
 
         DuckieTorrent.register('Transmission', Transmission);
-        console.log("Transmission registered with DuckieTorrentProvider!");
+        console.info("Transmission registered with DuckieTorrentProvider!");
 
     }
 ])

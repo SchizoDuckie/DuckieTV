@@ -288,6 +288,6 @@ DuckieTorrent
     function(DuckieTorrent, qBittorrent) {
 
         DuckieTorrent.register('qBittorrent', qBittorrent);
-        console.log("qBittorrent registered with DuckieTorrentProvider!");
+        console.info("qBittorrent registered with DuckieTorrentProvider!");
     }
 ])

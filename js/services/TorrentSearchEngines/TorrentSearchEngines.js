@@ -21,7 +21,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "$dialo
         var service = {
 
             registerSearchEngine: function(name, implementation) {
-                console.log("Registering torrent search engine:", name);
+                console.info("Registering torrent search engine:", name);
                 engines[name] = implementation;
             },
 

@@ -729,7 +729,7 @@ DuckieTorrent
     function(DuckieTorrent, uTorrent) {
 
         DuckieTorrent.register('uTorrent', uTorrent);
-        console.log("uTorrent registered with DuckieTorrent!");
+        console.info("uTorrent registered with DuckieTorrent!");
 
     }
 ])
