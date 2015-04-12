@@ -1,6 +1,6 @@
 DuckieTorrent
 
-.controller("qbtCtrl", ["Transmission",
+.controller("tbtCtrl", ["Transmission",
     function(Transmission) {
 
         this.connect = function() {
