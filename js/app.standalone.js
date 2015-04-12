@@ -1,6 +1,8 @@
 // system tray settings for Standalone
 DuckieTV.run(function(SettingsService) {
     if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
+
+        document.body.classList.add('standalone');
         // Load library
         var gui = require('nw.gui');
 
@@ -35,19 +37,19 @@ DuckieTV.run(function(SettingsService) {
                 case 187: // +
                     if (event.ctrlKey == true) {
                         win.zoomLevel = win.zoomLevel + 0.25;
-                        SettingsService.set('standalone.zoomlevel',win.zoomLevel);
+                        SettingsService.set('standalone.zoomlevel', win.zoomLevel);
                     }
                     break;
                 case 189: // -
                     if (event.ctrlKey == true) {
                         win.zoomLevel = win.zoomLevel - 0.25;
-                        SettingsService.set('standalone.zoomlevel',win.zoomLevel);
+                        SettingsService.set('standalone.zoomlevel', win.zoomLevel);
                     }
                     break;
                 case 48: // 0
                     if (event.ctrlKey == true) {
                         win.zoomLevel = 1;
-                        SettingsService.set('standalone.zoomlevel',win.zoomLevel);
+                        SettingsService.set('standalone.zoomlevel', win.zoomLevel);
                     }
             }
         });

@@ -104,6 +104,30 @@ a:hover {
 *::-webkit-scrollbar-thumb:active{
     background-color:#5C5C5C;
 }
+
+
+.windowChrome {
+    display:none;
+    position: fixed;
+    top: 0px;
+    right:0px;
+    left: 0px;
+    text-align: right;
+    z-index: 99999;
+    cursor:move !important;
+    -webkit-app-region: drag;
+}
+
+
+.windowChrome button {
+    -webkit-app-region: no-drag;
+}
+
+.standalone .windowChrome {
+    display: block;
+    
+}
+
 .tooltip .tooltip-arrow {
     border-top-color: white !important;
     border-bottom-color: white !important;

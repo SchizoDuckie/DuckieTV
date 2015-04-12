@@ -16,6 +16,13 @@
   <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"/>
 </head>
 <body kc>
+
+  <div class='windowChrome'>
+    <button class="btn btn-xs" onclick="require('nw.gui').Window.get().minimize()">_</button>
+    <button class="btn btn-xs" onclick="require('nw.gui').Window.get().maximize()">[]</button>
+    <button class="btn btn-xs" onclick="require('nw.gui').Window.get().close()">X</button>
+  </div>
+
   <background-rotator channel="'background:load'" style="opacity:{{getSetting('background-rotator.opacity')}}"></background-rotator>
   <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>
   <div class="container" ng-class="{'topsites': getSetting('topSites.enabled')}">
