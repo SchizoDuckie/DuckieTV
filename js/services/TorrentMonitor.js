@@ -10,8 +10,22 @@ DuckieTV.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService",
 
         function autoStop(torrent) {
             if (torrent.isStarted() && torrent.getProgress() == 100) {
-                console.info('Torrent finished. Auto-stopping', torrent.properties.all.name);
+                console.info('Torrent finished. Auto-stopping', torrent.name);
                 torrent.stop();
+            }
+        };
+
+        function isDownloaded(torrent) {
+            if (torrent.getProgress() == 100) {
+                console.info('Torrent finished. Auto-stopping', torrent.name);
+                var filter = ['downloaded != 1'];
+                filter.magnetHash = torrent.hash,
+
+                CRUD.FindOne('Episode', filter).then(function(episode) {
+                    if (!episode) return;
+                    episode.downloaded = 1;
+                    episode.Persist();
+                })
             }
         };
 
@@ -23,6 +37,9 @@ DuckieTV.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService",
 
             disableAutoStop: function() {
                 DuckieTorrent.getClient().getRemote().offTorrentUpdate(null, autoStop);
+            },
+            downloadedHook: function() {
+                DuckieTorrent.getClient().getRemote().onTorrentUpdate(null, isDownloaded);
             }
         };
         return service;
@@ -36,4 +53,5 @@ DuckieTV.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService",
             TorrentMonitor.enableAutoStop();
         }
     }
+    TorrentMonitor.downloadedHook();
 ]);
