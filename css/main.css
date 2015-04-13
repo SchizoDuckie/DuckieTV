@@ -116,11 +116,21 @@ a:hover {
     z-index: 99999;
     cursor:move !important;
     -webkit-app-region: drag;
+    padding:10px;
 }
 
 
 .windowChrome button {
     -webkit-app-region: no-drag;
+    -webkit-appearance: none;
+    background-color:transparent;
+    -webkit-filter: invert(100%);
+    border:none;
+    -webkit-transition: all 0.2s ease-in;
+}
+
+.windowChrome button:hover {
+    background-color: rgba(255,255,255, 0.4);
 }
 
 .standalone .windowChrome {
