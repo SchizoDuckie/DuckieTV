@@ -52,6 +52,6 @@ DuckieTV.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService",
             console.log("Enabling torrent auto-stop!");
             TorrentMonitor.enableAutoStop();
         }
+        TorrentMonitor.downloadedHook();
     }
-    TorrentMonitor.downloadedHook();
-]);
+])
