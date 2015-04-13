@@ -1092,6 +1092,34 @@ calendar-event .progress-bar {
     height:20px;
     background-repeat:no-repeat;
 }
+.glyphicon.glyphicon-win-close {
+    background-image: url('../img/icon-close.png');
+    background-size: contain;
+    width: 24px;
+    height:22px;
+    background-repeat:no-repeat;
+}
+.glyphicon.glyphicon-win-restore {
+    background-image: url('../img/icon-restore.png');
+    background-size: contain;
+    width: 24px;
+    height:22px;
+    background-repeat:no-repeat;
+}
+.glyphicon.glyphicon-win-minimize {
+    background-image: url('../img/icon-minimize.png');
+    background-size: contain;
+    width: 24px;
+    height:22px;
+    background-repeat:no-repeat;
+}
+.glyphicon.glyphicon-win-maximize {
+    background-image: url('../img/icon-maximize.png');
+    background-size: contain;
+    width: 24px;
+    height:22px;
+    background-repeat:no-repeat;
+}
 calendar-event h2 {
     font-size: 24px;
 }

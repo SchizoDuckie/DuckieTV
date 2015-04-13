@@ -1,5 +1,6 @@
 // system tray settings for Standalone
-DuckieTV.run(function(SettingsService) {
+DuckieTV
+.run(function(SettingsService) {
     if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
 
         document.body.classList.add('standalone');
@@ -72,3 +73,33 @@ DuckieTV.run(function(SettingsService) {
         });
     }
 })
+
+/*
+ * Standalone Controller
+ */
+.controller('StandaloneCtrl', ["$scope", 
+    function($scope) {
+        if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
+
+            $scope.winState = "Normal";
+
+            var win = require('nw.gui').Window.get();
+
+            this.close = function() {
+                win.close();
+            };
+            this.minimize = function() {
+                $scope.winState = "Normal"
+                win.minimize();
+            };
+            this.maximize = function() {
+                $scope.winState = "Maximized";
+                win.maximize();
+            };
+            this.unmaximize = function() {
+                $scope.winState = "Normal"
+                win.unmaximize();
+            };
+        }
+    }
+])
