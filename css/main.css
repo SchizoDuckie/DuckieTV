@@ -887,7 +887,7 @@ td.day {
     padding-top: 5px;
 }
 [date-picker] .now {
-    color: rgba(255, 255, 0, 0.4) !important;
+    color: rgba(255, 255, 0, 0.6) !important;
 }
 [date-picker][ng-switch-when='date'] tbody tr, [date-picker][ng-switch-when='week'] tbody tr {
     height: 40px;
