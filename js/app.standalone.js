@@ -31,19 +31,25 @@ DuckieTV
         });
 
         window.addEventListener('keydown', function(event) {
+            var level = [0,0.08,0.17,0.17,0.08,0.15,0.1,0.1,0.15,0.25,0.25,0.25,0.5,0.5,1,1,0];
+            var zoom = [25,33,50,67,75,90,100,110,125,150,175,200,250,300,400,500];
+            var zoomLevel = 0;
+            
             switch (event.keyCode) {
                 case 123: // F12, show inspector
                     win.showDevTools();
                     break;
                 case 187: // +
                     if (event.ctrlKey == true) {
-                        win.zoomLevel = win.zoomLevel + 0.25;
+                        zoomLevel = Math.round(win.zoomLevel * 100);
+                        win.zoomLevel = (zoomLevel >= 25 && zoomLevel < 500) ? win.zoomLevel + level[zoom.indexOf(zoomLevel)+1] : win.zoomLevel;
                         SettingsService.set('standalone.zoomlevel', win.zoomLevel);
                     }
                     break;
                 case 189: // -
                     if (event.ctrlKey == true) {
-                        win.zoomLevel = win.zoomLevel - 0.25;
+                        zoomLevel = Math.round(win.zoomLevel * 100);
+                        win.zoomLevel = (zoomLevel > 25 && zoomLevel <= 500) ? win.zoomLevel - level[zoom.indexOf(zoomLevel)]  : win.zoomLevel;
                         SettingsService.set('standalone.zoomlevel', win.zoomLevel);
                     }
                     break;
