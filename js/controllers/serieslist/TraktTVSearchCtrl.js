@@ -27,7 +27,6 @@ DuckieTV.controller('traktTvSearchCtrl', ["$rootScope", "TraktTVv2", "$statePara
          * @param {[type]} serie [description]
          */
         this.setHoverSerie = function(serie) {
-            console.log("hover!", serie);
             if ($state.current.name != "trakt-serie") {
                 $state.go('trakt-serie');
             }

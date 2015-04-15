@@ -19,6 +19,7 @@ DuckieTV.directive('lazyBackground', ["$document", "$parse",
                 attrs.$observe('lazyBackground', function(newSrc) {
                     // Make sure newSrc is valid else return error
                     if (newSrc == null || newSrc == "") {
+                        element.css('background-image', '');
                         element.addClass('img-load-error');
                         return;
                     }
