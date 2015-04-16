@@ -3,6 +3,8 @@ DuckieTV
 .run(function(SettingsService) {
     if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
 
+        var zoom = [25,33,50,67,75,90,100,110,125,150,175,200,250,300,400,500];
+
         document.body.classList.add('standalone');
         // Load library
         var gui = require('nw.gui');
@@ -10,7 +12,14 @@ DuckieTV
         // Reference to window and tray
         var win = gui.Window.get();
         var tray;
-        win.zoomLevel = SettingsService.get('standalone.zoomlevel');
+        var zoomIndex = parseInt(SettingsService.get('standalone.zoomlevel'));
+        // if due to prior commits the level is now invalid then reset.
+        if (zoomIndex < 0 || zoomIndex > 15) {
+            zoomIndex = 6;
+            SettingsService.set('standalone.zoomlevel', zoomIndex);
+            console.info('standalone.zoomlevel reset to 6');
+        };
+        win.zoomLevel = Math.log(zoom[zoomIndex]/100) / Math.log(1.2);
 
         // Get the minimize event
         win.on('minimize', function() {
@@ -31,9 +40,6 @@ DuckieTV
         });
 
         window.addEventListener('keydown', function(event) {
-            var level = [0,0.08,0.17,0.17,0.08,0.15,0.1,0.1,0.15,0.25,0.25,0.25,0.5,0.5,1,1,0];
-            var zoom = [25,33,50,67,75,90,100,110,125,150,175,200,250,300,400,500];
-            var zoomLevel = 0;
             
             switch (event.keyCode) {
                 case 123: // F12, show inspector
@@ -41,22 +47,23 @@ DuckieTV
                     break;
                 case 187: // +
                     if (event.ctrlKey == true) {
-                        zoomLevel = Math.round(win.zoomLevel * 100);
-                        win.zoomLevel = (zoomLevel >= 25 && zoomLevel < 500) ? win.zoomLevel + level[zoom.indexOf(zoomLevel)+1] : win.zoomLevel;
-                        SettingsService.set('standalone.zoomlevel', win.zoomLevel);
+                        zoomIndex = (zoomIndex >= 0 && zoomIndex < 15) ? zoomIndex + 1 : zoomIndex;
+                        win.zoomLevel = Math.log(zoom[zoomIndex]/100) / Math.log(1.2);
+                        SettingsService.set('standalone.zoomlevel', zoomIndex);
                     }
                     break;
                 case 189: // -
                     if (event.ctrlKey == true) {
-                        zoomLevel = Math.round(win.zoomLevel * 100);
-                        win.zoomLevel = (zoomLevel > 25 && zoomLevel <= 500) ? win.zoomLevel - level[zoom.indexOf(zoomLevel)]  : win.zoomLevel;
-                        SettingsService.set('standalone.zoomlevel', win.zoomLevel);
+                        zoomIndex = (zoomIndex > 0 && zoomIndex <= 15) ? zoomIndex - 1 : zoomIndex;
+                        win.zoomLevel = Math.log(zoom[zoomIndex]/100) / Math.log(1.2);
+                        SettingsService.set('standalone.zoomlevel', zoomIndex);
                     }
                     break;
                 case 48: // 0
                     if (event.ctrlKey == true) {
-                        win.zoomLevel = 1;
-                        SettingsService.set('standalone.zoomlevel', win.zoomLevel);
+                        zoomIndex = 6;
+                        win.zoomLevel = Math.log(zoom[zoomIndex]/100) / Math.log(1.2);
+                        SettingsService.set('standalone.zoomlevel', zoomIndex);
                     }
             }
         });

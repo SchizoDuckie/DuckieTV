@@ -96,7 +96,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'lastSync': -1,
                 'library.smallposters': true,
                 'series.displaymode': 'poster',
-                'standalone.zoomlevel': 1,
+                'standalone.zoomlevel': 6,
                 'storage.sync': false, // off by default so that permissions must be requested
                 'sync.progress': true,
                 'topSites.enabled': true,
