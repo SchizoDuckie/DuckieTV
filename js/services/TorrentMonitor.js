@@ -53,8 +53,4 @@ DuckieTV.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService",
         }
         TorrentMonitor.downloadedHook();
     }
-<<<<<<< HEAD
-])
-=======
 ]);
->>>>>>> Torrent monitoring: mark as downloaded when done. fix autostop.
