@@ -263,6 +263,7 @@ DuckieTorrent
 
 
                 $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
+                $rootScope.$broadcast('torrent:update:', service.torrents[key]);
             },
 
 

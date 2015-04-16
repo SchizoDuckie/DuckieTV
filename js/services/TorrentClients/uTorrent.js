@@ -652,11 +652,8 @@ DuckieTorrent
                     });
                 }
                 $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
-                if ('all' in service.eventHandlers) {
-                    service.eventHandlers['all'].map(function(monitorFunc) {
-                        monitorFunc(service.torrents[key]);
-                    });
-                }
+                $rootScope.$broadcast('torrent:update:', service.torrents[key]);
+
             },
         };
 
@@ -688,26 +685,16 @@ DuckieTorrent
             },
 
 
-            onTorrentUpdate: function(hash, handler) {
-                if (hash === null) {
-                    hash = 'all';
-                }
-                if (!(hash in service.eventHandlers)) {
-                    service.eventHandlers[hash] = [];
-                }
-                service.eventHandlers[hash].push(handler);
-
+            onTorrentUpdate: function(hash, callback) {
+                $rootScope.$on('torrent:update:' + hash, function(evt, torrent) {
+                    callback(torrent)
+                });
             },
-            offTorrentUpdate: function(hash, handler) {
-                if (hash === null) {
-                    hash = 'all';
-                }
-                if (!(hash in service.eventHandlers)) {
-                    return;
-                }
-                if (service.eventHandlers[hash].indexOf(handler)) {
-                    service.eventHandlers[hash].splice(service.eventHandlers[hash].indexOf(handler), 1);
-                }
+
+            offTorrentUpdate: function(hash, callback) {
+                $rootScope.$off('torrent:update:' + hash, function(evt, torrent) {
+                    callback(torrent)
+                });
             },
 
             handleEvent: function(type, category, data, RPCProxy, input) {

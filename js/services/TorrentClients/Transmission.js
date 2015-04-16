@@ -9,8 +9,8 @@ DuckieTorrent
     }
 ])
 
-.factory('Transmission', ["$q", "$http", "URLBuilder", "$parse", "TransmissionRemote",
-    function($q, $http, URLBuilder, $parse, TransmissionRemote) {
+.factory('Transmission', ["$q", "$http", "TransmissionRemote",
+    function($q, $http, TransmissionRemote) {
         var self = this;
 
         this.port = 9091;
@@ -276,6 +276,7 @@ DuckieTorrent
 
 
                 $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
+                $rootScope.$broadcast('torrent:update:', service.torrents[key]);
             },
 
 

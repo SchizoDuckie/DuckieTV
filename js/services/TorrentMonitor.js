@@ -16,12 +16,11 @@ DuckieTV.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService",
         };
 
         function isDownloaded(torrent) {
-            if (torrent.getProgress() == 100) {
-                console.info('Torrent finished. Auto-stopping', torrent.name);
-                var filter = ['downloaded != 1'];
-                filter.magnetHash = torrent.hash,
-
+            if (torrent.getProgress() == 100 && !torrent.downloadMarked) {
+                console.info('Torrent finished. marking as downloaded', torrent.name);
+                var filter = ['downloaded != 1 and magnetHash = "' + torrent.hash + '"'];
                 CRUD.FindOne('Episode', filter).then(function(episode) {
+                    torrent.downloadMarked = true;
                     if (!episode) return;
                     episode.downloaded = 1;
                     episode.Persist();
@@ -32,14 +31,14 @@ DuckieTV.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService",
         var service = {
 
             enableAutoStop: function() {
-                DuckieTorrent.getClient().getRemote().onTorrentUpdate(null, autoStop);
+                DuckieTorrent.getClient().getRemote().onTorrentUpdate('', autoStop);
             },
 
             disableAutoStop: function() {
-                DuckieTorrent.getClient().getRemote().offTorrentUpdate(null, autoStop);
+                DuckieTorrent.getClient().getRemote().offTorrentUpdate('', autoStop);
             },
             downloadedHook: function() {
-                DuckieTorrent.getClient().getRemote().onTorrentUpdate(null, isDownloaded);
+                DuckieTorrent.getClient().getRemote().onTorrentUpdate('', isDownloaded);
             }
         };
         return service;
@@ -54,4 +53,8 @@ DuckieTV.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService",
         }
         TorrentMonitor.downloadedHook();
     }
+<<<<<<< HEAD
 ])
+=======
+]);
+>>>>>>> Torrent monitoring: mark as downloaded when done. fix autostop.
