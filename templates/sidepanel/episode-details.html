@@ -42,6 +42,13 @@
             </a></div>
           </td>
         </tr>
+        <tr ng-if="sidepanel.isNetflixSerie()">
+          <td colspan="2" class="buttons">
+            <a ng-click="sidepanel.openNetflix()">
+                Watch on netflix
+            </a>
+          </td>
+        </tr>
         <tr ng-if="getSetting('torrenting.enabled') && sidepanel.episode.magnetHash">
           <td colspan="2" class="buttons">
             <a class="no-hover" >
