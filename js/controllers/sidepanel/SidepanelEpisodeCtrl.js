@@ -21,13 +21,16 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
         return uTorrent.isConnected();
     };
 
+    this.isNetflixSupported = function() {
+        return navigator.userAgent.toLowerCase().indexOf('standalone') === -1;
+    }
+
     this.isNetflixSerie = function() {
         return this.serie.network.toLowerCase() == 'netflix';
     };
 
     this.openNetflix = function() {
         Netflix.isLoggedIn().then(function(result) {
-            console.log("Netflix logged in? ", result);
             if (!result) {
                 alert('You are not logged in to Netflix. Please login, then you can close the window, and press this button again');
                 window.open('http://www.netflix.com/Login');
@@ -42,7 +45,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
                     });
                 })
             }
-        })
+        });
     }
 
 

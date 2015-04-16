@@ -42,7 +42,7 @@
             </a></div>
           </td>
         </tr>
-        <tr ng-if="sidepanel.isNetflixSerie()">
+        <tr ng-if="sidepanel.isNetflixSerie() && sidepanel.isNetflixSupported()">
           <td colspan="2" class="buttons">
             <a ng-click="sidepanel.openNetflix()">
                 Watch on netflix
