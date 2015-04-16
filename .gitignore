@@ -8,3 +8,14 @@ icudtl.dat
 libEGL.dll
 libGLESv2.dll
 nw.pak
+.srclib-cache/
+.srclib-store/
+DuckieDocs.exe
+credits.html
+d3dcompiler_47.dll
+libffmpegsumo.so
+nw
+nwjc
+nwjc.exe
+pdf.dll
+
