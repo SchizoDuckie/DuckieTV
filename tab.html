@@ -18,10 +18,10 @@
 <body kc>
 
   <div ng-controller="StandaloneCtrl as standalone" class="windowChrome">
-    <button class="glyphicon glyphicon-win-minimize" ng-click="standalone.minimize()" tooltip="Minimize" tooltip-placement="bottom"></button>
-    <button class="glyphicon glyphicon-win-restore" ng-click="standalone.unmaximize()" tooltip="Restore Down" tooltip-placement="bottom"  ng-if="winState=='Maximized'"></button>
-    <button class="glyphicon glyphicon-win-maximize" ng-click="standalone.maximize()" tooltip="Maximize" tooltip-placement="bottom" ng-if="winState=='Normal'"></button>
-    <button class="glyphicon glyphicon-win-close" ng-click="standalone.close()" tooltip="Close" tooltip-placement="bottom"></button>
+    <button class="glyphicon glyphicon-win-minimize" ng-click="standalone.minimize()" tooltip="{{ 'TAB/minimize/glyph'|translate }}" tooltip-placement="bottom"></button>
+    <button class="glyphicon glyphicon-win-restore" ng-click="standalone.unmaximize()" tooltip="{{ 'TAB/unmaximize/glyph'|translate }}" tooltip-placement="bottom"  ng-if="winState=='Maximized'"></button>
+    <button class="glyphicon glyphicon-win-maximize" ng-click="standalone.maximize()" tooltip="{{ 'TAB/maximize/glyph'|translate }}" tooltip-placement="bottom" ng-if="winState=='Normal'"></button>
+    <button class="glyphicon glyphicon-win-close" ng-click="standalone.close()" tooltip="{{ 'TAB/close/glyph'|translate }}" tooltip-placement="bottom"></button>
   </div>
 
   <background-rotator channel="'background:load'" style="opacity:{{getSetting('background-rotator.opacity')}}"></background-rotator>
