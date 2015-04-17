@@ -116,7 +116,7 @@ a:hover {
     z-index: 99999;
     cursor:move !important;
     -webkit-app-region: drag;
-    padding:10px;
+    padding: 1px 10px 0px 1px;
 }
 
 
