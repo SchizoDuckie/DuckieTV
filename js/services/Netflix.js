@@ -19,11 +19,11 @@ DuckieTV.factory('Netflix', ["$http",
             },
             isLoggedIn: function() {
                 return $http.get('http://www.netflix.com/YourAccount').then(function(result) {
-                        console.log("logged in? ", result.data.indexOf('login-form'));
+                        //console.debug("logged in? ", result.data.indexOf('login-form'));
                         return result.data.indexOf('login-form') > -1 ? false : true;
                     },
                     function(error) {
-                        console.log("Nog loggedin!");
+                        //console.debug("Not logged in!");
                         return false;
                     })
             }

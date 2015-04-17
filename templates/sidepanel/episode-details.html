@@ -11,19 +11,19 @@
         <tr>
           <td colspan="2">
             <a ui-sref="serie.details({id:sidepanel.serie.ID_Serie})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/EPISODE-DETAILS/series-details/lbl'|translate}}</strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/EPISODE-DETAILS/series-details/btn'|translate}}</strong>
             </a>
           </td>
         </tr>
         <tr class="two-face">
           <td>
             <a ui-sref="serie.seasons({id: sidepanel.serie.ID_Serie})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/EPISODE-DETAILS/seasons/lbl'|translate}}</strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/EPISODE-DETAILS/seasons/btn'|translate}}</strong>
             </a>
           </td>
           <td>
             <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/EPISODE-DETAILS/episodes/lbl'|translate}}</strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/EPISODE-DETAILS/episodes/btn'|translate}}</strong>
             </a>
           </td>
         </tr>
@@ -35,7 +35,7 @@
         <tr>
           <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled') && sidepanel.episode.hasAired()">
             <div id="ttd"><torrent-dialog class="download" tvdbid='sidepanel.episode.TVDB_ID' q='sidepanel.getSearchString(sidepanel.serie, sidepanel.episode)'>
-                <strong style="padding-left:21px">{{'SIDEPANEL/EPISODE-DETAILS/find-torrent/lbl'|translate}}</strong>
+                <strong style="padding-left:21px">{{'SIDEPANEL/EPISODE-DETAILS/find-torrent/btn'|translate}}</strong>
             </torrent-dialog></div>
             <div id="tad"><a class="auto-download" ng-click="sidepanel.autoDownload(episode)" tooltip="{{'SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip'|translate}}">
                 <i class="glyphicon glyphicon-cloud-download"></i>
@@ -46,7 +46,7 @@
           <td colspan="2" class="buttons">
             <a ng-click="sidepanel.openNetflix()">
                 <img src="img/icon-netflix.png" style="width: 34px; height: 34px; margin-left: -5px; margin-top:-5px; float:left;">
-                <strong>Watch on netflix</strong>
+                <strong>{{'SIDEPANEL/EPISODE-DETAILS/watch-netflix/btn'|translate}}</strong>
             </a>
           </td>
         </tr>

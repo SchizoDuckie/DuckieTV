@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, SceneNameResolver, EpisodeAiredService, TorrentSearchEngines, uTorrent, Netflix, $scope) {
+DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, SceneNameResolver, EpisodeAiredService, TorrentSearchEngines, uTorrent, Netflix, $scope, $filter) {
 
     this.serie = serie;
     this.episode = episode;
@@ -32,13 +32,13 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
     this.openNetflix = function() {
         Netflix.isLoggedIn().then(function(result) {
             if (!result) {
-                alert('You are not logged in to Netflix. Please login, then you can close the window, and press this button again');
+                alert($filter('translate')('SIDEPANELEPISODECTRLjs/please-login-netflix/alert'));
                 window.open('http://www.netflix.com/Login');
             } else {
                 Netflix.findShow(self.serie.name).then(function(result) {
-                    console.log("Found show on netflix!", result);
+                    //console.debug("Found show on netflix!", result);
                     Netflix.findEpisode(result.id, episode.episodename).then(function(result) {
-                        console.log("Found episode link!", result);
+                        //console.debug("Found episode link!", result);
                         if (result !== false) {
                             window.open(result);
                         }
