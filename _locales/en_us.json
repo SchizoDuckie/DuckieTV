@@ -359,6 +359,7 @@
     "SIDEPANEL/EPISODES/episodes/lbl": "Episodes",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "Fetching episodes",
     "SIDEPANEL/EPISODES/mark-all-watched/lbl": "Mark all watched",
+    "SIDEPANEL/EPISODES/mark-all-downloaded/lbl": "Mark all downloaded",
     "SIDEPANEL/EPISODES/season/lbl": "Season",
     "SIDEPANEL/EPISODES/specials/lbl": "Specials",
     "SIDEPANEL/MARK-WATCHED/mark-as-watched/lbl": " Mark as watched",
