@@ -43,6 +43,13 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
         });
     };
 
+    this.markAllDownloaded = function(episodes) {
+        episodes.map(function(episode) {
+            if ((episode.hasAired()) && (!episode.isDownloaded())) {
+                episode.markDownloaded();
+            };
+        });
+    };
 
     this.getSearchString = function(serie, episode) {
         if (!serie || !episode) return;

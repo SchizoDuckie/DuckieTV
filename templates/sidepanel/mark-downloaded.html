@@ -1,0 +1,13 @@
+<a>
+  <strong>
+		<div ng-if="!sidepanel.episode.downloaded">
+	    	<i class="glyphicon glyphicon-floppy-disk"></i>{{'SIDEPANEL/MARK-DOWNLOADED/mark-as-downloaded/lbl'|translate}}
+		</div>
+		<div ng-if="sidepanel.episode.downloaded">
+		    <i class="glyphicon glyphicon-floppy-saved"></i>
+		    <div style="display: inline-block">
+			    <span style="display: block">{{'SIDEPANEL/MARK-DOWNLOADED/marked-downloaded/lbl'|translate}}</span>
+			</div>
+		</div>
+	</strong>
+</a>

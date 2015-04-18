@@ -692,13 +692,24 @@ chrome-top-sites a p {
     -webkit-box-orient: vertical;
 }
 .episode-watched {
-    display:block;
+    display:inline-block;
     text-align:center;
     cursor:pointer;
     font-size: 18px;
     margin: 0;
 }
 .episode-watched a.glyphicon-eye-open {
+    color: green;
+    font-size: 18px;
+}
+.episode-downloaded {
+    display:inline-block;
+    text-align:center;
+    cursor:pointer;
+    font-size: 18px;
+    margin: 0;
+}
+.episode-downloaded a.glyphicon-floppy-saved {
     color: green;
     font-size: 18px;
 }
@@ -943,6 +954,14 @@ td.day {
     position: absolute;
     top: 3px;
     right: 4.7px;
+    color:#17D5E3;
+    opacity:0.8;
+    text-decoration: none !important;
+}
+[date-picker] .event .downloadedpos {
+    position: absolute;
+    top: 3px;
+    right: 20px;
     color:#17D5E3;
     opacity:0.8;
     text-decoration: none !important;
@@ -1354,6 +1373,9 @@ sidepanel .buttons tr.two-face td:nth-child(2) a {
     margin-left: 5px;
 }
 sidepanel  i.glyphicon.glyphicon-eye-open {
+    color: green !important;
+}
+sidepanel  i.glyphicon.glyphicon-floppy-saved {
     color: green !important;
 }
 sidepanel  .buttons .two-face-torrent .download {

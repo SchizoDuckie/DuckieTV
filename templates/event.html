@@ -11,6 +11,10 @@
     <div ng-if="!getSetting('torrenting.enabled') || !episode.magnetHash || !getSetting('torrenting.progress')" class="watchedwidth">
       <span style="display:block" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) " tooltip-append-to-body="true" tooltip-placement="left">{{ ::serie.name }}</span>
     </div>
+    <!-- episode downloaded, show icon. -->
+    <div ng-if="episode.downloaded">
+      <span class="glyphicon glyphicon-floppy-saved downloadedpos" ng-style="{ top: getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash ? '6px' : '3px' }"></span>
+    </div>
     <!-- episode watched, show icon. -->
     <div ng-if="episode.watched">
       <span class="glyphicon glyphicon-ok watchedpos" ng-style="{ top: getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash ? '6px' : '3px' }"></span>

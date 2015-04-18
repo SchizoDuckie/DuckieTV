@@ -29,7 +29,7 @@
             
           </td>
           <td style="width:55px">
-            <episode-watched ng-if="episode.hasAired()"></episode-watched>
+            <episode-downloaded ng-if="episode.hasAired()"></episode-downloaded> <episode-watched ng-if="episode.hasAired()"></episode-watched>
           </td>
         </tr>
         <tr ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash" tooltip="{{ episode.getFormattedEpisode() }} ({{episode.getAirTime() }}) ">

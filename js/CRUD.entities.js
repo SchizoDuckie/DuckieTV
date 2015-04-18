@@ -271,6 +271,23 @@ var Episode = CRUD.define({
         }.bind(this));
     },
 
+    isDownloaded: function() {
+        return this.downloaded && parseInt(this.downloaded) == 1;
+    },
+
+    markDownloaded: function($rootScope) {
+        this.downloaded = 1;
+        return this.Persist().then(function() {
+            return this;
+        }.bind(this));
+    },
+
+    markNotDownloaded: function($rootScope) {
+        this.downloaded = 0;
+        return this.Persist().then(function() {
+            return this;
+        }.bind(this));
+    },
 });
 
 
