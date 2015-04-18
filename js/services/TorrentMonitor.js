@@ -22,7 +22,7 @@ DuckieTV.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService",
                 CRUD.FindOne('Episode', filter).then(function(episode) {
                     torrent.downloadMarked = true;
                     if (!episode) return;
-                    episode.downloaded = 1;
+                    episode.markDownloaded();
                     episode.Persist();
                 })
             }
