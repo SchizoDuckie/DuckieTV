@@ -81,3 +81,8 @@ CRUD.EntityManager.getAdapter().db.execute("update series set lastupdated = '201
 // CRUD.EntityManager.getAdapter().db.execute("delete from episodes where 1").then(function(result) { console.log(result); })
 // reload page
 ```
+## mark as downloaded all episodes that have been watched.
+
+```javascript
+CRUD.EntityManager.getAdapter().db.execute("update episodes set downloaded = 1 where watched == 1").then(function(result) { console.log(result); })
+```
