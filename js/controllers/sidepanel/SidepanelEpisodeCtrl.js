@@ -26,6 +26,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
     }
 
     this.isNetflixSerie = function() {
+        if (!this.serie.network) return false;
         return this.serie.network.toLowerCase() == 'netflix';
     };
 
