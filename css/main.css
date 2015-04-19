@@ -958,14 +958,6 @@ td.day {
     opacity:0.8;
     text-decoration: none !important;
 }
-[date-picker] .event .downloadedpos {
-    position: absolute;
-    top: 3px;
-    right: 20px;
-    color:#17D5E3;
-    opacity:0.8;
-    text-decoration: none !important;
-}
 [date-picker] .event:hover {
     background-color: rgba(0, 0, 0, 0.8);
     overflow: visible;
