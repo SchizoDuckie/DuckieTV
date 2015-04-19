@@ -71,7 +71,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
         this.points.push({
             x: i,
             y: data[i].rating,
-            label: this.getEpisodeNumber(data[i]) + ' : ' + data[i].rating,
+            label: this.getEpisodeNumber(data[i]) + ' : ' + data[i].rating + '% (' + data[i].ratingcount + ' ' + $filter('translate')('SIDEPANEL/SERIE-DETAILS/votes/lbl') + ')',
             season: parseInt(data[i].seasonnumber, 10)
         });
     };
