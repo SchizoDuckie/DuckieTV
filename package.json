@@ -34,12 +34,12 @@
         "karma-phantomjs-launcher": "^0.1.4"
     },
     "author": "DuckieTV",
-    "user-agent": "DuckieTV Standalone v0.95",
+    "user-agent": "DuckieTV Standalone v1.00",
     "window": {
         "transparent": true,
         "fullscreen": false,
         "resizable": true,
-        "title": "DuckieTV Standalone v0.95",
+        "title": "DuckieTV Standalone v1.00",
         "always-on-top": false,
         "frame": false,
         "height": 750,
@@ -56,7 +56,7 @@
         "toolbar": false,
         "icon": "C:/xampp/htdocs/deploy/newtab/img/icon128.png"
     },
-    "version": "0.95.0",
+    "version": "1.00.0",
     "inject-js-start": "",
     "main": "tab.html",
     "chromium-args": "",
@@ -70,7 +70,7 @@
         "windows": true,
         "mac": true,
         "mac-x64": false,
-        "nw_version": "0.10.5",
+        "nw_version": "0.12.1",
         "force_download": false,
         "linux-x64": false
     },
