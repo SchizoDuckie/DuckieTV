@@ -11,7 +11,8 @@
  *  <SHOW_TVDB_ID> : [ // array of objects
  *      {
  *          "TVDB_ID": <Episode_TVDB_ID>,
- *          "watchedAt": <timestamp watchedAt>
+ *          "watchedAt": <timestamp watchedAt>||null,
+ *          "downloaded": 1
  *      },
  *      // repeat
  *    ],
@@ -51,11 +52,12 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader"
                 }
 
                 // Store watched episodes for each serie
-                CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watchedAt is not null').then(function(res) {
+                CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
                     while (row = res.next()) {
                         out.series[row.get('TVDB_ID')].push({
                             'TVDB_ID': row.get('epTVDB_ID'),
-                            'watchedAt': new Date(row.get('watchedAt')).getTime()
+                            'watchedAt': new Date(row.get('watchedAt')).getTime(),
+                            'downloaded': 1
                         })
                     }
                     var blob = new Blob([angular.toJson(out, true)], {

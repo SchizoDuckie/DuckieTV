@@ -252,6 +252,8 @@ var Episode = CRUD.define({
     markWatched: function($rootScope) {
         this.watched = 1;
         this.watchedAt = new Date().getTime();
+        // if you are marking this as watched you must have also downloaded it!
+        this.downloaded = 1;
         return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:watched', this);
@@ -284,6 +286,9 @@ var Episode = CRUD.define({
 
     markNotDownloaded: function($rootScope) {
         this.downloaded = 0;
+        // if you are marking this as NOT downloaded, you can not have watched it either!
+        this.watched = 0;
+        this.watchedAt = null;
         return this.Persist().then(function() {
             return this;
         }.bind(this));

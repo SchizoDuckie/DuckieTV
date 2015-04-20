@@ -91,8 +91,13 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
             // if there's an entry for the episode in watchedEpisodes, this is a backup restore
             watched.map(function(el) {
                 if (el.TVDB_ID == episode.TVDB_ID) {
-                    episode.watchedAt = el.watchedAt;
-                    episode.watched = '1';
+                    episode.downloaded = 1; // an entry means it has to have been downloaded
+                    episode.watchedAt = el.watchedAt; // an entry may mean it's watched ... or not.
+                    if (el.watchedAt != null) {
+                        episode.watched = 1;
+                    } else {
+                        episode.watched = 0;
+                    };
                 }
             });
             episode.ID_Serie = serie.getID();
