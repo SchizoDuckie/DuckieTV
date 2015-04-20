@@ -17,7 +17,7 @@
     </div>
     <!-- episode watched, show icon. -->
     <div ng-if="episode.watched">
-      <span class="glyphicon glyphicon-ok watchedpos" ng-style="{ top: getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash ? '6px' : '3px' }"></span>
+      <span class="glyphicon glyphicon-ok watchedpos"></span>
     </div>
     <span ng-if="count > 2" class="badge badge-alert" ng-click="expand()" style='position: absolute; top: 0px; right:0px; text-decoration: none !important;'>x {{count}}</span>
   </a>

@@ -942,11 +942,18 @@ td.day {
 }
 [date-picker] .event .watched {
     background-color: rgba(255,255,255,0.3);
+      padding-right: 14px;
 }
 [date-picker] .event .watched span {
     font-weight: bold;
     text-decoration: line-through;
+
 }
+[date-picker] .event .watched span.glyphicon {
+    line-height: 20px;
+}
+}
+
 [date-picker] .event .watched .watchedwidth {
     width: 82%;
 }
@@ -971,7 +978,14 @@ td.day {
 }
 
 [date-picker] .event > a span {
-    display: inline;
+    display: inline-block;
+    line-height: 22px;
+}
+
+[date-picker] .event a .badge {
+      border-radius: 6px;
+      padding:2px 4px;
+      cursor: row-resize;
 }
 
 [date-picker] div.tooltip.bottom {
@@ -1085,11 +1099,14 @@ a:hover i.glyphicon-plus-sign {
 calendar-event .progress {
     background-color: transparent;
     height: auto;
-    margin: 3px 3px 3px 0px;
+    margin: 0px;
 }
+
+
 calendar-event .progress-bar {
     color: black;
-    line-height:15px;
+    line-height:16px;
+    vertical-align: middle
     height:auto;
     position: absolute;
     top: 0px;
