@@ -29,7 +29,7 @@
             
           </td>
           <td style="width:55px">
-            <episode-downloaded ng-if="episode.hasAired()"></episode-downloaded> <episode-watched ng-if="episode.hasAired()"></episode-watched>
+            <episode-downloaded ng-if="getSetting('downloaded.enabled') && episode.hasAired()"></episode-downloaded> <episode-watched ng-if="episode.hasAired()" style="display:{{getSetting('downloaded.enabled')?'inline-':''}}block"></episode-watched>
           </td>
         </tr>
         <tr ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash" tooltip="{{ episode.getFormattedEpisode() }} ({{episode.getAirTime() }}) ">
@@ -59,7 +59,7 @@
           </td>
         <tr>
         </tr>
-          <td colspan="2">
+          <td colspan="2" ng-if="getSetting('downloaded.enabled')">
               <a ng-click="season.markAllDownloaded(season.episodes)">
                 <i class="glyphicon glyphicon-floppy-saved"></i><strong>{{'SIDEPANEL/EPISODES/mark-all-downloaded/lbl'|translate}}</strong>
               </a>

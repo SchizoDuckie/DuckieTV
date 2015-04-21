@@ -34,7 +34,7 @@
         </tr>
         <tr>
           <td colspan="2">
-            <episode-downloaded ng-if="sidepanel.episode.hasAired()" template-url="templates/sidepanel/mark-downloaded.html" episode="sidepanel.episode" ng-click="markDownloaded(sidepanel.episode)"></episode-downloaded>
+            <episode-downloaded ng-if="getSetting('downloaded.enabled') && sidepanel.episode.hasAired()" template-url="templates/sidepanel/mark-downloaded.html" episode="sidepanel.episode" ng-click="markDownloaded(sidepanel.episode)"></episode-downloaded>
           </td>
         </tr>
         <tr>

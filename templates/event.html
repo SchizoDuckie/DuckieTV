@@ -12,7 +12,7 @@
       <span style="display:block" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) " tooltip-append-to-body="true" tooltip-placement="left">{{ ::serie.name }}</span>
     </div>
     <!-- episode downloaded, show 100% progress bar. -->
-    <div ng-if="episode.downloaded" class="torrent-mini-remote-control-progress progress-striped progress" >
+    <div ng-if="getSetting('downloaded.enabled') && episode.downloaded" class="torrent-mini-remote-control-progress progress-striped progress" >
       <span class="progress-bar progress-bar-success" style="width: 100%"></span>
     </div>
     <!-- episode watched, show icon. -->

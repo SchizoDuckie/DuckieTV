@@ -37,4 +37,17 @@
       <strong style="float:left">0%</strong> <strong style='float:right'>100%</strong>
     </li>
   </ul>
+
+  <hr class="setting-divider">
+
+  <h2>{{'SETTINGS/DISPLAY/downloaded/hdr'|translate}}
+    <span tooltip="{{showDownloaded ? 'SETTINGS/DISPLAY/downloaded-show/tooltip' : 'SETTINGS/DISPLAY/downloaded-hide/tooltip'|translate}}">
+      <i class="glyphicon glyphicon-{{showDownloaded ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+    </span>
+  </h2>
+  
+  <p>{{'SETTINGS/DISPLAY/downloaded/desc'|translate}}</p>
+  <a ng-click="toggleDownloaded()" class="btn btn-{{showDownloaded ? 'danger' : 'success'}}">
+    <i class="glyphicon glyphicon-{{showDownloaded ? 'remove' : 'ok'}}" ></i> {{showDownloaded ? 'SETTINGS/DISPLAY/downloaded-hide/btn' : 'SETTINGS/DISPLAY/downloaded-show/btn'|translate}}
+  </a>
 </div>  
