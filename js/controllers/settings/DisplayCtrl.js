@@ -10,7 +10,6 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.topSites = SettingsService.get('topSites.enabled');
         $scope.topSitesMode = SettingsService.get('topSites.mode');
         $scope.bgOpacity = SettingsService.get('background-rotator.opacity');
-        $scope.showDownloaded = SettingsService.get('downloaded.enabled');
 
         $scope.toggleTopSites = function() {
             $scope.topSites = !$scope.topSites;
@@ -27,12 +26,6 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
             SettingsService.set('background-rotator.opacity', opacity);
             $scope.bgOpacity = opacity;
         };
-
-        $scope.toggleDownloaded = function() {
-            $scope.showDownloaded = !$scope.showDownloaded;
-            SettingsService.set('downloaded.enabled', $scope.showDownloaded);
-        };
-        
     }
 ])
 
