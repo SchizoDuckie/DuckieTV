@@ -27,14 +27,12 @@
             </a>
           </td>
         </tr>
-        <tr>
-          <td colspan="2">
-            <episode-watched ng-if="sidepanel.episode.hasAired()" template-url="templates/sidepanel/mark-watched.html" episode="sidepanel.episode" ng-click="markWatched(sidepanel.episode)"></episode-watched>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
+        <tr class="two-face">
+          <td>
             <episode-downloaded ng-if="sidepanel.episode.hasAired()" template-url="templates/sidepanel/mark-downloaded.html" episode="sidepanel.episode" ng-click="markDownloaded(sidepanel.episode)"></episode-downloaded>
+          </td>
+          <td>
+            <episode-watched ng-if="sidepanel.episode.hasAired()" template-url="templates/sidepanel/mark-watched.html" episode="sidepanel.episode" ng-click="markWatched(sidepanel.episode)"></episode-watched>
           </td>
         </tr>
         <tr>

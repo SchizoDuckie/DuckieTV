@@ -51,17 +51,15 @@
               </a>
           </td>
         </tr>
-        <tr>
-          <td colspan="2">
-              <a ng-click="season.markAllWatched(season.episodes)">
-                <i class="glyphicon glyphicon-eye-open"></i><strong>{{'SIDEPANEL/EPISODES/mark-all-watched/lbl'|translate}}</strong>
-              </a>
-          </td>
-        <tr>
-        </tr>
-          <td colspan="2">
+        <tr class="two-face">
+          <td>
               <a ng-click="season.markAllDownloaded(season.episodes)">
                 <i class="glyphicon glyphicon-floppy-saved"></i><strong>{{'SIDEPANEL/EPISODES/mark-all-downloaded/lbl'|translate}}</strong>
+              </a>
+          </td>
+          <td>
+              <a ng-click="season.markAllWatched(season.episodes)">
+                <i class="glyphicon glyphicon-eye-open"></i><strong>{{'SIDEPANEL/EPISODES/mark-all-watched/lbl'|translate}}</strong>
               </a>
           </td>
         </tr>

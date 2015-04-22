@@ -1,14 +1,8 @@
-<a>
-  <strong>
-		<div ng-if="!sidepanel.episode.watched">
-	    	<i class="glyphicon glyphicon-eye-close"></i>{{'SIDEPANEL/MARK-WATCHED/mark-as-watched/lbl'|translate}}
-		</div>
-		<div ng-if="sidepanel.episode.watched">
-		    <i class="glyphicon glyphicon-eye-open"></i>
-		    <div style="display: inline-block">
-			    <span style="display: block">{{'SIDEPANEL/MARK-WATCHED/marked-watched/lbl'|translate}}</span>
-			    <span style="display: block">{{ sidepanel.episode.watchedAt | date:'medium' }}<span>
-			</div>
-		</div>
-	</strong>
-</a>
+<div>
+    <a ng-if="!sidepanel.episode.watched" tooltip="{{'SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip'|translate}}">
+        <i class="glyphicon glyphicon-eye-close"></i><div style="display:inline-block"><strong>{{'SIDEPANEL/MARK-WATCHED/mark-as/lbl'|translate}}&nbsp;</strong><i class="glyphicon glyphicon-eye-open" style="float:right;font-size:14px;top:5px;"></i></div>
+    </a>
+    <a ng-if="sidepanel.episode.watched" tooltip="{{'SIDEPANEL/MARK-WATCHED/marked-watched/tooltip'|translate}}{{ sidepanel.episode.watchedAt | date:'medium' }}">
+        <i class="glyphicon glyphicon-eye-open"></i><div style="display:inline-block"><strong>{{'SIDEPANEL/MARK-WATCHED/mark-as/lbl'|translate}}&nbsp;</strong><i class="glyphicon glyphicon-eye-close" style="float:right;font-size:14px;top:5px;"></i></div>
+    </a>
+</div>
