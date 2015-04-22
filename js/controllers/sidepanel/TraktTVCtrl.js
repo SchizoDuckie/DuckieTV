@@ -17,7 +17,6 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
         $scope.traktSync = SettingsService.get('trakttv.sync');
         $scope.traktTVSeries = [];
         $scope.localSeries = {};
-        $scope.adding = {};
         $scope.pushError = [false, null];
 
         // Clears all local credentials and token in local storage
@@ -56,11 +55,11 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
         };
 
         $scope.isAdded = function(tvdb_id) {
-            return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === false));
+            return FavoritesService.isAdded(tvdb_id);
         };
 
         $scope.isAdding = function(tvdb_id) {
-            return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === true));
+            return FavoritesService.isAdding(tvdb_id);
         };
 
         $scope.countWatchedEpisodes = function(show) {
@@ -75,6 +74,7 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
 
         // Imports users Series and Watched episodes from TraktTV
         $scope.readTraktTV = function() {
+            FavoritesService.flushAdding();
             FavoritesService.getSeries().then(function(series) {
                 series.map(function(serie) {
                     $scope.localSeries[serie.TVDB_ID] = serie;
@@ -87,23 +87,23 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
                     $scope.traktTVSeries.push(show);
                     // Flag it as added if we already cached it
                     if ((show.tvdb_id in $scope.localSeries)) {
-                        $scope.adding[show.tvdb_id] = false;
+                        FavoritesService.added(show.tvdb_id);
                     } else if (!(show.tvdb_id in $scope.localSeries)) {
                         // otherwise add to favorites, show spinner
-                        $scope.adding[show.tvdb_id] = true;
+                        FavoritesService.adding(show.tvdb_id);
                         return TraktTVv2.serie(show.slug_id).then(function(serie) {
                             return FavoritesService.addFavorite(serie).then(function(s) {
                                 $scope.localSeries[s.tvdb_id] = s;
                             });
                         }).then(function(serie) {
-                            $scope.adding[show.tvdb_id] = false;
+                            FavoritesService.added(show.tvdb_id);
                             return serie;
                         });
                     }
                 })).then(function() {
                     // Process seasons and episodes marked as watched
                     return Promise.all(shows.map(function(show) {
-                        $scope.adding[show.tvdb_id] = true;
+                        FavoritesService.adding(show.tvdb_id);
                         return Promise.all(show.seasons.map(function(season) {
                             return Promise.all(season.episodes.map(function(episode) {
                                 return CRUD.FindOne('Episode', {
@@ -122,7 +122,7 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
                                 });
                             }));
                         })).then(function() {
-                            $scope.adding[show.tvdb_id] = false;
+                            FavoritesService.added(show.tvdb_id);
                         });
                     }));
 
@@ -135,17 +135,17 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
                     $scope.traktTVSeries.push(show);
 
                     if (!(show.tvdb_id in $scope.localSeries)) {
-                        $scope.adding[show.tvdb_id] = true;
+                        FavoritesService.adding(show.tvdb_id);
                         return TraktTVv2.serie(show.slug_id).then(function(serie) {
                             return FavoritesService.addFavorite(serie).then(function(s) {
                                 $scope.localSeries[s.tvdb_id] = s;
                             });
                         }).then(function() {
-                            $scope.adding[show.tvdb_id] = false;
+                            FavoritesService.added(show.tvdb_id);
                         });
 
                     } else {
-                        $scope.adding[show.tvdb_id] = false;
+                        FavoritesService.added(show.tvdb_id);
                     }
                 });
             }));

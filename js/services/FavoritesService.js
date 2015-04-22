@@ -175,6 +175,8 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
         };
 
         var service = {
+            addingList: {}, // holds any TVDB_ID's that are adding, used for spinner/checkmark icon control
+            errorList : {}, // holds any TVDB_ID's that had an error, used for sadface icon control
             favorites: [],
             favoriteIDs: [],
             // TraktTV: TraktTV,
@@ -285,6 +287,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                         $rootScope.$broadcast('serieslist:empty');
                     }
                 });
+                service.clearAdding(serie.TVDB_ID);
             },
             refresh: function() {
                 return service.getSeries().then(function(results) {
@@ -328,6 +331,67 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                         $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1))).fanart);
                     }
                 });
+            },
+            /**
+             * set true the adding status for this series. used to indicate spinner icon required
+             */
+            adding: function(tvdb_id) {
+                if (!(tvdb_id in service.addingList)) {
+                    service.addingList[tvdb_id] = true;
+                    service.clearError(tvdb_id);
+                }
+            },
+            /**
+             * set false the adding status for this series. used to indicate checkmark icon required
+             */
+            added: function(tvdb_id) {
+                if (tvdb_id in service.addingList) service.addingList[tvdb_id] = false;
+            },
+            /**
+             * flush the adding and error status list 
+             */
+            flushAdding: function() {
+                service.addingList = {};
+                service.errorList = {};
+            },
+            /**
+             * Returns true as long as the add a show to favorites promise is running.
+             */
+            isAdding: function(tvdb_id) {
+                if (tvdb_id === null) return false;
+                return ((tvdb_id in service.addingList) && (service.addingList[tvdb_id] === true));
+            },
+            /**
+             * Used to show checkmarks in the add modes for series that you already have.
+             */
+            isAdded: function(tvdb_id) {
+                if (tvdb_id === null) return false;
+                return service.hasFavorite(tvdb_id.toString());
+            },
+            /**
+             * clear the adding status for this series. used to indicate spinner and checkmark are NOT required. 
+             */
+            clearAdding: function(tvdb_id) {
+                if ((tvdb_id in service.addingList)) delete service.addingList[tvdb_id];
+            },
+            /**
+             * add the error status for this series. used to indicate sadface icon is required. 
+             */
+            addError: function(tvdb_id,error) {
+                service.errorList[tvdb_id] = error;
+            },
+            /**
+             * Used to show sadface icon in the add modes for series that you already have.
+             */
+            isError: function(tvdb_id) {
+                if (tvdb_id === null) return false;
+                return ((tvdb_id in service.errorList));
+            },
+            /**
+             * clear the error status for this series. used to indicate sadface icon is NOT required. 
+             */
+            clearError: function(tvdb_id) {
+                if ((tvdb_id in service.errorList)) delete service.errorList[tvdb_id];
             }
         };
 

@@ -24,7 +24,6 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader"
 
         $scope.backupString = false;
         $scope.series = [];
-        $scope.adding = {};
         $scope.wipeBeforeImport = false;
 
 
@@ -71,11 +70,11 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader"
         }
 
         $scope.isAdded = function(tvdb_id) {
-            return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === false))
+            return FavoritesService.isAdded(tvdb_id);
         };
 
         $scope.isAdding = function(tvdb_id) {
-            return ((tvdb_id in $scope.adding) && ($scope.adding[tvdb_id] === true))
+            return FavoritesService.isAdding(tvdb_id);
         };
 
         /**
@@ -85,7 +84,7 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader"
          */
         $scope.restore = function() {
             console.log("Import backup!", $scope);
-            $scope.adding = {};
+            FavoritesService.flushAdding();
             $scope.series = [];
             $q(function(resolve, reject) {
                 if ($scope.wipeBeforeImport) {
@@ -107,15 +106,17 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader"
                             TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
                                 return TraktTVv2.serie(searchResult.slug_id);
                             }).then(function(serie) {
-                                $scope.adding[TVDB_ID] = true;
+                                FavoritesService.adding(TVDB_ID);
                                 $scope.series.push(serie);
                                 return FavoritesService.addFavorite(serie, watched);
                             }).then(function() {
-                                $scope.adding[TVDB_ID] = false;
+                                FavoritesService.added(TVDB_ID);
                             });
                         });
                     }, function(err) {
                         console.error("ERROR!", err);
+                        FavoritesService.added(TVDB_ID);
+                        FavoritesService.addError(TVDB_ID,err);
                     });
 
             })
@@ -135,6 +136,7 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader"
                 };
                 FavoritesService.favorites = [];
                 FavoritesService.favoriteIDs = [];
+                FavoritesService.flushAdding();
                 CalendarEvents.clearCache();
 
                 return Promise.all(['Series', 'Seasons', 'Episodes'].map(function(table) {

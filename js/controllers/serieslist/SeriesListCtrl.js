@@ -9,21 +9,16 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
         this.hideEnded = false;
 
-        this.adding = {} // holds any TVDB_ID's that are adding (todo: move to favoritesservice)
-        this.error = {};
+        FavoritesService.flushAdding();
         this.query = ''; // local filter query, set from LocalSerieCtrl
 
         var timeout = null;
 
         function setWidthMinus(minus) {
-            if (timeout) {
-                clearTimeout(timeout);
-            }
+            if (timeout) clearTimeout(timeout);
             timeout = setTimeout(function() {
                 var serieslist = document.querySelector('series-list > div');
-                if (serieslist) {
-                    serieslist.style.width = 'calc(100% - ' + minus + 'px)';
-                }
+                if (serieslist) serieslist.style.width = 'calc(100% - ' + minus + 'px)';
             }, 0);
         };
 
@@ -63,9 +58,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         Object.observe(SeriesListState.state, function(newValue) {
             serieslist.activated = newValue[0].object.isShowing;
-            if (!serieslist.activated) {
-                SidePanelState.hide();
-            }
+            if (!serieslist.activated) SidePanelState.hide();
 
             sidepanelMonitor([{
                 object: SidePanelState.state
@@ -82,9 +75,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * Temporary mode is for enabling for instance the search, it's not stored.
          */
         this.setMode = function(mode, temporary) {
-            if (!temporary) {
-                SettingsService.set('series.displaymode', mode);
-            }
+            if (!temporary) SettingsService.set('series.displaymode', mode);
             this.mode = mode;
         };
 
@@ -111,11 +102,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             document.body.style.overflowY = 'auto';
         };
 
-        $scope.$on('serie:updating', function(event, serie) {
-            // note: this serie is a CRUD.entity
-            TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(serieslist.selectSerie);
-        });
-
         /**
          * Fires when user hits enter in the search serie box.Auto - selects the first result and adds it to favorites.
          */
@@ -131,20 +117,17 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * It can show the checkmark.
          */
         this.selectSerie = function(serie) {
-            if (!(serie.tvdb_id in serieslist.adding)) { // serieslist is coming from the parent directive. aliassed there.
-                serieslist.adding[serie.tvdb_id] = true;
-                if ((serie.tvdb_id in serieslist.error)) {
-                    delete serieslist.error[serie.tvdb_id];
-                }
+            if (!FavoritesService.isAdding(serie.tvdb_id)) { 
+                FavoritesService.adding(serie.tvdb_id);
                 return TraktTVv2.serie(serie.slug_id).then(function(serie) {
                     return FavoritesService.addFavorite(serie).then(function() {
                         $rootScope.$broadcast('storage:update');
-                        serieslist.adding[serie.tvdb_id] = false;
+                        FavoritesService.added(serie.tvdb_id);
                     });
-                }, function(error) {
-                    console.error("Error adding show!", error);
-                    serieslist.adding[serie.tvdb_id] = false;
-                    serieslist.error[serie.tvdb_id] = error;
+                }, function(err) {
+                    console.error("Error adding show!", err);
+                    FavoritesService.added(serie.tvdb_id);
+                    FavoritesService.addError(serie.tvdb_id,err);
                 });
             }
         };
@@ -154,24 +137,21 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * Used to show checkmarks in the add modes for series that you already have.
          */
         this.isAdded = function(tvdb_id) {
-            if (tvdb_id === null) return false;
-            return FavoritesService.hasFavorite(tvdb_id.toString());
+            return FavoritesService.isAdded(tvdb_id);
         };
 
         /**
          * Returns true as long as the add a show to favorites promise is running.
          */
         this.isAdding = function(tvdb_id) {
-            if (tvdb_id === null) return false;
-            return ((tvdb_id in this.adding) && (this.adding[tvdb_id] === true));
+            return FavoritesService.isAdding(tvdb_id);
         };
 
         /**
          * Returns true as long as the add a show to favorites promise is running.
          */
         this.isError = function(tvdb_id) {
-            if (tvdb_id === null) return false;
-            return ((tvdb_id in this.error));
+            return FavoritesService.isError(tvdb_id);
         };
     }
 ]);
