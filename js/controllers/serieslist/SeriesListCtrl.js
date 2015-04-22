@@ -15,10 +15,14 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         var timeout = null;
 
         function setWidthMinus(minus) {
-            if (timeout) clearTimeout(timeout);
+            if (timeout) {
+                clearTimeout(timeout);
+            }
             timeout = setTimeout(function() {
                 var serieslist = document.querySelector('series-list > div');
-                if (serieslist) serieslist.style.width = 'calc(100% - ' + minus + 'px)';
+                if (serieslist) {
+                    serieslist.style.width = 'calc(100% - ' + minus + 'px)';
+                }
             }, 0);
         };
 
@@ -58,7 +62,9 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         Object.observe(SeriesListState.state, function(newValue) {
             serieslist.activated = newValue[0].object.isShowing;
-            if (!serieslist.activated) SidePanelState.hide();
+            if (!serieslist.activated) {
+                SidePanelState.hide();
+            }
 
             sidepanelMonitor([{
                 object: SidePanelState.state
@@ -75,7 +81,9 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * Temporary mode is for enabling for instance the search, it's not stored.
          */
         this.setMode = function(mode, temporary) {
-            if (!temporary) SettingsService.set('series.displaymode', mode);
+            if (!temporary) {
+                SettingsService.set('series.displaymode', mode);
+            }
             this.mode = mode;
         };
 
