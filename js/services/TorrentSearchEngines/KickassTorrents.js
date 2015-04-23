@@ -2,7 +2,7 @@ DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector",
     function(TorrentSearchEngines, $q, $http, $injector) {
 
         TorrentSearchEngines.registerSearchEngine('KickAssTorrents', new GenericTorrentSearchEngine({
-            mirror: 'https://kickass.to',
+            mirror: 'https://kickass.im',
             mirrorResolver: null, //'KickassMirrorResolver'
             endpoints: {
                 search: '/usearch/%s/?field=seeders&sorder=desc',
