@@ -115,7 +115,7 @@ DuckieTV.provider('KickassMirrorResolver', function() {
                     $rootScope.$broadcast('katmirrorresolver:status', "Verifying if mirror is using magnet links!: " + location);
                     var q = $q.defer();
 
-                    testLocation = location + "usearch/test";
+                    testLocation = location + "/usearch/test";
                     $http({
                         method: 'GET',
                         url: testLocation
