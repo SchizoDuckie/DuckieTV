@@ -32,7 +32,7 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                         candidates.map(function(episode, episodeIndex) {
                             if (episode.watchedAt !== null) return; // if the episode has been marked as watched, skip it.
                             if (episode.magnetHash !== null && (episode.magnetHash in remote.torrents)) return; // if the episode was already downloaded, skip it.
-                            if (episode.downloaded == 1) return; // if the episode was already downloaded, skip it.
+                            if (episode.isDownloaded()) return; // if the episode was already downloaded, skip it.
 
                             CRUD.FindOne('Serie', {
                                 ID_Serie: episode.get('ID_Serie')
