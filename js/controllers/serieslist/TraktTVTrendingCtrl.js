@@ -10,6 +10,7 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
         this.categoryList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateCategory()
         this.translatedCategoryList = this.rawTranslatedCategoryList.split(',');
         this.currentFavs = FavoritesService.favorites.length;
+        
         /*
          * Takes the English Category (as fetched from TraktTV) and returns a translation
          */
@@ -37,11 +38,7 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
         }
 
         this.toggleCategory = function(category) {
-            if (this.activeCategory == category) {
-                this.activeCategory = false;
-            } else {
-                this.activeCategory = category;
-            }
+            this.activeCategory == category ? this.activeCategory = false : this.activeCategory = category;
             this.filtered = this.results.filter(function(show) {
                 return !trending.activeCategory ? true : (show.genres.indexOf(category) > -1);
             })
@@ -51,7 +48,6 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
         this.getFilteredResults = function() {
             return this.filtered;
         }
-
 
         /**
          * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
