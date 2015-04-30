@@ -836,7 +836,7 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
 [date-picker] tr:last-child td {
     border-bottom: 0;
 }
-[date-picker] div[ng-switch-when='date'] tbody tr, [date-picker][ng-switch-when='week'] tbody tr {
+[date-picker] div[ng-switch-when='date'] tbody tr, [date-picker] div[ng-switch-when='week'] tbody tr {
     height: 60px;
 }
 [date-picker] td:first-child, [date-picker] tr:last-child th:first-child {
