@@ -1,12 +1,8 @@
-<a ui-sref="favorites" tooltip="back" tooltip-placement="bottom" style="float:left">
+<a ui-sref="favorites" tooltip="{{'SERIESLIST/TOOLS/ADDING/addshow-return-to-fav-list/tooltip'|translate}}" tooltip-placement="bottom" style="float:left">
     <i style='font-size:15px;' class="glyphicon glyphicon-arrow-left"></i> 
 </a>
-
-
 <form ng-submit="serieslist.execFilter()" name="filterForm">
-
-
-    <input type='text' focus-watch="'localFilter.isFiltering'" placeholder="{{'SERIESLIST/TOOLS/LOCALFILTER/filter-placeholder'|translate}}" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' style='padding:5px; position:absolute; left:123px; width:35%; top:16px'>
+  <input type='text' focus-watch="'localFilter.isFiltering'" placeholder="{{'SERIESLIST/TOOLS/LOCALFILTER/filter-placeholder'|translate}}" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' style='padding:5px; position:absolute; left:123px; width:35%; top:16px'>
 </form>
 
 <!-- Banner mode button -->
