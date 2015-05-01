@@ -789,40 +789,35 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
     -webkit-transition: border 0.1s ease-in;
 }
 
-[date-picker].zoom td, [date-picker].zoom th {
+[date-picker].zoom td.day {
     border: 5px solid rgba(255,255,255,0);
     -webkit-transition: transform 0.2s ease-out;
 }
-
-[date-picker].zoom td:hover {
+[date-picker].zoom td.day:hover {
  -webkit-transform: scale(1.5);
-  background-color: rgba(25,25,25,0.91);
-  box-shadow: 5px 5px rgba(25,25,25,0.91);
+  background-color: transparent;
   z-index: 1;
 }
-
-
-[date-picker].zoom td:first-child:hover {
--webkit-transform: scale(1.5) translateX(45%);
- }
-
 [date-picker].zoom td:hover > span {
   position: absolute;
   top: 0px;
-  left: -45%;
+  left: -30%;
   display: block;
   color: white;
-  width: 150%;
+  width: 133%;
   background-color: rgba(25,25,25,0.9);
   z-index: -2;
   text-align: left;
+  min-height: 75px;
 }
-
-[date-picker].zoom td:hover > span em.dayofweek {
+[date-picker].zoom td:first-child:hover > span {
+  left: -3%;
+  text-align: right;
+}
+[date-picker].zoom td.day:hover > span em.dayofweek {
     display: block;
 }
-
-[date-picker].zoom td:hover div a:hover {
+[date-picker].zoom td.day:hover div a:hover {
     text-decoration: none;
 }
 
@@ -1298,7 +1293,7 @@ sidepanel a {
 }
 
 sidepanel .buttons a.delete {
-    background-color: rgba(250,66,66,0.3)x;
+    background-color: rgba(250,66,66,0.3);
 }
 
 sidepanel .buttons a:hover {
