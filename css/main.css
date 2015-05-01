@@ -798,7 +798,10 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
   background-color: transparent;
   z-index: 1;
 }
-[date-picker].zoom td:hover > span {
+[date-picker].zoom td.day:first-child:hover {
+ -webkit-transform: scale(1.5) translateX(95px);
+}
+[date-picker].zoom td.day:hover > span {
   position: absolute;
   top: 0px;
   left: -30%;
@@ -809,10 +812,6 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
   z-index: -2;
   text-align: left;
   min-height: 75px;
-}
-[date-picker].zoom td:first-child:hover > span {
-  left: -3%;
-  text-align: right;
 }
 [date-picker].zoom td.day:hover > span em.dayofweek {
     display: block;
