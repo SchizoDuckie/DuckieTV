@@ -13,7 +13,9 @@
 
   <h2>{{'SETTINGS/BACKUP/import/hdr'|translate}}</h2>
 
-  <input type="checkbox" ng-model="wipeBeforeImport" id="wipebeforeImport"> <label for="wipebeforeImport">{{'SETTINGS/BACKUP/wipe-before-import/lbl'|translate}}</label>
+  <div ng-show="!restoring">
+    <input type="checkbox" ng-model="wipeBeforeImport" id="wipebeforeImport"> <label for="wipebeforeImport">{{'SETTINGS/BACKUP/wipe-before-import/lbl'|translate}}</label>
+  </div>
 
   <div style="position:relative">
     <div class="buttons"><a ng-show="!restoring" class="btn btn-success" ng-class="{binputhover:inputhover}">
@@ -23,7 +25,8 @@
   </div>
 
   <div style="padding:5px;text-align:center" class="miniposter x2">
-    <h1 ng-if="restoring" style='margin-top: 20px;'> {{'SETTINGS/BACKUP/loading-please-wait/lbl'|translate}}</h1>
+    <h1 ng-if="restoring && !declined" style='margin-top: 20px;'> {{'SETTINGS/BACKUP/loading-please-wait/lbl'|translate}}</h1>
+    <h1 ng-if="restoring && declined" style='margin-top: 20px;'> {{'BACKUPCTRLjs/wipe-cancelled/lbl'|translate}}</h1>
     <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" no-title="1" no-button="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
       <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
       <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
@@ -34,7 +37,7 @@
 
   <h2>{{'SETTINGS/BACKUP/wipe/hdr'|translate}}</h2>
   <p>{{'SETTINGS/BACKUP/wipe/desc'|translate}}</p>
-  <div class="buttons"><a class="btn btn-danger" ng-click="wipe()">
+  <div class="buttons"><a class="btn btn-danger" ng-click="wipeDatabase()">
     <i class="glyphicon glyphicon-trash"></i> {{'SETTINGS/BACKUP/wipe/btn'|translate}}
   </a></div>
 </div>
