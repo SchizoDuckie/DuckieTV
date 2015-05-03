@@ -31,7 +31,7 @@
       <div class="col-md-12">
         <div class="container-fluid">
           <clicktrap></clicktrap>
-          <calendar event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" style='-webkit-transform:translate3d(0,0,0); position: relative'></calendar>
+          <calendar event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" ng-class="{'condensed': getSetting('calendar.condensed')}" style='-webkit-transform:translate3d(0,0,0); position: relative'></calendar>
         </div>
       </div>
     </div>
