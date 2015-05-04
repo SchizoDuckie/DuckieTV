@@ -25,19 +25,6 @@
 
   <hr class="setting-divider">
 
-  <h2>Calendar Size
-    <span tooltip="{{smallCalendar ? 'Condensed Calendar' : 'Default Calendar'}}">
-      <i class="glyphicon glyphicon-{{smallCalendar ? 'th alert-success' : 'th-large alert-success'}}"></i>
-    </span>
-  </h2>
-
-  <p>If you have a smaller screen or a lot of shows you can change the calendar size to take up less room. The button below will toggle between Small and Normal sized.</p>
-  <a ng-click="toggleCalendarSize()" class="btn btn-{{smallCalendar ? 'info' : 'success'}}">
-    <i class="glyphicon glyphicon-{{smallCalendar ? 'th-large' : 'th'}}"></i> {{smallCalendar ? 'Use normal sized calendar' : 'Use small calendar'}}
-  </a>
-
-  <hr class="setting-divider">
-
   <h2>{{'SETTINGS/CALENDAR/specials/hdr'|translate}}
     <span tooltip="{{showSpecials ? 'SETTINGS/CALENDAR/specials-show/tooltip' : 'SETTINGS/CALENDAR/specials-hide/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{showSpecials ? 'ok alert-success' : 'remove alert-danger'}}"></i>

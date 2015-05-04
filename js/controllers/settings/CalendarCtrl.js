@@ -7,7 +7,6 @@ DuckieTV.controller('CalendarCtrl', ["$scope",  "SettingsService",
         $scope.showSpecials = SettingsService.get('calendar.show-specials');
         $scope.startSunday = SettingsService.get('calendar.startSunday');
         $scope.displayMode = SettingsService.get('calendar.mode');
-        $scope.smallCalendar = SettingsService.get('calendar.condensed');
 
         // Toggle if calendar shows specials or not
         $scope.toggleSpecials = function() {
@@ -17,20 +16,14 @@ DuckieTV.controller('CalendarCtrl', ["$scope",  "SettingsService",
 
         // Toggles calendar starting on Sunday or Monday
         $scope.toggleCalendarStartDay = function() {
-            $scope.startSunday = !$scope.startSunday;
-            SettingsService.set('calendar.startSunday', $scope.startSunday);
+                $scope.startSunday = !$scope.startSunday;
+                SettingsService.set('calendar.startSunday', $scope.startSunday);
         };
 
         // Toggles calendar view mode, week or month
         $scope.toggleCalendarDisplayMode = function() {
             $scope.displayMode = $scope.displayMode == 'date' ? 'week' : 'date';
-            SettingsService.set('calendar.mode', $scope.displayMode);
-        };
-
-        // Toggles calendar size, condensed or normal
-        $scope.toggleCalendarSize = function() {
-            $scope.smallCalendar = !$scope.smallCalendar
-            SettingsService.set('calendar.condensed', $scope.smallCalendar);
+                SettingsService.set('calendar.mode', $scope.displayMode);
         };
     }
 ])
