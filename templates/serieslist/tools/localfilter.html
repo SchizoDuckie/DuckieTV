@@ -1,4 +1,4 @@
-<a ui-sref="favorites" tooltip="{{'SERIESLIST/TOOLS/ADDING/addshow-return-to-fav-list/tooltip'|translate}}" tooltip-placement="bottom" style="float:left">
+<a ui-sref="favorites" tooltip="{{'SERIESLIST/TOOLS/LOCALFILTER/addshow-return-to-fav-list/tooltip'|translate}}" tooltip-placement="bottom" style="float:left">
     <i style='font-size:15px;' class="glyphicon glyphicon-arrow-left"></i> 
 </a>
 <form ng-submit="serieslist.execFilter()" name="filterForm">
@@ -6,7 +6,7 @@
 </form>
 
 <!-- Banner mode button -->
-<a accesskey="l" ng-if="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/LOCALFILTER/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom">
+<a accesskey="l" ng-if="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" tooltip="{{'SERIESLIST/TOOLS/LOCALFILTER/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/LOCALFILTER/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom">
     <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'SERIESLIST/TOOLS/LOCALFILTER/list-show/glyph'|translate}}
 </a>
 <!-- Poster mode button -->
