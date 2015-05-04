@@ -103,10 +103,6 @@ Event Descriptions (as at v0.94)
 
     Used internally by the seriesList directive to start fetching the Trakt.TV trending list.
 
--  **video:load**
-
-    Notify ChromeCast to load a video.
-
  -  **watchlist:check**
 
     Fires when the watchlist should be checked for updates.
@@ -146,7 +142,6 @@ Listeners
       Listeners -> app [style="invis"];
       Listeners -> backgroundRotator [style="invis"];
       Listeners -> calendar [style="invis"];
-      Listeners -> ChromeCast [style="invis"];
       Listeners -> datePicker [style="invis"];
       Listeners -> DuckieTorrent [style="invis"];
       Listeners -> EpisodeAiredService [style="invis"];
@@ -158,11 +153,9 @@ Listeners
       Listeners -> WatchlistCtrl [style="invis"];
 
       backgroundload -> backgroundRotator;
-      backgroundload -> ChromeCast;
       calendarclearcache -> calendar;
       calendarevents -> datePicker;
       episodeairedcheck -> EpisodeAiredService;
-      episodeload -> ChromeCast;
       episodemarkednotwatched -> app;
       episodemarkednotwatched -> calendar;
       episodemarkedwatched -> app;
@@ -176,7 +169,6 @@ Listeners
       magnetselectTVDBID -> calendar;
       magnetselectTVDBID -> EpisodeCtrl;
       magnetselectTVDBID -> SerieCtrl;
-      serieload -> ChromeCast;
       serieupdating -> seriesList;
       serieslistempty -> seriesList;
       serieslisthide -> seriesList;
@@ -186,7 +178,6 @@ Listeners
       tpbmirrorresolverstatus -> SettingsCtrl;
       trendinghide -> seriesList;
       trendingshow -> seriesList;
-      videoload -> ChromeCast;
       watchlistcheck -> WatchlistCheckerService;
       watchlistupdated -> WatchlistCtrl;
       
@@ -204,11 +195,6 @@ Listeners
         calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
         episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
         setDate [label="setDate", shape=box,fillcolor="white",style="filled"];
-
-      ChromeCast [ label="ChromeCast.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        episodeload [label="episode:load", shape=box,fillcolor="white",style="filled"];
-        serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
-        videoload [label=" video:load", shape=box,fillcolor="white",style="filled"];
 
       datePicker [ label="datePicker.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         calendarevents [label="calendar:events", shape=box,fillcolor="white",style="filled"];
@@ -315,8 +301,6 @@ Publishers
       tpbmirrorresolverstatus -> ThePirateBayMirrorResolver [dir="back"];
       trendinghide -> seriesList [dir="back"];
       trendingshow -> seriesList [dir="back"];
-      videoload -> DuckieTorrent [dir="back"];
-      videoload -> TorrentCtrl [dir="back"];
       watchlistupdated -> WatchlistService [dir="back"];
 
       Publishers [style="invis"];
@@ -342,7 +326,6 @@ Publishers
 
       DuckieTorrent [label="DuckieTorrent.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         torrentupdateinfoHash [label="torrent:update:{{infoHash}}", shape=box,fillcolor="white",style="filled"];
-        videoload [label="video:load", shape=box,fillcolor="white",style="filled"];
 
       EpisodeAiredService [label="EpisodeAiredService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];

@@ -166,7 +166,7 @@ gulp.task('webstore-nightly', function() {
  * This executes, via sequence dependencies:
  * - default task
  * - copy dist files and dependencies into 3 individual directories in ../deploy/
- * - copy chromecast js and tab.html into place
+ * - copy tab.html into place
  * - adjust manifests to include version info and write that to ../deploy/<flavour>/manifest.json
  * - zip files from ../deploy/<flavour>/ into ../deploy/<flavour>-<version>.zip
  * - copy that file into ../deploy/<flavour>-latest.zip
@@ -321,22 +321,11 @@ gulp.task('copytab', ['copyToDeploy'], function() {
 });
 
 /**
- * Copy the cast_sender.js into place
- * Todo: edit the actual script that includes this to grab it from dist/ and put that into place
- */
-gulp.task('copychromecast', ['copyToDeploy'], function() {
-    return gulp.src('js/vendor/cast_sender.js')
-        .pipe(gulp.dest('../deploy/browseraction/js/vendor/'))
-        .pipe(gulp.dest('../deploy/newtab/js/vendor/'))
-        .pipe(gulp.dest('../deploy/opera/js/vendor/'));
-});
-
-/**
  * Adjust all 3 versions of manifest.json to use the dist versions of scripts
  * launch.js contains the button attach code for browser-action mode
  * Also updates the manifest to include the latest version defined in the VERSION file
  */
-gulp.task('manifests', ['copychromecast', 'copytab'], function() {
+gulp.task('manifests', ['copytab'], function() {
 
     // js-format formatting options used in manipulating manifest.json
     var formatOptions = {

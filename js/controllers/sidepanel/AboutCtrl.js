@@ -92,9 +92,6 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 name: 'Screen (width x height)',
                 data: screenSize
             }, {
-                name: 'ChromeCast Supported',
-                data: SettingsService.get('cast.supported')
-            }, {
                 name: 'Torrenting Enabled',
                 data: SettingsService.get('torrenting.enabled')
             }, {

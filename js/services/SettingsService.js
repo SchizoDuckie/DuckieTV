@@ -120,9 +120,6 @@ DuckieTV.factory('ChromePermissions', ["$q",
              * @return mixed value value of the setting
              */
             get: function(key) {
-                if (key == 'cast.supported') {
-                    return ('chrome' in window && 'cast' in chrome && 'Capability' in chrome.cast && 'VIDEO_OUT' in chrome.cast.Capability);
-                }
                 return ((key in service.settings) ? service.settings[key] : (key in service.defaults) ? service.defaults[key] : false);
             },
             /**

@@ -2,8 +2,8 @@ DuckieTV
 /**
  * Torrent Remote Control Directive
  */
-.directive('torrentRemoteControl', ["DuckieTorrent", "DuckieTVCast", "$rootScope",
-    function(DuckieTorrent, DuckieTVCast, $rootScope) {
+.directive('torrentRemoteControl', ["DuckieTorrent", "$rootScope",
+    function(DuckieTorrent, $rootScope) {
         return {
             restrict: 'E',
             transclude: true,
@@ -53,19 +53,6 @@ DuckieTV
                         console.log("Failed to connect connect to torrent client for monitoring!");
                     });
 
-                    $scope.isFormatSupported = function(file) {
-                        return ['p3', 'aac', 'mp4', 'ogg', 'mkv'].indexOf(file.name.split('.').pop()) > -1;
-                    };
-
-                    $scope.playInBrowser = function(torrent) {
-                        $rootScope.$broadcast('video:load', torrent.properties.all.streaming_url.replace('://', '://admin:admin@').replace('127.0.0.1', $rootScope.getSetting('ChromeCast.localIpAddress')));
-                    };
-
-
-                    $scope.Cast = function() {
-                        console.log('connecting!');
-                        DuckieTVCast.initialize();
-                    };
                 }
             ]
         };

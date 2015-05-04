@@ -4,7 +4,7 @@ DuckieTV Binary, for Chrome, Opera  and Online [![Build Status](https://travis-c
 DuckieTV is a Google Chrome / Opera extension (Now also available as standalone builds for Windows/Mac/Linux!) that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
 
 
-With the integrated DuckieTorrent client you can connect DuckieTV to your local &micro;Torrent/BitTorrent client and be updated on the download progress without switching applications. Experimental ChromeCast integration even provides the possibility to stream videos to your TV while still downloading.
+With the integrated DuckieTorrent client you can connect DuckieTV to your local &micro;Torrent/BitTorrent client and be updated on the download progress without switching applications.
 
 
 As of v0.60 DuckieTV also is also finally becoming a worthy SickBeard competitor by introducing an automatic downloading of shows that have aired and translations into 11 languages. (English, Deutch, Español, Français, Italiano, 日本, 한국어, Nederlands, Purtugese, Русский, Svenska, 简体中文 )

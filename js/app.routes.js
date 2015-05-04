@@ -347,21 +347,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             }
         })
 
-        .state('cast', {
-            url: '/cast',
-            resolve: {
-                SidePanelState: expandSidePanel,
-                SeriesListState: hideSeriesList
-            },
-            views: {
-                sidePanel: {
-                    controller: 'ChromeCastCtrl',
-                    templateUrl: 'templates/chromecast.html',
-
-                }
-            }
-        })
-
         .state('torrent', {
             url: '/torrent',
             resolve: {

@@ -1108,20 +1108,6 @@ calendar-event .progress-bar {
 
 }
 
-.glyphicon.glyphicon-chromecast-on {
-    background-image: url('../img/chromecast_on.png');
-    background-size: contain;
-    width: 24px;
-    height:20px;
-    background-repeat:no-repeat;
-}
-.glyphicon.glyphicon-chromecast-off {
-    background-image: url('../img/chromecast_off.png');
-    background-size: contain;
-    width: 24px;
-    height:20px;
-    background-repeat:no-repeat;
-}
 .glyphicon.glyphicon-win-close {
     background-image: url('../img/icon-close.png');
     background-size: contain;
