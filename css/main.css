@@ -944,10 +944,8 @@ td.day {
 
 }
 [date-picker] .event .watched span.glyphicon {
-    line-height: 20px;
+    line-height: 15px;
 }
-}
-
 [date-picker] .event .watched .watchedwidth {
     width: 82%;
 }
@@ -973,7 +971,7 @@ td.day {
 
 [date-picker] .event > a span {
     display: inline-block;
-    line-height: 22px;
+    line-height: 18px;
 }
 
 [date-picker] .event a .badge {
