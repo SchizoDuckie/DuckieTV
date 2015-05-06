@@ -42,13 +42,18 @@
 function GenericTorrentSearchEngine(config, $q, $http, $injector) {
 
     var activeRequest = null;
+    var SettingsService = $injector.get('SettingsService');
 
     this.config = config;
 
     /**
-     * Switch between search and details
+     * Switch between search and details.
+     * Grab optional overridden url from settings.
      */
     function getUrl(type, param) {
+        if (('mirrorSettingsKey' in settings) && config.mirror != SettingsService.get(config.mirrorSettingsKey)) {
+            config.mirror = SettingsService.get(config.mirrorSettingsKey);
+        }
         return config.mirror + config.endpoints[type].replace('%s', encodeURIComponent(param));
     };
 

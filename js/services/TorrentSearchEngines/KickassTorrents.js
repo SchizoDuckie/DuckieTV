@@ -3,6 +3,7 @@ DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector",
 
         TorrentSearchEngines.registerSearchEngine('KickAssTorrents', new GenericTorrentSearchEngine({
             mirror: 'https://kat.cr',
+            mirrorSettingsKey: 'KickAssTorrents.mirror', // where to grab custom mirror from settings.
             mirrorResolver: null, //'KickassMirrorResolver'
             endpoints: {
                 search: '/usearch/%s/?field=seeders&sorder=desc',

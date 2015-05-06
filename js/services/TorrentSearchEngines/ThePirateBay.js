@@ -3,6 +3,7 @@ DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector",
 
         TorrentSearchEngines.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({
             mirror: 'https://thepiratebay.cr',
+            mirrorSettingsKey: 'ThePirateBay.mirror',
             mirrorResolver: 'MirrorResolver',
             endpoints: {
                 search: '/search/%s/0/7/0',
