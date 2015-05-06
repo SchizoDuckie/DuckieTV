@@ -246,7 +246,7 @@ DuckieTorrent
                         return this.name;
                     };
                     data.getProgress = function() {
-                        return Math.round((this.progress * 100) * 10) / 10.0; // round to one decimal place
+                        return Math.round((this.percentDone * 100) * 10) / 10.0; // round to one decimal place
                     }
                     data.start = function() {
                         DuckieTorrent.getClient().execute('torrent-start', this.id);
@@ -263,9 +263,6 @@ DuckieTorrent
                     }
                     data.isStarted = function() {
                         return this.status > 0;
-                    }
-                    data.getProgress = function() {
-                        return Math.round(this.percentDone * 100);
                     }
                     service.torrents[key] = data;
                 } else {
