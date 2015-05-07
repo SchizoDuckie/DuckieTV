@@ -41,12 +41,14 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "Series
             return SeriesListState.state.isShowing ? $filter('translate')('TAB/library-hide/glyph') : $filter('translate')('TAB/library-show/glyph');
         };
 
-        this.go = function(state) {
+        this.go = function(state, noactive) {
             Array.prototype.map.call(document.querySelectorAll('#actionbar a'), function(el) {
                 el.classList.remove('active');
             });
             var stateEl = document.querySelector('#actionbar_' + state);
-            stateEl.classList.add('active');
+            if (!noactive) {
+                stateEl.classList.add('active');
+            }
             stateEl.classList.add('fastspin');
             setTimeout(function() {
                 $state.go(state).then(function() {

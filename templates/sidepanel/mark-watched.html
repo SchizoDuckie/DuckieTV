@@ -1,5 +1,5 @@
 <div id="mwb">
-	<a tooltip="{{sidepanel.episode.watched ? 'SIDEPANEL/MARK-WATCHED/marked-watched/tooltip' : 'SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip'|translate}}">
+	<a tooltip="{{getToolTip(sidepanel.episode)}}">
 	  <i class="glyphicon glyphicon-eye-{{sidepanel.episode.watched ? 'open' : 'close'}}"></i>
 	  <div style="display:inline-block">
 	  	<strong>{{'SIDEPANEL/MARK-WATCHED/mark-as/lbl'|translate}}&nbsp;</strong>

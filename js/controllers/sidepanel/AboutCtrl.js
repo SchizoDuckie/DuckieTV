@@ -4,10 +4,12 @@
 DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "TorrentSearchEngines",
     function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, TorrentSearchEngines) {
 
+        // If we load onto the page highlight the button
+        document.querySelector('#actionbar_about').classList.add('active');
+
         $scope.statistics = [];
 
         getStats = function() {
-
             // Get Screen Size
             var screenSize = '';
             if (screen.width) {

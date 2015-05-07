@@ -1,5 +1,5 @@
 <div>
-	<a tooltip="{{sidepanel.episode.downloaded ? 'SIDEPANEL/MARK-DOWNLOADED/marked-downloaded/tooltip' : 'SIDEPANEL/MARK-DOWNLOADED/marked-not-downloaded/tooltip'|translate}}">
+	<a tooltip="{{getToolTip(sidepanel.episode)}}">
 	  <i class="glyphicon glyphicon-floppy-{{sidepanel.episode.downloaded ? 'saved' : 'disk'}}"></i>
 	  <div style="display:inline-block">
 	  	<strong>{{'SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl'|translate}}&nbsp;</strong>
