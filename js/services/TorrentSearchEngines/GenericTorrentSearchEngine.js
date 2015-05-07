@@ -51,7 +51,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
      * Grab optional overridden url from settings.
      */
     function getUrl(type, param) {
-        if (('mirrorSettingsKey' in settings) && config.mirror != SettingsService.get(config.mirrorSettingsKey)) {
+        if (('mirrorSettingsKey' in config) && config.mirror != SettingsService.get(config.mirrorSettingsKey)) {
             config.mirror = SettingsService.get(config.mirrorSettingsKey);
         }
         return config.mirror + config.endpoints[type].replace('%s', encodeURIComponent(param));
