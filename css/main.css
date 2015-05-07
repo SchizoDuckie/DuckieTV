@@ -1269,6 +1269,7 @@ sidepanel .buttons a {
     border-radius: 10px;
     text-align: center;
     transition: background-color 0.3s;
+    -webkit-user-select: none;
 }
 
 sidepanel a {
@@ -1294,7 +1295,8 @@ sidepanel .buttons i.glyphicon {
 }
 
 sidepanel .leftpanel .buttons i.glyphicon {
-    color: white !important;
+    color: white;
+    background-color: transparent;
 }
 
 sidepanel .leftpanel {
@@ -1390,6 +1392,9 @@ sidepanel .buttons .two-face-torrent .auto-download {
 }
 #tad .tooltip {
     left: 290.5px !important;
+}
+#mwb .tooltip {
+    left: 192px !important;
 }
 sidepanel .buttons .torrent-mini-remote-control > span {
     /* Replicate of the strong tag */

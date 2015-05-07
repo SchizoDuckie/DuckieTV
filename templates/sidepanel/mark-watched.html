@@ -1,8 +1,9 @@
-<div>
-    <a ng-if="!sidepanel.episode.watched" tooltip="{{'SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip'|translate}}">
-        <i class="glyphicon glyphicon-eye-close"></i><div style="display:inline-block"><strong>{{'SIDEPANEL/MARK-WATCHED/mark-as/lbl'|translate}}&nbsp;</strong><i class="glyphicon glyphicon-eye-open" style="float:right;font-size:14px;top:5px;"></i></div>
-    </a>
-    <a ng-if="sidepanel.episode.watched" tooltip="{{'SIDEPANEL/MARK-WATCHED/marked-watched/tooltip'|translate}}{{ sidepanel.episode.watchedAt | date:'medium' }}">
-        <i class="glyphicon glyphicon-eye-open"></i><div style="display:inline-block"><strong>{{'SIDEPANEL/MARK-WATCHED/mark-as/lbl'|translate}}&nbsp;</strong><i class="glyphicon glyphicon-eye-close" style="float:right;font-size:14px;top:5px;"></i></div>
-    </a>
+<div id="mwb">
+	<a tooltip="{{sidepanel.episode.watched ? 'SIDEPANEL/MARK-WATCHED/marked-watched/tooltip' : 'SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip'|translate}}">
+	  <i class="glyphicon glyphicon-eye-{{sidepanel.episode.watched ? 'open' : 'close'}}"></i>
+	  <div style="display:inline-block">
+	  	<strong>{{'SIDEPANEL/MARK-WATCHED/mark-as/lbl'|translate}}&nbsp;</strong>
+	  	<i class="glyphicon glyphicon-eye-{{sidepanel.episode.watched ? 'close' : 'open'}}" style="float:right;font-size:14px;top: 6px;"></i>
+	  </div>
+	</a>
 </div>
