@@ -7,6 +7,7 @@ DuckieTV.controller('CalendarCtrl', ["$scope",  "SettingsService",
         $scope.showSpecials = SettingsService.get('calendar.show-specials');
         $scope.startSunday = SettingsService.get('calendar.startSunday');
         $scope.displayMode = SettingsService.get('calendar.mode');
+        $scope.showDownloaded = SettingsService.get('calendar.show-downloaded');
 
         // Toggle if calendar shows specials or not
         $scope.toggleSpecials = function() {
@@ -25,5 +26,12 @@ DuckieTV.controller('CalendarCtrl', ["$scope",  "SettingsService",
             $scope.displayMode = $scope.displayMode == 'date' ? 'week' : 'date';
                 SettingsService.set('calendar.mode', $scope.displayMode);
         };
+
+        // Toggles wether downloaded episodes are highlighed on the Calendar
+        $scope.toggleDownloaded = function() {
+            $scope.showDownloaded = !$scope.showDownloaded;
+            SettingsService.set('calendar.show-downloaded', $scope.showDownloaded);
+        };
+        
     }
 ])

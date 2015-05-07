@@ -35,4 +35,17 @@
   <a ng-click="toggleSpecials()" class="btn btn-{{showSpecials ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{showSpecials ? 'remove' : 'ok'}}" ></i> {{showSpecials ? 'SETTINGS/CALENDAR/specials-hide/btn' : 'SETTINGS/CALENDAR/specials-show/btn'|translate}}
   </a>
+
+  <hr class="setting-divider">
+
+  <h2>Downloaded Episodes
+    <span tooltip="{{showDownloaded ? 'enabled' : 'disabled'}}">
+      <i class="glyphicon glyphicon-{{showDownloaded ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+    </span>
+  </h2>
+  
+  <p>Choose wether to highlight downloaded episodes on the calendar</p>
+  <a ng-click="toggleDownloaded()" class="btn btn-{{showDownloaded ? 'danger' : 'success'}}">
+    <i class="glyphicon glyphicon-{{showDownloaded ? 'remove' : 'ok'}}" ></i> {{showDownloaded ? 'Disable' : 'Enable'}}
+  </a>
 </div>
