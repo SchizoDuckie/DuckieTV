@@ -3,6 +3,47 @@ DuckieTorrent
 .controller("tbtCtrl", ["Transmission",
     function(Transmission) {
 
+        this.onSubmit = function() {
+            alert("submit!");
+        }
+
+        this.model = {
+            server: 'http://localhost',
+            port: 8888,
+            username: 'admin',
+            password: 'admin'
+        };
+
+        this.fields = [{
+                "key": "server",
+                type: 'text',
+                "templateOptions": {
+                    "label": "QBittorrent Address",
+                    "placeholder": "Where to connect to"
+                }
+            }, {
+                "key": "port",
+                "templateOptions": {
+                    "label": "Port",
+                    type: 'text',
+                    "placeholder": "port to connect on (default 9091)"
+                }
+            }, {
+                "key": "username",
+                "templateOptions": {
+                    "label": "Username",
+                    "type": "text"
+                }
+            }, {
+                "key": "password",
+                "templateOptions": {
+                    "label": "Password",
+                    "type": "password"
+                }
+            },
+
+        ];
+
         this.connect = function() {
             Transmission.AutoConnect();
         }
@@ -246,7 +287,7 @@ DuckieTorrent
                         return this.name;
                     };
                     data.getProgress = function() {
-                        return Math.round((this.percentDone * 100) * 10) / 10.0; // round to one decimal place
+                        return parseFloat(new Number(this.percentDone * 100).toFixed(1))
                     }
                     data.start = function() {
                         DuckieTorrent.getClient().execute('torrent-start', this.id);
