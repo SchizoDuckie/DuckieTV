@@ -38,14 +38,14 @@
 
   <hr class="setting-divider">
 
-  <h2>Downloaded Episodes
-    <span tooltip="{{showDownloaded ? 'enabled' : 'disabled'}}">
+  <h2>{{'SETTINGS/CALENDAR/downloaded/hdr'|translate}}
+    <span tooltip="{{showDownloaded ? 'SETTINGS/CALENDAR/downloaded-enabled/tooltip' : 'SETTINGS/CALENDAR/downloaded-disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{showDownloaded ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
   </h2>
   
-  <p>Choose wether to highlight downloaded episodes on the calendar</p>
+  <p>{{'SETTINGS/CALENDAR/downloaded/desc'|translate}}</p>
   <a ng-click="toggleDownloaded()" class="btn btn-{{showDownloaded ? 'danger' : 'success'}}">
-    <i class="glyphicon glyphicon-{{showDownloaded ? 'remove' : 'ok'}}" ></i> {{showDownloaded ? 'Disable' : 'Enable'}}
+    <i class="glyphicon glyphicon-{{showDownloaded ? 'remove' : 'ok'}}" ></i> {{showDownloaded ? 'SETTINGS/CALENDAR/downloaded-disable/btn' : 'SETTINGS/CALENDAR/downloaded-enable/btn'|translate}}
   </a>
 </div>
