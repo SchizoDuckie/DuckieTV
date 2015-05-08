@@ -1,61 +1,84 @@
 DuckieTorrent
 
-.controller("tbtCtrl", ["Transmission",
-    function(Transmission) {
-
-        this.onSubmit = function() {
-            alert("submit!");
-        }
+.controller("tbtCtrl", ["Transmission", "SettingsService",
+    function(Transmission, SettingsService) {
 
         this.model = {
-            server: 'http://localhost',
-            port: 8888,
-            username: 'admin',
-            password: 'admin'
+            server: SettingsService.get('transmission.server'),
+            port: SettingsService.get('transmission.port'),
+            use_auth: SettingsService.get('transmission.use_auth'),
+            username: SettingsService.get('transmission.username'),
+            password: SettingsService.get('transmission.password')
         };
 
+        this.isConnected = function() {
+            return Transmission.isConnected();
+        }
+
         this.fields = [{
-                "key": "server",
-                type: 'text',
-                "templateOptions": {
-                    "label": "QBittorrent Address",
-                    "placeholder": "Where to connect to"
+                key: "server",
+                type: "input",
+                templateOptions: {
+                    label: "Transmission Address",
+                    placeholder: "Where to connect to"
                 }
             }, {
-                "key": "port",
-                "templateOptions": {
-                    "label": "Port",
-                    type: 'text',
-                    "placeholder": "port to connect on (default 9091)"
+                key: "port",
+                type: "input",
+                templateOptions: {
+                    label: "Port",
+                    placeholder: "port to connect on (default 9091)"
                 }
             }, {
-                "key": "username",
-                "templateOptions": {
-                    "label": "Username",
-                    "type": "text"
+                key: "use_auth",
+                type: "input",
+                templateOptions: {
+                    type: "checkbox",
+                    label: "Use authentication"
                 }
             }, {
-                "key": "password",
-                "templateOptions": {
-                    "label": "Password",
-                    "type": "password"
+                key: "username",
+                type: "input",
+                templateOptions: {
+                    label: "Username"
+                }
+            }, {
+                key: "password",
+                type: "input",
+                templateOptions: {
+                    label: "Password",
+                    type: "password"
                 }
             },
 
         ];
 
-        this.connect = function() {
-            Transmission.AutoConnect();
+        this.test = function() {
+            console.log("Testing settings");
+            Transmission.Disconnect();
+            Transmission.setConfig(this.model);
+            Transmission.connect().then(function(connected) {
+                console.log("Transmission connected! (save settings)", connected);
+                Transmission.saveConfig();
+            }, function(error) {
+                console.error("Transmission connect error!", error);
+            })
         }
     }
 ])
 
-.factory('Transmission', ["$q", "$http", "TransmissionRemote",
-    function($q, $http, TransmissionRemote) {
+.factory('Transmission', ["$q", "$http", "TransmissionRemote", "SettingsService",
+    function($q, $http, TransmissionRemote, SettingsService) {
         var self = this;
 
-        this.port = 9091;
-        this.base = 'http://127.0.0.1';
+        this.config = {
+            server: SettingsService.get('transmission.server'),
+            port: SettingsService.get('transmission.port'),
+            use_auth: SettingsService.get('transmission.use_auth'),
+            username: SettingsService.get('transmission.username'),
+            password: SettingsService.get('transmission.password')
+        };
+
         this.sessionID = null;
 
         /** 
@@ -73,6 +96,7 @@ DuckieTorrent
 
         };
 
+
         /**
          * Automated parser for responses for usage when neccesary
          */
@@ -86,7 +110,7 @@ DuckieTorrent
          * Fetches the url, auto-replaces the port in the url if it was found.
          */
         this.getUrl = function(type, param) {
-            var url = this.base + ':' + this.port + this.endpoints[type];
+            var url = this.config.server + ':' + this.config.port + this.endpoints[type];
             return url.replace('%s', encodeURIComponent(param));
         };
 
@@ -116,10 +140,16 @@ DuckieTorrent
                 }
             }
 
+            var headers = {
+                'X-Transmission-Session-Id': self.sessionID
+            };
+
+            if (self.config.use_auth) {
+                headers.Authorization = 'Basic ' + Base64.encode(self.config.username + ':' + self.config.password);
+            }
+
             return $http.post(self.getUrl('rpc'), request, {
-                headers: {
-                    'X-Transmission-Session-Id': self.sessionID
-                }
+                headers: headers
             }).then(function(response) {
                 return response.data;
             }, handleError);
@@ -129,11 +159,23 @@ DuckieTorrent
 
         var methods = {
 
-            connect: function() {
+            setConfig: function(config) {
+                self.config = config;
+            },
 
+            saveConfig: function() {
+                Object.keys(self.config).map(function(key) {
+                    SettingsService.set("transmission." + key, self.config[key]);
+                });
+            },
+
+            connect: function() {
                 return rpc('session-get').then(function(result) {
                     console.log("Transmission check result: ", result);
-                    self.connected = true;
+                    self.connected = result !== undefined;
+                    if (!self.connected) {
+                        throw "Transmission: Not connected.";
+                    }
                 })
             },
 
@@ -259,6 +301,43 @@ DuckieTorrent
 .factory('TransmissionRemote', ["$rootScope", "DuckieTorrent",
     function($rootScope, DuckieTorrent) {
 
+        var TransmissionData = function(data) {
+            this.update(data);
+        };
+
+        TransmissionData.prototype.update = function(data) {
+            Object.keys(data).map(function(key) {
+                this[key] = data[key];
+            }, this);
+        }
+
+        TransmissionData.prototype.getName = function() {
+            return this.name;
+        };
+
+        TransmissionData.prototype.getProgress = function() {
+            return parseFloat(new Number(this.percentDone * 100).toFixed(1))
+        };
+        TransmissionData.prototype.start = function() {
+            DuckieTorrent.getClient().execute('torrent-start', this.id);
+        };
+
+        TransmissionData.prototype.stop = function() {
+            DuckieTorrent.getClient().execute('torrent-stop', this.id);
+        };
+        TransmissionData.prototype.pause = function() {
+            this.stop();
+        };
+        TransmissionData.prototype.getFiles = function() {
+
+        };
+
+        TransmissionData.prototype.isStarted = function() {
+            return this.status > 0;
+        }
+
+
+
         var service = {
             torrents: {},
             settings: {},
@@ -283,33 +362,9 @@ DuckieTorrent
             handleEvent: function(data) {
                 var key = data.hash.toUpperCase();
                 if (!(key in service.torrents)) {
-                    data.getName = function() {
-                        return this.name;
-                    };
-                    data.getProgress = function() {
-                        return parseFloat(new Number(this.percentDone * 100).toFixed(1))
-                    }
-                    data.start = function() {
-                        DuckieTorrent.getClient().execute('torrent-start', this.id);
-                    };
-
-                    data.stop = function() {
-                        DuckieTorrent.getClient().execute('torrent-stop', this.id);
-                    }
-                    data.pause = function() {
-                        this.stop();
-                    }
-                    data.getFiles = function() {
-
-                    }
-                    data.isStarted = function() {
-                        return this.status > 0;
-                    }
-                    service.torrents[key] = data;
+                    service.torrents[key] = new TransmissionData(data);
                 } else {
-                    Object.keys(data).map(function(property) {
-                        service.torrents[key][property] = data[property];
-                    })
+                    service.torrents[key].update(data);
                 }
 
 

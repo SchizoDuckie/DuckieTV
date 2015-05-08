@@ -2,6 +2,8 @@
  * Handle global dependencies
  */
 var DuckieTV = angular.module('DuckieTV', [
+    'formly',
+    'formlyBootstrap',
     'ui.router',
     'ct.ui.router.extras.core',
     'ct.ui.router.extras.sticky',
@@ -11,7 +13,8 @@ var DuckieTV = angular.module('DuckieTV', [
     'ui.bootstrap',
     'dialogs',
     'pascalprecht.translate',
-    'DuckieTorrent.torrent'
+    'DuckieTorrent.torrent',
+
 ])
 
 /**

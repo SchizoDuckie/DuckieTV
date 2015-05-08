@@ -3,6 +3,43 @@ DuckieTorrent
 .controller("tixatiCtrl", ["tixati",
     function(tixati) {
 
+    this.model = {
+        server: 'http://localhost',
+        port: 8888,
+        username: 'admin',
+        password: 'admin'
+    };
+
+    this.fields = [{
+            "key": "server",
+            "templateOptions": {
+                "label": "Tixati Address",
+                "type": "url",
+                "placeholder": "Where to connect to"
+            }
+        }, {
+            "key": "port",
+            "templateOptions": {
+                "label": "Port",
+                "type": "number",
+                "placeholder": "port to connect on (default 8888)"
+            }
+        }, {
+            "key": "username",
+            "templateOptions": {
+                "label": "Username",
+                "type": "text"
+            }
+        }, {
+            "key": "password",
+            "templateOptions": {
+                "label": "Password",
+                "type": "password"
+            }
+        },
+
+    ];
+
         this.connect = function() {
             tixati.AutoConnect();
         }
@@ -20,7 +57,6 @@ DuckieTorrent
          * Predefined endpoints for API actions.
          */
         this.endpoints = {
-
             torrents: '/transfers',
             portscan: '/home',
             infohash: '/transfers/%s/eventlog',
