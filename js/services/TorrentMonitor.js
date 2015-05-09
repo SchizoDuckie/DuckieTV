@@ -9,7 +9,7 @@ DuckieTV.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService",
     function(DuckieTorrent, SettingsService) {
 
         function autoStop(torrent) {
-            if (torrent.isStarted() && torrent.getProgress() == 100) {
+            if (torrent.isStarted() && torrent.getProgress() === 100) {
                 console.info('Torrent finished. Auto-stopping', torrent.name);
                 torrent.stop();
             }
