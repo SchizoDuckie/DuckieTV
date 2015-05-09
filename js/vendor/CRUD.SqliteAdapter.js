@@ -41,7 +41,6 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         //err.query = query.join(' ');
         //err.values = valmap;
         console.error("Insert query error: ", err);
-        debugger;
         return err;
     }
 
@@ -174,8 +173,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                     }
                     resolve(output);
                 }, function(resultSet, sqlError) {
-                    CRUD.log('SQL Error in FIND : ', sqlError, resultSet, what, this, query, [query.split(' VALUES (')[0], (s = JSON.stringify(valueBindings)).substr(1, s.length - 2)].join(' VALUES (') + ')');
-                    debugger;
+                    CRUD.log('SQL Error in FIND : ', sqlError, resultSet, query);
                     fail();
                 });
             });
