@@ -35,7 +35,7 @@
       </th>
      
     </tr>
-    <tr ng-if="!searching && items.length > 0 " ng-repeat="subtitle in items | orderBy:'LanguageName'">
+    <tr ng-if="!searching && items.length > 0 " ng-repeat="subtitle in items | orderBy:'LanguageName' track by $index">
       <td>
         <a href="{{subtitle.url}}" target="_blank">S{{ subtitle.SeriesSeason }}E{{subtitle.SeriesEpisode}}</a>
       </td>
