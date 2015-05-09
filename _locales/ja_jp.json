@@ -312,6 +312,7 @@
     "SETTINGS/UTORRENT/streaming/hdr": "トレントストリーミング ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "自動ダウンロード",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "エピソード",
+    "SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn": "字幕を探します",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/btn": "急流を探す",
     "SIDEPANEL/EPISODE-DETAILS/seasons/btn": "季節",
     "SIDEPANEL/EPISODE-DETAILS/series-details/btn": "シリーズの詳細",

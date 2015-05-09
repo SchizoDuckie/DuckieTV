@@ -312,6 +312,7 @@
     "SETTINGS/UTORRENT/streaming/hdr": "토런트 스트리밍 ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "자동 다운로드",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "에피소드",
+    "SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn": "자막 찾기",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/btn": "토런트 찾기",
     "SIDEPANEL/EPISODE-DETAILS/seasons/btn": "시즌",
     "SIDEPANEL/EPISODE-DETAILS/series-details/btn": "시리즈의 자세한 사항",

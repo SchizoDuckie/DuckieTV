@@ -312,6 +312,7 @@
     "SETTINGS/UTORRENT/streaming/hdr": "Torrent Streamen",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Automatisch Download",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "Episodes",
+    "SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn": "Vind een ondertitel",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/btn": "Vind een torrent",
     "SIDEPANEL/EPISODE-DETAILS/seasons/btn": "Seizoenen",
     "SIDEPANEL/EPISODE-DETAILS/series-details/btn": "Serie Details",

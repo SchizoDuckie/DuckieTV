@@ -312,6 +312,7 @@
     "SETTINGS/UTORRENT/streaming/hdr": "торрент Потоковое ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Авто Скачать",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "Эпизоды",
+    "SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn": "Найти субтитров",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/btn": "Найти торрент",
     "SIDEPANEL/EPISODE-DETAILS/seasons/btn": "Времена года",
     "SIDEPANEL/EPISODE-DETAILS/series-details/btn": "детали серии",

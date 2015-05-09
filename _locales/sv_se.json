@@ -312,6 +312,7 @@
     "SETTINGS/UTORRENT/streaming/hdr": "torrent Streaming ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Auto Download",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "episoder",
+    "SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn": "Hitta en undertext",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/btn": "Hitta en torrent",
     "SIDEPANEL/EPISODE-DETAILS/seasons/btn": "säsonger",
     "SIDEPANEL/EPISODE-DETAILS/series-details/btn": "Serie detaljer",
