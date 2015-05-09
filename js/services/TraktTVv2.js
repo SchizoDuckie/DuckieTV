@@ -27,8 +27,8 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
             watched: 'sync/watched/shows?extended=full,images&limit=10000',
             usershows: 'users/%s/collection/shows?extended=full,images&limit=10000',
             updated: 'shows/updates/%s?limit=10000',
-            episodeSeen: 'https://api.trakt.tv/sync/history',
-            episodeUnseen: 'https://api.trakt.tv/sync/history/remove'
+            episodeSeen: 'sync/history',
+            episodeUnseen: 'sync/history/remove'
         };
 
         var parsers = {
@@ -320,21 +320,15 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
              * http://trakt.tv/api-docs/show-episode-seen
              */
             markEpisodeWatched: function(serie, episode) {
-                var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
-                var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
-                var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
-
-                $http.post(endpoints.episodeSeen, {
-                    shows: [{
+                debugger;
+                $http.post(getUrl('episodeSeen'), {
+                    movies: [],
+                    shows: [],
+                    episodes: [{
+                        'watched_at': new Date(episode.watchedAt).toISOString(),
                         ids: {
-                            tvdb: s
-                        },
-                        seasons: [{
-                            number: sn,
-                            episodes: [{
-                                number: en
-                            }]
-                        }]
+                            trakt: episode.TRAKT_ID
+                        }
                     }]
                 }, {
                     headers: {
@@ -356,20 +350,16 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
              */
             markEpisodeNotWatched: function(serie, episode) {
                 var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
-                var sn = (episode instanceof CRUD.Entity) ? episode.get('seasonnumber') : episode.seasonnumber;
-                var en = (episode instanceof CRUD.Entity) ? episode.get('episodenumber') : episode.episodenumber;
+                var sn = episode.seasonnumber;
+                var en = episode.episodenumber;
 
-                $http.post(endpoints.episodeUnseen, {
-                    shows: [{
+                $http.post(getUrl('episodeUnseen'), {
+                    movies: [],
+                    shows: [],
+                    episodes: [{
                         ids: {
-                            tvdb: s
-                        },
-                        seasons: [{
-                            number: sn,
-                            episodes: [{
-                                number: en
-                            }]
-                        }]
+                            trakt: episode.TRAKT_ID
+                        }
                     }]
                 }, {
                     headers: {

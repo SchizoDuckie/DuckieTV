@@ -69,6 +69,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
             // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
             data.TVDB_ID = data.tvdb_id;
             data.IMDB_ID = data.imdb_id;
+            data.TRAKT_ID = data.trakt_id;
             if (!episode.ratingcount || episode.ratingcount + 25 > data.votes) {
                 data.rating = Math.round(data.rating * 10);
                 data.ratingcount = data.votes;
@@ -176,7 +177,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
 
         var service = {
             addingList: {}, // holds any TVDB_ID's that are adding, used for spinner/checkmark icon control
-            errorList : {}, // holds any TVDB_ID's that had an error, used for sadface icon control
+            errorList: {}, // holds any TVDB_ID's that had an error, used for sadface icon control
             favorites: [],
             favoriteIDs: [],
             // TraktTV: TraktTV,
@@ -348,7 +349,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                 if (tvdb_id in service.addingList) service.addingList[tvdb_id] = false;
             },
             /**
-             * flush the adding and error status list 
+             * flush the adding and error status list
              */
             flushAdding: function() {
                 service.addingList = {};
@@ -369,15 +370,15 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                 return service.hasFavorite(tvdb_id.toString());
             },
             /**
-             * clear the adding status for this series. used to indicate spinner and checkmark are NOT required. 
+             * clear the adding status for this series. used to indicate spinner and checkmark are NOT required.
              */
             clearAdding: function(tvdb_id) {
                 if ((tvdb_id in service.addingList)) delete service.addingList[tvdb_id];
             },
             /**
-             * add the error status for this series. used to indicate sadface icon is required. 
+             * add the error status for this series. used to indicate sadface icon is required.
              */
-            addError: function(tvdb_id,error) {
+            addError: function(tvdb_id, error) {
                 service.errorList[tvdb_id] = error;
             },
             /**
@@ -388,7 +389,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                 return ((tvdb_id in service.errorList));
             },
             /**
-             * clear the error status for this series. used to indicate sadface icon is NOT required. 
+             * clear the error status for this series. used to indicate sadface icon is NOT required.
              */
             clearError: function(tvdb_id) {
                 if ((tvdb_id in service.errorList)) delete service.errorList[tvdb_id];
