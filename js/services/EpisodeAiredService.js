@@ -19,8 +19,12 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                     return;
                 }
 
-                var from = new Date(); // Create a date for the from range period
-                from.setDate(from.getDate() - period);
+                var lastRun = SettingsService.get('autodownload.lastrun'),
+                    from = new Date();
+                if (lastRun) {
+                    from = new Date(lastRun);
+                }
+                from.setDate(from.getDate() - period); // substract autodownload period from lastrun for if some episodes weren't downloaded.
                 from.setHours(0);
                 from.setMinutes(0);
                 from.setSeconds(0);
@@ -45,6 +49,7 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                                 });
                             });
                         });
+                        SettingsService.set('autodownload.lastrun', new Date().getTime());
                     });
                 });
                 service.checkTimeout = setTimeout(service.autoDownloadCheck, 60 * 60 * 2 * 1000);
