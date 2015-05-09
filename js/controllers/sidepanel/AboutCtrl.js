@@ -103,6 +103,9 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 name: 'Torrenting URL',
                 data: activeTorrentingMirror
             }, {
+                name: 'Torrenting Client',
+                data: SettingsService.get('torrenting.client')
+            }, {
                 name: 'Torrenting Auto-Download Active',
                 data: SettingsService.get('torrenting.autodownload')
             }, {
