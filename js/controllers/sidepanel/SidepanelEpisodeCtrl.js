@@ -18,7 +18,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
 
 
     this.isTorrentClientConnected = function() {
-        return uckieTorrent.getClient().getRemote().isConnected();
+        return DuckieTorrent.getClient().getRemote().isConnected();
     };
 
     this.isNetflixSupported = function() {
