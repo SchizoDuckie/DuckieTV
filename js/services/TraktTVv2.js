@@ -250,7 +250,6 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
                             }).map(function(show) {
                                 return parsers.trakt(show.show);
                             });
-                            debugger;
                             return output;
                         })
                     } else {
@@ -320,7 +319,6 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
              * http://trakt.tv/api-docs/show-episode-seen
              */
             markEpisodeWatched: function(serie, episode) {
-                debugger;
                 $http.post(getUrl('episodeSeen'), {
                     movies: [],
                     shows: [],
