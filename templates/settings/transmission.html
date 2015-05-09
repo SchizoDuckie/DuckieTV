@@ -1,6 +1,8 @@
 <div class="buttons" ng-controller="tbtCtrl as tbt">
 	<h2>Transmission Remote</h2>
 
+	<img src="img/icon-transmission-colored.png" style='width:200px; margin: 0 auto'>
+
 	<p  ng-if="tbt.isConnected()">Status:
 	Connected to Transmission API on {{tbt.model.server}}:{{tbt.model.port}}
 	</p>

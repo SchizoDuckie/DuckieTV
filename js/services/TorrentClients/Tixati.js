@@ -1,17 +1,18 @@
 DuckieTorrent
 
-.controller("tixatiCtrl", ["tixati",
-    function(tixati) {
+.controller("tixatiCtrl", ["tixati", "SettingsService",
+    function(tixati, SettingsService) {
 
-    this.model = {
-        server: 'http://localhost',
-        port: 8888,
-        username: 'admin',
-        password: 'admin'
-    };
+        this.model = {
+            server: SettingsService.get('tixati.server'),
+            port: SettingsService.get('tixati.port'),
+            username: SettingsService.get('tixati.username'),
+            password: SettingsService.get('tixati.password'),
+        };
 
-    this.fields = [{
+        this.fields = [{
             "key": "server",
+            "type": "input",
             "templateOptions": {
                 "label": "Tixati Address",
                 "type": "url",
@@ -19,39 +20,56 @@ DuckieTorrent
             }
         }, {
             "key": "port",
+            "type": "input",
             "templateOptions": {
                 "label": "Port",
                 "type": "number",
                 "placeholder": "port to connect on (default 8888)"
             }
         }, {
-            "key": "username",
-            "templateOptions": {
-                "label": "Username",
-                "type": "text"
+            key: "username",
+            type: "input",
+            templateOptions: {
+                label: "Username"
             }
         }, {
-            "key": "password",
-            "templateOptions": {
-                "label": "Password",
-                "type": "password"
+            key: "password",
+            type: "input",
+            templateOptions: {
+                label: "Password",
+                type: "password"
             }
+        }, ];
+
+        this.isConnected = function() {
+            return tixati.isConnected();
         },
 
-    ];
 
-        this.connect = function() {
-            tixati.AutoConnect();
+        this.test = function() {
+            console.log("Testing settings");
+            tixati.Disconnect();
+            tixati.setConfig(this.model);
+            tixati.connect().then(function(connected) {
+                console.log("Tixati connected! (save settings)", connected);
+                tixati.saveConfig();
+            }, function(error) {
+                console.error("Tixati connect error!", error);
+            })
         }
     }
 ])
 
-.factory('tixati', ["$q", "$http", "URLBuilder", "$parse", "tixatiRemote",
-    function($q, $http, URLBuilder, $parse, tixatiRemote) {
+.factory('tixati', ["$q", "$http", "URLBuilder", "$parse", "tixatiRemote", "SettingsService",
+    function($q, $http, URLBuilder, $parse, tixatiRemote, SettingsService) {
         var self = this;
 
-        this.port = 8888;
-        this.base = 'http://127.0.0.1';
+        this.config = {
+            server: SettingsService.get('tixati.server'),
+            port: SettingsService.get('tixati.port'),
+            username: SettingsService.get('tixati.username'),
+            password: SettingsService.get('tixati.password')
+        };
 
         /** 
          * Predefined endpoints for API actions.
@@ -219,8 +237,8 @@ DuckieTorrent
          * Fetches the url, auto-replaces the port in the url if it was found.
          */
         this.getUrl = function(type, param) {
-            var out = this.base + ':' + this.port + this.endpoints[type];
-            return out.replace('%s', encodeURIComponent(param));
+            var out = self.config.server + ':' + self.config.port + this.endpoints[type];
+            return out.replace('://', '://' + self.config.username + ':' + self.config.password + '@').replace('%s', encodeURIComponent(param));
         };
 
         this.isPolling = false;
@@ -239,23 +257,31 @@ DuckieTorrent
             params = params || {};
             var url = self.getUrl(type, params)
             var parser = self.getParser(type);
-            $http.get(url, {
-                data: options,
-                headers: [
-                    'Authorization: ' + Base64.encode('admin:nimda')
-                ]
-            }).then(function(response) {
-                d.resolve(parser ? parser(response) : response.data);
-            }, function(err) {
-                console.log('error fetching', type);
-                d.reject(err);
-            });
+
+            $http.get(url).then(function(response) {
+                    d.resolve(parser ? parser(response) : response.data);
+                },
+                function(errorCode) {
+                    d.reject(errorCode);
+                });
+
             return d.promise;
         };
 
         var self = this;
 
         var methods = {
+
+            setConfig: function(config) {
+                self.config = config;
+            },
+
+            saveConfig: function() {
+                Object.keys(self.config).map(function(key) {
+                    SettingsService.set("tixati." + key, self.config[key]);
+                });
+            },
+
 
             connect: function() {
 

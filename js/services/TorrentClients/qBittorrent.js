@@ -1,10 +1,68 @@
 DuckieTorrent
 
-.controller("qbtCtrl", ["qBittorrent",
-    function(qBittorrent) {
+.controller("qbtCtrl", ["qBittorrent", "SettingsService",
+    function(qBittorrent, SettingsService) {
 
-        this.connect = function() {
-            qBittorrent.AutoConnect();
+        this.model = {
+            server: SettingsService.get('qbittorrent.server'),
+            port: SettingsService.get('qbittorrent.port'),
+            use_auth: SettingsService.get('qbittorrent.use_auth'),
+            username: SettingsService.get('qbittorrent.username'),
+            password: SettingsService.get('qbittorrent.password')
+        };
+
+        this.isConnected = function() {
+            return qBittorrent.isConnected();
+        }
+
+        this.fields = [{
+                key: "server",
+                type: "input",
+                templateOptions: {
+                    label: "qBittorrent Address",
+                    placeholder: "Where to connect to"
+                }
+            }, {
+                key: "port",
+                type: "input",
+                templateOptions: {
+                    label: "Port",
+                    placeholder: "port to connect on (default 8080)"
+                }
+            }, {
+                key: "use_auth",
+                type: "input",
+                templateOptions: {
+                    type: "checkbox",
+                    label: "Use authentication"
+                }
+            }, {
+                key: "username",
+                type: "input",
+                templateOptions: {
+                    label: "Username"
+                }
+            }, {
+                key: "password",
+                type: "input",
+                templateOptions: {
+                    label: "Password",
+                    type: "password"
+                }
+            },
+
+        ];
+
+        this.test = function() {
+            console.log("Testing settings");
+            qBittorrent.Disconnect();
+            qBittorrent.setConfig(this.model);
+            qBittorrent.connect().then(function(connected) {
+                console.log("qBittorrent connected! (save settings)", connected);
+                qBittorrent.saveConfig();
+            }, function(error) {
+                console.error("qBittorrent connect error!", error);
+            })
         }
     }
 ])

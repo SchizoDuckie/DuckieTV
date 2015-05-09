@@ -1,5 +1,20 @@
 <div class="buttons" ng-controller="tixatiCtrl as tixati">
-	<h2>Tixati Remote Test</h2>
+	<h2>Tixati Remote </h2>
 
-	<a ng-click="tixati.connect()" class="btn btn-warning">Connect</a>
+	<img src="img/icon-tixati-colored.png" style='width:200px; margin: 0 auto'>
+
+	<p  ng-if="tixati.isConnected()">Status:
+	Connected to Tixati API on {{tixati.model.server}}:{{tixati.model.port}}
+	</p>
+
+	<p ng-if="!tixati.isConnected()">Status:
+	Not connected
+	</p>
+
+	<form ng-submit="tixati.test()" novalidate>
+        <formly-form model="tixati.model" fields="tixati.fields">
+          <button type="submit" class="btn btn-primary submit-button">Test and save</button>
+        </formly-form>
+      </form>
+	
 </div>
