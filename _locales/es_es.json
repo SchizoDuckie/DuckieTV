@@ -377,6 +377,7 @@
     "SIDEPANEL/TORRENTRC/start/glyph": "comienzo ",
     "SIDEPANEL/TORRENTRC/stop/glyph": "Deténgase ",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": "  Stream con reproductor de Torrent ",
+    "SIDEPANEL/TORRENTRC/torrent/hdr": "torrente ",
     "SIDEPANEL/TRAKT-SERIE-DETAILS/actors/hdr": "Actores ",
     "SIDEPANEL/TRAKT-SERIE-DETAILS/airs-on/hdr": "Actualmente muestra a las",
     "SIDEPANEL/TRAKT-SERIE-DETAILS/content-rating/hdr": "Clasificación de contenido ",

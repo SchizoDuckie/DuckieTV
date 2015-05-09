@@ -395,6 +395,7 @@
     "SIDEPANEL/TORRENTRC/start/glyph": "Start",
     "SIDEPANEL/TORRENTRC/stop/glyph": "Stop",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " Stream with torrent player",
+    "SIDEPANEL/TORRENTRC/torrent/hdr": "Torrent",
     "SIDEPANEL/TRAKT-SERIE-DETAILS/actors/hdr": "Actors",
     "SIDEPANEL/TRAKT-SERIE-DETAILS/airs-on/hdr": "Currently Airs on",
     "SIDEPANEL/TRAKT-SERIE-DETAILS/content-rating/hdr": "Content Rating",
