@@ -10,9 +10,9 @@
 
       <a ng-if="getSetting('torrenting.directory') && remote.torrent.open_containing" ng-click="remote.torrent.open_containing();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'SIDEPANEL/TORRENTRC/open-folder/glyph'|translate}}</a> 
 
-     <a ng-click="remote.torrent.getFiles();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'SIDEPANEL/TORRENTRC/show-files/glyph'|translate}}</a>
-     <ul ng-if="remote.torrent.files">
-     <li ng-repeat="file in remote.torrent.files">{{file.name }}</li>
+     <a ng-click="showFiles=true; remote.torrent.getFiles();" style="margin-top: 5px" ><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'SIDEPANEL/TORRENTRC/show-files/glyph'|translate}}</a>
+     <ul ng-if="showFiles && remote.torrent.files" style='width:300px'>
+     <li ng-repeat="file in remote.torrent.files" style='width:200px; white-space:wrap; text-align:left; font-size: 9px;'>{{file.name }}</li>
 
      </ul> 
 

@@ -4,7 +4,7 @@
 var DuckieTV = angular.module('DuckieTV', [
     'formly',
     'formlyBootstrap',
-    'ui.router',
+    'xmlrpc',
     'ct.ui.router.extras.core',
     'ct.ui.router.extras.sticky',
     'ngLocale',

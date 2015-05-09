@@ -1,7 +1,7 @@
 <!-- subtitleDialog.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
 <h1>{{'SUBTITLEDIALOG/find-subtitle/hdr'|translate}}</h1>
-<input type="text" value="{{serie.name}} {{seasonNumber}} {{episodeNumber}}" focus-watch='searching' onchange="search(query)" placeholder="{{'SUBTITLEDIALOG/placeholder'|translate}}" class="form-control">
+<input type="text" value="{{serie.name}} {{episode.title}}" focus-watch='searching' onchange="search(query)" placeholder="{{'SUBTITLEDIALOG/placeholder'|translate}}" class="form-control">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
 
 <table class="torrents table table-condensed white">
@@ -25,41 +25,28 @@
         <strong>S/E</strong>
       </th>
       <th>
-        <strong>{{'SUBTITLEDIALOG/title/lbl'|translate}}</strong>
-      </th>
-      <th>
         <strong>{{'SUBTITLEDIALOG/language/lbl'|translate}}</strong>
       </th>
       <th>
-        <strong>{{'SUBTITLEDIALOG/release/lbl'|translate}}</strong>
+        <strong>{{'SUBTITLEDIALOG/title/lbl'|translate}}</strong>
       </th>
       <th>
-        <strong>{{'SUBTITLEDIALOG/completed/lbl'|translate}}</strong>
-      </th>
-      <th>
-        <strong>{{'SUBTITLEDIALOG/flags/lbl'|translate}}</strong>
+        <strong>Downloads</strong>
       </th>
      
     </tr>
-    <tr ng-if="!searching && items.length > 0 " ng-repeat="subtitle in items">
+    <tr ng-if="!searching && items.length > 0 " ng-repeat="subtitle in items | orderBy:'LanguageName'">
       <td>
-        S{{ subtitle.season }}E{{subtitle.episode}}
-      </td>
-      <td>
-        {{ subtitle.title }}
+        <a href="{{subtitle.url}}" target="_blank">S{{ subtitle.SeriesSeason }}E{{subtitle.SeriesEpisode}}</a>
       </td>
       <td>
-        {{ subtitle.language }}
-      </td>
-       <td>  
-        <a ng-click="fetch()">{{subtitle.release }}
+        <a href="{{subtitle.url}}" target="_blank">{{ subtitle.LanguageName }}</a>
       </td>
       <td>
-        {{ subtitle.progress }}
+        <a href="{{subtitle.url}}" target="_blank">{{ subtitle.MovieReleaseName }}</a>
       </td>
-     
       <td>  
-        
+        <a href="{{subtitle.url}}" target="_blank">{{ subtitle.SubDownloadsCnt }}</a>
       </td>
 
     </tr>

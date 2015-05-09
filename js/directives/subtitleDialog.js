@@ -2,11 +2,10 @@ DuckieTV.provider('SubtitleDialog', function() {
     this.$get = ["$injector", "$rootScope", "$q",
         function($injector, $rootScope, $q) {
             return {
-                search: function(serie, seasonNumber, episodeNumber) {
+                searchEpisode: function(serie, episode) {
                     return $injector.get('$dialogs').create('templates/subtitleDialog.html', 'subtitleDialogCtrl', {
                         serie: serie,
-                        seasonNumber: seasonNumber,
-                        episodeNumber: episodeNumber
+                        episode: episode
                     }, {
                         size: 'lg'
                     });
@@ -16,29 +15,23 @@ DuckieTV.provider('SubtitleDialog', function() {
     ];
 })
 
-.controller('subtitleDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "Addic7ed", "SettingsService",
-    function($scope, $rootScope, $modalInstance, $injector, data, Addic7ed, SettingsService) {
+.controller('subtitleDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "OpenSubtitles", "SettingsService",
+    function($scope, $rootScope, $modalInstance, $injector, data, OpenSubtitles, SettingsService) {
         //-- Variables --//
 
         var customClients = {};
 
         $scope.items = [];
         $scope.searching = true;
+        $scope.episode = data.episode;
         $scope.serie = data.serie;
-        $scope.seasonNumber = angular.copy(data.seasonNumber);
-        $scope.episodeNumber = angular.copy(data.episodeNumber);
-        $scope.searchquality = $scope.getSetting('torrenting.searchquality');
 
 
-        $scope.fetch = function() {
-            // needs iframe solution.
-        }
         $scope.search = function() {
             $scope.searching = true;
 
-            Addic7ed.search($scope.serie, $scope.seasonNumber, $scope.episodeNumber, $scope.searchquality).then(function(results) {
+            OpenSubtitles.searchEpisode($scope.serie, $scope.episode).then(function(results) {
                     $scope.items = results;
-                    console.log(results);
                     $scope.searching = false;
                 },
                 function(e) {
@@ -51,19 +44,12 @@ DuckieTV.provider('SubtitleDialog', function() {
             $scope.search($scope.query);
         };
 
-        $scope.setProvider = function(provider) {
-            $scope.searchprovider = provider;
-            if (!(provider in customClients)) {
-                GenericSearch.setProvider(provider);
-            }
-            $scope.search($scope.query);
-        }
 
         $scope.cancel = function() {
             $modalInstance.dismiss('Canceled');
         };
 
-        $scope.search($scope.query);
+        $scope.search();
 
     }
 ])

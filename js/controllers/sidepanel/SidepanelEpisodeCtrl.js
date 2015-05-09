@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, SceneNameResolver, EpisodeAiredService, TorrentSearchEngines, uTorrent, Netflix, $scope, $filter) {
+DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, SceneNameResolver, EpisodeAiredService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, Netflix, $scope, $filter) {
 
     this.serie = serie;
     this.episode = episode;
@@ -18,7 +18,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
 
 
     this.isTorrentClientConnected = function() {
-        return uTorrent.isConnected();
+        return uckieTorrent.getClient().getRemote().isConnected();
     };
 
     this.isNetflixSupported = function() {
@@ -47,6 +47,10 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
                 })
             }
         });
+    }
+
+    this.findSubtitle = function() {
+        SubtitleDialog.searchEpisode(this.serie, this.episode);
     }
 
 
