@@ -67,12 +67,17 @@ DuckieTorrent
     }
 ])
 
-.factory('qBittorrent', ["$q", "$http", "URLBuilder", "$parse", "qBittorrentRemote",
-    function($q, $http, URLBuilder, $parse, qBittorrentRemote) {
+.factory('qBittorrent', ["$q", "$http", "URLBuilder", "$parse", "qBittorrentRemote", "SettingsService",
+    function($q, $http, URLBuilder, $parse, qBittorrentRemote, SettingsService) {
         var self = this;
 
-        this.port = 8080;
-        this.base = 'http://127.0.0.1';
+        this.config = {
+            server: SettingsService.get('qbittorrent.server'),
+            port: SettingsService.get('qbittorrent.port'),
+            use_auth: SettingsService.get('qbittorrent.use_auth'),
+            username: SettingsService.get('qbittorrent.username'),
+            password: SettingsService.get('qbittorrent.password')
+        };
 
         /** 
          * Predefined endpoints for API actions.
@@ -109,8 +114,13 @@ DuckieTorrent
          * Fetches the url, auto-replaces the port in the url if it was found.
          */
         this.getUrl = function(type, param) {
-            var url = this.base + ':' + this.port + this.endpoints[type];
-            return url.replace('%s', encodeURIComponent(param));
+            var out = self.config.server + ':' + self.config.port + this.endpoints[type];
+
+            if (self.config.use_auth) {
+                out = out.replace('://', '://' + self.config.username + ':' + self.config.password + '@');
+            }
+
+            return out.replace('%s', encodeURIComponent(param));
         };
 
         this.isPolling = false;
@@ -129,7 +139,12 @@ DuckieTorrent
             param = param || '';
             var url = self.getUrl(type, param)
             var parser = self.getParser(type);
-            $http.get(url, options || {}).then(function(response) {
+
+            var headers = {};
+
+            $http.get(url, options || {}, {
+                headers: headers
+            }).then(function(response) {
                 d.resolve(parser ? parser(response) : response.data);
             }, function(err) {
                 console.log('error fetching', type);
@@ -141,6 +156,17 @@ DuckieTorrent
         var self = this;
 
         var methods = {
+
+
+            setConfig: function(config) {
+                self.config = config;
+            },
+
+            saveConfig: function() {
+                Object.keys(self.config).map(function(key) {
+                    SettingsService.set("tixati." + key, self.config[key]);
+                });
+            },
 
             connect: function() {
 
@@ -239,18 +265,28 @@ DuckieTorrent
             },
 
             addMagnet: function(magnet) {
+                var headers = {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                };
+
+                if (self.config.use_auth) {
+                    headers.Authorization = 'Basic ' + Base64.encode(self.config.username + ':' + self.config.password);
+                }
                 return $http.post(self.getUrl('addmagnet'), 'urls=' + encodeURIComponent(magnet), {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
+                    headers: headers
                 });
             },
 
             execute: function(method, hash) {
+                var headers = {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                };
+
+                if (self.config.use_auth) {
+                    headers.Authorization = 'Basic ' + Base64.encode(self.config.username + ':' + self.config.password);
+                }
                 return $http.post(self.getUrl(method), 'hash=' + hash, {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
+                    headers: headers
                 });
             }
 

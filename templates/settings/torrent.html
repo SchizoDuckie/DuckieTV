@@ -68,4 +68,30 @@
       <span class="alert alert-danger" ng-show="s.seeders.$error.min || s.seeders.$error.max">{{'SETTINGS/TORRENT/autodownload-seeders-range/alert'|translate}}</span>
     </div>
   </div>
+
+   <hr class="setting-divider">
+  
+  <h2>{{'SETTINGS/UTORRENT/progressbar/hdr'|translate}}
+    <span tooltip="{{progressEnabled ? 'SETTINGS/UTORRENT/enabled/tooltip' : 'SETTINGS/UTORRENT/disabled/tooltip'|translate}}">
+      <i class="glyphicon glyphicon-{{progressEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+    </span>
+  </h2>
+  
+  <p>{{progressEnabled ? 'SETTINGS/UTORRENT/progressbar-hide/desc' : 'SETTINGS/UTORRENT/progressbar-show/desc'|translate}}</p>
+  <a ng-click="toggleProgress()" class="btn btn-{{progressEnabled ? 'danger' : 'success'}}">
+    <i class="glyphicon glyphicon-{{progressEnabled ? 'ban-circle' : 'minus'}}"></i> {{progressEnabled ? 'SETTINGS/UTORRENT/progressbar-hide/btn' : 'SETTINGS/UTORRENT/progressbar-show/btn'|translate}}
+  </a>
+  
+  <hr class="setting-divider">
+
+  <h2>{{'SETTINGS/UTORRENT/autostop/hdr'|translate}} 
+    <span tooltip="{{autostopEnabled ? 'SETTINGS/UTORRENT/enabled/tooltip' : 'SETTINGS/UTORRENT/disabled/tooltip'|translate}}">
+      <i class="glyphicon glyphicon-{{autostopEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+    </span>
+  </h2>
+    <p>{{autostopEnabled ? 'SETTINGS/UTORRENT/autostop-disabled/desc' : 'SETTINGS/UTORRENT/autostop-enabled/desc'|translate}}</p>
+    <a ng-click="toggleAutoStop()" class="btn btn-{{autostopEnabled ? 'danger' : 'success'}}">
+      <i class="glyphicon glyphicon-{{autostopEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopEnabled ? 'SETTINGS/UTORRENT/autostop-disabled/btn' : 'SETTINGS/UTORRENT/autostop-enabled/btn'|translate}}
+    </a>
+    
 </div>
