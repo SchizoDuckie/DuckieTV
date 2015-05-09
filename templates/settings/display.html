@@ -20,7 +20,7 @@
 
       <p>{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-click/desc' : 'SETTINGS/DISPLAY/topsites-mode-hover/desc'|translate}}</p>
       <a ng-click="toggleTopSitesMode()" class="btn btn-{{topSitesMode == 'onhover' ? 'info' : 'success'}}">
-        <i class="glyphicon glyphicon-{{topSitesMode == 'onhover' ? 'download-alt' : 'screenshot'}}"></i>
+        <i class="glyphicon glyphicon-{{topSitesMode == 'onhover' ? 'screenshot' : 'download-alt'}}"></i>
         &nbsp;{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-click/btn' : 'SETTINGS/DISPLAY/topsites-mode-hover/btn'|translate}}
       </a>
     </div>
