@@ -5,10 +5,10 @@ DuckieTV
             restrict: 'A',
             scope: '=',
             link: function($scope, element) {
+                if (navigator.userAgent.toLowerCase().indexOf('duckietv') === -1) return;
                 if (element[0].getAttribute('target')) {
                     if (element[0].getAttribute('target').toLowerCase() == '_blank') {
                         element[0].addEventListener('click', function(e) {
-                            debugger;
                             e.stopPropagation();
                             e.preventDefault();
                             require('nw.gui').Shell.openExternal(element[0].getAttribute('href'));
