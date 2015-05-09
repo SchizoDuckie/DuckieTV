@@ -132,7 +132,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     controller: function($state, $stateParams) {
                         this.query = $stateParams.query
                         this.search = function(q) {
-                            console.log('search!')
                             if (q.length > 0) {
                                 $state.go('favorites.add.search', {
                                     query: q
