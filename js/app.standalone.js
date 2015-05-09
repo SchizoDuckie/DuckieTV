@@ -27,11 +27,12 @@ DuckieTV
                 this.hide();
 
                 // Show tray
-                tray = new gui.Tray({
-                    icon: 'img/icon64.png'
+                var tray = new gui.Tray({
+                    title: navigator.userAgent,
+                    icon: 'img/icon64.png',
+                    menu: new gui.Menu()
                 });
-
-                // Show window and remove tray when clicked
+                tray.tooltip = navigator.userAgent;
                 tray.on('click', function() {
                     win.show();
                     this.remove();
