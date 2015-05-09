@@ -1,5 +1,24 @@
 // system tray settings for Standalone
 DuckieTV
+    .directive('target', function() {
+        return {
+            restrict: 'A',
+            scope: '=',
+            link: function($scope, element) {
+                if (element[0].getAttribute('target')) {
+                    if (element[0].getAttribute('target').toLowerCase() == '_blank') {
+                        element[0].addEventListener('click', function(e) {
+                            debugger;
+                            e.stopPropagation();
+                            e.preventDefault();
+                            require('nw.gui').Shell.openExternal(element[0].getAttribute('href'));
+                            return false;
+                        })
+                    }
+                }
+            }
+        };
+    })
     .run(function(SettingsService) {
         if (navigator.userAgent.toUpperCase().indexOf('STANDALONE') != -1) {
 
@@ -69,24 +88,7 @@ DuckieTV
                 }
             });
 
-            DuckieTV.directive('target', function() {
-                return {
-                    restrict: 'A',
-                    scope: '=',
-                    link: function($scope, element) {
-                        if (element[0].getAttribute('target')) {
-                            if (element[0].getAttribute('target').toLowerCase() == '_blank') {
-                                element[0].onclick = function(e) {
-                                    win.open(element[0].getAttribute('href'), {
-                                        focus: true
-                                    });
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                };
-            });
+
         }
     })
 
