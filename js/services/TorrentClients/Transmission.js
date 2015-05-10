@@ -20,6 +20,7 @@ DuckieTorrent
                 type: "input",
                 templateOptions: {
                     label: "Transmission Address",
+                    type: "url",
                     placeholder: "Where to connect to"
                 }
             }, {
@@ -27,6 +28,7 @@ DuckieTorrent
                 type: "input",
                 templateOptions: {
                     label: "Port",
+                    type: "number",
                     placeholder: "port to connect on (default 9091)"
                 }
             }, {

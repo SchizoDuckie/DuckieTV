@@ -11,20 +11,20 @@ DuckieTorrent
         };
 
         this.fields = [{
-            "key": "server",
-            "type": "input",
-            "templateOptions": {
-                "label": "Tixati Address",
-                "type": "url",
-                "placeholder": "Where to connect to"
+            key: "server",
+            type: "input",
+            templateOptions: {
+                label: "Tixati Address",
+                type: "url",
+                placeholder: "Where to connect to"
             }
         }, {
-            "key": "port",
-            "type": "input",
-            "templateOptions": {
-                "label": "Port",
-                "type": "number",
-                "placeholder": "port to connect on (default 8888)"
+            key: "port",
+            type: "input",
+            templateOptions: {
+                label: "Port",
+                type: "number",
+                placeholder: "port to connect on (default 8888)"
             }
         }, {
             key: "username",
