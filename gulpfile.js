@@ -30,31 +30,12 @@ var nightly = false; // for nightly builds
 
 
 // scripts are provided in order to prevent any problems with the load order
-var scripts = ['./js/controllers/*.js', './js/directives/*.js', './js/services/*.js', './js/ap*.js'];
+var scripts = ['./js/ap*.js', './js/controllers/*.js', './js/controllers/*/*.js', './js/directives/*.js', './js/services/*.js', './js/services/*/*.js'];
 
 /**
  * Dependencies for the app, will be rolled into deps.js
  */
-var deps = ['./js/vendor/promise-3.2.0.js',
-  './js/vendor/object-observe.min.js',  
-  './js/vendor/CRUD.js',
-  './js/vendor/CRUD.SqliteAdapter.js',
-  './js/CRUD.entities.js',
-  "./js/vendor/angular.js",
-  "./js/vendor/angular-animate.min.js",
-  "./js/vendor/angular-sanitize.min.js",
-  "./js/vendor/ui-router.js",
-  "./js/vendor/ct-ui-router-extras.core.min.js",  
-  "./js/vendor/ct-ui-router-extras.sticky.min.js",  
-  "./js/vendor/angular-xml.min.js",
-  './js/vendor/ui-bootstrap-tpls-0.10.0.min.js',
-  './js/vendor/tmhDynamicLocale.js',  
-  "./js/datePicker.js",
-  "./js/vendor/dialogs.js",
-  "./js/vendor/angular-translate.min.js",
-  "./js/vendor/angular-translate-loader-static-files.min.js",
-  "./js/vendor/angular-translate-handler-log.min.js"
-];
+var deps = [];
 
 /**
  * CSS files to be concatted. Note that there's separate code to include print.js
@@ -232,6 +213,22 @@ gulp.task('concatScripts', function() {
  * Concat the dependencies array into a file named dist/deps.js
  */
 gulp.task('concatDeps', function() {
+
+    var tab = fs.readFileSync('tab.html').toString()
+    var matches = tab.match(/<!-- deploy:replace\=\'(.*)\' -->([\s\S]+?)[^\/deploy:]<!-- \/deploy:replace -->/g);
+    var deps = [];
+    matches.map(function(match) {
+        if (match.indexOf('dist\/deps.js') > -1) {
+            deps = match.match(/\.(\/js\/[a-zA-Z0-9\/\.\-]+)/g).map(function(script) {
+                if (script.indexOf('.min.js') >= -1) {
+                    return script;
+                } else {
+                    var mifi = script.replace('.js', '.min.js');
+                    return fs.existsSync(mifi) ? mifi : script;
+                }
+            })
+        }
+    });
     return gulp.src(deps)
         .pipe(concat('deps.js', {
             newLine: ';'
@@ -264,13 +261,29 @@ gulp.task('launch.js', function() {
         .pipe(gulp.dest('dist/'));
 });
 
+var templateCache = require('gulp-angular-templatecache');
+
+gulp.task('buildTemplateCache', function() {
+    return gulp.src('templates/**/*.html')
+        .pipe(templateCache({
+            module: 'DuckieTV'
+        }))
+        .pipe(gulp.dest('dist'))
+        .pipe(notify({
+            message: 'Templatecache deployed'
+        }));
+})
+
+
+
 /**
  * Parse tab.html and grab the deploy:replace comments sections.
  * Grab the parameter value to those tags, and replace the content with that so that we're left with with just a couple of includes
  */
-gulp.task('tabTemplate', function() {
+gulp.task('tabTemplate', ['buildTemplateCache'], function() {
     return gulp.src(['tab.html'])
         .pipe(replace(/<!-- deploy:replace\=\'(.*)\' -->([\s\S]+?)[^\/deploy:]<!-- \/deploy:replace -->/g, '$1'))
+        .pipe(replace('</body>', '<script src="dist/templates.js"></script></body>'))
         .pipe(gulp.dest('dist/'))
         .pipe(notify({
             message: 'Tab template deployed'
