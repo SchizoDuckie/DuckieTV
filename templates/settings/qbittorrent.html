@@ -1,19 +1,19 @@
 <div class="buttons" ng-controller="qbtCtrl as qbt">
-	<h2>qBittorrent Remote Test</h2>
+	<h2>qBittorrent {{'SETTINGS/QBITTORRENT/integration/hdr'|translate}}</h2>
 
 	<img src="img/icon-qbittorrent.png" style='width:200px; margin: 0 auto'>
 
-	<p  ng-if="qbt.isConnected()">Status:
-	Connected to qBittorrent API on {{qbt.model.server}}:{{qbt.model.port}}
+	<p  ng-if="qbt.isConnected()">{{'SETTINGS/QBITTORRENT/status/hdr'|translate}}:
+	{{'SETTINGS/QBITTORRENT/connected/lbl'|translate}} qBittorrent API &#64; {{qbt.model.server}}:{{qbt.model.port}}
 	</p>
 
-	<p ng-if="!qbt.isConnected()">Status:
-	Not connected
+	<p ng-if="!qbt.isConnected()">{{'SETTINGS/QBITTORRENT/status/hdr'|translate}}:
+	{{'SETTINGS/QBITTORRENT/not-connected/lbl'|translate}}
 	</p>
 
 	<form ng-submit="qbt.test()" novalidate>
         <formly-form model="qbt.model" fields="qbt.fields">
-          <button type="submit" class="btn btn-primary submit-button">Test and save</button>
+          <button type="submit" class="btn btn-primary submit-button">{{'SETTINGS/QBITTORRENT/save/btn'|translate}}</button>
         </formly-form>
       </form>
 </div>

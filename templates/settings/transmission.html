@@ -1,19 +1,19 @@
 <div class="buttons" ng-controller="tbtCtrl as tbt">
-	<h2>Transmission Remote</h2>
+	<h2>Transmission {{'SETTINGS/TRANSMISSION/integration/hdr'|translate}}</h2>
 
 	<img src="img/icon-transmission-colored.png" style='width:200px; margin: 0 auto'>
 
-	<p  ng-if="tbt.isConnected()">Status:
-	Connected to Transmission API on {{tbt.model.server}}:{{tbt.model.port}}
+	<p  ng-if="tbt.isConnected()">{{'SETTINGS/TRANSMISSION/status/hdr'|translate}}:
+	{{'SETTINGS/TRANSMISSION/connected/lbl'|translate}} Transmission API &#64; {{tbt.model.server}}:{{tbt.model.port}}
 	</p>
 
-	<p ng-if="!tbt.isConnected()">Status:
-	Not connected
+	<p ng-if="!tbt.isConnected()">{{'SETTINGS/TRANSMISSION/status/hdr'|translate}}:
+	{{'SETTINGS/TRANSMISSION/not-connected/lbl'|translate}}
 	</p>
 
 	<form ng-submit="tbt.test()" novalidate>
         <formly-form model="tbt.model" fields="tbt.fields">
-          <button type="submit" class="btn btn-primary submit-button">Test and save</button>
+          <button type="submit" class="btn btn-primary submit-button">{{'SETTINGS/TRANSMISSION/save/btn'|translate}}</button>
         </formly-form>
       </form>
 	
