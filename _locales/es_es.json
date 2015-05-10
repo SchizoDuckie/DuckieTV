@@ -486,5 +486,6 @@
     "TORRENTRC/pause/btn": "  Pausa torrent ",
     "TORRENTRC/start/btn": "  Comience torrent ",
     "TORRENTRC/stop/btn": "  Deje de torrent ",
+    "ABOUT/credits/li8": " Formas potentes, flexibles y sencillas para Angular",
     "TORRENTRC/stream-play/btn": "  Stream con reproductor de Torrent "
 }

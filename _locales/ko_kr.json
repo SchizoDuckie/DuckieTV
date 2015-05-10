@@ -486,5 +486,6 @@
     "TORRENTRC/pause/btn": "  토런트에게 일시 중지 ",
     "TORRENTRC/start/btn": "  토런트에게 시작 ",
     "TORRENTRC/stop/btn": "  토런트에게 중지 ",
+    "ABOUT/credits/li8": " 각도에 대한 강력하고 유연한, 간단한 형태",
     "TORRENTRC/stream-play/btn": "  Torrent 플레이어와 스트리밍 "
 }
