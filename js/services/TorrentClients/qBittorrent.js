@@ -1,7 +1,7 @@
 DuckieTorrent
 
-.controller("qbtCtrl", ["qBittorrent", "SettingsService",
-    function(qBittorrent, SettingsService) {
+.controller("qbtCtrl", ["qBittorrent", "SettingsService", "$filter",
+    function(qBittorrent, SettingsService, $filter) {
 
         this.model = {
             server: SettingsService.get('qbittorrent.server'),
@@ -19,36 +19,34 @@ DuckieTorrent
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "qBittorrent Address",
+                    label: "qBittorrent "+$filter('translate')('SETTINGS/QBITTORRENT/address/lbl'),
                     type: "url",
-                    placeholder: "Where to connect to"
                 }
             }, {
                 key: "port",
                 type: "input",
                 templateOptions: {
-                    label: "Port",
+                    label: $filter('translate')('SETTINGS/QBITTORRENT/port/lbl'),
                     type: "number",
-                    placeholder: "port to connect on (default 8080)"
                 }
             }, {
                 key: "use_auth",
                 type: "input",
                 templateOptions: {
                     type: "checkbox",
-                    label: "Use authentication"
+                    label: $filter('translate')('SETTINGS/QBITTORRENT/authentication/lbl')
                 }
             }, {
                 key: "username",
                 type: "input",
                 templateOptions: {
-                    label: "Username"
+                    label: $filter('translate')('SETTINGS/QBITTORRENT/username/lbl')
                 }
             }, {
                 key: "password",
                 type: "input",
                 templateOptions: {
-                    label: "Password",
+                    label: $filter('translate')('SETTINGS/QBITTORRENT/password/lbl'),
                     type: "password"
                 }
             },

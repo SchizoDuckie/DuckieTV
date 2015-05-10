@@ -1,7 +1,7 @@
 DuckieTorrent
 
-.controller("tixatiCtrl", ["tixati", "SettingsService",
-    function(tixati, SettingsService) {
+.controller("tixatiCtrl", ["tixati", "SettingsService", "$filter",
+    function(tixati, SettingsService, $filter) {
 
         this.model = {
             server: SettingsService.get('tixati.server'),
@@ -14,29 +14,27 @@ DuckieTorrent
             key: "server",
             type: "input",
             templateOptions: {
-                label: "Tixati Address",
+                label: "Tixati "+$filter('translate')('SETTINGS/QBITTORRENT/address/lbl'),
                 type: "url",
-                placeholder: "Where to connect to"
             }
         }, {
             key: "port",
             type: "input",
             templateOptions: {
-                label: "Port",
+                label: $filter('translate')('SETTINGS/QBITTORRENT/port/lbl'),
                 type: "number",
-                placeholder: "port to connect on (default 8888)"
             }
         }, {
             key: "username",
             type: "input",
             templateOptions: {
-                label: "Username"
+                label: $filter('translate')('SETTINGS/QBITTORRENT/username/lbl')
             }
         }, {
             key: "password",
             type: "input",
             templateOptions: {
-                label: "Password",
+                label: $filter('translate')('SETTINGS/QBITTORRENT/password/lbl'),
                 type: "password"
             }
         }, ];

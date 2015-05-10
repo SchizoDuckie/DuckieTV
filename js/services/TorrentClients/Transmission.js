@@ -1,7 +1,7 @@
 DuckieTorrent
 
-.controller("tbtCtrl", ["Transmission", "SettingsService",
-    function(Transmission, SettingsService) {
+.controller("tbtCtrl", ["Transmission", "SettingsService", "$filter",
+    function(Transmission, SettingsService, $filter) {
 
         this.model = {
             server: SettingsService.get('transmission.server'),
@@ -19,36 +19,34 @@ DuckieTorrent
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "Transmission Address",
+                    label: "Transmission "+$filter('translate')('SETTINGS/TRANSMISSION/address/lbl'),
                     type: "url",
-                    placeholder: "Where to connect to"
                 }
             }, {
                 key: "port",
                 type: "input",
                 templateOptions: {
-                    label: "Port",
+                    label: $filter('translate')('SETTINGS/TRANSMISSION/port/lbl'),
                     type: "number",
-                    placeholder: "port to connect on (default 9091)"
                 }
             }, {
                 key: "use_auth",
                 type: "input",
                 templateOptions: {
                     type: "checkbox",
-                    label: "Use authentication"
+                    label: $filter('translate')('SETTINGS/TRANSMISSION/authentication/lbl')
                 }
             }, {
                 key: "username",
                 type: "input",
                 templateOptions: {
-                    label: "Username"
+                    label: $filter('translate')('SETTINGS/TRANSMISSION/username/lbl')
                 }
             }, {
                 key: "password",
                 type: "input",
                 templateOptions: {
-                    label: "Password",
+                    label: $filter('translate')('SETTINGS/TRANSMISSION/password/lbl'),
                     type: "password"
                 }
             },
