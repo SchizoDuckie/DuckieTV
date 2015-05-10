@@ -67,7 +67,7 @@
       <span class="alert alert-danger" ng-show="s.seeders.$error.number">{{'SETTINGS/TORRENT/autodownload-only-numbers/alert'|translate}}</span>
       <span class="alert alert-danger" ng-show="s.seeders.$error.min || s.seeders.$error.max">{{'SETTINGS/TORRENT/autodownload-seeders-range/alert'|translate}}</span>
     </div>
-  </div>
+
 
    <hr class="setting-divider">
   
@@ -94,4 +94,5 @@
       <i class="glyphicon glyphicon-{{autostopEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopEnabled ? 'SETTINGS/TORRENT/autostop-disabled/btn' : 'SETTINGS/TORRENT/autostop-enabled/btn'|translate}}
     </a>
     
+  </div>
 </div>
