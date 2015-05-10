@@ -44,7 +44,7 @@
       <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}" tooltip-append-to-body="true"></div>
     </div>
     <table class="buttons" width="100%" border="0">
-        <tr>
+        <tr ng-if="getSetting('torrenting.enabled')">
           <td colspan="2">
               <a ng-click="season.autoDownloadAll()">
                   <i class="glyphicon glyphicon-cloud-download"></i><strong>{{'SIDEPANEL/EPISODES/auto-download-all/lbl'|translate}}</strong>
