@@ -1,8 +1,8 @@
 /*
  * Controller for the calendar settings tab
  */
-DuckieTV.controller('CalendarCtrl', ["$scope",  "SettingsService",
-    function($scope, SettingsService) {
+DuckieTV.controller('CalendarCtrl', ["$scope", "SettingsService", "$rootScope",
+    function($scope, SettingsService, $rootScope) {
 
         $scope.showSpecials = SettingsService.get('calendar.show-specials');
         $scope.startSunday = SettingsService.get('calendar.startSunday');
@@ -17,14 +17,16 @@ DuckieTV.controller('CalendarCtrl', ["$scope",  "SettingsService",
 
         // Toggles calendar starting on Sunday or Monday
         $scope.toggleCalendarStartDay = function() {
-                $scope.startSunday = !$scope.startSunday;
-                SettingsService.set('calendar.startSunday', $scope.startSunday);
+            $scope.startSunday = !$scope.startSunday;
+            SettingsService.set('calendar.startSunday', $scope.startSunday);
+            window.location.reload();
         };
 
         // Toggles calendar view mode, week or month
         $scope.toggleCalendarDisplayMode = function() {
             $scope.displayMode = $scope.displayMode == 'date' ? 'week' : 'date';
-                SettingsService.set('calendar.mode', $scope.displayMode);
+            SettingsService.set('calendar.mode', $scope.displayMode);
+            window.location.reload();
         };
 
         // Toggles wether downloaded episodes are highlighed on the Calendar
@@ -32,6 +34,6 @@ DuckieTV.controller('CalendarCtrl', ["$scope",  "SettingsService",
             $scope.showDownloaded = !$scope.showDownloaded;
             SettingsService.set('calendar.show-downloaded', $scope.showDownloaded);
         };
-        
+
     }
 ])
