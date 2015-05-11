@@ -46,7 +46,7 @@ DuckieTV.factory('OpenSubtitles', ["xmlrpc",
 
 
         var login = function() {
-            return xmlrpc.callMethod('LogIn', ['', '', 'en', 'OSTestUserAgent' /* navigator.userAgent */ ]).then(function(result) {
+            return xmlrpc.callMethod('LogIn', ['', '', 'en', 'DuckieTV v1.00']).then(function(result) {
                 self.token = result.token;
                 return self.token;
             })
