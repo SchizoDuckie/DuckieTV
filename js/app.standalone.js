@@ -45,7 +45,7 @@ DuckieTV
                         '<p style="margin: 20px 0px; white-space: pre; overflow-wrap: break-word; background-color: transparent; color:white;">',
                         releasenotes.replace(/\n- /g, '<li>'),
                         '</p>',
-                        'Do you whish to download it now?',
+                        'Do you wish to download it now?',
                         '<br><label class="btn btn-danger" onclick="localStorage.setItem(\'', settingsKey, '\', 1);"> Don\'t show this notification again for v', result[0].tag_name, '</button>'
                     ].join(''));
 
