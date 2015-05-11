@@ -30,5 +30,5 @@
     "chrome_url_overrides": {
         "newtab": "tab.html"
     },
-    "homepage_url": "http://reddit.com/r/duckietv"
+    "homepage_url": "http://duckie.tv/"
 }
