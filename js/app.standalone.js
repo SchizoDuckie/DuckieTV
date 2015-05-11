@@ -5,7 +5,6 @@ DuckieTV
             restrict: 'A',
             scope: '=',
             link: function($scope, element) {
-                debugger;
                 if (navigator.userAgent.toLowerCase().indexOf('standalone') === -1) return;
                 if (element[0].getAttribute('target')) {
                     if (element[0].getAttribute('target').toLowerCase() == '_blank') {
