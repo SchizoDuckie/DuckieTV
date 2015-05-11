@@ -72,12 +72,12 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal'])
 /**
  * Notify Dialog Controller
  */
-.controller('notifyDialogCtrl', ['$scope', '$filter', '$modalInstance', 'header', 'msg',
-    function($scope, $filter, $modalInstance, header, msg) {
+.controller('notifyDialogCtrl', ['$scope', '$filter', '$modalInstance', 'header', 'msg', '$sce',
+    function($scope, $filter, $modalInstance, header, msg, $sce) {
         //-- Variables -----//
 
         $scope.header = (angular.isDefined(header)) ? header : $filter('translate')('DIALOGSjs/notify/hdr');
-        $scope.msg = (angular.isDefined(msg)) ? msg : $filter('translate')('DIALOGSjs/notify/msg');
+        $scope.msg = (angular.isDefined(msg)) ? $sce.trustAsHtml(msg) : $filter('translate')('DIALOGSjs/notify/msg');
 
         //-- Methods -----//
 
@@ -91,12 +91,12 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal'])
 /**
  * Confirm Dialog Controller
  */
-.controller('confirmDialogCtrl', ['$scope', '$filter', '$modalInstance', 'header', 'msg',
-    function($scope, $filter, $modalInstance, header, msg) {
+.controller('confirmDialogCtrl', ['$scope', '$filter', '$modalInstance', 'header', 'msg', '$sce',
+    function($scope, $filter, $modalInstance, header, msg, $sce) {
         //-- Variables -----//
 
         $scope.header = (angular.isDefined(header)) ? header : $filter('translate')('DIALOGSjs/confirm/hdr');
-        $scope.msg = (angular.isDefined(msg)) ? msg : $filter('translate')('DIALOGSjs/confirm/msg');
+        $scope.msg = (angular.isDefined(msg)) ? $sce.trustAsHtml(msg) : $filter('translate')('DIALOGSjs/confirm/msg');
 
         //-- Methods -----//
 
