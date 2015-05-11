@@ -53,8 +53,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
 
     this.getSearchString = function(serie, episode) {
         if (!serie || !episode) return;
-        var serieName = SceneNameResolver.getSceneName(serie.TVDB_ID) || serie.name;
-        return serieName.replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
+        return SceneNameResolver.getSceneName(serie.TVDB_ID,serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
     };
 
     this.getEpisodeNumber = function(episode) {

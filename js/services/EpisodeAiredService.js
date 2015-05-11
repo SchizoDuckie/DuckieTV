@@ -34,12 +34,12 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                     // Get the list of episodes that have aired since period, and iterate them.
                     FavoritesService.getEpisodesForDateRange(from.getTime(), new Date().getTime()).then(function(candidates) {
                         candidates.map(function(episode, episodeIndex) {
+                            if (episode.isDownloaded()) return; // if the episode was already downloaded, skip it.
                             if (episode.watchedAt !== null) return; // if the episode has been marked as watched, skip it.
                             if (episode.magnetHash !== null && (episode.magnetHash in remote.torrents)) return; // if the episode was already downloaded, skip it.
-                            if (episode.isDownloaded()) return; // if the episode was already downloaded, skip it.
 
                             CRUD.FindOne('Serie', {
-                                ID_Serie: episode.get('ID_Serie')
+                                ID_Serie: episode.ID_Serie
                             }).then(function(serie) {
                                 service.autoDownload(serie, episode, episodeIndex).then(function(result) {
                                     if (result) {
@@ -57,8 +57,7 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
 
             autoDownload: function(serie, episode, episodeIndex) {
                 // Fetch the Scene Name for the serie and compile the search string for the episode with the quality requirement.
-                var name = SceneNameResolver.getSceneName(serie.get('TVDB_ID')) || serie.get('name');
-                var searchString = name.replace(/\(([12][09][0-9]{2})\)/, '').replace('!', '').replace(' and ', ' ') + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
+                var searchString = SceneNameResolver.getSceneName(serie.TVDB_ID,serie.name) + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
                 console.log("Auto download!", searchString);
 
                 // Search torrent provider for the string
@@ -70,7 +69,7 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                         var url = results[0].magneturl;
                         // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                         DuckieTorrent.getClient().AutoConnect().then(function() {
-                            TorrentSearchEngines.launchMagnet(url, serie.get('TVDB_ID'), true);
+                            TorrentSearchEngines.launchMagnet(url, serie.TVDB_ID, true);
                             episode.magnetHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
                             episode.Persist();
                         })

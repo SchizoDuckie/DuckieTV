@@ -455,8 +455,8 @@ DuckieTV.provider('SceneNameResolver', function() {
                 /** 
                  * Return the scene name of the provided TVDB_ID if it's in the list.
                  */
-                getSceneName: function(tvdbID) {
-                    return (tvdbID in exceptions) ? exceptions[tvdbID].replace(/\(([12][09][0-9]{2})\)/, '').replace(' and ', ' ') : false;
+                getSceneName: function(tvdbID,name) {
+                    return (tvdbID in exceptions) ? exceptions[tvdbID].replace(/\(([12][09][0-9]{2})\)/, '').replace('!', '').replace(' and ', ' ').replace(/\'/g, '') : name;
                 },
 
                 getSearchStringForEpisode: function(serie, episode) {
