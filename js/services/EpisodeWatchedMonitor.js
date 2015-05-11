@@ -13,7 +13,7 @@ DuckieTV.run(function($rootScope) {
             for (var i = 0; i < counts.rs.rows.length; i++) {
                 var row = counts.rs.rows.item(i);
                 with(row) {
-                    if (!(ID_Season in output)) {
+                    if (!(ID_Season in seasons)) {
                         seasons[ID_Season] = {};
                     }
                     if (watched === 0) {
