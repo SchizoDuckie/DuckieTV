@@ -4,7 +4,7 @@ DuckieTV Binary, for Chrome, Opera  and Online [![Build Status](https://travis-c
 DuckieTV is a Google Chrome / Opera extension (Now also available as standalone builds for Windows/Mac/Linux!) that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
 
 
-With the integrated DuckieTorrent client you can connect DuckieTV to your local &micro;Torrent/BitTorrent client and be updated on the download progress without switching applications.
+With the integrated DuckieTorrent client you can connect DuckieTV to your local Torrent client and be updated on the download progress without switching applications. (Now includes support for &micro;Torrent/BitTorrent, qBittorrent, Tixati and Transmission clients).
 
 
 As of v0.60 DuckieTV also is also finally becoming a worthy SickBeard competitor by introducing an automatic downloading of shows that have aired and translations into 11 languages. (English, Deutch, Español, Français, Italiano, 日本, 한국어, Nederlands, Purtugese, Русский, Svenska, 简体中文 )
@@ -14,7 +14,7 @@ How can I get it?
 
 DuckieTV can be installed as either a standalone application, a Chrome Extension or an Opera Extension, and you can try the basic features in the online version. 
 
-Install DuckieTV Standalone (Experimental!)
+Install DuckieTV Standalone
 -------------------------------------------
 As of v0.81, DuckieTV is available as a standalone build (no Chrome or Opera required)
 Get the latest release here:
@@ -43,32 +43,36 @@ Try DuckieTV online
 Screenshots:
 ============
 **Your main screen is a beautiful calendar with backgrounds tailored to the shows you are watching**
-!['New Tab' mode](http://i.imgur.com/B5jtvrf.png)
+!['New Tab' mode](http://i.imgur.com/h7klOU9.png)
 
-**Instant access to &micro;Torrent/BitTorrent features from the calendar**
-![Stream with uTorrent player](http://i.imgur.com/h6OnmHO.png)
+**Instant access to Torrent Client features from the calendar**
+![Stream with uTorrent player](http://i.imgur.com/DWd6MXL.png)
 
-**Add your favorite shows by picking them off of TraktTV's Trending Shows list, or search manually**
-![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/bUzCDbo.png)
+**Add your favorite shows by selecting them off TraktTV's Trending Shows list, or search manually**
+![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/dD7qyNn.png)
 
 **Navigate to any of your shows easily by opening your "local library" panel**
-!['local Library'](http://i.imgur.com/EYloHBq.png)
+!['local Library'](http://i.imgur.com/Y01x6aA.png)
 
-**Forgot to mark your shows as watched? Batch mode enables to mark a whole range of shows at once.**
-![Batch mark episodes as watched](http://i.imgur.com/7ocbLef.png)
+**View series, season and episode details about your shows **
+![View details](http://i.imgur.com/s1HM8aE.png)
+
+**Track and mark which shows you have downloaded, and which ones you have watched.**
+![Mark episodes as downloaded and watched](http://i.imgur.com/NkxCshp.png)
 
 **Control various settings to adjust DuckieTV to your needs, translated into your choice of 12 languages**
-![Settings](http://i.imgur.com/ySbR7u6.png)
+![Settings](http://i.imgur.com/uO2YGg8.png)
 
 **You can either completely turn off Torrent integration or tune it to your preference**
-![Torrent Settings](http://i.imgur.com/GWDLCLh.png)
+![Torrent Settings](http://i.imgur.com/drsspLa.png)
 
-**DuckieTorrent &micro;Torrent/BitTorrent client built-in**
-![DuckieTorrent uTorrent integration](http://i.imgur.com/dTdt1DH.png)
+**DuckieTorrent Torrent clients built-in (&micro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission)**
+![DuckieTorrent uTorrent integration](http://i.imgur.com/U2I4VOA.png)
 
 
 Changelog: 
 ==========
+* v1.00 : Completely revamped user interface (now with 100% more sexyness) - Added support for Tixati, Transmission and qBittorrent torrent clients - Added Strike and RarBG torrent search providers - Added calendar grouping for netflix episode dumps - Initial version of Subtitle search available from episodes panel - Removed Chromecast integration. (Use getvideostream.com and the app!) - Autodownloads now use the configured torrent provider - Revamped the way torrent search engines are created and registered - Shows can be marked as downloaded as well as watched, and downloaded episodes can be highlighted on the calendar - Added Trakt.TV Trending category filters, caching for Trakt.TV trending list - Fixes for DuckieTV standalone: now using frame-less window, open external links in default browser, window and unminimize from tray works in Ubuntu, added upgrade check and notification, and zoom control is now 1:1 with chrome browser - Database performance improvement (including less frequent ratings updates) - added 'Watch on Netflix' button for Netflix shows - numerous other small changes and bugfixes to list 
 * v0.94 : Switched to the new (hopefully more stable) trakt.tv endpoint, Added actor and rating info back to serie details, Fixed KAT Mirror Resolver and custom setting and added back TPB mirror selection to torrent settings, Changed default KAT mirror back to kickass.to, Minor tweaks to auto-download and updatecheck mechanisms, Built a little standalone website to turn off uTorrent's ads with one click. ( http://schizoduckie.github.io/PimpMyuTorrent/)
 * v0.93 : Welcome back TPB! Added ShowRSS.info as a custom datasource
 * v0.92 : Fixed problem with deployment script: moment.js was not included, breaking torrent searches for shows that are released with a date format.
