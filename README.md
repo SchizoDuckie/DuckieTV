@@ -43,7 +43,7 @@ Try DuckieTV online
 Screenshots:
 ============
 **Your main screen is a beautiful calendar with backgrounds tailored to the shows you are watching**
-!['New Tab' mode](http://i.imgur.com/h7klOU9.png)
+!['New Tab' mode](http://i.imgur.com/UcGOXul.png)
 
 **Instant access to Torrent Client features from the calendar**
 ![Stream with uTorrent player](http://i.imgur.com/DWd6MXL.png)
