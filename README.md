@@ -54,7 +54,7 @@ Screenshots:
 **Navigate to any of your shows easily by opening your "local library" panel**
 !['local Library'](http://i.imgur.com/Y01x6aA.png)
 
-**View series, season and episode details about your shows **
+**View series, season and episode details about your shows**
 ![View details](http://i.imgur.com/s1HM8aE.png)
 
 **Track and mark which shows you have downloaded, and which ones you have watched.**
