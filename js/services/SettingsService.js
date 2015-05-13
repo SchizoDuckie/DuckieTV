@@ -208,9 +208,6 @@ DuckieTV.factory('ChromePermissions', ["$q",
                     case 'pt_br':
                         langKey = 'pt_pt';
                         break;
-                    case 'es_419':
-                        langKey = 'es_es';
-                        break;
                     case 'ru':
                         langKey = 'ru_ru';
                         break;
