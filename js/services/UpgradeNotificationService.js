@@ -10,12 +10,18 @@ DuckieTV.factory('UpgradeNotificationService', ["$dialogs", "$http", "$q",
 
         var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="http://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="http://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="http://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
         var notifications = {
-            '0.94': ["<li>Switched to the new (hopefully more stable) trakt.tv endpoint",
-                "<li>Added actor and rating info back to serie details",
-                "<li>Fixed KAT Mirror Resolver and custom setting and added back TPB mirror selection to torrent settings",
-                "<li>Changed default KAT mirror back to kickass.to",
-                "<li>Minor tweaks to auto-download and updatecheck mechanisms",
-                "<li>Built a little standalone website to turn off uTorrent's ads with one click.<br><center><a href='http://schizoduckie.github.io/PimpMyuTorrent/?fd' target='_blank'><strong>Click here to turn off your uTorrent ads</a></center>"
+            '1.00': ["<li>Completely revamped user interface (now with 100% more sexyness)",
+                "<li>Added Strike and RarBG torrent search providers",
+                "<li>Added calendar grouping for netflix episode dumps",
+                "<li>Initial version of Subtitle search available from episodes panel",
+                "<li>Removed Chromecast integration. (Use getvideostream.com and the app!)",
+                "<li>Autodownloads now use the configured torrent provider",
+                "<li>Revamped the way torrent search engines are created and registered",
+                "<li>Shows can be marked as downloaded as well as watched, and downloaded episodes can be highlighted on the calendar",
+                "<li>Added Trakt.TV Trending category filters, caching for Trakt.TV trending list",
+                "<li>Fixes for DuckieTV standalone: now using frame-less window, open external links in default browser, window and unminimize from tray works in Ubuntu, added upgrade check and notification, and zoom control is now 1:1 with chrome browser",
+                "<li>Database performance improvement (including less frequent ratings updates)",
+                "<li>Added 'Watch on Netflix' button for Netflix shows - numerous other small changes and bugfixes to list "
             ].join('')
         }
 
