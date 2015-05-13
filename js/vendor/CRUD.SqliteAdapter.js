@@ -137,6 +137,8 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                         }));
                     }
                 }));
+            }).then(function(result) {
+                CRUD.log("All migrations are done!");
             });
         },
 
@@ -150,10 +152,10 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         },
 
         delayUntilSetupDone = function(func) {
-            if (!this.initializing) {
+            if (!self.initializing) {
                 return func();
             } else {
-                setTimeout(delayUntilSetupDone, 500, func);
+                setTimeout(delayUntilSetupDone, 50, func);
             }
         };
 

@@ -3,8 +3,8 @@
  *
  * Provides functionality to add and remove series and is the glue between Trakt.TV,
  */
-DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
-    function($rootScope, TraktTVv2, $injector) {
+DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injector",
+    function($q, $rootScope, TraktTVv2, $injector) {
 
         /** 
          * Helper function to add a serie to the service.favorites hash if it doesn't already exist.
@@ -176,6 +176,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
         };
 
         var service = {
+            initialized: false,
             addingList: {}, // holds any TVDB_ID's that are adding, used for spinner/checkmark icon control
             errorList: {}, // holds any TVDB_ID's that had an error, used for sadface icon control
             favorites: [],
@@ -241,11 +242,31 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
                 });
             },
             getEpisodesForDateRange: function(start, end) {
-                var filter = ['Episodes.firstaired > "' + start + '" AND Episodes.firstaired < "' + end + '" '];
+                var p = null;
 
-                return CRUD.Find('Episode', filter).then(function(ret) {
-                    return ret;
-                });
+                function getRange(start, end) {
+                    var filter = ['Episodes.firstaired > "' + start + '" AND Episodes.firstaired < "' + end + '" '];
+                    return CRUD.Find('Episode', filter).then(function(ret) {
+                        return ret;
+                    })
+                }
+
+                function waitForInitialize() {
+                    if (service.initialized) {
+                        console.log("Favoritesservice done initializing!")
+                        p.resolve(getRange(start, end));
+                    } else {
+                        setTimeout(waitForInitialize, 50);
+                    }
+                }
+
+                if (!service.initialized) {
+                    p = $q.defer();
+                    setTimeout(waitForInitialize, 50);
+                    return p.promise;
+                } else {
+                    return getRange(start, end);
+                }
             },
             /**
              * Find a serie by it's TVDB_ID (the main identifier for series since they're consistent regardless of local config)
@@ -404,6 +425,7 @@ DuckieTV.factory('FavoritesService', ["$rootScope", "TraktTVv2", "$injector",
     FavoritesService.loadRandomBackground();
 
     FavoritesService.refresh().then(function(favorites) {
+        FavoritesService.initialized = true;
         if (favorites.length == 0 && $state.current.name != 'favorites.add') {
             setTimeout(function() {
                 $state.go('favorites.add');
