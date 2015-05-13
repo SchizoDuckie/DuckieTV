@@ -1,9 +1,5 @@
 // Fix an IE problem (another one)
 var HAS_ACTIVEX = false;
-try {
-    new ActiveXObject('MSXML2.DOMDocument');
-    HAS_ACTIVEX = true;
-} catch (e) {}
 
 /**
  * XML-RPC communication service.
