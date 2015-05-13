@@ -423,10 +423,9 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
 
 .run(function(FavoritesService, $state) {
     FavoritesService.loadRandomBackground();
-
     FavoritesService.refresh().then(function(favorites) {
         FavoritesService.initialized = true;
-        if (favorites.length == 0 && $state.current.name != 'favorites.add') {
+        if (FavoritesService.favorites..length == 0 && $state.current.name != 'favorites.add') {
             setTimeout(function() {
                 $state.go('favorites.add');
             }, 500);
