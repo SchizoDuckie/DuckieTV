@@ -16,7 +16,13 @@ chrome-top-sites, series-list {
 	display:none;
 }
 
+sidepanel {
+	display: none;
+}
 
+calendar {
+	width: 100%;
+}
 calendar th .glyphicon {
 	display:none !important;
 }
