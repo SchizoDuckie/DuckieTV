@@ -6,8 +6,8 @@ DuckieTV
     function(FavoritesService) {
 
         // Update the newly introduced episodes.downloaded status
-        if (!localStorage.getItem('1.00migration')) {
-            console.info("Executing the 1.00 migration to populate episodes.downloaded status");
+        if (!localStorage.getItem('1.0migration')) {
+            console.info("Executing the 1.0 migration to populate episodes.downloaded status");
             CRUD.EntityManager.getAdapter().db.execute("update episodes set downloaded = 1 where watched == 1").
             then(CRUD.EntityManager.getAdapter().db.execute("select group_concat(ID_Episode) as affected from episodes  group by  ID_Serie, seasonnumber, episodenumber having count(seasonnumber||','||episodenumber) > 1").then(function(result) {
                 var affected = [];
@@ -21,8 +21,8 @@ DuckieTV
                 return CRUD.EntityManager.getAdapter().db.execute("delete from episodes where  ID_Episode in (" + affected.join(',') + ") AND (TVDB_ID IS null OR  episodename IS null or IMDB_ID IS NULL)");
             })).
             then(function() {
-                console.log("1.00 migration done.");
-                localStorage.setItem('1.00migration', new Date());
+                console.log("1.0 migration done.");
+                localStorage.setItem('1.0migration', new Date());
                 return FavoritesService.refresh();
             });
         }
