@@ -452,7 +452,7 @@
     "TAB/watchlist/glyph": "lista",
     "TORRENTCLIENT/clear-authority/btn": "Limpar autorização μTorrent ",
     "TORRENTCLIENT/connecting/hdr": "Conectando-se",
-    "TORRENTCLIENT/desc/p1": "Você precisa estar executando o μTorrent v3.3.x ou ",
+    "TORRENTCLIENT/desc/p1": "Você precisa estar executando o μTorrent (Windows) v3.3.x ou ",
     "TORRENTCLIENT/desc/p2": "  para que isso funcione! ",
     "TORRENTCLIENT/desc/p3": "Agora você pode controlar os seus torrents direto do DuckieTV. Certifique-se de μTorrent está sendo executado e aceitar o pedido de pares para permitir a integração automagic em todo o app ",
     "TORRENTCLIENT/hdr": "cliente ",

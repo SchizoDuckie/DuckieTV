@@ -452,7 +452,7 @@
     "TAB/watchlist/glyph": "收藏夹 ",
     "TORRENTCLIENT/clear-authority/btn": "清除μTorrent的授权 ",
     "TORRENTCLIENT/connecting/hdr": "连接到",
-    "TORRENTCLIENT/desc/p1": "你需要在运行μTorrent的v3.3.x或 ",
+    "TORRENTCLIENT/desc/p1": "你需要在运行μTorrent (Windows) v3.3.x或 ",
     "TORRENTCLIENT/desc/p2": " 这个工作! ",
     "TORRENTCLIENT/desc/p3": "现在,您可以直接从DuckieTV控制你的种子.确保μTorrent的运行并接受配对请求,在整个应用程序能够自动的集成 ",
     "TORRENTCLIENT/hdr": "客户 ",
