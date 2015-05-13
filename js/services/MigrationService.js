@@ -55,6 +55,20 @@ DuckieTV.factory('MigrationService', ["$modal", "$q", "$rootScope", "SettingsSer
                             });
                     }, 7000);
                 }
+
+                // Update the newly introduced episodes.downloaded status
+                if (!localStorage.getItem('1.00migration')) {
+                    setTimeout(function() {
+                        console.info("Executing the 1.00 migration to populate episodes.downloaded status");
+                        CRUD.EntityManager.getAdapter().db.execute("update episodes set downloaded = 1 where watched == 1")
+                            .then(function() {
+                                console.log("1.00 migration done.");
+                                localStorage.setItem('1.00migration', new Date());
+                                return FavoritesService.refresh();
+                            });
+                    }, 6000);
+                }
+
             }
         };
 
