@@ -92,12 +92,14 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
 ])
 
 /**
- * Attach autodownload check interval when enabled.
+ * Attach auto-download check interval when enabled.
  */
 .run(function($rootScope, EpisodeAiredService, SettingsService) {
 
     if (SettingsService.get('torrenting.enabled') === true && SettingsService.get('torrenting.autodownload') === true) {
-        console.info('Initializing episode aired checker service!');
-        EpisodeAiredService.attach();
+        setTimeout(function() {
+            console.info('Initializing episode aired checker service!');
+            EpisodeAiredService.attach();
+        }, 5000);
     }
 })
