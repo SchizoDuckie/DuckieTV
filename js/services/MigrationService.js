@@ -1,78 +1,32 @@
-DuckieTV.factory('MigrationService', ["$modal", "$q", "$rootScope", "SettingsService", "FavoritesService", "TraktTVv2",
-    function($modal, $q, $rootScope, SettingsService, FavoritesService, TraktTVv2) {
+DuckieTV
+/**
+ * Migrations that run when updating DuckieTV version.
+ */
+.run(['FavoritesService',
+    function(FavoritesService) {
 
-        var service = {
+        // Update the newly introduced episodes.downloaded status
+        if (!localStorage.getItem('1.00migration')) {
+            console.info("Executing the 1.00 migration to populate episodes.downloaded status");
+            CRUD.EntityManager.getAdapter().db.execute("update episodes set downloaded = 1 where watched == 1").
+            then(CRUD.EntityManager.getAdapter().db.execute("select group_concat(ID_Episode) as affected from episodes  group by  ID_Serie, seasonnumber, episodenumber having count(seasonnumber||','||episodenumber) > 1").then(function(result) {
+                var affected = [];
 
-            check: function() {
-                if (!localStorage.getItem('0.9migration')) {
-                    setTimeout(function() {
-                        CRUD.EntityManager.getAdapter().db.execute('update series set lastupdated = null').then(function() {
-                            return CRUD.EntityManager.getAdapter().db.execute('update series set lastupdated = null');
-                        }).then(function() {
-                            return CRUD.EntityManager.getAdapter().db.execute('drop table if exists EventSchedule');
-                        }).then(function() {
-                            localStorage.setItem('0.9migration', new Date());
-                            return FavoritesService.refresh();
-                        });
-                    }, 5000);
+                for (var i = 0; i < result.rs.rows.length; i++) {
+                    var row = result.rs.rows.item(i);
+                    row.affected.split(',').map(function(item) {
+                        affected.push(item)
+                    });
                 }
+                return CRUD.EntityManager.getAdapter().db.execute("delete from episodes where  ID_Episode in (" + affected.join(',') + ") AND (TVDB_ID IS null OR  episodename IS null or IMDB_ID IS NULL)");
+            })).
+            then(function() {
+                console.log("1.00 migration done.");
+                localStorage.setItem('1.00migration', new Date());
+                return FavoritesService.refresh();
+            });
+        }
 
-                // until the TraktTV api is stabilized, we perform this check on every startup until we find no more series with a lastUpdated of null
-                if (!localStorage.getItem('0.9updateallshows')) {
-                    setTimeout(function() {
-                        // Fire up updates for everything
-                        console.log("Starting to check if every serie has had at least one update");
-                        $q.all(FavoritesService.favorites.map(function(serie) {
-                            if (serie.lastupdated !== null) return;
-                            console.log("Update!", serie.name);
-                            TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(function(searchResult) {
-                                return TraktTVv2.serie(searchResult.slug_id);
-                            }).then(function(serie) {
-                                return FavoritesService.addFavorite(serie).then(function() {
-                                    return true;
-                                });
-                            });
-                        })).then(function() {
-                            var notUpdated = FavoritesService.favorites.filter(function(serie) {
-                                return serie.lastupdated === null;
-                            });
-                            if (notUpdated.length === 0) {
-                                localStorage.setItem('0.9updateallshows', true);
-                            }
-                        });
-                    }, 10000);
-                }
 
-                // Fix shows that have no watched but do have watchedAt
-                if (!localStorage.getItem('0.91migration')) {
-                    setTimeout(function() {
-                        console.info("Executing the 0.91 migration to fix watched episodes");
-                        CRUD.EntityManager.getAdapter().db.execute('update episodes set watched = 1 where watchedAt is not null')
-                            .then(function() {
-                                console.log("0.91 migration done.");
-                                localStorage.setItem('0.91migration', new Date());
-                                return FavoritesService.refresh();
-                            });
-                    }, 7000);
-                }
-
-                // Update the newly introduced episodes.downloaded status
-                if (!localStorage.getItem('1.00migration')) {
-                    setTimeout(function() {
-                        console.info("Executing the 1.00 migration to populate episodes.downloaded status");
-                        CRUD.EntityManager.getAdapter().db.execute("update episodes set downloaded = 1 where watched == 1")
-                            .then(function() {
-                                console.log("1.00 migration done.");
-                                localStorage.setItem('1.00migration', new Date());
-                                return FavoritesService.refresh();
-                            });
-                    }, 6000);
-                }
-
-            }
-        };
-
-        service.check();
-        return service;
     }
-]);
+])
