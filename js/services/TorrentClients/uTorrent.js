@@ -96,7 +96,6 @@ DuckieTorrent
                 $http.jsonp(url, options || {}).then(function(response) {
                     d.resolve(parser ? parser(response) : response.data);
                 }, function(err) {
-                    console.log('error fetching', type);
                     d.reject(err);
                 });
                 return d.promise;
