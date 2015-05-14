@@ -37,10 +37,10 @@ Translations are available in 11 languages. (English, Deutch, Español, Françai
 <img src="img/screenshots/duckietorrent.png" data-highres="img/screenshots/full/duckietorrent.png" alt="duckietorrent" data-caption="DuckieTorrent Torrent clients built-in (&micro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission)" />
 </div>
 
-### Here's a little sneak peek of what we're up to
+### If you want to see more, check out the video introduction below
 
 <center>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ECzYwJum6Og" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=cipuVrQU0UU" frameborder="0" allowfullscreen></iframe>
 </center>
 
 <h1 style='padding-top: 50px;margin-bottom: -80px;'>Download DuckieTV</h1>
