@@ -40,7 +40,7 @@ Translations are available in 11 languages. (English, Deutch, Español, Françai
 ### If you want to see more, check out the video introduction below
 
 <center>
-<iframe width="560" height="315" src="//www.youtube.com/watch?v=cipuVrQU0UU" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cipuVrQU0UU" frameborder="0" allowfullscreen></iframe>
 </center>
 
 <h1 style='padding-top: 50px;margin-bottom: -80px;'>Download DuckieTV</h1>
