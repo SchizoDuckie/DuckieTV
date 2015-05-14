@@ -315,7 +315,7 @@ gulp.task('print.css', function() {
  */
 
 gulp.task('copyToDeploy', ['default'], function() {
-    return gulp.src(['VERSION', '_locales/**', 'dist/**', 'fonts/**', 'img/**', 'templates/**'], {
+    return gulp.src(['VERSION', 'trakt-trending-500.json', '_locales/**', 'dist/**', 'fonts/**', 'img/**', 'templates/**'], {
             "base": "."
         })
         .pipe(gulp.dest('../deploy/browseraction'))
