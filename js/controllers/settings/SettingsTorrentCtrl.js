@@ -200,6 +200,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
 
         $scope.setTorrentClient = function(name) {
             localStorage.setItem('torrenting.client', name);
+            SettingsService.set('torrenting.client', name); // for use in templates
             DuckieTorrent.getClient().Disconnect();
             $scope.currentClient = name;
             $scope.connect();

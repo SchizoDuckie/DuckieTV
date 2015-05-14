@@ -1,0 +1,23 @@
+<div class="buttons" ng-controller="vuzeCtrl as vuze">
+    <h2>Vuze {{'SETTINGS/VUZE/integration/hdr'|translate}}</h2>
+
+    <img src="img/icon-transmission-colored.png" style='width:200px; margin: 0 auto'>
+
+    <p>see <a href='https://wiki.vuze.com/w/Setup_WebUI_without_GUI' target='_blank'>here</a> for setup instructions (outdated, install the 'Azureus WebUI plugin' from the application) </p>
+
+    <p  ng-if="vuze.isConnected()">{{'SETTINGS/VUZE/status/hdr'|translate}}:
+    {{'SETTINGS/VUZE/connected/lbl'|translate}} Vuze API &#64; {{vuze.model.server}}:{{vuze.model.port}}
+    </p>
+
+    <p ng-if="!vuze.isConnected()">{{'SETTINGS/VUZE/status/hdr'|translate}}:
+    {{'SETTINGS/VUZE/not-connected/lbl'|translate}}
+    </p>
+
+    <form ng-submit="vuze.test()" novalidate>
+        <formly-form model="vuze.model" fields="vuze.fields">
+          <button type="submit" class="btn btn-primary submit-button">{{'SETTINGS/VUZE/save/btn'|translate}}</button>
+        </formly-form>
+      </form>
+    
+    
+</div>

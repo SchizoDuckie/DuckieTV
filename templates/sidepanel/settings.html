@@ -39,31 +39,38 @@
           </a>
       </td>
     </tr>
-     <tr ui-sref=".tab({tab: 'utorrent'})" ng-if="getSetting('torrenting.enabled')">
+     <tr ui-sref=".tab({tab: 'utorrent'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'uTorrent'">
       <td colspan="2">
           <a href="#/settings/utorrent">
               <img src="img/icon-utorrent.png" style="width: 31px; height: 31px; margin-left: -3px; margin-top:-3px; float:left;"> <strong>&micro;Torrent {{'SIDEPANEL/SETTINGS/integration/hdr'|translate}}</strong>
           </a>
       </td>
     </tr>
-    <tr ui-sref=".tab({tab: 'qbittorrent'})" ng-if="getSetting('torrenting.enabled')">
+    <tr ui-sref=".tab({tab: 'qbittorrent'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'qBittorrent'">
       <td colspan="2">
           <a href="#/settings/qbittorrent">
               <img src="img/icon-qbittorrent.png" style="width: 34px; height: 34px; margin-left: -3px; margin-top:-5px; float:left;"> <strong>qBittorrent {{'SIDEPANEL/SETTINGS/integration/hdr'|translate}}</strong>
           </a>
       </td>
     </tr>
-    <tr ui-sref=".tab({tab: 'tixati'})" ng-if="getSetting('torrenting.enabled')">
+    <tr ui-sref=".tab({tab: 'tixati'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'tixati'">
       <td colspan="2">
           <a href="#/settings/tixati">
               <img src="img/icon-tixati.png" style="width: 34px; height: 34px; margin-left: -3px; margin-top:-5px; float:left;"> <strong>Tixati {{'SIDEPANEL/SETTINGS/integration/hdr'|translate}}</strong>
           </a>
       </td>
     </tr>
-    <tr ui-sref=".tab({tab: 'transmission'})" ng-if="getSetting('torrenting.enabled')">
+    <tr ui-sref=".tab({tab: 'transmission'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'Transmission'">
       <td colspan="2">
           <a href="#/settings/transmission">
               <img src="img/icon-transmission.png" style="width: 34px; height: 34px; margin-left: -3px; margin-top:-5px; float:left;"> <strong>Transmission {{'SIDEPANEL/SETTINGS/integration/hdr'|translate}}</strong>
+          </a>
+      </td>
+    </tr>
+    <tr ui-sref=".tab({tab: 'vuze'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'Vuze'">
+      <td colspan="2">
+          <a href="#/settings/vuze">
+              <img src="img/icon-vuze.png" style="width: 34px; height: 34px; margin-left: -3px; margin-top:-5px; float:left;"> <strong>Vuze {{'SIDEPANEL/SETTINGS/integration/hdr'|translate}}</strong>
           </a>
       </td>
     </tr>
