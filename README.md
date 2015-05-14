@@ -49,7 +49,7 @@ Screenshots:
 ![Stream with uTorrent player](http://i.imgur.com/DWd6MXL.png)
 
 **Add your favorite shows by selecting them off TraktTV's Trending Shows list, or search manually**
-![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/dD7qyNn.png)
+![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/dybdlli.png)
 
 **Navigate to any of your shows easily by opening your "local library" panel**
 !['local Library'](http://i.imgur.com/Y01x6aA.png)
