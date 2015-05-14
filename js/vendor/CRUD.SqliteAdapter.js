@@ -139,6 +139,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                 }));
             }).then(function(result) {
                 CRUD.log("All migrations are done!");
+                self.initializing = false;
             });
         },
 
@@ -147,7 +148,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                 if (!entity.fixtures) return resolve();
                 return Promise.all(entity.fixtures.map(function(fixture) {
                     CRUD.fromCache(entity.className, entity.fixtures[i]).Persist(true, 'INSERT');
-                }));
+                })).then(resolve, reject);
             });
         },
 
