@@ -61,7 +61,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2" class="buttons">
+          <td colspan="2" class="buttons" ng-if="sidepanel.episode.hasAired()">
             <a ng-click="sidepanel.findSubtitle()">
                 <i class="glyphicon glyphicon-text-width"></i><strong>{{'SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn'|translate}}</strong>
             </a>
