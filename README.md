@@ -58,7 +58,7 @@ Screenshots:
 ![View details](http://i.imgur.com/s1HM8aE.png)
 
 **Track and mark which shows you have downloaded, and which ones you have watched.**
-![Mark episodes as downloaded and watched](http://i.imgur.com/NkxCshp.png)
+![Mark episodes as downloaded and watched](http://i.imgur.com/nygb2WR.png)
 
 **Control various settings to adjust DuckieTV to your needs, translated into your choice of 12 languages**
 ![Settings](http://i.imgur.com/uO2YGg8.png)
