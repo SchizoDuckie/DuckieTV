@@ -59,7 +59,7 @@ var background = [
  * Default and depoyment tasks:
  * Concats scripts, dependencies, background page, styles, alters the main template to use dist versions and writes all of this the local dist/ directory
  */
-gulp.task('default', ['concatScripts', 'concatDeps', 'concatBackgroundPage', 'concatStyles', 'launch.js', 'tabTemplate' /*, 'scenenames'*/ ], function() {
+gulp.task('default', ['concatScripts', 'concatDeps', 'concatBackgroundPage', 'concatStyles', 'print.css', 'launch.js', 'tabTemplate' /*, 'scenenames'*/ ], function() {
     notify('packaging to dist/ done');
 });
 

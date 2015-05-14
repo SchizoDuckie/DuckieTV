@@ -144,7 +144,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 
         createFixtures = function(entity) {
             return new Promise(function(resolve, reject) {
-                if (!entity.fixtures) resolve();
+                if (!entity.fixtures) return resolve();
                 return Promise.all(entity.fixtures.map(function(fixture) {
                     CRUD.fromCache(entity.className, entity.fixtures[i]).Persist(true, 'INSERT');
                 }));

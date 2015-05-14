@@ -421,14 +421,21 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
     }
 ])
 
-.run(function(FavoritesService, $state) {
-    FavoritesService.loadRandomBackground();
+.run(function(FavoritesService, $state, $rootScope) {
+
+    console.log("Executing favoritesservice.run block");
+    $rootScope.$on('serieslist:empty', function() {
+        console.log("Series list is empty!, going to add screen.");
+        setTimeout(function() {
+            $state.go('favorites.add');
+        }, 500);
+    });
+
+    console.log("Executing favoittesservice.refresh.");
+
     FavoritesService.refresh().then(function(favorites) {
+        console.log("Favoritesservice refreshed!");
+        FavoritesService.loadRandomBackground();
         FavoritesService.initialized = true;
-        if (FavoritesService.favorites.length == 0 && $state.current.name != 'favorites.add') {
-            setTimeout(function() {
-                $state.go('favorites.add');
-            }, 500);
-        }
     })
-})
+});
