@@ -30,7 +30,8 @@ var nightly = false; // for nightly builds
 
 
 // scripts are provided in order to prevent any problems with the load order
-var scripts = ['./js/ap*.js', './js/controllers/*.js', './js/controllers/*/*.js', './js/directives/*.js', './js/services/*.js', './js/services/*/*.js'];
+var scripts = ['./js/ap*.js', './js/controllers/*.js', './js/controllers/*/*.js', './js/directives/*.js', './js/services/*.js', './js/services/*/*.js', '!./js/**/**/Nyaa.js'];
+
 
 /**
  * Dependencies for the app, will be rolled into deps.js

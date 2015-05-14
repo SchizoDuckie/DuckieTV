@@ -1,7 +1,7 @@
 DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector",
     function(TorrentSearchEngines, $q, $http, $injector) {
 
-        TorrentSearchEngines.registerSearchEngine('KickAssTorrents', new GenericTorrentSearchEngine({
+        TorrentSearchEngines.registerSearchEngine('KickAss', new GenericTorrentSearchEngine({
             mirror: 'https://kat.cr',
             mirrorSettingsKey: 'KickAssTorrents.mirror', // where to grab custom mirror from settings.
             mirrorResolver: null, //'KickassMirrorResolver'

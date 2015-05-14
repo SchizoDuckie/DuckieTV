@@ -44,3 +44,11 @@
 .modal-content a {
     color: #E0E0E0;
 }
+
+.modal-content .table a {
+    text-decoration: none;
+}
+
+.modal-content .table strong {
+    color: white;
+}
