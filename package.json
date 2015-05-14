@@ -34,12 +34,12 @@
         "grunt-cli": "^0.1.13"
     }, 
     "author": "DuckieTV", 
-    "user-agent": "DuckieTV Standalone v1.0", 
+    "user-agent": "DuckieTV Standalone v1.0.1", 
     "window": {
         "fullscreen": false, 
         "icon": "C:/xampp/htdocs/deploy/newtab/img/icon128.png", 
         "resizable": true, 
-        "title": "DuckieTV Standalone v1.0", 
+        "title": "DuckieTV Standalone v1.0.1", 
         "always-on-top": false, 
         "mac_app_icon": "", 
         "frame": false, 
@@ -56,7 +56,7 @@
         "toolbar": false, 
         "exe_icon": "C:/xampp/htdocs/deploy/newtab/img/icon128.png"
     }, 
-    "version": "1.0.0", 
+    "version": "1.0.1", 
     "inject-js-start": "", 
     "main": "tab.html", 
     "chromium-args": "", 

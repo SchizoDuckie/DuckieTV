@@ -25,7 +25,7 @@ DuckieTV
                 "<li>Database performance improvement (including less frequent ratings updates)",
                 "<li>Added 'Watch on Netflix' button for Netflix shows - numerous other small changes and bugfixes to list "
             ].join(''),
-            '1.1': ["<li>Completely revamped user interface (now with 100% more sexyness)",
+            '1.0.1': ["<li>Completely revamped user interface (now with 100% more sexyness)",
                 "<li>Added support for Tixati, Transmission and qBittorrent torrent clients",
                 "<li>Added Strike and RarBG torrent search providers",
                 "<li>Added calendar grouping for netflix episode dumps",
