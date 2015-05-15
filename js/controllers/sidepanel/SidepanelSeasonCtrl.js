@@ -6,6 +6,10 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
     this.episodes = episodes;
 
     this.episodes.map(function(episode) {
+        /*
+         * This watches for the magnet:select event that will be fired by the
+         * TorrentSearchEngines when a user selects a magnet link for an episode.
+         */
         $scope.$on('magnet:select:' + episode.TVDB_ID, function(evt, magnet) {
             this.magnetHash = magnet;
             this.Persist();

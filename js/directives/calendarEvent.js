@@ -1,7 +1,5 @@
 /**
  * The <calendar-event> directive displays an episode on the calendar
- * This also watches for the magnet:select event will be fired by the
- * TorrentSearchEngines when a user selects a magnet link for an episode.
  */
 DuckieTV.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "EpisodeAiredService", "SettingsService",
     function(uTorrent, SceneNameResolver, EpisodeAiredService, SettingsService, $location) {
