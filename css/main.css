@@ -1656,8 +1656,38 @@ div [date-picker] {
   padding-left: 20%;
 }
 
-
 .ui-loading:before {
   
       -webkit-transform: translateY(0px);
+}
+
+@media (max-height: 768px) {
+  sidepanel .buttons a {
+    padding: 8px;
+  }
+  sidepanel .buttons i.glyphicon {
+    font-size: 20px;
+    top: 2px;
+  }
+  sidepanel .buttons a img {
+    width: 29px !important;
+    height: 29px !important;
+    margin-top: -2px !important;
+  }
+  sidepanel .buttons .two-face-torrent .download {
+    width: 289px;
+  }
+  sidepanel .buttons .two-face-torrent .auto-download {
+    padding: 8px 10px;
+    height: 43px;
+  }
+  sidepanel .leftpanel .episode-img {
+    height: 165px;
+    width: 295px;
+  }
+  sidepanel .rightpanel .season p.seasonposter {
+    width: 130px;
+    height: 200px;
+    margin-bottom: 0;
+  }
 }

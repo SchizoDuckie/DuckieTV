@@ -1,9 +1,9 @@
-<div class="seasons">
+<div class="seasons" style="text-align:center">
      <h2 style='border-bottom: 1px solid white; padding:5px;'>{{'SIDEPANEL/SEASONS/seasons/hdr'|translate}}
       <small style='float:right'>{{'SIDEPANEL/SEASONS/click-to-see/lbl'|translate}}</small>
     </h2>
     
-      <div class='season' ng-repeat="season in seasons.seasons" style="display:inline-block; padding:10px; cursor:pointer" ui-sref="serie.season({season_id: season.ID_Season})">
+      <div class='season' ng-repeat="season in seasons.seasons" style="display:inline-block;padding:10px;cursor:pointer" ui-sref="serie.season({season_id: season.ID_Season})">
         <p lazy-background="{{season.poster}}" class="seasonposter"></p>
         <p style="text-align:center">
           <strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong>
