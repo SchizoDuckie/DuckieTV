@@ -319,7 +319,6 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                         ids.push(el.TVDB_ID.toString());
                     });
                     service.favoriteIDs = ids;
-                    // $rootScope.$broadcast('favorites:updated');
                     if (ids.length === 0) {
                         setTimeout(function() {
                             $rootScope.$broadcast('serieslist:empty');
