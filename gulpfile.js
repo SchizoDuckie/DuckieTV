@@ -161,9 +161,6 @@ gulp.task('deploy', ['zipbrowseraction', 'zipnewtab', 'zipopera'], function() {
     gulp.src('../deploy/browseraction-' + ver + '.zip')
         .pipe(rename('browseraction-' + latestTag + '.zip'))
         .pipe(gulp.dest('../deploy/'));
-    gulp.src('../deploy/opera-' + ver + '.zip')
-        .pipe(rename('opera-' + latestTag + '.zip'))
-        .pipe(gulp.dest('../deploy/'));
     notify('DEPLOY done to ../deploy/ !');
 
 });
@@ -320,8 +317,7 @@ gulp.task('copyToDeploy', ['default'], function() {
             "base": "."
         })
         .pipe(gulp.dest('../deploy/browseraction'))
-        .pipe(gulp.dest('../deploy/newtab'))
-        .pipe(gulp.dest('../deploy/opera'));
+        .pipe(gulp.dest('../deploy/newtab'));
 });
 
 /**
@@ -330,8 +326,7 @@ gulp.task('copyToDeploy', ['default'], function() {
 gulp.task('copytab', ['copyToDeploy'], function() {
     return gulp.src('dist/tab.html')
         .pipe(gulp.dest('../deploy/browseraction'))
-        .pipe(gulp.dest('../deploy/newtab'))
-        .pipe(gulp.dest('../deploy/opera'));
+        .pipe(gulp.dest('../deploy/newtab'));
 });
 
 /**
@@ -374,21 +369,16 @@ gulp.task('manifests', ['copytab'], function() {
                 return json;
             }, formatOptions))
             .pipe(gulp.dest('../deploy/newtab/_locales/'))
-            .pipe(gulp.dest('../deploy/browseraction/_locales/'))
-            .pipe(gulp.dest('../deploy/opera/_locales'));
+            .pipe(gulp.dest('../deploy/browseraction/_locales/'));
     }
 
     gulp.src('manifest.json')
         .pipe(jsonedit(noLaunch, formatOptions))
         .pipe(gulp.dest('../deploy/newtab/'));
-    gulp.src('manifest-app.json')
+    return gulp.src('manifest-app.json')
         .pipe(rename('manifest.json'))
         .pipe(jsonedit(withLaunch, formatOptions))
         .pipe(gulp.dest('../deploy/browseraction/'));
-    return gulp.src('manifest-opera.json')
-        .pipe(rename('manifest.json'))
-        .pipe(jsonedit(withLaunch, formatOptions))
-        .pipe(gulp.dest('../deploy/opera/'));
 });
 
 /**
@@ -407,14 +397,5 @@ gulp.task('zipbrowseraction', ['manifests'], function() {
 gulp.task('zipnewtab', ['manifests'], function() {
     return gulp.src('../deploy/newtab/**')
         .pipe(zip('newtab-' + ver + '.zip'))
-        .pipe(gulp.dest('../deploy'));
-});
-
-/**
- * zip the opera version
- */
-gulp.task('zipopera', ['manifests'], function() {
-    return gulp.src('../deploy/opera/**')
-        .pipe(zip('opera-' + ver + '.zip'))
         .pipe(gulp.dest('../deploy'));
 });

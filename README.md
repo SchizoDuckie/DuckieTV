@@ -1,7 +1,7 @@
-DuckieTV Binary, for Chrome, Opera  and Online [![Build Status](https://travis-ci.org/SchizoDuckie/DuckieTV.svg?branch=trakt-api-v2)](https://travis-ci.org/SchizoDuckie/DuckieTV)
+DuckieTV Binary, for Chrome and Online [![Build Status](https://travis-ci.org/SchizoDuckie/DuckieTV.svg?branch=trakt-api-v2)](https://travis-ci.org/SchizoDuckie/DuckieTV)
 ==============================================
 
-DuckieTV is a Google Chrome / Opera extension (Now also available as standalone builds for Windows/Mac/Linux!) that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
+DuckieTV is a Google Chrome extension (Now also available as standalone builds for Windows/Mac/Linux!) that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
 
 
 With the integrated DuckieTorrent client you can connect DuckieTV to your local Torrent client and be updated on the download progress without switching applications. (Now includes support for &micro;Torrent/BitTorrent, qBittorrent, Tixati and Transmission clients).
@@ -12,17 +12,14 @@ As of v0.60 DuckieTV also is also finally becoming a worthy SickBeard competitor
 How can I get it?
 =================
 
-DuckieTV can be installed as either a standalone application, a Chrome Extension or an Opera Extension, and you can try the basic features in the online version. 
+DuckieTV can be installed as either a standalone application or as a Chrome Extension, and you can try the basic features in the online version. 
 
 Install DuckieTV Standalone
 -------------------------------------------
-As of v0.81, DuckieTV is available as a standalone build (no Chrome or Opera required)
+As of v0.81, DuckieTV is available as a standalone build (no Chrome required)
 Get the latest release here:
 
 https://github.com/SchizoDuckie/DuckieTV/releases/
-
-**Note: The debug builds include the webkit inspector toolbar to be able to track down bugs**
-
 
 Install DuckieTV For Chrome
 ---------------------------
@@ -30,10 +27,6 @@ DuckieTV for Chrome comes in 2 versions: One that installs itself as your browse
 
 * [DuckieTV 'New Tab mode': Installs itself as your new tab page](https://chrome.google.com/webstore/detail/hkbamkappmgfjjahmnlngibomenmbbdf/)
 * [DuckieTV 'Browser Action mode': Adds a button next to your address bar](https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/)
-
-Install DuckieTV for Opera
---------------------------
-* [DuckieTV 'Browser Action mode': Adds a button next to your address bar](https://addons.opera.com/en-gb/extensions/details/duckietv-browser-action-mode/)
 
 Try DuckieTV online
 -------------------
@@ -145,10 +138,10 @@ Privacy Statement
 =================
 **WE DO NOT WANT YOUR DATA**
 
-* The only statistics tracked for DuckieTV are the visits to the public github site (by Google Analytics) and the installations in the Chrome Webstore.
+* The only statistics tracked for DuckieTV are the visits to the public GitHub site (by Google Analytics) and the installations in the Chrome Webstore.
 * As soon you install DuckieTV it runs locally without sending statistics anywhere. There is no server to connect to, no infrastructure to bring down, and no logging from DuckieTV’s side of anything you do within the app, and there never will be.
 * We do not want your money! We do this in our spare time for fun and to make our own lives and that of other’s easier. There is no business model, no ads, no profit.
-* There are no costs to cover: No servers, no hosting, no databases, everything runs on google's, github's and reddit's infrastructure. Therefore you are *not* the product and this is extension is free as in free beer.
+* There are no costs to cover: No servers, no hosting, no databases, everything runs on Google's, GitHub's and Reddit's infrastructure. Therefore you are *not* the product and this is extension is free as in free beer.
 * Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.
 
-Please open a github ticket or start a [reddit thread](http://reddit.com/r/duckietv/) if there is anything else that needs improvement. And remember, this is a beta.
+Please open a GitHub ticket or start a [Reddit thread](http://reddit.com/r/duckietv/) if there is anything else that needs improvement.
