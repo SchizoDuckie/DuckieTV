@@ -123,7 +123,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             // dump user preferences, redact passwords
             var userPrefs = angular.fromJson(localStorage.getItem('userPreferences'));
             angular.forEach(userPrefs, function(value, key) {
-                if (key.slice(-8) == 'password') {
+                if (key.indexOf('password') > -1) {
                     userPrefs[key] = "*****";
                 };
             });
