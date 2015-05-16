@@ -19,7 +19,7 @@ DuckieTorrent
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "Transmission "+$filter('translate')('SETTINGS/TRANSMISSION/address/lbl'),
+                    label: "Transmission " + $filter('translate')('SETTINGS/TRANSMISSION/address/lbl'),
                     type: "url",
                 }
             }, {
@@ -301,6 +301,13 @@ DuckieTorrent
 .factory('TransmissionRemote', ["$rootScope", "DuckieTorrent",
     function($rootScope, DuckieTorrent) {
 
+        /**
+         * Round a number with Math.floor so that we don't lose precision on 99.7%
+         */
+        function round(x, n) {
+            return Math.floor(x * Math.pow(10, n)) / Math.pow(10, n)
+        }
+
         var TransmissionData = function(data) {
             this.update(data);
         };
@@ -316,8 +323,9 @@ DuckieTorrent
         };
 
         TransmissionData.prototype.getProgress = function() {
-            return parseFloat(new Number(this.percentDone * 100).toFixed(1))
+            return round(this.percentDone * 100, 1);
         };
+
         TransmissionData.prototype.start = function() {
             DuckieTorrent.getClient().execute('torrent-start', this.id);
         };
