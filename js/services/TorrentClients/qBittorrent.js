@@ -19,7 +19,7 @@ DuckieTorrent
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "qBittorrent "+$filter('translate')('SETTINGS/QBITTORRENT/address/lbl'),
+                    label: "qBittorrent " + $filter('translate')('SETTINGS/QBITTORRENT/address/lbl'),
                     type: "url",
                 }
             }, {
@@ -302,6 +302,13 @@ DuckieTorrent
 .factory('qBittorrentRemote', ["$rootScope", "DuckieTorrent",
     function($rootScope, DuckieTorrent) {
 
+        /**
+         * Round a number with Math.floor so that we don't lose precision on 99.7%
+         */
+        function round(x, n) {
+            return Math.floor(x * Math.pow(10, n)) / Math.pow(10, n)
+        }
+
         var service = {
             torrents: {},
             settings: {},
@@ -329,19 +336,23 @@ DuckieTorrent
                     data.getName = function() {
                         return this.name;
                     };
+
                     data.getProgress = function() {
-                        return parseFloat(new Number(this.progress * 100).toFixed(1))
-                    }
+                        return round(this.progress * 100, 1);
+                    };
+
                     data.start = function() {
                         DuckieTorrent.getClient().execute('resume', this.hash);
                     };
 
                     data.stop = function() {
                         return this.pause();
-                    }
+                    };
+
                     data.pause = function() {
                         DuckieTorrent.getClient().execute('pause', this.hash)
-                    }
+                    };
+
                     data.getFiles = function() {
                         DuckieTorrent.getClient().getFilesList(this.hash).then(function(results) {
                             service.torrents[key].files = results;

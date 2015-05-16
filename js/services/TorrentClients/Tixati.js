@@ -14,7 +14,7 @@ DuckieTorrent
             key: "server",
             type: "input",
             templateOptions: {
-                label: "Tixati "+$filter('translate')('SETTINGS/TIXATI/address/lbl'),
+                label: "Tixati " + $filter('translate')('SETTINGS/TIXATI/address/lbl'),
                 type: "url",
             }
         }, {

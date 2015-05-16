@@ -301,6 +301,13 @@ DuckieTorrent
 .factory('VuzeRemote', ["$rootScope", "DuckieTorrent",
     function($rootScope, DuckieTorrent) {
 
+        /**
+         * Round a number with Math.floor so that we don't lose precision on 99.7%
+         */
+        function round(x, n) {
+            return Math.floor(x * Math.pow(10, n)) / Math.pow(10, n)
+        }
+
         var VuzeData = function(data) {
             this.update(data);
         };
@@ -316,8 +323,9 @@ DuckieTorrent
         };
 
         VuzeData.prototype.getProgress = function() {
-            return parseFloat(new Number(this.percentDone * 100).toFixed(1))
+            return round(this.percentDone * 100, 1);
         };
+
         VuzeData.prototype.start = function() {
             DuckieTorrent.getClient().execute('torrent-start', this.id);
         };
