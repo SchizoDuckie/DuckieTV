@@ -376,6 +376,7 @@ serieheader:hover aside {
     right: 0;
 }
 
+
 serieheader em.earmark {
     position: absolute;
     bottom: 0px;
@@ -387,6 +388,26 @@ serieheader em.earmark {
     height: 45px;
     padding: 5px;
 }
+
+serieheader em.earmark.trailer {
+    top: 0px;
+    left: 0px;
+    background-color: transparent;
+    border-bottom-right-radius: 5px;
+    color: white;
+    -webkit-transition: all 0.2s ease-in;
+    opacity: 0;
+}
+
+serieheader em.earmark.trailer .glyphicon {
+        -webkit-filter: drop-shadow(2px 2px 2px black);
+}
+
+serieheader:hover em.earmark.trailer {
+    opacity: 1;
+}
+
+
 serieheader em.earmark.adding {
     background-color: rgba(236,210,70, 0.8);
 }

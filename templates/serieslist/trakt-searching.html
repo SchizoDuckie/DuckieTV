@@ -14,6 +14,10 @@
 
     <!-- Repeated serie search results -->
     <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results" data="serie" ng-mouseenter="traktSearch.setHoverSerie(serie)" no-overview="1" mode="{{serieslist.mode}}" ng-click="serieslist.selectSerie(serie)">
+    <em class="earmark trailer" >
+            <a ng-if="serie.trailer" href="{{serie.trailer}}" target="_blank" tooltip="Watch Trailer" tooltip-append-to-body="" ng-mousedown="serieslist.selectTrailer(serie,true)" ng-mouseup="serieslist.selectTrailer(serie,false)"><i class="glyphicon glyphicon-facetime-video"></i></a>
+            <a ng-if="!serie.trailer" href="https://www.youtube.com/results?search_query={{serie.name}}+official+trailer" target="_blank" tooltip="Watch Trailer" tooltip-append-to-body="true" mousedown="serieslist.selectTrailer(serie)" ng-mouseup="serieslist.selectTrailer(serie,true)"><i class="glyphicon glyphicon-facetime-video"></i></a>
+        </em>
         <em class="earmark" ng-show="serieslist.isAdded(serie.tvdb_id)">&check;</em>
         <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="37px" height="37px"></em>
         <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>        
