@@ -76,44 +76,14 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 name: 'UserAgent',
                 data: navigator.userAgent
             }, {
-                name: 'Platform',
-                data: navigator.platform
-            }, {
-                name: 'Vendor',
-                data: navigator.vendor
-            }, {
-                name: 'Determined Locale',
-                data: SettingsService.get('client.determinedlocale') || 'n/a'
-            }, {
-                name: 'Active Locale',
-                data: SettingsService.get('application.locale')
-            }, {
-                name: 'Active Language',
-                data: SettingsService.get('application.language')
+                name: 'Platform, Vendor',
+                data: navigator.platform + ', ' + navigator.vendor
             }, {
                 name: 'Screen (width x height)',
                 data: screenSize
             }, {
-                name: 'Torrenting Enabled',
-                data: SettingsService.get('torrenting.enabled')
-            }, {
-                name: 'Torrenting Search Provider',
-                data: SettingsService.get('torrenting.searchprovider')
-            }, {
-                name: 'Torrenting URL',
+                name: 'Active Torrenting URL',
                 data: activeTorrentingMirror
-            }, {
-                name: 'Torrenting Client',
-                data: SettingsService.get('torrenting.client')
-            }, {
-                name: 'Torrenting Auto-Download Active',
-                data: SettingsService.get('torrenting.autodownload')
-            }, {
-                name: 'TraktTV Sync Enabled',
-                data: SettingsService.get('trakttv.sync')
-            }, {
-                name: 'Storage Sync Enabled',
-                data: SettingsService.get('storage.sync')
             }, {
                 name: 'Last checked TraktTV for DB updates on',
                 data: lastUpdated.toGMTString()
@@ -149,6 +119,17 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             countHiddenShows();
             countEntity('Seasons');
             countEntity('Episodes');
+
+            // dump user preferences, redact passwords
+            var userPrefs = angular.fromJson(localStorage.getItem('userPreferences'));
+            angular.forEach(userPrefs, function(value, key) {
+                if (key.slice(-8) == 'password') userPrefs[key] = "*****";
+            });
+            $scope.statistics.push({
+                name: 'User Preferences on Local Storage',
+                data: angular.toJson(userPrefs,true)
+            });
+
         }
         getStats();
     }
