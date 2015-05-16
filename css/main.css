@@ -1635,6 +1635,14 @@ sidepanel .leftpanel.torrents {
     margin-bottom: 0;
 }
 
+.smallsettingicon {
+    width: 34px;
+    height: 34px;
+    margin-left: -5px;
+    margin-top:-5px;
+    float:left;
+}
+
 div [date-picker] {
     transform-origin: top left;
 }
@@ -1673,6 +1681,7 @@ div [date-picker] {
     width: 29px !important;
     height: 29px !important;
     margin-top: -2px !important;
+    margin-left: -3px !important;
   }
   sidepanel .buttons .two-face-torrent .download {
     width: 289px;
