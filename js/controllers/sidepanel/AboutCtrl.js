@@ -123,7 +123,9 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             // dump user preferences, redact passwords
             var userPrefs = angular.fromJson(localStorage.getItem('userPreferences'));
             angular.forEach(userPrefs, function(value, key) {
-                if (key.slice(-8) == 'password') userPrefs[key] = "*****";
+                if (key.slice(-8) == 'password') {
+                    userPrefs[key] = "*****";
+                };
             });
             $scope.statistics.push({
                 name: 'User Preferences on Local Storage',
