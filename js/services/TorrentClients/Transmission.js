@@ -54,11 +54,11 @@ DuckieTorrent
         ];
 
         this.test = function() {
-            console.log("Testing settings");
+            //console.log("Testing settings");
             Transmission.Disconnect();
             Transmission.setConfig(this.model);
             Transmission.connect().then(function(connected) {
-                console.log("Transmission connected! (save settings)", connected);
+                console.info("Transmission connected! (save settings)", connected);
                 Transmission.saveConfig();
             }, function(error) {
                 console.error("Transmission connect error!", error);

@@ -54,11 +54,11 @@ DuckieTorrent
         ];
 
         this.test = function() {
-            console.log("Testing settings");
+            //console.log("Testing settings");
             Vuze.Disconnect();
             Vuze.setConfig(this.model);
             Vuze.connect().then(function(connected) {
-                console.log("Vuze connected! (save settings)", connected);
+                console.info("Vuze connected! (save settings)", connected);
                 Vuze.saveConfig();
             }, function(error) {
                 console.error("Vuze connect error!", error);

@@ -45,11 +45,11 @@ DuckieTorrent
 
 
         this.test = function() {
-            console.log("Testing settings");
+            //console.log("Testing settings");
             tixati.Disconnect();
             tixati.setConfig(this.model);
             tixati.connect().then(function(connected) {
-                console.log("Tixati connected! (save settings)", connected);
+                console.info("Tixati connected! (save settings)", connected);
                 tixati.saveConfig();
             }, function(error) {
                 console.error("Tixati connect error!", error);
