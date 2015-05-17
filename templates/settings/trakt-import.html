@@ -23,7 +23,7 @@
             <td><center>
               <a ng-click="authorize(credentials.username, credentials.password)" class="btn btn-success" style="position:relative" ng-disabled="credentials.success" ng-show="!credentials.success">
                 <i class="glyphicon glyphicon-log-in" style="float:left;top:3px"></i>{{'SETTINGS/TRAKT-IMPORT/login-to/btn'|translate}}Trakt.TV
-                <img ng-show="credentials.authorizing" style="width:20px;height:20px;position:absolute;right:5px" src="img/spinner.gif" />
+                <loading-spinner ng-show="credentials.authorizing" style="width:20px;height:20px;position:absolute;right:5px"></loading-spinner>
               </a>
               
               <a ng-click="clearCredentials()" ng-if="credentials.success" class="btn btn-danger">
@@ -66,7 +66,7 @@
   <div class="miniposter x2" ng-if="traktTVSeries[0]" style="text-align:center">
     <serieheader style='display:inline-block; margin:5px;' data="serie" no-overview="1" no-title="1" mode="poster" ng-repeat="serie in traktTVSeries">
       <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
-      <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
+      <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
     </serieheader>
     <small style="display:block">{{'SETTINGS/TRAKT-IMPORT/watched-episodes/lbl'|translate}} {{ countWatchedEpisodes(serie) }} </small>
   </div>

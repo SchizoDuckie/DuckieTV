@@ -34,7 +34,7 @@
           <td colspan="2">
             <a ng-click="sidepanel.refresh(sidepanel.serie)">
               <i class="glyphicon glyphicon-refresh" ng-show="!sidepanel.isAdding(sidepanel.serie.TVDB_ID)"></i>
-              <i ng-show="sidepanel.isAdding(sidepanel.serie.TVDB_ID)"><img src="img/spinner.gif" width="33px" height="33px" style="float:left"></i>
+              <i ng-show="sidepanel.isAdding(sidepanel.serie.TVDB_ID)"><loading-spinner style="width: 25px; height: 25px; left: 0px; top: 0px; position: relative; float: left;"></loading-spinner></i>
               <strong>{{'SIDEPANEL/SERIE-OVERVIEW/refresh/lbl'|translate}}</strong>
             </a>
           </th>

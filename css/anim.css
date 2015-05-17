@@ -66,3 +66,64 @@
 [ui-view].ng-leave-active {
   opacity: 0;
 }
+
+
+@keyframes ballrotate {
+  0% {
+    -webkit-transform: rotate(0deg) scale(1);
+ }
+
+  50% {
+    -webkit-transform: rotate(180deg) scale(0.6);
+ }
+
+  100% {
+    -webkit-transform: rotate(360deg) scale(1);
+ }
+  }
+
+@keyframes ballscale {
+  30% {
+    -webkit-transform: scale(0.3);
+ }
+  100% {
+    -webkit-transform: scale(1);
+ }
+}
+
+loading-spinner > div {
+  position: absolute;
+   width: 100%;
+  height: 100%;
+  top:0px; 
+  left:0px;
+}
+
+loading-spinner > div > div {
+  -webkit-animation-fill-mode: both;
+  position: absolute;
+  border-radius: 100%; 
+}
+
+loading-spinner > div > div:first-child {
+  background: #fff;
+  height: 50%;
+  width: 50%;
+  top: 25%;
+  left: 25%;
+  -webkit-animation: ballscale 1s 0s cubic-bezier(.09, .57, .49, .9) infinite;
+}
+
+
+loading-spinner > div > div:last-child {
+  left:5%;
+  top:5%;
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  background: transparent;
+  border: 2px solid;
+  border-color: #fff transparent #fff transparent;
+  -webkit-animation: ballrotate 1s 0s cubic-bezier(.09, .57, .49, .9) infinite;
+  -webkit-animation-duration: 1s;
+}
