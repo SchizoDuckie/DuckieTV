@@ -19,14 +19,14 @@ DuckieTorrent
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "qBittorrent " + $filter('translate')('SETTINGS/QBITTORRENT/address/lbl'),
+                    label: "qBittorrent " + $filter('translate')('QBITTORRENTjs/address/lbl'),
                     type: "url",
                 }
             }, {
                 key: "port",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('SETTINGS/QBITTORRENT/port/lbl'),
+                    label: $filter('translate')('QBITTORRENTjs/port/lbl'),
                     type: "number",
                 }
             }, {
@@ -34,19 +34,19 @@ DuckieTorrent
                 type: "input",
                 templateOptions: {
                     type: "checkbox",
-                    label: $filter('translate')('SETTINGS/QBITTORRENT/authentication/lbl')
+                    label: $filter('translate')('QBITTORRENTjs/authentication/lbl')
                 }
             }, {
                 key: "username",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('SETTINGS/QBITTORRENT/username/lbl')
+                    label: $filter('translate')('QBITTORRENTjs/username/lbl')
                 }
             }, {
                 key: "password",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('SETTINGS/QBITTORRENT/password/lbl'),
+                    label: $filter('translate')('QBITTORRENTjs/password/lbl'),
                     type: "password"
                 }
             },

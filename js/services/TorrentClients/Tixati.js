@@ -14,27 +14,27 @@ DuckieTorrent
             key: "server",
             type: "input",
             templateOptions: {
-                label: "Tixati " + $filter('translate')('SETTINGS/TIXATI/address/lbl'),
+                label: "Tixati " + $filter('translate')('TIXATIjs/address/lbl'),
                 type: "url",
             }
         }, {
             key: "port",
             type: "input",
             templateOptions: {
-                label: $filter('translate')('SETTINGS/TIXATI/port/lbl'),
+                label: $filter('translate')('TIXATIjs/port/lbl'),
                 type: "number",
             }
         }, {
             key: "username",
             type: "input",
             templateOptions: {
-                label: $filter('translate')('SETTINGS/TIXATI/username/lbl')
+                label: $filter('translate')('TIXATIjs/username/lbl')
             }
         }, {
             key: "password",
             type: "input",
             templateOptions: {
-                label: $filter('translate')('SETTINGS/TIXATI/password/lbl'),
+                label: $filter('translate')('TIXATIjs/password/lbl'),
                 type: "password"
             }
         }, ];
