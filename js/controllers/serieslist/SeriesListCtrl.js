@@ -8,7 +8,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
         this.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
         this.hideEnded = false;
-        this.trailerFired = null; // a hack to make sure that the selectSerie and firing a trailer don't mix up.
 
         FavoritesService.flushAdding();
         this.query = ''; // local filter query, set from LocalSerieCtrl
@@ -126,7 +125,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * It can show the checkmark.
          */
         this.selectSerie = function(serie) {
-            if (!FavoritesService.isAdding(serie.tvdb_id) && (serie.tvdb_id != this.trailerFired)) {
+            if (!FavoritesService.isAdding(serie.tvdb_id)) {
                 FavoritesService.adding(serie.tvdb_id);
                 return TraktTVv2.serie(serie.slug_id).then(function(serie) {
                     return FavoritesService.addFavorite(serie).then(function() {
@@ -140,10 +139,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                 });
             }
         };
-
-        this.selectTrailer = function(serie, setIt) {
-            this.trailerFired = !setIt ? null : serie.tvdb_id;
-        }
 
         /**
          * Verify with the favoritesservice if a specific TVDB_ID is registered.
