@@ -1,7 +1,7 @@
 <!-- datepicker.html -->
 <div ng-switch="view">
   <div ng-switch-when="week">
-    <table>
+    <table mouse-wheel-up="next()" mouse-wheel-down="prev()">
       <thead>
         <tr>
           <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left"></i>
@@ -29,7 +29,7 @@
     </table>
   </div>
   <div ng-switch-when="date">
-    <table>
+    <table mouse-wheel-up="next()" mouse-wheel-down="prev()">
       <thead>
         <tr>
           <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left"></i>
@@ -65,7 +65,7 @@
     </table>
   </div>
   <div ng-switch-when="year">
-    <table>
+    <table mouse-wheel-up="next(10)" mouse-wheel-down="prev(10)">
       <thead>
         <tr>
           <th ng-click="prev(10)"><i class="glyphicon glyphicon-chevron-left"></i>
@@ -87,7 +87,7 @@
     </table>
   </div>
   <div ng-switch-when="month">
-    <table>
+    <table mouse-wheel-up="next()" mouse-wheel-down="prev()">
       <thead>
         <tr>
           <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left"></i>
@@ -109,7 +109,7 @@
     </table>
   </div>
   <div ng-switch-when="hours">
-    <table>
+    <table mouse-wheel-up="next(24)" mouse-wheel-down="prev(24)">
       <thead>
         <tr>
           <th ng-click="prev(24)"><i class="glyphicon glyphicon-chevron-left"></i>
@@ -129,7 +129,7 @@
     </table>
   </div>
   <div ng-switch-when="minutes">
-    <table>
+    <table mouse-wheel-up="next()" mouse-wheel-down="prev()">
       <thead>
         <tr>
           <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left"></i>
