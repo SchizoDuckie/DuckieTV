@@ -22,8 +22,8 @@
 	<!-- Repeated trending serie results -->
 	<serieHeader ng-repeat="serie in trending.getFilteredResults()  | limitTo: trending.limit track by serie.tvdb_id" ng-mouseenter="trending.setHoverSerie(serie)" data="serie" no-overview="1" no-title="1" mode="poster" ng-mouseup="serieslist.selectSerie(serie)">
 	    <em class="earmark trailer" >
-		    <a ng-if="serie.trailer" href="{{serie.trailer}}" target="_blank" tooltip="Watch Trailer" tooltip-append-to-body="" ng-mousedown="serieslist.selectTrailer(serie,true)" ng-mouseup="serieslist.selectTrailer(serie,false)"><i class="glyphicon glyphicon-facetime-video"></i></a>
-		    <a ng-if="!serie.trailer" href="https://www.youtube.com/results?search_query={{serie.name}}+official+trailer" target="_blank" tooltip="Watch Trailer" tooltip-append-to-body="true" mousedown="serieslist.selectTrailer(serie)" ng-mouseup="serieslist.selectTrailer(serie,true)"><i class="glyphicon glyphicon-facetime-video"></i></a>
+		    <a ng-if="serie.trailer" href="{{serie.trailer}}" target="_blank" tooltip="Watch Trailer" tooltip-append-to-body="true" ng-mousedown="serieslist.selectTrailer(serie,true)"  tooltip-placement="bottom"  ng-mouseup="serieslist.selectTrailer(serie,false)"><i class="glyphicon glyphicon-facetime-video"></i></a>
+		    <a ng-if="!serie.trailer" href="https://www.youtube.com/results?search_query={{serie.name}}+official+trailer" target="_blank" tooltip="Watch Trailer" tooltip-append-to-body="true"  tooltip-placement="bottom"  mousedown="serieslist.selectTrailer(serie,false)" ng-mouseup="serieslist.selectTrailer(serie,true)"><i class="glyphicon glyphicon-facetime-video"></i></a>
 	    </em>
 	    <em class="earmark" ng-show="serieslist.isAdded(serie.tvdb_id)">&check;</em>
 	    <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
