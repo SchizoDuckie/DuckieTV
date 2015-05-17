@@ -34,7 +34,7 @@ DuckieTorrent
                 type: "input",
                 templateOptions: {
                     type: "checkbox",
-                    label: $filter('translate')('SETTINGS/QBITTORRENTjs/authentication/lbl')
+                    label: $filter('translate')('QBITTORRENTjs/authentication/lbl')
                 }
             }, {
                 key: "username",
