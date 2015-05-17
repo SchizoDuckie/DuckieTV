@@ -1,12 +1,12 @@
 {
     "appNameNewTab": {
-        "message": "DuckieTV - Modus 'Neuer Tab' "
+        "message": "DuckieTV - 'Neuer-Tab'-Modus "
     },
     "appShortNameNewTab": {
         "message": "DuckieTV "
     },
     "appDescNewTab": {
-        "message": "Alles, was Sie wissen, wann Sie kommen Lieblings internationale TV-Serie auf benötigen"
+        "message": "Verwalten Sie Ihre Lieblingsserien und -filme aus einem Browser-Tab"
     },
     "appNameBrowserAction": {
         "message": "DuckieTV - 'Browser-Knopf'-Modus "
@@ -15,6 +15,6 @@
         "message": "DuckieTV "
     },
     "appDescBrowserAction": {
-        "message": "Alles, was Sie wissen, wann Sie kommen Lieblings internationale TV-Serie auf benötigen"
+        "message": "Verwalten Sie Ihre Lieblingsserien und -filme in Ihrem Browser mit einem Klick"
     }
 }
