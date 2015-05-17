@@ -19,14 +19,14 @@ DuckieTorrent
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "Transmission " + $filter('translate')('SETTINGS/TRANSMISSION/address/lbl'),
+                    label: "Transmission " + $filter('translate')('TRANSMISSIONjs/address/lbl'),
                     type: "url",
                 }
             }, {
                 key: "port",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('SETTINGS/TRANSMISSION/port/lbl'),
+                    label: $filter('translate')('TRANSMISSIONjs/port/lbl'),
                     type: "number",
                 }
             }, {
@@ -34,19 +34,19 @@ DuckieTorrent
                 type: "input",
                 templateOptions: {
                     type: "checkbox",
-                    label: $filter('translate')('SETTINGS/TRANSMISSION/authentication/lbl')
+                    label: $filter('translate')('TRANSMISSIONjs/authentication/lbl')
                 }
             }, {
                 key: "username",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('SETTINGS/TRANSMISSION/username/lbl')
+                    label: $filter('translate')('TRANSMISSIONjs/username/lbl')
                 }
             }, {
                 key: "password",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('SETTINGS/TRANSMISSION/password/lbl'),
+                    label: $filter('translate')('TRANSMISSIONjs/password/lbl'),
                     type: "password"
                 }
             },

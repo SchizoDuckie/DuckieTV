@@ -19,14 +19,14 @@ DuckieTorrent
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "Vuze " + $filter('translate')('SETTINGS/VUZE/address/lbl'),
+                    label: "Vuze " + $filter('translate')('VUZEjs/address/lbl'),
                     type: "url",
                 }
             }, {
                 key: "port",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('SETTINGS/VUZE/port/lbl'),
+                    label: $filter('translate')('VUZEjs/port/lbl'),
                     type: "number",
                 }
             }, {
@@ -34,19 +34,19 @@ DuckieTorrent
                 type: "input",
                 templateOptions: {
                     type: "checkbox",
-                    label: $filter('translate')('SETTINGS/VUZE/authentication/lbl')
+                    label: $filter('translate')('VUZEjs/authentication/lbl')
                 }
             }, {
                 key: "username",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('SETTINGS/VUZE/username/lbl')
+                    label: $filter('translate')('VUZEjs/username/lbl')
                 }
             }, {
                 key: "password",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('SETTINGS/VUZE/password/lbl'),
+                    label: $filter('translate')('VUZEjs/password/lbl'),
                     type: "password"
                 }
             },
