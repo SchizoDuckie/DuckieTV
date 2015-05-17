@@ -335,6 +335,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "265406": "Out There 2013",
         "265467": "Polar Bear Family and Me",
         "266388": "David Attenboroughs Natural Curiosities",
+        "266631": "Thunderbirds Are Go",
         "267206": "Low Winter Sun US",
         "267260": "Intelligence US",
         "267542": "Naked and Marooned with Ed Stafford",
@@ -434,19 +435,19 @@ DuckieTV.provider('SceneNameResolver', function() {
     };
 
     var episodesWithDateFormat = {
-        71256: "YYYY.MM.DD", // The Daily Show : 2014.11.13.
         70366: "EEE, MMM D, YYYY", // Days of our lives:  Thu, Nov 6, 2014 
-        261676: "YYYY MM DD", // wwe superstars: 2014 11 20
-        75332: "DD MMM YY", // General Hospital : 20 Nov 14
+        71256: "YYYY.MM.DD", // The Daily Show : 2014.11.13.
         71998: "YYYY.MM.DD", // Jimmy Kimmel Live: 2014.11.13
-        85355: "YYYY.MM.DD", // Late Night with Jimmy Fallon: 2014.11.13
-        270262: "YYYY MM DD", // Late Night with Seth Meyers: 2014.11.13 
-        274099: "YYYY.MM.DD", // @midnight: 2014.11.13
-        79274: "YYYY.MM.DD", // The Colbert Report: 2014.11.13 
         72194: "YYYY.MM.DD", // The Ellen DeGeneres Show: 2014.11.13 
+        72231: "YYYY MM DD", // Real Time With Bill Maher
+        75332: "DD MMM YY", // General Hospital : 20 Nov 14
         77075: "YYYY-MM-DD", // Jeopardy! 2014-05-27
+        79274: "YYYY.MM.DD", // The Colbert Report: 2014.11.13 
+        85355: "YYYY.MM.DD", // Late Night with Jimmy Fallon: 2014.11.13
         194751: "YYYY MM DD", // Conan 2015 02 17
-        72231: "YYYY MM DD" // Real Time With Bill Maher
+        261676: "YYYY MM DD", // wwe superstars: 2014 11 20
+        270262: "YYYY MM DD", // Late Night with Seth Meyers: 2014.11.13 
+        274099: "YYYY.MM.DD" // @midnight: 2014.11.13
     };
 
     this.$get = ["$filter",
