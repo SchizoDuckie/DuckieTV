@@ -173,11 +173,11 @@ DuckieTV.factory('ChromePermissions', ["$q",
             },
             /*
              * Change the UI language and locale to use for translations tmhDynamicLocale
-             * Todo: clean this up.
              */
             changeLanguage: function(langKey) {
                 langKey = angular.lowercase(langKey) || 'en_us';
                 var locale = langKey;
+                // special variants
                 switch (langKey) {
                     case 'en_au':
                     case 'en_ca':
@@ -185,48 +185,17 @@ DuckieTV.factory('ChromePermissions', ["$q",
                     case 'en_nz':
                         langKey = 'en_uk';
                         break;
-                    case 'de':
-                        langKey = 'de_de';
-                        break;
-                    case 'en':
-                        langKey = 'en_us';
-                        break;
-                    case 'es':
-                        langKey = 'es_es';
-                        break;
-                    case 'fr':
+                    case 'fr_ca':
                         langKey = 'fr_fr';
                         break;
-                    case 'it':
-                        langKey = 'it_it';
-                        break;
-                    case 'ja':
-                        langKey = 'ja_jp';
-                        break;
-                    case 'ko':
-                        langKey = 'ko_kr';
-                        break;
-                    case 'nl':
-                        langKey = 'nl_nl';
-                        break;
-                    case 'pt':
                     case 'pt_br':
                         langKey = 'pt_pt';
-                        break;
-                    case 'ru':
-                        langKey = 'ru_ru';
-                        break;
-                    case 'sv':
-                        langKey = 'sv_se';
-                        break;
-                    case 'zh':
-                        langKey = 'zh_cn';
                         break;
                 }
                 service.set('application.language', langKey);
                 service.set('application.locale', locale);
-                $injector.get('$translate').use(langKey); // get these via the injector so that we don't have to use these dependencies hardcoded.
                 $injector.get('tmhDynamicLocale').set(locale); // the SettingsService is also required in the background page and we don't need $translate there
+                $injector.get('$translate').use(langKey); // get these via the injector so that we don't have to use these dependencies hardcoded.
                 //console.info("Active Language", langKey, "; Active Locale", locale);
             }
         };

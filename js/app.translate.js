@@ -60,12 +60,6 @@ DuckieTV.config(["$translateProvider",
         })
 
         /*
-         * if we cant find a key then search these languages in sequence
-         */
-
-        .fallbackLanguage(['en_us'])
-
-        /*
          * default language
          */
 
@@ -77,6 +71,7 @@ DuckieTV.config(["$translateProvider",
          * Using this method at our own risk! Be aware that each browser can return different values on these properties.
          * It searches for values in the window.navigator object in the following properties (also in this order):
          *
+         * navigator.languages[0]
          * navigator.language
          * navigator.browserLanguage
          * navigator.systemLanguage
@@ -98,9 +93,9 @@ DuckieTV.config(["$translateProvider",
     SettingsService.set('client.determinedlocale', $translate.proposedLanguage() == undefined ? 'en_us' : angular.lowercase($translate.proposedLanguage()));
 
     var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage();
+    //console.info('client determined locale proposed:', $translate.proposedLanguage(), 'set:', SettingsService.get('client.determinedlocale'), 'configured:', configuredLocale);
     SettingsService.changeLanguage(angular.lowercase(configuredLocale));
 
-    //console.info('client determined locale proposed:', $translate.proposedLanguage(), 'set:', SettingsService.get('client.determinedlocale'), 'configured:', configuredLocale);
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
 })
