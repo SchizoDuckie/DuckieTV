@@ -92,7 +92,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             // DuckieTV version
             if ('chrome' in window && 'app' in window.chrome && 'getDetails' in chrome.app && window.chrome.app.getDetails() != null && 'version' in window.chrome.app.getDetails()) {
                 $scope.statistics.unshift({
-                    name: window.chrome.app.getDetails().short_name,
+                    name: window.chrome.app.getDetails().name,
                     data: window.chrome.app.getDetails().version
                 });
             } else {
