@@ -165,8 +165,7 @@ DuckieTV.directive('serieDetails', ["FavoritesService", "$location", "$dialogs",
                             $scope.serie.displaycalendar = 1;
                             serie2.set('displaycalendar', 1);
                         };
-                        // Refresh calendar & page and save updates to db
-                        $rootScope.$broadcast('calendar:clearcache');
+                        // save updates to db
                         $scope.$digest();
                         serie2.Persist();
                     });

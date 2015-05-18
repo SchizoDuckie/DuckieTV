@@ -31,8 +31,6 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
                     })
 
                     $rootScope.$applyAsync();
-                }).catch(function(error) {
-                    $rootScope.$broadcast('trending:error', error);
                 });
             }
         }
@@ -62,9 +60,6 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
             $rootScope.$applyAsync();
         };
 
-        $rootScope.$on('trending:show', function() {
-            trending.fetch();
-        });
         this.fetch();
     }
 ])
