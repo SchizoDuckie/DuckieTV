@@ -66,7 +66,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             };
 
             // Get current torrent mirror
-            var activeTorrentingMirror = TorrentSearchEngines.getDefaultEngine().config.mirror;
+            var activeTorrentingMirror = ('config' in TorrentSearchEngines.getDefaultEngine() && 'mirror' in TorrentSearchEngines.getDefaultEngine().config) ? TorrentSearchEngines.getDefaultEngine().config.mirror : 'n/a';
 
             // Get date of last trakt update
             var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
