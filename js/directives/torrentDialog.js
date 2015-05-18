@@ -6,6 +6,7 @@ DuckieTV
 
         $scope.items = [];
         $scope.searching = true;
+        $scope.error = false;
         $scope.query = angular.copy(data.query);
         $scope.TVDB_ID = angular.copy(data.TVDB_ID);
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
@@ -17,6 +18,7 @@ DuckieTV
 
         $scope.search = function(q, TVDB_ID) {
             $scope.searching = true;
+            $scope.error = false;
             $scope.query = q;
             if (TVDB_ID !== undefined) {
                 $scope.TVDB_ID = TVDB_ID;
@@ -28,6 +30,8 @@ DuckieTV
                 },
                 function(e) {
                     $scope.searching = false;
+                    $scope.error = e;
+                    $scope.items = null;
                 });
         };
 

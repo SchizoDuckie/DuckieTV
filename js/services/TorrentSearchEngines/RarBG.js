@@ -5,8 +5,9 @@
 DuckieTV.factory('RarBG', ["$q", "$http",
     function($q, $http) {
 
-        var activeSearchRequest = false;
-        var endpoint = 'https://torrentapi.org/pubapi.php?';
+        var activeSearchRequest = false,
+            activeTokenRequest = false,
+            endpoint = 'https://torrentapi.org/pubapi.php?';
 
         var endpoints = {
             search: 'token=%s&mode=search&search_string=%s&sort=seeders&limit=25&format=json_extended',
@@ -21,14 +22,17 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         var parsers = {
             search: function(result) {
                 var output = [];
-                if (result.data == "No results found" || result.data == "Too many requests per minute. Please try again later!") {
-                    return output;
+                if (result.data == "Too many requests per minute. Please try again later!") {
+                    throw result.data;
+                }
+                if (result.data == "No results found") {
+                    return [];
                 }
                 result.data.map(function(hit) {
                     var out = {
                         magneturl: hit.d,
                         releasename: hit.f,
-                        size: Math.round(((hit.t / 1024 / 1024)+ 0.00001) * 100) / 100 + " MB",
+                        size: Math.round(((hit.t / 1024 / 1024) + 0.00001) * 100) / 100 + " MB",
                         seeders: hit.s,
                         leechers: hit.l
                     };
@@ -43,7 +47,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             },
 
             token: function(result) {
-                return result.data.token;
+                return result.data;
             }
 
         }
@@ -67,11 +71,27 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             });
         }
 
+        getToken = function() {
+            if (!activeTokenRequest && !service.activeToken) {
+                activeTokenRequest = promiseRequest('token').then(function(token) {
+                    service.activeToken = token;
+                    return token;
+                });
+            } else if (service.activeToken) {
+                return $q(function(resolve) {
+                    return resolve(service.activeToken)
+                });
+            }
+            return activeTokenRequest;
+        }
+
         var service = {
+            activeToken: null,
+
             search: function(what) {
                 service.cancelSearch();
                 activeSearchRequest = $q.defer();
-                return promiseRequest('token').then(function(token) {
+                return getToken().then(function(token) {
                     return promiseRequest('search', token, what, activeSearchRequest.promise).then(function(results) {
                         activeSearchRequest = false;
                         return results;

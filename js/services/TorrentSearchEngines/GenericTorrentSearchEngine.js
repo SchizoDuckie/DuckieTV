@@ -116,7 +116,9 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             d.resolve(parseSearch(response));
         }, function(err) {
             if (err.status > 300) {
-                if (config.mirrorResolver && config.mirrorResolver !== null) {
+                if (err.status == 404) {
+                    d.resolve([]);
+                } else if (config.mirrorResolver && config.mirrorResolver !== null) {
                     $injector.get(config.mirrorResolver).findMirror().then(function(result) {
                         //console.log("Resolved a new working mirror!", result);
                         mirror = result;

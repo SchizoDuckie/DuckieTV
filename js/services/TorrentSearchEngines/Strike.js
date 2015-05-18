@@ -24,7 +24,7 @@ DuckieTV.factory('Strike', ["$q", "$http",
                 var out = {
                     magneturl: torrents[i].magnet_uri,
                     releasename: torrents[i].torrent_title,
-                    size: Math.round(((torrents[i].size / 1024 / 1024)+ 0.00001) * 100) / 100 + " MB",
+                    size: Math.round(((torrents[i].size / 1024 / 1024) + 0.00001) * 100) / 100 + " MB",
                     seeders: torrents[i].seeds,
                     leechers: torrents[i].leeches,
                     detailUrl: torrents[i].page
@@ -55,6 +55,9 @@ DuckieTV.factory('Strike', ["$q", "$http",
                 return parseSearch(result);
             }, function(err) {
                 console.error("Strike Search Error!", err);
+                if (err.status == 404) { // 404 on strike means no results.
+                    return [];
+                }
                 throw "Error " + err.status + ":" + err.statusText;
             });
         }

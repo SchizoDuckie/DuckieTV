@@ -1,7 +1,7 @@
 <!-- torrentDialog.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
 <h1>{{'TORRENTDIALOG/hdr'|translate}}</h1>
-<input type="text" ng-model="query" focus-watch='searching' ng-change="search(query)" placeholder="{{'TORRENTDIALOG/placeholder'|translate}}" class="form-control">
+<input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" placeholder="{{'TORRENTDIALOG/placeholder'|translate}}" class="form-control">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
 <div class="btn-group" style='margin:0 auto; padding:10px;'>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
@@ -23,15 +23,24 @@
         <p style='text-align:center; padding:10px;'>{{'TORRENTDIALOG/searching/lbl'|translate}} {{getName(searchprovider)}}{{'TORRENTDIALOG/searching-please-wait/lbl'|translate}}.</p>
       </td>
     </tr>
-    <tr ng-if="!searching && items.length == 0">
-      <td>
-        <p>{{'TORRENTDIALOG/no-results/lbl'|translate}}</p>
-        <strong>{{ query }}</strong>
-      </td>
-    </tr>
   </thead>
-  <tbody>
-    <tr ng-if="!searching && items.length > 0">
+  <tbody ng-if="!searching && items.length == 0">
+    <tr>
+      <th>
+        <p>{{'TORRENTDIALOG/no-results/lbl'|translate}}</p>
+        "<strong>{{ query }}</strong>"
+      </th>
+    </tr>
+  </tbody>
+  <tbody ng-if="!searching && error != false">
+  <tr> 
+    <th> 
+      <h1 style='text-align:center'> :( </h1>
+      <h2 style='text-align:center'>{{error}}<h2>
+    </tr>
+  </tbody>  
+  <tbody ng-if="!searching && items.length > 0">
+    <tr>
       <th>&nbsp;</th>
       <th>
         <strong>{{'TORRENTDIALOG/name/lbl'|translate}}</strong>
@@ -43,7 +52,7 @@
         <strong>{{'TORRENTDIALOG/leech/lbl'|translate}}</strong>
       </th>
     </tr>
-    <tr ng-if="!searching && items.length > 0 " ng-repeat="seed in items | limitTo: 20">
+    <tr ng-repeat="seed in items | limitTo: 20">
       <td style='width:50px; padding:5px; vertical-align: middle;' class='dropdown' dropdown>
         <a ng-click="magnetSelect(seed.magneturl)">
           <i class="glyphicon glyphicon-magnet" tooltip="{{'TORRENTDIALOG/download-magnet/tooltip'|translate}}"></i>
@@ -56,7 +65,6 @@
           <li><a ng-href="{{seed.magneturl}}"><i class="glyphicon glyphicon-magnet"></i>{{'TORRENTDIALOG/magnet/link/lbl'|translate}}</a></li>
           <li><a ng-href="{{seed.detailUrl}}" target='_blank'><i class="glyphicon glyphicon-link"></i>{{'TORRENTDIALOG/torrent-details/lbl'|translate}}</a></li>
         </ul>
-
       </td>
       <td>
         <a tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe" ng-click="magnetSelect(seed.magneturl)"></a>
