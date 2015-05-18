@@ -43,7 +43,7 @@ Event Descriptions (as at v1.0.1)
 
  -  **expand:serie**
 
-        Fired by the CalendarEvents provider when a user clicks on a calendar's condensed event's badge icon, and observed by the calendar internals to perform the expansion of that condensed list of events for viewing.
+    Fired by the CalendarEvents provider when a user clicks on a calendar's condensed event's badge icon, and observed by the calendar internals to perform the expansion of that condensed list of events for viewing.
 
  -  **katmirrorresolver:status**
 
@@ -82,11 +82,11 @@ Event Descriptions (as at v1.0.1)
 
     Notify the TorrentClients that a torrent's data has been updated. Used Internally.
 
-  -  **tpbmirrorresolver:status**
+ -  **tpbmirrorresolver:status**
 
     A status update for the TPB mirror resolver was published (used by SettingsTorrentCtrl to tap into verification steps).
 
-  -  **traktserie:preview**
+ -  **traktserie:preview**
 
     Tells the SidepanelTraktSerieCtrl to display preview details of a selected series. 
 
