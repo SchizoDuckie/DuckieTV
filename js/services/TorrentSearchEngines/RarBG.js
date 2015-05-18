@@ -9,8 +9,8 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         var endpoint = 'https://torrentapi.org/pubapi.php?';
 
         var endpoints = {
-            search: 'token=%s&mode=search&search_string=%s&sort=seeders&limit=25&format=json',
-            token: 'get_token=get_token&format=json'
+            search: 'token=%s&mode=search&search_string=%s&sort=seeders&limit=25&format=json_extended',
+            token: 'get_token=get_token&format=json_extended'
         };
 
         var getUrl = function(type, param, param2) {
@@ -28,9 +28,9 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                     var out = {
                         magneturl: hit.d,
                         releasename: hit.f,
-                        size: "N/A",
-                        seeders: "N/A",
-                        leechers: "N/A"
+                        size: Math.round(((hit.t / 1024 / 1024)+ 0.00001) * 100) / 100 + " MB",
+                        seeders: hit.s,
+                        leechers: hit.l
                     };
 
                     var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
