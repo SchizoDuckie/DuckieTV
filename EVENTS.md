@@ -1,39 +1,32 @@
 Event Publishers And Listeners
 =======================
 
-Throughout Services and Directives in DuckieTV events are published on the $rootScope and subscribed to by others.
-This keeps the configuration modular, allows easy extending at key points and prevents tight coupling
+Throughout Services and Directives in DuckieTV, events are published on the $rootScope and subscribed to by others.
+This keeps the configuration modular, allows easy extending at key points and prevents tight coupling.
 
 
-Event Descriptions (as at v0.94)
+Event Descriptions (as at v1.0.1)
 ==================
 ------------------
 
- -  **$locationChangeSuccess**
+ -  **$stateChangeStart**
 
-   This is an angular-route internal event that will fire when the $location.hash changes.
-    It is observed by for instance the seriesList to auto-hide it when clicking a serie from your favorites list. 
+   This is an angular-route internal event that will fire when the $state begins changing.
+    Used to manage Sidepanel activity. 
+
+ -  **$stateChangeSuccess**
+
+   This is an angular-route internal event that will fire when the $state has changed.
+    Used to manage Sidepanel activity. 
 
  -  **background:load**
 
     Tells the BackgroundRotator service to load a new background image. 
     The background rotator handles queueing and switching between them.
 
- -  **calendar:clearcache**
+ -  **calendar:setdate**
 
-    Tells the calendar to clear it's cache and redraw.
-
- -  **calendar:events**
-
-    Feed the calendar new events.
-
- -  **episode:aired:check**
-
-    Fires when the EpisodeAiredService needs to be triggered. Issued by the Torrent Auto-Download option.
-
- -  **episode:load**
-
-    An episode has been loaded.
+    Tells the calendar to refresh using supplied new date.
 
  -  **episode:marked:notwatched**
 
@@ -41,39 +34,32 @@ Event Descriptions (as at v0.94)
 
  -  **episode:marked:watched**
 
-    An episode has been marked as watched. Observed by Trakt.TV and forwards the markwatched call when it's configured.
+    An episode has been marked as watched. Observed by TraktTVv2 and EpisodeWatchedMonitor and forwards the markwatched call when it's configured.
 
  -  **episodes:updated**
 
     Fires when episodes have been updated from trakt.tv
+    *WIP Will be listened for by the SyncManager.*
 
- -  **favorites:updated**
+ -  **expand:serie**
 
-    Fires when a new favorite tv show has been inserted or removed.
-
- -  **magnet:select:{{TVDB_ID}}**(infohash:string)
-
-    This event is fired by the TorrentDialog when a magnet uri is launched. It passes a torrent's unique 40 character hash so that it can be stored on the episode entity. The calendar and SeriesCtrl observe this event to handle persisting and triggering UI updates (like starting to watch if uTorrent is downloading this torrent by monitoring for torrent:update:{{infohash}})
+        Fired by the CalendarEvents provider when a user clicks on a calendar's condensed event's badge icon, and observed by the calendar internals to perform the expansion of that condensed list of events for viewing.
 
  -  **katmirrorresolver:status**
 
-    A status update for the KAT mirror resolver was published (used by SettingsCtrl to tap into verification steps).
+    A status update for the KAT mirror resolver. (Used by SettingsTorrentCtrl to tap into verification steps).
 
- -  **serie:load**
+ -  **magnet:select:{{TVDB_ID}}**(infohash:string)
 
-    Fires when a serie has been loaded from the database.
+    This event is fired by the EpisodeAiredService and TorrentSearchEngines when a magnet uri is launched. It passes a torrent's unique 40 character hash so that it can be stored on the episode entity. The SidepanelEpisodeCtrl and SidepanelSeasonCtrl observe this event to handle persisting and triggering UI updates (like starting to watch if a TorrentClient is downloading this torrent by monitoring for torrent:update:{{infohash}})
 
  -  **serie:updating**
 
-    Used internally by seriesList to notify when an add-a-series process in active.
+    Used internally by SidepanelSerieCtrl to notify when an add-a-series process in active.
 
  -  **serieslist:empty**
 
     Fires when the series list is empty. Hooked by the seriesList directive to make it automatically pop up the suggestions when database is empty.
-
- -  **serieslist:hide**
-
-    Notify the series list that it should hide itself. Fired on navigation change so that it doesn't stay in view.
 
  -  **setDate**
 
@@ -81,31 +67,28 @@ Event Descriptions (as at v0.94)
 
  -  **storage:update**
 
-    Notify the SettingsSync service that something has changed in the favorite series list.
+    Notify the SyncManager service that something has changed in the favorite series list.
+
+ -  **serieslist:filter**
+
+     Tells the SeriesListCtrl to filter the library with the user's filter string.
 
  -  **sync:processremoteupdate**
 
-     When the StorageSync service is not already syncing, this make sure that local additions / deletions get stored in the cloud.
+     When the SyncManager service is not already syncing, this make sure that local additions / deletions get stored in the cloud.
+     *WIP Listener in place but Publisher yet to be created.*
 
  -  **torrent:update:**{{infoHash}}
 
-    Notify the torrentRemoteControl directives that a torrent's data has been updated.
+    Notify the TorrentClients that a torrent's data has been updated. Used Internally.
 
   -  **tpbmirrorresolver:status**
 
-    A status update for the TPB mirror resolver was published (used by SettingsCtrl to tap into verification steps).
+    A status update for the TPB mirror resolver was published (used by SettingsTorrentCtrl to tap into verification steps).
 
-  -  **trending:hide**
+  -  **traktserie:preview**
 
-    Used internally by the seriesList directive to stop fetching the Trakt.TV trending list.
-
-  -  **trending:show**
-
-    Used internally by the seriesList directive to start fetching the Trakt.TV trending list.
-
- -  **watchlist:check**
-
-    Fires when the watchlist should be checked for updates.
+    Tells the SidepanelTraktSerieCtrl to display preview details of a selected series. 
 
  -  **watchlist:updated**
 
@@ -118,11 +101,11 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](http://i.imgur.com/zWN8lSd.png)
+![listeners](http://i.imgur.com/9Uk7pfR.png)
 
 Event Publishers:
 ------------------
-![publishers](http://i.imgur.com/3DlUGcT.png)
+![publishers](http://i.imgur.com/ike9fIK.png)
 
 You can visualize these graphs online at http://graphviz-dev.appspot.com/ 
 
@@ -141,95 +124,103 @@ Listeners
 
       Listeners -> app [style="invis"];
       Listeners -> backgroundRotator [style="invis"];
+      Listeners -> TraktTVv2 [style="invis"];
       Listeners -> calendar [style="invis"];
       Listeners -> datePicker [style="invis"];
-      Listeners -> DuckieTorrent [style="invis"];
-      Listeners -> EpisodeAiredService [style="invis"];
-      Listeners -> EpisodeCtrl [style="invis"];
-      Listeners -> SerieCtrl [style="invis"];
-      Listeners -> seriesList [style="invis"];
-      Listeners -> SettingsCtrl [style="invis"];
-      Listeners -> WatchlistCheckerService [style="invis"];
+      Listeners -> FavoritesService [style="invis"];
+      Listeners -> SeriesListCtrl [style="invis"];
+      Listeners -> SettingsTorrentCtrl [style="invis"];
+      Listeners -> SidepanelEpisodeCtrl [style="invis"];
+      Listeners -> SidepanelSeasonCtrl [style="invis"];
+      Listeners -> SidepanelSerieCtrl [style="invis"];
+      Listeners -> SidepanelTraktSerieCtrl [style="invis"];
+      Listeners -> SyncManager [style="invis"];
+      Listeners -> qBittorrent [style="invis"];
+      Listeners -> Tixati [style="invis"];
+      Listeners -> Transmission [style="invis"];
+      Listeners -> uTorrent [style="invis"];
       Listeners -> WatchlistCtrl [style="invis"];
-
+ 
       backgroundload -> backgroundRotator;
-      calendarclearcache -> calendar;
-      calendarevents -> datePicker;
-      episodeairedcheck -> EpisodeAiredService;
-      episodemarkednotwatched -> app;
+      calendarsetdate -> datePicker;
       episodemarkednotwatched -> calendar;
-      episodemarkedwatched -> app;
+      episodemarkednotwatched -> TraktTVv2;
       episodemarkedwatched -> calendar;
-      episodesupdated -> SerieCtrl;
-      favoritesupdated -> calendar;
-      favoritesupdated -> SerieCtrl;
-      favoritesupdated -> seriesList;
-      katmirrorresolverstatus -> SettingsCtrl;
-      locationChangeSuccess -> app;
-      magnetselectTVDBID -> calendar;
-      magnetselectTVDBID -> EpisodeCtrl;
-      magnetselectTVDBID -> SerieCtrl;
-      serieupdating -> seriesList;
-      serieslistempty -> seriesList;
-      serieslisthide -> seriesList;
+      episodemarkedwatched -> TraktTVv2;
+      expandserie -> datePicker;
+      katmirrorresolverstatus -> SettingsTorrentCtrl;
+      magnetselectTVDBID -> SidepanelEpisodeCtrl;
+      magnetselectTVDBID -> SidepanelSeasonCtrl;
+      serieslistempty -> FavoritesService;
+      serieslistfilter -> SeriesListCtrl;
+      serieupdating -> SidepanelSerieCtrl;
       setDate -> calendar;
+      stateChangeStart -> app;
+      stateChangeSuccess -> app;
       storageupdate -> SyncManager;
-      torrentupdateinfoHash -> DuckieTorrent;
-      tpbmirrorresolverstatus -> SettingsCtrl;
-      trendinghide -> seriesList;
-      trendingshow -> seriesList;
-      watchlistcheck -> WatchlistCheckerService;
+      torrentupdateinfoHash -> qBittorrent;
+      torrentupdateinfoHash -> Tixati;
+      torrentupdateinfoHash -> Transmission;
+      torrentupdateinfoHash -> uTorrent;
+      tpbmirrorresolverstatus -> SettingsTorrentCtrl;
+      traktseriepreview -> SidepanelTraktSerieCtrl;
       watchlistupdated -> WatchlistCtrl;
-      
+
       Listeners [style="invis"];
 
       app [label="app.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        episodemarkednotwatched [label="episode:marked:notwatched", shape=box,fillcolor="white",style="filled"];
-        episodemarkedwatched [label="episode:marked:watched", shape=box,fillcolor="white",style="filled"];
-        locationChangeSuccess [label="$locationChangeSuccess", shape=box,fillcolor="white",style="filled"];
+        stateChangeStart [label="$stateChangeStart", shape=box,fillcolor="white",style="filled"];
+        stateChangeSuccess [label="$stateChangeSuccess", shape=box,fillcolor="white",style="filled"];
 
       backgroundRotator [ label="backgroundRotator.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
 
       calendar [ label="calendar.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
-        episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
         setDate [label="setDate", shape=box,fillcolor="white",style="filled"];
 
       datePicker [ label="datePicker.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        calendarevents [label="calendar:events", shape=box,fillcolor="white",style="filled"];
+        calendarsetdate [label="calendar:setdate", shape=box,fillcolor="white",style="filled"];
+        expandserie [label="expand:serie", shape=box,fillcolor="white",style="filled"];
 
-      DuckieTorrent [ label="DuckieTorrent.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        torrentupdateinfoHash [label="torrent:update:{{infoHash}}", shape=box,fillcolor="white",style="filled"];
-
-      EpisodeAiredService [ label="EpisodeAiredService.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
-
-      EpisodeCtrl [ label="EpisodeCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-
-      SerieCtrl [ label="SerieCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}", shape=box,fillcolor="white",style="filled"];
-
-      seriesList [ label="seriesList.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
+      FavoritesService [ label="FavoritesService.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
-        serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
-        serieupdating [label="serie:updating", shape=box,fillcolor="white",style="filled"];
-        trendinghide [label="trending:hide", shape=box,fillcolor="white",style="filled"];
-        trendingshow [label="trending:show", shape=box,fillcolor="white",style="filled"];
 
-      SettingsCtrl [ label="SettingsCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+      qBittorrent [ label="qBittorrent.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+
+      SeriesListCtrl [ label="SeriesListCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        serieslistfilter [label="serieslist:filter", shape=box,fillcolor="white",style="filled"];
+
+      SettingsTorrentCtrl [ label="SettingsTorrentCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         katmirrorresolverstatus [label="katmirrorresolver:status", shape=box,fillcolor="white",style="filled"];
         tpbmirrorresolverstatus [label="tpbmirrorresolver:status", shape=box,fillcolor="white",style="filled"];
+
+      SidepanelEpisodeCtrl [ label="SidepanelEpisodeCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}", shape=box,fillcolor="white",style="filled"];
+
+      SidepanelSeasonCtrl [ label="SidepanelSeasonCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+
+      SidepanelSerieCtrl [ label="SidepanelSerieCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        serieupdating [label="serie:updating", shape=box,fillcolor="white",style="filled"];
+
+      SidepanelTraktSerieCtrl [ label="SidepanelTraktSerieCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        traktseriepreview [label="traktserie:preview", shape=box,fillcolor="white",style="filled"];
 
       SyncManager [ label="SyncManager.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
 
+      Tixati [ label="Tixati.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+
+      TraktTVv2 [label="TraktTVv2.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        episodemarkednotwatched [label="episode:marked:notwatched", shape=box,fillcolor="white",style="filled"];
+        episodemarkedwatched [label="episode:marked:watched", shape=box,fillcolor="white",style="filled"];
+
+      Transmission [ label="Transmission.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+
+      uTorrent [ label="uTorrent.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
+        torrentupdateinfoHash [label="torrent:update:{{infoHash}}", shape=box,fillcolor="white",style="filled"];
+
       WatchlistCtrl [ label="WatchlistCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         watchlistupdated [label="watchlist:updated", shape=box,fillcolor="white",style="filled"];
-
-      WatchlistCheckerService [ label="WatchlistCheckerService.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        watchlistcheck [label="watchlist:check", shape=box,fillcolor="white",style="filled"];
     }
 ```
 
@@ -245,77 +236,74 @@ Publishers
       nodesep=0.2;
       node [fontsize=11];
 
+      Publishers -> ActionBarCtrl [style="invis"];
       Publishers -> angularjs [style="invis"];
-      Publishers -> app [style="invis"];
       Publishers -> background [style="invis"];
       Publishers -> calendar [style="invis"];
+      Publishers -> calendarEvent [style="invis"];
+      Publishers -> FavoritesService [style="invis"];
+      Publishers -> SeriesListCtrl [style="invis"];
       Publishers -> CRUDentities [style="invis"];
       Publishers -> datePicker [style="invis"];
-      Publishers -> DuckieTorrent [style="invis"];
       Publishers -> EpisodeAiredService [style="invis"];
-      Publishers -> EpisodeCtrl [style="invis"];
-      Publishers -> FavoritesService [style="invis"];
+      Publishers -> TorrentSearchEngines [style="invis"];
       Publishers -> KickassMirrorResolver [style="invis"];
-      Publishers -> SerieCtrl [style="invis"];
-      Publishers -> serieDetails [style="invis"];
-      Publishers -> seriesList [style="invis"];
-      Publishers -> SettingsCtrl [style="invis"];
+      Publishers -> SyncManager [style="invis"];
       Publishers -> ThePirateBayMirrorResolver [style="invis"];
-      Publishers -> TorrentCtrl [style="invis"];
-      Publishers -> torrentDialog [style="invis"];
+      Publishers -> TraktTVSearchCtrl [style="invis"];
+      Publishers -> TraktTVTrendingCtrl [style="invis"];
+      Publishers -> qBittorrent [style="invis"];
+      Publishers -> Tixati [style="invis"];
+      Publishers -> Transmission [style="invis"];
+      Publishers -> uTorrent [style="invis"];
       Publishers -> WatchlistService [style="invis"];
 
-      backgroundload -> calendar [dir="back"];
-      backgroundload -> EpisodeCtrl [dir="back"];
+      backgroundload -> calendarEvent [dir="back"];
       backgroundload -> FavoritesService [dir="back"];
-      backgroundload -> SerieCtrl [dir="back"];
-      calendarclearcache -> SerieCtrl [dir="back"];
-      calendarclearcache -> serieDetails [dir="back"];
-      calendarclearcache -> SettingsCtrl [dir="back"];
-      calendarevents -> calendar [dir="back"];
-      episodeairedcheck -> app [dir="back"];
-      episodeairedcheck -> EpisodeAiredService [dir="back"];
-      episodeairedcheck -> SettingsCtrl [dir="back"];
-      episodeload -> EpisodeCtrl [dir="back"];
+      calendarsetdate -> ActionBarCtrl [dir="back"];
       episodemarkednotwatched -> CRUDentities [dir="back"];
       episodemarkedwatched -> CRUDentities [dir="back"];
-      episodesupdated -> FavoritesService [dir="back"];
-      episodesupdated -> SyncManager [dir="back"];
-      favoritesupdated -> FavoritesService [dir="back"];
+      expandserie -> calendar [dir="back"];
       katmirrorresolverstatus -> KickassMirrorResolver [dir="back"];
-      katmirrorresolverstatus -> SettingsCtrl [dir="back"];
-      locationChangeSuccess -> angularjs [dir="back"];
+      katmirrorresolverstatus -> SettingsTorrentCtrl [dir="back"];
       magnetselectTVDBID -> EpisodeAiredService [dir="back"];
-      magnetselectTVDBID -> torrentDialog [dir="back"];
-      serieload -> EpisodeCtrl [dir="back"];
-      serieload -> SerieCtrl [dir="back"];
-      serieupdating -> seriesList [dir="back"];
+      magnetselectTVDBID -> TorrentSearchEngines [dir="back"];
       serieslistempty -> FavoritesService [dir="back"];
-      serieslisthide -> app [dir="back"];
+      serieslistfilter -> LocalSeriesCtrl [dir="back"];
+      serieupdating -> SidepanelSerieCtrl [dir="back"];
       setDate -> datePicker [dir="back"];
+      stateChangeStart -> angularjs [dir="back"];
+      stateChangeSuccess -> angularjs [dir="back"];
       storageupdate -> FavoritesService [dir="back"];
-      storageupdate -> seriesList [dir="back"];
+      storageupdate -> SeriesListCtrl [dir="back"];
+      storageupdate -> SidepanelSerieCtrl [dir="back"];
       syncprocessremoteupdate -> background [dir="back"];
-      torrentupdateinfoHash -> DuckieTorrent [dir="back"];
-      tpbmirrorresolverstatus -> SettingsCtrl [dir="back"];
+      torrentupdateinfoHash -> qBittorrent [dir="back"];
+      torrentupdateinfoHash -> Transmission [dir="back"];
+      torrentupdateinfoHash -> Tixati [dir="back"];
+      torrentupdateinfoHash -> uTorrent [dir="back"];
+      tpbmirrorresolverstatus -> SettingsTorrentCtrl [dir="back"];
       tpbmirrorresolverstatus -> ThePirateBayMirrorResolver [dir="back"];
-      trendinghide -> seriesList [dir="back"];
-      trendingshow -> seriesList [dir="back"];
+      traktseriepreview -> TraktTVSearchCtrl [dir="back"];
+      traktseriepreview -> TraktTVTrendingCtrl [dir="back"];
       watchlistupdated -> WatchlistService [dir="back"];
 
       Publishers [style="invis"];
 
-      angularjs [label="angular.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        locationChangeSuccess [label="$locationChangeSuccess", shape=box,fillcolor="white",style="filled"];
+      ActionBarCtrl [label="ActionBarCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        calendarsetdate [label="calendar:setdate", shape=box,fillcolor="white",style="filled"];
 
-      app [label="app.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        serieslisthide [label="serieslist:hide", shape=box,fillcolor="white",style="filled"];
+      angularjs [label="angular.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        stateChangeStart [label="$stateChangeStart", shape=box,fillcolor="white",style="filled"];
+        stateChangeSuccess [label="$stateChangeSuccess", shape=box,fillcolor="white",style="filled"];
 
       background [label="Background.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        syncprocessremoteupdate [label="sync:processremoteupdate", shape=box,fillcolor="white",style="filled"];
 
       calendar [label="calendar.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        calendarevents [label="calendar:events", shape=box,fillcolor="white",style="filled"];
+        expandserie [label="expand:serie", shape=box,fillcolor="white",style="filled"];
+
+      calendarEvent [label="calendarEvent.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
 
       CRUDentities [label="CRUD.entities.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         episodemarkedwatched [label="episode:marked:watched",shape=box,fillcolor="white",style="filled"];
@@ -324,47 +312,47 @@ Publishers
       datePicker [label="datePicker.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         setDate [label="setDate", shape=box,fillcolor="white",style="filled"];
 
-      DuckieTorrent [label="DuckieTorrent.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        torrentupdateinfoHash [label="torrent:update:{{infoHash}}", shape=box,fillcolor="white",style="filled"];
-
       EpisodeAiredService [label="EpisodeAiredService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        episodeairedcheck [label="episode:aired:check", shape=box,fillcolor="white",style="filled"];
-
-      EpisodeCtrl [label="EpisodeCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        serieload [label="serie:load", shape=box,fillcolor="white",style="filled"];
-        episodeload [label="episode:load", shape=box,fillcolor="white",style="filled"];
-        backgroundload [label="background:load", shape=box,fillcolor="white",style="filled"];
 
       FavoritesService [label="FavoritesService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        calendarclearcache [label="calendar:clearcache", shape=box,fillcolor="white",style="filled"];
-        episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
-        favoritesupdated [label="favorites:updated", shape=box,fillcolor="white",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
 
       KickassMirrorResolver [label="KickassMirrorResolver.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         katmirrorresolverstatus [label="katmirrorresolver:status", shape=box,fillcolor="white",style="filled"];
 
-      SerieCtrl [label="SerieCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+      LocalSeriesCtrl [label="LocalSeriesCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        serieslistfilter [label="serieslist:filter", shape=box,fillcolor="white",style="filled"];
 
-      serieDetails [label="serieDetails.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+      qBittorrent [label="qBittorrent.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
-      seriesList [label="seriesList.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+      SeriesListCtrl [label="SeriesListCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+
+      SettingsTorrentCtrl [label="SettingsTorrentCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+
+      SidepanelSerieCtrl [label="SidepanelSerieCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         serieupdating [label="serie:updating", shape=box,fillcolor="white",style="filled"];
-        trendinghide [label="trending:hide", shape=box,fillcolor="white",style="filled"];
-        trendingshow [label="trending:show", shape=box,fillcolor="white",style="filled"];
-
-      SettingsCtrl [label="SettingsCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
       SyncManager [label="SyncManager.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-
-      TorrentCtrl [label="TorrentCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-
-      torrentDialog [label="torrentDialog.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}", shape=box,fillcolor="white",style="filled"];
+        syncprocessremoteupdate [label="sync:processremoteupdate", shape=box,fillcolor="white",style="filled"];
 
       ThePirateBayMirrorResolver [label="ThePirateBayMirrorResolver.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         tpbmirrorresolverstatus [label="tpbmirrorresolver:status", shape=box,fillcolor="white",style="filled"];
+
+      Tixati [label="Tixati.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+
+      TorrentSearchEngines [label="TorrentSearchEngines.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}", shape=box,fillcolor="white",style="filled"];
+
+      TraktTVSearchCtrl [label="TraktTVSearchCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        traktseriepreview [label="traktserie:preview", shape=box,fillcolor="white",style="filled"];
+
+      TraktTVTrendingCtrl [label="TraktTVTrendingCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+
+      Transmission [label="Transmission.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+
+      uTorrent [label="uTorrent.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+        torrentupdateinfoHash [label="torrent:update:{{infoHash}}", shape=box,fillcolor="white",style="filled"];
 
       WatchlistService [label="WatchlistService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         watchlistupdated [label="watchlist:updated", shape=box,fillcolor="white",style="filled"];
