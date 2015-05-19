@@ -38,9 +38,6 @@ Screenshots:
 **Your main screen is a beautiful calendar with backgrounds tailored to the shows you are watching**
 !['New Tab' mode](http://i.imgur.com/UcGOXul.png)
 
-**Instant access to Torrent Client features from the calendar**
-![Stream with uTorrent player](http://i.imgur.com/DWd6MXL.png)
-
 **Add your favorite shows by selecting them off TraktTV's Trending Shows list, or search manually**
 ![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/dybdlli.png)
 
@@ -58,6 +55,9 @@ Screenshots:
 
 **You can either completely turn off Torrent integration or tune it to your preference**
 ![Torrent Settings](http://i.imgur.com/drsspLa.png)
+
+**Instant access to Torrent Client features from the calendar**
+![Stream with uTorrent player](http://i.imgur.com/DWd6MXL.png)
 
 **DuckieTorrent Torrent clients built-in (&micro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission)**
 ![DuckieTorrent uTorrent integration](http://i.imgur.com/U2I4VOA.png)
