@@ -78,7 +78,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                 delete data.ratingcount;
             }
             data.episodenumber = data.number;
-            data.episodename = data.title;
+            data.episodename = (data.title == null) ? 'TBA' : data.title;
             data.firstaired = new Date(data.first_aired).getTime();
             data.firstaired_iso = data.first_aired;
             data.filename = (('screenshot' in data.images) && ('thumb' in data.images.screenshot)) ? data.images.screenshot.thumb : '';
@@ -162,7 +162,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             return serie.getEpisodesMap().then(function(episodeCache) {
                 return Promise.all(seasons.map(function(season) {
                     return Promise.all(season.episodes.map(function(episode) {
-                        if (episode.tvdb_id == null || episode.title == null) return;
+                        if (episode.tvdb_id == null) return;
                         var dbEpisode = (!(episode.tvdb_id in episodeCache)) ? new Episode() : episodeCache[episode.tvdb_id];
                         return fillEpisode(dbEpisode, episode, seasonCache[season.number], serie, watched).Persist().then(function() {
                             episodeCache[episode.tvdb_id] = dbEpisode;
