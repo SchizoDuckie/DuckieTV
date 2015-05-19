@@ -162,7 +162,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             return serie.getEpisodesMap().then(function(episodeCache) {
                 return Promise.all(seasons.map(function(season) {
                     return Promise.all(season.episodes.map(function(episode) {
-                        if (episode.tvdb_id == null) return;
+                        if (episode.tvdb_id == null || episode.title == null) return;
                         var dbEpisode = (!(episode.tvdb_id in episodeCache)) ? new Episode() : episodeCache[episode.tvdb_id];
                         return fillEpisode(dbEpisode, episode, seasonCache[season.number], serie, watched).Persist().then(function() {
                             episodeCache[episode.tvdb_id] = dbEpisode;
