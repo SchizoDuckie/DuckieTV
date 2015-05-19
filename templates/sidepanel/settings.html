@@ -53,6 +53,13 @@
           </a>
       </td>
     </tr>
+    <tr ui-sref=".tab({tab: 'qbittorrent32plus'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'qBittorrent 3.2+'">
+      <td colspan="2">
+          <a href="#/settings/qbittorrent32plus">
+              <img src="img/torrentclients/qbittorrent-small.png" class="smallsettingicon"> <strong>qBittorrent 3.2+ {{'SIDEPANEL/SETTINGS/integration/hdr'|translate}}</strong>
+          </a>
+      </td>
+    </tr>
     <tr ui-sref=".tab({tab: 'tixati'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'tixati'">
       <td colspan="2">
           <a href="#/settings/tixati">

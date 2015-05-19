@@ -1,18 +1,18 @@
 DuckieTorrent
 
-.controller("qbtCtrl", ["qBittorrent", "SettingsService", "$filter",
-    function(qBittorrent, SettingsService, $filter) {
+.controller("qbt32plusCtrl", ["qBittorrent32plus", "SettingsService", "ChromePermissions", "$filter",
+    function(qBittorrent32plus, SettingsService, ChromePermissions, $filter) {
 
         this.model = {
-            server: SettingsService.get('qbittorrent.server'),
-            port: SettingsService.get('qbittorrent.port'),
-            use_auth: SettingsService.get('qbittorrent.use_auth'),
-            username: SettingsService.get('qbittorrent.username'),
-            password: SettingsService.get('qbittorrent.password')
+            server: SettingsService.get('qbittorrent32plus.server'),
+            port: SettingsService.get('qbittorrent32plus.port'),
+            use_auth: SettingsService.get('qbittorrent32plus.use_auth'),
+            username: SettingsService.get('qbittorrent32plus.username'),
+            password: SettingsService.get('qbittorrent32plus.password')
         };
 
         this.isConnected = function() {
-            return qBittorrent.isConnected();
+            return qBittorrent32plus.isConnected();
         }
 
         this.fields = [{
@@ -55,28 +55,50 @@ DuckieTorrent
 
         this.test = function() {
             //console.log("Testing settings");
-            qBittorrent.Disconnect();
-            qBittorrent.setConfig(this.model);
-            qBittorrent.connect().then(function(connected) {
-                console.info("qBittorrent connected! (save settings)", connected);
-                qBittorrent.saveConfig();
+            qBittorrent32plus.Disconnect();
+            qBittorrent32plus.setConfig(this.model);
+            qBittorrent32plus.connect().then(function(connected) {
+                console.info("qBittorrent 3.2+ connected! (save settings)", connected);
+                qBittorrent32plus.saveConfig();
             }, function(error) {
-                console.error("qBittorrent connect error!", error);
+                console.error("qBittorrent 3.2+ connect error!", error);
             })
         }
+
+
+        this.requestCookiePermission = function(event) {
+            // Permissions must be requested from inside a user gesture, like a button's
+            // click handler.
+            if (ChromePermissions.isSupported()) {
+                chrome.permissions.request({
+                    permissions: ['cookies'],
+                    origins: [this.model.server + ':' + this.model.port]
+                }, function(granted) {
+                    // The callback argument will be true if the user granted the permissions.
+                    if (granted) {
+
+                    } else {
+                        alert("Cookie permission denied!");
+                    }
+                });
+
+            } else {
+                alert("Not in standalone mode yet!");
+            }
+        };
     }
 ])
 
-.factory('qBittorrent', ["$q", "$http", "URLBuilder", "$parse", "qBittorrentRemote", "SettingsService",
-    function($q, $http, URLBuilder, $parse, qBittorrentRemote, SettingsService) {
+.factory('qBittorrent32plus', ["$q", "$http", "URLBuilder", "$parse", "qBittorrent32plusRemote", "SettingsService", "ChromePermissions",
+    function($q, $http, URLBuilder, $parse, qBittorrent32plusRemote, SettingsService, ChromePermissions) {
         var self = this;
 
         this.config = {
-            server: SettingsService.get('qbittorrent.server'),
-            port: SettingsService.get('qbittorrent.port'),
-            use_auth: SettingsService.get('qbittorrent.use_auth'),
-            username: SettingsService.get('qbittorrent.username'),
-            password: SettingsService.get('qbittorrent.password')
+            server: SettingsService.get('qbittorrent32plus.server'),
+            port: SettingsService.get('qbittorrent32plus.port'),
+            use_auth: SettingsService.get('qbittorrent32plus.use_auth'),
+            username: SettingsService.get('qbittorrent32plus.username'),
+            password: SettingsService.get('qbittorrent32plus.password')
         };
 
         /** 
@@ -84,13 +106,13 @@ DuckieTorrent
          */
         this.endpoints = {
 
-            torrents: '/json/torrents',
-            portscan: '/json/transferInfo',
+            torrents: '/query/torrents',
             addmagnet: '/command/download',
             resume: '/command/resume',
             pause: '/command/pause',
-            files: '/json/propertiesFiles/%s'
-
+            files: '/query/propertiesFiles/%s',
+            version: '/version/api',
+            login: '/login'
         };
 
         /**
@@ -115,11 +137,6 @@ DuckieTorrent
          */
         this.getUrl = function(type, param) {
             var out = self.config.server + ':' + self.config.port + this.endpoints[type];
-
-            if (self.config.use_auth) {
-                out = out.replace('://', '://' + self.config.username + ':' + self.config.password + '@');
-            }
-
             return out.replace('%s', encodeURIComponent(param));
         };
 
@@ -127,6 +144,7 @@ DuckieTorrent
         this.isConnecting = false;
         this.connected = false;
         this.initialized = false;
+        this.token = null; // cookie login token.
 
         /**
          * Build a JSON request using the URLBuilder service.
@@ -155,6 +173,7 @@ DuckieTorrent
 
         var self = this;
 
+
         var methods = {
 
 
@@ -164,16 +183,34 @@ DuckieTorrent
 
             saveConfig: function() {
                 Object.keys(self.config).map(function(key) {
-                    SettingsService.set("qbittorrent." + key, self.config[key]);
+                    SettingsService.set("qbittorrent32plus." + key, self.config[key]);
                 });
             },
 
             connect: function() {
 
-                return json('portscan').then(function(result) {
-                    console.log("qBittorrent check result: ", result);
-                    self.connected = true;
+                return json('version').then(function(result) {
+                    console.log("qBittorrent version result: ", result);
+                    return methods.login().then(function() {
+                        self.connected = true;
+                    })
                 })
+            },
+
+            login: function() {
+
+                return $http.post(self.getUrl('login'), 'username=' + encodeURIComponent(self.config.username) + '&password=' + encodeURIComponent(self.config.password), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then(function(result) {
+                    if (result.data == "Ok.") {
+                        return true;
+                    } else {
+                        throw "Login failed!";
+                    }
+                });
+
             },
 
             /** 
@@ -184,7 +221,7 @@ DuckieTorrent
             statusQuery: function() {
                 return json('torrents', {}).then(function(data) {
                         data.map(function(el) {
-                            qBittorrentRemote.handleEvent(el);
+                            qBittorrent32plusRemote.handleEvent(el);
                         });
                         return data;
                     },
@@ -197,7 +234,7 @@ DuckieTorrent
              * Return the interface that handles the remote data.
              */
             getRemote: function() {
-                return qBittorrentRemote;
+                return qBittorrent32plusRemote;
             },
 
 
@@ -254,8 +291,8 @@ DuckieTorrent
 
             Disconnect: function() {
                 self.isPolling = false;
-                qBittorrentRemote.torrents = {};
-                qBittorrentRemote.eventHandlers = {};
+                qBittorrent32plusRemote.torrents = {};
+                qBittorrent32plusRemote.eventHandlers = {};
             },
 
             getFilesList: function(hash) {
@@ -270,7 +307,7 @@ DuckieTorrent
                 };
 
                 if (self.config.use_auth) {
-                    headers.Authorization = 'Basic ' + Base64.encode(self.config.username + ':' + self.config.password);
+                    headers.Cookie = 'SID=' + self.token;
                 }
                 return $http.post(self.getUrl('addmagnet'), 'urls=' + encodeURIComponent(magnet), {
                     headers: headers
@@ -283,7 +320,7 @@ DuckieTorrent
                 };
 
                 if (self.config.use_auth) {
-                    headers.Authorization = 'Basic ' + Base64.encode(self.config.username + ':' + self.config.password);
+                    headers.Cookie = 'SID=' + self.token;
                 }
                 return $http.post(self.getUrl(method), 'hash=' + hash, {
                     headers: headers
@@ -299,7 +336,7 @@ DuckieTorrent
 /**
  * uTorrent/Bittorrent remote singleton that receives the incoming data
  */
-.factory('qBittorrentRemote', ["$rootScope", "DuckieTorrent",
+.factory('qBittorrent32plusRemote', ["$rootScope", "DuckieTorrent",
     function($rootScope, DuckieTorrent) {
 
         /**
@@ -390,9 +427,9 @@ DuckieTorrent
     }
 ])
 
-.run(["DuckieTorrent", "qBittorrent",
-    function(DuckieTorrent, qBittorrent) {
+.run(["DuckieTorrent", "qBittorrent32plus",
+    function(DuckieTorrent, qBittorrent32plus) {
 
-        DuckieTorrent.register('qBittorrent', qBittorrent);
+        DuckieTorrent.register('qBittorrent 3.2+', qBittorrent32plus);
     }
 ])
