@@ -36,7 +36,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             data.airs_time = data.airs.time;
             data.timezone = data.airs.timezone;
             data.firstaired = new Date(data.first_aired).getTime();
-            if (!serie.ratingcount || serie.ratingcount + 25 > data.votes) {
+            if (service.downloadRatings && (!serie.ratingcount || serie.ratingcount + 25 > data.votes)) {
                 data.rating = Math.round(data.rating * 10);
                 data.ratingcount = data.votes;
             } else {
@@ -70,7 +70,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             data.TVDB_ID = data.tvdb_id;
             data.IMDB_ID = data.imdb_id;
             data.TRAKT_ID = data.trakt_id;
-            if (!episode.ratingcount || episode.ratingcount + 25 > data.votes) {
+            if (service.downloadRatings && (!episode.ratingcount || episode.ratingcount + 25 > data.votes)) {
                 data.rating = Math.round(data.rating * 10);
                 data.ratingcount = data.votes;
             } else {
@@ -181,6 +181,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             errorList: {}, // holds any TVDB_ID's that had an error, used for sadface icon control
             favorites: [],
             favoriteIDs: [],
+            downloadRatings: $injector.get('SettingsService').get('download.ratings'), // SettingService download.ratings determines if Ratings are processed or discarded
             // TraktTV: TraktTV,
             /**
              * Handles adding, deleting and updating a show to the local database.

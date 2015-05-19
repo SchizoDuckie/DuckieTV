@@ -28,6 +28,19 @@
 
   <hr class="setting-divider">
 
+  <h2>{{'SETTINGS/DISPLAY/download-ratings/hdr'|translate}}
+    <span tooltip="{{showRatings ? 'SETTINGS/DISPLAY/download-ratings-enabled/tooltip' : 'SETTINGS/DISPLAY/download-ratings-disabled/tooltip'|translate}}">
+      <i class="glyphicon glyphicon-{{showRatings ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+    </span>
+  </h2>
+  
+  <p>{{'SETTINGS/DISPLAY/download-ratings/desc'|translate}}</p>
+  <a ng-click="toggleRatings()" class="btn btn-{{showRatings ? 'danger' : 'success'}}">
+    <i class="glyphicon glyphicon-{{showRatings ? 'remove' : 'ok'}}" ></i> {{showRatings ? 'SETTINGS/DISPLAY/download-ratings-disable/btn' : 'SETTINGS/DISPLAY/download-ratings-enable/btn'|translate}}
+  </a>
+
+  <hr class="setting-divider">
+
   <h2>{{'SETTINGS/DISPLAY/background-opacity/hdr'|translate}}</h2>
 
   <ul class="list-unstyled btns">

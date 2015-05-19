@@ -39,9 +39,11 @@
         </tr>
       </tbody>
     </table>
-     <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>{{'SIDEPANEL/EPISODES/episode-ratings/hdr'|translate}}</h2>
-    <div class="chart">
-      <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}" tooltip-append-to-body="true"></div>
+    <div ng-if="getSetting('download.ratings')">
+        <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>{{'SIDEPANEL/EPISODES/episode-ratings/hdr'|translate}}</h2>
+        <div class="chart">
+          <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}" tooltip-append-to-body="true"></div>
+        </div>
     </div>
     <table class="buttons" width="100%" border="0">
         <tr ng-if="getSetting('torrenting.enabled')">

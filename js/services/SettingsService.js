@@ -94,6 +94,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'calendar.show-downloaded': true,
                 'calendar.startSunday': true,
                 'client.determinedlocale': null,
+                'download.ratings': true,
                 'lastSync': -1,
                 'library.smallposters': true,
                 'qbittorrent.server': 'http://localhost',
@@ -151,6 +152,9 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 service.settings[key] = value;
                 if (key == 'calendar.startSunday') {
                     $injector.get('datePickerConfig').startSunday = value;
+                }
+                if (key == 'download.ratings') {
+                    $injector.get('FavoritesService').downloadRatings = value;
                 }
                 service.persist();
             },

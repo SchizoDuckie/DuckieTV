@@ -35,7 +35,7 @@
           <th>{{'SIDEPANEL/SERIE-DETAILS/network/hdr'|translate}}</th>
           <td>{{sidepanel.serie.network}}</td>
         </tr>
-        <tr>
+        <tr ng-if="getSetting('download.ratings')">
           <th>{{'SIDEPANEL/SERIE-DETAILS/rating/hdr'|translate}}</th>
           <td>{{sidepanel.serie.rating}}% ({{sidepanel.serie.ratingcount}} {{'SIDEPANEL/SERIE-DETAILS/votes/lbl'|translate}})</td>
         </tr>

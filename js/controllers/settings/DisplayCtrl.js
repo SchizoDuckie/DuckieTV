@@ -10,6 +10,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.topSites = SettingsService.get('topSites.enabled');
         $scope.topSitesMode = SettingsService.get('topSites.mode');
         $scope.bgOpacity = SettingsService.get('background-rotator.opacity');
+        $scope.showRatings = SettingsService.get('download.ratings');
 
         $scope.toggleTopSites = function() {
             $scope.topSites = !$scope.topSites;
@@ -26,6 +27,13 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
             SettingsService.set('background-rotator.opacity', opacity);
             $scope.bgOpacity = opacity;
         };
+
+        // Toggles whether to show Ratings on Series and Episode panels
+        $scope.toggleRatings = function() {
+            $scope.showRatings = !$scope.showRatings;
+            SettingsService.set('download.ratings', $scope.showRatings);
+        };
+
     }
 ])
 
