@@ -19,8 +19,8 @@
  *    // repeat
  *  }
  */
-DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q",
-    function($scope, $dialogs, $filter, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q) {
+DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q", "$state",
+    function($scope, $dialogs, $filter, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q, $state) {
 
         $scope.backupString = false;
         $scope.wipeBeforeImport = false;
@@ -77,7 +77,7 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader"
             return FavoritesService.isAdding(tvdb_id);
         };
 
-        
+
         $scope.restore = function() {
             console.log("Import backup!", $scope);
             FavoritesService.flushAdding();
@@ -118,16 +118,16 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader"
                 }, function(err) {
                     console.error("ERROR!", err);
                     FavoritesService.added(TVDB_ID);
-                    FavoritesService.addError(TVDB_ID,err);
+                    FavoritesService.addError(TVDB_ID, err);
                 });
         }
 
         /**
          * Wipes the database of all series, seasons and episodes and removes all settings
          */
-       $scope.wipeDatabase = function() {
+        $scope.wipeDatabase = function() {
             var dlg = $dialogs.confirm($filter('translate')('BACKUPCTRLjs/wipe/hdr'),
-                $filter('translate')('BACKUPCTRLjs/wipe/desc') 
+                $filter('translate')('BACKUPCTRLjs/wipe/desc')
             );
             dlg.result.then(function(btn) {
                 var db = CRUD.EntityManager.getAdapter().db;
@@ -153,5 +153,23 @@ DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader"
                 $scope.declined = true;
             });
         };
+
+        $scope.refreshDatabase = function() {
+            FavoritesService.favorites.map(function(serie) {
+                FavoritesService.adding(serie.TVDB_ID);
+                return TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(function(s) {
+                    return TraktTVv2.serie(s.slug_id)
+                }).then(function(s) {
+                    return FavoritesService.addFavorite(s).then(function() {
+                        $rootScope.$broadcast('storage:update');
+                        FavoritesService.added(s.tvdb_id);
+                    });
+                }, function(err) {
+                    console.error("Error adding show!", err);
+                    FavoritesService.added(s.tvdb_id);
+                    FavoritesService.addError(s.tvdb_id, err);
+                });
+            });
+        }
     }
 ]);
