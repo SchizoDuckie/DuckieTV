@@ -279,7 +279,8 @@ var Episode = CRUD.define({
     markNotDownloaded: function($rootScope) {
         this.downloaded = 0;
         // if you are marking this as NOT downloaded, you can not have watched it either!
-        this.markNotWatched;
+        this.watched = 0;
+        this.watchedAt = null;
         return this.Persist().then(function() {
             return this;
         }.bind(this));
