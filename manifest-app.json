@@ -13,7 +13,7 @@
         "unlimitedStorage"
     ],
     "optional_permissions": [
-        "storage", "cookies"
+        "storage", "cookies", "http://*/", "https://*/"
     ],
     "background": {
         "scripts": [
