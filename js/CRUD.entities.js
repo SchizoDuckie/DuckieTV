@@ -282,6 +282,9 @@ var Episode = CRUD.define({
         this.watched = 0;
         this.watchedAt = null;
         return this.Persist().then(function() {
+            if ($rootScope) {
+                $rootScope.$broadcast('episode:marked:notwatched', this);
+            }
             return this;
         }.bind(this));
     },
