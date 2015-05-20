@@ -72,7 +72,7 @@ DuckieTorrent
             if (ChromePermissions.isSupported()) {
                 chrome.permissions.request({
                     permissions: ['cookies'],
-                    origins: [this.model.server + ':' + this.model.port+'/']
+                    origins: [this.model.server + ':' + this.model.port + '/']
                 }, function(granted) {
                     // The callback argument will be true if the user granted the permissions.
                     if (granted) {
@@ -306,9 +306,7 @@ DuckieTorrent
                     'Content-Type': 'application/x-www-form-urlencoded',
                 };
 
-                if (self.config.use_auth) {
-                    headers.Cookie = 'SID=' + self.token;
-                }
+
                 return $http.post(self.getUrl('addmagnet'), 'urls=' + encodeURIComponent(magnet), {
                     headers: headers
                 });
@@ -319,9 +317,7 @@ DuckieTorrent
                     'Content-Type': 'application/x-www-form-urlencoded',
                 };
 
-                if (self.config.use_auth) {
-                    headers.Cookie = 'SID=' + self.token;
-                }
+
                 return $http.post(self.getUrl(method), 'hash=' + hash, {
                     headers: headers
                 });
