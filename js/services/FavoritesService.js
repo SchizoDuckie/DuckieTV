@@ -220,7 +220,6 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                         return updateSeasons(entity, data.seasons);
                     })
                     .then(function(seasonCache) {
-                        $rootScope.$broadcast('recount:seasons:watched',entity, seasonCache);
                         return updateEpisodes(entity, data.seasons, watched, seasonCache);
                     })
                     .then(function(episodeCache) {
@@ -228,6 +227,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                         //console.debug("FavoritesService.Favorites", service.favorites)
                         $rootScope.$applyAsync();
                         $rootScope.$broadcast('storage:update');
+                        $rootScope.$broadcast('recount:seasons:watched',entity, seasonCache);
                         return entity;
                     });
             },
