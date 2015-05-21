@@ -6,7 +6,8 @@ DuckieTV.run(function($rootScope) {
 
     function reCount(ID_Serie, ID_Season) {
         var db = CRUD.EntityManager.getAdapter().db;
-        db.execute("select ID_Season, seasonnumber, watched, count(watched) as amount from Episodes where seasonnumber > 0 AND ID_Serie = ? GROUP BY ID_Season, watched", [ID_Serie]).then(function(counts) {
+        var exec = "select ID_Season, watched, count(watched) as amount from Episodes where ID_Serie = ? AND seasonnumber > 0 AND  firstaired <= " + new Date().getTime() + " AND  firstaired > 0 GROUP BY ID_Season, watched";
+        db.execute(exec, [ID_Serie]).then(function(counts) {
             var seasons = {};
             for (var i = 0; i < counts.rs.rows.length; i++) {
                 var row = counts.rs.rows.item(i);
