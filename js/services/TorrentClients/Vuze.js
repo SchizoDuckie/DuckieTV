@@ -301,51 +301,6 @@ DuckieTorrent
 .factory('VuzeRemote', ["$rootScope", "DuckieTorrent",
     function($rootScope, DuckieTorrent) {
 
-        /**
-         * Round a number with Math.floor so that we don't lose precision on 99.7%
-         */
-        function round(x, n) {
-            return Math.floor(x * Math.pow(10, n)) / Math.pow(10, n)
-        }
-
-        var VuzeData = function(data) {
-            this.update(data);
-        };
-
-        VuzeData.prototype.update = function(data) {
-            Object.keys(data).map(function(key) {
-                this[key] = data[key];
-            }, this);
-        }
-
-        VuzeData.prototype.getName = function() {
-            return this.name;
-        };
-
-        VuzeData.prototype.getProgress = function() {
-            return round(this.percentDone * 100, 1);
-        };
-
-        VuzeData.prototype.start = function() {
-            DuckieTorrent.getClient().execute('torrent-start', this.id);
-        };
-
-        VuzeData.prototype.stop = function() {
-            DuckieTorrent.getClient().execute('torrent-stop', this.id);
-        };
-        VuzeData.prototype.pause = function() {
-            this.stop();
-        };
-        VuzeData.prototype.getFiles = function() {
-
-        };
-
-        VuzeData.prototype.isStarted = function() {
-            return this.status > 0;
-        }
-
-
-
         var service = {
             torrents: {},
             settings: {},

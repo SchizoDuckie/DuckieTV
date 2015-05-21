@@ -329,48 +329,17 @@ DuckieTorrent
                 return (hash in service.torrents) ? service.torrents[hash] : null;
             },
 
-
             handleEvent: function(data) {
                 var key = data.hash.toUpperCase();
                 if (!(key in service.torrents)) {
-                    data.getName = function() {
-                        return this.name;
-                    };
-
-                    data.getProgress = function() {
-                        return round(this.progress * 100, 1);
-                    };
-
-                    data.start = function() {
-                        DuckieTorrent.getClient().execute('resume', this.hash);
-                    };
-
-                    data.stop = function() {
-                        return this.pause();
-                    };
-
-                    data.pause = function() {
-                        DuckieTorrent.getClient().execute('pause', this.hash)
-                    };
-
-                    data.getFiles = function() {
-                        DuckieTorrent.getClient().getFilesList(this.hash).then(function(results) {
-                            service.torrents[key].files = results;
-                            $rootScope.$applyAsync();
-                        })
-                    }
-                    service.torrents[key] = data;
+                    service.torrents[key] = new qBittorrentData(data);
                 } else {
-                    Object.keys(data).map(function(property) {
-                        service.torrents[key][property] = data[property];
-                    })
+                    service.torrents[key].update(data);
                 }
-
 
                 $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
                 $rootScope.$broadcast('torrent:update:', service.torrents[key]);
             },
-
 
             onTorrentUpdate: function(hash, callback) {
                 $rootScope.$on('torrent:update:' + hash, function(evt, torrent) {

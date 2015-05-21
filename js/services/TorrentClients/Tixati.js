@@ -117,45 +117,6 @@ DuckieTorrent
                 var doc = parser.parseFromString(result.data, "text/html");
                 var torrents = [];
 
-                var nameFunc = function() {
-                    return this.name;
-                }
-
-                var progressFunc = function() {
-                    return parseInt(this.progress);
-                }
-
-                function sendCommand(formData) {
-                    return $http.post(self.getUrl('torrentcontrol', this.guid), formData, {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined
-                        }
-                    })
-                }
-
-                var stopFunc = function(guid) {
-                    var fd = new FormData();
-                    fd.append('stop', 'Stop');
-                    return this.sendCommand(fd);
-                }
-
-                var startFunc = function(guid) {
-                    var fd = new FormData();
-                    fd.append('start', 'Start');
-                    return this.sendCommand(fd);
-                }
-
-                var startedFunc = function() {
-                    return this.status.toLowerCase().indexOf('offline') == -1;
-                }
-
-                var filesFunc = function() {
-                    this.files = [];
-                    request('files', this.guid).then(function(data) {
-                        this.files = data;
-                    }.bind(this));
-                }
 
                 Array.prototype.map.call(doc.querySelectorAll('.xferstable tr:not(:first-child)'), function(node) {
                     var tds = node.querySelectorAll('td');
@@ -381,6 +342,17 @@ DuckieTorrent
                         'Content-Type': undefined
                     }
                 })
+            },
+            execute: function(guid, formData) {
+                return $http.post(self.getUrl('torrentcontrol', guid), formData, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                })
+            },
+            request: function(type, params, options) {
+                return request(type, params, options);
             }
         };
         return methods;
@@ -415,15 +387,15 @@ DuckieTorrent
             },
 
             handleEvent: function(data) {
-                console.log("handle torrent event!", data, data.hash.toUpperCase())
                 var key = data.hash.toUpperCase();
                 if (!(key in service.torrents)) {
-                    service.torrents[key] = data;
+                    service.torrents[key] = new TixatiData(data);
                 } else {
-                    Object.deepMerge(service.torrents[key], data);
+                    service.torrents[key].update(data);
                 }
 
                 $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
+                $rootScope.$broadcast('torrent:update:', service.torrents[key]);
             },
 
             onTorrentUpdate: function(hash, callback) {

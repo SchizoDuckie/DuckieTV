@@ -299,52 +299,8 @@ DuckieTorrent
  * uTorrent/Bittorrent remote singleton that receives the incoming data
  */
 .factory('TransmissionRemote', ["$rootScope", "DuckieTorrent",
+
     function($rootScope, DuckieTorrent) {
-
-        /**
-         * Round a number with Math.floor so that we don't lose precision on 99.7%
-         */
-        function round(x, n) {
-            return Math.floor(x * Math.pow(10, n)) / Math.pow(10, n)
-        }
-
-        var TransmissionData = function(data) {
-            this.update(data);
-        };
-
-        TransmissionData.prototype.update = function(data) {
-            Object.keys(data).map(function(key) {
-                this[key] = data[key];
-            }, this);
-        }
-
-        TransmissionData.prototype.getName = function() {
-            return this.name;
-        };
-
-        TransmissionData.prototype.getProgress = function() {
-            return round(this.percentDone * 100, 1);
-        };
-
-        TransmissionData.prototype.start = function() {
-            DuckieTorrent.getClient().execute('torrent-start', this.id);
-        };
-
-        TransmissionData.prototype.stop = function() {
-            DuckieTorrent.getClient().execute('torrent-stop', this.id);
-        };
-        TransmissionData.prototype.pause = function() {
-            this.stop();
-        };
-        TransmissionData.prototype.getFiles = function() {
-
-        };
-
-        TransmissionData.prototype.isStarted = function() {
-            return this.status > 0;
-        }
-
-
 
         var service = {
             torrents: {},
@@ -366,7 +322,6 @@ DuckieTorrent
                 return (hash in service.torrents) ? service.torrents[hash] : null;
             },
 
-
             handleEvent: function(data) {
                 var key = data.hash.toUpperCase();
                 if (!(key in service.torrents)) {
@@ -375,11 +330,9 @@ DuckieTorrent
                     service.torrents[key].update(data);
                 }
 
-
                 $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
                 $rootScope.$broadcast('torrent:update:', service.torrents[key]);
             },
-
 
             onTorrentUpdate: function(hash, callback) {
                 $rootScope.$on('torrent:update:' + hash, function(evt, torrent) {
