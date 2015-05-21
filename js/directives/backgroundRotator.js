@@ -6,39 +6,60 @@
  * preloads new image
  * Cross-fades between current loaded image and the new image
  */
-DuckieTV.directive('backgroundRotator', ["$rootScope", "$document", function($rootScope, $document) {
-    return {
-        restrict: 'E',
-        scope: {
-            channel: '='
-        },
+DuckieTV.directive('backgroundRotator', ["$rootScope", "$document",
+    function($rootScope, $document) {
+        return {
+            restrict: 'E',
+            scope: {
+                channel: '='
+            },
 
-        template: ["<div style='z-index:-2; background-image:url(img/duckietv.png);background-color:darkgrey;background-size:initial;'></div><div ng-style=\"{backgroundImage: bg1 ? 'url('+bg1+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg1on ? 1 : 0}\"></div>",
-            "<div ng-style=\"{backgroundImage: bg2 ? 'url('+bg2+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg2on ? 1 : 0}\"></div>"
-        ].join(''),
-        link: function($scope, $attr) {
-            $scope.format = ('chrome' in window) ? 'webp' : 'png';
-            $scope.bg1 = false;
-            $scope.bg2 = false;
-            $scope.bg1on = false;
-            $scope.bg2on = false;
+            template: ["<div style='z-index:-2; background-image:url(img/duckietv.png);background-color:darkgrey;background-size:initial;'></div><div ng-style=\"{backgroundImage: bg1 ? 'url('+bg1+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg1on ? 1 : 0}\"></div>",
+                "<div ng-style=\"{backgroundImage: bg2 ? 'url('+bg2+')': '',  'transition' : 'opacity 1s ease-in-out', opacity: bg2on ? 1 : 0}\"></div>"
+            ].join(''),
+            link: function($scope, $attr) {
+                $scope.format = ('chrome' in window) ? 'webp' : 'png';
+                $scope.bg1 = false;
+                $scope.bg2 = false;
+                $scope.bg1on = false;
+                $scope.bg2on = false;
 
-            load = function(url) {
-                var img = $document[0].createElement('img');
-                img.onload = function() {
-                    var target = $scope.bg1on ? 'bg2' : 'bg1';
-                    $scope[target] = img.src;
-                    $scope[target + 'on'] = true;
-                    $scope[(target == 'bg1' ? 'bg2on' : 'bg1on')] = false;
-                    $scope.$digest();
+                load = function(url) {
+                    var img = $document[0].createElement('img');
+                    img.onload = function() {
+                        var target = $scope.bg1on ? 'bg2' : 'bg1';
+                        $scope[target] = img.src;
+                        $scope[target + 'on'] = true;
+                        $scope[(target == 'bg1' ? 'bg2on' : 'bg1on')] = false;
+                        $scope.$applyAsync();
+                    };
+                    img.src = url;
                 };
-                img.src = url;
-            };
 
-            $rootScope.$on($scope.channel, function(event, url) {
-            	load(url);
-            });
+                $rootScope.$on($scope.channel, function(event, url) {
+                    load(url);
+                });
+            }
+        };
+    }
+])
+    .directive("kc", ["$document",
+        function($document) {
+            return {
+                link: function(scope) {
+                    var kk = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65],
+                        k = 0;
+                    var handler = function(e) {
+                        if (e.keyCode === kk[k++]) {
+                            if (k === kk.length) {
+                                document.getElementById('wl').style.display = ''
+                            }
+                        } else {
+                            k = 0
+                        }
+                    };
+                    $document.on('keydown', handler)
+                }
+            }
         }
-    };
-}])
-.directive("kc",["$document", function($document){return{link:function(scope){var kk=[38,38,40,40,37,39,37,39,66,65],k=0;var handler=function(e){if(e.keyCode===kk[k++]){if(k===kk.length){document.getElementById('wl').style.display=''}}else{k=0}};$document.on('keydown',handler)}}}]);
+    ]);
