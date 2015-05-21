@@ -220,6 +220,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                         return updateSeasons(entity, data.seasons);
                     })
                     .then(function(seasonCache) {
+                        $rootScope.$broadcast('recount:seasons:watched',entity, seasonCache);
                         return updateEpisodes(entity, data.seasons, watched, seasonCache);
                     })
                     .then(function(episodeCache) {

@@ -61,6 +61,14 @@ DuckieTV.run(function($rootScope) {
     $rootScope.$on('episode:marked:notwatched', function(evt, episode) {
         reCount(episode.ID_Serie, episode.ID_Season);
     });
+    /**
+     * Catch serie update events
+     */
+    $rootScope.$on('recount:seasons:watched', function(evt, serie, seasons) {
+        angular.forEach(seasons, function(season) {
+            reCount(serie.ID_Serie, season.ID_Season);
+        });
+    });
 
 
 })
