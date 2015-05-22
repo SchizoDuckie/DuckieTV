@@ -453,10 +453,10 @@ serieheader em.glyphicon{
     right: 0px;
     background-color: rgba(255,255,255, 0.8);
     color: green;
-    font-size: 25px;
+    font-size: 35px;
     width: 45px;
     height: 35px;
-    padding: 5px;
+    padding: 1px 0px 1px 1px;
 }
 
 serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
@@ -1199,7 +1199,7 @@ calendar-event h2 {
     font-size: 35px;
     width: 45px;
     height: 35px;
-    padding: 1px 0px 1px 5px;
+    padding: 1px 0px 1px 1px;
     float:right;
 }
 
