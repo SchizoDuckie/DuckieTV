@@ -1,7 +1,7 @@
 /**
  * Show one season
  */
-DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameResolver, EpisodeAiredService, $scope, $filter) {
+DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameResolver, EpisodeAiredService, $scope, $filter, $q, $rootScope) {
     this.season = season;
     this.episodes = episodes;
 
@@ -40,10 +40,16 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
     }
 
     this.markAllWatched = function(episodes) {
-        episodes.map(function(episode) {
+        var serie = this.season.ID_Serie;
+        $q.all(episodes.map(function(episode) {
             if ((episode.hasAired()) && (!episode.isWatched())) {
-                episode.markWatched();
+                return episode.markWatched().then(function() {
+                    return true;
+                });
             };
+            return true;
+        })).then(function() {
+            $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
         });
     };
 
@@ -57,7 +63,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
 
     this.getSearchString = function(serie, episode) {
         if (!serie || !episode) return;
-        return SceneNameResolver.getSceneName(serie.TVDB_ID,serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
+        return SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
     };
 
     this.getEpisodeNumber = function(episode) {

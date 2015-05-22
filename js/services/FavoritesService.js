@@ -227,7 +227,9 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                         //console.debug("FavoritesService.Favorites", service.favorites)
                         $rootScope.$applyAsync();
                         $rootScope.$broadcast('storage:update');
-                        $rootScope.$broadcast('recount:seasons:watched',entity, seasonCache);
+                        if (watched.lenght > 0) {
+                            $rootScope.$broadcast('recount:seasons:watched', entity, seasonCache);
+                        }
                         return entity;
                     });
             },

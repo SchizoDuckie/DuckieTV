@@ -448,15 +448,15 @@ serieheader em.earmark.delete i.glyphicon {
 }
 
 serieheader em.glyphicon{
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    background-color: rgba(255,255,255, 0.8);
-    color: green;
-    font-size: 35px;
-    width: 45px;
-    height: 35px;
-    padding: 1px 0px 1px 1px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  color: rgba(255,255,255,0.9);
+  font-size: 35px;
+  width: 45px;
+  height: 35px;
+  padding: 1px 0px 1px 1px;
+  -webkit-filter: drop-shadow(2px 2px 2px rgba(5,5,5,0.9));
 }
 
 serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
@@ -1194,13 +1194,13 @@ calendar-event h2 {
 .season em.glyphicon{
     top: 0px;
     right: 0px;
-    background-color: rgba(255,255,255, 0.8);
-    color: green;
     font-size: 35px;
     width: 45px;
     height: 35px;
     padding: 1px 0px 1px 1px;
     float:right;
+    color: rgba(255,255,255,0.9);
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(5,5,5,0.9));
 }
 
 .alert {
