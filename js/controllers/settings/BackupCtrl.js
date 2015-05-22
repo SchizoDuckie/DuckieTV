@@ -19,8 +19,8 @@
  *    // repeat
  *  }
  */
-DuckieTV.controller('BackupCtrl', ["$scope", "$dialogs", "$filter", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q", "$state",
-    function($scope, $dialogs, $filter, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q, $state) {
+DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$dialogs", "$filter", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q", "$state",
+    function($rootScope, $scope, $dialogs, $filter, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q, $state) {
 
         $scope.backupString = false;
         $scope.wipeBeforeImport = false;
