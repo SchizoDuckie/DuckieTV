@@ -49,7 +49,7 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
                 ID_Season: season
             }).then(function(s) {
                 s.watched = seasons[season].notWatched === 0 ? 1 : 0;
-                console.log("Season watched? ", season, s.watched === 1);
+                //console.debug("Season watched? ", season, s.watched === 1);
                 s.Persist();
                 return s.watched === 1 ? true : false;
             });
@@ -67,7 +67,7 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
      */
     function markSerieWatched(ID_Serie, allSeasonsWatched) {
         var serie = FavoritesService.getByID_Serie(ID_Serie);
-        console.log("Serie watched? ", serie.name, serie.watched, allSeasonsWatched);
+        //console.debug("Serie watched? ", serie.name, serie.watched, allSeasonsWatched);
         serie.watched = allSeasonsWatched;
         serie.Persist();
     }
@@ -92,7 +92,7 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
     }
 
     function processSerie(ID_Serie) {
-        console.log("Re counting! ", ID_Serie);
+        //console.debug("Re counting! ", ID_Serie);
         var query = "select ID_Season, watched, count(watched) as amount from Episodes where ID_Serie = ? AND seasonnumber > 0 AND firstaired <= ? AND firstaired > 0 GROUP BY ID_Season, watched";
         CRUD.EntityManager.getAdapter().db.execute(query, [ID_Serie, new Date().getTime()])
             .then(parseEpisodeCounts)
