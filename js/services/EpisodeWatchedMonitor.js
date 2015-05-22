@@ -2,7 +2,7 @@
  * Episode watched monitor
  * Count all episodes watched for a season when changes occur, flip switches accordingly.
  */
-DuckieTV.run(function($rootScope) {
+DuckieTV.run(function($rootScope, FavoritesService) {
 
     function reCount(ID_Serie, ID_Season) {
         var db = CRUD.EntityManager.getAdapter().db;
@@ -71,5 +71,14 @@ DuckieTV.run(function($rootScope) {
         });
     });
 
+    $rootScope.$on('recount:series:watched', function(evt) {
+        angular.forEach(FavoritesService.favorites, function(serie) {
+            serie.getSeasons().then(function(seasons) {
+                angular.forEach(seasons, function(season) {
+                    reCount(serie.ID_Serie, season.ID_Season);
+                });
+            });
+        });
+    });
 
 })
