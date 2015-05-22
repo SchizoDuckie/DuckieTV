@@ -96,30 +96,30 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$dialogs", "$filter"
          */
         var importBackup = function() {
             FileReader.readAsText($scope.file, $scope)
-                .then(function(result) {
-                    result = angular.fromJson(result);
-                    console.log("Backup read!", result);
-                    angular.forEach(result.settings, function(value, key) {
-                        if (key == 'utorrent.token') return; // skip utorrent auth token since it can be invalid.
-                        localStorage.setItem(key, value);
-                    });
-                    SettingsService.restore();
-                    angular.forEach(result.series, function(watched, TVDB_ID) {
-                        TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
-                            return TraktTVv2.serie(searchResult.slug_id);
-                        }).then(function(serie) {
-                            FavoritesService.adding(TVDB_ID);
-                            $scope.series.push(serie);
-                            return FavoritesService.addFavorite(serie, watched);
-                        }).then(function() {
-                            FavoritesService.added(TVDB_ID);
-                        });
+            .then(function(result) {
+                result = angular.fromJson(result);
+                console.log("Backup read!", result);
+                angular.forEach(result.settings, function(value, key) {
+                    if (key == 'utorrent.token') return; // skip utorrent auth token since it can be invalid.
+                    localStorage.setItem(key, value);
+                });
+                SettingsService.restore();
+                angular.forEach(result.series, function(watched, TVDB_ID) {
+                    FavoritesService.adding(TVDB_ID);
+                    return TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
+                        return TraktTVv2.serie(searchResult.slug_id);
+                    }).then(function(serie) {
+                        $scope.series.push(serie);
+                        return FavoritesService.addFavorite(serie, watched);
+                    }).then(function() {
+                        FavoritesService.added(TVDB_ID);
                     });
                 }, function(err) {
                     console.error("ERROR!", err);
                     FavoritesService.added(TVDB_ID);
                     FavoritesService.addError(TVDB_ID, err);
                 });
+            });
         }
 
         /**
@@ -166,8 +166,8 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$dialogs", "$filter"
                     });
                 }, function(err) {
                     console.error("Error adding show!", err);
-                    FavoritesService.added(s.tvdb_id);
-                    FavoritesService.addError(s.tvdb_id, err);
+                    FavoritesService.added(serie.TVDB_ID);
+                    FavoritesService.addError(serie.TVDB_ID, err);
                 });
             });
         }
