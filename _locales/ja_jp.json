@@ -391,6 +391,8 @@
     "SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip": "エピソードは、見ていないとマーク",
     "SIDEPANEL/MARK-WATCHED/marked-watched/tooltip": "上の見守るエピソードはマーク",
     "SIDEPANEL/SEASONS/click-to-see/lbl": "（エピソードや評価を見るにはクリックしてください） ",
+    "SIDEPANEL/SEASONS/mark-all-watched/lbl": "マークは,すべて見守る",
+    "SIDEPANEL/SEASONS/season-watched/tooltip": "シーズンは完全に見て",
     "SIDEPANEL/SEASONS/seasons/hdr": "季節 ",
     "SIDEPANEL/SERIE-DETAILS/actors/hdr": "俳優 ",
     "SIDEPANEL/SERIE-DETAILS/airs-on/hdr": "現在でプレー",

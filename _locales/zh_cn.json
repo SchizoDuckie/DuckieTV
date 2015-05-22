@@ -391,6 +391,8 @@
     "SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip": "集标记为不看",
     "SIDEPANEL/MARK-WATCHED/marked-watched/tooltip": "情节标记为上观看",
     "SIDEPANEL/SEASONS/click-to-see/lbl": "（点击看情节和评级） ",
+    "SIDEPANEL/SEASONS/mark-all-watched/lbl": "标记全部为观看",
+    "SIDEPANEL/SEASONS/season-watched/tooltip": "赛季完全看",
     "SIDEPANEL/SEASONS/seasons/hdr": "四季 ",
     "SIDEPANEL/SERIE-DETAILS/actors/hdr": "演员 ",
     "SIDEPANEL/SERIE-DETAILS/airs-on/hdr": "目前比赛在",

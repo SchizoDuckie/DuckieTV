@@ -391,6 +391,8 @@
     "SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip": "Эпизод отмечен как не смотрел",
     "SIDEPANEL/MARK-WATCHED/marked-watched/tooltip": "Эпизод отмечен как смотрел на",
     "SIDEPANEL/SEASONS/click-to-see/lbl": "(Нажмите, чтобы увидеть эпизоды и рейтинги) ",
+    "SIDEPANEL/SEASONS/mark-all-watched/lbl": "Отметить все как смотрел",
+    "SIDEPANEL/SEASONS/season-watched/tooltip": "Сезон полностью наблюдал",
     "SIDEPANEL/SEASONS/seasons/hdr": "Времена года ",
     "SIDEPANEL/SERIE-DETAILS/airs-on/hdr": "Сейчас выступает у",
     "SIDEPANEL/SERIE-DETAILS/content-rating/hdr": "Содержимое Рейтинг ",

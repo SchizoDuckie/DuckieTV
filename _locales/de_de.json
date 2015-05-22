@@ -391,6 +391,8 @@
     "SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip": "Folge als nicht gesehen markiert am",
     "SIDEPANEL/MARK-WATCHED/marked-watched/tooltip": "Folge als gesehen markiert am",
     "SIDEPANEL/SEASONS/click-to-see/lbl": "(Klicke auf Episoden um Bewertungen zu sehen) ",
+    "SIDEPANEL/SEASONS/mark-all-watched/lbl": "Markiere alle als beobachtet",
+    "SIDEPANEL/SEASONS/season-watched/tooltip": "Saison komplett angeschaut",
     "SIDEPANEL/SEASONS/seasons/hdr": "Staffeln ",
     "SIDEPANEL/SERIE-DETAILS/actors/hdr": "Schauspieler ",
     "SIDEPANEL/SERIE-DETAILS/airs-on/hdr": "Derzeit ausgestrahlt auf ",

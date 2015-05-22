@@ -391,6 +391,8 @@
     "SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip": "Episode markerats som inte tittade",
     "SIDEPANEL/MARK-WATCHED/marked-watched/tooltip": "Episode markerats som tittade på",
     "SIDEPANEL/SEASONS/click-to-see/lbl": "(Klicka för att se episoder och betyg) ",
+    "SIDEPANEL/SEASONS/mark-all-watched/lbl": "Markera allt som såg",
+    "SIDEPANEL/SEASONS/season-watched/tooltip": "Säsong helt betraktade",
     "SIDEPANEL/SEASONS/seasons/hdr": "säsonger ",
     "SIDEPANEL/SERIE-DETAILS/actors/hdr": "Skådespelare ",
     "SIDEPANEL/SERIE-DETAILS/airs-on/hdr": "Spelar just nu vid",

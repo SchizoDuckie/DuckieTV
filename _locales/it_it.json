@@ -391,6 +391,8 @@
     "SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip": "Episodio contrassegnato come non visto",
     "SIDEPANEL/MARK-WATCHED/marked-watched/tooltip": "Episodio contrassegnato come visto su",
     "SIDEPANEL/SEASONS/click-to-see/lbl": "(Clicca per vedere episodi e valutazioni)",
+    "SIDEPANEL/SEASONS/mark-all-watched/lbl": "Segna tutti come visti",
+    "SIDEPANEL/SEASONS/season-watched/tooltip": "Stagione completamente guardato",
     "SIDEPANEL/SEASONS/seasons/hdr": "Stagioni",
     "SIDEPANEL/SERIE-DETAILS/actors/hdr": "Attori",
     "SIDEPANEL/SERIE-DETAILS/airs-on/hdr": "Attualmente disputa alle",

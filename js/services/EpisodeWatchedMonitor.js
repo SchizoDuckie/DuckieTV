@@ -140,7 +140,7 @@ DuckieTV.run(function($rootScope, FavoritesService, watchedCounter) {
     /**
      * Catch global recount event (for migrations 'n stuff )
      */
-    $rootScope.$on('recount:series:watched', function(evt) {
+    $rootScope.$on('series:recount:watched', function(evt) {
         angular.forEach(FavoritesService.favorites, function(serie) {
             watchedCounter.recountSerie(serie.ID_Serie);
         });

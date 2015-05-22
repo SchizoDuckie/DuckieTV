@@ -4,7 +4,7 @@
     </h2>
     
       <div class='season' ng-repeat="season in seasons.seasons" style="display:inline-block;padding:10px;cursor:pointer" ui-sref="serie.season({season_id: season.ID_Season})">
-        <em class="glyphicon glyphicon-eye-open" ng-if="season.watched" tooltip="Season completely watched"></em>
+        <em class="glyphicon glyphicon-eye-open" ng-if="season.watched" tooltip="{{'SIDEPANEL/SEASONS/season-watched/tooltip'|translate}}"></em>
         <p lazy-background="{{season.poster}}" class="seasonposter"></p>
         <p style="text-align:center">
           <strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong>
@@ -17,7 +17,7 @@
     <tr class="two-face">
       <td>
           <a ng-click="seasons.markAllWatched()">
-            <i class="glyphicon glyphicon-eye-open"></i><strong>{{'SIDEPANEL/EPISODES/mark-all-watched/lbl'|translate}}</strong>
+            <i class="glyphicon glyphicon-eye-open"></i><strong>{{'SIDEPANEL/SEASONS/mark-all-watched/lbl'|translate}}</strong>
           </a>
       </td>
     </tr>

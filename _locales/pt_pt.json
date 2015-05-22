@@ -391,6 +391,8 @@
     "SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip": "Episódio marcado como não visto",
     "SIDEPANEL/MARK-WATCHED/marked-watched/tooltip": "Episódio marcado como visto na",
     "SIDEPANEL/SEASONS/click-to-see/lbl": "(Clique para ver episódios e votos) ",
+    "SIDEPANEL/SEASONS/mark-all-watched/lbl": "Marcar tudo como observava",
+    "SIDEPANEL/SEASONS/season-watched/tooltip": "Temporada completamente observava",
     "SIDEPANEL/SEASONS/seasons/hdr": "Estações ",
     "SIDEPANEL/SERIE-DETAILS/actors/hdr": "Atores ",
     "SIDEPANEL/SERIE-DETAILS/airs-on/hdr": "Actualmente a jogar em",

@@ -391,6 +391,8 @@
     "SIDEPANEL/MARK-WATCHED/marked-not-watched/tooltip": "Aflevering gemarkeerd als niet bekeken",
     "SIDEPANEL/MARK-WATCHED/marked-watched/tooltip": "Aflevering gemarkeerd als bekeken op",
     "SIDEPANEL/SEASONS/click-to-see/lbl": "(Klik om afleveringen en beoordelingen te zien)",
+    "SIDEPANEL/SEASONS/mark-all-watched/lbl": " Markeer alles als bekeken",
+    "SIDEPANEL/SEASONS/season-watched/tooltip": "Seizoen volledig bekeken",
     "SIDEPANEL/SEASONS/seasons/hdr": "Seizoenen",
     "SIDEPANEL/SERIE-DETAILS/actors/hdr": "Acteurs",
     "SIDEPANEL/SERIE-DETAILS/airs-on/hdr": "Wordt uigezonden op",
