@@ -451,8 +451,8 @@ serieheader em.glyphicon{
     position: absolute;
     top: 0px;
     right: 0px;
-    background-color: rgba(0,50,0, 0.8);
-    color: white;
+    background-color: rgba(255,255,255, 0.8);
+    color: green;
     font-size: 25px;
     width: 45px;
     height: 35px;
@@ -1194,8 +1194,8 @@ calendar-event h2 {
 .season em.glyphicon{
     top: 0px;
     right: 0px;
-    background-color: rgba(0,50,0, 0.8);
-    color: white;
+    background-color: rgba(255,255,255, 0.8);
+    color: green;
     font-size: 35px;
     width: 45px;
     height: 35px;
