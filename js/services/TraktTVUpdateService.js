@@ -66,8 +66,11 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
 .run(function(TraktTVUpdateService) {
 
     var updateFunc = function() {
-        var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
         var localDate = new Date();
+        if (!localStorage.getItem('trakttv.lastupdated')) {
+            localStorage.setItem('trakttv.lastupdated', localDate.getTime());
+        }
+        var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
         if (TraktTVUpdateService.getDateString(lastUpdated) != TraktTVUpdateService.getDateString(localDate)) {
             TraktTVUpdateService.update(lastUpdated).then(function(result) {
                 console.info('TraktTV update check completed. ' + result.length + ' shows updated since ' + lastUpdated);
