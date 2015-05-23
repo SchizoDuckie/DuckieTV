@@ -9,7 +9,7 @@
         </tr>
         <tr>
           <th>{{'SIDEPANEL/SERIE-DETAILS/airs-on/hdr'|translate}}</th>
-          <td>{{::sidepanel.translateDayOfWeek(sidepanel.serie.airs_dayofweek)}} {{sidepanel.serie.airs_time}} {{sidepanel.serie.timezone}}</td>
+          <td>{{::sidepanel.translateDayOfWeek(sidepanel.serie.airs_dayofweek)}} {{::sidepanel.serie.airs_time}} {{::sidepanel.serie.timezone}}</td>
         </tr>
         <tr>
           <th>{{'SIDEPANEL/SERIE-DETAILS/first-aired/hdr'|translate}}</th>
@@ -19,7 +19,7 @@
           <th>{{'SIDEPANEL/SERIE-DETAILS/genre/hdr'|translate}}</th>
           <td>
             <ul class="list-unstyled" ng-class="{'genres': sidepanel.serie.genre.split('|').length > 3}">
-              <li ng-repeat="genre in sidepanel.serie.genre.split('|') track by $index">{{::sidepanel.translateGenre(genre)}}</li>
+              <li ng-repeat="genre in ::sidepanel.serie.genre.split('|') track by $index">{{::sidepanel.translateGenre(genre)}}</li>
             </ul>
           </td>
         </tr>
@@ -51,7 +51,7 @@
           <th>{{'SIDEPANEL/SERIE-DETAILS/actors/hdr'|translate}}</th>
           <td>
             <ul class="actors list-unstyled">
-              <li ng-repeat="actors in sidepanel.serie.actors.split('|') track by $index">{{::actors}}</li>
+              <li ng-repeat="actors in ::sidepanel.serie.actors.split('|') track by $index">{{::actors}}</li>
             </ul>
           </td>
         </tr>
