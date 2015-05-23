@@ -44,6 +44,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$dialogs", "$filter"
                 for (var i = 0; i < localStorage.length; i++) {
                     if (localStorage.key(i).indexOf('database.version') > -1) continue;
                     if (localStorage.key(i).indexOf('trakttv.trending.cache') > -1) continue;
+                    if (localStorage.key(i).indexOf('trakttv.lastupdated.trending') > -1) continue;
                     out.settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i));
                 }
                 // Store all the series
