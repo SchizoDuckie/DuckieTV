@@ -1536,12 +1536,12 @@ sidepanel .torrents .torrent .progress, sidepanel .torrent-mini-remote-control-p
 }
 sidepanel .torrents .torrent .buttons .torrent-mini-remote-control {
     border: 1px solid white;
-    border-radius:10px;
-    padding:20px;
+    border-radius: 10px;
+    padding: 20px;
 }
 sidepanel .leftpanel.torrents {
     color: #E0E0E0;
-    padding:0;
+    padding: 0;
 }
 
 .torrents .torrent {
@@ -1550,36 +1550,36 @@ sidepanel .leftpanel.torrents {
 }
 .torrents .torrent:hover {
     background-color: rgba(55,55,55,0.4);
-    color:white;
+    color: white;
 }
 .torrents .torrent div.buttons {
     height: 0px;
-    overflow:hidden;
-    transition: all 0.25s ease-in;
+    overflow: hidden;
+    transition: all 0.25s ease-in-out;
     overflow: hidden;
     padding: 20px;
     margin: 20px 0px;
     position: relative;
 }
 .torrents .torrent.active div.buttons {
-    height: 180px;
-    overflow:hidden;
+    height: 265px;
 }
 .torrents .torrent strong {
     text-align: left;
     display: block;
     font-size: 14px;
     cursor: pointer;
-    padding:10px;
+    padding: 10px;
     font-family: helvetica;
-    font-weight:normal;
+    font-weight: normal;
+    word-wrap: break-word;
 }
 .torrents .torrent .label {
     top: 4px;
     right: 30px;
     position: absolute;
     background-color: #505050;
-    display:inline-block;
+    display: inline-block;
 }
 
 .settings h2 {
@@ -1600,10 +1600,10 @@ sidepanel .leftpanel.torrents {
 }
 
 .settings h2 span {
-    float:right;
+    float: right;
 }
 .settings h2 span i {
-    background-color:transparent !important;
+    background-color: transparent !important;
    
 }
 

@@ -1,6 +1,6 @@
 <div class="episodes">
-    <h2 style='color:white'>{{season.getPageHeader(season.season)}}</h2>
-    <p>{{season.season.overview}}</p>
+    <h2 style='color:white'>{{::season.getPageHeader(season.season)}}</h2>
+    <p>{{::season.season.overview}}</p>
     <strong>{{'SIDEPANEL/EPISODES/episodes/lbl'|translate}}</strong>
     <table class="table table-condensed light" style='margin-top:10px; background-color:transparent'>
       <tbody ng-if="!season.episodes || season.episodes.length == 0">
@@ -11,42 +11,39 @@
       <tbody ng-if="season.episodes" ng-repeat="episode in season.episodes | orderBy: season.getSortEpisodeNumber:true" ng-mouseenter="showHover=true" ng-mouseleave="showHover=false">
         <tr>
           <td style="width:70px">
-            <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{episode.getFormattedEpisode()}}</a>
+            <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{::episode.getFormattedEpisode()}}</a>
           </td>
           <td>
-            <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{sidepanel.serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{ episode.episodename }}</a>
+            <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{sidepanel.serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{::episode.episodename}}</a>
           </td>
           <td class="nobreaks" align="right" ng-if="episode.hasAired()">
-          <a ng-show="episode.hasAired() && (!showHover || !getSetting('torrenting.enabled'))" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{ episode.firstaired | date: 'short' }}" >{{ episode.firstaired | date: 'shortDate' }}</a>
+          <a ng-show="episode.hasAired() && (!showHover || !getSetting('torrenting.enabled'))" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{ episode.firstaired | date: 'short' }}" >{{::episode.firstaired|date:'shortDate'}}</a>
           <div ng-show="showHover && episode.hasAired() && getSetting('torrenting.enabled')">
-           <torrent-dialog tvdbid='episode.TVDB_ID' q='season.getSearchString(sidepanel.serie,episode)'></torrent-dialog>
-           <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'SIDEPANEL/EPISODES/auto-download/tooltip'|translate}}">
-                  <i class="glyphicon glyphicon-cloud-download"></i>
-              </a>
+            <torrent-dialog tvdbid='episode.TVDB_ID' q='season.getSearchString(sidepanel.serie,episode)'></torrent-dialog>
+            <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'SIDEPANEL/EPISODES/auto-download/tooltip'|translate}}">
+              <i class="glyphicon glyphicon-cloud-download"></i>
+            </a>
           </div>
           </td>
-          <td ng-if="!episode.hasAired()">
-            
-          </td>
           <td style="width:55px">
-            <episode-downloaded ng-if="episode.hasAired()"></episode-downloaded> <episode-watched ng-if="episode.hasAired()"></episode-watched>
+            <episode-downloaded ng-show="episode.hasAired()"></episode-downloaded> <episode-watched ng-show="episode.hasAired()"></episode-watched>
           </td>
         </tr>
-        <tr ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash" tooltip="{{ episode.getFormattedEpisode() }} ({{episode.getAirTime() }}) ">
+        <tr ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) ">
           <td colspan="4" style="border: none; padding:0;">
             <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html" style="position:relative"></torrent-remote-control>
           </td>
         </tr>
       </tbody>
     </table>
-    <div ng-if="getSetting('download.ratings')">
+    <div ng-show="getSetting('download.ratings')">
         <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>{{'SIDEPANEL/EPISODES/episode-ratings/hdr'|translate}}</h2>
         <div class="chart">
           <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}" tooltip-append-to-body="true"></div>
         </div>
     </div>
     <table class="buttons" width="100%" border="0">
-        <tr ng-if="getSetting('torrenting.enabled')">
+        <tr ng-show="getSetting('torrenting.enabled')">
           <td colspan="2">
               <a ng-click="season.autoDownloadAll()">
                   <i class="glyphicon glyphicon-cloud-download"></i><strong>{{'SIDEPANEL/EPISODES/auto-download-all/lbl'|translate}}</strong>

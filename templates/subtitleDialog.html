@@ -6,13 +6,13 @@
 
 <table class="torrents table table-condensed white">
   <thead>
-    <tr ng-if="searching">
+    <tr ng-show="searching">
       <td>
         <loading-spinner style="margin:0 auto; display:block; width:50px; height:50px; position:relative;"></loading-spinner>
         <p style='text-align:center; padding:10px;'>{{'SUBTITLEDIALOG/searching/lbl'|translate}} {{'SUBTITLEDIALOG/searching-please-wait/lbl'|translate}}.</p>
       </td>
     </tr>
-    <tr ng-if="!searching && items.length == 0">
+    <tr ng-show="!searching && items.length == 0">
       <td>
         <p>{{'SUBTITLEDIALOG/no-results/lbl'|translate}}</p>
         <strong>{{ query }}</strong>
@@ -20,7 +20,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-if="!searching && items.length > 0">
+    <tr ng-show="!searching && items.length > 0">
       <th>
         <strong>S/E</strong>
       </th>
@@ -35,18 +35,18 @@
       </th>
      
     </tr>
-    <tr ng-if="!searching && items.length > 0 " ng-repeat="subtitle in items | orderBy:'LanguageName' track by $index">
+    <tr ng-show="!searching && items.length > 0 " ng-repeat="subtitle in items | orderBy:'LanguageName' track by $index">
       <td>
-        <a href="{{subtitle.url}}" target="_blank">S{{ subtitle.SeriesSeason }}E{{subtitle.SeriesEpisode}}</a>
+        <a href="{{subtitle.url}}" target="_blank">S{{ ::subtitle.SeriesSeason }}E{{::subtitle.SeriesEpisode}}</a>
       </td>
       <td>
-        <a href="{{subtitle.url}}" target="_blank">{{ subtitle.LanguageName }}</a>
+        <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.LanguageName }}</a>
       </td>
       <td>
-        <a href="{{subtitle.url}}" target="_blank">{{ subtitle.MovieReleaseName }}</a>
+        <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.MovieReleaseName }}</a>
       </td>
       <td>  
-        <a href="{{subtitle.url}}" target="_blank">{{ subtitle.SubDownloadsCnt }}</a>
+        <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.SubDownloadsCnt }}</a>
       </td>
 
     </tr>

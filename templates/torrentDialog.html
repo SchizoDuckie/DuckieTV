@@ -12,19 +12,19 @@
 </div>
 
 <div class="btn-group">
- <button ng-repeat="name in clients |orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{name}}</button>
+ <button ng-repeat="name in clients |orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
 </div>
 
 <table class="torrents table table-condensed white">
   <thead>
-    <tr ng-if="searching">
+    <tr ng-show="searching">
       <td>
          <loading-spinner style="margin:0 auto; display:block; width:50px; height:50px; position:relative;"></loading-spinner>
         <p style='text-align:center; padding:10px;'>{{'TORRENTDIALOG/searching/lbl'|translate}} {{getName(searchprovider)}}{{'TORRENTDIALOG/searching-please-wait/lbl'|translate}}.</p>
       </td>
     </tr>
   </thead>
-  <tbody ng-if="!searching && items.length == 0">
+  <tbody ng-show="!searching && items.length == 0">
     <tr>
       <th>
         <p>{{'TORRENTDIALOG/no-results/lbl'|translate}}</p>
@@ -32,14 +32,14 @@
       </th>
     </tr>
   </tbody>
-  <tbody ng-if="!searching && error != false">
+  <tbody ng-show="!searching && error != false">
   <tr> 
     <th> 
       <h1 style='text-align:center'> :( </h1>
       <h2 style='text-align:center'>{{error}}<h2>
     </tr>
   </tbody>  
-  <tbody ng-if="!searching && items.length > 0">
+  <tbody ng-show="!searching && items.length > 0">
     <tr>
       <th>&nbsp;</th>
       <th>
@@ -61,13 +61,13 @@
           <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/options/tooltip'|translate}}"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a ng-href="{{seed.torrent}}"><i class="glyphicon glyphicon-download"></i>{{'TORRENTDIALOG/download-torrent/lbl'|translate}}</a></li>
-          <li><a ng-href="{{seed.magneturl}}"><i class="glyphicon glyphicon-magnet"></i>{{'TORRENTDIALOG/magnet/link/lbl'|translate}}</a></li>
-          <li><a ng-href="{{seed.detailUrl}}" target='_blank'><i class="glyphicon glyphicon-link"></i>{{'TORRENTDIALOG/torrent-details/lbl'|translate}}</a></li>
+          <li><a ng-href="{{::seed.torrent}}"><i class="glyphicon glyphicon-download"></i>{{'TORRENTDIALOG/download-torrent/lbl'|translate}}</a></li>
+          <li><a ng-href="{{::seed.magneturl}}"><i class="glyphicon glyphicon-magnet"></i>{{'TORRENTDIALOG/magnet/link/lbl'|translate}}</a></li>
+          <li><a ng-href="{{::seed.detailUrl}}" target='_blank'><i class="glyphicon glyphicon-link"></i>{{'TORRENTDIALOG/torrent-details/lbl'|translate}}</a></li>
         </ul>
       </td>
       <td>
-        <a tooltip="Size: {{seed.size}}" ng-bind-html="seed.releasename | unsafe" ng-click="magnetSelect(seed.magneturl)"></a>
+        <a tooltip="Size: {{::seed.size}}" ng-bind-html="seed.releasename | unsafe" ng-click="magnetSelect(seed.magneturl)"></a>
       </td>
       <td style='width:50px; text-align:right'>
         <a  ng-bind="seed.seeders" ng-click="magnetSelect(seed.magneturl)"></a>

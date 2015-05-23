@@ -1,70 +1,68 @@
-   <div lazy-background="{{sidepanel.serie.poster}}" class="serie-bg-img" ng-hide="bgtest"></div>
-   <div class="leftpanel serie-overview">
-    <h2>{{sidepanel.serie.name}}</h2>
-    <table width="100%" border="0">
-      <tbody class="metadata">
-      
-        <tr>
-          <td colspan="2" style='padding:25px;text-align:justify'>{{sidepanel.serie.overview}}</td>
-        </tr>
+<div lazy-background="{{sidepanel.serie.poster}}" class="serie-bg-img"></div>
+<div class="leftpanel serie-overview">
+  <h2>{{::sidepanel.serie.name}}</h2>
+  <table width="100%" border="0">
+    <tbody class="metadata">
+    
+      <tr>
+        <td colspan="2" style='padding:25px;text-align:justify'>{{::sidepanel.serie.overview}}</td>
+      </tr>
 
-  
-      </tbody>
-      <tbody class="buttons">
+
+    </tbody>
+    <tbody class="buttons">
+    <tr>
+      <td colspan="2">
+          <a ui-sref="serie.details()">
+              <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/SERIE-OVERVIEW/series-details/lbl'|translate}}</strong>
+          </a>
+      </td>
+    </tr>
+    <tr class="two-face">
+      <td>
+          <a ui-sref="serie.seasons({id: sidepanel.serie.ID_Serie})">
+              <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/SERIE-OVERVIEW/seasons/lbl'|translate}}</strong>
+          </a>
+      </td>
+      <td>
+          <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
+              <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/SERIE-OVERVIEW/episodes/lbl'|translate}}</strong>
+          </a>
+      </td>
+    </tr>
       <tr>
         <td colspan="2">
-            <a ui-sref="serie.details()">
-                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/SERIE-OVERVIEW/series-details/lbl'|translate}}</strong>
+          <a ng-click="sidepanel.refresh(sidepanel.serie)">
+            <i class="glyphicon glyphicon-refresh" ng-show="!sidepanel.isAdding(sidepanel.serie.TVDB_ID)"></i>
+            <i ng-show="sidepanel.isAdding(sidepanel.serie.TVDB_ID)"><loading-spinner style="width: 25px; height: 25px; left: 0px; top: 0px; position: relative; float: left;"></loading-spinner></i>
+            <strong>{{'SIDEPANEL/SERIE-OVERVIEW/refresh/lbl'|translate}}</strong>
+          </a>
+        </th>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <a ng-show="sidepanel.serie.displaycalendar == 1" ng-click="sidepanel.toggleSerieDisplay(sidepanel.serie)">
+            <i class="glyphicon glyphicon-ban-circle"></i>
+            <strong>{{'SIDEPANEL/SERIE-OVERVIEW/calendar-hide/btn'|translate}}</strong>
             </a>
+          <a ng-show="sidepanel.serie.displaycalendar == 0" ng-click="sidepanel.toggleSerieDisplay(sidepanel.serie)">
+             <i class="glyphicon glyphicon-ok-circle"></i>
+             <strong>{{'SIDEPANEL/SERIE-OVERVIEW/calendar-show/btn'|translate}}</strong>
+          </a>
         </td>
       </tr>
-      <tr class="two-face">
-        <td>
-            <a ui-sref="serie.seasons({id: sidepanel.serie.ID_Serie})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/SERIE-OVERVIEW/seasons/lbl'|translate}}</strong>
-            </a>
-        </td>
-        <td>
-            <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong>{{'SIDEPANEL/SERIE-OVERVIEW/episodes/lbl'|translate}}</strong>
-            </a>
-        </td>
+      <tr>
+        <td colspan="2">
+          <a ng-click="sidepanel.removeFromFavorites(sidepanel.serie)" style="background-color:rgba(250,55,55,0.1)">
+            <i class="glyphicon glyphicon-trash"></i>
+            <strong>{{'SIDEPANEL/SERIE-OVERVIEW/delete-serie/btn'|translate}}</strong>
+          </a>
+        </th>
       </tr>
-        <tr>
-          <td colspan="2">
-            <a ng-click="sidepanel.refresh(sidepanel.serie)">
-              <i class="glyphicon glyphicon-refresh" ng-show="!sidepanel.isAdding(sidepanel.serie.TVDB_ID)"></i>
-              <i ng-show="sidepanel.isAdding(sidepanel.serie.TVDB_ID)"><loading-spinner style="width: 25px; height: 25px; left: 0px; top: 0px; position: relative; float: left;"></loading-spinner></i>
-              <strong>{{'SIDEPANEL/SERIE-OVERVIEW/refresh/lbl'|translate}}</strong>
-            </a>
-          </th>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <a ng-show="sidepanel.serie.displaycalendar == 1" ng-click="sidepanel.toggleSerieDisplay(sidepanel.serie)">
-              <i class="glyphicon glyphicon-ban-circle"></i>
-              <strong>{{'SIDEPANEL/SERIE-OVERVIEW/calendar-hide/btn'|translate}}</strong>
-              </a>
-            <a ng-show="sidepanel.serie.displaycalendar == 0" ng-click="sidepanel.toggleSerieDisplay(sidepanel.serie)">
-               <i class="glyphicon glyphicon-ok-circle"></i>
-               <strong>{{'SIDEPANEL/SERIE-OVERVIEW/calendar-show/btn'|translate}}</strong>
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <a ng-click="sidepanel.removeFromFavorites(sidepanel.serie)" style="background-color:rgba(250,55,55,0.1)">
-              <i class="glyphicon glyphicon-trash"></i>
-              <strong>{{'SIDEPANEL/SERIE-OVERVIEW/delete-serie/btn'|translate}}</strong>
-            </a>
-          </th>
-        </tr>
-      </tbody>
+    </tbody>
 
-      
-      </tbody>
-    </table>
-  </div>
-  <div class="rightpanel" ui-view="serieDetails">
-
-  </div>
+    
+    </tbody>
+  </table>
+</div>
+<div class="rightpanel" ui-view="serieDetails"></div>
