@@ -6,15 +6,15 @@
 </form>
 
 <!-- Banner mode button -->
-<a accesskey="l" ng-if="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" tooltip="{{'SERIESLIST/TOOLS/LOCALFILTER/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/LOCALFILTER/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom">
+<a accesskey="l" ng-show="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" tooltip="{{'SERIESLIST/TOOLS/LOCALFILTER/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/LOCALFILTER/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom">
     <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'SERIESLIST/TOOLS/LOCALFILTER/list-show/glyph'|translate}}
 </a>
 <!-- Poster mode button -->
-<a accesskey="g" ng-if="serieslist.mode != 'poster'" ng-click="serieslist.setMode('poster');" tooltip="{{'SERIESLIST/TOOLS/LOCALFILTER/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/LOCALFILTER/hotkey/lbl'|translate}}: alt + g)" tooltip-placement="bottom">
+<a accesskey="g" ng-show="serieslist.mode != 'poster'" ng-click="serieslist.setMode('poster');" tooltip="{{'SERIESLIST/TOOLS/LOCALFILTER/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/LOCALFILTER/hotkey/lbl'|translate}}: alt + g)" tooltip-placement="bottom">
     <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'SERIESLIST/TOOLS/LOCALFILTER/grid-show/glyph'|translate}}
 </a>
 <!-- Make posters smaller button -->
-<a ng-if="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">
+<a ng-show="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">
     <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/LOCALFILTER/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/LOCALFILTER/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
 </a>
 

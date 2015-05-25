@@ -41,7 +41,7 @@
     </div>
   </div>
 
-  <div ng-if="credentials.success">
+  <div ng-show="credentials.success">
     <hr class="setting-divider">
     <h2>{{'SETTINGS/TRAKT-IMPORT/watched-sync/hdr'|translate}}
       <span tooltip="{{traktSync ? 'SETTINGS/TRAKTTV/sync-enabled/tooltip' : 'SETTINGS/TRAKTTV/sync-disabled/tooltip'|translate}}">
@@ -50,7 +50,7 @@
     </h2>
     <p>{{'SETTINGS/TRAKT-IMPORT/watched-sync/desc'|translate}}</p>
      
-    <a ng-if="credentials.success" ng-click="toggleTraktSync()" class="btn btn-{{traktSync ? 'danger' : 'success'}}">
+    <a ng-click="toggleTraktSync()" class="btn btn-{{traktSync ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{traktSync ? 'remove-circle' : 'export'}}" style="float:left;top:3px"></i>{{traktSync ? 'SETTINGS/TRAKT-IMPORT/sync-disabled/btn' : 'SETTINGS/TRAKT-IMPORT/sync-enabled/btn'|translate}}
     </a>
 

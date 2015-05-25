@@ -7,10 +7,10 @@
   <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh"></i>
   <p class="protip">{{'SERIESLIST/TOOLS/ADDING/addshow-protip/lbl'|translate}}
     <!-- Make posters smaller button -->
-    <a ng-if="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();" style="display:inline-block;">
+    <a ng-show="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();" style="display:inline-block;">
       <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/ADDING/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/ADDING/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
     </a>
   </p>
 </form>
 
-<h1 style='text-align:center' ng-if="traktSearch.searching"><loading-spinner ng-if="traktSearch.searching"></loading-spinner><br>{{'SERIESLIST/TOOLS/ADDING/addshow-start-typing/lbl'|translate}}</h1>
+<h1 style='text-align:center' ng-show="traktSearch.searching"><loading-spinner></loading-spinner><br>{{'SERIESLIST/TOOLS/ADDING/addshow-start-typing/lbl'|translate}}</h1>

@@ -1,33 +1,32 @@
 <!-- serieslist\trakt-trending.html -->
 <div class="series adding" ng-class="{'miniposter': serieslist.isSmall}">
-
 	<!-- no series, show intro text and trakt connect/ backup import -->
 	<div ng-if="trending.currentFavs == 0" class="alert alert-info" style='margin:20px;text-align:left;white-space:normal;font-size: 14px'>
 	    <strong>{{'SERIESLIST/TRAKT-TRENDING/series-no/hdr'|translate}}</strong>
 	    {{'SERIESLIST/TRAKT-TRENDING/series-no/desc'|translate}}<br>
 	    <strong style='display:inline'><button ng-click="showBackup = true; showTrakt = false" style='color:black; position:relative;'>{{'SERIESLIST/TRAKT-TRENDING/import/btn'|translate}} </button></strong> or <strong  style='display:inline'><button ng-click="showTrakt = true;showBackup = false" style='color:black'>{{'SERIESLIST/TRAKT-TRENDING/connect-to-traktTV/btn'|translate}}</button></strong>
-	    <div ng-if="showTrakt == true" ng-controller='TraktTVCtrl' ng-include="'templates/settings/trakt-import.html'"></div>
-	    <div ng-if="showBackup == true" ng-include="'templates/settings/backup-import.html'"></div>
+	    <div ng-show="showTrakt == true" ng-controller='TraktTVCtrl' ng-include="'templates/settings/trakt-import.html'"></div>
+	    <div ng-show="showBackup == true" ng-include="'templates/settings/backup-import.html'"></div>
 	</div>
 
 	<h1 style='margin-bottom:15px;margin-top:15px;color:rgb(225,225,225);'>{{'SERIESLIST/TRAKT-TRENDING/addtrending-help/hdr'|translate}} - {{'SERIESLIST/TRAKT-TRENDING/addtrending-help-click-to-show/hdr'|translate}}</h1>
 
 	<!-- Trending series loading -->
-	<h1 style='text-align:center' ng-if="trending.results.length == 0"><loading-spinner style="width: 37px; height:37px"></loading-spinner><br>{{'SERIESLIST/TRAKT-TRENDING/addtrending-help-please-wait/hdr'|translate}}</h1>
+	<h1 style='text-align:center' ng-show="trending.results.length == 0"><loading-spinner style="width: 37px; height:37px"></loading-spinner><br>{{'SERIESLIST/TRAKT-TRENDING/addtrending-help-please-wait/hdr'|translate}}</h1>
 
 	<div class="filters" ng-if="trending.categories && !trending.results.length == 0">
-		<button ng-repeat="(category, on) in trending.categories" class="btn btn-xs btn-default" style="padding: 1px 7px" ng-click="trending.toggleCategory(category)" ng-class="{'active': trending.activeCategory == category}">{{trending.translateCategory(category)}}</button>
+		<button ng-repeat="(category, on) in trending.categories" class="btn btn-xs btn-default" style="padding: 1px 7px" ng-click="trending.toggleCategory(category)" ng-class="{'active': trending.activeCategory == category}">{{::trending.translateCategory(category)}}</button>
 	</div>
 
 	<!-- Repeated trending serie results -->
-	<serieHeader ng-repeat="serie in trending.getFilteredResults()  | limitTo: trending.limit track by serie.tvdb_id" ng-mouseenter="trending.setHoverSerie(serie)" data="serie" no-overview="1" no-title="1" mode="poster" ng-click="serieslist.selectSerie(serie)">
+	<serieHeader ng-repeat="serie in trending.getFilteredResults()  | limitTo: trending.limit track by serie.tvdb_id" ng-mouseenter="trending.setHoverSerie(serie)" data="serie" no-overview="1" no-title="1" no-button="1" mode="poster" ng-click="serieslist.selectSerie(serie)">
 	    <em class="earmark trailer" >
-		    <a ng-if="serie.trailer" href="{{serie.trailer}}" target="_blank" tooltip="{{'SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip'|translate}}" tooltip-append-to-body="true" stop-event tooltip-placement="bottom"><i class="glyphicon glyphicon-facetime-video"></i></a>
-		    <a ng-if="!serie.trailer" stop-event href="https://www.youtube.com/results?search_query={{serie.name}}+official+trailer" target="_blank" tooltip="{{'SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip'|translate}}" tooltip-append-to-body="true"  tooltip-placement="bottom"><i class="glyphicon glyphicon-facetime-video"></i></a>
+		    <a ng-show="serie.trailer" href="{{serie.trailer}}" target="_blank" tooltip="{{'SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip'|translate}}" tooltip-append-to-body="true" stop-event tooltip-placement="bottom"><i class="glyphicon glyphicon-facetime-video"></i></a>
+		    <a ng-show="!serie.trailer" stop-event href="https://www.youtube.com/results?search_query={{serie.name}}+official+trailer" target="_blank" tooltip="{{'SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip'|translate}}" tooltip-append-to-body="true"  tooltip-placement="bottom"><i class="glyphicon glyphicon-facetime-video"></i></a>
 	    </em>
 	    <em class="earmark" ng-show="serieslist.isAdded(serie.tvdb_id)">&check;</em>
 	    <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><loading-spinner style="width: 37px; height:37px"></loading-spinner></em>
 	    <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{serieslist.error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
 	</serieHeader>
-	<button class="btn btn-info" ng-click="trending.limit = trending.limit + 100" ng-if="trending.filtered && trending.limit < trending.filtered.length" style="display:block; margin:0 auto; width: 50%;"><i class="glyphicon glyphicon-plus"></i>{{'SERIESLIST/TRAKT-TRENDING/show-more/btn'|translate}}</button>
+	<button class="btn btn-info" ng-click="trending.limit = trending.limit + 100" ng-show="trending.filtered && trending.limit < trending.filtered.length" style="display:block; margin:0 auto; width: 50%;"><i class="glyphicon glyphicon-plus"></i>{{'SERIESLIST/TRAKT-TRENDING/show-more/btn'|translate}}</button>
 </div>

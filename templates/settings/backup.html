@@ -1,10 +1,10 @@
 <div ng-controller="BackupCtrl">
   <h2>{{'SETTINGS/BACKUP/desc'|translate}}</h2>
   <div class="buttons">
-    <a class="btn btn-success" ng-if="!backupString" ng-click="createBackup()">
+    <a class="btn btn-success" ng-show="!backupString" ng-click="createBackup()">
       <i class="glyphicon glyphicon-floppy-save"></i> {{'SETTINGS/BACKUP/create/btn'|translate}}
     </a>
-    <a class="btn btn-info" download="DuckieTV {{ backupTime | date: shortDate }}.backup" ng-if="backupString" ng-href="{{ backupString }}">
+    <a class="btn btn-info" download="DuckieTV {{backupTime|date:shortDate}}.backup" ng-show="backupString" ng-href="{{backupString}}">
       <i class="glyphicon glyphicon-floppy-saved"></i> {{'SETTINGS/BACKUP/download/btn'|translate}}
     </a>
   </div>
@@ -24,12 +24,12 @@
     <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute;opacity:0;width:100%;top:0;padding:0;height:100%;cursor:pointer" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false" />
   </div>
 
-  <div style="padding:5px;text-align:center" class="miniposter x2">
-    <h1 ng-if="restoring && !declined" style='margin-top: 20px;'> {{'SETTINGS/BACKUP/loading-please-wait/lbl'|translate}}</h1>
-    <h1 ng-if="restoring && declined" style='margin-top: 20px;'> {{'SETTINGS/BACKUP/wipe-cancelled/lbl'|translate}}</h1>
+  <div ng-if="restoring" style="padding:5px;text-align:center" class="miniposter x2">
+    <h1 ng-show="!declined" style='margin-top: 20px;'> {{'SETTINGS/BACKUP/loading-please-wait/lbl'|translate}}</h1>
+    <h1 ng-show="declined" style='margin-top: 20px;'> {{'SETTINGS/BACKUP/wipe-cancelled/lbl'|translate}}</h1>
     <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" no-title="1" no-button="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
       <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
-      <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><img src="img/spinner.gif" width="33px" height="33px"></em>
+      <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
     </serieHeader>
   </div>
 

@@ -1,11 +1,11 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
   <h2>&micro;Torrent {{'SETTINGS/UTORRENT/integration/hdr'|translate}}</h2>
   
-  <p ng-if="isuTorrentAuthenticated()">
+  <p ng-show="isuTorrentAuthenticated()">
     <translate>SETTINGS/UTORRENT/is-authenticated/desc</translate> <em>{{getToken()}}.</em><br />
     <translate>SETTINGS/UTORRENT/is-authenticated/desc2</translate>
   </p>
-  <p ng-if="!isuTorrentAuthenticated()"><translate>SETTINGS/UTORRENT/is-not-authenticated/desc</translate></p>
+  <p ng-show="!isuTorrentAuthenticated()"><translate>SETTINGS/UTORRENT/is-not-authenticated/desc</translate></p>
   
   <a class='btn btn-small btn-warning' ng-if="isuTorrentAuthenticated()" ng-click='removeToken()'><i class="glyphicon glyphicon-ban-circle"></i> <span translate>SETTINGS/UTORRENT/clear-authority/btn</span></a>
   <a class='btn btn-small btn-success' ng-if="!isuTorrentAuthenticated()" ng-click='connect()'><i class="glyphicon glyphicon-refresh"></i> <span ><translate>SETTINGS/UTORRENT/connect-to-utorrent/btn</translate></span></a>
