@@ -4,8 +4,12 @@
 DuckieTV.config(["$translateProvider",
     function($translateProvider) {
 
-        $translateProvider
+        // Escape all outputs from Angular Translate for security, not that
+        // it is really needed in this case but it stops throwing a warning
+        $translateProvider.useSanitizeValueStrategy('escaped');
 
+
+        $translateProvider
         /*
          * setup path to the translation table files
          * example ../_Locales/en_us.json
