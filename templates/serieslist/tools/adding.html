@@ -1,6 +1,6 @@
 <form ng-submit="serieslist.selectFirstResult()" name="search.searchForm">
   <!-- Disable adding button -->
-  <a tooltip="{{'SERIESLIST/TOOLS/ADDING/addshow-return-to-fav-list/tooltip'|translate}}" tooltip-placement="bottom" ui-sref="favorites()" style='float:left'>
+  <a tooltip="{{'SERIESLIST/TOOLS/ADDING/addshow-return-to-fav-list/tooltip'|translate}}" tooltip-placement="bottom" ui-sref="favorites()" style='float:left' ng-click="serieslist.closeSidePanel()">
     <i class="glyphicon glyphicon-ok-sign" style="top: 2px"></i> {{'SERIESLIST/TOOLS/ADDING/addshow-hide/glyph'|translate}}
   </a>
   <input type="text" focus-watch="'serieslist.searchingForSerie'" ng-model="search.query" placeholder="{{'SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder'|translate}}" ng-model-options="{debounce: 500}"  ng-change="search.search(search.query)" style='float:left; margin-left:10px; width:35%; margin-right:10px; font-size:20px; margin-top:-5px' />

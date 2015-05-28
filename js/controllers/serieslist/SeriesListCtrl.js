@@ -87,6 +87,10 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             this.mode = mode;
         };
 
+        this.closeSidePanel = function() {
+            SidePanelState.hide();
+        }
+
         /**
          * Toggles small mode on off
          */
