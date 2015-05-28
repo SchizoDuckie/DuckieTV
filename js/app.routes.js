@@ -179,8 +179,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         .state('watchlist', {
             url: '/watchlist',
             resolve: {
-                SidePanelState: expandSidePanel,
-                SeriesListState: hideSeriesList
+                SidePanelState: expandSidePanel
             },
             views: {
                 sidePanel: {
@@ -364,8 +363,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         .state('about', {
             url: '/about',
             resolve: {
-                SidePanelState: expandSidePanel,
-                SeriesListState: hideSeriesList
+                SidePanelState: expandSidePanel
             },
             views: {
                 sidePanel: {
