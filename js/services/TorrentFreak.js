@@ -98,49 +98,49 @@ DuckieTV.provider('TorrentFreak', function() {
         }
     ]
 })
-    .directive('top10PiratedMovies', function() {
+.directive('top10PiratedMovies', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'templates/torrentFreakTop10.html',
+        controller: ["$compile", "TorrentFreak", "$rootScope",
+            function($compile, TorrentFreak, $rootScope) {
+                var vm = this;
+                this.activeItem;
+                this.items = [];
+                this.itemIndex = 0;
+                this.activeItem = [];
 
-        return {
-            restrict: 'E',
-            templateUrl: 'templates/torrentFreakTop10.html',
-            controller: ["$compile", "TorrentFreak", "$rootScope",
-                function($compile, TorrentFreak, $rootScope) {
-                    var vm = this;
-                    this.activeItem;
-                    this.items = [];
-                    this.itemIndex = 0;
-                    this.activeItem = [];
-
-                    /** 
-                     * Switch to the previous item in the Top10 RSS feed while the index isn't maxxed out
-                     */
-                    this.prevItem = function() {
-                        if (this.itemIndex < vm.items.length - 2) {
-                            this.itemIndex += 1;
-                        }
+                /** 
+                 * Switch to the previous item in the Top10 RSS feed while the index isn't maxxed out
+                 */
+                this.prevItem = function() {
+                    if (this.itemIndex < vm.items.length - 1) {
+                        this.itemIndex += 1;
                         this.activeItem = vm.items[vm.itemIndex];
                     }
-                    /** 
-                     * Switch to the next item in the Top10 RSS feed results while the index is > 0
-                     */
-                    this.nextItem = function() {
-                        if (this.itemIndex > 0) {
-                            this.itemIndex -= 1;
-                        }
-                        this.activeItem = vm.items[vm.itemIndex];
-                    }
-
-                    /** 
-                     * Fetch the Top10 RSS feed, render the first item as HTML and put it on the scope.
-                     */
-                    TorrentFreak.Top10($rootScope).then(function(result) {
-                        vm.items = result;
-                        vm.activeItem = result[0];
-                        $compile(result[0].content)($rootScope);
-                    });
                 }
-            ],
-            controllerAs: 'vm',
-            bindToController: true
-        };
-    })
+                /** 
+                 * Switch to the next item in the Top10 RSS feed results while the index is > 0
+                 */
+                this.nextItem = function() {
+                    if (this.itemIndex > 0) {
+                        this.itemIndex -= 1;
+                        this.activeItem = vm.items[vm.itemIndex];
+                    }
+                }
+
+                /** 
+                 * Fetch the Top10 RSS feed, render the first item as HTML and put it on the scope.
+                 */
+                TorrentFreak.Top10($rootScope).then(function(result) {
+                    vm.items = result;
+                    vm.activeItem = result[0];
+                    // Dunno what this does, trying to compile the HTML post into the $rootScope ?
+                    // $compile(result[0].content)($rootScope);
+                });
+            }
+        ],
+        controllerAs: 'vm',
+        bindToController: true
+    };
+})

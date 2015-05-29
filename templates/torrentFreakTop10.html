@@ -1,31 +1,37 @@
-<div ng-show="vm.items.length > 0">
- <button  style='color: black;' ng-click="vm.prevItem()"> &lt; {{'TORRENTFREAK/previous/btn'|translate}} </button>
- <button  style='color: black;' ng-click="vm.nextItem()"> {{'TORRENTFREAK/next/btn'|translate}} &gt;</button>
+<div style="padding:30px">
+  <div style="align:center"><center>
+    <button style='color: black;' ng-click="vm.prevItem()" ng-disabled="vm.itemIndex == vm.items.length - 1"> &lt; {{'TORRENTFREAK/previous/btn'|translate}} </button>
+    <button style='color: black;' ng-click="vm.nextItem()" ng-disabled="vm.itemIndex == 0"> {{'TORRENTFREAK/next/btn'|translate}} &gt;</button>
+  </center></div>
   <div ng-if="vm.activeItem">
   <h2>{{vm.activeItem.title}}</h2>
-    <table class="table table-condensed table-light" style='background-color: black;'>
+    <table class="table table-condensed table-light">
       <thead>
         <tr>
-          <th>{{'TORRENTFREAK/rank/hdr'|translate}}</th>
+          <th style="width:85px">{{'TORRENTFREAK/rank/hdr'|translate}}</th>
           <th>{{'TORRENTFREAK/title/hdr'|translate}}</th>
-          <th>{{'TORRENTFREAK/rating/hdr'|translate}}</th>
-          <th>{{'TORRENTFREAK/info/hdr'|translate}}</th>
+          <th style="width:85px">{{'TORRENTFREAK/rating/hdr'|translate}}</th>
+          <th style="width:85px">{{'TORRENTFREAK/info/hdr'|translate}}</th>
         </tr>
       </thead>
       <tr ng-repeat="row in vm.activeItem.top10">
-
         <td>
-          <strong style='color:white'>{{ row.rank }} / ({{ row.prevRank }})</strong>
+          <strong style='color:white'>{{::row.rank}} / ({{::row.prevRank}})</strong>
         </td>
         <td>
           <a href="{{row.imdb}}">
-            <strong>{{row.title}}</strong>
+            <strong>{{::row.title}}</strong>
           </a>
         </td>
-        <td style='color:white'>{{row.rating}}</td>
-        <td><a href="{{ row.rottenTomatoes }}" tooltip="Rotten Tomatoes" target="_blank"><i class="glyphicon glyphicon-asterisk"></i></a>
-          <a href="{{ row.trailer }}" tooltip="{{'TORRENTFREAK/watch-trailer/tooltip'|translate}}" target="_blank"><i class="glyphicon glyphicon-film"></i></a>
-          <torrent-dialog q="row.title"></torrent-dialog>
+        <td style='color:white'>{{::row.rating}}</td>
+        <td>
+          <a href="{{::row.rottenTomatoes}}" tooltip="Rotten Tomatoes" target="_blank" style="padding:2px">
+            <i class="glyphicon glyphicon-asterisk"></i>
+          </a>
+          <a href="{{::row.trailer}}" tooltip="{{'TORRENTFREAK/watch-trailer/tooltip'|translate}}" target="_blank" style="padding:2px">
+            <i class="glyphicon glyphicon-film"></i>
+          </a>
+          <torrent-dialog q="row.title" style="padding:2px"></torrent-dialog>
         </td>
       </tr>
     </table>
