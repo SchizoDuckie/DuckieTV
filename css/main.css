@@ -1392,7 +1392,7 @@ sidepanel .leftpanel p {
     color: rgb(208, 208, 208);
     font-size: 13px;
     overflow-y: auto;
-    max-height: 255px;
+    max-height: 200px;
     padding-right: 5px;
 }
 sidepanel .episode a:hover {
