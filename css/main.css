@@ -1433,6 +1433,21 @@ sidepanel .buttons .two-face-torrent .auto-download {
     right: 35px;
 }
 /* Fix the tooltip positions */
+#episodesttd .tooltip {
+    width: 100px;
+}
+#episodesewt .tooltip {
+    width: 80px;
+    left: 300px !important;
+}
+#episodesewt .tooltip .tooltip-arrow {
+    left: initial;
+    right: 19px
+}
+#episodesedt .tooltip {
+    width: 80px;
+    left: 292.5px !important;
+}
 #ttd .tooltip {
     left: 106.5px !important;
 }
@@ -1440,7 +1455,7 @@ sidepanel .buttons .two-face-torrent .auto-download {
     left: 290.5px !important;
 }
 #mwb .tooltip {
-    left: 192px !important;
+    left: 196px !important;
 }
 sidepanel .buttons .torrent-mini-remote-control > span {
     /* Replicate of the strong tag */
@@ -1528,6 +1543,14 @@ sidepanel .episodes .torrent-mini-remote-control-progress  span {
     text-align: center;
     color: black;
 }
+
+.episodelist .episodecontainer .airdate, .episodelist.hover .episodecontainer:hover .torrentctrls {
+    display: initial;
+}
+.episodelist.hover .episodecontainer:hover .airdate, .episodelist .episodecontainer .torrentctrls {
+    display: none;
+}
+
 sidepanel .torrents .torrent .progress, sidepanel .torrent-mini-remote-control-progress.progress {
     position: relative;
     margin-top: 0px;
