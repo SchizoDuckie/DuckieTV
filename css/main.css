@@ -773,6 +773,10 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
     transition: all 0.5s ease-in-out;
     padding-left: 5px;
 }
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    margin: 5px;
+}
 .form-control:focus {
     border-color: #222;
     outline: 0;
