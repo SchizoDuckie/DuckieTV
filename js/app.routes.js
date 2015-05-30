@@ -126,6 +126,9 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         .state('favorites.add', {
             url: '/add',
+                resolve: {
+                    SidePanelState: showSidePanel
+                },
             views: {
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/adding.html',
@@ -153,6 +156,9 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
             .state('favorites.add.search', {
                 url: '/search/:query',
+                resolve: {
+                    SidePanelState: showSidePanel
+                },
                 views: {
                     'content@favorites': {
                         templateUrl: 'templates/serieslist/trakt-searching.html',
