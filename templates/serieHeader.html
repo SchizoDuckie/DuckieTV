@@ -7,7 +7,7 @@
    <a ng-if="noListButton">
     <div class="{{mode == 'poster' ? 'poster' : 'banner'}}" lazy-background="{{mode == 'poster' ? serie.poster : serie.banner}}"></div>
   </a>
-  <h3 ng-show="!noTitle">{{::serie.name}}</h3>
-  <div ng-show="!noOverview" class='overview'><p>{{::serie.overview}}</p></div>
+  <h3 ng-show="!noTitle">{{serie.name}}</h3>
+  <div ng-show="!noOverview" class='overview'><p>{{serie.overview}}</p></div>
   <div ng-transclude></div>
 </div>
