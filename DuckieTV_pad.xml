@@ -1,0 +1,248 @@
+<XML_DIZ_INFO>
+  <MASTER_PAD_VERSION_INFO>
+    <MASTER_PAD_VERSION>4.0</MASTER_PAD_VERSION>
+    <MASTER_PAD_EDITOR>AppVisor 1.0.43</MASTER_PAD_EDITOR>
+    <MASTER_PAD_EDITOR_URL>http://publisher.appvisor.com</MASTER_PAD_EDITOR_URL>
+    <MASTER_PAD_INFO>Portable Application Description, or PAD(TM) 2004 Association of Software Professionals (ASP)http://www.asp-shareware.org/pad is a data set standard and specification that is commercialsoftware publishers to disseminate certified information about their software application. The PAD format is copyright of the ASP and cannot be used without the formal licensing and permission of both the Association of Software Professionals and its agent AppVisor.com.</MASTER_PAD_INFO>
+    <CERTIFIED>No</CERTIFIED>
+    <CERTIFICATE_ID></CERTIFICATE_ID>
+    <CERTIFICATE_LICENSE></CERTIFICATE_LICENSE>
+  </MASTER_PAD_VERSION_INFO>
+  <RoboSoft>
+    <Company_UIN>CMP-7E004A2DBB6D</Company_UIN>
+    <Product_UIN>APP-8E00B706DB6D</Product_UIN>
+    <Publish_on_CD>N</Publish_on_CD>
+    <NewsFeed_Search_String></NewsFeed_Search_String>
+    <Search_String>DuckieTV</Search_String>
+    <Press_Release_Search_String></Press_Release_Search_String>
+    <Backlink></Backlink>
+    <Comments_For_Reviewer></Comments_For_Reviewer>
+    <Search_String_Unique>DuckieTV</Search_String_Unique>
+    <Search_Engine_Search_String></Search_Engine_Search_String>
+    <Web_Directories_Search_String></Web_Directories_Search_String>
+    <Company_Description></Company_Description>
+  </RoboSoft>
+  <Company_Info>
+    <PublisherID>pid-6e00f9cdab6d</PublisherID>
+    <BrandID>bid-7e004a2dbb6d</BrandID>
+    <Company_Name>DuckieTV</Company_Name>
+    <Country>Netherlands</Country>
+    <State_Province>NH</State_Province>
+    <City_Town>Amsterdam</City_Town>
+    <Zip_Postal_Code>1000AB</Zip_Postal_Code>
+    <Address_1>Some street</Address_1>
+    <Address_2></Address_2>
+    <Company_WebSite_URL>http://duckie.tv/</Company_WebSite_URL>
+    <Contact_Info>
+      <Contact_First_Name>Duckie</Contact_First_Name>
+      <Contact_Last_Name>TV</Contact_Last_Name>
+      <Contact_Email>tvduckie@gmail.com</Contact_Email>
+      <Author_First_Name>Duckie</Author_First_Name>
+      <Author_Last_Name>TV</Author_Last_Name>
+      <Author_Email>tvduckie@gmail.com</Author_Email>
+      <Contact_Phone></Contact_Phone>
+    </Contact_Info>
+    <Support_Info>
+      <Sales_Email>tvduckie@gmail.com</Sales_Email>
+      <Support_Email>tvduckie@gmail.com</Support_Email>
+      <General_Email>tvduckie@gmail.com</General_Email>
+      <Sales_Phone></Sales_Phone>
+      <Support_Phone></Support_Phone>
+      <General_Phone></General_Phone>
+      <Fax_Phone></Fax_Phone>
+    </Support_Info>
+    <GooglePlusPage></GooglePlusPage>
+    <LinkedinPage></LinkedinPage>
+    <TwitterCompanyPage></TwitterCompanyPage>
+    <FacebookCompanyPage>http://facebook.com/DuckieTV/</FacebookCompanyPage>
+    <CompanyStorePage></CompanyStorePage>
+  </Company_Info>
+  <Program_Info>
+    <AppID>app-8e00b706db6d</AppID>
+    <Program_Name>DuckieTV</Program_Name>
+    <Program_Version>1.01</Program_Version>
+    <Program_Release_Month>05</Program_Release_Month>
+    <Program_Release_Day>14</Program_Release_Day>
+    <Program_Release_Year>2015</Program_Release_Year>
+    <Program_Cost_Dollars>0</Program_Cost_Dollars>
+    <Program_Cost_Other_Code></Program_Cost_Other_Code>
+    <Program_Cost_Other></Program_Cost_Other>
+    <Program_Type>Freeware</Program_Type>
+    <Program_Category_Class>Network &amp; Internet::File Sharing/Peer to Peer</Program_Category_Class>
+    <Program_Specific_Category></Program_Specific_Category>
+    <Program_Categories>Home &amp; Hobby :: Calendars &amp; Planners,Internet :: Download Managers,Internet :: Tools &amp; Utilities</Program_Categories>
+    <Program_Release_Status>Major Update</Program_Release_Status>
+    <Program_Install_Support>No Install Support</Program_Install_Support>
+    <Program_OS_Support>Win2000,WinXP,Win7 x32,Win7 x64,Windows 8,Windows2000,Windows2003,Windows Server 2000,Windows Server 2003,Windows Server 2008,Windows Server 2008r2,Windows Server 2012,WinVista,Windows Vista Starter,Windows Vista Home Basic,Windows Vista Home Premium,Windows Vista Business,Windows Vista Enterprise,Windows Vista Ultimate,WinVista x64,Windows Vista Home Basic x64,Windows Vista Home Premium x64,Windows Vista Business x64,Windows Vista Enterprise x64,Windows Vista Ultimate x64,Linux,Linux Gnome,Linux GPL,Linux Open Source,Mac OS X 10.1,Mac OS X 10.2,Mac OS X 10.3,Mac OS X 10.4,Mac OS X 10.5,Mac OS X 10.6,Mac OS X 10.7,Mac OS X 10.8,Mac OS X 10.9</Program_OS_Support>
+    <Program_Language>English,ChineseSimplified,Dutch,French,German,Italian,Japanese,Korean,Polish,Portuguese,Swedish</Program_Language>
+    <Program_Change_Info>Fixed a missing dependency that broke the qBittorrent and Transmission integration</Program_Change_Info>
+    <Program_System_Requirements>Internet connection</Program_System_Requirements>
+    <Limitations>no limits</Limitations>
+    <Awards></Awards>
+    <File_Info>
+      <File_Size_Bytes>27357184</File_Size_Bytes>
+      <File_Size_K>26716</File_Size_K>
+      <File_Size_MB>26.09</File_Size_MB>
+    </File_Info>
+    <Expire_Info>
+      <Has_Expire_Info>N</Has_Expire_Info>
+      <Expire_Count></Expire_Count>
+      <Expire_Based_On></Expire_Based_On>
+      <Expire_Year></Expire_Year>
+      <Expire_Other_Info></Expire_Other_Info>
+      <Expire_Month></Expire_Month>
+      <Expire_Day></Expire_Day>
+    </Expire_Info>
+    <FacebookFanPage></FacebookFanPage>
+    <VideoLink1URL></VideoLink1URL>
+    <VideoLink2URL></VideoLink2URL>
+    <Includes_JAVA_VM></Includes_JAVA_VM>
+    <Includes_DirectX></Includes_DirectX>
+    <Includes_VB_Runtime></Includes_VB_Runtime>
+    <FacebookProductPage>http://facebook.com/DuckieTV/</FacebookProductPage>
+    <GooglePlusFanPage></GooglePlusFanPage>
+  </Program_Info>
+  <Web_Info>
+    <Application_URLs>
+      <Application_Info_URL>http://duckie.tv/</Application_Info_URL>
+      <Application_Order_URL>http://duckie.tv/</Application_Order_URL>
+      <Application_Screenshot_URL>http://i.imgur.com/aJMxHWS.png</Application_Screenshot_URL>
+      <Application_Icon_URL>http://i.imgur.com/q5JIEf0.png</Application_Icon_URL>
+      <Application_XML_File_URL>http://repository.appvisor.com/app-8e00b706db6d/site-01/DuckieTV_pad.xml</Application_XML_File_URL>
+      <Video_Link_1_URL>https://www.youtube.com/watch?v=cipuVrQU0UU</Video_Link_1_URL>
+    </Application_URLs>
+    <Download_URLs>
+      <Primary_Download_URL>https://github.com/SchizoDuckie/DuckieTV/releases/download/1.0.1/DuckieTV-1.0.1-windows-x32.zip</Primary_Download_URL>
+      <Secondary_Download_URL>https://github.com/SchizoDuckie/DuckieTV/releases/latest</Secondary_Download_URL>
+      <Additional_Download_URL_1>https://github.com/SchizoDuckie/DuckieTV/releases/latest/</Additional_Download_URL_1>
+      <Additional_Download_URL_2></Additional_Download_URL_2>
+    </Download_URLs>
+  </Web_Info>
+  <Program_Descriptions>
+    <English>
+      <Keywords>duckietv, television, tv, series, shows, tracker, calendar, torrent, utorrent, vuze, qbittorrent, transmission, download</Keywords>
+      <Char_Desc_45>The TV Show calendar you've been waiting for</Char_Desc_45>
+      <Char_Desc_80>The TV Show calendar with Bittorrent integration you have been waiting for</Char_Desc_80>
+      <Char_Desc_250>DuckieTV is the TV Show calendar you've been waiting for  A personalized calendar that tracks the shows you like, that can search on multiple torrent sites and gives you full control over downloads. Connects with your favorite torrent client too</Char_Desc_250>
+      <Char_Desc_450>DuckieTV is a Google Chrome extension (Now also available as standalone builds for Windows/Mac/Linux!) that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.</Char_Desc_450>
+      <Char_Desc_2000>DuckieTV is an application that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
+
+With the integrated DuckieTorrent client you can connect DuckieTV to your local Torrent client and be updated on the download progress without switching applications. (Now includes support for Torrent/BitTorrent, qBittorrent, Tixati and Transmission clients).
+
+As of v0.60 DuckieTV also is also finally becoming a worthy SickBeard competitor by introducing an automatic downloading of shows that have aired and translations into 11 languages. (English, Deutsch, Espaol, Franais, Italiano, , , Nederlands, Purtugese, , Svenska,  )</Char_Desc_2000>
+    </English>
+  </Program_Descriptions>
+  <Permissions>
+    <Distribution_Permissions>DuckieTV can be freely distributed over the internet in an unchanged form.</Distribution_Permissions>
+    <EULA>Privacy Statement
+WE DO NOT WANT YOUR DATA
+
+The only statistics tracked for DuckieTV are the visits to the public GitHub site (by Google Analytics) and the installations in the Chrome Webstore.
+As soon you install DuckieTV it runs locally without sending statistics anywhere. There is no server to connect to, no infrastructure to bring down, and no logging from DuckieTV&#x2019;s side of anything you do within the app, and there never will be.
+We do not want your money! We do this in our spare time for fun and to make our own lives and that of other&#x2019;s easier. There is no business model, no ads, no profit.
+There are no costs to cover: No servers, no hosting, no databases, everything runs on Google's, GitHub's and Reddit's infrastructure. Therefore you are not the product and this is extension is free as in free beer.
+Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.</EULA>
+  </Permissions>
+  <Affiliates>
+    <Affiliates_Regsoft_Order_Page></Affiliates_Regsoft_Order_Page>
+    <Affiliates_Regnow_Order_Page></Affiliates_Regnow_Order_Page>
+    <Affiliates_Regsoft_Vendor_ID></Affiliates_Regsoft_Vendor_ID>
+    <Affiliates_Regnow_Vendor_ID></Affiliates_Regnow_Vendor_ID>
+    <Affiliates_Regsoft_Product_ID></Affiliates_Regsoft_Product_ID>
+    <Affiliates_Regnow_Product_ID></Affiliates_Regnow_Product_ID>
+    <Affiliates_FORM></Affiliates_FORM>
+    <Affiliates_FORM_VER></Affiliates_FORM_VER>
+    <Affiliates_VERSION></Affiliates_VERSION>
+    <Affiliates_URL></Affiliates_URL>
+    <Affiliates_Information_Page></Affiliates_Information_Page>
+    <Affiliates_Avangate_Order_Page></Affiliates_Avangate_Order_Page>
+    <Affiliates_Avangate_Vendor_ID></Affiliates_Avangate_Vendor_ID>
+    <Affiliates_Avangate_Product_ID></Affiliates_Avangate_Product_ID>
+    <Affiliates_Avangate_Maximum_Commission_Rate></Affiliates_Avangate_Maximum_Commission_Rate>
+    <Affiliates_BMTMicro_Order_Page></Affiliates_BMTMicro_Order_Page>
+    <Affiliates_BMTMicro_Vendor_ID></Affiliates_BMTMicro_Vendor_ID>
+    <Affiliates_BMTMicro_Product_ID></Affiliates_BMTMicro_Product_ID>
+    <Affiliates_BMTMicro_Maximum_Commission_Rate></Affiliates_BMTMicro_Maximum_Commission_Rate>
+    <Affiliates_eSellerate_Order_Page></Affiliates_eSellerate_Order_Page>
+    <Affiliates_eSellerate_Vendor_ID></Affiliates_eSellerate_Vendor_ID>
+    <Affiliates_eSellerate_Product_ID></Affiliates_eSellerate_Product_ID>
+    <Affiliates_eSellerate_Maximum_Commission_Rate></Affiliates_eSellerate_Maximum_Commission_Rate>
+    <Affiliates_Kagi_Order_Page></Affiliates_Kagi_Order_Page>
+    <Affiliates_Kagi_Vendor_ID></Affiliates_Kagi_Vendor_ID>
+    <Affiliates_Kagi_Product_ID></Affiliates_Kagi_Product_ID>
+    <Affiliates_Kagi_Maximum_Commission_Rate></Affiliates_Kagi_Maximum_Commission_Rate>
+    <Affiliates_Order1_Order_Page></Affiliates_Order1_Order_Page>
+    <Affiliates_Order1_Vendor_ID></Affiliates_Order1_Vendor_ID>
+    <Affiliates_Order1_Product_ID></Affiliates_Order1_Product_ID>
+    <Affiliates_Order1_Maximum_Commission_Rate></Affiliates_Order1_Maximum_Commission_Rate>
+    <Affiliates_Regnet_Order_Page></Affiliates_Regnet_Order_Page>
+    <Affiliates_Regnet_Vendor_ID></Affiliates_Regnet_Vendor_ID>
+    <Affiliates_Regnet_Product_ID></Affiliates_Regnet_Product_ID>
+    <Affiliates_Regnet_Maximum_Commission_Rate></Affiliates_Regnet_Maximum_Commission_Rate>
+    <Affiliates_Regnow_Maximum_Commission_Rate></Affiliates_Regnow_Maximum_Commission_Rate>
+    <Affiliates_Regsoft_Maximum_Commission_Rate></Affiliates_Regsoft_Maximum_Commission_Rate>
+    <Affiliates_ShareIt_Order_Page></Affiliates_ShareIt_Order_Page>
+    <Affiliates_ShareIt_Vendor_ID></Affiliates_ShareIt_Vendor_ID>
+    <Affiliates_ShareIt_Product_ID></Affiliates_ShareIt_Product_ID>
+    <Affiliates_ShareIt_Maximum_Commission_Rate></Affiliates_ShareIt_Maximum_Commission_Rate>
+    <Affiliates_SWReg_Order_Page></Affiliates_SWReg_Order_Page>
+    <Affiliates_SWReg_Vendor_ID></Affiliates_SWReg_Vendor_ID>
+    <Affiliates_SWReg_Product_ID></Affiliates_SWReg_Product_ID>
+    <Affiliates_SWReg_Maximum_Commission_Rate></Affiliates_SWReg_Maximum_Commission_Rate>
+  </Affiliates>
+  <NewsFeed>
+    <NewsFeed_FORM></NewsFeed_FORM>
+    <NewsFeed_VERSION></NewsFeed_VERSION>
+    <NewsFeed_URL></NewsFeed_URL>
+    <NewsFeed_DESCRIPTION></NewsFeed_DESCRIPTION>
+    <NewsFeed_Feed_URL></NewsFeed_Feed_URL>
+    <NewsFeed_Type></NewsFeed_Type>
+    <NewsFeed_Site_URL></NewsFeed_Site_URL>
+    <NewsFeed_Author_First_Name>Duckie</NewsFeed_Author_First_Name>
+    <NewsFeed_Author_Last_Name>TV</NewsFeed_Author_Last_Name>
+    <NewsFeed_Author_Email>tvduckie@gmail.com</NewsFeed_Author_Email>
+    <NewsFeed_Language></NewsFeed_Language>
+    <NewsFeed_Title></NewsFeed_Title>
+    <NewsFeed_Description_70></NewsFeed_Description_70>
+    <NewsFeed_Description_250></NewsFeed_Description_250>
+    <NewsFeed_Purpose></NewsFeed_Purpose>
+    <NewsFeed_Site_Name></NewsFeed_Site_Name>
+  </NewsFeed>
+  <Press_Release>
+    <Press_Release></Press_Release>
+    <Headline></Headline>
+    <Summary></Summary>
+    <Press_Release_Plain></Press_Release_Plain>
+  </Press_Release>
+  <Site>
+    <Site_FORM></Site_FORM>
+    <Site_VERSION></Site_VERSION>
+    <Site_URL></Site_URL>
+    <Site_DESCRIPTION></Site_DESCRIPTION>
+    <Site_Site_Title>DuckieTV Homepage</Site_Site_Title>
+    <Site_Site_URL>http://duckie.tv/</Site_Site_URL>
+    <Site_Keywords>duckietv, download, tv, television, calendar, tracker, torrent, trakt.tv, utorrent,deluge,tixati,qbittorrent</Site_Keywords>
+    <Site_Description_100>Homepage of DuckieTV, the TV Show Tracker you've been waiting for. Find media and downloads here.</Site_Description_100>
+    <Site_Description_250>Homepage of DuckieTV, the TV Show Tracker you've been waiting for. You can find  media, the changelog and downloads for the latest version of DuckieTV here. 
+
+Also available: Links to DuckietV for Chrome in the chrome webstore.</Site_Description_250>
+    <Site_Description_450>Homepage of DuckieTV, the TV Show Tracker you've been waiting for. You can find  media, the changelog and downloads for the latest version of DuckieTV here. 
+
+Also available: Links to DuckietV for Chrome in the chrome webstore.</Site_Description_450>
+    <Site_Contact_First_Name>Duckie</Site_Contact_First_Name>
+    <Site_Contact_Last_Name>TV</Site_Contact_Last_Name>
+    <Site_Contact_Email>tvduckie@gmail.com</Site_Contact_Email>
+  </Site>
+  <Temp_Icon>https://cdnjs.cloudflare.com/ajax/libs/fatcow-icons/20130425/FatCow_Icons32x32/light_circle_green.png</Temp_Icon>
+  <Dynamic_PAD>
+    <General>
+      <DP_Pad_Enabled>TRUE</DP_Pad_Enabled>
+      <DP_AtFormFill_Enabled>TRUE</DP_AtFormFill_Enabled>
+      <DP_Distributive_Enabled>TRUE</DP_Distributive_Enabled>
+      <DP_Script_Base_URL>http://repository.appvisor.com/</DP_Script_Base_URL>
+      <DP_Pad_Mask>DuckieTV_pad.xml</DP_Pad_Mask>
+      <DP_Distributive_Primary_URL>https://github.com/SchizoDuckie/DuckieTV/releases/download/1.0.1/DuckieTV-1.0.1-windows-x32.zip</DP_Distributive_Primary_URL>
+      <DP_Distributive_Mask>DuckieTV-1.0.1-windows-x32.zip</DP_Distributive_Mask>
+    </General>
+  </Dynamic_PAD>
+</XML_DIZ_INFO>
