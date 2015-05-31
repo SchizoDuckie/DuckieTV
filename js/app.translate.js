@@ -21,7 +21,7 @@ DuckieTV.config(["$translateProvider",
          */
 
         .registerAvailableLanguageKeys([
-            'de_de', 'en_au', 'en_nz', 'en_uk', 'en_us', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nl_nl', 'pt_pt', 'ru_ru', 'sv_se', 'zh_cn'
+            'de_de', 'en_au', 'en_nz', 'en_uk', 'en_us', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nl_nl', 'pt_pt', 'ru_ru', 'sl_sl', 'sv_se', 'zh_cn'
         ], {
             'de': 'de_de',
             'de_DE': 'de_de',
@@ -53,6 +53,7 @@ DuckieTV.config(["$translateProvider",
             'pt_BR': 'pt_pt',
             'ru': 'ru_ru',
             'ru_RU': 'ru_ru',
+            'sl': 'sl_sl',
             'sv': 'sv_se',
             'sv_SE': 'sv_se',
             'zh': 'zh_cn',
