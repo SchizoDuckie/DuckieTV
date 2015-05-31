@@ -52,7 +52,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
 
         var uTorrentWebUIAPI = function() {
             BaseHTTPApi.call(this);
-            this.config.token = null;
+            this.config.token = '';
         };
         uTorrentWebUIAPI.extends(BaseHTTPApi, {
             /**
@@ -60,20 +60,29 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
              */
             getUrl: function(type, param) {
                 var out = this.config.server + ':' + this.config.port + this.endpoints[type];
-                return out.replace('://', '://' + this.config.username + ':' + this.config.password + '@').replace('%token%', this.config.token).replace('%s', encodeURIComponent(param));
+                if(this.config.use_auth) {
+                    out = out.replace('://', '://' + this.config.username + ':' + this.config.password + '@');
+                }
+                if(out.indexOf('%token%') > -1) {
+                    out = out.replace('%token%', this.config.token);
+                }
+                return (param) ? out.replace('%s', encodeURIComponent(param)) : out;
             },
 
             portscan: function() {
                 var self = this;
                 return this.request('portscan').then(function(result) {
                     if (result !== undefined) {
-                        self.config.token = new HTMLScraper(result.data).querySelector('#token').innerHTML;
+                        var token = new HTMLScraper(result.data).querySelector('#token').innerHTML;
+                        if(token) {
+                            self.config.token = token;
+                        }
                         return true;
                     }
                     return false;
                 }, function() {
                     return false;
-                });
+                }); 
             },
             getTorrents: function() {
                 return this.request('torrents').then(function(data) {
