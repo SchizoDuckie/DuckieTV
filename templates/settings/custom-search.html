@@ -1,0 +1,11 @@
+<div class="buttons" ng-controller="customSearchEngineCtrl as searchEngine">
+	<h2>Custom Search Engines</h2>
+
+	<p>If you know CSS what a CSS selector is, you can add your own Torrent Search engine, private tracker, or any other Torrent Site that you know of, as long as the search results page has .torrent links on the page..</p> 
+
+	<form ng-submit="searchEngine.test()" novalidate>
+        <formly-form model="searchEngine.model" fields="searchEngine.fields">
+          <button type="submit" class="btn btn-primary submit-button">Test</button>
+        </formly-form>
+      </form>
+</div>
