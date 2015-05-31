@@ -79,8 +79,10 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
     function processQueue() {
         if (CRUD.stats.writesExecuted == CRUD.stats.writesQueued) {
             var ID_Serie = Object.keys(queue)[0];
-            delete queue[ID_Serie];
-            processSerie(ID_Serie);
+            if (ID_Serie !== undefined) {
+                delete queue[ID_Serie];
+                processSerie(ID_Serie);
+            }
         }
         if (queueTimer !== null) {
             clearTimeout(queueTimer);
@@ -133,8 +135,8 @@ DuckieTV.run(function($rootScope, FavoritesService, watchedCounter) {
     /**
      * Catch serie update events
      */
-    $rootScope.$on('serie:recount:watched', function(evt, serie) {
-        watchedCounter.recountSerie(serie);
+    $rootScope.$on('serie:recount:watched', function(evt, serieID) {
+        watchedCounter.recountSerie(serieID);
     });
 
     /**
