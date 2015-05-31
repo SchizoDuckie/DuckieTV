@@ -65,4 +65,4 @@ var DuckieTV = angular.module('DuckieTV', [
                 if (view) view.classList.remove('ui-loading')
             })
         });
-})
+});

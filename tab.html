@@ -64,6 +64,9 @@
         <li ng-if="getSetting('torrenting.enabled')">
           <torrent-dialog tooltip-placement="right"></torrent-dialog>
         </li>
+        <li ng-if="getSetting('torrenting.enabled')">
+          <subtitle-dialog tooltip-placement="right"></subtitle-dialog>
+        </li>
       </ul>
     </div>
   </div>
@@ -101,6 +104,7 @@
   <!-- /deploy:replace -->
 
   <!-- deploy:replace='<script src="dist/app.js"></script>' -->
+  <script src="./js/utility.js"></script>
   <script src="./js/app.js"></script>
   <script src="./js/app.requestinterceptors.js"></script>
   <script src="./js/app.routes.js"></script>
@@ -118,6 +122,15 @@
   <script src="js/controllers/settings/DisplayCtrl.js"></script>
   <script src="js/controllers/settings/SettingsTorrentCtrl.js"></script>
   <script src="js/controllers/settings/SyncCtrl.js"></script>
+  
+  <script src="js/controllers/settings/TorrentClients/qBittorrent.js"></script>
+  <script src="js/controllers/settings/TorrentClients/qBittorrent32plus.js"></script>
+  <script src="js/controllers/settings/TorrentClients/Deluge.js"></script>
+  <script src="js/controllers/settings/TorrentClients/Tixati.js"></script>
+  <script src="js/controllers/settings/TorrentClients/Transmission.js"></script>
+  <script src="js/controllers/settings/TorrentClients/uTorrentWebUI.js"></script>
+  <script src="js/controllers/settings/TorrentClients/Vuze.js"></script>
+  
   <script src="js/controllers/sidepanel/AboutCtrl.js"></script>
   <script src="js/controllers/sidepanel/SettingsCtrl.js"></script>
   <script src="js/controllers/sidepanel/SidepanelEpisodeCtrl.js"></script>
@@ -149,30 +162,35 @@
   <script src="./js/directives/queryMonitor.js"></script>
   <script src="./js/directives/torrentDialog.js"></script>
   <script src="./js/directives/torrentRemoteControl.js"></script>
-  <script src="./js/services/TorrentSearchEngines/TorrentSearchEngines.js"></script>
-  <script src="./js/services/CalendarEvents.js"></script>
-  <script src="./js/services/OpenSubtitles.js"></script>
+  
+  <script src="./js/services/BaseHTTPApi.js"></script>
   <script src="./js/services/DuckieTorrent.js"></script>
-  <script src="./js/services/EpisodeWatchedMonitor.js"></script>
-  <script src="./js/services/TorrentClients/TorrentData.js"></script>
-  <script src="./js/services/TorrentClients/Tixati.js"></script>
-  <script src="./js/services/TorrentClients/qBittorrent.js"></script>
-  <script src="./js/services/TorrentClients/qBittorrent32plus.js"></script>
-  <script src="./js/services/TorrentClients/uTorrent.js"></script>
-  <script src="./js/services/TorrentClients/Transmission.js"></script>
-  <script src="./js/services/TorrentClients/Vuze.js"></script>
+  <script src="./js/services/CalendarEvents.js"></script>
   <script src="./js/services/EpisodeAiredService.js"></script>
-  <script src="./js/services/StorageSyncService.js"></script>
+  <script src="./js/services/EpisodeWatchedMonitor.js"></script>
   <script src="./js/services/FavoritesService.js"></script>
   <script src="./js/services/FileReader.js"></script>
   <script src="./js/services/GoogleImages.js"></script>
   <script src="./js/services/IMDB.js"></script>
   <script src="./js/services/Netflix.js"></script>
   <script src="./js/services/NotificationService.js"></script>
+  <script src="./js/services/OpenSubtitles.js"></script>
   <script src="./js/services/SceneNameResolver.js"></script>
   <script src="./js/services/MigrationService.js"></script>
   <script src="./js/services/SettingsService.js"></script>
+  <script src="./js/services/StorageSyncService.js"></script>
   <script src="./js/services/TorrentMonitor.js"></script>
+  <script src="./js/services/TorrentClients/BaseTorrentClient.js"></script>
+  <script src="./js/services/TorrentClients/TorrentData.js"></script>
+  <script src="./js/services/TorrentClients/Deluge.js"></script>
+  <script src="./js/services/TorrentClients/Tixati.js"></script>
+  <script src="./js/services/TorrentClients/qBittorrent.js"></script>
+  <script src="./js/services/TorrentClients/qBittorrent32plus.js"></script>
+  <script src="./js/services/TorrentClients/uTorrent.js"></script>
+  <script src="./js/services/TorrentClients/uTorrentWebUI.js"></script>
+  <script src="./js/services/TorrentClients/Transmission.js"></script>
+  <script src="./js/services/TorrentClients/Vuze.js"></script>
+  <script src="./js/services/TorrentSearchEngines/TorrentSearchEngines.js"></script>
   <script src="./js/services/TorrentSearchEngines/GenericTorrentSearchEngine.js"></script>
   <script src="./js/services/TorrentSearchEngines/KickassMirrorResolver.js"></script>
   <script src="./js/services/TorrentSearchEngines/ThePirateBayMirrorResolver.js"></script>

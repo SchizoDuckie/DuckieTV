@@ -138,7 +138,17 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'transmission.password': 'admin',
                 'trakttv.passwordHash': null,
                 'trakttv.sync': false,
-                'trakttv.username': null
+                'trakttv.username': null,
+                'utorrentwebui.server': 'http://localhost',
+                'utorrentwebui.port': 8080,
+                'utorrentwebui.username': 'admin',
+                'utorrentwebui.password': '',
+                'utorrentwebui.use_auth': true,
+                'deluge.server': 'http://localhost',
+                'deluge.port': 8112,
+                'deluge.password': 'deluge',
+                'deluge.use_auth': false,
+                'subtitles.languages': []
             },
             /**
              * Read a setting key and return either the stored value or the default
@@ -234,4 +244,4 @@ DuckieTV.factory('ChromePermissions', ["$q",
         SettingsService.set(key, false);
     };
 
-})
+});

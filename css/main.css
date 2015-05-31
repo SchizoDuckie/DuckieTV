@@ -612,7 +612,7 @@ table.light h1 {
 .serie h1 {
     color:black;
 }
-.torrent-dialog {
+.torrent-dialog, .subtitle-dialog {
     display: inline-block;
     list-style: none;
 }

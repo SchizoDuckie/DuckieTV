@@ -1,0 +1,19 @@
+<div class="buttons" ng-controller="uTorrentWebUICtrl as utorrent">
+	<h2>&micro;Torrent Web UI {{'SETTINGS/UTORRENTWEBUI/integration/hdr'|translate}}</h2>
+
+	<img src="img/torrentclients/utorrent-colored.png" style='width:200px; margin: 0 auto'>
+
+	<p  ng-if="utorrent.isConnected()">{{'SETTINGS/UTORRENTWEBUI/status/hdr'|translate}}:
+	{{'SETTINGS/UTORRENTWEBUI/connected/lbl'|translate}} &micro;Torrent WebUI API &#64; {{utorrent.model.server}}:{{utorrent.model.port}}
+	</p>
+
+	<p ng-if="!utorrent.isConnected()">{{'SETTINGS/UTORRENTWEBUI/status/hdr'|translate}}:
+	{{'SETTINGS/UTORRENTWEBUI/not-connected/lbl'|translate}}
+	</p>
+
+	<form ng-submit="utorrent.test()" novalidate>
+        <formly-form model="utorrent.model" fields="utorrent.fields">
+          <button type="submit" class="btn btn-primary submit-button">{{'SETTINGS/UTORRENTWEBUI/save/btn'|translate}}</button>
+        </formly-form>
+      </form>
+</div>

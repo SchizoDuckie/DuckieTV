@@ -5,6 +5,7 @@
     "description": "__MSG_appDescNewTab__",
     "default_locale": "en",
     "version": "1.0.1",
+    "offline_enabled": true,
     "permissions": [
         "http://*/*",
         "https://*/*",

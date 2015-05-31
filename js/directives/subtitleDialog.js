@@ -1,7 +1,16 @@
 DuckieTV.provider('SubtitleDialog', function() {
     this.$get = ["$injector", "$rootScope", "$q",
         function($injector, $rootScope, $q) {
+            // all web-enabled languages on 
+
             return {
+                search: function(string) {
+                    return $injector.get('$dialogs').create('templates/subtitleDialog.html', 'subtitleDialogCtrl', {
+                        query: '',
+                    }, {
+                        size: 'lg'
+                    });
+                },
                 searchEpisode: function(serie, episode) {
                     return $injector.get('$dialogs').create('templates/subtitleDialog.html', 'subtitleDialogCtrl', {
                         serie: serie,
@@ -23,14 +32,25 @@ DuckieTV.provider('SubtitleDialog', function() {
 
         $scope.items = [];
         $scope.searching = true;
-        $scope.episode = data.episode;
-        $scope.serie = data.serie;
 
+        $scope.episode = ('episode' in data) ? data.episode : null;
+        $scope.serie = ('serie' in data) ? data.serie : null;
+        $scope.query = ('query' in data) ? data.query : '';
+        if ($scope.episode && $scope.serie) {
+            $scope.query = $scope.serie.name + ' ' + $scope.episode.title;
+        }
 
-        $scope.search = function() {
+        $scope.search = function(query) {
             $scope.searching = true;
+            var promise = null;
+            $scope.query = query || '';
+            if ($scope.serie && $scope.episode && $scope.query === $scope.serie.name + ' ' + $scope.episode.title) {
+                promise = OpenSubtitles.searchEpisode($scope.serie, $scope.episode);
+            } else {
+                promise = OpenSubtitles.searchString($scope.query);
+            }
 
-            OpenSubtitles.searchEpisode($scope.serie, $scope.episode).then(function(results) {
+            promise.then(function(results) {
                     $scope.items = results;
                     $scope.searching = false;
                 },
@@ -60,22 +80,27 @@ DuckieTV.provider('SubtitleDialog', function() {
             restrict: 'E',
             transclude: true,
             wrap: true,
+            replace: true,
             scope: {
                 serie: '=serie',
                 seasonNumber: '=seasonNumber',
                 episodeNumber: '=episodeNumber'
             },
-            template: '<a ng-click="openDialog()" tooltip-append-to-body=true tooltip="{{tooltip}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
+            template: '<a class="subtitle-dialog" ng-click="openDialog()" tooltip-append-to-body=true tooltip="{{tooltip}}"><i class="glyphicon glyphicon-text-width"></i><span ng-transclude></span></a>',
             controller: ["$scope",
                 function($scope) {
-                    $scope.tooltip = $scope.serie !== undefined ?
-                        'Find a subtitle for ' + $scope.serie.name :
-                        'Find a subtitle'
+                    $scope.tooltip = $scope.serie !== undefined ? 
+                        $filter('translate')('SUBTITLEDIALOGjs/find-subtitle-for/tooltip') + $scope.serie.name :
+                        $filter('translate')('SUBTITLEDIALOGjs/find-subtitle/tooltip');
                     $scope.openDialog = function() {
-                        SubtitleDialog.search($scope.serie, $scope.seasonNumber, $scope.episodeNumber);
-                    }
+                        if ($scope.serie && $scope.seasonNumber && $scope.episodeNumber) {
+                            SubtitleDialog.search($scope.serie, $scope.seasonNumber, $scope.episodeNumber);
+                        } else {
+                            SubtitleDialog.search('');
+                        }
+                    };
                 }
             ]
-        }
+        };
     }
 ]);

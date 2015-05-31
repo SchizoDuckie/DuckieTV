@@ -1,367 +1,140 @@
-DuckieTorrent
+/**
+ * qBittorrent
+ * Works for both 3.2+ and below.
+ */
+qBittorrentData = function(data) {
+    this.update(data);
+};
 
-.controller("qbtCtrl", ["qBittorrent", "SettingsService", "$filter",
-    function(qBittorrent, SettingsService, $filter) {
+qBittorrentData.extends(TorrentData, {
+    getName: function() {
+        return this.name;
+    },
+    getProgress: function() {
+        return this.round(this.progress * 100, 1);
+    },
+    start: function() {
+        this.getClient().getAPI().execute('resume', this.hash);
+    },
+    stop: function() {
+        this.pause();
+    },
+    pause: function() {
+        this.getClient().getAPI().execute('pause', this.hash);
+    },
+    getFiles: function() {
+        return this.getClient().getAPI().getFiles(this.hash).then(function(results) {
+            this.files = results;
+        }.bind(this));
+    },
+    isStarted: function() {
+        return this.status > 0;
+    }
+});
 
-        this.model = {
-            server: SettingsService.get('qbittorrent.server'),
-            port: SettingsService.get('qbittorrent.port'),
-            use_auth: SettingsService.get('qbittorrent.use_auth'),
-            username: SettingsService.get('qbittorrent.username'),
-            password: SettingsService.get('qbittorrent.password')
+/** 
+ * qBittorrent < 3.2 client
+ */
+DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
+    function(BaseTorrentRemote) {
+
+        var qBittorrentRemote = function() {
+            BaseTorrentRemote.call(this);
+            this.dataClass = qBittorrentData;
         };
+        qBittorrentRemote.extends(BaseTorrentRemote);
 
-        this.isConnected = function() {
-            return qBittorrent.isConnected();
-        }
-
-        this.fields = [{
-                key: "server",
-                type: "input",
-                templateOptions: {
-                    label: "qBittorrent " + $filter('translate')('QBITTORRENTjs/address/lbl'),
-                    type: "url",
-                }
-            }, {
-                key: "port",
-                type: "input",
-                templateOptions: {
-                    label: $filter('translate')('QBITTORRENTjs/port/lbl'),
-                    type: "number",
-                }
-            }, {
-                key: "use_auth",
-                type: "input",
-                templateOptions: {
-                    type: "checkbox",
-                    label: $filter('translate')('QBITTORRENTjs/authentication/lbl')
-                }
-            }, {
-                key: "username",
-                type: "input",
-                templateOptions: {
-                    label: $filter('translate')('QBITTORRENTjs/username/lbl')
-                }
-            }, {
-                key: "password",
-                type: "input",
-                templateOptions: {
-                    label: $filter('translate')('QBITTORRENTjs/password/lbl'),
-                    type: "password"
-                }
-            },
-
-        ];
-
-        this.test = function() {
-            //console.log("Testing settings");
-            qBittorrent.Disconnect();
-            qBittorrent.setConfig(this.model);
-            qBittorrent.connect().then(function(connected) {
-                console.info("qBittorrent connected! (save settings)", connected);
-                qBittorrent.saveConfig();
-            }, function(error) {
-                console.error("qBittorrent connect error!", error);
-            })
-        }
+        return qBittorrentRemote;
     }
 ])
 
-.factory('qBittorrent', ["$q", "$http", "URLBuilder", "$parse", "qBittorrentRemote", "SettingsService",
-    function($q, $http, URLBuilder, $parse, qBittorrentRemote, SettingsService) {
-        var self = this;
+.factory('qBittorrentAPI', ['BaseHTTPApi', '$http',
+    function(BaseHTTPApi, $http) {
 
-        this.config = {
-            server: SettingsService.get('qbittorrent.server'),
-            port: SettingsService.get('qbittorrent.port'),
-            use_auth: SettingsService.get('qbittorrent.use_auth'),
-            username: SettingsService.get('qbittorrent.username'),
-            password: SettingsService.get('qbittorrent.password')
+        var qBittorrentAPI = function() {
+            BaseHTTPApi.call(this);
         };
+        qBittorrentAPI.extends(BaseHTTPApi, {
+            portscan: function() {
+                return this.request('portscan').then(function(result) {
+                    return result !== undefined;
+                }, function() {
+                    return false;
+                });
+            },
+            getTorrents: function() {
+                return this.request('torrents').then(function(data) {
+                    return data.data;
+                });
+            },
+            getFiles: function(hash) {
+                return this.request('files', hash).then(function(data) {
+                    return data;
+                });
+            },
+            addMagnet: function(magnetHash) {
+                var headers = {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                };
+                if (this.config.use_auth) {
+                    headers.Authorization = 'Basic ' + Base64.encode(this.config.username + ':' + this.config.password);
+                }
+                return $http.post(this.getUrl('addmagnet'), 'urls=' + encodeURIComponent(magnetHash), {
+                    headers: headers
+                });
+            },
+            execute: function(method, id) {
+                var headers = {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                };
+                if (this.config.use_auth) {
+                    headers.Authorization = 'Basic ' + Base64.encode(this.config.username + ':' + this.config.password);
+                }
+                return $http.post(this.getUrl(method), 'hash=' + id, {
+                    headers: headers
+                });
+            }
+        });
 
-        /** 
-         * Predefined endpoints for API actions.
-         */
-        this.endpoints = {
+        return qBittorrentAPI;
+    }
+])
 
+.factory('qBittorrent', ["BaseTorrentClient", "qBittorrentRemote", "qBittorrentAPI",
+    function(BaseTorrentClient, qBittorrentRemote, qBittorrentAPI) {
+
+        var qBittorrent = function() {
+            BaseTorrentClient.call(this);
+        };
+        qBittorrent.extends(BaseTorrentClient, {});
+
+        var service = new qBittorrent();
+        service.setName('qBittorrent');
+        service.setAPI(new qBittorrentAPI());
+        service.setRemote(new qBittorrentRemote());
+        service.setConfigMappings({
+            server: 'qbittorrent.server',
+            port: 'qbittorrent.port',
+            username: 'qbittorrent.username',
+            password: 'qbittorrent.password',
+            use_auth: 'qbittorrent.use_auth'
+        });
+        service.setEndpoints({
             torrents: '/json/torrents',
             portscan: '/json/transferInfo',
             addmagnet: '/command/download',
             resume: '/command/resume',
             pause: '/command/pause',
             files: '/json/propertiesFiles/%s'
+        });
+        service.readConfig();
 
-        };
-
-        /**
-         * If a specialized parser is needed for a response than it can be automatically picked up by adding the type and a parser
-         * function here.
-         */
-        this.parsers = {
-
-        };
-
-        /**
-         * Automated parser for responses for usage when neccesary
-         */
-        this.getParser = function(type) {
-            return (type in this.parsers) ? this.parsers[type] : function(data) {
-                return data.data;
-            };
-        };
-
-        /**
-         * Fetches the url, auto-replaces the port in the url if it was found.
-         */
-        this.getUrl = function(type, param) {
-            var out = self.config.server + ':' + self.config.port + this.endpoints[type];
-
-            if (self.config.use_auth) {
-                out = out.replace('://', '://' + self.config.username + ':' + self.config.password + '@');
-            }
-
-            return out.replace('%s', encodeURIComponent(param));
-        };
-
-        this.isPolling = false;
-        this.isConnecting = false;
-        this.connected = false;
-        this.initialized = false;
-
-        /**
-         * Build a JSON request using the URLBuilder service.
-         * @param string type url to fetch from the request types
-         * @param object params GET parameters
-         * @param object options $http optional options
-         */
-        var json = function(type, param, options) {
-            var d = $q.defer();
-            param = param || '';
-            var url = self.getUrl(type, param)
-            var parser = self.getParser(type);
-
-            var headers = {};
-
-            $http.get(url, options || {}, {
-                headers: headers
-            }).then(function(response) {
-                d.resolve(parser ? parser(response) : response.data);
-            }, function(err) {
-                console.log('error fetching', type);
-                d.reject(err);
-            });
-            return d.promise;
-        };
-
-        var self = this;
-
-        var methods = {
-
-
-            setConfig: function(config) {
-                self.config = config;
-            },
-
-            saveConfig: function() {
-                Object.keys(self.config).map(function(key) {
-                    SettingsService.set("qbittorrent." + key, self.config[key]);
-                });
-            },
-
-            connect: function() {
-
-                return json('portscan').then(function(result) {
-                    console.log("qBittorrent check result: ", result);
-                    self.connected = true;
-                })
-            },
-
-            /** 
-             * Execute and handle the api's 'update' query.
-             * Parses out the events, updates, properties and methods and dispatches them to the TorrentRemote interface
-             * for storage, handling and attaching RPC methods.
-             */
-            statusQuery: function() {
-                return json('torrents', {}).then(function(data) {
-                        data.map(function(el) {
-                            qBittorrentRemote.handleEvent(el);
-                        });
-                        return data;
-                    },
-
-                    function(error) {
-                        console.error("Error executing get status query!", error);
-                    });
-            },
-            /**
-             * Return the interface that handles the remote data.
-             */
-            getRemote: function() {
-                return qBittorrentRemote;
-            },
-
-
-            /**
-             * Connect with an auth token obtained by the Pair function.
-             * Store the resulting session key in $scope.session
-             * You can call this method as often as you want. It'll return a promise that holds
-             * off on resolving until the client is connected.
-             * If it's connected and initialized, a promise will return that immediately resolves with the remote interface.
-             */
-            AutoConnect: function() {
-                if (!self.isConnecting && !self.connected) {
-                    self.connectPromise = $q.defer();
-                    self.isConnecting = true;
-                } else {
-                    return (!self.connected || !self.initialized) ? self.connectPromise.promise : $q(function(resolve) {
-                        resolve(methods.getRemote());
-                    });
-                }
-
-                methods.connect().then(function(result) {
-                    if (!self.isPolling) {
-                        self.isPolling = true;
-                        methods.Update();
-                    }
-                    self.connectPromise.resolve(methods.getRemote());
-
-                });
-                return self.connectPromise.promise;
-            },
-
-
-            togglePolling: function() {
-                self.isPolling = !self.isPolling;
-                self.Update();
-            },
-            /**
-             * Start the status update polling.
-             * Stores the resulting TorrentClient service in $scope.rpc
-             * Starts polling every 1s.
-             */
-            Update: function(dontLoop) {
-                if (self.isPolling == true) {
-                    methods.statusQuery().then(function(data) {
-                        if (undefined === dontLoop && self.isPolling && !data.error) {
-                            setTimeout(methods.Update, 3000);
-                        }
-                    });
-                }
-            },
-            isConnected: function() {
-                return self.connected;
-            },
-
-            Disconnect: function() {
-                self.isPolling = false;
-                qBittorrentRemote.torrents = {};
-                qBittorrentRemote.eventHandlers = {};
-            },
-
-            getFilesList: function(hash) {
-                return json('files', hash).then(function(data) {
-                    return data;
-                });
-            },
-
-            addMagnet: function(magnet) {
-                var headers = {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                };
-
-                if (self.config.use_auth) {
-                    headers.Authorization = 'Basic ' + Base64.encode(self.config.username + ':' + self.config.password);
-                }
-                return $http.post(self.getUrl('addmagnet'), 'urls=' + encodeURIComponent(magnet), {
-                    headers: headers
-                });
-            },
-
-            execute: function(method, hash) {
-                var headers = {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                };
-
-                if (self.config.use_auth) {
-                    headers.Authorization = 'Basic ' + Base64.encode(self.config.username + ':' + self.config.password);
-                }
-                return $http.post(self.getUrl(method), 'hash=' + hash, {
-                    headers: headers
-                });
-            }
-
-
-        };
-        return methods;
-    }
-])
-
-/**
- * uTorrent/Bittorrent remote singleton that receives the incoming data
- */
-.factory('qBittorrentRemote', ["$rootScope", "DuckieTorrent",
-    function($rootScope, DuckieTorrent) {
-
-        /**
-         * Round a number with Math.floor so that we don't lose precision on 99.7%
-         */
-        function round(x, n) {
-            return Math.floor(x * Math.pow(10, n)) / Math.pow(10, n)
-        }
-
-        var service = {
-            torrents: {},
-            settings: {},
-
-            getTorrentName: function(torrent) {
-                return torrent.name;
-            },
-
-            getTorrents: function() {
-                var out = [];
-                angular.forEach(service.torrents, function(el) {
-                    out.push(el);
-                });
-                return out;
-            },
-
-            getByHash: function(hash) {
-                return (hash in service.torrents) ? service.torrents[hash] : null;
-            },
-
-            handleEvent: function(data) {
-                var key = data.hash.toUpperCase();
-                if (!(key in service.torrents)) {
-                    service.torrents[key] = new qBittorrentData(data);
-                } else {
-                    service.torrents[key].update(data);
-                }
-
-                $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
-                $rootScope.$broadcast('torrent:update:', service.torrents[key]);
-            },
-
-            onTorrentUpdate: function(hash, callback) {
-                $rootScope.$on('torrent:update:' + hash, function(evt, torrent) {
-                    callback(torrent)
-                });
-            },
-
-            offTorrentUpdate: function(hash, callback) {
-                $rootScope.$off('torrent:update:' + hash, function(evt, torrent) {
-                    callback(torrent)
-                });
-            }
-        };
-
-        window.qbt = service;
         return service;
     }
 ])
 
 .run(["DuckieTorrent", "qBittorrent",
     function(DuckieTorrent, qBittorrent) {
-
         DuckieTorrent.register('qBittorrent', qBittorrent);
     }
-])
+]);

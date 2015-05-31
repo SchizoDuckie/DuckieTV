@@ -1,425 +1,217 @@
-DuckieTorrent
+/**
+ * Tixati DataStructure
+ */
+TixatiData = function(data) {
+    this.update(data);
+};
 
-.controller("tixatiCtrl", ["tixati", "SettingsService", "$filter",
-    function(tixati, SettingsService, $filter) {
+TixatiData.extends(TorrentData, {
+    getName: function() {
+        return this.name;
+    },
+    getProgress: function() {
+        return parseInt(this.progres);
+    },
+    start: function() {
+        var fd = new FormData();
+        fd.append('start', 'Start');
+        return this.getClient().getAPI().execute(this.guid, fd);
+    },
+    stop: function() {
+        var fd = new FormData();
+        fd.append('stop', 'Stop');
+        return this.getClient().getAPI().execute(this.guid, fd);
+    },
+    pause: function() {
+        return this.stop();
+    },
+    isStarted: function() {
+        return this.status.toLowerCase().indexOf('offline') == -1;
+    },
+    getFiles: function() {
+        this.getClient().getAPI().getFiles(this.guid).then(function(data) {
+            this.files = data;
+        }.bind(this));
+    }
+});
 
-        this.model = {
-            server: SettingsService.get('tixati.server'),
-            port: SettingsService.get('tixati.port'),
-            username: SettingsService.get('tixati.username'),
-            password: SettingsService.get('tixati.password'),
+
+/**
+ * Tixati remote singleton that receives the incoming data
+ */
+DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
+    function(BaseTorrentRemote) {
+
+        var TixatiRemote = function() {
+            BaseTorrentRemote.call(this);
+            this.dataClass = TixatiData;
         };
+        TixatiRemote.extends(BaseTorrentRemote);
 
-        this.fields = [{
-            key: "server",
-            type: "input",
-            templateOptions: {
-                label: "Tixati " + $filter('translate')('TIXATIjs/address/lbl'),
-                type: "url",
-            }
-        }, {
-            key: "port",
-            type: "input",
-            templateOptions: {
-                label: $filter('translate')('TIXATIjs/port/lbl'),
-                type: "number",
-            }
-        }, {
-            key: "username",
-            type: "input",
-            templateOptions: {
-                label: $filter('translate')('TIXATIjs/username/lbl')
-            }
-        }, {
-            key: "password",
-            type: "input",
-            templateOptions: {
-                label: $filter('translate')('TIXATIjs/password/lbl'),
-                type: "password"
-            }
-        }, ];
-
-        this.isConnected = function() {
-            return tixati.isConnected();
-        },
-
-
-        this.test = function() {
-            //console.log("Testing settings");
-            tixati.Disconnect();
-            tixati.setConfig(this.model);
-            tixati.connect().then(function(connected) {
-                console.info("Tixati connected! (save settings)", connected);
-                tixati.saveConfig();
-            }, function(error) {
-                console.error("Tixati connect error!", error);
-            })
-        }
+        return TixatiRemote;
     }
 ])
 
-.factory('tixati', ["$q", "$http", "URLBuilder", "$parse", "tixatiRemote", "SettingsService",
-    function($q, $http, URLBuilder, $parse, tixatiRemote, SettingsService) {
-        var self = this;
 
-        this.config = {
-            server: SettingsService.get('tixati.server'),
-            port: SettingsService.get('tixati.port'),
-            username: SettingsService.get('tixati.username'),
-            password: SettingsService.get('tixati.password')
+.factory('TixatiAPI', ['BaseHTTPApi',
+    function(BaseHTTPApi) {
+
+        var TixatiAPI = function() {
+            BaseHTTPApi.call(this);
         };
+        TixatiAPI.extends(BaseHTTPApi, {
+            portscan: function() {
+                return this.request('portscan').then(function(result) {
+                    var scraper = new HTMLScraper(result.data),
+                        categories = {},
+                        categoriesList = [];
 
-        /** 
-         * Predefined endpoints for API actions.
-         */
-        this.endpoints = {
+                    scraper.walkSelector('.homestats tr:first-child th', function(node) {
+                        categoriesList.push(node.innerText);
+                        categories[node.innerText] = {};
+                    });
+
+                    scraper.walkSelector('.homestats tr:not(:first-child)', function(node) {
+                        scraper.walkNodes(node.querySelectorAll('td'), function(cell, idx) {
+                            var cat = cell.innerText.split('  ');
+                            categories[categoriesList[idx]][cat[0]] = cat[1];
+                        });
+                    });
+
+                    return categories;
+                });
+            },
+
+            getTorrents: function() {
+                return this.request('torrents', {}).then(function(data) {
+                    var scraper = new HTMLScraper(result.data);
+
+                    var torrents = [];
+
+                    scraper.walkSelector('.xferstable tr:not(:first-child)', function(node) {
+                        var tds = node.querySelectorAll('td');
+
+                        var torrent = new TixatiData({
+                            name: tds[1].innerText,
+                            bytes: tds[2].innerText,
+                            progress: parseInt(tds[3].innerText),
+                            status: tds[4].innerText,
+                            downSpeed: tds[5].innerText,
+                            upSpeed: tds[6].innerText,
+                            priority: tds[7].innerText,
+                            eta: tds[8].innerText,
+                            guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1]
+                        });
+                        if ((torrent.guid in infohashCache)) {
+                            torrent.hash = infohashCache[torrent.guid];
+                            torrents.push(torrent);
+                        } else {
+                            service.getInfoHash(torrent.guid).then(function(result) {
+                                torrent.hash = infohashCache[torrent.guid] = result;
+                                torrents.push(torrent);
+                            });
+                        }
+                    });
+                    return torrents;
+                });
+            },
+
+            getInfoHash: function(guid) {
+                return this.request('infohash', guid).then(function(result) {
+                    var magnet = result.data.match(/([0-9ABCDEFabcdef]{40})/);
+                    if (magnet && magnet.length) {
+                        return magnet[0].toUpperCase();
+                    }
+                });
+            },
+
+            getFiles: function(guid) {
+                return this.request('files', guid).then(function(result) {
+
+                    var scraper = new HTMLScraper(result.data);
+                    var files = [];
+
+                    scaper.walkSelector('.xferstable tr:not(:first-child)', function(node) {
+                        var cells = node.querySelectorAll('td');
+                        files.push({
+                            name: cells[1].innerText.trim(),
+                            priority: cells[2].innerText.trim(),
+                            bytes: cells[3].innerText.trim(),
+                            progress: cells[4].innerText.trim()
+                        });
+                    });
+                    return files;
+
+                });
+
+            },
+
+            addMagnet: function(magnet) {
+                var fd = new FormData();
+                fd.append('addlinktext', magnet);
+                fd.append('addlink', 'Add');
+
+                return $http.post(this.getUrl('addmagnet'), fd, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                });
+            },
+
+            execute: function(guid, formData) {
+                return $http.post(this.getUrl('torrentcontrol', guid), formData, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                });
+            }
+
+        });
+
+        return TixatiAPI;
+    }
+])
+
+
+.factory('Tixati', ['BaseTorrentClient', 'TixatiRemote', 'TixatiAPI',
+    function(BaseTorrentClient, TixatiRemote, TixatiAPI) {
+
+        var Tixati = function() {
+            BaseTorrentClient.call(this);
+        };
+        Tixati.extends(BaseTorrentClient);
+
+        var service = new Tixati();
+
+        service.setName('Tixati');
+        service.setAPI(new TixatiAPI());
+        service.setRemote(new TixatiRemote());
+        service.setConfigMappings({
+            server: 'tixati.server',
+            port: 'tixati.port',
+            username: 'tixati.username',
+            password: 'tixati.password'
+        });
+        service.setEndpoints({
             torrents: '/transfers',
             portscan: '/home',
             infohash: '/transfers/%s/eventlog',
             torrentcontrol: '/transfers/%s/details/action', // POST [start, stop, remove, searchdht, checkfiles, delete] */
             addmagnet: '/transfers/action',
             files: '/transfers/%s/files'
-        };
+        });
+        service.infohashCache = {};
+        service.readConfig();
 
-        // will hold a hash of Tixati internal identifiers vs magnet hashes fetched from the events page.
-        var infohashCache = {
-
-        };
-
-        /**
-         * If a specialized parser is needed for a response than it can be automatically picked up by adding the type and a parser
-         * function here.
-         */
-        this.parsers = {
-            portscan: function(result) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(result.data, "text/html");
-
-                categories = {};
-                categoriesList = [];
-                Array.prototype.map.call(doc.querySelectorAll('.homestats tr:first-child th'), function(node) {
-                    categoriesList.push(node.innerText);
-                    categories[node.innerText] = {};
-                });
-
-                Array.prototype.map.call(doc.querySelectorAll('.homestats tr:not(:first-child)'), function(node) {
-                    Array.prototype.map.call(node.querySelectorAll('td'), function(cell, idx) {
-                        var cat = cell.innerText.split('  ');
-                        categories[categoriesList[idx]][cat[0]] = cat[1];
-                    });
-                });
-
-                return categories;
-            },
-
-            torrents: function(result) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(result.data, "text/html");
-                var torrents = [];
-
-
-                Array.prototype.map.call(doc.querySelectorAll('.xferstable tr:not(:first-child)'), function(node) {
-                    var tds = node.querySelectorAll('td');
-
-                    var torrent = {
-                        name: tds[1].innerText,
-                        bytes: tds[2].innerText,
-                        progress: parseInt(tds[3].innerText),
-                        status: tds[4].innerText,
-                        downSpeed: tds[5].innerText,
-                        upSpeed: tds[6].innerText,
-                        priority: tds[7].innerText,
-                        eta: tds[8].innerText,
-                        guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1],
-                        getName: nameFunc,
-                        getProgress: progressFunc,
-                        start: startFunc,
-                        stop: stopFunc,
-                        pause: stopFunc,
-                        sendCommand: sendCommand,
-                        isStarted: startedFunc,
-                        getFiles: filesFunc
-                    };
-                    if ((torrent.guid in infohashCache)) {
-                        torrent.hash = infohashCache[torrent.guid];
-                        torrents.push(torrent);
-                    } else {
-                        request('infohash', torrent.guid).then(function(result) {
-                            torrent.hash = infohashCache[torrent.guid] = result;
-                            torrents.push(torrent);
-                        });
-                    }
-                });
-                return torrents;
-            },
-
-            infohash: function(result) {
-                var magnet = result.data.match(/([0-9ABCDEFabcdef]{40})/);
-                if (magnet && magnet.length) {
-                    return magnet[0].toUpperCase();
-                }
-            },
-
-            files: function(result) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(result.data, "text/html");
-
-                var files = [];
-
-                Array.prototype.map.call(doc.querySelectorAll('.xferstable tr:not(:first-child)'), function(node) {
-                    var cells = node.querySelectorAll('td')
-                    files.push({
-                        name: cells[1].innerText.trim(),
-                        priority: cells[2].innerText.trim(),
-                        bytes: cells[3].innerText.trim(),
-                        progress: cells[4].innerText.trim()
-                    });
-                });
-
-                return files;
-
-            }
-
-
-        };
-
-        /**
-         * Automated parser for responses for usage when neccesary
-         */
-        this.getParser = function(type) {
-            return (type in this.parsers) ? this.parsers[type] : function(data) {
-                return data.data;
-            };
-        };
-
-        /**
-         * Fetches the url, auto-replaces the port in the url if it was found.
-         */
-        this.getUrl = function(type, param) {
-            var out = self.config.server + ':' + self.config.port + this.endpoints[type];
-            return out.replace('://', '://' + self.config.username + ':' + self.config.password + '@').replace('%s', encodeURIComponent(param));
-        };
-
-        this.isPolling = false;
-        this.isConnecting = false;
-        this.connected = false;
-        this.initialized = false;
-
-        /**
-         * Build a JSON request using the URLBuilder service.
-         * @param string type url to fetch from the request types
-         * @param object params GET parameters
-         * @param object options $http optional options
-         */
-        var request = function(type, params, options) {
-            var d = $q.defer();
-            params = params || {};
-            var url = self.getUrl(type, params)
-            var parser = self.getParser(type);
-
-            $http.get(url).then(function(response) {
-                    d.resolve(parser ? parser(response) : response.data);
-                },
-                function(errorCode) {
-                    d.reject(errorCode);
-                });
-
-            return d.promise;
-        };
-
-        var self = this;
-
-        var methods = {
-
-            setConfig: function(config) {
-                self.config = config;
-            },
-
-            saveConfig: function() {
-                Object.keys(self.config).map(function(key) {
-                    SettingsService.set("tixati." + key, self.config[key]);
-                });
-            },
-
-
-            connect: function() {
-
-                return request('portscan').then(function(result) {
-                    console.log("Tixati check result: ", result);
-                    self.connected = true;
-                    self.isConnecting = false;
-                    return true;
-                })
-            },
-
-            /** 
-             * Execute and handle the api's 'update' query.
-             * Parses out the events, updates, properties and methods and dispatches them to the TorrentRemote interface
-             * for storage, handling and attaching RPC methods.
-             */
-            statusQuery: function() {
-                return request('torrents', {}).then(function(data) {
-                        data.map(function(el) {
-                            tixatiRemote.handleEvent(el);
-                        });
-                        return data;
-                    },
-
-                    function(error) {
-                        console.error("Error executing get status query!", error);
-                    });
-            },
-            /**
-             * Return the interface that handles the remote data.
-             */
-            getRemote: function() {
-                return tixatiRemote;
-            },
-
-            /**
-             * Connect with an auth token obtained by the Pair function.
-             * Store the resulting session key in $scope.session
-             * You can call this method as often as you want. It'll return a promise that holds
-             * off on resolving until the client is connected.
-             * If it's connected and initialized, a promise will return that immediately resolves with the remote interface.
-             */
-            AutoConnect: function() {
-                if (!self.isConnecting && !self.connected) {
-                    self.connectPromise = $q.defer();
-                    self.isConnecting = true;
-                } else {
-                    return (!self.connected || !self.initialized) ? self.connectPromise.promise : $q(function(resolve) {
-                        resolve(methods.getRemote());
-                    });
-                }
-
-                methods.connect().then(function(result) {
-                    console.log("Tixati connected!");
-                    if (!self.isPolling) {
-                        self.isPolling = true;
-                        methods.Update();
-                    }
-                    self.connectPromise.resolve(methods.getRemote());
-                });
-
-                return self.connectPromise.promise;
-            },
-
-            togglePolling: function() {
-                self.isPolling = !self.isPolling;
-                self.Update();
-            },
-            /**
-             * Start the status update polling.
-             * Stores the resulting TorrentClient service in $scope.rpc
-             * Starts polling every 1s.
-             */
-            Update: function(dontLoop) {
-                if (self.isPolling == true) {
-                    methods.statusQuery().then(function(data) {
-                        if (undefined === dontLoop && self.isPolling && !data.error) {
-                            setTimeout(methods.Update, 3000);
-                        }
-                    });
-                }
-            },
-            isConnected: function() {
-                return self.connected;
-            },
-            Disconnect: function() {
-                self.isPolling = false;
-                tixatiRemote.torrents = {};
-                tixatiRemote.eventHandlers = {};
-            },
-            addMagnet: function(magnet) {
-                var fd = new FormData();
-                fd.append('addlinktext', magnet);
-                fd.append('addlink', 'Add');
-
-                return $http.post(self.getUrl('addmagnet'), fd, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                })
-            },
-            execute: function(guid, formData) {
-                return $http.post(self.getUrl('torrentcontrol', guid), formData, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                })
-            },
-            request: function(type, params, options) {
-                return request(type, params, options);
-            }
-        };
-        return methods;
-    }
-])
-
-/**
- * uTorrent/Bittorrent remote singleton that receives the incoming data
- */
-.factory('tixatiRemote', ["$parse", "$rootScope",
-    function($parse, $rootScope) {
-
-        var service = {
-            torrents: {},
-            settings: {},
-
-            getTorrentName: function(torrent) {
-                return torrent.name;
-            },
-
-            getTorrents: function() {
-                var out = [];
-                angular.forEach(service.torrents, function(el) {
-                    out.push(el);
-                });
-                return out;
-            },
-
-            getByHash: function(hash) {
-                hash = hash.toUpperCase();
-                return (hash in service.torrents) ? service.torrents[hash] : null;
-            },
-
-            handleEvent: function(data) {
-                var key = data.hash.toUpperCase();
-                if (!(key in service.torrents)) {
-                    service.torrents[key] = new TixatiData(data);
-                } else {
-                    service.torrents[key].update(data);
-                }
-
-                $rootScope.$broadcast('torrent:update:' + key, service.torrents[key]);
-                $rootScope.$broadcast('torrent:update:', service.torrents[key]);
-            },
-
-            onTorrentUpdate: function(hash, callback) {
-                $rootScope.$on('torrent:update:' + hash, function(evt, torrent) {
-                    callback(torrent)
-                });
-            },
-
-            offTorrentUpdate: function(hash, callback) {
-                $rootScope.$off('torrent:update:' + hash, function(evt, torrent) {
-                    callback(torrent)
-                });
-            }
-        };
-
-        window.qbt = service;
         return service;
     }
 ])
 
-.run(["DuckieTorrent", "tixati",
-    function(DuckieTorrent, tixati) {
 
-        DuckieTorrent.register('tixati', tixati);
-
+.run(["DuckieTorrent", "Tixati",
+    function(DuckieTorrent, Tixati) {
+        DuckieTorrent.register('Tixati', Tixati);
     }
-])
+]);

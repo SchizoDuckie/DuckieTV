@@ -5,7 +5,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
     function($stateProvider, $urlRouterProvider) {
         var applyTranslation = function($translate, SettingsService) {
             $translate.use(SettingsService.get('application.locale'));
-        }
+        };
 
         function showSidePanel(SidePanelState) {
             SidePanelState.show();
@@ -30,12 +30,12 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         function hideSidePanel(SidePanelState, SeriesListState) {
             SeriesListState.hide();
             SidePanelState.hide();
-            return SidePanelState
+            return SidePanelState;
         }
 
         function hideSeriesList(SeriesListState) {
             SeriesListState.hide();
-            return SeriesListState
+            return SeriesListState;
         }
 
         function findEpisodes($stateParams) {
@@ -87,7 +87,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     return SidePanelState;
                 },
                 FavoritesService: function(FavoritesService) {
-                    return FavoritesService
+                    return FavoritesService;
                 }
             },
             views: {
@@ -133,7 +133,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/adding.html',
                     controller: function($state, $stateParams) {
-                        this.query = $stateParams.query
+                        this.query = $stateParams.query;
                         this.search = function(q) {
                             if (q.length > 0) {
                                 $state.go('favorites.add.search', {
@@ -142,7 +142,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                             } else {
                                 $state.go('favorites.add');
                             }
-                        }
+                        };
                     },
                     controllerAs: 'search',
                     bindToController: true
@@ -185,7 +185,8 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         .state('watchlist', {
             url: '/watchlist',
             resolve: {
-                SidePanelState: expandSidePanel
+                SidePanelState: expandSidePanel,
+                SeriesListState: hideSeriesList
             },
             views: {
                 sidePanel: {
@@ -205,7 +206,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                         Episode: {
                             ID_Episode: $stateParams.episode_id
                         }
-                    })
+                    });
                 },
                 season: function($stateParams) {
                     return CRUD.FindOne('Serie', {
@@ -272,7 +273,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                         Serie: {
                             ID_Serie: $stateParams.id
                         }
-                    })
+                    });
                 }
             },
             views: {
@@ -345,7 +346,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             views: {
                 settingsTab: {
                     templateUrl: function($stateParams) {
-                        return 'templates/settings/' + $stateParams.tab + '.html'
+                        return 'templates/settings/' + $stateParams.tab + '.html';
                     }
                 }
             }
@@ -369,7 +370,8 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         .state('about', {
             url: '/about',
             resolve: {
-                SidePanelState: expandSidePanel
+                SidePanelState: expandSidePanel,
+                SeriesListState: hideSeriesList
             },
             views: {
                 sidePanel: {
@@ -383,4 +385,4 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         $urlRouterProvider.otherwise('/');
 
     }
-])
+]);

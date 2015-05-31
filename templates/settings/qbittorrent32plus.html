@@ -1,22 +1,22 @@
 <div class="buttons" ng-controller="qbt32plusCtrl as qbt">
-	<h2>qBittorrent v3.2+ {{'SETTINGS/QBITTORRENT/integration/hdr'|translate}}</h2>
+	<h2>qBittorrent v3.2+ {{'SETTINGS/QBITTORRENT32PLUS/integration/hdr'|translate}}</h2>
 
 
 	<img src="img/torrentclients/qbittorrent-colored.png" style='width:200px; margin: 0 auto'>
 
-	<button class="btn btn-warning" ng-click="qbt.requestCookiePermission()">Grant DuckieTV permission to read qBittorent's cookie</button>
+	<button class="btn btn-warning" ng-click="qbt.requestCookiePermission()">{{'SETTINGS/QBITTORRENT32PLUS/cookie-permission/btn'|translate}}</button>
 
-	<p  ng-if="qbt.isConnected()">{{'SETTINGS/QBITTORRENT/status/hdr'|translate}}:
-	{{'SETTINGS/QBITTORRENT/connected/lbl'|translate}} qBittorrent API &#64; {{qbt.model.server}}:{{qbt.model.port}}
+	<p  ng-if="qbt.isConnected()">{{'SETTINGS/QBITTORRENT32PLUS/status/hdr'|translate}}:
+	{{'SETTINGS/QBITTORRENT32PLUS/connected/lbl'|translate}} qBittorrent API &#64; {{qbt.model.server}}:{{qbt.model.port}}
 	</p>
 
-	<p ng-if="!qbt.isConnected()">{{'SETTINGS/QBITTORRENT/status/hdr'|translate}}:
-	{{'SETTINGS/QBITTORRENT/not-connected/lbl'|translate}}
+	<p ng-if="!qbt.isConnected()">{{'SETTINGS/QBITTORRENT32PLUS/status/hdr'|translate}}:
+	{{'SETTINGS/QBITTORRENT32PLUS/not-connected/lbl'|translate}}
 	</p>
 
 	<form ng-submit="qbt.test()" novalidate>
         <formly-form model="qbt.model" fields="qbt.fields">
-          <button type="submit" class="btn btn-primary submit-button">{{'SETTINGS/QBITTORRENT/save/btn'|translate}}</button>
+          <button type="submit" class="btn btn-primary submit-button">{{'SETTINGS/QBITTORRENT32PLUS/save/btn'|translate}}</button>
         </formly-form>
       </form>
 </div>
