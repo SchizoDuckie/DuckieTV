@@ -13,12 +13,10 @@ DuckieTV.directive('episodeDownloaded', ["$filter", "$document", "$injector",
             },
             link: function($scope) {
 
-                $scope.tooltip = null;
-
                 /**
                  * Translates the downloaded tooltip
                  */
-                $scope.getToolTip = function(episode) {
+                $scope.getDToolTip = function(episode) {
                     return episode.isDownloaded() ?
                         $filter('translate')('EPISODEDOWNLOADEDjs/is-downloaded/lbl') :
                         $filter('translate')('EPISODEDOWNLOADEDjs/not-downloaded/lbl');
