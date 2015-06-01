@@ -1,0 +1,20 @@
+{
+  "appNameNewTab": {
+    "message": "DuckieTV - 'New Tab' način"
+  },
+  "appShortNameNewTab": {
+    "message": "DuckieTV"
+  },
+  "appDescNewTab": {
+    "message": "Upravljajte svoje najljubše TV serije in filme s strani novega zavihka v brskalniku"
+  },
+  "appNameBrowserAction": {
+    "message": "DuckieTV - 'Browser Action' način"
+  },
+  "appShortNameBrowserAction": {
+    "message": "DuckieTV"
+  },
+  "appDescBrowserAction": {
+    "message": "Upravljajte svoje najljubše TV serije in filme iz znotraj vašega brskalnika s klikom na gumb"
+  }
+}
