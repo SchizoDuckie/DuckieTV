@@ -93,7 +93,7 @@ $provide.value("$locale", {
       }
     ]
   },
-  "id": "sl",
+  "id": "si",
   "pluralCat": function (n) {  if (n % 100 == 1) {   return PLURAL_CATEGORY.ONE;  }  if (n % 100 == 2) {   return PLURAL_CATEGORY.TWO;  }  if (n % 100 == 3 || n % 100 == 4) {   return PLURAL_CATEGORY.FEW;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);
