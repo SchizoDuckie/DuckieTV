@@ -28,7 +28,7 @@ module.exports = function(config) {
             'js/vendor/tmhDynamicLocale.js',
             'js/vendor/dialogs.js',
             'js/vendor/datePicker.js',
-            'js/vendor/ui-bootstrap-tpls-0.10.0.min.js',
+            'js/vendor/ui-bootstrap-tpls-0.13.0.min.js',
 			'js/vendor/ui-router-0.2.13.min.js',
 			'js/vendor/ct-ui-router-extras.core.min.js',
 			'js/vendor/ct-ui-router-extras.sticky.min.js',
