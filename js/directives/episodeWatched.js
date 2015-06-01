@@ -13,12 +13,10 @@ DuckieTV.directive('episodeWatched', ["$filter", "$document", "$injector",
             },
             link: function($scope) {
 
-                $scope.tooltip = null;
-
                 /**
                  * Translates the watchedAt tooltip
                  */
-                $scope.getToolTip = function(episode) {
+                $scope.getWToolTip = function(episode) {
                     return episode.isWatched() ?
                         $filter('translate')('EPISODEWATCHEDjs/is-marked/lbl') +
                         $filter('date')(new Date(episode.watchedAt), 'medium') :
