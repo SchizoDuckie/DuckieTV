@@ -86,12 +86,15 @@ DuckieTV.provider('SubtitleDialog', function() {
                 seasonNumber: '=seasonNumber',
                 episodeNumber: '=episodeNumber'
             },
-            template: '<a class="subtitle-dialog" ng-click="openDialog()" tooltip-append-to-body=true tooltip="{{tooltip}}"><i class="glyphicon glyphicon-text-width"></i><span ng-transclude></span></a>',
+            template: '<a class="subtitle-dialog" ng-click="openDialog()" tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-text-width"></i><span ng-transclude></span></a>',
             controller: ["$scope",
                 function($scope) {
-                    $scope.tooltip = $scope.serie !== undefined ? 
+                    // Translates the tooltip
+                    $scope.getTooltip = function() {
+                        return $scope.serie !== undefined ? 
                         $filter('translate')('SUBTITLEDIALOGjs/find-subtitle-for/tooltip') + $scope.serie.name :
                         $filter('translate')('SUBTITLEDIALOGjs/find-subtitle/tooltip');
+                    }
                     $scope.openDialog = function() {
                         if ($scope.serie && $scope.seasonNumber && $scope.episodeNumber) {
                             SubtitleDialog.search($scope.serie, $scope.seasonNumber, $scope.episodeNumber);
