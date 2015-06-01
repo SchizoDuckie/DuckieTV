@@ -4,6 +4,8 @@
  */
 DuckieTV.directive('episodeWatched', ["$filter", "$document", "$injector",
     function($filter, $document, $injector) {
+        var is_marked_lbl = $filter('translate')('EPISODEWATCHEDjs/is-marked/lbl');
+        var not_marked_lbl = $filter('translate')('EPISODEWATCHEDjs/not-marked/lbl');
         return {
             restrict: 'EA',
             transclude: true,
@@ -17,10 +19,7 @@ DuckieTV.directive('episodeWatched', ["$filter", "$document", "$injector",
                  * Translates the watchedAt tooltip
                  */
                 $scope.getWToolTip = function(episode) {
-                    return episode.isWatched() ?
-                        $filter('translate')('EPISODEWATCHEDjs/is-marked/lbl') +
-                        $filter('date')(new Date(episode.watchedAt), 'medium') :
-                        $filter('translate')('EPISODEWATCHEDjs/not-marked/lbl');
+                    return episode.isWatched() ? is_marked_lbl + $filter('date')(new Date(episode.watchedAt), 'medium') : not_marked_lbl;
                 };
 
                 /**

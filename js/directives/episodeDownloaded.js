@@ -4,6 +4,8 @@
  */
 DuckieTV.directive('episodeDownloaded', ["$filter", "$document", "$injector",
     function($filter, $document, $injector) {
+        var is_downloaded_lbl = $filter('translate')('EPISODEDOWNLOADEDjs/is-downloaded/lbl');
+        var not_downloaded_lbl = $filter('translate')('EPISODEDOWNLOADEDjs/not-downloaded/lbl');
         return {
             restrict: 'EA',
             transclude: true,
@@ -17,9 +19,7 @@ DuckieTV.directive('episodeDownloaded', ["$filter", "$document", "$injector",
                  * Translates the downloaded tooltip
                  */
                 $scope.getDToolTip = function(episode) {
-                    return episode.isDownloaded() ?
-                        $filter('translate')('EPISODEDOWNLOADEDjs/is-downloaded/lbl') :
-                        $filter('translate')('EPISODEDOWNLOADEDjs/not-downloaded/lbl');
+                    return episode.isDownloaded() ? is_downloaded_lbl : not_downloaded_lbl;
                 };
 
                 /**
