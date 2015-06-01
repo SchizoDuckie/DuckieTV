@@ -55,9 +55,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
     function($q, $http, URLBuilder, $parse, SettingsService) {
 
         var BaseTorrentClient = function() {
-            this.config = {
-
-            };
+            this.config = {};
 
             this.configMappings = {
                 server: null,
@@ -260,14 +258,16 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
             },
 
             /**
-             * Implement this function to be able to add a magnet to the client
+             * Implement this function to be able to add a torrent by to url the client.
+             * Torrent releaseName is also passed for clients that do not return the hash right after
+             * submitting a new torrent, so that you can fetch the updated torrent list and parse it out
+             * by name.
              */
-            addTorrentByUrl: function(magnet) {
+            addTorrentByUrl: function(magnet, releaseName) {
                 if (!('addTorrentByUrl' in this.getAPI())) {
                     throw "addTorrentByUrl not implemented for " + this.getName();
                 }
-                return this.getAPI().addTorrentByUrl(magnet);
-
+                return this.getAPI().addTorrentByUrl(magnet, releaseName);
             },
 
             request: function(type, params, options) {

@@ -48,8 +48,8 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
     }
 ])
 
-.factory('qBittorrentAPI', ['BaseHTTPApi', '$http',
-    function(BaseHTTPApi, $http) {
+.factory('qBittorrentAPI', ['BaseHTTPApi', '$http', '$q',
+    function(BaseHTTPApi, $http, $q) {
 
         var qBittorrentAPI = function() {
             BaseHTTPApi.call(this);
@@ -73,25 +73,49 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
                 });
             },
             addMagnet: function(magnetHash) {
-                var headers = {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                };
-                if (this.config.use_auth) {
-                    headers.Authorization = 'Basic ' + Base64.encode(this.config.username + ':' + this.config.password);
-                }
                 return $http.post(this.getUrl('addmagnet'), 'urls=' + encodeURIComponent(magnetHash), {
-                    headers: headers
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
                 });
             },
+            addTorrentByUrl: function(url, releaseName) {
+                var self = this;
+                return this.addMagnet(url).then(function(result) {
+                    var currentTry = 0;
+                    var maxTries = 5;
+                    // wait for qBittorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
+                    return $q(function(resolve, reject) {
+                        function verifyAdded() {
+                            currentTry++;
+                            self.getTorrents().then(function(result) {
+                                var hash = null;
+                                result.map(function(torrent) {
+                                    if (torrent.name == releaseName) {
+                                        hash = torrent.hash.toUpperCase();
+                                    }
+                                });
+                                if (hash !== null) {
+                                    resolve(hash);
+                                } else {
+                                    if (currentTry < maxTries) {
+                                        setTimeout(verifyAdded, 1000);
+                                    } else {
+                                        throw "No hash foudn for torrent " + releaseName + " in 5 tries.";
+                                    }
+                                }
+                            });
+                        }
+                        setTimeout(verifyAdded, 1000);
+                    });
+
+                }.bind(this));
+            },
             execute: function(method, id) {
-                var headers = {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                };
-                if (this.config.use_auth) {
-                    headers.Authorization = 'Basic ' + Base64.encode(this.config.username + ':' + this.config.password);
-                }
                 return $http.post(this.getUrl(method), 'hash=' + id, {
-                    headers: headers
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
                 });
             }
         });

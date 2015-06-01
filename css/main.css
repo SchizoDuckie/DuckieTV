@@ -1322,6 +1322,10 @@ sidepanel .buttons a {
     -webkit-user-select: none;
 }
 
+sidepanel .buttons a.active {
+  background-color: rgba(66,66,66,0.8);
+}
+
 sidepanel a {
     transition: background-color 0.3s;
 }

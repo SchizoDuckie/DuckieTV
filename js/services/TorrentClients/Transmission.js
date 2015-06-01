@@ -106,7 +106,7 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                     }
                 });
             },
-            addTorrentByUrl: function(url) {
+            addTorrentByUrl: function(url, releaseName) {
                 return this.addMagnet(url).then(function(result) {
                     return result.arguments['torrent-added'].hashString.toUpperCase();
                 });

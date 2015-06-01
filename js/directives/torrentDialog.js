@@ -60,17 +60,17 @@ DuckieTV
                 TorrentSearchEngines.launchMagnet(magnet, channel);
             },
 
-            urlSelect = function(url) {
+            urlSelect = function(url, releasename) {
                 console.info("Torrent URL selected!", url);
                 $modalInstance.close(url);
 
                 var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-                TorrentSearchEngines.launchTorrentByURL(url, channel);
+                TorrentSearchEngines.launchTorrentByURL(url, channel, releasename);
             };
 
         $scope.select = function(result) {
             if (TorrentSearchEngines.getSearchEngine($scope.searchprovider).config.noMagnet) {
-                return urlSelect(result.torrentUrl);
+                return urlSelect(result.torrentUrl, result.releasename);
             } else {
                 return magnetSelect(result.magnet);
             }

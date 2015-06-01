@@ -80,12 +80,12 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "$dialo
                 }
             },
 
-            launchTorrentByURL: function(torrentUrl, TVDB_ID) {
-                console.log("Firing magnet URI! ", torrentUrl, TVDB_ID);
+            launchTorrentByURL: function(torrentUrl, TVDB_ID, name) {
+                console.log("Firing Torrent By URL! ", torrentUrl, TVDB_ID, name);
 
                 if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
-                    console.log("Adding via TorrentClient.addTorrentByUrl API! ", torrentUrl, TVDB_ID);
-                    DuckieTorrent.getClient().addTorrentByUrl(torrentUrl).then(function(infoHash) {
+                    console.log("Adding via TorrentClient.addTorrentByUrl API! ", torrentUrl, TVDB_ID, name);
+                    DuckieTorrent.getClient().addTorrentByUrl(torrentUrl, name).then(function(infoHash) {
                         $rootScope.$broadcast('magnet:select:' + TVDB_ID, infoHash.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                     });
                     setTimeout(function() {
@@ -110,4 +110,4 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "$dialo
 
         return service;
     }
-])
+]);

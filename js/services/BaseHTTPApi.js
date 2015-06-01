@@ -6,7 +6,8 @@ DuckieTV.factory('BaseHTTPApi', ["$http",
                 server: null,
                 port: null,
                 username: null,
-                use_auth: null
+                use_auth: null,
+                uses_custom_auth_method: false
             };
 
             this.endpoints = {
@@ -21,7 +22,7 @@ DuckieTV.factory('BaseHTTPApi', ["$http",
          */
         BaseHTTPApi.prototype.getUrl = function(type, param) {
             var out = this.config.server + ':' + this.config.port + this.endpoints[type];
-            if (this.config.use_auth) {
+            if (this.config.use_auth && !this.config.uses_custom_auth_method) {
                 out = out.replace('://', '://' + this.config.username + ':' + this.config.password + '@');
             }
             return out.replace('%s', encodeURIComponent(param));
