@@ -68,7 +68,7 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
     function markSerieWatched(ID_Serie, allSeasonsWatched) {
         var serie = FavoritesService.getByID_Serie(ID_Serie);
         //console.debug("Serie watched? ", serie.name, serie.watched, allSeasonsWatched);
-        serie.watched = allSeasonsWatched;
+        serie.watched = allSeasonsWatched === false ? 0 : 1;
         serie.Persist();
     }
 
