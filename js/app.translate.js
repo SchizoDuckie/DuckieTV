@@ -4,12 +4,13 @@
 DuckieTV.config(["$translateProvider",
     function($translateProvider) {
 
-        // Escape all outputs from Angular Translate for security, not that
-        // it is really needed in this case but it stops throwing a warning
-        $translateProvider.useSanitizeValueStrategy('escaped');
-
-
-        $translateProvider
+    $translateProvider
+        /*
+         * Escape all outputs from Angular Translate for security, not that
+         * it is really needed in this case but it stops throwing a warning
+        */
+        .useSanitizeValueStrategy('escaped')
+        
         /*
          * setup path to the translation table files
          * example ../_Locales/en_us.json
@@ -23,7 +24,6 @@ DuckieTV.config(["$translateProvider",
          * help the determinePreferredLanguage module match a find
          * with one of our provided languages
          */
-
         .registerAvailableLanguageKeys([
             'de_de', 'en_au', 'en_nz', 'en_uk', 'en_us', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nl_nl', 'pt_pt', 'ru_ru', 'sl_si', 'sv_se', 'zh_cn'
         ], {
@@ -68,7 +68,6 @@ DuckieTV.config(["$translateProvider",
         /*
          * default language
          */
-
         .preferredLanguage('en_us')
 
         /*
@@ -86,7 +85,6 @@ DuckieTV.config(["$translateProvider",
          * if it becomes problematic, use $translateProvider.preferredLanguage('en_us'); here to set a default
          * or $translate.use('en_us'); in a controller or service.
          */
-
         .determinePreferredLanguage();
 
         // error logging. missing keys are sent to $log
