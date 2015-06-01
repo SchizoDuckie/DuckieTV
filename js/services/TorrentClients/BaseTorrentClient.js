@@ -259,6 +259,17 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
 
             },
 
+            /**
+             * Implement this function to be able to add a magnet to the client
+             */
+            addTorrentByUrl: function(magnet) {
+                if (!('addTorrentByUrl' in this.getAPI())) {
+                    throw "addTorrentByUrl not implemented for " + this.getName();
+                }
+                return this.getAPI().addTorrentByUrl(magnet);
+
+            },
+
             request: function(type, params, options) {
                 return request(type, params, options);
             }

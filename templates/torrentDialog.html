@@ -54,7 +54,7 @@
     </tr>
     <tr ng-repeat="seed in items | limitTo: 20">
       <td style='width:50px; padding:5px; vertical-align: middle;' class='dropdown' dropdown>
-        <a ng-click="magnetSelect(seed.magneturl)">
+        <a ng-click="select(seed)">
           <i class="glyphicon glyphicon-magnet" tooltip="{{'TORRENTDIALOG/download-magnet/tooltip'|translate}}"></i>
         </a>
         <a class="dropdown-toggle" dropdown-toggle>
@@ -67,13 +67,13 @@
         </ul>
       </td>
       <td>
-        <a tooltip="Size: {{::seed.size}}" ng-bind-html="seed.releasename | unsafe" ng-click="magnetSelect(seed.magneturl)"></a>
+        <a tooltip="Size: {{::seed.size}}" ng-bind-html="seed.releasename | unsafe" ng-click="select(seed)"></a>
       </td>
       <td style='width:50px; text-align:right'>
-        <a  ng-bind="seed.seeders" ng-click="magnetSelect(seed.magneturl)"></a>
+        <a  ng-bind="seed.seeders" ng-click="select(seed)"></a>
       </td>
       <td style='width:50px; text-align:right'>
-        <a  ng-bind="seed.leechers" ng-click="magnetSelect(seed.magneturl)"></a>
+        <a  ng-bind="seed.leechers" ng-click="select(seed)"></a>
       </td>
     </tr>
   </tbody>

@@ -78,6 +78,31 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "$dialo
                         document.body.removeChild(d);
                     }, 3000);
                 }
+            },
+
+            launchTorrentByURL: function(torrentUrl, TVDB_ID) {
+                console.log("Firing magnet URI! ", torrentUrl, TVDB_ID);
+
+                if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
+                    console.log("Adding via TorrentClient.addTorrentByUrl API! ", torrentUrl, TVDB_ID);
+                    DuckieTorrent.getClient().addTorrentByUrl(torrentUrl).then(function(infoHash) {
+                        $rootScope.$broadcast('magnet:select:' + TVDB_ID, infoHash.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+                    });
+                    setTimeout(function() {
+                        DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
+                    }, 1500);
+                } else {
+                    var d = document.createElement('iframe');
+                    d.id = 'torrenturl_' + new Date().getTime();
+                    d.src = torrentUrl;
+                    d.style.visibility = 'hidden';
+                    document.body.appendChild(d);
+                    d.onload = function() {
+                        setTimeout(function() {
+                            document.body.removeChild(d);
+                        }, 500);
+                    };
+                }
             }
         };
 

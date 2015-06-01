@@ -55,7 +55,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             config.mirror = SettingsService.get(config.mirrorSettingsKey);
         }
         return config.mirror + config.endpoints[type].replace('%s', encodeURIComponent(param));
-    };
+    }
 
     /**
      * Generic search parser that has a selector, a property to fetch from the selector and an optional callback function for formatting/modifying
@@ -82,15 +82,15 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 size: getPropertyForSelector(results[i], selectors.size),
                 seeders: getPropertyForSelector(results[i], selectors.seeders),
                 leechers: getPropertyForSelector(results[i], selectors.leechers),
-                detailUrl: config.mirror + getPropertyForSelector(results[i], selectors.detailUrl)
+                detailUrl: (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.detailUrl)
             };
-            if(config.noMagnet === true) {
-                out.torrentUrl =  config.mirror + getPropertyForSelector(results[i], selectors.torrentUrl)
+            if (config.noMagnet === true) {
+                out.torrentUrl = (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.torrentUrl);
                 output.push(out);
             } else {
                 var magnet = getPropertyForSelector(results[i], selectors.magneturl);
-                 out.magneturl = magnet;
-            
+                out.magneturl = magnet;
+
                 var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
                 if (magnetHash && magnetHash.length) {
                     out.torrent = 'http://torcache.gs/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
@@ -100,7 +100,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         }
 
         return output;
-    };
+    }
 
     /**
      * Execute a generic torrent search, parse the results and return them as an array
@@ -136,7 +136,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             }
         });
         return d.promise;
-    },
+    };
+
     /**
      * Fetch details for a specific torrent id
      */
@@ -150,6 +151,6 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 result: self.parseDetails(response)
             };
         });
-    }
+    };
 
 }

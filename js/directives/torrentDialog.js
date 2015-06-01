@@ -45,19 +45,35 @@ DuckieTV
         $scope.setProvider = function(provider) {
             $scope.searchprovider = provider;
             $scope.search($scope.query);
-        }
+        };
 
         $scope.cancel = function() {
             $modalInstance.dismiss('Canceled');
         };
 
         // Selects and launchs magnet
-        $scope.magnetSelect = function(magnet) {
-            console.info("Magnet selected!", magnet);
-            $modalInstance.close(magnet);
+        var magnetSelect = function(magnet) {
+                console.info("Magnet selected!", magnet);
+                $modalInstance.close(magnet);
 
-            var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-            TorrentSearchEngines.launchMagnet(magnet, channel);
+                var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
+                TorrentSearchEngines.launchMagnet(magnet, channel);
+            },
+
+            urlSelect = function(url) {
+                console.info("Torrent URL selected!", url);
+                $modalInstance.close(url);
+
+                var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
+                TorrentSearchEngines.launchTorrentByURL(url, channel);
+            };
+
+        $scope.select = function(result) {
+            if (TorrentSearchEngines.getSearchEngine($scope.searchprovider).config.noMagnet) {
+                return urlSelect(result.torrentUrl);
+            } else {
+                return magnetSelect(result.magnet);
+            }
         };
 
         $scope.clients = Object.keys(TorrentSearchEngines.getSearchEngines());
@@ -85,14 +101,14 @@ DuckieTV
                         return $scope.q !== undefined ?
                             $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.q :
                             $filter('translate')('TORRENTDIALOG/search-download-any/tooltip');
-                    }
+                    };
                     // Opens the torrent search with the episode selected
                     $scope.openDialog = function() {
                         TorrentSearchEngines.search($scope.q, $scope.TVDB_ID);
-                    }
+                    };
                 }
             ]
-        }
+        };
     }
 ])
 
@@ -112,4 +128,4 @@ DuckieTV
 
         }, 500);
     }
-])
+]);

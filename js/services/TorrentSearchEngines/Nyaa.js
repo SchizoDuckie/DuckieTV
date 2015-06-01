@@ -11,7 +11,7 @@ DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector",
             selectors: {
                 resultContainer: 'tr.tlistrow',
                 releasename: ['td.tlistname a', 'innerText'],
-                magneturl: ['td.tlistdownload a', 'href'],
+                torrentUrl: ['td.tlistdownload a', 'href'],
                 size: ['td.tlistsize', 'innerText'],
                 seeders: ['td.tlistsn', 'innerHTML'],
                 leechers: ['td.tlistln', 'innerHTML'],
