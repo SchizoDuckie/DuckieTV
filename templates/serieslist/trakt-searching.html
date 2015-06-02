@@ -9,7 +9,10 @@
     </div>
 
     <!-- If no results -->
-    <h1 ng-show="!traktSearch.searching && traktSearch.results.length == 0">{{'SERIESLIST/TRAKT-SEARCHING/no-results/lbl'|translate}}{{traktSearch.search.query}}</h1>
+    <div ng-show="!traktSearch.searching && traktSearch.results.length == 0">
+        <img src="img/trakt.png">
+        <h3>{{'SERIESLIST/TRAKT-SEARCHING/no-results/lbl'|translate}} {{traktSearch.search.query}}</h3>
+    </div>
 
     <!-- Repeated serie search results -->
     <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results" data="serie" ng-mouseenter="traktSearch.setHoverSerie(serie)" no-overview="1" no-button="1" mode="{{serieslist.mode}}" ng-click="serieslist.selectSerie(serie)">

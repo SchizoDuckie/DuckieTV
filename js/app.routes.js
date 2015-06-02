@@ -126,9 +126,9 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         .state('favorites.add', {
             url: '/add',
-                resolve: {
-                    SidePanelState: showSidePanel
-                },
+            resolve: {
+                SidePanelState: showSidePanel
+            },
             views: {
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/adding.html',
@@ -370,7 +370,11 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         .state('about', {
             url: '/about',
             resolve: {
-                SidePanelState: expandSidePanel,
+                SidePanelState: function(SidePanelState) {
+                    setTimeout(function() {
+                        expandSidePanel(SidePanelState);
+                    }, 0);
+                },
                 SeriesListState: hideSeriesList
             },
             views: {
