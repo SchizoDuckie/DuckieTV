@@ -41,25 +41,25 @@
 
   <div ng-controller="ActionBarCtrl as actionbar">
     <div id="actionbar">
-      <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hidePanels(); actionbar.resetCalendar(); actionbar.go('calendar', true);"></div>
+      <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hidePanels(); actionbar.resetCalendar();"></div>
       <ul class="list-unstyled">
         <li>
-          <a id="actionbar_calendar" class="glyphicon glyphicon-calendar" tooltip="{{ 'TAB/calendar/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.hidePanels(); actionbar.go('calendar', true);" style="padding-left:20px;width:58px"></a>
+          <a id="actionbar_calendar" ui-sref="calendar" ui-sref-active="calendar_active" class="glyphicon glyphicon-calendar" tooltip="{{ 'TAB/calendar/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.hidePanels();" style="padding-left:20px;width:58px" tooltip-append-to-body="true"></a>
         </li>
         <li>
-          <a id="actionbar_favorites" class="glyphicon glyphicon-heart" ng-click="actionbar.toggleSeriesList();  actionbar.hideSidePanel(); actionbar.go('favorites'); " tooltip="{{actionbar.getHeartTooltip()}}" tooltip-placement="right"></a>
+          <a id="actionbar_favorites" ui-sref="favorites" ui-sref-active="active" class="glyphicon glyphicon-heart" ng-click="actionbar.toggleSeriesList();  actionbar.hideSidePanel();" tooltip="{{actionbar.getHeartTooltip()}}" tooltip-placement="right"></a>
         </li>
         <li style='display:none' id='wl'>
-          <a id="actionbar_watchlist" ng-click="actionbar.go('watchlist');" class="glyphicon glyphicon-facetime-video" tooltip="{{ 'TAB/watchlist/glyph'|translate }}" tooltip-placement="right"></a>
+          <a id="actionbar_watchlist" ui-sref="watchlist" ui-sref-active="active" class="glyphicon glyphicon-facetime-video" tooltip="{{ 'TAB/watchlist/glyph'|translate }}" tooltip-placement="right"></a>
         </li>
         <li>
-          <a id="actionbar_settings" ng-click="actionbar.showSidePanel(); actionbar.go('settings');" class="glyphicon glyphicon-cog" tooltip="{{ 'TAB/settings/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
+          <a id="actionbar_settings" ui-sref="settings" ng-click="actionbar.showSidePanel();" class="glyphicon glyphicon-cog" tooltip="{{ 'TAB/settings/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
-          <a id="actionbar_torrent" ng-click="actionbar.showSidePanel(); actionbar.go('torrent');"  class="glyphicon glyphicon-magnet" tooltip="Torrent client" tooltip-placement="right"></a>
+          <a id="actionbar_torrent" ui-sref="torrent"  ui-sref-active="active" ng-click="actionbar.showSidePanel();"  class="glyphicon glyphicon-magnet" tooltip="Torrent client" tooltip-placement="right"></a>
         </li>
         <li>
-          <a id="actionbar_about" ng-click="actionbar.go('about');"  class="glyphicon glyphicon-info-sign" tooltip="{{ 'TAB/about/glyph'|translate }}" tooltip-placement="right"></a>
+          <a id="actionbar_about" ui-sref="about" ui-sref-active="active" class="glyphicon glyphicon-info-sign" tooltip="{{ 'TAB/about/glyph'|translate }}" tooltip-placement="right"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
           <torrent-dialog tooltip-placement="right"></torrent-dialog>

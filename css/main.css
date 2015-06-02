@@ -209,6 +209,17 @@ background-rotator, background-rotator > div {
     -webkit-transition: background-color .125s;
 }
 
+#actionbar_calendar {
+    opacity: 1;
+    transition: all 0.5s ease-in-out;
+    transform: rotate(0deg) scale(1);
+}
+
+#actionbar_calendar.calendar_active {
+    transform: rotate(180deg) scale(0.1);
+    opacity: 0;
+}
+
 .typeahead ul {
     max-height: 150px;
     border: 1px solid #333;
