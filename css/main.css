@@ -1441,29 +1441,8 @@ sidepanel .buttons .two-face-torrent .auto-download {
     right: 35px;
 }
 /* Fix the tooltip positions */
-#episodesttd .tooltip {
-    width: 100px;
-}
-#episodesewt .tooltip {
-    width: 80px;
-    left: 300px !important;
-}
-#episodesewt .tooltip .tooltip-arrow {
-    left: initial;
-    right: 19px
-}
-#episodesedt .tooltip {
-    width: 80px;
-    left: 292.5px !important;
-}
 #ttd .tooltip {
     left: 106.5px !important;
-}
-#tad .tooltip {
-    left: 290.5px !important;
-}
-#mwb .tooltip {
-    left: 196px !important;
 }
 sidepanel .buttons .torrent-mini-remote-control > span {
     /* Replicate of the strong tag */

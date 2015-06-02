@@ -19,16 +19,14 @@
         <td class="nobreaks" align="right" style="width:60px;position:relative">
           <a ng-show="episode.hasAired()" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{episode.firstaired | date: 'short'}}" class="airdate" >{{::episode.firstaired|date:'shortDate'}}</a>
           <div ng-show="episode.hasAired() && getSetting('torrenting.enabled')" class="torrentctrls">
-            <div id="episodesttd" style="display:inline-block">
-              <torrent-dialog tvdbid='episode.TVDB_ID' q='season.getSearchString(sidepanel.serie,episode)' t-tip="body"></torrent-dialog>
-            </div>
+            <torrent-dialog tvdbid='episode.TVDB_ID' q='season.getSearchString(sidepanel.serie,episode)'></torrent-dialog>
             <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'SIDEPANEL/EPISODES/auto-download/tooltip'|translate}}">
               <i class="glyphicon glyphicon-cloud-download"></i>
             </a>
           </div>
         </td>
         <td style="width:55px">
-          <episode-downloaded ng-show="episode.hasAired()" id="episodesedt"></episode-downloaded> <episode-watched ng-show="episode.hasAired()" id="episodesewt"></episode-watched>
+          <episode-downloaded ng-show="episode.hasAired()"></episode-downloaded> <episode-watched ng-show="episode.hasAired()"></episode-watched>
         </td>
       </tr>
       <tr ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) ">

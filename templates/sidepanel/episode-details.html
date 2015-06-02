@@ -40,9 +40,9 @@
             <div id="ttd"><torrent-dialog class="download" tvdbid='sidepanel.episode.TVDB_ID' q='sidepanel.getSearchString(sidepanel.serie, sidepanel.episode)'>
                 <strong style="padding-left:21px">{{'SIDEPANEL/EPISODE-DETAILS/find-torrent/btn'|translate}}</strong>
             </torrent-dialog></div>
-            <div id="tad"><a class="auto-download" ng-click="sidepanel.autoDownload(episode)" tooltip="{{'SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip'|translate}}">
+            <a class="auto-download" ng-click="sidepanel.autoDownload(episode)" tooltip="{{'SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip'|translate}}">
                 <i class="glyphicon glyphicon-cloud-download"></i>
-            </a></div>
+            </a>
           </td>
         </tr>
         <tr ng-if="sidepanel.isNetflixSerie() && sidepanel.isNetflixSupported()">
