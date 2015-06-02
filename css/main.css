@@ -628,6 +628,8 @@ table.light h1 {
     list-style: none;
 }
 
+
+
 chrome-top-sites {
     position: fixed;
     top: 0px;
@@ -1331,6 +1333,18 @@ sidepanel .buttons a {
     text-align: center;
     transition: background-color 0.3s;
     -webkit-user-select: none;
+}
+
+sidepanel .buttons a.subtitle-dialog {
+    display: inline-block;
+    float: right;
+    margin-top: -15px !important;
+    border-radius: 5px !important;
+}
+
+
+sidepanel .buttons a.subtitle-dialog i.glyphicon {
+    font-size: 12px !important;
 }
 
 sidepanel .buttons a.active {

@@ -58,7 +58,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "73641": "King of Queens",
         "73696": "CSI New York",
         "73893": "Enterprise",
-        "74281": "Have I Got News for You Uncut",
+        "74281": "Have I Got News for You",
         "74372": "Blue Planet",
         "74512": "Wife Swap US",
         "74626": "The X Factor UK",
@@ -193,7 +193,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "139941": "Childrens Hospital US",
         "140141": "Undercover Boss US",
         "145541": "The Marriage Ref",
-        "149101": "A League of Their Own UK", 
+        "149101": "A League of Their Own UK",
         "152831": "Adventure Time with Finn and Jake",
         "155201": "Louie",
         "156771": "National Geographic Shark Men",
@@ -456,7 +456,7 @@ DuckieTV.provider('SceneNameResolver', function() {
                 /** 
                  * Return the scene name of the provided TVDB_ID if it's in the list.
                  */
-                getSceneName: function(tvdbID,name) {
+                getSceneName: function(tvdbID, name) {
                     return (tvdbID in exceptions) ? exceptions[tvdbID].replace(/\(([12][09][0-9]{2})\)/, '').replace('!', '').replace(' and ', ' ').replace(/\'/g, '') : name;
                 },
 

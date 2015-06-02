@@ -23,9 +23,11 @@ qBittorrentData.extends(TorrentData, {
         this.getClient().getAPI().execute('pause', this.hash);
     },
     getFiles: function() {
+        var self = this;
         return this.getClient().getAPI().getFiles(this.hash).then(function(results) {
-            this.files = results;
-        }.bind(this));
+            self.files = results;
+            return results;
+        });
     },
     isStarted: function() {
         return this.status > 0;
@@ -69,7 +71,7 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
             },
             getFiles: function(hash) {
                 return this.request('files', hash).then(function(data) {
-                    return data;
+                    return data.data;
                 });
             },
             addMagnet: function(magnetHash) {
