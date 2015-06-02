@@ -72,7 +72,7 @@ DuckieTV
             if (TorrentSearchEngines.getSearchEngine($scope.searchprovider).config.noMagnet) {
                 return urlSelect(result.torrentUrl, result.releasename);
             } else {
-                return magnetSelect(result.magnet);
+                return magnetSelect(result.magneturl);
             }
         };
 
