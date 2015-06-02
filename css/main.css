@@ -1748,3 +1748,11 @@ div [date-picker] {
     margin-bottom: 0;
   }
 }
+
+fieldset.about .table a {
+    text-decoration:underline;
+}
+
+fieldset.about div {
+   overflow-y:auto;
+}
