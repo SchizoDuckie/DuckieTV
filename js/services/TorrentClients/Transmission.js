@@ -43,7 +43,10 @@ TransmissionData.extends(TorrentData, {
         return this.status > 0;
     },
     getFiles: function() {
-        return this.files;
+        var self = this;
+        return new Promise(function(resolve) {
+            resolve(self.files);
+        });
     }
 });
 
