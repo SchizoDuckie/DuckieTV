@@ -5,6 +5,24 @@ TransmissionData = function(data) {
     this.update(data);
 };
 
+PromiseFileReader = function() {
+
+    this.readAsDataURL = function(blob) {
+        return new Promise(function(resolve, reject) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                resolve(e.target.result);
+            };
+            reader.onerror = function(e) {
+                reject(e);
+            };
+            reader.readAsDataURL(blob);
+        });
+    };
+
+    return this;
+};
+
 TransmissionData.extends(TorrentData, {
     getName: function() {
         return this.name;
@@ -100,15 +118,32 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
             },
             addMagnet: function(magnetHash) {
                 return this.rpc('torrent-add', {
-                    "arguments": {
-                        "paused": false,
-                        "filename": magnetHash
+                    arguments: {
+                        paused: false,
+                        filename: magnetHash
                     }
                 });
             },
             addTorrentByUrl: function(url, releaseName) {
                 return this.addMagnet(url).then(function(result) {
                     return result.arguments['torrent-added'].hashString.toUpperCase();
+                });
+            },
+            addTorrentByUpload: function(data, releaseName) {
+                var self = this;
+                return new PromiseFileReader().readAsDataURL(data).then(function(contents) {
+                    var key = "base64,",
+                        index = contents.indexOf(key);
+                    if (index > -1) {
+                        return self.rpc('torrent-add', {
+                            arguments: {
+                                paused: false,
+                                metainfo: contents.substring(index + key.length)
+                            }
+                        }).then(function(result) {
+                            return result.arguments['torrent-added'].hashString.toUpperCase();
+                        })
+                    }
                 });
             },
             execute: function(method, id) {
