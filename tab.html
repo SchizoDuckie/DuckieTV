@@ -50,7 +50,7 @@
           <a id="actionbar_favorites" ui-sref="favorites" ui-sref-active="active" class="glyphicon glyphicon-heart" ng-click="actionbar.toggleSeriesList();  actionbar.hideSidePanel();" tooltip="{{actionbar.getHeartTooltip()}}" tooltip-placement="right"></a>
         </li>
         <li style='display:none' id='wl'>
-          <a id="actionbar_watchlist" ui-sref="watchlist" ui-sref-active="active" class="glyphicon glyphicon-facetime-video" tooltip="{{ 'TAB/watchlist/glyph'|translate }}" tooltip-placement="right"></a>
+          <a id="actionbar_watchlist" ui-sref-active="active" class="glyphicon glyphicon-facetime-video" tooltip="{{ 'TAB/watchlist/glyph'|translate }}"  ng-click="actionbar.toggleSeriesList();  actionbar.hideSidePanel(); actionbar.go('watchlist')" tooltip-placement="right"></a>
         </li>
         <li>
           <a id="actionbar_settings" ui-sref="settings" ng-click="actionbar.showSidePanel();" class="glyphicon glyphicon-cog" tooltip="{{ 'TAB/settings/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
