@@ -270,6 +270,13 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                 return this.getAPI().addTorrentByUrl(magnet, releaseName);
             },
 
+            addTorrentByUpload: function(data, releaseName) {
+                if (!('addTorrentByUpload' in this.getAPI())) {
+                    throw "addTorrentByUload not implemented for " + this.getName();
+                }
+                return this.getAPI().addTorrentByUpload(data, releaseName);
+            },
+
             request: function(type, params, options) {
                 return request(type, params, options);
             }

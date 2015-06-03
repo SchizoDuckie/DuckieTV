@@ -65,7 +65,12 @@ DuckieTV
                 $modalInstance.close(url);
 
                 var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-                TorrentSearchEngines.launchTorrentByURL(url, channel, releasename);
+                $injector.get('$http').get(url, {
+                    responseType: 'blob'
+                }).then(function(result) {
+                    TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename);
+                });
+                //TorrentSearchEngines.launchTorrentByURL(url, channel, releasename);
             };
 
         $scope.select = function(result) {

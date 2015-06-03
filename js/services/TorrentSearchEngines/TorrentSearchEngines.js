@@ -80,6 +80,20 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "$dialo
                 }
             },
 
+            launchTorrentByUpload: function(data, TVDB_ID, name) {
+                console.log("Firing Torrent By data upload! ", TVDB_ID, name);
+
+                if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
+                    console.log("Adding via TorrentClient.addTorrentByUpload API! ", TVDB_ID, name);
+                    DuckieTorrent.getClient().addTorrentByUpload(data, name).then(function(infoHash) {
+                        $rootScope.$broadcast('magnet:select:' + TVDB_ID, infoHash.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+                    });
+                    setTimeout(function() {
+                        DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
+                    }, 1500);
+                }
+            },
+
             launchTorrentByURL: function(torrentUrl, TVDB_ID, name) {
                 console.log("Firing Torrent By URL! ", torrentUrl, TVDB_ID, name);
 

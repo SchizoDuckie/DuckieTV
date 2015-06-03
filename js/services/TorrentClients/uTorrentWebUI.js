@@ -24,6 +24,7 @@ uTorrentWebUIData.extends(TorrentData, {
     getFiles: function() {
         return this.getClient().getAPI().getFiles(this.hash).then(function(results) {
             this.files = results;
+            return results;
         }.bind(this));
     },
     isStarted: function() {
@@ -47,8 +48,8 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
     }
 ])
 
-.factory('uTorrentWebUIAPI', ['BaseHTTPApi', '$http',
-    function(BaseHTTPApi, $http) {
+.factory('uTorrentWebUIAPI', ['BaseHTTPApi', '$http', '$q',
+    function(BaseHTTPApi, $http, $q) {
 
         var uTorrentWebUIAPI = function() {
             BaseHTTPApi.call(this);
@@ -60,10 +61,10 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
              */
             getUrl: function(type, param) {
                 var out = this.config.server + ':' + this.config.port + this.endpoints[type];
-                if(this.config.use_auth) {
+                if (this.config.use_auth) {
                     out = out.replace('://', '://' + this.config.username + ':' + this.config.password + '@');
                 }
-                if(out.indexOf('%token%') > -1) {
+                if (out.indexOf('%token%') > -1) {
                     out = out.replace('%token%', this.config.token);
                 }
                 return (param) ? out.replace('%s', encodeURIComponent(param)) : out;
@@ -74,7 +75,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                 return this.request('portscan').then(function(result) {
                     if (result !== undefined) {
                         var token = new HTMLScraper(result.data).querySelector('#token').innerHTML;
-                        if(token) {
+                        if (token) {
                             self.config.token = token;
                         }
                         return true;
@@ -82,7 +83,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                     return false;
                 }, function() {
                     return false;
-                }); 
+                });
             },
             getTorrents: function() {
                 return this.request('torrents').then(function(data) {
@@ -120,6 +121,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
             },
             getFiles: function(hash) {
                 return this.request('files', hash).then(function(data) {
+                    debugger;
                     return data.data.files[1].map(function(file) {
                         return {
                             name: file[0],
@@ -149,6 +151,51 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                 return $http.post(this.getUrl('addmagnet', magnetHash), {
                     headers: headers
                 });
+            },
+            addTorrentByUpload: function(data, filename) {
+                var self = this;
+                var headers = {
+                    'Content-Type': undefined
+                };
+                if (this.config.use_auth) {
+                    headers.Authorization = 'Basic ' + Base64.encode(this.config.username + ':' + this.config.password);
+                }
+                var fd = new FormData();
+                fd.append('torrent_file', data, filename + '.torrent');
+
+                return $http.post(this.getUrl('addfile'), fd, {
+                    transformRequest: angular.identity,
+                    headers: headers
+                }).then(function(result) {
+                    var currentTry = 0;
+                    var maxTries = 5;
+                    // wait for qBittorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
+                    return $q(function(resolve, reject) {
+                        function verifyAdded() {
+                            currentTry++;
+                            self.getTorrents().then(function(result) {
+                                var hash = null;
+                                result.map(function(torrent) {
+                                    if (torrent.name == filename) {
+                                        hash = torrent.hash.toUpperCase();
+                                    }
+                                });
+                                if (hash !== null) {
+                                    resolve(hash);
+                                } else {
+                                    if (currentTry < maxTries) {
+                                        setTimeout(verifyAdded, 1000);
+                                    } else {
+                                        throw "No hash foudn for torrent " + filename + " in 5 tries.";
+                                    }
+                                }
+                            });
+                        }
+                        setTimeout(verifyAdded, 1000);
+                    });
+
+                }.bind(this));
+
             },
             execute: function(method, id) {
                 var headers = {
@@ -190,6 +237,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
             portscan: '/gui/token.html',
             torrents: '/gui/?token=%token%&list=1',
             addmagnet: '/gui/?token=%token%&action=add-url&s=%s',
+            addfile: '/gui/?token=%token%&action=add-file&download_dir=0&path=',
             stop: '/gui/?token=%token%&action=stop&hash=%s',
             resume: '/gui/?token=%token%&action=start&hash=%s',
             pause: '/gui/?token=%token%&action=pause&hash=%s',
