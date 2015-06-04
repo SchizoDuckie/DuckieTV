@@ -2,8 +2,8 @@
  * Actionbar Controller
  */
 
-DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "SeriesListState", "SidePanelState",
-    function($rootScope, $state, $filter, SeriesListState, SidePanelState) {
+DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "SeriesListState", "SidePanelState", "DuckieTorrent",
+    function($rootScope, $state, $filter, SeriesListState, SidePanelState, DuckieTorrent) {
 
         this.hidePanels = function() {
             SeriesListState.hide();
@@ -26,12 +26,12 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "Series
         this.showSidePanel = function() {
             setTimeout(function() { // i have no idea why, but transitioning from serieslist to settings doesnt work otherwise.
                 SidePanelState.show();
-            }, 500)
-        }
+            }, 500);
+        };
 
         this.expandSidePanel = function() {
             SidePanelState.expand();
-        }
+        };
 
         this.resetCalendar = function() {
             $rootScope.$broadcast('calendar:setdate', new Date());
@@ -39,6 +39,12 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "Series
 
         this.getHeartTooltip = function() {
             return SeriesListState.state.isShowing ? $filter('translate')('TAB/library-hide/glyph') : $filter('translate')('TAB/library-show/glyph');
+        };
+
+        this.getTorrentClientTooltip = function() {
+            var output = DuckieTorrent.getClient().getName();
+            if (this.isTorrentClientConnecting()) return output + ': Connecting';
+            return (this.isTorrentClientConnected()) ? output + ': Connected' : output + ': Offline';
         };
 
         this.go = function(state, noactive) {
@@ -54,10 +60,17 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "Series
                 $state.go(state).then(function() {
                     setTimeout(function() {
                         stateEl.classList.remove('fastspin');
-                    }, 500)
-                })
+                    }, 500);
+                });
 
-            })
-        }
+            });
+        };
+
+        this.isTorrentClientConnected = function() {
+            return DuckieTorrent.getClient().isConnected();
+        };
+        this.isTorrentClientConnecting = function() {
+            return DuckieTorrent.getClient().isConnecting;
+        };
     }
-])
+]);

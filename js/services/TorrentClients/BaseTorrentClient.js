@@ -83,6 +83,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
             this.isConnecting = false;
             this.connected = false;
             this.initialized = false;
+            this.offline = false;
 
 
         };
@@ -151,7 +152,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
              * If it's connected and initialized, a promise will return that immediately resolves with the remote interface.
              */
             AutoConnect: function() {
-                if (!this.isConnecting && !this.connected) {
+                if (!this.offline && !this.isConnecting && !this.connected) {
                     this.connectPromise = $q.defer();
                     this.isConnecting = true;
                 } else {
@@ -167,6 +168,14 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                         self.Update();
                     }
                     self.connectPromise.resolve(self.getRemote());
+                }, function(error) {
+                    console.error("Error connecting!");
+                    self.isPolling = false;
+                    self.isConnnecting = false;
+                    self.offline = true;
+                    self.connectPromise.reject("Not connected.");
+                    throw "Error connecting. aborting autoconnect";
+                    return false;
                 });
 
                 return self.connectPromise.promise;
@@ -192,6 +201,10 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                         }
                     });
                 }
+            },
+
+            isConnecting: function() {
+                return this.isConnecting;
             },
 
             isConnected: function() {
@@ -229,6 +242,8 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                 return this.getAPI().portscan().then(function(result) { // check if client webui is reachable
                     console.log(self.getName() + " check result: ", result);
                     if (!result) {
+                        self.isConnecting = false;
+                        self.isPolling = false;
                         throw self.getName() + " Connect call failed. No client listening";
                     }
                     self.connected = result; // we are now connected

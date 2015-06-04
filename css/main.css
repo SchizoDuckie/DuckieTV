@@ -220,6 +220,22 @@ background-rotator, background-rotator > div {
     opacity: 0;
 }
 
+#actionbar_torrent.offline:after {
+    content: '.';
+    color: rgba(255,0,0,0.5);
+    position: absolute;
+}
+#actionbar_torrent.connected:after {
+    content: '.';
+    color: rgba(0,255,0,0.5);
+    position: absolute;
+}
+#actionbar_torrent.connecting:after {
+    content: '.' !important;
+    color: orange !important;
+    position: absolute;
+}
+
 .typeahead ul {
     max-height: 150px;
     border: 1px solid #333;
