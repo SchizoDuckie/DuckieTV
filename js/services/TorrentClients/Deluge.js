@@ -85,7 +85,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
             },
             getTorrents: function() {
                 return this.rpc("web.update_ui", [
-                    ["queue", "hash", "name", "total_wanted", "state", "status", "progress", "num_seeds", "total_seeds", "num_peers", "total_peers", "download_payload_rate", "upload_payload_rate", "eta", "ratio", "distributed_copies", "is_auto_managed", "time_added", "tracker_host", "save_path", "total_done", "total_uploaded", "max_download_speed", "max_upload_speed", "seeds_peers_ratio", "files_tree"], {}
+                    ["id", "queue", "hash", "name", "total_wanted", "state", "status", "progress", "num_seeds", "total_seeds", "num_peers", "total_peers", "download_payload_rate", "upload_payload_rate", "eta", "ratio", "distributed_copies", "is_auto_managed", "time_added", "tracker_host", "save_path", "total_done", "total_uploaded", "max_download_speed", "max_upload_speed", "seeds_peers_ratio", "files_tree"], {}
                 ]).then(function(data) {
                     var output = [];
                     Object.keys(data.result.torrents).map(function(hash) {
@@ -122,14 +122,35 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                 });
             },
             addMagnet: function(magnetHash) {
-
-
                 return this.rpc('web.add_torrents', [
                     [{
                         options: {},
                         path: magnetHash
                     }]
                 ]);
+            },
+            addTorrentByUpload: function(data, filename) {
+                var self = this;
+                var headers = {
+                    'Content-Type': undefined
+                };
+
+                var fd = new FormData();
+                fd.append('file', data, filename + '.torrent');
+
+                return $http.post(this.getUrl('upload'), fd, {
+                    transformRequest: angular.identity,
+                    headers: headers
+                }).then(function(response) {
+                    return this.addMagnet(response.data.files[0]);
+                }.bind(this)).then(function() {
+                    return this.getTorrents().then(function(torrents) {
+                        return torrents.filter(function(torrent) {
+                            return torrent.name == filename;
+                        })[0].hash;
+                    });
+                }.bind(this));
+
             },
             execute: function(method, args) {
                 return this.rpc(method, [args]);
@@ -160,7 +181,8 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
             use_auth: 'deluge.use_auth'
         });
         service.setEndpoints({
-            rpc: '/json'
+            rpc: '/json',
+            upload: '/upload'
         });
         service.readConfig();
 
