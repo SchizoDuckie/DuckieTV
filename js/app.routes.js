@@ -185,7 +185,11 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         .state('watchlist', {
             url: '/watchlist',
             resolve: {
-                SidePanelState: expandSidePanel,
+                SidePanelState: function(SidePanelState) {
+                    setTimeout(function() {
+                        expandSidePanel(SidePanelState);
+                    }, 0);
+                },
                 SeriesListState: hideSeriesList
             },
             views: {
