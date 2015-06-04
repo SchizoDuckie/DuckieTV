@@ -1,71 +1,59 @@
 <!-- about.html -->
 <fieldset class="about">
-
-<div>
-<h2>{{'ABOUT/hdr'|translate}} v<ng-include src="'VERSION'"></ng-include></h2>
-
-<table class="table light">
-<tr>
-<td>
-
-<h3>{{'ABOUT/help/hdr'|translate}}</h3>
-<p>{{'ABOUT/help/p1'|translate}}<a href='http://reddit.com/r/duckietv' target='_blank'>Reddit/r/DuckieTV</a>
-</p>
-<p>{{'ABOUT/help/p2'|translate}}<a href='https://github.com/SchizoDuckie/DuckieTV#changelog-' target='_blank'>{{'ABOUT/help-changelog/link'|translate}}</a>
-
-<h3>{{'ABOUT/bugs/hdr'|translate}}</h3>
-<p>{{'ABOUT/bugs/p1'|translate}}<a href="http://github.com/SchizoDuckie/DuckieTV/issues" target='_blank'>Github</a>{{'ABOUT/bugs/p2'|translate}}</p>
-
-<h3>{{'ABOUT/tvinfo/hdr'|translate}}</h3>
-<p>{{'ABOUT/tvinfo/p1'|translate}}<a href='http://thetvdb.com' target='_blank'>{{'ABOUT/tvinfo-tvdb/link'|translate}}</a>.{{'ABOUT/tvinfo/p2'|translate}}<a href='http://www.thetvdb.com/wiki/index.php/Main_Page' target='_blank'>{{'ABOUT/tvinfo-tvdbwiki/link'|translate}}</a></p>
-
-<h3>{{'ABOUT/privacy/hdr'|translate}}</h3>
-<strong>{{'ABOUT/privacy/lbl'|translate}}</strong>
-<ul>
-<li>{{'ABOUT/privacy/li1'|translate}}</li>
-<li>{{'ABOUT/privacy/li2'|translate}}</li>
-<li>{{'ABOUT/privacy/li3'|translate}}</li>
-<li>{{'ABOUT/privacy/li4-1'|translate}}<em>{{'ABOUT/privacy/li4-2'|translate}}</em>{{'ABOUT/privacy/li4-3'|translate}}</li>
-<li>{{'ABOUT/privacy/li5'|translate}}</li>
-</ul>
-
-<h3>{{'ABOUT/credits/hdr'|translate}}</h3>
-
-<p>{{'ABOUT/credits/p1'|translate}}</p>
-
-<ul>
-<li><a href='http://TheTVDB.com' target='_blank'>TheTVDB.com</a>{{'ABOUT/credits/li1'|translate}}</li>
-<li><a href='http://Trakt.tv' target='_blank'>Trakt.TV</a>{{'ABOUT/credits/li2'|translate}}</li>
-<li><a href='http://angularjs.org' target='_blank'>Angular.js</a>{{'ABOUT/credits/li3'|translate}}</li>
-<li><a href='http://Github.com' target='_blank'>Github</a>{{'ABOUT/credits/li4'|translate}}</li>
-<li><a href='http://reddit.com' target='_blank'>Reddit</a>{{'ABOUT/credits/li5'|translate}}</li>
-<li><a href='http://angular-translate.github.io' target='_blank'>Angular-translate.js</a>{{'ABOUT/credits/li7'|translate}}</li>
-<li><a href='http://angular-formly.com' target='_blank'>Angular-formly.js</a>{{'ABOUT/credits/li8'|translate}}</li>
-</ul>
-
-<h3>{{'ABOUT/dtvlinks/hdr'|translate}}</h3>
-<ul>
-<li>
-<strong>{{'ABOUT/dtvlinks-github/lbl'|translate}}</strong> <a href='http://duckie.tv' target='_blank'>http://duckie.tv</a></p>
-</li><li>
-<strong>{{'ABOUT/dtvlinks-chrome/lbl'|translate}}</strong> <a href='https://chrome.google.com/webstore/detail/hkbamkappmgfjjahmnlngibomenmbbdf/' target='_blank'>{{'ABOUT/dtvlinks-chrome-tabmode/link'|translate}}</a> <a href='https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/' target='_blank'>{{'ABOUT/dtvlinks-chrome-actmode/link'|translate}}</a></p>
-</li>
-</ul>
-
-<h3>{{'ABOUT/contributing/hdr'|translate}}</h3>
-<p>{{'ABOUT/contributing/p1'|translate}}<a href='https://github.com/SchizoDuckie/DuckieTV/fork' target='_blank'>{{'ABOUT/contributing/link'|translate}}</a>!</p>
-<p><span class="glyphicon glyphicon-heart"></span> {{'ABOUT/contributing/p2'|translate}}AlecRust, CosmoKramer, Gabri3l, Garfield69, Js41637, lamaresh, mertenhanisch, sbodomerle, stormfighter, Turingoo.</p>
-
-  <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white; border-top:0px'>
-    <tr>
-        <td colspan='2' style='border-top:0px'><h3>{{'ABOUT/statistics/hdr'|translate}}</h3></td>
-    </tr>
-    <tr ng-repeat="stats in statistics">
-        <td width='160px'>{{::stats.name}}</td>
-        <td>{{::stats.data}}</td>
-    </tr>
-  </table>
-</td>
-</tr>
-</div>
+  <div>
+    <h2><span translate-once="ABOUT/hdr"></span><span> v<ng-include src="'VERSION'"></ng-include></span></h2>
+    <table class="table light">
+      <tr>
+        <td>
+          <h3 translate-once="ABOUT/help/hdr"></h3>
+          <p><span translate-once="ABOUT/help/p1"></span><a href='http://reddit.com/r/duckietv' target='_blank'>Reddit/r/DuckieTV</a></p>
+          <p><span translate-once="ABOUT/help/p2"></span><a href='https://github.com/SchizoDuckie/DuckieTV#changelog-' target='_blank' translate-once="ABOUT/help-changelog/link"></a></p>
+          <h3 translate-once="ABOUT/bugs/hdr"></h3>
+          <p><span translate-once="ABOUT/bugs/p1"></span><a href="http://github.com/SchizoDuckie/DuckieTV/issues" target='_blank'>Github</a><span  translate-once="ABOUT/bugs/p2"></span></p>
+          <h3 translate-once="ABOUT/tvinfo/hdr"></h3>
+          <p><span translate-once="ABOUT/tvinfo/p1"></span><a href='http://thetvdb.com' target='_blank' translate-once="ABOUT/tvinfo-tvdb/link"></a><span translate-once="ABOUT/tvinfo/p2"></span><a href='http://www.thetvdb.com/wiki/index.php/Main_Page' target='_blank' translate-once="ABOUT/tvinfo-tvdbwiki/link"></a></p>
+          <h3 translate-once="ABOUT/privacy/hdr"></h3>
+          <strong translate-once="ABOUT/privacy/lbl"></strong>
+          <ul>
+          <li translate-once="ABOUT/privacy/li1"></li>
+          <li translate-once="ABOUT/privacy/li2"></li>
+          <li translate-once="ABOUT/privacy/li3"></li>
+          <li><span translate-once="ABOUT/privacy/li4-1"></span><em translate-once="ABOUT/privacy/li4-2"></em><span translate-once="ABOUT/privacy/li4-3"></span></li>
+          <li translate-once="ABOUT/privacy/li5"></li>
+          </ul>
+          <h3 translate-once="ABOUT/credits/hdr"></h3>
+          <p translate-once="ABOUT/credits/p1"></p>
+          <ul>
+            <li><a href='http://TheTVDB.com' target='_blank'>TheTVDB.com</a><span translate-once="ABOUT/credits/li1"></span></li>
+            <li><a href='http://Trakt.tv' target='_blank'>Trakt.TV</a><span translate-once="ABOUT/credits/li2"></span></li>
+            <li><a href='http://angularjs.org' target='_blank'>Angular.js</a><span translate-once="ABOUT/credits/li3"></span></li>
+            <li><a href='http://Github.com' target='_blank'>Github</a><span translate-once="ABOUT/credits/li4"></span></li>
+            <li><a href='http://reddit.com' target='_blank'>Reddit</a><span translate-once="ABOUT/credits/li5"></span></li>
+            <li><a href='http://angular-translate.github.io' target='_blank'>Angular-translate.js</a><span translate-once="ABOUT/credits/li7"></span></li>
+            <li><a href='http://angular-formly.com' target='_blank'>Angular-formly.js</a><span translate-once="ABOUT/credits/li8"></span></li>
+          </ul>
+          <h3 translate-once="ABOUT/dtvlinks/hdr"></h3>
+          <ul>
+            <li>
+            <strong translate-once="ABOUT/dtvlinks-github/lbl"></strong> <a href='http://duckie.tv' target='_blank'>http://duckie.tv</a></p>
+            </li><li>
+            <strong translate-once="ABOUT/dtvlinks-chrome/lbl"></strong> <a href='https://chrome.google.com/webstore/detail/hkbamkappmgfjjahmnlngibomenmbbdf/' target='_blank' translate-once="ABOUT/dtvlinks-chrome-tabmode/link"></a> <a href='https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/' target='_blank' translate-once="ABOUT/dtvlinks-chrome-actmode/link"></a></p>
+            </li>
+          </ul>
+          <h3 translate-once="ABOUT/contributing/hdr"></h3>
+          <p><span translate-once="ABOUT/contributing/p1"></span><a href='https://github.com/SchizoDuckie/DuckieTV/fork' target='_blank' translate-once="ABOUT/contributing/link"></a>!</p>
+          <p><span class="glyphicon glyphicon-heart"></span>&nbsp;<span translate-once="ABOUT/contributing/p2"></span><span> AlecRust, CosmoKramer, Gabri3l, Garfield69, Js41637, lamaresh, mertenhanisch, sbodomerle, stormfighter, Turingoo.</span></p>
+          <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white; border-top:0px'>
+            <tr>
+              <td colspan='2' style='border-top:0px'><h3 translate-once="ABOUT/statistics/hdr"></h3></td>
+            </tr>
+            <tr ng-repeat="stats in statistics">
+              <td width='160px'>{{::stats.name}}</td>
+              <td>{{::stats.data}}</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
 </fieldset>
