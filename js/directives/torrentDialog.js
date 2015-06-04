@@ -68,9 +68,12 @@ DuckieTV
                 $injector.get('$http').get(url, {
                     responseType: 'blob'
                 }).then(function(result) {
-                    TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename);
+                    try {
+                        TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename);
+                    } catch (E) {
+                        TorrentSearchEngines.launchTorrentByURL(url, channel, releasename);
+                    }
                 });
-                //TorrentSearchEngines.launchTorrentByURL(url, channel, releasename);
             };
 
         $scope.select = function(result) {

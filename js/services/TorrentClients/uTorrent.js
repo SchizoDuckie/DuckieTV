@@ -366,14 +366,15 @@ DuckieTorrent
                  * Starts polling every 1s.
                  */
                 Update: function(dontLoop) {
-                    if (self.isPolling == true) {
-                        methods.statusQuery().then(function(data) {
-                            if (data.length == 0) {
+                    if (self.isPolling === true) {
+                        return methods.statusQuery().then(function(data) {
+                            if (data.length === 0) {
                                 self.initialized = true;
                             }
                             if (undefined === dontLoop && self.isPolling && !data.error) {
-                                setTimeout(methods.Update, data && data.length == 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
+                                setTimeout(methods.Update, data && data.length === 0 ? 3000 : 0); // burst when more data comes in, delay when things ease up.
                             }
+                            return data;
                         });
                     }
                 },
@@ -388,9 +389,25 @@ DuckieTorrent
                 addMagnet: function(hash) {
                     uTorrentRemote.add.torrent(hash);
                 },
+                addTorrentByUpload: function() {
+                    throw "Upload Torrent Not implemented in uTorrent remote.";
+                },
 
-                addTorrent: function(hash) {
-                    uTorrentRemote.add.torrent(hash);
+                addTorrentByUrl: function(hash, name) {
+                    return uTorrentRemote.add.torrent(hash).then(function() {
+                        return methods.Update(true);
+                    }).then(function() {
+                        return $q(function(resolve) {
+                            setTimeout(function() {
+                                var matches = Object.keys(uTorrentRemote.torrents).filter(function(key) {
+                                    return uTorrentRemote.torrents[key].properties.all.name == name;
+                                });
+                                if (matches.length > 0) {
+                                    resolve(matches[0]);
+                                }
+                            }, 5000);
+                        });
+                    });
                 }
             };
             return methods;
@@ -657,10 +674,10 @@ DuckieTorrent
         };
 
 
-
         var service = {
             torrents: {},
             settings: {},
+            offEvents: {},
             eventHandlers: {},
 
             getNameFunc: null,
@@ -685,17 +702,23 @@ DuckieTorrent
 
 
             onTorrentUpdate: function(hash, callback) {
-                $rootScope.$on('torrent:update:' + hash, function(evt, torrent) {
-                    callback(torrent)
-                });
+                var key = 'torrent:update:' + hash;
+                if (!(key in service.offEvents)) {
+                    service.offEvents[key] = [];
+                }
+                service.offEvents[key].push($rootScope.$on(key, function(evt, torrent) {
+                    callback(torrent);
+                }));
             },
+
 
             offTorrentUpdate: function(hash, callback) {
-                $rootScope.$off('torrent:update:' + hash, function(evt, torrent) {
-                    callback(torrent)
-                });
+                if ((key in service.offEvents)) {
+                    service.offEvents[key].map(function(dereg) {
+                        dereg();
+                    });
+                }
             },
-
             handleEvent: function(type, category, data, RPCProxy, input) {
                 var func = type + String.capitalize(category);
                 if (!(func in hookMethods)) {
@@ -717,4 +740,4 @@ DuckieTorrent
         DuckieTorrent.register('uTorrent', uTorrent);
 
     }
-])
+]);

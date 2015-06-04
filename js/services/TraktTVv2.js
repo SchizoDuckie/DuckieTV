@@ -4,8 +4,8 @@
  *
  * For API docs: check here: http://docs.trakt.apiary.io/#
  */
-DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
-    function(SettingsService, $q, $http) {
+DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
+    function(SettingsService, $q, $http, toaster) {
 
         var activeSearchRequest = false,
             activeTrendingRequest = false,
@@ -275,7 +275,12 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http",
                 }
             },
             resolveTVDBID: function(id) {
-                return promiseRequest('tvdb_id', id);
+                return promiseRequest('tvdb_id', id).then(function(result) {
+                    return result;
+                }, function(error) {
+                    toaster.pop('eror', "Error fetching from Trakt.TV", 'Could not find serie by TVDB_ID: ' + id + '<br>' + error.message, null);
+                    throw "Could not resolve TVDB_ID from Trakt.TV " + error.message;
+                });
             },
             login: function(username, password) {
                 var url = getUrl('login');

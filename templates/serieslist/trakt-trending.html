@@ -12,7 +12,7 @@
 	<h1 style='margin-bottom:15px;margin-top:15px;color:rgb(225,225,225);'>{{'SERIESLIST/TRAKT-TRENDING/addtrending-help/hdr'|translate}} - {{'SERIESLIST/TRAKT-TRENDING/addtrending-help-click-to-show/hdr'|translate}}</h1>
 
 	<!-- Trending series loading -->
-	<h1 style='text-align:center' ng-show="trending.results.length == 0"><loading-spinner style="width: 37px; height:37px"></loading-spinner><br>{{'SERIESLIST/TRAKT-TRENDING/addtrending-help-please-wait/hdr'|translate}}</h1>
+	<h1 style='text-align:center' ng-show="trending.results.length == 0"><loading-spinner style="display: block; width: 37px; height: 37px; position: relative; margin: 0 auto;"></loading-spinner><br>{{'SERIESLIST/TRAKT-TRENDING/addtrending-help-please-wait/hdr'|translate}}</h1>
 
 	<div class="filters" ng-if="trending.categories && !trending.results.length == 0">
 		<button ng-repeat="(category, on) in trending.categories" class="btn btn-xs btn-default" style="padding: 1px 7px" ng-click="trending.toggleCategory(category)" ng-class="{'active': trending.activeCategory == category}">{{::trending.translateCategory(category)}}</button>

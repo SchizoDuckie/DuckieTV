@@ -4,6 +4,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
         function BaseTorrentRemote() {
             this.torrents = {};
             this.dataClass = null;
+            this.offMethods = {}; // callbacks map to deregister $rootScope.$on events
         }
 
         BaseTorrentRemote.prototype.handleEvent = function(data) {
@@ -34,15 +35,24 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
         };
 
         BaseTorrentRemote.prototype.onTorrentUpdate = function(hash, callback) {
-            $rootScope.$on('torrent:update:' + hash, function(evt, torrent) {
+
+            var key = 'torrent:update:' + hash;
+            if (!(key in this.offMethods)) {
+                this.offMethods[key] = [];
+            }
+            this.offMethods[key].push($rootScope.$on(key, function(evt, torrent) {
                 callback(torrent);
-            });
+            }));
         };
 
         BaseTorrentRemote.prototype.offTorrentUpdate = function(hash, callback) {
-            $rootScope.$off('torrent:update:' + hash, function(evt, torrent) {
-                callback(torrent);
-            });
+            var key = 'torrent:update:' + hash;
+
+            if ((key in this.offMethods)) {
+                this.offMethods[key].map(function(dereg) {
+                    dereg();
+                });
+            }
         };
 
         return BaseTorrentRemote;

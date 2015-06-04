@@ -14,7 +14,7 @@ var DuckieTV = angular.module('DuckieTV', [
     'dialogs',
     'pascalprecht.translate',
     'DuckieTorrent.torrent',
-
+    'toaster'
 ])
 
 /**
