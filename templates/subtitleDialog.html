@@ -1,8 +1,8 @@
 <!-- subtitleDialog.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
-<h1>{{'SUBTITLEDIALOG/find-subtitle/hdr'|translate}} <img src='./img/opensubtitles.png' tooltip='powered by OpenSubtitles.org' style='float:right; margin-top: -10px; opacity: 0.7'>
+<h1><span translate-once="SUBTITLEDIALOG/find-subtitle/hdr"></span> <img src='./img/opensubtitles.png' tooltip='powered by OpenSubtitles.org' style='float:right; margin-top: -10px; opacity: 0.7'>
 </h1>
-<input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" placeholder="{{'SUBTITLEDIALOG/placeholder'|translate}}" class="form-control">
+<input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)"  class="form-control" translate-once-placeholder="SUBTITLEDIALOG/placeholder">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
 
 <table class="torrents table table-condensed white">
@@ -10,12 +10,12 @@
     <tr ng-show="searching">
       <td>
         <loading-spinner style="margin:0 auto; display:block; width:50px; height:50px; position:relative;"></loading-spinner>
-        <p style='text-align:center; padding:10px;'>{{'SUBTITLEDIALOG/searching/lbl'|translate}} {{'SUBTITLEDIALOG/searching-please-wait/lbl'|translate}}.</p>
+        <p style='text-align:center; padding:10px;'><span translate-once="SUBTITLEDIALOG/searching/lbl"></span> <span translate-once="SUBTITLEDIALOG/searching-please-wait/lbl"></span>.</p>
       </td>
     </tr>
     <tr ng-show="!searching && items.length == 0">
       <td>
-        <p>{{'SUBTITLEDIALOG/no-results/lbl'|translate}}</p>
+        <p translate-once="SUBTITLEDIALOG/no-results/lbl"></p>
         <strong>{{ query }}</strong>
       </td>
     </tr>
@@ -26,13 +26,13 @@
         <strong>S/E</strong>
       </th>
       <th>
-        <strong>{{'SUBTITLEDIALOG/language/lbl'|translate}}</strong>
+        <strong translate-once="SUBTITLEDIALOG/language/lbl"></strong>
       </th>
       <th>
-        <strong>{{'SUBTITLEDIALOG/title/lbl'|translate}}</strong>
+        <strong translate-once="SUBTITLEDIALOG/title/lbl"></strong>
       </th>
       <th>
-        <strong>{{'SUBTITLEDIALOG/downloads/lbl'|translate}}</strong>
+        <strong translate-once="SUBTITLEDIALOG/downloads/lbl"></strong>
       </th>
      
     </tr>

@@ -1,50 +1,54 @@
 <div ng-controller="CalendarCtrl" class="buttons">
-  <h2>{{'SETTINGS/CALENDAR/week/hdr'|translate}}
+  <h2>
     <span tooltip="{{startSunday ? 'SETTINGS/CALENDAR/start-sun/tooltip' : 'SETTINGS/CALENDAR/start-mon/tooltip'|translate}}">
       <i class="glyphicon glyphicon-indent-{{startSunday ? 'left alert-info' : 'right alert-success'}}" ></i>
     </span>
+    <li translate-once="SETTINGS/CALENDAR/week/hdr"></li>
   </h2>
 
-  <p>{{'SETTINGS/CALENDAR/start/desc'|translate}}</p>
+  <p translate-once="SETTINGS/CALENDAR/start/desc"></p>
   <a ng-click="toggleCalendarStartDay()" class="btn btn-{{startSunday ? 'success' : 'info'}}">
     <i class="glyphicon glyphicon-indent-{{startSunday ? 'right' : 'left'}}" ></i> {{startSunday ? 'SETTINGS/CALENDAR/start-mon/btn' : 'SETTINGS/CALENDAR/start-sun/btn'|translate}}
   </a>
   
   <hr class="setting-divider">
 
-  <h2>{{'SETTINGS/CALENDAR/mode/hdr'|translate}}
+  <h2>
     <span tooltip="{{displayMode == 'date' ? 'SETTINGS/CALENDAR/mode-month/tooltip' : 'SETTINGS/CALENDAR/mode-week/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{displayMode == 'date' ? 'calendar alert-success' : 'th-list alert-info'}}"></i>
     </span>
+    <li translate-once="SETTINGS/CALENDAR/mode/hdr"></li>
   </h2>
 
-  <p>{{'SETTINGS/CALENDAR/mode/desc'|translate}}</p>
+  <p translate-once="SETTINGS/CALENDAR/mode/desc"></p>
   <a ng-click="toggleCalendarDisplayMode()" class="btn btn-{{displayMode == 'date' ? 'info' : 'success'}}">
     <i class="glyphicon glyphicon-{{displayMode == 'date' ? 'th-list' : 'calendar'}}"></i> {{displayMode == 'date' ? 'SETTINGS/CALENDAR/mode-week/btn' : 'SETTINGS/CALENDAR/mode-month/btn'|translate}}
   </a>
 
   <hr class="setting-divider">
 
-  <h2>{{'SETTINGS/CALENDAR/specials/hdr'|translate}}
+  <h2>
     <span tooltip="{{showSpecials ? 'SETTINGS/CALENDAR/specials-show/tooltip' : 'SETTINGS/CALENDAR/specials-hide/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{showSpecials ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
+    <li translate-once="SETTINGS/CALENDAR/specials/hdr"></li>
   </h2>
   
-  <p>{{'SETTINGS/CALENDAR/specials/desc'|translate}}</p>
+  <p translate-once="SETTINGS/CALENDAR/specials/desc"></p>
   <a ng-click="toggleSpecials()" class="btn btn-{{showSpecials ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{showSpecials ? 'remove' : 'ok'}}" ></i> {{showSpecials ? 'SETTINGS/CALENDAR/specials-hide/btn' : 'SETTINGS/CALENDAR/specials-show/btn'|translate}}
   </a>
 
   <hr class="setting-divider">
 
-  <h2>{{'SETTINGS/CALENDAR/downloaded/hdr'|translate}}
+  <h2>
     <span tooltip="{{showDownloaded ? 'SETTINGS/CALENDAR/downloaded-enabled/tooltip' : 'SETTINGS/CALENDAR/downloaded-disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{showDownloaded ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
+    <li translate-once="SETTINGS/CALENDAR/downloaded/hdr"></li>
   </h2>
   
-  <p>{{'SETTINGS/CALENDAR/downloaded/desc'|translate}}</p>
+  <p translate-once="SETTINGS/CALENDAR/downloaded/desc"></p>
   <a ng-click="toggleDownloaded()" class="btn btn-{{showDownloaded ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{showDownloaded ? 'remove' : 'ok'}}" ></i> {{showDownloaded ? 'SETTINGS/CALENDAR/downloaded-disable/btn' : 'SETTINGS/CALENDAR/downloaded-enable/btn'|translate}}
   </a>

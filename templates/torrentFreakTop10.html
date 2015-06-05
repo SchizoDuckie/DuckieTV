@@ -1,17 +1,17 @@
 <div style="padding:30px">
   <div style="align:center"><center>
-    <button style='color: black;' ng-click="vm.prevItem()" ng-disabled="vm.itemIndex == vm.items.length - 1"> &lt; {{'TORRENTFREAK/previous/btn'|translate}} </button>
-    <button style='color: black;' ng-click="vm.nextItem()" ng-disabled="vm.itemIndex == 0"> {{'TORRENTFREAK/next/btn'|translate}} &gt;</button>
+    <button style='color: black;' ng-click="vm.prevItem()" ng-disabled="vm.itemIndex == vm.items.length - 1"> &lt; <span translate-once="TORRENTFREAK/previous/btn"></span> </button>
+    <button style='color: black;' ng-click="vm.nextItem()" ng-disabled="vm.itemIndex == 0"> <span translate-once="TORRENTFREAK/next/btn"></span> &gt;</button>
   </center></div>
   <div ng-if="vm.activeItem">
   <h2>{{vm.activeItem.title}}</h2>
     <table class="table table-condensed table-light">
       <thead>
         <tr>
-          <th style="width:85px">{{'TORRENTFREAK/rank/hdr'|translate}}</th>
-          <th>{{'TORRENTFREAK/title/hdr'|translate}}</th>
-          <th style="width:85px">{{'TORRENTFREAK/rating/hdr'|translate}}</th>
-          <th style="width:85px">{{'TORRENTFREAK/info/hdr'|translate}}</th>
+          <th style="width:85px" translate-once="TORRENTFREAK/rank/hdr"></th>
+          <th translate-once="TORRENTFREAK/title/hdr"></th>
+          <th style="width:85px" translate-once="TORRENTFREAK/rating/hdr"></th>
+          <th style="width:85px" translate-once="TORRENTFREAK/info/hdr"></th>
         </tr>
       </thead>
       <tr ng-repeat="row in vm.activeItem.top10">

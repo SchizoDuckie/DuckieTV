@@ -1,32 +1,32 @@
 <div ng-controller="BackupCtrl">
-  <h2>{{'SETTINGS/BACKUP/desc'|translate}}</h2>
+  <h2 translate-once="SETTINGS/BACKUP/desc"></h2>
   <div class="buttons">
     <a class="btn btn-success" ng-show="!backupString" ng-click="createBackup()">
-      <i class="glyphicon glyphicon-floppy-save"></i> {{'SETTINGS/BACKUP/create/btn'|translate}}
+      <i class="glyphicon glyphicon-floppy-save"></i> <span translate-once="SETTINGS/BACKUP/create/btn"></span>
     </a>
     <a class="btn btn-info" download="DuckieTV {{backupTime|date:shortDate}}.backup" ng-show="backupString" ng-href="{{backupString}}">
-      <i class="glyphicon glyphicon-floppy-saved"></i> {{'SETTINGS/BACKUP/download/btn'|translate}}
+      <i class="glyphicon glyphicon-floppy-saved"></i> <span translate-once="SETTINGS/BACKUP/download/btn"></span>
     </a>
   </div>
 
   <hr class="setting-divider">
 
-  <h2>{{'SETTINGS/BACKUP/import/hdr'|translate}}</h2>
+  <h2 translate-once="SETTINGS/BACKUP/import/hdr"></h2>
 
   <div ng-show="!restoring">
-    <input type="checkbox" ng-model="wipeBeforeImport" id="wipebeforeImport"> <label for="wipebeforeImport">{{'SETTINGS/BACKUP/wipe-before-import/lbl'|translate}}</label>
+    <input type="checkbox" ng-model="wipeBeforeImport" id="wipebeforeImport"> <label for="wipebeforeImport" translate-once="SETTINGS/BACKUP/wipe-before-import/lbl"></label>
   </div>
 
   <div style="position:relative">
     <div class="buttons"><a ng-show="!restoring" class="btn btn-success" ng-class="{binputhover:inputhover}">
-      <i class="glyphicon glyphicon-floppy-open"></i> {{'SETTINGS/BACKUP/choose-backup-load/btn'|translate}}
+      <i class="glyphicon glyphicon-floppy-open"></i> <span translate-once="SETTINGS/BACKUP/choose-backup-load/btn"></span>
     </a></div>
     <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute;opacity:0;width:100%;top:0;padding:0;height:100%;cursor:pointer" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false" />
   </div>
 
   <div ng-if="restoring" style="padding:5px;text-align:center" class="miniposter x2">
-    <h1 ng-show="!declined" style='margin-top: 20px;'> {{'SETTINGS/BACKUP/loading-please-wait/lbl'|translate}}</h1>
-    <h1 ng-show="declined" style='margin-top: 20px;'> {{'SETTINGS/BACKUP/wipe-cancelled/lbl'|translate}}</h1>
+    <h1 ng-show="!declined" style='margin-top: 20px;' translate-once="SETTINGS/BACKUP/loading-please-wait/lbl"></h1>
+    <h1 ng-show="declined" style='margin-top: 20px;' translate-once="SETTINGS/BACKUP/wipe-cancelled/lbl"></h1>
     <serieHeader ng-repeat="serie in series" data="serie" no-overview="1" no-title="1" no-button="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
       <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
       <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
@@ -35,16 +35,16 @@
 
   <hr class="setting-divider">
 
-  <h2>{{'SETTINGS/BACKUP/wipe/hdr'|translate}}</h2>
-  <p>{{'SETTINGS/BACKUP/wipe/desc'|translate}}</p>
+  <h2 translate-once="SETTINGS/BACKUP/wipe/hdr"></h2>
+  <p translate-once="SETTINGS/BACKUP/wipe/desc"></p>
   <div class="buttons"><a class="btn btn-danger" ng-click="wipeDatabase()">
-    <i class="glyphicon glyphicon-trash"></i> {{'SETTINGS/BACKUP/wipe/btn'|translate}}
+    <i class="glyphicon glyphicon-trash"></i> <span translate-once="SETTINGS/BACKUP/wipe/btn"></span>
   </a></div>
 
   <hr class="setting-divider">
 
-  <h2>{{'SETTINGS/BACKUP/refresh/hdr'|translate}}</h2>
-  <p>{{'SETTINGS/BACKUP/refresh/desc'|translate}}</p>
+  <h2 translate-once="SETTINGS/BACKUP/refresh/hdr"></h2>
+  <p translate-once="SETTINGS/BACKUP/refresh/desc"></p>
   <div class="buttons"><a class="btn btn-danger" ng-click="refreshDatabase()">
-    <i class="glyphicon glyphicon-refresh"></i> {{'SETTINGS/BACKUP/refresh/btn'|translate}} </a></div>
+    <i class="glyphicon glyphicon-refresh"></i> <span translate-once="SETTINGS/BACKUP/refresh/btn"></span> </a></div>
 </div>

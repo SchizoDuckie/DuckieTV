@@ -12,7 +12,7 @@
       <span>{{remote.torrent.getProgress()}}%</span>
      </div>
   </div></td></tr>
-  <tr> <th>{{'TORRENTRC/files/hdr'|translate}}</th><td>&nbsp;</td></tr>
+  <tr> <th translate-once="TORRENTRC/files/hdr"></th><td>&nbsp;</td></tr>
   </thead>
   <tbody>
   <tr ng-repeat="file in remote.torrent.getFiles()">
@@ -22,12 +22,12 @@
   </table>
 <div >
 
-    <button ng-click="remote.torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i>{{'TORRENTRC/start/btn'|translate}}</button>
-    <button ng-click="remote.torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i>{{'TORRENTRC/pause/btn'|translate}}</button>
-    <button ng-click="remote.torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i>{{'TORRENTRC/stop/btn'|translate}}</button>
-    <button ng-if="remote.torrent.properties.all.is_streamable" ng-click="remote.torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i> <translate>TORRENTRC/stream-play/btn</translate></button>   
+    <button ng-click="remote.torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i><span translate-once="TORRENTRC/start/btn"></span></button>
+    <button ng-click="remote.torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i><span translate-once="TORRENTRC/pause/btn"></span></button>
+    <button ng-click="remote.torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i><span translate-once="TORRENTRC/stop/btn"></span></button>
+    <button ng-if="remote.torrent.properties.all.is_streamable" ng-click="remote.torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i> <span translate-once="TORRENTRC/stream-play/btn"></span></button>   
     <button ng-click="remote.torrent.open_containing();" class="btn btn-xs btn-primary" >
-    <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>{{'TORRENTRC/open-folder/btn'|translate}}</button> 
+    <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i><span translate-once="TORRENTRC/open-folder/btn"></span></button> 
 </div>
 
 </fieldset>

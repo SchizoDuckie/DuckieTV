@@ -2,16 +2,16 @@
     <i style='font-size:15px;' class="glyphicon glyphicon-arrow-left"></i> 
 </a>
 <form ng-submit="serieslist.execFilter()" name="filterForm">
-  <input type='text' focus-watch="'localFilter.isFiltering'" placeholder="{{'SERIESLIST/TOOLS/LOCALFILTER/filter-placeholder'|translate}}" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' style='padding:5px; position:absolute; left:123px; width:35%; top:16px'>
+  <input type='text' focus-watch="'localFilter.isFiltering'" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' style='padding:5px; position:absolute; left:123px; width:35%; top:16px' translate-once-placeholder="SERIESLIST/TOOLS/LOCALFILTER/filter-placeholder">
 </form>
 
 <!-- Banner mode button -->
 <a accesskey="l" ng-show="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" tooltip="{{'SERIESLIST/TOOLS/LOCALFILTER/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/LOCALFILTER/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom">
-    <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'SERIESLIST/TOOLS/LOCALFILTER/list-show/glyph'|translate}}
+    <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i><span translate-once="SERIESLIST/TOOLS/LOCALFILTER/list-show/glyph"></span>
 </a>
 <!-- Poster mode button -->
 <a accesskey="g" ng-show="serieslist.mode != 'poster'" ng-click="serieslist.setMode('poster');" tooltip="{{'SERIESLIST/TOOLS/LOCALFILTER/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/LOCALFILTER/hotkey/lbl'|translate}}: alt + g)" tooltip-placement="bottom">
-    <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'SERIESLIST/TOOLS/LOCALFILTER/grid-show/glyph'|translate}}
+    <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> <span translate-once="SERIESLIST/TOOLS/LOCALFILTER/grid-show/glyph"></span>
 </a>
 <!-- Make posters smaller button -->
 <a ng-show="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">

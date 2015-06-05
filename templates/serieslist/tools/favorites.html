@@ -1,19 +1,19 @@
 <!-- Add series button -->
 <a accesskey="a" ui-sref=".add()" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt+a)" tooltip-placement="right" style='float:left'>
-    <i class="glyphicon glyphicon-plus-sign" style="top:3px"></i> {{'SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph'|translate}}
+    <i class="glyphicon glyphicon-plus-sign" style="top:3px"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
 </a>
 <!-- Filter library button -->
 <a accesskey="/" ui-sref=".search()" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/search/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + / )" tooltip-placement="bottom">
-    <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> {{'SERIESLIST/TOOLS/FAVORITES/filter/glyph'|translate}}
+    <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/filter/glyph"></span>
 </a>&nbsp;
 
 <!-- Banner mode button -->
 <a accesskey="l" ng-show="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom">
-    <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> {{'SERIESLIST/TOOLS/FAVORITES/list-show/glyph'|translate}}
+    <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/list-show/glyph"></span>
 </a>
 <!-- Poster mode button -->
 <a accesskey="g" ng-show="serieslist.mode != 'poster'" ng-click="serieslist.setMode('poster');" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + g)" tooltip-placement="bottom">
-    <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> {{'SERIESLIST/TOOLS/FAVORITES/grid-show/glyph'|translate}}
+    <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/grid-show/glyph"></span>
 </a>
 <!-- Make posters smaller button -->
 <a ng-show="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">

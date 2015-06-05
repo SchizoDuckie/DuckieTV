@@ -1,7 +1,7 @@
 <!-- torrentDialog.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
-<h1>{{'TORRENTDIALOG/hdr'|translate}}</h1>
-<input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" placeholder="{{'TORRENTDIALOG/placeholder'|translate}}" class="form-control">
+<h1 translate-once="TORRENTDIALOG/hdr"></h1>
+<input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="TORRENTDIALOG/placeholder">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
 <div class="btn-group" style='margin:0 auto; padding:10px;'>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
@@ -20,14 +20,14 @@
     <tr ng-show="searching">
       <td>
          <loading-spinner style="margin:0 auto; display:block; width:50px; height:50px; position:relative;"></loading-spinner>
-        <p style='text-align:center; padding:10px;'>{{'TORRENTDIALOG/searching/lbl'|translate}} {{getName(searchprovider)}}{{'TORRENTDIALOG/searching-please-wait/lbl'|translate}}.</p>
+        <p style='text-align:center; padding:10px;'><span translate-once="TORRENTDIALOG/searching/lbl"></span> {{getName(searchprovider)}}<span translate-once="TORRENTDIALOG/searching-please-wait/lbl"></span>.</p>
       </td>
     </tr>
   </thead>
   <tbody ng-show="!searching && items.length == 0">
     <tr>
       <th>
-        <p>{{'TORRENTDIALOG/no-results/lbl'|translate}}</p>
+        <p translate-once="TORRENTDIALOG/no-results/lbl"></p>
         "<strong>{{ query }}</strong>"
       </th>
     </tr>
@@ -43,13 +43,13 @@
     <tr>
       <th>&nbsp;</th>
       <th>
-        <strong>{{'TORRENTDIALOG/name/lbl'|translate}}</strong>
+        <strong translate-once="TORRENTDIALOG/name/lbl"></strong>
       </th>
       <th>
-        <strong>{{'TORRENTDIALOG/seed/lbl'|translate}}</strong>
+        <strong translate-once="TORRENTDIALOG/seed/lbl"></strong>
       </th>
       <th>
-        <strong>{{'TORRENTDIALOG/leech/lbl'|translate}}</strong>
+        <strong translate-once="TORRENTDIALOG/leech/lbl"></strong>
       </th>
     </tr>
     <tr ng-repeat="seed in items | limitTo: 20">
@@ -61,9 +61,9 @@
           <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/options/tooltip'|translate}}"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a ng-href="{{::seed.torrent}}"><i class="glyphicon glyphicon-download"></i>{{'TORRENTDIALOG/download-torrent/lbl'|translate}}</a></li>
-          <li><a ng-href="{{::seed.magneturl}}"><i class="glyphicon glyphicon-magnet"></i>{{'TORRENTDIALOG/magnet/link/lbl'|translate}}</a></li>
-          <li><a ng-href="{{::seed.detailUrl}}" target='_blank'><i class="glyphicon glyphicon-link"></i>{{'TORRENTDIALOG/torrent-details/lbl'|translate}}</a></li>
+          <li><a ng-href="{{::seed.torrent}}"><i class="glyphicon glyphicon-download"></i><span translate-once="TORRENTDIALOG/download-torrent/lbl"></span></a></li>
+          <li><a ng-href="{{::seed.magneturl}}"><i class="glyphicon glyphicon-magnet"></i><span translate-once="TORRENTDIALOG/magnet/link/lbl"></span></a></li>
+          <li><a ng-href="{{::seed.detailUrl}}" target='_blank'><i class="glyphicon glyphicon-link"></i><span translate-once="TORRENTDIALOG/torrent-details/lbl"></span></a></li>
         </ul>
       </td>
       <td>
