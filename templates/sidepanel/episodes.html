@@ -14,7 +14,7 @@
           <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{::episode.getFormattedEpisode()}}</a>
         </td>
         <td>
-          <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-html-unsafe="<strong>{{sidepanel.serie.name}} {{getEpisodeNumber(episode)}}</h2><p>{{episode.episodename}}</strong><p>{{episode.overview}}</p>" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{::episode.episodename}}</a>
+          <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-template="'episodeDetailsTooltip.html'" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{::episode.episodename}}</a>
         </td>
         <td class="nobreaks" align="right" style="width:60px;position:relative">
           <a ng-show="episode.hasAired()" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{episode.firstaired | date: 'short'}}" class="airdate" >{{::episode.firstaired|date:'shortDate'}}</a>
@@ -64,3 +64,8 @@
       </tr>
   </table>
 </div>
+<script type="text/ng-template" id="episodeDetailsTooltip.html">
+  <strong>{{sidepanel.serie.name}} {{season.getEpisodeNumber(episode)}}</strong><br>
+  <strong>{{episode.episodename}}</strong>
+  <p style="text-align:justify">{{episode.overview}}</p>
+</script>
