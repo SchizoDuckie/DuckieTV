@@ -1,8 +1,9 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
-  <h2>{{'SETTINGS/TORRENT/hdr'|translate}}
+  <h2>
     <span tooltip="{{torrentEnabled ? 'SETTINGS/TORRENT/enabled/tooltip' : 'SETTINGS/TORRENT/disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{torrentEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
+    <li translate-once="SETTINGS/TORRENT/hdr"></li>
   </h2>
 
   <p>{{torrentEnabled ? 'SETTINGS/TORRENT/functions-hide/desc' : 'SETTINGS/TORRENT/functions-show/desc'|translate}}</p>
@@ -13,7 +14,7 @@
   <div ng-show="torrentEnabled">
     <hr class="setting-divider">
     
-    <h2>{{'SETTINGS/TORRENT/choose-client/hdr'|translate}}</h2>
+    <h2 translate-once="SETTINGS/TORRENT/choose-client/hdr"></h2>
 
     <ul class="list-unstyled" style='font-size:16px'>
       <li ng-click="setTorrentClient(client)" ng-repeat="client in getTorrentClients()" class="list-unstyled" style="cursor:pointer; padding:5px;">
@@ -22,18 +23,18 @@
     </ul>
     
     <a class="btn btn-warning" ng-click="reload()">
-      <i class="glyphicon glyphicon-refresh"></i>&nbsp;{{'SETTINGS/TORRENT/reload-duckie/btn'|translate}}&nbsp;{{currentClient}}
+      <i class="glyphicon glyphicon-refresh"></i>&nbsp;<span translate-once="SETTINGS/TORRENT/reload-duckie/btn"></span>&nbsp;{{currentClient}}
     </a>
   
     <hr class="setting-divider">
 
-    <h2 style='white-space:nowrap'>{{'SETTINGS/TORRENT/autodownload/hdr'|translate}}
+    <h2 style='white-space:nowrap'><h2cont translate-once="SETTINGS/TORRENT/autodownload/hdr"></h2cont>
     <span ng-show="getSetting('torrenting.autodownload')" tooltip="{{'SETTINGS/TORRENT/autodownload-enabled/tooltip'|translate}}"><i class="glyphicon glyphicon-ok alert-success" ></i> </span>
     <span ng-show="!getSetting('torrenting.autodownload')" tooltip="{{'SETTINGS/TORRENT/autodownload-disabled/tooltip'|translate}}"><i class="glyphicon glyphicon-remove  alert-danger" ></i></span>
     </h2>
     
-    <p ng-hide="adEnabled" >{{'SETTINGS/TORRENT/autodownload-enable/desc'|translate}}{{getSetting('autodownload.period')}}{{'SETTINGS/TORRENT/autodownload-enable/desc2'|translate}}{{getSetting('autodownload.minSeeders')}}{{'SETTINGS/TORRENT/autodownload-enable/desc3'|translate}}</p>
-    <p ng-show="adEnabled">{{'SETTINGS/TORRENT/autodownload-disable/desc'|translate}}</p>
+    <p ng-hide="adEnabled" ><span translate-once="SETTINGS/TORRENT/autodownload-enable/desc"></span>{{getSetting('autodownload.period')}}<span translate-once="SETTINGS/TORRENT/autodownload-enable/desc2"></span>{{getSetting('autodownload.minSeeders')}}<span translate-once="SETTINGS/TORRENT/autodownload-enable/desc3"></span></p>
+    <p ng-show="adEnabled" translate-once="SETTINGS/TORRENT/autodownload-disable/desc"></p>
     <a ng-click="toggleAutoDownload()" class="btn btn-{{adEnabled ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{adEnabled ? 'remove-sign' : 'cloud-download'}}"></i>&nbsp;{{adEnabled ? 'SETTINGS/TORRENT/autodownload-disable/btn' : 'SETTINGS/TORRENT/autodownload-enable/btn'|translate}}
     </a>
@@ -41,40 +42,41 @@
     <hr class="setting-divider">
 
     <div class="autodownload">
-      <h2>{{'SETTINGS/TORRENT/autodownload-period/hdr'|translate}}</h2>
-      <p>{{'SETTINGS/TORRENT/autodownload-period/desc'|translate}}{{customadPeriod}}{{'SETTINGS/TORRENT/autodownload-period/desc2'|translate}}<br>{{'SETTINGS/TORRENT/autodownload-period-default/lbl'|translate}}</p>
+      <h2 translate-once="SETTINGS/TORRENT/autodownload-period/hdr"></h2>
+      <p><span translate-once="SETTINGS/TORRENT/autodownload-period/desc"></span>{{customadPeriod}}<span translate-once="SETTINGS/TORRENT/autodownload-period/desc2"></span><br><span translate-once="SETTINGS/TORRENT/autodownload-period-default/lbl"></span></p>
 
       <form name="p">
-        {{'SETTINGS/TORRENT/autodownload-period/form'|translate}} <input type='number' name="period" ng-model="adPeriod" min="1" max="21" />
+        <span translate-once="SETTINGS/TORRENT/autodownload-period/form"></span> <input type='number' name="period" ng-model="adPeriod" min="1" max="21" />
         <a class="btn btn-success" ng-click="saveADPeriod(adPeriod)" ng-disabled="p.period.$error.number || p.period.$error.min || p.period.$error.max" style="float:right; margin-top:-10px;">
-          <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; {{'SETTINGS/TORRENT/autodownload-save/btn'|translate}}
+          <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="SETTINGS/TORRENT/autodownload-save/btn"></span>
         </a>
       </form>
-      <span class="alert alert-danger" ng-show="p.period.$error.number">{{'SETTINGS/TORRENT/autodownload-only-numbers/alert'|translate}}</span>
-      <span class="alert alert-danger" ng-show="p.period.$error.min || p.period.$error.max">{{'SETTINGS/TORRENT/autodownload-days-range/alert'|translate}}</span>
+      <span class="alert alert-danger" ng-show="p.period.$error.number" translate-once="SETTINGS/TORRENT/autodownload-only-numbers/alert"></span>
+      <span class="alert alert-danger" ng-show="p.period.$error.min || p.period.$error.max" translate-once="SETTINGS/TORRENT/autodownload-days-range/alert"></span>
 
       <hr class="setting-divider">
 
-      <h2>{{'SETTINGS/TORRENT/autodownload-seeders/hdr'|translate}}</h2>
-      <p >{{'SETTINGS/TORRENT/autodownload-seeders/desc'|translate}}<br>{{'SETTINGS/TORRENT/autodownload-seeders-default/lbl'|translate}}</p>
+      <h2 translate-once="SETTINGS/TORRENT/autodownload-seeders/hdr"></h2>
+      <p><span translate-once="SETTINGS/TORRENT/autodownload-seeders/desc"></span><br><span translate-once="SETTINGS/TORRENT/autodownload-seeders-default/lbl"></span></p>
 
       <form name="s">
-        {{'SETTINGS/TORRENT/autodownload-seeders/form'|translate}} <input type='number'name="seeders" ng-model="adMinSeeders" min="0" max="3000" />
+        <span translate-once="SETTINGS/TORRENT/autodownload-seeders/form"></span> <input type='number'name="seeders" ng-model="adMinSeeders" min="0" max="3000" />
         <a class="btn btn-success" ng-click="saveADMinSeeders(adMinSeeders)" ng-disabled="s.seeders.$error.number || s.seeders.$error.min || s.seeders.$error.max"  style="float:right; margin-top:-10px;">
-          <i class="glyphicon glyphicon-floppy-save"></i>&nbsp; {{'SETTINGS/TORRENT/autodownload-save/btn'|translate}}
+          <i class="glyphicon glyphicon-floppy-save"></i>&nbsp; <span translate-once="SETTINGS/TORRENT/autodownload-save/btn"></span>
         </a>
       </form>
-      <span class="alert alert-danger" ng-show="s.seeders.$error.number">{{'SETTINGS/TORRENT/autodownload-only-numbers/alert'|translate}}</span>
-      <span class="alert alert-danger" ng-show="s.seeders.$error.min || s.seeders.$error.max">{{'SETTINGS/TORRENT/autodownload-seeders-range/alert'|translate}}</span>
+      <span class="alert alert-danger" ng-show="s.seeders.$error.number" translate-once="SETTINGS/TORRENT/autodownload-only-numbers/alert"></span>
+      <span class="alert alert-danger" ng-show="s.seeders.$error.min || s.seeders.$error.max" translate-once="SETTINGS/TORRENT/autodownload-seeders-range/alert"></span>
     </div>
 
 
    <hr class="setting-divider">
   
-  <h2>{{'SETTINGS/TORRENT/progressbar/hdr'|translate}}
+  <h2>
     <span tooltip="{{progressEnabled ? 'SETTINGS/TORRENT/enabled/tooltip' : 'SETTINGS/TORRENT/disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{progressEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
+    <li translate-once="SETTINGS/TORRENT/progressbar/hdr"></li>
   </h2>
   
   <p>{{progressEnabled ? 'SETTINGS/TORRENT/progressbar-hide/desc' : 'SETTINGS/TORRENT/progressbar-show/desc'|translate}}</p>
@@ -84,10 +86,11 @@
   
   <hr class="setting-divider">
 
-  <h2>{{'SETTINGS/TORRENT/autostop/hdr'|translate}} 
+  <h2> 
     <span tooltip="{{autostopEnabled ? 'SETTINGS/TORRENT/enabled/tooltip' : 'SETTINGS/TORRENT/disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{autostopEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
+    <li translate-once="SETTINGS/TORRENT/autostop/hdr"></li>
   </h2>
     <p>{{autostopEnabled ? 'SETTINGS/TORRENT/autostop-disabled/desc' : 'SETTINGS/TORRENT/autostop-enabled/desc'|translate}}</p>
     <a ng-click="toggleAutoStop()" class="btn btn-{{autostopEnabled ? 'danger' : 'success'}}">

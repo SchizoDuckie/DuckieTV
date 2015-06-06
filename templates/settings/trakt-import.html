@@ -3,17 +3,17 @@
   <div>
     <div class="trakt-logo" style="float:left"><img src="img/trakt.png"></div>
     <div class="trakt-login">
-      <p>{{'SETTINGS/TRAKT-IMPORT/sync/desc'|translate}}</p>
+      <p translate-once="SETTINGS/TRAKT-IMPORT/sync/desc"></p>
       <form name="userCredentials">
         <table>
           <tr class="username">
-            <td><p>{{'SETTINGS/TRAKT-IMPORT/username/hdr'|translate}}</p></td>
+            <td><p translate-once="SETTINGS/TRAKT-IMPORT/username/hdr"></p></td>
             <td>
               <input type='text' style='background-color: rgba(0,0,0,0.8);' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'SETTINGS/TRAKT-IMPORT/username/placeholder'|translate}}" ng-disabled="credentials.success" />
             </td>
           </tr>
           <tr class="password">
-            <td><p>{{'SETTINGS/TRAKT-IMPORT/password/hdr'|translate}}</p></td>
+            <td><p translate-once="SETTINGS/TRAKT-IMPORT/password/hdr"></p></td>
             <td>
               <input type='password' style='background-color: rgba(0,0,0,0.8);' name='password' ng-model='credentials.password' placeholder="Trakt.TV {{'SETTINGS/TRAKT-IMPORT/password/placeholder'|translate}}" ng-disabled="credentials.success" />
             </td>
@@ -22,19 +22,19 @@
             <td></td>
             <td><center>
               <a ng-click="authorize(credentials.username, credentials.password)" class="btn btn-success" style="position:relative" ng-disabled="credentials.success" ng-show="!credentials.success">
-                <i class="glyphicon glyphicon-log-in" style="float:left;top:3px"></i>{{'SETTINGS/TRAKT-IMPORT/login-to/btn'|translate}}Trakt.TV
+                <i class="glyphicon glyphicon-log-in" style="float:left;top:3px"></i><span translate-once="SETTINGS/TRAKT-IMPORT/login-to/btn"></span>Trakt.TV
                 <loading-spinner ng-show="credentials.authorizing" style="width:20px;height:20px;position:absolute;right:5px"></loading-spinner>
               </a>
               
               <a ng-click="clearCredentials()" ng-if="credentials.success" class="btn btn-danger">
-                <i class="glyphicon glyphicon-trash" style="float:left;top:3px"></i>{{'SETTINGS/TRAKT-IMPORT/clear-credentials/btn'|translate}}
+                <i class="glyphicon glyphicon-trash" style="float:left;top:3px"></i><span translate-once="SETTINGS/TRAKT-IMPORT/clear-credentials/btn"></span>
               </a></center>
             </td>
           </tr>
         </table>
       </form>
       <p class="alert alert-success" role="alert" ng-show="credentials.success" style="margin-top:5px;white-space:normal">
-        <strong>TraktTV {{'SETTINGS/TRAKT-IMPORT/authorized/alert'|translate}}</strong> 
+        <strong>TraktTV <span translate-once="SETTINGS/TRAKT-IMPORT/authorized/alert"></span></strong> 
         Token: {{credentials.success}}
       </p>
       <p class="alert alert-danger" role="alert" ng-show="credentials.error != false" style="margin-top:5px;white-space:normal">{{credentials.error}}</p>
@@ -43,12 +43,12 @@
 
   <div ng-show="credentials.success">
     <hr class="setting-divider">
-    <h2>{{'SETTINGS/TRAKT-IMPORT/watched-sync/hdr'|translate}}
+    <h2><h2cont translate-once="SETTINGS/TRAKT-IMPORT/watched-sync/hdr"></h2cont>
       <span tooltip="{{traktSync ? 'SETTINGS/TRAKTTV/sync-enabled/tooltip' : 'SETTINGS/TRAKTTV/sync-disabled/tooltip'|translate}}">
         <i class="glyphicon glyphicon-{{traktSync ? 'ok alert-success' : 'remove alert-danger'}}" style="font-size:22px;background-color:transparent"></i>
       </span>
     </h2>
-    <p>{{'SETTINGS/TRAKT-IMPORT/watched-sync/desc'|translate}}</p>
+    <p translate-once="SETTINGS/TRAKT-IMPORT/watched-sync/desc"></p>
      
     <a ng-click="toggleTraktSync()" class="btn btn-{{traktSync ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{traktSync ? 'remove-circle' : 'export'}}" style="float:left;top:3px"></i>{{traktSync ? 'SETTINGS/TRAKT-IMPORT/sync-disabled/btn' : 'SETTINGS/TRAKT-IMPORT/sync-enabled/btn'|translate}}
@@ -56,11 +56,11 @@
 
     <hr class="setting-divider">
 
-    <h2>{{'SETTINGS/TRAKT-IMPORT/hdr'|translate}}</h2>
-    <p>{{'SETTINGS/TRAKT-IMPORT/desc'|translate}}</p>
+    <h2 translate-once="SETTINGS/TRAKT-IMPORT/hdr"></h2>
+    <p translate-once="SETTINGS/TRAKT-IMPORT/desc"></p>
     
     <a ng-click="readTraktTV()" class="btn btn-success">
-      <i class="glyphicon glyphicon-import" style="float:left;top:3px"></i> {{'SETTINGS/TRAKT-IMPORT/sync-import/btn'|translate}}
+      <i class="glyphicon glyphicon-import" style="float:left;top:3px"></i> <span translate-once="SETTINGS/TRAKT-IMPORT/sync-import/btn"></span>
     </a>
   </div>
   <div class="miniposter x2" ng-if="traktTVSeries[0]" style="text-align:center">
@@ -68,6 +68,6 @@
       <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
       <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
     </serieheader>
-    <small style="display:block">{{'SETTINGS/TRAKT-IMPORT/watched-episodes/lbl'|translate}} {{ countWatchedEpisodes(serie) }} </small>
+    <small style="display:block"<span translate-once="SETTINGS/TRAKT-IMPORT/watched-episodes/lbl"></span> {{ countWatchedEpisodes(serie) }} </small>
   </div>
 </div>
