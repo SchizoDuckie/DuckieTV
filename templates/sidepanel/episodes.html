@@ -1,11 +1,11 @@
 <div class="episodes">
   <h2 style='color:white'>{{::season.getPageHeader(season.season)}}</h2>
   <p>{{::season.season.overview}}</p>
-  <strong>{{'SIDEPANEL/EPISODES/episodes/lbl'|translate}}</strong>
+  <strong translate-once="SIDEPANEL/EPISODES/episodes/lbl"></strong>
   <table class="table table-condensed light episodelist" style='margin-top:10px; background-color:transparent' ng-class="{'hover':getSetting('torrenting.enabled')}">
     <tbody ng-if="!season.episodes || season.episodes.length == 0">
       <tr>
-        <td>{{'SIDEPANEL/EPISODES/fetching-episodes/lbl'|translate}}</td>
+        <td translate-once="SIDEPANEL/EPISODES/fetching-episodes/lbl"></td>
       </tr>
     </tbody>
     <tbody ng-if="season.episodes" ng-repeat="episode in season.episodes | orderBy: season.getSortEpisodeNumber:true">
@@ -37,7 +37,7 @@
     </tbody>
   </table>
   <div ng-show="getSetting('download.ratings')">
-      <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important'>{{'SIDEPANEL/EPISODES/episode-ratings/hdr'|translate}}</h2>
+      <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important' translate-once="SIDEPANEL/EPISODES/episode-ratings/hdr"></h2>
       <div class="chart">
         <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}" tooltip-append-to-body="true"></div>
       </div>
@@ -46,19 +46,19 @@
       <tr ng-show="getSetting('torrenting.enabled')">
         <td colspan="2">
             <a ng-click="season.autoDownloadAll()">
-                <i class="glyphicon glyphicon-cloud-download"></i><strong>{{'SIDEPANEL/EPISODES/auto-download-all/lbl'|translate}}</strong>
+                <i class="glyphicon glyphicon-cloud-download"></i><strong translate-once="SIDEPANEL/EPISODES/auto-download-all/lbl"></strong>
             </a>
         </td>
       </tr>
       <tr class="two-face">
         <td>
             <a ng-click="season.markAllDownloaded(season.episodes)">
-              <i class="glyphicon glyphicon-floppy-saved"></i><strong>{{'SIDEPANEL/EPISODES/mark-all-downloaded/lbl'|translate}}</strong>
+              <i class="glyphicon glyphicon-floppy-saved"></i><strong translate-once="SIDEPANEL/EPISODES/mark-all-downloaded/lbl"></strong>
             </a>
         </td>
         <td>
             <a ng-click="season.markAllWatched(season.episodes)">
-              <i class="glyphicon glyphicon-eye-open"></i><strong>{{'SIDEPANEL/EPISODES/mark-all-watched/lbl'|translate}}</strong>
+              <i class="glyphicon glyphicon-eye-open"></i><strong translate-once="SIDEPANEL/EPISODES/mark-all-watched/lbl"></strong>
             </a>
         </td>
       </tr>

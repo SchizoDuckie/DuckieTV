@@ -12,19 +12,19 @@
         </td>
       </tr>
       <tr ng-if="sidepanel.serie.airs.day" >
-        <th>{{'SIDEPANEL/TRAKT-SERIE-DETAILS/airs-on/hdr'|translate}}</th>
+        <th translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/airs-on/hdr"></th>
         <td>{{sidepanel.translateDayOfWeek(sidepanel.serie.airs.day)}} {{sidepanel.serie.airs.time}} {{sidepanel.serie.airs.timezone}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.first_aired" >
-        <th>{{'SIDEPANEL/TRAKT-SERIE-DETAILS/first-aired/hdr'|translate}}</th>
+        <th translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/first-aired/hdr"></th>
         <td>{{ sidepanel.serie.first_aired | date:'mediumDate' }}</td>
       </tr>
       <tr ng-if="sidepanel.serie.status" >
-        <th>{{'SIDEPANEL/TRAKT-SERIE-DETAILS/status/hdr'|translate}}</th>
+        <th translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/status/hdr"></th>
         <td>{{sidepanel.translateStatus(sidepanel.serie.status)}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.genres" >
-        <th>{{'SIDEPANEL/TRAKT-SERIE-DETAILS/genre/hdr'|translate}}</th>
+        <th translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/genre/hdr"></th>
         <td>
           <ul class="list-unstyled">
             <li ng-repeat="genre in sidepanel.serie.genres track by $index">{{sidepanel.translateGenre(genre)}}</li>
@@ -32,27 +32,27 @@
         </td>
       </tr>
       <tr ng-if="sidepanel.serie.certification" >
-        <th>{{'SIDEPANEL/TRAKT-SERIE-DETAILS/content-rating/hdr'|translate}}</th>
+        <th translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/content-rating/hdr"></th>
         <td>{{sidepanel.serie.certification}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.country" >
-        <th>{{'SIDEPANEL/TRAKT-SERIE-DETAILS/country/hdr'|translate}}</th>
+        <th translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/country/hdr"></th>
         <td>{{sidepanel.serie.country}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.network" >
-        <th>{{'SIDEPANEL/TRAKT-SERIE-DETAILS/network/hdr'|translate}}</th>
+        <th translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/network/hdr"></th>
         <td>{{sidepanel.serie.network}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.rating" >
-        <th>{{'SIDEPANEL/TRAKT-SERIE-DETAILS/rating/hdr'|translate}}</th>
-        <td>{{sidepanel.ratingPercentage(sidepanel.serie.rating)}}% ({{sidepanel.serie.votes}} {{'SIDEPANEL/TRAKT-SERIE-DETAILS/votes/lbl'|translate}})</td>
+        <th translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/rating/hdr"></th>
+        <td>{{sidepanel.ratingPercentage(sidepanel.serie.rating)}}% ({{sidepanel.serie.votes}} <span translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/votes/lbl"></span>)</td>
       </tr>
       <tr ng-if="sidepanel.serie.runtime" >
-        <th>{{'SIDEPANEL/TRAKT-SERIE-DETAILS/run-time/hdr'|translate}}</th>
-        <td>{{sidepanel.serie.runtime}} {{'SIDEPANEL/TRAKT-SERIE-DETAILS/minutes/lbl'|translate}}</td>
+        <th translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/run-time/hdr"></th>
+        <td>{{sidepanel.serie.runtime}}  <span translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/minutes/lbl"></span></td>
       </tr>
       <tr ng-if="sidepanel.serie.actors" >
-        <th>{{'SIDEPANEL/TRAKT-SERIE-DETAILS/actors/hdr'|translate}}</th>
+        <th translate-once="SIDEPANEL/TRAKT-SERIE-DETAILS/actors/hdr"></th>
         <td>
           <ul class="list-unstyled">
             <li ng-repeat="actors in sidepanel.serie.actors track by $index">{{actors}}</li>
