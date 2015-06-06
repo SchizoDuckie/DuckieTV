@@ -121,7 +121,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
             },
             getFiles: function(hash) {
                 return this.request('files', hash).then(function(data) {
-                    debugger;
+                    //debugger;
                     return data.data.files[1].map(function(file) {
                         return {
                             name: file[0],
