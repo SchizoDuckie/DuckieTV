@@ -1,19 +1,19 @@
 <div class="buttons" ng-controller="tbtCtrl as tbt">
-	<h2>Transmission {{'SETTINGS/TRANSMISSION/integration/hdr'|translate}}</h2>
+	<h2>Transmission <h2cont translate-once="SETTINGS/TRANSMISSION/integration/hdr"></h2cont></h2>
 
 	<img src="img/torrentclients/transmission-colored.png" style='width:200px; margin: 0 auto'>
 
-	<p  ng-if="tbt.isConnected()">{{'SETTINGS/TRANSMISSION/status/hdr'|translate}}:
-	{{'SETTINGS/TRANSMISSION/connected/lbl'|translate}} Transmission API &#64; {{tbt.model.server}}:{{tbt.model.port}}
+	<p  ng-if="tbt.isConnected()"><span translate-once="SETTINGS/TRANSMISSION/status/hdr"></span>:
+	<span translate-once="SETTINGS/TRANSMISSION/connected/lbl"></span> Transmission API &#64; {{tbt.model.server}}:{{tbt.model.port}}
 	</p>
 
-	<p ng-if="!tbt.isConnected()">{{'SETTINGS/TRANSMISSION/status/hdr'|translate}}:
-	{{'SETTINGS/TRANSMISSION/not-connected/lbl'|translate}}
+	<p ng-if="!tbt.isConnected()"><span translate-once="SETTINGS/TRANSMISSION/status/hdr"></span>:
+	<span translate-once="SETTINGS/TRANSMISSION/not-connected/lbl"></span>
 	</p>
 
 	<form ng-submit="tbt.test()" novalidate>
         <formly-form model="tbt.model" fields="tbt.fields">
-          <button type="submit" class="btn btn-primary submit-button">{{'SETTINGS/TRANSMISSION/save/btn'|translate}}</button>
+          <button type="submit" class="btn btn-primary submit-button" translate-once="SETTINGS/TRANSMISSION/save/btn"></button>
         </formly-form>
       </form>
 	
