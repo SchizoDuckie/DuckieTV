@@ -220,20 +220,29 @@ background-rotator, background-rotator > div {
     opacity: 0;
 }
 
-#actionbar_torrent.offline:after {
-    content: '.';
-    color: rgba(255,0,0,0.5);
+#actionbar_torrent {
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding: 29px !important;
+  background-size: 30px;
+  margin-bottom: -5px;
+}
+
+#actionbar_torrent:after {
     position: absolute;
+    right: 10px;
+    bottom:10px;
+    content: '.';
+}
+
+#actionbar_torrent.offline:after {
+    color: rgba(255,0,0,0.5);
 }
 #actionbar_torrent.connected:after {
-    content: '.';
     color: rgba(0,255,0,0.5);
-    position: absolute;
 }
 #actionbar_torrent.connecting:after {
-    content: '.' !important;
     color: orange !important;
-    position: absolute;
 }
 
 .typeahead ul {

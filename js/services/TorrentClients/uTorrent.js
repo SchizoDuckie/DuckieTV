@@ -102,6 +102,9 @@ DuckieTorrent
             };
 
             var methods = {
+                getName: function() {
+                    return 'uTorrent';
+                },
                 /**
                  * Execute a portscan on one of the 20 ports that were generated with the algorthm, stop scanning when a response is found.
                  * Sets the found port index in self.currentPort;
