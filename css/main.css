@@ -816,6 +816,10 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .serie table.table tr:hover {
     background-color:rgba(0, 0, 0, 0.7);
 }
+
+div [date-picker] {
+    transform-origin: top left;
+}
 [date-picker] {
     -webkit-user-select: none;
     transition: all 0.5s ease-in-out;
@@ -1732,8 +1736,14 @@ sidepanel .leftpanel.torrents {
     float:left;
 }
 
-div [date-picker] {
-    transform-origin: top left;
+#aboutpage {
+    position: absolute;
+    height: 100%;
+    overflow-y: auto;
+    padding: 10px;
+}
+#aboutpage .table a {
+    text-decoration:underline;
 }
 
 [ui-view]:before {
@@ -1754,8 +1764,7 @@ div [date-picker] {
 }
 
 .ui-loading:before {
-  
-      -webkit-transform: translateY(0px);
+    -webkit-transform: translateY(0px);
 }
 
 @media (max-height: 768px) {
@@ -1788,12 +1797,4 @@ div [date-picker] {
     height: 200px;
     margin-bottom: 0;
   }
-}
-
-fieldset.about .table a {
-    text-decoration:underline;
-}
-
-fieldset.about div {
-   overflow-y:auto;
 }
