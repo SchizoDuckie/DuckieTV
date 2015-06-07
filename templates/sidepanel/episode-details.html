@@ -61,7 +61,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2" class="buttons" ng-if="sidepanel.episode.hasAired()">
+          <td colspan="2" class="buttons" ng-if="getSetting('torrenting.enabled') &&  sidepanel.episode.hasAired()">
             <a ng-click="sidepanel.findSubtitle()">
                 <i class="glyphicon glyphicon-text-width"></i><strong translate-once="SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn"></strong>
             </a>
