@@ -88,7 +88,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
 
         return {
             search: function(query) {
-                console.log("Searching showrss!", query);
+                //console.debug("Searching showrss!", query);
                 if (!query.toUpperCase().match(/S([0-9]{1,2})E([0-9]{1,3})/)) {
                     return $q(function(resolve, reject) {
                         reject("Sorry, ShowRSS only works for queries in format : 'Seriename SXXEXX'");
