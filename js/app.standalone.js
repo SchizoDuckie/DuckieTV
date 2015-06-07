@@ -19,7 +19,7 @@ DuckieTV
             }
         };
     })
-    .run(function(SettingsService, $http, $dialogs) {
+    .run(function(SettingsService, $http, dialogs) {
         if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             // check last updated every 2 days.
             var lastUpdateCheck = localStorage.getItem('github.lastupdatecheck');
@@ -39,7 +39,7 @@ DuckieTV
                     }
 
                     var releasenotes = '\n' + result[0].body;
-                    var dlg = $dialogs.confirm('New DuckieTV release!', [
+                    var dlg = dialogs.confirm('New DuckieTV release!', [
                         'A new version of DuckieTV is available (v', result[0].tag_name, ', released ', new Date(result[0].published_at).toLocaleDateString(), ')<br>',
                         '<p style="margin: 20px 0px; white-space: pre; overflow-wrap: break-word; background-color: transparent; color:white;">',
                         releasenotes.replace(/\n- /g, '<li>'),

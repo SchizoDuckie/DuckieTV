@@ -19,8 +19,8 @@
  *    // repeat
  *  }
  */
-DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$dialogs", "$filter", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q", "$state",
-    function($rootScope, $scope, $dialogs, $filter, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q, $state) {
+DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q", "$state",
+    function($rootScope, $scope, dialogs, $filter, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q, $state) {
 
         $scope.backupString = false;
         $scope.wipeBeforeImport = false;
@@ -98,37 +98,37 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$dialogs", "$filter"
          */
         var importBackup = function() {
             FileReader.readAsText($scope.file, $scope)
-            .then(function(result) {
-                result = angular.fromJson(result);
-                console.log("Backup read!", result);
-                angular.forEach(result.settings, function(value, key) {
-                    if (key == 'utorrent.token') return; // skip utorrent auth token since it can be invalid.
-                    localStorage.setItem(key, value);
-                });
-                SettingsService.restore();
-                angular.forEach(result.series, function(watched, TVDB_ID) {
-                    FavoritesService.adding(TVDB_ID);
-                    return TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
-                        return TraktTVv2.serie(searchResult.slug_id);
-                    }).then(function(serie) {
-                        $scope.series.push(serie);
-                        return FavoritesService.addFavorite(serie, watched);
-                    }).then(function() {
-                        FavoritesService.added(TVDB_ID);
+                .then(function(result) {
+                    result = angular.fromJson(result);
+                    console.log("Backup read!", result);
+                    angular.forEach(result.settings, function(value, key) {
+                        if (key == 'utorrent.token') return; // skip utorrent auth token since it can be invalid.
+                        localStorage.setItem(key, value);
                     });
-                }, function(err) {
-                    console.error("ERROR!", err);
-                    FavoritesService.added(TVDB_ID);
-                    FavoritesService.addError(TVDB_ID, err);
+                    SettingsService.restore();
+                    angular.forEach(result.series, function(watched, TVDB_ID) {
+                        FavoritesService.adding(TVDB_ID);
+                        return TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
+                            return TraktTVv2.serie(searchResult.slug_id);
+                        }).then(function(serie) {
+                            $scope.series.push(serie);
+                            return FavoritesService.addFavorite(serie, watched);
+                        }).then(function() {
+                            FavoritesService.added(TVDB_ID);
+                        });
+                    }, function(err) {
+                        console.error("ERROR!", err);
+                        FavoritesService.added(TVDB_ID);
+                        FavoritesService.addError(TVDB_ID, err);
+                    });
                 });
-            });
         }
 
         /**
          * Wipes the database of all series, seasons and episodes and removes all settings
          */
         $scope.wipeDatabase = function() {
-            var dlg = $dialogs.confirm($filter('translate')('BACKUPCTRLjs/wipe/hdr'),
+            var dlg = dialogs.confirm($filter('translate')('BACKUPCTRLjs/wipe/hdr'),
                 $filter('translate')('BACKUPCTRLjs/wipe/desc')
             );
             dlg.result.then(function(btn) {

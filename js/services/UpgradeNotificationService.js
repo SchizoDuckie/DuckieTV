@@ -6,8 +6,8 @@ DuckieTV
  *
  * If the user closes the dialog, the notification is dismissed and not shown again.
  */
-.run(["$dialogs", "$http", "$q",
-    function($dialogs, $http, $q) {
+.run(["dialogs", "$http", "$q",
+    function(dialogs, $http, $q) {
 
         var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="http://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="http://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="http://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
         var notifications = {
@@ -48,7 +48,7 @@ DuckieTV
         success(function(data, status, headers, config) {
             var notifyVersion = data.trim();
             if (notifyVersion != null && (notifyVersion in notifications) && localStorage.getItem('upgrade.notify') != notifyVersion) {
-                var dlg = $dialogs.notify('DuckieTV was upgraded to ' + notifyVersion,
+                var dlg = dialogs.notify('DuckieTV was upgraded to ' + notifyVersion,
                     "<h2>What's new in this version:</h2>" + notifications[notifyVersion] + dlgLinks, {}, {
                         size: 'lg'
                     });

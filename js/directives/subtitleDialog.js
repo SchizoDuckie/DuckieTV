@@ -5,21 +5,21 @@ DuckieTV.provider('SubtitleDialog', function() {
 
             return {
                 search: function(str) {
-                    return $injector.get('$dialogs').create('templates/subtitleDialog.html', 'subtitleDialogCtrl', {
+                    return $injector.get('dialogs').create('templates/subtitleDialog.html', 'subtitleDialogCtrl', {
                         query: str
                     }, {
                         size: 'lg'
                     });
                 },
                 searchFilename: function(filename) {
-                    return $injector.get('$dialogs').create('templates/subtitleDialog.html', 'subtitleDialogCtrl', {
+                    return $injector.get('dialogs').create('templates/subtitleDialog.html', 'subtitleDialogCtrl', {
                         filename: filename
                     }, {
                         size: 'lg'
                     });
                 },
                 searchEpisode: function(serie, episode) {
-                    return $injector.get('$dialogs').create('templates/subtitleDialog.html', 'subtitleDialogCtrl', {
+                    return $injector.get('dialogs').create('templates/subtitleDialog.html', 'subtitleDialogCtrl', {
                         serie: serie,
                         episode: episode
                     }, {

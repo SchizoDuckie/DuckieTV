@@ -10,8 +10,8 @@
  * @see GenericTorrentSearch for more info or browse through the other torrent clients in this folder.
  */
 
-DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "$dialogs", "$q", "SettingsService",
-    function(DuckieTorrent, $rootScope, $dialogs, $q, SettingsService) {
+DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialogs", "$q", "SettingsService",
+    function(DuckieTorrent, $rootScope, dialogs, $q, SettingsService) {
         var activeMagnet = false;
         var engines = {};
         var defaultEngine = 'ThePirateBay';
@@ -48,7 +48,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "$dialo
             },
 
             search: function(query, TVDB_ID, options) {
-                return $dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {
+                return dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {
                     query: query,
                     TVDB_ID: TVDB_ID
                 }, options || {

@@ -11,7 +11,7 @@ var DuckieTV = angular.module('DuckieTV', [
     'ngAnimate',
     'tmh.dynamicLocale',
     'ui.bootstrap',
-    'dialogs',
+    'dialogs.main',
     'pascalprecht.translate',
     'DuckieTorrent.torrent',
     'toaster'

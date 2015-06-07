@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $rootScope, $filter, $locale, FavoritesService, $location, serie, latestSeason, SidePanelState, TraktTVv2) {
+DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $filter, $locale, FavoritesService, $location, serie, latestSeason, SidePanelState, TraktTVv2) {
 
     var sidepanel = this;
 
@@ -21,7 +21,7 @@ DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $rootScope, $filter
      * It can show the checkmark.
      */
     this.selectSerie = function(serie) {
-        if (!FavoritesService.isAdding(serie.tvdb_id)) { 
+        if (!FavoritesService.isAdding(serie.tvdb_id)) {
             FavoritesService.adding(serie.tvdb_id);
             return TraktTVv2.serie(serie.slug_id).then(function(serie) {
                 return FavoritesService.addFavorite(serie).then(function() {
@@ -31,7 +31,7 @@ DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $rootScope, $filter
             }, function(err) {
                 console.error("Error adding show!", err);
                 FavoritesService.added(serie.tvdb_id);
-                FavoritesService.addError(serie.tvdb_id,err);
+                FavoritesService.addError(serie.tvdb_id, err);
             });
         }
     };
@@ -45,7 +45,7 @@ DuckieTV.controller('SidepanelSerieCtrl', function($dialogs, $rootScope, $filter
      * Pop up a confirm dialog and remove the serie from favorites when confirmed.
      */
     this.removeFromFavorites = function() {
-        var dlg = $dialogs.confirm($filter('translate')('SIDEPANELSERIECTRLjs/serie-delete/hdr'),
+        var dlg = dialogs.confirm($filter('translate')('SIDEPANELSERIECTRLjs/serie-delete/hdr'),
             $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-question/desc') +
             this.serie.name +
             $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-question/desc2')

@@ -9,7 +9,7 @@ DuckieTV.factory('SyncManager', function() {
     isSyncing
 
     var showDeleteConfirmDialog = function(serie) {
-        var dlg = $injector.get('$dialogs').confirmAll($filter('translate')('STORAGESYNCSERVICEjs/serie-deleted/hdr'),
+        var dlg = $injector.get('dialogs').confirmAll($filter('translate')('STORAGESYNCSERVICEjs/serie-deleted/hdr'),
             $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1') + '<strong>' +
             serie.get('name') + '</strong>' +
             $filter('translate')('STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2')

@@ -112,6 +112,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'storage.sync': false, // off by default so that permissions must be requested
                 'sync.progress': true,
                 'tixati.server': 'http://localhost',
+                'tixati.use_auth': true,
                 'tixati.port': 8888,
                 'tixati.username': 'admin',
                 'tixati.password': 'admin',
