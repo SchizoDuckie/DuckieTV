@@ -466,7 +466,7 @@ DuckieTV.provider('SceneNameResolver', function() {
                         if ("undefined" == typeof(moment)) {
                             moment = require('./js/vendor/moment.min');
                         }
-                        return moment.parseZone(episode.firstaired_iso).format(episodesWithDateFormat[serie.TVDB_ID]);
+                        return moment.tz(episode.firstaired_iso,serie.timezone).format(episodesWithDateFormat[serie.TVDB_ID]);
                     } else {
                         return episode.getFormattedEpisode();
                     }
