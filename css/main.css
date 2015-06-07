@@ -245,6 +245,31 @@ background-rotator, background-rotator > div {
     color: orange !important;
 }
 
+#actionbar_torrent.vuze {
+    background-image: url('../img/torrentclients/vuze-small.png');
+}
+
+#actionbar_torrent.utorrent {
+    background-image: url('../img/torrentclients/utorrent-small.png');
+}
+
+#actionbar_torrent.deluge {
+    background-image: url('../img/torrentclients/deluge-small.png');
+}
+
+#actionbar_torrent.transmission {
+    background-image: url('../img/torrentclients/transmission-small.png');
+}
+
+#actionbar_torrent.qbittorrent {
+    background-image: url('../img/torrentclients/qbittorrent-small.png');
+}
+
+#actionbar_torrent.tixati {
+    background-image: url('../img/torrentclients/tixati-small.png');
+}
+
+
 .typeahead ul {
     max-height: 150px;
     border: 1px solid #333;

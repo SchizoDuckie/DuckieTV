@@ -66,8 +66,8 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "Series
             });
         };
 
-        this.getTorrentClientImage = function() {
-            return '/img/torrentclients/' + DuckieTorrent.getClient().getName().split(' ')[0].toLowerCase() + '-small.png';
+        this.getTorrentClientClass = function() {
+            return DuckieTorrent.getClient().getName().split(' ')[0].toLowerCase();
         };
 
         this.isTorrentClientConnected = function() {
