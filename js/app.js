@@ -42,6 +42,11 @@ var DuckieTV = angular.module('DuckieTV', [
     }
 )
 
+.config(function($modalProvider) {
+    $modalProvider.options.animation = false;
+    // temp fix for ui-bootstrap modals not showing
+})
+
 .run(function($rootScope, $state) {
     $rootScope.$on('$stateChangeStart',
         function(e, toState, toParams, fromState, fromParams) {
