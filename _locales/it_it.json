@@ -63,6 +63,7 @@
     "DIALOGSjs/notify/hdr": "Notifica",
     "DIALOGSjs/notify/msg": "Notifica di applicazione sconosciuta.",
     "DIALOGSjs/ok/btn": "OK",
+    "DIALOGSjs/percent-complete/lbl": "% Complete",
     "DIALOGSjs/wait/hdr": "Attendere prego...",
     "DIALOGSjs/wait/msg": "In attesa del completamento dell'operazione.",
     "DIALOGSjs/yes-all/btn": "Sì, Tutto",

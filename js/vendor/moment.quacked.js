@@ -3,13 +3,14 @@
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
-
+// this module has been quacked (hacked) for DuckieTV. v2.10.3.1 see //--Dtv--// tags for changes. re: cfa23ab0d1a7b28ffd93ba26d4021efde6daf162
 
 (function(global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
         typeof define === 'function' && define.amd ? define(factory) :
         global.moment = factory()
-}(window, function() {
+//}(this, function() { //--Dtv--//
+}(window, function() { //--Dtv--//
     'use strict';
 
     var hookCallback;

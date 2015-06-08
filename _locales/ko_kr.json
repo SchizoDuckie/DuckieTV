@@ -63,6 +63,7 @@
     "DIALOGSjs/notify/hdr": "공고 ",
     "DIALOGSjs/notify/msg": "알 수없는 응용 프로그램의 알림. ",
     "DIALOGSjs/ok/btn": "OK ",
+    "DIALOGSjs/percent-complete/lbl": "% 완료",
     "DIALOGSjs/wait/hdr": "잠시만 기다려주십시오 ... ",
     "DIALOGSjs/wait/msg": "완료 작업에 대기. ",
     "DIALOGSjs/yes-all/btn": "예, 모든",

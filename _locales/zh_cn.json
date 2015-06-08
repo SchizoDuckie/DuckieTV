@@ -63,6 +63,7 @@
     "DIALOGSjs/notify/hdr": "通知 ",
     "DIALOGSjs/notify/msg": "未知应用程序的通知. ",
     "DIALOGSjs/ok/btn": "行 ",
+    "DIALOGSjs/percent-complete/lbl": "％完成",
     "DIALOGSjs/wait/hdr": "请稍候... ",
     "DIALOGSjs/wait/msg": "等待操作完成. ",
     "DIALOGSjs/yes-all/btn": "是的,所有的 ",

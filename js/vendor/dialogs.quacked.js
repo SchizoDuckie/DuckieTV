@@ -1,3 +1,4 @@
+// this module has been quacked (hacked) for DuckieTV. 5.2.7.1 see //--Dtv--// tags for changes. re: cfa23ab0d1a7b28ffd93ba26d4021efde6daf162
 (function() {
     "use strict";
     //== Translate Substitute Module =============================================//
@@ -428,6 +429,37 @@
                             }); // end modal.open
                         }, // end confirm
 
+                        //--Dtv--// begin
+                        /**
+                         * ConfirmAll Dialog
+                         *
+                         * @param	header 	string
+                         * @param	msg 	string
+                         * @param	opts	object
+                         */
+                        confirmAll: function(header, msg, opts) {
+                            opts = _setOpts(opts);
+
+                            return $modal.open({
+                                templateUrl: '/dialogs/confirmall.html',
+                                controller: 'confirmDialogCtrl',
+                                backdrop: opts.bd,
+                                keyboard: opts.kb,
+                                windowClass: opts.wc,
+                                size: opts.ws,
+                                resolve: {
+                                    data: function() {
+                                        return {
+                                            header: angular.copy(header),
+                                            msg: angular.copy(msg),
+                                            fa: _fa
+                                        };
+                                    }
+                                }
+                            }); // end modal.open
+                        }, // end confirmAll
+                        //--Dtv--// end
+
                         /**
                          * Create Custom Dialog
                          *
@@ -486,21 +518,25 @@
                 // console.log('Dialogs: Creating default translations for use without Angular-Translate.');
 
                 // This will set default modal buttons, header and message text
+                //--Dtv--// begin
                 $translateProvider.translations('en-US', {
                     "DIALOGSjs/error/hdr": "Error",
                     "DIALOGSjs/error/msg": "An unknown error has occurred.",
                     "DIALOGSjs/close/btn": "Close",
                     "DIALOGSjs/wait/hdr": "Please Wait",
                     "DIALOGSjs/wait/msg": "Waiting on operation to complete.",
-                    "DIALOGS_PERCENT_COMPLETE": "% Complete",
+                    "DIALOGSjs/percent-complete/lbl": "% Complete",
                     "DIALOGSjs/notify/hdr": "Notification",
                     "DIALOGSjs/notify/msg": "Unknown application notification.",
                     "DIALOGSjs/confirm/hdr": "Confirmation",
                     "DIALOGSjs/confirm/msg": "Confirmation required.",
                     "DIALOGSjs/ok/btn": "OK",
                     "DIALOGSjs/yes/btn": "Yes",
-                    "DIALOGSjs/no/btn": "No"
+                    "DIALOGSjs/no/btn": "No",
+                    "DIALOGSjs/yes-all/btn": "Yes, All",
+                    "DIALOGSjs/no-all/btn": "No, All"
                 });
+                //--Dtv--// end
             } // end try/catch
 
             /**
@@ -566,9 +602,12 @@
             var endSym = $interpolate.endSymbol();
 
             $templateCache.put('/dialogs/error.html', '<div class="modal-header dialog-header-error"><button type="button" class="close" ng-click="close()">&times;</button><h4 class="modal-title text-danger"><span class="' + startSym + 'icon' + endSym + '"></span> <span ng-bind-html="header"></span></h4></div><div class="modal-body text-danger" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="close()">' + startSym + '"DIALOGSjs/close/btn" | translate' + endSym + '</button></div>');
-            $templateCache.put('/dialogs/wait.html', '<div class="modal-header dialog-header-wait"><h4 class="modal-title"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body"><p ng-bind-html="msg"></p><div class="progress progress-striped active"><div class="progress-bar progress-bar-info" ng-style="getProgress()"></div><span class="sr-only">' + startSym + 'progress' + endSym + '' + startSym + '"DIALOGS_PERCENT_COMPLETE" | translate' + endSym + '</span></div></div>');
+            $templateCache.put('/dialogs/wait.html', '<div class="modal-header dialog-header-wait"><h4 class="modal-title"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body"><p ng-bind-html="msg"></p><div class="progress progress-striped active"><div class="progress-bar progress-bar-info" ng-style="getProgress()"></div><span class="sr-only">' + startSym + 'progress' + endSym + '' + startSym + '"DIALOGSjs/percent-complete/lbl" | translate' + endSym + '</span></div></div>');
             $templateCache.put('/dialogs/notify.html', '<div class="modal-header dialog-header-notify"><button type="button" class="close" ng-click="close()" class="pull-right">&times;</button><h4 class="modal-title text-info"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body text-info" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-primary" ng-click="close()">' + startSym + '"DIALOGSjs/ok/btn" | translate' + endSym + '</button></div>');
             $templateCache.put('/dialogs/confirm.html', '<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="no()">&times;</button><h4 class="modal-title"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="yes()">' + startSym + '"DIALOGSjs/yes/btn" | translate' + endSym + '</button><button type="button" class="btn btn-primary" ng-click="no()">' + startSym + '"DIALOGSjs/no/btn" | translate' + endSym + '</button></div>');
+            //--Dtv--// begin
+            $templateCache.put('/dialogs/confirmall.html', '<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="no()">&times;</button><h4 class="modal-title"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="yes()">' + startSym + '"DIALOGSjs/yes/btn" | translate' + endSym + '</button><button type="button" class="btn btn-default" ng-click="yesAll()">' + startSym + '"DIALOGSjs/yes-all/btn" | translate' + endSym + '</button><button type="button" class="btn btn-primary" ng-click="no()">'+ startSym + '"DIALOGSjs/no/btn" | translate' + endSym + '</button><button type="button" class="btn btn-primary" ng-click="noAll()">'+ startSym + '"DIALOGSjs/no-all/btn" | translate' + endSym + '</button></div>');
+            //--Dtv--// end
         }
     ]); // end run / dialogs.main
 })();

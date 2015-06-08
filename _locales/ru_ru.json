@@ -63,6 +63,7 @@
     "DIALOGSjs/notify/hdr": "уведомление ",
     "DIALOGSjs/notify/msg": "Неизвестное уведомление приложение. ",
     "DIALOGSjs/ok/btn": "хорошо ",
+    "DIALOGSjs/percent-complete/lbl": "Полный%",
     "DIALOGSjs/wait/hdr": "Ждите ... ",
     "DIALOGSjs/wait/msg": "Ожидание на работе, чтобы закончить. ",
     "DIALOGSjs/yes-all/btn": "Да, все ",

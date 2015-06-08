@@ -3,6 +3,7 @@
 //! author : Tim Wood
 //! license : MIT
 //! github.com/moment/moment-timezone
+// this module has been quacked (hacked) for DuckieTV. v0.4.0.1 see //--Dtv--// tags for changes. re: cfa23ab0d1a7b28ffd93ba26d4021efde6daf162
 
 (function(root, factory) {
     "use strict";
@@ -19,7 +20,8 @@
     "use strict";
 
     // Do not load moment-timezone a second time.
-    if (('tz' in moment) && moment.tz !== undefined) {
+//    if (moment.tz !== undefined) { //--Dtv--// 
+    if (('tz' in moment) && moment.tz !== undefined) { //--Dtv--//
         logError('Moment Timezone ' + moment.tz.version + ' was already loaded ' + (moment.tz.dataVersion ? 'with data from ' : 'without any data') + moment.tz.dataVersion);
         return moment;
     }

@@ -63,6 +63,7 @@
     "DIALOGSjs/notify/hdr": "通知 ",
     "DIALOGSjs/notify/msg": "未知のアプリケーション通知. ",
     "DIALOGSjs/ok/btn": "[OK] ",
+    "DIALOGSjs/percent-complete/lbl": "完全な％",
     "DIALOGSjs/wait/hdr": "しばらくお待ちください... ",
     "DIALOGSjs/wait/msg": "操作が完了するのを待ち続けています. ",
     "DIALOGSjs/yes-all/btn": "はい,すべての",

@@ -63,6 +63,7 @@
     "DIALOGSjs/notify/hdr": "notification ",
     "DIALOGSjs/notify/msg": "Inconnu notification de l'application. ",
     "DIALOGSjs/ok/btn": "Dáccord ",
+    "DIALOGSjs/percent-complete/lbl": "% complète",
     "DIALOGSjs/wait/hdr": "S'il vous plaît, attendez ... ",
     "DIALOGSjs/wait/msg": "Attente sur le fonctionnement de compléter. ",
     "DIALOGSjs/yes-all/btn": "Oui, Tout",
