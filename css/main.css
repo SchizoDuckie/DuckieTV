@@ -1449,7 +1449,7 @@ sidepanel .rightpanel {
     width: 400px;
     height: 100%;
     padding: 15px;
-    background-color: rgba(23, 23, 23,0.8);
+    background-color: rgba(23, 23, 23,0.7);
     z-index: 0;
     overflow-y: auto;
 }
@@ -1561,12 +1561,17 @@ sidepanel .serie-bg-img {
     position: absolute;
     left: 0;
     top: 0;
-    width: 100%;
+    width: 50%;
     height: 100%;
     background-size: cover;
-    opacity: 0.15 !important; /** override any image load error opacities */
+    opacity: 0.2 !important; /* override any image load error opacities */
     z-index: -1;
+    -webkit-filter: blur(5px);
     background-position: 50%;
+    transition: width 0.4s ease-in-out;
+}
+sidepanel .expanded .serie-bg-img {
+    width: 100%;
 }
 sidepanel  .serie-img {
     margin: 5px auto;
