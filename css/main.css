@@ -357,11 +357,26 @@ serieheader[mode='poster'] {
 serieheader .poster {
     height: 240px;
     width: 160px;
+}
+serieheader .poster div {
+    height: 100%;
+    width: 100%;
     /* Standard size fits most posters however some are slightly smaller
      *  and need to be slightly stretched using 100% */
     background-size: 100% 100%;
     background-position: center center;
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
+}
+/* Ideally a :not(.img-load-error) here would be ideal however the class
+ * is only applied to the actual div loading the poster and :not does not
+ * support combinator selectors :( and we can't apply the background color
+ * to the same element that has the opacity change, perhaps a better 
+ * lazy-background method is required */
+serieheader .poster:hover {
+    background-color: #e5e5e5;
+}
+serieheader .poster:hover div:not(.img-load-error) {
+    opacity: 0.95;
 }
 /* Mini Poster style for series-list */
 .miniposter .poster {
@@ -1312,15 +1327,18 @@ query-monitor.show {
 }
 
 .img-loading {
-    opacity: 0.5 !important;
-    background: url('../img/spinner.gif') no-repeat 50% !important;
+    opacity: 0.99 !important;
+    background: url('../img/spinner.gif'), -webkit-linear-gradient(top, rgb(20,20,20), rgb(15,15,15));
+    background-size: auto !important;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .img-load-error {
-    opacity: 0.8 !important;
-    background: -webkit-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%), url('../img/icon256-inverted.png');
+    opacity: 0.99 !important;
+    background: url('../img/icon256-inverted.png'), -webkit-linear-gradient(top, rgb(20,20,20), rgb(15,15,15));
     background-size: contain !important;
-    border: 5px solid #111;
+    border: 5px solid rgb(15,15,15);
     background-repeat: no-repeat;
     background-position: center center;
 }
