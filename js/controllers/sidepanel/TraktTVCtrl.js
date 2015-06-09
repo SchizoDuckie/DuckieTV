@@ -19,6 +19,10 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
         $scope.localSeries = {};
         $scope.pushError = [false, null];
 
+        $scope.onEnter = function() {
+            $scope.authorize($scope.credentials.username, $scope.credentials.password);
+        }
+
         // Clears all local credentials and token in local storage
         $scope.clearCredentials = function() {
             $scope.credentials.error = false;
