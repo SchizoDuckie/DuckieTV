@@ -2,7 +2,7 @@
   <h2 style='color:white'>{{::season.getPageHeader(season.season)}}</h2>
   <p>{{::season.season.overview}}</p>
   <strong translate-once="SIDEPANEL/EPISODES/episodes/lbl"></strong>
-  <table class="table table-condensed light episodelist" style='margin-top:10px; background-color:transparent' ng-class="{'hover':getSetting('torrenting.enabled')}">
+  <table class="table table-condensed light episodelist" style='margin:10px 0 10px 0; background-color:transparent' ng-class="{'hover':getSetting('torrenting.enabled')}">
     <tbody ng-if="!season.episodes || season.episodes.length == 0">
       <tr>
         <td translate-once="SIDEPANEL/EPISODES/fetching-episodes/lbl"></td>
@@ -36,13 +36,13 @@
       </tr>
     </tbody>
   </table>
-  <div ng-show="getSetting('download.ratings')">
-      <h2 style='border-bottom:1px solid white; padding:5px; margin-top:12px !important' translate-once="SIDEPANEL/EPISODES/episode-ratings/hdr"></h2>
-      <div class="chart">
-        <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%', backgroundColor: 'rgba(255,255,255, 0.5)' }" ng-attr-tooltip="{{p.label}}" tooltip-append-to-body="true"></div>
-      </div>
+  <div ng-if="getSetting('download.ratings')">
+    <h2 style='border-bottom:1px solid white;padding:5px;margin-top:10px' translate-once="SIDEPANEL/EPISODES/episode-ratings/hdr"></h2>
+    <div class="chart">
+      <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%' }" ng-attr-tooltip="{{p.label}}" tooltip-append-to-body="true" tooltip-popup-delay="75"></div>
+    </div>
   </div>
-  <table class="buttons" width="100%" border="0">
+  <table class="buttons" width="100%" border="0" style="margin-top:10px">
       <tr ng-show="getSetting('torrenting.enabled')">
         <td colspan="2">
             <a ng-click="season.autoDownloadAll()">

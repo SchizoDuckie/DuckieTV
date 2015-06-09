@@ -1183,16 +1183,20 @@ a:hover i.glyphicon-plus-sign {
     position: relative;
 }
 .chartLine {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    width:3px;
+    border: 1px solid rgba(0,0,0,0.2);
+    width: 3px;
     position: absolute;
-    bottom:0px;
-    color:white;
-    background-color:rgba(255, 255, 255, 0.05);
+    bottom: 0px;
+    color: white;
+    background-color: rgba(255,255,255,0.5);
+    transition: background-color 0.2s;
+}
+.chartLine:hover {
+    background-color: rgba(255,255,255,0.6);
 }
 [lazy-background] {
-    background-size:contain;
-    background-repeat:no-repeat;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 .btn-default {
     color: white;

@@ -1,10 +1,10 @@
 <div class="serie-overview" style="color:black">
-    <div class="serie-img" lazy-background="{{::sidepanel.serie.poster}}" tooltip="{{::sidepanel.serie.name}}" tooltip-placement="left" tooltip-append-to-body="true"></div>
+    <div class="serie-img" lazy-background="{{::sidepanel.serie.poster}}" tooltip="{{::sidepanel.serie.name}}" tooltip-placement="left"></div>
 
     <table class="metadata" width="100%" border="0" style="margin-top: 10px">
       <tbody>
         <tr>
-          <th translate-once="SIDEPANEL/SERIE-DETAILS/links/hdr'"></th>
+          <th translate-once="SIDEPANEL/SERIE-DETAILS/links/hdr"></th>
           <td><a style="text-decoration: underline" ng-href="http://www.google.com/search?q={{::sidepanel.serie.name}}+Wikipedia&btnI=745" target="_blank">Wikipedia</a> <a style="text-decoration: underline" ng-href="http://www.imdb.com/title/{{::sidepanel.serie.IMDB_ID}}" ng-hide="serie.IMDB_ID < 1" target="_blank">IMDB</a></td>
         </tr>
         <tr>
@@ -13,7 +13,7 @@
         </tr>
         <tr>
           <th translate-once="SIDEPANEL/SERIE-DETAILS/first-aired/hdr"></th>
-          <td>{{::sidepanel.serie.firstaired | date:'medium'}}</td>
+          <td>{{::sidepanel.serie.firstaired|date:'medium'}}</td>
         </tr>
         <tr>
           <th translate-once="SIDEPANEL/SERIE-DETAILS/genre/hdr"></th>
@@ -37,11 +37,11 @@
         </tr>
         <tr ng-show="getSetting('download.ratings')">
           <th translate-once="SIDEPANEL/SERIE-DETAILS/rating/hdr"></th>
-          <td>{{::sidepanel.serie.rating}}% ({{::sidepanel.serie.ratingcount}} <span  translate-once="SIDEPANEL/SERIE-DETAILS/votes/lbl"></span>)</td>
+          <td>{{::sidepanel.serie.rating}}% ({{::sidepanel.serie.ratingcount}} <span translate-once="SIDEPANEL/SERIE-DETAILS/votes/lbl"></span>)</td>
         </tr>
         <tr>
           <th translate-once="SIDEPANEL/SERIE-DETAILS/run-time/hdr"></th>
-          <td>{{::sidepanel.serie.runtime}} <span  translate-once="SIDEPANEL/SERIE-DETAILS/minutes/lbl"></span></td>
+          <td>{{::sidepanel.serie.runtime}} <span translate-once="SIDEPANEL/SERIE-DETAILS/minutes/lbl"></span></td>
         </tr>
         <tr>
           <th translate-once="SIDEPANEL/SERIE-DETAILS/status/hdr"></th>
