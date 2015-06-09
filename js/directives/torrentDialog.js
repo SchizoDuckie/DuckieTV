@@ -23,6 +23,14 @@ DuckieTV
             if (TVDB_ID !== undefined) {
                 $scope.TVDB_ID = TVDB_ID;
             }
+            // If query is empty, promt user to enter something
+            if (q == null || q == "" || q == undefined) {
+                console.warn("Query is empty!");
+                $scope.searching = false;
+                $scope.error = 'null';
+                $scope.items = null;
+                return;
+            }
 
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' ')).then(function(results) {
                     $scope.items = results;
