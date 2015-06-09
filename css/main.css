@@ -357,10 +357,6 @@ serieheader[mode='poster'] {
 serieheader .poster {
     height: 240px;
     width: 160px;
-}
-serieheader .poster div {
-    height: 100%;
-    width: 100%;
     /* Standard size fits most posters however some are slightly smaller
      *  and need to be slightly stretched using 100% */
     background-size: 100% 100%;
@@ -372,10 +368,10 @@ serieheader .poster div {
  * support combinator selectors :( and we can't apply the background color
  * to the same element that has the opacity change, perhaps a better 
  * lazy-background method is required */
-serieheader .poster:hover {
+.series serieheader[mode='poster'] > div:hover {
     background-color: #e5e5e5;
 }
-serieheader .poster:hover div:not(.img-load-error) {
+.series serieheader[mode='poster'] > div:hover .poster:not(.img-load-error) {
     opacity: 0.95;
 }
 /* Mini Poster style for series-list */
