@@ -15,7 +15,7 @@
     </div>
 
     <!-- Repeated serie search results -->
-    <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results" data="serie" ng-mouseenter="traktSearch.setHoverSerie(serie)" no-overview="1" no-button="1" mode="{{serieslist.mode}}" ng-click="serieslist.selectSerie(serie)">
+    <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results" data="serie" ng-mouseenter="traktSearch.setHoverSerie(serie)" no-badge="1" no-overview="1" no-button="1" mode="{{serieslist.mode}}" ng-click="serieslist.selectSerie(serie)">
         <em class="earmark trailer" >
             <a ng-show="serie.trailer" href="{{serie.trailer}}" target="_blank" tooltip="{{'SERIESLIST/TRAKT-SEARCHING/watch-trailer/tooltip'|translate}}" tooltip-append-to-body="true" tooltip-placement="bottom" ng-mousedown="serieslist.selectTrailer(serie,true)" ng-mouseup="serieslist.selectTrailer(serie,false)"><i class="glyphicon glyphicon-facetime-video"></i></a>
             <a ng-show="!serie.trailer" href="https://www.youtube.com/results?search_query={{serie.name}}+official+trailer" target="_blank" tooltip="{{'SERIESLIST/TRAKT-SEARCHING/watch-trailer/tooltip'|translate}}" tooltip-append-to-body="true" tooltip-placement="bottom"  mousedown="serieslist.selectTrailer(serie,false)" ng-mouseup="serieslist.selectTrailer(serie,true)"><i class="glyphicon glyphicon-facetime-video"></i></a>

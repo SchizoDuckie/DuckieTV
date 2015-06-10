@@ -1,17 +1,18 @@
 <!-- serieHeader.html -->
 <div class="serieheader" tooltip="{{mode == 'poster' ? data.name : ''}}">
   <div class="imgcont">
-    <em ng-show="data.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{'SERIEHEADER/all-watched/tooltip'|translate}}">
-      <i class="glyphicon glyphicon-eye-open" style="color:green"></i>
-    </em>
-    <em ng-show="!data.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{data.notWatchedCount}} {{'SERIEHEADER/to-watch/tooltip'|translate}}">
-      <i class="glyphicon glyphicon-eye-close" ></i> {{data.notWatchedCount}}
-    </em>
-
-    <a ng-if="!noListButton" ui-sref="serie({id: data.ID_Serie})">
+    <div ng-show="!noBadge">
+      <em ng-show="data.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{'SERIEHEADER/all-watched/tooltip'|translate}}">
+        <i class="glyphicon glyphicon-eye-open" style="color:green"></i>
+      </em>
+      <em ng-show="!data.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{data.notWatchedCount}} {{'SERIEHEADER/to-watch/tooltip'|translate}}">
+        <i class="glyphicon glyphicon-eye-close" ></i> {{data.notWatchedCount}}
+      </em>
+    </div>
+    <a ng-show="!noListButton" ui-sref="serie({id: data.ID_Serie})">
       <div class="{{mode}}" lazy-background="{{mode == 'poster' ? data.poster : data.banner}}"></div>
     </a>
-     <a ng-if="noListButton">
+     <a ng-show="noListButton">
       <div class="{{mode}}" lazy-background="{{mode == 'poster' ? data.poster : data.banner}}"></div>
     </a>
   </div>

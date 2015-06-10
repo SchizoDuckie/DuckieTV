@@ -9,6 +9,7 @@ DuckieTV.directive('serieheader', ["FavoritesService",
             transclude: true,
             scope: {
                 'data': '=data',
+                'noBadge': "=noBadge",
                 'noListButton': "=noButton",
                 "noOverview": "=noOverview",
                 "noTitle": "=noTitle",
