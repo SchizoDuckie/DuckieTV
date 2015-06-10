@@ -4,8 +4,10 @@
   </h2>
 
   <div class='season' ng-repeat="season in seasons.seasons" style="display:inline-block;padding:10px;cursor:pointer" ui-sref="serie.season({season_id: season.ID_Season})">
-    <em class="glyphicon glyphicon-eye-open" ng-show="season.watched" tooltip="{{'SIDEPANEL/SEASONS/season-watched/tooltip'|translate}}"></em>
-    <p lazy-background="{{::season.poster}}" class="seasonposter"></p>
+    <p lazy-background="{{::season.poster}}" class="seasonposter">
+      <em ng-show="season.watched" class="badge badge-alert"><i class="glyphicon glyphicon-eye-open"></i></em>
+      <em ng-show="!season.watched && season.seasonnumber > 0" class="badge badge-alert"><i class="glyphicon glyphicon-eye-close"></i> {{season.notWatchedCount}}</em>
+    </p>
     <p style="text-align:center">
       <strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong>
     </p>

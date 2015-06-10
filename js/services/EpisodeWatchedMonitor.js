@@ -41,14 +41,17 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
      * every serie. reduce the boolean array into a single digit representing watched seasons for serie.
      * Return boolean that tells if number of seasons in the show matches watched season count.
      *
-     * @return boolean allSeasonsWatched
+     * @return {boolean allSeasonsWatched, integer notWatchedTotal}
      */
     function markSeasonsWatched(seasons) {
+        var notWatchedTotal = 0; // sum of all serie's seasons' notWatched episodes
         return $q.all(Object.keys(seasons).map(function(season) {
             return CRUD.FindOne('Season', {
                 ID_Season: season
             }).then(function(s) {
                 s.watched = seasons[season].notWatched === 0 ? 1 : 0;
+                s.notWatchedCount = seasons[season].notWatched;
+                notWatchedTotal = notWatchedTotal + seasons[season].notWatched;
                 //console.debug("Season watched? ", season, s.watched === 1);
                 s.Persist();
                 return s.watched === 1 ? true : false;
@@ -58,17 +61,18 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
                 return prev + (current === true ? 1 : 0);
             }, 0);
             var allSeasonsWatched = Object.keys(seasons).length == watchedSeasonCount;
-            return allSeasonsWatched;
+            return {'allSeasonsWatched': allSeasonsWatched, 'notWatchedTotal': notWatchedTotal};
         });
     }
 
     /**
      * Fetch serie from favoritesservice for performance and toggle watched flag.
      */
-    function markSerieWatched(ID_Serie, allSeasonsWatched) {
+    function markSerieWatched(ID_Serie, data) {
         var serie = FavoritesService.getByID_Serie(ID_Serie);
-        //console.debug("Serie watched? ", serie.name, serie.watched, allSeasonsWatched);
-        serie.watched = allSeasonsWatched === false ? 0 : 1;
+        //console.debug("Serie watched? ", serie.name, serie.watched, data.allSeasonsWatched, data.notWatchedTotal);
+        serie.watched = data.allSeasonsWatched === false ? 0 : 1;
+        serie.notWatchedCount = data.notWatchedTotal;
         serie.Persist();
     }
 

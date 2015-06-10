@@ -1,6 +1,7 @@
 <!-- serieHeader.html -->
 <div class="serieheader" tooltip="{{mode == 'poster' ? serie.name : ''}}">
-  <em ng-show="serie.watched" class="glyphicon glyphicon-eye-open"></em>
+  <em ng-show="serie.watched" class="badge badge-alert" style='position: absolute; top: 0px; right:0px; text-decoration: none !important;'><i class="glyphicon glyphicon-eye-open"></i></em>
+  <em ng-show="!serie.watched" class="badge badge-alert" style='position: absolute; top: 0px; right:0px; text-decoration: none !important;'><i class="glyphicon glyphicon-eye-close"></i> {{serie.notWatchedCount}}</em>
   <a ng-if="!noListButton" ui-sref="serie({id: serie.ID_Serie})">
     <div class="{{mode == 'poster' ? 'poster' : 'banner'}}" lazy-background="{{mode == 'poster' ? serie.poster : serie.banner}}"></div>
   </a>
