@@ -1,17 +1,13 @@
-<div class="seasons" style="text-align:center">
-  <h2 style='border-bottom: 1px solid white; padding:5px;'><h2cont translate-once="SIDEPANEL/SEASONS/seasons/hdr"></h2cont>
+<div class="seasons miniposter" style="text-align:center">
+  <h2 style='border-bottom: 1px solid white; padding:5px;margin-bottom:15px'><h2cont translate-once="SIDEPANEL/SEASONS/seasons/hdr"></h2cont>
     <small style='float:right' translate-once="SIDEPANEL/SEASONS/click-to-see/lbl"></small>
   </h2>
 
-  <div class='season' ng-repeat="season in seasons.seasons" style="display:inline-block;padding:10px;cursor:pointer" ui-sref="serie.season({season_id: season.ID_Season})">
-    <p lazy-background="{{::season.poster}}" class="seasonposter">
-      <em ng-show="season.watched" class="badge badge-alert"><i class="glyphicon glyphicon-eye-open"></i></em>
-      <em ng-show="!season.watched && season.seasonnumber > 0" class="badge badge-alert"><i class="glyphicon glyphicon-eye-close"></i> {{season.notWatchedCount}}</em>
-    </p>
+  <serieHeader ng-repeat="season in seasons.seasons" data="season" no-button="1" no-title="1" no-overview="1" mode="poster" ui-sref="serie.season({season_id: season.ID_Season})">
     <p style="text-align:center">
       <strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong>
     </p>
-  </div>
+  </serieHeader>
 </div>
 <div>
   <table class="buttons" width="100%" border="0">

@@ -282,6 +282,20 @@ serieheader > div {
     overflow: hidden;
 }
 
+serieheader .badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    border-radius: 6px;
+    z-index: 1;
+    background-color: rgb(68,68,68);
+    opacity: 0.9;
+    transition: opacity 0.2s ease-in-out;
+}
+serieheader:hover .badge {
+    opacity: 1;
+}
+
 serieheader[mode='search'] {
     display: block;
     width: calc(33% - 2px);
@@ -362,17 +376,18 @@ serieheader .poster {
     background-size: 100% 100%;
     background-position: center center;
     background-repeat: no-repeat;
+    transition: opacity 0.2s ease-in-out;
 }
 /* Ideally a :not(.img-load-error) here would be ideal however the class
  * is only applied to the actual div loading the poster and :not does not
  * support combinator selectors :( and we can't apply the background color
  * to the same element that has the opacity change, perhaps a better 
  * lazy-background method is required */
-.series serieheader[mode='poster'] > div:hover {
+.series serieheader[mode='poster'] .imgcont, .seasons serieheader[mode='poster'] .imgcont {
     background-color: #e5e5e5;
 }
-.series serieheader[mode='poster'] > div:hover .poster:not(.img-load-error) {
-    opacity: 0.95;
+.series serieheader[mode='poster'] .imgcont:hover .poster, .seasons serieheader[mode='poster'] .imgcont:hover .poster {
+    opacity: 0.95 !important;
 }
 /* Mini Poster style for series-list */
 .miniposter .poster {
@@ -1263,31 +1278,6 @@ calendar-event .progress-bar {
 calendar-event h2 {
     font-size: 24px;
 }
-.coverElement {
-    z-index: 199;
-    background-color: transparent;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-}
-.season p.seasonposter {
-    width: 150px;
-    height: 220px;
-}
- 
-.season em.glyphicon{
-    top: 0px;
-    right: 0px;
-    font-size: 35px;
-    width: 45px;
-    height: 35px;
-    padding: 1px 0px 1px 1px;
-    float:right;
-    color: rgba(255,255,255,0.9);
-    -webkit-filter: drop-shadow(2px 2px 2px rgba(5,5,5,0.9));
-}
 
 .alert {
     white-space: pre-wrap;
@@ -1633,6 +1623,12 @@ sidepanel .episodes .torrent-mini-remote-control-progress  span {
     color: black;
 }
 
+sidepanel .seasons serieheader {
+    display: inline-block;
+    padding: 0 10px 0 10px;
+    cursor: pointer;
+}
+
 .episodelist .episodecontainer .airdate, .episodelist.hover .episodecontainer:hover .torrentctrls {
     display: initial;
 }
@@ -1849,9 +1845,12 @@ sidepanel .leftpanel.torrents {
     height: 165px;
     width: 295px;
   }
-  sidepanel .rightpanel .season p.seasonposter {
-    width: 130px;
-    height: 200px;
+  sidepanel .rightpanel .seasons serieheader {
+    margin-bottom: 0;
+  }
+  sidepanel .rightpanel .seasons serieheader .poster {
+    width: 110px;
+    height: 165px;
     margin-bottom: 0;
   }
 }

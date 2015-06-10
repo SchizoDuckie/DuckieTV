@@ -1,14 +1,21 @@
 <!-- serieHeader.html -->
-<div class="serieheader" tooltip="{{mode == 'poster' ? serie.name : ''}}">
-  <em ng-show="serie.watched" class="badge badge-alert" style='position: absolute; top: 0px; right:0px; text-decoration: none !important;'><i class="glyphicon glyphicon-eye-open"></i></em>
-  <em ng-show="!serie.watched" class="badge badge-alert" style='position: absolute; top: 0px; right:0px; text-decoration: none !important;'><i class="glyphicon glyphicon-eye-close"></i> {{serie.notWatchedCount}}</em>
-  <a ng-if="!noListButton" ui-sref="serie({id: serie.ID_Serie})">
-    <div class="{{mode == 'poster' ? 'poster' : 'banner'}}" lazy-background="{{mode == 'poster' ? serie.poster : serie.banner}}"></div>
-  </a>
-   <a ng-if="noListButton">
-    <div class="{{mode == 'poster' ? 'poster' : 'banner'}}" lazy-background="{{mode == 'poster' ? serie.poster : serie.banner}}"></div>
-  </a>
-  <h3 ng-show="!noTitle">{{serie.name}}</h3>
-  <div ng-show="!noOverview" class='overview'><p>{{serie.overview}}</p></div>
+<div class="serieheader" tooltip="{{mode == 'poster' ? data.name : ''}}">
+  <div class="imgcont">
+    <em ng-show="data.watched" class="badge">
+      <i class="glyphicon glyphicon-eye-open" style="color:green"></i>
+    </em>
+    <em ng-show="!data.watched" class="badge">
+      <i class="glyphicon glyphicon-eye-close"></i> {{data.notWatchedCount}}
+    </em>
+
+    <a ng-if="!noListButton" ui-sref="serie({id: data.ID_Serie})">
+      <div class="{{mode}}" lazy-background="{{mode == 'poster' ? data.poster : data.banner}}"></div>
+    </a>
+     <a ng-if="noListButton">
+      <div class="{{mode}}" lazy-background="{{mode == 'poster' ? data.poster : data.banner}}"></div>
+    </a>
+  </div>
+  <h3 ng-show="!noTitle">{{data.name}}</h3>
+  <div ng-show="!noOverview" class='overview'><p>{{data.overview}}</p></div>
   <div ng-transclude></div>
 </div>

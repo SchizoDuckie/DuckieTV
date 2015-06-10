@@ -8,12 +8,11 @@ DuckieTV.directive('serieheader', ["FavoritesService",
             restrict: 'E',
             transclude: true,
             scope: {
-                'serie': '=data',
+                'data': '=data',
                 'noListButton': "=noButton",
                 "noOverview": "=noOverview",
                 "noTitle": "=noTitle",
-                "mode": "@",
-                "added": "=added"
+                "mode": "@"
             },
             templateUrl: "templates/serieHeader.html"
         };
