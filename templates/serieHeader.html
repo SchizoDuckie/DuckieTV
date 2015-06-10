@@ -2,10 +2,10 @@
 <div class="serieheader" tooltip="{{mode == 'poster' ? data.name : ''}}">
   <div class="imgcont">
     <em ng-show="data.watched" class="badge">
-      <i class="glyphicon glyphicon-eye-open" style="color:green"></i>
+      <i class="glyphicon glyphicon-eye-open" style="color:green" tooltip-append-to-body="true" tooltip="{{'SERIEHEADER/all-watched/tooltip'|translate}}"></i>
     </em>
     <em ng-show="!data.watched" class="badge">
-      <i class="glyphicon glyphicon-eye-close"></i> {{data.notWatchedCount}}
+      <i class="glyphicon glyphicon-eye-close" tooltip-append-to-body="true" tooltip="{{data.notWatchedCount}} {{'SERIEHEADER/to-watch/tooltip'|translate}}"></i> {{data.notWatchedCount}}
     </em>
 
     <a ng-if="!noListButton" ui-sref="serie({id: data.ID_Serie})">
