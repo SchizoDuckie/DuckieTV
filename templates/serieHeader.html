@@ -1,10 +1,10 @@
 <!-- serieHeader.html -->
 <div class="serieheader" tooltip="{{mode == 'poster' ? data.name : ''}}">
   <div class="imgcont">
-    <em ng-show="data.watched" class="badge" tooltip-append-to-body="true" tooltip="{{'SERIEHEADER/all-watched/tooltip'|translate}}">
+    <em ng-show="data.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{'SERIEHEADER/all-watched/tooltip'|translate}}">
       <i class="glyphicon glyphicon-eye-open" style="color:green"></i>
     </em>
-    <em ng-show="!data.watched" class="badge" tooltip-append-to-body="true" tooltip="{{data.notWatchedCount}} {{'SERIEHEADER/to-watch/tooltip'|translate}}">
+    <em ng-show="!data.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{data.notWatchedCount}} {{'SERIEHEADER/to-watch/tooltip'|translate}}">
       <i class="glyphicon glyphicon-eye-close" ></i> {{data.notWatchedCount}}
     </em>
 
