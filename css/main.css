@@ -1526,7 +1526,7 @@ sidepanel .buttons .two-face-torrent .auto-download {
     border-top-left-radius: 0;
     height: 57px;
     position: absolute;
-    right: 35px;
+    right: 20px;
 }
 /* Fix the tooltip positions */
 #ttd .tooltip {

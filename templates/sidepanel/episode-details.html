@@ -36,7 +36,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled') && sidepanel.episode.hasAired()">
+          <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled') && sidepanel.episode.hasAired()" style="position:relative">
             <div id="ttd"><torrent-dialog class="download" tvdbid='sidepanel.episode.TVDB_ID' q='sidepanel.getSearchString(sidepanel.serie, sidepanel.episode)'>
                 <strong style="padding-left:21px" translate-once="SIDEPANEL/EPISODE-DETAILS/find-torrent/btn"></strong>
             </torrent-dialog></div>
