@@ -5,7 +5,7 @@
       <h2>{{::sidepanel.serie.name}}{{::sidepanel.episode.getFormattedEpisode()?' - ':''}}{{::sidepanel.episode.getFormattedEpisode()}}</h2>
       <h3>{{::sidepanel.episode.episodename}}</h3>
       <p>{{::sidepanel.episode.firstaired | date: 'shortDate'}}</p>
-      <p style="text-align:justify">{{::sidepanel.episode.overview}}</p>
+      <p class="overview">{{::sidepanel.episode.overview}}</p>
 
       <table class="buttons" width="100%" border="0">
         <tr>

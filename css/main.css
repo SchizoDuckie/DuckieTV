@@ -1482,13 +1482,14 @@ sidepanel .leftpanel  h3 {
     font-size: 20px;
     letter-spacing: 0.5px;
 }
-sidepanel .leftpanel p {
+sidepanel .leftpanel .overview p {
     margin: 8px;
     color: rgb(208, 208, 208);
     font-size: 13px;
     overflow-y: auto;
     max-height: 200px;
     padding-right: 5px;
+    text-align: justify
 }
 sidepanel .episode a:hover {
     text-decoration: none;
