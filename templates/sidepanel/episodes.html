@@ -1,6 +1,6 @@
 <div class="episodes">
   <h2 style='color:white'>{{::season.getPageHeader(season.season)}}</h2>
-  <p>{{::season.season.overview}}</p>
+  <p style="text-align:justify">{{::season.season.overview}}</p>
   <strong translate-once="SIDEPANEL/EPISODES/episodes/lbl"></strong>
   <table class="table table-condensed light episodelist" style='margin:10px 0 10px 0; background-color:transparent' ng-class="{'hover':getSetting('torrenting.enabled')}">
     <tbody ng-if="!season.episodes || season.episodes.length == 0">
