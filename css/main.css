@@ -1590,6 +1590,16 @@ sidepanel  .serie-img {
     background-repeat: no-repeat;
     background-position: center center;
 }
+sidepanel .serie-img .badge {
+    position: relative;
+    top: 2px;
+    right: -6px;
+    border-radius: 6px;
+    z-index: 1;
+    background-color: rgb(68,68,68);
+    opacity: 0.9;
+    transition: opacity 0.2s ease-in-out;
+}
 sidepanel .metadata {
     color: white;
 }
