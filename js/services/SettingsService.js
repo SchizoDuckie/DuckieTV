@@ -149,7 +149,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'deluge.port': 8112,
                 'deluge.password': 'deluge',
                 'deluge.use_auth': false,
-                'subtitles.languages': []
+                'subtitles.languages': ['eng']
             },
             /**
              * Read a setting key and return either the stored value or the default

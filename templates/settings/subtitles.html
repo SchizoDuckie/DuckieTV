@@ -1,0 +1,19 @@
+ <div ng-controller="SubtitlesCtrl as vm">
+
+	<h2>Subtitles</h2>
+
+	<p>Choose what languages you want the subtitle search to look for</p>
+
+	<ul>
+		<ul class="list-unstyled" style='font-size:16px'>
+		  <li ng-repeat="(locale, name) in vm.languages" ng-click="vm.toggleSubtitle(locale)" class="list-unstyled" style="cursor:pointer; padding:5px;">
+	      <i class="glyphicon" ng-class="{'glyphicon-unchecked': !vm.isEnabled(locale), 'glyphicon-check': vm.isEnabled(locale) }" style="top:3px"></i>&nbsp;
+	      <i class="flag flag-{{ locale }}" style="-webkit-transform:scale(1.2)"></i> 
+	      {{name}}
+	    </li>
+
+
+	</ul>
+
+
+</div>
