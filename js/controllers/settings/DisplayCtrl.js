@@ -16,7 +16,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
             $scope.topSites = !$scope.topSites;
             SettingsService.set('topSites.enabled', $scope.topSites);
         };
-        
+
         $scope.toggleTopSitesMode = function() {
             $scope.topSitesMode = $scope.topSitesMode == "onhover" ? "onclick" : "onhover";
             SettingsService.set('topSites.mode', $scope.topSitesMode);
@@ -71,6 +71,7 @@ DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "SettingsService",
         $scope.setLocale = function(lang) {
             SettingsService.changeLanguage(lang);
             $scope.activeLocale = lang;
+            window.location.reload();
         };
     }
 ])
