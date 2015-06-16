@@ -4,12 +4,19 @@
 
 	<p>Choose what languages you want the subtitle search to look for</p>
 
+	<hr>
+	<p><strong ng-if="vm.enabledLanguages != ''">Selected:</strong><br> {{vm.enabledLanguages}}<br>
+	
+	<strong ng-if="vm.enabledLanguages == ''">No filter set. All languages will be shown.</strong>
+	</p>
+	<a ng-if="vm.enabledLanguages != ''" ng-click="vm.selectNone()" style="text-align:right;display:block;">Clear selection</a>
+	<hr>
 	<ul>
 		<ul class="list-unstyled" style='font-size:16px'>
-		  <li ng-repeat="(locale, name) in vm.languages" ng-click="vm.toggleSubtitle(locale)" class="list-unstyled" style="cursor:pointer; padding:5px;">
-	      <i class="glyphicon" ng-class="{'glyphicon-unchecked': !vm.isEnabled(locale), 'glyphicon-check': vm.isEnabled(locale) }" style="top:3px"></i>&nbsp;
-	      <i class="flag flag-{{ locale }}" style="-webkit-transform:scale(1.2)"></i> 
-	      {{name}}
+		  <li ng-repeat="(locale, name) in vm.languages " ng-click="vm.toggleSubtitle(locale)" class="list-unstyled" style="cursor:pointer; padding:2px;">
+	      <i class="glyphicon" ng-class="{'glyphicon-unchecked': !vm.isEnabled(locale), 'glyphicon-check': vm.isEnabled(locale) }" style="font-size:25px" ></i>&nbsp;
+	      <i class="flag flag-{{ vm.getShortCode(locale) }}"></i> 
+	      <span style='line-height:25px; position:relative; top:-5px;'>{{name}}</span>
 	    </li>
 
 

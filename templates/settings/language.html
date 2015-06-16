@@ -10,14 +10,15 @@
 
   <ul class="list-unstyled" style='font-size:16px'>
     <li ng-click="setLocale(getSetting('client.determinedlocale'))" class="list-unstyled" style="cursor:pointer; padding:5px;">
-      <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != getSetting('client.determinedlocale'), 'glyphicon-record': activeLocale == getSetting('client.determinedlocale')}"></i>&nbsp;
-      <i class="flag flag-{{ getSetting('client.determinedlocale') }}" style="-webkit-transform:scale(1.2)"></i> 
-      {{getSetting('client.determinedlocale')}} <span translate-once="SETTINGS/DISPLAY/locale-default/lbl"></span>
+      <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != getSetting('client.determinedlocale'), 'glyphicon-record': activeLocale == getSetting('client.determinedlocale')}" style='font-size:24px;'></i>&nbsp;
+      <i class="flag flag-{{ getSetting('client.determinedlocale') }}"></i> 
+      <span translate-once="SETTINGS/DISPLAY/locale-default/lbl"style="position: relative; display:inline-block;top:-3px;"></span>
+      <span style='display:inline-block; position: relative; top: -3px;'> ({{getSetting('client.determinedlocale')}})</span>
     </li>
     <li ng-repeat="(locale, name) in languageList" ng-click="setLocale(locale)" class="list-unstyled" style="cursor:pointer; padding:5px;">
-      <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != locale, 'glyphicon-record': activeLocale == locale}" style="top:3px"></i>&nbsp;
-      <i class="flag flag-{{ locale }}" style="-webkit-transform:scale(1.2)"></i> 
-      {{'SETTINGS/DISPLAY/locale/'+name|translate}}
+      <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != locale, 'glyphicon-record': activeLocale == locale}" style="font-size:24px;"></i>&nbsp;
+      <i class="flag flag-{{ locale }}" style="margin-right:3px;"></i> 
+      <span style='display-inline-block; top: -5px; position: relative;'>{{'SETTINGS/DISPLAY/locale/'+name|translate}}</span>
     </li>
   </ul>
 

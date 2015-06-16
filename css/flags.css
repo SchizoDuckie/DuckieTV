@@ -1,27 +1,61 @@
 /** generate on flag-sprites.com */
 .flag {
-	width: 16px;
-	height: 11px;
+	width: 32px;
+	height: 27px;
 	background:url(../img/flags.png) no-repeat;
 	display: inline-block;
 }
 
-.flag.flag-de_de {background-position: 0 -11px}
-.flag.flag-en_au {background-position: -16px 0}
-.flag.flag-en_ca {background-position: -48px 0}
-.flag.flag-en_nz {background-position: -48px -22px}
-.flag.flag-en_uk {background-position: -48px -11px}
-.flag.flag-en_us {background-position: -48px -33px}
-.flag.flag-es_es {background-position: -16px -11px}
-.flag.flag-fr_ca {background-position: -48px 0}
-.flag.flag-fr_fr {background-position: -32px -11px}
-.flag.flag-it_it {background-position: -64px -11px}
-.flag.flag-ja_jp {background-position: 0 -22px}
-.flag.flag-ko_kr {background-position: -16px -22px}
-.flag.flag-nl_nl {background-position: -32px -22px}
-.flag.flag-pt_br {background-position: -32px 0}
-.flag.flag-pt_pt {background-position: -64px -22px}
-.flag.flag-ru_ru {background-position: 0 -33px}
-.flag.flag-sl_si {background-position: -32px -33px}
-.flag.flag-sv_se {background-position: -16px -33px}
-.flag.flag-zh_cn {background-position: -64px 0}
+
+
+.flag.flag-al {background-position: -32px 0}
+.flag.flag-ar {background-position: -64px 0}
+.flag.flag-au, .flag.flag-en_au {background-position: -96px 0}
+.flag.flag-bg {background-position: -128px 0}
+.flag.flag-br, .flag.flag-pt_br {background-position: -160px 0}
+.flag.flag-ca, .flag.flag-en_ca, .flag.flag-fr_ca {background-position: -192px 0}
+.flag.flag-cn, .flag.flag-zh_cn {background-position: -224px 0}
+.flag.flag-cz {background-position: 0 -32px}
+.flag.flag-de, .flag.flag-de_de {background-position: -32px -32px}
+.flag.flag-dk {background-position: -64px -32px}
+.flag.flag-es, .flag.flag-es_es {background-position: -96px -32px}
+.flag.flag-et {background-position: -128px -32px}
+.flag.flag-fi {background-position: -160px -32px}
+.flag.flag-fr, .flag.flag-fr_fr  {background-position: -192px -32px}
+.flag.flag-gb, .flag.flag-en_uk {background-position: -224px -32px}
+.flag.flag-ge {background-position: 0 -64px}
+.flag.flag-gl {background-position: -32px -64px}
+.flag.flag-gr {background-position: -64px -64px}
+.flag.flag-hr {background-position: -96px -64px}
+.flag.flag-hu {background-position: -128px -64px}
+.flag.flag-il {background-position: -160px -64px}
+.flag.flag-in {background-position: -192px -64px}
+.flag.flag-ir {background-position: -224px -64px}
+.flag.flag-is {background-position: 0 -96px}
+.flag.flag-it, .flag.flag-it_it {background-position: -32px -96px}
+.flag.flag-jp, .flag.flag-ja_jp  {background-position: -64px -96px}
+.flag.flag-km {background-position: -96px -96px}
+.flag.flag-kr, .flag.flag-ko_kr {background-position: -128px -96px}
+.flag.flag-lk {background-position: -160px -96px}
+.flag.flag-mk {background-position: -192px -96px}
+.flag.flag-ms {background-position: -224px -96px}
+.flag.flag-nl, .flag.flag-nl_nl  {background-position: 0 -128px}
+.flag.flag-no {background-position: -32px -128px}
+.flag.flag-nz, .flag.flag-en_nz {background-position: -64px -128px}
+.flag.flag-pl {background-position: -96px -128px}
+.flag.flag-pt, .flag.flag-pt_pt {background-position: -128px -128px}
+.flag.flag-ro {background-position: -160px -128px}
+.flag.flag-ru , .flag.flag-ru_ru {background-position: -192px -128px}
+.flag.flag-se {background-position: -224px -128px}
+.flag.flag-si {background-position: 0 -160px}
+.flag.flag-sk {background-position: -32px -160px}
+.flag.flag-sl, .flag.flag-sl_si {background-position: -64px -160px}
+.flag.flag-sr {background-position: -96px -160px}
+.flag.flag-sv, .flag.flag-sv_se {background-position: -128px -160px}
+.flag.flag-th {background-position: -160px -160px}
+.flag.flag-tl {background-position: -192px -160px}
+.flag.flag-tr {background-position: -224px -160px}
+.flag.flag-ua {background-position: 0 -192px}
+.flag.flag-us, .flag.flag-en_us {background-position: -32px -192px}
+.flag.flag-vi {background-position: -64px -192px}
+.flag.flag-vn {background-position: -96px -192px}

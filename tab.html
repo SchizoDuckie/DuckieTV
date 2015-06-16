@@ -59,7 +59,7 @@
         <li ng-if="getSetting('torrenting.enabled')">
           <a id="actionbar_torrent" ui-sref="torrent" ui-sref-active="active" ng-click="actionbar.showSidePanel();" class="glyphicon {{actionbar.getTorrentClientClass()}}" tooltip="Torrent client {{actionbar.getTorrentClientTooltip()}}" tooltip-placement="right" ng-class="{ connected: actionbar.isTorrentClientConnected(), connecting: actionbar.isTorrentClientConnecting(), offline: !actionbar.isTorrentClientConnected() }"></a>
         </li>
-        <li>
+        <li style='position: absolute; bottom:0px;'>
           <a id="actionbar_about" ui-sref="about" ui-sref-active="active" class="glyphicon glyphicon-info-sign" tooltip="{{ 'TAB/about/glyph'|translate }}" tooltip-placement="right"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
