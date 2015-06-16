@@ -53,8 +53,8 @@
         <li style='display:none' id='wl'>
           <a id="actionbar_watchlist" ui-sref="watchlist" ui-sref-active="active" class="glyphicon glyphicon-facetime-video" tooltip="{{ 'TAB/watchlist/glyph'|translate }}" tooltip-placement="right"></a>
         </li>
-        <li>
-          <a id="actionbar_settings" ui-sref="settings" ng-click="actionbar.showSidePanel();" class="glyphicon glyphicon-cog" tooltip="{{ 'TAB/settings/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
+        <li  style="position: absolute; bottom: 58px;" >
+          <a id="actionbar_settings"ui-sref="settings" ng-click="actionbar.showSidePanel();" class="glyphicon glyphicon-cog" tooltip="{{ 'TAB/settings/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
           <a id="actionbar_torrent" ui-sref="torrent" ui-sref-active="active" ng-click="actionbar.showSidePanel();" class="glyphicon {{actionbar.getTorrentClientClass()}}" tooltip="Torrent client {{actionbar.getTorrentClientTooltip()}}" tooltip-placement="right" ng-class="{ connected: actionbar.isTorrentClientConnected(), connecting: actionbar.isTorrentClientConnecting(), offline: !actionbar.isTorrentClientConnected() }"></a>
