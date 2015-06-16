@@ -47,7 +47,6 @@ DuckieTV.factory('OpenSubtitles', ["xmlrpc", "SettingsService",
         };
 
         var languages = {
-            'all': 'all',
             'alb': 'Albanian',
             'ara': 'Arabic',
             'baq': 'Basque',
@@ -56,8 +55,8 @@ DuckieTV.factory('OpenSubtitles', ["xmlrpc", "SettingsService",
             'chi': 'Chinese (simplified)',
             'cze': 'Czech',
             'dan': 'Danish',
-            'nl': 'Dutch',
-            'en': 'English',
+            'dut': 'Dutch',
+            'eng': 'English',
             'epo': 'Esperanto',
             'est': 'Estonian',
             'fin': 'Finnish',
