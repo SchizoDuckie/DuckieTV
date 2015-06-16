@@ -103,7 +103,7 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
     }
 
     function processSerie(ID_Serie) {
-        console.debug("Re counting! ", ID_Serie);
+        //console.debug("Re counting! ", ID_Serie);
         var query = "select ID_Season, watched, count(watched) as amount from Episodes where ID_Serie = ? AND seasonnumber > 0 AND firstaired <= ? AND firstaired > 0 GROUP BY ID_Season, watched";
         CRUD.EntityManager.getAdapter().db.execute(query, [ID_Serie, new Date().getTime()])
             .then(parseEpisodeCounts)
