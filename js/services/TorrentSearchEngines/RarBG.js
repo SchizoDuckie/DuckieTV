@@ -7,7 +7,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
 
         var activeSearchRequest = false,
             activeTokenRequest = false,
-            endpoint = 'https://torrentapi.org/pubapi.php?';
+            endpoint = 'https://torrentapi.org/pubapi_v2.php?app_id=DuckieTV&';
 
         var endpoints = {
             search: 'token=%s&mode=search&search_string=%s&sort=seeders&limit=25&format=json_extended',
@@ -22,19 +22,17 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         var parsers = {
             search: function(result) {
                 var output = [];
-                if (result.data == "Too many requests per minute. Please try again later!") {
-                    throw result.data;
+                if (result.data.error) {
+                    throw result.data.error;
                 }
-                if (result.data == "No results found") {
-                    return [];
-                }
-                result.data.map(function(hit) {
+                result.data.torrent_results.map(function(hit) {
                     var out = {
-                        magneturl: hit.d,
-                        releasename: hit.f,
-                        size: Math.round(((hit.t / 1024 / 1024) + 0.00001) * 100) / 100 + " MB",
-                        seeders: hit.s,
-                        leechers: hit.l
+                        magneturl: hit.download,
+                        releasename: hit.title,
+                        size: Math.round(((hit.size / 1024 / 1024) + 0.00001) * 100) / 100 + " MB",
+                        seeders: hit.seeders,
+                        leechers: hit.leechers,
+                        detailUrl: hit.info_pagev
                     };
 
                     var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
@@ -50,7 +48,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                 return result.data;
             }
 
-        }
+        };
 
         /** 
          * Promise requests with batchmode toggle to auto-kill a previous request when running.
@@ -69,21 +67,21 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                 console.error("RarBG Search Error!", err);
                 throw "Error " + err.status + ":" + err.statusText;
             });
-        }
+        };
 
         getToken = function() {
             if (!activeTokenRequest && !service.activeToken) {
                 activeTokenRequest = promiseRequest('token').then(function(token) {
-                    service.activeToken = token;
-                    return token;
+                    service.activeToken = token.token;
+                    return token.token;
                 });
             } else if (service.activeToken) {
                 return $q(function(resolve) {
-                    return resolve(service.activeToken)
+                    return resolve(service.activeToken);
                 });
             }
             return activeTokenRequest;
-        }
+        };
 
         var service = {
             activeToken: null,
@@ -96,7 +94,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                         activeSearchRequest = false;
                         return results;
                     });
-                })
+                });
             },
             cancelSearch: function() {
                 if (activeSearchRequest && activeSearchRequest.resolve) {
@@ -104,7 +102,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                     activeSearchRequest = false;
                 }
             }
-        }
+        };
         return service;
     }
 ])
@@ -113,4 +111,4 @@ DuckieTV.factory('RarBG', ["$q", "$http",
     function(TorrentSearchEngines, RarBG) {
         TorrentSearchEngines.registerSearchEngine('RarBG', RarBG);
     }
-])
+]);
