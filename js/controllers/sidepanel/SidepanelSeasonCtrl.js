@@ -49,7 +49,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
             };
             return true;
         })).then(function() {
-            $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
+            $rootScope.$broadcast('serie:recount:watched', serie);
         });
     };
 

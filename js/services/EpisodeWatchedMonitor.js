@@ -61,7 +61,10 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
                 return prev + (current === true ? 1 : 0);
             }, 0);
             var allSeasonsWatched = Object.keys(seasons).length == watchedSeasonCount;
-            return {'allSeasonsWatched': allSeasonsWatched, 'notWatchedTotal': notWatchedTotal};
+            return {
+                'allSeasonsWatched': allSeasonsWatched,
+                'notWatchedTotal': notWatchedTotal
+            };
         });
     }
 
@@ -82,10 +85,12 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
      */
     function processQueue() {
         if (CRUD.stats.writesExecuted == CRUD.stats.writesQueued) {
-            var ID_Serie = Object.keys(queue)[0];
-            if (ID_Serie !== undefined) {
-                delete queue[ID_Serie];
-                processSerie(ID_Serie);
+            if (Object.keys(queue).length > 0) {
+                var ID_Serie = Object.keys(queue)[0];
+                if (ID_Serie !== undefined) {
+                    delete queue[ID_Serie];
+                    processSerie(ID_Serie);
+                }
             }
         }
         if (queueTimer !== null) {
@@ -98,13 +103,13 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
     }
 
     function processSerie(ID_Serie) {
-        //console.debug("Re counting! ", ID_Serie);
+        console.debug("Re counting! ", ID_Serie);
         var query = "select ID_Season, watched, count(watched) as amount from Episodes where ID_Serie = ? AND seasonnumber > 0 AND firstaired <= ? AND firstaired > 0 GROUP BY ID_Season, watched";
         CRUD.EntityManager.getAdapter().db.execute(query, [ID_Serie, new Date().getTime()])
             .then(parseEpisodeCounts)
             .then(markSeasonsWatched)
             .then(function(result) {
-                markSerieWatched(ID_Serie, result)
+                markSerieWatched(ID_Serie, result);
             });
     }
 
@@ -116,10 +121,10 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
             }
             processQueue();
         }
-    }
+    };
 
 
-})
+});
 
 
 DuckieTV.run(function($rootScope, FavoritesService, watchedCounter) {
@@ -152,4 +157,4 @@ DuckieTV.run(function($rootScope, FavoritesService, watchedCounter) {
         });
     });
 
-})
+});
