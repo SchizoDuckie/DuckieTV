@@ -53,10 +53,11 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
 ])
 
 
-.factory('TixatiAPI', ['BaseHTTPApi',
-    function(BaseHTTPApi) {
+.factory('TixatiAPI', ['BaseHTTPApi', '$http', '$q',
+    function(BaseHTTPApi, $http, $q) {
 
         var TixatiAPI = function() {
+            this.infohashCache = {};
             BaseHTTPApi.call(this);
         };
         TixatiAPI.extends(BaseHTTPApi, {
@@ -83,7 +84,8 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             },
 
             getTorrents: function() {
-                return this.request('torrents', {}).then(function(data) {
+                var self = this;
+                return this.request('torrents', {}).then(function(result) {
                     var scraper = new HTMLScraper(result.data);
 
                     var torrents = [];
@@ -102,12 +104,12 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                             eta: tds[8].innerText,
                             guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1]
                         });
-                        if ((torrent.guid in infohashCache)) {
-                            torrent.hash = infohashCache[torrent.guid];
+                        if ((torrent.guid in self.infohashCache)) {
+                            torrent.hash = self.infohashCache[torrent.guid];
                             torrents.push(torrent);
                         } else {
-                            service.getInfoHash(torrent.guid).then(function(result) {
-                                torrent.hash = infohashCache[torrent.guid] = result;
+                            self.getInfoHash(torrent.guid).then(function(result) {
+                                torrent.hash = self.infohashCache[torrent.guid] = result;
                                 torrents.push(torrent);
                             });
                         }
@@ -159,6 +161,50 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 });
             },
 
+            addTorrentByUpload: function(data, filename) {
+
+                var self = this,
+                    fd = new FormData();
+
+                fd.append('metafile', data, filename + '.torrent');
+                fd.append('addmetafile', 'Add');
+
+                return $http.post(this.getUrl('addmagnet'), fd, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                }).then(function(result) {
+                    var currentTry = 0;
+                    var maxTries = 5;
+                    // wait for qBittorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
+                    return $q(function(resolve, reject) {
+                        function verifyAdded() {
+                            currentTry++;
+                            self.getTorrents().then(function(result) {
+                                var hash = null;
+                                result.map(function(torrent) {
+                                    if (torrent.name == filename) {
+                                        hash = torrent.hash.toUpperCase();
+                                    }
+                                });
+                                if (hash !== null) {
+                                    resolve(hash);
+                                } else {
+                                    if (currentTry < maxTries) {
+                                        setTimeout(verifyAdded, 1000);
+                                    } else {
+                                        throw "No hash foudn for torrent " + filename + " in 5 tries.";
+                                    }
+                                }
+                            });
+                        }
+                        setTimeout(verifyAdded, 1000);
+                    });
+
+                });
+            },
+
             execute: function(guid, formData) {
                 return $http.post(this.getUrl('torrentcontrol', guid), formData, {
                     transformRequest: angular.identity,
@@ -202,7 +248,6 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             addmagnet: '/transfers/action',
             files: '/transfers/%s/files'
         });
-        service.infohashCache = {};
         service.readConfig();
 
         return service;

@@ -65,7 +65,9 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
     function($q, $http, URLBuilder, $parse, SettingsService) {
 
         var BaseTorrentClient = function() {
-            this.config = {};
+            this.config = {
+                uses_custom_auth_method: false
+            };
 
             this.configMappings = {
                 server: null,
