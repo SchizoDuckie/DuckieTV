@@ -2,6 +2,8 @@
 <div class="leftpanel torrents">
 	<div style=''>
 		<h2>DuckieTorrent {{::getTorrentClientName()}} <span translate-once="TORRENTCLIENT/hdr"></span></h2>
+		<a href="#settings/torrent" style="text-align:right; display:block; padding:5px;"> <i class="glyphicon glyphicon-cog"></i> Choose a Torrent Client</a>
+		<a href="#settings/{{getTorrentClientName().toLowerCase()}}" style="text-align:right; display:block; padding:5px;"> <i class="glyphicon glyphicon-cog"></i> {{getTorrentClientName()}} Settings</a>
 		<div class="alert alert-info" ng-if="getTorrentClientName()  == 'uTorrent'"><button class='btn btn-small btn-warning' style='float:right' ng-click='removeToken()' translate-once="TORRENTCLIENT/clear-authority/btn"></button><strong><span translate-once="TORRENTCLIENT/desc/p1"></span><a style="color: #428bca" href='http://www.utorrent.com/downloads/complete/os/win/track/alpha'>v3.4.1+</a><span translate-once="TORRENTCLIENT/desc/p2"></span></strong><span translate-once="TORRENTCLIENT/desc/p3"></span></div>
 		<div ng-show="!rpc" style='padding:40px; text-align;center'>
 			<img ng-src="img/torrentclients/{{getTorrentClientName().toLowerCase().replace(' 3.2+','').replace(' web ui','')}}.png" class="spin" style="width: 100%; height: 100%">

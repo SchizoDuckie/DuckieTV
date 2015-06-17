@@ -1,6 +1,7 @@
 <!-- torrentDialog.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
 <h1 translate-once="TORRENTDIALOG/hdr"></h1>
+<a href="#settings/torrent-search" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> Torrent Search Settings</a>
 <input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="TORRENTDIALOG/placeholder">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
 <div class="btn-group" style='margin:0 auto; padding:10px;'>
