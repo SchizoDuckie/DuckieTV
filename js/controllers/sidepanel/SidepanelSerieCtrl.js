@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $filter, $locale, FavoritesService, $location, serie, latestSeason, SidePanelState, TraktTVv2) {
+DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $filter, $locale, FavoritesService, $location, $q, serie, latestSeason, SidePanelState, TraktTVv2) {
 
     var sidepanel = this;
 
@@ -7,6 +7,22 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $filter,
 
     this.refresh = function(serie) {
         $rootScope.$broadcast('serie:updating', serie);
+    };
+
+
+    this.markAllWatched = function(serie) {
+        serie.getEpisodes().then(function(episodes) {
+            $q.all(episodes.map(function(episode) {
+                if ((episode.hasAired()) && (!episode.isWatched())) {
+                    return episode.markWatched().then(function() {
+                        return true;
+                    });
+                }
+                return true;
+            })).then(function() {
+                $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
+            });
+        });
     };
 
     $rootScope.$on('serie:updating', function(event, serie) {

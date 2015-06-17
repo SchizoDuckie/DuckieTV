@@ -20,10 +20,10 @@
 <script type="text/ng-template" id="serieHeaderTitleTooltip.html">
   <strong>{{mode == 'poster' ? data.name : ''}}</strong><br>
   <div ng-show="!noBadge">
-    <div ng-show="data.watched">
+    <div ng-show="data.notWatchedCount == 0 ">
       ({{'SERIEHEADER/all-watched/tooltip'|translate}})
     </div>
-    <div ng-show="!data.watched">
+    <div ng-show="data.notWatchedCount != 0">
       ({{data.notWatchedCount}} {{'SERIEHEADER/to-watch/tooltip'|translate}})
     </div>
   </div>
