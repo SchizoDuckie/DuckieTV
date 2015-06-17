@@ -1,15 +1,15 @@
  <div ng-controller="SubtitlesCtrl as vm">
 
-	<h2>Subtitles</h2>
+	<h2 translate-once="SETTINGS/SUBTITLES/hdr"></h2>
 
-	<p>Choose what languages you want the subtitle search to look for</p>
+	<p translate-once="SETTINGS/SUBTITLES/desc"></p>
 
 	<hr>
-	<p><strong ng-if="vm.enabledLanguages != ''">Selected:</strong><br> {{vm.enabledLanguages}}<br>
+	<p><strong ng-if="vm.enabledLanguages != ''" translate-once="SETTINGS/SUBTITLES/selected/lbl"></strong><br> {{vm.enabledLanguages}}<br>
 	
-	<strong ng-if="vm.enabledLanguages == ''">No filter set. All languages will be shown.</strong>
+	<strong ng-if="vm.enabledLanguages == ''" translate-once="SETTINGS/SUBTITLES/selected-none/lbl"></strong>
 	</p>
-	<a ng-if="vm.enabledLanguages != ''" ng-click="vm.selectNone()" style="text-align:right;display:block;">Clear selection</a>
+	<a ng-if="vm.enabledLanguages != ''" ng-click="vm.selectNone()" style="text-align:right;display:block;" translate-once="SETTINGS/SUBTITLES/clear-selection/lbl"></a>
 	<hr>
 	<ul>
 		<ul class="list-unstyled" style='font-size:16px'>
