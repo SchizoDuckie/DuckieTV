@@ -10,6 +10,7 @@ DuckieTV.controller('TorrentCtrl', ["$scope", "$rootScope", "DuckieTorrent", "$q
         //uTorrent.setPort(localStorage.getItem('utorrent.port'));
         $scope.rpc = null;
         $scope.polling = false;
+        $scope.status = 'Connecting';
 
         $scope.removeToken = function() {
             localStorage.removeItem("utorrent.token");
@@ -33,11 +34,27 @@ DuckieTV.controller('TorrentCtrl', ["$scope", "$rootScope", "DuckieTorrent", "$q
                     return file;
                 });
             });
-
         };
 
-        DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
-            $scope.rpc = rpc;
-        });
+        var autoConnectPoll = function() {
+            $scope.status = 'Connecting...';
+            $scope.$applyAsync();
+            DuckieTorrent.getClient().offline = false;
+            DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
+                $scope.status = 'Connected';
+                $scope.rpc = rpc;
+                $scope.$applyAsync();
+            }, function(err) {
+                setTimeout(function() {
+                    $scope.status = 'Unable to connect. retrying in 5 seconds.';
+                    $scope.$applyAsync();
+                }, 1000);
+                $scope.$applyAsync();
+                console.error("Could not connect, retrying in 5 seconds.", err);
+                setTimeout(autoConnectPoll, 5000);
+            });
+        };
+
+        autoConnectPoll();
     }
 ]);

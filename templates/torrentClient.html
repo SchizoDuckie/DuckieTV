@@ -8,6 +8,8 @@
 
 			<h2><span translate-once="TORRENTCLIENT/connecting/hdr"></span> {{::getTorrentClientName()}}</h2>
 			<strong style=' display:block; text-align:center;' translate-once="TORRENTCLIENT/please-wait/lbl"></strong>
+
+			{{status}}
 		</div>
 		<h4 ng-if="rpc"><span translate-once="TORRENTCLIENT/torrents-found/hdr"></span>{{rpc.getTorrents().length}}</h4>
 	</div>
