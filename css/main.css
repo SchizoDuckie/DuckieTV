@@ -188,7 +188,9 @@ background-rotator, background-rotator > div {
     list-style-type:none;
     margin-top: 50px;
 }
+
 #actionbar a {
+    height: 58px;
     padding: 18px;
     font-size: 2.2rem;
     color: white;
