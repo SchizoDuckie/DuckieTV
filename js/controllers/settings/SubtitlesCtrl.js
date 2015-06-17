@@ -29,7 +29,7 @@ DuckieTV.controller('SubtitlesCtrl', ['OpenSubtitles', 'SettingsService',
         };
 
         this.toggleSubtitle = function(language) {
-            console.log('togglesubtitle', language);
+            //console.debug('togglesubtitle', language);
             if (this.enabled.indexOf(language) === -1) {
                 this.enabled.push(language);
             } else {
