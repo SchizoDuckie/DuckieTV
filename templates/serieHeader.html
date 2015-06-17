@@ -1,5 +1,5 @@
 <!-- serieHeader.html -->
-<div class="serieheader" tooltip-html-unsafe="<strong>{{mode == 'poster' ? data.name : ''}}</strong> <br> ({{data.notWatchedCount}} {{'SERIEHEADER/to-watch/tooltip'|translate}})">
+<div class="serieheader" tooltip-template="'serieHeaderTitleTooltip.html'">
   <div class="imgcont">
     <div ng-show="!noBadge">
       <em ng-show="data.notWatchedCount != 0 " class="badge">
@@ -17,3 +17,14 @@
   <div ng-show="!noOverview" class='overview'><p>{{data.overview}}</p></div>
   <div ng-transclude></div>
 </div>
+<script type="text/ng-template" id="serieHeaderTitleTooltip.html">
+  <strong>{{mode == 'poster' ? data.name : ''}}</strong><br>
+  <div ng-show="!noBadge">
+    <div ng-show="data.watched">
+      ({{'SERIEHEADER/all-watched/tooltip'|translate}})
+    </div>
+    <div ng-show="!data.watched">
+      ({{data.notWatchedCount}} {{'SERIEHEADER/to-watch/tooltip'|translate}})
+    </div>
+  </div>
+</script>
