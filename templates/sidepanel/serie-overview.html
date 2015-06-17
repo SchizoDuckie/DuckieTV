@@ -30,6 +30,13 @@
           </a>
       </td>
     </tr>
+     <tr>
+        <td colspan="2">
+           <a ng-click="sidepanel.markAllWatched(sidepanel.serie)">
+              <i class="glyphicon glyphicon-eye-open"></i><strong translate-once="SIDEPANEL/EPISODES/mark-all-watched/lbl"></strong>
+            </a>
+        </td>
+      </tr>
       <tr>
         <td colspan="2">
           <a ng-click="sidepanel.refresh(sidepanel.serie)">
@@ -37,7 +44,7 @@
             <i ng-show="sidepanel.isAdding(sidepanel.serie.TVDB_ID)"><loading-spinner style="width: 25px; height: 25px; left: 0px; top: 0px; position: relative; float: left;"></loading-spinner></i>
             <strong translate-once="SIDEPANEL/SERIE-OVERVIEW/refresh/lbl"></strong>
           </a>
-        </th>
+        </td>
       </tr>
       <tr>
         <td colspan="2">
@@ -57,15 +64,9 @@
             <i class="glyphicon glyphicon-trash"></i>
             <strong translate-once="SIDEPANEL/SERIE-OVERVIEW/delete-serie/btn"></strong>
           </a>
-        </th>
-      </tr>
-      <tr>
-        <td colspan="2">
-           <a ng-click="sidepanel.markAllWatched(sidepanel.serie)">
-              <i class="glyphicon glyphicon-eye-open"></i><strong translate-once="SIDEPANEL/EPISODES/mark-all-watched/lbl"></strong>
-            </a>
         </td>
       </tr>
+     
     </tbody>
 
     
