@@ -25,7 +25,6 @@ DuckieTV.controller('traktTvSearchCtrl', ["$rootScope", "TraktTVv2", "$statePara
             traktSearch.results = [];
         });
 
-
         /**
          * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
          * by the seriedetails directive
@@ -38,7 +37,6 @@ DuckieTV.controller('traktTvSearchCtrl', ["$rootScope", "TraktTVv2", "$statePara
             $rootScope.$broadcast('traktserie:preview', serie);
             $rootScope.$applyAsync();
         };
-
 
 
     }

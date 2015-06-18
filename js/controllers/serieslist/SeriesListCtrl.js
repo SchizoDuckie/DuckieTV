@@ -130,17 +130,23 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          */
         this.selectSerie = function(serie) {
             if (!FavoritesService.isAdding(serie.tvdb_id)) {
-                FavoritesService.adding(serie.tvdb_id);
-                return TraktTVv2.serie(serie.slug_id).then(function(serie) {
-                    return FavoritesService.addFavorite(serie).then(function() {
-                        $rootScope.$broadcast('storage:update');
+                if (!FavoritesService.isAdded(serie.tvdb_id)) {
+                    FavoritesService.adding(serie.tvdb_id);
+                    return TraktTVv2.serie(serie.slug_id).then(function(serie) {
+                        return FavoritesService.addFavorite(serie).then(function() {
+                            $rootScope.$broadcast('storage:update');
+                            FavoritesService.added(serie.tvdb_id);
+                        });
+                    }, function(err) {
+                        console.error("Error adding show!", err);
                         FavoritesService.added(serie.tvdb_id);
+                        FavoritesService.addError(serie.tvdb_id, err);
                     });
-                }, function(err) {
-                    console.error("Error adding show!", err);
-                    FavoritesService.added(serie.tvdb_id);
-                    FavoritesService.addError(serie.tvdb_id, err);
-                });
+                } else {
+                    $state.go('serie', {
+                        id: FavoritesService.getById(serie.tvdb_id).ID_Serie
+                    });
+                }
             }
         };
 
