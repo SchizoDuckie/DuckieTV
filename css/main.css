@@ -222,6 +222,17 @@ background-rotator, background-rotator > div {
     opacity: 0;
 }
 
+#actionbar_favorites {
+    opacity: 1;
+    transition: all 0.5s ease-in-out;
+    transform: rotate(0deg) scale(1);
+}
+
+#actionbar_favorites.favorites_active {
+    transform: rotate(180deg) scale(0.1);
+    opacity: 0;
+}
+
 #actionbar_torrent {
   background-repeat: no-repeat;
   background-position: center center;
