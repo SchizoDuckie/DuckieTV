@@ -155,22 +155,7 @@ CRUD.Find = function(obj, filters, options) {
         return false;
     }
 
-    var extras = [];
-    options = options || {};
-    if (options && options.limit) {
-        extras.limit = (options.start || 0) + "," + options.limit;
-        delete options.limit;
-    }
-    if (options && options.order) {
-        extras.order = options.order;
-        delete options.order;
-    }
-    if (options && options.group) {
-        extras.group = options.group;
-        delete options.group;
-    }
-    var justthese = options.justthese || [];
-    return CRUD.EntityManager.getAdapter().Find(type, filters, extras, justthese, options).then(function(results) {
+    return CRUD.EntityManager.getAdapter().Find(type, filters, options).then(function(results) {
         return results.map(function(el) {
             if (!(type in CRUD.EntityManager.cache)) {
                 CRUD.EntityManager.cache[type] = {};
@@ -181,7 +166,7 @@ CRUD.Find = function(obj, filters, options) {
             }
             return CRUD.EntityManager.cache[type][el[idProp]].importValues(el);
         });
-    })
+    });
 };
 
 /** 

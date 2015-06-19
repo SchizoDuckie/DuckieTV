@@ -160,11 +160,9 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
             }
         };
 
-    this.Find = function(what, filters, sorting, justthese, options) {
-        var builder = new CRUD.Database.SQLBuilder(what, filters || {}, sorting || {}, justthese || {}, options || {});
+    this.Find = function(what, filters, options) {
+        var builder = new CRUD.Database.SQLBuilder(what, filters, options);
         var query = builder.buildQuery();
-        var opt = options;
-        this.lastQuery = query;
 
         CRUD.log("Executing query via sqliteadapter: ", options, query);
         return new Promise(function(resolve, fail) {
@@ -326,7 +324,7 @@ CRUD.Database = function(name, options) {
                 }
             } catch (E) {
                 CRUD.log("DB ERROR " + E.toString());
-                fail('ERROR!' + e.toString(), E);
+                fail('ERROR!' + E.toString(), E);
             }
         });
     };
@@ -360,32 +358,62 @@ CRUD.Database.ResultSet.Row.prototype.get = function(index, defaultValue) {
  * My own query builder, ported from PHP to JS.
  * Should still be refactored and prettified, but works pretty nice so far.
  */
-CRUD.Database.SQLBuilder = function(entity, filters, extras, justthese) {
+CRUD.Database.SQLBuilder = function(entity, filters, options) {
     this.entity = entity instanceof CRUD.Entity ? entity.className : entity;
+    this.entityConfig = CRUD.EntityManager.entities[this.entity];
     this.filters = filters || {};
-    this.extras = extras || [];
-    justthese = justthese || [];
+    this.options = options || {};
+    this.justthese = [];
     this.wheres = [];
     this.joins = [];
     this.fields = [];
     this.orders = [];
     this.groups = [];
-    this.limit = extras.limit ? 'LIMIT ' + extras.limit : 'LIMIT 0,1000';
     this.parameters = []; // parameters to bind to sql query.
 
-    var tableName = CRUD.EntityManager.entities[this.entity].table;
-    justthese = justthese.length > 0 ? justthese : CRUD.EntityManager.entities[this.entity].fields;
-    for (var i = 0; i < justthese.length; i++) {
-        this.fields.push(tableName + '.' + justthese[i]);
+    for (var prop in this.filters) {
+        this.buildFilters(prop, this.filters[prop], this.entity);
     }
 
-    for (var prop in filters) {
-        this.buildFilters(prop, filters[prop], this.entity);
+    if (this.options.orderBy) {
+        this.orders.push(this.prefixFieldNames(this.options.orderBy.replace('ORDER BY', '')));
+    } else {
+        if (this.entityConfig.orderProperty && this.entityConfig.orderDirection && this.orders.length === 0) {
+            this.orders.push(this.getFieldName(this.entityConfig.orderProperty) + " " + this.entityConfig.orderDirection);
+        }
     }
-    this.buildOrderBy();
+
+    if (this.options.groupBy) {
+        this.groups.push(this.options.groupBy.replace('GROUP BY', ''));
+    }
+
+    this.limit = this.options.limit ? 'LIMIT ' + options.limit : 'LIMIT 0,1000';
+
+    (this.options.justthese || CRUD.EntityManager.entities[this.entity].fields).map(function(field) {
+        this.fields.push(this.getFieldName(field));
+    }, this);
 };
 
+
 CRUD.Database.SQLBuilder.prototype = {
+
+    getFieldName: function(field, table) {
+        return (table || this.entityConfig.table) + '.' + field;
+    },
+
+    prefixFieldNames: function(text) {
+        var fields = text.split(',');
+        return fields.map(function(field) {
+            var f = field.trim().split(' ');
+            var direction = f[1].toUpperCase().match(/(ASC|DESC)/)[0];
+            field = f[0];
+            if (this.entityConfig.fields.indexOf(field) > -1) {
+                field = this.getFieldName(field);
+            }
+            return field + ' ' + direction;
+        }, this).join(', ');
+    },
+
     buildFilters: function(what, value, _class) {
         var relatedClass = CRUD.EntityManager.hasRelation(_class, what);
         if (relatedClass) {
@@ -397,32 +425,8 @@ CRUD.Database.SQLBuilder.prototype = {
             this.wheres.push(value);
         } else { // standard field=>value whereclause. Prefix with tablename for easy joins and push a value to the .
             if (what == 'ID') what = CRUD.EntityManager.getPrimary(_class);
-            this.wheres.push(CRUD.EntityManager.entities[_class].table + '.' + what + ' = ?');
+            this.wheres.push(this.getFieldName(what, CRUD.EntityManager.entities[_class].table) + ' = ?');
             this.parameters.push(value);
-        }
-    },
-
-    buildOrderBy: function() // filter the 'extras' parameter for order by, group by and limit clauses.
-    {
-        if (!this.extras) return;
-        if (this.extras.limit) {
-            this.limit = "LIMIT " + this.extras.limit;
-            delete this.extras.limit;
-        }
-        for (var key in this.extras) {
-            var extra = this.extras[key].toUpperCase();
-            if (extra.indexOf('ORDER BY') > -1) {
-                this.orders.push(extra.replace('ORDER BY', ''));
-                delete this.extras[key];
-            }
-            if (extra.indexOf('GROUP BY') > -1) {
-                this.groups.push(extra.replace('GROUP BY', ''));
-                delete this.extras[key];
-            }
-        }
-        var entity = CRUD.EntityManager.entities[this.entity];
-        if (entity.orderProperty && entity.orderDirection && this.orders.length === 0) {
-            this.orders.push(entity.table + '.' + entity.orderProperty + " " + entity.orderDirection);
         }
     },
 
@@ -447,7 +451,7 @@ CRUD.Database.SQLBuilder.prototype = {
                 break;
             case CRUD.RELATION_CUSTOM:
                 var rel = parent.relations[entity.className];
-                this.joins = this.joins.unshift(['LEFT JOIN', entity.table, 'ON', parent.table + '.' + rel.sourceProperty, '=', entity.table, '.', rel.targetProperty].join(' '));
+                this.joins = this.joins.unshift(['LEFT JOIN', entity.table, 'ON', this.getFieldName(rel.sourceProperty, parent.table), '=', this.getFieldName(rel.targetProperty, entity.table)].join(' '));
                 break;
             default:
                 throw new Exception("Warning! class " + parent.className + " probably has no relation defined for class " + entity.className + "  or you did something terribly wrong..." + JSON.encode(parent.relations[_class]));
@@ -455,7 +459,7 @@ CRUD.Database.SQLBuilder.prototype = {
     },
 
     addJoin: function(what, on, fromPrimary, toPrimary) {
-        var join = ['LEFT JOIN', what.table, 'ON', on.table + "." + fromPrimary, '=', what.table + '.' + (toPrimary || fromPrimary)].join(' ');
+        var join = ['LEFT JOIN', what.table, 'ON', this.getFieldName(fromPrimary, on.table), '=', this.getFieldName(toPrimary || fromPrimary, what.table)].join(' ');
         if (this.joins.indexOf(join) == -1) {
             this.joins.push(join);
         }
@@ -463,6 +467,7 @@ CRUD.Database.SQLBuilder.prototype = {
     },
 
     buildQuery: function() {
+
         var where = this.wheres.length > 0 ? ' WHERE ' + this.wheres.join(" \n AND \n\t") : '';
         var order = (this.orders.length > 0) ? ' ORDER BY ' + this.orders.join(", ") : '';
         var group = (this.groups.length > 0) ? ' GROUP BY ' + this.groups.join(", ") : '';
@@ -475,9 +480,8 @@ CRUD.Database.SQLBuilder.prototype = {
 
     getCount: function() {
         var where = (this.wheres.length > 0) ? ' WHERE ' + this.wheres.join(" \n AND \n\t") : '';
-        var order = '';
         var group = (this.groups.length > 0) ? ' GROUP BY ' + this.groups.join(", ") : '';
-        var query = "SELECT count(*) FROM \n\t" + CRUD.EntityManager.entities[this.entity].table + "\n " + this.joins.join("\n ") + where + ' ' + group + ' ' + order + ' ';
+        var query = "SELECT count(*) FROM \n\t" + CRUD.EntityManager.entities[this.entity].table + "\n " + this.joins.join("\n ") + where + ' ' + group;
         return (query);
     }
 };
