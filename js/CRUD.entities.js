@@ -125,10 +125,9 @@ var Serie = CRUD.define({
     },
 
     getNextEpisode: function() {
-        var filter = ['firstaired > ' + new Date().getTime() + ' or firstaired = 0'];
-        filter.ID_Serie = this.getID();
+        var filter = ['(Episodes.ID_Serie = ' + this.getID() + ' AND Episodes.firstaired > ' + new Date().getTime() + ') or (Episodes.ID_Serie = ' + this.getID() + ' AND  Episodes.firstaired = 0)'];
         return CRUD.FindOne('Episode', filter, {
-            orderBy: 'firstaired asc, seasonnumber desc, episodenumber asc'
+            orderBy: 'seasonnumber desc, episodenumber asc, firstaired asc'
         }).then(function(result) {
             return result;
         });
