@@ -37,6 +37,10 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "Series
             $rootScope.$broadcast('calendar:setdate', new Date());
         };
 
+        this.getHeartTooltip = function() {
+            return SeriesListState.state.isShowing ? $filter('translate')('TAB/library-hide/glyph') : $filter('translate')('TAB/library-show/glyph');
+        };
+
         this.getTorrentClientTooltip = function() {
             var output = DuckieTorrent.getClient().getName();
             if (this.isTorrentClientConnecting()) return output + ': Connecting';
