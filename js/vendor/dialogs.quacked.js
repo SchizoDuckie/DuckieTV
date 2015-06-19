@@ -18,6 +18,7 @@
      * for modal button, header and message text.
      */
     translateSubMod.provider('$translate', [
+
         function() {
             var _translations = []; // object of key/value translation pairs
             var _current = 'en-US'; // default language
@@ -34,6 +35,7 @@
             }; // end translations
 
             this.$get = [
+
                 function() {
                     return {
                         /**
@@ -201,6 +203,7 @@
     angular.module('dialogs.services', ['ui.bootstrap.modal', 'dialogs.controllers'])
 
     .provider('dialogs', [
+
         function() {
             var _b = true; // backdrop
             var _k = true; // keyboard
@@ -539,57 +542,6 @@
                 //--Dtv--// end
             } // end try/catch
 
-            /**
-             * Attempt to ascertain if page is using Font Awesome instead of the
-             * regular Bootstrap Icons.  If you are changing the stylesheet name or
-             * not including it from a CDN or have included Font-Awesome as a
-             * concatentation of CSS sheets together, then you will have to manually
-             * set Font-Awesome usage in your Angular Module's config by including
-             * the $dialogsProvider and calling the method $dialogsProvider.useFontAwesome().
-             */
-            try {
-                var _sheets = document.styleSheets;
-
-                sheetLoop: for (var i = (_sheets.length - 1); i >= 0; i--) {
-                    var _matches = null;
-                    var _rules = null;
-
-                    if (!_sheets[i].disabled) {
-                        // check href of style sheet first
-                        if (_sheets[i].href !== null)
-                            _matches = _sheets[i].match(/font\-*awesome/i);
-
-                        if (angular.isArray(_matches)) {
-                            dialogsProvider.useFontAwesome();
-                            break; // done, leave the style sheet for loop
-                        } else {
-                            // try to find css rule .fa, in case style sheet has been concatenated
-                            _rules = _sheets[i].cssRules;
-                            for (var x = (_rules.length - 1); x >= 0; x--) {
-                                if (_rules[x].selectorText.toLowerCase() == '.fa') {
-                                    dialogsProvider.useFontAwesome();
-                                    break sheetLoop; // done, exit both for loops
-                                }
-                            }
-                        }
-                    } // end if(disabled)
-                } // end for
-
-                /* Removed in favor of above, will delete this permanently after more testing
-		 	angular.forEach(_sheets,function(_sheet,key){
-		 		var _matches = null;
-		 		if(!angular.equals(_sheet.href,null))
-		 			_matches = _sheet.href.match(/font\-*awesome/);
-
-		 		if(!_sheet.disabled && angular.isArray(_matches)){
-		 			// console.log('Dialogs: Using Font-Awesome Icons');
-		 			dialogsProvider.useFontAwesome();
-		 		}
-		 	});
-			*/
-            } catch (err) {
-                // console.log('Error Message: ' + err);
-            }
         }
     ]) // end config
 
@@ -606,7 +558,7 @@
             $templateCache.put('/dialogs/notify.html', '<div class="modal-header dialog-header-notify"><button type="button" class="close" ng-click="close()" class="pull-right">&times;</button><h4 class="modal-title text-info"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body text-info" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-primary" ng-click="close()">' + startSym + '"DIALOGSjs/ok/btn" | translate' + endSym + '</button></div>');
             $templateCache.put('/dialogs/confirm.html', '<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="no()">&times;</button><h4 class="modal-title"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="yes()">' + startSym + '"DIALOGSjs/yes/btn" | translate' + endSym + '</button><button type="button" class="btn btn-primary" ng-click="no()">' + startSym + '"DIALOGSjs/no/btn" | translate' + endSym + '</button></div>');
             //--Dtv--// begin
-            $templateCache.put('/dialogs/confirmall.html', '<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="no()">&times;</button><h4 class="modal-title"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="yes()">' + startSym + '"DIALOGSjs/yes/btn" | translate' + endSym + '</button><button type="button" class="btn btn-default" ng-click="yesAll()">' + startSym + '"DIALOGSjs/yes-all/btn" | translate' + endSym + '</button><button type="button" class="btn btn-primary" ng-click="no()">'+ startSym + '"DIALOGSjs/no/btn" | translate' + endSym + '</button><button type="button" class="btn btn-primary" ng-click="noAll()">'+ startSym + '"DIALOGSjs/no-all/btn" | translate' + endSym + '</button></div>');
+            $templateCache.put('/dialogs/confirmall.html', '<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="no()">&times;</button><h4 class="modal-title"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="yes()">' + startSym + '"DIALOGSjs/yes/btn" | translate' + endSym + '</button><button type="button" class="btn btn-default" ng-click="yesAll()">' + startSym + '"DIALOGSjs/yes-all/btn" | translate' + endSym + '</button><button type="button" class="btn btn-primary" ng-click="no()">' + startSym + '"DIALOGSjs/no/btn" | translate' + endSym + '</button><button type="button" class="btn btn-primary" ng-click="noAll()">' + startSym + '"DIALOGSjs/no-all/btn" | translate' + endSym + '</button></div>');
             //--Dtv--// end
         }
     ]); // end run / dialogs.main

@@ -104,13 +104,16 @@ var Serie = CRUD.define({
         var firstAiredFilter = {
             Episode: ['firstaired < ' + new Date().getTime()]
         };
+        var self = this;
 
         firstAiredFilter.Episode.ID_Serie = this.getID();
-
-        var result = CRUD.FindOne('Season', firstAiredFilter, {
+        return CRUD.FindOne('Season', firstAiredFilter, {
             orderBy: 'ID_Season desc'
+        }).then(function(result) {
+            return result ? result : self.getLatestSeason().then(function(result) {
+                return result;
+            });
         });
-        return (result instanceof CRUD.Entity) ? result : this.getLatestSeason();
     },
 
     getSortName: function() {
@@ -118,6 +121,18 @@ var Serie = CRUD.define({
             this.sortName = this.name.replace('The ', '');
         }
         return this.sortName;
+
+    },
+
+    getNextEpisode: function() {
+        return CRUD.FindOne('Episode', 'firstaired > ' + new Date().getTime(), {
+            orderBy: 'ID_Season desc'
+        }).then(function(result) {
+            return result;
+        });
+    },
+
+    getLastEpisode: function() {
 
     }
 });
