@@ -125,15 +125,23 @@ var Serie = CRUD.define({
     },
 
     getNextEpisode: function() {
-        return CRUD.FindOne('Episode', 'firstaired > ' + new Date().getTime(), {
-            orderBy: 'ID_Season desc'
+        var filter = ['firstaired > ' + new Date().getTime() + ' or firstaired = 0'];
+        filter.ID_Serie = this.getID();
+        return CRUD.FindOne('Episode', filter, {
+            orderBy: 'firstaired asc, seasonnumber desc, episodenumber asc'
         }).then(function(result) {
             return result;
         });
     },
 
     getLastEpisode: function() {
-
+        var filter = ['firstaired < ' + new Date().getTime()];
+        filter.ID_Serie = this.getID();
+        return CRUD.FindOne('Episode', filter, {
+            orderBy: 'firstaired desc'
+        }).then(function(result) {
+            return result;
+        });
     }
 });
 
@@ -256,13 +264,13 @@ var Episode = CRUD.define({
         return out;
     },
     getAirDate: function() {
-        return new Date(this.firstaired).toLocaleString();
+        return this.firstaired === 0 ? '?' : new Date(this.firstaired).toLocaleString();
     },
     getAirTime: function() {
         return new Date(this.firstaired).toTimeString().substring(0, 5);
     },
     hasAired: function() {
-        return this.firstaired && this.firstaired <= new Date().getTime();
+        return this.firstaired && this.firstaired !== 0 && this.firstaired <= new Date().getTime();
     },
     isWatched: function() {
         return this.watched && parseInt(this.watched) == 1;
