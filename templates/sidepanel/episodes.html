@@ -17,7 +17,7 @@
           <a tooltip-placement="bottom" tooltip-popup-delay="800" tooltip-template="'episodeDetailsTooltip.html'" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{::episode.episodename}}</a>
         </td>
         <td class="nobreaks" align="right" style="width:60px;position:relative">
-          <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{episode.firstaired | date: 'short'}}" ng-class="{'airdate': episode.hasAired()}" >{{::episode.firstaired|date:'shortDate'}}</a>
+          <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{episode.getAirDate() | date: 'short'}}" ng-class="{'airdate': episode.hasAired()}" >{{episode.firstaired == 0 ? '?' : episode.firstaired|date:'shortDate'}}</a>
 
           <div ng-show="episode.hasAired() && getSetting('torrenting.enabled')" class="torrentctrls">
             <torrent-dialog tvdbid='episode.TVDB_ID' q='season.getSearchString(sidepanel.serie,episode)'></torrent-dialog>
