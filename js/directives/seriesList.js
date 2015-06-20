@@ -36,5 +36,28 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
 .directive('seriesList', function() {
     return {
         restrict: 'E'
-    }
+    };
 })
+
+.directive('seriesGrid', function() {
+
+    return {
+        restrict: 'A',
+        controllerAs: 'grid',
+        controller: function($scope) {
+            var posterWidth = 140;
+            var posterHeight = 205;
+            var el = document.querySelector('[series-grid]');
+
+            this.getLeft = function(idx) {
+                return 75 + (idx % Math.round((el.clientWidth - 150) / posterWidth)) * posterWidth;
+            };
+            this.getTop = function(idx) {
+                idx = idx + 1;
+                return (Math.ceil(idx / Math.round((el.clientWidth - 150) / posterWidth)) * posterHeight) - 75;
+
+            };
+        }
+    };
+
+});

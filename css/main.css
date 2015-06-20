@@ -1,4 +1,15 @@
-/* Include this file in your html if you are using the CSP mode. */
+html {
+    -webkit-user-select: none;
+}
+
+p, input, select, span, #aboutpage {
+    -webkit-user-select: initial;
+}
+
+p, span {
+    cursor: default;
+}
+=
  @charset"UTF-8";
  @font-face {
     font-family:'bebasbold';
@@ -289,6 +300,10 @@ background-rotator, background-rotator > div {
     border: 1px solid #333;
     padding: 3px;
     overflow: auto;
+}
+
+serieheader {
+    -webkit-transition: all 0.5s ease-in-out;
 }
 
 serieheader > div {
@@ -899,6 +914,9 @@ div [date-picker] {
     transition: all 0.5s ease-in-out;
     z-index:101; 
     position:relative;
+}
+[date-picker] span {
+    -webkit-user-select:none;
 }
 [date-picker]:hover {
     background-color: rgba(0, 0, 0, 0.4);
