@@ -10,6 +10,7 @@ DuckieTV.factory('SidePanelState', function() {
             document.body.scrollTop = 0;
             service.state.isShowing = true;
             service.state.isExpanded = false;
+
         },
         hide: function() {
             document.body.style.overflowY = 'auto';
@@ -44,7 +45,11 @@ DuckieTV.factory('SidePanelState', function() {
                 panel.isShowing = newValue[0].object.isShowing;
                 panel.isExpanded = newValue[0].object.isExpanded;
                 $scope.$applyAsync();
-            })
+                setTimeout(function() {
+                    $scope.$applyAsync();
+                }, 250);
+            });
+
             if (SidePanelState.state.isShowing) {
                 this.isShowing = true;
             }
@@ -59,13 +64,13 @@ DuckieTV.factory('SidePanelState', function() {
                 SidePanelState.hide();
             };
         }
-    }
+    };
 })
 
 /**
  * Click trap directive that catches clicks outside the sidepanel and hides it.
  */
-.directive('clicktrap', ["SidePanelState", "$state", 
+.directive('clicktrap', ["SidePanelState", "$state",
     function(SidePanelState, $state) {
         return {
             restrict: 'E',
