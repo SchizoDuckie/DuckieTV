@@ -165,6 +165,7 @@ background-rotator, background-rotator > div {
     left: 0px;
     z-index: 1000;
     height: 100%;
+    min-height: 520px;
     width: 58px;
     -webkit-transition: background-color .5s;
     overflow: visible;
