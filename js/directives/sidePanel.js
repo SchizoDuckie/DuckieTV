@@ -86,12 +86,12 @@ DuckieTV.factory('SidePanelState', function() {
                             $state.go('calendar').then(function() {
                                 setTimeout(function() {
                                     elm.classList.remove('fastspin');
-                                }, 500)
-                            })
-                        })
+                                }, 500);
+                            });
+                        });
                     }
-                }
+                };
             }
-        }
+        };
     }
 ]);
