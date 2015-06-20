@@ -1,9 +1,19 @@
 <div class="buttons" ng-controller="customSearchEngineCtrl as searchEngine">
 	<h2>Custom Search Engines</h2>
 
-	<p>If you know CSS what a CSS selector is, you can add your own Torrent Search engine, private tracker, or any other Torrent Site that you know of, as long as the search results page has .torrent links on the page..</p> 
+	<p>DuckieTV allows you to define your favorite private trackers as custom search engines. You an define some selectors and urls to tell DuckieTV how to scrape the content. All you need is some basic CSS selector knowledge. TorrentLeech is listed as an example.</p>
 
-	<form ng-submit="searchEngine.test()" novalidate>
+	<div class="buttons">
+	<a ng-repeat="(name, properties) in searchEngine.customEngines">{{name}}
+	<button class="btn btn-xs" styĺe="display:inline-block !important;">Test</button>
+	<button class="btn btn-xs" styĺe="display:inline-block !important;">Disable</button>
+	<button class="btn btn-xs" styĺe="display:inline-block !important;">Enable</button>
+	<button class="btn btn-xs" styĺe="display:inline-block !important;">Edit</button>
+	
+	</a>
+	</div>
+
+	<form ng-submit="searchEngine.test()" novalidate ng-if="searchEngine.editMode">
         <formly-form model="searchEngine.model" fields="searchEngine.fields">
           <button type="submit" class="btn btn-primary submit-button">Test</button>
         </formly-form>
