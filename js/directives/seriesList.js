@@ -45,7 +45,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
         restrict: 'A',
         controllerAs: 'grid',
         controller: function($scope, SidePanelState) {
-            var posterWidth, posterHeight, postersPerRow, centeringOffset;
+            var posterWidth, posterHeight, postersPerRow, centeringOffset, oldClientWidth;
             var el = document.querySelector('[series-grid]');
 
 
@@ -82,7 +82,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 clearTimeout(activeScroller);
                 activeScroller = setTimeout(function() {
                     smoothScroll(el, document.querySelector('serieheader .active'));
-                }, 50);
+                }, 500);
             };
 
             Object.observe(SidePanelState.state, function(newValue) {
@@ -101,18 +101,19 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 posterHeight = isMini ? 205 : 250;
                 centeringOffset = 20;
                 horizontalOffset = 85;
+                oldClientWidth = el.clientWidth;
                 postersPerRow = Math.floor((el.clientWidth - (centeringOffset * 2)) / posterWidth);
                 scrollToActive();
             }
 
             this.getLeft = function(idx) {
-                if (idx === 0) {
+                if (idx === 0 && oldClientWidth != el.clientWidth) {
                     recalculate();
                 }
                 return centeringOffset + (idx % postersPerRow) * posterWidth;
             };
             this.getTop = function(idx) {
-                if (idx === 0) {
+                if (idx === 0 && oldClientWidth != el.clientWidth) {
                     recalculate();
                 }
                 idx = idx + 1;
