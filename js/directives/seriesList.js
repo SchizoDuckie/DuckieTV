@@ -53,6 +53,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 posterWidth = isMini ? 140 : 170;
                 posterHeight = isMini ? 205 : 250;
                 centeringOffset = 20;
+                horizontalOffset = 85;
                 postersPerRow = Math.floor((el.clientWidth - (centeringOffset * 2)) / posterWidth);
             }
 
@@ -67,7 +68,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                     recalculate();
                 }
                 idx = idx + 1;
-                return (Math.ceil(idx / postersPerRow) * posterHeight) - centeringOffset;
+                return (Math.ceil(idx / postersPerRow) * posterHeight) - horizontalOffset;
             };
         }
     };
