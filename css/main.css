@@ -325,6 +325,10 @@ serieheader:hover .badge {
     opacity: 1;
 }
 
+serieheader a.active {
+    border:1px solid yellow;
+}
+
 serieheader[mode='search'] {
     display: block;
     width: calc(33% - 2px);

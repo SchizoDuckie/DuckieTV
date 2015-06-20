@@ -6,7 +6,7 @@
         <i class="glyphicon glyphicon-eye-close" ></i> {{data.notWatchedCount}}
       </em>
     </div>
-    <a ng-show="!noListButton" ui-sref="serie({id: data.ID_Serie})">
+    <a ng-show="!noListButton" ui-sref="serie({id: data.ID_Serie})" ui-sref-active="active">
       <div class="{{mode}}" lazy-background="{{mode == 'poster' ? data.poster : data.banner}}"></div>
     </a>
      <a ng-show="noListButton">

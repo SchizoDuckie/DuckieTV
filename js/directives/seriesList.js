@@ -44,9 +44,56 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
     return {
         restrict: 'A',
         controllerAs: 'grid',
-        controller: function($scope) {
+        controller: function($scope, SidePanelState) {
             var posterWidth, posterHeight, postersPerRow, centeringOffset;
             var el = document.querySelector('[series-grid]');
+
+
+            // ease in out function thanks to:
+            // http://blog.greweb.fr/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
+            var easeInOutCubic = function(t) {
+                return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+            };
+
+            var position = function(start, end, elapsed, duration) {
+                if (elapsed > duration) return end;
+                return start + (end - start) * easeInOutCubic(elapsed / duration); // <-- you can change the easing funtion there
+            };
+
+            var smoothScroll = function(parent, el, duration) {
+                duration = duration || 500;
+                var start = parent.scrollTop;
+                var end = el.offsetParent.offsetParent.offsetTop;
+                console.log("Smoot scrolling", parent.scrollTop, 'to', end);
+                var clock = Date.now();
+                var step = function() {
+                    var elapsed = Date.now() - clock;
+                    parent.scrollTop = position(start, end, elapsed, duration);
+                    if (elapsed < duration) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                step();
+            };
+
+            var activeScroller = null;
+
+            scrollToActive = function() {
+                clearTimeout(activeScroller);
+                activeScroller = setTimeout(function() {
+                    smoothScroll(el, document.querySelector('serieheader .active'));
+                }, 50);
+            };
+
+            Object.observe(SidePanelState.state, function(newValue) {
+                console.log("Sidepanel state changed: ", newValue);
+                scrollToActive();
+            });
+
+            this.smoothScrollTo = function() {
+                scrollToActive();
+            };
+
 
             function recalculate() {
                 var isMini = el.classList.contains('miniposter');
@@ -55,6 +102,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 centeringOffset = 20;
                 horizontalOffset = 85;
                 postersPerRow = Math.floor((el.clientWidth - (centeringOffset * 2)) / posterWidth);
+                scrollToActive();
             }
 
             this.getLeft = function(idx) {
