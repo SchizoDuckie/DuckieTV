@@ -45,17 +45,29 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
         restrict: 'A',
         controllerAs: 'grid',
         controller: function($scope) {
-            var posterWidth = 140;
-            var posterHeight = 205;
+            var posterWidth, posterHeight, postersPerRow, centeringOffset;
             var el = document.querySelector('[series-grid]');
 
+            function recalculate() {
+                var isMini = el.classList.contains('miniposter');
+                posterWidth = isMini ? 140 : 170;
+                posterHeight = isMini ? 205 : 250;
+                centeringOffset = 20;
+                postersPerRow = Math.floor((el.clientWidth - (centeringOffset * 2)) / posterWidth);
+            }
+
             this.getLeft = function(idx) {
-                return 75 + (idx % Math.round((el.clientWidth - 150) / posterWidth)) * posterWidth;
+                if (idx === 0) {
+                    recalculate();
+                }
+                return centeringOffset + (idx % postersPerRow) * posterWidth;
             };
             this.getTop = function(idx) {
+                if (idx === 0) {
+                    recalculate();
+                }
                 idx = idx + 1;
-                return (Math.ceil(idx / Math.round((el.clientWidth - 150) / posterWidth)) * posterHeight) - 75;
-
+                return (Math.ceil(idx / postersPerRow) * posterHeight) - centeringOffset;
             };
         }
     };
