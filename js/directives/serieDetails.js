@@ -14,77 +14,18 @@ DuckieTV.directive('serieDetails', ["FavoritesService", "$location", "dialogs", 
             },
             link: function($scope) {
 
-                var daysOfWeekList = [
-                    'Sunday',
-                    'Monday',
-                    'Tuesday',
-                    'Wednesday',
-                    'Thursday',
-                    'Friday',
-                    'Saturday'
-                ]; // used by translateDayOfWeek()
-
-                var genreList = [
-                    'action',
-                    'adventure',
-                    'animation',
-                    'children',
-                    'comedy',
-                    'crime',
-                    'disaster',
-                    'documentary',
-                    'drama',
-                    'eastern',
-                    'family',
-                    'fan-film',
-                    'fantasy',
-                    'film-noir',
-                    'food',
-                    'game-show',
-                    'history',
-                    'holiday',
-                    'home-and-garden',
-                    'horror',
-                    'indie',
-                    'mini-series',
-                    'music',
-                    'musical',
-                    'mystery',
-                    'news',
-                    'none',
-                    'reality',
-                    'road',
-                    'romance',
-                    'science-fiction',
-                    'short',
-                    'soap',
-                    'special-interest',
-                    'sport',
-                    'suspense',
-                    'talk-show',
-                    'thriller',
-                    'travel',
-                    'tv-movie',
-                    'war',
-                    'western'
-                ]; // used by translateGenre()
-                var rawTranslatedGenreList = $filter('translate')('SERIECTRLjs/genre/list');
-                var translatedGenreList = rawTranslatedGenreList.split(',');
-
-                var statusList = [
-                    'canceled',
-                    'ended',
-                    'in production',
-                    'returning series'
-                ]; // used by translateStatus()
-                var rawTranslatedStatusList = $filter('translate')('SERIECTRLjs/status/list');
-                var translatedStatusList = rawTranslatedStatusList.split(',');
+                var genreList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateGenre()
+                var translatedGenreList = $filter('translate')('SERIECTRLjs/genre/list').split(',');
+                var translatedStatusList = $filter('translate')('SERIECTRLjs/status/list').split(',');
+                var statusList = 'canceled|ended|in production|returning series'.split('|'); // used by this.translateStatus()
+                var daysOfWeekList = 'Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday'.split('|'); // used by this.translateDayOfWeek()
 
                 /*
-                 * Takes a rating (8.12345) and coverts it percentage presentation (81)
+                 * Takes the English Genre (as fetched from TraktTV) and returns a translation
                  */
-                $scope.ratingPercentage = function(rating) {
-                    return Math.round(rating * 10);
+                $scope.translateGenre = function(genre) {
+                    var idx = genreList.indexOf(genre);
+                    return (idx != -1) ? translatedGenreList[idx] : genre;
                 };
 
                 /*
@@ -95,17 +36,18 @@ DuckieTV.directive('serieDetails', ["FavoritesService", "$location", "dialogs", 
                 };
 
                 /*
-                 * Takes the English genre (as fetched from TraktTV) and returns a translation
-                 */
-                $scope.translateGenre = function(genre) {
-                    return (genreList.indexOf(genre) != -1) ? translatedGenreList[genreList.indexOf(genre)] : genre;
-                };
-
-                /*
                  * Takes the English status (as fetched from TraktTV) and returns a translation
                  */
                 $scope.translateStatus = function(status) {
-                    return (statusList.indexOf(status) != -1) ? translatedStatusList[statusList.indexOf(status)] : status;
+                    var idx = statusList.indexOf(status);
+                    return (idx != -1) ? translatedStatusList[idx] : status;
+                };
+
+                /*
+                 * Takes a rating (8.12345) and coverts it percentage presentation (81)
+                 */
+                $scope.ratingPercentage = function(rating) {
+                    return Math.round(rating * 10);
                 };
 
                 /**
