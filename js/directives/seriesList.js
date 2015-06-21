@@ -45,7 +45,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
         restrict: 'A',
         controllerAs: 'grid',
         controller: function($scope, SidePanelState) {
-            var posterWidth, posterHeight, postersPerRow, centeringOffset, oldClientWidth;
+            var posterWidth, posterHeight, postersPerRow, centeringOffset, verticalOffset, oldClientWidth;
             var el = document.querySelector('[series-grid]');
 
 
@@ -61,13 +61,12 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             };
 
             var smoothScroll = function(parent, el, duration) {
-                if (el === null) {
+                if (el === null || !el.offsetParent || !el.offsetParent.offsetParent) {
                     return;
                 }
                 duration = duration || 500;
                 var start = parent.scrollTop;
                 var end = el.offsetParent.offsetParent.offsetTop;
-                console.log("Smooth scrolling", parent.scrollTop, 'to', end);
                 var clock = Date.now();
                 var step = function() {
                     var elapsed = Date.now() - clock;
@@ -98,8 +97,8 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 var isMini = el.classList.contains('miniposter');
                 posterWidth = isMini ? 140 : 170;
                 posterHeight = isMini ? 205 : 250;
-                horizontalOffset = 85;
                 oldClientWidth = el.clientWidth;
+                verticalOffset = el.getAttribute('vertical-offset') ? parseInt(el.getAttribute('vertical-offset')) : 70;
                 postersPerRow = Math.floor(el.clientWidth / posterWidth);
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
                 scrollToActive();
@@ -131,7 +130,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                     recalculate();
                 }
                 idx = idx + 1;
-                return (Math.ceil(idx / postersPerRow) * posterHeight) - horizontalOffset;
+                return (Math.ceil(idx / postersPerRow) * posterHeight) - posterHeight + verticalOffset;
             };
         }
     };

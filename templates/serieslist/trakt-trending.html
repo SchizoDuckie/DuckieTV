@@ -1,7 +1,7 @@
 <!-- serieslist\trakt-trending.html -->
-<div class="series adding" ng-class="{'miniposter': serieslist.isSmall}">
+<div class="series adding" series-grid  vertical-offset="250" ng-class="{'miniposter': serieslist.isSmall}" style="position:absolute">
 	<!-- no series, show intro text and trakt connect/ backup import -->
-	<div ng-if="trending.currentFavs == 0" class="alert alert-info" style='margin:20px;text-align:left;white-space:normal;font-size: 14px'>
+	<div ng-if="trending.currentFavs.length == 0" class="alert alert-info" style='margin:20px;text-align:left;white-space:normal;font-size: 14px'>
 	    <strong translate-once="SERIESLIST/TRAKT-TRENDING/series-no/hdr"></strong>
 	    <span translate-once="SERIESLIST/TRAKT-TRENDING/series-no/desc"></span><br>
 	    <strong style='display:inline'><button ng-click="showBackup = true; showTrakt = false" style='color:black; position:relative;' translate-once="SERIESLIST/TRAKT-TRENDING/import/btn"></button></strong> or <strong  style='display:inline'><button ng-click="showTrakt = true;showBackup = false" style='color:black' translate-once="SERIESLIST/TRAKT-TRENDING/connect-to-traktTV/btn"></button></strong>
@@ -19,7 +19,7 @@
 	</div>
 
 	<!-- Repeated trending serie results -->
-	<serieHeader ng-repeat="serie in trending.getFilteredResults()  | limitTo: trending.limit track by serie.tvdb_id" ng-mouseenter="trending.setHoverSerie(serie)" data="serie" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" ng-click="serieslist.selectSerie(serie)">
+	<serieHeader ng-repeat="serie in trending.getFilteredResults()  | limitTo: trending.limit track by serie.tvdb_id" ng-mouseenter="trending.setHoverSerie(serie)" data="serie" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" ng-click="serieslist.selectSerie(serie)"  style="position:absolute;left:{{grid.getLeft($index)}}px;top:{{grid.getTop($index)}}px">>
 	    <em class="earmark trailer" >
 		    <a ng-show="serie.trailer" href="{{serie.trailer}}" target="_blank" tooltip="{{'SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip'|translate}}" tooltip-append-to-body="true" stop-event tooltip-placement="bottom"><i class="glyphicon glyphicon-facetime-video"></i></a>
 		    <a ng-show="!serie.trailer" stop-event href="https://www.youtube.com/results?search_query={{serie.name}}+official+trailer" target="_blank" tooltip="{{'SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip'|translate}}" tooltip-append-to-body="true"  tooltip-placement="bottom"><i class="glyphicon glyphicon-facetime-video"></i></a>
@@ -28,5 +28,5 @@
 	    <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><loading-spinner style="width: 37px; height:37px"></loading-spinner></em>
 	    <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{serieslist.error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
 	</serieHeader>
-	<button class="btn btn-info" ng-click="trending.limit = trending.limit + 100" ng-show="trending.filtered && trending.limit < trending.filtered.length" style="display:block; margin:0 auto; width: 50%;"><i class="glyphicon glyphicon-plus"></i><span translate-once="SERIESLIST/TRAKT-TRENDING/show-more/btn"></span></button>
+	<button class="btn btn-info" ng-click="trending.limit = trending.limit + 100" ng-show="trending.filtered && trending.limit < trending.filtered.length" style="display:block; margin: 0 auto; width: 50%; bottom: 15px; position: fixed; z-index: 1000; left: 25%; opacity: 0.8;"><i class="glyphicon glyphicon-plus"></i><span translate-once="SERIESLIST/TRAKT-TRENDING/show-more/btn"></span></button>
 </div>

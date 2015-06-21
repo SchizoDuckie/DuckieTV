@@ -9,8 +9,11 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
         this.rawTranslatedCategoryList = $filter('translate')('SERIESLISTjs/category/list');
         this.categoryList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateCategory()
         this.translatedCategoryList = this.rawTranslatedCategoryList.split(',');
-        this.currentFavs = FavoritesService.favorites.length;
-        
+        this.currentFavs = FavoritesService.favorites;
+        setTimeout(function() {
+            trending.currentFavs = FavoritesService.favorites
+        }, 500);
+
         /*
          * Takes the English Category (as fetched from TraktTV) and returns a translation
          */
@@ -20,32 +23,37 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
 
         this.fetch = function() {
             //console.log('fetch trending!');
-            if (trending.results.length == 0) {
+            if (trending.results.length === 0) {
                 TraktTVv2.trending().then(function(res) {
                     trending.results = res || [];
                     trending.results.map(function(el) {
                         el.genres.map(function(genre) {
                             trending.categories[genre] = true;
-                        })
+                        });
                         trending.filtered.push(el);
-                    })
+                    });
 
                     $rootScope.$applyAsync();
                 });
             }
-        }
+        };
 
         this.toggleCategory = function(category) {
-            this.activeCategory == category ? this.activeCategory = false : this.activeCategory = category;
-            this.filtered = this.results.filter(function(show) {
-                return !trending.activeCategory ? true : (show.genres.indexOf(category) > -1);
-            })
+            if (!category) {
+                this.activeCategory = false;
+                this.filtered = this.results;
+            } else {
+                this.activeCategory = category;
+                this.filtered = this.results.filter(function(show) {
+                    return !trending.activeCategory ? true : (show.genres.indexOf(category) > -1);
+                });
+            }
             return this.filtered;
-        }
+        };
 
         this.getFilteredResults = function() {
             return this.filtered;
-        }
+        };
 
         /**
          * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
@@ -62,4 +70,4 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
 
         this.fetch();
     }
-])
+]);
