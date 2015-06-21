@@ -85,7 +85,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 clearTimeout(activeScroller);
                 activeScroller = setTimeout(function() {
                     smoothScroll(el, document.querySelector('serieheader .active'));
-                }, 500);
+                }, 800);
             };
 
 
@@ -109,6 +109,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 recalculate();
                 scrollToActive();
                 $scope.$applyAsync();
+
             });
 
             // configuration of the observer:
