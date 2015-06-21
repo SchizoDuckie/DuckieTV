@@ -25,45 +25,44 @@
 <div ng-if="showFilters" ng-controller="localSeriesCtrl as localFilter">
 
 
-<nav class="navbar navbar-default" role="navigation">
-	<div class="collapse navbar-collapse">
-		<form class="navbar-form navbar-left" ng-submit="serieslist.execFilter()" name="filterForm" style='width:50%'>
-			  <input type='text' style='width: 100%;' focus-watch="'localFilter.isFiltering'" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' translate-once-placeholder="SERIESLIST/TOOLS/LOCALFILTER/filter-placeholder">
-		</form>
-		<ul class="nav navbar-nav navbar-right	">
-			<li class="dropdown" style='padding:10px'>
-			 <div class="btn-group" dropdown>
-			      <button type="button" class="btn btn-large">Genre</button>
-			      <button type="button" class="btn btn-large dropdown-toggle" dropdown-toggle >
-			        <span class="caret"></span>
-			        <span class="sr-only">Split button!</span>
-			      </button>
-			      <ul class="dropdown-menu" role="menu">    
-			      		<li ng-repeat="(genre, count) in localFilter.genreList" ng-click="$event.stopPropagation(); localFilter.selectGenre(genre)">
-							<label><input type="checkbox" ng-checked="localFilter.getCheckedGenre(genre)">{{genre}} ({{count}})</label>
-			      		</li> 
-				      </ul>
-				  </div>
-				</li>
-			</ul>
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="collapse navbar-collapse">
+			<form class="navbar-form navbar-left" ng-submit="serieslist.execFilter()" name="filterForm" style='width:50%'>
+				  <input type='text' style='width: 100%;' focus-watch="'localFilter.isFiltering'" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' translate-once-placeholder="SERIESLIST/TOOLS/LOCALFILTER/filter-placeholder">
+			</form>
+
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown" style='padding:10px'>
 				   <div class="btn-group" dropdown>
-				      <button type="button" class="btn">Status</button>
-				      <button type="button" class="btn dropdown-toggle" dropdown-toggle>
+				      <button type="button" class="btn dropdown-toggle" dropdown-toggle>Status 
 				        <span class="caret"></span>
 				        <span class="sr-only">Split button!</span>
 				      </button>
 				      <ul class="dropdown-menu" role="menu">
-					     <li ng-repeat="(status, count) in localFilter.statusList" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)">
-								<label for="{{status}}">
-								<input type="checkbox" ng-checked="localFilter.getCheckedStatus(status)">{{status}} ({{count}})
-							</label>
+					     <li ng-repeat="(status, count) in localFilter.statusList track by $index" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)">
+							<label for="status{{$index}}"><input id="status{{$index}}" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)" type="checkbox" ng-checked="localFilter.getCheckedStatus(status)">{{status}} ({{count}})</label>
 				      	  </li> 
 			      		</ul>
 				  </div>
 				</li>
 			</ul>
+
+			<ul class="nav navbar-nav navbar-right	">
+			<li class="dropdown" style='padding:10px'>
+			 <div class="btn-group" dropdown>
+			      <button type="button" class="btn btn-large dropdown-toggle" dropdown-toggle >Genre
+			        <span class="caret"></span>
+			        <span class="sr-only">Split button!</span>
+			      </button>
+			      <ul class="dropdown-menu" role="menu">    
+			      		<li ng-repeat="(genre, count) in localFilter.genreList track by $index" ng-click="$event.stopPropagation(); localFilter.selectGenre(genre)">
+							<label for="genre{{$index}}"><input id="genre{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedGenre(genre)"  ng-click="localFilter.selectGenre(genre)">{{genre}} ({{count}})</label>
+			      		</li> 
+				      </ul>
+				  </div>
+				</li>
+			</ul>
+
 		</div>
 	</nav>
 </div>
