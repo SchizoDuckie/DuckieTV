@@ -98,10 +98,10 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 var isMini = el.classList.contains('miniposter');
                 posterWidth = isMini ? 140 : 170;
                 posterHeight = isMini ? 205 : 250;
-                centeringOffset = 20;
                 horizontalOffset = 85;
                 oldClientWidth = el.clientWidth;
-                postersPerRow = Math.floor((el.clientWidth - (centeringOffset * 2)) / posterWidth);
+                postersPerRow = Math.floor(el.clientWidth / posterWidth);
+                centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
                 scrollToActive();
             }
 
