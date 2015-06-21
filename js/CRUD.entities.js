@@ -134,7 +134,7 @@ var Serie = CRUD.define({
     },
 
     getLastEpisode: function() {
-        var filter = ['firstaired < ' + new Date().getTime()];
+        var filter = ['(Episodes.firstaired > 0 and Episodes.firstAired < ' + new Date().getTime() + ')'];
         filter.ID_Serie = this.getID();
         return CRUD.FindOne('Episode', filter, {
             orderBy: 'seasonnumber desc, episodenumber desc, firstaired desc'
