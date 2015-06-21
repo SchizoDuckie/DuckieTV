@@ -61,13 +61,13 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             };
 
             var smoothScroll = function(parent, el, duration) {
-                if (el == null) {
+                if (el === null) {
                     return;
-                };
+                }
                 duration = duration || 500;
                 var start = parent.scrollTop;
                 var end = el.offsetParent.offsetParent.offsetTop;
-                console.log("Smoot scrolling", parent.scrollTop, 'to', end);
+                console.log("Smooth scrolling", parent.scrollTop, 'to', end);
                 var clock = Date.now();
                 var step = function() {
                     var elapsed = Date.now() - clock;
@@ -88,10 +88,6 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 }, 500);
             };
 
-            Object.observe(SidePanelState.state, function(newValue) {
-                console.log("Sidepanel state changed: ", newValue);
-                scrollToActive();
-            });
 
             this.smoothScrollTo = function() {
                 scrollToActive();
@@ -108,6 +104,20 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 postersPerRow = Math.floor((el.clientWidth - (centeringOffset * 2)) / posterWidth);
                 scrollToActive();
             }
+
+            var observer = new MutationObserver(function(mutations) {
+                recalculate();
+                scrollToActive();
+                $scope.$applyAsync();
+            });
+
+            // configuration of the observer:
+            var config = {
+                attributes: true
+            };
+
+            observer.observe(el, config);
+            observer.observe(document.querySelector('sidepanel'), config);
 
             this.getLeft = function(idx) {
                 if (idx === 0 && oldClientWidth != el.clientWidth) {
