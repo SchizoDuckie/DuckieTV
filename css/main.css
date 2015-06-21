@@ -1115,8 +1115,11 @@ td.day {
 [date-picker] .event .watched span.glyphicon {
     line-height: 15px;
 }
-[date-picker] .event .watched .watchedwidth {
-    width: 82%;
+[date-picker] .event .watched .watchedwidth, [date-picker] .event .badged .watchedwidth {
+    width: 85%;
+}
+[date-picker] .event .badged .watchedwidth {
+    width: 76%;
 }
 [date-picker] .event .watchedpos {
     position: absolute;
@@ -1145,9 +1148,14 @@ td.day {
 }
 
 [date-picker] .event a .badge {
-      border-radius: 6px;
-      padding:2px 4px;
-      cursor: row-resize;
+    position: absolute;
+    top: 0px;
+    right: 2px;
+    padding: 2px 4px;
+    border-radius: 6px;
+    cursor: row-resize;
+    text-decoration: none !important;
+    height: 21px;
 }
 
 [date-picker] div.tooltip.bottom {
