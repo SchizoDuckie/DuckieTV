@@ -55,17 +55,25 @@ DuckieTV.factory('RarBG', ["$q", "$http",
          * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple
          * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
          */
+        var nextRequest = new Date().getTime();
+
         var promiseRequest = function(type, param, param2, promise) {
             var url = getUrl(type, param, param2);
+            return $q(function(resolve, reject) {
+                var timeout = 2100;
+                nextRequest = nextRequest + timeout;
+                setTimeout(function() {
+                    $http.get(url, {
+                        timeout: promise ? promise : 120000,
+                        cache: false,
+                    }).then(function(result) {
+                        resolve(parsers[type](result));
+                    }, function(err) {
+                        throw "Error " + err.status + ":" + err.statusText;
+                    });
 
-            return $http.get(url, {
-                timeout: promise ? promise : 120000,
-                cache: false,
-            }).then(function(result) {
-                return parsers[type](result);
-            }, function(err) {
-                console.error("RarBG Search Error!", err);
-                throw "Error " + err.status + ":" + err.statusText;
+                }, nextRequest - new Date().getTime());
+
             });
         };
 
