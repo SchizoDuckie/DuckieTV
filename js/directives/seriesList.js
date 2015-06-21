@@ -61,6 +61,9 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             };
 
             var smoothScroll = function(parent, el, duration) {
+                if (el == null) {
+                    return;
+                };
                 duration = duration || 500;
                 var start = parent.scrollTop;
                 var end = el.offsetParent.offsetParent.offsetTop;
