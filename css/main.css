@@ -411,7 +411,7 @@ serieheader .poster {
     background-size: 100% 100%;
     background-position: center center;
     background-repeat: no-repeat;
-    transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 /* Ideally a :not(.img-load-error) here would be ideal however the class
  * is only applied to the actual div loading the poster and :not does not
