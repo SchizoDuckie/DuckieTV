@@ -297,6 +297,47 @@ background-rotator, background-rotator > div {
     background-image: url('../img/torrentclients/tixati-small.png');
 }
 
+.dropdown-menu {
+      background-color: #333;
+      color: white;
+      max-height: 550px;
+      overflow-y: auto;
+      padding: 0px 5px;
+}
+
+.dropdown-menu li:hover {
+    background-color: #444;
+}
+
+.dropdown-menu label {
+    text-align: left;
+    color: white;
+    font-weight: normal;
+    width: 100%;
+    padding: 5px 0px;
+}
+
+.navbar-default {
+    background-color:transparent;
+    border:0;
+    margin:0;
+    margin-bottom: -20px;
+}
+
+.navbar-default .btn {
+    background-color:transparent;
+    color:white;
+    border-color: rgba(255,255,255,0.4);
+} 
+
+.navbar-collapse {
+    padding-left:0;
+    padding-right:0;
+}
+
+.navbar-form {
+    padding: 0;
+}
 
 .typeahead ul {
     max-height: 150px;
@@ -609,7 +650,6 @@ series-list .tools {
     background-color: rgb(51, 51, 51);
     z-index:1000;
     position: absolute;
-    height: 72px;
 }
 series-list #favslist serieheader[mode='poster'], #favslist serieheader .poster {
     transition: width 1s, height 1s, opacity 0.5s;

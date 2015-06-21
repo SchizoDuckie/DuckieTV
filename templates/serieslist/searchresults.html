@@ -1,6 +1,0 @@
-<!-- Display favourites in search mode -->
-<div class="series" series-grid vertical-offset="100" ng-class="{'miniposter': serieslist.isSmall}">
-<h1 style="margin-bottom:20px;margin-top:15px;color:rgb(225,225,225);" translate-once="SERIESLIST/SEARCHRESULTS/click-to-see/lbl"></h1>
-    <serieHeader ng-repeat="serie in serieslist.getFavorites() | orderBy: 'getSortName()' | filter: serieslist.localFilter" data="serie" no-badge="0" no-overview="1" no-title="0" mode="{{serieslist.mode}}"  style="position:absolute;left:{{grid.getLeft($index)}}px;top:{{grid.getTop($index)}}px">   
-    </serieHeader>
-</div>

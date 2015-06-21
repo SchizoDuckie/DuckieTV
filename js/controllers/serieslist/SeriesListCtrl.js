@@ -11,7 +11,8 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         FavoritesService.flushAdding();
         this.query = ''; // local filter query, set from LocalSerieCtrl
-
+        this.genreFilter = []; // genre filter from localseriectrl 
+        this.statusFilter = [];
         var timeout = null;
 
         function setWidthMinus(minus) {
@@ -24,7 +25,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                     serieslist.style.width = 'calc(100% - ' + minus + 'px)';
                 }
             }, 0);
-        };
+        }
 
         function sidepanelMonitor(newValue) {
             if (!SeriesListState.state.isShowing) return;
@@ -33,7 +34,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             } else if (newValue[0].object.isShowing) {
                 setWidthMinus(400);
             } else {
-                setWidthMinus(0)
+                setWidthMinus(0);
             }
         }
 
@@ -46,8 +47,35 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             serieslist.query = query;
         });
 
+        $rootScope.$on('serieslist:genres', function(evt, genres) {
+            serieslist.genreFilter = genres;
+        });
+
+        $rootScope.$on('serieslist:selectedstatus', function(evt, status) {
+            serieslist.statusFilter = status;
+        });
+
+
         this.localFilter = function(el) {
-            return el.name.toLowerCase().indexOf(serieslist.query.toLowerCase()) > -1;
+            var nameMatch = true,
+                statusMatch = true,
+                genreMatch = true;
+            if (serieslist.query.length > 0) {
+                nameMatch = el.name.toLowerCase().indexOf(serieslist.query.toLowerCase()) > -1;
+            }
+            if (serieslist.statusFilter.length > 0) {
+                statusMatch = serieslist.statusFilter.indexOf(el.status) > -1;
+            }
+            if (serieslist.genreFilter.length > 0) {
+                var matched = false;
+                serieslist.genreFilter.map(function(genre) {
+                    if (el.genre.indexOf(genre) > -1) {
+                        matched = true;
+                    }
+                });
+                genreMatch = matched;
+            }
+            return nameMatch && statusMatch && genreMatch;
         };
 
         /**
@@ -55,9 +83,8 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          */
         this.execFilter = function() {
             setTimeout(function() {
-                console.log('Execing query!');
                 document.querySelector('.series serieheader a').click();
-            }, 0)
+            }, 0);
         };
 
         Object.observe(SeriesListState.state, function(newValue) {
@@ -74,7 +101,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         this.getFavorites = function() {
             return FavoritesService.favorites;
-        }
+        };
 
         /**
          * Set the series list display mode to either banner or poster.
@@ -89,7 +116,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         this.closeSidePanel = function() {
             SidePanelState.hide();
-        }
+        };
 
         /**
          * Toggles small mode on off
@@ -104,7 +131,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          */
         this.activate = function(el) {
             this.activated = true;
-        }
+        };
 
         /**
          * Close the drawer
