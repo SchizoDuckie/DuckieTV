@@ -1,5 +1,5 @@
 <!-- serieHeader.html -->
-<div class="serieheader" tooltip-template="'serieHeaderTitleTooltip.html'" tooltip-popup-delay="250">
+<div class="serieheader" tooltip-template="'serieHeaderTitleTooltip.html'" tooltip-popup-delay="200">
   <div class="imgcont">
     <div ng-show="!noBadge">
       <em ng-show="data.notWatchedCount != 0 " class="badge">
@@ -13,12 +13,12 @@
       <div class="{{mode}}" lazy-background="{{mode == 'poster' ? data.poster : data.banner}}"></div>
     </a>
   </div>
-  <h3 ng-show="!noTitle">{{data.name}}</h3>
+  <h3 ng-show="!noTitle || mode == 'banner'">{{data.name}}</h3>
   <div ng-show="!noOverview" class='overview'><p>{{data.overview}}</p></div>
   <div ng-transclude></div>
 </div>
 <script type="text/ng-template" id="serieHeaderTitleTooltip.html">
-  <strong>{{mode == 'poster' ? data.name : ''}}</strong><br>
+  <strong ng-if="mode == 'poster'">{{data.name}}</strong>
   <div ng-show="!noBadge">
     <div ng-show="data.notWatchedCount == 0 ">
       ({{'SERIEHEADER/all-watched/tooltip'|translate}})

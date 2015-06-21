@@ -50,6 +50,9 @@ body .tooltip.left .tooltip-arrow {
     border-bottom-color: transparent !important;
     border-left-color: white;
 }
+.tooltip {
+    border: 0 !important;
+}
 .printlogo {
     display: none;
 }
@@ -303,7 +306,6 @@ background-rotator, background-rotator > div {
 }
 
 serieheader {
-    -webkit-transition: all 0.5s ease-in-out;
 }
 
 serieheader > div {
@@ -399,6 +401,7 @@ serieheader .banner {
 serieheader[mode='poster'] {
     display: inline-block;
     margin: 0px 9px 11px 9px;
+    -webkit-transition: all 0.5s ease-in-out;
 }
 /* Standard Poster Size */
 serieheader .poster {
@@ -1139,6 +1142,7 @@ td.day {
 [date-picker] .event > a span {
     display: inline-block;
     line-height: 18px;
+    cursor: pointer;
 }
 
 [date-picker] .event a .badge {
@@ -1518,7 +1522,7 @@ sidepanel .leftpanel  h3 {
     font-size: 20px;
     letter-spacing: 0.5px;
 }
-sidepanel .leftpanel .overview p {
+sidepanel .overview p {
     margin: 8px;
     color: rgb(208, 208, 208);
     font-size: 13px;
@@ -1611,8 +1615,9 @@ sidepanel .serie-bg-img {
     background-size: cover;
     opacity: 0.2 !important; /* override any image load error opacities */
     z-index: -1;
-    -webkit-filter: blur(5px);
     background-position: 50%;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
     transition: width 0.4s ease-in-out;
 }
 sidepanel .expanded .serie-bg-img {
