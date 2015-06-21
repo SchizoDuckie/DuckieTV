@@ -374,7 +374,7 @@ serieheader[mode=banner].full h3 {
     margin-top: -36px;
 }
 serieheader[mode=banner].full .banner {
-    margin-bottom:36px;
+    margin-bottom: 36px;
     height: 180px;
 }
 serieheader[mode=banner].full h3 {
@@ -382,9 +382,10 @@ serieheader[mode=banner].full h3 {
 
 serieheader .banner {
     height: 150px;
-    width:100%;
+    width: 100%;
     background-repeat:no-repeat;
     background-size: cover;
+    background-position: 50%;
 }
 
 .series serieheader[mode='poster'] > div {
