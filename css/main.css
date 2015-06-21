@@ -305,9 +305,6 @@ background-rotator, background-rotator > div {
     overflow: auto;
 }
 
-serieheader {
-}
-
 serieheader > div {
     position: relative;
     overflow: hidden;

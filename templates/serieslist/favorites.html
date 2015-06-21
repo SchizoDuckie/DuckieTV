@@ -3,6 +3,6 @@
 	
 	<h1 style="margin-bottom:20px;margin-top:15px;color:rgb(225,225,225);" translate-once="SERIESLIST/FAVORITES/click-to-see/lbl"></h1>
     
-    <serieHeader ng-repeat="serie in serieslist.getFavorites() | orderBy: 'getSortName()' | filter: localSearch.localFilter" data="serie" no-badge="0" no-title="1" no-overview="1" mode="{{serieslist.mode == 'poster' ? 'poster' : 'banner'}}" {{serieslist.mode == 'poster' ? 'style="position: absolute; left:' + grid.getLeft($index) + 'px; top:' + grid.getTop($index) + 'px' : ''}} ng-click="grid.smoothScrollTo()">   
+    <serieHeader ng-repeat="serie in serieslist.getFavorites() | orderBy: 'getSortName()' | filter: localSearch.localFilter" data="serie" no-badge="0" no-title="1" no-overview="1" mode="{{serieslist.mode == 'poster' ? 'poster' : 'banner'}}" style="{{serieslist.mode == 'poster' ? 'position: absolute;' : ''}}left:{{grid.getLeft($index)}}px;top:{{grid.getTop($index)}}px">   
     </serieHeader>
 </div>
