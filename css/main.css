@@ -345,9 +345,10 @@ serieheader[mode='search'] h3 {
 }
 
 serieheader[mode=banner] {
-    overflow:hidden;
+    overflow: hidden;
     display: inline-block;
-    width:50%;
+    width: 50%;
+    position: initial !important; /* Force initial to override the poster transition effects */
 }
 serieheader[mode=banner] h3 {
     position: absolute;
