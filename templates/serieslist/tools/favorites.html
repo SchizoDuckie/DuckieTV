@@ -38,7 +38,7 @@
 				      </button>
 				      <ul class="dropdown-menu" role="menu">
 					     <li ng-repeat="(status, count) in localFilter.statusList track by $index" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)">
-							<label for="status{{$index}}"><input id="status{{$index}}" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)" type="checkbox" ng-checked="localFilter.getCheckedStatus(status)">{{status}} ({{count}})</label>
+							<label for="status{{$index}}"><input id="status{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedStatus(status)"  ng-click="localFilter.selectStatus(status)">{{status}} ({{count}})</label>
 				      	  </li> 
 			      		</ul>
 				  </div>
