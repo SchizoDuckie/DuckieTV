@@ -1,64 +1,66 @@
 <!-- Add series button -->
 <div> 
-	<a accesskey="a" ui-sref=".add()" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt+a)" tooltip-placement="right" style='float:left'>
-	  <i class="glyphicon glyphicon-plus-sign" style="top:3px"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
-	</a>
-	<!-- Filter library button -->
-	<a accesskey="/" ng-click="serieslist.isFiltering = !serieslist.isFiltering" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/search/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + / )" tooltip-placement="bottom">
-	  <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/filter/glyph"></span>
-	</a>&nbsp;
+  <a accesskey="a" ui-sref=".add()" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt+a)" tooltip-placement="right" style='float:left'>
+    <i class="glyphicon glyphicon-plus-sign" style="top:3px"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
+  </a>
+  <!-- Filter library button -->
+  <a accesskey="/" ng-click="serieslist.isFiltering = !serieslist.isFiltering" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/search/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + / )" tooltip-placement="bottom">
+    <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/filter/glyph"></span>
+  </a>&nbsp;
 
-	<!-- Banner mode button -->
-	<a accesskey="l" ng-show="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom">
-	  <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/list-show/glyph"></span>
-	</a>
-	<!-- Poster mode button -->
-	<a accesskey="g" ng-show="serieslist.mode != 'poster'" ng-click="serieslist.setMode('poster');" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + g)" tooltip-placement="bottom">
-	  <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/grid-show/glyph"></span>
-	</a>
-	<!-- Make posters smaller button -->
-	<a ng-show="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">
-	  <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/FAVORITES/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/FAVORITES/make-posters-small/tooltip'|translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
-	</a>
+  <!-- Banner mode button -->
+  <a accesskey="l" ng-show="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom">
+    <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/list-show/glyph"></span>
+  </a>
+  <!-- Poster mode button -->
+  <a accesskey="g" ng-show="serieslist.mode != 'poster'" ng-click="serieslist.setMode('poster');" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + g)" tooltip-placement="bottom">
+    <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/grid-show/glyph"></span>
+  </a>
+  <!-- Make posters smaller button -->
+  <a ng-show="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">
+    <i tooltip="{{serieslist.isSmall ? 'SERIESLIST/TOOLS/FAVORITES/make-posters-large/tooltip' : 'SERIESLIST/TOOLS/FAVORITES/make-posters-small/tooltip'|translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
+  </a>
 </div>
 
 <div ng-controller="localSeriesCtrl as localFilter" class="filtertools" collapse="!serieslist.isFiltering">
-	<nav class="navbar navbar-default" role="navigation">
-		<div class="collapse navbar-collapse">
-			<form class="navbar-form navbar-left" ng-submit="serieslist.execFilter()" name="filterForm" style='width:50%'>
-				  <input type='text' style='width: 100%;' focus-watch="'serieslist.isFiltering'" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' translate-once-placeholder="SERIESLIST/TOOLS/LOCALFILTER/filter-placeholder">
-			</form>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="collapse navbar-collapse">
+      <form class="navbar-form navbar-left" ng-submit="serieslist.execFilter()" name="filterForm" style='width:50%'>
+          <input type='text' style='width: 100%;' focus-watch="'serieslist.isFiltering'" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' translate-once-placeholder="SERIESLIST/TOOLS/LOCALFILTER/filter-placeholder">
+      </form>
 
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown" style='padding:10px'>
-				   <div class="btn-group" dropdown>
-				      <button type="button" class="btn dropdown-toggle" dropdown-toggle>Status 
-				        <span class="caret"></span>
-				        <span class="sr-only">Split button!</span>
-				      </button>
-				      <ul class="dropdown-menu" role="menu">
-					     <li ng-repeat="(status, count) in localFilter.statusList track by $index" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)">
-							<label for="status{{$index}}"><input id="status{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedStatus(status)"  ng-click="localFilter.selectStatus(status)">{{status}} ({{count}})</label>
-				      	  </li> 
-			      		</ul>
-				  </div>
-				</li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown" style='padding:10px'>
-			 		<div class="btn-group" dropdown>
-			      <button type="button" class="btn btn-large dropdown-toggle" dropdown-toggle >Genre
-			        <span class="caret"></span>
-			        <span class="sr-only">Split button!</span>
-			      </button>
-			      <ul class="dropdown-menu" role="menu">    
-			      	<li ng-repeat="(genre, count) in localFilter.genreList track by $index" ng-click="$event.stopPropagation(); localFilter.selectGenre(genre)">
-								<label for="genre{{$index}}"><input id="genre{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedGenre(genre)"  ng-click="localFilter.selectGenre(genre)">{{genre}} ({{count}})</label>
-			      	</li> 
-				    </ul>
-				  </div>
-				</li>
-			</ul>
-		</div>
-	</nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown" style='padding:10px'>
+           <div class="btn-group" dropdown>
+              <button type="button" class="btn dropdown-toggle" dropdown-toggle>
+              <span translate-once="SERIESLIST/TOOLS/FAVORITES/status/btn"></span> 
+                <span class="caret"></span>
+                <span class="sr-only">Split button!</span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+               <li ng-repeat="(status, count) in localFilter.statusList track by $index" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)">
+              <label for="status{{$index}}"><input id="status{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedStatus(status)"  ng-click="localFilter.selectStatus(status)">{{status}} ({{count}})</label>
+                  </li> 
+                </ul>
+          </div>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown" style='padding:10px'>
+           <div class="btn-group" dropdown>
+            <button type="button" class="btn btn-large dropdown-toggle" dropdown-toggle >
+              <span translate-once="SERIESLIST/TOOLS/FAVORITES/genre/btn"></span> 
+              <span class="caret"></span>
+              <span class="sr-only">Split button!</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">    
+              <li ng-repeat="(genre, count) in localFilter.genreList track by $index" ng-click="$event.stopPropagation(); localFilter.selectGenre(genre)">
+                <label for="genre{{$index}}"><input id="genre{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedGenre(genre)"  ng-click="localFilter.selectGenre(genre)">{{genre}} ({{count}})</label>
+              </li> 
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </div>
