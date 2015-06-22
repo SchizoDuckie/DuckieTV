@@ -1,7 +1,6 @@
 DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesService",
     function($rootScope, $filter, FavoritesService) {
         var vm = this;
-        this.isFiltering = true;
 
         // Broadcast empty filter to reset the value in the SeriesList Ctrl        
         $rootScope.$broadcast('serieslist:filter', '');
@@ -9,7 +8,6 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
         this.setFilter = function(val) {
             $rootScope.$broadcast('serieslist:filter', val);
         };
-
 
         this.rawTranslatedCategoryList = $filter('translate')('SERIESLISTjs/category/list');
         this.categoryList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateCategory()
@@ -55,9 +53,6 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
             }
         $rootScope.$broadcast('serieslist:selectedstatus', this.selectedStatus);
         };
-
-
-
 
         this.getCheckedGenre = function(genre) {
             return this.selectedGenres.indexOf(genre) > -1;

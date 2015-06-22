@@ -40,14 +40,12 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
 })
 
 .directive('seriesGrid', function() {
-
     return {
         restrict: 'A',
         controllerAs: 'grid',
         controller: function($scope, SidePanelState) {
             var posterWidth, posterHeight, postersPerRow, centeringOffset, verticalOffset, oldClientWidth;
             var el = document.querySelector('[series-grid]');
-
 
             // ease in out function thanks to:
             // http://blog.greweb.fr/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
@@ -87,11 +85,9 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 }, 800);
             };
 
-
             this.smoothScrollTo = function() {
                 scrollToActive();
             };
-
 
             function recalculate() {
                 var isMini = el.classList.contains('miniposter');
@@ -99,6 +95,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 posterHeight = isMini ? 205 : 250;
                 oldClientWidth = el.clientWidth;
                 verticalOffset = el.getAttribute('vertical-offset') ? parseInt(el.getAttribute('vertical-offset')) : 70;
+                horizontalOffset = el.getAttribute('horizontal-offset') ? parseInt(el.getAttribute('horizontal-offset')) : 100;
                 postersPerRow = Math.floor(el.clientWidth / posterWidth);
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
                 scrollToActive();
@@ -108,7 +105,6 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 recalculate();
                 scrollToActive();
                 $scope.$applyAsync();
-
             });
 
             // configuration of the observer:
@@ -134,5 +130,4 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             };
         }
     };
-
 });

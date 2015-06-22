@@ -651,9 +651,16 @@ series-list .tools {
     z-index:1000;
     position: absolute;
 }
-series-list #favslist serieheader[mode='poster'], #favslist serieheader .poster {
-    transition: width 1s, height 1s, opacity 0.5s;
+
+series-list .tools .filtertools {
+    height: 0px;
+    overflow: hidden;
+    transition: height .3s ease-in-out;
 }
+series-list .tools .filtertools.active {
+    height: 45px;
+}
+
 
 series-list .series {
     overflow-y: auto;

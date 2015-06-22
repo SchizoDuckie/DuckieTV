@@ -13,6 +13,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.query = ''; // local filter query, set from LocalSerieCtrl
         this.genreFilter = []; // genre filter from localseriectrl 
         this.statusFilter = [];
+        this.isFiltering = false;
         var timeout = null;
 
         function setWidthMinus(minus) {
