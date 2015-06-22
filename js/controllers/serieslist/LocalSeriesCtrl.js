@@ -4,6 +4,8 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
 
         // Broadcast empty filter to reset the value in the SeriesList Ctrl        
         $rootScope.$broadcast('serieslist:filter', '');
+        $rootScope.$broadcast('serieslist:genres', '');
+        $rootScope.$broadcast('serieslist:selectedstatus', '');
 
         this.setFilter = function(val) {
             $rootScope.$broadcast('serieslist:filter', val);
