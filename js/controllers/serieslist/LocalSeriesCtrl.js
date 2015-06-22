@@ -11,7 +11,7 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
             $rootScope.$broadcast('serieslist:filter', val);
         };
 
-        this.rawTranslatedCategoryList = $filter('translate')('SERIESLISTjs/category/list');
+        this.rawTranslatedCategoryList = $filter('translate')('CATEGORYLIST');
         this.categoryList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateCategory()
         this.translatedCategoryList = this.rawTranslatedCategoryList.split(',');
 
