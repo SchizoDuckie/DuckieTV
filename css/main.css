@@ -652,15 +652,9 @@ series-list .tools {
     position: absolute;
 }
 
-series-list .tools .filtertools {
-    height: 0px;
-    overflow: hidden;
-    transition: height .3s ease-in-out;
+series-list .filtertools.collapsing {
+    transition: all .5s ease-in-out;
 }
-series-list .tools .filtertools.active {
-    height: 45px;
-}
-
 
 series-list .series {
     overflow-y: auto;

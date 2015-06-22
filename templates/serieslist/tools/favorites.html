@@ -22,7 +22,7 @@
 	</a>
 </div>
 
-<div ng-controller="localSeriesCtrl as localFilter" class="filtertools" ng-class="{'active': serieslist.isFiltering}">
+<div ng-controller="localSeriesCtrl as localFilter" class="filtertools" collapse="!serieslist.isFiltering">
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="collapse navbar-collapse">
 			<form class="navbar-form navbar-left" ng-submit="serieslist.execFilter()" name="filterForm" style='width:50%'>
