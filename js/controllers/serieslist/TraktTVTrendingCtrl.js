@@ -6,9 +6,8 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
         this.limit = 100;
         this.categories = {};
         this.activeCategory = false;
-        this.rawTranslatedCategoryList = $filter('translate')('GENRELIST');
-        this.categoryList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateCategory()
-        this.translatedCategoryList = this.rawTranslatedCategoryList.split(',');
+        var categoryList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateCategory()
+        var translatedCategoryList = $filter('translate')('GENRELIST').split(',');
         this.currentFavs = FavoritesService.favorites;
         setTimeout(function() {
             trending.currentFavs = FavoritesService.favorites
@@ -18,7 +17,8 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$rootScope", "$filter", "TraktTVv2"
          * Takes the English Category (as fetched from TraktTV) and returns a translation
          */
         this.translateCategory = function(category) {
-            return (this.categoryList.indexOf(category) != -1) ? this.translatedCategoryList[this.categoryList.indexOf(category)] : category;
+            var idx = categoryList.indexOf(category);
+            return (idx != -1) ? translatedCategoryList[idx] : category;
         };
 
         this.fetch = function() {
