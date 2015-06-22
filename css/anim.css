@@ -42,30 +42,36 @@
   }
 }
 
-[ui-view].ng-enter, [ui-view].ng-leave {
- 
-  -webkit-transition:all .3s ease-in-out;
-    -moz-transition:all .3s ease-in-out;
-    -o-transition:all .3s ease-in-out;
-    transition:all .3s ease-in-out;
+[ui-view].ng-enter, [ui-view].ng-leave, serieheader.ng-enter, serieheader.ng-leave  {
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  -o-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
 }
 
-[ui-view].ng-enter {
+[ui-view].ng-enter, serieheader.ng-enter {
   opacity: 0;
- 
 }
 
-[ui-view].ng-enter-active {
+[ui-view].ng-enter-active, serieheader.ng-enter-active {
   opacity: 1;
 }
 
-[ui-view].ng-leave {
+[ui-view].ng-leave, serieheader.ng-leave {
   opacity: 1; 
 }
 
-[ui-view].ng-leave-active {
+[ui-view].ng-leave-active, serieheader.ng-leave-active {
   opacity: 0;
 }
+/* Heh dis is so cool
+serieheader.ng-enter {
+  top: -210px !important;
+}
+
+serieheader.ng-leave-active {
+  top: -210px !important;
+} */
 
 
 @keyframes ballrotate {
