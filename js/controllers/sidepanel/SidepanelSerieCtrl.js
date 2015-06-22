@@ -4,9 +4,18 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
 
     this.serie = serie;
     this.latestSeason = latestSeason;
+    this.isRefreshing = false;
 
     this.refresh = function(serie) {
-        $rootScope.$broadcast('serie:updating', serie);
+        this.isRefreshing = true;
+        console.log("Refreshing!");
+        TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(sidepanel.selectSerie).then(function(result) {
+            setTimeout(function() {
+            sidepanel.isRefreshing = false; 
+                console.log("Done!");
+                $scope.$applyAsync();
+            }, 500);
+        });
     };
 
     this.nextEpisode = null;
@@ -37,11 +46,6 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
             });
         });
     };
-
-    $rootScope.$on('serie:updating', function(event, serie) {
-        // note: this serie is a CRUD.entity
-        TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(sidepanel.selectSerie);
-    });
 
     /**
      * Add a show to favorites.*The serie object is a Trakt.TV TV Show Object.

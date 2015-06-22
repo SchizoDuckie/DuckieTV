@@ -61,8 +61,8 @@
       <tr>
         <td colspan="2">
           <a ng-click="sidepanel.refresh(sidepanel.serie)">
-            <i class="glyphicon glyphicon-refresh" ng-show="!sidepanel.isAdding(sidepanel.serie.TVDB_ID)"></i>
-            <i ng-show="sidepanel.isAdding(sidepanel.serie.TVDB_ID)"><loading-spinner style="width: 25px; height: 25px; left: 0px; top: 0px; position: relative; float: left;"></loading-spinner></i>
+            <i class="glyphicon glyphicon-refresh" ng-show="!sidepanel.isRefreshing"></i>
+            <i ng-show="sidepanel.isRefreshing"><loading-spinner style="width: 25px; height: 25px; left: 0px; top: 0px; position: relative; float: left;"></loading-spinner></i>
             <strong translate-once="SIDEPANEL/SERIE-OVERVIEW/refresh/lbl"></strong>
           </a>
         </td>
