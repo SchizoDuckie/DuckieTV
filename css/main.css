@@ -297,6 +297,10 @@ background-rotator, background-rotator > div {
     background-image: url('../img/torrentclients/tixati-small.png');
 }
 
+.dropdown-menu>li>a {
+      color: white;
+}
+
 .dropdown-menu {
       background-color: #333;
       color: white;
