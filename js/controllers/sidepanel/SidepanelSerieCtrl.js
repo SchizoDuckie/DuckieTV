@@ -8,11 +8,11 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
 
     this.refresh = function(serie) {
         this.isRefreshing = true;
-        console.log("Refreshing!");
+        //console.debug("Refreshing!");
         TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(sidepanel.selectSerie).then(function(result) {
             setTimeout(function() {
             sidepanel.isRefreshing = false; 
-                console.log("Done!");
+                //console.debug("Done!");
                 $scope.$applyAsync();
             }, 500);
         });
