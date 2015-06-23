@@ -98,13 +98,12 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 padding = el.getAttribute('grid-padding') ? parseInt(el.getAttribute('grid-padding')) : 0;
                 postersPerRow = Math.floor((el.clientWidth - (padding * 2)) / posterWidth);
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
+                $scope.$applyAsync();
                 scrollToActive();
             }
 
             var observer = new MutationObserver(function(mutations) {
                 recalculate();
-                scrollToActive();
-                $scope.$applyAsync();
             });
 
             // configuration of the observer:
