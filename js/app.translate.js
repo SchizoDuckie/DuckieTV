@@ -85,10 +85,36 @@ DuckieTV.config(["$translateProvider",
          * if it becomes problematic, use $translateProvider.preferredLanguage('en_us'); here to set a default
          * or $translate.use('en_us'); in a controller or service.
          */
-        .determinePreferredLanguage();
+        .determinePreferredLanguage()
 
         // error logging. missing keys are sent to $log
-        //$translateProvider.useMissingTranslationHandlerLog();
+        .useMissingTranslationHandler('duckietvMissingTranslationHandler');
+    }
+])
+
+/*
+ * Custom Missing Translation key Handler 
+ */
+.factory("duckietvMissingTranslationHandler", ["$translate", "SettingsService",
+    function ($translate, SettingsService) {
+        var previousKeys = []; // list of missing keys we have processed once already
+        var appLocale = SettingsService.get('application.locale'); // the application language the user wants
+        
+        return function (translationID, lang) {
+            if (lang !== appLocale) {
+                // ignore translation errors until the appLocale's translation table has been loaded
+                return translationID;                
+            };
+            if (previousKeys.indexOf(lang+translationID) !== -1) {
+                // we have had this key already, do nothing
+                return translationID;
+            } else {
+                // first time we have had this key, log it
+                previousKeys.push(lang+translationID);
+                console.warn("Translation for (" + lang + ") key " + translationID + " doesn't exist");
+                return translationID;
+            };
+        };
     }
 ])
 
