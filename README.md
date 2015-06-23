@@ -7,7 +7,7 @@ DuckieTV is a Google Chrome extension (Now also available as standalone builds f
 With the integrated DuckieTorrent client you can connect DuckieTV to your local Torrent client and be updated on the download progress without switching applications. (Now includes support for Deluge, &micro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission. and Vuze clients).
 
 
-As of v0.60 DuckieTV also is also finally becoming a worthy SickBeard competitor by introducing an automatic downloading of shows that have aired and translations into 13 languages. (English, Deutsch, Español, Français, Italiano, 日本, 한국어, Nederlands, Purtugese, Русский, Slovenščina, Svenska, 简体中文 )
+As of v0.60 DuckieTV also is also finally becoming a worthy SickBeard competitor by introducing an automatic downloading of shows that have aired and translations into 13 languages. (English, Deutsch, Español, Français, Italiano, 日本, 한국어, Nederlands, Portuguese, Русский, Slovenščina, Svenska, 简体中文 )
 
 How can I get it?
 =================
