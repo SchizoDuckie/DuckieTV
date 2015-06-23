@@ -14,7 +14,7 @@ With the integrated DuckieTorrent client you can connect DuckieTV to your local 
 
 DuckieTV can even automatically start downloading shows that have aired.
 
-Translations are available in 13 languages. (English, Deutch, Español, Français, Italiano, 日本, 한국어, Nederlands, Purtugese, Русский, Slovenščina, Svenska, 简体中文 )
+Translations are available in 13 languages. (English, Deutch, Español, Français, Italiano, 日本, 한국어, Nederlands, Portuguese, Русский, Slovenščina, Svenska, 简体中文 )
 
 <div id="slides"
  data-thumbgrid="true"
