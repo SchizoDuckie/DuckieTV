@@ -95,8 +95,8 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 posterHeight = isMini ? 205 : 250;
                 oldClientWidth = el.clientWidth;
                 verticalOffset = el.getAttribute('vertical-offset') ? parseInt(el.getAttribute('vertical-offset')) : 70;
-                horizontalOffset = el.getAttribute('horizontal-offset') ? parseInt(el.getAttribute('horizontal-offset')) : 100;
-                postersPerRow = Math.floor(el.clientWidth / posterWidth);
+                padding = el.getAttribute('grid-padding') ? parseInt(el.getAttribute('grid-padding')) : 0;
+                postersPerRow = Math.floor((el.clientWidth - (padding * 2)) / posterWidth);
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
                 scrollToActive();
             }
