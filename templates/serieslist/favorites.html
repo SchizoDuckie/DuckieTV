@@ -1,6 +1,6 @@
 <!-- Display favourites in selected mode -->
 <div series-grid horizontal-offset="500" vertical-offset="{{serieslist.isFiltering ? '115' : '85'}}" class="series" ng-if="serieslist.activated" ng-class="{'miniposter': serieslist.isSmall}">
 	<h1 style="margin-top:{{serieslist.isFiltering ? '40' : '10'}}px;color:rgb(225,225,225);transition: margin .5s ease-in-out" translate-once="SERIESLIST/FAVORITES/click-to-see/lbl"></h1>
-    <serieHeader ng-repeat="serie in serieslist.getFavorites() | orderBy: 'getSortName()' | filter: serieslist.localFilter" data="serie" no-badge="0" no-title="1" no-overview="1" mode="{{serieslist.mode == 'poster' ? 'poster' : 'banner'}}" style="position:absolute;left:{{grid.getLeft($index)}}px;top:{{grid.getTop($index)}}px">   
+    <serieHeader ng-repeat="serie in filteredFavorites = (serieslist.getFavorites() | orderBy: 'getSortName()' | filter: serieslist.localFilter)" data="serie" no-badge="0" no-title="1" no-overview="1" mode="{{serieslist.mode == 'poster' ? 'poster' : 'banner'}}" style="position:absolute;left:{{grid.getLeft($index, filteredFavorites.length)}}px;top:{{grid.getTop($index)}}px">   
     </serieHeader>
 </div>

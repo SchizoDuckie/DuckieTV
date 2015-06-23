@@ -115,12 +115,24 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             observer.observe(el, config);
             observer.observe(document.querySelector('sidepanel'), config);
 
-            this.getLeft = function(idx) {
+            this.getLeft = function(idx, max) {
                 if (idx === 0 && oldClientWidth != el.clientWidth) {
                     recalculate();
                 }
-                return centeringOffset + (idx % postersPerRow) * posterWidth;
+                var rowCentering = 0;
+                var leftovers = max - (max % postersPerRow);
+                if (max < postersPerRow || idx >= leftovers) { // if we're on the last line
+                    var postersInRow = max < postersPerRow ? max : max - leftovers;
+                    rowCentering = (el.clientWidth / 2) - ((postersInRow * posterWidth) / 2) - rowCentering;
+                    var positionInRow = postersInRow - (max - idx);
+                    return rowCentering + (positionInRow * posterWidth);
+                } else {
+                    return centeringOffset + rowCentering + ((idx % postersPerRow) * posterWidth);
+                }
+
             };
+
+
             this.getTop = function(idx) {
                 if (idx === 0 && oldClientWidth != el.clientWidth) {
                     recalculate();
