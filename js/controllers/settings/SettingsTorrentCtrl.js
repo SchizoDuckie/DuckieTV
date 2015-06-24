@@ -17,6 +17,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         $scope.streamingEnabled = SettingsService.get('torrenting.streaming');
         $scope.progressEnabled = SettingsService.get('torrenting.progress');
         $scope.autostopEnabled = SettingsService.get('torrenting.autostop');
+        $scope.autostopAllEnabled = SettingsService.get('torrenting.autostop_all');
         $scope.adEnabled = SettingsService.get('torrenting.autodownload');
         $scope.adPeriod = SettingsService.get('autodownload.period');
         $scope.adMinSeeders = SettingsService.get('autodownload.minSeeders');
@@ -128,6 +129,11 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         $scope.toggleAutoStop = function() {
             $scope.autostopEnabled = !$scope.autostopEnabled;
             SettingsService.set('torrenting.autostop', $scope.autostopEnabled);
+        };
+
+        $scope.toggleAutoStopAll = function() {
+            $scope.autostopAllEnabled = !$scope.autostopAllEnabled;
+            SettingsService.set('torrenting.autostop_all', $scope.autostopAllEnabled);
         };
 
         $scope.toggleAutoDownload = function() {
