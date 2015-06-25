@@ -243,32 +243,31 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                     console.error("Error in getEpisodes", serie, filters || {});
                 });
             },
-            getEpisodesForDateRange: function(start, end) {
-                var p = null;
-
-                function getRange(start, end) {
-                    var filter = ['Episodes.firstaired > "' + start + '" AND Episodes.firstaired < "' + end + '" '];
-                    return CRUD.Find('Episode', filter).then(function(ret) {
-                        return ret;
-                    })
-                }
+            waitForInitialization: function() {
+                p = $q.defer();
 
                 function waitForInitialize() {
                     if (service.initialized) {
-                        //console.log("Favoritesservice done initializing!")
-                        p.resolve(getRange(start, end));
+                        p.resolve();
                     } else {
                         setTimeout(waitForInitialize, 50);
                     }
                 }
 
                 if (!service.initialized) {
-                    p = $q.defer();
                     setTimeout(waitForInitialize, 50);
-                    return p.promise;
                 } else {
-                    return getRange(start, end);
+                    p.resolve();
                 }
+                return p.promise;
+            },
+            getEpisodesForDateRange: function(start, end) {
+                return service.waitForInitialization().then(function() {
+                    var filter = ['Episodes.firstaired > "' + start + '" AND Episodes.firstaired < "' + end + '" '];
+                    return CRUD.Find('Episode', filter).then(function(ret) {
+                        return ret;
+                    });
+                });
             },
             /**
              * Find a serie by it's TVDB_ID (the main identifier for series since they're consistent regardless of local config)

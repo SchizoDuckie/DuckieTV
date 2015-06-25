@@ -21,7 +21,7 @@
             <a ng-show="!serie.trailer" href="https://www.youtube.com/results?search_query={{serie.name}}+official+trailer" target="_blank" tooltip="{{'SERIESLIST/TRAKT-SEARCHING/watch-trailer/tooltip'|translate}}" tooltip-append-to-body="true" tooltip-placement="bottom"  mousedown="serieslist.selectTrailer(serie,false)" ng-mouseup="serieslist.selectTrailer(serie,true)"><i class="glyphicon glyphicon-facetime-video"></i></a>
         </em>
         <em class="earmark" ng-show="serieslist.isAdded(serie.tvdb_id)">&check;</em>
-        <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><loading-spinner style="width: 37px; height:37px"></loading-spinner></em>
+        <em class="earmark adding" ng-show="serieslist.isAdding(serie.tvdb_id)"><loading-spinner style="width: 37px; height:37px; position:absolute;"></loading-spinner></em>
         <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>        
     </serieHeader>
 </div>

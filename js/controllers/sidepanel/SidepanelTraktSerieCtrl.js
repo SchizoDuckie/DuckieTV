@@ -1,12 +1,8 @@
-DuckieTV.controller('sidepanelTraktSerieCtrl', function($rootScope, $filter, $locale) {
+DuckieTV.controller('sidepanelTraktSerieCtrl', function($rootScope, $filter, $locale, serie) {
 
     var sidepanel = this;
-    this.serie = null;
+    this.serie = serie;
 
-    $rootScope.$on('traktserie:preview', function(event, serie) {
-        sidepanel.serie = serie;
-        $rootScope.$applyAsync();
-    })
 
     /*
      * Takes a rating (8.12345) and converts it percentage presentation (81)
