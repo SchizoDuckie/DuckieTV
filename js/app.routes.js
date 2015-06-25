@@ -87,8 +87,10 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     return SidePanelState;
                 },
                 FavoritesService: function(FavoritesService) {
-                    return FavoritesService;
-                }
+                    return FavoritesService.waitForInitialization().then(function() {
+                        return FavoritesService;
+                    });
+                },
             },
             views: {
                 favorites: {
@@ -111,6 +113,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         .state('favorites.search', {
             url: '/search',
+
             views: {
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/localfilter.html',
@@ -126,14 +129,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         .state('favorites.add', {
             url: '/add',
-            resolve: {
-                SidePanelState: showSidePanel,
-                FavoritesService: function(FavoritesService) {
-                    return FavoritesService.waitForInitialization().then(function() {
-                        return FavoritesService;
-                    });
-                }
-            },
             views: {
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/adding.html',
