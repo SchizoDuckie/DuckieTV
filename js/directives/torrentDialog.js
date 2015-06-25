@@ -1,7 +1,7 @@
 DuckieTV
 
-.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "TorrentSearchEngines", "SettingsService",
-    function($scope, $rootScope, $modalInstance, $injector, data, TorrentSearchEngines, SettingsService) {
+.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "TorrentSearchEngines", "SettingsService",  "TorrentHashListService",
+    function($scope, $rootScope, $modalInstance, $injector, data, TorrentSearchEngines, SettingsService, TorrentHashListService) {
         //-- Variables --//
 
         $scope.items = [];
@@ -59,13 +59,15 @@ DuckieTV
             $modalInstance.dismiss('Canceled');
         };
 
-        // Selects and launchs magnet
+        // Selects and launches magnet
         var magnetSelect = function(magnet) {
                 console.info("Magnet selected!", magnet);
                 $modalInstance.close(magnet);
 
                 var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
                 TorrentSearchEngines.launchMagnet(magnet, channel);
+                // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
+                TorrentHashListService.addToHashList(magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
             },
 
             urlSelect = function(url, releasename) {

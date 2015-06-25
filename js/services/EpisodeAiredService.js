@@ -4,8 +4,10 @@
  *
  * Runs in the background page.
  */
-DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentSearchEngines", "DuckieTorrent",
-    function($rootScope, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, DuckieTorrent) {
+DuckieTV
+
+.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentSearchEngines", "DuckieTorrent", "TorrentHashListService",
+    function($rootScope, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, DuckieTorrent, TorrentHashListService) {
 
         var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 1
         var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 50
@@ -13,7 +15,7 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
         var service = {
             checkTimeout: null,
             autoDownloadCheck: function() {
-                console.log("Episode air check fired");
+                //console.debug("Episode air check fired");
                 if (SettingsService.get('torrenting.autodownload') === false) {
                     service.detach();
                     return;
@@ -30,7 +32,7 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                 from.setSeconds(0);
 
                 DuckieTorrent.getClient().AutoConnect().then(function(remote) {
-                    console.log(DuckieTorrent.getClientName() + " connected: ", remote);
+                    console.info(DuckieTorrent.getClientName() + " connected: ", remote);
                     // Get the list of episodes that have aired since period, and iterate them.
                     FavoritesService.getEpisodesForDateRange(from.getTime(), new Date().getTime()).then(function(candidates) {
                         candidates.map(function(episode, episodeIndex) {
@@ -58,7 +60,7 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
             autoDownload: function(serie, episode, episodeIndex) {
                 // Fetch the Scene Name for the serie and compile the search string for the episode with the quality requirement.
                 var searchString = SceneNameResolver.getSceneName(serie.TVDB_ID,serie.name) + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
-                console.log("Auto download!", searchString);
+                //console.debug("Auto download!", searchString);
 
                 // Search torrent provider for the string
                 return TorrentSearchEngines.getDefaultEngine().search(searchString, true).then(function(results) {
@@ -67,13 +69,16 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
                     }
                     if (results[0].seeders == 'N/A' || parseInt(results[0].seeders, 10) >= minSeeders) { // enough seeders are available.
                         var url = results[0].magneturl;
+                        var torrentHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
                         // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                         DuckieTorrent.getClient().AutoConnect().then(function() {
                             TorrentSearchEngines.launchMagnet(url, serie.TVDB_ID, true);
-                            episode.magnetHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
+                            episode.magnetHash = torrentHash;
                             episode.Persist();
+                            // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
+                            TorrentHashListService.addToHashList(torrentHash);
                         })
-                        return url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
+                        return torrentHash;
                     }
                 });
             },
@@ -94,12 +99,14 @@ DuckieTV.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "Scen
 /**
  * Attach auto-download check interval when enabled.
  */
-.run(function($rootScope, EpisodeAiredService, SettingsService) {
+.run(["$rootScope", "EpisodeAiredService", "SettingsService",
+    function($rootScope, EpisodeAiredService, SettingsService) {
 
-    if (SettingsService.get('torrenting.enabled') === true && SettingsService.get('torrenting.autodownload') === true) {
-        setTimeout(function() {
-            console.info('Initializing episode aired checker service!');
-            EpisodeAiredService.attach();
-        }, 5000);
+        if (SettingsService.get('torrenting.enabled') === true && SettingsService.get('torrenting.autodownload') === true) {
+            setTimeout(function() {
+                console.info('Initializing episode aired checker service!');
+                EpisodeAiredService.attach();
+            }, 5000);
+        }
     }
-})
+])

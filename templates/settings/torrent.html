@@ -93,7 +93,7 @@
       <li translate-once="SETTINGS/TORRENT/autostop/hdr"></li>
     </h2>
     <p>{{autostopEnabled ? 'SETTINGS/TORRENT/autostop-disabled/desc' : 'SETTINGS/TORRENT/autostop-enabled/desc'|translate}}</p>
-    <a ng-click="toggleAutoStop()" class="btn btn-{{autostopEnabled ? 'danger' : 'success'}}">
+    <a ng-click="toggleAutoStop(); reload();" class="btn btn-{{autostopEnabled ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{autostopEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopEnabled ? 'SETTINGS/TORRENT/autostop-disabled/btn' : 'SETTINGS/TORRENT/autostop-enabled/btn'|translate}}
     </a>
 
