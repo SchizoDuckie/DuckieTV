@@ -565,7 +565,9 @@ DuckieTorrent
                 angular.forEach($parse('files.all')(this), function(el, key) {
                     files.push(el);
                 });
-                return files;
+                return new Promise(function(resolve) {
+                    resolve(files);
+                });
             },
             /**
              * The torrent is started if the status is uneven.
