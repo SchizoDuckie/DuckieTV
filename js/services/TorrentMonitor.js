@@ -31,7 +31,7 @@ DuckieTV
         function isDownloaded(torrent) {
             if (torrent.getProgress() == 100 && !torrent.downloadMarked) {
                 console.info('Torrent finished. marking as downloaded', torrent.name || torrent.hash);
-                var filter = ['downloaded != 1 and magnetHash = "' + torrent.hash + '"'];
+                var filter = ['downloaded != 1 and magnetHash = "' + torrent.hash.toUpperCase() + '"'];
                 CRUD.FindOne('Episode', filter).then(function(episode) {
                     torrent.downloadMarked = true;
                     if (!episode) return;
