@@ -108,6 +108,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'qbittorrent32plus.username': 'admin',
                 'qbittorrent32plus.password': 'admin',
                 'series.displaymode': 'poster',
+                'standalone.startupMinimized': false,
                 'standalone.zoomlevel': 6,
                 'storage.sync': false, // off by default so that permissions must be requested
                 'sync.progress': true,

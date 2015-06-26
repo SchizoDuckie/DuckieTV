@@ -11,6 +11,8 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.topSitesMode = SettingsService.get('topSites.mode');
         $scope.bgOpacity = SettingsService.get('background-rotator.opacity');
         $scope.showRatings = SettingsService.get('download.ratings');
+        $scope.isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1);
+        $scope.standaloneStartupMinimized = SettingsService.get('standalone.startupMinimized');
 
         $scope.toggleTopSites = function() {
             $scope.topSites = !$scope.topSites;
@@ -32,6 +34,12 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.toggleRatings = function() {
             $scope.showRatings = !$scope.showRatings;
             SettingsService.set('download.ratings', $scope.showRatings);
+        };
+
+        // Toggles whether to minimize the Standalone window at startup 
+        $scope.toggleStandaloneStartupMinimized = function() {
+            $scope.standaloneStartupMinimized = !$scope.standaloneStartupMinimized;
+            SettingsService.set('standalone.startupMinimized', $scope.standaloneStartupMinimized);
         };
 
     }

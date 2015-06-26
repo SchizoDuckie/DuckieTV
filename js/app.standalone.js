@@ -20,6 +20,7 @@ DuckieTV
         };
     })
     .run(function(SettingsService, $http, dialogs) {
+        var updateDialog = false;
         if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             // check last updated every 2 days.
             var lastUpdateCheck = localStorage.getItem('github.lastupdatecheck');
@@ -37,7 +38,7 @@ DuckieTV
                     if (!localStorage.getItem(settingsKey)) {
                         return;
                     }
-
+                    updateDialog = true;
                     var releasenotes = '\n' + result[0].body;
                     var dlg = dialogs.confirm('New DuckieTV release!', [
                         'A new version of DuckieTV is available (v', result[0].tag_name, ', released ', new Date(result[0].published_at).toLocaleDateString(), ')<br>',
@@ -119,8 +120,9 @@ DuckieTV
                         }
                 }
             });
-
-
+            if (SettingsService.get('standalone.startupMinimized') && !updateDialog) {
+                win.minimize();
+            }
         }
     })
 
