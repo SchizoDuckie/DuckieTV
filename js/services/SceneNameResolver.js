@@ -36,6 +36,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "72194": "The Ellen Degeneres Show",
         "72224": "The Outer Limits",
         "72231": "Real Time with Bill Maher",
+        "72289": "2020 US",
         "72301": "Penn and Teller Bullshit",
         "72306": "The Venture Brothers",
         "72449": "Stargate SG1",
@@ -440,6 +441,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         71998: "YYYY.MM.DD", // Jimmy Kimmel Live: 2014.11.13
         72194: "YYYY.MM.DD", // The Ellen DeGeneres Show: 2014.11.13 
         72231: "YYYY MM DD", // Real Time With Bill Maher
+        72289: "YYYY MM DD", // 2020 US 2015 06 05
         75332: "DD MMM YY", // General Hospital : 20 Nov 14
         77075: "YYYY-MM-DD", // Jeopardy! 2014-05-27
         79274: "YYYY.MM.DD", // The Colbert Report: 2014.11.13 
