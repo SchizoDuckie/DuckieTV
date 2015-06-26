@@ -59,15 +59,15 @@
     <hr class="setting-divider">
 
     <h2>
-      <span tooltip="{{standaloneStartupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-minimized-enabled/tooltip' : 'SETTINGS/DISPLAY/standalone-startup-minimized-disabled/tooltip'|translate}}">
+      <span tooltip="{{standaloneStartupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-minimized/tooltip' : 'SETTINGS/DISPLAY/standalone-startup-normalized/tooltip'|translate}}">
         <i class="glyphicon glyphicon-{{standaloneStartupMinimized ? 'win-minimize alert-success' : 'win-maximize alert-info'}}" style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i>
       </span>
-      <li translate-once="SETTINGS/DISPLAY/standalone-startup-minimized/hdr"></li>
+      <li translate-once="SETTINGS/DISPLAY/standalone-startup-window/hdr"></li>
     </h2>
     
-    <p>{{'SETTINGS/DISPLAY/standalone-startup-minimized/desc'|translate}}</p>
+    <p>{{'SETTINGS/DISPLAY/standalone-startup-window/desc'|translate}}</p>
     <a ng-click="toggleStandaloneStartupMinimized()" class="btn btn-{{standaloneStartupMinimized ? 'info' : 'success'}}">
-      <i class="glyphicon glyphicon-{{standaloneStartupMinimized ? 'win-maximize' : 'win-minimize'}}"  style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i> {{standaloneStartupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-minimized-disable/btn' : 'SETTINGS/DISPLAY/standalone-startup-minimized-enable/btn'|translate}}
+      <i class="glyphicon glyphicon-{{standaloneStartupMinimized ? 'win-maximize' : 'win-minimize'}}"  style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i> {{standaloneStartupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-normal/btn' : 'SETTINGS/DISPLAY/standalone-startup-minimize/btn'|translate}}
     </a>
   </div>
 </div>
