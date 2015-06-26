@@ -167,7 +167,29 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     controllerAs: 'traktSearch'
                 }
             }
+
         })
+
+        .state('favorites.add.search.trakt-serie', {
+            url: '/:id',
+            params: {
+                serie: {}
+            },
+            resolve: {
+                SidePanelState: showSidePanel,
+                serie: function($stateParams) {
+                    return $stateParams.serie;
+                }
+            },
+            views: {
+                'sidePanel@': {
+                    templateUrl: 'templates/sidepanel/trakt-serie-details.html',
+                    controller: 'sidepanelTraktSerieCtrl',
+                    controllerAs: 'sidepanel'
+                }
+            }
+        })
+
 
         .state('favorites.add.trakt-serie', {
             url: '/info/:id',
@@ -185,25 +207,23 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 }
             }
         })
-
-
-        .state('watchlist', {
-            url: '/watchlist',
-            resolve: {
-                SidePanelState: function(SidePanelState) {
-                    setTimeout(function() {
-                        expandSidePanel(SidePanelState);
-                    }, 0);
+            .state('watchlist', {
+                url: '/watchlist',
+                resolve: {
+                    SidePanelState: function(SidePanelState) {
+                        setTimeout(function() {
+                            expandSidePanel(SidePanelState);
+                        }, 0);
+                    },
+                    SeriesListState: hideSeriesList
                 },
-                SeriesListState: hideSeriesList
-            },
-            views: {
-                sidePanel: {
-                    templateUrl: 'templates/watchlist.html',
-                    controller: 'WatchlistCtrl'
+                views: {
+                    sidePanel: {
+                        templateUrl: 'templates/watchlist.html',
+                        controller: 'WatchlistCtrl'
+                    }
                 }
-            }
-        })
+            })
 
         // note: separate state from serie.season.episode navigation because we want to only open the sidepanel from the calendar, not expand it
         .state('episode', {
