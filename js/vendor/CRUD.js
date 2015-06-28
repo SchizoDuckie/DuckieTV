@@ -77,6 +77,14 @@ CRUD.EntityManager = (function() {
             return CRUD.FindOne(className, filters);
         };
 
+        this.constructors[className].Find = function(filters, options) {
+            return CRUD.Find(className, filters, options);
+        };
+
+        this.constructors[className].FindOne = function(filters, options) {
+            return CRUD.FindOne(className, filters, options);
+        };
+
         dbSetup.fields.map(function(field) {
             this.constructors[className]['findOneBy' + ucFirst(field)] = function(value, options) {
                 var filter = {};
