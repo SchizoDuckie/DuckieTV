@@ -56,19 +56,15 @@ var Serie = CRUD.define({
 }, {
 
     getEpisodes: function() {
-        return CRUD.Find('Episode', {
+        Episode.findBySerie({
             ID_Serie: this.getID()
         }, {
             limit: 100000
-        }).then(function(episodes) {
-            return episodes;
         });
     },
 
     getSeasons: function() {
-        return CRUD.Find('Season', {
-            ID_Serie: this.getID()
-        });
+        return Season.findByID_Serie(this.getID());
     },
 
     /** 
@@ -95,9 +91,7 @@ var Serie = CRUD.define({
     },
 
     getLatestSeason: function() {
-        return CRUD.FindOne('Season', {
-            ID_Serie: this.getID()
-        });
+        return Season.findOneByID_Serie(this.getID());
     },
 
     getActiveSeason: function() {
@@ -192,9 +186,7 @@ var Season = CRUD.define({
 }, {
 
     getEpisodes: function() {
-        return CRUD.Find('Episode', {
-            ID_Season: this.getID()
-        });
+        return Episode.findByID_Season(this.getID());
     }
 });
 

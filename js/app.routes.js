@@ -39,27 +39,19 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         }
 
         function findEpisodes($stateParams) {
-            return CRUD.Find('Episode', {
-                ID_Season: $stateParams.season_id
-            });
+            return Episode.findByID_Season($stateParams.season_id);
         }
 
         function findEpisode($stateParams) {
-            return CRUD.FindOne('Episode', {
-                ID_Episode: $stateParams.episode_id
-            });
+            return Episode.findByID($stateParams.episode_id);
         }
 
         function findSeasonByID($stateParams) {
-            return CRUD.FindOne('Season', {
-                ID_Season: $stateParams.season_id
-            });
+            return Season.findByID($stateParams.season_id);
         }
 
         function findSerieByID($stateParams) {
-            return CRUD.FindOne('Serie', {
-                ID_Serie: $stateParams.id
-            });
+            return Serie.findByID($stateParams.id);
         }
 
         // if the path doesn't match any of the urls you configured
@@ -231,17 +223,13 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             resolve: {
                 SidePanelState: showSidePanel,
                 serie: function($stateParams) {
-                    return CRUD.FindOne('Serie', {
-                        Episode: {
-                            ID_Episode: $stateParams.episode_id
-                        }
+                    return Serie.findOneByEpisode({
+                        ID_Episode: $stateParams.episode_id
                     });
                 },
                 season: function($stateParams) {
-                    return CRUD.FindOne('Serie', {
-                        Episode: {
-                            ID_Episode: $stateParams.episode_id
-                        }
+                    return Serie.findOneByEpisode({
+                        ID_Episode: $stateParams.episode_id
                     }).then(function(result) {
                         return result.getActiveSeason();
                     });
@@ -264,9 +252,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 SidePanelState: showSidePanel,
                 serie: findSerieByID,
                 latestSeason: function($stateParams) {
-                    return CRUD.FindOne('Serie', {
-                        ID_Serie: $stateParams.id
-                    }).then(function(result) {
+                    return Serie.findByID($stateParams.id).then(function(result) {
                         return result.getActiveSeason();
                     });
                 },
@@ -298,10 +284,8 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             resolve: {
                 SidePanelState: expandSidePanel,
                 seasons: function($stateParams) {
-                    return CRUD.Find('Season', {
-                        Serie: {
-                            ID_Serie: $stateParams.id
-                        }
+                    return Season.findBySerie({
+                        ID_Serie: $stateParams.id
                     });
                 }
             },
