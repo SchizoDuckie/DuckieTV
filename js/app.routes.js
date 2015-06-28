@@ -190,7 +190,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             }
         })
 
-
         .state('favorites.add.trakt-serie', {
             url: '/info/:id',
             resolve: {
@@ -207,23 +206,24 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 }
             }
         })
-            .state('watchlist', {
-                url: '/watchlist',
-                resolve: {
-                    SidePanelState: function(SidePanelState) {
-                        setTimeout(function() {
-                            expandSidePanel(SidePanelState);
-                        }, 0);
-                    },
-                    SeriesListState: hideSeriesList
+
+        .state('watchlist', {
+            url: '/watchlist',
+            resolve: {
+                SidePanelState: function(SidePanelState) {
+                    setTimeout(function() {
+                        expandSidePanel(SidePanelState);
+                    }, 0);
                 },
-                views: {
-                    sidePanel: {
-                        templateUrl: 'templates/watchlist.html',
-                        controller: 'WatchlistCtrl'
-                    }
+                SeriesListState: hideSeriesList
+            },
+            views: {
+                sidePanel: {
+                    templateUrl: 'templates/watchlist.html',
+                    controller: 'WatchlistCtrl'
                 }
-            })
+            }
+        })
 
         // note: separate state from serie.season.episode navigation because we want to only open the sidepanel from the calendar, not expand it
         .state('episode', {
