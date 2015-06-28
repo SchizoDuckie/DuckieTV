@@ -1,3 +1,10 @@
+/**
+ * handy Shorthand function
+ */
+CRUD.executeQuery = function(query, bindings) {
+    return CRUD.EntityManager.getAdapter().db.execute(query, bindings || []);
+};
+
 CRUD.SQLiteAdapter = function(database, dbOptions) {
     this.databaseName = database;
     this.dbOptions = dbOptions;

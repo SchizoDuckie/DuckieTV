@@ -9,8 +9,8 @@ DuckieTV
 
         if (!localStorage.getItem('1.0migration')) {
             setTimeout(function() {
-                CRUD.EntityManager.getAdapter().db.execute("update Episodes set downloaded = 1 where watched == 1").
-                then(CRUD.EntityManager.getAdapter().db.execute("select group_concat(ID_Episode) as affected from Episodes  group by  ID_Serie, seasonnumber, episodenumber having count(seasonnumber||','||episodenumber) > 1").then(function(result) {
+                CRUD.executeQuery("update Episodes set downloaded = 1 where watched == 1").
+                then(CRUD.executeQuery("select group_concat(ID_Episode) as affected from Episodes  group by  ID_Serie, seasonnumber, episodenumber having count(seasonnumber||','||episodenumber) > 1").then(function(result) {
                     var affected = [];
 
                     for (var i = 0; i < result.rs.rows.length; i++) {
@@ -19,7 +19,7 @@ DuckieTV
                             affected.push(item)
                         });
                     }
-                    return CRUD.EntityManager.getAdapter().db.execute("delete from Episodes where  ID_Episode in (" + affected.join(',') + ") AND (TVDB_ID IS null OR  episodename IS null or IMDB_ID IS NULL)");
+                    return CRUD.executeQuery("delete from Episodes where  ID_Episode in (" + affected.join(',') + ") AND (TVDB_ID IS null OR  episodename IS null or IMDB_ID IS NULL)");
                 })).
                 then(function() {
                     console.log("1.0 migration done.");

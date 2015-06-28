@@ -49,12 +49,12 @@ CRUD.Find('Season', {}, {'limit': 10000}).then(function(elements) {
 ```javascript
 var serieIds = [];
 
-CRUD.EntityManager.getAdapter().db.execute('select distinct(ID_Serie) from Series').then(function(res) {
+CRUD.executeQuery('select distinct(ID_Serie) from Series').then(function(res) {
     while(r = res.next()) {
         serieIds.push(r.row.ID_Serie)
     }
 
-    CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie not in ('+serieIds.join(',')+') ').then(function(res) {
+    CRUD.executeQuery('delete from Episodes where ID_Serie not in ('+serieIds.join(',')+') ').then(function(res) {
         console.log('done!', res.rs.rowsAffected, 'items deleted!')
     });
 
@@ -64,11 +64,11 @@ CRUD.EntityManager.getAdapter().db.execute('select distinct(ID_Serie) from Serie
 ##Completely nuke the database and settings
 
 ```javascript
-CRUD.EntityManager.getAdapter().db.execute('drop table Episodes');
-CRUD.EntityManager.getAdapter().db.execute('drop table Series');
-CRUD.EntityManager.getAdapter().db.execute('drop table Seasons');
-CRUD.EntityManager.getAdapter().db.execute('drop table WatchList');
-CRUD.EntityManager.getAdapter().db.execute('drop table WatchListObject');
+CRUD.executeQuery('drop table Episodes');
+CRUD.executeQuery('drop table Series');
+CRUD.executeQuery('drop table Seasons');
+CRUD.executeQuery('drop table WatchList');
+CRUD.executeQuery('drop table WatchListObject');
 localStorage.clear();
 ```
 
@@ -76,13 +76,13 @@ localStorage.clear();
 
 ```javascript
 localStorage.setItem('trakttv.lastupdated', new Date('2015-01-15').getTime())
-CRUD.EntityManager.getAdapter().db.execute("update series set lastupdated = '2015-01-05'").then(function(result) { console.log(result); })
+CRUD.executeQuery("update series set lastupdated = '2015-01-05'").then(function(result) { console.log(result); })
 // or even 
-// CRUD.EntityManager.getAdapter().db.execute("delete from episodes where 1").then(function(result) { console.log(result); })
+// CRUD.executeQuery("delete from episodes where 1").then(function(result) { console.log(result); })
 // reload page
 ```
 ## mark as downloaded all episodes that have been watched.
 
 ```javascript
-CRUD.EntityManager.getAdapter().db.execute("update episodes set downloaded = 1 where watched == 1").then(function(result) { console.log(result); })
+CRUD.executeQuery("update episodes set downloaded = 1 where watched == 1").then(function(result) { console.log(result); })
 ```

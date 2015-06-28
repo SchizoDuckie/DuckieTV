@@ -120,7 +120,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                 });
             });
 
-            return CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [serie.ID_Serie]).then(function(result) {
+            return CRUD.executeQuery('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [serie.ID_Serie]).then(function(result) {
                 if (result.rs.rowsAffected > 0) {
                     console.info("Cleaned up " + result.rs.rowsAffected + " orphaned episodes for series [" + serie.ID_Serie + "] " + serie.name);
                 };
@@ -296,7 +296,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                         el.Delete();
                     });
                 });
-                CRUD.EntityManager.getAdapter().db.execute('delete from Episodes where ID_Serie = ' + serie.ID_Serie);
+                CRUD.executeQuery('delete from Episodes where ID_Serie = ' + serie.ID_Serie);
                 service.favoriteIDs = service.favoriteIDs.filter(function(id) {
                     return id != serie.TVDB_ID;
                 });
@@ -348,7 +348,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             loadRandomBackground: function() {
                 // dafuq. no RANDOM() in sqlite in chrome... 
                 // then we pick a random array item from the resultset based on the amount.
-                CRUD.EntityManager.getAdapter().db.execute("select fanart from Series where fanart != ''").then(function(result) {
+                CRUD.executeQuery("select fanart from Series where fanart != ''").then(function(result) {
                     if (result.rs.rows.length > 0) {
                         $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1))).fanart);
                     }

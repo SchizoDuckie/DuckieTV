@@ -79,7 +79,7 @@ DuckieTV.factory('StorageSyncService', ["$rootScope", "$q", "FavoritesService", 
                 });
             },
             /*.then(function(series) {
-                    return $q.when(CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watchedAt is not null').then(function(res) {
+                    return $q.when(CRUD.executeQuery('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watchedAt is not null').then(function(res) {
                         var watchedList = {},
                             row;
                         series.map(function(TVDB_ID) {

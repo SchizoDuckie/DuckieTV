@@ -20,7 +20,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
 
             // Get Database Stats
             countEntity = function(entity) {
-                CRUD.EntityManager.getAdapter().db.execute('select count(*) as count from ' + entity).then(function(result) {
+                CRUD.executeQuery('select count(*) as count from ' + entity).then(function(result) {
                     $scope.statistics.push({
                         name: "DB " + entity,
                         data: result.next().row.count
@@ -30,7 +30,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
 
             // Count shows hidden from calendar
             countHiddenShows = function() {
-                CRUD.EntityManager.getAdapter().db.execute("select count(displaycalendar) as count from Series where displaycalendar like 0").then(function(result) {
+                CRUD.executeQuery("select count(displaycalendar) as count from Series where displaycalendar like 0").then(function(result) {
                     $scope.statistics.push({
                         name: "DB Series Hidden From Calendar",
                         data: result.next().row.count
@@ -129,7 +129,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             });
             $scope.statistics.push({
                 name: 'User Preferences on Local Storage',
-                data: angular.toJson(userPrefs,true)
+                data: angular.toJson(userPrefs, true)
             });
 
         }

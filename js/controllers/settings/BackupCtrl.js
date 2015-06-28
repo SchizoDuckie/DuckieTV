@@ -35,7 +35,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
         $scope.createBackup = function() {
             $scope.backupTime = new Date();
             // Fetch all the series
-            CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID from Series').then(function(series) {
+            CRUD.executeQuery('select Series.TVDB_ID from Series').then(function(series) {
                 var out = {
                     settings: {},
                     series: {}
@@ -53,7 +53,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
                 }
 
                 // Store watched episodes for each serie
-                CRUD.EntityManager.getAdapter().db.execute('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
+                CRUD.executeQuery('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
                     while (row = res.next()) {
                         out.series[row.get('TVDB_ID')].push({
                             'TVDB_ID': row.get('epTVDB_ID'),
