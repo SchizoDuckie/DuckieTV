@@ -12,9 +12,8 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
 
     this.getSearchString = function(serie, episode) {
         if (!serie || !episode) return;
-        return SceneNameResolver.getSceneName(serie.TVDB_ID,serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
+        return SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
     };
-
 
     this.isTorrentClientConnected = function() {
         return DuckieTorrent.getClient().getRemote().isConnected();
@@ -22,7 +21,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
 
     this.isNetflixSupported = function() {
         return navigator.userAgent.toLowerCase().indexOf('standalone') === -1;
-    }
+    };
 
     this.isNetflixSerie = function() {
         if (!this.serie.network) return false;
@@ -43,14 +42,14 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
                             window.open(result);
                         }
                     });
-                })
+                });
             }
         });
-    }
+    };
 
     this.findSubtitle = function() {
         SubtitleDialog.searchEpisode(this.serie, this.episode);
-    }
+    };
 
     /*
      * This watches for the magnet:select event that will be fired by the
@@ -60,4 +59,4 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
         this.magnetHash = magnet;
         this.Persist();
     }.bind(this.episode));
-})
+});
