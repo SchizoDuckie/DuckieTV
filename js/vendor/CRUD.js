@@ -26,7 +26,7 @@ if (!CRUD) var CRUD = {
  */
 
 
-CRUD.EntityManager = (new function() {
+CRUD.EntityManager = (function() {
 
     this.entities = {};
     this.constructors = {};
@@ -55,6 +55,11 @@ CRUD.EntityManager = (new function() {
      * Register a new entity into the entity manager, which will manage it's properties, relations, and data.
      */
     this.registerEntity = function(className, dbSetup, methods) {
+
+        var ucFirst = function(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        };
+
         CRUD.log("Register entity", dbSetup, className);
         if (!(className in this.entities)) {
             this.entities[className] = Object.clone(this.defaultSetup);
@@ -62,9 +67,44 @@ CRUD.EntityManager = (new function() {
         for (var prop in dbSetup) {
             this.entities[className][prop] = dbSetup[prop];
         }
-        return this.constructors[className] = function(ID) {
+        this.constructors[className] = function(ID) {
             return ID ? new CRUD.Entity(className, methods).primaryKeyInit(ID) : new CRUD.Entity(className, methods);
         };
+
+        this.constructors[className].findByID = function(id) {
+            var filters = {};
+            filters[dbSetup.primary] = id;
+            return CRUD.FindOne(className, filters);
+        };
+
+        dbSetup.fields.map(function(field) {
+            this.constructors[className]['findOneBy' + ucFirst(field)] = function(value, options) {
+                var filter = {};
+                filter[field] = value;
+                return CRUD.FindOne(className, filter, options || {});
+            };
+            this.constructors[className]['findBy' + ucFirst(field)] = function(value, options) {
+                var filter = {};
+                filter[field] = value;
+                return CRUD.Find(className, filter, options || {});
+            };
+        });
+
+        Object.keys(dbSetup.relations).map(function(name) {
+            console.log("creating relation search for ", name, " to ", className);
+            this.constructors[className]['findBy' + name] = function(filter) {
+                var filters = {};
+                filters[name] = filter;
+                return CRUD.Find(className, filters);
+            };
+            this.constructors[className]['findOneBy' + name] = function(filter) {
+                var filters = {};
+                filters[name] = filter;
+                return CRUD.FindOne(className, filters);
+            };
+        });
+
+        return this.constructors[className];
     };
 
     this.getPrimary = function(className) {
@@ -94,7 +134,7 @@ CRUD.EntityManager = (new function() {
     };
 
     this.hasField = function(className, property) {
-        return (this.entities[className] && this.entities[className].fields.indexOf(property) > -1)
+        return (this.entities[className] && this.entities[className].fields.indexOf(property) > -1);
     };
 
     this.getFields = function(className) {
@@ -137,7 +177,7 @@ CRUD.Find = function(obj, filters, options) {
         if (obj.getID() !== false) {
             CRUD.log("Object has an ID! ", ID, type);
             filters.ID = obj.getID();
-            filters.type = filters
+            filters.type = filters;
         }
     } else {
         if (typeof obj == "function") {
@@ -530,5 +570,5 @@ CRUD.Entity.prototype = {
 if (!('clone' in Object)) {
     Object.clone = function(el) {
         return JSON.parse(JSON.stringify(el));
-    }
+    };
 }
