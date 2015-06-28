@@ -53,6 +53,15 @@ DuckieTV
                         console.log("Failed to connect connect to torrent client for monitoring!");
                     });
 
+                    $scope.removeHash = function() {
+                        Episode.findOneByMagnetHash(remote.magnetHash).then(function(result) {
+                            if (result) {
+                                result.magnetHash = null;
+                                result.Persist();
+                            }
+                        });
+                    };
+
                 }
             ]
         };
