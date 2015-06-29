@@ -99,7 +99,7 @@ CRUD.EntityManager = (function() {
         });
 
         Object.keys(dbSetup.relations).map(function(name) {
-            console.log("creating relation search for ", name, " to ", className);
+            CRUD.log("creating relation search for ", name, " to ", className);
             this.constructors[className]['findBy' + name] = function(filter) {
                 var filters = {};
                 filters[name] = filter;
