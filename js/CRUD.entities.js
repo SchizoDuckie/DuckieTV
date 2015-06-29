@@ -7,7 +7,8 @@
  */
 
 
-var Serie = CRUD.define({
+function Serie() {}
+CRUD.define(Serie, {
     className: 'Serie',
     table: 'Series',
     primary: 'ID_Serie',
@@ -140,7 +141,8 @@ var Serie = CRUD.define({
 
 
 
-var Season = CRUD.define({
+function Season() {}
+CRUD.define(Season, {
     className: 'Season',
     table: 'Seasons',
     primary: 'ID_Season',
@@ -191,7 +193,8 @@ var Season = CRUD.define({
 });
 
 
-var Episode = CRUD.define({
+function Episode() {}
+CRUD.define(Episode, {
     className: 'Episode',
     table: 'Episodes',
     primary: 'ID_Episode',
@@ -317,7 +320,8 @@ var Episode = CRUD.define({
 });
 
 
-var WatchListItem = CRUD.define({
+function WatchListItem() {}
+CRUD.define(WatchListItem, {
     className: 'WatchListItem',
     table: 'WatchList',
     primary: 'ID_WatchListItem',
@@ -336,7 +340,8 @@ var WatchListItem = CRUD.define({
 
 });
 
-var WatchListObject = CRUD.define({
+function WatchListObject() {}
+CRUD.define(WatchListObject, {
     className: 'WatchListObject',
     table: 'WatchListObject',
     primary: 'ID_WatchListObject',

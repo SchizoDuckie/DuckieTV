@@ -1,3 +1,23 @@
+/**
+ * Allow for easy prototype extension.
+ * This means you can create a class, and extend another class onto it,
+ * while overwriting specific prototype implementations.
+ * Call the parent class's prototype methods by referring to prototype.constructor.
+ */
+
+Function.prototype.extends = function(ParentClass, prototypeImplementations) {
+    this.prototype = Object.create(ParentClass.prototype);
+    this.prototype.constructor = ParentClass;
+    if (undefined === prototypeImplementations) {
+        prototypeImplementations = {};
+    }
+
+    // add all prototypeImplementations to the non-prototype chain for this function.
+    Object.keys(prototypeImplementations).map(function(key) {
+        this.prototype[key] = prototypeImplementations[key];
+    }, this);
+};
+
 if (!CRUD) var CRUD = {
     RELATION_SINGLE: 1,
     RELATION_FOREIGN: 2,
@@ -51,47 +71,85 @@ CRUD.EntityManager = (function() {
         keys: []
     };
 
+    var ucFirst = function(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
     /**
      * Register a new entity into the entity manager, which will manage it's properties, relations, and data.
      */
-    this.registerEntity = function(className, dbSetup, methods) {
+    this.registerEntity = function(namedFunction, dbSetup, methods) {
 
-        var ucFirst = function(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        };
+        namedFunction.extends(CRUD.Entity);
 
-        CRUD.log("Register entity", dbSetup, className);
+        dbSetup.fields.map(function(field) {
+            Object.defineProperty(namedFunction.prototype, field, {
+                get: ((field in methods) && 'get' in methods[field]) ? methods[field].get : function() {
+                    return this.get(field);
+                },
+                set: ((field in methods) && 'set' in methods[field]) ? methods[field].set : function(newValue) {
+                    this.set(field, newValue);
+                },
+                enumerable: false,
+                configurable: true
+            });
+        }, namedFunction);
+
+        for (var j in methods) {
+            if (dbSetup.fields.indexOf(j) == -1) {
+                namedFunction.prototype[j] = methods[j];
+            }
+        }
+        var className = dbSetup.className;
+
+
+        Object.defineProperty(namedFunction.prototype, '__className__', {
+            get: function() {
+                return dbSetup.className;
+            },
+            enumerable: false,
+            configurable: true
+        });
+
+        CRUD.log("Register entity", namedFunction, dbSetup, className);
         if (!(className in this.entities)) {
             this.entities[className] = Object.clone(this.defaultSetup);
         }
         for (var prop in dbSetup) {
             this.entities[className][prop] = dbSetup[prop];
         }
+
         this.constructors[className] = function(ID) {
-            return ID ? new CRUD.Entity(className, methods).primaryKeyInit(ID) : new CRUD.Entity(className, methods);
+            var instance = new namedFunction();
+            instance.__values__ = {};
+            instance.__dirtyValues__ = {};
+            if (ID) {
+                instance.primaryKeyInit(ID);
+            }
+            return instance;
         };
 
-        this.constructors[className].findByID = function(id) {
+        namedFunction.findByID = function(id) {
             var filters = {};
             filters[dbSetup.primary] = id;
             return CRUD.FindOne(className, filters);
         };
 
-        this.constructors[className].Find = function(filters, options) {
+        namedFunction.Find = function(filters, options) {
             return CRUD.Find(className, filters, options);
         };
 
-        this.constructors[className].FindOne = function(filters, options) {
+        namedFunction.FindOne = function(filters, options) {
             return CRUD.FindOne(className, filters, options);
         };
 
         dbSetup.fields.map(function(field) {
-            this.constructors[className]['findOneBy' + ucFirst(field)] = function(value, options) {
+            namedFunction['findOneBy' + ucFirst(field)] = function(value, options) {
                 var filter = {};
                 filter[field] = value;
                 return CRUD.FindOne(className, filter, options || {});
             };
-            this.constructors[className]['findBy' + ucFirst(field)] = function(value, options) {
+            namedFunction['findBy' + ucFirst(field)] = function(value, options) {
                 var filter = {};
                 filter[field] = value;
                 return CRUD.Find(className, filter, options || {});
@@ -99,20 +157,20 @@ CRUD.EntityManager = (function() {
         });
 
         Object.keys(dbSetup.relations).map(function(name) {
-            CRUD.log("creating relation search for ", name, " to ", className);
-            this.constructors[className]['findBy' + name] = function(filter) {
+            console.log("creating relation search for ", name, " to ", className);
+            namedFunction['findBy' + name] = function(filter) {
                 var filters = {};
                 filters[name] = filter;
                 return CRUD.Find(className, filters);
             };
-            this.constructors[className]['findOneBy' + name] = function(filter) {
+            namedFunction['findOneBy' + name] = function(filter) {
                 var filters = {};
                 filters[name] = filter;
                 return CRUD.FindOne(className, filters);
             };
         });
 
-        return this.constructors[className];
+        return namedFunction;
     };
 
     this.getPrimary = function(className) {
@@ -156,8 +214,8 @@ CRUD.EntityManager = (function() {
 
 }());
 
-CRUD.define = function(properties, methods) {
-    return CRUD.EntityManager.registerEntity(properties.className, properties, methods);
+CRUD.define = function(namedFunction, properties, methods) {
+    return CRUD.EntityManager.registerEntity(namedFunction, properties, methods);
 
 };
 
@@ -179,7 +237,7 @@ CRUD.setAdapter = function(adapter) {
 CRUD.Find = function(obj, filters, options) {
     var type = false;
 
-    if (obj.toString() == 'CRUD') {
+    if (obj instanceof CRUD.Entity) {
         type = obj.getType();
 
         if (obj.getID() !== false) {
@@ -234,7 +292,7 @@ CRUD.FindOne = function(obj, filters, options) {
 CRUD.fromCache = function(obj, values) {
     try {
         obj = (typeof obj == 'function') ? new obj() : new CRUD.EntityManager.constructors[obj]();
-        type = (obj && obj.toString() == 'CRUD') ? obj.getType() : false;
+        type = (obj instanceof CRUD.Entity) ? obj.getType() : false;
     } catch (E) {
         CRUD.log("CRUD.fromCache cannot create for non-CRUD objects like " + obj + "! \n" + E);
         return false;
@@ -271,32 +329,6 @@ CRUD.ConnectionAdapter = function(endpoint, options) {
 };
 
 CRUD.Entity = function(className, methods) {
-    this.className = className;
-    this.values = {};
-    this.changedValues = {};
-    this._isDirty = false;
-    this.customData = {};
-    this._customProperties = []; // custom properties to send along to the adapter (handy for form persists)
-
-    CRUD.EntityManager.getFields(className).map(function(field) {
-        Object.defineProperty(this, field, {
-            get: ((field in methods) && 'get' in methods[field]) ? methods[field].get : function() {
-                return this.get(field);
-            },
-            set: ((field in methods) && 'set' in methods[field]) ? methods[field].set : function(newValue) {
-                this.set(field, newValue);
-            },
-            enumerable: true,
-            configurable: false
-        });
-    }.bind(this));
-
-    for (var j in methods) {
-        if (CRUD.EntityManager.getFields(className).indexOf(j) == -1) {
-            this[j] = methods[j];
-        }
-    }
-
     return this;
 };
 
@@ -308,8 +340,9 @@ CRUD.Entity.prototype = {
     },
 
     asObject: function() {
-        return this.values;
+        return this.__values__;
     },
+
     /** 
      * Proxy find function, that can be run on the entity instance itself.
      * Makes sure you can create object A, and find just relations connected to it.
@@ -335,30 +368,23 @@ CRUD.Entity.prototype = {
      * Get al list of all the values to display.
      */
     getValues: function() {
-        var v = this.values;
-        if (this.changedValues && Array.from(this.changedValues).length > 0) {
-            for (var k in this.changedValues) {
-                v[k] = this.changedValues[k];
+        var v = this.__values__;
+        if (this.____dirtyValues____ && Array.from(this.____dirtyValues____).length > 0) {
+            for (var k in this.__dirtyValues__) {
+                v[k] = this.__dirtyValues__[k];
             }
         }
         v.ID = this.getID();
         return v;
     },
 
-    hasField: function(fieldname) {
-        return (CRUD.EntityManager.hasField(this.className, fieldname));
-    },
-
     importValues: function(values, dirty) {
         for (var field in values) {
-            if (this.hasField(field)) {
-                this.values[field] = CRUD.EntityManager.entities[this.className].autoSerialize.indexOf(field) > -1 ? JSON.parse(values[field]) : values[field];
-            }
+            this.__values__[field] = CRUD.EntityManager.entities[this.getType()].autoSerialize.indexOf(field) > -1 ? JSON.parse(values[field]) : values[field];
         }
         if (dirty) {
-            this._isDirty = true;
-            this.changedValues = this.values;
-            this.values = {};
+            this.__dirtyValues__ = this.__values__;
+            this.__values__ = {};
         }
         return this;
     },
@@ -367,35 +393,29 @@ CRUD.Entity.prototype = {
      * Accessor. Gets one field, optionally returns the default value.
      */
     get: function(field, def) {
-        if (field in this.changedValues) {
-            return this.changedValues[field];
+        if ((field in this.__dirtyValues__)) {
+            return this.__dirtyValues__[field];
         }
-        if (field in this.values || this.hasField(field)) {
-            return this.values[field];
+        if ((field in this.__values__)) {
+            return this.__values__[field];
         }
-
         CRUD.log("Could not find field '" + field + "' in '" + this.getType() + "' for getting.");
-
     },
 
     /**
      * Setter, accepts key / value or object with keys/values
      */
     set: function(field, value) {
-        if (this.hasField(field)) {
+        if ((field in this)) {
             if (this.get(field) !== value && !([null, undefined].indexOf(this.get(field)) > -1 && [null, undefined].indexOf(value) > -1)) {
-                if (CRUD.EntityManager.entities[this.className].autoSerialize.indexOf(field) > -1) {
+                if (CRUD.EntityManager.entities[this.getType()].autoSerialize.indexOf(field) > -1) {
                     if (JSON.stringify(this.get(field)) != JSON.stringify(value)) {
-                        this.changedValues[field] = value;
-                        this._isDirty = true;
+                        this.__dirtyValues__[field] = value;
                     }
                 } else {
-                    this.changedValues[field] = value;
-                    this._isDirty = true;
+                    this.__dirtyValues__[field] = value;
                 }
             }
-        } else if (this._customProperties.indexOf(field) > -1) {
-            this.customData[field] = value;
         } else {
             CRUD.log("Could not find field '" + field + "' in '" + this.getType() + "' for setting.");
         }
@@ -407,34 +427,33 @@ CRUD.Entity.prototype = {
     Persist: function(forceInsert) {
         var that = this;
         return new Promise(function(resolve, fail) {
-            if (!forceInsert && !that._isDirty) return resolve();
+            if (!forceInsert && Object.keys(that.__dirtyValues__).length == 0) return resolve();
 
-            if (that.get(CRUD.EntityManager.getPrimary(that.className)) === false || forceInsert) {
-                var defaults = CRUD.EntityManager.entities[that.className].defaultValues;
+            if (that.get(CRUD.EntityManager.getPrimary(that.getType())) === false || forceInsert) {
+                var defaults = CRUD.EntityManager.entities[that.getType()].defaultValues;
                 if (Object.keys(defaults).length > 0) {
                     for (var i in defaults) {
-                        if (that.hasField(i) && !that.changedValues[i]) {
-                            that.changedValues[i] = defaults[i];
+                        if ((i in that) && !that.__dirtyValues__[i]) {
+                            that.__dirtyValues__[i] = defaults[i];
                         }
                     }
                 }
             }
 
             return CRUD.EntityManager.getAdapter().Persist(that, forceInsert).then(function(result) {
-                CRUD.log(that.getType() + " has been persisted. Result: " + result.Action + ". New Values: " + JSON.stringify(that.changedValues));
+                CRUD.log(that.getType() + " has been persisted. Result: " + result.Action + ". New Values: " + JSON.stringify(that.__dirtyValues__));
                 if (result.Action == "inserted") {
-                    that.changedValues[CRUD.EntityManager.getPrimary(that.className)] = result.ID;
+                    that.__dirtyValues__[CRUD.EntityManager.getPrimary(that.className)] = result.ID;
                     if (!(that.className in CRUD.EntityManager.cache)) {
                         CRUD.EntityManager.cache[that.className] = {};
                     }
                     CRUD.EntityManager.cache[that.className][result.ID] = that;
                 }
-                that._isDirty = false;
-                for (var i in that.changedValues) {
-                    that.values[i] = that.changedValues[i];
+                for (var i in that.__dirtyValues__) {
+                    that.__values__[i] = that.__dirtyValues__[i];
                 }
-                that.changedValues = [];
-                that.ID = that.values[CRUD.EntityManager.getPrimary(that.className)];
+                that.__dirtyValues__ = {};
+                that.ID = that.__values__[CRUD.EntityManager.getPrimary(that.className)];
 
                 resolve(result);
             }, function(e) {
@@ -456,33 +475,24 @@ CRUD.Entity.prototype = {
             if (result.Action == 'deleted') {
                 CRUD.log(that.getType() + " " + that.getID() + " has been deleted! ");
                 delete CRUD.EntityManager.cache[that.className][that.getID()];
-                that.values[CRUD.EntityManager.getPrimary(that.className)].ID = false;
+                that.__values__[CRUD.EntityManager.getPrimary(that.className)].ID = false;
             };
             return result;
         });
     },
 
-    /**
-     * override toString for easy detection of CRUDs
-     */
-    toString: function() {
-        return 'CRUD';
-    },
-
-
-    /** 
-     * Returns the actual className. Should be provided in the entity object.
-     * Might not look best, but saves a lot of hassle with reflection
-     */
     getType: function() {
-        return (this.className);
+        return this.__className__;
     },
+
 
     /** 
      * Connect 2 entities regardles of their relationship type.
      * Pass the object you want to connect this entity to to this function and
      * this will find out what it needs to do to set the correct properties in your persistence layer.
-     * @TODO: update thisPrimary, thatPrimary resolve functions to allow mapping using RELATION_CUSTOM, also, using identified_by propertys
+ * @TODO: update thisPrimary,    thatPrimary resolve functions to allow mapping using RELATION_CUSTOM,
+    also,
+    using identified_by propertys
      */
     Connect: function(to) {
         var targetType = to.getType();
@@ -498,10 +508,10 @@ CRUD.Entity.prototype = {
                         that.set(targetPrimary, to.getID());
                         break;
                     case CRUD.RELATION_FOREIGN:
-                        if (to.hasField(thisPrimary)) {
+                        if ((thisPrimary in to)) {
                             to.set(thisPrimary, that.getID());
                         }
-                        if (that.hasField(targetPrimary)) {
+                        if ((targetPrimary in that)) {
                             that.set(targetPrimary, to.getID());
                         }
                         break;
@@ -538,10 +548,10 @@ CRUD.Entity.prototype = {
                         that.set(targetPrimary, null);
                         break;
                     case CRUD.RELATION_FOREIGN:
-                        if (from.hasField(thisPrimary)) {
+                        if ((thisPrimary in from)) {
                             from.set(thisPrimary, null);
                         }
-                        if (that.hasField(targetPrimary)) {
+                        if ((targetPrimary in that)) {
                             that.set(targetPrimary, null);
                         }
                         break;
