@@ -56,7 +56,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             }
 
             for (var i in data) {
-                if (serie.hasField(i)) {
+                if ((i in serie)) {
                     serie[i] = data[i];
                 }
             }
@@ -84,7 +84,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             data.filename = (('screenshot' in data.images) && ('thumb' in data.images.screenshot)) ? data.images.screenshot.thumb : '';
 
             for (var i in data) {
-                if (episode.hasField(i)) {
+                if ((i in episode)) {
                     episode[i] = data[i];
                 }
             }

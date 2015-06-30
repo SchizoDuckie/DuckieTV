@@ -101,11 +101,9 @@ CRUD.EntityManager = (function() {
             }
         }
         var className = dbSetup.className;
-
-
         Object.defineProperty(namedFunction.prototype, '__className__', {
             get: function() {
-                return dbSetup.className;
+                return className;
             },
             enumerable: false,
             configurable: true
@@ -121,8 +119,7 @@ CRUD.EntityManager = (function() {
 
         this.constructors[className] = function(ID) {
             var instance = new namedFunction();
-            instance.__values__ = {};
-            instance.__dirtyValues__ = {};
+
             if (ID) {
                 instance.primaryKeyInit(ID);
             }
@@ -199,10 +196,6 @@ CRUD.EntityManager = (function() {
         return this.connectionAdapter;
     };
 
-    this.hasField = function(className, property) {
-        return (this.entities[className] && this.entities[className].fields.indexOf(property) > -1);
-    };
-
     this.getFields = function(className) {
         return this.entities[className].fields;
     };
@@ -235,9 +228,9 @@ CRUD.setAdapter = function(adapter) {
  *	}, function(error) { CRUD.log("ERROR IN CRUD.FIND for catalog 1 ", error); });
  */
 CRUD.Find = function(obj, filters, options) {
-    var type = false;
+    var type = null;
 
-    if (obj instanceof CRUD.Entity) {
+    if (obj instanceof CRUD.Entity || obj.prototype instanceof CRUD.Entity) {
         type = obj.getType();
 
         if (obj.getID() !== false) {
@@ -245,20 +238,10 @@ CRUD.Find = function(obj, filters, options) {
             filters.ID = obj.getID();
             filters.type = filters;
         }
+    } else if ((obj in CRUD.EntityManager.entities)) {
+        type = obj;
     } else {
-        if (typeof obj == "function") {
-            try {
-                obj = new obj();
-                type = obj.className;
-            } catch (E) {}
-        } else if (typeof obj == "string") {
-            type = obj;
-        }
-
-    }
-    if (!(type in CRUD.EntityManager.entities)) {
-        CRUD.log("CRUD.Find cannot search for non-CRUD objects like " + obj + "!", filters, options);
-        return false;
+        throw "CRUD.Find cannot search for non-CRUD objects like " + obj + "!";
     }
 
     return CRUD.EntityManager.getAdapter().Find(type, filters, options).then(function(results) {
@@ -285,7 +268,6 @@ CRUD.FindOne = function(obj, filters, options) {
     return this.Find(obj, filters, options).then(function(result) {
         return result[0];
     });
-
 };
 
 
@@ -329,6 +311,8 @@ CRUD.ConnectionAdapter = function(endpoint, options) {
 };
 
 CRUD.Entity = function(className, methods) {
+    this.__values__ = {};
+    this.__dirtyValues__ = {};
     return this;
 };
 
@@ -393,13 +377,15 @@ CRUD.Entity.prototype = {
      * Accessor. Gets one field, optionally returns the default value.
      */
     get: function(field, def) {
-        if ((field in this.__dirtyValues__)) {
-            return this.__dirtyValues__[field];
+        var ret;
+        if (field in this.__dirtyValues__) {
+            ret = this.__dirtyValues__[field];
+        } else if ((field in this.__values__)) {
+            ret = this.__values__[field];
+        } else {
+            CRUD.log("Could not find field '" + field + "' in '" + this.getType() + "' (for get)");
         }
-        if ((field in this.__values__)) {
-            return this.__values__[field];
-        }
-        CRUD.log("Could not find field '" + field + "' in '" + this.getType() + "' for getting.");
+        return ret;
     },
 
     /**
@@ -417,7 +403,7 @@ CRUD.Entity.prototype = {
                 }
             }
         } else {
-            CRUD.log("Could not find field '" + field + "' in '" + this.getType() + "' for setting.");
+            CRUD.log("Could not find field '" + field + "' in '" + this.getType() + "' (for set)");
         }
     },
 
@@ -425,7 +411,8 @@ CRUD.Entity.prototype = {
      * Persist changes on object using CRUD.Entity.set through the adapter.
      */
     Persist: function(forceInsert) {
-        var that = this;
+        var that = this,
+            thatType = this.getType();
         return new Promise(function(resolve, fail) {
             if (!forceInsert && Object.keys(that.__dirtyValues__).length == 0) return resolve();
 
@@ -443,17 +430,17 @@ CRUD.Entity.prototype = {
             return CRUD.EntityManager.getAdapter().Persist(that, forceInsert).then(function(result) {
                 CRUD.log(that.getType() + " has been persisted. Result: " + result.Action + ". New Values: " + JSON.stringify(that.__dirtyValues__));
                 if (result.Action == "inserted") {
-                    that.__dirtyValues__[CRUD.EntityManager.getPrimary(that.className)] = result.ID;
-                    if (!(that.className in CRUD.EntityManager.cache)) {
-                        CRUD.EntityManager.cache[that.className] = {};
+                    that.__dirtyValues__[CRUD.EntityManager.getPrimary(thatType)] = result.ID;
+                    if (!(thatType in CRUD.EntityManager.cache)) {
+                        CRUD.EntityManager.cache[thatType] = {};
                     }
-                    CRUD.EntityManager.cache[that.className][result.ID] = that;
+                    CRUD.EntityManager.cache[thatType][result.ID] = that;
                 }
                 for (var i in that.__dirtyValues__) {
                     that.__values__[i] = that.__dirtyValues__[i];
                 }
                 that.__dirtyValues__ = {};
-                that.ID = that.__values__[CRUD.EntityManager.getPrimary(that.className)];
+                that.ID = that.__values__[CRUD.EntityManager.getPrimary(thatType)];
 
                 resolve(result);
             }, function(e) {
@@ -474,8 +461,8 @@ CRUD.Entity.prototype = {
         return CRUD.EntityManager.getAdapter().Delete(that).then(function(result) {
             if (result.Action == 'deleted') {
                 CRUD.log(that.getType() + " " + that.getID() + " has been deleted! ");
-                delete CRUD.EntityManager.cache[that.className][that.getID()];
-                that.__values__[CRUD.EntityManager.getPrimary(that.className)].ID = false;
+                delete CRUD.EntityManager.cache[that.getType()][that.getID()];
+                that.__values__[CRUD.EntityManager.getPrimary(that.getType())].ID = false;
             };
             return result;
         });

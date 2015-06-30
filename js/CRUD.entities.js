@@ -7,7 +7,36 @@
  */
 
 
-function Serie() {}
+/** 
+ * Define POJO named functions for all the entities used.
+ * These will be extended by CreateReadUpdateDelete.js. It is important to call the CRUD.Entity constructor
+ * So that each instance can be set up with instance __values__ and __dirtyValues__ properties.
+ */
+function Serie() {
+    CRUD.Entity.call(this);
+}
+
+function Season() {
+    CRUD.Entity.call(this);
+}
+
+function Episode() {
+    CRUD.Entity.call(this);
+}
+
+function WatchListItem() {
+    CRUD.Entity.call(this);
+}
+
+function WatchListObject() {
+    CRUD.Entity.call(this);
+}
+
+
+/**
+ * Allow CRUD.js to register itself and the properties defined on each named function.
+ */
+
 CRUD.define(Serie, {
     className: 'Serie',
     table: 'Series',
@@ -57,7 +86,7 @@ CRUD.define(Serie, {
 }, {
 
     getEpisodes: function() {
-        Episode.findBySerie({
+        return Episode.findBySerie({
             ID_Serie: this.getID()
         }, {
             limit: 100000
@@ -140,8 +169,6 @@ CRUD.define(Serie, {
 });
 
 
-
-function Season() {}
 CRUD.define(Season, {
     className: 'Season',
     table: 'Seasons',
@@ -186,14 +213,12 @@ CRUD.define(Season, {
         ]
     }
 }, {
-
     getEpisodes: function() {
         return Episode.findByID_Season(this.getID());
     }
 });
 
 
-function Episode() {}
 CRUD.define(Episode, {
     className: 'Episode',
     table: 'Episodes',
@@ -320,7 +345,6 @@ CRUD.define(Episode, {
 });
 
 
-function WatchListItem() {}
 CRUD.define(WatchListItem, {
     className: 'WatchListItem',
     table: 'WatchList',
@@ -340,7 +364,7 @@ CRUD.define(WatchListItem, {
 
 });
 
-function WatchListObject() {}
+
 CRUD.define(WatchListObject, {
     className: 'WatchListObject',
     table: 'WatchListObject',

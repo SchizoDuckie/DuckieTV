@@ -46,7 +46,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
     function insertQueryError(err, tx) {
         CRUD.stats.writesExecuted++;
         //err.query = query.join(' ');
-        //err.values = valmap;
+        //err.__values__ = valmap;
         console.error("Insert query error: ", err);
         return err;
     }
@@ -75,18 +75,18 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                     var entity = CRUD.EntityManager.entities[entityName];
                     if (tables.indexOf(entity.table) == -1) {
                         if (!entity.createStatement) {
-                            throw "No create statement found for " + entity.className + ". Don't know how to create table.";
+                            throw "No create statement found for " + entity.getType() + ". Don't know how to create table.";
                         }
                         return db.execute(entity.createStatement).then(function() {
                             tables.push(entity.table);
                             localStorage.setItem('database.version.' + entity.table, ('migrations' in entity) ? Math.max.apply(Math, Object.keys(entity.migrations)) : 1);
-                            CRUD.log(entity.className + " table created.");
+                            CRUD.log(entity.getType() + " table created.");
                             return entity;
                         }, function(err) {
-                            CRUD.log("Error creating " + entity.className, err);
-                            throw "Error creating table: " + entity.table + " for " + entity.className;
+                            CRUD.log("Error creating " + entity.getType(), err);
+                            throw "Error creating table: " + entity.table + " for " + entity.getType();
                         }).then(createFixtures).then(function() {
-                            CRUD.log("Table created and fixtures inserted for ", entity.className);
+                            CRUD.log("Table created and fixtures inserted for ", entity.getType());
                             return;
                         });
                     }
@@ -154,7 +154,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
             return new Promise(function(resolve, reject) {
                 if (!entity.fixtures) return resolve();
                 return Promise.all(entity.fixtures.map(function(fixture) {
-                    CRUD.fromCache(entity.className, entity.fixtures[i]).Persist(true, 'INSERT');
+                    CRUD.fromCache(entity.getType(), entity.fixtures[i]).Persist(true, 'INSERT');
                 })).then(resolve, reject);
             });
         },
@@ -198,14 +198,14 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         function mapValues(field) {
             names.push(field);
             values.push('?');
-            valmap.push(what.changedValues[field]);
+            valmap.push(what.__dirtyValues__[field]);
         }
 
         function mapChangedValues(field) {
-            if (!(field in what.changedValues) && !(field in what.values)) {
+            if (!(field in what.__dirtyValues__) && !(field in what.__values__)) {
                 names.push(field);
                 values.push('?');
-                valmap.push(CRUD.EntityManager.entities[what.className].defaultValues[field]);
+                valmap.push(CRUD.EntityManager.entities[what.getType()].defaultValues[field]);
             }
         }
 
@@ -216,24 +216,24 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         }
 
         // iterate all fields changed 
-        Object.keys(what.changedValues).map(mapValues);
+        Object.keys(what.__dirtyValues__).map(mapValues);
         // add defaults
-        Object.keys(CRUD.EntityManager.entities[what.className].defaultValues).map(mapChangedValues);
+        Object.keys(CRUD.EntityManager.entities[what.getType()].defaultValues).map(mapChangedValues);
 
         // json_encode any fields that are defined as needing serializing
-        CRUD.EntityManager.entities[what.className].autoSerialize.map(mapAutoSerialize);
+        CRUD.EntityManager.entities[what.getType()].autoSerialize.map(mapAutoSerialize);
 
         if (what.getID() === false || undefined === what.getID() || forceInsert) { // new object : insert.
             // insert
-            query.push('INSERT INTO ', CRUD.EntityManager.entities[what.className].table, '(', names.join(","), ') VALUES (', values.join(","), ');');
+            query.push('INSERT INTO ', CRUD.EntityManager.entities[what.getType()].table, '(', names.join(","), ') VALUES (', values.join(","), ');');
             CRUD.log(query.join(' '), valmap);
             return db.execute(query.join(' '), valmap).then(insertQuerySuccess, insertQueryError);
         } else { // existing : build an update query.
-            query.push('UPDATE', CRUD.EntityManager.entities[what.className].table, 'SET', names.map(function(name) {
+            query.push('UPDATE', CRUD.EntityManager.entities[what.getType()].table, 'SET', names.map(function(name) {
                 return name + ' = ?';
             }).join(','));
             valmap.push(what.getID());
-            query.push('WHERE', CRUD.EntityManager.getPrimary(what.className), '= ?');
+            query.push('WHERE', CRUD.EntityManager.getPrimary(what.getType()), '= ?');
 
             return db.execute(query.join(' '), valmap).then(updateQuerySuccess, updateQueryError);
         }
@@ -241,7 +241,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 
     this.Delete = function(what, events) {
         if (what.getID() !== false) {
-            query = ['delete from', CRUD.EntityManager.entities[what.className].table, 'where', CRUD.EntityManager.getPrimary(what.className), '= ?'].join(' ');
+            query = ['delete from', CRUD.EntityManager.entities[what.getType()].table, 'where', CRUD.EntityManager.getPrimary(what.getType()), '= ?'].join(' ');
             return db.execute(query, [what.getID()]).then(function(resultSet) {
                 resultSet.Action = 'deleted';
                 return resultSet;
@@ -366,7 +366,7 @@ CRUD.Database.ResultSet.Row.prototype.get = function(index, defaultValue) {
  * Should still be refactored and prettified, but works pretty nice so far.
  */
 CRUD.Database.SQLBuilder = function(entity, filters, options) {
-    this.entity = entity instanceof CRUD.Entity ? entity.className : entity;
+    this.entity = entity instanceof CRUD.Entity ? entity.getType() : entity;
     this.entityConfig = CRUD.EntityManager.entities[this.entity];
     this.filters = filters || {};
     this.options = options || {};
@@ -452,16 +452,16 @@ CRUD.Database.SQLBuilder.prototype = {
                 }
                 break;
             case CRUD.RELATION_MANY: // it's a many:many relation. Join the connector table and then the related one.
-                connectorClass = parent.connectors[entity.className];
+                connectorClass = parent.connectors[entity.getType()];
                 conn = CRUD.EntityManager.entities[connectorClass];
                 this.addJoin(conn, entity, entity.primary).addJoin(parent, conn, parent.primary);
                 break;
             case CRUD.RELATION_CUSTOM:
-                var rel = parent.relations[entity.className];
+                var rel = parent.relations[entity.getType()];
                 this.joins = this.joins.unshift(['LEFT JOIN', entity.table, 'ON', this.getFieldName(rel.sourceProperty, parent.table), '=', this.getFieldName(rel.targetProperty, entity.table)].join(' '));
                 break;
             default:
-                throw new Exception("Warning! class " + parent.className + " probably has no relation defined for class " + entity.className + "  or you did something terribly wrong..." + JSON.encode(parent.relations[_class]));
+                throw new Exception("Warning! class " + parent.getType() + " probably has no relation defined for class " + entity.getType() + "  or you did something terribly wrong..." + JSON.encode(parent.relations[_class]));
         }
     },
 
