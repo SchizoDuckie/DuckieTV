@@ -1,23 +1,3 @@
-/**
- * Allow for easy prototype extension.
- * This means you can create a class, and extend another class onto it,
- * while overwriting specific prototype implementations.
- * Call the parent class's prototype methods by referring to prototype.constructor.
- */
-
-Function.prototype.extends = function(ParentClass, prototypeImplementations) {
-    this.prototype = Object.create(ParentClass.prototype);
-    this.prototype.constructor = ParentClass;
-    if (undefined === prototypeImplementations) {
-        prototypeImplementations = {};
-    }
-
-    // add all prototypeImplementations to the non-prototype chain for this function.
-    Object.keys(prototypeImplementations).map(function(key) {
-        this.prototype[key] = prototypeImplementations[key];
-    }, this);
-};
-
 if (!CRUD) var CRUD = {
     RELATION_SINGLE: 1,
     RELATION_FOREIGN: 2,
@@ -80,7 +60,8 @@ CRUD.EntityManager = (function() {
      */
     this.registerEntity = function(namedFunction, dbSetup, methods) {
 
-        namedFunction.extends(CRUD.Entity);
+        namedFunction.prototype = Object.create(CRUD.Entity.prototype);
+        namedFunction.prototype.constructor = CRUD.Entity;
 
         dbSetup.fields.map(function(field) {
             Object.defineProperty(namedFunction.prototype, field, {

@@ -32,5 +32,24 @@ var HTMLScraper = function(text) {
     return this;
 };
 
+/**
+ * Allow for easy prototype extension.
+ * This means you can create a class, and extend another class onto it,
+ * while overwriting specific prototype implementations.
+ * Call the parent class's prototype methods by referring to prototype.constructor.
+ */
+
+Function.prototype.extends = function(ParentClass, prototypeImplementations) {
+    this.prototype = Object.create(ParentClass.prototype);
+    this.prototype.constructor = ParentClass;
+    if (undefined === prototypeImplementations) {
+        prototypeImplementations = {};
+    }
+
+    // add all prototypeImplementations to the non-prototype chain for this function.
+    Object.keys(prototypeImplementations).map(function(key) {
+        this.prototype[key] = prototypeImplementations[key];
+    }, this);
+};
 
 console.log("%cDuckieTV", "color:transparent; font-size: 16pt; line-height: 125px; padding:25px; padding-top:30px; padding-bottom:60px; background-image:url(http://duckietv.github.io/DuckieTV/img/icon128.png); background-repeat:no-repeat; ", "quack!\n\n\n\n\n\n");
