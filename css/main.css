@@ -1552,6 +1552,7 @@ sidepanel .rightpanel {
     background-color: rgba(23, 23, 23,0.7);
     z-index: 0;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 sidepanel .rightpanel h2 {
