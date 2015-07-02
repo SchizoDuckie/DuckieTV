@@ -165,6 +165,10 @@ CRUD.define(Serie, {
         }).then(function(result) {
             return result;
         });
+    },
+    toggleAutoDownload: function() {
+        this.autoDownload = this.autoDownload == '1' ? '0' : '1';
+        this.Persist();
     }
 });
 

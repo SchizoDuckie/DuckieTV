@@ -43,12 +43,14 @@ DuckieTV
                             CRUD.FindOne('Serie', {
                                 ID_Serie: episode.ID_Serie
                             }).then(function(serie) {
-                                service.autoDownload(serie, episode, episodeIndex).then(function(result) {
-                                    if (result) {
-                                        // store the magnet hash on the episode and notify the listeners of the change
-                                        $rootScope.$broadcast('magnet:select:' + episode.TVDB_ID, [result]);
-                                    }
-                                });
+                                if (serie.autoDownload == 1) {
+                                    service.autoDownload(serie, episode, episodeIndex).then(function(result) {
+                                        if (result) {
+                                            // store the magnet hash on the episode and notify the listeners of the change
+                                            $rootScope.$broadcast('magnet:select:' + episode.TVDB_ID, [result]);
+                                        }
+                                    });
+                                }
                             });
                         });
                         SettingsService.set('autodownload.lastrun', new Date().getTime());
@@ -59,7 +61,7 @@ DuckieTV
 
             autoDownload: function(serie, episode, episodeIndex) {
                 // Fetch the Scene Name for the serie and compile the search string for the episode with the quality requirement.
-                var searchString = SceneNameResolver.getSceneName(serie.TVDB_ID,serie.name) + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
+                var searchString = SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
                 //console.debug("Auto download!", searchString);
 
                 // Search torrent provider for the string

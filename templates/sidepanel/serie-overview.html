@@ -60,6 +60,15 @@
       </tr>
       <tr>
         <td colspan="2">
+           <a ng-click="sidepanel.serie.toggleAutoDownload()">
+              <i class="glyphicon glyphicon-cloud-download" ng-style="{ color: sidepanel.serie.autoDownload == 1 ? 'green' : 'white' }"></i><strong translate-once="SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip"></strong>: 
+              <strong translate-once="SETTINGS/CALENDAR/downloaded-enabled/tooltip" ng-if="sidepanel.serie.autoDownload == 1"></strong>
+              <strong translate-once="SETTINGS/CALENDAR/downloaded-disabled/tooltip" ng-if="sidepanel.serie.autoDownload == 0"></strong>
+            </a>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
           <a ng-click="sidepanel.refresh(sidepanel.serie)">
             <i class="glyphicon glyphicon-refresh" ng-show="!sidepanel.isRefreshing"></i>
             <i ng-show="sidepanel.isRefreshing"><loading-spinner style="width: 25px; height: 25px; left: 0px; top: 0px; position: relative; float: left;"></loading-spinner></i>
