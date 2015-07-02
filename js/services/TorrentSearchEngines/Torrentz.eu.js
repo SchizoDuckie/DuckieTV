@@ -4,6 +4,7 @@ DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector",
         TorrentSearchEngines.registerSearchEngine('Torrentz', new GenericTorrentSearchEngine({
             mirror: 'https://torrentz.eu',
             mirrorResolver: null,
+            includeBaseURL: true,
             endpoints: {
                 search: '/search?f=%s',
                 details: '/%s',

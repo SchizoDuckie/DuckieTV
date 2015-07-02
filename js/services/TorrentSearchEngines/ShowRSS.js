@@ -46,7 +46,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                         size: 'n/a',
                         seeders: 'n/a',
                         leechers: 'n/a',
-                        detailUrl: ''
+                        detailUrl: doc.querySelector("a[href^='/?cs=browse&']").href
                     };
 
                     var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
