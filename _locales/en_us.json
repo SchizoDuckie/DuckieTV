@@ -570,6 +570,7 @@
     "TORRENTDIALOG/searching-please-wait/lbl": ", please wait.",
     "TORRENTDIALOG/searching/lbl": "Searching ",
     "TORRENTDIALOG/seed/lbl": "Seed",
+    "TORRENTDIALOG/size/lbl": "Size",
     "TORRENTDIALOG/settings/glyph": "Torrent Search Settings",
     "TORRENTDIALOG/torrent-details/lbl": " Torrent details",
     "TORRENTFREAK/info/hdr": "Info",

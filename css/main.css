@@ -784,6 +784,20 @@ table.light h1 {
     list-style: none;
 }
 
+.modal-content table.torrents tr {
+    -webkit-transition: all 0.5s ease-in-out;
+}
+
+.modal-content table.torrents tr:hover {
+    background-color: #000;
+}
+
+.modal-content table.torrents tr:hover td {
+    border-top: 1px solid rgba(0,200,0, 0.2);
+    border-bottom: 1px solid rgba(0,200,0, 0.2);
+}
+
+
 
 
 chrome-top-sites {

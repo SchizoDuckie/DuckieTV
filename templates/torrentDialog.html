@@ -53,11 +53,15 @@
         <strong translate-once="TORRENTDIALOG/name/lbl"></strong>
       </th>
       <th>
+        <strong translate-once="TORRENTDIALOG/size/lbl"></strong>
+      </th>
+      <th>
         <strong translate-once="TORRENTDIALOG/seed/lbl"></strong>
       </th>
       <th>
         <strong translate-once="TORRENTDIALOG/leech/lbl"></strong>
       </th>
+
     </tr>
     <tr ng-repeat="seed in items | limitTo: 20">
       <td style='width:50px; padding:5px; vertical-align: middle;' class='dropdown' dropdown>
@@ -74,13 +78,16 @@
         </ul>
       </td>
       <td>
-        <a tooltip="Size: {{::seed.size}}" ng-bind-html="seed.releasename | unsafe" ng-click="select(seed)"></a>
+        <a ng-bind-html="::seed.releasename | unsafe" ng-click="select(seed)"></a>
+      </td>
+      <td>
+        <a ng-bind-html="::seed.size" ng-click="select(seed)" style='white-space:nowrap'></a>
       </td>
       <td style='width:50px; text-align:right'>
-        <a  ng-bind="seed.seeders" ng-click="select(seed)"></a>
+        <a  ng-bind="::seed.seeders" ng-click="select(seed)"></a>
       </td>
       <td style='width:50px; text-align:right'>
-        <a  ng-bind="seed.leechers" ng-click="select(seed)"></a>
+        <a  ng-bind="::seed.leechers" ng-click="select(seed)"></a>
       </td>
     </tr>
   </tbody>
