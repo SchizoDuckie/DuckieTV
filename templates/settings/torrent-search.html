@@ -92,6 +92,8 @@
   <ul class="list-unstyled">
     <li>
       <p>{{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enabled/desc' : 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disabled/desc'|translate}}</p>
+      <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
+       {{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/enabled/tooltip' : 'SETTINGS/TORRENT-SEARCH/disabled/tooltip'|translate}}</p>
       <a ng-click="toggleUnsafeProxy()" class="btn btn-{{allowUnsafe ? 'danger' : 'success'}}">{{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disable/btn' : 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enable/btn'|translate}}</a>
     </li>
   </ul>
