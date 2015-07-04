@@ -7,7 +7,7 @@
   </h2>
 
   <p translate-once="SETTINGS/CALENDAR/start/desc"></p>
-  <p><strong>Current setting: </strong><br>
+  <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
    {{startSunday ? 'SETTINGS/CALENDAR/start-sun/tooltip' : 'SETTINGS/CALENDAR/start-mon/tooltip'|translate}}</p>
   <a ng-click="toggleCalendarStartDay()" class="btn btn-{{startSunday ? 'success' : 'info'}}">
     <i class="glyphicon glyphicon-indent-{{startSunday ? 'right' : 'left'}}" ></i> {{startSunday ? 'SETTINGS/CALENDAR/start-mon/btn' : 'SETTINGS/CALENDAR/start-sun/btn'|translate}}
@@ -23,7 +23,7 @@
   </h2>
 
   <p translate-once="SETTINGS/CALENDAR/mode/desc"></p>
-  <p><strong>Current setting: </strong><br>
+  <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
    {{displayMode == 'date' ? 'SETTINGS/CALENDAR/mode-month/tooltip' : 'SETTINGS/CALENDAR/mode-week/tooltip'|translate}}</p>
   <a ng-click="toggleCalendarDisplayMode()" class="btn btn-{{displayMode == 'date' ? 'info' : 'success'}}">
     <i class="glyphicon glyphicon-{{displayMode == 'date' ? 'th-list' : 'calendar'}}"></i> {{displayMode == 'date' ? 'SETTINGS/CALENDAR/mode-week/btn' : 'SETTINGS/CALENDAR/mode-month/btn'|translate}}
@@ -39,7 +39,7 @@
   </h2>
   
   <p translate-once="SETTINGS/CALENDAR/specials/desc"></p>
-   <p><strong>Current setting: </strong><br>
+   <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
    {{showSpecials ? 'SETTINGS/CALENDAR/specials-show/tooltip' : 'SETTINGS/CALENDAR/specials-hide/tooltip'|translate}}</p>
   <a ng-click="toggleSpecials()" class="btn btn-{{showSpecials ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{showSpecials ? 'remove' : 'ok'}}" ></i> {{showSpecials ? 'SETTINGS/CALENDAR/specials-hide/btn' : 'SETTINGS/CALENDAR/specials-show/btn'|translate}}
@@ -56,7 +56,7 @@
   
   <p translate-once="SETTINGS/CALENDAR/downloaded/desc"></p>
 
-   <p><strong>Current setting: </strong><br>
+   <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
    {{showDownloaded ? 'SETTINGS/CALENDAR/downloaded-enabled/tooltip' : 'SETTINGS/CALENDAR/downloaded-disabled/tooltip'|translate}}</p>
   <a ng-click="toggleDownloaded()" class="btn btn-{{showDownloaded ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{showDownloaded ? 'remove' : 'ok'}}" ></i> {{showDownloaded ? 'SETTINGS/CALENDAR/downloaded-disable/btn' : 'SETTINGS/CALENDAR/downloaded-enable/btn'|translate}}

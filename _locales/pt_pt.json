@@ -415,6 +415,7 @@
     "SETTINGS/VUZE/not-connected/lbl": "Не подключен",
     "SETTINGS/VUZE/save/btn": "Проверьте и сохранить",
     "SETTINGS/VUZE/status/hdr": "статус ",
+    "SETTINGS/current-setting/hdr": "configuração atual: ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Baixar Automático",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "episódios",
     "SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn": "Encontre um subtítulo",

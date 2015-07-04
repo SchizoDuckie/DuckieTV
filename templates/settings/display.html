@@ -8,6 +8,8 @@
     </h2>
 
     <p>{{topSites ? 'SETTINGS/DISPLAY/topsites-hide/desc' : 'SETTINGS/DISPLAY/topsites-show/desc'|translate}}</p>
+    <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
+     {{topSites ? 'SETTINGS/DISPLAY/topsites-enabled/tooltip' : 'SETTINGS/DISPLAY/topsites-disabled/tooltip'|translate}}
     <a ng-click="toggleTopSites()" class="btn btn-{{topSites ? 'danger' : 'success'}}"><i class="glyphicon glyphicon-{{topSites ? 'ban-circle' : 'th'}}"></i>{{topSites ? 'SETTINGS/DISPLAY/topsites-hide/btn' : 'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</a>
 
     <div ng-show="topSites">
@@ -21,6 +23,8 @@
       </h2>
 
       <p>{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-click/desc' : 'SETTINGS/DISPLAY/topsites-mode-hover/desc'|translate}}</p>
+      <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
+       {{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-hover/tooltip' : 'SETTINGS/DISPLAY/topsites-mode-click/tooltip'|translate}}
       <a ng-click="toggleTopSitesMode()" class="btn btn-{{topSitesMode == 'onhover' ? 'info' : 'success'}}">
         <i class="glyphicon glyphicon-{{topSitesMode == 'onhover' ? 'screenshot' : 'download-alt'}}"></i>
         &nbsp;{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-click/btn' : 'SETTINGS/DISPLAY/topsites-mode-hover/btn'|translate}}
@@ -38,6 +42,8 @@
   </h2>
   
   <p>{{'SETTINGS/DISPLAY/download-ratings/desc'|translate}}</p>
+  <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
+   {{showRatings ? 'SETTINGS/DISPLAY/download-ratings-enabled/tooltip' : 'SETTINGS/DISPLAY/download-ratings-disabled/tooltip'|translate}}
   <a ng-click="toggleRatings()" class="btn btn-{{showRatings ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{showRatings ? 'remove' : 'ok'}}" ></i> {{showRatings ? 'SETTINGS/DISPLAY/download-ratings-disable/btn' : 'SETTINGS/DISPLAY/download-ratings-enable/btn'|translate}}
   </a>
@@ -66,6 +72,8 @@
     </h2>
     
     <p>{{'SETTINGS/DISPLAY/standalone-startup-window/desc'|translate}}</p>
+    <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
+     {{standaloneStartupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-minimized/tooltip' : 'SETTINGS/DISPLAY/standalone-startup-normalized/tooltip'|translate}}
     <a ng-click="toggleStandaloneStartupMinimized()" class="btn btn-{{standaloneStartupMinimized ? 'info' : 'success'}}">
       <i class="glyphicon glyphicon-{{standaloneStartupMinimized ? 'win-maximize' : 'win-minimize'}}"  style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i> {{standaloneStartupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-normal/btn' : 'SETTINGS/DISPLAY/standalone-startup-minimize/btn'|translate}}
     </a>

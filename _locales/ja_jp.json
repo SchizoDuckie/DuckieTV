@@ -415,6 +415,7 @@
     "SETTINGS/VUZE/not-connected/lbl": "接続されていません",
     "SETTINGS/VUZE/save/btn": "テストと保存",
     "SETTINGS/VUZE/status/hdr": "ステータス ",
+    "SETTINGS/current-setting/hdr": "現在の設定: ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "自動ダウンロード",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "エピソード",
     "SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn": "字幕を探します",

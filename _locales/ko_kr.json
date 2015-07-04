@@ -415,6 +415,7 @@
     "SETTINGS/VUZE/not-connected/lbl": "연결되지 않음",
     "SETTINGS/VUZE/save/btn": "테스트 및 저장",
     "SETTINGS/VUZE/status/hdr": "지위 ",
+    "SETTINGS/current-setting/hdr": "현재 설정: ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "자동 다운로드",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "에피소드",
     "SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn": "자막 찾기",

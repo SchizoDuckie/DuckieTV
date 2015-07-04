@@ -415,6 +415,7 @@
     "SETTINGS/VUZE/not-connected/lbl": "Inte ansluten",
     "SETTINGS/VUZE/save/btn": "Testa och spara",
     "SETTINGS/VUZE/status/hdr": "Status ",
+    "SETTINGS/current-setting/hdr": "aktuella inställningen: ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Auto Download",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "episoder",
     "SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn": "Hitta en undertext",

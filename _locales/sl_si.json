@@ -415,6 +415,7 @@
     "SETTINGS/VUZE/not-connected/lbl": "Ni povezan",
     "SETTINGS/VUZE/save/btn": "Preizkusite in shranite",
     "SETTINGS/VUZE/status/hdr": "Stanje",
+    "SETTINGS/current-setting/hdr": "trenutna nastavitev: ",
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Samodejni prenos",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "Epizode",
     "SIDEPANEL/EPISODE-DETAILS/find-subtitle/btn": "Najdi podnapis",
