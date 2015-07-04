@@ -411,6 +411,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "281485": "Marvels Agent Carter",
         "281511": "Blackish",
         "281535": "Forever US",
+        "281537": "Aquarius US",
         "281624": "Manhattan Love Story US",
         "281664": "Partners 2014",
         "281709": "The Librarians US",
