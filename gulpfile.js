@@ -153,7 +153,7 @@ gulp.task('webstore-nightly', function() {
  * - zip files from ../deploy/<flavour>/ into ../deploy/<flavour>-<version>.zip
  * - copy that file into ../deploy/<flavour>-latest.zip
  */
-gulp.task('deploy', ['zipbrowseraction', 'zipnewtab', 'zipopera'], function() {
+gulp.task('deploy', ['zipbrowseraction', 'zipnewtab'], function() {
     var latestTag = nightly ? 'nightly' : 'latest';
     gulp.src('../deploy/newtab-' + ver + '.zip')
         .pipe(rename('newtab-' + latestTag + '.zip'))
