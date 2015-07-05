@@ -11,7 +11,7 @@ DuckieTV
 
         var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="http://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="http://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="http://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
         var notifications = {
-            '1.1.0': ["<li>Translations: Italian (lamaresh), German (stormfighter), Portuguese (matigonkas)",
+            '1.1.1': ["<li>Translations: Italian (lamaresh), German (stormfighter), Portuguese (matigonkas)",
                 "<li>Create a settings flag to run auto-stop for torrents not initiated by DuckieTV",
                 "<li>Added Vuze, uTorrent WEBUI, and fixed qBittorrent 3.2.0 support",
                 "<li>Made it possible for all torrent clients to upload and launch torrent files to a remote machine",
