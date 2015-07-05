@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 1.1.2
+=======
+1.1.1
+>>>>>>> Don't edit VERSION with nano, since it adds a newline that's not properly stripped, which messed up the webstore deployment.
