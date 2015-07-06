@@ -199,101 +199,99 @@ background-rotator, background-rotator > div {
 #actionbar .logo:hover {
     -webkit-transform: rotate(360deg);
 }
+
 #actionbar ul {
     list-style-type:none;
     margin-top: 50px;
 }
 
-#actionbar a {
+#actionbar li {
     height: 58px;
-    padding: 18px;
-    font-size: 2.2rem;
-    color: white;
-    text-decoration:none;
-    text-shadow: 2px 2px rgba(25,25,25,0.8);
+    width: 58px;
+    font-size: 23.5px;
+    transition: background-color .3s;
 }
-
-#actionbar a.active {
-     background-color: rgba(70,70,70,0.8);
+#actionbar li.active {
+    background-color: rgba(70,70,70,0.8);
 }
-
-#actionbar a:hover, #actionbar .logo:hover {
+#actionbar li:hover, #actionbar .logo:hover {
     background-color: rgba(70,70,70,1);
-    -webkit-transition: background-color .5s;
-}
-#actionbar a:active, #actionbar .logo:active {
-    background-color: rgba(90,90,90,1);
-    -webkit-transition: background-color .125s;
 }
 
-#actionbar_calendar {
+#actionbar a {
+    height: inherit;
+    width: inherit;
+    font-size: inherit;
+    color: white;
+    text-decoration: none;
+    text-shadow: 2px 2px rgba(25,25,25,0.8);
+    padding: 16.5px;
+}
+
+#actionbar_calendar a {
     opacity: 1;
     transition: all 0.5s ease-in-out;
     transform: rotate(0deg) scale(1);
+    left: 1px;
 }
 
-#actionbar_calendar.calendar_active {
+#actionbar_calendar.calendar_active a {
     transform: rotate(180deg) scale(0.1);
     opacity: 0;
 }
+#actionbar_calendar.calendar_active:hover {
+    background-color: transparent;
+}
 
-#actionbar_favorites {
+#actionbar_favorites a {
     opacity: 1;
     transition: all 0.5s ease-in-out;
     transform: rotateY(0deg);
+    left: -1px;
 }
 
-#actionbar_favorites.favorites_active {
+#actionbar_favorites.favorites_active  a{
     transform: rotateY(360deg);
     color: rgba(215, 85, 85, 0.8);
 }
 
-#actionbar_torrent {
-  background-repeat: no-repeat;
-  background-position: center center;
-  padding: 29px !important;
-  background-size: 30px;
-  margin-bottom: -5px;
+#actionbar_torrent a {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 30px;
+    left: -0.5px;
 }
-
-#actionbar_torrent:after {
+#actionbar_torrent a:after {
     position: absolute;
     right: 10px;
     bottom:10px;
     content: '.';
 }
-
-#actionbar_torrent.offline:after {
+#actionbar_torrent a.offline:after {
     color: rgba(255,0,0,0.5);
 }
-#actionbar_torrent.connected:after {
+#actionbar_torrent a.connected:after {
     color: rgba(0,255,0,0.5);
 }
-#actionbar_torrent.connecting:after {
+#actionbar_torrent a.connecting:after {
     color: orange !important;
 }
-
-#actionbar_torrent.vuze {
+#actionbar_torrent a.vuze {
     background-image: url('../img/torrentclients/vuze-small.png');
 }
-
-#actionbar_torrent.utorrent {
+#actionbar_torrent a.utorrent {
     background-image: url('../img/torrentclients/utorrent-small.png');
 }
-
-#actionbar_torrent.deluge {
+#actionbar_torrent a.deluge {
     background-image: url('../img/torrentclients/deluge-small.png');
 }
-
-#actionbar_torrent.transmission {
+#actionbar_torrent a.transmission {
     background-image: url('../img/torrentclients/transmission-small.png');
 }
-
-#actionbar_torrent.qbittorrent {
+#actionbar_torrent a.qbittorrent {
     background-image: url('../img/torrentclients/qbittorrent-small.png');
 }
-
-#actionbar_torrent.tixati {
+#actionbar_torrent a.tixati {
     background-image: url('../img/torrentclients/tixati-small.png');
 }
 

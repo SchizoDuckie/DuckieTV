@@ -44,29 +44,29 @@
     <div id="actionbar">
       <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hidePanels(); actionbar.resetCalendar();"></div>
       <ul class="list-unstyled">
-        <li>
-          <a id="actionbar_calendar" ui-sref="calendar" ui-sref-active="calendar_active" class="glyphicon glyphicon-calendar" tooltip="{{ 'TAB/calendar/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.hidePanels();" style="padding-left:20px" tooltip-append-to-body="true"></a>
+        <li id="actionbar_calendar" ui-sref-active="calendar_active">
+          <a ui-sref="calendar" class="glyphicon glyphicon-calendar" tooltip="{{ 'TAB/calendar/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.hidePanels();" tooltip-append-to-body="true"></a>
         </li>
-        <li>
-          <a id="actionbar_favorites" ui-sref="favorites" ui-sref-active="favorites_active" class="glyphicon glyphicon-heart" tooltip="{{actionbar.getHeartTooltip()}}" tooltip-placement="right" ng-click="actionbar.toggleSeriesList();  actionbar.hideSidePanel();"></a>
+        <li id="actionbar_favorites" ui-sref-active="favorites_active">
+          <a ui-sref="favorites" class="glyphicon glyphicon-heart" tooltip="{{actionbar.getHeartTooltip()}}" tooltip-placement="right" ng-click="actionbar.toggleSeriesList();  actionbar.hideSidePanel();"></a>
         </li>
-        <li style='display:none' id='wl'>
-          <a id="actionbar_watchlist" ui-sref="watchlist" ui-sref-active="active" class="glyphicon glyphicon-facetime-video" tooltip="{{ 'TAB/watchlist/glyph'|translate }}" tooltip-placement="right"></a>
+        <li id="actionbar_watchlist" style='display:none' id='wl' ui-sref-active="active">
+          <a ui-sref="watchlist" class="glyphicon glyphicon-facetime-video" tooltip="{{ 'TAB/watchlist/glyph'|translate }}" tooltip-placement="right"></a>
         </li>
-        <li  style="position: absolute; bottom: 58px;" >
-          <a id="actionbar_settings"ui-sref="settings" ng-click="actionbar.showSidePanel();" class="glyphicon glyphicon-cog" tooltip="{{ 'TAB/settings/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
-        </li>
-        <li ng-if="getSetting('torrenting.enabled')">
-          <a id="actionbar_torrent" ui-sref="torrent" ui-sref-active="active" ng-click="actionbar.showSidePanel();" class="glyphicon {{actionbar.getTorrentClientClass()}}" tooltip="Torrent client {{actionbar.getTorrentClientTooltip()}}" tooltip-placement="right" ng-class="{ connected: actionbar.isTorrentClientConnected(), connecting: actionbar.isTorrentClientConnecting(), offline: !actionbar.isTorrentClientConnected() }"></a>
-        </li>
-        <li style='position: absolute; bottom:0px;'>
-          <a id="actionbar_about" ui-sref="about" ui-sref-active="active" class="glyphicon glyphicon-info-sign" tooltip="{{ 'TAB/about/glyph'|translate }}" tooltip-placement="right"></a>
+        <li id="actionbar_torrent" ng-if="getSetting('torrenting.enabled')"  ui-sref-active="active">
+          <a ui-sref="torrent" ng-click="actionbar.showSidePanel();" class="glyphicon {{actionbar.getTorrentClientClass()}}" tooltip="Torrent client {{actionbar.getTorrentClientTooltip()}}" tooltip-placement="right" ng-class="{ connected: actionbar.isTorrentClientConnected(), connecting: actionbar.isTorrentClientConnecting(), offline: !actionbar.isTorrentClientConnected() }"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
           <torrent-dialog tooltip-placement="right"></torrent-dialog>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
           <subtitle-dialog tooltip-placement="right"></subtitle-dialog>
+        </li>
+        <li id="actionbar_settings" style="position:absolute;bottom:58px" ui-sref-active="active">
+          <a ui-sref="settings" ng-click="actionbar.showSidePanel();" class="glyphicon glyphicon-cog" tooltip="{{ 'TAB/settings/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
+        </li>
+        <li id="actionbar_about" style='position:absolute;bottom:0px' ui-sref-active="active">
+          <a ui-sref="about" class="glyphicon glyphicon-info-sign" tooltip="{{ 'TAB/about/glyph'|translate }}" tooltip-placement="right"></a>
         </li>
       </ul>
     </div>
