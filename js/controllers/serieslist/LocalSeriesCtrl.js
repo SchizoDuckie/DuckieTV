@@ -4,8 +4,8 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
 
         // Broadcast empty filter to reset the value in the SeriesList Ctrl        
         $rootScope.$broadcast('serieslist:filter', '');
-        $rootScope.$broadcast('serieslist:genres', '');
-        $rootScope.$broadcast('serieslist:selectedstatus', '');
+        $rootScope.$broadcast('serieslist:genreFilter', '');
+        $rootScope.$broadcast('serieslist:statusFilter', '');
 
         this.setFilter = function(val) {
             $rootScope.$broadcast('serieslist:filter', val);
@@ -45,7 +45,7 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
             } else {
                 this.selectedGenres.splice(this.selectedGenres.indexOf(genre), 1);
             }
-            $rootScope.$broadcast('serieslist:genres', this.selectedGenres);
+            $rootScope.$broadcast('serieslist:genreFilter', this.selectedGenres);
         };
 
         this.selectStatus = function(status) {
@@ -54,7 +54,7 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
             } else {
                 this.selectedStatus.splice(this.selectedStatus.indexOf(status), 1);
             }
-        $rootScope.$broadcast('serieslist:selectedstatus', this.selectedStatus);
+        $rootScope.$broadcast('serieslist:statusFilter', this.selectedStatus);
         };
 
         this.getCheckedGenre = function(genre) {

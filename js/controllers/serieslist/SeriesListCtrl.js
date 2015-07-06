@@ -48,11 +48,11 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             serieslist.query = query;
         });
 
-        $rootScope.$on('serieslist:genres', function(evt, genres) {
+        $rootScope.$on('serieslist:genreFilter', function(evt, genres) {
             serieslist.genreFilter = genres;
         });
 
-        $rootScope.$on('serieslist:selectedstatus', function(evt, status) {
+        $rootScope.$on('serieslist:statusFilter', function(evt, status) {
             serieslist.statusFilter = status;
         });
 
