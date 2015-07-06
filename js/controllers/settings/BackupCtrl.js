@@ -93,7 +93,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
 
         /**
          * Read the backup file and feed it to the FavoritesService to resolve and add.
-         * The Favoritesservice has a method to automagically import the watched episodes
+         * The FavoritesService has a method to automagically import the watched episodes
          * (which is a bit hacky as it should be part of the import)
          */
         var importBackup = function() {
@@ -106,6 +106,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
                         localStorage.setItem(key, value);
                     });
                     SettingsService.restore();
+                    SettingsService.set('autodownload.lastrun', new Date().getTime());
                     angular.forEach(result.series, function(watched, TVDB_ID) {
                         FavoritesService.adding(TVDB_ID);
                         return TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
