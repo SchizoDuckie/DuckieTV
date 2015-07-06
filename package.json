@@ -34,9 +34,9 @@
         "requirejs": "^2.1.15" 
     }, 
     "author": "DuckieTV", 
-    "user-agent": "DuckieTV Standalone v1.1.0", 
+    "user-agent": "DuckieTV Standalone v1.1.2", 
     "window": {
-        "title": "DuckieTV Standalone v1.1.0", 
+        "title": "DuckieTV Standalone v1.1.2", 
         "always-on-top": false, 
         "as_desktop": true, 
         "exe_icon": "C:/xampp/htdocs/deploy/newtab/img/icon128.png",
@@ -56,7 +56,7 @@
         "transparent": true, 
         "visible": true 
     }, 
-    "version": "1.1.0", 
+    "version": "1.1.2", 
     "inject-js-start": "", 
     "main": "tab.html", 
     "chromium-args": "", 
