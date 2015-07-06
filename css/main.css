@@ -258,7 +258,7 @@ background-rotator, background-rotator > div {
 #actionbar_torrent a {
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 30px;
+    background-size: 28px;
     left: -0.5px;
 }
 #actionbar_torrent a:after {
