@@ -2,34 +2,18 @@ DuckieTV
 /**
  * Migrations that run when updating DuckieTV version.
  */
-.run(['FavoritesService',
-    function(FavoritesService) {
+.run(['FavoritesService', '$rootScope',
+    function(FavoritesService, $rootScope) {
 
-        // Update the newly introduced episodes.downloaded status
+        // Update the newly introduced series' and seasons'  watched and notWatchedCount entities
 
-        if (!localStorage.getItem('1.0migration')) {
+        if (!localStorage.getItem('1.1migration')) {
             setTimeout(function() {
-                CRUD.executeQuery("update Episodes set downloaded = 1 where watched == 1").
-                then(CRUD.executeQuery("select group_concat(ID_Episode) as affected from Episodes  group by  ID_Serie, seasonnumber, episodenumber having count(seasonnumber||','||episodenumber) > 1").then(function(result) {
-                    var affected = [];
-
-                    for (var i = 0; i < result.rs.rows.length; i++) {
-                        var row = result.rs.rows.item(i);
-                        row.affected.split(',').map(function(item) {
-                            affected.push(item)
-                        });
-                    }
-                    return CRUD.executeQuery("delete from Episodes where  ID_Episode in (" + affected.join(',') + ") AND (TVDB_ID IS null OR  episodename IS null or IMDB_ID IS NULL)");
-                })).
-                then(function() {
-                    console.log("1.0 migration done.");
-                    localStorage.setItem('1.0migration', new Date());
-                    return FavoritesService.refresh();
-                });
-
-
+                $rootScope.$broadcast('series:recount:watched');
+                    console.log("1.1 migration done.");
+                    localStorage.setItem('1.1migration', new Date());
             }, 2000);
-            console.info("Executing the 1.0 migration to populate episodes.downloaded status");
+            console.info("Executing the 1.1 migration to populate watched and notWatchedCount entities");
         }
 
 
