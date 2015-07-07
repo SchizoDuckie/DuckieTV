@@ -1632,10 +1632,6 @@ sidepanel .buttons .two-face-torrent .auto-download {
     position: absolute;
     right: 20px;
 }
-/* Fix the tooltip positions */
-#ttd .tooltip {
-    left: 106.5px !important;
-}
 sidepanel .buttons .torrent-mini-remote-control > span {
     /* Replicate of the strong tag */
     font-size: 18px;
@@ -1650,19 +1646,40 @@ sidepanel .buttons .torrent-mini-remote-control a {
     margin: 0 1px;
     padding: 5px;
 }
-sidepanel  .buttons .torrent-mini-remote-control a i.glyphicon {
+sidepanel .buttons .torrent-mini-remote-control a i.glyphicon {
     font-size: 18px;
     margin-right: 2px;
 }
-sidepanel  .buttons .torrent-mini-remote-control-progress {
+sidepanel .buttons .torrent-mini-remote-control-progress {
     margin-bottom: 0px;
     background-color: rgba(210,210,210,0.4);
 }
-sidepanel  .buttons .torrent-mini-remote-control-progress > span {
+sidepanel .buttons .torrent-mini-remote-control-progress > span {
     /* Somehow positions it in the center dont even know */
     position: absolute;
     left: 0px;
     width: 100%;
+}
+
+sidepanel .serie-overview .mark-button .left-glyph {
+    width: 22px;
+    padding-right: 6px;
+}
+sidepanel .serie-overview .mark-button .left-glyph i {
+    top: 0px;
+}
+sidepanel .serie-overview .mark-button .right-text-glyph {
+    width: 100%;
+    text-align: center
+}
+sidepanel .serie-overview .mark-button .right-text-glyph span {
+    cursor: pointer;
+}
+sidepanel .serie-overview .mark-button .right-text-glyph i {
+    float: initial;
+    font-size: 14px;
+    color: white !important;
+    left: -1px;
 }
 
 sidepanel h1 {

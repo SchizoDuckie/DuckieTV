@@ -1,9 +1,13 @@
-<div id="mwb">
-	<a tooltip="{{getWToolTip(sidepanel.episode)}}">
-	  <i class="glyphicon glyphicon-eye-{{sidepanel.episode.watched ? 'open' : 'close'}}"></i>
-	  <div style="display:inline-block">
-	  	<strong><span translate-once="SIDEPANEL/MARK-WATCHED/mark-as/lbl"></span>&nbsp;</strong>
-	  	<i class="glyphicon glyphicon-eye-{{sidepanel.episode.watched ? 'close' : 'open'}}" style="float:right;font-size:14px;top: 6px; color:white !important"></i>
-	  </div>
-	</a>
-</div>
+<a class="mark-button mark-watched-button" tooltip="{{getWToolTip(sidepanel.episode)}}">
+  <table>
+    <tr>
+      <td class="left-glyph">
+        <i class="glyphicon glyphicon-eye-{{sidepanel.episode.watched ? 'open' : 'close'}}"></i>
+      </td>
+      <td class="right-text-glyph">
+        <strong><span translate-once="SIDEPANEL/MARK-WATCHED/mark-as/lbl"></span>&nbsp;</strong>
+        <i class="glyphicon glyphicon-eye-{{sidepanel.episode.watched ? 'close' : 'open'}}"></i>
+      </td>
+    </tr>
+  </table>
+</a>

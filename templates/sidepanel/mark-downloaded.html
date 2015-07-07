@@ -1,9 +1,13 @@
-<div>
-	<a tooltip="{{getDToolTip(sidepanel.episode)}}">
-	  <i class="glyphicon glyphicon-floppy-{{sidepanel.episode.downloaded ? 'saved' : 'disk'}}"></i>
-	  <div style="display:inline-block">
-	  	<strong><span translate-once="SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl"></span>&nbsp;</strong>
-	  	<i class="glyphicon glyphicon-floppy-{{sidepanel.episode.downloaded ? 'disk' : 'saved'}}" style="float:right;font-size:14px;top: 6px; color: white !important;"></i>
-	  </div>
-	</a>
-</div>
+<a class="mark-button mark-downloaded-button" tooltip="{{getDToolTip(sidepanel.episode)}}">
+  <table>
+    <tr>
+      <td class="left-glyph">
+        <i class="glyphicon glyphicon-floppy-{{sidepanel.episode.downloaded ? 'saved' : 'disk'}}"></i>
+      </td>
+      <td class="right-text-glyph">
+        <strong><span translate-once="SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl"></span>&nbsp;</strong>
+        <i class="glyphicon glyphicon-floppy-{{sidepanel.episode.downloaded ? 'disk' : 'saved'}}"></i>
+      </td>
+    </tr>
+  </table>
+</a>
