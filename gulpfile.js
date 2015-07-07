@@ -25,12 +25,12 @@ var gulp = require('gulp'),
     request = require('request'),
     spawn = require('child_process').spawn;
 
-var ver = String(fs.readFileSync('VERSION'));
+var ver = String(fs.readFileSync('VERSION')).trim();
 var nightly = false; // for nightly builds
 
 
 // scripts are provided in order to prevent any problems with the load order
-var scripts = ['./js/ap*.js', './js/controllers/*.js', './js/controllers/*/*.js', './js/directives/*.js', './js/services/*.js', './js/services/*/*.js'];
+var scripts = ['./js/ap*.js', './js/controllers/*.js', './js/controllers/*/*.js', './js/directives/*.js', './js/services/*.js', './js/services/**/*.js'];
 
 
 /**
@@ -66,24 +66,35 @@ gulp.task('default', ['concatScripts', 'concatDeps', 'concatBackgroundPage', 'co
 
 
 gulp.task('build-standalone', ['deploy'], function() {
-    var NwBuilder = require('node-webkit-builder');
-    var nw = new NwBuilder({
-        files: './dist/*.*', // use the glob format
-        platforms: ['win'], //, 'osx', 'linux32', 'linux64'],
-        buildDir: '../deploy/binaries',
-        cacheDir: '../deploy/cache',
-        buildType: 'versioned',
-        winIco: './img/favicon.ico'
+    console.log("building", 'nwjs-build.sh', [
+        '--src=../deploy/browseraction',
+        '--output-dir=../deploy/binaries',
+        '--name=DuckieTV',
+        '--win-icon=img/favicon.ico',
+        /*'--osx-icon=img/icon.icns', */
+        '--CFBundleExecutable=tv.duckie',
+        '--target="0 1 2 3 4 5"',
+        '--version="' + ver + '"',
+        '--libudev',
+        '--nw=0.12.1',
+        '--build'
+    ], {
+        cwd: process.cwd()
     });
-
-    // Log stuff you want
-    nw.on('log', console.log);
-
-    // Build returns a promise
-    return nw.build().then(function() {
-        console.log('all done!');
-    }).catch(function(error) {
-        console.error(error);
+    spawn('nwjs-build.sh', [
+        '--src=../deploy/browseraction',
+        '--output-dir=../deploy/binaries',
+        '--name=DuckieTV',
+        '--win-icon=img/favicon.ico',
+        /*'--osx-icon=img/icon.icns', */
+        '--CFBundleExecutable=tv.duckie',
+        '--target="0 1 2 3 4 5"',
+        '--version="' + ver + '"',
+        '--libudev',
+        '--nw=0.12.1',
+        '--build'
+    ], {
+        cwd: process.cwd()
     });
 });
 
