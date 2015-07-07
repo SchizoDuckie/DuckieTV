@@ -249,10 +249,9 @@ background-rotator, background-rotator > div {
     transform: rotateY(0deg);
     left: -1px;
 }
-
-#actionbar_favorites.favorites_active  a{
-    transform: rotateY(360deg);
+#actionbar_favorites.active a {
     color: rgba(215, 85, 85, 0.8);
+    transform: rotateY(360deg);
 }
 
 #actionbar_torrent a {

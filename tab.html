@@ -47,7 +47,7 @@
         <li id="actionbar_calendar" ui-sref-active="calendar_active">
           <a ui-sref="calendar" class="glyphicon glyphicon-calendar" tooltip="{{ 'TAB/calendar/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.hidePanels();" tooltip-append-to-body="true"></a>
         </li>
-        <li id="actionbar_favorites" ui-sref-active="favorites_active">
+        <li id="actionbar_favorites">
           <a ui-sref="favorites" class="glyphicon glyphicon-heart" tooltip="{{actionbar.getHeartTooltip()}}" tooltip-placement="right" ng-click="actionbar.toggleSeriesList();  actionbar.hideSidePanel();"></a>
         </li>
         <li id="actionbar_watchlist" style='display:none' id='wl' ui-sref-active="active">
