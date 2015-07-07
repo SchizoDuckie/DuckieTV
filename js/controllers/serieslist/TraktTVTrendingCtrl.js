@@ -9,9 +9,7 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
         var translatedCategoryList = $filter('translate')('GENRELIST').split(',');
 
         FavoritesService.waitForInitialization().then(function() {
-            console.info(FavoritesService.favorites.length)
             if(FavoritesService.favorites.length == 0) {
-                console.info('test');
                 trending.noFavs = true;
             }
         });
