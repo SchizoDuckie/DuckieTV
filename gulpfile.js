@@ -76,7 +76,7 @@ gulp.task('build-standalone', ['deploy'], function() {
         '--target="0 1 2 3 4 5"',
         '--version="' + ver + '"',
         '--libudev',
-        '--nw=0.12.1',
+        '--nw=0.12.2',
         '--build'
     ], {
         cwd: process.cwd()
@@ -91,7 +91,7 @@ gulp.task('build-standalone', ['deploy'], function() {
         '--target="0 1 2 3 4 5"',
         '--version="' + ver + '"',
         '--libudev',
-        '--nw=0.12.1',
+        '--nw=0.12.2',
         '--build'
     ], {
         cwd: process.cwd()

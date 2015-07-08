@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#./nwjs-build.sh --src=/var/www/deploy/browseraction --output-dir=/var/www/deploy/binaries --name=DuckieTV --win-icon=/var/www/DuckieTV/img/favicon.ico --osx-icon=/var/www/DuckieTV/build/duckietv.icns --CFBundleIdentifier=tv.duckie --target="4" --version="1.1.2" --libudev --nw=0.12.1 --build
+#./nwjs-build.sh --src=/var/www/deploy/browseraction --output-dir=/var/www/deploy/binaries --name=DuckieTV --win-icon=/var/www/DuckieTV/img/favicon.ico --osx-icon=/var/www/DuckieTV/build/duckietv.icns --CFBundleIdentifier=tv.duckie --target="4" --version="1.1.2" --libudev --nw=0.12.2 --build
 
 
 BUILD_DIR="/var/www/deploy/TMP/osx-ia32/latest-git"
 BASE_DIR="/var/www/deploy/osx" 
-VERSION="1.1.3"
+VERSION="1.1.2"
 IDENTIFIER="tv.duckie"
 APPNAME="DuckieTV"
 BACKGROUND="/var/www/DuckieTV/img/duckietv.png"

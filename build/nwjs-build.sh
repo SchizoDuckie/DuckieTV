@@ -25,7 +25,7 @@ LOCAL_NW_ARCHIVES_MODE=false
 LOCAL_NW_ARCHIVES_PATH="${WORKING_DIR}/nwjs_download_cache"
 
 # Default nwjs version
-NW_VERSION='0.12.1';
+NW_VERSION='0.12.2';
 
 # Base domain for nwjs download server
 DL_URL="http://dl.nwjs.io"

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#./build/nwjs-build.sh --src=/var/www/deploy/browseraction --output-dir=/var/www/deploy/binaries --name=DuckieTV --win-icon=/var/www/DuckieTV/img/favicon.ico --osx-icon=/var/www/DuckieTV/build/duckietv.icns --CFBundleIdentifier=tv.duckie --target="2" --version="1.1.2" --libudev --nw=0.12.1 --build
-#./build/nwjs-build.sh --src=/var/www/deploy/browseraction --output-dir=/var/www/deploy/binaries --name=DuckieTV --win-icon=/var/www/DuckieTV/img/favicon.ico --osx-icon=/var/www/DuckieTV/build/duckietv.icns --CFBundleIdentifier=tv.duckie --target="3" --version="1.1.2" --libudev --nw=0.12.1 --build
+#./build/nwjs-build.sh --src=/var/www/deploy/browseraction --output-dir=/var/www/deploy/binaries --name=DuckieTV --win-icon=/var/www/DuckieTV/img/favicon.ico --osx-icon=/var/www/DuckieTV/build/duckietv.icns --CFBundleIdentifier=tv.duckie --target="2" --version="1.1.2" --libudev --nw=0.12.2 --build
+#./build/nwjs-build.sh --src=/var/www/deploy/browseraction --output-dir=/var/www/deploy/binaries --name=DuckieTV --win-icon=/var/www/DuckieTV/img/favicon.ico --osx-icon=/var/www/DuckieTV/build/duckietv.icns --CFBundleIdentifier=tv.duckie --target="3" --version="1.1.2" --libudev --nw=0.12.2 --build
 APPNAME="DuckieTV"
-VERSION="1.1.3"
+VERSION="1.1.2"
 BASE_DIR="/var/www/deploy/browseraction/"
 BUILD_DIR="/var/www/deploy/binaries/win/"
 ICON="/var/www/DuckieTV/img/favicon.ico"
