@@ -45,7 +45,8 @@
         <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.LanguageName }}</a>
       </td>
       <td>
-        <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.MovieReleaseName }}</a>
+        <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.MovieReleaseName }}</a> 
+        <i ng-if="subtitle.SubHearingImpaired == '1'" class="glyphicon glyphicon-bullhorn" tooltip="Hearing impaired"></i>
       </td>
       <td>  
         <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.SubDownloadsCnt }}</a>
