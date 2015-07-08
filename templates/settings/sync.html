@@ -42,7 +42,7 @@
 		<li ng-repeat="show in target.nonRemote" ng-if="!show.title">{{ show + ' (loading)'}}</li>
 		</ul>
 		<serieheader ng-repeat="serie in target.nonRemote" style='display:inline-block;margin:5px;cursor:pointer' data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
-		    <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+		    <em class="earmark" ng-show="isAdded(serie.tvdb_id)"><i class='glyphicon glyphicon-ok'></i></em>
 		    <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
 		 </serieheader>
 
@@ -51,7 +51,7 @@
 			<li ng-repeat="show in target.nonLocal" ng-if="!show.title">{{show + ' (loading)'}}</li>
 		</ul>
 		<serieheader ng-repeat="serie in target.nonLocal" style='display:inline-block;margin:5px;cursor:pointer' data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
-		    <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+		    <em class="earmark" ng-show="isAdded(serie.tvdb_id)"><i class='glyphicon glyphicon-ok'></i></em>
 		    <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
 		 </serieheader>
 
@@ -60,7 +60,7 @@
 		<button class="btn btn-warning" ng-show="showAll" ng-click="showAll = false">Hide</button>
 		</h2>
 		<serieheader ng-if="showAll" ng-repeat="serie in target.series" style='display:inline-block;margin:5px;cursor:pointer' data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
-		    <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+		    <em class="earmark" ng-show="isAdded(serie.tvdb_id)"><i class='glyphicon glyphicon-ok'></i></em>
 		    <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
 		 </serieheader>
 

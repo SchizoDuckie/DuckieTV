@@ -28,7 +28,7 @@
     <h1 ng-show="!declined" style='margin-top: 20px;' translate-once="SETTINGS/BACKUP/loading-please-wait/lbl"></h1>
     <h1 ng-show="declined" style='margin-top: 20px;' translate-once="SETTINGS/BACKUP/wipe-cancelled/lbl"></h1>
     <serieHeader ng-repeat="serie in series" data="serie" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
-      <em class="earmark" ng-show="isAdded(serie.tvdb_id)">&check;</em>
+      <em class="earmark" ng-show="isAdded(serie.tvdb_id)"><i class='glyphicon glyphicon-ok'></i></em>
       <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
     </serieHeader>
   </div>
