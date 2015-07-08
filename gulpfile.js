@@ -30,7 +30,7 @@ var nightly = false; // for nightly builds
 
 
 // scripts are provided in order to prevent any problems with the load order
-var scripts = ['./js/ap*.js', './js/controllers/*.js', './js/controllers/*/*.js', './js/directives/*.js', './js/services/*.js', './js/services/**/*.js'];
+var scripts = ['./js/ap*.js', './js/controllers/*.js', './js/controllers/**/*.js', './js/directives/*.js', './js/directives/**/*.js', './js/services/*.js', './js/services/**/*.js'];
 
 
 /**
@@ -219,11 +219,11 @@ gulp.task('concatScripts', function() {
 });
 
 /**
- * Concat the dependencies array into a file named dist/deps.js
+ * Concat the dependencies array into a file named dist / deps.js
  */
 gulp.task('concatDeps', function() {
 
-    var tab = fs.readFileSync('tab.html').toString()
+    var tab = fs.readFileSync('tab.html').toString();
     var matches = tab.match(/<!-- deploy:replace\=\'(.*)\' -->([\s\S]+?)[^\/deploy:]<!-- \/deploy:replace -->/g);
     var deps = [];
     matches.map(function(match) {
@@ -235,7 +235,7 @@ gulp.task('concatDeps', function() {
                     var mifi = script.replace('.js', '.min.js');
                     return fs.existsSync(mifi) ? mifi : script;
                 }
-            })
+            });
         }
     });
     return gulp.src(deps)
@@ -281,7 +281,7 @@ gulp.task('buildTemplateCache', function() {
         .pipe(notify({
             message: 'Templatecache deployed'
         }));
-})
+});
 
 
 

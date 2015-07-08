@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#./build/nwjs-build.sh --src=/var/www/deploy/browseraction --output-dir=/var/www/deploy/binaries --name=DuckieTV --win-icon=/var/www/DuckieTV/img/favicon.ico --osx-icon=/var/www/DuckieTV/build/duckietv.icns --CFBundleIdentifier=tv.duckie --target="2" --version="1.1.2" --libudev --nw=0.12.2 --build
+./nwjs-build.sh --src=/var/www/deploy/browseraction --output-dir=/var/www/deploy/binaries --name=DuckieTV --win-icon=/var/www/DuckieTV/img/favicon.ico --osx-icon=/var/www/DuckieTV/build/duckietv.icns --CFBundleIdentifier=tv.duckie --target="2" --version="1.1.2" --libudev --nw=0.12.2 --build
 #./build/nwjs-build.sh --src=/var/www/deploy/browseraction --output-dir=/var/www/deploy/binaries --name=DuckieTV --win-icon=/var/www/DuckieTV/img/favicon.ico --osx-icon=/var/www/DuckieTV/build/duckietv.icns --CFBundleIdentifier=tv.duckie --target="3" --version="1.1.2" --libudev --nw=0.12.2 --build
 APPNAME="DuckieTV"
 VERSION="1.1.2"
@@ -105,7 +105,7 @@ Section Uninstall
 	RMDir "\$INSTDIR\locales"
 
 	;;; Remove remaining directories
-	RMDir "\$SMPROGRAMS\\{$APPNAME}}"
+	RMDir "\$SMPROGRAMS\${APPNAME}"
 	RMDir "\$INSTDIR\"
 
 SectionEnd
@@ -115,3 +115,5 @@ BrandingText "The TV Show Tracker You've been waiting for"
 EOF
 
 cat  $BUILD_DIR/$APPNAME.nsi
+
+cd $BUILD_DIR
