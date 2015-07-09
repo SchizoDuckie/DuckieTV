@@ -32,10 +32,10 @@ DL_URL="http://dl.nwjs.io"
 
 # Temporary directory where all happens (relative to current directory where this script running from)
 # This directory will be auto created
-TMP="../deploy/TMP"
+TMP="/var/www/deploy/TMP"
 
 # Sorces directory path
-PKG_SRC="../../dist"
+PKG_SRC="/var/www/deploy/browseraction"
 
 # Build target(s)
 # 0 - linux-ia32
@@ -47,7 +47,7 @@ PKG_SRC="../../dist"
 TARGET="0 1 2 3 4 5"
 
 # Final output directory (relative to current directory where this script running from)
-RELEASE_DIR="${WORKING_DIR}/${TMP}/output"
+RELEASE_DIR="/var/www/deploy/"
 
 # Icons and other resources
 OSX_RESOURCE_ICNS="../build/resources/osx/gisto.icns"
@@ -271,8 +271,8 @@ upper_case_word() {
 }
 
 clean() {
-    rm -rf ${WORKING_DIR}/${TMP};
-    NOTE "Removed \"${WORKING_DIR}/${TMP}\" directory and it's content";
+    rm -rf ${TMP};
+    NOTE "Removed \"${TMP}\" directory and it's content";
 }
 
 extractme() {
@@ -304,11 +304,11 @@ make_bins() {
 }
 
 mk_linux() {
-cat ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/nw ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw > ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
-        rm ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
-        chmod +x ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
-        cp ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/{icudtl.dat,nw.pak} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
-        cd ${WORKING_DIR}/${TMP}/${1}/latest-git
+cat ${TMP}/${ARR_OS[$i]}/nwjs/nw ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw > ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
+        rm ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
+        chmod +x ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
+        cp ${TMP}/${ARR_OS[$i]}/nwjs/{icudtl.dat,nw.pak} ${TMP}/${ARR_OS[$i]}/latest-git/
+        cd ${TMP}/${1}/latest-git
 
         if [[ ${LIBUDEV_HANDLER} = "true" ]];then
         #libudev handler here
@@ -340,56 +340,56 @@ gisto_libudev_helper
         chmod +x ./${PKG_NAME}
         fi
 
-        zip -qq -r ${PKG_NAME}-${DATE}-${1}.zip *;
+        zip -qq -r -m ${PKG_NAME}-${DATE}-${1}.zip *;
         mv ${PKG_NAME}-${DATE}-${1}.zip ${RELEASE_DIR};
         cd ${WORKING_DIR};
 }
 
 mk_windows() {
     if [[ -f "${WIN_RESOURCE_ICO}" ]];then
-        cp ${WIN_RESOURCE_ICO} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
+        cp ${WIN_RESOURCE_ICO} ${TMP}/${ARR_OS[$i]}/latest-git/
     fi
     # copy nw.exe to target
-    cp ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/nw.exe ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.exe
+    cp ${TMP}/${ARR_OS[$i]}/nwjs/nw.exe ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.exe
     if [[ "$WINRESOURCER_AVAILABLE" = "true" ]];then
         # Run winresourcer (requires wine 1.7 and mono)
-        winresourcer --operation=Update --exeFile=${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.exe --resourceType=Icongroup --resourceName:IDR_MAINFRAME --lang:1033 --resourceFile:${WIN_RESOURCE_ICO}
+        winresourcer --operation=Update --exeFile=${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.exe --resourceType=Icongroup --resourceName:IDR_MAINFRAME --lang:1033 --resourceFile:${WIN_RESOURCE_ICO}
         # Remove iconfile
         ICONFILENAME="${WIN_RESOURCE_ICO##*/}"
         # cleanup now redundant icon
-        rm ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${ICONFILENAME}
+        rm ${TMP}/${ARR_OS[$i]}/latest-git/${ICONFILENAME}
     fi
     # append package.nw onto taget
-    cat ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw >> ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.exe
-    cp ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/{icudtl.dat,nw.pak,*.dll} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
-    rm ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
+    echo "Appendingpackage to exefile: ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw > ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.exe"
+    cat ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw >> ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.exe
+    cp ${TMP}/${ARR_OS[$i]}/nwjs/{icudtl.dat,nw.pak,*.dll} ${TMP}/${ARR_OS[$i]}/latest-git/
+    rm ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
     
-    exit
-    cd ${WORKING_DIR}/${TMP}/${1}/latest-git
+    cd ${TMP}/${1}/latest-git
     zip -qq -r ${PKG_NAME}-${DATE}-${1}.zip *;
     mv ${PKG_NAME}-${DATE}-${1}.zip ${RELEASE_DIR};
     cd ${WORKING_DIR};
 }
 
 mk_osx() {
-    cp -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/*.app ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app;
-    cp -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app/Contents/Resources/app.nw;
-    rm -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
+    cp -r ${TMP}/${ARR_OS[$i]}/nwjs/*.app ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app;
+    cp -r ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app/Contents/Resources/app.nw;
+    rm -r ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
 
 	# check if it is nwjs or node-webkit
-	if [[ -d "${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/nwjs.app" ]]; then
+	if [[ -d "${TMP}/${ARR_OS[$i]}/nwjs/nwjs.app" ]]; then
 		CFBundleExecutable="nwjs"
 	else
 		CFBundleExecutable="node-webkit"
 	fi
 
     if [[ -f "${OSX_RESOURCE_ICNS}" ]];then
-        cp -r ${OSX_RESOURCE_ICNS} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app/Contents/Resources/
+        cp -r ${OSX_RESOURCE_ICNS} ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app/Contents/Resources/
     else
-        OSX_RESOURCE_ICNS="${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/node-webkit.app/Contents/Resources/nw.icns"
+        OSX_RESOURCE_ICNS="${TMP}/${ARR_OS[$i]}/nwjs/node-webkit.app/Contents/Resources/nw.icns"
     fi
-    rm ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app/Contents/Info.plist
-cat << gisto_plist_helper >> ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app/Contents/Info.plist
+    rm ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app/Contents/Info.plist
+cat << gisto_plist_helper >> ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app/Contents/Info.plist
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -433,7 +433,7 @@ cat << gisto_plist_helper >> ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PK
 </dict>
 </plist>
 gisto_plist_helper
-    cd ${WORKING_DIR}/${TMP}/${1}/latest-git
+    cd ${TMP}/${1}/latest-git
     zip -qq -r ${PKG_NAME}-${DATE}-${1}.zip *;
     mv ${PKG_NAME}-${DATE}-${1}.zip ${RELEASE_DIR};
     cd ${WORKING_DIR};
@@ -441,7 +441,7 @@ gisto_plist_helper
 
 build() {
     for i in ${TARGET}; do
-        mkdir -p ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git;
+        mkdir -p ${TMP}/${ARR_OS[$i]}/latest-git;
         mkdir -p ${LOCAL_NW_ARCHIVES_PATH};
         NOTE 'WORKING';
         printf "Bulding ${TXT_BOLD}${TXT_YELLO}${PKG_NAME}${TXT_RESET} for ${TXT_BOLD}${TXT_YELLO}${ARR_OS[$i]}${TXT_RESET}\n"
@@ -449,19 +449,19 @@ build() {
             if [[ -f "${DL_FILE}" || ${LOCAL_NW_ARCHIVES_MODE} = "TRUE" || ${LOCAL_NW_ARCHIVES_MODE} = "true" || ${LOCAL_NW_ARCHIVES_MODE} = "1" ]]; then
                 NOTE 'NOTE';
                 printf "File ${TXT_YELLO}nwjs-${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]}${TXT_RESET} is in the download cache\n- no need to re-download\n"
-                cp ${LOCAL_NW_ARCHIVES_PATH}/*-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${WORKING_DIR}/${TMP};
+                cp ${LOCAL_NW_ARCHIVES_PATH}/*-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${TMP};
             else
                 wget -O ${LOCAL_NW_ARCHIVES_PATH}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${DL_URL}/v${NW_VERSION}/node-webkit-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} || wget -O ${LOCAL_NW_ARCHIVES_PATH}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${DL_URL}/v${NW_VERSION}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]};
             fi
-            extractme "${ARR_EXTRACT_COMMAND[$i]}" "${DL_FILE}" "${WORKING_DIR}/${TMP}/${ARR_OS[$i]}";
-            mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/*-v${NW_VERSION}-${ARR_OS[$i]} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs;
+            extractme "${ARR_EXTRACT_COMMAND[$i]}" "${DL_FILE}" "${TMP}/${ARR_OS[$i]}";
+            mv ${TMP}/${ARR_OS[$i]}/*-v${NW_VERSION}-${ARR_OS[$i]} ${TMP}/${ARR_OS[$i]}/nwjs;
 
             if [[ `split_string "${ARR_OS[$i]}" "-"` = "osx" ]]; then
-                cp -r ${PKG_SRC} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw;
+                cp -r ${PKG_SRC} ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw;
             else
                 cd ${PKG_SRC};
                 zip -qq -r ${PKG_NAME}.zip *;
-                mv ${PKG_NAME}.zip ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw;
+                mv ${PKG_NAME}.zip ${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw;
                 cd ${WORKING_DIR};
             fi
             # Build binaries
