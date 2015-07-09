@@ -127,7 +127,7 @@ jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').th
             });
             return;
         }
-        if (release.name.indexOf('mac') > -1 && release.name.indexOf(isX64 ? 'x64' : 'x32') > -1) {
+        if (release.name.indexOf('mac') > -1) {
             $('.download.apple').click(function() {
                 window.open(release.browser_download_url);
             });
