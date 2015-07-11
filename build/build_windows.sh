@@ -126,6 +126,6 @@ cd $BUILD_DIR
 unzip "${OUTPUT_DIR}/${APPNAME}-${DATE}-${PLATFORM_INDICATOR}.zip"
 makensis "${APPNAME}.nsi"
 
-zip -qq -m "${OUTPUT_DIR}/${APPNAME}-${VERSION}-win-x32.zip" "${APPNAME}-${VERSION}-setup.exe";
+zip -qq -m "${OUTPUT_DIR}/${APPNAME}-${VERSION}-windows-x32.zip" "${APPNAME}-${VERSION}-setup.exe";
 #cd $OUTPUT_DIR
 #rm -rf $BUILD_DIR
