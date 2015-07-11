@@ -46,8 +46,9 @@
   </div>
   <table class="buttons" width="100%" border="0" style="margin-top:10px">
       <tr ng-show="getSetting('torrenting.enabled')">
-        <td colspan="2">
-            <a ng-click="season.autoDownloadAll()">
+        <td colspan="2" class="two-face-torrent" style="position:relative">
+            <torrent-dialog class="download-all" q='season.getSeasonSearchString(sidepanel.serie,season.season)'></torrent-dialog>
+            <a class="auto-download-all" ng-click="season.autoDownloadAll()">
                 <i class="glyphicon glyphicon-cloud-download"></i><strong translate-once="SIDEPANEL/EPISODES/auto-download-all/lbl"></strong>
             </a>
         </td>

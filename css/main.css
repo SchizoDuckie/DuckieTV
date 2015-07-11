@@ -1632,6 +1632,25 @@ sidepanel .buttons .two-face-torrent .auto-download {
     position: absolute;
     right: 20px;
 }
+sidepanel .buttons .two-face-torrent .auto-download-all {
+    float: left;
+    padding-right: 0;
+    margin-right: 0;
+    border-right: 0px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    width: 287px;
+}
+sidepanel  .buttons .two-face-torrent .download-all {
+    padding: 15px 10px;
+    margin: 5px 0;
+    border-left: 0px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    height: 57px;
+    position: absolute;
+    right: 20px;
+}
 sidepanel .buttons .torrent-mini-remote-control > span {
     /* Replicate of the strong tag */
     font-size: 18px;
