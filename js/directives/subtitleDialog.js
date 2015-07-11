@@ -31,11 +31,12 @@ DuckieTV.provider('SubtitleDialog', function() {
     ];
 })
 
-.controller('subtitleDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "OpenSubtitles", "SettingsService",
-    function($scope, $rootScope, $modalInstance, $injector, data, OpenSubtitles, SettingsService) {
+.controller('subtitleDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "OpenSubtitles", "SettingsService", "SceneNameResolver",
+    function($scope, $rootScope, $modalInstance, $injector, data, OpenSubtitles, SettingsService, SceneNameResolver) {
         //-- Variables --//
 
         var customClients = {};
+        var searchType = 2; // 0 = custom, 1 = episode, 2 = filename
 
         $scope.items = [];
         $scope.searching = true;
@@ -44,26 +45,30 @@ DuckieTV.provider('SubtitleDialog', function() {
         $scope.serie = ('serie' in data) ? data.serie : null;
         $scope.query = ('query' in data) ? data.query : '';
         $scope.filename = ('filename' in data) ? data.filename : null;
+
         if ($scope.filename !== null) {
             $scope.query = $scope.filename;
-        }
+            searchType = 2;
+        };
         if ($scope.episode && $scope.serie) {
-            $scope.query = $scope.serie.name + ' ' + $scope.episode.episodename;
-        }
-
+            $scope.query = SceneNameResolver.getSceneName($scope.serie.TVDB_ID, $scope.serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode);
+            searchType = 1;
+        };
         $scope.search = function(query) {
             $scope.searching = true;
             var promise = null;
             if (query) {
                 $scope.query = query;
-            }
-            if ($scope.serie && $scope.episode && $scope.query === $scope.serie.name + ' ' + $scope.episode.episodename) {
+                searchType = 0;
+            };
+
+            if (searchType == 1) {
                 promise = OpenSubtitles.searchEpisode($scope.serie, $scope.episode);
-            } else if ($scope.filename && $scope.query == $scope.filename) {
+            } else if (searchType == 2) {
                 promise = OpenSubtitles.searchFilename($scope.filename);
             } else {
                 promise = OpenSubtitles.searchString($scope.query);
-            }
+            };
 
             promise.then(function(results) {
                     $scope.items = results;
