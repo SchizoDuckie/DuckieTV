@@ -31,7 +31,7 @@ DuckieTV.controller('traktTvSearchCtrl', ["$rootScope", "TraktTVv2", "$statePara
          * @param {[type]} serie [description]
          */
         this.setHoverSerie = function(serie) {
-            console.log("Hover serie!", serie);
+            //console.log("Hover serie!", serie);
             $state.go('favorites.add.search.trakt-serie', {
                 id: serie.slug_id,
                 serie: serie

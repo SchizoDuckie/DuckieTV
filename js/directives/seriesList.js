@@ -44,7 +44,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
         restrict: 'A',
         controllerAs: 'grid',
         controller: function($scope, SidePanelState) {
-            var posterWidth, posterHeight, postersPerRow, centeringOffset, verticalOffset, oldClientWidth;
+            var posterWidth, posterHeight, postersPerRow, centeringOffset, verticalOffset, oldClientWidth, containerHeight;
             var el = document.querySelector('[series-grid]');
 
             // ease in out function thanks to:
@@ -91,13 +91,19 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
 
             function recalculate() {
                 var isMini = el.classList.contains('miniposter');
-                posterWidth = isMini ? 140 : 170;
-                posterHeight = isMini ? 205 : 250;
+                maxPosters = el.getAttribute('max-posters') ? parseInt(el.getAttribute('max-posters')) : 0
+                posterWidth = isMini ? 139 : 169; // Includes 1 9px padding-left
+                posterHeight = isMini ? 206 : 251; // Includes 11px padding-bottom
                 oldClientWidth = el.clientWidth;
-                verticalOffset = el.getAttribute('vertical-offset') ? parseInt(el.getAttribute('vertical-offset')) : 70;
-                padding = el.getAttribute('grid-padding') ? parseInt(el.getAttribute('grid-padding')) : 0;
+                verticalOffset = 0 //verticalOffset = el.getAttribute('vertical-offset') ? parseInt(el.getAttribute('vertical-offset')) : 0;
+                padding = 0 //padding = el.getAttribute('grid-padding') ? parseInt(el.getAttribute('grid-padding')) : 0;
                 postersPerRow = Math.floor((el.clientWidth - (padding * 2)) / posterWidth);
+                containerHeight = Math.ceil(maxPosters / postersPerRow) * posterHeight;
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
+
+                if (maxPosters != 0) {
+                    el.style.height = containerHeight+'px';
+                }
                 $scope.$applyAsync();
                 scrollToActive();
             }
@@ -128,9 +134,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 } else {
                     return centeringOffset + rowCentering + ((idx % postersPerRow) * posterWidth);
                 }
-
             };
-
 
             this.getTop = function(idx) {
                 if (idx === 0 && oldClientWidth != el.clientWidth) {
