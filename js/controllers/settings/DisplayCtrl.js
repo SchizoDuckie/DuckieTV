@@ -51,6 +51,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
 DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "SettingsService",
     function($scope, $filter, SettingsService) {
         $scope.activeLocale = SettingsService.get('application.locale');
+        $scope.clientLocale = SettingsService.get('client.determinedlocale');
 
         // Set up the language list used in settings/display template
         $scope.languageList = {
@@ -80,6 +81,11 @@ DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "SettingsService",
             SettingsService.changeLanguage(lang);
             $scope.activeLocale = lang;
             window.location.reload();
+        };
+        
+        // test if determined locale is one of our supported languages
+        $scope.isSupported = function(lang) {
+           return lang in $scope.languageList;
         };
     }
 ])

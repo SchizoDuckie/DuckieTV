@@ -9,11 +9,17 @@
   <p><span translate-once="SETTINGS/LANGUAGE/desc2"></span><a href="http://www.reddit.com/r/duckietv/comments/28wtr5/announcement_want_to_have_duckietv_in_your_native/" style='text-decoration:underline' target='_blank' translate-once="SETTINGS/LANGUAGE/desc3"></a></p>
 
   <ul class="list-unstyled" style='font-size:16px'>
-    <li ng-click="setLocale(getSetting('client.determinedlocale'))" class="list-unstyled" style="cursor:pointer; padding:5px;">
-      <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != getSetting('client.determinedlocale'), 'glyphicon-check': activeLocale == getSetting('client.determinedlocale')}" style='font-size:24px;'></i>&nbsp;
-      <i class="flag flag-{{ getSetting('client.determinedlocale') }}"></i> 
+    <li ng-if="isSupported(clientLocale)" ng-click="setLocale(clientLocale)" class="list-unstyled" style="cursor:pointer; padding:5px;">
+      <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != clientLocale, 'glyphicon-check': activeLocale == clientLocale}" style='font-size:24px;'></i>&nbsp;
+      <i class="flag flag-{{ clientLocale }}"></i> 
       <span translate-once="SETTINGS/DISPLAY/locale-default/lbl"style="position: relative; display:inline-block;top:-3px;"></span>
-      <span style='display:inline-block; position: relative; top: -3px;'> ({{getSetting('client.determinedlocale')}})</span>
+      <span style='display:inline-block; position: relative; top: -3px;'> ({{clientLocale}})</span>
+    </li>
+    <li ng-if="!isSupported(clientLocale)" class="list-unstyled" style="cursor:pointer; padding:5px;">
+      <i class="glyphicon glyphicon-remove" style='font-size:24px;'></i>&nbsp;
+      <i class="flag flag-{{ clientLocale }}"></i> 
+      <span translate-once="SETTINGS/DISPLAY/locale-default/lbl"style="position: relative; display:inline-block;top:-3px;"></span>
+      <span style='display:inline-block; position: relative; top: -3px;'> ({{clientLocale}})</span>
     </li>
     <li ng-repeat="(locale, name) in languageList" ng-click="setLocale(locale)" class="list-unstyled" style="cursor:pointer; padding:5px;">
       <i class="glyphicon" ng-class="{'glyphicon-unchecked': activeLocale != locale, 'glyphicon-check': activeLocale == locale}" style="font-size:24px;"></i>&nbsp;
