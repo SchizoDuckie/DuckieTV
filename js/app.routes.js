@@ -374,8 +374,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             views: {
                 sidePanel: {
                     templateUrl: 'templates/torrentClient.html',
-                    controller: 'TorrentCtrl',
-                    controllerAs: 'torrent'
+                    controller: 'TorrentCtrl'
                 }
             }
         })

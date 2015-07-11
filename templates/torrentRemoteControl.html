@@ -1,33 +1,19 @@
-<fieldset>
-  
+<div class="buttons">
+  <div class="torrent-mini-remote-control">
+    <span class="label label-info">{{torrent.getFormattedStatus()}}</span>  
+    <i ng-hide="torrent.getProgress() == ''" class="glyphicon glyphicon-magnet"></i>
+    <i ng-if="torrent.getProgress() == ''" class="glyphicon glyphicon-magnet spin" tooltip="{{'TORRENTCLIENT/please-wait/tooltip'|translate}}" tooltip-append-to-body="true"></i>
 
-
-  <h3>{{remote.torrent.properties.all.name}} <span class="label label-info">{{remote.torrent.getFormattedStatus()}}</span>
-</h3>
-  <table class="table table-condensed light" style='width:95%'>
-  <thead>
-  <tr> <td colspan="2">
-  <div class="progress-striped progress">
-    <div class="progress-bar progress-bar-success" ng-style="{ width: remote.torrent.getProgress() + '%' }">
-      <span>{{remote.torrent.getProgress()}}%</span>
-     </div>
-  </div></td></tr>
-  <tr> <th translate-once="TORRENTRC/files/hdr"></th><td>&nbsp;</td></tr>
-  </thead>
-  <tbody>
-  <tr ng-repeat="file in remote.torrent.getFiles()">
-    <td>{{ file.name }}</td>
-  </tr>
-  </tbody>
-  </table>
-<div >
-
-    <button ng-click="remote.torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i><span translate-once="TORRENTRC/start/btn"></span></button>
-    <button ng-click="remote.torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i><span translate-once="TORRENTRC/pause/btn"></span></button>
-    <button ng-click="remote.torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i><span translate-once="TORRENTRC/stop/btn"></span></button>
-    <button ng-if="remote.torrent.properties.all.is_streamable" ng-click="remote.torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i> <span translate-once="TORRENTRC/stream-play/btn"></span></button>   
-    <button ng-click="remote.torrent.open_containing();" class="btn btn-xs btn-primary" >
-    <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i><span translate-once="TORRENTRC/open-folder/btn"></span></button> 
+    <a ng-click="torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i><span translate-once="TORRENTCLIENT/start/glyph"></span></a>
+    <a ng-click="torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i><span translate-once="TORRENTCLIENT/pause/glyph"></span></a>
+    <a ng-click="torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i><span translate-once="TORRENTCLIENT/stop/glyph"></span></a>
+    <a ng-if="torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top:5px" ng-click="torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <span translate-once="TORRENTCLIENT/stream-play/glyph"></span></a>   
+    <a ng-if="getSetting('torrenting.directory') && torrent.open_containing" ng-click="torrent.open_containing();" style="margin-top:5px"><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i><span translate-once="TORRENTCLIENT/open-folder/glyph"></span></a> 
+    <a ng-click="getFiles(torrent); showFiles = true;" style="margin-top:5px"><i class="glyphicon glyphicon-folder-open" style='padding-right:10px'></i><span translate-once="TORRENTCLIENT/show-files/glyph"></span></a>
+    <div ng-if="showFiles">
+      <p ng-repeat="file in torrent.torrent_files track by $index" class="torrent-file" ng-style="{ width: file.isMovie ? '255px' : 'auto' }"> {{file.name}}
+        <subtitle-dialog ng-if="file.isMovie" filename="file.searchFileName" tooltip-append-to-body="true"></subtitle-dialog>
+      </p>
+    </div>
+  </div>
 </div>
-
-</fieldset>

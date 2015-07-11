@@ -31,7 +31,7 @@
           <episode-downloaded ng-show="episode.hasAired()"></episode-downloaded> <episode-watched ng-show="episode.hasAired()"></episode-watched>
         </td>
       </tr>
-      <tr ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) ">
+      <tr ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash">
         <td colspan="4" style="border: none; padding:0;">
           <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html" style="position:relative"></torrent-remote-control>
         </td>

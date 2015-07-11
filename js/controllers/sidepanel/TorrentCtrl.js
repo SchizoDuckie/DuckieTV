@@ -24,9 +24,8 @@ DuckieTV.controller('TorrentCtrl', ["$scope", "$rootScope", "DuckieTorrent", "$q
 
         $scope.getFiles = function(torrent) {
             torrent.getFiles().then(function(files) {
-                console.log('received files!',
-                    files);
-                torrent.files = files.map(function(file) {
+                console.log('received files!', files);
+                torrent.torrent_files = files.map(function(file) {
                     file.isMovie = file.name.match(/mp4|avi|mkv|mpeg|mpg|flv/g);
                     if (file.isMovie) {
                         file.searchFileName = file.name.split('/').pop().split(' ').pop();

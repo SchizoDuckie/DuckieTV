@@ -23,6 +23,19 @@ DuckieTV
                     remote.infoHash = $scope.infoHash;
                     remote.torrent = null;
 
+                    this.getFiles = function(torrent) {
+                        remote.torrent.getFiles().then(function(files) {
+                            console.log('received files!', files);
+                            remote.torrent_files = files.map(function(file) {
+                                file.isMovie = file.name.match(/mp4|avi|mkv|mpeg|mpg|flv/g);
+                                if (file.isMovie) {
+                                    file.searchFileName = file.name.split('/').pop().split(' ').pop();
+                                }
+                                return file;
+                            });
+                        });
+                    };
+
                     /**
                      * Observes the torrent and watches for changes (progress)
                      */

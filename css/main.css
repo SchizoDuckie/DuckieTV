@@ -9,7 +9,7 @@ p, input, select, span, #aboutpage {
 p, span {
     cursor: default;
 }
-=
+
  @charset"UTF-8";
  @font-face {
     font-family:'bebasbold';
@@ -906,9 +906,9 @@ chrome-top-sites a p {
     -webkit-box-orient: vertical;
 }
 .episode-watched {
-    display:inline-block;
-    text-align:center;
-    cursor:pointer;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
     font-size: 18px;
     margin: 0;
 }
@@ -917,9 +917,9 @@ chrome-top-sites a p {
     font-size: 18px;
 }
 .episode-downloaded {
-    display:inline-block;
-    text-align:center;
-    cursor:pointer;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
     font-size: 18px;
     margin: 0;
 }
@@ -1613,7 +1613,7 @@ sidepanel  i.glyphicon.glyphicon-eye-open {
 sidepanel  i.glyphicon.glyphicon-floppy-saved {
     color: green !important;
 }
-sidepanel  .buttons .two-face-torrent .download {
+sidepanel .buttons .two-face-torrent .download {
     float: left;
     padding-right: 0;
     margin-right: 0;
@@ -1788,35 +1788,78 @@ sidepanel .seasons serieheader {
     display: none;
 }
 
-sidepanel .torrents .torrent .progress, sidepanel .torrent-mini-remote-control-progress.progress {
+.torrent-mini-remote-control a span {
+    cursor: pointer;
+}
+
+.torrent-mini-remote-control .torrent-file {
+    padding: 2px;
+    margin: 0;
+    font-size: 12px;
     position: relative;
-    margin-top: 0px;
-    height: 4px;
-    margin-bottom: -5px;
 }
-sidepanel .torrents .torrent .buttons .torrent-mini-remote-control {
-    border: 1px solid white;
-    border-radius: 10px;
-    padding: 20px;
+.torrent-mini-remote-control .torrent-file:hover {
+    background-color: rgba(66,66,66,0.3)
 }
-sidepanel .leftpanel.torrents {
+.torrent-mini-remote-control .torrent-file:first-of-type {
+    margin-top: 6px;
+}
+.torrent-mini-remote-control .torrent-file .subtitle-dialog {
+    position: absolute;
+    top: 14px;
+    right: -32px
+}
+.torrent-mini-remote-control loading-spinner {
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    position: relative;
+    margin: 5px 0 0 0;
+}
+
+.leftpanel.torrent-client {
     color: #E0E0E0;
     padding: 0;
 }
 
-.torrents .torrent {
+.torrent-client .settingsbtn {
+    text-align: right;
+    padding: 2px 10px;
+}
+.torrent-client .settingsbtn span {
+    cursor: pointer;
+}
+
+.torrent-client .progress, sidepanel .torrent-mini-remote-control-progress.progress {
+    position: relative;
+    margin-top: 0px;
+    height: 4px;
+    margin-bottom: -5px;
+    transition: height .3s ease-in-out;
+}
+.torrent-client .progress.progress-big {
+    height: 19px;
+}
+
+.torrent-client .buttons .torrent-mini-remote-control {
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.torrent-client .torrent {
     background-color: rgba(55,55,55,0);
 }
-.torrents .torrent:hover {
+.torrent-client .torrent:hover {
     background-color: rgba(55,55,55,0.4);
     color: white;
 }
-.torrents .torrent div.buttons {
+.torrent-client .torrent .buttons {
     padding: 20px;
     margin-top: 15px;
     position: relative;
 }
-.torrents .torrent strong {
+.torrent-client .torrent strong {
     text-align: left;
     display: block;
     font-size: 14px;
@@ -1826,8 +1869,8 @@ sidepanel .leftpanel.torrents {
     font-weight: normal;
     word-wrap: break-word;
 }
-.torrents .torrent .label {
-    top: 4px;
+.torrent-client .torrent .label {
+    top: 5px;
     right: 30px;
     position: absolute;
     background-color: #505050;
