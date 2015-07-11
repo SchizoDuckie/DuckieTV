@@ -66,35 +66,15 @@ gulp.task('default', ['concatScripts', 'concatDeps', 'concatBackgroundPage', 'co
 
 
 gulp.task('build-standalone', ['deploy'], function() {
-    console.log("building", 'nwjs-build.sh', [
-        '--src=../deploy/browseraction',
-        '--output-dir=../deploy/binaries',
-        '--name=DuckieTV',
-        '--win-icon=img/favicon.ico',
-        /*'--osx-icon=img/icon.icns', */
-        '--CFBundleExecutable=tv.duckie',
-        '--target="0 1 2 3 4 5"',
-        '--version="' + ver + '"',
-        '--libudev',
-        '--nw=0.12.2',
-        '--build'
-    ], {
-        cwd: process.cwd()
+    console.log("building!");
+    spawn('build_windows.sh', [], {
+        cwd: process.cwd() + '/build'
     });
-    spawn('nwjs-build.sh', [
-        '--src=../deploy/browseraction',
-        '--output-dir=../deploy/binaries',
-        '--name=DuckieTV',
-        '--win-icon=img/favicon.ico',
-        /*'--osx-icon=img/icon.icns', */
-        '--CFBundleExecutable=tv.duckie',
-        '--target="0 1 2 3 4 5"',
-        '--version="' + ver + '"',
-        '--libudev',
-        '--nw=0.12.2',
-        '--build'
-    ], {
-        cwd: process.cwd()
+    spawn('build_mac.sh', [], {
+        cwd: process.cwd() + '/build'
+    });
+    spawn('build_linux.sh', [], {
+        cwd: process.cwd() + '/build'
     });
 });
 
@@ -271,9 +251,8 @@ gulp.task('launch.js', function() {
 });
 
 var templateCache = require('gulp-angular-templatecache');
-
 gulp.task('buildTemplateCache', function() {
-    return gulp.src('templates/**/*.html')
+    return gulp.src(['templates/*.html', 'templates/**/*.html'])
         .pipe(templateCache({
             module: 'DuckieTV'
         }))
