@@ -50,9 +50,19 @@ body .tooltip.left .tooltip-arrow {
     border-bottom-color: transparent !important;
     border-left-color: white;
 }
+.tooltip .tooltip-arrow {
+    border-top-color: white !important;
+    border-bottom-color: white !important;
+}
+.tooltip .tooltip-inner {
+    background-color: white !important;
+    color: black !important;
+    text-shadow: none !important;
+}
 .tooltip {
     border: 0 !important;
 }
+
 .printlogo {
     display: none;
 }
@@ -119,7 +129,6 @@ a:hover {
     background-color:#5C5C5C;
 }
 
-
 .windowChrome {
     display:none;
     position: fixed;
@@ -132,8 +141,6 @@ a:hover {
     -webkit-app-region: drag;
     padding: 1px 10px 0px 1px;
 }
-
-
 .windowChrome button {
     -webkit-app-region: no-drag;
     -webkit-appearance: none;
@@ -142,25 +149,13 @@ a:hover {
     border:none;
     -webkit-transition: all 0.2s ease-in;
 }
-
 .windowChrome button:hover {
     background-color: rgba(255,255,255, 0.4);
 }
-
 .standalone .windowChrome {
     display: block;
-    
 }
 
-.tooltip .tooltip-arrow {
-    border-top-color: white !important;
-    border-bottom-color: white !important;
-}
-.tooltip .tooltip-inner {
-    background-color: white !important;
-    color: black !important;
-    text-shadow: none !important;
-}
 background-rotator, background-rotator > div {
     width: 100%;
     height: 100%;
@@ -173,6 +168,7 @@ background-rotator, background-rotator > div {
     z-index: -1;
     opacity: 0.4;
 }
+
 #actionbar {
     position: fixed;
     top: 0px;
@@ -217,7 +213,6 @@ background-rotator, background-rotator > div {
 #actionbar li:hover, #actionbar .logo:hover {
     background-color: rgba(70,70,70,1);
 }
-
 #actionbar a {
     height: inherit;
     width: inherit;
@@ -227,14 +222,12 @@ background-rotator, background-rotator > div {
     text-shadow: 2px 2px rgba(25,25,25,0.8);
     padding: 16.5px;
 }
-
 #actionbar_calendar a {
     opacity: 1;
     transition: all 0.5s ease-in-out;
     transform: rotate(0deg) scale(1);
     left: 1px;
 }
-
 #actionbar_calendar.calendar_active a {
     transform: rotate(180deg) scale(0.1);
     opacity: 0;
@@ -242,7 +235,6 @@ background-rotator, background-rotator > div {
 #actionbar_calendar.calendar_active:hover {
     background-color: transparent;
 }
-
 #actionbar_favorites a {
     opacity: 1;
     transition: all 0.5s ease-in-out;
@@ -253,7 +245,6 @@ background-rotator, background-rotator > div {
     color: rgba(215, 85, 85, 0.8);
     transform: rotateY(360deg);
 }
-
 #actionbar_torrent a {
     background-repeat: no-repeat;
     background-position: center center;
@@ -297,19 +288,16 @@ background-rotator, background-rotator > div {
 .dropdown-menu>li>a {
       color: white;
 }
-
 .dropdown-menu {
-      background-color: #333;
-      color: white;
-      max-height: 550px;
-      overflow-y: auto;
-      padding: 0px 5px;
+    background-color: #333;
+    color: white;
+    max-height: 550px;
+    overflow-y: auto;
+    padding: 0px 5px;
 }
-
 .dropdown-menu li:hover {
     background-color: #444;
 }
-
 .dropdown-menu label {
     text-align: left;
     color: white;
@@ -324,22 +312,18 @@ background-rotator, background-rotator > div {
     margin:0;
     margin-bottom: -20px;
 }
-
 .navbar-default .btn {
     background-color:transparent;
     color:white;
     border-color: rgba(255,255,255,0.4);
 } 
-
 .navbar-collapse {
     padding-left:0;
     padding-right:0;
 }
-
 .navbar-form {
     padding: 0;
 }
-
 .typeahead ul {
     max-height: 150px;
     border: 1px solid #333;
@@ -1332,7 +1316,6 @@ calendar-event .progress {
     margin: 0px;
 }
 
-
 calendar-event .progress-bar {
     color: black;
     line-height:16px;
@@ -1807,7 +1790,8 @@ sidepanel .seasons serieheader {
 .torrent-mini-remote-control .torrent-file .subtitle-dialog {
     position: absolute;
     top: 14px;
-    right: -32px
+    right: -32px;
+    padding: 4px;
 }
 .torrent-mini-remote-control loading-spinner {
     display: inline-block;
@@ -1875,6 +1859,10 @@ sidepanel .seasons serieheader {
     position: absolute;
     background-color: #505050;
     display: inline-block;
+}
+
+.progress-bar-success.downloaded {
+    width: 100%;
 }
 
 .settings h2 {

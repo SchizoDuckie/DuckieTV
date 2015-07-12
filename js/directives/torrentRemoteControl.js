@@ -10,7 +10,8 @@ DuckieTV
             replace: false,
             scope: {
                 infoHash: '=infoHash',
-                templateUrl: '=templateUrl'
+                templateUrl: '=templateUrl',
+                episodeDownloaded: '=downloaded'
             },
             templateUrl: function($node, $iAttrs) {
                 return $iAttrs.templateUrl || "templates/torrentRemoteControl.html";
@@ -21,6 +22,7 @@ DuckieTV
 
                     var remote = this;
                     remote.infoHash = $scope.infoHash;
+                    remote.isDownloaded = $scope.episodeDownloaded;
                     remote.torrent = null;
 
                     this.getFiles = function(torrent) {
