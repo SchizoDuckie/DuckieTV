@@ -3,17 +3,13 @@
   <a ng-class="{watched : episode.watched, badged: count > 2}">
     <!-- if we have a torrent, show the progress -->
     <div ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash">
-      <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime()}}) " tooltip-append-to-body="true" tooltip-placement="left">
+      <torrent-remote-control info-hash="episode.magnetHash" downloaded="episode.downloaded" template-url="templates/torrentMiniRemoteProgress.html" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime()}}) " tooltip-append-to-body="true" tooltip-placement="left">
         {{ ::serie.name }}
       </torrent-remote-control>
     </div>
     <!-- no torrent, or don't show torrent: just show the name --> 
     <div ng-if="!getSetting('torrenting.enabled') || !episode.magnetHash || !getSetting('torrenting.progress')" class="watchedwidth">
       <span style="display:block" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) " tooltip-append-to-body="true" tooltip-placement="left">{{::serie.name}}</span>
-    </div>
-    <!-- episode downloaded, show 100% progress bar. -->
-    <div ng-if="getSetting('calendar.show-downloaded') && episode.downloaded" class="torrent-mini-remote-control-progress progress-striped progress" >
-      <span class="progress-bar progress-bar-success" style="width:100%"></span>
     </div>
     <!-- episode watched, show icon. -->
     <span ng-show="episode.watched" class="glyphicon glyphicon-ok watchedpos"></span>

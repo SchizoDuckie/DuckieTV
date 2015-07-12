@@ -44,45 +44,55 @@
       <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%' }" ng-attr-tooltip="{{p.label}}" tooltip-append-to-body="true" tooltip-popup-delay="75"></div>
     </div>
   </div>
-  <table class="buttons" width="100%" border="0" style="margin-top:10px">
-      <tr ng-show="getSetting('torrenting.enabled')">
-        <td colspan="2" class="two-face-torrent" style="position:relative">
-            <torrent-dialog class="download-all" q='season.getSeasonSearchString(sidepanel.serie,season.season)'></torrent-dialog>
-            <a class="auto-download-all" ng-click="season.autoDownloadAll()">
+  <table class="buttons" style="margin-top:10px;width:100%">
+    <tr class="two-face-torrent">
+      <td colspan="2">
+        <table style="width:100%;margin: 5px 0px 5px 0px" ng-show="getSetting('torrenting.enabled')">
+          <tr>
+            <td style="width:100%;padding-left:20px">
+              <a class="download" ng-click="season.autoDownloadAll()">
                 <i class="glyphicon glyphicon-cloud-download"></i><strong translate-once="SIDEPANEL/EPISODES/auto-download-all/lbl"></strong>
-            </a>
-        </td>
-      </tr>
-      <tr class="two-face">
-        <td>
-          <a ng-click="season.markAllDownloaded(season.episodes)">
-            <table>
-              <tr>
-                <td style="width:22px">
-                  <i class="glyphicon glyphicon-floppy-saved" style="top:0"></i>
-                </td>
-                <td style="width:auto">
-                  <strong translate-once="SIDEPANEL/EPISODES/mark-all-downloaded/lbl"></strong>
-                </td>
-              </tr>
-            </table>
-          </a>
-        </td>
-        <td>
-          <a ng-click="season.markAllWatched(season.episodes)">
-            <table>
-              <tr>
-                <td style="width:22px">
-                  <i class="glyphicon glyphicon-eye-open" style="top:0"></i>
-                </td>
-                <td style="width:auto">
-                  <strong translate-once="SIDEPANEL/EPISODES/mark-all-watched/lbl"></strong>
-                </td>
-              </tr>
-            </table>
-          </a>
-        </td>
-      </tr>
+              </a>
+            </td>
+            <td style="padding-right:20px">
+              <torrent-dialog class="auto-download" q='season.getSeasonSearchString(sidepanel.serie,season.season)'>
+                <strong style="display:flex">&nbsp;</strong>
+              </torrent-dialog>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr class="two-face">
+      <td>
+        <a ng-click="season.markAllDownloaded(season.episodes)">
+          <table>
+            <tr>
+              <td style="width:22px">
+                <i class="glyphicon glyphicon-floppy-saved" style="top:0"></i>
+              </td>
+              <td style="width:auto">
+                <strong translate-once="SIDEPANEL/EPISODES/mark-all-downloaded/lbl"></strong>
+              </td>
+            </tr>
+          </table>
+        </a>
+      </td>
+      <td>
+        <a ng-click="season.markAllWatched(season.episodes)">
+          <table>
+            <tr>
+              <td style="width:22px">
+                <i class="glyphicon glyphicon-eye-open" style="top:0"></i>
+              </td>
+              <td style="width:auto">
+                <strong translate-once="SIDEPANEL/EPISODES/mark-all-watched/lbl"></strong>
+              </td>
+            </tr>
+          </table>
+        </a>
+      </td>
+    </tr>
   </table>
 </div>
 <script type="text/ng-template" id="episodeDetailsTooltip.html">

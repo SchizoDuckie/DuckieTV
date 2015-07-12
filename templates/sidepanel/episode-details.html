@@ -37,12 +37,20 @@
         </tr>
         <tr>
           <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled') && sidepanel.episode.hasAired()" style="position:relative">
-            <torrent-dialog class="download" tvdbid='sidepanel.episode.TVDB_ID' q='sidepanel.getSearchString(sidepanel.serie, sidepanel.episode)'>
-                <strong style="padding-left:21px" translate-once="SIDEPANEL/EPISODE-DETAILS/find-torrent/btn"></strong>
-            </torrent-dialog>
-            <a class="auto-download" ng-click="sidepanel.autoDownload(episode)" tooltip="{{'SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip'|translate}}">
-                <i class="glyphicon glyphicon-cloud-download"></i>
-            </a>
+            <table style="width:100%;margin: 5px 0px 5px 0px">
+              <tr>
+                <td style="width:100%;padding-left:20px">
+                  <torrent-dialog class="download" tvdbid='sidepanel.episode.TVDB_ID' q='sidepanel.getSearchString(sidepanel.serie, sidepanel.episode)'>
+                    <strong style="padding-left:21px" translate-once="SIDEPANEL/EPISODE-DETAILS/find-torrent/btn"></strong>
+                  </torrent-dialog>
+                </td>
+                <td style="padding-right:20px">
+                  <a class="auto-download" ng-click="sidepanel.autoDownload(episode)" tooltip="{{'SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip'|translate}}">
+                    <i class="glyphicon glyphicon-cloud-download"></i><strong style="display:flex">&nbsp;</strong>
+                  </a>
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
         <tr ng-if="sidepanel.isNetflixSerie() && sidepanel.isNetflixSupported()">
