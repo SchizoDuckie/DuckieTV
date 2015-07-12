@@ -1,3 +1,7 @@
+var gulp = require('gulp'),
+    fs = require('fs'),
+    spawn = require('child_process').spawn;
+
 /**
  * Create a nightly build and immediately deploy it to the webstore
  */

@@ -1,3 +1,9 @@
+var gulp = require('gulp'),
+    replace = require('gulp-replace'),
+    notify = require('gulp-notify'),
+    request = require('request'),
+    fs = require('fs');
+
 gulp.task('scenenames', function() {
     notify('downloading new scene name exceptions');
     request('https://raw.githubusercontent.com/midgetspy/sb_tvdb_scene_exceptions/gh-pages/exceptions.txt', function(error, response, result) {

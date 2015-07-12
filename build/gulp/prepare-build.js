@@ -11,6 +11,42 @@
  
  */
 
+
+var gulp = require('gulp'),
+    rename = require('gulp-rename'),
+    concat = require('gulp-concat'),
+    concatCss = require('gulp-concat-css'),
+    replace = require('gulp-replace'),
+    notify = require('gulp-notify'),
+    jsonedit = require("gulp-json-editor"),
+    fs = require('fs'),
+    spawn = require('child_process').spawn;
+
+var nightly = false; // for nightly builds
+var ver = String(fs.readFileSync('VERSION')).trim();
+
+
+var scripts = ['./js/ap*.js', './js/controllers/*.js', './js/controllers/*/*.js', './js/directives/*.js', './js/services/*.js', './js/services/**/*.js'];
+
+/**
+ * Minimum app dependencies for background.js
+ */
+var background = [
+    "js/background.js"
+];
+
+/**
+ * CSS files to be concatted. Note that there's separate code to include print.js
+ */
+var styles = [
+    './css/bootstrap.min.css',
+    './css/main.css',
+    './css/anim.css',
+    './css/dialogs.css',
+    './css/flags.css'
+];
+
+
 /**
  * Concat the scripts array into a file named dist/app.js
  */
@@ -19,10 +55,7 @@ gulp.task('concatScripts', function() {
         .pipe(concat('app.js', {
             newLine: ';'
         }))
-        .pipe(gulp.dest('dist/'))
-        .pipe(notify({
-            message: 'Scripts packaged to dist/app.js'
-        }));
+        .pipe(gulp.dest('dist/'));
 });
 
 /**
@@ -49,10 +82,7 @@ gulp.task('concatDeps', function() {
         .pipe(concat('deps.js', {
             newLine: ';'
         }))
-        .pipe(gulp.dest('dist/'))
-        .pipe(notify({
-            message: 'Deps packaged to dist/deps.js'
-        }));
+        .pipe(gulp.dest('dist/'));
 });
 
 /**
@@ -63,10 +93,7 @@ gulp.task('concatBackgroundPage', function() {
         .pipe(concat('background.js', {
             newLine: ';'
         }))
-        .pipe(gulp.dest('dist/'))
-        .pipe(notify({
-            message: 'Background page packaged to dist/background.js'
-        }));
+        .pipe(gulp.dest('dist/'));
 });
 
 /** 
@@ -83,10 +110,7 @@ gulp.task('buildTemplateCache', function() {
         .pipe(templateCache({
             module: 'DuckieTV'
         }))
-        .pipe(gulp.dest('dist'))
-        .pipe(notify({
-            message: 'Templatecache deployed'
-        }));
+        .pipe(gulp.dest('dist'));
 });
 
 
@@ -99,10 +123,7 @@ gulp.task('tabTemplate', ['buildTemplateCache'], function() {
     return gulp.src(['tab.html'])
         .pipe(replace(/<!-- deploy:replace\=\'(.*)\' -->([\s\S]+?)[^\/deploy:]<!-- \/deploy:replace -->/g, '$1'))
         .pipe(replace('</body>', '<script src="dist/templates.js"></script></body>'))
-        .pipe(gulp.dest('dist/'))
-        .pipe(notify({
-            message: 'Tab template deployed'
-        }));
+        .pipe(gulp.dest('dist/'));
 });
 
 /**
@@ -111,10 +132,7 @@ gulp.task('tabTemplate', ['buildTemplateCache'], function() {
 gulp.task('concatStyles', function() {
     return gulp.src(styles)
         .pipe(concatCss("style.css"))
-        .pipe(gulp.dest('dist/'))
-        .pipe(notify({
-            message: 'Styles concatted'
-        }));
+        .pipe(gulp.dest('dist/'));
 });
 
 /**
@@ -129,21 +147,40 @@ gulp.task('print.css', function() {
  * Deployment and packaging functions
  */
 
-gulp.task('copyToDeploy', ['default'], function() {
+
+gulp.task('copyToDeploy', ['concatScripts', 'concatDeps', 'concatBackgroundPage', 'concatStyles', 'print.css', 'launch.js', 'tabTemplate'], function() {
     return gulp.src(['VERSION', 'trakt-trending-500.json', '_locales/**', 'dist/**', 'fonts/**', 'img/**', 'templates/**'], {
             "base": "."
         })
         .pipe(gulp.dest('../deploy/browseraction'))
-        .pipe(gulp.dest('../deploy/newtab'));
+        .pipe(gulp.dest('../deploy/newtab'))
+        .pipe(gulp.dest('../deploy/standalone'))
+        .pipe(gulp.dest('../deploy/cordova'));
+
+});
+
+gulp.task('renameLocalesForAndroid', ['copyToDeploy'], function() {
+
+    var app = '../deploy/cordova/dist/app.js';
+    var src = fs.readFileSync(app);
+    src = String(src).replace('_locales', 'locales');
+    fs.writeFileSync(app, src);
+    fs.renameSync('../deploy/cordova/dist/tab.html', '../deploy/cordova/index.html');
+    fs.renameSync('../deploy/cordova/_locales', '../deploy/cordova/locales');
+    spawn('build/push-cordova.sh', [], {
+        cwd: process.cwd()
+    });
 });
 
 /**
  * Copy the altered tab.html into place
  */
-gulp.task('copytab', ['copyToDeploy'], function() {
+gulp.task('copytab', ['renameLocalesForAndroid'], function() {
     return gulp.src('dist/tab.html')
         .pipe(gulp.dest('../deploy/browseraction'))
-        .pipe(gulp.dest('../deploy/newtab'));
+        .pipe(gulp.dest('../deploy/newtab'))
+        .pipe(gulp.dest('../deploy/standalone'))
+        .pipe(gulp.dest('../deploy/cordova'));
 });
 
 /**
