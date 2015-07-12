@@ -2,6 +2,10 @@ DuckieTV.controller("customSearchEngineCtrl", ["SettingsService", "TorrentSearch
     function(SettingsService, TorrentSearchEngines, $q, $http, $injector, $scope) {
 
         var self = this;
+        self.status = 'Idle';
+        this.editMode = false;
+        this.currentlySelected = null;
+        this.model = null;
 
         this.customEngines = {
             'Torrentleech': {
@@ -24,14 +28,50 @@ DuckieTV.controller("customSearchEngineCtrl", ["SettingsService", "TorrentSearch
                 leecherProperty: 'innerHTML',
                 detailUrlSelector: 'td.name .title a',
                 detailUrlProperty: 'href'
-
+            },
+            'Test 1': {
+                testSearch: 'test',
+                name: 'Torrentleech2.org',
+                mirror: 'http://torrentleech.org', // http://yoursite.com',
+                searchEndpoint: '/torrents/browse/index/query/%s',
+                searchResultsContainer: '#torrenttable tr',
+                releaseNameSelector: 'td.name .title a',
+                releaseNameProperty: 'innerText',
+                magnetUrlSelector: '',
+                magnetUrlProperty: '',
+                torrentUrlSelector: 'td.quickdownload a',
+                torrentUrlProperty: 'href',
+                sizeSelector: 'td:nth-child(5)',
+                sizeProperty: 'innerText',
+                seederSelector: 'td.seeders',
+                seederProperty: 'innerHTML',
+                leecherSelector: 'td.leechers',
+                leecherProperty: 'innerHTML',
+                detailUrlSelector: 'td.name .title a',
+                detailUrlProperty: 'href'
+            },
+            'Test 2': {
+                testSearch: 'test',
+                name: 'Torrentleech3.org',
+                mirror: 'http://torrentleech.org', // http://yoursite.com',
+                searchEndpoint: '/torrents/browse/index/query/%s',
+                searchResultsContainer: '#torrenttable tr',
+                releaseNameSelector: 'td.name .title a',
+                releaseNameProperty: 'innerText',
+                magnetUrlSelector: '',
+                magnetUrlProperty: '',
+                torrentUrlSelector: 'td.quickdownload a',
+                torrentUrlProperty: 'href',
+                sizeSelector: 'td:nth-child(5)',
+                sizeProperty: 'innerText',
+                seederSelector: 'td.seeders',
+                seederProperty: 'innerHTML',
+                leecherSelector: 'td.leechers',
+                leecherProperty: 'innerHTML',
+                detailUrlSelector: 'td.name .title a',
+                detailUrlProperty: 'href'
             }
-
         };
-
-        this.editMode = false;
-
-        this.model = angular.copy(this.customEngines[Object.keys(this.customEngines)[0]]);
 
         var attributeWhitelist = [{
             name: 'href',
@@ -44,8 +84,6 @@ DuckieTV.controller("customSearchEngineCtrl", ["SettingsService", "TorrentSearch
         }, {
             name: 'src',
         }];
-
-        self.status = 'Idle';
 
         this.fields = [{
                 key: 'name',
@@ -173,7 +211,6 @@ DuckieTV.controller("customSearchEngineCtrl", ["SettingsService", "TorrentSearch
                     type: "text"
                 }
             },
-
         ];
 
         this.test = function() {
@@ -199,14 +236,25 @@ DuckieTV.controller("customSearchEngineCtrl", ["SettingsService", "TorrentSearch
                 }
             }, $q, $http, $injector);
 
-
             self.status = "Executing test search";
             testClient.search(self.model.testSearch).then(function(results) {
                 self.status = results.length > 0 ? 'Working!' : 'No results for search query :( ';
                 $scope.$applyAsync();
             });
+        };
 
+        this.selectEngine = function(index) {
+            if (this.currentlySelected == index) {
+                this.editMode = false;
+                return;
+            }
+            this.currentlySelected = index;
+            this.model = angular.copy(this.customEngines[Object.keys(this.customEngines)[index]]);
+            this.editMode = true;
+        };
 
+        this.addNew = function() {
+            
         };
 
         this.add = function() {
