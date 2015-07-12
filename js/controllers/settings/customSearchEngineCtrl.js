@@ -213,7 +213,12 @@ DuckieTV.controller("customSearchEngineCtrl", ["SettingsService", "TorrentSearch
             },
         ];
 
-        this.test = function() {
+        this.test = function(index) {
+            if(index && index != this.currentlySelected) {
+                this.editMode = false;
+                this.currentlySelected = null;
+                this.model = angular.copy(this.customEngines[Object.keys(this.customEngines)[index]]);
+            }
 
             self.status = 'creating test client';
 
@@ -246,6 +251,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["SettingsService", "TorrentSearch
         this.selectEngine = function(index) {
             if (this.currentlySelected == index) {
                 this.editMode = false;
+                this.currentlySelected = null;
                 return;
             }
             this.currentlySelected = index;

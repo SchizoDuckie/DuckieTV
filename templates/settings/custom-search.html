@@ -3,20 +3,20 @@
 
 	<p>DuckieTV allows you to define your favorite private trackers as custom search engines. You can define some selectors and urls to tell DuckieTV how to scrape the content. All you need is some basic CSS selector knowledge. TorrentLeech is listed as an example.</p>
 
+	<button class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.addNew()" disabled>Add New</button>
+
 	<div class="buttons">
 		<a ng-repeat="(name, properties) in searchEngine.customEngines track by $index" style="text-decoration:none;margin-bottom:10px">
 			<strong>{{name}}</strong><br>
-			<button class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.test()">Test</button>
-			<button class="btn btn-xs btn-info" style="display:inline-block !important" >Disable</button>
-			<button class="btn btn-xs btn-info" style="display:inline-block !important">Enable</button>
+			<button class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.test($index)">Test</button>
+			<button class="btn btn-xs btn-info" style="display:inline-block !important" disabled>Disable</button>
+			<button class="btn btn-xs btn-info" style="display:inline-block !important" disabled>Enable</button>
 			<button class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.selectEngine($index)">Edit</button>
 		</a>
 	</div>
 
 	<form ng-submit="searchEngine.test()" novalidate ng-if="searchEngine.editMode">
-		<formly-form model="searchEngine.model" fields="searchEngine.fields">
-			
-		</formly-form>
+		<formly-form model="searchEngine.model" fields="searchEngine.fields"></formly-form>
 
 		<button ng-click="searchEngine.test()" class="btn btn-primary submit-button">Test</button>
 		<button ng-click="searchEngine.add()" class="btn btn-primary">Save/Add</button>
