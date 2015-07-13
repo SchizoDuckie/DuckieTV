@@ -108,7 +108,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             }
 
             var observer = new MutationObserver(function(mutations) {
-                recalculate();
+                //recalculate();
             });
 
             // configuration of the observer:
