@@ -1,5 +1,5 @@
 <!-- serieslist\trakt-trending.html -->
-<div class="series adding" series-grid no-scroll max-posters="{{trending.limit}}">
+<div class="series adding" series-grid no-scroll max-posters="{{trending.limit}}" ng-class="{'miniposter': serieslist.isSmall}">
 	<!-- no series, show intro text and trakt connect/ backup import -->
 	<div ng-if="trending.noFavs" class="alert alert-info" style='margin:20px;text-align:left;white-space:normal;font-size: 14px'>
 		<button type="button" class="close" ng-click="trending.noFavs = false"><span>&times;</span></button>
@@ -19,7 +19,7 @@
 		<button ng-repeat="category in trending.getCategories()" class="btn btn-xs btn-default" style="padding: 1px 7px" ng-click="trending.toggleCategory(category)" ng-class="{'active': trending.activeCategory == category}">{{::trending.translateCategory(category)}}</button>
 	</div>
 
-	<div class="series-grid" style="position:relative;width:100%;margin-top:10px" ng-class="{'miniposter': serieslist.isSmall}">
+	<div class="series-grid" style="position:relative;width:100%;margin-top:10px">
 		<!-- Repeated trending serie results -->
 		<serieHeader ng-repeat="serie in filteredTrending = (trending.getFilteredResults()  | limitTo: trending.limit ) track by serie.tvdb_id" ng-mouseenter="trending.setHoverSerie(serie)" data="serie" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" ng-click="serieslist.selectSerie(serie)" style="position:absolute;left:{{grid.getLeft($index, filteredTrending.length)}}px;top:{{grid.getTop($index)}}px">
 	    <em class="earmark trailer" >
