@@ -94,6 +94,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             function recalculate() {
                 var isMini = el.classList.contains('miniposter');
                 var maxPosters = container.getAttribute('max-posters') ? parseInt(container.getAttribute('max-posters')) : 0;
+                var styleHeight = '';
                 posterWidth = isMini ? 139 : 169; // Includes 1 9px padding-left
                 posterHeight = isMini ? 206 : 251; // Includes 11px padding-bottom
                 oldClientWidth = el.clientWidth;
@@ -101,14 +102,17 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
 
                 if (maxPosters != 0) {
-                    el.style.height = (Math.ceil(maxPosters / postersPerRow) * posterHeight)+'px';
-                }
+                    styleHeight = (Math.ceil(maxPosters / postersPerRow) * posterHeight)+'px';
+                    if (el.style.height != styleHeight) {
+                        el.style.height = styleHeight;
+                    };
+                };
                 $scope.$applyAsync();
                 scrollToActive();
-            }
+            };
 
             var observer = new MutationObserver(function(mutations) {
-                //recalculate();
+                recalculate();
             });
 
             // configuration of the observer:
