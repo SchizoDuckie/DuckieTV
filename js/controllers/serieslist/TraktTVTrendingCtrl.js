@@ -27,7 +27,7 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
         },
 
         this.toggleCategory = function(category) {
-            if (!category) {
+            if (!category || this.activeCategory == category) {
                 this.activeCategory = false;
                 TraktTVTrending.getAll().then(function(result) {
                     trending.filtered = result;

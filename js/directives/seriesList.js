@@ -44,8 +44,10 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
         restrict: 'A',
         controllerAs: 'grid',
         controller: function($scope, SidePanelState) {
-            var posterWidth, posterHeight, postersPerRow, centeringOffset, verticalOffset, oldClientWidth, maxPosters, isMini, containerHeight;
-            var el = document.querySelector('[series-grid]');
+            var posterWidth, posterHeight, postersPerRow, centeringOffset, verticalOffset, oldClientWidth;
+            var container = document.querySelector('[series-grid]');
+            var el = container.querySelector('.series-grid');
+            var noScroll = container.hasAttribute('no-scroll');
 
             // ease in out function thanks to:
             // http://blog.greweb.fr/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
@@ -59,7 +61,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             };
 
             var smoothScroll = function(parent, el, duration) {
-                if (el === null || !el.offsetParent || !el.offsetParent.offsetParent) {
+                if (el === null || !el.offsetParent || !el.offsetParent.offsetParent || noScroll) {
                     return;
                 }
                 duration = duration || 500;
@@ -81,7 +83,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             scrollToActive = function() {
                 clearTimeout(activeScroller);
                 activeScroller = setTimeout(function() {
-                    smoothScroll(el, document.querySelector('serieheader .active'));
+                    smoothScroll(container, el.querySelector('serieheader .active'));
                 }, 800);
             };
 
@@ -90,17 +92,16 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             };
 
             function recalculate() {
-                isMini = el.classList.contains('miniposter');
-                maxPosters = el.getAttribute('max-posters') ? parseInt(el.getAttribute('max-posters')) : 0;
+                var isMini = el.classList.contains('miniposter');
+                var maxPosters = container.getAttribute('max-posters') ? parseInt(container.getAttribute('max-posters')) : 0;
                 posterWidth = isMini ? 139 : 169; // Includes 1 9px padding-left
                 posterHeight = isMini ? 206 : 251; // Includes 11px padding-bottom
                 oldClientWidth = el.clientWidth;
                 postersPerRow = Math.floor(el.clientWidth / posterWidth);
-                containerHeight = Math.ceil(maxPosters / postersPerRow) * posterHeight;
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
 
                 if (maxPosters != 0) {
-                    el.style.height = containerHeight+'px';
+                    el.style.height = (Math.ceil(maxPosters / postersPerRow) * posterHeight)+'px';
                 }
                 $scope.$applyAsync();
                 scrollToActive();
@@ -115,6 +116,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 attributes: true
             };
 
+            observer.observe(container, config);
             observer.observe(el, config);
             observer.observe(document.querySelector('sidepanel'), config);
 
