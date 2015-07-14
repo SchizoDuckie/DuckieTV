@@ -130,7 +130,7 @@ DuckieTV
 
     var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage();
 
-    console.log("Proposed language ", $translate.proposedLanguage(), "Configured: " + configuredLocale);
+    console.info("Proposed language ", $translate.proposedLanguage(), "Configured: " + configuredLocale);
 
     //console.info('client determined locale proposed:', $translate.proposedLanguage(), 'set:', SettingsService.get('client.determinedlocale'), 'configured:', configuredLocale);
     SettingsService.changeLanguage(angular.lowercase(configuredLocale));
