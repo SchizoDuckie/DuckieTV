@@ -29,7 +29,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                         permissions: [permission]
                     }, function(supported) {
                         console.info(supported ? 'Permission ' + permission + ' granted.' : 'Permission ' + permission + ' denied.');
-                        (supported && 'sync' in chrome.storage) ? resolve() : reject();
+                        return (supported && 'sync' in chrome.storage) ? resolve() : reject();
                     });
                 });
             },
@@ -45,7 +45,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                         permissions: [permission]
                     }, function(granted) {
                         console.info(granted ? 'Permission ' + permission + ' granted.' : 'Permission ' + permission + ' denied.');
-                        (granted) ? resolve() : reject();
+                        return (granted) ? resolve() : reject();
                     });
                 });
             },
@@ -61,7 +61,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                         permissions: [permission]
                     }, function(result) {
                         console.info(result ? 'Permission ' + permission + ' revoked.' : 'Permission ' + permission + ' not revoked.');
-                        (result) ? resolve() : reject();
+                        return (result) ? resolve() : reject();
                     });
                 });
             }
@@ -77,8 +77,8 @@ DuckieTV.factory('ChromePermissions', ["$q",
  *
  * Shorthands to the get and set functions are provided in $rootScope by the getSetting and setSetting functions
  */
-.factory('SettingsService', ["$injector", "$rootScope", "ChromePermissions",
-    function($injector, $rootScope, ChromePermissions) {
+.factory('SettingsService', ["$injector", "$rootScope", "ChromePermissions", "availableLanguageKeys", "customLanguageKeyMappings",
+    function($injector, $rootScope, ChromePermissions, availableLanguageKeys, customLanguageKeyMappings) {
         var service = {
             settings: {},
             defaults: {
@@ -201,19 +201,24 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 var locale = langKey;
                 // special variants
                 switch (langKey) {
-                    case 'en_au':
-                    case 'en_ca':
-                    case 'en_gb':
-                    case 'en_nz':
-                        langKey = 'en_uk';
-                        break;
                     case 'fr_ca':
                         langKey = 'fr_fr';
                         break;
                     case 'pt_br':
                         langKey = 'pt_pt';
                         break;
+                    case 'en_au':
+                    case 'en_ca':
+                    case 'en_gb':
+                    case 'en_nz':
+                        langKey = 'en_uk';
+                        break;
                 }
+
+                if (availableLanguageKeys.indexOf(langKey) === -1 && Object.keys(customLanguageKeyMappings).indexOf(langKey) === -1) {
+                    langKey = locale = 'en_us';
+                }
+
                 service.set('application.language', langKey);
                 service.set('application.locale', locale);
                 $injector.get('tmhDynamicLocale').set(locale); // the SettingsService is also required in the background page and we don't need $translate there

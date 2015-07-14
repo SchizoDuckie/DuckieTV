@@ -1,8 +1,53 @@
 /*
  * Translation configuration.
  */
-DuckieTV.config(["$translateProvider",
-    function($translateProvider) {
+DuckieTV
+
+.constant('availableLanguageKeys', [
+    'de_de', 'en_au', 'en_nz', 'en_uk', 'en_us', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nl_nl', 'pt_pt', 'ru_ru', 'sl_si', 'sv_se', 'zh_cn'
+])
+
+.constant('customLanguageKeyMappings', {
+    'de': 'de_de',
+    'de_DE': 'de_de',
+    'en': 'en_us',
+    'en_US': 'en_us',
+    'ca': 'en_uk',
+    'en_ca': 'en_uk',
+    'en_CA': 'en_uk',
+    'gb': 'en_uk',
+    'en_gb': 'en_uk',
+    'en_GB': 'en_uk',
+    'es': 'es_es',
+    'es_ES': 'es_es',
+    'fr': 'fr_fr',
+    'fr_ca': 'fr_fr',
+    'fr_CA': 'fr_fr',
+    'fr_FR': 'fr_fr',
+    'it': 'it_it',
+    'it_IT': 'it_it',
+    'ja': 'ja_jp',
+    'ja_JP': 'ja_jp',
+    'ko': 'ko_kr',
+    'ko_KR': 'ko_kr',
+    'nl': 'nl_nl',
+    'nl_NL': 'nl_nl',
+    'pt': 'pt_pt',
+    'pt_PT': 'pt_pt',
+    'pt_br': 'pt_pt',
+    'pt_BR': 'pt_pt',
+    'ru': 'ru_ru',
+    'ru_RU': 'ru_ru',
+    'si': 'sl_si',
+    'sl_SI': 'sl_si',
+    'sv': 'sv_se',
+    'sv_SE': 'sv_se',
+    'zh': 'zh_cn',
+    'zh_CN': 'zh_cn'
+})
+
+.config(["$translateProvider", "availableLanguageKeys", "customLanguageKeyMappings",
+    function($translateProvider, availableLanguageKeys, customLanguageKeyMappings) {
 
         $translateProvider
         /*
@@ -24,46 +69,7 @@ DuckieTV.config(["$translateProvider",
          * help the determinePreferredLanguage module match a find
          * with one of our provided languages
          */
-        .registerAvailableLanguageKeys([
-            'de_de', 'en_au', 'en_nz', 'en_uk', 'en_us', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nl_nl', 'pt_pt', 'ru_ru', 'sl_si', 'sv_se', 'zh_cn'
-        ], {
-            'de': 'de_de',
-            'de_DE': 'de_de',
-            'en': 'en_us',
-            'en_US': 'en_us',
-            'ca': 'en_uk',
-            'en_ca': 'en_uk',
-            'en_CA': 'en_uk',
-            'gb': 'en_uk',
-            'en_gb': 'en_uk',
-            'en_GB': 'en_uk',
-            'es': 'es_es',
-            'es_ES': 'es_es',
-            'fr': 'fr_fr',
-            'fr_ca': 'fr_fr',
-            'fr_CA': 'fr_fr',
-            'fr_FR': 'fr_fr',
-            'it': 'it_it',
-            'it_IT': 'it_it',
-            'ja': 'ja_jp',
-            'ja_JP': 'ja_jp',
-            'ko': 'ko_kr',
-            'ko_KR': 'ko_kr',
-            'nl': 'nl_nl',
-            'nl_NL': 'nl_nl',
-            'pt': 'pt_pt',
-            'pt_PT': 'pt_pt',
-            'pt_br': 'pt_pt',
-            'pt_BR': 'pt_pt',
-            'ru': 'ru_ru',
-            'ru_RU': 'ru_ru',
-            'si': 'sl_si',
-            'sl_SI': 'sl_si',
-            'sv': 'sv_se',
-            'sv_SE': 'sv_se',
-            'zh': 'zh_cn',
-            'zh_CN': 'zh_cn'
-        })
+        .registerAvailableLanguageKeys(availableLanguageKeys, customLanguageKeyMappings)
 
         /*
          * default language
