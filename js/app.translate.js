@@ -4,13 +4,13 @@
 DuckieTV.config(["$translateProvider",
     function($translateProvider) {
 
-    $translateProvider
+        $translateProvider
         /*
          * Escape all outputs from Angular Translate for security, not that
          * it is really needed in this case but it stops throwing a warning
-        */
+         */
         .useSanitizeValueStrategy('escaped')
-        
+
         /*
          * setup path to the translation table files
          * example ../_Locales/en_us.json
@@ -93,39 +93,42 @@ DuckieTV.config(["$translateProvider",
 ])
 
 /*
- * Custom Missing Translation key Handler 
+ * Custom Missing Translation key Handler
  */
 .factory("duckietvMissingTranslationHandler", ["$translate", "SettingsService",
-    function ($translate, SettingsService) {
+    function($translate, SettingsService) {
         var previousKeys = []; // list of missing keys we have processed once already
         var appLocale = SettingsService.get('application.locale'); // the application language the user wants
-        
-        return function (translationID, lang) {
+
+        return function(translationID, lang) {
             if (lang !== appLocale) {
                 // ignore translation errors until the appLocale's translation table has been loaded
-                return translationID;                
-            };
-            if (previousKeys.indexOf(lang+translationID) !== -1) {
+                return translationID;
+            }
+            if (previousKeys.indexOf(lang + translationID) !== -1) {
                 // we have had this key already, do nothing
                 return translationID;
             } else {
                 // first time we have had this key, log it
-                previousKeys.push(lang+translationID);
+                previousKeys.push(lang + translationID);
                 console.warn("Translation for (" + lang + ") key " + translationID + " doesn't exist");
                 return translationID;
-            };
+            }
         };
     }
 ])
 
 .run(function(SettingsService, $translate, datePickerConfig) {
 
-    SettingsService.set('client.determinedlocale', $translate.proposedLanguage() == undefined ? 'en_us' : angular.lowercase($translate.proposedLanguage()));
+    SettingsService.set('client.determinedlocale', $translate.proposedLanguage() === undefined ? 'en_us' : angular.lowercase($translate.proposedLanguage()));
 
     var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage();
+
+    console.log("Proposed language ", $translate.proposedLanguage(), "Configured: " + configuredLocale);
+
     //console.info('client determined locale proposed:', $translate.proposedLanguage(), 'set:', SettingsService.get('client.determinedlocale'), 'configured:', configuredLocale);
     SettingsService.changeLanguage(angular.lowercase(configuredLocale));
 
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
-})
+});
