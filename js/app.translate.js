@@ -8,42 +8,25 @@ DuckieTV
 ])
 
 .constant('customLanguageKeyMappings', {
-    'de': 'de_de',
-    'de_DE': 'de_de',
-    'en': 'en_us',
-    'en_US': 'en_us',
+    'de*': 'de_de',
+    'en*': 'en_us',
     'ca': 'en_uk',
     'en_ca': 'en_uk',
     'en_CA': 'en_uk',
     'gb': 'en_uk',
     'en_gb': 'en_uk',
     'en_GB': 'en_uk',
-    'es': 'es_es',
-    'es_ES': 'es_es',
-    'fr': 'fr_fr',
-    'fr_ca': 'fr_fr',
-    'fr_CA': 'fr_fr',
-    'fr_FR': 'fr_fr',
-    'it': 'it_it',
-    'it_IT': 'it_it',
-    'ja': 'ja_jp',
-    'ja_JP': 'ja_jp',
-    'ko': 'ko_kr',
-    'ko_KR': 'ko_kr',
-    'nl': 'nl_nl',
-    'nl_NL': 'nl_nl',
-    'pt': 'pt_pt',
-    'pt_PT': 'pt_pt',
-    'pt_br': 'pt_pt',
-    'pt_BR': 'pt_pt',
-    'ru': 'ru_ru',
-    'ru_RU': 'ru_ru',
-    'si': 'sl_si',
-    'sl_SI': 'sl_si',
-    'sv': 'sv_se',
-    'sv_SE': 'sv_se',
-    'zh': 'zh_cn',
-    'zh_CN': 'zh_cn'
+    'es*': 'es_es',
+    'fr*': 'fr_fr',
+    'it*': 'it_it',
+    'ja*': 'ja_jp',
+    'ko*': 'ko_kr',
+    'nl*': 'nl_nl',
+    'pt*': 'pt_pt',
+    'ru*': 'ru_ru',
+    'si*': 'sl_si',
+    'sv*': 'sv_se',
+    'zh*': 'zh_cn'
 })
 
 .config(["$translateProvider", "availableLanguageKeys", "customLanguageKeyMappings",
@@ -92,6 +75,8 @@ DuckieTV
          * or $translate.use('en_us'); in a controller or service.
          */
         .determinePreferredLanguage()
+
+        .fallbackLanguage('en_us')
 
         // error logging. missing keys are sent to $log
         .useMissingTranslationHandler('duckietvMissingTranslationHandler');

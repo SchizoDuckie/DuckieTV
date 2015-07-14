@@ -237,10 +237,6 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 service.set('application.locale', locale);
                 $injector.get('tmhDynamicLocale').set(locale); // the SettingsService is also required in the background page and we don't need $translate there
                 $injector.get('$translate').use(langKey); // get these via the injector so that we don't have to use these dependencies hardcoded.
-                setTimeout(function() {
-                    $injector.get('$translate').use(langKey); // get these via the injector so that we don't have to use these dependencies hardcoded.
-                }, 500);
-                //console.info("Active Language", langKey, "; Active Locale", locale);
             }
         };
         service.restore();
