@@ -215,9 +215,23 @@ DuckieTV.factory('ChromePermissions', ["$q",
                         break;
                 }
 
+                (function(langKey, availableLanguageKeys, customLanguageKeyMappings) {
+                    setTimeout(function() {
+                        console.log("SettingsService changeLanguage: ", langKey, availableLanguageKeys, customLanguageKeyMappings);
+                    }, 10000);
+                }(langKey, availableLanguageKeys, customLanguageKeyMappings));
+
+
                 if (availableLanguageKeys.indexOf(langKey) === -1 && Object.keys(customLanguageKeyMappings).indexOf(langKey) === -1) {
                     langKey = locale = 'en_us';
                 }
+
+                (function(langKey) {
+                    setTimeout(function() {
+                        console.log("SettingsService changeLanguage now: ", langKey);
+                    }, 10000);
+                }(langKey));
+
 
                 service.set('application.language', langKey);
                 service.set('application.locale', locale);

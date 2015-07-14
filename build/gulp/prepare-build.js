@@ -159,14 +159,24 @@ gulp.task('copyToDeploy', ['concatScripts', 'concatDeps', 'concatBackgroundPage'
 
 });
 
-gulp.task('renameLocalesForAndroid', ['copyToDeploy'], function() {
+gulp.task('copyCordovaAssets', function() {
+    return gulp.src(['build/cordova/**']).pipe(gulp.dest('../deploy/cordova/'));
+});
+
+gulp.task('renameLocalesForAndroid', ['copyToDeploy', 'copyCordovaAssets'], function() {
 
     var app = '../deploy/cordova/dist/app.js';
     var src = fs.readFileSync(app);
     src = String(src).replace('_locales', 'locales');
     fs.writeFileSync(app, src);
-    fs.renameSync('../deploy/cordova/dist/tab.html', '../deploy/cordova/index.html');
+    var index = '../deploy/cordova/index.html';
+    fs.renameSync('../deploy/cordova/dist/tab.html', index);
+
+    src = String(fs.readFileSync(index)).replace('</head>', '<meta name="viewport" content="width=1920,height=1080,target-densitydpi=device-dpi,user-scalable=yes" /></head>');
+    fs.writeFileSync(index, src);
+
     fs.renameSync('../deploy/cordova/_locales', '../deploy/cordova/locales');
+
     spawn('build/push-cordova.sh', [], {
         cwd: process.cwd()
     });

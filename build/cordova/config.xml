@@ -6,13 +6,12 @@
     <author href="https://duckie.tv/" email="tvduckie@gmail.com">DuckieTV</author>
     <content src="index.html" />
     <access origin="*" />
-    <version>
 
     <preference name="orientation" value="landscape" />
     <preference name="EnableViewportScale" value="true" />
 
-    <preference name="android-minSdkVersion" value="17" />
-    <preference name="android-maxSdkVersion" value="17" />
+    <preference name="android-minSdkVersion" value="13" />
+    <preference name="android-maxSdkVersion" value="13" />
     <preference name="android-installLocation" value="auto" />
 
     <gap:splash gap:platform="android" gap:density="hdpi" src="res/screen/android/drawable-land-hdpi.png" />
