@@ -25,9 +25,6 @@ var gulp = require('gulp'),
 var nightly = false; // for nightly builds
 var ver = String(fs.readFileSync('VERSION')).trim();
 
-
-var scripts = ['./js/ap*.js', './js/controllers/*.js', './js/controllers/*/*.js', './js/directives/*.js', './js/services/*.js', './js/services/**/*.js'];
-
 /**
  * Minimum app dependencies for background.js
  */
@@ -51,7 +48,17 @@ var styles = [
  * Concat the scripts array into a file named dist/app.js
  */
 gulp.task('concatScripts', function() {
-    return gulp.src(scripts)
+    var tab = fs.readFileSync('tab.html').toString();
+    var matches = tab.match(/<!-- deploy:replace\=\'(.*)\' -->([\s\S]+?[\n]{0,})[^\/deploy:]<!-- \/deploy:replace -->/g);
+    var deps = [];
+    matches.map(function(match) {
+
+        if (match.indexOf('dist\/app.js') > -1) {
+            console.log(match, match.match(/\.(\/js\/[a-zA-Z0-9\/\.\-]+)/g));
+            deps = match.match(/(js\/[a-zA-Z0-9\/\.\-]+)/gm);
+        }
+    });
+    return gulp.src(deps)
         .pipe(concat('app.js', {
             newLine: ';'
         }))
