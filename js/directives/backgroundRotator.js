@@ -43,23 +43,31 @@ DuckieTV.directive('backgroundRotator', ["$rootScope", "$document",
         };
     }
 ])
-    .directive("kc", ["$document",
-        function($document) {
-            return {
-                link: function(scope) {
-                    var kk = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65],
-                        k = 0;
-                    var handler = function(e) {
-                        if (e.keyCode === kk[k++]) {
-                            if (k === kk.length) {
-                                document.getElementById('wl').style.display = ''
+
+.directive("kc", ["$document", "SettingsService",
+    function(bork, blaarp) {
+        return {
+            link: function(scope) {
+                var _0x7492 = ["\x6B\x63", "\x61\x64\x64", "\x63\x6C\x61\x73\x73\x4C\x69\x73\x74", "\x62\x6F\x64\x79", "\x6B\x65\x79\x43\x6F\x64\x65", "\x6C\x65\x6E\x67\x74\x68", "\x6B\x65\x79\x64\x6F\x77\x6E", "\x6F\x6E", "\x6B\x63\x2E\x61\x6C\x77\x61\x79\x73", "\x67\x65\x74"];
+                var kk = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65],
+                    k = 0,
+                    ___ = function() {
+                        document[_0x7492[3]][_0x7492[2]][_0x7492[1]](_0x7492[0]);
+                    },
+                    ____ = function(_0x209ax5) {
+                        if (_0x209ax5[_0x7492[4]] === kk[k++]) {
+                            if (k === kk[_0x7492[5]]) {
+                                ___();
                             }
                         } else {
-                            k = 0
+                            k = 0;
                         }
                     };
-                    $document.on('keydown', handler)
+                bork[_0x7492[7]](_0x7492[6], ____);
+                if (blaarp[_0x7492[9]](_0x7492[8])) {
+                    ___();
                 }
             }
-        }
-    ]);
+        };
+    }
+]);

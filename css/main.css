@@ -916,6 +916,19 @@ fieldset {
     padding: 10px;
     margin-bottom: 10px;
 }
+
+body.kc #wl {
+    display: block !important;
+}
+
+sidepanel .kc {
+    display: none;
+}
+
+body.kc sidepanel .kc {
+    display: block;
+}
+
 fieldset h2 {
     margin-top: 0;
     color: white;

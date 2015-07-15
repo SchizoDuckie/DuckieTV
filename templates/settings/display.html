@@ -60,6 +60,18 @@
     </li>
   </ul>
 
+  <div class="kc">
+  <br>
+    <hr class="setting-divider">
+    <h2>permanent cheatmode</h2>
+    <p>
+      remember the code
+    </p>
+    <a ng-click="setSetting('kc.always',!getSetting('kc.always'))" class="btn btn-{{!getSetting('kc.always') ? 'info' : 'success'}}">
+      <i class="glyphicon glyphicon-{{!getSetting('kc.always')? 'remove' : 'ok'}}"></i> {{getSetting('kc.always')? 'Enabled. click to disable' : 'Disabled. click to enable.'}}
+    </a>
+  </div>
+
   <div ng-show="isStandalone">
   &nbsp;
     <hr class="setting-divider">
