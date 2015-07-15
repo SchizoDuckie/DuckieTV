@@ -6,7 +6,9 @@ DuckieTV.factory('SidePanelState', function() {
             isExpanded: false
         },
         show: function() {
-            document.body.style.overflowY = 'hidden';
+            if (window.innerHeight >= document.body.scrollHeight) {
+                document.body.style.overflowY = 'hidden';
+            }
             document.body.scrollTop = 0;
             service.state.isShowing = true;
             service.state.isExpanded = false;
