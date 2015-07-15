@@ -64,18 +64,20 @@
 
     </tr>
     <tr ng-repeat="seed in items | limitTo: 20">
-      <td style='width:50px; padding:5px; vertical-align: middle;' class='dropdown' dropdown>
+      <td style='width:80px; padding:5px; vertical-align: top;'>
         <a ng-click="select(seed)">
           <i class="glyphicon glyphicon-magnet" tooltip="{{'TORRENTDIALOG/download-magnet/tooltip'|translate}}"></i>
         </a>
-        <a class="dropdown-toggle" dropdown-toggle>
-          <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/options/tooltip'|translate}}"></i>
+        <a ng-href="{{::seed.torrent}}">
+          <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/download-torrent/lbl'|translate}}"></i>
         </a>
-        <ul class="dropdown-menu">
-          <li><a ng-href="{{::seed.torrent}}"><i class="glyphicon glyphicon-download"></i><span translate-once="TORRENTDIALOG/download-torrent/lbl"></span></a></li>
-          <li><a ng-href="{{::seed.magneturl}}"><i class="glyphicon glyphicon-magnet"></i><span translate-once="TORRENTDIALOG/magnet/link/lbl"></span></a></li>
-          <li><a ng-href="{{::seed.detailUrl}}" target='_blank'><i class="glyphicon glyphicon-link"></i><span translate-once="TORRENTDIALOG/torrent-details/lbl"></span></a></li>
-        </ul>
+
+        <a ng-href="{{::seed.magneturl}}">
+          <i class="glyphicon glyphicon-link" tooltip="{{'TORRENTDIALOG/magnet/link/lbl'|translate}}"></i>
+        </a>
+        <a ng-href="{{::seed.detailUrl}}" target='_blank'>
+          <i class="glyphicon glyphicon-info-sign" tooltip="{{'TORRENTDIALOG/torrent-details/lbl'|translate}}"></i>
+        </a>
       </td>
       <td>
         <a ng-bind-html="::seed.releasename | unsafe" ng-click="select(seed)"></a>
