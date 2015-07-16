@@ -197,47 +197,34 @@ DuckieTV.factory('ChromePermissions', ["$q",
             /*
              * Change the UI language and locale to use for translations tmhDynamicLocale
              */
-            changeLanguage: function(langKey) {
+            changeLanguage: function(langKey, locale) {
+                console.warn("SettingsService.changeLanguage", langKey, locale);
                 langKey = angular.lowercase(langKey) || 'en_us';
                 var locale = langKey;
-                // special variants
-                switch (langKey) {
-                    case 'fr_ca':
-                        langKey = 'fr_fr';
-                        break;
-                    case 'pt_br':
-                        langKey = 'pt_pt';
-                        break;
-                    case 'en_au':
-                    case 'en_ca':
-                    case 'en_gb':
-                    case 'en_nz':
-                        langKey = 'en_uk';
-                        break;
-                }
 
-                (function(langKey, availableLanguageKeys, customLanguageKeyMappings) {
-                    setTimeout(function() {
-                        console.log("SettingsService changeLanguage: ", langKey, availableLanguageKeys, customLanguageKeyMappings);
-                    }, 10000);
-                }(langKey, availableLanguageKeys, customLanguageKeyMappings));
+                if (availableLanguageKeys.indexOf(langKey) === -1 && Object.keys(customLanguageKeyMappings).indexOf(langKey) === -1 && customLanguageKeyMappings.indexOf(langKey) === -1) {
+                var matched = false;
 
-
-                if (availableLanguageKeys.indexOf(langKey) === -1 && Object.keys(customLanguageKeyMappings).indexOf(langKey) === -1) {
+                    if (langKey.indexOf('_') === -1) {
+                        for (var key in customLanguageKeyMappings) {
+                            console.log(key, langKey, key.indexOf(langKey));
+                            if (key.indexOf(langKey) > -1) {
+                                langKey = key;
+                                matched = true;
+                                break;
+                            }
+                        }
+                    }
+                if (!matched) {
                     langKey = locale = 'en_us';
                 }
-
-                (function(langKey) {
-                    setTimeout(function() {
-                        console.log("SettingsService changeLanguage now: ", langKey);
-                    }, 10000);
-                }(langKey));
-
+            }
 
                 service.set('application.language', langKey);
                 service.set('application.locale', locale);
                 $injector.get('tmhDynamicLocale').set(locale); // the SettingsService is also required in the background page and we don't need $translate there
-                $injector.get('$translate').use(langKey); // get these via the injector so that we don't have to use these dependencies hardcoded.
+                $injector.get('$translate').use(langKey, locale); // get these via the injector so that we don't have to use these dependencies hardcoded.
+                return langKey;
             }
         };
         service.restore();
