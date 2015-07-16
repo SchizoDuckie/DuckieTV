@@ -3,7 +3,7 @@
   <a ng-class="{watched : episode.watched, badged: count > 2}">
     <!-- if we have a torrent, show the progress -->
     <div ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash">
-      <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime()}}) " tooltip-append-to-body="true" tooltip-placement="left">
+      <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html" tooltip-template="'eventTooltipTemplate.html'" tooltip-append-to-body="true" tooltip-placement="left" tooltip-popup-delay="250">
         {{ ::serie.name }}
       </torrent-remote-control>
     </div>
@@ -20,3 +20,9 @@
     <span ng-show="count > 2" class="badge badge-alert" ng-click="expand()">x {{count}}</span>
   </a>
 </div>
+
+<script type="text/ng-template" id="eventTooltipTemplate.html">
+  <div>
+  <b>{{episode.getFormattedEpisode()}}</b><br/>({{episode.getAirTime()}}) 
+  </div>
+</script>
