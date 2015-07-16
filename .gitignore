@@ -1,4 +1,5 @@
 node_modules/
+locales/
 dist/
 npm-debug.log
 DuckieTV.exe
