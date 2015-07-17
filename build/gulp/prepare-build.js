@@ -174,13 +174,18 @@ gulp.task('renameLocalesForAndroid', ['copyToDeploy', 'copyCordovaAssets'], func
 
     var app = '../deploy/cordova/dist/app.js';
     var src = fs.readFileSync(app);
-    src = String(src).replace('_locales', 'locales');
-    fs.writeFileSync(app, src);
+    fs.writeFileSync(app, String(fs.readFileSync(app)).replace('_locales', 'locales'));
+
+    var dep = '../deploy/cordova/dist/deps.js';
+    fs.writeFileSync(dep, String(fs.readFileSync(dep)).replace('_locales/angular-locale_{{locale}}.js', 'locales/angular-locale_{{locale}}.js'));
+
     var index = '../deploy/cordova/index.html';
     fs.renameSync('../deploy/cordova/dist/tab.html', index);
 
     src = String(fs.readFileSync(index)).replace('</head>', '<meta name="viewport" content="width=1920,height=1080,target-densitydpi=device-dpi,user-scalable=yes" /></head>');
     fs.writeFileSync(index, src);
+
+
 
     fs.renameSync('../deploy/cordova/_locales', '../deploy/cordova/locales');
 
