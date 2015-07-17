@@ -1,5 +1,23 @@
 /**
- * Tixati DataStructure
+ * Tixati web client implementation
+ *
+ * API Docs:
+ * None. reverse engineered from Tixati base implementation
+ *
+ * HTTP API listens on localhost:8888
+ *
+ * Setup:
+ * Enable web interface in Tixati options, set a username and password.
+ * Make sure to use the default skin
+ *
+ * - Does not support setting download directory
+ */
+
+/**
+ *
+ * TixatiData is the main wrapper for a torrent info object coming from Tixati.
+ * It extends the base TorrentData class.
+ *
  */
 TixatiData = function(data) {
     this.update(data);
@@ -255,8 +273,10 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
 ])
 
 
-.run(["DuckieTorrent", "Tixati",
-    function(DuckieTorrent, Tixati) {
-        DuckieTorrent.register('Tixati', Tixati);
+.run(["DuckieTorrent", "Tixati", "SettingsService",
+    function(DuckieTorrent, Tixati, SettingsService) {
+        if (SettingsService.get('torrenting.enabled')) {
+            DuckieTorrent.register('Tixati', Tixati);
+        }
     }
 ]);

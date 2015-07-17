@@ -205,8 +205,10 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
     }
 ])
 
-.run(["DuckieTorrent", "qBittorrent",
-    function(DuckieTorrent, qBittorrent) {
-        DuckieTorrent.register('qBittorrent', qBittorrent);
+.run(["DuckieTorrent", "qBittorrent", "SettingsService",
+    function(DuckieTorrent, qBittorrent, SettingsService) {
+        if (SettingsService.get('torrenting.enabled')) {
+            DuckieTorrent.register('qBittorrent', qBittorrent);
+        }
     }
 ]);

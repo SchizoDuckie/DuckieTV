@@ -739,10 +739,10 @@ DuckieTorrent
     }
 ])
 
-.run(["DuckieTorrent", "uTorrent",
-    function(DuckieTorrent, uTorrent) {
-
-        DuckieTorrent.register('uTorrent', uTorrent);
-
+.run(["DuckieTorrent", "uTorrent", "SettingsService",
+    function(DuckieTorrent, uTorrent, SettingsService) {
+        if (SettingsService.get('torrenting.enabled')) {
+            DuckieTorrent.register('uTorrent', uTorrent);
+        }
     }
 ]);

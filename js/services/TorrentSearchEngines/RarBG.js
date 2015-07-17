@@ -115,8 +115,11 @@ DuckieTV.factory('RarBG', ["$q", "$http",
     }
 ])
 
-.run(["TorrentSearchEngines", "RarBG",
-    function(TorrentSearchEngines, RarBG) {
-        TorrentSearchEngines.registerSearchEngine('RarBG', RarBG);
+.run(["TorrentSearchEngines", "SettingsService", "RarBG",
+    function(TorrentSearchEngines, SettingsService, RarBG) {
+        if (SettingsService.get('torrenting.enabled')) {
+
+            TorrentSearchEngines.registerSearchEngine('RarBG', RarBG);
+        }
     }
 ]);

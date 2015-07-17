@@ -249,8 +249,10 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
     }
 ])
 
-.run(["DuckieTorrent", "uTorrentWebUI",
-    function(DuckieTorrent, uTorrentWebUI) {
-        DuckieTorrent.register('uTorrent Web UI', uTorrentWebUI);
+.run(["DuckieTorrent", "uTorrentWebUI", "SettingsService",
+    function(DuckieTorrent, uTorrentWebUI, SettingsService) {
+        if (SettingsService.get('torrenting.enabled')) {
+            DuckieTorrent.register('uTorrent Web UI', uTorrentWebUI);
+        }
     }
 ]);

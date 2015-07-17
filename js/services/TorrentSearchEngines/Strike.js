@@ -60,7 +60,7 @@ DuckieTV.factory('Strike', ["$q", "$http",
                 }
                 throw "Error " + err.status + ":" + err.statusText;
             });
-        }
+        };
 
         var service = {
             search: function(what) {
@@ -78,13 +78,15 @@ DuckieTV.factory('Strike', ["$q", "$http",
                     activeSearchRequest = false;
                 }
             }
-        }
+        };
         return service;
     }
 ])
 
-.run(["TorrentSearchEngines", "Strike",
-    function(TorrentSearchEngines, Strike) {
-        TorrentSearchEngines.registerSearchEngine('Strike', Strike);
+.run(["TorrentSearchEngines", "SettingsService", "Strike",
+    function(TorrentSearchEngines, SettingsService, Strike) {
+        if (SettingsService.get('torrenting.enabled')) {
+            TorrentSearchEngines.registerSearchEngine('Strike', Strike);
+        }
     }
-])
+]);

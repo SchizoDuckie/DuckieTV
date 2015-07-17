@@ -13,7 +13,7 @@ DuckieTV
         function autoStop(torrent) {
             if (torrent.isStarted() && torrent.getProgress() === 100) {
                 // active torrent. do we stop it?
-                if (SettingsService.get('torrenting.autostop_all')) {  
+                if (SettingsService.get('torrenting.autostop_all')) {
                     // all torrents  in the torrent-client are allowed to be stopped. Stopping torrent.
                     console.info('Torrent finished. Auto-stopping', torrent.name || torrent.hash);
                     torrent.stop();
@@ -26,7 +26,7 @@ DuckieTV
                     }
                 }
             }
-        };
+        }
 
         function isDownloaded(torrent) {
             if (torrent.getProgress() == 100 && !torrent.downloadMarked) {
@@ -37,9 +37,9 @@ DuckieTV
                     if (!episode) return;
                     episode.markDownloaded();
                     episode.Persist();
-                })
+                });
             }
-        };
+        }
 
         var service = {
 
@@ -63,7 +63,7 @@ DuckieTV
         var service = {
 
             /*
-             *  a list of torrent magnet hashes which are being managed by DuckieTV 
+             *  a list of torrent magnet hashes which are being managed by DuckieTV
              */
             hashList: JSON.parse(localStorage.getItem(['torrenting.hashList'])) || [],
             /*
@@ -73,8 +73,8 @@ DuckieTV
                 // only add to list if we don't already have it
                 if (!service.hasHash(torrentHash)) {
                     service.hashList.push(torrentHash);
-                };
-                localStorage.setItem(['torrenting.hashList'] ,JSON.stringify(service.hashList));
+                }
+                localStorage.setItem(['torrenting.hashList'], JSON.stringify(service.hashList));
                 return true;
             },
             /*
@@ -83,8 +83,8 @@ DuckieTV
             removeFromHashList: function(torrentHash) {
                 if (service.hasHash(torrentHash)) {
                     service.hashList.splice(service.hashList.indexOf(torrentHash), 1);
-                };
-                localStorage.setItem(['torrenting.hashList'] ,JSON.stringify(service.hashList));
+                }
+                localStorage.setItem(['torrenting.hashList'], JSON.stringify(service.hashList));
                 return true;
             },
             /*
@@ -100,10 +100,12 @@ DuckieTV
 
 .run(["SettingsService", "TorrentMonitor",
     function(SettingsService, TorrentMonitor) {
-        if (SettingsService.get('torrenting.enabled') && SettingsService.get('torrenting.autostop')) {
-            console.info("Enabling torrent auto-stop!");
-            TorrentMonitor.enableAutoStop();
+        if (SettingsService.get('torrenting.enabled')) {
+            if (SettingsService.get('torrenting.autostop')) {
+                console.info("Enabling torrent auto-stop!");
+                TorrentMonitor.enableAutoStop();
+            }
+            TorrentMonitor.downloadedHook();
         }
-        TorrentMonitor.downloadedHook();
     }
 ]);

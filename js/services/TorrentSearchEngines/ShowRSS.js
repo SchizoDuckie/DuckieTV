@@ -27,7 +27,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                 var results = doc.querySelectorAll("select option");
                 var output = {};
                 Array.prototype.map.call(results, function(node) {
-                    if (node.value == "") return;
+                    if (node.value === "") return;
                     output[node.innerText.trim()] = node.value;
                 });
                 return output;
@@ -92,11 +92,11 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                 if (!query.toUpperCase().match(/S([0-9]{1,2})E([0-9]{1,3})/)) {
                     return $q(function(resolve, reject) {
                         reject("Sorry, ShowRSS only works for queries in format : 'Seriename SXXEXX'");
-                    })
+                    });
                 }
                 return promiseRequest('list').then(function(results) {
                     var found = Object.keys(results).filter(function(value) {
-                        return query.indexOf(value) == 0
+                        return query.indexOf(value) === 0;
                     });
                     if (found.length == 1) {
                         var serie = found[0];
@@ -104,7 +104,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                         return promiseRequest('serie', results[found[0]]).then(function(results) {
                             var seasonepisode = query.replace(serie, '').trim().toUpperCase();
                             var parts = seasonepisode.match(/S([0-9]{1,2})E([0-9]{1,3})/);
-                            if (seasonepisode.length == 0) return results;
+                            if (seasonepisode.length === 0) return results;
                             seasonepisode = seasonepisode.replace('S' + parts[1], parseInt(parts[1], 10)).replace('E' + parts[2], 'x' + parts[2]);
                             var searchparts = seasonepisode.split(' ');
                             return results.filter(function(el) {
@@ -112,20 +112,22 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                                     return false;
                                 }
                                 return el.releasename.indexOf(searchparts[0]) > -1;
-                            })
-                        })
+                            });
+                        });
                     } else {
                         return [];
                     }
                 });
             }
+        };
+    }
+])
+
+
+.run(["TorrentSearchEngines", "SettingsService", "ShowRSS",
+    function(TorrentSearchEngines, SettingsService, ShowRSS) {
+        if (SettingsService.get('torrenting.enabled')) {
+            TorrentSearchEngines.registerSearchEngine('ShowRSS', ShowRSS);
         }
     }
-])
-
-
-.run(["TorrentSearchEngines", "ShowRSS",
-    function(TorrentSearchEngines, ShowRSS) {
-        TorrentSearchEngines.registerSearchEngine('ShowRSS', ShowRSS);
-    }
-])
+]);

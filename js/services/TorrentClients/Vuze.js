@@ -30,8 +30,10 @@ DuckieTorrent.factory('Vuze', ["BaseTorrentClient", "TransmissionRemote", "Trans
     }
 ])
 
-.run(["DuckieTorrent", "Vuze",
-    function(DuckieTorrent, Vuze) {
-        DuckieTorrent.register('Vuze', Vuze);
+.run(["DuckieTorrent", "Vuze", "SettingsService",
+    function(DuckieTorrent, Vuze, SettingsService) {
+        if (SettingsService.get('torrenting.enabled')) {
+            DuckieTorrent.register('Vuze', Vuze);
+        }
     }
 ]);

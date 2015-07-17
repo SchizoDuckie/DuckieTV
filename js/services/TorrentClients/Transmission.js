@@ -190,8 +190,10 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
     }
 ])
 
-.run(["DuckieTorrent", "Transmission",
-    function(DuckieTorrent, Transmission) {
-        DuckieTorrent.register('Transmission', Transmission);
+.run(["DuckieTorrent", "Transmission", "SettingsService",
+    function(DuckieTorrent, Transmission, SettingsService) {
+        if (SettingsService.get('torrenting.enabled')) {
+            DuckieTorrent.register('Transmission', Transmission);
+        }
     }
 ]);
