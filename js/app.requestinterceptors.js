@@ -64,6 +64,6 @@ DuckieTV.factory('TransparentFixtureProxyInterceptor', ['$q', '$injector',
             $httpProvider.interceptors.push('CORSInterceptor');
         }
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data|file):/);
-        $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:|chromeextension:/);
+        $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:|chrome-extension:/);
     }
 ]);
