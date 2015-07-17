@@ -184,8 +184,13 @@ gulp.task('renameLocalesForAndroid', ['copyToDeploy', 'copyCordovaAssets'], func
 
     fs.renameSync('../deploy/cordova/_locales', '../deploy/cordova/locales');
 
-    spawn('build/push-cordova.sh', [], {
+    var child = spawn('build/push-cordova.sh', [], {
         cwd: process.cwd()
+
+    });
+    child.unref();
+    child.stdout.on('data', function(data) {
+        console.log(data.toString());
     });
 });
 
