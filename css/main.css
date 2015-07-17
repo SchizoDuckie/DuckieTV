@@ -266,24 +266,46 @@ background-rotator, background-rotator > div {
 #actionbar_torrent a.connecting:after {
     color: orange !important;
 }
-#actionbar_torrent a.vuze {
+#actionbar_torrent a.vuze, .torrentlogo.vuze {
     background-image: url('../img/torrentclients/vuze-small.png');
 }
-#actionbar_torrent a.utorrent {
+#actionbar_torrent a.utorrent, .torrentlogo.utorrent {
     background-image: url('../img/torrentclients/utorrent-small.png');
 }
-#actionbar_torrent a.deluge {
+#actionbar_torrent a.deluge, .torrentlogo.deluge {
     background-image: url('../img/torrentclients/deluge-small.png');
 }
-#actionbar_torrent a.transmission {
+#actionbar_torrent a.transmission, .torrentlogo.transmission {
     background-image: url('../img/torrentclients/transmission-small.png');
 }
-#actionbar_torrent a.qbittorrent {
+#actionbar_torrent a.qbittorrent, .torrentlogo.qbittorrent {
     background-image: url('../img/torrentclients/qbittorrent-small.png');
 }
-#actionbar_torrent a.tixati {
+#actionbar_torrent a.tixati, .torrentlogo.tixati {
     background-image: url('../img/torrentclients/tixati-small.png');
 }
+
+.torrentlogo {
+    display: inline-block;
+    width: 35px;
+    float: left;
+    height: 35px;
+    line-height: 35px;
+    margin-right: 9px;
+}
+
+.settings .buttons .btn.choose-client {
+    cursor: pointer;
+    padding: 5px;
+    text-align: left;
+    line-height: 37px;
+    vertical-align: super;
+    padding-left: 25px;
+}
+
+.settings .buttons .btn.choose-client:hover {
+    color:white;
+} 
 
 .dropdown-menu>li>a {
       color: white;

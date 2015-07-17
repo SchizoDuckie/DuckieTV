@@ -104,6 +104,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         $scope.toggleTorrent = function() {
             $scope.torrentEnabled = !$scope.torrentEnabled;
             SettingsService.set('torrenting.enabled', $scope.torrentEnabled);
+            window.location.reload();
         };
 
         $scope.toggleUnsafeProxy = function() {

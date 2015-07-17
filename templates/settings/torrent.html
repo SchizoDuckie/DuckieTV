@@ -18,11 +18,9 @@
     
     <h2 translate-once="SETTINGS/TORRENT/choose-client/hdr"></h2>
 
-    <ul class="list-unstyled" style='font-size:16px'>
-      <li ng-click="setTorrentClient(client)" ng-repeat="client in getTorrentClients()" class="list-unstyled" style="cursor:pointer; padding:5px;">
-        <i class="glyphicon" ng-class="{'glyphicon-unchecked': currentClient != client, 'glyphicon-record': currentClient == client}"></i>&nbsp; {{client}}
-      </li>
-    </ul>
+    <a ng-click="setTorrentClient(client)" ng-repeat="client in getTorrentClients()" class="choose-client btn btn-{{ currentClient == client ? 'success' : '' }}" >
+        <i class="torrentlogo {{client.toLowerCase()}}"></i> {{client}}
+    </a>
     
     <a class="btn btn-warning" ng-click="reload()">
       <i class="glyphicon glyphicon-refresh"></i>&nbsp;<span translate-once="SETTINGS/TORRENT/reload-duckie/btn"></span>&nbsp;{{currentClient}}
