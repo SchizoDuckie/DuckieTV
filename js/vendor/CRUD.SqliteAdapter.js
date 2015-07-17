@@ -378,9 +378,9 @@ CRUD.Database.SQLBuilder = function(entity, filters, options) {
     this.groups = [];
     this.parameters = []; // parameters to bind to sql query.
 
-    for (var prop in this.filters) {
-        this.buildFilters(prop, this.filters[prop], this.entity);
-    }
+    Object.keys(this.filters).map(function(key) {
+        this.buildFilters(key, this.filters[key], this.entity);
+    }, this);
 
     if (this.options.orderBy) {
         this.orders.push(this.prefixFieldNames(this.options.orderBy.replace('ORDER BY', '')));
