@@ -4,28 +4,33 @@
 DuckieTV
 
 .constant('availableLanguageKeys', [
-    'de_de', 'en_au', 'en_nz', 'en_uk', 'en_us', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nl_nl', 'pt_pt', 'ru_ru', 'sl_si', 'sv_se', 'zh_cn'
+    'de_de', 'en_uk', 'en_us', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nl_nl', 'pt_pt', 'ru_ru', 'sl_si', 'sv_se', 'zh_cn'
 ])
 
 .constant('customLanguageKeyMappings', {
+    'au': 'en_uk',
+    'ca': 'en_uk',
     'de': 'de_de',
     'de_DE': 'de_de',
     'en': 'en_us',
-    'en_US': 'en_us',
-    'de*': 'de_de',
-    'en*': 'en_us',
-    'ca': 'en_uk',
+    'en_AU': 'en_uk',
+    'en_au': 'en_uk',
+    'en_AU': 'en_uk',
     'en_ca': 'en_uk',
     'en_CA': 'en_uk',
-    'gb': 'en_uk',
     'en_gb': 'en_uk',
     'en_GB': 'en_uk',
+    'en_nz': 'en_uk',
+    'en_NZ': 'en_uk',
+    'en_UK': 'en_uk',
+    'en_US': 'en_us',
     'es': 'es_es',
     'es_ES': 'es_es',
     'fr': 'fr_fr',
     'fr_ca': 'fr_fr',
     'fr_CA': 'fr_fr',
     'fr_FR': 'fr_fr',
+    'gb': 'en_uk',
     'it': 'it_it',
     'it_IT': 'it_it',
     'ja': 'ja_jp',
@@ -34,16 +39,18 @@ DuckieTV
     'ko_KR': 'ko_kr',
     'nl': 'nl_nl',
     'nl_NL': 'nl_nl',
+    'nz': 'en_uk',
     'pt': 'pt_pt',
-    'pt_PT': 'pt_pt',
     'pt_br': 'pt_pt',
     'pt_BR': 'pt_pt',
+    'pt_PT': 'pt_pt',
     'ru': 'ru_ru',
     'ru_RU': 'ru_ru',
     'si': 'sl_si',
     'sl_SI': 'sl_si',
     'sv': 'sv_se',
     'sv_SE': 'sv_se',
+    'uk': 'en_uk',
     'zh': 'zh_cn',
     'zh_CN': 'zh_cn'
 })
@@ -113,7 +120,7 @@ DuckieTV
         var appLocale = SettingsService.get('application.locale'); // the application language the user wants
 
         return function(translationID, lang) {
-            if (lang !== appLocale) {
+            if (typeof lang === 'undefined') {
                 // ignore translation errors until the appLocale's translation table has been loaded
                 return translationID;
             }
