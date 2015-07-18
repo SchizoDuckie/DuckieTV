@@ -63,12 +63,17 @@
   <div class="kc">
   <br>
     <hr class="setting-divider">
-    <h2>permanent cheatmode</h2>
-    <p>
-      remember the code
-    </p>
+    <h2>
+      <span tooltip="{{getSetting('kc.always') ? 'SETTINGS/DISPLAY/cheatmode-enabled/tooltip' : 'SETTINGS/DISPLAY/cheatmode-disabled/tooltip'|translate}}">
+        <i class="glyphicon glyphicon-{{getSetting('kc.always') ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+      </span>
+      <li translate-once="SETTINGS/DISPLAY/cheatmode/hdr"></li>
+    </h2>
+    <p  translate-once="SETTINGS/DISPLAY/cheatmode/desc"></p>
+    <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
+     {{getSetting('kc.always') ? 'SETTINGS/DISPLAY/cheatmode-enabled/tooltip' : 'SETTINGS/DISPLAY/cheatmode-disabled/tooltip'|translate}}</p>
     <a ng-click="setSetting('kc.always',!getSetting('kc.always'))" class="btn btn-{{!getSetting('kc.always') ? 'info' : 'success'}}">
-      <i class="glyphicon glyphicon-{{!getSetting('kc.always')? 'remove' : 'ok'}}"></i> {{getSetting('kc.always')? 'Enabled. click to disable' : 'Disabled. click to enable.'}}
+      <i class="glyphicon glyphicon-{{getSetting('kc.always') ? 'remove' : 'ok'}}"></i> {{!getSetting('kc.always') ? 'SETTINGS/DISPLAY/cheatmode-disable/btn' : 'SETTINGS/DISPLAY/cheatmode-enable/btn'|translate}}
     </a>
   </div>
 
