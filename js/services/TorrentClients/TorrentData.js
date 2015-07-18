@@ -81,6 +81,12 @@ TorrentData.prototype.isStarted = function() {
     throw "function not implemented";
 };
 
+/** 
+ * Get torrent speed in kb/s
+ */
+TorrentData.prototype.getTransferSpeed = function() {
+    return 0;
+};
 
 /**
  * Client implementations

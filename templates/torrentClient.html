@@ -1,59 +1,41 @@
 <!-- torrentClient.html -->
 <div class="leftpanel torrent-client">
   <div>
-    <h2>DuckieTorrent {{::getTorrentClientName()}} <span translate-once="TORRENTCLIENT/hdr"></span></h2>
+    <h2>DuckieTorrent {{::client.getTorrentClientName()}} <span translate-once="TORRENTCLIENT/hdr"></span></h2>
 
+    <!-- top right settings hotbuttons -->
     <div class="settingsbtn">
       <a href="#settings/torrent" >
         <i class="glyphicon glyphicon-cog"></i> <span translate-once="TORRENTCLIENT/choose-client/glyph"></span>
       </a>
     </div>
     <div class="settingsbtn">
-      <a href="#settings/{{getTorrentClientName().toLowerCase()}}">
-        <i class="glyphicon glyphicon-cog"></i> {{getTorrentClientName()}} <span translate-once="TORRENTCLIENT/settings/glyph"></span>
+      <a href="#settings/{{client.getTorrentClientName().toLowerCase()}}">
+        <i class="glyphicon glyphicon-cog"></i> {{client.getTorrentClientName()}} <span translate-once="TORRENTCLIENT/settings/glyph"></span>
       </a>
     </div>
 
-    <div class="alert alert-info" style="margin:10px" ng-if="getTorrentClientName()  == 'uTorrent'"><button class='btn btn-small btn-warning' style='float:right' ng-click='removeToken()' translate-once="TORRENTCLIENT/clear-authority/btn"></button><strong><span translate-once="TORRENTCLIENT/desc/p1"></span><a style="color: #428bca" href='http://www.utorrent.com/downloads/complete/os/win/track/alpha'>v3.4.1+</a><span translate-once="TORRENTCLIENT/desc/p2"></span></strong><span translate-once="TORRENTCLIENT/desc/p3"></span></div>
+    <!-- utorrent remove token panel -->
+    <div class="alert alert-info" style="margin:10px" ng-if="client.getTorrentClientName()  == 'uTorrent'"><button class='btn btn-small btn-warning' style='float:right' ng-click='client.removeToken()' translate-once="TORRENTCLIENT/clear-authority/btn"></button><strong><span translate-once="TORRENTCLIENT/desc/p1"></span><a style="color: #428bca" href='http://www.utorrent.com/downloads/complete/os/win/track/alpha'>v3.4.1+</a><span translate-once="TORRENTCLIENT/desc/p2"></span></strong><span translate-once="TORRENTCLIENT/desc/p3"></span></div>
 
-    <div ng-hide="rpc" style='padding:40px; text-align:center'>
-      <img ng-src="img/torrentclients/{{getTorrentClientName().toLowerCase().replace(' 3.2+','').replace(' web ui','')}}.png" class="spin" style="width:100%;height:100%">
-      <h2><span translate-once="TORRENTCLIENT/connecting/hdr"></span> {{::getTorrentClientName()}}</h2>
+    <!-- logo spinner that hides when connected -->
+    <div ng-hide="client.rpc" style='padding:40px; text-align:center'>
+      <img ng-src="img/torrentclients/{{client.getTorrentClientName().toLowerCase().replace(' 3.2+','').replace(' web ui','')}}.png" class="spin" style="width:100%;height:100%">
+      <h2><span translate-once="TORRENTCLIENT/connecting/hdr"></span> {{::client.getTorrentClientName()}}</h2>
       <strong style=' display:block; text-align:center;' translate-once="TORRENTCLIENT/please-wait/lbl"></strong>
-      {{status}}
+      {{client.status}}
     </div>
-    <h4 ng-show="rpc"><span translate-once="TORRENTCLIENT/torrents-found/hdr"></span>{{rpc.getTorrents().length}}</h4>
+    <h4 ng-show="client.rpc"><span translate-once="TORRENTCLIENT/torrents-found/hdr"></span>{{client.rpc.getTorrents().length}}</h4>
   </div>
 
-  <div class="torrent" ng-repeat="torrent in rpc.getTorrents()| orderBy:'getStarted()':true">
-    <strong ng-click="isCollapsed = !isCollapsed">{{::torrent.getName()}}</strong>  
+  <!-- torrent list -->
+  <div class="torrent" ng-repeat="torrent in client.rpc.getTorrents()| orderBy:'getStarted()':true">
+    <a ui-sref-active='active' ui-sref=".details({torrent: torrent})"><strong>{{::torrent.getName()}}</strong></a>  
     <div class="progress-striped progress" ng-class="{'progress-big':isCollapsed}">
       <div class="progress-bar " ng-class="{ 'progress-bar-danger': !torrent.isStarted() && torrent.getProgress() < 100, 'progress-bar-info': torrent.isStarted() && torrent.getProgress() < 100 , 'progress-bar-success': !torrent.isStarted() && torrent.getProgress() == 100, 'progress-bar-warning': torrent.isStarted() && torrent.getProgress() == 100 }" ng-style="{ width: torrent.getProgress() + '%' }">
         <span>{{torrent.getProgress()}}%</span>
       </div>
     </div>
-    <div collapse="!isCollapsed">
-      <div class="buttons">
-        <div class="torrent-mini-remote-control">
-          <span class="label label-info">{{torrent.getFormattedStatus()}}</span>  
-          <i ng-hide="torrent.getProgress() == ''" class="glyphicon glyphicon-magnet"></i>
-          <i ng-if="torrent.getProgress() == ''" class="glyphicon glyphicon-magnet spin" tooltip="{{'TORRENTCLIENT/please-wait/tooltip'|translate}}" tooltip-append-to-body="true"></i>
-
-          <a ng-click="torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i><span translate-once="TORRENTCLIENT/start/glyph"></span></a>
-          <a ng-click="torrent.pause();" style='display:inline-block'><i class="glyphicon  glyphicon-pause"></i><span translate-once="TORRENTCLIENT/pause/glyph"></span></a>
-          <a ng-click="torrent.stop();"  style='display:inline-block'><i class="glyphicon glyphicon-stop"></i><span translate-once="TORRENTCLIENT/stop/glyph"></span></a>
-          <a ng-if="torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top:5px" ng-click="torrent.stream();"><i class="glyphicon glyphicon-bullhorn"></i> <span translate-once="TORRENTCLIENT/stream-play/glyph"></span></a>   
-          <a ng-if="getSetting('torrenting.directory') && torrent.open_containing" ng-click="torrent.open_containing();" style="margin-top:5px"><i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i><span translate-once="TORRENTCLIENT/open-folder/glyph"></span></a> 
-          <a ng-click="getFiles(torrent); showFiles = !showFiles;" style="margin-top:5px"><i class="glyphicon glyphicon-folder-open" style='padding-right:10px'></i><span translate-once="TORRENTCLIENT/show-files/glyph"></span></a>
-          <div ng-if="showFiles" style="padding-left: 10px">
-            <loading-spinner ng-show="!torrent.torrent_files"></loading-spinner>
-            <p ng-repeat="file in torrent.torrent_files track by $index" class="torrent-file" ng-style="{ width: file.isMovie ? '255px' : 'auto' }"> {{file.name}}
-              <subtitle-dialog ng-if="file.isMovie" filename="file.searchFileName" tooltip-append-to-body="true"></subtitle-dialog>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
-<div class="rightpanel"></div>
+<div class="rightpanel torrent-client" ui-view="torrentDetails"></div>

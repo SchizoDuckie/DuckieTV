@@ -374,7 +374,33 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             views: {
                 sidePanel: {
                     templateUrl: 'templates/torrentClient.html',
-                    controller: 'TorrentCtrl'
+                    controller: 'TorrentCtrl',
+                    controllerAs: 'client'
+                }
+            }
+        })
+
+        .state('torrent.details', {
+            url: '/:id',
+            params: {
+                torrent: {}
+            },
+            resolve: {
+                SidePanelState: expandSidePanel,
+                torrent: function($stateParams, SidePanelState) {
+                    if (!('getName' in $stateParams.torrent)) {
+                        setTimeout(SidePanelState.show, 500); // contract sidepanel on page refresh, and not torrent
+                    }
+                    return $stateParams.torrent;
+                }
+            },
+            views: {
+                torrentDetails: {
+                    templateUrl: function($stateParams) {
+                        return 'templates/torrentClient.details.html';
+                    },
+                    controller: 'TorrentDetailsCtrl',
+                    controllerAs: 'vm'
                 }
             }
         })

@@ -1606,6 +1606,7 @@ sidepanel .leftpanel {
     height: 100%;
     padding: 15px;
     overflow-y: auto;
+    overflow-x:hidden;
 }
 sidepanel .rightpanel {
     position: absolute;
@@ -1880,6 +1881,23 @@ sidepanel .seasons serieheader {
     padding: 20px;
 }
 
+.torrent-client .torrent a {
+    position: relative;
+  display: block;
+  padding: 8px;
+}
+
+.torrent-client .torrent-details a.subtitle-dialog {
+  display: block;
+  border-radius: 5px !important;
+  clear: both;
+  margin-left: 0;
+  font-family: arial;
+  float: none;
+  margin: 0 !important;
+  margin-bottom: 5px !important;
+}
+
 .torrent-client .torrent {
     background-color: rgba(55,55,55,0);
 }
@@ -1897,7 +1915,7 @@ sidepanel .seasons serieheader {
     display: block;
     font-size: 14px;
     cursor: pointer;
-    padding: 10px;
+    padding: 5px;
     font-family: helvetica;
     font-weight: normal;
     word-wrap: break-word;
@@ -1908,6 +1926,10 @@ sidepanel .seasons serieheader {
     position: absolute;
     background-color: #505050;
     display: inline-block;
+}
+
+.torrent-client h2 {
+    word-break: break-all;
 }
 
 .progress-bar-success.downloaded {
@@ -2085,4 +2107,47 @@ sidepanel .seasons serieheader {
     height: 165px;
     margin-bottom: 0;
   }
+}
+
+
+/**
+ * Dial Gauges used on torrent client
+ */
+.dg {
+    display: block;
+    width: 100%;
+    height: 125px;
+    overflow: hidden;
+}
+.dialgauge-value {
+    font-size: 22px;
+    font-weight: 200;
+}
+.dialgauge-unit {
+    font-size: 12px;
+    stroke: green;
+    fill: pink;
+    font-weight: 100;
+}
+.dialgauge-title {
+    font-size: 12px;
+    stroke: green;
+    fill: pink;
+    font-weight: 100;
+}
+.dg1 {
+    display: inline-block;
+    width: 140px;
+}
+.dg1 .dialgauge-value {
+    font-size: 30px;
+    font-weight: 400;
+    stroke: grey;
+    fill: grey;
+}
+
+ng-dial-gauge {
+  height: 200px !important;
+  width: 49%;
+  display: inline-block;
 }
