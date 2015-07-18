@@ -1540,6 +1540,21 @@ sidepanel .buttons a {
     -webkit-user-select: none;
 }
 
+sidepanel .buttons a.btn:hover {
+    color: white;
+}
+
+sidepanel .buttons.languages a {
+    text-align: left;
+    padding: 3px;
+    padding-left: 15px;
+}
+
+sidepanel .buttons.languages a i {
+    margin-left: 5px;
+    margin-right: 15px;
+}
+
 sidepanel .buttons a.subtitle-dialog {
     display: inline-block;
     float: right;

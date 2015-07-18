@@ -1,26 +1,25 @@
- <div ng-controller="SubtitlesCtrl as vm">
+ <div ng-controller="SubtitlesCtrl as vm" class="buttons languages">
 
 	<h2 translate-once="SETTINGS/SUBTITLES/hdr"></h2>
 
 	<p translate-once="SETTINGS/SUBTITLES/desc"></p>
 
 	<hr>
-	<p><strong ng-if="vm.enabledLanguages != ''" translate-once="SETTINGS/SUBTITLES/selected/lbl"></strong><br> {{vm.enabledLanguages}}<br>
-	
-	<strong ng-if="vm.enabledLanguages == ''" translate-once="SETTINGS/SUBTITLES/selected-none/lbl"></strong>
+	<p>
+		<strong ng-if="vm.enabledLanguages != ''" translate-once="SETTINGS/SUBTITLES/selected/lbl"></strong><br> {{vm.enabledLanguages}}<br>
+		<strong ng-if="vm.enabledLanguages == ''" translate-once="SETTINGS/SUBTITLES/selected-none/lbl"></strong>
 	</p>
-	<a ng-if="vm.enabledLanguages != ''" ng-click="vm.selectNone()" style="text-align:right;display:block;" translate-once="SETTINGS/SUBTITLES/clear-selection/lbl"></a>
+	<p style='text-align: right'>
+	<a ng-if="vm.enabledLanguages != ''" ng-click="vm.selectNone()" class="btn btn-xs btn-warning" style="display:inline-block; padding-right:15px;">
+		<i class="glyphicon glyphicon-trash" style='font-size:15px; line-height: 23px; vertical-align:middle'></i>
+		<span translate-once="SETTINGS/SUBTITLES/clear-selection/lbl"></span>
+	</a>
+	</p>
 	<hr>
-	<ul>
-		<ul class="list-unstyled" style='font-size:16px'>
-		  <li ng-repeat="(locale, name) in vm.languages " ng-click="vm.toggleSubtitle(locale)" class="list-unstyled" style="cursor:pointer; padding:2px;">
-	      <i class="glyphicon" ng-class="{'glyphicon-unchecked': !vm.isEnabled(locale), 'glyphicon-check': vm.isEnabled(locale) }" style="font-size:25px" ></i>&nbsp;
-	      <i class="flag flag-{{ vm.getShortCode(locale) }}"></i> 
-	      <span style='line-height:25px; position:relative; top:-5px;'>{{name}}</span>
-	    </li>
-
-
-	</ul>
+	<a ng-repeat="locale in vm.languages" class="btn {{ vm.isEnabled(locale) ? 'btn-success' : '' }}" ng-click="vm.toggleSubtitle(locale)">
+		<i class="flag flag-{{ vm.getShortCode(locale) }}"></i> 
+	    <span style='line-height:25px; position:relative; top:-5px;'>{{locale}}</span>
+	</a>
 
 
 </div>
