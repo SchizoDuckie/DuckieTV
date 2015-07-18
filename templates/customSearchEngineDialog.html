@@ -1,0 +1,10 @@
+<!-- customSearchEngineDialog.html -->
+<button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
+<h1><span>Custom Search Engines</span></h1>
+
+<form ng-submit="cse.test()" novalidate>
+  <formly-form model="cse.model" fields="cse.fields"></formly-form>
+
+  <button ng-click="cse.test()" class="btn btn-primary submit-button">Test</button>
+  <button ng-click="cse.add()" class="btn btn-primary">Save/Add</button>
+</form>
