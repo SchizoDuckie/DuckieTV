@@ -3,8 +3,6 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
         var self = this;
         self.status = 'Idle';
-        this.editMode = false;
-        this.currentlySelected = null;
         this.model = null;
 
         // List of current engines for testing. When actual saving functionality is added we need to load
@@ -39,10 +37,10 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 searchResultsContainer: 'table.data tr[id^=torrent]',
                 releaseNameSelector: 'div.torrentname a.cellMainLink',
                 releaseNameProperty: 'innerText',
-                magnetUrlSelector: '',
-                magnetUrlProperty: '',
-                torrentUrlSelector: 'a[title="Torrent magnet link"]',
-                torrentUrlProperty: 'href',
+                magnetUrlSelector: 'a[title="Torrent magnet link"]',
+                magnetUrlProperty: 'href',
+                torrentUrlSelector: '',
+                torrentUrlProperty: '',
                 sizeSelector: 'td:nth-child(2)',
                 sizeProperty: 'innerText',
                 seederSelector: 'td:nth-child(5)',
@@ -55,26 +53,25 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
         };
 
         this.test = function(index) {
-            this.model = angular.copy(this.customEngines[Object.keys(this.customEngines)[index]]);
-
             self.status = 'creating test client';
-
-            //console.log("Testing settings");
+            this.model = angular.copy(this.customEngines[Object.keys(this.customEngines)[index]]);
             var testClient = new GenericTorrentSearchEngine({
-                mirror: this.model.mirror, //'https://kat.cr',
-                noMagnet: true,
+                mirror: this.model.mirror,
+                noMagnet: true, // hasMagnet,
+                includeBaseURL: true, // this.model.includeBaseUrl,
                 endpoints: {
-                    search: this.model.searchEndpoint, //'/usearch/%s/?field=seeders&sorder=desc',
-                    details: '/torrent/%s'
+                    search: this.model.searchEndpoint,
+                    details: [this.model.detailUrlSelector, this.model.detailUrlProperty]
                 },
                 selectors: {
-                    resultContainer: this.model.searchResultsContainer, //'table.data tr[id^=torrent]',
-                    releasename: [this.model.releaseNameSelector, this.model.releaseNameProperty], //, ['div.torrentname a.cellMainLink', 'innerText'],
-                    torrentUrl: [this.model.torrentUrlSelector, this.model.torrentUrlProperty], //['a[title="Torrent magnet link"]', 'href'],
-                    size: [this.model.sizeSelector, this.model.sizeProperty], // ['td:nth-child(2)', 'innerText'],
-                    seeders: [this.model.seederSelector, this.model.seederProperty], // ['td:nth-child(5)', 'innerHTML'],
-                    leechers: [this.model.leecherSelector, this.model.leecherProperty], // ['td:nth-child(6)', 'innerHTML'],
-                    detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty] // ['div.torrentname a.cellMainLink', 'href']
+                    resultContainer: this.model.searchResultsContainer,
+                    releasename: [this.model.releaseNameSelector, this.model.releaseNameProperty],
+                    magnetUrl: [this.model.magnetUrlSelector, this.model.magnetUrlProperty],
+                    torrentUrl: [this.model.torrentUrlSelector, this.model.torrentUrlProperty],
+                    size: [this.model.sizeSelector, this.model.sizeProperty],
+                    seeders: [this.model.seederSelector, this.model.seederProperty],
+                    leechers: [this.model.leecherSelector, this.model.leecherProperty],
+                    detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty]
                 }
             }, $q, $http, $injector);
 
@@ -97,8 +94,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
     }
 ])
 
-.controller('customSearchEngineDialogCtrl', ['$scope', "$injector", "$http", "$q", "data", "TorrentSearchEngines",
-    function($scope, $injector, $http, $q, data, TorrentSearchEngines) {
+.controller('customSearchEngineDialogCtrl', ['$scope', "$injector", "$http", "$q", "$modalInstance", "data", "TorrentSearchEngines",
+    function($scope, $injector, $http, $q, $modalInstance, data, TorrentSearchEngines) {
 
         var self = this;
         this.isNew = data.isNew;
@@ -113,7 +110,6 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
         pageLog("Initializing");
 
-
         if (data.engine && !data.isNew) {
             pageLog("Engine detected that isn't new, editing mode");
             this.model = data.engine;
@@ -122,21 +118,25 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             this.model = undefined;
         }
 
-        // Not sure how this handles adding new ones but we need to check against adding engines with same name
-        // to update it. Also TorrentSearchEngines currently doesn't support removing or enable/disable-ing engines
         this.add = function() {
             pageLog("Attempting to add new Engine");
+            // Note: SchizoDuckie recommended adding a checkbox for the noMagnet value
+            // Note2: If a magneturl is provided it will ignore the torrentUrl if noMagnet is enabled otherwise it will use torrentUrl
+            // Note3: A torrenturl will still be generated so entereing a torrenturl isn't needed if a magneturl is entered
+            var hasMagnet = self.model.magnetUrlSelector.length > 2 ? false : true;
             TorrentSearchEngines.registerSearchEngine(this.model.name, 
                 new GenericTorrentSearchEngine({
                     mirror: this.model.mirror,
-                    noMagnet: true,
+                    noMagnet: hasMagnet,
+                    includeBaseURL: true, // this.model.includeBaseUrl, this is needed where the detailsUrl we get isn't a direct link (kat) so we need to tell the search thingy to add it
                     endpoints: {
                         search: this.model.searchEndpoint,
-                        details: '/torrent/%s'
+                        details: [this.model.detailUrlSelector, this.model.detailUrlProperty]
                     },
                     selectors: {
                         resultContainer: this.model.searchResultsContainer,
                         releasename: [this.model.releaseNameSelector, this.model.releaseNameProperty],
+                        magneturl: [this.model.magnetUrlSelector, this.model.magnetUrlProperty],
                         torrentUrl: [this.model.torrentUrlSelector, this.model.torrentUrlProperty],
                         size: [this.model.sizeSelector, this.model.sizeProperty],
                         seeders: [this.model.seederSelector, this.model.seederProperty],
@@ -144,26 +144,29 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                         detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty]
                     }
                 }, $q, $http, $injector));
+            pageLog("Hopefully added engine");
         }
 
         this.test = function() {
             pageLog("Creating testing client");
-
             var testClient = new GenericTorrentSearchEngine({
-                mirror: this.model.mirror, //'https://kat.cr',
-                noMagnet: true,
+
+                mirror: this.model.mirror,
+                noMagnet: true, // hasMagnet,
+                includeBaseURL: true, // this.model.includeBaseUrl,
                 endpoints: {
-                    search: this.model.searchEndpoint, //'/usearch/%s/?field=seeders&sorder=desc',
-                    details: '/torrent/%s'
+                    search: this.model.searchEndpoint,
+                    details: [this.model.detailUrlSelector, this.model.detailUrlProperty]
                 },
                 selectors: {
-                    resultContainer: this.model.searchResultsContainer, //'table.data tr[id^=torrent]',
-                    releasename: [this.model.releaseNameSelector, this.model.releaseNameProperty], //, ['div.torrentname a.cellMainLink', 'innerText'],
-                    torrentUrl: [this.model.torrentUrlSelector, this.model.torrentUrlProperty], //['a[title="Torrent magnet link"]', 'href'],
-                    size: [this.model.sizeSelector, this.model.sizeProperty], // ['td:nth-child(2)', 'innerText'],
-                    seeders: [this.model.seederSelector, this.model.seederProperty], // ['td:nth-child(5)', 'innerHTML'],
-                    leechers: [this.model.leecherSelector, this.model.leecherProperty], // ['td:nth-child(6)', 'innerHTML'],
-                    detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty] // ['div.torrentname a.cellMainLink', 'href']
+                    resultContainer: this.model.searchResultsContainer,
+                    releasename: [this.model.releaseNameSelector, this.model.releaseNameProperty],
+                    magnetUrl: [this.model.magnetUrlSelector, this.model.magnetUrlProperty],
+                    torrentUrl: [this.model.torrentUrlSelector, this.model.torrentUrlProperty],
+                    size: [this.model.sizeSelector, this.model.sizeProperty],
+                    seeders: [this.model.seederSelector, this.model.seederProperty],
+                    leechers: [this.model.leecherSelector, this.model.leecherProperty],
+                    detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty]
                 }
             }, $q, $http, $injector);
 
@@ -232,6 +235,23 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                     options: attributeWhitelist
                 }
             }, {
+                key: 'magnetUrlSelector',
+                className: 'cseSelector',
+                type: "input",
+                templateOptions: {
+                    label: "magnet URL selector (hyperlink to the magnet url)",
+                    type: "text"
+                }
+            }, {
+                key: 'magnetUrlProperty',
+                className: 'cseProperty',
+                type: "select",
+                templateOptions: {
+                    label: "Attribute",
+                    valueProp: 'name',
+                    options: attributeWhitelist
+                }
+            },  {
                 key: 'torrentUrlSelector',
                 className: 'cseSelector',
                 type: "input",
@@ -326,5 +346,9 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             },
         ];
         pageLog("Loaded formly fields");
+
+        $scope.cancel = function() {
+            $modalInstance.dismiss('Canceled');
+        };
     }
 ])
