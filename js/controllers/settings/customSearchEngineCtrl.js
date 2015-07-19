@@ -2,7 +2,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
     function($scope, $injector, $http, $q, SettingsService, TorrentSearchEngines, dialogs) {
 
         var self = this;
-        this.status = 'Idle';
+        self.status = 'Idle';
         this.editMode = false;
         this.currentlySelected = null;
         this.model = null;
@@ -31,58 +31,31 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 detailUrlSelector: 'td.name .title a',
                 detailUrlProperty: 'href'
             },
-            'Torrentleech2': {
+            'kat.cr': {
                 testSearch: 'test',
-                name: 'Torrentleech2.org',
-                mirror: 'http://torrentleech.org', // http://yoursite.com',
-                searchEndpoint: '/torrents/browse/index/query/%s',
-                searchResultsContainer: '#torrenttable tr',
-                releaseNameSelector: 'td.name .title a',
+                name: 'kat.cr',
+                mirror: 'https://kat.cr', // http://yoursite.com',
+                searchEndpoint: '/usearch/%s/?field=seeders&sorder=desc',
+                searchResultsContainer: 'table.data tr[id^=torrent]',
+                releaseNameSelector: 'div.torrentname a.cellMainLink',
                 releaseNameProperty: 'innerText',
                 magnetUrlSelector: '',
                 magnetUrlProperty: '',
-                torrentUrlSelector: 'td.quickdownload a',
+                torrentUrlSelector: 'a[title="Torrent magnet link"]',
                 torrentUrlProperty: 'href',
-                sizeSelector: 'td:nth-child(5)',
+                sizeSelector: 'td:nth-child(2)',
                 sizeProperty: 'innerText',
-                seederSelector: 'td.seeders',
+                seederSelector: 'td:nth-child(5)',
                 seederProperty: 'innerText',
-                leecherSelector: 'td.leechers',
+                leecherSelector: 'td:nth-child(6)',
                 leecherProperty: 'innerText',
-                detailUrlSelector: 'td.name .title a',
-                detailUrlProperty: 'href'
-            },
-            'Torrentleech3': {
-                testSearch: 'test',
-                name: 'Torrentleech3.org',
-                mirror: 'http://torrentleech.org', // http://yoursite.com',
-                searchEndpoint: '/torrents/browse/index/query/%s',
-                searchResultsContainer: '#torrenttable tr',
-                releaseNameSelector: 'td.name .title a',
-                releaseNameProperty: 'innerText',
-                magnetUrlSelector: '',
-                magnetUrlProperty: '',
-                torrentUrlSelector: 'td.quickdownload a',
-                torrentUrlProperty: 'href',
-                sizeSelector: 'td:nth-child(5)',
-                sizeProperty: 'innerText',
-                seederSelector: 'td.seeders',
-                seederProperty: 'innerText',
-                leecherSelector: 'td.leechers',
-                leecherProperty: 'innerText',
-                detailUrlSelector: 'td.name .title a',
+                detailUrlSelector: 'div.torrentname a.cellMainLink',
                 detailUrlProperty: 'href'
             }
         };
 
-        
-
         this.test = function(index) {
-            if(index && index != this.currentlySelected) {
-                this.editMode = false;
-                this.currentlySelected = null;
-                this.model = angular.copy(this.customEngines[Object.keys(this.customEngines)[index]]);
-            }
+            this.model = angular.copy(this.customEngines[Object.keys(this.customEngines)[index]]);
 
             self.status = 'creating test client';
 
@@ -112,15 +85,11 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             });
         };
 
-        this.addNew = function() {
-            
-        };
-
-        this.openDialog = function(index) {
+        this.openDialog = function(index, addNew) {
             // Opens dialog and sends list of current engines and the index of the one we are editing
             dialogs.create('templates/customSearchEngineDialog.html', 'customSearchEngineDialogCtrl as cse', {
-                selected: index,
-                engines: self.customEngines
+                engine: self.customEngines[Object.keys(self.customEngines)[index]],
+                isNew: addNew
             }, {
                 size: 'lg'
             });
@@ -131,13 +100,32 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 .controller('customSearchEngineDialogCtrl', ['$scope', "$injector", "$http", "$q", "data", "TorrentSearchEngines",
     function($scope, $injector, $http, $q, data, TorrentSearchEngines) {
 
-        // Selects current engine from the index that is sent over, depending on how this is refactored
-        // We need to handle when adding a new engine where there will be no index... and nothing to copy.
-        this.model = angular.copy(data.engines[Object.keys(data.engines)[data.selected]]);
+        var self = this;
+        this.isNew = data.isNew;
+        
+        // Function to push log messages onto the page, pushes new message to top of array
+        this.pageLog = [];
+        var pageLog = function(message) {
+            if (message) {
+                self.pageLog.unshift(message);
+            }
+        }
+
+        pageLog("Initializing");
+
+
+        if (data.engine && !data.isNew) {
+            pageLog("Engine detected that isn't new, editing mode");
+            this.model = data.engine;
+        } else if (data.isNew) {
+            pageLog("New engine detected, adding mode");
+            this.model = undefined;
+        }
 
         // Not sure how this handles adding new ones but we need to check against adding engines with same name
         // to update it. Also TorrentSearchEngines currently doesn't support removing or enable/disable-ing engines
         this.add = function() {
+            pageLog("Attempting to add new Engine");
             TorrentSearchEngines.registerSearchEngine(this.model.name, 
                 new GenericTorrentSearchEngine({
                     mirror: this.model.mirror,
@@ -158,17 +146,45 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 }, $q, $http, $injector));
         }
 
+        this.test = function() {
+            pageLog("Creating testing client");
+
+            var testClient = new GenericTorrentSearchEngine({
+                mirror: this.model.mirror, //'https://kat.cr',
+                noMagnet: true,
+                endpoints: {
+                    search: this.model.searchEndpoint, //'/usearch/%s/?field=seeders&sorder=desc',
+                    details: '/torrent/%s'
+                },
+                selectors: {
+                    resultContainer: this.model.searchResultsContainer, //'table.data tr[id^=torrent]',
+                    releasename: [this.model.releaseNameSelector, this.model.releaseNameProperty], //, ['div.torrentname a.cellMainLink', 'innerText'],
+                    torrentUrl: [this.model.torrentUrlSelector, this.model.torrentUrlProperty], //['a[title="Torrent magnet link"]', 'href'],
+                    size: [this.model.sizeSelector, this.model.sizeProperty], // ['td:nth-child(2)', 'innerText'],
+                    seeders: [this.model.seederSelector, this.model.seederProperty], // ['td:nth-child(5)', 'innerHTML'],
+                    leechers: [this.model.leecherSelector, this.model.leecherProperty], // ['td:nth-child(6)', 'innerHTML'],
+                    detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty] // ['div.torrentname a.cellMainLink', 'href']
+                }
+            }, $q, $http, $injector);
+
+            pageLog("Executing test search");
+            testClient.search(self.model.testSearch).then(function(results) {
+                results.length > 0 ? pageLog("Test search working!") : pageLog("No results for search query :(");
+                $scope.$applyAsync();
+            });
+        };
+
         var attributeWhitelist = [{
             name: 'href',
-        }, /*{
-            name: 'innerHTML',
-        }, */{
+        }, {
             name: 'innerText',
         }, {
             name: 'title',
         }, {
             name: 'src',
         }];
+
+        pageLog("Loaded Attribute Whitelist");
 
         this.fields = [{
                 key: 'name',
@@ -309,5 +325,6 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 }
             },
         ];
+        pageLog("Loaded formly fields");
     }
 ])

@@ -3,7 +3,7 @@
 
 	<p>DuckieTV allows you to define your favorite private trackers as custom search engines. You can define some selectors and urls to tell DuckieTV how to scrape the content. All you need is some basic CSS selector knowledge. TorrentLeech is listed as an example.</p>
 
-	<button class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.openDialog()" disabled>Add New</button>
+	<button class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.openDialog(undefined,1)">Add New</button>
 
 	<div class="buttons">
 		<a ng-repeat="(name, properties) in searchEngine.customEngines track by $index" style="text-decoration:none;margin-bottom:10px">
@@ -11,7 +11,9 @@
 			<button class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.test($index)">Test</button>
 			<button class="btn btn-xs btn-info" style="display:inline-block !important" disabled>Disable</button>
 			<button class="btn btn-xs btn-info" style="display:inline-block !important" disabled>Enable</button>
-			<button class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.openDialog($index)">Edit</button>
+			<button class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.openDialog($index,0)">Edit</button>
 		</a>
 	</div>
+
+	<p class="alert alert-info">Status: {{searchEngine.status}}</p>
 </div>
