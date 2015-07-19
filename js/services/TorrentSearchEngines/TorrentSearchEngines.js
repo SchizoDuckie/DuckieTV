@@ -45,6 +45,25 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 }
             },
 
+            removeSearchEngine: function(name) {
+                if (name in engines) {
+                    delete engines[name];
+                    //SettingsService....
+                }
+            },
+
+            disableSearchEngine: function(name) {
+                if (name in engines) {
+                    //SettingsService....
+                }
+            },
+
+            enableSearchEngine: function(name) {
+                if (name in engines) {
+                    //SettingsService....
+                }
+            },
+
             search: function(query, TVDB_ID, options) {
                 return dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {
                     query: query,

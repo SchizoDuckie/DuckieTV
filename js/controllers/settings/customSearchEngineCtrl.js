@@ -4,6 +4,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
         var self = this;
         self.status = 'Idle';
         this.model = null;
+        this.defaultEngines = Object.keys(TorrentSearchEngines.getSearchEngines());
 
         // List of current engines for testing. When actual saving functionality is added we need to load
         // the engines here first and then send them over to the dialog along with the $index of what one was selected
@@ -81,6 +82,22 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 $scope.$applyAsync();
             });
         };
+
+        // Disabling currently does nothing atm
+        this.disable = function(name, remove) {
+            // Delete the engine instead of disable it
+            if (remove) {
+                TorrentSearchEngines.removeSearchEngine(name);
+                self.status = "Removed Search Engine " + name;
+            } else {
+                TorrentSearchEngines.disableSearchEngine(name);
+                self.status = "Disabled Search Engine " + name;
+            }
+        }
+        // Enabling currently does nothing atm
+        this.enable = function(name) {
+            TorrentSearchEngines.enableSearchEngine(name);
+        }
 
         this.openDialog = function(index, addNew) {
             // Opens dialog and sends list of current engines and the index of the one we are editing
