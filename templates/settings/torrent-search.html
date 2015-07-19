@@ -1,13 +1,13 @@
-<div ng-controller="SettingsTorrentCtrl">
+<div ng-controller="SettingsTorrentCtrl" class="buttons">
   <h2 translate-once="SETTINGS/TORRENT-SEARCH/default-provider/hdr"></h2>
   <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/default-provider/desc"></p>
 
-  <ul class="list-unstyled">
-    <li ng-repeat="provider in searchProviders" ng-click="setSearchProvider(provider)" style='cursor:pointer'>
-      <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchprovider != provider, 'glyphicon-record': searchprovider == provider}"></i>
-        <strong>{{provider}}</strong>
-    </li>
-  </ul>
+  
+  <a ng-repeat="provider in searchProviders" ng-click="setSearchProvider(provider)" class="btn {{ searchprovider == provider ? 'btn-success' : '' }}" style='padding:10px; height:45px;'>
+      <i ng-if="searchprovider == provider" class="glyphicon glyphicon-ok"></i>
+      <strong style='position: absolute; left: 60px'>{{provider}}</strong>
+  </a>
+  
 
   <hr class="setting-divider">
 
@@ -19,28 +19,28 @@
   </p>
 
 
-  <ul class="list-unstyled">
-    <li ng-click="setSearchQuality('')" style='cursor:pointer'>
-      <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '', 'glyphicon-record': searchquality == ''}"></i>
-      <strong translate-once="SETTINGS/TORRENT-SEARCH/quality-select-all/lbl"></strong>
-    </li>
-    <li ng-click="setSearchQuality('HDTV')" style='cursor:pointer'>
-      <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != 'HDTV', 'glyphicon-record': searchquality == 'HDTV'}"></i>
-      <strong>HDTV</strong>
-    </li>
-    <li ng-click="setSearchQuality('480p')" style='cursor:pointer'>
-      <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '480p', 'glyphicon-record': searchquality == '480p'}"></i>
-      <strong>480p</strong>
-    </li>
-    <li ng-click="setSearchQuality('720p')" style='cursor:pointer'>
-      <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '720p', 'glyphicon-record': searchquality == '720p'}"></i>
-      <strong>720p</strong>
-    </li>
-    <li ng-click="setSearchQuality('1080p')" style='cursor:pointer'>
-      <i class="glyphicon" ng-class="{'glyphicon-unchecked': searchquality != '1080p', 'glyphicon-record': searchquality == '1080p'}"></i>
-      <strong>1080p</strong>
-    </li>
-  </ul>
+
+
+   <a ng-click="setSearchQuality('')" style="padding:10px; height:45px;" class="btn {{ searchquality == '' ? 'btn-success' : '' }}">
+    <i class="glyphicon glyphicon-ok" ng-if="searchquality == ''"></i>
+    <strong style='position:absolute; left:60px' translate-once="SETTINGS/TORRENT-SEARCH/quality-select-all/lbl"></strong>
+  </a>
+  <a ng-click="setSearchQuality('HDTV')" style="padding:10px; height:45px;" class="btn {{searchquality == 'HDTV' ? 'btn-success' : '' }}">
+    <i class="glyphicon glyphicon-ok" ng-if="searchquality == 'HDTV'"></i>
+    <strong style='position:absolute; left:60px'>HDTV</strong>
+  </a>
+  <a ng-click="setSearchQuality('480p')" style="padding:10px; height:45px;" class="btn {{searchquality == '480p' ? 'btn-success' : '' }}">
+    <i class="glyphicon glyphicon-ok" ng-if="searchquality == '480p'"></i>
+    <strong style='position:absolute; left:60px'>480p</strong>
+  </a>
+  <a ng-click="setSearchQuality('720p')" style="padding:10px; height:45px;" class="btn {{searchquality == '720p' ? 'btn-success' : '' }}">
+    <i class="glyphicon glyphicon-ok" ng-if="searchquality == '720p'"></i>
+    <strong style='position:absolute; left:60px'>720p</strong>
+  </a>
+  <a ng-click="setSearchQuality('1080p')" style="padding:10px; height:45px;" class="btn {{ searchquality == '1080p' ? 'btn-success' : '' }}">
+    <i class="glyphicon glyphicon-ok" ng-if="searchquality == '1080p'"></i>
+    <strong style='position:absolute; left:60px'>1080p</strong>
+  </a>
 
   <hr class="setting-divider">
 

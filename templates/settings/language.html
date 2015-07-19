@@ -8,21 +8,21 @@
   <p>
   <span translate-once="SETTINGS/LANGUAGE/desc"></span>
     <span translate-once="SETTINGS/LANGUAGE/desc2"></span>
-  <a href="http://www.reddit.com/r/duckietv/comments/28wtr5/announcement_want_to_have_duckietv_in_your_native/" style='border:0; display:inline; padding:0; margin:0; text-decoration:underline' target='_blank' translate-once="SETTINGS/LANGUAGE/desc3">  </a>
+    <a href="http://www.reddit.com/r/duckietv/comments/28wtr5/announcement_want_to_have_duckietv_in_your_native/" style='border:0; display:inline; padding:0; margin:0; text-decoration:underline' target='_blank' translate-once="SETTINGS/LANGUAGE/desc3">  </a>
   </p>
 
 
- <a ng-if="isSupported(clientLocale)" ng-click="setLocale(clientLocale)" class="btn {{ activeLocale == clientLocale ? 'btn-success' : '' }}" >
-      <i class="flag flag-{{ clientLocale }}"></i> 
-      <span translate-once="SETTINGS/DISPLAY/locale-default/lbl" style="position: relative; display:inline-block;top:-3px;"></span>
-      <span style='display:inline-block; position: relative; top: -3px;'> ({{clientLocale}})</span>
+  <a ng-if="isSupported(clientLocale)" ng-click="setLocale(clientLocale)" class="btn {{ activeLocale == clientLocale ? 'btn-success' : '' }}">
+    <i class="flag flag-{{ clientLocale }}"></i> 
+    <span translate-once="SETTINGS/DISPLAY/locale-default/lbl" style="position: relative; display:inline-block;top:-3px;"></span>
+    <span style='display:inline-block; position: relative; top: -3px;'> ({{clientLocale}})</span>
   </a>
 
 
-   <a ng-click="setLocale(locale)" ng-repeat="(locale, name) in languageList" class="btn {{ activeLocale == locale ? 'btn-success' : '' }}" >
-      <i class="flag flag-{{ locale }}"></i> 
-      <span style='display-inline-block; top: -5px; position: relative;'>{{'SETTINGS/DISPLAY/locale/'+name|translate}}</span>
-    </a>
+  <a ng-click="setLocale(locale)" ng-repeat="(locale, name) in languageList" class="btn {{ activeLocale == locale ? 'btn-success' : '' }}">
+    <i class="flag flag-{{ locale }}"></i> 
+    <span style='display-inline-block; top: -5px; position: relative;'>{{'SETTINGS/DISPLAY/locale/'+name|translate}}</span>
+  </a>
 
 
 
