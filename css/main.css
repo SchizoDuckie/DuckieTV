@@ -6,6 +6,16 @@ p, input, select, span, #aboutpage {
     -webkit-user-select: initial;
 }
 
+option {
+    background-color: rgba(0,0,0,0.8) !important;
+    color: white !important;
+}
+
+input:disabled {
+    background-color: rgba(0,0,0,0.8 !important);
+    border-color: rgba(255,0,0,0.1) !important;
+}
+
 p, span {
     cursor: default;
 }
