@@ -800,6 +800,18 @@ table.light h1 {
     border-bottom: 1px solid rgba(0,200,0, 0.2);
 }
 
+/* CSS for formatting custom search editor */
+
+.modal-content .row {
+    margin-left: 0px;
+    margin-right: 0px;   
+}
+
+.modal-content .form-group {
+    margin:bottom: 0px;
+}
+
+
 /* CSS for CustomSearchEngineDialog */
 .cseSelector {
     width: 81%;

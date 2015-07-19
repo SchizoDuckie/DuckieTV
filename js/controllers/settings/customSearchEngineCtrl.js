@@ -116,7 +116,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
         var self = this;
         this.isNew = data.isNew;
-        
+
         // Function to push log messages onto the page, pushes new message to top of array
         this.pageLog = [];
         var pageLog = function(message) {
@@ -141,7 +141,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             // Note2: If a magneturl is provided it will ignore the torrentUrl if noMagnet is enabled otherwise it will use torrentUrl
             // Note3: A torrenturl will still be generated so entereing a torrenturl isn't needed if a magneturl is entered
             var hasMagnet = self.model.magnetUrlSelector.length > 2 ? false : true;
-            TorrentSearchEngines.registerSearchEngine(this.model.name, 
+            TorrentSearchEngines.registerSearchEngine(this.model.name,
                 new GenericTorrentSearchEngine({
                     mirror: this.model.mirror,
                     noMagnet: hasMagnet,
@@ -207,165 +207,200 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
         pageLog("Loaded Attribute Whitelist");
 
         this.fields = [{
-                key: 'name',
-                type: "input",
-                templateOptions: {
-                    label: "Search Engine Name",
-                    type: "text"
-                }
-            }, {
-                key: 'mirror',
-                type: "input",
-                templateOptions: {
-                    label: "Base URL for site (exclude the final /)",
-                    type: "text"
-                }
-            }, {
-                key: 'searchEndpoint',
-                type: "input",
-                templateOptions: {
-                    label: "Search page url (use %s to inject search query)",
-                    type: "text"
-                }
-            }, {
-                key: 'searchResultsContainer',
-                type: "input",
-                templateOptions: {
-                    label: "Results selector (CSS selector that returns a base element for all search results)",
-                    type: "text"
-                }
-            }, {
-                key: 'releaseNameSelector',
-                className: 'cseSelector',
-                type: "input",
-                templateOptions: {
-                    label: "Release name Selector (within base element)",
-                    type: "text"
-                }
-            }, {
-                key: 'releaseNameProperty',
-                className: 'cseProperty',
-                type: "select",
-                templateOptions: {
-                    label: "Attribute",
-                    valueProp: 'name',
-                    options: attributeWhitelist
-                }
-            }, {
-                key: 'magnetUrlSelector',
-                className: 'cseSelector',
-                type: "input",
-                templateOptions: {
-                    label: "magnet URL selector (hyperlink to the magnet url)",
-                    type: "text"
-                }
-            }, {
-                key: 'magnetUrlProperty',
-                className: 'cseProperty',
-                type: "select",
-                templateOptions: {
-                    label: "Attribute",
-                    valueProp: 'name',
-                    options: attributeWhitelist
-                }
-            },  {
-                key: 'torrentUrlSelector',
-                className: 'cseSelector',
-                type: "input",
-                templateOptions: {
-                    label: ".torrent URL selector (hyperlink to the torrent file)",
-                    type: "text"
-                }
-            }, {
-                key: 'torrentUrlProperty',
-                className: 'cseProperty',
-                type: "select",
-                templateOptions: {
-                    label: "Attribute",
-                    valueProp: 'name',
-                    options: attributeWhitelist
-                }
-            }, {
-                key: 'sizeSelector',
-                className: 'cseSelector',
-                type: "input",
-                templateOptions: {
-                    label: "Size Selector (element that has the Torrent's size)",
-                    type: "text"
-                }
-            }, {
-                key: 'sizeProperty',
-                className: 'cseProperty',
-                type: "select",
-                templateOptions: {
-                    label: "Attribute",
-                    valueProp: 'name',
-                    options: attributeWhitelist
-                }
-            }, {
-                key: 'seederSelector',
-                className: 'cseSelector',
-                type: "input",
-                templateOptions: {
-                    label: "Seeders Selector (element that has the 'seeders')",
-                    type: "text"
-                }
-            }, {
-                key: 'seederProperty',
-                className: 'cseProperty',
-                type: "select",
-                templateOptions: {
-                    label: "Attribute",
-                    valueProp: 'name',
-                    options: attributeWhitelist
-                }
-            }, {
-                key: 'leecherSelector',
-                className: 'cseSelector',
-                type: "input",
-                templateOptions: {
-                    label: "Leechers Selector (element that has the 'leechers')",
-                    type: "text"
-                }
-            }, {
-                key: 'leecherProperty',
-                className: 'cseProperty',
-                type: "select",
-                templateOptions: {
-                    label: "Attribute",
-                    valueProp: 'name',
-                    options: attributeWhitelist
-                }
-            }, {
-                key: 'detailUrlSelector',
-                className: 'cseSelector',
-                type: "input",
-                templateOptions: {
-                    label: "Detail URL Selector (page that opens in new tab and shows detail page for torrent)",
-                    type: "text"
-                }
-            }, {
-                key: 'detailUrlProperty',
-                className: 'cseProperty',
-                type: "select",
-                templateOptions: {
-                    label: "Attribute",
-                    valueProp: 'name',
-                    options: attributeWhitelist
-                }
-            }, {
-                key: 'testSearch',
-                type: "input",
-                templateOptions: {
-                    label: "Search query to use for testing",
-                    type: "text"
-                }
-            },
-        ];
+            key: 'name',
+            type: "input",
+            templateOptions: {
+                label: "Search Engine Name",
+                type: "text"
+            }
+        }, {
+            key: 'mirror',
+            type: "input",
+            templateOptions: {
+                label: "Base URL for site (exclude the final /)",
+                type: "text"
+            }
+        }, {
+            key: 'searchEndpoint',
+            type: "input",
+            templateOptions: {
+                label: "Search page url (use %s to inject search query)",
+                type: "text"
+            }
+        }, {
+            key: 'searchResultsContainer',
+            type: "input",
+            templateOptions: {
+                label: "Results selector (CSS selector that returns a base element for all search results)",
+                type: "text"
+            }
+        }, {
+            key: 'releaseNameSelector',
+            className: 'cseSelector',
+            type: "input",
+            templateOptions: {
+                label: "Release name Selector (within base element)",
+                type: "text"
+            }
+        }, {
+            key: 'releaseNameProperty',
+            className: 'cseProperty',
+            type: "select",
+            templateOptions: {
+                label: "Attribute",
+                valueProp: 'name',
+                options: attributeWhitelist
+            }
+        }, {
+            key: 'magnetUrlSelector',
+            className: 'cseSelector',
+            type: "input",
+            templateOptions: {
+                label: "magnet URL selector (hyperlink to the magnet url)",
+                type: "text"
+            }
+        }, {
+            key: 'magnetUrlProperty',
+            className: 'cseProperty',
+            type: "select",
+            templateOptions: {
+                label: "Attribute",
+                valueProp: 'name',
+                options: attributeWhitelist
+            }
+        }, {
+            key: 'torrentUrlSelector',
+            className: 'cseSelector',
+            type: "input",
+            templateOptions: {
+                label: ".torrent URL selector (hyperlink to the torrent file)",
+                type: "text"
+            }
+        }, {
+            key: 'torrentUrlProperty',
+            className: 'cseProperty',
+            type: "select",
+            templateOptions: {
+                label: "Attribute",
+                valueProp: 'name',
+                options: attributeWhitelist
+            }
+        }, {
+            key: 'sizeSelector',
+            className: 'cseSelector',
+            type: "input",
+            templateOptions: {
+                label: "Size Selector (element that has the Torrent's size)",
+                type: "text"
+            }
+        }, {
+            key: 'sizeProperty',
+            className: 'cseProperty',
+            type: "select",
+            templateOptions: {
+                label: "Attribute",
+                valueProp: 'name',
+                options: attributeWhitelist
+            }
+        }, {
+            key: 'seederSelector',
+            className: 'cseSelector',
+            type: "input",
+            templateOptions: {
+                label: "Seeders Selector (element that has the 'seeders')",
+                type: "text"
+            }
+        }, {
+            key: 'seederProperty',
+            className: 'cseProperty',
+            type: "select",
+            templateOptions: {
+                label: "Attribute",
+                valueProp: 'name',
+                options: attributeWhitelist
+            }
+        }, {
+            key: 'leecherSelector',
+            className: 'cseSelector',
+            type: "input",
+            templateOptions: {
+                label: "Leechers Selector (element that has the 'leechers')",
+                type: "text"
+            }
+        }, {
+            key: 'leecherProperty',
+            className: 'cseProperty',
+            type: "select",
+            templateOptions: {
+                label: "Attribute",
+                valueProp: 'name',
+                options: attributeWhitelist
+            }
+        }, {
+            key: 'detailUrlSelector',
+            className: 'cseSelector',
+            type: "input",
+            templateOptions: {
+                label: "Detail URL Selector (page that opens in new tab and shows detail page for torrent)",
+                type: "text"
+            }
+        }, {
+            key: 'detailUrlProperty',
+            className: 'cseProperty',
+            type: "select",
+            templateOptions: {
+                label: "Attribute",
+                valueProp: 'name',
+                options: attributeWhitelist
+            }
+        }, {
+            key: 'testSearch',
+            type: "input",
+            templateOptions: {
+                label: "Search query to use for testing",
+                type: "text"
+            }
+        }, ];
         pageLog("Loaded formly fields");
+
+        var output = [];
+        for (var key = 0; key < this.fields.length; key++) {
+            var field = this.fields[key];
+            var fieldgroup = [];
+
+            // full-row width inputs
+            if (!field.className) {
+                field.className = 'col-xs-10';
+            }
+
+            // cse selector fields are the big text inputs. make them 8 units wide, and add the 
+            if (field.className == 'cseSelector') {
+                field.className = 'col-xs-8';
+                fieldgroup.push(field);
+                var nextField = this.fields[key + 1];
+                nextField.className = 'col-xs-2';
+                fieldgroup.push(nextField);
+                key++;
+            } else {
+                fieldgroup.push(field);
+            }
+
+            // add testresult column for each row 
+            fieldgroup.push({
+                className: 'col-xs-2',
+                template: "<p style='padding-top:35px'><i class='glyphicon glyphicon-ok'></i> Test result</p>"
+            });
+
+            // now append each row to the output
+            output.push({
+                className: "row",
+                fieldGroup: fieldgroup
+            });
+        }
+        this.fields = output;
 
         $scope.cancel = function() {
             $modalInstance.dismiss('Canceled');
         };
     }
-])
+]);
