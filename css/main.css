@@ -810,6 +810,11 @@ table.light h1 {
     border-bottom: 1px solid rgba(0,200,0, 0.2);
 }
 
+#customSearchEngine {
+    font-style: normal;
+    padding: 0px 5px 0px 5px;
+}
+
 /* CSS for formatting custom search editor */
 
 .modal-content .row {
@@ -821,25 +826,26 @@ table.light h1 {
     margin:bottom: 0px;
 }
 
+#customSearchEngine .col-xs-8, #customSearchEngine .col-xs-10 {
+    padding-left: 0;
+}
+#customSearchEngine h1 {
+    margin-top: 10px;
+}
 
 /* CSS for CustomSearchEngineDialog */
-.cseSelector {
-    width: 81%;
-    display: inline-block;
-}
 .cseProperty {
-    width: 17%;
-    float: right;
-    position: relative;
+    padding-left: 10px;
+    padding-right: 0;
 }
 .cseProperty:before {
     font-family: 'Glyphicons Halflings';
     content: "\e072";
     transform: rotate(90deg);
     position: absolute;
-    top: 38px;
+    top: 39px;
     right: 7px;
-    font-size: 10px;
+    font-size: 8px;
 }
 .cseProperty select {
     cursor: pointer;

@@ -340,8 +340,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             key: 'detailUrlSelector',
             className: 'cseSelector',
             type: "input",
-            templateOptions: {
-                label: "Detail URL Selector (page that opens in new tab and shows detail page for torrent)",
+            templateOptions: {              
+                label: "Detail URL Selector (hyperlink to torrents details page)",
                 type: "text"
             }
         }, {
@@ -375,10 +375,10 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
             // cse selector fields are the big text inputs. make them 8 units wide, and add the 
             if (field.className == 'cseSelector') {
-                field.className = 'col-xs-8';
+                field.className += ' col-xs-8';
                 fieldgroup.push(field);
                 var nextField = this.fields[key + 1];
-                nextField.className = 'col-xs-2';
+                nextField.className += ' col-xs-2';
                 fieldgroup.push(nextField);
                 key++;
             } else {
