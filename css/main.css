@@ -810,11 +810,6 @@ table.light h1 {
     border-bottom: 1px solid rgba(0,200,0, 0.2);
 }
 
-#customSearchEngine {
-    font-style: normal;
-    padding: 0px 5px 0px 5px;
-}
-
 /* CSS for formatting custom search editor */
 
 .modal-content .row {
@@ -834,6 +829,10 @@ table.light h1 {
 }
 
 /* CSS for CustomSearchEngineDialog */
+.cseSelector {
+    width: 81%;
+    display: inline-block;
+}
 .cseProperty {
     padding-left: 10px;
     padding-right: 0;
