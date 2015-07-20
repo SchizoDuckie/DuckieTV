@@ -56,6 +56,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
         this.test = function(index) {
             self.status = 'creating test client';
             this.model = angular.copy(this.customEngines[Object.keys(this.customEngines)[index]]);
+
             var testClient = new GenericTorrentSearchEngine({
                 mirror: this.model.mirror,
                 noMagnet: true, // hasMagnet,
@@ -111,8 +112,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
     }
 ])
 
-.controller('customSearchEngineDialogCtrl', ['$scope', "$injector", "$http", "$q", "$modalInstance", "data", "TorrentSearchEngines",
-    function($scope, $injector, $http, $q, $modalInstance, data, TorrentSearchEngines) {
+.controller('customSearchEngineDialogCtrl', ['$scope', "$injector", "$http", "$q", "$timeout", "$modalInstance", "data", "TorrentSearchEngines",
+    function($scope, $injector, $http, $q, $timeout, $modalInstance, data, TorrentSearchEngines) {
 
         var self = this;
         this.isNew = data.isNew;
@@ -123,17 +124,24 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             if (message) {
                 self.pageLog.unshift(message);
             }
-        }
+        };
 
         pageLog("Initializing");
+
+
 
         if (data.engine && !data.isNew) {
             pageLog("Engine detected that isn't new, editing mode");
             this.model = data.engine;
         } else if (data.isNew) {
             pageLog("New engine detected, adding mode");
-            this.model = undefined;
+            this.model = {};
         }
+
+        this.model.infoMessages = {
+            'releaseNameSelector': 'testing'
+        };
+
 
         this.add = function() {
             pageLog("Attempting to add new Engine");
@@ -166,57 +174,50 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
 
 
-        var testCollection = function() {
-            var testClient = new GenericTorrentSearchEngine({
+        var getTestClient = function() {
+            return new GenericTorrentSearchEngine({
 
-                mirror: this.model.mirror,
+                mirror: self.model.mirror,
                 noMagnet: true, // hasMagnet,
                 includeBaseURL: true, // this.model.includeBaseUrl,
                 endpoints: {
-                    search: this.model.searchEndpoint,
-                    details: [this.model.detailUrlSelector, this.model.detailUrlProperty]
+                    search: self.model.searchEndpoint,
+                    details: [self.model.detailUrlSelector, self.model.detailUrlProperty]
                 },
                 selectors: {
-                    resultContainer: this.model.searchResultsContainer,
-                    releasename: [this.model.releaseNameSelector, this.model.releaseNameProperty],
-                    magnetUrl: [this.model.magnetUrlSelector, this.model.magnetUrlProperty],
-                    torrentUrl: [this.model.torrentUrlSelector, this.model.torrentUrlProperty],
-                    size: [this.model.sizeSelector, this.model.sizeProperty],
-                    seeders: [this.model.seederSelector, this.model.seederProperty],
-                    leechers: [this.model.leecherSelector, this.model.leecherProperty],
-                    detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty]
+                    resultContainer: self.model.searchResultsContainer,
+                    releasename: [self.model.releaseNameSelector, self.model.releaseNameProperty],
+                    magnetUrl: [self.model.magnetUrlSelector, self.model.magnetUrlProperty],
+                    torrentUrl: [self.model.torrentUrlSelector, self.model.torrentUrlProperty],
+                    size: [self.model.sizeSelector, self.model.sizeProperty],
+                    seeders: [self.model.seederSelector, self.model.seederProperty],
+                    leechers: [self.model.leecherSelector, self.model.leecherProperty],
+                    detailUrl: [self.model.detailUrlSelector, self.model.detailUrlProperty]
                 }
             }, $q, $http, $injector);
 
-            pageLog("Executing test search");
-            return testClient.executeSearch(self.model.testSearch).then(function(result) {
-                var d = new HTMLScraper(result.data);
-                var results = d.querySelectorAll(this.model.searchResultsContainer).length;
-                console.log("# results found for test search: ", results);
-                return results;
-            });
         };
 
         this.test = function() {
             pageLog("Creating testing client");
             var testClient = new GenericTorrentSearchEngine({
 
-                mirror: this.model.mirror,
+                mirror: self.model.mirror,
                 noMagnet: true, // hasMagnet,
                 includeBaseURL: true, // this.model.includeBaseUrl,
                 endpoints: {
-                    search: this.model.searchEndpoint,
-                    details: [this.model.detailUrlSelector, this.model.detailUrlProperty]
+                    search: self.model.searchEndpoint,
+                    details: [self.model.detailUrlSelector, self.model.detailUrlProperty]
                 },
                 selectors: {
-                    resultContainer: this.model.searchResultsContainer,
-                    releasename: [this.model.releaseNameSelector, this.model.releaseNameProperty],
-                    magnetUrl: [this.model.magnetUrlSelector, this.model.magnetUrlProperty],
-                    torrentUrl: [this.model.torrentUrlSelector, this.model.torrentUrlProperty],
-                    size: [this.model.sizeSelector, this.model.sizeProperty],
-                    seeders: [this.model.seederSelector, this.model.seederProperty],
-                    leechers: [this.model.leecherSelector, this.model.leecherProperty],
-                    detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty]
+                    resultContainer: self.model.searchResultsContainer,
+                    releasename: [self.model.releaseNameSelector, self.model.releaseNameProperty],
+                    magnetUrl: [self.model.magnetUrlSelector, self.model.magnetUrlProperty],
+                    torrentUrl: [self.model.torrentUrlSelector, self.model.torrentUrlProperty],
+                    size: [self.model.sizeSelector, self.model.sizeProperty],
+                    seeders: [self.model.seederSelector, self.model.seederProperty],
+                    leechers: [self.model.leecherSelector, self.model.leecherProperty],
+                    detailUrl: [self.model.detailUrlSelector, self.model.detailUrlProperty]
                 }
             }, $q, $http, $injector);
 
@@ -238,6 +239,28 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
         }];
 
         pageLog("Loaded Attribute Whitelist");
+
+        var searchResultsContainerValidator = {
+            expression: function($viewValue, $modelValue, scope) {
+                return getTestClient().executeSearch(self.model.testSearch).then(function(result) {
+                    try {
+                        var d = new HTMLScraper(result.data);
+                        var results = d.querySelectorAll(self.model.searchResultsContainer);
+                        if (!results || result.length === 0) {
+                            self.model.infoMessages.searchResultsContainer = 'No results found.';
+                            throw "no results found";
+                        } else {
+                            self.model.infoMessages.searchResultsContainer = results.length + ' results found.';
+                            return true;
+                        }
+                    } catch (E) {
+                        self.model.infoMessages.searchResultsContainer = E.message;
+                        throw E;
+                    }
+                });
+
+            }
+        };
 
         this.fields = [{
             key: 'name',
@@ -281,9 +304,10 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 label: "Results selector (CSS selector that returns a base element for all search results)",
                 type: "text",
                 modelOptions: {
-                    updateOn: 'keypress'
+                    updateOn: 'blur'
                 },
-            }
+            },
+            asyncValidators: searchResultsContainerValidator
         }, {
             key: 'releaseNameSelector',
             className: 'cseSelector',
@@ -441,7 +465,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             // add testresult column for each row 
             fieldgroup.push({
                 className: 'col-xs-2',
-                template: "<p style='padding-top:35px'><i class='glyphicon glyphicon-ok'></i> Test result</p>"
+                template: "<p style='padding-top:35px'><i class='glyphicon glyphicon-ok'></i> {{ model.infoMessages." + field.key + " }}</p>",
             });
 
             // now append each row to the output
@@ -451,27 +475,12 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             });
         }
 
-        output.validators = {
-            searchResultsContainer: {
-                expression: function($viewValue, $modelValue, scope) {
-                    scope.options.templateOptions.loading = true;
-                    return testCollection().then(function(result) {
-                        if (!result) {
-                            throw new Error("invalid test search.");
-                        }
-                        if (result.length == 0) {
-                            throw new Error("0 results found");
-                        } else {
-                            pagelog(result + " results found for test search!");
-                        }
-                        console.log(result);
-
-                    });
-                },
-                message: '"This username is already taken."'
-            }
-        };
         this.fields = output;
+
+        this.testResults = {
+            'searchResultsContainer': 'woei'
+
+        };
 
         $scope.cancel = function() {
             $modalInstance.dismiss('Canceled');
