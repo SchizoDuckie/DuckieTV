@@ -112,12 +112,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             activeRequest.resolve();
         }
         activeRequest = $q.defer();
-        $http({
-            method: 'GET',
-            url: getUrl('search', what),
-            cache: false,
-            timeout: activeRequest.promise
-        }).then(function(response) {
+        this.executeSearch(what, activeRequest).then(function(response) {
             //console.log("Torrent search executed!", response);
             d.resolve(parseSearch(response));
         }, function(err) {
@@ -136,6 +131,18 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             }
         });
         return d.promise;
+    };
+
+    this.executeSearch = function(what, timeout) {
+        if (!timeout) {
+            timeout = $q.defer();
+        }
+        return $http({
+            method: 'GET',
+            url: getUrl('search', what),
+            cache: false,
+            timeout: timeout.promise
+        });
     };
 
     /**

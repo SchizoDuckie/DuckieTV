@@ -162,7 +162,40 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                     }
                 }, $q, $http, $injector));
             pageLog("Hopefully added engine");
-        }
+        };
+
+
+
+        var testCollection = function() {
+            var testClient = new GenericTorrentSearchEngine({
+
+                mirror: this.model.mirror,
+                noMagnet: true, // hasMagnet,
+                includeBaseURL: true, // this.model.includeBaseUrl,
+                endpoints: {
+                    search: this.model.searchEndpoint,
+                    details: [this.model.detailUrlSelector, this.model.detailUrlProperty]
+                },
+                selectors: {
+                    resultContainer: this.model.searchResultsContainer,
+                    releasename: [this.model.releaseNameSelector, this.model.releaseNameProperty],
+                    magnetUrl: [this.model.magnetUrlSelector, this.model.magnetUrlProperty],
+                    torrentUrl: [this.model.torrentUrlSelector, this.model.torrentUrlProperty],
+                    size: [this.model.sizeSelector, this.model.sizeProperty],
+                    seeders: [this.model.seederSelector, this.model.seederProperty],
+                    leechers: [this.model.leecherSelector, this.model.leecherProperty],
+                    detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty]
+                }
+            }, $q, $http, $injector);
+
+            pageLog("Executing test search");
+            return testClient.executeSearch(self.model.testSearch).then(function(result) {
+                var d = new HTMLScraper(result.data);
+                var results = d.querySelectorAll(this.model.searchResultsContainer).length;
+                console.log("# results found for test search: ", results);
+                return results;
+            });
+        };
 
         this.test = function() {
             pageLog("Creating testing client");
@@ -210,6 +243,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             key: 'name',
             type: "input",
             templateOptions: {
+                required: true,
                 label: "Search Engine Name",
                 type: "text"
             }
@@ -217,28 +251,45 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             key: 'mirror',
             type: "input",
             templateOptions: {
+                required: true,
                 label: "Base URL for site (exclude the final /)",
                 type: "text"
             }
         }, {
             key: 'searchEndpoint',
+            className: 'cseSelector',
             type: "input",
             templateOptions: {
+                required: true,
                 label: "Search page url (use %s to inject search query)",
+                type: "text"
+            }
+        }, {
+            key: 'testSearch',
+            className: 'cseProperty',
+            type: "input",
+            templateOptions: {
+                required: true,
+                label: "Test SearchQuery",
                 type: "text"
             }
         }, {
             key: 'searchResultsContainer',
             type: "input",
             templateOptions: {
+                required: true,
                 label: "Results selector (CSS selector that returns a base element for all search results)",
-                type: "text"
+                type: "text",
+                modelOptions: {
+                    updateOn: 'keypress'
+                },
             }
         }, {
             key: 'releaseNameSelector',
             className: 'cseSelector',
             type: "input",
             templateOptions: {
+                required: true,
                 label: "Release name Selector (within base element)",
                 type: "text"
             }
@@ -247,6 +298,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             className: 'cseProperty',
             type: "select",
             templateOptions: {
+                required: true,
                 label: "Attribute",
                 valueProp: 'name',
                 options: attributeWhitelist
@@ -290,6 +342,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             className: 'cseSelector',
             type: "input",
             templateOptions: {
+                required: true,
                 label: "Size Selector (element that has the Torrent's size)",
                 type: "text"
             }
@@ -298,6 +351,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             className: 'cseProperty',
             type: "select",
             templateOptions: {
+                required: true,
                 label: "Attribute",
                 valueProp: 'name',
                 options: attributeWhitelist
@@ -307,6 +361,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             className: 'cseSelector',
             type: "input",
             templateOptions: {
+                required: true,
                 label: "Seeders Selector (element that has the 'seeders')",
                 type: "text"
             }
@@ -315,6 +370,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             className: 'cseProperty',
             type: "select",
             templateOptions: {
+                required: true,
                 label: "Attribute",
                 valueProp: 'name',
                 options: attributeWhitelist
@@ -324,6 +380,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             className: 'cseSelector',
             type: "input",
             templateOptions: {
+                required: true,
                 label: "Leechers Selector (element that has the 'leechers')",
                 type: "text"
             }
@@ -332,6 +389,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             className: 'cseProperty',
             type: "select",
             templateOptions: {
+                required: true,
                 label: "Attribute",
                 valueProp: 'name',
                 options: attributeWhitelist
@@ -340,8 +398,9 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             key: 'detailUrlSelector',
             className: 'cseSelector',
             type: "input",
-            templateOptions: {              
-                label: "Detail URL Selector (hyperlink to torrents details page)",
+            templateOptions: {
+                required: true,
+                label: "Detail URL Selector (page that opens in new tab and shows detail page for torrent)",
                 type: "text"
             }
         }, {
@@ -349,18 +408,12 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             className: 'cseProperty',
             type: "select",
             templateOptions: {
+                required: true,
                 label: "Attribute",
                 valueProp: 'name',
                 options: attributeWhitelist
             }
-        }, {
-            key: 'testSearch',
-            type: "input",
-            templateOptions: {
-                label: "Search query to use for testing",
-                type: "text"
-            }
-        }, ];
+        }];
         pageLog("Loaded formly fields");
 
         var output = [];
@@ -375,10 +428,10 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
             // cse selector fields are the big text inputs. make them 8 units wide, and add the 
             if (field.className == 'cseSelector') {
-                field.className += ' col-xs-8';
+                field.className = 'col-xs-8';
                 fieldgroup.push(field);
                 var nextField = this.fields[key + 1];
-                nextField.className += ' col-xs-2';
+                nextField.className = 'col-xs-2';
                 fieldgroup.push(nextField);
                 key++;
             } else {
@@ -397,6 +450,27 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 fieldGroup: fieldgroup
             });
         }
+
+        output.validators = {
+            searchResultsContainer: {
+                expression: function($viewValue, $modelValue, scope) {
+                    scope.options.templateOptions.loading = true;
+                    return testCollection().then(function(result) {
+                        if (!result) {
+                            throw new Error("invalid test search.");
+                        }
+                        if (result.length == 0) {
+                            throw new Error("0 results found");
+                        } else {
+                            pagelog(result + " results found for test search!");
+                        }
+                        console.log(result);
+
+                    });
+                },
+                message: '"This username is already taken."'
+            }
+        };
         this.fields = output;
 
         $scope.cancel = function() {
