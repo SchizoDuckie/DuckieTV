@@ -14,7 +14,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 name: 'Torrentleech.org',
                 mirror: 'http://torrentleech.org', // http://yoursite.com',
                 searchEndpoint: '/torrents/browse/index/query/%s',
-                searchResultsContainer: '#torrenttable tr',
+                searchResultsContainer: '#torrenttable tr:not(:first-child)',
                 releaseNameSelector: 'td.name .title a',
                 releaseNameProperty: 'innerText',
                 magnetUrlSelector: '',
@@ -94,11 +94,12 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 TorrentSearchEngines.disableSearchEngine(name);
                 self.status = "Disabled Search Engine " + name;
             }
-        }
+        };
+
         // Enabling currently does nothing atm
         this.enable = function(name) {
             TorrentSearchEngines.enableSearchEngine(name);
-        }
+        };
 
         this.openDialog = function(index, addNew) {
             // Opens dialog and sends list of current engines and the index of the one we are editing
@@ -108,7 +109,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             }, {
                 size: 'lg'
             });
-        }
+        };
     }
 ])
 
@@ -228,6 +229,14 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             });
         };
 
+        var revalidateRowSelectors = function() {
+            self.fields.map(function(field) {
+                if(field.fieldGroup && field.fieldGroup.length == 3) {
+                    field.fieldGroup[0].formControl.$validate();
+                }
+            });       
+        };
+
         var attributeWhitelist = [{
             name: 'href',
         }, {
@@ -236,29 +245,83 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             name: 'title',
         }, {
             name: 'src',
+        },{
+            name: 'alt',
         }];
 
         pageLog("Loaded Attribute Whitelist");
 
-        var searchResultsContainerValidator = {
-            expression: function($viewValue, $modelValue, scope) {
-                return getTestClient().executeSearch(self.model.testSearch).then(function(result) {
-                    try {
-                        var d = new HTMLScraper(result.data);
-                        var results = d.querySelectorAll(self.model.searchResultsContainer);
-                        if (!results || result.length === 0) {
-                            self.model.infoMessages.searchResultsContainer = 'No results found.';
-                            throw "no results found";
-                        } else {
-                            self.model.infoMessages.searchResultsContainer = results.length + ' results found.';
-                            return true;
-                        }
-                    } catch (E) {
-                        self.model.infoMessages.searchResultsContainer = E.message;
-                        throw E;
-                    }
-                });
+        var cachedResult = null;
+        var firstResult = null;
 
+        function getCachedScraper(forceRefresh) {
+            return $q(function(resolve, reject) { 
+                if(!cachedResult || forceRefresh ) {
+                    return getTestClient().executeSearch(self.model.testSearch).then(function(result) {
+                        cachedResult = new HTMLScraper(result.data);
+                        console.info("Executed new testsearch", cachedResult);
+                        resolve(cachedResult);
+                    });
+                } else {
+                    console.info("Returning cached result", cachedResult);
+                    resolve(cachedResult);
+                }
+            });
+        }
+
+        var validators = {
+            searchResultsContainer: {
+                expression: function($viewValue, $modelValue, scope) {
+                    return getCachedScraper().then(function(d) {
+                        try {
+                            var results = d.querySelectorAll($viewValue);
+                            console.log("Results: ", results);
+                            if (!results || results.length === 0) {
+                                self.model.infoMessages[scope.options.key] = 'No results found.';
+                                throw "no results found";
+                            } else {
+                                firstResult = results[0];
+                                self.model.infoMessages[scope.options.key] = results.length + ' results found.';
+                                revalidateRowSelectors();
+                                return true;
+                            }
+                        } catch (E) {
+                            self.model.infoMessages[scope.options.key] = E.message;
+                            throw E;
+                        }
+                    });
+
+                }
+            },
+            propertySelector: {
+                expression: function($viewValue, $modelValue, scope) {
+                    console.warn(scope.options.key + " validate!");
+                    return $q(function(resolve, reject) {
+                        if(firstResult) {
+                            try {
+                                var property = self.model[scope.options.key.replace('Selector', 'Property')];
+                                console.warn("Property for "+ scope.options.key + ": "+ property, $viewValue,  firstResult.querySelector($viewValue),firstResult.querySelector($viewValue)[self.model[property]], firstResult.querySelector($viewValue).getAttribute(property));
+                                var el = firstResult.querySelector($viewValue);
+                                self.model.infoMessages[scope.options.key] = (property == 'href' || property == 'src') ? el.getAttribute(property) : el[property]; 
+                            } catch (E) {
+                                self.model.infoMessages[scope.options.key] = E.message;
+                            }
+                            resolve();
+                        } else {
+                            throw "no results.";
+                        }
+                    });
+                }
+            },
+            attributeSelector: {
+                expression: function($viewValue, $modelValue, scope) {
+                    return $q(function(resolve) {
+                        resolve();
+                        setTimeout(function() {
+                            revalidateRowSelectors();
+                        });
+                    });
+                }
             }
         };
 
@@ -301,13 +364,10 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             type: "input",
             templateOptions: {
                 required: true,
-                label: "Results selector (CSS selector that returns a base element for all search results)",
+                label: "Results selector (CSS selector that returns a base element for each individual search result)",
                 type: "text",
-                modelOptions: {
-                    updateOn: 'blur'
-                },
             },
-            asyncValidators: searchResultsContainerValidator
+            asyncValidators: validators.searchResultsContainer
         }, {
             key: 'releaseNameSelector',
             className: 'cseSelector',
@@ -316,7 +376,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 required: true,
                 label: "Release name Selector (within base element)",
                 type: "text"
-            }
+            },
+            asyncValidators: validators.propertySelector
         }, {
             key: 'releaseNameProperty',
             className: 'cseProperty',
@@ -334,7 +395,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             templateOptions: {
                 label: "magnet URL selector (hyperlink to the magnet url)",
                 type: "text"
-            }
+            },
+            asyncValidators: validators.propertySelector
         }, {
             key: 'magnetUrlProperty',
             className: 'cseProperty',
@@ -343,7 +405,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 label: "Attribute",
                 valueProp: 'name',
                 options: attributeWhitelist
-            }
+            },
+            asyncValidators: validators.propertySelector
         }, {
             key: 'torrentUrlSelector',
             className: 'cseSelector',
@@ -351,7 +414,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             templateOptions: {
                 label: ".torrent URL selector (hyperlink to the torrent file)",
                 type: "text"
-            }
+            },
+            asyncValidators: validators.propertySelector
         }, {
             key: 'torrentUrlProperty',
             className: 'cseProperty',
@@ -360,7 +424,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 label: "Attribute",
                 valueProp: 'name',
                 options: attributeWhitelist
-            }
+            },
+            asyncValidators: validators.propertySelector
         }, {
             key: 'sizeSelector',
             className: 'cseSelector',
@@ -369,7 +434,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 required: true,
                 label: "Size Selector (element that has the Torrent's size)",
                 type: "text"
-            }
+            },
+            asyncValidators: validators.propertySelector
         }, {
             key: 'sizeProperty',
             className: 'cseProperty',
@@ -379,7 +445,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 label: "Attribute",
                 valueProp: 'name',
                 options: attributeWhitelist
-            }
+            },
+            asyncValidators: validators.attributeSelector
         }, {
             key: 'seederSelector',
             className: 'cseSelector',
@@ -388,7 +455,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 required: true,
                 label: "Seeders Selector (element that has the 'seeders')",
                 type: "text"
-            }
+            },
+            asyncValidators: validators.propertySelector
         }, {
             key: 'seederProperty',
             className: 'cseProperty',
@@ -398,7 +466,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 label: "Attribute",
                 valueProp: 'name',
                 options: attributeWhitelist
-            }
+            },
+            asyncValidators: validators.attributeSelector
         }, {
             key: 'leecherSelector',
             className: 'cseSelector',
@@ -407,7 +476,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 required: true,
                 label: "Leechers Selector (element that has the 'leechers')",
                 type: "text"
-            }
+            },
+            asyncValidators: validators.propertySelector
         }, {
             key: 'leecherProperty',
             className: 'cseProperty',
@@ -417,7 +487,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 label: "Attribute",
                 valueProp: 'name',
                 options: attributeWhitelist
-            }
+            },
+            asyncValidators: validators.attributeSelector
         }, {
             key: 'detailUrlSelector',
             className: 'cseSelector',
@@ -426,7 +497,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 required: true,
                 label: "Detail URL Selector (page that opens in new tab and shows detail page for torrent)",
                 type: "text"
-            }
+            },
+            asyncValidators: validators.propertySelector
         }, {
             key: 'detailUrlProperty',
             className: 'cseProperty',
@@ -436,7 +508,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 label: "Attribute",
                 valueProp: 'name',
                 options: attributeWhitelist
-            }
+            },
+            asyncValidators: validators.attributeSelector
         }];
         pageLog("Loaded formly fields");
 
@@ -447,15 +520,19 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
             // full-row width inputs
             if (!field.className) {
-                field.className = 'col-xs-10';
+                field.className = 'col-xs-9';
             }
+            field.modelOptions = {
+                updateOn: 'keyup',
+                debounce: 200
+            };
 
             // cse selector fields are the big text inputs. make them 8 units wide, and add the 
             if (field.className == 'cseSelector') {
-                field.className = 'col-xs-8';
+                field.className = 'col-xs-6';
                 fieldgroup.push(field);
                 var nextField = this.fields[key + 1];
-                nextField.className = 'col-xs-2';
+                nextField.className = 'col-xs-3';
                 fieldgroup.push(nextField);
                 key++;
             } else {
@@ -464,8 +541,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
             // add testresult column for each row 
             fieldgroup.push({
-                className: 'col-xs-2',
-                template: "<p style='padding-top:35px'><i class='glyphicon glyphicon-ok'></i> {{ model.infoMessages." + field.key + " }}</p>",
+                className: 'col-xs-3',
+                template: "<p style='padding-top:35px; word-break:break-all; font-family:courier'><i class='glyphicon glyphicon-ok'></i> {{ model.infoMessages." + field.key + " }}</p>",
             });
 
             // now append each row to the output
