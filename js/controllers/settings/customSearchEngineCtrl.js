@@ -17,6 +17,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 searchResultsContainer: '#torrenttable tr:not(:first-child)',
                 releaseNameSelector: 'td.name .title a',
                 releaseNameProperty: 'innerText',
+                magnetSupported: false,
                 magnetUrlSelector: '',
                 magnetUrlProperty: '',
                 torrentUrlSelector: 'td.quickdownload a',
@@ -28,7 +29,10 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 leecherSelector: 'td.leechers',
                 leecherProperty: 'innerText',
                 detailUrlSelector: 'td.name .title a',
-                detailUrlProperty: 'href'
+                detailUrlProperty: 'href',
+                loginRequired: true,
+                loginPage: '/login.php',
+                loginTestSelector: '#loginform'
             },
             'kat.cr': {
                 testSearch: 'test',
@@ -231,7 +235,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
         var revalidateRowSelectors = function() {
             self.fields.map(function(field) {
-                if(field.fieldGroup && field.fieldGroup.length == 3) {
+                if(field.fieldGroup && field.fieldGroup.length == 3 && field.fieldGroup[0].formControl) {
                     field.fieldGroup[0].formControl.$validate();
                 }
             });       
@@ -369,6 +373,43 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             },
             asyncValidators: validators.searchResultsContainer
         }, {
+            key: 'searchResultsContainer',
+            type: "input",
+            templateOptions: {
+                required: true,
+                label: "Results selector (CSS selector that returns a base element for each individual search result)",
+                type: "text",
+            },
+            asyncValidators: validators.searchResultsContainer
+        }, {
+            key: 'searchResultsContainer',
+            type: "input",
+            templateOptions: {
+                required: true,
+                label: "Results selector (CSS selector that returns a base element for each individual search result)",
+                type: "text",
+            },
+            asyncValidators: validators.searchResultsContainer
+        }, {
+            key: 'loginRequired',
+            className: 'cseSelector',
+            type: "input",
+            templateOptions: {
+                label: "Login Required?",
+                type: "checkbox"
+            }
+        }, {
+            key: 'magnetSupported',
+            className: 'cseProperty',
+            type: "input",
+            templateOptions: {
+                label: "Magnet URI supported?",
+                type: "checkbox"
+            },
+            asyncValidators: validators.propertySelector
+        },
+
+        {
             key: 'releaseNameSelector',
             className: 'cseSelector',
             type: "input",
@@ -545,11 +586,19 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 template: "<p style='padding-top:35px; word-break:break-all; font-family:courier'><i class='glyphicon glyphicon-ok'></i> {{ model.infoMessages." + field.key + " }}</p>",
             });
 
-            // now append each row to the output
-            output.push({
+            var row = {
                 className: "row",
                 fieldGroup: fieldgroup
-            });
+            };
+
+            if(field.key == 'magnetUrlSelector') {
+                row.hideExpression = '!model.magnetSupported';
+            }
+            if(field.key == 'torrentUrlSelector') {
+                row.hideExpression = '!model.magnetSupported';
+            }
+            // now append each row to the output
+            output.push(row);
         }
 
         this.fields = output;
