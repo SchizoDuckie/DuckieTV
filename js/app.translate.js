@@ -44,7 +44,7 @@ DuckieTV
     'pt_br': 'pt_pt',
     'pt_BR': 'pt_pt',
     'pt_PT': 'pt_pt',
-    'ro_ro': 'ro_ro',
+    'ro_RO': 'ro_ro',
     'ru': 'ru_ru',
     'ru_RU': 'ru_ru',
     'si': 'sl_si',
