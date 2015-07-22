@@ -43,7 +43,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         };
 
     }
-])
+]);
 
 /*
  * Controller for the language settings tab
@@ -70,6 +70,7 @@ DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "SettingsService",
             'nl_nl': 'nl_nl',
             'pt_br': 'pt_br',
             'pt_pt': 'pt_pt',
+            'ro_ro': 'ro_ro',
             'ru_ru': 'ru_ru',
             'sl_si': 'sl_si',
             'sv_se': 'sv_se',
@@ -88,4 +89,4 @@ DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "SettingsService",
            return lang in $scope.languageList;
         };
     }
-])
+]);
