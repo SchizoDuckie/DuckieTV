@@ -433,7 +433,9 @@ DuckieTV.provider('SceneNameResolver', function() {
         "290865": "Salem Rogers Model Of The Year 1998",
         "292044": "Critical UK",
         "292421": "James Corden",
-        "292782": "Nurse UK"
+        "292782": "Nurse UK",
+        "295988": "Why with Hannibal Buress",
+        "258310": "Comedy Bang Bang"
     };
 
     var episodesWithDateFormat = {
