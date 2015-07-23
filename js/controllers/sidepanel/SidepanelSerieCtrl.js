@@ -11,12 +11,20 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
         //console.debug("Refreshing!");
         TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(sidepanel.selectSerie).then(function(result) {
             setTimeout(function() {
-            sidepanel.isRefreshing = false; 
+                sidepanel.isRefreshing = false;
                 //console.debug("Done!");
                 $scope.$applyAsync();
             }, 500);
         });
     };
+
+    this.totalRunTime = null;
+    CRUD.executeQuery('select count(ID_Episode) * ? as minutes from Episodes where seasonnumber > 0 AND firstaired > 0 AND firstaired < ? AND ID_Serie = ? ', [this.serie.runtime, new Date().getTime(), this.serie.ID_Serie]).then(function(result) {
+        sidepanel.totalRunTime = result.rs.rows[0].minutes;
+        sidepanel.totalRunDays = Math.floor(sidepanel.totalRunTime / 60 / 24);
+        sidepanel.totalRunHours = Math.floor((sidepanel.totalRunTime % (60 * 24)) / 60);
+        sidepanel.totalRunMinutes = sidepanel.totalRunTime % 60;
+    });
 
     this.nextEpisode = null;
     this.prevEpisode = null;
