@@ -326,6 +326,34 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                         });
                     });
                 }
+            },
+            loginPage: {
+                expression: function($viewValue, $modelValue, scope) {
+                    return $http.get(self.model.mirror + $viewValue).then(function(result) {
+                        self.model.infoMessages[scope.options.key] = 'Login page found';
+                    }, function(err) {
+                        throw "Page not found " + err.message;
+                    });
+                }
+            },
+            loginTestSelector: {
+                expression: function($viewValue, $modelValue, scope) {
+                    return getCachedScraper().then(function(d) {
+                        try {
+                            var results = d.querySelectorAll($viewValue);
+                            console.log("Results: ", results);
+                            if (!results || results.length === 0) {
+                                self.model.infoMessages[scope.options.key] = 'No results found, but assuming loggedin';
+                            } else {
+                                self.model.inforMessages[scope.options.key] = 'Not loggedin test OK';
+                            }
+                        } catch (E) {
+                            self.model.infoMessages[scope.options.key] = E.message;
+                            throw E;
+                        }
+                    });
+
+                }
             }
         };
 
@@ -421,18 +449,18 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 placeholder: '/login.php',
                 type: "text"
             },
-            asyncValidators: validators.propertySelector
+            asyncValidators: validators.loginPage
         }, {
             key: 'loginTestSelector',
             className: 'cseProperty',
-            type: "select",
+            type: "input",
             templateOptions: {
-                label: "Selector that tests if we're not loggedin",
-                valueProp: 'name',
+                requiredExpression: 'model.loginRequired',
+                label: "Selector that tests if we're not loggedin when executing a search",
                 placeholder: '#loginform',
-                options: attributeWhitelist
+                type: "text"
             },
-            asyncValidators: validators.propertySelector
+            asyncValidators: validators.loginTestSelector
         }, {
             key: 'magnetUrlSelector',
             className: 'cseSelector',
@@ -592,7 +620,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             // add testresult column for each row 
             fieldgroup.push({
                 className: 'col-xs-3',
-                template: "<p style='padding-top:35px; word-break:break-all; font-family:courier'><i class='glyphicon glyphicon-ok'></i> {{ model.infoMessages." + field.key + " }}</p>",
+                template: "<div style='padding-top:35px; word-break:break-all; font-family:courier'><i class='glyphicon glyphicon-ok'></i> {{ model.infoMessages." + field.key + " }} " + (nextField ? "</p><p>{{ model.infoMessages." + nextField.key + "}}" : '') + "</p></div>",
             });
 
             var row = {
