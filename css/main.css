@@ -830,12 +830,10 @@ table.light h1 {
 
 /* CSS for CustomSearchEngineDialog */
 .cseSelector {
-    width: 81%;
-    display: inline-block;
+    
 }
 .cseProperty {
-    padding-left: 10px;
-    padding-right: 0;
+   
 }
 .cseProperty:before {
     font-family: 'Glyphicons Halflings';
@@ -851,6 +849,25 @@ table.light h1 {
     -webkit-appearance: none;
     padding: 0px 0px 0px 5px;
 }
+
+.inline-checkbox {
+    height: 60px;
+}
+.inline-checkbox label {
+    position: absolute;
+    left: 45px;
+    width: calc(100% - 45px);
+    font-family: 'bebasregular', helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: normal;
+    padding-left: 25px;
+}
+
+.inline-checkbox input[type=checkbox] {
+    position: absolute;
+    width: 30px
+}
+
 .log {
     font-family: monospace;
     font-size: 12px;

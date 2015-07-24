@@ -235,10 +235,10 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
         var revalidateRowSelectors = function() {
             self.fields.map(function(field) {
-                if(field.fieldGroup && field.fieldGroup.length == 3 && field.fieldGroup[0].formControl) {
+                if (field.fieldGroup && field.fieldGroup.length == 3 && field.fieldGroup[0].formControl) {
                     field.fieldGroup[0].formControl.$validate();
                 }
-            });       
+            });
         };
 
         var attributeWhitelist = [{
@@ -249,7 +249,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             name: 'title',
         }, {
             name: 'src',
-        },{
+        }, {
             name: 'alt',
         }];
 
@@ -259,8 +259,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
         var firstResult = null;
 
         function getCachedScraper(forceRefresh) {
-            return $q(function(resolve, reject) { 
-                if(!cachedResult || forceRefresh ) {
+            return $q(function(resolve, reject) {
+                if (!cachedResult || forceRefresh) {
                     return getTestClient().executeSearch(self.model.testSearch).then(function(result) {
                         cachedResult = new HTMLScraper(result.data);
                         console.info("Executed new testsearch", cachedResult);
@@ -301,12 +301,12 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 expression: function($viewValue, $modelValue, scope) {
                     console.warn(scope.options.key + " validate!");
                     return $q(function(resolve, reject) {
-                        if(firstResult) {
+                        if (firstResult) {
                             try {
                                 var property = self.model[scope.options.key.replace('Selector', 'Property')];
-                                console.warn("Property for "+ scope.options.key + ": "+ property, $viewValue,  firstResult.querySelector($viewValue),firstResult.querySelector($viewValue)[self.model[property]], firstResult.querySelector($viewValue).getAttribute(property));
+                                console.warn("Property for " + scope.options.key + ": " + property, $viewValue, firstResult.querySelector($viewValue), firstResult.querySelector($viewValue)[self.model[property]], firstResult.querySelector($viewValue).getAttribute(property));
                                 var el = firstResult.querySelector($viewValue);
-                                self.model.infoMessages[scope.options.key] = (property == 'href' || property == 'src') ? el.getAttribute(property) : el[property]; 
+                                self.model.infoMessages[scope.options.key] = (property == 'href' || property == 'src') ? el.getAttribute(property) : el[property];
                             } catch (E) {
                                 self.model.infoMessages[scope.options.key] = E.message;
                             }
@@ -373,43 +373,26 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             },
             asyncValidators: validators.searchResultsContainer
         }, {
-            key: 'searchResultsContainer',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Results selector (CSS selector that returns a base element for each individual search result)",
-                type: "text",
-            },
-            asyncValidators: validators.searchResultsContainer
+            className: 'row',
+            fieldGroup: [{
+                key: 'loginRequired',
+                className: 'col-xs-5 inline-checkbox',
+                type: "input",
+                templateOptions: {
+                    label: "Login Required?",
+                    type: "checkbox"
+                }
+            }, {
+                key: 'magnetSupported',
+                className: 'col-xs-5 inline-checkbox',
+                type: "input",
+                templateOptions: {
+                    label: "Magnet URI supported?",
+                    type: "checkbox"
+                },
+                asyncValidators: validators.propertySelector
+            }]
         }, {
-            key: 'searchResultsContainer',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Results selector (CSS selector that returns a base element for each individual search result)",
-                type: "text",
-            },
-            asyncValidators: validators.searchResultsContainer
-        }, {
-            key: 'loginRequired',
-            className: 'cseSelector',
-            type: "input",
-            templateOptions: {
-                label: "Login Required?",
-                type: "checkbox"
-            }
-        }, {
-            key: 'magnetSupported',
-            className: 'cseProperty',
-            type: "input",
-            templateOptions: {
-                label: "Magnet URI supported?",
-                type: "checkbox"
-            },
-            asyncValidators: validators.propertySelector
-        },
-
-        {
             key: 'releaseNameSelector',
             className: 'cseSelector',
             type: "input",
@@ -429,6 +412,27 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 valueProp: 'name',
                 options: attributeWhitelist
             }
+        }, {
+            key: 'loginPage',
+            className: 'cseSelector',
+            type: "input",
+            templateOptions: {
+                label: "URL of the login page (for when not logged in)",
+                placeholder: '/login.php',
+                type: "text"
+            },
+            asyncValidators: validators.propertySelector
+        }, {
+            key: 'loginTestSelector',
+            className: 'cseProperty',
+            type: "select",
+            templateOptions: {
+                label: "Selector that tests if we're not loggedin",
+                valueProp: 'name',
+                placeholder: '#loginform',
+                options: attributeWhitelist
+            },
+            asyncValidators: validators.propertySelector
         }, {
             key: 'magnetUrlSelector',
             className: 'cseSelector',
@@ -557,6 +561,11 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
         var output = [];
         for (var key = 0; key < this.fields.length; key++) {
             var field = this.fields[key];
+            if (field.fieldGroup) {
+                output.push(field);
+                continue;
+
+            }
             var fieldgroup = [];
 
             // full-row width inputs
@@ -570,10 +579,10 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
             // cse selector fields are the big text inputs. make them 8 units wide, and add the 
             if (field.className == 'cseSelector') {
-                field.className = 'col-xs-6';
+                field.className += ' col-xs-6';
                 fieldgroup.push(field);
                 var nextField = this.fields[key + 1];
-                nextField.className = 'col-xs-3';
+                nextField.className += ' col-xs-3';
                 fieldgroup.push(nextField);
                 key++;
             } else {
@@ -591,11 +600,14 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 fieldGroup: fieldgroup
             };
 
-            if(field.key == 'magnetUrlSelector') {
+            if (field.key == 'magnetUrlSelector') {
                 row.hideExpression = '!model.magnetSupported';
             }
-            if(field.key == 'torrentUrlSelector') {
+            if (field.key == 'torrentUrlSelector') {
                 row.hideExpression = '!model.magnetSupported';
+            }
+            if (field.key == 'loginPage') {
+                row.hideExpression = '!model.loginRequired';
             }
             // now append each row to the output
             output.push(row);
