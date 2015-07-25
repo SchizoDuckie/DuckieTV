@@ -272,7 +272,6 @@
     "SETTINGS/QBITTORRENT/save/btn": "测试和保存",
     "SETTINGS/QBITTORRENT/status/hdr": "状态 ",
     "SETTINGS/QBITTORRENT32PLUS/connected/lbl": "连接到",
-    "SETTINGS/QBITTORRENT32PLUS/cookie-permission/btn": "授予DuckieTV权限读取qBittorent的cookie",
     "SETTINGS/QBITTORRENT32PLUS/integration/hdr": "积分",
     "SETTINGS/QBITTORRENT32PLUS/not-connected/lbl": "没有连接",
     "SETTINGS/QBITTORRENT32PLUS/save/btn": "测试和保存",

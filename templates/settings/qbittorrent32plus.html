@@ -1,10 +1,7 @@
 <div class="buttons" ng-controller="qbt32plusCtrl as qbt">
 	<h2>qBittorrent v3.2+ <h2cont translate-once="SETTINGS/QBITTORRENT32PLUS/integration/hdr"></h2cont></h2>
 
-
 	<img src="img/torrentclients/qbittorrent-colored.png" style='width:200px; margin: 0 auto'>
-
-	<button class="btn btn-warning" ng-click="qbt.requestCookiePermission()" translate-once="SETTINGS/QBITTORRENT32PLUS/cookie-permission/btn"></button>
 
 	<p  ng-if="qbt.isConnected()"><span translate-once="SETTINGS/QBITTORRENT32PLUS/status/hdr"></span>:
 	<span translate-once="SETTINGS/QBITTORRENT32PLUS/connected/lbl"></span> qBittorrent API &#64; {{qbt.model.server}}:{{qbt.model.port}}

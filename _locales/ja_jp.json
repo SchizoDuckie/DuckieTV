@@ -272,7 +272,6 @@
     "SETTINGS/QBITTORRENT/save/btn": "テストと保存",
     "SETTINGS/QBITTORRENT/status/hdr": "ステータス ",
     "SETTINGS/QBITTORRENT32PLUS/connected/lbl": "に接続されています",
-    "SETTINGS/QBITTORRENT32PLUS/cookie-permission/btn": "DuckieTVにqBittorentのCookieを読み取るためのアクセス許可を付与します",
     "SETTINGS/QBITTORRENT32PLUS/integration/hdr": "統合",
     "SETTINGS/QBITTORRENT32PLUS/not-connected/lbl": "接続されていません",
     "SETTINGS/QBITTORRENT32PLUS/save/btn": "テストと保存",

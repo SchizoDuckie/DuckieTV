@@ -272,7 +272,6 @@
     "SETTINGS/QBITTORRENT/save/btn": "테스트 및 저장",
     "SETTINGS/QBITTORRENT/status/hdr": "지위 ",
     "SETTINGS/QBITTORRENT32PLUS/connected/lbl": "에 연결",
-    "SETTINGS/QBITTORRENT32PLUS/cookie-permission/btn": "DuckieTV에게 qBittorent의 쿠키를 읽을 수있는 권한을 부여",
     "SETTINGS/QBITTORRENT32PLUS/integration/hdr": "통합",
     "SETTINGS/QBITTORRENT32PLUS/not-connected/lbl": "연결되지 않음",
     "SETTINGS/QBITTORRENT32PLUS/save/btn": "테스트 및 저장",

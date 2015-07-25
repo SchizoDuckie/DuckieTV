@@ -272,7 +272,6 @@
     "SETTINGS/QBITTORRENT/save/btn": "Test and save",
     "SETTINGS/QBITTORRENT/status/hdr": "Status",
     "SETTINGS/QBITTORRENT32PLUS/connected/lbl": "Connected to",
-    "SETTINGS/QBITTORRENT32PLUS/cookie-permission/btn": "Grant DuckieTV permission to read qBittorent's cookie",
     "SETTINGS/QBITTORRENT32PLUS/integration/hdr": "Integration",
     "SETTINGS/QBITTORRENT32PLUS/not-connected/lbl": "Not connected",
     "SETTINGS/QBITTORRENT32PLUS/save/btn": "Test and save",
