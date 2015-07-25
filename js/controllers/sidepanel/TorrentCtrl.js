@@ -22,6 +22,10 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "DuckieTorrent",
             return DuckieTorrent.getClientName();
         };
 
+        this.getTorrentClientTemplate = function() {
+            return DuckieTorrent.getClientName().toLowerCase().replace(/ /g,"").replace(/3.2\+/,"32plus");
+        };
+
         var autoConnectPoll = function() {
             vm.status = 'Connecting...';
             $rootScope.$applyAsync();
