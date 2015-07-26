@@ -123,27 +123,21 @@ DuckieTV
                 }
             });
 
-            window.addEventListener('move', function() {
-                /* move event may occur multiple times during transition, so wait a bit to try catch the last one
-                 * https://github.com/nwjs/nw.js/wiki/Window states the callback is called with two arguments: x and y for the new location of the upper-left corner of the window; but reality differs
-                 */
+            win.on('move', function(x,y) {
+                // move event may occur multiple times during transition, so wait a bit to try catch the last one
                 clearTimeout(moveTimeout);
                 moveTimeout = setTimeout(function () {
-                    SettingsService.set('standalone.x', win.x);
-                    SettingsService.set('standalone.y', win.y);
-                    console.debug('moved to',win.x,win.y);
+                    SettingsService.set('standalone.x', x);
+                    SettingsService.set('standalone.y', y);
                 }, 500);
             });
-            
-             window.addEventListener('resize',  function() {
-                /* resize event may occur multiple times during transition, so wait a bit to try catch the last one
-                 * https://github.com/nwjs/nw.js/wiki/Window states the callback is called with two arguments: width and height for the new size of the window; but reality differs
-                 */
+
+             win.on('resize', function(width,height) {
+                // resize event may occur multiple times during transition, so wait a bit to try catch the last one
                 clearTimeout(resizeTimeout);
                 resizeTimeout = setTimeout(function () {
-                    SettingsService.set('standalone.width', win.width);
-                    SettingsService.set('standalone.height', win.height);
-                    console.debug('resized to',win.width,win.height);
+                    SettingsService.set('standalone.width', width);
+                    SettingsService.set('standalone.height', height);
                 }, 500);
             });
 
