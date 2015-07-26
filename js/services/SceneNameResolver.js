@@ -143,6 +143,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "82374": "Ultimate Factories",
         "82448": "Project Runway Australia",
         "82467": "Eastbound Down",
+        "82548": "Would I Lie to You",
         "82918": "Diners, Drive-ins and Dives",
         "83115": "The Worlds Strictest Parents UK",
         "83123": "Merlin 2008",
@@ -293,6 +294,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "257550": "Bellator FC",
         "257645": "Ultimate Spider-man",
         "257804": "Too Cute",
+        "258310": "Comedy Bang Bang",
         "258773": "Zero Hour US",
         "259047": "VGHS",
         "259055": "Nashville 2012",
@@ -434,8 +436,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "292044": "Critical UK",
         "292421": "James Corden",
         "292782": "Nurse UK",
-        "295988": "Why with Hannibal Buress",
-        "258310": "Comedy Bang Bang"
+        "295988": "Why with Hannibal Buress"
     };
 
     var episodesWithDateFormat = {
