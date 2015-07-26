@@ -9,6 +9,20 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
 
         $scope.statistics = [];
 
+        // defined by utility.js
+        $scope.optInTrackingEnabled = localStorage.getItem('optin_error_reporting');
+        $scope.uniqueTrackingID = localStorage.getItem('uniqueId');
+
+        $scope.toggleOptInErrorReporting = function() {
+            if (localStorage.getItem('optin_error_reporting')) {
+                localStorage.removeItem('optin_error_reporting');
+                $scope.optInTrackingEnabled = false;
+            } else {
+                localStorage.setItem('optin_error_reporting', true);
+                window.location.reload();
+            }
+        };
+
         getStats = function() {
             // Get Screen Size
             var screenSize = '';
@@ -16,7 +30,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 width = (screen.width) ? screen.width : '';
                 height = (screen.height) ? screen.height : '';
                 screenSize += '' + width + " x " + height;
-            };
+            }
 
             // Get Database Stats
             countEntity = function(entity) {
@@ -55,14 +69,14 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                                 name: 'Storage Sync has',
                                 data: 'Never Signed in to Google'
                             });
-                        };
+                        }
                     });
                 } else {
                     $scope.statistics.push({
                         name: 'Storage Sync is',
                         data: 'Not Available'
                     });
-                };
+                }
             };
 
             // Get current torrent mirror
@@ -125,14 +139,14 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             angular.forEach(userPrefs, function(value, key) {
                 if (key.indexOf('password') > -1) {
                     userPrefs[key] = "*****";
-                };
+                }
             });
             $scope.statistics.push({
                 name: 'User Preferences on Local Storage',
                 data: angular.toJson(userPrefs, true)
             });
 
-        }
+        };
         getStats();
     }
 ]);

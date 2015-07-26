@@ -85,3 +85,77 @@ Function.prototype.extends = function(ParentClass, prototypeImplementations) {
 };
 
 console.log("%cDuckieTV", "color:transparent; font-size: 16pt; line-height: 125px; padding:25px; padding-top:30px; padding-bottom:60px; background-image:url(http://duckietv.github.io/DuckieTV/img/icon128.png); background-repeat:no-repeat; ", "quack!\n\n\n\n\n\n");
+
+
+if (localStorage.getItem('optin_error_reporting')) {
+    //duckietv_halp
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.src = 'https://api.loggr.net/1/loggr.min.js?l=duckietv_halp&a=6586d951da1e4d43aa594bb63591af21';
+    document.body.appendChild(s);
+
+    if (!localStorage.getItem('uniqueId')) {
+        function guid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4();
+        }
+        localStorage.setItem('uniqueId', guid());
+        console.info("Generated unique user identifier for opt-in error tracking:", localStorage.getItem('uniqueId'));
+    }
+
+    window.onerror = function(msg, url, line) {
+        var log = Loggr.Log;
+        var storage = localStorage;
+        var userPrefs = JSON.parse(localStorage.getItem('userPreferences'));
+        Object.keys(userPrefs).map(function(key) {
+            if (key.indexOf('password') > -1) {
+                userPrefs[key] = "*****";
+            }
+        });
+        var data = "Message: " + msg + "<br>";
+        data += "URL: " + url + "<br>";
+        data += "Line: " + line + "<br>";
+        data += "Platform: " + navigator.platform + "<br>";
+        data += "User Agent: " + navigator.userAgent + "<br>";
+        data += "Config: <pre>" + JSON.stringify(userPrefs) + "</pre>";
+        log.events.createEvent()
+            .text("Runtime error: " + msg)
+            .tags("error")
+            .user(localStorage.getItem('uniqueId'))
+            .dataType(Loggr.dataType.html)
+            .data(data)
+            .post();
+        console.error(msg, url, line);
+    };
+
+    console.olderror = console.error;
+    console.error = function() {
+        console.olderror(arguments);
+        var log = Loggr.Log;
+
+        var userPrefs = JSON.parse(localStorage.getItem('userPreferences'));
+        Object.keys(userPrefs).map(function(key) {
+            if (key.indexOf('password') > -1) {
+                userPrefs[key] = "*****";
+            }
+        });
+        var data = "Message: " + JSON.stringify(arguments) + "<br>";
+        data += "Platform: " + navigator.platform + "<br>";
+        data += "User Agent: " + navigator.userAgent + "<br>";
+        data += "Config: <pre>" + JSON.stringify(localStorage.getItem) + "</pre>";
+        log.events.createEvent()
+            .text("Console.error: " + JSON.stringify(arguments))
+            .tags("error")
+            .user(localStorage.getItem('uniqueId'))
+            .dataType(Loggr.dataType.html)
+            .data(data)
+            .post();
+    };
+
+
+}
