@@ -21,6 +21,8 @@ DuckieTV
     })
     .run(function(SettingsService, $http, dialogs) {
         var updateDialog = false;
+        var moveTimeout;
+        var resizeTimeout;
         if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             // check last updated every 2 days.
             var lastUpdateCheck = localStorage.getItem('github.lastupdatecheck');
@@ -120,20 +122,57 @@ DuckieTV
                         }
                 }
             });
+
+            window.addEventListener('move', function() {
+                /* move event may occur multiple times during transition, so wait a bit to try catch the last one
+                 * https://github.com/nwjs/nw.js/wiki/Window states the callback is called with two arguments: x and y for the new location of the upper-left corner of the window; but reality differs
+                 */
+                clearTimeout(moveTimeout);
+                moveTimeout = setTimeout(function () {
+                    SettingsService.set('standalone.x', win.x);
+                    SettingsService.set('standalone.y', win.y);
+                    console.debug('moved to',win.x,win.y);
+                }, 500);
+            });
+            
+             window.addEventListener('resize',  function() {
+                /* resize event may occur multiple times during transition, so wait a bit to try catch the last one
+                 * https://github.com/nwjs/nw.js/wiki/Window states the callback is called with two arguments: width and height for the new size of the window; but reality differs
+                 */
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function () {
+                    SettingsService.set('standalone.width', win.width);
+                    SettingsService.set('standalone.height', win.height);
+                    console.debug('resized to',win.width,win.height);
+                }, 500);
+            });
+
+            if (SettingsService.get('standalone.winState') === 'Maximized') {
+                win.maximize();
+            };
+
+            if (SettingsService.get('standalone.width') !== -1) {
+                win.resizeTo(SettingsService.get('standalone.width'),SettingsService.get('standalone.height'));
+            };
+
+            if (SettingsService.get('standalone.x') !== -1) {
+                win.moveTo(SettingsService.get('standalone.x'),SettingsService.get('standalone.y'));
+            };
+
             if (SettingsService.get('standalone.startupMinimized') && !updateDialog) {
                 win.minimize();
-            }
+            };
         }
     })
 
 /*
  * Standalone Controller
  */
-.controller('StandaloneCtrl', ["$scope",
-    function($scope) {
+.controller('StandaloneCtrl', ['$scope', 'SettingsService',
+    function($scope, SettingsService) {
         if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
 
-            $scope.winState = "Normal";
+            $scope.winState = SettingsService.get('standalone.winState');
 
             var win = require('nw.gui').Window.get();
 
@@ -141,15 +180,16 @@ DuckieTV
                 win.close();
             };
             this.minimize = function() {
-                $scope.winState = "Normal"
                 win.minimize();
             };
             this.maximize = function() {
-                $scope.winState = "Maximized";
+                $scope.winState = 'Maximized';
+                SettingsService.set('standalone.winState', $scope.winState);
                 win.maximize();
             };
             this.unmaximize = function() {
-                $scope.winState = "Normal"
+                $scope.winState = 'Normal';
+                SettingsService.set('standalone.winState', $scope.winState);
                 win.unmaximize();
             };
         }
