@@ -8,8 +8,15 @@ DuckieTV.directive('lazyBackground', ["$document", "$parse",
     function($document, $parse) {
         return {
             restrict: 'A',
-            link: function($scope, element, attrs) {
-                element = angular.element(element);
+            scope: {
+                altMode: '=altLazy'
+            },
+            link: function($scope, el, attrs) {
+                var element, elementimg;
+                if ($scope.altMode) {
+                    elementimg = angular.element(el).find('div');
+                }
+                element = angular.element(el);
                 attrs.ngHide = true;
 
                 /** 
@@ -38,8 +45,8 @@ DuckieTV.directive('lazyBackground', ["$document", "$parse",
                      */
                     var img = $document[0].createElement('img');
                     img.onload = function() {
+                        $scope.altMode ? elementimg.css('background-image', 'url('+this.src+')') : element.css('background-image', 'url('+this.src+')');
                         element.removeClass('img-loading');
-                        element.css('background-image', 'url(' + this.src + ')');
                     };
                     img.onerror = function(e) {
                         //Remove any existing background-image & loading class and apply error class

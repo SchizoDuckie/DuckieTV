@@ -363,29 +363,6 @@ background-rotator, background-rotator > div {
     overflow: auto;
 }
 
-serieheader > div {
-    position: relative;
-    overflow: hidden;
-}
-
-serieheader .badge {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    border-radius: 6px;
-    z-index: 1;
-    background-color: rgb(68,68,68);
-    opacity: 0.9;
-    transition: opacity 0.2s ease-in-out;
-}
-serieheader:hover .badge {
-    opacity: 1;
-}
-
-serieheader .active div {
-    border:1px solid yellow;
-}
-
 serieheader[mode='search'] {
     display: block;
     width: calc(33% - 2px);
@@ -401,12 +378,22 @@ serieheader[mode='search'] {
 serieheader[mode='search'] h3 {
     margin-top: 0;
 }
-
 serieheader[mode=banner] {
+    width: 50%;
+    height: 140px;
     overflow: hidden;
     display: inline-block;
-    width: 50%;
-    position: initial !important; /* Force initial to override the poster transition effects */
+}
+serieheader[mode=banner] .serieheader {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+serieheader[mode=banner] .img {
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 serieheader[mode=banner] h3 {
     position: absolute;
@@ -423,66 +410,77 @@ serieheader[mode=banner] h3 {
 serieheader[mode=banner]:hover h3 {
     margin-top: -36px;
 }
-serieheader[mode=banner].full {
-    overflow: visible;
-    width: 100%;
-    display: block
-}
-serieheader[mode=banner].full h3 {
-    margin-top: -36px;
-}
-serieheader[mode=banner].full .banner {
-    margin-bottom: 36px;
-    height: 180px;
-}
-serieheader[mode=banner].full h3 {
-}
 
-serieheader .banner {
-    height: 150px;
-    width: 100%;
-    background-repeat:no-repeat;
-    background-size: cover;
-    background-position: 50%;
+serieheader:hover .badge {
+    opacity: 1;
 }
-
-.series serieheader[mode='poster'] > div {
-    background-color: transparent;
-    border: 0;
+serieheader .badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    border-radius: 6px;
+    z-index: 1;
+    background-color: rgb(68,68,68);
+    opacity: 0.9;
+    transition: opacity 0.2s ease-in-out;
 }
-
+[series-grid="true"] serieheader[mode=poster] {
+    position: absolute;
+    -webkit-transition: top .5s ease-in-out, left .5s ease-in-out;
+}
 /* Main container for the posters 
  * Note: The posters class itself has no margins or paddings and is just the size of the poster
  * this means the only thing seperating the posters is this margin here. This allows easy distancing
  * of the posters but also easily allows a no-gap mode between posters which looks kinda nice. */
-serieheader[mode='poster'] {
+.series serieheader[mode='poster'] .serieheader {
+    position: relative;
+    background-color: transparent;
+    border: 0;
     display: inline-block;
-    margin: 0px 9px 11px 9px;
-    -webkit-transition: all 0.5s ease-in-out;
+    margin: 0px 6px 11px 6px;
+    -webkit-transition: margin 0.5s ease-in-out;
 }
+
 /* Standard Poster Size */
 serieheader .poster {
-    height: 240px;
-    width: 160px;
+    display: block;
+    height: 247px;
+    width: 165px;
+    -webkit-transition: opacity 0.3s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out, background-color 0.3s ease-in-out;
+}
+serieheader figure {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+serieheader .poster .img {
+    width: 100%;
+    height: 100%;
     /* Standard size fits most posters however some are slightly smaller
      *  and need to be slightly stretched using 100% */
     background-size: 100% 100%;
     background-position: center center;
     background-repeat: no-repeat;
-    transition: opacity 0.2s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out;
+    -webkit-transition: opacity .2s ease-in-out;
+}
+serieheader .poster.active {
+    border: 1px solid yellow;
 }
 /* Ideally a :not(.img-load-error) here would be ideal however the class
  * is only applied to the actual div loading the poster and :not does not
  * support combinator selectors :( and we can't apply the background color
  * to the same element that has the opacity change, perhaps a better 
  * lazy-background method is required */
-.series serieheader[mode='poster'] .imgcont, .seasons serieheader[mode='poster'] .imgcont {
+.series serieheader[mode='poster'] .poster:hover:not(.img-loading), .seasons serieheader[mode='poster'] .poster:hover:not(.img-loading) {
     background-color: #e5e5e5;
 }
-.series serieheader[mode='poster'] .imgcont:hover .poster, .seasons serieheader[mode='poster'] .imgcont:hover .poster {
-    opacity: 0.95 !important;
+.series serieheader[mode='poster'] .poster:hover .img, .seasons serieheader[mode='poster'] .poster:hover .img {
+    opacity: 0.95;
 }
 /* Mini Poster style for series-list */
+.series.miniposter serieheader[mode='poster'] .serieheader {
+    margin: 0px 4px 9px 4px;
+}
 .miniposter .poster {
     height: 195px;
     width: 130px;
@@ -498,10 +496,6 @@ serieheader .poster {
     font-size: 22px;
 }
 
-serieheader.full > div {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
 .col-md-4 serieheader .poster {
     width: 150px;
 }
@@ -510,7 +504,7 @@ serieheader.full > div {
 }
 serieheader h3 {
     color:white;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     padding: 5px;
     margin-bottom:0;
     white-space:nowrap;
@@ -523,12 +517,17 @@ serieheader h3 {
 serieheader[mode=search] h3 {
     position: initial;
 }
-
+/* Be naughty and override ng-hide override for titles if the image failed to load */
+.poster.img-load-error figcaption h3 {
+    display: initial !important;
+    bottom: initial;
+    top: 0;
+}
 serieheader[mode=poster] h3 {
-    display: inline-block;
     font-size: 22px;
     word-break: break-word;
     white-space: normal;
+    margin: 0;
 }
 
 serieheader .overview {
@@ -556,7 +555,6 @@ serieheader:hover aside {
     right: 0;
 }
 
-
 serieheader em.earmark {
     position: absolute;
     bottom: 0px;
@@ -580,7 +578,7 @@ serieheader em.earmark.trailer {
 }
 
 serieheader em.earmark.trailer .glyphicon {
-        -webkit-filter: drop-shadow(2px 2px 2px black);
+    -webkit-filter: drop-shadow(2px 2px 2px black);
 }
 
 serieheader:hover em.earmark.trailer {
@@ -697,15 +695,6 @@ series-list .filters {
 series-list p.protip {
     color: #ccc;
     font-size: 12px;
-}
-series-list .series serieheader > div {
-    border: 1px solid #111;
-}
-series-list .series serieheader:hover > div {
-    opacity: 1;
-}
-series-list .series serieheader+serieheader > div {
-    border-bottom:0;
 }
 
 trakt-tv-trending.series {
@@ -1519,7 +1508,7 @@ query-monitor.show {
 }
 
 .img-loading {
-    opacity: 0.99 !important;
+    opacity: 0.6;
     background: url('../img/spinner.gif'), -webkit-linear-gradient(top, rgb(20,20,20), rgb(15,15,15));
     background-size: auto !important;
     background-repeat: no-repeat;
@@ -1527,7 +1516,7 @@ query-monitor.show {
 }
 
 .img-load-error {
-    opacity: 0.99 !important;
+    opacity: 0.8;
     background: url('../img/icon256-inverted.png'), -webkit-linear-gradient(top, rgb(20,20,20), rgb(15,15,15));
     background-size: contain !important;
     border: 5px solid rgb(15,15,15);
@@ -2128,46 +2117,9 @@ sidepanel .seasons serieheader {
   z-index: 100;
   padding-left: 20%;
 }
-
 .ui-loading:before {
     -webkit-transform: translateY(0px);
 }
-
-@media (max-height: 768px) {
-  sidepanel .buttons a {
-    padding: 8px;
-  }
-  sidepanel .buttons i.glyphicon {
-    font-size: 20px;
-    top: 2px;
-  }
-  sidepanel .buttons a img {
-    width: 29px !important;
-    height: 29px !important;
-    margin-top: -2px !important;
-    margin-left: -3px !important;
-  }
-  sidepanel .buttons .two-face-torrent .download {
-    width: 289px;
-  }
-  sidepanel .buttons .two-face-torrent .auto-download {
-    padding: 8px 10px;
-    height: 43px;
-  }
-  sidepanel .leftpanel .episode-img {
-    height: 165px;
-    width: 295px;
-  }
-  sidepanel .rightpanel .seasons serieheader {
-    margin-bottom: 0;
-  }
-  sidepanel .rightpanel .seasons serieheader .poster {
-    width: 110px;
-    height: 165px;
-    margin-bottom: 0;
-  }
-}
-
 
 /**
  * Dial Gauges used on torrent client
@@ -2204,9 +2156,52 @@ sidepanel .seasons serieheader {
     stroke: grey;
     fill: grey;
 }
-
 ng-dial-gauge {
   height: 200px !important;
   width: 49%;
   display: inline-block;
+}
+
+/**
+ * Resolution Specific Touchups
+ */
+@media (max-width: 1080px) {
+    serieheader[mode=banner] {
+        width: 100%;
+    }
+}
+
+@media (max-height: 768px) {
+  sidepanel .buttons a {
+    padding: 8px;
+  }
+  sidepanel .buttons i.glyphicon {
+    font-size: 20px;
+    top: 2px;
+  }
+  sidepanel .buttons a img {
+    width: 29px !important;
+    height: 29px !important;
+    margin-top: -2px !important;
+    margin-left: -3px !important;
+  }
+  sidepanel .buttons .two-face-torrent .download {
+    width: 289px;
+  }
+  sidepanel .buttons .two-face-torrent .auto-download {
+    padding: 8px 10px;
+    height: 43px;
+  }
+  sidepanel .leftpanel .episode-img {
+    height: 165px;
+    width: 295px;
+  }
+  sidepanel .rightpanel .seasons serieheader {
+    margin-bottom: 0;
+  }
+  sidepanel .rightpanel .seasons serieheader .poster {
+    width: 110px;
+    height: 165px;
+    margin-bottom: 0;
+  }
 }

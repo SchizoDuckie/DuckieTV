@@ -43,7 +43,10 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
     return {
         restrict: 'A',
         controllerAs: 'grid',
-        controller: function($scope, SidePanelState) {
+        controller: function($scope, SidePanelState, SettingsService) {
+            if (SettingsService.get('library.seriesgrid') == false) {
+                return;
+            }
             var posterWidth, posterHeight, postersPerRow, centeringOffset, verticalOffset, oldClientWidth;
             var container = document.querySelector('[series-grid]');
             var el = container.querySelector('.series-grid');
@@ -94,8 +97,8 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             function recalculate() {
                 var isMini = container.classList.contains('miniposter');
                 var maxPosters = container.getAttribute('max-posters') ? parseInt(container.getAttribute('max-posters')) : 0;
-                posterWidth = isMini ? 139 : 169; // Includes 1 9px padding-left
-                posterHeight = isMini ? 206 : 251; // Includes 11px padding-bottom
+                posterWidth = isMini ? 141 : 177; // Includes paddings
+                posterHeight = isMini ? 208 : 259; // Includes paddings
                 oldClientWidth = el.clientWidth;
                 postersPerRow = Math.floor(el.clientWidth / posterWidth);
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;

@@ -13,6 +13,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.showRatings = SettingsService.get('download.ratings');
         $scope.isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1);
         $scope.standaloneStartupMinimized = SettingsService.get('standalone.startupMinimized');
+        $scope.sgEnabled = SettingsService.get('library.seriesgrid');
 
         $scope.toggleTopSites = function() {
             $scope.topSites = !$scope.topSites;
@@ -42,6 +43,12 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
             SettingsService.set('standalone.startupMinimized', $scope.standaloneStartupMinimized);
         };
 
+        // Toggles the Series-Grid on Series-List
+        $scope.toggleSeriesGrid = function() {
+            $scope.sgEnabled = !$scope.sgEnabled
+            SettingsService.set('library.seriesgrid', $scope.sgEnabled);
+            window.location.reload();
+        }
     }
 ]);
 

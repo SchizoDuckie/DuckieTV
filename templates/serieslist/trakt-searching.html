@@ -1,5 +1,5 @@
 <!-- serieslist\trakt-searching.html -->
-<div class="series adding" series-grid no-scroll ng-class="{'miniposter': serieslist.isSmall}"> 
+<div class="series adding" series-grid="{{serieslist.sgEnabled}}" no-scroll ng-class="{'miniposter': serieslist.isSmall}"> 
   <h1 ng-show="traktSearch.error"><img src="img/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' /><span translate-once="SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl"></span><br>{{traktSearch.error.statusText}}</h1>
 
   <div ng-show="traktSearch.searching">
@@ -15,7 +15,7 @@
 
   <div class="series-grid" style="position:relative;margin-top:22px">
     <!-- Repeated serie search results -->
-    <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results" data="serie" ng-mouseenter="traktSearch.setHoverSerie(serie)" no-badge="1" no-overview="1" no-button="1" mode="{{serieslist.mode}}" ng-click="serieslist.selectSerie(serie)" style="position:absolute;left:{{grid.getLeft($index, filteredTrending.length)}}px;top:{{grid.getTop($index)}}px">
+    <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results" data="serie" ng-mouseenter="traktSearch.setHoverSerie(serie)" no-badge="1" no-overview="1" no-button="1" mode="{{serieslist.mode}}" ng-click="serieslist.selectSerie(serie)" style="left:{{grid.getLeft($index, filteredTrending.length)}}px;top:{{grid.getTop($index)}}px">
       <em class="earmark trailer" >
         <a ng-show="serie.trailer" href="{{serie.trailer}}" target="_blank" tooltip="{{'SERIESLIST/TRAKT-SEARCHING/watch-trailer/tooltip'|translate}}" tooltip-append-to-body="true" tooltip-placement="bottom" ng-mousedown="serieslist.selectTrailer(serie,true)" ng-mouseup="serieslist.selectTrailer(serie,false)"><i class="glyphicon glyphicon-facetime-video"></i></a>
         <a ng-show="!serie.trailer" href="https://www.youtube.com/results?search_query={{serie.name}}+official+trailer" target="_blank" tooltip="{{'SERIESLIST/TRAKT-SEARCHING/watch-trailer/tooltip'|translate}}" tooltip-append-to-body="true" tooltip-placement="bottom"  mousedown="serieslist.selectTrailer(serie,false)" ng-mouseup="serieslist.selectTrailer(serie,true)"><i class="glyphicon glyphicon-facetime-video"></i></a>

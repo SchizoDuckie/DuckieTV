@@ -50,6 +50,22 @@
 
   <hr class="setting-divider">
 
+  <h2>
+    <span tooltip="{{sgEnabled ? 'Enabled' : 'Disabled'|translate}}">
+      <i class="glyphicon glyphicon-{{sgEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+    </span>
+    <li translate-once="Sexy Poster Transitions"></li>
+  </h2>
+  
+  <p>Choose whether the posters in the series list use better transitions when being moved or resized, disabling these may increase performace</p>
+  <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
+   {{sgEnabled ? 'Enabled' : 'Disabled'|translate}}</p>
+  <a ng-click="toggleSeriesGrid()" class="btn btn-{{sgEnabled ? 'danger' : 'success'}}">
+    <i class="glyphicon glyphicon-{{sgEnabled ? 'remove' : 'ok'}}" ></i> {{sgEnabled ? 'Disable' : 'Enable'|translate}}
+  </a>
+
+  <hr class="setting-divider">
+
   <h2 translate-once="SETTINGS/DISPLAY/background-opacity/hdr"></h2>
 
   <ul class="list-unstyled btns">
