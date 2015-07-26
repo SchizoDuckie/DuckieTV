@@ -153,6 +153,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
              * off on resolving until the client is connected.
              * If it's connected and initialized, a promise will return that immediately resolves with the remote interface.
              */
+            retryTimeout: null,
             AutoConnect: function() {
                 if (!this.offline && !this.isConnecting && !this.connected) {
                     this.connectPromise = $q.defer();
@@ -171,12 +172,16 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                     }
                     self.connectPromise.resolve(self.getRemote());
                 }, function(error) {
-                    console.error("Error connecting!");
                     self.isPolling = false;
                     self.isConnnecting = false;
                     self.offline = true;
+                    clearTimeout(self.retryTimeout);
+                    self.retryTimeout = setTimeout(function() {
+                        self.offline = false;
+                        self.AutoConnect();
+                    }, 15000);
+                    console.info("Unable to connect to " + self.getName() + " Retry in 15 seconds");
                     self.connectPromise.reject("Not connected.");
-                    throw "Error connecting. aborting autoconnect";
                     return false;
                 });
 
@@ -246,7 +251,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                     if (!result) {
                         self.isConnecting = false;
                         self.isPolling = false;
-                        throw self.getName() + " Connect call failed. No client listening";
+                        throw self.getName() + " Connect call failed. No client listening.";
                     }
                     self.connected = result; // we are now connected
                     self.isConnecting = !result; // we are no longer connecting
