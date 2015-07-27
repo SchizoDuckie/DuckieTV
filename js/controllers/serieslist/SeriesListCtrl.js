@@ -3,40 +3,28 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         var serieslist = this;
 
-        this.width = SidePanelState.state.isExpanded ? document.body.clientWidth - 800 : SidePanelState.state.isShowing ? document.body.clientWidth - 400 : document.body.clientWidth;
         this.activated = SeriesListState.state.isShowing; // Toggles when the favorites panel activated
         this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
         this.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
         this.sgEnabled = SettingsService.get('library.seriesgrid');
         this.hideEnded = false;
+        //Sidepanel State, 0=hidden,1=active,2=expanded
+        this.spState = 0;
 
         FavoritesService.flushAdding();
         this.query = ''; // local filter query, set from LocalSerieCtrl
         this.genreFilter = []; // genre filter from localseriectrl 
         this.statusFilter = [];
         this.isFiltering = false;
-        var timeout = null;
-
-        function setWidthMinus(minus) {
-            if (timeout) {
-                clearTimeout(timeout);
-            }
-            timeout = setTimeout(function() {
-                var serieslist = document.querySelector('series-list > div');
-                if (serieslist) {
-                    serieslist.style.width = 'calc(100% - ' + minus + 'px)';
-                }
-            }, 0);
-        }
 
         function sidepanelMonitor(newValue) {
             if (!SeriesListState.state.isShowing) return;
             if (newValue[0].object.isExpanded) {
-                setWidthMinus(800);
+                serieslist.spState = 2;
             } else if (newValue[0].object.isShowing) {
-                setWidthMinus(400);
+                serieslist.spState = 1;
             } else {
-                setWidthMinus(0);
+                serieslist.spState = 0;
             }
         }
 

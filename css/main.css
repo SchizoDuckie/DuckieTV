@@ -378,6 +378,9 @@ serieheader[mode='search'] {
 serieheader[mode='search'] h3 {
     margin-top: 0;
 }
+serieheader .poster.active, serieheader .banner.active  {
+    border: 1px solid yellow;
+}
 serieheader[mode=banner] {
     width: 50%;
     height: 140px;
@@ -393,6 +396,7 @@ serieheader .banner {
     display: block;
     width: 100%;
     height: 100%;
+    -webkit-transition: border 0.2s ease-in-out;
 }
 serieheader .banner .img {
     width: 100%;
@@ -400,19 +404,12 @@ serieheader .banner .img {
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
-serieheader[mode=banner] h3 {
-    position: absolute;
-    margin-top: 0px;
-    display: block;
-    padding: 5px;
-    width: 100%;
-    box-sizing: content-box;
+serieheader[mode=banner] .title {
     background-color: rgba(0, 0, 0, 0.8);
-    margin-bottom: 0;
-    -webkit-transition: all 0.2s ease-in-out;
+    -webkit-transition: margin 0.2s ease-in-out;
     bottom: initial;
 }
-serieheader[mode=banner]:hover h3 {
+serieheader[mode=banner]:hover .title {
     margin-top: -36px;
 }
 
@@ -451,7 +448,7 @@ serieheader .poster {
     display: block;
     height: 247px;
     width: 165px;
-    -webkit-transition: opacity 0.3s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out, background-color 0.3s ease-in-out;
+    -webkit-transition: opacity 0.3s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out, background-color 0.3s ease-in-out, border 0.2s ease-in-out;
 }
 serieheader figure {
     width: 100%;
@@ -467,9 +464,6 @@ serieheader .poster .img {
     background-position: center center;
     background-repeat: no-repeat;
     -webkit-transition: opacity .2s ease-in-out;
-}
-serieheader .poster.active {
-    border: 1px solid yellow;
 }
 
 .series serieheader[mode='poster'] .poster:hover:not(.img-loading), .seasons serieheader[mode='poster'] .poster:hover:not(.img-loading) {
@@ -503,8 +497,8 @@ serieheader .poster.active {
 .col-md-4 serieheader[mode='poster'] {
     width: 160px;
 }
-serieheader h3 {
-    color:white;
+serieheader h3.title {
+    color: white;
     background-color: rgba(0, 0, 0, 0.6);
     padding: 5px;
     margin-bottom:0;
@@ -659,6 +653,12 @@ series-list > div {
 }
 series-list > div.active {
     -webkit-transform: translate3d(0, 0, 0);
+}
+series-list > div.sidepanelActive {
+    width: calc(100% - 400px);
+}
+series-list > div.sidepanelExpanded {
+    width: calc(100% - 800px);
 }
 series-list .tools {
     width: 100%;
@@ -2171,6 +2171,16 @@ ng-dial-gauge {
  */
 @media (max-width: 1080px) {
     serieheader[mode=banner] {
+        width: 100%;
+    }
+}
+@media (max-width: 1366px) {
+    series-list > div.sidepanelActive serieheader[mode=banner] {
+        width: 100%;
+    }
+}
+@media (max-width: 1560px) {
+    series-list > div.sidepanelExpanded serieheader[mode=banner] {
         width: 100%;
     }
 }
