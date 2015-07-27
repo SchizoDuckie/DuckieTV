@@ -44,9 +44,14 @@
                     <strong style="padding-left:21px" translate-once="SIDEPANEL/EPISODE-DETAILS/find-torrent/btn"></strong>
                   </torrent-dialog>
                 </td>
-                <td style="padding-right:20px">
+                <td>
                   <a class="auto-download" ng-click="sidepanel.autoDownload(episode)" tooltip="{{'SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip'|translate}}">
                     <i class="glyphicon glyphicon-cloud-download"></i><strong style="display:flex">&nbsp;</strong>
+                  </a>
+                </td>
+                <td>
+                  <a class="torrent-settings" ng-click="sidepanel.torrentSettings(serie)" tooltip="Torrent settings for {{sidepanel.serie.name}}">
+                    <i class="glyphicon glyphicon-cog"></i><strong style="display:flex">&nbsp;</strong>
                   </a>
                 </td>
               </tr>

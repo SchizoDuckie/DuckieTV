@@ -200,7 +200,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     calendarEvents[str].map(function(calEvent) {
                         calEvent.episode.markWatched(rootScope);
                         console.log("Mark calendar eventwatched: ", calEvent);
-                    });
+                    })
                 }
             },
             /**
