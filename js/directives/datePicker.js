@@ -46,7 +46,7 @@ DuckieTV
                     var day = date.getDay(),
                         startSunday = startSunday ? 0 : 1;
 
-                    if (startSunday === 1 && date.getDay() == 0) {
+                    if (startSunday === 1 && date.getDay() === 0) {
                         date.setDate(date.getDate() - 6);
                     } else {
                         date.setDate(date.getDate() - (date.getDay() - startSunday));
@@ -177,34 +177,38 @@ DuckieTV
 
                 scope.hasEvent = function(date) {
                     return (scope.eventService) ? scope.eventService.hasEvent(date) : false;
-                }
+                };
 
                 scope.getEvents = function(date) {
                     return (scope.eventService) ? scope.eventService.getEvents(date) : false;
-                }
+                };
 
                 scope.getSeries = function(date) {
                     return (scope.eventService) ? scope.eventService.getSeries(date) : false;
-                }
+                };
+
+                scope.markDayWatched = function(day) {
+                    return (scope.eventService) ? scope.eventService.markDayWatched(day, scope.$root) : false;
+                };
 
                 var expandedSeries = {};
 
                 scope.isExpanded = function(date, serie) {
                     var key = [new Date(date).toDateString(), '_', serie].join('');
-                    return ((key in expandedSeries) && expandedSeries[key] == true);
-                }
+                    return ((key in expandedSeries) && expandedSeries[key] === true);
+                };
 
                 scope.$on('expand:serie', function(event, date, serie) {
                     var key = [new Date(date).toDateString(), '_', serie].join('');
                     expandedSeries[key] = true;
-                })
+                });
 
                 scope.filterSpecials = function(event) {
                     if (!event.serie) return false;
                     if (event.serie.displaycalendar == '0') return false;
                     if (SettingsService.get('calendar.show-specials')) return true;
                     else return event.episode.seasonnumber > 0;
-                }
+                };
 
                 scope.setView = function(nextView) {
                     if (scope.views.indexOf(nextView) !== -1) {
@@ -261,14 +265,14 @@ DuckieTV
                             scope.weekdays = scope.weekdays || getDaysOfWeek(undefined, datePickerConfig.startSunday);
                             scope.weeks = getVisibleWeek(date, datePickerConfig.startSunday);
                             if (scope.eventService) {
-                                scope.eventService.setVisibleDays(scope.weeks)
+                                scope.eventService.setVisibleDays(scope.weeks);
                             }
                             break;
                         case 'date':
                             scope.weekdays = scope.weekdays || getDaysOfWeek(undefined, datePickerConfig.startSunday);
                             scope.weeks = getVisibleWeeks(date, datePickerConfig.startSunday);
                             if (scope.eventService) {
-                                scope.eventService.setVisibleDays(scope.weeks)
+                                scope.eventService.setVisibleDays(scope.weeks);
                             }
                             break;
                         case 'hours':

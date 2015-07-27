@@ -1330,6 +1330,31 @@ td.day {
     margin-bottom: 4px;
     display:block;
 }
+
+
+[date-picker] a.markdaywatched {
+    font-size: 12px;
+    position: absolute;
+    bottom: -18px;
+    left: 0px;
+    margin-top: 0px;
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    padding: 0px;
+    height: 20px;
+    line-height: 19px;
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(25, 25, 25, 0.9);
+}
+
+[date-picker] a.markdaywatched:hover {
+    text-decoration: underline;
+}
+
 clicktrap {
     position:fixed; 
     top:0px; 

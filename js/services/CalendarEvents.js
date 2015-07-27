@@ -183,7 +183,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                             serie: serie,
                             episode: episodes[id]
                         });
-                    })
+                    });
                 });
                 $rootScope.$applyAsync();
             },
@@ -192,6 +192,16 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
              */
             hasEvent: function(date) {
                 return (new Date(date).toDateString() in calendarEvents);
+            },
+
+            markDayWatched: function(day, rootScope) {
+                var str = day instanceof Date ? day.toDateString() : new Date(day).toDateString();
+                if (str in calendarEvents) {
+                    calendarEvents[str].map(function(calEvent) {
+                        calEvent.episode.markWatched(rootScope);
+                        console.log("Mark calendar eventwatched: ", calEvent);
+                    });
+                }
             },
             /**
              * Return events for a date or an empty array
