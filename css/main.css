@@ -389,7 +389,12 @@ serieheader[mode=banner] .serieheader {
     width: 100%;
     height: 100%;
 }
-serieheader[mode=banner] .img {
+serieheader .banner {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+serieheader .banner .img {
     width: 100%;
     height: 100%;
     background-size: 100% 100%;
@@ -466,11 +471,7 @@ serieheader .poster .img {
 serieheader .poster.active {
     border: 1px solid yellow;
 }
-/* Ideally a :not(.img-load-error) here would be ideal however the class
- * is only applied to the actual div loading the poster and :not does not
- * support combinator selectors :( and we can't apply the background color
- * to the same element that has the opacity change, perhaps a better 
- * lazy-background method is required */
+
 .series serieheader[mode='poster'] .poster:hover:not(.img-loading), .seasons serieheader[mode='poster'] .poster:hover:not(.img-loading) {
     background-color: #e5e5e5;
 }
@@ -518,8 +519,11 @@ serieheader[mode=search] h3 {
     position: initial;
 }
 /* Be naughty and override ng-hide override for titles if the image failed to load */
-.poster.img-load-error figcaption h3 {
+
+.series .poster.img-load-error figcaption h3 {
     display: initial !important;
+}
+.series.adding .poster.img-load-error figcaption h3 {
     bottom: initial;
     top: 0;
 }
