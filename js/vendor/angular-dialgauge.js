@@ -473,8 +473,6 @@ angular.module('angular-dialgauge', [
                 }
 
                 for (var key in defaults) {
-                    console.log("Checking ", key);
-
                     if (cfgObject[key] !== undefined) {
                         cfg[key] = cfgObject[key];
                     } else if (cfg[key] === undefined) {
