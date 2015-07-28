@@ -215,7 +215,7 @@ DuckieTV
                 width = Math.floor(window.screen.availWidth * 0.75);
                 width = (width > 1000) ? 1000 : width; // maximum
             };
-            if (window.screen.availWidth > width) {
+            if (window.screen.availHeight > height) {
                 height = Math.floor(window.screen.availHeight * 0.75);
                 height = (height > 750) ? 750 : height; // maximum
             };
