@@ -80,7 +80,10 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             };
 
             // Get current torrent mirror
-            var activeTorrentingMirror = ('config' in TorrentSearchEngines.getDefaultEngine() && 'mirror' in TorrentSearchEngines.getDefaultEngine().config) ? TorrentSearchEngines.getDefaultEngine().config.mirror : 'n/a';
+            var activeTorrentingMirror = 'n/a';
+            if (SettingsService.get('torrenting.enabled')) {
+                activeTorrentingMirror = ('config' in TorrentSearchEngines.getDefaultEngine() && 'mirror' in TorrentSearchEngines.getDefaultEngine().config) ? TorrentSearchEngines.getDefaultEngine().config.mirror : 'n/a';
+            };
 
             // Get date of last trakt update
             var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
@@ -146,6 +149,13 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 data: angular.toJson(userPrefs, true)
             });
 
+            // dump local storage with exceptions to avoid overload.
+            var dumpLocalStorage = angular.fromJson(localStorage);
+            ['userPreferences','torrenting.hashList','trakt.token','trakttv.trending.cache','alarms'].map(function(key) { delete dumpLocalStorage[key]; });
+            $scope.statistics.push({
+                name: 'Other significant Local Storage keys', 
+                data: angular.toJson(dumpLocalStorage, true)
+            });
         };
         getStats();
     }
