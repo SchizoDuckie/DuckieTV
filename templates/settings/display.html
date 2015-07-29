@@ -41,8 +41,8 @@
     <li translate-once="SETTINGS/DISPLAY/download-ratings/hdr"></li>
   </h2>
   
-  <p>{{'SETTINGS/DISPLAY/download-ratings/desc'|translate}}</p>
-  <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
+  <p translate-once="SETTINGS/DISPLAY/download-ratings/desc"></p>
+  <p><strong translate-once="SETTINGS/current-setting/hdr"></strong>
    {{showRatings ? 'SETTINGS/DISPLAY/download-ratings-enabled/tooltip' : 'SETTINGS/DISPLAY/download-ratings-disabled/tooltip'|translate}}</p>
   <a ng-click="toggleRatings()" class="btn btn-{{showRatings ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{showRatings ? 'remove' : 'ok'}}" ></i> {{showRatings ? 'SETTINGS/DISPLAY/download-ratings-disable/btn' : 'SETTINGS/DISPLAY/download-ratings-enable/btn'|translate}}
@@ -57,7 +57,7 @@
     <li translate-once="SETTINGS/DISPLAY/transitions/hdr"></li>
   </h2>
   
-  <p>{{'SETTINGS/DISPLAY/transitions/desc'|translate}}</p>
+  <p translate-once="SETTINGS/DISPLAY/transitions/desc"></p>
   <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
    {{sgEnabled ? 'SETTINGS/DISPLAY/transitions-enabled/tooltip' : 'SETTINGS/DISPLAY/transitions-disabled/tooltip'|translate}}</p>
   <a ng-click="toggleSeriesGrid()" class="btn btn-{{sgEnabled ? 'danger' : 'success'}}">
@@ -104,7 +104,7 @@
       <li translate-once="SETTINGS/DISPLAY/standalone-startup-window/hdr"></li>
     </h2>
     
-    <p>{{'SETTINGS/DISPLAY/standalone-startup-window/desc'|translate}}</p>
+    <p translate-once="SETTINGS/DISPLAY/standalone-startup-window/desc"></p>
     <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
      {{standaloneStartupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-minimized/tooltip' : 'SETTINGS/DISPLAY/standalone-startup-normalized/tooltip'|translate}}</p>
     <a ng-click="toggleStandaloneStartupMinimized()" class="btn btn-{{standaloneStartupMinimized ? 'info' : 'success'}}">
