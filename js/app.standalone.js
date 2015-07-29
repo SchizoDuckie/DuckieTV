@@ -23,7 +23,7 @@ DuckieTV
 .run(function(SettingsService, $http, dialogs) {
     var updateDialog = false;
     var moveTimeout;   // timer used by win.on(move)
-    var resizeTimeout;  // timer used by won.on(resize)
+    var resizeTimeout;  // timer used by win.on(resize)
     var isStartupMinimized = SettingsService.get('standalone.startupMinimized');
 
     // managing Integers in local Storage
@@ -100,11 +100,10 @@ DuckieTV
 
         // Get the minimize event
         win.on('minimize', function() {
-            console.debug('Minimized');
             // Hide window
             var winState = localStorage.getItem('standalone.winState') || 'Normal';
-            localStorage.setItem('standalone.prevWinState', winState);
             localStorage.setItem('standalone.winState', 'Minimized');
+            localStorage.setItem('standalone.prevWinState', winState);
             this.hide();
 
             // Show tray
@@ -124,21 +123,21 @@ DuckieTV
 
         // get the restore (un-minimize) screen event
         win.on('restore', function() {
-            console.debug('Restored');
             var prevWinState = localStorage.getItem('standalone.prevWinState') || 'Normal';
             localStorage.setItem('standalone.winState', prevWinState);
+            localStorage.setItem('standalone.prevWinState', 'Minimized');
         });
 
         // get the maximize screen event
         win.on('maximize', function() {
-            console.debug('Maximized');
             localStorage.setItem('standalone.winState', 'Maximized');
+            localStorage.setItem('standalone.prevWinState', 'Normal');
         });
 
         // get the un-maximize screen event
         win.on('unmaximize', function() {
-            console.debug('Unmaximized');
             localStorage.setItem('standalone.winState', 'Normal');
+            localStorage.setItem('standalone.prevWinState', 'Maximized');
         });
 
         // get the zoom command events
@@ -173,11 +172,12 @@ DuckieTV
 
         // get the move screen event
         win.on('move', function(x,y) {
-            // move event may occur multiple times during transition, so wait a bit to try catch the last one
-             if (isWinState('Normal'))  {
+            // only save position during win.show activity
+            if (isWinState('Normal')) {
+                // move event may occur multiple times during transition, so wait a bit to try catch the last one
                 clearTimeout(moveTimeout);
                 moveTimeout = setTimeout( function () {
-                    console.debug('moved to', x, y);
+                    // save current position
                     localStorageSetInt('standalone.x', x);
                     localStorageSetInt('standalone.y', y);
                 }, 500);
@@ -185,12 +185,13 @@ DuckieTV
         });
 
         // get the resize screen event
-         win.on('resize', function(width,height) {
-            // resize event may occur multiple times during transition, so wait a bit to try catch the last one
-             if (isWinState('Normal'))  {
+        win.on('resize', function(width,height) {
+            // only save position during win.show activity
+            if (isWinState('Normal')) {
+                // resize event may occur multiple times during transition, so wait a bit to try catch the last one
                 clearTimeout(resizeTimeout);
                 resizeTimeout = setTimeout( function () {
-                    console.debug('resized to', width, height);
+                    // save current dimensions
                     localStorageSetInt('standalone.width', width);
                     localStorageSetInt('standalone.height', height);
                 }, 500);
