@@ -93,7 +93,9 @@ DuckieTV.factory('RarBG', ["$q", "$http",
 
         var service = {
             activeToken: null,
-
+            config: {
+                noMagnet: false
+            },
             search: function(what) {
                 service.cancelSearch();
                 activeSearchRequest = $q.defer();

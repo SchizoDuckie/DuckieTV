@@ -30,6 +30,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
         };
 
         BaseTorrentRemote.prototype.getByHash = function(hash) {
+            if (!hash) return null;
             hash = hash.toUpperCase();
             return (hash in this.torrents) ? this.torrents[hash] : null;
         };
@@ -65,7 +66,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
     function($q, $http, URLBuilder, $parse, SettingsService) {
 
         var BaseTorrentClient = function() {
-            this.config = {
+        this.config = {
                 uses_custom_auth_method: false
             };
 

@@ -87,7 +87,8 @@ DuckieTV
             };
 
         $scope.select = function(result) {
-            if (TorrentSearchEngines.getSearchEngine($scope.searchprovider).config.noMagnet) {
+            var config = TorrentSearchEngines.getSearchEngine($scope.searchprovider).config;
+            if (config && 'noMagnet' in config && config.noMagnet) {
                 return urlSelect(result.torrentUrl, result.releasename);
             } else {
                 return magnetSelect(result.magneturl);
