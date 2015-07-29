@@ -416,6 +416,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "281537": "Aquarius US",
         "281624": "Manhattan Love Story US",
         "281664": "Partners 2014",
+        "281708": "Proof US",
         "281709": "The Librarians US",
         "281776": "Youre the Worst",
         "282654": "Utopia US",
