@@ -13,15 +13,15 @@
   <hr class="setting-divider">
   
   <h2>
-    <span tooltip="{{streamingEnabled ? 'SETTINGS/UTORRENT/enabled/tooltip' : 'SETTINGS/UTORRENT/disabled/tooltip'|translate}}">
+    <span tooltip="{{streamingEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{streamingEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/UTORRENT/streaming/hdr"></li>
   </h2>
 
   <p>{{streamingEnabled ? 'SETTINGS/UTORRENT/streaming-disabled/desc' : 'SETTINGS/UTORRENT/streaming-enabled/desc'|translate}}</p>
-  <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-   {{streamingEnabled ? 'SETTINGS/UTORRENT/enabled/tooltip' : 'SETTINGS/UTORRENT/disabled/tooltip'|translate}}</p>
+  <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+   {{streamingEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
   <a ng-click="toggleStreaming()" class="btn btn-{{streamingEnabled ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{streamingEnabled ? 'ban-circle' : 'film'}}"></i> {{streamingEnabled ? 'SETTINGS/UTORRENT/streaming-disabled/btn' : 'SETTINGS/UTORRENT/streaming-enabled/btn'|translate}}
   </a>
@@ -29,15 +29,15 @@
   <hr class="setting-divider">
 
   <h2>
-    <span tooltip="{{directoryEnabled ? 'SETTINGS/UTORRENT/enabled/tooltip' : 'SETTINGS/UTORRENT/disabled/tooltip'|translate}}">
+    <span tooltip="{{directoryEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{directoryEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/UTORRENT/directory/hdr"></li>
   </h2>
  
   <p>{{directoryEnabled ? 'SETTINGS/UTORRENT/directory-folder-hide/desc' : 'SETTINGS/UTORRENT/directory-folder-show/desc'|translate}}</p>
-  <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-   {{directoryEnabled ? 'SETTINGS/UTORRENT/enabled/tooltip' : 'SETTINGS/UTORRENT/disabled/tooltip'|translate}}</p>
+  <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+   {{directoryEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
   <a ng-click="toggleDirectory()" class="btn btn-{{directoryEnabled ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{directoryEnabled ? 'ban-circle' : 'folder-open'}}"></i> {{directoryEnabled ? 'SETTINGS/UTORRENT/directory-folder-hide/btn' : 'SETTINGS/UTORRENT/directory-folder-show/btn'|translate}}
   </a>

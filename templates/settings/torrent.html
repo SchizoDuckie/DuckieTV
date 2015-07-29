@@ -1,14 +1,14 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
   <h2>
-    <span tooltip="{{torrentEnabled ? 'SETTINGS/TORRENT/enabled/tooltip' : 'SETTINGS/TORRENT/disabled/tooltip'|translate}}">
+    <span tooltip="{{torrentEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{torrentEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/TORRENT/hdr"></li>
   </h2>
 
   <p>{{torrentEnabled ? 'SETTINGS/TORRENT/functions-hide/desc' : 'SETTINGS/TORRENT/functions-show/desc'|translate}}</p>
-  <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-   {{torrentEnabled ? 'SETTINGS/TORRENT/enabled/tooltip' : 'SETTINGS/TORRENT/disabled/tooltip'|translate}}</p>
+  <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+   {{torrentEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
   <a ng-click="toggleTorrent()" class="btn btn-{{torrentEnabled ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{torrentEnabled ? 'remove-sign' : 'ok-sign'}}"></i> {{torrentEnabled ? 'SETTINGS/TORRENT/functions-hide/btn' : 'SETTINGS/TORRENT/functions-show/btn'|translate}}
   </a>
@@ -29,7 +29,7 @@
     <hr class="setting-divider">
 
     <h2>
-      <span tooltip="{{adEnabled ? 'SETTINGS/TORRENT/autodownload-enabled/tooltip' : 'SETTINGS/TORRENT/autodownload-disabled/tooltip'|translate}}">
+      <span tooltip="{{adEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
         <i class="glyphicon glyphicon-{{adEnabled ? 'ok alert-success' : 'remove  alert-danger'}}" ></i>
       </span>
       <li translate-once="SETTINGS/TORRENT/autodownload/hdr"></li>
@@ -37,8 +37,8 @@
     
     <p ng-hide="adEnabled" ><span translate-once="SETTINGS/TORRENT/autodownload-enable/desc"></span>{{getSetting('autodownload.period')}}<span translate-once="SETTINGS/TORRENT/autodownload-enable/desc2"></span>{{getSetting('autodownload.minSeeders')}}<span translate-once="SETTINGS/TORRENT/autodownload-enable/desc3"></span></p>
     <p ng-show="adEnabled" translate-once="SETTINGS/TORRENT/autodownload-disable/desc"></p>
-    <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-     {{adEnabled ? 'SETTINGS/TORRENT/autodownload-enabled/tooltip' : 'SETTINGS/TORRENT/autodownload-disabled/tooltip'|translate}}</p>
+    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+     {{adEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
     <a ng-click="toggleAutoDownload()" class="btn btn-{{adEnabled ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{adEnabled ? 'remove-sign' : 'cloud-download'}}"></i>&nbsp;{{adEnabled ? 'SETTINGS/TORRENT/autodownload-disable/btn' : 'SETTINGS/TORRENT/autodownload-enable/btn'|translate}}
     </a>
@@ -77,15 +77,15 @@
    <hr class="setting-divider">
   
     <h2>
-      <span tooltip="{{progressEnabled ? 'SETTINGS/TORRENT/enabled/tooltip' : 'SETTINGS/TORRENT/disabled/tooltip'|translate}}">
+      <span tooltip="{{progressEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
         <i class="glyphicon glyphicon-{{progressEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
       <li translate-once="SETTINGS/TORRENT/progressbar/hdr"></li>
     </h2>
     
     <p>{{progressEnabled ? 'SETTINGS/TORRENT/progressbar-hide/desc' : 'SETTINGS/TORRENT/progressbar-show/desc'|translate}}</p>
-    <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-     {{progressEnabled ? 'SETTINGS/TORRENT/enabled/tooltip' : 'SETTINGS/TORRENT/disabled/tooltip'|translate}}</p>
+    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+     {{progressEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
     <a ng-click="toggleProgress()" class="btn btn-{{progressEnabled ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{progressEnabled ? 'ban-circle' : 'minus'}}"></i> {{progressEnabled ? 'SETTINGS/TORRENT/progressbar-hide/btn' : 'SETTINGS/TORRENT/progressbar-show/btn'|translate}}
     </a>
@@ -93,14 +93,14 @@
     <hr class="setting-divider">
 
     <h2> 
-      <span tooltip="{{autostopEnabled ? 'SETTINGS/TORRENT/enabled/tooltip' : 'SETTINGS/TORRENT/disabled/tooltip'|translate}}">
+      <span tooltip="{{autostopEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
         <i class="glyphicon glyphicon-{{autostopEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
       <li translate-once="SETTINGS/TORRENT/autostop/hdr"></li>
     </h2>
     <p>{{autostopEnabled ? 'SETTINGS/TORRENT/autostop-disabled/desc' : 'SETTINGS/TORRENT/autostop-enabled/desc'|translate}}</p>
-    <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-     {{autostopEnabled ? 'SETTINGS/TORRENT/enabled/tooltip' : 'SETTINGS/TORRENT/disabled/tooltip'|translate}}</p>
+    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+     {{autostopEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
     <a ng-click="toggleAutoStop(); reload();" class="btn btn-{{autostopEnabled ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{autostopEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopEnabled ? 'SETTINGS/TORRENT/autostop-disabled/btn' : 'SETTINGS/TORRENT/autostop-enabled/btn'|translate}}
     </a>
@@ -109,14 +109,14 @@
       <hr class="setting-divider">
 
       <h2> 
-        <span tooltip="{{autostopAllEnabled ? 'SETTINGS/TORRENT/enabled/tooltip' : 'SETTINGS/TORRENT/disabled/tooltip'|translate}}">
+        <span tooltip="{{autostopAllEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
           <i class="glyphicon glyphicon-{{autostopAllEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
         </span>
         <li translate-once="SETTINGS/TORRENT/autostopall/hdr"></li>
       </h2>
         <p>{{autostopAllEnabled ? 'SETTINGS/TORRENT/autostopall-disabled/desc' : 'SETTINGS/TORRENT/autostopall-enabled/desc'|translate}}</p>
-        <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-         {{autostopAllEnabled ? 'SETTINGS/TORRENT/enabled/tooltip' : 'SETTINGS/TORRENT/disabled/tooltip'|translate}}</p>
+        <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+         {{autostopAllEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
         <a ng-click="toggleAutoStopAll()" class="btn btn-{{autostopAllEnabled ? 'danger' : 'success'}}">
           <i class="glyphicon glyphicon-{{autostopAllEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopAllEnabled ? 'SETTINGS/TORRENT/autostopall-disabled/btn' : 'SETTINGS/TORRENT/autostopall-enabled/btn'|translate}}
         </a>

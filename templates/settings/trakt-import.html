@@ -4,8 +4,8 @@
     <div class="trakt-logo" style="float:left"><img src="img/trakt.png"></div>
     <div class="trakt-login">
       <p translate-once="SETTINGS/TRAKT-IMPORT/sync/desc"></p>
-      <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-       {{traktSync ? 'SETTINGS/TRAKTTV/sync-enabled/tooltip' : 'SETTINGS/TRAKTTV/sync-disabled/tooltip'|translate}}</p>
+      <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+       {{traktSync ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
       <form name="userCredentials">
         <table>
           <tr class="username">
@@ -46,14 +46,14 @@
   <div ng-show="credentials.success" class="buttons">
     <hr class="setting-divider">
     <h2>
-      <span tooltip="{{traktSync ? 'SETTINGS/TRAKTTV/sync-enabled/tooltip' : 'SETTINGS/TRAKTTV/sync-disabled/tooltip'|translate}}">
+      <span tooltip="{{traktSync ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
         <i class="glyphicon glyphicon-{{traktSync ? 'ok alert-success' : 'remove alert-danger'}}" style="font-size:22px;background-color:transparent"></i>
       </span>
       <li translate-once="SETTINGS/TRAKT-IMPORT/watched-sync/hdr"></li>
     </h2>
     <p translate-once="SETTINGS/TRAKT-IMPORT/watched-sync/desc"></p>
-    <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-     {{traktSync ? 'SETTINGS/TRAKTTV/sync-enabled/tooltip' : 'SETTINGS/TRAKTTV/sync-disabled/tooltip'|translate}}</p>
+    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+     {{traktSync ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
     <a ng-click="toggleTraktSync()" class="btn btn-{{traktSync ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{traktSync ? 'remove-circle' : 'export'}}" style="float:left;top:3px"></i>{{traktSync ? 'SETTINGS/TRAKT-IMPORT/sync-disabled/btn' : 'SETTINGS/TRAKT-IMPORT/sync-enabled/btn'|translate}}
     </a>

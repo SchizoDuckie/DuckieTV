@@ -1,15 +1,15 @@
 <div ng-controller="DisplayCtrl" class="buttons">
   <div ng-show="hasTopSites">
     <h2>
-      <span tooltip="{{topSites ? 'SETTINGS/DISPLAY/topsites-enabled/tooltip' : 'SETTINGS/DISPLAY/topsites-disabled/tooltip'|translate}}">
+      <span tooltip="{{topSites ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
         <i class="glyphicon glyphicon-{{topSites ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
       <li translate-once="SETTINGS/DISPLAY/topsites/hdr"></li>
     </h2>
 
     <p>{{topSites ? 'SETTINGS/DISPLAY/topsites-hide/desc' : 'SETTINGS/DISPLAY/topsites-show/desc'|translate}}</p>
-    <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-     {{topSites ? 'SETTINGS/DISPLAY/topsites-enabled/tooltip' : 'SETTINGS/DISPLAY/topsites-disabled/tooltip'|translate}}</p>
+    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+     {{topSites ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
     <a ng-click="toggleTopSites()" class="btn btn-{{topSites ? 'danger' : 'success'}}"><i class="glyphicon glyphicon-{{topSites ? 'ban-circle' : 'th'}}"></i>{{topSites ? 'SETTINGS/DISPLAY/topsites-hide/btn' : 'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</a>
 
     <div ng-show="topSites">
@@ -23,7 +23,7 @@
       </h2>
 
       <p>{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-click/desc' : 'SETTINGS/DISPLAY/topsites-mode-hover/desc'|translate}}</p>
-      <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
+      <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
        {{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-hover/tooltip' : 'SETTINGS/DISPLAY/topsites-mode-click/tooltip'|translate}}</p>
       <a ng-click="toggleTopSitesMode()" class="btn btn-{{topSitesMode == 'onhover' ? 'info' : 'success'}}">
         <i class="glyphicon glyphicon-{{topSitesMode == 'onhover' ? 'screenshot' : 'download-alt'}}"></i>
@@ -35,33 +35,33 @@
   <hr class="setting-divider">
 
   <h2>
-    <span tooltip="{{showRatings ? 'SETTINGS/DISPLAY/download-ratings-enabled/tooltip' : 'SETTINGS/DISPLAY/download-ratings-disabled/tooltip'|translate}}">
+    <span tooltip="{{showRatings ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{showRatings ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/DISPLAY/download-ratings/hdr"></li>
   </h2>
   
   <p translate-once="SETTINGS/DISPLAY/download-ratings/desc"></p>
-  <p><strong translate-once="SETTINGS/current-setting/hdr"></strong>
-   {{showRatings ? 'SETTINGS/DISPLAY/download-ratings-enabled/tooltip' : 'SETTINGS/DISPLAY/download-ratings-disabled/tooltip'|translate}}</p>
+  <p><strong translate-once="COMMON/current-setting/hdr"></strong>
+   {{showRatings ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
   <a ng-click="toggleRatings()" class="btn btn-{{showRatings ? 'danger' : 'success'}}">
-    <i class="glyphicon glyphicon-{{showRatings ? 'remove' : 'ok'}}" ></i> {{showRatings ? 'SETTINGS/DISPLAY/download-ratings-disable/btn' : 'SETTINGS/DISPLAY/download-ratings-enable/btn'|translate}}
+    <i class="glyphicon glyphicon-{{showRatings ? 'remove' : 'ok'}}" ></i> {{showRatings ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
 
   <hr class="setting-divider">
 
   <h2>
-    <span tooltip="{{sgEnabled ? 'SETTINGS/DISPLAY/transitions-enabled/tooltip' : 'SETTINGS/DISPLAY/transitions-disabled/tooltip'|translate}}">
+    <span tooltip="{{sgEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{sgEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/DISPLAY/transitions/hdr"></li>
   </h2>
   
   <p translate-once="SETTINGS/DISPLAY/transitions/desc"></p>
-  <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-   {{sgEnabled ? 'SETTINGS/DISPLAY/transitions-enabled/tooltip' : 'SETTINGS/DISPLAY/transitions-disabled/tooltip'|translate}}</p>
+  <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+   {{sgEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
   <a ng-click="toggleSeriesGrid()" class="btn btn-{{sgEnabled ? 'danger' : 'success'}}">
-    <i class="glyphicon glyphicon-{{sgEnabled ? 'remove' : 'ok'}}" ></i> {{sgEnabled ? 'SETTINGS/DISPLAY/transitions-disable/btn' : 'SETTINGS/DISPLAY/transitions-enable/btn'|translate}}
+    <i class="glyphicon glyphicon-{{sgEnabled ? 'remove' : 'ok'}}" ></i> {{sgEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
 
   <hr class="setting-divider">
@@ -80,14 +80,14 @@
   <br>
     <hr class="setting-divider">
     <h2>
-      <span tooltip="{{getSetting('kc.always') ? 'SETTINGS/DISPLAY/cheatmode-enabled/tooltip' : 'SETTINGS/DISPLAY/cheatmode-disabled/tooltip'|translate}}">
+      <span tooltip="{{getSetting('kc.always') ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
         <i class="glyphicon glyphicon-{{getSetting('kc.always') ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
       <li translate-once="SETTINGS/DISPLAY/cheatmode/hdr"></li>
     </h2>
     <p  translate-once="SETTINGS/DISPLAY/cheatmode/desc"></p>
-    <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-     {{getSetting('kc.always') ? 'SETTINGS/DISPLAY/cheatmode-enabled/tooltip' : 'SETTINGS/DISPLAY/cheatmode-disabled/tooltip'|translate}}</p>
+    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+     {{getSetting('kc.always') ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
     <a ng-click="setSetting('kc.always',!getSetting('kc.always'))" class="btn btn-{{!getSetting('kc.always') ? 'info' : 'success'}}">
       <i class="glyphicon glyphicon-{{getSetting('kc.always') ? 'remove' : 'ok'}}"></i> {{!getSetting('kc.always') ? 'SETTINGS/DISPLAY/cheatmode-disable/btn' : 'SETTINGS/DISPLAY/cheatmode-enable/btn'|translate}}
     </a>
@@ -105,7 +105,7 @@
     </h2>
     
     <p translate-once="SETTINGS/DISPLAY/standalone-startup-window/desc"></p>
-    <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
+    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
      {{standaloneStartupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-minimized/tooltip' : 'SETTINGS/DISPLAY/standalone-startup-normalized/tooltip'|translate}}</p>
     <a ng-click="toggleStandaloneStartupMinimized()" class="btn btn-{{standaloneStartupMinimized ? 'info' : 'success'}}">
       <i class="glyphicon glyphicon-{{standaloneStartupMinimized ? 'win-maximize' : 'win-minimize'}}"  style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i> {{standaloneStartupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-normal/btn' : 'SETTINGS/DISPLAY/standalone-startup-minimize/btn'|translate}}

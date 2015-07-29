@@ -84,7 +84,7 @@
   <hr class="setting-divider">
 
   <h2 style='white-space:nowrap'><h2cont translate-once="SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr"></h2cont>
-    <span tooltip="{{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/enabled/tooltip' : 'SETTINGS/TORRENT-SEARCH/disabled/tooltip'|translate}}">
+    <span tooltip="{{allowUnsafe ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{allowUnsafe ? 'ok alert-success' : 'remove alert-danger'}}" ></i>
     </span>
   </h2>
@@ -92,9 +92,9 @@
   <ul class="list-unstyled">
     <li>
       <p>{{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enabled/desc' : 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disabled/desc'|translate}}</p>
-      <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-       {{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/enabled/tooltip' : 'SETTINGS/TORRENT-SEARCH/disabled/tooltip'|translate}}</p>
-      <a ng-click="toggleUnsafeProxy()" class="btn btn-{{allowUnsafe ? 'danger' : 'success'}}">{{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disable/btn' : 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enable/btn'|translate}}</a>
+      <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+       {{allowUnsafe ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
+      <a ng-click="toggleUnsafeProxy()" class="btn btn-{{allowUnsafe ? 'danger' : 'success'}}">{{allowUnsafe ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}</a>
     </li>
   </ul>
 </div>
