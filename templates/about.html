@@ -55,14 +55,15 @@
     </tr>
     <tr>
       <td>
-        <h1>Opt-In eror Tracking</h1>
-        <p>If you have a problem with DuckieTV, the devs can ask you to enable this functionality temporarily and repeat the scenario that lead to your error. This will help us get to the core of your problems more easily. Please don't enable this unless asked to. We don't want your data!</p>
-        <p>When you do enable this functionality, please report the Unique Tracking ID to the devs so we can trace the logs back to you</p>
-        <p><strong>Status: </strong> {{ optInTrackingEnabled ? 'Enabled' : 'Disabled'}}</p>
-        <p ng-if='optInTrackingEnabled'><strong>Unique tracking id:</strong> {{uniqueTrackingID}}</p>
+        <h1 translate-once="ABOUT/optInTracking/hdr"></h1>
+        <p translate-once="ABOUT/optInTracking/desc"></p>
+        <p translate-once="ABOUT/optInTracking/desc2"></p>
+        <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+        {{ optInTrackingEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+        <p ng-if='optInTrackingEnabled'><strong translate-once="ABOUT/optInTracking-id/hdr"></strong> {{uniqueTrackingID}}</p>
 
-        <button class='btn' ng-class="{'btn-danger': !optInTrackingEnabled, 'btn-success': optInTrackingEnabled}" ng-click="toggleOptInErrorReporting()">{{ optInTrackingEnabled ? 'Disable' : 'Enable' }} opt-in error tracking</button>
-
+        <button class='btn' ng-class="{'btn-danger': !optInTrackingEnabled, 'btn-success': optInTrackingEnabled}" ng-click="toggleOptInErrorReporting()">{{ optInTrackingEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+        <span translate-once="ABOUT/optInTracking/hdr"></span></button>
       </td>
     </tr>
   </table>
