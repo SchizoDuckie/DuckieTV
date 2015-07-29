@@ -51,17 +51,17 @@
   <hr class="setting-divider">
 
   <h2>
-    <span tooltip="{{sgEnabled ? 'Enabled' : 'Disabled'|translate}}">
+    <span tooltip="{{sgEnabled ? 'SETTINGS/DISPLAY/transitions-enabled/tooltip' : 'SETTINGS/DISPLAY/transitions-disabled/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{sgEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
-    <li translate-once="Sexy Poster Transitions"></li>
+    <li translate-once="SETTINGS/DISPLAY/transitions/hdr"></li>
   </h2>
   
-  <p>Choose whether the posters in the series list use better transitions when being moved or resized, disabling these may increase performace</p>
+  <p>{{'SETTINGS/DISPLAY/transitions/desc'|translate}}</p>
   <p><strong  translate-once="SETTINGS/current-setting/hdr"></strong>
-   {{sgEnabled ? 'Enabled' : 'Disabled'|translate}}</p>
+   {{sgEnabled ? 'SETTINGS/DISPLAY/transitions-enabled/tooltip' : 'SETTINGS/DISPLAY/transitions-disabled/tooltip'|translate}}</p>
   <a ng-click="toggleSeriesGrid()" class="btn btn-{{sgEnabled ? 'danger' : 'success'}}">
-    <i class="glyphicon glyphicon-{{sgEnabled ? 'remove' : 'ok'}}" ></i> {{sgEnabled ? 'Disable' : 'Enable'|translate}}
+    <i class="glyphicon glyphicon-{{sgEnabled ? 'remove' : 'ok'}}" ></i> {{sgEnabled ? 'SETTINGS/DISPLAY/transitions-disable/btn' : 'SETTINGS/DISPLAY/transitions-enable/btn'|translate}}
   </a>
 
   <hr class="setting-divider">
