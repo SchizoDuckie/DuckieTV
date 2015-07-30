@@ -1,11 +1,11 @@
  <h3>{{torrent.properties.all.name}}</h3>
 
-  <button ng-click="torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i> <span  translate-once="SIDEPANEL/TORRENT-DETAILS/start/btn"></span></button>
-  <button ng-click="torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i> <span  translate-once="SIDEPANEL/TORRENT-DETAILS/pause/btn"></span></button>
-  <button ng-click="torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i> <span  translate-once="SIDEPANEL/TORRENT-DETAILS/stop/btn"></span></button>
-  <button ng-if="torrent.properties.all.is_streamable"  style="margin-top: 5px" ng-click="torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i><span  translate-once="SIDEPANEL/TORRENT-DETAILS/stream-play/btn"></span></button>
+  <button ng-click="torrent.start();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-play"></i> <span  translate-once="COMMON/start/btn"></span></button>
+  <button ng-click="torrent.pause();" class="btn btn-xs btn-primary"><i class="glyphicon  glyphicon-pause"></i> <span  translate-once="COMMON/pause/btn"></span></button>
+  <button ng-click="torrent.stop();" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-stop"></i> <span  translate-once="COMMON/stop/btn"></span></button>
+  <button ng-if="torrent.properties.all.is_streamable"  style="margin-top: 5px" ng-click="torrent.stream();" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-bullhorn"></i><span  translate-once="COMMON/stream-play/btn"></span></button>
   <button ng-click="torrent.open_containing();" class="btn btn-xs btn-primary" style="width:80%; margin:5%;" >
-  <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i><span  translate-once="SIDEPANEL/TORRENT-DETAILS/open-folder/btn"></span></button>
+  <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i><span  translate-once="COMMON/open-folder/btn"></span></button>
 
       
   <table class="table table-condensed light" style='width:95%'>

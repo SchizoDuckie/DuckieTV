@@ -17,14 +17,14 @@ DuckieTV.controller("vuzeCtrl", ["Vuze", "SettingsService", "$filter",
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "Vuze " + $filter('translate')('VUZEjs/address/lbl'),
+                    label: "Vuze " + $filter('translate')('COMMON/address/lbl'),
                     type: "url",
                 }
             }, {
                 key: "port",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('VUZEjs/port/lbl'),
+                    label: $filter('translate')('COMMON/port/lbl'),
                     type: "number",
                 }
             }, {
@@ -32,19 +32,19 @@ DuckieTV.controller("vuzeCtrl", ["Vuze", "SettingsService", "$filter",
                 type: "input",
                 templateOptions: {
                     type: "checkbox",
-                    label: $filter('translate')('VUZEjs/authentication/lbl')
+                    label: $filter('translate')('COMMON/authentication/lbl')
                 }
             }, {
                 key: "username",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('VUZEjs/username/lbl')
+                    label: $filter('translate')('COMMON/username/lbl')
                 }
             }, {
                 key: "password",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('VUZEjs/password/lbl'),
+                    label: $filter('translate')('COMMON/password/lbl'),
                     type: "password"
                 }
             },

@@ -16,21 +16,21 @@ DuckieTV.controller("delugeCtrl", ["Deluge", "SettingsService", "$filter",
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "Deluge " + $filter('translate')('DELUGEjs/address/lbl'),
+                    label: "Deluge " + $filter('translate')('COMMON/address/lbl'),
                     type: "url",
                 }
             }, {
                 key: "port",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('DELUGEjs/port/lbl'),
+                    label: $filter('translate')('COMMON/port/lbl'),
                     type: "number",
                 }
             }, {
                 key: "password",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('DELUGEjs/password/lbl'),
+                    label: $filter('translate')('COMMON/password/lbl'),
                     type: "password"
                 }
             },

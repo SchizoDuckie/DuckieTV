@@ -17,14 +17,14 @@ DuckieTV.controller("tbtCtrl", ["Transmission", "SettingsService", "$filter",
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "Transmission " + $filter('translate')('TRANSMISSIONjs/address/lbl'),
+                    label: "Transmission " + $filter('translate')('COMMON/address/lbl'),
                     type: "url",
                 }
             }, {
                 key: "port",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('TRANSMISSIONjs/port/lbl'),
+                    label: $filter('translate')('COMMON/port/lbl'),
                     type: "number",
                 }
             }, {
@@ -32,19 +32,19 @@ DuckieTV.controller("tbtCtrl", ["Transmission", "SettingsService", "$filter",
                 type: "input",
                 templateOptions: {
                     type: "checkbox",
-                    label: $filter('translate')('TRANSMISSIONjs/authentication/lbl')
+                    label: $filter('translate')('COMMON/authentication/lbl')
                 }
             }, {
                 key: "username",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('TRANSMISSIONjs/username/lbl')
+                    label: $filter('translate')('COMMON/username/lbl')
                 }
             }, {
                 key: "password",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('TRANSMISSIONjs/password/lbl'),
+                    label: $filter('translate')('COMMON/password/lbl'),
                     type: "password"
                 }
             },

@@ -17,14 +17,14 @@ DuckieTV.controller("uTorrentWebUICtrl", ["uTorrentWebUI", "SettingsService", "$
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "uTorrent Web UI " + $filter('translate')('UTORRENTWEBUIjs/address/lbl'),
+                    label: "uTorrent Web UI " + $filter('translate')('COMMON/address/lbl'),
                     type: "url",
                 }
             }, {
                 key: "port",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('UTORRENTWEBUIjs/port/lbl'),
+                    label: $filter('translate')('COMMON/port/lbl'),
                     type: "number",
                 }
             }, {
@@ -32,19 +32,19 @@ DuckieTV.controller("uTorrentWebUICtrl", ["uTorrentWebUI", "SettingsService", "$
                 type: "input",
                 templateOptions: {
                     type: "checkbox",
-                    label: $filter('translate')('UTORRENTWEBUIjs/authentication/lbl')
+                    label: $filter('translate')('COMMON/authentication/lbl')
                 }
             }, {
                 key: "username",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('UTORRENTWEBUIjs/username/lbl')
+                    label: $filter('translate')('COMMON/username/lbl')
                 }
             }, {
                 key: "password",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('UTORRENTWEBUIjs/password/lbl'),
+                    label: $filter('translate')('COMMON/password/lbl'),
                     type: "password"
                 }
             },

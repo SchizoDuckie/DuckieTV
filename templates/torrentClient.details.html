@@ -41,31 +41,31 @@
     <div class="torrent-mini-remote-control" style='border:0;'>
       <!-- status and spinner -->
       <i ng-hide="vm.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet"></i>
-      <i ng-if="vm.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet spin" tooltip="{{'TORRENTCLIENT/please-wait/tooltip'|translate}}" tooltip-append-to-body="true"></i>
+      <i ng-if="vm.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet spin" tooltip="{{'COMMON/please-wait/tooltip'|translate}}" tooltip-append-to-body="true"></i>
       <!-- start button -->
       <a ng-click="vm.torrent.start();" style='display:inline-block'>
       	<i class="glyphicon glyphicon-play"></i>
-      	<span translate-once="TORRENTCLIENT/start/glyph"></span>
+      	<span translate-once="COMMON/start/btn"></span>
       </a>
       <!-- pause button -->
       <a ng-click="vm.torrent.pause();" style='display:inline-block'>
       	<i class="glyphicon  glyphicon-pause"></i>
-      	<span translate-once="TORRENTCLIENT/pause/glyph"></span>
+      	<span translate-once="COMMON/pause/btn"></span>
       </a>
       <!-- stop button -->
       <a ng-click="vm.torrent.stop();"  style='display:inline-block'>
       	<i class="glyphicon glyphicon-stop"></i>
-      	<span translate-once="TORRENTCLIENT/stop/glyph"></span>
+      	<span translate-once="COMMON/stop/btn"></span>
       </a>
       <!-- streamable button, only for utorrent -->
       <a ng-if="vm.torrent.properties.all.is_streamable && getSetting('vm.torrenting.streaming')" style="margin-top:5px" ng-click="vm.torrent.stream();">
       	<i class="glyphicon glyphicon-bullhorn"></i>
-      	<span translate-once="TORRENTCLIENT/stream-play/glyph"></span>
+      	<span translate-once="COMMON/stream-play/btn"></span>
       </a>   
       <!-- open containing folder button, onl for utorrent -->
       <a ng-if="getSetting('vm.torrenting.directory') && vm.torrent.open_containing" ng-click="vm.torrent.open_containing();" style="margin-top:5px">
       	<i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>
-      	<span translate-once="TORRENTCLIENT/open-folder/glyph"></span>
+      	<span translate-once="COMMON/open-folder/btn"></span>
       </a> 
    </div>
 

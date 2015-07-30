@@ -17,14 +17,14 @@ DuckieTV.controller("qbt32plusCtrl", ["qBittorrent32plus", "SettingsService", "C
                 key: "server",
                 type: "input",
                 templateOptions: {
-                    label: "qBittorrent " + $filter('translate')('QBITTORRENT32PLUSjs/address/lbl'),
+                    label: "qBittorrent " + $filter('translate')('COMMON/address/lbl'),
                     type: "url",
                 }
             }, {
                 key: "port",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('QBITTORRENT32PLUSjs/port/lbl'),
+                    label: $filter('translate')('COMMON/port/lbl'),
                     type: "number",
                 }
             }, {
@@ -32,19 +32,19 @@ DuckieTV.controller("qbt32plusCtrl", ["qBittorrent32plus", "SettingsService", "C
                 type: "input",
                 templateOptions: {
                     type: "checkbox",
-                    label: $filter('translate')('QBITTORRENT32PLUSjs/authentication/lbl')
+                    label: $filter('translate')('COMMON/authentication/lbl')
                 }
             }, {
                 key: "username",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('QBITTORRENT32PLUSjs/username/lbl')
+                    label: $filter('translate')('COMMON/username/lbl')
                 }
             }, {
                 key: "password",
                 type: "input",
                 templateOptions: {
-                    label: $filter('translate')('QBITTORRENT32PLUSjs/password/lbl'),
+                    label: $filter('translate')('COMMON/password/lbl'),
                     type: "password"
                 }
             },
