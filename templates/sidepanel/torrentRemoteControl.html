@@ -23,7 +23,7 @@
       </a>
 
       <div ng-if="showFiles" style="padding-left: 10px">
-        <loading-spinner ng-show="!remote.torrent_files"></loading-spinner>
+        <loading-spinner ng-show="!remote.torrent_files" class="small"></loading-spinner>
         <p ng-repeat="file in remote.torrent_files track by $index" class="torrent-file" ng-style="{ width: file.isMovie ? '247px' : 'auto' }"> {{file.name}}
           <subtitle-dialog ng-if="file.isMovie" filename="file.searchFileName" tooltip-append-to-body="true"></subtitle-dialog>
         </p>

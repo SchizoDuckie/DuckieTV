@@ -1,5 +1,5 @@
 <div class="serie-overview" style="color:black">
-    <div class="serie-img" lazy-background="{{::sidepanel.serie.poster}}" tooltip="{{::sidepanel.serie.name}}" tooltip-placement="left">
+    <div class="serie-img poster large" lazy-background="{{::sidepanel.serie.poster}}" tooltip="{{::sidepanel.serie.name}}" tooltip-append-to-body="true" tooltip-placement="left">
       <em ng-show="sidepanel.serie.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{'SERIEHEADER/all-watched/tooltip'|translate}}">
         <i class="glyphicon glyphicon-eye-open" style="color:white !important"></i>
       </em>
@@ -62,13 +62,17 @@
           </td>
         </tr>
         <tr style='border-top: 1px solid white'>
-        <th colspan="2"><h3 style='text-align: center'>It would take you</h3>
-          <h1 ng-if="sidepanel.totalRunTime">
+        <th colspan="2" style="text-align: center"><h3 style="margin:10px 0 10px 0">It would take you</h3>
+          <h1 style="margin:10px 0 10px 0" ng-if="sidepanel.totalRunTime">
           {{sidepanel.totalRunDays}} days,
            {{sidepanel.totalRunHours}} hours and {{sidepanel.totalRunMinutes }} minutes </h1>
 
-          <h1 ng-if="!sidepanel.totalRunTime" >(calculating...)</h1>
-          <h3 style='text-align:center'> to binge-watch {{::sidepanel.serie.name}}</h3>
+          <div style="position:relative" ng-show="!sidepanel.totalRunTime">
+            <h3 style="margin:5px 0 5px 0">(calculating...)
+              <loading-spinner class="small" style="margin:-2px 0 0 5px;position:absolute"></loading-spinner>
+            </h3>
+          </div>
+          <h3 style='text-align:center;margin:10px 0 10px 0'> to binge-watch {{::sidepanel.serie.name}}</h3>
           </th>
           </tr>
       </tbody>

@@ -99,18 +99,16 @@ serieheader.ng-leave-active {
 
 loading-spinner > div {
   position: absolute;
-   width: 100%;
+  width: 100%;
   height: 100%;
-  top:0px; 
-  left:0px;
+  top: 0px; 
+  left: 0px;
 }
-
 loading-spinner > div > div {
   -webkit-animation-fill-mode: both;
   position: absolute;
   border-radius: 100%; 
 }
-
 loading-spinner > div > div:first-child {
   background: #fff;
   height: 50%;
@@ -119,11 +117,9 @@ loading-spinner > div > div:first-child {
   left: 25%;
   -webkit-animation: ballscale 1s 0s cubic-bezier(.09, .57, .49, .9) infinite;
 }
-
-
 loading-spinner > div > div:last-child {
-  left:5%;
-  top:5%;
+  left: 5%;
+  top: 5%;
   position: absolute;
   width: 90%;
   height: 90%;
@@ -132,4 +128,11 @@ loading-spinner > div > div:last-child {
   border-color: #fff transparent #fff transparent;
   -webkit-animation: ballrotate 1s 0s cubic-bezier(.09, .57, .49, .9) infinite;
   -webkit-animation-duration: 1s;
+}
+
+loading-spinner.small {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  display: inline-block;
 }

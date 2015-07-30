@@ -444,10 +444,16 @@ serieheader .badge {
 }
 
 /* Standard Poster Size */
-serieheader .poster {
-    display: block;
+.poster {
     height: 247px;
     width: 165px;
+}
+.poster.large {
+    height: 288px;
+    width: 192px;
+}
+serieheader .poster {
+    display: block;
     -webkit-transition: opacity 0.3s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out, background-color 0.3s ease-in-out, border 0.2s ease-in-out;
 }
 serieheader figure {
@@ -1835,16 +1841,15 @@ sidepanel .expanded .serie-bg-img {
 }
 sidepanel  .serie-img {
     margin: 5px auto;
-    height: 275px;
-    width: 195px;
-    background-size: contain;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;
+    position: relative;
 }
 sidepanel .serie-img .badge {
-    position: relative;
+    position: absolute;
     top: 2px;
-    right: -6px;
+    right: 2px;
     border-radius: 6px;
     z-index: 1;
     background-color: rgb(68,68,68);
@@ -1921,11 +1926,7 @@ sidepanel .seasons serieheader {
     padding: 4px;
 }
 .torrent-mini-remote-control loading-spinner {
-    display: inline-block;
-    height: 25px;
-    width: 25px;
-    position: relative;
-    margin: 5px 0 0 0;
+    margin-top: 5px;
 }
 
 .leftpanel.torrent-client {

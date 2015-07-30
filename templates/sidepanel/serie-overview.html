@@ -11,7 +11,7 @@
       <tr>
         <td>
           <h2 translate-once="SIDEPANEL/SERIE-OVERVIEW/last-episode/hdr"></h2>
-          <h3 ng-if="sidepanel.prevEpisode"><a ui-sref="serie.season.episode({episode_id: sidepanel.prevEpisode.ID_Episode,season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">{{sidepanel.prevEpisode.getFormattedEpisode()}}</a></h3>
+          <h3 ng-if="sidepanel.prevEpisode" style="margin-bottom:13px"><a ui-sref="serie.season.episode({episode_id: sidepanel.prevEpisode.ID_Episode,season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">{{sidepanel.prevEpisode.getFormattedEpisode()}}</a></h3>
         </td>
         <td ng-if="sidepanel.prevEpisode">
           {{sidepanel.prevEpisode.episodename}}<br>
@@ -21,7 +21,7 @@
           </tr>
         <tr ng-if="sidepanel.serie.status != 'ended'">
           <td valign="top" style="text-align: center; padding-bottom:15px;">
-            <h2 translate-once="SIDEPANEL/SERIE-OVERVIEW/next-episode/hdr"></h2>
+            <h2 translate-once="SIDEPANEL/SERIE-OVERVIEW/next-episode/hdr" style="margin-top:0"></h2>
             <h3 ng-if="sidepanel.nextEpisode"><a ui-sref="serie.season.episode({episode_id: sidepanel.nextEpisode.ID_Episode,season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">{{sidepanel.nextEpisode.getFormattedEpisode()}}</a></h3>
           </td>
           <td ng-if="sidepanel.nextEpisode">
