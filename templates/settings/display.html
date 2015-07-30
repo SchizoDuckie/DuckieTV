@@ -1,7 +1,7 @@
 <div ng-controller="DisplayCtrl" class="buttons">
   <div ng-show="hasTopSites">
     <h2>
-      <span tooltip="{{topSites ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
+      <span tooltip="{{topSites ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
         <i class="glyphicon glyphicon-{{topSites ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
       <li translate-once="SETTINGS/DISPLAY/topsites/hdr"></li>
@@ -9,7 +9,7 @@
 
     <p>{{topSites ? 'SETTINGS/DISPLAY/topsites-hide/desc' : 'SETTINGS/DISPLAY/topsites-show/desc'|translate}}</p>
     <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
-     {{topSites ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
+     {{topSites ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
     <a ng-click="toggleTopSites()" class="btn btn-{{topSites ? 'danger' : 'success'}}"><i class="glyphicon glyphicon-{{topSites ? 'ban-circle' : 'th'}}"></i>{{topSites ? 'SETTINGS/DISPLAY/topsites-hide/btn' : 'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</a>
 
     <div ng-show="topSites">
@@ -35,7 +35,7 @@
   <hr class="setting-divider">
 
   <h2>
-    <span tooltip="{{showRatings ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
+    <span tooltip="{{showRatings ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
       <i class="glyphicon glyphicon-{{showRatings ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/DISPLAY/download-ratings/hdr"></li>
@@ -43,7 +43,7 @@
   
   <p translate-once="SETTINGS/DISPLAY/download-ratings/desc"></p>
   <p><strong translate-once="COMMON/current-setting/hdr"></strong>
-   {{showRatings ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
+   {{showRatings ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="toggleRatings()" class="btn btn-{{showRatings ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{showRatings ? 'remove' : 'ok'}}" ></i> {{showRatings ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
@@ -51,7 +51,7 @@
   <hr class="setting-divider">
 
   <h2>
-    <span tooltip="{{sgEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
+    <span tooltip="{{sgEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
       <i class="glyphicon glyphicon-{{sgEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/DISPLAY/transitions/hdr"></li>
@@ -59,7 +59,7 @@
   
   <p translate-once="SETTINGS/DISPLAY/transitions/desc"></p>
   <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
-   {{sgEnabled ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
+   {{sgEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="toggleSeriesGrid()" class="btn btn-{{sgEnabled ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{sgEnabled ? 'remove' : 'ok'}}" ></i> {{sgEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
@@ -80,14 +80,14 @@
   <br>
     <hr class="setting-divider">
     <h2>
-      <span tooltip="{{getSetting('kc.always') ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
+      <span tooltip="{{getSetting('kc.always') ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
         <i class="glyphicon glyphicon-{{getSetting('kc.always') ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
       <li translate-once="SETTINGS/DISPLAY/cheatmode/hdr"></li>
     </h2>
     <p  translate-once="SETTINGS/DISPLAY/cheatmode/desc"></p>
     <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
-     {{getSetting('kc.always') ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
+     {{getSetting('kc.always') ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
     <a ng-click="setSetting('kc.always',!getSetting('kc.always'))" class="btn btn-{{!getSetting('kc.always') ? 'info' : 'success'}}">
       <i class="glyphicon glyphicon-{{getSetting('kc.always') ? 'remove' : 'ok'}}"></i> {{!getSetting('kc.always') ? 'SETTINGS/DISPLAY/cheatmode-disable/btn' : 'SETTINGS/DISPLAY/cheatmode-enable/btn'|translate}}
     </a>

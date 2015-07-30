@@ -27,7 +27,7 @@
     <nav class="navbar navbar-default" role="navigation">
       <div class="collapse navbar-collapse" ng-if="serieslist.isFiltering">
         <form class="navbar-form navbar-left" ng-submit="serieslist.execFilter()" name="filterForm" style='width:50%'>
-          <input type='text' style='width: 100%;' focus-watch="'serieslist.isFiltering'" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' translate-once-placeholder="SERIESLIST/TOOLS/LOCALFILTER/filter-placeholder">
+          <input type='text' style='width: 100%;' focus-watch="'serieslist.isFiltering'" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' translate-once-placeholder="SERIESLIST/TOOLS/FAVORITES/filter-placeholder">
         </form>
 
         <ul class="nav navbar-nav navbar-right">

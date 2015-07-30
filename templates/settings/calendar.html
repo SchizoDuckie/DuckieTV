@@ -48,7 +48,7 @@
   <hr class="setting-divider">
 
   <h2>
-    <span tooltip="{{showDownloaded ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}">
+    <span tooltip="{{showDownloaded ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
       <i class="glyphicon glyphicon-{{showDownloaded ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/CALENDAR/downloaded/hdr"></li>
@@ -57,7 +57,7 @@
   <p translate-once="SETTINGS/CALENDAR/downloaded/desc"></p>
 
    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
-   {{showDownloaded ? 'COMMON/enabled/tooltip' : 'COMMON/disabled/tooltip'|translate}}</p>
+   {{showDownloaded ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="toggleDownloaded()" class="btn btn-{{showDownloaded ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{showDownloaded ? 'remove' : 'ok'}}" ></i> {{showDownloaded ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
