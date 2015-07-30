@@ -148,7 +148,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 name: 'User Preferences on Local Storage',
                 data: angular.toJson(userPrefs, true)
             });
-
+            /*
             // dump local storage with exceptions to avoid overload.
             var dumpLocalStorage = angular.fromJson(localStorage);
             ['userPreferences','torrenting.hashList','trakt.token','trakttv.trending.cache','alarms'].map(function(key) { delete dumpLocalStorage[key]; });
@@ -156,6 +156,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 name: 'Other significant Local Storage keys', 
                 data: angular.toJson(dumpLocalStorage, true)
             });
+            */
         };
         getStats();
     }
