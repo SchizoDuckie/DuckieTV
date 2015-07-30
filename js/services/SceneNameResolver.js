@@ -139,6 +139,7 @@ DuckieTV.provider('SceneNameResolver', function() {
         "81670": "The Murdoch Mysteries",
         "82060": "Who Do You Think You Are AU",
         "82135": "The Gruen Transfer",
+        "82166": "Food Network Star",
         "82186": "The Comedy Central Roast of",
         "82374": "Ultimate Factories",
         "82448": "Project Runway Australia",
