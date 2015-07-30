@@ -62,7 +62,7 @@
     "COMMON/enabled/tooltip": "启用",
     "DATEPICKER/calendar-monthview/glyph/tooltip": "切换到月视图 ",
     "DATEPICKER/calendar-weekview/glyph/tooltip": "切换到周视图 ",
-    "DATEPICKER/show-more/btn": " 显示更多",
+    "DATEPICKER/mark-day-watched/btn": "标记全部为观看",
     "DELUGEjs/address/lbl": "地址",
     "DELUGEjs/password/lbl": "密码:",
     "DELUGEjs/port/lbl": "港",

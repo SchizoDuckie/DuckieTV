@@ -62,7 +62,7 @@
     "COMMON/enabled/tooltip": "사용",
     "DATEPICKER/calendar-monthview/glyph/tooltip": "월보기로 전환 ",
     "DATEPICKER/calendar-weekview/glyph/tooltip": "주보기로 전환 ",
-    "DATEPICKER/show-more/btn": " 더보기",
+    "DATEPICKER/mark-day-watched/btn": "마크는 모든 지켜",
     "DELUGEjs/address/lbl": "주소",
     "DELUGEjs/password/lbl": "암호:",
     "DELUGEjs/port/lbl": "포트",

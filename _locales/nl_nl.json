@@ -62,7 +62,7 @@
     "COMMON/enabled/tooltip": "Ingeschakeld",
     "DATEPICKER/calendar-monthview/glyph/tooltip": "schakel over naar maand kalender",
     "DATEPICKER/calendar-weekview/glyph/tooltip": "Schakel over naar week kalender",
-    "DATEPICKER/show-more/btn": " Laat Meer Zien",
+    "DATEPICKER/mark-day-watched/btn": "Markeer alles als bekeken",
     "DELUGEjs/address/lbl": "Adres",
     "DELUGEjs/password/lbl": "Wachtwoord:",
     "DELUGEjs/port/lbl": "Poort",

@@ -62,7 +62,7 @@
     "COMMON/enabled/tooltip": "Activado",
     "DATEPICKER/calendar-monthview/glyph/tooltip": "cambiar a la vista Mes ",
     "DATEPICKER/calendar-weekview/glyph/tooltip": "cambiar a la vista Semana ",
-    "DATEPICKER/show-more/btn": " Mostrar Más",
+    "DATEPICKER/mark-day-watched/btn": "Marcar todos como observaba",
     "DELUGEjs/address/lbl": "Dirección",
     "DELUGEjs/password/lbl": "Contraseña:",
     "DELUGEjs/port/lbl": "Puerto",

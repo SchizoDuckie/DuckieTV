@@ -62,7 +62,7 @@
     "COMMON/enabled/tooltip": "Omogočeno",
     "DATEPICKER/calendar-monthview/glyph/tooltip": "preklopite na mesečni pogled",
     "DATEPICKER/calendar-weekview/glyph/tooltip": "preklopite na tedenski pogled",
-    "DATEPICKER/show-more/btn": " Pokaži več",
+    "DATEPICKER/mark-day-watched/btn": "Označi gledal že vse",
     "DELUGEjs/address/lbl": "Naslov",
     "DELUGEjs/password/lbl": "Geslo",
     "DELUGEjs/port/lbl": "Vrata",

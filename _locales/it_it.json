@@ -62,7 +62,7 @@
     "COMMON/enabled/tooltip": "Attivato",
     "DATEPICKER/calendar-monthview/glyph/tooltip": "passa alla visualizzazione Mese",
     "DATEPICKER/calendar-weekview/glyph/tooltip": "passa alla visualizzazione Settimana",
-    "DATEPICKER/show-more/btn": " Mostra di più",
+    "DATEPICKER/mark-day-watched/btn": "Segna tutti come visti",
     "DELUGEjs/address/lbl": "Indirizzo",
     "DELUGEjs/password/lbl": "Password:",
     "DELUGEjs/port/lbl": "Porto",

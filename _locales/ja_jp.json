@@ -62,7 +62,7 @@
     "COMMON/enabled/tooltip": "使用可能",
     "DATEPICKER/calendar-monthview/glyph/tooltip": "月表示に切り替え ",
     "DATEPICKER/calendar-weekview/glyph/tooltip": "週表示に切り替える ",
-    "DATEPICKER/show-more/btn": " 詳細を表示",
+    "DATEPICKER/mark-day-watched/btn": "マークは,すべて見守る",
     "DELUGEjs/address/lbl": "アドレス",
     "DELUGEjs/password/lbl": "パスワード:",
     "DELUGEjs/port/lbl": "ポート",

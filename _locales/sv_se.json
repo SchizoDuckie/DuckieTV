@@ -62,7 +62,7 @@
     "COMMON/enabled/tooltip": "Aktiverat",
     "DATEPICKER/calendar-monthview/glyph/tooltip": "växla till månadsvy ",
     "DATEPICKER/calendar-weekview/glyph/tooltip": "byta till veckovy ",
-    "DATEPICKER/show-more/btn": " Visa Mer",
+    "DATEPICKER/mark-day-watched/btn": "Markera allt som såg",
     "DELUGEjs/address/lbl": "Adress",
     "DELUGEjs/password/lbl": "Lösenord:",
     "DELUGEjs/port/lbl": "Port",

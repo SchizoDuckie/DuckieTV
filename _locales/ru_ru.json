@@ -62,7 +62,7 @@
     "COMMON/enabled/tooltip": "Включено",
     "DATEPICKER/calendar-monthview/glyph/tooltip": "переключиться в режим Месяц ",
     "DATEPICKER/calendar-weekview/glyph/tooltip": "переключиться в режим Week ",
-    "DATEPICKER/show-more/btn": " Показать больше",
+    "DATEPICKER/mark-day-watched/btn": "Отметить все как смотрел",
     "DELUGEjs/address/lbl": "адрес",
     "DELUGEjs/password/lbl": "пароль:",
     "DELUGEjs/port/lbl": "порт",

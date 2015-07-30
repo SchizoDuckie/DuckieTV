@@ -62,7 +62,7 @@
     "COMMON/enabled/tooltip": "Activat",
     "DATEPICKER/calendar-monthview/glyph/tooltip": "schimbați pe vizualizarea pe lună",
     "DATEPICKER/calendar-weekview/glyph/tooltip": "schimbați pe vizualizarea pe săptămână",
-    "DATEPICKER/show-more/btn": " Arată mai mult",
+    "DATEPICKER/mark-day-watched/btn": "Marcați-le pe toate ca vizionate",
     "DELUGEjs/address/lbl": "Adresă",
     "DELUGEjs/password/lbl": "Parolă",
     "DELUGEjs/port/lbl": "Port",
