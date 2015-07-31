@@ -297,11 +297,12 @@ background-rotator, background-rotator > div {
 
 .torrentlogo {
     display: inline-block;
-    width: 35px;
+    width: 34px;
     float: left;
-    height: 35px;
+    height: 34px;
     line-height: 35px;
     margin-right: 9px;
+    background-repeat: no-repeat;
 }
 
 .settings .buttons .btn.choose-client {
@@ -406,7 +407,7 @@ serieheader .banner .img {
 }
 serieheader[mode=banner] .title {
     background-color: rgba(0, 0, 0, 0.8);
-    -webkit-transition: margin 0.2s ease-in-out;
+    transition: margin 0.2s ease-in-out;
     bottom: initial;
 }
 serieheader[mode=banner]:hover .title {
@@ -418,17 +419,17 @@ serieheader:hover .badge {
 }
 serieheader .badge {
     position: absolute;
-    top: 4px;
-    right: 4px;
+    top: 2px;
+    right: 2px;
     border-radius: 6px;
     z-index: 1;
     background-color: rgb(68,68,68);
     opacity: 0.9;
     transition: opacity 0.2s ease-in-out;
 }
-[series-grid="true"] serieheader[mode=poster] {
+[series-grid=true] serieheader[mode=poster] {
     position: absolute;
-    -webkit-transition: top .5s ease-in-out, left .5s ease-in-out;
+    transition: top 0.4s ease-in-out, left 0.4s ease-in-out;
 }
 /* Main container for the posters 
  * Note: The posters class itself has no margins or paddings and is just the size of the poster
@@ -439,8 +440,7 @@ serieheader .badge {
     background-color: transparent;
     border: 0;
     display: inline-block;
-    margin: 0px 6px 11px 6px;
-    -webkit-transition: margin 0.5s ease-in-out;
+    margin: 0px 5px 11px 5px;
 }
 
 /* Standard Poster Size */
@@ -454,7 +454,7 @@ serieheader .badge {
 }
 serieheader .poster {
     display: block;
-    -webkit-transition: opacity 0.3s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out, background-color 0.3s ease-in-out, border 0.2s ease-in-out;
+    transition: width 0.4s ease-in-out, height 0.4s ease-in-out, background-color 0.175s ease-in-out, border 0.2s ease-in-out;
 }
 serieheader figure {
     width: 100%;
@@ -469,7 +469,7 @@ serieheader .poster .img {
     background-size: 100% 100%;
     background-position: center center;
     background-repeat: no-repeat;
-    -webkit-transition: opacity .2s ease-in-out;
+    transition: opacity .175s ease-in-out;
 }
 
 .series serieheader[mode='poster'] .poster:hover:not(.img-loading), .seasons serieheader[mode='poster'] .poster:hover:not(.img-loading) {
@@ -479,9 +479,6 @@ serieheader .poster .img {
     opacity: 0.95;
 }
 /* Mini Poster style for series-list */
-.series.miniposter serieheader[mode='poster'] .serieheader {
-    margin: 0px 4px 9px 4px;
-}
 .miniposter .poster {
     height: 195px;
     width: 130px;

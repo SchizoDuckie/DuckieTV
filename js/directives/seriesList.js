@@ -97,8 +97,8 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             function recalculate() {
                 var isMini = container.classList.contains('miniposter');
                 var maxPosters = container.getAttribute('max-posters') ? parseInt(container.getAttribute('max-posters')) : 0;
-                posterWidth = isMini ? 141 : 177; // Includes paddings
-                posterHeight = isMini ? 208 : 259; // Includes paddings
+                posterWidth = isMini ? 140 : 175; // Includes paddings
+                posterHeight = isMini ? 206 : 258; // Includes paddings
                 oldClientWidth = el.clientWidth;
                 postersPerRow = Math.floor(el.clientWidth / posterWidth);
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
