@@ -111,12 +111,15 @@ strong {
     font-family:'bebasregular';
     letter-spacing: 2px;
 }
-a, a:hover {
+a, a:hover, a:focus, a span {
     color: white;
     cursor: pointer;
 }
 a:hover {
     text-decoration: underline;
+}
+a:hover .glyphicon {
+    text-decoration: none;
 }
 *::-webkit-scrollbar{
     width:10px;
@@ -524,36 +527,17 @@ serieheader[mode=search] h3 {
     bottom: initial;
     top: 0;
 }
+
 serieheader[mode=poster] h3 {
     font-size: 22px;
     word-break: break-word;
     white-space: normal;
     margin: 0;
 }
-
 serieheader .overview {
     color: white;
     font-size:10px;
     color: white;
-}
-serieheader a:hover div.overview {
-    text-decoration:none !important;
-}
-serieheader.full .overview {
-    font-size: 14px;
-    padding: 10px;
-}
-serieheader aside {
-    position: absolute;
-    top:0;
-    right:-150px;
-    bottom:0;
-    width: 150px;
-    padding: 10px;
-    transition: right 0.5s ease-in-out;
-}
-serieheader:hover aside {
-    right: 0;
 }
 
 serieheader em.earmark {
@@ -574,7 +558,7 @@ serieheader em.earmark.trailer {
     background-color: transparent;
     border-bottom-right-radius: 5px;
     color: white;
-    -webkit-transition: all 0.2s ease-in;
+    transition: opacity 0.2s ease-in-out;
     opacity: 0;
 }
 
@@ -582,10 +566,9 @@ serieheader em.earmark.trailer .glyphicon {
     -webkit-filter: drop-shadow(2px 2px 2px black);
 }
 
-serieheader:hover em.earmark.trailer {
+serieheader .serieheader:hover em.earmark.trailer {
     opacity: 1;
 }
-
 
 serieheader em.earmark.adding {
     background-color: rgba(236,210,70, 0.8);
@@ -765,29 +748,11 @@ series-list .trakt-import .btn {
 .table.light {
     color: white;
 }
-table.markingaswatched {
-    border-style: dotted !important;
-}
-table.markingaswatched tr td {
-    border-bottom-style: dotted;
-    border-bottom-width: 1px;
-}
-th .btn-danger {
-    margin: 10px;
-}
-table.light h1 {
-    color:white;
-}
+
 .nobreaks {
     white-space: nowrap;
 }
-.markAsWatched td {
-    background-color: rgba(252, 248, 227, 0.3);
-    cursor: n-resize;
-}
-.serie h1 {
-    color:black;
-}
+
 .torrent-dialog, .subtitle-dialog {
     display: inline-block;
     list-style: none;
@@ -807,12 +772,10 @@ table.light h1 {
 }
 
 /* CSS for formatting custom search editor */
-
 .modal-content .row {
     margin-left: 0px;
     margin-right: 0px;   
 }
-
 .modal-content .form-group {
     margin:bottom: 0px;
 }
@@ -822,14 +785,6 @@ table.light h1 {
 }
 #customSearchEngine h1 {
     margin-top: 10px;
-}
-
-/* CSS for CustomSearchEngineDialog */
-.cseSelector {
-    
-}
-.cseProperty {
-   
 }
 .cseProperty:before {
     font-family: 'Glyphicons Halflings';
@@ -858,7 +813,6 @@ table.light h1 {
     font-weight: normal;
     padding-left: 25px;
 }
-
 .inline-checkbox input[type=checkbox] {
     position: absolute;
     width: 30px
@@ -1310,21 +1264,7 @@ td.day {
     height: 21px;
 }
 
-[date-picker] div.tooltip.bottom {
-    width: 500px !important;
-    overflow:visible;
-    background-color: rgba(0, 0, 0, 0.9);
-    border-radius: 10px;
-    padding: 10px;
-}
-[date-picker] div.tooltip h2 {
-    width: 480px;
-    font-size: 14px;
-    color:white;
-}
-[date-picker] div.tooltip p {
-    width:450px;
-}
+
 [date-picker] calendar-event:first-of-type {
     margin-top: 4px;
     display:block;
@@ -1333,7 +1273,6 @@ td.day {
     margin-bottom: 4px;
     display:block;
 }
-
 
 [date-picker] a.markdaywatched {
     font-size: 12px;
@@ -1353,9 +1292,17 @@ td.day {
     color: rgba(255,255,255,0.8);
     background-color: rgba(25, 25, 25, 0.9);
 }
-
 [date-picker] a.markdaywatched:hover {
+    background-color: rgba(45, 45, 45, 0.9);
     text-decoration: underline;
+}
+
+[date-picker] a.markdaywatched i {
+    top: 2px;
+    margin-right: 7px;
+}
+[date-picker] a.markdaywatched span {
+    cursor: pointer;
 }
 
 clicktrap {
@@ -1365,27 +1312,6 @@ clicktrap {
     right:0px;
     bottom:0px; 
     z-index:100
-}
-ul.engineselect {
-    color: white;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
-    text-align: center;
-}
-ul.engineselect li {
-    font-family:'bebasbold';
-    font-size: 20px;
-}
-ul.engineselect li strong {
-    cursor: pointer;
-    font-size: 20px;
-}
-ul.engineselect li i {
-    font-size: 18px;
-}
-ul.engineselect li:hover strong {
-    cursor: pointer;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
-    text-decoration: underline;
 }
 
 a.hover i.glyphicon-plus-sign {
@@ -1463,7 +1389,6 @@ calendar-event .progress-bar {
     left: 0px;
     bottom: 0px;
     z-index: -1;
-
 }
 
 .glyphicon.glyphicon-win-close {
