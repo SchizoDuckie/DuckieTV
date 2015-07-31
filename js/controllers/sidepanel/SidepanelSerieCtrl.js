@@ -18,12 +18,18 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
         });
     };
 
+    var timePlurals = $filter('translate')('TIMEPLURALS').split('|'); //" day, | days, | hour and | hours and | minute | minutes "
     this.totalRunTime = null;
+    this.totalRunLbl = null;
     CRUD.executeQuery('select count(ID_Episode) * ? as minutes from Episodes where seasonnumber > 0 AND firstaired > 0 AND firstaired < ? AND ID_Serie = ? ', [this.serie.runtime, new Date().getTime(), this.serie.ID_Serie]).then(function(result) {
         sidepanel.totalRunTime = result.rs.rows[0].minutes;
-        sidepanel.totalRunDays = Math.floor(sidepanel.totalRunTime / 60 / 24);
-        sidepanel.totalRunHours = Math.floor((sidepanel.totalRunTime % (60 * 24)) / 60);
-        sidepanel.totalRunMinutes = sidepanel.totalRunTime % 60;
+        var totalRunDays = Math.floor(sidepanel.totalRunTime / 60 / 24);
+        var totalRunHours = Math.floor((sidepanel.totalRunTime % (60 * 24)) / 60);
+        var totalRunMinutes = sidepanel.totalRunTime % 60;
+        var dayLbl = (totalRunDays === 1) ? timePlurals[0] : timePlurals[1];
+        var hourLbl = (totalRunHours === 1) ? timePlurals[2] : timePlurals[3];
+        var minuteLbl = (totalRunMinutes === 1) ? timePlurals[4] : timePlurals[5];
+        sidepanel.totalRunLbl = totalRunDays.toString() + dayLbl + totalRunHours.toString() + hourLbl + totalRunMinutes.toString() + minuteLbl;
     });
 
     this.nextEpisode = null;

@@ -62,17 +62,15 @@
           </td>
         </tr>
         <tr style='border-top: 1px solid white'>
-        <th colspan="2" style="text-align: center"><h3 style="margin:10px 0 10px 0">It would take you</h3>
-          <h1 style="margin:10px 0 10px 0" ng-if="sidepanel.totalRunTime">
-          {{sidepanel.totalRunDays}} days,
-           {{sidepanel.totalRunHours}} hours and {{sidepanel.totalRunMinutes }} minutes </h1>
+        <th colspan="2" style="text-align: center"><h3 style="margin:10px 0 10px 0" translate-once="SIDEPANEL/SERIE-DETAILS/it-would-take/hdr"></h3>
+          <h1 style="margin:10px 0 10px 0" ng-if="sidepanel.totalRunTime">{{sidepanel.totalRunLbl}}</h1>
 
           <div style="position:relative" ng-show="!sidepanel.totalRunTime">
-            <h3 style="margin:5px 0 5px 0">(calculating...)
+            <h3 style="margin:5px 0 5px 0"><h3cont translate-once="SIDEPANEL/SERIE-DETAILS/calculating/hdr"></h3cont>
               <loading-spinner class="small" style="margin:-2px 0 0 5px;position:absolute"></loading-spinner>
             </h3>
           </div>
-          <h3 style='text-align:center;margin:10px 0 10px 0'> to binge-watch {{::sidepanel.serie.name}}</h3>
+          <h3 style='text-align:center;margin:10px 0 10px 0'><h3cont translate-once="SIDEPANEL/SERIE-DETAILS/to-binge-watch/hdr"></h3cont>{{::sidepanel.serie.name}}</h3>
           </th>
           </tr>
       </tbody>
