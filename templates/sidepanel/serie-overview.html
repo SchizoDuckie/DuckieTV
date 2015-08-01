@@ -58,7 +58,7 @@
             </a>
         </td>
       </tr>
-      <tr>
+      <tr ng-show="getSetting('torrenting.enabled')">
         <td colspan="2">
            <a ng-click="sidepanel.serie.toggleAutoDownload()">
               <i class="glyphicon glyphicon-cloud-download" ng-style="{ color: sidepanel.serie.autoDownload == 1 ? 'green' : 'white' }"></i><strong translate-once="SIDEPANEL/SERIE-OVERVIEW/auto-download/btn"></strong>: 
