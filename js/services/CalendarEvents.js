@@ -198,8 +198,10 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 var str = day instanceof Date ? day.toDateString() : new Date(day).toDateString();
                 if (str in calendarEvents) {
                     calendarEvents[str].map(function(calEvent) {
-                        calEvent.episode.markWatched(rootScope);
-                        //console.debug("Mark calendar eventwatched: ", calEvent);
+                        if (calEvent.episode.hasAired()) {
+                            calEvent.episode.markWatched(rootScope);
+                            //console.debug("Mark calendar eventwatched: ", calEvent);
+                        }
                     })
                 }
             },
