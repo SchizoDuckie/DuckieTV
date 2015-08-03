@@ -118,7 +118,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 });
                 Object.keys(calendarEvents).map(function(day) {
                     if (dates.indexOf(day) == -1) {
-                        console.log("Cleaning up day: ", day);
+                        //console.debug("Cleaning up day: ", day);
                         delete calendarEvents[day];
                         delete seriesForDate[day];
                     }
@@ -199,7 +199,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 if (str in calendarEvents) {
                     calendarEvents[str].map(function(calEvent) {
                         calEvent.episode.markWatched(rootScope);
-                        console.log("Mark calendar eventwatched: ", calEvent);
+                        //console.debug("Mark calendar eventwatched: ", calEvent);
                     })
                 }
             },
