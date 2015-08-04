@@ -86,20 +86,5 @@ TorrentData.prototype.isStarted = function() {
  */
 TorrentData.prototype.getTransferSpeed = function() {
     return 0;
+    //throw "function not implemented";
 };
-
-/**
- * Client implementations
- */
-
-
-
-
-/**
- * Vuze - Exact same api as Transmission.
- *
-var VuzeData = function(data) {
-    this.update(data);
-};
-
-VuzeData.extends(TransmissionData); */
