@@ -24,7 +24,9 @@ DuckieTV
     var updateDialog = false;
     var moveTimeout;   // timer used by win.on(move)
     var resizeTimeout;  // timer used by win.on(resize)
-    var isStartupMinimized = SettingsService.get('standalone.startupMinimized');
+    var isStartupMinimized = SettingsService.get('standalone.startupMinimized'); // cached: should start-up be minimized
+    var LSwinState = localStorage.getItem('standalone.winState') || 'Normal';  // cached: window State
+    var LSpreWinState = localStorage.getItem('standalone.preWinState') || 'Normal'; // cached: previous window State
 
     // managing Integers in local Storage
     localStorageSetInt = function (key, value) {
@@ -40,10 +42,22 @@ DuckieTV
         return intValue;
     };
 
+    // managing winState and preWinState in local Storage
+    localStorageSetWinState = function (winState,preWinState) {
+        // don't bother saving if the value is the same
+        if (winState !== LSwinState) {
+            localStorage.setItem('standalone.winState',winState);
+            LSwinState = winState;
+        };
+        if (preWinState !== LSpreWinState) {
+            localStorage.setItem('standalone.preWinState',preWinState);
+            LSpreWinState = preWinState;
+        };
+    };
+
     // return the current window state versus requested: true / false
     isWinState = function (winState) {
-        var winStateValue = localStorage.getItem('standalone.winState') || 'Normal';
-        return winStateValue === winState;
+        return LSwinState === winState;
     };
 
     if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
@@ -101,9 +115,7 @@ DuckieTV
         // Get the minimize event
         win.on('minimize', function() {
             // Hide window
-            var winState = localStorage.getItem('standalone.winState') || 'Normal';
-            localStorage.setItem('standalone.winState', 'Minimized');
-            localStorage.setItem('standalone.prevWinState', winState);
+            localStorageSetWinState('Minimized',LSwinState);
             this.hide();
 
             // Show tray
@@ -123,21 +135,17 @@ DuckieTV
 
         // get the restore (un-minimize) screen event
         win.on('restore', function() {
-            var prevWinState = localStorage.getItem('standalone.prevWinState') || 'Normal';
-            localStorage.setItem('standalone.winState', prevWinState);
-            localStorage.setItem('standalone.prevWinState', 'Minimized');
+            localStorageSetWinState(LSpreWinState,'Minimized');
         });
 
         // get the maximize screen event
         win.on('maximize', function() {
-            localStorage.setItem('standalone.winState', 'Maximized');
-            localStorage.setItem('standalone.prevWinState', 'Normal');
+            localStorageSetWinState('Maximized','Normal');
         });
 
         // get the un-maximize screen event
         win.on('unmaximize', function() {
-            localStorage.setItem('standalone.winState', 'Normal');
-            localStorage.setItem('standalone.prevWinState', 'Maximized');
+            localStorageSetWinState('Normal','Maximized');
         });
 
         // get the zoom command events
