@@ -11,9 +11,10 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
     };
 
     this.torrentSettings = function() {
-        dialogs.create('templates/serieTorrentSettings.html', 'DeviceListController as vm', {
-            serie: this.serie
+        dialogs.create('templates/settings/serieTorrentSettings.html', 'serieTorrentSettingsCtrl', {
+            serie: self.serie
         }, {
+            bindToController: true,
             size: 'xs'
         });
     };

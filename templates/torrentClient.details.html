@@ -8,7 +8,7 @@
                scale-min="0"
                scale-max="100"
                border-width="0"
-               ng-model="vm.torrent.getTransferSpeed()"
+               ng-model="vm.transferSpeed"
                track-color="white"
                bar-color="lime"
                bar-width="10"
@@ -23,7 +23,7 @@
                scale-min="0"
                scale-max="100"
                border-width="0"
-               ng-model="vm.torrent.getProgress()"
+               ng-model="vm.progress"
                track-color="white"
                bar-color="lime"
                bar-width="10"
@@ -62,7 +62,7 @@
       	<i class="glyphicon glyphicon-bullhorn"></i>
       	<span translate-once="COMMON/stream-play/btn"></span>
       </a>   
-      <!-- open containing folder button, onl for utorrent -->
+      <!-- open containing folder button, only for utorrent -->
       <a ng-if="getSetting('vm.torrenting.directory') && vm.torrent.open_containing" ng-click="vm.torrent.open_containing();" style="margin-top:5px">
       	<i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>
       	<span translate-once="COMMON/open-folder/btn"></span>

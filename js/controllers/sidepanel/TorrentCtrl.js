@@ -23,7 +23,7 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "DuckieTorrent",
         };
 
         this.getTorrentClientTemplate = function() {
-            return DuckieTorrent.getClientName().toLowerCase().replace(/ /g,"").replace(/3.2\+/,"32plus");
+            return DuckieTorrent.getClientName().toLowerCase().replace(/ /g, "").replace(/3.2\+/, "32plus");
         };
 
         var autoConnectPoll = function() {
@@ -46,25 +46,5 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "DuckieTorrent",
         };
 
         autoConnectPoll();
-    }
-])
-
-.controller('TorrentDetailsCtrl', ["DuckieTorrent", "torrent",
-    function(DuckieTorrent, torrent) {
-        this.torrent = torrent;
-        console.log("Torrent is!'", torrent);
-
-
-        torrent.getFiles().then(function(files) {
-            console.log('received files!', files);
-            torrent.torrent_files = files.map(function(file) {
-                file.isMovie = file.name.match(/mp4|avi|mkv|mpeg|mpg|flv/g);
-                if (file.isMovie) {
-                    file.searchFileName = file.name.split('/').pop().split(' ').pop();
-                }
-                return file;
-            });
-        });
-
     }
 ]);
