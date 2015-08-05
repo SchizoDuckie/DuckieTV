@@ -10,7 +10,7 @@ DuckieTV.directive('serieDetails', ["FavoritesService", "$location", "dialogs", 
             replace: true,
             controllerAs: 'details',
             templateUrl: function(elem, attr) {
-                return attr.templateUrl || "templates/serieDetails.html";
+                return attr.templateUrl || "templates/sidepanel/serie-details.html";
             },
             link: function($scope) {
 
