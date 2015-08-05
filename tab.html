@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>DuckieTV</title>
+  
+  <!-- deploy:replace='<script src="dist/app.standalone.js"></script>' -->
+  <script src="./js/app.standalone.windowdressing.js"></script>
+  <script src="./js/app.standalone.systray.js"></script>
+  <script src="./js/app.standalone.zoom.js"></script>
+  <!-- /deploy:replace -->
+
   <!-- deploy:replace='<link rel="stylesheet" href="dist/style.css">' -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main.css">
@@ -18,11 +25,11 @@
 </head>
 <body kc>
 
-  <div ng-controller="StandaloneCtrl as standalone" class="windowChrome">
-    <button class="glyphicon glyphicon-win-minimize" ng-click="standalone.minimize()" tooltip="{{ 'TAB/minimize/glyph'|translate }}" tooltip-placement="bottom"></button>
-    <button class="glyphicon glyphicon-win-restore" ng-click="standalone.unmaximize()" tooltip="{{ 'TAB/unmaximize/glyph'|translate }}" tooltip-placement="bottom"  ng-show="!maxButton"></button>
-    <button class="glyphicon glyphicon-win-maximize" ng-click="standalone.maximize()" tooltip="{{ 'TAB/maximize/glyph'|translate }}" tooltip-placement="bottom" ng-show="maxButton"></button>
-    <button class="glyphicon glyphicon-win-close" ng-click="standalone.close()" tooltip="{{ 'TAB/close/glyph'|translate }}" tooltip-placement="bottom"></button>
+  <div class="windowChrome">
+    <button class="glyphicon glyphicon-win-minimize" id='minimize' tooltip="{{ 'TAB/minimize/glyph'|translate }}" tooltip-placement="bottom"></button>
+    <button class="glyphicon glyphicon-win-restore" id='unmaximize' tooltip="{{ 'TAB/unmaximize/glyph'|translate }}" tooltip-placement="bottom" style='display:none'></button>
+    <button class="glyphicon glyphicon-win-maximize" id='maximize' tooltip="{{ 'TAB/maximize/glyph'|translate }}" tooltip-placement="bottom"></button>
+    <button class="glyphicon glyphicon-win-close" id='close' tooltip="{{ 'TAB/close/glyph'|translate }}" tooltip-placement="bottom"></button>
   </div>
 
   <background-rotator channel="'background:load'" style="opacity:{{getSetting('background-rotator.opacity')}}"></background-rotator>
@@ -77,6 +84,7 @@
   <query-monitor ng-class="{show: queryStats.writesQueued - queryStats.writesExecuted > 1}" />
   <img class='printlogo' src='img/icon64.png'>
 
+
   <!-- deploy:replace='<script src="dist/deps.js"></script>' -->
   <script src='./js/vendor/promise.min.js'></script>
   <script src='./js/vendor/object-observe.min.js'></script>  
@@ -109,13 +117,13 @@
   <script src="./js/vendor/moment-timezone-with-data.quacked.js"></script>
   <!-- /deploy:replace -->
 
+
   <!-- deploy:replace='<script src="dist/app.js"></script>' -->
   <script src="./js/app.js"></script>
   <script src="./js/app.requestinterceptors.js"></script>
   <script src="./js/app.routes.js"></script>
+  <script src="./js/app.standalone.updatecheck.js"></script>
   <script src="./js/app.translate.js"></script>
-  <script src="./js/app.standalone.js"></script>
-  
   <script src="js/controllers/ActionBarCtrl.js"></script>
   <script src="js/controllers/WatchlistCtrl.js"></script>
   <script src="js/controllers/serieslist/LocalSeriesCtrl.js"></script>
@@ -126,6 +134,7 @@
   <script src="js/controllers/settings/CalendarCtrl.js"></script>
   <script src="js/controllers/settings/customSearchEngineCtrl.js"></script>
   <script src="js/controllers/settings/DisplayCtrl.js"></script>
+  <script src="js/controllers/settings/LanguageCtrl.js"></script>
   <script src="js/controllers/settings/SettingsTorrentCtrl.js"></script>
   <script src="js/controllers/settings/SubtitlesCtrl.js"></script>
   <script src="js/controllers/settings/SyncCtrl.js"></script>
@@ -161,6 +170,7 @@
   <script src="./js/directives/lazyBackground.js"></script>
   <script src="./js/directives/mouseWheelDown.js"></script>
   <script src="./js/directives/mouseWheelUp.js"></script>
+  <script src="./js/directives/targetBlank.js"></script>
   <script src="./js/directives/loadingSpinner.js"></script>
   <script src="./js/directives/serieDetails.js"></script>
   <script src="./js/directives/serieheader.js"></script>

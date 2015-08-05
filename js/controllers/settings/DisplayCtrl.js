@@ -12,7 +12,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.bgOpacity = SettingsService.get('background-rotator.opacity');
         $scope.showRatings = SettingsService.get('download.ratings');
         $scope.isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1);
-        $scope.standaloneStartupMinimized = SettingsService.get('standalone.startupMinimized');
+        $scope.standaloneStartupMinimized = localStorage.getItem('standalone.startupMinimized');
         $scope.sgEnabled = SettingsService.get('library.seriesgrid');
 
         $scope.toggleTopSites = function() {
@@ -38,62 +38,17 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         };
 
         // Toggles whether to minimize the Standalone window at startup 
+        // stored in localStorage because this code runs early
         $scope.toggleStandaloneStartupMinimized = function() {
             $scope.standaloneStartupMinimized = !$scope.standaloneStartupMinimized;
-            SettingsService.set('standalone.startupMinimized', $scope.standaloneStartupMinimized);
+            localStorage.setItem('standalone.startupMinimized', $scope.standaloneStartupMinimized);
         };
 
         // Toggles the Series-Grid on Series-List
         $scope.toggleSeriesGrid = function() {
-            $scope.sgEnabled = !$scope.sgEnabled
+            $scope.sgEnabled = !$scope.sgEnabled;
             SettingsService.set('library.seriesgrid', $scope.sgEnabled);
             window.location.reload();
-        }
-    }
-]);
-
-/*
- * Controller for the language settings tab
- */
-DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "SettingsService",
-    function($scope, $filter, SettingsService) {
-        $scope.activeLocale = SettingsService.get('application.locale');
-        $scope.clientLocale = SettingsService.get('client.determinedlocale');
-
-        // Set up the language list used in settings/display template
-        $scope.languageList = {
-            'en_au': 'au',
-            'en_ca': 'ca',
-            'en_nz': 'nz',
-            'en_uk': 'uk',
-            'en_us': 'us',
-            'de_de': 'de_de',
-            'es_es': 'es_es',
-            'fr_ca': 'fr_ca',
-            'fr_fr': 'fr_fr',
-            'it_it': 'it_it',
-            'ja_jp': 'ja_jp',
-            'ko_kr': 'ko_kr',
-            'nl_nl': 'nl_nl',
-            'pt_br': 'pt_br',
-            'pt_pt': 'pt_pt',
-            'ro_ro': 'ro_ro',
-            'ru_ru': 'ru_ru',
-            'sl_si': 'sl_si',
-            'sv_se': 'sv_se',
-            'zh_cn': 'zh_cn'
-        };
-
-        // Change localization an translations, reloads translation table.
-        $scope.setLocale = function(lang) {
-            SettingsService.changeLanguage(lang);
-            $scope.activeLocale = lang;
-            window.location.reload();
-        };
-        
-        // test if determined locale is one of our supported languages
-        $scope.isSupported = function(lang) {
-           return lang in $scope.languageList;
         };
     }
 ]);
