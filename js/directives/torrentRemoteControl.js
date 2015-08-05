@@ -14,7 +14,7 @@ DuckieTV
                 episodeDownloaded: '=downloaded'
             },
             templateUrl: function($node, $iAttrs) {
-                return $iAttrs.templateUrl || "templates/torrentRemoteControl.html";
+                return $iAttrs.templateUrl;
             },
             controllerAs: 'remote',
             controller: ["$scope", "$rootScope",
