@@ -68,6 +68,7 @@ body .tooltip.left .tooltip-arrow {
     background-color: white !important;
     color: black !important;
     text-shadow: none !important;
+    white-space: normal;
 }
 .tooltip {
     border: 0 !important;
