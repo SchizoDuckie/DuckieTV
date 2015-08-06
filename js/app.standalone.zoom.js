@@ -7,7 +7,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
 
     var win = require('nw.gui').Window.get(),
         zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500],
-        zoomIndex = 'standalone.zoomlevel' in localStorage ? localStorage.getItem('standalone.zoomlevel') : 6,
+        zoomIndex = 'standalone.zoomlevel' in localStorage ? parseInt(localStorage.getItem('standalone.zoomlevel')) : 6,
         setZoomLevel = function(index) {
             if (index < 0) {
                 index = 0;
@@ -31,12 +31,12 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
                 break;
             case 187: // +
                 if (event.ctrlKey) {
-                    setZoomLevel(zoomIndex++);
+                    setZoomLevel(zoomIndex + 1);
                 }
                 break;
             case 189: // -
                 if (event.ctrlKey) {
-                    setZoomLevel(zoomIndex--);
+                    setZoomLevel(zoomIndex - 1);
                 }
                 break;
             case 48: // 0
