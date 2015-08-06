@@ -22,6 +22,7 @@ DuckieTV
                     if (TorrentHashListService.hasHash(torrent.hash)) {
                         // this torrent was launched by DuckieTV. Stopping torrent.
                         console.info('Torrent finished. Auto-stopping', torrent.name || torrent.hash);
+                        TorrentHashListService.markDownloaded(torrent.hash);
                         torrent.stop();
                     }
                 }
@@ -29,11 +30,11 @@ DuckieTV
         }
 
         function isDownloaded(torrent) {
-            if (torrent.getProgress() == 100 && !torrent.downloadMarked) {
+            if (torrent.getProgress() == 100 && TorrentHashListService.isDownloaded(torrent.hash) === false) {
                 console.info('Torrent finished. marking as downloaded', torrent.name || torrent.hash);
                 var filter = ['downloaded != 1 and magnetHash = "' + torrent.hash.toUpperCase() + '"'];
                 CRUD.FindOne('Episode', filter).then(function(episode) {
-                    torrent.downloadMarked = true;
+                    TorrentHashListService.markDownloaded(torrent.hash);
                     if (!episode) return;
                     episode.markDownloaded();
                     episode.Persist();
@@ -57,46 +58,6 @@ DuckieTV
     }
 ])
 
-.factory('TorrentHashListService', ["DuckieTorrent", "SettingsService",
-    function(DuckieTorrent, SettingsService) {
-
-        var service = {
-
-            /*
-             *  a list of torrent magnet hashes which are being managed by DuckieTV
-             */
-            hashList: JSON.parse(localStorage.getItem(['torrenting.hashList'])) || [],
-            /*
-             * stored in Local-Storage for persistence
-             */
-            addToHashList: function(torrentHash) {
-                // only add to list if we don't already have it
-                if (!service.hasHash(torrentHash)) {
-                    service.hashList.push(torrentHash);
-                }
-                localStorage.setItem(['torrenting.hashList'], JSON.stringify(service.hashList));
-                return true;
-            },
-            /*
-             * used by the remove torrent feature, whenever it's implemented
-             */
-            removeFromHashList: function(torrentHash) {
-                if (service.hasHash(torrentHash)) {
-                    service.hashList.splice(service.hashList.indexOf(torrentHash), 1);
-                }
-                localStorage.setItem(['torrenting.hashList'], JSON.stringify(service.hashList));
-                return true;
-            },
-            /*
-             * returns true if torrentHash is in the list, false if not found
-             */
-            hasHash: function(torrentHash) {
-                return service.hashList.indexOf(torrentHash) > -1;
-            }
-        };
-        return service;
-    }
-])
 
 .run(["SettingsService", "TorrentMonitor",
     function(SettingsService, TorrentMonitor) {
