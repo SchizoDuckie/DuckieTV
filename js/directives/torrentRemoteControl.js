@@ -44,6 +44,8 @@ DuckieTV
                     function observeTorrent(rpc, infoHash) {
                         DuckieTorrent.getClient().getRemote().onTorrentUpdate(infoHash, function(newData) {
                             remote.torrent = newData;
+                            console.log("OBserved torrent new data!", infoHash, newData);
+                            $scope.$applyAsync();
                         });
                     }
 
@@ -65,7 +67,11 @@ DuckieTV
                         remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash);
                         observeTorrent(rpc, remote.infoHash);
                     }, function(fail) {
-                        console.log("Failed to connect connect to torrent client for monitoring!");
+                        // Failed to connect connect to torrent client for monitoring. Creating an event watcher for when torrentclient is connected.
+                        $rootScope.$on('torrentclient:connected', function(rpc) {
+                            remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash);
+                            observeTorrent(rpc, remote.infoHash);
+                        });
                     });
 
                     $scope.removeHash = function() {
