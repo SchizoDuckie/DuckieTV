@@ -13,6 +13,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
 
         var APIkey = '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0';
         var endpoint = 'https://api-v2launch.trakt.tv/';
+        var pinUrl = 'https://trakt.tv/pin/948';
         /// shows / game - of - thrones / seasons ? extended = full, images
 
         var endpoints = {
@@ -28,7 +29,9 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             usershows: 'users/%s/collection/shows?extended=full,images&limit=10000',
             updated: 'shows/updates/%s?limit=10000',
             episodeSeen: 'sync/history',
-            episodeUnseen: 'sync/history/remove'
+            episodeUnseen: 'sync/history/remove',
+            config: 'users/settings',
+            token: 'oauth/token'
         };
 
         var parsers = {
@@ -172,8 +175,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                 'accept': 'application/json'
             };
             if (authorized.indexOf(type) > -1) {
-                headers['trakt-user-login'] = localStorage.getItem('trakt.username');
-                headers['trakt-user-token'] = localStorage.getItem('trakt.token');
+                headers['Authorization'] = 'Bearer ' + localStorage.getItem('trakt.token');
             }
             return $http.get(url, {
                 timeout: promise ? promise : 120000,
@@ -282,21 +284,25 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     throw "Could not resolve TVDB_ID from Trakt.TV " + error.message;
                 });
             },
-            login: function(username, password) {
-                var url = getUrl('login');
-                return $http.post(url, JSON.stringify({
-                    login: username,
-                    password: password
+            getPinUrl: function() {
+                return pinUrl;
+            },
+            login: function(pin) {
+                return $http.post(getUrl('token'), JSON.stringify({
+                    'code': pin,
+                    'client_id': '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0',
+                    'client_secret': 'f1c3e2df8f7a5e2705879fb33db655bc4aa96c0f33a674f3fc7749211ea46794',
+                    'redirect_uri': 'http://www.google.com/robots.txt',
+                    'grant_type': 'authorization_code',
                 }), {
                     headers: {
-                        'trakt-api-key': APIkey,
-                        'trakt-api-version': 2,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                    'trakt-api-key': APIkey,
+                    'trakt-api-version': 2,
+                    'Content-Type': 'application/json'
                     }
                 }).then(function(result) {
-                    localStorage.setItem('trakt.username', username);
-                    localStorage.setItem('trakt.token', result.data.token);
+                    localStorage.setItem('access_token', result.data.access_token);
+                    localStorage.setItem('refresh_token', result.data.refresh_token);
                     return result.data.token;
                 }, function(error) {
                     throw error;
@@ -337,8 +343,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     headers: {
                         'trakt-api-key': APIkey,
                         'trakt-api-version': 2,
-                        'trakt-user-login': localStorage.getItem('trakt.username'),
-                        'trakt-user-token': localStorage.getItem('trakt.token'),
+                        'Authentication': 'Bearer ' + localStorage.getItem('trakt.token'),
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     }
@@ -368,8 +373,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     headers: {
                         'trakt-api-key': APIkey,
                         'trakt-api-version': 2,
-                        'trakt-user-login': localStorage.getItem('trakt.username'),
-                        'trakt-user-token': localStorage.getItem('trakt.token'),
+                        'Authentication': 'Bearer ' + localStorage.getItem('trakt.token'),
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     }

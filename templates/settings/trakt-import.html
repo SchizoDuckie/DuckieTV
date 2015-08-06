@@ -15,14 +15,15 @@
             </td>
           </tr>
           <tr class="password">
-            <td><p translate-once="SETTINGS/TRAKT-IMPORT/password/hdr"></p></td>
+            <td>Your Trakt.TV Pin</td>
             <td>
-              <input type='password' style='background-color: rgba(0,0,0,0.8);' name='password' ng-model='credentials.password' placeholder="Trakt.TV {{'SETTINGS/TRAKT-IMPORT/password/placeholder'|translate}}" ng-disabled="credentials.success" ng-keyup="$event.keyCode == 13 && onEnter()" />
+              <input type='password' style='background-color: rgba(0,0,0,0.8);' name='password' ng-model='credentials.password' placeholder="Trakt.TV PIN" ng-disabled="credentials.success" ng-keyup="$event.keyCode == 13 && onEnter()" />
             </td>
           </tr>
           <tr class="button">
             <td></td>
             <td><center>
+             <a ng-href="{{getPinUrl()}}" class="btn btn-success" target='_blank'>Authorize DuckieTV to <br>use your Trakt.TV account</a>
               <a ng-click="authorize(credentials.username, credentials.password)" class="btn btn-success" style="position:relative" ng-disabled="credentials.success" ng-show="!credentials.success">
                 <i class="glyphicon glyphicon-log-in" style="float:left;top:3px"></i><span translate-once="SETTINGS/TRAKT-IMPORT/login-to/btn"></span>Trakt.TV
                 <loading-spinner ng-show="credentials.authorizing" style="width:20px;height:20px;position:absolute;right:5px"></loading-spinner>
