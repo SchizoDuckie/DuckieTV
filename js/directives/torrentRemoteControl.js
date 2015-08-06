@@ -24,6 +24,7 @@ DuckieTV
                     remote.infoHash = $scope.infoHash;
                     remote.isDownloaded = $scope.episodeDownloaded;
                     remote.torrent = null;
+                    remote.isConnected = false;
 
                     this.getFiles = function(torrent) {
                         remote.torrent.getFiles().then(function(files) {
@@ -64,11 +65,13 @@ DuckieTV
                      * Autoconnect and wait for initialisation, then start monitoring updates for the torrent hash in the infoHash
                      */
                     DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
+                        remote.isConnected = true;
                         remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash);
                         observeTorrent(rpc, remote.infoHash);
                     }, function(fail) {
                         // Failed to connect connect to torrent client for monitoring. Creating an event watcher for when torrentclient is connected.
                         $rootScope.$on('torrentclient:connected', function(rpc) {
+                            remote.isConnected = true;
                             remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash);
                             observeTorrent(rpc, remote.infoHash);
                         });

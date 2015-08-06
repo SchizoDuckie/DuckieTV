@@ -37,8 +37,11 @@
       <div class="progress-bar" ng-class="{ 'progress-bar-danger': !remote.torrent.isStarted() && remote.torrent.getProgress() < 100, 'progress-bar-info': remote.torrent.isStarted() && remote.torrent.getProgress() < 100 , 'progress-bar-success': !remote.torrent.isStarted() && remote.torrent.getProgress() == 100, 'progress-bar-warning': remote.torrent.isStarted() && remote.torrent.getProgress() == 100, 'progress-bar-success downloaded': remote.isDownloaded }" ng-style="{ width: remote.torrent.getProgress() + '%' }">&nbsp;
       </div>
     </div>
+    <div ng-show="!remote.isConnected">
+      Torrent client not connected.
+    </div>
     <div ng-hide="remote.torrent" style="margin-top: 10px">
-      Torrent not found, either Torrent Client not connected or torrent has been removed
+      Torrent not found in torrentclient.
     </div>
   </div>
 </div>
