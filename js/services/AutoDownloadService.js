@@ -14,7 +14,7 @@ DuckieTV
         var service = {
             checkTimeout: null,
             autoDownloadCheck: function() {
-                //console.debug("Episode air check fired");
+                console.debug("Episode air check fired");
                 if (SettingsService.get('torrenting.autodownload') === false) {
                     service.detach();
                     return;
@@ -30,32 +30,35 @@ DuckieTV
                 from.setMinutes(0);
                 from.setSeconds(0);
 
-                DuckieTorrent.getClient().AutoConnect().then(function(remote) {
-                    console.info(DuckieTorrent.getClientName() + " connected: ", remote);
-                    // Get the list of episodes that have aired since period, and iterate them.
-                    FavoritesService.getEpisodesForDateRange(from.getTime(), new Date().getTime()).then(function(candidates) {
-                        candidates.map(function(episode, episodeIndex) {
-                            if (episode.isDownloaded()) return; // if the episode was already downloaded, skip it.
-                            if (episode.watchedAt !== null) return; // if the episode has been marked as watched, skip it.
-                            if (episode.magnetHash !== null && (episode.magnetHash in remote.torrents)) return; // if the episode was already downloaded, skip it.
+                if (DuckieTorrent.getClient().isConnected()) {
+                    DuckieTorrent.getClient().AutoConnect().then(function(remote) {
+                        // Get the list of episodes that have aired since period, and iterate them.
+                        FavoritesService.getEpisodesForDateRange(from.getTime(), new Date().getTime()).then(function(candidates) {
+                            candidates.map(function(episode, episodeIndex) {
+                                if (episode.isDownloaded()) return; // if the episode was already downloaded, skip it.
+                                if (episode.watchedAt !== null) return; // if the episode has been marked as watched, skip it.
+                                if (episode.magnetHash !== null && (episode.magnetHash in remote.torrents)) return; // if the episode was already downloaded, skip it.
 
-                            CRUD.FindOne('Serie', {
-                                ID_Serie: episode.ID_Serie
-                            }).then(function(serie) {
-                                if (serie.autoDownload == 1) {
-                                    service.autoDownload(serie, episode, episodeIndex).then(function(result) {
-                                        if (result) {
-                                            // store the magnet hash on the episode and notify the listeners of the change
-                                            $rootScope.$broadcast('magnet:select:' + episode.TVDB_ID, [result]);
-                                        }
-                                    });
-                                }
+                                CRUD.FindOne('Serie', {
+                                    ID_Serie: episode.ID_Serie
+                                }).then(function(serie) {
+                                    if (serie.autoDownload == 1) {
+                                        service.autoDownload(serie, episode, episodeIndex).then(function(result) {
+                                            if (result) {
+                                                // store the magnet hash on the episode and notify the listeners of the change
+                                                $rootScope.$broadcast('magnet:select:' + episode.TVDB_ID, [result]);
+                                            }
+                                        });
+                                    }
+                                });
                             });
+                            SettingsService.set('autodownload.lastrun', new Date().getTime());
                         });
-                        SettingsService.set('autodownload.lastrun', new Date().getTime());
                     });
-                });
-                service.checkTimeout = setTimeout(service.autoDownloadCheck, 60 * 60 * 2 * 1000);
+
+                }
+
+                service.checkTimeout = setTimeout(service.autoDownloadCheck, 60000 * 15); // fire new episodeaired check in 15 minutes.
             },
 
             autoDownload: function(serie, episode, episodeIndex) {
