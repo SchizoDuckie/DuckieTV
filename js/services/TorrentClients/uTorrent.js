@@ -75,8 +75,8 @@ DuckieTorrent
     this.connected = false;
     this.initialized = false;
 
-    this.$get = ["$q", "$http", "URLBuilder", "$parse", "uTorrentRemote",
-        function($q, $http, URLBuilder, $parse, uTorrentRemote) {
+    this.$get = ["$rootScope", "$q", "$http", "URLBuilder", "$parse", "uTorrentRemote",
+        function($rootScope, $q, $http, URLBuilder, $parse, uTorrentRemote) {
             var self = this;
 
             /**
@@ -172,6 +172,7 @@ DuckieTorrent
                         self.sessionKey = session.session;
                         self.authToken = authToken;
                         self.connected = true;
+                        $rootScope.$broadcast('torrentclient:connected', self.getRemote());
                         return session;
                     }, function(fail) {
                         console.error("Error starting session with auth token %s!", authToken);

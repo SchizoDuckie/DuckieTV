@@ -62,11 +62,11 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
 ])
 
 
-.factory('BaseTorrentClient', ["$q", "$http", "URLBuilder", "$parse", "SettingsService",
-    function($q, $http, URLBuilder, $parse, SettingsService) {
+.factory('BaseTorrentClient', ["$rootScope", "$q", "$http", "URLBuilder", "$parse", "SettingsService",
+    function($rootScope, $q, $http, URLBuilder, $parse, SettingsService) {
 
         var BaseTorrentClient = function() {
-        this.config = {
+            this.config = {
                 uses_custom_auth_method: false
             };
 
@@ -256,6 +256,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                     }
                     self.connected = result; // we are now connected
                     self.isConnecting = !result; // we are no longer connecting
+                    $rootScope.$broadcast('torrentclient:connected', self.getRemote());
                     return result;
                 });
             },

@@ -89,6 +89,10 @@ DuckieTV
             attach: function() {
                 if (!service.checkTimeout) {
                     service.checkTimeout = setTimeout(service.autoDownloadCheck, 5000);
+                    $rootScope.$on('torrentclient:connected', function(remote) {
+                        console.log(" Caught TorrentClient connected event! starting autodownloadcheck!");
+                        service.autoDownloadCheck();
+                    });
                 }
             },
             detach: function() {
