@@ -1,7 +1,7 @@
 /**
  * Show one season
  */
-DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameResolver, EpisodeAiredService, $scope, $filter, $q, $rootScope) {
+DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameResolver, AutoDownloadService, $scope, $filter, $q, $rootScope) {
     this.season = season;
     this.episodes = episodes;
 
@@ -28,7 +28,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
     };
 
     this.autoDownload = function(serie, episode) {
-        EpisodeAiredService.autoDownload(serie, episode);
+        AutoDownloadService.autoDownload(serie, episode);
     };
 
     this.autoDownloadAll = function() {
@@ -66,7 +66,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
         return SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
     };
 
-    this.getSeasonSearchString = function(serie,season) {
+    this.getSeasonSearchString = function(serie, season) {
         if (!serie || !season) return;
         return SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' season ' + season.seasonnumber;
     };

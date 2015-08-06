@@ -1,8 +1,8 @@
 /**
  * Controller for the torrent settings tab
  */
-DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "DuckieTorrent", "TorrentSearchEngines", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "EpisodeAiredService",
-    function($scope, $rootScope, SettingsService, DuckieTorrent, TorrentSearchEngines, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, EpisodeAiredService) {
+DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "DuckieTorrent", "TorrentSearchEngines", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "AutoDownloadService",
+    function($scope, $rootScope, SettingsService, DuckieTorrent, TorrentSearchEngines, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, AutoDownloadService) {
 
         $scope.log = [];
 
@@ -141,11 +141,11 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
             if ($scope.adEnabled == true) {
                 SettingsService.set('torrenting.autodownload', false);
                 $scope.adEnabled = false;
-                EpisodeAiredService.detach();
+                AutoDownloadService.detach();
             } else {
                 SettingsService.set('torrenting.autodownload', true);
                 $scope.adEnabled = true;
-                EpisodeAiredService.attach();
+                AutoDownloadService.attach();
             }
         };
 
@@ -170,8 +170,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
          */
         $scope.saveADPeriod = function(period) {
             SettingsService.set('autodownload.period', period);
-            EpisodeAiredService.detach(); // restart kickoff method when changing search period and seeders.
-            EpisodeAiredService.attach();
+            AutoDownloadService.detach(); // restart kickoff method when changing search period and seeders.
+            AutoDownloadService.attach();
         };
 
         /**
@@ -179,8 +179,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
          */
         $scope.saveADMinSeeders = function(seeds) {
             SettingsService.set('autodownload.minSeeders', seeds);
-            EpisodeAiredService.detach(); // restart kickoff method when changing search period and seeders.
-            EpisodeAiredService.attach();
+            AutoDownloadService.detach(); // restart kickoff method when changing search period and seeders.
+            AutoDownloadService.attach();
 
         };
 

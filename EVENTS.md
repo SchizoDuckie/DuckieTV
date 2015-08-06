@@ -51,7 +51,7 @@ Event Descriptions (as at v1.0.1)
 
  -  **magnet:select:{{TVDB_ID}}**(infohash:string)
 
-    This event is fired by the EpisodeAiredService and TorrentSearchEngines when a magnet uri is launched. It passes a torrent's unique 40 character hash so that it can be stored on the episode entity. The SidepanelEpisodeCtrl and SidepanelSeasonCtrl observe this event to handle persisting and triggering UI updates (like starting to watch if a TorrentClient is downloading this torrent by monitoring for torrent:update:{{infohash}})
+    This event is fired by the AutoDownloadService and TorrentSearchEngines when a magnet uri is launched. It passes a torrent's unique 40 character hash so that it can be stored on the episode entity. The SidepanelEpisodeCtrl and SidepanelSeasonCtrl observe this event to handle persisting and triggering UI updates (like starting to watch if a TorrentClient is downloading this torrent by monitoring for torrent:update:{{infohash}})
 
  -  **serie:updating**
 
@@ -245,7 +245,7 @@ Publishers
       Publishers -> SeriesListCtrl [style="invis"];
       Publishers -> CRUDentities [style="invis"];
       Publishers -> datePicker [style="invis"];
-      Publishers -> EpisodeAiredService [style="invis"];
+      Publishers -> AutoDownloadService [style="invis"];
       Publishers -> TorrentSearchEngines [style="invis"];
       Publishers -> KickassMirrorResolver [style="invis"];
       Publishers -> SyncManager [style="invis"];
@@ -266,7 +266,7 @@ Publishers
       expandserie -> calendar [dir="back"];
       katmirrorresolverstatus -> KickassMirrorResolver [dir="back"];
       katmirrorresolverstatus -> SettingsTorrentCtrl [dir="back"];
-      magnetselectTVDBID -> EpisodeAiredService [dir="back"];
+      magnetselectTVDBID -> AutoDownloadService [dir="back"];
       magnetselectTVDBID -> TorrentSearchEngines [dir="back"];
       serieslistempty -> FavoritesService [dir="back"];
       serieslistfilter -> LocalSeriesCtrl [dir="back"];
@@ -312,7 +312,7 @@ Publishers
       datePicker [label="datePicker.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         setDate [label="setDate", shape=box,fillcolor="white",style="filled"];
 
-      EpisodeAiredService [label="EpisodeAiredService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
+      AutoDownloadService [label="AutoDownloadService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
       FavoritesService [label="FavoritesService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];

@@ -1,8 +1,8 @@
 /**
  * The <calendar-event> directive displays an episode on the calendar
  */
-DuckieTV.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "EpisodeAiredService", "SettingsService",
-    function(uTorrent, SceneNameResolver, EpisodeAiredService, SettingsService, $location) {
+DuckieTV.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "AutoDownloadService", "SettingsService",
+    function(uTorrent, SceneNameResolver, AutoDownloadService, SettingsService, $location) {
         return {
             restrict: 'E',
             scope: {

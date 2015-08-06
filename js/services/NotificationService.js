@@ -1,6 +1,6 @@
 /** 
  * The notification service can create Chrome Notifications to notify users of aired episodes.
- * Currently still needs to be implemented by hooking into the EpisodeAiredService
+ * Currently still needs to be implemented by hooking into the AutoDownloadService
  */
 DuckieTV.provider("NotificationService", function() {
     var ids = {}; // track existing notifications

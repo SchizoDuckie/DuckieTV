@@ -1,12 +1,11 @@
 /**
- * The EpisodeAiredService checks if a download is availabe for a TV-Show that's aired
+ * The AutoDownloadService checks if a download is availabe for a TV-Show that's aired
  * and automatically downloads the first search result if more than minSeeders seeders are available.
  *
- * Runs in the background page.
  */
 DuckieTV
 
-.factory('EpisodeAiredService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentSearchEngines", "DuckieTorrent", "TorrentHashListService",
+.factory('AutoDownloadService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentSearchEngines", "DuckieTorrent", "TorrentHashListService",
     function($rootScope, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, DuckieTorrent, TorrentHashListService) {
 
         var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 1
@@ -15,6 +14,7 @@ DuckieTV
         var service = {
             checkTimeout: null,
             autoDownloadCheck: function() {
+                debugger;
                 //console.debug("Episode air check fired");
                 if (SettingsService.get('torrenting.autodownload') === false) {
                     service.detach();
@@ -79,7 +79,7 @@ DuckieTV
                             episode.Persist();
                             // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
                             TorrentHashListService.addToHashList(torrentHash);
-                        })
+                        });
                         return torrentHash;
                     }
                 });
@@ -101,14 +101,14 @@ DuckieTV
 /**
  * Attach auto-download check interval when enabled.
  */
-.run(["$rootScope", "EpisodeAiredService", "SettingsService",
-    function($rootScope, EpisodeAiredService, SettingsService) {
+.run(["$rootScope", "AutoDownloadService", "SettingsService",
+    function($rootScope, AutoDownloadService, SettingsService) {
 
         if (SettingsService.get('torrenting.enabled') === true && SettingsService.get('torrenting.autodownload') === true) {
             setTimeout(function() {
-                console.info('Initializing episode aired checker service!');
-                EpisodeAiredService.attach();
+                console.info('Initializing AutoDownload Service!');
+                AutoDownloadService.attach();
             }, 5000);
         }
     }
-])
+]);
