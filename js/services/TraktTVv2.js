@@ -292,13 +292,13 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     'code': pin,
                     'client_id': '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0',
                     'client_secret': 'f1c3e2df8f7a5e2705879fb33db655bc4aa96c0f33a674f3fc7749211ea46794',
-                    'redirect_uri': 'http://www.google.com/robots.txt',
+                    'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
                     'grant_type': 'authorization_code',
                 }), {
                     headers: {
-                    'trakt-api-key': APIkey,
-                    'trakt-api-version': 2,
-                    'Content-Type': 'application/json'
+                        'trakt-api-key': APIkey,
+                        'trakt-api-version': 2,
+                        'Content-Type': 'application/json'
                     }
                 }).then(function(result) {
                     localStorage.setItem('access_token', result.data.access_token);
