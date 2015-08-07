@@ -28,7 +28,6 @@ DuckieTV
 
                     this.getFiles = function(torrent) {
                         remote.torrent.getFiles().then(function(files) {
-                            console.log('received files!', files);
                             remote.torrent_files = files.map(function(file) {
                                 file.isMovie = file.name.match(/mp4|avi|mkv|mpeg|mpg|flv/g);
                                 if (file.isMovie) {
@@ -45,7 +44,6 @@ DuckieTV
                     function observeTorrent(rpc, infoHash) {
                         DuckieTorrent.getClient().getRemote().onTorrentUpdate(infoHash, function(newData) {
                             remote.torrent = newData;
-                            console.log("OBserved torrent new data!", infoHash, newData);
                             $scope.$applyAsync();
                         });
                     }

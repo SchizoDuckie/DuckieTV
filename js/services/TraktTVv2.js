@@ -303,7 +303,8 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'Content-Type': 'application/json'
                     }
                 }).then(function(result) {
-                    localStorage.setItem('access_token', result.data.access_token);
+                    debugger;
+                    localStorage.setItem('trakt.token', result.data.access_token);
                     localStorage.setItem('refresh_token', result.data.refresh_token);
                     return result.data.token;
                 }, function(error) {
@@ -345,7 +346,8 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'trakt-api-version': 2,
                         'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'Cookie': ''
                     }
                 }).then(function(result) {
                     console.log("Episode watched:", serie, episode);
@@ -375,7 +377,8 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'trakt-api-version': 2,
                         'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'Cookie': ''
                     }
                 }).then(function(result) {
                     console.log("Episode un-watched:", serie, episode);
