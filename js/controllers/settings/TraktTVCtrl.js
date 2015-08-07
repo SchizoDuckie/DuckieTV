@@ -167,7 +167,7 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
 
             FavoritesService.favorites.map(function(serie) {
                 console.log("Adding serie '" + serie.name + "' to Trakt.tv: ", serie);
-                TraktTVv2.addToLibrary(serie.TVDB_ID);
+                TraktTVv2.addCollection(serie.TVDB_ID);
                 serieIDs[serie.ID_Serie] = serie.TVDB_ID;
             });
 

@@ -25,13 +25,15 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             trending: 'shows/trending?extended=full,images&limit=500',
             tvdb_id: 'search?id_type=tvdb&id=%s',
             login: 'auth/login',
-            watched: 'sync/watched/shows?extended=full,images&limit=10000',
-            usershows: 'users/%s/collection/shows?extended=full,images&limit=10000',
             updated: 'shows/updates/%s?limit=10000',
+            config: 'users/settings',
+            token: 'oauth/token',
+            watched: 'sync/watched/shows?extended=full,images&limit=10000',
             episodeSeen: 'sync/history',
             episodeUnseen: 'sync/history/remove',
-            config: 'users/settings',
-            token: 'oauth/token'
+            userShows: 'sync/collection/shows?extended=full,images&limit=10000',
+            addCollection: 'sync/collection',
+            removeCollection: 'sync/collection/remove'
         };
 
         var parsers = {
@@ -175,7 +177,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                 'accept': 'application/json'
             };
             if (authorized.indexOf(type) > -1) {
-                headers['Authorization'] = 'Bearer ' + localStorage.getItem('trakt.token');
+                headers['Authorization'] = 'Bearer ' + localStorage.getItem('access_token');
             }
             return $http.get(url, {
                 timeout: promise ? promise : 120000,
@@ -331,8 +333,6 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
              */
             markEpisodeWatched: function(serie, episode) {
                 $http.post(getUrl('episodeSeen'), {
-                    movies: [],
-                    shows: [],
                     episodes: [{
                         'watched_at': new Date(episode.watchedAt).toISOString(),
                         ids: {
@@ -343,12 +343,12 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     headers: {
                         'trakt-api-key': APIkey,
                         'trakt-api-version': 2,
-                        'Authentication': 'Bearer ' + localStorage.getItem('trakt.token'),
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     }
                 }).then(function(result) {
-                    console.log("Episode watched: ", serie, episode);
+                    console.log("Episode watched:", serie, episode);
                 });
             },
             /** 
@@ -373,23 +373,39 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     headers: {
                         'trakt-api-key': APIkey,
                         'trakt-api-version': 2,
-                        'Authentication': 'Bearer ' + localStorage.getItem('trakt.token'),
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     }
                 }).then(function(result) {
-                    console.log("Episode un-watched: ", serie, episode);
+                    console.log("Episode un-watched:", serie, episode);
                 });
             },
-
+            addCollection: function(serieID) {
+                $http.post(getUrl('addCollection'), {
+                    shows: [{
+                        ids: {
+                            tvdb: serieID
+                        }
+                    }]
+                }, {
+                    headers: {
+                        'trakt-api-key': APIkey,
+                        'trakt-api-version': 2,
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                }).then(function(result) {
+                    console.log("Show added to collection:", serieID);
+                });
+            }
         };
-
         return service;
     }
 ])
 
 .run(function($rootScope, SettingsService, TraktTVv2) {
-
     /**
      * Catch the event when an episode is marked as watched
      * and forward it to TraktTV if syncing enabled.

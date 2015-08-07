@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div ng-show="credentials.success" class="buttons">
+  <div nng-show="credentials.success" class="buttons">
     <hr class="setting-divider">
     <h2>
       <span tooltip="{{traktSync ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
@@ -64,8 +64,17 @@
     <h2 translate-once="SETTINGS/TRAKT-IMPORT/hdr"></h2>
     <p translate-once="SETTINGS/TRAKT-IMPORT/desc"></p>
     
-    <a ng-click="readTraktTV()" class="btn btn-success">
+    <a ng-click="readTraktTV()" class="btn btn-info">
       <i class="glyphicon glyphicon-import" style="float:left;top:3px"></i> <span translate-once="SETTINGS/TRAKT-IMPORT/sync-import/btn"></span>
+    </a>
+
+    <hr class="setting-divider">
+
+    <h2 translate-once="Push to Trakt"></h2>
+    <p translate-once="Push all your shows and watched episodes on DuckieTV to your Trakt.TV account"></p>
+    
+    <a ng-click="pushToTraktTV()" class="btn btn-info">
+      <i class="glyphicon glyphicon-export" style="float:left;top:3px"></i> <span translate-once="Push shows to Trakt.TV"></span>
     </a>
   </div>
   <div class="miniposter x2" ng-if="traktTVSeries[0]" style="text-align:center">
