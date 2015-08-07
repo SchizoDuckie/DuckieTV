@@ -11,9 +11,11 @@ DuckieTV.factory('TorrentHashListService', [
             localStorage.setItem(['torrenting.hashList'], JSON.stringify(service.hashList));
         }
 
-        // cleanup old array format.
-        if (JSON.parse(localStorage.getItem('torrenting.hashList')).constructor === Array) {
-            localStorage.removeItem('torrenting.hashList');
+        // clean up old array format.
+        if ('torrenting.hashList' in localStorage) {
+            if (JSON.parse(localStorage.getItem('torrenting.hashList')).constructor === Array) {
+                localStorage.removeItem('torrenting.hashList');
+            }
         }
         var service = {
             /**
