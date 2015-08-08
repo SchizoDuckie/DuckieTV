@@ -58,7 +58,7 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ["$q", "$http", "$injector",
                     $rootScope.$broadcast('tpbmirrorresolver:status', "Found ThePirateBay mirror! " + location + " Verifying if it uses magnet links.");
                     // verify that the mirror works by executing a test search, otherwise try the process again
                     service.verifyTPBMirror(location).then(function(location) {
-                        console.log("Mirror uses magnet links!", location);
+                        //console.debug("Mirror uses magnet links!", location);
                         d.resolve(location);
                     }, function(err) {
                         if (attempt < maxAttempts) {
@@ -71,7 +71,7 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ["$q", "$http", "$injector",
                         }
                     });
                 }, function(err) {
-                    console.log('error!');
+                    console.error('error!');
                     d.reject(err);
                 });
                 return d.promise;

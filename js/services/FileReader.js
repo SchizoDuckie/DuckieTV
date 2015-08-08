@@ -79,7 +79,7 @@ DuckieTV.factory('FileReader', ["$q",
             var onChange = $parse(attrs.onChange);
 
             var updateModel = function() {
-                console.log("UPDATE!");
+                //console.debug("UPDATE!");
                 scope.$apply(function() {
                     modelSet(scope, element[0].files[0]);
                     onChange(scope);

@@ -81,7 +81,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                 var self = this;
                 return this.rpc("auth.check_session").then(function(result) {
                     return result !== undefined ? self.rpc("auth.login", [self.config.password]).then(function(response) {
-                        console.log("Auth result: ", response.result);
+                        //console.debug("Auth result: ", response.result);
                         return response.result;
                     }) : false;
                 }, function() {

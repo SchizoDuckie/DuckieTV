@@ -32,7 +32,7 @@ DuckieTV.factory('KickassMirrorResolver', ["$q", "$http", "$injector",
                     mirrorList.push(el.parentNode.innerText.trim().replace('KickAssTorrents - ', ''));
                 }
             });
-            console.log("MirrorList", mirrorList);
+            //console.debug("MirrorList", mirrorList);
             return pickRandomMirror(mirrorList);
         }
 
@@ -80,11 +80,11 @@ DuckieTV.factory('KickassMirrorResolver', ["$q", "$http", "$injector",
                 }).then(function(response) {
                     // Parse the response
                     var location = parseRockAProxy(response);
-                    console.log('mirror picked', response);
+                    //console.debug('mirror picked', response);
                     $rootScope.$broadcast('katmirrorresolver:status', "Found KickAss Torrents mirror! " + location + " Verifying if it uses magnet links.");
                     // Verify that the mirror works by executing a test search, otherwise try the process again
                     service.verifyKATMirror(location).then(function(location) {
-                        console.log("Mirror uses magnet links!", location);
+                        //console.debug("Mirror uses magnet links!", location);
                         d.resolve(location);
                     }, function(err) {
                         if (attempt < maxAttempts) {
@@ -98,7 +98,7 @@ DuckieTV.factory('KickassMirrorResolver', ["$q", "$http", "$injector",
                         }
                     });
                 }, function(err) {
-                    console.log('error!');
+                    console.error('error!');
                     d.reject(err);
                 });
                 return d.promise;

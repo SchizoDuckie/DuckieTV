@@ -10,13 +10,13 @@ DuckieTV.factory('OpenSubtitles', ["xmlrpc", "SettingsService",
             hostName: "http://api.opensubtitles.org", // Default is empty
             pathName: "/xml-rpc", // Default is /rpc2
             401: function() {
-                console.log("You shall not pass !");
+                console.warn("You shall not pass !");
             },
             404: function() {
-                console.log("Subtitle not found");
+                console.info("Subtitle not found");
             },
             500: function() {
-                console.log("Something went wrong :(");
+                console.error("Something went wrong :(");
             }
         });
 

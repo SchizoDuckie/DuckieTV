@@ -166,7 +166,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                 }
                 var self = this;
                 this.connect().then(function(result) {
-                    console.log(self.getName() + " connected!");
+                    console.info(self.getName() + " connected!");
                     if (!self.isPolling) {
                         self.isPolling = true;
                         self.Update();
@@ -248,7 +248,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
             connect: function() {
                 var self = this;
                 return this.getAPI().portscan().then(function(result) { // check if client webui is reachable
-                    console.log(self.getName() + " check result: ", result);
+                    //console.debug(self.getName() + " check result: ", result);
                     if (!result) {
                         self.isConnecting = false;
                         self.isPolling = false;

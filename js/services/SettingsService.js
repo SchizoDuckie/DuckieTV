@@ -207,7 +207,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
 
                     if (langKey.indexOf('_') === -1) {
                         for (var key in customLanguageKeyMappings) {
-                            console.log(key, langKey, key.indexOf(langKey));
+                            console.debug(key, langKey, key.indexOf(langKey));
                             if (key.indexOf(langKey) > -1) {
                                 langKey = key;
                                 matched = true;

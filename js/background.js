@@ -15,14 +15,14 @@
 chrome.runtime.onInstalled.addListener(function(details) {
     localStorage.setItem('runtime.event', JSON.stringify(details));
     if (details.reason == "install") {
-        console.log("This is a first install!");
+        console.info("This is a first install!");
         localStorage.setItem('install.notify', chrome.runtime.getManifest().version);
         /*
          * example: localStorage.setItem('0.54.createtimers', 'done');
          */
     } else if (details.reason == "update") {
         var thisVersion = chrome.runtime.getManifest().version;
-        console.log("Updated from " + details.previousVersion + " to " + thisVersion + "!");
+        console.info("Updated from " + details.previousVersion + " to " + thisVersion + "!");
         if (details.previousVersion != thisVersion) {
             localStorage.setItem('install.notify', thisVersion);
         }

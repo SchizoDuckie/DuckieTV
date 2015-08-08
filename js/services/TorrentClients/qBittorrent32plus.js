@@ -25,7 +25,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
             portscan: function() {
                 var self = this;
                 return this.request('version').then(function(result) {
-                    console.log("qBittorrent version result: ", result);
+                    console.info("qBittorrent version result: ", result);
                     return self.login().then(function() {
                         return true;
                     });
