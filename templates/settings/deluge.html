@@ -1,19 +1,19 @@
 <div class="buttons" ng-controller="delugeCtrl as deluge">
-	<h2>Deluge <h2cont translate-once="SETTINGS/DELUGE/integration/hdr"></h2cont></h2>
+	<h2>Deluge <h2cont translate-once="COMMON/integration/hdr"></h2cont></h2>
 
 	<img src="img/torrentclients/deluge-colored.png" style='width:200px; margin: 0 auto'>
 
-	<p  ng-if="deluge.isConnected()"><span translate-once="SETTINGS/DELUGE/status/hdr"></span>:
-	<span translate-once="SETTINGS/DELUGE/connected/lbl"></span> Deluge Web API &#64; {{deluge.model.server}}:{{deluge.model.port}}
+	<p  ng-if="deluge.isConnected()"><span translate-once="COMMON/status/hdr"></span>:
+	<span translate-once="COMMON/connected/lbl"></span> Deluge Web API &#64; {{deluge.model.server}}:{{deluge.model.port}}
 	</p>
 
-	<p ng-if="!deluge.isConnected()"><span translate-once="SETTINGS/DELUGE/status/hdr"></span>:
-	<span translate-once="SETTINGS/DELUGE/not-connected/lbl"></span>
+	<p ng-if="!deluge.isConnected()"><span translate-once="COMMON/status/hdr"></span>:
+	<span translate-once="COMMON/not-connected/lbl"></span>
 	</p>
 
 	<form ng-submit="deluge.test()" novalidate>
         <formly-form model="deluge.model" fields="deluge.fields">
-          <button type="submit" class="btn btn-primary submit-button" translate-once="SETTINGS/DELUGE/save/btn"></button>
+          <button type="submit" class="btn btn-primary submit-button" translate-once="COMMON/save/btn"></button>
         </formly-form>
       </form>
 </div>
