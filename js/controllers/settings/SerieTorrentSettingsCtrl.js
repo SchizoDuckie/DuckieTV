@@ -1,4 +1,4 @@
-DuckieTV.controller('serieTorrentSettingsCtrl', function($scope, data) {
+DuckieTV.controller('serieTorrentSettingsCtrl', function($scope, $modalInstance, data) {
 
     $scope.model = data.serie;
 
@@ -19,5 +19,8 @@ DuckieTV.controller('serieTorrentSettingsCtrl', function($scope, data) {
 
     }];
 
+    $scope.cancel = function() {
+        $modalInstance.dismiss('Canceled');
+    };
 
 });
