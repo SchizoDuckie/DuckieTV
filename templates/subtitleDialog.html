@@ -1,6 +1,6 @@
 <!-- subtitleDialog.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
-<h1><span translate-once="SUBTITLEDIALOG/find-subtitle/hdr"></span> <img src='./img/opensubtitles.png' tooltip='powered by OpenSubtitles.org' style='float:right; margin-top: -10px; opacity: 0.7'>
+<h1><span translate-once="SUBTITLEDIALOG/find-subtitle/hdr"></span> <img src='./img/opensubtitles.png' tooltip='{{"SUBTITLEDIALOG/powered-by/tooltip"|translate}}OpenSubtitles.org' style='float:right; margin-top: -10px; opacity: 0.7'>
 </h1>
 <input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)"  class="form-control" translate-once-placeholder="SUBTITLEDIALOG/placeholder">
 <a href="#settings/subtitles" style="float:right"> <i class="glyphicon glyphicon-cog"></i> <span translate-once="SUBTITLEDIALOG/settings/glyph"></span></a>
@@ -46,7 +46,7 @@
       </td>
       <td>
         <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.MovieReleaseName }}</a> 
-        <i ng-if="subtitle.SubHearingImpaired == '1'" class="glyphicon glyphicon-bullhorn" tooltip="Hearing impaired"></i>
+        <i ng-if="subtitle.SubHearingImpaired == '1'" class="glyphicon glyphicon-bullhorn" tooltip='{{"SUBTITLEDIALOG/hearing-impaired/tooltip"|translate}}'></i>
       </td>
       <td>  
         <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.SubDownloadsCnt }}</a>
