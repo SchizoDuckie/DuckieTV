@@ -1,6 +1,6 @@
 DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, $filter, $locale, FavoritesService, $location, $q, serie, latestSeason, SidePanelState, TraktTVv2) {
 
-    var sidepanel = this;
+    var self = this;
 
     this.serie = serie;
     this.latestSeason = latestSeason;
@@ -9,9 +9,9 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
     this.refresh = function(serie) {
         this.isRefreshing = true;
         //console.debug("Refreshing!");
-        TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(sidepanel.selectSerie).then(function(result) {
+        TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(self.selectSerie).then(function(result) {
             setTimeout(function() {
-                sidepanel.isRefreshing = false;
+                self.isRefreshing = false;
                 //console.debug("Done!");
                 $scope.$applyAsync();
             }, 500);
@@ -21,27 +21,27 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
     var timePlurals = $filter('translate')('TIMEPLURALS').split('|'); //" day, | days, | hour and | hours and | minute | minutes "
     this.totalRunTime = null;
     this.totalRunLbl = null;
-    CRUD.executeQuery('select count(ID_Episode) * ? as minutes from Episodes where seasonnumber > 0 AND firstaired > 0 AND firstaired < ? AND ID_Serie = ? ', [this.serie.runtime, new Date().getTime(), this.serie.ID_Serie]).then(function(result) {
-        sidepanel.totalRunTime = result.rs.rows[0].minutes;
-        var totalRunDays = Math.floor(sidepanel.totalRunTime / 60 / 24);
-        var totalRunHours = Math.floor((sidepanel.totalRunTime % (60 * 24)) / 60);
-        var totalRunMinutes = sidepanel.totalRunTime % 60;
+    CRUD.executeQuery('select count(ID_Episode) as amount from Episodes where seasonnumber > 0 AND firstaired > 0 AND firstaired < ? AND ID_Serie = ? group by episodes.ID_Serie', [new Date().getTime(), this.serie.ID_Serie]).then(function(result) {
+        self.totalRunTime = result.rs.rows.item(0).amount * self.serie.runtime;
+        var totalRunDays = Math.floor(self.totalRunTime / 60 / 24);
+        var totalRunHours = Math.floor((self.totalRunTime % (60 * 24)) / 60);
+        var totalRunMinutes = self.totalRunTime % 60;
         var dayLbl = (totalRunDays === 1) ? timePlurals[0] : timePlurals[1];
         var hourLbl = (totalRunHours === 1) ? timePlurals[2] : timePlurals[3];
         var minuteLbl = (totalRunMinutes === 1) ? timePlurals[4] : timePlurals[5];
-        sidepanel.totalRunLbl = totalRunDays.toString() + dayLbl + totalRunHours.toString() + hourLbl + totalRunMinutes.toString() + minuteLbl;
+        self.totalRunLbl = totalRunDays.toString() + dayLbl + totalRunHours.toString() + hourLbl + totalRunMinutes.toString() + minuteLbl;
     });
 
     this.nextEpisode = null;
     this.prevEpisode = null;
 
     serie.getLastEpisode().then(function(result) {
-        sidepanel.prevEpisode = result;
+        self.prevEpisode = result;
         $scope.$applyAsync();
     });
 
     serie.getNextEpisode().then(function(result) {
-        sidepanel.nextEpisode = result;
+        self.nextEpisode = result;
         $scope.$applyAsync();
     });
 
@@ -100,7 +100,7 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
         dlg.result.then(function(btn) {
             console.log("Removing serie '" + serie.name + "' from favorites!", serie);
             FavoritesService.remove(serie);
-            SidePanelState.hide();
+            SidepanelState.hide();
         }, function(btn) {
             this.confirmed = $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-cancelled/lbl');
         });
