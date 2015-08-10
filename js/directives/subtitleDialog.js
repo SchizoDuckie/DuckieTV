@@ -114,7 +114,7 @@ DuckieTV.provider('SubtitleDialog', function() {
                     $scope.getTooltip = function() {
                         return $scope.serie !== undefined ?
                             $filter('translate')('SUBTITLEDIALOGjs/find-subtitle-for/tooltip') + $scope.serie.name :
-                            $filter('translate')('SUBTITLEDIALOGjs/find-subtitle/tooltip');
+                            $filter('translate')('COMMON/find-subtitle/lbl');
                     };
                     $scope.openDialog = function() {
                         if ($scope.serie && $scope.seasonNumber && $scope.episodeNumber) {
