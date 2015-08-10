@@ -1,9 +1,9 @@
 <div class="serie-overview" style="color:black">
     <div class="serie-img poster large" lazy-background="{{::sidepanel.serie.poster}}" tooltip="{{::sidepanel.serie.name}}" tooltip-append-to-body="true" tooltip-placement="left">
-      <em ng-show="sidepanel.serie.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{'SERIEHEADER/all-watched/tooltip'|translate}}">
+      <em ng-show="sidepanel.serie.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{'COMMON/all-watched/tooltip'|translate}}">
         <i class="glyphicon glyphicon-eye-open" style="color:white !important"></i>
       </em>
-      <em ng-show="!sidepanel.serie.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{::sidepanel.serie.notWatchedCount}} {{'SERIEHEADER/to-watch/tooltip'|translate}}">
+      <em ng-show="!sidepanel.serie.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" tooltip="{{::sidepanel.serie.notWatchedCount}} {{'COMMON/to-watch/tooltip'|translate}}">
         <i class="glyphicon glyphicon-eye-close" ></i> {{::sidepanel.serie.notWatchedCount}}
       </em>
     </div>
