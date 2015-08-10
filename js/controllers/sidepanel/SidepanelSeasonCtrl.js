@@ -36,8 +36,8 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
             setTimeout(function() {
                 el.click();
             }, idx * 100);
-        })
-    }
+        });
+    };
 
     this.markAllWatched = function(episodes) {
         var serie = this.season.ID_Serie;
@@ -46,7 +46,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
                 return episode.markWatched().then(function() {
                     return true;
                 });
-            };
+            }
             return true;
         })).then(function() {
             $rootScope.$broadcast('serie:recount:watched', serie);
@@ -57,13 +57,13 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
         episodes.map(function(episode) {
             if ((episode.hasAired()) && (!episode.isDownloaded())) {
                 episode.markDownloaded();
-            };
+            }
         });
     };
 
     this.getSearchString = function(serie, episode) {
         if (!serie || !episode) return;
-        return SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
+        return serie.name + ' ' + episode.getFormattedEpisode();
     };
 
     this.getSeasonSearchString = function(serie, season) {
@@ -88,6 +88,6 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
             label: this.getEpisodeNumber(data[i]) + ' : ' + data[i].rating + '% (' + data[i].ratingcount + ' ' + $filter('translate')('SIDEPANEL/SERIE-DETAILS/votes/lbl') + ')',
             season: parseInt(data[i].seasonnumber, 10)
         });
-    };
+    }
 
 })

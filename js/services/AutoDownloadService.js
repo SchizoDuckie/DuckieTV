@@ -65,7 +65,7 @@ DuckieTV
                 // Fetch the Scene Name for the serie and compile the search string for the episode with the quality requirement.
                 var searchString = SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
                 //console.debug("Auto download!", searchString);
-
+                var episodestring = 0;
                 // Search torrent provider for the string
                 return TorrentSearchEngines.getDefaultEngine().search(searchString, true).then(function(results) {
                     if (results.length === 0) {

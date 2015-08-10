@@ -21,7 +21,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
 
     this.getSearchString = function(serie, episode) {
         if (!serie || !episode) return;
-        return SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode(serie, episode);
+        return serie.name + ' ' + episode.getFormattedEpisode();
     };
 
     this.isTorrentClientConnected = function() {
