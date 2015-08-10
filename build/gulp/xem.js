@@ -9,6 +9,7 @@ var lastRequest = new Date().getTime();
 var queueTimeout = false;
 var requests = [];
 var requestCounter = 0;
+var responseCounter = 0;
 var haveSceneMappings = [];
 var root = process.cwd() + '/../deploy/xem';
 mkdirp(root);
@@ -17,7 +18,7 @@ mkdirp(root);
 function queueRequest(url, callback) {
     requests.push([url, callback]);
     if (!queueTimeout) {
-        queueTimeout = setTimeout(processQueue, 2000);
+        queueTimeout = setTimeout(processQueue, 1500);
     }
 }
 
@@ -27,12 +28,15 @@ function processQueue() {
         var currentRequest = requests.shift();
         console.log("Processing request " + requestCounter + ". Queued:" + requests.length, currentRequest[0]);
         request(currentRequest[0], currentRequest[1]);
-        queueTimeout = setTimeout(processQueue, 2000);
+        queueTimeout = setTimeout(processQueue, 1500);
     } else {
-        setTimeout(function() {
+        if (requestCounter == responseCounter && requests.length == 0) {
             fs.writeFileSync(root + '/mappings.json', JSON.stringify(haveSceneMappings, true, 2));
             notify('TheXEM cache was updated');
-        }, 10000);
+        } else {
+            setTimeout(processQueue, 1000);
+
+        }
     }
 }
 
@@ -54,6 +58,7 @@ gulp.task('xem', function() {
             // fetch show details. May return 0 results for having both origin tvdb and destination scene!
             queueRequest('http://thexem.de/map/all?id=' + tvdb + '&origin=tvdb&destination=scene', function(error, response, result) {
                 console.log('Fetched ', tvdb);
+                responseCounter++;
                 try {
                     console.log("Saving? ");
                     var res = JSON.parse(result);
@@ -61,7 +66,7 @@ gulp.task('xem', function() {
                     // only cache output when there are mapping results. also put the id in haveSceneMappings.
                     if (res.data.length > 0) {
                         fs.writeFileSync(root + '/' + tvdb + '.json', JSON.stringify(res.data, true, 2));
-                        haveSceneMappings.push(tvdb);
+                        haveSceneMappings.push(parseInt(tvdb));
                     }
                 } catch (E) {
                     console.error('Nope, Error fetching:', E);
