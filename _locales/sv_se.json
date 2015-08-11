@@ -177,6 +177,8 @@
     "SETTINGS/CALENDAR/mode-week/tooltip": "vecka ",
     "SETTINGS/CALENDAR/mode/desc": "Om du föredrar kalendern för att visa endast den aktuella veckan / månaden, ändra det här ",
     "SETTINGS/CALENDAR/mode/hdr": "Kalender visningsläge",
+    "SETTINGS/CALENDAR/show-episode-numbers/desc": "Välj att visa eller dölja episodnummer från episodtitlar på kalendern.",
+    "SETTINGS/CALENDAR/show-episode-numbers/hdr": "Episode nummer på kalendern",
     "SETTINGS/CALENDAR/specials-hide/btn": "Göm special episoder",
     "SETTINGS/CALENDAR/specials-hide/tooltip": "Speciella episoder är dolda",
     "SETTINGS/CALENDAR/specials-show/btn": "Visa speciella episoder",

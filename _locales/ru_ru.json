@@ -177,6 +177,8 @@
     "SETTINGS/CALENDAR/mode-week/tooltip": "неделя ",
     "SETTINGS/CALENDAR/mode/desc": "Если вы предпочитаете календарь, чтобы показать только текущая неделя / месяц, изменить его здесь ",
     "SETTINGS/CALENDAR/mode/hdr": "Режим отображения календаря",
+    "SETTINGS/CALENDAR/show-episode-numbers/desc": "Выберите, чтобы показать или скрыть номера эпизод из названий эпизодов в календаре.",
+    "SETTINGS/CALENDAR/show-episode-numbers/hdr": "Выберите, чтобы показать или скрыть номера эпизод из названий эпизодов в календаре.",
     "SETTINGS/CALENDAR/specials-hide/btn": "Скрыть Скидки эпизоды",
     "SETTINGS/CALENDAR/specials-hide/tooltip": "Специальные эпизоды скрыты",
     "SETTINGS/CALENDAR/specials-show/btn": "Показать специальные эпизоды",

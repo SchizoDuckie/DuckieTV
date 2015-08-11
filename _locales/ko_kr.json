@@ -177,6 +177,8 @@
     "SETTINGS/CALENDAR/mode-week/tooltip": "주 ",
     "SETTINGS/CALENDAR/mode/desc": "당신은 현재 주 / 월 표시 달력을 선호하는 경우, 여기에서 변경 ",
     "SETTINGS/CALENDAR/mode/hdr": "캘린더 표시 모드",
+    "SETTINGS/CALENDAR/show-episode-numbers/desc": "표시하거나 달력의 에피소드 제목에서 에피소드 번호를 숨기려면 선택합니다.",
+    "SETTINGS/CALENDAR/show-episode-numbers/hdr": "달력 에피소드 번호",
     "SETTINGS/CALENDAR/specials-hide/btn": "스페셜 에피소드를 숨기기",
     "SETTINGS/CALENDAR/specials-hide/tooltip": "특별한 에피소드가 숨겨져 있습니다",
     "SETTINGS/CALENDAR/specials-show/btn": "특별한 에피소드보기",

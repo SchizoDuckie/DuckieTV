@@ -177,6 +177,8 @@
     "SETTINGS/CALENDAR/mode-week/tooltip": "Teden",
     "SETTINGS/CALENDAR/mode/desc": "Če vam je ljubše, da koledar pokaže le tekoči teden / mesec, ga spremenite tukaj",
     "SETTINGS/CALENDAR/mode/hdr": "Način prikaza Koledarja",
+    "SETTINGS/CALENDAR/show-episode-numbers/desc": "Izberite, da prikažete ali skrijete številke epizod iz naslovov epizodo v koledarju.",
+    "SETTINGS/CALENDAR/show-episode-numbers/hdr": "Številke Episode na koledarju",
     "SETTINGS/CALENDAR/specials-hide/btn": "Skrij posebne epizode",
     "SETTINGS/CALENDAR/specials-hide/tooltip": "Posebne epizode so skrite",
     "SETTINGS/CALENDAR/specials-show/btn": "Prikaži posebne epizode",

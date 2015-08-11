@@ -177,6 +177,8 @@
     "SETTINGS/CALENDAR/mode-week/tooltip": "Woche ",
     "SETTINGS/CALENDAR/mode/desc": "Wenn im Kalender lieber nur die aktuelle Woche / der aktuelle Monat angezeigt werden soll, ändere ",
     "SETTINGS/CALENDAR/mode/hdr": "Kalender Anzeigemodus",
+    "SETTINGS/CALENDAR/show-episode-numbers/desc": "Wählen Sie, um zu zeigen oder die Folge Zahlen verbergen aus den Episodentitel auf dem Kalender.",
+    "SETTINGS/CALENDAR/show-episode-numbers/hdr": "Folge-Nummern auf dem Kalender",
     "SETTINGS/CALENDAR/specials-hide/btn": "Special Episoden verstecken",
     "SETTINGS/CALENDAR/specials-hide/tooltip": "Special Episoden sind ausgeblendet",
     "SETTINGS/CALENDAR/specials-show/btn": "Special Episoden anzeigen",

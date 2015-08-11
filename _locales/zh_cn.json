@@ -177,6 +177,8 @@
     "SETTINGS/CALENDAR/mode-week/tooltip": "周 ",
     "SETTINGS/CALENDAR/mode/desc": "如果你喜欢的日历,只显示当前周/月,在这里改变 ",
     "SETTINGS/CALENDAR/mode/hdr": "日历显示模式",
+    "SETTINGS/CALENDAR/show-episode-numbers/desc": "选择显示或从日历上的小插曲标题隐藏情节数字.",
+    "SETTINGS/CALENDAR/show-episode-numbers/hdr": "日历上的数字集",
     "SETTINGS/CALENDAR/specials-hide/btn": "隐藏特价发作",
     "SETTINGS/CALENDAR/specials-hide/tooltip": "特殊事件被隐藏",
     "SETTINGS/CALENDAR/specials-show/btn": "显示特殊事件",

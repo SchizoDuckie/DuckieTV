@@ -177,6 +177,8 @@
     "SETTINGS/CALENDAR/mode-week/tooltip": "Săptămână",
     "SETTINGS/CALENDAR/mode/desc": "Dacă preferați ca în calendar să apară doar săptămâna/luna curentă, faceți schimbarea aici",
     "SETTINGS/CALENDAR/mode/hdr": "Modul de vizualizare a calendarului",
+    "SETTINGS/CALENDAR/show-episode-numbers/desc": "Alegeți pentru a afișa sau a ascunde numerele episod din titlurile episod pe calendar.",
+    "SETTINGS/CALENDAR/show-episode-numbers/hdr": "Numerele episod din calendarul",
     "SETTINGS/CALENDAR/specials-hide/btn": "Ascunde episoadele speciale",
     "SETTINGS/CALENDAR/specials-hide/tooltip": "Episoadele speciale sunt ascunse",
     "SETTINGS/CALENDAR/specials-show/btn": "Arătați episoadele speciale",

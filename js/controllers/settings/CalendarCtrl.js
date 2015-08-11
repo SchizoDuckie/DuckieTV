@@ -8,6 +8,7 @@ DuckieTV.controller('CalendarCtrl', ["$scope", "SettingsService", "$rootScope",
         $scope.startSunday = SettingsService.get('calendar.startSunday');
         $scope.displayMode = SettingsService.get('calendar.mode');
         $scope.showDownloaded = SettingsService.get('calendar.show-downloaded');
+        $scope.showEpisodeNumbers = SettingsService.get('calendar.show-episode-numbers');
 
         // Toggle if calendar shows specials or not
         $scope.toggleSpecials = function() {
@@ -29,10 +30,16 @@ DuckieTV.controller('CalendarCtrl', ["$scope", "SettingsService", "$rootScope",
             window.location.reload();
         };
 
-        // Toggles wether downloaded episodes are highlighed on the Calendar
+        // Toggles whether downloaded episodes are highlighted on the Calendar
         $scope.toggleDownloaded = function() {
             $scope.showDownloaded = !$scope.showDownloaded;
             SettingsService.set('calendar.show-downloaded', $scope.showDownloaded);
+        };
+
+        // Toggles whether event titles should include the season and episode numbers on the Calendar
+        $scope.toggleEpisodeNumbers = function() {
+            $scope.showEpisodeNumbers = !$scope.showEpisodeNumbers;
+            SettingsService.set('calendar.show-episode-numbers', $scope.showEpisodeNumbers);
         };
 
     }

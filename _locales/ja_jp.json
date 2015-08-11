@@ -177,6 +177,8 @@
     "SETTINGS/CALENDAR/mode-week/tooltip": "週 ",
     "SETTINGS/CALENDAR/mode/desc": "あなたは,現在の週/月表示するにはカレンダーを好む場合は,ここで変更 ",
     "SETTINGS/CALENDAR/mode/hdr": "カレンダー表示モード",
+    "SETTINGS/CALENDAR/show-episode-numbers/desc": "表示またはカレンダーのエピソードのタイトルからエピソード番号を非表示にするかを選択します.",
+    "SETTINGS/CALENDAR/show-episode-numbers/hdr": "カレンダーのエピソード番号",
     "SETTINGS/CALENDAR/specials-hide/btn": "スペシャルエピソードを非表示にする",
     "SETTINGS/CALENDAR/specials-hide/tooltip": "特別なエピソードは隠されている",
     "SETTINGS/CALENDAR/specials-show/btn": "特別なエピソードを表示",

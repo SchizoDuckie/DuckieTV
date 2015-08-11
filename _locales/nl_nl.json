@@ -177,6 +177,8 @@
     "SETTINGS/CALENDAR/mode-week/tooltip": "Week",
     "SETTINGS/CALENDAR/mode/desc": "Als je bij voorkeur de weekkalender gebruikt kun je dat hier veranderen",
     "SETTINGS/CALENDAR/mode/hdr": "Kalender weergavemodus",
+    "SETTINGS/CALENDAR/show-episode-numbers/desc": "Kies voor het tonen of de episode nummers verbergen voor de episode titels op de kalender.",
+    "SETTINGS/CALENDAR/show-episode-numbers/hdr": "Episode nummers op de kalender",
     "SETTINGS/CALENDAR/specials-hide/btn": "Verberg speciale afleveringen",
     "SETTINGS/CALENDAR/specials-hide/tooltip": "Speciale afleveringen zijn verborgen",
     "SETTINGS/CALENDAR/specials-show/btn": "Toon speciale afleveringen",

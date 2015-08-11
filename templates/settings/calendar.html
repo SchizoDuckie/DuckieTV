@@ -61,4 +61,21 @@
   <a ng-click="toggleDownloaded()" class="btn btn-{{showDownloaded ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{showDownloaded ? 'remove' : 'ok'}}" ></i> {{showDownloaded ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
+
+  <hr class="setting-divider">
+
+  <h2>
+    <span tooltip="{{showEpisodeNumbers ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+      <i class="glyphicon glyphicon-{{showEpisodeNumbers ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+    </span>
+    <li translate-once="SETTINGS/CALENDAR/show-episode-numbers/hdr"></li>
+  </h2>
+  
+  <p translate-once="SETTINGS/CALENDAR/show-episode-numbers/desc"></p>
+
+   <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+   {{showEpisodeNumbers ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+  <a ng-click="toggleEpisodeNumbers()" class="btn btn-{{showEpisodeNumbers ? 'danger' : 'success'}}">
+    <i class="glyphicon glyphicon-{{showEpisodeNumbers ? 'remove' : 'ok'}}" ></i> {{showEpisodeNumbers ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+  </a>
 </div>

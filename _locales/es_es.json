@@ -177,6 +177,8 @@
     "SETTINGS/CALENDAR/mode-week/tooltip": "Semana ",
     "SETTINGS/CALENDAR/mode/desc": "Si prefieres que el calendario muestre sólo la semana / mes en curso, cambiarlo aquí ",
     "SETTINGS/CALENDAR/mode/hdr": "Modo de visualización Calendario",
+    "SETTINGS/CALENDAR/show-episode-numbers/desc": "Elija para mostrar u ocultar los números episodio de los títulos de los episodios en el calendario.",
+    "SETTINGS/CALENDAR/show-episode-numbers/hdr": "Número del episodio en el calendario",
     "SETTINGS/CALENDAR/specials-hide/btn": "Ocultar episodios especiales ",
     "SETTINGS/CALENDAR/specials-hide/tooltip": "Episodios especiales están ocultos",
     "SETTINGS/CALENDAR/specials-show/btn": "Mostrar episodios especiales",
