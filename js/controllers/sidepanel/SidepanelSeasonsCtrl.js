@@ -17,6 +17,6 @@ DuckieTV.controller('SidepanelSeasonsCtrl', function(seasons, $rootScope, $q, $f
         });
     };
     this.getPosterLabel = function(seasonNumber) {
-        return seasonNumber == 0 ? $filter('translate')('SIDEPANEL/EPISODES/specials/lbl') : $filter('translate')('SIDEPANEL/EPISODES/season/lbl') + ' ' + seasonNumber;
+        return seasonNumber == 0 ? $filter('translate')('COMMON/specials/lbl') : $filter('translate')('COMMON/season/lbl') + ' ' + seasonNumber;
     };
 });
