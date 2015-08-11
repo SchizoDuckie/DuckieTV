@@ -1037,17 +1037,17 @@ div [date-picker] {
     transform-origin: top left;
 }
 [date-picker] {
+    border-radius: 10px;
     -webkit-user-select: none;
-    transition: all 0.5s ease-in-out;
-    z-index:101; 
-    position:relative;
+    transition: transform 0.4s ease-in-out, background-color 0.3s ease-in-out;
+    z-index: 101; 
+    position: relative;
 }
 [date-picker] span {
     -webkit-user-select:none;
 }
 [date-picker]:hover {
     background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
 }
 [date-picker] .glyphicon {
     cursor: pointer;
@@ -1076,32 +1076,29 @@ div [date-picker] {
     border: 1px solid rgba(255,255,255,0.2);
     text-align: center;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-    -webkit-transition: border 0.1s ease-in;
+    transition: border 0.2s ease-in-out, background-color 0.1s ease-in-out, transform 0.2s ease-in-out;
 }
 
 [date-picker].zoom td.day {
-    border: 5px solid rgba(255,255,255,0);
-    -webkit-transition: transform 0.2s ease-out;
+    border: 4px solid transparent;
 }
 [date-picker].zoom td.day:hover {
- -webkit-transform: scale(1.5);
-  background-color: transparent;
-  z-index: 1;
+    transform: scale(1.5);
+    background-color: transparent;
+    z-index: 1;
 }
 [date-picker].zoom td.day:first-child:hover {
- -webkit-transform: scale(1.5) translateX(95px);
+    transform: scale(1.5) translateX(95px);
 }
 [date-picker].zoom td.day:hover > span {
-  position: absolute;
-  top: 0px;
-  left: -30%;
-  display: block;
-  color: white;
-  width: 133%;
-  background-color: rgba(25,25,25,0.9);
-  z-index: -2;
-  text-align: left;
-  min-height: 75px;
+    top: 0px;
+    left: -30%;
+    color: white;
+    width: 133%;
+    background-color: rgba(25,25,25,0.9);
+    z-index: -2;
+    text-align: left;
+    min-height: 75px;
 }
 [date-picker].zoom td.day:hover > span em.dayofweek {
     display: block;
