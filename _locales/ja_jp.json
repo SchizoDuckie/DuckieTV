@@ -135,6 +135,7 @@
     "SERIESLIST/TOOLS/FAVORITES/make-posters-large/tooltip": "ポスターを大きくする",
     "SERIESLIST/TOOLS/FAVORITES/make-posters-small/tooltip": "ポスターを小さくする",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "あなたのお気に入りを検索",
+    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "分割ボタン",
     "SERIESLIST/TOOLS/FAVORITES/status/btn": "ステータス ",
     "SERIESLIST/TRAKT-SEARCHING/connect-to-traktTV/btn": "あなたのTrakt.tvアカウントにDuckieTVを接続",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Trakt.TVを接触させることにエラーが発生しました,それがダウンしている可能性があり.後ほどおかけ直しください.",

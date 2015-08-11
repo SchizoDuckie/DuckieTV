@@ -135,6 +135,7 @@
     "SERIESLIST/TOOLS/FAVORITES/make-posters-large/tooltip": "Faire des affiches plus grande",
     "SERIESLIST/TOOLS/FAVORITES/make-posters-small/tooltip": "Faire des affiches plus petites",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Cherchez dans votre liste de favoris",
+    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "bouton scission",
     "SERIESLIST/TOOLS/FAVORITES/status/btn": "Statut ",
     "SERIESLIST/TRAKT-SEARCHING/connect-to-traktTV/btn": "Connectez DuckieTV à votre compte Trakt.tv",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Il y avait une erreur contactant Trakt.TV, il pourrait être vers le bas. Se il vous plaît réessayer plus tard.",

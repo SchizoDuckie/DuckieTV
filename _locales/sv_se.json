@@ -135,6 +135,7 @@
     "SERIESLIST/TOOLS/FAVORITES/make-posters-large/tooltip": "Gör affischer större",
     "SERIESLIST/TOOLS/FAVORITES/make-posters-small/tooltip": "Gör affischer mindre",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Sök ditt favoritlistan",
+    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "split knapp",
     "SERIESLIST/TOOLS/FAVORITES/status/btn": "Status ",
     "SERIESLIST/TRAKT-SEARCHING/connect-to-traktTV/btn": "Anslut DuckieTV till ditt Trakt.tv konto",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Det uppstod ett fel kontaktar Trakt.TV, kan det vara nere. Försök igen senare.",

@@ -135,6 +135,7 @@
     "SERIESLIST/TOOLS/FAVORITES/make-posters-large/tooltip": "Сделайте плакаты больше",
     "SERIESLIST/TOOLS/FAVORITES/make-posters-small/tooltip": "Сделайте плакаты меньше",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Поиск ваши любимые",
+    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "сплит кнопку",
     "SERIESLIST/TOOLS/FAVORITES/status/btn": "статус ",
     "SERIESLIST/TRAKT-SEARCHING/connect-to-traktTV/btn": "Подключите DuckieTV на ваш счет Trakt.tv",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Был ошибка связаться Trakt.TV, это может быть вниз. Пожалуйста, повторите попытку позже.",

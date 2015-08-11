@@ -135,6 +135,7 @@
     "SERIESLIST/TOOLS/FAVORITES/make-posters-large/tooltip": "Locandine grandi",
     "SERIESLIST/TOOLS/FAVORITES/make-posters-small/tooltip": "Locandine piccole",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Cerca nella lista dei preferiti",
+    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "pulsante di divisione",
     "SERIESLIST/TOOLS/FAVORITES/status/btn": "Stato",
     "SERIESLIST/TRAKT-SEARCHING/connect-to-traktTV/btn": "Collegare DuckieTV al tuo account Trakt.tv",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Si è verificato un errore contattando Trakt.TV, potrebbe essere offline. Si prega di riprovare più tardi.",

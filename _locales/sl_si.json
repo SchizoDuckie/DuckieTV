@@ -135,6 +135,7 @@
     "SERIESLIST/TOOLS/FAVORITES/make-posters-large/tooltip": "Povečaj naslovnice",
     "SERIESLIST/TOOLS/FAVORITES/make-posters-small/tooltip": "Pomanjšaj naslovnice",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Iskanje svoje priljubljene",
+    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "gumb za split",
     "SERIESLIST/TOOLS/FAVORITES/status/btn": "Stanje",
     "SERIESLIST/TRAKT-SEARCHING/connect-to-traktTV/btn": "Povežite DuckieTV z vašim Trakt.tv računom",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Prišlo je do napake na Trakt.TV, najbrž ne deluje strežnik. Prosimo, poskusite znova pozneje.",

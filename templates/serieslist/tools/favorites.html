@@ -36,7 +36,7 @@
                 <button type="button" class="btn dropdown-toggle" dropdown-toggle>
                   <span translate-once="SERIESLIST/TOOLS/FAVORITES/status/btn"></span> 
                   <span class="caret"></span>
-                  <span class="sr-only">Split button!</span>
+                  <span class="sr-only" translate-once="SERIESLIST/TOOLS/FAVORITES/split-button/sr"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                  <li ng-repeat="(status, count) in localFilter.statusList track by $index" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)">
@@ -52,7 +52,7 @@
               <button type="button" class="btn btn-large dropdown-toggle" dropdown-toggle >
                 <span translate-once="SERIESLIST/TOOLS/FAVORITES/genre/btn"></span> 
                 <span class="caret"></span>
-                <span class="sr-only">Split button!</span>
+                <span class="sr-only" translate-once="SERIESLIST/TOOLS/FAVORITES/split-button/sr"></span>
               </button>
               <ul class="dropdown-menu" role="menu">    
                 <li ng-repeat="(genre, count) in localFilter.genreList track by $index" ng-click="$event.stopPropagation(); localFilter.selectGenre(genre)">

@@ -135,6 +135,7 @@
     "SERIESLIST/TOOLS/FAVORITES/make-posters-large/tooltip": "grotere posters",
     "SERIESLIST/TOOLS/FAVORITES/make-posters-small/tooltip": "kleinere posters",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Zoek door je favorieten lijst ",
+    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "split-knop",
     "SERIESLIST/TOOLS/FAVORITES/status/btn": "Status",
     "SERIESLIST/TRAKT-SEARCHING/connect-to-traktTV/btn": "Sluit DuckieTV aan op je Trakt.tv account",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Er is een fout opgetreden bij het contacteren van Trakt.TV. Probeer het later opnieuw.",
