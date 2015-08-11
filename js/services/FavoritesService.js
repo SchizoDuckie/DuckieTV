@@ -218,7 +218,6 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                     }).then(function(serie) {
                         addToFavoritesList(serie); // cache serie in favoritesservice.favorites
                         $rootScope.$applyAsync();
-                        $rootScope.$broadcast('background:load', serie.fanart);
                         entity = serie;
                         return cleanupEpisodes(data.seasons, entity);
                     })
@@ -232,6 +231,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                         $injector.get('CalendarEvents').processEpisodes(serie, episodeCache);
                         //console.debug("FavoritesService.Favorites", service.favorites)
                         $rootScope.$applyAsync();
+                        $rootScope.$broadcast('background:load', serie.fanart);
                         $rootScope.$broadcast('storage:update');
                         $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
                         return entity;

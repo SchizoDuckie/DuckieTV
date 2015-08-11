@@ -170,7 +170,10 @@ a:hover .glyphicon {
     display: block;
 }
 
-background-rotator, background-rotator > div {
+background-rotator {
+    opacity: 0.4;
+}
+background-rotator > div {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -180,7 +183,18 @@ background-rotator, background-rotator > div {
     background-repeat: no-repeat;
     background-position: center center;
     z-index: -1;
-    opacity: 0.4;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+background-rotator > div.active {
+    opacity: 1;
+}
+background-rotator .placeholder {
+    z-index:-2;
+    background-image: url(../img/duckietv.png);
+    background-color: #A9A9A9;
+    background-size: initial;
+    opacity: 0;
 }
 
 #actionbar {
