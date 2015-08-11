@@ -5,7 +5,7 @@
 
   <serieHeader ng-repeat="season in seasons.seasons" data="season" no-badge="0" no-button="1" no-title="1" no-overview="1" mode="poster" ui-sref="serie.season({season_id: season.ID_Season})">
     <p style="text-align:center">
-      <strong style='color:white'>{{season.seasonnumber == 0 ? 'Specials' : 'Season '+season.seasonnumber}}</strong>
+      <strong style='color:white'>{{seasons.getPosterLabel(season.seasonnumber)}}</strong>
     </p>
   </serieHeader>
 </div>

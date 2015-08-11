@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelSeasonsCtrl', function(seasons, $rootScope, $q) {
+DuckieTV.controller('SidepanelSeasonsCtrl', function(seasons, $rootScope, $q, $filter) {
     var self = this;
     this.seasons = seasons;
 
@@ -15,5 +15,8 @@ DuckieTV.controller('SidepanelSeasonsCtrl', function(seasons, $rootScope, $q) {
                 $rootScope.$broadcast('serie:recount:watched', self.seasons[0].ID_Serie);
             }.bind(this));
         });
+    };
+    this.getPosterLabel = function(seasonNumber) {
+        return seasonNumber == 0 ? $filter('translate')('SIDEPANEL/EPISODES/specials/lbl') : $filter('translate')('SIDEPANEL/EPISODES/season/lbl') + ' ' + seasonNumber;
     };
 });
