@@ -1,5 +1,4 @@
 DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
-
     function($rootScope, FavoritesService, $state) {
         var service = {
             state: {
@@ -11,6 +10,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 document.body.scrollTop = 0;
                 service.state.isShowing = true;
                 document.querySelector('#actionbar_favorites').classList.add('active');
+                document.querySelector('series-list').classList.add('active');
                 $rootScope.$applyAsync();
             },
             hide: function() {
@@ -19,6 +19,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 $rootScope.$applyAsync();
                 document.querySelector('#actionbar_favorites').classList.remove('active');
                 document.querySelector('#actionbar_favorites').classList.remove('spin');
+                document.querySelector('series-list').classList.remove('active');
             },
             toggle: function() {
                 if (!service.state.isShowing) {
@@ -67,7 +68,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 if (el === null || !el.offsetParent || !el.offsetParent.offsetParent || noScroll) {
                     return;
                 }
-                duration = duration || 500;
+                duration = duration || 400;
                 var start = parent.scrollTop;
                 var end = el.offsetParent.offsetParent.offsetTop;
                 var clock = Date.now();

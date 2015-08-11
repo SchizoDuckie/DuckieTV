@@ -2,7 +2,9 @@
 <div class="series" ng-if="serieslist.activated" series-grid="{{serieslist.sgEnabled}}" ng-class="{'miniposter': serieslist.isSmall}">
 	<h1 style="margin-top:{{serieslist.isFiltering ? '60' : '10'}}px;color:rgb(225,225,225);transition: margin .5s ease-in-out;margin-bottom:15px" translate-once="SERIESLIST/FAVORITES/click-to-see/lbl"></h1>
 	<div class="series-grid" style="position:relative">
-    <serieHeader ng-repeat="serie in filteredFavorites = (serieslist.getFavorites() | orderBy: 'getSortName()' | filter: serieslist.localFilter)" data="serie" no-badge="0" no-title="1" no-overview="1" mode="{{serieslist.mode == 'poster' ? 'poster' : 'banner'}}" style="left:{{grid.getLeft($index, filteredFavorites.length)}}px;top:{{grid.getTop($index)}}px">   
+    <serieHeader ng-if="serieslist.mode == 'poster'" ng-repeat="serie in filteredFavorites = (serieslist.getFavorites() | orderBy: 'getSortName()' | filter: serieslist.localFilter)" data="serie" no-badge="0" no-title="1" no-overview="1" mode="poster" style="left:{{grid.getLeft($index, filteredFavorites.length)}}px;top:{{grid.getTop($index)}}px">   
+    </serieHeader>
+    <serieHeader ng-if="serieslist.mode == 'banner'" ng-repeat="serie in filteredFavorites = (serieslist.getFavorites() | orderBy: 'getSortName()' | filter: serieslist.localFilter)" data="serie" no-badge="0" no-title="1" no-overview="1" mode="banner" style="left:{{grid.getLeft($index, filteredFavorites.length)}}px;top:{{grid.getTop($index)}}px">   
     </serieHeader>
 	</div>
 </div>
