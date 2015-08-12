@@ -77,12 +77,6 @@ body .tooltip.left .tooltip-arrow {
 .printlogo {
     display: none;
 }
-.col-md-8 {
-    width: 60%;
-}
-.col-md-4 {
-    width: 40%;
-}
 input::-webkit-input-placeholder {
     color: rgba(255,255,255,0.4) !important;
     font-style: italic;
@@ -395,11 +389,10 @@ serieheader[mode='search'] {
     border-radius:0;
 }
 serieheader[mode='search'] h3 {
+    position: initial;
     margin-top: 0;
 }
-serieheader .poster.active, serieheader .banner.active  {
-    border: 1px solid yellow;
-}
+
 serieheader[mode=banner] {
     width: 50%;
     height: 140px;
@@ -470,11 +463,12 @@ serieheader[mode='poster'] .serieheader {
     height: 288px;
     width: 192px;
 }
+
 serieheader .poster {
     display: block;
     transition: width 0.4s ease-in-out, height 0.4s ease-in-out, background-color 0.175s ease-in-out, border 0.2s ease-in-out;
 }
-serieheader figure {
+serieheader .poster figure, serieheader .banner figure {
     width: 100%;
     height: 100%;
     position: relative;
@@ -482,6 +476,7 @@ serieheader figure {
 serieheader .poster .img {
     width: 100%;
     height: 100%;
+    opacity: 1;
     /* Standard size fits most posters however some are slightly smaller
      *  and need to be slightly stretched using 100% */
     background-size: 100% 100%;
@@ -489,14 +484,22 @@ serieheader .poster .img {
     background-repeat: no-repeat;
     transition: opacity .175s ease-in-out;
 }
+serieheader .poster.active, serieheader .banner.active  {
+    border: 1px solid yellow;
+}
+serieheader .poster.img-loading .img, serieheader .banner.img-loading .img {
+    opacity: 0;
+}
 
+/* Hovering Poster Highlight */
 .series serieheader[mode='poster'] .poster:hover:not(.img-loading), .seasons serieheader[mode='poster'] .poster:hover:not(.img-loading) {
     background-color: #e5e5e5;
 }
 .series serieheader[mode='poster'] .poster:hover .img, .seasons serieheader[mode='poster'] .poster:hover .img {
     opacity: 0.95;
 }
-/* Mini Poster style for series-list */
+
+/* Mini Poster Style */
 .miniposter .poster {
     height: 195px;
     width: 130px;
@@ -512,12 +515,6 @@ serieheader .poster .img {
     font-size: 22px;
 }
 
-.col-md-4 serieheader .poster {
-    width: 150px;
-}
-.col-md-4 serieheader[mode='poster'] {
-    width: 160px;
-}
 serieheader h3.title {
     color: white;
     background-color: rgba(0, 0, 0, 0.6);
@@ -530,11 +527,14 @@ serieheader h3.title {
     left:0px;
     right:0px;
 }
-serieheader[mode=search] h3 {
-    position: initial;
+serieheader[mode=poster] h3 {
+    font-size: 22px;
+    word-break: break-word;
+    white-space: normal;
+    margin: 0;
 }
-/* Be naughty and override ng-hide override for titles if the image failed to load */
 
+/* Be naughty and override ng-hide override for titles if the image failed to load */
 .series .poster.img-load-error figcaption h3 {
     display: initial !important;
 }
@@ -543,12 +543,6 @@ serieheader[mode=search] h3 {
     top: 0;
 }
 
-serieheader[mode=poster] h3 {
-    font-size: 22px;
-    word-break: break-word;
-    white-space: normal;
-    margin: 0;
-}
 serieheader .overview {
     color: white;
     font-size:10px;
@@ -566,7 +560,6 @@ serieheader em.earmark {
     height: 45px;
     padding: 5px;
 }
-
 serieheader em.earmark.trailer {
     top: 0px;
     left: 0px;
@@ -576,15 +569,12 @@ serieheader em.earmark.trailer {
     transition: opacity 0.2s ease-in-out;
     opacity: 0;
 }
-
 serieheader em.earmark.trailer .glyphicon {
     -webkit-filter: drop-shadow(2px 2px 2px black);
 }
-
 serieheader .serieheader:hover em.earmark.trailer {
     opacity: 1;
 }
-
 serieheader em.earmark.adding {
     background-color: rgba(236,210,70, 0.8);
 }
@@ -592,19 +582,16 @@ serieheader em.earmark.adding img {
     width: 100%;
     height: 100%;
 }
-
 serieheader em.earmark.delete, serieheader em.earmark.error {
     background-color: rgba(150,0,0, 0.4);
     cursor: pointer;
     -webkit-transition: all 0.2s ease-in;
     -webkit-transform: translateX(100px);
 }
-
 serieheader em.earmark.adding, serieheader em.earmark.error {
 	-webkit-transform: translateX(0px);
     -webkit-transition: all 0.2s ease-in;
 }
-
 serieheader em.earmark.refresh {
     bottom: 0px;
     left: 0px;
@@ -613,17 +600,17 @@ serieheader em.earmark.refresh {
     -webkit-transition: all 0.2s ease-in;
     -webkit-transform: translateX(-100px);
 }
-
 serieheader em.earmark.refresh.adding {
 	-webkit-transform: translateX(0px);	
 }
-
 serieheader em.earmark.delete i.glyphicon {
     display: initial;
     top: -1px;
     vertical-align: middle;
 }
-
+serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
+    -webkit-transform: translateX(0);
+}
 serieheader em.glyphicon{
   position: absolute;
   top: 0px;
@@ -634,10 +621,6 @@ serieheader em.glyphicon{
   height: 35px;
   padding: 1px 0px 1px 1px;
   -webkit-filter: drop-shadow(2px 2px 2px rgba(5,5,5,0.9));
-}
-
-serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
-    -webkit-transform: translateX(0);
 }
 
 series-list {
