@@ -110,7 +110,9 @@ DuckieTV
             replace: true,
             scope: {
                 q: '=q',
-                TVDB_ID: '=tvdbid'
+                TVDB_ID: '=tvdbid',
+                serie: '=serie',
+                episode: '=episode'
             },
             template: '<a class="torrent-dialog" ng-click="openDialog()" tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
             controller: ["$scope",
@@ -123,7 +125,11 @@ DuckieTV
                     };
                     // Opens the torrent search with the episode selected
                     $scope.openDialog = function() {
-                        TorrentSearchEngines.search($scope.q, $scope.TVDB_ID);
+                        if ($scope.serie && $scope.episode) {
+                            TorrentSearchEngines.findEpisode($scope.serie, $scope.episode);
+                        } else {
+                            TorrentSearchEngines.search($scope.q, $scope.TVDB_ID);
+                        }
                     };
                 }
             ]

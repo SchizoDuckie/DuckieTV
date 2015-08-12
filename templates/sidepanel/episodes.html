@@ -20,7 +20,7 @@
           <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{episode.getAirDate() | date: 'short'}}" ng-class="{'airdate': episode.hasAired()}" >{{episode.firstaired == 0 ? '?' : episode.firstaired|date:'shortDate'}}</a>
 
           <div ng-show="episode.hasAired() && getSetting('torrenting.enabled')" class="torrentctrls">
-            <torrent-dialog tvdbid='episode.TVDB_ID' q='season.getSearchString(sidepanel.serie,episode)'></torrent-dialog>
+            <torrent-dialog episode="sidepanel.episode" serie="sidepanel.serie" episode="episode"></torrent-dialog>
             <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'SIDEPANEL/EPISODES/auto-download/tooltip'|translate}}">
               <i class="glyphicon glyphicon-cloud-download"></i>
             </a>

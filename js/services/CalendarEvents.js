@@ -60,7 +60,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
             }
         }
 
-        /** 
+        /**
          * If the episode exist in other dates in the calendarEvents object, remove it.
          */
         function deleteDuplicates(duplicateID, eventDate) {
@@ -78,7 +78,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
             }
         }
 
-        /** 
+        /**
          * Remove shows that were deleted from the database from the calendar.
          */
         function removeDeleted() {
@@ -152,7 +152,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 calendarEvents = {};
             },
 
-            /** 
+            /**
              * Merge any incoming new events with the events already in calendarEvents.
              * Removes any mention of the episode that already exists and then adds the new one.
              * The calendarEvents cache is updated per day so the calendar doesn't refresh unnecessarily

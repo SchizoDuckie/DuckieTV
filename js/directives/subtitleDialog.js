@@ -49,18 +49,21 @@ DuckieTV.provider('SubtitleDialog', function() {
         if ($scope.filename !== null) {
             $scope.query = $scope.filename;
             searchType = 2;
-        };
+        }
+
         if ($scope.episode && $scope.serie) {
-            $scope.query = SceneNameResolver.getSceneName($scope.serie.TVDB_ID, $scope.serie.name) + ' ' + SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode);
             searchType = 1;
-        };
+            SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode).then(function(episodeQuery) {
+                $scope.query = SceneNameResolver.getSceneName($scope.serie.TVDB_ID, $scope.serie.name) + '  ' + episodeQuery;
+            });
+        }
         $scope.search = function(query) {
             $scope.searching = true;
             var promise = null;
             if (query) {
                 $scope.query = query;
                 searchType = 0;
-            };
+            }
 
             if (searchType == 1) {
                 promise = OpenSubtitles.searchEpisode($scope.serie, $scope.episode);
@@ -68,7 +71,7 @@ DuckieTV.provider('SubtitleDialog', function() {
                 promise = OpenSubtitles.searchFilename($scope.filename);
             } else {
                 promise = OpenSubtitles.searchString($scope.query);
-            };
+            }
 
             promise.then(function(results) {
                     $scope.items = results;
