@@ -2,15 +2,14 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
     function($rootScope, FavoritesService, $state) {
         var service = {
             state: {
-                isShowing: false,
-                isExpanded: false
+                isShowing: false
             },
             show: function() {
                 document.body.style.overflowY = 'hidden';
                 document.body.scrollTop = 0;
                 service.state.isShowing = true;
                 document.querySelector('#actionbar_favorites').classList.add('active');
-                document.querySelector('series-list').classList.add('active');
+                document.body.classList.add("serieslistActive");
                 $rootScope.$applyAsync();
             },
             hide: function() {
@@ -19,7 +18,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 $rootScope.$applyAsync();
                 document.querySelector('#actionbar_favorites').classList.remove('active');
                 document.querySelector('#actionbar_favorites').classList.remove('spin');
-                document.querySelector('series-list').classList.remove('active');
+                document.body.classList.remove("serieslistActive");
             },
             toggle: function() {
                 if (!service.state.isShowing) {

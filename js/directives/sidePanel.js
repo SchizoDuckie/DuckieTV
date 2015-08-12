@@ -12,17 +12,22 @@ DuckieTV.factory('SidePanelState', function() {
             document.body.scrollTop = 0;
             service.state.isShowing = true;
             service.state.isExpanded = false;
-
+            document.body.classList.add('sidepanelActive');
+            document.body.classList.remove('sidepanelExpanded');
         },
         hide: function() {
             document.body.style.overflowY = 'auto';
             service.state.isShowing = false;
             service.state.isExpanded = false;
+            document.body.classList.remove('sidepanelActive');
+            document.body.classList.remove('sidepanelExpanded');
         },
         expand: function() {
+            document.body.classList.add('sidepanelExpanded');
             service.state.isExpanded = true;
         },
         contract: function() {
+            document.body.classList.remove('sidepanelExpanded');
             service.state.isExpanded = false;
         }
     };
