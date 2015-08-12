@@ -3,6 +3,8 @@
 
 	<img src="img/torrentclients/qbittorrent-colored.png" style='width:200px; margin: 0 auto'>
 
+  <p><a href='https://github.com/SchizoDuckie/DuckieTV/wiki/Setting-up-qBitTorrent-3.2-with-DuckieTV-1.1.2' target='_blank' translate-once="COMMON/set-up-instructions/lbl"></a></p>
+
 	<p  ng-if="qbt.isConnected()"><span translate-once="COMMON/status/hdr"></span>:
 	<span translate-once="COMMON/connected/lbl"></span> qBittorrent API &#64; {{qbt.model.server}}:{{qbt.model.port}}
 	</p>
@@ -12,8 +14,8 @@
 	</p>
 
 	<form ng-submit="qbt.test()" novalidate>
-        <formly-form model="qbt.model" fields="qbt.fields">
-          <button type="submit" class="btn btn-primary submit-button" translate-once="COMMON/save/btn"></button>
-        </formly-form>
-      </form>
+    <formly-form model="qbt.model" fields="qbt.fields">
+      <button type="submit" class="btn btn-primary submit-button" translate-once="COMMON/save/btn"></button>
+    </formly-form>
+  </form>
 </div>
