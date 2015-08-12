@@ -72,13 +72,17 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
             },
 
             findEpisode: function(serie, episode) {
-                return SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name).then(function(SceneName) {
-                    SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(seasonepisode) {
-                        debugger;
+                return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(seasonepisode) {
+                    return dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {
+                        query: SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + seasonepisode,
+                        TVDB_ID: episode.TVDB_ID
+                    }, {
+                        size: 'lg'
                     });
-
                 });
+
             },
+
 
             search: function(query, TVDB_ID, options) {
                 return dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {

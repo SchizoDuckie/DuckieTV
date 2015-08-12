@@ -282,7 +282,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                             console.log("Results: ", results);
                             if (!results || results.length === 0) {
                                 self.model.infoMessages[scope.options.key] = 'No results found.';
-                                throw "no results found";
+                                throw new Error("no results found");
                             } else {
                                 firstResult = results[0];
                                 self.model.infoMessages[scope.options.key] = results.length + ' results found.';

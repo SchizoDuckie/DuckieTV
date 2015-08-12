@@ -23,7 +23,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             search: function(result) {
                 var output = [];
                 if (result.data.error) {
-                    throw result.data.error;
+                    return [];
                 }
                 result.data.torrent_results.map(function(hit) {
                     var out = {
