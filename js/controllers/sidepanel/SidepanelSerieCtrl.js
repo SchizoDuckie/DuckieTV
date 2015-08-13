@@ -100,7 +100,7 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
         dlg.result.then(function(btn) {
             console.log("Removing serie '" + serie.name + "' from favorites!", serie);
             FavoritesService.remove(serie);
-            SidepanelState.hide();
+            SidePanelState.hide();
         }, function(btn) {
             this.confirmed = $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-cancelled/lbl');
         });
