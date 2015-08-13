@@ -13,12 +13,18 @@ DuckieTV.directive('lazyBackground', ["$document", "$parse",
             },
             link: function($scope, $element, $attrs) {
                 var element, elementCont;
+                /**
+                 * altMode is a seperate loading mode where the lazyBackground directive isn't placed
+                 * on the element we're applying the background image. So we have two seperate variables
+                 * for the container and the image element. If we're not in altMode, the two variables
+                 * are the same so the code below will work regardless of modes.
+                 */
                 if ($scope.altMode) {
                     elementCont = $element;
                     element = $element.find('div');
                 } else {
-                    elementCont = angular.element($element);
-                    element = angular.element($element);
+                    elementCont = $element;
+                    element = $element;
                 }
                 $attrs.ngHide = true;
 
@@ -43,12 +49,9 @@ DuckieTV.directive('lazyBackground', ["$document", "$parse",
 
                     /** 
                      * Use some oldskool preloading techniques to load the image
-                     * and fade it in when done
-                     * ToDo: Maybe change to a promise system so we can stop loading an image and have a timeout
                      */
                     var img = $document[0].createElement('img');
                     img.onload = function() {
-                        console.log("loaded")
                         element.css('background-image', 'url('+this.src+')');
                         elementCont.removeClass('img-loading');
                     };

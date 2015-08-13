@@ -13,9 +13,8 @@ DuckieTV.directive('backgroundRotator', ["$rootScope", "$document",
             scope: {
                 channel: '='
             },
-
             templateUrl: 'templates/backgroundRotator.html',
-            link: function($scope, $attr) {
+            link: function($scope) {
                 $scope.format = ('chrome' in window) ? 'webp' : 'png';
                 $scope.bg1 = false;
                 $scope.bg2 = false;
