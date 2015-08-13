@@ -42,13 +42,13 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
             },
 
             initialize: function() {
-                $http.get('SceneNameExceptions.json').then(function(results) {
-                    exceptions = results;
+                $http.get('SceneNameExceptions.json').then(function(result) {
+                    exceptions = result.data;
                     return exceptions;
                 });
 
-                $http.get('SceneDateExceptions.json').then(function(results) {
-                    episodesWithDateFormat = results;
+                $http.get('SceneDateExceptions.json').then(function(result) {
+                    episodesWithDateFormat = JSON.parse(result.data.split('*/')[1]);
                     return exceptions;
                 });
             },

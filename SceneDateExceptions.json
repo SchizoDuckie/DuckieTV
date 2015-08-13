@@ -1,16 +1,32 @@
+/**
+ * Days of our lives:  Thu, Nov 6, 2014
+ * The Daily Show : 2014.11.13.
+ * Jimmy Kimmel Live: 2014.11.13
+ * The Ellen DeGeneres Show: 2014.11.13
+ * Real Time With Bill Maher : 2015 06 05
+ * 2020 US : 2015 06 05
+ * General Hospital : 20 Nov 14
+ * Jeopardy! 2014-05-27
+ * The Colbert Report: 2014.11.13
+ * Late Night with Jimmy Fallon: 2014.11.13
+ * Conan 2015 02 17
+ * wwe superstars: 2014 11 20
+ * Late Night with Seth Meyers: 2014.11.13
+ * @midnight: 2014.11.13
+ */
 {
-    "70366": "EEE, MMM D, YYYY", // Days of our lives:  Thu, Nov 6, 2014
-    "71256": "YYYY.MM.DD", // The Daily Show : 2014.11.13.
-    "71998": "YYYY.MM.DD", // Jimmy Kimmel Live: 2014.11.13
-    "72194": "YYYY.MM.DD", // The Ellen DeGeneres Show: 2014.11.13
-    "72231": "YYYY MM DD", // Real Time With Bill Maher
-    "72289": "YYYY MM DD", // 2020 US 2015 06 05
-    "75332": "DD MMM YY", // General Hospital : 20 Nov 14
-    "77075": "YYYY-MM-DD", // Jeopardy! 2014-05-27
-    "79274": "YYYY.MM.DD", // The Colbert Report: 2014.11.13
-    "85355": "YYYY.MM.DD", // Late Night with Jimmy Fallon: 2014.11.13
-    "194751": "YYYY MM DD", // Conan 2015 02 17
-    "261676": "YYYY MM DD", // wwe superstars: 2014 11 20
-    "270262": "YYYY MM DD", // Late Night with Seth Meyers: 2014.11.13
-    "274099": "YYYY.MM.DD" // @midnight: 2014.11.13
-};
+    "70366": "EEE, MMM D, YYYY",
+    "71256": "YYYY.MM.DD",
+    "71998": "YYYY.MM.DD",
+    "72194": "YYYY.MM.DD",
+    "72231": "YYYY MM DD",
+    "72289": "YYYY MM DD",
+    "75332": "DD MMM YY",
+    "77075": "YYYY-MM-DD",
+    "79274": "YYYY.MM.DD",
+    "85355": "YYYY.MM.DD",
+    "194751": "YYYY MM DD",
+    "261676": "YYYY MM DD",
+    "270262": "YYYY MM DD",
+    "274099": "YYYY.MM.DD"
+}

@@ -41,14 +41,15 @@ DuckieTV
          * If not marked, updates the database and the torrenthashlist service so that this doesn't have to happen again
          */
         function isDownloaded(torrent) {
-            if (torrent.getProgress() == 100 && TorrentHashListService.isDownloaded(torrent.hash) === false) {
+            if (torrent.getProgress() == 100 && !TorrentHashListService.isDownloaded(torrent.hash)) {
                 console.info('Torrent finished. marking as downloaded', torrent.name || torrent.hash);
                 var filter = ['downloaded != 1 and magnetHash = "' + torrent.hash.toUpperCase() + '"'];
                 CRUD.FindOne('Episode', filter).then(function(episode) {
                     TorrentHashListService.markDownloaded(torrent.hash);
                     if (!episode) return;
-                    episode.markDownloaded();
-                    episode.Persist();
+                    episode.markDownloaded().then(function(result) {
+                        console.info("Episode marked as downloaded in database. ", episode.ID_Serie, episode.getFormattedEpisode());
+                    });
                 });
             }
         }
