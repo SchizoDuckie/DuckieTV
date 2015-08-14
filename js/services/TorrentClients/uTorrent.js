@@ -172,7 +172,7 @@ DuckieTorrent
                         self.sessionKey = session.session;
                         self.authToken = authToken;
                         self.connected = true;
-                        $rootScope.$broadcast('torrentclient:connected', self.getRemote());
+                        $rootScope.$broadcast('torrentclient:connected', methods.getRemote());
                         return session;
                     }, function(fail) {
                         console.error("Error starting session with auth token %s!", authToken);
