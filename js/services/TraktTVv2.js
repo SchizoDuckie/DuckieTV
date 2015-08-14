@@ -198,14 +198,14 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
         var service = {
             serie: function(slug) {
                 return promiseRequest('serie', slug).then(function(serie) {
-                    return service.people(serie.slug_id).then(function(result) {
+                    return service.people(serie.trakt_id).then(function(result) {
                         serie.people = result;
                     }, rethrow).then(function() {
-                        return service.seasons(serie.slug_id).then(function(result) {
+                        return service.seasons(serie.trakt_id).then(function(result) {
                             serie.seasons = result;
                         }, rethrow).then(function() {
                             return $q.all(serie.seasons.map(function(season, index) {
-                                return service.episodes(serie.slug_id, season.number).then(function(episodes) {
+                                return service.episodes(serie.trakt_id, season.number).then(function(episodes) {
                                     serie.seasons[index].episodes = episodes;
                                     return true;
                                 }, rethrow);

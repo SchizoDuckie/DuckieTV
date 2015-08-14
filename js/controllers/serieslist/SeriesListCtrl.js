@@ -126,7 +126,8 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             if (!FavoritesService.isAdding(serie.tvdb_id)) {
                 if (!FavoritesService.isAdded(serie.tvdb_id)) {
                     FavoritesService.adding(serie.tvdb_id);
-                    return TraktTVv2.serie(serie.slug_id).then(function(serie) {
+                    var id = 'imdb_id' in serie ? serie.imdb_id : serie.slug_id;
+                    return TraktTVv2.serie(id).then(function(serie) {
                         return FavoritesService.addFavorite(serie).then(function() {
                             $rootScope.$broadcast('storage:update');
                             FavoritesService.added(serie.tvdb_id);
