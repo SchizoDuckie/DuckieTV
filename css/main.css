@@ -1507,10 +1507,10 @@ sidepanel > div {
     -webkit-transform: translateX(800px);
     -webkit-transition: transform 0.3s ease-in;
 }
-sidepanel > div.active {
+.sidepanelActive sidepanel .sidepanel {
     -webkit-transform: translateX(400px);   
 }
-sidepanel > div.active.expanded {
+.sidepanelExpanded sidepanel .sidepanel {
     -webkit-transform: translateX(0);   
 }
 
