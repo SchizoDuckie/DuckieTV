@@ -1542,7 +1542,7 @@ sidepanel .buttons strong {
 sidepanel .buttons a {
     display: block;
     padding: 15px;
-    margin: 5px 20px;
+    margin: 5px 15px;
     border: 1px solid #fff;
     border-radius: 10px;
     text-align: center;
@@ -1687,11 +1687,16 @@ sidepanel .buttons .two-face-torrent .download {
     margin: 0;
 }
 sidepanel .buttons .two-face-torrent .auto-download {
+    padding: 15px 10px;
     margin: 0px;
     border-left: 0px;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
     text-decoration: none;
+}
+sidepanel .buttons .two-face-torrent .torrent-settings {
+    padding: 15px 10px;
+    margin: 0;
 }
 
 sidepanel .buttons .torrent-mini-remote-control > span {
@@ -2152,10 +2157,11 @@ ng-dial-gauge {
     margin-top: -2px !important;
     margin-left: -3px !important;
   }
-  sidepanel .buttons .two-face-torrent .download {
-    width: 289px;
-  }
   sidepanel .buttons .two-face-torrent .auto-download {
+    padding: 8px;
+    height: 43px;
+  }
+  sidepanel .buttons .two-face-torrent .torrent-settings {
     padding: 8px 10px;
     height: 43px;
   }
