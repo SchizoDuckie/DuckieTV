@@ -49,7 +49,7 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
 
                 $http.get('SceneDateExceptions.json').then(function(result) {
                     episodesWithDateFormat = JSON.parse(result.data.split('*/')[1]);
-                    return exceptions;
+                    return episodesWithDateFormat;
                 });
             },
             /**

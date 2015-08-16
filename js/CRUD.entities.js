@@ -281,11 +281,16 @@ CRUD.define(Episode, {
         return this.FindOne('Season');
     },
     getFormattedEpisode: function() {
-        var sn = this.seasonnumber.toString(),
-            en = this.episodenumber.toString(),
+        return this.formatEpisode(this.seasonnumber, this.episodenumber);
+    },
+
+    formatEpisode: function(season, episode) {
+        var sn = season.toString(),
+            en = episode.toString(),
             out = ['S', sn.length == 1 ? '0' + sn : sn, 'E', en.length == 1 ? '0' + en : en].join('');
         return out;
     },
+
     getAirDate: function() {
         return this.firstaired === 0 ? '?' : new Date(this.firstaired).toLocaleString();
     },
@@ -347,7 +352,6 @@ CRUD.define(Episode, {
         }.bind(this));
     },
 });
-
 
 CRUD.define(WatchListItem, {
     className: 'WatchListItem',
