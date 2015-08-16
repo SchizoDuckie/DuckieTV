@@ -13,8 +13,21 @@ If you want to get a quick overview of how events work within DuckieTV check out
 https://github.com/SchizoDuckie/DuckieTV/blob/angular/EVENTS.md
 On top of that, you can check out the dependency graph on [http://duckietv.github.io/DuckieTV/](The DuckieTV live Demo) using [the awesome angularjs-dependency-graph](https://chrome.google.com/webstore/detail/angularjs-dependency-grap/gghbihjmlhobaiedlbhcaellinkmlogj)
 
-## Running DuckieTV-Standalone in dev mode
+## Hacking on DuckieTV
+
 If you want to run and hack on DuckieTV standalone yourself, the process is really simple:
+
+## Running DuckieTV from Git as a new-tab Chrome extension
+This is the easiest way to get going. DuckieTV will install itself as your new-tab page and run directly from git source.
+
+- Clone the repository or download and extract the latest HEAD as a [.zip](https://github.com/SchizoDuckie/DuckieTV/archive/angular.zip) file
+- Fire up chrome
+- go to chrome://extensions
+- Enable 'developer mode' by checking the checkbox if not already enabled
+- click the 'Load unpacked extension' button, and point it to the DuckieTV directory
+- Click OK and fire up a new tab. DuckieTV should be running.
+
+## Running DuckieTV-Standalone in dev mode
 
 - Clone the repo
 - Download [nw.js](http://nwjs.io/) for your platform
