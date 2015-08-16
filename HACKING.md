@@ -27,6 +27,12 @@ This is the easiest way to get going. DuckieTV will install itself as your new-t
 - click the 'Load unpacked extension' button, and point it to the DuckieTV directory
 - Click OK and fire up a new tab. DuckieTV should be running.
 
+## Running DuckieTV from Git as a browser-action Chrome extension
+
+- Execute all the steps above for the 'new tab' version
+- rename manifest-app.json to manifest.json (delete the original manifest.json)
+- optionally add manifest.json and manifest-app.json to .gitignore
+
 ## Running DuckieTV-Standalone in dev mode
 
 - Clone the repo
