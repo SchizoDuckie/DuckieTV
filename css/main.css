@@ -97,6 +97,11 @@ body {
     background-repeat:no-repeat;
     font-family: helvetica, sans-serif;
     color: #444;
+    -webkit-transition: all 0.5px ease-in-out;
+}
+
+body.modal-open sidepanel, body.modal-open div[date-picker] {
+    -webkit-filter: blur(1px);
 }
 
 h1, h2, h3 {
