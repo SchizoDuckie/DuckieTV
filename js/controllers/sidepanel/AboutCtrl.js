@@ -151,7 +151,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
 
             // dump local storage with exceptions to avoid overload.
             var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage)); 
-            ['userPreferences','torrenting.hashList','trakt.token','trakttv.trending.cache','alarms'].map(function(key) { delete dumpLocalStorage[key]; });
+            ['userPreferences','torrenting.hashList','trakttv.token','trakttv.trending.cache','alarms','xem.mappings'].map(function(key) { delete dumpLocalStorage[key]; });
             $scope.statistics.push({
                 name: 'Other significant Local Storage keys', 
                 data: angular.toJson(dumpLocalStorage, true)
