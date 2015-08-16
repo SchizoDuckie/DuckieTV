@@ -11,30 +11,67 @@ On top of that, the following libraries (and their dependencies) are used (these
 
 If you want to get a quick overview of how events work within DuckieTV check out events.md:
 https://github.com/SchizoDuckie/DuckieTV/blob/angular/EVENTS.md
+On top of that, you can check out the dependency graph on [http://duckietv.github.io/DuckieTV/](The DuckieTV live Demo) using [the awesome angularjs-dependency-graph](https://chrome.google.com/webstore/detail/angularjs-dependency-grap/gghbihjmlhobaiedlbhcaellinkmlogj)
 
-## Building DuckieTV-Standalone
+## Running DuckieTV-Standalone in dev mode
 If you want to run and hack on DuckieTV standalone yourself, the process is really simple:
 
 - Clone the repo
-- DuckieTV Standalone builds are currently built with [web2executable](https://github.com/jyapayne/Web2Executable)
 - Download [nw.js](http://nwjs.io/) for your platform
-- Extract all files to the DuckieTV repository
+- Extract all files to the freshly cloned DuckieTV directory
 - run nw.exe or ./nw
-- Now you can just work in the directory and pull repo updates with git if you want to run the latest version always
+- Now you can just work in the directory and pull repo updates
 
 
+## Building DuckieTV-Standalone
+
+If you want to build the setups and files that are deployed on github yourself there are some dependencies:
+
+- wine 1.7 (for embedding .ico file in the windows .exe)
+- bomutils (to be able to build a mac compatible installer)
+- libxml2-dev and libssl-dev
+- nsis (for building installers for windows)
+
+```
 sudo add-apt-repository ppa:ubuntu-wine/ppa
 sudo apt-get update
 sudo apt-get install wine1.7 
 git clone https://github.com/hogliux/bomutils && cd bomutils && make && sudo make install
 sudo apt-get install libxml2-dev libssl-dev
 sudo apt-get install nsis
+```
 
-to build individual releases:
+##Building individual releases:
+
+Gulp is used as the generic utility library. Make sure you have the local dependencies set up by running
+
+``npm install``
+
+Then, to prepare the release, concat the scripts and css, and put platform specific patches into place execute
+
+``gulp deploy``
+
+This does all the actual concatting and renaming work and puts files in place for all the platforms and flavours DuckieTV runs as:
+
+- Chrome Browseraction
+- Chrome New Tab
+- Standalone (Via nw.js)
+- Android (Via Cordova)
+
+Once you have this, execute the individual build scripts to create setup installers
+
+```
 cd build/
+./build_chrome_browseraction.sh
+./build_chrome_newtab.sh
 ./build_windows.sh
 ./build_mac.sh
 ./build_linux.sh
+```
 
-to build the whole shebang: 
-gulp deploy
+The command ```push-cordova.sh``` is a shell script that force pushes the cordova output from ```gulp deploy``` in ```../deploy/cordova/``` to the repository that's connected to Adobe's Phonegap Build system.
+
+You can see the latest builds here:
+https://build.phonegap.com/apps/1473540/share
+
+Rebuilding the APK is a matter of logging in with the permitted account on http://build.phonegap.com/, refreshing the repostory with a click of the button, unlocking the deploy key by entering the password for the keychain and hitting the rebuild button. You can do this with your own account to verify the process, just add https://github.com/SchizoDuckie/DuckieTV-Cordova as your git source.
