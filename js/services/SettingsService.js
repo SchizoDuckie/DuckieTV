@@ -89,6 +89,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'autodownload.minSeeders': 50,
                 'autodownload.period': 1,
                 'background-rotator.opacity': '0.4',
+                'main.viewmode': 'calendar', // todo || calendar
                 'calendar.mode': 'date',
                 'calendar.show-specials': true,
                 'calendar.show-downloaded': true,
@@ -204,7 +205,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 var locale = langKey;
 
                 if (availableLanguageKeys.indexOf(langKey) === -1 && Object.keys(customLanguageKeyMappings).indexOf(langKey) === -1 && customLanguageKeyMappings.indexOf(langKey) === -1) {
-                var matched = false;
+                    var matched = false;
 
                     if (langKey.indexOf('_') === -1) {
                         for (var key in customLanguageKeyMappings) {
@@ -216,10 +217,10 @@ DuckieTV.factory('ChromePermissions', ["$q",
                             }
                         }
                     }
-                if (!matched) {
-                    langKey = locale = 'en_us';
+                    if (!matched) {
+                        langKey = locale = 'en_us';
+                    }
                 }
-            }
 
                 service.set('application.language', langKey);
                 service.set('application.locale', locale);

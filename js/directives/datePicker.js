@@ -174,6 +174,10 @@ DuckieTV
                 });
 
 
+                var today = new Date();
+                scope.hasTodoEvent = function(date) {
+                    return (scope.eventService && date <= today) ? scope.eventService.hasTodoEvent(date) : false;
+                };
 
                 scope.hasEvent = function(date) {
                     return (scope.eventService) ? scope.eventService.hasEvent(date) : false;
@@ -182,6 +186,11 @@ DuckieTV
                 scope.getEvents = function(date) {
                     return (scope.eventService) ? scope.eventService.getEvents(date) : false;
                 };
+
+                scope.getTodoEvents = function(date) {
+                    return (scope.eventService) ? scope.eventService.getTodoEvents(date) : false;
+                };
+
 
                 scope.getSeries = function(date) {
                     return (scope.eventService) ? scope.eventService.getSeries(date) : false;

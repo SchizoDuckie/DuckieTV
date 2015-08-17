@@ -1,0 +1,117 @@
+<!-- datepicker.html -->
+<div ng-switch="view">
+  <div ng-switch-when="date">
+    <table>
+      <thead mouse-wheel-up="next()" mouse-wheel-down="prev()">
+        <tr>
+          <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left"></i>
+          </th>
+          <th colspan="5" class="switch" ng-click="setView('month')">
+            <h2>{{date|date:"MMMM yyyy"}} <i class="glyphicon glyphicon-chevron-up" tooltip="{{'DATEPICKER/calendar-weekview/glyph/tooltip'|translate}}" ng-click="setView('week')"></i>
+            </h2>
+          </th>
+          <th ng-click="next()" style='text-align:center'><i class="glyphicon glyphicon-chevron-right"></i>
+          </th>
+        </tr>
+      </thead>
+      </table>
+      <div class="row">
+        <div ng-repeat="week in weeks">
+          <div ng-repeat="day in week" class="day" ng-if="hasTodoEvent(day)">
+              <div ng-repeat="event in getTodoEvents(day)|filter:filterSpecials" style="float:left; margin:5px; width:250px; height:200px" ui-sref="episode({episode_id: event.episode.ID_Episode})">
+                 <div class="episode-img" lazy-background="{{::event.episode.filename}}" style='width:250px; height:140px'></div>
+                 <h3 style='color:white'>{{event.serie.name }} {{::event.episode.name}} {{::event.episode.getFormattedEpisode()}}</h3>
+                 <em class="dayofweek">{{ day|date:"EEE" }}</em>
+                 {{day.getDate()}}
+               </div>
+              </div>
+           </div>
+        </div>
+      
+  </div>
+  <div ng-switch-when="year">
+    <table>
+      <thead mouse-wheel-up="next(10)" mouse-wheel-down="prev(10)">
+        <tr>
+          <th ng-click="prev(10)"><i class="glyphicon glyphicon-chevron-left"></i>
+          </th>
+          <th colspan="5" class="switch">
+            <h2>{{years[0].getFullYear()}}-{{years[years.length-1].getFullYear()}}</h2>
+          </th>
+          <th ng-click="next(10)"><i class="glyphicon glyphicon-chevron-right"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="7">
+            <span ng-class="{'active':isSameYear(year),'now':isNow(year)}" ng-repeat="year in years" class="year" ng-click="setDate(year)" ng-bind="year.getFullYear()"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div ng-switch-when="month">
+    <table>
+      <thead mouse-wheel-up="next()" mouse-wheel-down="prev()">
+        <tr>
+          <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left"></i>
+          </th>
+          <th colspan="5" class="switch" ng-click="setView('year')">
+            <h2>{{ date|date:"yyyy" }}</h2>
+          </th>
+          <th ng-click="next()"><i class="glyphicon glyphicon-chevron-right"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="7">
+            <span ng-repeat="month in months" ng-class="{'active':isSameMonth(month),'after':isAfter(month),'before':isBefore(month),'now':isNow(month)}" class="month" ng-click="setDate(month)">{{month|date:'MMM'}}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div ng-switch-when="hours">
+    <table>
+      <thead mouse-wheel-up="next(24)" mouse-wheel-down="prev(24)">
+        <tr>
+          <th ng-click="prev(24)"><i class="glyphicon glyphicon-chevron-left"></i>
+          </th>
+          <th colspan="5" class="switch" ng-click="setView('date')">{{ date|date:"dd MMMM yyyy" }}</th>
+          <th ng-click="next(24)"><i class="glyphicon glyphicon-chevron-right"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="7">
+            <span ng-repeat="hour in hours" ng-class="{'now':isNow(hour),'active':isSameHour(hour)}" ng-click="setDate(hour)" ng-bind="hour.getHours()+':00'"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div ng-switch-when="minutes">
+    <table>
+      <thead mouse-wheel-up="next()" mouse-wheel-down="prev()">
+        <tr>
+          <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left"></i>
+          </th>
+          <th colspan="5" class="switch" ng-click="setView('hours')">{{ date|date:"dd MMMM yyyy" }}
+          </th>
+          <th ng-click="next()"><i class="glyphicon glyphicon-chevron-right"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="7">
+            <span ng-repeat="minute in minutes" ng-class="{active:isSameMinutes(minute),'now':isNow(minute)}" ng-click="setDate(minute)">{{minute|date:"HH:mm"}}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

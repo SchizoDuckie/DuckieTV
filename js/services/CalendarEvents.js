@@ -13,6 +13,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         var calendarEpisodeSortCache = {};
         var calendarStartDate = null;
         var calendarEndDate = null;
+        var today = new Date();
 
         /**
          * Check if an episode already exists on a date in the calendar.
@@ -194,6 +195,16 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 return (new Date(date).toDateString() in calendarEvents);
             },
 
+            hasTodoEvent: function(date) {
+                date = new Date(date);
+                if (!(date.toDateString() in calendarEvents) || date < today.toDateString()) {
+                    return false;
+                }
+                return calendarEvents[date.toDateString()].filter(function(event) {
+                    return !event.episode.isWatched();
+                }).length > 0;
+            },
+
             markDayWatched: function(day, rootScope) {
                 var str = day instanceof Date ? day.toDateString() : new Date(day).toDateString();
                 if (str in calendarEvents) {
@@ -202,7 +213,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                             calEvent.episode.markWatched(rootScope);
                             //console.debug("Mark calendar eventwatched: ", calEvent);
                         }
-                    })
+                    });
                 }
             },
             markDayDownloaded: function(day, rootScope) {
@@ -222,6 +233,13 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
             getEvents: function(date) {
                 var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
                 return (str in calendarEvents) ? calendarEvents[str] : [];
+            },
+
+            getTodoEvents: function(date) {
+                var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
+                return (str in calendarEvents) ? calendarEvents[str].filter(function(event) {
+                    return !event.episode.isWatched();
+                }) : [];
             },
             /**
              * Sort the series for a day, that are now grouped by ID_Serie. It needs to return

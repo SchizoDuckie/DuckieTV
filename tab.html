@@ -39,7 +39,8 @@
       <div class="col-md-12">
         <div class="container-fluid">
           <clicktrap></clicktrap>
-          <calendar event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" style='-webkit-transform:translate3d(0,0,0); position: relative'></calendar>
+          <calendar ng-if="getSetting('main.viewmode') == 'calendar'" event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" style='-webkit-transform:translate3d(0,0,0); position: relative'></calendar>
+          <calendar ng-if="getSetting('main.viewmode') == 'todo'" template="templates/todopicker.html" event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" style='-webkit-transform:translate3d(0,0,0); position: relative'></calendar>
         </div>
       </div>
     </div>
@@ -75,6 +76,8 @@
         <li id="actionbar_about" style='position:absolute;bottom:0px' ui-sref-active="active">
           <a ui-sref="about" class="glyphicon glyphicon-info-sign" tooltip="{{ 'TAB/about/glyph'|translate }}" tooltip-placement="right"></a>
         </li>
+        <li id="actionbar_switch" style='position:absolute;bottom:120px' ui-sref-active="active">
+          <a ng-click="setSetting('main.viewmode', getSetting('main.viewmode') == 'calendar' ? 'todo' : 'calendar')" class="glyphicon glyphicon-check" tooltip="Switch between calendar and todo mode" tooltip-placement="right"></a>
       </ul>
     </div>
   </div>
