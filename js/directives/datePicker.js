@@ -191,6 +191,10 @@ DuckieTV
                     return (scope.eventService) ? scope.eventService.markDayWatched(day, scope.$root) : false;
                 };
 
+                scope.markDayDownloaded = function(day) {
+                    return (scope.eventService) ? scope.eventService.markDayDownloaded(day, scope.$root) : false;
+                };
+
                 var expandedSeries = {};
 
                 scope.isExpanded = function(date, serie) {
