@@ -29,7 +29,7 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
                     var toUpdate = results.filter(function(res) {
                         if (!res || !res.tvdb_id) return false;
                         return FavoritesService.favorites.filter(function(favorite) {
-                            return favorite.TVDB_ID == res.tvdb_id && (favorite.lastupdated == null || new Date(favorite.lastupdated) < new Date(res.remote_updated));
+                            return favorite.TVDB_ID == res.tvdb_id && (favorite.lastupdated === null || new Date(favorite.lastupdated) < new Date(res.remote_updated));
                         }).length > 0;
                     });
                     return $q.all(
@@ -78,7 +78,7 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
             });
         } else {
             console.info("Not performing trakttv update check. already done today.");
-        };
+        }
 
         if (!localStorage.getItem('trakttv.lastupdated.trending')) {
             localStorage.setItem('trakttv.lastupdated.trending', 0);
@@ -90,7 +90,7 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
             });
         } else {
             console.info("Not performing trakttv trending update check. last done " + new Date(parseInt(localStorage.getItem('trakttv.lastupdated.trending'))).toString());
-        };
+        }
         setTimeout(updateFunc, 60 * 60 * 12 * 1000); // schedule update check in 12 hours for long running apps.
     };
 
