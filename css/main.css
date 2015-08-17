@@ -1288,9 +1288,9 @@ td.day {
     font-size: 12px;
     position: absolute;
     bottom: -18px;
-    left: 0px;
+    left: 55%;
     margin-top: 0px;
-    width: 100%;
+    width: 45%;
     display: block;
     text-align: center;
     font-weight: normal;
@@ -1309,9 +1309,40 @@ td.day {
 
 [date-picker] a.markdaywatched i {
     top: 2px;
-    margin-right: 7px;
+    margin-right: 4px;
 }
 [date-picker] a.markdaywatched span {
+    cursor: pointer;
+}
+
+[date-picker] a.markdaydownloaded {
+    font-size: 12px;
+    position: absolute;
+    bottom: -18px;
+    left: 0px;
+    margin-top: 0px;
+    width: 55%;
+    display: block;
+    text-align: center;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    padding: 0px;
+    height: 20px;
+    line-height: 19px;
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(25, 25, 25, 0.9);
+}
+[date-picker] a.markdaydownloaded:hover {
+    background-color: rgba(45, 45, 45, 0.9);
+    text-decoration: underline;
+}
+
+[date-picker] a.markdaydownloaded i {
+    top: 2px;
+    margin-right: 4px;
+}
+[date-picker] a.markdaydownloaded span {
     cursor: pointer;
 }
 

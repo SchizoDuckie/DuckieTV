@@ -205,6 +205,17 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     })
                 }
             },
+            markDayDownloaded: function(day, rootScope) {
+                var str = day instanceof Date ? day.toDateString() : new Date(day).toDateString();
+                if (str in calendarEvents) {
+                    calendarEvents[str].map(function(calEvent) {
+                        if (calEvent.episode.hasAired()) {
+                            calEvent.episode.markDownloaded(rootScope);
+                            //console.debug("Mark calendar eventdownloaded: ", calEvent);
+                        }
+                    })
+                }
+            },
             /**
              * Return events for a date or an empty array
              */

@@ -55,8 +55,11 @@
               </div>
 
               <span ng-class="{'now':isNow(day),'active':isSameDay(day),'disabled':(day.getMonth()!=date.getMonth()),'after':isAfter(day),'before':isBefore(day)}">
-               <em class="dayofweek">{{ day|date:"EEE" }} <a class="markdaywatched" ng-click="markDayWatched(day)"><i class="glyphicon glyphicon-eye-open"></i><span translate-once="DATEPICKER/mark-day-watched/btn"></span></a></em>
-               {{day.getDate()}}
+                <em class="dayofweek">{{ day|date:"EEE" }} 
+                  <a class="markdaydownloaded" ng-click="markDayDownloaded(day)"><i class="glyphicon glyphicon-floppy-disk"></i><span translate-once="COMMON/mark-all-downloaded/lbl"></span></a>
+                  <a class="markdaywatched" ng-click="markDayWatched(day)"><i class="glyphicon glyphicon-eye-open"></i><span translate-once="COMMON/mark-all-watched/lbl"></span></a>
+                </em>
+                {{day.getDate()}}
               </span>
 
           </td>
