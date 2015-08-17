@@ -8,6 +8,15 @@ On top of that, the following libraries (and their dependencies) are used (these
 - Dialogs.js (Modal dialogs for Angular.js) https://github.com/m-e-conroy/angular-dialog-service
 - UI-Bootstrap.js (Bootstrap enhancements for angular.js) http://angular-ui.github.io/bootstrap/
 - Datepicker.js (Somewhat modified, the basis for the calendar) https://github.com/g00fy-/angular-datepicker
+- angular-translate (i18n translations) https://angular-translate.github.io
+- angular-translate-once (translation one time bindings) https://github.com/ajwhite/angular-translate-once
+- angular-formly (form presentation) https://github.com/formly-js/angular-formly
+- tmhDynamicLocale (locale management) https://github.com/lgalfaso/angular-dynamic-locale
+- moment (Parse, validate, manipulate, and display dates) http://momentjs.com
+- moment-timezone (timezone support) github.com/moment/moment-timezone
+- AngularJS-Toaster (customized version of "toastr" non-blocking notification library) https://github.com/jirikavi/AngularJS-Toaster
+- UI-router Extras (enhanced UI-Router) http://christopherthielen.github.io/ui-router-extras
+- angular-dialgauge (dial gauge directive) http://cdjackson.github.io/angular-dialgauge/
 
 If you want to get a quick overview of how events work within DuckieTV check out events.md:
 https://github.com/SchizoDuckie/DuckieTV/blob/angular/EVENTS.md
