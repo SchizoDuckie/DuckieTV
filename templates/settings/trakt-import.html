@@ -9,13 +9,13 @@
       <form name="userCredentials">
         <table>
           <tr class="username">
-            <td><p translate-once="SETTINGS/TRAKT-IMPORT/username/hdr"></p></td>
+            <td translate-once="SETTINGS/TRAKT-IMPORT/username/hdr"></td>
             <td>
               <input type='text' style='background-color: rgba(0,0,0,0.8);' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'SETTINGS/TRAKT-IMPORT/username/placeholder'|translate}}" ng-disabled="credentials.success" />
             </td>
           </tr>
           <tr class="password">
-            <td>Your Trakt.TV Pin</td>
+            <td translate-once="SETTINGS/TRAKT-IMPORT/password/hdr"></td>
             <td>
               <input type='password' style='background-color: rgba(0,0,0,0.8);' name='password' ng-model='credentials.password' placeholder="Trakt.TV PIN" ng-disabled="credentials.success" ng-keyup="$event.keyCode == 13 && onEnter()" />
             </td>
@@ -23,7 +23,7 @@
           <tr class="button">
             <td></td>
             <td><center>
-             <a ng-href="{{getPinUrl()}}" class="btn btn-success" target='_blank'>Authorize DuckieTV to <br>use your Trakt.TV account</a>
+             <a ng-href="{{getPinUrl()}}" class="btn btn-success" target='_blank' translate-once="SETTINGS/TRAKT-IMPORT/authorize/btn"></a>
               <a ng-click="authorize(credentials.username, credentials.password)" class="btn btn-success" style="position:relative" ng-disabled="credentials.success" ng-show="!credentials.success">
                 <i class="glyphicon glyphicon-log-in" style="float:left;top:3px"></i><span translate-once="SETTINGS/TRAKT-IMPORT/login-to/btn"></span>Trakt.TV
                 <loading-spinner ng-show="credentials.authorizing" style="width:20px;height:20px;position:absolute;right:5px"></loading-spinner>
@@ -70,11 +70,11 @@
 
     <hr class="setting-divider">
 
-    <h2 translate-once="Push to Trakt"></h2>
-    <p translate-once="Push all your shows and watched episodes on DuckieTV to your Trakt.TV account"></p>
+    <h2 translate-once="SETTINGS/TRAKT-IMPORT/push/hdr"></h2>
+    <p translate-once="SETTINGS/TRAKT-IMPORT/push/desc"></p>
     
     <a ng-click="pushToTraktTV()" class="btn btn-info">
-      <i class="glyphicon glyphicon-export" style="float:left;top:3px"></i> <span translate-once="Push shows to Trakt.TV"></span>
+      <i class="glyphicon glyphicon-export" style="float:left;top:3px"></i> <span translate-once="SETTINGS/TRAKT-IMPORT/push/btn"></span>
     </a>
   </div>
   <div class="miniposter x2" ng-if="traktTVSeries[0]" style="text-align:center">
