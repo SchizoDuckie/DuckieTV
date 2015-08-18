@@ -366,6 +366,7 @@
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Automatisch Downloaden",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "Episodes",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/btn": "Vind een torrent",
+    "SIDEPANEL/EPISODE-DETAILS/leak-override/lbl": "Klik hier als de episode online gelekt voordat ",
     "SIDEPANEL/EPISODE-DETAILS/series-details/btn": "Serie Details",
     "SIDEPANEL/EPISODE-DETAILS/torrent-settings/tooltip": "Torrent-instellingen voor ",
     "SIDEPANEL/EPISODE-DETAILS/watch-netflix/btn": "Kijken op Netflix",

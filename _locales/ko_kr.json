@@ -366,6 +366,7 @@
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "자동 다운로드",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "에피소드",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/btn": "토런트 찾기",
+    "SIDEPANEL/EPISODE-DETAILS/leak-override/lbl": "에피소드 전에 온라인으로 유출하는 경우 여기를 클릭하십시오 ",
     "SIDEPANEL/EPISODE-DETAILS/series-details/btn": "시리즈의 자세한 사항",
     "SIDEPANEL/EPISODE-DETAILS/torrent-settings/tooltip": "대한 토런트 설정 ",
     "SIDEPANEL/EPISODE-DETAILS/watch-netflix/btn": "넷플 릭스에보기",

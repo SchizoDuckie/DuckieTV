@@ -366,6 +366,7 @@
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Авто Скачать",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "Эпизоды",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/btn": "Найти торрент",
+    "SIDEPANEL/EPISODE-DETAILS/leak-override/lbl": "Нажмите здесь, если эпизод выложен в интернет, прежде чем ",
     "SIDEPANEL/EPISODE-DETAILS/series-details/btn": "детали серии",
     "SIDEPANEL/EPISODE-DETAILS/torrent-settings/tooltip": "Торрент настройки ",
     "SIDEPANEL/EPISODE-DETAILS/watch-netflix/btn": "Смотреть на Netflix",

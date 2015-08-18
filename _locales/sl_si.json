@@ -366,6 +366,7 @@
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Samodejni prenos",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "Epizode",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/btn": "Najdi torrent",
+    "SIDEPANEL/EPISODE-DETAILS/leak-override/lbl": "Kliknite tukaj, če epizoda pricurljali na spletu, preden ",
     "SIDEPANEL/EPISODE-DETAILS/series-details/btn": "Podrobnosti serije",
     "SIDEPANEL/EPISODE-DETAILS/torrent-settings/tooltip": "Torrent nastavitve za ",
     "SIDEPANEL/EPISODE-DETAILS/watch-netflix/btn": "Ogled na Netflixu",

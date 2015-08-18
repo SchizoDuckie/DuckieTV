@@ -366,6 +366,7 @@
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "自動ダウンロード",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "エピソード",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/btn": "急流を探す",
+    "SIDEPANEL/EPISODE-DETAILS/leak-override/lbl": "エピソードは前にオンライン漏れた場合はこちらをクリック ",
     "SIDEPANEL/EPISODE-DETAILS/series-details/btn": "シリーズの詳細",
     "SIDEPANEL/EPISODE-DETAILS/torrent-settings/tooltip": "のための急流の設定 ",
     "SIDEPANEL/EPISODE-DETAILS/watch-netflix/btn": "ネットフリックスに時計",

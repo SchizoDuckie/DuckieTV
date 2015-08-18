@@ -366,6 +366,7 @@
     "SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip": "Auto Download",
     "SIDEPANEL/EPISODE-DETAILS/episodes/btn": "episoder",
     "SIDEPANEL/EPISODE-DETAILS/find-torrent/btn": "Hitta en torrent",
+    "SIDEPANEL/EPISODE-DETAILS/leak-override/lbl": "Klicka här om episoden läckt på nätet innan ",
     "SIDEPANEL/EPISODE-DETAILS/series-details/btn": "Serie detaljer",
     "SIDEPANEL/EPISODE-DETAILS/torrent-settings/tooltip": "Torrent inställningar för ",
     "SIDEPANEL/EPISODE-DETAILS/watch-netflix/btn": "Titta på Netflix",

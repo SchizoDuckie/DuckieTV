@@ -37,7 +37,7 @@
         </tr>
         <tr ng-if="!sidepanel.episode.hasAired() && !sidepanel.leaked">
         <th colspan="2">
-        <p ng-click="sidepanel.leaked = true" style='font-weight:normal; text-align:center; cursor:pointer; padding-top:50px'>Click here if the episode leaked online before {{::sidepanel.episode.firstaired | date: 'shortDate'}}</p>
+        <p ng-click="sidepanel.leaked = true" style='font-weight:normal; text-align:center; cursor:pointer; padding-top:50px'><pcont translate-once="SIDEPANEL/EPISODE-DETAILS/leak-override/lbl"></pcont>{{::sidepanel.episode.firstaired | date: 'shortDate'}}</p>
         </th>
         </tr>
         <tr>
