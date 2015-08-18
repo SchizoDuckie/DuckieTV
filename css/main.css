@@ -1346,6 +1346,24 @@ td.day {
     cursor: pointer;
 }
 
+[date-picker] .todo .todo_container {
+    margin: 0;
+}
+[date-picker] .todo a.todo_event {
+    float: left;
+    margin: 5px;
+    width: auto;
+    height: auto;
+}
+[date-picker] .todo a.todo_event h3 {
+    color: white;
+    margin: 7px 0px 1px 3px;
+}
+[date-picker] .todo a.todo_event em {
+    margin-left: 3px;
+}
+
+
 clicktrap {
     position:fixed; 
     top:0px; 
@@ -1672,13 +1690,20 @@ sidepanel .rightpanel h2 {
     text-align: left;
 }
 
-sidepanel .leftpanel .episode-img {
-    height: 195px;
+.episode-img {
+    height: 155px;
+    width: 275px;
+    background-size: 100% 100%;
+}
+.episode-img.large {
+    height: 190px;
     width: 325px;
+}
+
+sidepanel .leftpanel .episode-img {
     margin: 0 auto;
     border: 8px solid #3a3a3a;
     border-radius: 5px;
-    background-size: 100% 100%;
 }
 sidepanel .leftpanel  h3 {
     text-align: center;

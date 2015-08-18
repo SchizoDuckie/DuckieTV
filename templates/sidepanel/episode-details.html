@@ -1,6 +1,6 @@
 <div lazy-background="{{::sidepanel.serie.poster}}" class="serie-bg-img"></div>
    <div class="leftpanel serie-overview">
-      <div class="episode-img" ng-show="sidepanel.episode" lazy-background="{{::sidepanel.episode.filename}}"></div>
+      <div class="episode-img large" ng-show="sidepanel.episode" lazy-background="{{::sidepanel.episode.filename}}"></div>
       <center ng-show="sidepanel.serie && !sidepanel.episode"><serieheader style="margin:0 auto;" data="sidepanel.serie" no-overview="1" no-title="1" mode="poster"></serieheader></center>
       <h2>{{::sidepanel.serie.name}}{{::sidepanel.episode.getFormattedEpisode()?' - ':''}}{{::sidepanel.episode.getFormattedEpisode()}}</h2>
       <h3>{{::sidepanel.episode.episodename}}</h3>

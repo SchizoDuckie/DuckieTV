@@ -1,5 +1,5 @@
 <!-- datepicker.html -->
-<div ng-switch="view">
+<div ng-switch="view" class="todo">
   <div ng-switch-when="date">
     <table>
       <thead mouse-wheel-up="next()" mouse-wheel-down="prev()">
@@ -14,20 +14,19 @@
           </th>
         </tr>
       </thead>
-      </table>
-      <div class="row">
-        <div ng-repeat="week in weeks">
-          <div ng-repeat="day in week" class="day" ng-if="hasTodoEvent(day)">
-              <div ng-repeat="event in getTodoEvents(day)|filter:filterSpecials" style="float:left; margin:5px; width:250px; height:200px" ui-sref="episode({episode_id: event.episode.ID_Episode})">
-                 <div class="episode-img" lazy-background="{{::event.episode.filename}}" style='width:250px; height:140px'></div>
-                 <h3 style='color:white'>{{event.serie.name }} {{::event.episode.name}} {{::event.episode.getFormattedEpisode()}}</h3>
-                 <em class="dayofweek">{{ day|date:"EEE" }}</em>
-                 {{day.getDate()}}
-               </div>
-              </div>
-           </div>
+    </table>
+    <div class="todo_container row">
+      <div ng-repeat="week in weeks">
+        <div ng-repeat="day in week" class="day" ng-if="hasTodoEvent(day)">
+          <a class="todo_event" ng-repeat="event in getTodoEvents(day)|filter:filterSpecials" ui-sref="episode({episode_id: event.episode.ID_Episode})">
+             <div class="episode-img" lazy-background="{{::event.episode.filename}}"></div>
+             <h3>{{event.serie.name }} {{::event.episode.name}} {{::event.episode.getFormattedEpisode()}}</h3>
+             <em class="dayofweek">{{ day|date:"EEE" }}</em>
+             {{day.getDate()}}
+          </a>
         </div>
-      
+      </div>
+    </div>
   </div>
   <div ng-switch-when="year">
     <table>
