@@ -15,7 +15,7 @@
         </tr>
       </thead>
     </table>
-    <div class="todo_container row">
+    <div class="todo_container row" episodes-grid>
       <div ng-repeat="week in weeks">
         <div ng-repeat="day in week" class="day" ng-if="hasTodoEvent(day)">
           <a class="todo_event" ng-repeat="event in getTodoEvents(day)|filter:filterSpecials" ui-sref="episode({episode_id: event.episode.ID_Episode})">

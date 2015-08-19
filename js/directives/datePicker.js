@@ -8,7 +8,6 @@ DuckieTV
     startSunday: true
 })
 
-
 .directive('datePicker', ["datePickerConfig", "SettingsService", "$injector", "$rootScope",
     function datePickerDirective(datePickerConfig, SettingsService, $injector, $rootScope) {
         //noinspection JSUnusedLocalSymbols
@@ -390,4 +389,35 @@ DuckieTV
             }
         };
     }
-]);
+])
+
+.directive('episodesGrid', function() {
+    return {
+        restrict: 'A',
+        controllerAs: 'grid',
+        controller: function($scope, $window) {
+            var containerWidth, episodesPerRow, centeringOffset;
+            var episodeWidth = 275; // +5px padding each side 
+            var container = document.querySelector('.todo_container');
+
+            function recalculate() {
+                containerWidth = container.clientWidth; // minus 16px padding around Container
+                episodesPerRow = Math.floor(containerWidth / episodeWidth);
+                // We divide the offset by the number of episodes to get the padding for each episode
+                // to space them out evenly in the container. *2 is for the padding to be on both sides
+                //centeringOffset = (containerWidth - (episodesPerRow * episodeWidth)) / (episodesPerRow * 2);
+                centeringOffset = (containerWidth - (episodesPerRow * episodeWidth)) / 2;
+                container.style.paddingLeft = centeringOffset+'px'; 
+                console.log(containerWidth, episodesPerRow, centeringOffset, container.style.paddingLeft);
+            }
+
+            // Update offsets on Window Resize
+            angular.element($window).bind('resize', function() {
+                recalculate();
+            })
+
+            // Delay to do the initial calculations on directive load
+            setTimeout(function() { recalculate(); }, 150);
+        }
+    };
+});

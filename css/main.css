@@ -44,7 +44,7 @@ body > .container {
     padding: 20px;
     float: right;
     margin: 0;
-    -webkit-transition: padding-top 0.2s ease-in;
+    transition: padding-top 0.2s ease-in, opacity 0.2s ease-in;
 }
 body > .container.topsites {
     padding-top: 45px;
@@ -647,11 +647,20 @@ series-list > div {
     transition: width 0.2s ease-in-out, transform 0.3s ease-in;
     transform: translate3d(-100%, 0, 0);
 }
+body.serieslistActive {
+    overflow-y: hidden;
+}
+.serieslistActive > .container {
+    opacity: 0;
+}
 .serieslistActive series-list {
     background-color: rgb(20, 22, 24);
 }
 .serieslistActive series-list > div {
     transform: translate3d(0, 0, 0);
+}
+body.sidepanelActive {
+    overflow-y: hidden; 
 }
 .sidepanelActive series-list > div {
     width: calc(100% - 400px);
@@ -1347,11 +1356,16 @@ td.day {
 }
 
 [date-picker] .todo .todo_container {
+    padding-top: 8px;
+    padding-bottom: 8px;
     margin: 0;
 }
 [date-picker] .todo a.todo_event {
     float: left;
-    margin: 5px;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    margin-left: 5px;
+    margin-right: 5px;
     width: auto;
     height: auto;
 }
@@ -1691,8 +1705,8 @@ sidepanel .rightpanel h2 {
 }
 
 .episode-img {
-    height: 155px;
-    width: 275px;
+    height: 149px;
+    width: 265px;
     background-size: 100% 100%;
 }
 .episode-img.large {
@@ -2104,6 +2118,7 @@ sidepanel .seasons serieheader {
     display: block;
     margin-top: 5px;
     margin-bottom: 0;
+    transition: padding 0.2s ease-in;
 }
 
 .smallsettingicon {
