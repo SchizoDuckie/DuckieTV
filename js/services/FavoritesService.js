@@ -54,7 +54,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                     };
                 }).join('|');
             }
-            if (data.added == null) {
+            if (serie.added == null) {
                 data.added = new Date().getTime();
             }
             for (var i in data) {
