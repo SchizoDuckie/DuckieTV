@@ -21,14 +21,12 @@ DuckieTV
                 if (SettingsService.get('torrenting.autostop_all')) {
                     // all torrents  in the torrent-client are allowed to be stopped. Stopping torrent.
                     console.info('Torrent finished. Auto-stopping', torrent.name || torrent.hash);
-                    TorrentHashListService.markDownloaded(torrent.hash);
                     torrent.stop();
                 } else {
                     // only torrents launched by DuckieTV in the torrent-client are allowed to be stopped                   
                     if (TorrentHashListService.hasHash(torrent.hash)) {
                         // this torrent was launched by DuckieTV. Stopping torrent.
                         console.info('Torrent finished. Auto-stopping', torrent.name || torrent.hash);
-                        TorrentHashListService.markDownloaded(torrent.hash);
                         torrent.stop();
                     }
                 }
@@ -37,14 +35,14 @@ DuckieTV
 
         /**
          * A check that runs on each torrentdata update to see if the progress is 100% and the torrent hasn't been marked
-         * as downlaoded yet.
+         * as downloaded yet.
          * If not marked, updates the database and the torrenthashlist service so that this doesn't have to happen again
          */
         function isDownloaded(torrent) {
-            if (torrent.getProgress() == 100 && !TorrentHashListService.isDownloaded(torrent.hash)) {
-                console.info('Torrent finished. marking as downloaded', torrent.name || torrent.hash);
-                var filter = ['downloaded != 1 and magnetHash = "' + torrent.hash.toUpperCase() + '"'];
-                CRUD.FindOne('Episode', filter).then(function(episode) {
+            if (!TorrentHashListService.isDownloaded(torrent.hash) && torrent.getProgress() == 100) {
+                CRUD.FindOne('Episode', {
+                    magnetHash: torrent.hash
+                }).then(function(episode) {
                     TorrentHashListService.markDownloaded(torrent.hash);
                     if (!episode) return;
                     episode.markDownloaded().then(function(result) {
