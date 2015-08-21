@@ -1296,7 +1296,7 @@ td.day {
 [date-picker] a.markdaywatched {
     font-size: 12px;
     position: absolute;
-    bottom: -18px;
+    bottom: -39px;
     left: 55%;
     margin-top: 0px;
     width: 45%;
@@ -1306,7 +1306,7 @@ td.day {
     text-decoration: none;
     font-style: normal;
     padding: 0px;
-    height: 20px;
+    height: 40px;
     line-height: 19px;
     color: rgba(255,255,255,0.8);
     background-color: rgba(25, 25, 25, 0.9);
@@ -1327,7 +1327,7 @@ td.day {
 [date-picker] a.markdaydownloaded {
     font-size: 12px;
     position: absolute;
-    bottom: -18px;
+    bottom: -39px;
     left: 0px;
     margin-top: 0px;
     width: 55%;
@@ -1337,7 +1337,7 @@ td.day {
     text-decoration: none;
     font-style: normal;
     padding: 0px;
-    height: 20px;
+    height: 40px;
     line-height: 19px;
     color: rgba(255,255,255,0.8);
     background-color: rgba(25, 25, 25, 0.9);
