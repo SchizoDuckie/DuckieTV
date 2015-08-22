@@ -78,6 +78,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             this.infohashCache = {};
             BaseHTTPApi.call(this);
         };
+
         TixatiAPI.extends(BaseHTTPApi, {
             portscan: function() {
                 return this.request('portscan').then(function(result) {
@@ -187,7 +188,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 fd.append('metafile', data, filename + '.torrent');
                 fd.append('addmetafile', 'Add');
 
-                return $http.post(this.getUrl('addmagnet'), fd, {
+                return this.request('addmagnet', {}, fd, {
                     transformRequest: angular.identity,
                     headers: {
                         'Content-Type': undefined
@@ -224,12 +225,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             },
 
             execute: function(guid, formData) {
-                return $http.post(this.getUrl('torrentcontrol', guid), formData, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                });
+                return this.request('torrentcontrol', guid, formData);
             }
 
         });
@@ -244,6 +240,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
 
         var Tixati = function() {
             BaseTorrentClient.call(this);
+
         };
         Tixati.extends(BaseTorrentClient);
 
@@ -256,7 +253,8 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             server: 'tixati.server',
             port: 'tixati.port',
             username: 'tixati.username',
-            password: 'tixati.password'
+            password: 'tixati.password',
+            use_auth: 'tixati.use_auth'
         });
         service.setEndpoints({
             torrents: '/transfers',

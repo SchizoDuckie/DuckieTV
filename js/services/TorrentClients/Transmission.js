@@ -86,7 +86,7 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                 }
 
                 if (this.config.use_auth) {
-                    headers.Authorization = 'Basic ' + Base64.encode(this.config.username + ':' + this.config.password);
+                    headers.Authorization = [this.config.username, this.config.password];
                 }
 
                 return $http.post(this.getUrl('rpc'), request, {

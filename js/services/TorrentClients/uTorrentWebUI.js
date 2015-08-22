@@ -146,7 +146,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                     'Content-Type': 'application/x-www-form-urlencoded',
                 };
                 if (this.config.use_auth) {
-                    headers.Authorization = 'Basic ' + Base64.encode(this.config.username + ':' + this.config.password);
+                    headers.Authorization = [this.config.username, this.config.password];
                 }
                 return $http.post(this.getUrl('addmagnet', magnetHash), {
                     headers: headers
@@ -158,7 +158,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                     'Content-Type': undefined
                 };
                 if (this.config.use_auth) {
-                    headers.Authorization = 'Basic ' + Base64.encode(this.config.username + ':' + this.config.password);
+                    headers.Authorization = [this.config.username, this.config.password];
                 }
                 var fd = new FormData();
                 fd.append('torrent_file', data, filename + '.torrent');
@@ -202,7 +202,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                     'Content-Type': 'application/x-www-form-urlencoded',
                 };
                 if (this.config.use_auth) {
-                    headers.Authorization = 'Basic ' + Base64.encode(this.config.username + ':' + this.config.password);
+                    headers.Authorization = [this.config.username, this.config.password];
                 }
                 return $http.post(this.getUrl(method, id), {
                     headers: headers

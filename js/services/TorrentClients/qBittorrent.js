@@ -119,7 +119,7 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
                     'Content-Type': undefined
                 };
                 if (this.config.use_auth) {
-                    headers.Authorization = 'Basic ' + Base64.encode(this.config.username + ':' + this.config.password);
+                    headers.Authorization = [this.config.username, this.config.password];
                 }
                 var fd = new FormData();
                 fd.append('torrents', data, filename + '.torrent');
