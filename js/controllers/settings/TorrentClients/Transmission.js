@@ -58,7 +58,7 @@ DuckieTV.controller("tbtCtrl", ["Transmission", "SettingsService", "$filter",
             Transmission.connect().then(function(connected) {
                 console.info("Transmission connected! (save settings)", connected);
                 Transmission.saveConfig();
-                window.location.reload();
+                //window.location.reload();
             }, function(error) {
                 console.error("Transmission connect error!", error);
             });

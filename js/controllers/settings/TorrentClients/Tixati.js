@@ -49,7 +49,7 @@ DuckieTV.controller("tixatiCtrl", ["Tixati", "SettingsService", "$filter",
             Tixati.connect().then(function(connected) {
                 console.info("Tixati connected! (save settings)", connected);
                 Tixati.saveConfig();
-                window.location.reload();
+                //window.location.reload();
             }, function(error) {
                 console.error("Tixati connect error!", error);
             });

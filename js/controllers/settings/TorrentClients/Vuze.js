@@ -58,7 +58,7 @@ DuckieTV.controller("vuzeCtrl", ["Vuze", "SettingsService", "$filter",
             Vuze.connect().then(function(connected) {
                 console.info("Vuze connected! (save settings)", connected);
                 Vuze.saveConfig();
-                window.location.reload();
+                //window.location.reload();
             }, function(error) {
                 console.error("Vuze connect error!", error);
             });
