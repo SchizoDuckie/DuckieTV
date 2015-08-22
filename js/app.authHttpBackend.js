@@ -57,7 +57,7 @@ DuckieTV.config(function($provide) {
 
                         var xhr = createXhr();
 
-                        if (('Authorization' in headers) && headers.Authorization.length == 2) {
+                        if (isDefined(headers) && isDefined(headers.Authorization) && headers.Authorization.length == 2) {
                             xhr.open(method, url, true, headers.Authorization[0], headers.Authorization[1]);
                             delete headers.Authorization;
                         } else {
