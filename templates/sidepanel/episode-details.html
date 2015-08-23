@@ -11,7 +11,7 @@
         <tr>
           <td colspan="2">
             <a ui-sref="serie.details({id:sidepanel.serie.ID_Serie})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="SIDEPANEL/EPISODE-DETAILS/series-details/btn"></strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/series-details/lbl"></strong>
             </a>
           </td>
         </tr>
@@ -23,7 +23,7 @@
           </td>
           <td>
             <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="SIDEPANEL/EPISODE-DETAILS/episodes/btn"></strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/episodes/lbl"></strong>
             </a>
           </td>
         </tr>
@@ -50,12 +50,12 @@
                   </torrent-dialog>
                 </td>
                 <td style="padding-right:6px">
-                  <a class="auto-download" ng-click="sidepanel.autoDownload(episode)" tooltip="{{'SIDEPANEL/EPISODE-DETAILS/auto-download/tooltip'|translate}}">
+                  <a class="auto-download" ng-click="sidepanel.autoDownload(episode)" tooltip="{{'COMMON/auto-download/lbl'|translate}}">
                     <i class="glyphicon glyphicon-cloud-download"></i><strong style="display:flex">&nbsp;</strong>
                   </a>
                 </td>
                 <td style="padding-right:15px">
-                  <a class="torrent-settings" style="text-decoration:none" ng-click="sidepanel.torrentSettings(serie)" tooltip="{{'SIDEPANEL/EPISODE-DETAILS/torrent-settings/tooltip'|translate}}{{sidepanel.serie.name}}">
+                  <a class="torrent-settings" style="text-decoration:none" ng-click="sidepanel.torrentSettings(serie)" tooltip="{{'COMMON/torrent-settings/lbl'|translate}}{{sidepanel.serie.name}}">
                     <i class="glyphicon glyphicon-cog"></i><strong style="display:flex">&nbsp;</strong>
                   </a>
                 </td>

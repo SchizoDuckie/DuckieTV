@@ -1,7 +1,7 @@
 <div class="episodes">
   <h2 style='color:white'>{{::season.getPageHeader(season.season)}}</h2>
   <p style="text-align:justify">{{::season.season.overview}}</p>
-  <strong translate-once="SIDEPANEL/EPISODES/episodes/lbl"></strong>
+  <strong translate-once="COMMON/episodes/lbl"></strong>
   <table class="table table-condensed light episodelist" style='margin:10px 0 10px 0; background-color:transparent' ng-class="{'hover':getSetting('torrenting.enabled')}">
     <tbody ng-if="!season.episodes || season.episodes.length == 0">
       <tr>
@@ -21,7 +21,7 @@
 
           <div ng-show="episode.hasAired() && getSetting('torrenting.enabled')" class="torrentctrls">
             <torrent-dialog episode="episode" serie="sidepanel.serie"></torrent-dialog>
-            <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'SIDEPANEL/EPISODES/auto-download/tooltip'|translate}}">
+            <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'COMMON/auto-download/lbl'|translate}}">
               <i class="glyphicon glyphicon-cloud-download"></i>
             </a>
           </div>

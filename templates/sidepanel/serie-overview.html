@@ -35,7 +35,7 @@
       <tr>
         <td colspan="2">
             <a ui-sref="serie.details()">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="SIDEPANEL/SERIE-OVERVIEW/series-details/lbl"></strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/series-details/lbl"></strong>
             </a>
         </td>
       </tr>
@@ -47,7 +47,7 @@
         </td>
         <td>
             <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="SIDEPANEL/SERIE-OVERVIEW/episodes/lbl"></strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/episodes/lbl"></strong>
             </a>
         </td>
       </tr>
@@ -61,7 +61,7 @@
       <tr ng-show="getSetting('torrenting.enabled')">
         <td colspan="2">
            <a ng-click="sidepanel.serie.toggleAutoDownload()">
-              <i class="glyphicon glyphicon-cloud-download" ng-style="{ color: sidepanel.serie.autoDownload == 1 ? 'green' : 'white' }"></i><strong translate-once="SIDEPANEL/SERIE-OVERVIEW/auto-download/btn"></strong>: 
+              <i class="glyphicon glyphicon-cloud-download" ng-style="{ color: sidepanel.serie.autoDownload == 1 ? 'green' : 'white' }"></i><strong translate-once="COMMON/auto-download/lbl"></strong>: 
               <strong translate-once="COMMON/enabled/lbl" ng-if="sidepanel.serie.autoDownload == 1"></strong>
               <strong translate-once="COMMON/disabled/lbl" ng-if="sidepanel.serie.autoDownload == 0"></strong>
             </a>
@@ -92,7 +92,7 @@
         <td colspan="2">
             <a class="torrent-settings" style="text-decoration:none" ng-click="sidepanel.torrentSettings(serie)">
               <i class="glyphicon glyphicon-cog"></i>
-              <strong translate-once="SIDEPANEL/EPISODE-DETAILS/torrent-settings/tooltip"></strong><strong>{{::sidepanel.serie.name}}</strong>
+              <strong translate-once="COMMON/torrent-settings/lbl"></strong><strong>{{::sidepanel.serie.name}}</strong>
             </a>
           </td>
       </tr>
