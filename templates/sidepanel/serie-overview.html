@@ -88,6 +88,14 @@
           </a>
         </td>
       </tr>
+      <tr ng-if="getSetting('torrenting.enabled')">
+        <td colspan="2">
+            <a class="torrent-settings" style="text-decoration:none" ng-click="sidepanel.torrentSettings(serie)">
+              <i class="glyphicon glyphicon-cog"></i>
+              <strong translate-once="SIDEPANEL/EPISODE-DETAILS/torrent-settings/tooltip"></strong><strong>{{::sidepanel.serie.name}}</strong>
+            </a>
+          </td>
+      </tr>
       <tr>
         <td colspan="2">
           <a ng-click="sidepanel.removeFromFavorites(sidepanel.serie)" style="background-color:rgba(250,55,55,0.1)">
