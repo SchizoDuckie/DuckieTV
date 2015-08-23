@@ -11,11 +11,20 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
     };
 
     this.torrentSettings = function() {
-        dialogs.create('templates/settings/serieTorrentSettings.html', 'serieTorrentSettingsCtrl', {
+        var d = dialogs.create('templates/settings/serieTorrentSettings.html', 'serieTorrentSettingsCtrl', {
             serie: self.serie
         }, {
             bindToController: true,
             size: 'xs'
+        });
+
+        d.result.then(function() {
+            console.log('Success');
+            d = undefined;
+        }, function() {
+            console.log('Cancelled');
+            d = undefined;
+
         });
     };
 
