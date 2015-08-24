@@ -19,10 +19,10 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
         });
 
         d.result.then(function() {
-            console.log('Success');
+            //console.debug('Success');
             d = undefined;
         }, function() {
-            console.log('Cancelled');
+            //console.debug('Cancelled');
             d = undefined;
 
         });
