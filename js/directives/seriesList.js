@@ -17,6 +17,9 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 document.querySelector('#actionbar_favorites').classList.remove('active');
                 document.querySelector('#actionbar_favorites').classList.remove('spin');
                 document.body.classList.remove("serieslistActive");
+                setTimeout(function() {
+                    $state.go('calendar');
+                }, 500);
             },
             toggle: function() {
                 if (!service.state.isShowing) {
@@ -102,7 +105,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
 
                 if (maxPosters != 0) {
-                    el.style.height = (Math.ceil(maxPosters / postersPerRow) * posterHeight)+'px';
+                    el.style.height = (Math.ceil(maxPosters / postersPerRow) * posterHeight) + 'px';
                 }
                 $scope.$applyAsync();
                 scrollToActive();
