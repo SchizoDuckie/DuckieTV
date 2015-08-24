@@ -6,4 +6,4 @@ git pull origin gh-pages
 git add .
 git commit -m "XEM Cache update"
 echo "pushing to DuckieTV/xem-cache:gh-pages"
-git push duckietv master:gh-pages
+git push duckietv master:gh-pages -f
