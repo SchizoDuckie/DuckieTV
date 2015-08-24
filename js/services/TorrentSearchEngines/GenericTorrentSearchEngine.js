@@ -90,8 +90,10 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             } else {
                 var magnet = getPropertyForSelector(results[i], selectors.magneturl);
                 out.magneturl = magnet;
-
-                var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
+                var magnetHash = null;
+                if (out.magneturl != null) {
+                    magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
+                }
                 if (magnetHash && magnetHash.length) {
                     out.torrent = 'http://torcache.gs/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                     output.push(out);
