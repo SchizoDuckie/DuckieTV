@@ -1,4 +1,4 @@
-DuckieTV.controller('serieTorrentSettingsCtrl', function($scope, $modalInstance, FavoritesService, data) {
+DuckieTV.controller('serieTorrentSettingsCtrl', function($scope, $filter, $modalInstance, FavoritesService, data) {
     console.info("Reinitcontroller!");
     $scope.model = FavoritesService.getById(data.serie.TVDB_ID); // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)
     $scope.model.autoDownload = $scope.model.autoDownload == 1;
@@ -6,8 +6,8 @@ DuckieTV.controller('serieTorrentSettingsCtrl', function($scope, $modalInstance,
         key: "customSearchString",
         type: "input",
         templateOptions: {
-            label: "Custom Search String",
-            placeholder: "String to append to {serie name} {season/episode} (like your favorite release group)",
+            label: $filter('translate')('SERIETORRENTSETTINGSCTRLjs/custom-search/lbl'),
+            placeholder: $filter('translate')('SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder'),
             type: "text",
         }
     }, {
@@ -17,7 +17,7 @@ DuckieTV.controller('serieTorrentSettingsCtrl', function($scope, $modalInstance,
             className: 'inline-checkbox',
             type: "input",
             templateOptions: {
-                label: "Auto download this show",
+                label: $filter('translate')('SERIETORRENTSETTINGSCTRLjs/auto-download/lbl'),
                 type: "checkbox"
             }
         }]

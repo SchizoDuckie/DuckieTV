@@ -1,5 +1,5 @@
 <div class="torrent-details">
-<h1>Torrent Details</h1>
+<h1 translate-once="COMMON/torrent-details/lbl"></h1>
 
 <h2>{{vm.torrent.getName()}}</h2>
 
@@ -76,7 +76,7 @@
     <p ng-repeat="file in vm.torrent.files track by $index" class="torrentfile" style="clear: both;
   float: left; font-family:courier; word-break: break-all;"> 
   {{file.name}}
-      <subtitle-dialog ng-if="file.isMovie" filename="file.searchFileName" tooltip-append-to-body="true">Find a subtitle</subtitle-dialog>
+      <subtitle-dialog ng-if="file.isMovie" filename="file.searchFileName" tooltip-append-to-body="true" translate-once="COMMON/find-subtitle/lbl"></subtitle-dialog>
     </p>
   </div>
    

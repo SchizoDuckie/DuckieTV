@@ -52,7 +52,7 @@
       <form name="p">
         <span translate-once="SETTINGS/TORRENT/autodownload-period/form"></span> <input type='number' name="period" ng-model="adPeriod" min="1" max="21" />
         <a class="btn btn-success" ng-click="saveADPeriod(adPeriod)" ng-disabled="p.period.$error.number || p.period.$error.min || p.period.$error.max" style="float:right; margin-top:-10px;">
-          <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="SETTINGS/TORRENT/autodownload-save/btn"></span>
+          <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
         </a>
       </form>
       <span class="alert alert-danger" ng-show="p.period.$error.number" translate-once="SETTINGS/TORRENT/autodownload-only-numbers/alert"></span>
@@ -66,7 +66,7 @@
       <form name="s">
         <span translate-once="SETTINGS/TORRENT/autodownload-seeders/form"></span> <input type='number'name="seeders" ng-model="adMinSeeders" min="0" max="3000" />
         <a class="btn btn-success" ng-click="saveADMinSeeders(adMinSeeders)" ng-disabled="s.seeders.$error.number || s.seeders.$error.min || s.seeders.$error.max"  style="float:right; margin-top:-10px;">
-          <i class="glyphicon glyphicon-floppy-save"></i>&nbsp; <span translate-once="SETTINGS/TORRENT/autodownload-save/btn"></span>
+          <i class="glyphicon glyphicon-floppy-save"></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
         </a>
       </form>
       <span class="alert alert-danger" ng-show="s.seeders.$error.number" translate-once="SETTINGS/TORRENT/autodownload-only-numbers/alert"></span>
