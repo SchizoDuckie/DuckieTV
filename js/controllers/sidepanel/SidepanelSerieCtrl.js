@@ -92,10 +92,10 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
         });
 
         d.result.then(function() {
-            console.log('Success');
+            //console.debug('Success');
             d = undefined;
         }, function() {
-            console.log('Cancelled');
+            //console.debug('Cancelled');
             d = undefined;
 
         });
@@ -117,7 +117,7 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
             $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-question/desc2')
         );
         dlg.result.then(function(btn) {
-            console.log("Removing serie '" + serie.name + "' from favorites!", serie);
+            console.info("Removing serie '" + serie.name + "' from favorites!", serie);
             FavoritesService.remove(serie);
             SidePanelState.hide();
         }, function(btn) {
