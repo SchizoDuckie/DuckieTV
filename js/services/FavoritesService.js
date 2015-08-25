@@ -51,7 +51,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                         return actor.person.name + ' (' + actor.character + ')';
                     } else {
                         return actor.person.name;
-                    };
+                    }
                 }).join('|');
             }
             if (serie.added == null) {
@@ -84,11 +84,11 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             data.firstaired = new Date(data.first_aired).getTime();
             data.firstaired_iso = data.first_aired;
             data.filename = (('screenshot' in data.images) && ('thumb' in data.images.screenshot)) ? data.images.screenshot.thumb : '';
-            if  (data.firstaired === 0 || data.firstaired > new Date().getTime()) {
+            if (data.firstaired === 0 || data.firstaired > new Date().getTime()) {
                 // if the episode has not yet aired, make sure the download and watched status are zeroed. #491
                 data.downloaded = 0;
                 data.watched = 0;
-                data.watchedAt = null;                
+                data.watchedAt = null;
             };
 
             for (var i in data) {
@@ -151,7 +151,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                     SE.seasonnumber = season.number;
                     SE.ID_Serie = serie.getID();
                     SE.overview = season.overview;
-                    if (!SE.ratingcount || SE.ratingcount + 25 > season.votes) {
+                    if (service.downloadRatings && (!SE.ratingcount || SE.ratingcount + 25 > season.votes)) {
                         SE.ratings = Math.round(season.rating * 10);
                         SE.ratingcount = season.votes;
                     }
@@ -189,8 +189,8 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             errorList: {}, // holds any TVDB_ID's that had an error, used for sadface icon control
             favorites: [],
             favoriteIDs: [],
-            downloadRatings: $injector.get('SettingsService').get('download.ratings'), // SettingService download.ratings determines if Ratings are processed or discarded
-            // TraktTV: TraktTV,
+            downloadRatings: $injector.get('SettingsService').get('download.ratings'), // determines if Ratings are processed or discarded
+
             /**
              * Handles adding, deleting and updating a show to the local database.
              * Grabs the existing serie, seasons and episode from the database if they exist
@@ -252,22 +252,16 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                 });
             },
             waitForInitialization: function() {
-                p = $q.defer();
-
-                function waitForInitialize() {
-                    if (service.initialized) {
-                        p.resolve();
-                    } else {
-                        setTimeout(waitForInitialize, 50);
+                return $q(function(resolve, reject) {
+                    function waitForInitialize() {
+                        if (service.initialized) {
+                            resolve();
+                        } else {
+                            setTimeout(waitForInitialize, 50);
+                        }
                     }
-                }
-
-                if (!service.initialized) {
-                    setTimeout(waitForInitialize, 50);
-                } else {
-                    p.resolve();
-                }
-                return p.promise;
+                    waitForInitialize();
+                });
             },
             getEpisodesForDateRange: function(start, end) {
                 return service.waitForInitialization().then(function() {
@@ -445,5 +439,5 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
         //console.log("Favoritesservice refreshed!");
         FavoritesService.loadRandomBackground();
         FavoritesService.initialized = true;
-    })
+    });
 });
