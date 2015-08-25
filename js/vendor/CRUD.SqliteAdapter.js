@@ -57,15 +57,16 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                 indexes = {};
             // fetch existing tables
             return db.execute("select type,name,tbl_name from sqlite_master").then(function(resultset) {
-                while (r = resultset.next()) {
-                    if (r.row.name.indexOf('sqlite_autoindex') > -1 || r.row.name == '__WebKitDatabaseInfoTable__') continue;
-                    if (r.row.type == 'table') {
-                        tables.push(r.row.tbl_name);
-                    } else if (r.row.type == 'index') {
-                        if (!(r.row.tbl_name in indexes)) {
-                            indexes[r.row.tbl_name] = [];
+                for (var i = 0; i < resultset.rs.rows.length; i++) {
+                    var row = resultset.rs.rows.item(i);
+                    if (row.name.indexOf('sqlite_autoindex') > -1 || row.name == '__WebKitDatabaseInfoTable__') continue;
+                    if (row.type == 'table') {
+                        tables.push(row.tbl_name);
+                    } else if (row.type == 'index') {
+                        if (!(row.tbl_name in indexes)) {
+                            indexes[row.tbl_name] = [];
                         }
-                        indexes[r.row.tbl_name].push(r.row.name);
+                        indexes[row.tbl_name].push(row.name);
                     }
                 }
                 return;
@@ -175,15 +176,16 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         return new Promise(function(resolve, fail) {
             return delayUntilSetupDone(function() {
                 db.execute(query.query, query.parameters).then(function(resultset) {
-                    var row, output = [];
-                    while (row = resultset.next()) {
-                        output.push(row.row);
-                    }
-                    resolve(output);
-                }, function(resultSet, sqlError) {
-                    CRUD.log('SQL Error in FIND : ', sqlError, resultSet, query);
-                    fail();
-                });
+                        var output = [];
+                        for (var i = 0; i < resultset.rs.rows.length; i++) {
+                            output.push(resultset.rs.rows.item(i));
+                        }
+                        resolve(output);
+                    },
+                    function(resultSet, sqlError) {
+                        CRUD.log('SQL Error in FIND : ', sqlError, resultSet, query);
+                        fail();
+                    });
             });
         });
     };
@@ -289,35 +291,47 @@ CRUD.Database = function(name, options) {
         return db;
     };
 
+    var queryQueue = [];
+
     /** 
      * Execute a db query and promise a resultset.
+     * Queries are queue up based upon if they are insert or select queries.
+     * selects get highest priority to not lock the UI when batch inserts or updates
+     * are happening.
      */
     this.execute = function(sql, valueBindings) {
         if (!db) return;
-        if (!db.transaction) {
-
-        }
         return new Promise(function(resolve, fail) {
-            db.transaction(function(transaction) {
-                CRUD.log("execing sql: ", sql, valueBindings);
-
-                function sqlOK(transaction, rs) {
-                    resolve(new CRUD.Database.ResultSet(rs));
-                }
-
-                function sqlFail(transaction, error) {
-                    if (sql && valueBindings) {
-                        CRUD.log("SQL FAIL!!", error, transaction, [sql.split(' VALUES (')[0], (s = JSON.stringify(valueBindings)).substr(1, s.length - 2)].join(' VALUES (') + ')');
-                    } else {
-                        CRUD.log("SQL FAIL!!", error, transaction);
-                    }
-                    fail(error, transaction);
-                }
-
-                transaction.executeSql(sql, valueBindings, sqlOK, sqlFail);
+            queryQueue[sql.indexOf('SELECT') === 0 ? 'unshift' : 'push']({
+                sql: sql,
+                valueBindings: valueBindings,
+                resolve: resolve,
+                fail: fail
             });
+            setTimeout(processQueue, 10);
         });
     };
+
+    function processQueue() {
+        if (queryQueue.length > 0) {
+            db.transaction(function(transaction) {
+                var localQueue = queryQueue.splice(0, 25);
+                if (localQueue.length === 0) return;
+                localQueue.map(function(query) {
+
+                    function sqlOK(transaction, rs) {
+                        query.resolve(new CRUD.Database.ResultSet(rs));
+                    }
+
+                    function sqlFail(transaction, error) {
+                        CRUD.log("SQL FAIL!!", error, transaction);
+                        query.fail(error, transaction);
+                    }
+                    transaction.executeSql(query.sql, query.valueBindings, sqlOK, sqlFail);
+                });
+            });
+        }
+    }
 
     this.connect = function() {
         return new Promise(function(resolve, fail) {
