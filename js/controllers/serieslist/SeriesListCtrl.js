@@ -137,10 +137,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                         FavoritesService.added(serie.tvdb_id);
                         FavoritesService.addError(serie.tvdb_id, err);
                     });
-                } else {
-                    $state.go('serie', {
-                        id: FavoritesService.getById(serie.tvdb_id).ID_Serie
-                    });
                 }
             }
         };
