@@ -6,8 +6,8 @@
  * preloads new image
  * Cross-fades between current loaded image and the new image
  */
-DuckieTV.directive('backgroundRotator', ["$rootScope", "$document",
-    function($rootScope, $document) {
+DuckieTV.directive('backgroundRotator', ["$rootScope",
+    function($rootScope) {
         return {
             restrict: 'E',
             scope: {
@@ -23,7 +23,7 @@ DuckieTV.directive('backgroundRotator', ["$rootScope", "$document",
                 var cooldown = false;
 
                 load = function(url) {
-                    var img = $document[0].createElement('img');
+                    var img = document.createElement('img');
                     img.onload = function() {
                         var target = $scope.bg1on ? 'bg2' : 'bg1';
                         $scope[target] = img.src;
@@ -38,7 +38,7 @@ DuckieTV.directive('backgroundRotator', ["$rootScope", "$document",
                     if (!cooldown) {
                         load(url);
                         cooldown = true;
-                        setTimeout(function() { cooldown = false }, 1000);
+                        setTimeout(function() { cooldown = false }, 1300);
                     }
                 });
             }
