@@ -6,7 +6,7 @@
  */
 DuckieTV.directive('focusWatch', function() {
     return {
-        restrict: 'A',
+        restrict: 'AC',
         scope: '=',
         link: function($scope, element) {
             if (element[0].getAttribute('focus-watch')) {

@@ -1,0 +1,13 @@
+<div class="fastsearch">
+	
+	<h1>QuickSearch</h1>
+	<form ng-submit="save()" novalidate id="fastSearchForm">
+		<formly-form model="model" fields="fields"></formly-form>
+	</form>
+
+	<div>
+		<h1>Series</h1>
+		<serieheader ng-repeat="serie in searchResults.series |limitTo: 4" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1"></serieheader>
+	</div>
+
+</div>

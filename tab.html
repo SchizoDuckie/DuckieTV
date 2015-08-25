@@ -84,7 +84,9 @@
   <sidepanel>
     <div ui-view="sidePanel"></div>
   </sidepanel>
-  <query-monitor ng-class="{show: queryStats.writesQueued - queryStats.writesExecuted > 1}" />
+  <query-monitor ng-class="{show: queryStats.writesQueued - queryStats.writesExecuted > 1}"></query-monitor>
+  <fast-search></fast-search>
+
   <img class='printlogo' src='img/icon64.png'>
 
 
@@ -169,6 +171,7 @@
   <script src="./js/directives/datePicker.js"></script>
   <script src="./js/directives/episodeWatched.js"></script>
   <script src="./js/directives/episodeDownloaded.js"></script>
+  <script src="./js/directives/fastSearch.js"></script>
   <script src="./js/directives/focusWatch.js"></script>
   <script src="./js/directives/lazyBackground.js"></script>
   <script src="./js/directives/mouseWheelDown.js"></script>
