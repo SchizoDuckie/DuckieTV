@@ -42,8 +42,6 @@ DuckieTV.factory('BaseHTTPApi', ["$http",
                     Authorization: [this.config.username, this.config.password]
                 }
             } : {};
-            console.log(httpOptions);
-
             return $http.get(url, httpOptions);
         };
 
