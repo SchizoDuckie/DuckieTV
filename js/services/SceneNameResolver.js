@@ -42,24 +42,25 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
             },
 
             initialize: function() {
-                $http.get('SceneNameExceptions.json').then(function(result) {
-                    exceptions = result.data;
-                    return exceptions;
-                });
-
-                $http.get('SceneDateExceptions.json').then(function(result) {
-                    episodesWithDateFormat = JSON.parse(result.data.split('*/')[1]);
-                    return episodesWithDateFormat;
-                });
-            },
-            /**
-             * @todo: fetch updates, store in localstorage, make initialize check localstorage.
-             */
-            updateCheck: function() {
-                //
+                var lastFetched = ('snr.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('snr.lastFetched'))) : new Date();
+                if (('snr.name-exceptions' in localStorage) && lastFetched.getTime() + 86400000 > new Date().getTime()) {
+                    exceptions = JSON.parse(localStorage.getItem('snr.name-exceptions'));
+                    episodesWithDateFormat = JSON.parse(localStorage.getItem('snr.date-exceptions'));
+                    console.info("Fetched SNR name and date exceptions from localStorage.");
+                } else {
+                    $http.get('https://duckietv.github.io/SceneNameExceptions/SceneNameExceptions.json').then(function(response) {
+                        exception = response.data;
+                        localStorage.setItem('snr.name-exceptions', JSON.stringify(exception));
+                    });
+                    $http.get('https://duckietv.github.io/SceneNameExceptions/SceneDateExceptions.json').then(function(response) {
+                        episodesWithDateFormat = response.data;
+                        localStorage.setItem('snr.date-exceptions', JSON.stringify(episodesWithDateFormat));
+                        localStorage.setItem('snr.lastFetched', new Date().getTime());
+                    });
+                    console.info("Updated localStorage with SNR name and date exceptions.");
+                }
             }
         };
-
     }
 ])
 
