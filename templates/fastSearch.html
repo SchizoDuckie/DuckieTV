@@ -5,9 +5,37 @@
 		<formly-form model="model" fields="fields"></formly-form>
 	</form>
 
-	<div>
-		<h1>Series</h1>
-		<serieheader ng-repeat="serie in searchResults.series |limitTo: 4" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1"></serieheader>
+	<div class="series miniposter" ng-if="searchResults.series.length > 0">
+		<h3>Series</h3>
+		<serieheader ng-repeat="serie in searchResults.series |limitTo: 4" class="small" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1"></serieheader>
+	</div>
+
+	<div class="traktSeries miniposter" ng-if="searchResults.traktSeries.length > 0">
+		<h3>Series not in your library (click to add)</h3>
+		<serieheader ng-repeat="serie in searchResults.traktSeries | limitTo: 4" class="small" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1"></serieheader>
+	</div>
+
+	<div class="episodes" ng-if="searchResults.episodes.length > 0">
+		<h3>Episodes</h3>
+		<table style='width:100%'>
+			<tr ng-repeat="episode in searchResults.episodes | limitTo: 10">
+				<td>{{episode.getFormattedEpisode()}}</td>
+				<td>{{getSerie(episode).name}}</td>
+				<td>{{episode.episodename}}</td>
+				<td>{{episode.firstaired |date:'short'}}</td>
+				<td>
+				<div ng-show="episode.hasAired() && getSetting('torrenting.enabled')">
+           			 <torrent-dialog episode="episode" serie="getSerie(episode)"></torrent-dialog>
+            		 <a class="auto-download" ng-click="fastSearch.autoDownload(sidepanel.serie, episode)" tooltip="{{'COMMON/auto-download/lbl'|translate}}"><i class="glyphicon glyphicon-cloud-download"></i>
+            		</a>
+            	</div>
+			</tr>
+		</table>
+		</div>
+	</div>
+
+	<div class="torrents" ng-if="searchResults.torrents.length > 0">
+		<h1>Torrents</h1>
 	</div>
 
 </div>

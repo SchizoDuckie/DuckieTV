@@ -34,8 +34,13 @@
 }
 
 .modal-content strong {
-    color: yellow;
+    color: white;
 }
+
+.modal-content .tooltip strong {
+    color:black;
+}
+
 
 .modal-content h1 {
     color:white;
