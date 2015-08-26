@@ -41,8 +41,8 @@ Screenshots:
 **Add your favorite shows by selecting them off TraktTV's Trending Shows list, or search manually**
 ![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/dybdlli.png)
 
-**Navigate to any of your shows easily by opening your "local library" panel**
-!['local Library'](http://i.imgur.com/Y01x6aA.png)
+**Navigate to any of your shows easily by opening your "favorites" panel**
+!['favorites'](http://i.imgur.com/Y01x6aA.png)
 
 **View series, season and episode details about your shows**
 ![View details](http://i.imgur.com/s1HM8aE.png)
@@ -50,7 +50,7 @@ Screenshots:
 **Track and mark which shows you have downloaded, and which ones you have watched.**
 ![Mark episodes as downloaded and watched](http://i.imgur.com/nygb2WR.png)
 
-**Control various settings to adjust DuckieTV to your needs, translated into your choice of 12 languages**
+**Control various settings to adjust DuckieTV to your needs, translated into your choice of 14 languages**
 ![Settings](http://i.imgur.com/uO2YGg8.png)
 
 **You can either completely turn off Torrent integration or tune it to your preference**
@@ -59,13 +59,13 @@ Screenshots:
 **Instant access to Torrent Client features from the calendar**
 ![Stream with uTorrent player](http://i.imgur.com/DWd6MXL.png)
 
-**DuckieTorrent Torrent clients built-in (&micro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission)**
-![DuckieTorrent uTorrent integration](http://i.imgur.com/U2I4VOA.png)
+**DuckieTorrent Torrent clients built-in (&micro;Torrent/BitTorrent, Deluge, qBittorrent, Tixati, Transmission, Vuze)**
+![DuckieTorrent Torrent integration](http://i.imgur.com/U2I4VOA.png)
 
 
 Changelog: 
 ==========
-* v1.1.3 : Romanian translations by honeybunny from Addic7ed
+* v1.2.0 : Romanian translations by honeybunny from Addic7ed
 * v1.1.2 : • Fixed v1.1.0 and 1.1.1 build that missed important dependencies. sorry for that. :( • Translations: Italian (lamaresh), German (stormfighter), Portuguese (matigonkas) • Create a settings flag to run auto-stop for torrents not initiated by DuckieTV • Added Vuze, uTorrent WEBUI, and fixed qBittorrent 3.2.0 support. • Made it possible for all torrent clients to upload and launch torrent files to a remote machine. • use mouse-wheel on calendar header to scroll months • Created a settings flag to ignore and hide all ratings (to speed up the daily updates) • Fixes for trakt.tv episode info that's missing important data • Distinguish series that have all episodes marked as watched • Number of unwatched episodes badge over library posters • A start on private tracker integration and allowing users to define custom torrent search engines. • Gui improvements, logos, touch-ups, moved menu items to the bottom stuff. • hopefully finally fixed time-zone time-travel bugs with air dates • Subtitle settings (configure your languages) • Fixed auto-connect logic when opening torrent client and handling re-authentication. • Show next/previous episode when available on series info page • Introduced new transitions for the series-list that should help keeping track of your position when panels resize • standalone option to minimize window to system-tray at start-up  • Enable/Disable auto-download for selected series. • You can now mark the entire series as watched. • Added Genre and Status filters to the library page.
 * v1.0.1 : Fixed a missing dependency that broke the qBittorrent and Transmission integration
 * v1.0 : Completely revamped user interface (now with 100% more sexyness) - Added support for Tixati, Transmission and qBittorrent torrent clients - Added Strike and RarBG torrent search providers - Added calendar grouping for netflix episode dumps - Initial version of Subtitle search available from episodes panel - Removed Chromecast integration. (Use getvideostream.com and the app!) - Autodownloads now use the configured torrent provider - Revamped the way torrent search engines are created and registered - Shows can be marked as downloaded as well as watched, and downloaded episodes can be highlighted on the calendar - Added Trakt.TV Trending category filters, caching for Trakt.TV trending list - Fixes for DuckieTV standalone: now using frame-less window, open external links in default browser, window and unminimize from tray works in Ubuntu, added upgrade check and notification, and zoom control is now 1:1 with chrome browser - Database performance improvement (including less frequent ratings updates) - added 'Watch on Netflix' button for Netflix shows - numerous other small changes and bugfixes to list 
