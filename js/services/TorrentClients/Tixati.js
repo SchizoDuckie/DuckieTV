@@ -50,7 +50,7 @@ TixatiData.extends(TorrentData, {
         if (!this.files) {
             this.files = [];
         }
-        this.getClient().getAPI().getFiles(this.guid).then(function(data) {
+        return this.getClient().getAPI().getFiles(this.guid).then(function(data) {
             this.files = data;
             return data;
         }.bind(this));
