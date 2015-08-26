@@ -22,21 +22,29 @@ DuckieTV.config(function($provide) {
         function createHttpAuthBackend($browser, createXhr, $browserDefer, callbacks, rawDocument) {
             // TODO(vojta): fix the signature
             return function(method, url, post, callback, headers, timeout, withCredentials, responseType) {
+                function noop() {}
+
+                function isPromiseLike(obj) {
+                    return obj && isFunction(obj.then);
+                }
+
+                function isDefined(value) {
+                    return typeof value !== 'undefined';
+                }
+
+                function isFunction(value) {
+                    return typeof value === 'function';
+                }
+
+                function addEventListenerFn(element, type, fn) {
+                    element.addEventListener(type, fn, false);
+                }
+
+                function removeEventListenerFn(element, type, fn) {
+                    element.removeEventListener(type, fn, false);
+                }
+
                 with(angular) {
-
-                    function noop() {}
-
-                    function isPromiseLike(obj) {
-                        return obj && isFunction(obj.then);
-                    }
-
-                    function isDefined(value) {
-                        return typeof value !== 'undefined';
-                    }
-
-                    function isFunction(value) {
-                        return typeof value === 'function';
-                    }
 
                     $browser.$$incOutstandingRequestCount();
                     url = url || $browser.url();
