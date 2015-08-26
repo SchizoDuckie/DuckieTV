@@ -28,7 +28,7 @@ TixatiData.extends(TorrentData, {
         return this.name;
     },
     getProgress: function() {
-        return parseInt(this.progres);
+        return parseInt(this.progress);
     },
     start: function() {
         var fd = new FormData();
@@ -47,6 +47,9 @@ TixatiData.extends(TorrentData, {
         return this.status.toLowerCase().indexOf('offline') == -1;
     },
     getFiles: function() {
+        if (!this.files) {
+            this.files = [];
+        }
         this.getClient().getAPI().getFiles(this.guid).then(function(data) {
             this.files = data;
         }.bind(this));
@@ -152,7 +155,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                     var scraper = new HTMLScraper(result.data);
                     var files = [];
 
-                    scaper.walkSelector('.xferstable tr:not(:first-child)', function(node) {
+                    scraper.walkSelector('.xferstable tr:not(:first-child)', function(node) {
                         var cells = node.querySelectorAll('td');
                         files.push({
                             name: cells[1].innerText.trim(),
@@ -196,7 +199,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 }).then(function(result) {
                     var currentTry = 0;
                     var maxTries = 5;
-                    // wait for qBittorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
+                    // wait for Tixati to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
                     return $q(function(resolve, reject) {
                         function verifyAdded() {
                             currentTry++;
@@ -213,7 +216,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                                     if (currentTry < maxTries) {
                                         setTimeout(verifyAdded, 1000);
                                     } else {
-                                        throw "No hash foudn for torrent " + filename + " in 5 tries.";
+                                        throw "No hash found for torrent " + filename + " in 5 tries.";
                                     }
                                 }
                             });
