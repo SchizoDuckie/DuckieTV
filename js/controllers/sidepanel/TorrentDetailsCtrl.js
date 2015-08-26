@@ -26,7 +26,7 @@ DuckieTV
                     torrent.torrent_files = files.map(function(file) {
                         file.isMovie = file.name.match(/mp4|avi|mkv|mpeg|mpg|flv/g);
                         if (file.isMovie) {
-                            file.searchFileName = file.name.split('/').pop().split(' ').pop();
+                            file.searchFileName = file.name.indexOf('/') > -1 ? file.name.split('/').pop().split(' ').pop() : file.name;
                         }
                         return file;
                     });
