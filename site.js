@@ -134,7 +134,7 @@ jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').th
             return;
         }
     });
-    $('.download').css({
+    $('.down').css({
         'opacity': 1,
         'transform': 'scale(1)'
     });
