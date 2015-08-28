@@ -63,7 +63,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
             var testClient = new GenericTorrentSearchEngine({
                 mirror: this.model.mirror,
-                noMagnet: true, // hasMagnet,
+                noMagnet: this.model.magnetUrlSelector.length < 2, // hasMagnet,
                 includeBaseURL: true, // this.model.includeBaseUrl,
                 endpoints: {
                     search: this.model.searchEndpoint,
@@ -117,8 +117,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
     }
 ])
 
-.controller('customSearchEngineDialogCtrl', ['$scope', "$injector", "$http", "$q", "$timeout", "$modalInstance", "data", "TorrentSearchEngines",
-    function($scope, $injector, $http, $q, $timeout, $modalInstance, data, TorrentSearchEngines) {
+.controller('customSearchEngineDialogCtrl', ['$scope', "$injector", "$http", "$q", "$timeout", "$modalInstance", "data", "TorrentSearchEngines", "FormlyLoader",
+    function($scope, $injector, $http, $q, $timeout, $modalInstance, data, TorrentSearchEngines, FormlyLoader) {
 
         var self = this;
         this.isNew = data.isNew;
@@ -153,27 +153,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             // Note: SchizoDuckie recommended adding a checkbox for the noMagnet value
             // Note2: If a magneturl is provided it will ignore the torrentUrl if noMagnet is enabled otherwise it will use torrentUrl
             // Note3: A torrenturl will still be generated so entereing a torrenturl isn't needed if a magneturl is entered
-            var hasMagnet = self.model.magnetUrlSelector.length > 2 ? false : true;
-            TorrentSearchEngines.registerSearchEngine(this.model.name,
-                new GenericTorrentSearchEngine({
-                    mirror: this.model.mirror,
-                    noMagnet: hasMagnet,
-                    includeBaseURL: true, // this.model.includeBaseUrl, this is needed where the detailsUrl we get isn't a direct link (kat) so we need to tell the search thingy to add it
-                    endpoints: {
-                        search: this.model.searchEndpoint,
-                        details: [this.model.detailUrlSelector, this.model.detailUrlProperty]
-                    },
-                    selectors: {
-                        resultContainer: this.model.searchResultsContainer,
-                        releasename: [this.model.releaseNameSelector, this.model.releaseNameProperty],
-                        magneturl: [this.model.magnetUrlSelector, this.model.magnetUrlProperty],
-                        torrentUrl: [this.model.torrentUrlSelector, this.model.torrentUrlProperty],
-                        size: [this.model.sizeSelector, this.model.sizeProperty],
-                        seeders: [this.model.seederSelector, this.model.seederProperty],
-                        leechers: [this.model.leecherSelector, this.model.leecherProperty],
-                        detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty]
-                    }
-                }, $q, $http, $injector));
+            TorrentSearchEngines.registerSearchEngine(this.model.name, getTestClient());
             pageLog("Hopefully added engine");
         };
 
@@ -183,7 +163,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             return new GenericTorrentSearchEngine({
 
                 mirror: self.model.mirror,
-                noMagnet: true, // hasMagnet,
+                noMagnet: self.model.magnetUrlSelector.length < 2, // hasMagnet,
                 includeBaseURL: true, // this.model.includeBaseUrl,
                 endpoints: {
                     search: self.model.searchEndpoint,
@@ -204,31 +184,9 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
         };
 
         this.test = function() {
-            pageLog("Creating testing client");
-            var testClient = new GenericTorrentSearchEngine({
-
-                mirror: self.model.mirror,
-                noMagnet: true, // hasMagnet,
-                includeBaseURL: true, // this.model.includeBaseUrl,
-                endpoints: {
-                    search: self.model.searchEndpoint,
-                    details: [self.model.detailUrlSelector, self.model.detailUrlProperty]
-                },
-                selectors: {
-                    resultContainer: self.model.searchResultsContainer,
-                    releasename: [self.model.releaseNameSelector, self.model.releaseNameProperty],
-                    magnetUrl: [self.model.magnetUrlSelector, self.model.magnetUrlProperty],
-                    torrentUrl: [self.model.torrentUrlSelector, self.model.torrentUrlProperty],
-                    size: [self.model.sizeSelector, self.model.sizeProperty],
-                    seeders: [self.model.seederSelector, self.model.seederProperty],
-                    leechers: [self.model.leecherSelector, self.model.leecherProperty],
-                    detailUrl: [self.model.detailUrlSelector, self.model.detailUrlProperty]
-                }
-            }, $q, $http, $injector);
-
-            pageLog("Executing test search");
-            testClient.search(self.model.testSearch).then(function(results) {
-                results.length > 0 ? pageLog("Test search working!") : pageLog("No results for search query :(");
+            pageLog("Creating testing client and Executing test search");
+            getTestClient().search(self.model.testSearch).then(function(results) {
+                pageLog(results.length > 0 ? "Test search working!" : "No results for search query :(");
                 $scope.$applyAsync();
             });
         };
@@ -241,17 +199,6 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             });
         };
 
-        var attributeWhitelist = [{
-            name: 'href',
-        }, {
-            name: 'innerText',
-        }, {
-            name: 'title',
-        }, {
-            name: 'src',
-        }, {
-            name: 'alt',
-        }];
 
         pageLog("Loaded Attribute Whitelist");
 
@@ -273,7 +220,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             });
         }
 
-        var validators = {
+        FormlyLoader.setMapping('validators', {
             searchResultsContainer: {
                 expression: function($viewValue, $modelValue, scope) {
                     return getCachedScraper().then(function(d) {
@@ -355,293 +302,33 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
                 }
             }
-        };
+        });
 
-        this.fields = [{
-            key: 'name',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Search Engine Name",
-                type: "text"
-            }
-        }, {
-            key: 'mirror',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Base URL for site (exclude the final /)",
-                type: "text"
-            }
-        }, {
-            key: 'searchEndpoint',
-            className: 'cseSelector',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Search page url (use %s to inject search query)",
-                type: "text"
-            }
-        }, {
-            key: 'testSearch',
-            className: 'cseProperty',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Test SearchQuery",
-                type: "text"
-            }
-        }, {
-            key: 'searchResultsContainer',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Results selector (CSS selector that returns a base element for each individual search result)",
-                type: "text",
-            },
-            asyncValidators: validators.searchResultsContainer
-        }, {
-            className: 'row',
-            fieldGroup: [{
-                key: 'loginRequired',
-                className: 'col-xs-5 inline-checkbox',
-                type: "input",
-                templateOptions: {
-                    label: "Login Required?",
-                    type: "checkbox"
-                }
+        FormlyLoader.setMapping('options', {
+            attributeWhitelist: [{
+                name: 'href',
             }, {
-                key: 'magnetSupported',
-                className: 'col-xs-5 inline-checkbox',
-                type: "input",
-                templateOptions: {
-                    label: "Magnet URI supported?",
-                    type: "checkbox"
-                },
-                asyncValidators: validators.propertySelector
+                name: 'innerText',
+            }, {
+                name: 'title',
+            }, {
+                name: 'src',
+            }, {
+                name: 'alt',
             }]
-        }, {
-            key: 'releaseNameSelector',
-            className: 'cseSelector',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Release name Selector (within base element)",
-                type: "text"
-            },
-            asyncValidators: validators.propertySelector
-        }, {
-            key: 'releaseNameProperty',
-            className: 'cseProperty',
-            type: "select",
-            templateOptions: {
-                required: true,
-                label: "Attribute",
-                valueProp: 'name',
-                options: attributeWhitelist
+        });
+
+        FormlyLoader.setMapping('modelOptions', {
+            keyup: {
+                "updateOn": "keyup",
+                "debounce": 200
             }
-        }, {
-            key: 'loginPage',
-            className: 'cseSelector',
-            type: "input",
-            templateOptions: {
-                label: "URL of the login page (for when not logged in)",
-                placeholder: '/login.php',
-                type: "text"
-            },
-            asyncValidators: validators.loginPage
-        }, {
-            key: 'loginTestSelector',
-            className: 'cseProperty',
-            type: "input",
-            templateOptions: {
-                requiredExpression: 'model.loginRequired',
-                label: "Selector that tests if we're not loggedin when executing a search",
-                placeholder: '#loginform',
-                type: "text"
-            },
-            asyncValidators: validators.loginTestSelector
-        }, {
-            key: 'magnetUrlSelector',
-            className: 'cseSelector',
-            type: "input",
-            templateOptions: {
-                label: "magnet URL selector (hyperlink to the magnet url)",
-                type: "text"
-            },
-            asyncValidators: validators.propertySelector
-        }, {
-            key: 'magnetUrlProperty',
-            className: 'cseProperty',
-            type: "select",
-            templateOptions: {
-                label: "Attribute",
-                valueProp: 'name',
-                options: attributeWhitelist
-            },
-            asyncValidators: validators.propertySelector
-        }, {
-            key: 'torrentUrlSelector',
-            className: 'cseSelector',
-            type: "input",
-            templateOptions: {
-                label: ".torrent URL selector (hyperlink to the torrent file)",
-                type: "text"
-            },
-            asyncValidators: validators.propertySelector
-        }, {
-            key: 'torrentUrlProperty',
-            className: 'cseProperty',
-            type: "select",
-            templateOptions: {
-                label: "Attribute",
-                valueProp: 'name',
-                options: attributeWhitelist
-            },
-            asyncValidators: validators.propertySelector
-        }, {
-            key: 'sizeSelector',
-            className: 'cseSelector',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Size Selector (element that has the Torrent's size)",
-                type: "text"
-            },
-            asyncValidators: validators.propertySelector
-        }, {
-            key: 'sizeProperty',
-            className: 'cseProperty',
-            type: "select",
-            templateOptions: {
-                required: true,
-                label: "Attribute",
-                valueProp: 'name',
-                options: attributeWhitelist
-            },
-            asyncValidators: validators.attributeSelector
-        }, {
-            key: 'seederSelector',
-            className: 'cseSelector',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Seeders Selector (element that has the 'seeders')",
-                type: "text"
-            },
-            asyncValidators: validators.propertySelector
-        }, {
-            key: 'seederProperty',
-            className: 'cseProperty',
-            type: "select",
-            templateOptions: {
-                required: true,
-                label: "Attribute",
-                valueProp: 'name',
-                options: attributeWhitelist
-            },
-            asyncValidators: validators.attributeSelector
-        }, {
-            key: 'leecherSelector',
-            className: 'cseSelector',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Leechers Selector (element that has the 'leechers')",
-                type: "text"
-            },
-            asyncValidators: validators.propertySelector
-        }, {
-            key: 'leecherProperty',
-            className: 'cseProperty',
-            type: "select",
-            templateOptions: {
-                required: true,
-                label: "Attribute",
-                valueProp: 'name',
-                options: attributeWhitelist
-            },
-            asyncValidators: validators.attributeSelector
-        }, {
-            key: 'detailUrlSelector',
-            className: 'cseSelector',
-            type: "input",
-            templateOptions: {
-                required: true,
-                label: "Detail URL Selector (page that opens in new tab and shows detail page for torrent)",
-                type: "text"
-            },
-            asyncValidators: validators.propertySelector
-        }, {
-            key: 'detailUrlProperty',
-            className: 'cseProperty',
-            type: "select",
-            templateOptions: {
-                required: true,
-                label: "Attribute",
-                valueProp: 'name',
-                options: attributeWhitelist
-            },
-            asyncValidators: validators.attributeSelector
-        }];
-        pageLog("Loaded formly fields");
+        });
 
-        var output = [];
-        for (var key = 0; key < this.fields.length; key++) {
-            var field = this.fields[key];
-            if (field.fieldGroup) {
-                output.push(field);
-                continue;
-
-            }
-            var fieldgroup = [];
-
-            // full-row width inputs
-            if (!field.className) {
-                field.className = 'col-xs-9';
-            }
-            field.modelOptions = {
-                updateOn: 'keyup',
-                debounce: 200
-            };
-
-            // cse selector fields are the big text inputs. make them 8 units wide, and add the 
-            if (field.className == 'cseSelector') {
-                field.className += ' col-xs-6';
-                fieldgroup.push(field);
-                var nextField = this.fields[key + 1];
-                nextField.className += ' col-xs-3';
-                fieldgroup.push(nextField);
-                key++;
-            } else {
-                fieldgroup.push(field);
-            }
-
-            // add testresult column for each row 
-            fieldgroup.push({
-                className: 'col-xs-3',
-                template: "<div style='padding-top:35px; word-break:break-all; font-family:courier'><i class='glyphicon glyphicon-ok'></i> {{ model.infoMessages." + field.key + " }} " + (nextField ? "</p><p>{{ model.infoMessages." + nextField.key + "}}" : '') + "</p></div>",
-            });
-
-            var row = {
-                className: "row",
-                fieldGroup: fieldgroup
-            };
-
-            if (field.key == 'magnetUrlSelector') {
-                row.hideExpression = '!model.magnetSupported';
-            }
-            if (field.key == 'torrentUrlSelector') {
-                row.hideExpression = '!model.magnetSupported';
-            }
-            if (field.key == 'loginPage') {
-                row.hideExpression = '!model.loginRequired';
-            }
-            // now append each row to the output
-            output.push(row);
-        }
-
-        this.fields = output;
+        FormlyLoader.load('CustomSearchEngine').then(function(fields) {
+            self.fields = fields;
+            console.log("Loaded!", fields);
+        });
 
         this.testResults = {
             'searchResultsContainer': 'woei'
