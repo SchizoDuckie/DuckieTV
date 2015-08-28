@@ -1,40 +1,37 @@
 /**
  * Actionbar Controller
  */
-
 DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "SeriesListState", "SidePanelState", "DuckieTorrent",
     function($rootScope, $state, $filter, SeriesListState, SidePanelState, DuckieTorrent) {
+
+        // Resets calendar to current date
+        this.resetCalendar = function() {
+            $rootScope.$broadcast('calendar:setdate', new Date());
+        };
 
         this.hidePanels = function() {
             SeriesListState.hide();
             SidePanelState.hide();
         };
-
+        /**
+         * SeriesList state needs to be managed manually because it is stickied and navigating away from
+         * it doesn't actually close the state so reponing it doesn't refire it's resolves.
+         */
         this.toggleSeriesList = function() {
-            SeriesListState.toggle();
+            if (SeriesListState.state.isShowing) {
+                $state.go('calendar');
+                SeriesListState.hide();
+            } else {
+                SidePanelState.hide();
+                SeriesListState.show();
+                $state.go('favorites');
+            }
         };
 
+        // Used by Settings to button
         this.contractSidePanel = function() {
             SidePanelState.show();
             SidePanelState.contract();
-        };
-
-        this.hideSidePanel = function() {
-            SidePanelState.hide();
-        };
-
-        this.showSidePanel = function() {
-            setTimeout(function() { // i have no idea why, but transitioning from serieslist to settings doesnt work otherwise.
-                SidePanelState.show();
-            }, 500);
-        };
-
-        this.expandSidePanel = function() {
-            SidePanelState.expand();
-        };
-
-        this.resetCalendar = function() {
-            $rootScope.$broadcast('calendar:setdate', new Date());
         };
 
         this.getHeartTooltip = function() {
@@ -50,25 +47,6 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "Series
             var tcOffline = ': ' + $filter('translate')('TAB/tc-offline/glyph');
             if (this.isTorrentClientConnecting()) return output + tcConnecting;
             return (this.isTorrentClientConnected()) ? output + tcConnected : output + tcOffline;
-        };
-
-        this.go = function(state, noactive) {
-            Array.prototype.map.call(document.querySelectorAll('#actionbar a'), function(el) {
-                el.classList.remove('active');
-            });
-            var stateEl = document.querySelector('#actionbar_' + state);
-            if (!noactive) {
-                stateEl.classList.add('active');
-            }
-            stateEl.classList.add('fastspin');
-            setTimeout(function() {
-                $state.go(state).then(function() {
-                    setTimeout(function() {
-                        stateEl.classList.remove('fastspin');
-                    }, 500);
-                });
-
-            });
         };
 
         this.getTorrentClientClass = function() {

@@ -24,7 +24,6 @@
   <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"/>
 </head>
 <body kc>
-
   <div class="windowChrome">
     <button class="glyphicon glyphicon-win-minimize" id='minimize' tooltip="{{ 'TAB/minimize/glyph'|translate }}" tooltip-placement="bottom"></button>
     <button class="glyphicon glyphicon-win-restore" id='unmaximize' tooltip="{{ 'TAB/unmaximize/glyph'|translate }}" tooltip-placement="bottom" style='display:none'></button>
@@ -34,6 +33,7 @@
 
   <background-rotator channel="'background:load'" style="opacity:{{getSetting('background-rotator.opacity')}}"></background-rotator>
   <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>
+
   <div class="container" ng-class="{'topsites': getSetting('topSites.enabled')}">
     <div class="row">
       <div class="col-md-12">
@@ -50,19 +50,19 @@
 
   <div ng-controller="ActionBarCtrl as actionbar">
     <div id="actionbar">
-      <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hidePanels(); actionbar.resetCalendar();"></div>
+      <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hidePanels();actionbar.resetCalendar();"></div>
       <ul class="list-unstyled">
         <li id="actionbar_calendar" ui-sref-active="calendar_active">
-          <a ui-sref="calendar" class="glyphicon glyphicon-calendar" tooltip="{{ 'TAB/calendar/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.hidePanels();" tooltip-append-to-body="true"></a>
+          <a ui-sref="calendar" class="glyphicon glyphicon-calendar" tooltip="{{'TAB/calendar/glyph'|translate}}" tooltip-placement="right" ng-click="actionbar.hidePanels();" tooltip-append-to-body="true"></a>
         </li>
         <li id="actionbar_favorites">
-          <a ui-sref="favorites" class="glyphicon glyphicon-heart" tooltip="{{actionbar.getHeartTooltip()}}" tooltip-placement="right" ng-click="actionbar.toggleSeriesList();  actionbar.hideSidePanel();"></a>
+          <a class="glyphicon glyphicon-heart" tooltip="{{actionbar.getHeartTooltip()}}" tooltip-placement="right" ng-click="actionbar.toggleSeriesList();"></a>
         </li>
         <li style='display:none' id='wl' ui-sref-active="active">
-          <a ui-sref="watchlist" class="glyphicon glyphicon-facetime-video" tooltip="{{ 'TAB/watchlist/glyph'|translate }}" tooltip-placement="right"></a>
+          <a ui-sref="watchlist" class="glyphicon glyphicon-facetime-video" tooltip="{{'TAB/watchlist/glyph'|translate}}" tooltip-placement="right"></a>
         </li>
-        <li id="actionbar_torrent" ng-if="getSetting('torrenting.enabled')"  ui-sref-active="active">
-          <a ui-sref="torrent" ng-click="actionbar.showSidePanel();" class="glyphicon {{actionbar.getTorrentClientClass()}}" tooltip="Torrent client {{actionbar.getTorrentClientTooltip()}}" tooltip-placement="right" ng-class="{ connected: actionbar.isTorrentClientConnected(), connecting: actionbar.isTorrentClientConnecting(), offline: !actionbar.isTorrentClientConnected() }"></a>
+        <li id="actionbar_torrent" ng-if="getSetting('torrenting.enabled')" ui-sref-active="active">
+          <a ui-sref="torrent" class="glyphicon {{actionbar.getTorrentClientClass()}}" tooltip="Torrent client {{actionbar.getTorrentClientTooltip()}}" tooltip-placement="right" ng-class="{ connected: actionbar.isTorrentClientConnected(), connecting: actionbar.isTorrentClientConnecting(), offline: !actionbar.isTorrentClientConnected() }"></a>
         </li>
         <li ng-if="getSetting('torrenting.enabled')">
           <torrent-dialog tooltip-placement="right"></torrent-dialog>
@@ -70,14 +70,18 @@
         <li ng-if="getSetting('torrenting.enabled')">
           <subtitle-dialog tooltip-placement="right"></subtitle-dialog>
         </li>
-        <li id="actionbar_settings" style="position:absolute;bottom:58px" ui-sref-active="active">
-          <a ui-sref="settings" ng-click="actionbar.showSidePanel();" class="glyphicon glyphicon-cog" tooltip="{{ 'TAB/settings/glyph'|translate }}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
-        </li>
-        <li id="actionbar_about" style='position:absolute;bottom:0px' ui-sref-active="active">
-          <a ui-sref="about" class="glyphicon glyphicon-info-sign" tooltip="{{ 'TAB/about/glyph'|translate }}" tooltip-placement="right"></a>
-        </li>
-        <li id="actionbar_switch" style='position:absolute;bottom:120px' ui-sref-active="active">
-          <a ng-click="setSetting('main.viewmode', getSetting('main.viewmode') == 'calendar' ? 'todo' : 'calendar')" class="glyphicon glyphicon-check" tooltip="Switch between calendar and todo mode" tooltip-placement="right"></a>
+        <div style="position:absolute;bottom:0px">
+          <!-- Translation Required -->
+          <li id="actionbar_switch" ui-sref-active="active">
+            <a ng-click="setSetting('main.viewmode', getSetting('main.viewmode') == 'calendar' ? 'todo' : 'calendar')" class="glyphicon glyphicon-check" tooltip="Switch between calendar and todo mode" tooltip-placement="right"></a>
+          </li>
+          <li id="actionbar_settings" ui-sref-active="active">
+            <a ui-sref="settings" class="glyphicon glyphicon-cog" tooltip="{{'TAB/settings/glyph'|translate}}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
+          </li>
+          <li id="actionbar_about" ui-sref-active="active">
+            <a ui-sref="about" class="glyphicon glyphicon-info-sign" tooltip="{{'TAB/about/glyph'|translate}}" tooltip-placement="right"></a>
+          </li>
+        </div>
       </ul>
     </div>
   </div>
@@ -88,7 +92,6 @@
   <fast-search></fast-search>
 
   <img class='printlogo' src='img/icon64.png'>
-
 
   <!-- deploy:replace='<script src="dist/deps.js"></script>' -->
   <script src='./js/vendor/promise.min.js'></script>
@@ -120,7 +123,6 @@
   <script src="./js/vendor/moment.quacked.js"></script>
   <script src="./js/vendor/moment-timezone-with-data.quacked.js"></script>
   <!-- /deploy:replace -->
-
 
   <!-- deploy:replace='<script src="dist/app.js"></script>' -->
   <script src="./js/app.js"></script>
@@ -237,9 +239,6 @@
   <script src="./js/services/WatchlistService.js"></script>
   <script src="./js/services/TraktTVStorageSyncTarget.js"></script>
   <script src="./js/services/ChromeStorageSyncTarget.js"></script>
-  
   <!-- /deploy:replace -->
-
 </body>
-
 </html>
