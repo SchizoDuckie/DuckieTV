@@ -202,7 +202,7 @@ background-rotator > div.active {
 }
 background-rotator .placeholder {
     z-index:-2;
-    background-image: url(../img/duckietv.png);
+    background-image: url(../img/logo/duckietv.png);
     background-color: #A9A9A9;
     background-size: initial;
     opacity: 0;
