@@ -345,7 +345,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                             if (!results || results.length === 0) {
                                 self.model.infoMessages[scope.options.key] = 'No results found, but assuming loggedin';
                             } else {
-                                self.model.inforMessages[scope.options.key] = 'Not loggedin test OK';
+                                self.model.infoMessages[scope.options.key] = 'Not loggedin test OK';
                             }
                         } catch (E) {
                             self.model.infoMessages[scope.options.key] = E.message;
