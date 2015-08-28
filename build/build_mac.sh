@@ -8,7 +8,7 @@ BASE_DIR="/var/www/deploy/osx"
 VERSION="1.1.2"
 IDENTIFIER="tv.duckie"
 APPNAME="DuckieTV"
-BACKGROUND="/var/www/DuckieTV/img/duckietv.png"
+BACKGROUND="/var/www/DuckieTV/img/logo/duckietv.png"
 
 rm -rf "$BASE_DIR/darwin"
 mkdir -p "$BASE_DIR/darwin/flat/Resources/en.lproj"

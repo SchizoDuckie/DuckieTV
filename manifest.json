@@ -17,9 +17,11 @@
         "storage", "cookies", "http://*/", "https://*/"
     ],
     "icons": {
-        "16": "img/icon16.png",
-        "48": "img/icon48.png",
-        "128": "img/icon128.png"
+        "16": "img/logo/icon16.png",
+        "32": "img/logo/icon32.png",
+        "48": "img/logo/icon48.png",
+        "128": "img/logo/icon128.png",
+        "256": "img/logo/icon256.png"
     },
     "background": {
         "scripts": [

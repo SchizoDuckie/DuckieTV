@@ -16,7 +16,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
         // Show tray
         tray = new gui.Tray({
             title: navigator.userAgent,
-            icon: 'img/icon64.png',
+            icon: 'img/logo/icon64.png',
             menu: new gui.Menu()
         });
         tray.tooltip = navigator.userAgent;

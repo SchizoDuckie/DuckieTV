@@ -223,7 +223,7 @@ background-rotator .placeholder {
     background-color: rgb(26, 29, 31);
 }
 #actionbar .logo {
-    background-image: url("../img/icon64-inverted.png");
+    background-image: url("../img/logo/icon64-inverted.png");
     background-size: 48px;
     background-repeat: no-repeat;
     background-position: 50%;
@@ -1559,7 +1559,7 @@ query-monitor.show {
 
 .img-load-error {
     opacity: 0.8;
-    background: url('../img/icon256-inverted.png'), -webkit-linear-gradient(top, rgb(20,20,20), rgb(15,15,15));
+    background: url('../img/logo/icon256-inverted.png'), -webkit-linear-gradient(top, rgb(20,20,20), rgb(15,15,15));
     background-size: contain !important;
     border: 5px solid rgb(15,15,15);
     background-repeat: no-repeat;

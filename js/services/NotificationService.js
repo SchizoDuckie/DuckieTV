@@ -24,7 +24,7 @@ DuckieTV.provider("NotificationService", function() {
                     type: "basic",
                     title: title,
                     message: message,
-                    iconUrl: "img/icon64.png"
+                    iconUrl: "img/logo/icon64.png"
                 });
             },
             /** 
@@ -35,7 +35,7 @@ DuckieTV.provider("NotificationService", function() {
                     type: "list",
                     title: title,
                     message: message,
-                    iconUrl: "img/icon64.png",
+                    iconUrl: "img/logo/icon64.png",
                     items: items
                 });
             }
