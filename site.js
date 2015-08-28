@@ -115,20 +115,19 @@ jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').th
         console.log(release.name);
         if (release.name.indexOf('debug') > -1) return;
         if (release.name.indexOf('linux') > -1 && release.name.indexOf(isX64 ? 'x64' : 'x32') > -1) {
-            $('.download.linux').click(function() {
-                console.log('clicked!');
+            $('.down.linux').click(function() {
                 window.open(release.browser_download_url);
             });
             return;
         }
         if (release.name.indexOf('windows') > -1) {
-            $('.download.windows').click(function() {
+            $('.down.windows').click(function() {
                 window.open(release.browser_download_url);
             });
             return;
         }
         if (release.name.indexOf('mac') > -1) {
-            $('.download.apple').click(function() {
+            $('.down.apple').click(function() {
                 window.open(release.browser_download_url);
             });
             return;
