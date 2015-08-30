@@ -64,10 +64,8 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
     }
 ])
 
-.run(["SceneNameResolver", "SettingsService",
-    function(SceneNameResolver, SettingsService) {
-        if (SettingsService.get('torrenting.enabled')) {
-            SceneNameResolver.initialize();
-        }
+.run(["SceneNameResolver",
+    function(SceneNameResolver) {
+        SceneNameResolver.initialize();
     }
 ]);
