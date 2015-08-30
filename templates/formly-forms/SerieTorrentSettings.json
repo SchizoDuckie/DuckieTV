@@ -1,0 +1,24 @@
+[{
+    "key": "customSearchString",
+    "type": "input",
+    "templateOptions": {
+        "type": "text"
+    },
+    "expressionProperties": {
+        "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/custom-search/lbl\" | translate",
+        "templateOptions.placeholder": "\"SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder\" | translate"
+    }
+}, {
+    "className": "row",
+    "fieldGroup": [{
+        "key": "autoDownload",
+        "className": "inline-checkbox",
+        "type": "input",
+        "templateOptions": {
+            "type": "checkbox"
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/auto-download/lbl\" | translate"
+        }
+    }]
+}]
