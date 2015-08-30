@@ -1,10 +1,10 @@
-DuckieTV Binary, for Chrome and Online [![Build Status](https://travis-ci.org/SchizoDuckie/DuckieTV.svg?branch=trakt-api-v2)](https://travis-ci.org/SchizoDuckie/DuckieTV)
+DuckieTV Binary, Chrome and Online [![Build Status](https://travis-ci.org/SchizoDuckie/DuckieTV.svg?branch=trakt-api-v2)](https://travis-ci.org/SchizoDuckie/DuckieTV)
 ==============================================
 
-DuckieTV is a Google Chrome extension (Now also available as standalone builds for Windows/Mac/Linux!) that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
+DuckieTV is an application that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
 
 
-With the integrated DuckieTorrent client you can connect DuckieTV to your local Torrent client and be updated on the download progress without switching applications. (Now includes support for Deluge, &micro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission. and Vuze clients).
+With the integrated DuckieTorrent client you can connect DuckieTV to your local Torrent client and be updated on the download progress without switching applications. Support is available for clients of Deluge, &micro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission, and Vuze.
 
 
 As of v0.60 DuckieTV also is also finally becoming a worthy SickBeard competitor by introducing an automatic downloading of shows that have aired and translations into 14 languages (English, Deutch, Español, Français, Italiano, 日本, 한국어, Nederlands, Português, Русский, Română, Slovenščina, Svenska, 简体中文).
@@ -12,11 +12,11 @@ As of v0.60 DuckieTV also is also finally becoming a worthy SickBeard competitor
 How can I get it?
 =================
 
-DuckieTV can be installed as either a standalone application or as a Chrome Extension, and you can try the basic features in the online version. 
+DuckieTV can be installed as either a standalone application on Windows, Mac, Linux or Android, or installed as a Google Chrome Browser Extension, and you can try the basic features in an online version.
 
 Install DuckieTV Standalone
 -------------------------------------------
-As of v0.81, DuckieTV is available as a standalone build (no Chrome required)
+As of v0.81, DuckieTV is available as a standalone build.
 Get the latest release here:
 
 https://github.com/SchizoDuckie/DuckieTV/releases/
@@ -30,7 +30,7 @@ DuckieTV for Chrome comes in 2 versions: One that installs itself as your browse
 
 Try DuckieTV online
 -------------------
-* You can now also try DuckieTV online, provided you have Chrome, Safari, Opera or an Android browser. Note that it is using a third party service to work around cross-domain limitations and can be broken at any time.
+* You can now also try DuckieTV online, provided you have a Chrome, Safari, Opera or an Android browser. Note that it is using a third party service to work around cross-domain limitations and can be broken at any time.
   Try it [here](http://DuckieTV.github.io/DuckieTV/)
 
 Screenshots:
