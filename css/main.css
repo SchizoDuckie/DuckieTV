@@ -62,19 +62,22 @@ body > .container.topsites {
     padding-top: 45px;
 }
 /* Fix bootstraps tooltips */
-body .tooltip.right .tooltip-arrow {
+.tooltip.right .tooltip-arrow {
     border-top-color: transparent !important;
     border-bottom-color: transparent !important;
     border-right-color: white;
+    left: 1px !important;
 }
-body .tooltip.left .tooltip-arrow {
+.tooltip.left .tooltip-arrow {
     border-top-color: transparent !important;
     border-bottom-color: transparent !important;
     border-left-color: white;
+    right: 1px !important;
 }
-.tooltip .tooltip-arrow {
+.tooltip.top .tooltip-arrow {
     border-top-color: white !important;
     border-bottom-color: white !important;
+    bottom: 1px !important;
 }
 .tooltip .tooltip-inner {
     background-color: white !important;
@@ -84,6 +87,11 @@ body .tooltip.left .tooltip-arrow {
 }
 .tooltip {
     border: 0 !important;
+    line-height: inherit;
+}
+/* Fix to prevent tooltips from the calendar overflowing edge of screen */
+.tooltip.calendar {
+    max-width: 85px;
 }
 
 .printlogo {
@@ -127,7 +135,7 @@ a, a:hover, a:focus, a span {
     color: white;
     cursor: pointer;
 }
-a:hover {
+a:hover, a:hover span {
     text-decoration: underline;
 }
 a:hover .glyphicon {
@@ -1095,7 +1103,7 @@ div [date-picker] {
     border: 1px solid rgba(255,255,255,0.2);
     text-align: center;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-    transition: border 0.2s ease-in-out, background-color 0.1s ease-in-out, transform 0.2s ease-in-out;
+    transition: border 0.2s ease-in-out, background-color 0.125s ease-in-out, transform 0.2s ease-in-out;
 }
 
 [date-picker].zoom td.day {
@@ -1232,22 +1240,25 @@ td.day {
     clear:both;
     overflow: visible;
     color: white;
-    font-size:12px;
-    padding: 1.7px;
+    font-size: 12px;
+    padding: 2px;
     background-color: rgba(0, 0, 0, 0.5);
     text-align: left;
     cursor: pointer;
     margin-top: 2px;
-    transition: all 0.5s ease-in-out;
+    transition: background-color 0.125s ease-in-out;
 }
 [date-picker] .event .watched {
     background-color: rgba(255,255,255,0.3);
-      padding-right: 14px;
+    padding-right: 14px;
 }
 [date-picker] .event .watched span {
     font-weight: bold;
     text-decoration: line-through;
-
+}
+[date-picker] .event a.watched:hover span {
+    font-weight: bold;
+    text-decoration: line-through underline ;
 }
 [date-picker] .event .watched span.glyphicon {
     line-height: 15px;
@@ -1294,7 +1305,6 @@ td.day {
     text-decoration: none !important;
     height: 21px;
 }
-
 
 [date-picker] calendar-event:first-of-type {
     margin-top: 4px;
