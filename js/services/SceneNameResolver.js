@@ -49,8 +49,8 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
                     console.info("Fetched SNR name and date exceptions from localStorage.");
                 } else {
                     $http.get('https://duckietv.github.io/SceneNameExceptions/SceneNameExceptions.json').then(function(response) {
-                        exception = response.data;
-                        localStorage.setItem('snr.name-exceptions', JSON.stringify(exception));
+                        exceptions = response.data;
+                        localStorage.setItem('snr.name-exceptions', JSON.stringify(exceptions));
                     });
                     $http.get('https://duckietv.github.io/SceneNameExceptions/SceneDateExceptions.json').then(function(response) {
                         episodesWithDateFormat = response.data;
