@@ -4,13 +4,13 @@
     <!-- if we have a torrent, show the progress -->
     <div ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash">
       <torrent-remote-control info-hash="episode.magnetHash" template-url="templates/torrentMiniRemoteProgress.html" tooltip-template="'eventTooltipTemplate.html'" tooltip-append-to-body="true" tooltip-placement="left" tooltip-class="calendar" tooltip-popup-delay="75">
-        {{ ::serie.name }} <span ng-show="getSetting('calendar.show-episode-numbers')"> - {{::episode.getFormattedEpisode()}}</span>
+        {{::serie.name}} <span ng-if="getSetting('calendar.show-episode-numbers')"> - {{::episode.getFormattedEpisode()}}</span>
       </torrent-remote-control>
     </div>
     <!-- no torrent, or don't show torrent: just show the name --> 
     <div ng-if="!getSetting('torrenting.enabled') || !episode.magnetHash || !getSetting('torrenting.progress')" class="watchedwidth">
-      <span style="display:block" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) " tooltip-append-to-body="true" tooltip-placement="left" tooltip-class="calendar" tooltip-popup-delay="75">{{::serie.name}}
-        <span ng-if="getSetting('calendar.show-episode-numbers')"> - {{::episode.getFormattedEpisode()}}</span>
+      <span style="display:block" tooltip="{{::episode.getFormattedEpisode()}} ({{::episode.getAirTime() }}) " tooltip-append-to-body="true" tooltip-placement="left" tooltip-class="calendar" tooltip-popup-delay="75">
+        {{::serie.name}} <span ng-if="getSetting('calendar.show-episode-numbers')"> - {{::episode.getFormattedEpisode()}}</span>
       </span>
     </div>
     <!-- episode downloaded via .torrent, show 100% progress bar. -->
