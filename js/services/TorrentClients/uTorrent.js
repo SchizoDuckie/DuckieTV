@@ -719,6 +719,7 @@ DuckieTorrent
 
 
             offTorrentUpdate: function(hash, callback) {
+                var key = 'torrent:update:' + hash;
                 if ((key in service.offEvents)) {
                     service.offEvents[key].map(function(dereg) {
                         dereg();
