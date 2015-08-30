@@ -1300,66 +1300,37 @@ td.day {
     display:block;
 }
 
+[date-picker] a.markday-button {
+    top: 99%;
+    font-size: 12px;
+    position: absolute;
+    margin-top: 0px;
+    display: block;
+    text-align: center;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    padding: 0px;
+    line-height: 22px;
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(32, 32, 32, 1);
+}
+[date-picker] a.markday-button:hover {
+    background-color: rgba(45, 45, 45, 0.9);
+    text-decoration: underline;
+}
+[date-picker] a.markday-button i {
+    top: 2px;
+    margin-right: 4px;
+}
+
 [date-picker] a.markdaywatched {
-    font-size: 12px;
-    position: absolute;
-    bottom: -39px;
     left: 55%;
-    margin-top: 0px;
     width: 45%;
-    display: block;
-    text-align: center;
-    font-weight: normal;
-    text-decoration: none;
-    font-style: normal;
-    padding: 0px;
-    height: 40px;
-    line-height: 19px;
-    color: rgba(255,255,255,0.8);
-    background-color: rgba(25, 25, 25, 0.9);
 }
-[date-picker] a.markdaywatched:hover {
-    background-color: rgba(45, 45, 45, 0.9);
-    text-decoration: underline;
-}
-
-[date-picker] a.markdaywatched i {
-    top: 2px;
-    margin-right: 4px;
-}
-[date-picker] a.markdaywatched span {
-    cursor: pointer;
-}
-
 [date-picker] a.markdaydownloaded {
-    font-size: 12px;
-    position: absolute;
-    bottom: -39px;
     left: 0px;
-    margin-top: 0px;
     width: 55%;
-    display: block;
-    text-align: center;
-    font-weight: normal;
-    text-decoration: none;
-    font-style: normal;
-    padding: 0px;
-    height: 40px;
-    line-height: 19px;
-    color: rgba(255,255,255,0.8);
-    background-color: rgba(25, 25, 25, 0.9);
-}
-[date-picker] a.markdaydownloaded:hover {
-    background-color: rgba(45, 45, 45, 0.9);
-    text-decoration: underline;
-}
-
-[date-picker] a.markdaydownloaded i {
-    top: 2px;
-    margin-right: 4px;
-}
-[date-picker] a.markdaydownloaded span {
-    cursor: pointer;
 }
 
 [date-picker] .todo .todo_container {
