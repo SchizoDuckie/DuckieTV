@@ -1,39 +1,5 @@
-html {
-    -webkit-user-select: none;
-}
-
-p, input, select, span, #aboutpage {
-    -webkit-user-select: initial;
-}
-
-option {
-    background-color: rgba(0,0,0,0.8) !important;
-    color: white !important;
-}
-
-input:disabled {
-    background-color: rgba(0,0,0,0.8 !important);
-    border-color: rgba(255,0,0,0.1) !important;
-}
-
-input[type=checkbox].big, .checkbox input[type=checkbox] {
-    margin-left: 5px;
-    margin-right: 10px;
-    margin-top:10px;  
-    height:20px; 
-    width:20px;
-}
-
-input[type=checkbox], input[type=radio] {
-    -webkit-filter: invert(1);       
-}
-
-p, span {
-    cursor: default;
-}
-
- @charset"UTF-8";
- @font-face {
+@charset"UTF-8";
+@font-face {
     font-family:'bebasbold';
     src: url('../fonts/bebasneue_bold-webfont.ttf') format('truetype');
     font-weight: normal;
@@ -51,9 +17,35 @@ p, span {
     font-weight: normal;
     font-style: normal;
 }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
+    display: none !important;
+}
+ng\:form {
+    display: block;
+}
+
+html {
+    -webkit-user-select: none;
+}
+
+body {
+    background-color: #000;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat:no-repeat;
+    font-family: helvetica, sans-serif;
+    color: #444;
+    -webkit-transition: all 0.5px ease-in-out;
+}
+
+body.modal-open sidepanel, body.modal-open div[date-picker] {
+    -webkit-filter: blur(1px);
+}
+
 body > .container {
-    width: calc(100% - 48px);
-    padding: 20px;
+    width: calc(100% - 57px);
+    padding: 20px 35px 20px 35px;
     float: right;
     margin: 0;
     transition: padding-top 0.2s ease-in, opacity 0.2s ease-in;
@@ -61,6 +53,12 @@ body > .container {
 body > .container.topsites {
     padding-top: 45px;
 }
+
+body > .container calendar {
+    transform: translate3d(0,0,0);
+    position: relative;
+}
+
 /* Fix bootstraps tooltips */
 .tooltip.right .tooltip-arrow {
     border-top-color: transparent !important;
@@ -78,6 +76,10 @@ body > .container.topsites {
     border-top-color: white !important;
     border-bottom-color: white !important;
     bottom: 1px !important;
+}
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: white !important;
+    top: 1px !important;
 }
 .tooltip .tooltip-inner {
     background-color: white !important;
@@ -97,40 +99,24 @@ body > .container.topsites {
 .printlogo {
     display: none;
 }
-input::-webkit-input-placeholder {
-    color: rgba(255,255,255,0.4) !important;
-    font-style: italic;
-    font-family:'bebasregular', helvetica, sans-serif;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
-}
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
-    display: none !important;
-}
-ng\:form {
-    display: block;
+
+p, input, select, span, #aboutpage {
+    -webkit-user-select: initial;
 }
 
-body {
-    background-color: #000;
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat:no-repeat;
-    font-family: helvetica, sans-serif;
-    color: #444;
-    -webkit-transition: all 0.5px ease-in-out;
-}
-
-body.modal-open sidepanel, body.modal-open div[date-picker] {
-    -webkit-filter: blur(1px);
+p, span {
+    cursor: default;
 }
 
 h1, h2, h3 {
     font-family:'bebasregular', helvetica, sans-serif;
 }
+
 strong {
     font-family:'bebasregular';
     letter-spacing: 2px;
 }
+
 a, a:hover, a:focus, a span {
     color: white;
     cursor: pointer;
@@ -141,6 +127,7 @@ a:hover, a:hover span {
 a:hover .glyphicon {
     text-decoration: none;
 }
+
 *::-webkit-scrollbar{
     width:10px;
     height:10px;
@@ -1033,6 +1020,30 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
 input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none;
     margin: 5px;
+}
+input::-webkit-input-placeholder {
+    color: rgba(255,255,255,0.4) !important;
+    font-style: italic;
+    font-family:'bebasregular', helvetica, sans-serif;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+}
+input[type=checkbox].big, .checkbox input[type=checkbox] {
+    margin-left: 5px;
+    margin-right: 10px;
+    margin-top:10px;  
+    height:20px; 
+    width:20px;
+}
+input[type=checkbox], input[type=radio] {
+    -webkit-filter: invert(1);       
+}
+input:disabled {
+    background-color: rgba(0,0,0,0.8 !important);
+    border-color: rgba(255,0,0,0.1) !important;
+}
+option {
+    background-color: rgba(0,0,0,0.8) !important;
+    color: white !important;
 }
 .form-control:focus {
     border-color: #222;

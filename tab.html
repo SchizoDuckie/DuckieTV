@@ -35,15 +35,9 @@
   <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>
 
   <div class="container" ng-class="{'topsites': getSetting('topSites.enabled')}">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="container-fluid">
-          <clicktrap></clicktrap>
-          <calendar ng-if="getSetting('main.viewmode') == 'calendar'" event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" style='-webkit-transform:translate3d(0,0,0); position: relative'></calendar>
-          <calendar ng-if="getSetting('main.viewmode') == 'todo'" template="templates/todopicker.html" event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}" style='-webkit-transform:translate3d(0,0,0); position: relative'></calendar>
-        </div>
-      </div>
-    </div>
+    <clicktrap></clicktrap>
+    <calendar ng-if="getSetting('main.viewmode') == 'calendar'" event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}"></calendar>
+    <calendar ng-if="getSetting('main.viewmode') == 'todo'" template="templates/todopicker.html" event-service="CalendarEvents" view="date"></calendar>
   </div>
 
   <series-list ui-view="favorites"></series-list>
