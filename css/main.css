@@ -829,22 +829,22 @@ series-list .trakt-import .btn {
     -webkit-appearance: none;
     padding: 0px 0px 0px 5px;
 }
-
 .inline-checkbox {
-    height: 60px;
+    position: relative;
 }
 .inline-checkbox label {
-    position: absolute;
-    left: 45px;
     width: calc(100% - 45px);
     font-family: 'bebasregular', helvetica, sans-serif;
     font-size: 30px;
     font-weight: normal;
-    padding-left: 25px;
+    padding-left: 45px;
+    line-height: normal;
 }
 .inline-checkbox input[type=checkbox] {
+    width: 30px;
     position: absolute;
-    width: 30px
+    top: 0;
+    margin-top: 0;
 }
 
 .log {
