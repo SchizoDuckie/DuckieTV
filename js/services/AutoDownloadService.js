@@ -1,5 +1,5 @@
 /**
- * The AutoDownloadService checks if a download is availabe for a TV-Show that's aired
+ * The AutoDownloadService checks if a download is available for a TV-Show that's aired
  * and automatically downloads the first search result if more than minSeeders seeders are available.
  *
  */
@@ -62,17 +62,35 @@ DuckieTV
             },
 
             autoDownload: function(serie, episode, episodeIndex) {
-                // Fetch the Scene Name for the serie and compile the search string for the episode with the quality requirement.
-                var searchString = SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
+                // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
+                var q = SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + episode.getFormattedEpisode();
+                var searchString = q + ' ' + $rootScope.getSetting('torrenting.searchquality');
                 //console.debug("Auto download!", searchString);
+                /**
+                 * Word-by-word scoring for search results.
+                 * All words need to be in the search result's release name, or the result will be filtered out.
+                 */
+                function filterByScore(item) {
+                    var score = 0;
+                    var query = q.toLowerCase().split(' ');
+                    name = item.releasename.toLowerCase();
+                    query.map(function(part) {
+                        if (name.indexOf(part) > -1) {
+                            score++;
+                        }
+                    });
+                    return (score == query.length);
+                }
+
                 var episodestring = 0;
                 // Search torrent provider for the string
                 return TorrentSearchEngines.getDefaultEngine().search(searchString, true).then(function(results) {
-                    if (results.length === 0) {
+                    var items = results.filter(filterByScore);
+                    if (items.length === 0) {
                         return; // no results, abort
                     }
-                    if (results[0].seeders == 'N/A' || parseInt(results[0].seeders, 10) >= minSeeders) { // enough seeders are available.
-                        var url = results[0].magneturl;
+                    if (items[0].seeders == 'N/A' || parseInt(items[0].seeders, 10) >= minSeeders) { // enough seeders are available.
+                        var url = items[0].magneturl;
                         var torrentHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
                         // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                         DuckieTorrent.getClient().AutoConnect().then(function() {
