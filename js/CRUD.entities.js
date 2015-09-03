@@ -344,6 +344,7 @@ CRUD.define(Episode, {
         // if you are marking this as NOT downloaded, you can not have watched it either!
         this.watched = 0;
         this.watchedAt = null;
+        this.magnetHash = null;
         return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:notwatched', this);
