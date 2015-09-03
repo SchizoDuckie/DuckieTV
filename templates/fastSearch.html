@@ -1,5 +1,5 @@
+<button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
 <div class="fastsearch">
-	
 	<h1>QuickSearch</h1>
 	<form ng-submit="save()" novalidate id="fastSearchForm">
 		<formly-form model="model" fields="fields"></formly-form>
@@ -7,12 +7,12 @@
 
 	<div class="series miniposter" ng-if="searchResults.series.length > 0">
 		<h3>Series</h3>
-		<serieheader ng-repeat="serie in searchResults.series |limitTo: 4" class="small" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1"></serieheader>
+		<serieheader ng-repeat="serie in searchResults.series |limitTo: 4" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1" ng-click="cancel()"></serieheader>
 	</div>
 
 	<div class="traktSeries miniposter" ng-if="searchResults.traktSeries.length > 0">
 		<h3>Series not in your library (click to add)</h3>
-		<serieheader ng-repeat="serie in searchResults.traktSeries | limitTo: 4" class="small" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1"></serieheader>
+		<serieheader  ng-repeat="serie in searchResults.traktSeries | limitTo: 4" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1"></serieheader>
 	</div>
 
 	<div class="episodes" ng-if="searchResults.episodes.length > 0">

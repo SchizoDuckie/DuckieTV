@@ -2245,9 +2245,28 @@ ng-dial-gauge {
   }
 }
 
-.fastsearch div.series {
+.fastsearch div.series, .fastsearch div.traktSeries {
     height: 280px;
-    overflow:hidden;
+    overflow: hidden;
+    position: relative;
+}
+.fastsearch serieheader {
+  position: absolute;
+  transition: transform 0.3s, opacity 0.3s;
+  transform: rotateY(0deg);
+  transition-delay: 0s !important;
+}
+.fastsearch serieheader:nth-of-type(4n+1) {
+  left: 5px;
+}
+.fastsearch serieheader:nth-of-type(4n+2) {
+  left: 145px;
+}
+.fastsearch serieheader:nth-of-type(4n+3) {
+  left: 285px;
+}
+.fastsearch serieheader:nth-of-type(4n+4) {
+  left: 425px;
 }
 
 .searchengineinfo {

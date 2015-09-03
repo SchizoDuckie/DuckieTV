@@ -1,5 +1,4 @@
 DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
-
     function($window, dialogs, $rootScope) {
         var self = this;
 
@@ -60,8 +59,8 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
     }
 ])
 
-.controller('fastSearchCtrl', ["$scope", "data", "FavoritesService", "TraktTVv2", "$rootScope",
-    function($scope, data, FavoritesService, TraktTVv2, $rootScope) {
+.controller('fastSearchCtrl', ["$scope", "data", "FavoritesService", "TraktTVv2", "$rootScope", "$modalInstance",
+    function($scope, data, FavoritesService, TraktTVv2, $rootScope, $modalInstance) {
 
         $scope.hasFocus = true;
         $scope.model = {
@@ -78,6 +77,13 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         $scope.fields = [{
             key: "query",
             type: "input",
+            modelOptions: {
+                "debounce": {
+                    'default': 500,
+                    'blur': 0
+                },
+                updateOn: "default blur"
+            },
             templateOptions: {
                 label: "Search for anything",
                 placeholder: "series in your favorites, new series to add, episodes, torrents",
@@ -94,6 +100,11 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         };
 
         $scope.search = function(value) {
+            if (!value || value == "") {
+                //clear searchResults
+                return;
+            }
+
             $scope.searchResults.series = FavoritesService.favorites.filter(function(serie) {
                 return serie.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
             });
@@ -107,12 +118,12 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                 $scope.searchResults.traktSeries = results;
                 $rootScope.$applyAsync();
             });
+        };
 
+        $scope.cancel = function() {
+            $modalInstance.dismiss('Canceled');
         };
 
         $scope.search(data.key);
-
-
-
     }
 ]);

@@ -64,6 +64,14 @@
 [ui-view].ng-leave-active, serieheader.ng-leave-active {
   opacity: 0;
 }
+
+.fastsearch .ng-leave-active {
+  transform: rotateY(-90deg);
+}
+.fastsearch .ng-enter {
+  transform: rotateY(90deg);
+}
+
 /* Heh dis is so cool
 serieheader.ng-enter {
   top: -210px !important;
