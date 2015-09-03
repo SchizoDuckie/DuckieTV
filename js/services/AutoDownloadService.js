@@ -14,7 +14,7 @@ DuckieTV
         var service = {
             checkTimeout: null,
             autoDownloadCheck: function() {
-                console.debug("Episode air check fired");
+                //console.debug("Episode air check fired");
                 if (SettingsService.get('torrenting.autodownload') === false) {
                     service.detach();
                     return;
