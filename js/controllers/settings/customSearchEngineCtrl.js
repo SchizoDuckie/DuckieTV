@@ -42,6 +42,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 searchResultsContainer: 'table.data tr[id^=torrent]',
                 releaseNameSelector: 'div.torrentname a.cellMainLink',
                 releaseNameProperty: 'innerText',
+                magnetSupported: true,
                 magnetUrlSelector: 'a[title="Torrent magnet link"]',
                 magnetUrlProperty: 'href',
                 torrentUrlSelector: '',

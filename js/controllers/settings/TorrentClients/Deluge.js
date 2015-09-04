@@ -1,41 +1,24 @@
-DuckieTV.controller("delugeCtrl", ["Deluge", "SettingsService", "$filter",
-    function(Deluge, SettingsService, $filter) {
+DuckieTV.controller("delugeCtrl", ["Deluge", "SettingsService", "FormlyLoader",
+    function(Deluge, SettingsService, FormlyLoader) {
 
-        this.model = {
-            server: SettingsService.get('deluge.server'),
-            port: SettingsService.get('deluge.port'),
-            use_auth: SettingsService.get('deluge.use_auth'),
-            password: SettingsService.get('deluge.password')
-        };
+        var self = this;
 
         this.isConnected = function() {
             return Deluge.isConnected();
         };
 
-        this.fields = [{
-                key: "server",
-                type: "input",
-                templateOptions: {
-                    label: "Deluge " + $filter('translate')('COMMON/address/lbl'),
-                    type: "url",
-                }
-            }, {
-                key: "port",
-                type: "input",
-                templateOptions: {
-                    label: $filter('translate')('COMMON/port/lbl'),
-                    type: "number",
-                }
-            }, {
-                key: "password",
-                type: "input",
-                templateOptions: {
-                    label: $filter('translate')('COMMON/password/lbl'),
-                    type: "password"
-                }
-            },
+        FormlyLoader.load('TorrentClientSettings').then(function(fields) {
 
-        ];
+            self.model = {
+                server: SettingsService.get('deluge.server'),
+                port: SettingsService.get('deluge.port'),
+                use_auth: SettingsService.get('deluge.use_auth'),
+                password: SettingsService.get('deluge.password'),
+                hideUsername: true
+            };
+
+            self.fields = fields;
+        });
 
         this.test = function() {
             //console.log("Testing settings");

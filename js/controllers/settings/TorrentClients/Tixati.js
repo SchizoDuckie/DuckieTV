@@ -1,41 +1,20 @@
-DuckieTV.controller("tixatiCtrl", ["Tixati", "SettingsService", "$filter",
-    function(Tixati, SettingsService, $filter) {
+DuckieTV.controller("tixatiCtrl", ["Tixati", "SettingsService", "FormlyLoader",
+    function(Tixati, SettingsService, FormlyLoader) {
 
-        this.model = {
-            server: SettingsService.get('tixati.server'),
-            port: SettingsService.get('tixati.port'),
-            username: SettingsService.get('tixati.username'),
-            password: SettingsService.get('tixati.password'),
-        };
+        var self = this;
 
-        this.fields = [{
-            key: "server",
-            type: "input",
-            templateOptions: {
-                label: "Tixati " + $filter('translate')('COMMON/address/lbl'),
-                type: "url",
-            }
-        }, {
-            key: "port",
-            type: "input",
-            templateOptions: {
-                label: $filter('translate')('COMMON/port/lbl'),
-                type: "number",
-            }
-        }, {
-            key: "username",
-            type: "input",
-            templateOptions: {
-                label: $filter('translate')('COMMON/username/lbl')
-            }
-        }, {
-            key: "password",
-            type: "input",
-            templateOptions: {
-                label: $filter('translate')('COMMON/password/lbl'),
-                type: "password"
-            }
-        }, ];
+        FormlyLoader.load('TorrentClientSettings').then(function(fields) {
+
+            self.model = {
+                server: SettingsService.get('tixati.server'),
+                port: SettingsService.get('tixati.port'),
+                username: SettingsService.get('tixati.username'),
+                password: SettingsService.get('tixati.password'),
+                hideUseAuth: true,
+            };
+
+            self.fields = fields;
+        });
 
         this.isConnected = function() {
             return Tixati.isConnected();

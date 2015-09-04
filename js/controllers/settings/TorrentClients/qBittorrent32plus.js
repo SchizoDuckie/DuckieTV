@@ -1,55 +1,24 @@
-DuckieTV.controller("qbt32plusCtrl", ["qBittorrent32plus", "SettingsService", "ChromePermissions", "$filter",
-    function(qBittorrent32plus, SettingsService, ChromePermissions, $filter) {
+DuckieTV.controller("qbt32plusCtrl", ["qBittorrent32plus", "SettingsService", "FormlyLoader",
+    function(qBittorrent32plus, SettingsService, FormlyLoader) {
 
-        this.model = {
-            server: SettingsService.get('qbittorrent32plus.server'),
-            port: SettingsService.get('qbittorrent32plus.port'),
-            use_auth: SettingsService.get('qbittorrent32plus.use_auth'),
-            username: SettingsService.get('qbittorrent32plus.username'),
-            password: SettingsService.get('qbittorrent32plus.password')
-        };
+        var self = this;
+
+        FormlyLoader.load('TorrentClientSettings').then(function(fields) {
+
+            self.model = {
+                server: SettingsService.get('qbittorrent32plus.server'),
+                port: SettingsService.get('qbittorrent32plus.port'),
+                use_auth: SettingsService.get('qbittorrent32plus.use_auth'),
+                username: SettingsService.get('qbittorrent32plus.username'),
+                password: SettingsService.get('qbittorrent32plus.password')
+            };
+
+            self.fields = fields;
+        });
 
         this.isConnected = function() {
             return qBittorrent32plus.isConnected();
         };
-
-        this.fields = [{
-                key: "server",
-                type: "input",
-                templateOptions: {
-                    label: "qBittorrent " + $filter('translate')('COMMON/address/lbl'),
-                    type: "url",
-                }
-            }, {
-                key: "port",
-                type: "input",
-                templateOptions: {
-                    label: $filter('translate')('COMMON/port/lbl'),
-                    type: "number",
-                }
-            }, {
-                key: "use_auth",
-                type: "input",
-                templateOptions: {
-                    type: "checkbox",
-                    label: $filter('translate')('COMMON/authentication/lbl')
-                }
-            }, {
-                key: "username",
-                type: "input",
-                templateOptions: {
-                    label: $filter('translate')('COMMON/username/lbl')
-                }
-            }, {
-                key: "password",
-                type: "input",
-                templateOptions: {
-                    label: $filter('translate')('COMMON/password/lbl'),
-                    type: "password"
-                }
-            },
-
-        ];
 
         this.test = function() {
             //console.log("Testing settings");
@@ -65,4 +34,4 @@ DuckieTV.controller("qbt32plusCtrl", ["qBittorrent32plus", "SettingsService", "C
         };
 
     }
-])
+]);

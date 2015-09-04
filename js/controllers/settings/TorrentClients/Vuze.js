@@ -1,55 +1,25 @@
-DuckieTV.controller("vuzeCtrl", ["Vuze", "SettingsService", "$filter",
-    function(Vuze, SettingsService, $filter) {
+DuckieTV.controller("vuzeCtrl", ["Vuze", "SettingsService", "FormlyLoader",
+    function(Vuze, SettingsService, FormlyLoader) {
 
-        this.model = {
-            server: SettingsService.get('vuze.server'),
-            port: SettingsService.get('vuze.port'),
-            use_auth: SettingsService.get('vuze.use_auth'),
-            username: SettingsService.get('vuze.username'),
-            password: SettingsService.get('vuze.password')
-        };
+        var self = this;
+
+        FormlyLoader.load('TorrentClientSettings').then(function(fields) {
+
+            self.model = {
+                server: SettingsService.get('vuze.server'),
+                port: SettingsService.get('vuze.port'),
+                use_auth: SettingsService.get('vuze.use_auth'),
+                username: SettingsService.get('vuze.username'),
+                password: SettingsService.get('vuze.password')
+            };
+
+            self.fields = fields;
+        });
 
         this.isConnected = function() {
             return Vuze.isConnected();
         };
 
-        this.fields = [{
-                key: "server",
-                type: "input",
-                templateOptions: {
-                    label: "Vuze " + $filter('translate')('COMMON/address/lbl'),
-                    type: "url",
-                }
-            }, {
-                key: "port",
-                type: "input",
-                templateOptions: {
-                    label: $filter('translate')('COMMON/port/lbl'),
-                    type: "number",
-                }
-            }, {
-                key: "use_auth",
-                type: "input",
-                templateOptions: {
-                    type: "checkbox",
-                    label: $filter('translate')('COMMON/authentication/lbl')
-                }
-            }, {
-                key: "username",
-                type: "input",
-                templateOptions: {
-                    label: $filter('translate')('COMMON/username/lbl')
-                }
-            }, {
-                key: "password",
-                type: "input",
-                templateOptions: {
-                    label: $filter('translate')('COMMON/password/lbl'),
-                    type: "password"
-                }
-            },
-
-        ];
 
         this.test = function() {
             //console.log("Testing settings");

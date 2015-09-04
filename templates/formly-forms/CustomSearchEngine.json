@@ -201,7 +201,7 @@
         "className": "col-xs-3",
         "template": "<div class='searchengineinfo'><i class='glyphicon glyphicon-ok'></i> {{ model.infoMessages.torrentUrlSelector }} </p><p>{{ model.infoMessages.torrentUrlProperty}}</p></div>"
     }],
-    "hideExpression": "!model.magnetSupported"
+    "hideExpression": "model.magnetSupported"
 }, {
     "className": "row",
     "fieldGroup": [{
