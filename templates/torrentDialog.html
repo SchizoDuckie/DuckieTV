@@ -63,7 +63,7 @@
       </th>
 
     </tr>
-    <tr ng-repeat="seed in items | limitTo: 20">
+    <tr ng-repeat="seed in items | limitTo: 20" class="no-animate">
       <td style='width:80px; padding:5px; vertical-align: top;'>
         <a ng-click="select(seed)">
           <i class="glyphicon glyphicon-magnet" tooltip="{{'TORRENTDIALOG/download-magnet/tooltip'|translate}}"></i>

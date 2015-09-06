@@ -42,6 +42,10 @@
   }
 }
 
+.no-animate.ng-enter, .no-animate.ng-leave, .no-animate.ng-enter-active, .no-animate.ng-leave-active {
+  transition: none !important;
+}
+
 [ui-view].ng-enter, [ui-view].ng-leave, serieheader.ng-enter, serieheader.ng-leave  {
   -webkit-transition: all .3s ease-in-out;
   -moz-transition: all .3s ease-in-out;
