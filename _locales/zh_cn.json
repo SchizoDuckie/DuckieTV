@@ -301,7 +301,7 @@
     "SETTINGS/TORRENT/autodownload-disable/btn": "禁用自动下载BT种子播出节目 ",
     "SETTINGS/TORRENT/autodownload-disable/desc": "点击下面的按钮停止自动下载程序在你的日历种子. ",
     "SETTINGS/TORRENT/autodownload-enable/btn": "启用自动下载BT种子播出节目 ",
-    "SETTINGS/TORRENT/autodownload-enable/desc": "点击下面的按钮启动一个自动检查每2个小时的下载种子的情节是在已经播出 ",
+    "SETTINGS/TORRENT/autodownload-enable/desc": "点击下面的按钮启动一个自动检查每15分钟的下载种子的情节是在已经播出 ",
     "SETTINGS/TORRENT/autodownload-enable/desc2": " 天(并没有被已经下载或标记为观看).\n它确保至少有 ",
     "SETTINGS/TORRENT/autodownload-enable/desc3": " 播种机的洪流,并自动使用你的洪流质量偏好.",
     "SETTINGS/TORRENT/autodownload-only-numbers/alert": "只能包含数字!",

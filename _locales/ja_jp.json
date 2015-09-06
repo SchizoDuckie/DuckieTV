@@ -301,7 +301,7 @@
     "SETTINGS/TORRENT/autodownload-disable/btn": "放映されたショーのための自動ダウンロードトレントを無効にする ",
     "SETTINGS/TORRENT/autodownload-disable/desc": "下のボタンをクリックすると,あなたのカレンダーのトレントの自動ダウンロードプロセスを停止します. ",
     "SETTINGS/TORRENT/autodownload-enable/btn": "放映されたショーのための自動ダウンロードトレントを有効にする ",
-    "SETTINGS/TORRENT/autodownload-enable/desc": "下のボタンをクリックすると,自動チェックを2時間ごとに開始され,その中で放送されているエピソードのためにダウンロードトレント ",
+    "SETTINGS/TORRENT/autodownload-enable/desc": "下のボタンをクリックすると,自動チェックに15分ごとに開始する以内に放映されているエピソードのためにダウンロードトレント ",
     "SETTINGS/TORRENT/autodownload-enable/desc2": " 日が（見てのように,すでにダウンロードまたはマークが付いていない）.\nそれが行うことを確認,少なくともある ",
     "SETTINGS/TORRENT/autodownload-enable/desc3": " 自動的に急流のためのシーダーとは,あなたの急流の品質設定を使用します.",
     "SETTINGS/TORRENT/autodownload-only-numbers/alert": "数字だけを含めることができます!",

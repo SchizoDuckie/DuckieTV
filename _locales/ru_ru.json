@@ -301,7 +301,7 @@
     "SETTINGS/TORRENT/autodownload-disable/btn": "Отключите автоматическую загрузку торрентов для эфир шоу ",
     "SETTINGS/TORRENT/autodownload-disable/desc": "Нажатие на кнопку ниже останавливает процесс для торрентов в календаре автоматически скачать. ",
     "SETTINGS/TORRENT/autodownload-enable/btn": "Включить авто-загрузка торрентов для эфир шоу ",
-    "SETTINGS/TORRENT/autodownload-enable/desc": "Нажатие на кнопку внизу начинается автоматическая проверка каждые 2 часа, который загружает торрентов эпизодов, которые в эфир в течение ",
+    "SETTINGS/TORRENT/autodownload-enable/desc": "Нажатие на кнопку внизу начинается автоматическая проверка каждые 15 минуты, который загружает торрентов эпизодов, которые в эфир в течение ",
     "SETTINGS/TORRENT/autodownload-enable/desc2": " дней (и не были уже загружены или помечены как смотрел).\nЭто делает уверен, что есть по крайней мере ",
     "SETTINGS/TORRENT/autodownload-enable/desc3": " Сеялки для торрента и автоматически использует свое предпочтение качества торрент.",
     "SETTINGS/TORRENT/autodownload-only-numbers/alert": "Может содержать только цифры!",

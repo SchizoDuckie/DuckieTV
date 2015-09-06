@@ -301,7 +301,7 @@
     "SETTINGS/TORRENT/autodownload-disable/btn": "Inaktivera automatisk nedladdning av torrents för luftade shows ",
     "SETTINGS/TORRENT/autodownload-disable/desc": "Genom att klicka på knappen nedan stoppar autonedladdningsprocessen för torrents på din kalender. ",
     "SETTINGS/TORRENT/autodownload-enable/btn": "Aktivera auto-ladda ner torrents för luftade shows ",
-    "SETTINGS/TORRENT/autodownload-enable/desc": "Genom att klicka på knappen nedan startar en automatisk kontroll varje 2 timmar att nedladdningar torrents för episoder som har sänts inom ",
+    "SETTINGS/TORRENT/autodownload-enable/desc": "Genom att klicka på knappen nedan startar en automatisk kontroll varje 15 minuter att nedladdningar torrents för episoder som har sänts inom ",
     "SETTINGS/TORRENT/autodownload-enable/desc2": " dagar (och har inte redan hämtats eller markeras som sett).\nDet ser till att det finns minst ",
     "SETTINGS/TORRENT/autodownload-enable/desc3": " såmaskiner till torrent och automatiskt använder din torrent kvalitets önskemål.",
     "SETTINGS/TORRENT/autodownload-only-numbers/alert": "Kan bara innehålla siffror!",

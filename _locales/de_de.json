@@ -301,7 +301,7 @@
     "SETTINGS/TORRENT/autodownload-disable/btn": "Deaktivieren Sie die automatische Herunterladen von Torrents für Shows ausgestrahlt ",
     "SETTINGS/TORRENT/autodownload-disable/desc": "Klicken Sie auf die Schaltfläche unten, stoppt die Auto-Download-Prozess für Torrents auf Ihrem Kalender. ",
     "SETTINGS/TORRENT/autodownload-enable/btn": "Aktivieren Sie Auto-Download Torrents für Shows ausgestrahlt ",
-    "SETTINGS/TORRENT/autodownload-enable/desc": "Durch Klicken auf den Button startet eine automatische Überprüfung alle 2 Stunden, dass Downloads Torrents für Episoden, die innerhalb ausgestrahlt haben ",
+    "SETTINGS/TORRENT/autodownload-enable/desc": "Durch Klicken auf den Button startet eine automatische Überprüfung alle 15 minuten, dass Downloads Torrents für Episoden, die innerhalb ausgestrahlt haben ",
     "SETTINGS/TORRENT/autodownload-enable/desc2": " tage (und wurden nicht bereits heruntergeladen oder markiert beobachtet).\nEs stellt sicher, es gibt mindestens ",
     "SETTINGS/TORRENT/autodownload-enable/desc3": " sämaschinen für die Wildbach- und automatisch verwendet Ihre torrent Qualität bevorzugt.",
     "SETTINGS/TORRENT/autodownload-only-numbers/alert": "Kann nur Zahlen!",

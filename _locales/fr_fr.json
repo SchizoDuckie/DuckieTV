@@ -301,7 +301,7 @@
     "SETTINGS/TORRENT/autodownload-disable/btn": "Désactiver le téléchargement automatique des torrents pour les séries diffusées",
     "SETTINGS/TORRENT/autodownload-disable/desc": "Cliquer sur le bouton ci-dessous arrête le téléchargement automatique des torrents à partir de votre calendrier.",
     "SETTINGS/TORRENT/autodownload-enable/btn": "Activer le téléchargement automatique des torrents pour les séries diffusées",
-    "SETTINGS/TORRENT/autodownload-enable/desc": "Cliquer sur le bouton ci-dessous lance une vérification automatique toutes les 2 heures qui télécharge les torrents pour les épisodes qui ont été diffusés dans les ",
+    "SETTINGS/TORRENT/autodownload-enable/desc": "Cliquer sur le bouton ci-dessous lance une vérification automatique toutes les 15 minutes qui télécharge les torrents pour les épisodes qui ont été diffusés dans les ",
     "SETTINGS/TORRENT/autodownload-enable/desc2": " jours (et qui n'ont pas déjà été téléchargés ou marqués comme regardés).\n Cela vérifie aussi qu'il y a au moins ",
     "SETTINGS/TORRENT/autodownload-enable/desc3": " seeders pour le torrent et utilise automatiquement votre préférence de qualité.",
     "SETTINGS/TORRENT/autodownload-only-numbers/alert": "Ne peut contenir que des chiffres!",

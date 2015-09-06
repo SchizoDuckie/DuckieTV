@@ -301,7 +301,7 @@
     "SETTINGS/TORRENT/autodownload-disable/btn": "Disattiva l'auto-download dei torrenti",
     "SETTINGS/TORRENT/autodownload-disable/desc": "Facendo clic sul pulsante in basso interrompe il processo di auto-download per torrent del vostro calendario.",
     "SETTINGS/TORRENT/autodownload-enable/btn": "Abilita auto-download dei torrent",
-    "SETTINGS/TORRENT/autodownload-enable/desc": "Facendo clic sul pulsante in basso inizia un controllo automatico ogni 2 ore per scaricare i torrent degli episodi che sono andati in onda entro ",
+    "SETTINGS/TORRENT/autodownload-enable/desc": "Facendo clic sul pulsante in basso inizia un controllo automatico ogni 15 minuti per scaricare i torrent degli episodi che sono andati in onda entro ",
     "SETTINGS/TORRENT/autodownload-enable/desc2": " giorni se non sono stati già stati contrassegnati come scaricati o visti.\nVengono utilizzati solo torrent con almeno ",
     "SETTINGS/TORRENT/autodownload-enable/desc3": " seed e con la qualità impostata.",
     "SETTINGS/TORRENT/autodownload-only-numbers/alert": "Può contenere solo numeri!",

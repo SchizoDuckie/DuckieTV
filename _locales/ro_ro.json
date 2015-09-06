@@ -301,7 +301,7 @@
     "SETTINGS/TORRENT/autodownload-disable/btn": "Dezactivați descărcarea automată pentru serialele care au apărut deja",
     "SETTINGS/TORRENT/autodownload-disable/desc": "Dând click pe butonul de mai jos, opriți procesul de auto-descărcare a torrentelor din calendar.",
     "SETTINGS/TORRENT/autodownload-enable/btn": "Activați auto-descărcarea torrentelor pentru serialele curente",
-    "SETTINGS/TORRENT/autodownload-enable/desc": "Dând click pe butonul de mai jos începe o verificare automată la fiecare 2 ore care descarcă torrentele care au apărut în ultimele ",
+    "SETTINGS/TORRENT/autodownload-enable/desc": "Dând click pe butonul de mai jos începe o verificare automată la fiecare 15 minute care descarcă torrentele care au apărut în ultimele ",
     "SETTINGS/TORRENT/autodownload-enable/desc2": " zile (și nu au fost deja descărcate sau marcate ca vizionate).\n Se asigură că există cel puțin ",
     "SETTINGS/TORRENT/autodownload-enable/desc3": " seederi pentru torrent și folosește automat calitatea selectată a torrentului.",
     "SETTINGS/TORRENT/autodownload-only-numbers/alert": "Poate să conțină doar numere!",

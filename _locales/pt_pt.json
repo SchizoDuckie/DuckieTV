@@ -301,7 +301,7 @@
     "SETTINGS/TORRENT/autodownload-disable/btn": "Desativar torrents auto-download para shows ao ar ",
     "SETTINGS/TORRENT/autodownload-disable/desc": "Clicando no botão abaixo interrompe o processo de download automático de torrents em seu calendário. ",
     "SETTINGS/TORRENT/autodownload-enable/btn": "Ativar torrents auto-download para shows ao ar ",
-    "SETTINGS/TORRENT/autodownload-enable/desc": "Clicando no botão abaixo inicia uma verificação automática a cada 2 horas que de downloads torrents para episódios que foram ao ar no interior ",
+    "SETTINGS/TORRENT/autodownload-enable/desc": "Clicando no botão abaixo inicia uma verificação automática a cada 15 minutos que de downloads torrents para episódios que foram ao ar no interior ",
     "SETTINGS/TORRENT/autodownload-enable/desc2": " dias (e não já foram baixados ou marcado como assisti).\nEle garante que há pelo menos ",
     "SETTINGS/TORRENT/autodownload-enable/desc3": " semeadoras para o torrent e automaticamente usa sua preferência qualidade torrent.",
     "SETTINGS/TORRENT/autodownload-only-numbers/alert": "Só pode conter números!",

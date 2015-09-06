@@ -301,7 +301,7 @@
     "SETTINGS/TORRENT/autodownload-disable/btn": "Onemogoči auto nalaganje hudourniki na sporedu oddaj",
     "SETTINGS/TORRENT/autodownload-disable/desc": "Klikom na spodnji gumb ustavi postopek samodejnega prenosa za hudournike na koledarju.",
     "SETTINGS/TORRENT/autodownload-enable/btn": "Omogoči-auto nalaganje torrents za sporedu oddaj",
-    "SETTINGS/TORRENT/autodownload-enable/desc": "S klikom na spodnji gumb zaženete samodejno preverjanje vsake 2 uri, za prenos epizod, ki so se predvajale v ",
+    "SETTINGS/TORRENT/autodownload-enable/desc": "S klikom na spodnji gumb zaženete samodejno preverjanje vsake 15 minut, za prenos epizod, ki so se predvajale v ",
     "SETTINGS/TORRENT/autodownload-enable/desc2": " dni (in še niso bile prenesene ali označane kot gledane). To se zgodi, ko je vsaj ",
     "SETTINGS/TORRENT/autodownload-enable/desc3": " sejalcev za torrent in samodejno prenese.",
     "SETTINGS/TORRENT/autodownload-only-numbers/alert": "Lahko vsebuje samo številke!",

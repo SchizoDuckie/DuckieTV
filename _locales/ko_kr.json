@@ -301,7 +301,7 @@
     "SETTINGS/TORRENT/autodownload-disable/btn": "방송 쇼 자동 다운로드 급류를 사용하지 않도록 설정 ",
     "SETTINGS/TORRENT/autodownload-disable/desc": "아래 버튼을 클릭하면 일정에 급류에 대한 자동 다운로드 프로세스를 중지합니다. ",
     "SETTINGS/TORRENT/autodownload-enable/btn": "방송 쇼 자동 다운로드 급류를 사용 ",
-    "SETTINGS/TORRENT/autodownload-enable/desc": "아래 버튼을 클릭하면 자동 검사에게 2 시간마다 시작하는 내에서 방영 한 에피소드 다운로드 급류 ",
+    "SETTINGS/TORRENT/autodownload-enable/desc": "아래 버튼을 클릭하면 자동 검사에게 15 분마다 시작하는 내에서 방영 한 에피소드 다운로드 급류 ",
     "SETTINGS/TORRENT/autodownload-enable/desc2": " 일 (지켜 이미 다운로드 또는 표시되지 않은)합니다.\n그것은 수 있는지 적어도있다 ",
     "SETTINGS/TORRENT/autodownload-enable/desc3": " 자동으로 토런트에 대한 파종기와는 토런트 품질 환경 설정을 사용합니다.",
     "SETTINGS/TORRENT/autodownload-only-numbers/alert": "숫자 만 포함 할 수 있습니다!",
