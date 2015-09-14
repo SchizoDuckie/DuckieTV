@@ -2199,12 +2199,12 @@ ng-dial-gauge {
     }
 }
 @media (max-width: 1366px) {
-    series-list > div.sidepanelActive serieheader[mode=banner] {
+    .sidepanelActive serieheader[mode=banner] {
         width: 100%;
     }
 }
 @media (max-width: 1560px) {
-    series-list > div.sidepanelExpanded serieheader[mode=banner] {
+    .sidepanelExpanded serieheader[mode=banner] {
         width: 100%;
     }
 }
