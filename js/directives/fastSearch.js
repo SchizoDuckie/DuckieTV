@@ -70,9 +70,12 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         $scope.searchResults = {
             series: [],
             traktSeries: [],
-            episodes: [],
-            actors: []
+            episodes: []
         };
+
+        $scope.seriesLoading = true;
+        $scope.traktSeriesLoading = true;
+        $scope.episodesLoading = true;
 
         $scope.fields = [{
             key: "query",
@@ -101,22 +104,32 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
 
         $scope.search = function(value) {
             if (!value || value == "") {
-                //clear searchResults
+                $scope.searchResults = {
+                    series: [],
+                    traktSeries: [],
+                    episodes: []
+                };
                 return;
             }
+            $scope.seriesLoading = true;
+            $scope.traktSeriesLoading = true;
+            $scope.episodesLoading = true;
 
             $scope.searchResults.series = FavoritesService.favorites.filter(function(serie) {
+                $scope.seriesLoading = false;
                 return serie.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
             });
 
             CRUD.Find("Episode", Array("episodename like '%" + value + "%'")).then(function(result) {
                 $scope.searchResults.episodes = result;
                 $rootScope.$applyAsync();
+                $scope.episodesLoading = false;
             });
 
             TraktTVv2.search(value).then(function(results) {
                 $scope.searchResults.traktSeries = results;
                 $rootScope.$applyAsync();
+                $scope.traktSeriesLoading = false;
             });
         };
 
