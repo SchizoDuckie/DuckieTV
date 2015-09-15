@@ -79,7 +79,6 @@ DuckieTV.directive('contextMenu', ["$parse", function ($parse) {
         $(document).find('body').append($contextMenu);
         $contextMenu.on("mousedown", function (e) {
             if ($(e.target).hasClass('dropdown')) {
-                console.log(event)
                 currentTarget.removeClass('context');
                 $contextMenu.remove();
             }
