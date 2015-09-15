@@ -14,12 +14,14 @@
  *       [$filter(translate)(thingy), function() { doThing(serie) }, function() { return false; }]
  *    ];
  * };
+ * Note: you can add , null, between options to add a divider
  **/
 
 DuckieTV.directive('contextMenu', ["$parse", function ($parse) {
     var renderContextMenu = function ($scope, event, options, model) {
         if (!$) { var $ = angular.element; }
-        $(event.currentTarget).addClass('context');
+        var currentTarget = $(event.currentTarget);
+        currentTarget.addClass('context');
         var $contextMenu = $('<div>');
         $contextMenu.addClass('dropdown clearfix context-menu');
         var $ul = $('<ul>');
@@ -46,7 +48,7 @@ DuckieTV.directive('contextMenu', ["$parse", function ($parse) {
                     $li.on('click', function ($event) {
                         $event.preventDefault();
                         $scope.$apply(function () {
-                            $(event.currentTarget).removeClass('context');
+                            currentTarget.removeClass('context');
                             $contextMenu.remove();
                             item[1].call($scope, $scope, event, model);
                         });
@@ -77,11 +79,12 @@ DuckieTV.directive('contextMenu', ["$parse", function ($parse) {
         $(document).find('body').append($contextMenu);
         $contextMenu.on("mousedown", function (e) {
             if ($(e.target).hasClass('dropdown')) {
-                $(event.currentTarget).removeClass('context');
+                console.log(event)
+                currentTarget.removeClass('context');
                 $contextMenu.remove();
             }
         }).on('contextmenu', function (event) {
-            $(event.currentTarget).removeClass('context');
+            currentTarget.removeClass('context');
             event.preventDefault();
             $contextMenu.remove();
         });
