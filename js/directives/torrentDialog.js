@@ -135,9 +135,13 @@ DuckieTV
                 function($scope) {
                     // Translates the tooltip
                     $scope.getTooltip = function() {
-                        return $scope.q !== undefined ?
-                            $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.q :
-                            $filter('translate')('TORRENTDIALOG/search-download-any/tooltip');
+                        if ($scope.q) {
+                            return $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.q;
+                        } else if ($scope.episode && $scope.serie) {
+                            return $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.serie.name + ' ' + $scope.episode.getFormattedEpisode();
+                        } else {
+                            return $filter('translate')('TORRENTDIALOG/search-download-any/tooltip');
+                        }
                     };
                     // Opens the torrent search with the episode selected
                     $scope.openDialog = function() {
