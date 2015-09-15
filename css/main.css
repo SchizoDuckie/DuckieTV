@@ -96,6 +96,10 @@ body > .container calendar {
     max-width: 85px;
 }
 
+.context-menu .dropdown-menu {
+    padding: 4px 0px;
+}
+
 .printlogo {
     display: none;
 }

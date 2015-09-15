@@ -1,7 +1,47 @@
-DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "$state", "$http",
-    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state, $http) {
+DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "$state", "$http", "$filter", "dialogs",
+    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state, $http, $filter, dialogs) {
 
         var serieslist = this;
+
+        /**
+         *
+         **/
+
+        this.contextMenu = function(serie) {
+            return [
+                [$filter('translate')('SIDEPANEL/SERIE-OVERVIEW/delete-serie/btn'), function() {
+                    removeFromFavorites(serie);
+                }],
+                [serie.displaycalendar == '1' ? 
+                    $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/calendar-hide/btn') : 
+                    $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/calendar-show/btn'), 
+                function() {
+                    toggleSerieDisplay(serie);
+                }]
+            ]
+        }
+
+        var toggleSerieDisplay = function(serie) {
+            serie.displaycalendar = serie.displaycalendar == '1' ? '0' : '1';
+            serie.Persist();
+        };
+
+        /**
+         * Pop up a confirm dialog and remove the serie from favorites when confirmed.
+         */
+        var removeFromFavorites = function(serie) {
+            var dlg = dialogs.confirm($filter('translate')('SIDEPANELSERIECTRLjs/serie-delete/hdr'),
+                $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-question/desc') +
+                serie.name +
+                $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-question/desc2')
+            );
+            dlg.result.then(function(btn) {
+                console.info("Removing serie '" + serie.name + "' from favorites!", serie);
+                FavoritesService.remove(serie);
+            }, function(btn) {
+                this.confirmed = $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-cancelled/lbl');
+            });
+        };
 
         this.activated = SeriesListState.state.isShowing; // Toggles when the favorites panel activated
         this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
