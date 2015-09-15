@@ -508,10 +508,10 @@ serieheader .poster.img-loading .img, serieheader .banner.img-loading .img {
 }
 
 /* Hovering Poster Highlight */
-.series serieheader[mode='poster'] .poster:hover:not(.img-loading), .seasons serieheader[mode='poster'] .poster:hover:not(.img-loading) {
+.series serieheader[mode='poster'] .poster:hover:not(.img-loading), .seasons serieheader[mode='poster'] .poster:hover:not(.img-loading), .series serieheader[mode='poster'].context .poster:not(.img-loading) {
     background-color: #e5e5e5;
 }
-.series serieheader[mode='poster'] .poster:hover .img, .seasons serieheader[mode='poster'] .poster:hover .img {
+.series serieheader[mode='poster'] .poster:hover .img, .seasons serieheader[mode='poster'] .poster:hover .img, .series serieheader[mode='poster'].context .poster .img {
     opacity: 0.95;
 }
 
