@@ -184,17 +184,17 @@
 .flag.flag-sb {background-position: -352px -352px}
 .flag.flag-sc {background-position: -384px -352px}
 .flag.flag-sd {background-position: -416px -352px}
-.flag.flag-se {background-position: -448px -352px}
+.flag.flag-se, .flag.flag-sv_se {background-position: -448px -352px}
 .flag.flag-sg {background-position: 0 -384px}
-.flag.flag-si {background-position: -32px -384px}
+.flag.flag-si, .flag.flag-sl_si {background-position: -32px -384px}
 .flag.flag-sk {background-position: -64px -384px}
-.flag.flag-sl, .flag.flag-sl_si {background-position: -96px -384px}
+.flag.flag-sl {background-position: -96px -384px}
 .flag.flag-sm {background-position: -128px -384px}
 .flag.flag-sn {background-position: -160px -384px}
 .flag.flag-so {background-position: -192px -384px}
 .flag.flag-sr {background-position: -224px -384px}
 .flag.flag-st {background-position: -256px -384px}
-.flag.flag-sv, .flag.flag-sv_se {background-position: -288px -384px}
+.flag.flag-sv {background-position: -288px -384px}
 .flag.flag-sy {background-position: -320px -384px}
 .flag.flag-sz {background-position: -352px -384px}
 .flag.flag-tc {background-position: -384px -384px}
