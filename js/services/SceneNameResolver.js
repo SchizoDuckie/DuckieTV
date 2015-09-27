@@ -35,7 +35,7 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
                     if ("undefined" == typeof(moment)) {
                         moment = require('./js/vendor/moment.min');
                     }
-                    return moment.tz(episode.firstaired_iso, serie.timezone).format(episodesWithDateFormat[serie.TVDB_ID]) + append;
+                    return $q.resolve(moment.tz(episode.firstaired_iso, serie.timezone).format(episodesWithDateFormat[serie.TVDB_ID]) + append);
                 } else {
                     return SceneXemResolver.getEpisodeMapping(serie, episode, append);
                 }
