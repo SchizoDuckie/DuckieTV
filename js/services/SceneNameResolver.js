@@ -25,7 +25,7 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
              */
             getSceneName: function(tvdbID, name) {
                 tvdbID = parseInt(tvdbID);
-                return (tvdbID in exceptions) ? exceptions[tvdbID].replace(/\(([12][09][0-9]{2})\)/, '').replace('!', '').replace(' and ', ' ').replace(/\'/g, '') : name;
+                return (tvdbID in exceptions) ? exceptions[tvdbID].replace(/\(([12][09][0-9]{2})\)/, '').replace('!', '').replace(' and ', ' ').replace(/\'/g, '') : name.replace(/\(([12][09][0-9]{2})\)/, '').replace('!', '').replace(' and ', ' ').replace(/\'/g, '');
             },
 
             getSearchStringForEpisode: function(serie, episode) {
