@@ -3,7 +3,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
         var self = this;
         self.status = 'Idle';
-        this.model = null;
+
         this.defaultEngines = Object.keys(TorrentSearchEngines.getSearchEngines());
 
         // List of current engines for testing. When actual saving functionality is added we need to load
@@ -60,7 +60,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
         this.test = function(index) {
             self.status = 'creating test client';
-            this.model = angular.copy(this.customEngines[Object.keys(this.customEngines)[index]]);
+            self.model = angular.copy(this.customEngines[Object.keys(this.customEngines)[index]]);
 
             var testClient = new GenericTorrentSearchEngine({
                 mirror: this.model.mirror,
@@ -83,7 +83,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             }, $q, $http, $injector);
 
             self.status = "Executing test search";
-            testClient.search(self.model.testSearch).then(function(results) {
+            testClient.search(this.model.testSearch).then(function(results) {
                 self.status = results.length > 0 ? 'Working!' : 'No results for search query :( ';
                 $scope.$applyAsync();
             });
@@ -94,10 +94,10 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             // Delete the engine instead of disable it
             if (remove) {
                 TorrentSearchEngines.removeSearchEngine(name);
-                self.status = "Removed Search Engine " + name;
+                this.status = "Removed Search Engine " + name;
             } else {
                 TorrentSearchEngines.disableSearchEngine(name);
-                self.status = "Disabled Search Engine " + name;
+                this.status = "Disabled Search Engine " + name;
             }
         };
 
@@ -134,19 +134,6 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
         pageLog("Initializing");
 
-
-
-        if (data.engine && !data.isNew) {
-            pageLog("Engine detected that isn't new, editing mode");
-            this.model = data.engine;
-        } else if (data.isNew) {
-            pageLog("New engine detected, adding mode");
-            this.model = {};
-        }
-
-        this.model.infoMessages = {
-            'releaseNameSelector': 'testing'
-        };
 
 
         this.add = function() {
@@ -327,6 +314,18 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
         });
 
         FormlyLoader.load('CustomSearchEngine').then(function(fields) {
+            if (data.engine && !data.isNew) {
+                pageLog("Engine detected that isn't new, editing mode");
+                self.model = data.engine;
+            } else if (data.isNew) {
+                pageLog("New engine detected, adding mode");
+                self.model = {};
+            }
+
+            self.model.infoMessages = {
+                'releaseNameSelector': 'testing'
+            };
+
             self.fields = fields;
             console.log("Loaded!", fields);
         });
