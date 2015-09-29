@@ -21,7 +21,7 @@
 
           <div ng-show="episode.hasAired() && getSetting('torrenting.enabled')" class="torrentctrls">
             <torrent-dialog episode="episode" serie="sidepanel.serie"></torrent-dialog>
-            <a class="auto-download" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'COMMON/auto-download/lbl'|translate}}">
+            <a class="auto-download-episode" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'COMMON/auto-download/lbl'|translate}}">
               <i class="glyphicon glyphicon-cloud-download"></i>
             </a>
           </div>
