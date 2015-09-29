@@ -83,6 +83,24 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
         }
     };
 
+    this.torrentSettings = function() {
+        var d = dialogs.create('templates/settings/serieTorrentSettings.html', 'serieTorrentSettingsCtrl', {
+            serie: self.serie
+        }, {
+            bindToController: true,
+            size: 'xs'
+        });
+
+        d.result.then(function() {
+            //console.debug('Success');
+            d = undefined;
+        }, function() {
+            //console.debug('Cancelled');
+            d = undefined;
+
+        });
+    };
+
     this.toggleSerieDisplay = function() {
         this.serie.displaycalendar = this.serie.displaycalendar == '1' ? '0' : '1';
         this.serie.Persist();
