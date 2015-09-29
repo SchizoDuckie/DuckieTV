@@ -5,7 +5,6 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
     this.season = season;
     var self = this;
 
-
     this.autoDownload = function() {
         AutoDownloadService.autoDownload(this.serie, this.episode);
     };
@@ -19,10 +18,8 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
         });
 
         d.result.then(function() {
-            //console.debug('Success');
             d = undefined;
         }, function() {
-            //console.debug('Cancelled');
             d = undefined;
 
         });
@@ -53,9 +50,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
                 window.open('http://www.netflix.com/Login');
             } else {
                 Netflix.findShow(self.serie.name).then(function(result) {
-                    //console.debug("Found show on netflix!", result);
                     Netflix.findEpisode(result.id, episode.episodename).then(function(result) {
-                        //console.debug("Found episode link!", result);
                         if (result !== false) {
                             window.open(result);
                         }
@@ -69,7 +64,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
         SubtitleDialog.searchEpisode(this.serie, this.episode);
     };
 
-    /*
+    /**
      * This watches for the magnet:select event that will be fired by the
      * TorrentSearchEngines when a user selects a magnet link for an episode.
      */

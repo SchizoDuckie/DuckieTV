@@ -1,12 +1,13 @@
 /**
- * Show one season
+ * Controller for indidivual season view
  */
 DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameResolver, AutoDownloadService, $scope, $filter, $q, $rootScope) {
+    
     this.season = season;
     this.episodes = episodes;
 
     this.episodes.map(function(episode) {
-        /*
+        /**
          * This watches for the magnet:select event that will be fired by the
          * TorrentSearchEngines when a user selects a magnet link for an episode.
          */
@@ -17,7 +18,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
     });
 
     this.getPageHeader = function(season) {
-        return season.seasonnumber == 0 ? $filter('translate')('COMMON/specials/lbl') : $filter('translate')('COMMON/season/lbl') + ' ' + season.seasonnumber;
+        return season.seasonnumber === 0 ? $filter('translate')('COMMON/specials/lbl') : $filter('translate')('COMMON/season/lbl') + ' ' + season.seasonnumber;
     };
 
     this.getSortEpisodeNumber = function(episode) {
@@ -81,7 +82,6 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
     this.points = [];
     var data = $filter('orderBy')(this.episodes, this.getEpisodeNumber, false);
     for (var i = 0; i < data.length; i++) {
-
         this.points.push({
             x: i,
             y: data[i].rating,
@@ -89,5 +89,4 @@ DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameR
             season: parseInt(data[i].seasonnumber, 10)
         });
     }
-
-})
+});

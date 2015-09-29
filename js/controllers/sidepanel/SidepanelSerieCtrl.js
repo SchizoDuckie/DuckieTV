@@ -83,25 +83,6 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
         }
     };
 
-    this.torrentSettings = function() {
-        var d = dialogs.create('templates/settings/serieTorrentSettings.html', 'serieTorrentSettingsCtrl', {
-            serie: self.serie
-        }, {
-            bindToController: true,
-            size: 'xs'
-        });
-
-        d.result.then(function() {
-            //console.debug('Success');
-            d = undefined;
-        }, function() {
-            //console.debug('Cancelled');
-            d = undefined;
-
-        });
-    };
-
-
     this.toggleSerieDisplay = function() {
         this.serie.displaycalendar = this.serie.displaycalendar == '1' ? '0' : '1';
         this.serie.Persist();
@@ -125,13 +106,13 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
         });
     };
 
-    var genreList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateGenre()
-    var translatedGenreList = $filter('translate')('GENRELIST').split(',');
-    var translatedStatusList = $filter('translate')('STATUSLIST').split(',');
-    var statusList = 'canceled|ended|in production|returning series'.split('|'); // used by this.translateStatus()
-    var daysOfWeekList = 'Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday'.split('|'); // used by this.translateDayOfWeek()
+    var genreList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'), // used by this.translateGenre()
+        translatedGenreList = $filter('translate')('GENRELIST').split(','),
+        translatedStatusList = $filter('translate')('STATUSLIST').split(','),
+        statusList = 'canceled|ended|in production|returning series'.split('|'), // used by this.translateStatus()
+        daysOfWeekList = 'Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday'.split('|'); // used by this.translateDayOfWeek()
 
-    /*
+    /**
      * Takes the English Genre (as fetched from TraktTV) and returns a translation
      */
     this.translateGenre = function(genre) {
@@ -139,20 +120,21 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
         return (idx != -1) ? translatedGenreList[idx] : genre;
     };
 
-    /*
+    /**
      * Takes the English day of the week (as fetched from TraktTV) and returns a translation
      */
     this.translateDayOfWeek = function(dayofweek) {
         return $locale.DATETIME_FORMATS.DAY[daysOfWeekList.indexOf(dayofweek)];
     };
 
-    /*
+    /**
      * Takes the English status (as fetched from TraktTV) and returns a translation
      */
     this.translateStatus = function(status) {
         var idx = statusList.indexOf(status);
         return (idx != -1) ? translatedStatusList[idx] : status;
     };
+
     /**
      * Returns true as long as the add a show to favorites promise is running.
      */

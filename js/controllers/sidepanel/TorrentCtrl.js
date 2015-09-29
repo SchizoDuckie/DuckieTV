@@ -4,6 +4,7 @@
 DuckieTV.controller('TorrentCtrl', ["$rootScope", "DuckieTorrent",
     function($rootScope, DuckieTorrent) {
         var vm = this;
+        
         this.ports = [];
         this.session = false;
         this.authToken = localStorage.getItem('utorrent.token');

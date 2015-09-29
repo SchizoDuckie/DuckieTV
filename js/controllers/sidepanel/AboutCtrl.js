@@ -23,17 +23,17 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             }
         };
 
-        getStats = function() {
+        var getStats = function() {
             // Get Screen Size
             var screenSize = '';
             if (screen.width) {
-                width = (screen.width) ? screen.width : '';
-                height = (screen.height) ? screen.height : '';
+                var width = (screen.width) ? screen.width : '',
+                    height = (screen.height) ? screen.height : '';
                 screenSize += '' + width + " x " + height;
             }
 
             // Get Database Stats
-            countEntity = function(entity) {
+            var countEntity = function(entity) {
                 CRUD.executeQuery('select count(*) as count from ' + entity).then(function(result) {
                     $scope.statistics.push({
                         name: "DB " + entity,
@@ -43,7 +43,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             };
 
             // Count shows hidden from calendar
-            countHiddenShows = function() {
+            var countHiddenShows = function() {
                 CRUD.executeQuery("select count(displaycalendar) as count from Series where displaycalendar like 0").then(function(result) {
                     $scope.statistics.push({
                         name: "DB Series Hidden From Calendar",
@@ -53,13 +53,14 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             };
 
             // Get sync stats
-            getSyncTime = function() {
+            // Unused
+            var getSyncTime = function() {
                 /*
                  * if sync is supported get the synctime else indicate not available
                  */
                 if (StorageSyncService.isSupported()) {
                     StorageSyncService.get('lastSync').then(function(syncTime) {
-                        if (syncTime != null) {
+                        if (syncTime !== null) {
                             $scope.statistics.push({
                                 name: 'Storage Sync Last Synced on',
                                 data: new Date(syncTime).toGMTString()
@@ -83,7 +84,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             var activeTorrentingMirror = 'n/a';
             if (SettingsService.get('torrenting.enabled')) {
                 activeTorrentingMirror = ('config' in TorrentSearchEngines.getDefaultEngine() && 'mirror' in TorrentSearchEngines.getDefaultEngine().config) ? TorrentSearchEngines.getDefaultEngine().config.mirror : 'n/a';
-            };
+            }
 
             // Get date of last trakt update
             var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
@@ -107,19 +108,15 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             }];
 
             // DuckieTV version
-            if ('chrome' in window && 'app' in window.chrome && 'getDetails' in chrome.app && window.chrome.app.getDetails() != null && 'version' in window.chrome.app.getDetails()) {
+            if ('chrome' in window && 'app' in window.chrome && 'getDetails' in chrome.app && window.chrome.app.getDetails() !== null && 'version' in window.chrome.app.getDetails()) {
                 $scope.statistics.unshift({
                     name: window.chrome.app.getDetails().name,
                     data: window.chrome.app.getDetails().version
                 });
             } else {
-                $http({
-                    method: 'GET',
-                    url: 'VERSION'
-                }).
-                success(function(data, status, headers, config) {
+                $http.get('VERSION').success(function(data, status, headers, config) {
                     $scope.statistics.unshift({
-                        name: 'DuckieTV webbased',
+                        name: 'DuckieTV Web Based',
                         data: data
                     });
                 });

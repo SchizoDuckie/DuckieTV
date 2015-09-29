@@ -35,16 +35,16 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "Series
         };
 
         this.getHeartTooltip = function() {
-            var libraryHide = $filter('translate')('TAB/library-hide/glyph');
-            var libraryShow = $filter('translate')('TAB/library-show/glyph');
+            var libraryHide = $filter('translate')('TAB/library-hide/glyph'),
+                libraryShow = $filter('translate')('TAB/library-show/glyph');
             return SeriesListState.state.isShowing ? libraryHide : libraryShow;
         };
 
         this.getTorrentClientTooltip = function() {
-            var output = DuckieTorrent.getClient().getName();
-            var tcConnecting = ': ' + $filter('translate')('TAB/tc-connecting/glyph');
-            var tcConnected = ': ' + $filter('translate')('TAB/tc-connected/glyph');
-            var tcOffline = ': ' + $filter('translate')('TAB/tc-offline/glyph');
+            var output = DuckieTorrent.getClient().getName(),
+                tcConnecting = ': ' + $filter('translate')('TAB/tc-connecting/glyph'),
+                tcConnected = ': ' + $filter('translate')('TAB/tc-connected/glyph'),
+                tcOffline = ': ' + $filter('translate')('TAB/tc-offline/glyph');
             if (this.isTorrentClientConnecting()) return output + tcConnecting;
             return (this.isTorrentClientConnected()) ? output + tcConnected : output + tcOffline;
         };
