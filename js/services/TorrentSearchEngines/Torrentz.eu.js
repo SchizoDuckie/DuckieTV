@@ -15,7 +15,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     releasename: ['dt a', 'innerText'],
                     magneturl: ['dt a', 'href',
                         function(a) {
-                            return 'magnet:?xt=urn:sha1:' + a.substring(1);
+                            return 'magnet:?xt=urn:btih:' + a.substring(1);
                         }
                     ],
                     size: ['dd span.s', 'innerText'],
