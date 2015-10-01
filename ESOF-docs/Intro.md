@@ -64,6 +64,13 @@ We would like to start our work with you answering this question!
 
 ```javascript
 function goodbye() {
-	console.log("Looking forward to hearing from you soon!");
+	document.write("Looking forward to hearing from you soon!<br><br>");
+
+	var group = [];
+	group.push("João Silva","Luís Figueiredo","Pedro Teles");
+
+	for(var i = 0; i < group.length; i++) {
+		document.write(group[i] + '<br>');
+	}
 }
 ```
