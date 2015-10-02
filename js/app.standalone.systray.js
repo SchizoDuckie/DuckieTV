@@ -31,4 +31,8 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
         }
     });
 
+    win.addEventListener('onBeforeUnload', function() {
+        console.log('removing tray.');
+        tray.remove();
+    });
 }
