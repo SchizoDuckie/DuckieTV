@@ -23,15 +23,14 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             });
             tray.tooltip = navigator.userAgent;
             tray.on('click', function() {
+                this.remove();
                 win.show();
-                tray.remove();
-                tray = null;
                 win.emit('restore');
-            });
+            }.bind(tray));
         }
     });
 
-    win.addEventListener('onBeforeUnload', function() {
+    win.on('restore', function() {
         console.log('removing tray.');
         tray.remove();
     });
