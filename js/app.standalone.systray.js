@@ -11,22 +11,31 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
     // Get the minimize event
     win.on('minimize', function() {
         // should we minimize to systray or taskbar?
-        if (localStorage.getItem('standalone.minimizeSystray') === 'Y') {
+        if (window.localStorage.getItem('standalone.minimizeSystray') === 'Y') {
             // Hide window
             win.hide();
 
             // Show tray
+	    var menu =  new gui.Menu()
             tray = new gui.Tray({
                 title: navigator.userAgent,
                 icon: 'img/logo/icon64.png',
-                menu: new gui.Menu()
+                menu: menu
             });
-            tray.tooltip = navigator.userAgent;
-            tray.on('click', function() {
+	    var trayClick = function() {
                 this.remove();
                 win.show();
                 win.emit('restore');
-            }.bind(tray));
+            }.bind(tray);
+
+	    if(navigator.platform.indexOf('Mac') > -1) {
+		var clickie = new gui.MenuItem({ label: 'Show DuckieTV' });
+            	clickie.on('click', trayClick);
+		menu.append(clickie);
+	    }
+
+            tray.tooltip = navigator.userAgent;
+            tray.on('click', trayClick);
         }
     });
 
