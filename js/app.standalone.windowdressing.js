@@ -20,7 +20,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
         win.moveTo(parseInt(pos.x), parseInt(pos.y));
     }
 
-    if (localStorage.getItem('standalone.startupMinimized')) {
+    if (localStorage.getItem('standalone.startupMinimized') === 'Y') {
         win.minimize();
     }
 

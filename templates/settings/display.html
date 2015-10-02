@@ -110,5 +110,20 @@
     <a ng-click="toggleStandaloneStartupMinimized()" class="btn btn-{{standaloneStartupMinimized ? 'info' : 'success'}}">
       <i class="glyphicon glyphicon-{{standaloneStartupMinimized ? 'win-maximize' : 'win-minimize'}}"  style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i> {{standaloneStartupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-normal/btn' : 'SETTINGS/DISPLAY/standalone-startup-minimize/btn'|translate}}
     </a>
+    <hr class="setting-divider">
+
+    <h2>
+      <span tooltip="{{standaloneMinimizeSystray ? 'SETTINGS/DISPLAY/standalone-minimize-systray/tooltip' : 'SETTINGS/DISPLAY/standalone-minimize-taskbar/tooltip'|translate}}">
+        <i class="glyphicon glyphicon-{{standaloneMinimizeSystray ? 'win-systray alert-success' : 'win-taskbar alert-info'}}" style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i>
+      </span>
+      <li translate-once="SETTINGS/DISPLAY/standalone-minimize-systray/hdr"></li>
+    </h2>
+    
+    <p translate-once="SETTINGS/DISPLAY/standalone-minimize-systray/desc"></p>
+    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+     {{standaloneMinimizeSystray ? 'SETTINGS/DISPLAY/standalone-minimize-systray/tooltip' : 'SETTINGS/DISPLAY/standalone-minimize-taskbar/tooltip'|translate}}</p>
+    <a ng-click="toggleStandaloneMinimizeSystray()" class="btn btn-{{standaloneMinimizeSystray ? 'info' : 'success'}}">
+      <i class="glyphicon glyphicon-{{standaloneMinimizeSystray ? 'win-taskbar' : 'win-systray'}}"  style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i> {{standaloneMinimizeSystray ? 'SETTINGS/DISPLAY/standalone-minimize-taskbar/btn' : 'SETTINGS/DISPLAY/standalone-minimize-systray/btn'|translate}}
+    </a>
   </div>
 </div>

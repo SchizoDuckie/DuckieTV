@@ -10,22 +10,25 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
 
     // Get the minimize event
     win.on('minimize', function() {
-        // Hide window
-        win.hide();
+        // should we minimize to systray or taskbar?
+        if (localStorage.getItem('standalone.minimizeSystray') === 'Y') {
+            // Hide window
+            win.hide();
 
-        // Show tray
-        tray = new gui.Tray({
-            title: navigator.userAgent,
-            icon: 'img/logo/icon64.png',
-            menu: new gui.Menu()
-        });
-        tray.tooltip = navigator.userAgent;
-        tray.on('click', function() {
-            win.show();
-            tray.remove();
-            tray = null;
-            win.emit('restore');
-        });
-
+            // Show tray
+            tray = new gui.Tray({
+                title: navigator.userAgent,
+                icon: 'img/logo/icon64.png',
+                menu: new gui.Menu()
+            });
+            tray.tooltip = navigator.userAgent;
+            tray.on('click', function() {
+                win.show();
+                tray.remove();
+                tray = null;
+                win.emit('restore');
+            });
+        }
     });
+
 }

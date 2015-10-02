@@ -1485,6 +1485,22 @@ calendar-event .progress-bar {
     background-repeat:no-repeat;
     opacity:0.3;
 }
+.glyphicon.glyphicon-win-taskbar {
+    background-image: url('../img/icon-taskbar.png');
+    background-size: contain;
+    width: 24px;
+    height:22px;
+    background-repeat:no-repeat;
+    opacity:0.3;
+}
+.glyphicon.glyphicon-win-systray {
+    background-image: url('../img/icon-systray.png');
+    background-size: contain;
+    width: 24px;
+    height:22px;
+    background-repeat:no-repeat;
+    opacity:0.3;
+}
 calendar-event h2 {
     font-size: 24px;
 }
