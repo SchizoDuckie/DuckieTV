@@ -65,6 +65,9 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             var testClient = new GenericTorrentSearchEngine({
                 mirror: this.model.mirror,
                 noMagnet: this.model.magnetUrlSelector.length < 2, // hasMagnet,
+                loginRequired: this.model.loginRequired,
+                loginPage: this.model.loginPage,
+                loginTestSelector: this.model.loginTestSelector,
                 includeBaseURL: true, // this.model.includeBaseUrl,
                 endpoints: {
                     search: this.model.searchEndpoint,
@@ -78,7 +81,8 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                     size: [this.model.sizeSelector, this.model.sizeProperty],
                     seeders: [this.model.seederSelector, this.model.seederProperty],
                     leechers: [this.model.leecherSelector, this.model.leecherProperty],
-                    detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty]
+                    detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty],
+
                 }
             }, $q, $http, $injector);
 
@@ -153,6 +157,9 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 mirror: self.model.mirror,
                 noMagnet: self.model.magnetUrlSelector.length < 2, // hasMagnet,
                 includeBaseURL: true, // this.model.includeBaseUrl,
+                loginRequired: self.model.loginRequired,
+                loginPage: self.model.loginPage,
+                loginTestSelector: self.model.loginTestSelector,
                 endpoints: {
                     search: self.model.searchEndpoint,
                     details: [self.model.detailUrlSelector, self.model.detailUrlProperty]

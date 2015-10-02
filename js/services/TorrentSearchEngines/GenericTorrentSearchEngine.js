@@ -64,6 +64,15 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
         var selectors = config.selectors;
+        if ('loginRequired' in config && config.loginRequired) {
+            var loginTest = doc.querySelectorAll(config.loginTestSelector);
+            if (loginTest.length > 0) {
+                if (confirm("Not logged in @ " + config.mirror + '. Do you want to open a new window so that you can login?')) {
+                    window.open(config.mirror + config.loginPage);
+                }
+                throw "Not logged in!";
+            }
+        }
         var results = doc.querySelectorAll(selectors.resultContainer);
         var output = [];
 
@@ -116,7 +125,12 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         activeRequest = $q.defer();
         this.executeSearch(what, activeRequest).then(function(response) {
             //console.log("Torrent search executed!", response);
-            d.resolve(parseSearch(response));
+            try {
+                var result = parseSearch(response);
+                d.resolve(result);
+            } catch (E) {
+                d.reject(E);
+            }
         }, function(err) {
             if (err.status > 300) {
                 if (err.status == 404) {
