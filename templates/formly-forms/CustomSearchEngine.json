@@ -89,8 +89,7 @@
         "templateOptions": {
             "label": "Magnet URI supported?",
             "type": "checkbox"
-        },
-        "asyncValidators": "$mappings.validators.propertySelector"
+        }
     }]
 }, {
     "className": "row",
@@ -158,7 +157,6 @@
             "label": "magnet URL selector (hyperlink to the magnet url)",
             "type": "text"
         },
-        "asyncValidators": "$mappings.validators.propertySelector",
         "modelOptions": "$mappings.modelOptions.keyup"
     }, {
         "key": "magnetUrlProperty",
@@ -200,8 +198,7 @@
     }, {
         "className": "col-xs-3",
         "template": "<div class='searchengineinfo'><i class='glyphicon glyphicon-ok'></i> {{ model.infoMessages.torrentUrlSelector }} </p><p>{{ model.infoMessages.torrentUrlProperty}}</p></div>"
-    }],
-    "hideExpression": "model.magnetSupported"
+    }]
 }, {
     "className": "row",
     "fieldGroup": [{
