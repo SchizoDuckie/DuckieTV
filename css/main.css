@@ -1734,7 +1734,7 @@ sidepanel .leftpanel  h3 {
 }
 sidepanel .overview p {
     margin: 8px;
-    color: rgb(208, 208, 208);
+    color: rgb(215, 215, 215);
     font-size: 13px;
     overflow-y: auto;
     max-height: 200px;
@@ -1886,6 +1886,32 @@ sidepanel .metadata ul.actors {
     overflow-y: auto;
     max-height: 144px;
     font-size: 13px;
+}
+sidepanel .episodes .season-control {
+    text-align: center;
+    padding: 0 22px 0 22px;
+    margin-top: 13px;
+    margin-bottom: 8px;
+}
+sidepanel .episodes .season-control a {
+    line-height: 2;
+    font-size: 16px;
+    float: right;
+}
+sidepanel .episodes .season-control a:nth-of-type(1) {
+    line-height: 2.1;
+    float: left;
+}
+sidepanel .episodes .season-control a.disabled {
+    color: rgb(128, 128, 128);
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+sidepanel .episodes .season-control h2 {
+    display: inline-block;
+    color: white;
+    margin-top: 0;
 }
 
 sidepanel .episodes .torrent-mini-remote-control-progress div.progress-bar {

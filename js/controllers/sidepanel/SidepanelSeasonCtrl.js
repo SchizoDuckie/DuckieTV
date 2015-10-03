@@ -1,10 +1,35 @@
 /**
  * Controller for indidivual season view
  */
-DuckieTV.controller('SidepanelSeasonCtrl', function(season, episodes, SceneNameResolver, AutoDownloadService, $scope, $filter, $q, $rootScope) {
-    
+DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, $filter, $q, seasons, season, episodes, SceneNameResolver, AutoDownloadService) {
+    var vm = this;
+
     this.season = season;
+    this.seasons = seasons;
     this.episodes = episodes;
+    this.seasonIndex = null;
+
+    for (var i = 0; i < vm.seasons.length; i++) {
+        if (vm.seasons[i].ID_Season == vm.season.ID_Season) {
+            vm.seasonIndex = i;
+        }
+    }
+
+    this.gotoPreviousSeason = function() {
+        if (this.seasonIndex === this.seasons.length-1) {
+            return;
+        } else {
+            $state.go('serie.season', {'season_id': seasons[this.seasonIndex+1].ID_Season});
+        }        
+    };
+
+    this.gotoNextSeason = function() {
+        if (this.seasonIndex === 0) {
+            return;
+        } else {
+            $state.go('serie.season', {'season_id': seasons[this.seasonIndex-1].ID_Season});
+        }        
+    };
 
     this.episodes.map(function(episode) {
         /**

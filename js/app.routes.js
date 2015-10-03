@@ -305,7 +305,12 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             resolve: {
                 SidePanelState: expandSidePanel,
                 season: findSeasonByID,
-                episodes: findEpisodes
+                episodes: findEpisodes,
+                seasons: function($stateParams) {
+                    return Season.findBySerie({
+                        ID_Serie: $stateParams.id
+                    });
+                }
             },
             views: {
                 serieDetails: {
