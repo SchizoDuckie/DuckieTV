@@ -1,21 +1,22 @@
 /**
- * Controller for indidivual season view
+ * Controller for indidivual season view (episodes view)
  */
 DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, $filter, $q, seasons, season, episodes, SceneNameResolver, AutoDownloadService) {
-    var vm = this;
 
     this.season = season;
     this.seasons = seasons;
     this.episodes = episodes;
     this.seasonIndex = null;
 
-    for (var i = 0; i < vm.seasons.length; i++) {
-        if (vm.seasons[i].ID_Season == vm.season.ID_Season) {
-            vm.seasonIndex = i;
+    // Find the current Season Index relative to all Seasons
+    for (var i = 0; i < this.seasons.length; i++) {
+        if (this.seasons[i].ID_Season == this.season.ID_Season) {
+            this.seasonIndex = i;
         }
     }
 
     this.gotoPreviousSeason = function() {
+        // If we're on the last season or specials
         if (this.seasonIndex === this.seasons.length-1) {
             return;
         } else {
@@ -23,7 +24,9 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
         }        
     };
 
+   
     this.gotoNextSeason = function() {
+        // Seasons are sorted by latest to oldest therefore 0 should always the be latest.
         if (this.seasonIndex === 0) {
             return;
         } else {
@@ -42,6 +45,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
         }.bind(episode));
     });
 
+    // Return 'Specials' header if current season is Specials.
     this.getPageHeader = function(season) {
         return season.seasonnumber === 0 ? $filter('translate')('COMMON/specials/lbl') : $filter('translate')('COMMON/season/lbl') + ' ' + season.seasonnumber;
     };
@@ -104,6 +108,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
         return out;
     };
 
+    // Ratings graph
     this.points = [];
     var data = $filter('orderBy')(this.episodes, this.getEpisodeNumber, false);
     for (var i = 0; i < data.length; i++) {
