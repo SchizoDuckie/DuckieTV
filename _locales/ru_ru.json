@@ -385,6 +385,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "Автоматически загружать все",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "Эпизод рейтинг ",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "Извлечение эпизодов ",
+    "SIDEPANEL/EPISODES/next-season/tooltip": "Следующая Сезон",
+    "SIDEPANEL/EPISODES/previous-season/tooltip": "Предыдущая Сезон",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "Внести в",
     "SIDEPANEL/MARK-DOWNLOADED/marked-downloaded/tooltip": "Эпизод помечаются как загруженные",
     "SIDEPANEL/MARK-DOWNLOADED/marked-not-downloaded/tooltip": "Эпизод отмечен как не загружаются",

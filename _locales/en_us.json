@@ -385,6 +385,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "Auto download all",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "Episode Ratings",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "Fetching episodes",
+    "SIDEPANEL/EPISODES/next-season/tooltip": "Next Season",
+    "SIDEPANEL/EPISODES/previous-season/tooltip": "Previous Season",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "mark as",
     "SIDEPANEL/MARK-DOWNLOADED/marked-downloaded/tooltip": "Episode marked as downloaded",
     "SIDEPANEL/MARK-DOWNLOADED/marked-not-downloaded/tooltip": "Episode marked as not downloaded",

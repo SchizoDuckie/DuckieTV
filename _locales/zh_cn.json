@@ -385,6 +385,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "自动下载所有",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "情节评级 ",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "取集 ",
+    "SIDEPANEL/EPISODES/next-season/tooltip": "下个赛季",
+    "SIDEPANEL/EPISODES/previous-season/tooltip": "上个赛季",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "作为标记",
     "SIDEPANEL/MARK-DOWNLOADED/marked-downloaded/tooltip": "情节标记为下载",
     "SIDEPANEL/MARK-DOWNLOADED/marked-not-downloaded/tooltip": "事件标记为未下载",

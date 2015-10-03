@@ -385,6 +385,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "Samodejno prenesi vse",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "Ocena epizode",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "Pridobivanje epizode",
+    "SIDEPANEL/EPISODES/next-season/tooltip": "Naslednja Sezona",
+    "SIDEPANEL/EPISODES/previous-season/tooltip": "Prejšnja Sezona",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "znamka kot",
     "SIDEPANEL/MARK-DOWNLOADED/marked-downloaded/tooltip": "Označi kot prenesena epizoda",
     "SIDEPANEL/MARK-DOWNLOADED/marked-not-downloaded/tooltip": "Označi kot neprenesena epizoda",

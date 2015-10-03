@@ -385,6 +385,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "Scarica automaticamente tutti",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "Valutazione episodi",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "Importazione episodi",
+    "SIDEPANEL/EPISODES/next-season/tooltip": "Prossima Stagione",
+    "SIDEPANEL/EPISODES/previous-season/tooltip": "Stagione Precedente",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "marchia come",
     "SIDEPANEL/MARK-DOWNLOADED/marked-downloaded/tooltip": "Episodio contrassegnato come scaricato",
     "SIDEPANEL/MARK-DOWNLOADED/marked-not-downloaded/tooltip": "Episodio contrassegnato come non scaricati",

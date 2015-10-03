@@ -385,6 +385,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "自動的にすべてのダウンロード",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "エピソード定格 ",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "エピソードをフェッチ ",
+    "SIDEPANEL/EPISODES/next-season/tooltip": "次の季節",
+    "SIDEPANEL/EPISODES/previous-season/tooltip": "前シーズン",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "マークとして",
     "SIDEPANEL/MARK-DOWNLOADED/marked-downloaded/tooltip": "エピソードダウンロードとしてマーク",
     "SIDEPANEL/MARK-DOWNLOADED/marked-not-downloaded/tooltip": "エピソードは、ダウンロードしていないとマーク",
