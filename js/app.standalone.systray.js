@@ -11,7 +11,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
     // Get the minimize event
     win.on('minimize', function() {
         // should we minimize to systray or taskbar?
-        if (window.localStorage.getItem('standalone.minimizeSystray') === 'Y') {
+        if (window.localStorage.getItem('standalone.minimizeSystray') !== 'N') {
             // Hide window
             win.hide();
 
@@ -41,7 +41,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
 
     // get the restore event
     win.on('restore', function() {
-        if (window.localStorage.getItem('standalone.minimizeSystray') === 'Y') {
+        if (window.localStorage.getItem('standalone.minimizeSystray') !== 'N') {
             tray.remove();
         }
     });
