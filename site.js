@@ -133,24 +133,38 @@ jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').th
             return;
         }
     });
+
     $('.down').css({
         'opacity': 1,
         'transform': 'scale(1)'
     });
     $('#loader').hide();
     $('#loaded').show();
-    window.amtChangelog = 5;
+});
 
-    window.showChangeLog = function() {
-        var changelogItems = $('.p-changelog li');
-        for (var i = 0; i < changelogItems.length; i++) {
-            if (i > window.amtChangelog) {
-                $(changelogItems[i]).hide();
-            } else {
-                $(changelogItems[i]).show();
-            }
+// Shows the release notes for current release
+window.viewReleaseNotes = function() {
+    $('#releasenotes').show();
+    $('.viewreleasenotes').hide();
+};
+
+window.fetchNightlies = function() {
+    jQuery.getJSON('https://api.github.com/repos/DuckieTV/Nightlies/releases').then(function(result) {
+        
+    });
+};
+
+// Loads more of the changelog
+window.amtChangelog = 5;
+window.showChangeLog = function() {
+    var changelogItems = $('.p-changelog li');
+    for (var i = 0; i < changelogItems.length; i++) {
+        if (i > window.amtChangelog) {
+            $(changelogItems[i]).hide();
+        } else {
+            $(changelogItems[i]).show();
         }
     }
-    showChangeLog();
+};
 
-});
+showChangeLog();
