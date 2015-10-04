@@ -13,7 +13,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.showRatings = SettingsService.get('download.ratings');
         $scope.isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1);
         $scope.standaloneStartupMinimized = (localStorage.getItem('standalone.startupMinimized') === 'Y');
-        $scope.standaloneMinimizeSystray = (localStorage.getItem('standalone.minimizeSystray') === 'Y');
+        $scope.standaloneMinimizeSystray = (localStorage.getItem('standalone.minimizeSystray') !== 'N');
         $scope.sgEnabled = SettingsService.get('library.seriesgrid');
 
         $scope.toggleTopSites = function() {
