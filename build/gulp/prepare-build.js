@@ -33,63 +33,31 @@ var background = [
 ];
 
 /**
- * CSS files to be concatted. Note that there's separate code to include print.js
- */
-var styles = [
-    './css/bootstrap.min.css',
-    './css/main.css',
-    './css/anim.css',
-    './css/dialogs.css',
-    './css/flags.css'
-];
-
-
-/**
  * Concat the scripts array into a file named dist/app.js
  */
 gulp.task('concatScripts', function() {
     var tab = fs.readFileSync('tab.html').toString();
-    var matches = tab.match(/<!-- deploy:replace\=\'(.*)\' -->([\s\S]+?[\n]{0,})[^\/deploy:]<!-- \/deploy:replace -->/g);
-    var deps = [];
-    matches.map(function(match) {
+    var matches = tab.match(/<!-- deploy:replace\=\'(<script.*)\' -->([\s\S]+?[\n]{0,})[^\/deploy:]<!-- \/deploy:replace -->/gm);
 
-        if (match.indexOf('dist\/app.js') > -1) {
-            console.log(match, match.match(/\.(\/js\/[a-zA-Z0-9\/\.\-]+)/g));
-            deps = match.match(/(js\/[a-zA-Z0-9\/\.\-]+)/gm);
-        }
-    });
-    return gulp.src(deps)
-        .pipe(concat('app.js', {
+    return matches.map(function(match) {
+        var targetfile = /<!-- deploy:replace='<script src=\"dist\/(.*.js)\"/g.exec(match)[1];
+        var deps = match.match(/\.(\/js\/[a-zA-Z0-9\/\.\-]+)/g).map(function(script) {
+            if (script.indexOf('.min.js') >= -1) {
+                return script;
+            } else {
+                var mifi = script.replace('.js', '.min.js');
+                return fs.existsSync(mifi) ? mifi : script;
+            }
+        });
+
+        return gulp.src(deps)
+
+        .pipe(concat(targetfile, {
             newLine: ';'
         }))
+
         .pipe(gulp.dest('dist/'));
-});
-
-/**
- * Concat the dependencies array into a file named dist / deps.js
- */
-gulp.task('concatDeps', function() {
-
-    var tab = fs.readFileSync('tab.html').toString();
-    var matches = tab.match(/<!-- deploy:replace\=\'(.*)\' -->([\s\S]+?)[^\/deploy:]<!-- \/deploy:replace -->/g);
-    var deps = [];
-    matches.map(function(match) {
-        if (match.indexOf('dist\/deps.js') > -1) {
-            deps = match.match(/\.(\/js\/[a-zA-Z0-9\/\.\-]+)/g).map(function(script) {
-                if (script.indexOf('.min.js') >= -1) {
-                    return script;
-                } else {
-                    var mifi = script.replace('.js', '.min.js');
-                    return fs.existsSync(mifi) ? mifi : script;
-                }
-            });
-        }
     });
-    return gulp.src(deps)
-        .pipe(concat('deps.js', {
-            newLine: ';'
-        }))
-        .pipe(gulp.dest('dist/'));
 });
 
 /**
@@ -137,9 +105,23 @@ gulp.task('tabTemplate', ['buildTemplateCache'], function() {
  * Concat the styles.js into dist/style.css
  */
 gulp.task('concatStyles', function() {
-    return gulp.src(styles)
-        .pipe(concatCss("style.css"))
-        .pipe(gulp.dest('dist/'));
+
+    var tab = fs.readFileSync('tab.html').toString();
+    var matches = tab.match(/<!-- deploy:replace\=\'(<link.*)\' -->([\s\S]+?[\n]{0,})[^\/deploy:]<!-- \/deploy:replace -->/gm);
+    var deps = [];
+    return matches.map(function(match) {
+        var targetfile = /href="dist\/(.*\.css)\"/g.exec(match)[1];
+
+
+        styles = match.match(/(css\/[a-zA-Z0-9\/\.\-]+)/g)
+        console.log(styles);
+
+        return gulp.src(styles)
+            .pipe(concatCss(targetfile))
+            .pipe(gulp.dest('dist/'));
+    });
+
+
 });
 
 /**
@@ -155,7 +137,7 @@ gulp.task('print.css', function() {
  */
 
 
-gulp.task('copyToDeploy', ['concatScripts', 'concatDeps', 'concatBackgroundPage', 'concatStyles', 'print.css', 'launch.js', 'tabTemplate'], function() {
+gulp.task('copyToDeploy', ['concatScripts', 'concatBackgroundPage', 'concatStyles', 'print.css', 'launch.js', 'tabTemplate'], function() {
     return gulp.src(['VERSION', 'trakt-trending-500.json', '_locales/**', 'dist/**', 'fonts/**', 'img/**', 'templates/**'], {
             "base": "."
         })
@@ -252,18 +234,18 @@ gulp.task('manifests', ['copytab'], function() {
             .pipe(gulp.dest('../deploy/newtab/_locales/'))
             .pipe(gulp.dest('../deploy/browseraction/_locales/'));
     }
- 
-    gulp.src(['package.json', 'VERSION'])
-	.pipe(gulp.dest('../deploy/standalone/'));
 
-    if(nightly) {
-	gulp.src('../deploy/standalone/package.json')
-	.pipe(jsonedit(function(json) { 
-	   json.version = trim(fs.readFileSync('VERSION'));
-	   json['user-agent'] = json.window.title = "DuckieTV Standalone "+json.version;
-           return json;
-	}))
-	.pipe(gulp.dest('../deploy/standalone/package.json'));
+    gulp.src(['package.json', 'VERSION'])
+        .pipe(gulp.dest('../deploy/standalone/'));
+
+    if (nightly) {
+        gulp.src('../deploy/standalone/package.json')
+            .pipe(jsonedit(function(json) {
+                json.version = trim(fs.readFileSync('VERSION'));
+                json['user-agent'] = json.window.title = "DuckieTV Standalone " + json.version;
+                return json;
+            }))
+            .pipe(gulp.dest('../deploy/standalone/package.json'));
     }
 
     gulp.src('manifest.json')
