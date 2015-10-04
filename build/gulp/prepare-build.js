@@ -41,7 +41,7 @@ gulp.task('concatScripts', function() {
 
     return matches.map(function(match) {
         var targetfile = /<!-- deploy:replace='<script src=\"dist\/(.*.js)\"/g.exec(match)[1];
-        var deps = match.match(/\.(\/js\/[a-zA-Z0-9\/\.\-]+)/g).map(function(script) {
+        var deps = match.match(/(js\/[a-zA-Z0-9\/\.\-]+)/g).map(function(script) {
             if (script.indexOf('.min.js') >= -1) {
                 return script;
             } else {
