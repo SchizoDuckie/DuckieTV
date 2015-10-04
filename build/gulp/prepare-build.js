@@ -252,6 +252,19 @@ gulp.task('manifests', ['copytab'], function() {
             .pipe(gulp.dest('../deploy/newtab/_locales/'))
             .pipe(gulp.dest('../deploy/browseraction/_locales/'));
     }
+ 
+    gulp.src(['package.json', 'VERSION'])
+	.pipe(gulp.dest('../deploy/standalone/'));
+
+    if(nightly) {
+	gulp.src('../deploy/standalone/package.json')
+	.pipe(jsonedit(function(json) { 
+	   json.version = trim(fs.readFileSync('VERSION'));
+	   json['user-agent'] = json.window.title = "DuckieTV Standalone "+json.version;
+           return json;
+	}))
+	.pipe(gulp.dest('../deploy/standalone/package.json'));
+    }
 
     gulp.src('manifest.json')
         .pipe(jsonedit(noLaunch, formatOptions))

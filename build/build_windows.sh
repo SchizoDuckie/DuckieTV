@@ -2,8 +2,8 @@
 
 #./build/nwjs-build.sh --src=/var/www/deploy/browseraction --output-dir=/var/www/deploy/binaries --name=DuckieTV --win-icon=/var/www/DuckieTV/img/favicon.ico --osx-icon=/var/www/DuckieTV/build/duckietv.icns --CFBundleIdentifier=tv.duckie --target="3" --version="1.1.2" --libudev --nw=0.12.2 --build
 APPNAME="DuckieTV"
-VERSION="1.1.2"
-BASE_DIR="/var/www/deploy/browseraction/"
+VERSION=`cat ../VERSION`
+BASE_DIR="/var/www/deploy/standalone"
 BUILD_DIR="/var/www/deploy/binaries/win"
 OUTPUT_DIR="/var/www/deploy/binaries"
 ICON="/var/www/DuckieTV/img/favicon-inverted.ico"
@@ -14,8 +14,8 @@ rm -rf /var/www/deploy/TMP/win-ia32/
 rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
 
-./nwjs-build.sh --src=$BASE_DIR --output-dir=$OUTPUT_DIR --name=$APPNAME --win-icon=$ICON --target="2" --version=$VERSION --libudev --nw=0.12.2 --build
-
+./nwjs-build.sh --src=$BASE_DIR --output-dir=$OUTPUT_DIR --name=$APPNAME --win-icon=$ICON --target="2" --version=$VERSION --libudev --nw=0.12.3 --build
+echo ./nwjs-build.sh --src=$BASE_DIR --output-dir=$OUTPUT_DIR --name=$APPNAME --win-icon=$ICON --target="2" --version=$VERSION --libudev --nw=0.12.3 --build
 
 cat <<EOF > $BUILD_DIR/$APPNAME.nsi
 ;;; Define your application name
@@ -122,8 +122,9 @@ BrandingText "The TV Show Tracker You've been waiting for"
 EOF
 
 cd $BUILD_DIR
-#cp "${OUTPUT_DIR}/${APPNAME}-${DATE}-${PLATFORM_INDICATOR}.zip" .
-unzip "${OUTPUT_DIR}/${APPNAME}-${DATE}-${PLATFORM_INDICATOR}.zip"
+cp "${OUTPUT_DIR}/${APPNAME}-${DATE}-${PLATFORM_INDICATOR}.zip" .
+unzip "${APPNAME}-${DATE}-${PLATFORM_INDICATOR}.zip"
+rm "${APPNAME}-${DATE}-${PLATFORM_INDICATOR}.zip"
 makensis "${APPNAME}.nsi"
 
 zip -qq -m "${OUTPUT_DIR}/${APPNAME}-${VERSION}-windows-x32.zip" "${APPNAME}-${VERSION}-setup.exe";

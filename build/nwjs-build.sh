@@ -253,7 +253,6 @@ LICENSE
 
     MIT
 
-$(cat ${WORKING_DIR}/LICENSE)
 
 EOF
 }

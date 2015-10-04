@@ -14,10 +14,11 @@ gulp.task('nightly', function() {
     nightly = true;
     var d = new Date();
     ver = [d.getFullYear() + '' + d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()].join('.');
-    spawn("java", ["-Dwebdriver.chrome.driver=..\\chromedriver.exe", ' -jar ..\\selenium-server-standalone-2.43.1.jar'], {
-        cwd: process.cwd()
-    });
-    gulp.start('deploy').start('publish-webstore-nightly');
+//    spawn("java", ["-Dwebdriver.chrome.driver=..\\chromedriver.exe", ' -jar ..\\selenium-server-standalone-2.43.1.jar'], {
+//       cwd: process.cwd()
+//   });
+    gulp.start('default');
+	//.start('publish-webstore-nightly');
 });
 
 /**
