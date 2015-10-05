@@ -1,0 +1,13 @@
+{
+    "name": "DuckieTV",
+    "version": "1.2.9",
+    "description": "The TV Show Tracker you've been waiting for",
+    "src": "/var/www/deploy/standalone",
+    "nwjsVersion": "0.12.3",
+    "iconPath": "/var/www/DuckieTV/img/logo/icon256.png",
+    "windowsIconPath": "/var/www/DuckieTV/img/favicon-inverted.ico",
+    "osxIconPath": "/var/www/DuckieTV/build/resources/osx/duckietv.icns",
+    "osxBgPath": "/var/www/DuckieTV/img/logo/duckietv.png",
+    "CFBundleIdentifier": "tv.duckie",
+    "license": "/var/www/DuckieTV/LICENSE.md"
+}
