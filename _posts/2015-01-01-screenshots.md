@@ -43,4 +43,4 @@ Translations are available in 14 languages (English, Deutch, Español, Français
 <iframe width="560" height="315" src="https://www.youtube.com/embed/cipuVrQU0UU" frameborder="0" allowfullscreen></iframe>
 </center>
 
-<h1 style='padding-top: 50px;margin-bottom: -80px;'>Download DuckieTV</h1>
+<h1 id="download-duckietv" style='padding-top: 50px;margin-bottom:-70px;'>Download DuckieTV</h1>

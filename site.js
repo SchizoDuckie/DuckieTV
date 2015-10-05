@@ -144,7 +144,7 @@ jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').th
 
 // Shows the release notes for current release
 window.viewReleaseNotes = function() {
-    $('#releasenotes').show();
+    $('#releasenotes-container').slideDown();
     $('.viewreleasenotes').hide();
 };
 

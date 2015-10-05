@@ -4,7 +4,6 @@ bg: white
 color: black
 fa-icon: c
 circleimage: "img/no_censorship.png"
-circleimageoffsettop: "-12px"
 ---
 
 # DuckieTV hates censorship
@@ -15,4 +14,4 @@ DuckieTV tries to make it as simple as possible to bypass the silly censorship l
 
 If your country has implemented any IP or DNS blocking rules, automated mirror-resolving code will try to find a working copy of a well known torrent sites.
 
-When this is the case, consider adopting <a href="https://www.google.nl/search?q=anti+censorship+proxy" target="_blank">one of the many proxy services</a> to protect your privacy.
+When this is the case, consider adopting <a href="https://www.google.com/search?q=anti+censorship+proxy" target="_blank">one of the many proxy services</a> to protect your privacy.
