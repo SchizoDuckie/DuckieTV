@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=PKGNAME
+GenericName=PKGNAME
+Comment=Browse, manage, create, tag, delete gist snippets
+Exec=/usr/bin/PKGNAME
+Terminal=false
+Icon=/opt/PKGNAME/pixmaps/PKGNAME.xpm
+Type=Application
+Categories=Network;Devel;
+Version=PKGVERSION
+Name[en_US]=PKGNAME

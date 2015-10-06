@@ -1,0 +1,5 @@
+?package(PKGNAME): needs="X11" \
+  section="Applications/Network" \
+  title="PKGNAME" \
+  command="/opt/PKGNAME/bin/PKGNAME" \
+  icon="/opt/PKGNAME/pixmaps/PKGNAME.xpm"

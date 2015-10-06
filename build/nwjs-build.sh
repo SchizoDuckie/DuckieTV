@@ -8,24 +8,25 @@
 SCRIPT_VER='1.0.4'
 
 # Current working directory
-WORKING_DIR="$(cd -P -- "$(dirname -- "$0")" && pwd -P)";
+WORKING_DIR="/var/www/deploy/TMP";
+mkdir -p $WORKING_DIR
 
 # LOCAL mode is usefull when:
 #   * You're testing the script and you don't want to download NW archives every time
 #   * You have the archives localy
 # default is "FALSE"
-LOCAL_NW_ARCHIVES_MODE=false
-LOCAL_NW_ARCHIVES_PATH="${WORKING_DIR}/nwjs_download_cache"
+LOCAL_NW_ARCHIVES_MODE=FALSE
+
+# Temporary directory where all happens (relative to current directory where this script running from)
+# This directory will be auto created
+TMP="WORK_DIR"
+LOCAL_NW_ARCHIVES_PATH="${WORKING_DIR}/../nwjs_download_cache"
 
 # Default nwjs version
 NW_VERSION='0.11.6';
 
 # Base domain for nwjs download server
 DL_URL="http://dl.nwjs.io"
-
-# Temporary directory where all happens (relative to current directory where this script running from)
-# This directory will be auto created
-TMP="TMP"
 
 # Sorces directory path
 PKG_SRC="../../dist"

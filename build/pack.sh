@@ -3,8 +3,8 @@
 # Exit on error
 set -e
 
-BUILD_DIR=`/var/www/deploy/`
-CURRENT_DIR=`cwd`
+BUILD_DIR="/var/www/deploy"
+CURRENT_DIR=`pwd`
 WORKING_DIR="${BUILD_DIR}/TMP"
 RELEASE_DIR="${BUILD_DIR}/binaries"
 CONFIG_FILE="${CURRENT_DIR}/config.json"
@@ -25,7 +25,7 @@ get_value_by_key() {
 PKG_NAME=$(get_value_by_key name)
 
 if [[ ! -f "${WORKING_DIR}" ]]; then
-    mkdir -p TMP
+    mkdir -p ${WORKING_DIR}
 fi
 
 architechture="ia32 x64"
@@ -120,30 +120,16 @@ check_dependencies() {
 pack_linux () {
     for arch in ${architechture[@]}; do
         cd ${WORKING_DIR}
-        cp -r ${BUILD_DIR}/resources/linux/PKGNAME-VERSION-Linux ${BUILD_DIR}/TMP/$(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}
-        PKG_MK_DIR=${BUILD_DIR}/TMP/$(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}
+        cp -r ${CURRENT_DIR}/resources/linux/PKGNAME-VERSION-Linux ${WORKING_DIR}/WORK_DIR/$(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}
+        PKG_MK_DIR=${BUILD_DIR}/TMP/WORK_DIR/$(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}
         mv ${PKG_MK_DIR}/PKGNAME ${PKG_MK_DIR}/$(get_value_by_key name)
         mv ${PKG_MK_DIR}/$(get_value_by_key name)/PKGNAME ${PKG_MK_DIR}/$(get_value_by_key name)/$(get_value_by_key name)
         # replaces
-        replace -s PKGNAME $(get_value_by_key name)} -- ${PKG_MK_DIR}/README
-        replace -s PKGDESCRIPTION "$(get_value_by_key description)" -- ${PKG_MK_DIR}/README
-        replace -s PKGNAME $(get_value_by_key name) -- ${PKG_MK_DIR}/$(get_value_by_key name)/$(get_value_by_key name)
-        replace -s PKGNAME $(get_value_by_key name) -- ${PKG_MK_DIR}/setup
         # app file
-        mkdir -p  ${PKG_MK_DIR}/$(get_value_by_key name)/pixmaps/
-        cp $(get_value_by_key iconPath) ${PKG_MK_DIR}/$(get_value_by_key name)/pixmaps/$(get_value_by_key name).png
-        convert ${PKG_MK_DIR}/$(get_value_by_key name)/pixmaps/$(get_value_by_key name).png ${PKG_MK_DIR}/$(get_value_by_key name)/pixmaps/$(get_value_by_key name).xpm
-        cp ${BUILD_DIR}/TMP/linux-${arch}/latest-git/* ${PKG_MK_DIR}/$(get_value_by_key name)/
-        mv ${PKG_MK_DIR}/$(get_value_by_key name)/$(get_value_by_key name) ${PKG_MK_DIR}/$(get_value_by_key name)/$(get_value_by_key name)-bin
-        # application
-        mv ${PKG_MK_DIR}/share/applications/PKGNAME.desktop ${PKG_MK_DIR}/share/applications/$(get_value_by_key name).desktop
-        replace -s PKGNAME $(get_value_by_key name) -- ${PKG_MK_DIR}/share/applications/$(get_value_by_key name).desktop
-        replace -s PKGVERSION $(get_value_by_key version) -- ${PKG_MK_DIR}/share/applications/$(get_value_by_key name).desktop
-        # menu
-        mv ${PKG_MK_DIR}/share/menu/PKGNAME ${PKG_MK_DIR}/share/menu/$(get_value_by_key name)
-        replace -s PKGNAME $(get_value_by_key name) -- ${PKG_MK_DIR}/share/menu/$(get_value_by_key name)
+        cp ${BUILD_DIR}/TMP/WORK_DIR/linux-${arch}/latest-git/* ${PKG_MK_DIR}/$(get_value_by_key name)/
         # make the tar
-        tar -C ${WORKING_DIR} -czf $(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}.tar.gz $(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}
+        echo "tar -C ${BUILD_DIR}/TMP/WORK_DIR/ -czf $(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}.tar.gz $(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}"
+        tar -C ${BUILD_DIR}/TMP/WORK_DIR/ -czf $(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}.tar.gz $(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}
         mv ${WORKING_DIR}/$(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}.tar.gz ${RELEASE_DIR}
         printf "\nDone Linux ${arch}\n"
     done;
@@ -162,7 +148,7 @@ pack_osx () {
         mkdir -p ${WORKING_DIR}/build_osx/flat/base.pkg
         mkdir -p ${WORKING_DIR}/build_osx/flat/Resources/en.lproj
         mkdir -p ${WORKING_DIR}/build_osx/root/Applications
-        cp -R "${WORKING_DIR}/osx-${arch}/latest-git/$(get_value_by_key name).app" ${WORKING_DIR}/build_osx/root/Applications/
+        cp -R "${WORKING_DIR}/WORK_DIR/osx-${arch}/latest-git/$(get_value_by_key name).app" ${WORKING_DIR}/build_osx/root/Applications/
 	( cd ${WORKING_DIR}/build_osx/root/Applications && chmod -R a+xr $(get_value_by_key name).app )
         local COUNT_FILES=$(find ${WORKING_DIR}/build_osx/root | wc -l)
         local INSTALL_KB_SIZE=$(du -k -s ${WORKING_DIR}/build_osx/root | awk '{print $1}')
@@ -225,8 +211,8 @@ osx_distribution_helper
 pack_windows() {
     for arch in ${architechture[@]}; do
         cd ${WORKING_DIR}
-        cp -r ${BUILD_DIR}/resources/windows/app.nsi ${WORKING_DIR}
-        cp -r $(get_value_by_key windowsIconPath) ${BUILD_DIR}/TMP/win-${arch}/latest-git/
+        cp -r ${CURRENT_DIR}/resources/windows/app.nsi ${WORKING_DIR}
+        cp -r $(get_value_by_key windowsIconPath) ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/
         # Replce paths and vars in nsi script
         replace \
             NWJS_APP_REPLACE_APPNAME "$(get_value_by_key name)" \
@@ -234,12 +220,12 @@ pack_windows() {
             NWJS_APP_REPLACE_LICENSE $(get_value_by_key license) \
             NWJS_APP_REPLACE_VERSION $(get_value_by_key version) \
             NWJS_APP_REPLACE_EXE_NAME $(get_value_by_key name)-$(get_value_by_key version)-Windows-${arch}.exe \
-            NWJS_APP_REPLACE_INC_FILE_1 ${BUILD_DIR}/TMP/win-${arch}/latest-git/$(get_value_by_key name).exe \
-            NWJS_APP_REPLACE_INC_FILE_2 ${BUILD_DIR}/TMP/win-${arch}/latest-git/icudtl.dat \
-            NWJS_APP_REPLACE_INC_FILE_3 ${BUILD_DIR}/TMP/win-${arch}/latest-git/libEGL.dll \
-            NWJS_APP_REPLACE_INC_FILE_4 ${BUILD_DIR}/TMP/win-${arch}/latest-git/libGLESv2.dll \
-            NWJS_APP_REPLACE_INC_FILE_5 ${BUILD_DIR}/TMP/win-${arch}/latest-git/nw.pak \
-            NWJS_APP_REPLACE_INC_FILE_6 ${BUILD_DIR}/TMP/win-${arch}/latest-git/d3dcompiler_47.dll \
+            NWJS_APP_REPLACE_INC_FILE_1 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/$(get_value_by_key name).exe \
+            NWJS_APP_REPLACE_INC_FILE_2 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/icudtl.dat \
+            NWJS_APP_REPLACE_INC_FILE_3 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/libEGL.dll \
+            NWJS_APP_REPLACE_INC_FILE_4 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/libGLESv2.dll \
+            NWJS_APP_REPLACE_INC_FILE_5 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/nw.pak \
+            NWJS_APP_REPLACE_INC_FILE_6 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/d3dcompiler_47.dll \
             NWJS_APP_REPLACE_ICO_FILE_NAME $(basename $(get_value_by_key windowsIconPath)) \
             NWJS_APP_REPLACE_INC_FILE_ICO $(get_value_by_key windowsIconPath) -- app.nsi;
         makensis app.nsi
@@ -258,7 +244,8 @@ build() {
     if [[ ! -d "${RELEASE_DIR}" ]]; then
         mkdir ${RELEASE_DIR}
     fi
-    ${BUILD_DIR}/nwjs-build.sh \
+    cd ${WORKING_DIR}
+    ${CURRENT_DIR}/nwjs-build.sh \
         --src=$(get_value_by_key src) \
         --name=$(get_value_by_key name) \
         --nw=$(get_value_by_key nwjsVersion) \
@@ -269,7 +256,6 @@ build() {
         --version=$(get_value_by_key version) \
         --libudev \
         --build
-    cd ${BUILD_DIR}
 }
 
 # Execute hooks
@@ -277,13 +263,13 @@ hook() {
     printf "\nNOTE! \"${1}\" hook executed\n\n";
     case "$1" in
         before)
-            ${BUILD_DIR}/hooks/before.sh
+            ${CURRENT_DIR}/hooks/before.sh
             ;;
         after)
-            ${BUILD_DIR}/hooks/after.sh
+            ${CURRENT_DIR}/hooks/after.sh
             ;;
         after_build)
-            ${BUILD_DIR}/hooks/after_build.sh
+            ${CURRENT_DIR}/hooks/after_build.sh
             ;;
     esac
 }
