@@ -11,7 +11,7 @@ gulp.task('nightly', function() {
         console.log("No USERNAME and/or PWD environment variables defined for chrome webstore deployment! Not launching upload task");
     }
 
-    nightly = true;
+    process.nightly = true;
     var d = new Date();
     ver = [d.getFullYear() + '' + d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()].join('.');
 //    spawn("java", ["-Dwebdriver.chrome.driver=..\\chromedriver.exe", ' -jar ..\\selenium-server-standalone-2.43.1.jar'], {

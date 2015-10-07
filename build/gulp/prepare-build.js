@@ -22,7 +22,6 @@ var gulp = require('gulp'),
     fs = require('fs'),
     spawn = require('child_process').spawn;
 
-var nightly = false; // for nightly builds
 var ver = String(fs.readFileSync('VERSION')).trim();
 
 /**
@@ -221,8 +220,8 @@ gulp.task('manifests', ['copytab'], function() {
         return json;
     };
 
-    if (nightly) {
-        console.log('nightly mode!');
+    if (process.nightly) {
+        console.log('--------------> nightly mode!');
         gulp.src('./_locales/**/messages.json')
             .pipe(jsonedit(function(json) {
                 json.appNameNewTab.message += " - Canary";
@@ -237,21 +236,18 @@ gulp.task('manifests', ['copytab'], function() {
 
     gulp.src(['package.json', 'VERSION'])
         .pipe(gulp.dest('../deploy/standalone/'));
+   console.log("parsing json");
+    if (process.nightly) {
 
-    if (nightly) {
-
-        gulp.src('./build/config.json')
-            .pipe(jsonedit(function(json) {
-                json.name = "DuckieTV Nightly";
-                json.version = trim(fs.readFileSync('VERSION'));
-                return json;
-            }))
-            .pipe(gulp.dest('./build/config.json'));
-
+        var j = JSON.parse(fs.readFileSync('build/config.json'));
+        j.name = "DuckieTV";
+        j.version = ver;
+        fs.writeFileSync('build/config.json', JSON.stringify(j, null, "\t"));
+		
         gulp.src('../deploy/standalone/package.json')
             .pipe(jsonedit(function(json) {
-                json.version = trim(fs.readFileSync('VERSION'));
-                json['user-agent'] = json.window.title = "DuckieTV Standalone " + json.version;
+                json.version = ver
+                json['user-agent'] = json.window.title = "DuckieTV Standalone " + ver;
                 return json;
             }))
             .pipe(gulp.dest('../deploy/standalone/package.json'));
