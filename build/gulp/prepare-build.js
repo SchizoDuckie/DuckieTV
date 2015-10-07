@@ -239,6 +239,15 @@ gulp.task('manifests', ['copytab'], function() {
         .pipe(gulp.dest('../deploy/standalone/'));
 
     if (nightly) {
+
+        gulp.src('./build/config.json')
+            .pipe(jsonedit(function(json) {
+                json.name = "DuckieTV Nightly";
+                json.version = trim(fs.readFileSync('VERSION'));
+                return json;
+            }))
+            .pipe(gulp.dest('./build/config.json'));
+
         gulp.src('../deploy/standalone/package.json')
             .pipe(jsonedit(function(json) {
                 json.version = trim(fs.readFileSync('VERSION'));
