@@ -17,21 +17,25 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
 
     this.gotoPreviousSeason = function() {
         // If we're on the last season or specials
-        if (this.seasonIndex === this.seasons.length-1) {
+        if (this.seasonIndex === this.seasons.length - 1) {
             return;
         } else {
-            $state.go('serie.season', {'season_id': seasons[this.seasonIndex+1].ID_Season});
-        }        
+            $state.go('serie.season', {
+                'season_id': seasons[this.seasonIndex + 1].ID_Season
+            });
+        }
     };
 
-   
+
     this.gotoNextSeason = function() {
         // Seasons are sorted by latest to oldest therefore 0 should always the be latest.
         if (this.seasonIndex === 0) {
             return;
         } else {
-            $state.go('serie.season', {'season_id': seasons[this.seasonIndex-1].ID_Season});
-        }        
+            $state.go('serie.season', {
+                'season_id': seasons[this.seasonIndex - 1].ID_Season
+            });
+        }
     };
 
     this.episodes.map(function(episode) {
@@ -41,6 +45,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
          */
         $scope.$on('magnet:select:' + episode.TVDB_ID, function(evt, magnet) {
             this.magnetHash = magnet;
+            this.downloaded = 0;
             this.Persist();
         }.bind(episode));
     });

@@ -70,6 +70,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
      */
     $scope.$on('magnet:select:' + this.episode.TVDB_ID, function(evt, magnet) {
         this.magnetHash = magnet;
+        this.downloaded = 0;
         this.Persist();
     }.bind(this.episode));
 });
