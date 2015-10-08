@@ -220,6 +220,12 @@ gulp.task('manifests', ['copytab'], function() {
         return json;
     };
 
+    var nightlyProperties = function(json) {
+ 	json.version = ver;
+        json['user-agent'] = json.window.title = "DuckieTV Standalone " + json.version;
+	return json;
+    };
+
     if (process.nightly) {
         console.log('--------------> nightly mode!');
         gulp.src('./_locales/**/messages.json')
@@ -233,24 +239,20 @@ gulp.task('manifests', ['copytab'], function() {
             .pipe(gulp.dest('../deploy/newtab/_locales/'))
             .pipe(gulp.dest('../deploy/browseraction/_locales/'));
     }
+	
+    if (!process.nightly) {
+	gulp.src(['package.json', 'VERSION'])
+        .pipe(gulp.dest('../deploy/standalone/'))
+    } else {
+	gulp.src('package.json')
+	.pipe(jsonedit(nightlyProperties,formatOptions))
+	.pipe(gulp.dest('../deploy/standalone/'))
 
-    gulp.src(['package.json', 'VERSION'])
-        .pipe(gulp.dest('../deploy/standalone/'));
-   console.log("parsing json");
-    if (process.nightly) {
-
+	fs.writeFileSync('../deploy/standalone/VERSION', ver);
+	
         var j = JSON.parse(fs.readFileSync('build/config.json'));
-        j.name = "DuckieTV";
         j.version = ver;
         fs.writeFileSync('build/config.json', JSON.stringify(j, null, "\t"));
-		
-        gulp.src('../deploy/standalone/package.json')
-            .pipe(jsonedit(function(json) {
-                json.version = ver
-                json['user-agent'] = json.window.title = "DuckieTV Standalone " + ver;
-                return json;
-            }))
-            .pipe(gulp.dest('../deploy/standalone/package.json'));
     }
 
     gulp.src('manifest.json')
