@@ -239,9 +239,13 @@ gulp.task('manifests', ['copytab'], function() {
             .pipe(gulp.dest('../deploy/newtab/_locales/'))
             .pipe(gulp.dest('../deploy/browseraction/_locales/'));
     }
-	
+
+
+    gulp.src('VERSION')
+	.pipe(gulp.dest('../deploy/standalone/'))
+
     if (!process.nightly) {
-	gulp.src(['package.json', 'VERSION'])
+	gulp.src('package.json')
         .pipe(gulp.dest('../deploy/standalone/'))
     } else {
 	gulp.src('package.json')
@@ -253,6 +257,7 @@ gulp.task('manifests', ['copytab'], function() {
         var j = JSON.parse(fs.readFileSync('build/config.json'));
         j.version = ver;
         fs.writeFileSync('build/config.json', JSON.stringify(j, null, "\t"));
+	console.log("Wrote new nightly config.json! ", j);
     }
 
     gulp.src('manifest.json')
