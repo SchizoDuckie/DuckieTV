@@ -1,0 +1,11 @@
+/*
+* this class is included in the production builds
+* and is used to hide Development GUI that is not ready for release
+*/
+hide-prod {
+	display:none !important;
+}
+
+.hide-prod {
+	display:none !important;
+}
