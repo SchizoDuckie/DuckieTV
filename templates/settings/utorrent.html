@@ -8,7 +8,9 @@
   <p ng-show="!isuTorrentAuthenticated()"><span translate-once="SETTINGS/UTORRENT/is-not-authenticated/desc"></span></p>
   
   <a class='btn btn-small btn-warning' ng-if="isuTorrentAuthenticated()" ng-click='removeToken()'><i class="glyphicon glyphicon-ban-circle"></i> <span translate-once="SETTINGS/UTORRENT/clear-authority/btn"></span></a>
-  <a class='btn btn-small btn-success' ng-if="!isuTorrentAuthenticated()" ng-click='connect()'><i class="glyphicon glyphicon-refresh"></i> <span translate-once="SETTINGS/UTORRENT/connect-to-utorrent/btn"></span></a>
+  <hide-demo>
+    <a class='btn btn-small btn-success' ng-if="!isuTorrentAuthenticated()" ng-click='connect()'><i class="glyphicon glyphicon-refresh"></i> <span translate-once="SETTINGS/UTORRENT/connect-to-utorrent/btn"></span></a>
+  </hide-demo>
 
   <hr class="setting-divider">
   
