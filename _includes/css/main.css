@@ -198,8 +198,8 @@ hr {
 #main > nav ul li:hover,#main >  nav ul li.active {
   border-top-width: {{navborder_active}}px;
   padding-top: 0;
+  border-color: #555;
 }
-
 
 /* ----- sections/articles ----- */
 
@@ -764,6 +764,10 @@ nav.thumbGridNav a.sel {
 }
 
 /* Welcome and Standalone Downloads Section */
+#welcome {
+  min-height: 900px;
+}
+
 .p-welcome {
   margin-top: -230px;  
   padding-top: 250px;
@@ -776,12 +780,29 @@ nav.thumbGridNav a.sel {
   display: none;
 }
 
-.info {
-  background-color: rgba(255,255,0, 0.1);
-  border: 1px solid green;
-  padding: 20px !important;
+#welcome p.info {
+  color: rgb(60, 118, 61);
+  background-color: rgb(223, 240, 216);
+  border-color: rgb(185, 226, 150);
+  border: 1px solid;
+  padding: 20px;
   border-radius: 10px;
 }
+#welcome p.warning {
+  color: rgb(138, 109, 59);
+  background-color: rgb(252, 248, 227);
+  border-color: rgb(230, 214, 182);
+  border: 1px solid;
+  padding: 13px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 0;
+}
+#welcome p.warning:hover {
+  background-color: rgb(249, 243, 211)
+}
+
+.nightly-container
 
 .subtlecircle.down {
   cursor: pointer;

@@ -92,7 +92,7 @@ $(document).ready(function() {
             $(this).on('click', function(event) {
                 event.preventDefault();
                 var target = $(event.target).closest("a");
-                var targetHight = $(target.attr("href")).offset().top
+                var targetHight = $(target.attr("href")).offset().top;
                 $('html,body').animate({
                     scrollTop: targetHight - 170
                 }, 800, "easeInOutExpo");
@@ -143,9 +143,17 @@ jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').th
 });
 
 // Shows the release notes for current release
-window.viewReleaseNotes = function() {
-    $('#releasenotes-container').slideDown();
-    $('.viewreleasenotes').hide();
+window.notesShown = 0;
+window.toggleReleaseNotes = function() {
+    if (window.notesShown) {
+        window.notesShown = 0;
+        $('#releasenotes-container').slideUp();
+        $('.viewreleasenotes button')[0].innerText = "View release notes";
+    } else {
+        window.notesShown = 1;
+        $('#releasenotes-container').slideDown();
+        $('.viewreleasenotes button')[0].innerText = "Hide release notes";
+    }
 };
 
 window.fetchNightlies = function() {
@@ -154,8 +162,10 @@ window.fetchNightlies = function() {
     });
 };
 
-// Loads more of the changelog
-window.amtChangelog = 5;
+
+window.amtChangelog = 5; // +1
+
+// Function to display more of the changelog
 window.showChangeLog = function() {
     var changelogItems = $('.p-changelog li');
     for (var i = 0; i < changelogItems.length; i++) {
@@ -167,4 +177,4 @@ window.showChangeLog = function() {
     }
 };
 
-showChangeLog();
+window.showChangeLog();
