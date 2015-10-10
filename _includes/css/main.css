@@ -505,13 +505,6 @@ hr {
   background-color: rgba(0, 0, 0, 0.50);
 }
 
-.featherlight-content .caption {
-  position: absolute;
-  bottom: 0;
-  text-align: center;
-  color: white;
-}
-
 #download-duckietv {
   padding-top: 50px;
   margin-bottom:-70px;

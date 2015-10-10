@@ -89,7 +89,8 @@
         color: white;
         width: calc(100% - 50px);
         padding: 5px;
-        background-color: rgba(0, 0, 0, 0.45);
+        background-color: rgba(0, 0, 0, 0.625);
+        text-shadow: 0 0 20px black;
     }
 }
 

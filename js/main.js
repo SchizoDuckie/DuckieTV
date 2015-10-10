@@ -75,7 +75,7 @@ $.extend($.easing, {
 })(jQuery);
 
 // Manually add the caption box as FeatherLight doesn't support it natively
-$.featherlight.prototype.afterContent = function() {
+$.featherlight.prototype.beforeContent = function() {
   var caption = this.$currentTarget.find('img').attr('data-caption');
   this.$instance.find('.caption').remove();
   $('<div class="caption">').text(caption).appendTo(this.$instance.find('.featherlight-content'));
