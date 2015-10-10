@@ -74,6 +74,12 @@ $.extend($.easing, {
     }
 })(jQuery);
 
+// Manually add the caption box as FeatherLight doesn't support it natively
+$.featherlight.prototype.afterContent = function() {
+  var caption = this.$currentTarget.find('img').attr('data-caption');
+  this.$instance.find('.caption').remove();
+  $('<div class="caption">').text(caption).appendTo(this.$instance.find('.featherlight-content'));
+};
 
 $(document).ready(function() {
 
@@ -88,7 +94,7 @@ $(document).ready(function() {
 
     //links going to other sections nicely scroll
     $(".container a").each(function() {
-        if ($(this).attr("href").charAt(0) == '#') {
+        if ($(this).attr("href") && $(this).attr("href").charAt(0) == '#') {
             $(this).on('click', function(event) {
                 event.preventDefault();
                 var target = $(event.target).closest("a");
@@ -101,8 +107,6 @@ $(document).ready(function() {
     });
 
 });
-
-jQuery("[data-thumbgrid]").thumbGrid();
 
 jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').then(function(result) {
     $('#version').html(result[0].tag_name);
@@ -155,13 +159,6 @@ window.toggleReleaseNotes = function() {
         $('.viewreleasenotes button')[0].innerText = "Hide release notes";
     }
 };
-
-window.fetchNightlies = function() {
-    jQuery.getJSON('https://api.github.com/repos/DuckieTV/Nightlies/releases').then(function(result) {
-        
-    });
-};
-
 
 window.amtChangelog = 5; // +1
 
