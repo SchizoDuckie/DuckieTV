@@ -13,6 +13,7 @@ DuckieTV
         var notifications = {
             '1.1.3': ["<li>Romanian translations by honeybunny from Addic7ed",
                 "<li>French translations by Tra-Vis",
+                "<li>Norwegian translations by hexjelly",
                 "<li>Bug fixes for Torrent Client Integrations",
                 "<li>Improve Auto-download torrent search matching",
                 "<li>Fixed adding shows with numeric titles",
