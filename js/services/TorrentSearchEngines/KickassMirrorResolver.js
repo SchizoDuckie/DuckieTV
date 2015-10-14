@@ -45,15 +45,21 @@ DuckieTV.factory('KickassMirrorResolver', ["$q", "$http", "$injector",
         }
 
         /** 
-         * When a Kickass Torrent test search has been executed, verify that at least one magnet link is available in the
+         * When a KickAss Torrent test search has been executed, verify that at least one magnet link is available in the
          * expected layout. (Some proxies proxy your magnet links so they can track them, we don't want that.)
          */
         function parseKATTestSearch(result, allowUnsafe) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(result.data, "text/html");
-            var result = doc.querySelector('table.data tr > td:nth-child(1) > div.iaconbox.floatright > a.imagnet.icon16');
-            doc = null;
-            parser = null;
+            var icon16s = doc.querySelectorAll('table.data tr > td:nth-child(1) > div.iaconbox.center.floatright > a.icon16');
+            var result = null;
+            for (var i = 0; i < icon16s.length; i++) {
+                if (icon16s[i].href && (allowUnsafe ? true : icon16s[i].href.indexOf('magnet') == 0)) {
+                  result = icon16s[i];
+                  break;
+                }
+            }
+            doc = parser = icon16s = null;
             return result && result.href && (allowUnsafe ? true : result.href.indexOf('magnet') == 0);
         }
 
