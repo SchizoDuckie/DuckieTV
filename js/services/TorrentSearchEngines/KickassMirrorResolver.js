@@ -5,7 +5,7 @@ DuckieTV.factory('KickassMirrorResolver', ["$q", "$http", "$injector",
     function($q, $http, $injector) {
 
         var $rootScope = $injector.get('$rootScope'),
-            maxAttempts = 50,
+            maxAttempts = 49,
             endpoints = {
                 kickasstorrents: 'http://www.rockaproxy.com/allTorrentLinksPage.php'
             },
@@ -54,7 +54,7 @@ DuckieTV.factory('KickassMirrorResolver', ["$q", "$http", "$injector",
             var icon16s = doc.querySelectorAll('table.data tr > td:nth-child(1) > div.iaconbox.center.floatright > a.icon16');
             var result = null;
             for (var i = 0; i < icon16s.length; i++) {
-                if (icon16s[i].href && (allowUnsafe ? true : icon16s[i].href.indexOf('magnet') == 0)) {
+                if (icon16s[i].title && icon16s[i].title.indexOf('magnet') != -1) {
                   result = icon16s[i];
                   break;
                 }
