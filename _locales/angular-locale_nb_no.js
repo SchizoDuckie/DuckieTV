@@ -4,68 +4,68 @@ var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "
 $provide.value("$locale", {
   "DATETIME_FORMATS": {
     "AMPMS": [
-      "dop.",
-      "pop."
+      "AM",
+      "PM"
     ],
     "DAY": [
-      "nedelja",
-      "ponedeljek",
-      "torek",
-      "sreda",
-      "\u010detrtek",
-      "petek",
-      "sobota"
+      "s\u00f8ndag",
+      "mandag",
+      "tirsdag",
+      "onsdag",
+      "torsdag",
+      "fredag",
+      "l\u00f8rdag"
     ],
     "MONTH": [
       "januar",
       "februar",
-      "marec",
+      "mars",
       "april",
-      "maj",
-      "junij",
-      "julij",
-      "avgust",
+      "mai",
+      "juni",
+      "juli",
+      "august",
       "september",
       "oktober",
       "november",
-      "december"
+      "desember"
     ],
     "SHORTDAY": [
-      "ned.",
-      "pon.",
+      "s\u00f8n.",
+      "man.",
+      "tir.",
+      "ons.",
       "tor.",
-      "sre.",
-      "\u010det.",
-      "pet.",
-      "sob."
+      "fre.",
+      "l\u00f8r."
     ],
     "SHORTMONTH": [
       "jan.",
       "feb.",
-      "mar.",
+      "mars",
       "apr.",
-      "maj",
-      "jun.",
-      "jul.",
-      "avg.",
+      "mai",
+      "juni",
+      "juli",
+      "aug.",
       "sep.",
       "okt.",
       "nov.",
-      "dec."
+      "des."
     ],
-    "fullDate": "EEEE, dd. MMMM y",
-    "longDate": "dd. MMMM y",
-    "medium": "d. MMM yyyy HH:mm:ss",
-    "mediumDate": "d. MMM yyyy",
+    "fullDate": "EEEE d. MMMM y",
+    "longDate": "d. MMMM y",
+    "medium": "d. MMM y HH:mm:ss",
+    "mediumDate": "d. MMM y",
     "mediumTime": "HH:mm:ss",
-    "short": "d. MM. yy HH:mm",
-    "shortDate": "d. MM. yy",
+    "short": "dd.MM.yy HH:mm",
+    "shortDate": "dd.MM.yy",
     "shortTime": "HH:mm"
   },
   "NUMBER_FORMATS": {
-    "CURRENCY_SYM": "\u20ac",
+    "CURRENCY_SYM": "kr",
     "DECIMAL_SEP": ",",
-    "GROUP_SEP": ".",
+    "GROUP_SEP": "\u00a0",
     "PATTERNS": [
       {
         "gSize": 3,
@@ -86,14 +86,14 @@ $provide.value("$locale", {
         "maxFrac": 2,
         "minFrac": 2,
         "minInt": 1,
-        "negPre": "(\u00a4",
-        "negSuf": ")",
-        "posPre": "\u00a4",
+        "negPre": "\u00a4\u00a0-",
+        "negSuf": "",
+        "posPre": "\u00a4\u00a0",
         "posSuf": ""
       }
     ]
   },
-  "id": "si",
-  "pluralCat": function (n) {  if (n % 100 == 1) {   return PLURAL_CATEGORY.ONE;  }  if (n % 100 == 2) {   return PLURAL_CATEGORY.TWO;  }  if (n % 100 == 3 || n % 100 == 4) {   return PLURAL_CATEGORY.FEW;  }  return PLURAL_CATEGORY.OTHER;}
+  "id": "nb-no",
+  "pluralCat": function (n) {  if (n == 1) {   return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);
