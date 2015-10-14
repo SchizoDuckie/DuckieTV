@@ -5,7 +5,7 @@ DuckieTV.factory('KickassMirrorResolver', ["$q", "$http", "$injector",
     function($q, $http, $injector) {
 
         var $rootScope = $injector.get('$rootScope'),
-            maxAttempts = 50,
+            maxAttempts = 49,
             endpoints = {
                 kickasstorrents: 'http://www.rockaproxy.com/allTorrentLinksPage.php'
             },
