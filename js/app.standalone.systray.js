@@ -15,40 +15,84 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             // Hide window
             win.hide();
 
+            // create empty menu
             var menu =  new gui.Menu();
 
             // Show tray
             tray = new gui.Tray({
                 title: navigator.userAgent,
                 icon: 'img/logo/icon64.png',
-                menu: menu
+                menu: menu,
+                tooltip: navigator.userAgent
             });
 
+            // handle tray click
             var trayClick = function() {
                 this.remove();
                 win.show();
                 win.emit('restore');
             }.bind(tray);
+            tray.on('click', trayClick);
 
+            // handle exit menu click
             var exitClick = function() {
                 this.remove();
                 win.close(true);
             }.bind(tray);
 
-            // If on a mac add a show DTV Menu Button
-            if (navigator.platform.indexOf('Mac') > -1) {
-                var clickie = new gui.MenuItem({ label: 'Show DuckieTV' });
-                    clickie.on('click', trayClick);
-                menu.append(clickie);
-            }
+            // handle calendar menu click
+            var calendarClick = function() {
+                trayClick();
+            };
+            
+            // handle favorites menu click
+            var favoritesClick = function() {
+                trayClick();
+            };
+            
+            // handle settings menu click
+            var settingsClick = function() {
+                trayClick();
+            };
+            
+            // handle about menu click
+            var aboutClick = function() {
+                trayClick();
+            };
+            
+            // add show menu
+            var menuShow = new gui.MenuItem({ label: 'Show DuckieTV' });
+            menuShow.on('click', trayClick);
+            menu.append(menuShow);
 
-            // Add an exit button
-            var exitbtn = new gui.MenuItem({ label: 'Exit' });
-                exitbtn.on('click', exitClick);
-            menu.append(exitbtn);
+            // add calendar menu
+            var menuCalendar = new gui.MenuItem({ label: 'Show Calendar' });
+            menuCalendar.on('click', calendarClick);
+            menu.append(menuCalendar);
 
-            tray.tooltip = navigator.userAgent;
-            tray.on('click', trayClick);
+            // add favorites menu
+            var menuFavorites = new gui.MenuItem({ label: 'Show Favorites' });
+            menuFavorites.on('click', favoritesClick);
+            menu.append(menuFavorites);
+
+            // add settings menu
+            var menuSettings = new gui.MenuItem({ label: 'Show Settings' });
+            menuSettings.on('click', settingsClick);
+            menu.append(menuSettings);
+
+            // add about menu
+            var menuAbout = new gui.MenuItem({ label: 'Show About' });
+            menuAbout.on('click', aboutClick);
+            menu.append(menuAbout);
+
+            // add a separator to menu
+            menu.append(new gui.MenuItem({ type: 'separator' }));
+
+            // Add an exit menu
+            var menuExit = new gui.MenuItem({ label: 'Exit' });
+            menuExit.on('click', exitClick);
+            menu.append(menuExit);
+
         }
     });
 
