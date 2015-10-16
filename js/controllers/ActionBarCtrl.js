@@ -4,6 +4,28 @@
 DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "SeriesListState", "SidePanelState", "DuckieTorrent",
     function($rootScope, $state, $filter, SeriesListState, SidePanelState, DuckieTorrent) {
 
+        if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
+            var gui = require('nw.gui');
+            // Reference to window
+            var win = gui.Window.get();
+            // listen for standalone menu go-to events
+            win.on('standalone.calendar', function() {
+                $state.go('calendar');
+                SeriesListState.hide();
+            });
+            win.on('standalone.favorites', function() {
+                SidePanelState.hide();
+                SeriesListState.show();
+                $state.go('favorites');
+            });
+            win.on('standalone.settings', function() {
+                $state.go('settings');
+            });
+            win.on('standalone.about', function() {
+                $state.go('about');
+            });
+        };
+
         // Resets calendar to current date
         this.resetCalendar = function() {
             $rootScope.$broadcast('calendar:setdate', new Date());

@@ -42,21 +42,25 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
 
             // handle calendar menu click
             var calendarClick = function() {
+                win.emit('standalone.calendar');
                 trayClick();
             };
             
             // handle favorites menu click
             var favoritesClick = function() {
+                win.emit('standalone.favorites');
                 trayClick();
             };
             
             // handle settings menu click
             var settingsClick = function() {
+                win.emit('standalone.settings');
                 trayClick();
             };
             
             // handle about menu click
             var aboutClick = function() {
+                win.emit('standalone.about');
                 trayClick();
             };
             
