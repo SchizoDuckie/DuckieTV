@@ -28,10 +28,10 @@
       <loading-spinner class="small" ng-show="episodesLoading"></loading-spinner>
       <div class="episodes" ng-if="searchResults.episodes.length > 0 && !episodesLoading">
         <table style='width:100%'>
-          <tr ng-repeat="episode in searchResults.episodes | limitTo: 9 track by $index">
-            <td>{{episode.getFormattedEpisode()}}</td>
-            <td>{{getSerie(episode).name}}</td>
-            <td>{{episode.episodename}}</td>
+          <tr ng-click="cancel()" ng-repeat="episode in searchResults.episodes | limitTo: 9 track by $index">
+            <td><a ui-sref="episode({episode_id: episode.ID_Episode})">{{episode.getFormattedEpisode()}}</a></td>
+            <td><a ui-sref="episode({episode_id: episode.ID_Episode})">{{getSerie(episode).name}}</a></td>
+            <td><a ui-sref="episode({episode_id: episode.ID_Episode})">{{episode.episodename}}</a></td>
             <td>{{episode.firstaired |date:'short'}}</td>
             <td>
             <div ng-show="episode.hasAired() && getSetting('torrenting.enabled')">
