@@ -59,8 +59,8 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
     }
 ])
 
-.controller('fastSearchCtrl', ["$scope", "data", "FavoritesService", "TraktTVv2", "$rootScope", "$modalInstance",
-    function($scope, data, FavoritesService, TraktTVv2, $rootScope, $modalInstance) {
+.controller('fastSearchCtrl', ["$scope", "data", "FavoritesService", "TraktTVv2", "$rootScope", "$modalInstance", "$state", "SeriesListState", "SidePanelState",
+    function($scope, data, FavoritesService, TraktTVv2, $rootScope, $modalInstance, $state, SeriesListState, SidePanelState) {
 
         $scope.hasFocus = true;
         $scope.model = {
@@ -135,6 +135,55 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
 
         $scope.cancel = function() {
             $modalInstance.dismiss('Canceled');
+        };
+
+        /**
+         * Add a show to favorites.*The serie object is a Trakt.TV TV Show Object.
+         * Queues up the tvdb_id in the serieslist.adding array so that the spinner can be shown.
+         * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
+         * It can show the checkmark.
+         */
+        $scope.addTraktSerie = function(serie) {
+            if (!FavoritesService.isAdding(serie.tvdb_id)) {
+                FavoritesService.adding(serie.tvdb_id);
+                return TraktTVv2.serie(serie.slug_id).then(function(serie) {
+                    return FavoritesService.addFavorite(serie).then(function() {
+                        $rootScope.$broadcast('storage:update');
+                        FavoritesService.added(serie.tvdb_id);
+                        $modalInstance.dismiss('Canceled');
+                        $state.go('calendar');
+                        SeriesListState.hide();
+                    });
+                }, function(err) {
+                    console.error("Error adding show!", err);
+                    FavoritesService.added(serie.tvdb_id);
+                    FavoritesService.addError(serie.tvdb_id, err);
+                    $state.go('calendar');
+                    SeriesListState.hide();
+                });
+            };
+        };
+
+        /**
+         * Verify with the favoritesservice if a specific TVDB_ID is registered.
+         * Used to show checkmarks in the add modes for series that you already have.
+         */
+        $scope.isAdded = function(tvdb_id) {
+            return FavoritesService.isAdded(tvdb_id);
+        };
+
+        /**
+         * Returns true as long as the add a show to favorites promise is running.
+         */
+        $scope.isAdding = function(tvdb_id) {
+            return FavoritesService.isAdding(tvdb_id);
+        };
+
+        /**
+         * Returns true as long as the add a show to favorites promise is running.
+         */
+        $scope.isError = function(tvdb_id) {
+            return FavoritesService.isError(tvdb_id);
         };
 
         $scope.search(data.key);
