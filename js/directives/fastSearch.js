@@ -153,6 +153,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                         $modalInstance.dismiss('Canceled');
                         $state.go('calendar');
                         SeriesListState.hide();
+                        SidePanelState.hide();
                     });
                 }, function(err) {
                     console.error("Error adding show!", err);
@@ -160,6 +161,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                     FavoritesService.addError(serie.tvdb_id, err);
                     $state.go('calendar');
                     SeriesListState.hide();
+                    SidePanelState.hide();
                 });
             };
         };
