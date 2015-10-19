@@ -137,6 +137,9 @@ gulp.task('print.css', function() {
 
 
 gulp.task('copyToDeploy', ['concatScripts', 'concatBackgroundPage', 'concatStyles', 'print.css', 'launch.js', 'tabTemplate'], function() {
+    if (!fs.existsSync('../deploy/cordova')){
+      fs.mkdirSync('../deploy/cordova');
+    }
     return gulp.src(['VERSION', 'trakt-trending-500.json', '_locales/**', 'dist/**', 'fonts/**', 'img/**', 'templates/**'], {
             "base": "."
         })
@@ -153,6 +156,7 @@ gulp.task('copyCordovaAssets', function() {
 
 gulp.task('renameLocalesForAndroid', ['copyToDeploy', 'copyCordovaAssets'], function() {
 
+    setTimeout(function() {
     var app = '../deploy/cordova/dist/app.js';
     var src = fs.readFileSync(app);
     fs.writeFileSync(app, String(fs.readFileSync(app)).replace('_locales', 'locales'));
@@ -178,6 +182,7 @@ gulp.task('renameLocalesForAndroid', ['copyToDeploy', 'copyCordovaAssets'], func
     child.stdout.on('data', function(data) {
         console.log(data.toString());
     });
+}, 10000);
 });
 
 /**
