@@ -46,8 +46,58 @@
         </table>
       </div>
     </div>
+    &nbsp;
+    <div ng-show="searchResults.torrents.length > 0 || torrentsLoading">
+      <h3>Torrents</h3>
+      <loading-spinner class="small" ng-show="torrentsLoading"></loading-spinner>
+      <div class="torrents" ng-if="searchResults.torrents.length > 0 || !torrentsLoading">
+        <table class="torrents table table-condensed white">
+          <tr>
+            <th>&nbsp;</th>
+            <th>
+              <strong translate-once="TORRENTDIALOG/name/lbl"></strong>
+            </th>
+            <th>
+              <strong translate-once="TORRENTDIALOG/size/lbl"></strong>
+            </th>
+            <th>
+              <strong translate-once="TORRENTDIALOG/seed/lbl"></strong>
+            </th>
+            <th>
+              <strong translate-once="TORRENTDIALOG/leech/lbl"></strong>
+            </th>
+          </tr>
+          <tr ng-repeat="seed in searchResults.torrents | limitTo: 9" class="no-animate">
+            <td style='width:80px; padding:5px; vertical-align: top;'>
+              <a ng-click="torrentSelect(seed)">
+                <i class="glyphicon glyphicon-magnet" tooltip="{{'TORRENTDIALOG/download-magnet/tooltip'|translate}}"></i>
+              </a>
+              <a ng-href="{{::seed.torrent}}">
+                <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/download-torrent/lbl'|translate}}"></i>
+              </a>
 
-    <div class="torrents" ng-if="searchResults.torrents.length > 0">
-      <h1>Torrents</h1>
+              <a ng-href="{{::seed.magneturl}}">
+                <i class="glyphicon glyphicon-link" tooltip="{{'TORRENTDIALOG/magnet/link/lbl'|translate}}"></i>
+              </a>
+              <a ng-href="{{::seed.detailUrl}}" target='_blank'>
+                <i class="glyphicon glyphicon-info-sign" tooltip="{{'COMMON/torrent-details/lbl'|translate}}"></i>
+              </a>
+            </td>
+            <td>
+              <a ng-bind-html="::seed.releasename | unsafe" ng-click="torrentSelect(seed)"></a>
+            </td>
+            <td>
+              <a ng-bind-html="::seed.size" ng-click="torrentSelect(seed)" style='white-space:nowrap'></a>
+            </td>
+            <td style='width:50px; text-align:right'>
+              <a  ng-bind="::seed.seeders" ng-click="torrentSelect(seed)"></a>
+            </td>
+            <td style='width:50px; text-align:right'>
+              <a  ng-bind="::seed.leechers" ng-click="torrentSelect(seed)"></a>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
+
 </div>

@@ -59,9 +59,10 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
     }
 ])
 
-.controller('fastSearchCtrl', ["$scope", "data", "FavoritesService", "TraktTVv2", "$rootScope", "$modalInstance", "$state", "SeriesListState", "SidePanelState",
-    function($scope, data, FavoritesService, TraktTVv2, $rootScope, $modalInstance, $state, SeriesListState, SidePanelState) {
+.controller('fastSearchCtrl', ["$scope", "data", "FavoritesService", "TraktTVv2", "$rootScope", "$modalInstance", "$state", "SeriesListState", "SidePanelState", "TorrentSearchEngines", "SettingsService", "$injector", "TorrentHashListService",
+    function($scope, data, FavoritesService, TraktTVv2, $rootScope, $modalInstance, $state, SeriesListState, SidePanelState, TorrentSearchEngines, SettingsService,  $injector, TorrentHashListService) {
 
+        $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
         $scope.hasFocus = true;
         $scope.model = {
             query: data.key
@@ -70,12 +71,14 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         $scope.searchResults = {
             series: [],
             traktSeries: [],
-            episodes: []
+            episodes: [],
+            torrents: []
         };
 
         $scope.seriesLoading = true;
         $scope.traktSeriesLoading = true;
         $scope.episodesLoading = true;
+        $scope.torrentsLoading = true;
 
         $scope.fields = [{
             key: "query",
@@ -107,21 +110,39 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                 $scope.searchResults = {
                     series: [],
                     traktSeries: [],
-                    episodes: []
+                    episodes: [],
+                    torrents: []
                 };
                 return;
             }
             $scope.seriesLoading = true;
             $scope.traktSeriesLoading = true;
             $scope.episodesLoading = true;
+            $scope.torrentsLoading = true;
 
             $scope.searchResults.series = FavoritesService.favorites.filter(function(serie) {
                 $scope.seriesLoading = false;
                 return serie.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
             });
 
-            CRUD.Find("Episode", Array("episodename like '%" + value + "%'")).then(function(result) {
-                $scope.searchResults.episodes = result;
+            /**
+             * Word-by-word scoring for search results.
+             * All words need to be in the search result's release name, or the result will be filtered out.
+             */
+            function filterByScore(item) {
+                var score = 0;
+                var query = value.toLowerCase().split(' ');
+                name = item.releasename.toLowerCase();
+                query.map(function(part) {
+                    if (name.indexOf(part) > -1) {
+                        score++;
+                    }
+                });
+                return (score == query.length);
+            };
+
+            CRUD.Find("Episode", Array("episodename like '%" + value + "%'")).then(function(results) {
+                $scope.searchResults.episodes = results;
                 $rootScope.$applyAsync();
                 $scope.episodesLoading = false;
             });
@@ -130,8 +151,24 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                 $scope.searchResults.traktSeries = results;
                 $rootScope.$applyAsync();
                 $scope.traktSeriesLoading = false;
+            }).catch(function(err) {
+                console.error("TraktTV search error!", err);
+                $scope.traktSeriesLoading = false;
+                $scope.searchResults.traktSeries = [];
+            });
+
+            TorrentSearchEngines.getSearchEngine($scope.searchprovider).search(value).then(function(results) {
+                $scope.searchResults.torrents = results.filter(filterByScore);
+                $rootScope.$applyAsync();
+                $scope.torrentsLoading = false;
+            },
+            function(err) {
+                console.error("Torrent search error!", err);
+                $scope.torrentsLoading = false;
+                $scope.searchResults.torrents = [];
             });
         };
+
 
         $scope.cancel = function() {
             $modalInstance.dismiss('Canceled');
@@ -186,6 +223,40 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
          */
         $scope.isError = function(tvdb_id) {
             return FavoritesService.isError(tvdb_id);
+        };
+
+        // Selects and launches magnet
+        magnetSelect = function(magnet) {
+            console.info("Magnet selected!", magnet);
+            $modalInstance.close(magnet);
+
+            TorrentSearchEngines.launchMagnet(magnet, data.key);
+            // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
+            TorrentHashListService.addToHashList(magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+        };
+
+        urlSelect = function(url, releasename) {
+            console.info("Torrent URL selected!", url);
+            $modalInstance.close(url);
+
+            $injector.get('$http').get(url, {
+                responseType: 'blob'
+            }).then(function(result) {
+                try {
+                    TorrentSearchEngines.launchTorrentByUpload(result.data, data.key, releasename);
+                } catch (E) {
+                    TorrentSearchEngines.launchTorrentByURL(url, data.key, releasename);
+                }
+            });
+        };
+
+        $scope.torrentSelect = function(result) {
+            var config = TorrentSearchEngines.getSearchEngine($scope.searchprovider).config;
+            if (config && 'noMagnet' in config && config.noMagnet) {
+                return urlSelect(result.torrentUrl, result.releasename);
+            } else {
+                return magnetSelect(result.magneturl);
+            }
         };
 
         $scope.search(data.key);
