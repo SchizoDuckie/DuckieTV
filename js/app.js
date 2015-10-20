@@ -43,11 +43,6 @@ var DuckieTV = angular.module('DuckieTV', [
     }
 )
 
-.config(function($modalProvider) {
-    $modalProvider.options.animation = false;
-    // temp fix for ui-bootstrap modals not showing
-})
-
 .run(function($rootScope, $state) {
     $rootScope.$on('$stateChangeStart',
         function(e, toState, toParams, fromState, fromParams) {
@@ -56,8 +51,8 @@ var DuckieTV = angular.module('DuckieTV', [
             }
             Object.keys(toState.views).map(function(viewname) {
                 var view = document.querySelector("[ui-view=" + viewname.split('@')[0] + "]");
-                if (view) view.classList.add('ui-loading')
-            })
+                if (view) view.classList.add('ui-loading');
+            });
         });
 
     $rootScope.$on('$stateChangeSuccess',
@@ -65,10 +60,9 @@ var DuckieTV = angular.module('DuckieTV', [
             if (!toState.views) {
                 return;
             }
-
             Object.keys(toState.views).map(function(viewname) {
                 var view = document.querySelector("[ui-view=" + viewname.split('@')[0] + "]");
-                if (view) view.classList.remove('ui-loading')
-            })
+                if (view) view.classList.remove('ui-loading');
+            });
         });
 });
