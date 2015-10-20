@@ -1,14 +1,14 @@
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
 <div class="fastsearch series miniposter">
-    <h1>QuickSearch</h1>
+    <h1 translate-once="FASTSEARCH/hdr"></h1>
     <form ng-submit="save()" novalidate id="fastSearchForm">
       <formly-form model="model" fields="fields"></formly-form>
     </form>
 
-    <h2 ng-show="!model.query || model.query == ''" style="text-align:center" translate-once="TORRENTDIALOG/placeholder"></h2>
+    <h2 ng-show="!model.query || model.query == ''" style="text-align:center" translate-once="COMMON/type-your-search/lbl"></h2>
 
     <div class="fs-container fs-posters" ng-class="{'active': searchResults.series.length > 0 || seriesLoading}">
-      <h3>Series from Favorites</h3>
+      <h3 translate-once="FASTSEARCH/series-favorites/hdr"></h3>
       <loading-spinner class="small" ng-show="seriesLoading"></loading-spinner>
       <div class="fs-series no-animate" ng-if="searchResults.series.length > 0 && !seriesLoading">
         <serieheader ng-repeat="serie in searchResults.series |limitTo: 6 track by $index" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1" ng-click="cancel()" class="no-animate"></serieheader>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="fs-container fs-posters" ng-class="{'active': searchResults.traktSeries.length > 0 || traktSeriesLoading}">
-      <h3>Series from Trakt.TV (click to add)</h3>
+      <h3 translate-once="FASTSEARCH/series-trakttv/hdr"></h3>
       <loading-spinner class="small" ng-show="traktSeriesLoading"></loading-spinner>
       <div class="fs-traktseries no-animate" ng-if="searchResults.traktSeries.length > 0 && !traktSeriesLoading">
         <serieheader ng-repeat="serie in searchResults.traktSeries |limitTo: 6 track by $index" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1" ng-click="addTraktSerie(serie)" class="no-animate">
@@ -28,7 +28,7 @@
     </div>
 
     <div class="fs-container fs-list" ng-class="{'active' : searchResults.episodes.length > 0 || episodesLoading}">
-      <h3>Episodes from Favorites</h3>
+      <h3 translate-once="FASTSEARCH/episodes-favorites/hdr"></h3>
       <loading-spinner class="small" ng-show="episodesLoading"></loading-spinner>
       <div class="episodes" ng-if="searchResults.episodes.length > 0 && !episodesLoading">
         <table style='width:100%'>
@@ -47,36 +47,36 @@
       </div>
     </div>
     <div class="fs-container fs-list torrents" ng-class="{'active' : searchResults.torrents.length > 0 || torrentsLoading}" ng-if="getSetting('torrenting.enabled')">
-      <h3>Torrents</h3>
+      <h3 translate-once="FASTSEARCH/torrents/hdr"></h3>
       <loading-spinner class="small" ng-show="torrentsLoading"></loading-spinner>
       <div ng-if="searchResults.torrents.length > 0 || !torrentsLoading">
         <table class="torrents table table-condensed white" style="margin-bottom: 0">
           <tr>
             <th>&nbsp;</th>
             <th>
-              <strong translate-once="TORRENTDIALOG/name/lbl"></strong>
+              <strong translate-once="COMMON/torrent-name/lbl"></strong>
             </th>
             <th>
-              <strong translate-once="TORRENTDIALOG/size/lbl"></strong>
+              <strong translate-once="COMMON/torrent-size/lbl"></strong>
             </th>
             <th>
-              <strong translate-once="TORRENTDIALOG/seed/lbl"></strong>
+              <strong translate-once="COMMON/torrent-seed/lbl"></strong>
             </th>
             <th>
-              <strong translate-once="TORRENTDIALOG/leech/lbl"></strong>
+              <strong translate-once="COMMON/torrent-leech/lbl"></strong>
             </th>
           </tr>
           <tr ng-repeat="seed in searchResults.torrents | limitTo: 9" class="no-animate">
             <td style='width:80px; padding:5px; vertical-align: top;'>
               <a ng-click="torrentSelect(seed)">
-                <i class="glyphicon glyphicon-magnet" tooltip="{{'TORRENTDIALOG/download-magnet/tooltip'|translate}}"></i>
+                <i class="glyphicon glyphicon-magnet" tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
               </a>
               <a ng-href="{{::seed.torrent}}">
-                <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/download-torrent/lbl'|translate}}"></i>
+                <i class="glyphicon glyphicon-download" tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
               </a>
 
               <a ng-href="{{::seed.magneturl}}">
-                <i class="glyphicon glyphicon-link" tooltip="{{'TORRENTDIALOG/magnet/link/lbl'|translate}}"></i>
+                <i class="glyphicon glyphicon-link" tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
               </a>
               <a ng-href="{{::seed.detailUrl}}" target='_blank'>
                 <i class="glyphicon glyphicon-info-sign" tooltip="{{'COMMON/torrent-details/lbl'|translate}}"></i>

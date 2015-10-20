@@ -2,7 +2,7 @@
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
 <h1 translate-once="TORRENTDIALOG/hdr"></h1>
 <a href="#settings/torrent-search" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once="TORRENTDIALOG/settings/glyph"></span></a>
-<input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="TORRENTDIALOG/placeholder">
+<input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
 <div class="btn-group" style='padding:5px 5px 5px 0;vertical-align:initial'>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
@@ -36,7 +36,7 @@
   <tbody ng-show="!searching && error == 'null' ">
   <tr> 
     <th> 
-      <h2 style='text-align:center' translate-once="TORRENTDIALOG/placeholder"></h2>
+      <h2 style='text-align:center' translate-once="COMMON/type-your-search/lbl"></h2>
     </tr>
   </tbody> 
   <tbody ng-show="!searching && error != false && error != 'null' ">
@@ -50,30 +50,30 @@
     <tr>
       <th>&nbsp;</th>
       <th>
-        <strong translate-once="TORRENTDIALOG/name/lbl"></strong>
+        <strong translate-once="COMMON/torrent-name/lbl"></strong>
       </th>
       <th>
-        <strong translate-once="TORRENTDIALOG/size/lbl"></strong>
+        <strong translate-once="COMMON/torrent-size/lbl"></strong>
       </th>
       <th>
-        <strong translate-once="TORRENTDIALOG/seed/lbl"></strong>
+        <strong translate-once="COMMON/torrent-seed/lbl"></strong>
       </th>
       <th>
-        <strong translate-once="TORRENTDIALOG/leech/lbl"></strong>
+        <strong translate-once="COMMON/torrent-leech/lbl"></strong>
       </th>
 
     </tr>
     <tr ng-repeat="seed in items | limitTo: 20" class="no-animate">
       <td style='width:80px; padding:5px; vertical-align: top;'>
         <a ng-click="select(seed)">
-          <i class="glyphicon glyphicon-magnet" tooltip="{{'TORRENTDIALOG/download-magnet/tooltip'|translate}}"></i>
+          <i class="glyphicon glyphicon-magnet" tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
         </a>
         <a ng-href="{{::seed.torrent}}">
-          <i class="glyphicon glyphicon-download" tooltip="{{'TORRENTDIALOG/download-torrent/lbl'|translate}}"></i>
+          <i class="glyphicon glyphicon-download" tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
         </a>
 
         <a ng-href="{{::seed.magneturl}}">
-          <i class="glyphicon glyphicon-link" tooltip="{{'TORRENTDIALOG/magnet/link/lbl'|translate}}"></i>
+          <i class="glyphicon glyphicon-link" tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
         </a>
         <a ng-href="{{::seed.detailUrl}}" target='_blank'>
           <i class="glyphicon glyphicon-info-sign" tooltip="{{'COMMON/torrent-details/lbl'|translate}}"></i>

@@ -91,12 +91,16 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                 updateOn: "default blur"
             },
             templateOptions: {
-                label: "Search for anything",
-                placeholder: "series in your favorites, new series to add, episodes, torrents",
+                label: "",
+                placeholder: "",
                 type: "text",
                 onChange: function(e) {
                     $scope.search(e);
                 }
+            },
+            "expressionProperties": {
+                "templateOptions.label": "\"FASTSEARCHjs/search-anything/lbl\"|translate",
+                "templateOptions.placeholder": "\"FASTSEARCHjs/placeholder\"|translate"
             }
         }];
 
