@@ -7,7 +7,7 @@
 
     <h2 ng-show="!model.query || model.query == ''" style="text-align:center" translate-once="TORRENTDIALOG/placeholder"></h2>
 
-    <div class="fs-container" ng-class="{'active': searchResults.series.length > 0 || seriesLoading}">
+    <div class="fs-container fs-posters" ng-class="{'active': searchResults.series.length > 0 || seriesLoading}">
       <h3>Series from Favorites</h3>
       <loading-spinner class="small" ng-show="seriesLoading"></loading-spinner>
       <div class="fs-series no-animate" ng-if="searchResults.series.length > 0 && !seriesLoading">
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="fs-container" ng-class="{'active': searchResults.traktSeries.length > 0 || traktSeriesLoading}">
+    <div class="fs-container fs-posters" ng-class="{'active': searchResults.traktSeries.length > 0 || traktSeriesLoading}">
       <h3>Series from Trakt.TV (click to add)</h3>
       <loading-spinner class="small" ng-show="traktSeriesLoading"></loading-spinner>
       <div class="fs-traktseries no-animate" ng-if="searchResults.traktSeries.length > 0 && !traktSeriesLoading">
@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div ng-show="searchResults.episodes.length > 0 || episodesLoading">
+    <div class="fs-container fs-list" ng-class="{'active' : searchResults.episodes.length > 0 || episodesLoading}">
       <h3>Episodes from Favorites</h3>
       <loading-spinner class="small" ng-show="episodesLoading"></loading-spinner>
       <div class="episodes" ng-if="searchResults.episodes.length > 0 && !episodesLoading">
@@ -46,12 +46,11 @@
         </table>
       </div>
     </div>
-    &nbsp;
-    <div ng-show="searchResults.torrents.length > 0 || torrentsLoading">
+    <div class="fs-container fs-list torrents" ng-class="{'active' : searchResults.torrents.length > 0 || torrentsLoading}" ng-if="getSetting('torrenting.enabled')">
       <h3>Torrents</h3>
       <loading-spinner class="small" ng-show="torrentsLoading"></loading-spinner>
-      <div class="torrents" ng-if="searchResults.torrents.length > 0 || !torrentsLoading">
-        <table class="torrents table table-condensed white">
+      <div ng-if="searchResults.torrents.length > 0 || !torrentsLoading">
+        <table class="torrents table table-condensed white" style="margin-bottom: 0">
           <tr>
             <th>&nbsp;</th>
             <th>

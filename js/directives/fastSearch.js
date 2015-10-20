@@ -1,12 +1,12 @@
 DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
-    function($window, dialogs, $rootScope) {
+    function($window, dialogs) {
         var self = this;
 
         this.query = '';
         console.warn("fastsearch initializing");
         var isShowing = false;
 
-        this.focusInput = function() {
+        var focusInput = function() {
             var i = document.querySelector(".fastsearch input");
             if (i) {
                 i.value = self.query;
@@ -106,7 +106,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         };
 
         $scope.search = function(value) {
-            if (!value || value == "") {
+            if (!value || value === "") {
                 $scope.searchResults = {
                     series: [],
                     traktSeries: [],
@@ -115,6 +115,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                 };
                 return;
             }
+
             $scope.seriesLoading = true;
             $scope.traktSeriesLoading = true;
             $scope.episodesLoading = true;
@@ -130,16 +131,16 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
              * All words need to be in the search result's release name, or the result will be filtered out.
              */
             function filterByScore(item) {
-                var score = 0;
-                var query = value.toLowerCase().split(' ');
-                name = item.releasename.toLowerCase();
+                var score = 0,
+                    query = value.toLowerCase().split(' '),
+                    name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (name.indexOf(part) > -1) {
                         score++;
                     }
                 });
                 return (score == query.length);
-            };
+            }
 
             CRUD.Find("Episode", Array("episodename like '%" + value + "%'")).then(function(results) {
                 $scope.searchResults.episodes = results;
@@ -157,16 +158,18 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                 $scope.searchResults.traktSeries = [];
             });
 
-            TorrentSearchEngines.getSearchEngine($scope.searchprovider).search(value).then(function(results) {
-                $scope.searchResults.torrents = results.filter(filterByScore);
-                $rootScope.$applyAsync();
-                $scope.torrentsLoading = false;
-            },
-            function(err) {
-                console.error("Torrent search error!", err);
-                $scope.torrentsLoading = false;
-                $scope.searchResults.torrents = [];
-            });
+            if (SettingsService.get('torrenting.enabled')) {
+                TorrentSearchEngines.getSearchEngine($scope.searchprovider).search(value).then(function(results) {
+                    $scope.searchResults.torrents = results.filter(filterByScore);
+                    $rootScope.$applyAsync();
+                    $scope.torrentsLoading = false;
+                },
+                function(err) {
+                    console.error("Torrent search error!", err);
+                    $scope.torrentsLoading = false;
+                    $scope.searchResults.torrents = [];
+                });
+            }
         };
 
 
@@ -187,20 +190,13 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                     return FavoritesService.addFavorite(serie).then(function() {
                         $rootScope.$broadcast('storage:update');
                         FavoritesService.added(serie.tvdb_id);
-                        $modalInstance.dismiss('Canceled');
-                        $state.go('calendar');
-                        SeriesListState.hide();
-                        SidePanelState.hide();
                     });
                 }, function(err) {
                     console.error("Error adding show!", err);
                     FavoritesService.added(serie.tvdb_id);
                     FavoritesService.addError(serie.tvdb_id, err);
-                    $state.go('calendar');
-                    SeriesListState.hide();
-                    SidePanelState.hide();
                 });
-            };
+            }
         };
 
         /**
@@ -226,7 +222,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         };
 
         // Selects and launches magnet
-        magnetSelect = function(magnet) {
+        var magnetSelect = function(magnet) {
             console.info("Magnet selected!", magnet);
             $modalInstance.close(magnet);
 
@@ -235,7 +231,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
             TorrentHashListService.addToHashList(magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
         };
 
-        urlSelect = function(url, releasename) {
+        var urlSelect = function(url, releasename) {
             console.info("Torrent URL selected!", url);
             $modalInstance.close(url);
 

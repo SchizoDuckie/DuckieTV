@@ -2232,6 +2232,61 @@ ng-dial-gauge {
   display: inline-block;
 }
 
+.fastsearch h1 {
+    margin-top: 5px;
+}
+
+.fastsearch h3 {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.fs-container {
+    opacity: 0;
+    overflow: hidden;
+    transition: height 0.25s ease-in-out 0.1s, max-height 0.25s ease-in-out, opacity 0.25s ease-in-out 0.1s;
+}
+.fs-container.active {
+    opacity: 1;
+}
+.fs-container.fs-posters {
+    height: 0;
+}
+.fs-container.fs-posters.active {
+    height: 251px;
+}
+
+.fs-container.fs-list {
+    max-height: 0;
+    height: auto;
+    margin-bottom: 11px;
+}
+.fs-container.fs-list.active {
+    max-height: 261px;
+}
+.fs-container.fs-list.torrents.active {
+    max-height: 380px;
+}
+
+.fs-series, .fs-traktseries {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.fastsearch div.series, .fastsearch div.traktSeries {
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+}
+
+.searchengineinfo {
+    padding-top: 35px; 
+    word-break: break-all; 
+    font-family: courier;
+}
+
 /**
  * Resolution Specific Touchups
  */
@@ -2286,42 +2341,13 @@ ng-dial-gauge {
     margin-bottom: 0;
   }
 }
+/* Fast Search Dialog Resolution Touchups*/
+@media (max-width: 992px) {
+  .modal-dialog .fastsearch .fs-container serieheader:nth-of-type(5), .modal-dialog .fastsearch .fs-container serieheader:nth-of-type(6) {
+    display: none;
+  }
 
-.fastsearch h1 {
-    margin-top: 5px;
-}
-
-.fastsearch h3 {
-    margin: 0;
-    margin-bottom: 10px;
-}
-
-.fs-container {
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: height 0.2s ease-in, opacity 0.3s ease-in;
-}
-.fs-container.active {
-    height: 251px;
-    opacity: 1;
-}
-
-.fs-series, .fs-traktseries {
-    height: auto;
-    overflow: hidden;
-    display: flex;
-    flex-wrap: nowrap;
-}
-
-.fastsearch div.series, .fastsearch div.traktSeries {
-    height: 280px;
-    overflow: hidden;
-    position: relative;
-}
-
-.searchengineinfo {
-    padding-top: 35px; 
-    word-break: break-all; 
-    font-family: courier;
+  .modal-dialog .fastsearch .episodes, .modal-dialog .fastsearch .torrents {
+    font-size: 12px
+  }
 }
