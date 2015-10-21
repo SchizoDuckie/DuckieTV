@@ -59,43 +59,6 @@ body > .container calendar {
     position: relative;
 }
 
-/* Fix bootstraps tooltips */
-.tooltip.right .tooltip-arrow {
-    border-top-color: transparent !important;
-    border-bottom-color: transparent !important;
-    border-right-color: white;
-    left: 1px !important;
-}
-.tooltip.left .tooltip-arrow {
-    border-top-color: transparent !important;
-    border-bottom-color: transparent !important;
-    border-left-color: white;
-    right: 1px !important;
-}
-.tooltip.top .tooltip-arrow {
-    border-top-color: white !important;
-    border-bottom-color: white !important;
-    bottom: 1px !important;
-}
-.tooltip.bottom .tooltip-arrow {
-    border-bottom-color: white !important;
-    top: 1px !important;
-}
-.tooltip .tooltip-inner {
-    background-color: white !important;
-    color: black !important;
-    text-shadow: none !important;
-    white-space: normal;
-}
-.tooltip {
-    border: 0 !important;
-    line-height: inherit;
-}
-/* Fix to prevent tooltips from the calendar overflowing edge of screen */
-.tooltip.calendar {
-    max-width: 85px;
-}
-
 .printlogo {
     display: none;
 }
