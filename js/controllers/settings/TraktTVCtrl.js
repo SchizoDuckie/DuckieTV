@@ -1,17 +1,17 @@
 /**
  * TraktTV Controller for TraktTV Directive Stuff and the settings tab
- *
- * TraktTV is special so it gets it's own controller file :)
  */
 DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "SettingsService",
     function($scope, TraktTVv2, FavoritesService, SettingsService) {
 
         // Array for credentials
         $scope.credentials = {
-            username: localStorage.getItem('trakt.username') || '',
+            username: '',
+            pincode: '',
+            success: localStorage.getItem('trakttv.token') || false,
             error: false,
-            success: localStorage.getItem('trakt.token') || false,
-            authorizing: false
+            authorizing: false,
+            getpin: false
         };
 
         $scope.traktSync = SettingsService.get('trakttv.sync');
@@ -19,31 +19,46 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
         $scope.localSeries = {};
         $scope.pushError = [false, null];
 
-        $scope.onEnter = function() {
-            $scope.authorize($scope.credentials.username, $scope.credentials.password);
-        }
+        $scope.onAuthorizeEnter = function() {
+            if ($scope.credentials.username !== '') {
+                window.open($scope.getPinUrl(), '_blank');
+                $scope.credentials.getpin = true;
+            }
+        };
+
+        $scope.onLoginEnter = function() {
+            $scope.authorize($scope.credentials.pincode);
+        };
+
+        $scope.getPin = function() {
+            if ($scope.credentials.username !== '') {
+                $scope.credentials.getpin = true;
+            }
+        };
 
         // Clears all local credentials and token in local storage
         $scope.clearCredentials = function() {
-            $scope.credentials.error = false;
-            $scope.credentials.success = false;
             $scope.credentials.username = '';
-            localStorage.removeItem('trakt.token');
+            $scope.credentials.pincode = '';
+            $scope.credentials.success = false;
+            $scope.credentials.error = false;
+            $scope.credentials.authorizing = false;
+            $scope.credentials.getpin = false;
+            localStorage.removeItem('trakttv.token');
+            localStorage.removeItem('trakttv.refresh_token');
         };
 
         // Validates username and password with TraktTV
-        $scope.authorize = function(username, pin) {
-            $scope.credentials.authorizing = true
+        $scope.authorize = function(pin) {
+            $scope.credentials.authorizing = true;
             return TraktTVv2.login(pin).then(function(result) {
                 $scope.credentials.success = result;
                 $scope.credentials.error = false;
-                $scope.credentials.authorizing = false
+                $scope.credentials.authorizing = false;
             }, function(error) {
-                $scope.credentials.success = false;
-                $scope.credentials.authorizing = false
-                $scope.credentials.password = null;
-                if (error.data.message) {
-                    $scope.credentials.error = error.data.message;
+                $scope.clearCredentials();
+                if (error.data.error && error.data.error_description) {
+                    $scope.credentials.error = error.status + ' - ' + error.data.error + ' - ' + error.data.error_description;
                 } else {
                     $scope.credentials.error = error.status + ' - ' + error.statusText;
                 }

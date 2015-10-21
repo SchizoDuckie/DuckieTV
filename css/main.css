@@ -730,6 +730,9 @@ series-list .trakt-import .trakt-login .btn {
 series-list .trakt-import .btn {
     width: 290px;
 }
+series-list .trakt-import .toggleWatchSync, series-list .trakt-import .pushToTrakt {
+    display: none;
+}
 .trakt-import .trakt-login td {
     padding: 5px 5px 1px 0px;
 }

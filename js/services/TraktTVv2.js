@@ -303,7 +303,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                 }).then(function(result) {
                     localStorage.setItem('trakttv.token', result.data.access_token);
                     localStorage.setItem('trakttv.refresh_token', result.data.refresh_token);
-                    return result.data.token;
+                    return result.data.access_token;
                 }, function(error) {
                     throw error;
                 });

@@ -11,21 +11,26 @@
           <tr class="username">
             <td translate-once="SETTINGS/TRAKT-IMPORT/username/hdr"></td>
             <td>
-              <input type='text' style='background-color: rgba(0,0,0,0.8);' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'SETTINGS/TRAKT-IMPORT/username/placeholder'|translate}}" ng-disabled="credentials.success" />
+              <input type='text' style='background-color: rgba(0,0,0,0.8);' name='username' ng-model='credentials.username' placeholder="Trakt.TV {{'SETTINGS/TRAKT-IMPORT/username/placeholder'|translate}}" ng-disabled="credentials.success" ng-keyup="$event.keyCode == 13 && onAuthorizeEnter()" />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <a ng-href="{{getPinUrl()}}" ng-click="getPin()" ng-disabled="credentials.username == ''" ng-hide="credentials.success" class="btn btn-success" target='_blank' translate-once="SETTINGS/TRAKT-IMPORT/authorize/btn"></a>
             </td>
           </tr>
           <tr class="password">
             <td translate-once="SETTINGS/TRAKT-IMPORT/password/hdr"></td>
             <td>
-              <input type='password' style='background-color: rgba(0,0,0,0.8);' name='password' ng-model='credentials.password' placeholder="Trakt.TV PIN" ng-disabled="credentials.success" ng-keyup="$event.keyCode == 13 && onEnter()" />
+              <input type='password' style='background-color: rgba(0,0,0,0.8);' name='password' ng-model='credentials.pincode' placeholder="Trakt.TV PIN" ng-disabled="credentials.success || !credentials.getpin" ng-keyup="$event.keyCode == 13 && onLoginEnter()" />
             </td>
           </tr>
           <tr class="button">
             <td></td>
-            <td class="hide-demo"><center>
-             <a ng-href="{{getPinUrl()}}" class="btn btn-success" target='_blank' translate-once="SETTINGS/TRAKT-IMPORT/authorize/btn"></a>
-              <a ng-click="authorize(credentials.username, credentials.password)" class="btn btn-success" style="position:relative" ng-disabled="credentials.success" ng-show="!credentials.success">
-                <i class="glyphicon glyphicon-log-in" style="float:left;top:3px"></i><span translate-once="SETTINGS/TRAKT-IMPORT/login-to/btn"></span>Trakt.TV
+            <td><center>
+              <a ng-click="authorize(credentials.pincode)" class="btn btn-success" style="position:relative" ng-disabled="credentials.success || !credentials.getpin" ng-show="!credentials.success">
+                <i class="glyphicon glyphicon-log-in" style="float:left;top:3px"></i><span translate-once="SETTINGS/TRAKT-IMPORT/login-to/btn"></span><span>Trakt.TV</span>
                 <loading-spinner ng-show="credentials.authorizing" style="width:20px;height:20px;position:absolute;right:5px"></loading-spinner>
               </a>
               
@@ -36,7 +41,7 @@
           </tr>
         </table>
       </form>
-      <p class="alert alert-success" role="alert" ng-show="credentials.success" style="margin-top:5px;white-space:normal">
+      <p class="alert alert-success" role="alert" ng-show="credentials.success" style="margin-top:5px;white-space:normal;word-break:break-all;">
         <strong>TraktTV <span translate-once="SETTINGS/TRAKT-IMPORT/authorized/alert"></span></strong> 
         Token: {{credentials.success}}
       </p>
@@ -44,20 +49,22 @@
     </div>
   </div>
 
-  <div nng-show="credentials.success" class="buttons">
-    <hr class="setting-divider">
-    <h2>
-      <span tooltip="{{traktSync ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
-        <i class="glyphicon glyphicon-{{traktSync ? 'ok alert-success' : 'remove alert-danger'}}" style="font-size:22px;background-color:transparent"></i>
-      </span>
-      <li translate-once="SETTINGS/TRAKT-IMPORT/watched-sync/hdr"></li>
-    </h2>
-    <p translate-once="SETTINGS/TRAKT-IMPORT/watched-sync/desc"></p>
-    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
-     {{traktSync ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-    <a ng-click="toggleTraktSync()" class="btn btn-{{traktSync ? 'danger' : 'success'}}">
-      <i class="glyphicon glyphicon-{{traktSync ? 'remove-circle' : 'export'}}" style="float:left;top:3px"></i>{{traktSync ? 'SETTINGS/TRAKT-IMPORT/sync-disabled/btn' : 'SETTINGS/TRAKT-IMPORT/sync-enabled/btn'|translate}}
-    </a>
+  <div ng-show="credentials.success" class="buttons">
+    <div class="toggleWatchSync">
+      <hr class="setting-divider">
+      <h2>
+        <span tooltip="{{traktSync ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+          <i class="glyphicon glyphicon-{{traktSync ? 'ok alert-success' : 'remove alert-danger'}}" style="font-size:22px;background-color:transparent"></i>
+        </span>
+        <li translate-once="SETTINGS/TRAKT-IMPORT/watched-sync/hdr"></li>
+      </h2>
+      <p translate-once="SETTINGS/TRAKT-IMPORT/watched-sync/desc"></p>
+      <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+       {{traktSync ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+      <a ng-click="toggleTraktSync()" class="btn btn-{{traktSync ? 'danger' : 'success'}}">
+        <i class="glyphicon glyphicon-{{traktSync ? 'remove-circle' : 'export'}}" style="float:left;top:3px"></i>{{traktSync ? 'SETTINGS/TRAKT-IMPORT/sync-disabled/btn' : 'SETTINGS/TRAKT-IMPORT/sync-enabled/btn'|translate}}
+      </a>
+    </div>
 
     <hr class="setting-divider">
 
@@ -68,14 +75,16 @@
       <i class="glyphicon glyphicon-import" style="float:left;top:3px"></i> <span translate-once="SETTINGS/TRAKT-IMPORT/sync-import/btn"></span>
     </a>
 
-    <hr class="setting-divider">
+    <div class="pushToTrakt">
+      <hr class="setting-divider">
 
-    <h2 translate-once="SETTINGS/TRAKT-IMPORT/push/hdr"></h2>
-    <p translate-once="SETTINGS/TRAKT-IMPORT/push/desc"></p>
-    
-    <a ng-click="pushToTraktTV()" class="btn btn-info">
-      <i class="glyphicon glyphicon-export" style="float:left;top:3px"></i> <span translate-once="SETTINGS/TRAKT-IMPORT/push/btn"></span>
-    </a>
+      <h2 translate-once="SETTINGS/TRAKT-IMPORT/push/hdr"></h2>
+      <p translate-once="SETTINGS/TRAKT-IMPORT/push/desc"></p>
+      
+      <a ng-click="pushToTraktTV()" class="btn btn-info">
+        <i class="glyphicon glyphicon-export" style="float:left;top:3px"></i> <span translate-once="SETTINGS/TRAKT-IMPORT/push/btn"></span>
+      </a>
+    </div>
   </div>
   <div class="miniposter x2" ng-if="traktTVSeries[0]" style="text-align:center">
     <serieheader style='display:inline-block; margin:5px;' data="serie" no-overview="1" no-title="1" mode="poster" ng-repeat="serie in traktTVSeries">
