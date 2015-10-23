@@ -32,6 +32,10 @@ function WatchListObject() {
     CRUD.Entity.call(this);
 }
 
+function SearchEngine() {
+    CRUD.Entity.call(this);
+}
+
 
 /**
  * Allow CRUD.js to register itself and the properties defined on each named function.
@@ -389,7 +393,88 @@ CRUD.define(WatchListObject, {
 
 });
 
-CRUD.DEBUG = false;
+
+CRUD.define(SearchEngine, {
+    className: 'SearchEngine',
+    table: 'SearchEngines',
+    primary: 'ID_SearchEngine',
+    fields: ['ID_SearchEngine', 'name', 'enabled', 'implementationClass', 'mirrorResolverClass', 'testSearch', 'mirror', 'searchEndpoint', 'searchResultsContainer', 'releaseNameSelector', 'releaseNameProperty', 'magnetSupported', 'magnetUrlSelector', 'magnetUrlProperty', 'torrentUrlSelector', 'torrentUrlProperty', 'sizeSelector', 'sizeProperty', 'seederSelector', 'seederProperty', 'leecherSelector', 'leecherProperty', 'detailUrlSelector', 'detailUrlProperty', 'loginRequired', 'loginPage', 'loginTestSelector'],
+    createStatement: 'CREATE TABLE SearchEngines ( ID_SearchEngine INTEGER PRIMARY KEY NOT NULL, name VARCHAR(40) NOT NULL, enabled int(1) DEFAULT 1, implementationClass VARCHAR(50) NULL, mirrorResolverClass VARCHAR(40) NULL, testSearch VARCHAR(200) DEFAULT "test", mirror VARCHAR(100) NULL, searchEndpoint VARCHAR(200) NULL, searchResultsContainer VARCHAR(200) NULL, releaseNameSelector VARCHAR(200) NULL, releaseNameProperty VARCHAR(200) NULL, magnetSupported int(1) DEFAULT 0, magnetUrlSelector VARCHAR(200) NULL, magnetUrlProperty VARCHAR(200) NULL, torrentUrlSelector VARCHAR(200) NULL, torrentUrlProperty VARCHAR(200) NULL, sizeSelector VARCHAR(200) NULL, sizeProperty VARCHAR(200) NULL, seederSelector VARCHAR(200) NULL, seederProperty VARCHAR(200) NULL, leecherSelector VARCHAR(200) NULL, leecherProperty VARCHAR(200) NULL, detailUrlSelector VARCHAR(200) NULL, detailUrlProperty VARCHAR(200) NULL, loginRequired int(1) DEFAULT 0, loginPage VARCHAR(200) NULL, loginTestSelector VARCHAR(200) NULL )',
+    adapter: 'dbAdapter',
+    relations: {},
+    fixtures: [{
+        name: 'Torrentleech.org',
+        enabled: 0,
+        testSearch: 'test',
+        mirror: 'http://torrentleech.org',
+        searchEndpoint: '/torrents/browse/index/query/%s',
+        searchResultsContainer: '#torrenttable tr:not(:first-child)',
+        releaseNameSelector: 'td.name .title a',
+        releaseNameProperty: 'innerText',
+        magnetSupported: 0,
+        torrentUrlSelector: 'td.quickdownload a',
+        torrentUrlProperty: 'href',
+        sizeSelector: 'td:nth-child(5)',
+        sizeProperty: 'innerText',
+        seederSelector: 'td.seeders',
+        seederProperty: 'innerText',
+        leecherSelector: 'td.leechers',
+        leecherProperty: 'innerText',
+        detailUrlSelector: 'td.name .title a',
+        detailUrlProperty: 'href',
+        loginRequired: 1,
+        loginPage: '/login.php',
+        loginTestSelector: '#loginform'
+    }, {
+        name: 'kat.cr',
+        enabled: 1,
+        testSearch: 'test',
+        mirror: 'https://kat.cr', // http://yoursite.com',
+        searchEndpoint: '/usearch/%s/?field=seeders&sorder=desc',
+        searchResultsContainer: 'table.data tr[id^=torrent]',
+        releaseNameSelector: 'div.torrentname a.cellMainLink',
+        releaseNameProperty: 'innerText',
+        magnetSupported: 1,
+        magnetUrlSelector: 'a[title="Torrent magnet link"]',
+        magnetUrlProperty: 'href',
+        torrentUrlSelector: '',
+        torrentUrlProperty: '',
+        sizeSelector: 'td:nth-child(2)',
+        sizeProperty: 'innerText',
+        seederSelector: 'td:nth-child(5)',
+        seederProperty: 'innerText',
+        leecherSelector: 'td:nth-child(6)',
+        leecherProperty: 'innerText',
+        detailUrlSelector: 'div.torrentname a.cellMainLink',
+        detailUrlProperty: 'href'
+    }, {
+        name: 'ThePirateBay',
+        enabled: 1,
+        testSearch: 'test',
+        mirror: 'https://thepiratebay.cr',
+        mirrorResolverClass: 'MirrorResolver',
+        searchEndpoint: '/search/%s/0/7/0',
+        searchResultsContainer: '#searchResult tbody tr',
+        releaseNameSelector: 'td:nth-child(2) > div',
+        releaseNameProperty: 'innerText',
+        magnetUrlSelector: 'td:nth-child(2) > a',
+        magnetUrlProperty: 'href',
+        magnetSupported: 1,
+        sizeSelector: 'td:nth-child(2) .detDesc',
+        sizeProperty: 'innerText',
+        seederSelector: 'td:nth-child(3)',
+        seederProperty: 'innerText',
+        leecherSelector: 'td:nth-child(4)',
+        leecherProperty: 'innerText',
+        detailUrlSelector: 'a.detLink',
+        detailUrlProperty: 'href'
+    }]
+}, {});
+
+
+
+
+CRUD.DEBUG = true;
 
 CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', {
     estimatedSize: 25 * 1024 * 1024
