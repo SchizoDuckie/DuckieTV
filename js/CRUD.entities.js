@@ -426,7 +426,7 @@ CRUD.define(SearchEngine, {
         loginPage: '/login.php',
         loginTestSelector: '#loginform'
     }, {
-        name: 'kat.cr',
+        name: 'KickAss',
         enabled: 1,
         testSearch: 'test',
         mirror: 'https://kat.cr', // http://yoursite.com',
@@ -468,8 +468,29 @@ CRUD.define(SearchEngine, {
         leecherProperty: 'innerText',
         detailUrlSelector: 'a.detLink',
         detailUrlProperty: 'href'
+    }, {
+        name: 'Nyaa',
+        enabled: 1,
+        testSearch: 'test',
+        mirror: 'http://www.nyaa.se',
+        searchEndpoint: '/?page=search&sort=2&term=%s',
+        searchResultsContainer: 'tr.tlistrow',
+        releaseNameSelector: 'td.tlistname a',
+        releaseNameProperty: 'innerText',
+        torrentUrlSelector: 'td.tlistdownload a',
+        torrentUrlProperty: 'href',
+        magnetSupported: 0,
+        sizeSelector: 'td.tlistsize',
+        sizeProperty: 'innerText',
+        seederSelector: 'td.tlistsn',
+        seederProperty: 'innerText',
+        leecherSelector: 'td.tlistln',
+        leecherProperty: 'innerText',
+        detailUrlSelector: 'td.tlistname a',
+        detailUrlProperty: 'href'
     }]
 }, {});
+
 
 
 
