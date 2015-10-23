@@ -314,7 +314,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             // Returns all shows a user has watched.
             watched: function() {
                 return promiseRequest('watched').then(function(result) {
-                    console.log("Fetched V2 API watched results: ", result);
+                    console.info("Fetched V2 API watched results: ", result);
                     return result;
                 });
             },
@@ -340,7 +340,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'Accept': 'application/json'
                     }
                 }).then(function(result) {
-                    console.log("Episode watched:", serie, episode);
+                    //console.debug("Episode watched:", serie, episode);
                 });
             },
             /** 
@@ -370,13 +370,13 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'Accept': 'application/json'
                     }
                 }).then(function(result) {
-                    console.log("Episode un-watched:", serie, episode);
+                    //console.debug("Episode un-watched:", serie, episode);
                 });
             },
             // Returns all shows in a users collection
             userShows: function() {
                 return promiseRequest('userShows').then(function(result) {
-                    console.log("Fetched V2 API User Shows: ", result);
+                    console.info("Fetched V2 API User Shows: ", result);
 
                     return result;
                 });
@@ -397,7 +397,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'Accept': 'application/json'
                     }
                 }).then(function(result) {
-                    console.log("Show added to collection:", serieID);
+                    console.info("Show added to collection:", serieID);
                 });
             },
             removeFromCollection: function(serieID) {
@@ -416,7 +416,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'Accept': 'application/json'
                     }
                 }).then(function(result) {
-                    console.log("Removed serie from collection", serieID);
+                    console.info("Removed serie from collection", serieID);
                 });
             }
         };
