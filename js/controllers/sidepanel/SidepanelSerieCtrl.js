@@ -22,14 +22,19 @@ DuckieTV.controller('SidepanelSerieCtrl', function(dialogs, $rootScope, $scope, 
     this.totalRunTime = null;
     this.totalRunLbl = null;
     CRUD.executeQuery('select count(ID_Episode) as amount from Episodes where seasonnumber > 0 AND firstaired > 0 AND firstaired < ? AND ID_Serie = ? group by episodes.ID_Serie', [new Date().getTime(), this.serie.ID_Serie]).then(function(result) {
-        self.totalRunTime = result.rs.rows.item(0).amount * self.serie.runtime;
-        var totalRunDays = Math.floor(self.totalRunTime / 60 / 24);
-        var totalRunHours = Math.floor((self.totalRunTime % (60 * 24)) / 60);
-        var totalRunMinutes = self.totalRunTime % 60;
-        var dayLbl = (totalRunDays === 1) ? timePlurals[0] : timePlurals[1];
-        var hourLbl = (totalRunHours === 1) ? timePlurals[2] : timePlurals[3];
-        var minuteLbl = (totalRunMinutes === 1) ? timePlurals[4] : timePlurals[5];
-        self.totalRunLbl = totalRunDays.toString() + dayLbl + totalRunHours.toString() + hourLbl + totalRunMinutes.toString() + minuteLbl;
+        if (result.rs.rows.length > 0) {
+            self.totalRunTime = result.rs.rows.item(0).amount * self.serie.runtime;
+            var totalRunDays = Math.floor(self.totalRunTime / 60 / 24);
+            var totalRunHours = Math.floor((self.totalRunTime % (60 * 24)) / 60);
+            var totalRunMinutes = self.totalRunTime % 60;
+            var dayLbl = (totalRunDays === 1) ? timePlurals[0] : timePlurals[1];
+            var hourLbl = (totalRunHours === 1) ? timePlurals[2] : timePlurals[3];
+            var minuteLbl = (totalRunMinutes === 1) ? timePlurals[4] : timePlurals[5];
+            self.totalRunLbl = totalRunDays.toString() + dayLbl + totalRunHours.toString() + hourLbl + totalRunMinutes.toString() + minuteLbl;
+        } else {
+            self.totalRunTime = 1;
+            self.totalRunLbl = '0' +  timePlurals[1] + '0' +  timePlurals[3] + '0' +  timePlurals[5];
+        }
     });
 
     this.nextEpisode = null;
