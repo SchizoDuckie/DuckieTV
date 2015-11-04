@@ -401,6 +401,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "自动下载所有",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "情节评级 ",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "取集 ",
+    "SIDEPANEL/EPISODES/first-season/tooltip": "第一季",
+    "SIDEPANEL/EPISODES/last-season/tooltip": "上赛季",
     "SIDEPANEL/EPISODES/next-season/tooltip": "下个赛季",
     "SIDEPANEL/EPISODES/previous-season/tooltip": "上个赛季",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "作为标记",

@@ -401,6 +401,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "Auto download all",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "Episode Ratings",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "Fetching episodes",
+    "SIDEPANEL/EPISODES/first-season/tooltip": "First Season",
+    "SIDEPANEL/EPISODES/last-season/tooltip": "Last Season",
     "SIDEPANEL/EPISODES/next-season/tooltip": "Next Season",
     "SIDEPANEL/EPISODES/previous-season/tooltip": "Previous Season",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "mark as",

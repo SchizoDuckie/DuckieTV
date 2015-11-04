@@ -401,6 +401,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "Automatiskt hämta alla",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "Episode betyg ",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "hämtning episoder ",
+    "SIDEPANEL/EPISODES/first-season/tooltip": "Första Säsong",
+    "SIDEPANEL/EPISODES/last-season/tooltip": "Senaste Säsong",
     "SIDEPANEL/EPISODES/next-season/tooltip": "Nästa Säsong",
     "SIDEPANEL/EPISODES/previous-season/tooltip": "Föregående Säsong",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "märke som",

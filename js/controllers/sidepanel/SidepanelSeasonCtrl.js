@@ -26,6 +26,11 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
         }
     };
 
+    this.gotoFirstSeason = function() {
+        $state.go('serie.season', {
+            'season_id': seasons[this.seasons.length - 1].ID_Season
+        })
+    };
 
     this.gotoNextSeason = function() {
         // Seasons are sorted by latest to oldest therefore 0 should always the be latest.
@@ -36,6 +41,12 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
                 'season_id': seasons[this.seasonIndex - 1].ID_Season
             });
         }
+    };
+
+    this.gotoLastSeason = function() {
+        $state.go('serie.season', {
+            'season_id': seasons[0].ID_Season
+        })
     };
 
     this.episodes.map(function(episode) {

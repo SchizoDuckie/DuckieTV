@@ -401,6 +401,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "자동으로 모든 다운로드",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "에피소드 평가 ",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "에피소드를 가져 오는 ",
+    "SIDEPANEL/EPISODES/first-season/tooltip": "첫 시즌",
+    "SIDEPANEL/EPISODES/last-season/tooltip": "지난 시즌",
     "SIDEPANEL/EPISODES/next-season/tooltip": "다음 시즌",
     "SIDEPANEL/EPISODES/previous-season/tooltip": "이전 시즌",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "표시 등",

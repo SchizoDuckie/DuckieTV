@@ -401,6 +401,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "Descărcare automată pentru toate",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "Rating al episoadelor",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "Aduceți episoadele",
+    "SIDEPANEL/EPISODES/first-season/tooltip": "Sezonul Primul",
+    "SIDEPANEL/EPISODES/last-season/tooltip": "Sezonul Ultimul",
     "SIDEPANEL/EPISODES/next-season/tooltip": "Sezonul Următor",
     "SIDEPANEL/EPISODES/previous-season/tooltip": "Sezonul Precedent",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "marcați ca",

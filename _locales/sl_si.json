@@ -401,6 +401,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "Samodejno prenesi vse",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "Ocena epizode",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "Pridobivanje epizode",
+    "SIDEPANEL/EPISODES/first-season/tooltip": "Prvi Sezona",
+    "SIDEPANEL/EPISODES/last-season/tooltip": "Zadnja Sezona",
     "SIDEPANEL/EPISODES/next-season/tooltip": "Naslednja Sezona",
     "SIDEPANEL/EPISODES/previous-season/tooltip": "Prejšnja Sezona",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "znamka kot",

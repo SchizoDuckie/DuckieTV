@@ -401,6 +401,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "Download alle afleveringen",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "Beoordelingen",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "Bezig met zoeken naar afleveringen",
+    "SIDEPANEL/EPISODES/first-season/tooltip": "Eerste Seizoen",
+    "SIDEPANEL/EPISODES/last-season/tooltip": "Laatste Seizoen",
     "SIDEPANEL/EPISODES/next-season/tooltip": "Volgend Seizoen",
     "SIDEPANEL/EPISODES/previous-season/tooltip": "Vorig Seizoen",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "Markeer als",

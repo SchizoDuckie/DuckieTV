@@ -1862,18 +1862,16 @@ sidepanel .episodes .season-control {
 sidepanel .episodes .season-control a {
     line-height: 2;
     font-size: 16px;
-    float: right;
 }
 sidepanel .episodes .season-control a:nth-of-type(1) {
-    line-height: 2.1;
-    float: left;
+    line-height: 2;
+    font-size: 16px;
 }
 sidepanel .episodes .season-control a.disabled {
     color: rgb(128, 128, 128);
     opacity: 0.7;
     pointer-events: none;
 }
-
 sidepanel .episodes .season-control h2 {
     display: inline-block;
     color: white;

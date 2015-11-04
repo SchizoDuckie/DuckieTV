@@ -401,6 +401,8 @@
     "SIDEPANEL/EPISODES/auto-download-all/lbl": "Last ned alle automatisk",
     "SIDEPANEL/EPISODES/episode-ratings/hdr": "Episode Karakter",
     "SIDEPANEL/EPISODES/fetching-episodes/lbl": "Henter episoder",
+    "SIDEPANEL/EPISODES/first-season/tooltip": "Første Sesong",
+    "SIDEPANEL/EPISODES/last-season/tooltip": "Siste Sesong",
     "SIDEPANEL/EPISODES/next-season/tooltip": "Neste Sesong",
     "SIDEPANEL/EPISODES/previous-season/tooltip": "Forrige Sesong",
     "SIDEPANEL/MARK-DOWNLOADED/mark-as/lbl": "marker som",
