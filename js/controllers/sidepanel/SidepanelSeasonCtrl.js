@@ -3,6 +3,7 @@
  */
 DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, $filter, $q, seasons, season, episodes, SceneNameResolver, AutoDownloadService) {
 
+    var vm = this;
     this.season = season;
     this.seasons = seasons;
     this.episodes = episodes;
@@ -29,7 +30,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
     this.gotoFirstSeason = function() {
         $state.go('serie.season', {
             'season_id': seasons[this.seasons.length - 1].ID_Season
-        })
+        });
     };
 
     this.gotoNextSeason = function() {
@@ -46,7 +47,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
     this.gotoLastSeason = function() {
         $state.go('serie.season', {
             'season_id': seasons[0].ID_Season
-        })
+        });
     };
 
     this.episodes.map(function(episode) {
@@ -126,13 +127,12 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
 
     // Ratings graph
     this.points = [];
-    var data = $filter('orderBy')(this.episodes, this.getEpisodeNumber, false);
-    for (var i = 0; i < data.length; i++) {
-        this.points.push({
+    this.episodes.map(function(episode) {
+        vm.points.push({
             x: i,
-            y: data[i].rating,
-            label: this.getEpisodeNumber(data[i]) + ' : ' + data[i].rating + '% (' + data[i].ratingcount + ' ' + $filter('translate')('SIDEPANEL/SERIE-DETAILS/votes/lbl') + ')',
-            season: parseInt(data[i].seasonnumber, 10)
+            y: episode.rating,
+            label: vm.getEpisodeNumber(episode) + ' : ' + episode.rating + '% (' + episode.ratingcount + ' ' + $filter('translate')('SIDEPANEL/SERIE-DETAILS/votes/lbl') + ')',
+            season: parseInt(episode.seasonnumber, 10)
         });
-    }
+    });
 });

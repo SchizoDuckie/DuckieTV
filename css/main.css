@@ -1859,11 +1859,16 @@ sidepanel .episodes .season-control {
     margin-top: 13px;
     margin-bottom: 8px;
 }
-sidepanel .episodes .season-control a {
-    line-height: 2;
+sidepanel .episodes .season-control-left a {
+    line-height: 2.1;
     font-size: 16px;
+    float: left;
 }
-sidepanel .episodes .season-control a:nth-of-type(1) {
+sidepanel .episodes .season-control-right {
+    display: inline;
+}
+sidepanel .episodes .season-control-right a {
+    float: right;
     line-height: 2;
     font-size: 16px;
 }
