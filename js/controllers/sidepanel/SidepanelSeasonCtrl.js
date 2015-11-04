@@ -129,7 +129,6 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
     this.points = [];
     this.episodes.map(function(episode) {
         vm.points.push({
-            x: i,
             y: episode.rating,
             label: vm.getEpisodeNumber(episode) + ' : ' + episode.rating + '% (' + episode.ratingcount + ' ' + $filter('translate')('SIDEPANEL/SERIE-DETAILS/votes/lbl') + ')',
             season: parseInt(episode.seasonnumber, 10)
