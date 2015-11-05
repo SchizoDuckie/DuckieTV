@@ -127,7 +127,8 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
 
     // Ratings graph
     this.points = [];
-    this.episodes.map(function(episode) {
+    var data = $filter('orderBy')(this.episodes, this.getEpisodeNumber, false); // sort episodes by episode number
+    data.map(function(episode) {
         vm.points.push({
             y: episode.rating,
             label: vm.getEpisodeNumber(episode) + ' : ' + episode.rating + '% (' + episode.ratingcount + ' ' + $filter('translate')('SIDEPANEL/SERIE-DETAILS/votes/lbl') + ')',
