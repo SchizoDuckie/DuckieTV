@@ -21,11 +21,13 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             // Show tray
             tray = new gui.Tray({
                 title: navigator.userAgent,
-                icon: 'img/logo/icon64.png',
-                menu: menu
+                icon: 'img/logo/icon64.png'
             });
             // fix for issue https://github.com/nwjs/nw.js/issues/1903
             tray.tooltip = navigator.userAgent;
+            // possible fix for mac double tray issue #569 by ensuring menu is bound to tray via property rather than option
+            // see https://github.com/nwjs/nw.js/wiki/Tray#traymenu
+            tray.menu = menu;
 
             // handle tray click
             var trayClick = function() {
