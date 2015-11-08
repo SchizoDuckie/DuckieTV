@@ -22,9 +22,10 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             tray = new gui.Tray({
                 title: navigator.userAgent,
                 icon: 'img/logo/icon64.png',
-                menu: menu,
-                tooltip: navigator.userAgent
+                menu: menu
             });
+            // fix for issue https://github.com/nwjs/nw.js/issues/1903
+            tray.tooltip = navigator.userAgent;
 
             // handle tray click
             var trayClick = function() {
