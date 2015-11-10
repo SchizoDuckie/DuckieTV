@@ -84,7 +84,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             data.firstaired = new Date(data.first_aired).getTime();
             data.firstaired_iso = data.first_aired;
             data.filename = (('screenshot' in data.images) && ('thumb' in data.images.screenshot)) ? data.images.screenshot.thumb : '';
-            if (!episode.isLeaked && (data.firstaired === 0 || data.firstaired > new Date().getTime())) {
+            if (!episode.isLeaked() && (data.firstaired === 0 || data.firstaired > new Date().getTime())) {
                 // if the episode has not yet aired, make sure the download and watched status are zeroed. #491
                 // unless leaked
                 data.downloaded = 0;
