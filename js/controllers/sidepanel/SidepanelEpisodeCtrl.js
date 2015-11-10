@@ -5,6 +5,11 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
     this.season = season;
     var self = this;
 
+    this.markLeaked = function() {
+        this.leaked = 1;
+        this.Persist();
+    }.bind(this.episode);
+
     this.autoDownload = function() {
         AutoDownloadService.autoDownload(this.serie, this.episode);
     };

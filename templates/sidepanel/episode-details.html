@@ -29,19 +29,19 @@
         </tr>
         <tr class="two-face">
           <td>
-            <episode-downloaded ng-if="sidepanel.episode.hasAired() || sidepanel.leaked" template-url="templates/sidepanel/mark-downloaded.html" episode="sidepanel.episode" ng-click="markDownloaded(sidepanel.episode)"></episode-downloaded>
+            <episode-downloaded ng-if="sidepanel.episode.hasAired() || sidepanel.episode.isLeaked()" template-url="templates/sidepanel/mark-downloaded.html" episode="sidepanel.episode" ng-click="markDownloaded(sidepanel.episode)"></episode-downloaded>
           </td>
           <td>
-            <episode-watched ng-if="sidepanel.episode.hasAired() || sidepanel.leaked" template-url="templates/sidepanel/mark-watched.html" episode="sidepanel.episode" ng-click="markWatched(sidepanel.episode)"></episode-watched>
+            <episode-watched ng-if="sidepanel.episode.hasAired() || sidepanel.episode.isLeaked()" template-url="templates/sidepanel/mark-watched.html" episode="sidepanel.episode" ng-click="markWatched(sidepanel.episode)"></episode-watched>
           </td>
         </tr>
-        <tr ng-if="!sidepanel.episode.hasAired() && !sidepanel.leaked">
+        <tr ng-if="!sidepanel.episode.hasAired() && !sidepanel.episode.isLeaked()">
         <th colspan="2">
-        <p ng-click="sidepanel.leaked = true" style='font-weight:normal; text-align:center; cursor:pointer; padding-top:50px'><pcont translate-once="SIDEPANEL/EPISODE-DETAILS/leak-override/lbl"></pcont>{{::sidepanel.episode.firstaired | date: 'shortDate'}}</p>
+        <p ng-click="sidepanel.markLeaked()" style='font-weight:normal; text-align:center; cursor:pointer; padding-top:50px'><pcont translate-once="SIDEPANEL/EPISODE-DETAILS/leak-override/lbl"></pcont>{{::sidepanel.episode.firstaired | date: 'shortDate'}}</p>
         </th>
         </tr>
         <tr>
-          <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled') && (sidepanel.episode.hasAired() || sidepanel.leaked)" style="position:relative">
+          <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled') && (sidepanel.episode.hasAired() || sidepanel.episode.isLeaked())" style="position:relative">
             <table style="width:100%;margin: 5px 0px 5px 0px">
               <tr>
                 <td style="width:100%;padding-left:15px">
@@ -79,7 +79,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2" class="buttons" ng-if="getSetting('torrenting.enabled') &&  (sidepanel.episode.hasAired() || sidepanel.leaked)">
+          <td colspan="2" class="buttons" ng-if="getSetting('torrenting.enabled') &&  (sidepanel.episode.hasAired() || sidepanel.episode.isLeaked())">
             <a ng-click="sidepanel.findSubtitle()">
                 <i class="glyphicon glyphicon-text-width"></i><strong translate-once="COMMON/find-subtitle/lbl"></strong>
             </a>
