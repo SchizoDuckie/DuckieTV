@@ -37,6 +37,11 @@ var DuckieTV = angular.module('DuckieTV', [
         var today = new Date();
         var tommorow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
         var timeToMidnight = (tommorow - today) + 1000; // a second after midnight
+        // #569 test
+         if (localStorage.getItem('mac_systray_reload_test')) {
+            timeToMidnight = 60000; // 60 second reload test for mac systray
+         };
+         // end #569 test
         var timer = setTimeout(function() {
             window.location.reload();
         }, timeToMidnight);

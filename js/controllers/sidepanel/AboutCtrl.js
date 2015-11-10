@@ -13,6 +13,19 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
         $scope.optInTrackingEnabled = localStorage.getItem('optin_error_reporting');
         $scope.uniqueTrackingID = localStorage.getItem('uniqueId');
 
+        // #569 test
+        $scope.macTestEnabled = localStorage.getItem('mac_systray_reload_test');
+        $scope.toggleMacTest = function() {
+            if (localStorage.getItem('mac_systray_reload_test')) {
+                localStorage.removeItem('mac_systray_reload_test');
+                $scope.macTestEnabled = false;
+            } else {
+                localStorage.setItem('mac_systray_reload_test', true);
+                window.location.reload();
+            }
+        };
+        // end #569 test
+
         $scope.toggleOptInErrorReporting = function() {
             if (localStorage.getItem('optin_error_reporting')) {
                 localStorage.removeItem('optin_error_reporting');

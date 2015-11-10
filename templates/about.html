@@ -66,5 +66,19 @@
         <span translate-once="ABOUT/optInTracking/hdr"></span></button>
       </td>
     </tr>
+    <!-- #590 test -->
+    <tr>
+      <td>
+        <h1>Mac reload systray test</h1>
+        <p>This option tests if a reload, while in systray mode, causes multiple trays to be created on Mac systems.</p>
+        <p>Enabling it causes the reload timer to be set to 1 minute. minimize to systray and watch for new ducks to show up on systray every minute.</p>
+        <p>Disable to return timer back to default setting. Restart DuckieTV to clear systray of duck clones.</p>
+        <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+        {{ macTestEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+        <button class='btn' ng-class="{'btn-danger': !macTestEnabled, 'btn-success': macTestEnabled}" ng-click="toggleMacTest()">{{ macTestEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+        <span>Mac Reload Test</span></button>
+      </td>
+    </tr>
+    <!-- end #590 test -->
   </table>
 </div>
