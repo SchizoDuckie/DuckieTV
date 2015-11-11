@@ -29,8 +29,17 @@ DuckieTorrent.provider('DuckieTorrent', function() {
 })
 
 .run(function() {
+    // setting platform specific defaults (uTorrent for windows, uTorrent Web UI or non-windows)
     if (!localStorage.getItem('torrenting.client')) {
-        localStorage.setItem('torrenting.client', 'uTorrent');
+        if (navigator.platform.toLowerCase().indexOf('win') !== -1) {
+            localStorage.setItem('torrenting.client', 'uTorrent'); // default for windows platforms
+        } else {
+            localStorage.setItem('torrenting.client', 'uTorrent Web UI'); // default for non-windows platforms
+        }
+    } else {
+        if (localStorage.getItem('torrenting.client') === 'uTorrent' && navigator.platform.toLowerCase().indexOf('win') === -1) {
+            localStorage.setItem('torrenting.client', 'uTorrent Web UI'); // override for non-windows platforms prior to #592
+        }
     }
 })
 

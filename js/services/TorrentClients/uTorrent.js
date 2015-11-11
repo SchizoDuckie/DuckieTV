@@ -743,7 +743,8 @@ DuckieTorrent
 
 .run(["DuckieTorrent", "uTorrent", "SettingsService",
     function(DuckieTorrent, uTorrent, SettingsService) {
-        if (SettingsService.get('torrenting.enabled')) {
+        if (SettingsService.get('torrenting.enabled') && navigator.platform.toLowerCase().indexOf('win') !== -1) {
+            // only register uTorrent API on windows platforms #592
             DuckieTorrent.register('uTorrent', uTorrent);
         }
     }
