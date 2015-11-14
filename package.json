@@ -53,6 +53,7 @@
   "author": "DuckieTV",
   "user-agent": "DuckieTV Standalone v1.1.3",
   "window": {
+    "show": false,
     "always-on-top": false,
     "as_desktop": true,
     "exe_icon": "C:/xampp/htdocs/deploy/newtab/img/logo/icon128.png",

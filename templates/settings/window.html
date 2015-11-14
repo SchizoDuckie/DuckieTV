@@ -1,0 +1,37 @@
+<div ng-controller="WindowCtrl" class="buttons windowCtrl">
+  <h2>
+    <span tooltip="{{standaloneStartupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-minimized/tooltip' : 'SETTINGS/DISPLAY/standalone-startup-normalized/tooltip'|translate}}">
+      <i class="glyphicon glyphicon-{{standaloneStartupMinimized ? 'win-minimize alert-success' : 'win-maximize alert-info'}}" style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i>
+    </span>
+    <li translate-once="SETTINGS/DISPLAY/standalone-startup-window/hdr"></li>
+  </h2>
+
+  <p translate-once="SETTINGS/DISPLAY/standalone-startup-window/desc"></p>
+  <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+   {{startupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-minimized/tooltip' : 'SETTINGS/DISPLAY/standalone-startup-normalized/tooltip'|translate}}</p>
+  <a ng-click="toggleStartupMinimized()" class="btn btn-{{startupMinimized ? 'info' : 'success'}}">
+    <i class="glyphicon glyphicon-{{startupMinimized ? 'win-maximize' : 'win-minimize'}}"  style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i> {{startupMinimized ? 'SETTINGS/DISPLAY/standalone-startup-normal/btn' : 'SETTINGS/DISPLAY/standalone-startup-minimize/btn'|translate}}
+  </a>
+  <hr class="setting-divider">
+
+  <h2>
+    <li translate-once="System Tray"></li>
+  </h2>
+  <div style="text-align: left">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="alwaysShowTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleAlwaysShowTray()"> Always show tray icon <small>Requires restart</small>
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="minimizeToTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleMinimizeToTray()"> Minimize button minimizes DuckieTV to tray
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="closeToTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleCloseToTray()"> Close button minimizes DuckieTV to tray
+      </label>
+    </div>
+  </div>
+</div>

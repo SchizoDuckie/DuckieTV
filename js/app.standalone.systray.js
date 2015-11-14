@@ -2,130 +2,140 @@
  * nw.js standalone systray
  */
 if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
-
+    var tray, show, calendar, favorites, settings, about, exit;
+    var alwaysShowTray = false;
     var gui = require('nw.gui');
-    // Reference to window and tray
     var win = gui.Window.get();
-    var tray;
+    // Create new empty menu
+    var menu = new gui.Menu();
 
-    // Get the minimize event
+    // Remakes/Creates the tray as once a tray is removed it needs to be remade.
+    var createTray = function() {
+        tray = new gui.Tray({
+            title: navigator.userAgent,
+            icon: 'img/logo/icon64.png'
+        });
+        tray.tooltip = navigator.userAgent;
+        tray.menu = menu;
+
+        // Show DuckieTV on Click
+        tray.on('click', function() {
+            win.show();
+            win.emit('restore');
+        });
+    };
+
+    // If we're always showing the tray, create it now
+    if (window.localStorage.getItem('standalone.alwaysShowTray') !== 'N') {
+        alwaysShowTray = true;
+        createTray();
+    }
+
+    // On Minimize Event
     win.on('minimize', function() {
-        // should we minimize to systray or taskbar?
+        // Should we minimize to systray or taskbar?
         if (window.localStorage.getItem('standalone.minimizeSystray') !== 'N') {
             // Hide window
             win.hide();
-
-            // create empty menu
-            var menu = new gui.Menu();
-
-            // Show tray
-            tray = new gui.Tray({
-                title: navigator.userAgent,
-                icon: 'img/logo/icon64.png',
-                menu: menu
-            });
-            // fix for issue https://github.com/nwjs/nw.js/issues/1903
-            tray.tooltip = navigator.userAgent;
-
-            // handle tray click
-            var trayClick = function() {
-                this.remove();
-                win.show();
-                win.emit('restore');
-            }.bind(tray);
-            tray.on('click', trayClick);
-
-            // handle exit menu click
-            var exitClick = function() {
-                this.remove();
-                win.close(true);
-            }.bind(tray);
-
-            // handle calendar menu click
-            var calendarClick = function() {
-                win.emit('standalone.calendar');
-                trayClick();
-            };
-
-            // handle favorites menu click
-            var favoritesClick = function() {
-                win.emit('standalone.favorites');
-                trayClick();
-            };
-
-            // handle settings menu click
-            var settingsClick = function() {
-                win.emit('standalone.settings');
-                trayClick();
-            };
-
-            // handle about menu click
-            var aboutClick = function() {
-                win.emit('standalone.about');
-                trayClick();
-            };
-
-            // add show menu
-            var menuShow = new gui.MenuItem({
-                label: 'Show DuckieTV'
-            });
-            menuShow.on('click', trayClick);
-            menu.append(menuShow);
-
-            // add calendar menu
-            var menuCalendar = new gui.MenuItem({
-                label: 'Show Calendar'
-            });
-            menuCalendar.on('click', calendarClick);
-            menu.append(menuCalendar);
-
-            // add favorites menu
-            var menuFavorites = new gui.MenuItem({
-                label: 'Show Favorites'
-            });
-            menuFavorites.on('click', favoritesClick);
-            menu.append(menuFavorites);
-
-            // add settings menu
-            var menuSettings = new gui.MenuItem({
-                label: 'Show Settings'
-            });
-            menuSettings.on('click', settingsClick);
-            menu.append(menuSettings);
-
-            // add about menu
-            var menuAbout = new gui.MenuItem({
-                label: 'Show About'
-            });
-            menuAbout.on('click', aboutClick);
-            menu.append(menuAbout);
-
-            // add a separator to menu
-            menu.append(new gui.MenuItem({
-                type: 'separator'
-            }));
-
-            // Add an exit menu
-            var menuExit = new gui.MenuItem({
-                label: 'Exit',
-                modifiers: 'cmd-Q',
-                key: 'q'
-            });
-
-            menuExit.on('click', exitClick);
-            menu.append(menuExit);
-
+            // Create a new tray if one isn't already
+            if (window.localStorage.getItem('standalone.alwaysShowTray') !== 'Y') {
+                createTray();
+            }
         }
     });
 
-    // get the restore event
+    // On Restore Event
     win.on('restore', function() {
-        if (window.localStorage.getItem('standalone.minimizeSystray') !== 'N') {
+        // If we're not always showing tray, remove it
+        if (tray && window.localStorage.getItem('standalone.alwaysShowTray') !== 'Y') {
             tray.remove();
         }
     });
 
-    // Only fires if force close is false
+    // On Close Event, fired before anything happens
+    win.on('close', function() {
+        if (window.localStorage.getItem('standalone.closeToTray') !== 'N') {
+            // Hide window
+            win.hide();
+            // Create a new tray if one isn't already
+            if (window.localStorage.getItem('standalone.alwaysShowTray') !== 'Y' || alwaysShowTray === false) {
+                createTray();
+            }
+        } else {
+            // Actually closes the window, bypassing any close events
+            win.close(true);
+        }
+    });
+
+    // Create the menu, only needs to be made once
+    // Add a show button
+    show = new gui.MenuItem({
+        label: "Show DuckieTV",
+        click: function() {
+            win.show();
+            win.emit('restore');
+        }
+    });
+    menu.append(show);
+
+    // Add a calendar button
+    calendar = new gui.MenuItem({
+        label: "Show Calendar",
+        click: function() {
+            win.emit('standalone.calendar');
+            win.show();
+        }
+    });
+    menu.append(calendar);
+
+    // Add a favorites button
+    favorites = new gui.MenuItem({
+        label: "Show Favorites",
+        click: function() {
+            win.emit('standalone.favorites');
+            win.show();
+        }
+    });
+    menu.append(favorites);
+
+    // Add a settings button
+    settings = new gui.MenuItem({
+        label: "Show Settings",
+        click: function() {
+            win.emit('standalone.settings');
+            win.show();
+        }
+    });
+    menu.append(settings);
+
+    // Add a about button
+    about = new gui.MenuItem({
+        label: "Show About",
+        click: function() {
+            win.emit('standalone.about');
+            win.show();
+        }
+    });
+    menu.append(about);
+
+    // Add a separator
+    menu.append(new gui.MenuItem({
+        type: 'separator'
+    }));
+
+    // Add a exit button
+    exit = new gui.MenuItem({
+        label: "Exit",
+        click: function() {
+            win.close(true);
+        },
+        modifiers: 'cmd-Q',
+        key: 'q'
+    });
+    menu.append(exit);
+}
+
+// Only fires if force close is false
     /* Prototype
     win.on('close', function() {
 
@@ -154,4 +164,3 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             console.log("We can close safely, win.close(true) in console to close");
         }
     }); */
-}

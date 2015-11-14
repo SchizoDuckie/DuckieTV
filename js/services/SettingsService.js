@@ -238,6 +238,8 @@ DuckieTV.factory('ChromePermissions', ["$q",
  */
 .run(function($rootScope, SettingsService) {
 
+    $rootScope.isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') > -1);
+
     $rootScope.getSetting = function(key) {
         return SettingsService.get(key);
     };

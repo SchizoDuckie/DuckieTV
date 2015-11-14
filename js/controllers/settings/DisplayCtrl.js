@@ -11,9 +11,6 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.topSitesMode = SettingsService.get('topSites.mode');
         $scope.bgOpacity = SettingsService.get('background-rotator.opacity');
         $scope.showRatings = SettingsService.get('download.ratings');
-        $scope.isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1);
-        $scope.standaloneStartupMinimized = (localStorage.getItem('standalone.startupMinimized') === 'Y');
-        $scope.standaloneMinimizeSystray = (localStorage.getItem('standalone.minimizeSystray') !== 'N');
         $scope.sgEnabled = SettingsService.get('library.seriesgrid');
 
         $scope.toggleTopSites = function() {
@@ -36,20 +33,6 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.toggleRatings = function() {
             $scope.showRatings = !$scope.showRatings;
             SettingsService.set('download.ratings', $scope.showRatings);
-        };
-
-        // Toggles whether to minimize the Standalone window at start-up 
-        // stored in localStorage because this code runs early
-        $scope.toggleStandaloneStartupMinimized = function() {
-            $scope.standaloneStartupMinimized = !$scope.standaloneStartupMinimized;
-            localStorage.setItem('standalone.startupMinimized', $scope.standaloneStartupMinimized ? 'Y' : 'N');
-        };
-
-        // Toggles whether to minimize to Systray or Taskbar
-        // stored in localStorage because this code runs early
-        $scope.toggleStandaloneMinimizeSystray = function() {
-            $scope.standaloneMinimizeSystray = !$scope.standaloneMinimizeSystray;
-            localStorage.setItem('standalone.minimizeSystray', $scope.standaloneMinimizeSystray ? 'Y' : 'N');
         };
 
         // Toggles the Series-Grid on Series-List

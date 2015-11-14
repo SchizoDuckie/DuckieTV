@@ -10,18 +10,24 @@
 if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
 
     var gui = require('nw.gui');
-
-    // Reference to window and tray
     var win = gui.Window.get();
+    var winState = 'normal';
 
     if (localStorage.getItem('standalone.position')) {
         var pos = JSON.parse(localStorage.getItem('standalone.position'));
         win.resizeTo(parseInt(pos.width), parseInt(pos.height));
         win.moveTo(parseInt(pos.x), parseInt(pos.y));
+        if (pos.state == 'maximized') {
+            setTimeout(function() {
+                win.maximize();
+            }, 150);
+        }
     }
 
-    if (localStorage.getItem('standalone.startupMinimized') === 'Y') {
-        win.minimize();
+    if (localStorage.getItem('standalone.startupMinimized') !== 'Y') {
+        setTimeout(function() {
+            win.show();
+        }, 150);
     }
 
     window.addEventListener('DOMContentLoaded', function() {
@@ -35,9 +41,11 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
                 width: window.innerWidth,
                 height: window.innerHeight,
                 x: window.screenX,
-                y: window.screenY
+                y: window.screenY,
+                state: winState 
+
             }));
-            win.close(true); // we call window.close so that the close event can fire
+            win.close(); // we call window.close so that the close event can fire
         });
 
         document.getElementById('minimize').addEventListener('click', function() {
@@ -52,12 +60,14 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             maximize.style.display = 'none';
             unmaximize.style.display = '';
             win.maximize();
+            winState = 'maximized';
         });
 
         unmaximize.addEventListener('click', function() {
             unmaximize.style.display = 'none';
             maximize.style.display = '';
             win.unmaximize();
+            winState = 'normal';
         });
     });
 }

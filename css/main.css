@@ -2121,6 +2121,14 @@ sidepanel .seasons serieheader {
     transition: padding 0.2s ease-in;
 }
 
+.settings .windowCtrl .checkbox {
+    margin: 13px 0;
+    padding-left: 2px;
+}
+.settings .windowCtrl .checkbox input[type=checkbox] {
+    margin-top: 1px;
+}
+
 .smallsettingicon {
     width: 34px;
     height: 34px;
