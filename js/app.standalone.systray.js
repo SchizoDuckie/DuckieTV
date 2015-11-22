@@ -11,6 +11,10 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
 
     // Remakes/Creates the tray as once a tray is removed it needs to be remade.
     var createTray = function() {
+        // Make sure old one is destroyed into oblivion
+        tray.remove();
+        tray = null;
+
         tray = new gui.Tray({
             title: navigator.userAgent,
             icon: 'img/logo/icon64.png'
@@ -49,6 +53,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
         // If we're not always showing tray, remove it
         if (tray && window.localStorage.getItem('standalone.alwaysShowTray') !== 'Y') {
             tray.remove();
+            tray = null;
         }
     });
 
