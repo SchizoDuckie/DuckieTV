@@ -361,20 +361,20 @@ CRUD.define(Episode, {
         });
         CRUD.executeQuery("");
     },
-    
-        watchSerie: function(){
+
+    watchSerie: function(){
         //index 0 series watched index 1 series not watched
-        var watchedSerie=[2];
-         CRUD.executeQuery('SELECT watched AS watchedSerie FROM Series'+ 
+        var watchedSerie = [];
+        CRUD.executeQuery('SELECT COUNT(Series.watched) AS watchedSerie FROM Series'+ 
                             ' WHERE Series.watched = 1').then(function(result){
 
-            watchedSerie.push(parseInt(result.next().get('watched')));                    
+            watchedSerie.push(parseInt(result.next().get('watchedSerie')));
         });
-         CRUD.executeQuery('SELECT notWatched AS watchedSerie FROM Series '+
-                            ' WHERE Series.watched = 0').then(function(result){
+        CRUD.executeQuery('SELECT COUNT(Series.watched) AS nonWatchedSerie FROM Series '+
+                        ' WHERE Series.watched = 0').then(function(result){
 
-            watchedSerie.push(parseInt(result.next().get('notWatched'));
-         return watchedSerie;       
+        watchedSerie.push(parseInt(result.next().get('nonWatchedSerie'));
+        return watchedSerie;
     },
 
     watchSeason: function(){
