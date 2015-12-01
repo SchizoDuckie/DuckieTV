@@ -424,6 +424,24 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             }
         });
 
+         .state('statistic', {
+            url: '/statistic',
+            resolve: {
+                SidePanelState: function(SidePanelState) {
+                    setTimeout(function() {
+                        expandSidePanel(SidePanelState);
+                    }, 0);
+                },
+                SeriesListState: hideSeriesList
+            },
+            views: {
+                sidePanel: {
+                    templateUrl: 'templates/statistic.html',
+                    controller: 'StatisticCtrl'
+                }
+            }
+        });
+
         $urlRouterProvider.otherwise('/');
     }
 ]);
