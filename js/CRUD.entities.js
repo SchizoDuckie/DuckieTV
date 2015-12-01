@@ -365,13 +365,13 @@ CRUD.define(Episode, {
         watchSerie: function(){
         //index 0 series watched index 1 series not watched
         var watchedSerie=[2];
-         CRUD.executeQuery('SELECT watched AS watchedSerie FROM Series 
-                             WHERE Series.watched = 1').then(function(result){
+         CRUD.executeQuery('SELECT watched AS watchedSerie FROM Series'+ 
+                            ' WHERE Series.watched = 1').then(function(result){
 
             watchedSerie.push(parseInt(result.next().get('watched')));                    
         });
-         CRUD.executeQuery('SELECT notWatched AS watchedSerie FROM Series 
-                             WHERE Series.watched = 0').then(function(result){
+         CRUD.executeQuery('SELECT notWatched AS watchedSerie FROM Series '+
+                            ' WHERE Series.watched = 0').then(function(result){
 
             watchedSerie.push(parseInt(result.next().get('notWatched'));
          return watchedSerie;       
