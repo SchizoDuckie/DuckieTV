@@ -31,6 +31,9 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) && (navigat
         alwaysShowTray = true;
         createTray();
     }
+    if (localStorage.getItem('standalone.startupMinimized') !== 'N') {
+        createTray();
+    }
 
     // On Minimize Event
     win.on('minimize', function() {
@@ -39,7 +42,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) && (navigat
             // Hide window
             win.hide();
             // Create a new tray if one isn't already
-            if (window.localStorage.getItem('standalone.alwaysShowTray') !== 'Y') {
+            if (!alwaysShowTray) {
                 createTray();
             }
         }
@@ -48,22 +51,21 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) && (navigat
     // On Restore Event
     win.on('restore', function() {
         // If we're not always showing tray, remove it
-        if (tray && window.localStorage.getItem('standalone.alwaysShowTray') !== 'Y') {
+        if (tray && !alwaysShowTray) {
             tray.remove();
         }
     });
 
     // On Close Event, fired before anything happens
     win.on('close', function() {
-        if (window.localStorage.getItem('standalone.closeToTray') !== 'N') {
+        if (window.localStorage.getItem('standalone.closeSystray') !== 'N') {
             // Hide window
             win.hide();
             // Create a new tray if one isn't already
-            if (window.localStorage.getItem('standalone.alwaysShowTray') !== 'Y' || alwaysShowTray === false) {
+            if (!alwaysShowTray) {
                 createTray();
             }
         } else {
-            // Actually closes the window, bypassing any close events
             win.close(true);
         }
     });

@@ -29,7 +29,6 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             win.show();
         }, 150);
     }
-
     window.addEventListener('DOMContentLoaded', function() {
 
         // add standalone window decorators
