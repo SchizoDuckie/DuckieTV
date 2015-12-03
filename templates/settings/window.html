@@ -18,7 +18,7 @@
     <li translate-once="System Tray"></li>
   </h2>
   <div style="text-align: left">
-    <div class="checkbox">
+    <div class="checkbox" ng-hide="isMac">
       <label>
         <input type="checkbox" ng-model="alwaysShowTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleAlwaysShowTray()"> Always show tray icon <small>Requires restart</small>
       </label>
@@ -28,7 +28,7 @@
         <input type="checkbox" ng-model="minimizeToTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleMinimizeToTray()"> Minimize button minimizes DuckieTV to tray
       </label>
     </div>
-    <div class="checkbox">
+    <div class="checkbox" ng-hide="isMac">
       <label>
         <input type="checkbox" ng-model="closeToTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleCloseToTray()"> Close button minimizes DuckieTV to tray
       </label>

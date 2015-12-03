@@ -1,7 +1,8 @@
 /**
  * nw.js standalone systray
  */
-if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
+if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) && (navigator.platform.toLowerCase().indexOf('mac') == -1)) {
+    console.log("Not a mac");
     var tray, show, calendar, favorites, settings, about, exit;
     var alwaysShowTray = false;
     var gui = require('nw.gui');
