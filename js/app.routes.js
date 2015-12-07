@@ -423,6 +423,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                 }
             }
         })
+
         .state('statistic', {
             url: '/statistic',
             resolve: {
