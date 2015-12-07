@@ -372,16 +372,10 @@ CRUD.define(Episode, {
         });
         CRUD.executeQuery('SELECT COUNT(Series.watched) AS nonWatchedSerie FROM Series '+
                         ' WHERE Series.watched = 0').then(function(result){
-
-        watchedSerie.push(parseInt(result.next().get('nonWatchedSerie'));
-        return watchedSerie;
-    },
-
-    watchSeason: function(){
-        CRUD.executeQuery('')
-    },
-});
-
+            watchedSerie.push(parseInt(result.next().get('nonWatchedSerie')));
+            return watchedSerie;
+        });
+    }
 });
 
 CRUD.define(WatchListItem, {

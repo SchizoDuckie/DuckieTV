@@ -422,9 +422,8 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     controller: 'AboutCtrl'
                 }
             }
-        });
-
-         .state('statistic', {
+        })
+        .state('statistic', {
             url: '/statistic',
             resolve: {
                 SidePanelState: function(SidePanelState) {
