@@ -1,29 +1,106 @@
 /**
  * nw.js standalone systray
  */
-if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) && (navigator.platform.toLowerCase().indexOf('mac') == -1)) {
-    console.log("Not a mac");
-    var tray, show, calendar, favorites, settings, about, exit;
+if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
+    var tray = null,
+        show, calendar, favorites, settings, about, exit;
     var alwaysShowTray = false;
     var gui = require('nw.gui');
     var win = gui.Window.get();
     // Create new empty menu
-    var menu = new gui.Menu();
 
     // Remakes/Creates the tray as once a tray is removed it needs to be remade.
     var createTray = function() {
+        if (tray !== null) {
+            tray.remove();
+            tray = null;
+        }
         tray = new gui.Tray({
             title: navigator.userAgent,
             icon: 'img/logo/icon64.png'
         });
+        tray.on('click', function() {
+            win.emit('standalone.calendar');
+            win.show();
+        });
+
         tray.tooltip = navigator.userAgent;
+
+        var menu = new gui.Menu();
+        // Create the menu, only needs to be made once
+        // Add a show button
+        show = new gui.MenuItem({
+            label: "Show DuckieTV",
+            click: function() {
+                win.show();
+                win.emit('restore');
+            }
+        });
+        menu.append(show);
+
+        // Add a calendar button
+        calendar = new gui.MenuItem({
+            label: "Show Calendar",
+            click: function() {
+                win.emit('standalone.calendar');
+                win.show();
+            }
+        });
+        menu.append(calendar);
+
+        // Add a favorites button
+        favorites = new gui.MenuItem({
+            label: "Show Favorites",
+            click: function() {
+                win.emit('standalone.favorites');
+                win.show();
+            }
+        });
+        menu.append(favorites);
+
+        // Add a settings button
+        settings = new gui.MenuItem({
+            label: "Show Settings",
+            click: function() {
+                win.emit('standalone.settings');
+                win.show();
+            }
+        });
+        menu.append(settings);
+
+        // Add a about button
+        about = new gui.MenuItem({
+            label: "Show About",
+            click: function() {
+                win.emit('standalone.about');
+                win.show();
+            }
+        });
+        menu.append(about);
+
+        // Add a separator
+        menu.append(new gui.MenuItem({
+            type: 'separator'
+        }));
+
+        // Add a exit button
+        exit = new gui.MenuItem({
+            label: "Exit",
+            click: function() {
+                win.close(true);
+            },
+            modifiers: 'cmd-Q',
+            key: 'q'
+        });
+        menu.append(exit);
+
         tray.menu = menu;
 
         // Show DuckieTV on Click
-        tray.on('click', function() {
-            win.show();
-            win.emit('restore');
-        });
+        //tray.on('click', function() {
+        //    win.show();
+        //    win.emit('restore');
+        //});
     };
 
     // If we're always showing the tray, create it now
@@ -70,76 +147,11 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) && (navigat
         }
     });
 
-    // Create the menu, only needs to be made once
-    // Add a show button
-    show = new gui.MenuItem({
-        label: "Show DuckieTV",
-        click: function() {
-            win.show();
-            win.emit('restore');
-        }
-    });
-    menu.append(show);
 
-    // Add a calendar button
-    calendar = new gui.MenuItem({
-        label: "Show Calendar",
-        click: function() {
-            win.emit('standalone.calendar');
-            win.show();
-        }
-    });
-    menu.append(calendar);
-
-    // Add a favorites button
-    favorites = new gui.MenuItem({
-        label: "Show Favorites",
-        click: function() {
-            win.emit('standalone.favorites');
-            win.show();
-        }
-    });
-    menu.append(favorites);
-
-    // Add a settings button
-    settings = new gui.MenuItem({
-        label: "Show Settings",
-        click: function() {
-            win.emit('standalone.settings');
-            win.show();
-        }
-    });
-    menu.append(settings);
-
-    // Add a about button
-    about = new gui.MenuItem({
-        label: "Show About",
-        click: function() {
-            win.emit('standalone.about');
-            win.show();
-        }
-    });
-    menu.append(about);
-
-    // Add a separator
-    menu.append(new gui.MenuItem({
-        type: 'separator'
-    }));
-
-    // Add a exit button
-    exit = new gui.MenuItem({
-        label: "Exit",
-        click: function() {
-            win.close(true);
-        },
-        modifiers: 'cmd-Q',
-        key: 'q'
-    });
-    menu.append(exit);
 }
 
 // Only fires if force close is false
-    /* Prototype
+/* Prototype
     win.on('close', function() {
 
         win.showDevTools();
@@ -153,7 +165,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) && (navigat
          * One issue however is that CRUDs 'writesQueued' isn't the correct number, more db operations can
          * be added after it finishes which leaves like 1ms where 'Can close safely' function will fire incorrectly.
          */
-    /*
+/*
         if (queryStats.writesExecuted < queryStats.writesQueued) {
             Object.observe(CRUD.stats, function() {
                 queryStats = CRUD.stats;
