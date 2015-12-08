@@ -12,6 +12,7 @@ DuckieTV
         var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="http://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="http://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="http://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
         var notifications = {
             '1.1.3': ["<li>Romanian translations by honeybunny from Addic7ed",
+		"<li>Spanish translations by iachopolo",
                 "<li>French translations by Tra-Vis",
                 "<li>Norwegian translations by hexjelly",
                 "<li>Bug fixes for Torrent Client Integrations",
