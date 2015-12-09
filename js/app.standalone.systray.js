@@ -22,6 +22,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         tray.on('click', function() {
             win.emit('standalone.calendar');
             win.show();
+            win.emit('restore');
         });
 
         tray.tooltip = navigator.userAgent;
@@ -44,6 +45,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             click: function() {
                 win.emit('standalone.calendar');
                 win.show();
+                win.emit('restore');
             }
         });
         menu.append(calendar);
@@ -54,6 +56,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             click: function() {
                 win.emit('standalone.favorites');
                 win.show();
+                win.emit('restore');
             }
         });
         menu.append(favorites);
@@ -64,6 +67,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             click: function() {
                 win.emit('standalone.settings');
                 win.show();
+                win.emit('restore');
             }
         });
         menu.append(settings);
@@ -74,6 +78,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             click: function() {
                 win.emit('standalone.about');
                 win.show();
+                win.emit('restore');
             }
         });
         menu.append(about);
@@ -103,19 +108,20 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         //});
     };
 
-    // If we're always showing the tray, create it now
-    if (window.localStorage.getItem('standalone.alwaysShowTray') !== 'N') {
+    // If we're always showing the tray, create it now (default is N or null)
+    if (window.localStorage.getItem('standalone.alwaysShowTray') === 'Y') {
         alwaysShowTray = true;
         createTray();
     }
-    if (localStorage.getItem('standalone.startupMinimized') !== 'N') {
+    // should we minimize after start-up? (default is N or null)
+    if (localStorage.getItem('standalone.startupMinimized') === 'Y') {
         createTray();
     }
 
     // On Minimize Event
     win.on('minimize', function() {
-        // Should we minimize to systray or taskbar?
-        if (window.localStorage.getItem('standalone.minimizeSystray') !== 'N') {
+        // Should we minimize to systray or taskbar? (default is N or null)
+        if (window.localStorage.getItem('standalone.minimizeSystray') === 'Y') {
             // Hide window
             win.hide();
             // Create a new tray if one isn't already
@@ -135,7 +141,8 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
 
     // On Close Event, fired before anything happens
     win.on('close', function() {
-        if (window.localStorage.getItem('standalone.closeSystray') !== 'N') {
+        // does close mean go to systray? (default N or null)
+        if (window.localStorage.getItem('standalone.closeSystray') === 'Y') {
             // Hide window
             win.hide();
             // Create a new tray if one isn't already
