@@ -14,7 +14,7 @@ DuckieTV.controller('StatisticCtrl',
     function() {
 
         // Started working here
-        var watchTime = function() {
+        this.watchTime = function() {
             console.log("Im being called");
             CRUD.executeQuery('SELECT Sum(runtime) AS watchTime FROM (SELECT runtime FROM Episodes ' +
                             'INNER JOIN Series ON Series.ID_Serie = Episodes.ID_Serie WHERE Episodes.watched = 1)').then(function(result) {
@@ -22,7 +22,7 @@ DuckieTV.controller('StatisticCtrl',
             });
         };
 
-        var watchSerie = function(){
+        this.watchSerie = function(){
             //index 0 series watched index 1 series not watched
             var watchedSerie = [];
             CRUD.executeQuery('SELECT COUNT(Series.watched) AS watchedSerie FROM Series'+ 
