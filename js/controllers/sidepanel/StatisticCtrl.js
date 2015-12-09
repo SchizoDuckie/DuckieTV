@@ -9,9 +9,9 @@
 /** 
  * Root controller for statistic page
  */
-DuckieTV.controller('StatisticCtrl', ["FavoritesService",
+DuckieTV.controller('StatisticCtrl',
 
-    function(FavoritesService) {
+    function() {
 
         // Started working here
         var watchTime = function() {
@@ -37,4 +37,4 @@ DuckieTV.controller('StatisticCtrl', ["FavoritesService",
             });
         };
     }
-]);
+);
