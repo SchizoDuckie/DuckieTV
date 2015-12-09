@@ -124,13 +124,13 @@ jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').th
             });
             return;
         }
-        if (release.name.indexOf('Windows') > -1) {
+        if (release.name.indexOf('Windows') > -1 && release.name.indexOf(isX64 ? 'x64' : 'ia32') > -1) {
             $('.down.windows').click(function() {
                 window.open(release.browser_download_url);
             });
             return;
         }
-        if (release.name.indexOf('OSX') > -1) {
+        if (release.name.indexOf('OSX') > -1 && release.name.indexOf(isX64 ? 'x64' : 'ia32') > -1) {
             $('.down.apple').click(function() {
                 window.open(release.browser_download_url);
             });
