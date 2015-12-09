@@ -15,11 +15,16 @@ DuckieTV.controller('StatisticCtrl',
 
         // Started working here
         this.watchTime = function() {
+            var self= this;
             console.log("Im being called");
             CRUD.executeQuery('SELECT Sum(runtime) AS watchTime FROM (SELECT runtime FROM Episodes ' +
                             'INNER JOIN Series ON Series.ID_Serie = Episodes.ID_Serie WHERE Episodes.watched = 1)').then(function(result) {
-                return parseInt(result.next().get('watchTime'));
+                if(result.length > 0)
+                    self.wTime = parseInt(result.next());
+                else
+                    self.wTime = 0;
             });
+            return this.wTime;
         };
 
         this.watchSerie = function(){
