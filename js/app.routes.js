@@ -437,7 +437,8 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             views: {
                 sidePanel: {
                     templateUrl: 'templates/statistic.html',
-                    controller: 'StatisticCtrl'
+                    controller: 'StatisticCtrl',
+                    controllerAs: 'statistic',
                 }
             }
         });
