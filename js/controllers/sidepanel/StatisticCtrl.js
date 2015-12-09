@@ -29,18 +29,22 @@ DuckieTV.controller('StatisticCtrl',
         };
 
         this.watchSerie = function(){
+            var self = this;
             //index 0 series watched index 1 series not watched
-            var watchedSerie = [];
+            this.wSerie = [0,0];
             CRUD.executeQuery('SELECT COUNT(Series.watched) AS watchedSerie FROM Series'+ 
                                 ' WHERE Series.watched = 1').then(function(result){
-
-                watchedSerie.push(parseInt(result.next().get('watchedSerie')));
+                var res = result.next();
+                if(res)
+                    self.wSerie[0] = parseInt(res.get('watchedSerie'));
             });
             CRUD.executeQuery('SELECT COUNT(Series.watched) AS nonWatchedSerie FROM Series '+
                             ' WHERE Series.watched = 0').then(function(result){
-                watchedSerie.push(parseInt(result.next().get('nonWatchedSerie')));
-                return watchedSerie;
+                var res = result.next();
+                if(res)
+                    self.wSerie[1] = parseInt(res.get('watchedSerie'));
             });
+            return this.wSerie;
         };
     }
 );
