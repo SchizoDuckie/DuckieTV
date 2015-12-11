@@ -7,13 +7,20 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     var alwaysShowTray = false;
     var gui = require('nw.gui');
     var win = gui.Window.get();
-    // Create new empty menu
+    
+    // debugging
+    console.debug('debugging source version=1');
+    console.debug('standalone.alwaysShowTray='+window.localStorage.getItem('standalone.alwaysShowTray'));
+    console.debug('standalone.startupMinimized='+window.localStorage.getItem('standalone.startupMinimized'));
+    console.debug('minimizeSystray='+window.localStorage.getItem('standalone.minimizeSystray'));
+    console.debug('closeSystray='+window.localStorage.getItem('standalone.closeSystray'));
 
     // Remakes/Creates the tray as once a tray is removed it needs to be remade.
     var createTray = function() {
         if (tray !== null) {
             tray.remove();
             tray = null;
+            console.debug('createTray: tray removed');
         }
         tray = new gui.Tray({
             title: navigator.userAgent,
@@ -106,22 +113,27 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         //    win.show();
         //    win.emit('restore');
         //});
+        console.debug('createTray: tray created');
     };
 
     // If we're always showing the tray, create it now (default is N or null)
     if (window.localStorage.getItem('standalone.alwaysShowTray') === 'Y') {
+        console.debug('alwaysShowTray');
         alwaysShowTray = true;
         createTray();
     }
     // should we minimize after start-up? (default is N or null)
     if (localStorage.getItem('standalone.startupMinimized') === 'Y') {
+        console.debug('startupMinimized');
         createTray();
     }
 
     // On Minimize Event
     win.on('minimize', function() {
         // Should we minimize to systray or taskbar? (default is N or null)
+        console.debug('on minimize');
         if (window.localStorage.getItem('standalone.minimizeSystray') === 'Y') {
+            console.debug('minimizeSystray');
             // Hide window
             win.hide();
             // Create a new tray if one isn't already
@@ -133,8 +145,10 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
 
     // On Restore Event
     win.on('restore', function() {
+        console.debug('on restore');
         // If we're not always showing tray, remove it
         if (tray && !alwaysShowTray) {
+            console.debug('on restore: tray.remove');
             tray.remove();
         }
     });
@@ -143,6 +157,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     win.on('close', function() {
         // does close mean go to systray? (default N or null)
         if (window.localStorage.getItem('standalone.closeSystray') === 'Y') {
+            console.debug('closeSystray');
             // Hide window
             win.hide();
             // Create a new tray if one isn't already

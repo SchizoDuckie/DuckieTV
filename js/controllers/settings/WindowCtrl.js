@@ -13,26 +13,26 @@ DuckieTV.controller('WindowCtrl', ["$scope",
 
         // Toggles whether to minimize the Standalone window at start-up 
         $scope.toggleStartupMinimized = function() {
-        	console.log("Minimize Startup", $scope.startupMinimized);
+        	console.debug("Minimize Startup", $scope.startupMinimized);
             $scope.startupMinimized = !$scope.startupMinimized;
             localStorage.setItem('standalone.startupMinimized', $scope.startupMinimized ? 'Y' : 'N');
         };
 
         // Toggles whether minimize button minimizes to tray
         $scope.toggleAlwaysShowTray = function() {
-        	console.log("Always show tray", $scope.alwaysShowTray);
+        	console.debug("Always show tray", $scope.alwaysShowTray);
             localStorage.setItem('standalone.alwaysShowTray', $scope.alwaysShowTray);
         };
 
         // Toggles whether minimize button minimizes to tray
         $scope.toggleMinimizeToTray = function() {
-        	console.log("Minimize to tray", $scope.minimizeToTray);
+        	console.debug("Minimize to tray", $scope.minimizeToTray);
             localStorage.setItem('standalone.minimizeSystray', $scope.minimizeToTray);
         };
 
         // Toggles whether close button minimizes to tray
         $scope.toggleCloseToTray = function() {
-        	console.log("Close to tray", $scope.closeToTray);
+        	console.debug("Close to tray", $scope.closeToTray);
             localStorage.setItem('standalone.closeSystray', $scope.closeToTray);
         };
     }
