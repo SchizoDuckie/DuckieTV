@@ -22,6 +22,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             setTimeout(function() {
                 win.maximize();
             }, 150);
+            winState = 'maximized';
         }
     }
 

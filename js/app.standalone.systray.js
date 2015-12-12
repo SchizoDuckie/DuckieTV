@@ -7,6 +7,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     var alwaysShowTray = false;
     var gui = require('nw.gui');
     var win = gui.Window.get();
+    var winState = 'normal';
     
     // debugging
     console.debug('debugging source version=1');
