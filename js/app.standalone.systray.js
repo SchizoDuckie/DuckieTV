@@ -8,6 +8,10 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     var gui = require('nw.gui');
     var win = gui.Window.get();
     var winState = 'normal';
+    if (localStorage.getItem('standalone.position')) {
+        var pos = JSON.parse(localStorage.getItem('standalone.position'));
+        winState = pos.state;
+    }
     
     // debugging
     console.debug('debugging source version=1');
