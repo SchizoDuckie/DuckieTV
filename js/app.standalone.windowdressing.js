@@ -23,6 +23,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
                 win.maximize();
             }, 150);
             winState = 'maximized';
+            win.emit('winstate',winState);
         }
     }
 
@@ -62,6 +63,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             unmaximize.style.display = '';
             win.maximize();
             winState = 'maximized';
+            win.emit('winstate',winState);
         });
 
         unmaximize.addEventListener('click', function() {
@@ -69,6 +71,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             maximize.style.display = '';
             win.unmaximize();
             winState = 'normal';
+            win.emit('winstate',winState);
         });
     });
 }

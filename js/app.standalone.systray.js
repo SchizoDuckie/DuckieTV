@@ -141,13 +141,6 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             console.debug('minimizeSystray');
             // Hide window
             win.hide();
-            localStorage.setItem('standalone.position', JSON.stringify({
-                width: window.innerWidth,
-                height: window.innerHeight,
-                x: window.screenX,
-                y: window.screenY,
-                state: winState 
-            }));
             // Create a new tray if one isn't already
             if (!alwaysShowTray) {
                 createTray();
@@ -163,16 +156,10 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             console.debug('on restore: tray.remove');
             tray.remove();
         }
-        if (localStorage.getItem('standalone.position')) {
-            var pos = JSON.parse(localStorage.getItem('standalone.position'));
-            win.resizeTo(parseInt(pos.width), parseInt(pos.height));
-            win.moveTo(parseInt(pos.x), parseInt(pos.y));
-            console.debug('standalone.position',pos);
-            if (pos.state == 'maximized') {
-                setTimeout(function() {
-                    win.maximize();
-                }, 150);
-            }
+        if (winState == 'maximized') {
+            setTimeout(function() {
+                win.maximize();
+            }, 150);
         }
     });
 
@@ -192,7 +179,11 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         }
     });
 
-
+    // on winstate event, update winState
+    win.on('winstate', function(winstate) {
+        console.debug('winState=',winstate);
+        winState = winstate;
+    })
 }
 
 // Only fires if force close is false
