@@ -68,11 +68,10 @@
         <a ng-click="select(seed)">
           <i class="glyphicon glyphicon-magnet" tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
         </a>
-        <a ng-href="{{::seed.torrent}}">
+        <a ng-href="{{::seed.torrent}}" target="iframe_a">
           <i class="glyphicon glyphicon-download" tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
         </a>
-
-        <a ng-href="{{::seed.magneturl}}">
+        <a ng-href="{{::seed.magneturl}}" target="iframe_a">
           <i class="glyphicon glyphicon-link" tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
         </a>
         <a ng-href="{{::seed.detailUrl}}" target='_blank'>
@@ -94,3 +93,4 @@
     </tr>
   </tbody>
 </table>
+<iframe src="demo_iframe.htm" name="iframe_a" style="border:none" height="1" width="1"></iframe>
