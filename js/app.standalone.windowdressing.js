@@ -17,7 +17,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
         var pos = JSON.parse(localStorage.getItem('standalone.position'));
         win.resizeTo(parseInt(pos.width), parseInt(pos.height));
         win.moveTo(parseInt(pos.x), parseInt(pos.y));
-        console.debug('standalone.position',pos);
+        console.debug('state=%s,h=%i,w=%i,x=%i,y=%i',pos.state,pos.height,pos.width,pos.x,pos.y);
         if (pos.state == 'maximized') {
             setTimeout(function() {
                 win.maximize();

@@ -3,7 +3,7 @@
  */
 if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     var tray = null,
-        show, calendar, favorites, settings, about, exit;
+        showdtv, calendar, favorites, settings, about, exit;
     var alwaysShowTray = false;
     var gui = require('nw.gui');
     var win = gui.Window.get();
@@ -14,7 +14,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     }
     
     // debugging
-    console.debug('debugging source version=1');
+    console.debug('debugging source version=2');
     console.debug('standalone.alwaysShowTray='+window.localStorage.getItem('standalone.alwaysShowTray'));
     console.debug('standalone.startupMinimized='+window.localStorage.getItem('standalone.startupMinimized'));
     console.debug('minimizeSystray='+window.localStorage.getItem('standalone.minimizeSystray'));
@@ -33,7 +33,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         });
         tray.on('click', function() {
             win.emit('standalone.calendar');
-            win.show();
+            console.debug('tray.on click: emit.restore');
             win.emit('restore');
         });
 
@@ -42,21 +42,21 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         var menu = new gui.Menu();
         // Create the menu, only needs to be made once
         // Add a show button
-        show = new gui.MenuItem({
+        showdtv = new gui.MenuItem({
             label: "Show DuckieTV",
             click: function() {
-                win.show();
+                console.debug('menu showdtv: emit.restore');
                 win.emit('restore');
             }
         });
-        menu.append(show);
+        menu.append(showdtv);
 
         // Add a calendar button
         calendar = new gui.MenuItem({
             label: "Show Calendar",
             click: function() {
                 win.emit('standalone.calendar');
-                win.show();
+                console.debug('menu calendar: emit.restore');
                 win.emit('restore');
             }
         });
@@ -67,7 +67,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             label: "Show Favorites",
             click: function() {
                 win.emit('standalone.favorites');
-                win.show();
+                console.debug('menu favorites: emit.restore');
                 win.emit('restore');
             }
         });
@@ -78,7 +78,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             label: "Show Settings",
             click: function() {
                 win.emit('standalone.settings');
-                win.show();
+                console.debug('menu settings: emit.restore');
                 win.emit('restore');
             }
         });
@@ -89,7 +89,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             label: "Show About",
             click: function() {
                 win.emit('standalone.about');
-                win.show();
+                console.debug('menu about: emit.restore');
                 win.emit('restore');
             }
         });
@@ -113,11 +113,6 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
 
         tray.menu = menu;
 
-        // Show DuckieTV on Click
-        //tray.on('click', function() {
-        //    win.show();
-        //    win.emit('restore');
-        //});
         console.debug('createTray: tray created');
     };
 
@@ -151,6 +146,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     // On Restore Event
     win.on('restore', function() {
         console.debug('on restore');
+        win.show();
         // If we're not always showing tray, remove it
         if (tray && !alwaysShowTray) {
             console.debug('on restore: tray.remove');
