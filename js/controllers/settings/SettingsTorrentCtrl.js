@@ -27,6 +27,9 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
 
         $scope.searchProviders = Object.keys(TorrentSearchEngines.getSearchEngines());
 
+        $scope.globalInclude = SettingsService.get('torrenting.global_include');
+        $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
+
         /**
          * Inject an event to display mirror resolving progress.
          */
@@ -217,6 +220,22 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
 
         $scope.reload = function() {
             window.location.reload();
+        };
+
+        /**
+         * Save Global Include list
+         */
+        $scope.saveGlobalInclude = function(list) {
+            $scope.globalInclude = list;
+            SettingsService.set('torrenting.global_include', $scope.globalInclude);
+        };
+
+        /**
+         * Save Global Exclude list
+         */
+        $scope.saveGlobalExclude = function(list) {
+            $scope.globalExclude = list;
+            SettingsService.set('torrenting.global_exclude', $scope.globalExclude);
         };
 
     }

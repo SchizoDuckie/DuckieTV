@@ -17,6 +17,23 @@
 </div>
 
 <table class="torrents table table-condensed white">
+  <tbody>
+    <tr>
+      <td>
+        <div class="checkbox">
+          <input type="checkbox" ng-model="globalIncludeEnabled" ng-change="setGlobalIncludeState()"><label>search using global include list ({{globalInclude}})</label>
+        </div>
+      </td>
+      <td>
+        <div class="checkbox">
+          <input type="checkbox" ng-model="globalExcludeEnabled" ng-change="setGlobalExcludeState()"><label>search using global exclude list ({{globalExclude}})</label>
+        </div>
+        </td>
+      </tr>
+    </tbody>
+</table>
+
+<table class="torrents table table-condensed white">
   <thead>
     <tr ng-show="searching">
       <td>

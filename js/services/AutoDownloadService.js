@@ -10,6 +10,8 @@ DuckieTV
 
         var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 1
         var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 50
+        var globalInclude = SettingsService.get('torrenting.global_include'); // Any words in the global include list causes the result to be filtered in.
+        var globalExclude = SettingsService.get('torrenting.global_exclude'); // Any words in the global exclude list causes the result to be filtered out.
 
         var service = {
             checkTimeout: null,
@@ -82,10 +84,48 @@ DuckieTV
                     return (score == query.length);
                 }
 
+                /**
+                 * Any words in the global include list causes the result to be filtered in.
+                 */
+                function filterGlobalInclude(item) {
+                    if (globalInclude == '') {
+                        return true;
+                    };
+                    var score = 0;
+                    var query = globalInclude.toLowerCase().split(' ');
+                    name = item.releasename.toLowerCase();
+                    query.map(function(part) {
+                        if (name.indexOf(part) > -1) {
+                            score++;
+                        }
+                    });
+                    return (score > 0);
+                };
+
+                /**
+                 * Any words in the global exclude list causes the result to be filtered out.
+                 */
+                function filterGlobalExclude(item) {
+                    if (globalExclude == '') {
+                        return true;
+                    };
+                    var score = 0;
+                    var query = globalExclude.toLowerCase().split(' ');
+                    name = item.releasename.toLowerCase();
+                    query.map(function(part) {
+                        if (name.indexOf(part) > -1) {
+                            score++;
+                        }
+                    });
+                    return (score == 0);
+                };
+
                 var episodestring = 0;
                 // Search torrent provider for the string
                 return TorrentSearchEngines.getDefaultEngine().search(searchString, true).then(function(results) {
                     var items = results.filter(filterByScore);
+                    items = items.filter(filterGlobalInclude);
+                    items = items.filter(filterGlobalExclude);
                     if (items.length === 0) {
                         return; // no results, abort
                     }

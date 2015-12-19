@@ -11,6 +11,10 @@ DuckieTV
         $scope.TVDB_ID = angular.copy(data.TVDB_ID);
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
         $scope.searchquality = SettingsService.get('torrenting.searchquality');
+        $scope.globalInclude = SettingsService.get('torrenting.global_include');
+        $scope.globalIncludeEnabled = SettingsService.get('torrenting.global_include_enabled');
+        $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
+        $scope.globalExcludeEnabled = SettingsService.get('torrenting.global_exclude_enabled');
 
         $scope.getName = function(provider) {
             return provider;
@@ -22,15 +26,15 @@ DuckieTV
             $scope.query = q;
             if (TVDB_ID !== undefined) {
                 $scope.TVDB_ID = TVDB_ID;
-            }
-            // If query is empty, promt user to enter something
+            };
+            // If query is empty, prompt user to enter something
             if (q === null || q === "" || q === undefined) {
                 console.warn("Query is empty!");
                 $scope.searching = false;
                 $scope.error = 'null';
                 $scope.items = null;
                 return;
-            }
+            };
 
             /**
              * Word-by-word scoring for search results.
@@ -48,8 +52,48 @@ DuckieTV
                 return (score == query.length);
             }
 
+            /**
+             * Any words in the global include list causes the result to be filtered in.
+             */
+            function filterGlobalInclude(item) {
+                if (!$scope.globalIncludeEnabled || $scope.globalInclude == '') {
+                    return true;
+                };
+                var score = 0;
+                var query = $scope.globalInclude.toLowerCase().split(' ');
+                name = item.releasename.toLowerCase();
+                query.map(function(part) {
+                    if (name.indexOf(part) > -1) {
+                        score++;
+                    }
+                });
+                //console.debug('include',name,query,score > 0);
+                return (score > 0);
+            };
+
+            /**
+             * Any words in the global exclude list causes the result to be filtered out.
+             */
+            function filterGlobalExclude(item) {
+                if (!$scope.globalExcludeEnabled || $scope.globalExclude == '') {
+                    return true;
+                };
+                var score = 0;
+                var query = $scope.globalExclude.toLowerCase().split(' ');
+                name = item.releasename.toLowerCase();
+                query.map(function(part) {
+                    if (name.indexOf(part) > -1) {
+                        score++;
+                    }
+                });
+                //console.debug('exclude',name,query,score == 0);
+                return (score == 0);
+            };
+
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' ')).then(function(results) {
                     $scope.items = results.filter(filterByScore);
+                    $scope.items = $scope.items.filter(filterGlobalInclude);
+                    $scope.items = $scope.items.filter(filterGlobalExclude);
                     $scope.searching = false;
                 },
                 function(e) {
@@ -57,6 +101,18 @@ DuckieTV
                     $scope.error = e;
                     $scope.items = null;
                 });
+        };
+
+        // Save state of torrenting global include check-box
+        $scope.setGlobalIncludeState = function() {
+            SettingsService.set('torrenting.global_include_enabled', $scope.globalIncludeEnabled);
+            $scope.search($scope.query);
+        };
+
+        // Save state of torrenting global exclude check-box
+        $scope.setGlobalExcludeState = function() {
+            SettingsService.set('torrenting.global_exclude_enabled', $scope.globalExcludeEnabled);
+            $scope.search($scope.query);
         };
 
         // Changes the search quality while searching for a torrent
@@ -162,12 +218,12 @@ DuckieTV
     function(TorrentSearchEngines, SettingsService) {
         if (SettingsService.get('torrenting.enabled')) {
 
-            // delay for 500ms so that custom clients can register themselves before determining default enigne. 
+            // delay for 500ms so that custom clients can register themselves before determining default engine. 
             setTimeout(function() {
 
                 var providers = TorrentSearchEngines.getSearchEngines();
                 if (!(SettingsService.get('torrenting.searchprovider') in providers)) {
-                    // autoconfig migration, fallback to first provider in the list when we detect an invalid provider.
+                    // auto-config migration, fallback to first provider in the list when we detect an invalid provider.
                     console.warn("Invalid search provider detected: ", SettingsService.get('torrenting.searchprovider'), " defaulting to ", Object.keys(providers)[0]);
                     SettingsService.set('torrenting.searchprovider', Object.keys(providers)[0]);
                 }
