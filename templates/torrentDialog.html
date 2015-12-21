@@ -4,7 +4,7 @@
 <a href="#settings/torrent-search" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once="TORRENTDIALOG/settings/glyph"></span></a>
 <input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
-<div class="btn-group" style='padding:5px 5px 5px 0;vertical-align:initial'>
+<div class="btn-group" style='padding:5px 5px 5px 0px;vertical-align:initial'>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == '480p'}" ng-click="setQuality('480p')">480p</button>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == 'HDTV'}" ng-click="setQuality('HDTV')">HDTV</button>
@@ -12,23 +12,23 @@
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == '1080p'}" ng-click="setQuality('1080p')">1080p</button>
 </div>
 
-<div class="btn-group" style="padding:0px 5px 5px 0;vertical-align:initial">
+<div class="btn-group" style="padding:0px 5px 5px 0px;vertical-align:initial">
  <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
 </div>
 
-<table class="torrents table table-condensed white">
+<table class="torrents table table-condensed white" style="margin-bottom:0px">
   <tbody>
     <tr>
-      <td>
+      <th>
         <div class="checkbox">
-          <input type="checkbox" ng-model="globalIncludeEnabled" ng-change="setGlobalIncludeState()"><label>search using global include list ({{globalInclude}})</label>
+          <input type="checkbox" ng-model="globalIncludeEnabled" ng-change="setGlobalIncludeState()" style="vertical-align:bottom;margin:0"><label>search using global include list ({{globalInclude}})</label>
         </div>
-      </td>
-      <td>
+      </th>
+      <th>
         <div class="checkbox">
-          <input type="checkbox" ng-model="globalExcludeEnabled" ng-change="setGlobalExcludeState()"><label>search using global exclude list ({{globalExclude}})</label>
+          <input type="checkbox" ng-model="globalExcludeEnabled" ng-change="setGlobalExcludeState()" style="vertical-align:bottom;margin:0"><label>search using global exclude list ({{globalExclude}})</label>
         </div>
-        </td>
+        </th>
       </tr>
     </tbody>
 </table>
