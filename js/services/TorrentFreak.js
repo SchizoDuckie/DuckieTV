@@ -61,7 +61,8 @@ DuckieTV.provider('TorrentFreak', function() {
                 var row = {
                     rank: rowItems[0].innerText,
                     prevRank: rowItems[1].innerText.replace('(', '').replace(')', ''),
-                    title: rowItems[2].querySelector('a').innerText,
+                    title: rowItems[2].innerText,
+                    searchTitle: rowItems[2].querySelector('a').innerText,
                     rottenTomatoes: rowItems[2].querySelector('a').href,
                     rating: rowItems[3].querySelectorAll('a')[0].innerText,
                     imdb: rowItems[3].querySelectorAll('a')[0].href,
@@ -135,8 +136,6 @@ DuckieTV.provider('TorrentFreak', function() {
                 TorrentFreak.Top10($rootScope).then(function(result) {
                     vm.items = result;
                     vm.activeItem = result[0];
-                    // Dunno what this does, trying to compile the HTML post into the $rootScope ?
-                    // $compile(result[0].content)($rootScope);
                 });
             }
         ],
