@@ -44,23 +44,23 @@
 
   <hr class="setting-divider">
 
-  <h2>Global Include list</h2>
-  <p style='text-align:left;white-space:normal'>You can restrict your torrent search results to those titles that include any of the words you enter below (separate each word with a space).</p>
+  <h2 translate-once="SETTINGS/TORRENT-SEARCH/global-include/hdr"></h2>
+  <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/global-include/desc"></p>
   <ul class="list-unstyled">
-    <li><span>Global Include list</span><br>
-      <input type='text' style='width:350px' ng-model="globalInclude" placeholder="'include' words separated by a space">
-      <a class="btn btn-success" ng-click="saveGlobalInclude(globalInclude)">save</a>
+    <li><span translate-once="SETTINGS/TORRENT-SEARCH/global-include/hdr"></span><br>
+      <input type='text' style='width:350px' ng-model="globalInclude" translate-once-placeholder="COMMON/global-search/placeholder">
+      <a class="btn btn-success" ng-click="saveGlobalInclude(globalInclude)" translate-once="COMMON/save/btn"></a>
     </li>
   </ul>
 
   <hr class="setting-divider">
 
-  <h2>Global Exclude list</h2>
-  <p style='text-align:left;white-space:normal'>You can restrict your torrent search results to those titles that do not include any of the words you enter below (separate each word with a space)</p>
+  <h2 translate-once="SETTINGS/TORRENT-SEARCH/global-exclude/hdr"></h2>
+  <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/global-exclude/desc"></p>
   <ul class="list-unstyled">
-    <li><span>Global Exclude list</span><br>
-      <input type='text' style='width:350px' ng-model="globalExclude" placeholder="'exclude' words separated by a space">
-      <a class="btn btn-success" ng-click="saveGlobalExclude(globalExclude)">save</a>
+    <li><span translate-once="SETTINGS/TORRENT-SEARCH/global-exclude/hdr"></span><br>
+      <input type='text' style='width:350px' ng-model="globalExclude" translate-once-placeholder="COMMON/global-search/placeholder">
+      <a class="btn btn-success" ng-click="saveGlobalExclude(globalExclude)" translate-once="COMMON/save/btn"></a>
     </li>
   </ul>
 

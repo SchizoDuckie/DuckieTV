@@ -21,12 +21,12 @@
     <tr>
       <th>
         <div class="checkbox">
-          <input type="checkbox" ng-model="globalIncludeEnabled" ng-change="setGlobalIncludeState()" style="vertical-align:bottom;margin:0"><label>search using global include list ({{globalInclude}})</label>
+          <input type="checkbox" ng-model="globalIncludeEnabled" ng-change="setGlobalIncludeState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-include/lbl"></span> ({{globalInclude}})</label>
         </div>
       </th>
       <th>
         <div class="checkbox">
-          <input type="checkbox" ng-model="globalExcludeEnabled" ng-change="setGlobalExcludeState()" style="vertical-align:bottom;margin:0"><label>search using global exclude list ({{globalExclude}})</label>
+          <input type="checkbox" ng-model="globalExcludeEnabled" ng-change="setGlobalExcludeState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-exclude/lbl"></span> ({{globalExclude}})</label>
         </div>
         </th>
       </tr>
