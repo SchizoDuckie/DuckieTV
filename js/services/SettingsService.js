@@ -83,7 +83,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
             settings: {},
             defaults: {
                 'KickAssTorrents.mirror': 'https://kat.cr',
-                'ThePirateBay.mirror': 'https://thepiratebay.gd',
+                'ThePirateBay.mirror': 'https://thepiratebay.se',
                 'application.language': null,
                 'application.locale': 'en_us',
                 'autodownload.minSeeders': 50,
