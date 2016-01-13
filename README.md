@@ -146,6 +146,6 @@ Privacy Statement
 * There are no costs to cover: No servers, no hosting, no databases, everything runs on Google's, GitHub's and Reddit's infrastructure. Therefore you are *not* the product and this is extension is free as in free beer.
 * Everything runs locally. If you decide to execute a torrent search for an episode, a request goes from your computer to the search engine.
 
-Please open a GitHub ticket or start a [Reddit thread](http://reddit.com/r/duckietv/) if there is anything else that needs improvement.
+Please open a [GitHub ticket](https://github.com/SchizoDuckie/DuckieTV/issues/new) or start a [Reddit thread](http://reddit.com/r/duckietv/) if there is anything else that needs improvement.
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/fuck-it-ship-it.svg)](http://forthebadge.com)
