@@ -27,9 +27,9 @@
           <a tooltip-placement="bottom" tooltip-popup-delay="500" tooltip-template="'episodeDetailsTooltip.html'" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{::episode.episodename}}</a>
         </td>
         <td class="nobreaks" align="right" style="width:66px">
-          <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{episode.getAirDate() | date: 'short'}}" ng-class="{'airdate': episode.hasAired()}" >{{episode.firstaired == 0 ? '?' : episode.firstaired|date:'shortDate'}}</a>
+          <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{episode.getAirDate() | date: 'short'}}" ng-class="{'airdate': episode.hasAired()||episode.isLeaked()}" >{{episode.firstaired == 0 ? '?' : episode.firstaired|date:'shortDate'}}</a>
 
-          <div ng-show="episode.hasAired() && getSetting('torrenting.enabled')" class="torrentctrls">
+          <div ng-show="(episode.hasAired() || episode.isLeaked()) && getSetting('torrenting.enabled')" class="torrentctrls">
             <torrent-dialog episode="episode" serie="sidepanel.serie"></torrent-dialog>
             <a class="auto-download-episode" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'COMMON/auto-download/lbl'|translate}}">
               <i class="glyphicon glyphicon-cloud-download"></i>
@@ -38,7 +38,7 @@
 
         </td>
         <td style="width:58px;position:relative">
-          <episode-downloaded ng-show="episode.hasAired()"></episode-downloaded> <episode-watched ng-show="episode.hasAired()"></episode-watched>
+          <episode-downloaded ng-show="episode.hasAired() || episode.isLeaked()"></episode-downloaded> <episode-watched ng-show="episode.hasAired() || episode.isLeaked()"></episode-watched>
         </td>
       </tr>
       <tr ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash">
