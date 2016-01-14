@@ -280,8 +280,8 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                 return promiseRequest('tvdb_id', id).then(function(result) {
                     return result;
                 }, function(error) {
-                    toaster.pop('eror', "Error fetching from Trakt.TV", 'Could not find serie by TVDB_ID: ' + id + '<br>' + error.message, null);
-                    throw "Could not resolve TVDB_ID from Trakt.TV " + error.message;
+                    toaster.pop('error', 'Error fetching from Trakt.TV', 'Could not find serie by TVDB_ID: ' + id + '<br>' + error, null);
+                    throw "Could not resolve TVDB_ID " + id + " from Trakt.TV: " + error;
                 });
             },
             getPinUrl: function() {
