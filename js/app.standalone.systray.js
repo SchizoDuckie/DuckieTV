@@ -11,10 +11,10 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     if (localStorage.getItem('standalone.position')) {
         var pos = JSON.parse(localStorage.getItem('standalone.position'));
         winState = pos.state;
-    }
+    };
     
     // debugging
-    console.debug('debugging source version=2');
+    console.debug('debugging source version=3');
     console.debug('standalone.alwaysShowTray='+window.localStorage.getItem('standalone.alwaysShowTray'));
     console.debug('standalone.startupMinimized='+window.localStorage.getItem('standalone.startupMinimized'));
     console.debug('minimizeSystray='+window.localStorage.getItem('standalone.minimizeSystray'));
@@ -33,8 +33,8 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         });
         tray.on('click', function() {
             win.emit('standalone.calendar');
-            console.debug('tray.on click: emit.restore');
-            win.emit('restore');
+            console.debug('tray.on click: emit.restoredtv');
+            win.emit('restoredtv');
         });
 
         tray.tooltip = navigator.userAgent;
@@ -45,8 +45,8 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         showdtv = new gui.MenuItem({
             label: "Show DuckieTV",
             click: function() {
-                console.debug('menu showdtv: emit.restore');
-                win.emit('restore');
+                console.debug('menu showdtv: emit.restoredtv');
+                win.emit('restoredtv');
             }
         });
         menu.append(showdtv);
@@ -56,8 +56,8 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             label: "Show Calendar",
             click: function() {
                 win.emit('standalone.calendar');
-                console.debug('menu calendar: emit.restore');
-                win.emit('restore');
+                console.debug('menu calendar: emit.restoredtv');
+                win.emit('restoredtv');
             }
         });
         menu.append(calendar);
@@ -67,8 +67,8 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             label: "Show Favorites",
             click: function() {
                 win.emit('standalone.favorites');
-                console.debug('menu favorites: emit.restore');
-                win.emit('restore');
+                console.debug('menu favorites: emit.restoredtv');
+                win.emit('restoredtv');
             }
         });
         menu.append(favorites);
@@ -78,8 +78,8 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             label: "Show Settings",
             click: function() {
                 win.emit('standalone.settings');
-                console.debug('menu settings: emit.restore');
-                win.emit('restore');
+                console.debug('menu settings: emit.restoredtv');
+                win.emit('restoredtv');
             }
         });
         menu.append(settings);
@@ -89,8 +89,8 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             label: "Show About",
             click: function() {
                 win.emit('standalone.about');
-                console.debug('menu about: emit.restore');
-                win.emit('restore');
+                console.debug('menu about: emit.restoredtv');
+                win.emit('restoredtv');
             }
         });
         menu.append(about);
@@ -121,12 +121,12 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         console.debug('alwaysShowTray');
         alwaysShowTray = true;
         createTray();
-    }
+    };
     // should we minimize after start-up? (default is N or null)
     if (localStorage.getItem('standalone.startupMinimized') === 'Y') {
         console.debug('startupMinimized');
         createTray();
-    }
+    };
 
     // On Minimize Event
     win.on('minimize', function() {
@@ -144,12 +144,12 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     });
 
     // On Restore Event
-    win.on('restore', function() {
-        console.debug('on restore');
+    win.on('restoredtv', function() {
+        console.debug('on restoredtv');
         win.show();
         // If we're not always showing tray, remove it
         if (tray && !alwaysShowTray) {
-            console.debug('on restore: tray.remove');
+            console.debug('on restoredtv: tray.remove');
             tray.remove();
         }
         if (winState == 'maximized') {
