@@ -91,10 +91,6 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                 data.watched = 0;
                 data.watchedAt = null;
             };
-            if (episode.isLeaked() && data.firstaired !== 0 && new Date().getTime() > data.firstaired) {
-                // if episode has aired then reset the leaked flag
-                data.leaked = 0;
-            };
 
             for (var i in data) {
                 if ((i in episode)) {
@@ -209,7 +205,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
              */
             addFavorite: function(data, watched) {
                 watched = watched || [];
-                //console.debug("FavoritesService.addFavorite!", data, watched);
+                // console.debug("FavoritesService.addFavorite!", data, watched);
                 var entity = null;
                 if (data.title === null || data.tvdb_id === null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
                     console.error("received error data as input, removing from favorites.");
@@ -217,7 +213,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                         name: data.title,
                         TVDB_ID: data.tvdb_id
                     });
-                };
+                }
                 var serie = service.getById(data.tvdb_id) || new Serie();
                 fillSerie(serie, data);
                 return serie.Persist().then(function() {
@@ -298,30 +294,25 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             remove: function(serie) {
                 serie.displaycalendar = '0';
                 //console.debug("Remove serie from favorites!", serie);
-                var seriesToBeDeleted = service.getById(serie.TVDB_ID);
-                if (typeof serieToBeDeleted != "undefined") {
-                    serieToBeDeleted.Find('Season').then(function(seasons) {
-                        seasons.map(function(el) {
-                            el.Delete();
-                        });
+                service.getById(serie.TVDB_ID).Find('Season').then(function(seasons) {
+                    seasons.map(function(el) {
+                        el.Delete();
                     });
-                };
+                });
                 CRUD.executeQuery('delete from Episodes where ID_Serie = ' + serie.ID_Serie);
                 service.favoriteIDs = service.favoriteIDs.filter(function(id) {
                     return id != serie.TVDB_ID;
                 });
-                if ('Delete' in serie) {
-                    serie.Delete().then(function() {
-                        service.favorites = service.favorites.filter(function(el) {
-                            return el.getID() != serie.getID();
-                        });
-                        console.info("Serie '" + serie.name + "' deleted. Syncing storage.");
-                        $rootScope.$broadcast('storage:update');
-                        if (service.favorites.length === 0) {
-                            $rootScope.$broadcast('serieslist:empty');
-                        }
+                serie.Delete().then(function() {
+                    service.favorites = service.favorites.filter(function(el) {
+                        return el.getID() != serie.getID();
                     });
-                };
+                    console.info("Serie '" + serie.name + "' deleted. Syncing storage.");
+                    $rootScope.$broadcast('storage:update');
+                    if (service.favorites.length === 0) {
+                        $rootScope.$broadcast('serieslist:empty');
+                    }
+                });
                 service.clearAdding(serie.TVDB_ID);
             },
             refresh: function() {
