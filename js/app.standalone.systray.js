@@ -121,12 +121,13 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         console.debug('alwaysShowTray');
         alwaysShowTray = true;
         createTray();
-    };
+    }
+
     // should we minimize after start-up? (default is N or null)
     if (localStorage.getItem('standalone.startupMinimized') === 'Y') {
         console.debug('startupMinimized');
         createTray();
-    };
+    }
 
     // On Minimize Event
     win.on('minimize', function() {
@@ -179,7 +180,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     win.on('winstate', function(winstate) {
         console.debug('winState=',winstate);
         winState = winstate;
-    })
+    });
 }
 
 // Only fires if force close is false

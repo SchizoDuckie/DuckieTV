@@ -12,16 +12,21 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
     var gui = require('nw.gui');
     var win = gui.Window.get();
     var winState = 'normal';
+    var pos, maximize, unmaximize;
 
     if (localStorage.getItem('standalone.position')) {
-        var pos = JSON.parse(localStorage.getItem('standalone.position'));
+        pos = JSON.parse(localStorage.getItem('standalone.position'));
         win.resizeTo(parseInt(pos.width), parseInt(pos.height));
         win.moveTo(parseInt(pos.x), parseInt(pos.y));
         console.debug('state=%s,h=%i,w=%i,x=%i,y=%i',pos.state,pos.height,pos.width,pos.x,pos.y);
         if (pos.state == 'maximized') {
             setTimeout(function() {
                 win.maximize();
-            }, 150);
+                if (maximize && unmaximize) {
+                    maximize.style.display = 'none';
+                    unmaximize.style.display = '';
+                }
+            }, 230);
             winState = 'maximized';
             win.emit('winstate',winState);
         }
@@ -30,7 +35,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
     if (localStorage.getItem('standalone.startupMinimized') !== 'Y') {
         setTimeout(function() {
             win.show();
-        }, 150);
+        }, 120);
     }
     window.addEventListener('DOMContentLoaded', function() {
 
@@ -54,8 +59,8 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
             win.minimize();
         });
 
-        var maximize = document.getElementById('maximize'),
-            unmaximize = document.getElementById('unmaximize');
+        maximize = document.getElementById('maximize');
+        unmaximize = document.getElementById('unmaximize');
 
         // show/hide maximize/unmaximize button on toggle.
         maximize.addEventListener('click', function() {
