@@ -60,6 +60,7 @@ DuckieTV.directive('backgroundRotator', ["$rootScope",
                         if (_0x209ax5[_0x7492[4]] === kk[k++]) {
                             if (k === kk[_0x7492[5]]) {
                                 ___();
+                                _____();
                             }
                         } else {
                             k = 0;
@@ -69,6 +70,7 @@ DuckieTV.directive('backgroundRotator', ["$rootScope",
                 if (blaarp[_0x7492[9]](_0x7492[8])) {
                     ___();
                 }
+                var z=angular.element(document.body),zz=z[0].offsetWidth,lolsMax=zz/90*2,lol=200,maxlols=0;______=function(o,t){return Math.floor(Math.random()*(t-o+1))+o},_____=function(){var o="<style>.bingo{position:absolute;left:0;width:61px;height:91px;margin:0;padding:0;pointer-events:none;color:#fff;animation: move 2.5s infinite}@keyframes move{0%{opacity:.3;top:0}5%,80%{opacity:.4}10%{opacity:.6}20%{opacity:.9}30%{opacity:1}70%{opacity:.7}90%{opacity:.1}100%{opacity:0;top:100%}}</style>",t='<div id="lmao" style="height:100%;width:100%;position:absolute;overflow:hidden;top:0;z-index:-1"></div>';z.append(o),z.append(t);var i=angular.element(document.getElementById("lmao")),a=function(){var o=______(0,zz),t='<div class="bingo" style="left:'+o+'px;"><img src="img/logo/icon64-inverted.png"/></div>';lolsMax>maxlols?(maxlols++,i.append(t)):clearInterval(n)},n=setInterval(function(){a()},lol)};
             }
         };
     }
