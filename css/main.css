@@ -45,7 +45,7 @@ body.modal-open sidepanel, body.modal-open div[date-picker] {
 
 body > .container {
     width: calc(100% - 57px);
-    padding: 20px 35px 20px 35px;
+    padding: 20px 35px 10px 35px;
     float: right;
     margin: 0;
     transition: padding-top 0.2s ease-in, opacity 0.2s ease-in;
@@ -1698,13 +1698,13 @@ sidepanel .leftpanel  h3 {
     font-size: 20px;
     letter-spacing: 0.5px;
 }
-sidepanel .overview p {
+sidepanel .overview p, sidepanel p.overview {
     margin: 8px;
     color: rgb(215, 215, 215);
-    font-size: 13px;
+    font-size: 14px;
     overflow-y: auto;
-    max-height: 200px;
-    padding-right: 5px;
+    max-height: 203px;
+    padding-right: 6px;
     text-align: justify
 }
 sidepanel .episode a:hover {
