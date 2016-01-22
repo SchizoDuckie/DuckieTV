@@ -661,7 +661,8 @@ series-list .series {
     right: 20px;
     left: 58px;
     text-align: center;
-    padding: 20px 25px 15px 25px;
+    padding: 10px 25px 15px 25px;
+    margin-top: 6px;
     /* To remove added spacing between posters */
     font-size: 0;
     /* So the boxshadow on .tools is overlayed */
@@ -1705,7 +1706,7 @@ sidepanel .overview p, sidepanel p.overview {
     overflow-y: auto;
     max-height: 203px;
     padding-right: 6px;
-    text-align: justify
+    text-align: justify;
 }
 sidepanel .episode a:hover {
     text-decoration: none;

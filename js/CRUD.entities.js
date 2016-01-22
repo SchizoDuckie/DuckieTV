@@ -130,7 +130,7 @@ CRUD.define(Serie, {
 
     getActiveSeason: function() {
         var firstAiredFilter = {
-            Episode: ['firstaired < ' + new Date().getTime()]
+            Episode: ["Episodes.seasonnumber > 0 AND firstaired < " + new Date().getTime()]
         };
         var self = this;
 
@@ -499,10 +499,6 @@ CRUD.define(SearchEngine, {
         detailUrlProperty: 'href'
     }]
 }, {});
-
-
-
-
 
 CRUD.DEBUG = false;
 
