@@ -21,7 +21,9 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
         //console.debug('state=%s,h=%i,w=%i,x=%i,y=%i',pos.state,pos.height,pos.width,pos.x,pos.y);
         if (pos.state == 'maximized') {
             setTimeout(function() {
-                win.maximize();
+                if (localStorage.getItem('standalone.startupMinimized') !== 'Y') {
+                    win.maximize();
+                };
                 if (maximize && unmaximize) {
                     maximize.style.display = 'none';
                     unmaximize.style.display = '';
