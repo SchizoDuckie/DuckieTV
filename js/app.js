@@ -30,23 +30,44 @@ var DuckieTV = angular.module('DuckieTV', [
     }
 ])
 /**
+ * DuckietvReload service is injected whenever a window.location.reload is required,
+ * which ensures that standalone gets some pre-processing done before actioning
+*  the window.location.reload()  fixes #569
+ */
+.service('DuckietvReload', function() {
+    var service = {
+        windowLocationReload: function() {
+            if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
+                // reload for standalones
+                //console.debug('DuckietvReload for standalone');
+                require('nw.gui').Window.get().emit('locationreload');
+            } else {
+                // reload for non-standalone
+                //console.debug('DuckietvReload for non-standalone');
+                window.location.reload();
+            }
+        }
+    };
+    return service;
+})
+/**
  * at start-up set up a timer to refresh DuckieTV a second after midnight, to force a calendar date refresh
  */
-.run(
+.run(function($injector) {
     window.onload = function() {
         var today = new Date();
         var tommorow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
         var timeToMidnight = (tommorow - today) + 1000; // a second after midnight
         // #569 test
          if (localStorage.getItem('mac_systray_reload_test')) {
-            timeToMidnight = 60000; // 60 second reload test for mac systray
+            timeToMidnight = 15000; // 15 second reload test for mac/linux systray
          };
          // end #569 test
         var timer = setTimeout(function() {
-            window.location.reload();
+            $injector.get('DuckietvReload').windowLocationReload();
         }, timeToMidnight);
     }
-)
+})
 
 .run(function($rootScope, $state) {
     $rootScope.$on('$stateChangeStart',

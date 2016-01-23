@@ -67,11 +67,12 @@
       </td>
     </tr>
     <!-- #569 test -->
+    <!--
     <tr class="hide-prod">
       <td>
-        <h1>Mac reload systray test</h1>
-        <p>This option tests if a reload, while in systray mode, causes multiple trays to be created on Mac systems.</p>
-        <p>Enabling it causes the reload timer to be set to 1 minute. minimize to systray and watch for new ducks to show up on systray every minute.</p>
+        <h1>Mac/linux reload systray test</h1>
+        <p>This option tests if a reload, while in systray mode, causes multiple trays to be created on Mac/linux systems.</p>
+        <p>Enabling it causes the reload timer to be set to 15 seconds. Minimize to systray and watch for new ducks to show up on systray every 15 seconds.</p>
         <p>Disable to return timer back to default setting. Restart DuckieTV to clear systray of duck clones.</p>
         <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
         {{ macTestEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>

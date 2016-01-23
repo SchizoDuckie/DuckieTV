@@ -1,8 +1,8 @@
 /*
  * Controller for the calendar settings tab
  */
-DuckieTV.controller('CalendarCtrl', ["$scope", "SettingsService", "$rootScope",
-    function($scope, SettingsService, $rootScope) {
+DuckieTV.controller('CalendarCtrl', ["$scope", "$rootScope", "$injector", "SettingsService",
+    function($scope, $rootScope, $injector, SettingsService) {
 
         $scope.showSpecials = SettingsService.get('calendar.show-specials');
         $scope.startSunday = SettingsService.get('calendar.startSunday');
@@ -20,14 +20,14 @@ DuckieTV.controller('CalendarCtrl', ["$scope", "SettingsService", "$rootScope",
         $scope.toggleCalendarStartDay = function() {
             $scope.startSunday = !$scope.startSunday;
             SettingsService.set('calendar.startSunday', $scope.startSunday);
-            window.location.reload();
+            $injector.get('DuckietvReload').windowLocationReload();
         };
 
         // Toggles calendar view mode, week or month
         $scope.toggleCalendarDisplayMode = function() {
             $scope.displayMode = $scope.displayMode == 'date' ? 'week' : 'date';
             SettingsService.set('calendar.mode', $scope.displayMode);
-            window.location.reload();
+            $injector.get('DuckietvReload').windowLocationReload();
         };
 
         // Toggles whether downloaded episodes are highlighted on the Calendar

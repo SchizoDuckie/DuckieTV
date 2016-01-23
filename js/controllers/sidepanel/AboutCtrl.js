@@ -13,7 +13,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
         $scope.optInTrackingEnabled = localStorage.getItem('optin_error_reporting');
         $scope.uniqueTrackingID = localStorage.getItem('uniqueId');
 
-        // #569 test
+/*        // #569 test
         $scope.macTestEnabled = localStorage.getItem('mac_systray_reload_test');
         $scope.toggleMacTest = function() {
             if (localStorage.getItem('mac_systray_reload_test')) {
@@ -21,10 +21,14 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 $scope.macTestEnabled = false;
             } else {
                 localStorage.setItem('mac_systray_reload_test', true);
-                window.location.reload();
+                $scope.macTestEnabled = true;
+                setTimeout(function() {
+                    $injector.get('DuckietvReload').windowLocationReload();
+                }, 15000);
             }
         };
         // end #569 test
+*/
 
         $scope.toggleOptInErrorReporting = function() {
             if (localStorage.getItem('optin_error_reporting')) {
@@ -32,7 +36,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 $scope.optInTrackingEnabled = false;
             } else {
                 localStorage.setItem('optin_error_reporting', true);
-                window.location.reload();
+                $injector.get('DuckietvReload').windowLocationReload();
             }
         };
 

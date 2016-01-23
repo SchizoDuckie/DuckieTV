@@ -3,8 +3,8 @@
  *
  * Controller for the display settings tab
  */
-DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
-    function($scope, SettingsService) {
+DuckieTV.controller('DisplayCtrl', ["$scope", "$injector", "SettingsService",
+    function($scope, $injector, SettingsService ) {
 
         $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
         $scope.topSites = SettingsService.get('topSites.enabled');
@@ -39,7 +39,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "SettingsService",
         $scope.toggleSeriesGrid = function() {
             $scope.sgEnabled = !$scope.sgEnabled;
             SettingsService.set('library.seriesgrid', $scope.sgEnabled);
-            window.location.reload();
+            $injector.get('DuckietvReload').windowLocationReload();
         };
     }
 ]);

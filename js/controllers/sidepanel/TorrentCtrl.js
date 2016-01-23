@@ -1,8 +1,8 @@
 /**
  * Torrent Control for the torrenting window
  */
-DuckieTV.controller('TorrentCtrl', ["$rootScope", "DuckieTorrent",
-    function($rootScope, DuckieTorrent) {
+DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent",
+    function($rootScope, $injector, DuckieTorrent) {
         var vm = this;
         
         this.ports = [];
@@ -16,7 +16,7 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "DuckieTorrent",
         this.removeToken = function() {
             localStorage.removeItem("utorrent.token");
             localStorage.removeItem("utorrent.preventconnecting");
-            window.location.reload();
+            $injector.get('DuckietvReload').windowLocationReload();
         };
 
         this.getTorrentClientName = function() {

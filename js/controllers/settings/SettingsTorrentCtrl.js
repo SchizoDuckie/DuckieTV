@@ -1,8 +1,8 @@
 /**
  * Controller for the torrent settings tab
  */
-DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsService", "DuckieTorrent", "TorrentSearchEngines", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "AutoDownloadService",
-    function($scope, $rootScope, SettingsService, DuckieTorrent, TorrentSearchEngines, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, AutoDownloadService) {
+DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector", "SettingsService", "DuckieTorrent", "TorrentSearchEngines", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "AutoDownloadService",
+    function($scope, $rootScope, $injector, SettingsService, DuckieTorrent, TorrentSearchEngines, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, AutoDownloadService) {
 
         $scope.log = [];
 
@@ -107,7 +107,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         $scope.toggleTorrent = function() {
             $scope.torrentEnabled = !$scope.torrentEnabled;
             SettingsService.set('torrenting.enabled', $scope.torrentEnabled);
-            window.location.reload();
+            $injector.get('DuckietvReload').windowLocationReload();
         };
 
         $scope.toggleUnsafeProxy = function() {
@@ -219,7 +219,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "SettingsSer
         $scope.currentClient = localStorage.getItem('torrenting.client');
 
         $scope.reload = function() {
-            window.location.reload();
+            $injector.get('DuckietvReload').windowLocationReload();
         };
 
         /**

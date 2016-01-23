@@ -27,7 +27,6 @@ DuckieTV.controller("qbtCtrl", ["qBittorrent", "SettingsService", "FormlyLoader"
             qBittorrent.connect().then(function(connected) {
                 console.info("qBittorrent connected! (save settings)", connected);
                 qBittorrent.saveConfig();
-                //window.location.reload();
             }, function(error) {
                 console.error("qBittorrent connect error!", error);
             });

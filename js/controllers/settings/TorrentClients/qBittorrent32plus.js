@@ -27,7 +27,6 @@ DuckieTV.controller("qbt32plusCtrl", ["qBittorrent32plus", "SettingsService", "F
             qBittorrent32plus.connect().then(function(connected) {
                 console.info("qBittorrent 3.2+ connected! (save settings)", connected);
                 qBittorrent32plus.saveConfig();
-                //window.location.reload();
             }, function(error) {
                 console.error("qBittorrent 3.2+ connect error!", error);
             });

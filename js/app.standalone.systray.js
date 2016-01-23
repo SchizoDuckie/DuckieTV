@@ -3,10 +3,10 @@
  */
 if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     var tray = null,
-        showdtv, calendar, favorites, settings, about, exit;
-    var alwaysShowTray = false;
+        showdtv, calendar, favorites, settings, about, exit, traymenu;
     var gui = require('nw.gui');
     var win = gui.Window.get();
+    var alwaysShowTray = (window.localStorage.getItem('standalone.alwaysShowTray') === 'Y');
     var winState = 'normal';
     if (localStorage.getItem('standalone.position')) {
         var pos = JSON.parse(localStorage.getItem('standalone.position'));
@@ -14,145 +14,144 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     };
     
     // debugging
-    console.debug('debugging source version=3');
-    console.debug('standalone.alwaysShowTray='+window.localStorage.getItem('standalone.alwaysShowTray'));
-    console.debug('standalone.startupMinimized='+window.localStorage.getItem('standalone.startupMinimized'));
-    console.debug('minimizeSystray='+window.localStorage.getItem('standalone.minimizeSystray'));
-    console.debug('closeSystray='+window.localStorage.getItem('standalone.closeSystray'));
+    //console.debug('debugging source version=3');
+    //console.debug('standalone.alwaysShowTray='+window.localStorage.getItem('standalone.alwaysShowTray'));
+    //console.debug('standalone.startupMinimized='+window.localStorage.getItem('standalone.startupMinimized'));
+    //console.debug('minimizeSystray='+window.localStorage.getItem('standalone.minimizeSystray'));
+    //console.debug('closeSystray='+window.localStorage.getItem('standalone.closeSystray'));
+
+    // Create the menu, only needs to be made once
+    traymenu = new gui.Menu();
+    // Add a show button
+    showdtv = new gui.MenuItem({
+        label: "Show DuckieTV",
+        click: function() {
+            //console.debug('menu showdtv: emit.restoredtv');
+            win.emit('restoredtv');
+        }
+    });
+    traymenu.append(showdtv);
+
+    // Add a calendar button
+    calendar = new gui.MenuItem({
+        label: "Show Calendar",
+        click: function() {
+            win.emit('standalone.calendar');
+            //console.debug('menu calendar: emit.restoredtv');
+            win.emit('restoredtv');
+        }
+    });
+    traymenu.append(calendar);
+
+    // Add a favorites button
+    favorites = new gui.MenuItem({
+        label: "Show Favorites",
+        click: function() {
+            win.emit('standalone.favorites');
+            //console.debug('menu favorites: emit.restoredtv');
+            win.emit('restoredtv');
+        }
+    });
+    traymenu.append(favorites);
+
+    // Add a settings button
+    settings = new gui.MenuItem({
+        label: "Show Settings",
+        click: function() {
+            win.emit('standalone.settings');
+            //console.debug('menu settings: emit.restoredtv');
+            win.emit('restoredtv');
+        }
+    });
+    traymenu.append(settings);
+
+    // Add a about button
+    about = new gui.MenuItem({
+        label: "Show About",
+        click: function() {
+            win.emit('standalone.about');
+            //console.debug('menu about: emit.restoredtv');
+            win.emit('restoredtv');
+        }
+    });
+    traymenu.append(about);
+
+    // Add a separator
+    traymenu.append(new gui.MenuItem({
+        type: 'separator'
+    }));
+
+    // Add a exit button
+    exit = new gui.MenuItem({
+        label: "Exit",
+        click: function() {
+            win.close(true);
+        },
+        modifiers: 'cmd-Q',
+        key: 'q'
+    });
+    traymenu.append(exit);
+    //console.debug('menu created');
 
     // Remakes/Creates the tray as once a tray is removed it needs to be remade.
     var createTray = function() {
         if (tray !== null) {
-            tray.remove();
-            tray = null;
-            console.debug('createTray: tray removed');
-        }
+            // tray exists, do nothing
+            //console.debug('createTray: tray exists id=',tray.id);
+            return true;
+         };
         tray = new gui.Tray({
             title: navigator.userAgent,
             icon: 'img/logo/icon64.png'
         });
+        //console.debug('createTray: tray created id=',tray.id);
         tray.on('click', function() {
             win.emit('standalone.calendar');
-            console.debug('tray.on click: emit.restoredtv');
+            //console.debug('tray.on click: emit.restoredtv');
             win.emit('restoredtv');
         });
 
         tray.tooltip = navigator.userAgent;
-
-        var menu = new gui.Menu();
-        // Create the menu, only needs to be made once
-        // Add a show button
-        showdtv = new gui.MenuItem({
-            label: "Show DuckieTV",
-            click: function() {
-                console.debug('menu showdtv: emit.restoredtv');
-                win.emit('restoredtv');
-            }
-        });
-        menu.append(showdtv);
-
-        // Add a calendar button
-        calendar = new gui.MenuItem({
-            label: "Show Calendar",
-            click: function() {
-                win.emit('standalone.calendar');
-                console.debug('menu calendar: emit.restoredtv');
-                win.emit('restoredtv');
-            }
-        });
-        menu.append(calendar);
-
-        // Add a favorites button
-        favorites = new gui.MenuItem({
-            label: "Show Favorites",
-            click: function() {
-                win.emit('standalone.favorites');
-                console.debug('menu favorites: emit.restoredtv');
-                win.emit('restoredtv');
-            }
-        });
-        menu.append(favorites);
-
-        // Add a settings button
-        settings = new gui.MenuItem({
-            label: "Show Settings",
-            click: function() {
-                win.emit('standalone.settings');
-                console.debug('menu settings: emit.restoredtv');
-                win.emit('restoredtv');
-            }
-        });
-        menu.append(settings);
-
-        // Add a about button
-        about = new gui.MenuItem({
-            label: "Show About",
-            click: function() {
-                win.emit('standalone.about');
-                console.debug('menu about: emit.restoredtv');
-                win.emit('restoredtv');
-            }
-        });
-        menu.append(about);
-
-        // Add a separator
-        menu.append(new gui.MenuItem({
-            type: 'separator'
-        }));
-
-        // Add a exit button
-        exit = new gui.MenuItem({
-            label: "Exit",
-            click: function() {
-                win.close(true);
-            },
-            modifiers: 'cmd-Q',
-            key: 'q'
-        });
-        menu.append(exit);
-
-        tray.menu = menu;
-
-        console.debug('createTray: tray created');
+        //tray.tooltip = 'id='+tray.id;
+        tray.menu = traymenu;
     };
 
     // If we're always showing the tray, create it now (default is N or null)
     if (window.localStorage.getItem('standalone.alwaysShowTray') === 'Y') {
-        console.debug('alwaysShowTray');
-        alwaysShowTray = true;
+        //console.debug('alwaysShowTray');
         createTray();
-    }
+    };
 
-    // should we minimize after start-up? (default is N or null)
+    // create tray if are we going to minimize after start-up (default is N or null)
     if (localStorage.getItem('standalone.startupMinimized') === 'Y') {
-        console.debug('startupMinimized');
+        //console.debug('startupMinimized');
+        // Create a new tray if one isn't already
         createTray();
-    }
+    };
 
     // On Minimize Event
     win.on('minimize', function() {
         // Should we minimize to systray or taskbar? (default is N or null)
-        console.debug('on minimize');
+        //console.debug('on minimize');
         if (window.localStorage.getItem('standalone.minimizeSystray') === 'Y') {
-            console.debug('minimizeSystray');
+            //console.debug('on minimize: minimizeSystray');
             // Hide window
             win.hide();
             // Create a new tray if one isn't already
-            if (!alwaysShowTray) {
-                createTray();
-            }
+            createTray();
         }
     });
 
     // On Restore Event
     win.on('restoredtv', function() {
-        console.debug('on restoredtv');
+        //console.debug('on restoredtv');
         win.show();
         // If we're not always showing tray, remove it
-        if (tray && !alwaysShowTray) {
-            console.debug('on restoredtv: tray.remove');
+        if (tray !== null && !alwaysShowTray) {
+            //console.debug('on restoredtv: tray.remove id=',tray.id);
             tray.remove();
-        }
+            tray = null;
+        };
         if (winState == 'maximized') {
             setTimeout(function() {
                 win.maximize();
@@ -164,13 +163,11 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     win.on('close', function() {
         // does close mean go to systray? (default N or null)
         if (window.localStorage.getItem('standalone.closeSystray') === 'Y') {
-            console.debug('closeSystray');
+            //console.debug('closeSystray');
             // Hide window
             win.hide();
             // Create a new tray if one isn't already
-            if (!alwaysShowTray) {
-                createTray();
-            }
+            createTray();
         } else {
             win.close(true);
         }
@@ -178,8 +175,20 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
 
     // on winstate event, update winState
     win.on('winstate', function(winstate) {
-        console.debug('winState=',winstate);
+        //console.debug('winState=',winstate);
         winState = winstate;
+    });
+    
+    // on locationreload event, delete tray and listeners
+    win.on('locationreload', function() {
+        if (tray !== null) {
+            //console.debug('on locationreload: tray.remove id=',tray.id);
+            tray.remove();
+            tray = null;
+        };
+        win.removeAllListeners();
+        //console.debug('on locationreload: window.location.reload()');
+        window.location.reload();
     });
 }
 
