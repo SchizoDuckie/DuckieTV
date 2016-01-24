@@ -215,11 +215,10 @@ DuckieTV
                     expandedSeries[key] = true;
                 });
 
-                scope.filterSpecials = function(event) {
+                scope.filterEvents = function(event) {
                     if (!event.serie) return false;
                     if (event.serie.displaycalendar == '0') return false;
-                    if (SettingsService.get('calendar.show-specials')) return true;
-                    else return event.episode.seasonnumber > 0;
+                    else return true;
                 };
 
                 scope.setView = function(nextView) {

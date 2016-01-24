@@ -14,6 +14,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         var calendarStartDate = null;
         var calendarEndDate = null;
         var today = new Date();
+        var showSpecials = SettingsService.get('calendar.show-specials');
 
         /**
          * Check if an episode already exists on a date in the calendar.
@@ -119,7 +120,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 });
                 Object.keys(calendarEvents).map(function(day) {
                     if (dates.indexOf(day) == -1) {
-                        //console.debug("Cleaning up day: ", day);
                         delete calendarEvents[day];
                         delete seriesForDate[day];
                     }
@@ -164,19 +164,19 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     var date = new Date(new Date(event.start).getTime()).toDateString();
                     if (!(date in calendarEvents)) return;
                     deleteDuplicates(event.episode.getID(), date);
-                    addEvent(date, event);
+                    if ((!showSpecials && event.episode.seasonnumber > 0) || showSpecials) {
+                        addEvent(date, event);
+                    };
                 });
                 $rootScope.$applyAsync();
             },
 
             processEpisodes: function(serie, seasons) {
-                //console.debug("Process episodes ", serie.name, seasons);
-                var filtered = [];
                 seasons.map(function(episodes) {
                     Object.keys(episodes).map(function(id) {
                         var date = new Date(new Date(episodes[id].firstaired).getTime()).toDateString();
-                        //console.debug("matching date: ", date, calendarEvents[date]);
                         if (!(date in calendarEvents)) return;
+                        if ((!showSpecials && episodes[id].seasonnumber > 0) || showSpecials) return;
 
                         addEvent(date, {
                             start: new Date(episodes[id].firstaired),
@@ -211,7 +211,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     calendarEvents[str].map(function(calEvent) {
                         if (calEvent.episode.hasAired()) {
                             calEvent.episode.markWatched(rootScope);
-                            //console.debug("Mark calendar eventwatched: ", calEvent);
                         }
                     });
                 }
@@ -222,7 +221,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     calendarEvents[str].map(function(calEvent) {
                         if (calEvent.episode.hasAired()) {
                             calEvent.episode.markDownloaded(rootScope);
-                            //console.debug("Mark calendar eventdownloaded: ", calEvent);
                         }
                     })
                 }

@@ -14,6 +14,7 @@ DuckieTV.controller('CalendarCtrl', ["$scope", "$rootScope", "$injector", "Setti
         $scope.toggleSpecials = function() {
             $scope.showSpecials = !$scope.showSpecials;
             SettingsService.set('calendar.show-specials', $scope.showSpecials);
+            $injector.get('DuckietvReload').windowLocationReload();
         };
 
         // Toggles calendar starting on Sunday or Monday
