@@ -302,7 +302,7 @@ CRUD.define(Episode, {
     },
 
     getAirDate: function() {
-        return this.firstaired === 0 ? '?' : new Date(this.firstaired).toLocaleString();
+        return this.firstaired === 0 ? '?' : new Date(this.firstaired);
     },
     getAirTime: function() {
         return new Date(this.firstaired).toTimeString().substring(0, 5);
