@@ -970,6 +970,26 @@ sidepanel .kc {
 body.kc sidepanel .kc {
     display: block;
 }
+.duckie {
+    position: absolute;
+    left: 0;
+    width: 61px;
+    height: 91px;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    color: #fff;
+    animation: move 2.5s infinite;
+}
+.contaner {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    top: 0; 
+    z-index: -1;
+}
+
 
 input[type=text], input[type=url], input[type=password], input[type=number], option, select, select.form-control {
     border: 1px solid #333;

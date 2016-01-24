@@ -79,6 +79,37 @@ serieheader.ng-leave-active {
   top: -210px !important;
 } */
 
+@keyframes move {
+  0% {
+    opacity: .3;
+    top: 0;
+  }
+  5% {
+      opacity: .3
+  }
+  10% {
+      opacity: .6
+  }
+  20% {
+      opacity: .9
+  }
+  25% {
+      opacity: 1
+  }
+  70% {
+      opacity: .7
+  }
+  80% {
+      opacity: .4
+  }
+  90% {
+      opacity: .1
+  }
+  100% {
+      opacity: 0;
+      top: 100%;
+  }
+}
 
 @keyframes ballrotate {
   0% {
