@@ -480,7 +480,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "あなたが本当に削除しますか ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": " お気に入りから？ ",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "セリエを削除しますか？ ",
-    "STATUSLIST": "キャンセル,終了した,製造中,連続",
+    "STATUSLIST": "キャンセル,終了した,製造中,連続,計画されました",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTVは,検出されたことを示して '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "'あなたがログオンしている別のコンピュータ上で削除されました.あなたにもここでそれを削除しますか？（[いいえ]を選択する場合は,次回の同期時にリモートコンピュータに再度追加されます）",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "検出されたリモート削除",

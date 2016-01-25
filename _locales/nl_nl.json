@@ -480,7 +480,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "Weet je zeker dat je  ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": " uit je favorieten wilt verwijderen?",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "Serie verwijderen?",
-    "STATUSLIST": "geannuleerd,beëindigde,in Productie,voortdurende",
+    "STATUSLIST": "Geannuleerd,Beëindigde,in Productie,Voortdurende,Geplande",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV heeft geconstateerd dat de serie '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' Werd verwijderd op een andere computer waar je op ingelogd bent. Wil je deze ook verwijderen? (Als je hier 'Nee' selecteert, zal deze opnieuw toegevoegd aan de andere computer bij de volgende synchronisatie)",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "Serie verwijderd op een andere computer",

@@ -14,11 +14,11 @@ DuckieTV.directive('serieDetails', ["FavoritesService", "$location", "dialogs", 
             },
             link: function($scope) {
 
-                var genreList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateGenre()
+                var genreList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by $scope.translateGenre()
                 var translatedGenreList = $filter('translate')('GENRELIST').split(',');
                 var translatedStatusList = $filter('translate')('STATUSLIST').split(',');
-                var statusList = 'canceled|ended|in production|returning series'.split('|'); // used by this.translateStatus()
-                var daysOfWeekList = 'Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday'.split('|'); // used by this.translateDayOfWeek()
+                var statusList = 'canceled|ended|in production|returning series|planned'.split('|'); // used by $scope.translateStatus()
+                var daysOfWeekList = 'Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday'.split('|'); // used by $scope.translateDayOfWeek()
 
                 /*
                  * Takes the English Genre (as fetched from TraktTV) and returns a translation

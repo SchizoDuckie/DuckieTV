@@ -480,7 +480,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "Vil du virkelig slette ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": " fra dine favoritter?",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "Slett serie?",
-    "STATUSLIST": "Kansellert,Avsluttet,I Produksjon,Returnerende Serie",
+    "STATUSLIST": "Kansellert,Avsluttet,I Produksjon,Returnerende Serie,Planlagt",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV oppdaget at serien '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' ble slettet på en annen datamaskin du er logget inn på. Vil du slette den på denne datamaskinen i tillegg? (Hvis du velger 'nei', så vil den bli lagt til igjen på den eksterne datamaskinen under neste synkronisering)",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "Oppdaget ekstern sletting",

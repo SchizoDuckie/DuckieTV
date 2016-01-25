@@ -480,7 +480,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "당신이 정말로 삭제 하시겠습니까 ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": "  즐겨 찾기에서? ",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "세리을 삭제 하시겠습니까? ",
-    "STATUSLIST": "취소,종단,생산 중,계속",
+    "STATUSLIST": "취소,종단,생산 중,계속,계획",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV 감지하는 쇼 '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "'당신이있는에 로그인 한 다른 컴퓨터에서 삭제되었습니다. 당신은뿐만 아니라 여기를 삭제 하시겠습니까? (No를 선택하면 다음에 동기화에 원격 컴퓨터에 다시 추가됩니다)",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "감지 원격 삭제",

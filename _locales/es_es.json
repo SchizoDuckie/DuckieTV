@@ -480,7 +480,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "¿Realmente desea eliminar ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": " de sus favoritos?",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "¿Eliminar serie?",
-    "STATUSLIST": "Se canceló,Ha finalizado,En producción,Volverá a emitirse",
+    "STATUSLIST": "Se canceló,Ha finalizado,En producción,Volverá a emitirse,Planeado",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV detectó que la serie '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' ha sido eliminada en otro equipo en el que está a conectado. ¿Quieres eliminarla aquí también? (Si selecciona no, se volverá a agregar al equipo remoto en la próxima sincronización)",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "Se ha detectado eliminación remota",

@@ -480,7 +480,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "Voulez-vous vraiment supprimer ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": "  de vos favoris?",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "Supprimer la serie?",
-    "STATUSLIST": "Annulé,Terminé,En cours,De retour",
+    "STATUSLIST": "Annulé,Terminé,En cours,De retour,Planifié",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV a détecté que la série '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' a été supprimée sur un autre ordinateur sur lequel vous êtes connecté. Voulez-vous la supprimer ici aussi? (Si vous sélectionnez non, elle sera rajouté à l'ordinateur distant lors de la prochaine synchronisation)",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "Suppression distante détectée",

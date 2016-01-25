@@ -478,7 +478,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "Do you really want to delete ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": " from your favorites?",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "Delete series?",
-    "STATUSLIST": "Canceled,Ended,In Production,Returning Series",
+    "STATUSLIST": "Canceled,Ended,In Production,Returning Series,Planned",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV detected that the show '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' was deleted on another computer you're logged in on. Do you want to delete it here as well? (If you select no, it will be re-added to the remote computer on next sync)",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "Detected remote deletion",

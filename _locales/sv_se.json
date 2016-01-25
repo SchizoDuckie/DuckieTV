@@ -480,7 +480,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "Vill du verkligen ta bort ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": "  från dina favoriter? ",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "Radera serie? ",
-    "STATUSLIST": "avbokning minst,avslutade,I produktion,fortsätter",
+    "STATUSLIST": "Avbokning minst,Avslutade,I Produktion,Fortsätter,Planerade",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV upptäckt att showen'",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' Har tagits bort på en annan dator som du är inloggad på. Vill du ta bort det här också? (Om du väljer nej, det kommer åter läggas till fjärrdatorn på nästa synkronisering) ",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "Detekterad fjärr deletion",

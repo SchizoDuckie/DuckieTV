@@ -480,7 +480,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "Вы действительно хотите удалить ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": "  из избранных? ",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "Удалить ничьих? ",
-    "STATUSLIST": "отменен,Закончилось,В производстве,продолжающийся",
+    "STATUSLIST": "отменен,Закончилось,В производстве,продолжающийся,планируется",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV обнаружила, что шоу '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' был удален на другом компьютере вы LoggedIn на. Вы хотите, чтобы удалить его здесь, а? (При выборе нет, это будет вновь добавил к удаленному компьютеру на следующей синхронизации)",
     "STORAGESYNCSERVICEjs/serie-deleted/hdr": "Обнаружено дистанционного удаления",
