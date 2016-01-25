@@ -50,7 +50,7 @@ Screenshots:
 ![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/dybdlli.png)
 
 **Navigate to any of your shows easily by opening your "favorites" panel**
-!['favorites'](http://i.imgur.com/Y01x6aA.png)
+!['favorites'](http://i.imgur.com/S7eEHVP.png)
 
 **View series, season and episode details about your shows**
 ![View details](http://i.imgur.com/s1HM8aE.png)
