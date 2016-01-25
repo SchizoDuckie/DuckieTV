@@ -3,7 +3,7 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
         var trending = this;
         this.results = [];
         this.filtered = [];
-        this.limit = 100;
+        this.limit = 75;
         this.activeCategory = false;
         var categories = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateCategory()        
         var translatedCategoryList = $filter('translate')('GENRELIST').split(',');

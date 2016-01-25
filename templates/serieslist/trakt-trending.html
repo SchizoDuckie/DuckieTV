@@ -31,7 +31,7 @@
 	    <em class="earmark error" ng-show="serieslist.isError(serie.tvdb_id)" tooltip="{{serieslist.error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>
 		</serieHeader>
 	</div>
-	<button class="btn btn-info" ng-click="trending.limit = trending.limit + 100" ng-show="trending.filtered && trending.limit < trending.filtered.length" style="margin:5px auto;width:50%;opacity:0.8">
+	<button class="btn btn-info" ng-click="trending.limit = trending.limit + 75" ng-show="trending.filtered && trending.limit < trending.filtered.length" style="margin:5px auto;width:50%;opacity:0.8">
 		<i class="glyphicon glyphicon-plus"></i><span translate-once="SERIESLIST/TRAKT-TRENDING/show-more/btn"></span>
 	</button>
 </div>
