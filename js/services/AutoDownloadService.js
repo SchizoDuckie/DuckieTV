@@ -65,9 +65,9 @@ DuckieTV
 
             autoDownload: function(serie, episode, episodeIndex) {
                 // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
-                var q = SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + episode.getFormattedEpisode();
-                var searchString = q + ' ' + $rootScope.getSetting('torrenting.searchquality');
-                //console.debug("Auto download!", searchString);
+                var append = (serie.customSearchString && serie.customSearchString != '') ? ' ' + serie.customSearchString : '';
+                var q = SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + append + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
+                //console.debug("Auto download: q=", q);
                 /**
                  * Word-by-word scoring for search results.
                  * All words need to be in the search result's release name, or the result will be filtered out.
@@ -122,11 +122,12 @@ DuckieTV
 
                 var episodestring = 0;
                 // Search torrent provider for the string
-                return TorrentSearchEngines.getDefaultEngine().search(searchString, true).then(function(results) {
+                return TorrentSearchEngines.getDefaultEngine().search(q, true).then(function(results) {
                     var items = results.filter(filterByScore);
                     items = items.filter(filterGlobalInclude);
                     items = items.filter(filterGlobalExclude);
                     if (items.length === 0) {
+                        //console.debug('autodownload: no results passed filters');
                         return; // no results, abort
                     }
                     if (items[0].seeders == 'N/A' || parseInt(items[0].seeders, 10) >= minSeeders) { // enough seeders are available.
@@ -141,6 +142,8 @@ DuckieTV
                             TorrentHashListService.addToHashList(torrentHash);
                         });
                         return torrentHash;
+                    } else {
+                        //console.debug('autodownload: not enough seeders',items[0].seeders);
                     }
                 });
             },
