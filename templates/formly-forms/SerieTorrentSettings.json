@@ -2,7 +2,8 @@
     "key": "customSearchString",
     "type": "input",
     "templateOptions": {
-        "type": "text"
+        "type": "text",
+        "label": ""
     },
     "expressionProperties": {
         "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/custom-search/lbl\" | translate",
@@ -15,7 +16,8 @@
         "className": "inline-checkbox",
         "type": "input",
         "templateOptions": {
-            "type": "checkbox"
+            "type": "checkbox",
+            "label": ""
         },
         "expressionProperties": {
             "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/auto-download/lbl\" | translate"
