@@ -19,8 +19,8 @@
  *    // repeat
  *  }
  */
-DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q", "$state",
-    function($rootScope, $scope, dialogs, $filter, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q, $state) {
+DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter", "$injector", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q", "$state",
+    function($rootScope, $scope, dialogs, $filter, $injector, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q, $state) {
 
         $scope.backupString = false;
         $scope.wipeBeforeImport = false;
@@ -150,7 +150,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
                         return true;
                     })
                 })).then(function() {
-                    importBackup();
+                    $injector.get('DuckietvReload').windowLocationReload();
                 });
             }, function(btn) {
                 $scope.declined = true;
