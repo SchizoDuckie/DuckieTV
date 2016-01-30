@@ -123,7 +123,7 @@
     "EPISODEDOWNLOADEDjs/is-downloaded/lbl": "Markerad som hämtat",
     "EPISODEDOWNLOADEDjs/not-downloaded/lbl": "Markera denna episod som hämtat",
     "EPISODEWATCHEDjs/is-marked/lbl": "Tittade på ",
-    "EPISODEWATCHEDjs/not-marked/lbl": "Markera denna episod som såg ",
+    "COMMON/not-marked/lbl": "Markera denna episod som såg ",
     "FASTSEARCH/episodes-favorites/hdr": "Episoder från favoriter",
     "FASTSEARCH/hdr": "Snabbsökning",
     "FASTSEARCH/series-favorites/hdr": "Serien från favoriter",

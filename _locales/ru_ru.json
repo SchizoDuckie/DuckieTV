@@ -123,7 +123,7 @@
     "EPISODEDOWNLOADEDjs/is-downloaded/lbl": "Помечаются как загруженные",
     "EPISODEDOWNLOADEDjs/not-downloaded/lbl": "Отметить этот эпизод, как загружены",
     "EPISODEWATCHEDjs/is-marked/lbl": "Смотрел на ",
-    "EPISODEWATCHEDjs/not-marked/lbl": "Отметить этот эпизод как смотрел ",
+    "COMMON/not-marked/lbl": "Отметить этот эпизод как смотрел ",
     "FASTSEARCH/episodes-favorites/hdr": "Эпизоды из избранных",
     "FASTSEARCH/hdr": "Быстрый поиск",
     "FASTSEARCH/series-favorites/hdr": "Серия из избранного",

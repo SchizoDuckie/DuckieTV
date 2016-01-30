@@ -123,7 +123,7 @@
     "EPISODEDOWNLOADEDjs/is-downloaded/lbl": "Označeno kot preneseno",
     "EPISODEDOWNLOADEDjs/not-downloaded/lbl": "Označite to epizodo kot preneseno",
     "EPISODEWATCHEDjs/is-marked/lbl": "Gledal na ",
-    "EPISODEWATCHEDjs/not-marked/lbl": "Označite to epizodo kot že gledano",
+    "COMMON/not-marked/lbl": "Označite to epizodo kot že gledano",
     "FASTSEARCH/episodes-favorites/hdr": "Epizode iz priljubljene",
     "FASTSEARCH/hdr": "Hitro iskanje",
     "FASTSEARCH/series-favorites/hdr": "Serija iz priljubljene",

@@ -123,7 +123,7 @@
     "EPISODEDOWNLOADEDjs/is-downloaded/lbl": "标记为下载",
     "EPISODEDOWNLOADEDjs/not-downloaded/lbl": "标记这一事件作为下载",
     "EPISODEWATCHEDjs/is-marked/lbl": "观看了 ",
-    "EPISODEWATCHEDjs/not-marked/lbl": "纪念这个情节作为观看 ",
+    "COMMON/not-marked/lbl": "纪念这个情节作为观看 ",
     "FASTSEARCH/episodes-favorites/hdr": "从收藏集",
     "FASTSEARCH/hdr": "快速搜索",
     "FASTSEARCH/series-favorites/hdr": "系列从收藏",

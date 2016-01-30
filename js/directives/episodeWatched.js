@@ -5,7 +5,7 @@
 DuckieTV.directive('episodeWatched', ["$filter", "$document", "$injector",
     function($filter, $document, $injector) {
         var is_marked_lbl = $filter('translate')('EPISODEWATCHEDjs/is-marked/lbl');
-        var not_marked_lbl = $filter('translate')('EPISODEWATCHEDjs/not-marked/lbl');
+        var not_marked_lbl = $filter('translate')('COMMON/not-marked/lbl');
         return {
             restrict: 'EA',
             transclude: true,

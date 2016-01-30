@@ -1260,6 +1260,14 @@ td.day {
     opacity:0.8;
     text-decoration: none !important;
 }
+[date-picker] .event .markpos {
+    position: absolute;
+    top: 3px;
+    right: 4.7px;
+    color:grey;
+    opacity:0.3;
+    text-decoration: none !important;
+}
 [date-picker] .event:hover {
     background-color: rgba(0, 0, 0, 0.8);
     overflow: visible;

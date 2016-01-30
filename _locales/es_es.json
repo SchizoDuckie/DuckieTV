@@ -123,7 +123,7 @@
     "EPISODEDOWNLOADEDjs/is-downloaded/lbl": "Marcado como descargado",
     "EPISODEDOWNLOADEDjs/not-downloaded/lbl": "Marcar este episodio como descargado",
     "EPISODEWATCHEDjs/is-marked/lbl": "Visto en ",
-    "EPISODEWATCHEDjs/not-marked/lbl": "Marcar este episodio como visto",
+    "COMMON/not-marked/lbl": "Marcar este episodio como visto",
     "FASTSEARCH/episodes-favorites/hdr": "Episodios de Favoritos",
     "FASTSEARCH/hdr": "Busca rápida",
     "FASTSEARCH/series-favorites/hdr": "Serie de favoritos",

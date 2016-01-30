@@ -123,7 +123,7 @@
     "EPISODEDOWNLOADEDjs/is-downloaded/lbl": "다운로드로 표시",
     "EPISODEDOWNLOADEDjs/not-downloaded/lbl": "다운로드로이 에피소드를 마크",
     "EPISODEWATCHEDjs/is-marked/lbl": "에 대한 감시 ",
-    "EPISODEWATCHEDjs/not-marked/lbl": "지켜이 에피소드를 표시 ",
+    "COMMON/not-marked/lbl": "지켜이 에피소드를 표시 ",
     "FASTSEARCH/episodes-favorites/hdr": "즐겨 찾기에서 에피소드",
     "FASTSEARCH/hdr": "빠른 검색",
     "FASTSEARCH/series-favorites/hdr": "즐겨 찾기에서 시리즈",

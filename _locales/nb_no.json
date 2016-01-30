@@ -123,7 +123,7 @@
     "EPISODEDOWNLOADEDjs/is-downloaded/lbl": "Markert som nedlastet",
     "EPISODEDOWNLOADEDjs/not-downloaded/lbl": "Marker denne episoden som nedlastet",
     "EPISODEWATCHEDjs/is-marked/lbl": "Sett ",
-    "EPISODEWATCHEDjs/not-marked/lbl": "Marker denne episoden som sett",
+    "COMMON/not-marked/lbl": "Marker denne episoden som sett",
     "FASTSEARCH/episodes-favorites/hdr": "Episoder fra favoritter",
     "FASTSEARCH/hdr": "Hurtigsøk",
     "FASTSEARCH/series-favorites/hdr": "Serien fra favoritter",

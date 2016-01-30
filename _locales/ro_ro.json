@@ -123,7 +123,7 @@
     "EPISODEDOWNLOADEDjs/is-downloaded/lbl": "Marcați ca descărcat",
     "EPISODEDOWNLOADEDjs/not-downloaded/lbl": "Marcați acest episod ca descărcat",
     "EPISODEWATCHEDjs/is-marked/lbl": "Vizionat pe ",
-    "EPISODEWATCHEDjs/not-marked/lbl": "Marcați acest episod ca vizionat",
+    "COMMON/not-marked/lbl": "Marcați acest episod ca vizionat",
     "FASTSEARCH/episodes-favorites/hdr": "Episoade din favorite",
     "FASTSEARCH/hdr": "Cautare rapida",
     "FASTSEARCH/series-favorites/hdr": "Seria din favorite",

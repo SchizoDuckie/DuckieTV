@@ -123,7 +123,7 @@
     "EPISODEDOWNLOADEDjs/is-downloaded/lbl": "ダウンロードされたとしてマーク",
     "EPISODEDOWNLOADEDjs/not-downloaded/lbl": "ダウンロードされたようにこのエピソードをマーク",
     "EPISODEWATCHEDjs/is-marked/lbl": "上の加入 ",
-    "EPISODEWATCHEDjs/not-marked/lbl": "見て,このエピソードをマーク ",
+    "COMMON/not-marked/lbl": "見て,このエピソードをマーク ",
     "FASTSEARCH/episodes-favorites/hdr": "お気に入りからエピソード",
     "FASTSEARCH/hdr": "クイック検索",
     "FASTSEARCH/series-favorites/hdr": "お気に入りからシリーズ",
