@@ -8,14 +8,10 @@ DuckieTV
 .factory('AutoDownloadService', ["$rootScope", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentSearchEngines", "DuckieTorrent", "TorrentHashListService",
     function($rootScope, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, DuckieTorrent, TorrentHashListService) {
 
-        var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 1
-        var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 50
-        var globalInclude = SettingsService.get('torrenting.global_include'); // Any words in the global include list causes the result to be filtered in.
-        var globalExclude = SettingsService.get('torrenting.global_exclude'); // Any words in the global exclude list causes the result to be filtered out.
-
         var service = {
             checkTimeout: null,
             autoDownloadCheck: function() {
+                var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 1
                 //console.debug("Episode air check fired");
                 if (SettingsService.get('torrenting.autodownload') === false) {
                     service.detach();
@@ -64,6 +60,9 @@ DuckieTV
             },
 
             autoDownload: function(serie, episode, episodeIndex) {
+                var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 50
+                var globalInclude = SettingsService.get('torrenting.global_include'); // Any words in the global include list causes the result to be filtered in.
+                var globalExclude = SettingsService.get('torrenting.global_exclude'); // Any words in the global exclude list causes the result to be filtered out.
                 // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
                 var append = (serie.customSearchString && serie.customSearchString != '') ? ' ' + serie.customSearchString : '';
                 var q = SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + append + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
