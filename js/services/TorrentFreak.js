@@ -26,16 +26,16 @@ DuckieTV.provider('TorrentFreak', function() {
         for (var i = 0; i < results.length; i++) {
             results[i] = angular.element(results[i]);
             var out = {
-                'title': results[i].getElementsByTagName('title')[0].textContent,
-                'link': results[i].getElementsByTagName('link')[0].textContent,
-                'comments': results[i].getElementsByTagName('comments')[0].textContent,
-                'pubDate': results[i].getElementsByTagName('pubDate')[0].textContent,
-                'creator': results[i].getElementsByTagName('creator')[0].textContent,
-                'category': results[i].getElementsByTagName('category')[0].textContent,
-                'description': results[i].getElementsByTagName('description')[0].textContent,
-                'content': results[i].getElementsByTagName('encoded')[0].textContent,
-                'wfw': results[i].getElementsByTagName('commentRss')[0].textContent,
-                'slash': results[i].getElementsByTagName('comments')[0].textContent
+                'title': typeof(results[i].getElementsByTagName('title'))[0] != 'undefined' ? results[i].getElementsByTagName('title')[0].textContent : 'n/a',
+                'link': typeof(results[i].getElementsByTagName('link'))[0] != 'undefined' ? results[i].getElementsByTagName('link')[0].textContent : 'n/a',
+                'comments': typeof(results[i].getElementsByTagName('comments')[0]) != 'undefined' ? results[i].getElementsByTagName('comments')[0].textContent : 'n/a',
+                'pubDate': typeof(results[i].getElementsByTagName('pubDate')[0]) != 'undefined' ? results[i].getElementsByTagName('pubDate')[0].textContent : 'n/a',
+                'creator': typeof(results[i].getElementsByTagName('creator')[0]) != 'undefined' ? results[i].getElementsByTagName('creator')[0].textContent : 'n/a',
+                'category': typeof(results[i].getElementsByTagName('category')[0]) != 'undefined' ? results[i].getElementsByTagName('category')[0].textContent : 'n/a',
+                'description': typeof(results[i].getElementsByTagName('description')[0]) != 'undefined' ? results[i].getElementsByTagName('description')[0].textContent : 'n/a',
+                'content': typeof(results[i].getElementsByTagName('encoded')[0]) != 'undefined' ? results[i].getElementsByTagName('encoded')[0].textContent : 'n/a',
+                'wfw': typeof(results[i].getElementsByTagName('commentRss')[0]) != 'undefined' ? results[i].getElementsByTagName('commentRss')[0].textContent : 'n/a',
+                'slash': typeof(results[i].getElementsByTagName('comments')[0]) != 'undefined' ? results[i].getElementsByTagName('comments')[0].textContent : 'n/a'
             };
             var top10 = [];
             var cols = [];
