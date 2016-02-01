@@ -423,7 +423,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             },
             views: {
                 sidePanel: {
-                    templateUrl: 'templates/about.html',
+                    templateUrl: 'templates/sidepanel/about.html',
                     controller: 'AboutCtrl'
                 }
             }
