@@ -45,8 +45,6 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 
     function insertQueryError(err, tx) {
         CRUD.stats.writesExecuted++;
-        //err.query = query.join(' ');
-        //err.__values__ = valmap;
         console.error("Insert query error: ", err);
         return err;
     }
