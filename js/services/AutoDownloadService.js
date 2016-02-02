@@ -56,7 +56,7 @@ DuckieTV
 
                 }
 
-                service.checkTimeout = setTimeout(service.autoDownloadCheck, 60000 * 15); // fire new episodeaired check in 15 minutes.
+                service.checkTimeout = setTimeout(service.autoDownloadCheck, 1000 * 60 * 15); // fire new episodeaired check in 15 minutes.
             },
 
             autoDownload: function(serie, episode, episodeIndex) {
@@ -64,97 +64,100 @@ DuckieTV
                 var globalInclude = SettingsService.get('torrenting.global_include'); // Any words in the global include list causes the result to be filtered in.
                 var globalExclude = SettingsService.get('torrenting.global_exclude'); // Any words in the global exclude list causes the result to be filtered out.
                 // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
-                var append = (serie.customSearchString && serie.customSearchString != '') ? ' ' + serie.customSearchString : '';
-                var q = SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + append + ' ' + episode.getFormattedEpisode() + ' ' + $rootScope.getSetting('torrenting.searchquality');
-                //console.debug("Auto download: q=", q);
-                /**
-                 * Word-by-word scoring for search results.
-                 * All words need to be in the search result's release name, or the result will be filtered out.
-                 */
-                function filterByScore(item) {
-                    var score = 0;
-                    var query = q.toLowerCase().split(' ');
-                    name = item.releasename.toLowerCase();
-                    query.map(function(part) {
-                        if (name.indexOf(part) > -1) {
-                            score++;
-                        }
-                    });
-                    return (score == query.length);
-                }
-
-                /**
-                 * Any words in the global include list causes the result to be filtered in.
-                 */
-                function filterGlobalInclude(item) {
-                    if (globalInclude == '') {
-                        return true;
-                    };
-                    var score = 0;
-                    var query = globalInclude.toLowerCase().split(' ');
-                    name = item.releasename.toLowerCase();
-                    query.map(function(part) {
-                        if (name.indexOf(part) > -1) {
-                            score++;
-                        }
-                    });
-                    return (score > 0);
-                };
-
-                /**
-                 * Any words in the global exclude list causes the result to be filtered out.
-                 */
-                function filterGlobalExclude(item) {
-                    if (globalExclude == '') {
-                        return true;
-                    };
-                    var score = 0;
-                    var query = globalExclude.toLowerCase().split(' ');
-                    name = item.releasename.toLowerCase();
-                    query.map(function(part) {
-                        if (name.indexOf(part) > -1) {
-                            score++;
-                        }
-                    });
-                    return (score == 0);
-                };
-
-                var episodestring = 0;
-                // Search torrent provider for the string
-                return TorrentSearchEngines.getDefaultEngine().search(q, true).then(function(results) {
-                    var items = results.filter(filterByScore);
-                    items = items.filter(filterGlobalInclude);
-                    items = items.filter(filterGlobalExclude);
-                    if (items.length === 0) {
-                        //console.debug('autodownload: no results passed filters');
-                        return; // no results, abort
-                    }
-                    if (items[0].seeders == 'N/A' || parseInt(items[0].seeders, 10) >= minSeeders) { // enough seeders are available.
-                        var url = items[0].magneturl;
-                        var torrentHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
-                        // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
-                        DuckieTorrent.getClient().AutoConnect().then(function() {
-                            TorrentSearchEngines.launchMagnet(url, serie.TVDB_ID, true);
-                            episode.magnetHash = torrentHash;
-                            episode.Persist();
-                            // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
-                            TorrentHashListService.addToHashList(torrentHash);
+                return SceneNameResolver.getSearchStringForEpisode(serie, episode)
+                .then(function(searchString) {
+                    var q = searchString + ' ' + $rootScope.getSetting('torrenting.searchquality') ;
+                    //console.debug("autodownload: searching for %s", q);
+                    /**
+                     * Word-by-word scoring for search results.
+                     * All words need to be in the search result's release name, or the result will be filtered out.
+                     */
+                    function filterByScore(item) {
+                        var score = 0;
+                        var query = q.toLowerCase().split(' ');
+                        name = item.releasename.toLowerCase();
+                        query.map(function(part) {
+                            if (name.indexOf(part) > -1) {
+                                score++;
+                            }
                         });
-                        return torrentHash;
-                    } else {
-                        //console.debug('autodownload: not enough seeders',items[0].seeders);
+                        return (score == query.length);
                     }
+
+                    /**
+                     * Any words in the global include list causes the result to be filtered in.
+                     */
+                    function filterGlobalInclude(item) {
+                        if (globalInclude == '') {
+                            return true;
+                        };
+                        var score = 0;
+                        var query = globalInclude.toLowerCase().split(' ');
+                        name = item.releasename.toLowerCase();
+                        query.map(function(part) {
+                            if (name.indexOf(part) > -1) {
+                                score++;
+                            }
+                        });
+                        return (score > 0);
+                    };
+
+                    /**
+                     * Any words in the global exclude list causes the result to be filtered out.
+                     */
+                    function filterGlobalExclude(item) {
+                        if (globalExclude == '') {
+                            return true;
+                        };
+                        var score = 0;
+                        var query = globalExclude.toLowerCase().split(' ');
+                        name = item.releasename.toLowerCase();
+                        query.map(function(part) {
+                            if (name.indexOf(part) > -1) {
+                                score++;
+                            }
+                        });
+                        return (score == 0);
+                    };
+
+                    // Search torrent provider for the string
+                    return TorrentSearchEngines.getDefaultEngine().search(q, true).then(function(results) {
+                        var items = results.filter(filterByScore);
+                        items = items.filter(filterGlobalInclude);
+                        items = items.filter(filterGlobalExclude);
+                        if (items.length === 0) {
+                            //console.debug("autodownload: no results passed filters for %s", q);
+                            return; // no results, abort
+                        }
+                        if (items[0].seeders == 'N/A' || parseInt(items[0].seeders, 10) >= minSeeders) { // enough seeders are available.
+                            var url = items[0].magneturl;
+                            var torrentHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
+                            // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
+                            DuckieTorrent.getClient().AutoConnect().then(function() {
+                                TorrentSearchEngines.launchMagnet(url, serie.TVDB_ID, true);
+                                episode.magnetHash = torrentHash;
+                                episode.Persist();
+                                // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
+                                TorrentHashListService.addToHashList(torrentHash);
+                            });
+                            return torrentHash;
+                        } else {
+                            //console.debug("autodownload: not enough seeders %i for %s", parseInt(items[0].seeders), q);
+                        }
+                    });
                 });
             },
+
             attach: function() {
                 if (!service.checkTimeout) {
                     service.checkTimeout = setTimeout(service.autoDownloadCheck, 5000);
                     $rootScope.$on('torrentclient:connected', function(remote) {
-                        console.log(" Caught TorrentClient connected event! starting autodownloadcheck!");
+                        console.info("Caught TorrentClient connected event! starting autodownload check!");
                         service.autoDownloadCheck();
                     });
                 }
             },
+
             detach: function() {
                 clearTimeout(service.checkTimeout);
                 service.checkTimeout = null;

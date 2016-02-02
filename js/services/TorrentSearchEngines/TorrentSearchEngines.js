@@ -72,9 +72,9 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
             },
 
             findEpisode: function(serie, episode) {
-                return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(seasonepisode) {
+                return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(searchString) {
                     return dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {
-                        query: SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' ' + seasonepisode,
+                        query: searchString,
                         TVDB_ID: episode.TVDB_ID
                     }, {
                         size: 'lg'

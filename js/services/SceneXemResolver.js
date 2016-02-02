@@ -30,7 +30,7 @@ factory('SceneXemResolver', ["$q", "$http",
                     });
                 }
             },
-            getEpisodeMapping: function(serie, episode, append) {
+            getEpisodeMapping: function(serie, episode, sceneName, append) {
                 if (mappings.indexOf(parseInt(serie.TVDB_ID)) > -1) {
                     return getXemCacheForSerie(serie.TVDB_ID).then(function(result) {
                         //console.debug("Fetched Xross Entity Mapping for %s", serie.name);
@@ -39,15 +39,15 @@ factory('SceneXemResolver', ["$q", "$http",
                         });
                         if (matches.length > 0) {
                             //console.debug("Returning Xross Entity Mapping mapping", matches[0].scene);
-                            return episode.formatEpisode(matches[0].scene.season, matches[0].scene.episode) + append;
+                            return sceneName + episode.formatEpisode(matches[0].scene.season, matches[0].scene.episode) + append;
                         } else {
                             //console.debug("Episode not found in Xross Entity Map (TheXem.de). Returning default formatting.");
-                            return episode.getFormattedEpisode() + append;
+                            return sceneName + episode.getFormattedEpisode() + append;
                         }
                     });
                 } else {
                     //console.debug("returning default episode mapping from XEM because %s is not in the list", serie.TVDB_ID);
-                    return $q.resolve(episode.getFormattedEpisode() + append);
+                    return $q.resolve(sceneName + episode.getFormattedEpisode() + append);
                 }
             }
         };

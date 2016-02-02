@@ -53,8 +53,8 @@ DuckieTV.provider('SubtitleDialog', function() {
 
         if ($scope.episode && $scope.serie) {
             searchType = 1;
-            SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode).then(function(episodeQuery) {
-                $scope.query = SceneNameResolver.getSceneName($scope.serie.TVDB_ID, $scope.serie.name) + '  ' + episodeQuery;
+            SceneNameResolver.getSearchStringForEpisode($scope.serie, $scope.episode).then(function(searchString) {
+                $scope.query = searchString;
             });
         }
         $scope.search = function(query) {

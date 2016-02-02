@@ -31,14 +31,17 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
 
             getSearchStringForEpisode: function(serie, episode) {
                 var append = (serie.customSearchString && serie.customSearchString != '') ? ' ' + serie.customSearchString : '';
+                var tvdbID = parseInt(serie.TVDB_ID);
+                var exception = (tvdbID in exceptions) ? exceptions[tvdbID] + ' ' : serie.name + ' ';
+                var sceneName = exception.replace(/\(([12][09][0-9]{2})\)/, '').replace(/[^0-9a-zA-Z- ]/g, '');
                 if (serie.TVDB_ID in episodesWithDateFormat) {
                     var parts = episode.firstaired_iso.split(/([0-9]{4})-([0-9]{2})-([0-9]{2})T.*/);
                     if ("undefined" == typeof(moment)) {
                         moment = require('./js/vendor/moment.min');
                     }
-                    return $q.resolve(moment.tz(episode.firstaired_iso, serie.timezone).format(episodesWithDateFormat[serie.TVDB_ID]) + append);
+                    return $q.resolve(sceneName + moment.tz(episode.firstaired_iso, serie.timezone).format(episodesWithDateFormat[serie.TVDB_ID]) + append);
                 } else {
-                    return SceneXemResolver.getEpisodeMapping(serie, episode, append);
+                    return SceneXemResolver.getEpisodeMapping(serie, episode, sceneName, append);
                 }
             },
 
