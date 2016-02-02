@@ -22,27 +22,34 @@ DuckieTV.factory('OpenSubtitles', ["xmlrpc", "SettingsService",
 
         var parseSubtitles = function(data, query) {
             var output = [];
-            if (!data.data) return output;
-            data.data.map(function(sub) {
-                if (sub.SubFormat !== 'srt') {
-                    return;
-                }
-                if (query.season && query.episode) {
-                    if (parseInt(sub.SeriesIMDBParent) !== parseInt(query.imdbid.replace('tt', '')) || sub.SeriesSeason.toString() !== query.season.toString() || sub.SeriesEpisode.toString() !== query.episode.toString()) {
+            if (data && 'data' in data) {
+                data.data.map(function(sub) {
+                    if (sub.SubFormat !== 'srt') {
                         return;
                     }
-                }
-                sub.url = sub.SubDownloadLink.replace('.gz', '.srt');
-                output.push(sub);
-            });
-            return output;
+                    if (query.season && query.episode) {
+                        if (parseInt(sub.SeriesIMDBParent) !== parseInt(query.imdbid.replace('tt', '')) || sub.SeriesSeason.toString() !== query.season.toString() || sub.SeriesEpisode.toString() !== query.episode.toString()) {
+                            return;
+                        }
+                    }
+                    sub.url = sub.SubDownloadLink.replace('.gz', '.srt');
+                    output.push(sub);
+                });
+                return output;
+            } else {
+                return output;
+            }
         };
 
 
         var login = function() {
             return xmlrpc.callMethod('LogIn', ['', '', 'en', 'DuckieTV v1.00']).then(function(result) {
-                self.token = result.token;
-                return self.token;
+                if (result && 'token' in result) {
+                    self.token = result.token;
+                    return self.token;
+                } else {
+                    return null;
+                }
             });
         };
 
