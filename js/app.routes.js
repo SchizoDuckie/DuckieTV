@@ -427,6 +427,24 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     controller: 'AboutCtrl'
                 }
             }
+        })
+
+        .state('autodlstatus', {
+            url: '/autodlstatus',
+            resolve: {
+                SidePanelState: function(SidePanelState) {
+                    setTimeout(function() {
+                        expandSidePanel(SidePanelState);
+                    }, 0);
+                },
+                SeriesListState: hideSeriesList
+            },
+            views: {
+                sidePanel: {
+                    templateUrl: 'templates/sidepanel/autodlstatus.html',
+                    controller: 'AutodlstatusCtrl'
+                }
+            }
         });
 
         $urlRouterProvider.otherwise('/');

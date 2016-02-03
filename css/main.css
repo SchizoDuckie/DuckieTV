@@ -63,7 +63,7 @@ body > .container calendar {
     display: none;
 }
 
-p, input, select, span, #aboutpage {
+p, input, select, span, #aboutpage, #autodlstatuspage {
     -webkit-user-select: initial;
 }
 
@@ -2174,6 +2174,17 @@ sidepanel .seasons serieheader {
     padding: 10px;
 }
 #aboutpage .table a {
+    text-decoration:underline;
+}
+
+#autodlstatuspage {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    padding: 10px;
+}
+#autodlstatuspage .table a {
     text-decoration:underline;
 }
 
