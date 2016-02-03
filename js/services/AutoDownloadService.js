@@ -61,12 +61,24 @@ DuckieTV
 
             autoDownload: function(serie, episode, episodeIndex) {
                 var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 50
+                var globalQuality = ' ' + SettingsService.get('torrenting.searchquality'); // Global Quality to append to search string.
                 var globalInclude = SettingsService.get('torrenting.global_include'); // Any words in the global include list causes the result to be filtered in.
                 var globalExclude = SettingsService.get('torrenting.global_exclude'); // Any words in the global exclude list causes the result to be filtered out.
+                if (serie.ignoreGlobalQuality != 0) {
+                    globalQuality = ''; // series custom settings specify to ignore the global quality
+                };
+                if (serie.ignoreGlobalIncludes != 0) {
+                    globalInclude = ''; // series custom settings specify to ignore the global Includes List
+                };
+                if (serie.ignoreGlobalExcludes != 0) {
+                    globalExclude = ''; // series custom settings specify to ignore the global Excludes List
+                };
+                //console.debug("autodownload: serie %s, IGQ %s, IGI %s, IGE %s", serie.name, serie.ignoreGlobalQuality, serie.ignoreGlobalIncludes, serie.ignoreGlobalExcludes);
+                //console.debug("autodownload: serie %s, GQ %s, GI %s, GE %s", serie.name, globalQuality, globalInclude, globalExclude);
                 // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
                 return SceneNameResolver.getSearchStringForEpisode(serie, episode)
                 .then(function(searchString) {
-                    var q = searchString + ' ' + $rootScope.getSetting('torrenting.searchquality') ;
+                    var q = searchString + globalQuality;
                     //console.debug("autodownload: searching for %s", q);
                     /**
                      * Word-by-word scoring for search results.

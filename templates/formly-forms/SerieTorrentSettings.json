@@ -23,4 +23,46 @@
             "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/auto-download/lbl\" | translate"
         }
     }]
+}, {
+    "className": "row",
+    "fieldGroup": [{
+        "key": "ignoreGlobalQuality",
+        "className": "inline-checkbox",
+        "type": "input",
+        "templateOptions": {
+            "type": "checkbox",
+            "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/ignore-global-quality/lbl\" | translate"
+        }
+    }]
+}, {
+    "className": "row",
+    "fieldGroup": [{
+        "key": "ignoreGlobalIncludes",
+        "className": "inline-checkbox",
+        "type": "input",
+        "templateOptions": {
+            "type": "checkbox",
+            "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/ignore-global-includes/lbl\" | translate"
+        }
+    }]
+}, {
+    "className": "row",
+    "fieldGroup": [{
+        "key": "ignoreGlobalExcludes",
+        "className": "inline-checkbox",
+        "type": "input",
+        "templateOptions": {
+            "type": "checkbox",
+            "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/ignore-global-excludes/lbl\" | translate"
+        }
+    }]
 }]
