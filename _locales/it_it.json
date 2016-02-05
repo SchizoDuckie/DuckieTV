@@ -500,7 +500,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "Vuoi veramente eliminare",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": "Ai tuoi preferiti?",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "Cancellare le serie?",
-    "STATUSCODES": "scaricati|guardato|ha magnete|AutoDL disabili|Nulla trovati|filtrati|magnete lanciato|solo | seminatrici",
+    "STATUSCODES": "scaricati|guardato|ha magnete|AutoDL disabili|Nulla trovati|filtrati|magnete lanciato|seminatrici ",
     "STATUSLIST": "Annullata,Terminata,in Produzione,Confermata,Pianificato",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV rilevato che lo spettacolo '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' è stato eliminato su un altro computer che stai LoggedIn su. Vuoi cancellare anche qui? (Se si seleziona no, verrà aggiunto nuovamente al computer remoto sul successiva sincronizzazione)",

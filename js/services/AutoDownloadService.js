@@ -182,7 +182,7 @@ DuckieTV
                             service.activityUpdate(serie, q, 6); // 'magnet launched'
                             return torrentHash;
                         } else {
-                            service.activityUpdate(serie, q, 7, items[0].seeders); // 'only x seeders'
+                            service.activityUpdate(serie, q, 7, items[0].seeders + ' < ' + minSeeders); // 'seeders x < y'
                         }
                     });
                 });

@@ -77,13 +77,13 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "SettingsService",
             return $filter('translate')('AUTODLSTATUSCTRLjs/no-activity/lbl') + DuckieTorrent.getClient().getName().split(' ')[0].toLowerCase() + ' ' + status;
         };
 
-        $scope.getStatusCode = function(code, seeders) {
-            var translatedCode = statusCodes[code];
-            if (code == 7) {
-                // awful hack: special exception for handling translation of 'only X seeders' status code 
-                translatedCode = statusCodes[7] + seeders + statusCodes[8];
+        $scope.getStatusCode = function(code, extra) {
+            extra = typeof(extra) == 'undefined' ? '' : extra; 
+            if (statusCodes.length -1 >= code) {
+                return statusCodes[code] + extra;
+            } else {
+                return 'n/a ' + extra;
             };
-            return translatedCode;
         };
 
     }

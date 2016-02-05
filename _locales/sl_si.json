@@ -500,7 +500,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "Ali ste prepričani, da želite izbrisati",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": " iz priljubljene?",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "Izbriši serijo?",
-    "STATUSCODES": "prenesli|gledal|ima magnet|autoDL onemogočeno|nič našel|filtrirane|magnet začela|samo | sejanje",
+    "STATUSCODES": "prenesli|gledal|ima magnet|autoDL onemogočeno|nič našel|filtrirane|magnet začela|sejanje ",
     "STATUSLIST": "Odpovedano,Končano,v Izdelavi,se Predvaja,Načrtovani",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV zaznal, da predstava '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "'Je bil izbrisan na drugem računalniku ste prijavljeni v naprej. Ali želite izbrisati tudi tukaj? (Če izberete Ne, se bo ponovno dodane z oddaljenim računalnikom na naslednji sinhronizaciji)",

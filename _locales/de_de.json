@@ -500,7 +500,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "Willst du wirklich ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": "  aus den Favoriten entfernen? ",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "Serie löschen? ",
-    "STATUSCODES": "heruntergeladen|beobachtete|hat Magnet|AutoDL behinderte|nichts gefunden|herausgefiltert|Magnet gestartet|nur | Sämaschinen",
+    "STATUSCODES": "heruntergeladen|beobachtete|hat magnet|autoDL behinderte|nichts gefunden|herausgefiltert|magnet gestartet|sämaschine ",
     "STATUSLIST": "Annulliert,Beendet,in Produktion,Fortgesetzt,Geplant",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV hat erkannt, dass die Show '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": " auf einem anderen Computer, auf dem du angemeldet bist gelöscht wurde. Willst du es auch hier löschen? (Wenn Sie nein wählen, wird es auf dem Remote-Computer bei der nächsten Synchronisation wieder hinzugefügt werden)",

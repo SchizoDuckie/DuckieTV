@@ -500,7 +500,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "Do you really want to delete ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": " from your favorites?",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "Delete series?",
-    "STATUSCODES": "downloaded|watched|has magnet|autoDL disabled|nothing found|filtered out|magnet launched|only | seeders",
+    "STATUSCODES": "downloaded|watched|has magnet|autoDL disabled|nothing found|filtered out|magnet launched|seeders ",
     "STATUSLIST": "Canceled,Ended,In Production,Returning Series,Planned",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV detected that the show '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' was deleted on another computer you're logged in on. Do you want to delete it here as well? (If you select no, it will be re-added to the remote computer on next sync)",

@@ -500,7 +500,7 @@
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc": "你真的要删除 ",
     "SIDEPANELSERIECTRLjs/serie-delete-question/desc2": " 从您的最爱？ ",
     "SIDEPANELSERIECTRLjs/serie-delete/hdr": "删除意甲？ ",
-    "STATUSCODES": "下载|看着|有磁铁|禁用的自动下载|什么都没找到|过滤掉|磁铁推出|只要 | 播种机",
+    "STATUSCODES": "下载|看着|有磁铁|禁用的自动下载|什么都没找到|过滤掉|磁铁推出|播种机 ",
     "STATUSLIST": "已取消,结束了,生产中,持续关,计划",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV检测到展会 '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "'对了你在登录另一台计算机中删除.你要在这里删除呢？（如果你没有选择,它将被重新加入到远程计算机上的下一个同步）",
