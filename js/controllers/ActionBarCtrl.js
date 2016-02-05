@@ -64,9 +64,9 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "Series
 
         this.getTorrentClientTooltip = function() {
             var output = DuckieTorrent.getClient().getName(),
-                tcConnecting = ': ' + $filter('translate')('TAB/tc-connecting/glyph'),
-                tcConnected = ': ' + $filter('translate')('TAB/tc-connected/glyph'),
-                tcOffline = ': ' + $filter('translate')('TAB/tc-offline/glyph');
+                tcConnecting = ': ' + $filter('translate')('COMMON/tc-connecting/lbl'),
+                tcConnected = ': ' + $filter('translate')('COMMON/tc-connected/lbl'),
+                tcOffline = ': ' + $filter('translate')('COMMON/tc-offline/lbl');
             if (this.isTorrentClientConnecting()) return output + tcConnecting;
             return (this.isTorrentClientConnected()) ? output + tcConnected : output + tcOffline;
         };

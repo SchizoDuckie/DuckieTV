@@ -14,9 +14,9 @@ DuckieTV
             fromDT: null,
             toDT: null,
 
-            activityUpdate: function(serie, search, status) {
+            activityUpdate: function(serie, search, status, extra) {
                 var css = (serie.customSearchString && serie.customSearchString != '') ? 1 : 0;
-                service.activityList.push({'search': search, 'css': css, 'igq': serie.ignoreGlobalQuality, 'igi': serie.ignoreGlobalIncludes, 'ige': serie.ignoreGlobalExcludes, 'status': status});
+                service.activityList.push({'search': search, 'css': css, 'igq': serie.ignoreGlobalQuality, 'igi': serie.ignoreGlobalIncludes, 'ige': serie.ignoreGlobalExcludes, 'status': status, 'extra': extra});
                 $rootScope.$broadcast('autodownload:activity');
             },
 
@@ -51,15 +51,15 @@ DuckieTV
                                 }).then(function(serie) {
                                     var serieEpisode = serie.name + ' ' + episode.getFormattedEpisode();
                                     if (episode.isDownloaded()) {
-                                            service.activityUpdate(serie, serieEpisode, 'downloaded');
+                                            service.activityUpdate(serie, serieEpisode, 0); // 'downloaded'
                                         return; // if the episode was already downloaded, skip it.
                                     };
                                     if (episode.watchedAt !== null) {
-                                            service.activityUpdate(serie, serieEpisode, 'watched');
+                                            service.activityUpdate(serie, serieEpisode, 1); // 'watched'
                                         return; // if the episode has been marked as watched, skip it.
                                     };
                                     if (episode.magnetHash !== null && (episode.magnetHash in remote.torrents)) {
-                                            service.activityUpdate(serie, serieEpisode, 'has magnet');
+                                            service.activityUpdate(serie, serieEpisode, 2); // 'has magnet'
                                         return; // if the episode already has a magnet, skip it.
                                     };
 
@@ -71,7 +71,7 @@ DuckieTV
                                             }
                                         });
                                     } else {
-                                        service.activityUpdate(serie, serie.name, 'autoDL disabled');
+                                        service.activityUpdate(serie, serie.name, 3); // 'autoDL disabled'
                                     }
                                 });
                             });
@@ -159,13 +159,13 @@ DuckieTV
                     return TorrentSearchEngines.getDefaultEngine().search(q, true).then(function(results) {
                         var items = results.filter(filterByScore);
                         if (items.length === 0) {
-                            service.activityUpdate(serie,q, 'nothing found');
+                            service.activityUpdate(serie, q, 4); // 'nothing found'
                             return; // no results, abort
                         };
                         items = items.filter(filterGlobalInclude);
                         items = items.filter(filterGlobalExclude);
                         if (items.length === 0) {
-                            service.activityUpdate(serie,q, 'filtered out');
+                            service.activityUpdate(serie, q, 5); // 'filtered out'
                             return; // no results, abort
                         }
                         if (items[0].seeders == 'N/A' || parseInt(items[0].seeders, 10) >= minSeeders) { // enough seeders are available.
@@ -179,10 +179,10 @@ DuckieTV
                                 // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
                                 TorrentHashListService.addToHashList(torrentHash);
                             });
-                            service.activityUpdate(serie,q, 'magnet launched');
+                            service.activityUpdate(serie, q, 6); // 'magnet launched'
                             return torrentHash;
                         } else {
-                            service.activityUpdate(serie,q, 'only ' + items[0].seeders + ' seeders');
+                            service.activityUpdate(serie, q, 7, items[0].seeders); // 'only x seeders'
                         }
                     });
                 });

@@ -70,10 +70,10 @@
             <a ng-click="setSetting('main.viewmode', getSetting('main.viewmode') == 'calendar' ? 'todo' : 'calendar')" class="glyphicon glyphicon-check" tooltip="Switch between calendar and todo mode" tooltip-placement="right"></a>
           </li>
           <li ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.autodownload')" class="hide-prod" id="actionbar_autodlstatus" ui-sref-active="active">
-            <a ui-sref="autodlstatus" class="glyphicon glyphicon-list" tooltip="{{'TAB/autodlstatus/glyph'|translate}}" tooltip-placement="right"></a>
+            <a ui-sref="autodlstatus" class="glyphicon glyphicon-list" tooltip="{{'COMMON/auto-download-status/hdr'|translate}}" tooltip-placement="right"></a>
           </li>
           <li id="actionbar_settings" ui-sref-active="active">
-            <a ui-sref="settings" class="glyphicon glyphicon-cog" tooltip="{{'TAB/settings/glyph'|translate}}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
+            <a ui-sref="settings" class="glyphicon glyphicon-cog" tooltip="{{'COMMON/settings/hdr'|translate}}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
           </li>
           <li id="actionbar_about" ui-sref-active="active">
             <a ui-sref="about" class="glyphicon glyphicon-info-sign" tooltip="{{'TAB/about/glyph'|translate}}" tooltip-placement="right"></a>

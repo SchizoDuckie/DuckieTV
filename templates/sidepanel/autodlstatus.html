@@ -1,46 +1,48 @@
 <!-- autodlstatus.html -->
 <div id="autodlstatuspage">
-  <h2>Auto-Download Status</h2>
+  <h2 translate-once="COMMON/auto-download-status/hdr"></h2>
+<a href="#settings/torrent" style="float:left; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once="COMMON/torrent-settings/hdr"></span></a>
+<a href="#settings/torrent-search" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once="COMMON/torrent-search-settings/glyph"></span></a>
   &nbsp;
   <table class="table table-condensed table-light" colspan='2' style="background-color: rgba(0,0,0,0.0); color:white; border-top:0px; word-break:break-word">
     <tbody>
       <tr>
-        <td><strong>Status:</strong>{{status}}</td>
-        <td><strong>Last Run:</strong>{{lastRun | date: 'medium'}}</td>
+        <td><strong translate-once="COMMON/status/hdr"></strong>: {{status}}</td>
+        <td><strong translate-once="AUTODLSTATUS/last-run/hdr"></strong>: {{lastRun | date: 'medium'}}</td>
       </tr>
       <tr>
-        <td><strong>Minimum Seeders:</strong>{{minSeeders}}</td>
-        <td><strong>Next Run:</strong>{{nextRun | date: 'medium'}}</td>
+        <td><strong translate-once="AUTODLSTATUS/min-seeders/hdr"></strong>: {{minSeeders}}</td>
+        <td><strong translate-once="AUTODLSTATUS/next-run/hdr"></strong>: {{nextRun | date: 'medium'}}</td>
       </tr>
       <tr>
-        <td><strong>Scan Period:</strong>{{period}}</td>
-        <td><strong>Scan Range:</strong>{{fromDT | date: 'short'}} - {{toDT | date: 'short'}}</td>
+        <td><strong translate-once="AUTODLSTATUS/scan-period/hdr"></strong>: {{period}}</td>
+        <td><strong translate-once="AUTODLSTATUS/scan-range/hdr"></strong>: {{fromDT | date: 'short'}} - {{toDT | date: 'short'}}</td>
       </tr>
       <tr>
-        <td><strong>Global Include List:</strong>{{globalInclude}}</td>
-        <td><strong>Global Exclude List:</strong>{{globalExclude}}</td>
+        <td><strong translate-once="COMMON/global-include/hdr"></strong>: {{globalInclude}}</td>
+        <td><strong translate-once="COMMON/global-exclude/hdr"></strong>: {{globalExclude}}</td>
       </tr>
     </tbody>
       <tr>
-        <td><strong>Global Quality:</strong>{{globalQuality}}</td>
-        <td><strong>Search Engine:</strong>{{searchEngine}}</td>
+        <td><strong translate-once="COMMON/global-quality/hdr"></strong>: {{globalQuality}}</td>
+        <td><strong translate-once="AUTODLSTATUS/search-engine/hdr"></strong>: {{searchEngine}}</td>
       </tr>
   </table>
   <hr class="setting-divider">
-  <table ng-show="status == 'active'" class="table table-condensed table-light" colspan='5' style="background-color: rgba(0,0,0,0.0); color:white; border-top:0px; word-break:break-word">
+  <table ng-show="isActive()" class="table table-condensed table-light" colspan='5' style="background-color: rgba(0,0,0,0.0); color:white; border-top:0px; word-break:break-word">
     <thead>
       <tr>
-        <th style="width:460px" align="center">Search criteria for {{lastRun | date: 'medium'}}</th>
-        <th style="width:40px" align="center" tooltip="Custom Search String" tooltip-append-to-body="true">CSS</th>
-        <th style="width:40px" align="center" tooltip="Ignore Global Quality" tooltip-append-to-body="true">IGQ</th>
-        <th style="width:40px" align="center" tooltip="Ignore Global Includes" tooltip-append-to-body="true">IGI</th>
-        <th style="width:40px" align="center" tooltip="Ignore Global Excludes" tooltip-append-to-body="true">IGE</th>
-        <th>Status</th>
+        <th style="width:460px" align="center"><span translate-once="AUTODLSTATUS/search-criteria/hdr"></span>{{lastRun | date: 'medium'}}</th>
+        <th style="width:40px" align="center" tooltip="{{'COMMON/custom-search-string/lbl'|translate}}" tooltip-append-to-body="true">CSS</th>
+        <th style="width:40px" align="center" tooltip="{{'COMMON/ignore-global-quality/lbl'|translate}}" tooltip-append-to-body="true">IGQ</th>
+        <th style="width:40px" align="center" tooltip="{{'COMMON/ignore-global-includes/lbl'|translate}}" tooltip-append-to-body="true">IGI</th>
+        <th style="width:40px" align="center" tooltip="{{'COMMON/ignore-global-excludes/lbl'|translate}}" tooltip-append-to-body="true">IGE</th>
+        <th translate-once="COMMON/status/hdr"></th>
       </tr>
     </thead>
     <tbody ng-show="activityList.length == 0">
       <tr>
-        <td><h3 ng-show="activityList.length == 0">No Activity, {{getTorrentClientNameAndStatus()}}</h3></td>
+        <td><h3 ng-show="activityList.length == 0">{{getTorrentClientNameAndStatus()}}</h3></td>
       </tr>
     </tbody>
     <tbody ng-show="activityList.length != 0">
@@ -50,16 +52,16 @@
         <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.igq == 1, 'glyphicon-remove' : item.igq == 0 }" tooltip="{{getTooltip('igq', item.igq)}}"></></div></td>
         <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.igi == 1, 'glyphicon-remove' : item.igi == 0 }" tooltip="{{getTooltip('igi', item.igi)}}"></></div></td>
         <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.ige == 1, 'glyphicon-remove' : item.ige == 0 }" tooltip="{{getTooltip('ige', item.ige)}}"></></div></td>
-        <td>{{item.status}}</td>
+        <td>{{getStatusCode(item.status, item.extra)}}</td>
       </tr>
     </tbody>
   </table>
-  <table ng-show="status == 'inactive'" class="table table-condensed table-light" style="background-color: rgba(0,0,0,0.0); color:white; border-top:0px; word-break:break-word">
+  <table ng-show="!isActive()" class="table table-condensed table-light" style="background-color: rgba(0,0,0,0.0); color:white; border-top:0px; word-break:break-word">
     <thead>
       <tr>
-        <td><h3>No Activity, {{getTorrentClientNameAndStatus()}}</h3></td>
+        <td><h3>{{getTorrentClientNameAndStatus()}}</h3></td>
       </tr>
     </thead>
   </table>
-  <hr class="setting-divider" ng-show="activityList.length != 0 || status == 'inactive'">
+  <hr class="setting-divider" ng-show="activityList.length != 0 || !isActive()">
 </div>

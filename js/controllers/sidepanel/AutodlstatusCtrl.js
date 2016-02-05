@@ -7,19 +7,35 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "SettingsService",
         // If we load onto the page highlight the button
         document.querySelector('#actionbar_autodlstatus').classList.add('active');
 
-        var timePlurals = $filter('translate')('TIMEPLURALS').split('|'); //" day, | days, | hour and | hours and | minute | minutes "
+        // set up static translated labels
+        $scope.period = SettingsService.get('autodownload.period');
+        var timePlurals = $filter('translate')('TIMEPLURALS').split('|'), //" day, | days, | hour and | hours and | minute | minutes "
+            statusCodes = $filter('translate')('STATUSCODES').split('|'), // "downloaded|watched|has magnet|autoDL disabled|nothing found|filtered out|magnet launched|only | seeders"
+            inactiveLbl = $filter('translate')('AUTODLSTATUSCTRLjs/inactive/lbl'), // inactive
+            activeLbl = $filter('translate')('AUTODLSTATUSCTRLjs/active/lbl'), // active
+            usingLbl = $filter('translate')('AUTODLSTATUSCTRLjs/using/lbl'), // using
+            notusingLbl = $filter('translate')('AUTODLSTATUSCTRLjs/not-using/lbl'), // not using
+            cssLbl = $filter('translate')('COMMON/custom-search-string/lbl'), // Custom Search String
+            gqLbl = $filter('translate')('COMMON/global-quality/hdr'), // Global Quality
+            giLbl = $filter('translate')('COMMON/global-include/hdr'), // Global Includes List
+            geLbl = $filter('translate')('COMMON/global-exclude/hdr'), // Global Excludes List
+            dayLbl = ($scope.period === 1) ? timePlurals[0].replace(',','') : timePlurals[1].replace(',','');
+
+        $scope.isActive = function() {
+            return $scope.status == activeLbl;
+        };
+
+        // set up scope data
         $scope.activityList = AutoDownloadService.activityList;
-        $scope.status = (AutoDownloadService.checkTimeout == null) ? 'inactive' : 'active';
+        $scope.status = (AutoDownloadService.checkTimeout == null) ? inactiveLbl : activeLbl;
         $scope.lastRun = SettingsService.get('autodownload.lastrun');
         $scope.globalInclude = SettingsService.get('torrenting.global_include');
         $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
         $scope.globalQuality = (SettingsService.get('torrenting.searchquality') == '') ? 'All' : SettingsService.get('torrenting.searchquality');
         $scope.searchEngine = SettingsService.get('torrenting.searchprovider');
-        $scope.period = SettingsService.get('autodownload.period');
-        var dayLbl = ($scope.period === 1) ? timePlurals[0].replace(',','') : timePlurals[1].replace(',','');
         $scope.period = $scope.period + ' ' + dayLbl;
         $scope.minSeeders = SettingsService.get('autodownload.minSeeders');
-        if ($scope.status == 'active') {
+        if ($scope.isActive()) {
             $scope.nextRun = $scope.lastRun + (1000 * 60 * 15);
             $scope.fromDT = AutoDownloadService.fromDT;
             $scope.toDT = AutoDownloadService.toDT;
@@ -32,10 +48,10 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "SettingsService",
         $scope.$on('autodownload:activity', function(event) {
             $scope.activityList = AutoDownloadService.activityList;
             $scope.lastRun = SettingsService.get('autodownload.lastrun');
-            var status = (DuckieTorrent.getClient().isConnected()) ? 'active' : 'inactive';
-            status = (DuckieTorrent.getClient().isConnecting) ? 'inactive' : status;
+            var status = (DuckieTorrent.getClient().isConnected()) ? activeLbl : inactiveLbl;
+            status = (DuckieTorrent.getClient().isConnecting) ? activeLbl : status;
             $scope.status = status;
-            if ($scope.status == 'active') {
+            if ($scope.isActive()) {
                 $scope.nextRun = $scope.lastRun + (1000 * 60 * 15);
                 $scope.fromDT = AutoDownloadService.fromDT;
                 $scope.toDT = AutoDownloadService.toDT;
@@ -48,17 +64,27 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "SettingsService",
         
         $scope.getTooltip = function(item, state) {
             switch (item) {
-                case 'css': return (state == 0) ? 'not using Custom Search String' :  'using Custom Search String';
-                case 'igq': return (state == 0) ? 'using Global Quality' : 'not using Global Quality';                    
-                case 'igi': return (state == 0) ? 'using Global Includes' : 'not using Global Includes';                    
-                case 'ige': return (state == 0) ?  'using Global Excludes' :  'not using Global Excludes';                    
+                case 'css': return (state == 0) ? notusingLbl + ' ' + cssLbl : usingLbl + ' ' + cssLbl;
+                case 'igq': return (state == 0) ? usingLbl + ' ' + gqLbl : notusingLbl + ' ' + gqLbl;                    
+                case 'igi': return (state == 0) ? usingLbl + ' ' + giLbl : notusingLbl + ' ' + giLbl;                    
+                case 'ige': return (state == 0) ? usingLbl + ' ' + geLbl : notusingLbl + ' ' + geLbl;                    
             };
         };
 
         $scope.getTorrentClientNameAndStatus = function() {
-            var status = (DuckieTorrent.getClient().isConnected()) ? ' is connected' : ' is offline';
-            status = (DuckieTorrent.getClient().isConnecting) ? 'is connecting' : status;
-            return DuckieTorrent.getClient().getName().split(' ')[0].toLowerCase() + status;
+            var status = (DuckieTorrent.getClient().isConnected()) ? $filter('translate')('COMMON/tc-connected/lbl') : $filter('translate')('COMMON/tc-offline/lbl');
+            status = (DuckieTorrent.getClient().isConnecting) ? $filter('translate')('COMMON/tc-connecting/lbl') : status;
+            return $filter('translate')('AUTODLSTATUSCTRLjs/no-activity/lbl') + DuckieTorrent.getClient().getName().split(' ')[0].toLowerCase() + ' ' + status;
         };
+
+        $scope.getStatusCode = function(code, seeders) {
+            var translatedCode = statusCodes[code];
+            if (code == 7) {
+                // awful hack: special exception for handling translation of 'only X seeders' status code 
+                translatedCode = statusCodes[7] + seeders + statusCodes[8];
+            };
+            return translatedCode;
+        };
+
     }
 ]);

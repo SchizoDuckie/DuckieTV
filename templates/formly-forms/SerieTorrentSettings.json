@@ -6,7 +6,7 @@
         "label": ""
     },
     "expressionProperties": {
-        "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/custom-search/lbl\" | translate",
+        "templateOptions.label": "\"COMMON/custom-search-string/lbl\" | translate",
         "templateOptions.placeholder": "\"SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder\" | translate"
     }
 }, {
@@ -34,7 +34,7 @@
             "label": ""
         },
         "expressionProperties": {
-            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/ignore-global-quality/lbl\" | translate"
+            "templateOptions.label": "\"COMMON/ignore-global-quality/lbl\" | translate"
         }
     }]
 }, {
@@ -48,7 +48,7 @@
             "label": ""
         },
         "expressionProperties": {
-            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/ignore-global-includes/lbl\" | translate"
+            "templateOptions.label": "\"COMMON/ignore-global-includes/lbl\" | translate"
         }
     }]
 }, {
@@ -62,7 +62,7 @@
             "label": ""
         },
         "expressionProperties": {
-            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/ignore-global-excludes/lbl\" | translate"
+            "templateOptions.label": "\"COMMON/ignore-global-excludes/lbl\" | translate"
         }
     }]
 }]
