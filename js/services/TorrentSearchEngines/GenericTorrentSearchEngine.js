@@ -89,8 +89,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             var out = {
                 releasename: releasename,
                 size: getPropertyForSelector(results[i], selectors.size),
-                seeders: getPropertyForSelector(results[i], selectors.seeders),
-                leechers: getPropertyForSelector(results[i], selectors.leechers),
+                seeders: getPropertyForSelector(results[i], selectors.seeders).replace(',',''),
+                leechers: getPropertyForSelector(results[i], selectors.leechers).replace(',',''),
                 detailUrl: (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.detailUrl)
             };
             if (config.noMagnet === true) {
