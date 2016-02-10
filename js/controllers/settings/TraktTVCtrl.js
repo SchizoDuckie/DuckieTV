@@ -1,8 +1,8 @@
 /**
  * TraktTV Controller for TraktTV Directive Stuff and the settings tab
  */
-DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "SettingsService",
-    function($scope, TraktTVv2, FavoritesService, SettingsService) {
+DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "FavoritesService", "SettingsService",
+    function($rootScope, $scope, TraktTVv2, FavoritesService, SettingsService) {
 
         // Array for credentials
         $scope.credentials = {
@@ -171,8 +171,9 @@ DuckieTV.controller('TraktTVCtrl', ["$scope", "TraktTVv2", "FavoritesService", "
                         FavoritesService.added(show.tvdb_id);
                     }
                 });
-            }));
-
+            })).then(function() {
+            	$rootScope.$broadcast('series:recount:watched');
+            });
         };
 
         // Push current series and watched episodes to TraktTV
