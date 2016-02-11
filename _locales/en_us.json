@@ -326,7 +326,7 @@
     "SETTINGS/TORRENT-SEARCH/kat-mirror/hdr": "Kickass Torrents main mirror:",
     "SETTINGS/TORRENT-SEARCH/kat-status/hdr": "Current Status:",
     "SETTINGS/TORRENT-SEARCH/kat-validate/btn": "Validate and Save",
-    "SETTINGS/TORRENT-SEARCH/kat/desc": "If for some reason Kickass Torrents is blocked in your territory, use the button below to automatically resolve a working mirror that supports magnet links. If you have a preferred server, you may input that as well.",
+    "SETTINGS/TORRENT-SEARCH/kat/desc": "If for some reason Kickass Torrents is blocked in your territory, enter an alternate KAT mirror that supports magnet links, and press the Validate and Save button to test the server and save it.",
     "SETTINGS/TORRENT-SEARCH/quality-select-all/lbl": "Show all",
     "SETTINGS/TORRENT-SEARCH/quality-select/desc": "If you select '720p' this will append '720p' to the default [seriesname] S[seasonnumber]E[episodenumber] search string.",
     "SETTINGS/TORRENT-SEARCH/quality-select/desc2": "This does not work as a 'minimum quality' search!",
