@@ -11,18 +11,20 @@ DuckieTV
 
         var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="http://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="http://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="http://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
         var notifications = {
-            '1.1.3': ["<li>Romanian translations by honeybunny from Addic7ed",
-		"<li>Spanish translations by iachopolo",
-                "<li>French translations by Tra-Vis",
-                "<li>Norwegian translations by hexjelly",
-                "<li>Bug fixes for Torrent Client Integrations",
-                "<li>Improve Auto-download torrent search matching",
-                "<li>Fixed adding shows with numeric titles",
-                "<li>optionally display season and episode on calendar",
-                "<li>integrated XEM",
-                "<li>added marking all of a days shows as downloaded",
-                "<li>Season navigation",
-                "<li>settings/display options for standalone minimize to Taskbar or Systray",
+            '1.1.4': ["<li>autoDownload: (new) use global include / exclude lists",
+		"<li>(new) option to ignore quality, include and excludes via series custom settings",
+                "<li>(new) use series custom search string, (fix) episodes with date scene names bug",
+                "<li>(fix) torrentz seeders count bug, (new) monitor auto-download activity via status sidepanel",
+                "<li>standalone: (fix) linux minimize bug",
+                "<li>(fix) linux and mac multy systray bug, (fix) defaults for first time users bug",
+                "<li>searchEngines: (fix) remove strike as it is gone",
+                "<li>(fix) drop find random KAT mirror feature as rockaproxy is gone",
+                "<li>season sidepanel: (fix) jump to active season ignores specials unless there is no other seasons",
+                "<li>episode sidepanel: (fix) overview text not height limited bug",
+                "<li>calendar: (fix) events multi-episodes badge incorrectly counted hidden specials bug",
+                "<li>(new) events single click to mark episode as watched",
+                "<li>top10: (fix) invalid data handling bug",
+                "<li>Subtitles: (fix) net::err_empty_response handling bug",
                 "<li>misc bug fixes"
             ].join('')
         };
