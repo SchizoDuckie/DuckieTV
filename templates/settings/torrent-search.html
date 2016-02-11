@@ -93,7 +93,7 @@
     <li><span translate-once="SETTINGS/TORRENT-SEARCH/kat-mirror/hdr"></span><br>
       <input type='url' style='width:350px' ng-model="customkatmirror">
       <a class="btn btn-success" ng-click="validateCustomKATMirror(customkatmirror)" translate-once="SETTINGS/TORRENT-SEARCH/kat-validate/btn"></a>
-      <a class="btn btn-info" ng-click="findRandomKATMirror()" translate-once="SETTINGS/TORRENT-SEARCH/kat-find-mirror/btn"></a>
+      <a ng-hide="true" class="btn btn-info" ng-click="findRandomKATMirror()" translate-once="SETTINGS/TORRENT-SEARCH/kat-find-mirror/btn"></a>
 
       <p ng-show="katmirrorStatus.length > 0"<span translate-once="SETTINGS/TORRENT-SEARCH/kat-status/hdr"></span>
         <ul style='max-height:150px; overflow-y:auto'>
