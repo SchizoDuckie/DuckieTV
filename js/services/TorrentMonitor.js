@@ -71,6 +71,7 @@ DuckieTV
 .run(["SettingsService", "TorrentMonitor",
     function(SettingsService, TorrentMonitor) {
         if (SettingsService.get('torrenting.enabled')) {
+            DuckieTorrent.getClient().AutoConnect();
             if (SettingsService.get('torrenting.autostop')) {
                 console.info("Enabling torrent auto-stop!");
                 TorrentMonitor.enableAutoStop();
