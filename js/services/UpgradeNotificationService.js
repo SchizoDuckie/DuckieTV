@@ -25,6 +25,7 @@ DuckieTV
                 "<li>(new) events single click to mark episode as watched",
                 "<li>top10: (fix) invalid data handling bug",
                 "<li>Subtitles: (fix) net::err_empty_response handling bug",
+                "<li>Language: (fix) Russian translations by galeksandrp",
                 "<li>misc bug fixes"
             ].join('')
         };
