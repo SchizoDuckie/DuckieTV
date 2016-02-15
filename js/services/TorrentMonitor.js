@@ -68,8 +68,8 @@ DuckieTV
 ])
 
 
-.run(["SettingsService", "TorrentMonitor",
-    function(SettingsService, TorrentMonitor) {
+.run(["SettingsService", "TorrentMonitor", "DuckieTorrent",
+    function(SettingsService, TorrentMonitor, DuckieTorrent) {
         if (SettingsService.get('torrenting.enabled')) {
             DuckieTorrent.getClient().AutoConnect();
             if (SettingsService.get('torrenting.autostop')) {
