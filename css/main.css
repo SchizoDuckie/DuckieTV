@@ -1246,11 +1246,11 @@ td.day {
 [date-picker] .event .watched span.glyphicon {
     line-height: 15px;
 }
-[date-picker] .event .watched .watchedwidth, [date-picker] .event .badged .watchedwidth {
+[date-picker] .event .watched .watchedwidth {
     width: 85%;
 }
 [date-picker] .event .badged .watchedwidth {
-    width: 76%;
+    width: 78%;
 }
 [date-picker] .event .watchedpos {
     position: absolute;
@@ -1267,6 +1267,13 @@ td.day {
     color:grey;
     opacity:0.3;
     text-decoration: none !important;
+}
+[date-picker] .event .markpos.glyphicon-unchecked {
+    top: 1px;
+    opacity: 0.2;
+}
+[date-picker] .event:hover .markpos.glyphicon-unchecked {
+    opacity: 0.3;
 }
 [date-picker] .event:hover {
     background-color: rgba(0, 0, 0, 0.8);
