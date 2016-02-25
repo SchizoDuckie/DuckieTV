@@ -99,8 +99,8 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 console.log("Firing magnet URI! ", magnet, TVDB_ID);
                 $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
 
-                if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
-                    console.log("Adding via TorrentClient.addMagnet API! ", magnet, TVDB_ID);
+                if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
+                    //console.debug("Adding via TorrentClient.addMagnet API! ", magnet, TVDB_ID);
                     DuckieTorrent.getClient().addMagnet(magnet);
                     setTimeout(function() {
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
@@ -111,17 +111,19 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     d.src = magnet;
                     d.style.visibility = 'hidden';
                     document.body.appendChild(d);
+                    //console.debug("Adding via Chromium! ", d.id, magnet, TVDB_ID);
                     setTimeout(function() {
+                        //console.debug("remove iframe", d.id);
                         document.body.removeChild(d);
                     }, 3000);
-                }
+                    }
             },
 
             launchTorrentByUpload: function(data, TVDB_ID, name) {
                 console.log("Firing Torrent By data upload! ", TVDB_ID, name);
 
                 if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
-                    console.log("Adding via TorrentClient.addTorrentByUpload API! ", TVDB_ID, name);
+                    //console.debug("Adding via TorrentClient.addTorrentByUpload API! ", TVDB_ID, name);
                     DuckieTorrent.getClient().addTorrentByUpload(data, name).then(function(infoHash) {
                         $rootScope.$broadcast('magnet:select:' + TVDB_ID, infoHash.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                     });
@@ -134,8 +136,8 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
             launchTorrentByURL: function(torrentUrl, TVDB_ID, name) {
                 console.log("Firing Torrent By URL! ", torrentUrl, TVDB_ID, name);
 
-                if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
-                    console.log("Adding via TorrentClient.addTorrentByUrl API! ", torrentUrl, TVDB_ID, name);
+                if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
+                    //console.debug("Adding via TorrentClient.addTorrentByUrl API! ", torrentUrl, TVDB_ID, name);
                     DuckieTorrent.getClient().addTorrentByUrl(torrentUrl, name).then(function(infoHash) {
                         $rootScope.$broadcast('magnet:select:' + TVDB_ID, infoHash.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                     });
@@ -148,6 +150,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     d.src = torrentUrl;
                     d.style.visibility = 'hidden';
                     document.body.appendChild(d);
+                    //console.debug("Adding via Chromium! ", d.id, magnet, TVDB_ID);
                     d.onload = function() {
                         setTimeout(function() {
                             document.body.removeChild(d);

@@ -33,7 +33,7 @@ DuckieTV
                 if (lastRun) {
                     from = new Date(lastRun);
                 }
-                from.setDate(from.getDate() - period); // substract autodownload period from lastrun for if some episodes weren't downloaded.
+                from.setDate(from.getDate() - period); // subtract autodownload period from lastrun for if some episodes weren't downloaded.
                 from.setHours(0);
                 from.setMinutes(0);
                 from.setSeconds(0);
@@ -79,7 +79,6 @@ DuckieTV
                             $rootScope.$broadcast('autodownload:activity');
                         });
                     });
-
                 }
 
                 service.checkTimeout = setTimeout(service.autoDownloadCheck, 1000 * 60 * 15); // fire new episodeaired check in 15 minutes.

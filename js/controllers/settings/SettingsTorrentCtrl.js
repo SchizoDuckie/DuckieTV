@@ -6,6 +6,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
 
         $scope.log = [];
 
+        $scope.showChromium = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1); // Chrome browser 48.0.2564.116m does not support multi torrent launches via chromium, bug? note: check again with 49.*
         $scope.customkatmirror = SettingsService.get('KickAssTorrents.mirror');
         $scope.customtpbmirror = SettingsService.get('ThePirateBay.mirror');
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
@@ -21,6 +22,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.adEnabled = SettingsService.get('torrenting.autodownload');
         $scope.adPeriod = SettingsService.get('autodownload.period');
         $scope.adMinSeeders = SettingsService.get('autodownload.minSeeders');
+        $scope.chromiumEnabled = SettingsService.get('torrenting.launch_via_chromium');
 
         $scope.katmirrorStatus = [];
         $scope.tpbmirrorStatus = [];
@@ -150,6 +152,11 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
                 $scope.adEnabled = true;
                 AutoDownloadService.attach();
             }
+        };
+
+        $scope.toggleChromium = function() {
+            $scope.chromiumEnabled = !$scope.chromiumEnabled;
+            SettingsService.set('torrenting.launch_via_chromium', $scope.chromiumEnabled);
         };
 
         /**

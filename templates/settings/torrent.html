@@ -121,5 +121,21 @@
           <i class="glyphicon glyphicon-{{autostopAllEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopAllEnabled ? 'SETTINGS/TORRENT/autostopall-disabled/btn' : 'SETTINGS/TORRENT/autostopall-enabled/btn'|translate}}
         </a>
     </div>
+    <div ng-show="showChromium">
+      <hr class="setting-divider">
+
+      <h2> 
+        <span tooltip="{{chromiumEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+          <i class="glyphicon glyphicon-{{chromiumEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+        </span>
+        <li translate-once="SETTINGS/TORRENT/chromium/hdr"></li>
+      </h2>
+      <p>{{chromiumEnabled ? 'SETTINGS/TORRENT/chromium-disabled/desc' : 'SETTINGS/TORRENT/chromium-enabled/desc'|translate}}</p>
+      <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+       {{chromiumEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+      <a ng-click="toggleChromium()" class="btn btn-{{chromiumEnabled ? 'danger' : 'success'}}">
+        <i class="glyphicon glyphicon-{{chromiumEnabled ? 'remove' : 'ok'}}"></i> {{chromiumEnabled ? 'COMMON/disabled/lbl' : 'COMMON/enabled/lbl'|translate}}
+      </a>
+    </div>
   </div>
 </div>
