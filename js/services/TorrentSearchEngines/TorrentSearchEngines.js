@@ -116,7 +116,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                         //console.debug("remove iframe", d.id);
                         document.body.removeChild(d);
                     }, 3000);
-                    }
+                }
             },
 
             launchTorrentByUpload: function(data, TVDB_ID, name) {
