@@ -19,8 +19,16 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                         }
                     ],
                     size: ['dd span.s', 'innerText'],
-                    seeders: ['dd span.u', 'innerText'],
-                    leechers: ['dd span.d', 'innerText'],
+                    seeders: ['dd span.u', 'innerText',
+                        function(a) {
+                            return a.replace(',','');
+                        }
+                    ],
+                    leechers: ['dd span.d', 'innerText',
+                        function(a) {
+                            return a.replace(',','');
+                        }
+                    ],
                     detailUrl: ['dt a', 'href']
                 }
 
