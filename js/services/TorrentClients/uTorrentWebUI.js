@@ -33,7 +33,7 @@ uTorrentWebUIData.extends(TorrentData, {
 });
 
 /** 
- * uTorrentWebUI < 3.2 client
+ * uTorrentWebUI
  */
 DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
     function(BaseTorrentRemote) {
@@ -239,7 +239,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
             addmagnet: '/gui/?token=%token%&action=add-url&s=%s',
             addfile: '/gui/?token=%token%&action=add-file&download_dir=0&path=',
             stop: '/gui/?token=%token%&action=stop&hash=%s',
-            resume: '/gui/?token=%token%&action=start&hash=%s',
+            start: '/gui/?token=%token%&action=start&hash=%s',
             pause: '/gui/?token=%token%&action=pause&hash=%s',
             files: '/gui/?token=%token%&action=getfiles&hash=%s',
         });
