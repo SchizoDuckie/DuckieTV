@@ -2,7 +2,7 @@
  * Deluge web client implementation
  *
  * API Docs:
- * http://deluge-webapi.readthedocs.org/en/latest/quickstart.html#api-methods
+ * http://deluge.readthedocs.org/en/develop/modules/deluge.ui.web.html
  *
  * - Supports setting download directory
  */
