@@ -1,5 +1,8 @@
 /** 
  * qBittorrent32plus < 3.2 client
+ *
+ * API Docs:
+ * https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-Documentation
  */
 
 DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
@@ -25,7 +28,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
             portscan: function() {
                 var self = this;
                 return this.request('version').then(function(result) {
-                    console.info("qBittorrent version result: ", result);
+                    //console.debug("qBittorrent version result: ", result);
                     return self.login().then(function() {
                         return true;
                     });
@@ -72,16 +75,24 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                                     if (currentTry < maxTries) {
                                         setTimeout(verifyAdded, 1000);
                                     } else {
-                                        throw "No hash foudn for torrent " + filename + " in 5 tries.";
+                                        throw "No hash found for torrent " + filename + " in 5 tries.";
                                     }
                                 }
                             });
                         }
                         setTimeout(verifyAdded, 1000);
                     });
-
                 }.bind(this));
-
+            },
+            hasTorrent: function(magnetHash) {
+                return this.getTorrents().then(function(result) {
+                    var output = [];
+                    result.map(function(torrent) {
+                        output.push(torrent.hash.toUpperCase());
+                    });
+                    //console.debug('qBittorrentPlus ',output,magnetHash,(output.indexOf(magnetHash) > -1));
+                    return (output.indexOf(magnetHash) > -1);
+                });
             },
             execute: function(method, id) {
                 var headers = {
@@ -92,7 +103,6 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                 });
             }
         });
-
         return qBittorrent32plusAPI;
     }
 ])

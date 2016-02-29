@@ -1,5 +1,9 @@
 /**
  * qBittorrent
+ *
+ * API Docs:
+ * https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-Documentation
+ *
  * Works for both 3.2+ and below.
  */
 qBittorrentData = function(data) {
@@ -103,14 +107,13 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
                                     if (currentTry < maxTries) {
                                         setTimeout(verifyAdded, 1000);
                                     } else {
-                                        throw "No hash foudn for torrent " + releaseName + " in 5 tries.";
+                                        throw "No hash found for torrent " + releaseName + " in 5 tries.";
                                     }
                                 }
                             });
                         }
                         setTimeout(verifyAdded, 1000);
                     });
-
                 }.bind(this));
             },
             addTorrentByUpload: function(data, filename) {
@@ -147,16 +150,24 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
                                     if (currentTry < maxTries) {
                                         setTimeout(verifyAdded, 1000);
                                     } else {
-                                        throw "No hash foudn for torrent " + filename + " in 5 tries.";
+                                        throw "No hash found for torrent " + filename + " in 5 tries.";
                                     }
                                 }
                             });
                         }
                         setTimeout(verifyAdded, 1000);
                     });
-
                 }.bind(this));
-
+            },
+            hasTorrent: function(magnetHash) {
+                return this.getTorrents().then(function(result) {
+                    var output = [];
+                    result.map(function(torrent) {
+                        output.push(torrent.hash.toUpperCase());
+                    });
+                    //console.debug('qBittorrent ',output,magnetHash,(output.indexOf(magnetHash) > -1));
+                    return (output.indexOf(magnetHash) > -1);
+                });
             },
             execute: function(method, id) {
                 return $http.post(this.getUrl(method), 'hash=' + id, {
@@ -166,7 +177,6 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
                 });
             }
         });
-
         return qBittorrentAPI;
     }
 ])

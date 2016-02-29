@@ -1,5 +1,8 @@
 /**
  * uTorrentWebUI
+ *
+ * API Docs:
+ * https://forum.utorrent.com/topic/21814-web-ui-api/
  */
 uTorrentWebUIData = function(data) {
     this.update(data);
@@ -69,7 +72,6 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                 }
                 return (param) ? out.replace('%s', encodeURIComponent(param)) : out;
             },
-
             portscan: function() {
                 var self = this;
                 return this.request('portscan').then(function(result) {
@@ -186,7 +188,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                                     if (currentTry < maxTries) {
                                         setTimeout(verifyAdded, 1000);
                                     } else {
-                                        throw "No hash foudn for torrent " + filename + " in 5 tries.";
+                                        throw "No hash found for torrent " + filename + " in 5 tries.";
                                     }
                                 }
                             });
@@ -196,6 +198,16 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
 
                 }.bind(this));
 
+            },
+            hasTorrent: function(magnetHash) {
+                return this.request('torrents').then(function(data) {
+                    var output = [];
+                    data.data.torrents.map(function(torrent) {
+                        output.push(torrent[0].toUpperCase());
+                    });
+                    //console.debug('uTorrentWebUI ',output,magnetHash,(output.indexOf(magnetHash) > -1));
+                    return (output.indexOf(magnetHash) > -1);
+                });
             },
             execute: function(method, id) {
                 var headers = {

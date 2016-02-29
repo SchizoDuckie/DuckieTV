@@ -1,5 +1,8 @@
 /**
  * Transmission
+ *
+ * API Docs:
+ * https://trac.transmissionbt.com/browser/trunk/extras/rpc-spec.txt
  */
 TransmissionData = function(data) {
     this.update(data);
@@ -147,6 +150,20 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                             return result.arguments['torrent-added'].hashString.toUpperCase();
                         })
                     }
+                });
+            },
+            hasTorrent: function(magnetHash) {
+                return this.rpc('torrent-get', {
+                    arguments: {
+                        "fields": ["hashString"]
+                    }
+                }).then(function(data) {
+                    var output = [];
+                    data.arguments.torrents.map(function(el) {
+                        output.push(el.hashString.toUpperCase());
+                    });
+                    //console.debug('Transmission/Vuze ',output,magnetHash,(output.indexOf(magnetHash) > -1));
+                    return (output.indexOf(magnetHash) > -1);
                 });
             },
             execute: function(method, id) {

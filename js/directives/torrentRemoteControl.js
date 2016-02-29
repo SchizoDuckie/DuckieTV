@@ -22,7 +22,6 @@ DuckieTV
 
                     var remote = this;
                     remote.infoHash = $scope.infoHash;
-                    remote.isDownloaded = $scope.episodeDownloaded;
                     remote.torrent = null;
                     remote.isConnected = false;
 
@@ -66,22 +65,33 @@ DuckieTV
                         remote.isConnected = true;
                         remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash);
                         observeTorrent(rpc, remote.infoHash);
+                        remote.cleanupHashCheck();
                     }, function(fail) {
                         // Failed to connect to torrent client for monitoring. Creating an event watcher for when torrent client is connected.
                         $rootScope.$on('torrentclient:connected', function(rpc) {
                             remote.isConnected = true;
                             remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash);
                             observeTorrent(rpc, remote.infoHash);
+                            remote.cleanupHashCheck();
                         });
                     });
 
-                    $scope.removeHash = function() {
-                        Episode.findOneByMagnetHash(remote.magnetHash).then(function(result) {
-                            if (result) {
-                                result.magnetHash = null;
-                                result.Persist();
+                    this.cleanupHashCheck = function() {
+                        // clean up when episode has been downloaded and torrent has not been found in torrent-client
+                        if (DuckieTorrent.getClient().getName() == 'uTorrent') {
+                            return; // bah, hasTorrent for uTorrent not implemented yet #441
+                        };
+                        DuckieTorrent.getClient().hasTorrent(remote.infoHash).then(function(hasTorrent) {
+                            if ($scope.episodeDownloaded  && !hasTorrent) {
+                            Episode.findOneByMagnetHash(remote.infoHash).then(function(result) {
+                                    if (result) {
+                                        console.info('remote torrent not found, removed magnetHash[%s] from episode[%s] of series[%s]', result.magnetHash, result.getFormattedEpisode(), result.ID_Serie);
+                                        result.magnetHash = null;
+                                        result.Persist();
+                                    }
+                                })
                             }
-                        });
+                        })
                     };
 
                 }

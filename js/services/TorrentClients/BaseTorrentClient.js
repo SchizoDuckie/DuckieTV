@@ -311,6 +311,16 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                 return this.getAPI().addTorrentByUpload(data, releaseName);
             },
 
+            /**
+             * Implement this function to be able to check if a particular torrent exists
+             */
+            hasTorrent: function(magnet) {
+                if (!('hasTorrent' in this.getAPI())) {
+                    throw "hasTorrent not implemented for " + this.getName();
+                }
+                return this.getAPI().hasTorrent(magnet);
+            },
+
             request: function(type, params, options) {
                 return request(type, params, options);
             }

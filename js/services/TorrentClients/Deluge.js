@@ -2,7 +2,7 @@
  * Deluge web client implementation
  *
  * API Docs:
- * http://deluge.readthedocs.org/en/develop/modules/deluge.ui.web.html
+ * https://deluge-webapi.readthedocs.org/en/latest/quickstart.html#api-methods
  *
  * - Supports setting download directory
  */
@@ -156,6 +156,18 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                     });
                 }.bind(this));
 
+            },
+            hasTorrent: function(magnetHash) {
+                return this.rpc("web.update_ui", [
+                    ["hash"], {}
+                ]).then(function(data) {
+                    var output = [];
+                    Object.keys(data.result.torrents).map(function(hash) {
+                        output.push(hash.toUpperCase());
+                    });
+                    //console.debug('deluge ',output,magnetHash,(output.indexOf(magnetHash) > -1));
+                    return (output.indexOf(magnetHash) > -1);
+                });
             },
             execute: function(method, args) {
                 return this.rpc(method, [args]);

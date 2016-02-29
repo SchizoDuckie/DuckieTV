@@ -43,7 +43,7 @@
       </tr>
       <tr ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.progress') && episode.magnetHash">
         <td colspan="4" style="border: none; padding:0;">
-          <torrent-remote-control info-hash="episode.magnetHash" downloaded="episode.downloaded" template-url="templates/torrentMiniRemoteProgress.html" style="position:relative"></torrent-remote-control>
+          <torrent-remote-control info-hash="episode.magnetHash" downloaded="episode.isDownloaded()" template-url="templates/torrentMiniRemoteProgress.html" style="position:relative"></torrent-remote-control>
         </td>
       </tr>
     </tbody>
