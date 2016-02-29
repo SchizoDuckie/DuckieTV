@@ -97,7 +97,6 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
              */
             launchMagnet: function(magnet, TVDB_ID) {
                 console.log("Firing magnet URI! ", magnet, TVDB_ID);
-                $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
 
                 if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
                     //console.debug("Adding via TorrentClient.addMagnet API! ", magnet, TVDB_ID);
@@ -105,6 +104,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     setTimeout(function() {
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
                     }, 1500);
+                    $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                 } else {
                     var d = document.createElement('iframe');
                     d.id = 'torrentmagnet_' + new Date().getTime();
@@ -116,6 +116,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                         //console.debug("remove iframe", d.id);
                         document.body.removeChild(d);
                     }, 3000);
+                    $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                 }
             },
 
