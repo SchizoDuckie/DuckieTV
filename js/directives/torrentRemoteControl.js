@@ -81,17 +81,19 @@ DuckieTV
                         if (DuckieTorrent.getClient().getName() == 'uTorrent') {
                             return; // bah, hasTorrent for uTorrent not implemented yet #441
                         };
-                        DuckieTorrent.getClient().hasTorrent(remote.infoHash).then(function(hasTorrent) {
-                            if ($scope.episodeDownloaded  && !hasTorrent) {
-                            Episode.findOneByMagnetHash(remote.infoHash).then(function(result) {
-                                    if (result) {
-                                        console.info('remote torrent not found, removed magnetHash[%s] from episode[%s] of series[%s]', result.magnetHash, result.getFormattedEpisode(), result.ID_Serie);
-                                        result.magnetHash = null;
-                                        result.Persist();
-                                    }
-                                })
-                            }
-                        })
+                        if ($scope.episodeDownloaded) {
+                            DuckieTorrent.getClient().hasTorrent(remote.infoHash).then(function(hasTorrent) {
+                                if (!hasTorrent) {
+                                    Episode.findOneByMagnetHash(remote.infoHash).then(function(result) {
+                                        if (result) {
+                                            console.info('remote torrent not found, removed magnetHash[%s] from episode[%s] of series[%s]', result.magnetHash, result.getFormattedEpisode(), result.ID_Serie);
+                                            result.magnetHash = null;
+                                            result.Persist();
+                                        }
+                                    })
+                                }
+                            })
+                        }
                     };
 
                 }
