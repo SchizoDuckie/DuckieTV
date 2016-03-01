@@ -78,9 +78,6 @@ DuckieTV
 
                     this.cleanupHashCheck = function() {
                         // clean up when episode has been downloaded and torrent has not been found in torrent-client
-                        if (DuckieTorrent.getClient().getName() == 'uTorrent') {
-                            return; // bah, hasTorrent for uTorrent not implemented yet #441
-                        };
                         if ($scope.episodeDownloaded) {
                             DuckieTorrent.getClient().hasTorrent(remote.infoHash).then(function(hasTorrent) {
                                 if (!hasTorrent) {

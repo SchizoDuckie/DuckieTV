@@ -412,6 +412,9 @@ DuckieTorrent
                             }, 5000);
                         });
                     });
+                },
+                hasTorrent: function(torrent) {
+                    return $q.resolve(torrent in uTorrentRemote.torrents && 'hash' in uTorrentRemote.torrents[torrent]);
                 }
             };
             return methods;
@@ -653,9 +656,9 @@ DuckieTorrent
                 service.settings = new RPCObject('settings', data, rpc);
             },
             removeTorrent: function(torrent) {
-                service.torrents[torrent.hash] = null;
-                delete service.torrents[torrent.hash];
-                delete service.eventHandlers[torrent.hash];
+                var key = Object.keys(torrent)[0];
+                delete service.torrents[torrent[key].hash].hash;
+                delete service.eventHandlers[torrent[key].hash];
             },
             /**
              * Incoming torrent detail data, add it to the local cached list
