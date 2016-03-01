@@ -701,7 +701,9 @@ DuckieTorrent
             getTorrents: function() {
                 var out = [];
                 angular.forEach(service.torrents, function(el) {
-                    out.push(el);
+                    if ('hash' in el) {
+                        out.push(el);
+                    }
                 });
                 return out;
             },
