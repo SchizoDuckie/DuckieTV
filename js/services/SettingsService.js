@@ -112,6 +112,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'qbittorrent32plus.username': 'admin',
                 'qbittorrent32plus.password': 'admin',
                 'series.displaymode': 'poster',
+                'series.not-watched-eps-btn': false,
                 'storage.sync': false, // off by default so that permissions must be requested
                 'sync.progress': true,
                 'tixati.server': 'http://localhost',

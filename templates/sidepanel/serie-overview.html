@@ -45,8 +45,13 @@
                 <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/seasons/lbl"></strong>
             </a>
         </td>
-        <td>
+        <td ng-show="!sidepanel.notWatchedEpsBtn">
             <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
+                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/episodes/lbl"></strong>
+            </a>
+        </td>
+        <td ng-show="sidepanel.notWatchedEpsBtn">
+            <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.notWatchedSeason ? sidepanel.notWatchedSeason.ID_Season : sidepanel.season.ID_Season})">
                 <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/episodes/lbl"></strong>
             </a>
         </td>

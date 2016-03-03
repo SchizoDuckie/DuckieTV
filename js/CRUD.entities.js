@@ -150,6 +150,22 @@ CRUD.define(Serie, {
         });
     },
 
+    getNotWatchedSeason: function() {
+        var notWatchedFilter = {
+            Episode: ["Episodes.seasonnumber > 0 AND Episodes.watched = 0"]
+        };
+        var self = this;
+
+        notWatchedFilter.Episode.ID_Serie = this.getID();
+        return CRUD.FindOne('Season', notWatchedFilter, {
+            orderBy: 'seasonnumber asc'
+        }).then(function(result) {
+            return result ? result : self.getLatestSeason().then(function(result) {
+                return result;
+            });
+        });
+    },
+
     getSortName: function() {
         if (!this.sortName) {
             this.sortName = this.name.replace('The ', '');

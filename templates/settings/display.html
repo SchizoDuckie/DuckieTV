@@ -51,6 +51,22 @@
   <hr class="setting-divider">
 
   <h2>
+    <span tooltip="{{notWatchedEpsBtn ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+      <i class="glyphicon glyphicon-{{notWatchedEpsBtn ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+    </span>
+    <li translate-once="SETTINGS/DISPLAY/notWatchedEpsBtn/hdr"></li>
+  </h2>
+  
+  <p translate-once="SETTINGS/DISPLAY/notWatchedEpsBtn/desc"></p>
+  <p><strong translate-once="COMMON/current-setting/hdr"></strong>
+   {{notWatchedEpsBtn ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+  <a ng-click="togglenotWatchedEpsBtn()" class="btn btn-{{notWatchedEpsBtn ? 'danger' : 'success'}}">
+    <i class="glyphicon glyphicon-{{notWatchedEpsBtn ? 'remove' : 'ok'}}" ></i> {{notWatchedEpsBtn ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+  </a>
+
+  <hr class="setting-divider">
+
+  <h2>
     <span tooltip="{{sgEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
       <i class="glyphicon glyphicon-{{sgEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>

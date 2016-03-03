@@ -12,6 +12,12 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "$injector", "SettingsService",
         $scope.bgOpacity = SettingsService.get('background-rotator.opacity');
         $scope.showRatings = SettingsService.get('download.ratings');
         $scope.sgEnabled = SettingsService.get('library.seriesgrid');
+        $scope.notWatchedEpsBtn =  SettingsService.get('series.not-watched-eps-btn');
+
+        $scope.togglenotWatchedEpsBtn = function() {
+            $scope.notWatchedEpsBtn = !$scope.notWatchedEpsBtn;
+            SettingsService.set('series.not-watched-eps-btn', $scope.notWatchedEpsBtn);
+        };
 
         $scope.toggleTopSites = function() {
             $scope.topSites = !$scope.topSites;

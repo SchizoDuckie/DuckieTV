@@ -257,6 +257,11 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                         return result.getActiveSeason();
                     });
                 },
+                notWatchedSeason: function($stateParams) {
+                    return Serie.findByID($stateParams.id).then(function(result) {
+                        return result.getNotWatchedSeason();
+                    });
+                },
 
             },
             views: {
