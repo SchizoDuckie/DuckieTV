@@ -159,16 +159,6 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
                     });
                 }.bind(this));
             },
-            hasTorrent: function(magnetHash) {
-                return this.getTorrents().then(function(result) {
-                    var output = [];
-                    result.map(function(torrent) {
-                        output.push(torrent.hash.toUpperCase());
-                    });
-                    //console.debug('qBittorrent ',output,magnetHash,(output.indexOf(magnetHash) > -1));
-                    return (output.indexOf(magnetHash) > -1);
-                });
-            },
             execute: function(method, id) {
                 return $http.post(this.getUrl(method), 'hash=' + id, {
                     headers: {

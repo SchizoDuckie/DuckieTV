@@ -157,18 +157,6 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                 }.bind(this));
 
             },
-            hasTorrent: function(magnetHash) {
-                return this.rpc("web.update_ui", [
-                    ["hash"], {}
-                ]).then(function(data) {
-                    var output = [];
-                    Object.keys(data.result.torrents).map(function(hash) {
-                        output.push(hash.toUpperCase());
-                    });
-                    //console.debug('deluge ',output,magnetHash,(output.indexOf(magnetHash) > -1));
-                    return (output.indexOf(magnetHash) > -1);
-                });
-            },
             execute: function(method, args) {
                 return this.rpc(method, [args]);
             }

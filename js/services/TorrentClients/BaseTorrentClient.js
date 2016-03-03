@@ -24,9 +24,13 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
 
 
         BaseTorrentRemote.prototype.getTorrents = function() {
-            return Object.keys(this.torrents).map(function(el) {
-                return this.torrents[el];
-            }, this);
+            var out = [];
+            angular.forEach(this.torrents, function(el) {
+                if ('hash' in el) {
+                    out.push(el);
+                }
+            });
+            return out;
         };
 
         BaseTorrentRemote.prototype.getByHash = function(hash) {
@@ -56,8 +60,23 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
             }
         };
 
-        return BaseTorrentRemote;
+        BaseTorrentRemote.prototype.removeTorrent = function(activeTorrentsList) {
+            // determine which torrents in BaseTorrentRemote.torrents have been removed on the TorrentHost.
+            var self = this;
+            angular.forEach(self.torrents, function(torrent) {
+                if ('hash' in torrent) {
+                    if (activeTorrentsList.indexOf(torrent.hash.toUpperCase()) == -1) {
+                        var key = torrent.hash.toUpperCase();
+                        delete self.torrents[key].hash;
+                        $rootScope.$broadcast('torrent:update:' + key, self.torrents[key]);
+                        $rootScope.$broadcast('torrent:update:', self.torrents[key]);            
+                    };
+                };
+            });
+            this.torrents = self.torrents;
+        };
 
+        return BaseTorrentRemote;
     }
 ])
 
@@ -225,6 +244,10 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                 this.getRemote().eventHandlers = {};
             },
 
+            hasTorrent: function(torrent) {
+                return $q.resolve(torrent in this.getRemote().torrents && 'hash' in this.getRemote().torrents[torrent]);
+            },
+
             /**
              * -------------------------------------------------------------
              * Optionally overwrite the implementation of the methods below when adding a new torrent client.
@@ -272,9 +295,12 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                     remote = this.getRemote();
                 return this.getAPI().getTorrents()
                     .then(function(data) {
+                        var activeTorrents = [];
                         data.map(function(torrent) {
                             remote.handleEvent(torrent);
-                        });
+                            activeTorrents.push(torrent.hash.toUpperCase());
+                        })
+                        remote.removeTorrent(activeTorrents);
                         return data;
                     }, function(error) {
                         throw "Error executing " + self.getName() + " getTorrents";
@@ -309,16 +335,6 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                     throw "addTorrentByUload not implemented for " + this.getName();
                 }
                 return this.getAPI().addTorrentByUpload(data, releaseName);
-            },
-
-            /**
-             * Implement this function to be able to check if a particular torrent exists
-             */
-            hasTorrent: function(magnet) {
-                if (!('hasTorrent' in this.getAPI())) {
-                    throw "hasTorrent not implemented for " + this.getName();
-                }
-                return this.getAPI().hasTorrent(magnet);
             },
 
             request: function(type, params, options) {

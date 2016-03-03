@@ -228,17 +228,6 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 });
             },
 
-            hasTorrent: function(magnetHash) {
-                return this.getTorrents().then(function(result) {
-                    var output = [];
-                    result.map(function(torrent) {
-                        output.push(torrent.hash.toUpperCase());
-                    });
-                    //console.debug('Tixati ',output,magnetHash,(output.indexOf(magnetHash) > -1));
-                    return (output.indexOf(magnetHash) > -1);
-                });
-            },
-
             execute: function(guid, formData) {
                 return this.request('torrentcontrol', guid, formData);
             }

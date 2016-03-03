@@ -152,20 +152,6 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                     }
                 });
             },
-            hasTorrent: function(magnetHash) {
-                return this.rpc('torrent-get', {
-                    arguments: {
-                        "fields": ["hashString"]
-                    }
-                }).then(function(data) {
-                    var output = [];
-                    data.arguments.torrents.map(function(el) {
-                        output.push(el.hashString.toUpperCase());
-                    });
-                    //console.debug('Transmission/Vuze ',output,magnetHash,(output.indexOf(magnetHash) > -1));
-                    return (output.indexOf(magnetHash) > -1);
-                });
-            },
             execute: function(method, id) {
                 return this.rpc(method, {
                     "arguments": {

@@ -84,16 +84,6 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                     });
                 }.bind(this));
             },
-            hasTorrent: function(magnetHash) {
-                return this.getTorrents().then(function(result) {
-                    var output = [];
-                    result.map(function(torrent) {
-                        output.push(torrent.hash.toUpperCase());
-                    });
-                    //console.debug('qBittorrentPlus ',output,magnetHash,(output.indexOf(magnetHash) > -1));
-                    return (output.indexOf(magnetHash) > -1);
-                });
-            },
             execute: function(method, id) {
                 var headers = {
                     'Content-Type': 'application/x-www-form-urlencoded',

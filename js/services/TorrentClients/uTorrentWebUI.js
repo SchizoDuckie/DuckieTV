@@ -199,16 +199,6 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                 }.bind(this));
 
             },
-            hasTorrent: function(magnetHash) {
-                return this.request('torrents').then(function(data) {
-                    var output = [];
-                    data.data.torrents.map(function(torrent) {
-                        output.push(torrent[0].toUpperCase());
-                    });
-                    //console.debug('uTorrentWebUI ',output,magnetHash,(output.indexOf(magnetHash) > -1));
-                    return (output.indexOf(magnetHash) > -1);
-                });
-            },
             execute: function(method, id) {
                 var headers = {
                     'Content-Type': 'application/x-www-form-urlencoded',
