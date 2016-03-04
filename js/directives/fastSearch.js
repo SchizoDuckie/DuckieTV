@@ -2,14 +2,14 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
     function($window, dialogs) {
         var self = this;
 
-        this.query = '';
-        console.warn("fastsearch initializing");
+        this.fsquery = '';
+        console.debug("fastsearch initializing");
         var isShowing = false;
 
         var focusInput = function() {
             var i = document.querySelector(".fastsearch input");
             if (i) {
-                i.value = self.query;
+                i.value = self.fsquery;
                 i.focus();
                 var e = document.createEvent("HTMLEvents");
                 e.initEvent('onchange', true, true);
@@ -22,7 +22,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         this.createDialog = function() {
             isShowing = true;
             var d = dialogs.create('templates/fastSearch.html', 'fastSearchCtrl', {
-                key: self.query
+                key: self.fsquery
             }, {
                 size: 'xs'
             });
@@ -33,12 +33,12 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                 //console.debug('Success');
                 d = undefined;
                 isShowing = false;
-                self.query = '';
+                self.fsquery = '';
             }, function() {
                 //console.debug('Cancelled');
                 d = undefined;
                 isShowing = false;
-                self.query = '';
+                self.fsquery = '';
             });
         };
 
@@ -47,9 +47,9 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
             link: function() {
                 var self = this;
                 this.keys = '';
-                console.warn("fastsearch initialized");
+                console.debug("fastsearch initialized");
                 $window.addEventListener('keypress', function(e) {
-                    self.query += String.fromCharCode(e.charCode);
+                    self.fsquery += String.fromCharCode(e.charCode);
                     if (!isShowing && e.target.tagName.toLowerCase() != 'input') {
                         self.createDialog();
                     }
@@ -65,7 +65,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
         $scope.hasFocus = true;
         $scope.model = {
-            query: data.key
+            fsquery: data.key
         };
 
         $scope.searchResults = {
@@ -81,7 +81,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         $scope.torrentsLoading = true;
 
         $scope.fields = [{
-            key: "query",
+            key: "fsquery",
             type: "input",
             modelOptions: {
                 "debounce": {
@@ -194,6 +194,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                     return FavoritesService.addFavorite(serie).then(function() {
                         $rootScope.$broadcast('storage:update');
                         FavoritesService.added(serie.tvdb_id);
+                        $scope.search(self.fsquery);
                     });
                 }, function(err) {
                     console.error("Error adding show!", err);

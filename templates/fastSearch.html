@@ -5,7 +5,7 @@
       <formly-form model="model" fields="fields"></formly-form>
     </form>
 
-    <h2 ng-show="!model.query || model.query == ''" style="text-align:center" translate-once="COMMON/type-your-search/lbl"></h2>
+    <h2 ng-show="!model.fsquery || model.fsquery == ''" style="text-align:center" translate-once="COMMON/type-your-search/lbl"></h2>
 
     <div class="fs-container fs-posters" ng-class="{'active': searchResults.series.length > 0 || seriesLoading}">
       <h3 translate-once="FASTSEARCH/series-favorites/hdr"></h3>
