@@ -19,6 +19,7 @@ DuckieTV
                 "<li>(fix) linux and mac multy systray bug, (fix) defaults for first time users bug",
                 "<li>searchEngines: (fix) remove strike as it is gone, (new) add IsoHunt",
                 "<li>(fix) drop find random KAT mirror feature as rockaproxy is gone",
+                "<li>favorites: (new) sort menu for name, added, first aired and not-watched count",
                 "<li>series sidepanel: (new) option to make the episodes-button jump to the first not-watched season",
                 "<li>season sidepanel: (fix) jump to active season ignores specials unless there is no other seasons",
                 "<li>episode sidepanel: (fix) overview text not height limited bug",
