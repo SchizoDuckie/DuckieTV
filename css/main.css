@@ -2311,6 +2311,14 @@ ng-dial-gauge {
     font-family: courier;
 }
 
+/* favorites orderBy */
+.sortorder:after {
+  content: '\25b2';
+}
+.sortorder.reverse:after {
+  content: '\25bc';
+}
+
 /**
  * Resolution Specific Touchups
  */

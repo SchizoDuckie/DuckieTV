@@ -1,5 +1,5 @@
-DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "$state", "$http",
-    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state, $http) {
+DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "$state", "$http", "$filter",
+    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state, $http, $filter) {
 
         var serieslist = this;
 
@@ -9,6 +9,29 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.sgEnabled = SettingsService.get('library.seriesgrid');
         this.hideEnded = false;
 
+        this.setOrderBy = function(orderBy) {
+            var idx = serieslist.orderByList.indexOf(orderBy);
+            serieslist.reverse = !serieslist.orderReverseList[idx];
+            serieslist.orderReverseList = serieslist.orderReverseResetList.slice();
+            serieslist.orderReverseList[idx] = serieslist.reverse;
+            serieslist.orderBy = orderBy;
+        };
+
+        this.orderByList = 'getSortName()|added|firstaired|notWatchedCount'.split('|');
+        this.orderReverseResetList = [true,false,true,false];
+        this.orderReverseList = [true,false,true,false];
+        this.orderBy = 'getSortName()';
+        this.reverse = false;
+        this.translatedOrderByList = $filter('translate')('ORDERBYLIST').split(',');        
+
+        /*
+         * Takes the English orderBy (elements from Series table) and returns a translation
+         */
+        this.translateOrderBy = function(orderBy) {
+            var idx = serieslist.orderByList.indexOf(orderBy);
+            return (idx != -1) ? serieslist.translatedOrderByList[idx] : serieslist.translatedOrderByList[0];
+        };
+        
         FavoritesService.flushAdding();
         this.query = ''; // local filter query, set from LocalSerieCtrl
         this.genreFilter = []; // genre filter from localseriectrl 
