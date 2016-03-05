@@ -1,4 +1,4 @@
-DuckieTV.controller('sidepanelTraktSerieCtrl', function($rootScope, $filter, $locale, serie) {
+DuckieTV.controller('sidepanelTraktSerieCtrl', ["$rootScope", "$filter", "$locale", "serie", function($rootScope, $filter, $locale, serie) {
 
     this.serie = serie;
 
@@ -37,4 +37,4 @@ DuckieTV.controller('sidepanelTraktSerieCtrl', function($rootScope, $filter, $lo
         var idx = statusList.indexOf(status);
         return (idx != -1) ? translatedStatusList[idx] : status;
     };
-});
+}]);
