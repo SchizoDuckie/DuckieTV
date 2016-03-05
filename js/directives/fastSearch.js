@@ -192,11 +192,13 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                 FavoritesService.adding(serie.tvdb_id);
                 return TraktTVv2.serie(serie.slug_id).then(function(serie) {
                     return FavoritesService.addFavorite(serie).then(function() {
+                        SidePanelState.hide();
                         $rootScope.$broadcast('storage:update');
                         FavoritesService.added(serie.tvdb_id);
                         $scope.search(self.fsquery);
                     });
                 }, function(err) {
+                    SidePanelState.hide();
                     console.error("Error adding show!", err);
                     FavoritesService.added(serie.tvdb_id);
                     FavoritesService.addError(serie.tvdb_id, err);
