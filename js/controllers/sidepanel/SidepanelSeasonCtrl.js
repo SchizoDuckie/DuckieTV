@@ -1,7 +1,7 @@
 /**
  * Controller for indidivual season view (episodes view)
  */
-DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, $filter, $q, seasons, season, episodes, SceneNameResolver, AutoDownloadService) {
+DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$filter", "$q", "seasons", "season", "episodes", "SceneNameResolver", "AutoDownloadService", function($rootScope, $scope, $state, $filter, $q, seasons, season, episodes, SceneNameResolver, AutoDownloadService) {
 
     var vm = this;
     this.season = season;
@@ -135,4 +135,4 @@ DuckieTV.controller('SidepanelSeasonCtrl', function($rootScope, $scope, $state, 
             season: parseInt(episode.seasonnumber, 10)
         });
     });
-});
+}]);

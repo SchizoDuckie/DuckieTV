@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, SceneNameResolver, AutoDownloadService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, Netflix, dialogs, $scope, $filter) {
+DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "SceneNameResolver", "AutoDownloadService", "TorrentSearchEngines", "SubtitleDialog", "DuckieTorrent", "Netflix", "dialogs", "$scope", "$filter", function(serie, episode, season, SceneNameResolver, AutoDownloadService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, Netflix, dialogs, $scope, $filter) {
 
     this.serie = serie;
     this.episode = episode;
@@ -78,4 +78,4 @@ DuckieTV.controller('SidepanelEpisodeCtrl', function(serie, episode, season, Sce
         this.downloaded = 0;
         this.Persist();
     }.bind(this.episode));
-});
+}]);

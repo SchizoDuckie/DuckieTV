@@ -1,7 +1,7 @@
 /**
  * Controller for all seasons view
  */
-DuckieTV.controller('SidepanelSeasonsCtrl', function(seasons, $rootScope, $q, $filter) {
+DuckieTV.controller('SidepanelSeasonsCtrl', ["seasons", "$rootScope", "$q", "$filter", function(seasons, $rootScope, $q, $filter) {
     var self = this;
     this.seasons = seasons;
 
@@ -22,4 +22,4 @@ DuckieTV.controller('SidepanelSeasonsCtrl', function(seasons, $rootScope, $q, $f
     this.getPosterLabel = function(seasonNumber) {
         return seasonNumber === 0 ? $filter('translate')('COMMON/specials/lbl') : $filter('translate')('COMMON/season/lbl') + ' ' + seasonNumber;
     };
-});
+}]);
