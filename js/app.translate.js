@@ -141,7 +141,7 @@ DuckieTV
     }
 ])
 
-.run(function(SettingsService, $translate, datePickerConfig) {
+.run(["SettingsService", "$translate", "datePickerConfig", function(SettingsService, $translate, datePickerConfig) {
 
     SettingsService.set('client.determinedlocale', $translate.proposedLanguage() === undefined ? 'en_us' : angular.lowercase($translate.proposedLanguage()));
 
@@ -153,4 +153,4 @@ DuckieTV
     }
     datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
 
-});
+}]);

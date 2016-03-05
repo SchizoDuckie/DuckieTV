@@ -29,7 +29,7 @@ DuckieTV.directive('calendar', function() {
             }
 
         },
-        controller: function($scope, SidePanelState) {
+        controller: ["$scope", "SidePanelState", function($scope, SidePanelState) {
             var calendar = this;
             this.isShowing = false;
             this.isExpanded = false;
@@ -56,6 +56,6 @@ DuckieTV.directive('calendar', function() {
                 }
                 $scope.$applyAsync();
             });
-        }
+        }]
     };
 });

@@ -133,7 +133,7 @@ DuckieTV.factory('StorageSyncService', ["$rootScope", "$q", "FavoritesService", 
 /**
  * Initialize storage sync
  */
-.run(function(StorageSyncService) {
+.run(["StorageSyncService", function(StorageSyncService) {
 
     StorageSyncService.initialize();
-})
+}])

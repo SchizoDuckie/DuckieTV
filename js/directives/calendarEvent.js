@@ -12,7 +12,7 @@ DuckieTV.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "AutoDownl
             },
             transclude: true,
             templateUrl: 'templates/event.html',
-            controller: function($scope, $rootScope, $location) {
+            controller: ["$scope", "$rootScope", "$location", function($scope, $rootScope, $location) {
 
                 $scope.getSetting = SettingsService.get;
                 $scope.hoverTimer = null;
@@ -50,7 +50,7 @@ DuckieTV.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "AutoDownl
                     $scope.$emit('expand:serie', $scope.episode.firstaired, $scope.serie.ID_Serie);
                 };
 
-            }
+            }]
         };
     }
 ]);

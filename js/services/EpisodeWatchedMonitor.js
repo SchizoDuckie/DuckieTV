@@ -2,7 +2,7 @@
  * Episode watched monitor
  * Count all episodes watched for a season when changes occur, flip switches accordingly.
  */
-DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
+DuckieTV.factory('watchedCounter', ["$q", "FavoritesService", function($q, FavoritesService) {
 
     var queue = {
 
@@ -124,10 +124,10 @@ DuckieTV.factory('watchedCounter', function($q, FavoritesService) {
     };
 
 
-});
+}]);
 
 
-DuckieTV.run(function($rootScope, FavoritesService, watchedCounter) {
+DuckieTV.run(["$rootScope", "FavoritesService", "watchedCounter", function($rootScope, FavoritesService, watchedCounter) {
 
     /**
      * Catch the event when an episode is marked as watched
@@ -157,4 +157,4 @@ DuckieTV.run(function($rootScope, FavoritesService, watchedCounter) {
         });
     });
 
-});
+}]);

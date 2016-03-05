@@ -42,7 +42,7 @@ DuckieTV.factory('SidePanelState', function() {
         bindToController: true,
         transclude: true,
 
-        controller: function($rootScope, $scope, SidePanelState) {
+        controller: ["$rootScope", "$scope", "SidePanelState", function($rootScope, $scope, SidePanelState) {
             var panel = this;
 
             this.isShowing = false;
@@ -70,7 +70,7 @@ DuckieTV.factory('SidePanelState', function() {
             this.hide = function() {
                 SidePanelState.hide();
             };
-        }
+        }]
     };
 })
 

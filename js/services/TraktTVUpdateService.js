@@ -63,7 +63,7 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
     }
 ])
 
-.run(function(TraktTVUpdateService) {
+.run(["TraktTVUpdateService", function(TraktTVUpdateService) {
 
     var updateFunc = function() {
         var localDate = new Date();
@@ -95,7 +95,7 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
     };
 
     setTimeout(updateFunc, 8000);
-});
+}]);
 
 /**
  * todo: create generic update service that we can extend  so that it can also fetch xem updates

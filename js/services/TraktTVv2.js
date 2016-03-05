@@ -424,7 +424,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
     }
 ])
 
-.run(function($rootScope, SettingsService, TraktTVv2) {
+.run(["$rootScope", "SettingsService", "TraktTVv2", function($rootScope, SettingsService, TraktTVv2) {
     /**
      * Catch the event when an episode is marked as watched
      * and forward it to TraktTV if syncing enabled.
@@ -452,4 +452,4 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             });
         }
     });
-});
+}]);

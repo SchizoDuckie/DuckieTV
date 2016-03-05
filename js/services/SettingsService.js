@@ -242,7 +242,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
 /**
  * rootScope shorthand helper functions.
  */
-.run(function($rootScope, SettingsService) {
+.run(["$rootScope", "SettingsService", function($rootScope, SettingsService) {
 
     $rootScope.isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') > -1);
     $rootScope.isMac = (navigator.platform.toLowerCase().indexOf('mac') !== -1);
@@ -263,4 +263,4 @@ DuckieTV.factory('ChromePermissions', ["$q",
         SettingsService.set(key, false);
     };
 
-});
+}]);

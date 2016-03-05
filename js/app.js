@@ -53,7 +53,7 @@ var DuckieTV = angular.module('DuckieTV', [
 /**
  * at start-up set up a timer to refresh DuckieTV a second after midnight, to force a calendar date refresh
  */
-.run(function($injector) {
+.run(["$injector", function($injector) {
     window.onload = function() {
         var today = new Date();
         var tommorow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
@@ -67,9 +67,9 @@ var DuckieTV = angular.module('DuckieTV', [
             $injector.get('DuckietvReload').windowLocationReload();
         }, timeToMidnight);
     }
-})
+}])
 
-.run(function($rootScope, $state) {
+.run(["$rootScope", "$state", function($rootScope, $state) {
     $rootScope.$on('$stateChangeStart',
         function(e, toState, toParams, fromState, fromParams) {
             if (!toState.views) {
@@ -91,4 +91,4 @@ var DuckieTV = angular.module('DuckieTV', [
                 if (view) view.classList.remove('ui-loading');
             });
         });
-});
+}]);

@@ -47,7 +47,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
     return {
         restrict: 'A',
         controllerAs: 'grid',
-        controller: function($scope, SidePanelState, SettingsService) {
+        controller: ["$scope", "SidePanelState", "SettingsService", function($scope, SidePanelState, SettingsService) {
             if (SettingsService.get('library.seriesgrid') == false) {
                 return;
             }
@@ -149,6 +149,6 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 idx = idx + 1;
                 return (Math.ceil(idx / postersPerRow) * posterHeight) - posterHeight;
             };
-        }
+        }]
     };
 });

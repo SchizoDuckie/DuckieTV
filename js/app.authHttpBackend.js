@@ -12,8 +12,8 @@
  *
  */
 
-DuckieTV.config(function($provide) {
-    $provide.decorator('$httpBackend', function($delegate, $browser, $window, $document) {
+DuckieTV.config(["$provide", function($provide) {
+    $provide.decorator('$httpBackend', ["$delegate", "$browser", "$window", "$document", function($delegate, $browser, $window, $document) {
 
         function createXhr() {
             return new window.XMLHttpRequest();
@@ -200,5 +200,5 @@ DuckieTV.config(function($provide) {
             };
         }
         return createHttpAuthBackend($browser, createXhr, $browser.defer, $window.angular.callbacks, $document[0]);
-    });
-});
+    }]);
+}]);

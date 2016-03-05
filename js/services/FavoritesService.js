@@ -433,7 +433,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
     }
 ])
 
-.run(function(FavoritesService, $state, $rootScope) {
+.run(["FavoritesService", "$state", "$rootScope", function(FavoritesService, $state, $rootScope) {
 
     //console.log("Executing favoritesservice.run block");
     $rootScope.$on('serieslist:empty', function() {
@@ -450,4 +450,4 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
         FavoritesService.loadRandomBackground();
         FavoritesService.initialized = true;
     });
-});
+}]);
