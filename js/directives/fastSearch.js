@@ -131,10 +131,25 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
             });
 
             /**
-             * Word-by-word scoring for search results.
+             * Word-by-word scoring for search results for trakt.tv.
              * All words need to be in the search result's release name, or the result will be filtered out.
              */
-            function filterByScore(item) {
+            function traktFilterByScore(item) {
+                var score = 0,
+                    query = value.toLowerCase().split(' '),
+                    name = item.name.toLowerCase();
+                query.map(function(part) {
+                    if (name.indexOf(part) > -1) {
+                        score++;
+                    }
+                });
+                return (score == query.length);
+            }
+            /**
+             * Word-by-word scoring for search results for torrents.
+             * All words need to be in the search result's release name, or the result will be filtered out.
+             */
+            function torrentFilterByScore(item) {
                 var score = 0,
                     query = value.toLowerCase().split(' '),
                     name = item.releasename.toLowerCase();
@@ -153,7 +168,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
             });
 
             TraktTVv2.search(value).then(function(results) {
-                $scope.searchResults.traktSeries = results;
+                $scope.searchResults.traktSeries = results.filter(traktFilterByScore);
                 $rootScope.$applyAsync();
                 $scope.traktSeriesLoading = false;
             }).catch(function(err) {
@@ -164,7 +179,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
 
             if (SettingsService.get('torrenting.enabled')) {
                 TorrentSearchEngines.getSearchEngine($scope.searchprovider).search(value).then(function(results) {
-                    $scope.searchResults.torrents = results.filter(filterByScore);
+                    $scope.searchResults.torrents = results.filter(torrentFilterByScore);
                     $rootScope.$applyAsync();
                     $scope.torrentsLoading = false;
                 },
