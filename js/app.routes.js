@@ -125,7 +125,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             views: {
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/adding.html',
-                    controller: function($state, $stateParams) {
+                    controller: ["$state", "$stateParams", function($state, $stateParams) {
                         this.query = $stateParams.query;
                         this.search = function(q) {
                             if (q.length > 0) {
@@ -136,7 +136,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                                 $state.go('favorites.add');
                             }
                         };
-                    },
+                    }],
                     controllerAs: 'search',
                     bindToController: true
                 },
