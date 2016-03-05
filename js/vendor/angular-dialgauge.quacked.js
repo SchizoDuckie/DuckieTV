@@ -8,7 +8,7 @@
 angular.module('angular-dialgauge', [
     'ngSanitize'
 ])
-    .directive('ngDialGauge', function ($window, $sce, $interval) {
+    .directive('ngDialGauge', ["$window", "$sce", "$interval", function ($window, $sce, $interval) {
         return {
             restrict: 'E',                  // Use as element
             scope: {                        // Isolate scope
@@ -42,8 +42,8 @@ angular.module('angular-dialgauge', [
                 options: '=?'
             },
             template: '' +
-            '<div style="width:100%;height:100%;" ng-bind-html="gauge"</div>',
-            controller: function ($scope, $element) {
+            '<div style="width:100%;height:100%;" ng-bind-html="gauge"></div>',
+            controller: ["$scope", "$element", function ($scope, $element) {
                 // Define variables for this gauge
                 var radDeg = 180 / Math.PI;
                 var staticPath = "";
@@ -470,7 +470,7 @@ angular.module('angular-dialgauge', [
                     }
 
                     for (var key in defaults) {
-                        //console.log("Checking ", key);
+//                        console.log("Checking ", key);
 
                         if (cfgObject[key] !== undefined) {
                             cfg[key] = cfgObject[key];
@@ -529,8 +529,8 @@ angular.module('angular-dialgauge', [
                     }
                     return s.toUpperCase();
                 }
-            }
+            }]
         };
-    })
+    }])
 ;
 
