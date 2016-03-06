@@ -8,7 +8,7 @@
  *
  *
  */
-DuckieTV.service('FormlyLoader', function($http, $parse) {
+DuckieTV.service('FormlyLoader', ["$http", "$parse", function($http, $parse) {
 
     var config = {
         basePath: 'templates/formly-forms/',
@@ -126,4 +126,4 @@ DuckieTV.service('FormlyLoader', function($http, $parse) {
     return service;
 
 
-});
+}]);
