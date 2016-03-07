@@ -8,10 +8,10 @@ DuckieTV.factory('WatchlistService', ["$rootScope", "IMDB",
             watchlist: [],
 
             add: function(data) {
-                console.log("Add!", data);
+                //console.debug("Add!", data);
                 var watchlistitem = new WatchListItem();
                 watchlistitem.set('searchstring', data.title);
-                console.log("Saving!", watchlistitem);
+                //console.debug("Saving!", watchlistitem);
                 watchlistitem.Persist().then(function(e) {
 
                     var obj = new WatchListObject();
@@ -24,7 +24,7 @@ DuckieTV.factory('WatchlistService', ["$rootScope", "IMDB",
 
                     });
                 }, function(fail) {
-                    console.log("Error persisting watchlistitem!", data, arguments);
+                    console.warn("Error persisting watchlistitem!", data, arguments);
                 });
             },
             getById: function(id) {
@@ -33,7 +33,7 @@ DuckieTV.factory('WatchlistService', ["$rootScope", "IMDB",
                 });
             },
             remove: function(watchlistitem) {
-                console.log("Remove watchlistitem from watchlist!", watchlistitem);
+                //console.debug("Remove watchlistitem from watchlist!", watchlistitem);
                 var self = this;
                 this.getById(watchlistitem.ID_WatchListItem).then(function(watchlistitem) {
                     watchlistitem.Delete().then(function() {
@@ -46,9 +46,9 @@ DuckieTV.factory('WatchlistService', ["$rootScope", "IMDB",
              * Notify anyone listening by broadcasting watchlist:updated
              */
             restore: function() {
-                console.log("restoring watchlist!");
+                //console.debug("restoring watchlist!");
                 CRUD.Find('WatchListItem').then(function(results) {
-                    console.log("Fetched watchlist results: ", results);
+                    //console.debug("Fetched watchlist results: ", results);
                     var watchlist = [];
                     results.map(function(result) {
                         CRUD.Find('WatchListObject', {
@@ -61,13 +61,13 @@ DuckieTV.factory('WatchlistService', ["$rootScope", "IMDB",
                             }
                             watchlist.push(item);
                             if (watchlist.length == results.length) {
-                                console.log("Watchlist done!", watchlist.length, results.length, watchlist);
+                                //console.debug("Watchlist done!", watchlist.length, results.length, watchlist);
                                 service.watchlist = watchlist;
                                 $rootScope.$broadcast('watchlist:updated', service.watchlist);
                             }
                         });
                     }, function(err) {
-                        console.log("Error fetching watchlist", err);
+                        console.warn("Error fetching watchlist", err);
                     });
                 });
             }
