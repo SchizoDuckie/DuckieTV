@@ -173,43 +173,50 @@ DuckieTV
     }
 ])
 
-.directive('torrentDialog', ["TorrentSearchEngines", "$filter",
-    function(TorrentSearchEngines, $filter) {
-        return {
-            restrict: 'E',
-            transclude: true,
-            wrap: true,
-            replace: true,
-            scope: {
-                q: '=q',
-                TVDB_ID: '=tvdbid',
-                serie: '=serie',
-                episode: '=episode'
-            },
-            template: '<a class="torrent-dialog" ng-click="openDialog()" tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
-            controller: ["$scope",
-                function($scope) {
-                    // Translates the tooltip
-                    $scope.getTooltip = function() {
-                        if ($scope.q) {
-                            return $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.q;
-                        } else if ($scope.episode && $scope.serie) {
-                            return $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.serie.name + ' ' + $scope.episode.getFormattedEpisode();
-                        } else {
-                            return $filter('translate')('TORRENTDIALOG/search-download-any/tooltip');
-                        }
-                    };
-                    // Opens the torrent search with the episode selected
-                    $scope.openDialog = function() {
-                        if ($scope.serie && $scope.episode) {
-                            TorrentSearchEngines.findEpisode($scope.serie, $scope.episode);
-                        } else {
-                            TorrentSearchEngines.search($scope.q, $scope.TVDB_ID);
-                        }
-                    };
-                }
-            ]
-        };
+.directive('torrentDialog', ["TorrentSearchEngines", "$filter", "SettingsService",
+    function(TorrentSearchEngines, $filter, SettingsService) {
+        if (!SettingsService.get('torrenting.enabled')) {
+            // if torrenting features are disabled hide
+            return {
+                template: '<a></a>'
+            }
+        } else {
+            return {
+                restrict: 'E',
+                transclude: true,
+                wrap: true,
+                replace: true,
+                scope: {
+                    q: '=q',
+                    TVDB_ID: '=tvdbid',
+                    serie: '=serie',
+                    episode: '=episode'
+                },
+                template: '<a class="torrent-dialog" ng-click="openDialog()" tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
+                controller: ["$scope",
+                    function($scope) {
+                        // Translates the tooltip
+                        $scope.getTooltip = function() {
+                            if ($scope.q) {
+                                return $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.q;
+                            } else if ($scope.episode && $scope.serie) {
+                                return $filter('translate')('TORRENTDIALOG/search-download-this/tooltip') + $scope.serie.name + ' ' + $scope.episode.getFormattedEpisode();
+                            } else {
+                                return $filter('translate')('TORRENTDIALOG/search-download-any/tooltip');
+                            }
+                        };
+                        // Opens the torrent search with the episode selected
+                        $scope.openDialog = function() {
+                            if ($scope.serie && $scope.episode) {
+                                TorrentSearchEngines.findEpisode($scope.serie, $scope.episode);
+                            } else {
+                                TorrentSearchEngines.search($scope.q, $scope.TVDB_ID);
+                            }
+                        };
+                    }
+                ]
+            };
+        }
     }
 ])
 
