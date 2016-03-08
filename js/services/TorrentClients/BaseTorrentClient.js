@@ -8,18 +8,20 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
         }
 
         BaseTorrentRemote.prototype.handleEvent = function(data) {
-            var key = data.hash.toUpperCase();
-            if (!(key in this.torrents)) {
-                if (!this.dataClass) {
-                    throw "No data class set for this torrent remote!";
+            if (('hash' in data) && (data.hash !== undefined)){
+                var key = data.hash.toUpperCase();
+                if (!(key in this.torrents)) {
+                    if (!this.dataClass) {
+                        throw "No data class set for this torrent remote!";
+                    }
+                    this.torrents[key] = new this.dataClass(data);
+                } else {
+                    this.torrents[key].update(data);
                 }
-                this.torrents[key] = new this.dataClass(data);
-            } else {
-                this.torrents[key].update(data);
-            }
 
-            $rootScope.$broadcast('torrent:update:' + key, this.torrents[key]);
-            $rootScope.$broadcast('torrent:update:', this.torrents[key]);
+                $rootScope.$broadcast('torrent:update:' + key, this.torrents[key]);
+                $rootScope.$broadcast('torrent:update:', this.torrents[key]);
+            }
         };
 
 

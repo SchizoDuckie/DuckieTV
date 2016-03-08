@@ -29,8 +29,8 @@ DuckieTV.controller('TorrentDetailsCtrl', ["DuckieTorrent", "torrent", "$scope",
                 });
                 self.progress = self.torrent.getProgress();
                 self.downloadSpeed = Math.floor((self.torrent.getDownloadSpeed() / 1000) * 10) / 10; // B/s -> kB/s
+                self.isWebUI = (self.torrent instanceof TorrentData); // web or uTorrent?
                 $scope.$applyAsync();
-                console.debug(self.torrent);
             });
         }
 

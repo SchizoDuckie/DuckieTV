@@ -28,10 +28,10 @@ TixatiData.extends(TorrentData, {
         return this.name;
     },
     getProgress: function() {
-        return parseInt(this.progress);
+        return this.progress;
     },
     getDownloadSpeed: function() {
-        return this.parseInt(this.downSpeed); // Bytes/second
+        return this.downSpeed; // kB/s (actually governed by tixati settings: user interface, output formatting, bytes, largest unit. default is k.)
     },
     start: function() {
         var fd = new FormData();
@@ -118,14 +118,13 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
 
                     scraper.walkSelector('.xferstable tr:not(:first-child)', function(node) {
                         var tds = node.querySelectorAll('td');
-
                         var torrent = new TixatiData({
                             name: tds[1].innerText,
                             bytes: tds[2].innerText,
                             progress: parseInt(tds[3].innerText),
                             status: tds[4].innerText,
-                            downSpeed: tds[5].innerText,
-                            upSpeed: tds[6].innerText,
+                            downSpeed: parseInt(tds[5].innerText == "" ? "0" : tds[5].innerText.replace(',','')) * 1000,
+                            upSpeed: parseInt(tds[6].innerText == "" ? "0" : tds[6].innerText.replace(',','')) * 1000,
                             priority: tds[7].innerText,
                             eta: tds[8].innerText,
                             guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1]
