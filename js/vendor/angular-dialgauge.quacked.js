@@ -407,7 +407,7 @@ angular.module('angular-dialgauge', [
                         var B = color2rgb(cfg.barColor[1]);
                         var gradient = [];
                         for (var c = 0; c < 3; c++) {
-                            gradient[c] = A[c] + (B[c] - A[c]) * newValue / 100;
+                            gradient[c] = A[c] + (B[c] - A[c]) * newValue / cfg.scaleMax;
                         }
 
                         color = rgb2color(gradient);
