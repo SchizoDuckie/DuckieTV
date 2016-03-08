@@ -4,6 +4,8 @@
  * Author: Chris Jackson
  *
  * License: MIT
+ *
+ * this module has been quacked (hacked) for DuckieTV. v0.1.5.1  now ng-strict-di complient and fixed color gradient bug
  */
 angular.module('angular-dialgauge', [
     'ngSanitize'
