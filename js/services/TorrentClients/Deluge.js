@@ -17,6 +17,9 @@ DelugeData.extends(TorrentData, {
     getProgress: function() {
         return this.round(this.progress, 1);
     },
+    getDownloadSpeed: function() {
+        return this.download_payload_rate; // Bytes/second
+    },
     start: function() {
         this.getClient().getAPI().execute('core.resume_torrent', [this.hash]);
     },

@@ -14,6 +14,9 @@ qBittorrentData.extends(TorrentData, {
     getName: function() {
         return this.name;
     },
+    getDownloadSpeed: function() {
+        return this.dlspeed; // Bytes/second
+    },
     getProgress: function() {
         return this.round(this.progress * 100, 1);
     },

@@ -30,6 +30,9 @@ TixatiData.extends(TorrentData, {
     getProgress: function() {
         return parseInt(this.progress);
     },
+    getDownloadSpeed: function() {
+        return this.parseInt(this.downSpeed); // Bytes/second
+    },
     start: function() {
         var fd = new FormData();
         fd.append('start', 'Start');

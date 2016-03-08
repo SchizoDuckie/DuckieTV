@@ -82,9 +82,8 @@ TorrentData.prototype.isStarted = function() {
 };
 
 /** 
- * Get torrent speed in kb/s
+ * Get torrent download speed in B/s
  */
-TorrentData.prototype.getTransferSpeed = function() {
-    return 0;
-    //throw "function not implemented";
+TorrentData.prototype.getDownloadSpeed = function() {
+    throw "function not implemented";
 };

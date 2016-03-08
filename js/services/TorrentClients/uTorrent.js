@@ -558,6 +558,9 @@ DuckieTorrent
                 var pr = $parse('properties.all.progress')(this);
                 return pr ? pr / 10 : pr;
             },
+            getDownloadSpeed: function() {
+                return $parse('properties.all.download_speed')(this);
+            },
             getStatusCode: function() {
                 return this.properties.all.status;
             },

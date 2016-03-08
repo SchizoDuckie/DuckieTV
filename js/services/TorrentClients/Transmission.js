@@ -33,6 +33,9 @@ TransmissionData.extends(TorrentData, {
     getProgress: function() {
         return this.round(this.percentDone * 100, 1);
     },
+    getDownloadSpeed: function() {
+        return this.rateDownload; // Bytes/second
+    },
     start: function() {
         this.getClient().getAPI().execute('torrent-start', this.id);
     },
@@ -113,7 +116,7 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
             getTorrents: function() {
                 return this.rpc('torrent-get', {
                     arguments: {
-                        "fields": ["id", "name", "hashString", "status", "error", "errorString", "eta", "isFinished", "isStalled", "leftUntilDone", "metadataPercentComplete", "percentDone", "sizeWhenDone", "files"]
+                        "fields": ["id", "name", "hashString", "status", "error", "errorString", "eta", "isFinished", "isStalled", "leftUntilDone", "metadataPercentComplete", "percentDone", "sizeWhenDone", "files", "rateDownload", "rateUpload"]
                     }
                 }).then(function(data) {
                     return data.arguments.torrents.map(function(el) {

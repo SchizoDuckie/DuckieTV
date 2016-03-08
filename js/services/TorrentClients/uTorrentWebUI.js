@@ -15,6 +15,9 @@ uTorrentWebUIData.extends(TorrentData, {
     getProgress: function() {
         return this.round(this.progress / 10, 1);
     },
+    getDownloadSpeed: function() {
+        return this.download_speed; // Bytes/second
+    },
     start: function() {
         this.getClient().getAPI().execute('start', this.hash);
     },
