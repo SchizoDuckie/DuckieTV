@@ -1,8 +1,8 @@
 /**
  * The <calendar-event> directive displays an episode on the calendar
  */
-DuckieTV.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "AutoDownloadService", "SettingsService",
-    function(uTorrent, SceneNameResolver, AutoDownloadService, SettingsService, $location) {
+DuckieTV.directive('calendarEvent', ["SceneNameResolver", "AutoDownloadService", "SettingsService", "$location",
+    function(SceneNameResolver, AutoDownloadService, SettingsService, $location) {
         return {
             restrict: 'E',
             scope: {
@@ -36,10 +36,6 @@ DuckieTV.directive('calendarEvent', ["uTorrent", "SceneNameResolver", "AutoDownl
 
                 $scope.clearHoverTimer = function() {
                     clearTimeout($scope.hoverTimer);
-                };
-
-                $scope.isTorrentClientConnected = function() {
-                    return uTorrent.isConnected();
                 };
 
                 $scope.selectEpisode = function(serie, episode) {
