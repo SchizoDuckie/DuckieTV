@@ -1,4 +1,5 @@
-DuckieTV.controller('serieTorrentSettingsCtrl', function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data) {
+DuckieTV.controller('serieTorrentSettingsCtrl', ["$scope", "$filter", "$modalInstance", "FavoritesService", "FormlyLoader", "data", 
+function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data) {
     console.info("Reinitcontroller!");
     $scope.model = FavoritesService.getById(data.serie.TVDB_ID); // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)
     $scope.model.autoDownload = $scope.model.autoDownload == 1;
@@ -28,4 +29,4 @@ DuckieTV.controller('serieTorrentSettingsCtrl', function($scope, $filter, $modal
         $scope.$destroy();
     };
 
-});
+}]);
