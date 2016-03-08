@@ -6,27 +6,52 @@ DuckieTV.controller('TorrentDetailsCtrl', ["DuckieTorrent", "torrent", "$scope",
         var self = this;
 
         this.torrent = torrent;
+        this.infoHash = torrent.hash;
         this.progress = 0;
-        this.transferSpeed = 0;
+        this.downloadSpeed = 0;
+        this.isWebUI = (this.torrent instanceof TorrentData); // web or uTorrent?
 
-        if (torrent instanceof TorrentData) {
-            $scope.$watch("torrent.getProgress()", function(newValue) {
-                self.progress = torrent.getProgress();
-            });
-
-            $scope.$watch("torrent.getTransferSpeed()", function(newValue) {
-                self.transferSpeed = torrent.getTransferSpeed();
-            });
-            torrent.getFiles().then(function(files) {
-                console.log('received files!', files);
-                torrent.torrent_files = files.map(function(file) {
-                    file.isMovie = file.name.match(/mp4|avi|mkv|mpeg|mpg|flv/g);
-                    if (file.isMovie) {
-                        file.searchFileName = file.name.indexOf('/') > -1 ? file.name.split('/').pop().split(' ').pop() : file.name;
-                    }
-                    return file;
+        /**
+         * Observes the torrent and watches for changes (progress)
+         */
+        function observeTorrent(rpc, infoHash) {
+            DuckieTorrent.getClient().getRemote().onTorrentUpdate(infoHash, function(newData) {
+                self.torrent = newData;
+                self.torrent.getFiles().then(function(files) {
+                    //console.debug('received files!', files);
+                    self.torrent.torrent_files = files.map(function(file) {
+                        file.isMovie = file.name.match(/mp4|avi|mkv|mpeg|mpg|flv/g);
+                        if (file.isMovie) {
+                            file.searchFileName = file.name.indexOf('/') > -1 ? file.name.split('/').pop().split(' ').pop() : file.name;
+                        }
+                        return file;
+                    });
                 });
+                self.progress = self.torrent.getProgress();
+                self.downloadSpeed = Math.floor((self.torrent.getDownloadSpeed() / 1000) * 10) / 10; // B/s -> kB/s
+                $scope.$applyAsync();
+                console.debug(self.torrent);
             });
         }
+
+        // If the connected info hash changes, remove the old event and start observing the new one.
+        $scope.$watch('infoHash', function(newVal, oldVal) {
+            if (newVal == oldVal) return;
+            self.infoHash = newVal;
+            DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
+                self.torrent = DuckieTorrent.getClient().getRemote().getByHash(self.infoHash);
+                DuckieTorrent.getClient().getRemote().offTorrentUpdate(oldVal, observeTorrent);
+                observeTorrent(rpc, self.infoHash);
+            });
+        });
+
+        /**
+         * start monitoring updates for the torrent hash in the infoHash
+         */
+        DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
+            self.torrent = DuckieTorrent.getClient().getRemote().getByHash(self.infoHash);
+            observeTorrent(rpc, self.infoHash);
+        });
+
     }
 ]);
