@@ -36,8 +36,9 @@ DelugeData.extends(TorrentData, {
         if (!this.files) {
             this.files = [];
         }
-        this.getClient().getAPI().getFiles(this.hash).then(function(result) {
+        return this.getClient().getAPI().getFiles(this.hash).then(function(result) {
             this.files = result;
+            return result;
         }.bind(this));
     }
 });
