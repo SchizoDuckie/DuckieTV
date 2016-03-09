@@ -30,12 +30,12 @@
 
   <!-- torrent list -->
   <div class="torrent" ng-repeat="torrent in client.rpc.getTorrents()| orderBy:'getStarted()':true">
-    <a ui-sref-active='active' ui-sref=".details({torrent: torrent})"><strong>{{::torrent.getName()}}</strong></a>  
-    <div class="progress-striped progress" ng-class="{'progress-big':isCollapsed}">
+    <a ui-sref-active='active' ui-sref=".details({torrent: torrent})"><strong>{{::torrent.getName()}}</strong></a>
+    <div class="progress-striped progress" tooltip="{{torrent.getProgress()}}%"  ng-class="{'progress-big':isCollapsed}">
       <div class="progress-bar " ng-class="{ 'progress-bar-danger': !torrent.isStarted() && torrent.getProgress() < 100, 'progress-bar-info': torrent.isStarted() && torrent.getProgress() < 100 , 'progress-bar-success': !torrent.isStarted() && torrent.getProgress() == 100, 'progress-bar-warning': torrent.isStarted() && torrent.getProgress() == 100 }" ng-style="{ width: torrent.getProgress() + '%' }">
         <span>{{torrent.getProgress()}}%</span>
       </div>
-    </div>
+    </div>&nbsp;
   </div>
 </div>
 <div class="rightpanel torrent-client" ui-view="torrentDetails"></div>
