@@ -146,7 +146,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                             };
                         });
                     } else {
-                        return null;
+                        return [];
                     };
                 });
             },
