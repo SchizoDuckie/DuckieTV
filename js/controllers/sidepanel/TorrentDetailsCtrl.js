@@ -6,7 +6,9 @@ DuckieTV.controller('TorrentDetailsCtrl', ["DuckieTorrent", "torrent", "$scope",
         var self = this;
 
         this.torrent = torrent;
-        this.infoHash = torrent.hash;
+        if ('hash' in torrent && torrent.hash !== undefined) {
+            this.infoHash = torrent.hash.toUpperCase();
+        };
         this.progress = 0;
         this.downloadSpeed = 0;
         this.isWebUI = (this.torrent instanceof TorrentData); // web or uTorrent?
@@ -18,14 +20,18 @@ DuckieTV.controller('TorrentDetailsCtrl', ["DuckieTorrent", "torrent", "$scope",
             DuckieTorrent.getClient().getRemote().onTorrentUpdate(infoHash, function(newData) {
                 self.torrent = newData;
                 self.torrent.getFiles().then(function(files) {
+                    if (!files) {
+                        return [];
+                    } else {
                     //console.debug('received files!', files);
-                    self.torrent.torrent_files = files.map(function(file) {
-                        file.isMovie = file.name.match(/mp4|avi|mkv|mpeg|mpg|flv/g);
-                        if (file.isMovie) {
-                            file.searchFileName = file.name.indexOf('/') > -1 ? file.name.split('/').pop().split(' ').pop() : file.name;
-                        }
-                        return file;
-                    });
+                        self.torrent.torrent_files = files.map(function(file) {
+                            file.isMovie = file.name.match(/mp4|avi|mkv|mpeg|mpg|flv/g);
+                            if (file.isMovie) {
+                                file.searchFileName = file.name.indexOf('/') > -1 ? file.name.split('/').pop().split(' ').pop() : file.name;
+                            }
+                            return file;
+                        });
+                    }
                 });
                 self.progress = self.torrent.getProgress();
                 self.downloadSpeed = Math.floor((self.torrent.getDownloadSpeed() / 1000) * 10) / 10; // B/s -> kB/s
