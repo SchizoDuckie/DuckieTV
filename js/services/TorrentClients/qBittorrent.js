@@ -15,7 +15,28 @@ qBittorrentData.extends(TorrentData, {
         return this.name;
     },
     getDownloadSpeed: function() {
-        return this.dlspeed; // Bytes/second
+        if (typeof this.dlspeed === 'string') {
+            // qBitTorrent < 3.2
+            var rate = parseInt(this.dlspeed.split(" ")[0]);
+            var units = this.dlspeed.split(" ")[1];
+            switch (units) {
+                case 'KiB/s': 
+                    rate = rate * 1024;
+                    break;
+                case 'MiB/s': 
+                    rate = rate * 1024 * 1024;
+                    break;
+                case 'GiB/s': 
+                    rate = rate * 1024 * 1024 * 1024;
+                    break;
+                case 'B/s': 
+                default:
+            };
+        } else {
+            // qBitTorrent 3.2+
+            rate = this.dlspeed;
+        };
+        return rate; // Bytes/second
     },
     getProgress: function() {
         return this.round(this.progress * 100, 1);
