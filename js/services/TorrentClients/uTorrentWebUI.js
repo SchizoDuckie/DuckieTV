@@ -127,23 +127,27 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
             getFiles: function(hash) {
                 return this.request('files', hash).then(function(data) {
                     //debugger;
-                    return data.data.files[1].map(function(file) {
-                        return {
-                            name: file[0],
-                            filesize: file[1],
-                            downloaded: file[2],
-                            priority: file[3],
-                            firstpiece: file[4],
-                            num_pieces: file[5],
-                            streamable: file[6],
-                            encoded_rate: file[7],
-                            duration: file[8],
-                            width: file[9],
-                            height: file[10],
-                            stream_eta: file[11],
-                            streamability: file[12]
-                        };
-                    });
+                    if ('files' in data.data) {
+                        return data.data.files[1].map(function(file) {
+                            return {
+                                name: file[0],
+                                filesize: file[1],
+                                downloaded: file[2],
+                                priority: file[3],
+                                firstpiece: file[4],
+                                num_pieces: file[5],
+                                streamable: file[6],
+                                encoded_rate: file[7],
+                                duration: file[8],
+                                width: file[9],
+                                height: file[10],
+                                stream_eta: file[11],
+                                streamability: file[12]
+                            };
+                        });
+                    } else {
+                        return null;
+                    };
                 });
             },
             addMagnet: function(magnetHash) {
