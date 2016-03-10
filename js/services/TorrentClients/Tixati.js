@@ -231,7 +231,12 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             },
 
             execute: function(guid, formData) {
-                return this.request('torrentcontrol', guid, formData);
+                return $http.post(this.getUrl('torrentcontrol', guid), formData, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                });
             }
 
         });
@@ -266,7 +271,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             torrents: '/transfers',
             portscan: '/home',
             infohash: '/transfers/%s/eventlog',
-            torrentcontrol: '/transfers/%s/details/action', // POST [start, stop, remove, searchdht, checkfiles, delete] */
+            torrentcontrol: '/transfers/%s/options/action', // POST [start, stop, remove, searchdht, checkfiles, delete]
             addmagnet: '/transfers/action',
             files: '/transfers/%s/files'
         });
