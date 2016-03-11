@@ -3,6 +3,9 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         var self = this;
 
         this.fsquery = '';
+        this.isNotKK = true; // flag used to prevent kk sequence from triggering fast-search
+        this.fsKKi = 0; // index used in preventing kk sequence from triggering fast-search
+
         console.debug("fastsearch initializing");
         var isShowing = false;
 
@@ -46,16 +49,33 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
             restrict: 'E',
             link: function() {
                 var self = this;
-                this.keys = '';
                 console.debug("fastsearch initialized");
+                $window.addEventListener('keydown', function(e) {
+                    // parse key codes, trap kk sequence
+                    var kk = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+                    if (e.keyCode === kk[self.fsKKi++]) {
+                        // possible kk sequence in progress
+                        if (self.fsKKi > 7) {
+                            // anticipating final kk sequence
+                            self.isNotKK = false;
+                        }
+                      } else {
+                        // not kk sequences
+                        self.fsKKi = 0;
+                        self.isNotKK = true;
+                    }
+                });
                 $window.addEventListener('keypress', function(e) {
-                    self.fsquery += String.fromCharCode(e.charCode);
-                    if (!isShowing && e.target.tagName.toLowerCase() != 'input') {
-                        self.createDialog();
+                    // parse char codes for fs query
+                    if (self.isNotKK) {
+                        self.fsquery += String.fromCharCode(e.charCode);
+                        if (!isShowing && e.target.tagName.toLowerCase() != 'input') {
+                            self.createDialog();
+                        }
                     }
                 });
             }
-        };
+        }
     }
 ])
 
