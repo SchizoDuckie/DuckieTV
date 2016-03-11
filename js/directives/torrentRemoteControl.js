@@ -28,7 +28,7 @@ DuckieTV
                     this.getFiles = function(torrent) {
                         remote.torrent.getFiles().then(function(files) {
                             remote.torrent_files = files.map(function(file) {
-                                file.isMovie = file.name.match(/mp4|avi|mkv|mpeg|mpg|flv/g);
+                                file.isMovie = file.name.substring(file.name.length - 3).match(/mp4|avi|mkv|mpeg|mpg|flv/g);
                                 if (file.isMovie) {
                                     file.searchFileName = file.name.split('/').pop().split(' ').pop();
                                 }
