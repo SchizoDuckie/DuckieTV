@@ -112,10 +112,11 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     d.style.visibility = 'hidden';
                     document.body.appendChild(d);
                     //console.debug("Adding via Chromium! ", d.id, magnet, TVDB_ID);
-                    setTimeout(function() {
-                        //console.debug("remove iframe", d.id);
-                        document.body.removeChild(d);
-                    }, 3000);
+                    d.onload = function() {
+                        setTimeout(function() {
+                            document.body.removeChild(d);
+                        }, 500);
+                    };
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                 }
             },
