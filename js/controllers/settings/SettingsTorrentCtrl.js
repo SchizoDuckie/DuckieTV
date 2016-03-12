@@ -6,7 +6,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
 
         $scope.log = [];
 
-        $scope.showChromium = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1); // #574 Chrome browser 48.0.2564.116m does not support multi torrent launches via chromium, bug? note: check again with 49.*
+        $scope.showChromium = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1); // #574 Chrome browser 48.0.2564.116m does not support multi torrent launches via chromium, bug? note: and neither does 49. by Design?
         $scope.customkatmirror = SettingsService.get('KickAssTorrents.mirror');
         $scope.customtpbmirror = SettingsService.get('ThePirateBay.mirror');
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
@@ -70,6 +70,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
                 console.error("Could not validate custom mirror!", mirror);
                 //$scope.customMirror = '';
             });
+            $scope.$emit('fastsearch: clear');
         };
 
         /**
@@ -104,6 +105,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
                 console.error("Could not validate custom mirror!", mirror);
                 //$scope.customMirror = '';
             });
+            $scope.$emit('fastsearch: clear');
         };
 
         $scope.toggleTorrent = function() {
