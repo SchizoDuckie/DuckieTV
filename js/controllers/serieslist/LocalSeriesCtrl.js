@@ -54,7 +54,7 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
             } else {
                 this.selectedStatus.splice(this.selectedStatus.indexOf(status), 1);
             }
-        $rootScope.$broadcast('serieslist:statusFilter', this.selectedStatus);
+            $rootScope.$broadcast('serieslist:statusFilter', this.selectedStatus);
         };
 
         this.getCheckedGenre = function(genre) {
