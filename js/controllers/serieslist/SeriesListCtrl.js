@@ -40,6 +40,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         $rootScope.$on('serieslist:filter', function(evt, query) {
             serieslist.query = query;
+            $scope.$emit('fastsearch: clear');
         });
 
         $rootScope.$on('serieslist:genreFilter', function(evt, genres) {
