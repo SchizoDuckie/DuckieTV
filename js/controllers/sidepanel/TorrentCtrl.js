@@ -1,8 +1,8 @@
 /**
  * Torrent Control for the torrenting window
  */
-DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent",
-    function($rootScope, $injector, DuckieTorrent) {
+DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent", "SidePanelState",
+    function($rootScope, $injector, DuckieTorrent, SidePanelState) {
         var vm = this;
         
         this.ports = [];
@@ -25,6 +25,14 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent",
 
         this.getTorrentClientTemplate = function() {
             return DuckieTorrent.getClientName().toLowerCase().replace(/ /g, "").replace(/3.2\+/, "32plus");
+        };
+
+        this.getTorrentsCount = function() {
+            var count = vm.rpc.getTorrents().length;
+            if (SidePanelState.state.isExpanded && count === 0) {
+                SidePanelState.contract();
+            };
+            return count;
         };
 
         var autoConnectPoll = function() {
