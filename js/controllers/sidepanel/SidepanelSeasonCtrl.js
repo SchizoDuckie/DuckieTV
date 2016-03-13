@@ -86,17 +86,9 @@ DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$
         });
     };
 
-    this.markAllWatched = function(episodes) {
-        var serie = this.season.ID_Serie;
-        $q.all(episodes.map(function(episode) {
-            if ((episode.hasAired()) && (!episode.isWatched())) {
-                return episode.markWatched().then(function() {
-                    return true;
-                });
-            }
-            return true;
-        })).then(function() {
-            $rootScope.$broadcast('serie:recount:watched', serie);
+    this.markAllWatched = function() {
+        this.season.markSeasonAsWatched($rootScope).then(function() {
+            $rootScope.$broadcast('serie:recount:watched', season.ID_Serie);
         });
     };
 

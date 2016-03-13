@@ -195,6 +195,37 @@ CRUD.define(Serie, {
     toggleAutoDownload: function() {
         this.autoDownload = this.autoDownload == '1' ? '0' : '1';
         this.Persist();
+    },
+    toggleCalendarDisplay: function() {
+        this.displaycalendar = this.displaycalendar == '1' ? '0' : '1';
+        this.Persist();
+    },
+    markSerieAsWatched: function() {
+        var self = this;
+        return new Promise(function(resolve) {
+            self.getEpisodes().then(function(episodes) {
+                episodes.forEach(function(episode) {
+                    if (episode.hasAired() && (!episode.isWatched())) {
+                        return episode.markWatched();
+                    }
+                });
+                return resolve(true)
+            });
+        })
+        
+    },
+    markSerieAsUnWatched: function() {
+        var self = this;
+        return new Promise(function(resolve) {
+            self.getEpisodes().then(function(episodes) {
+                episodes.forEach(function(episode) {
+                    if (episode.isWatched()) {
+                        return episode.markNotWatched();
+                    }
+                });
+                return resolve(true);
+            });
+        }); 
     }
 });
 
@@ -245,6 +276,36 @@ CRUD.define(Season, {
 }, {
     getEpisodes: function() {
         return Episode.findByID_Season(this.getID());
+    },
+    markSeasonAsWatched: function() {
+        var self = this;
+        return new Promise(function(resolve) {
+            self.getEpisodes().then(function(episodes) {
+                episodes.forEach(function(episode) {
+                    if (episode.hasAired() && (!episode.isWatched())) {
+                        return episode.markWatched();
+                    }
+                });
+                self.watched = 1;
+                self.Persist();
+                return resolve(true);
+            });
+        });
+    },
+    markSeasonAsUnWatched: function() {
+        var self = this;
+        return new Promise(function(resolve) {
+            self.getEpisodes().then(function(episodes) {
+                episodes.forEach(function(episode) {
+                    if (episode.isWatched()) {
+                        return episode.markNotWatched();
+                    }
+                });
+                self.watched = 0;
+                self.Persist();
+                return resolve(true);
+            });
+        });
     }
 });
 

@@ -15,7 +15,9 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             return [[ // Mark all watched
                     $filter('translate')('COMMON/mark-all-watched/lbl'),
                     function() {
-                        markAllWatched(serie);
+                        serie.markSerieAsWatched($rootScope).then(function() {
+                            $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
+                        });
                     }, function() {
                         return serie.notWatchedCount == 0 ?
                             false : true;
@@ -27,7 +29,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                         $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/calendar-hide/btn') : 
                         $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/calendar-show/btn'), 
                     function() {
-                        toggleSerieDisplay(serie);
+                        serie.toggleCalendarDisplay();
                     }
                 ], [ //Remove Serie option
                     $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/delete-serie/btn'), function() {
@@ -36,11 +38,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                 ],
                
             ];
-        };
-
-        var toggleSerieDisplay = function(serie) {
-            serie.displaycalendar = serie.displaycalendar == '1' ? '0' : '1';
-            serie.Persist();
         };
 
         /**
@@ -57,22 +54,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                 FavoritesService.remove(serie);
             }, function(btn) {
                 this.confirmed = $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-cancelled/lbl');
-            });
-        };
-
-        var markAllWatched = function(serie) {
-            console.log("Click");
-            serie.getEpisodes().then(function(episodes) {
-                $q.all(episodes.map(function(episode) {
-                    if ((episode.hasAired()) && (!episode.isWatched())) {
-                        return episode.markWatched().then(function() {
-                            return true;
-                        });
-                    }
-                    return true;
-                })).then(function() {
-                    $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
-                });
             });
         };
 

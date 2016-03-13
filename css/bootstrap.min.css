@@ -10,6 +10,9 @@
 	overflow: auto;
 	background-color: rgba(0,0,0,0.4);
 }
+.dropdown-menu .divider {
+	opacity: 0.7;
+}
 
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
 	pointer-events: disabled;

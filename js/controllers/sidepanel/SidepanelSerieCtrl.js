@@ -55,17 +55,8 @@ DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "
 
 
         this.markAllWatched = function(serie) {
-            serie.getEpisodes().then(function(episodes) {
-                $q.all(episodes.map(function(episode) {
-                    if ((episode.hasAired()) && (!episode.isWatched())) {
-                        return episode.markWatched().then(function() {
-                            return true;
-                        });
-                    }
-                    return true;
-                })).then(function() {
-                    $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
-                });
+            serie.markSerieAsWatched().then(function() {
+                $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
             });
         };
 
@@ -107,11 +98,6 @@ DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "
                 d = undefined;
 
             });
-        };
-
-        this.toggleSerieDisplay = function() {
-            this.serie.displaycalendar = this.serie.displaycalendar == '1' ? '0' : '1';
-            this.serie.Persist();
         };
 
         /**
