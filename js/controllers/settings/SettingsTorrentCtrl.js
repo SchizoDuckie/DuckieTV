@@ -70,7 +70,6 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
                 console.error("Could not validate custom mirror!", mirror);
                 //$scope.customMirror = '';
             });
-            $scope.$emit('fastsearch: clear');
         };
 
         /**
@@ -105,7 +104,6 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
                 console.error("Could not validate custom mirror!", mirror);
                 //$scope.customMirror = '';
             });
-            $scope.$emit('fastsearch: clear');
         };
 
         $scope.toggleTorrent = function() {

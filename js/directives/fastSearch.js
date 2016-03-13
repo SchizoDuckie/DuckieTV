@@ -59,15 +59,19 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                             // anticipating final kk sequence
                             self.isNotKK = false;
                         }
-                      } else {
-                        // not kk sequences
+                    } else {
+                        // not kk sequence
                         self.fsKKi = 0;
                         self.isNotKK = true;
                     }
                 });
                 $window.addEventListener('keypress', function(e) {
                     // parse char codes for fs query
-                    if (self.isNotKK) {
+                    if (!isShowing && e.target.tagName.toLowerCase() == 'input') {
+                        // keypress came from a non-fastSearch input element
+                        e.stopPropagation();
+                    } else if (self.isNotKK) {
+                        // keypress did not come from an input element
                         self.fsquery += String.fromCharCode(e.charCode);
                         if (!isShowing && e.target.tagName.toLowerCase() != 'input') {
                             self.createDialog();

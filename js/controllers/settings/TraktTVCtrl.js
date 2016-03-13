@@ -63,7 +63,6 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
                     $scope.credentials.error = error.status + ' - ' + error.statusText;
                 }
             });
-            $scope.$emit('fastsearch: clear');
         };
 
         $scope.getPinUrl = function() {

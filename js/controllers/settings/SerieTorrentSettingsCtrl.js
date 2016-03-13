@@ -18,7 +18,6 @@ function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data) 
         $scope.model.ignoreGlobalExcludes = $scope.model.ignoreGlobalExcludes ? 1 : 0;
         $scope.model.customSearchString = $scope.model.customSearchString;
 
-        $scope.$emit('fastsearch: clear');
         $scope.model.Persist().then(function() {
             $modalInstance.close();
             $scope.$destroy();
@@ -27,7 +26,6 @@ function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data) 
 
     $scope.cancel = function() {
         $modalInstance.close();
-        $scope.$emit('fastsearch: clear');
         $scope.$destroy();
     };
 
