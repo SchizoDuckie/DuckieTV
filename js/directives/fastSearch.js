@@ -6,7 +6,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         this.isNotKK = true; // flag used to prevent kk sequence from triggering fast-search
         this.fsKKi = 0; // index used in preventing kk sequence from triggering fast-search
 
-        console.debug("fastsearch initializing");
+        //console.debug("fastsearch initializing");
         var isShowing = false;
 
         var focusInput = function() {
@@ -49,7 +49,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
             restrict: 'E',
             link: function() {
                 var self = this;
-                console.debug("fastsearch initialized");
+                //console.debug("fastsearch initialized");
                 $window.addEventListener('keydown', function(e) {
                     // parse key codes, trap kk sequence
                     var kk = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
