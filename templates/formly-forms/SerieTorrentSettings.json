@@ -65,4 +65,20 @@
             "templateOptions.label": "\"COMMON/ignore-global-excludes/lbl\" | translate"
         }
     }]
+}, {
+    "className": "row",
+    "fieldGroup": [{
+        "key": "searchProvider",
+        "className": "cseProperty col-xs-4",
+        "type": "select",
+        "templateOptions": {
+            "label": "",
+            "options": "$mappings.options.searchProviders",
+            "nameProp": "name",
+            "valueProp": "value"
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/search-provider/lbl\" | translate"
+        }
+    }]
 }]

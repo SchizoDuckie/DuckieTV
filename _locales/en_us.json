@@ -211,6 +211,7 @@
     "SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip": "Watch Trailer",
     "SERIETORRENTSETTINGSCTRLjs/auto-download/lbl": "Auto download this show",
     "SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder": "String to append to {serie name} {season/episode} (like your favorite release group)",
+    "SERIETORRENTSETTINGSCTRLjs/search-provider/lbl": "Search Provider for this show",
     "SETTINGS/BACKUP-IMPORT/choose-backup-load/btn": "Choose a backup to load",
     "SETTINGS/BACKUP-IMPORT/hdr": "Backup / Import",
     "SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl": "Loading, please wait",

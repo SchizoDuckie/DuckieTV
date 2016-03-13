@@ -16,7 +16,8 @@ DuckieTV
 
             activityUpdate: function(serie, search, status, extra) {
                 var css = (serie.customSearchString && serie.customSearchString != '') ? 1 : 0;
-                service.activityList.push({'search': search, 'css': css, 'igq': serie.ignoreGlobalQuality, 'igi': serie.ignoreGlobalIncludes, 'ige': serie.ignoreGlobalExcludes, 'status': status, 'extra': extra});
+                var sp = (serie.searchProvider && serie.searchProvider != null) ? '(' + serie.searchProvider + ')' : '';
+                service.activityList.push({'search': search + sp, 'css': css, 'igq': serie.ignoreGlobalQuality, 'igi': serie.ignoreGlobalIncludes, 'ige': serie.ignoreGlobalExcludes, 'status': status, 'extra': extra});
                 $rootScope.$broadcast('autodownload:activity');
             },
 
@@ -89,6 +90,7 @@ DuckieTV
                 var globalQuality = ' ' + SettingsService.get('torrenting.searchquality'); // Global Quality to append to search string.
                 var globalInclude = SettingsService.get('torrenting.global_include'); // Any words in the global include list causes the result to be filtered in.
                 var globalExclude = SettingsService.get('torrenting.global_exclude'); // Any words in the global exclude list causes the result to be filtered out.
+                var searchEngine = TorrentSearchEngines.getDefaultEngine();
                 if (serie.ignoreGlobalQuality != 0) {
                     globalQuality = ''; // series custom settings specify to ignore the global quality
                 };
@@ -97,6 +99,9 @@ DuckieTV
                 };
                 if (serie.ignoreGlobalExcludes != 0) {
                     globalExclude = ''; // series custom settings specify to ignore the global Excludes List
+                };
+                if (serie.searchProvider != null) {
+                    searchEngine = TorrentSearchEngines.getSearchEngine(serie.searchProvider); // series custom search engine specified
                 };
                 // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
                 return SceneNameResolver.getSearchStringForEpisode(serie, episode)
@@ -155,7 +160,7 @@ DuckieTV
                     };
 
                     // Search torrent provider for the string
-                    return TorrentSearchEngines.getDefaultEngine().search(q, true).then(function(results) {
+                    return searchEngine.search(q, true).then(function(results) {
                         var items = results.filter(filterByScore);
                         if (items.length === 0) {
                             service.activityUpdate(serie, q, 4); // 'nothing found'
