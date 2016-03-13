@@ -136,15 +136,15 @@ CRUD.EntityManager = (function() {
 
         Object.keys(dbSetup.relations).map(function(name) {
             CRUD.log("creating relation search for ", name, " to ", className);
-            namedFunction['findBy' + name] = function(filter) {
+            namedFunction['findBy' + name] = function(filter,options) {
                 var filters = {};
                 filters[name] = filter;
-                return CRUD.Find(className, filters);
+                return CRUD.Find(className, filters, options || {});
             };
-            namedFunction['findOneBy' + name] = function(filter) {
+            namedFunction['findOneBy' + name] = function(filter, options) {
                 var filters = {};
                 filters[name] = filter;
-                return CRUD.FindOne(className, filters);
+                return CRUD.FindOne(className, filters, options || {});
             };
         });
 
