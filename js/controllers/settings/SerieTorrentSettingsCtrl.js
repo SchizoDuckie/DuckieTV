@@ -14,7 +14,6 @@ function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, 
     Object.keys(TorrentSearchEngines.getSearchEngines()).map(function(searchProvider) {
         $scope.searchProviders.push({'name': searchProvider, 'value': searchProvider});
     });
-    console.debug($scope.searchProviders);
 
     FormlyLoader.setMapping('options', {
         'searchProviders': $scope.searchProviders
