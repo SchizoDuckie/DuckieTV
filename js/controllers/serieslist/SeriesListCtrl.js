@@ -1,7 +1,80 @@
-DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "$state", "$http", "$filter",
-    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state, $http, $filter) {
+DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "$state", "$http", "$filter", "dialogs", "$q",
+    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state, $http, $filter, dialogs, $q) {
 
         var serieslist = this;
+
+        /**
+         * Context Menu that appears when right clicking on series
+         * * Mark all watched/unwatched
+         * * --
+         * * Hide/Show series on calendar
+         * * Remove from Favorites
+         **/
+
+        this.contextMenu = function(serie) {
+            return [[ // Mark all watched
+                    $filter('translate')('COMMON/mark-all-watched/lbl'),
+                    function() {
+                        markAllWatched(serie);
+                    }, function() {
+                        return serie.notWatchedCount == 0 ?
+                            false : true;
+                    }
+                ], 
+                null, //Divider
+                [ // Toggle Calendar Display Option
+                    serie.displaycalendar == '1' ? 
+                        $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/calendar-hide/btn') : 
+                        $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/calendar-show/btn'), 
+                    function() {
+                        toggleSerieDisplay(serie);
+                    }
+                ], [ //Remove Serie option
+                    $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/delete-serie/btn'), function() {
+                        removeFromFavorites(serie);
+                    }
+                ],
+               
+            ];
+        };
+
+        var toggleSerieDisplay = function(serie) {
+            serie.displaycalendar = serie.displaycalendar == '1' ? '0' : '1';
+            serie.Persist();
+        };
+
+        /**
+         * Pop up a confirm dialog and remove the serie from favorites when confirmed.
+         */
+        var removeFromFavorites = function(serie) {
+            var dlg = dialogs.confirm($filter('translate')('SIDEPANELSERIECTRLjs/serie-delete/hdr'),
+                $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-question/desc') +
+                serie.name +
+                $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-question/desc2')
+            );
+            dlg.result.then(function(btn) {
+                console.info("Removing serie '" + serie.name + "' from favorites!", serie);
+                FavoritesService.remove(serie);
+            }, function(btn) {
+                this.confirmed = $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-cancelled/lbl');
+            });
+        };
+
+        var markAllWatched = function(serie) {
+            console.log("Click");
+            serie.getEpisodes().then(function(episodes) {
+                $q.all(episodes.map(function(episode) {
+                    if ((episode.hasAired()) && (!episode.isWatched())) {
+                        return episode.markWatched().then(function() {
+                            return true;
+                        });
+                    }
+                    return true;
+                })).then(function() {
+                    $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
+                });
+            });
+        };
 
         this.activated = SeriesListState.state.isShowing; // Toggles when the favorites panel activated
         this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
