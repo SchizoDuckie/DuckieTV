@@ -2,7 +2,7 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
     function($rootScope, $filter, FavoritesService) {
         var vm = this;
 
-        // Broadcast empty filter to reset the value in the SeriesList Ctrl        
+        // Broadcast empty filter to reset the value in the SeriesList Ctrl
         $rootScope.$broadcast('serieslist:filter', '');
         $rootScope.$broadcast('serieslist:genreFilter', '');
         $rootScope.$broadcast('serieslist:statusFilter', '');
@@ -40,7 +40,7 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
         }, this);
 
         this.selectGenre = function(genre) {
-            if (this.selectedGenres.indexOf(genre) == -1) {
+            if (this.selectedGenres.indexOf(genre) === -1) {
                 this.selectedGenres.push(genre);
             } else {
                 this.selectedGenres.splice(this.selectedGenres.indexOf(genre), 1);
@@ -49,12 +49,12 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
         };
 
         this.selectStatus = function(status) {
-            if (this.selectedStatus.indexOf(status) == -1) {
+            if (this.selectedStatus.indexOf(status) === -1) {
                 this.selectedStatus.push(status);
             } else {
                 this.selectedStatus.splice(this.selectedStatus.indexOf(status), 1);
             }
-        $rootScope.$broadcast('serieslist:statusFilter', this.selectedStatus);
+            $rootScope.$broadcast('serieslist:statusFilter', this.selectedStatus);
         };
 
         this.getCheckedGenre = function(genre) {
@@ -70,7 +70,7 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
          */
         this.translateGenre = function(genre) {
             var idx = engGenreList.indexOf(genre);
-            return (idx != -1) ? translatedGenreList[idx] : genre;
+            return (idx !== -1) ? translatedGenreList[idx] : genre;
         };
 
         /*
@@ -78,7 +78,7 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
          */
         this.translateStatus = function(status) {
             var idx = engStatusList.indexOf(status);
-            return (idx != -1) ? translatedStatusList[idx] : status;
+            return (idx !== -1) ? translatedStatusList[idx] : status;
         };
 
     }
