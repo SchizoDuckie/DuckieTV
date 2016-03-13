@@ -15,6 +15,7 @@ DuckieTV
 		"<li>(new) option to ignore quality, include and excludes via series custom settings",
                 "<li>(new) use series custom search string, (fix) episodes with date scene names bug",
                 "<li>(fix) torrentz seeders count bug, (new) monitor auto-download activity via status sidepanel",
+                "<li>fastSearch: (new) introducing the fast-search feature. Just start typing and a dialog pops up with the first six matches of your series from favourites, series from Trakt.TV, and the first 9 matches of episodes from favourites and torrent search.",
                 "<li>standalone: (fix) linux minimize bug, (new) option to open add-new-torrent panel on torrentHost",
                 "<li>(fix) linux and mac multy systray bug, (fix) defaults for first time users bug",
                 "<li>searchEngines: (fix) remove strike as it is gone, (new) add IsoHunt",
