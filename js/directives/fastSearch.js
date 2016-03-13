@@ -47,7 +47,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
 
         return {
             restrict: 'E',
-            link: function($scope) {
+            link: function() {
                 var self = this;
                 console.debug("fastsearch initialized");
                 $window.addEventListener('keydown', function(e) {
@@ -59,8 +59,8 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                             // anticipating final kk sequence
                             self.isNotKK = false;
                         }
-                    } else {
-                        // not kk sequence
+                      } else {
+                        // not kk sequences
                         self.fsKKi = 0;
                         self.isNotKK = true;
                     }
@@ -73,10 +73,6 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                             self.createDialog();
                         }
                     }
-                });
-                $scope.$on('fastsearch: clear', function(e) {
-                    // received a clear fsquery notice
-                        self.fsquery  = '';
                 });
             }
         }

@@ -73,7 +73,6 @@ DuckieTV.provider('SubtitleDialog', function() {
                 promise = OpenSubtitles.searchString($scope.query);
             }
 
-            $scope.$emit('fastsearch: clear');
             promise.then(function(results) {
                     $scope.items = results;
                     $scope.searching = false;

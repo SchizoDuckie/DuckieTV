@@ -90,7 +90,6 @@ DuckieTV
                 return (score == 0);
             };
 
-            $scope.$emit('fastsearch: clear');
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' ')).then(function(results) {
                     $scope.items = results.filter(filterByScore);
                     $scope.items = $scope.items.filter(filterGlobalInclude);
