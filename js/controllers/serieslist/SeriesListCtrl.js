@@ -25,7 +25,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                 ], 
                 null, //Divider
                 [ // Toggle Calendar Display Option
-                    serie.displaycalendar == '1' ? 
+                    serie.displaycalendar == 1 ? 
                         $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/calendar-hide/btn') : 
                         $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/calendar-show/btn'), 
                     function() {

@@ -217,7 +217,7 @@ DuckieTV
 
                 scope.filterEvents = function(event) {
                     if (!event.serie) return false;
-                    if (event.serie.displaycalendar == '0') return false;
+                    if (event.serie.displaycalendar == 0) return false;
                     else return true;
                 };
 
