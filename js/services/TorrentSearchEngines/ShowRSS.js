@@ -1,6 +1,6 @@
 /** 
- * ShowRSS.info custom Torrent API interfacing.
- * Scrapes the shows list from ShowRSS.info and tries to fetch the magnet links for an episode.
+ * new.ShowRSS.info custom Torrent API interfacing.
+ * Scrapes the shows list from new.ShowRSS.info and tries to fetch the magnet links for an episode.
  */
 DuckieTV.factory('ShowRSS', ["$q", "$http",
     function($q, $http) {
@@ -8,12 +8,13 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
         var activeSearchRequest = false,
             activeTrendingRequest = false;
 
-        var endpoint = 'https://showrss.info/';
+        var endpoint = 'https://new.showrss.info/';
 
         var endpoints = {
-            list: '?cs=browse',
-            serie: '?cs=browse&show=%s'
+            list: 'browse',
+            serie: 'browse/%s'
         };
+
 
         var getUrl = function(type, param, param2) {
             var out = endpoint + endpoints[type].replace('%s', encodeURIComponent(param));
@@ -36,17 +37,18 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
 
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(result.data, "text/html");
-                var results = doc.querySelectorAll("#show_timeline div.showentry > a");
+
+                var results = doc.querySelectorAll("div.col-md-10 ul.user-timeline li > a");
                 var output = [];
                 Array.prototype.map.call(results, function(node) {
 
                     var out = {
                         magneturl: node.href,
-                        releasename: node.innerText,
+                        releasename: node.innerText.replace(/\s/g,' ').trim(),
                         size: 'n/a',
                         seeders: 'n/a',
                         leechers: 'n/a',
-                        detailUrl: doc.querySelector("a[href^='/?cs=browse&']").href
+                        detailUrl: doc.querySelector("a[href^='https://new.showrss.info/browse/']").href
                     };
 
                     var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
@@ -105,13 +107,16 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                             var seasonepisode = query.replace(serie, '').trim().toUpperCase();
                             var parts = seasonepisode.match(/S([0-9]{1,2})E([0-9]{1,3})/);
                             if (seasonepisode.length === 0) return results;
-                            seasonepisode = seasonepisode.replace('S' + parts[1], parseInt(parts[1], 10)).replace('E' + parts[2], 'x' + parts[2]);
-                            var searchparts = seasonepisode.split(' ');
+                            var showRSSseasonepisode = seasonepisode.replace('S' + parts[1], parseInt(parts[1], 10)).replace('E' + parts[2], '×' + parts[2]);
+                            var searchparts = showRSSseasonepisode.split(' ');
                             return results.filter(function(el) {
                                 if (searchparts.length > 1 && el.releasename.indexOf(searchparts[1]) == -1) {
                                     return false;
                                 }
-                                return el.releasename.indexOf(searchparts[0]) > -1;
+                                // replace the showRSS season episode string ssXee with SssEee or it will fail the strict filterByScore in autoDownload and torrentDialog
+                                var originalReleaseName = el.releasename;
+                                el.releasename = el.releasename.replace(showRSSseasonepisode,seasonepisode);
+                                return originalReleaseName.indexOf(searchparts[0]) > -1;
                             });
                         });
                     } else {
