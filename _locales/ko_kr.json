@@ -211,6 +211,7 @@
     "SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip": "시계 예고편",
     "SERIETORRENTSETTINGSCTRLjs/auto-download/lbl": "자동으로이 쇼를 다운로드",
     "SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder": "문자열에 추가 할 {세리 이름} {계절/에피소드} (당신의 마음에 드는 릴리스 그룹 등)",
+    "SERIETORRENTSETTINGSCTRLjs/search-provider/lbl": "이 쇼에 대한 검색 공급자",
     "SETTINGS/BACKUP-IMPORT/choose-backup-load/btn": "로드 백업을 선택",
     "SETTINGS/BACKUP-IMPORT/hdr": "백업 / 가져 오기 ",
     "SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl": "로딩 중, 잠시 기다려주십시오",

@@ -211,6 +211,7 @@
     "SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip": "Смотреть трейлер",
     "SERIETORRENTSETTINGSCTRLjs/auto-download/lbl": "Автозагрузка шоу",
     "SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder": "Добавить строку к {название сериала} {сезон/эпизод} (релизер)",
+    "SERIETORRENTSETTINGSCTRLjs/search-provider/lbl": "Поставщик Поиска для этого шоу",
     "SETTINGS/BACKUP-IMPORT/choose-backup-load/btn": "Выбрать резервную копию",
     "SETTINGS/BACKUP-IMPORT/hdr": "Резервная копия / Импорт",
     "SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl": "Загрузка, пожалуйста подождите",

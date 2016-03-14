@@ -211,6 +211,7 @@
     "SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip": "Regarder la bande-annonce",
     "SERIETORRENTSETTINGSCTRLjs/auto-download/lbl": "Télécharger automatiquement ce spectacle",
     "SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder": "Chaîne à ajouter {nom de série} {saison/épisode} (comme votre groupe préféré de presse)",
+    "SERIETORRENTSETTINGSCTRLjs/search-provider/lbl": "Moteur de recherche pour ce spectacle",
     "SETTINGS/BACKUP-IMPORT/choose-backup-load/btn": "Choisir une sauvegarde à charger",
     "SETTINGS/BACKUP-IMPORT/hdr": "Sauvegarder / Importer ",
     "SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl": "Chargement, merci de patienter",

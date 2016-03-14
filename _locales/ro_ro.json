@@ -211,6 +211,7 @@
     "SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip": "Urmărește trailerul",
     "SERIETORRENTSETTINGSCTRLjs/auto-download/lbl": "Descărca automat acest spectacol",
     "SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder": "Șir pentru a adăuga la {Numele Serie} {sezon/episod} (cum ar fi grupul de eliberare preferat)",
+    "SERIETORRENTSETTINGSCTRLjs/search-provider/lbl": "Furnizorul de căutare pentru acest spectacol",
     "SETTINGS/BACKUP-IMPORT/choose-backup-load/btn": "Alege o copie backup pentru a încărca",
     "SETTINGS/BACKUP-IMPORT/hdr": "Backup / Import",
     "SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl": "Se încarcă, vă rugăm așteptați",

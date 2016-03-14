@@ -211,6 +211,7 @@
     "SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip": "观看预告",
     "SERIETORRENTSETTINGSCTRLjs/auto-download/lbl": "自动下载本次车展",
     "SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder": "字符串追加到 {意甲名} {季/插曲} (像你最喜欢的发放组)",
+    "SERIETORRENTSETTINGSCTRLjs/search-provider/lbl": "搜索提供商对本次车展",
     "SETTINGS/BACKUP-IMPORT/choose-backup-load/btn": "选择备份加载",
     "SETTINGS/BACKUP-IMPORT/hdr": "备份/导入 ",
     "SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl": "载入中,请稍候",

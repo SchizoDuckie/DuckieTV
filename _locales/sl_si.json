@@ -211,6 +211,7 @@
     "SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip": "Poglej Napovednik",
     "SERIETORRENTSETTINGSCTRLjs/auto-download/lbl": "Samodejno prenese ta show",
     "SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder": "Godalni priložiti k {ime serie} {sezone/epizode} (kot svojo najljubšo skupino za javnost)",
+    "SERIETORRENTSETTINGSCTRLjs/search-provider/lbl": "Ponudnik iskanja za to predstavo",
     "SETTINGS/BACKUP-IMPORT/choose-backup-load/btn": "Izberite varnostno kopijo za nalaganje",
     "SETTINGS/BACKUP-IMPORT/hdr": "Varnostna kopija / Uvozi",
     "SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl": "Nalaga, prosimo počakajte",

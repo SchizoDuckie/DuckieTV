@@ -211,6 +211,7 @@
     "SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip": "Assista Trailer",
     "SERIETORRENTSETTINGSCTRLjs/auto-download/lbl": "Baixar automaticamente esse show",
     "SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder": "Cadeia anexar a {serie name} {temporada/episódio} (como o seu grupo favorito de liberação)",
+    "SERIETORRENTSETTINGSCTRLjs/search-provider/lbl": "Provedor de Pesquisa para este show",
     "SETTINGS/BACKUP-IMPORT/choose-backup-load/btn": "Escolha um backup para carregar",
     "SETTINGS/BACKUP-IMPORT/hdr": "Backup / Importação ",
     "SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl": "Carregando, por favor aguarde",

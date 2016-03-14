@@ -211,6 +211,7 @@
     "SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip": "Bekijk trailer",
     "SERIETORRENTSETTINGSCTRLjs/auto-download/lbl": "Deze serie automatisch downloaden",
     "SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder": "Tekst toevoegen aan standaard {serie naam} {seizoen/episode} (zoals je favoriete releasegroep)",
+    "SERIETORRENTSETTINGSCTRLjs/search-provider/lbl": "Zoek Provider voor deze show",
     "SETTINGS/BACKUP-IMPORT/choose-backup-load/btn": "Kies een back-up om in te laden",
     "SETTINGS/BACKUP-IMPORT/hdr": "Backup / Importeren",
     "SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl": "Bezig met laden van backup, even geduld a.u.b.",

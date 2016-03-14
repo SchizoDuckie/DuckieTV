@@ -211,6 +211,7 @@
     "SERIESLIST/TRAKT-TRENDING/watch-trailer/tooltip": "Se Trailer",
     "SERIETORRENTSETTINGSCTRLjs/auto-download/lbl": "Auto nedlast denne serien",
     "SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder": "Tekst å tilføye til {serie navn} {sesong/episode} (f.eks. din favorittutgivelsegruppe)",
+    "SERIETORRENTSETTINGSCTRLjs/search-provider/lbl": "Søk Provider for dette showet",
     "SETTINGS/BACKUP-IMPORT/choose-backup-load/btn": "Velg en backup å laste inn",
     "SETTINGS/BACKUP-IMPORT/hdr": "Backup / Importer",
     "SETTINGS/BACKUP-IMPORT/loading-please-wait/lbl": "Laster, vennligst vent",
