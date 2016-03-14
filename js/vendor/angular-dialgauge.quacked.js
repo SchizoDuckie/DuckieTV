@@ -429,7 +429,7 @@ angular.module('angular-dialgauge', [
 
                     if (newValue !== undefined) {
                         path += '<text text-anchor="middle" x="' + center + '" y="' + center + '">' +
-                        '<tspan class="dialgauge-value">' + Math.floor(newValue) + '</tspan>';
+                        '<tspan class="dialgauge-value">' + Math.round( newValue * 10 ) / 10 + '</tspan>';
                     }
 
                     if (cfg.units != undefined) {
