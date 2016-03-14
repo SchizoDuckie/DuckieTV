@@ -36,7 +36,12 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
             },
 
             getSearchEngine: function(engine) {
-                return engines[engine];
+                if (engine in engines) {
+                    return engines[engine];
+                } else {
+                    console.warn('search provider %s not found. default %s provider used instead.', engine, defaultEngine);
+                    return engines[defaultEngine];
+                }
             },
 
             setDefault: function(name) {
