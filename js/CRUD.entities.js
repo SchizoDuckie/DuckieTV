@@ -199,11 +199,11 @@ CRUD.define(Serie, {
         });
     },
     toggleAutoDownload: function() {
-        this.autoDownload = this.autoDownload == '1' ? '0' : '1';
+        this.autoDownload = this.autoDownload == 1 ? 0 : 1;
         this.Persist();
     },
     toggleCalendarDisplay: function() {
-        this.displaycalendar = this.displaycalendar == '1' ? '0' : '1';
+        this.displaycalendar = this.displaycalendar == 1 ? 0 : 1;
         this.Persist();
     },
     markSerieAsWatched: function() {
