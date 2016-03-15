@@ -299,13 +299,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                 serie.displaycalendar = 0;
                 //console.debug("Remove serie from favorites!", serie);
                 var seriesToBeDeleted = service.getById(serie.TVDB_ID);
-                if (typeof serieToBeDeleted != "undefined") {
-                    serieToBeDeleted.Find('Season').then(function(seasons) {
-                        seasons.map(function(el) {
-                            el.Delete();
-                        });
-                    });
-                };
+                CRUD.executeQuery('delete from Seasons where ID_Serie = ' + serie.ID_Serie);
                 CRUD.executeQuery('delete from Episodes where ID_Serie = ' + serie.ID_Serie);
                 service.favoriteIDs = service.favoriteIDs.filter(function(id) {
                     return id != serie.TVDB_ID;

@@ -26,13 +26,13 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                 null, //Divider
                 [ // Toggle Calendar Display Option
                     serie.displaycalendar == 1 ? 
-                        $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/calendar-hide/btn') : 
-                        $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/calendar-show/btn'), 
+                        $filter('translate')('COMMON/calendar-hide/btn') : 
+                        $filter('translate')('COMMON/calendar-show/btn'), 
                     function() {
                         serie.toggleCalendarDisplay();
                     }
                 ], [ //Remove Serie option
-                    $filter('translate')('SIDEPANEL/SERIE-OVERVIEW/delete-serie/btn'), function() {
+                    $filter('translate')('COMMON/delete-serie/btn'), function() {
                         removeFromFavorites(serie);
                     }
                 ],
@@ -44,16 +44,16 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * Pop up a confirm dialog and remove the serie from favorites when confirmed.
          */
         var removeFromFavorites = function(serie) {
-            var dlg = dialogs.confirm($filter('translate')('SIDEPANELSERIECTRLjs/serie-delete/hdr'),
-                $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-question/desc') +
+            var dlg = dialogs.confirm($filter('translate')('COMMON/serie-delete/hdr'),
+                $filter('translate')('COMMON/serie-delete-question/desc') +
                 serie.name +
-                $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-question/desc2')
+                $filter('translate')('COMMON/serie-delete-question/desc2')
             );
             dlg.result.then(function(btn) {
-                console.info("Removing serie '" + serie.name + "' from favorites!", serie);
+                console.info("Removing serie '" + serie.name + "' from favorites!");
                 FavoritesService.remove(serie);
             }, function(btn) {
-                this.confirmed = $filter('translate')('SIDEPANELSERIECTRLjs/serie-delete-cancelled/lbl');
+                this.confirmed = $filter('translate')('COMMON/serie-delete-cancelled/lbl');
             });
         };
 

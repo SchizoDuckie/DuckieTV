@@ -57,16 +57,17 @@ DuckieTV.directive('serieDetails', ["FavoritesService", "$location", "dialogs", 
                  * @param object serie Plain Old Javascript Object to delete
                  */
                 $scope.removeFromFavorites = function(serie) {
-                    var dlg = dialogs.confirm($filter('translate')('SERIEDETAILSjs/serie-delete/hdr'),
-                        $filter('translate')('SERIEDETAILSjs/serie-delete-question/desc') +
+                    var dlg = dialogs.confirm($filter('translate')('COMMON/serie-delete/hdr'),
+                        $filter('translate')('COMMON/serie-delete-question/desc') +
                         serie.name +
-                        $filter('translate')('SERIEDETAILSjs/serie-delete-question/desc2')
+                        $filter('translate')('COMMON/serie-delete-question/desc2')
                     );
                     dlg.result.then(function(btn) {
+                        console.info("Removing serie '" + serie.name + "' from favorites!");
                         FavoritesService.remove(serie);
                         $location.path('/');
                     }, function(btn) {
-                        $scope.confirmed = $filter('translate')('SERIEDETAILSjs/serie-delete-cancelled/lbl');
+                        $scope.confirmed = $filter('translate')('COMMON/serie-delete-cancelled/lbl');
                     });
                 };
 
