@@ -5,7 +5,7 @@
  *
  * License: MIT
  *
- * this module has been quacked (hacked) for DuckieTV. v0.1.5.1  now ng-strict-di compliant and fixed color gradient bug
+ * this module has been quacked (hacked) for DuckieTV. v0.1.5.3  now ng-strict-di compliant, color gradient bug squashed, and value is displayed to 1 fixed decimal place.
  */
 angular.module('angular-dialgauge', [
     'ngSanitize'
@@ -429,7 +429,7 @@ angular.module('angular-dialgauge', [
 
                     if (newValue !== undefined) {
                         path += '<text text-anchor="middle" x="' + center + '" y="' + center + '">' +
-                        '<tspan class="dialgauge-value">' + (Math.round( newValue * 10 ) / 10).toFixed(1) + '</tspan>';
+                        '<tspan class="dialgauge-value">' + newValue.toFixed(1) + '</tspan>';
                     }
 
                     if (cfg.units != undefined) {
