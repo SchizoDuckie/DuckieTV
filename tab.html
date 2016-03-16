@@ -25,10 +25,10 @@
 </head>
 <body kc>
   <div class="windowChrome">
-    <button class="glyphicon glyphicon-win-minimize" id='minimize' tooltip="{{ 'TAB/minimize/glyph'|translate }}" tooltip-placement="bottom"></button>
+    <button class="glyphicon glyphicon-win-minimize" id='minimize' tooltip="{{ 'COMMON/minimize/btn'|translate }}" tooltip-placement="bottom"></button>
     <button class="glyphicon glyphicon-win-restore" id='unmaximize' tooltip="{{ 'TAB/unmaximize/glyph'|translate }}" tooltip-placement="bottom" style='display:none'></button>
     <button class="glyphicon glyphicon-win-maximize" id='maximize' tooltip="{{ 'TAB/maximize/glyph'|translate }}" tooltip-placement="bottom"></button>
-    <button class="glyphicon glyphicon-win-close" id='close' tooltip="{{ 'TAB/close/glyph'|translate }}" tooltip-placement="bottom"></button>
+    <button class="glyphicon glyphicon-win-close" id='close' tooltip="{{ 'COMMON/close/btn'|translate }}" tooltip-placement="bottom"></button>
   </div>
 
   <background-rotator channel="'background:load'" style="opacity:{{getSetting('background-rotator.opacity')}}"></background-rotator>
@@ -47,7 +47,7 @@
       <div class="logo" ui-sref="calendar" tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hidePanels();actionbar.resetCalendar();"></div>
       <ul class="list-unstyled">
         <li id="actionbar_calendar" ui-sref-active="calendar_active">
-          <a ui-sref="calendar" class="glyphicon glyphicon-calendar" tooltip="{{'TAB/calendar/glyph'|translate}}" tooltip-placement="right" ng-click="actionbar.hidePanels();" tooltip-append-to-body="true"></a>
+          <a ui-sref="calendar" class="glyphicon glyphicon-calendar" tooltip="{{'COMMON/calendar/hdr'|translate}}" tooltip-placement="right" ng-click="actionbar.hidePanels();" tooltip-append-to-body="true"></a>
         </li>
         <li id="actionbar_favorites">
           <a class="glyphicon glyphicon-heart" tooltip="{{actionbar.getHeartTooltip()}}" tooltip-placement="right" ng-click="actionbar.toggleSeriesList();"></a>
@@ -76,7 +76,7 @@
             <a ui-sref="settings" class="glyphicon glyphicon-cog" tooltip="{{'COMMON/settings/hdr'|translate}}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
           </li>
           <li id="actionbar_about" ui-sref-active="active">
-            <a ui-sref="about" class="glyphicon glyphicon-info-sign" tooltip="{{'TAB/about/glyph'|translate}}" tooltip-placement="right"></a>
+            <a ui-sref="about" class="glyphicon glyphicon-info-sign" tooltip="{{'COMMON/about/hdr'|translate}}" tooltip-placement="right"></a>
           </li>
         </div>
       </ul>

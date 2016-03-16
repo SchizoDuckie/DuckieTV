@@ -53,7 +53,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                 console.info("Removing serie '" + serie.name + "' from favorites!");
                 FavoritesService.remove(serie);
             }, function(btn) {
-                this.confirmed = $filter('translate')('COMMON/serie-delete-cancelled/lbl');
+                this.confirmed = $filter('translate')('COMMON/cancelled/lbl');
             });
         };
 

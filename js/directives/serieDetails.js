@@ -67,7 +67,7 @@ DuckieTV.directive('serieDetails', ["FavoritesService", "$location", "dialogs", 
                         FavoritesService.remove(serie);
                         $location.path('/');
                     }, function(btn) {
-                        $scope.confirmed = $filter('translate')('COMMON/serie-delete-cancelled/lbl');
+                        $scope.confirmed = $filter('translate')('COMMON/cancelled/lbl');
                     });
                 };
 

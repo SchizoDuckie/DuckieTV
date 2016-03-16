@@ -60,7 +60,7 @@
     /**
      * Translate Filter
      * For use in an Angular template.
-     * Example: {{"DIALOGSjs/close/btn" | translate}}
+     * Example: {{"COMMON/close/btn" | translate}}
      */
     translateSubMod.filter('translate', ['$translate',
         function($translate) {
@@ -525,7 +525,7 @@
                 $translateProvider.translations('en-US', {
                     "DIALOGSjs/error/hdr": "Error",
                     "DIALOGSjs/error/msg": "An unknown error has occurred.",
-                    "DIALOGSjs/close/btn": "Close",
+                    "COMMON/close/btn": "Close",
                     "DIALOGSjs/wait/hdr": "Please Wait",
                     "DIALOGSjs/wait/msg": "Waiting on operation to complete.",
                     "DIALOGSjs/percent-complete/lbl": "% Complete",
@@ -553,7 +553,7 @@
             var startSym = $interpolate.startSymbol();
             var endSym = $interpolate.endSymbol();
 
-            $templateCache.put('/dialogs/error.html', '<div class="modal-header dialog-header-error"><button type="button" class="close" ng-click="close()">&times;</button><h4 class="modal-title text-danger"><span class="' + startSym + 'icon' + endSym + '"></span> <span ng-bind-html="header"></span></h4></div><div class="modal-body text-danger" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="close()">' + startSym + '"DIALOGSjs/close/btn" | translate' + endSym + '</button></div>');
+            $templateCache.put('/dialogs/error.html', '<div class="modal-header dialog-header-error"><button type="button" class="close" ng-click="close()">&times;</button><h4 class="modal-title text-danger"><span class="' + startSym + 'icon' + endSym + '"></span> <span ng-bind-html="header"></span></h4></div><div class="modal-body text-danger" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="close()">' + startSym + '"COMMON/close/btn" | translate' + endSym + '</button></div>');
             $templateCache.put('/dialogs/wait.html', '<div class="modal-header dialog-header-wait"><h4 class="modal-title"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body"><p ng-bind-html="msg"></p><div class="progress progress-striped active"><div class="progress-bar progress-bar-info" ng-style="getProgress()"></div><span class="sr-only">' + startSym + 'progress' + endSym + '' + startSym + '"DIALOGSjs/percent-complete/lbl" | translate' + endSym + '</span></div></div>');
             $templateCache.put('/dialogs/notify.html', '<div class="modal-header dialog-header-notify"><button type="button" class="close" ng-click="close()" class="pull-right">&times;</button><h4 class="modal-title text-info"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body text-info" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-primary" ng-click="close()">' + startSym + '"DIALOGSjs/ok/btn" | translate' + endSym + '</button></div>');
             $templateCache.put('/dialogs/confirm.html', '<div class="modal-header dialog-header-confirm"><button type="button" class="close" ng-click="no()">&times;</button><h4 class="modal-title"><span class="' + startSym + 'icon' + endSym + '"></span> ' + startSym + 'header' + endSym + '</h4></div><div class="modal-body" ng-bind-html="msg"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="yes()">' + startSym + '"DIALOGSjs/yes/btn" | translate' + endSym + '</button><button type="button" class="btn btn-primary" ng-click="no()">' + startSym + '"DIALOGSjs/no/btn" | translate' + endSym + '</button></div>');

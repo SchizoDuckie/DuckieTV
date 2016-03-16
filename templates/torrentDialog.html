@@ -38,14 +38,14 @@
     <tr ng-show="searching">
       <td>
          <loading-spinner style="margin:0 auto; display:block; width:50px; height:50px; position:relative;"></loading-spinner>
-        <p style='text-align:center; padding:10px;'><span translate-once="TORRENTDIALOG/searching/lbl"></span> {{getName(searchprovider)}}<span translate-once="TORRENTDIALOG/searching-please-wait/lbl"></span>.</p>
+        <p style='text-align:center; padding:10px;'><span translate-once="COMMON/searching/lbl"></span> {{getName(searchprovider)}}<span translate-once="COMMON/searching-please-wait/lbl"></span>.</p>
       </td>
     </tr>
   </thead>
   <tbody ng-show="!searching && items.length == 0">
     <tr>
       <th>
-        <p translate-once="TORRENTDIALOG/no-results/lbl"></p>
+        <p translate-once="COMMON/no-results/lbl"></p>
         "<strong>{{ query }}</strong>"
       </th>
     </tr>

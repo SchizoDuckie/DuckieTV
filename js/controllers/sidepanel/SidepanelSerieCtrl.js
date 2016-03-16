@@ -114,7 +114,7 @@ DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "
                 FavoritesService.remove(serie);
                 SidePanelState.hide();
             }, function(btn) {
-                this.confirmed = $filter('translate')('COMMON/serie-delete-cancelled/lbl');
+                this.confirmed = $filter('translate')('COMMON/cancelled/lbl');
             });
         };
 

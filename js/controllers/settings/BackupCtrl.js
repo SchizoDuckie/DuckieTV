@@ -129,7 +129,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
          * Wipes the database of all series, seasons and episodes and removes all settings
          */
         $scope.wipeDatabase = function() {
-            var dlg = dialogs.confirm($filter('translate')('BACKUPCTRLjs/wipe/hdr'),
+            var dlg = dialogs.confirm($filter('translate')('COMMON/wipe/hdr'),
                 $filter('translate')('BACKUPCTRLjs/wipe/desc')
             );
             dlg.result.then(function(btn) {

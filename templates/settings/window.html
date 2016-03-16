@@ -10,7 +10,7 @@
   <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
    {{startupMinimized ? 'SETTINGS/WINDOW/standalone-startup-minimized/tooltip' : 'SETTINGS/WINDOW/standalone-startup-normalized/tooltip'|translate}}</p>
   <a ng-click="toggleStartupMinimized()" class="btn btn-{{startupMinimized ? 'info' : 'success'}}">
-    <i class="glyphicon glyphicon-{{startupMinimized ? 'win-maximize' : 'win-minimize'}}"  style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i> {{startupMinimized ? 'SETTINGS/WINDOW/standalone-startup-normal/btn' : 'SETTINGS/WINDOW/standalone-startup-minimize/btn'|translate}}
+    <i class="glyphicon glyphicon-{{startupMinimized ? 'win-maximize' : 'win-minimize'}}"  style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i> {{startupMinimized ? 'SETTINGS/WINDOW/standalone-startup-normal/btn' : 'COMMON/minimize/btn'|translate}}
   </a>
   <hr class="setting-divider">
 
