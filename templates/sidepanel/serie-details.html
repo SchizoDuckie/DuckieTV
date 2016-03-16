@@ -14,15 +14,15 @@
           <td><a style="text-decoration: underline" ng-href="http://www.google.com/search?q={{::sidepanel.serie.name}} (TV series)+Wikipedia&btnI=745" target="_blank">Wikipedia</a> <a style="text-decoration: underline" ng-href="http://www.imdb.com/title/{{::sidepanel.serie.IMDB_ID}}" ng-hide="serie.IMDB_ID < 1" target="_blank">IMDB</a></td>
         </tr>
         <tr>
-          <th translate-once="SIDEPANEL/SERIE-DETAILS/airs-on/hdr"></th>
+          <th translate-once="COMMON/airs-on/hdr"></th>
           <td>{{::sidepanel.translateDayOfWeek(sidepanel.serie.airs_dayofweek)}} {{::sidepanel.serie.airs_time}} {{::sidepanel.serie.timezone}}</td>
         </tr>
         <tr>
-          <th translate-once="SIDEPANEL/SERIE-DETAILS/first-aired/hdr"></th>
+          <th translate-once="COMMON/first-aired/hdr"></th>
           <td>{{::sidepanel.serie.firstaired|date:'medium'}}</td>
         </tr>
         <tr>
-          <th translate-once="SIDEPANEL/SERIE-DETAILS/genre/hdr"></th>
+          <th translate-once="COMMON/genre/hdr"></th>
           <td>
             <ul class="list-unstyled" ng-class="{'genres': sidepanel.serie.genre.split('|').length > 3}">
               <li ng-repeat="genre in sidepanel.serie.genre.split('|') track by $index">{{::sidepanel.translateGenre(genre)}}</li>
@@ -30,31 +30,31 @@
           </td>
         </tr>
         <tr>
-          <th translate-once="SIDEPANEL/SERIE-DETAILS/content-rating/hdr"></th>
+          <th translate-once="COMMON/content-rating/hdr"></th>
           <td>{{::sidepanel.serie.contentrating}}</td>
         </tr>
         <tr>
-          <th translate-once="SIDEPANEL/SERIE-DETAILS/country/hdr"></th>
+          <th translate-once="COMMON/country/hdr"></th>
           <td>{{::sidepanel.serie.country}}</td>
         </tr>
         <tr>
-          <th translate-once="SIDEPANEL/SERIE-DETAILS/network/hdr"></th>
+          <th translate-once="COMMON/network/hdr"></th>
           <td>{{::sidepanel.serie.network}}</td>
         </tr>
         <tr ng-show="getSetting('download.ratings')">
-          <th translate-once="SIDEPANEL/SERIE-DETAILS/rating/hdr"></th>
-          <td>{{::sidepanel.serie.rating}}% ({{::sidepanel.serie.ratingcount}} <span translate-once="SIDEPANEL/SERIE-DETAILS/votes/lbl"></span>)</td>
+          <th translate-once="COMMON/rating/hdr"></th>
+          <td>{{::sidepanel.serie.rating}}% ({{::sidepanel.serie.ratingcount}} <span translate-once="COMMON/votes/lbl"></span>)</td>
         </tr>
         <tr>
-          <th translate-once="SIDEPANEL/SERIE-DETAILS/run-time/hdr"></th>
-          <td>{{::sidepanel.serie.runtime}} <span translate-once="SIDEPANEL/SERIE-DETAILS/minutes/lbl"></span></td>
+          <th translate-once="COMMON/run-time/hdr"></th>
+          <td>{{::sidepanel.serie.runtime}} <span translate-once="COMMON/minutes/lbl"></span></td>
         </tr>
         <tr>
-          <th translate-once="SIDEPANEL/SERIE-DETAILS/status/hdr"></th>
+          <th translate-once="COMMON/status/hdr"></th>
           <td>{{::sidepanel.translateStatus(sidepanel.serie.status)}}</td>
         </tr>
         <tr ng-if="sidepanel.serie.actors.length > 0  " >
-          <th translate-once="SIDEPANEL/SERIE-DETAILS/actors/hdr"></th>
+          <th translate-once="COMMON/actors/hdr"></th>
           <td>
             <ul class="actors list-unstyled">
               <li ng-repeat="actors in sidepanel.serie.actors.split('|') track by $index">{{::actors}}</li>
