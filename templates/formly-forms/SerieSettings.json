@@ -9,7 +9,7 @@
             "label": ""
         },
         "expressionProperties": {
-            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/ignore-hide-specials/lbl\" | translate"
+            "templateOptions.label": "\"SERIESETTINGSCTRLjs/ignore-hide-specials/lbl\" | translate"
         }
     }]
 }, {
@@ -21,7 +21,7 @@
     },
     "expressionProperties": {
         "templateOptions.label": "\"COMMON/custom-search-string/lbl\" | translate",
-        "templateOptions.placeholder": "\"SERIETORRENTSETTINGSCTRLjs/custom-search/placeholder\" | translate"
+        "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/custom-search/placeholder\" | translate"
     }
 }, {
     "className": "row",
@@ -34,7 +34,7 @@
             "label": ""
         },
         "expressionProperties": {
-            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/auto-download/lbl\" | translate"
+            "templateOptions.label": "\"SERIESETTINGSCTRLjs/auto-download/lbl\" | translate"
         }
     }]
 }, {
@@ -92,7 +92,7 @@
             "valueProp": "value"
         },
         "expressionProperties": {
-            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/search-provider/lbl\" | translate"
+            "templateOptions.label": "\"SERIESETTINGSCTRLjs/search-provider/lbl\" | translate"
         }
     }]
 }]
