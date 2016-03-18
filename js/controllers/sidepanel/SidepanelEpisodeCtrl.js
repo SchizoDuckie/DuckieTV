@@ -15,7 +15,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "Scen
     };
 
     this.torrentSettings = function() {
-        var d = dialogs.create('templates/settings/serieTorrentSettings.html', 'serieTorrentSettingsCtrl', {
+        var d = dialogs.create('templates/settings/serieSettings.html', 'serieSettingsCtrl', {
             serie: self.serie
         }, {
             bindToController: true,

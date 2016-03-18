@@ -164,7 +164,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     var date = new Date(new Date(event.start).getTime()).toDateString();
                     if (!(date in calendarEvents)) return;
                     deleteDuplicates(event.episode.getID(), date);
-                    if ((!showSpecials && event.episode.seasonnumber > 0) || showSpecials) {
+                    if ((!showSpecials && event.episode.seasonnumber > 0) || showSpecials || event.serie.ignoreHideSpecials == 1) {
                         addEvent(date, event);
                     };
                 });
@@ -176,7 +176,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     Object.keys(episodes).map(function(id) {
                         var date = new Date(new Date(episodes[id].firstaired).getTime()).toDateString();
                         if (!(date in calendarEvents)) return;
-                        if ((!showSpecials && episodes[id].seasonnumber > 0) || showSpecials) return;
+                        if ((!showSpecials && episodes[id].seasonnumber > 0) || showSpecials || event.serie.ignoreHideSpecials == 1) return;
 
                         addEvent(date, {
                             start: new Date(episodes[id].firstaired),

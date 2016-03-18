@@ -1,5 +1,19 @@
 [{
-    "key": "customSearchString",
+     "className": "row",
+    "fieldGroup": [{
+        "key": "ignoreHideSpecials",
+        "className": "inline-checkbox",
+        "type": "input",
+        "templateOptions": {
+            "type": "checkbox",
+            "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"SERIETORRENTSETTINGSCTRLjs/ignore-hide-specials/lbl\" | translate"
+        }
+    }]
+}, {
+   "key": "customSearchString",
     "type": "input",
     "templateOptions": {
         "type": "text",
