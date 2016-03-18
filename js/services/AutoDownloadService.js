@@ -150,6 +150,9 @@ DuckieTV
                         };
                         var score = 0;
                         var query = globalExclude.toLowerCase().split(' ');
+                        query = query.filter(function(el) {
+                            return q.indexOf(el) == -1;
+                        });
                         name = item.releasename.toLowerCase();
                         query.map(function(part) {
                             if (name.indexOf(part) > -1) {
