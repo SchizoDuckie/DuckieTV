@@ -195,7 +195,7 @@
     "QUERYMONITORjs/close-tab-prompt/lbl": "DuckieTV is still performing database operations. Do you really want to close this tab?",
     "SERIESETTINGSCTRLjs/auto-download/lbl": "Auto download this show",
     "SERIESETTINGSCTRLjs/custom-search/placeholder": "String to append to {serie name} {season/episode} (like your favorite release group)",
-    "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "show specials on the calendar",
+    "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "Show specials on the calendar",
     "SERIESETTINGSCTRLjs/search-provider/lbl": "Search Provider for this show",
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Your favorite series. Click one to view details",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "I'm done adding shows",
