@@ -24,7 +24,7 @@ DuckieTV
                 "<li>series sidepanel: (new) option to make the episodes-button jump to the first not-watched season",
                 "<li>season sidepanel: (fix) jump to active season ignores specials unless there is no other seasons",
                 "<li>episode sidepanel: (fix) overview text not height limited bug",
-                "<li>calendar: (fix) events multi-episodes badge incorrectly counted hidden specials bug",
+                "<li>calendar: (fix) events multi-episodes badge incorrectly counted hidden specials bug, (new) Series option to ignore global Hide Specials from calendar",
                 "<li>(new) events single click to mark episode as watched",
                 "<li>top10: (fix) invalid data handling bug",
                 "<li>Subtitles: (fix) net::err_empty_response handling bug",
