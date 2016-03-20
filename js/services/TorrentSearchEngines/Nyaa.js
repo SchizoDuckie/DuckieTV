@@ -11,11 +11,19 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 selectors: {
                     resultContainer: 'tr.tlistrow',
                     releasename: ['td.tlistname a', 'innerText'],
-                    torrentUrl: ['td.tlistdownload a', 'href'],
+                    torrentUrl: ['td.tlistdownload a', 'href',
+                        function(a) {
+                            return 'https:' + a;
+                        }
+                    ],
                     size: ['td.tlistsize', 'innerText'],
                     seeders: ['td.tlistsn', 'innerHTML'],
                     leechers: ['td.tlistln', 'innerHTML'],
-                    detailUrl: ['td.tlistname a', 'href']
+                    detailUrl: ['td.tlistname a', 'href',
+                        function(a) {
+                            return 'https:' + a;
+                        }
+                    ]
                 }
             }, $q, $http, $injector));
         }
