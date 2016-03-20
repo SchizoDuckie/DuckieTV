@@ -12,7 +12,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             'Torrentleech': {
                 testSearch: 'test',
                 name: 'Torrentleech.org',
-                mirror: 'http://torrentleech.org', // http://yoursite.com',
+                mirror: 'https://torrentleech.org', // http://yoursite.com',
                 searchEndpoint: '/torrents/browse/index/query/%s',
                 searchResultsContainer: '#torrenttable tr:not(:first-child)',
                 releaseNameSelector: 'td.name .title a',
