@@ -4,7 +4,7 @@
 DuckieTV.provider('TorrentFreak', function() {
 
     var endpoints = {
-        top10rss: 'http://torrentfreak.com/category/dvdrip/feed/'
+        top10rss: 'https://torrentfreak.com/category/dvdrip/feed/'
     };
 
     /**
