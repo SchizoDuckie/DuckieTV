@@ -52,7 +52,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "Scen
         Netflix.isLoggedIn().then(function(result) {
             if (!result) {
                 alert($filter('translate')('SIDEPANELEPISODECTRLjs/please-login-netflix/alert'));
-                window.open('http://www.netflix.com/Login');
+                window.open('https://www.netflix.com/Login');
             } else {
                 Netflix.findShow(self.serie.name).then(function(result) {
                     Netflix.findEpisode(result.id, episode.episodename).then(function(result) {

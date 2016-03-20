@@ -2,7 +2,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
     function(TorrentSearchEngines, SettingsService, $q, $http, $injector) {
         if (SettingsService.get('torrenting.enabled')) {
             TorrentSearchEngines.registerSearchEngine('Nyaa', new GenericTorrentSearchEngine({
-                mirror: 'http://www.nyaa.se',
+                mirror: 'https://www.nyaa.se',
                 mirrorResolver: null,
                 endpoints: {
                     search: '/?page=search&sort=2&term=%s'
