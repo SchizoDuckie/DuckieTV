@@ -18,6 +18,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
         $scope.traktTVSeries = [];
         $scope.localSeries = {};
         $scope.pushError = [false, null];
+        $scope.watchedEpisodesReport = [];
 
         $scope.onAuthorizeEnter = function() {
             if ($scope.credentials.username !== '') {
@@ -91,7 +92,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
             show.seasons.map(function(s) {
                 count += s.episodes.length;
             });
-            //console.log("Counting watched episodes for ", show, count);
+            //console.debug("Counting watched episodes for ", show, count);
             return count;
         };
 
@@ -103,7 +104,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
                     $scope.localSeries[serie.TVDB_ID] = serie;
                 });
             })
-            // Fetch all watched shows
+            // Fetch all Trakt.TV user's watched shows history
             .then(TraktTVv2.watched).then(function(shows) {
                 console.info("Found watched from Trakt.TV", shows);
                 Promise.all(shows.map(function(show) {
@@ -127,6 +128,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
                     // Process seasons and episodes marked as watched
                     return Promise.all(shows.map(function(show) {
                         FavoritesService.adding(show.tvdb_id);
+                        $scope.watchedEpisodesReport = [];
                         return Promise.all(show.seasons.map(function(season) {
                             return Promise.all(season.episodes.map(function(episode) {
                                 return CRUD.FindOne('Episode', {
@@ -137,23 +139,24 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
                                     }
                                 }).then(function(epi) {
                                     if (!epi) {
-                                        console.log("Episode not found", season.number, 'e', episode.number, ' for ', show.name);
+                                        console.warn("Episode s%se%s not found for %s", season.number, episode.number, show.name);
                                     } else {
-                                        console.info("Episode marked as watched: ", show.name, epi.getFormattedEpisode());
+                                        $scope.watchedEpisodesReport.push(epi.getFormattedEpisode());
                                         return epi.markWatched();
                                     }
                                 });
                             }));
                         })).then(function() {
                             FavoritesService.added(show.tvdb_id);
+                            console.info("Episodes marked as watched for ", show.name, $scope.watchedEpisodesReport);
                         });
                     }));
 
                 });
             })
-            // user shows times out for me still too often to test proerly
+            // process Trakt.TV user's collected shows
             .then(TraktTVv2.userShows().then(function(data) {
-                console.log("Found user shows from Trakt.tV", data);
+                console.info("Found user shows from Trakt.TV", data);
                 data.map(function(show) {
                     $scope.traktTVSeries.push(show);
 
@@ -177,12 +180,11 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
         };
 
         // Push current series and watched episodes to TraktTV
-        // Currently not working
         $scope.pushToTraktTV = function() {
             var serieIDs = {};
 
             FavoritesService.favorites.map(function(serie) {
-                console.log("Adding serie '" + serie.name + "' to Trakt.tv: ", serie);
+                console.info("Adding series %s to Trakt.TV user's collection.",serie.name);
                 TraktTVv2.addToCollection(serie.TVDB_ID);
                 serieIDs[serie.ID_Serie] = serie.TVDB_ID;
             });
@@ -192,10 +194,8 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
             }, {
                 limit: '100000'
             }).then(function(episodes) {
-                episodes.map(function(episode) {
-                    //console.log("marking episode watched: ", episode.get('ID_Serie'), episode.get('TVDB_ID'));
-                    TraktTVv2.markEpisodeWatched(serieIDs[episode.get('ID_Serie')], episode);
-                });
+                TraktTVv2.markEpisodesWatched(episodes);
+                console.info("Marking Trakt.TV user's episodes as watched.", episodes);
             });
         };
 

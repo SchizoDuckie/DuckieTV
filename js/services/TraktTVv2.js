@@ -287,6 +287,10 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             getPinUrl: function() {
                 return pinUrl;
             },
+            /** 
+             * Exchange code for access token.
+             * http://docs.trakt.apiary.io/#reference/authentication-oauth/get-token/exchange-code-for-access_token
+             */
             login: function(pin) {
                 return $http.post(getUrl('token'), JSON.stringify({
                     'code': pin,
@@ -308,10 +312,17 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     throw error;
                 });
             },
+            /** 
+             * Returns recently updated shows.
+             * http://docs.trakt.apiary.io/#reference/shows/updates/get-recently-updated-shows
+             */
             updated: function(since) {
                 return promiseRequest('updated', since);
             },
-            // Returns all shows a user has watched.
+            /** 
+             * Returns all shows a user has watched.
+             * http://docs.trakt.apiary.io/#reference/sync/get-watched/get-watched
+             */
             watched: function() {
                 return promiseRequest('watched').then(function(result) {
                     console.info("Fetched V2 API watched results: ", result);
@@ -320,8 +331,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             },
             /** 
              * Mark an episode as watched.
-             * Can be passed either a CRUD entity or a plain series object and an episode. no longer true??
-             * http://trakt.tv/api-docs/show-episode-seen
+             * http://docs.trakt.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
              */
             markEpisodeWatched: function(serie, episode) {
                 $http.post(getUrl('episodeSeen'), {
@@ -344,9 +354,35 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                 });
             },
             /** 
+             * Batch mark episodes as watched.
+             * http://docs.trakt.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
+             */
+            markEpisodesWatched: function(episodes) {
+                var episodesArray = [];
+                angular.forEach(episodes, function(episode) {
+                    episodesArray.push({
+                        'watched_at': new Date(episode.watchedAt).toISOString(),
+                        'ids': {
+                            trakt: episode.TRAKT_ID
+                    }});
+                });
+                $http.post(getUrl('episodeSeen'), {
+                    episodes: episodesArray
+                }, {
+                    headers: {
+                        'trakt-api-key': APIkey,
+                        'trakt-api-version': 2,
+                        'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                }).then(function(result) {
+                    console.debug("trakt.TV episodes marked as watched:", episodes, result);
+                });
+            },
+            /** 
              * Mark an episode as not watched.
-             * Can be passed either a CRUD entity or a plain series object and an episode. no longer true??
-             * http://trakt.tv/api-docs/show-episode-unseen
+             * http://docs.trakt.apiary.io/#reference/sync/remove-from-history/remove-items-from-history
              */
             markEpisodeNotWatched: function(serie, episode) {
                 var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
@@ -373,7 +409,10 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     //console.debug("Episode un-watched:", serie, episode);
                 });
             },
-            // Returns all shows in a users collection
+            /** 
+             * Returns all shows in a users collection.
+             * http://docs.trakt.apiary.io/#reference/sync/get-collection/get-collection
+             */
             userShows: function() {
                 return promiseRequest('userShows').then(function(result) {
                     console.info("Fetched V2 API User Shows: ", result);
@@ -381,6 +420,10 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     return result;
                 });
             },
+            /** 
+             * add all shows to a users collection.
+             * http://docs.trakt.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
+             */
             addToCollection: function(serieID) {
                 $http.post(getUrl('addCollection'), {
                     shows: [{
@@ -400,6 +443,10 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     console.info("Show added to collection:", serieID);
                 });
             },
+            /** 
+             * removes all shows from a users collection.
+             * http://docs.trakt.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
+             */
             removeFromCollection: function(serieID) {
                 $http.post(getUrl('removeCollection'), {
                     shows: [{
