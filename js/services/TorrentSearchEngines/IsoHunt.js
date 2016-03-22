@@ -19,7 +19,11 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     ],
                     size: ['td:nth-child(6)', 'innerText'],
                     seeders: ['td:nth-child(7)', 'innerHTML'],
-                    leechers: 'n/a',
+                    leechers:  ['td:nth-child(7)', 'innerHTML',
+                        function(a) {
+                            return 'n/a';
+                        }
+                    ],
                     detailUrl: ['td:nth-child(2) a', 'href']
                 }
             }, $q, $http, $injector));
