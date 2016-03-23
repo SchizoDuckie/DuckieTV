@@ -35,8 +35,8 @@ DuckieTV.factory('TransparentFixtureProxyInterceptor', ['$q', '$injector',
         return {
             request: function(config) {
                 if (document.domain != 'localhost' && config.url.indexOf('http') == 0 && config.url.indexOf('localhost') === -1) {
-                    config.headers['X-Proxy-Url'] = config.url.replace('https:','http:');
-                    if (config.url.indexOf('http://duckietv.herokuapp.com/') == -1) config.url = 'http://duckietv.herokuapp.com/?t=' + new Date().getTime() + '&u=' + config.url.replace('https:','http:');
+                    config.headers['X-Proxy-Url'] = config.url;
+                    if (config.url.indexOf('http://duckietv.herokuapp.com/') == -1) config.url = 'http://duckietv.herokuapp.com/?t=' + new Date().getTime() + '&u=' + config.url;
                 }
                 return config;
             },
