@@ -106,7 +106,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
             })
             // Fetch all Trakt.TV user's watched shows history
             .then(TraktTVv2.watched).then(function(shows) {
-                console.info("Found watched from Trakt.TV", shows);
+                //console.info("Found watched from Trakt.TV", shows);
                 Promise.all(shows.map(function(show) {
                     $scope.traktTVSeries.push(show);
                     // Flag it as added if we already cached it
@@ -156,7 +156,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
             })
             // process Trakt.TV user's collected shows
             .then(TraktTVv2.userShows().then(function(data) {
-                console.info("Found user shows from Trakt.TV", data);
+                //console.info("Found user shows from Trakt.TV", data);
                 data.map(function(show) {
                     $scope.traktTVSeries.push(show);
 
@@ -175,7 +175,9 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
                     }
                 });
             })).then(function() {
-            	$rootScope.$broadcast('series:recount:watched');
+                setTimeout(function() {
+                    $rootScope.$broadcast('series:recount:watched');
+                }, 6000);
             });
         };
 
