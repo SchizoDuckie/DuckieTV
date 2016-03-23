@@ -212,13 +212,13 @@ CRUD.define(Serie, {
         this.displaycalendar = this.displaycalendar == 1 ? 0 : 1;
         this.Persist();
     },
-    markSerieAsWatched: function() {
+    markSerieAsWatched: function($rootScope) {
         var self = this;
         return new Promise(function(resolve) {
             self.getEpisodes().then(function(episodes) {
                 episodes.forEach(function(episode) {
                     if (episode.hasAired() && (!episode.isWatched())) {
-                        return episode.markWatched();
+                        return episode.markWatched($rootScope);
                     }
                 });
                 return resolve(true)
@@ -226,13 +226,13 @@ CRUD.define(Serie, {
         })
         
     },
-    markSerieAsUnWatched: function() {
+    markSerieAsUnWatched: function($rootScope) {
         var self = this;
         return new Promise(function(resolve) {
             self.getEpisodes().then(function(episodes) {
                 episodes.forEach(function(episode) {
                     if (episode.isWatched()) {
-                        return episode.markNotWatched();
+                        return episode.markNotWatched($rootScope);
                     }
                 });
                 return resolve(true);
@@ -289,13 +289,13 @@ CRUD.define(Season, {
     getEpisodes: function() {
         return Episode.findByID_Season(this.getID());
     },
-    markSeasonAsWatched: function() {
+    markSeasonAsWatched: function($rootScope) {
         var self = this;
         return new Promise(function(resolve) {
             self.getEpisodes().then(function(episodes) {
                 episodes.forEach(function(episode) {
                     if (episode.hasAired() && (!episode.isWatched())) {
-                        return episode.markWatched();
+                        return episode.markWatched($rootScope);
                     }
                 });
                 self.watched = 1;
@@ -304,13 +304,13 @@ CRUD.define(Season, {
             });
         });
     },
-    markSeasonAsUnWatched: function() {
+    markSeasonAsUnWatched: function($rootScope) {
         var self = this;
         return new Promise(function(resolve) {
             self.getEpisodes().then(function(episodes) {
                 episodes.forEach(function(episode) {
                     if (episode.isWatched()) {
-                        return episode.markNotWatched();
+                        return episode.markNotWatched($rootScope);
                     }
                 });
                 self.watched = 0;
