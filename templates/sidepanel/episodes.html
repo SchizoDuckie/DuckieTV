@@ -10,7 +10,7 @@
       <a ng-click="season.gotoNextSeason()" ng-class="{disabled: season.seasonIndex === 0}" tooltip="{{'SIDEPANEL/EPISODES/next-season/tooltip'|translate}}" tooltip-placement="left"><i class="glyphicon glyphicon-chevron-right"></i></a>
     </div> 
   </div>
-  <p style="text-align:justify">{{::season.season.overview}}</p>
+  <p class="overview" style="text-align:justify">{{::season.season.overview}}</p>
   <strong translate-once="COMMON/episodes/lbl"></strong>
   <table class="table table-condensed light episodelist" style='margin:10px 0 10px 0; background-color:transparent' ng-class="{'hover':getSetting('torrenting.enabled')}">
     <tbody ng-if="!season.episodes || season.episodes.length == 0">
