@@ -5,7 +5,10 @@
  *
  * License: MIT
  *
- * this module has been quacked (hacked) for DuckieTV. v0.1.5.3  now ng-strict-di compliant, color gradient bug squashed, and value is displayed to 1 fixed decimal place.
+ * this module has been quacked (hacked) for DuckieTV. 
+ * v0.1.5.1 now ng-strict-di compliant.
+ * v0.1.5.2 color gradient bug squashed.
+ * v0.1.5.3 value is displayed to 1 fixed decimal place.
  */
 angular.module('angular-dialgauge', [
     'ngSanitize'
@@ -365,6 +368,7 @@ angular.module('angular-dialgauge', [
                     else if (value < cfg.scaleMin) {
                         value = cfg.scaleMin;
                     }
+                    var valueForColor = value;
 
                     // Turn value into a percentage of the max angle
                     value = (value - cfg.scaleMin) / cfg.scaleMax;
@@ -409,7 +413,7 @@ angular.module('angular-dialgauge', [
                         var B = color2rgb(cfg.barColor[1]);
                         var gradient = [];
                         for (var c = 0; c < 3; c++) {
-                            gradient[c] = A[c] + (B[c] - A[c]) * newValue / cfg.scaleMax;
+                            gradient[c] = A[c] + (B[c] - A[c]) * valueForColor / cfg.scaleMax;
                         }
 
                         color = rgb2color(gradient);
