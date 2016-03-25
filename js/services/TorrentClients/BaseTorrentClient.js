@@ -4,7 +4,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
         function BaseTorrentRemote() {
             this.torrents = {};
             this.dataClass = null;
-            this.offMethods = {}; // callbacks map to deregister $rootScope.$on events
+            this.offMethods = {}; // callbacks map to de-register $rootScope.$on events
         }
 
         BaseTorrentRemote.prototype.handleEvent = function(data) {
@@ -69,6 +69,13 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
                 if ('hash' in torrent) {
                     if (activeTorrentsList.indexOf(torrent.hash.toUpperCase()) == -1) {
                         var key = torrent.hash.toUpperCase();
+                        Episode.findOneByMagnetHash(torrent.hash.toUpperCase()).then(function(result) {
+                            if (result) {
+                                console.info('remote torrent not found, removed magnetHash[%s] from episode[%s] of series[%s]', result.magnetHash, result.getFormattedEpisode(), result.ID_Serie);
+                                result.magnetHash = null;
+                                result.Persist();
+                            }
+                        });
                         delete self.torrents[key].hash;
                         $rootScope.$broadcast('torrent:update:' + key, self.torrents[key]);
                         $rootScope.$broadcast('torrent:update:', self.torrents[key]);            
@@ -263,7 +270,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
              *
              *
              * Example:
-             *        return request('portscan').then(function(result) { // check if client webui is reachable
+             *        return request('portscan').then(function(result) { // check if client WebUI is reachable
              *   console.log(service.getName() + " check result: ", result);
              *   self.connected = true; // we are now connected
              *   self.isConnecting = false; // we are no longer connecting
@@ -272,7 +279,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
              */
             connect: function() {
                 var self = this;
-                return this.getAPI().portscan().then(function(result) { // check if client webui is reachable
+                return this.getAPI().portscan().then(function(result) { // check if client WebUI is reachable
                     //console.debug(self.getName() + " check result: ", result);
                     if (!result) {
                         self.isConnecting = false;
@@ -287,7 +294,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
             },
 
             /** 
-             * Execute and handle the api's 'update' query.
+             * Execute and handle the API's 'update' query.
              * Parses out the events, updates, properties and methods and dispatches them to the TorrentRemote interface
              * for storage, handling and attaching RPC methods.
              */
@@ -320,7 +327,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
             },
 
             /**
-             * Implement this function to be able to add a torrent by to url the client.
+             * Implement this function to be able to add a torrent by to URL the client.
              * Torrent releaseName is also passed for clients that do not return the hash right after
              * submitting a new torrent, so that you can fetch the updated torrent list and parse it out
              * by name.

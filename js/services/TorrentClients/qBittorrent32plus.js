@@ -1,5 +1,5 @@
 /** 
- * qBittorrent32plus < 3.2 client
+ * qBittorrent32plus >= 3.2 client
  *
  * API Docs:
  * https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-Documentation
@@ -122,6 +122,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
             addfile: '/command/upload',
             resume: '/command/resume',
             pause: '/command/pause',
+            remove: '/command/delete',
             files: '/query/propertiesFiles/%s',
             version: '/version/api',
             login: '/login'

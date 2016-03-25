@@ -60,6 +60,11 @@
         <i class="glyphicon glyphicon-stop"></i>
         <span translate-once="COMMON/stop/btn"></span>
       </a>
+      <!-- remove button -->
+      <a ng-click="vm.torrent.remove();"  style='display:inline-block'>
+        <i class="glyphicon glyphicon-eject"></i>
+        <span translate-once="COMMON/remove/btn"></span>
+      </a>
       <!-- streamable button, only for utorrent -->
       <a ng-if="!vm.isWebUI && getSetting('torrenting.streaming') && vm.torrent.properties.all.is_streamable" style="margin-top:5px" ng-click="vm.torrent.stream();">
         <i class="glyphicon glyphicon-bullhorn"></i>

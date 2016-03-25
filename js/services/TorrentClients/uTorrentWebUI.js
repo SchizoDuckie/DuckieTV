@@ -27,6 +27,9 @@ uTorrentWebUIData.extends(TorrentData, {
     pause: function() {
         this.getClient().getAPI().execute('pause', this.hash);
     },
+    remove: function() {
+        this.getClient().getAPI().execute('remove', this.hash);
+    },
     getFiles: function() {
         return this.getClient().getAPI().getFiles(this.hash).then(function(results) {
             this.files = results;
@@ -63,7 +66,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
         };
         uTorrentWebUIAPI.extends(BaseHTTPApi, {
             /**
-             * Fetches the url, auto-replaces the port in the url if it was found.
+             * Fetches the URL, auto-replaces the port in the URL if it was found.
              */
             getUrl: function(type, param) {
                 var out = this.config.server + ':' + this.config.port + this.endpoints[type];
@@ -250,6 +253,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
             stop: '/gui/?token=%token%&action=stop&hash=%s',
             start: '/gui/?token=%token%&action=start&hash=%s',
             pause: '/gui/?token=%token%&action=pause&hash=%s',
+            remove: '/gui/?token=%token%&action=remove&hash=%s',
             files: '/gui/?token=%token%&action=getfiles&hash=%s',
         });
         service.readConfig();

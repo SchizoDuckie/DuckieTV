@@ -65,6 +65,12 @@ TorrentData.prototype.pause = function() {
     throw "function not implemented";
 };
 
+/**
+ * Send remove command to the torrent client implementation for this torrent.
+ */
+TorrentData.prototype.remove = function() {
+    throw "function not implemented";
+};
 
 /**
  * Send get files command to the torrent client implementation for this torrent.

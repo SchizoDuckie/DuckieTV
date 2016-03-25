@@ -21,13 +21,16 @@ DelugeData.extends(TorrentData, {
         return this.download_payload_rate; // Bytes/second
     },
     start: function() {
-        this.getClient().getAPI().execute('core.resume_torrent', [this.hash]);
+        this.getClient().getAPI().execute('core.resume_torrent', [[this.hash]]);
     },
     stop: function() {
-        this.getClient().getAPI().execute('core.pause_torrent', [this.hash]);
+        this.getClient().getAPI().execute('core.pause_torrent', [[this.hash]]);
     },
     pause: function() {
         this.stop();
+    },
+    remove: function() {
+        this.getClient().getAPI().execute('core.remove_torrent', [this.hash,false]);
     },
     isStarted: function() {
         return ["Downloading", "Seeding", "Active"].indexOf(this.status) > -1;
@@ -162,7 +165,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
 
             },
             execute: function(method, args) {
-                return this.rpc(method, [args]);
+                return this.rpc(method, args);
             }
         });
 

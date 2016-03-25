@@ -31,7 +31,7 @@ TixatiData.extends(TorrentData, {
         return this.progress;
     },
     getDownloadSpeed: function() {
-        return this.downSpeed; // kB/s (actually governed by tixati settings: user interface, output formatting, bytes, largest unit. default is k.)
+        return this.downSpeed; // kB/s (actually governed by Tixati settings: user interface, output formatting, bytes, largest unit. default is k.)
     },
     start: function() {
         var fd = new FormData();
@@ -45,6 +45,13 @@ TixatiData.extends(TorrentData, {
     },
     pause: function() {
         return this.stop();
+    },
+    remove: function() {
+        var self = this;
+        var fd = new FormData();
+        fd.append('removeconf', 'Remove Transfers');
+        fd.append('remove', 'Remove');
+        return this.getClient().getAPI().execute(this.guid, fd);
     },
     isStarted: function() {
         return this.status.toLowerCase().indexOf('offline') == -1;

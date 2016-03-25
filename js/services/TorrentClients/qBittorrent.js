@@ -50,6 +50,9 @@ qBittorrentData.extends(TorrentData, {
     pause: function() {
         this.getClient().getAPI().execute('pause', this.hash);
     },
+    remove: function() {
+         this.getClient().getAPI().remove(this.hash);
+    },
     getFiles: function() {
         var self = this;
         return this.getClient().getAPI().getFiles(this.hash).then(function(results) {
@@ -104,6 +107,13 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
             },
             addMagnet: function(magnetHash) {
                 return $http.post(this.getUrl('addmagnet'), 'urls=' + encodeURIComponent(magnetHash), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+                });
+            },
+            remove: function(magnetHash) {
+                return $http.post(this.getUrl('remove'), 'hashes=' + encodeURIComponent(magnetHash), {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     }
@@ -221,6 +231,7 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
             addfile: '/command/upload',
             resume: '/command/resume',
             pause: '/command/pause',
+            remove: '/command/delete',
             files: '/json/propertiesFiles/%s'
         });
         service.readConfig();

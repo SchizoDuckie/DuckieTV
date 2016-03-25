@@ -11,6 +11,7 @@
       <a ng-click="remote.torrent.start();" style='display:inline-block'><i class="glyphicon glyphicon-play"></i><span translate-once="COMMON/start/btn"></span></a>
       <a ng-click="remote.torrent.pause();" style='display:inline-block'><i class="glyphicon glyphicon-pause"></i><span translate-once="COMMON/pause/btn"></span></a>
       <a ng-click="remote.torrent.stop();" style='display:inline-block'><i class="glyphicon glyphicon-stop"></i><span translate-once="COMMON/stop/btn"></span></a>
+      <a ng-click="remote.torrent.remove();" style='display:inline-block'><i class="glyphicon glyphicon-eject"></i><span translate-once="COMMON/remove/btn"></span></a>
 
       <a ng-show="remote.torrent.properties.all.is_streamable && getSetting('torrenting.streaming')" style="margin-top:5px" ng-click="remote.torrent.stream();">
         <i class="glyphicon glyphicon-bullhorn"></i> <span translate-once="SIDEPANEL/TORRENTRC/stream-play/glyph"></span>

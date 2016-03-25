@@ -77,8 +77,13 @@ DuckieTV
                     });
 
                     this.cleanupHashCheck = function() {
-                        // clean up when episode has been downloaded and torrent has not been found in torrent-client
-                        if ($scope.episodeDownloaded) {
+                        /**
+                         * clean up when torrent has not been found in torrent-client
+                         * exception: when using launch_via_chromium, only do the check when the torrent has downloaded
+                         * otherwise we could delete DuckieTV's infoHash before the user has completed the add-new-torrent dialogue on the TorrentHost
+                        **/
+                        var lvc = $rootScope.getSetting('torrenting.launch_via_chromium');
+                        if ( (!lvc) || (lvc && $scope.episodeDownloaded) ) {
                             DuckieTorrent.getClient().hasTorrent(remote.infoHash).then(function(hasTorrent) {
                                 if (!hasTorrent) {
                                     Episode.findOneByMagnetHash(remote.infoHash).then(function(result) {

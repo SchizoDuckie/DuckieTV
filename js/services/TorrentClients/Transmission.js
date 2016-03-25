@@ -45,6 +45,9 @@ TransmissionData.extends(TorrentData, {
     pause: function() {
         this.stop();
     },
+    remove: function() {
+        this.getClient().getAPI().execute('torrent-remove', this.id);
+    },
     isStarted: function() {
         return this.status > 0;
     },
