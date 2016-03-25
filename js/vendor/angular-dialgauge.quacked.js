@@ -9,6 +9,7 @@
  * v0.1.5.1 now ng-strict-di compliant.
  * v0.1.5.2 color gradient bug squashed.
  * v0.1.5.3 value is displayed to 1 fixed decimal place.
+ * v0.1.5.4 fix bar color going white when ngModel > scaleMax.
  */
 angular.module('angular-dialgauge', [
     'ngSanitize'
