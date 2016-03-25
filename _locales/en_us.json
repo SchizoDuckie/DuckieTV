@@ -119,6 +119,7 @@
     "COMMON/port/lbl": "Port",
     "COMMON/previous/lbl": "Previous",
     "COMMON/rating/hdr": "Rating",
+    "COMMON/remove/btn": "Remove",
     "COMMON/remove-ads/btn": "Open Pimp My &micro;Torrent",
     "COMMON/remove-ads/desc": "With Pimp My &micro;Torrent you can remove the annoying ads from &micro;Torrent with just 2 clicks.",
     "COMMON/remove-ads/hdr": "Remove &micro;Torrent ads",
