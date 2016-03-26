@@ -444,13 +444,16 @@ angular.module('dialogs.services',['ui.bootstrap.modal','dialogs.controllers'])
                  */
                 confirmAll: function(header, msg, opts) {
                     opts = _setOpts(opts);
+
                     return $uibModal.open({
                         templateUrl: '/dialogs/confirmall.html',
                         controller: 'confirmDialogCtrl',
                         backdrop: opts.bd,
+                        backdropClass: opts.bdc,
                         keyboard: opts.kb,
                         windowClass: opts.wc,
                         size: opts.ws,
+                        animation: opts.anim,
                         resolve: {
                             data: function() {
                                 return {
