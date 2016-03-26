@@ -83,16 +83,16 @@
     <tr ng-repeat="seed in items | limitTo: 20" class="no-animate">
       <td style='width:80px; padding:5px; vertical-align: top;'>
         <a ng-click="select(seed)">
-          <i class="glyphicon glyphicon-magnet" tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
+          <i class="glyphicon glyphicon-magnet" uib-tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
         </a>
         <a ng-href="{{::seed.torrent}}" target="iframe_a">
-          <i class="glyphicon glyphicon-download" tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
+          <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
         </a>
         <a ng-href="{{::seed.magneturl}}" target="iframe_a">
-          <i class="glyphicon glyphicon-link" tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
+          <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
         </a>
         <a ng-href="{{::seed.detailUrl}}" target='_blank'>
-          <i class="glyphicon glyphicon-info-sign" tooltip="{{'COMMON/torrent-details/lbl'|translate}}"></i>
+          <i class="glyphicon glyphicon-info-sign" uib-tooltip="{{'COMMON/torrent-details/lbl'|translate}}"></i>
         </a>
       </td>
       <td>

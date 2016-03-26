@@ -122,7 +122,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
     }
 ])
 
-.controller('customSearchEngineDialogCtrl', ['$scope', "$injector", "$http", "$q", "$timeout", "$modalInstance", "data", "TorrentSearchEngines", "FormlyLoader",
+.controller('customSearchEngineDialogCtrl', ['$scope', "$injector", "$http", "$q", "$timeout", "$uibModalInstance", "data", "TorrentSearchEngines", "FormlyLoader",
     function($scope, $injector, $http, $q, $timeout, $modalInstance, data, TorrentSearchEngines, FormlyLoader) {
 
         var self = this;

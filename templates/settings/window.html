@@ -1,6 +1,6 @@
 <div ng-controller="WindowCtrl" class="buttons windowCtrl">
   <h2>
-    <span tooltip="{{standaloneStartupMinimized ? 'SETTINGS/WINDOW/standalone-startup-minimized/tooltip' : 'SETTINGS/WINDOW/standalone-startup-normalized/tooltip'|translate}}">
+    <span uib-tooltip="{{standaloneStartupMinimized ? 'SETTINGS/WINDOW/standalone-startup-minimized/tooltip' : 'SETTINGS/WINDOW/standalone-startup-normalized/tooltip'|translate}}">
       <i class="glyphicon glyphicon-{{standaloneStartupMinimized ? 'win-minimize alert-success' : 'win-maximize alert-info'}}" style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i>
     </span>
     <li translate-once="SETTINGS/WINDOW/standalone-startup-window/hdr"></li>

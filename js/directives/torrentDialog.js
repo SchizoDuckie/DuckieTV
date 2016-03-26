@@ -1,6 +1,6 @@
 DuckieTV
 
-.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "TorrentSearchEngines", "SettingsService", "TorrentHashListService",
+.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "data", "TorrentSearchEngines", "SettingsService", "TorrentHashListService",
     function($scope, $rootScope, $modalInstance, $injector, data, TorrentSearchEngines, SettingsService, TorrentHashListService) {
         //-- Variables --//
 
@@ -195,7 +195,7 @@ DuckieTV
                     serie: '=serie',
                     episode: '=episode'
                 },
-                template: '<a class="torrent-dialog" ng-click="openDialog()" tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
+                template: '<a class="torrent-dialog" ng-click="openDialog()" uib-tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
                 controller: ["$scope",
                     function($scope) {
                         // Translates the tooltip

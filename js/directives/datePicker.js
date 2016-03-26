@@ -19,7 +19,6 @@ DuckieTV
                 before: '=?'
             },
             link: function(scope, element, attrs) {
-
                 function getVisibleMinutes(date, step) {
                     date = new Date(date || new Date());
                     date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours());
@@ -31,8 +30,6 @@ DuckieTV
                     }
                     return minutes;
                 }
-
-
 
                 function getVisibleWeek(date, startSunday) {
                     date = new Date(date || new Date());
@@ -138,7 +135,6 @@ DuckieTV
                     return hours;
                 }
 
-
                 scope.date = new Date(scope.model || new Date());
                 scope.views = datePickerConfig.views.concat();
                 scope.view = attrs.view || datePickerConfig.view;
@@ -162,7 +158,6 @@ DuckieTV
                     if ($injector.has(scope.eventService)) {
                         scope.eventService = $injector.get(scope.eventService);
                     }
-
                 }
 
                 $rootScope.$on('calendar:setdate', function(evt, newDate) {
@@ -171,7 +166,6 @@ DuckieTV
                         update();
                     }
                 });
-
 
                 var today = new Date();
                 scope.hasTodoEvent = function(date) {
@@ -232,7 +226,6 @@ DuckieTV
                     // change next view
                     var nextView = scope.views[scope.views.indexOf(scope.view) + 1];
                     if (!nextView || scope.model) {
-
                         scope.model = new Date(scope.model || date);
 
                         //noinspection FallThroughInSwitchStatementJS
@@ -302,7 +295,6 @@ DuckieTV
                     }
                     return scope.model ? scope.model.getMonth() : null;
                 }
-
 
                 scope.$watch(watch, update);
 
@@ -414,7 +406,6 @@ DuckieTV
                 }
                 return centeringOffset;
             }
-
         }
     };
 });

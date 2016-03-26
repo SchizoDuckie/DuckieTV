@@ -31,7 +31,7 @@ DuckieTV.provider('SubtitleDialog', function() {
     ];
 })
 
-.controller('subtitleDialogCtrl', ["$scope", "$rootScope", "$modalInstance", "$injector", "data", "OpenSubtitles", "SettingsService", "SceneNameResolver",
+.controller('subtitleDialogCtrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "data", "OpenSubtitles", "SettingsService", "SceneNameResolver",
     function($scope, $rootScope, $modalInstance, $injector, data, OpenSubtitles, SettingsService, SceneNameResolver) {
         //-- Variables --//
 
@@ -110,7 +110,7 @@ DuckieTV.provider('SubtitleDialog', function() {
                 episodeNumber: '=episodeNumber',
                 filename: '=filename'
             },
-            template: '<a class="subtitle-dialog" ng-click="openDialog()" tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-text-width"></i><span ng-transclude></span></a>',
+            template: '<a class="subtitle-dialog" ng-click="openDialog()" uib-tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-text-width"></i><span ng-transclude></span></a>',
             controller: ["$scope",
                 function($scope) {
                     // Translates the tooltip

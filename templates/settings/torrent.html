@@ -1,6 +1,6 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
   <h2>
-    <span tooltip="{{torrentEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+    <span uib-tooltip="{{torrentEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
       <i class="glyphicon glyphicon-{{torrentEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/TORRENT/hdr"></li>
@@ -29,7 +29,7 @@
     <hr class="setting-divider">
 
     <h2>
-      <span tooltip="{{adEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+      <span uib-tooltip="{{adEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
         <i class="glyphicon glyphicon-{{adEnabled ? 'ok alert-success' : 'remove  alert-danger'}}" ></i>
       </span>
       <li translate-once="SETTINGS/TORRENT/autodownload/hdr"></li>
@@ -78,7 +78,7 @@
     <hr class="setting-divider">
   
     <h2>
-      <span tooltip="{{progressEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+      <span uib-tooltip="{{progressEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
         <i class="glyphicon glyphicon-{{progressEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
       <li translate-once="SETTINGS/TORRENT/progressbar/hdr"></li>
@@ -94,7 +94,7 @@
     <hr class="setting-divider">
 
     <h2> 
-      <span tooltip="{{autostopEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+      <span uib-tooltip="{{autostopEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
         <i class="glyphicon glyphicon-{{autostopEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
       <li translate-once="SETTINGS/TORRENT/autostop/hdr"></li>
@@ -110,7 +110,7 @@
       <hr class="setting-divider">
 
       <h2> 
-        <span tooltip="{{autostopAllEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+        <span uib-tooltip="{{autostopAllEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
           <i class="glyphicon glyphicon-{{autostopAllEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
         </span>
         <li translate-once="SETTINGS/TORRENT/autostopall/hdr"></li>
@@ -126,7 +126,7 @@
       <hr class="setting-divider">
 
       <h2> 
-        <span tooltip="{{chromiumEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+        <span uib-tooltip="{{chromiumEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
           <i class="glyphicon glyphicon-{{chromiumEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
         </span>
         <li translate-once="SETTINGS/TORRENT/chromium/hdr"></li>

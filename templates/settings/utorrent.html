@@ -15,7 +15,7 @@
   <hr class="setting-divider">
   
   <h2>
-    <span tooltip="{{streamingEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+    <span uib-tooltip="{{streamingEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
       <i class="glyphicon glyphicon-{{streamingEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/UTORRENT/streaming/hdr"></li>
@@ -31,7 +31,7 @@
   <hr class="setting-divider">
 
   <h2>
-    <span tooltip="{{directoryEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+    <span uib-tooltip="{{directoryEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
       <i class="glyphicon glyphicon-{{directoryEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/UTORRENT/directory/hdr"></li>
