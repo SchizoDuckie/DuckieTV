@@ -10,6 +10,7 @@
  * v0.1.5.2 color gradient bug squashed.
  * v0.1.5.3 value is displayed to 1 fixed decimal place.
  * v0.1.5.4 fix bar color going white when ngModel > scaleMax.
+ * v0.1.5.5 Introduced scaleMaxRelative as a dynamic way to adjust the scale to always show ngModel proportionally to the next multiple.
  */
 angular.module('angular-dialgauge', [
     'ngSanitize'
@@ -21,6 +22,7 @@ angular.module('angular-dialgauge', [
                 ngModel: '=',
                 scaleMin: '@',
                 scaleMax: '@',
+                scaleMaxRelative: '@',
                 rotate: '@',
                 angle: '@',
                 units: '@',
@@ -72,6 +74,7 @@ angular.module('angular-dialgauge', [
                 var defaults = {                     // Default settings
                     scaleMin: 0,
                     scaleMax: 100,
+                    scaleMaxRelative: false,
                     rotate: 180,
                     angle: 225,
                     units: "",
@@ -364,7 +367,11 @@ angular.module('angular-dialgauge', [
                         value = cfg.scaleMin;
                     }
                     else if (value > cfg.scaleMax) {
-                        value = cfg.scaleMax;
+                        if (cfg.scaleMaxRelative) {
+                            cfg.scaleMax = Math.ceil(value / 1000.0) * 1000;
+                        } else {
+                            value = cfg.scaleMax;
+                        }
                     }
                     else if (value < cfg.scaleMin) {
                         value = cfg.scaleMin;
