@@ -112,7 +112,7 @@ ctrlrs.controller('errorDialogCtrl',['$scope','$uibModalInstance','$translate','
 ctrlrs.controller('waitDialogCtrl',['$scope','$uibModalInstance','$translate','$timeout','data',function($scope,$uibModalInstance,$translate,$timeout,data){
     //-- Variables -----//
 
-    $scope.header = (angular.isDefined(data.header)) ? data.header : $translate.instant('DIALOGS_PLEASE_WAIT_ELIPS');
+    $scope.header = (angular.isDefined(data.header)) ? data.header : $translate.instant('DIALOGSjs/wait/hdr');
     $scope.msg = (angular.isDefined(data.msg)) ? data.msg : $translate.instant('DIALOGSjs/wait/msg');
     $scope.progress = (angular.isDefined(data.progress)) ? data.progress : 100;
     $scope.icon = (angular.isDefined(data.fa) && angular.equals(data.fa,true)) ? 'fa fa-clock-o' : 'glyphicon glyphicon-time';
