@@ -368,7 +368,7 @@ angular.module('angular-dialgauge', [
                     }
                     else if (value > cfg.scaleMax) {
                         if (cfg.scaleMaxRelative) {
-                            cfg.scaleMax = Math.ceil(value / 1000.0) * 1000;
+                            cfg.scaleMax = cfg.scaleMax * 10;
                         } else {
                             value = cfg.scaleMax;
                         }
