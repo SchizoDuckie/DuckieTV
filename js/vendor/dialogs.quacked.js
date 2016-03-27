@@ -546,45 +546,6 @@ angular.module('dialogs.main',['dialogs.services','ngSanitize']) // requires ang
             //--Dtv--// end
         } // end try/catch
 
-        /**
-         * Attempt to ascertain if page is using Font Awesome instead of the
-         * regular Bootstrap Icons.  If you are changing the stylesheet name or
-         * not including it from a CDN or have included Font-Awesome as a 
-         * concatentation of CSS sheets together, then you will have to manually
-         * set Font-Awesome usage in your Angular Module's config by including
-         * the $dialogsProvider and calling the method $dialogsProvider.useFontAwesome().
-         */
-         try{
-            var _sheets = document.styleSheets;
-
-            sheetLoop:
-            for(var i = (_sheets.length - 1);i >= 0;i--){
-                var _matches = null;
-                var _rules = null;
-
-                if(!_sheets[i].disabled){
-                    // check href of style sheet first
-                    if(_sheets[i].href !== null)
-                        _matches = _sheets[i].href.match(/font\-*awesome/i);
-
-                    if(angular.isArray(_matches)){
-                        dialogsProvider.useFontAwesome();
-                        break; // done, leave the style sheet for loop
-                    }else{
-                        // try to find css rule .fa, in case style sheet has been concatenated
-                        _rules = _sheets[i].cssRules;
-                        for(var x = (_rules.length - 1);x >= 0;x--){
-                            if(typeof(_rules[x].selectorText) === 'string' && _rules[x].selectorText.toLowerCase() === '.fa'){
-                                dialogsProvider.useFontAwesome();
-                                break sheetLoop; // done, exit both for loops
-                            }
-                        }
-                    }
-                } // end if(disabled)
-            } // end for
-         }catch(err){
-            // console.log('Error Message: ' + err);
-         }
     }]) // end config
 
     // Add default templates via $templateCache
