@@ -1,4 +1,4 @@
-DuckieTV.controller('serieSettingsCtrl', ["$scope", "$filter", "$modalInstance", "FavoritesService", "FormlyLoader", "data", "TorrentSearchEngines", 
+DuckieTV.controller('serieSettingsCtrl', ["$scope", "$filter", "$uibModalInstance", "FavoritesService", "FormlyLoader", "data", "TorrentSearchEngines", 
 function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, TorrentSearchEngines) {
     //console.debug("Reinitcontroller!");
     $scope.model = FavoritesService.getById(data.serie.TVDB_ID); // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)

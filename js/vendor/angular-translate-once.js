@@ -1,6 +1,8 @@
-/*
-* 1.0.1
-*/
+/**
+ * 1.0.3
+ * https://github.com/ajwhite/angular-translate-once
+ *
+ */
 (function () {
   'use strict';
   var MODULE_NAME = 'pascalprecht.translate',
@@ -16,7 +18,7 @@
   createDirective = function (attribute) {
     var namedDirective = getNamedDirectiveFromAttribute(attribute);
     angular.module(MODULE_NAME).directive(namedDirective, ['$parse', '$translate',
-    TranslateOnceAttributeDirective.bind(undefined, attribute)]);
+    angular.bind(undefined, TranslateOnceAttributeDirective, attribute)]);
   };
 
   /**
@@ -53,13 +55,21 @@
       restrict: 'A',
       priority: -1,
       link: function (scope, element, attrs) {
-        var translateValues = {};
+        var translateValues = {},
+            translationKey = attrs[DIRECTIVE_NAME];
+
+        // if the attribute doesn't have a value, use the element's text
+        if (!translationKey) {
+          translationKey = element.text().trim();
+        }
+
         // if we have custom values, interpret them
         if (attrs.translateValues) {
           translateValues = $parse(attrs.translateValues)(scope);
         }
+
         // queue the translation
-        $translate(attrs[DIRECTIVE_NAME], translateValues).then(function (translation) {
+        $translate(translationKey, translateValues).then(function (translation) {
           // update the element with the translation
           element.html(translation);
 

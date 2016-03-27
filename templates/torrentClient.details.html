@@ -45,7 +45,7 @@
     <div class="torrent-mini-remote-control" style='border:0;'>
       <!-- status and spinner -->
       <i ng-hide="vm.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet"></i>
-      <i ng-if="vm.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet spin" tooltip="{{'COMMON/please-wait/tooltip'|translate}}" tooltip-append-to-body="true"></i>
+      <i ng-if="vm.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet spin" uib-tooltip="{{'COMMON/please-wait/tooltip'|translate}}" tooltip-append-to-body="true"></i>
       <!-- start button -->
       <a ng-click="vm.torrent.start();" style='display:inline-block'>
         <i class="glyphicon glyphicon-play"></i>

@@ -1,28 +1,28 @@
 <!-- Add series button -->
 <div> 
-  <a accesskey="a" ui-sref=".add()" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt+a)" tooltip-placement="right" style='float:left'>
+  <a accesskey="a" ui-sref=".add()" uib-tooltip="{{'SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt+a)" tooltip-placement="right" tooltip-delay="150" style='float:left'>
     <i class="glyphicon glyphicon-plus-sign" style="top:3px"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
   </a>
   <!-- Filter library button -->
-  <a accesskey="/" ng-click="serieslist.isFiltering = !serieslist.isFiltering" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/search/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + / )" tooltip-placement="bottom">
+  <a accesskey="/" ng-click="serieslist.isFiltering = !serieslist.isFiltering" uib-tooltip="{{'SERIESLIST/TOOLS/FAVORITES/search/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + / )" tooltip-placement="bottom" tooltip-delay="150">
     <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/filter/glyph"></span>
   </a>&nbsp;
 
   <!-- Banner mode button -->
-  <a accesskey="l" ng-show="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom">
+  <a accesskey="l" ng-show="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" uib-tooltip="{{'SERIESLIST/TOOLS/FAVORITES/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom" tooltip-delay="150">
     <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/list-show/glyph"></span>
   </a>
   <!-- Poster mode button -->
-  <a accesskey="g" ng-show="serieslist.mode != 'poster'" ng-click="serieslist.setMode('poster');" tooltip="{{'SERIESLIST/TOOLS/FAVORITES/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + g)" tooltip-placement="bottom">
+  <a accesskey="g" ng-show="serieslist.mode != 'poster'" ng-click="serieslist.setMode('poster');" uib-tooltip="{{'SERIESLIST/TOOLS/FAVORITES/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + g)" tooltip-placement="bottom" tooltip-delay="150">
     <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/grid-show/glyph"></span>
   </a>
   <!-- Make posters smaller button -->
   <a ng-show="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">
-    <i tooltip="{{serieslist.isSmall ? 'COMMON/make-posters-large/tooltip' : 'COMMON/make-posters-small/tooltip'|translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
+    <i uib-tooltip="{{serieslist.isSmall ? 'COMMON/make-posters-large/tooltip' : 'COMMON/make-posters-small/tooltip'|translate}}" tooltip-placement="bottom" tooltip-delay="150" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
   </a>
   <!-- OrderBy library button -->
-  <div class="btn-group" dropdown style="padding:0px 10px">
-    <button type="button" class="btn dropdown-toggle" dropdown-toggle style="background-color:transparent;color:white;border-color: rgba(255,255,255,0.4)">
+  <div class="btn-group" uib-dropdown style="padding:0px 10px">
+    <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle style="background-color:transparent;color:white;border-color: rgba(255,255,255,0.4)">
       <i class="glyphicon glyphicon-sort-by-attributes"></i>
       <span translate-once="SERIESLIST/TOOLS/FAVORITES/orderby/glyph"></span> 
       <span class="caret"></span>
@@ -36,7 +36,7 @@
   </div>
 </div>
 
-<div ng-controller="localSeriesCtrl as localFilter" class="filtertools" collapse="!serieslist.isFiltering">
+<div ng-controller="localSeriesCtrl as localFilter" class="filtertools" uib-collapse="!serieslist.isFiltering">
   <div style="height:55px">
     <nav class="navbar navbar-default" role="navigation">
       <div class="collapse navbar-collapse" ng-if="serieslist.isFiltering">
@@ -46,8 +46,8 @@
 
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown" style='padding:10px'>
-             <div class="btn-group" dropdown>
-                <button type="button" class="btn dropdown-toggle" dropdown-toggle>
+             <div class="btn-group" uib-dropdown>
+                <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle>
                   <span translate-once="COMMON/status/hdr"></span> 
                   <span class="caret"></span>
                   <span class="sr-only" translate-once="SERIESLIST/TOOLS/FAVORITES/split-button/sr"></span>
@@ -62,8 +62,8 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown" style='padding:10px'>
-             <div class="btn-group" dropdown>
-              <button type="button" class="btn btn-large dropdown-toggle" dropdown-toggle >
+             <div class="btn-group" uib-dropdown>
+              <button type="button" class="btn btn-large dropdown-toggle" uib-dropdown-toggle >
                 <span translate-once="COMMON/genre/hdr"></span> 
                 <span class="caret"></span>
                 <span class="sr-only" translate-once="SERIESLIST/TOOLS/FAVORITES/split-button/sr"></span>

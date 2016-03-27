@@ -1,13 +1,13 @@
 <div class="episodes">
   <div class="season-control">
     <div class="season-control-left">
-      <a ng-click="season.gotoFirstSeason()" ng-show="season.seasons.length > 2" ng-class="{disabled: season.seasonIndex == season.seasons.length-1}" tooltip="{{'SIDEPANEL/EPISODES/first-season/tooltip'|translate}}" tooltip-placement="right"><i class="glyphicon glyphicon-step-backward"></i></a>
-      <a ng-click="season.gotoPreviousSeason()" ng-class="{disabled: season.seasonIndex == season.seasons.length-1}" tooltip="{{'SIDEPANEL/EPISODES/previous-season/tooltip'|translate}}" tooltip-placement="right"><i class="glyphicon glyphicon-chevron-left"></i></a>
+      <a ng-click="season.gotoFirstSeason()" ng-show="season.seasons.length > 2" ng-class="{disabled: season.seasonIndex == season.seasons.length-1}" uib-tooltip="{{'SIDEPANEL/EPISODES/first-season/tooltip'|translate}}" tooltip-placement="right"><i class="glyphicon glyphicon-step-backward"></i></a>
+      <a ng-click="season.gotoPreviousSeason()" ng-class="{disabled: season.seasonIndex == season.seasons.length-1}" uib-tooltip="{{'SIDEPANEL/EPISODES/previous-season/tooltip'|translate}}" tooltip-placement="right"><i class="glyphicon glyphicon-chevron-left"></i></a>
     </div>
     <h2>{{::season.getPageHeader(season.season)}}</h2>
     <div class="season-control-right">
-      <a ng-click="season.gotoLastSeason()" ng-show="season.seasons.length > 2" ng-class="{disabled: season.seasonIndex === 0}" tooltip="{{'SIDEPANEL/EPISODES/last-season/tooltip'|translate}}" tooltip-placement="left"><i class="glyphicon glyphicon-step-forward"></i></a>
-      <a ng-click="season.gotoNextSeason()" ng-class="{disabled: season.seasonIndex === 0}" tooltip="{{'SIDEPANEL/EPISODES/next-season/tooltip'|translate}}" tooltip-placement="left"><i class="glyphicon glyphicon-chevron-right"></i></a>
+      <a ng-click="season.gotoLastSeason()" ng-show="season.seasons.length > 2" ng-class="{disabled: season.seasonIndex === 0}" uib-tooltip="{{'SIDEPANEL/EPISODES/last-season/tooltip'|translate}}" tooltip-placement="left"><i class="glyphicon glyphicon-step-forward"></i></a>
+      <a ng-click="season.gotoNextSeason()" ng-class="{disabled: season.seasonIndex === 0}" uib-tooltip="{{'SIDEPANEL/EPISODES/next-season/tooltip'|translate}}" tooltip-placement="left"><i class="glyphicon glyphicon-chevron-right"></i></a>
     </div> 
   </div>
   <p class="overview" style="text-align:justify">{{::season.season.overview}}</p>
@@ -24,14 +24,14 @@
           <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{::episode.getFormattedEpisode()}}</a>
         </td>
         <td>
-          <a tooltip-placement="bottom" tooltip-popup-delay="500" tooltip-template="'episodeDetailsTooltip.html'" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{::episode.episodename}}</a>
+          <a tooltip-placement="bottom" tooltip-popup-delay="500" uib-tooltip-template="'episodeDetailsTooltip.html'" ui-sref="serie.season.episode({episode_id: episode.ID_Episode})">{{::episode.episodename}}</a>
         </td>
         <td class="nobreaks" align="right" style="width:66px">
-          <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" tooltip="{{episode.getAirDate() | date: 'short'}}" ng-class="{'airdate': episode.hasAired()||episode.isLeaked()}" >{{episode.firstaired == 0 ? '?' : episode.firstaired|date:'shortDate'}}</a>
+          <a ui-sref="serie.season.episode({episode_id: episode.ID_Episode})" uib-tooltip="{{episode.getAirDate() | date: 'short'}}" ng-class="{'airdate': episode.hasAired()||episode.isLeaked()}" >{{episode.firstaired == 0 ? '?' : episode.firstaired|date:'shortDate'}}</a>
 
           <div ng-show="(episode.hasAired() || episode.isLeaked()) && getSetting('torrenting.enabled')" class="torrentctrls">
             <torrent-dialog episode="episode" serie="sidepanel.serie"></torrent-dialog>
-            <a class="auto-download-episode" ng-click="season.autoDownload(sidepanel.serie, episode)" tooltip="{{'COMMON/auto-download/lbl'|translate}}">
+            <a class="auto-download-episode" ng-click="season.autoDownload(sidepanel.serie, episode)" uib-tooltip="{{'COMMON/auto-download/lbl'|translate}}">
               <i class="glyphicon glyphicon-cloud-download"></i>
             </a>
           </div>
@@ -51,7 +51,7 @@
   <div ng-if="getSetting('download.ratings')">
     <h2 style='border-bottom:1px solid white;padding:5px;margin-top:10px' translate-once="SIDEPANEL/EPISODES/episode-ratings/hdr"></h2>
     <div class="chart">
-      <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%' }" ng-attr-tooltip="{{p.label}}" tooltip-append-to-body="true" tooltip-popup-delay="75"></div>
+      <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%' }" ng-attr-uib-tooltip="{{p.label}}" tooltip-append-to-body="true" tooltip-popup-delay="75"></div>
     </div>
   </div>
   <table class="buttons" style="margin-top:10px;width:100%">

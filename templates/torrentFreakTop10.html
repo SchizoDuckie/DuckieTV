@@ -19,16 +19,16 @@
           <strong style='color:white'>{{::row.rank}} / ({{::row.prevRank}})</strong>
         </td>
         <td>
-          <a href="{{row.imdb}}" tooltip="IMDB" target="_blank">
+          <a href="{{row.imdb}}" uib-tooltip="IMDB" target="_blank">
             <strong>{{::row.title}}</strong>
           </a>
         </td>
         <td style='color:white'>{{::row.rating}}</td>
         <td>
-          <a href="{{::row.rottenTomatoes}}" tooltip="Rotten Tomatoes" target="_blank" style="padding:2px">
+          <a href="{{::row.rottenTomatoes}}" uib-tooltip="Rotten Tomatoes" target="_blank" style="padding:2px">
             <i class="glyphicon glyphicon-asterisk"></i>
           </a>
-          <a href="{{::row.trailer}}" tooltip="{{'COMMON/watch-trailer/tooltip'|translate}}" target="_blank" style="padding:2px">
+          <a href="{{::row.trailer}}" uib-tooltip="{{'COMMON/watch-trailer/tooltip'|translate}}" target="_blank" style="padding:2px">
             <i class="glyphicon glyphicon-film"></i>
           </a>
           <torrent-dialog q="row.searchTitle" style="padding:2px"></torrent-dialog>

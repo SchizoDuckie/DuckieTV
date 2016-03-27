@@ -83,7 +83,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
     }
 ])
 
-.controller('fastSearchCtrl', ["$scope", "data", "FavoritesService", "TraktTVv2", "$rootScope", "$modalInstance", "$state", "SeriesListState", "SidePanelState", "TorrentSearchEngines", "SettingsService", "$injector", "TorrentHashListService",
+.controller('fastSearchCtrl', ["$scope", "data", "FavoritesService", "TraktTVv2", "$rootScope", "$uibModalInstance", "$state", "SeriesListState", "SidePanelState", "TorrentSearchEngines", "SettingsService", "$injector", "TorrentHashListService",
     function($scope, data, FavoritesService, TraktTVv2, $rootScope, $modalInstance, $state, SeriesListState, SidePanelState, TorrentSearchEngines, SettingsService,  $injector, TorrentHashListService) {
 
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');

@@ -23,7 +23,7 @@
         <serieheader ng-repeat="serie in searchResults.traktSeries | limitTo: 6 track by $index" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1" ng-click="addTraktSerie(serie)" class="no-animate">
         <em class="earmark" ng-show="isAdded(serie.tvdb_id)"><i class='glyphicon glyphicon-ok'></i></em>
         <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner style="width: 37px; height:37px;"></loading-spinner></em>
-        <em class="earmark error" ng-show="isError(serie.tvdb_id)" tooltip="{{error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>        
+        <em class="earmark error" ng-show="isError(serie.tvdb_id)" uib-tooltip="{{error[serie.tvdb_id]}}" tooltip-append-to-body="true" > :( </em>        
         </serieheader>
       </div>
     </div>
@@ -41,7 +41,7 @@
             <td>
             <div ng-show="episode.hasAired() && getSetting('torrenting.enabled')">
              <torrent-dialog episode="episode" serie="getSerie(episode)"></torrent-dialog>
-             <a class="auto-download" ng-click="fastSearch.autoDownload(sidepanel.serie, episode)" tooltip="{{'COMMON/auto-download/lbl'|translate}}"><i class="glyphicon glyphicon-cloud-download"></i></a>
+             <a class="auto-download" ng-click="fastSearch.autoDownload(sidepanel.serie, episode)" uib-tooltip="{{'COMMON/auto-download/lbl'|translate}}"><i class="glyphicon glyphicon-cloud-download"></i></a>
             </div>
           </tr>
         </table>
@@ -71,17 +71,17 @@
           <tr ng-repeat="seed in searchResults.torrents | limitTo: 9" class="no-animate">
             <td style='width:80px; padding:5px; vertical-align: top;'>
               <a ng-click="torrentSelect(seed)">
-                <i class="glyphicon glyphicon-magnet" tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
+                <i class="glyphicon glyphicon-magnet" uib-tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
               </a>
               <a ng-href="{{::seed.torrent}}">
-                <i class="glyphicon glyphicon-download" tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
+                <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
               </a>
 
               <a ng-href="{{::seed.magneturl}}">
-                <i class="glyphicon glyphicon-link" tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
+                <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
               </a>
               <a ng-href="{{::seed.detailUrl}}" target='_blank'>
-                <i class="glyphicon glyphicon-info-sign" tooltip="{{'COMMON/torrent-details/lbl'|translate}}"></i>
+                <i class="glyphicon glyphicon-info-sign" uib-tooltip="{{'COMMON/torrent-details/lbl'|translate}}"></i>
               </a>
             </td>
             <td>
