@@ -97,6 +97,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
          * (which is a bit hacky as it should be part of the import)
          */
         var importBackup = function() {
+            var torrentingEnabled = SettingsService.get('torrenting.enabled'); // remember current torrenting setting
             FileReader.readAsText($scope.file, $scope)
                 .then(function(result) {
                     result = angular.fromJson(result);
@@ -107,6 +108,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
                     });
                     SettingsService.restore();
                     SettingsService.set('autodownload.lastrun', new Date().getTime());
+                    SettingsService.set('torrenting.enabled', torrentingEnabled); // restore torrenting setting to value prior to restore
                     angular.forEach(result.series, function(watched, TVDB_ID) {
                         FavoritesService.adding(TVDB_ID);
                         return TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
