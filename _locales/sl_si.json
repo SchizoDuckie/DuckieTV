@@ -214,7 +214,7 @@
     "SERIESLIST/TOOLS/FAVORITES/list-show/glyph": "Preklopite na način seznam",
     "SERIESLIST/TOOLS/FAVORITES/orderby/glyph": "Razvrsti",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Iskanje svoje priljubljene",
-    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "gumb za split",
+    "COMMON/split-button/sr": "gumb za split",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Prišlo je do napake na Trakt.TV, najbrž ne deluje strežnik. Prosimo, poskusite znova pozneje.",
     "SERIESLIST/TRAKT-SEARCHING/no-results/lbl": "Ni zadetkov za ",
     "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl": "Prosimo, počakajte, obrnite se na Trakt.TV",

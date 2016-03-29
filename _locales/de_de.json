@@ -214,7 +214,7 @@
     "SERIESLIST/TOOLS/FAVORITES/list-show/glyph": "In den Listenmodus wechseln ",
     "SERIESLIST/TOOLS/FAVORITES/orderby/glyph": "Sortieren",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Durchsuche deine favoriten",
-    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "Split-Taste",
+    "COMMON/split-button/sr": "Split-Taste",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Es gab einen Fehler bei der Verbindung zu Trakt.TV. Bitte versuche es später noch einmal.",
     "SERIESLIST/TRAKT-SEARCHING/no-results/lbl": "Keine Ergebnisse für ",
     "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl": "Bitte warten, Verbindung mit Trakt.TV",

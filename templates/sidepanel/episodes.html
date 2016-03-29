@@ -62,12 +62,14 @@
             <td style="width:100%;padding-left:20px">
               <a class="download" ng-click="season.autoDownloadAll()">
                 <i class="glyphicon glyphicon-cloud-download"></i><strong translate-once="SIDEPANEL/EPISODES/auto-download-all/lbl"></strong>
+                <span class="sr-only" translate-once="COMMON/split-button/sr"></span>
               </a>
             </td>
             <td style="padding-right:20px">
               <torrent-dialog class="auto-download" q='season.getSeasonSearchString(sidepanel.serie,season.season)'>
                 <strong style="display:flex">&nbsp;</strong>
               </torrent-dialog>
+              <span class="sr-only" translate-once="COMMON/split-button/sr"></span>
             </td>
           </tr>
         </table>

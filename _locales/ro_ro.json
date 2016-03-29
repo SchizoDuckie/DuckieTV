@@ -214,7 +214,7 @@
     "SERIESLIST/TOOLS/FAVORITES/list-show/glyph": "Schimbă în modul listă",
     "SERIESLIST/TOOLS/FAVORITES/orderby/glyph": "Sorta",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Căutați lista de favorite",
-    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "butonul divizat",
+    "COMMON/split-button/sr": "butonul divizat",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "A intervenit o eroare în conectarea cu Trakt.TV, e posibil ca site-ul să fie picat. Vă rugăm să încercați mai târziu.",
     "SERIESLIST/TRAKT-SEARCHING/no-results/lbl": "Nu s-au găsit rezultate pentru ",
     "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl": "Vă rugăm așteptați, se contactează Trakt.TV",

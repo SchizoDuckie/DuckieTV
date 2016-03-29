@@ -214,7 +214,7 @@
     "SERIESLIST/TOOLS/FAVORITES/list-show/glyph": "Uitgebreid",
     "SERIESLIST/TOOLS/FAVORITES/orderby/glyph": "Soort",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Zoek door je favorieten lijst ",
-    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "split-knop",
+    "COMMON/split-button/sr": "split-knop",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Er is een fout opgetreden bij het contacteren van Trakt.TV. Probeer het later opnieuw.",
     "SERIESLIST/TRAKT-SEARCHING/no-results/lbl": "Geen resultaten gevonden voor ",
     "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl": "Even geduld aub, bezig met het communiceren met Trakt.TV",

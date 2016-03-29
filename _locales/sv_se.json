@@ -214,7 +214,7 @@
     "SERIESLIST/TOOLS/FAVORITES/list-show/glyph": "Växla till listläget ",
     "SERIESLIST/TOOLS/FAVORITES/orderby/glyph": "Sortera",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Sök ditt favoritlistan",
-    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "split knapp",
+    "COMMON/split-button/sr": "split knapp",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Det uppstod ett fel kontaktar Trakt.TV, kan det vara nere. Försök igen senare.",
     "SERIESLIST/TRAKT-SEARCHING/no-results/lbl": "Inga resultat hittade för ",
     "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl": "Vänta, kontakta Trakt.TV",

@@ -214,7 +214,7 @@
     "SERIESLIST/TOOLS/FAVORITES/list-show/glyph": "Mude para o modo de lista ",
     "SERIESLIST/TOOLS/FAVORITES/orderby/glyph": "Ordenar",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Pesquisar a sua lista de favoritos",
-    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "botão de divisão",
+    "COMMON/split-button/sr": "botão de divisão",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Houve um erro ao entrar em contato com Trakt.TV, pode ser para baixo. Por favor, tente novamente mais tarde.",
     "SERIESLIST/TRAKT-SEARCHING/no-results/lbl": "Não há resultados para ",
     "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl": "Aguarde, contactando Trakt.TV",

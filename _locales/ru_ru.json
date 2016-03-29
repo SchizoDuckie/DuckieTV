@@ -214,7 +214,7 @@
     "SERIESLIST/TOOLS/FAVORITES/list-show/glyph": "Переключится на список",
     "SERIESLIST/TOOLS/FAVORITES/orderby/glyph": "Сортировать",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Поиск в избранном",
-    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "Split button!",
+    "COMMON/split-button/sr": "Split button!",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Ошибка связи с Trakt.TV, он может быть недоступен. Пожалуйста, повторите позже.",
     "SERIESLIST/TRAKT-SEARCHING/no-results/lbl": "Нет результатов для ",
     "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl": "Подождите, связываемся с Trakt.TV",

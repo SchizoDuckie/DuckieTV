@@ -214,7 +214,7 @@
     "SERIESLIST/TOOLS/FAVORITES/list-show/glyph": "Bytt til listemodus",
     "SERIESLIST/TOOLS/FAVORITES/orderby/glyph": "Sortere",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Søk i dine favoritter",
-    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "Splitt-knapp!",
+    "COMMON/split-button/sr": "Splitt-knapp!",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Det var problem med å koble til Trakt.TV, tjenesten kan være nede. Vennligst prøv igjen senere.",
     "SERIESLIST/TRAKT-SEARCHING/no-results/lbl": "Ingen resultater funnet for ",
     "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl": "Vennligst vent, kontaker Trakt.TV",

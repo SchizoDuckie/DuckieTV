@@ -214,7 +214,7 @@
     "SERIESLIST/TOOLS/FAVORITES/list-show/glyph": "切换到列表模式 ",
     "SERIESLIST/TOOLS/FAVORITES/orderby/glyph": "分类",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "搜索您的收藏夹",
-    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "劈扣",
+    "COMMON/split-button/sr": "劈扣",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "有一个错误联系Trakt.TV,它可能会下降.请稍后再试.",
     "SERIESLIST/TRAKT-SEARCHING/no-results/lbl": "发现没有结果 ",
     "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl": "请稍候,联系Trakt.TV",

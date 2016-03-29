@@ -214,7 +214,7 @@
     "SERIESLIST/TOOLS/FAVORITES/list-show/glyph": "リストモードに切り替える ",
     "SERIESLIST/TOOLS/FAVORITES/orderby/glyph": "ソート",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "あなたのお気に入りを検索",
-    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "分割ボタン",
+    "COMMON/split-button/sr": "分割ボタン",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Trakt.TVを接触させることにエラーが発生しました,それがダウンしている可能性があり.後ほどおかけ直しください.",
     "SERIESLIST/TRAKT-SEARCHING/no-results/lbl": "いいえ検索結果ません ",
     "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl": "Trakt.TVを接触させて,しばらくお待ちください",

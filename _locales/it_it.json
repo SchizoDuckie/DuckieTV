@@ -214,7 +214,7 @@
     "SERIESLIST/TOOLS/FAVORITES/list-show/glyph": "Passa alla modalità lista",
     "SERIESLIST/TOOLS/FAVORITES/orderby/glyph": "Ordinare",
     "SERIESLIST/TOOLS/FAVORITES/search/tooltip": "Cerca nella lista dei preferiti ",
-    "SERIESLIST/TOOLS/FAVORITES/split-button/sr": "Bottono Split!",
+    "COMMON/split-button/sr": "Bottono Split!",
     "SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl": "Si è verificato un errore contattando Trakt.TV, potrebbe essere offline. Si prega di riprovare più tardi.",
     "SERIESLIST/TRAKT-SEARCHING/no-results/lbl": "Nessun risultato per ",
     "SERIESLIST/TRAKT-SEARCHING/please-wait/lbl": "Attendere prego, contattando Trakt.TV",
