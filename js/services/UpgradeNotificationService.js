@@ -18,6 +18,7 @@ DuckieTV
                 "<li>fastSearch: (new) introducing the fast-search feature. Just start typing and a dialog pops up with the first six matches of your series from favourites, series from Trakt.TV, and the first 9 matches of episodes from favourites and torrent search.",
                 "<li>standalone: (fix) linux minimize bug, (new) option to open add-new-torrent panel on torrentHost",
                 "<li>(fix) linux and mac multy systray bug, (fix) defaults for first time users bug",
+                "<li>torrentClients: (new) add remove-torrent functionality to all client Interfaces, (new) add remove-button to torrentClient panels",
                 "<li>searchEngines: (fix) remove strike as it is gone, (new) add IsoHunt, (fix) replace showRSS.info with new.showRSS.info",
                 "<li>(fix) drop find random KAT mirror feature as rockaproxy is gone",
                 "<li>favorites: (new) sort menu for name, added, first aired and not-watched count, (new) series poster context-menu for mark-all-watched, show/hide from calendar, and remove series",
