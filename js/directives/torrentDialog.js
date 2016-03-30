@@ -93,17 +93,33 @@ DuckieTV
                 return (score == 0);
             };
 
+            /**
+             * drop duplicates from results by matching releasename
+             */
+            function dropDuplicates(items) {
+                var arr = {};
+                for ( var i = 0, len = items.length; i < len; i++ ) {
+                    arr[items[i]['releasename']] = items[i];
+                }
+                items = new Array();
+                for ( var key in arr ) {
+                    items.push(arr[key]);
+                }
+                return items;
+            };
+
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' ')).then(function(results) {
-                    $scope.items = results.filter(filterByScore);
-                    $scope.items = $scope.items.filter(filterGlobalInclude);
-                    $scope.items = $scope.items.filter(filterGlobalExclude);
-                    $scope.searching = false;
-                },
-                function(e) {
-                    $scope.searching = false;
-                    $scope.error = e;
-                    $scope.items = null;
-                });
+                $scope.items = results.filter(filterByScore);
+                $scope.items = $scope.items.filter(filterGlobalInclude);
+                $scope.items = $scope.items.filter(filterGlobalExclude);
+                $scope.items = dropDuplicates($scope.items);
+                $scope.searching = false;
+            },
+            function(e) {
+                $scope.searching = false;
+                $scope.error = e;
+                $scope.items = null;
+            });
         };
 
         // Save state of torrenting global include check-box
