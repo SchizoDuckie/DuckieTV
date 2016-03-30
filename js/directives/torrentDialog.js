@@ -1,7 +1,7 @@
 DuckieTV
 
-.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "data", "TorrentSearchEngines", "SettingsService", "TorrentHashListService",
-    function($scope, $rootScope, $modalInstance, $injector, data, TorrentSearchEngines, SettingsService, TorrentHashListService) {
+.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "$filter", "data", "TorrentSearchEngines", "SettingsService", "TorrentHashListService",
+    function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, TorrentHashListService) {
         //-- Variables --//
 
         $scope.items = [];
@@ -9,23 +9,37 @@ DuckieTV
         $scope.error = false;
         $scope.query = angular.copy(data.query);
         $scope.TVDB_ID = angular.copy(data.TVDB_ID);
+        $scope.allowTDsortMenu = SettingsService.get('torrentDialog.sortMenu.enabled');
+        $scope.orderBy = 'seeders';
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
         $scope.searchquality = SettingsService.get('torrenting.searchquality');
         $scope.globalInclude = SettingsService.get('torrenting.global_include');
         $scope.globalIncludeEnabled = SettingsService.get('torrenting.global_include_enabled');
         $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
         $scope.globalExcludeEnabled = SettingsService.get('torrenting.global_exclude_enabled');
+        $scope.clients = Object.keys(TorrentSearchEngines.getSearchEngines());
+        var provider = TorrentSearchEngines.getSearchEngine($scope.searchprovider);
+        if ('config' in provider && 'orderby' in provider.config) {
+            $scope.orderByList = Object.keys(provider.config.orderby);
+        } else {
+            $scope.orderByList = [];
+        }
+        $scope.engOrderByList = 'age|leechers|seeders|size'.split('|');
+        $scope.translatedOrderByList = $filter('translate')('TDORDERBYLIST').split(',');        
 
         $scope.getName = function(provider) {
             return provider;
         };
 
-        $scope.search = function(q, TVDB_ID) {
+        $scope.search = function(q, TVDB_ID, orderBy) {
             $scope.searching = true;
             $scope.error = false;
             $scope.query = q;
             if (TVDB_ID !== undefined) {
                 $scope.TVDB_ID = TVDB_ID;
+            };
+            if (typeof orderBy !== 'undefined') {
+                $scope.orderBy = orderBy;
             };
             // If query is empty, prompt user to enter something
             if (q === null || q === "" || q === undefined) {
@@ -108,7 +122,7 @@ DuckieTV
                 return items;
             };
 
-            TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' ')).then(function(results) {
+            TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' '), undefined, $scope.orderBy).then(function(results) {
                 $scope.items = results.filter(filterByScore);
                 $scope.items = $scope.items.filter(filterGlobalInclude);
                 $scope.items = $scope.items.filter(filterGlobalExclude);
@@ -125,25 +139,41 @@ DuckieTV
         // Save state of torrenting global include check-box
         $scope.setGlobalIncludeState = function() {
             SettingsService.set('torrenting.global_include_enabled', $scope.globalIncludeEnabled);
-            $scope.search($scope.query);
+            $scope.search($scope.query, undefined, $scope.orderBy);
         };
 
         // Save state of torrenting global exclude check-box
         $scope.setGlobalExcludeState = function() {
             SettingsService.set('torrenting.global_exclude_enabled', $scope.globalExcludeEnabled);
-            $scope.search($scope.query);
+            $scope.search($scope.query, undefined, $scope.orderBy);
         };
 
         // Changes the search quality while searching for a torrent
         $scope.setQuality = function(quality) {
             $scope.searchquality = quality;
-            $scope.search($scope.query);
+            $scope.search($scope.query, undefined, $scope.orderBy);
         };
 
         // Changes what search provider you search with
         $scope.setProvider = function(provider) {
             $scope.searchprovider = provider;
-            $scope.search($scope.query);
+            var provider = TorrentSearchEngines.getSearchEngine($scope.searchprovider);
+            if ('config' in provider && 'orderby' in provider.config) {
+                // load this provider's orderBy list
+                $scope.orderByList = Object.keys(provider.config.orderby);
+            } else {
+                // this provider does not support orderBy sorting
+                $scope.orderByList = [];
+            }
+            // reset orderBy since the new provider may not have the currently active orderBy param
+            $scope.orderBy = 'seeders';
+            $scope.search($scope.query, undefined, $scope.orderBy);
+        };
+
+        // Changes the sort order of the search results
+        $scope.setOrderBy = function(orderby) {
+            $scope.orderBy = orderby;
+            $scope.search($scope.query, undefined, $scope.orderBy);
         };
 
         $scope.cancel = function() {
@@ -186,9 +216,15 @@ DuckieTV
             }
         };
 
-        $scope.clients = Object.keys(TorrentSearchEngines.getSearchEngines());
+        /*
+         * Takes the English orderBy (elements from TorrentSearchEngines.getSearchEngine($scope.searchprovider).config.orderby) and returns a translation
+         */
+        $scope.translateOrderBy = function(orderBy) {
+            var idx = $scope.engOrderByList.indexOf(orderBy);
+            return (idx != -1) ? $scope.translatedOrderByList[idx] : 'n/a';
+        };
 
-        $scope.search($scope.query);
+        $scope.search($scope.query, undefined, $scope.orderBy);
     }
 ])
 

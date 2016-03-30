@@ -4,6 +4,7 @@
 <a href="#settings/torrent-search" ng-click="cancel()" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once="COMMON/torrent-search-settings/glyph"></span></a>
 <input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
+<!-- quality list -->
 <div class="btn-group" style='padding:5px 5px 5px 0px;vertical-align:initial'>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == '480p'}" ng-click="setQuality('480p')">480p</button>
@@ -11,11 +12,24 @@
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == '720p'}" ng-click="setQuality('720p')">720p</button>
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == '1080p'}" ng-click="setQuality('1080p')">1080p</button>
 </div>
-
+<!-- OrderBy sort button -->
+<div ng-show="allowTDsortMenu && orderByList.length > 0" class="btn-group" uib-dropdown style="padding:5px 0px 0px 0px;vertical-align:top">
+  <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle style="background-color:transparent;color:white;border-color: rgba(255,255,255,0.4)">
+    <i class="glyphicon glyphicon-sort-by-attributes"></i>
+    <span translate-once="SERIESLIST/TOOLS/FAVORITES/orderby/glyph"></span> 
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li ng-repeat="item in orderByList" ng-click="setOrderBy(item)">
+      <label>{{translateOrderBy(item)}}  <span class="sortorder reverse" </span></label>
+    </li> 
+  </ul>
+</div>
+<!-- search Providers list -->
 <div class="btn-group" style="padding:0px 5px 5px 0px;vertical-align:initial">
  <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
 </div>
-
+<!-- global include/exclude check boxes -->
 <table class="torrents table table-condensed white" style="margin-bottom:0px">
   <tbody>
     <tr>
@@ -32,7 +46,7 @@
       </tr>
     </tbody>
 </table>
-
+<!-- search results -->
 <table class="torrents table table-condensed white">
   <thead>
     <tr ng-show="searching">
@@ -69,14 +83,23 @@
       <th>
         <strong translate-once="COMMON/torrent-name/lbl"></strong>
       </th>
-      <th>
+      <th ng-show="orderBy == 'size'">
         <strong translate-once="COMMON/torrent-size/lbl"></strong>
       </th>
-      <th>
+      <th ng-show="orderBy != 'size'">
+        <u uib-tooltip="{{'TORRENTDIALOG/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong ng-click="setOrderBy('size')" translate-once="COMMON/torrent-size/lbl"></strong></u>
+      </th>
+      <th ng-show="orderBy == 'seeders'">
         <strong translate-once="COMMON/torrent-seed/lbl"></strong>
       </th>
-      <th>
+      <th ng-show="orderBy != 'seeders'">
+        <u uib-tooltip="{{'TORRENTDIALOG/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong ng-click="setOrderBy('seeders')" translate-once="COMMON/torrent-seed/lbl"></strong></u>
+      </th>
+      <th ng-show="orderBy == 'leechers'">
         <strong translate-once="COMMON/torrent-leech/lbl"></strong>
+      </th>
+      <th ng-show="orderBy != 'leechers'">
+        <u uib-tooltip="{{'TORRENTDIALOG/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong ng-click="setOrderBy('leechers')" translate-once="COMMON/torrent-leech/lbl"></strong></u>
       </th>
 
     </tr>

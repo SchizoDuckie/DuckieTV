@@ -5,7 +5,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 mirror: 'https://www.nyaa.se',
                 mirrorResolver: null,
                 endpoints: {
-                    search: '/?page=search&sort=2&term=%s'
+                    search: '/?page=search&sort=%o&term=%s'
                 },
                 noMagnet: true,
                 selectors: {
@@ -24,6 +24,12 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                             return 'https:' + a;
                         }
                     ]
+                },
+                orderby: {
+                    age: '1',
+                    leechers: '3',
+                    seeders: '2', 
+                    size: '5'
                 }
             }, $q, $http, $injector));
         }

@@ -7,17 +7,23 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 mirrorResolver: null, //'KickassMirrorResolver'
                 includeBaseURL: true,
                 endpoints: {
-                    search: '/usearch/%s/?field=seeders&sorder=desc',
+                    search: '/usearch/%s/?field=%o&sorder=desc',
                     details: '/torrent/%s'
                 },
                 selectors: {
-                    resultContainer: 'table.data tr[id^=torrent]',
+                    resultContainer: 'table.data tr[id^=torrent_]',
                     releasename: ['div.torrentname a.cellMainLink', 'innerText'],
                     magneturl: ['a[title="Torrent magnet link"]', 'href'],
                     size: ['td:nth-child(2)', 'innerText'],
                     seeders: ['td:nth-child(5)', 'innerHTML'],
                     leechers: ['td:nth-child(6)', 'innerHTML'],
                     detailUrl: ['div.torrentname a.cellMainLink', 'href']
+                },
+                orderby: {
+                    age: 'time_add',
+                    leechers: 'leechers',
+                    seeders: 'seeders', 
+                    size: 'size'
                 }
             }, $q, $http, $injector));
         }

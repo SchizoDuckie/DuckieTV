@@ -1,26 +1,26 @@
 /** 
  *  'Generic' torrent search engine scraper for environments where CORS is permitted. (Like node-webkit, chrome extension, phonegap, or when using a CORS proxy)
  *
- *   Usage:
- *   - Instantiate a new GenericTorrentSearchEngine and register it to the TorrentSearchEngines factory by creating a new app.run() block.
- *   - The engine will automatically be added in the TorrentDialog directive and become available in settings for autoselection.
- *   - Each search engine should provide at least the properties described below.
- *   - This is problematic in cases where the magnet link and torrent hash are hidden on a details page. (will be fixed in the future using the details field)
+ *  Usage:
+ *      - Instantiate a new GenericTorrentSearchEngine and register it to the TorrentSearchEngines factory by creating a new app.run() block.
+ *      - The engine will automatically be added in the TorrentDialog directive and become available in settings for auto-selection.
+ *      - Each search engine should provide at least the properties described below.
+ *      - This is problematic in cases where the magnet link and torrent hash are hidden on a details page. (will be fixed in the future using the details field)
  *
- *   Heavily annotated Example:
+ *  Heavily annotated Example:
  *
- *   DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector", function(TorrentSearchEngines, $q, $http, $injector) {
+ *  DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector", function(TorrentSearchEngines, $q, $http, $injector) {
  *
- *       TorrentSearchEngines.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({ // name, instance
- *          mirror: 'https://thepiratebay.cr',                                                      // base endpoint
- *          mirrorResolver: 'MirrorResolver',                                                       // Angular class to $inject to fetch a mirror
- *          endpoints: {                                                                            // endpoints for details and search calls. Needs to be GET
- *              search: '/search/%s/0/7/0',                                                         // use %s to pass in the search query.
- *              details: '/torrent/%s'                                                              // unimplemented currently, but should fetch details from the torrent's details page.
+ *      TorrentSearchEngines.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({ // name, instance
+ *          mirror: 'https://thepiratebay.cr',                              // base endpoint
+ *          mirrorResolver: 'MirrorResolver',                               // Angular class to $inject to fetch a mirror
+ *          endpoints: {                                                    // endpoints for details and search calls. Needs to be GET
+ *              search: '/search/%s/0/%o/0',                                // use %s to pass in the search query. if the provider supports sorting, use %o to pass in the search orderBy parm.
+ *              details: '/torrent/%s'                                      // unimplemented currently, but should fetch details from the torrent's details page.
  *          },
- *           selectors: {                                                                           // CSS selectors to grab content from search page.
- *              resultContainer: '#searchResult tbody tr',                                          // css selector to select repeating results.
- *              releasename: ['td:nth-child(2) > div', 'innerText',                                 // selector, element attribute, [parser function].
+ *          selectors: {                                                    // CSS selectors to grab content from search page.
+ *              resultContainer: '#searchResult tbody tr',                  // CSS selector to select repeating results.
+ *              releasename: ['td:nth-child(2) > div', 'innerText',         // selector, element attribute, [parser function].
  *                  function(text) {
  *                      return text.trim();
  *                  }
@@ -34,12 +34,19 @@
  *              seeders: ['td:nth-child(3)', 'innerHTML'],
  *              leechers: ['td:nth-child(4)', 'innerHTML'],
  *              detailUrl: ['a.detLink', 'href'],
+ *          },
+ *          orderby: {                                                      // search-order sorting options.
+ *              age: '3',                                                   // if the provider does not support sorting then leave the orderby group out.
+ *              leechers: '9',                                              // list only orderBy params that the provider supports for Desc sorting. 
+ *              seeders: '7',                                               // Asc sorting is currently not supported.
+ *              size: '5'                                                   // Note: only these four have language translation support.
  *          }
  *      }, $q, $http, $injector));
- *   }
- *  ]);
+ *  }]);
  */
 function GenericTorrentSearchEngine(config, $q, $http, $injector) {
+
+    var self = this;
 
     var activeRequest = null;
     var SettingsService = $injector.get('SettingsService');
@@ -50,11 +57,16 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
      * Switch between search and details.
      * Grab optional overridden url from settings.
      */
-    function getUrl(type, param) {
+    function getUrl(type, param, sortParam) {
         if (('mirrorSettingsKey' in config) && config.mirror != SettingsService.get(config.mirrorSettingsKey)) {
             config.mirror = SettingsService.get(config.mirrorSettingsKey);
         }
-        return config.mirror + config.endpoints[type].replace('%s', encodeURIComponent(param));
+        var url = config.mirror + config.endpoints[type];
+        // does provider supports search sorting?
+        if (typeof sortParam !== 'undefined' && 'orderby' in config && sortParam in config.orderby) {
+            url = url.replace('%o', config.orderby[sortParam]);
+        }
+        return url.replace('%s', encodeURIComponent(param));        
     }
 
     /**
@@ -116,14 +128,14 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
     /**
      * Execute a generic torrent search, parse the results and return them as an array
      */
-    this.search = function(what, noCancel) {
+    this.search = function(what, noCancel, orderBy) {
         what = what.replace(/\'/g, '');
         var d = $q.defer();
         if (noCancel !== true && activeRequest) {
             activeRequest.resolve();
         }
         activeRequest = $q.defer();
-        this.executeSearch(what, activeRequest).then(function(response) {
+        this.executeSearch(what, activeRequest, orderBy).then(function(response) {
             //console.log("Torrent search executed!", response);
             try {
                 var result = parseSearch(response);
@@ -139,7 +151,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                     $injector.get(config.mirrorResolver).findMirror().then(function(result) {
                         //console.log("Resolved a new working mirror!", result);
                         mirror = result;
-                        return service.search(what);
+                        return self.search(what, undefined ,orderBy);
                     }, function(err) {
                         d.reject(err);
                     });
@@ -149,13 +161,13 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         return d.promise;
     };
 
-    this.executeSearch = function(what, timeout) {
+    this.executeSearch = function(what, timeout, sortBy) {
         if (!timeout) {
             timeout = $q.defer();
         }
         return $http({
             method: 'GET',
-            url: getUrl('search', what),
+            url: getUrl('search', what, sortBy),
             cache: false,
             timeout: timeout.promise
         });

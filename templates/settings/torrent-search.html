@@ -119,4 +119,20 @@
       <a ng-click="toggleUnsafeProxy()" class="btn btn-{{allowUnsafe ? 'danger' : 'success'}}">{{allowUnsafe ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}</a>
     </li>
   </ul>
+  <hr class="setting-divider">
+
+  <h2 style='white-space:nowrap'><h2cont translate-once="SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr"></h2cont>
+    <span uib-tooltip="{{allowTDsortMenu ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+      <i class="glyphicon glyphicon-{{allowTDsortMenu ? 'ok alert-success' : 'remove alert-danger'}}" ></i>
+    </span>
+  </h2>
+
+  <ul class="list-unstyled">
+    <li>
+      <p>{{allowTDsortMenu ? 'SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc' : 'SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc'|translate}}</p>
+      <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+       {{allowTDsortMenu ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+      <a ng-click="toggleTDsortMenu()" class="btn btn-{{allowTDsortMenu ? 'danger' : 'success'}}">{{allowTDsortMenu ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}</a>
+    </li>
+  </ul>
 </div>

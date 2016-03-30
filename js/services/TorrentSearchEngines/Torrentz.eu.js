@@ -7,8 +7,8 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 mirrorResolver: null,
                 includeBaseURL: true,
                 endpoints: {
-                    search: '/search?f=%s',
-                    details: '/%s',
+                    search: '/search%o?f=%s',
+                    details: '/%s'
                 },
                 selectors: {
                     resultContainer: 'div.results dl',
@@ -30,6 +30,11 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                         }
                     ],
                     detailUrl: ['dt a', 'href']
+                },
+                orderby: {
+                    age: 'A',
+                    seeders: 'P', 
+                    size: 'S'
                 }
 
             }, $q, $http, $injector));

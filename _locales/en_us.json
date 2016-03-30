@@ -342,6 +342,9 @@
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "Current Status:",
     "SETTINGS/TORRENT-SEARCH/tpb-validate/btn": "Validate and Save",
     "SETTINGS/TORRENT-SEARCH/tpb/desc": "If for some reason ThePirateBay is blocked in your territory, use the button below to automatically resolve a working mirror that supports magnet links. If you have a preferred server, you may input that as well.",
+    "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "Enabling this setting will display a Sort Menu on the Torrent Dialog",
+    "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "The Sort Menu is displayed on the Torrent Dialog.",
+    "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "Torrent Dialog Sort Menu",
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies-disabled/desc": "Enabling this setting will allow you to use Torrent Proxies that proxy your magnet links (Which DuckieTV prevents by default to protect your privacy)",
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies-enabled/desc": "Unsafe torrent proxies are enabled.",
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr": "Allow unsafe proxies",
@@ -477,6 +480,7 @@
     "TAB/maximize/glyph": "Maximize",
     "TAB/unmaximize/glyph": "Restore Down",
     "TAB/watchlist/glyph": "Watchlist",
+    "TDORDERBYLIST": "age,leechers,seeders,size",
     "TIMEPLURALS": " day, | days, | hour and | hours and | minute | minutes ",
     "TORRENTCLIENT/choose-client/glyph": "Choose a Torrent Client",
     "TORRENTCLIENT/clear-authority/btn": "Clear μTorrent authorization",
@@ -492,6 +496,7 @@
     "TORRENTDIALOG/search-download-this/tooltip": "Search for a download for ",
     "TORRENTDIALOG/search-exclude/lbl": "search using global exclude list",
     "TORRENTDIALOG/search-include/lbl": "search using global include list",
+    "TORRENTDIALOG/sort-column/tooltip": "Sort this column",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Rank"
 }
