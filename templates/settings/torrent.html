@@ -48,7 +48,7 @@
 
       <div class="autodownload">
         <h2 translate-once="SETTINGS/TORRENT/autodownload-period/hdr"></h2>
-        <p><span translate-once="SETTINGS/TORRENT/autodownload-period/desc"></span>{{customadPeriod}}<span translate-once="SETTINGS/TORRENT/autodownload-period/desc2"></span><br><span translate-once="SETTINGS/TORRENT/autodownload-period-default/lbl"></span></p>
+        <p><span translate-once="SETTINGS/TORRENT/autodownload-period/desc"></span>{{adPeriod}}<span translate-once="SETTINGS/TORRENT/autodownload-period/desc2"></span><br><span translate-once="SETTINGS/TORRENT/autodownload-period-default/lbl"></span></p>
 
         <form name="p">
           <span translate-once="SETTINGS/TORRENT/autodownload-period/form"></span> <input type='number' name="period" ng-model="adPeriod" min="1" max="21" />
@@ -65,7 +65,7 @@
         <p><span translate-once="SETTINGS/TORRENT/autodownload-seeders/desc"></span><br><span translate-once="SETTINGS/TORRENT/autodownload-seeders-default/lbl"></span></p>
 
         <form name="s">
-          <span translate-once="SETTINGS/TORRENT/autodownload-seeders/form"></span> <input type='number'name="seeders" ng-model="adMinSeeders" min="0" max="3000" />
+          <span translate-once="SETTINGS/TORRENT/autodownload-seeders/form"></span> <input type='number' name="seeders" ng-model="adMinSeeders" min="0" max="3000" />
           <a class="btn btn-success" ng-click="saveADMinSeeders(adMinSeeders)" ng-disabled="s.seeders.$error.number || s.seeders.$error.min || s.seeders.$error.max"  style="float:right; margin-top:-10px;">
             <i class="glyphicon glyphicon-floppy-save"></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
           </a>
