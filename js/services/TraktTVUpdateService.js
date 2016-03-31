@@ -63,21 +63,22 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
     }
 ])
 
-.run(["TraktTVUpdateService", function(TraktTVUpdateService) {
+.run(["TraktTVUpdateService", "SettingsService", function(TraktTVUpdateService, SettingsService) {
 
     var updateFunc = function() {
-        var localDate = new Date();
+        var localDateTime = new Date().getTime();
+        var tuPeriod = parseInt(SettingsService.get('trakt-update.period')); // TraktTV Update period in hours.
         if (!localStorage.getItem('trakttv.lastupdated')) {
-            localStorage.setItem('trakttv.lastupdated', localDate.getTime());
+            localStorage.setItem('trakttv.lastupdated', localDateTime);
         }
         var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')));
-        if (TraktTVUpdateService.getDateString(lastUpdated) != TraktTVUpdateService.getDateString(localDate)) {
+        if ((parseInt(localStorage.getItem('trakttv.lastupdated')) + (1000 * 60 * 60 * tuPeriod)) /* hours */  <= localDateTime) {
             TraktTVUpdateService.update(lastUpdated).then(function(result) {
                 console.info('TraktTV update check completed. ' + result.length + ' shows updated since ' + lastUpdated);
-                localStorage.setItem('trakttv.lastupdated', localDate.getTime()); // undid the if here. check was happening on every refresh!
+                localStorage.setItem('trakttv.lastupdated', localDateTime);
             });
         } else {
-            console.info("Not performing trakttv update check. already done today.");
+            console.info("Not performing TraktTV update check. Already done within the last %s hour(s).", tuPeriod);
         }
 
         if (!localStorage.getItem('trakttv.lastupdated.trending')) {
@@ -89,9 +90,9 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
                 localStorage.setItem('trakttv.lastupdated.trending', new Date().getTime());
             });
         } else {
-            console.info("Not performing trakttv trending update check. last done " + new Date(parseInt(localStorage.getItem('trakttv.lastupdated.trending'))).toString());
+            console.info("Not performing TraktTV trending update check. Last done " + new Date(parseInt(localStorage.getItem('trakttv.lastupdated.trending'))).toString());
         }
-        setTimeout(updateFunc, 60 * 60 * 12 * 1000); // schedule update check in 12 hours for long running apps.
+        setTimeout(updateFunc, 1000 * 60 * 60 * tuPeriod); // schedule update check every tuPeriod hour(s) for long running apps.
     };
 
     setTimeout(updateFunc, 8000);

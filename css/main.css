@@ -2164,6 +2164,26 @@ sidepanel .seasons serieheader {
     transition: padding 0.2s ease-in;
 }
 
+.settings .traktupdate form {
+    text-align: center;
+}
+.settings .traktupdate form input {
+    width: 70px;
+    text-align: -webkit-center;
+    font-size: 22px;
+}
+.settings .traktupdate .btn {
+    display: inline-block;
+    margin-top: -3px;
+    margin-left: 5px;
+}
+.settings .traktupdate .alert-danger {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 0;
+    transition: padding 0.2s ease-in;
+}
+
 .settings .windowCtrl .checkbox {
     margin: 13px 0;
     padding-left: 2px;

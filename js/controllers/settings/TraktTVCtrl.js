@@ -1,8 +1,8 @@
 /**
  * TraktTV Controller for TraktTV Directive Stuff and the settings tab
  */
-DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "FavoritesService", "SettingsService",
-    function($rootScope, $scope, TraktTVv2, FavoritesService, SettingsService) {
+DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktTVv2", "FavoritesService", "SettingsService",
+    function($rootScope, $scope, $injector, TraktTVv2, FavoritesService, SettingsService) {
 
         // Array for credentials
         $scope.credentials = {
@@ -14,6 +14,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
             getpin: false
         };
 
+        $scope.tuPeriod = SettingsService.get('trakt-update.period');
         $scope.traktSync = SettingsService.get('trakttv.sync');
         $scope.traktTVSeries = [];
         $scope.localSeries = {};
@@ -204,6 +205,13 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "TraktTVv2", "Favori
         $scope.toggleTraktSync = function() {
             $scope.traktSync = !$scope.traktSync;
             SettingsService.set('trakttv.sync', $scope.traktSync);
+        };
+        /**
+         * Changes the hourly period DuckieTV fetches Trakt.TV episodes updates with.
+         */
+        $scope.saveTUPeriod = function(period) {
+            SettingsService.set('trakt-update.period', period);
+            $injector.get('DuckietvReload').windowLocationReload();
         };
     }
 ]);
