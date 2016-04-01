@@ -95,12 +95,51 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             return propertyConfig.length == 3 && null !== propertyConfig[2] && typeof(propertyConfig[2]) == 'function' ? propertyConfig[2](propertyValue) : propertyValue;
         }
 
+        function sizeToMB(size) {
+            size = (typeof size !== 'undefined' && size !== null) ? size : '0 MB';
+            var sizeA = size.split(/\s{1}/); // size split into value and unit
+            var newSize = null; // size converted to MB
+            switch (sizeA[1].toUpperCase()) {
+                case 'B':
+                case 'BYTES':
+                    newSize = (parseFloat(sizeA[0]) / 1000 / 1000).toFixed(2);
+                    break;
+                case 'KB':
+                    newSize = (parseFloat(sizeA[0]) / 1000).toFixed(2);
+                    break;
+                case 'MB':
+                    newSize = (parseFloat(sizeA[0])).toFixed(2);
+                    break;
+                case 'GB':
+                    newSize = (parseFloat(sizeA[0]) * 1000).toFixed(2);
+                    break;
+                case 'TB':
+                    newSize = (parseFloat(sizeA[0]) * 1000 * 1000).toFixed(2);
+                    break;
+                case 'KIB':
+                    newSize = ((parseFloat(sizeA[0]) / 1024) * 1000 * 1000).toFixed(2);
+                    break;
+                case 'MIB':
+                    newSize = ((parseFloat(sizeA[0]) / 1024 / 1024) * 1000 * 1000).toFixed(2);
+                    break;
+                case 'GIB':
+                    newSize = ((parseFloat(sizeA[0]) / 1024 / 1024 / 1024) * 1000 * 1000).toFixed(2);
+                    break;
+                case 'TIB':
+                    newSize = ((parseFloat(sizeA[0]) / 1024 / 1024 / 1024 / 1024) * 1000 * 1000).toFixed(2);
+                    break;
+                default:
+                    return size;
+            }
+            return newSize + ' MB';
+        }
+
         for (var i = 0; i < results.length; i++) {
             var releasename = getPropertyForSelector(results[i], selectors.releasename);
             if (releasename === null) continue;
             var out = {
                 releasename: releasename,
-                size: getPropertyForSelector(results[i], selectors.size),
+                size: sizeToMB(getPropertyForSelector(results[i], selectors.size)),
                 seeders: getPropertyForSelector(results[i], selectors.seeders),
                 leechers: getPropertyForSelector(results[i], selectors.leechers),
                 detailUrl: (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.detailUrl)

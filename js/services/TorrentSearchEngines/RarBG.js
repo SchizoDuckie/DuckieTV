@@ -29,7 +29,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                     var out = {
                         magneturl: hit.download,
                         releasename: hit.title,
-                        size: Math.round(((hit.size / 1024 / 1024) + 0.00001) * 100) / 100 + " MB",
+                        size: (hit.size / 1024 / 1024).toFixed(2) + " MB",
                         seeders: hit.seeders,
                         leechers: hit.leechers,
                         detailUrl: hit.info_page
