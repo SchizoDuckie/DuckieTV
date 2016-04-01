@@ -56,7 +56,7 @@
             <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
           </a>
         </form>
-        <span class="alert alert-danger" ng-show="p.period.$error.number" translate-once="SETTINGS/TORRENT/autodownload-only-numbers/alert"></span>
+        <span class="alert alert-danger" ng-show="p.period.$error.number" translate-once="COMMON/only-numbers/alert"></span>
         <span class="alert alert-danger" ng-show="p.period.$error.min || p.period.$error.max" translate-once="SETTINGS/TORRENT/autodownload-days-range/alert"></span>
 
         <hr class="setting-divider">
@@ -70,7 +70,7 @@
             <i class="glyphicon glyphicon-floppy-save"></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
           </a>
         </form>
-        <span class="alert alert-danger" ng-show="s.seeders.$error.number" translate-once="SETTINGS/TORRENT/autodownload-only-numbers/alert"></span>
+        <span class="alert alert-danger" ng-show="s.seeders.$error.number" translate-once="COMMON/only-numbers/alert"></span>
         <span class="alert alert-danger" ng-show="s.seeders.$error.min || s.seeders.$error.max" translate-once="SETTINGS/TORRENT/autodownload-seeders-range/alert"></span>
       </div>
     </div>
