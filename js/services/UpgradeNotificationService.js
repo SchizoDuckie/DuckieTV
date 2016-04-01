@@ -30,6 +30,8 @@ DuckieTV
                 "<li>top10: (fix) invalid data handling bug",
                 "<li>Subtitles: (fix) net::err_empty_response handling bug",
                 "<li>Language: (fix) Russian translations by galeksandrp",
+                "<li>TraktTV: (new) Option to change the frequency of the Episode updates.",
+                "<li>TorrentDialog: (new) Option to sort the Seeders, Leechers and Size column. (add) Option to enable Sort menu to sort by Age.",
                 "<li>misc bug fixes"
             ].join('')
         };
