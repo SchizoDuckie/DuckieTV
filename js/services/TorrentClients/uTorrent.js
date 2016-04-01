@@ -455,7 +455,7 @@ DuckieTorrent
                 return signature.length === variables.length && signature.map(function(type, index) {
                     if (typeof variables[index] === 'undefined') {
                         throw 'client functions do not support undefined arguments';
-                    } else if (typeof variables[index] === 'null') {
+                    } else if (variables[index] === null) {
                         return true;
                     }
 
