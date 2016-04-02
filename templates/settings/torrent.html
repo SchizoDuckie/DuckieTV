@@ -51,13 +51,15 @@
         <p><span translate-once="SETTINGS/TORRENT/autodownload-period/desc"></span>{{adPeriod}}<span translate-once="SETTINGS/TORRENT/autodownload-period/desc2"></span><br><span translate-once="SETTINGS/TORRENT/autodownload-period-default/lbl"></span></p>
 
         <form name="p">
-          <span translate-once="SETTINGS/TORRENT/autodownload-period/form"></span> <input type='number' name="period" ng-model="adPeriod" min="1" max="21" />
-          <a class="btn btn-success" ng-click="saveADPeriod(adPeriod)" ng-disabled="p.period.$error.number || p.period.$error.min || p.period.$error.max" style="float:right; margin-top:-10px;">
+          <span translate-once="SETTINGS/TORRENT/autodownload-period/form"></span> <input type="number" name="period" ng-model="adPeriod" min="1" max="21" required />
+          <a ng-show="!p.period.$valid" class="btn btn-success" ng-disabled="true" style="float:right; margin-top:-10px;">
+            <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+          </a>
+          <a ng-show="p.period.$valid" class="btn btn-success" ng-click="saveADPeriod(adPeriod)" style="float:right; margin-top:-10px;">
             <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
           </a>
         </form>
-        <span class="alert alert-danger" ng-show="p.period.$error.number" translate-once="COMMON/only-numbers/alert"></span>
-        <span class="alert alert-danger" ng-show="p.period.$error.min || p.period.$error.max" translate-once="SETTINGS/TORRENT/autodownload-days-range/alert"></span>
+        <span class="alert alert-danger" ng-show="!p.period.$valid" translate-once="SETTINGS/TORRENT/autodownload-days-range/alert"></span>
 
         <hr class="setting-divider">
 
@@ -65,13 +67,15 @@
         <p><span translate-once="SETTINGS/TORRENT/autodownload-seeders/desc"></span><br><span translate-once="SETTINGS/TORRENT/autodownload-seeders-default/lbl"></span></p>
 
         <form name="s">
-          <span translate-once="SETTINGS/TORRENT/autodownload-seeders/form"></span> <input type='number' name="seeders" ng-model="adMinSeeders" min="0" max="3000" />
-          <a class="btn btn-success" ng-click="saveADMinSeeders(adMinSeeders)" ng-disabled="s.seeders.$error.number || s.seeders.$error.min || s.seeders.$error.max"  style="float:right; margin-top:-10px;">
+          <span translate-once="SETTINGS/TORRENT/autodownload-seeders/form"></span> <input type="number" name="seeders" ng-model="adMinSeeders" min="0" max="3000" required />
+          <a ng-show="!s.seeders.$valid" class="btn btn-success" ng-disabled="true"  style="float:right; margin-top:-10px;">
+            <i class="glyphicon glyphicon-floppy-save"></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+          </a>
+          <a ng-show="s.seeders.$valid" class="btn btn-success" ng-click="saveADMinSeeders(adMinSeeders)" style="float:right; margin-top:-10px;">
             <i class="glyphicon glyphicon-floppy-save"></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
           </a>
         </form>
-        <span class="alert alert-danger" ng-show="s.seeders.$error.number" translate-once="COMMON/only-numbers/alert"></span>
-        <span class="alert alert-danger" ng-show="s.seeders.$error.min || s.seeders.$error.max" translate-once="SETTINGS/TORRENT/autodownload-seeders-range/alert"></span>
+        <span class="alert alert-danger" ng-show="!s.seeders.$valid" translate-once="SETTINGS/TORRENT/autodownload-seeders-range/alert"></span>
       </div>
     </div>
 
