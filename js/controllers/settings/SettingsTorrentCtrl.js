@@ -31,6 +31,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
 
         $scope.globalInclude = SettingsService.get('torrenting.global_include');
         $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
+        $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min');
+        $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max');
 
         /**
          * Inject an event to display mirror resolving progress.
@@ -248,6 +250,22 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.saveGlobalExclude = function(list) {
             $scope.globalExclude = list;
             SettingsService.set('torrenting.global_exclude', $scope.globalExclude);
+        };
+
+        /**
+         * Save Global Size Min
+         */
+        $scope.saveGlobalSizeMin = function(size) {
+            $scope.globalSizeMin = size;
+            SettingsService.set('torrenting.global_size_min', $scope.globalSizeMin);
+        };
+
+        /**
+         * Save Global Size Max
+         */
+        $scope.saveGlobalSizeMax = function(size) {
+            $scope.globalSizeMax = size;
+            SettingsService.set('torrenting.global_size_max', $scope.globalSizeMax);
         };
 
     }

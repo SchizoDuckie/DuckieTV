@@ -70,6 +70,38 @@
 
   <hr class="setting-divider">
 
+  <h2 translate-once="COMMON/global-size-min/hdr"></h2>
+  <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/global-size-min/desc"></p>
+
+  <form name="sizemin">
+    <span translate-once="COMMON/global-size/form"></span> <input type="number" name="mb" ng-model="globalSizeMin" />
+    <a ng-show="!sizemin.mb.$valid" class="btn btn-success" ng-disabled="true" style="float:right; margin-top:-10px;">
+      <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+    </a>
+    <a ng-show="sizemin.mb.$valid" class="btn btn-success" ng-click="saveGlobalSizeMin(globalSizeMin)" style="float:right; margin-top:-10px;">
+      <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+    </a>
+  </form>
+  <span class="alert alert-danger" ng-show="!sizemin.mb.$valid" translate-once="COMMON/global-size/alert"></span>
+
+  <hr class="setting-divider">
+
+  <h2 translate-once="COMMON/global-size-max/hdr"></h2>
+  <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/global-size-max/desc"></p>
+
+  <form name="sizemax">
+    <span translate-once="COMMON/global-size/form"></span> <input type="number" name="mb" ng-model="globalSizeMax" />
+    <a ng-show="!sizemax.mb.$valid" class="btn btn-success" ng-disabled="true" style="float:right; margin-top:-10px;">
+      <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+    </a>
+    <a ng-show="sizemax.mb.$valid" class="btn btn-success" ng-click="saveGlobalSizeMax(globalSizeMax)" style="float:right; margin-top:-10px;">
+      <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+    </a>
+  </form>
+  <span class="alert alert-danger" ng-show="!sizemax.mb.$valid" translate-once="COMMON/global-size/alert"></span>
+
+  <hr class="setting-divider">
+
   <h2 style='white-space:nowrap'>The Pirate Bay</h2>
   <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/tpb/desc"></p>
 

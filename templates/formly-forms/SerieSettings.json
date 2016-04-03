@@ -1,6 +1,6 @@
 [{
      "className": "row",
-    "fieldGroup": [{
+     "fieldGroup": [{
         "key": "ignoreHideSpecials",
         "className": "inline-checkbox",
         "type": "input",
@@ -13,7 +13,7 @@
         }
     }]
 }, {
-   "key": "customSearchString",
+    "key": "customSearchString",
     "type": "input",
     "templateOptions": {
         "type": "text",
@@ -93,6 +93,28 @@
         },
         "expressionProperties": {
             "templateOptions.label": "\"SERIESETTINGSCTRLjs/search-provider/lbl\" | translate"
+        }
+    }, {
+        "key": "customSearchSizeMin",
+         "className": "col-xs-4",
+         "type": "input",
+         "templateOptions": {
+            "type": "number",
+            "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"COMMON/custom-search-size-min/lbl\" | translate"
+        }
+    }, {
+        "key": "customSearchSizeMax",
+        "className": "col-xs-4",
+        "type": "input",
+        "templateOptions": {
+            "type": "number",
+            "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"COMMON/custom-search-size-max/lbl\" | translate"
         }
     }]
 }]
