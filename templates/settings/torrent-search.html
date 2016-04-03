@@ -49,7 +49,9 @@
   <ul class="list-unstyled">
     <li><span translate-once="COMMON/global-include/hdr"></span><br>
       <input type='text' style='width:350px' ng-model="globalInclude" translate-once-placeholder="COMMON/global-search/placeholder">
-      <a class="btn btn-success" ng-click="saveGlobalInclude(globalInclude)" translate-once="COMMON/save/btn"></a>
+      <a class="btn btn-success" ng-click="saveGlobalInclude(globalInclude)">
+        <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+      </a>
     </li>
   </ul>
 
@@ -60,7 +62,9 @@
   <ul class="list-unstyled">
     <li><span translate-once="COMMON/global-exclude/hdr"></span><br>
       <input type='text' style='width:350px' ng-model="globalExclude" translate-once-placeholder="COMMON/global-search/placeholder">
-      <a class="btn btn-success" ng-click="saveGlobalExclude(globalExclude)" translate-once="COMMON/save/btn"></a>
+      <a class="btn btn-success" ng-click="saveGlobalExclude(globalExclude)">
+        <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+      </a>
     </li>
   </ul>
 
@@ -72,9 +76,12 @@
   <ul class="list-unstyled">
     <li><span translate-once="SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr"></span><br>
       <input type='url' style='width:350px' ng-model="customtpbmirror">
-      <a class="btn btn-success" ng-click="validateCustomTPBMirror(customtpbmirror)" translate-once="SETTINGS/TORRENT-SEARCH/tpb-validate/btn"></a>
-      <a class="btn btn-info" ng-click="findRandomTPBMirror()" translate-once="SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn"></a>
-
+      <a class="btn btn-success" ng-click="validateCustomTPBMirror(customtpbmirror)">
+        <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="SETTINGS/TORRENT-SEARCH/tpb-validate/btn"></span>
+      </a>
+      <a class="btn btn-info" ng-click="findRandomTPBMirror()">
+        <i class="glyphicon glyphicon-search" ></i>&nbsp; <span translate-once="SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn"></span>
+      </a>
       <p ng-show="tpbmirrorStatus.length > 0">
         <span translate-once="SETTINGS/TORRENT-SEARCH/tpb-status/hdr"></span>
         <ul style='max-height:150px; overflow-y:auto'>
@@ -92,9 +99,12 @@
   <ul class="list-unstyled">
     <li><span translate-once="SETTINGS/TORRENT-SEARCH/kat-mirror/hdr"></span><br>
       <input type='url' style='width:350px' ng-model="customkatmirror">
-      <a class="btn btn-success" ng-click="validateCustomKATMirror(customkatmirror)" translate-once="SETTINGS/TORRENT-SEARCH/kat-validate/btn"></a>
-      <a ng-hide="true" class="btn btn-info" ng-click="findRandomKATMirror()" translate-once="SETTINGS/TORRENT-SEARCH/kat-find-mirror/btn"></a>
-
+      <a class="btn btn-success" ng-click="validateCustomKATMirror(customkatmirror)">
+        <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="SETTINGS/TORRENT-SEARCH/kat-validate/btn"></span>
+      </a>
+      <a ng-hide="true" class="btn btn-info" ng-click="findRandomKATMirror()">
+        <i class="glyphicon glyphicon-search" ></i>&nbsp; <span translate-once="SETTINGS/TORRENT-SEARCH/kat-find-mirror/btn"></span>
+      </a>
       <p ng-show="katmirrorStatus.length > 0"<span translate-once="SETTINGS/TORRENT-SEARCH/kat-status/hdr"></span>
         <ul style='max-height:150px; overflow-y:auto'>
           <li ng-repeat="status in katmirrorStatus track by $index">{{status}}</li>
@@ -116,7 +126,9 @@
       <p>{{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enabled/desc' : 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disabled/desc'|translate}}</p>
       <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
        {{allowUnsafe ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-      <a ng-click="toggleUnsafeProxy()" class="btn btn-{{allowUnsafe ? 'danger' : 'success'}}">{{allowUnsafe ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}</a>
+      <a ng-click="toggleUnsafeProxy()" class="btn btn-{{allowUnsafe ? 'danger' : 'success'}}">
+        <i class="glyphicon glyphicon-{{!allowUnsafe ? 'ok' : 'remove'}}" ></i>&nbsp; {{allowUnsafe ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+      </a>
     </li>
   </ul>
   <hr class="setting-divider">
@@ -132,7 +144,9 @@
       <p>{{allowTDsortMenu ? 'SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc' : 'SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc'|translate}}</p>
       <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
        {{allowTDsortMenu ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-      <a ng-click="toggleTDsortMenu()" class="btn btn-{{allowTDsortMenu ? 'danger' : 'success'}}">{{allowTDsortMenu ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}</a>
+      <a ng-click="toggleTDsortMenu()" class="btn btn-{{allowTDsortMenu ? 'danger' : 'success'}}">
+        <i class="glyphicon glyphicon-{{!allowTDsortMenu ? 'ok' : 'remove'}}" ></i>&nbsp; {{allowTDsortMenu ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+      </a>
     </li>
   </ul>
 </div>
