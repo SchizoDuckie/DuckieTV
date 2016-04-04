@@ -58,9 +58,23 @@
       </tr>
       <tr>
         <td colspan="2">
-           <a ng-click="sidepanel.markAllWatched(sidepanel.serie)">
-              <i class="glyphicon glyphicon-eye-open"></i><strong translate-once="COMMON/mark-all-watched/lbl"></strong>
-            </a>
+          <a ng-show="!sidepanel.markAllWatchedAlert" ng-click="sidepanel.markAllWatchedQuery()">
+            <i class="glyphicon glyphicon-eye-open"></i><strong translate-once="COMMON/mark-all-watched/lbl"></strong>
+          </a>
+          <table ng-show="sidepanel.markAllWatchedAlert" class="buttons" width="100%" border="0">
+            <tr>
+              <td>
+                <a  class="btn btn-danger" ng-click="sidepanel.markAllWatched(sidepanel.serie)">
+                  <i class="glyphicon glyphicon-question-sign spin"></i><strong translate-once="COMMON/are-you-sure/lbl"></strong>&nbsp;<strong translate-once="DIALOGSjs/yes/btn"></strong>
+                </a>
+              </td>
+              <td>
+                <a class="btn btn-success" ng-show="sidepanel.markAllWatchedAlert" ng-click="sidepanel.markAllWatchedCancel()">
+                  <i class="glyphicon glyphicon-ban-circle"></i><strong translate-once="COMMON/cancel/btn"></strong>
+                </a>
+              </td>
+            </tr>
+          </table>
         </td>
       </tr>
       <tr ng-show="getSetting('torrenting.enabled')">

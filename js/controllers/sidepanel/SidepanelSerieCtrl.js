@@ -8,6 +8,7 @@ DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "
         this.notWatchedSeason = notWatchedSeason;
         this.notWatchedEpsBtn =  SettingsService.get('series.not-watched-eps-btn');
         this.isRefreshing = false;
+        this.markAllWatchedAlert = false;
 
         this.refresh = function(serie) {
             this.isRefreshing = true;
@@ -57,7 +58,16 @@ DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "
         this.markAllWatched = function(serie) {
             serie.markSerieAsWatched($rootScope).then(function() {
                 $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
+                self.markAllWatchedAlert = false; // reset alert flag
             });
+        };
+
+        this.markAllWatchedCancel = function() {
+            self.markAllWatchedAlert = false; // reset alert flag
+        };
+
+        this.markAllWatchedQuery = function() {
+            self.markAllWatchedAlert = true; // set alert flag
         };
 
         /**

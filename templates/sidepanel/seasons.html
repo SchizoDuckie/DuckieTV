@@ -11,11 +11,25 @@
 </div>
 <div>
   <table class="buttons" width="100%" border="0">
-    <tr class="two-face">
-      <td>
-        <a ng-click="seasons.markAllWatched()">
+    <tr>
+      <td colspan="2">
+        <a ng-show="!seasons.markAllWatchedAlert" ng-click="seasons.markAllWatchedQuery()">
           <i class="glyphicon glyphicon-eye-open"></i><strong translate-once="COMMON/mark-all-watched/lbl"></strong>
         </a>
+        <table ng-show="seasons.markAllWatchedAlert" class="buttons" width="100%" border="0">
+          <tr>
+            <td>
+              <a  class="btn btn-danger" ng-click="seasons.markAllWatched()">
+                <i class="glyphicon glyphicon-question-sign spin"></i><strong translate-once="COMMON/are-you-sure/lbl"></strong>&nbsp;<strong translate-once="DIALOGSjs/yes/btn"></strong>
+              </a>
+            </td>
+            <td>
+              <a class="btn btn-success" ng-show="seasons.markAllWatchedAlert" ng-click="seasons.markAllWatchedCancel()">
+                <i class="glyphicon glyphicon-ban-circle"></i><strong translate-once="COMMON/cancel/btn"></strong>
+              </a>
+            </td>
+          </tr>
+        </table>
       </td>
     </tr>
   </table>
