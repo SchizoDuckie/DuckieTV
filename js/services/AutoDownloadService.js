@@ -15,9 +15,26 @@ DuckieTV
             toDT: null,
 
             activityUpdate: function(serie, search, status, extra) {
+                var csm = 0;
+                var csmExtra = ''; 
+                if (serie.customSearchSizeMin && serie.customSearchSizeMin != null) {
+                    csm = 1;
+                    csmExtra = ' (' + serie.customSearchSizeMin.toString() + '/';
+                } else {
+                    csmExtra = ' (-/';
+                }
+                if (serie.customSearchSizeMax && serie.customSearchSizeMax != null) {
+                    csm = 1;
+                    csmExtra = csmExtra + serie.customSearchSizeMax.toString() + ')';
+                } else {
+                    csmExtra = csmExtra + '-)';
+                }
+                if (csm == 0) {
+                    csmExtra = '';
+                }
                 var css = (serie.customSearchString && serie.customSearchString != '') ? 1 : 0;
-                var sp = (serie.searchProvider && serie.searchProvider != null) ? '(' + serie.searchProvider + ')' : '';
-                service.activityList.push({'search': search + sp, 'css': css, 'igq': serie.ignoreGlobalQuality, 'igi': serie.ignoreGlobalIncludes, 'ige': serie.ignoreGlobalExcludes, 'status': status, 'extra': extra});
+                var sp = (serie.searchProvider && serie.searchProvider != null) ? ' (' + serie.searchProvider + ')' : '';
+                service.activityList.push({'search': search + sp + csmExtra, 'csm': csm,  'css': css, 'igq': serie.ignoreGlobalQuality, 'igi': serie.ignoreGlobalIncludes, 'ige': serie.ignoreGlobalExcludes, 'status': status, 'extra': extra});
                 $rootScope.$broadcast('autodownload:activity');
             },
 

@@ -79,6 +79,7 @@
     "COMMON/current-setting/hdr": "current setting: ",
     "COMMON/custom-search-size-max/lbl": "Custom Search Maximum Size in MegaBytes",
     "COMMON/custom-search-size-min/lbl": "Custom Search Minimum Size in MegaBytes",
+    "COMMON/custom-search-size-min-max/lbl": "Custom Search Size Min/Max",
     "COMMON/custom-search-string/lbl": "Custom Search String",
     "COMMON/delete-serie/btn": "Remove from favorites",
     "COMMON/disable/btn": "Disable",

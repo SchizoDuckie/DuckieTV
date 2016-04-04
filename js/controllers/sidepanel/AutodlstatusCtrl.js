@@ -15,6 +15,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "SettingsService",
             activeLbl = $filter('translate')('AUTODLSTATUSCTRLjs/active/lbl'), // active
             usingLbl = $filter('translate')('AUTODLSTATUSCTRLjs/using/lbl'), // using
             notusingLbl = $filter('translate')('AUTODLSTATUSCTRLjs/not-using/lbl'), // not using
+            csmLbl = $filter('translate')('COMMON/custom-search-size-min-max/lbl'), // Custom Search Size Min/Max
             cssLbl = $filter('translate')('COMMON/custom-search-string/lbl'), // Custom Search String
             gqLbl = $filter('translate')('COMMON/global-quality/hdr'), // Global Quality
             giLbl = $filter('translate')('COMMON/global-include/hdr'), // Global Includes List
@@ -66,6 +67,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "SettingsService",
         
         $scope.getTooltip = function(item, state) {
             switch (item) {
+                case 'csm': return (state == 0) ? notusingLbl + ' ' + csmLbl : usingLbl + ' ' + csmLbl;
                 case 'css': return (state == 0) ? notusingLbl + ' ' + cssLbl : usingLbl + ' ' + cssLbl;
                 case 'igq': return (state == 0) ? usingLbl + ' ' + gqLbl : notusingLbl + ' ' + gqLbl;                    
                 case 'igi': return (state == 0) ? usingLbl + ' ' + giLbl : notusingLbl + ' ' + giLbl;                    
