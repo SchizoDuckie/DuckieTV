@@ -43,14 +43,24 @@
           <input type="checkbox" ng-model="globalExcludeEnabled" ng-change="setGlobalExcludeState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-exclude/lbl"></span> ({{globalExclude}})</label>
         </div>
       </th>
-      <th>
+      <th ng-show="serie.customSearchSizeMin == null">
         <div class="checkbox">
-          <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-size-min/lbl"></span> ({{serie.customSearchSizeMin == null ? globalSizeMin : serie.customSearchSizeMin}} MB)</label>
+          <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-global-size-min/lbl"></span> ({{globalSizeMin}}) MB</label>
         </div>
       </th>
-      <th>
+      <th ng-show="serie.customSearchSizeMin != null">
         <div class="checkbox">
-          <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-size-max/lbl"></span> ({{serie.customSearchSizeMax == null ? globalSizeMax : serie.customSearchSizeMax}} MB)</label>
+          <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-custom-size-min/lbl"></span> ({{serie.customSearchSizeMin}}) MB</label>
+        </div>
+      </th>
+      <th ng-show="serie.customSearchSizeMax == null">
+        <div class="checkbox">
+          <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-global-size-max/lbl"></span> ({{globalSizeMax}}) MB</label>
+        </div>
+      </th>
+      <th ng-show="serie.customSearchSizeMax != null">
+        <div class="checkbox">
+          <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-custom-size-max/lbl"></span> ({{serie.customSearchSizeMax}}) MB</label>
         </div>
       </th>
     </tr>

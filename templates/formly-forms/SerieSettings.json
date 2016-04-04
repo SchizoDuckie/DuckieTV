@@ -103,7 +103,8 @@
             "label": ""
         },
         "expressionProperties": {
-            "templateOptions.label": "\"COMMON/custom-search-size-min/lbl\" | translate"
+            "templateOptions.label": "\"COMMON/custom-search-size-min/lbl\" | translate",
+            "templateOptions.placeholder": "\"COMMON/search-size/placeholder\" | translate"
         }
     }, {
         "key": "customSearchSizeMax",
@@ -114,7 +115,8 @@
             "label": ""
         },
         "expressionProperties": {
-            "templateOptions.label": "\"COMMON/custom-search-size-max/lbl\" | translate"
+            "templateOptions.label": "\"COMMON/custom-search-size-max/lbl\" | translate",
+            "templateOptions.placeholder": "\"COMMON/search-size/placeholder\" | translate"
         }
     }]
 }]

@@ -74,7 +74,7 @@
   <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/global-size-min/desc"></p>
 
   <form name="sizemin">
-    <span translate-once="COMMON/global-size/form"></span> <input type="number" name="mb" ng-model="globalSizeMin" />
+    <span translate-once="COMMON/global-size/form"></span> <input type="number" name="mb" ng-model="globalSizeMin" translate-once-placeholder="COMMON/search-size/placeholder">
     <a ng-show="!sizemin.mb.$valid" class="btn btn-success" ng-disabled="true" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
     </a>
@@ -90,7 +90,7 @@
   <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/global-size-max/desc"></p>
 
   <form name="sizemax">
-    <span translate-once="COMMON/global-size/form"></span> <input type="number" name="mb" ng-model="globalSizeMax" />
+    <span translate-once="COMMON/global-size/form"></span> <input type="number" name="mb" ng-model="globalSizeMax" translate-once-placeholder="COMMON/search-size/placeholder">
     <a ng-show="!sizemax.mb.$valid" class="btn btn-success" ng-disabled="true" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
     </a>
