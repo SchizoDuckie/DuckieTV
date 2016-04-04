@@ -90,6 +90,8 @@ DuckieTV
                 var globalQuality = ' ' + SettingsService.get('torrenting.searchquality'); // Global Quality to append to search string.
                 var globalInclude = SettingsService.get('torrenting.global_include'); // Any words in the global include list causes the result to be filtered in.
                 var globalExclude = SettingsService.get('torrenting.global_exclude'); // Any words in the global exclude list causes the result to be filtered out.
+                var globalSizeMin = SettingsService.get('torrenting.global_size_min'); // torrents smaller than this are filtered out
+                 var globalSizeMax = SettingsService.get('torrenting.global_size_max'); // torrents larger than this are filtered out
                 var searchEngine = TorrentSearchEngines.getDefaultEngine();
                 if (serie.ignoreGlobalQuality != 0) {
                     globalQuality = ''; // series custom settings specify to ignore the global quality
@@ -162,9 +164,28 @@ DuckieTV
                         return (score == 0);
                     };
 
+                    /**
+                     * Torrent sizes outside min-max range causes the result to be filtered out.
+                     */
+                    function filterBySize(item) {
+                        if (item.size == null || item.size == 'n/a') {
+                            // if item size not available then accept item
+                            return true;
+                        }
+                        var size = item.size.split(/\s{1}/)[0]; // size split into value and unit
+                        // serie custom Search Size is available for override
+                        var sizeMin = (serie.customSearchSizeMin !== null) ? serie.customSearchSizeMin : globalSizeMin;
+                        var sizeMax = (serie.customSearchSizeMax !== null) ? serie.customSearchSizeMax : globalSizeMax;
+                        // set up accepted size range
+                        sizeMin = (sizeMin == null) ? 0 : sizeMin;
+                        sizeMax = (sizeMax == null) ? Number.MAX_SAFE_INTEGER : sizeMax;
+                        return (size >= sizeMin && size <= sizeMax);
+                    };
+
                     // Search torrent provider for the string
                     return searchEngine.search(q, true).then(function(results) {
-                        var items = results.filter(filterByScore);
+                        var items = results.filter(filterBySize);
+                        items = items.filter(filterByScore);
                         if (items.length === 0) {
                             service.activityUpdate(serie, q, 4); // 'nothing found'
                             return; // no results, abort
@@ -199,7 +220,7 @@ DuckieTV
                 if (!service.checkTimeout) {
                     service.checkTimeout = setTimeout(service.autoDownloadCheck, 5000);
                     $rootScope.$on('torrentclient:connected', function(remote) {
-                        console.info("Caught TorrentClient connected event! starting autodownload check!");
+                        console.info("Caught TorrentClient connected event! starting AutoDownload check!");
                         service.autoDownloadCheck();
                     });
                 }

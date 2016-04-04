@@ -29,7 +29,7 @@
 <div class="btn-group" style="padding:0px 5px 5px 0px;vertical-align:initial">
  <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
 </div>
-<!-- global include/exclude check boxes -->
+<!-- global include/exclude and size min/max check boxes -->
 <table class="torrents table table-condensed white" style="margin-bottom:0px">
   <tbody>
     <tr>
@@ -42,9 +42,19 @@
         <div class="checkbox">
           <input type="checkbox" ng-model="globalExcludeEnabled" ng-change="setGlobalExcludeState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-exclude/lbl"></span> ({{globalExclude}})</label>
         </div>
-        </th>
-      </tr>
-    </tbody>
+      </th>
+      <th>
+        <div class="checkbox">
+          <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-size-min/lbl"></span> ({{serie.customSearchSizeMin == null ? globalSizeMin : serie.customSearchSizeMin}} MB)</label>
+        </div>
+      </th>
+      <th>
+        <div class="checkbox">
+          <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" style="vertical-align:bottom;margin:0"><label><span translate-once="TORRENTDIALOG/search-size-max/lbl"></span> ({{serie.customSearchSizeMax == null ? globalSizeMax : serie.customSearchSizeMax}} MB)</label>
+        </div>
+      </th>
+    </tr>
+  </tbody>
 </table>
 <!-- search results -->
 <table class="torrents table table-condensed white">

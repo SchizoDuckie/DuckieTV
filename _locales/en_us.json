@@ -510,6 +510,8 @@
     "TORRENTDIALOG/search-download-this/tooltip": "Search for a download for ",
     "TORRENTDIALOG/search-exclude/lbl": "search using global exclude list",
     "TORRENTDIALOG/search-include/lbl": "search using global include list",
+    "TORRENTDIALOG/search-size-min/lbl": "search using global or custom minimum size",
+    "TORRENTDIALOG/search-size-max/lbl": "search using global or custom maximum size",
     "TORRENTDIALOG/sort-column/tooltip": "Sort this column",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Rank"

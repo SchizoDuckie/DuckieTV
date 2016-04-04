@@ -33,6 +33,8 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "SettingsService",
         $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
         $scope.globalQuality = (SettingsService.get('torrenting.searchquality') == '') ? 'All' : SettingsService.get('torrenting.searchquality');
         $scope.searchEngine = SettingsService.get('torrenting.searchprovider');
+        $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max');
+        $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min');
         $scope.period = $scope.period + ' ' + dayLbl;
         $scope.minSeeders = SettingsService.get('autodownload.minSeeders');
         if ($scope.isActive()) {

@@ -9,14 +9,20 @@ DuckieTV
         $scope.error = false;
         $scope.query = angular.copy(data.query);
         $scope.TVDB_ID = angular.copy(data.TVDB_ID);
+        $scope.serie = angular.copy(data.serie);
+        $scope.episode = angular.copy(data.episode);
         $scope.allowTDsortMenu = SettingsService.get('torrentDialog.sortMenu.enabled');
         $scope.orderBy = 'seeders';
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
         $scope.searchquality = SettingsService.get('torrenting.searchquality');
         $scope.globalInclude = SettingsService.get('torrenting.global_include');
-        $scope.globalIncludeEnabled = SettingsService.get('torrenting.global_include_enabled');
+        $scope.globalIncludeEnabled = SettingsService.get('torrenting.global_include_enabled'); // only applies to torrentDialog
         $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
-        $scope.globalExcludeEnabled = SettingsService.get('torrenting.global_exclude_enabled');
+        $scope.globalExcludeEnabled = SettingsService.get('torrenting.global_exclude_enabled'); // only applies to torrentDialog
+        $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max'); // torrents larger than this are filtered out
+        $scope.globalSizeMaxEnabled = SettingsService.get('torrenting.global_size_max_enabled'); // only applies to torrentDialog
+        $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min'); // torrents smaller than this are filtered out
+        $scope.globalSizeMinEnabled = SettingsService.get('torrenting.global_size_min_enabled'); // only applies to torrentDialog
         $scope.clients = Object.keys(TorrentSearchEngines.getSearchEngines());
         var provider = TorrentSearchEngines.getSearchEngine($scope.searchprovider);
         if ('config' in provider && 'orderby' in provider.config) {
@@ -108,6 +114,35 @@ DuckieTV
             };
 
             /**
+             * Torrent sizes outside min-max range causes the result to be filtered out.
+             */
+            function filterBySize(item) {
+                if (item.size == null || item.size == 'n/a') {
+                    // if item size not available then accept item
+                    return true;
+                }
+                var size = item.size.split(/\s{1}/)[0]; // size split into value and unit
+                var sizeMin = null;
+                var sizeMax = null;
+                if ('serie' in data) {
+                    // if called from TorrentSearchEngines.findEpisode then serie custom search size is available for override
+                    sizeMin = ($scope.serie.customSearchSizeMin !== null) ? $scope.serie.customSearchSizeMin : $scope.globalSizeMin;
+                    sizeMax = ($scope.serie.customSearchSizeMax !== null) ? $scope.serie.customSearchSizeMax : $scope.globalSizeMax;
+                } else {
+                    sizeMin = $scope.globalSizeMin;
+                    sizeMax = $scope.globalSizeMax;
+                }
+                // set up accepted size range
+                sizeMin = (sizeMin == null) ? 0 : sizeMin;
+                sizeMax = (sizeMax == null) ? Number.MAX_SAFE_INTEGER : sizeMax;
+                // ignore global and custom search size min ?
+                sizeMin = ($scope.globalSizeMinEnabled) ? sizeMin : 0;
+                // ignore global and custom search size max ?
+                sizeMax = ($scope.globalSizeMaxEnabled) ? sizeMax : Number.MAX_SAFE_INTEGER;
+                return (size >= sizeMin && size <= sizeMax);
+            };
+
+            /**
              * drop duplicates from results by matching releasename
              */
             function dropDuplicates(items) {
@@ -123,7 +158,8 @@ DuckieTV
             };
 
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' '), undefined, $scope.orderBy).then(function(results) {
-                $scope.items = results.filter(filterByScore);
+                $scope.items = results.filter(filterBySize);
+                $scope.items = $scope.items.filter(filterByScore);
                 $scope.items = $scope.items.filter(filterGlobalInclude);
                 $scope.items = $scope.items.filter(filterGlobalExclude);
                 $scope.items = dropDuplicates($scope.items);
@@ -145,6 +181,18 @@ DuckieTV
         // Save state of torrenting global exclude check-box
         $scope.setGlobalExcludeState = function() {
             SettingsService.set('torrenting.global_exclude_enabled', $scope.globalExcludeEnabled);
+            $scope.search($scope.query, undefined, $scope.orderBy);
+        };
+
+        // Save state of torrenting global size min check-box
+        $scope.setGlobalSizeMinState = function() {
+            SettingsService.set('torrenting.global_size_min_enabled', $scope.globalSizeMinEnabled);
+            $scope.search($scope.query, undefined, $scope.orderBy);
+        };
+
+        // Save state of torrenting global size max check-box
+        $scope.setGlobalSizeMaxState = function() {
+            SettingsService.set('torrenting.global_size_max_enabled', $scope.globalSizeMaxEnabled);
             $scope.search($scope.query, undefined, $scope.orderBy);
         };
 
