@@ -105,7 +105,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
                     $scope.localSeries[serie.TVDB_ID] = serie;
                 });
             })
-            // Fetch all Trakt.TV user's watched shows history
+            // Fetch all Trakt.TV user's watched shows
             .then(TraktTVv2.watched).then(function(shows) {
                 //console.info("Found watched from Trakt.TV", shows);
                 Promise.all(shows.map(function(show) {
