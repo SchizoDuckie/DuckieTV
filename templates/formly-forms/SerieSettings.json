@@ -83,7 +83,7 @@
     "className": "row",
     "fieldGroup": [{
         "key": "searchProvider",
-        "className": "cseProperty col-xs-4",
+        "className": "cseProperty col-xs-3",
         "type": "select",
         "templateOptions": {
             "label": "",
@@ -96,7 +96,7 @@
         }
     }, {
         "key": "customSearchSizeMin",
-         "className": "col-xs-4",
+         "className": "col-xs-3",
          "type": "input",
          "templateOptions": {
             "type": "number",
@@ -108,7 +108,7 @@
         }
     }, {
         "key": "customSearchSizeMax",
-        "className": "col-xs-4",
+        "className": "col-xs-3",
         "type": "input",
         "templateOptions": {
             "type": "number",
