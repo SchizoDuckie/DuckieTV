@@ -2,7 +2,7 @@
      "className": "row",
      "fieldGroup": [{
         "key": "ignoreHideSpecials",
-        "className": "inline-checkbox",
+        "className": "inline-checkbox-small col-xs-6",
         "type": "input",
         "templateOptions": {
             "type": "checkbox",
@@ -14,6 +14,7 @@
     }]
 }, {
     "key": "customSearchString",
+    "className": "col-xs-12",
     "type": "input",
     "templateOptions": {
         "type": "text",
@@ -27,7 +28,7 @@
     "className": "row",
     "fieldGroup": [{
         "key": "autoDownload",
-        "className": "inline-checkbox",
+        "className": "inline-checkbox-small col-xs-6",
         "type": "input",
         "templateOptions": {
             "type": "checkbox",
@@ -36,12 +37,9 @@
         "expressionProperties": {
             "templateOptions.label": "\"SERIESETTINGSCTRLjs/auto-download/lbl\" | translate"
         }
-    }]
-}, {
-    "className": "row",
-    "fieldGroup": [{
+    }, {
         "key": "ignoreGlobalQuality",
-        "className": "inline-checkbox",
+        "className": "inline-checkbox-small col-xs-6",
         "type": "input",
         "templateOptions": {
             "type": "checkbox",
@@ -55,7 +53,7 @@
     "className": "row",
     "fieldGroup": [{
         "key": "ignoreGlobalIncludes",
-        "className": "inline-checkbox",
+        "className": "inline-checkbox-small col-xs-6",
         "type": "input",
         "templateOptions": {
             "type": "checkbox",
@@ -64,12 +62,9 @@
         "expressionProperties": {
             "templateOptions.label": "\"COMMON/ignore-global-includes/lbl\" | translate"
         }
-    }]
-}, {
-    "className": "row",
-    "fieldGroup": [{
+    }, {
         "key": "ignoreGlobalExcludes",
-        "className": "inline-checkbox",
+        "className": "inline-checkbox-small col-xs-6",
         "type": "input",
         "templateOptions": {
             "type": "checkbox",

@@ -837,6 +837,24 @@ series-list .trakt-import .toggleWatchSync, series-list .trakt-import .pushToTra
     background-color: rgba(40,40,40,0.3);
 }
 
+.inline-checkbox-small {
+    position: relative;
+}
+.inline-checkbox-small label {
+    width: calc(100% - 35px);
+    font-family:  helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 35px;
+    line-height: normal;
+}
+.inline-checkbox-small input[type=checkbox] {
+    width: 30px;
+    position: absolute;
+    top: 0;
+    margin-top: 0;
+}
+
 chrome-top-sites {
     position: fixed;
     top: 0px;
