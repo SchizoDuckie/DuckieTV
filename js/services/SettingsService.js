@@ -151,6 +151,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'trakttv.passwordHash': null,
                 'trakttv.sync': false,
                 'trakttv.username': null,
+                'transmission.key': '/transmission/rpc',
                 'transmission.password': 'admin',
                 'transmission.port': 9091,
                 'transmission.server': 'http://localhost',
@@ -197,7 +198,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 localStorage.setItem('userPreferences', angular.toJson(service.settings, true));
             },
             /**
-             * Fetch stored series from sqlite and store them in service.favorites
+             * DeSerialise data from localStorage (or if not found then load defaults) and store it in service.settings
              */
             restore: function() {
                 if (!localStorage.getItem('userPreferences')) {
