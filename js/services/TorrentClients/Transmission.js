@@ -81,6 +81,10 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
         };
         TransmissionAPI.extends(BaseHTTPApi, {
 
+            getUrl: function(type, param) {
+                var out = this.config.server + ':' + this.config.port + this.config.key;
+                return (param) ? out.replace('%s', encodeURIComponent(param)) : out;
+            },
             rpc: function(method, params, options) {
                 var self = this,
                     request = {
@@ -97,7 +101,6 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                 if (this.config.use_auth) {
                     headers.Authorization = [this.config.username, this.config.password];
                 }
-
                 return $http.post(this.getUrl('rpc'), request, {
                     headers: headers
                 }).then(function(response) {
@@ -186,12 +189,13 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
         service.setConfigMappings({
             server: 'transmission.server',
             port: 'transmission.port',
+            key: 'transmission.key',
             username: 'transmission.username',
             password: 'transmission.password',
             use_auth: 'transmission.use_auth'
         });
         service.setEndpoints({
-            rpc: '/transmission/rpc'
+            rpc: 'this is replaced by config.key'
         });
         service.readConfig();
 

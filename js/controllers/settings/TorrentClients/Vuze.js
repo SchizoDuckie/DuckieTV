@@ -10,7 +10,10 @@ DuckieTV.controller("vuzeCtrl", ["Vuze", "SettingsService", "FormlyLoader",
                 port: SettingsService.get('vuze.port'),
                 use_auth: SettingsService.get('vuze.use_auth'),
                 username: SettingsService.get('vuze.username'),
-                password: SettingsService.get('vuze.password')
+                password: SettingsService.get('vuze.password'),
+                hideUsername: false,
+                hideKey: true,
+                hideUseAuth: false
             };
 
             self.fields = fields;

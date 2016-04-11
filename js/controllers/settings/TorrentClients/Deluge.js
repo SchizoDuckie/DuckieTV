@@ -14,7 +14,9 @@ DuckieTV.controller("delugeCtrl", ["Deluge", "SettingsService", "FormlyLoader",
                 port: SettingsService.get('deluge.port'),
                 use_auth: SettingsService.get('deluge.use_auth'),
                 password: SettingsService.get('deluge.password'),
-                hideUsername: true
+                hideUsername: true,
+                hideKey: true,
+                hideUseAuth: true
             };
 
             self.fields = fields;

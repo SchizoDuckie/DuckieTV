@@ -10,7 +10,10 @@ DuckieTV.controller("qbtCtrl", ["qBittorrent", "SettingsService", "FormlyLoader"
                 port: SettingsService.get('qbittorrent.port'),
                 use_auth: SettingsService.get('qbittorrent.use_auth'),
                 username: SettingsService.get('qbittorrent.username'),
-                password: SettingsService.get('qbittorrent.password')
+                password: SettingsService.get('qbittorrent.password'),
+                hideUsername: false,
+                hideKey: true,
+                hideUseAuth: false
             };
 
             self.fields = fields;

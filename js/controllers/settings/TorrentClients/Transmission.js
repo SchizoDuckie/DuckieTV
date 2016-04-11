@@ -8,9 +8,13 @@ DuckieTV.controller("tbtCtrl", ["Transmission", "SettingsService", "FormlyLoader
             self.model = {
                 server: SettingsService.get('transmission.server'),
                 port: SettingsService.get('transmission.port'),
+                key: SettingsService.get('transmission.key'),
                 use_auth: SettingsService.get('transmission.use_auth'),
                 username: SettingsService.get('transmission.username'),
-                password: SettingsService.get('transmission.password')
+                password: SettingsService.get('transmission.password'),
+                hideUsername: false,
+                hideKey: false,
+                hideUseAuth: false
             };
 
             self.fields = fields;

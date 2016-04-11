@@ -8,9 +8,12 @@ DuckieTV.controller("tixatiCtrl", ["Tixati", "SettingsService", "FormlyLoader",
             self.model = {
                 server: SettingsService.get('tixati.server'),
                 port: SettingsService.get('tixati.port'),
+                use_auth: SettingsService.get('tixati.use_auth'),
                 username: SettingsService.get('tixati.username'),
                 password: SettingsService.get('tixati.password'),
-                hideUseAuth: true,
+                hideUsername: false,
+                hideKey: true,
+                hideUseAuth: true
             };
 
             self.fields = fields;

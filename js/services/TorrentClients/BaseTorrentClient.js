@@ -101,6 +101,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
             this.configMappings = {
                 server: null,
                 port: null,
+                key: null,
                 username: null,
                 password: null,
                 use_auth: null

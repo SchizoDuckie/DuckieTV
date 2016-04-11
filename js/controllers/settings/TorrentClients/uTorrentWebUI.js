@@ -10,7 +10,10 @@ DuckieTV.controller("uTorrentWebUICtrl", ["uTorrentWebUI", "SettingsService", "F
                 port: SettingsService.get('utorrentwebui.port'),
                 use_auth: SettingsService.get('utorrentwebui.use_auth'),
                 username: SettingsService.get('utorrentwebui.username'),
-                password: SettingsService.get('utorrentwebui.password')
+                password: SettingsService.get('utorrentwebui.password'),
+                hideUsername: false,
+                hideKey: true,
+                hideUseAuth: true
             };
 
             self.fields = fields;
