@@ -106,6 +106,7 @@
     "COMMON/ignore-global-includes/lbl": "Ignore the Global Includes for this show",
     "COMMON/ignore-global-quality/lbl": "Ignore the Global Quality for this show",
     "COMMON/integration/hdr": "Integration",
+    "COMMON/key/lbl": "Key",
     "COMMON/language/hdr": "Language",
     "COMMON/loading-please-wait/lbl": "Loading, please wait",
     "COMMON/magnet-link/tooltip": " Magnet link",

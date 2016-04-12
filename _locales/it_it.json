@@ -106,6 +106,7 @@
     "COMMON/ignore-global-includes/lbl": "Ignorare il globale include per questo spettacolo",
     "COMMON/ignore-global-quality/lbl": "Ignorare la qualità globale per questo spettacolo",
     "COMMON/integration/hdr": "integrazione",
+    "COMMON/key/lbl": "Chiave",
     "COMMON/language/hdr": "Lingua",
     "COMMON/loading-please-wait/lbl": "Caricamento in corso, attendere prego",
     "COMMON/magnet-link/tooltip": "Magnet link",

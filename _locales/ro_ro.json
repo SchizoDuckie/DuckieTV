@@ -106,6 +106,7 @@
     "COMMON/ignore-global-includes/lbl": "Ignora globală include de acest spectacol",
     "COMMON/ignore-global-quality/lbl": "Ignoră calitatea globală pentru acest spectacol",
     "COMMON/integration/hdr": "Integrare",
+    "COMMON/key/lbl": "Cheie",
     "COMMON/language/hdr": "Limbă",
     "COMMON/loading-please-wait/lbl": "Se încarcă, vă rugăm așteptați",
     "COMMON/magnet-link/tooltip": " Link magnet",

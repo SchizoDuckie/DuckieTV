@@ -106,6 +106,7 @@
     "COMMON/ignore-global-includes/lbl": "Игнорировать список по умолчанию для этого шоу",
     "COMMON/ignore-global-quality/lbl": "Игнорировать качество по умолчанию для этого шоу",
     "COMMON/integration/hdr": "Интеграция",
+    "COMMON/key/lbl": "ключ",
     "COMMON/language/hdr": "Язык",
     "COMMON/loading-please-wait/lbl": "Загрузка, подождите",
     "COMMON/magnet-link/tooltip": " Magnet-ссылка",

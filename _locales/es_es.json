@@ -106,6 +106,7 @@
     "COMMON/ignore-global-includes/lbl": "Ignorar los incluidos globales para este programa",
     "COMMON/ignore-global-quality/lbl": "Ignorar la Calidad Global para este programa",
     "COMMON/integration/hdr": "Integración",
+    "COMMON/key/lbl": "Llave",
     "COMMON/language/hdr": "Idioma",
     "COMMON/loading-please-wait/lbl": "Cargando, por favor espera",
     "COMMON/magnet-link/tooltip": "  Magnet link",
