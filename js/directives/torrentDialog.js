@@ -15,10 +15,19 @@ DuckieTV
         $scope.orderBy = 'seeders';
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
         $scope.searchquality = SettingsService.get('torrenting.searchquality');
+        if ('serie' in data && $scope.serie.ignoreGlobalQuality != 0) {
+            $scope.searchquality = ''; // override quality when the series has the IgnoreQuality flag enabled.
+        };
         $scope.globalInclude = SettingsService.get('torrenting.global_include');
         $scope.globalIncludeEnabled = SettingsService.get('torrenting.global_include_enabled'); // only applies to torrentDialog
+        if ('serie' in data && $scope.serie.ignoreGlobalIncludes != 0) {
+            $scope.globalIncludeEnabled = false; // override include-list when the series has the IgnoreIncludeList flag enabled.
+        };
         $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
         $scope.globalExcludeEnabled = SettingsService.get('torrenting.global_exclude_enabled'); // only applies to torrentDialog
+        if ('serie' in data && $scope.serie.ignoreGlobalExcludes != 0) {
+            $scope.globalExcludeEnabled = false; // override exclude-list when the series has the IgnoreExcludeList flag enabled.
+        };
         $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max'); // torrents larger than this are filtered out
         $scope.globalSizeMaxEnabled = SettingsService.get('torrenting.global_size_max_enabled'); // only applies to torrentDialog
         $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min'); // torrents smaller than this are filtered out
