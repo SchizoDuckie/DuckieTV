@@ -62,7 +62,7 @@ DuckieTV
              */
             function filterByScore(item) {
                 var score = 0;
-                var query = q.toLowerCase().split(' ');
+                var query = [q, $scope.searchquality].join(' ').toLowerCase().split(' ');
                 name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (name.indexOf(part) > -1) {
