@@ -147,7 +147,7 @@ if (localStorage.getItem('optin_error_reporting')) {
         var data = "Message: " + JSON.stringify(arguments) + "<br>";
         data += "Platform: " + navigator.platform + "<br>";
         data += "User Agent: " + navigator.userAgent + "<br>";
-        data += "Config: <pre>" + JSON.stringify(localStorage.getItem) + "</pre>";
+        data += "Config: <pre>" + JSON.stringify(userPrefs) + "</pre>";
         log.events.createEvent()
             .text("Console.error: " + JSON.stringify(arguments))
             .tags("error")
@@ -156,6 +156,5 @@ if (localStorage.getItem('optin_error_reporting')) {
             .data(data)
             .post();
     };
-
 
 }
