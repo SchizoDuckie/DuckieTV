@@ -171,19 +171,17 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 $rootScope.$applyAsync();
             },
 
-            processEpisodes: function(serie, seasons) {
-                seasons.map(function(episodes) {
-                    Object.keys(episodes).map(function(id) {
-                        var date = new Date(new Date(episodes[id].firstaired).getTime()).toDateString();
-                        if (!(date in calendarEvents)) return;
-                        if ((!showSpecials && episodes[id].seasonnumber > 0) || showSpecials || event.serie.ignoreHideSpecials == 1) return;
+            processEpisodes: function(serie, episodes) {
+                Object.keys(episodes).map(function(id) {
+                    var date = new Date(new Date(episodes[id].firstaired).getTime()).toDateString();
+                    if (!(date in calendarEvents)) return;
+                    if (episodes[id].seasonnumber == 0 && !showSpecials) return;
 
-                        addEvent(date, {
-                            start: new Date(episodes[id].firstaired),
-                            ID_Serie: episodes[id].ID_Serie,
-                            serie: serie,
-                            episode: episodes[id]
-                        });
+                    addEvent(date, {
+                        start: new Date(episodes[id].firstaired),
+                        ID_Serie: episodes[id].ID_Serie,
+                        serie: serie,
+                        episode: episodes[id]
                     });
                 });
                 $rootScope.$applyAsync();

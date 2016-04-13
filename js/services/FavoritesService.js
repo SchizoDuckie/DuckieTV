@@ -181,10 +181,10 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                             episodeCache[episode.tvdb_id] = dbEpisode;
                             return true;
                         });
-                    })).then(function() {
-                        return episodeCache;
-                    });
-                }));
+                    }));
+                })).then(function() {
+                    return episodeCache;
+                });
             });
         };
 
@@ -235,7 +235,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                         return updateEpisodes(entity, data.seasons, watched, seasonCache);
                     })
                     .then(function(episodeCache) {
-                        $injector.get('CalendarEvents').processEpisodes(serie, episodeCache);
+                        $injector.get('CalendarEvents').processEpisodes(entity, episodeCache);
                         //console.debug("FavoritesService.Favorites", service.favorites)
                         $rootScope.$applyAsync();
                         $rootScope.$broadcast('background:load', serie.fanart);
