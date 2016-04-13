@@ -204,6 +204,9 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         if (!timeout) {
             timeout = $q.defer();
         }
+        if (!sortBy) {
+            sortBy = 'seeders';
+        }
         return $http({
             method: 'GET',
             url: getUrl('search', what, sortBy),
