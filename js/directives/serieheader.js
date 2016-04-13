@@ -15,7 +15,9 @@ DuckieTV.directive('serieheader', ["FavoritesService",
                 "noTitle": "=noTitle",
                 "mode": "@"
             },
-            templateUrl: "templates/serieHeader.html"
+            templateUrl: function($node, $iAttrs) {
+                return $iAttrs.seriesList ? "templates/serieslist/serieHeader.html" : "templates/serieHeader.html";
+            },
         };
     }
 ]);
