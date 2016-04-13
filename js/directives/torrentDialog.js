@@ -34,6 +34,10 @@ DuckieTV
         $scope.globalSizeMinEnabled = SettingsService.get('torrenting.global_size_min_enabled'); // only applies to torrentDialog
         $scope.clients = Object.keys(TorrentSearchEngines.getSearchEngines());
         var provider = TorrentSearchEngines.getSearchEngine($scope.searchprovider);
+        if ('serie' in data && $scope.serie.searchProvider != null) {
+            provider = TorrentSearchEngines.getSearchEngine($scope.serie.searchProvider); // override searchProvider when the series has one defined.
+            $scope.searchprovider = $scope.serie.searchProvider;
+        };
         if ('config' in provider && 'orderby' in provider.config) {
             $scope.orderByList = Object.keys(provider.config.orderby);
         } else {
