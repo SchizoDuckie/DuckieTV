@@ -11,6 +11,17 @@
 
   <hr class="setting-divider">
 
+  <h2 translate-once="SETTINGS/BACKUP/autobackup/hdr"></h2>
+  <p translate-once="SETTINGS/BACKUP/autobackup/desc"></p>
+  <form name="autoBackupForm">
+    <label for="autoBackup"><span translate-once="SETTINGS/BACKUP/autobackup/hdr"></span>:</label>
+    <select name="autoBackup" id="autoBackup" ng-model="autoBackupPeriod">
+      <option ng-repeat="option in autoBackupSelect" value="{{option.value}}">{{option.name}}</option>
+    </select>
+  </form>
+
+  <hr class="setting-divider">
+
   <h2 translate-once="SETTINGS/BACKUP/import/hdr"></h2>
 
   <div ng-show="!restoring">

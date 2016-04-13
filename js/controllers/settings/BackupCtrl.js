@@ -19,55 +19,33 @@
  *    // repeat
  *  }
  */
-DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter", "$injector", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "$q", "$state",
-    function($rootScope, $scope, dialogs, $filter, $injector, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, $q, $state) {
+DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector", "$q", "$state", "dialogs", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents",
+    function($rootScope, $scope, $filter, $injector,  $q, $state, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents) {
 
         $scope.backupString = false;
         $scope.wipeBeforeImport = false;
         $scope.declined = false;
         $scope.series = [];
 
+        // set up the auto-backup-period selection-options
+        var translatedAutoBackupPeriodList = $filter('translate')('AUTOBACKUP').split(',');
+        var englishAutoBackupPeriodList = "never|daily|weekly|monthly".split('|');
+        $scope.autoBackupPeriod = SettingsService.get('autobackup.period');
+        $scope.autoBackupSelect = [];
+        for (var idx = 0; idx < englishAutoBackupPeriodList.length; idx++) {
+            $scope.autoBackupSelect.push({'name': translatedAutoBackupPeriodList[idx], 'value': englishAutoBackupPeriodList[idx]});
+        };
+
         /**
          * Select all series from the database in the format described above, serialize them as a data uri string
          * that's set up on the $scope.backupString, so that it can be used as a trigger for
          * <a ng-if="backupString" download="DuckieTV.backup" ng-href="{{ backupString }}">Backup ready! Click to download.</a>
          */
+
         $scope.createBackup = function() {
-            $scope.backupTime = new Date();
-            // Fetch all the series
-            CRUD.executeQuery('select Series.TVDB_ID from Series').then(function(series) {
-                var out = {
-                    settings: {},
-                    series: {}
-                };
-                // Store all the settings
-                for (var i = 0; i < localStorage.length; i++) {
-                    if (localStorage.key(i).indexOf('database.version') > -1) continue;
-                    if (localStorage.key(i).indexOf('trakttv.trending.cache') > -1) continue;
-                    if (localStorage.key(i).indexOf('trakttv.lastupdated.trending') > -1) continue;
-                    out.settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i));
-                }
-                // Store all the series
-                while (serie = series.next()) {
-                    out.series[serie.get('TVDB_ID')] = [];
-                }
-
-                // Store watched episodes for each serie
-                CRUD.executeQuery('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
-                    while (row = res.next()) {
-                        out.series[row.get('TVDB_ID')].push({
-                            'TVDB_ID': row.get('epTVDB_ID'),
-                            'watchedAt': new Date(row.get('watchedAt')).getTime(),
-                            'downloaded': 1
-                        })
-                    }
-                    var blob = new Blob([angular.toJson(out, true)], {
-                        type: 'text/json'
-                    });
-                    $scope.backupString = URL.createObjectURL(blob);
-
-                    $scope.$digest();
-                });
+            $injector.get('BackupService').createBackup().then(function(backupString) {
+                $scope.backupString = backupString;
+                $scope.backupTime = new Date();
             });
         }
 
@@ -78,7 +56,6 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
         $scope.isAdding = function(tvdb_id) {
             return FavoritesService.isAdding(tvdb_id);
         };
-
 
         $scope.restore = function() {
             console.log("Import backup!", $scope);
@@ -176,5 +153,13 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "dialogs", "$filter",
                 });
             });
         }
+
+        // save the auto-backup-period setting when changed via the autoBackupForm.
+        $scope.$watch('autoBackupPeriod', function(newVal, oldVal) {
+            if (newVal == oldVal) return;
+            SettingsService.set('autobackup.period', newVal);
+            $injector.get('DuckietvReload').windowLocationReload();
+        });
+
     }
 ]);
