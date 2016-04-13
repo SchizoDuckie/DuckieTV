@@ -168,6 +168,10 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.toggleSmall = function() {
             this.isSmall = !this.isSmall;
             SettingsService.set('library.smallposters', this.isSmall);
+            // If the posters become smaller we may need to load extra images so fire a recheck
+            setTimeout(function() {
+                $rootScope.$emit('lazyImg:refresh');
+            }, 320);
         };
 
         /**

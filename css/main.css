@@ -520,7 +520,7 @@ serieheader[mode=poster] h3 {
 .series .poster.img-load-error figcaption h3, .series .poster.img-loading figcaption h3 {
     display: initial !important;
 }
-.series.adding .poster.img-load-error figcaption h3, .series.adding .poster.img-loading figcaption h3 {
+.series.adding .poster figcaption h3 {
     bottom: initial;
     top: 0;
 }

@@ -1,5 +1,5 @@
 <!-- serieslist\trakt-trending.html -->
-<div class="series adding" series-grid="{{serieslist.sgEnabled}}" no-scroll max-posters="{{trending.limit}}" ng-class="{'miniposter': serieslist.isSmall}">
+<div class="series adding" series-grid="{{serieslist.sgEnabled}}" lazy-imgcont no-scroll max-posters="{{trending.limit}}" ng-class="{'miniposter': serieslist.isSmall}">
 	<!-- no series, show intro text and trakt connect/ backup import -->
 	<div ng-if="trending.noFavs" class="alert alert-info" style='margin:20px;text-align:left;white-space:normal;font-size: 14px'>
 		<button type="button" class="close" ng-click="trending.noFavs = false"><span>&times;</span></button>

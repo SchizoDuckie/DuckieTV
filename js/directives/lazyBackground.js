@@ -26,8 +26,6 @@ DuckieTV.directive('lazyBackground', ["$document", "$parse",
                     elementCont = $element;
                     element = $element;
                 }
-                $attrs.ngHide = true;
-
                 /** 
                  * Observe the lazy-background attribute so that when it's set on a rendered element
                  * it can fetch the new image and fade to it
@@ -61,7 +59,6 @@ DuckieTV.directive('lazyBackground', ["$document", "$parse",
                         elementCont.removeClass('img-loading');
                         elementCont.addClass('img-load-error');
                     };
-                    $attrs.ngHide = false;
                     img.src = newSrc;
                 });
             }
