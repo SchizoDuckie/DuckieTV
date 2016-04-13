@@ -32,6 +32,7 @@ DuckieTV
                 "<li>Language: (fix) Russian translations by galeksandrp",
                 "<li>TraktTV: (new) Option to change the frequency of the Episode updates.",
                 "<li>TorrentDialog: (new) Option to sort the Seeders, Leechers and Size column. (add) Option to enable Sort menu to sort by Age.",
+                "<li>Backup: (new) A Backup can now be automatically scheduled. Choose between Never,Daily,Weekly or the default Monthly.",
                 "<li>misc bug fixes"
             ].join('')
         };
