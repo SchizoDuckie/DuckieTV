@@ -1,6 +1,7 @@
 /** 
  * RARBG.com API interface via torrentapi.org..
  * Fetches list of torrent results and tries to fetch the magnet links for an episode.
+ * http://torrentapi.org/apidocs_v2.txt
  */
 DuckieTV.factory('RarBG', ["$q", "$http",
     function($q, $http) {
@@ -10,7 +11,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             endpoint = 'https://torrentapi.org/pubapi_v2.php?app_id=DuckieTV&';
 
         var endpoints = {
-            search: 'token=%s&mode=search&search_string=%s&sort=seeders&limit=25&format=json_extended',
+            search: 'token=%s&mode=search&search_string=%s&sort=seeders&limit=25&ranked=0&format=json_extended',
             token: 'get_token=get_token&format=json_extended'
         };
 
@@ -23,8 +24,12 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             search: function(result) {
                 var output = [];
                 if (result.data.error) {
-                    return [];
-                }
+                    if (result.data.error == 'Invalid token. Use get_token for a new one!') {
+                        return 'tokenExpired';
+                    } else {
+                        return result.data.error;
+                    }
+                };
                 result.data.torrent_results.map(function(hit) {
                     var out = {
                         magneturl: hit.download,
@@ -77,7 +82,14 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             });
         };
 
-        getToken = function() {
+        getToken = function(isTokenExpired) {
+            if (!isTokenExpired) {
+                isTokenExpired = false;
+            };
+            if (isTokenExpired) {
+                service.activeToken = null;
+                activeTokenRequest = false;
+            };
             if (!activeTokenRequest && !service.activeToken) {
                 activeTokenRequest = promiseRequest('token').then(function(token) {
                     service.activeToken = token.token;
@@ -96,12 +108,18 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             config: {
                 noMagnet: false
             },
-            search: function(what) {
+            search: function(what, isTokenExpired) {
+                if (!isTokenExpired) {
+                    isTokenExpired = false;
+                };
                 service.cancelSearch();
                 activeSearchRequest = $q.defer();
-                return getToken().then(function(token) {
+                return getToken(isTokenExpired).then(function(token) {
                     return promiseRequest('search', token, what, activeSearchRequest.promise).then(function(results) {
                         activeSearchRequest = false;
+                        if (results == 'tokenExpired') {
+                            return service.search(what, true);
+                        }
                         return results;
                     });
                 });
