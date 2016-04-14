@@ -223,7 +223,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             method: 'GET',
             url: self.getUrl('details', id),
             cache: true
-        }).success(function(response) {
+        }).then(function(response) {
             return {
                 result: self.parseDetails(response)
             };

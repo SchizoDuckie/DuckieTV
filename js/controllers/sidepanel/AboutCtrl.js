@@ -116,7 +116,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                     data: window.chrome.app.getDetails().version
                 });
             } else {
-                $http.get('VERSION').success(function(data, status, headers, config) {
+                $http.get('VERSION').then(function(data, status, headers, config) {
                     $scope.statistics.unshift({
                         name: 'DuckieTV Web Based',
                         data: data
