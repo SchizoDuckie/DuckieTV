@@ -119,7 +119,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 $http.get('VERSION').then(function(data, status, headers, config) {
                     $scope.statistics.unshift({
                         name: 'DuckieTV Web Based',
-                        data: data
+                        data: data.data
                     });
                 });
             }

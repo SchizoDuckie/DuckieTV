@@ -217,6 +217,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
 
     /**
      * Fetch details for a specific torrent id
+     * CURRENTLY UNUSED (referenced by js/services/IMDB.js and  js/services/IGoogleImages.js)
      */
     this.torrentDetails = function(id) {
         return $http({
@@ -225,7 +226,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             cache: true
         }).then(function(response) {
             return {
-                result: self.parseDetails(response)
+                result: self.parseDetails(response.data)
             };
         });
     };
