@@ -103,22 +103,22 @@
       <th>
         <strong translate-once="COMMON/torrent-name/lbl"></strong>
       </th>
-      <th ng-show="orderBy == 'size'">
+      <th ng-show="orderBy == 'size' || orderByList.indexOf('size') == -1">
         <strong translate-once="COMMON/torrent-size/lbl"></strong>
       </th>
-      <th ng-show="orderBy != 'size'">
+      <th ng-show="orderBy != 'size' && orderByList.indexOf('size') > -1" style="cursor: pointer;">
         <u uib-tooltip="{{'TORRENTDIALOG/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong ng-click="setOrderBy('size')" translate-once="COMMON/torrent-size/lbl"></strong></u>
       </th>
-      <th ng-show="orderBy == 'seeders'">
+      <th ng-show="orderBy == 'seeders' || orderByList.indexOf('seeders') == -1">
         <strong translate-once="COMMON/torrent-seed/lbl"></strong>
       </th>
-      <th ng-show="orderBy != 'seeders'">
+      <th ng-show="orderBy != 'seeders' && orderByList.indexOf('seeders') > -1" style="cursor: pointer;">
         <u uib-tooltip="{{'TORRENTDIALOG/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong ng-click="setOrderBy('seeders')" translate-once="COMMON/torrent-seed/lbl"></strong></u>
       </th>
-      <th ng-show="orderBy == 'leechers'">
+      <th ng-show="orderBy == 'leechers' || orderByList.indexOf('leechers') == -1">
         <strong translate-once="COMMON/torrent-leech/lbl"></strong>
       </th>
-      <th ng-show="orderBy != 'leechers'">
+      <th ng-show="orderBy != 'leechers' && orderByList.indexOf('leechers') > -1" style="cursor: pointer;">
         <u uib-tooltip="{{'TORRENTDIALOG/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong ng-click="setOrderBy('leechers')" translate-once="COMMON/torrent-leech/lbl"></strong></u>
       </th>
 
