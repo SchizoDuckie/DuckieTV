@@ -138,9 +138,41 @@ var DuckieTV = angular.module('DuckieTV', [
 /**
  * at start-up set up a timer for the autoBackup
  */
-.run(["$injector", "$http", "$filter", "SettingsService", "dialogs",
-    function($injector, $http, $filter, SettingsService, dialogs) {
+.run(["$injector", "$http", "$filter", "SettingsService", "FavoritesService", "dialogs",
+    function($injector, $http, $filter, SettingsService, FavoritesService, dialogs) {
         window.onload = function() {
+
+            /*
+             * creates timer to schedule an autoBackup
+             */
+            var scheduleAutoBackup = function() {
+                setTimeout(function() {
+                    // wait for FavoritesService to be available
+                    if (FavoritesService.initialized == true) {
+                        // only do the backup if there are shows in favorites.
+                        if (FavoritesService.favoriteIDs.length !== 0) {
+                            if (timeToNextBackup <= 0) {
+                                console.info('Scheduled autoBackup run at ', new Date());
+                                $injector.get('BackupService').createBackup().then(function(backupString) {
+                                    var backupTime = new Date();
+                                    dialogs.create('templates/backupDialog.html', 'backupDialogCtrl', {
+                                        backupString: backupString,
+                                        backupTime: backupTime
+                                    }, {
+                                        size: 'lg'
+                                    });
+                                });
+                            }
+                        } else {
+                            console.info('autoBackup is not required as there are no shows in favourites yet.');
+                        }
+                    } else {
+                        setTimeout(function() {
+                            scheduleAutoBackup();
+                        }, 1000);
+                    }
+                }, timeToNextBackup);
+            };
             var autoBackupPeriod = SettingsService.get('autobackup.period');
             if (autoBackupPeriod === 'never') {
                 console.warn('autoBackup is set to never be scheduled');
@@ -172,21 +204,7 @@ var DuckieTV = angular.module('DuckieTV', [
             if (timeToNextBackup > 0) {
                 console.info('The next autoBackup is scheduled for', new Date(parseInt(nextBackupDT)));
             };
-
-            var timer = setTimeout(function() {
-                if (timeToNextBackup <= 0) {
-                    console.info('Scheduled autoBackup run at ', new Date());
-                    $injector.get('BackupService').createBackup().then(function(backupString) {
-                        var backupTime = new Date();
-                        dialogs.create('templates/backupDialog.html', 'backupDialogCtrl', {
-                            backupString: backupString,
-                            backupTime: backupTime
-                        }, {
-                            size: 'lg'
-                        });
-                    });
-                }
-            }, timeToNextBackup);
+            scheduleAutoBackup();
         }
     }
 ])
