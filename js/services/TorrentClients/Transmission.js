@@ -32,6 +32,8 @@ TransmissionData.extends(TorrentData, {
     },
     getProgress: function() {
         var unit = (this.percentDone % 1 === 0) ? 1 : 100;
+// debugging for #689
+console.debug('progress before and after', this.percentDone, this.round(this.percentDone * unit, 1) );       
         return this.round(this.percentDone * unit, 1);
     },
     getDownloadSpeed: function() {
