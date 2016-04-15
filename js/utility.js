@@ -102,8 +102,11 @@ if (localStorage.getItem('optin_error_reporting')) {
         console.info('Opt-In Error Tracking Service Enabled.');
         var s = document.createElement('script');
         s.type = 'text/javascript';
-        s.src = 'https://api.loggr.net/1/loggr.min.js?l=duckietv_halp&a=6586d951da1e4d43aa594bb63591af21';
-//        s.src = 'https://api.loggr.net/1/loggr.min.js?l=duckietv_dev_halp&a=8c835f96de1e401597feb2389e4af473';  // garfield69's development testing loggr 
+//        s.src = 'https://api.loggr.net/1/loggr.min.js?l=duckietv_halp&a=6586d951da1e4d43aa594bb63591af21';
+/*
+* switching to private tracker for #688, must remember to revoke this when ticket is closed.
+*/
+        s.src = 'https://api.loggr.net/1/loggr.min.js?l=duckietv_dev_halp&a=8c835f96de1e401597feb2389e4af473';  // garfield69's development testing loggr 
         document.body.appendChild(s);
 
         if (!localStorage.getItem('uniqueId')) {
