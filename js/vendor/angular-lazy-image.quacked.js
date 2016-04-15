@@ -16,7 +16,7 @@ angular.module('angularLazyImg').factory('LazyImgMagic', ['$window', '$rootScope
     var winDimensions, $win, images, isListening;
     var checkImagesT, saveWinOffsetT, containers, checking;
     // Offset to load images just out of view, higher value = greater area that can be loaded at once that's out of view
-    var offset = 100;
+    var offset = 220;
 
     images = [];
     isListening = false;
@@ -42,7 +42,7 @@ angular.module('angularLazyImg').factory('LazyImgMagic', ['$window', '$rootScope
 		}
     }
 
-    checkImagesT = lazyImgHelpers.throttle(checkImages, 80);
+    checkImagesT = lazyImgHelpers.throttle(checkImages, 120); // ms to throttle scroll events
 
     function listen(param) {
 		containers.forEach(function (container) {
@@ -212,7 +212,9 @@ angular.module('angularLazyImg')
 				lazyImage.checkImages();
 			});
 			$rootScope.$on('lazyImg:refresh', function () {
-				lazyImage.checkImages();
+				setTimeout(function() {
+					lazyImage.checkImages();
+				}, 350);
 			});
 		}
 	};

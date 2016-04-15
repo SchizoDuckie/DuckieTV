@@ -4,7 +4,7 @@
     <i class="glyphicon glyphicon-plus-sign" style="top:3px"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
   </a>
   <!-- Filter library button -->
-  <a accesskey="/" ng-click="serieslist.isFiltering = !serieslist.isFiltering" uib-tooltip="{{'SERIESLIST/TOOLS/FAVORITES/search/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + / )" tooltip-placement="bottom" tooltip-delay="150">
+  <a accesskey="/" ng-click="serieslist.toggleFiltering()" uib-tooltip="{{'SERIESLIST/TOOLS/FAVORITES/search/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + / )" tooltip-placement="bottom" tooltip-delay="150">
     <i style='font-size:15px;' class="glyphicon glyphicon-search"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/filter/glyph"></span>
   </a>&nbsp;
 
@@ -40,7 +40,7 @@
     <nav class="navbar navbar-default" role="navigation">
       <div class="collapse navbar-collapse" ng-if="serieslist.isFiltering">
         <form class="navbar-form navbar-left" ng-submit="serieslist.execFilter()" name="filterForm" style='width:50%'>
-          <input type='text' style='width: 100%;' focus-watch="'serieslist.isFiltering'" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' translate-once-placeholder="SERIESLIST/TOOLS/FAVORITES/filter-placeholder">
+          <input type='text' style='width: 100%;' focus-watch="'serieslist.isFiltering'" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' ng-model-options="{debounce: 300}" translate-once-placeholder="SERIESLIST/TOOLS/FAVORITES/filter-placeholder">
         </form>
 
         <ul class="nav navbar-nav navbar-right">

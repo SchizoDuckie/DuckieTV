@@ -69,6 +69,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             serieslist.orderReverseList = serieslist.orderReverseResetList.slice();
             serieslist.orderReverseList[idx] = serieslist.reverse;
             serieslist.orderBy = orderBy;
+            $rootScope.$emit('lazyImg:refresh');
         };
 
         this.orderByList = 'getSortName()|added|firstaired|notWatchedCount'.split('|');
@@ -91,6 +92,12 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         this.genreFilter = []; // genre filter from localseriectrl 
         this.statusFilter = [];
         this.isFiltering = false;
+
+        this.toggleFiltering = function() {
+            this.isFiltering = !this.isFiltering;
+            serieslist.query = '';
+            $rootScope.$emit('lazyImg:refresh');
+        }
 
         $rootScope.$on('serieslist:filter', function(evt, query) {
             serieslist.query = query;
@@ -153,6 +160,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                 SettingsService.set('series.displaymode', mode);
             }
             this.mode = mode;
+            $rootScope.$emit('lazyImg:refresh');
         };
 
         /**
@@ -169,9 +177,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             this.isSmall = !this.isSmall;
             SettingsService.set('library.smallposters', this.isSmall);
             // If the posters become smaller we may need to load extra images so fire a recheck
-            setTimeout(function() {
-                $rootScope.$emit('lazyImg:refresh');
-            }, 320);
+            $rootScope.$emit('lazyImg:refresh');
         };
 
         /**

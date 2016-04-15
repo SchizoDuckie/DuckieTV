@@ -422,7 +422,7 @@ serieheader .badge {
 }
 [series-grid=true] serieheader[mode=poster] {
     position: absolute;
-    transition: top 0.4s ease-in-out, left 0.4s ease-in-out;
+    transition: top 0.35s ease-in-out, left 0.35s ease-in-out;
 }
 /* Main container for the posters 
  * Note: The posters class itself has no margins or paddings and is just the size of the poster

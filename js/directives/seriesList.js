@@ -71,7 +71,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 if (el === null || !el.offsetParent || !el.offsetParent.offsetParent || noScroll) {
                     return;
                 }
-                duration = duration || 400;
+                duration = duration || 350;
                 var start = parent.scrollTop;
                 var end = el.offsetParent.offsetParent.offsetTop;
                 var clock = Date.now();
