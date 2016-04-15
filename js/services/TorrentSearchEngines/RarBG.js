@@ -27,7 +27,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                     if (result.data.error == 'Invalid token. Use get_token for a new one!') {
                         return 'tokenExpired';
                     } else {
-                        return result.data.error;
+                        return [];
                     }
                 };
                 result.data.torrent_results.map(function(hit) {
