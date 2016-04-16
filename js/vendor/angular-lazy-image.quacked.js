@@ -214,7 +214,7 @@ angular.module('angularLazyImg')
 			$rootScope.$on('lazyImg:refresh', function () {
 				setTimeout(function() {
 					lazyImage.checkImages();
-				}, 350);
+				}, 580);
 			});
 		}
 	};
