@@ -103,22 +103,22 @@
       <th>
         <strong translate-once="COMMON/torrent-name/lbl"></strong>
       </th>
-      <th ng-show="orderBy == 'size' || orderByList.indexOf('size') == -1">
+      <th ng-show="orderBy == 'size' || orderByList.indexOf('size') == -1" style="text-align:right">
         <strong translate-once="COMMON/torrent-size/lbl"></strong>
       </th>
-      <th ng-show="orderBy != 'size' && orderByList.indexOf('size') > -1" style="cursor: pointer;">
+      <th ng-show="orderBy != 'size' && orderByList.indexOf('size') > -1" style="cursor: pointer;text-align:right">
         <u uib-tooltip="{{'TORRENTDIALOG/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong ng-click="setOrderBy('size')" translate-once="COMMON/torrent-size/lbl"></strong></u>
       </th>
-      <th ng-show="orderBy == 'seeders' || orderByList.indexOf('seeders') == -1">
+      <th ng-show="orderBy == 'seeders' || orderByList.indexOf('seeders') == -1" style="text-align:right">
         <strong translate-once="COMMON/torrent-seed/lbl"></strong>
       </th>
-      <th ng-show="orderBy != 'seeders' && orderByList.indexOf('seeders') > -1" style="cursor: pointer;">
+      <th ng-show="orderBy != 'seeders' && orderByList.indexOf('seeders') > -1" style="cursor: pointer;text-align:right">
         <u uib-tooltip="{{'TORRENTDIALOG/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong ng-click="setOrderBy('seeders')" translate-once="COMMON/torrent-seed/lbl"></strong></u>
       </th>
-      <th ng-show="orderBy == 'leechers' || orderByList.indexOf('leechers') == -1">
+      <th ng-show="orderBy == 'leechers' || orderByList.indexOf('leechers') == -1" style="text-align:right">
         <strong translate-once="COMMON/torrent-leech/lbl"></strong>
       </th>
-      <th ng-show="orderBy != 'leechers' && orderByList.indexOf('leechers') > -1" style="cursor: pointer;">
+      <th ng-show="orderBy != 'leechers' && orderByList.indexOf('leechers') > -1" style="cursor: pointer;text-align:right">
         <u uib-tooltip="{{'TORRENTDIALOG/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong ng-click="setOrderBy('leechers')" translate-once="COMMON/torrent-leech/lbl"></strong></u>
       </th>
 
@@ -141,7 +141,7 @@
       <td>
         <a ng-bind-html="::seed.releasename | unsafe" ng-click="select(seed)"></a>
       </td>
-      <td>
+      <td style="text-align:right">
         <a ng-bind-html="::seed.size" ng-click="select(seed)" style='white-space:nowrap'></a>
       </td>
       <td style='width:50px; text-align:right'>
