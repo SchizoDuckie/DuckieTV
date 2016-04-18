@@ -55,12 +55,42 @@ var DuckieTV = angular.module('DuckieTV', [
 
 /**
  * BackupService is injected whenever a backup is requested
+ *
+ * The backup format is a simple JSON file that has the following structure:
+ *
+ * {
+ * "settings": {
+ *   // serialized settings
+ * },
+ * "series": {
+ *  <SHOW_TVDB_ID> : [ // array of objects
+ *      {
+ *          "displaycalendar": 1||0,
+ *          "autoDownload": 1||0,
+ *          "customSearchString": <string>||null,
+ *          "ignoreGlobalQuality": 1||0,
+ *          "ignoreGlobalIncludes": 1||0,
+ *          "ignoreGlobalExcludes": 1||0,
+ *          "searchProvider": <string>||null,
+ *          "ignoreHideSpecials": 1||0,
+ *          "customSearchSizeMin": <integer>||null,
+ *          "customSearchSizeMax": <integer>||null
+ *      },
+ *      {
+ *          "TVDB_ID": <Episode_TVDB_ID>,
+ *          "watchedAt": <timestamp watchedAt>||null,
+ *          "downloaded": 1
+ *      },
+ *      // repeat
+ *    ],
+ *    // repeat
+ *  }
  */
 .service('BackupService', function() {
     var service = {
         createBackup: function() {
             // Fetch all the series
-            return CRUD.executeQuery('select Series.TVDB_ID from Series').then(function(series) {
+            return CRUD.executeQuery('select Series.TVDB_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax from Series').then(function(series) {
                 var out = {
                     settings: {},
                     series: {}
@@ -75,6 +105,18 @@ var DuckieTV = angular.module('DuckieTV', [
                 // Store all the series
                 while (serie = series.next()) {
                     out.series[serie.get('TVDB_ID')] = [];
+                    out.series[serie.get('TVDB_ID')].push({
+                        'displaycalendar': serie.get('displaycalendar'),
+                        'autoDownload': serie.get('autoDownload'),
+                        'customSearchString': serie.get('customSearchString'),
+                        'ignoreGlobalQuality': serie.get('ignoreGlobalQuality'),
+                        'ignoreGlobalIncludes': serie.get('ignoreGlobalIncludes'),
+                        'ignoreGlobalExcludes': serie.get('ignoreGlobalExcludes'),
+                        'searchProvider': serie.get('searchProvider'),
+                        'ignoreHideSpecials': serie.get('ignoreHideSpecials'),
+                        'customSearchSizeMin': serie.get('customSearchSizeMin'),
+                        'customSearchSizeMax': serie.get('customSearchSizeMax')
+                    })
                 }
 
                 // Store watched episodes for each serie

@@ -1,23 +1,7 @@
 /**
  * Handles creating and importing a backup.
  *
- * The backup format is a simple JSON file that has the following structure:
- *
- * {
- * "settings": {
- *   // serialized settings
- * },
- * "series": {
- *  <SHOW_TVDB_ID> : [ // array of objects
- *      {
- *          "TVDB_ID": <Episode_TVDB_ID>,
- *          "watchedAt": <timestamp watchedAt>||null,
- *          "downloaded": 1
- *      },
- *      // repeat
- *    ],
- *    // repeat
- *  }
+ * see app.js for the backup format structure description
  */
 DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector", "$q", "$state", "dialogs", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents",
     function($rootScope, $scope, $filter, $injector,  $q, $state, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents) {
@@ -47,7 +31,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                 $scope.backupString = backupString;
                 $scope.backupTime = new Date();
             });
-        }
+        };
 
         $scope.isAdded = function(tvdb_id) {
             return FavoritesService.isAdded(tvdb_id);
@@ -62,11 +46,11 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
             FavoritesService.flushAdding();
             $scope.series = [];
             if ($scope.wipeBeforeImport) {
-                $scope.wipeDatabase();
+                $scope.wipeDatabase('restore');
             } else {
                 importBackup();
             }
-        }
+        };
 
         /**
          * Read the backup file and feed it to the FavoritesService to resolve and add.
@@ -79,6 +63,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                 .then(function(result) {
                     result = angular.fromJson(result);
                     console.log("Backup read!", result);
+                    // save settings
                     angular.forEach(result.settings, function(value, key) {
                         if (key == 'utorrent.token') return; // skip utorrent auth token since it can be invalid.
                         localStorage.setItem(key, value);
@@ -86,14 +71,26 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                     SettingsService.restore();
                     SettingsService.set('autodownload.lastrun', new Date().getTime());
                     SettingsService.set('torrenting.enabled', torrentingEnabled); // restore torrenting setting to value prior to restore
-                    angular.forEach(result.series, function(watched, TVDB_ID) {
+                    // save series/seasons/episodes
+                    angular.forEach(result.series, function(data, TVDB_ID) {
                         FavoritesService.adding(TVDB_ID);
                         return TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
                             return TraktTVv2.serie(searchResult.slug_id);
                         }).then(function(serie) {
                             $scope.series.push(serie);
-                            return FavoritesService.addFavorite(serie, watched);
+                            return FavoritesService.addFavorite(serie, data);
                         }).then(function() {
+                            // save series custom settings
+                            CRUD.FindOne('Serie', {
+                                'TVDB_ID' : TVDB_ID
+                            }).then(function(serie) {
+                                if (!serie) {
+                                    console.warn("Series by TVDB_ID %s not found.", TVDB_ID);
+                                } else {
+                                    serie = angular.extend(serie,data[0]);
+                                    serie.Persist();
+                                };
+                            });
                             FavoritesService.added(TVDB_ID);
                         });
                     }, function(err) {
@@ -102,12 +99,15 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                         FavoritesService.addError(TVDB_ID, err);
                     });
                 });
-        }
+        };
 
         /**
          * Wipes the database of all series, seasons and episodes and removes all settings
          */
-        $scope.wipeDatabase = function() {
+        $scope.wipeDatabase = function(isRestoring) {
+            if (!isRestoring) {
+                isRestoring = 'N';
+            };
             var dlg = dialogs.confirm($filter('translate')('COMMON/wipe/hdr'),
                 $filter('translate')('BACKUPCTRLjs/wipe/desc')
             );
@@ -129,7 +129,11 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                         return true;
                     })
                 })).then(function() {
-                    $injector.get('DuckietvReload').windowLocationReload();
+                    if (isRestoring == 'N') {
+                        $injector.get('DuckietvReload').windowLocationReload();
+                    } else {
+                        importBackup();
+                    }
                 });
             }, function(btn) {
                 $scope.declined = true;
@@ -152,7 +156,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                     FavoritesService.addError(serie.TVDB_ID, err);
                 });
             });
-        }
+        };
 
         // save the auto-backup-period setting when changed via the autoBackupForm.
         $scope.$watch('autoBackupPeriod', function(newVal, oldVal) {
