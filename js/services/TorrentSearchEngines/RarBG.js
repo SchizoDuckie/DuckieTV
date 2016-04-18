@@ -31,6 +31,10 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                         case 'Invalid token. Use get_token for a new one!':
                             return 'tokenExpired';
                             break;
+                        case 'Too many requests per second. Maximum requests allowed are 1req/2sec Please try again later!':
+                            console.warn(result.data.error);
+                            return 'retryLater';
+                            break;
                         default:
                             console.warn(result.data.error);
                             return [];
@@ -71,13 +75,14 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         var promiseRequest = function(type, param, param2, promise) {
             var url = getUrl(type, param, param2);
             return $q(function(resolve, reject) {
-                var timeout = 2100;
+                var timeout = (type === 'token') ? 0 : 2100;
                 nextRequest = nextRequest + timeout;
                 setTimeout(function() {
                     $http.get(url, {
                         timeout: promise ? promise : 120000,
                         cache: false,
                     }).then(function(result) {
+                        nextRequest = new Date().getTime();
                         resolve(parsers[type](result));
                     }, function(err) {
                         throw "Error " + err.status + ":" + err.statusText;
@@ -114,18 +119,23 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             config: {
                 noMagnet: false
             },
-            search: function(what, isTokenExpired) {
+            search: function(what, noCancel, isTokenExpired) {
+                if (!noCancel) {
+                   noCancel = false; 
+                };
                 if (!isTokenExpired) {
                     isTokenExpired = false;
                 };
-                service.cancelSearch();
+                if (noCancel !== true) {
+                    service.cancelSearch();
+                };
                 activeSearchRequest = $q.defer();
                 return getToken(isTokenExpired).then(function(token) {
                     return promiseRequest('search', token, what, activeSearchRequest.promise).then(function(results) {
                         activeSearchRequest = false;
-                        if (results == 'tokenExpired') {
+                        if (results == 'tokenExpired' || results == 'retryLater') {
                             return service.search(what, true);
-                        }
+                        };
                         return results;
                     });
                 });
