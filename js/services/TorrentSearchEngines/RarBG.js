@@ -24,11 +24,17 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             search: function(result) {
                 var output = [];
                 if (result.data.error) {
-                    if (result.data.error == 'Invalid token. Use get_token for a new one!') {
-                        return 'tokenExpired';
-                    } else {
-                        return [];
-                    }
+                    switch (result.data.error) {
+                        case 'No results found':
+                            return [];
+                            break;
+                        case 'Invalid token. Use get_token for a new one!':
+                            return 'tokenExpired';
+                            break;
+                        default:
+                            console.warn(result.data.error);
+                            return [];
+                    };
                 };
                 result.data.torrent_results.map(function(hit) {
                     var out = {
