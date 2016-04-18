@@ -23,20 +23,20 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         var parsers = {
             search: function(result) {
                 var output = [];
-                if (result.data.error) {
-                    switch (result.data.error) {
-                        case 'No results found':
+                if (result.data.error_code) {
+                    switch (result.data.error_code) {
+                        case 20: // No results found
                             return [];
                             break;
-                        case 'Invalid token. Use get_token for a new one!':
-                            return 'tokenExpired';
+                        case 4: // Invalid token. Use get_token for a new one!
+                            return 4;
                             break;
-                        case 'Too many requests per second. Maximum requests allowed are 1req/2sec Please try again later!':
-                            console.warn(result.data.error);
-                            return 'retryLater';
+                        case 5: // Too many requests per second. Maximum requests allowed are 1req/2sec Please try again later!
+                            console.warn('Error [%s], Reason [%s]', result.data.error_code, result.data.error);
+                            return 5;
                             break;
                         default:
-                            console.warn(result.data.error);
+                            console.warn('Error [%s], Reason [%s]', result.data.error_code, result.data.error);
                             return [];
                     };
                 };
@@ -133,7 +133,9 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                 return getToken(isTokenExpired).then(function(token) {
                     return promiseRequest('search', token, what, activeSearchRequest.promise).then(function(results) {
                         activeSearchRequest = false;
-                        if (results == 'tokenExpired' || results == 'retryLater') {
+                        if (results === 4) { // token expired
+                            return service.search(what, true, true);
+                        } else if (results === 5) { // retry later
                             return service.search(what, true);
                         };
                         return results;
