@@ -18,6 +18,9 @@ DuckieTV.controller('ActionBarCtrl', ["$rootScope", "$state", "$filter", "Series
                 SeriesListState.show();
                 $state.go('favorites');
             });
+            win.on('standalone.adlstatus', function() {
+                $state.go('autodlstatus');
+            });
             win.on('standalone.settings', function() {
                 $state.go('settings');
             });

@@ -32,6 +32,17 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     });
     traymenu.append(showdtv);
 
+    // Add a adlstatus button
+    adlstatus = new gui.MenuItem({
+        label: "Show ADLStatus",
+        click: function() {
+            win.emit('standalone.adlstatus');
+            //console.debug('menu adlstatus: emit.restoredtv');
+            win.emit('restoredtv');
+        }
+    });
+    traymenu.append(adlstatus);
+
     // Add a calendar button
     calendar = new gui.MenuItem({
         label: "Show Calendar",
