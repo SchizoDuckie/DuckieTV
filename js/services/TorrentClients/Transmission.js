@@ -32,8 +32,6 @@ TransmissionData.extends(TorrentData, {
     },
     getProgress: function() {
         var unit = (this.getClient().getAPI().isSeedBox()) ? 1 : 100;
-// debugging for #689
-console.debug('isSeedBox=[%s], progress before=[%s], after=[%s]', this.getClient().getAPI().isSeedBox(), this.percentDone, this.round(this.percentDone * unit, 1));       
         return this.round(this.percentDone * unit, 1);
     },
     getDownloadSpeed: function() {
