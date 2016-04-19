@@ -11,13 +11,14 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             endpoint = 'https://torrentapi.org/pubapi_v2.php?app_id=DuckieTV&';
 
         var endpoints = {
-            search: 'token=%s&mode=search&search_string=%s&sort=seeders&limit=25&ranked=0&format=json_extended',
+            search: 'token=%s&mode=search&search_string=%s&sort=%o&limit=25&ranked=0&format=json_extended',
             token: 'get_token=get_token&format=json_extended'
         };
 
-        var getUrl = function(type, param, param2) {
+        var getUrl = function(type, param, param2, param3) {
             var out = endpoint + endpoints[type].replace('%s', escape(param));
-            return (param2 !== undefined) ? out.replace('%s', escape(param2)) : out;
+            out = (param2 !== undefined) ? out.replace('%s', escape(param2)) : out;
+            return (param3 !== undefined) ? out.replace('%o', escape(service.config.orderby[param3])) : out;
         };
 
         var parsers = {
@@ -72,8 +73,8 @@ DuckieTV.factory('RarBG', ["$q", "$http",
          */
         var nextRequest = new Date().getTime();
 
-        var promiseRequest = function(type, param, param2, promise) {
-            var url = getUrl(type, param, param2);
+        var promiseRequest = function(type, param, param2, param3, promise) {
+            var url = getUrl(type, param, param2, param3);
             return $q(function(resolve, reject) {
                 var timeout = (type === 'token') ? 0 : 2100;
                 nextRequest = nextRequest + timeout;
@@ -117,11 +118,19 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         var service = {
             activeToken: null,
             config: {
-                noMagnet: false
+                noMagnet: false,
+                orderby: {
+                    age: 'last',
+                    leechers: 'leechers',
+                    seeders: 'seeders'
+                }
             },
-            search: function(what, noCancel, isTokenExpired) {
+            search: function(what, noCancel, orderBy, isTokenExpired) {
                 if (!noCancel) {
                    noCancel = false; 
+                };
+                if (!orderBy) {
+                   orderBy = 'seeders'; 
                 };
                 if (!isTokenExpired) {
                     isTokenExpired = false;
@@ -131,12 +140,12 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                 };
                 activeSearchRequest = $q.defer();
                 return getToken(isTokenExpired).then(function(token) {
-                    return promiseRequest('search', token, what, activeSearchRequest.promise).then(function(results) {
+                    return promiseRequest('search', token, what, orderBy, activeSearchRequest.promise).then(function(results) {
                         activeSearchRequest = false;
                         if (results === 4) { // token expired
-                            return service.search(what, true, true);
+                            return service.search(what, true, orderBy, true);
                         } else if (results === 5) { // retry later
-                            return service.search(what, true);
+                            return service.search(what, true, orderBy);
                         };
                         return results;
                     });
@@ -156,7 +165,6 @@ DuckieTV.factory('RarBG', ["$q", "$http",
 .run(["TorrentSearchEngines", "SettingsService", "RarBG",
     function(TorrentSearchEngines, SettingsService, RarBG) {
         if (SettingsService.get('torrenting.enabled')) {
-
             TorrentSearchEngines.registerSearchEngine('RarBG', RarBG);
         }
     }
