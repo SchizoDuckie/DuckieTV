@@ -115,15 +115,18 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 } else {
                     var d = document.createElement('iframe');
                     d.id = 'torrentmagnet_' + new Date().getTime();
-                    d.src = magnet;
                     d.style.visibility = 'hidden';
+                    d.src = magnet;
                     document.body.appendChild(d);
                     //console.debug("Adding via Chromium! ", d.id, magnet, TVDB_ID);
-                    d.onload = function() {
-                        setTimeout(function() {
+                    var dTimer = setInterval(function () {
+                        var dDoc = d.contentDocument || d.contentWindow.document;
+                        if (dDoc.readyState == 'complete') {
                             document.body.removeChild(d);
-                        }, 500);
-                    };
+                            clearInterval(dTimer);
+                            return;
+                        }
+                    }, 500);
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                 }
             },
@@ -156,15 +159,18 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 } else {
                     var d = document.createElement('iframe');
                     d.id = 'torrenturl_' + new Date().getTime();
-                    d.src = torrentUrl;
                     d.style.visibility = 'hidden';
+                    d.src = torrentUrl;
                     document.body.appendChild(d);
                     //console.debug("Adding via Chromium! ", d.id, magnet, TVDB_ID);
-                    d.onload = function() {
-                        setTimeout(function() {
+                    var dTimer = setInterval(function () {
+                        var dDoc = d.contentDocument || d.contentWindow.document;
+                        if (dDoc.readyState == 'complete') {
                             document.body.removeChild(d);
-                        }, 500);
-                    };
+                            clearInterval(dTimer);
+                            return;
+                        }
+                    }, 500);
                 }
             }
         };
