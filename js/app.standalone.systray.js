@@ -117,7 +117,6 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
         });
         //console.debug('createTray: tray created id=',tray.id);
         tray.on('click', function() {
-            win.emit('standalone.calendar');
             //console.debug('tray.on click: emit.restoredtv');
             win.emit('restoredtv');
         });
