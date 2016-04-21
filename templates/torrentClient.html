@@ -4,17 +4,17 @@
     <h2>DuckieTorrent {{::client.getTorrentClientName()}} <span translate-once="TORRENTCLIENT/hdr"></span></h2>
 
     <!-- top right settings hotbuttons -->
-    <div class="settingsbtn">
+    <div class="settingsbtn" style="float:left">
       <a href="#settings/torrent" >
         <i class="glyphicon glyphicon-cog"></i> <span translate-once="TORRENTCLIENT/choose-client/glyph"></span>
       </a>
     </div>
-    <div class="settingsbtn">
+    <div class="settingsbtn" style="float:right">
       <a href="#settings/{{client.getTorrentClientTemplate()}}">
         <i class="glyphicon glyphicon-cog"></i> {{client.getTorrentClientName()}} <span translate-once="COMMON/settings/hdr"></span>
       </a>
     </div>
-
+    &nbsp;
     <!-- utorrent remove token panel -->
     <div class="alert alert-info" style="margin:10px" ng-if="client.getTorrentClientName()  == 'uTorrent'"><button class='btn btn-small btn-warning' style='float:right' ng-click='client.removeToken()' translate-once="TORRENTCLIENT/clear-authority/btn"></button><strong><span translate-once="TORRENTCLIENT/desc/p1"></span><a style="color: #428bca" href='http://www.utorrent.com/downloads/complete/os/win/track/stable'>v3.4.1+</a><span translate-once="TORRENTCLIENT/desc/p2"></span></strong><span translate-once="TORRENTCLIENT/desc/p3"></span></div>
 
