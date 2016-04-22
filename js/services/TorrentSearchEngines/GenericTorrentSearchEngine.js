@@ -117,16 +117,16 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                     newSize = (parseFloat(sizeA[0]) * 1000 * 1000).toFixed(2);
                     break;
                 case 'KIB':
-                    newSize = ((parseFloat(sizeA[0]) / 1024) * 1000 * 1000).toFixed(2);
+                    newSize = ((parseFloat(sizeA[0]) * 1024) / 1000 / 1000).toFixed(2);
                     break;
                 case 'MIB':
-                    newSize = ((parseFloat(sizeA[0]) / 1024 / 1024) * 1000 * 1000).toFixed(2);
+                    newSize = ((parseFloat(sizeA[0]) * 1024 * 1024) / 1000 / 1000).toFixed(2);
                     break;
                 case 'GIB':
-                    newSize = ((parseFloat(sizeA[0]) / 1024 / 1024 / 1024) * 1000 * 1000).toFixed(2);
+                    newSize = ((parseFloat(sizeA[0]) * 1024 * 1024 * 1024) / 1000 / 1000).toFixed(2);
                     break;
                 case 'TIB':
-                    newSize = ((parseFloat(sizeA[0]) / 1024 / 1024 / 1024 / 1024) * 1000 * 1000).toFixed(2);
+                    newSize = ((parseFloat(sizeA[0]) * 1024 * 1024 * 1024 * 1024) / 1000 / 1000).toFixed(2);
                     break;
                 default:
                     return size;
