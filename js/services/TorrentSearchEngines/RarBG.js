@@ -1,7 +1,8 @@
 /** 
  * RARBG.com API interface via torrentapi.org..
  * Fetches list of torrent results and tries to fetch the magnet links for an episode.
- * http://torrentapi.org/apidocs_v2.txt
+ * docs: http://torrentapi.org/apidocs_v2.txt
+ * error codes: https://github.com/rarbg/torrentapi/issues/1#issuecomment-114763312
  */
 DuckieTV.factory('RarBG', ["$q", "$http",
     function($q, $http) {
@@ -67,9 +68,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         };
 
         /** 
-         * Promise requests with batchmode toggle to auto-kill a previous request when running.
-         * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple
-         * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
+         * Promise requests with built in delay to avoid the RarBG API's 1req/2sec frequency limit
          */
         var nextRequest = new Date().getTime();
 
@@ -95,9 +94,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         };
 
         getToken = function(isTokenExpired) {
-            if (!isTokenExpired) {
-                isTokenExpired = false;
-            };
+            isTokenExpired = (isTokenExpired == undefined) ? false : isTokenExpired;
             if (isTokenExpired) {
                 service.activeToken = null;
                 activeTokenRequest = false;
@@ -126,30 +123,34 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                 }
             },
             search: function(what, noCancel, orderBy, isTokenExpired) {
-                if (!noCancel) {
-                   noCancel = false; 
-                };
-                if (!orderBy) {
-                   orderBy = 'seeders'; 
-                };
-                if (!isTokenExpired) {
-                    isTokenExpired = false;
-                };
-                if (noCancel !== true) {
+                noCancel = (noCancel == undefined) ? false : noCancel; 
+                orderBy= (orderBy == undefined) ? 'seeders' : orderBy; 
+                isTokenExpired = (isTokenExpired == undefined) ? false : isTokenExpired;
+                if (noCancel === false) {
                     service.cancelSearch();
                 };
-                activeSearchRequest = $q.defer();
-                return getToken(isTokenExpired).then(function(token) {
-                    return promiseRequest('search', token, what, orderBy, activeSearchRequest.promise).then(function(results) {
-                        activeSearchRequest = false;
-                        if (results === 4) { // token expired
-                            return service.search(what, true, orderBy, true);
-                        } else if (results === 5) { // retry later
-                            return service.search(what, true, orderBy);
-                        };
-                        return results;
+                if (!activeSearchRequest) {
+                    activeSearchRequest = $q.defer();
+                    return getToken(isTokenExpired).then(function(token) {
+                        return promiseRequest('search', token, what, orderBy, activeSearchRequest.promise).then(function(results) {
+                            if (activeSearchRequest && activeSearchRequest.resolve) {
+                                activeSearchRequest.resolve(true);
+                            };
+                            activeSearchRequest = false;
+                            if (results === 4) { // token expired
+                                return service.search(what, true, orderBy, true);
+                            } else if (results === 5) { // retry later
+                                return service.search(what, true, orderBy);
+                            };
+                            return results;
+                        });
                     });
-                });
+                } else {
+                    // delay search until current one is complete
+                    return activeSearchRequest.promise.then(function() {
+                        return service.search(what, true, orderBy);
+                    });
+                }
             },
             cancelSearch: function() {
                 if (activeSearchRequest && activeSearchRequest.resolve) {
