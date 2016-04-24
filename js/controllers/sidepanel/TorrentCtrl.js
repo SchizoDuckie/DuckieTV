@@ -31,7 +31,11 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent", 
             if (vm.rpc) {
                 var count = vm.rpc.getTorrents().length;
                 if (SidePanelState.state.isExpanded && count === 0) {
-                    SidePanelState.contract();
+                    setTimeout(function() {
+                            if (document.getElementById('getTorrentsCount') && document.getElementById('getTorrentsCount').offsetParent !== null) {
+                                SidePanelState.contract();
+                            }
+                    }, 1000);
                 };
                 return count;
             } else {
