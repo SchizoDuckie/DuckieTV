@@ -115,6 +115,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 } else {
                     var d = document.createElement('iframe');
                     d.id = 'torrentmagnet_' + new Date().getTime();
+                    d.name = 'torrentmagnet_' + new Date().getTime();
                     d.style.visibility = 'hidden';
                     d.src = magnet;
                     document.body.appendChild(d);
@@ -126,7 +127,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                             clearInterval(dTimer);
                             return;
                         }
-                    }, 500);
+                    }, 1500);
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
                 }
             },
@@ -159,6 +160,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 } else {
                     var d = document.createElement('iframe');
                     d.id = 'torrenturl_' + new Date().getTime();
+                    d.name = 'torrenturl_' + new Date().getTime();
                     d.style.visibility = 'hidden';
                     d.src = torrentUrl;
                     document.body.appendChild(d);
@@ -170,7 +172,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                             clearInterval(dTimer);
                             return;
                         }
-                    }, 500);
+                    }, 1500);
                 }
             }
         };
