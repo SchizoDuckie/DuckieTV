@@ -109,6 +109,12 @@ DuckieTV.factory('KickassMirrorResolver', ["$q", "$http", "$injector",
                 });
                 return d.promise;
             },
+            /**
+             * alias for GenericTorrentSearchEngine.js
+             */
+            findMirror: function() {
+                return service.findKATMirror();
+            },
             /** 
              * Verify that a specific KAT mirror is working and using magnet links by executing a test search
              * Parses the results and checks that magnet links are available like they are on KAT.

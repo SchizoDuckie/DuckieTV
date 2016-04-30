@@ -76,7 +76,13 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ["$q", "$http", "$injector",
                 });
                 return d.promise;
             },
-            /** 
+            /**
+             * alias for GenericTorrentSearchEngine.js
+             */
+            findMirror: function() {
+                return service.findTPBMirror();
+            },
+            /**
              * Verify that a specific TPB mirror is working and using magnet links by executing a test search
              * Parses the results and checks that magnet links are available like they are on TPB.
              * Some mirrors will not provide direct access to magnet links so we filter those out
