@@ -94,7 +94,7 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ["$q", "$http", "$injector",
                 $rootScope.$broadcast('tpbmirrorresolver:status', "Verifying if mirror is using magnet links!: " + location);
                 var q = $q.defer();
 
-                testLocation = location + "/search/test/0/7/0";
+                testLocation = location + "search/test/0/7/0";
                 $http({
                     method: 'GET',
                     url: testLocation
