@@ -34,7 +34,7 @@ DuckieTV
                 }
                 var css = (serie.customSearchString && serie.customSearchString != '') ? 1 : 0;
                 var sp = (serie.searchProvider && serie.searchProvider != null) ? ' (' + serie.searchProvider + ')' : '';
-                service.activityList.push({'search': search + sp + csmExtra, 'csm': csm,  'css': css, 'igq': serie.ignoreGlobalQuality, 'igi': serie.ignoreGlobalIncludes, 'ige': serie.ignoreGlobalExcludes, 'status': status, 'extra': extra});
+                service.activityList.push({'search': search, 'searchProvider': sp, 'csmExtra': csmExtra, 'csm': csm,  'css': css, 'igq': serie.ignoreGlobalQuality, 'igi': serie.ignoreGlobalIncludes, 'ige': serie.ignoreGlobalExcludes, 'status': status, 'extra': extra});
                 $rootScope.$broadcast('autodownload:activity');
             },
 
