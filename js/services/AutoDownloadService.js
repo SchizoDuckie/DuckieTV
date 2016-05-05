@@ -99,6 +99,7 @@ DuckieTV
                     });
                 }
 
+                service.detach();
                 service.checkTimeout = setTimeout(service.autoDownloadCheck, 1000 * 60 * 15); // fire new episodeaired check in 15 minutes.
             },
 
