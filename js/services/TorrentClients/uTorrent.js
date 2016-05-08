@@ -114,7 +114,7 @@ DuckieTorrent
 
                     var nextPort = function() {
                         self.port = ports[self.currentPort];
-                        jsonp('version',{},{timeout: 800}).then(function(result) {
+                        jsonp('version',{},{timeout: 850}).then(function(result) {
                             if (typeof result === 'undefined') {
                                 d.reject("no torrent client listening on port " + self.port);
                             }
