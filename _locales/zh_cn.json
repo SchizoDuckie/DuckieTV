@@ -411,6 +411,7 @@
     "SETTINGS/TRAKT-IMPORT/authorize/btn": "授权DuckieTV使用<br>您的帐户Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/authorized/alert": "合法",
     "SETTINGS/TRAKT-IMPORT/clear-credentials/btn": "清除凭据",
+    "SETTINGS/TRAKT-IMPORT/renew-credentials/btn": "更新凭据",
     "SETTINGS/TRAKT-IMPORT/desc": "您可以使用下面的按钮,输入您的帐号Trakt.TV所有的节目和观看剧集进入DuckieTV",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV进口",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "登录",

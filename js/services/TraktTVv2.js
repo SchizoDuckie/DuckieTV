@@ -184,10 +184,12 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             }).then(function(result) {
                 return parser(result);
             }, function(err) {
-                // if err.code == 400 
-                // token auth expired
-                // show re-auth dialog
-                // restart request and return original promise
+                if (err.code == 401) {
+                    // token auth expired, renew
+                    service.renewToken();
+                    // restart request and return original promise
+                    return service.promiseRequest(type, param, param2, promise);
+                };
                 if (err.status !== 0) { // only if this is not a cancelled request, rethrow
                     console.error("Trakt tv error!", err);
                     throw "Error " + err.status + ":" + err.statusText;
@@ -305,6 +307,32 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'Content-Type': 'application/json'
                     }
                 }).then(function(result) {
+                    localStorage.setItem('trakttv.token', result.data.access_token);
+                    localStorage.setItem('trakttv.refresh_token', result.data.refresh_token);
+                    return result.data.access_token;
+                }, function(error) {
+                    throw error;
+                });
+            },
+            /** 
+             * Exchange refresh_token for access token.
+             * http://docs.trakt.apiary.io/#reference/authentication-oauth/get-token/exchange-refresh_token-for-access_token
+             */
+            renewToken: function() {
+                return $http.post(getUrl('token'), JSON.stringify({
+                    'refresh_token': localStorage.getItem('trakttv.refresh_token'),
+                    'client_id': '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0',
+                    'client_secret': 'f1c3e2df8f7a5e2705879fb33db655bc4aa96c0f33a674f3fc7749211ea46794',
+                    'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
+                    'grant_type': 'refresh_token',
+                }), {
+                    headers: {
+                        'trakt-api-key': APIkey,
+                        'trakt-api-version': 2,
+                        'Content-Type': 'application/json'
+                    }
+                }).then(function(result) {
+                    console.warn('Token has been renewed');
                     localStorage.setItem('trakttv.token', result.data.access_token);
                     localStorage.setItem('trakttv.refresh_token', result.data.refresh_token);
                     return result.data.access_token;

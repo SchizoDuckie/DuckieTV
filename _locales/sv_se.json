@@ -411,6 +411,7 @@
     "SETTINGS/TRAKT-IMPORT/authorize/btn": "Godkänn DuckieTV att använda<br>ditt konto på Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/authorized/alert": "auktoriserad",
     "SETTINGS/TRAKT-IMPORT/clear-credentials/btn": "Tydliga Autentiseringsuppgifter",
+    "SETTINGS/TRAKT-IMPORT/renew-credentials/btn": "Förnya Autentiseringsuppgifter",
     "SETTINGS/TRAKT-IMPORT/desc": "Du kan importera alla shower och bevakade episoder från ditt Trakt.TV konto till DuckieTV med knappen nedan",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV Import",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "logga in till",

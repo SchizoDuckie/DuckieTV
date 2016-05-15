@@ -411,6 +411,7 @@
     "SETTINGS/TRAKT-IMPORT/authorize/btn": "Autoriser DuckieTV til <br>å bruke din Trakt.TV konto",
     "SETTINGS/TRAKT-IMPORT/authorized/alert": "autorisert",
     "SETTINGS/TRAKT-IMPORT/clear-credentials/btn": "Fjern autorisering",
+    "SETTINGS/TRAKT-IMPORT/renew-credentials/btn": "Fornye autorisering",
     "SETTINGS/TRAKT-IMPORT/desc": "Du kan importere alle serier and episoder merket sett fra din Trakt.TV konto til DuckieTV ved å bruke knappen nedenfor",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV Importering",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "Logg inn til ",

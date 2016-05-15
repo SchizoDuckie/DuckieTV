@@ -411,6 +411,7 @@
     "SETTINGS/TRAKT-IMPORT/authorize/btn": "Authorise DuckieTV to<br>use your Trakt.TV account",
     "SETTINGS/TRAKT-IMPORT/authorized/alert": "authorised",
     "SETTINGS/TRAKT-IMPORT/clear-credentials/btn": "Clear Credentials",
+    "SETTINGS/TRAKT-IMPORT/renew-credentials/btn": "Renew Credentials",
     "SETTINGS/TRAKT-IMPORT/desc": "You can import all shows and watched episodes from your Trakt.TV account into DuckieTV using the button below",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV Import",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "Login to ",

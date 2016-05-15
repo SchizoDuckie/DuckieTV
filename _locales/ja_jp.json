@@ -411,6 +411,7 @@
     "SETTINGS/TRAKT-IMPORT/authorize/btn": "DuckieTVがTrakt.TVでアカウントの使用を許可",
     "SETTINGS/TRAKT-IMPORT/authorized/alert": "認可",
     "SETTINGS/TRAKT-IMPORT/clear-credentials/btn": "資格を拭く",
+    "SETTINGS/TRAKT-IMPORT/renew-credentials/btn": "資格情報を更新",
     "SETTINGS/TRAKT-IMPORT/desc": "あなたは下のボタンを使用してDuckieTVにあなたのTrakt.TVアカウントから全番組と見エピソードをインポートすることができます",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TVインポート",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "にログイン",

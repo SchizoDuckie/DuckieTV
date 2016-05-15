@@ -37,6 +37,9 @@
               <a ng-click="clearCredentials()" ng-if="credentials.success" class="btn btn-danger">
                 <i class="glyphicon glyphicon-trash" style="float:left;top:3px"></i><span translate-once="SETTINGS/TRAKT-IMPORT/clear-credentials/btn"></span>
               </a></center>
+              <a ng-click="renewCredentials()" ng-if="credentials.success" class="btn btn-success">
+                <i class="glyphicon glyphicon-refresh" style="float:left;top:3px"></i><span translate-once="SETTINGS/TRAKT-IMPORT/renew-credentials/btn"></span>
+              </a></center>
             </td>
           </tr>
         </table>

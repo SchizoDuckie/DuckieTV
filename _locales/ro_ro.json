@@ -411,6 +411,7 @@
     "SETTINGS/TRAKT-IMPORT/authorize/btn": "Autorizarea DuckieTV a utiliza<br>contul dvs. la Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/authorized/alert": "autorizat",
     "SETTINGS/TRAKT-IMPORT/clear-credentials/btn": "Ștergeți credențialele",
+    "SETTINGS/TRAKT-IMPORT/renew-credentials/btn": "Reînnoi credențialele",
     "SETTINGS/TRAKT-IMPORT/desc": "Puteți importa toate serialele și episoadele vizionate din contul de Trakt.TV în DuckieTV folosind butonul de mai jos",
     "SETTINGS/TRAKT-IMPORT/hdr": "Import Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "Logare în ",

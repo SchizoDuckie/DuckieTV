@@ -411,6 +411,7 @@
     "SETTINGS/TRAKT-IMPORT/authorize/btn": "Dovolijo DuckieTV uporabljati<br>svoj račun na Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/authorized/alert": "pooblaščeni",
     "SETTINGS/TRAKT-IMPORT/clear-credentials/btn": "Počisti Mandatno",
+    "SETTINGS/TRAKT-IMPORT/renew-credentials/btn": "Obnoviti Mandatno",
     "SETTINGS/TRAKT-IMPORT/desc": "Lahko uvozite vse oddaje in gledane epizode iz vašega Trakt.TV računa v DuckieTV z gumbom spodaj",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV Uvozi",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "Prijava na ",

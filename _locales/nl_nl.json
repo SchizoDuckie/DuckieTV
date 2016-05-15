@@ -411,6 +411,7 @@
     "SETTINGS/TRAKT-IMPORT/authorize/btn": "Geef DuckieTV toegang tot uw Trakt.tv account",
     "SETTINGS/TRAKT-IMPORT/authorized/alert": "geautoriseerd",
     "SETTINGS/TRAKT-IMPORT/clear-credentials/btn": "Wis opgeslagen gegevens",
+    "SETTINGS/TRAKT-IMPORT/renew-credentials/btn": "Vernieuwen opgeslagen gegevens",
     "SETTINGS/TRAKT-IMPORT/desc": "U kunt bekeken series en afleveringen van uw Trakt.TV account naar DuckieTV importeren via de knop hieronder",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV Import",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "log in om een",

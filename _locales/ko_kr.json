@@ -411,6 +411,7 @@
     "SETTINGS/TRAKT-IMPORT/authorize/btn": "DuckieTV가 Trakt.TV에서 귀하의<br>계정을 사용할 수있는 권한을 부여",
     "SETTINGS/TRAKT-IMPORT/authorized/alert": "권한을 부여받은",
     "SETTINGS/TRAKT-IMPORT/clear-credentials/btn": "지우기 자격 증명",
+    "SETTINGS/TRAKT-IMPORT/renew-credentials/btn": "자격 증명을 갱신",
     "SETTINGS/TRAKT-IMPORT/desc": "당신은 아래의 버튼을 사용하여 DuckieTV로 Trakt.TV 계정에서 모든 프로그램 및 시청 에피소드를 가져올 수 있습니다",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV 가져 오기",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "로그인",

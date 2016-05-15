@@ -50,6 +50,13 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
             localStorage.removeItem('trakttv.refresh_token');
         };
 
+        // renew credentials 
+        $scope.renewCredentials = function() {
+            return TraktTVv2.renewToken().then(function(result) {
+                $scope.credentials.success = result;
+            });
+        };
+
         // Validates username and password with TraktTV
         $scope.authorize = function(pin) {
             $scope.credentials.authorizing = true;
