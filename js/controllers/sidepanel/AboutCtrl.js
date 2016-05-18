@@ -109,6 +109,14 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 data: lastUpdated.toGMTString()
             }];
 
+            // nwjs and chromium for standalone versions
+            if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
+                $scope.statistics.unshift({
+                    name: 'NWJS, Chromium',
+                    data: process.versions['node-webkit'] + ' , ' + process.versions['chromium']
+                });
+            };
+
             // DuckieTV version
             if ('chrome' in window && 'app' in window.chrome && 'getDetails' in window.chrome.app && window.chrome.app.getDetails() !== null && 'version' in window.chrome.app.getDetails()) {
                 $scope.statistics.unshift({
