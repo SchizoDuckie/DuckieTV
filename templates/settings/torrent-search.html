@@ -39,14 +39,18 @@
 
   <hr class="setting-divider">
 
-  <h2 translate-once="SETTINGS/TORRENT-SEARCH/global-include-mode/hdr"></h2>
+  <h2 style='white-space:nowrap'><h2cont translate-once="SETTINGS/TORRENT-SEARCH/global-include-mode/hdr"></h2cont>
+    <span uib-tooltip="{{GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}">
+      <i class="glyphicon glyphicon-{{GILmodeAny ? 'menu-hamburger alert-success' : 'align-justify alert-info'}}" ></i>
+    </span>
+  </h2>
   <ul class="list-unstyled">
     <li>
       <p style='text-align:left;white-space:normal'>{{!GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/desc' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/desc'|translate}}</p>
       <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
              {{GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}</p>
       <a ng-click="toggleGILmode()" class="btn btn-{{GILmodeAny ? 'info' : 'success'}}">
-        {{!GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}
+        <i class="glyphicon glyphicon-{{!GILmodeAny ? 'menu-hamburger' : 'align-justify'}}" ></i>&nbsp; {{!GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}
       </a>
     </li>
   </ul>
