@@ -2,12 +2,10 @@
   <h2 translate-once="SETTINGS/TORRENT-SEARCH/default-provider/hdr"></h2>
   <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/default-provider/desc"></p>
 
-  
   <a ng-repeat="provider in searchProviders" ng-click="setSearchProvider(provider)" class="btn {{ searchprovider == provider ? 'btn-success' : '' }}" style='padding:10px; height:45px;'>
       <i ng-if="searchprovider == provider" class="glyphicon glyphicon-ok"></i>
       <strong style='position: absolute; left: 60px'>{{provider}}</strong>
   </a>
-  
 
   <hr class="setting-divider">
 
@@ -17,9 +15,6 @@
     <strong><span translate-once="SETTINGS/TORRENT-SEARCH/quality-select/hdr"></span></strong><span translate-once="SETTINGS/TORRENT-SEARCH/quality-select/desc"></span><br>
     <span translate-once="SETTINGS/TORRENT-SEARCH/quality-select/desc2"></span>
   </p>
-
-
-
 
    <a ng-click="setSearchQuality('')" style="padding:10px; height:45px;" class="btn {{ searchquality == '' ? 'btn-success' : '' }}">
     <i class="glyphicon glyphicon-ok" ng-if="searchquality == ''"></i>
@@ -44,8 +39,22 @@
 
   <hr class="setting-divider">
 
+  <h2 translate-once="SETTINGS/TORRENT-SEARCH/global-include-mode/hdr"></h2>
+  <ul class="list-unstyled">
+    <li>
+      <p style='text-align:left;white-space:normal'>{{!GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/desc' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/desc'|translate}}</p>
+      <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+             {{GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}</p>
+      <a ng-click="toggleGILmode()" class="btn btn-{{GILmodeAny ? 'info' : 'success'}}">
+        {{!GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}
+      </a>
+    </li>
+  </ul>
+
+  <hr class="setting-divider">
+
   <h2 translate-once="COMMON/global-include/hdr"></h2>
-  <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/global-include/desc"></p>
+  <p style='text-align:left;white-space:normal'>{{GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-any/desc' : 'SETTINGS/TORRENT-SEARCH/global-include-all/desc'|translate}}</p>
   <ul class="list-unstyled">
     <li><span translate-once="COMMON/global-include/hdr"></span><br>
       <input type='text' style='width:350px' ng-model="globalInclude" translate-once-placeholder="COMMON/global-search/placeholder">

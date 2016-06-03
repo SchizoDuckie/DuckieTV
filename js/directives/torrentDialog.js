@@ -19,6 +19,7 @@ DuckieTV
             $scope.searchquality = ''; // override quality when the series has the IgnoreQuality flag enabled.
         };
         $scope.globalInclude = SettingsService.get('torrenting.global_include');
+        $scope.globalIncludeAny = SettingsService.get('torrenting.global_include_any'); // set the GIL mode (Any or All)
         $scope.globalIncludeEnabled = SettingsService.get('torrenting.global_include_enabled'); // only applies to torrentDialog
         if ('serie' in data && $scope.serie.ignoreGlobalIncludes != 0) {
             $scope.globalIncludeEnabled = false; // override include-list when the series has the IgnoreIncludeList flag enabled.
@@ -75,7 +76,8 @@ DuckieTV
              */
             function filterByScore(item) {
                 var score = 0;
-                var query = [q, $scope.searchquality].join(' ').toLowerCase().split(' ');
+                var GIL_String = $scope.globalIncludeEnabled ? $scope.globalIncludeAny ? '' : $scope.globalInclude : ''; // if GIL mode is ALL then add GIL to q
+                var query = [q, $scope.searchquality, GIL_String].join(' ').toLowerCase().split(' ');
                 name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (name.indexOf(part) > -1) {
@@ -100,7 +102,6 @@ DuckieTV
                         score++;
                     }
                 });
-                //console.debug('include',name,query,score > 0);
                 return (score > 0);
             };
 
@@ -113,6 +114,7 @@ DuckieTV
                 };
                 var score = 0;
                 var query = $scope.globalExclude.toLowerCase().split(' ');
+                // prevent the exclude list from overriding the primary search string
                 query = query.filter(function(el) {
                     return q.indexOf(el) == -1;
                 });
@@ -122,7 +124,6 @@ DuckieTV
                         score++;
                     }
                 });
-                //console.debug('exclude',name,query,score == 0);
                 return (score == 0);
             };
 
@@ -173,7 +174,9 @@ DuckieTV
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' '), undefined, $scope.orderBy).then(function(results) {
                 $scope.items = results.filter(filterBySize);
                 $scope.items = $scope.items.filter(filterByScore);
-                $scope.items = $scope.items.filter(filterGlobalInclude);
+                if ($scope.globalIncludeAny) {
+                    $scope.items = $scope.items.filter(filterGlobalInclude);
+                }
                 $scope.items = $scope.items.filter(filterGlobalExclude);
                 $scope.items = dropDuplicates($scope.items);
                 $scope.searching = false;

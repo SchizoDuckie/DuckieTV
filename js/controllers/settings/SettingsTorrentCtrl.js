@@ -13,6 +13,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
 
         $scope.torrentEnabled = SettingsService.get('torrenting.enabled');
         $scope.allowUnsafe = SettingsService.get('proxy.allowUnsafe');
+        $scope.GILmodeAny = SettingsService.get('torrenting.global_include_any');
         $scope.allowTDsortMenu = SettingsService.get('torrentDialog.sortMenu.enabled');
         $scope.directoryEnabled = SettingsService.get('torrenting.directory');
         $scope.streamingEnabled = SettingsService.get('torrenting.streaming');
@@ -117,6 +118,11 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.toggleUnsafeProxy = function() {
             $scope.allowUnsafe = !$scope.allowUnsafe;
             SettingsService.set('proxy.allowUnsafe', $scope.allowUnsafe);
+        };
+
+        $scope.toggleGILmode = function() {
+            $scope.GILmodeAny = !$scope.GILmodeAny;
+            SettingsService.set('torrenting.global_include_any', $scope.GILmodeAny);
         };
 
         $scope.toggleTDsortMenu = function() {

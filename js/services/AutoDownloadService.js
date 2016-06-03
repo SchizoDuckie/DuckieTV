@@ -107,15 +107,19 @@ DuckieTV
                 var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 50
                 var globalQuality = ' ' + SettingsService.get('torrenting.searchquality'); // Global Quality to append to search string.
                 var globalInclude = SettingsService.get('torrenting.global_include'); // Any words in the global include list causes the result to be filtered in.
+                var globalIncludeAny = SettingsService.get('torrenting.global_include_any'); // set the GIL mode (Any or All)
                 var globalExclude = SettingsService.get('torrenting.global_exclude'); // Any words in the global exclude list causes the result to be filtered out.
                 var globalSizeMin = SettingsService.get('torrenting.global_size_min'); // torrents smaller than this are filtered out
-                 var globalSizeMax = SettingsService.get('torrenting.global_size_max'); // torrents larger than this are filtered out
+                var globalSizeMax = SettingsService.get('torrenting.global_size_max'); // torrents larger than this are filtered out
                 var searchEngine = TorrentSearchEngines.getDefaultEngine();
+                var GIL_String = ''; // for use in filterByScore when GIL mode is set to ALL
                 if (serie.ignoreGlobalQuality != 0) {
                     globalQuality = ''; // series custom settings specify to ignore the global quality
                 };
                 if (serie.ignoreGlobalIncludes != 0) {
                     globalInclude = ''; // series custom settings specify to ignore the global Includes List
+                } else {
+                    GIL_String = globalIncludeAny ? '' : ' ' + globalInclude; // for use with filterByScore when GIL mode is set to ALL
                 };
                 if (serie.ignoreGlobalExcludes != 0) {
                     globalExclude = ''; // series custom settings specify to ignore the global Excludes List
@@ -126,7 +130,7 @@ DuckieTV
                 // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
                 return SceneNameResolver.getSearchStringForEpisode(serie, episode)
                 .then(function(searchString) {
-                    var q = searchString + globalQuality;
+                    var q = searchString + globalQuality + GIL_String;
                     /**
                      * Word-by-word scoring for search results.
                      * All words need to be in the search result's release name, or the result will be filtered out.
@@ -170,6 +174,7 @@ DuckieTV
                         };
                         var score = 0;
                         var query = globalExclude.toLowerCase().split(' ');
+                        // prevent the exclude list from overriding the primary search string
                         query = query.filter(function(el) {
                             return q.indexOf(el) == -1;
                         });
@@ -208,7 +213,9 @@ DuckieTV
                             service.activityUpdate(serie, q, 4); // 'nothing found'
                             return; // no results, abort
                         };
-                        items = items.filter(filterGlobalInclude);
+                        if (globalIncludeAny) {
+                            items = items.filter(filterGlobalInclude);
+                        };
                         items = items.filter(filterGlobalExclude);
                         if (items.length === 0) {
                             service.activityUpdate(serie, q, 5); // 'filtered out'
