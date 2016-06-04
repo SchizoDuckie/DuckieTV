@@ -6,13 +6,13 @@ DuckieTV.factory('TraktTVTrending', ['TraktTVv2', '$q',
         this.initializing = true;
 
         var service = {
-
             getAll: function() {
                 if (self.initializing) {
                     return TraktTVv2.trending().then(function(series) {
                         self.trending = series || [];
                         var cats = {};
                         series.map(function(serie) {
+                            if (!serie.genres) return;
                             serie.genres.map(function(category) {
                                 cats[category] = true;
                             });
@@ -39,18 +39,16 @@ DuckieTV.factory('TraktTVTrending', ['TraktTVv2', '$q',
 
             getByCategory: function(category) {
                 var filtered = self.trending.filter(function(show) {
+                    if (!show.genres) return;
                     return show.genres.indexOf(category) > -1;
                 });
-                console.log("Filtred for ", category, filtered);
                 return filtered;
             }
         };
 
-
         service.getAll().then(function() {
             self.initializing = false;
         });
-
 
         return service;
     }
