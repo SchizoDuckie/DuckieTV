@@ -23,3 +23,15 @@ pdf.dll
 build/nwjs_download_cache
 .idea
 **/Thumbs.db
+ffmpeg.dll
+snapshot_blob.bin
+natives_blob.bin
+node.dll
+nw.dll
+nw_100_percent.pak
+nw.exe
+nw_200_percent.pak
+nw_elf.dll
+nw_material_100_percent.pak
+nw_material_200_percent.pak
+resources.pak
