@@ -12,7 +12,7 @@
                   border-width="0"
                   ng-model="vm.downloadSpeed"
                   track-color="white"
-                  bar-color="#00FF00" 
+                  bar-color="#00FF00"
                   bar-color-end="#FF0000"
                   bar-width="10"
                   units="kB/s"
@@ -28,7 +28,7 @@
                   border-width="0"
                   ng-model="vm.progress"
                   track-color="white"
-                  bar-color="#0000FF" 
+                  bar-color="#0000FF"
                   bar-color-end="#00FF00"
                   bar-width="10"
                   units="%"
@@ -46,50 +46,47 @@
       <!-- status and spinner -->
       <i ng-hide="vm.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet"></i>
       <i ng-if="vm.torrent.getProgress() == ''" class="glyphicon glyphicon-magnet spin" uib-tooltip="{{'COMMON/please-wait/tooltip'|translate}}" tooltip-append-to-body="true"></i>
-      <!-- start button -->
-      <a ng-click="vm.torrent.start();" style='display:inline-block'>
-        <i class="glyphicon glyphicon-play"></i>
-        <span translate-once="COMMON/start/btn"></span>
-      </a>
-      <!-- pause button -->
-      <a ng-click="vm.torrent.pause();" style='display:inline-block'>
-        <i class="glyphicon  glyphicon-pause"></i>
-        <span translate-once="COMMON/pause/btn"></span>
-      </a>
-      <!-- stop button -->
-      <a ng-click="vm.torrent.stop();"  style='display:inline-block'>
-        <i class="glyphicon glyphicon-stop"></i>
-        <span translate-once="COMMON/stop/btn"></span>
-      </a>
-      <!-- remove button -->
-      <a ng-click="vm.torrent.remove();"  style='display:inline-block'>
-        <i class="glyphicon glyphicon-eject"></i>
-        <span translate-once="COMMON/remove/btn"></span>
-      </a>
+      <div class="torrent-controls">
+        <!-- start button -->
+        <a ng-click="vm.torrent.start();" style='display:inline-block'>
+          <i class="glyphicon glyphicon-play"></i>
+          <span translate-once="COMMON/start/btn"></span>
+        </a>
+        <!-- pause button -->
+        <a ng-click="vm.torrent.pause();" style='display:inline-block'>
+          <i class="glyphicon  glyphicon-pause"></i>
+          <span translate-once="COMMON/pause/btn"></span>
+        </a>
+        <!-- stop button -->
+        <a ng-click="vm.torrent.stop();"  style='display:inline-block'>
+          <i class="glyphicon glyphicon-stop"></i>
+          <span translate-once="COMMON/stop/btn"></span>
+        </a>
+        <!-- remove button -->
+        <a ng-click="vm.torrent.remove();"  style='display:inline-block'>
+          <i class="glyphicon glyphicon-eject"></i>
+          <span translate-once="COMMON/remove/btn"></span>
+        </a>
+      </div>
       <!-- streamable button, only for utorrent -->
       <a ng-if="!vm.isWebUI && getSetting('torrenting.streaming') && vm.torrent.properties.all.is_streamable" style="margin-top:5px" ng-click="vm.torrent.stream();">
         <i class="glyphicon glyphicon-bullhorn"></i>
         <span translate-once="COMMON/stream-play/btn"></span>
-      </a>   
+      </a>
       <!-- open containing folder button, only for utorrent -->
       <a ng-if="!vm.isWebUI && getSetting('torrenting.directory') && vm.torrent.open_containing" style="margin-top:5px" ng-click="vm.torrent.open_containing();">
         <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>
         <span translate-once="COMMON/open-folder/btn"></span>
-      </a> 
+      </a>
     </div>
-
-      
-    <!-- torrent files list with subtitle dialog links -->
-    <div style="padding-left: 10px">
-      <loading-spinner ng-show="!vm.torrent.torrent_files" style="position:relative;"></loading-spinner>
-      <p ng-repeat="file in vm.torrent.torrent_files track by $index" class="torrentfile" style="clear: both;
-    float: left; font-family:courier; word-break: break-all;"> 
-    {{file.name}}
-        <subtitle-dialog ng-if="file.isMovie" filename="file.searchFileName" tooltip-append-to-body="true" translate-once="COMMON/find-subtitle/lbl"></subtitle-dialog>
-      </p>
-    </div>
-     
-
   </div>
 
+  <!-- torrent files list with subtitle dialog links -->
+  <div class="torrent-file-details">
+    <loading-spinner class="small" ng-show="!vm.torrent.torrent_files"></loading-spinner>
+    <p ng-repeat="file in vm.torrent.torrent_files track by $index">
+      {{file.name}}
+      <subtitle-dialog ng-if="file.isMovie" filename="file.searchFileName" tooltip-append-to-body="true"></subtitle-dialog>
+    </p>
+  </div>
 </div>

@@ -111,7 +111,7 @@ a:hover .glyphicon {
     border:1px gray solid;
     border-radius:5px;
     -webkit-box-shadow:0 0 2px gray inset;
-} 
+}
 *::-webkit-scrollbar-thumb:hover{
     background-color:#6B6B6B;
 }
@@ -310,7 +310,7 @@ background-rotator .placeholder {
 
 .settings .buttons .btn.choose-client:hover {
     color:white;
-} 
+}
 
 .dropdown-menu>li>a {
       color: white;
@@ -343,7 +343,7 @@ background-rotator .placeholder {
     background-color:transparent;
     color:white;
     border-color: rgba(255,255,255,0.4);
-} 
+}
 .navbar-collapse {
     padding-left:0;
     padding-right:0;
@@ -424,7 +424,7 @@ serieheader .badge {
     position: absolute;
     transition: top 0.35s ease-in-out, left 0.35s ease-in-out;
 }
-/* Main container for the posters 
+/* Main container for the posters
  * Note: The posters class itself has no margins or paddings and is just the size of the poster
  * this means the only thing seperating the posters is this margin here. This allows easy distancing
  * of the posters but also easily allows a no-gap mode between posters which looks kinda nice. */
@@ -583,7 +583,7 @@ serieheader em.earmark.refresh {
     -webkit-transform: translateX(-100px);
 }
 serieheader em.earmark.refresh.adding {
-	-webkit-transform: translateX(0px);	
+	-webkit-transform: translateX(0px);
 }
 serieheader em.earmark.delete i.glyphicon {
     display: initial;
@@ -637,7 +637,7 @@ body.serieslistActive {
     transform: translate3d(0, 0, 0);
 }
 body.sidepanelActive {
-    overflow-y: hidden; 
+    overflow-y: hidden;
 }
 .sidepanelActive series-list > div {
     width: calc(100% - 400px);
@@ -777,7 +777,7 @@ series-list .trakt-import .toggleWatchSync, series-list .trakt-import .pushToTra
 /* CSS for formatting custom search editor */
 .modal-content .row {
     margin-left: 0px;
-    margin-right: 0px;   
+    margin-right: 0px;
 }
 .modal-content .form-group {
     margin:bottom: 0px;
@@ -1011,7 +1011,7 @@ body.kc sidepanel .kc {
     width: 100%;
     position: absolute;
     overflow: hidden;
-    top: 0; 
+    top: 0;
     z-index: -1;
 }
 
@@ -1029,7 +1029,7 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
     transition: all 0.5s ease-in-out;
     padding-left: 5px;
 }
-input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { 
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 5px;
 }
@@ -1042,12 +1042,12 @@ input::-webkit-input-placeholder {
 input[type=checkbox].big, .checkbox input[type=checkbox] {
     margin-left: 5px;
     margin-right: 10px;
-    margin-top:10px;  
-    height:20px; 
+    margin-top:10px;
+    height:20px;
     width:20px;
 }
 input[type=checkbox], input[type=radio] {
-    -webkit-filter: invert(1);       
+    -webkit-filter: invert(1);
 }
 input:disabled {
     background-color: rgba(0,0,0,0.8 !important);
@@ -1075,7 +1075,7 @@ div [date-picker] {
     border-radius: 10px;
     -webkit-user-select: none;
     transition: transform 0.4s ease-in-out, background-color 0.3s ease-in-out;
-    z-index: 101; 
+    z-index: 101;
     position: relative;
 }
 [date-picker] span {
@@ -1395,11 +1395,11 @@ td.day {
 
 
 clicktrap {
-    position:fixed; 
-    top:0px; 
+    position:fixed;
+    top:0px;
     left:0px;
     right:0px;
-    bottom:0px; 
+    bottom:0px;
     z-index:100
 }
 
@@ -1533,7 +1533,7 @@ calendar-event h2 {
 }
 
 .alert {
-    white-space: pre-wrap;
+    white-space: normal;
 }
 .alert strong {
     display: block;
@@ -1608,10 +1608,10 @@ sidepanel > div {
     transition: margin 0.35s linear;
 }
 .sidepanelActive sidepanel .sidepanel {
-    margin-right: -400px;   
+    margin-right: -400px;
 }
 .sidepanelExpanded sidepanel .sidepanel {
-    margin-right: 0;   
+    margin-right: 0;
 }
 
 sidepanel h2 {
@@ -1644,7 +1644,7 @@ sidepanel .buttons a {
     padding: 15px;
     margin: 5px 15px;
     border: 1px solid #fff;
-    border-radius: 10px;
+    border-radius: 9px;
     text-align: center;
     transition: background-color 0.3s;
     -webkit-user-select: none;
@@ -2029,19 +2029,43 @@ sidepanel .seasons serieheader {
 
 .torrent-client .torrent a {
     position: relative;
-  display: block;
-  padding: 8px;
+    display: block;
+    padding: 8px;
 }
 
 .torrent-client .torrent-details a.subtitle-dialog {
-  display: block;
-  border-radius: 5px !important;
-  clear: both;
-  margin-left: 0;
-  font-family: arial;
-  float: none;
-  margin: 0 !important;
-  margin-bottom: 5px !important;
+    margin: 0 8px;
+    padding: 5px;
+}
+.torrent-client .torrent-details .torrent-mini-remote-control a {
+  margin: 5px;
+}
+
+.torrent-client .torrent-details .torrent-mini-remote-control .torrent-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.torrent-client .torrent-details a.subtitle-dialog {
+    margin: 0 8px;
+    padding: 5px;
+}
+
+.torrent-client .torrent-details .torrent-file-details {
+    padding-left: 10px;
+    text-align: center;
+}
+.torrent-client .torrent-details .torrent-file-details p {
+    clear: both;
+    float: left;
+    font-family: courier, sans-serif;
+    word-break: break-all;
+    position: relative;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .torrent-client .torrent {
@@ -2092,7 +2116,7 @@ sidepanel .seasons serieheader {
     margin-bottom: 22.5px;
 }
 .settings .label {
-   
+
     margin: 0 auto 5px auto;
     /* Just in case different languages are too long */
     word-wrap: break-word;
@@ -2104,7 +2128,7 @@ sidepanel .seasons serieheader {
 }
 .settings h2 span i {
     background-color: transparent !important;
-   
+
 }
 
 .settings .btn {
@@ -2351,8 +2375,8 @@ ng-dial-gauge {
 }
 
 .searchengineinfo {
-    padding-top: 35px; 
-    word-break: break-all; 
+    padding-top: 35px;
+    word-break: break-all;
     font-family: courier;
 }
 
