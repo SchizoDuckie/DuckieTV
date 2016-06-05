@@ -159,6 +159,7 @@ var DuckieTV = angular.module('DuckieTV', [
         var tommorow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
         var timeToMidnight = (tommorow - today) + 1000; // a second after midnight
         var timer = setTimeout(function() {
+            console.debug('its a second after midnight, time to reload');
             $injector.get('DuckietvReload').windowLocationReload();
         }, timeToMidnight);
     }
