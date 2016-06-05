@@ -197,7 +197,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             tray = null;
         };
         win.removeAllListeners();
-        //console.debug('on locationreload: window.location.reload()');
+        console.debug('on locationreload: window.location.reload()');
         window.location.reload();
     });
 }

@@ -52,11 +52,11 @@ var DuckieTV = angular.module('DuckieTV', [
         windowLocationReload: function() {
             if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
                 // reload for standalones
-                //console.debug('DuckietvReload for standalone');
+                console.debug('DuckietvReload for standalone');
                 require('nw.gui').Window.get().emit('locationreload');
             } else {
                 // reload for non-standalone
-                //console.debug('DuckietvReload for non-standalone');
+                console.debug('DuckietvReload for non-standalone');
                 window.location.reload();
             }
         }
