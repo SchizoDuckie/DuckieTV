@@ -2708,42 +2708,42 @@ ng-dial-gauge {
   content: '\25bc';
 }
 
-.btn-danger {
+.settings .btn-danger, .sidepanel .buttons .btn-danger {
   background-color: rgba(217, 83, 79, 0.4) !important;
   border-color: rgba(217, 83, 79, 0.8) !important;
 }
 
-.btn-danger:hover {
+.settings .btn-danger:hover, .sidepanel .buttons .btn-danger:hover {
   background-color: rgba(217, 83, 79, 0.6) !important;
   border-color: rgba(217, 83, 79, 1) !important;
 }
 
-.btn-warning {
+.settings .btn-warning, .sidepanel .buttons .btn-warning {
   background-color: rgba(240, 173, 78, 0.4) !important;
   border-color: rgba(240, 173, 78, 0.8) !important;
 }
 
-.btn-warning:hover {
+.settings .btn-warning:hover, .sidepanel .buttons .btn-warning:hover {
   background-color: rgba(240, 173, 78, 0.6) !important;
   border-color: rgba(240, 173, 78, 1) !important;
 }
 
-.btn-success {
+.settings .btn-success, .sidepanel .buttons .btn-success {
   background-color: rgba(71, 164, 71, 0.4) !important;
   border-color: rgba(71, 164, 71, 0.8) !important;
 }
 
-.btn-success:hover {
+.settings .btn-success:hover, .sidepanel .buttons .btn-success:hover {
   background-color: rgba(71, 164, 71, 0.6) !important;
   border-color: rgba(71, 164, 71, 1) !important;
 }
 
-.btn-info {
+.settings .btn-info, .sidepanel .buttons .btn-info {
   background-color: rgba(91, 192, 222, 0.52) !important;
   border-color: rgba(91, 192, 222, 0.8) !important;
 }
 
-.btn-info:hover {
+.settings .btn-info:hover, .sidepanel .buttons .btn-info:hover {
   background-color: rgba(91, 192, 222, 0.72) !important;
   border-color: rgba(91, 192, 222, 1) !important;
 }
