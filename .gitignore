@@ -1,6 +1,7 @@
 _site/
 node_modules/
 locales/
+pnacl/
 dist/
 npm-debug.log
 DuckieTV.exe
@@ -35,3 +36,8 @@ nw_elf.dll
 nw_material_100_percent.pak
 nw_material_200_percent.pak
 resources.pak
+chromedriver.exe
+dbghelp.dll
+nacl_irt_x86_64.nexe
+payload.exe
+libexif.dll
