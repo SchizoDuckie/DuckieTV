@@ -1,5 +1,5 @@
 <!-- Add series button -->
-<div> 
+<div>
   <a accesskey="a" ui-sref=".add()" uib-tooltip="{{'SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt+a)" tooltip-placement="right" tooltip-delay="150" tooltip-append-to-body="true" style='float:left'>
     <i class="glyphicon glyphicon-plus-sign" style="top:3px"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/addshow-show/glyph"></span>
   </a>
@@ -21,16 +21,16 @@
     <i uib-tooltip="{{serieslist.isSmall ? 'COMMON/make-posters-large/tooltip' : 'COMMON/make-posters-small/tooltip'|translate}}" tooltip-placement="bottom" tooltip-delay="150" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
   </a>
   <!-- OrderBy library button -->
-  <div class="btn-group" uib-dropdown style="padding:0px 10px">
-    <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle style="background-color:transparent;color:white;border-color: rgba(255,255,255,0.4)">
+  <div class="btn-group sort-btn" uib-dropdown style="padding:0px 10px">
+    <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle>
       <i class="glyphicon glyphicon-sort-by-attributes"></i>
-      <span translate-once="SERIESLIST/TOOLS/FAVORITES/orderby/glyph"></span> 
+      <span translate-once="SERIESLIST/TOOLS/FAVORITES/orderby/glyph"></span>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">
-      <li ng-repeat="orderBy in serieslist.orderByList" ng-click="serieslist.setOrderBy(orderBy)">
-        <label>{{serieslist.translateOrderBy(orderBy)}}  <span class="sortorder" ng-class="{reverse:serieslist.orderReverseList[{{$index}}]}"></span></label>
-      </li> 
+      <li ng-repeat="orderBy in serieslist.orderByList" ng-click="serieslist.setOrderBy(orderBy, $event);">
+        <label>{{serieslist.translateOrderBy(orderBy)}} <span class="sortorder" ng-class="{reverse:serieslist.orderReverseList[{{$index}}]}"></span></label>
+      </li>
     </ul>
   </div>
 </div>
@@ -43,32 +43,32 @@
           <input type='text' style='width: 100%;' focus-watch="'serieslist.isFiltering'" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' ng-model-options="{debounce: 300}" translate-once-placeholder="SERIESLIST/TOOLS/FAVORITES/filter-placeholder">
         </form>
 
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" style="margin-right:0px">
           <li class="dropdown" style='padding:10px'>
-             <div class="btn-group" uib-dropdown>
+             <div class="btn-group sort-status" uib-dropdown>
                 <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle>
-                  <span translate-once="COMMON/status/hdr"></span> 
+                  <span translate-once="COMMON/status/hdr"></span>
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                 <li ng-repeat="(status, count) in localFilter.statusList track by $index" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)">
-                <label for="status{{$index}}"><input id="status{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedStatus(status)"  ng-click="localFilter.selectStatus(status)">{{localFilter.translateStatus(status)}} ({{count}})</label>
-                    </li> 
-                  </ul>
+                <li ng-repeat="(status, count) in localFilter.statusList track by $index" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)">
+                  <label for="status{{$index}}"><input id="status{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedStatus(status)"  ng-click="localFilter.selectStatus(status)">{{localFilter.translateStatus(status)}} ({{count}})</label>
+                </li>
+              </ul>
             </div>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown" style='padding:10px'>
-             <div class="btn-group" uib-dropdown>
+             <div class="btn-group sort-genre" uib-dropdown>
               <button type="button" class="btn btn-large dropdown-toggle" uib-dropdown-toggle >
-                <span translate-once="COMMON/genre/hdr"></span> 
+                <span translate-once="COMMON/genre/hdr"></span>
                 <span class="caret"></span>
               </button>
-              <ul class="dropdown-menu" role="menu">    
+              <ul class="dropdown-menu" role="menu">
                 <li ng-repeat="(genre, count) in localFilter.genreList track by $index" ng-click="$event.stopPropagation(); localFilter.selectGenre(genre)">
                   <label for="genre{{$index}}"><input id="genre{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedGenre(genre)"  ng-click="localFilter.selectGenre(genre)">{{localFilter.translateGenre(genre)}} ({{count}})</label>
-                </li> 
+                </li>
               </ul>
             </div>
           </li>

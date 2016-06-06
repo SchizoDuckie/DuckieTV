@@ -1,7 +1,7 @@
-DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "$state", "$http", "$filter", "dialogs", "$q",
-    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state, $http, $filter, dialogs, $q) {
+DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "$state", "$http", "$filter", "dialogs",
+    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state, $http, $filter, dialogs) {
 
-        var serieslist = this;
+        var vm = this;
 
         /**
          * Context Menu that appears when right clicking on series
@@ -11,32 +11,36 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * * Remove from Favorites
          **/
 
-        this.contextMenu = function(serie) {
-            return [[ // Mark all watched
+        vm.contextMenu = function(serie) {
+            return [
+                [ // Mark all watched
                     $filter('translate')('COMMON/mark-all-watched/lbl'),
                     function() {
                         serie.markSerieAsWatched($rootScope).then(function() {
                             $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
                         });
-                    }, function() {
+                    },
+                    function() {
                         return serie.notWatchedCount == 0 ?
                             false : true;
                     }
-                ], 
+                ],
                 null, //Divider
                 [ // Toggle Calendar Display Option
-                    serie.displaycalendar == 1 ? 
-                        $filter('translate')('COMMON/calendar-hide/btn') : 
-                        $filter('translate')('COMMON/calendar-show/btn'), 
+                    serie.displaycalendar == 1 ?
+                    $filter('translate')('COMMON/calendar-hide/btn') :
+                    $filter('translate')('COMMON/calendar-show/btn'),
                     function() {
                         serie.toggleCalendarDisplay();
                     }
-                ], [ //Remove Serie option
-                    $filter('translate')('COMMON/delete-serie/btn'), function() {
+                ],
+                [ //Remove Serie option
+                    $filter('translate')('COMMON/delete-serie/btn'),
+                    function() {
                         removeFromFavorites(serie);
                     }
-                ],
-               
+                ]
+
             ];
         };
 
@@ -49,86 +53,87 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                 serie.name +
                 $filter('translate')('COMMON/serie-delete-question/desc2')
             );
-            dlg.result.then(function(btn) {
+            dlg.result.then(function() {
                 console.info("Removing serie '" + serie.name + "' from favorites!");
                 FavoritesService.remove(serie);
-            }, function(btn) {
-                this.confirmed = $filter('translate')('COMMON/cancelled/lbl');
+            }, function() {
+                vm.confirmed = $filter('translate')('COMMON/cancelled/lbl');
             });
         };
 
-        this.activated = SeriesListState.state.isShowing; // Toggles when the favorites panel activated
-        this.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
-        this.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
-        this.sgEnabled = SettingsService.get('library.seriesgrid');
-        this.hideEnded = false;
+        vm.activated = SeriesListState.state.isShowing; // Toggles when the favorites panel activated
+        vm.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
+        vm.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
+        vm.sgEnabled = SettingsService.get('library.seriesgrid');
+        vm.hideEnded = false;
 
-        this.setOrderBy = function(orderBy) {
-            var idx = serieslist.orderByList.indexOf(orderBy);
-            serieslist.reverse = !serieslist.orderReverseList[idx];
-            serieslist.orderReverseList = serieslist.orderReverseResetList.slice();
-            serieslist.orderReverseList[idx] = serieslist.reverse;
-            serieslist.orderBy = orderBy;
+        vm.setOrderBy = function(orderBy, evt) {
+            evt.stopPropagation()
+            var idx = vm.orderByList.indexOf(orderBy);
+            vm.reverse = !vm.orderReverseList[idx];
+            vm.orderReverseList = vm.orderReverseResetList.slice();
+            vm.orderReverseList[idx] = vm.reverse;
+            vm.orderBy = orderBy;
             $rootScope.$emit('lazyImg:refresh');
         };
 
-        this.orderByList = 'getSortName()|added|firstaired|notWatchedCount'.split('|');
-        this.orderReverseResetList = [true,false,true,false];
-        this.orderReverseList = [true,false,true,false];
-        this.orderBy = 'getSortName()';
-        this.reverse = false;
-        this.translatedOrderByList = $filter('translate')('ORDERBYLIST').split(',');        
+        vm.orderByList = 'getSortName()|added|firstaired|notWatchedCount'.split('|');
+        vm.orderReverseResetList = [false, false, true, false];
+        vm.orderReverseList = [false, false, true, false];
+        vm.orderBy = 'getSortName()';
+        vm.reverse = false;
+        vm.translatedOrderByList = $filter('translate')('ORDERBYLIST').split(',');
 
         /*
          * Takes the English orderBy (elements from Series table) and returns a translation
          */
-        this.translateOrderBy = function(orderBy) {
-            var idx = serieslist.orderByList.indexOf(orderBy);
-            return (idx != -1) ? serieslist.translatedOrderByList[idx] : serieslist.translatedOrderByList[0];
+        vm.translateOrderBy = function(orderBy) {
+            var idx = vm.orderByList.indexOf(orderBy);
+            return (idx != -1) ? vm.translatedOrderByList[idx] : vm.translatedOrderByList[0];
         };
-        
-        FavoritesService.flushAdding();
-        this.query = ''; // local filter query, set from LocalSerieCtrl
-        this.genreFilter = []; // genre filter from localseriectrl 
-        this.statusFilter = [];
-        this.isFiltering = false;
 
-        this.toggleFiltering = function() {
-            this.isFiltering = !this.isFiltering;
-            serieslist.query = '';
+        FavoritesService.flushAdding();
+        vm.query = ''; // local filter query, set from LocalSerieCtrl
+        vm.genreFilter = []; // genre filter from localseriectrl
+        vm.statusFilter = [];
+        vm.isFiltering = false;
+
+        vm.toggleFiltering = function() {
+            vm.isFiltering = !vm.isFiltering;
+            vm.query = '';
             $rootScope.$emit('lazyImg:refresh');
         }
 
         $rootScope.$on('serieslist:filter', function(evt, query) {
-            serieslist.query = query;
+            vm.query = query;
         });
 
         $rootScope.$on('serieslist:genreFilter', function(evt, genres) {
-            serieslist.genreFilter = genres;
+            vm.genreFilter = genres;
         });
 
         $rootScope.$on('serieslist:statusFilter', function(evt, status) {
-            serieslist.statusFilter = status;
+            vm.statusFilter = status;
         });
 
         Object.observe(SeriesListState.state, function(newValue) {
-            serieslist.activated = newValue[0].object.isShowing;
+            vm.activated = newValue[0].object.isShowing;
             $scope.$applyAsync();
         });
 
-        this.localFilter = function(el) {
+        vm.localFilter = function(el) {
             var nameMatch = true,
                 statusMatch = true,
                 genreMatch = true;
-            if (serieslist.query.length > 0) {
-                nameMatch = el.name.toLowerCase().indexOf(serieslist.query.toLowerCase()) > -1;
+            if (vm.query.length > 0) {
+                nameMatch = el.name.toLowerCase().indexOf(vm.query.toLowerCase()) > -1;
             }
-            if (serieslist.statusFilter.length > 0) {
-                statusMatch = serieslist.statusFilter.indexOf(el.status) > -1;
+            if (vm.statusFilter.length > 0) {
+                statusMatch = vm.statusFilter.indexOf(el.status) > -1;
             }
-            if (serieslist.genreFilter.length > 0) {
+            if (vm.genreFilter.length > 0) {
                 var matched = false;
-                serieslist.genreFilter.map(function(genre) {
+                vm.genreFilter.map(function(genre) {
                     if (el.genre.indexOf(genre) > -1) {
                         matched = true;
                     }
@@ -141,13 +146,13 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         /**
          * Automatically launch the first search result when user hits enter in the filter form
          */
-        this.execFilter = function() {
+        vm.execFilter = function() {
             setTimeout(function() {
                 document.querySelector('.series serieheader a').click();
             }, 0);
         };
 
-        this.getFavorites = function() {
+        vm.getFavorites = function() {
             return FavoritesService.favorites;
         };
 
@@ -155,27 +160,27 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * Set the series list display mode to either banner or poster.
          * Temporary mode is for enabling for instance the search, it's not stored.
          */
-        this.setMode = function(mode, temporary) {
+        vm.setMode = function(mode, temporary) {
             if (!temporary) {
                 SettingsService.set('series.displaymode', mode);
             }
-            this.mode = mode;
+            vm.mode = mode;
             $rootScope.$emit('lazyImg:refresh');
         };
 
         /**
          * Closes the trakt-serie-details sidepanel when exiting adding mode
          */
-        this.closeSidePanel = function() {
+        vm.closeSidePanel = function() {
             SidePanelState.hide();
         };
 
         /**
          * Toggles small mode on off
          */
-        this.toggleSmall = function() {
-            this.isSmall = !this.isSmall;
-            SettingsService.set('library.smallposters', this.isSmall);
+        vm.toggleSmall = function() {
+            vm.isSmall = !vm.isSmall;
+            SettingsService.set('library.smallposters', vm.isSmall);
             // If the posters become smaller we may need to load extra images so fire a recheck
             $rootScope.$emit('lazyImg:refresh');
         };
@@ -183,15 +188,15 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         /**
          * Toggle or untoggle the favorites panel
          */
-        this.activate = function(el) {
-            this.activated = true;
+        vm.activate = function() {
+            vm.activated = true;
         };
 
         /**
          * Close the drawer
          */
-        this.closeDrawer = function() {
-            this.activated = false;
+        vm.closeDrawer = function() {
+            vm.activated = false;
             document.body.style.overflowY = 'auto';
         };
 
@@ -199,8 +204,8 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * Fires when user hits enter in the search serie box.Auto - selects the first result and adds it to favorites.
          */
 
-        this.selectFirstResult = function() {
-            this.selectSerie(this.results[0]);
+        vm.selectFirstResult = function() {
+            vm.selectSerie(vm.results[0]);
         };
 
         /**
@@ -209,7 +214,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
          * It can show the checkmark.
          */
-        this.selectSerie = function(serie) {
+        vm.selectSerie = function(serie) {
             if (!FavoritesService.isAdding(serie.tvdb_id)) {
                 if (!FavoritesService.isAdded(serie.tvdb_id)) {
                     FavoritesService.adding(serie.tvdb_id);
@@ -232,21 +237,21 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * Verify with the favoritesservice if a specific TVDB_ID is registered.
          * Used to show checkmarks in the add modes for series that you already have.
          */
-        this.isAdded = function(tvdb_id) {
+        vm.isAdded = function(tvdb_id) {
             return FavoritesService.isAdded(tvdb_id);
         };
 
         /**
          * Returns true as long as the add a show to favorites promise is running.
          */
-        this.isAdding = function(tvdb_id) {
+        vm.isAdding = function(tvdb_id) {
             return FavoritesService.isAdding(tvdb_id);
         };
 
         /**
          * Returns true as long as the add a show to favorites promise is running.
          */
-        this.isError = function(tvdb_id) {
+        vm.isError = function(tvdb_id) {
             return FavoritesService.isError(tvdb_id);
         };
     }
