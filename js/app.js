@@ -154,15 +154,19 @@ var DuckieTV = angular.module('DuckieTV', [
  * at start-up set up a timer to refresh DuckieTV a second after midnight, to force a calendar date refresh
  */
 .run(["$injector", function($injector) {
-    window.onload = function() {
-        var today = new Date();
-        var tommorow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-        var timeToMidnight = (tommorow - today) + 1000; // a second after midnight
-        var timer = setTimeout(function() {
-            console.debug('its a second after midnight, time to reload');
-            $injector.get('DuckietvReload').windowLocationReload();
-        }, timeToMidnight);
-    }
+    var today = new Date();
+    var tommorow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    var timeToMidnight = (tommorow - today) + 1000; // a second after midnight
+    console.debug('time to midnight is %s ms',timeToMidnight);
+    if (localStorage.getItem('optin_error_reporting')) {
+        timeToMidnight = 1000 * 30; // 30 seconds after midnight
+        console.debug('test mode enabled, reset due in %s ms',timeToMidnight);
+    };
+    var timer = setTimeout(function() {
+        console.debug('its a second after midnight, time to reload');
+        $injector.get('DuckietvReload').windowLocationReload();
+    }, timeToMidnight);
+    console.debug('timer =',timer);
 }])
 
 .run(["$rootScope", "$state", function($rootScope, $state) {
@@ -194,72 +198,74 @@ var DuckieTV = angular.module('DuckieTV', [
  */
 .run(["$injector", "$http", "$filter", "SettingsService", "FavoritesService", "dialogs",
     function($injector, $http, $filter, SettingsService, FavoritesService, dialogs) {
-        window.onload = function() {
-
-            /*
-             * creates timer to schedule an autoBackup
-             */
-            var scheduleAutoBackup = function() {
-                setTimeout(function() {
-                    // wait for FavoritesService to be available
-                    if (FavoritesService.initialized == true) {
-                        // only do the backup if there are shows in favorites.
-                        if (FavoritesService.favoriteIDs.length !== 0) {
-                            if (timeToNextBackup <= 0) {
-                                console.info('Scheduled autoBackup run at ', new Date());
-                                $injector.get('BackupService').createBackup().then(function(backupString) {
-                                    var backupTime = new Date();
-                                    dialogs.create('templates/backupDialog.html', 'backupDialogCtrl', {
-                                        backupString: backupString,
-                                        backupTime: backupTime
-                                    }, {
-                                        size: 'lg'
-                                    });
+        /*
+         * creates timer to schedule an autoBackup
+         */
+        var scheduleAutoBackup = function() {
+            console.debug('sheduleautobackup',timeToNextBackup);
+            setTimeout(function() {
+                console.debug('sheduleautobackup settimeout',timeToNextBackup);
+                // wait for FavoritesService to be available
+                if (FavoritesService.initialized == true) {
+                    // only do the backup if there are shows in favorites.
+                    if (FavoritesService.favoriteIDs.length !== 0) {
+                        if (timeToNextBackup <= 0) {
+                            console.info('Scheduled autoBackup run at ', new Date());
+                            $injector.get('BackupService').createBackup().then(function(backupString) {
+                                var backupTime = new Date();
+                                dialogs.create('templates/backupDialog.html', 'backupDialogCtrl', {
+                                    backupString: backupString,
+                                    backupTime: backupTime
+                                }, {
+                                    size: 'lg'
                                 });
-                            }
-                        } else {
-                            console.info('autoBackup is not required as there are no shows in favourites yet.');
+                            });
                         }
                     } else {
-                        setTimeout(function() {
-                            scheduleAutoBackup();
-                        }, 1000);
+                        console.info('autoBackup is not required as there are no shows in favourites yet.');
                     }
-                }, timeToNextBackup);
-            };
-            var autoBackupPeriod = SettingsService.get('autobackup.period');
-            if (autoBackupPeriod === 'never') {
-                console.warn('autoBackup is set to never be scheduled');
-                return; // autoBackup is not requested
-            }
-            // fetch last run time
-            var localDT = new Date().getTime();
-            if (!localStorage.getItem('autobackup.lastrun')) {
-                localStorage.setItem('autobackup.lastrun', 0);
-            }
-            // determine next run time
-            var lastRun = new Date(parseInt(localStorage.getItem('autobackup.lastrun')));
-            var nextBackupDT = null;
-            switch (autoBackupPeriod) {
-                case 'daily':
-                    nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth(), lastRun.getDate() + 1, lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
-                    break;
-                case 'weekly':
-                    nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth(), lastRun.getDate() + 7, lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
-                    break;
-                case 'monthly':
-                    nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth() + 1, lastRun.getDate(), lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
-                    break;
-                default:
-                    console.error('unexpected autoBackupPeriod', autoBackupPeriod);
-            }
-            // schedule the timer for the next backup
-            var timeToNextBackup = (nextBackupDT - localDT);
-            if (timeToNextBackup > 0) {
-                console.info('The next autoBackup is scheduled for', new Date(parseInt(nextBackupDT)));
-            }
-            scheduleAutoBackup();
+                } else {
+                    setTimeout(function() {
+                        scheduleAutoBackup();
+                    }, 1000);
+                }
+            }, timeToNextBackup);
+        };
+        var autoBackupPeriod = SettingsService.get('autobackup.period');
+        if (autoBackupPeriod === 'never') {
+            console.warn('autoBackup is set to never be scheduled');
+            return; // autoBackup is not requested
+        };
+        // fetch last run time
+        var localDT = new Date().getTime();
+        if (!localStorage.getItem('autobackup.lastrun')) {
+            localStorage.setItem('autobackup.lastrun', 0);
+        };
+        // determine next run time
+        var lastRun = new Date(parseInt(localStorage.getItem('autobackup.lastrun')));
+        var nextBackupDT = null;
+        switch (autoBackupPeriod) {
+            case 'daily':
+                nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth(), lastRun.getDate() + 1, lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
+                break;
+            case 'weekly':
+                nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth(), lastRun.getDate() + 7, lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
+                break;
+            case 'monthly':
+                nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth() + 1, lastRun.getDate(), lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
+                break;
+            default:
+                console.error('unexpected autoBackupPeriod', autoBackupPeriod);
         }
+        // schedule the timer for the next backup
+        var timeToNextBackup = (nextBackupDT - localDT);
+        console.debug('time to next backup is %s ms',timeToNextBackup);
+        if (timeToNextBackup > 0) {
+            console.info('The next autoBackup is scheduled for', new Date(parseInt(nextBackupDT)));
+        } else {
+            timeToNextBackup = 0;
+        };
+        scheduleAutoBackup();
     }
 ])
 
