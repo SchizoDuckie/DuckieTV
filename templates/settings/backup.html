@@ -24,8 +24,9 @@
 
   <h2 translate-once="SETTINGS/BACKUP/import/hdr"></h2>
 
-  <div ng-show="!restoring">
-    <input type="checkbox" ng-model="wipeBeforeImport" id="wipebeforeImport"> <label for="wipebeforeImport" translate-once="SETTINGS/BACKUP/wipe-before-import/lbl"></label>
+  <div ng-show="!restoring" class="checkbox">
+    <input type="checkbox" ng-model="wipeBeforeImport" id="wipebeforeImport">
+    <label for="wipebeforeImport" translate-once="SETTINGS/BACKUP/wipe-before-import/lbl"></label>
   </div>
 
   <div style="position:relative">

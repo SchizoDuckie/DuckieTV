@@ -1,6 +1,6 @@
 <div ng-controller="CalendarCtrl" class="buttons">
   <h2>
-    <span uib-tooltip="{{startSunday ? 'SETTINGS/CALENDAR/start-sun/tooltip' : 'SETTINGS/CALENDAR/start-mon/tooltip'|translate}}">
+    <span uib-tooltip="{{startSunday ? 'SETTINGS/CALENDAR/start-sun/tooltip' : 'SETTINGS/CALENDAR/start-mon/tooltip'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-indent-{{startSunday ? 'left alert-info' : 'right alert-success'}}" ></i>
     </span>
     <li translate-once="SETTINGS/CALENDAR/week/hdr"></li>
@@ -12,11 +12,11 @@
   <a ng-click="toggleCalendarStartDay()" class="btn btn-{{startSunday ? 'success' : 'info'}}">
     <i class="glyphicon glyphicon-indent-{{startSunday ? 'right' : 'left'}}" ></i> {{startSunday ? 'SETTINGS/CALENDAR/start-mon/btn' : 'SETTINGS/CALENDAR/start-sun/btn'|translate}}
   </a>
-  
+
   <hr class="setting-divider">
 
   <h2>
-    <span uib-tooltip="{{displayMode == 'date' ? 'SETTINGS/CALENDAR/mode-month/tooltip' : 'SETTINGS/CALENDAR/mode-week/tooltip'|translate}}">
+    <span uib-tooltip="{{displayMode == 'date' ? 'SETTINGS/CALENDAR/mode-month/tooltip' : 'SETTINGS/CALENDAR/mode-week/tooltip'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{displayMode == 'date' ? 'calendar alert-success' : 'th-list alert-info'}}"></i>
     </span>
     <li translate-once="SETTINGS/CALENDAR/mode/hdr"></li>
@@ -32,12 +32,12 @@
   <hr class="setting-divider">
 
   <h2>
-    <span uib-tooltip="{{showSpecials ? 'SETTINGS/CALENDAR/specials-show/tooltip' : 'SETTINGS/CALENDAR/specials-hide/tooltip'|translate}}">
+    <span uib-tooltip="{{showSpecials ? 'SETTINGS/CALENDAR/specials-show/tooltip' : 'SETTINGS/CALENDAR/specials-hide/tooltip'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{showSpecials ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/CALENDAR/specials/hdr"></li>
   </h2>
-  
+
   <p translate-once="SETTINGS/CALENDAR/specials/desc"></p>
    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
    {{showSpecials ? 'SETTINGS/CALENDAR/specials-show/tooltip' : 'SETTINGS/CALENDAR/specials-hide/tooltip'|translate}}</p>
@@ -48,12 +48,12 @@
   <hr class="setting-divider">
 
   <h2>
-    <span uib-tooltip="{{showDownloaded ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+    <span uib-tooltip="{{showDownloaded ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{showDownloaded ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/CALENDAR/downloaded/hdr"></li>
   </h2>
-  
+
   <p translate-once="SETTINGS/CALENDAR/downloaded/desc"></p>
 
    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
@@ -65,12 +65,12 @@
   <hr class="setting-divider">
 
   <h2>
-    <span uib-tooltip="{{showEpisodeNumbers ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+    <span uib-tooltip="{{showEpisodeNumbers ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{showEpisodeNumbers ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/CALENDAR/show-episode-numbers/hdr"></li>
   </h2>
-  
+
   <p translate-once="SETTINGS/CALENDAR/show-episode-numbers/desc"></p>
 
    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>

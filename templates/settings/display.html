@@ -1,7 +1,7 @@
 <div ng-controller="DisplayCtrl" class="buttons">
   <div ng-show="hasTopSites">
     <h2>
-      <span uib-tooltip="{{topSites ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+      <span uib-tooltip="{{topSites ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
         <i class="glyphicon glyphicon-{{topSites ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
       <li translate-once="SETTINGS/DISPLAY/topsites/hdr"></li>
@@ -16,7 +16,7 @@
       <hr class="setting-divider">
 
       <h2>
-        <span uib-tooltip="{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-hover/tooltip' : 'SETTINGS/DISPLAY/topsites-mode-click/tooltip'|translate}}">
+        <span uib-tooltip="{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-hover/tooltip' : 'SETTINGS/DISPLAY/topsites-mode-click/tooltip'|translate}}" tooltip-placement="left">
           <i class="glyphicon glyphicon-{{topSitesMode == 'onhover' ? 'download-alt alert-info' : 'screenshot alert-success'}}" ></i>
         </span>
         <li translate-once="SETTINGS/DISPLAY/topsites-activation/hdr"></li>
@@ -35,12 +35,12 @@
   <hr class="setting-divider">
 
   <h2>
-    <span uib-tooltip="{{showRatings ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+    <span uib-tooltip="{{showRatings ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{showRatings ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/DISPLAY/download-ratings/hdr"></li>
   </h2>
-  
+
   <p translate-once="SETTINGS/DISPLAY/download-ratings/desc"></p>
   <p><strong translate-once="COMMON/current-setting/hdr"></strong>
    {{showRatings ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
@@ -51,12 +51,12 @@
   <hr class="setting-divider">
 
   <h2>
-    <span uib-tooltip="{{notWatchedEpsBtn ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+    <span uib-tooltip="{{notWatchedEpsBtn ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{notWatchedEpsBtn ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/DISPLAY/notWatchedEpsBtn/hdr"></li>
   </h2>
-  
+
   <p translate-once="SETTINGS/DISPLAY/notWatchedEpsBtn/desc"></p>
   <p><strong translate-once="COMMON/current-setting/hdr"></strong>
    {{notWatchedEpsBtn ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
@@ -67,12 +67,12 @@
   <hr class="setting-divider">
 
   <h2>
-    <span uib-tooltip="{{sgEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+    <span uib-tooltip="{{sgEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{sgEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/DISPLAY/transitions/hdr"></li>
   </h2>
-  
+
   <p translate-once="SETTINGS/DISPLAY/transitions/desc"></p>
   <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
    {{sgEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
@@ -96,7 +96,7 @@
   <br>
     <hr class="setting-divider">
     <h2>
-      <span tooltip="{{getSetting('kc.always') ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+      <span uib-tooltip="{{getSetting('kc.always') ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
         <i class="glyphicon glyphicon-{{getSetting('kc.always') ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
       <li translate-once="SETTINGS/DISPLAY/cheatmode/hdr"></li>

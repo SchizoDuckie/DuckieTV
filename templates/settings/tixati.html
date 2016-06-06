@@ -5,7 +5,7 @@
 
   <p><a href='https://github.com/SchizoDuckie/DuckieTV/wiki/Setting-up-Tixati-2.16-with-DuckieTV-1.2.0' target='_blank' translate-once="COMMON/set-up-instructions/lbl"></a></p>
 
-	<p  ng-if="tixati.isConnected()"><span translate-once="COMMON/status/hdr"></span>:
+	<p ng-if="tixati.isConnected()"><span translate-once="COMMON/status/hdr"></span>:
 	<span translate-once="COMMON/connected/lbl"></span> Tixati API &#64; {{tixati.model.server}}:{{tixati.model.port}}
 	</p>
 
@@ -19,5 +19,5 @@
         <button type="submit" class="btn btn-primary submit-button" translate-once="COMMON/test-save/btn"></button>
       </formly-form>
     </form>
-  </hide-demo>	
+  </hide-demo>
 </div>

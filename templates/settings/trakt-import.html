@@ -33,7 +33,7 @@
                 <i class="glyphicon glyphicon-log-in" style="float:left;top:3px"></i><span translate-once="SETTINGS/TRAKT-IMPORT/login-to/btn"></span><span>Trakt.TV</span>
                 <loading-spinner ng-show="credentials.authorizing" style="width:20px;height:20px;position:absolute;right:5px"></loading-spinner>
               </a>
-              
+
               <a ng-click="clearCredentials()" ng-if="credentials.success" class="btn btn-danger">
                 <i class="glyphicon glyphicon-trash" style="float:left;top:3px"></i><span translate-once="SETTINGS/TRAKT-IMPORT/clear-credentials/btn"></span>
               </a></center>
@@ -45,7 +45,7 @@
         </table>
       </form>
       <p class="alert alert-success" role="alert" ng-show="credentials.success" style="margin-top:5px;white-space:normal;word-break:break-all;">
-        <strong>TraktTV <span translate-once="SETTINGS/TRAKT-IMPORT/authorized/alert"></span></strong> 
+        <strong>TraktTV <span translate-once="SETTINGS/TRAKT-IMPORT/authorized/alert"></span></strong>
         Token: {{credentials.success}}
       </p>
       <p class="alert alert-danger" role="alert" ng-show="credentials.error != false" style="margin-top:5px;white-space:normal">{{credentials.error}}</p>
@@ -56,7 +56,7 @@
     <div class="toggleWatchSync">
       <hr class="setting-divider">
       <h2>
-        <span uib-tooltip="{{traktSync ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+        <span uib-tooltip="{{traktSync ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
           <i class="glyphicon glyphicon-{{traktSync ? 'ok alert-success' : 'remove alert-danger'}}" style="font-size:22px;background-color:transparent"></i>
         </span>
         <li translate-once="SETTINGS/TRAKT-IMPORT/watched-sync/hdr"></li>
@@ -73,7 +73,7 @@
 
     <h2 translate-once="SETTINGS/TRAKT-IMPORT/hdr"></h2>
     <p translate-once="SETTINGS/TRAKT-IMPORT/desc"></p>
-    
+
     <a ng-click="readTraktTV()" class="btn btn-info">
       <i class="glyphicon glyphicon-import" style="float:left;top:3px"></i> <span translate-once="SETTINGS/TRAKT-IMPORT/sync-import/btn"></span>
     </a>
@@ -83,7 +83,7 @@
 
       <h2 translate-once="SETTINGS/TRAKT-IMPORT/push/hdr"></h2>
       <p translate-once="SETTINGS/TRAKT-IMPORT/push/desc"></p>
-      
+
       <a ng-click="pushToTraktTV()" class="btn btn-info">
         <i class="glyphicon glyphicon-export" style="float:left;top:3px"></i> <span translate-once="SETTINGS/TRAKT-IMPORT/push/btn"></span>
       </a>

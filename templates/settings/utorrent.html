@@ -1,21 +1,21 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
   <h2>&micro;Torrent <h2cont translate-once="COMMON/integration/hdr"></h2cont></h2>
-  
+
   <p ng-show="isuTorrentAuthenticated()">
     <span translate-once="SETTINGS/UTORRENT/is-authenticated/desc"></span> <em>{{getToken()}}.</em><br />
     <span translate-once="SETTINGS/UTORRENT/is-authenticated/desc2"></span>
   </p>
   <p ng-show="!isuTorrentAuthenticated()"><span translate-once="SETTINGS/UTORRENT/is-not-authenticated/desc"></span></p>
-  
+
   <a class='btn btn-small btn-warning' ng-if="isuTorrentAuthenticated()" ng-click='removeToken()'><i class="glyphicon glyphicon-ban-circle"></i> <span translate-once="SETTINGS/UTORRENT/clear-authority/btn"></span></a>
   <hide-demo>
     <a class='btn btn-small btn-success' ng-if="!isuTorrentAuthenticated()" ng-click='connect()'><i class="glyphicon glyphicon-refresh"></i> <span translate-once="SETTINGS/UTORRENT/connect-to-utorrent/btn"></span></a>
   </hide-demo>
 
   <hr class="setting-divider">
-  
+
   <h2>
-    <span uib-tooltip="{{streamingEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+    <span uib-tooltip="{{streamingEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{streamingEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/UTORRENT/streaming/hdr"></li>
@@ -27,16 +27,16 @@
   <a ng-click="toggleStreaming()" class="btn btn-{{streamingEnabled ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{streamingEnabled ? 'ban-circle' : 'film'}}"></i> {{streamingEnabled ? 'SETTINGS/UTORRENT/streaming-disabled/btn' : 'SETTINGS/UTORRENT/streaming-enabled/btn'|translate}}
   </a>
-   
+
   <hr class="setting-divider">
 
   <h2>
-    <span uib-tooltip="{{directoryEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}">
+    <span uib-tooltip="{{directoryEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{directoryEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once="SETTINGS/UTORRENT/directory/hdr"></li>
   </h2>
- 
+
   <p>{{directoryEnabled ? 'SETTINGS/UTORRENT/directory-folder-hide/desc' : 'SETTINGS/UTORRENT/directory-folder-show/desc'|translate}}</p>
   <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
    {{directoryEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>

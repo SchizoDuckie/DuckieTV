@@ -340,7 +340,7 @@ background-rotator .placeholder {
 
 .settings .buttons .btn.choose-client {
   cursor: pointer;
-  padding: 5px;
+  padding: 4px;
   text-align: left;
   line-height: 37px;
   vertical-align: super;
@@ -1874,7 +1874,7 @@ sidepanel .buttons strong {
 
 sidepanel .buttons a {
   display: block;
-  padding: 15px;
+  padding: 14px;
   margin: 5px 15px;
   border: 1px solid #fff;
   border-radius: 9px;
@@ -2524,13 +2524,17 @@ sidepanel .seasons serieheader {
   transition: padding 0.2s ease-in;
 }
 
-.settings .windowCtrl .checkbox {
-  margin: 13px 0;
+.settings .checkbox {
+  margin: 12px 0;
   padding-left: 2px;
 }
 
-.settings .windowCtrl .checkbox input[type=checkbox] {
+.settings .checkbox input[type=checkbox] {
   margin-top: 1px;
+}
+
+.settings .checkbox label {
+  padding-left: 30px;
 }
 
 .smallsettingicon {
