@@ -221,7 +221,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
 
         $scope.connect = function() {
             localStorage.removeItem('utorrent.preventconnecting');
-            DuckieTorrent.getClient().AutoConnect();
+            $injector.get('DuckietvReload').windowLocationReload();
         };
 
         $scope.getTorrentClients = function() {
