@@ -8,7 +8,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
         var activeSearchRequest = false,
             activeTrendingRequest = false;
 
-        var endpoint = 'https://new.showrss.info/';
+        var endpoint = 'https://showrss.info/';
 
         var endpoints = {
             list: 'browse',
@@ -48,7 +48,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                         size: 'n/a',
                         seeders: 'n/a',
                         leechers: 'n/a',
-                        detailUrl: doc.querySelector("a[href^='https://new.showrss.info/browse/']").href
+                        detailUrl: doc.querySelector("a[href^='" + endpoint + "browse/']").href
                     };
 
                     var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
