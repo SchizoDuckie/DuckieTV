@@ -52,11 +52,11 @@ var DuckieTV = angular.module('DuckieTV', [
         windowLocationReload: function() {
             if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
                 // reload for standalones
-                console.debug('DuckietvReload for standalone');
+                //console.debug('DuckietvReload for standalone');
                 require('nw.gui').Window.get().emit('locationreload');
             } else {
                 // reload for non-standalone
-                console.debug('DuckietvReload for non-standalone');
+                //console.debug('DuckietvReload for non-standalone');
                 window.location.reload();
             }
         }
@@ -157,16 +157,9 @@ var DuckieTV = angular.module('DuckieTV', [
     var today = new Date();
     var tommorow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
     var timeToMidnight = (tommorow - today) + 1000; // a second after midnight
-    console.debug('time to midnight is %s ms',timeToMidnight);
-    if (localStorage.getItem('optin_error_reporting')) {
-        timeToMidnight = 1000 * 30; // 30 seconds after midnight
-        console.debug('test mode enabled, reset due in %s ms',timeToMidnight);
-    };
     var timer = setTimeout(function() {
-        console.debug('its a second after midnight, time to reload');
         $injector.get('DuckietvReload').windowLocationReload();
     }, timeToMidnight);
-    console.debug('timer =',timer);
 }])
 
 .run(["$rootScope", "$state", function($rootScope, $state) {
@@ -202,9 +195,7 @@ var DuckieTV = angular.module('DuckieTV', [
          * creates timer to schedule an autoBackup
          */
         var scheduleAutoBackup = function() {
-            console.debug('sheduleautobackup',timeToNextBackup);
             setTimeout(function() {
-                console.debug('sheduleautobackup settimeout',timeToNextBackup);
                 // wait for FavoritesService to be available
                 if (FavoritesService.initialized == true) {
                     // only do the backup if there are shows in favorites.
@@ -259,7 +250,6 @@ var DuckieTV = angular.module('DuckieTV', [
         }
         // schedule the timer for the next backup
         var timeToNextBackup = (nextBackupDT - localDT);
-        console.debug('time to next backup is %s ms',timeToNextBackup);
         if (timeToNextBackup > 0) {
             console.info('The next autoBackup is scheduled for', new Date(parseInt(nextBackupDT)));
         } else {
