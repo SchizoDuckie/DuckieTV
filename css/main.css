@@ -428,6 +428,79 @@ button span, .dropdown-menu span, .dropdown-menu input {
   cursor: pointer;
 }
 
+input[type=text], input[type=url], input[type=password], input[type=number], option, select, select.form-control {
+  border: 1px solid #333;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 17px;
+  height: 40px;
+  color: white;
+  font-style: italic;
+  border-radius: 5px;
+  font-family: helvetica, sans-serif;
+  text-shadow: 2px 2px 2px black;
+  transition: all 0.5s ease-in-out;
+  padding-left: 5px;
+}
+
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 5px;
+}
+
+input::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-style: italic;
+  font-family: helvetica, sans-serif;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+}
+
+input:disabled {
+  background-color: rgba(0, 0, 0, 0.8 !important);
+  border-color: rgba(255, 0, 0, 0.1) !important;
+}
+
+option {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+}
+
+.form-control:focus {
+  border-color: #222;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(2, 2, 2, .6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(2, 2, 2, .6);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+input[type=checkbox], input[type=radio] {
+  -webkit-filter: invert(1);
+}
+
+.checkbox {
+  margin: 12px 0;
+  padding-left: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox input[type=checkbox] {
+  margin-top: 1px;
+  margin-left: 5px;
+  margin-right: 10px;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.checkbox label {
+  padding-left: 33px;
+  cursor: pointer;
+}
+
+.checkbox label span {
+  cursor: pointer;
+}
+
 serieheader[mode='search'] {
   display: block;
   width: calc(33% - 2px);
@@ -914,7 +987,7 @@ series-list .trakt-import .toggleWatchSync, series-list .trakt-import .pushToTra
 }
 
 .modal-content table.torrents tr:hover {
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.55)
 }
 
 .modal-content table.torrents tr:hover td {
@@ -1199,62 +1272,6 @@ body.kc sidepanel .kc {
   overflow: hidden;
   top: 0;
   z-index: -1;
-}
-
-input[type=text], input[type=url], input[type=password], input[type=number], option, select, select.form-control {
-  border: 1px solid #333;
-  background-color: rgba(0, 0, 0, 0.2);
-  font-size: 17px;
-  height: 40px;
-  color: white;
-  font-style: italic;
-  border-radius: 5px;
-  font-family: helvetica, sans-serif;
-  text-shadow: 2px 2px 2px black;
-  transition: all 0.5s ease-in-out;
-  padding-left: 5px;
-}
-
-input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 5px;
-}
-
-input::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.4) !important;
-  font-style: italic;
-  font-family: helvetica, sans-serif;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
-}
-
-input[type=checkbox].big, .checkbox input[type=checkbox] {
-  margin-left: 5px;
-  margin-right: 10px;
-  margin-top: 10px;
-  height: 20px;
-  width: 20px;
-}
-
-input[type=checkbox], input[type=radio] {
-  -webkit-filter: invert(1);
-}
-
-input:disabled {
-  background-color: rgba(0, 0, 0, 0.8 !important);
-  border-color: rgba(255, 0, 0, 0.1) !important;
-}
-
-option {
-  background-color: rgba(0, 0, 0, 0.8) !important;
-  color: white !important;
-}
-
-.form-control:focus {
-  border-color: #222;
-  outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(2, 2, 2, .6);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(2, 2, 2, .6);
-  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .serie table.table tr:hover {
@@ -2520,19 +2537,6 @@ sidepanel .seasons serieheader {
   margin-top: 5px;
   margin-bottom: 0;
   transition: padding 0.2s ease-in;
-}
-
-.settings .checkbox {
-  margin: 12px 0;
-  padding-left: 2px;
-}
-
-.settings .checkbox input[type=checkbox] {
-  margin-top: 1px;
-}
-
-.settings .checkbox label {
-  padding-left: 30px;
 }
 
 .smallsettingicon {
