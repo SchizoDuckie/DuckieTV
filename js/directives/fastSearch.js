@@ -48,7 +48,6 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         return {
             restrict: 'E',
             link: function() {
-                var self = this;
                 //console.debug("fastsearch initialized");
                 $window.addEventListener('keydown', function(e) {
                     // parse key codes, trap kk sequence
