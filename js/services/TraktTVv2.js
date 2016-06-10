@@ -1,4 +1,4 @@
-/** 
+/**
  * Trakt TV V2 API interfacing.
  * Throughout the app the API from Trakt.TV is used to fetch content about shows and optionally the user's data
  *
@@ -22,7 +22,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             seasons: 'shows/%s/seasons?extended=full,images',
             episodes: 'shows/%s/seasons/%s/episodes?extended=full,images',
             search: 'search?type=show&extended=full,images&query=%s&limit=50',
-            trending: 'shows/trending?extended=full,images&limit=500',
+            trending: 'shows/trending?extended=full,images&limit=350',
             tvdb_id: 'search?id_type=tvdb&id=%s',
             login: 'auth/login',
             updated: 'shows/updates/%s?limit=10000',
@@ -37,7 +37,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
         };
 
         var parsers = {
-            /** 
+            /**
              * When the series lists are fetched, put the poster / banner / fanart properties on the main
              * object instead of inside data.images. This makes sure that the API between the CRUD entity and the
              * incoming data is the same.
@@ -136,7 +136,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             'watched', 'userShows', 'config'
         ];
 
-        /** 
+        /**
          * Get one of the urls from the endpoint and replace the parameters in it when provided.
          */
         var getUrl = function(type, param, param2) {
@@ -144,7 +144,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             return (param2 !== undefined) ? out.replace('%s', encodeURIComponent(param2)) : out;
         };
 
-        /** 
+        /**
          * If a customized parser is available for the data, run it through that.
          */
         var getParser = function(type) {
@@ -160,7 +160,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             throw err;
         };
 
-        /** 
+        /**
          * Promise requests with batchmode toggle to auto-kill a previous request when running.
          * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple
          * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
@@ -189,7 +189,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     service.renewToken();
                     // restart request and return original promise
                     return service.promiseRequest(type, param, param2, promise);
-                };
+                }
                 if (err.status !== 0) { // only if this is not a cancelled request, rethrow
                     console.error("Trakt tv error!", err);
                     throw "Error " + err.status + ":" + err.statusText;
@@ -289,7 +289,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
             getPinUrl: function() {
                 return pinUrl;
             },
-            /** 
+            /**
              * Exchange code for access token.
              * http://docs.trakt.apiary.io/#reference/authentication-oauth/get-token/exchange-code-for-access_token
              */
@@ -314,7 +314,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     throw error;
                 });
             },
-            /** 
+            /**
              * Exchange refresh_token for access token.
              * http://docs.trakt.apiary.io/#reference/authentication-oauth/get-token/exchange-refresh_token-for-access_token
              */
@@ -340,14 +340,14 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     throw error;
                 });
             },
-            /** 
+            /**
              * Returns recently updated shows.
              * http://docs.trakt.apiary.io/#reference/shows/updates/get-recently-updated-shows
              */
             updated: function(since) {
                 return promiseRequest('updated', since);
             },
-            /** 
+            /**
              * Returns all shows a user has watched.
              * http://docs.trakt.apiary.io/#reference/sync/get-watched/get-watched
              */
@@ -357,7 +357,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     return result;
                 });
             },
-            /** 
+            /**
              * Mark an episode as watched.
              * http://docs.trakt.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
              */
@@ -381,7 +381,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     //console.debug("Episode watched:", serie, episode);
                 });
             },
-            /** 
+            /**
              * Batch mark episodes as watched.
              * http://docs.trakt.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
              */
@@ -392,7 +392,8 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                         'watched_at': new Date(episode.watchedAt).toISOString(),
                         'ids': {
                             trakt: episode.TRAKT_ID
-                    }});
+                        }
+                    });
                 });
                 $http.post(getUrl('episodeSeen'), {
                     episodes: episodesArray
@@ -408,7 +409,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     console.debug("trakt.TV episodes marked as watched:", episodes, result);
                 });
             },
-            /** 
+            /**
              * Mark an episode as not watched.
              * http://docs.trakt.apiary.io/#reference/sync/remove-from-history/remove-items-from-history
              */
@@ -437,7 +438,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     //console.debug("Episode un-watched:", serie, episode);
                 });
             },
-            /** 
+            /**
              * Returns all shows in a users collection.
              * http://docs.trakt.apiary.io/#reference/sync/get-collection/get-collection
              */
@@ -448,7 +449,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     return result;
                 });
             },
-            /** 
+            /**
              * add all shows to a users collection.
              * http://docs.trakt.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
              */
@@ -471,7 +472,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                     console.info("Show added to collection:", serieID);
                 });
             },
-            /** 
+            /**
              * removes all shows from a users collection.
              * http://docs.trakt.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
              */
