@@ -21,15 +21,52 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "SettingsService",
             giLbl = $filter('translate')('COMMON/global-include/hdr'), // Global Includes List
             geLbl = $filter('translate')('COMMON/global-exclude/hdr'), // Global Excludes List
             dayLbl = ($scope.period === 1) ? timePlurals[0].replace(',','') : timePlurals[1].replace(',','');
+            $scope.onMagnet = [];
 
         $scope.isActive = function() {
             return $scope.status == activeLbl;
         };
+        
+        var getActivity = function() {
+            $scope.activityList = AutoDownloadService.activityList;
+            $scope.lastRun = SettingsService.get('autodownload.lastrun');
+            if ($scope.isActive()) {
+                $scope.nextRun = $scope.lastRun + (1000 * 60 * 15);
+                $scope.fromDT = AutoDownloadService.fromDT;
+                $scope.toDT = AutoDownloadService.toDT;
+                /**
+                 * This watches for the magnet:select event that will be fired by the
+                 * TorrentSearchEngines when a user selects a magnet link for an episode from the autoDLstatus side panel.
+                 */
+                angular.forEach($scope.activityList, function(activity) { 
+                    if (activity.status > 3) { // only interested in not-found, filtered-out, seeders-min
+                        var tvdbid = activity.episode.TVDB_ID;
+                        var episodeid = activity.episode.ID_Episode;
+                        if ($scope.onMagnet.indexOf(tvdbid) == -1) { // don't set $on if we've already done it
+                            CRUD.FindOne('Episode', {'ID_Episode': episodeid}).then(function(episode) {
+                                if (!episode) {
+                                    console.warn('episode id=[%s] not found!',episodeid);
+                                } else {
+                                    $scope.$on('magnet:select:' + tvdbid, function(evt, magnet) {
+                                        episode.magnetHash = magnet;
+                                        episode.downloaded = 0;
+                                        episode.Persist();
+                                    });
+                                    $scope.onMagnet.push(tvdbid);
+                                }
+                            });
+                        }
+                    }
+                })
+                } else {
+                $scope.nextRun = 'n/a';
+                $scope.fromDT = 'n/a';
+                $scope.toDT = 'n/a';
+            };
+       };
 
-        // set up scope data
-        $scope.activityList = AutoDownloadService.activityList;
+        // set up static scope data
         $scope.status = (AutoDownloadService.checkTimeout == null) ? inactiveLbl : activeLbl;
-        $scope.lastRun = SettingsService.get('autodownload.lastrun');
         $scope.globalInclude = SettingsService.get('torrenting.global_include');
         $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
         $scope.globalQuality = (SettingsService.get('torrenting.searchquality') == '') ? 'All' : SettingsService.get('torrenting.searchquality');
@@ -38,31 +75,13 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "SettingsService",
         $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min');
         $scope.period = $scope.period + ' ' + dayLbl;
         $scope.minSeeders = SettingsService.get('autodownload.minSeeders');
-        if ($scope.isActive()) {
-            $scope.nextRun = $scope.lastRun + (1000 * 60 * 15);
-            $scope.fromDT = AutoDownloadService.fromDT;
-            $scope.toDT = AutoDownloadService.toDT;
-        } else {
-            $scope.nextRun = 'n/a';
-            $scope.fromDT = 'n/a';
-            $scope.toDT = 'n/a';
-        };
+        getActivity();
 
+        // set up dynamic scope data
         $scope.$on('autodownload:activity', function(event) {
-            $scope.activityList = AutoDownloadService.activityList;
-            $scope.lastRun = SettingsService.get('autodownload.lastrun');
             var status = (DuckieTorrent.getClient().isConnected()) ? activeLbl : inactiveLbl;
-            status = (DuckieTorrent.getClient().isConnecting) ? activeLbl : status;
-            $scope.status = status;
-            if ($scope.isActive()) {
-                $scope.nextRun = $scope.lastRun + (1000 * 60 * 15);
-                $scope.fromDT = AutoDownloadService.fromDT;
-                $scope.toDT = AutoDownloadService.toDT;
-            } else {
-                $scope.nextRun = 'n/a';
-                $scope.fromDT = 'n/a';
-                $scope.toDT = 'n/a';
-            };
+            $scope.status = (DuckieTorrent.getClient().isConnecting) ? activeLbl : status;
+            getActivity();
         });
         
         $scope.getTooltip = function(item, state) {
