@@ -226,7 +226,7 @@ DuckieTV
                             var torrentHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
                             // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                             DuckieTorrent.getClient().AutoConnect().then(function() {
-                                TorrentSearchEngines.launchMagnet(url, serie.TVDB_ID, true);
+                                TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID);
                                 episode.magnetHash = torrentHash;
                                 episode.Persist();
                                 // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
