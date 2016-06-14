@@ -247,7 +247,9 @@ DuckieTV
         // Selects and launches magnet
         var magnetSelect = function(magnet) {
                 console.info("Magnet selected!", magnet);
-                $modalInstance.close(magnet);
+                if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
+                    $modalInstance.close(magnet);
+                };
 
                 var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
                 TorrentSearchEngines.launchMagnet(magnet, channel);
@@ -257,7 +259,9 @@ DuckieTV
 
             urlSelect = function(url, releasename) {
                 console.info("Torrent URL selected!", url);
-                $modalInstance.close(url);
+                if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
+                    $modalInstance.close(url);
+                };
 
                 var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
                 $injector.get('$http').get(url, {
