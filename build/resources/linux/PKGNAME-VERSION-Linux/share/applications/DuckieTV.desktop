@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=DuckieTV
+GenericName=DuckieTV
+Comment=The TV-show Tracker You've been waiting for
+Exec=/usr/bin/DuckieTV
+Terminal=false
+Icon=/usr/share/pixmaps/DuckieTV.xpm
+Type=Application
+Categories=Network;
+Version=PKGVERSION
+Name[en_US]=DuckieTV

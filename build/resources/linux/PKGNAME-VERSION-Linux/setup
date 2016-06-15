@@ -8,7 +8,7 @@ fi
 }
 
 greet () {
-	printf "\n\n\n\e[44m  \e[0m Hi, This will install \e[1;37mPKGNAME\e[0m on your computer.\n\n\n"
+	printf "\n\n\n\e[44m  \e[0m Hi, This will install \e[1;37mPKGNAME PKGVERSION\e[0m on your computer.\n\n\n"
 }
 
 remove_previous_version () {
@@ -61,14 +61,14 @@ install_app () {
           fi
         done
 
-		printf "\n\n\n\e[42m  \e[0m Congrats! You can now find \e[1;37mPKGNAME\e[0m in your menu.\n\n\n"
+		printf "\n\n\n\e[42m  \e[0m Congrats! You can now find \e[1;37mPKGNAME PKGVERSION\e[0m in your menu.\n\n\n"
 	fi
 }
 
 is_root;
 
 if [ "${1}" = "--uninstall" ]; then
-	/bin/rm -rf /opt/PKGNAME /usr/share/applications/PKGNAME.desktop usr/share/menu/PKGNAME /usr/bin/PKGNAME > /dev/null 2>&1
+	/bin/rm -rf /opt/PKGNAME /usr/share/applications/PKGNAME.desktop /usr/share/menu/PKGNAME /usr/bin/PKGNAME
 	printf '\n\n\n\e[44m  \e[0m Congrats! PKGNAME removed from your machine.\n\n\n'
 	exit 1
 fi

@@ -2,4 +2,4 @@
   section="Applications/Network" \
   title="PKGNAME" \
   command="/opt/PKGNAME/bin/PKGNAME" \
-  icon="/opt/PKGNAME/pixmaps/PKGNAME.xpm"
+  icon="/usr/share/pixmaps/DuckieTV.xpm"

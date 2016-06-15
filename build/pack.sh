@@ -125,6 +125,18 @@ pack_linux () {
         mv ${PKG_MK_DIR}/PKGNAME ${PKG_MK_DIR}/$(get_value_by_key name)
         mv ${PKG_MK_DIR}/$(get_value_by_key name)/PKGNAME ${PKG_MK_DIR}/$(get_value_by_key name)/$(get_value_by_key name)
         # replaces
+        chmod a+rw \
+            ${PKG_MK_DIR}/README \
+            ${PKG_MK_DIR}/share/applications/$(get_value_by_key name).desktop \
+            ${PKG_MK_DIR}/share/menu/$(get_value_by_key name); 
+        replace -v \
+            PKGNAME "$(get_value_by_key name)" \
+            PKGDESCRIPTION "$(get_value_by_key description)" \
+            PKGVERSION $(get_value_by_key version) \
+            -- ${PKG_MK_DIR}/setup \
+            ${PKG_MK_DIR}/README \
+            ${PKG_MK_DIR}/share/applications/$(get_value_by_key name).desktop \
+            ${PKG_MK_DIR}/share/menu/$(get_value_by_key name); 
         # app file
         cp ${BUILD_DIR}/TMP/WORK_DIR/linux-${arch}/latest-git/* ${PKG_MK_DIR}/$(get_value_by_key name)/
         # make the tar
