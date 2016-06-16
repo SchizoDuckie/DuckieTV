@@ -16,7 +16,7 @@
 <div ng-show="allowTDsortMenu && orderByList.length > 0" class="btn-group" uib-dropdown style="padding:5px 0px 0px 0px;vertical-align:top">
   <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle style="background-color:transparent;color:white;border-color: rgba(255,255,255,0.4)">
     <i class="glyphicon glyphicon-sort-by-attributes"></i>
-    <span translate-once="SERIESLIST/TOOLS/FAVORITES/orderby/glyph"></span>
+    <span translate-once="COMMON/orderby/glyph"></span>
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
@@ -29,7 +29,7 @@
 <div class="btn-group" style="padding:0px 5px 5px 0px;vertical-align:initial">
  <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
 </div>
-<a ng-click="showAdvanced = !showAdvanced" style="display:block;text-align:right"> <i class="glyphicon glyphicon-cog"></i> <span translate-once="Advanced Options"></span></a>
+<a ng-click="toggleShowAdvanced()" style="display:block;text-align:right"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
 <!-- global include/exclude and size min/max check boxes -->
 <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
   <div style="display: flex">

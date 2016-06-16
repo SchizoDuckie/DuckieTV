@@ -4,7 +4,6 @@ DuckieTV
     function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, TorrentHashListService) {
         //-- Variables --//
 
-        $scope.showAdvanced = false; // Show advanced torrent dialog filter options
         $scope.items = [];
         $scope.searching = true;
         $scope.error = false;
@@ -12,7 +11,8 @@ DuckieTV
         $scope.TVDB_ID = angular.copy(data.TVDB_ID);
         $scope.serie = angular.copy(data.serie);
         $scope.episode = angular.copy(data.episode);
-        $scope.allowTDsortMenu = SettingsService.get('torrentDialog.sortMenu.enabled');
+        $scope.allowTDsortMenu = SettingsService.get('torrentDialog.sortMenu.enabled'); // Show/Hide sort menu on torrent dialogue
+        $scope.showAdvanced = SettingsService.get('torrentDialog.showAdvanced.enabled'); // Show/Hide advanced torrent dialog filter options
         $scope.orderBy = 'seeders';
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
         $scope.searchquality = SettingsService.get('torrenting.searchquality');
@@ -243,6 +243,12 @@ DuckieTV
 
         $scope.cancel = function() {
             $modalInstance.dismiss('Canceled');
+        };
+
+        // Toggle advanced filter state
+        $scope.toggleShowAdvanced = function() {
+            $scope.showAdvanced = !$scope.showAdvanced;
+            SettingsService.set('torrentDialog.showAdvanced.enabled',$scope.showAdvanced);
         };
 
         // Selects and launches magnet
