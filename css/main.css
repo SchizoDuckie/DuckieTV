@@ -46,7 +46,7 @@ body.modal-open sidepanel, body.modal-open div[date-picker] {
   -webkit-filter: blur(1px);
 }
 
-body > .container {
+body> .container {
   width: calc(100% - 57px);
   padding: 20px 35px 10px 35px;
   float: right;
@@ -54,11 +54,11 @@ body > .container {
   transition: padding-top 0.2s ease-in, opacity 0.2s ease-in;
 }
 
-body > .container.topsites {
+body> .container.topsites {
   padding-top: 45px;
 }
 
-body > .container calendar {
+body> .container calendar {
   transform: translate3d(0, 0, 0);
   position: relative;
 }
@@ -164,7 +164,7 @@ background-rotator {
   opacity: 0.4;
 }
 
-background-rotator > div {
+background-rotator> div {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -178,7 +178,7 @@ background-rotator > div {
   transition: opacity 1s ease-in-out;
 }
 
-background-rotator > div.active {
+background-rotator> div.active {
   opacity: 1;
 }
 
@@ -477,7 +477,7 @@ input[type=checkbox], input[type=radio] {
 }
 
 .checkbox {
-  margin: 12px 0;
+  margin: 10px 0 !important;
   padding-left: 2px;
   display: flex;
   align-items: center;
@@ -511,7 +511,7 @@ serieheader[mode='search'] {
   margin-right: 2px;
 }
 
-.series serieheader[mode='search']:first-child > div {
+.series serieheader[mode='search']:first-child> div {
   border-radius: 0;
 }
 
@@ -799,7 +799,7 @@ series-list {
   transition: background-color 0.2s ease-in;
 }
 
-series-list > div {
+series-list> div {
   position: fixed;
   bottom: 0px;
   top: 0px;
@@ -816,7 +816,7 @@ body.serieslistActive {
   overflow-y: hidden;
 }
 
-.serieslistActive > .container {
+.serieslistActive> .container {
   opacity: 0;
 }
 
@@ -824,7 +824,7 @@ body.serieslistActive {
   background-color: rgb(20, 22, 24);
 }
 
-.serieslistActive series-list > div {
+.serieslistActive series-list> div {
   transform: translate3d(0, 0, 0);
 }
 
@@ -832,11 +832,11 @@ body.sidepanelActive {
   overflow-y: hidden;
 }
 
-.sidepanelActive series-list > div {
+.sidepanelActive series-list> div {
   width: calc(100% - 400px);
 }
 
-.sidepanelExpanded series-list > div {
+.sidepanelExpanded series-list> div {
   width: calc(100% - 800px);
 }
 
@@ -923,7 +923,7 @@ trakt-tv-search .series {
   margin-top: 35px;
 }
 
-trakt-tv-search > form {
+trakt-tv-search> form {
   padding: 20px;
 }
 
@@ -1348,7 +1348,7 @@ div [date-picker] {
   transform: scale(1.5) translateX(95px);
 }
 
-[date-picker].zoom td.day:hover > span {
+[date-picker].zoom td.day:hover> span {
   top: 0px;
   left: -30%;
   color: white;
@@ -1359,7 +1359,7 @@ div [date-picker] {
   min-height: 75px;
 }
 
-[date-picker].zoom td.day:hover > span em.dayofweek {
+[date-picker].zoom td.day:hover> span em.dayofweek {
   display: block;
 }
 
@@ -1393,7 +1393,7 @@ div [date-picker] {
   vertical-align: top;
 }
 
-[date-picker] td > span {
+[date-picker] td> span {
   font-size: 40px;
   display: block;
   color: rgba(255, 255, 2550, 0.2);
@@ -1409,7 +1409,7 @@ td.day {
   position: relative
 }
 
-[date-picker] td:not(.day) > span {
+[date-picker] td:not(.day)> span {
   border-right: 1px solid white;
   border-bottom: 1px solid white;
 }
@@ -1475,7 +1475,7 @@ td.day {
   cursor: default;
 }
 
-[date-picker] div[ng-switch-when=month] td > span, [date-picker] div[ng-switch-when=year] td > span {
+[date-picker] div[ng-switch-when=month] td> span, [date-picker] div[ng-switch-when=year] td> span {
   font-size: 40px;
   display: block;
   color: rgba(255, 255, 2550, 0.8);
@@ -1565,11 +1565,11 @@ td.day {
   display: block;
 }
 
-[date-picker] .event > a {
+[date-picker] .event> a {
   padding-left: 3px;
 }
 
-[date-picker] .event > a span {
+[date-picker] .event> a span {
   display: inline-block;
   line-height: 18px;
   cursor: pointer;
@@ -1879,7 +1879,7 @@ sidepanel a.btn.btn-success.binputhover {
   border-color: rgba(71, 164, 71, 1) !important;
 }
 
-sidepanel > div {
+sidepanel> div {
   position: fixed;
   top: 0;
   right: 0;
@@ -2108,7 +2108,7 @@ sidepanel .buttons .two-face-torrent .torrent-settings {
   margin: 0;
 }
 
-sidepanel .buttons .torrent-mini-remote-control > span {
+sidepanel .buttons .torrent-mini-remote-control> span {
   /* Replicate of the strong tag */
   font-size: 18px;
   letter-spacing: 1px;
@@ -2134,7 +2134,7 @@ sidepanel .buttons .torrent-mini-remote-control-progress {
   background-color: rgba(210, 210, 210, 0.4);
 }
 
-sidepanel .buttons .torrent-mini-remote-control-progress > span {
+sidepanel .buttons .torrent-mini-remote-control-progress> span {
   /* Somehow positions it in the center dont even know */
   position: absolute;
   left: 0px;
