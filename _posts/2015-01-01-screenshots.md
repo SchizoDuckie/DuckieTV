@@ -14,7 +14,7 @@ With the integrated DuckieTorrent client you can connect DuckieTV to your local 
 
 DuckieTV can even automatically start downloading shows that have aired.
 
-Translations are available in 14 languages (English, Deutch, Español, Français, Italiano, 日本, 한국어, Nederlands, Português, Русский, Română, Slovenščina, Svenska, 简体中文).
+Translations are available in 15 languages (English, Deutch, Español, Français, Italiano, 日本, 한국어, Nederlands, Norsk, Português, Русский, Română, Slovenščina, Svenska, 简体中文).
 
 <div class="screenshots">
   <a href="img/screenshots/full/calendar.jpg" data-featherlight="image">
@@ -49,7 +49,7 @@ Translations are available in 14 languages (English, Deutch, Español, Français
   </a>
   <a href="img/screenshots/full/settings.jpg" data-featherlight="image">
     <div class="imgcont">
-      <img src="img/screenshots/settings.png" alt="settings" data-caption="Control various settings to adjust DuckieTV to your needs, translated into your choice of 12 languages" />
+      <img src="img/screenshots/settings.png" alt="settings" data-caption="Control various settings to adjust DuckieTV to your needs, translated into your choice of 15 languages" />
     </div>
   </a>
   <a href="img/screenshots/full/torrentsettings.jpg" data-featherlight="image">
@@ -59,7 +59,7 @@ Translations are available in 14 languages (English, Deutch, Español, Français
   </a>
   <a href="img/screenshots/full/duckietorrent.jpg" data-featherlight="image">
     <div class="imgcont">
-      <img src="img/screenshots/duckietorrent.png" alt="duckietorrent" data-caption="DuckieTorrent Torrent clients built-in (&micro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission)" />
+      <img src="img/screenshots/duckietorrent.png" alt="duckietorrent" data-caption="DuckieTorrent Torrent clients built-in (Deluge, µTorrent/BitTorrent, qBittorrent, Tixati, Transmission and Vuze)" />
     </div>
   </a>
 </div>
