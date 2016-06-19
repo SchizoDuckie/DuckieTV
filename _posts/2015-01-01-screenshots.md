@@ -59,7 +59,7 @@ Translations are available in 15 languages (English, Deutch, Español, Français
   </a>
   <a href="img/screenshots/full/duckietorrent.jpg" data-featherlight="image">
     <div class="imgcont">
-      <img src="img/screenshots/duckietorrent.png" alt="duckietorrent" data-caption="DuckieTorrent Torrent clients built-in (Deluge, &macro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission and Vuze)" />
+      <img src="img/screenshots/duckietorrent.png" alt="duckietorrent" data-caption="DuckieTorrent Torrent clients built-in (Deluge, &micro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission and Vuze)" />
     </div>
   </a>
 </div>
