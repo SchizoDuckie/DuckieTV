@@ -11,7 +11,7 @@ permalink: / ## disables post output
 timezone: null
 lsi: false
 markdown: kramdown
-highlighter: pygments
+highlighter: rouge
 
 
 ### content configuration ###
