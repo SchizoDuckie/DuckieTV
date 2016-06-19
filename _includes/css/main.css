@@ -60,7 +60,7 @@ p, strong,  div {
 code, pre { font-family: Monaco, Menlo, Consolas, "Courier New", monospace; }
 
 /* spesifically inline code */
-code {
+code, pre {
   background: rgba(255,255,255,0.2);
   display: inline;
   word-wrap: break-word;
@@ -76,7 +76,7 @@ pre {
   word-wrap: break-word;
 }
 
-.highlighttable { margin:20px 5%; }
+.highlight { margin:20px 5%; }
 
 
 /* ----- base elements ----- */
