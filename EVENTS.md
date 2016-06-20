@@ -61,13 +61,13 @@ Event Descriptions (as at v1.1.4)
 
     Used to signal that a page reload is required, giving standalone the change to perform some house keeping.
 
- -  **restoredtv**
-
-    Used internally by systray logic to signal that the hidden shound now be seen.
-
  -  **magnet:select:{{TVDB_ID}}{{infohash}}**
 
     This event is fired by the AutoDownloadService and TorrentSearchEngines when a magnet uri is launched. It passes a torrent's unique 40 character hash so that it can be stored on the episode entity. The SidepanelEpisodeCtrl and SidepanelSeasonCtrl observe this event to handle persisting and triggering UI updates (like starting to watch if a TorrentClient is downloading this torrent by monitoring for torrent:update:{{infohash}})
+
+ -  **restoredtv**
+
+    Used internally by systray logic to signal that the hidden shound now be seen.
 
  -  **serie:recount:watched**
 
@@ -102,13 +102,13 @@ Event Descriptions (as at v1.1.4)
      When the SyncManager service is not already syncing, this make sure that local additions / deletions get stored in the cloud.
      *WIP Listener in place but Publisher yet to be created.*
 
- -  **torrentclient:connected:**
-
-    Used to indicate that the torrentClient has connected with it's host, so that dependant processes can start processing torrents. 
-
  -  **torrent:update:**{{infoHash}}
 
     Notify the TorrentClients that a torrent's data has been updated. Used Internally.
+
+ -  **torrentclient:connected**
+
+    Used to indicate that the torrentClient has connected with it's host, so that dependant processes can start processing torrents. 
 
  -  **tpbmirrorresolver:status**
 
