@@ -19,7 +19,7 @@ Event Descriptions (as at v1.1.4)
    This is an angular-route internal event that will fire when the $state has changed.
     Used to manage Sidepanel activity. 
 
--  **autodownload:activity**
+ -  **autodownload:activity**
 
     Tells the Auto-Download-Status monitor that the Auto-Download service has processed an episode's torrent search. 
 
