@@ -65,7 +65,7 @@ Event Descriptions (as at v1.1.4)
 
     Used internally by systray logic to signal that the hidden shound now be seen.
 
- -  **magnet:select:{{TVDB_ID}}**(infohash:string)
+ -  **magnet:select:{{TVDB_ID}}{{infohash}}**
 
     This event is fired by the AutoDownloadService and TorrentSearchEngines when a magnet uri is launched. It passes a torrent's unique 40 character hash so that it can be stored on the episode entity. The SidepanelEpisodeCtrl and SidepanelSeasonCtrl observe this event to handle persisting and triggering UI updates (like starting to watch if a TorrentClient is downloading this torrent by monitoring for torrent:update:{{infohash}})
 
@@ -89,7 +89,7 @@ Event Descriptions (as at v1.1.4)
 
     Notify that the calendar's date has changed. Fired by the calendar internals and observed by the CalendarEvents provider that fetches and serves the calendar events for the date range currently in view.
 
- -  **standalone.{{menuItem}}**(adlstatus|calendar|favorites|settings|about)
+ -  **standalone:{{menuItem}}**(adlstatus|calendar|favorites|settings|about)
 
    Used by standalone to signal the usage of a systray menu item so it can be actioned.
 
@@ -250,7 +250,7 @@ Listeners
         tpbmirrorresolverstatus [label="tpbmirrorresolver:status", shape=box,fillcolor="white",style="filled"];
 
       SidepanelEpisodeCtrl [ label="SidepanelEpisodeCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}", shape=box,fillcolor="white",style="filled"];
+        magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}{{infoHash}}", shape=box,fillcolor="white",style="filled"];
 
       SidepanelSeasonCtrl [ label="SidepanelSeasonCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
 
@@ -259,7 +259,7 @@ Listeners
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
 
       TorrentRemoteControl [label="TorrentRemoteControl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        torrentclientconnected [label="torrentclient:connected:notwatched", shape=box,fillcolor="white",style="filled"];
+        torrentclientconnected [label="torrentclient:connected", shape=box,fillcolor="white",style="filled"];
 
       TraktTVv2 [label="TraktTVv2.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         episodemarkednotwatched [label="episode:marked:notwatched", shape=box,fillcolor="white",style="filled"];
@@ -432,7 +432,7 @@ Publishers
         tpbmirrorresolverstatus [label="tpbmirrorresolver:status", shape=box,fillcolor="white",style="filled"];
 
       TorrentSearchEngines [label="TorrentSearchEngines.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}", shape=box,fillcolor="white",style="filled"];
+        magnetselectTVDBID [label="magnet:select:{{TVDB_ID}} {{infoHash}}", shape=box,fillcolor="white",style="filled"];
 
       TraktTVCtrl [label="TraktTVCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         seriesrecountwatched [label="series:recount:watched", shape=box,fillcolor="white",style="filled"];
