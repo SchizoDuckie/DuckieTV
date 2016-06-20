@@ -129,11 +129,11 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](http://i.imgur.com/h92tjgo.png)
+![listeners](http://i.imgur.com/KAZ3DPu.png)
 
 Event Publishers:
 ------------------
-![publishers](http://i.imgur.com/TIk0xr9.png)
+![publishers](http://i.imgur.com/osUjEoR.png)
 
 Listeners
 -------------
@@ -432,7 +432,7 @@ Publishers
         tpbmirrorresolverstatus [label="tpbmirrorresolver:status", shape=box,fillcolor="white",style="filled"];
 
       TorrentSearchEngines [label="TorrentSearchEngines.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        magnetselectTVDBID [label="magnet:select:{{TVDB_ID}} {{infoHash}}", shape=box,fillcolor="white",style="filled"];
+        magnetselectTVDBID [label="magnet:select:{{TVDB_ID}}{{infoHash}}", shape=box,fillcolor="white",style="filled"];
 
       TraktTVCtrl [label="TraktTVCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         seriesrecountwatched [label="series:recount:watched", shape=box,fillcolor="white",style="filled"];
