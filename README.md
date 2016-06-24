@@ -44,31 +44,37 @@ Try DuckieTV online
 Screenshots:
 ============
 **Your main screen is a beautiful calendar with backgrounds tailored to the shows you are watching**
-!['New Tab' mode](http://i.imgur.com/UcGOXul.png)
+![Standalone](http://i.imgur.com/qi6yqA3.png)
 
 **Add your favorite shows by selecting them off TraktTV's Trending Shows list, or search manually**
-![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/dybdlli.png)
+![Add new shows with ease, pick from Trak.TV's trending shows](http://i.imgur.com/ihdiKi8.png)
 
 **Navigate to any of your shows easily by opening your "favorites" panel**
-!['favorites'](http://i.imgur.com/S7eEHVP.png)
+!['favorites'](http://i.imgur.com/ZVu1yXh.png)
 
 **View series, season and episode details about your shows**
-![View details](http://i.imgur.com/s1HM8aE.png)
+![View details](http://i.imgur.com/MyzKgXp.png)
 
 **Track and mark which shows you have downloaded, and which ones you have watched.**
-![Mark episodes as downloaded and watched](http://i.imgur.com/nygb2WR.png)
+![Mark episodes as downloaded and watched](http://i.imgur.com/rM9fO3c.png)
 
-**Control various settings to adjust DuckieTV to your needs, translated into your choice of 14 languages**
-![Settings](http://i.imgur.com/uO2YGg8.png)
+**Control various settings to adjust DuckieTV to your needs, translated into your choice of 15 languages**
+![Settings](http://i.imgur.com/wuooBSS.png)
 
 **You can either completely turn off Torrent integration or tune it to your preference**
-![Torrent Settings](http://i.imgur.com/drsspLa.png)
+![Torrent Settings](http://i.imgur.com/uQRjBWp.png)
 
 **Instant access to Torrent Client features from the calendar**
-![Stream with uTorrent player](http://i.imgur.com/DWd6MXL.png)
+![Stream with uTorrent player](http://i.imgur.com/cGuQ6LU.png)
 
 **DuckieTorrent Torrent clients built-in (&micro;Torrent/BitTorrent, Deluge, qBittorrent, Tixati, Transmission, Vuze)**
-![DuckieTorrent Torrent integration](http://i.imgur.com/U2I4VOA.png)
+![DuckieTorrent Torrent integration](http://i.imgur.com/6bXbxHk.png)
+
+**Instant access to QuickSearch, just start typing**
+![Quicksearch](http://i.imgur.com/8fU3Kc4.png)
+
+**Keep an eye on the Auto-Download Service with the Monitor**
+![AutoDownload Monitor](http://i.imgur.com/7Ultu5W.png)
 
 
 Changelog: 
