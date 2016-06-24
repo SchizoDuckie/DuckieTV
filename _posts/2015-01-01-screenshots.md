@@ -34,7 +34,7 @@ Translations are available in 15 languages (English, Deutch, Español, Français
   </a>
   <a href="img/screenshots/full/library.jpg" data-featherlight="image">
     <div class="imgcont">
-      <img src="img/screenshots/library.png" alt="library" data-caption='Navigate to any of your shows easily by opening your "local library" panel' />
+      <img src="img/screenshots/library.png" alt="library" data-caption='Navigate to any of your shows easily by opening your favorites panel' />
     </div>
   </a>
   <a href="img/screenshots/full/details.jpg" data-featherlight="image">
@@ -60,6 +60,16 @@ Translations are available in 15 languages (English, Deutch, Español, Français
   <a href="img/screenshots/full/duckietorrent.jpg" data-featherlight="image">
     <div class="imgcont">
       <img src="img/screenshots/duckietorrent.png" alt="duckietorrent" data-caption="DuckieTorrent Torrent clients built-in (Deluge, &micro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission and Vuze)" />
+    </div>
+  </a>
+  <a href="img/screenshots/full/quicksearch.jpg" data-featherlight="image">
+    <div class="imgcont">
+      <img src="img/screenshots/quicksearch.png" alt="duckietorrent" data-caption="Instant access to a QuickSearch panel, just start typing your query" />
+    </div>
+  </a>
+  <a href="img/screenshots/full/monitor.jpg" data-featherlight="image">
+    <div class="imgcont">
+      <img src="img/screenshots/monitor.png" alt="duckietorrent" data-caption="Keep an eye on the Auto-Download Service progress from its monitor" />
     </div>
   </a>
 </div>
