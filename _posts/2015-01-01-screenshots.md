@@ -64,12 +64,12 @@ Translations are available in 15 languages (English, Deutch, Español, Français
   </a>
   <a href="img/screenshots/full/quicksearch.jpg" data-featherlight="image">
     <div class="imgcont">
-      <img src="img/screenshots/quicksearch.png" alt="duckietorrent" data-caption="Instant access to a QuickSearch panel, just start typing your query" />
+      <img src="img/screenshots/quicksearch.png" alt="quicksearch" data-caption="Instant access to a QuickSearch panel, just start typing your query" />
     </div>
   </a>
   <a href="img/screenshots/full/monitor.jpg" data-featherlight="image">
     <div class="imgcont">
-      <img src="img/screenshots/monitor.png" alt="duckietorrent" data-caption="Keep an eye on the Auto-Download Service progress from its monitor" />
+      <img src="img/screenshots/monitor.png" alt="monitor" data-caption="Keep an eye on the Auto-Download Service progress from its monitor" />
     </div>
   </a>
 </div>
