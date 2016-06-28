@@ -2,6 +2,7 @@
  * Deluge web client implementation
  *
  * API Docs:
+ * deluge support have updated their docs and the modules section is currently blank :-(
  * https://deluge.readthedocs.org/en/develop/modules/deluge.ui.web.html
  *
  * - Supports setting download directory
@@ -33,7 +34,7 @@ DelugeData.extends(TorrentData, {
         this.getClient().getAPI().execute('core.remove_torrent', [this.hash,false]);
     },
     isStarted: function() {
-        return ["Downloading", "Seeding", "Active"].indexOf(this.status) > -1;
+        return ["Downloading", "Seeding", "Active"].indexOf(this.state) > -1;
     },
     getFiles: function() {
         if (!this.files) {
@@ -97,7 +98,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
             },
             getTorrents: function() {
                 return this.rpc("web.update_ui", [
-                    ["id", "queue", "hash", "name", "total_wanted", "state", "status", "progress", "num_seeds", "total_seeds", "num_peers", "total_peers", "download_payload_rate", "upload_payload_rate", "eta", "ratio", "distributed_copies", "is_auto_managed", "time_added", "tracker_host", "save_path", "total_done", "total_uploaded", "max_download_speed", "max_upload_speed", "seeds_peers_ratio", "files_tree"], {}
+                    ["queue", "hash", "name", "total_wanted", "state", "progress", "num_seeds", "total_seeds", "num_peers", "total_peers", "download_payload_rate", "upload_payload_rate", "eta", "ratio", "distributed_copies", "is_auto_managed", "time_added", "tracker_host", "save_path", "total_done", "total_uploaded", "max_download_speed", "max_upload_speed", "seeds_peers_ratio"], {}
                 ]).then(function(data) {
                     var output = [];
                     Object.keys(data.result.torrents).map(function(hash) {
