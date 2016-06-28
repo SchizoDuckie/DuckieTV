@@ -16,17 +16,18 @@ DuckieTV
          * autostop all disabled? stop the torrent only if it was added by DuckieTV.
          */
         function autoStop(torrent) {
+            var torrenthash = ('hash' in torrent) ? torrent.hash.toUpperCase() : undefined;
             if (torrent.isStarted() && torrent.getProgress() === 100) {
                 // active torrent. do we stop it?
                 if (SettingsService.get('torrenting.autostop_all')) {
                     // all torrents  in the torrent-client are allowed to be stopped. Stopping torrent.
-                    console.info('Torrent finished. Auto-stopping', torrent.name || torrent.hash);
+                    console.info('Torrent finished. Auto-stopping', torrent.name || torrenthash);
                     torrent.stop();
                 } else {
                     // only torrents launched by DuckieTV in the torrent-client are allowed to be stopped                   
-                    if (TorrentHashListService.hasHash(torrent.hash)) {
+                    if (TorrentHashListService.hasHash(torrenthash)) {
                         // this torrent was launched by DuckieTV. Stopping torrent.
-                        console.info('Torrent finished. Auto-stopping', torrent.name || torrent.hash);
+                        console.info('Torrent finished. Auto-stopping', torrent.name || torrenthash);
                         torrent.stop();
                     }
                 }
@@ -39,11 +40,12 @@ DuckieTV
          * If not marked, updates the database and the torrenthashlist service so that this doesn't have to happen again
          */
         function isDownloaded(torrent) {
-            if (!TorrentHashListService.isDownloaded(torrent.hash) && torrent.getProgress() == 100) {
+            var torrenthash = ('hash' in torrent) ? torrent.hash.toUpperCase() : undefined;
+            if (!TorrentHashListService.isDownloaded(torrenthash) && torrent.getProgress() == 100) {
                 CRUD.FindOne('Episode', {
-                    magnetHash: torrent.hash
+                    magnetHash: torrenthash
                 }).then(function(episode) {
-                    TorrentHashListService.markDownloaded(torrent.hash);
+                    TorrentHashListService.markDownloaded(torrenthash);
                     if (!episode) return;
                     episode.markDownloaded().then(function(result) {
                         console.info("Episode marked as downloaded in database. ", episode.ID_Serie, episode.getFormattedEpisode());
