@@ -33,7 +33,7 @@ DuckieTV.factory('TorrentHashListService', [
                 return true;
             },
             /**
-             * used by the remove torrent feature, whenever it's implemented
+             * used by the remove torrent feature (uTorrent and BaseTorrentClient)
              */
             removeFromHashList: function(torrentHash) {
                 if (service.hasHash(torrentHash)) {

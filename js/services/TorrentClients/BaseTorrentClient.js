@@ -1,5 +1,5 @@
-DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
-    function($rootScope) {
+DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListService",
+    function($rootScope,TorrentHashListService) {
 
         function BaseTorrentRemote() {
             this.torrents = {};
@@ -67,18 +67,19 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope",
             var self = this;
             angular.forEach(self.torrents, function(torrent) {
                 if ('hash' in torrent) {
-                    if (activeTorrentsList.indexOf(torrent.hash.toUpperCase()) == -1) {
-                        var key = torrent.hash.toUpperCase();
-                        Episode.findOneByMagnetHash(torrent.hash.toUpperCase()).then(function(result) {
+                    var torrenthash = torrent.hash.toUpperCase();
+                    if (activeTorrentsList.indexOf(torrenthash) == -1) {
+                        Episode.findOneByMagnetHash(torrenthash).then(function(result) {
                             if (result) {
                                 console.info('remote torrent not found, removed magnetHash[%s] from episode[%s] of series[%s]', result.magnetHash, result.getFormattedEpisode(), result.ID_Serie);
                                 result.magnetHash = null;
                                 result.Persist();
                             }
                         });
-                        delete self.torrents[key].hash;
-                        $rootScope.$broadcast('torrent:update:' + key, self.torrents[key]);
-                        $rootScope.$broadcast('torrent:update:', self.torrents[key]);            
+                        TorrentHashListService.removeFromHashList(torrenthash);
+                        delete self.torrents[torrenthash].hash;
+                        $rootScope.$broadcast('torrent:update:' + torrenthash, self.torrents[torrenthash]);
+                        $rootScope.$broadcast('torrent:update:', self.torrents[torrenthash]);            
                     };
                 };
             });

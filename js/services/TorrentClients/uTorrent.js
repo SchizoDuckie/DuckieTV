@@ -523,8 +523,8 @@ DuckieTorrent
 /**
  * uTorrent/Bittorrent remote singleton that receives the incoming data
  */
-.factory('uTorrentRemote', ["$parse", "$rootScope", "RPCCallService",
-    function($parse, $rootScope, RPCCallService) {
+.factory('uTorrentRemote', ["$parse", "$rootScope", "RPCCallService", "TorrentHashListService",
+    function($parse, $rootScope, RPCCallService, TorrentHashListService) {
 
         /**
          * RPC Object that wraps the remote data that comes in from uTorrent.
@@ -681,6 +681,7 @@ DuckieTorrent
                         result.Persist();
                     }
                 });
+                TorrentHashListService.removeFromHashList(torrent[key].hash.toUpperCase());
                 delete service.torrents[torrent[key].hash].hash;
                 delete service.eventHandlers[torrent[key].hash];
             },

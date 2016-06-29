@@ -2,8 +2,8 @@ DuckieTV
 /**
  * Migrations that run when updating DuckieTV version.
  */
-.run(['FavoritesService', '$rootScope', 'SettingsService',
-    function(FavoritesService, $rootScope, SettingsService) {
+.run(['FavoritesService', '$rootScope', 'SettingsService', 'TorrentHashListService',
+    function(FavoritesService, $rootScope, SettingsService, TorrentHashListService) {
 
         // Update the newly introduced series' and seasons'  watched and notWatchedCount entities
 
@@ -44,6 +44,27 @@ DuckieTV
             };
             localStorage.setItem('1.1.4qBittorrentPre32', new Date());
             console.info("1.1.4qBittorrentPre32 done!");
+        }
+
+        // remove obsolete torrentHashes from TorrentHashListService.hashList
+
+        if (!localStorage.getItem('1.1.4TorrentHashListCleanup')) {
+            setTimeout(function() {
+                // collect known good torrent hashes
+                var newTorrentHashList = {};
+                CRUD.executeQuery("select magnetHash,downloaded from Episodes where magnetHash != ''").then(function(res) {
+                    while(r = res.next()) {
+                        newTorrentHashList[r.row.magnetHash] = (parseInt(r.row.downloaded) == 1);
+                    };
+                    // save new hashList
+                    localStorage.setItem(['torrenting.hashList'], JSON.stringify(newTorrentHashList));
+                    // reload TorrentHashListService.hashList
+                    TorrentHashListService.hashList = JSON.parse(localStorage.getItem(['torrenting.hashList'])) || {};
+                    localStorage.setItem('1.1.4TorrentHashListCleanup', new Date());
+                    console.info("1.1.4TorrentHashListCleanup done!");
+                });
+            }, 1000);
+            console.info("Executing 1.1.4TorrentHashListCleanup to remove obsolete torrentHashes from TorrentHashListService");
         }
     }
 ])
