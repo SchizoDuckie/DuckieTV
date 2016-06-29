@@ -61,7 +61,7 @@ qBittorrentData.extends(TorrentData, {
         });
     },
     isStarted: function() {
-        return this.status > 0;
+        return ["downloading", "uploading", "stalledDL", "stalledUP"].indexOf(this.state) > -1;
     }
 });
 
