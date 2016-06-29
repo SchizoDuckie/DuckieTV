@@ -2,8 +2,8 @@ DuckieTV
 /**
  * Migrations that run when updating DuckieTV version.
  */
-.run(['FavoritesService', '$rootScope',
-    function(FavoritesService, $rootScope) {
+.run(['FavoritesService', '$rootScope', 'SettingsService',
+    function(FavoritesService, $rootScope, SettingsService) {
 
         // Update the newly introduced series' and seasons'  watched and notWatchedCount entities
 
@@ -34,5 +34,16 @@ DuckieTV
             console.info("Executing the 1.1.4cleanupOrphanedSeasons to remove orphaned seasons");
         }
 
+        // Update qBittorrent to qBittorrent (pre3.2)
+
+        if (!localStorage.getItem('1.1.4qBittorrentPre32')) {
+            console.info("Executing 1.1.4qBittorrentPre32 to rename qBittorrent to qBittorrent (pre3.2)");
+            if ('qBittorrent' == localStorage.getItem('torrenting.client')) {
+                localStorage.setItem('torrenting.client', 'qBittorrent (pre3.2)');
+                SettingsService.set('torrenting.client', 'qBittorrent (pre3.2)');
+            };
+            localStorage.setItem('1.1.4qBittorrentPre32', new Date());
+            console.info("1.1.4qBittorrentPre32 done!");
+        }
     }
 ])

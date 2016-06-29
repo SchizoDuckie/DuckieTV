@@ -1,12 +1,12 @@
 <div class="buttons" ng-controller="qbtCtrl as qbt">
-	<h2>qBittorrent <h2cont translate-once="COMMON/integration/hdr"></h2cont></h2>
+	<h2>qBittorrent (pre3.2) <h2cont translate-once="COMMON/integration/hdr"></h2cont></h2>
 
 	<img src="img/torrentclients/qbittorrent-colored.png" style='width:200px; margin: 0 auto'>
 
   <p><a href='https://github.com/SchizoDuckie/DuckieTV/wiki/Setting-up-qBitTorrent-(pre-3.2)-with-DuckieTV-1.1.2' target='_blank' translate-once="COMMON/set-up-instructions/lbl"></a></p>
 
 	<p  ng-if="qbt.isConnected()"><span translate-once="COMMON/status/hdr"></span>:
-	<span translate-once="COMMON/connected/lbl"></span> qBittorrent API &#64; {{qbt.model.server}}:{{qbt.model.port}}
+	<span translate-once="COMMON/connected/lbl"></span> qBittorrent (pre3.2) API &#64; {{qbt.model.server}}:{{qbt.model.port}}
 	</p>
 
 	<p ng-if="!qbt.isConnected()"><span translate-once="COMMON/status/hdr"></span>:

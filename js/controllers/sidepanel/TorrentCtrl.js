@@ -24,7 +24,7 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent", 
         };
 
         this.getTorrentClientTemplate = function() {
-            return DuckieTorrent.getClientName().toLowerCase().replace(/ /g, "").replace(/3.2\+/, "32plus");
+            return DuckieTorrent.getClientName().toLowerCase().replace(/ /g, "").replace("(pre3.2)", "Pre32").replace(/3.2\+/, "32plus");
         };
 
         this.getTorrentsCount = function() {

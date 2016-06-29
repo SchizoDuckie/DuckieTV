@@ -23,7 +23,7 @@
 
     <!-- logo spinner that hides when connected -->
     <div ng-hide="client.rpc" style='padding:40px; text-align:center'>
-      <img ng-src="img/torrentclients/{{client.getTorrentClientName().toLowerCase().replace(' 3.2+','').replace(' web ui','')}}.png" class="spin" style="width:100%;height:100%">
+      <img ng-src="img/torrentclients/{{client.getTorrentClientName().toLowerCase().replace(' (pre3.2)','').replace(' 3.2+','').replace(' web ui','')}}.png" class="spin" style="width:100%;height:100%">
       <h2><span translate-once="TORRENTCLIENT/connecting/hdr"></span> {{::client.getTorrentClientName()}}</h2>
       <strong style=' display:block; text-align:center;' translate-once="TORRENTCLIENT/please-wait/lbl"></strong>
       {{client.status}}

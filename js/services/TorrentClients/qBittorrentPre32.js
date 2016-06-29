@@ -214,7 +214,7 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
         qBittorrent.extends(BaseTorrentClient, {});
 
         var service = new qBittorrent();
-        service.setName('qBittorrent');
+        service.setName('qBittorrent (pre3.2)');
         service.setAPI(new qBittorrentAPI());
         service.setRemote(new qBittorrentRemote());
         service.setConfigMappings({
@@ -243,7 +243,7 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
 .run(["DuckieTorrent", "qBittorrent", "SettingsService",
     function(DuckieTorrent, qBittorrent, SettingsService) {
         if (SettingsService.get('torrenting.enabled')) {
-            DuckieTorrent.register('qBittorrent', qBittorrent);
+            DuckieTorrent.register('qBittorrent (pre3.2)', qBittorrent);
         }
     }
 ]);
