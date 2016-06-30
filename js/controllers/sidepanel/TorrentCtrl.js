@@ -5,12 +5,9 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent", 
     function($rootScope, $injector, DuckieTorrent, SidePanelState) {
         var vm = this;
         
-        this.ports = [];
-        this.session = false;
         this.authToken = localStorage.getItem('utorrent.token');
         //uTorrent.setPort(localStorage.getItem('utorrent.port'));
         this.rpc = null;
-        this.polling = false;
         this.status = 'Connecting';
 
         this.removeToken = function() {
@@ -51,16 +48,12 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent", 
                 vm.status = 'Connected';
                 vm.rpc = rpc;
                 $rootScope.$applyAsync();
-            }, function(err) {
-                setTimeout(function() {
-                    vm.status = 'Unable to connect. retrying in 5 seconds.';
-                    $rootScope.$applyAsync();
-                }, 1000);
-                $rootScope.$applyAsync();
-                console.error("Could not connect, retrying in 5 seconds.", err);
-                setTimeout(autoConnectPoll, 5000);
             });
         };
+
+        $rootScope.$on('torrentclient:connected', function(remote) {
+            autoConnectPoll();
+        });
 
         autoConnectPoll();
     }
