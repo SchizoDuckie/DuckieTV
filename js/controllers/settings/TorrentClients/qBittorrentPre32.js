@@ -1,5 +1,5 @@
-DuckieTV.controller("qbtCtrl", ["qBittorrent", "SettingsService", "FormlyLoader",
-    function(qBittorrent, SettingsService, FormlyLoader) {
+DuckieTV.controller("qbtCtrl", ["$injector", "qBittorrent", "SettingsService", "FormlyLoader",
+    function($injector, qBittorrent, SettingsService, FormlyLoader) {
 
         var self = this;
 
@@ -30,6 +30,7 @@ DuckieTV.controller("qbtCtrl", ["qBittorrent", "SettingsService", "FormlyLoader"
             qBittorrent.connect().then(function(connected) {
                 console.info("qBittorrent (pre3.2) connected! (save settings)", connected);
                 qBittorrent.saveConfig();
+                $injector.get('DuckietvReload').windowLocationReload();
             }, function(error) {
                 console.error("qBittorrent {pre3.2) connect error!", error);
             });

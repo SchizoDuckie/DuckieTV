@@ -1,5 +1,5 @@
-DuckieTV.controller("uTorrentWebUICtrl", ["uTorrentWebUI", "SettingsService", "FormlyLoader",
-    function(uTorrentWebUI, SettingsService, FormlyLoader) {
+DuckieTV.controller("uTorrentWebUICtrl", ["$injector", "uTorrentWebUI", "SettingsService", "FormlyLoader",
+    function($injector, uTorrentWebUI, SettingsService, FormlyLoader) {
 
         var self = this;
 
@@ -30,6 +30,7 @@ DuckieTV.controller("uTorrentWebUICtrl", ["uTorrentWebUI", "SettingsService", "F
             uTorrentWebUI.connect().then(function(connected) {
                 console.info("uTorrent WEBUI connected! (save settings)", connected);
                 uTorrentWebUI.saveConfig();
+                $injector.get('DuckietvReload').windowLocationReload();
             }, function(error) {
                 console.error("uTorrent WEBUI connect error!", error);
             });

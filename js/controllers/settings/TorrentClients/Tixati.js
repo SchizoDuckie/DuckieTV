@@ -1,5 +1,5 @@
-DuckieTV.controller("tixatiCtrl", ["Tixati", "SettingsService", "FormlyLoader",
-    function(Tixati, SettingsService, FormlyLoader) {
+DuckieTV.controller("tixatiCtrl", ["$injector", "Tixati", "SettingsService", "FormlyLoader",
+    function($injector, Tixati, SettingsService, FormlyLoader) {
 
         var self = this;
 
@@ -31,6 +31,7 @@ DuckieTV.controller("tixatiCtrl", ["Tixati", "SettingsService", "FormlyLoader",
             Tixati.connect().then(function(connected) {
                 console.info("Tixati connected! (save settings)", connected);
                 Tixati.saveConfig();
+                $injector.get('DuckietvReload').windowLocationReload();
             }, function(error) {
                 console.error("Tixati connect error!", error);
             });

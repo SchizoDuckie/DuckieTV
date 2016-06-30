@@ -1,5 +1,5 @@
-DuckieTV.controller("tbtCtrl", ["Transmission", "SettingsService", "FormlyLoader",
-    function(Transmission, SettingsService, FormlyLoader) {
+DuckieTV.controller("tbtCtrl", ["$injector", "Transmission", "SettingsService", "FormlyLoader",
+    function($injector, Transmission, SettingsService, FormlyLoader) {
 
         var self = this;
 
@@ -31,6 +31,7 @@ DuckieTV.controller("tbtCtrl", ["Transmission", "SettingsService", "FormlyLoader
             Transmission.connect().then(function(connected) {
                 console.info("Transmission connected! (save settings)", connected);
                 Transmission.saveConfig();
+                $injector.get('DuckietvReload').windowLocationReload();
             }, function(error) {
                 console.error("Transmission connect error!", error);
             });
