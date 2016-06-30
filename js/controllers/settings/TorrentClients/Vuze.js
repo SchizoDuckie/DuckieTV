@@ -8,6 +8,7 @@ DuckieTV.controller("vuzeCtrl", ["Vuze", "SettingsService", "FormlyLoader",
             self.model = {
                 server: SettingsService.get('vuze.server'),
                 port: SettingsService.get('vuze.port'),
+                key: SettingsService.get('vuze.key'),
                 use_auth: SettingsService.get('vuze.use_auth'),
                 username: SettingsService.get('vuze.username'),
                 password: SettingsService.get('vuze.password'),
