@@ -36,6 +36,10 @@
     <i class="glyphicon glyphicon-ok" ng-if="searchquality == '1080p'"></i>
     <strong style='position:absolute; left:60px'>1080p</strong>
   </a>
+  <a ng-click="setSearchQuality('2160p')" style="padding:10px; height:45px;" class="btn {{ searchquality == '2160p' ? 'btn-success' : '' }}">
+    <i class="glyphicon glyphicon-ok" ng-if="searchquality == '2160p'"></i>
+    <strong style='position:absolute; left:60px'>2160p</strong>
+  </a>
 
   <hr class="setting-divider">
 
