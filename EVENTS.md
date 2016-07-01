@@ -129,7 +129,7 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](http://i.imgur.com/KAZ3DPu.png)
+![listeners](http://i.imgur.com/gW5M390.png)
 
 Event Publishers:
 ------------------
@@ -165,6 +165,7 @@ Listeners
       Listeners -> BaseTorrentClient [style="invis"];
       Listeners -> uTorrent [style="invis"];
       Listeners -> AutoDownloadService [style="invis"];
+      Listeners -> TorrentCtrl [style="invis"];
       Listeners -> TorrentRemoteControl [style="invis"];
       Listeners -> WatchlistCtrl [style="invis"];
  
@@ -194,6 +195,7 @@ Listeners
       storageupdate -> SyncManager;
       syncprocessremoteupdate -> SyncManager;
       torrentclientconnected -> AutoDownloadService;
+      torrentclientconnected -> TorrentCtrl;
       torrentclientconnected -> TorrentRemoteControl;
       torrentupdateinfoHash -> BaseTorrentClient;
       torrentupdateinfoHash -> uTorrent;
@@ -257,6 +259,8 @@ Listeners
       SyncManager [ label="SyncManager.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         syncprocessremoteupdate [label="sync:processremoteupdate", shape=box,fillcolor="white",style="filled"];
         storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
+
+      TorrentCtrl [label="TorrentCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
 
       TorrentRemoteControl [label="TorrentRemoteControl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         torrentclientconnected [label="torrentclient:connected", shape=box,fillcolor="white",style="filled"];
