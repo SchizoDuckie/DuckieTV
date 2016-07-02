@@ -2,8 +2,8 @@ DuckieTV
 /**
  * Torrent Remote Control Directive
  */
-.directive('torrentRemoteControl', ["DuckieTorrent", "$rootScope",
-    function(DuckieTorrent, $rootScope) {
+.directive('torrentRemoteControl', ["DuckieTorrent", "$rootScope", "TorrentHashListService",
+    function(DuckieTorrent, $rootScope, TorrentHashListService) {
         return {
             restrict: 'E',
             transclude: true,
@@ -86,6 +86,7 @@ DuckieTV
                         if ( (!lvc) || (lvc && $scope.episodeDownloaded) ) {
                             DuckieTorrent.getClient().hasTorrent(remote.infoHash).then(function(hasTorrent) {
                                 if (!hasTorrent) {
+                                    TorrentHashListService.removeFromHashList(remote.infoHash);
                                     Episode.findOneByMagnetHash(remote.infoHash).then(function(result) {
                                         if (result) {
                                             console.info('remote torrent not found, removed magnetHash[%s] from episode[%s] of series[%s]', result.magnetHash, result.getFormattedEpisode(), result.ID_Serie);
