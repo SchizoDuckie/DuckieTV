@@ -84,13 +84,13 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "SettingsService",
             getActivity();
         });
         
-        $scope.getTooltip = function(item, state) {
-            switch (item) {
-                case 'csm': return (state == 0) ? notusingLbl + ' ' + csmLbl : usingLbl + ' ' + csmLbl;
-                case 'css': return (state == 0) ? notusingLbl + ' ' + cssLbl : usingLbl + ' ' + cssLbl;
-                case 'igq': return (state == 0) ? usingLbl + ' ' + gqLbl : notusingLbl + ' ' + gqLbl;                    
-                case 'igi': return (state == 0) ? usingLbl + ' ' + giLbl : notusingLbl + ' ' + giLbl;                    
-                case 'ige': return (state == 0) ? usingLbl + ' ' + geLbl : notusingLbl + ' ' + geLbl;                    
+        $scope.getTooltip = function(option, item) {
+            switch (option) {
+                case 'csm': return (item.csm == 0) ? notusingLbl + ' ' + csmLbl : usingLbl + ' ' + csmLbl + ' (' + (item.serie.customSearchSizeMin == null ? '-' : item.serie.customSearchSizeMin) + '/'  + (item.serie.customSearchSizeMax == null ? '-' :  item.serie.customSearchSizeMax) + ')';
+                case 'css': return (item.css == 0) ? notusingLbl + ' ' + cssLbl : usingLbl + ' ' + cssLbl + ' (' + item.serie.customSearchString + ')';
+                case 'igq': return (item.igq == 0) ? usingLbl + ' ' + gqLbl : notusingLbl + ' ' + gqLbl;                    
+                case 'igi': return (item.igi == 0) ? usingLbl + ' ' + giLbl : notusingLbl + ' ' + giLbl;                    
+                case 'ige': return (item.ige == 0) ? usingLbl + ' ' + geLbl : notusingLbl + ' ' + geLbl;                    
             };
         };
 

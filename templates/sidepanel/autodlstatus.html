@@ -54,13 +54,13 @@
       <tr ng-repeat="item in activityList | orderBy: 'search'">
         <td ng-hide="item.status > 3" width='400px'>{{item.search}}{{item.searchProvider}}{{item.csmExtra}}</td>
         <td ng-show="item.status > 3" width='400px'>{{item.search}}{{item.searchProvider}}{{item.csmExtra}}&nbsp;
-          <torrent-dialog q="item.search"></torrent-dialog>
+          <torrent-dialog episode="item.episode" serie="item.serie"></torrent-dialog>
         </td>
-        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.csm == 1, 'glyphicon-remove' : item.csm == 0 }" uib-tooltip="{{getTooltip('csm', item.csm)}}"></div></td>
-        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.css == 1, 'glyphicon-remove' : item.css == 0 }" uib-tooltip="{{getTooltip('css', item.css)}}"></div></td>
-        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.igq == 1, 'glyphicon-remove' : item.igq == 0 }" uib-tooltip="{{getTooltip('igq', item.igq)}}"></></div></td>
-        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.igi == 1, 'glyphicon-remove' : item.igi == 0 }" uib-tooltip="{{getTooltip('igi', item.igi)}}"></></div></td>
-        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.ige == 1, 'glyphicon-remove' : item.ige == 0 }" uib-tooltip="{{getTooltip('ige', item.ige)}}"></></div></td>
+        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.csm == 1, 'glyphicon-remove' : item.csm == 0 }" uib-tooltip="{{getTooltip('csm', item)}}"></div></td>
+        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.css == 1, 'glyphicon-remove' : item.css == 0 }" uib-tooltip="{{getTooltip('css', item)}}"></div></td>
+        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.igq == 1, 'glyphicon-remove' : item.igq == 0 }" uib-tooltip="{{getTooltip('igq', item)}}"></></div></td>
+        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.igi == 1, 'glyphicon-remove' : item.igi == 0 }" uib-tooltip="{{getTooltip('igi', item)}}"></></div></td>
+        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.ige == 1, 'glyphicon-remove' : item.ige == 0 }" uib-tooltip="{{getTooltip('ige', item)}}"></></div></td>
         <td>{{getStatusCode(item.status, item.extra)}}</td>
       </tr>
     </tbody>
