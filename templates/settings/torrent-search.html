@@ -20,25 +20,9 @@
     <i class="glyphicon glyphicon-ok" ng-if="searchquality == ''"></i>
     <strong style='position:absolute; left:60px' translate-once="SETTINGS/TORRENT-SEARCH/quality-select-all/lbl"></strong>
   </a>
-  <a ng-click="setSearchQuality('HDTV')" style="padding:10px; height:45px;" class="btn {{searchquality == 'HDTV' ? 'btn-success' : '' }}">
-    <i class="glyphicon glyphicon-ok" ng-if="searchquality == 'HDTV'"></i>
-    <strong style='position:absolute; left:60px'>HDTV</strong>
-  </a>
-  <a ng-click="setSearchQuality('480p')" style="padding:10px; height:45px;" class="btn {{searchquality == '480p' ? 'btn-success' : '' }}">
-    <i class="glyphicon glyphicon-ok" ng-if="searchquality == '480p'"></i>
-    <strong style='position:absolute; left:60px'>480p</strong>
-  </a>
-  <a ng-click="setSearchQuality('720p')" style="padding:10px; height:45px;" class="btn {{searchquality == '720p' ? 'btn-success' : '' }}">
-    <i class="glyphicon glyphicon-ok" ng-if="searchquality == '720p'"></i>
-    <strong style='position:absolute; left:60px'>720p</strong>
-  </a>
-  <a ng-click="setSearchQuality('1080p')" style="padding:10px; height:45px;" class="btn {{ searchquality == '1080p' ? 'btn-success' : '' }}">
-    <i class="glyphicon glyphicon-ok" ng-if="searchquality == '1080p'"></i>
-    <strong style='position:absolute; left:60px'>1080p</strong>
-  </a>
-  <a ng-click="setSearchQuality('2160p')" style="padding:10px; height:45px;" class="btn {{ searchquality == '2160p' ? 'btn-success' : '' }}">
-    <i class="glyphicon glyphicon-ok" ng-if="searchquality == '2160p'"></i>
-    <strong style='position:absolute; left:60px'>2160p</strong>
+  <a ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setSearchQuality(quality)" style="padding:10px; height:45px;" class="btn {{searchquality == quality ? 'btn-success' : '' }}">
+    <i class="glyphicon glyphicon-ok" ng-if="searchquality == quality"></i>
+    <strong style='position:absolute; left:60px'>{{quality}}</strong>
   </a>
 
   <hr class="setting-divider">
