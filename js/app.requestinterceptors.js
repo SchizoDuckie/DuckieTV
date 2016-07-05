@@ -63,7 +63,7 @@ DuckieTV.factory('TransparentFixtureProxyInterceptor', ['$q', '$injector',
         if (window.location.href.indexOf('chrome-extension') === -1 && navigator.userAgent.indexOf('DuckieTV') == -1 && window.location.href.indexOf('file://') === -1) {
             $httpProvider.interceptors.push('CORSInterceptor');
         }
-        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data|file):/);
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|blob|mailto|chrome-extension|magnet|data|file|pow):/);
         $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:|chrome-extension:/);
     }
 ]);
