@@ -10,7 +10,7 @@
  * Enable web interface in Tixati options, set a username and password.
  * Make sure to use the default skin
  *
- * - Does not support setting download directory
+ * - Does not support setting or fetching the download directory
  */
 
 /**
@@ -64,6 +64,9 @@ TixatiData.extends(TorrentData, {
             this.files = data;
             return data;
         }.bind(this));
+    },
+    getDownloadDir: function() {
+        return undefined; // not supported
     }
 });
 
