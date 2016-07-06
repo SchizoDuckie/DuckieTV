@@ -28,7 +28,7 @@ DuckieTV.controller('TorrentDetailsCtrl', ["DuckieTorrent", "torrent", "$scope",
                             file.isMovie = file.name.substring(file.name.length - 3).match(/mp4|avi|mkv|mpeg|mpg|flv/g);
                             if (file.isMovie) {
                                 file.searchFileName = file.name.indexOf('/') > -1 ? file.name.split('/').pop().split(' ').pop() : file.name;
-                                file.path = torrent.downloadDir || '';
+                                file.path = self.torrent.getDownloadDir();
                             }
                             return file;
                         });

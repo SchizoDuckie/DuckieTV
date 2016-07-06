@@ -590,6 +590,9 @@ DuckieTorrent
                     resolve(files);
                 });
             },
+            getDownloadDir: function() {
+                return $parse('properties.all.directory')(this);
+            },
             /**
              * The torrent is started if the status is uneven.
              */
