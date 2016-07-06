@@ -36,6 +36,9 @@ uTorrentWebUIData.extends(TorrentData, {
             return results;
         }.bind(this));
     },
+    getDownloadDir: function() {
+        return this.download_dir;
+    },
     isStarted: function() {
         return this.status % 2 === 1;
     }
@@ -122,7 +125,8 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                             stream_id: torrent[22],
                             added_on: torrent[23],
                             completed_on: torrent[24],
-                            app_update_url: torrent[25]
+                            app_update_url: torrent[25],
+                            download_dir: torrent[26]
                         };
                     });
                 });
