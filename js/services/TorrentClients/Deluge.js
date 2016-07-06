@@ -44,6 +44,9 @@ DelugeData.extends(TorrentData, {
             this.files = result;
             return result;
         }.bind(this));
+    },
+    getDownloadDir: function() {
+        return this.save_path;
     }
 });
 
