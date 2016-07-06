@@ -79,7 +79,6 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
         var TransmissionAPI = function() {
             BaseHTTPApi.call(this);
             this.sessionID = null;
-            this.downloadDir = null;
         };
         TransmissionAPI.extends(BaseHTTPApi, {
 
@@ -117,7 +116,6 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
             portscan: function() {
                 var self = this;
                 return this.rpc('session-get').then(function(result) {
-                    self.downloadDir = result.arguments['download-dir'];
                     return result !== undefined;
                 }, function() {
                     return false;
@@ -126,7 +124,7 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
             getTorrents: function() {
                 return this.rpc('torrent-get', {
                     arguments: {
-                        "fields": ["id", "name", "hashString", "status", "error", "errorString", "eta", "isFinished", "isStalled", "leftUntilDone", "metadataPercentComplete", "percentDone", "sizeWhenDone", "files", "rateDownload", "rateUpload"]
+                        "fields": ["id", "name", "hashString", "status", "error", "errorString", "eta", "isFinished", "isStalled", "leftUntilDone", "metadataPercentComplete", "percentDone", "sizeWhenDone", "files", "rateDownload", "rateUpload", "downloadDir"]
                     }
                 }).then(function(data) {
                     return data.arguments.torrents.map(function(el) {
