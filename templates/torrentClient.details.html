@@ -85,7 +85,7 @@
     <div ng-repeat="file in vm.torrent.torrent_files track by $index">
       <p>{{file.name}} <subtitle-dialog ng-if="file.isMovie" filename="file.searchFileName" tooltip-append-to-body="true"></subtitle-dialog></p>  
       
-      <a ng-href="pow://{{file.path}}/{{file.name}}" ng-if="file.isMovie && (file.path)" style="display:block">Play with Powder</a>
+      <a class="hide-prod" ng-href="pow://{{file.path}}/{{file.name}}" ng-if="file.isMovie && (file.path)" style="display:block">Play with Powder</a>
     </div>
   </div>
 </div>
