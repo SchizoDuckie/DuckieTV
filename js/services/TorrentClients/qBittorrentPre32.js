@@ -60,6 +60,9 @@ qBittorrentData.extends(TorrentData, {
             return results;
         });
     },
+    getDownloadDir: function() {
+        return this.files.downloaddir;
+    },
     isStarted: function() {
         return ["downloading", "uploading", "stalledDL", "stalledUP"].indexOf(this.state) > -1;
     }
@@ -101,8 +104,12 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
                 });
             },
             getFiles: function(hash) {
+                var self = this;
                 return this.request('files', hash).then(function(data) {
-                    return data.data;
+                    return self.request('general', hash).then(function(general) {
+                        data.data.downloaddir = general.data.save_path.slice(0, -1);
+                        return data.data;
+                    });
                 });
             },
             addMagnet: function(magnetHash) {
@@ -232,7 +239,8 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
             resume: '/command/resume',
             pause: '/command/pause',
             remove: '/command/delete',
-            files: '/json/propertiesFiles/%s'
+            files: '/json/propertiesFiles/%s',
+            general: '/json/propertiesGeneral/%s'
         });
         service.readConfig();
 
