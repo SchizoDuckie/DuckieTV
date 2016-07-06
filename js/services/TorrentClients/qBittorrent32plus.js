@@ -124,6 +124,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
             pause: '/command/pause',
             remove: '/command/delete',
             files: '/query/propertiesFiles/%s',
+            general: '/query/propertiesGeneral/%s',
             version: '/version/api',
             login: '/login'
         });
