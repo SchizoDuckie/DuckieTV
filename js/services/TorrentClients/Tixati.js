@@ -3,6 +3,10 @@
  *
  * API Docs:
  * None. reverse engineered from Tixati base implementation
+ *      go to settings-->user interface-->webui and turn on the webUI
+ *      then at the bottom in the 'HTML Templates' section click 'select a folder' and choose a folder that you want the templates to go into.
+ *      then click 'create examples' 
+ *      in the folder you selected there should be example templates.
  *
  * HTTP API listens on localhost:8888
  *
