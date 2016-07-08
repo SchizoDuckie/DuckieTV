@@ -34,6 +34,24 @@ DuckieTV
             console.info("Executing the 1.1.4cleanupOrphanedSeasons to remove orphaned seasons");
         }
 
+        // Clean up Orphaned Episodes
+
+        if (!localStorage.getItem('1.1.4cleanupOrphanedEpisodes')) {
+            setTimeout(function() {
+                var serieIds = [];
+                CRUD.executeQuery('select distinct(ID_Serie) from Series').then(function(res) {
+                    while(r = res.next()) {
+                        serieIds.push(r.row.ID_Serie)
+                    }
+                    CRUD.executeQuery('delete from Episodes where ID_Serie not in ('+serieIds.join(',')+') ').then(function(res) {
+                        console.log('1.1.4cleanupOrphanedEpisodes done!', res.rs.rowsAffected, 'episode records deleted!')
+                    });
+                });
+                localStorage.setItem('1.1.4cleanupOrphanedEpisodes', new Date());
+            }, 4000);
+            console.info("Executing the 1.1.4cleanupOrphanedEpisodes to remove orphaned episodes");
+        }
+
         // Update qBittorrent to qBittorrent (pre3.2)
 
         if (!localStorage.getItem('1.1.4qBittorrentPre32')) {
