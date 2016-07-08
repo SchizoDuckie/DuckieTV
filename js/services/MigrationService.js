@@ -2,8 +2,8 @@ DuckieTV
 /**
  * Migrations that run when updating DuckieTV version.
  */
-.run(['FavoritesService', '$rootScope', 'SettingsService', 'TorrentHashListService',
-    function(FavoritesService, $rootScope, SettingsService, TorrentHashListService) {
+.run(['FavoritesService', '$rootScope', 'SettingsService', 'TorrentHashListService', 'TraktTVv2',
+    function(FavoritesService, $rootScope, SettingsService, TorrentHashListService, TraktTVv2) {
 
         // Update the newly introduced series' and seasons'  watched and notWatchedCount entities
 
@@ -50,6 +50,31 @@ DuckieTV
                 localStorage.setItem('1.1.4cleanupOrphanedEpisodes', new Date());
             }, 4000);
             console.info("Executing the 1.1.4cleanupOrphanedEpisodes to remove orphaned episodes");
+        }
+
+        // Refresh all to fetch Trakt_id for Series, Seasons and Episodes
+
+        if (!localStorage.getItem('1.1.4refresh')) {
+            setTimeout(function() {
+                FavoritesService.favorites.map(function(serie) {
+                    FavoritesService.adding(serie.TVDB_ID);
+                    return TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(function(s) {
+                        return TraktTVv2.serie(s.slug_id)
+                    }).then(function(s) {
+                        return FavoritesService.addFavorite(s).then(function() {
+                            $rootScope.$broadcast('storage:update');
+                            FavoritesService.added(s.tvdb_id);
+                        });
+                    }, function(err) {
+                        console.error("Error adding show!", err);
+                        FavoritesService.added(serie.TVDB_ID);
+                        FavoritesService.addError(serie.TVDB_ID, err);
+                    });
+                });
+                console.log('1.1.4refresh done!');
+                localStorage.setItem('1.1.4refresh', new Date());
+            }, 8000);
+            console.info("Executing the 1.1.4refresh to update Trakt_id for all Series, Seasons and Episodes");
         }
 
         // Update qBittorrent to qBittorrent (pre3.2)

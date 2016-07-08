@@ -14,16 +14,16 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
         var APIkey = '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0';
         var endpoint = 'https://api-v2launch.trakt.tv/';
         var pinUrl = 'https://trakt.tv/pin/948';
-        /// shows / game - of - thrones / seasons ? extended = full, images
 
         var endpoints = {
             people: 'shows/%s/people',
             serie: 'shows/%s?extended=full,images',
             seasons: 'shows/%s/seasons?extended=full,images',
             episodes: 'shows/%s/seasons/%s/episodes?extended=full,images',
-            search: 'search?type=show&extended=full,images&query=%s&limit=50',
+            search: 'search/show?extended=full,images&limit=50&query=%s',
             trending: 'shows/trending?extended=full,images&limit=500',
-            tvdb_id: 'search?id_type=tvdb&id=%s',
+            tvdb_id: 'search/tvdb/%s?type=show',
+            trakt_id: 'search/trakt/%s?type=show',
             login: 'auth/login',
             updated: 'shows/updates/%s?limit=10000',
             config: 'users/settings',
@@ -100,6 +100,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                 return parsers.trakt(result.data);
             },
             tvdb_id: function(result) {
+                // this prevents choking on series custom settings during import of backup
                 var results = result.data.filter(function(record) {
                     return record.type == "show";
                 });
