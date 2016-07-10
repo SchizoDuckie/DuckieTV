@@ -200,6 +200,8 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
 
         var service = {
             serie: function(slug) {
+if (slug == 'tt2401256') slug = 'the-night-of-2016';
+if (slug == 'tt4574334') slug = 'stranger-things';
                 return promiseRequest('serie', slug).then(function(serie) {
                     return service.people(serie.trakt_id).then(function(result) {
                         serie.people = result;
