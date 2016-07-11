@@ -51,7 +51,6 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
                         delete serie.fanart;
                         delete serie.banner;
                         delete serie.tmdb_id;
-                        delete serie.trakt_id;
                         return serie;
                     })));
                     return true;
