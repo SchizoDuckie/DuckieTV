@@ -104,22 +104,31 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                         if (currentVersion == highestVersion) return;
                         return Promise.all(Object.keys(entity.migrations).map(function(version) {
                             if (parseInt(version) > currentVersion) {
-                                return Promise.all(entity.migrations[version].map(function(migration) {
+                                return Promise.all(entity.migrations[version].map(function(migration, idx) {
                                     CRUD.log('Executing migration: ', migration);
                                     return db.execute(migration).then(function(result) {
                                         CRUD.log("Migration success!", result);
-                                        return true;
+                                        return idx;
                                     }, function(err) {
                                         throw "Migration " + version + " failed for entity " + entityName;
                                     });
-                                })).then(function() {
+                                })).then(function(results) {
                                     CRUD.log("All migrations executed for version ", version);
-                                    localStorage.setItem('database.version.' + entity.table, version);
-                                    return true;
+                                    return { version: version, results: results };
+                                }, function(err) {
+                                    throw "Migration failed for entity " + entityName;
                                 });
                             }
-                            return true;
-                        }));
+                            return { version: version, results: [] };
+                        })).then(function(results) {
+                            var executed = results.filter(function(migration) {
+                                return migration.results.length == CRUD.EntityManager.entities[entityName].migrations[migration.version].length
+                            }).map(function(migration) {
+                                return migration.version;
+                            });
+                            CRUD.log("Migrations executed for  " + entity.table, ": " + executed.join(",") + ". Version is now: " + highestVersion);
+                            localStorage.setItem('database.version.' + entity.table, highestVersion);
+                        });
                     }
                 }));
             }).then(function() {
