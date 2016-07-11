@@ -52,8 +52,12 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
             });
         };
 
+        var alreadyAddedSerieFilter = function(serie) {
+            return this.favoriteIDs.indexOf(serie.tvdb_id.toString()) === -1;
+        }.bind(FavoritesService);
+
         TraktTVTrending.getAll().then(function(results) {
-            trending.filtered = results;
+            trending.filtered = results.filter(alreadyAddedSerieFilter);
         });
     }
 ]);
