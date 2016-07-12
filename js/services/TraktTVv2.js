@@ -199,10 +199,13 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
         };
 
         var service = {
-            serie: function(slug) {
-if (slug == 'tt2401256') slug = 'the-night-of-2016';
-if (slug == 'tt4574334') slug = 'stranger-things';
-                return promiseRequest('serie', slug).then(function(serie) {
+            /**
+             * get a single show summary.
+             * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
+             * http://docs.trakt.apiary.io/#reference/shows/summary/get-a-single-show
+             */
+            serie: function(id) {
+                return promiseRequest('serie', id).then(function(serie) {
                     return service.people(serie.trakt_id).then(function(result) {
                         serie.people = result;
                     }, rethrow).then(function() {
@@ -221,14 +224,30 @@ if (slug == 'tt4574334') slug = 'stranger-things';
                     });
                 });
             },
-            seasons: function(slug) {
-                return promiseRequest('seasons', slug);
+            /**
+             * get all seasons for a show.
+             * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
+             * http://docs.trakt.apiary.io/#reference/seasons/summary/get-all-seasons-for-a-show
+             */
+            seasons: function(id) {
+                return promiseRequest('seasons', id);
             },
-            episodes: function(slug, seasonNumber) {
-                return promiseRequest('episodes', slug, seasonNumber);
+            /**
+             * get all episodes for a show.
+             * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
+             * season is a number
+             * http://docs.trakt.apiary.io/#reference/episodes/summary
+             */
+            episodes: function(id, seasonNumber) {
+                return promiseRequest('episodes', id, seasonNumber);
             },
-            people: function(slug) {
-                return promiseRequest('people', slug);
+            /**
+             * get all actors in a show.
+             * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
+             * http://docs.trakt.apiary.io/#reference/shows/people/get-all-people-for-a-show
+             */
+            people: function(id) {
+                return promiseRequest('people', id);
             },
             search: function(what) {
                 service.cancelTrending();
