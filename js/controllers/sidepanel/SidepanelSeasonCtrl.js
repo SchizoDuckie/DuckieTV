@@ -64,6 +64,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$
 
     // Return 'Specials' header if current season is Specials.
     this.getPageHeader = function(season) {
+        if (!season) return '';
         return season.seasonnumber === 0 ? $filter('translate')('COMMON/specials/lbl') : $filter('translate')('COMMON/season/lbl') + ' ' + season.seasonnumber;
     };
 
