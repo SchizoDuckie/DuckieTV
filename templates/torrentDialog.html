@@ -18,7 +18,7 @@
   </button>
   <ul class="dropdown-menu" role="menu">
     <li ng-repeat="item in orderByList" ng-click="setOrderBy(item)">
-      <label>{{translateOrderBy(item)}}  <span class="sortorder reverse" </span></label>
+      <label>{{translateOrderBy(item)}}  <span ng-class="{'sortorder reverse': item !== 'age', 'sortorder': item === 'age'}" </span></label>
     </li>
   </ul>
 </div>
