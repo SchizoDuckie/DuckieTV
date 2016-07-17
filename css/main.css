@@ -253,12 +253,12 @@ background-rotator .placeholder {
 #actionbar_calendar a {
   opacity: 1;
   transition: all 0.5s ease-in-out;
-  transform: rotate(0deg) scale(1);
+  transform: rotate(0deg) scale3d(1,0,0);
   left: 1px;
 }
 
 #actionbar_calendar.calendar_active a {
-  transform: rotate(180deg) scale(0.1);
+  transform: rotate(180deg) scale3d(0.1,0,0);
   opacity: 0;
 }
 
@@ -573,8 +573,10 @@ serieheader .badge {
 }
 
 [series-grid=true] serieheader[mode=poster] {
+  top: 0px;
+  left: 0px;
   position: absolute;
-  transition: top 0.35s ease-in-out, left 0.35s ease-in-out;
+  transition: transform 0.35s ease-in-out;
 }
 
 
@@ -1335,7 +1337,7 @@ div [date-picker] {
 }
 
 [date-picker].zoom td.day:first-child:hover {
-  transform: scale(1.5) translateX(95px);
+  transform: scale(1.5) translate3d(0px, 95px, 0px);
 }
 
 [date-picker].zoom td.day:hover> span {
@@ -1878,16 +1880,16 @@ sidepanel> div {
   z-index: 850;
   color: white;
   background-color: rgba(25, 25, 25, 1);
-  margin-right: -800px;
-  transition: margin 0.35s linear;
+  transform: translate3d(800px,0px,0px);
+  transition: all 0.35s linear;
 }
 
 .sidepanelActive sidepanel .sidepanel {
-  margin-right: -400px;
+  transform: translate3d(400px,0px,0px)
 }
 
 .sidepanelExpanded sidepanel .sidepanel {
-  margin-right: 0;
+  transform: translate3d(0,0px,0px);
 }
 
 sidepanel h2 {
