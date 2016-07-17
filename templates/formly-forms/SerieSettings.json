@@ -9,7 +9,21 @@
             "label": ""
         },
         "expressionProperties": {
-            "templateOptions.label": "\"SERIESETTINGSCTRLjs/ignore-hide-specials/lbl\" | translate"
+            "templateOptions.label": "\"SERIESETTINGSCTRLjs/ignore-hide-specials/lbl\" | translate",
+            "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/custom-search/placeholder\" | translate"
+        }
+    }, {
+        "key": "searchProvider",
+        "className": "cseProperty col-xs-6",
+        "type": "select",
+        "templateOptions": {
+            "label": "",
+            "options": "$mappings.options.searchProviders",
+            "nameProp": "name",
+            "valueProp": "value"
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"SERIESETTINGSCTRLjs/search-provider/lbl\" | translate"
         }
     }]
 }, {
@@ -77,21 +91,8 @@
 }, {
     "className": "row",
     "fieldGroup": [{
-        "key": "searchProvider",
-        "className": "cseProperty col-xs-3",
-        "type": "select",
-        "templateOptions": {
-            "label": "",
-            "options": "$mappings.options.searchProviders",
-            "nameProp": "name",
-            "valueProp": "value"
-        },
-        "expressionProperties": {
-            "templateOptions.label": "\"SERIESETTINGSCTRLjs/search-provider/lbl\" | translate"
-        }
-    }, {
         "key": "customSearchSizeMin",
-         "className": "col-xs-3",
+         "className": "col-xs-6",
          "type": "input",
          "templateOptions": {
             "type": "number",
@@ -103,7 +104,7 @@
         }
     }, {
         "key": "customSearchSizeMax",
-        "className": "col-xs-3",
+        "className": "col-xs-6",
         "type": "input",
         "templateOptions": {
             "type": "number",

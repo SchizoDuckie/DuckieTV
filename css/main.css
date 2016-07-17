@@ -1015,19 +1015,9 @@ series-list .trakt-import .toggleWatchSync, series-list .trakt-import .pushToTra
   margin-top: 10px;
 }
 
-.cseProperty:before {
-  font-family: 'Glyphicons Halflings';
-  content: "\e072";
-  transform: rotate(90deg);
-  position: absolute;
-  top: 39px;
-  right: 7px;
-  font-size: 8px;
-}
 
 .cseProperty select {
   cursor: pointer;
-  -webkit-appearance: none;
   padding: 0px 0px 0px 5px;
 }
 
@@ -2751,6 +2741,15 @@ ng-dial-gauge {
   background-color: rgba(91, 192, 222, 0.72) !important;
   border-color: rgba(91, 192, 222, 1) !important;
 }
+
+
+#serieSettingsForm label.control-label {
+    font-size: larger;
+    line-height: 35px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
 
 
 /**
