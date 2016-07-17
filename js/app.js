@@ -151,6 +151,14 @@ var DuckieTV = angular.module('DuckieTV', [
 })
 
 /**
+ * at start-up determine if we can use trakt_id or not for all related processes
+ */
+.run(["$rootScope", function($rootScope) {
+        $rootScope.isModeTraktid = !(!localStorage.getItem('1.1.4refresh'));
+        console.warn('Trakt_id processing mode is ',$rootScope.isModeTraktid);
+}])
+
+/**
  * at start-up set up a timer to refresh DuckieTV a second after midnight, to force a calendar date refresh
  */
 .run(["$injector", function($injector) {
