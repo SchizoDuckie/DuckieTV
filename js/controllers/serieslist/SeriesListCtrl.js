@@ -70,16 +70,16 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         vm.setOrderBy = function(orderBy, evt) {
             evt.stopPropagation()
             var idx = vm.orderByList.indexOf(orderBy);
-            vm.reverse = !vm.orderReverseList[idx];
+            vm.reverse = vm.orderReverseList[idx];
             vm.orderReverseList = vm.orderReverseResetList.slice();
-            vm.orderReverseList[idx] = vm.reverse;
+            vm.orderReverseList[idx] = !vm.reverse;
             vm.orderBy = orderBy;
             $rootScope.$emit('lazyImg:refresh');
         };
 
         vm.orderByList = 'getSortName()|added|firstaired|notWatchedCount'.split('|');
-        vm.orderReverseResetList = [false, false, true, false];
-        vm.orderReverseList = [false, false, true, false];
+        vm.orderReverseResetList = [true, false, true, true];
+        vm.orderReverseList = [true, false, true, true];
         vm.orderBy = 'getSortName()';
         vm.reverse = false;
         vm.translatedOrderByList = $filter('translate')('ORDERBYLIST').split(',');
