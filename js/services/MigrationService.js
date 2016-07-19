@@ -89,6 +89,16 @@ DuckieTV
             console.info("1.1.4qBittorrentPre32 done!");
         }
 
+        // refresh trending cache (so that we can start using trakt_id in trending searches)
+
+        if (!localStorage.getItem('1.1.4refreshTrendingCache')) {
+            console.info("Executing 1.1.4refreshTrendingCache to refresh the TraktTV Trending Cache with trakt_id");
+            localStorage.removeItem('trakttv.lastupdated.trending');
+            localStorage.removeItem('trakttv.trending.cache');
+            localStorage.setItem('1.1.4refreshTrendingCache', new Date());
+            console.info("1.1.4refreshTrendingCache done!");
+        }
+
         // remove obsolete torrentHashes from TorrentHashListService.hashList
 
         if (!localStorage.getItem('1.1.4TorrentHashListCleanup')) {
