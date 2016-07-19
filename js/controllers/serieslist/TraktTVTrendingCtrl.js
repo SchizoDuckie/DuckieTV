@@ -16,6 +16,13 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
         });
 
         /*
+         * enables excluding series already in favourites from trending results
+         */
+        var alreadyAddedSerieFilter = function(serie) {
+            return this.favoriteIDs.indexOf(serie.tvdb_id.toString()) === -1;
+        }.bind(FavoritesService);
+
+        /*
          * Takes the English Category (as fetched from TraktTV) and returns a translation
          */
         this.translateCategory = function(category) {
@@ -31,12 +38,12 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
             if (!category || this.activeCategory == category) {
                 this.activeCategory = false;
                 TraktTVTrending.getAll().then(function(result) {
-                    trending.filtered = result;
+                    trending.filtered = result.filter(alreadyAddedSerieFilter);
                 });
                 this.limit = this.oldLimit;
             } else {
                 this.activeCategory = category;
-                this.filtered = TraktTVTrending.getByCategory(category);
+                this.filtered = TraktTVTrending.getByCategory(category).filter(alreadyAddedSerieFilter);
                 this.limit = this.filtered.length;
             }
             $rootScope.$emit('lazyImg:refresh');
@@ -51,10 +58,6 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
                 id: serie.tvdb_id
             });
         };
-
-        var alreadyAddedSerieFilter = function(serie) {
-            return this.favoriteIDs.indexOf(serie.tvdb_id.toString()) === -1;
-        }.bind(FavoritesService);
 
         TraktTVTrending.getAll().then(function(results) {
             trending.filtered = results.filter(alreadyAddedSerieFilter);
