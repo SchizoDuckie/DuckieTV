@@ -26,6 +26,24 @@ DuckieTV.controller('traktTvSearchCtrl', ["$rootScope", "TraktTVv2", "$statePara
         });
 
         /**
+         * load details side panel only after hovering for half a second
+         * this prevents accidental loading if mouse is moving across posters
+         */
+        this.startHoverTimer = function(serie) {
+            this.clearHoverTimer();
+            this.hoverTimer = setTimeout(function() {
+                $state.go('favorites.add.search.trakt-serie', {
+                    id: serie.slug_id,
+                    serie: serie
+                });
+            }.bind(this), 500);
+        };
+
+        this.clearHoverTimer = function() {
+            clearTimeout(this.hoverTimer);
+        };
+
+        /**
          * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
          * by the seriedetails directive
          * @param {[type]} serie [description]

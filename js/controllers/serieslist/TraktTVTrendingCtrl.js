@@ -53,6 +53,23 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
             return this.filtered;
         };
 
+        /**
+         * load details side panel only after hovering for half a second
+         * this prevents accidental loading if mouse is moving across posters
+         */
+        this.startHoverTimer = function(serie) {
+            this.clearHoverTimer();
+            this.hoverTimer = setTimeout(function() {
+                $state.go('favorites.add.trakt-serie', {
+                    id: serie.tvdb_id
+                });
+            }.bind(this), 500);
+        };
+
+        this.clearHoverTimer = function() {
+            clearTimeout(this.hoverTimer);
+        };
+
         this.setHoverSerie = function(serie) {
             $state.go('favorites.add.trakt-serie', {
                 id: serie.tvdb_id
