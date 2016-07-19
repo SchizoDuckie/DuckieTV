@@ -61,7 +61,7 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
             this.clearHoverTimer();
             this.hoverTimer = setTimeout(function() {
                 $state.go('favorites.add.trakt-serie', {
-                    id: serie.tvdb_id
+                    id: serie.trakt_id
                 });
             }.bind(this), 500);
         };
@@ -72,7 +72,7 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
 
         this.setHoverSerie = function(serie) {
             $state.go('favorites.add.trakt-serie', {
-                id: serie.tvdb_id
+                id: serie.trakt_id
             });
         };
 

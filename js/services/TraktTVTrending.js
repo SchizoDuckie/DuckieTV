@@ -33,6 +33,12 @@ DuckieTV.factory('TraktTVTrending', ['TraktTVv2', '$q',
                 })[0];
             },
 
+            getByTraktId: function(trakt_id) {
+                return self.trending.filter(function(el) {
+                    return el.trakt_id == trakt_id;
+                })[0];
+            },
+
             getCategories: function() {
                 return self.categories;
             },

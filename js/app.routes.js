@@ -191,7 +191,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             resolve: {
                 SidePanelState: showSidePanel,
                 serie: function($state, $stateParams, TraktTVTrending) {
-                    return TraktTVTrending.getById($stateParams.id);
+                    return TraktTVTrending.getByTraktId($stateParams.id);
                 }
             },
             views: {

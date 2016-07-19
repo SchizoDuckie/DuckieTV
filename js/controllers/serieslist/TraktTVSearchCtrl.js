@@ -33,7 +33,7 @@ DuckieTV.controller('traktTvSearchCtrl', ["$rootScope", "TraktTVv2", "$statePara
             this.clearHoverTimer();
             this.hoverTimer = setTimeout(function() {
                 $state.go('favorites.add.search.trakt-serie', {
-                    id: serie.slug_id,
+                    id: serie.trakt_id,
                     serie: serie
                 });
             }.bind(this), 500);
@@ -44,14 +44,14 @@ DuckieTV.controller('traktTvSearchCtrl', ["$rootScope", "TraktTVv2", "$statePara
         };
 
         /**
-         * When in add mode, ng-hover sets this serie on the scope, so that it can be shown
+         * When in add mode, ng-mouseenter sets this serie on the scope, so that it can be shown
          * by the seriedetails directive
          * @param {[type]} serie [description]
          */
         this.setHoverSerie = function(serie) {
             //console.log("Hover serie!", serie);
             $state.go('favorites.add.search.trakt-serie', {
-                id: serie.slug_id,
+                id: serie.trakt_id,
                 serie: serie
             });
         };
