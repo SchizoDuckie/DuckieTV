@@ -1,4 +1,4 @@
-DuckieTV.controller('sidepanelTraktSerieCtrl', ["$rootScope", "$filter", "$locale", "serie", function($rootScope, $filter, $locale, serie) {
+DuckieTV.controller('sidepanelTraktSerieCtrl', ["$rootScope", "$filter", "$locale", "serie", "SidePanelState" , function($rootScope, $filter, $locale, serie, SidePanelState) {
 
     this.serie = serie;
 
@@ -37,4 +37,12 @@ DuckieTV.controller('sidepanelTraktSerieCtrl', ["$rootScope", "$filter", "$local
         var idx = statusList.indexOf(status);
         return (idx != -1) ? translatedStatusList[idx] : status;
     };
+
+    /**
+     * Closes the trakt-serie-details sidepanel 
+     */
+    this.closeSidePanel = function() {
+        SidePanelState.hide();
+    };
+
 }]);
