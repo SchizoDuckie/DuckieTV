@@ -231,4 +231,29 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         });
     };
 
+    this.asObject = function() {
+        return {
+            mirror: this.config.mirror,
+            noMagnet: this.config.magnetUrlSelector.length < 2, // hasMagnet,
+            includeBaseURL: true, // this.model.includeBaseUrl,
+            loginRequired: this.config.loginRequired,
+            loginPage: this.config.loginPage,
+            loginTestSelector: this.config.loginTestSelector,
+            endpoints: {
+                search: this.config.searchEndpoint,
+                details: [this.config.detailUrlSelector, this.config.detailUrlProperty]
+            },
+            selectors: {
+                resultContainer: this.config.searchResultsContainer,
+                releasename: [this.config.releaseNameSelector, this.config.releaseNameProperty],
+                magnetUrl: [this.config.magnetUrlSelector, this.config.magnetUrlProperty],
+                torrentUrl: [this.config.torrentUrlSelector, this.config.torrentUrlProperty],
+                size: [this.config.sizeSelector, this.config.sizeProperty],
+                seeders: [this.config.seederSelector, this.config.seederProperty],
+                leechers: [this.config.leecherSelector, this.config.leecherProperty],
+                detailUrl: [this.config.detailUrlSelector, this.config.detailUrlProperty]
+            }
+        }
+    }
+
 }

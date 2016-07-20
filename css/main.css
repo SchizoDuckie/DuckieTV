@@ -1722,6 +1722,13 @@ a:hover i.glyphicon-plus-sign {
   border-color: #000;
 }
 
+.btn-xs .glyphicon {
+    vertical-align: middle;
+    margin-right: 3px;
+    margin-top: -2px;
+    margin-left: 1px;
+}
+
 .btn-default.active, .btn-default:hover {
   color: white;
   background-color: #222;

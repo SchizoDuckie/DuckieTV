@@ -8,55 +8,13 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
         // List of current engines for testing. When actual saving functionality is added we need to load
         // the engines here first and then send them over to the dialog along with the $index of what one was selected
-        this.customEngines = {
-            'Torrentleech': {
-                testSearch: 'test',
-                name: 'Torrentleech.org',
-                mirror: 'https://torrentleech.org', // http://yoursite.com',
-                searchEndpoint: '/torrents/browse/index/query/%s',
-                searchResultsContainer: '#torrenttable tr:not(:first-child)',
-                releaseNameSelector: 'td.name .title a',
-                releaseNameProperty: 'innerText',
-                magnetSupported: false,
-                magnetUrlSelector: '',
-                magnetUrlProperty: '',
-                torrentUrlSelector: 'td.quickdownload a',
-                torrentUrlProperty: 'href',
-                sizeSelector: 'td:nth-child(5)',
-                sizeProperty: 'innerText',
-                seederSelector: 'td.seeders',
-                seederProperty: 'innerText',
-                leecherSelector: 'td.leechers',
-                leecherProperty: 'innerText',
-                detailUrlSelector: 'td.name .title a',
-                detailUrlProperty: 'href',
-                loginRequired: true,
-                loginPage: '/login.php',
-                loginTestSelector: '#loginform'
-            },
-            'kat.cr': {
-                testSearch: 'test',
-                name: 'kat.cr',
-                mirror: 'https://kat.cr', // http://yoursite.com',
-                searchEndpoint: '/usearch/%s/?field=seeders&sorder=desc',
-                searchResultsContainer: 'table.data tr[id^=torrent]',
-                releaseNameSelector: 'div.torrentname a.cellMainLink',
-                releaseNameProperty: 'innerText',
-                magnetSupported: true,
-                magnetUrlSelector: 'a[title="Torrent magnet link"]',
-                magnetUrlProperty: 'href',
-                torrentUrlSelector: '',
-                torrentUrlProperty: '',
-                sizeSelector: 'td:nth-child(2)',
-                sizeProperty: 'innerText',
-                seederSelector: 'td:nth-child(5)',
-                seederProperty: 'innerText',
-                leecherSelector: 'td:nth-child(6)',
-                leecherProperty: 'innerText',
-                detailUrlSelector: 'div.torrentname a.cellMainLink',
-                detailUrlProperty: 'href'
-            }
-        };
+        this.customEngines = {};
+
+        CRUD.Find("SearchEngine").then(function(results) {
+            return results.map(function(engine) {
+                self.customEngines[engine.name] = engine;
+            })
+        });
 
         this.test = function(index) {
             self.status = 'creating test client';
@@ -119,8 +77,33 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
                 size: 'lg'
             });
         };
+
+        this.shareDialog = function(index) {
+            dialogs.create('templates/dialogs/shareTorrentSearchEngine.html', 'shareSearchEngineDialogCtrl as share', {
+                engine: self.customEngines[Object.keys(self.customEngines)[index]]
+            }, {
+                size: 'md'
+            });
+        }
     }
 ])
+
+.controller('shareSearchEngineDialogCtrl', ['$scope', "data",
+    function($scope, data) {
+
+        var self = this;
+        this.engine = data.engine;
+        
+        var ojb = 
+        this.shareString = JSON.stringify(data.engine.asObject(), "", 2);
+
+        $scope.cancel = function() {
+            $modalInstance.dismiss('Canceled');
+        };
+    }
+])
+
+
 
 .controller('customSearchEngineDialogCtrl', ['$scope', "$injector", "$http", "$q", "$timeout", "$uibModalInstance", "data", "TorrentSearchEngines", "FormlyLoader",
     function($scope, $injector, $http, $q, $timeout, $modalInstance, data, TorrentSearchEngines, FormlyLoader) {

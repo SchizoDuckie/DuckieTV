@@ -33,6 +33,7 @@ function WatchListObject() {
 }
 
 function SearchEngine() {
+    this.instance = false;
     CRUD.Entity.call(this);
 }
 
@@ -139,7 +140,7 @@ CRUD.define(Serie, {
         return this.getEpisodes().then(function(result) {
             var out = {};
             result.map(function(episode) {
-                out[episode.TVDB_ID] = episode;
+                out[episode.TRAKT_ID] = episode;
             });
             return out;
         });
@@ -528,10 +529,18 @@ CRUD.define(SearchEngine, {
     className: 'SearchEngine',
     table: 'SearchEngines',
     primary: 'ID_SearchEngine',
-    fields: ['ID_SearchEngine', 'name', 'enabled', 'implementationClass', 'mirrorResolverClass', 'testSearch', 'mirror', 'searchEndpoint', 'searchResultsContainer', 'releaseNameSelector', 'releaseNameProperty', 'magnetSupported', 'magnetUrlSelector', 'magnetUrlProperty', 'torrentUrlSelector', 'torrentUrlProperty', 'sizeSelector', 'sizeProperty', 'seederSelector', 'seederProperty', 'leecherSelector', 'leecherProperty', 'detailUrlSelector', 'detailUrlProperty', 'loginRequired', 'loginPage', 'loginTestSelector'],
-    createStatement: 'CREATE TABLE SearchEngines ( ID_SearchEngine INTEGER PRIMARY KEY NOT NULL, name VARCHAR(40) NOT NULL, enabled int(1) DEFAULT 1, implementationClass VARCHAR(50) NULL, mirrorResolverClass VARCHAR(40) NULL, testSearch VARCHAR(200) DEFAULT "test", mirror VARCHAR(100) NULL, searchEndpoint VARCHAR(200) NULL, searchResultsContainer VARCHAR(200) NULL, releaseNameSelector VARCHAR(200) NULL, releaseNameProperty VARCHAR(200) NULL, magnetSupported int(1) DEFAULT 0, magnetUrlSelector VARCHAR(200) NULL, magnetUrlProperty VARCHAR(200) NULL, torrentUrlSelector VARCHAR(200) NULL, torrentUrlProperty VARCHAR(200) NULL, sizeSelector VARCHAR(200) NULL, sizeProperty VARCHAR(200) NULL, seederSelector VARCHAR(200) NULL, seederProperty VARCHAR(200) NULL, leecherSelector VARCHAR(200) NULL, leecherProperty VARCHAR(200) NULL, detailUrlSelector VARCHAR(200) NULL, detailUrlProperty VARCHAR(200) NULL, loginRequired int(1) DEFAULT 0, loginPage VARCHAR(200) NULL, loginTestSelector VARCHAR(200) NULL )',
+    fields: ['ID_SearchEngine', 'name', 'enabled', 'implementationClass', 'mirrorResolverClass', 'testSearch', 'mirror', 'searchEndpoint', 'searchResultsContainer', 'releaseNameSelector', 'releaseNameProperty', 'magnetSupported', 'magnetUrlSelector', 'magnetUrlProperty', 'torrentUrlSelector', 'torrentUrlProperty', 'sizeSelector', 'sizeProperty', 'seederSelector', 'seederProperty', 'leecherSelector', 'leecherProperty', 'detailUrlSelector', 'detailUrlProperty', 'loginRequired', 'loginPage', 'loginTestSelector', 'includeBaseURL'],
+    createStatement: 'CREATE TABLE SearchEngines ( ID_SearchEngine INTEGER PRIMARY KEY NOT NULL, name VARCHAR(40) NOT NULL, enabled int(1) DEFAULT 1, implementationClass VARCHAR(50) NULL, mirrorResolverClass VARCHAR(40) NULL, testSearch VARCHAR(200) DEFAULT "test", mirror VARCHAR(100) NULL, searchEndpoint VARCHAR(200) NULL, searchResultsContainer VARCHAR(200) NULL, releaseNameSelector VARCHAR(200) NULL, releaseNameProperty VARCHAR(200) NULL, magnetSupported int(1) DEFAULT 0, magnetUrlSelector VARCHAR(200) NULL, magnetUrlProperty VARCHAR(200) NULL, torrentUrlSelector VARCHAR(200) NULL, torrentUrlProperty VARCHAR(200) NULL, sizeSelector VARCHAR(200) NULL, sizeProperty VARCHAR(200) NULL, seederSelector VARCHAR(200) NULL, seederProperty VARCHAR(200) NULL, leecherSelector VARCHAR(200) NULL, leecherProperty VARCHAR(200) NULL, detailUrlSelector VARCHAR(200) NULL, detailUrlProperty VARCHAR(200) NULL, loginRequired int(1) DEFAULT 0, loginPage VARCHAR(200) NULL, loginTestSelector VARCHAR(200) NULL, includeBaseURL int(1) DEFAULT 1 )',
     adapter: 'dbAdapter',
     relations: {},
+    migrations: {
+        2: [
+            'ALTER TABLE SearchEngines RENAME TO SearchEngines_bak',
+            'CREATE TABLE SearchEngines ( ID_SearchEngine INTEGER PRIMARY KEY NOT NULL, name VARCHAR(40) NOT NULL, enabled int(1) DEFAULT 1, implementationClass VARCHAR(50) NULL, mirrorResolverClass VARCHAR(40) NULL, testSearch VARCHAR(200) DEFAULT "test", mirror VARCHAR(100) NULL, searchEndpoint VARCHAR(200) NULL, searchResultsContainer VARCHAR(200) NULL, releaseNameSelector VARCHAR(200) NULL, releaseNameProperty VARCHAR(200) NULL, magnetSupported int(1) DEFAULT 0, magnetUrlSelector VARCHAR(200) NULL, magnetUrlProperty VARCHAR(200) NULL, torrentUrlSelector VARCHAR(200) NULL, torrentUrlProperty VARCHAR(200) NULL, sizeSelector VARCHAR(200) NULL, sizeProperty VARCHAR(200) NULL, seederSelector VARCHAR(200) NULL, seederProperty VARCHAR(200) NULL, leecherSelector VARCHAR(200) NULL, leecherProperty VARCHAR(200) NULL, detailUrlSelector VARCHAR(200) NULL, detailUrlProperty VARCHAR(200) NULL, loginRequired int(1) DEFAULT 0, loginPage VARCHAR(200) NULL, loginTestSelector VARCHAR(200) NULL, includeBaseURL int(1) DEFAULT 1 )',
+            'INSERT OR IGNORE INTO SearchEngines (ID_SearchEngine, name, enabled, implementationClass, mirrorResolverClass, testSearch, mirror, searchEndpoint, searchResultsContainer, releaseNameSelector, releaseNameProperty, magnetSupported, magnetUrlSelector, magnetUrlProperty, torrentUrlSelector, torrentUrlProperty, sizeSelector, sizeProperty, seederSelector, seederProperty, leecherSelector, leecherProperty, detailUrlSelector, detailUrlProperty, loginRequired, loginPage, loginTestSelector, includeBaseURL) select ID_SearchEngine, name, enabled, implementationClass, mirrorResolverClass, testSearch, mirror, searchEndpoint, searchResultsContainer, releaseNameSelector, releaseNameProperty, magnetSupported, magnetUrlSelector, magnetUrlProperty, torrentUrlSelector, torrentUrlProperty, sizeSelector, sizeProperty, seederSelector, seederProperty, leecherSelector, leecherProperty, detailUrlSelector, detailUrlProperty, loginRequired, loginPage, loginTestSelector, includeBaseURL from SearchEngines_bak',
+            'DROP TABLE SearchEngines_bak'
+        ]
+    },
     fixtures: [{
         name: 'Torrentleech.org',
         enabled: 0,
@@ -556,7 +565,7 @@ CRUD.define(SearchEngine, {
         loginPage: '/login.php',
         loginTestSelector: '#loginform'
     }, {
-        name: 'KickAss',
+        name: 'KickAss custom',
         enabled: 1,
         testSearch: 'test',
         mirror: 'https://kat.cr', // http://yoursite.com',
@@ -578,10 +587,10 @@ CRUD.define(SearchEngine, {
         detailUrlSelector: 'div.torrentname a.cellMainLink',
         detailUrlProperty: 'href'
     }, {
-        name: 'ThePirateBay',
+        name: 'ThePirateBay custom',
         enabled: 1,
         testSearch: 'test',
-        mirror: 'https://thepiratebay.cr',
+        mirror: 'https://thepiratebay.se',
         mirrorResolverClass: 'MirrorResolver',
         searchEndpoint: '/search/%s/0/7/0',
         searchResultsContainer: '#searchResult tbody tr',
@@ -599,7 +608,7 @@ CRUD.define(SearchEngine, {
         detailUrlSelector: 'a.detLink',
         detailUrlProperty: 'href'
     }, {
-        name: 'Nyaa',
+        name: 'Nyaa custom',
         enabled: 1,
         testSearch: 'test',
         mirror: 'https://www.nyaa.se',
@@ -619,9 +628,41 @@ CRUD.define(SearchEngine, {
         detailUrlSelector: 'td.tlistname a',
         detailUrlProperty: 'href'
     }]
-}, {});
+}, {
+    getInstance: function($q, $http, $injector) {
+        console.log("Serving getInstance for " , this.name);
+        if(!this.instance) {
+            this.instance = new GenericTorrentSearchEngine(this.asObject(), $q, $http, $injector);
+        }
+        return this.instance;
+    },
+    asObject: function() {
+        return {
+            mirror: this.mirror,
+            noMagnet: this.magnetUrlSelector === null || this.magnetUrlSelector.length < 2, // hasMagnet,
+            includeBaseURL: this.includeBaseURL,
+            loginRequired: this.loginRequired,
+            loginPage: this.loginPage,
+            loginTestSelector: this.loginTestSelector,
+            endpoints: {
+                search: this.searchEndpoint,
+                details: [this.detailUrlSelector, this.detailUrlProperty]
+            },
+            selectors: {
+                resultContainer: this.searchResultsContainer,
+                releasename: [this.releaseNameSelector, this.releaseNameProperty],
+                magnetUrl: [this.magnetUrlSelector, this.magnetUrlProperty],
+                torrentUrl: [this.torrentUrlSelector, this.torrentUrlProperty],
+                size: [this.sizeSelector, this.sizeProperty],
+                seeders: [this.seederSelector, this.seederProperty],
+                leechers: [this.leecherSelector, this.leecherProperty],
+                detailUrl: [this.detailUrlSelector, this.detailUrlProperty]
+            }
+        }
+    }
+});
 
-CRUD.DEBUG = false;
+CRUD.DEBUG = true;
 
 CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', {
     estimatedSize: 25 * 1024 * 1024

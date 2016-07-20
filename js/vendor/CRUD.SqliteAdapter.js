@@ -107,9 +107,10 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                                 return Promise.all(entity.migrations[version].map(function(migration, idx) {
                                     CRUD.log('Executing migration: ', migration);
                                     return db.execute(migration).then(function(result) {
-                                        CRUD.log("Migration success!", result);
+                                        CRUD.log("Migration success!", migration, result);
                                         return idx;
                                     }, function(err) {
+                                        CRUD.log("Migration failed!", idx, version, migration);
                                         throw "Migration " + version + " failed for entity " + entityName;
                                     });
                                 })).then(function(results) {
@@ -180,9 +181,9 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         var builder = new CRUD.Database.SQLBuilder(what, filters, options);
         var query = builder.buildQuery();
 
-        CRUD.log("Executing query via sqliteadapter: ", options, query);
         return new Promise(function(resolve, fail) {
             return delayUntilSetupDone(function() {
+                CRUD.log("Executing query via sqliteadapter: ", options, query);
                 db.execute(query.query, query.parameters).then(function(resultset) {
                         var output = [];
                         for (var i = 0; i < resultset.rs.rows.length; i++) {

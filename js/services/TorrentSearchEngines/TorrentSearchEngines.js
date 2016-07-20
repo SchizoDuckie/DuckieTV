@@ -10,11 +10,33 @@
  * @see GenericTorrentSearch for more info or browse through the other torrent clients in this folder.
  */
 
-DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialogs", "$q", "SettingsService", "SceneNameResolver",
-    function(DuckieTorrent, $rootScope, dialogs, $q, SettingsService, SceneNameResolver) {
+DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialogs", "$q", "SettingsService", "SceneNameResolver", "$http","$injector",
+    function(DuckieTorrent, $rootScope, dialogs, $q, SettingsService, SceneNameResolver, $http, $injector) {
         var activeMagnet = false;
         var engines = {};
+        var customEngines = {};
         var defaultEngine = 'ThePirateBay';
+
+        function init() {
+            return CRUD.Find("SearchEngine").then(function(results) {
+                results.map(function(engine) {
+                    customEngines[engine.name] = engine;
+                });
+                return customEngines;
+            }).then(function() {
+                Object.keys(customEngines).map(function(name) {
+                    var engine = customEngines[name];
+                    if (!engine.enabled) {
+                      //  return;
+                    }
+                    console.log("Custom search engine loaded and added to default engines: ", name);
+                    if(name in engines) {
+                        console.warn(name, "overrides built-in search engine with the same name!");
+                    }
+                    engines[name] = customEngines[name].getInstance($q, $http, $injector);
+                });
+            })
+        };
 
         var service = {
 
@@ -30,11 +52,15 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
             getDefaultEngine: function() {
                 return engines[defaultEngine];
             },
-
             getDefault: function() {
                 return defaultEngine;
             },
-
+            getCustomSearchEngines: function() {
+                return customEngines;
+            },
+            getCustomSearchEngine: function(name) {
+                return customEngines[name];
+            },
             getSearchEngine: function(engine) {
                 if (engine in engines) {
                     return engines[engine];
@@ -175,10 +201,10 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     }, 1500);
                 }
             }
-        };
+        }; 
 
+        init();
         service.setDefault(SettingsService.get('torrenting.searchprovider'));
-
         return service;
     }
 ]);
