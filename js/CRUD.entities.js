@@ -140,7 +140,7 @@ CRUD.define(Serie, {
         return this.getEpisodes().then(function(result) {
             var out = {};
             result.map(function(episode) {
-                out[episode.TRAKT_ID] = episode;
+                out[episode.TVDB_ID] = episode;
             });
             return out;
         });
