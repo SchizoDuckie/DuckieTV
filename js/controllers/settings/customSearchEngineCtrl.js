@@ -2,7 +2,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
     function($scope, $injector, $http, $q, SettingsService, TorrentSearchEngines, dialogs) {
 
         var self = this;
-        self.status = 'Idle';
+        this.status = 'Idle';
 
         this.defaultEngines = Object.keys(TorrentSearchEngines.getSearchEngines());
 
@@ -17,55 +17,30 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
         });
 
         this.test = function(index) {
-            self.status = 'creating test client';
-            self.model = angular.copy(this.customEngines[Object.keys(this.customEngines)[index]]);
+            this.status = 'creating test client';
+            this.model = this.customEngines[index];
 
-            var testClient = new GenericTorrentSearchEngine({
-                mirror: this.model.mirror,
-                noMagnet: this.model.magnetUrlSelector.length < 2, // hasMagnet,
-                loginRequired: this.model.loginRequired,
-                loginPage: this.model.loginPage,
-                loginTestSelector: this.model.loginTestSelector,
-                includeBaseURL: true, // this.model.includeBaseUrl,
-                endpoints: {
-                    search: this.model.searchEndpoint,
-                    details: [this.model.detailUrlSelector, this.model.detailUrlProperty]
-                },
-                selectors: {
-                    resultContainer: this.model.searchResultsContainer,
-                    releasename: [this.model.releaseNameSelector, this.model.releaseNameProperty],
-                    magnetUrl: [this.model.magnetUrlSelector, this.model.magnetUrlProperty],
-                    torrentUrl: [this.model.torrentUrlSelector, this.model.torrentUrlProperty],
-                    size: [this.model.sizeSelector, this.model.sizeProperty],
-                    seeders: [this.model.seederSelector, this.model.seederProperty],
-                    leechers: [this.model.leecherSelector, this.model.leecherProperty],
-                    detailUrl: [this.model.detailUrlSelector, this.model.detailUrlProperty],
+            var testClient = self.model.getFreshInstance($q, $http, $injector);
 
-                }
-            }, $q, $http, $injector);
-
-            self.status = "Executing test search";
+            this.status = "Executing test search";
             testClient.search(this.model.testSearch).then(function(results) {
                 self.status = results.length > 0 ? 'Working!' : 'No results for search query :( ';
                 $scope.$applyAsync();
             });
         };
 
+        this.remove = function(engine) {
+            TorrentSearchEngines.removeSearchEngine(engine);
+        }
+
         // Disabling currently does nothing atm
-        this.disable = function(name, remove) {
-            // Delete the engine instead of disable it
-            if (remove) {
-                TorrentSearchEngines.removeSearchEngine(name);
-                this.status = "Removed Search Engine " + name;
-            } else {
-                TorrentSearchEngines.disableSearchEngine(name);
-                this.status = "Disabled Search Engine " + name;
-            }
+        this.disable = function(engine) {
+            TorrentSearchEngines.disableSearchEngine(engine);
         };
 
         // Enabling currently does nothing atm
-        this.enable = function(name) {
-            TorrentSearchEngines.enableSearchEngine(name);
+        this.enable = function(engine) {
+            TorrentSearchEngines.enableSearchEngine(engine);
         };
 
         this.openDialog = function(index, addNew) {
@@ -87,15 +62,65 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
         }
     }
 ])
+.factory("PasteBin", ['$http', function($http) {
 
-.controller('shareSearchEngineDialogCtrl', ['$scope', "data",
-    function($scope, data) {
+    var API_KEY = "ÇºëÝ½ñ¾µóvswõçm:Ý7ßö";
+    var endpoint = "http://pastebin.com/api/api_post.php";
+
+    service = {
+
+        paste: function(title, data) {
+            var postData = {
+                'api_dev_key': btoa(API_KEY),
+                'api_option': 'paste',
+                'api_paste_format': 'json',
+                'api_paste_name': title,
+                'api_paste_code': data
+                };
+            return $http({ method: 'POST',
+                url: endpoint, 
+                data: postData,
+                transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(function(result) {
+                console.log("paste created!", result);
+                return result.data;
+            })
+        }
+
+    }
+
+    return service;
+}])
+
+.controller('shareSearchEngineDialogCtrl', ['$scope', "data", "PasteBin",
+    function($scope, data,PasteBin) {
 
         var self = this;
         this.engine = data.engine;
+        this.pasteBinURL = null;
         
-        var ojb = 
-        this.shareString = JSON.stringify(data.engine.asObject(), "", 2);
+        this.shareString = stringify(data.engine.asObject(), { replacer: function(key,value) {
+            if (null == value || value == "" || (typeof value == "object" && value.join && value.join('') == '')) {
+                return undefined;
+            }
+            if (value === false) return 0;
+            if (value === true) return 1;
+            return value;
+        }});
+
+        this.shareToPasteBin = function() {
+            PasteBin.paste("DuckieTV Custom Search Engine: "+this.engine.name, this.shareString).then(function(result) {
+               self.pasteBinURL = result;
+            })
+        };
 
         $scope.cancel = function() {
             $modalInstance.dismiss('Canceled');
@@ -135,29 +160,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
 
         var getTestClient = function() {
-            return new GenericTorrentSearchEngine({
-
-                mirror: self.model.mirror,
-                noMagnet: self.model.magnetUrlSelector.length < 2, // hasMagnet,
-                includeBaseURL: true, // this.model.includeBaseUrl,
-                loginRequired: self.model.loginRequired,
-                loginPage: self.model.loginPage,
-                loginTestSelector: self.model.loginTestSelector,
-                endpoints: {
-                    search: self.model.searchEndpoint,
-                    details: [self.model.detailUrlSelector, self.model.detailUrlProperty]
-                },
-                selectors: {
-                    resultContainer: self.model.searchResultsContainer,
-                    releasename: [self.model.releaseNameSelector, self.model.releaseNameProperty],
-                    magnetUrl: [self.model.magnetUrlSelector, self.model.magnetUrlProperty],
-                    torrentUrl: [self.model.torrentUrlSelector, self.model.torrentUrlProperty],
-                    size: [self.model.sizeSelector, self.model.sizeProperty],
-                    seeders: [self.model.seederSelector, self.model.seederProperty],
-                    leechers: [self.model.leecherSelector, self.model.leecherProperty],
-                    detailUrl: [self.model.detailUrlSelector, self.model.detailUrlProperty]
-                }
-            }, $q, $http, $injector);
+            return self.model.getFreshInstance($q, $http, $injector);
 
         };
 
@@ -324,6 +327,12 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
             'searchResultsContainer': 'woei'
 
         };
+
+        this.save = function() {
+            this.model.Persist().then(function() {
+                pagelog(this.model.name + " stored in db. ID: " + this.model.getID());
+            });
+        }
 
         $scope.cancel = function() {
             $modalInstance.dismiss('Canceled');

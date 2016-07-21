@@ -636,9 +636,15 @@ CRUD.define(SearchEngine, {
         }
         return this.instance;
     },
+    getFreshInstance: function($q, $http, $injector) {
+        this.instance = false;
+        return this.getInstance($q, $http, $injector);
+    },
     asObject: function() {
         return {
+            name: this.name,
             mirror: this.mirror,
+            testSearch: this.testSearch,
             noMagnet: this.magnetUrlSelector === null || this.magnetUrlSelector.length < 2, // hasMagnet,
             includeBaseURL: this.includeBaseURL,
             loginRequired: this.loginRequired,

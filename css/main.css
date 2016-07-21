@@ -75,6 +75,10 @@ p, input, select, span, #aboutpage, #autodlstatuspage {
   -webkit-user-select: initial;
 }
 
+textarea {
+  color:white;
+}
+
 p, span {
   cursor: default;
 }

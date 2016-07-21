@@ -14,10 +14,12 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
     function(DuckieTorrent, $rootScope, dialogs, $q, SettingsService, SceneNameResolver, $http, $injector) {
         var activeMagnet = false;
         var engines = {};
+        var nativeEngines = {};
         var customEngines = {};
         var defaultEngine = 'ThePirateBay';
 
         function init() {
+            engines = angular.copy(nativeEngines);
             return CRUD.Find("SearchEngine").then(function(results) {
                 results.map(function(engine) {
                     customEngines[engine.name] = engine;
@@ -27,7 +29,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 Object.keys(customEngines).map(function(name) {
                     var engine = customEngines[name];
                     if (!engine.enabled) {
-                      //  return;
+                        return;
                     }
                     console.log("Custom search engine loaded and added to default engines: ", name);
                     if(name in engines) {
@@ -42,7 +44,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
 
             registerSearchEngine: function(name, implementation) {
                 name in engines ? console.info("Updating torrent search engine", name) : console.info("Registering torrent search engine:", name);
-                engines[name] = implementation;
+                engines[name] = nativeEngines[name] = implementation;
             },
 
             getSearchEngines: function() {
@@ -76,30 +78,19 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 }
             },
 
-            /**
-             * @todo
-             */
-            removeSearchEngine: function(name) {
-                if (name in engines) {
-                    delete engines[name];
-                    //SettingsService....
-                }
+            removeSearchEngine: function(engine) {
+                delete engine.customEngines[name];
+                engine.deleteYourSelf().then(init);
             },
-            /**
-             * @todo
-             */
-            disableSearchEngine: function(name) {
-                if (name in engines) {
-                    //SettingsService....
-                }
+
+            disableSearchEngine: function(engine) {
+                engine.enabled = 0;
+                engine.Persist().then(init)
             },
-            /**
-             * @todo
-             */
-            enableSearchEngine: function(name) {
-                if (name in engines) {
-                    //SettingsService....
-                }
+
+            enableSearchEngine: function(engine) {
+                engine.enabled = 1;
+                engine.Persist().then(init)
             },
 
             findEpisode: function(serie, episode) {
