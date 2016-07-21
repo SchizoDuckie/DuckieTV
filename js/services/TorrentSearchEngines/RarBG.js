@@ -54,7 +54,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
 
                     var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
                     if (magnetHash && magnetHash.length) {
-                        out.torrent = 'https://torrasave.download/torrent/' + magnetHash[0].toUpperCase() + '.torrent';
+                        out.torrent = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                         output.push(out);
                     }
                 });
