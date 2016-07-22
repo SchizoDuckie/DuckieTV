@@ -45,7 +45,7 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
         this.openDialog = function(index, addNew) {
             // Opens dialog and sends list of current engines and the index of the one we are editing
-            dialogs.create('templates/customSearchEngineDialog.html', 'customSearchEngineDialogCtrl as cse', {
+            dialogs.create('templates/dialogs/customSearchEngine.html', 'customSearchEngineDialogCtrl as cse', {
                 engine: self.customEngines[Object.keys(self.customEngines)[index]],
                 isNew: addNew
             }, {

@@ -204,7 +204,7 @@ var DuckieTV = angular.module('DuckieTV', [
                             console.info('Scheduled autoBackup run at ', new Date());
                             $injector.get('BackupService').createBackup().then(function(backupString) {
                                 var backupTime = new Date();
-                                dialogs.create('templates/backupDialog.html', 'backupDialogCtrl', {
+                                dialogs.create('templates/dialogs/backup.html', 'backupDialogCtrl', {
                                     backupString: backupString,
                                     backupTime: backupTime
                                 }, {

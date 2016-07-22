@@ -95,7 +95,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
 
             findEpisode: function(serie, episode) {
                 return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(searchString) {
-                    return dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {
+                    return dialogs.create('templates/dialogs/torrent.html', 'torrentDialogCtrl', {
                         query: searchString,
                         TVDB_ID: episode.TVDB_ID,
                         serie: serie,
@@ -109,7 +109,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
 
 
             search: function(query, TVDB_ID, options) {
-                return dialogs.create('templates/torrentDialog.html', 'torrentDialogCtrl', {
+                return dialogs.create('templates/dialogs/torrent.html', 'torrentDialogCtrl', {
                     query: query,
                     TVDB_ID: TVDB_ID
                 }, options || {
