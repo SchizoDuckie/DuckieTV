@@ -24,7 +24,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
 
         this.createDialog = function() {
             isShowing = true;
-            var d = dialogs.create('templates/fastSearch.html', 'fastSearchCtrl', {
+            var d = dialogs.create('templates/dialogs/fastSearch.html', 'fastSearchCtrl', {
                 key: self.fsquery
             }, {
                 size: 'xs'
