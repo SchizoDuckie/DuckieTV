@@ -19,6 +19,17 @@
         "templateOptions.label": "\"COMMON/port/lbl\"|translate"
     }
 }, {
+    "key": "path",
+    "type": "input",
+    "hideExpression": "model.use_path === undefined || model.use_path == false",
+    "templateOptions": {
+        "type": "text",
+        "label": ""
+    },
+    "expressionProperties": {
+        "templateOptions.label": "'Base path'"
+    }
+}, {
     "key": "key",
     "type": "input",
     "hideExpression": "model.hideKey === true",
