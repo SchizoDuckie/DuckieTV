@@ -64,7 +64,6 @@ DuckieTV
             }
             // If query is empty, prompt user to enter something
             if (q === null || q === "" || q === undefined) {
-                console.warn("Query is empty!");
                 $scope.searching = false;
                 $scope.error = 'null';
                 $scope.items = null;
