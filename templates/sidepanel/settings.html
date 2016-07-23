@@ -67,6 +67,13 @@
           </a>
       </td>
     </tr>
+     <tr ui-sref-active='active' ui-sref=".tab({tab: 'rtorrent'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'rTorrent'">
+      <td colspan="2">
+          <a href="#/settings/rtorrent">
+              <img src="img/torrentclients/rtorrent-small.png" class="smallsettingicon"> <strong><span>rTorrent</span> <span translate-once="COMMON/integration/hdr"></span></strong>
+          </a>
+      </td>
+    </tr>
     <tr ui-sref-active='active' ui-sref=".tab({tab: 'qbittorrentPre32'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'qBittorrent (pre3.2)'">
       <td colspan="2">
           <a href="#/settings/qbittorrentPre32">

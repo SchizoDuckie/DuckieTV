@@ -1,0 +1,21 @@
+<div class="buttons" ng-controller="rTorrentCtrl as rTor">
+	<h2>rTorrent <h2cont translate-once="COMMON/integration/hdr"></h2cont></h2>
+
+
+	&lt; rTorrent logo here &gt;
+ 	<p  ng-if="rTor.isConnected()"><span translate-once="COMMON/status/hdr"></span>:
+	<span translate-once="COMMON/connected/lbl"></span> rTorrent API &#64; {{rTor.model.server}}:{{rTor.model.port}}
+	</p>
+
+	<p ng-if="!rTor.isConnected()"><span translate-once="COMMON/status/hdr"></span>:
+	<span translate-once="COMMON/not-connected/lbl"></span>
+	</p>
+
+  <hide-demo>
+    <form ng-submit="rTor.test()" novalidate>
+      <formly-form model="rTor.model" fields="rTor.fields">
+        <button type="submit" class="btn btn-primary submit-button" translate-once="COMMON/test-save/btn"></button>
+      </formly-form>
+    </form>
+  </hide-demo>
+</div>
