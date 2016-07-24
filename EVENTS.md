@@ -125,11 +125,11 @@ Graphviz graphs
 
 Event Listeners:
 -----------------------
-![listeners](http://i.imgur.com/gW5M390.png)
+![listeners](http://i.imgur.com/hTmRkcY.png)
 
 Event Publishers:
 ------------------
-![publishers](http://i.imgur.com/osUjEoR.png)
+![publishers](http://i.imgur.com/SJwTgrp.png)
 
 Listeners
 -------------
@@ -303,7 +303,6 @@ Publishers
       Publishers -> BackupCtrl [style="invis"];
       Publishers -> FastSearch [style="invis"];
       Publishers -> SeriesListCtrl [style="invis"];
-      Publishers -> TraktTVTrendingCtrl [style="invis"];
       Publishers -> LocalSeriesCtrl [style="invis"];
       Publishers -> SyncManager [style="invis"];
       Publishers -> BaseTorrentClient [style="invis"];
@@ -427,8 +426,6 @@ Publishers
 
       TraktTVCtrl [label="TraktTVCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         seriesrecountwatched [label="series:recount:watched", shape=box,fillcolor="white",style="filled"];
-
-      TraktTVTrendingCtrl [label="TraktTVTrendingCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
       uTorrent [label="uTorrent.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         torrentupdateinfoHash [label="torrent:update:{{infoHash}}", shape=box,fillcolor="white",style="filled"];
