@@ -18,7 +18,11 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     seeders: ['td.sy', 'innerText'],
                     leechers: ['td.ly', 'innerText'],
                     detailUrl: ['td.tli > a', 'href'],
-                    torrentUrl: ['td:first-of-type a', 'href']
+                    torrentUrl: ['td:first-of-type a', 'href',
+                        function(a) {
+                            return a.replace('torrent_','');
+                        }
+                    ]
                 }
             }, $q, $http, $injector));
         }
