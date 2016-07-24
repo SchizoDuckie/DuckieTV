@@ -494,6 +494,7 @@ angular.module('xmlrpc', [])
             return parseFloat(helperXmlRpc.getTextContent(input, []));
         };
         xml2jsMethod_['int'] = xml2number_;
+        xml2jsMethod_['i8'] = xml2number_;
         xml2jsMethod_['i4'] = xml2number_;
         xml2jsMethod_['double'] = xml2number_;
 

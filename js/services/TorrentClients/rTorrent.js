@@ -31,35 +31,37 @@ rTorrentData.extends(TorrentData, {
         return this.name;
     },
     getProgress: function() {
-        var unit = (this.getClient().getAPI().isSeedBox()) ? 1 : 100;
-        return this.round(this.percentDone * unit, 1);
+       return this.round(this.bytes_done / this.size_bytes  * 100, 1);
     },
     getDownloadSpeed: function() {
-        return this.rateDownload; // Bytes/second
+        return this.down_rate; // Bytes/second
     },
     start: function() {
-        this.getClient().getAPI().execute('torrent-start', this.id);
+        this.getClient().getAPI().execute('d.start', this.hash);
     },
     stop: function() {
-        this.getClient().getAPI().execute('torrent-stop', this.id);
+        this.getClient().getAPI().execute('d.stop', this.hash);
     },
     pause: function() {
-        this.stop();
+        this.getClient().getAPI().execute('d.pause', this.hash);
     },
     remove: function() {
-        this.getClient().getAPI().execute('torrent-remove', this.id);
+        this.getClient().getAPI().execute('d.erase', this.hash);
     },
     isStarted: function() {
-        return this.status > 0;
+        return this.state > 0;
     },
+    /**
+     * Impossible without parsing the .torrent???
+     */
     getFiles: function() {
         var self = this;
         return new Promise(function(resolve) {
-            resolve(self.files);
+            resolve([{name: self.base_filename}]);
         });
     },
     getDownloadDir: function() {
-        return this.downloadDir;
+        return this.directory_base;
     }
 });
 
@@ -103,14 +105,13 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                 });
                  
                 return xmlrpc.callMethod(method, params).then(function(result) {
-                    console.log("xmlrpc result: " , result);
                     return result;
 
                 });
                 
             },
             portscan: function() {
-                return this.rpc('system.getCapabilities').then(function(result) {
+                return this.rpc('system.api_version').then(function(result) {
                     return result !== undefined;
                 }, function() {
                     return false;
@@ -120,24 +121,31 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                 var self = this;
                 return this.rpc('download_list').then(function(data) {
                     var args = [];
-                    var props = ["d.get_base_filename", "d.get_base_path", "d.get_bitfield", "d.get_bytes_done", "d.get_chunk_size", "d.get_chunks_hashed", "d.get_complete", "d.get_completed_bytes", "d.get_completed_chunks", "d.get_connection_current", "d.get_connection_leech", "d.get_connection_seed", "d.get_creation_date", "d.get_custom", "d.get_custom1", "d.get_custom2", "d.get_custom3", "d.get_custom4", "d.get_custom5", "d.get_custom_throw", "d.get_directory", "d.get_directory_base", "d.get_down_rate", "d.get_down_total", "d.get_free_diskspace", "d.get_hash", "d.get_hashing", "d.get_hashing_failed", "d.get_ignore_commands", "d.get_left_bytes", "d.get_loaded_file", "d.get_local_id", "d.get_local_id_html", "d.get_max_file_size", "d.get_max_size_pex", "d.get_message", "d.get_mode", "d.get_name", "d.get_peer_exchange", "d.get_peers_accounted", "d.get_peers_complete", "d.get_peers_connected", "d.get_peers_max", "d.get_peers_min", "d.get_peers_not_connected", "d.get_priority", "d.get_priority_str", "d.get_ratio", "d.get_size_bytes", "d.get_size_chunks", "d.get_size_files", "d.get_size_pex", "d.get_skip_rate", "d.get_skip_total", "d.get_state", "d.get_state_changed", "d.get_state_counter", "d.get_throttle_name", "d.get_tied_to_file", "d.get_tracker_focus", "d.get_tracker_numwant", "d.get_tracker_size", "d.get_up_rate", "d.get_up_total", "d.get_uploads_max"];
+                    var indexMap = {};
+                    var props = ["d.get_base_filename", "d.get_base_path", "d.get_bitfield", "d.get_bytes_done", "d.get_chunk_size", "d.get_chunks_hashed", "d.get_complete", "d.get_completed_bytes", "d.get_completed_chunks", "d.get_connection_current", "d.get_connection_leech", "d.get_connection_seed", "d.get_creation_date", "d.get_custom", "d.get_custom1", "d.get_custom2", "d.get_custom3", "d.get_custom4", "d.get_custom5", "d.get_custom_throw", "d.get_directory", "d.get_directory_base", "d.get_down_rate", "d.get_down_total", "d.get_free_diskspace", "d.get_hash", "d.get_hashing", "d.get_hashing_failed", "d.get_ignore_commands", "d.get_left_bytes", "d.get_loaded_file", "d.get_local_id", "d.get_local_id_html", "d.get_max_file_size", "d.get_max_size_pex", "d.get_message", "d.get_mode", "d.get_name", "d.get_peer_exchange", "d.get_peers_accounted", "d.get_peers_complete", "d.get_peers_connected", "d.get_peers_max", "d.get_peers_min", "d.get_peers_not_connected", "d.get_priority", "d.get_priority_str", "d.get_ratio", "d.get_size_bytes", "d.get_size_chunks", "d.get_size_pex", "d.get_skip_rate", "d.get_skip_total", "d.get_state", "d.get_state_changed", "d.get_state_counter", "d.get_throttle_name", "d.get_tied_to_file", "d.get_tracker_focus", "d.get_tracker_numwant", "d.get_tracker_size", "d.get_up_rate", "d.get_up_total", "d.get_uploads_max"];
 
                     data.map(function(hash) {
+                        indexMap[hash] = {};
                         props.map(function(prop) {
                             propTransformer(prop, hash)
                         });
                     })
 
                     function propTransformer(prop, hash) {
-                        args.push({ "methodName" : prop, "params": [hash]});
+                        var idx = args.push({ "methodName" : prop, "params": [hash]});
+                        indexMap[hash][prop] = idx -1;
                     }
 
                     return self.rpc('system.multicall', [args]).then(function(result) {
-                        var output = {};
-                        props.map(function(prop, idx) {
-                            output[prop.replace('d.get_', '')] = result[idx].length && result[idx].length == 1 ? result[idx][0] : result[idx];
+                        var output = [];
+                        Object.keys(indexMap).map(function(hash) {
+                            var torrent = { hash: hash};
+                            Object.keys(indexMap[hash]).map(function(property) {
+                                torrent[property.replace('d.get_','')] = result[indexMap[hash][property]][0];
+                            })
+                            output.push(torrent);
                         })
-                        debugger;
+                        return output;
                     })
 
 
@@ -201,15 +209,8 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                     }
                 });
             },
-            isSeedBox: function() {
-                return (this.config.key !== '/rTorrent/rpc');
-            },
             execute: function(method, id) {
-                return this.rpc(method, {
-                    "arguments": {
-                        ids: [id]
-                    }
-                });
+                return this.rpc(method, [id]);
             }
         });
 
