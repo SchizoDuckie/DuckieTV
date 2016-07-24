@@ -15,8 +15,7 @@ var DuckieTV = angular.module('DuckieTV', [
     'pascalprecht.translate',
     'DuckieTorrent.torrent',
     'toaster',
-    'angular-dialgauge',
-    'angularLazyImg'
+    'angular-dialgauge'
 ])
 
 /**
@@ -226,12 +225,12 @@ var DuckieTV = angular.module('DuckieTV', [
         if (autoBackupPeriod === 'never') {
             console.warn('autoBackup is set to never be scheduled');
             return; // autoBackup is not requested
-        };
+        }
         // fetch last run time
         var localDT = new Date().getTime();
         if (!localStorage.getItem('autobackup.lastrun')) {
             localStorage.setItem('autobackup.lastrun', 0);
-        };
+        }
         // determine next run time
         var lastRun = new Date(parseInt(localStorage.getItem('autobackup.lastrun')));
         var nextBackupDT = null;
@@ -254,7 +253,7 @@ var DuckieTV = angular.module('DuckieTV', [
             console.info('The next autoBackup is scheduled for', new Date(parseInt(nextBackupDT)));
         } else {
             timeToNextBackup = 0;
-        };
+        }
         scheduleAutoBackup();
     }
 ])

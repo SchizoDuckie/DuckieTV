@@ -5,19 +5,23 @@
       <i class="glyphicon glyphicon-eye-close" ></i> {{data.notWatchedCount}}
     </em>
   </div>
-  <a class="{{mode}}" ng-if="!noListButton" ui-sref="serie({id: data.ID_Serie})" ui-sref-opts="{reload: true}" ui-sref-active="active" lazy-img="{{mode == 'poster' ? data.poster : data.banner}}" alt-lazy="1">
+  <a class="{{mode}}" ng-if="!noListButton" ui-sref="serie({id: data.ID_Serie})" ui-sref-opts="{reload: true}" ui-sref-active="active" lazy-background="{{mode == 'poster' ? data.poster : data.banner}}" alt-lazy="1">
     <figure>
       <div class="img"></div>
-      <figcaption><h3 class="title" ng-show="!noTitle || mode == 'banner'">{{data.name}}</h3></figcaption>
+      <figcaption>
+        <h3 class="title" ng-show="!noTitle || mode == 'banner'">{{data.name}}</h3></figcaption>
     </figure>
   </a>
-   <a class="{{mode}}" ng-if="noListButton" lazy-img="{{mode == 'poster' ? data.poster : data.banner}}" alt-lazy="1">
+  <a class="{{mode}}" ng-if="noListButton" lazy-background="{{mode == 'poster' ? data.poster : data.banner}}" alt-lazy="1">
     <figure>
       <div class="img"></div>
-      <figcaption><h3 class="title" ng-show="!noTitle || mode == 'banner'">{{data.name}}</h3></figcaption>
+      <figcaption>
+        <h3 class="title" ng-show="!noTitle || mode == 'banner'">{{data.name}}</h3></figcaption>
     </figure>
   </a>
-  <div ng-show="!noOverview" class='overview'><p>{{data.overview}}</p></div>
+  <div ng-show="!noOverview" class='overview'>
+    <p>{{data.overview}}</p>
+  </div>
   <div ng-transclude></div>
 </div>
 <script type="text/ng-template" id="serieHeaderTitleTooltip.html">

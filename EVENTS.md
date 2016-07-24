@@ -12,20 +12,20 @@ Event Descriptions (as at v1.1.4)
  -  **$stateChangeStart**
 
    This is an angular-route internal event that will fire when the $state begins changing.
-    Used to manage Sidepanel activity. 
+    Used to manage Sidepanel activity.
 
  -  **$stateChangeSuccess**
 
    This is an angular-route internal event that will fire when the $state has changed.
-    Used to manage Sidepanel activity. 
+    Used to manage Sidepanel activity.
 
  -  **autodownload:activity**
 
-    Tells the Auto-Download-Status monitor that the Auto-Download service has processed an episode's torrent search. 
+    Tells the Auto-Download-Status monitor that the Auto-Download service has processed an episode's torrent search.
 
  -  **background:load**
 
-    Tells the BackgroundRotator service to load a new background image. 
+    Tells the BackgroundRotator service to load a new background image.
     The background rotator handles queueing and switching between them.
 
  -  **calendar:setdate**
@@ -52,10 +52,6 @@ Event Descriptions (as at v1.1.4)
  -  **katmirrorresolver:status**
 
     A status update for the KAT mirror resolver. (Used by SettingsTorrentCtrl to tap into verification steps).
-
- -  **lazyImg:refresh**
-
-    Used to refresh/load images during poster reorganizations on the favorites and trending pages.
 
  -  **locationreload**
 
@@ -108,7 +104,7 @@ Event Descriptions (as at v1.1.4)
 
  -  **torrentclient:connected**
 
-    Used to indicate that the torrentClient has connected with it's host, so that dependant processes can start processing torrents. 
+    Used to indicate that the torrentClient has connected with it's host, so that dependant processes can start processing torrents.
 
  -  **tpbmirrorresolver:status**
 
@@ -156,7 +152,6 @@ Listeners
       Listeners -> TraktTVv2 [style="invis"];
       Listeners -> EpisodeWatchedMonitor [style="invis"];
       Listeners -> calendar [style="invis"];
-      Listeners -> lazyImg [style="invis"];
       Listeners -> datePicker [style="invis"];
       Listeners -> FavoritesService [style="invis"];
       Listeners -> SeriesListCtrl [style="invis"];
@@ -168,7 +163,7 @@ Listeners
       Listeners -> TorrentCtrl [style="invis"];
       Listeners -> TorrentRemoteControl [style="invis"];
       Listeners -> WatchlistCtrl [style="invis"];
- 
+
       autodownloadactivity -> AutodlstatusCtrl;
       backgroundload -> backgroundRotator;
       calendarsetdate -> datePicker;
@@ -178,7 +173,6 @@ Listeners
       episodemarkedwatched -> TraktTVv2;
       expandserie -> datePicker;
       katmirrorresolverstatus -> SettingsTorrentCtrl;
-      lazyImgrefresh -> lazyImg;
       locationreload -> appsystray;
       magnetselectTVDBID -> AutodlstatusCtrl;
       magnetselectTVDBID -> SidepanelEpisodeCtrl;
@@ -240,9 +234,6 @@ Listeners
 
       FavoritesService [ label="FavoritesService.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         serieslistempty [label="serieslist:empty", shape=box,fillcolor="white",style="filled"];
-
-      lazyImg [label="angular-lazy-image.quacked.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        lazyImgrefresh [label="lazyImg:refresh", shape=box,fillcolor="white",style="filled"];
 
       SeriesListCtrl [ label="SeriesListCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
         serieslistfilter [label="serieslist:{{filter}}", shape=box,fillcolor="white",style="filled"];
@@ -329,9 +320,6 @@ Publishers
       expandserie -> calendar [dir="back"];
       katmirrorresolverstatus -> KickassMirrorResolver [dir="back"];
       katmirrorresolverstatus -> SettingsTorrentCtrl [dir="back"];
-      lazyImgrefresh -> LocalSeriesCtrl [dir="back"];
-      lazyImgrefresh -> SeriesListCtrl [dir="back"];
-      lazyImgrefresh -> TraktTVTrendingCtrl [dir="back"];
       locationreload -> app [dir="back"];
       restoredtv -> appsystray [dir="back"];
       magnetselectTVDBID -> AutoDownloadService [dir="back"];
@@ -414,7 +402,6 @@ Publishers
 
       LocalSeriesCtrl [label="LocalSeriesCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         serieslistfilter [label="serieslist:{{filter}}", shape=box,fillcolor="white",style="filled"];
-        lazyImgrefresh [label="lazyImg:refresh", shape=box,fillcolor="white",style="filled"];
 
       MigrationService [label="MigrationService.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 

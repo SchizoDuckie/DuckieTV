@@ -6,11 +6,11 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
         this.limit = 75;
         this.oldLimit = 75;
         this.activeCategory = false;
-        var categories = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateCategory()        
+        var categories = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'); // used by this.translateCategory()
         var translatedCategoryList = $filter('translate')('GENRELIST').split(',');
 
         FavoritesService.waitForInitialization().then(function() {
-            if(FavoritesService.favorites.length == 0) {
+            if (FavoritesService.favorites.length == 0) {
                 trending.noFavs = true;
             }
         });
@@ -46,7 +46,6 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
                 this.filtered = TraktTVTrending.getByCategory(category).filter(alreadyAddedSerieFilter);
                 this.limit = this.filtered.length;
             }
-            $rootScope.$emit('lazyImg:refresh');
         };
 
         this.getFilteredResults = function() {

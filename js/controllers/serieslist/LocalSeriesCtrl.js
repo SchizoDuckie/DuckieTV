@@ -10,7 +10,6 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
         // Tells the filter control what to filter, updates 300ms after input
         this.setFilter = function(val) {
             $rootScope.$broadcast('serieslist:filter', val);
-            $rootScope.$emit('lazyImg:refresh');
         };
 
         var engGenreList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|');
@@ -48,7 +47,6 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
                 this.selectedGenres.splice(this.selectedGenres.indexOf(genre), 1);
             }
             $rootScope.$broadcast('serieslist:genreFilter', this.selectedGenres);
-            $rootScope.$emit('lazyImg:refresh');
         };
 
         this.selectStatus = function(status) {
@@ -58,7 +56,6 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
                 this.selectedStatus.splice(this.selectedStatus.indexOf(status), 1);
             }
             $rootScope.$broadcast('serieslist:statusFilter', this.selectedStatus);
-            $rootScope.$emit('lazyImg:refresh');
         };
 
         this.getCheckedGenre = function(genre) {

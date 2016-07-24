@@ -10,7 +10,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * * Hide/Show series on calendar
          * * Remove from Favorites
          **/
-
         vm.contextMenu = function(serie) {
             return [
                 [ // Mark all watched
@@ -74,7 +73,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             vm.orderReverseList = vm.orderReverseResetList.slice();
             vm.orderReverseList[idx] = !vm.reverse;
             vm.orderBy = orderBy;
-            $rootScope.$emit('lazyImg:refresh');
         };
 
         vm.orderByList = 'getSortName()|added|firstaired|notWatchedCount'.split('|');
@@ -101,7 +99,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         vm.toggleFiltering = function() {
             vm.isFiltering = !vm.isFiltering;
             vm.query = '';
-            $rootScope.$emit('lazyImg:refresh');
         }
 
         $rootScope.$on('serieslist:filter', function(evt, query) {
@@ -165,7 +162,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                 SettingsService.set('series.displaymode', mode);
             }
             vm.mode = mode;
-            $rootScope.$emit('lazyImg:refresh');
+
         };
 
         /**
@@ -181,8 +178,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         vm.toggleSmall = function() {
             vm.isSmall = !vm.isSmall;
             SettingsService.set('library.smallposters', vm.isSmall);
-            // If the posters become smaller we may need to load extra images so fire a recheck
-            $rootScope.$emit('lazyImg:refresh');
         };
 
         /**
