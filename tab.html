@@ -1,5 +1,6 @@
 <!doctype html>
 <html ng-app="DuckieTV" ng-csp ng-strict-di>
+
 <head>
   <meta charset="UTF-8">
   <title>DuckieTV</title>
@@ -21,8 +22,9 @@
   <!-- deploy:replace='<link rel="stylesheet" media="print" href="dist/print.css">' -->
   <link rel="stylesheet" media="print" href="css/print.css">
   <!-- /deploy:replace -->
-  <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"/>
+  <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
 </head>
+
 <body kc>
   <div class="windowChrome">
     <button class="glyphicon glyphicon-win-minimize" id='minimize' uib-tooltip="{{ 'COMMON/minimize/btn'|translate }}" tooltip-placement="bottom"></button>
@@ -233,6 +235,7 @@
   <script src="js/services/TorrentSearchEngines/ShowRSS.js"></script>
   <script src="js/services/TorrentSearchEngines/ThePirateBay.js"></script>
   <script src="js/services/TorrentSearchEngines/Torrentz.eu.js"></script>
+  <script src="js/services/TorrentSearchEngines/ExtraTorrent.js"></script>
   <script src="js/services/UpgradeNotificationService.js"></script>
   <script src="js/services/TorrentFreak.js"></script>
   <script src="js/services/TraktTVv2.js"></script>
@@ -244,4 +247,5 @@
   <script src="js/services/ChromeStorageSyncTarget.js"></script>
   <!-- /deploy:replace -->
 </body>
+
 </html>
