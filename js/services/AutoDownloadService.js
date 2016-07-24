@@ -221,6 +221,10 @@ DuckieTV
                             service.activityUpdate(serie, episode, q, 5); // 'filtered out'
                             return; // no results, abort
                         }
+                        if (items[0].magneturl === undefined) { // search engine does not support magnets, unable to continue.
+                            service.activityUpdate(serie, episode, serie.name, 3); // 'autoDL disabled'
+                            return; // no results, abort
+                        }
                         if (items[0].seeders == 'N/A' || parseInt(items[0].seeders, 10) >= minSeeders) { // enough seeders are available.
                             var url = items[0].magneturl;
                             var torrentHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
