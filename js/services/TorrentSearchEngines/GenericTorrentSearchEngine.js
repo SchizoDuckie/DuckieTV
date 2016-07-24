@@ -14,7 +14,7 @@
  *      TorrentSearchEngines.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({ // name, instance
  *          mirror: 'https://thepiratebay.cr',                              // base endpoint
  *          mirrorResolver: 'MirrorResolver',                               // Angular class to $inject to fetch a mirror
-            includeBaseURL: true,                                           // Include the base url in endpoints ?? I dunno
+            includeBaseURL: true,                                           // Include the base url (mirror) to detailUrl & torrentUrl
             noMagnet: false,                                                // If provider has no magnet links, you must specify a torrentUrl in the selectors for downloading the .torrent
  *          endpoints: {                                                    // endpoints for details and search calls. Needs to be GET
  *              search: '/search/%s/0/%o/0',                                // use %s to pass in the search query. if the provider supports sorting, use %o to pass in the search orderBy parm.
