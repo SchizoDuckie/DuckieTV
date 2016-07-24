@@ -16,11 +16,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     magneturl: [], // Requires fetching details
                     size: ['td:nth-of-type(4)', 'innerText'],
                     seeders: ['td.sy', 'innerText'],
-                    leechers: ['td.ly', 'innerText',
-                        function(a) {
-                            return a ? a : 'n/a';
-                        }
-                    ],
+                    leechers: ['td.ly', 'innerText'],
                     detailUrl: ['td.tli > a', 'href'],
                     torrentUrl: ['td:first-of-type a', 'href']
                 }
