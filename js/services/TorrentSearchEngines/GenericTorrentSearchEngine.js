@@ -1,4 +1,4 @@
-/** 
+/**
  *  'Generic' torrent search engine scraper for environments where CORS is permitted. (Like node-webkit, chrome extension, phonegap, or when using a CORS proxy)
  *
  *  Usage:
@@ -14,6 +14,8 @@
  *      TorrentSearchEngines.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({ // name, instance
  *          mirror: 'https://thepiratebay.cr',                              // base endpoint
  *          mirrorResolver: 'MirrorResolver',                               // Angular class to $inject to fetch a mirror
+            includeBaseURL: true,                                           // Include the base url in endpoints ?? I dunno
+            noMagnet: false,                                                // If provider has no magnet links, you must specify a torrentUrl in the selectors for downloading the .torrent
  *          endpoints: {                                                    // endpoints for details and search calls. Needs to be GET
  *              search: '/search/%s/0/%o/0',                                // use %s to pass in the search query. if the provider supports sorting, use %o to pass in the search orderBy parm.
  *              details: '/torrent/%s'                                      // unimplemented currently, but should fetch details from the torrent's details page.
@@ -25,7 +27,7 @@
  *                      return text.trim();
  *                  }
  *              ],
- *              magneturl: ['td:nth-child(2) > a', 'href'],
+ *              magneturl: ['td:nth-child(2) > a', 'href'],                  // TODO: Allow fetching magneturl from details page
  *              size: ['td:nth-child(2) .detDesc', 'innerText',
  *                  function(innerText) {
  *                      return innerText.split(', ')[1].split(' ')[1];
@@ -37,7 +39,7 @@
  *          },
  *          orderby: {                                                      // search-order sorting options.
  *              age: '3',                                                   // if the provider does not support sorting then leave the orderby group out.
- *              leechers: '9',                                              // list only orderBy params that the provider supports for Desc sorting. 
+ *              leechers: '9',                                              // list only orderBy params that the provider supports for Desc sorting.
  *              seeders: '7',                                               // Asc sorting is currently not supported.
  *              size: '5'                                                   // Note: only these four have language translation support.
  *          }
@@ -66,7 +68,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         if (typeof sortParam !== 'undefined' && 'orderby' in config && sortParam in config.orderby) {
             url = url.replace('%o', config.orderby[sortParam]);
         }
-        return url.replace('%s', encodeURIComponent(param));        
+        return url.replace('%s', encodeURIComponent(param));
     }
 
     /**
@@ -190,7 +192,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                     $injector.get(config.mirrorResolver).findMirror().then(function(result) {
                         //console.log("Resolved a new working mirror!", result);
                         mirror = result;
-                        return self.search(what, undefined ,orderBy);
+                        return self.search(what, undefined, orderBy);
                     }, function(err) {
                         d.reject(err);
                     });
