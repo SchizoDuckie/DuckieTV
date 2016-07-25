@@ -126,7 +126,7 @@
         <a ng-if="!seed.magneturl">
           <i class="glyphicon glyphicon-magnet" style="color:gray"></i>
         </a>
-        <a ng-if="seed.torrentUrl" ng-click="select(seed)">
+        <a ng-if="seed.torrentUrl" ng-href="{{::seed.torrentUrl}}" target="iframe_a">
           <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
         </a>
         <a ng-if="seed.torrent" ng-href="{{::seed.torrent}}" target="iframe_a">
