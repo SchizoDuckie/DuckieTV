@@ -76,7 +76,7 @@ p, input, select, span, #aboutpage, #autodlstatuspage {
 }
 
 textarea {
-  color:white;
+  color: white;
 }
 
 p, span {
@@ -257,12 +257,12 @@ background-rotator .placeholder {
 #actionbar_calendar a {
   opacity: 1;
   transition: all 0.5s ease-in-out;
-  transform: rotate(0deg) scale3d(1,0,0);
+  transform: rotate(0deg) scale3d(1, 0, 0);
   left: 1px;
 }
 
 #actionbar_calendar.calendar_active a {
-  transform: rotate(180deg) scale3d(0.1,0,0);
+  transform: rotate(180deg) scale3d(0.1, 0, 0);
   opacity: 0;
 }
 
@@ -336,7 +336,7 @@ background-rotator .placeholder {
   background-image: url('../img/torrentclients/tixati-small.png');
 }
 
-#actionbar_torrent a.tixati, .torrentlogo.rtorrent {
+#actionbar_torrent a.rtorrent, .torrentlogo.rtorrent {
   background-image: url('../img/torrentclients/rtorrent-small.png');
 }
 
@@ -1028,7 +1028,6 @@ series-list .trakt-import .toggleWatchSync, series-list .trakt-import .pushToTra
 #customSearchEngine h1 {
   margin-top: 10px;
 }
-
 
 .cseProperty select {
   cursor: pointer;
@@ -1735,10 +1734,10 @@ a:hover i.glyphicon-plus-sign {
 }
 
 .btn-xs .glyphicon {
-    vertical-align: middle;
-    margin-right: 3px;
-    margin-top: -2px;
-    margin-left: 1px;
+  vertical-align: middle;
+  margin-right: 3px;
+  margin-top: -2px;
+  margin-left: 1px;
 }
 
 .btn-default.active, .btn-default:hover {
@@ -1899,16 +1898,16 @@ sidepanel> div {
   z-index: 850;
   color: white;
   background-color: rgba(25, 25, 25, 1);
-  transform: translate3d(800px,0px,0px);
+  transform: translate3d(800px, 0px, 0px);
   transition: all 0.35s linear;
 }
 
 .sidepanelActive sidepanel .sidepanel {
-  transform: translate3d(400px,0px,0px)
+  transform: translate3d(400px, 0px, 0px)
 }
 
 .sidepanelExpanded sidepanel .sidepanel {
-  transform: translate3d(0,0px,0px);
+  transform: translate3d(0, 0px, 0px);
 }
 
 sidepanel h2 {
@@ -2763,14 +2762,12 @@ ng-dial-gauge {
   border-color: rgba(91, 192, 222, 1) !important;
 }
 
-
 #serieSettingsForm label.control-label {
-    font-size: larger;
-    line-height: 35px;
-    vertical-align: middle;
-    display: inline-block;
+  font-size: larger;
+  line-height: 35px;
+  vertical-align: middle;
+  display: inline-block;
 }
-
 
 
 /**
