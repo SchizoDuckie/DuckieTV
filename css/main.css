@@ -328,10 +328,6 @@ background-rotator .placeholder {
   background-image: url('../img/torrentclients/qbittorrent-small.png');
 }
 
-#actionbar_torrent a.qbittorrent, .torrentlogo.qbittorrent {
-  background-image: url('../img/torrentclients/qbittorrent-small.png');
-}
-
 #actionbar_torrent a.tixati, .torrentlogo.tixati {
   background-image: url('../img/torrentclients/tixati-small.png');
 }
