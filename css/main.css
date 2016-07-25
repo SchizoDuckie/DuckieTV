@@ -336,6 +336,10 @@ background-rotator .placeholder {
   background-image: url('../img/torrentclients/tixati-small.png');
 }
 
+#actionbar_torrent a.tixati, .torrentlogo.rtorrent {
+  background-image: url('../img/torrentclients/rtorrent-small.png');
+}
+
 .torrentlogo {
   display: inline-block;
   width: 34px;
