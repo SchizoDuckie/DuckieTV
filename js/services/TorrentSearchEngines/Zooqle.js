@@ -14,12 +14,12 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     resultContainer: 'tr ',
                     releasename: ['td:nth-child(2) > a', 'innerText'],
                     magneturl: ['a[title^="Magnet link"', 'href'],
-                    size: ['div.progress-bar.prog-blue', 'innerText'],
-                    seeders: ['div.progress-bar.prog-green', 'innerText',
+                    size: ['td:nth-child(4)', 'innerText'],
+                    seeders: ['td:nth-child(6) div div:first-child', 'innerText',
                         function(a) {
                             return (a[a.length-1] == 'K') ? parseInt(a) * 1000 : a;
                         }],
-                    leechers: ['div.progress-bar.prog-yellow', 'innerText',
+                    leechers: ['td:nth-child(6) div div:last-child', 'innerText',
                         function(a) {
                             return (a[a.length-1] == 'K') ? parseInt(a) * 1000 : a;
                         }],
