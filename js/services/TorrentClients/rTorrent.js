@@ -78,8 +78,8 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
     }
 ])
 
-.factory('rTorrentAPI', ['BaseHTTPApi', 'xmlrpc',
-    function(BaseHTTPApi, xmlrpc) {
+.factory('rTorrentAPI', ['BaseHTTPApi', 'xmlrpc', '$q',
+    function(BaseHTTPApi, xmlrpc, $q) {
 
         var rTorrentAPI = function() {
             BaseHTTPApi.call(this);
@@ -122,7 +122,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                 return this.rpc('download_list').then(function(data) {
                     var args = [];
                     var indexMap = {};
-                    var props = ["d.get_base_filename", "d.get_base_path", "d.get_bitfield", "d.get_bytes_done", "d.get_chunk_size", "d.get_chunks_hashed", "d.get_complete", "d.get_completed_bytes", "d.get_completed_chunks", "d.get_connection_current", "d.get_connection_leech", "d.get_connection_seed", "d.get_creation_date", "d.get_custom", "d.get_custom1", "d.get_custom2", "d.get_custom3", "d.get_custom4", "d.get_custom5", "d.get_custom_throw", "d.get_directory", "d.get_directory_base", "d.get_down_rate", "d.get_down_total", "d.get_free_diskspace", "d.get_hash", "d.get_hashing", "d.get_hashing_failed", "d.get_ignore_commands", "d.get_left_bytes", "d.get_loaded_file", "d.get_local_id", "d.get_local_id_html", "d.get_max_file_size", "d.get_max_size_pex", "d.get_message", "d.get_mode", "d.get_name", "d.get_peer_exchange", "d.get_peers_accounted", "d.get_peers_complete", "d.get_peers_connected", "d.get_peers_max", "d.get_peers_min", "d.get_peers_not_connected", "d.get_priority", "d.get_priority_str", "d.get_ratio", "d.get_size_bytes", "d.get_size_chunks", "d.get_size_pex", "d.get_skip_rate", "d.get_skip_total", "d.get_state", "d.get_state_changed", "d.get_state_counter", "d.get_throttle_name", "d.get_tied_to_file", "d.get_tracker_focus", "d.get_tracker_numwant", "d.get_tracker_size", "d.get_up_rate", "d.get_up_total", "d.get_uploads_max"];
+                    var props = ["d.get_base_filename", "d.get_base_path", "d.get_bytes_done", "d.get_completed_bytes","d.get_directory", "d.get_directory_base", "d.get_down_rate", "d.get_down_total", "d.get_hash", "d.get_name", "d.get_size_bytes", "d.get_state", "d.get_up_rate"];
 
                     data.map(function(hash) {
                         indexMap[hash] = {};
@@ -180,16 +180,37 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                 });
             },
             addMagnet: function(magnetHash) {
-                return this.rpc('torrent-add', {
-                    arguments: {
-                        paused: false,
-                        filename: magnetHash
-                    }
-                });
+                return this.rpc('load_start', [magnetHash]);
             },
             addTorrentByUrl: function(url, releaseName) {
                 return this.addMagnet(url).then(function(result) {
-                    return result.arguments['torrent-added'].hashString.toUpperCase();
+                         
+                    var currentTry = 0;
+                    var maxTries = 5;
+                    // wait for rTorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
+                    return $q(function(resolve, reject) {
+                        function verifyAdded() {
+                            currentTry++;
+                            self.getTorrents().then(function(result) {
+                                var hash = null;
+                                result.map(function(torrent) {
+                                    if (torrent.name == releaseName) {
+                                        hash = torrent.hash.toUpperCase();
+                                    }
+                                });
+                                if (hash !== null) {
+                                    resolve(hash);
+                                } else {
+                                    if (currentTry < maxTries) {
+                                        setTimeout(verifyAdded, 1000);
+                                    } else {
+                                        throw "No hash found for torrent " + releaseName + " in 5 tries.";
+                                    }
+                                }
+                            });
+                        }
+                        setTimeout(verifyAdded, 1000);
+                    });
                 });
             },
             addTorrentByUpload: function(data, releaseName) {
@@ -198,13 +219,36 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                     var key = "base64,",
                         index = contents.indexOf(key);
                     if (index > -1) {
-                        return self.rpc('torrent-add', {
-                            arguments: {
-                                paused: false,
-                                metainfo: contents.substring(index + key.length)
-                            }
-                        }).then(function(result) {
-                            return result.arguments['torrent-added'].hashString.toUpperCase();
+                         var value = new base64_xmlrpc_value(contents.substring(index + key.length));
+                        return self.rpc('load_raw_start', [value]).then(function(result) {
+                         
+                            var currentTry = 0;
+                            var maxTries = 5;
+                            // wait for rTorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
+                            return $q(function(resolve, reject) {
+                                function verifyAdded() {
+                                    currentTry++;
+                                    self.getTorrents().then(function(result) {
+                                        var hash = null;
+                                        result.map(function(torrent) {
+                                            if (torrent.name == releaseName) {
+                                                hash = torrent.hash.toUpperCase();
+                                            }
+                                        });
+                                        if (hash !== null) {
+                                            resolve(hash);
+                                        } else {
+                                            if (currentTry < maxTries) {
+                                                setTimeout(verifyAdded, 1000);
+                                            } else {
+                                                throw "No hash found for torrent " + releaseName + " in 5 tries.";
+                                            }
+                                        }
+                                    });
+                                }
+                                setTimeout(verifyAdded, 1000);
+                            });
+
                         })
                     }
                 });

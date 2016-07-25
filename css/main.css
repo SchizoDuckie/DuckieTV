@@ -1344,8 +1344,14 @@ div [date-picker] {
 }
 
 [date-picker].zoom td.day:first-child:hover {
-  transform: scale(1.5) translate3d(0px, 95px, 0px);
+  transform: scale(1.5) translate3d(80px, 15px, 0px);
+  transform-origin: center center;
 }
+
+[date-picker].zoom.more td.day:first-child:hover {
+  transform: scale(1.5) translate3d(50px, 15px, 0px);
+}
+
 
 [date-picker].zoom td.day:hover> span {
   top: 0px;

@@ -442,10 +442,19 @@ angular.module('xmlrpc', [])
             var method = js2xmlMethod_[type];
             if (input === null) {
                 method = null2xml_;
+            } else if (input instanceof base64_xmlrpc_value) {
+                method = base642xml_;
             } else if (method == undefined) {
                 method = string2xml_;
             }
             return helperXmlRpc.createNode(doc, 'value', method(doc, input));
+        };
+
+        /**
+         * Convert a string to a valid xmlrpc value (as xml element).
+         */
+        function base642xml_(doc, input) {
+            return helperXmlRpc.createNode(doc, 'base64', input.toString());
         };
 
         return {
@@ -603,3 +612,14 @@ angular.module('xmlrpc', [])
         };
     }
 ]);
+
+/**
+ * instances of this function will be converted to <base64> xmlrpc values
+ */
+base64_xmlrpc_value = function(value) {
+    this.value = value;
+
+    this.toString = function() {
+        return this.value;
+    }
+}

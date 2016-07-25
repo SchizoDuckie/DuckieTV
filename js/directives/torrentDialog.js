@@ -252,34 +252,34 @@ DuckieTV
 
         // Selects and launches magnet
         var magnetSelect = function(magnet) {
-                console.info("Magnet selected!", magnet);
-                if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
-                    $modalInstance.close(magnet);
+            console.info("Magnet selected!", magnet);
+            if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
+                $modalInstance.close(magnet);
+            }
+
+            var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
+            TorrentSearchEngines.launchMagnet(magnet, channel);
+            // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
+            TorrentHashListService.addToHashList(magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+        },
+
+        urlSelect = function(url, releasename) {
+            console.info("Torrent URL selected!", url);
+            if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
+                $modalInstance.close(url);
+            }
+
+            var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
+            $injector.get('$http').get(url, {
+                responseType: 'blob'
+            }).then(function(result) {
+                try {
+                    TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename);
+                } catch (E) {
+                    TorrentSearchEngines.launchTorrentByURL(url, channel, releasename);
                 }
-
-                var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-                TorrentSearchEngines.launchMagnet(magnet, channel);
-                // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
-                TorrentHashListService.addToHashList(magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
-            },
-
-            urlSelect = function(url, releasename) {
-                console.info("Torrent URL selected!", url);
-                if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
-                    $modalInstance.close(url);
-                }
-
-                var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-                $injector.get('$http').get(url, {
-                    responseType: 'blob'
-                }).then(function(result) {
-                    try {
-                        TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename);
-                    } catch (E) {
-                        TorrentSearchEngines.launchTorrentByURL(url, channel, releasename);
-                    }
-                });
-            };
+            });
+        };
 
         $scope.select = function(result) {
             var config = TorrentSearchEngines.getSearchEngine($scope.searchprovider).config;
