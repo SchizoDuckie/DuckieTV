@@ -104,7 +104,7 @@ DuckieTV
         if (!localStorage.getItem('1.1.4updateDelugeAuth')) {
             console.info("Executing 1.1.4updateDelugeAuth to set deluge.use_auth to true");
             SettingsService.set('deluge.use_auth', true);
-            localStorage.setItem('deluge1.1.4updateDelugeAuth', new Date());
+            localStorage.setItem('1.1.4updateDelugeAuth', new Date());
             console.info("1.1.4updateDelugeAuth done!");
         }
 
