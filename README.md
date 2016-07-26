@@ -1,14 +1,6 @@
 DuckieTV Binary, Chrome and Online [![Build Status](https://travis-ci.org/SchizoDuckie/DuckieTV.svg?branch=angular)](https://travis-ci.org/SchizoDuckie/DuckieTV)
 ==============================================
 
-###Notice: DuckieTV development is currently on hiatus
------------------------
-#####Development on DuckieTV is currently on pause while the developers are taking a break and working on other things. DuckieTV will still continue and we will always be here to answer any questions and resolve issues during the hiatus as well as ensuring that you are still able to use DuckieTV without a problem. 
-#####DuckieTV is still an open-source community-driven project with only 3 active developers. We still have a lot of plans for DuckieTV and hope to continue working on them soon. If you know any Javascript feel free to contribute to the project and send pull requests, we'd always be happy to review them and consider them for implementation, we have quite a lot of Documentation on how to get started and how it all works. DuckieTV still remains a project that the team do for fun and practice as well as providing an easy to use TV show tracker to simplfy our own and other TV Show addicts lives.
-
-######_Thank you, the DuckieTV Team_ 
------------------------
-
 DuckieTV is an application that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
 
 
