@@ -11,8 +11,6 @@ DuckieTV.controller("uTorrentWebUICtrl", ["$injector", "uTorrentWebUI", "Setting
                 use_auth: SettingsService.get('utorrentwebui.use_auth'),
                 username: SettingsService.get('utorrentwebui.username'),
                 password: SettingsService.get('utorrentwebui.password'),
-                hideUsername: false,
-                hideKey: true,
                 hideUseAuth: true
             };
 

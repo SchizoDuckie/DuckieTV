@@ -8,14 +8,8 @@ DuckieTV.controller("rTorrentCtrl", ["$injector", "rTorrent", "SettingsService",
             self.model = {
                 server: SettingsService.get('rtorrent.server'),
                 port: SettingsService.get('rtorrent.port'),
-                use_auth: SettingsService.get('rtorrent.use_auth'),
-                username: SettingsService.get('rtorrent.username'),
-                password: SettingsService.get('rtorrent.password'),
                 path: SettingsService.get('rtorrent.path'),
-                use_path: true,
-                hideUsername: true,
-                hideKey: true,
-                hideUseAuth: true
+                use_path: true
             };
 
             self.fields = fields;

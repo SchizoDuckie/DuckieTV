@@ -99,6 +99,15 @@ DuckieTV
             console.info("1.1.4refreshTrendingCache done!");
         }
 
+        // update deluge auth
+
+        if (!localStorage.getItem('1.1.4updateDelugeAuth')) {
+            console.info("Executing 1.1.4updateDelugeAuth to set deluge.use_auth to true");
+            SettingsService.set('deluge.use_auth', true);
+            localStorage.setItem('deluge1.1.4updateDelugeAuth', new Date());
+            console.info("1.1.4updateDelugeAuth done!");
+        }
+
         // remove obsolete torrentHashes from TorrentHashListService.hashList
 
         if (!localStorage.getItem('1.1.4TorrentHashListCleanup')) {

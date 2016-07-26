@@ -12,7 +12,6 @@ DuckieTV.controller("tbtCtrl", ["$injector", "Transmission", "SettingsService", 
                 use_auth: SettingsService.get('transmission.use_auth'),
                 username: SettingsService.get('transmission.username'),
                 password: SettingsService.get('transmission.password'),
-                hideUsername: false,
                 hideKey: false,
                 hideUseAuth: false
             };

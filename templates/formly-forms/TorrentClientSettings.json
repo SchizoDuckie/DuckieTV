@@ -32,7 +32,7 @@
 }, {
     "key": "key",
     "type": "input",
-    "hideExpression": "model.hideKey === true",
+    "hideExpression": "model.key === undefined || model.hideKey === true",
     "templateOptions": {
         "type": "text",
         "label": ""
@@ -43,7 +43,7 @@
 }, {
     "key": "use_auth",
     "type": "input",
-    "hideExpression": "model.hideUseAuth === true",
+    "hideExpression": "model.use_auth === undefined || model.hideUseAuth === true",
     "templateOptions": {
         "type": "checkbox",
         "label": ""
@@ -54,7 +54,7 @@
 }, {
     "key": "username",
     "type": "input",
-    "hideExpression": "model.hideUsername === true || model.use_auth === false",
+    "hideExpression": "model.username === undefined || model.hideUsername === true || model.use_auth === false",
     "templateOptions": {
         "type": "text",
         "label": ""
@@ -65,7 +65,7 @@
 }, {
     "key": "password",
     "type": "input",
-    "hideExpression": "model.use_auth === false && model.hideUsername === false",
+    "hideExpression": "model.password === undefined || model.hidePassword === true || model.use_auth === false",
     "templateOptions": {
         "type": "password",
         "label": ""

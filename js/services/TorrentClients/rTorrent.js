@@ -277,11 +277,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
         service.setConfigMappings({
             server: 'rtorrent.server',
             port: 'rtorrent.port',
-            key: 'rtorrent.key',
-            path: 'rtorrent.path',
-            username: 'rtorrent.username',
-            password: 'rtorrent.password',
-            use_auth: 'rtorrent.use_auth'
+            path: 'rtorrent.path'
         });
         service.setEndpoints({
             rpc: 'this is replaced by config.key'

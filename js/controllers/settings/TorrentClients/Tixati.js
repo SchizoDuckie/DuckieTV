@@ -11,8 +11,6 @@ DuckieTV.controller("tixatiCtrl", ["$injector", "Tixati", "SettingsService", "Fo
                 use_auth: SettingsService.get('tixati.use_auth'),
                 username: SettingsService.get('tixati.username'),
                 password: SettingsService.get('tixati.password'),
-                hideUsername: false,
-                hideKey: true,
                 hideUseAuth: true
             };
 

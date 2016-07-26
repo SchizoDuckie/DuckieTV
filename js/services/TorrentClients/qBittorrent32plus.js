@@ -75,7 +75,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                                     if (currentTry < maxTries) {
                                         setTimeout(verifyAdded, 1000);
                                     } else {
-                                        throw "No hash found for torrent " + filename + " in 5 tries.";
+                                        throw "No hash found for torrent " + filename + " in " + maxTries + " tries.";
                                     }
                                 }
                             });

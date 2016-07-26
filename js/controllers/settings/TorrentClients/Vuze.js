@@ -12,7 +12,6 @@ DuckieTV.controller("vuzeCtrl", ["$injector", "Vuze", "SettingsService", "Formly
                 use_auth: SettingsService.get('vuze.use_auth'),
                 username: SettingsService.get('vuze.username'),
                 password: SettingsService.get('vuze.password'),
-                hideUsername: false,
                 hideKey: true,
                 hideUseAuth: false
             };

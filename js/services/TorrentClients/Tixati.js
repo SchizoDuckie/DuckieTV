@@ -233,7 +233,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                                     if (currentTry < maxTries) {
                                         setTimeout(verifyAdded, 1000);
                                     } else {
-                                        throw "No hash found for torrent " + filename + " in 5 tries.";
+                                        throw "No hash found for torrent " + filename + " in " + maxTries + " tries.";
                                     }
                                 }
                             });
@@ -278,8 +278,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             server: 'tixati.server',
             port: 'tixati.port',
             username: 'tixati.username',
-            password: 'tixati.password',
-            use_auth: 'tixati.use_auth'
+            password: 'tixati.password'
         });
         service.setEndpoints({
             torrents: '/transfers',

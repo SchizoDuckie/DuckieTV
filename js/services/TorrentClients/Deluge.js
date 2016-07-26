@@ -192,9 +192,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
         service.setConfigMappings({
             server: 'deluge.server',
             port: 'deluge.port',
-            username: 'deluge.username',
-            password: 'deluge.password',
-            use_auth: 'deluge.use_auth'
+            password: 'deluge.password'
         });
         service.setEndpoints({
             rpc: '/json',

@@ -14,8 +14,6 @@ DuckieTV.controller("delugeCtrl", ["$injector", "Deluge", "SettingsService", "Fo
                 port: SettingsService.get('deluge.port'),
                 use_auth: SettingsService.get('deluge.use_auth'),
                 password: SettingsService.get('deluge.password'),
-                hideUsername: true,
-                hideKey: true,
                 hideUseAuth: true
             };
 

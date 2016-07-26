@@ -11,8 +11,6 @@ DuckieTV.controller("qbtCtrl", ["$injector", "qBittorrent", "SettingsService", "
                 use_auth: SettingsService.get('qbittorrent.use_auth'),
                 username: SettingsService.get('qbittorrent.username'),
                 password: SettingsService.get('qbittorrent.password'),
-                hideUsername: false,
-                hideKey: true,
                 hideUseAuth: false
             };
 

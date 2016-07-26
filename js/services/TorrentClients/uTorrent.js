@@ -411,8 +411,8 @@ DuckieTorrent
                     throw "Upload Torrent Not implemented in uTorrent remote.";
                 },
 
-                addTorrentByUrl: function(hash, name) {
-                    return uTorrentRemote.add.torrent(hash).then(function() {
+                addTorrentByUrl: function(url, name) {
+                    return uTorrentRemote.add.torrent(url).then(function(result) {
                         return methods.Update(true);
                     }).then(function() {
                         return $q(function(resolve) {
