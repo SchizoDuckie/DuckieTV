@@ -241,7 +241,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                                     if (currentTry < maxTries) {
                                         setTimeout(verifyAdded, 1000);
                                     } else {
-                                        throw "No hash found for torrent " + releasename + " in 5 tries.";
+                                        throw "No hash found for torrent " + releasename + " in " + maxTries + " tries.";
                                     }
                                 }
                             });
