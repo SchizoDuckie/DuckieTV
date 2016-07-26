@@ -220,6 +220,7 @@ DuckieTV
 
         // Changes what search provider you search with
         $scope.setProvider = function(provider) {
+            TorrentSearchEngines.getSearchEngine($scope.searchprovider).cancelActiveRequest();
             $scope.searchprovider = provider;
             var provider = TorrentSearchEngines.getSearchEngine($scope.searchprovider);
             if ('config' in provider && 'orderby' in provider.config) {
@@ -227,7 +228,7 @@ DuckieTV
                 $scope.orderByList = Object.keys(provider.config.orderby);
             } else {
                 // this provider does not support orderBy sorting
-                $scope.orderByList = [];
+                $scope.orderByList = []; 
             }
             // reset orderBy since the new provider may not have the currently active orderBy param
             $scope.orderBy = 'seeders';

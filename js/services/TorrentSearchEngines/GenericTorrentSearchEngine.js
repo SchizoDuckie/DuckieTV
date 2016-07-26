@@ -166,6 +166,12 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         return output;
     }
 
+    this.cancelActiveRequest = function() {
+        if(activeRequest) {
+            activeRequest.resolve();
+        }
+    };
+
     /**
      * Execute a generic torrent search, parse the results and return them as an array
      */
@@ -213,7 +219,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             method: 'GET',
             url: getUrl('search', what, sortBy),
             cache: false,
-            timeout: timeout.promise
+            timeout: timeout.promise,
+            cancel: timeout
         });
     };
 
