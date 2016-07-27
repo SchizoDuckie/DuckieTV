@@ -8,8 +8,7 @@ DuckieTV.controller("rTorrentCtrl", ["$injector", "rTorrent", "SettingsService",
             self.model = {
                 server: SettingsService.get('rtorrent.server'),
                 port: SettingsService.get('rtorrent.port'),
-                path: SettingsService.get('rtorrent.path'),
-                use_path: true
+                path: SettingsService.get('rtorrent.path')
             };
 
             self.fields = fields;

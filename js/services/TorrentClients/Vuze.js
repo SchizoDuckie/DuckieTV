@@ -17,13 +17,10 @@ DuckieTorrent.factory('Vuze', ["BaseTorrentClient", "TransmissionRemote", "Trans
         service.setConfigMappings({
             server: 'vuze.server',
             port: 'vuze.port',
-            key: 'vuze.key',
+            path: 'vuze.path',
             username: 'vuze.username',
             password: 'vuze.password',
             use_auth: 'vuze.use_auth'
-        });
-        service.setEndpoints({
-            rpc: 'this is replaced by config.key'
         });
         service.readConfig();
 

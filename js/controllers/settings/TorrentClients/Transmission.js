@@ -8,12 +8,10 @@ DuckieTV.controller("tbtCtrl", ["$injector", "Transmission", "SettingsService", 
             self.model = {
                 server: SettingsService.get('transmission.server'),
                 port: SettingsService.get('transmission.port'),
-                key: SettingsService.get('transmission.key'),
+                path: SettingsService.get('transmission.path'),
                 use_auth: SettingsService.get('transmission.use_auth'),
                 username: SettingsService.get('transmission.username'),
-                password: SettingsService.get('transmission.password'),
-                hideKey: false,
-                hideUseAuth: false
+                password: SettingsService.get('transmission.password')
             };
 
             self.fields = fields;

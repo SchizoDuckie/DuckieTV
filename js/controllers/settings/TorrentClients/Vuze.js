@@ -8,12 +8,11 @@ DuckieTV.controller("vuzeCtrl", ["$injector", "Vuze", "SettingsService", "Formly
             self.model = {
                 server: SettingsService.get('vuze.server'),
                 port: SettingsService.get('vuze.port'),
-                key: SettingsService.get('vuze.key'),
+                path: SettingsService.get('vuze.path'),
                 use_auth: SettingsService.get('vuze.use_auth'),
                 username: SettingsService.get('vuze.username'),
                 password: SettingsService.get('vuze.password'),
-                hideKey: true,
-                hideUseAuth: false
+                hidePath: true
             };
 
             self.fields = fields;

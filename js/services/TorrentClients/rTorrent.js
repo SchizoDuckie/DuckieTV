@@ -279,9 +279,6 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
             port: 'rtorrent.port',
             path: 'rtorrent.path'
         });
-        service.setEndpoints({
-            rpc: 'this is replaced by config.key'
-        });
         service.readConfig();
 
         return service;

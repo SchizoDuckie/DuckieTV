@@ -108,6 +108,16 @@ DuckieTV
             console.info("1.1.4updateDelugeAuth done!");
         }
 
+        // update transmission path (and vuze)
+
+        if (!localStorage.getItem('1.1.4updateTransmissionPath')) {
+            console.info("Executing 1.1.4updateTransmissionPath to clone transmission.key to transmission.path");
+            SettingsService.set('transmission.path', SettingsService.get('transmission.key'));
+            SettingsService.set('vuze.path', SettingsService.get('vuze.key'));
+            localStorage.setItem('1.1.4updateTransmissionPath', new Date());
+            console.info("1.1.4updateTransmissionPath done!");
+        }
+
         // remove obsolete torrentHashes from TorrentHashListService.hashList
 
         if (!localStorage.getItem('1.1.4TorrentHashListCleanup')) {
