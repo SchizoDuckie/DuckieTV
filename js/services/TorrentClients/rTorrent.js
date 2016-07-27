@@ -3,6 +3,7 @@
  *
  * API Docs:
  * https://github.com/rakshasa/rtorrent/wiki/RPC-Setup-XMLRPC
+ * https://github.com/rakshasa/rtorrent/wiki/rTorrent-0.9-Comprehensive-Command-list-(WIP)
  */
 rTorrentData = function(data) {
     this.update(data);
