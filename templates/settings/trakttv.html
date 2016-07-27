@@ -16,9 +16,9 @@
   <p><span translate-once="SETTINGS/TRAKTTV/update-period/desc"></span>{{tuPeriod}}<span translate-once="SETTINGS/TRAKTTV/update-period/desc2"></span><br><span translate-once="SETTINGS/TRAKTTV/update-period-default/lbl"></span></p>
 
   <form name="tu">
-    <span translate-once="SETTINGS/TRAKTTV/update-period/form"></span> <input type='number' name="period" ng-model="tuPeriod" min="1" max="24" />
-    <a class="btn btn-success" ng-click="saveTUPeriod(tuPeriod)" ng-disabled="tu.period.$error.number || tu.period.$error.min || tu.period.$error.max" style="float:right; margin-top:-10px;">
-      <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+    <span translate-once="SETTINGS/TRAKTTV/update-period/form"></span> <input type='number' name="period" ng-model="tuPeriod" ng-change="editingTU = true;" min="1" max="24" />
+    <a class="btn btn-{{editingTU ? 'info' : 'success'}}" ng-click="saveTUPeriod(tuPeriod); editingTU = false;" ng-disabled="tu.period.$error.number || tu.period.$error.min || tu.period.$error.max" style="float:right; margin-top:-10px;">
+      <i class="glyphicon glyphicon-floppy-save {{editingTU ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
     </a>
   </form>
   <span class="alert alert-danger" ng-show="tu.period.$error.number" translate-once="COMMON/only-numbers/alert"></span>

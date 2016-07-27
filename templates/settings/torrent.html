@@ -51,12 +51,12 @@
         <p><span translate-once="SETTINGS/TORRENT/autodownload-period/desc"></span>{{adPeriod}}<span translate-once="SETTINGS/TORRENT/autodownload-period/desc2"></span><br><span translate-once="SETTINGS/TORRENT/autodownload-period-default/lbl"></span></p>
 
         <form name="p">
-          <span translate-once="SETTINGS/TORRENT/autodownload-period/form"></span> <input type="number" name="period" ng-model="adPeriod" min="1" max="21" required />
-          <a ng-show="!p.period.$valid" class="btn btn-success" ng-disabled="true" style="float:right; margin-top:-10px;">
-            <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+          <span translate-once="SETTINGS/TORRENT/autodownload-period/form"></span> <input type="number" name="period" ng-model="adPeriod" ng-change="editingP = true;" min="1" max="21" required />
+          <a ng-show="!p.period.$valid" class="btn btn-{{editingP ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
+            <i class="glyphicon glyphicon-floppy-save {{editingP ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
           </a>
-          <a ng-show="p.period.$valid" class="btn btn-success" ng-click="saveADPeriod(adPeriod)" style="float:right; margin-top:-10px;">
-            <i class="glyphicon glyphicon-floppy-save" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+          <a ng-show="p.period.$valid" class="btn btn-{{editingP ? 'info' : 'success'}}" ng-click="saveADPeriod(adPeriod); editingP = false;" style="float:right; margin-top:-10px;">
+            <i class="glyphicon glyphicon-floppy-save {{editingP ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
           </a>
         </form>
         <span class="alert alert-danger" ng-show="!p.period.$valid" translate-once="SETTINGS/TORRENT/autodownload-days-range/alert"></span>
@@ -67,12 +67,12 @@
         <p><span translate-once="SETTINGS/TORRENT/autodownload-seeders/desc"></span><br><span translate-once="SETTINGS/TORRENT/autodownload-seeders-default/lbl"></span></p>
 
         <form name="s">
-          <span translate-once="SETTINGS/TORRENT/autodownload-seeders/form"></span> <input type="number" name="seeders" ng-model="adMinSeeders" min="0" max="3000" required />
-          <a ng-show="!s.seeders.$valid" class="btn btn-success" ng-disabled="true"  style="float:right; margin-top:-10px;">
-            <i class="glyphicon glyphicon-floppy-save"></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+          <span translate-once="SETTINGS/TORRENT/autodownload-seeders/form"></span> <input type="number" name="seeders" ng-model="adMinSeeders" ng-change="editingS = true;" min="0" max="3000" required />
+          <a ng-show="!s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-disabled="true"  style="float:right; margin-top:-10px;">
+            <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
           </a>
-          <a ng-show="s.seeders.$valid" class="btn btn-success" ng-click="saveADMinSeeders(adMinSeeders)" style="float:right; margin-top:-10px;">
-            <i class="glyphicon glyphicon-floppy-save"></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+          <a ng-show="s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-click="saveADMinSeeders(adMinSeeders); editingS = false;" style="float:right; margin-top:-10px;">
+            <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
           </a>
         </form>
         <span class="alert alert-danger" ng-show="!s.seeders.$valid" translate-once="SETTINGS/TORRENT/autodownload-seeders-range/alert"></span>

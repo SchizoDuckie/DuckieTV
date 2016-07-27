@@ -50,7 +50,7 @@
   <ul class="list-unstyled">
     <li><span translate-once="COMMON/global-include/hdr"></span><br>
       <input type='text' style='width:350px' ng-model="globalInclude" ng-change="editingGI = true;" translate-once-placeholder="COMMON/global-search/placeholder">
-      <a class="btn btn-success" ng-click="saveGlobalInclude(globalInclude); editingGI = false;">
+      <a class="btn btn-{{editingGI ? 'info' : 'success'}}" ng-click="saveGlobalInclude(globalInclude); editingGI = false;">
         <i class="glyphicon glyphicon-floppy-save {{editingGI ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
       </a>
     </li>
@@ -63,7 +63,7 @@
   <ul class="list-unstyled">
     <li><span translate-once="COMMON/global-exclude/hdr"></span><br>
       <input type='text' style='width:350px' ng-model="globalExclude" ng-change="editingGE = true;" translate-once-placeholder="COMMON/global-search/placeholder">
-      <a class="btn btn-success" ng-click="saveGlobalExclude(globalExclude); editingGE = false;">
+      <a class="btn btn-{{editingGE ? 'info' : 'success'}}" ng-click="saveGlobalExclude(globalExclude); editingGE = false;">
         <i class="glyphicon glyphicon-floppy-save {{editingGE ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
       </a>
     </li>
@@ -76,10 +76,10 @@
 
   <form name="sizemin">
     <span translate-once="COMMON/global-size/form"></span> <input type="number" name="mb" ng-model="globalSizeMin" ng-change="editingGSm = true;" translate-once-placeholder="COMMON/search-size/placeholder">
-    <a ng-show="!sizemin.mb.$valid" class="btn btn-success" ng-disabled="true" style="float:right; margin-top:-10px;">
+    <a ng-show="!sizemin.mb.$valid" class="btn btn-{{editingGSm ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save {{editingGSm ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
     </a>
-    <a ng-show="sizemin.mb.$valid" class="btn btn-success" ng-click="saveGlobalSizeMin(globalSizeMin); editingGSm = false;" style="float:right; margin-top:-10px;">
+    <a ng-show="sizemin.mb.$valid" class="btn btn-{{editingGSm ? 'info' : 'success'}}" ng-click="saveGlobalSizeMin(globalSizeMin); editingGSm = false;" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save {{editingGSm ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
     </a>
   </form>
@@ -92,10 +92,10 @@
 
   <form name="sizemax">
     <span translate-once="COMMON/global-size/form"></span> <input type="number" name="mb" ng-model="globalSizeMax"  ng-change="editingGSM = true;" translate-once-placeholder="COMMON/search-size/placeholder">
-    <a ng-show="!sizemax.mb.$valid" class="btn btn-success" ng-disabled="true" style="float:right; margin-top:-10px;">
+    <a ng-show="!sizemax.mb.$valid" class="btn btn-{{editingGSM ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save {{editingGSM ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
     </a>
-    <a ng-show="sizemax.mb.$valid" class="btn btn-success" ng-click="saveGlobalSizeMax(globalSizeMax); editingGSM = false;" style="float:right; margin-top:-10px;">
+    <a ng-show="sizemax.mb.$valid" class="btn btn-{{editingGSM ? 'info' : 'success'}}" ng-click="saveGlobalSizeMax(globalSizeMax); editingGSM = false;" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save {{editingGSM ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
     </a>
   </form>
@@ -109,7 +109,7 @@
   <ul class="list-unstyled">
     <li><span translate-once="SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr"></span><br>
       <input type='url' style='width:350px' ng-model="customtpbmirror" ng-change="editingTPB = true;">
-      <a class="btn btn-success" ng-click="validateCustomTPBMirror(customtpbmirror); editingTPB = false;">
+      <a class="btn btn-{{editingTPB ? 'info' : 'success'}}" ng-click="validateCustomTPBMirror(customtpbmirror); editingTPB = false;">
         <i class="glyphicon glyphicon-floppy-save {{editingTPB ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="SETTINGS/TORRENT-SEARCH/tpb-validate/btn"></span>
       </a>
       <a class="btn btn-info" ng-click="findRandomTPBMirror()">
@@ -132,7 +132,7 @@
   <ul class="list-unstyled">
     <li><span translate-once="SETTINGS/TORRENT-SEARCH/kat-mirror/hdr"></span><br>
       <input type='url' style='width:350px' ng-model="customkatmirror" ng-change="editingKAT = true;">
-      <a class="btn btn-success" ng-click="validateCustomKATMirror(customkatmirror); editingKAT = false;">
+      <a class="btn btn-{{editingKAT ? 'info' : 'success'}}" ng-click="validateCustomKATMirror(customkatmirror); editingKAT = false;">
         <i class="glyphicon glyphicon-floppy-save {{editingKAT ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="SETTINGS/TORRENT-SEARCH/kat-validate/btn"></span>
       </a>
       <a ng-hide="true" class="btn btn-info" ng-click="findRandomKATMirror()">
