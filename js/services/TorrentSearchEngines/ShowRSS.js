@@ -1,12 +1,9 @@
 /** 
- * new.ShowRSS.info custom Torrent API interfacing.
- * Scrapes the shows list from new.ShowRSS.info and tries to fetch the magnet links for an episode.
+ * ShowRSS.info custom Torrent API interfacing.
+ * Scrapes the shows list from ShowRSS.info and tries to fetch the magnet links for an episode.
  */
 DuckieTV.factory('ShowRSS', ["$q", "$http",
     function($q, $http) {
-
-        var activeSearchRequest = false,
-            activeTrendingRequest = false;
 
         var endpoint = 'https://showrss.info/';
 
@@ -53,7 +50,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
 
                     var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
                     if (magnetHash && magnetHash.length) {
-                        out.torrent = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                        out.torrent = 'https://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                         output.push(out);
                     }
                 });
@@ -123,6 +120,9 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                         return [];
                     }
                 });
+            },
+            cancelActiveRequest: function() {
+                // dummy stub to satisfy call from  TorrentSearchEngines.getSearchEngine($scope.searchprovider).cancelActiveRequest();
             }
         };
     }

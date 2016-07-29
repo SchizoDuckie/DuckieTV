@@ -54,7 +54,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
 
                     var magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
                     if (magnetHash && magnetHash.length) {
-                        out.torrent = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                        out.torrent = 'https://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                         output.push(out);
                     }
                 });
@@ -120,6 +120,11 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                     age: 'last',
                     leechers: 'leechers',
                     seeders: 'seeders'
+                }
+            },
+            cancelActiveRequest: function() {
+                if(activeSearchRequest) {
+                    activeSearchRequest.resolve();
                 }
             },
             search: function(what, noCancel, orderBy, isTokenExpired) {
