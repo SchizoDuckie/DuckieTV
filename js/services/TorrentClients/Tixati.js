@@ -200,12 +200,12 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 });
             },
 
-            addTorrentByUpload: function(data, filename) {
+            addTorrentByUpload: function(data, releaseName) {
 
                 var self = this,
                     fd = new FormData();
 
-                fd.append('metafile', data, filename + '.torrent');
+                fd.append('metafile', data, releaseName + '.torrent');
                 fd.append('addmetafile', 'Add');
 
                 return this.request('addmagnet', {}, fd, {
@@ -218,13 +218,52 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                     var maxTries = 5;
                     // wait for Tixati to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
                     return $q(function(resolve, reject) {
+                        /*
+                         * find the most likely torrent candidate in the uTorrent host,
+                         * based on the .torrent releaseName we just uploaded via the uTorrent WebUi client
+                         */
                         function verifyAdded() {
+                            // helper function that counts how many words in source are in target
+                            function getScore(source, target) {
+                                var score = 0;
+                                // strip source of non alphabetic characters and duplicate words
+                                var sourceArray = source
+                                .toUpperCase()
+                                .replace(/[^A-Z0-9]+/g, ' ')
+                                .trim()
+                                .split(' ')
+                                .filter(function(item, i, allItems) {
+                                    return i == allItems.indexOf(item);
+                                });
+                                // strip target of non alphabetic characters and duplicate words
+                                var targetString = target
+                                .toUpperCase()
+                                .replace(/[^A-Z0-9]+/g, ' ')
+                                .trim()
+                                .split(' ')
+                                .filter(function(item, i, allItems) {
+                                    return i == allItems.indexOf(item)
+                                })
+                                .join(' ');
+                                // count how many words of source are in target
+                                sourceArray.map(function(sourceWord) {
+                                    if (targetString.indexOf(sourceWord) > -1) {
+                                        score++;
+                                    }
+                                });
+                                return score;
+                            }
+
                             currentTry++;
                             self.getTorrents().then(function(result) {
                                 var hash = null;
+                                var bestScore = 0;
+                                // for each torrent compare the torrent.name with .torrent releaseName and record the number of matching words
                                 result.map(function(torrent) {
-                                    if (torrent.name == filename) {
+                                    var score = getScore(releaseName, torrent.name);
+                                    if (score > bestScore) {
                                         hash = torrent.hash.toUpperCase();
+                                        bestScore = score;
                                     }
                                 });
                                 if (hash !== null) {
@@ -233,7 +272,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                                     if (currentTry < maxTries) {
                                         setTimeout(verifyAdded, 1000);
                                     } else {
-                                        throw "No hash found for torrent " + filename + " in " + maxTries + " tries.";
+                                        throw "No hash found for torrent " + releaseName + " in " + maxTries + " tries.";
                                     }
                                 }
                             });

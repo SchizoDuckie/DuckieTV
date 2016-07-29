@@ -31,7 +31,7 @@ TransmissionData.extends(TorrentData, {
         return this.name;
     },
     getProgress: function() {
-        var unit = (this.getClient().getAPI().isSeedBox()) ? 1 : 100;
+        var unit = (this.getClient().getAPI().isWebServer()) ? 1 : 100;
         return this.round(this.percentDone * unit, 1);
     },
     getDownloadSpeed: function() {
@@ -86,7 +86,7 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
         TransmissionAPI.extends(BaseHTTPApi, {
 
             getUrl: function(type, param) {
-                var out = this.config.server + ':' + this.config.port + this.config.key;
+                var out = this.config.server + ':' + this.config.port + this.config.path;
                 return (param) ? out.replace('%s', encodeURIComponent(param)) : out;
             },
             rpc: function(method, params, options) {
@@ -167,8 +167,8 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                     }
                 });
             },
-            isSeedBox: function() {
-                return (this.config.key !== '/transmission/rpc');
+            isWebServer: function() {
+                return (this.config.path !== '/transmission/rpc');
             },
             execute: function(method, id) {
                 return this.rpc(method, {
@@ -198,13 +198,10 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
         service.setConfigMappings({
             server: 'transmission.server',
             port: 'transmission.port',
-            key: 'transmission.key',
+            path: 'transmission.path',
             username: 'transmission.username',
             password: 'transmission.password',
             use_auth: 'transmission.use_auth'
-        });
-        service.setEndpoints({
-            rpc: 'this is replaced by config.key'
         });
         service.readConfig();
 

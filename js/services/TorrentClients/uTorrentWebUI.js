@@ -168,7 +168,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                     headers: headers
                 });
             },
-            addTorrentByUpload: function(data, releasename) {
+            addTorrentByUpload: function(data, releaseName) {
                 var self = this;
                 var headers = {
                     'Content-Type': undefined
@@ -177,7 +177,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                     headers.Authorization = [this.config.username, this.config.password];
                 }
                 var fd = new FormData();
-                fd.append('torrent_file', data, releasename + '.torrent');
+                fd.append('torrent_file', data, releaseName + '.torrent');
 
                 return $http.post(this.getUrl('addfile'), fd, {
                     transformRequest: angular.identity,
@@ -189,7 +189,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                     return $q(function(resolve, reject) {
                         /*
                          * find the most likely torrent candidate in the uTorrent host,
-                         * based on the .torrent releasename we just uploaded via the uTorrent WebUi client
+                         * based on the .torrent releaseName we just uploaded via the uTorrent WebUi client
                          */
                         function verifyAdded() {
                             // helper function that counts how many words in source are in target
@@ -227,9 +227,9 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                             self.getTorrents().then(function(result) {
                                 var hash = null;
                                 var bestScore = 0;
-                                // for each torrent compare the torrent.name with .torrent releasename and record the number of matching words
+                                // for each torrent compare the torrent.name with .torrent releaseName and record the number of matching words
                                 result.map(function(torrent) {
-                                    var score = getScore(releasename, torrent.name);
+                                    var score = getScore(releaseName, torrent.name);
                                     if (score > bestScore) {
                                         hash = torrent.hash.toUpperCase();
                                         bestScore = score;
@@ -241,7 +241,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                                     if (currentTry < maxTries) {
                                         setTimeout(verifyAdded, 1000);
                                     } else {
-                                        throw "No hash found for torrent " + releasename + " in " + maxTries + " tries.";
+                                        throw "No hash found for torrent " + releaseName + " in " + maxTries + " tries.";
                                     }
                                 }
                             });
