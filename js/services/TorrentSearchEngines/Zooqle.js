@@ -13,7 +13,11 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 selectors: {
                     resultContainer: 'tr ',
                     releasename: ['td:nth-child(2) > a', 'innerText'],
-                    magneturl: ['a[title^="Magnet link"', 'href'],
+                    magneturl: ['a[title^="Magnet link"', 'href',
+                        function(a) {
+                            return a + '&tr=udp://tracker.coppersurfer.tk:6969/announce&tr=udp://tracker.openbittorrent.com:80/announce&tr=udp://11.rarbg.me:80/announce&tr=udp://9.rarbg.me:2710/announce&tr=udp://9.rarbg.com:2710/announce';
+                        }
+                    ],
                     size: ['td:nth-child(4)', 'innerText'],
                     seeders: ['td:nth-child(6) div div:first-child', 'innerText',
                         function(a) {
