@@ -102,7 +102,6 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
             this.configMappings = {
                 server: null,
                 port: null,
-                key: null,
                 username: null,
                 password: null,
                 use_auth: null,
@@ -344,7 +343,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
 
             addTorrentByUpload: function(data, releaseName) {
                 if (!('addTorrentByUpload' in this.getAPI())) {
-                    throw "addTorrentByUload not implemented for " + this.getName();
+                    throw "addTorrentByUpload not implemented for " + this.getName();
                 }
                 return this.getAPI().addTorrentByUpload(data, releaseName);
             },
