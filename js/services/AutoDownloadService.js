@@ -205,24 +205,34 @@ DuckieTV
                         return (size >= sizeMin && size <= sizeMax);
                     };
 
-                    // Search torrent provider for the string
+                    /**
+                     * Search torrent SE for the torrent query
+                     */
                     return searchEngine.search(q, true).then(function(results) {
-                        var items = results.filter(filterBySize);
-                        items = items.filter(filterByScore);
+                        var items = results.filter(filterByScore);
                         if (items.length === 0) {
                             service.activityUpdate(serie, episode, q, 4); // 'nothing found'
                             return; // no results, abort
                         };
+                        items = items.filter(filterBySize);
+                        if (items.length === 0) {
+                            service.activityUpdate(serie, episode, q, 5, ' GS'); // 'filtered out by GS'
+                            return; // no results, abort
+                        };
                         if (globalIncludeAny) {
                             items = items.filter(filterGlobalInclude);
+                            if (items.length === 0) {
+                                service.activityUpdate(serie, episode, q, 5, ' GI'); // 'filtered out by GI'
+                                return; // no results, abort
+                            }
                         };
                         items = items.filter(filterGlobalExclude);
                         if (items.length === 0) {
-                            service.activityUpdate(serie, episode, q, 5); // 'filtered out'
+                            service.activityUpdate(serie, episode, q, 5, ' GE'); // 'filtered out by GE'
                             return; // no results, abort
                         }
                         if (items[0].magneturl === undefined) { // search engine does not support magnets, unable to continue.
-                            service.activityUpdate(serie, episode, serie.name, 3); // 'autoDL disabled'
+                            service.activityUpdate(serie, episode, serie.name, 3, ' NM'); // 'autoDL disabled NoMagnet'
                             return; // no results, abort
                         }
                         if (items[0].seeders == 'N/A' || parseInt(items[0].seeders, 10) >= minSeeders) { // enough seeders are available.

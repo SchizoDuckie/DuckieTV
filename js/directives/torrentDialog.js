@@ -171,9 +171,12 @@ DuckieTV
                 return items;
             }
 
+            /**
+             * Search torrent SE  for the torrent query
+             */
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' '), undefined, $scope.orderBy).then(function(results) {
-                    $scope.items = results.filter(filterBySize);
-                    $scope.items = $scope.items.filter(filterByScore);
+                    $scope.items = results.filter(filterByScore);
+                    $scope.items = $scope.items.filter(filterBySize);
                     if ($scope.globalIncludeAny) {
                         $scope.items = $scope.items.filter(filterGlobalInclude);
                     }
