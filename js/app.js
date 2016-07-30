@@ -150,6 +150,25 @@ var DuckieTV = angular.module('DuckieTV', [
 })
 
 /**
+ * add mixed case fontFamily if user enabled
+ */
+.run(['SettingsService', function(SettingsService) {
+    if (SettingsService.get('display.mixedcase')) {
+        function init() {
+            var x = document.createElement("link");
+            var y = document.createAttribute("rel");
+            y.value = "stylesheet";
+            x.setAttributeNode(y);
+            var z = document.createAttribute("href");
+            z.value = "css/main_2.css";
+            x.setAttributeNode(z);
+            document.head.appendChild(x);
+        }
+        window.onload = init;
+    }
+}])
+
+/**
  * at start-up set up a timer to refresh DuckieTV a second after midnight, to force a calendar date refresh
  */
 .run(["$injector", function($injector) {

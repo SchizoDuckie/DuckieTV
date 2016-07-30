@@ -13,6 +13,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "$injector", "SettingsService",
         $scope.showRatings = SettingsService.get('download.ratings');
         $scope.sgEnabled = SettingsService.get('library.seriesgrid');
         $scope.notWatchedEpsBtn =  SettingsService.get('series.not-watched-eps-btn');
+        $scope.mixedCase = SettingsService.get('display.mixedcase');
 
         $scope.togglenotWatchedEpsBtn = function() {
             $scope.notWatchedEpsBtn = !$scope.notWatchedEpsBtn;
@@ -39,6 +40,13 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "$injector", "SettingsService",
         $scope.toggleRatings = function() {
             $scope.showRatings = !$scope.showRatings;
             SettingsService.set('download.ratings', $scope.showRatings);
+        };
+
+        // Toggles mixedCase (helvetica) or upperCase (bebasregular)
+        $scope.toggleMixedcase = function() {
+            $scope.mixedCase = !$scope.mixedCase;
+            SettingsService.set('display.mixedcase', $scope.mixedCase);
+            $injector.get('DuckietvReload').windowLocationReload();
         };
 
         // Toggles the Series-Grid on Series-List

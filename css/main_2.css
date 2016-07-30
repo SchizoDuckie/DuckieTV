@@ -1,0 +1,26 @@
+h1, h2, h3 {
+  font-family: helvetica, sans-serif;
+}
+
+strong {
+  font-family:helvetica;
+  letter-spacing: normal;
+  font-weight: bold;
+}
+
+.inline-checkbox label {
+  font-family: helvetica, sans-serif;
+}
+
+sidepanel .buttons .torrent-mini-remote-control> span {
+  letter-spacing: normal;
+  font-family: helvetica;
+}
+
+.settings .buttons .btn {
+  font-family: helvetica;
+}
+
+sidepanel .buttons strong {
+  letter-spacing: normal;
+}
