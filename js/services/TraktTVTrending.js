@@ -1,17 +1,27 @@
-DuckieTV.factory('TraktTVTrending', ['TraktTVv2', '$q',
-    function(TraktTVv2, $q) {
+DuckieTV.factory('TraktTVTrending', ['TraktTVv2', 'FavoritesService', '$q',
+    function(TraktTVv2, FavoritesService, $q) {
         var self = this;
         this.trending = [];
         this.categories = [];
         this.initializing = true;
 
+        /*
+         * enables excluding series already in favourites from trending results
+         */
+        var alreadyAddedSerieFilter = function(serie) {
+            return this.favoriteIDs.indexOf(serie.tvdb_id.toString()) === -1;
+        }.bind(FavoritesService);
+
         var service = {
             getAll: function() {
                 if (self.initializing) {
                     return TraktTVv2.trending().then(function(series) {
-                        self.trending = series || [];
+                        if (!series) {
+                            series = [];
+                        }
+                        self.trending = series;
                         var cats = {};
-                        series.map(function(serie) {
+                        series.filter(alreadyAddedSerieFilter).map(function(serie) {
                             if (!serie.genres) return;
                             serie.genres.map(function(category) {
                                 cats[category] = true;
