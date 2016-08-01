@@ -9,7 +9,7 @@ DuckieTV.controller('sidepanelTraktSerieCtrl', ["$rootScope", "$filter", "$local
         return Math.round(rating * 10);
     };
 
-    var genreList = 'action|adventure|animation|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sport|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'), // used by this.translateGenre()
+    var genreList = 'action|adventure|animation|biography|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sports|sporting-event|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'), // used by this.translateGenre()
         translatedGenreList = $filter('translate')('GENRELIST').split(','),
         translatedStatusList = $filter('translate')('STATUSLIST').split(','),
         statusList = 'canceled|ended|in production|returning series|planned'.split('|'), // used by this.translateStatus()
