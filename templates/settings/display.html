@@ -45,7 +45,7 @@
   <p><strong translate-once="COMMON/current-setting/hdr"></strong>
    {{showRatings ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="toggleRatings()" class="btn btn-{{showRatings ? 'danger' : 'success'}}">
-    <i class="glyphicon glyphicon-{{showRatings ? 'remove' : 'ok'}}" ></i> {{!showRatings ? 'COMMON/click-to-disable/btn' : 'COMMON/click-to-enable/btn'|translate}}
+    <i class="glyphicon glyphicon-{{showRatings ? 'remove' : 'ok'}}" ></i> {{showRatings ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
 
   <hr class="setting-divider">
@@ -61,7 +61,7 @@
   <p><strong translate-once="COMMON/current-setting/hdr"></strong>
    {{notWatchedEpsBtn ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="togglenotWatchedEpsBtn()" class="btn btn-{{notWatchedEpsBtn ? 'danger' : 'success'}}">
-    <i class="glyphicon glyphicon-{{notWatchedEpsBtn ? 'remove' : 'ok'}}" ></i> {{!notWatchedEpsBtn ? 'COMMON/click-to-disable/btn' : 'COMMON/click-to-enable/btn'|translate}}
+    <i class="glyphicon glyphicon-{{notWatchedEpsBtn ? 'remove' : 'ok'}}" ></i> {{notWatchedEpsBtn ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
 
   <hr class="setting-divider">
@@ -77,7 +77,7 @@
   <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
    {{sgEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="toggleSeriesGrid()" class="btn btn-{{sgEnabled ? 'danger' : 'success'}}">
-    <i class="glyphicon glyphicon-{{sgEnabled ? 'remove' : 'ok'}}" ></i> {{!sgEnabled ? 'COMMON/click-to-disable/btn' : 'COMMON/click-to-enable/btn'|translate}}
+    <i class="glyphicon glyphicon-{{sgEnabled ? 'remove' : 'ok'}}" ></i> {{sgEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
 
   <hr class="setting-divider">
@@ -105,7 +105,7 @@
   <p><strong translate-once="COMMON/current-setting/hdr"></strong>
    {{mixedCase ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="toggleMixedcase()" class="btn btn-{{mixedCase ? 'danger' : 'success'}}">
-    <i class="glyphicon glyphicon-{{mixedCase ? 'remove' : 'ok'}}" ></i> {{!mixedCase ? 'COMMON/click-to-disable/btn' : 'COMMON/click-to-enable/btn'|translate}}
+    <i class="glyphicon glyphicon-{{mixedCase ? 'remove' : 'ok'}}" ></i> {{mixedCase ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
 
   <div class="kc">
@@ -120,8 +120,8 @@
     <p  translate-once="SETTINGS/DISPLAY/cheatmode/desc"></p>
     <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
      {{getSetting('kc.always') ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-    <a ng-click="setSetting('kc.always',!getSetting('kc.always'))" class="btn btn-{{!getSetting('kc.always') ? 'info' : 'success'}}">
-      <i class="glyphicon glyphicon-{{getSetting('kc.always') ? 'remove' : 'ok'}}"></i> {{!getSetting('kc.always') ? 'COMMON/click-to-disable/btn' : 'COMMON/click-to-enable/btn'|translate}}
+    <a ng-click="setSetting('kc.always',!getSetting('kc.always'))" class="btn btn-{{getSetting('kc.always') ? 'info' : 'success'}}">
+      <i class="glyphicon glyphicon-{{getSetting('kc.always') ? 'remove' : 'ok'}}"></i> {{getSetting('kc.always') ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
     </a>
   </div>
 </div>
