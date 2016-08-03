@@ -95,6 +95,13 @@
           </a>
       </td>
     </tr>
+    <tr ui-sref-active='active' ui-sref=".tab({tab: 'ktorrent'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'Ktorrent'">
+      <td colspan="2">
+          <a href="#/settings/ktorrent">
+              <img src="img/torrentclients/ktorrent-small.png" class="smallsettingicon"> <strong><span>Ktorrent</span> <span translate-once="COMMON/integration/hdr"></span></strong>
+          </a>
+      </td>
+    </tr>
     <tr ui-sref-active='active' ui-sref=".tab({tab: 'transmission'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'Transmission'">
       <td colspan="2">
           <a href="#/settings/transmission">
