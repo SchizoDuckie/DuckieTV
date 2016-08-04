@@ -84,7 +84,6 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
 
         var rTorrentAPI = function() {
             BaseHTTPApi.call(this);
-            this.sessionID = null;
         };
         rTorrentAPI.extends(BaseHTTPApi, {
 

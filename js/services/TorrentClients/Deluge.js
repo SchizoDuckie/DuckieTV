@@ -68,7 +68,6 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
 
         var DelugeAPI = function() {
             BaseHTTPApi.call(this);
-            this.sessionID = null;
             this.requestCounter = 0;
         };
         DelugeAPI.extends(BaseHTTPApi, {
