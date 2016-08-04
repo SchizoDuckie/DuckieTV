@@ -2,11 +2,26 @@
  * Ktorrent web client implementation
  *
  * API Docs:
- * None. reverse engineered from Ktorrent base implementation
+ * None. reverse engineered from Ktorrent base implementation webui traffic
  *
  * XMLHTTP API listens on localhost:8080
  *
- * - Does not support setting or fetching the download directory ????????????????????????????? TBD
+ * - Does not support setting or fetching the download directory
+ *
+ * torrent data [array of torrent objects] containing:
+ *   name: "Angie.Tribeca.S02E01.HDTV.x264-LOL[ettv]"
+ *   bytes_downloaded: "19.47 MiB"               *   bytes_uploaded: "0 B"
+ *   download_rate: "0 B/s"                      *   info_hash: "494bd308bd6688edb87bcd66a6b676dcd7e0ec30"
+ *   leechers: "0"                               *   leechers_total: "6"
+ *   num_files: "2"                              *   num_peers: "0"
+ *   percentage: "11.83"                         *   running: "0"
+ *   seeders: "0"                                *   seeders_total: "52"
+ *   status: "Stopped"                           *   total_bytes: "120.22 MiB"
+ *   total_bytes_to_download: "120.22 MiB"       *   upload_rate: "0 B/s"
+ *
+ * files data [array of file objects] containing:
+ *   path: "Torrent-Downloaded-from-ExtraTorrent.cc.txt"
+ *   percentage: "100.00"        *   priority: "40"      *   size: "168 B"
  */
 
 /**
@@ -22,48 +37,57 @@ KtorrentData = function(data) {
 KtorrentData.extends(TorrentData, {
     getName: function() {
         return this.name;
-    },
+    }, //done
     getProgress: function() {
-        return this.progress;
-    },
+        return this.round(parseFloat(this.percentage), 1);
+    }, //done
     getDownloadSpeed: function() {
-        return this.downSpeed;
-    },
+        var rate = parseInt(this.download_rate.split(" ")[0]);
+        var units = this.download_rate.split(" ")[1];
+        switch (units) {
+            case 'KiB/s': 
+                rate = rate * 1024;
+                break;
+            case 'MiB/s': 
+                rate = rate * 1024 * 1024;
+                break;
+            case 'GiB/s': 
+                rate = rate * 1024 * 1024 * 1024;
+                break;
+            case 'B/s': 
+            default:
+        };
+        return rate; // Bytes/second
+    }, //done
     start: function() {
-        var fd = new FormData();
-        fd.append('start', 'Start');
-        return this.getClient().getAPI().execute(this.guid, fd);
-    },
+        return this.getClient().getAPI().execute("start=" + this.id);
+    }, //done
     stop: function() {
-        var fd = new FormData();
-        fd.append('stop', 'Stop');
-        return this.getClient().getAPI().execute(this.guid, fd);
-    },
+        return this.getClient().getAPI().execute("stop=" + this.id);
+    }, //done
     pause: function() {
         return this.stop();
-    },
+    }, //done
     remove: function() {
-        var self = this;
-        var fd = new FormData();
-        fd.append('removeconf', 'Remove Transfers');
-        fd.append('remove', 'Remove');
-        return this.getClient().getAPI().execute(this.guid, fd);
-    },
+        return this.getClient().getAPI().execute("remove=" + this.id);
+    }, //done
     isStarted: function() {
-        return this.status.toLowerCase().indexOf('offline') == -1;
-    },
+        if (['stopped','not started','downloading','stalled', 'download completed'].indexOf(this.status.toLowerCase()) === -1) console.debug(this.status.toLowerCase());
+        return this.status.toLowerCase().indexOf('downloading') !== -1;
+        // need to check if there are other active states apart from downloading: found so far=['downloading', 'stopped', 'not started', 'stalled', 'download completed']
+    }, // nearly
     getFiles: function() {
         if (!this.files) {
             this.files = [];
         }
-        return this.getClient().getAPI().getFiles(this.guid).then(function(data) {
+        return this.getClient().getAPI().getFiles(this).then(function(data) {
             this.files = data;
             return data;
         }.bind(this));
-    },
+    }, //done
     getDownloadDir: function() {
         return undefined; // not supported
-    }
+    } //done
 });
 
 
@@ -107,7 +131,7 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
                         throw "Login failed!";
                     }
                 });
-            },
+            }, //done
 
             portscan: function() {
                 var self = this;
@@ -120,74 +144,50 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
                 }, function() {
                     return false;
                 });
-            },
+            }, //done
 
             getTorrents: function() {
                 var self = this;
                 return this.request('torrents', {}).then(function(result) {
-                    //console.debug(result);
-                    
-                    //var scraper = new HTMLScraper(result.data);
-
-                    var torrents = [];
-/*
-                    scraper.walkSelector('.xferstable tr:not(:first-child)', function(node) {
-                        var tds = node.querySelectorAll('td');
-                        var torrent = new KtorrentData({
-                            name: tds[1].innerText,
-                            bytes: tds[2].innerText,
-                            progress: parseInt(tds[3].innerText),
-                            status: tds[4].innerText,
-                            downSpeed: parseInt(tds[5].innerText == "" ? "0" : tds[5].innerText.replace(',','')) * 1000,
-                            upSpeed: parseInt(tds[6].innerText == "" ? "0" : tds[6].innerText.replace(',','')) * 1000,
-                            priority: tds[7].innerText,
-                            eta: tds[8].innerText,
-                            guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1]
+                    var x2js = new X2JS();
+                    var jsonObj = x2js.xml2json((new DOMParser()).parseFromString(result.data, "text/xml"));
+                    if ( jsonObj.torrents == "") { // no torrents found
+                        return [];
+                    } else {
+                        return jsonObj.torrents.torrent.map(function(el, indx) {
+                            el.hash = el.info_hash.toUpperCase();
+                            el.id = indx;
+                            return el;
                         });
-                        if ((torrent.guid in self.infohashCache)) {
-                            torrent.hash = self.infohashCache[torrent.guid];
-                            torrents.push(torrent);
-                        } else {
-                            self.getInfoHash(torrent.guid).then(function(result) {
-                                torrent.hash = self.infohashCache[torrent.guid] = result;
-                                torrents.push(torrent);
-                            });
-                        }
-                    });
-*/
-                    return torrents;
-                });
-            },
-
-            getInfoHash: function(guid) {
-                return this.request('infohash', guid).then(function(result) {
-                    var magnet = result.data.match(/([0-9ABCDEFabcdef]{40})/);
-                    if (magnet && magnet.length) {
-                        return magnet[0].toUpperCase();
                     }
                 });
-            },
+            }, //done
 
-            getFiles: function(guid) {
-                return this.request('files', guid).then(function(result) {
-
-                    var scraper = new HTMLScraper(result.data);
+            getFiles: function(torrent) {
+                return this.request('files', torrent.id).then(function(result) {
+                    var x2js = new X2JS();
+                    var jsonObj = x2js.xml2json((new DOMParser()).parseFromString(result.data, "text/xml"));
                     var files = [];
-
-                    scraper.walkSelector('.xferstable tr:not(:first-child)', function(node) {
-                        var cells = node.querySelectorAll('td');
+                    if (jsonObj.torrent == "") { // torrents with a single file don't have a file list?
                         files.push({
-                            name: cells[1].innerText.trim(),
-                            priority: cells[2].innerText.trim(),
-                            bytes: cells[3].innerText.trim(),
-                            progress: cells[4].innerText.trim()
+                            name: torrent.name,
+                            priority: "40",
+                            bytes: torrent.total_bytes,
+                            progress: torrent.percentage
                         });
-                    });
+                    } else {
+                        jsonObj.torrent.file.map(function(el) {
+                            files.push({
+                                name: el.path,
+                                priority: el.priority,
+                                bytes: el.size,
+                                progress: el.percentage
+                            });
+                        });
+                    }
                     return files;
-
                 });
-
-            },
+            }, //done
 
             addMagnet: function(magnet) {
                 var fd = new FormData();
@@ -285,14 +285,9 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
                 });
             },
 
-            execute: function(guid, formData) {
-                return $http.post(this.getUrl('torrentcontrol', guid), formData, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                });
-            }
+            execute: function(cmd) {
+                return $http.get(this.getUrl('torrentcontrol') + cmd);
+            } //done
 
         });
 
@@ -322,13 +317,12 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
             password: 'ktorrent.password'
         });
         service.setEndpoints({
-            torrents: '/data/torrents.xml',
-            login: '/login?page=interface.html',
-            portscan: '/login/challenge.xml',
-            infohash: '/transfers/%s/eventlog',
-            torrentcontrol: '/transfers/%s/options/action', // POST [start, stop, remove, searchdht, checkfiles, delete]???????????????????????? TBD
+            torrents: '/data/torrents.xml', //done
+            login: '/login?page=interface.html', //done
+            portscan: '/login/challenge.xml', //done
+            torrentcontrol: '/action?', // [start=, stop=, remove=] //done
             addmagnet: '/transfers/action',
-            files: '/transfers/%s/files'
+            files: '/data/torrent/files.xml?torrent=%s' //done
         });
         service.readConfig();
 
