@@ -336,6 +336,10 @@ background-rotator .placeholder {
   background-image: url('../img/torrentclients/rtorrent-small.png');
 }
 
+#actionbar_torrent a.ktorrent, .torrentlogo.ktorrent {
+  background-image: url('../img/torrentclients/ktorrent-small.png');
+}
+
 .torrentlogo {
   display: inline-block;
   width: 34px;
