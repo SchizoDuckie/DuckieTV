@@ -3,6 +3,7 @@
  *
  * API Docs:
  * None. reverse engineered from Ktorrent base implementation webui traffic
+ * https://github.com/KDE/ktorrent
  *
  * XMLHTTP API listens on localhost:8080
  *
@@ -37,10 +38,10 @@ KtorrentData = function(data) {
 KtorrentData.extends(TorrentData, {
     getName: function() {
         return this.name;
-    }, //done
+    },
     getProgress: function() {
         return this.round(parseFloat(this.percentage), 1);
-    }, //done
+    },
     getDownloadSpeed: function() {
         var rate = parseInt(this.download_rate.split(" ")[0]);
         var units = this.download_rate.split(" ")[1];
@@ -58,24 +59,26 @@ KtorrentData.extends(TorrentData, {
             default:
         };
         return rate; // Bytes/second
-    }, //done
+    },
     start: function() {
         return this.getClient().getAPI().execute("start=" + this.id);
-    }, //done
+    },
     stop: function() {
         return this.getClient().getAPI().execute("stop=" + this.id);
-    }, //done
+    },
     pause: function() {
         return this.stop();
-    }, //done
+    },
     remove: function() {
         return this.getClient().getAPI().execute("remove=" + this.id);
-    }, //done
+    },
     isStarted: function() {
-        if (['stopped','not started','downloading','stalled', 'download completed'].indexOf(this.status.toLowerCase()) === -1) console.debug(this.status.toLowerCase());
+        /*
+        * 'downloading', 'stopped', 'not started', 'stalled', 'download completed', 'seeding',
+        * 'superseeding', 'allocating diskspace', 'checking data', 'error', 'queued', 'seeding complete'
+        */
         return this.status.toLowerCase().indexOf('downloading') !== -1;
-        // need to check if there are other active states apart from downloading: found so far=['downloading', 'stopped', 'not started', 'stalled', 'download completed']
-    }, // nearly
+    },
     getFiles: function() {
         if (!this.files) {
             this.files = [];
@@ -84,10 +87,10 @@ KtorrentData.extends(TorrentData, {
             this.files = data;
             return data;
         }.bind(this));
-    }, //done
+    },
     getDownloadDir: function() {
         return undefined; // not supported
-    } //done
+    }
 });
 
 
@@ -131,7 +134,7 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
                         throw "Login failed!";
                     }
                 });
-            }, //done
+            },
 
             portscan: function() {
                 var self = this;
@@ -144,7 +147,7 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
                 }, function() {
                     return false;
                 });
-            }, //done
+            },
 
             getTorrents: function() {
                 var self = this;
@@ -161,7 +164,7 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
                         });
                     }
                 });
-            }, //done
+            },
 
             getFiles: function(torrent) {
                 return this.request('files', torrent.id).then(function(result) {
@@ -187,35 +190,15 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
                     }
                     return files;
                 });
-            }, //done
-
-            addMagnet: function(magnet) {
-                var fd = new FormData();
-                fd.append('addlinktext', magnet);
-                fd.append('addlink', 'Add');
-
-                return $http.post(this.getUrl('addmagnet'), fd, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                });
             },
 
-            addTorrentByUpload: function(data, releaseName) {
+            addMagnet: function(magnet) {
+                return this.execute("load_torrent=" + encodeURIComponent(magnet));
+            },
 
-                var self = this,
-                    fd = new FormData();
-
-                fd.append('metafile', data, releaseName + '.torrent');
-                fd.append('addmetafile', 'Add');
-
-                return this.request('addmagnet', {}, fd, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                }).then(function(result) {
+            addTorrentByUrl: function(url, releaseName) {
+                return this.addMagnet(url).then(function(result) {
+                         
                     var currentTry = 0;
                     var maxTries = 5;
                     // wait for Ktorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
@@ -281,13 +264,18 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
                         }
                         setTimeout(verifyAdded, 1000);
                     });
-
                 });
             },
 
             execute: function(cmd) {
-                return $http.get(this.getUrl('torrentcontrol') + cmd);
-            } //done
+                return $http.get(this.getUrl('torrentcontrol') + cmd).then(function(result) {
+                    var x2js = new X2JS();
+                    var jsonObj = x2js.xml2json((new DOMParser()).parseFromString(result.data, "text/xml"));
+                    if (jsonObj.result == "Failed") {
+                    console.warn('Error: action "' + cmd + '" failed.');
+                    }
+                });
+            }
 
         });
 
@@ -317,12 +305,11 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
             password: 'ktorrent.password'
         });
         service.setEndpoints({
-            torrents: '/data/torrents.xml', //done
-            login: '/login?page=interface.html', //done
-            portscan: '/login/challenge.xml', //done
-            torrentcontrol: '/action?', // [start=, stop=, remove=] //done
-            addmagnet: '/transfers/action',
-            files: '/data/torrent/files.xml?torrent=%s' //done
+            torrents: '/data/torrents.xml',
+            login: '/login?page=interface.html',
+            portscan: '/login/challenge.xml',
+            torrentcontrol: '/action?', // [start=, stop=, remove=, load_torrent=]
+            files: '/data/torrent/files.xml?torrent=%s'
         });
         service.readConfig();
 
