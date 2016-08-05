@@ -150,14 +150,13 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
             },
 
             getTorrents: function() {
-                var self = this;
                 return this.request('torrents', {}).then(function(result) {
-                    var x2js = new X2JS();
+                    var x2js = new X2JS({arrayAccessForm : "property"});
                     var jsonObj = x2js.xml2json((new DOMParser()).parseFromString(result.data, "text/xml"));
                     if ( jsonObj.torrents == "") { // no torrents found
                         return [];
                     } else {
-                        return jsonObj.torrents.torrent.map(function(el, indx) {
+                        return jsonObj.torrents.torrent_asArray.map(function(el, indx) {
                             el.hash = el.info_hash.toUpperCase();
                             el.id = indx;
                             return el;
@@ -168,7 +167,7 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
 
             getFiles: function(torrent) {
                 return this.request('files', torrent.id).then(function(result) {
-                    var x2js = new X2JS();
+                    var x2js = new X2JS({arrayAccessForm : "property"});
                     var jsonObj = x2js.xml2json((new DOMParser()).parseFromString(result.data, "text/xml"));
                     var files = [];
                     if (jsonObj.torrent == "") { // torrents with a single file don't have a file list?
@@ -179,7 +178,7 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
                             progress: torrent.percentage
                         });
                     } else {
-                        jsonObj.torrent.file.map(function(el) {
+                        jsonObj.torrent.file_asArray.map(function(el) {
                             files.push({
                                 name: el.path,
                                 priority: el.priority,
