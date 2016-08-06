@@ -70,14 +70,17 @@ KtorrentData.extends(TorrentData, {
         return this.stop();
     },
     remove: function() {
-        return this.getClient().getAPI().execute("remove=" + this.id);
+        var self = this;
+        return this.getClient().getAPI().execute("remove=" + this.id).then(function() {
+            return self.getClient().getAPI().getTorrents();
+        });
     },
     isStarted: function() {
         /*
         * 'downloading', 'stopped', 'not started', 'stalled', 'download completed', 'seeding',
         * 'superseeding', 'allocating diskspace', 'checking data', 'error', 'queued', 'seeding complete'
         */
-        return this.status.toLowerCase().indexOf('downloading') !== -1;
+        return ['stalled','downloading'].indexOf(this.status.toLowerCase()) !== -1;
     },
     getFiles: function() {
         if (!this.files) {
