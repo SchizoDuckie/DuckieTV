@@ -12,7 +12,7 @@ DuckieTV
                 $rootScope.$broadcast('series:recount:watched');
                     console.info("1.1 migration done.");
                     localStorage.setItem('1.1migration', new Date());
-            }, 2000);
+            }, 3000);
             console.info("Executing the 1.1 migration to populate watched and notWatchedCount entities");
         }
 
@@ -135,7 +135,7 @@ DuckieTV
                     localStorage.setItem('1.1.4TorrentHashListCleanup', new Date());
                     console.info("1.1.4TorrentHashListCleanup done!");
                 });
-            }, 1000);
+            }, 6000);
             console.info("Executing 1.1.4TorrentHashListCleanup to remove obsolete torrentHashes from TorrentHashListService");
         }
     }
