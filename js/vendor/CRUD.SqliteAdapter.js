@@ -114,7 +114,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                                         throw "Migration " + version + " failed for entity " + entityName;
                                     });
                                 })).then(function(results) {
-                                    CRUD.log("All migrations executed for version ", version);
+                                    CRUD.log("All migrations executed for " + entityName + " version ", version);
                                     return { version: version, results: results };
                                 }, function(err) {
                                     throw "Migration failed for entity " + entityName;
