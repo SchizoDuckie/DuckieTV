@@ -18,7 +18,10 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                             return a + '&tr=udp://tracker.coppersurfer.tk:6969/announce&tr=udp://9.rarbg.me:2780/announce&tr=udp://9.rarbg.to:2710/announce&tr=udp://9.rarbg.com:2740/announce&tr=udp://eddie4.nl:6969/announce&tr=udp://tracker.leechers-paradise.org:6969/announce&tr=udp://explodie.org:6969/announce&tr=udp://p4p.arenabg.ch:1337/announce';
                         }
                     ],
-                    size: ['td:nth-child(4)', 'innerText'],
+                    size: ['td:nth-child(4)', 'innerText',
+                        function(a) {
+                            return (a == '– N/A –') ? 0 : a;
+                        }],
                     seeders: ['td:nth-child(6) div div:first-child', 'innerText',
                         function(a) {
                             return (a[a.length-1] == 'K') ? parseInt(a) * 1000 : a;
