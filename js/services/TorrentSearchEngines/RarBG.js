@@ -12,7 +12,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             endpoint = 'https://torrentapi.org/pubapi_v2.php?app_id=DuckieTV&';
 
         var endpoints = {
-            search: 'token=%s&mode=search&search_string=%s&sort=%o&limit=25&ranked=0&format=json_extended',
+            search: 'token=%s&mode=search&search_string=%s&sort=%o&limit=25&format=json_extended',
             token: 'get_token=get_token&format=json_extended'
         };
 
