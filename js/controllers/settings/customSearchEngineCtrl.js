@@ -18,9 +18,9 @@ DuckieTV.controller("customSearchEngineCtrl", ["$scope", "$injector", "$http", "
 
         this.test = function(index) {
             this.status = 'creating test client';
-            this.model = this.customEngines[index];
+            this.model = this.customEngines[Object.keys(this.customEngines)[index]];
 
-            var testClient = self.model.getFreshInstance($q, $http, $injector);
+            var testClient = this.model.getFreshInstance($q, $http, $injector);
 
             this.status = "Executing test search";
             testClient.search(this.model.testSearch).then(function(results) {
