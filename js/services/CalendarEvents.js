@@ -203,12 +203,12 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 }).length > 0;
             },
 
-            markDayWatched: function(day, rootScope) {
+            markDayWatched: function(day, rootScope, downloadedPaired) {
                 var str = day instanceof Date ? day.toDateString() : new Date(day).toDateString();
                 if (str in calendarEvents) {
                     calendarEvents[str].map(function(calEvent) {
                         if (calEvent.episode.hasAired()) {
-                            calEvent.episode.markWatched(rootScope);
+                            calEvent.episode.markWatched(downloadedPaired,rootScope);
                         }
                     });
                 }

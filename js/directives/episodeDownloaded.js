@@ -27,7 +27,7 @@ DuckieTV.directive('episodeDownloaded', ["$filter", "$document", "$injector",
                  */
                 $scope.markDownloaded = function(episode) {
                     if (episode.isDownloaded()) {
-                        episode.markNotDownloaded($injector.get('$rootScope'));
+                        episode.markNotDownloaded($injector.get('SettingsService').get('episode.watched-downloaded.pairing'),$injector.get('$rootScope'));
                     } else {
                         episode.markDownloaded($injector.get('$rootScope'));
                     }

@@ -16,6 +16,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
 
         $scope.tuPeriod = SettingsService.get('trakt-update.period');
         $scope.traktSync = SettingsService.get('trakttv.sync');
+        $scope.downloadedPaired = SettingsService.get('episode.watched-downloaded.pairing');
         $scope.traktTVSeries = [];
         $scope.localSeries = {};
         $scope.pushError = [false, null];
@@ -150,7 +151,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
                                         console.warn("Episode s%se%s not found for %s", season.number, episode.number, show.name);
                                     } else {
                                         $scope.watchedEpisodesReport.push(epi.getFormattedEpisode());
-                                        return epi.markWatched();
+                                        return epi.markWatched($scope.downloadedPaired);
                                     }
                                 });
                             }));

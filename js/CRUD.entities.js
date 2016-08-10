@@ -439,12 +439,17 @@ CRUD.define(Episode, {
         return this.leaked && parseInt(this.leaked) == 1;
     },
 
-    markWatched: function($rootScope) {
+    markWatched: function(downloadedPaired,$rootScope) {
+        if (typeof downloadedPaired === 'undefined') {
+            downloadedPaired = true;
+        }
         this.watched = 1;
         this.watchedAt = new Date().getTime();
-        // if you are marking this as watched you must have also downloaded it!
-        this.downloaded = 1;
-        return this.Persist().then(function() {
+        if (downloadedPaired) {
+            // if you are marking this as watched you must have also downloaded it!
+            this.downloaded = 1;
+        }
+       return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:watched', this);
             }
@@ -474,12 +479,17 @@ CRUD.define(Episode, {
         }.bind(this));
     },
 
-    markNotDownloaded: function($rootScope) {
+    markNotDownloaded: function(watchedPaired,$rootScope) {
+        if (typeof watchedPaired === 'undefined') {
+            watchedPaired = true;
+        }
         this.downloaded = 0;
-        // if you are marking this as NOT downloaded, you can not have watched it either!
-        this.watched = 0;
-        this.watchedAt = null;
-        this.magnetHash = null;
+        if (watchedPaired) {
+            // if you are marking this as NOT downloaded, you can not have watched it either!
+            this.watched = 0;
+            this.watchedAt = null;
+            this.magnetHash = null;
+        }
         return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:notwatched', this);

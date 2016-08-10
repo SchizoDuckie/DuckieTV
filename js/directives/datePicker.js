@@ -190,7 +190,7 @@ DuckieTV
                 };
 
                 scope.markDayWatched = function(day) {
-                    return (scope.eventService) ? scope.eventService.markDayWatched(day, scope.$root) : false;
+                    return (scope.eventService) ? scope.eventService.markDayWatched(day, scope.$root,$injector.get('SettingsService').get('episode.watched-downloaded.pairing')) : false;
                 };
 
                 scope.markDayDownloaded = function(day) {

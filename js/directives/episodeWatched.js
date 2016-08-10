@@ -29,7 +29,7 @@ DuckieTV.directive('episodeWatched', ["$filter", "$document", "$injector",
                     if (episode.isWatched()) {
                         episode.markNotWatched($injector.get('$rootScope'));
                     } else {
-                        episode.markWatched($injector.get('$rootScope'));
+                        episode.markWatched($injector.get('SettingsService').get('episode.watched-downloaded.pairing'),$injector.get('$rootScope'));
                     }
                 };
             }
