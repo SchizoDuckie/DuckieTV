@@ -209,8 +209,9 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
              * @param object data input data from TraktTV.findSerieByTVDBID(data.TVDB_ID)
              * @param object watched { TVDB_ID => watched episodes } mapped object to auto-mark as watched
              */
-            addFavorite: function(data, watched) {
+            addFavorite: function(data, watched, useTrakt_id) {
                 watched = watched || [];
+                useTrakt_id = useTrakt_id || false;
                 //console.debug("FavoritesService.addFavorite!", data, watched);
                 var entity = null;
                 if (data.title === null || data.tvdb_id === null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
@@ -220,7 +221,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
                         TVDB_ID: data.tvdb_id
                     });
                 };
-                var serie = service.getById(data.tvdb_id) || new Serie();
+                var serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id) : service.getById(data.tvdb_id) || new Serie();
                 fillSerie(serie, data);
                 return serie.Persist().then(function() {
                         return serie;
@@ -284,6 +285,11 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "TraktTVv2", "$injecto
             getById: function(id) {
                 return service.favorites.filter(function(el) {
                     return el.TVDB_ID == id;
+                })[0];
+            },
+            getByTRAKT_ID: function(id) {
+                return service.favorites.filter(function(el) {
+                    return el.TRAKT_ID == id;
                 })[0];
             },
             getByID_Serie: function(id) {
