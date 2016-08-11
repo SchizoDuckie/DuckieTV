@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "Oversett DuckieTV til ditt lokale språk og dato/tidsformat ved å endre innstillingen nedenfor",
     "SETTINGS/LANGUAGE/desc2": "Merk at de fleste oversettelsene er automatisk oversatt. Vi ser fremdeles ",
     "SETTINGS/LANGUAGE/desc3": "etter flere oversettere!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "Når denne innstillingen er aktivert, kan du trykke en episode er 'mark som overvåketknappen' vil også sette den som 'lastet ned'. Og å trykke på 'mark som ikke lastet ned' knappen vil også sette episoden som 'vel ikke sett'. Deaktivering av denne innstillingen vil kople dette funksjonelle sammenkobling.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "Episode Overvåket / Lastet ned Sammenkobling",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "Klarér valg",
     "SETTINGS/SUBTITLES/desc": "Velg vilket undertekstspråk du vil søke etter",
     "SETTINGS/SUBTITLES/selected-none/lbl": "Ingen filtre valgt. Alle språk vil bli vist.",

@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "以下の設定を変更することで,ローカルの言語と日付/時刻の形式にDuckieTVを翻訳",
     "SETTINGS/LANGUAGE/desc2": "翻訳のほとんどは機械翻訳であることに注意してください.我々はまだある",
     "SETTINGS/LANGUAGE/desc3": "翻訳者を探している!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "この設定を有効にすると,ボタンも「ダウンロード」として設定しますが,エピソードの「見としてマーク」を押します. そして,押しボタンも「見ていない」などのエピソードを設定します」マークすることはないダウンロードはよいます」. この設定を無効にすると,この機能のペアリングを分離します.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "エピソード監視/ダウンロードペアリング",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "クリア選択",
     "SETTINGS/SUBTITLES/desc": "検索したい字幕どの言語を選択します",
     "SETTINGS/SUBTITLES/selected-none/lbl": "フィルタなしが設定されていません.すべての言語が表示されます.",

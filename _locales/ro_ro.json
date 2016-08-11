@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "Traduceți DuckieTV în limba locală și formatați data și ora schimbând setarea de mai jos",
     "SETTINGS/LANGUAGE/desc2": "Țineți cont că majoritatea traducerilor sunt automate. Încă ",
     "SETTINGS/LANGUAGE/desc3": "suntem în căutare de traducători!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "Când această setare este activată, apăsând 'marcați ca vizionat' un episod de buton se va stabili, de asemenea, ca 'descărcat'. Și apăsând 'marca respectivă ca să nu mai descărcat' buton va stabili, de asemenea episod ca 'nu este urmărit'. Dezactivarea acestei setări va decupla această împerechere funcțională.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "Episodul Vizionat / Descarcate împerechere",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "Ștergeți selecția",
     "SETTINGS/SUBTITLES/desc": "Alegeți în ce limbi doriți să căutați subtitrări",
     "SETTINGS/SUBTITLES/selected-none/lbl": "Nu este setat nici un filtru. Vor fi afișate toate limbile.",

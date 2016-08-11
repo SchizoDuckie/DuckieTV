@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "Verander de taal en de datum / tijd-instellingen van DuckieTV",
     "SETTINGS/LANGUAGE/desc2": "Let op: De meeste vertalingen zijn automatisch, we zijn nog steeds ",
     "SETTINGS/LANGUAGE/desc3": "op zoek naar vertalers!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "Wanneer deze instelling is ingeschakeld, het indrukken van een aflevering van 'merk als keek' knop zal ook in te stellen als 'gedownload'. En op de 'merk als niet gedownload' knop zal ook de episode als 'niet keek'. Het uitschakelen van deze instelling zal deze functionele koppeling los te koppelen.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "Episode Bekeken / Gedownloade Koppelen",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "Clear selectie",
     "SETTINGS/SUBTITLES/desc": "Kies welke ondertiteling talen die u wilt zoeken",
     "SETTINGS/SUBTITLES/selected-none/lbl": "Geen filterset. Alle talen worden getoond.",

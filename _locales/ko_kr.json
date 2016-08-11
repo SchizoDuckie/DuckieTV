@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "아래의 설정을 변경하여 해당 지역의 언어와 날짜 / 시간 형식으로 DuckieTV 번역",
     "SETTINGS/LANGUAGE/desc2": "번역의 대부분은 자동으로 번역되어 있습니다. 우리는 아직",
     "SETTINGS/LANGUAGE/desc3": "번역을 찾고!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "이 설정을 사용하면 버튼 또한 '다운로드'로 설정되며, 에피소드의 '시청과 같이 표시'를 누르면. 그리고 누름 버튼도 '시청하지'와 같은 에피소드를 설정합니다 '마크하는 것은 다운로드는 다음과 같이'. 이 설정을 사용하지 않도록 설정하면이 기능 페어링을 분리합니다.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "에피소드 시청 / 다운로드 페어링",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "지우기 선택",
     "SETTINGS/SUBTITLES/desc": "검색 할 자막 어떤 언어를 선택",
     "SETTINGS/SUBTITLES/selected-none/lbl": "어떤 필터가 설정되지. 모든 언어가 표시됩니다.",

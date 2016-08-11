@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "翻译DuckieTV到本地语言和日期/时间格式通过更改下面的设置",
     "SETTINGS/LANGUAGE/desc2": "需要注意的是大部分的翻译是自动翻译.我们仍然",
     "SETTINGS/LANGUAGE/desc3": "寻找翻译!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "当启用此设置后,按下一集的'标记为已观看'按钮也可以将其设置为'下载'.和按'标记为未下载'按钮也可以设置情节作为'没看过'.禁用此设置将这种脱钩功能配对.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "情节看了/下载配对",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "清除选择",
     "SETTINGS/SUBTITLES/desc": "选择要搜索哪个字幕语言",
     "SETTINGS/SUBTITLES/selected-none/lbl": "没有过滤器设置.所有的语言都会显示出来.",

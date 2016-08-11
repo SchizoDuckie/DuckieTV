@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "Übersetze DuckieTV in deine Landessprache und die lokalen Datums- und Zeit-Formate",
     "SETTINGS/LANGUAGE/desc2": "Die meisten Übersetzungen werden automatisch übersetzt. Wir sind immer auf der",
     "SETTINGS/LANGUAGE/desc3": "Suche nach Übersetzern!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "Wenn diese einstellung aktiviert ist, wird durch drücken eines 'Marke als Angeschaut' episode taste auch eingestellt wird er als 'Heruntergeladen'. Und das drücken von 'Marke als nicht heruntergeladen' taste wird auch die folge, wie sie 'nicht beobachtet'. Die deaktivierung dieser einstellung wird diese funktionelle kopplung entkoppeln.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "Folge Gesehene / Heruntergeladene Paarung",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "Auswahl löschen",
     "SETTINGS/SUBTITLES/desc": "Wählen Sie, welche Untertitelsprachen nach dem Sie suchen möchten",
     "SETTINGS/SUBTITLES/selected-none/lbl": "Sie haben keinen Filter gesetzt. Alle Sprachen angezeigt werden.",

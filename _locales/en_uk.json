@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "Translate DuckieTV into your local language and date/time formats by changing the setting below",
     "SETTINGS/LANGUAGE/desc2": "Note that most of the translations are auto-translated. We are still ",
     "SETTINGS/LANGUAGE/desc3": "looking for translators!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "When this setting is enabled, pressing an episode's 'Mark as Watched' button will also set it as 'Downloaded'. And pressing the 'Mark as not Downloaded' button will also set the episode as 'Not Watched'. Disabling this setting will decouple this functional pairing.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "Episode Watched / Downloaded Pairing",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "Clear selection",
     "SETTINGS/SUBTITLES/desc": "Choose which subtitle languages you want to search for",
     "SETTINGS/SUBTITLES/selected-none/lbl": "No filter set. All languages will be shown.",

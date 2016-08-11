@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "Prevedi DuckieTV v vaši lokalni jezik in datum / čas formatov s spreminjanjem nastavitev spodaj",
     "SETTINGS/LANGUAGE/desc2": "Upoštevajte, da je večina prevodov auto prevedena. Mi še vedno ",
     "SETTINGS/LANGUAGE/desc3": "iščemo prevajalce!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "Ko je ta nastavitev omogočena, stiskanje 'oznako, kot je gledal' epizoda se bo določena tudi gumb za 'prenos'. In pritiskom na 'znak, da ne prenese' bo gumb nastavite tudi epizode kot 'ni gledal'. Če to nastavitev onemogočite bo ločiti to funkcionalno seznanitev.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "Epizoda gledani / Preneseno Seznanjanje",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "Počisti izbiro",
     "SETTINGS/SUBTITLES/desc": "Izberite ki podnaslov jeziki želite iskati",
     "SETTINGS/SUBTITLES/selected-none/lbl": "Ni nastavljen filter. Vsi jeziki bodo prikazani.",

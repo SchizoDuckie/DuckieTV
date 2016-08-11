@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "Traduire DuckieTV dans votre langue et votre format de date / heure en modifiant le paramètre ci-dessous",
     "SETTINGS/LANGUAGE/desc2": "Notez que la plupart des traductions sont des traductions automatiques. Nous sommes encore",
     "SETTINGS/LANGUAGE/desc3": "à la recherche de traducteurs!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "Lorsque ce paramètre est activé, en appuyant sur la 'marque comme regardé' d'un épisode touche également le définir comme 'téléchargé'. Et en appuyant sur la 'marque de ne pas téléchargé' bouton mettra également l'épisode comme 'non surveillé'. La désactivation de ce paramètre découpler cet appariement fonctionnel.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "Épisode Regardé / Téléchargés Couplage",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "Effacer la sélection",
     "SETTINGS/SUBTITLES/desc": "Choisissez les langues dans lesquelles vous voulez rechercher des sous-titres",
     "SETTINGS/SUBTITLES/selected-none/lbl": "Pas de filtre sélectionné. Toutes les langues seront affichées",

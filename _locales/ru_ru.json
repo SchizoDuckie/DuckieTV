@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "Переключите DuckieTV на ваш язык и формат даты/времени",
     "SETTINGS/LANGUAGE/desc2": "Имейте в виду, что многие переводы сделаны автоматически. Нам ",
     "SETTINGS/LANGUAGE/desc3": "нужны переводчики!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "Когда этот параметр включен, нажав на кнопку 'знак, как смотрел' эпизод в кнопка будет также установить его в качестве 'загружен'. И нажатием клавиши 'знак не загружен' кнопка также установит эпизод как 'не смотрел'. Отключение этого параметра будет развязки это функциональное сопряжение.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "Эпизод Смотрел / Скачано Спаривание",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "Сбросить выбор",
     "SETTINGS/SUBTITLES/desc": "На каких языках искать субтитры",
     "SETTINGS/SUBTITLES/selected-none/lbl": "Фильтр не установлен. Будут показаны все языки.",

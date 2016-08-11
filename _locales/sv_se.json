@@ -333,6 +333,8 @@
     "SETTINGS/LANGUAGE/desc": "Översätt DuckieTV i dina lokala språk och datum / tidsformat genom att ändra inställningen nedan",
     "SETTINGS/LANGUAGE/desc2": "Observera att de flesta översättningar är automatiskt översatta. Vi är fortfarande",
     "SETTINGS/LANGUAGE/desc3": "söker översättare!",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc": "När den här inställningen är aktiverad, trycker en episod 'märke som bevakade' knappen kommer också att ställa in den som 'hämtade'. Och trycka på 'varumärket som inte hämtats' knappen kommer också att episoden som 'inte bevakade'. Inaktivera denna inställning frikoppla denna funktionella parning.",
+    "SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr": "Episode Bevakade / Nedladdat Pairing",
     "SETTINGS/SUBTITLES/clear-selection/lbl": "Rensa val",
     "SETTINGS/SUBTITLES/desc": "Välj vilken undertext språk som du vill söka efter",
     "SETTINGS/SUBTITLES/selected-none/lbl": "Ingen filtersatsen. Alla språk kommer att visas.",
