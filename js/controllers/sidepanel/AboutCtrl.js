@@ -4,6 +4,13 @@
 DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "TorrentSearchEngines",
     function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, TorrentSearchEngines) {
 
+        /**
+         * Closes the SidePanel 
+         */
+        $scope.closeSidePanel = function() {
+            $injector.get('$state').go('calendar');
+        }
+
         // If we load onto the page highlight the button
         document.querySelector('#actionbar_about').classList.add('active');
 

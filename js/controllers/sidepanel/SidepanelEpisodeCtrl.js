@@ -1,9 +1,16 @@
-DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "SceneNameResolver", "AutoDownloadService", "TorrentSearchEngines", "SubtitleDialog", "DuckieTorrent", "Netflix", "dialogs", "$scope", "$filter", function(serie, episode, season, SceneNameResolver, AutoDownloadService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, Netflix, dialogs, $scope, $filter) {
+DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "SceneNameResolver", "AutoDownloadService", "TorrentSearchEngines", "SubtitleDialog", "DuckieTorrent", "Netflix", "dialogs", "$scope", "$filter", "$injector", function(serie, episode, season, SceneNameResolver, AutoDownloadService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, Netflix, dialogs, $scope, $filter, $injector) {
 
     this.serie = serie;
     this.episode = episode;
     this.season = season;
     var self = this;
+
+    /**
+     * Closes the SidePanel 
+     */
+    this.closeSidePanel = function() {
+        $injector.get('$state').go('calendar');
+    }
 
     this.markLeaked = function() {
         this.leaked = 1;

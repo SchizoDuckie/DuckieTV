@@ -1,93 +1,97 @@
+<!-- episode-details.html -->
 <div lazy-background="{{::sidepanel.serie.poster}}" class="serie-bg-img"></div>
-   <div class="leftpanel serie-overview">
-      <div class="episode-img large" ng-show="sidepanel.episode" lazy-background="{{::sidepanel.episode.filename}}"></div>
-      <center ng-show="sidepanel.serie && !sidepanel.episode"><serieheader style="margin:0 auto;" data="sidepanel.serie" no-overview="1" no-title="1" mode="poster"></serieheader></center>
-      <h2>{{::sidepanel.serie.name}}{{::sidepanel.episode.getFormattedEpisode()?' - ':''}}{{::sidepanel.episode.getFormattedEpisode()}}</h2>
-      <h3>{{::sidepanel.episode.episodename}}</h3>
-      <h5 style="text-align: center;">{{::sidepanel.episode.firstaired | date: 'shortDate'}}</h5>
-      <p class="overview" style="text-align:justify">{{::sidepanel.episode.overview}}</p>
+<div class="leftpanel serie-overview">
+  <div class="episode-img large" ng-show="sidepanel.episode" lazy-background="{{::sidepanel.episode.filename}}"></div>
+  <center ng-show="sidepanel.serie && !sidepanel.episode"><serieheader style="margin:0 auto;" data="sidepanel.serie" no-overview="1" no-title="1" mode="poster"></serieheader></center>
+  <h2>
+  <span>{{::sidepanel.serie.name}}{{::sidepanel.episode.getFormattedEpisode()?' - ':''}}{{::sidepanel.episode.getFormattedEpisode()}}</span>
+  <span><button type="button" class="close" ng-click="sidepanel.closeSidePanel()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{::sidepanel.serie.name}}{{::sidepanel.episode.getFormattedEpisode()?' - ':''}}{{::sidepanel.episode.getFormattedEpisode()}}" tooltip-placement="left">&times;</button></span>
+  </h2>
+  <h3>{{::sidepanel.episode.episodename}}</h3>
+  <h5 style="text-align: center;">{{::sidepanel.episode.firstaired | date: 'shortDate'}}</h5>
+  <p class="overview" style="text-align:justify">{{::sidepanel.episode.overview}}</p>
 
-      <table class="buttons" width="100%" border="0">
-        <tr>
-          <td colspan="2">
-            <a ui-sref="serie.details({id:sidepanel.serie.ID_Serie})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/series-details/lbl"></strong>
-            </a>
-          </td>
-        </tr>
-        <tr class="two-face">
-          <td>
-            <a ui-sref="serie.seasons({id: sidepanel.serie.ID_Serie})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/seasons/lbl"></strong>
-            </a>
-          </td>
-          <td>
-            <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/episodes/lbl"></strong>
-            </a>
-          </td>
-        </tr>
-        <tr class="two-face">
-          <td>
-            <episode-downloaded ng-if="sidepanel.episode.hasAired() || sidepanel.episode.isLeaked()" template-url="templates/sidepanel/mark-downloaded.html" episode="sidepanel.episode" ng-click="markDownloaded(sidepanel.episode)"></episode-downloaded>
-          </td>
-          <td>
-            <episode-watched ng-if="sidepanel.episode.hasAired() || sidepanel.episode.isLeaked()" template-url="templates/sidepanel/mark-watched.html" episode="sidepanel.episode" ng-click="markWatched(sidepanel.episode)"></episode-watched>
-          </td>
-        </tr>
-        <tr ng-if="!sidepanel.episode.hasAired() && !sidepanel.episode.isLeaked()">
-        <th colspan="2">
-        <p ng-click="sidepanel.markLeaked()" style='font-weight:normal; text-align:center; cursor:pointer; padding-top:50px'><pcont translate-once="SIDEPANEL/EPISODE-DETAILS/leak-override/lbl"></pcont>{{::sidepanel.episode.firstaired | date: 'shortDate'}}</p>
-        </th>
-        </tr>
-        <tr>
-          <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled') && (sidepanel.episode.hasAired() || sidepanel.episode.isLeaked())" style="position:relative">
-            <table style="width:100%;margin: 5px 0px 5px 0px">
-              <tr>
-                <td style="width:100%;padding-left:15px">
-                  <torrent-dialog class="download" episode='sidepanel.episode' serie="sidepanel.serie">
-                    <strong style="padding-left:21px" translate-once="SIDEPANEL/EPISODE-DETAILS/find-torrent/btn"></strong>
-                  </torrent-dialog>
-                  <span class="sr-only" translate-once="COMMON/split-button/sr"></span>
-                </td>
-                <td style="padding-right:6px">
-                  <a class="auto-download" ng-click="sidepanel.autoDownload(episode)" uib-tooltip="{{'COMMON/auto-download/lbl'|translate}}">
-                    <i class="glyphicon glyphicon-cloud-download"></i><strong style="display:flex">&nbsp;</strong>
-                    <span class="sr-only" translate-once="COMMON/split-button/sr"></span>
-                  </a>
-                </td>
-                <td style="padding-right:15px">
-                  <a class="torrent-settings" style="text-decoration:none" ng-click="sidepanel.torrentSettings(serie)" uib-tooltip="{{'COMMON/settings/lbl'|translate}}{{sidepanel.serie.name}}">
-                    <i class="glyphicon glyphicon-cog"></i><strong style="display:flex">&nbsp;</strong>
-                  </a>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr ng-if="sidepanel.isNetflixSerie() && sidepanel.isNetflixSupported()">
-          <td colspan="2" class="buttons">
-            <a ng-click="sidepanel.openNetflix()">
-                <img src="img/icon-netflix-small.png" class="smallsettingicon">
-                <strong translate-once="SIDEPANEL/EPISODE-DETAILS/watch-netflix/btn"></strong>
-            </a>
-          </td>
-        </tr>
-        <tr ng-if="getSetting('torrenting.enabled') && sidepanel.episode.magnetHash">
-          <td colspan="2" class="buttons">
-            <a class="no-hover" >
-                <torrent-remote-control info-hash="sidepanel.episode.magnetHash" downloaded="sidepanel.episode.isDownloaded()" template-url="templates/sidepanel/torrentRemoteControl.html"></torrent-remote-control>
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="buttons" ng-if="getSetting('torrenting.enabled') &&  (sidepanel.episode.hasAired() || sidepanel.episode.isLeaked())">
-            <a ng-click="sidepanel.findSubtitle()">
-                <i class="glyphicon glyphicon-text-width"></i><strong translate-once="COMMON/find-subtitle/lbl"></strong>
-            </a>
-          </td>
-        </tr>
-      </table>
+  <table class="buttons" width="100%" border="0">
+    <tr>
+      <td colspan="2">
+        <a ui-sref="serie.details({id:sidepanel.serie.ID_Serie})">
+            <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/series-details/lbl"></strong>
+        </a>
+      </td>
+    </tr>
+    <tr class="two-face">
+      <td>
+        <a ui-sref="serie.seasons({id: sidepanel.serie.ID_Serie})">
+            <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/seasons/lbl"></strong>
+        </a>
+      </td>
+      <td>
+        <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
+            <i class="glyphicon glyphicon-info-sign"></i><strong translate-once="COMMON/episodes/lbl"></strong>
+        </a>
+      </td>
+    </tr>
+    <tr class="two-face">
+      <td>
+        <episode-downloaded ng-if="sidepanel.episode.hasAired() || sidepanel.episode.isLeaked()" template-url="templates/sidepanel/mark-downloaded.html" episode="sidepanel.episode" ng-click="markDownloaded(sidepanel.episode)"></episode-downloaded>
+      </td>
+      <td>
+        <episode-watched ng-if="sidepanel.episode.hasAired() || sidepanel.episode.isLeaked()" template-url="templates/sidepanel/mark-watched.html" episode="sidepanel.episode" ng-click="markWatched(sidepanel.episode)"></episode-watched>
+      </td>
+    </tr>
+    <tr ng-if="!sidepanel.episode.hasAired() && !sidepanel.episode.isLeaked()">
+    <th colspan="2">
+    <p ng-click="sidepanel.markLeaked()" style='font-weight:normal; text-align:center; cursor:pointer; padding-top:50px'><pcont translate-once="SIDEPANEL/EPISODE-DETAILS/leak-override/lbl"></pcont>{{::sidepanel.episode.firstaired | date: 'shortDate'}}</p>
+    </th>
+    </tr>
+    <tr>
+      <td colspan="2" class="two-face-torrent" ng-if="getSetting('torrenting.enabled') && (sidepanel.episode.hasAired() || sidepanel.episode.isLeaked())" style="position:relative">
+        <table style="width:100%;margin: 5px 0px 5px 0px">
+          <tr>
+            <td style="width:100%;padding-left:15px">
+              <torrent-dialog class="download" episode='sidepanel.episode' serie="sidepanel.serie">
+                <strong style="padding-left:21px" translate-once="SIDEPANEL/EPISODE-DETAILS/find-torrent/btn"></strong>
+              </torrent-dialog>
+              <span class="sr-only" translate-once="COMMON/split-button/sr"></span>
+            </td>
+            <td style="padding-right:6px">
+              <a class="auto-download" ng-click="sidepanel.autoDownload(episode)" uib-tooltip="{{'COMMON/auto-download/lbl'|translate}}">
+                <i class="glyphicon glyphicon-cloud-download"></i><strong style="display:flex">&nbsp;</strong>
+                <span class="sr-only" translate-once="COMMON/split-button/sr"></span>
+              </a>
+            </td>
+            <td style="padding-right:15px">
+              <a class="torrent-settings" style="text-decoration:none" ng-click="sidepanel.torrentSettings(serie)" uib-tooltip="{{'COMMON/settings/lbl'|translate}}{{sidepanel.serie.name}}">
+                <i class="glyphicon glyphicon-cog"></i><strong style="display:flex">&nbsp;</strong>
+              </a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr ng-if="sidepanel.isNetflixSerie() && sidepanel.isNetflixSupported()">
+      <td colspan="2" class="buttons">
+        <a ng-click="sidepanel.openNetflix()">
+            <img src="img/icon-netflix-small.png" class="smallsettingicon">
+            <strong translate-once="SIDEPANEL/EPISODE-DETAILS/watch-netflix/btn"></strong>
+        </a>
+      </td>
+    </tr>
+    <tr ng-if="getSetting('torrenting.enabled') && sidepanel.episode.magnetHash">
+      <td colspan="2" class="buttons">
+        <a class="no-hover" >
+            <torrent-remote-control info-hash="sidepanel.episode.magnetHash" downloaded="sidepanel.episode.isDownloaded()" template-url="templates/sidepanel/torrentRemoteControl.html"></torrent-remote-control>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="buttons" ng-if="getSetting('torrenting.enabled') &&  (sidepanel.episode.hasAired() || sidepanel.episode.isLeaked())">
+        <a ng-click="sidepanel.findSubtitle()">
+            <i class="glyphicon glyphicon-text-width"></i><strong translate-once="COMMON/find-subtitle/lbl"></strong>
+        </a>
+      </td>
+    </tr>
+  </table>
 </div>
 
 <div class="rightpanel" ui-view="serieDetails"></div>

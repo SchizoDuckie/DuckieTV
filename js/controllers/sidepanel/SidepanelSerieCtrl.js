@@ -1,5 +1,5 @@
-DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "$location", "$locale", "$q", "dialogs", "FavoritesService",  "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SettingsService", "TraktTVv2",
-    function($rootScope, $scope, $filter, $location, $locale, $q, dialogs, FavoritesService,  latestSeason, notWatchedSeason, serie, SidePanelState, SettingsService, TraktTVv2) {
+DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "$location", "$locale", "$q", "$state", "dialogs", "FavoritesService",  "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SettingsService", "TraktTVv2",
+    function($rootScope, $scope, $filter, $location, $locale, $q, $state, dialogs, FavoritesService,  latestSeason, notWatchedSeason, serie, SidePanelState, SettingsService, TraktTVv2) {
 
         var self = this;
 
@@ -9,6 +9,21 @@ DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "
         this.notWatchedEpsBtn =  SettingsService.get('series.not-watched-eps-btn');
         this.isRefreshing = false;
         this.markAllWatchedAlert = false;
+
+    /**
+     * Closes the SidePanel 
+     */
+    this.closeSidePanel = function() {
+        $state.go('calendar'); // or favorites, yet to determine how to find out where we came from...?
+    }
+
+    /**
+     * Closes the SidePanel expansion
+     */
+    this.closeSidePanelExpansion = function() {
+        SidePanelState.contract();
+        $state.go('serie');
+    }
 
         this.refresh = function(serie) {
             this.isRefreshing = true;

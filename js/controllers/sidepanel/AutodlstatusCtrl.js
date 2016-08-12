@@ -1,8 +1,15 @@
 /**
- *Displays status of Auto-Download activities
+ * Displays status of Auto-Download activities
  */
-DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "SettingsService", "AutoDownloadService", "TorrentSearchEngines", "DuckieTorrent",
-    function($scope, $filter, SettingsService, AutoDownloadService, TorrentSearchEngines, DuckieTorrent) {
+DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "SettingsService", "AutoDownloadService", "TorrentSearchEngines", "DuckieTorrent",
+    function($scope, $filter, $injector, SettingsService, AutoDownloadService, TorrentSearchEngines, DuckieTorrent) {
+
+        /**
+         * Closes the SidePanel 
+         */
+        $scope.closeSidePanel = function() {
+            $injector.get('$state').go('calendar');
+        }
 
         // If we load onto the page highlight the button
         document.querySelector('#actionbar_autodlstatus').classList.add('active');

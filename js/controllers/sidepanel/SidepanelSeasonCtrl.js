@@ -1,13 +1,21 @@
 /**
- * Controller for indidivual season view (episodes view)
+ * Controller for individual season view (episodes view)
  */
-DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$filter", "$q", "seasons", "season", "episodes", "SceneNameResolver", "AutoDownloadService", function($rootScope, $scope, $state, $filter, $q, seasons, season, episodes, SceneNameResolver, AutoDownloadService) {
+DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$filter", "$q", "$injector", "seasons", "season", "episodes", "SceneNameResolver", "AutoDownloadService", function($rootScope, $scope, $state, $filter, $q, $injector, seasons, season, episodes, SceneNameResolver, AutoDownloadService) {
 
     var vm = this;
     this.season = season;
     this.seasons = seasons;
     this.episodes = episodes;
     this.seasonIndex = null;
+
+    /**
+     * Closes the SidePanel expansion
+     */
+    this.closeSidePanelExpansion = function() {
+        $injector.get('SidePanelState').contract();
+        $state.go('serie');
+    }
 
     // Find the current Season Index relative to all Seasons
     for (var i = 0; i < this.seasons.length; i++) {

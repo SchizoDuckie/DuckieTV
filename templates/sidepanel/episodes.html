@@ -1,3 +1,4 @@
+<!-- episodes.html -->
 <div class="episodes">
   <div class="season-control">
     <div class="season-control-left">
@@ -11,7 +12,9 @@
     </div> 
   </div>
   <p class="overview" style="text-align:justify">{{::season.season.overview}}</p>
-  <strong translate-once="COMMON/episodes/lbl"></strong>
+  <strong><span translate-once="COMMON/episodes/lbl"></span>
+  <span><button type="button" class="close" ng-click="season.closeSidePanelExpansion()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/episodes/lbl'|translate}}" tooltip-placement="left">&times;</button></span>
+  </strong>
   <table class="table table-condensed light episodelist" style='margin:10px 0 10px 0; background-color:transparent' ng-class="{'hover':getSetting('torrenting.enabled')}">
     <tbody ng-if="!season.episodes || season.episodes.length == 0">
       <tr>

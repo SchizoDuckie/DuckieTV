@@ -1,3 +1,4 @@
+<!-- serie-details.html -->
 <div class="serie-overview" style="color:black">
     <div class="serie-img poster large" lazy-background="{{::sidepanel.serie.poster}}" uib-tooltip="{{::sidepanel.serie.name}}" tooltip-append-to-body="true" tooltip-placement="left">
       <em ng-show="sidepanel.serie.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" uib-tooltip="{{'COMMON/all-watched/tooltip'|translate}}">
@@ -11,7 +12,9 @@
       <tbody>
         <tr>
           <th translate-once="SIDEPANEL/SERIE-DETAILS/links/hdr"></th>
-          <td><a style="text-decoration: underline" ng-href="https://www.google.com/search?q={{::sidepanel.serie.name}} (TV series)+Wikipedia&btnI=745" target="_blank">Wikipedia</a> <a style="text-decoration: underline" ng-href="http://www.imdb.com/title/{{::sidepanel.serie.IMDB_ID}}" ng-hide="serie.IMDB_ID < 1" target="_blank">IMDB</a></td>
+          <td><a style="text-decoration: underline" ng-href="https://www.google.com/search?q={{::sidepanel.serie.name}} (TV series)+Wikipedia&btnI=745" target="_blank">Wikipedia</a> <a style="text-decoration: underline" ng-href="http://www.imdb.com/title/{{::sidepanel.serie.IMDB_ID}}" ng-hide="serie.IMDB_ID < 1" target="_blank">IMDB</a>
+            <span><button type="button" class="close" ng-click="sidepanel.closeSidePanelExpansion()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/series-details/lbl'|translate}}" tooltip-placement="left">&times;</button></span>
+          </td>
         </tr>
         <tr>
           <th translate-once="COMMON/airs-on/hdr"></th>

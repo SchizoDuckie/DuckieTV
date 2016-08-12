@@ -1,6 +1,8 @@
 <!-- about.html -->
 <div id="aboutpage">
-  <h2><span translate-once="COMMON/about/hdr"></span><span> v<ng-include src="'VERSION'"></ng-include></span></h2>
+  <h2><span translate-once="COMMON/about/hdr"></span><span> v<ng-include src="'VERSION'"></ng-include></span>
+    <span><button type="button" class="close" ng-click="closeSidePanel()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/about/hdr'|translate}}" tooltip-placement="left">&times;</button></span>
+  </h2>
   <table class="table light" style="word-break:break-word">
     <tr>
       <td>
