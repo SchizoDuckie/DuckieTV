@@ -20,7 +20,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     ],
                     size: ['td:nth-child(4)', 'innerText',
                         function(a) {
-                            return (a == '– N/A –') ? 0 : a;
+                            return (a == '– N/A –') ? null : a;
                         }],
                     seeders: ['td:nth-child(6) div div:first-child', 'innerText',
                         function(a) {
