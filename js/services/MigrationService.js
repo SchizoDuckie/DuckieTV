@@ -112,8 +112,16 @@ DuckieTV
 
         if (!localStorage.getItem('1.1.4updateTransmissionPath')) {
             console.info("Executing 1.1.4updateTransmissionPath to clone transmission.key to transmission.path");
-            SettingsService.set('transmission.path', SettingsService.get('transmission.key'));
-            SettingsService.set('vuze.path', SettingsService.get('vuze.key'));
+            if (SettingsService.get('transmission.key')) {
+                SettingsService.set('transmission.path', SettingsService.get('transmission.key'));                
+            } else {
+                SettingsService.set('transmission.path', '/transmission/rpc');
+            }
+            if (SettingsService.get('vuze.key')) {
+                SettingsService.set('vuze.path', SettingsService.get('vuze.key'));
+            } else {
+                SettingsService.set('vuze.path', '/transmission/rpc');                
+            }
             localStorage.setItem('1.1.4updateTransmissionPath', new Date());
             console.info("1.1.4updateTransmissionPath done!");
         }
