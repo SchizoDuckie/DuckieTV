@@ -5,6 +5,13 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent", 
     function($rootScope, $injector, DuckieTorrent, SidePanelState) {
         var vm = this;
         
+        /**
+         * Closes the SidePanel 
+         */
+        this.closeSidePanel = function() {
+            $injector.get('$state').go('calendar');
+        }
+
         this.authToken = localStorage.getItem('utorrent.token');
         //uTorrent.setPort(localStorage.getItem('utorrent.port'));
         this.rpc = null;

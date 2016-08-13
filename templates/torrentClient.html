@@ -28,7 +28,9 @@
       <strong style=' display:block; text-align:center;' translate-once="TORRENTCLIENT/please-wait/lbl"></strong>
       {{client.status}}
     </div>
-    <h4 id="getTorrentsCount" ng-show="client.rpc"><span translate-once="TORRENTCLIENT/torrents-found/hdr"></span>{{client.getTorrentsCount()}}</h4>
+    <h4 id="getTorrentsCount" ng-show="client.rpc"><span translate-once="TORRENTCLIENT/torrents-found/hdr"></span>{{client.getTorrentsCount()}}
+    <button type="button" class="close" ng-click="client.closeSidePanel()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} DuckieTorrent" tooltip-placement="left">&times;</button>
+    </h4>
   </div>
 
   <!-- torrent list -->

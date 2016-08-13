@@ -1,8 +1,8 @@
 /**
  *
  */
-DuckieTV.controller('TorrentDetailsCtrl', ["DuckieTorrent", "torrent", "$scope",
-    function(DuckieTorrent, torrent, $scope) {
+DuckieTV.controller('TorrentDetailsCtrl', ["DuckieTorrent", "torrent", "$scope", "$injector",
+    function(DuckieTorrent, torrent, $scope, $injector) {
         var self = this;
 
         this.torrent = torrent;
@@ -12,6 +12,14 @@ DuckieTV.controller('TorrentDetailsCtrl', ["DuckieTorrent", "torrent", "$scope",
         this.progress = 0;
         this.downloadSpeed = 0;
         this.isWebUI = (this.torrent instanceof TorrentData); // web or uTorrent?
+
+        /**
+         * Closes the SidePanel expansion
+         */
+        this.closeSidePanelExpansion = function() {
+            $injector.get('SidePanelState').contract();
+             $injector.get('$state').go('torrent');
+        }
 
         /**
          * Observes the torrent and watches for changes (progress)
