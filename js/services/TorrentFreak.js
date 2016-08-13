@@ -103,13 +103,20 @@ DuckieTV.provider('TorrentFreak', function() {
     return {
         restrict: 'E',
         templateUrl: 'templates/torrentFreakTop10.html',
-        controller: ["$compile", "TorrentFreak", "$rootScope",
-            function($compile, TorrentFreak, $rootScope) {
+        controller: ["$compile", "TorrentFreak", "$rootScope", "$injector",
+            function($compile, TorrentFreak, $rootScope, $injector) {
                 var vm = this;
                 this.activeItem;
                 this.items = [];
                 this.itemIndex = 0;
                 this.activeItem = [];
+
+                /**
+                 * Closes the SidePanel 
+                 */
+                this.closeSidePanel = function() {
+                    $injector.get('$state').go('calendar');
+                }
 
                 /** 
                  * Switch to the previous item in the Top10 RSS feed while the index isn't maxxed out
@@ -120,6 +127,7 @@ DuckieTV.provider('TorrentFreak', function() {
                         this.activeItem = vm.items[vm.itemIndex];
                     }
                 }
+
                 /** 
                  * Switch to the next item in the Top10 RSS feed results while the index is > 0
                  */

@@ -2,6 +2,7 @@
   <div style="align:center"><center>
     <button style='color: black;' ng-click="vm.prevItem()" ng-disabled="vm.itemIndex == vm.items.length - 1"> &lt; <span translate-once="COMMON/previous/lbl"></span> </button>
     <button style='color: black;' ng-click="vm.nextItem()" ng-disabled="vm.itemIndex == 0"> <span translate-once="COMMON/next/lbl"></span> &gt;</button>
+    <button type="button" class="close" ng-click="vm.closeSidePanel()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'TAB/watchlist/glyph'|translate}}" tooltip-placement="left">&times;</button>
   </center></div>
   <div ng-if="vm.activeItem">
   <h2>{{vm.activeItem.title}}</h2>
