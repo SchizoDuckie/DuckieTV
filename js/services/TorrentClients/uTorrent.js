@@ -677,13 +677,15 @@ DuckieTorrent
             },
             removeTorrent: function(torrent) {
                 var key = Object.keys(torrent)[0];
-                Episode.findOneByMagnetHash(torrent[key].hash.toUpperCase()).then(function(result) {
-                    if (result) {
-                        console.info('remote torrent not found, removed magnetHash[%s] from episode[%s] of series[%s]', result.magnetHash, result.getFormattedEpisode(), result.ID_Serie);
-                        result.magnetHash = null;
-                        result.Persist();
-                    }
-                });
+                if ('hash' in torrent[key]) {
+                    Episode.findOneByMagnetHash(torrent[key].hash.toUpperCase()).then(function(result) {
+                        if (result) {
+                            console.info('remote torrent not found, removed magnetHash[%s] from episode[%s] of series[%s]', result.magnetHash, result.getFormattedEpisode(), result.ID_Serie);
+                            result.magnetHash = null;
+                            result.Persist();
+                        }
+                    })
+                };
                 TorrentHashListService.removeFromHashList(torrent[key].hash.toUpperCase());
                 delete service.torrents[torrent[key].hash].hash;
                 delete service.eventHandlers[torrent[key].hash];
