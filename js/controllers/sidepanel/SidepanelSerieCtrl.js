@@ -1,5 +1,5 @@
-DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "$location", "$locale", "$q", "$state", "dialogs", "FavoritesService",  "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SettingsService", "TraktTVv2",
-    function($rootScope, $scope, $filter, $location, $locale, $q, $state, dialogs, FavoritesService,  latestSeason, notWatchedSeason, serie, SidePanelState, SettingsService, TraktTVv2) {
+DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "$location", "$locale", "$q", "$state", "dialogs", "FavoritesService",  "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SeriesListState", "SettingsService", "TraktTVv2",
+    function($rootScope, $scope, $filter, $location, $locale, $q, $state, dialogs, FavoritesService,  latestSeason, notWatchedSeason, serie, SidePanelState,SeriesListState, SettingsService, TraktTVv2) {
 
         var self = this;
 
@@ -14,7 +14,12 @@ DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "
      * Closes the SidePanel 
      */
     this.closeSidePanel = function() {
-        $state.go('calendar'); // or favorites, yet to determine how to find out where we came from...?
+        if (SeriesListState.state.isShowing) {
+            SidePanelState.hide();
+            $state.go('favorites');
+        } else {
+            $state.go('calendar');
+        }
     }
 
     /**
