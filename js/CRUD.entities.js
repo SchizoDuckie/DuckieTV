@@ -576,7 +576,7 @@ CRUD.define(SearchEngine, {
         loginTestSelector: '#loginform'
     }, {
         name: 'KickAss custom',
-        enabled: 1,
+        enabled: 0,
         testSearch: 'test',
         mirror: 'https://kat.cr', // http://yoursite.com',
         searchEndpoint: '/usearch/%s/?field=seeders&sorder=desc',
@@ -598,7 +598,7 @@ CRUD.define(SearchEngine, {
         detailUrlProperty: 'href'
     }, {
         name: 'ThePirateBay custom',
-        enabled: 1,
+        enabled: 0,
         testSearch: 'test',
         mirror: 'https://thepiratebay.se',
         mirrorResolverClass: 'MirrorResolver',
@@ -619,7 +619,7 @@ CRUD.define(SearchEngine, {
         detailUrlProperty: 'href'
     }, {
         name: 'Nyaa custom',
-        enabled: 1,
+        enabled: 0,
         testSearch: 'test',
         mirror: 'https://www.nyaa.se',
         searchEndpoint: '/?page=search&sort=2&term=%s',
