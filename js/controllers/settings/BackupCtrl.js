@@ -87,8 +87,16 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                                 if (!serie) {
                                     console.warn("Series by TVDB_ID %s not found.", TVDB_ID);
                                 } else {
-                                    serie = angular.extend(serie,data[0]);
-                                    serie.Persist();
+                                    // are we dealing with a pre-1.1.4 backup?
+                                    if (data.length > 0) {
+                                        if ('TVDB_ID' in data[0]) {
+                                            // this is a pre 1.1.4 backup, skip it
+                                        } else {
+                                            // this is a 1.1.4 or newer backup, process the series custom settings
+                                            serie = angular.extend(serie,data[0]);
+                                            serie.Persist();                                           
+                                        }
+                                    }
                                 };
                             });
                             FavoritesService.added(TVDB_ID);
