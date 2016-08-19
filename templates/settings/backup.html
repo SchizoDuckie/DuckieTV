@@ -1,11 +1,11 @@
 <div ng-controller="BackupCtrl">
   <h2 translate-once="COMMON/backup/desc"></h2>
   <div class="buttons">
-    <a class="btn btn-success" ng-show="!backupString" ng-click="createBackup()">
+    <a class="btn btn-success" ng-show="!backupString" ng-click="createBackup(); spinFloppy = true;">
       <i class="glyphicon glyphicon-floppy-save"></i> <span translate-once="SETTINGS/BACKUP/create/btn"></span>
     </a>
-    <a class="btn btn-info" download="DuckieTV {{backupTime|date:shortDate}}.backup" ng-show="backupString" ng-href="{{backupString}}">
-      <i class="glyphicon glyphicon-floppy-saved spin" style="color: #fff !important"></i> <span translate-once="COMMON/download/btn"></span>
+    <a class="btn btn-info" download="DuckieTV {{backupTime|date:shortDate}}.backup" ng-show="backupString" ng-href="{{backupString}}" ng-click="spinFloppy = false">
+      <i class="glyphicon glyphicon-floppy-saved {{spinFloppy ? 'spin' : ''}}" style="color: #fff !important"></i> <span translate-once="COMMON/download/btn"></span>
     </a>
   </div>
 
