@@ -13,7 +13,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 selectors: {
                     resultContainer: 'table.data tr[id^=torrent_]',
                     releasename: ['div.torrentname a.cellMainLink', 'innerText'],
-                    magneturl: ['a[title="Torrent magnet link"]', 'href'],
+                    magnetUrl: ['a[title="Torrent magnet link"]', 'href'],
                     size: ['td:nth-child(2)', 'innerText'],
                     seeders: ['td:nth-child(5)', 'innerHTML'],
                     leechers: ['td:nth-child(6)', 'innerHTML'],

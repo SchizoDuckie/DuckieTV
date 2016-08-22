@@ -120,10 +120,10 @@
     </tr>
     <tr ng-repeat="seed in items | limitTo: 20" class="no-animate">
       <td style='width:80px; padding:5px; vertical-align: top;'>
-        <a ng-if="seed.magneturl" ng-click="select(seed)">
+        <a ng-if="!seed.noMagnet" ng-click="select(seed)">
           <i class="glyphicon glyphicon-magnet" uib-tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
         </a>
-        <a ng-if="!seed.magneturl">
+        <a ng-if="seed.noMagnet">
           <i class="glyphicon glyphicon-magnet" style="color:gray"></i>
         </a>
         <a ng-if="seed.torrentUrl" ng-href="{{::seed.torrentUrl}}" target="iframe_a">
@@ -135,10 +135,10 @@
         <a ng-if="!seed.torrent && !seed.torrentUrl">
           <i class="glyphicon glyphicon-download" style="color:gray"></i>
         </a>
-        <a ng-if="seed.magneturl"ng-href="{{::seed.magneturl}}" target="iframe_a">
+        <a ng-if="!seed.noMagnet" ng-href="{{::seed.magnetUrl}}" target="iframe_a">
           <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
         </a>
-        <a ng-if="!seed.magneturl">
+        <a ng-if="seed.noMagnet">
           <i class="glyphicon glyphicon-link" style="color:gray"></i>
         </a>
         <a ng-if="seed.detailUrl" ng-href="{{::seed.detailUrl}}" target='_blank'>

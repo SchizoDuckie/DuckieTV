@@ -296,7 +296,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
             if (config && 'noMagnet' in config && config.noMagnet) {
                 return urlSelect(result.torrentUrl, result.releasename);
             } else {
-                return magnetSelect(result.magneturl);
+                return magnetSelect(result.magnetUrl);
             }
         };
 

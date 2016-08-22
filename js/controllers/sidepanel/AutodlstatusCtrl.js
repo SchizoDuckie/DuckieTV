@@ -46,7 +46,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
                  * TorrentSearchEngines when a user selects a magnet link for an episode from the autoDLstatus side panel.
                  */
                 angular.forEach($scope.activityList, function(activity) { 
-                    if (activity.status > 3) { // only interested in not-found, filtered-out, seeders-min
+                    if (activity.status > 2) { // only interested in not-found, filtered-out, seeders-min, no-magnet
                         var tvdbid = activity.episode.TVDB_ID;
                         var episodeid = activity.episode.ID_Episode;
                         if ($scope.onMagnet.indexOf(tvdbid) == -1) { // don't set $on if we've already done it

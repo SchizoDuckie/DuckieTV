@@ -13,7 +13,6 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 selectors: {
                     resultContainer: 'table.tl tr[class]',
                     releasename: ['td.tli > a', 'innerText'],
-                    magneturl: [], // Requires fetching details
                     size: ['td:nth-of-type(4)', 'innerText'],
                     seeders: ['td:nth-child(5)', 'innerText'],
                     leechers: ['td:nth-child(6)', 'innerText'],
@@ -23,6 +22,10 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                             return a.replace('torrent_','');
                         }
                     ]
+                },
+                detailsSelectors: {
+                    detailsContainer: 'body',
+                    magnetUrl: ['a[title="Magnet link"]', 'href']
                 }
             }, $q, $http, $injector));
         }

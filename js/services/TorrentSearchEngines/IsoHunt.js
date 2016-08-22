@@ -12,19 +12,23 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 selectors: {
                     resultContainer: 'div[id="serps"] table tbody tr',
                     releasename: ['td:nth-child(2) a span', 'innerText'],
-                    magneturl: ['a[title="BitLord streaming"]', 'data-href',
-                        function(a) {
-                            return a.replace('torrentstream','magnet') + '&tr=udp://tracker.coppersurfer.tk:6969/announce&tr=udp://tracker.openbittorrent.com:80/announce&tr=udp://11.rarbg.me:80/announce&tr=udp://9.rarbg.me:2710/announce&tr=udp://9.rarbg.com:2710/announce';
+                    magnetUrl: ['a[title="BitLord streaming"]', 'data-href',
+                        function(href) {
+                            return href.replace('torrentstream','magnet') + '&tr=udp://tracker.coppersurfer.tk:6969/announce&tr=udp://tracker.openbittorrent.com:80/announce&tr=udp://11.rarbg.me:80/announce&tr=udp://9.rarbg.me:2710/announce&tr=udp://9.rarbg.com:2710/announce';
                         }
                     ],
                     size: ['td:nth-child(6)', 'innerText'],
                     seeders: ['td:nth-child(7)', 'innerHTML'],
                     leechers:  ['td:nth-child(7)', 'innerHTML',
-                        function(a) {
+                        function(text) {
                             return 'n/a';
                         }
                     ],
                     detailUrl: ['td:nth-child(2) a', 'href']
+                },
+                detailsSelectors: {
+                    detailsContainer: 'div[class="row mt"]',
+                    magnetUrl: ['a:nth-of-type(2)', 'href']
                 },
                 orderby: {
                     age: 'created_at',

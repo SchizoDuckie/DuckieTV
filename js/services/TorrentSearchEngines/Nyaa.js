@@ -25,6 +25,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                         }
                     ]
                 },
+                noDetailsMagnet: true,
                 orderby: {
                     age: '1',
                     leechers: '3',

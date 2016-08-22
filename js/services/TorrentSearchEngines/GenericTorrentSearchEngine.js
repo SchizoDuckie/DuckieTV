@@ -3,9 +3,13 @@
  *
  *  Usage:
  *      - Instantiate a new GenericTorrentSearchEngine and register it to the TorrentSearchEngines factory by creating a new app.run() block.
- *      - The engine will automatically be added in the TorrentDialog directive and become available in settings for auto-selection.
- *      - Each search engine should provide at least the properties described below.
- *      - This is problematic in cases where the magnet link and torrent hash are hidden on a details page. (will be fixed in the future using the details field)
+ *      - The search engine (SE) will automatically be added in the TorrentDialog directive and become available in settings for auto-selection.
+ *      - Each SE should provide at least the properties described below (with the following exceptions):
+ *        - the orderby group is optional, include it if you want to support sorting columns (and provider allows for it).
+ *        - If the provider supplies magnets in the search page, then the detailsSelectors group is not required, but optional.
+ *        - Where the magnet link and torrent hash are only on a details page, include the detailsSelectors group.
+ *        - When magnets are not available, set noMagnet to true and provide a torrentUrl instead.
+ *        - If noMagnets and the torrentUrl is only on the details page, then include the detailsSelectors group and set noDetailsMagnet to true.
  *
  *  Heavily annotated Example:
  *
@@ -13,12 +17,13 @@
  *
  *      TorrentSearchEngines.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({ // name, instance
  *          mirror: 'https://thepiratebay.cr',                              // base endpoint
- *          mirrorResolver: 'MirrorResolver',                               // Angular class to $inject to fetch a mirror
-            includeBaseURL: true,                                           // Include the base url (mirror) to detailUrl & torrentUrl
-            noMagnet: false,                                                // If provider has no magnet links, you must specify a torrentUrl in the selectors for downloading the .torrent
+ *          mirrorResolver: 'MirrorResolver',                               // Angular class to $inject fetching a mirror
+ *          includeBaseURL: true,                                           // Prefix the base url (config.mirror) to detailUrl & torrentUrl
+ *          noMagnet: false,                                                // If SE has no magnet links, you must specify a torrentUrl in the selectors group for downloading the .torrent
+ *          noDetailsMagnet: false,                                         // If SE has no magnet links in the details, specify a torrentUrl in the detailsSelectors for the .torrent
  *          endpoints: {                                                    // endpoints for details and search calls. Needs to be GET
- *              search: '/search/%s/0/%o/0',                                // use %s to pass in the search query. if the provider supports sorting, use %o to pass in the search orderBy parm.
- *              details: '/torrent/%s'                                      // unimplemented currently, but should fetch details from the torrent's details page.
+ *              search: '/search/%s/0/%o/0',                                // use %s to pass in the search query. if the SE supports sorting, use %o to pass in the orderBy parm.
+ *              details: '%s',                                              // unused but required? TBD
  *          },
  *          selectors: {                                                    // CSS selectors to grab content from search page.
  *              resultContainer: '#searchResult tbody tr',                  // CSS selector to select repeating results.
@@ -27,7 +32,7 @@
  *                      return text.trim();
  *                  }
  *              ],
- *              magneturl: ['td:nth-child(2) > a', 'href'],                  // TODO: Allow fetching magneturl from details page
+ *              magnetUrl: ['td:nth-child(2) > a', 'href'],
  *              size: ['td:nth-child(2) .detDesc', 'innerText',
  *                  function(innerText) {
  *                      return innerText.split(', ')[1].split(' ')[1];
@@ -42,6 +47,10 @@
  *              leechers: '9',                                              // list only orderBy params that the provider supports for Desc sorting.
  *              seeders: '7',                                               // Asc sorting is currently not supported.
  *              size: '5'                                                   // Note: only these four have language translation support.
+ *          },
+ *          detailsSelectors: {                                             // CSS selectors to grab content from details page.
+ *              detailsContainer: '#detailsframe',                          // CSS selector to select the details container.
+ *              magnetUrl: ['div.download a', 'href']
  *          }
  *      }, $q, $http, $injector));
  *  }]);
@@ -56,7 +65,6 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
     this.config = config;
 
     /**
-     * Switch between search and details.
      * Grab optional overridden url from settings.
      */
     function getUrl(type, param, sortParam) {
@@ -98,7 +106,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         }
 
         function sizeToMB(size) {
-            size = (typeof size !== 'undefined' && size !== null) ? size : '0 MB';
+            size = (typeof size !== 'undefined' && size !== null && size !== '') ? size : '0 MB';
             var sizeA = size.split(/\s{1}/); // size split into value and unit
             var newSize = null; // size converted to MB
             switch (sizeA[1].toUpperCase()) {
@@ -144,17 +152,21 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 size: sizeToMB(getPropertyForSelector(results[i], selectors.size)),
                 seeders: getPropertyForSelector(results[i], selectors.seeders),
                 leechers: getPropertyForSelector(results[i], selectors.leechers),
-                detailUrl: (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.detailUrl)
+                detailUrl: (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.detailUrl),
+                noMagnet: false
             };
             if (config.noMagnet === true) {
                 out.torrentUrl = (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.torrentUrl);
+                if (config.noDetailsMagnet === true) {
+                    out.noMagnet = true;
+                }
                 output.push(out);
             } else {
-                var magnet = getPropertyForSelector(results[i], selectors.magneturl);
-                out.magneturl = magnet;
+                var magnet = getPropertyForSelector(results[i], selectors.magnetUrl);
+                out.magnetUrl = magnet;
                 var magnetHash = null;
-                if (out.magneturl != null) {
-                    magnetHash = out.magneturl.match(/([0-9ABCDEFabcdef]{40})/);
+                if (out.magnetUrl != null) {
+                    magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                 }
                 if (magnetHash && magnetHash.length) {
                     out.torrent = 'https://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
@@ -162,7 +174,40 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 }
             }
         }
+        return output;
+    }
 
+    /**
+     * Generic details parser that has a selector, a property to fetch from the selector and an optional callback function for formatting/modifying
+     */
+    function parseDetails(data, releaseName) {
+        var output = {};
+        if ('detailsSelectors' in config) {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(data.data, "text/html");
+            var selectors = config.detailsSelectors;
+            var container = doc.querySelector(selectors.detailsContainer);
+            function getPropertyForSelector(parentNode, propertyConfig) {
+                var node = parentNode.querySelector(propertyConfig[0]);
+                if (!node) return null;
+                var propertyValue = node.getAttribute(propertyConfig[1]) !== null ? node.getAttribute(propertyConfig[1]) : node[propertyConfig[1]];
+                return propertyConfig.length == 3 && null !== propertyConfig[2] && typeof(propertyConfig[2]) == 'function' ? propertyConfig[2](propertyValue) : propertyValue;
+            }
+
+            if ('noDetailsMagnet' in config && config.noDetailsMagnet === true) {
+                output.torrentUrl = (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(container, selectors.torrentUrl);
+            } else {
+                var magnet = getPropertyForSelector(container, selectors.magnetUrl);
+                output.magnetUrl = magnet;
+                var magnetHash = null;
+                if (output.magnetUrl != null) {
+                    magnetHash = output.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
+                }
+                if (magnetHash && magnetHash.length) {
+                    output.torrent = 'https://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(releaseName.trim());
+                }
+            }
+        }
         return output;
     }
 
@@ -221,6 +266,25 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             cache: false,
             timeout: timeout.promise,
             cancel: timeout
+        });
+    };
+
+    /**
+     * Get SE details page with the supplied url
+     * the supplied releaseName is used to build itorrents.org url
+     * returns 
+     * {
+     *    magnetUrl: "magnet:?xt=urn:btih:<hash>",
+     *    torrent: "https://itorrents.org/torrent/<hash>.torrent?title=<releaseName>"
+     * }
+     */
+    this.getDetails = function(url, releaseName) {
+        return $http({
+            method: 'GET',
+            url: url,
+            cache: true
+        }).then(function(response) {
+            return parseDetails(response, releaseName);
         });
     };
 
