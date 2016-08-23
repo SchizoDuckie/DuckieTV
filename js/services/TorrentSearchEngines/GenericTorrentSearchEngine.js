@@ -156,11 +156,10 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 noMagnet: false
             };
             if (config.noMagnet === true) {
-                out.torrentUrl = (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.torrentUrl);
                 if (config.noDetailsMagnet === true) {
+                    out.torrentUrl = (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.torrentUrl);
                     out.noMagnet = true;
                 }
-                output.push(out);
             } else {
                 var magnet = getPropertyForSelector(results[i], selectors.magnetUrl);
                 out.magnetUrl = magnet;
@@ -170,9 +169,9 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 }
                 if (magnetHash && magnetHash.length) {
                     out.torrent = 'https://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
-                    output.push(out);
                 }
             }
+            output.push(out);
         }
         return output;
     }

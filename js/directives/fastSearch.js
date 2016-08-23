@@ -294,7 +294,13 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         $scope.torrentSelect = function(result) {
             var config = TorrentSearchEngines.getSearchEngine($scope.searchprovider).config;
             if (config && 'noMagnet' in config && config.noMagnet) {
-                return urlSelect(result.torrentUrl, result.releasename);
+                if ('noDetailsMagnet' in config && config.noDetailsMagnet) {
+                    return urlSelect(result.torrentUrl, result.releasename);
+                } else {
+                    TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
+                        return magnetSelect(details.magnetUrl);
+                    });
+                }
             } else {
                 return magnetSelect(result.magnetUrl);
             }

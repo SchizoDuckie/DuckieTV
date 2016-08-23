@@ -135,10 +135,10 @@
         <a ng-if="!seed.torrent && !seed.torrentUrl">
           <i class="glyphicon glyphicon-download" style="color:gray"></i>
         </a>
-        <a ng-if="!seed.noMagnet" ng-href="{{::seed.magnetUrl}}" target="iframe_a">
+        <a ng-if="seed.magnetUrl" ng-href="{{::seed.magnetUrl}}" target="iframe_a">
           <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
         </a>
-        <a ng-if="seed.noMagnet">
+        <a ng-if="!seed.magnetUrl">
           <i class="glyphicon glyphicon-link" style="color:gray"></i>
         </a>
         <a ng-if="seed.detailUrl" ng-href="{{::seed.detailUrl}}" target='_blank'>

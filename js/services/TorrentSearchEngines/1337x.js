@@ -16,8 +16,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     seeders: ['div.coll-2 span', 'innerText'],
                     leechers: ['div.coll-3 span', 'innerText'],
                     size: ['div.coll-4 span', 'innerText'],
-                    detailUrl: ['div.coll-1 strong a', 'href'],
-                    torrentUrl: ['div.coll-1 strong a', 'href']
+                    detailUrl: ['div.coll-1 strong a', 'href']
                 },
                 detailsSelectors: {
                     detailsContainer: 'div.content',
