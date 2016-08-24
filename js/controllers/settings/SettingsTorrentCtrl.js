@@ -1,8 +1,8 @@
 /**
  * Controller for the torrent settings tab
  */
-DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector", "SettingsService", "DuckieTorrent", "TorrentSearchEngines", "KickassMirrorResolver", "ThePirateBayMirrorResolver", "TraktTVv2", "AutoDownloadService",
-    function($scope, $rootScope, $injector, SettingsService, DuckieTorrent, TorrentSearchEngines, KickassMirrorResolver, ThePirateBayMirrorResolver, TraktTVv2, AutoDownloadService) {
+DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector", "SettingsService", "DuckieTorrent", "TorrentSearchEngines", "ThePirateBayMirrorResolver", "TraktTVv2", "AutoDownloadService",
+    function($scope, $rootScope, $injector, SettingsService, DuckieTorrent, TorrentSearchEngines, ThePirateBayMirrorResolver, TraktTVv2, AutoDownloadService) {
 
         $scope.log = [];
 
