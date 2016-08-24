@@ -1,7 +1,7 @@
 /**
  * The AutoDownloadService checks if a download is available for a TV-Show that's aired
- * and automatically downloads the first search result if more than minSeeders seeders are available.
- *
+ * and automatically downloads the first search result if it passes all the filters and more than minSeeders seeders are available.
+ * SE must have magnets as we need the torrentHash to track progress. magnets on details page are supported.
  */
 DuckieTV
 
@@ -231,25 +231,44 @@ DuckieTV
                             service.activityUpdate(serie, episode, q, 5, ' GE'); // 'filtered out by GE'
                             return; // no results, abort
                         }
-                        if (items[0].magneturl === undefined) { // search engine does not support magnets, unable to continue.
-                            service.activityUpdate(serie, episode, serie.name, 3, ' NM'); // 'autoDL disabled NoMagnet'
+                        if (items[0].seeders != 'N/A' && parseInt(items[0].seeders, 10) < minSeeders) { // not enough seeders are available.
+                            service.activityUpdate(serie, episode, q, 7, items[0].seeders + ' < ' + minSeeders); // 'seeders x < y'
                             return; // no results, abort
                         }
-                        if (items[0].seeders == 'N/A' || parseInt(items[0].seeders, 10) >= minSeeders) { // enough seeders are available.
-                            var url = items[0].magneturl;
-                            var torrentHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
-                            // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
-                            DuckieTorrent.getClient().AutoConnect().then(function() {
-                                TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID);
-                                episode.magnetHash = torrentHash;
-                                episode.Persist();
-                                // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
-                                TorrentHashListService.addToHashList(torrentHash);
-                            });
-                            service.activityUpdate(serie, episode, q, 6); // 'magnet launched'
-                            return torrentHash;
+                        if (!items[0].noMagnet) { // search engine supports magnets, continue.
+                            if (items[0].magnetUrl === undefined) { // search page does not have magnet, look in details page.
+                                searchEngine.getDetails(items[0].detailUrl, items[0].releasename).then(function(details)  {
+                                    items[0].magnetUrl = details.magnetUrl;
+                                    var url = items[0].magnetUrl;
+                                    var torrentHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
+                                    // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
+                                    DuckieTorrent.getClient().AutoConnect().then(function() {
+                                        TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID);
+                                        episode.magnetHash = torrentHash;
+                                        episode.Persist();
+                                        // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
+                                        TorrentHashListService.addToHashList(torrentHash);
+                                    });
+                                    service.activityUpdate(serie, episode, q, 6); // 'magnet launched'
+                                    return torrentHash;
+                                });
+                            } else {
+                                var url = items[0].magnetUrl;
+                                var torrentHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
+                                // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
+                                DuckieTorrent.getClient().AutoConnect().then(function() {
+                                    TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID);
+                                    episode.magnetHash = torrentHash;
+                                    episode.Persist();
+                                    // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
+                                    TorrentHashListService.addToHashList(torrentHash);
+                                });
+                                service.activityUpdate(serie, episode, q, 6); // 'magnet launched'
+                                return torrentHash;
+                            }
                         } else {
-                            service.activityUpdate(serie, episode, q, 7, items[0].seeders + ' < ' + minSeeders); // 'seeders x < y'
+                            service.activityUpdate(serie, episode, q, 3, ' NM'); // 'autoDL disabled, NoMagnet in either search or details pages'
+                            return; // no results, abort
                         }
                     });
                 });
