@@ -18,8 +18,8 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     leechers: ['td:nth-child(6)', 'innerText'],
                     detailUrl: ['td.tli > a', 'href'],
                     torrentUrl: ['td a[title^="Download "]', 'href',
-                        function(a) {
-                            return a.replace('torrent_','');
+                        function(href) {
+                            return href.replace('torrent_','');
                         }
                     ]
                 },
