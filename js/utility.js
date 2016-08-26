@@ -195,4 +195,42 @@ if (localStorage.getItem('optin_error_reporting')) {
         localStorage.removeItem('optin_error_reporting.start_time');
     };
 
-}
+};
+
+/**
+ * extend the String object to add the getInfoHash method
+ * if the String contains a base16 infoHash then extract it and return it
+ * if the String contains a base32 infoHash then extract it, convert it to base16 and return that.
+ */
+String.prototype.getInfoHash = function () {
+    var infoHash16 = this.match(/([0-9ABCDEFabcdef]{40})/);  // extract base16 infoHash
+    if (infoHash16 && infoHash16.length) {
+        return infoHash16[0].toUpperCase();
+    } else {
+        var infoHash32 = this.match(/([2-7A-Z]{32})/); // extract base32 infoHash
+        if (infoHash32 && infoHash32.length) {
+            return ("0".repeat(40) + basex16.encode(basex32.decode(infoHash32[0]))).slice(-40); // convert to base16 infohash (may need padding with zeroes to length 40)
+        } else {
+            return null; // infohash not found in String.
+        }
+    }
+};
+
+/**
+ * extend the String object to add the replaceInfoHash method
+ * if the String contains a base16 infoHash then return the String with the infoHash in UpperCase.
+ * if the String contains a base32 infoHash then replace it with the base16 equivalent.
+ */
+String.prototype.replaceInfoHash = function () {
+    var infoHash16 = this.match(/([0-9A-Fa-f]{40})/);  // extract base16 infoHash
+    if (infoHash16 && infoHash16.length) {
+        return this.replace(infoHash16[0], infoHash16[0].toUpperCase()); // replace base16 with upperCase
+    } else {
+        var infoHash32 = this.match(/([2-7A-Z]{32})/); // extract base32 infoHash
+        if (infoHash32 && infoHash32.length) {
+            return this.replace(infoHash32[0], ("0".repeat(40) + basex16.encode(basex32.decode(infoHash32[0]))).slice(-40)); // convert base32 to base16 infohash (may need padding with zeroes to length 40) and replace it in String
+        } else {
+            return this; // infohash not found in String
+        }
+    }
+};

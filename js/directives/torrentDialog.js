@@ -264,7 +264,7 @@ DuckieTV
             var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
             TorrentSearchEngines.launchMagnet(magnet, channel);
             // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
-            TorrentHashListService.addToHashList(magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+            TorrentHashListService.addToHashList(magnet.getInfoHash());
         },
 
         urlSelect = function(url, releasename) {

@@ -240,7 +240,7 @@ DuckieTV
                                 searchEngine.getDetails(items[0].detailUrl, items[0].releasename).then(function(details)  {
                                     items[0].magnetUrl = details.magnetUrl;
                                     var url = items[0].magnetUrl;
-                                    var torrentHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
+                                    var torrentHash = url.getInfoHash();
                                     // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                                     DuckieTorrent.getClient().AutoConnect().then(function() {
                                         TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID);
@@ -254,7 +254,7 @@ DuckieTV
                                 });
                             } else {
                                 var url = items[0].magnetUrl;
-                                var torrentHash = url.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase();
+                                var torrentHash = url.getInfoHash();
                                 // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                                 DuckieTorrent.getClient().AutoConnect().then(function() {
                                     TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID);

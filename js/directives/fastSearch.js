@@ -273,7 +273,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
 
             TorrentSearchEngines.launchMagnet(magnet, data.key);
             // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
-            TorrentHashListService.addToHashList(magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+            TorrentHashListService.addToHashList(magnet.getInfoHash());
         };
 
         var urlSelect = function(url, releasename) {

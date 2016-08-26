@@ -128,7 +128,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     setTimeout(function() {
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
                     }, 1500);
-                    $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+                    $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.getInfoHash());
                 } else {
                     var d = document.createElement('iframe');
                     d.id = 'torrentmagnet_' + new Date().getTime();
@@ -145,8 +145,10 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                             return;
                         }
                     }, 1500);
-                    $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+                    $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.getInfoHash());
                 }
+                var audio = new Audio('Exclamation.wav');
+                audio.play();
             },
 
             launchTorrentByUpload: function(data, TVDB_ID, name) {
@@ -155,7 +157,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
                     //console.debug("Adding via TorrentClient.addTorrentByUpload API! ", TVDB_ID, name);
                     DuckieTorrent.getClient().addTorrentByUpload(data, name).then(function(infoHash) {
-                        $rootScope.$broadcast('magnet:select:' + TVDB_ID, infoHash.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+                        $rootScope.$broadcast('magnet:select:' + TVDB_ID, infoHash.getInfoHash());
                     });
                     setTimeout(function() {
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
@@ -169,7 +171,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
                     //console.debug("Adding via TorrentClient.addTorrentByUrl API! ", torrentUrl, TVDB_ID, name);
                     DuckieTorrent.getClient().addTorrentByUrl(torrentUrl, name).then(function(infoHash) {
-                        $rootScope.$broadcast('magnet:select:' + TVDB_ID, infoHash.match(/([0-9ABCDEFabcdef]{40})/)[0].toUpperCase());
+                        $rootScope.$broadcast('magnet:select:' + TVDB_ID, infoHash.getInfoHash());
                     });
                     setTimeout(function() {
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
