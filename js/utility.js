@@ -230,7 +230,7 @@ String.prototype.replaceInfoHash = function () {
         if (infoHash32 && infoHash32.length) {
             return this.replace(infoHash32[0], ("0".repeat(40) + basex16.encode(basex32.decode(infoHash32[0]))).slice(-40)); // convert base32 to base16 infohash (may need padding with zeroes to length 40) and replace it in String
         } else {
-            return this; // infohash not found in String
+            return this.toString(); // infohash not found in String
         }
     }
 };
