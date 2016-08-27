@@ -35,7 +35,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 orderby: {
                     age: '3',
                     leechers: '9',
-                    seeders: '7', 
+                    seeders: '99', 
                     size: '5'
                 }
             }, $q, $http, $injector));
