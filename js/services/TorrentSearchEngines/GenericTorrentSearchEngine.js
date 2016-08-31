@@ -107,7 +107,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
 
         function sizeToMB(size) {
             size = (typeof size !== 'undefined' && size !== null && size !== '') ? size : '0 MB';
-            var sizeA = size.split(/\s{1}/); // size split into value and unit
+            var sizeA = (size.replace(',','').split(/\s{1}/)); // size split into value and unit
             var newSize = null; // size converted to MB
             switch (sizeA[1].toUpperCase()) {
                 case 'B':
