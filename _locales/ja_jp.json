@@ -111,6 +111,7 @@
     "COMMON/ignore-global-quality/lbl": "このショーのためにグローバル品質を無視",
     "COMMON/integration/hdr": "統合",
     "COMMON/language/hdr": "言語",
+    "COMMON/loading-completed/lbl": "読み込んで完了",
     "COMMON/loading-please-wait/lbl": "読み込んでいます,お待ちください",
     "COMMON/magnet-link/tooltip": " マグネットリンク ",
     "COMMON/make-posters-large/tooltip": "ポスターを大きくする",

@@ -111,6 +111,7 @@
     "COMMON/ignore-global-quality/lbl": "이 쇼를 위해 글로벌 품질 무시",
     "COMMON/integration/hdr": "통합",
     "COMMON/language/hdr": "언어",
+    "COMMON/loading-completed/lbl": "로드 완료",
     "COMMON/loading-please-wait/lbl": "로딩 중, 잠시 기다려주십시오",
     "COMMON/magnet-link/tooltip": "  자석 링크 ",
     "COMMON/make-posters-large/tooltip": "포스터 더 크게 만들",

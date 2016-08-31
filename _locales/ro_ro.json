@@ -111,6 +111,7 @@
     "COMMON/ignore-global-quality/lbl": "Ignoră calitatea globală pentru acest spectacol",
     "COMMON/integration/hdr": "Integrare",
     "COMMON/language/hdr": "Limbă",
+    "COMMON/loading-completed/lbl": "Se încarcă finalizat",
     "COMMON/loading-please-wait/lbl": "Se încarcă, vă rugăm așteptați",
     "COMMON/magnet-link/tooltip": " Link magnet",
     "COMMON/make-posters-large/tooltip": "Faceți posterele mai mari",

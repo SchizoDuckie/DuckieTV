@@ -111,6 +111,7 @@
     "COMMON/ignore-global-quality/lbl": "Игнорировать качество по умолчанию для этого шоу",
     "COMMON/integration/hdr": "Интеграция",
     "COMMON/language/hdr": "Язык",
+    "COMMON/loading-completed/lbl": "Загрузка завершена",
     "COMMON/loading-please-wait/lbl": "Загрузка, подождите",
     "COMMON/magnet-link/tooltip": " Magnet-ссылка",
     "COMMON/make-posters-large/tooltip": "Увеличить постеры",

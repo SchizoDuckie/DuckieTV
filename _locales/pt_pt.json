@@ -111,6 +111,7 @@
     "COMMON/ignore-global-quality/lbl": "Ignorar a Qualidade Global para este show",
     "COMMON/integration/hdr": "integração",
     "COMMON/language/hdr": "Língua",
+    "COMMON/loading-completed/lbl": "Carregando concluída",
     "COMMON/loading-please-wait/lbl": "Carregando, por favor aguarde",
     "COMMON/magnet-link/tooltip": "  Magnet link ",
     "COMMON/make-posters-large/tooltip": "Faça cartazes maior",

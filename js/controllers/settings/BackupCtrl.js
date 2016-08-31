@@ -9,7 +9,10 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
         $scope.backupString = false;
         $scope.wipeBeforeImport = false;
         $scope.declined = false;
+        $scope.completed = false;
         $scope.series = [];
+        var backupCount = 0;
+        var completedCount = 0;
 
         // set up the auto-backup-period selection-options
         var translatedAutoBackupPeriodList = $filter('translate')('AUTOBACKUP').split(',');
@@ -74,6 +77,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                     // save series/seasons/episodes
                     angular.forEach(result.series, function(data, TVDB_ID) {
                         FavoritesService.adding(TVDB_ID);
+                        backupCount++;
                         return TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
                             return TraktTVv2.serie(searchResult.slug_id);
                         }).then(function(serie) {
@@ -100,11 +104,14 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                                 };
                             });
                             FavoritesService.added(TVDB_ID);
+                            completedCount++;
+                            $scope.completed = (backupCount == completedCount);
                         });
                     }, function(err) {
                         console.error("ERROR!", err);
                         FavoritesService.added(TVDB_ID);
                         FavoritesService.addError(TVDB_ID, err);
+                        completedCount++;
                     });
                 });
         };
