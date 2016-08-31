@@ -150,7 +150,15 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
 
             $scope.searchResults.series = FavoritesService.favorites.filter(function(serie) {
                 $scope.seriesLoading = false;
-                return serie.name.toLowerCase().indexOf(value.toLowerCase()) > -1;
+                var score = 0,
+                    query = value.toLowerCase().split(' '),
+                    name = serie.name.toLowerCase();
+                query.map(function(part) {
+                    if (name.indexOf(part) > -1) {
+                        score++;
+                    }
+                });
+                return (score == query.length);
             });
 
             /**
