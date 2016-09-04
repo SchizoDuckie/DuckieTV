@@ -39,13 +39,15 @@
   <table ng-show="isActive()" class="table table-condensed table-light" colspan='5' style="background-color: rgba(0,0,0,0.0); color:white; border-top:0px; word-break:break-word">
     <thead>
       <tr>
-        <th style="width:435px" align="center"><span translate-once="AUTODLSTATUS/search-criteria/hdr"></span>{{lastRun | date: 'medium'}}</th>
+        <th ng-show="sortBy=='search'" style="width:435px" align="center"><span translate-once="AUTODLSTATUS/search-criteria/hdr"></span>{{lastRun | date: 'medium'}}</th>
+        <th ng-show="sortBy=='status'" style="width:435px" align="center"><a ng-click="sortBy='search';"><span translate-once="AUTODLSTATUS/search-criteria/hdr"></span>{{lastRun | date: 'medium'}}<a class="sortorder" ng-click="sortBy='search';"></a></a></th>
         <th style="width:45px" align="center" uib-tooltip="{{'COMMON/custom-search-size-min-max/lbl'|translate}}" tooltip-append-to-body="true">CSM</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/custom-search-string/lbl'|translate}}" tooltip-append-to-body="true">CSS</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-quality/lbl'|translate}}" tooltip-append-to-body="true">IGQ</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-includes/lbl'|translate}}" tooltip-append-to-body="true">IGI</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-excludes/lbl'|translate}}" tooltip-append-to-body="true">IGE</th>
-        <th translate-once="COMMON/status/hdr"></th>
+        <th ng-show="sortBy=='status'" translate-once="COMMON/status/hdr"></th>
+        <th ng-show="sortBy=='search'"><a ng-click="sortBy='status';"><span translate-once="COMMON/status/hdr"></span><a class="sortorder" ng-click="sortBy='status';"></a></a></th>
       </tr>
     </thead>
     <tbody ng-show="activityList.length == 0">
@@ -54,7 +56,7 @@
       </tr>
     </tbody>
     <tbody ng-show="activityList.length != 0">
-      <tr ng-repeat="item in activityList | orderBy: 'search'">
+      <tr ng-repeat="item in activityList | orderBy: sortBy">
         <td ng-hide="item.status > 3" width='400px'>{{item.search}}{{item.searchProvider}}{{item.csmExtra}}</td>
         <td ng-show="item.status > 3" width='400px'>{{item.search}}{{item.searchProvider}}{{item.csmExtra}}&nbsp;
           <torrent-dialog episode="item.episode" serie="item.serie"></torrent-dialog>
