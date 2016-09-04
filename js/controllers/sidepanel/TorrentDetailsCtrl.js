@@ -33,7 +33,7 @@ DuckieTV.controller('TorrentDetailsCtrl', ["DuckieTorrent", "torrent", "$scope",
                     } else {
                         //console.debug('received files!', files);
                         self.torrent.torrent_files = files.map(function(file) {
-                            file.isMovie = file.name.substring(file.name.length - 3).match(/mp4|avi|mkv|mpeg|mpg|flv/g);
+                            file.isMovie = file.name.substring(file.name.length - 3).match(/mp4|avi|mkv|mpeg|mpg|flv|ts/g);
                             if (file.isMovie) {
                                 file.searchFileName = file.name.indexOf('/') > -1 ? file.name.split('/').pop().split(' ').pop() : file.name;
                                 file.path = self.torrent.getDownloadDir();
