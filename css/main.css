@@ -257,7 +257,7 @@ background-rotator .placeholder {
 #actionbar_calendar a {
   opacity: 1;
   transition: all 0.5s ease-in-out;
-  transform: rotate(0deg) scale3d(1, 0, 0);
+  transform: rotate(0deg) scale3d(1, 1, 1);
   left: 1px;
 }
 
@@ -277,7 +277,7 @@ background-rotator .placeholder {
   left: -1px;
 }
 
-#actionbar_favorites.active a {
+.serieslistActive #actionbar_favorites a {
   color: rgba(215, 85, 85, 0.8);
   transform: rotateY(360deg);
 }
@@ -1359,7 +1359,6 @@ div [date-picker] {
 [date-picker].zoom.more td.day:first-child:hover {
   transform: scale(1.5) translate3d(50px, 15px, 0px);
 }
-
 
 [date-picker].zoom td.day:hover> span {
   top: 0px;

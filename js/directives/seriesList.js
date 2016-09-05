@@ -7,15 +7,12 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             show: function() {
                 document.body.scrollTop = 0;
                 service.state.isShowing = true;
-                document.querySelector('#actionbar_favorites').classList.add('active');
                 document.body.classList.add("serieslistActive");
                 $rootScope.$applyAsync();
             },
             hide: function() {
                 service.state.isShowing = false;
                 $rootScope.$applyAsync();
-                document.querySelector('#actionbar_favorites').classList.remove('active');
-                document.querySelector('#actionbar_favorites').classList.remove('spin');
                 document.body.classList.remove("serieslistActive");
 
                 if ($state.url == '/favorites') {
