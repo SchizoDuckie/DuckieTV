@@ -1,0 +1,38 @@
+<div id="actionbar">
+  <div class="logo" ui-sref="calendar" uib-tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hidePanels();actionbar.resetCalendar();"></div>
+  <ul class="list-unstyled">
+    <li id="actionbar_calendar" ui-sref-active="calendar_active">
+      <a ui-sref="calendar" class="glyphicon glyphicon-calendar" uib-tooltip="{{'COMMON/calendar/hdr'|translate}}" tooltip-placement="right" ng-click="actionbar.hidePanels();" tooltip-append-to-body="true"></a>
+    </li>
+    <li id="actionbar_favorites">
+      <a class="glyphicon glyphicon-heart" uib-tooltip="{{actionbar.getHeartTooltip()}}" tooltip-placement="right" ng-click="actionbar.toggleSeriesList();"></a>
+    </li>
+    <li style='display:none' id='wl' ui-sref-active="active">
+      <a ui-sref="watchlist" class="glyphicon glyphicon-facetime-video" uib-tooltip="{{'TAB/watchlist/glyph'|translate}}" tooltip-placement="right"></a>
+    </li>
+    <li id="actionbar_torrent" ng-if="getSetting('torrenting.enabled')" ui-sref-active="active">
+      <a ui-sref="torrent" class="glyphicon {{actionbar.getTorrentClientClass()}}" uib-tooltip="Torrent client {{actionbar.getTorrentClientTooltip()}}" tooltip-placement="right" ng-class="{ connected: actionbar.isTorrentClientConnected(), connecting: actionbar.isTorrentClientConnecting(), offline: !actionbar.isTorrentClientConnected() }"></a>
+    </li>
+    <li ng-if="getSetting('torrenting.enabled')">
+      <torrent-dialog tooltip-placement="right"></torrent-dialog>
+    </li>
+    <li ng-if="getSetting('torrenting.enabled')">
+      <subtitle-dialog tooltip-placement="right"></subtitle-dialog>
+    </li>
+    <div style="position:absolute;bottom:0px">
+      <!-- Translation Required -->
+      <li class="hide-prod" id="actionbar_switch" ui-sref-active="active">
+        <a ng-click="setSetting('main.viewmode', getSetting('main.viewmode') == 'calendar' ? 'todo' : 'calendar')" class="glyphicon glyphicon-check" uib-tooltip="Switch between calendar and todo mode" tooltip-placement="right"></a>
+      </li>
+      <li ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.autodownload')" id="actionbar_autodlstatus" ui-sref-active="active">
+        <a ui-sref="autodlstatus" class="glyphicon glyphicon-list" uib-tooltip="{{'COMMON/auto-download-status/hdr'|translate}}" tooltip-placement="right"></a>
+      </li>
+      <li id="actionbar_settings" ui-sref-active="active">
+        <a ui-sref="settings" class="glyphicon glyphicon-cog" uib-tooltip="{{'COMMON/settings/hdr'|translate}}" tooltip-placement="right" ng-click="actionbar.contractSidePanel()"></a>
+      </li>
+      <li id="actionbar_about" ui-sref-active="active">
+        <a ui-sref="about" class="glyphicon glyphicon-info-sign" uib-tooltip="{{'COMMON/about/hdr'|translate}}" tooltip-placement="right"></a>
+      </li>
+    </div>
+  </ul>
+</div>
