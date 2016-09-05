@@ -5,7 +5,7 @@
     <button type="button" class="close" ng-click="vm.closeSidePanel()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'TAB/watchlist/glyph'|translate}}" tooltip-placement="left">&times;</button>
   </center></div>
   <div ng-if="vm.activeItem">
-  <h2>{{vm.activeItem.title}}</h2>
+  <h2>{{vm.getLocal(vm.activeItem.title)}}</h2>
     <table class="table table-condensed table-light">
       <thead>
         <tr>

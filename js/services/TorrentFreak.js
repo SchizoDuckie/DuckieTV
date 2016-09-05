@@ -103,8 +103,8 @@ DuckieTV.provider('TorrentFreak', function() {
     return {
         restrict: 'E',
         templateUrl: 'templates/torrentFreakTop10.html',
-        controller: ["$compile", "TorrentFreak", "$rootScope", "$injector",
-            function($compile, TorrentFreak, $rootScope, $injector) {
+        controller: ["$compile", "TorrentFreak", "$rootScope", "$injector", "$filter",
+            function($compile, TorrentFreak, $rootScope, $injector, $filter) {
                 var vm = this;
                 this.activeItem;
                 this.items = [];
@@ -135,6 +135,16 @@ DuckieTV.provider('TorrentFreak', function() {
                     if (this.itemIndex > 0) {
                         this.itemIndex -= 1;
                         this.activeItem = vm.items[vm.itemIndex];
+                    }
+                }
+                
+                this.getLocal = function(title) {
+                    if (title) {
+                        var titlePart = title.split('–');
+                        var titleDate = new Date(moment(titlePart[1], "MM/DD/YY"));
+                        return titlePart[0] + '– ' + $filter('date')(titleDate, 'shortDate');
+                    } else {
+                        return '';
                     }
                 }
 
