@@ -4,7 +4,7 @@
   <div class="series-grid" style="position:relative">
     <serieHeader ng-if="serieslist.mode == 'poster'" ng-repeat="serie in filteredFavorites = (serieslist.getFavorites() | orderBy: serieslist.orderBy : serieslist.reverse| filter: serieslist.localFilter)" data="serie" no-badge="0" no-title="1" no-overview="1" mode="poster" style="transform: translate3d({{grid.getLeft($index, filteredFavorites.length)}}px, {{grid.getTop($index)}}px, 0px)" context-menu="serieslist.contextMenu(serie)" series-list="true">
     </serieHeader>
-    <serieHeader ng-if="serieslist.mode == 'banner'" ng-repeat="serie in filteredFavorites = (serieslist.getFavorites() | orderBy: serieslist.orderBy : serieslist.reverse | filter: serieslist.localFilter)" data="serie" no-badge="0" no-title="1" no-overview="1" mode="banner" style="transform: translate3d({{grid.getLeft($index, filteredFavorites.length)}}px, {{grid.getTop($index)}}px, 0px)" context-menu="serieslist.contextMenu(serie)" series-list="true">
+    <serieHeader ng-if="serieslist.mode == 'banner'" ng-repeat="serie in filteredFavorites = (serieslist.getFavorites() | orderBy: serieslist.orderBy : serieslist.reverse | filter: serieslist.localFilter)" data="serie" no-badge="0" no-title="1" no-overview="1" mode="banner" context-menu="serieslist.contextMenu(serie)" series-list="true">
     </serieHeader>
   </div>
 </div>
