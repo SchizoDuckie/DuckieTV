@@ -97,6 +97,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                 });
             },
             getTorrents: function() {
+                var self = this;
                 return this.request('torrents').then(function(data) {
                     return data.data.torrents.map(function(torrent) {
                         return {
@@ -129,6 +130,12 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                             download_dir: torrent[26]
                         };
                     });
+                }, function(e, f) {
+                    if (e.status === 400) {
+                        console.warn('uTorrentWebUI returned', e.data.trim(), e.statusText,  e.status, 'during getTorrents. Going to retry.');
+                        self.portscan(); // get Token just in case it expired
+                        return self.getTorrents(); // retry
+                    }
                 });
             },
             getFiles: function(hash) {
