@@ -70,7 +70,7 @@
           </tr>
           <tr ng-repeat="seed in searchResults.torrents | limitTo: 9" class="no-animate">
             <td style='width:80px; padding:5px; vertical-align: top;'>
-              <a ng-if="!seed.noMagnet" ng-click="select(seed)">
+              <a ng-if="!seed.noMagnet" ng-click="torrentSelect(seed)">
                 <i class="glyphicon glyphicon-magnet" uib-tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
               </a>
               <a ng-if="seed.noMagnet">
