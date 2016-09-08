@@ -534,7 +534,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "iskanje s pomočjo globalnega največjo velikost",
     "TORRENTDIALOG/search-global-size-min/lbl": "iskanje s pomočjo globalnega najmanjšo velikost",
     "TORRENTDIALOG/search-include/lbl": "iskanje s pomočjo globalnega vključuje seznam",
-    "TORRENTDIALOG/sort-column/tooltip": "Ta stolpec razvrstite",
+    "COMMON/sort-column/tooltip": "Ta stolpec razvrstite",
     "TORRENTFREAK/info/hdr": "Informacije",
     "TORRENTFREAK/rank/hdr": "Rank"
 }

@@ -40,14 +40,14 @@
     <thead>
       <tr>
         <th ng-show="sortBy=='search'" style="width:435px" align="center"><span translate-once="AUTODLSTATUS/search-criteria/hdr"></span>{{lastRun | date: 'medium'}}</th>
-        <th ng-show="sortBy=='status'" style="width:435px" align="center"><a ng-click="sortBy='search';"><span translate-once="AUTODLSTATUS/search-criteria/hdr"></span>{{lastRun | date: 'medium'}}<a class="sortorder" ng-click="sortBy='search';"></a></a></th>
+        <th ng-show="sortBy=='status'" style="width:435px" align="center"><u ng-click="sortBy='search';" uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong translate-once="AUTODLSTATUS/search-criteria/hdr"></strong>{{lastRun | date: 'medium'}}</u></th>
         <th style="width:45px" align="center" uib-tooltip="{{'COMMON/custom-search-size-min-max/lbl'|translate}}" tooltip-append-to-body="true">CSM</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/custom-search-string/lbl'|translate}}" tooltip-append-to-body="true">CSS</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-quality/lbl'|translate}}" tooltip-append-to-body="true">IGQ</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-includes/lbl'|translate}}" tooltip-append-to-body="true">IGI</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-excludes/lbl'|translate}}" tooltip-append-to-body="true">IGE</th>
         <th ng-show="sortBy=='status'" translate-once="COMMON/status/hdr"></th>
-        <th ng-show="sortBy=='search'"><a ng-click="sortBy='status';"><span translate-once="COMMON/status/hdr"></span><a class="sortorder" ng-click="sortBy='status';"></a></a></th>
+        <th ng-show="sortBy=='search'"><u ng-click="sortBy='status';" uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong translate-once="COMMON/status/hdr"></strong></u></th>
       </tr>
     </thead>
     <tbody ng-show="activityList.length == 0">

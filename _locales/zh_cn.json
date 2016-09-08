@@ -534,7 +534,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "搜索使用的全球最大尺寸",
     "TORRENTDIALOG/search-global-size-min/lbl": "搜索使用全球最小尺寸",
     "TORRENTDIALOG/search-include/lbl": "使用搜索全球包括列表",
-    "TORRENTDIALOG/sort-column/tooltip": "排序此列",
+    "COMMON/sort-column/tooltip": "排序此列",
     "TORRENTFREAK/info/hdr": "信息 ",
     "TORRENTFREAK/rank/hdr": "秩 "
 }

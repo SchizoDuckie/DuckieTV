@@ -534,7 +534,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "la recherche en utilisant la taille maximale globale",
     "TORRENTDIALOG/search-global-size-min/lbl": "la recherche en utilisant la taille minimum global",
     "TORRENTDIALOG/search-include/lbl": "recherche en utilisant la liste incluent globale",
-    "TORRENTDIALOG/sort-column/tooltip": "Trier cette colonne",
+    "COMMON/sort-column/tooltip": "Trier cette colonne",
     "TORRENTFREAK/info/hdr": "Infos ",
     "TORRENTFREAK/rank/hdr": "Rang "
 }

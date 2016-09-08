@@ -534,7 +534,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "グローバルな最大サイズを使用して検索",
     "TORRENTDIALOG/search-global-size-min/lbl": "グローバルな最小サイズを使用して検索",
     "TORRENTDIALOG/search-include/lbl": "グローバルリストが含まれて検索",
-    "TORRENTDIALOG/sort-column/tooltip": "この列をソート",
+    "COMMON/sort-column/tooltip": "この列をソート",
     "TORRENTFREAK/info/hdr": "インフォメーション ",
     "TORRENTFREAK/rank/hdr": "ランク "
 }

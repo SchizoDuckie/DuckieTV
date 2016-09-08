@@ -534,7 +534,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "세계 최대 크기를 사용하여 검색",
     "TORRENTDIALOG/search-global-size-min/lbl": "세계 최소 크기를 사용하여 검색",
     "TORRENTDIALOG/search-include/lbl": "전역 목록을 포함하여 검색",
-    "TORRENTDIALOG/sort-column/tooltip": "이 열을 정렬",
+    "COMMON/sort-column/tooltip": "이 열을 정렬",
     "TORRENTFREAK/info/hdr": "정보 ",
     "TORRENTFREAK/rank/hdr": "계급 "
 }
