@@ -1,5 +1,5 @@
 <!-- settings\backup-import.html -->
- <div ng-controller="BackupCtrl">
+ <div ng-controller="BackupCtrl" class="backup-import">
 	<h2 style="margin-top: 13px" translate-once="SETTINGS/BACKUP-IMPORT/hdr"></h2>
 
 	<div style="position: relative; height: 34px; width: 275px" ng-show="!restoring">
@@ -7,9 +7,9 @@
 		<input file-input="file" on-change="restoring = true; restore()" style="position:absolute;opacity:0;width:275px;height:34px;top:0;cursor:pointer" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false">
 	</div>
 	<div ng-if="restoring" style="padding:5px" class="miniposter x2">
-		<h1 ng-show="!completed" style='margin-top: 20px;' translate-once="COMMON/loading-please-wait/lbl"></h1>
-		<h1 ng-show="completed" style='margin-top: 20px;' translate-once="COMMON/loading-completed/lbl"></h1>
-		<serieHeader ng-repeat="serie in series" data="serie" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" ng-mouseenter="setHoverSerie(serie)" >
+		<h2 ng-show="!completed" style='margin-top: 0' translate-once="COMMON/loading-please-wait/lbl"></h2>
+		<h2 ng-show="completed" style='margin-top: 0' translate-once="COMMON/loading-completed/lbl"></h2>
+		<serieHeader ng-repeat="serie in series" data="serie" class="no-animate" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" >
 			<em class="earmark" ng-show="isAdded(serie.tvdb_id)"><i class='glyphicon glyphicon-ok'></i></em>
 			<em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
 		</serieHeader>

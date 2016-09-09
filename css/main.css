@@ -988,7 +988,7 @@ series-list .trakt-import .trakt-login > table {
     max-width: 500px;
 }
 
-series-list .trakt-import serieheader {
+series-list .trakt-import serieheader, series-list .backup-import serieheader {
   position: inherit !important;
 }
 
