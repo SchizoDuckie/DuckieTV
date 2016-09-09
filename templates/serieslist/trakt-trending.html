@@ -7,7 +7,7 @@
     <span translate-once="SERIESLIST/TRAKT-TRENDING/series-no/desc"></span>
     <br>
     <strong style='display:inline'><button ng-click="showBackup = true; showTrakt = false" style='color:black; position:relative;' translate-once="SERIESLIST/TRAKT-TRENDING/import/btn"></button></strong> or <strong style='display:inline'><button ng-click="showTrakt = true;showBackup = false" style='color:black' translate-once="SERIESLIST/TRAKT-TRENDING/connect-to-traktTV/btn"></button></strong>
-    <div ng-show="showTrakt == true" ng-controller='TraktTVCtrl' ng-include="'templates/settings/trakt-import.html'"></div>
+    <div ng-show="showTrakt == true" ng-include="'templates/settings/trakt-import.html'"></div>
     <div ng-show="showBackup == true" ng-include="'templates/settings/backup-import.html'"></div>
   </div>
 
