@@ -6,7 +6,6 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
 
         // Array for credentials
         $scope.credentials = {
-            username: '',
             pincode: '',
             success: localStorage.getItem('trakttv.token') || false,
             error: false,
@@ -23,10 +22,8 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
         $scope.watchedEpisodesReport = [];
 
         $scope.onAuthorizeEnter = function() {
-            if ($scope.credentials.username !== '') {
-                window.open($scope.getPinUrl(), '_blank');
-                $scope.credentials.getpin = true;
-            }
+            window.open($scope.getPinUrl(), '_blank');
+            $scope.credentials.getpin = true;
         };
 
         $scope.onLoginEnter = function() {
@@ -34,14 +31,11 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
         };
 
         $scope.getPin = function() {
-            if ($scope.credentials.username !== '') {
-                $scope.credentials.getpin = true;
-            }
+            $scope.credentials.getpin = true;
         };
 
         // Clears all local credentials and token in local storage
         $scope.clearCredentials = function() {
-            $scope.credentials.username = '';
             $scope.credentials.pincode = '';
             $scope.credentials.success = false;
             $scope.credentials.error = false;
@@ -51,14 +45,20 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
             localStorage.removeItem('trakttv.refresh_token');
         };
 
-        // renew credentials 
+        // renew credentials
         $scope.renewCredentials = function() {
             return TraktTVv2.renewToken().then(function(result) {
                 $scope.credentials.success = result;
+            }, function(error) {
+                if (error.data && error.data.error && error.data.error_description) {
+                    $scope.credentials.error = "Error! " + error.status + ' - ' + error.data.error + ' - ' + error.data.error_description;
+                } else {
+                    $scope.credentials.error = "Error! " + error.status + ' - ' + error.statusText;
+                }
             });
         };
 
-        // Validates username and password with TraktTV
+        // Validates pin with TraktTV
         $scope.authorize = function(pin) {
             $scope.credentials.authorizing = true;
             return TraktTVv2.login(pin).then(function(result) {
@@ -67,10 +67,10 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
                 $scope.credentials.authorizing = false;
             }, function(error) {
                 $scope.clearCredentials();
-                if (error.data.error && error.data.error_description) {
-                    $scope.credentials.error = error.status + ' - ' + error.data.error + ' - ' + error.data.error_description;
+                if (error.data && error.data.error && error.data.error_description) {
+                    $scope.credentials.error = "Error! " + error.status + ' - ' + error.data.error + ' - ' + error.data.error_description;
                 } else {
-                    $scope.credentials.error = error.status + ' - ' + error.statusText;
+                    $scope.credentials.error = "Error! " + error.status + ' - ' + error.statusText;
                 }
             });
         };
@@ -109,85 +109,85 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
         $scope.readTraktTV = function() {
             FavoritesService.flushAdding();
             FavoritesService.getSeries().then(function(series) {
-                series.map(function(serie) {
-                    $scope.localSeries[serie.TVDB_ID] = serie;
-                });
-            })
-            // Fetch all Trakt.TV user's watched shows
-            .then(TraktTVv2.watched).then(function(shows) {
-                //console.info("Found watched from Trakt.TV", shows);
-                Promise.all(shows.map(function(show) {
-                    $scope.traktTVSeries.push(show);
-                    // Flag it as added if we already cached it
-                    if ((show.tvdb_id in $scope.localSeries)) {
-                        FavoritesService.added(show.tvdb_id);
-                    } else if (!(show.tvdb_id in $scope.localSeries)) {
-                        // otherwise add to favorites, show spinner
-                        FavoritesService.adding(show.tvdb_id);
-                        return TraktTVv2.serie(show.slug_id).then(function(serie) {
-                            return FavoritesService.addFavorite(serie).then(function(s) {
-                                $scope.localSeries[s.tvdb_id] = s;
-                            });
-                        }).then(function(serie) {
+                    series.map(function(serie) {
+                        $scope.localSeries[serie.TVDB_ID] = serie;
+                    });
+                })
+                // Fetch all Trakt.TV user's watched shows
+                .then(TraktTVv2.watched).then(function(shows) {
+                    //console.info("Found watched from Trakt.TV", shows);
+                    Promise.all(shows.map(function(show) {
+                        $scope.traktTVSeries.push(show);
+                        // Flag it as added if we already cached it
+                        if ((show.tvdb_id in $scope.localSeries)) {
                             FavoritesService.added(show.tvdb_id);
-                            return serie;
-                        });
-                    }
-                })).then(function() {
-                    // Process seasons and episodes marked as watched
-                    return Promise.all(shows.map(function(show) {
-                        FavoritesService.adding(show.tvdb_id);
-                        $scope.watchedEpisodesReport = [];
-                        return Promise.all(show.seasons.map(function(season) {
-                            return Promise.all(season.episodes.map(function(episode) {
-                                return CRUD.FindOne('Episode', {
-                                    seasonnumber: season.number,
-                                    episodenumber: episode.number,
-                                    'Serie': {
-                                        TVDB_ID: show.tvdb_id
-                                    }
-                                }).then(function(epi) {
-                                    if (!epi) {
-                                        console.warn("Episode s%se%s not found for %s", season.number, episode.number, show.name);
-                                    } else {
-                                        $scope.watchedEpisodesReport.push(epi.getFormattedEpisode());
-                                        return epi.markWatched($scope.downloadedPaired);
-                                    }
+                        } else if (!(show.tvdb_id in $scope.localSeries)) {
+                            // otherwise add to favorites, show spinner
+                            FavoritesService.adding(show.tvdb_id);
+                            return TraktTVv2.serie(show.slug_id).then(function(serie) {
+                                return FavoritesService.addFavorite(serie).then(function(s) {
+                                    $scope.localSeries[s.tvdb_id] = s;
                                 });
-                            }));
-                        })).then(function() {
-                            FavoritesService.added(show.tvdb_id);
-                            console.info("Episodes marked as watched for ", show.name, $scope.watchedEpisodesReport);
-                        });
-                    }));
-
-                });
-            })
-            // process Trakt.TV user's collected shows
-            .then(TraktTVv2.userShows().then(function(data) {
-                //console.info("Found user shows from Trakt.TV", data);
-                data.map(function(show) {
-                    $scope.traktTVSeries.push(show);
-
-                    if (!(show.tvdb_id in $scope.localSeries)) {
-                        FavoritesService.adding(show.tvdb_id);
-                        return TraktTVv2.serie(show.slug_id).then(function(serie) {
-                            return FavoritesService.addFavorite(serie).then(function(s) {
-                                $scope.localSeries[s.tvdb_id] = s;
+                            }).then(function(serie) {
+                                FavoritesService.added(show.tvdb_id);
+                                return serie;
                             });
-                        }).then(function() {
-                            FavoritesService.added(show.tvdb_id);
-                        });
+                        }
+                    })).then(function() {
+                        // Process seasons and episodes marked as watched
+                        return Promise.all(shows.map(function(show) {
+                            FavoritesService.adding(show.tvdb_id);
+                            $scope.watchedEpisodesReport = [];
+                            return Promise.all(show.seasons.map(function(season) {
+                                return Promise.all(season.episodes.map(function(episode) {
+                                    return CRUD.FindOne('Episode', {
+                                        seasonnumber: season.number,
+                                        episodenumber: episode.number,
+                                        'Serie': {
+                                            TVDB_ID: show.tvdb_id
+                                        }
+                                    }).then(function(epi) {
+                                        if (!epi) {
+                                            console.warn("Episode s%se%s not found for %s", season.number, episode.number, show.name);
+                                        } else {
+                                            $scope.watchedEpisodesReport.push(epi.getFormattedEpisode());
+                                            return epi.markWatched($scope.downloadedPaired);
+                                        }
+                                    });
+                                }));
+                            })).then(function() {
+                                FavoritesService.added(show.tvdb_id);
+                                console.info("Episodes marked as watched for ", show.name, $scope.watchedEpisodesReport);
+                            });
+                        }));
 
-                    } else {
-                        FavoritesService.added(show.tvdb_id);
-                    }
+                    });
+                })
+                // process Trakt.TV user's collected shows
+                .then(TraktTVv2.userShows().then(function(data) {
+                    //console.info("Found user shows from Trakt.TV", data);
+                    data.map(function(show) {
+                        $scope.traktTVSeries.push(show);
+
+                        if (!(show.tvdb_id in $scope.localSeries)) {
+                            FavoritesService.adding(show.tvdb_id);
+                            return TraktTVv2.serie(show.slug_id).then(function(serie) {
+                                return FavoritesService.addFavorite(serie).then(function(s) {
+                                    $scope.localSeries[s.tvdb_id] = s;
+                                });
+                            }).then(function() {
+                                FavoritesService.added(show.tvdb_id);
+                            });
+
+                        } else {
+                            FavoritesService.added(show.tvdb_id);
+                        }
+                    });
+                })).then(function() {
+                    setTimeout(function() {
+                        $rootScope.$broadcast('series:recount:watched');
+                    }, 6000);
                 });
-            })).then(function() {
-                setTimeout(function() {
-                    $rootScope.$broadcast('series:recount:watched');
-                }, 6000);
-            });
         };
 
         // Push current series and watched episodes to TraktTV
@@ -195,7 +195,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
             var serieIDs = {};
 
             FavoritesService.favorites.map(function(serie) {
-                console.info("Adding series %s to Trakt.TV user's collection.",serie.name);
+                console.info("Adding series %s to Trakt.TV user's collection.", serie.name);
                 TraktTVv2.addToCollection(serie.TVDB_ID);
                 serieIDs[serie.ID_Serie] = serie.TVDB_ID;
             });
