@@ -66,6 +66,11 @@
     <h2 translate-once="SETTINGS/TRAKT-IMPORT/hdr"></h2>
     <p translate-once="SETTINGS/TRAKT-IMPORT/desc"></p>
 
+    <div class="checkbox">
+      <input type="checkbox" ng-model="trakt.onlyCollection" id="onlyCollection">
+      <label for="onlyCollection" translate-once="Only import shows from your Trakt.tv Collection"></label>
+    </div>
+
     <a ng-click="trakt.readTraktTV()" class="btn btn-info">
       <i class="glyphicon glyphicon-import" style="float:left;top:3px"></i> <span translate-once="SETTINGS/TRAKT-IMPORT/sync-import/btn"></span>
     </a>
@@ -83,9 +88,9 @@
   </div>
   <div class="miniposter x2" ng-if="trakt.traktTVSeries[0]" style="text-align:center">
     <serieheader style='display:inline-block; margin:5px;' data="serie" no-badge="1" no-button="1" no-overview="1" no-title="1" mode="poster" ng-repeat="serie in trakt.traktTVSeries">
-      <em class="earmark" ng-show="trakt.isAdded(serie.tvdb_id)"><i class='glyphicon glyphicon-ok'></i></em>
+      <em class="earmark" ng-hide="trakt.isAdding(serie.tvdb_id)"><i class='glyphicon glyphicon-ok'></i></em>
       <em class="earmark adding" ng-show="trakt.isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
     </serieheader>
-    <small style="display:block"<span translate-once="SETTINGS/TRAKT-IMPORT/watched-episodes/lbl"></span> {{ trakt.countWatchedEpisodes(serie) }} </small>
+    <small style="display:block"><span translate-once="SETTINGS/TRAKT-IMPORT/watched-episodes/lbl"></span> {{ trakt.watchedEpisodes }} </small>
   </div>
 </div>

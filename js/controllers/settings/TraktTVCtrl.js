@@ -19,9 +19,9 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
         vm.traktSync = SettingsService.get('trakttv.sync');
         vm.downloadedPaired = SettingsService.get('episode.watched-downloaded.pairing');
         vm.traktTVSeries = [];
-        vm.localSeries = {};
         vm.pushError = [false, null];
-        vm.watchedEpisodesReport = [];
+        vm.onlyCollection = false;
+        vm.watchedEpisodes = 0
 
         vm.onAuthorizeEnter = function() {
             window.open(vm.getPinUrl(), '_blank');
@@ -81,115 +81,119 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
             return TraktTVv2.getPinUrl();
         };
 
-        vm.isDownloaded = function(tvdb_id) {
-            return tvdb_id in vm.localSeries;
-        };
-
-        vm.getDownloaded = function(tvdb_id) {
-            return vm.localSeries[tvdb_id];
-        };
-
-        vm.isAdded = function(tvdb_id) {
-            return FavoritesService.isAdded(tvdb_id);
-        };
-
+        /* Note: I intentially used my own cache and not the FavoritesService adding Cache because
+         *  if we use FavoritesService cache while importing on the Serieslist it will also cause
+         *  all the shows below that are being added to update with the spinners and with a lot of
+         *  series the performance impact is noticable.
+         */
         vm.isAdding = function(tvdb_id) {
-            return FavoritesService.isAdding(tvdb_id);
-        };
-
-        vm.countWatchedEpisodes = function(show) {
-            if (!show) return 0;
-            var count = 0;
-            show.seasons.map(function(s) {
-                count += s.episodes.length;
-            });
-            //console.debug("Counting watched episodes for ", show, count);
-            return count;
+            return addedSeries.indexOf(tvdb_id) == -1
         };
 
         // Imports users Series and Watched episodes from TraktTV
+        var collectionIDCache = []
+        var watchedIDCache = []
+        var addedSeries = []
+        var localSeries = {}
+        var alreadyImported = false;
         vm.readTraktTV = function() {
-            FavoritesService.flushAdding();
+            if (alreadyImported) return;
+            alreadyImported = true;
             FavoritesService.getSeries().then(function(series) {
-                    series.map(function(serie) {
-                        vm.localSeries[serie.TVDB_ID] = serie;
-                    });
-                })
-                // Fetch all Trakt.TV user's watched shows
-                .then(TraktTVv2.watched).then(function(shows) {
-                    //console.info("Found watched from Trakt.TV", shows);
-                    Promise.all(shows.map(function(show) {
-                        vm.traktTVSeries.push(show);
-                        // Flag it as added if we already cached it
-                        if ((show.tvdb_id in vm.localSeries)) {
-                            FavoritesService.added(show.tvdb_id);
-                        } else if (!(show.tvdb_id in vm.localSeries)) {
-                            // otherwise add to favorites, show spinner
-                            FavoritesService.adding(show.tvdb_id);
-                            return TraktTVv2.serie(show.slug_id).then(function(serie) {
-                                return FavoritesService.addFavorite(serie).then(function(s) {
-                                    vm.localSeries[s.tvdb_id] = s;
-                                });
-                            }).then(function(serie) {
-                                FavoritesService.added(show.tvdb_id);
-                                return serie;
-                            });
-                        }
-                    })).then(function() {
-                        // Process seasons and episodes marked as watched
-                        return Promise.all(shows.map(function(show) {
-                            FavoritesService.adding(show.tvdb_id);
-                            vm.watchedEpisodesReport = [];
-                            return Promise.all(show.seasons.map(function(season) {
-                                return Promise.all(season.episodes.map(function(episode) {
-                                    return CRUD.FindOne('Episode', {
-                                        seasonnumber: season.number,
-                                        episodenumber: episode.number,
-                                        'Serie': {
-                                            TVDB_ID: show.tvdb_id
-                                        }
-                                    }).then(function(epi) {
-                                        if (!epi) {
-                                            console.warn("Episode s%se%s not found for %s", season.number, episode.number, show.name);
-                                        } else {
-                                            vm.watchedEpisodesReport.push(epi.getFormattedEpisode());
-                                            return epi.markWatched(vm.downloadedPaired);
-                                        }
-                                    });
-                                }));
-                            })).then(function() {
-                                FavoritesService.added(show.tvdb_id);
-                                console.info("Episodes marked as watched for ", show.name, vm.watchedEpisodesReport);
-                            });
-                        }));
-
-                    });
-                })
-                // process Trakt.TV user's collected shows
-                .then(TraktTVv2.userShows().then(function(data) {
-                    //console.info("Found user shows from Trakt.TV", data);
-                    data.map(function(show) {
-                        vm.traktTVSeries.push(show);
-
-                        if (!(show.tvdb_id in vm.localSeries)) {
-                            FavoritesService.adding(show.tvdb_id);
-                            return TraktTVv2.serie(show.slug_id).then(function(serie) {
-                                return FavoritesService.addFavorite(serie).then(function(s) {
-                                    vm.localSeries[s.tvdb_id] = s;
-                                });
-                            }).then(function() {
-                                FavoritesService.added(show.tvdb_id);
-                            });
-
-                        } else {
-                            FavoritesService.added(show.tvdb_id);
-                        }
-                    });
-                })).then(function() {
-                    setTimeout(function() {
-                        $rootScope.$broadcast('series:recount:watched');
-                    }, 6000);
+                console.info("Mapping currently added series")
+                series.map(function(serie) {
+                    localSeries[serie.TVDB_ID] = serie;
                 });
+            }).then(TraktTVv2.userShows().then(function(userShows) {
+                console.info("Found", userShows.length, "shows in users collection")
+                TraktTVv2.watched().then(function(watchedShows) {
+                    console.info("Found", watchedShows.length, "shows in users watched collection");
+                    // Go through and determine all the shows we're adding
+                    userShows.forEach(function(serie) {
+                        vm.traktTVSeries.push(serie);
+                        collectionIDCache.push(serie.tvdb_id);
+                    });
+                    watchedShows.forEach(function(show) {
+                        if (collectionIDCache.indexOf(show.tvdb_id) !== -1) {
+                            watchedIDCache.push(show.tvdb_id);
+                            return;
+                        }
+                        if (vm.onlyCollection) return; // If we're only adding shows in collection not any show ever watched
+                        vm.traktTVSeries.push(show);
+                        watchedIDCache.push(show.tvdb_id);
+                        collectionIDCache.push(show.tvdb_id);
+                    });
+
+                    Promise.all(userShows.map(function(serie) {
+                        if (serie.tvdb_id in localSeries) { // Don't readd serie if it's already added
+                            if (watchedIDCache.indexOf(serie.tvdb_id) == -1) { // If no watched episodes mark it as added
+                                addedSeries.push(serie.tvdb_id);
+                            }
+                            return Promise.resolve();
+                        }
+
+                        return TraktTVv2.serie(serie.slug_id).then(function(data) {
+                            return FavoritesService.addFavorite(data).then(function(s) {
+                                localSeries[serie.tvdb_id] = s;
+                                if (watchedIDCache.indexOf(serie.tvdb_id) == -1) {
+                                    addedSeries.push(serie.tvdb_id); // If no watched episodes mark it as added
+                                }
+                            });
+                        }).catch(function() {}); // Ignore errors, resolve anyway
+                    })).then(function() {
+                        Promise.all(watchedShows.map(function(show) {
+                            // Don't fetch show if it's not in collection and we're in collectionOnly
+                            if (vm.onlyCollection && collectionIDCache.indexOf(show.tvdb_id) == -1) {
+                                return Promise.resolve();
+                            }
+                            if (show.tvdb_id in localSeries) { // Don't readd serie if it's already added
+                                return Promise.resolve(show)
+                            }
+
+                            return TraktTVv2.serie(show.slug_id).then(function(data) {
+                                return FavoritesService.addFavorite(data).then(function(s) {
+                                    localSeries[show.tvdb_id] = s;
+                                    return show
+                                });
+                            }).catch(function() {}); // Ignore errors, resolve anyway
+                        })).then(function(watchedShows) {
+                            var shows = watchedShows.filter(Boolean)
+                            console.info("Done adding watched shows, adding watched episodes to DB")
+                            Promise.all(shows.map(function(show) {
+                                var watchedEpisodesReport = [];
+                                return Promise.all(show.seasons.map(function(season) {
+                                    return Promise.all(season.episodes.map(function(episode) {
+                                        return CRUD.FindOne('Episode', {
+                                            seasonnumber: season.number,
+                                            episodenumber: episode.number,
+                                            'Serie': {
+                                                TVDB_ID: show.tvdb_id
+                                            }
+                                        }).then(function(epi) {
+                                            if (!epi) {
+                                                console.warn("Episode s%se%s not found for %s", season.number, episode.number, show.name);
+                                            } else {
+                                                vm.watchedEpisodes++;
+                                                watchedEpisodesReport.push(epi.getFormattedEpisode());
+                                                return epi.markWatched(vm.downloadedPaired);
+                                            }
+                                        }).catch(function() {});
+                                    }));
+                                })).then(function() {
+                                    addedSeries.push(show.tvdb_id);
+                                    //console.info("Episodes marked as watched for ", show.name, watchedEpisodesReport);
+                                });
+                            })).then(function() {
+                                console.info("Successfully marked all episodes as watched")
+                                setTimeout(function() {
+                                    console.info("Fireing series:recount:watched")
+                                    $rootScope.$broadcast('series:recount:watched');
+                                }, 7000);
+                            })
+                        });
+                    });
+                });
+            }));
         };
 
         // Push current series and watched episodes to TraktTV
