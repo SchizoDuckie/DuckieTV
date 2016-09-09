@@ -155,6 +155,7 @@
     "COMMON/settings/hdr": "Настройки",
     "COMMON/settings/lbl": "Настройки для ",
     "COMMON/show-files/btn": "Показать файлы",
+    "COMMON/sort-column/tooltip": "Сортировка этот столбец",
     "COMMON/specials/lbl": "Спецвыпуски",
     "COMMON/split-button/sr": "Split button!",
     "COMMON/start/btn": "Старт",
@@ -423,6 +424,7 @@
     "SETTINGS/TRAKT-IMPORT/desc": "Вы можете сделать импорт всех шоу и просмотренных эпизодов из аккаунта Trakt.TV в DuckieTV",
     "SETTINGS/TRAKT-IMPORT/hdr": "Импорт Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "Войти в ",
+    "SETTINGS/TRAKT-IMPORT/only-collection/lbl": "Только импорт-шоу из вашей коллекции Trakt.tv",
     "SETTINGS/TRAKT-IMPORT/password/hdr": "Ваш Trakt.TV PIN:",
     "SETTINGS/TRAKT-IMPORT/push/btn": "Отправить шоу в Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/push/desc": "Отправить все шоу и просмотренные эпизоды из DuckieTV в аккаунт Trakt.TV",
@@ -534,7 +536,6 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "поиск с использованием глобальной максимального размера",
     "TORRENTDIALOG/search-global-size-min/lbl": "поиск с использованием глобального минимального размера",
     "TORRENTDIALOG/search-include/lbl": "поиск в списке по умолчанию",
-    "COMMON/sort-column/tooltip": "Сортировка этот столбец",
     "TORRENTFREAK/info/hdr": "Информация",
     "TORRENTFREAK/rank/hdr": "Оценка"
 }

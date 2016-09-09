@@ -155,6 +155,7 @@
     "COMMON/settings/hdr": "Inställningar",
     "COMMON/settings/lbl": "Inställningar för ",
     "COMMON/show-files/btn": "Visa filer",
+    "COMMON/sort-column/tooltip": "Sortera denna kolumn",
     "COMMON/specials/lbl": "Specialerbjudanden",
     "COMMON/split-button/sr": "split knapp",
     "COMMON/start/btn": "Början ",
@@ -423,6 +424,7 @@
     "SETTINGS/TRAKT-IMPORT/desc": "Du kan importera alla shower och bevakade episoder från ditt Trakt.TV konto till DuckieTV med knappen nedan",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV Import",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "logga in till",
+    "SETTINGS/TRAKT-IMPORT/only-collection/lbl": "Endast import visar från din Trakt.tv Collection",
     "SETTINGS/TRAKT-IMPORT/password/hdr": "Din PIN-kod på Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/push/btn": "Skicka shower till Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/push/desc": "Skicka alla dina DuckieTV visar och såg episoder på ditt konto på trakt.TV",
@@ -534,7 +536,6 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "söka med global maximal storlek",
     "TORRENTDIALOG/search-global-size-min/lbl": "söka med globala minimistorlek",
     "TORRENTDIALOG/search-include/lbl": "söka med global inkluderar listan",
-    "COMMON/sort-column/tooltip": "Sortera denna kolumn",
     "TORRENTFREAK/info/hdr": "info ",
     "TORRENTFREAK/rank/hdr": "Placering "
 }

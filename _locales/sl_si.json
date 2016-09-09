@@ -155,6 +155,7 @@
     "COMMON/settings/hdr": "Nastavitve",
     "COMMON/settings/lbl": "Nastavitve za ",
     "COMMON/show-files/btn": "Prikaži datoteke",
+    "COMMON/sort-column/tooltip": "Ta stolpec razvrstite",
     "COMMON/specials/lbl": "Posebna ponudba",
     "COMMON/split-button/sr": "gumb za split",
     "COMMON/start/btn": "Začetek",
@@ -423,6 +424,7 @@
     "SETTINGS/TRAKT-IMPORT/desc": "Lahko uvozite vse oddaje in gledane epizode iz vašega Trakt.TV računa v DuckieTV z gumbom spodaj",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV Uvozi",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "Prijava na ",
+    "SETTINGS/TRAKT-IMPORT/only-collection/lbl": "Le uvoza kaže iz vašega Trakt.tv zbirke",
     "SETTINGS/TRAKT-IMPORT/password/hdr": "Vaš PIN na Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/push/btn": "Pošlji kaže, da Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/push/desc": "Pošlji vse svoje DuckieTV oddaj in gledal epizode na vaš račun na trakt.TV",
@@ -534,7 +536,6 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "iskanje s pomočjo globalnega največjo velikost",
     "TORRENTDIALOG/search-global-size-min/lbl": "iskanje s pomočjo globalnega najmanjšo velikost",
     "TORRENTDIALOG/search-include/lbl": "iskanje s pomočjo globalnega vključuje seznam",
-    "COMMON/sort-column/tooltip": "Ta stolpec razvrstite",
     "TORRENTFREAK/info/hdr": "Informacije",
     "TORRENTFREAK/rank/hdr": "Rank"
 }
