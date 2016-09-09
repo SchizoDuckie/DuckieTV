@@ -13,7 +13,8 @@
         "DuckieTV": true,
         "angular": true,
         "document": true,
-        "CRUD": true
+        "CRUD": true,
+        "Promise": true
     },
     "plugins": [
         "angular"

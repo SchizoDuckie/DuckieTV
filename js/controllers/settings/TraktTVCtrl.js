@@ -4,8 +4,10 @@
 DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktTVv2", "FavoritesService", "SettingsService",
     function($rootScope, $scope, $injector, TraktTVv2, FavoritesService, SettingsService) {
 
+        var vm = this;
+
         // Array for credentials
-        $scope.credentials = {
+        vm.credentials = {
             pincode: '',
             success: localStorage.getItem('trakttv.token') || false,
             error: false,
@@ -13,90 +15,90 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
             getpin: false
         };
 
-        $scope.tuPeriod = SettingsService.get('trakt-update.period');
-        $scope.traktSync = SettingsService.get('trakttv.sync');
-        $scope.downloadedPaired = SettingsService.get('episode.watched-downloaded.pairing');
-        $scope.traktTVSeries = [];
-        $scope.localSeries = {};
-        $scope.pushError = [false, null];
-        $scope.watchedEpisodesReport = [];
+        vm.tuPeriod = SettingsService.get('trakt-update.period');
+        vm.traktSync = SettingsService.get('trakttv.sync');
+        vm.downloadedPaired = SettingsService.get('episode.watched-downloaded.pairing');
+        vm.traktTVSeries = [];
+        vm.localSeries = {};
+        vm.pushError = [false, null];
+        vm.watchedEpisodesReport = [];
 
-        $scope.onAuthorizeEnter = function() {
-            window.open($scope.getPinUrl(), '_blank');
-            $scope.credentials.getpin = true;
+        vm.onAuthorizeEnter = function() {
+            window.open(vm.getPinUrl(), '_blank');
+            vm.credentials.getpin = true;
         };
 
-        $scope.onLoginEnter = function() {
-            $scope.authorize($scope.credentials.pincode);
+        vm.onLoginEnter = function() {
+            vm.authorize(vm.credentials.pincode);
         };
 
-        $scope.getPin = function() {
-            $scope.credentials.getpin = true;
+        vm.getPin = function() {
+            vm.credentials.getpin = true;
         };
 
         // Clears all local credentials and token in local storage
-        $scope.clearCredentials = function() {
-            $scope.credentials.pincode = '';
-            $scope.credentials.success = false;
-            $scope.credentials.error = false;
-            $scope.credentials.authorizing = false;
-            $scope.credentials.getpin = false;
+        vm.clearCredentials = function() {
+            vm.credentials.pincode = '';
+            vm.credentials.success = false;
+            vm.credentials.error = false;
+            vm.credentials.authorizing = false;
+            vm.credentials.getpin = false;
             localStorage.removeItem('trakttv.token');
             localStorage.removeItem('trakttv.refresh_token');
         };
 
         // renew credentials
-        $scope.renewCredentials = function() {
+        vm.renewCredentials = function() {
             return TraktTVv2.renewToken().then(function(result) {
-                $scope.credentials.success = result;
+                vm.credentials.success = result;
             }, function(error) {
                 if (error.data && error.data.error && error.data.error_description) {
-                    $scope.credentials.error = "Error! " + error.status + ' - ' + error.data.error + ' - ' + error.data.error_description;
+                    vm.credentials.error = "Error! " + error.status + ' - ' + error.data.error + ' - ' + error.data.error_description;
                 } else {
-                    $scope.credentials.error = "Error! " + error.status + ' - ' + error.statusText;
+                    vm.credentials.error = "Error! " + error.status + ' - ' + error.statusText;
                 }
             });
         };
 
         // Validates pin with TraktTV
-        $scope.authorize = function(pin) {
-            $scope.credentials.authorizing = true;
+        vm.authorize = function(pin) {
+            vm.credentials.authorizing = true;
             return TraktTVv2.login(pin).then(function(result) {
-                $scope.credentials.success = result;
-                $scope.credentials.error = false;
-                $scope.credentials.authorizing = false;
+                vm.credentials.success = result;
+                vm.credentials.error = false;
+                vm.credentials.authorizing = false;
             }, function(error) {
-                $scope.clearCredentials();
+                vm.clearCredentials();
                 if (error.data && error.data.error && error.data.error_description) {
-                    $scope.credentials.error = "Error! " + error.status + ' - ' + error.data.error + ' - ' + error.data.error_description;
+                    vm.credentials.error = "Error! " + error.status + ' - ' + error.data.error + ' - ' + error.data.error_description;
                 } else {
-                    $scope.credentials.error = "Error! " + error.status + ' - ' + error.statusText;
+                    vm.credentials.error = "Error! " + error.status + ' - ' + error.statusText;
                 }
             });
         };
 
-        $scope.getPinUrl = function() {
+        vm.getPinUrl = function() {
             return TraktTVv2.getPinUrl();
         };
 
-        $scope.isDownloaded = function(tvdb_id) {
-            return tvdb_id in $scope.localSeries;
+        vm.isDownloaded = function(tvdb_id) {
+            return tvdb_id in vm.localSeries;
         };
 
-        $scope.getDownloaded = function(tvdb_id) {
-            return $scope.localSeries[tvdb_id];
+        vm.getDownloaded = function(tvdb_id) {
+            return vm.localSeries[tvdb_id];
         };
 
-        $scope.isAdded = function(tvdb_id) {
+        vm.isAdded = function(tvdb_id) {
             return FavoritesService.isAdded(tvdb_id);
         };
 
-        $scope.isAdding = function(tvdb_id) {
+        vm.isAdding = function(tvdb_id) {
             return FavoritesService.isAdding(tvdb_id);
         };
 
-        $scope.countWatchedEpisodes = function(show) {
-            if (undefined === show) return 0;
+        vm.countWatchedEpisodes = function(show) {
+            if (!show) return 0;
             var count = 0;
             show.seasons.map(function(s) {
                 count += s.episodes.length;
@@ -106,27 +108,27 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
         };
 
         // Imports users Series and Watched episodes from TraktTV
-        $scope.readTraktTV = function() {
+        vm.readTraktTV = function() {
             FavoritesService.flushAdding();
             FavoritesService.getSeries().then(function(series) {
                     series.map(function(serie) {
-                        $scope.localSeries[serie.TVDB_ID] = serie;
+                        vm.localSeries[serie.TVDB_ID] = serie;
                     });
                 })
                 // Fetch all Trakt.TV user's watched shows
                 .then(TraktTVv2.watched).then(function(shows) {
                     //console.info("Found watched from Trakt.TV", shows);
                     Promise.all(shows.map(function(show) {
-                        $scope.traktTVSeries.push(show);
+                        vm.traktTVSeries.push(show);
                         // Flag it as added if we already cached it
-                        if ((show.tvdb_id in $scope.localSeries)) {
+                        if ((show.tvdb_id in vm.localSeries)) {
                             FavoritesService.added(show.tvdb_id);
-                        } else if (!(show.tvdb_id in $scope.localSeries)) {
+                        } else if (!(show.tvdb_id in vm.localSeries)) {
                             // otherwise add to favorites, show spinner
                             FavoritesService.adding(show.tvdb_id);
                             return TraktTVv2.serie(show.slug_id).then(function(serie) {
                                 return FavoritesService.addFavorite(serie).then(function(s) {
-                                    $scope.localSeries[s.tvdb_id] = s;
+                                    vm.localSeries[s.tvdb_id] = s;
                                 });
                             }).then(function(serie) {
                                 FavoritesService.added(show.tvdb_id);
@@ -137,7 +139,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
                         // Process seasons and episodes marked as watched
                         return Promise.all(shows.map(function(show) {
                             FavoritesService.adding(show.tvdb_id);
-                            $scope.watchedEpisodesReport = [];
+                            vm.watchedEpisodesReport = [];
                             return Promise.all(show.seasons.map(function(season) {
                                 return Promise.all(season.episodes.map(function(episode) {
                                     return CRUD.FindOne('Episode', {
@@ -150,14 +152,14 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
                                         if (!epi) {
                                             console.warn("Episode s%se%s not found for %s", season.number, episode.number, show.name);
                                         } else {
-                                            $scope.watchedEpisodesReport.push(epi.getFormattedEpisode());
-                                            return epi.markWatched($scope.downloadedPaired);
+                                            vm.watchedEpisodesReport.push(epi.getFormattedEpisode());
+                                            return epi.markWatched(vm.downloadedPaired);
                                         }
                                     });
                                 }));
                             })).then(function() {
                                 FavoritesService.added(show.tvdb_id);
-                                console.info("Episodes marked as watched for ", show.name, $scope.watchedEpisodesReport);
+                                console.info("Episodes marked as watched for ", show.name, vm.watchedEpisodesReport);
                             });
                         }));
 
@@ -167,13 +169,13 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
                 .then(TraktTVv2.userShows().then(function(data) {
                     //console.info("Found user shows from Trakt.TV", data);
                     data.map(function(show) {
-                        $scope.traktTVSeries.push(show);
+                        vm.traktTVSeries.push(show);
 
-                        if (!(show.tvdb_id in $scope.localSeries)) {
+                        if (!(show.tvdb_id in vm.localSeries)) {
                             FavoritesService.adding(show.tvdb_id);
                             return TraktTVv2.serie(show.slug_id).then(function(serie) {
                                 return FavoritesService.addFavorite(serie).then(function(s) {
-                                    $scope.localSeries[s.tvdb_id] = s;
+                                    vm.localSeries[s.tvdb_id] = s;
                                 });
                             }).then(function() {
                                 FavoritesService.added(show.tvdb_id);
@@ -191,7 +193,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
         };
 
         // Push current series and watched episodes to TraktTV
-        $scope.pushToTraktTV = function() {
+        vm.pushToTraktTV = function() {
             var serieIDs = {};
 
             FavoritesService.favorites.map(function(serie) {
@@ -210,14 +212,14 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
             });
         };
 
-        $scope.toggleTraktSync = function() {
-            $scope.traktSync = !$scope.traktSync;
-            SettingsService.set('trakttv.sync', $scope.traktSync);
+        vm.toggleTraktSync = function() {
+            vm.traktSync = !vm.traktSync;
+            SettingsService.set('trakttv.sync', vm.traktSync);
         };
         /**
          * Changes the hourly period DuckieTV fetches Trakt.TV episodes updates with.
          */
-        $scope.saveTUPeriod = function(period) {
+        vm.saveTUPeriod = function(period) {
             SettingsService.set('trakt-update.period', period);
             $injector.get('DuckietvReload').windowLocationReload();
         };
