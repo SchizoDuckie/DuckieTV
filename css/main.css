@@ -969,6 +969,7 @@ series-list .trakt-import .trakt-login {
 series-list .trakt-import .trakt-login .btn {
   display: block;
   width: initial;
+  margin: 4px 0;
 }
 
 series-list .trakt-import .btn {
@@ -977,6 +978,18 @@ series-list .trakt-import .btn {
 
 series-list .trakt-import .toggleWatchSync, series-list .trakt-import .pushToTrakt {
   display: none;
+}
+
+series-list .trakt-import .trakt-login input {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+series-list .trakt-import .trakt-login > table {
+    max-width: 500px;
+}
+
+series-list .trakt-import serieheader {
+  position: inherit !important;
 }
 
 .trakt-import .trakt-login td {
