@@ -1,8 +1,8 @@
 /**
  * TraktTV Controller for TraktTV Directive Stuff and the settings tab
  */
-DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktTVv2", "FavoritesService", "SettingsService",
-    function($rootScope, $scope, $injector, TraktTVv2, FavoritesService, SettingsService) {
+DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$injector", "TraktTVv2", "FavoritesService", "SettingsService",
+    function($rootScope, $injector, TraktTVv2, FavoritesService, SettingsService) {
 
         var vm = this;
 
@@ -21,7 +21,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
         vm.traktTVSeries = [];
         vm.pushError = [false, null];
         vm.onlyCollection = false;
-        vm.watchedEpisodes = 0
+        vm.watchedEpisodes = 0;
 
         vm.onAuthorizeEnter = function() {
             window.open(vm.getPinUrl(), '_blank');
@@ -81,84 +81,84 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
             return TraktTVv2.getPinUrl();
         };
 
-        /* Note: I intentially used my own cache and not the FavoritesService adding Cache because
+        /* Note: I intentionally used my own cache and not the FavoritesService adding Cache because
          *  if we use FavoritesService cache while importing on the Serieslist it will also cause
          *  all the shows below that are being added to update with the spinners and with a lot of
-         *  series the performance impact is noticable.
+         *  series the performance impact is noticeable.
          */
-        vm.isAdding = function(tvdb_id) {
-            return addedSeries.indexOf(tvdb_id) == -1
+        vm.isAdding = function(trakt_id) {
+            return addedSeries.indexOf(trakt_id) == -1;
         };
 
         // Imports users Series and Watched episodes from TraktTV
-        var collectionIDCache = []
-        var watchedIDCache = []
-        var addedSeries = []
-        var localSeries = {}
-        var alreadyImported = false;
+        var collectionIDCache = [],
+            watchedIDCache = [],
+            addedSeries = [],
+            localSeries = {},
+            alreadyImported = false;
         vm.readTraktTV = function() {
             if (alreadyImported) return;
             alreadyImported = true;
             FavoritesService.getSeries().then(function(series) {
-                console.info("Mapping currently added series")
+                console.info("Mapping currently added series");
                 series.map(function(serie) {
                     localSeries[serie.TVDB_ID] = serie;
                 });
             }).then(TraktTVv2.userShows().then(function(userShows) {
-                console.info("Found", userShows.length, "shows in users collection")
+                console.info("Found", userShows.length, "shows in users collection");
                 TraktTVv2.watched().then(function(watchedShows) {
-                    console.info("Found", watchedShows.length, "shows in users watched collection");
+                    console.info("Found", watchedShows.length, "shows in users watched episodes collection");
                     // Go through and determine all the shows we're adding
                     userShows.forEach(function(serie) {
                         vm.traktTVSeries.push(serie);
-                        collectionIDCache.push(serie.tvdb_id);
+                        collectionIDCache.push(serie.trakt_id);
                     });
                     watchedShows.forEach(function(show) {
-                        if (collectionIDCache.indexOf(show.tvdb_id) !== -1) {
-                            watchedIDCache.push(show.tvdb_id);
+                        if (collectionIDCache.indexOf(show.trakt_id) !== -1) {
+                            watchedIDCache.push(show.trakt_id);
                             return;
                         }
                         if (vm.onlyCollection) return; // If we're only adding shows in collection not any show ever watched
                         vm.traktTVSeries.push(show);
-                        watchedIDCache.push(show.tvdb_id);
-                        collectionIDCache.push(show.tvdb_id);
+                        watchedIDCache.push(show.trakt_id);
+                        collectionIDCache.push(show.trakt_id);
                     });
 
                     Promise.all(userShows.map(function(serie) {
-                        if (serie.tvdb_id in localSeries) { // Don't readd serie if it's already added
-                            if (watchedIDCache.indexOf(serie.tvdb_id) == -1) { // If no watched episodes mark it as added
-                                addedSeries.push(serie.tvdb_id);
+                        if (serie.trakt_id in localSeries) { // Don't re-add serie if it's already added
+                            if (watchedIDCache.indexOf(serie.trakt_id) == -1) { // If no watched episodes mark it as added
+                                addedSeries.push(serie.trakt_id);
                             }
                             return Promise.resolve();
                         }
 
                         return TraktTVv2.serie(serie.slug_id).then(function(data) {
                             return FavoritesService.addFavorite(data).then(function(s) {
-                                localSeries[serie.tvdb_id] = s;
-                                if (watchedIDCache.indexOf(serie.tvdb_id) == -1) {
-                                    addedSeries.push(serie.tvdb_id); // If no watched episodes mark it as added
+                                localSeries[serie.trakt_id] = s;
+                                if (watchedIDCache.indexOf(serie.trakt_id) == -1) {
+                                    addedSeries.push(serie.trakt_id); // If no watched episodes mark it as added
                                 }
                             });
                         }).catch(function() {}); // Ignore errors, resolve anyway
                     })).then(function() {
                         Promise.all(watchedShows.map(function(show) {
                             // Don't fetch show if it's not in collection and we're in collectionOnly
-                            if (vm.onlyCollection && collectionIDCache.indexOf(show.tvdb_id) == -1) {
+                            if (vm.onlyCollection && collectionIDCache.indexOf(show.trakt_id) == -1) {
                                 return Promise.resolve();
                             }
-                            if (show.tvdb_id in localSeries) { // Don't readd serie if it's already added
-                                return Promise.resolve(show)
+                            if (show.trakt_id in localSeries) { // Don't re-add serie if it's already added
+                                return Promise.resolve(show);
                             }
 
                             return TraktTVv2.serie(show.slug_id).then(function(data) {
                                 return FavoritesService.addFavorite(data).then(function(s) {
-                                    localSeries[show.tvdb_id] = s;
-                                    return show
+                                    localSeries[show.trakt_id] = s;
+                                    return show;
                                 });
                             }).catch(function() {}); // Ignore errors, resolve anyway
                         })).then(function(watchedShows) {
-                            var shows = watchedShows.filter(Boolean)
-                            console.info("Done adding watched shows, adding watched episodes to DB")
+                            var shows = watchedShows.filter(Boolean);
+                            console.info("Done adding watched shows, adding watched episodes to DB");
                             Promise.all(shows.map(function(show) {
                                 var watchedEpisodesReport = [];
                                 return Promise.all(show.seasons.map(function(season) {
@@ -167,7 +167,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
                                             seasonnumber: season.number,
                                             episodenumber: episode.number,
                                             'Serie': {
-                                                TVDB_ID: show.tvdb_id
+                                                TRAKT_ID: show.trakt_id
                                             }
                                         }).then(function(epi) {
                                             if (!epi) {
@@ -180,13 +180,13 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
                                         }).catch(function() {});
                                     }));
                                 })).then(function() {
-                                    addedSeries.push(show.tvdb_id);
+                                    addedSeries.push(show.trakt_id);
                                     //console.info("Episodes marked as watched for ", show.name, watchedEpisodesReport);
                                 });
                             })).then(function() {
-                                console.info("Successfully marked all episodes as watched")
+                                console.info("Successfully marked all episodes as watched");
                                 setTimeout(function() {
-                                    console.info("Fireing series:recount:watched")
+                                    console.info("Firing series:recount:watched")
                                     $rootScope.$broadcast('series:recount:watched');
                                 }, 7000);
                             })
@@ -198,12 +198,10 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$scope", "$injector", "TraktT
 
         // Push current series and watched episodes to TraktTV
         vm.pushToTraktTV = function() {
-            var serieIDs = {};
 
             FavoritesService.favorites.map(function(serie) {
                 console.info("Adding series %s to Trakt.TV user's collection.", serie.name);
                 TraktTVv2.addToCollection(serie.TVDB_ID);
-                serieIDs[serie.ID_Serie] = serie.TVDB_ID;
             });
 
             CRUD.Find('Episode', {
