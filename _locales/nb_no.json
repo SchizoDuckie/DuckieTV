@@ -155,6 +155,7 @@
     "COMMON/settings/hdr": "Innstillinger",
     "COMMON/settings/lbl": "Innstillinger for ",
     "COMMON/show-files/btn": "Vis filer",
+    "COMMON/sort-column/tooltip": "Sortere denne kolonnen",
     "COMMON/specials/lbl": "Spesialer",
     "COMMON/split-button/sr": "Splitt-knapp!",
     "COMMON/start/btn": "Start",
@@ -423,6 +424,7 @@
     "SETTINGS/TRAKT-IMPORT/desc": "Du kan importere alle serier and episoder merket sett fra din Trakt.TV konto til DuckieTV ved å bruke knappen nedenfor",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV Importering",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "Logg inn til ",
+    "SETTINGS/TRAKT-IMPORT/only-collection/lbl": "Bare importere programmer fra din Trakt.tv Collection",
     "SETTINGS/TRAKT-IMPORT/password/hdr": "Din Trakt.TV PIN:",
     "SETTINGS/TRAKT-IMPORT/push/btn": "Dytt serier til Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/push/desc": "Dytter alle dine serier og sett episoder på DuckieTV til din Trakt.TV konto",
@@ -534,7 +536,6 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "søke ved hjelp global maksimal størrelse",
     "TORRENTDIALOG/search-global-size-min/lbl": "søke ved hjelp global minimumsstørrelse",
     "TORRENTDIALOG/search-include/lbl": "søke ved hjelp global inkluderer liste",
-    "COMMON/sort-column/tooltip": "Sortere denne kolonnen",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Rangering"
 }

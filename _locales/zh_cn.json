@@ -155,6 +155,7 @@
     "COMMON/settings/hdr": "设置",
     "COMMON/settings/lbl": "对于设置 ",
     "COMMON/show-files/btn": "显示文件",
+    "COMMON/sort-column/tooltip": "排序此列",
     "COMMON/specials/lbl": "特价",
     "COMMON/split-button/sr": "劈扣",
     "COMMON/start/btn": "开始 ",
@@ -423,6 +424,7 @@
     "SETTINGS/TRAKT-IMPORT/desc": "您可以使用下面的按钮,输入您的帐号Trakt.TV所有的节目和观看剧集进入DuckieTV",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV进口",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "登录",
+    "SETTINGS/TRAKT-IMPORT/only-collection/lbl": "只有进口节目从Trakt.tv收藏",
     "SETTINGS/TRAKT-IMPORT/password/hdr": "你的PIN在Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/push/btn": "发送给节目Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/push/desc": "发送您的所有DuckieTV节目和观看的情节到您的帐户trakt.TV",
@@ -534,7 +536,6 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "搜索使用的全球最大尺寸",
     "TORRENTDIALOG/search-global-size-min/lbl": "搜索使用全球最小尺寸",
     "TORRENTDIALOG/search-include/lbl": "使用搜索全球包括列表",
-    "COMMON/sort-column/tooltip": "排序此列",
     "TORRENTFREAK/info/hdr": "信息 ",
     "TORRENTFREAK/rank/hdr": "秩 "
 }

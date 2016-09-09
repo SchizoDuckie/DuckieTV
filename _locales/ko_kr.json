@@ -155,6 +155,7 @@
     "COMMON/settings/hdr": "설정",
     "COMMON/settings/lbl": "에 대한 설정 ",
     "COMMON/show-files/btn": "보기 파일",
+    "COMMON/sort-column/tooltip": "이 열을 정렬",
     "COMMON/specials/lbl": "특가",
     "COMMON/split-button/sr": "분할 버튼",
     "COMMON/start/btn": "스타트 ",
@@ -423,6 +424,7 @@
     "SETTINGS/TRAKT-IMPORT/desc": "당신은 아래의 버튼을 사용하여 DuckieTV로 Trakt.TV 계정에서 모든 프로그램 및 시청 에피소드를 가져올 수 있습니다",
     "SETTINGS/TRAKT-IMPORT/hdr": "Trakt.TV 가져 오기",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "로그인",
+    "SETTINGS/TRAKT-IMPORT/only-collection/lbl": "당신의 Trakt.tv 컬렉션에서 만 수입 쇼",
     "SETTINGS/TRAKT-IMPORT/password/hdr": "Trakt.TV에서 PIN 번호",
     "SETTINGS/TRAKT-IMPORT/push/btn": "Trakt.TV을 보여줍니다 보내기",
     "SETTINGS/TRAKT-IMPORT/push/desc": "trakt.TV에서 계정에 모든 DuckieTV 프로그램 및 시청 에피소드 보내기",
@@ -534,7 +536,6 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "세계 최대 크기를 사용하여 검색",
     "TORRENTDIALOG/search-global-size-min/lbl": "세계 최소 크기를 사용하여 검색",
     "TORRENTDIALOG/search-include/lbl": "전역 목록을 포함하여 검색",
-    "COMMON/sort-column/tooltip": "이 열을 정렬",
     "TORRENTFREAK/info/hdr": "정보 ",
     "TORRENTFREAK/rank/hdr": "계급 "
 }

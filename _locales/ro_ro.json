@@ -155,6 +155,7 @@
     "COMMON/settings/hdr": "Setări",
     "COMMON/settings/lbl": "Setările pentru ",
     "COMMON/show-files/btn": "Arată fișierele",
+    "COMMON/sort-column/tooltip": "Sorta coloana",
     "COMMON/specials/lbl": "Episoade speciale",
     "COMMON/split-button/sr": "butonul divizat",
     "COMMON/start/btn": " Începeți",
@@ -423,6 +424,7 @@
     "SETTINGS/TRAKT-IMPORT/desc": "Puteți importa toate serialele și episoadele vizionate din contul de Trakt.TV în DuckieTV folosind butonul de mai jos",
     "SETTINGS/TRAKT-IMPORT/hdr": "Import Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/login-to/btn": "Logare în ",
+    "SETTINGS/TRAKT-IMPORT/only-collection/lbl": "Doar spectacole din colecția dvs. de Trakt.tv",
     "SETTINGS/TRAKT-IMPORT/password/hdr": "PIN-ul de la Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/push/btn": "Trimite spectacole de Trakt.TV",
     "SETTINGS/TRAKT-IMPORT/push/desc": "Trimite toate emisiunile DuckieTV și episoade urmarit la contul dvs. la trakt.TV",
@@ -534,7 +536,6 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "căutare folosind dimensiune maximă globală",
     "TORRENTDIALOG/search-global-size-min/lbl": "căutare folosind dimensiune minimă globală",
     "TORRENTDIALOG/search-include/lbl": "căutare folosind lista Global includ",
-    "COMMON/sort-column/tooltip": "Sorta coloana",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Rang"
 }
