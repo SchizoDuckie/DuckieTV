@@ -22,6 +22,7 @@
     "extends": "eslint:recommended",
     "rules": {
         "no-console": "off",
+        "semi": 2,
         "angular/angularelement": 1,
         "angular/controller-as": 2,
         "angular/controller-as-route": 2,
@@ -53,7 +54,7 @@
         "angular/on-watch": 2,
         "angular/rest-service": 0,
         "angular/service-name": 2,
-        "angular/timeout-service": 2,
+        "angular/timeout-service": 0,
         "angular/typecheck-array": 2,
         "angular/typecheck-date": 2,
         "angular/typecheck-function": 2,
