@@ -101,7 +101,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$injector", "TraktTVv2", "Fav
             FavoritesService.getSeries().then(function(series) {
                 console.info("Mapping currently added series");
                 series.map(function(serie) {
-                    localSeries[serie.TVDB_ID] = serie;
+                    localSeries[serie.TRAKT_ID] = serie;
                 });
             }).then(TraktTVv2.userShows().then(function(userShows) {
                 console.info("Found", userShows.length, "shows in users collection");
