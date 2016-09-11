@@ -13,7 +13,7 @@ DuckieTV
         $scope.episode = angular.copy(data.episode);
         $scope.allowTDsortMenu = SettingsService.get('torrentDialog.sortMenu.enabled'); // Show/Hide sort menu on torrent dialogue
         $scope.showAdvanced = SettingsService.get('torrentDialog.showAdvanced.enabled'); // Show/Hide advanced torrent dialog filter options
-        $scope.orderBy = 'seeders';
+        $scope.orderBy = 'seeders.d'; // default sort column and sort direction (descending)
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
         $scope.searchquality = SettingsService.get('torrenting.searchquality');
         if ('serie' in data && $scope.serie.ignoreGlobalQuality != 0) {
@@ -40,8 +40,15 @@ DuckieTV
             provider = TorrentSearchEngines.getSearchEngine($scope.serie.searchProvider); // override searchProvider when the series has one defined.
             $scope.searchprovider = $scope.serie.searchProvider;
         }
+        $scope.supportsByDir = true; // assume provider supports desc and asc sorting
+        $scope.orderByDir = {'seeders': '.d', 'leechers': '.a', 'size': '.a', 'age': '.d'}; // the default sort direction for each possible sortBy (NOTE: seeders is flipped)
         if ('config' in provider && 'orderby' in provider.config) {
-            $scope.orderByList = Object.keys(provider.config.orderby);
+            $scope.orderByList = Object.keys(provider.config.orderby); // this SE's sort options
+            if (provider.config.orderby['seeders']['d'] === provider.config.orderby['seeders']['a']) {
+                // provider does not support desc and asc sorting
+                $scope.supportsByDir = false;
+                $scope.orderByDir = {'seeders': '.a', 'leechers': '.a', 'size': '.a', 'age': '.d'}; // the default sort direction for each possible sortBy
+            }
         } else {
             $scope.orderByList = [];
         }
@@ -222,25 +229,36 @@ DuckieTV
         };
 
         // Changes what search provider you search with
-        $scope.setProvider = function(provider) {
+        $scope.setProvider = function(newProvider) {
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).cancelActiveRequest();
-            $scope.searchprovider = provider;
-            var provider = TorrentSearchEngines.getSearchEngine($scope.searchprovider);
+            $scope.searchprovider = newProvider;
+            provider = TorrentSearchEngines.getSearchEngine($scope.searchprovider);
+            $scope.supportsByDir = true; // assume provider supports desc and asc sorting
+            $scope.orderByDir = {'seeders': '.d', 'leechers': '.a', 'size': '.a', 'age': '.d'}; // the default sort direction for each possible sortBy (NOTE: flipped)
             if ('config' in provider && 'orderby' in provider.config) {
                 // load this provider's orderBy list
-                $scope.orderByList = Object.keys(provider.config.orderby);
+                $scope.orderByList = Object.keys(provider.config.orderby); // this SE's sort options
+                if (provider.config.orderby['seeders']['d'] === provider.config.orderby['seeders']['a']) {
+                    // provider does not support desc and asc sorting
+                    $scope.supportsByDir = false;
+                    $scope.orderByDir = {'seeders': '.a', 'leechers': '.a', 'size': '.a', 'age': '.d'}; // the default sort direction for each possible sortBy
+                }
             } else {
                 // this provider does not support orderBy sorting
-                $scope.orderByList = []; 
+                $scope.orderByList = [];
             }
             // reset orderBy since the new provider may not have the currently active orderBy param
-            $scope.orderBy = 'seeders';
+            $scope.orderBy = 'seeders.d';
             $scope.search($scope.query, undefined, $scope.orderBy);
         };
 
         // Changes the sort order of the search results
         $scope.setOrderBy = function(orderby) {
-            $scope.orderBy = orderby;
+            if ($scope.supportsByDir) {
+                // provider supports desc and asc sorting, so flip the direction
+                $scope.orderByDir[orderby] === '.a' ? $scope.orderByDir[orderby] = '.d' : $scope.orderByDir[orderby] = '.a' ; // flip sort direction
+            }
+            $scope.orderBy = orderby + $scope.orderByDir[orderby];
             $scope.search($scope.query, undefined, $scope.orderBy);
         };
 

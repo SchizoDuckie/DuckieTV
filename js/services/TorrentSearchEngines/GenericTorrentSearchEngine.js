@@ -43,10 +43,10 @@
  *              detailUrl: ['a.detLink', 'href'],
  *          },
  *          orderby: {                                                      // search-order sorting options.
- *              age: '3',                                                   // if the provider does not support sorting then leave the orderby group out.
- *              leechers: '9',                                              // list only orderBy params that the provider supports for Desc sorting.
- *              seeders: '7',                                               // Asc sorting is currently not supported.
- *              size: '5'                                                   // Note: only these four have language translation support.
+ *              age: {d: '3', a: '4'},                                      // if the provider does not support sorting then leave the orderby group out.
+ *              leechers: {d: '9', a: '10'},                                // d: descending, a: ascending
+ *              seeders: {d: '99', a: '8'},                                 // Note: only these four have language translation support.
+ *              size: {d: '5', a: '6'}
  *          },
  *          detailsSelectors: {                                             // CSS selectors to grab content from details page.
  *              detailsContainer: '#detailsframe',                          // CSS selector to select the details container.
@@ -73,8 +73,9 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         }
         var url = config.mirror + config.endpoints[type];
         // does provider supports search sorting?
-        if (typeof sortParam !== 'undefined' && 'orderby' in config && sortParam in config.orderby) {
-            url = url.replace('%o', config.orderby[sortParam]);
+        var sortPart = (typeof sortParam !== 'undefined') ? sortParam.split('.') : [];
+        if (typeof sortParam !== 'undefined' && 'orderby' in config && sortPart.length == 2 && sortPart[0] in config.orderby && sortPart[1] in config.orderby[sortPart[0]]) {
+            url = url.replace('%o', config.orderby[sortPart[0]][sortPart[1]]);
         }
         return url.replace('%s', encodeURIComponent(param));
     }
@@ -257,7 +258,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             timeout = $q.defer();
         }
         if (!sortBy) {
-            sortBy = 'seeders';
+            sortBy = 'seeders.d';
         }
         return $http({
             method: 'GET',

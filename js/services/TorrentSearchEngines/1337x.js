@@ -7,7 +7,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 includeBaseURL: true,
                 noMagnet: true,
                 endpoints: {
-                    search: '/sort-search/%s/%o/desc/1/',
+                    search: '/sort-search/%s/%o/1/',
                     details: '%s'
                 },
                 selectors: {
@@ -23,10 +23,10 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     magnetUrl: ['#magnetdl', 'href']
                 },
                 orderby: {
-                    age: 'time',
-                    seeders: 'seeders', 
-                    leechers: 'leechers', 
-                    size: 'size'
+                    age: {d: 'time/desc', a: 'time/asc'},
+                    seeders: {d: 'seeders/desc', a: 'seeders/asc'},
+                    leechers: {d: 'leechers/desc', a: 'leechers/asc'},
+                    size: {d: 'size/desc', a: 'size/asc'}
                 }
             }, $q, $http, $injector));
         }

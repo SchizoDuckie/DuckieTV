@@ -19,7 +19,12 @@ DuckieTV.factory('RarBG', ["$q", "$http",
         var getUrl = function(type, param, param2, param3) {
             var out = endpoint + endpoints[type].replace('%s', escape(param));
             out = (param2 !== undefined) ? out.replace('%s', escape(param2)) : out;
-            return (param3 !== undefined) ? out.replace('%o', escape(service.config.orderby[param3])) : out;
+            if  (param3 !== undefined) {
+                var sortPart = param3.split('.');
+                return out.replace('%o', escape(service.config.orderby[sortPart[0]][sortPart[1]]));         
+            } else {
+                return out;
+            }
         };
 
         var parsers = {
@@ -119,9 +124,9 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                 noMagnet: false,
                 noDetailsMagnet: true,
                 orderby: {
-                    age: 'last',
-                    leechers: 'leechers',
-                    seeders: 'seeders'
+                    age: {d: 'last', a: 'last'},
+                    leechers: {d: 'leechers', a: 'leechers'},
+                    seeders: {d: 'seeders', a: 'seeders'}
                 }
             },
             cancelActiveRequest: function() {
@@ -131,7 +136,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             },
             search: function(what, noCancel, orderBy, isTokenExpired) {
                 noCancel = (noCancel == undefined) ? false : noCancel; 
-                orderBy= (orderBy == undefined) ? 'seeders' : orderBy; 
+                orderBy= (orderBy == undefined) ? 'seeders.d' : orderBy; 
                 isTokenExpired = (isTokenExpired == undefined) ? false : isTokenExpired;
                 if (noCancel === false) {
                     service.cancelSearch();

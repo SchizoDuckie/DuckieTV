@@ -33,10 +33,10 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     magnetUrl: ['div.download a', 'href']
                 },
                 orderby: {
-                    age: '3',
-                    leechers: '9',
-                    seeders: '99', 
-                    size: '5'
+                    age: {d: '3', a: '4'},
+                    leechers: {d: '9', a: '10'},
+                    seeders: {d: '99', a: '8'},
+                    size: {d: '5', a: '6'}
                 }
             }, $q, $http, $injector));
         }
