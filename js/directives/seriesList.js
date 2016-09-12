@@ -70,7 +70,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 }
                 duration = duration || 350;
                 var start = parent.scrollTop;
-                var end = el.offsetParent.offsetParent.offsetTop;
+                var end = el.offsetParent.offsetParent.offsetParent.offsetTop;
                 var clock = Date.now();
                 var step = function() {
                     var elapsed = Date.now() - clock;
@@ -87,7 +87,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             scrollToActive = function() {
                 clearTimeout(activeScroller);
                 activeScroller = setTimeout(function() {
-                    smoothScroll(container, el.querySelector('serieheader .active'));
+                    smoothScroll(container, el.querySelector('.serieheader .active'));
                 }, 800);
             };
 
