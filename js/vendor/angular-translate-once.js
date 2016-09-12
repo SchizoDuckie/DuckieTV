@@ -1,5 +1,5 @@
 /**
- * 1.0.3
+ * 1.0.4
  * https://github.com/ajwhite/angular-translate-once
  *
  */
