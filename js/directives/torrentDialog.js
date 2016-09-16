@@ -164,12 +164,16 @@ DuckieTV
             }
 
             /**
-             * drop duplicates from results by matching detailUrl
+             * drop duplicates from results by matching detailUrl (or releasename if former is not available)
              */
             function dropDuplicates(items) {
                 var arr = {};
                 for (var i = 0, len = items.length; i < len; i++) {
-                    arr[items[i]['detailUrl']] = items[i];
+                    if (!items[i].detailUrl) {
+                        arr[items[i]['releasename']] = items[i];                        
+                    } else {
+                        arr[items[i]['detailUrl']] = items[i];
+                    }
                 }
                 items = new Array();
                 for (var key in arr) {
