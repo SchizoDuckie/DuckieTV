@@ -12,7 +12,7 @@ DuckieTV.controller('WindowCtrl', ["$scope", "$injector", "$filter",
         $scope.closeToTray = localStorage.getItem('standalone.closeSystray');
         $scope.activeTrayColor = 'black'; // default color of the tray icon
         if (localStorage.getItem('standalone.trayColor')) {
-            $scope.activeTrayColor = ($scope.activeTrayColor === '') ? 'black' : localStorage.getItem('standalone.trayColor').replace('-', '').replace('inverted', 'white');
+            $scope.activeTrayColor = (localStorage.getItem('standalone.trayColor') === '') ? 'black' : localStorage.getItem('standalone.trayColor').replace('-', '').replace('inverted', 'white');
         }
         $scope.colorList = 'black|white|red|orange|yellow|green|blue|indigo|violet'.split('|'); // used by $scope.translateColor()
         var translatedColorList = $filter('translate')('COLORLIST').split(',');
