@@ -7,6 +7,10 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
     var gui = require('nw.gui');
     var win = gui.Window.get();
     var alwaysShowTray = (window.localStorage.getItem('standalone.alwaysShowTray') === 'Y');
+    var trayColor = ''; // default colour of the tray icon
+    if (localStorage.getItem('standalone.trayColor')) {
+        trayColor = localStorage.getItem('standalone.trayColor');
+    }
     var winState = 'normal';
     if (localStorage.getItem('standalone.position')) {
         var pos = JSON.parse(localStorage.getItem('standalone.position'));
@@ -113,7 +117,7 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
          };
         tray = new gui.Tray({
             title: navigator.userAgent,
-            icon: 'img/logo/icon64.png'
+            icon: 'img/logo/icon64' + trayColor + '.png'
         });
         //console.debug('createTray: tray created id=',tray.id);
         tray.on('click', function() {

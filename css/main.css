@@ -2861,3 +2861,56 @@ ng-dial-gauge {
     font-size: 12px
   }
 }
+
+.tray {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  text-align: left;
+}
+
+.tray.tray-black {
+  background: url('../img/logo/icon64.png') no-repeat;
+  background-size: contain;
+  background-color: grey;
+}
+.tray.tray-white {
+  background: url('../img/logo/icon64-inverted.png') no-repeat;
+  background-size: contain;
+  background-color: grey;
+}
+.tray.tray-red {
+  background: url('../img/logo/icon64-red.png') no-repeat;
+  background-size: contain;
+  background-color: grey;
+}
+.tray.tray-orange {
+  background: url('../img/logo/icon64-orange.png') no-repeat;
+  background-size: contain;
+  background-color: grey;
+}
+.tray.tray-yellow {
+  background: url('../img/logo/icon64-yellow.png') no-repeat;
+  background-size: contain;
+  background-color: grey;
+}
+.tray.tray-green {
+  background: url('../img/logo/icon64-green.png') no-repeat;
+  background-size: contain;
+  background-color: grey;
+}
+.tray.tray-blue {
+  background: url('../img/logo/icon64-blue.png') no-repeat;
+  background-size: contain;
+  background-color: grey;
+}
+.tray.tray-indigo {
+  background: url('../img/logo/icon64-indigo.png') no-repeat;
+  background-size: contain;
+  background-color: grey;
+}
+.tray.tray-violet {
+  background: url('../img/logo/icon64-violet.png') no-repeat;
+  background-size: contain;
+  background-color: grey;
+}

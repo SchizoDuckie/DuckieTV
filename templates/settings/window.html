@@ -3,11 +3,11 @@
     <span uib-tooltip="{{standaloneStartupMinimized ? 'SETTINGS/WINDOW/standalone-startup-minimized/tooltip' : 'SETTINGS/WINDOW/standalone-startup-normalized/tooltip'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{standaloneStartupMinimized ? 'win-minimize alert-success' : 'win-maximize alert-info'}}" style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i>
     </span>
-    <li translate-once="SETTINGS/WINDOW/standalone-startup-window/hdr"></li>
+    <li translate-once>SETTINGS/WINDOW/standalone-startup-window/hdr</li>
   </h2>
 
-  <p translate-once="SETTINGS/WINDOW/standalone-startup-window/desc"></p>
-  <p><strong translate-once="COMMON/current-setting/hdr"></strong>
+  <p translate-once>SETTINGS/WINDOW/standalone-startup-window/desc</p>
+  <p><strong translate-once>COMMON/current-setting/hdr</strong>
    {{startupMinimized ? 'SETTINGS/WINDOW/standalone-startup-minimized/tooltip' : 'SETTINGS/WINDOW/standalone-startup-normalized/tooltip'|translate}}</p>
   <a ng-click="toggleStartupMinimized()" class="btn btn-{{startupMinimized ? 'info' : 'success'}}">
     <i class="glyphicon glyphicon-{{startupMinimized ? 'win-maximize' : 'win-minimize'}}"  style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i> {{startupMinimized ? 'SETTINGS/WINDOW/standalone-startup-normal/btn' : 'COMMON/minimize/btn'|translate}}
@@ -15,17 +15,30 @@
   <hr class="setting-divider">
 
   <h2>
-    <li translate-once="SETTINGS/WINDOW/system-tray/hdr"></li>
+    <li translate-once>SETTINGS/WINDOW/system-tray/hdr</li>
   </h2>
   <div style="text-align: left">
     <div class="checkbox" ng-hide="isMac">
-      <input type="checkbox" ng-model="alwaysShowTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleAlwaysShowTray()" id="w_ast"><label for="w_ast" translate-once="SETTINGS/WINDOW/system-tray-always/lbl"></label>
+      <input type="checkbox" ng-model="alwaysShowTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleAlwaysShowTray()" id="w_ast"><label for="w_ast" translate-once>SETTINGS/WINDOW/system-tray-always/lbl</label>
     </div>
     <div class="checkbox">
-      <input type="checkbox" ng-model="minimizeToTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleMinimizeToTray()" id="w_mtt"><label for="w_mtt" translate-once="SETTINGS/WINDOW/system-tray-minimize/lbl"></label>
+      <input type="checkbox" ng-model="minimizeToTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleMinimizeToTray()" id="w_mtt"><label for="w_mtt" translate-once>SETTINGS/WINDOW/system-tray-minimize/lbl</label>
     </div>
     <div class="checkbox" ng-hide="isMac">
-      <input type="checkbox" ng-model="closeToTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleCloseToTray()" id="w_ctt"><label for="w_ctt" translate-once="SETTINGS/WINDOW/system-tray-close/lbl"></label>
+      <input type="checkbox" ng-model="closeToTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleCloseToTray()" id="w_ctt"><label for="w_ctt" translate-once>SETTINGS/WINDOW/system-tray-close/lbl</label>
     </div>
   </div>
+  <hr class="setting-divider">
+
+  <h2>
+    <span style="background-color: grey" uib-tooltip="{{translateColor(activeTrayColor)}}" tooltip-placement="left">
+      <i class="tray tray-{{activeTrayColor}}"></i>
+    </span>
+    <li translate-once>SETTINGS/WINDOW/tray-color/hdr</li>
+  </h2>
+  <p translate-once>SETTINGS/WINDOW/tray-color/desc</p>
+  <a style="text-align: left" ng-click="setTrayColor(color)" ng-repeat="color in colorList" class="btn {{ activeTrayColor == color ? 'btn-success' : '' }}">
+    <i class="tray tray-{{color}}"></i>
+    <span>{{translateColor(color)}}</span>
+  </a>
 </div>
