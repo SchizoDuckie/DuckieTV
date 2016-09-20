@@ -30,12 +30,7 @@
   </div>
   <hr class="setting-divider">
 
-  <h2>
-    <span style="background-color: grey" uib-tooltip="{{translateColor(activeTrayColor)}}" tooltip-placement="left">
-      <i class="tray tray-{{activeTrayColor}}"></i>
-    </span>
-    <li translate-once>SETTINGS/WINDOW/tray-color/hdr</li>
-  </h2>
+  <h2 translate-once>SETTINGS/WINDOW/tray-color/hdr</h2>
   <p translate-once>SETTINGS/WINDOW/tray-color/desc</p>
   <div class="tray-icons">
     <a ng-click="setTrayColor(color)" ng-repeat="color in colorList" class="btn {{ activeTrayColor == color ? 'btn-success' : '' }}">
