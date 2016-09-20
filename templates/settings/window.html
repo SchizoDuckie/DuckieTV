@@ -37,8 +37,10 @@
     <li translate-once>SETTINGS/WINDOW/tray-color/hdr</li>
   </h2>
   <p translate-once>SETTINGS/WINDOW/tray-color/desc</p>
-  <a style="text-align: left" ng-click="setTrayColor(color)" ng-repeat="color in colorList" class="btn {{ activeTrayColor == color ? 'btn-success' : '' }}">
-    <i class="tray tray-{{color}}"></i>
-    <span>{{translateColor(color)}}</span>
-  </a>
+  <div class="tray-icons">
+    <a ng-click="setTrayColor(color)" ng-repeat="color in colorList" class="btn {{ activeTrayColor == color ? 'btn-success' : '' }}">
+      <i class="tray tray-{{color}}"></i>
+      <span>{{translateColor(color)}}</span>
+    </a>
+  </div>
 </div>

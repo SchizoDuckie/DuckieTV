@@ -2862,55 +2862,60 @@ ng-dial-gauge {
   }
 }
 
-.tray {
-  width: 18px;
-  height: 18px;
-  display: inline-block;
+.settings .tray-icons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.settings .tray-icons a.btn {
+  width: 48%;
   text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.settings .tray-icons a.btn span {
+  margin-left: 8px;
+}
+
+.settings .tray-icons .tray {
+  width: 36px;
+  height: 36px;
+  display: inline-block;
+  background-size: contain;
+  background-color: rgba(255, 255, 255, 0.25);
+  background-repeat: no-repeat;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.settings .tray-icons a:hover .tray {
+  background-color: transparent;
 }
 
 .tray.tray-black {
-  background: url('../img/logo/icon64.png') no-repeat;
-  background-size: contain;
-  background-color: grey;
+  background-image: url('../img/logo/icon64.png');
 }
 .tray.tray-white {
-  background: url('../img/logo/icon64-inverted.png') no-repeat;
-  background-size: contain;
-  background-color: grey;
+  background-image: url('../img/logo/icon64-inverted.png');
 }
 .tray.tray-red {
-  background: url('../img/logo/icon64-red.png') no-repeat;
-  background-size: contain;
-  background-color: grey;
+  background-image: url('../img/logo/icon64-red.png');
 }
 .tray.tray-orange {
-  background: url('../img/logo/icon64-orange.png') no-repeat;
-  background-size: contain;
-  background-color: grey;
+  background-image: url('../img/logo/icon64-orange.png');
 }
 .tray.tray-yellow {
-  background: url('../img/logo/icon64-yellow.png') no-repeat;
-  background-size: contain;
-  background-color: grey;
+  background-image: url('../img/logo/icon64-yellow.png');
 }
 .tray.tray-green {
-  background: url('../img/logo/icon64-green.png') no-repeat;
-  background-size: contain;
-  background-color: grey;
+  background-image: url('../img/logo/icon64-green.png');
 }
 .tray.tray-blue {
-  background: url('../img/logo/icon64-blue.png') no-repeat;
-  background-size: contain;
-  background-color: grey;
+  background-image: url('../img/logo/icon64-blue.png');
 }
 .tray.tray-indigo {
-  background: url('../img/logo/icon64-indigo.png') no-repeat;
-  background-size: contain;
-  background-color: grey;
+  background-image: url('../img/logo/icon64-indigo.png');
 }
 .tray.tray-violet {
-  background: url('../img/logo/icon64-violet.png') no-repeat;
-  background-size: contain;
-  background-color: grey;
+  background-image: url('../img/logo/icon64-violet.png');
 }
