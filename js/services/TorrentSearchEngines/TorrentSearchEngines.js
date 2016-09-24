@@ -12,11 +12,18 @@
 
 DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialogs", "$q", "SettingsService", "SceneNameResolver", "$http","$injector",
     function(DuckieTorrent, $rootScope, dialogs, $q, SettingsService, SceneNameResolver, $http, $injector) {
-        var activeMagnet = false;
-        var engines = {};
-        var nativeEngines = {};
-        var customEngines = {};
-        var defaultEngine = 'ThePirateBay';
+        var activeMagnet = false,
+             engines = {},
+             nativeEngines = {},
+             customEngines = {},
+             defaultEngine = 'ThePirateBay',
+             templateName = 'templates/dialogs/torrent.html',
+             dialogCtrl = 'torrentDialogCtrl';
+        
+        if (SettingsService.get('torrentDialog.2.enabled')) {
+             templateName = 'templates/dialogs/torrent2.html';
+             dialogCtrl = 'torrentDialog2Ctrl';   
+        }
 
         function init() {
             engines = angular.copy(nativeEngines);
@@ -95,7 +102,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
 
             findEpisode: function(serie, episode) {
                 return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(searchString) {
-                    return dialogs.create('templates/dialogs/torrent.html', 'torrentDialogCtrl', {
+                    return dialogs.create(templateName, dialogCtrl, {
                         query: searchString,
                         TVDB_ID: episode.TVDB_ID,
                         serie: serie,
@@ -109,7 +116,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
 
 
             search: function(query, TVDB_ID, options) {
-                return dialogs.create('templates/dialogs/torrent.html', 'torrentDialogCtrl', {
+                return dialogs.create(templateName, dialogCtrl, {
                     query: query,
                     TVDB_ID: TVDB_ID
                 }, options || {
@@ -147,8 +154,6 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     }, 1500);
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.getInfoHash());
                 }
-                var audio = new Audio('Exclamation.wav');
-                audio.play();
             },
 
             launchTorrentByUpload: function(data, TVDB_ID, name) {

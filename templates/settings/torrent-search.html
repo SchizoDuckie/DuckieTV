@@ -1,6 +1,6 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
-  <h2 translate-once="SETTINGS/TORRENT-SEARCH/default-provider/hdr"></h2>
-  <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/default-provider/desc"></p>
+  <h2 translate-once>SETTINGS/TORRENT-SEARCH/default-provider/hdr</h2>
+  <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/default-provider/desc</p>
 
   <a ng-repeat="provider in searchProviders" ng-click="setSearchProvider(provider)" class="btn {{ searchprovider == provider ? 'btn-success' : '' }}" style='padding:10px; height:45px;'>
       <i ng-if="searchprovider == provider" class="glyphicon glyphicon-ok"></i>
@@ -9,16 +9,16 @@
 
   <hr class="setting-divider">
 
-  <h2 translate-once="SETTINGS/TORRENT-SEARCH/quality/hdr"></h2>
+  <h2 translate-once>SETTINGS/TORRENT-SEARCH/quality/hdr</h2>
   <p style='text-align:left;white-space:normal'>
-    <span translate-once="SETTINGS/TORRENT-SEARCH/quality/desc"></span><br>
-    <strong><span translate-once="SETTINGS/TORRENT-SEARCH/quality-select/hdr"></span></strong><span translate-once="SETTINGS/TORRENT-SEARCH/quality-select/desc"></span><br>
-    <span translate-once="SETTINGS/TORRENT-SEARCH/quality-select/desc2"></span>
+    <span translate-once>SETTINGS/TORRENT-SEARCH/quality/desc</span><br>
+    <strong><span translate-once>SETTINGS/TORRENT-SEARCH/quality-select/hdr</span></strong><span translate-once>SETTINGS/TORRENT-SEARCH/quality-select/desc</span><br>
+    <span translate-once>SETTINGS/TORRENT-SEARCH/quality-select/desc2</span>
   </p>
 
    <a ng-click="setSearchQuality('')" style="padding:10px; height:45px;" class="btn {{ searchquality == '' ? 'btn-success' : '' }}">
     <i class="glyphicon glyphicon-ok" ng-if="searchquality == ''"></i>
-    <strong style='position:absolute; left:60px' translate-once="SETTINGS/TORRENT-SEARCH/quality-select-all/lbl"></strong>
+    <strong style='position:absolute; left:60px' translate-once>SETTINGS/TORRENT-SEARCH/quality-select-all/lbl</strong>
   </a>
   <a ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setSearchQuality(quality)" style="padding:10px; height:45px;" class="btn {{searchquality == quality ? 'btn-success' : '' }}">
     <i class="glyphicon glyphicon-ok" ng-if="searchquality == quality"></i>
@@ -27,7 +27,7 @@
 
   <hr class="setting-divider">
 
-  <h2 style='white-space:nowrap'><h2cont translate-once="SETTINGS/TORRENT-SEARCH/global-include-mode/hdr"></h2cont>
+  <h2 style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/global-include-mode/hdr</h2cont>
     <span uib-tooltip="{{GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{GILmodeAny ? 'menu-hamburger alert-success' : 'align-justify alert-info'}}" ></i>
     </span>
@@ -35,7 +35,7 @@
   <ul class="list-unstyled">
     <li>
       <p style='text-align:left;white-space:normal'>{{!GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/desc' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/desc'|translate}}</p>
-      <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
              {{GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}</p>
       <a ng-click="toggleGILmode()" class="btn btn-{{GILmodeAny ? 'info' : 'success'}}">
         <i class="glyphicon glyphicon-{{!GILmodeAny ? 'menu-hamburger' : 'align-justify'}}" ></i>&nbsp; {{!GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}
@@ -45,78 +45,78 @@
 
   <hr class="setting-divider">
 
-  <h2 translate-once="COMMON/global-include/hdr"></h2>
+  <h2 translate-once>COMMON/global-include/hdr</h2>
   <p style='text-align:left;white-space:normal'>{{GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-any/desc' : 'SETTINGS/TORRENT-SEARCH/global-include-all/desc'|translate}}</p>
   <ul class="list-unstyled">
-    <li><span translate-once="COMMON/global-include/hdr"></span><br>
+    <li><span translate-once>COMMON/global-include/hdr</span><br>
       <input type='text' style='width:350px' ng-model="globalInclude" ng-change="editingGI = true;" translate-once-placeholder="COMMON/global-search/placeholder">
       <a class="btn btn-{{editingGI ? 'info' : 'success'}}" ng-click="saveGlobalInclude(globalInclude); editingGI = false;">
-        <i class="glyphicon glyphicon-floppy-save {{editingGI ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+        <i class="glyphicon glyphicon-floppy-save {{editingGI ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
       </a>
     </li>
   </ul>
 
   <hr class="setting-divider">
 
-  <h2 translate-once="COMMON/global-exclude/hdr"></h2>
-  <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/global-exclude/desc"></p>
+  <h2 translate-once>COMMON/global-exclude/hdr</h2>
+  <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/global-exclude/desc</p>
   <ul class="list-unstyled">
-    <li><span translate-once="COMMON/global-exclude/hdr"></span><br>
+    <li><span translate-once>COMMON/global-exclude/hdr</span><br>
       <input type='text' style='width:350px' ng-model="globalExclude" ng-change="editingGE = true;" translate-once-placeholder="COMMON/global-search/placeholder">
       <a class="btn btn-{{editingGE ? 'info' : 'success'}}" ng-click="saveGlobalExclude(globalExclude); editingGE = false;">
-        <i class="glyphicon glyphicon-floppy-save {{editingGE ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+        <i class="glyphicon glyphicon-floppy-save {{editingGE ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
       </a>
     </li>
   </ul>
 
   <hr class="setting-divider">
 
-  <h2 translate-once="COMMON/global-size-min/hdr"></h2>
-  <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/global-size-min/desc"></p>
+  <h2 translate-once>COMMON/global-size-min/hdr</h2>
+  <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/global-size-min/desc</p>
 
   <form name="sizemin">
-    <span translate-once="COMMON/global-size/form"></span> <input type="number" name="mb" ng-model="globalSizeMin" ng-change="editingGSm = true;" translate-once-placeholder="COMMON/search-size/placeholder">
+    <span translate-once>COMMON/global-size/form</span> <input type="number" name="mb" ng-model="globalSizeMin" ng-change="editingGSm = true;" translate-once-placeholder="COMMON/search-size/placeholder">
     <a ng-show="!sizemin.mb.$valid" class="btn btn-{{editingGSm ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
-      <i class="glyphicon glyphicon-floppy-save {{editingGSm ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+      <i class="glyphicon glyphicon-floppy-save {{editingGSm ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
     </a>
     <a ng-show="sizemin.mb.$valid" class="btn btn-{{editingGSm ? 'info' : 'success'}}" ng-click="saveGlobalSizeMin(globalSizeMin); editingGSm = false;" style="float:right; margin-top:-10px;">
-      <i class="glyphicon glyphicon-floppy-save {{editingGSm ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+      <i class="glyphicon glyphicon-floppy-save {{editingGSm ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
     </a>
   </form>
-  <span class="alert alert-danger" ng-show="!sizemin.mb.$valid" translate-once="COMMON/global-size/alert"></span>
+  <span class="alert alert-danger" ng-show="!sizemin.mb.$valid" translate-once>COMMON/global-size/alert</span>
 
   <hr class="setting-divider">
 
-  <h2 translate-once="COMMON/global-size-max/hdr"></h2>
-  <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/global-size-max/desc"></p>
+  <h2 translate-once>COMMON/global-size-max/hdr</h2>
+  <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/global-size-max/desc</p>
 
   <form name="sizemax">
-    <span translate-once="COMMON/global-size/form"></span> <input type="number" name="mb" ng-model="globalSizeMax"  ng-change="editingGSM = true;" translate-once-placeholder="COMMON/search-size/placeholder">
+    <span translate-once>COMMON/global-size/form</span> <input type="number" name="mb" ng-model="globalSizeMax"  ng-change="editingGSM = true;" translate-once-placeholder="COMMON/search-size/placeholder">
     <a ng-show="!sizemax.mb.$valid" class="btn btn-{{editingGSM ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
-      <i class="glyphicon glyphicon-floppy-save {{editingGSM ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+      <i class="glyphicon glyphicon-floppy-save {{editingGSM ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
     </a>
     <a ng-show="sizemax.mb.$valid" class="btn btn-{{editingGSM ? 'info' : 'success'}}" ng-click="saveGlobalSizeMax(globalSizeMax); editingGSM = false;" style="float:right; margin-top:-10px;">
-      <i class="glyphicon glyphicon-floppy-save {{editingGSM ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+      <i class="glyphicon glyphicon-floppy-save {{editingGSM ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
     </a>
   </form>
-  <span class="alert alert-danger" ng-show="!sizemax.mb.$valid" translate-once="COMMON/global-size/alert"></span>
+  <span class="alert alert-danger" ng-show="!sizemax.mb.$valid" translate-once>COMMON/global-size/alert</span>
 
   <hr class="setting-divider">
 
   <h2 style='white-space:nowrap'>The Pirate Bay</h2>
-  <p style='text-align:left;white-space:normal' translate-once="SETTINGS/TORRENT-SEARCH/tpb/desc"></p>
+  <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/tpb/desc</p>
 
   <ul class="list-unstyled">
-    <li><span translate-once="SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr"></span><br>
+    <li><span translate-once>SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr</span><br>
       <input type='url' style='width:350px' ng-model="customtpbmirror" ng-change="editingTPB = true;">
       <a class="btn btn-{{editingTPB ? 'info' : 'success'}}" ng-click="validateCustomTPBMirror(customtpbmirror); editingTPB = false;">
-        <i class="glyphicon glyphicon-floppy-save {{editingTPB ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="SETTINGS/TORRENT-SEARCH/tpb-validate/btn"></span>
+        <i class="glyphicon glyphicon-floppy-save {{editingTPB ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>SETTINGS/TORRENT-SEARCH/tpb-validate/btn</span>
       </a>
       <a class="btn btn-info" ng-click="findRandomTPBMirror()">
-        <i class="glyphicon glyphicon-search" ></i>&nbsp; <span translate-once="SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn"></span>
+        <i class="glyphicon glyphicon-search" ></i>&nbsp; <span translate-once>SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn</span>
       </a>
       <p ng-show="tpbmirrorStatus.length > 0">
-        <span translate-once="SETTINGS/TORRENT-SEARCH/tpb-status/hdr"></span>
+        <span translate-once>SETTINGS/TORRENT-SEARCH/tpb-status/hdr</span>
         <ul style='max-height:150px; overflow-y:auto'>
           <li ng-repeat="status in tpbmirrorStatus track by $index">{{status}}</li>
         </ul>
@@ -126,7 +126,7 @@
 
   <hr class="setting-divider">
 
-  <h2 style='white-space:nowrap'><h2cont translate-once="SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr"></h2cont>
+  <h2 style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr</h2cont>
     <span uib-tooltip="{{allowUnsafe ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{allowUnsafe ? 'ok alert-success' : 'remove alert-danger'}}" ></i>
     </span>
@@ -135,16 +135,16 @@
   <ul class="list-unstyled">
     <li>
       <p>{{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enabled/desc' : 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disabled/desc'|translate}}</p>
-      <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
        {{allowUnsafe ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
       <a ng-click="toggleUnsafeProxy()" class="btn btn-{{allowUnsafe ? 'danger' : 'success'}}">
-        <i class="glyphicon glyphicon-{{!allowUnsafe ? 'ok' : 'remove'}}" ></i>&nbsp; {{allowUnsafe ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+        <i class="glyphicon glyphicon-{{allowUnsafe ? 'remove' : 'ok'}}" ></i>&nbsp; {{allowUnsafe ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
       </a>
     </li>
   </ul>
   <hr class="setting-divider">
 
-  <h2 style='white-space:nowrap'><h2cont translate-once="SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr"></h2cont>
+  <h2 style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr</h2cont>
     <span uib-tooltip="{{allowTDsortMenu ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{allowTDsortMenu ? 'ok alert-success' : 'remove alert-danger'}}" ></i>
     </span>
@@ -153,10 +153,28 @@
   <ul class="list-unstyled">
     <li>
       <p>{{allowTDsortMenu ? 'SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc' : 'SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc'|translate}}</p>
-      <p><strong translate-once="COMMON/current-setting/hdr"></strong>
+      <p><strong translate-once>COMMON/current-setting/hdr</strong>
        {{allowTDsortMenu ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
       <a ng-click="toggleTDsortMenu()" class="btn btn-{{allowTDsortMenu ? 'danger' : 'success'}}">
-        <i class="glyphicon glyphicon-{{!allowTDsortMenu ? 'ok' : 'remove'}}" ></i>&nbsp; {{allowTDsortMenu ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+        <i class="glyphicon glyphicon-{{allowTDsortMenu ? 'remove' : 'ok'}}" ></i>&nbsp; {{allowTDsortMenu ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+      </a>
+    </li>
+  </ul>
+  <hr class="setting-divider">
+
+  <h2 style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/td2/hdr</h2cont>
+    <span uib-tooltip="{{useTD2 ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
+      <i class="glyphicon glyphicon-{{useTD2 ? 'ok alert-info' : 'remove alert-success'}}" ></i>
+    </span>
+  </h2>
+
+  <ul class="list-unstyled">
+    <li>
+      <p>{{useTD2 ? 'SETTINGS/TORRENT-SEARCH/td/desc' : 'SETTINGS/TORRENT-SEARCH/td2/desc'|translate}}</p>
+      <p><strong translate-once>COMMON/current-setting/hdr</strong>
+       {{useTD2 ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+      <a ng-click="toggleTD2()" class="btn btn-{{useTD2 ? 'success' : 'info'}}">
+        <i class="glyphicon glyphicon-{{useTD2 ? 'remove' : 'ok'}}" ></i>&nbsp; {{useTD2 ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
       </a>
     </li>
   </ul>

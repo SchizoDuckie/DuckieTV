@@ -24,6 +24,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.adPeriod = SettingsService.get('autodownload.period');
         $scope.adMinSeeders = SettingsService.get('autodownload.minSeeders');
         $scope.chromiumEnabled = SettingsService.get('torrenting.launch_via_chromium');
+        $scope.useTD2 = SettingsService.get('torrentDialog.2.enabled');
 
         $scope.katmirrorStatus = [];
         $scope.tpbmirrorStatus = [];
@@ -128,6 +129,12 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.toggleTDsortMenu = function() {
             $scope.allowTDsortMenu = !$scope.allowTDsortMenu;
             SettingsService.set('torrentDialog.sortMenu.enabled', $scope.allowTDsortMenu);
+        };
+
+        $scope.toggleTD2 = function() {
+            $scope.useTD2 = !$scope.useTD2;
+            SettingsService.set('torrentDialog.2.enabled', $scope.useTD2);
+            $injector.get('DuckietvReload').windowLocationReload();
         };
 
         $scope.toggleDirectory = function() {
