@@ -80,16 +80,18 @@
     </tr>
   </tbody>
   <tbody ng-show="!searching && error == 'null' ">
-  <tr>
-    <th>
-      <h2 style='text-align:center' translate-once="COMMON/type-your-search/lbl"></h2>
+    <tr>
+      <th>
+        <h2 style='text-align:center' translate-once="COMMON/type-your-search/lbl"></h2>
+      </th>
     </tr>
   </tbody>
   <tbody ng-show="!searching && error != false && error != 'null' ">
-  <tr>
-    <th>
-      <h1 style='text-align:center'> :( </h1>
-      <h2 style='text-align:center'>{{error}}<h2>
+    <tr>
+      <th>
+        <h1 style='text-align:center'> :( </h1>
+        <h2 style='text-align:center'>{{error}}<h2>
+      </th>
     </tr>
   </tbody>
   <tbody ng-show="!searching && items.length > 0">
