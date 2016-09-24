@@ -148,11 +148,19 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         for (var i = 0; i < results.length; i++) {
             var releasename = getPropertyForSelector(results[i], selectors.releasename);
             if (releasename === null) continue;
+            var seed = getPropertyForSelector(results[i], selectors.seeders);
+            var leech = getPropertyForSelector(results[i], selectors.leechers);
+            if (seed != null) {
+                seed = seed.replace(',','');
+            }
+            if (leech != null) {
+                leech = leech.replace(',','');
+            }
             var out = {
                 releasename: releasename,
                 size: sizeToMB(getPropertyForSelector(results[i], selectors.size)),
-                seeders: getPropertyForSelector(results[i], selectors.seeders).replace(',',''),
-                leechers: getPropertyForSelector(results[i], selectors.leechers).replace(',',''),
+                seeders: seed,
+                leechers: leech,
                 detailUrl: (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.detailUrl),
                 noMagnet: false
             };
