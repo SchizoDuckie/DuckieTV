@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "표제 ",
     "COMMON/to-watch/tooltip": "에피소드 시청하기",
     "COMMON/torrent-details/lbl": "토렌트 정보 ",
+    "COMMON/torrent-engine/lbl": "엔진",
     "COMMON/torrent-leech/lbl": "거머리 ",
     "COMMON/torrent-name/lbl": "이름 ",
     "COMMON/torrent-search-settings/glyph": "토렌트 검색 설정",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "이 설정을 사용하면 토런트 대화 상자의 정렬 메뉴를 표시합니다",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "정렬 메뉴는 토런트 대화 상자에 표시됩니다.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "토런트 대화 정렬 메뉴",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "이 설정을 해제하면 토런트 대화가 급류를 찾기 위해 하나의 검색 엔진을 사용할 수 있습니다.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "이 설정을 사용하면 한 번에 여러 검색 엔진을 사용하여 급류를 찾을 수있는 토런트 대화가 발생합니다. 참고: 이 리소스 집약적 인 활동이다. 당신은 토런트 대화의 고급 옵션 메뉴에 사용되는 검색 엔진 설정할 수 있습니다.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "토런트 대화 여러 검색 엔진",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "자석 링크를 지원하는 임의의 거울 찾기 ",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Piratebay 주요 거울 : ",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "현재 상태 : ",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "세계 최대 크기를 사용하여 검색",
     "TORRENTDIALOG/search-global-size-min/lbl": "세계 최소 크기를 사용하여 검색",
     "TORRENTDIALOG/search-include/lbl": "전역 목록을 포함하여 검색",
+    "TORRENTDIALOG2/hdr": "토렌트 검색 <small>(사용하여 여러 검색 엔진)</small> [{{itemslength}} 발견]",
     "TORRENTFREAK/info/hdr": "정보 ",
     "TORRENTFREAK/rank/hdr": "계급 "
 }

@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "Titel ",
     "COMMON/to-watch/tooltip": "Episoder att titta på",
     "COMMON/torrent-details/lbl": "torrent details",
+    "COMMON/torrent-engine/lbl": "Motor",
     "COMMON/torrent-leech/lbl": "Leech ",
     "COMMON/torrent-name/lbl": "Namn ",
     "COMMON/torrent-search-settings/glyph": "Torrent Sökinställningar",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "Aktivering av den här inställningen visar en Sort Menu på Dialog Torrent",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "Sortera-menyn visas på dialogen Torrent.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "Torrent Dialog Sortera Meny",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "Inaktivera den här inställningen låter Torrent dialogen att använda en enda sökmotor för att leta efter torrents.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "Aktivera den här inställningen gör att Torrent dialog för att leta efter torrents använder flera sökmotorer på en gång. Notera: Detta är en resurskrävande verksamhet. Du kan ställa in vilka sökmotorer används i menyn Avancerade alternativ för Torrent dialogen.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "Torrent dialog multipel sökmotor",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "Hitta en slumpmässig spegel som stödjer Magnet länkar ",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Piratebay huvudspegel: ",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "Aktuell status: ",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "söka med global maximal storlek",
     "TORRENTDIALOG/search-global-size-min/lbl": "söka med globala minimistorlek",
     "TORRENTDIALOG/search-include/lbl": "söka med global inkluderar listan",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(med flera sökmotor)</small> [{{itemslength}} hittades]",
     "TORRENTFREAK/info/hdr": "info ",
     "TORRENTFREAK/rank/hdr": "Placering "
 }

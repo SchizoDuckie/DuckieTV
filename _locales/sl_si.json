@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "Naslov",
     "COMMON/to-watch/tooltip": "Epizode za gledanje",
     "COMMON/torrent-details/lbl": "Torrent podrobnosti",
+    "COMMON/torrent-engine/lbl": "Motor",
     "COMMON/torrent-leech/lbl": "Soležniki",
     "COMMON/torrent-name/lbl": "Name",
     "COMMON/torrent-search-settings/glyph": "Torrent Nastavitve iskanja",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "Če omogočite to nastavitev, bo prikazal vrstni Meni na Torrent Dialog",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "Sort Meni je prikazan na Torrent Dialog.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "Torrent Dialog Razvrsti Meni",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "Če to nastavitev onemogočite omogoča Torrent dialog, da se uporablja enoten iskalnik za iskanje močna ploha.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "Če omogočite to nastavitev povzroči Torrent dialog za iskanje močna ploha, ki uporabljajo več iskalnikov hkrati. Opomba: To je vir intenzivna dejavnost. Nastavite lahko, katere Iskalniki se uporabljajo v meniju Dodatne možnosti dialoga Torrent.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "Torrent dialog multiple Iskalnik",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "Najdi naključno, kjer podpira Magnet povezave",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Piratebay:",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "Trenutni Status:",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "iskanje s pomočjo globalnega največjo velikost",
     "TORRENTDIALOG/search-global-size-min/lbl": "iskanje s pomočjo globalnega najmanjšo velikost",
     "TORRENTDIALOG/search-include/lbl": "iskanje s pomočjo globalnega vključuje seznam",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(z uporabo multiple Iskalnik)</small> [{{itemslength}} najdenih]",
     "TORRENTFREAK/info/hdr": "Informacije",
     "TORRENTFREAK/rank/hdr": "Rank"
 }

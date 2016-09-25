@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "Título",
     "COMMON/to-watch/tooltip": "Episodios para ver",
     "COMMON/torrent-details/lbl": "Detalles del torrent",
+    "COMMON/torrent-engine/lbl": "Motor",
     "COMMON/torrent-leech/lbl": "Leech",
     "COMMON/torrent-name/lbl": "Nombre",
     "COMMON/torrent-search-settings/glyph": "Configuración de búsqueda de torrent",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "Al habilitar esta opción se mostrará un menú Ordenar en el diálogo de Torrent",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "El menú de ordenación se muestra en el diálogo de Torrent.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "Torrent de diálogo Menú de ordenación",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "Al desactivar esta configuración permite que el Diálogo Torrent utilizar un único motor de búsqueda para buscar torrentes.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "Al habilitar esta opción hace que el Diálogo Torrent para buscar torrentes utilizando múltiples motores de búsqueda a la vez. Nota: Esta es una actividad que consume muchos recursos. Puede configurar qué motores de búsqueda se utilizan en el menú de opciones avanzadas del diálogo Torrent.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "Diálogo torrente de varios MB",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "Encuentra un mirror al azar que soporte enlaces Magnet",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Mirror principal de PirateBay:",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "Estado actual:",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "buscar utilizando el tamaño máximo global",
     "TORRENTDIALOG/search-global-size-min/lbl": "buscar utilizando el tamaño mínimo global",
     "TORRENTDIALOG/search-include/lbl": "buscar usando mundial incluyen la lista",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(utilizando múltiples MB)</small> [{{itemslength}} encontrado]",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Clasificación"
 }

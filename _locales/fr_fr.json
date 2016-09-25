@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "Titre ",
     "COMMON/to-watch/tooltip": "Épisodes à regarder",
     "COMMON/torrent-details/lbl": "détails du Torrent",
+    "COMMON/torrent-engine/lbl": "Moteur",
     "COMMON/torrent-leech/lbl": "Leech ",
     "COMMON/torrent-name/lbl": "Nom ",
     "COMMON/torrent-search-settings/glyph": "Paramètres de recherche torrent",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "L'activation de ce paramètre affichera un menu Trier sur le dialogue Torrent",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "Le menu Trier est affiché sur la boîte de dialogue Torrent.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "Torrent Dialog Trier Menu",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "La désactivation de ce paramètre permet le dialogue Torrent d'utiliser un seul moteur de recherche pour trouver des torrents.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "L'activation de ce paramètre, le Dialogue Torrent pour chercher des torrents en utilisant plusieurs moteurs de recherche à la fois. Note: Ceci est une activité à forte intensité de ressources. Vous pouvez définir les moteurs de recherche sont utilisés dans le menu Options avancées du dialogue Torrent.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "Dialogue Torrent multiple MR",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "Trouver un miroir aléatoire qui prend en charge les liens Magnet",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Miroir principal ThePiratebay:",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "Statut actuel:",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "la recherche en utilisant la taille maximale globale",
     "TORRENTDIALOG/search-global-size-min/lbl": "la recherche en utilisant la taille minimum global",
     "TORRENTDIALOG/search-include/lbl": "recherche en utilisant la liste incluent globale",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(en utilisant plusieurs MR)</small> [{{itemslength}} trouvés]",
     "TORRENTFREAK/info/hdr": "Infos ",
     "TORRENTFREAK/rank/hdr": "Rang "
 }

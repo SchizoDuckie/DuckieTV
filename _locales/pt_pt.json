@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "título ",
     "COMMON/to-watch/tooltip": "Episódios para assistir",
     "COMMON/torrent-details/lbl": "torrent details",
+    "COMMON/torrent-engine/lbl": "Motor",
     "COMMON/torrent-leech/lbl": "sanguessuga ",
     "COMMON/torrent-name/lbl": "nome ",
     "COMMON/torrent-search-settings/glyph": "Torrent Configurações da pesquisa",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "A ativação dessa configuração será exibido um menu de ordenação no diálogo Torrent",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "O menu Classificar é exibido no diálogo Torrent.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "Torrent de diálogo Menu de Ordenação",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "A desativação dessa configuração permite que o Diálogo Torrent usar um único Search Engine para procurar torrents.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "A ativação dessa configuração faz com que o Diálogo Torrent para procurar torrents usando vários motores de busca de uma só vez. Nota: Esta é uma atividade intensiva de recursos. Você pode definir qual motores de busca são usados no menu Opções avançadas do Diálogo Torrent.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "Diálogo Torrent múltipla Search Engine",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "Encontre um espelho aleatório que suporta ligações Magnet ",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Espelho principal PirateBay: ",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "Estado atual: ",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "pesquisar usando tamanho máximo global",
     "TORRENTDIALOG/search-global-size-min/lbl": "pesquisar usando tamanho mínimo global",
     "TORRENTDIALOG/search-include/lbl": "pesquisar usando global incluem lista",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(usando múltiplos SE)</small> [{{itemslength}} encontrado]",
     "TORRENTFREAK/info/hdr": "Informações ",
     "TORRENTFREAK/rank/hdr": "categoria "
 }

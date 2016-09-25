@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "标题 ",
     "COMMON/to-watch/tooltip": "集观看",
     "COMMON/torrent-details/lbl": "洪流细节",
+    "COMMON/torrent-engine/lbl": "发动机",
     "COMMON/torrent-leech/lbl": "水蛭 ",
     "COMMON/torrent-name/lbl": "名称 ",
     "COMMON/torrent-search-settings/glyph": "激流搜索设置",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "启用此设置将显示在对话框洪流一个分类菜单",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "排序菜单显示在对话框洪流.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "洪流对话分类菜单",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "禁用此设置允许洪流对话使用一个单一的搜索引擎来寻找种子.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "启用此设置将导致洪流对话来寻找使用多个搜索引擎的一次山洪.注:这是一个资源密集型活动.您可以设置哪些搜索引擎是在洪流对话的高级选项菜单中使用.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "洪流对话多个搜索引擎",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "找到支持磁力链接的随机镜 ",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Piratebay主镜: ",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "目前状态: ",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "搜索使用的全球最大尺寸",
     "TORRENTDIALOG/search-global-size-min/lbl": "搜索使用全球最小尺寸",
     "TORRENTDIALOG/search-include/lbl": "使用搜索全球包括列表",
+    "TORRENTDIALOG2/hdr": "洪流搜索 <small>(使用多个搜索引擎)</small>[{{itemslength}}发现]",
     "TORRENTFREAK/info/hdr": "信息 ",
     "TORRENTFREAK/rank/hdr": "秩 "
 }

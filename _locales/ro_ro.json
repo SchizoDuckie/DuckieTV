@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "Titlu",
     "COMMON/to-watch/tooltip": "Episoade de urmărit",
     "COMMON/torrent-details/lbl": "Detalii torrent",
+    "COMMON/torrent-engine/lbl": "Motor",
     "COMMON/torrent-leech/lbl": "Leech",
     "COMMON/torrent-name/lbl": "Nume",
     "COMMON/torrent-search-settings/glyph": "Setări de căutare torrent",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "Activarea acestei setări se va afișa un meniu Sortare pe Dialog Torrent",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "Sortarea Meniul este afișat pe Dialog Torrent.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "Torrent Dialog Sort Meniu",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "Dezactivarea acestei setări permite dialogul Torrent să utilizeze un singur motor de căutare pentru a căuta torente.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "Activarea acestei setări face ca dialogul Torrent să caute torrente folosind mai multe motoare de căutare dintr-o dată. Notă: Aceasta este o activitate intensă a resurselor. Puteți seta care motoarele de căutare sunt utilizate în meniul Advanced Options al Dialogului Torrent.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "Dialog Torrent mai multe motoare de căutare",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "Găsește o altă sursă care suportă linkuri magnet",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Principala sursă alternativă PirateBay:",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "Status curent:",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "căutare folosind dimensiune maximă globală",
     "TORRENTDIALOG/search-global-size-min/lbl": "căutare folosind dimensiune minimă globală",
     "TORRENTDIALOG/search-include/lbl": "căutare folosind lista Global includ",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(folosind mai multe MC)</small> [{{itemslength}} găsite]",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Rang"
 }

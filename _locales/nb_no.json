@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "Tittel",
     "COMMON/to-watch/tooltip": "Episoder å se",
     "COMMON/torrent-details/lbl": "Torrent detaljer",
+    "COMMON/torrent-engine/lbl": "Motor",
     "COMMON/torrent-leech/lbl": "Leech",
     "COMMON/torrent-name/lbl": "Navn",
     "COMMON/torrent-search-settings/glyph": "Torrent søkeinnstillinger",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "Aktivering av denne innstillingen vil vise en Sort Meny på Torrent Dialog",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "Sorteringsmenyen vises på Torrent Dialog.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "Torrent Dialog Sorter Meny",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "Deaktivering av denne innstillingen kan Torrent Dialogue å bruke en enkelt søkemotor for å lete etter torrents.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "Aktivering av denne innstillingen gjør at Torrent Dialog for å se etter torrents bruker flere søkemotorer samtidig. Merk: Dette er en ressurskrevende aktivitet. Du kan angi hvilke søkemotorer brukes i menyen Avanserte alternativer for Torrent Dialogue.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "Torrent Dialog flere Search Engine",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "Finn et tilfeldig speil som støtter Magnet-lenker",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Piratebay hovedspeil:",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "Nåværende Status:",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "søke ved hjelp global maksimal størrelse",
     "TORRENTDIALOG/search-global-size-min/lbl": "søke ved hjelp global minimumsstørrelse",
     "TORRENTDIALOG/search-include/lbl": "søke ved hjelp global inkluderer liste",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(bruker flere SE)</small> [{{itemslength}} funnet]",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Rangering"
 }

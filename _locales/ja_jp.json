@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "タイトル ",
     "COMMON/to-watch/tooltip": "エピソードが見て",
     "COMMON/torrent-details/lbl": "トレントの詳細",
+    "COMMON/torrent-engine/lbl": "エンジン",
     "COMMON/torrent-leech/lbl": "リーチ ",
     "COMMON/torrent-name/lbl": "名前 ",
     "COMMON/torrent-search-settings/glyph": "トレント検索設定",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "この設定を有効にすると,トレントダイアログにソートメニューが表示されます",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "ソートメニューはトレントダイアログに表示されます.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "トレントダイアログの並べ替えメニュー",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "この設定を無効にすると,トレント対話が急流を探すために,単一の検索エンジンを使用することができます.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "この設定を有効にすると,一度に複数の検索エンジンを使用して急流を探すためにトレントの対話が発生します.注:これは,リソース集約型の活動です.あなたはトレント対話のアドバンストオプション]メニューで使用されている検索エンジンを設定することができます.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "トレント対話複数の検索エンジン",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "マグネットリンクをサポートし,ランダムなミラーを見つける ",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Piratebayメインミラー: ",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "現在のステータス: ",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "グローバルな最大サイズを使用して検索",
     "TORRENTDIALOG/search-global-size-min/lbl": "グローバルな最小サイズを使用して検索",
     "TORRENTDIALOG/search-include/lbl": "グローバルリストが含まれて検索",
+    "TORRENTDIALOG2/hdr": "トレント検索<small>(使用して複数の検索エンジン)</small>[{{itemslength}}が見つかり]",
     "TORRENTFREAK/info/hdr": "インフォメーション ",
     "TORRENTFREAK/rank/hdr": "ランク "
 }

@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "Заголовок",
     "COMMON/to-watch/tooltip": "Эпизоды к просмотру",
     "COMMON/torrent-details/lbl": "Детали торрента",
+    "COMMON/torrent-engine/lbl": "двигатель",
     "COMMON/torrent-leech/lbl": "Лич",
     "COMMON/torrent-name/lbl": "Название",
     "COMMON/torrent-search-settings/glyph": "Настройки поиска торрентов",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "Включение этого параметра будет отображаться в меню Сортировка по Torrent Диалог",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "Сортировка меню отображается на Torrent Dialog.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "Торрент Диалог меню Сортировка",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "Отключение этого параметра позволяет Торрент Диалог использовать один Search Engine для поиска торрентов.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "Включение этого параметра приводит к тому, Torrent Диалог искать торренты с помощью нескольких поисковых систем одновременно. Примечание: Это ресурс, интенсивная деятельность. Вы можете установить, какие поисковые системы используются в меню Advanced Options Диалога Torrent.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "Торрент Диалог с несколькими Search Engine",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "Найти зеркало с поддержкой Magnet-ссылок",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Главное зеркало Piratebay:",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "Текущий статус:",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "поиск с использованием глобальной максимального размера",
     "TORRENTDIALOG/search-global-size-min/lbl": "поиск с использованием глобального минимального размера",
     "TORRENTDIALOG/search-include/lbl": "поиск в списке по умолчанию",
+    "TORRENTDIALOG2/hdr": "Torrent Поиск <small>(с использованием нескольких SE)</small> [{{itemslength}} найден]",
     "TORRENTFREAK/info/hdr": "Информация",
     "TORRENTFREAK/rank/hdr": "Оценка"
 }

@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "Titel",
     "COMMON/to-watch/tooltip": "Episodes om naar te kijken",
     "COMMON/torrent-details/lbl": "Torrent info",
+    "COMMON/torrent-engine/lbl": "Motor",
     "COMMON/torrent-leech/lbl": "Leech",
     "COMMON/torrent-name/lbl": "Naam",
     "COMMON/torrent-search-settings/glyph": "Torrent Search Instellingen",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "Het inschakelen van deze instelling zal een Sorteer Menu op de Torrent Dialog weer te geven",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "Het menu Sorteren wordt weergegeven op het Torrent Dialog.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "Torrent Dialog sorteren Menu",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "Het uitschakelen van deze instelling kan de Torrent Dialogue om een enkele zoekmachine gebruiken om te zoeken naar torrents.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "Het inschakelen van deze instelling zorgt ervoor dat de Torrent dialoog te zoeken naar torrents met behulp van meerdere zoekmachines tegelijk. Let op: Dit is een resource-intensieve activiteit. U kunt instellen welke zoekmachines worden gebruikt in de menu Geavanceerde opties van de Torrent Dialogue.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "Torrent Dialogue meerdere Search Engine",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "Zoek een willekeurige mirror",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Piratebay hoofd mirror:",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "Huidige Status:",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "zoeken met behulp van wereldwijde maximale grootte",
     "TORRENTDIALOG/search-global-size-min/lbl": "zoeken met behulp van wereldwijde minimummaat",
     "TORRENTDIALOG/search-include/lbl": "zoeken met behulp van wereldwijde bevatten lijst",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(met behulp van meerdere SE)</small> [{{itemslength}} gevonden]",
     "TORRENTFREAK/info/hdr": "Informatie",
     "TORRENTFREAK/rank/hdr": "Score"
 }

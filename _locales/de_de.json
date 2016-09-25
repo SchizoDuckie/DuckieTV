@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "Titel ",
     "COMMON/to-watch/tooltip": "Episoden zu beobachten",
     "COMMON/torrent-details/lbl": "Torrent Details",
+    "COMMON/torrent-engine/lbl": "Motor",
     "COMMON/torrent-leech/lbl": "Leech ",
     "COMMON/torrent-name/lbl": "Name ",
     "COMMON/torrent-search-settings/glyph": "Torrent Search Einstellungen",
@@ -368,6 +369,9 @@
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-disabled/desc": "Die Aktivierung dieser Einstellung wird ein Sortieren Menü auf Torrent-Dialog angezeigt",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu-enabled/desc": "Das Sortieren Menü wird auf dem Torrent-Dialog angezeigt.",
     "SETTINGS/TORRENT-SEARCH/td-sort-menu/hdr": "Torrent Dialog Sortieren Menü",
+    "SETTINGS/TORRENT-SEARCH/td/desc": "Die Deaktivierung dieser Einstellung kann der Torrent Dialog eine einzige Suchmaschine zu verwenden für Torrents zu suchen.",
+    "SETTINGS/TORRENT-SEARCH/td2/desc": "Die Aktivierung dieser Einstellung bewirkt, dass die Torrent-Dialog für Torrents auf einmal mit mehreren Suchmaschinen zu suchen. Anmerkung: Dies ist eine ressourcenintensive Tätigkeit. Sie können die Suchmaschinen verwendet werden, im Menü Erweiterte Optionen des Torrent Dialog gesetzt.",
+    "SETTINGS/TORRENT-SEARCH/td2/hdr": "Torrent Dialog mehrere SE",
     "SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn": "Finden Sie ein Zufalls Spiegel, Magnet-Links unterstützt ",
     "SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr": "Piratebay Hauptspiegel: ",
     "SETTINGS/TORRENT-SEARCH/tpb-status/hdr": "Aktueller Status: ",
@@ -539,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "mit globalen Maximalgröße suchen",
     "TORRENTDIALOG/search-global-size-min/lbl": "mit globalen Mindestgröße suchen",
     "TORRENTDIALOG/search-include/lbl": "Suche mit weltweiten gehören Liste",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(unter Verwendung mehrerer SE)</small> [{{itemslength}} gefunden]",
     "TORRENTFREAK/info/hdr": "info ",
     "TORRENTFREAK/rank/hdr": "Rang "
 }

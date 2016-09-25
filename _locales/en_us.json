@@ -171,6 +171,7 @@
     "COMMON/title/hdr": "Title",
     "COMMON/to-watch/tooltip": "Episodes to watch",
     "COMMON/torrent-details/lbl": "Torrent details",
+    "COMMON/torrent-engine/lbl": "Engine",
     "COMMON/torrent-leech/lbl": "Leech",
     "COMMON/torrent-name/lbl": "Name",
     "COMMON/torrent-search-settings/glyph": "Torrent Search Settings",
@@ -542,6 +543,7 @@
     "TORRENTDIALOG/search-global-size-max/lbl": "search using global maximum size",
     "TORRENTDIALOG/search-global-size-min/lbl": "search using global minimum size",
     "TORRENTDIALOG/search-include/lbl": "search using global include list",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(using multiple SE)</small> [{{itemslength}} found]",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Rank"
 }
