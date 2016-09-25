@@ -174,9 +174,12 @@ DuckieTV
              * Search with each torrent SE for the torrent query
              */
             $scope.items = [];
+            $scope.error = false;
+            $scope.errorEngine = null;                            
             $scope.clients.forEach(function(engine) {
                 if ($scope.activeSE[engine]) {
                     items = [];
+                    $scope.searching = true;
                     provider = TorrentSearchEngines.getSearchEngine(engine);
                     provider.search([q, $scope.searchquality].join(' '), undefined, 'seeders.d').then(function(results) {
                         results.forEach(function(item){
@@ -197,8 +200,13 @@ DuckieTV
                     },
                     function(e) {
                         $scope.searching = false;
-                        $scope.error = e.toString();
-                        $scope.errorEngine = engine;
+                        if ($scope.errorEngine == null) {
+                            $scope.error = e.toString();
+                            $scope.errorEngine = engine;
+                        } else {
+                            $scope.error = $scope.error + '\n' + e.toString();
+                            $scope.errorEngine = $scope.errorEngine + '\n' + engine;                            
+                        }
                         items = null;
                     });
                 }
