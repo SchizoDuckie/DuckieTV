@@ -197,7 +197,7 @@ DuckieTV
                 },
                 function(e) {
                     $scope.searching = false;
-                    $scope.error = e;
+                    $scope.error = e.toString();
                     $scope.items = null;
                 });
         };
