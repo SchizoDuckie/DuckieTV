@@ -62,107 +62,109 @@
   </div>
 </div>
 <!-- search results -->
-<table class="torrents table table-condensed white">
-  <thead>
-    <tr ng-show="searching">
-      <td>
-         <loading-spinner style="margin:0 auto; display:block; width:50px; height:50px; position:relative;"></loading-spinner>
-        <p style='text-align:center; padding:10px;'><span translate-once="COMMON/searching/lbl"></span> {{getName(searchprovider)}}<span translate-once="COMMON/searching-please-wait/lbl"></span>.</p>
-      </td>
-    </tr>
-  </thead>
-  <tbody ng-show="!searching && items.length == 0">
-    <tr>
-      <th>
-        <p translate-once="COMMON/no-results/lbl"></p>
-        "<strong>{{query}} {{searchquality}}</strong>"
-      </th>
-    </tr>
-  </tbody>
-  <tbody ng-show="!searching && error == 'null' ">
-    <tr>
-      <th>
-        <h2 style='text-align:center' translate-once="COMMON/type-your-search/lbl"></h2>
-      </th>
-    </tr>
-  </tbody>
-  <tbody ng-show="!searching && error != false && error != 'null' ">
-    <tr>
-      <th>
-        <h1 style='text-align:center'> :( </h1>
-        <h2 style='text-align:center'>{{error}}<h2>
-      </th>
-    </tr>
-  </tbody>
-  <tbody ng-show="!searching && items.length > 0">
-    <tr>
-      <th>&nbsp;</th>
-      <th>
-        <strong translate-once="COMMON/torrent-name/lbl"></strong>
-      </th>
-      <th ng-show="orderByList.indexOf('size') == -1" style="text-align:right">
-        <strong translate-once="COMMON/torrent-size/lbl"></strong>
-      </th>
-      <th ng-show="orderByList.indexOf('size') > -1" style="cursor: pointer;text-align:right">
-        <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('size')"><strong translate-once="COMMON/torrent-size/lbl"></strong><span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir['size'] === '.a', 'sortorder': orderByDir['size'] === '.d'}"></span></u>
-      </th>
-      <th ng-show="orderByList.indexOf('seeders') == -1" style="text-align:right">
-        <strong translate-once="COMMON/torrent-seed/lbl"></strong>
-      </th>
-      <th ng-show="orderByList.indexOf('seeders') > -1" style="cursor: pointer;text-align:right">
-        <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('seeders')"><strong translate-once="COMMON/torrent-seed/lbl"></strong><span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir['seeders'] === '.a', 'sortorder': orderByDir['seeders'] === '.d'}"></span></u>
-      </th>
-      <th ng-show="orderByList.indexOf('leechers') == -1" style="text-align:right">
-        <strong translate-once="COMMON/torrent-leech/lbl"></strong>
-      </th>
-      <th ng-show="orderByList.indexOf('leechers') > -1" style="cursor: pointer;text-align:right">
-        <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('leechers')"><strong translate-once="COMMON/torrent-leech/lbl"></strong><span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir['leechers'] === '.a', 'sortorder': orderByDir['leechers'] === '.d'}"></span></u>
-      </th>
+<div style="max-height: 620px;overflow-x: auto">
+  <table class="torrents table table-condensed white">
+    <thead>
+      <tr ng-show="searching">
+        <td>
+           <loading-spinner style="margin:0 auto; display:block; width:50px; height:50px; position:relative;"></loading-spinner>
+          <p style='text-align:center; padding:10px;'><span translate-once="COMMON/searching/lbl"></span> {{getName(searchprovider)}}<span translate-once="COMMON/searching-please-wait/lbl"></span>.</p>
+        </td>
+      </tr>
+    </thead>
+    <tbody ng-show="!searching && items.length == 0">
+      <tr>
+        <th>
+          <p translate-once="COMMON/no-results/lbl"></p>
+          "<strong>{{query}} {{searchquality}}</strong>"
+        </th>
+      </tr>
+    </tbody>
+    <tbody ng-show="!searching && error == 'null' ">
+      <tr>
+        <th>
+          <h2 style='text-align:center' translate-once="COMMON/type-your-search/lbl"></h2>
+        </th>
+      </tr>
+    </tbody>
+    <tbody ng-show="!searching && error != false && error != 'null' ">
+      <tr>
+        <th>
+          <h1 style='text-align:center'> :( </h1>
+          <h2 style='text-align:center'>{{error}}<h2>
+        </th>
+      </tr>
+    </tbody>
+    <tbody ng-show="!searching && items.length > 0">
+      <tr>
+        <th>&nbsp;</th>
+        <th>
+          <strong translate-once="COMMON/torrent-name/lbl"></strong>
+        </th>
+        <th ng-show="orderByList.indexOf('size') == -1" style="text-align:right">
+          <strong translate-once="COMMON/torrent-size/lbl"></strong>
+        </th>
+        <th ng-show="orderByList.indexOf('size') > -1" style="cursor: pointer;text-align:right">
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('size')"><strong translate-once="COMMON/torrent-size/lbl"></strong><span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir['size'] === '.a', 'sortorder': orderByDir['size'] === '.d'}"></span></u>
+        </th>
+        <th ng-show="orderByList.indexOf('seeders') == -1" style="text-align:right">
+          <strong translate-once="COMMON/torrent-seed/lbl"></strong>
+        </th>
+        <th ng-show="orderByList.indexOf('seeders') > -1" style="cursor: pointer;text-align:right">
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('seeders')"><strong translate-once="COMMON/torrent-seed/lbl"></strong><span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir['seeders'] === '.a', 'sortorder': orderByDir['seeders'] === '.d'}"></span></u>
+        </th>
+        <th ng-show="orderByList.indexOf('leechers') == -1" style="text-align:right">
+          <strong translate-once="COMMON/torrent-leech/lbl"></strong>
+        </th>
+        <th ng-show="orderByList.indexOf('leechers') > -1" style="cursor: pointer;text-align:right">
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('leechers')"><strong translate-once="COMMON/torrent-leech/lbl"></strong><span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir['leechers'] === '.a', 'sortorder': orderByDir['leechers'] === '.d'}"></span></u>
+        </th>
 
-    </tr>
-    <tr ng-repeat="seed in items | limitTo: 20" class="no-animate">
-      <td style='width:80px; padding:5px; vertical-align: top;'>
-        <a ng-if="!seed.noMagnet" ng-click="select(seed)">
-          <i class="glyphicon glyphicon-magnet" uib-tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
-        </a>
-        <a ng-if="seed.noMagnet">
-          <i class="glyphicon glyphicon-magnet" style="color:gray"></i>
-        </a>
-        <a ng-if="seed.torrentUrl" ng-href="{{::seed.torrentUrl}}" target="iframe_a">
-          <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
-        </a>
-        <a ng-if="seed.torrent" ng-href="{{::seed.torrent}}" target="iframe_a">
-          <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
-        </a>
-        <a ng-if="!seed.torrent && !seed.torrentUrl">
-          <i class="glyphicon glyphicon-download" style="color:gray"></i>
-        </a>
-        <a ng-if="seed.magnetUrl" ng-href="{{::seed.magnetUrl}}" target="iframe_a">
-          <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
-        </a>
-        <a ng-if="!seed.magnetUrl">
-          <i class="glyphicon glyphicon-link" style="color:gray"></i>
-        </a>
-        <a ng-if="seed.detailUrl" ng-href="{{::seed.detailUrl}}" target='_blank'>
-          <i class="glyphicon glyphicon-info-sign" uib-tooltip="{{'COMMON/torrent-details/lbl'|translate}}"></i>
-        </a>
-        <a ng-if="!seed.detailUrl">
-          <i class="glyphicon glyphicon-info-sign" style="color:gray"></i>
-        </a>
-      </td>
-      <td style="word-break:break-word">
-        <a ng-bind-html="::seed.releasename | unsafe" ng-click="select(seed)"></a>
-      </td>
-      <td style="text-align:right">
-        <a ng-bind-html="::seed.size" ng-click="select(seed)" style='white-space:nowrap'></a>
-      </td>
-      <td style='width:50px; text-align:right'>
-        <a  ng-bind="::seed.seeders" ng-click="select(seed)"></a>
-      </td>
-      <td style='width:50px; text-align:right'>
-        <a  ng-bind="::seed.leechers" ng-click="select(seed)"></a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+      </tr>
+      <tr ng-repeat="seed in items" class="no-animate">
+        <td style='width:80px; padding:5px; vertical-align: top;'>
+          <a ng-if="!seed.noMagnet" ng-click="select(seed)">
+            <i class="glyphicon glyphicon-magnet" uib-tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
+          </a>
+          <a ng-if="seed.noMagnet">
+            <i class="glyphicon glyphicon-magnet" style="color:gray"></i>
+          </a>
+          <a ng-if="seed.torrentUrl" ng-href="{{::seed.torrentUrl}}" target="iframe_a">
+            <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
+          </a>
+          <a ng-if="seed.torrent" ng-href="{{::seed.torrent}}" target="iframe_a">
+            <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
+          </a>
+          <a ng-if="!seed.torrent && !seed.torrentUrl">
+            <i class="glyphicon glyphicon-download" style="color:gray"></i>
+          </a>
+          <a ng-if="seed.magnetUrl" ng-href="{{::seed.magnetUrl}}" target="iframe_a">
+            <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
+          </a>
+          <a ng-if="!seed.magnetUrl">
+            <i class="glyphicon glyphicon-link" style="color:gray"></i>
+          </a>
+          <a ng-if="seed.detailUrl" ng-href="{{::seed.detailUrl}}" target='_blank'>
+            <i class="glyphicon glyphicon-info-sign" uib-tooltip="{{'COMMON/torrent-details/lbl'|translate}}"></i>
+          </a>
+          <a ng-if="!seed.detailUrl">
+            <i class="glyphicon glyphicon-info-sign" style="color:gray"></i>
+          </a>
+        </td>
+        <td style="word-break:break-word">
+          <a ng-bind-html="::seed.releasename | unsafe" ng-click="select(seed)"></a>
+        </td>
+        <td style="text-align:right">
+          <a ng-bind-html="::seed.size" ng-click="select(seed)" style='white-space:nowrap'></a>
+        </td>
+        <td style='width:50px; text-align:right'>
+          <a  ng-bind="::seed.seeders" ng-click="select(seed)"></a>
+        </td>
+        <td style='width:50px; text-align:right'>
+          <a  ng-bind="::seed.leechers" ng-click="select(seed)"></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <iframe name="iframe_a" style="border:none;visibility:hidden" height="1" width="1"></iframe>
