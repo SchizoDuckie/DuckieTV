@@ -1,6 +1,6 @@
 <!-- dialogs/torrent2.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
-<h1>Torrent Search (using multiple SE) [{{items.length || 0}} hits]</h1>
+<h1 translate-value-itemslength="{{items.length || 0}}" translate>TORRENTDIALOG2/hdr</h1>
 <a href="#settings/torrent-search" ng-click="cancel()" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/torrent-search-settings/glyph</span></a>
 <input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
@@ -92,7 +92,7 @@
     <tr>
       <th>&nbsp;</th>
       <th style="cursor: pointer;text-align:left">
-        <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setSortBy('engine')"><strong>Engine</strong><span ng-class="{'sortorder reverse': sortByDir['engine'] === '+', 'sortorder': sortByDir['engine'] === '-'}"></span></u>
+        <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setSortBy('engine')"><strong translate-once>COMMON/torrent-engine/lbl</strong><span ng-class="{'sortorder reverse': sortByDir['engine'] === '+', 'sortorder': sortByDir['engine'] === '-'}"></span></u>
       </th>
       <th style="cursor: pointer;text-align:left">
         <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setSortBy('releasename')"><strong translate-once>COMMON/torrent-name/lbl</strong><span ng-class="{'sortorder reverse': sortByDir['releasename'] === '+', 'sortorder': sortByDir['releasename'] === '-'}"></span></u>
