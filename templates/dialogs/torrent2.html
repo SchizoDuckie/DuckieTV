@@ -12,7 +12,7 @@
 <a ng-click="toggleShowAdvanced()" style="display:block;text-align:right"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
 <!-- active search engines check boxes -->
 <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
-  <div style="display: flex; overflow: scroll">
+  <div style="display: flex; overflow-y: auto">
     <div class="checkbox" ng-repeat="name in clients | orderBy: name">
       <input ng-disabled="name === defaultProvider" type="checkbox" ng-model="activeSE[name]" ng-change="saveActiveSE()" id="tc_{{name}}}">
       <label for="tc_{{name}}" ng-style="{color: name !== defaultProvider ? 'white' : 'gray'}">{{name}}</label>
