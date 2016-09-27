@@ -55,8 +55,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                         size: (hit.size / 1024 / 1024).toFixed(2) + " MB",
                         seeders: hit.seeders,
                         leechers: hit.leechers,
-                        detailUrl: undefined
-//                        detailUrl: hit.info_page
+                        detailUrl: hit.info_page
                     };
 
                     var magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
