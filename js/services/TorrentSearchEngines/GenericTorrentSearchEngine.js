@@ -150,12 +150,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             if (releasename === null) continue;
             var seed = getPropertyForSelector(results[i], selectors.seeders);
             var leech = getPropertyForSelector(results[i], selectors.leechers);
-            if (seed != null) {
-                seed = seed.replace(',','');
-            }
-            if (leech != null) {
-                leech = leech.replace(',','');
-            }
+            seed = (seed != null) ? seed.replace(',','') : 0;
+            leech = (leech != null) ? leech.replace(',','') : 0;
             var out = {
                 releasename: releasename,
                 size: sizeToMB(getPropertyForSelector(results[i], selectors.size)),

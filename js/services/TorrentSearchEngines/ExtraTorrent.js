@@ -14,8 +14,16 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     resultContainer: 'table.tl tr[class^=tl]',
                     releasename: ['td.tli > a', 'innerText'],
                     size: ['td:nth-of-type(5)', 'innerText'],
-                    seeders: ['td:nth-child(6)', 'innerText'],
-                    leechers: ['td:nth-child(7)', 'innerText'],
+                    seeders: ['td:nth-child(6)', 'innerText',
+                        function(text) {
+                            return (text.trim() == '---') ? null : text.trim();
+                        }
+                    ],
+                    leechers: ['td:nth-child(7)', 'innerText',
+                        function(text) {
+                            return (text.trim() == '---') ? null : text.trim();
+                        }
+                    ],
                     detailUrl: ['td.tli > a', 'href'],
                     torrentUrl: ['td a[title^="Download "]', 'href',
                         function(href) {

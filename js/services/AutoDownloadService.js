@@ -231,7 +231,7 @@ DuckieTV
                             service.activityUpdate(serie, episode, q, 5, ' GE'); // 'filtered out by GE'
                             return; // no results, abort
                         }
-                        if (items[0].seeders != 'N/A' && parseInt(items[0].seeders, 10) < minSeeders) { // not enough seeders are available.
+                        if (items[0].seeders != 'n/a' && parseInt(items[0].seeders, 10) < minSeeders) { // not enough seeders are available.
                             service.activityUpdate(serie, episode, q, 7, items[0].seeders + ' < ' + minSeeders); // 'seeders x < y'
                             return; // no results, abort
                         }
