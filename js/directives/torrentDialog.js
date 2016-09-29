@@ -197,7 +197,11 @@ DuckieTV
                 },
                 function(e) {
                     $scope.searching = false;
-                    $scope.error = e.toString();
+                    if (e !== null && typeof e === 'object' && 'status' in e && 'statusText' in e) {
+                        $scope.error = 'status ' + e.status + ' ' + e.statusText;
+                    } else {
+                        $scope.error = e.toString();
+                    }
                     $scope.items = null;
                 });
         };

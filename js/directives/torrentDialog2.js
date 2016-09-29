@@ -200,11 +200,16 @@ DuckieTV
                     },
                     function(e) {
                         $scope.searching = false;
+                        if (e !== null && typeof e === 'object' && 'status' in e && 'statusText' in e) {
+                            var errorText = 'status ' + e.status + ' ' + e.statusText;
+                        } else {
+                            var errorText = e.toString();
+                        }
                         if ($scope.errorEngine == null) {
-                            $scope.error = e.toString();
+                            $scope.error = errorText;
                             $scope.errorEngine = engine;
                         } else {
-                            $scope.error = $scope.error + '\n' + e.toString();
+                            $scope.error = $scope.error + '\n' + errorText;
                             $scope.errorEngine = $scope.errorEngine + '\n' + engine;                            
                         }
                         items = null;
