@@ -1,3 +1,17 @@
+#enable CRUD debug logging
+you can enable debug logging for CRUD activity by adding to local.storage the following:
+```javascript
+localStorage.setItem('CRUD.DEBUG', 'true')
+```
+disable debugging by setting to 'false' or deleting key
+```javascript
+localStorage.setItem('CRUD.DEBUG', 'false')
+```
+or
+```javascript
+localStorage.removeItem('CRUD.DEBUG')
+```
+
 #some debug calls
 
 ##Reset all watchedAt values

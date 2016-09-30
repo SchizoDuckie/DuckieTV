@@ -679,6 +679,9 @@ CRUD.define(SearchEngine, {
 });
 
 CRUD.DEBUG = false;
+if (localStorage.getItem('CRUD.DEBUG')) {
+    CRUD.DEBUG = (localStorage.getItem('CRUD.DEBUG') === 'true') ? true : false;
+};
 
 CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', {
     estimatedSize: 25 * 1024 * 1024
