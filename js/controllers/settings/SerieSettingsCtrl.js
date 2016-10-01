@@ -1,5 +1,5 @@
-DuckieTV.controller('serieSettingsCtrl', ["$scope", "$filter", "$uibModalInstance", "FavoritesService", "FormlyLoader", "data", "TorrentSearchEngines", 
-function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, TorrentSearchEngines) {
+DuckieTV.controller('serieSettingsCtrl', ["$scope", "$filter", "$uibModalInstance", "FavoritesService", "FormlyLoader", "data", "TorrentSearchEngines", "DuckieTorrent",
+function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, TorrentSearchEngines, DuckieTorrent) {
     //console.debug("Reinitcontroller!");
     $scope.model = FavoritesService.getById(data.serie.TVDB_ID); // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)
     $scope.model.ignoreHideSpecials = $scope.model.ignoreHideSpecials == 1;
@@ -10,6 +10,7 @@ function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, 
 
     FormlyLoader.load('SerieSettings').then(function(form) {
         $scope.fields = form;
+        $scope.model.dlPathSupported = DuckieTorrent.getClient().config.dlPathSupported;
     });
     $scope.searchProviders = [{'name': '', 'value': null}];
     Object.keys(TorrentSearchEngines.getSearchEngines()).map(function(searchProvider) {
