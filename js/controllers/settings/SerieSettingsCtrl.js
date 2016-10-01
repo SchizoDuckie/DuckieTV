@@ -27,8 +27,9 @@ function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, 
         $scope.model.ignoreGlobalIncludes = $scope.model.ignoreGlobalIncludes ? 1 : 0;
         $scope.model.ignoreGlobalExcludes = $scope.model.ignoreGlobalExcludes ? 1 : 0;
         // despite (because?) type=number, some invalid data trapped by formly returns undefined. so this ensures that we persist as null to stop downstream errors.
-        $scope.customSearchSizeMin = (typeof $scope.customSearchSizeMin === 'undefined') ? null : $scope.customSearchSizeMin;
-        $scope.customSearchSizeMax = (typeof $scope.customSearchSizeMax === 'undefined') ? null : $scope.customSearchSizeMax;
+        $scope.model.customSearchSizeMin = (typeof $scope.model.customSearchSizeMin === 'undefined') ? null : $scope.model.customSearchSizeMin;
+        $scope.model.customSearchSizeMax = (typeof $scope.model.customSearchSizeMax === 'undefined') ? null : $scope.model.customSearchSizeMax;
+        $scope.model.dlPath = (typeof $scope.model.dlPath === 'undefined' || $scope.model.dlPath === '') ? null : $scope.model.dlPath;
 
         $scope.model.Persist().then(function() {
             $modalInstance.close();
