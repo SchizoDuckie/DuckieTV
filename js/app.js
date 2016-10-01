@@ -84,7 +84,8 @@ var DuckieTV = angular.module('DuckieTV', [
  *          "searchProvider": <string>||null,
  *          "ignoreHideSpecials": 1||0,
  *          "customSearchSizeMin": <integer>||null,
- *          "customSearchSizeMax": <integer>||null
+ *          "customSearchSizeMax": <integer>||null,
+ *          "dlPath": <string>||null
  *      },
  *      {
  *          "TVDB_ID": <Episode_TVDB_ID>,
@@ -100,7 +101,7 @@ var DuckieTV = angular.module('DuckieTV', [
     var service = {
         createBackup: function() {
             // Fetch all the series
-            return CRUD.executeQuery('select Series.TVDB_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax from Series').then(function(series) {
+            return CRUD.executeQuery('select Series.TVDB_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax, Series.dlPath from Series').then(function(series) {
                 var out = {
                     settings: {},
                     series: {}
@@ -125,7 +126,8 @@ var DuckieTV = angular.module('DuckieTV', [
                         'searchProvider': serie.get('searchProvider'),
                         'ignoreHideSpecials': serie.get('ignoreHideSpecials'),
                         'customSearchSizeMin': serie.get('customSearchSizeMin'),
-                        'customSearchSizeMax': serie.get('customSearchSizeMax')
+                        'customSearchSizeMax': serie.get('customSearchSizeMax'),
+                        'dlPath': serie.get('dlPath')
                     })
                 }
 
