@@ -3,6 +3,8 @@
  *
  * API Docs:
  * https://trac.transmissionbt.com/browser/trunk/extras/rpc-spec.txt
+ *
+ * - Supports setting download directory
  */
 TransmissionData = function(data) {
     this.update(data);
@@ -201,7 +203,8 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
             path: 'transmission.path',
             username: 'transmission.username',
             password: 'transmission.password',
-            use_auth: 'transmission.use_auth'
+            use_auth: 'transmission.use_auth',
+            dlPathSupported: 'transmission.dlPathSupported'
         });
         service.readConfig();
 

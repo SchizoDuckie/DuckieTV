@@ -5,6 +5,8 @@
  * https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-Documentation
  *
  * Works for both 3.2+ and below.
+ *
+ * - Does not support setting the download directory
  */
 qBittorrentData = function(data) {
     this.update(data);
@@ -307,7 +309,8 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
             port: 'qbittorrent.port',
             username: 'qbittorrent.username',
             password: 'qbittorrent.password',
-            use_auth: 'qbittorrent.use_auth'
+            use_auth: 'qbittorrent.use_auth',
+            dlPathSupported: 'qbittorrent.dlPathSupported'
         });
         service.setEndpoints({
             torrents: '/json/torrents',

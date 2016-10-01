@@ -5,6 +5,8 @@
  * deluge support have updated their docs and the modules section is currently blank :-(
  * https://deluge.readthedocs.org/en/develop/modules/deluge.ui.web.html
  *
+ * http://deluge.readthedocs.io/en/develop/index.html
+ *
  * - Supports setting download directory
  */
 DelugeData = function(data) {
@@ -191,7 +193,8 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
         service.setConfigMappings({
             server: 'deluge.server',
             port: 'deluge.port',
-            password: 'deluge.password'
+            password: 'deluge.password',
+            dlPathSupported: 'deluge.dlPathSupported'
         });
         service.setEndpoints({
             rpc: '/json',

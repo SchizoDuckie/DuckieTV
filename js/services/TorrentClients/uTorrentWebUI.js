@@ -3,6 +3,9 @@
  *
  * API Docs:
  * https://forum.utorrent.com/topic/21814-web-ui-api/
+ * https://github.com/bittorrent/webui/blob/master/webui.js
+ *
+ * - Supports setting download directory
  */
 uTorrentWebUIData = function(data) {
     this.update(data);
@@ -293,7 +296,8 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
             port: 'utorrentwebui.port',
             username: 'utorrentwebui.username',
             password: 'utorrentwebui.password',
-            use_auth: 'utorrentwebui.use_auth'
+            use_auth: 'utorrentwebui.use_auth',
+            dlPathSupported: 'utorrentwebui.dlPathSupported'
         });
         service.setEndpoints({
             portscan: '/gui/token.html',

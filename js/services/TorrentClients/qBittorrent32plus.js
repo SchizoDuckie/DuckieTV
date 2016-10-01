@@ -3,6 +3,8 @@
  *
  * API Docs:
  * https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-Documentation
+ * 
+ * - Supports setting download directory (After qBittorrent v3.3.1, using API7)
  */
 
 DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
@@ -10,8 +12,10 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
 
         var qBittorrent32plusAPI = function() {
             qBittorrentAPI.call(this);
+            this.config.version = 0; // API version
         };
         qBittorrent32plusAPI.extends(qBittorrentAPI, {
+            version: null,
             login: function() {
                 return $http.post(this.getUrl('login'), 'username=' + encodeURIComponent(this.config.username) + '&password=' + encodeURIComponent(this.config.password), {
                     headers: {
@@ -29,6 +33,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                 var self = this;
                 return this.request('version').then(function(result) {
                     //console.debug("qBittorrent version result: ", result);
+                    self.config.version = result;
                     return self.login().then(function() {
                         return true;
                     });
@@ -153,7 +158,8 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
             port: 'qbittorrent32plus.port',
             username: 'qbittorrent32plus.username',
             password: 'qbittorrent32plus.password',
-            use_auth: 'qbittorrent32plus.use_auth'
+            use_auth: 'qbittorrent32plus.use_auth',
+            dlPathSupported: 'qbittorrent32plus.dlPathSupported'
         });
         service.setEndpoints({
             torrents: '/query/torrents',

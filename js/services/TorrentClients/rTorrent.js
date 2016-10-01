@@ -4,6 +4,8 @@
  * API Docs:
  * https://github.com/rakshasa/rtorrent/wiki/RPC-Setup-XMLRPC
  * https://github.com/rakshasa/rtorrent/wiki/rTorrent-0.9-Comprehensive-Command-list-(WIP)
+ * 
+ * - Supports setting download directory
  */
 rTorrentData = function(data) {
     this.update(data);
@@ -147,12 +149,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                         })
                         return output;
                     })
-
-
-
-
     /* 
-
     {"key":"hash","rt":"d.get_hash="},
     {"key":"state","rt":"d.get_state="},
     {"key":"name","rt":"d.get_name="},
@@ -169,9 +166,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
     {"key":"downsize","rt":"d.get_down_total="},
     {"key":"directory","rt":"d.get_directory="},
     {"key":"skipsize","rt":"d.get_skip_total="}
-
     */
-
                     return data.arguments.torrents.map(function(el) {
                         
                         el.hash = el.hashString.toUpperCase();
@@ -354,7 +349,8 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
         service.setConfigMappings({
             server: 'rtorrent.server',
             port: 'rtorrent.port',
-            path: 'rtorrent.path'
+            path: 'rtorrent.path',
+            dlPathSupported: 'rtorrent.dlPathSupported'
         });
         service.readConfig();
 
