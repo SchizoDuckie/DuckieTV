@@ -105,7 +105,8 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
                 username: null,
                 password: null,
                 use_auth: null,
-                path: null
+                path: null,
+                dlPathSupported: false
             };
 
             this.name = 'Base Torrent Client';
