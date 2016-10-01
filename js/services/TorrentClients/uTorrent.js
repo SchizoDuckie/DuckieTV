@@ -102,6 +102,7 @@ DuckieTorrent
             };
 
             var methods = {
+                config: { dlPathSupported: false },
                 getName: function() {
                     return 'uTorrent';
                 },
