@@ -169,6 +169,12 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                 }.bind(this));
 
             },
+            /**
+             * Deluge supports setting the Download Path when adding magnets and .torrents. 
+             */
+            isDownloadPathSupported: function() {
+                return false;
+            },
             execute: function(method, args) {
                 return this.rpc(method, args);
             }
@@ -193,8 +199,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
         service.setConfigMappings({
             server: 'deluge.server',
             port: 'deluge.port',
-            password: 'deluge.password',
-            dlPathSupported: 'deluge.dlPathSupported'
+            password: 'deluge.password'
         });
         service.setEndpoints({
             rpc: '/json',

@@ -105,8 +105,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
                 username: null,
                 password: null,
                 use_auth: null,
-                path: null,
-                dlPathSupported: false
+                path: null
             };
 
             this.name = 'Base Torrent Client';
@@ -118,7 +117,6 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
             this.connected = false;
             this.initialized = false;
             this.offline = false;
-
 
         };
 
@@ -321,11 +319,11 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
             /**
              * Implement this function to be able to add a magnet to the client
              */
-            addMagnet: function(magnet) {
+            addMagnet: function(magnet, dlPath) {
                 if (!('addMagnet' in this.getAPI())) {
                     throw "addMagnet not implemented for " + this.getName();
                 }
-                return this.getAPI().addMagnet(magnet);
+                return this.getAPI().addMagnet(magnet, dlPath);
 
             },
 
@@ -335,18 +333,25 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
              * submitting a new torrent, so that you can fetch the updated torrent list and parse it out
              * by name.
              */
-            addTorrentByUrl: function(magnet, releaseName) {
+            addTorrentByUrl: function(magnet, releaseName, dlPath) {
                 if (!('addTorrentByUrl' in this.getAPI())) {
                     throw "addTorrentByUrl not implemented for " + this.getName();
                 }
-                return this.getAPI().addTorrentByUrl(magnet, releaseName);
+                return this.getAPI().addTorrentByUrl(magnet, releaseName, dlPath);
             },
 
-            addTorrentByUpload: function(data, releaseName) {
+            addTorrentByUpload: function(data, releaseName, dlPath) {
                 if (!('addTorrentByUpload' in this.getAPI())) {
                     throw "addTorrentByUpload not implemented for " + this.getName();
                 }
-                return this.getAPI().addTorrentByUpload(data, releaseName);
+                return this.getAPI().addTorrentByUpload(data, releaseName, dlPath);
+            },
+
+            /**
+             * the default is that the client does not support setting the Download Path when adding magnets and .torrents. 
+             */
+            isDownloadPathSupported: function() {
+                return false;
             },
 
             request: function(type, params, options) {

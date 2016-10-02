@@ -304,8 +304,7 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
             server: 'ktorrent.server',
             port: 'ktorrent.port',
             username: 'ktorrent.username',
-            password: 'ktorrent.password',
-            dlPathSupported: 'ktorrent.dlPathSupported'
+            password: 'ktorrent.password'
         });
         service.setEndpoints({
             torrents: '/data/torrents.xml',

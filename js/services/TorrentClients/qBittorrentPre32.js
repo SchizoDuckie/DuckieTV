@@ -309,8 +309,7 @@ DuckieTorrent.factory('qBittorrentRemote', ["BaseTorrentRemote",
             port: 'qbittorrent.port',
             username: 'qbittorrent.username',
             password: 'qbittorrent.password',
-            use_auth: 'qbittorrent.use_auth',
-            dlPathSupported: 'qbittorrent.dlPathSupported'
+            use_auth: 'qbittorrent.use_auth'
         });
         service.setEndpoints({
             torrents: '/json/torrents',

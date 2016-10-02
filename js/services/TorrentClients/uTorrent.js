@@ -102,7 +102,6 @@ DuckieTorrent
             };
 
             var methods = {
-                config: { dlPathSupported: false },
                 getName: function() {
                     return 'uTorrent';
                 },
@@ -405,8 +404,8 @@ DuckieTorrent
                     uTorrentRemote.torrents = {};
                     uTorrentRemote.eventHandlers = {};
                 },
-                addMagnet: function(hash) {
-                    uTorrentRemote.add.torrent(hash);
+                addMagnet: function(magnet) {
+                    uTorrentRemote.add.torrent(magnet);
                 },
                 addTorrentByUpload: function() {
                     throw "Upload Torrent Not implemented in uTorrent remote.";
@@ -427,6 +426,12 @@ DuckieTorrent
                             }, 5000);
                         });
                     });
+                },
+                /**
+                 * uTorrent supports??? setting the Download Path when adding magnets and .torrents. 
+                 */
+                isDownloadPathSupported: function() {
+                    return true;
                 },
                 hasTorrent: function(torrent) {
                     return $q.resolve(torrent in uTorrentRemote.torrents && 'hash' in uTorrentRemote.torrents[torrent]);

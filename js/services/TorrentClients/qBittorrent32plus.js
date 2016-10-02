@@ -128,6 +128,14 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                     });
                 }.bind(this));
             },
+            /**
+             * qBittorrent API7+ supports setting the Download Path when adding magnets and .torrents. 
+             */
+            isDownloadPathSupported: function() {
+                var self = this;
+                // return (self.config.version > 6);
+                return false;
+            },
             execute: function(method, id) {
                 var headers = {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -158,8 +166,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
             port: 'qbittorrent32plus.port',
             username: 'qbittorrent32plus.username',
             password: 'qbittorrent32plus.password',
-            use_auth: 'qbittorrent32plus.use_auth',
-            dlPathSupported: 'qbittorrent32plus.dlPathSupported'
+            use_auth: 'qbittorrent32plus.use_auth'
         });
         service.setEndpoints({
             torrents: '/query/torrents',

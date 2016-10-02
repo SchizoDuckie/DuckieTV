@@ -325,6 +325,12 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                     }
                 });
             },
+            /**
+             * rTorrent supports setting the Download Path when adding magnets and .torrents. 
+             */
+            isDownloadPathSupported: function() {
+                return false;
+            },
             execute: function(method, id) {
                 return this.rpc(method, [id]);
             }
@@ -349,8 +355,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
         service.setConfigMappings({
             server: 'rtorrent.server',
             port: 'rtorrent.port',
-            path: 'rtorrent.path',
-            dlPathSupported: 'rtorrent.dlPathSupported'
+            path: 'rtorrent.path'
         });
         service.readConfig();
 

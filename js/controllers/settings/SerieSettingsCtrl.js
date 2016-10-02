@@ -10,7 +10,7 @@ function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, 
 
     FormlyLoader.load('SerieSettings').then(function(form) {
         $scope.fields = form;
-        $scope.model.dlPathSupported = DuckieTorrent.getClient().config.dlPathSupported;
+        $scope.model.isDownloadPathSupported = DuckieTorrent.getClient().isDownloadPathSupported();
     });
     $scope.searchProviders = [{'name': '', 'value': null}];
     Object.keys(TorrentSearchEngines.getSearchEngines()).map(function(searchProvider) {

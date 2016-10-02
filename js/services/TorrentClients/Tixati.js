@@ -317,8 +317,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             server: 'tixati.server',
             port: 'tixati.port',
             username: 'tixati.username',
-            password: 'tixati.password',
-            dlPathSupported: 'tixati.dlPathSupported'
+            password: 'tixati.password'
         });
         service.setEndpoints({
             torrents: '/transfers',

@@ -172,6 +172,12 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
             isWebServer: function() {
                 return (this.config.path !== '/transmission/rpc');
             },
+            /**
+             * Transmission supports setting the Download Path when adding magnets and .torrents. 
+             */
+            isDownloadPathSupported: function() {
+                return false;
+            },
             execute: function(method, id) {
                 return this.rpc(method, {
                     "arguments": {
@@ -203,8 +209,7 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
             path: 'transmission.path',
             username: 'transmission.username',
             password: 'transmission.password',
-            use_auth: 'transmission.use_auth',
-            dlPathSupported: 'transmission.dlPathSupported'
+            use_auth: 'transmission.use_auth'
         });
         service.readConfig();
 

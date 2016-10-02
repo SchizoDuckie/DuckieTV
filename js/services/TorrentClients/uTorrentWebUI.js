@@ -298,8 +298,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
             port: 'utorrentwebui.port',
             username: 'utorrentwebui.username',
             password: 'utorrentwebui.password',
-            use_auth: 'utorrentwebui.use_auth',
-            dlPathSupported: 'utorrentwebui.dlPathSupported'
+            use_auth: 'utorrentwebui.use_auth'
         });
         service.setEndpoints({
             portscan: '/gui/token.html',
