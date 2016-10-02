@@ -5,7 +5,9 @@
  * https://forum.utorrent.com/topic/21814-web-ui-api/
  * https://github.com/bittorrent/webui/blob/master/webui.js
  *
- * - Supports setting download directory
+ * - Does not support setting download directory
+ * - you can add sub directories to the default download directory by appending
+ *   '&download_dir=0,&path=' + encodeURIComponent(subdir)
  */
 uTorrentWebUIData = function(data) {
     this.update(data);
