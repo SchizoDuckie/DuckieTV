@@ -265,20 +265,20 @@ DuckieTV
         };
 
         // Selects and launches magnet
-        var magnetSelect = function(magnet) {
-            console.info("Magnet selected!", magnet);
+        var magnetSelect = function(magnet, dlPath) {
+            console.info("Magnet selected!", magnet, dlPath);
             if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
                 $modalInstance.close(magnet);
             }
 
             var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-            TorrentSearchEngines.launchMagnet(magnet, channel);
+            TorrentSearchEngines.launchMagnet(magnet, channel, dlPath);
             // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
             TorrentHashListService.addToHashList(magnet.getInfoHash());
         },
 
-        urlSelect = function(url, releasename) {
-            console.info("Torrent URL selected!", url);
+        urlSelect = function(url, releasename, dlPath) {
+            console.info("Torrent URL selected!", url, dlPath);
             if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
                 $modalInstance.close(url);
             }
@@ -288,9 +288,9 @@ DuckieTV
                 responseType: 'blob'
             }).then(function(result) {
                 try {
-                    TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename);
+                    TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename, dlPath);
                 } catch (E) {
-                    TorrentSearchEngines.launchTorrentByURL(url, channel, releasename);
+                    TorrentSearchEngines.launchTorrentByURL(url, channel, releasename, dlPath);
                 }
             });
         };
@@ -299,14 +299,14 @@ DuckieTV
             var config = TorrentSearchEngines.getSearchEngine(result.engine).config;
             if (config && 'noMagnet' in config && config.noMagnet) {
                 if ('noDetailsMagnet' in config && config.noDetailsMagnet) {
-                    return urlSelect(result.torrentUrl, result.releasename);
+                    return urlSelect(result.torrentUrl, result.releasename, $scope.serie.dlPath);
                 } else {
                     TorrentSearchEngines.getSearchEngine(result.engine).getDetails(result.detailUrl, result.releasename).then(function(details)  {
-                        return magnetSelect(details.magnetUrl);
+                        return magnetSelect(details.magnetUrl, $scope.serie.dlPath);
                     });
                 }
             } else {
-                return magnetSelect(result.magnetUrl);
+                return magnetSelect(result.magnetUrl, $scope.serie.dlPath);
             }
         };
 

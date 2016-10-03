@@ -243,7 +243,7 @@ DuckieTV
                                     var torrentHash = url.getInfoHash();
                                     // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                                     DuckieTorrent.getClient().AutoConnect().then(function() {
-                                        TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID);
+                                        TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID, serie.dlPath);
                                         episode.magnetHash = torrentHash;
                                         episode.Persist();
                                         // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
@@ -257,7 +257,7 @@ DuckieTV
                                 var torrentHash = url.getInfoHash();
                                 // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                                 DuckieTorrent.getClient().AutoConnect().then(function() {
-                                    TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID);
+                                    TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID, serie.dlPath);
                                     episode.magnetHash = torrentHash;
                                     episode.Persist();
                                     // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
