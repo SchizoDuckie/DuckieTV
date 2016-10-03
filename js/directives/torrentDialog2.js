@@ -278,7 +278,7 @@ DuckieTV
         },
 
         urlSelect = function(url, releasename, dlPath) {
-            //console.info("Torrent URL selected!", url, dlPath);
+            console.info("Torrent URL selected!", url, dlPath);
             if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
                 $modalInstance.close(url);
             }
