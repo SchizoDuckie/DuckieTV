@@ -431,7 +431,7 @@ DuckieTorrent
                  * uTorrent supports??? setting the Download Path when adding magnets and .torrents. 
                  */
                 isDownloadPathSupported: function() {
-                    return true;
+                    return false;
                 },
                 hasTorrent: function(torrent) {
                     return $q.resolve(torrent in uTorrentRemote.torrents && 'hash' in uTorrentRemote.torrents[torrent]);
