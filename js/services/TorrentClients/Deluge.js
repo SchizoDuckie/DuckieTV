@@ -138,15 +138,21 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                     }
                 });
             },
-            addMagnet: function(magnetHash) {
+            addMagnet: function(magnetHash, dlPath) {
+                var options = {};
+                if (dlPath !== undefined && dlPath !== null) {
+                    options = {'download_location': dlPath};
+                }
                 return this.rpc('web.add_torrents', [
                     [{
-                        options: {},
+                        options: options,
                         path: magnetHash
                     }]
-                ]);
+                ]).then(function(response){
+                    //console.debug(magnetHash, dlPath, response);
+                });
             },
-            addTorrentByUpload: function(data, filename) {
+            addTorrentByUpload: function(data, filename, dlPath) {
                 var self = this;
                 var headers = {
                     'Content-Type': undefined
@@ -159,7 +165,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                     transformRequest: angular.identity,
                     headers: headers
                 }).then(function(response) {
-                    return this.addMagnet(response.data.files[0]);
+                    return this.addMagnet(response.data.files[0], dlPath);
                 }.bind(this)).then(function() {
                     return this.getTorrents().then(function(torrents) {
                         return torrents.filter(function(torrent) {
@@ -173,7 +179,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
              * Deluge supports setting the Download Path when adding magnets and .torrents. 
              */
             isDownloadPathSupported: function() {
-                return false;
+                return true;
             },
             execute: function(method, args) {
                 return this.rpc(method, args);
