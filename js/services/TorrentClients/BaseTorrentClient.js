@@ -351,7 +351,10 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
              * the default is that the client does not support setting the Download Path when adding magnets and .torrents. 
              */
             isDownloadPathSupported: function() {
-                return false;
+                if (!('isDownloadPathSupported' in this.getAPI())) {
+                    return false;
+                }
+                return this.getAPI().isDownloadPathSupported();
             },
 
             request: function(type, params, options) {
