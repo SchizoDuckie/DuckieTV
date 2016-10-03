@@ -116,7 +116,6 @@ if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
             return true;
          };
         tray = new gui.Tray({
-            title: navigator.userAgent,
             icon: 'img/logo/icon64' + trayColor + '.png'
         });
         //console.debug('createTray: tray created id=',tray.id);
