@@ -32,8 +32,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
             portscan: function() {
                 var self = this;
                 return this.request('version').then(function(result) {
-                    //console.debug("qBittorrent version result: ", result);
-                    self.config.version = result;
+                    self.config.version = result.data;
                     return self.login().then(function() {
                         return true;
                     });
@@ -41,13 +40,30 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                     return false;
                 });
             },
-            addMagnet: function(magnetHash) {
-                var headers = {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                };
-                return $http.post(this.getUrl('addmagnet'), 'urls=' + encodeURIComponent(magnetHash), {
-                    headers: headers
-                });
+            addMagnet: function(magnetHash, dlPath) {
+                var self = this;
+                if (self.config.version > 6) {
+                    // API7
+                    var fd = new FormData();
+                    fd.append('urls', magnetHash);
+                    if (dlPath !== undefined && dlPath !== null) {
+                        fd.append('savepath', dlPath);
+                    }
+                    var headers = {
+                        'Content-Type': undefined,
+                    };
+                    return $http.post(this.getUrl('addmagnet'), fd, {
+                        headers: headers
+                    });                    
+                } else {
+                    // API6
+                    var headers = {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    };
+                    return $http.post(this.getUrl('addmagnet'), 'urls=' + encodeURIComponent(magnetHash), {
+                        headers: headers
+                    });
+                }
             },
             addTorrentByUpload: function(data, releaseName) {
                 var self = this;
@@ -133,8 +149,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
              */
             isDownloadPathSupported: function() {
                 var self = this;
-                // return (self.config.version > 6);
-                return false;
+                return (self.config.version > 6);
             },
             execute: function(method, id) {
                 var headers = {
