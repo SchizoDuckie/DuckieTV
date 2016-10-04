@@ -78,6 +78,7 @@
     "COMMON/cancel/btn": "Cancel",
     "COMMON/cancelled/lbl": "You confirmed 'No.'",
     "COMMON/choose-backup-load/btn": "Choose a backup to load",
+    "COMMON/clear/btn": "Clear",
     "COMMON/close/btn": "Close",
     "COMMON/connected/lbl": "Connected to",
     "COMMON/content-rating/hdr": "Content Rating",

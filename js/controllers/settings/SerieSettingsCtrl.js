@@ -1,17 +1,23 @@
-DuckieTV.controller('serieSettingsCtrl', ["$scope", "$filter", "$uibModalInstance", "FavoritesService", "FormlyLoader", "data", "TorrentSearchEngines", "DuckieTorrent",
+DuckieTV
+.controller('serieSettingsCtrl', ["$scope", "$filter", "$uibModalInstance", "FavoritesService", "FormlyLoader", "data", "TorrentSearchEngines", "DuckieTorrent",
 function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, TorrentSearchEngines, DuckieTorrent) {
-    //console.debug("Reinitcontroller!");
     $scope.model = FavoritesService.getById(data.serie.TVDB_ID); // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)
     $scope.model.ignoreHideSpecials = $scope.model.ignoreHideSpecials == 1;
     $scope.model.autoDownload = $scope.model.autoDownload == 1;
     $scope.model.ignoreGlobalQuality = $scope.model.ignoreGlobalQuality == 1;
     $scope.model.ignoreGlobalIncludes = $scope.model.ignoreGlobalIncludes == 1;
     $scope.model.ignoreGlobalExcludes = $scope.model.ignoreGlobalExcludes == 1;
+    if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
+        var serieSettingsName = 'SerieSettingsStandalone';
+    } else {
+        var serieSettingsName = 'SerieSettings';
+    }
 
-    FormlyLoader.load('SerieSettings').then(function(form) {
+    FormlyLoader.load(serieSettingsName).then(function(form) {
         $scope.fields = form;
         $scope.model.isDownloadPathSupported = DuckieTorrent.getClient().isDownloadPathSupported();
     });
+
     $scope.searchProviders = [{'name': '', 'value': null}];
     Object.keys(TorrentSearchEngines.getSearchEngines()).map(function(searchProvider) {
         $scope.searchProviders.push({'name': searchProvider, 'value': searchProvider});
@@ -43,4 +49,18 @@ function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, 
         $scope.$destroy();
     };
 
+}])
+.directive("downloadpath", [function () {
+    return {
+        scope: {
+            downloadpath: "="
+        },
+        link: function (scope, element, attributes) {
+            element.bind("change", function (changeEvent) {
+                scope.$apply(function () {
+                    scope.downloadpath = changeEvent.target.files[0].path;
+                });
+            });
+        }
+    }
 }]);

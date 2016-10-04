@@ -296,4 +296,57 @@ var DuckieTV = angular.module('DuckieTV', [
             localStorage.setItem('autobackup.lastrun', new Date().getTime());
         };
     }
-]);
+])
+
+/**
+ * at start-up set up some formly custom types
+ */
+.run(["formlyConfig",
+    function(formlyConfig) {
+    /**
+     * define a custom extension to formly type=input, which defines a html input type=file pop-up, that fetches a directory path instead of a file.
+     */
+    formlyConfig.setType({
+        name: 'directory',
+        extends: 'input',
+        template: '&nbsp;{{model.dlPath}}<input type="file" downloadpath="model[options.key]" nwdirectory directory />'
+    });
+
+    /**
+     * define a custom formly type=button, with which the user can clear the dlPath.
+     */
+    formlyConfig.setType({
+        name: 'button',
+        template: '<div><button type="{{::to.type}}" class="btn btn-{{::to.btnType}}" ng-click="onClick($event)">{{to.text}}</button></div>',
+        wrapper: ['bootstrapLabel'],
+        defaultOptions: {
+            templateOptions: {
+            btnType: 'default',
+            type: 'button'
+            },
+            extras: {
+            skipNgModelAttrsManipulator: true // <-- performance optimization because this type has no ng-model
+            }
+        },
+        controller: ["$scope", function($scope) {
+        $scope.onClick = onClick;
+            function onClick($event) {
+                if (angular.isString($scope.to.onClick)) {
+                    return $scope.$eval($scope.to.onClick, {$event: $event});
+                } else {
+                    return $scope.to.onClick($event);
+                }
+            }
+        }],
+        apiCheck: function(check) {
+            return {
+                templateOptions: {
+                    onClick: check.oneOfType([check.string, check.func]),
+                    type: check.string.optional,
+                    btnType: check.string.optional,
+                    text: check.string
+                }
+            }
+        }
+    });
+}]);
