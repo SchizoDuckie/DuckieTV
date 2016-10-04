@@ -139,30 +139,52 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                     });
                 });
             },
-            addMagnet: function(magnetHash) {
-                return this.rpc('torrent-add', {
-                    arguments: {
+            addMagnet: function(magnetHash, dlPath) {
+                if (dlPath !== undefined && dlPath !== null) {
+                    // using download path
+                    var parms = {
+                        paused: false,
+                        filename: magnetHash,
+                        'download-dir': dlPath
+                    };
+                } else {
+                    // without download path
+                    var parms = {
                         paused: false,
                         filename: magnetHash
-                    }
+                    };
+                }
+                return this.rpc('torrent-add', {
+                    arguments: parms
                 });
             },
-            addTorrentByUrl: function(url, releaseName) {
-                return this.addMagnet(url).then(function(result) {
+            addTorrentByUrl: function(url, releaseName, dlPath) {
+                return this.addMagnet(url, dlPath).then(function(result) {
                     return result.arguments['torrent-added'].hashString.toUpperCase();
                 });
             },
-            addTorrentByUpload: function(data, releaseName) {
+            addTorrentByUpload: function(data, releaseName, dlPath) {
                 var self = this;
+                if (dlPath !== undefined && dlPath !== null) {
+                    // using download path
+                    var parms = {
+                        paused: false,
+                        metainfo: contents.substring(index + key.length),
+                        'download-dir': dlPath
+                    };
+                } else {
+                    // without download path
+                    var parms = {
+                        paused: false,
+                        metainfo: contents.substring(index + key.length)
+                    };
+                }
                 return new PromiseFileReader().readAsDataURL(data).then(function(contents) {
                     var key = "base64,",
                         index = contents.indexOf(key);
                     if (index > -1) {
                         return self.rpc('torrent-add', {
-                            arguments: {
-                                paused: false,
-                                metainfo: contents.substring(index + key.length)
-                            }
+                            arguments: parms
                         }).then(function(result) {
                             return result.arguments['torrent-added'].hashString.toUpperCase();
                         })
@@ -176,7 +198,9 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
              * Transmission supports setting the Download Path when adding magnets and .torrents. 
              */
             isDownloadPathSupported: function() {
-                return false;
+                var self = this;
+                // dlPath supported only on local machine
+                return !(self.isWebServer());
             },
             execute: function(method, id) {
                 return this.rpc(method, {
