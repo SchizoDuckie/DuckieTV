@@ -18,6 +18,14 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
         var episodesWithDateFormat = null;
 
         var exceptions = null;
+        
+        /**
+         * Replace the most common diacritics in English that are most likely to not be used in torrent scene names
+         * its not all-inclusive, that list is just too huge, but we can easily add any more that we come across. 
+         */
+        replaceDiacritics = function(source) {
+            return source.replace(/[ÀÁÂÃÄÅ]/g,"A").replace(/[ÈÉÊË]/g,"E").replace(/[ÌÍÎÏ]/g,"I").replace(/[ÒÓÔÕÖ]/g,"O").replace(/[ÙÚÛÜ]/g,"U").replace(/[Ç]/g,"C").replace(/[àáâãäå]/g,"a").replace(/[èéêë]/g,"e").replace(/[ìíîï]/g,"i").replace(/[òóôõö]/g,"o").replace(/[ùúûü]/g,"u").replace(/[ç]/g,"c");
+        };
 
         return {
             /**
@@ -25,14 +33,14 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
              */
             getSceneName: function(tvdbID, name) {
                 tvdbID = parseInt(tvdbID);
-                var exception = (tvdbID in exceptions) ? exceptions[tvdbID] : name;
+                var exception = (tvdbID in exceptions) ? replaceDiacritics(exceptions[tvdbID]) : replaceDiacritics(name);
                 return exception.replace(/\(([12][09][0-9]{2})\)/, '').replace(/[^0-9a-zA-Z- ]/g, '');
             },
 
             getSearchStringForEpisode: function(serie, episode) {
                 var append = (serie.customSearchString && serie.customSearchString != '') ? ' ' + serie.customSearchString : '';
                 var tvdbID = parseInt(serie.TVDB_ID);
-                var exception = (tvdbID in exceptions) ? exceptions[tvdbID] + ' ' : serie.name + ' ';
+                var exception = (tvdbID in exceptions) ? replaceDiacritics(exceptions[tvdbID]) + ' ' : replaceDiacritics(serie.name) + ' ';
                 var sceneName = exception.replace(/\(([12][09][0-9]{2})\)/, '').replace(/[^0-9a-zA-Z- ]/g, '');
                 if (serie.TVDB_ID in episodesWithDateFormat) {
                     var parts = episode.firstaired_iso.split(/([0-9]{4})-([0-9]{2})-([0-9]{2})T.*/);
