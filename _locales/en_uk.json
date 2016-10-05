@@ -96,6 +96,7 @@
     "COMMON/download/btn": "Backup ready! Click to download",
     "COMMON/enable/btn": "Click to enable",
     "COMMON/enabled/lbl": "Enabled",
+    "COMMON/episode-details/tooltip": "Episode Details",
     "COMMON/episodes/lbl": "Episodes",
     "COMMON/find-subtitle/lbl": "Find a subtitle",
     "COMMON/first-aired/hdr": "First Aired on",

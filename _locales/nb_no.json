@@ -96,6 +96,7 @@
     "COMMON/download/btn": "Backup ferdig! Trykk for å laste ned",
     "COMMON/enable/btn": "Trykk for å aktivere",
     "COMMON/enabled/lbl": "Aktivert",
+    "COMMON/episode-details/tooltip": "Episoder detaljer",
     "COMMON/episodes/lbl": "Episoder",
     "COMMON/find-subtitle/lbl": "Finn undertekst",
     "COMMON/first-aired/hdr": "Først sendt",

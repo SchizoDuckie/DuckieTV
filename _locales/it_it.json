@@ -96,6 +96,7 @@
     "COMMON/download/btn": "Il backup è pronto! Clicca per scaricare",
     "COMMON/enable/btn": "Cliccare per attivare",
     "COMMON/enabled/lbl": "Attivato",
+    "COMMON/episode-details/tooltip": "Dettagli Episodi",
     "COMMON/episodes/lbl": "Episodi",
     "COMMON/find-subtitle/lbl": "Cerca sottotitoli",
     "COMMON/first-aired/hdr": "Prima",

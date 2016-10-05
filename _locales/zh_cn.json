@@ -96,6 +96,7 @@
     "COMMON/download/btn": "备份准备好了!点击下载",
     "COMMON/enable/btn": "点击启用",
     "COMMON/enabled/lbl": "启用",
+    "COMMON/episode-details/tooltip": "事件细节",
     "COMMON/episodes/lbl": "集",
     "COMMON/find-subtitle/lbl": "查找字幕",
     "COMMON/first-aired/hdr": "首先宣扬",

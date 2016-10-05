@@ -96,6 +96,7 @@
     "COMMON/download/btn": "Резервная копия готова! Загрузить",
     "COMMON/enable/btn": "Включить",
     "COMMON/enabled/lbl": "Включено",
+    "COMMON/episode-details/tooltip": "подробности эпизодов",
     "COMMON/episodes/lbl": "Эпизоды",
     "COMMON/find-subtitle/lbl": "Найти субтитры",
     "COMMON/first-aired/hdr": "Премьера",

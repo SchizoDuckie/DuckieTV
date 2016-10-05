@@ -96,6 +96,7 @@
     "COMMON/download/btn": "백업 준비! 다운로드를 클릭합니다",
     "COMMON/enable/btn": "가능합니다",
     "COMMON/enabled/lbl": "사용",
+    "COMMON/episode-details/tooltip": "에피소드의 자세한 사항",
     "COMMON/episodes/lbl": "에피소드",
     "COMMON/find-subtitle/lbl": "자막 찾기",
     "COMMON/first-aired/hdr": "첫 방영",

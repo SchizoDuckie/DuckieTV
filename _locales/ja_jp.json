@@ -96,6 +96,7 @@
     "COMMON/download/btn": "バックアップの準備!ダウンロードするにはクリックしてください",
     "COMMON/enable/btn": "有効にする]をクリックします",
     "COMMON/enabled/lbl": "使用可能",
+    "COMMON/episode-details/tooltip": "エピソードの詳細",
     "COMMON/episodes/lbl": "エピソード",
     "COMMON/find-subtitle/lbl": "字幕を探す",
     "COMMON/first-aired/hdr": "最初に放映",
