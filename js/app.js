@@ -117,8 +117,8 @@ var DuckieTV = angular.module('DuckieTV', [
                 while (serie = series.next()) {
                     out.series[serie.get('TVDB_ID')] = [];
                     out.series[serie.get('TVDB_ID')].push({
-                        'displaycalendar': serie.get('displaycalendar'),
-                        'autoDownload': serie.get('autoDownload'),
+                        'displaycalendar': serie.get('displaycalendar', 0),
+                        'autoDownload': serie.get('autoDownload', 0),
                         'customSearchString': serie.get('customSearchString'),
                         'ignoreGlobalQuality': serie.get('ignoreGlobalQuality'),
                         'ignoreGlobalIncludes': serie.get('ignoreGlobalIncludes'),
