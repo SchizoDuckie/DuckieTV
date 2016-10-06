@@ -3,8 +3,8 @@ DuckieTV.directive('actionBar', function() {
         restrict: 'E',
         templateUrl: 'templates/actionBar.html',
         controllerAs: 'actionbar',
-        controller: ["$rootScope", "$state", "$filter", "SeriesListState", "SidePanelState", "DuckieTorrent",
-            function($rootScope, $state, $filter, SeriesListState, SidePanelState, DuckieTorrent) {
+        controller: ["$rootScope", "$state", "$filter", "SeriesListState", "SidePanelState", "DuckieTorrent", "SettingsService",
+            function($rootScope, $state, $filter, SeriesListState, SidePanelState, DuckieTorrent, SettingsService) {
                 if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
                     var win = require('nw.gui').Window.get();
                     // listen for standalone menu go-to events
@@ -18,7 +18,9 @@ DuckieTV.directive('actionBar', function() {
                         $state.go('favorites');
                     });
                     win.on('standalone.adlstatus', function() {
-                        $state.go('autodlstatus');
+                        if (SettingsService.get('torrenting.enabled') && SettingsService.get('torrenting.autodownload')) {
+                            $state.go('autodlstatus');
+                        }
                     });
                     win.on('standalone.settings', function() {
                         $state.go('settings');
