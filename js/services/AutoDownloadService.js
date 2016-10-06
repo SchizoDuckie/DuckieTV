@@ -58,6 +58,7 @@ DuckieTV
                 service.toDT = new Date().getTime();
                 service.fromDT = from.getTime();               
                 $rootScope.$broadcast('autodownload:activity');
+                var showSpecials = SettingsService.get('calendar.show-specials');
 
                 if (DuckieTorrent.getClient().isConnected()) {
                     DuckieTorrent.getClient().AutoConnect().then(function(remote) {
@@ -68,6 +69,10 @@ DuckieTV
                                     ID_Serie: episode.ID_Serie
                                 }).then(function(serie) {
                                     var serieEpisode = serie.name + ' ' + episode.getFormattedEpisode();
+                                    if (episode.seasonnumber === 0 && !showSpecials && serie.ignoreHideSpecials !== 1) {
+                                        service.activityUpdate(serie, episode, serieEpisode, 3, ' HS'); // 'autoDL disabled'
+                                        return; // user has chosen not to show specials on calendar so we assume they do not expect them to be auto-downloaded
+                                    };
                                     if (episode.isDownloaded()) {
                                             service.activityUpdate(serie, episode, serieEpisode, 0); // 'downloaded'
                                         return; // if the episode was already downloaded, skip it.
@@ -89,7 +94,7 @@ DuckieTV
                                             }
                                         });
                                     } else {
-                                        service.activityUpdate(serie, episode, serie.name, 3); // 'autoDL disabled'
+                                        service.activityUpdate(serie, episode, serieEpisode, 3); // 'autoDL disabled'
                                     }
                                 });
                             });
