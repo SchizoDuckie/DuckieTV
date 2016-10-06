@@ -174,11 +174,19 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                     });
                 });
             },
-            addMagnet: function(magnetHash) {
-                return this.rpc('load_start', [magnetHash]);
+            addMagnet: function(magnet, dlPath) {
+                if (dlPath !== undefined && dlPath !== null) {
+                    // using custom download directory
+                    var parms = [magnet, 'd.set_directory_base="' + dlPath + '"'];
+                } else {
+                    // using default download directory
+                    var parms = [magnet];
+                }
+                return this.rpc('load_start', parms);
             },
-            addTorrentByUrl: function(url, releaseName) {
-                return this.addMagnet(url).then(function(result) {
+            addTorrentByUrl: function(url, releaseName, dlPath) {
+                var self = this;
+                return this.addMagnet(url, dlPath).then(function(result) {
                          
                     var currentTry = 0;
                     var maxTries = 5;
@@ -247,14 +255,21 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                     });
                 });
             },
-            addTorrentByUpload: function(data, releaseName) {
+            addTorrentByUpload: function(data, releaseName, dlPath) {
                 var self = this;
                 return new PromiseFileReader().readAsDataURL(data).then(function(contents) {
                     var key = "base64,",
                         index = contents.indexOf(key);
                     if (index > -1) {
                          var value = new base64_xmlrpc_value(contents.substring(index + key.length));
-                        return self.rpc('load_raw_start', [value]).then(function(result) {
+                        if (dlPath !== undefined && dlPath !== null) {
+                            // using custom download directory
+                            var parms = [value, 'd.set_directory_base="' + dlPath + '"'];
+                        } else {
+                            // using default download directory
+                            var parms = [value];
+                        }
+                        return self.rpc('load_raw_start', parms).then(function(result) {
                          
                             var currentTry = 0;
                             var maxTries = 5;
@@ -329,7 +344,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
              * rTorrent supports setting the Download Path when adding magnets and .torrents. 
              */
             isDownloadPathSupported: function() {
-                return false;
+                return true;
             },
             execute: function(method, id) {
                 return this.rpc(method, [id]);
