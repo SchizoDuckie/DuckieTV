@@ -1,30 +1,29 @@
 DuckieTV
 .controller('serieSettingsCtrl', ["$scope", "$filter", "$uibModalInstance", "FavoritesService", "FormlyLoader", "data", "TorrentSearchEngines", "DuckieTorrent",
 function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, TorrentSearchEngines, DuckieTorrent) {
-    $scope.model = FavoritesService.getById(data.serie.TVDB_ID); // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)
-    $scope.model.ignoreHideSpecials = $scope.model.ignoreHideSpecials == 1;
-    $scope.model.autoDownload = $scope.model.autoDownload == 1;
-    $scope.model.ignoreGlobalQuality = $scope.model.ignoreGlobalQuality == 1;
-    $scope.model.ignoreGlobalIncludes = $scope.model.ignoreGlobalIncludes == 1;
-    $scope.model.ignoreGlobalExcludes = $scope.model.ignoreGlobalExcludes == 1;
-
-    // determine if client is local or remote (not fool proof, is there a better way?)
-    if (DuckieTorrent.getClient().getName() === 'uTorrent') {
-        var server = ''; // uTorrent does not have a config.server
-    } else {
-        var server = DuckieTorrent.getClient().config.server;
-    }
-    var isLocal = (server === 'http://127.0.0.1' || server === 'http://localhost');
-    // determine if this is standalone
-    var isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1);
-    // determine if downloadPath is supported by client
-    var isDownloadPathSupported = DuckieTorrent.getClient().isDownloadPathSupported();
-    $scope.model.dlPathLocal = $scope.model.dlPath;
-    $scope.model.dlPathRemote = $scope.model.dlPath;
-
     FormlyLoader.load('SerieSettings').then(function(form) {
         $scope.fields = form;
-        // don't understand why this is here, other than the fact that if it is not then the hideExpressions don't work :-( 
+        $scope.model = FavoritesService.getById(data.serie.TVDB_ID); // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)
+        $scope.model.ignoreHideSpecials = $scope.model.ignoreHideSpecials == 1;
+        $scope.model.autoDownload = $scope.model.autoDownload == 1;
+        $scope.model.ignoreGlobalQuality = $scope.model.ignoreGlobalQuality == 1;
+        $scope.model.ignoreGlobalIncludes = $scope.model.ignoreGlobalIncludes == 1;
+        $scope.model.ignoreGlobalExcludes = $scope.model.ignoreGlobalExcludes == 1;
+
+        // determine if client is local or remote (not fool proof, is there a better way?)
+        if (DuckieTorrent.getClient().getName() === 'uTorrent') {
+            var server = 'http://localhost'; // uTorrent does not have a config.server
+        } else {
+            var server = DuckieTorrent.getClient().config.server;
+        }
+        var isLocal = (server === 'http://127.0.0.1' || server === 'http://localhost');
+        // determine if this is standalone
+        var isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1);
+        // determine if downloadPath is supported by client
+        var isDownloadPathSupported = DuckieTorrent.getClient().isDownloadPathSupported();
+        $scope.model.dlPathLocal = $scope.model.dlPath;
+        $scope.model.dlPathRemote = $scope.model.dlPath;
+
         $scope.model.isDownloadPathSupportedLocal = (isDownloadPathSupported && isStandalone && isLocal);
         $scope.model.isDownloadPathSupportedRemote = (isDownloadPathSupported && ((!isStandalone) || (isStandalone && !isLocal)));
     });
