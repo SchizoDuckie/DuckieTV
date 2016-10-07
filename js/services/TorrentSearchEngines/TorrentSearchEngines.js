@@ -127,7 +127,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
              * launch magnet via a hidden iframe and broadcast the fact that it's selected to anyone listening
              */
             launchMagnet: function(magnet, TVDB_ID, dlPath) {
-                console.log("Firing magnet URI! ", magnet, TVDB_ID, dlPath);
+                //console.log("Firing magnet URI! ", magnet, TVDB_ID, dlPath);
 
                 if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
                     //console.debug("Adding via TorrentClient.addMagnet API! ", magnet, TVDB_ID);
@@ -157,7 +157,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
             },
 
             launchTorrentByUpload: function(data, TVDB_ID, name, dlPath) {
-                console.log("Firing Torrent By data upload! ", TVDB_ID, name, dlPath);
+                //console.log("Firing Torrent By data upload! ", TVDB_ID, name, dlPath);
 
                 if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
                     //console.debug("Adding via TorrentClient.addTorrentByUpload API! ", TVDB_ID, name);
@@ -171,7 +171,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
             },
 
             launchTorrentByURL: function(torrentUrl, TVDB_ID, name, dlPath) {
-                console.log("Firing Torrent By URL! ", torrentUrl, TVDB_ID, name, dlPath);
+                //console.log("Firing Torrent By URL! ", torrentUrl, TVDB_ID, name, dlPath);
 
                 if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
                     //console.debug("Adding via TorrentClient.addTorrentByUrl API! ", torrentUrl, TVDB_ID, name);

@@ -25,6 +25,7 @@ DuckieTorrent
  * Since the amount of data that's returned from the torrent application to the browser can be quite large, multiple requests will build up your
  * local state (stored in the uTorrentRemote service)
  *
+ * - Does not support setting the download directory (I have not found any docs so far for parms of btapp.add.torrent(). Garfield69)
  */
 .provider('uTorrent', function() {
 
@@ -428,7 +429,7 @@ DuckieTorrent
                     });
                 },
                 /**
-                 * uTorrent supports??? setting the Download Path when adding magnets and .torrents. 
+                 * this API does not currently support setting the Download Path when adding magnets and .torrents. 
                  */
                 isDownloadPathSupported: function() {
                     return false;
