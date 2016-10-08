@@ -309,11 +309,11 @@ var DuckieTV = angular.module('DuckieTV', [
     formlyConfig.setType({
         name: 'directory',
         extends: 'input',
-        template: '&nbsp;{{model.dlPath}}<input type="file" downloadpath="model[options.key]" nwdirectory directory />'
+        template: '&nbsp;{{model[options.key]}}<input type="file" downloadpath="model[options.key]" nwdirectory directory />'
     });
 
     /**
-     * define a custom formly type=button, with which the user can clear the dlPath.
+     * define a custom formly type=button.
      */
     formlyConfig.setType({
         name: 'button',
