@@ -297,16 +297,17 @@ DuckieTV
 
         $scope.select = function(result) {
             var config = TorrentSearchEngines.getSearchEngine(result.engine).config;
+            var dlPath = ($scope.serie) ? $scope.serie.dlPath : null;
             if (config && 'noMagnet' in config && config.noMagnet) {
                 if ('noDetailsMagnet' in config && config.noDetailsMagnet) {
-                    return urlSelect(result.torrentUrl, result.releasename, $scope.serie.dlPath);
+                    return urlSelect(result.torrentUrl, result.releasename, dlPath);
                 } else {
                     TorrentSearchEngines.getSearchEngine(result.engine).getDetails(result.detailUrl, result.releasename).then(function(details)  {
-                        return magnetSelect(details.magnetUrl, $scope.serie.dlPath);
+                        return magnetSelect(details.magnetUrl, dlPath);
                     });
                 }
             } else {
-                return magnetSelect(result.magnetUrl, $scope.serie.dlPath);
+                return magnetSelect(result.magnetUrl, dlPath);
             }
         };
 
