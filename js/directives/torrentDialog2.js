@@ -266,7 +266,7 @@ DuckieTV
 
         // Selects and launches magnet
         var magnetSelect = function(magnet, dlPath) {
-            console.info("Magnet selected!", magnet, dlPath);
+            //console.debug("Magnet selected!", magnet, dlPath);
             if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
                 $modalInstance.close(magnet);
             }
@@ -278,7 +278,7 @@ DuckieTV
         },
 
         urlSelect = function(url, releasename, dlPath) {
-            console.info("Torrent URL selected!", url, dlPath);
+            //console.debug("Torrent URL selected!", url, dlPath);
             if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
                 $modalInstance.close(url);
             }
