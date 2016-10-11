@@ -23,7 +23,7 @@ DuckieTV.controller("rTorrentCtrl", ["$injector", "rTorrent", "SettingsService",
             rTorrent.Disconnect();
             rTorrent.setConfig(this.model);
             rTorrent.connect().then(function(connected) {
-                debugger;
+                //debugger;
                 console.info("rTorrent connected! (save settings)", connected);
                 rTorrent.saveConfig();
                 $injector.get('DuckietvReload').windowLocationReload();
