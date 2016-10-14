@@ -17,7 +17,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
         // set up static translated labels
         $scope.period = SettingsService.get('autodownload.period');
         var timePlurals = $filter('translate')('TIMEPLURALS').split('|'), //" day, | days, | hour and | hours and | minute | minutes "
-            statusCodes = $filter('translate')('STATUSCODES').split('|'), // "downloaded|watched|has magnet|autoDL disabled|nothing found|filtered out|magnet launched|only | seeders"
+            statusCodes = $filter('translate')('STATUSCODES').split('|'), // "downloaded|watched|has magnet|autoDL disabled|nothing found|filtered out|magnet launched|seeders |onair + delay"
             inactiveLbl = $filter('translate')('AUTODLSTATUSCTRLjs/inactive/lbl'), // inactive
             activeLbl = $filter('translate')('AUTODLSTATUSCTRLjs/active/lbl'), // active
             usingLbl = $filter('translate')('AUTODLSTATUSCTRLjs/using/lbl'), // using

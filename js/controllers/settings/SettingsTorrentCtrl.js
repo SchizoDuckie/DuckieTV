@@ -25,6 +25,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.adMinSeeders = SettingsService.get('autodownload.minSeeders');
         $scope.chromiumEnabled = SettingsService.get('torrenting.launch_via_chromium');
         $scope.useTD2 = SettingsService.get('torrentDialog.2.enabled');
+        $scope.adDelay = SettingsService.get('autodownload.delay');
 
         $scope.katmirrorStatus = [];
         $scope.tpbmirrorStatus = [];
@@ -163,15 +164,9 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         };
 
         $scope.toggleAutoDownload = function() {
-            if ($scope.adEnabled == true) {
-                SettingsService.set('torrenting.autodownload', false);
-                $scope.adEnabled = false;
-                AutoDownloadService.detach();
-            } else {
-                SettingsService.set('torrenting.autodownload', true);
-                $scope.adEnabled = true;
-                AutoDownloadService.attach();
-            }
+            $scope.adEnabled = !$scope.adEnabled;
+            SettingsService.set('torrenting.autodownload', $scope.adEnabled);
+            $scope.adEnabled ? AutoDownloadService.attach() : AutoDownloadService.detach();
         };
 
         $scope.toggleChromium = function() {
@@ -201,6 +196,15 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.saveADPeriod = function(period) {
             SettingsService.set('autodownload.period', period);
             AutoDownloadService.detach(); // restart kickoff method when changing search period and seeders.
+            AutoDownloadService.attach();
+        };
+
+        /**
+         * Changes the delay that AutoDownload waits before searching for an episodes' torrent
+         */
+        $scope.saveADDelay = function(delay) {
+            SettingsService.set('autodownload.delay', delay);
+            AutoDownloadService.detach(); // restart kickoff method.
             AutoDownloadService.attach();
         };
 
