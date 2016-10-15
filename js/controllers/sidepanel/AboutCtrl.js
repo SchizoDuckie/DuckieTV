@@ -1,8 +1,8 @@
 /**
  * Fetches and displays various statistics about current DuckieTV Setup on About Page
  */
-DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "TorrentSearchEngines",
-    function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, TorrentSearchEngines) {
+DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "TorrentSearchEngines", "DuckieTorrent",
+    function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, TorrentSearchEngines, DuckieTorrent) {
 
         /**
          * Closes the SidePanel 
@@ -89,10 +89,20 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 }
             };
 
-            // Get current torrent mirror
-            var activeTorrentingMirror = 'n/a';
+            // Get default search engine
+            var defaultSE = 'n/a';
             if (SettingsService.get('torrenting.enabled')) {
-                activeTorrentingMirror = ('config' in TorrentSearchEngines.getDefaultEngine() && 'mirror' in TorrentSearchEngines.getDefaultEngine().config) ? TorrentSearchEngines.getDefaultEngine().config.mirror : 'n/a';
+                defaultSE = TorrentSearchEngines.getDefault() + " (Active)";
+            } else {
+                defaultSE = SettingsService.get('torrenting.searchprovider') + " (Inactive)";
+            }
+
+            // Get default torrent client engine
+            var defaultTC = 'n/a';
+            if (SettingsService.get('torrenting.enabled')) {
+                defaultTC = DuckieTorrent.getClient().getName() + " (Active)";
+            } else {
+                defaultTC = SettingsService.get('torrenting.client') + " (Inactive)";
             }
 
             // Get date of last trakt update
@@ -109,8 +119,11 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 name: 'Screen (width x height)',
                 data: screenSize
             }, {
-                name: 'Active Torrenting URL',
-                data: activeTorrentingMirror
+                name: 'Default Search Engine',
+                data: defaultSE
+            }, {
+                name: 'Default Torrent Client',
+                data: defaultTC
             }, {
                 name: 'Last checked TraktTV for DB updates on',
                 data: lastUpdated.toGMTString()
