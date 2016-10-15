@@ -386,7 +386,7 @@
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr": "Permiteți proxy-uri neverificate",
     "SETTINGS/TORRENT/autodownload-days-range/alert": "Ziele trebuie să fie între 1 - 21",
     "SETTINGS/TORRENT/autodownload-delay-default/lbl": "Implicit: 15 minute",
-    "SETTINGS/TORRENT/autodownload-delay-range/alert": "Ziele trebuie să fie între 0 - 30240",
+    "SETTINGS/TORRENT/autodownload-delay-range/alert": "Ziele trebuie să fie între 0 - {{adperiod}}",
     "SETTINGS/TORRENT/autodownload-delay/desc": "Seta cât timp Auto-descărcare trebuie să aștepte înainte de a începe căutările torrent dupa un episod a fost difuzat.",
     "SETTINGS/TORRENT/autodownload-delay/form": "minute:",
     "SETTINGS/TORRENT/autodownload-delay/hdr": "Auto-descărcare întârziere",

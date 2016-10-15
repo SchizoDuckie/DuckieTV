@@ -386,7 +386,7 @@
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr": "Dovoli nevarne Proxy",
     "SETTINGS/TORRENT/autodownload-days-range/alert": "Dni morajo biti v 1 - 21",
     "SETTINGS/TORRENT/autodownload-delay-default/lbl": "Privzeto: 15 minut",
-    "SETTINGS/TORRENT/autodownload-delay-range/alert": "Dni morajo biti v 0 - 30240",
+    "SETTINGS/TORRENT/autodownload-delay-range/alert": "Dni morajo biti v 0 - {{adperiod}}",
     "SETTINGS/TORRENT/autodownload-delay/desc": "Nastavite, kako dolgo naj Auto-Download čakati pred začetkom torrent iskanje, potem ko je epizoda predvajana.",
     "SETTINGS/TORRENT/autodownload-delay/form": "zapisnik:",
     "SETTINGS/TORRENT/autodownload-delay/hdr": "Auto-Download zamudo",

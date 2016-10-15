@@ -386,7 +386,7 @@
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr": "Tillat usikre proxyer",
     "SETTINGS/TORRENT/autodownload-days-range/alert": "Dager må være innenfor 1 - 21",
     "SETTINGS/TORRENT/autodownload-delay-default/lbl": "Standard: 15 minutter",
-    "SETTINGS/TORRENT/autodownload-delay-range/alert": "Dager må være innenfor 0 - 30240",
+    "SETTINGS/TORRENT/autodownload-delay-range/alert": "Dager må være innenfor 0 - {{adperiod}}",
     "SETTINGS/TORRENT/autodownload-delay/desc": "Angi hvor lenge Auto-Download bør vente før du begynner torrent søk etter en episode ble vist.",
     "SETTINGS/TORRENT/autodownload-delay/form": "Minutter:",
     "SETTINGS/TORRENT/autodownload-delay/hdr": "Auto-Download forsinkelse",

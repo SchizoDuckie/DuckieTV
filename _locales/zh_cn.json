@@ -386,7 +386,7 @@
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr": "允许不安全代理",
     "SETTINGS/TORRENT/autodownload-days-range/alert": "选择一个数字1和21之间",
     "SETTINGS/TORRENT/autodownload-delay-default/lbl": "默认值:15分钟",
-    "SETTINGS/TORRENT/autodownload-delay-range/alert": "延迟必须在0 - 30240之间",
+    "SETTINGS/TORRENT/autodownload-delay-range/alert": "延迟必须在0 - {{adperiod}}之间",
     "SETTINGS/TORRENT/autodownload-delay/desc": "设置自动下载在剧集播放后开始洪流搜索前应等待的时间.",
     "SETTINGS/TORRENT/autodownload-delay/form": "分钟:",
     "SETTINGS/TORRENT/autodownload-delay/hdr": "自动下载延迟",

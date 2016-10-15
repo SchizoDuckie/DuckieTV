@@ -386,7 +386,7 @@
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr": "Небезопасные прокси",
     "SETTINGS/TORRENT/autodownload-days-range/alert": "В пределах 1 - 21",
     "SETTINGS/TORRENT/autodownload-delay-default/lbl": "По умолчанию: 15 минут",
-    "SETTINGS/TORRENT/autodownload-delay-range/alert": "В пределах 0 - 30240",
+    "SETTINGS/TORRENT/autodownload-delay-range/alert": "В пределах 0 - {{adperiod}}",
     "SETTINGS/TORRENT/autodownload-delay/desc": "Установить, как долго Auto-Download следует подождать до начала поиски торрент после того, как эпизод был показан.",
     "SETTINGS/TORRENT/autodownload-delay/form": "Протокол:",
     "SETTINGS/TORRENT/autodownload-delay/hdr": "Задержка автоматической загрузки",

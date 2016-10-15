@@ -386,7 +386,7 @@
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr": "Consenti proxy non sicuri",
     "SETTINGS/TORRENT/autodownload-days-range/alert": "scegliere un numero compreso tra 1 e 21",
     "SETTINGS/TORRENT/autodownload-delay-default/lbl": "Predefinito: 15 minuti",
-    "SETTINGS/TORRENT/autodownload-delay-range/alert": "scegliere un numero compreso tra 0 e 30240",
+    "SETTINGS/TORRENT/autodownload-delay-range/alert": "scegliere un numero compreso tra 0 e {{adperiod}}",
     "SETTINGS/TORRENT/autodownload-delay/desc": "Impostare per quanto tempo il download automatico deve attendere prima di iniziare le ricerche torrent dopo un episodio è andato in onda.",
     "SETTINGS/TORRENT/autodownload-delay/form": "Minuti:",
     "SETTINGS/TORRENT/autodownload-delay/hdr": "Auto-Download ritardo",

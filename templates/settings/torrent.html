@@ -3,11 +3,11 @@
     <span uib-tooltip="{{torrentEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{torrentEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
-    <li translate-once="SETTINGS/TORRENT/hdr"></li>
+    <li translate-once>SETTINGS/TORRENT/hdr</li>
   </h2>
 
   <p>{{torrentEnabled ? 'SETTINGS/TORRENT/functions-hide/desc' : 'SETTINGS/TORRENT/functions-show/desc'|translate}}</p>
-  <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+  <p><strong  translate-once>COMMON/current-setting/hdr</strong>
    {{torrentEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="toggleTorrent()" class="btn btn-{{torrentEnabled ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{torrentEnabled ? 'remove-sign' : 'ok-sign'}}"></i> {{torrentEnabled ? 'SETTINGS/TORRENT/functions-hide/btn' : 'SETTINGS/TORRENT/functions-show/btn'|translate}}
@@ -16,14 +16,14 @@
   <div ng-show="torrentEnabled">
     <hr class="setting-divider">
 
-    <h2 translate-once="SETTINGS/TORRENT/choose-client/hdr"></h2>
+    <h2 translate-once>SETTINGS/TORRENT/choose-client/hdr</h2>
 
     <a ng-click="setTorrentClient(client)" ng-repeat="client in getTorrentClients()" class="choose-client btn btn-{{ currentClient == client ? 'success' : '' }}" >
         <i class="torrentlogo {{client.toLowerCase()}}"></i> {{client}}
     </a>
 
     <a class="btn btn-warning" ng-click="reload()">
-      <i class="glyphicon glyphicon-refresh"></i>&nbsp;<span translate-once="SETTINGS/TORRENT/reload-duckie/btn"></span>&nbsp;{{currentClient}}
+      <i class="glyphicon glyphicon-refresh"></i>&nbsp;<span translate-once>SETTINGS/TORRENT/reload-duckie/btn</span>&nbsp;{{currentClient}}
     </a>
 
     <hr class="setting-divider">
@@ -32,12 +32,12 @@
       <span uib-tooltip="{{adEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
         <i class="glyphicon glyphicon-{{adEnabled ? 'ok alert-success' : 'remove  alert-danger'}}" ></i>
       </span>
-      <li translate-once="SETTINGS/TORRENT/autodownload/hdr"></li>
+      <li translate-once>SETTINGS/TORRENT/autodownload/hdr</li>
     </h2>
 
-    <p ng-hide="adEnabled" ><span translate-once="SETTINGS/TORRENT/autodownload-enable/desc"></span>{{getSetting('autodownload.period')}}<span translate-once="SETTINGS/TORRENT/autodownload-enable/desc2"></span>{{getSetting('autodownload.minSeeders')}}<span translate-once="SETTINGS/TORRENT/autodownload-enable/desc3"></span></p>
-    <p ng-show="adEnabled" translate-once="SETTINGS/TORRENT/autodownload-disable/desc"></p>
-    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+    <p ng-hide="adEnabled" ><span translate-once>SETTINGS/TORRENT/autodownload-enable/desc</span>{{getSetting('autodownload.period')}}<span translate-once>SETTINGS/TORRENT/autodownload-enable/desc2</span>{{getSetting('autodownload.minSeeders')}}<span translate-once>SETTINGS/TORRENT/autodownload-enable/desc3</span></p>
+    <p ng-show="adEnabled" translate-once>SETTINGS/TORRENT/autodownload-disable/desc</p>
+    <p><strong  translate-once>COMMON/current-setting/hdr</strong>
      {{adEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
     <a ng-click="toggleAutoDownload()" class="btn btn-{{adEnabled ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{adEnabled ? 'remove-sign' : 'cloud-download'}}"></i>&nbsp;{{adEnabled ? 'SETTINGS/TORRENT/autodownload-disable/btn' : 'SETTINGS/TORRENT/autodownload-enable/btn'|translate}}
@@ -47,51 +47,51 @@
       <hr class="setting-divider">
 
       <div class="autodownload">
-        <h2 translate-once="SETTINGS/TORRENT/autodownload-period/hdr"></h2>
-        <p><span translate-once="SETTINGS/TORRENT/autodownload-period/desc"></span>{{adPeriod}}<span translate-once="SETTINGS/TORRENT/autodownload-period/desc2"></span><br><span translate-once="SETTINGS/TORRENT/autodownload-period-default/lbl"></span></p>
+        <h2 translate-once>SETTINGS/TORRENT/autodownload-period/hdr</h2>
+        <p><span translate-once>SETTINGS/TORRENT/autodownload-period/desc</span>{{adPeriod}}<span translate-once>SETTINGS/TORRENT/autodownload-period/desc2</span><br><span translate-once>SETTINGS/TORRENT/autodownload-period-default/lbl</span></p>
 
         <form name="p">
-          <span translate-once="SETTINGS/TORRENT/autodownload-period/form"></span> <input type="number" name="period" ng-model="adPeriod" ng-change="editingP = true;" min="1" max="21" required />
+          <span translate-once>SETTINGS/TORRENT/autodownload-period/form</span> <input type="number" name="period" ng-model="adPeriod" ng-change="editingP = true;" min="1" max="21" required />
           <a ng-show="!p.period.$valid" class="btn btn-{{editingP ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
-            <i class="glyphicon glyphicon-floppy-save {{editingP ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+            <i class="glyphicon glyphicon-floppy-save {{editingP ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
           </a>
           <a ng-show="p.period.$valid" class="btn btn-{{editingP ? 'info' : 'success'}}" ng-click="saveADPeriod(adPeriod); editingP = false;" style="float:right; margin-top:-10px;">
-            <i class="glyphicon glyphicon-floppy-save {{editingP ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+            <i class="glyphicon glyphicon-floppy-save {{editingP ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
           </a>
         </form>
-        <span class="alert alert-danger" ng-show="!p.period.$valid" translate-once="SETTINGS/TORRENT/autodownload-days-range/alert"></span>
+        <span class="alert alert-danger" ng-show="!p.period.$valid" translate-once>SETTINGS/TORRENT/autodownload-days-range/alert</span>
 
         <hr class="setting-divider">
 
-        <h2 translate-once="SETTINGS/TORRENT/autodownload-delay/hdr"></h2>
-        <p><span translate-once="SETTINGS/TORRENT/autodownload-delay/desc"></span><br/><span translate-once="SETTINGS/TORRENT/autodownload-delay-default/lbl"></span></p>
+        <h2 translate-once>SETTINGS/TORRENT/autodownload-delay/hdr</h2>
+        <p><span translate-once>SETTINGS/TORRENT/autodownload-delay/desc</span><br/><span translate-once>SETTINGS/TORRENT/autodownload-delay-default/lbl</span></p>
 
         <form name="d">
-          <span translate-once="SETTINGS/TORRENT/autodownload-delay/form"></span> <input type="number" name="delay" ng-model="adDelay" ng-change="editingD = true;" min="0" max="30240" required />
+          <span translate-once>SETTINGS/TORRENT/autodownload-delay/form</span> <input type="number" name="delay" ng-model="adDelay" ng-change="editingD = true;" min="0" ng-max="adPeriod * 24 * 60" required />
           <a ng-show="!d.delay.$valid" class="btn btn-{{editingD ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
-            <i class="glyphicon glyphicon-floppy-save {{editingD ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+            <i class="glyphicon glyphicon-floppy-save {{editingD ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
           </a>
           <a ng-show="d.delay.$valid" class="btn btn-{{editingD ? 'info' : 'success'}}" ng-click="saveADDelay(adDelay); editingD = false;" style="float:right; margin-top:-10px;">
-            <i class="glyphicon glyphicon-floppy-save {{editingD ? 'spin' : ''}}" ></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+            <i class="glyphicon glyphicon-floppy-save {{editingD ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
           </a>
         </form>
-        <span class="alert alert-danger" ng-show="!d.delay.$valid" translate-once="SETTINGS/TORRENT/autodownload-delay-range/alert"></span>
+        <span class="alert alert-danger" ng-show="!d.delay.$valid" translate-value-adperiod="{{adPeriod * 24 * 60}}" translate>SETTINGS/TORRENT/autodownload-delay-range/alert</span>
 
         <hr class="setting-divider">
 
-        <h2 translate-once="SETTINGS/TORRENT/autodownload-seeders/hdr"></h2>
-        <p><span translate-once="SETTINGS/TORRENT/autodownload-seeders/desc"></span><br><span translate-once="SETTINGS/TORRENT/autodownload-seeders-default/lbl"></span></p>
+        <h2 translate-once>SETTINGS/TORRENT/autodownload-seeders/hdr</h2>
+        <p><span translate-once>SETTINGS/TORRENT/autodownload-seeders/desc</span><br><span translate-once>SETTINGS/TORRENT/autodownload-seeders-default/lbl</span></p>
 
         <form name="s">
-          <span translate-once="SETTINGS/TORRENT/autodownload-seeders/form"></span> <input type="number" name="seeders" ng-model="adMinSeeders" ng-change="editingS = true;" min="0" max="3000" required />
+          <span translate-once>SETTINGS/TORRENT/autodownload-seeders/form</span> <input type="number" name="seeders" ng-model="adMinSeeders" ng-change="editingS = true;" min="0" max="3000" required />
           <a ng-show="!s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-disabled="true"  style="float:right; margin-top:-10px;">
-            <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+            <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
           </a>
           <a ng-show="s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-click="saveADMinSeeders(adMinSeeders); editingS = false;" style="float:right; margin-top:-10px;">
-            <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once="COMMON/save/btn"></span>
+            <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
           </a>
         </form>
-        <span class="alert alert-danger" ng-show="!s.seeders.$valid" translate-once="SETTINGS/TORRENT/autodownload-seeders-range/alert"></span>
+        <span class="alert alert-danger" ng-show="!s.seeders.$valid" translate-once>SETTINGS/TORRENT/autodownload-seeders-range/alert</span>
       </div>
     </div>
 
@@ -101,11 +101,11 @@
       <span uib-tooltip="{{progressEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
         <i class="glyphicon glyphicon-{{progressEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
-      <li translate-once="SETTINGS/TORRENT/progressbar/hdr"></li>
+      <li translate-once>SETTINGS/TORRENT/progressbar/hdr</li>
     </h2>
 
     <p>{{progressEnabled ? 'SETTINGS/TORRENT/progressbar-hide/desc' : 'SETTINGS/TORRENT/progressbar-show/desc'|translate}}</p>
-    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+    <p><strong  translate-once>COMMON/current-setting/hdr</strong>
      {{progressEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
     <a ng-click="toggleProgress()" class="btn btn-{{progressEnabled ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{progressEnabled ? 'ban-circle' : 'minus'}}"></i> {{progressEnabled ? 'SETTINGS/TORRENT/progressbar-hide/btn' : 'SETTINGS/TORRENT/progressbar-show/btn'|translate}}
@@ -117,10 +117,10 @@
       <span uib-tooltip="{{autostopEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
         <i class="glyphicon glyphicon-{{autostopEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
-      <li translate-once="SETTINGS/TORRENT/autostop/hdr"></li>
+      <li translate-once>SETTINGS/TORRENT/autostop/hdr</li>
     </h2>
     <p>{{autostopEnabled ? 'SETTINGS/TORRENT/autostop-disabled/desc' : 'SETTINGS/TORRENT/autostop-enabled/desc'|translate}}</p>
-    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+    <p><strong  translate-once>COMMON/current-setting/hdr</strong>
      {{autostopEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
     <a ng-click="toggleAutoStop(); reload();" class="btn btn-{{autostopEnabled ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{autostopEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopEnabled ? 'SETTINGS/TORRENT/autostop-disabled/btn' : 'SETTINGS/TORRENT/autostop-enabled/btn'|translate}}
@@ -133,10 +133,10 @@
         <span uib-tooltip="{{autostopAllEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
           <i class="glyphicon glyphicon-{{autostopAllEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
         </span>
-        <li translate-once="SETTINGS/TORRENT/autostopall/hdr"></li>
+        <li translate-once>SETTINGS/TORRENT/autostopall/hdr</li>
       </h2>
         <p>{{autostopAllEnabled ? 'SETTINGS/TORRENT/autostopall-disabled/desc' : 'SETTINGS/TORRENT/autostopall-enabled/desc'|translate}}</p>
-        <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+        <p><strong  translate-once>COMMON/current-setting/hdr</strong>
          {{autostopAllEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
         <a ng-click="toggleAutoStopAll()" class="btn btn-{{autostopAllEnabled ? 'danger' : 'success'}}">
           <i class="glyphicon glyphicon-{{autostopAllEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopAllEnabled ? 'SETTINGS/TORRENT/autostopall-disabled/btn' : 'SETTINGS/TORRENT/autostopall-enabled/btn'|translate}}
@@ -149,10 +149,10 @@
         <span uib-tooltip="{{chromiumEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
           <i class="glyphicon glyphicon-{{chromiumEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
         </span>
-        <li translate-once="SETTINGS/TORRENT/chromium/hdr"></li>
+        <li translate-once>SETTINGS/TORRENT/chromium/hdr</li>
       </h2>
       <p>{{chromiumEnabled ? 'SETTINGS/TORRENT/chromium-disabled/desc' : 'SETTINGS/TORRENT/chromium-enabled/desc'|translate}}</p>
-      <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
        {{chromiumEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
       <a ng-click="toggleChromium()" class="btn btn-{{chromiumEnabled ? 'danger' : 'success'}}">
         <i class="glyphicon glyphicon-{{chromiumEnabled ? 'remove' : 'ok'}}"></i> {{chromiumEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}

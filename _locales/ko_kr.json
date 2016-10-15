@@ -386,7 +386,7 @@
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr": "안전하지 않은 프록시를 허용",
     "SETTINGS/TORRENT/autodownload-days-range/alert": "1과 21 사이의 숫자를 선택",
     "SETTINGS/TORRENT/autodownload-delay-default/lbl": "기본값:15분",
-    "SETTINGS/TORRENT/autodownload-delay-range/alert": "30240 - 지연 0 내에 있어야합니다",
+    "SETTINGS/TORRENT/autodownload-delay-range/alert": "{{adperiod}} - 지연 0 내에 있어야합니다",
     "SETTINGS/TORRENT/autodownload-delay/desc": "자동 다운로드 에피소드가 방영 된 후 토런트 검색을 시작하기 전에 기다리는 시간을 설정합니다.",
     "SETTINGS/TORRENT/autodownload-delay/form": "의사록:",
     "SETTINGS/TORRENT/autodownload-delay/hdr": "자동 다운로드 지연",

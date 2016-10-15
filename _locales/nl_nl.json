@@ -386,7 +386,7 @@
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr": "Onveilige proxies",
     "SETTINGS/TORRENT/autodownload-days-range/alert": "kies een getal tussen 1 en 21",
     "SETTINGS/TORRENT/autodownload-delay-default/lbl": "Standaard: 15 minuten",
-    "SETTINGS/TORRENT/autodownload-delay-range/alert": "kies een getal tussen 0 en 30240",
+    "SETTINGS/TORRENT/autodownload-delay-range/alert": "kies een getal tussen 0 en {{adperiod}}",
     "SETTINGS/TORRENT/autodownload-delay/desc": "Instellen hoe lang de Auto-Download moet wachten voordat u begint met torrent zoekopdrachten na een aflevering werd uitgezonden.",
     "SETTINGS/TORRENT/autodownload-delay/form": "Notulen:",
     "SETTINGS/TORRENT/autodownload-delay/hdr": "Auto-Download vertraging",

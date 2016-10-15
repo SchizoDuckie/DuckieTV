@@ -386,7 +386,7 @@
     "SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr": "危険なプロキシを許可する",
     "SETTINGS/TORRENT/autodownload-days-range/alert": "1と21の間の数を選択する",
     "SETTINGS/TORRENT/autodownload-delay-default/lbl": "デフォルト:15分",
-    "SETTINGS/TORRENT/autodownload-delay-range/alert": "30240 - 遅延が0の範囲内でなければなりません",
+    "SETTINGS/TORRENT/autodownload-delay-range/alert": "{{adperiod}} - 遅延が0の範囲内でなければなりません",
     "SETTINGS/TORRENT/autodownload-delay/desc": "自動ダウンロードエピソードが放送された後のtorrent検索を開始する前に待機する時間を設定します.",
     "SETTINGS/TORRENT/autodownload-delay/form": "分:",
     "SETTINGS/TORRENT/autodownload-delay/hdr": "自動ダウンロード遅延",
