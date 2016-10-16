@@ -1,11 +1,14 @@
-**What version and build of DuckieTV are you using (Standlone, Chrome Extension (New Tab/Browser Action)) (Stable/Nightly)**
+**What build of DuckieTV are you using (Standlone / Chrome Extension (New Tab / Browser Action))**
 ...
 
-**What is your Operating System (Windows, Mac, Linux)**
+**What version of DuckieTV are you using (Stable 1.1.x / Nightly yyyymmdd)**
+...
+
+**What is your Operating System (Windows, Mac, Linux, Android)**
 ...
 
 **Describe the problem you are having and steps to reproduce if available**
 ...
 
 **Attach any DuckieTV statistics or Developer Console logs if available**
-..
+...
