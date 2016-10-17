@@ -75,7 +75,7 @@
   <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/global-size-min/desc</p>
 
   <form name="sizemin">
-    <span translate-once>COMMON/global-size/form</span> <input type="number" min="1" step="1" name="mb" ng-model="globalSizeMin" ng-change="editingGSm = true;" translate-once-placeholder="COMMON/search-size/placeholder">
+    <span translate-once>COMMON/global-size/form</span> <input type="number" min="0" pattern="[0-9]{0,}" name="mb" ng-model="globalSizeMin" ng-change="editingGSm = true;" translate-once-placeholder="COMMON/search-size/placeholder">
     <a ng-show="!sizemin.mb.$valid" class="btn btn-{{editingGSm ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save {{editingGSm ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
     </a>
@@ -91,7 +91,7 @@
   <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/global-size-max/desc</p>
 
   <form name="sizemax">
-    <span translate-once>COMMON/global-size/form</span> <input type="number" min="1" step="1" name="mb" ng-model="globalSizeMax"  ng-change="editingGSM = true;" translate-once-placeholder="COMMON/search-size/placeholder">
+    <span translate-once>COMMON/global-size/form</span> <input type="number" min="0" pattern="[0-9]{0,}" name="mb" ng-model="globalSizeMax"  ng-change="editingGSM = true;" translate-once-placeholder="COMMON/search-size/placeholder">
     <a ng-show="!sizemax.mb.$valid" class="btn btn-{{editingGSM ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save {{editingGSM ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
     </a>

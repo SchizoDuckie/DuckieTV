@@ -51,7 +51,7 @@
         <p><span translate-once>SETTINGS/TORRENT/autodownload-period/desc</span>{{adPeriod}}<span translate-once>SETTINGS/TORRENT/autodownload-period/desc2</span><br><span translate-once>SETTINGS/TORRENT/autodownload-period-default/lbl</span></p>
 
         <form name="p">
-          <span translate-once>SETTINGS/TORRENT/autodownload-period/form</span> <input type="number" name="period" ng-model="adPeriod" ng-change="editingP = true;" min="1" max="21" step="1" required />
+          <span translate-once>SETTINGS/TORRENT/autodownload-period/form</span> <input type="number" name="period" ng-model="adPeriod" ng-change="editingP = true;" min="1" max="21" pattern="[0-9]{0,}" required />
           <a ng-show="!p.period.$valid" class="btn btn-{{editingP ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
             <i class="glyphicon glyphicon-floppy-save {{editingP ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
           </a>
@@ -67,7 +67,7 @@
         <p><span translate-once>SETTINGS/TORRENT/autodownload-delay/desc</span><br/><span translate-once>SETTINGS/TORRENT/autodownload-delay-default/lbl</span></p>
 
         <form name="d">
-          <span translate-once>SETTINGS/TORRENT/autodownload-delay/form</span> <input type="number" name="delay" ng-model="adDelay" ng-change="editingD = true;" min="0" ng-max="adPeriod * 24 * 60" step="1" required />
+          <span translate-once>SETTINGS/TORRENT/autodownload-delay/form</span> <input type="number" name="delay" ng-model="adDelay" ng-change="editingD = true;" min="0" ng-max="adPeriod * 24 * 60" pattern="[0-9]{0,}" required />
           <a ng-show="!d.delay.$valid" class="btn btn-{{editingD ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
             <i class="glyphicon glyphicon-floppy-save {{editingD ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
           </a>
@@ -83,7 +83,7 @@
         <p><span translate-once>SETTINGS/TORRENT/autodownload-seeders/desc</span><br><span translate-once>SETTINGS/TORRENT/autodownload-seeders-default/lbl</span></p>
 
         <form name="s">
-          <span translate-once>SETTINGS/TORRENT/autodownload-seeders/form</span> <input type="number" name="seeders" ng-model="adMinSeeders" ng-change="editingS = true;" min="0" max="3000" step="1" required />
+          <span translate-once>SETTINGS/TORRENT/autodownload-seeders/form</span> <input type="number" name="seeders" ng-model="adMinSeeders" ng-change="editingS = true;" min="0" max="3000" pattern="[0-9]{0,}" required />
           <a ng-show="!s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-disabled="true"  style="float:right; margin-top:-10px;">
             <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
           </a>
