@@ -13,6 +13,39 @@
             "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/custom-search/placeholder\" | translate"
         }
     }, {
+        "key": "autoDownload",
+        "className": "inline-checkbox-small col-xs-6",
+        "type": "input",
+        "templateOptions": {
+            "type": "checkbox",
+            "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"SERIESETTINGSCTRLjs/auto-download/lbl\" | translate"
+        }
+    }]
+}, {
+    "className": "row",
+    "fieldGroup": [{
+        "key": "customDelay",
+        "className": "col-xs-6",
+        "type": "integer",
+        "templateOptions": {
+            "min": "0",
+            "max": "$mappings.data.customDelayMax"
+        },
+        "validation": {
+            "messages": {
+                "min": "$mappings.data.delayErrorMessage",
+                "max": "$mappings.data.delayErrorMessage",
+                "pattern": "$mappings.data.delayErrorMessage"
+            }
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"SERIESETTINGSCTRLjs/custom-delay/lbl\" | translate",
+            "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/custom-delay/placeholder\" | translate"
+        }
+    }, {
         "key": "searchProvider",
         "className": "cseProperty col-xs-6",
         "type": "select",
@@ -39,30 +72,16 @@
         "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/custom-search/placeholder\" | translate"
     }
 }, {
-    "className": "row",
-    "fieldGroup": [{
-        "key": "autoDownload",
-        "className": "inline-checkbox-small col-xs-6",
-        "type": "input",
-        "templateOptions": {
-            "type": "checkbox",
-            "label": ""
-        },
-        "expressionProperties": {
-            "templateOptions.label": "\"SERIESETTINGSCTRLjs/auto-download/lbl\" | translate"
-        }
-    }, {
-        "key": "ignoreGlobalQuality",
-        "className": "inline-checkbox-small col-xs-6",
-        "type": "input",
-        "templateOptions": {
-            "type": "checkbox",
-            "label": ""
-        },
-        "expressionProperties": {
-            "templateOptions.label": "\"COMMON/ignore-global-quality/lbl\" | translate"
-        }
-    }]
+    "key": "ignoreGlobalQuality",
+    "className": "inline-checkbox-small col-xs-6",
+    "type": "input",
+    "templateOptions": {
+        "type": "checkbox",
+        "label": ""
+    },
+    "expressionProperties": {
+        "templateOptions.label": "\"COMMON/ignore-global-quality/lbl\" | translate"
+    }
 }, {
     "className": "row",
     "fieldGroup": [{
@@ -92,11 +111,16 @@
     "className": "row",
     "fieldGroup": [{
         "key": "customSearchSizeMin",
-         "className": "col-xs-6",
-         "type": "input",
-         "templateOptions": {
-            "type": "number",
-            "label": ""
+        "className": "col-xs-6",
+        "type": "integer",
+        "templateOptions": {
+            "min": "0"
+        },
+        "validation": {
+            "messages": {
+                "min": "\"COMMON/global-size/alert\" | translate",
+                "pattern": "\"COMMON/global-size/alert\" | translate"
+            }
         },
         "expressionProperties": {
             "templateOptions.label": "\"COMMON/custom-search-size-min/lbl\" | translate",
@@ -105,10 +129,15 @@
     }, {
         "key": "customSearchSizeMax",
         "className": "col-xs-6",
-        "type": "input",
+        "type": "integer",
         "templateOptions": {
-            "type": "number",
-            "label": ""
+            "min": "0"
+        },
+        "validation": {
+            "messages": {
+                "min": "\"COMMON/global-size/alert\" | translate",
+                "pattern": "\"COMMON/global-size/alert\" | translate"
+            }
         },
         "expressionProperties": {
             "templateOptions.label": "\"COMMON/custom-search-size-max/lbl\" | translate",
@@ -134,9 +163,9 @@
         "type": "button",
         "className": "col-xs-1",
         "templateOptions": {
-        "text": "",
-        "btnType": "info",
-        "onClick": "model.dlPathLocal = null;model.dlPath = null"
+            "text": "",
+            "btnType": "info",
+            "onClick": "model.dlPathLocal = null;model.dlPath = null"
         },
         "expressionProperties": {
             "templateOptions.text": "\"COMMON/clear/btn\" | translate"

@@ -1,8 +1,8 @@
 DuckieTV
-.controller('serieSettingsCtrl', ["$scope", "$filter", "$uibModalInstance", "FavoritesService", "FormlyLoader", "data", "TorrentSearchEngines", "DuckieTorrent",
-function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, TorrentSearchEngines, DuckieTorrent) {
+.controller('serieSettingsCtrl', ["$scope", "$filter", "$uibModalInstance", "FavoritesService", "SettingsService", "FormlyLoader", "data", "TorrentSearchEngines", "DuckieTorrent",
+function($scope, $filter, $modalInstance, FavoritesService, SettingsService, FormlyLoader, data, TorrentSearchEngines, DuckieTorrent) {
+
     FormlyLoader.load('SerieSettings').then(function(form) {
-        $scope.fields = form;
         $scope.model = FavoritesService.getById(data.serie.TVDB_ID); // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)
         $scope.model.ignoreHideSpecials = $scope.model.ignoreHideSpecials == 1;
         $scope.model.autoDownload = $scope.model.autoDownload == 1;
@@ -26,6 +26,7 @@ function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, 
 
         $scope.model.isDownloadPathSupportedLocal = (isDownloadPathSupported && isStandalone && isLocal);
         $scope.model.isDownloadPathSupportedRemote = (isDownloadPathSupported && ((!isStandalone) || (isStandalone && !isLocal)));
+        $scope.fields = form;
     });
 
     $scope.searchProviders = [{'name': '', 'value': null}];
@@ -37,6 +38,12 @@ function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, 
         'searchProviders': $scope.searchProviders
     });
 
+    var addelaymax = parseInt(SettingsService.get('autodownload.period')) * 24 * 60; // customDelay.max cannot exceed adPeriod (days converted to minutes).
+    FormlyLoader.setMapping('data', {
+        'customDelayMax': addelaymax,
+        'delayErrorMessage': '"' + $filter('translate')('COMMON/autodownload-delay-range/alert', {addelaymax: addelaymax}) + '"'
+    });
+
     $scope.save = function() {
         $scope.model.ignoreHideSpecials = $scope.model.ignoreHideSpecials ? 1 : 0;
         $scope.model.autoDownload = $scope.model.autoDownload ? 1 : 0;
@@ -46,6 +53,7 @@ function($scope, $filter, $modalInstance, FavoritesService, FormlyLoader, data, 
         // despite (because?) type=number, some invalid data trapped by formly returns undefined. so this ensures that we persist as null to stop downstream errors.
         $scope.model.customSearchSizeMin = (typeof $scope.model.customSearchSizeMin === 'undefined') ? null : $scope.model.customSearchSizeMin;
         $scope.model.customSearchSizeMax = (typeof $scope.model.customSearchSizeMax === 'undefined') ? null : $scope.model.customSearchSizeMax;
+        $scope.model.customDelay = (typeof $scope.model.customDelay === 'undefined') ? null : $scope.model.customDelay;
         if ($scope.model.isDownloadPathSupportedLocal) {
             // save model dlPath from content of model dlPathLocal
             $scope.model.dlPath = (typeof $scope.model.dlPathLocal === 'undefined' || $scope.model.dlPathLocal === '') ? null : $scope.model.dlPathLocal;

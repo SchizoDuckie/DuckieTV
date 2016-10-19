@@ -9,6 +9,7 @@ var DuckieTV = angular.module('DuckieTV', [
     'ct.ui.router.extras.sticky',
     'ngLocale',
     'ngAnimate',
+    'ngMessages',
     'tmh.dynamicLocale',
     'ui.bootstrap',
     'dialogs.main',
@@ -85,7 +86,8 @@ var DuckieTV = angular.module('DuckieTV', [
  *          "ignoreHideSpecials": 1||0,
  *          "customSearchSizeMin": <integer>||null,
  *          "customSearchSizeMax": <integer>||null,
- *          "dlPath": <string>||null
+ *          "dlPath": <string>||null,
+ *          "customDelay": <integer>||null,
  *      },
  *      {
  *          "TVDB_ID": <Episode_TVDB_ID>,
@@ -101,7 +103,7 @@ var DuckieTV = angular.module('DuckieTV', [
     var service = {
         createBackup: function() {
             // Fetch all the series
-            return CRUD.executeQuery('select Series.TVDB_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax, Series.dlPath from Series').then(function(series) {
+            return CRUD.executeQuery('select Series.TVDB_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax, Series.dlPath, Series.customDelay from Series').then(function(series) {
                 var out = {
                     settings: {},
                     series: {}
@@ -127,10 +129,10 @@ var DuckieTV = angular.module('DuckieTV', [
                         'ignoreHideSpecials': serie.get('ignoreHideSpecials'),
                         'customSearchSizeMin': serie.get('customSearchSizeMin'),
                         'customSearchSizeMax': serie.get('customSearchSizeMax'),
-                        'dlPath': serie.get('dlPath')
+                        'dlPath': serie.get('dlPath'),
+                        'customDelay': serie.get('customDelay')
                     })
                 }
-
                 // Store watched episodes for each serie
                 return CRUD.executeQuery('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
                     while (row = res.next()) {
@@ -303,13 +305,60 @@ var DuckieTV = angular.module('DuckieTV', [
  */
 .run(["formlyConfig",
     function(formlyConfig) {
+      /**
+     * define a form wrapper for formly type=number to provide error message support.
+     */
+    formlyConfig.setWrapper([
+      {
+        template: [
+            '<div class="formly-template-wrapper form-group"',
+                'ng-class="{\'has-error\': options.validation.errorExistsAndShouldBeVisible}">',
+                '<formly-transclude></formly-transclude>',
+                '<div class="alert alert-danger"',
+                    'ng-if="options.validation.errorExistsAndShouldBeVisible"',
+                    'ng-messages="options.formControl.$error">',
+                    '<div ng-message="{{::name}}" ng-repeat="(name, message) in ::options.validation.messages">',
+                        '{{message(options.formControl.$viewValue, options.formControl.$modelValue, this)}}',
+                    '</div>',
+                '</div>',
+            '</div>'
+        ].join(' '),
+        types: 'integer'
+        }
+    ]);
+
     /**
-     * define a custom extension to formly type=input, which defines a html input type=file pop-up, that fetches a directory path instead of a file.
+     * define a custom extension to formly type=input, so the wrapper above gets tied to only type=integer instead of all of the input types.
+     */
+    formlyConfig.setType({
+        name: "integer",
+        extends: "input",
+      defaultOptions: function(options) {
+        return {
+          templateOptions: {
+            type: "number",
+            pattern: "[0-9]{0,}",
+            label: "",
+            placeholder: ""
+          }
+        }
+      }
+    });
+
+      /**
+     * define a custom extension to formly type=input, which defines a html input type=file dialog, that fetches a directory path instead of a file.
      */
     formlyConfig.setType({
         name: 'directory',
         extends: 'input',
-        template: '&nbsp;{{model[options.key]}}<input type="file" downloadpath="model[options.key]" nwdirectory directory />'
+        template: [
+            '&nbsp;',
+            '{{model[options.key]}}',
+            '<input type="file"',
+                'downloadpath="model[options.key]"',
+                'nwdirectory directory',
+            '/>'
+        ].join(' ')
     });
 
     /**
@@ -317,7 +366,15 @@ var DuckieTV = angular.module('DuckieTV', [
      */
     formlyConfig.setType({
         name: 'button',
-        template: '<div><button type="{{::to.type}}" class="btn btn-{{::to.btnType}}" ng-click="onClick($event)">{{to.text}}</button></div>',
+        template: [
+            '<div>',
+                '<button type="{{::to.type}}"',
+                    'class="btn btn-{{::to.btnType}}"',
+                    'ng-click="onClick($event)">',
+                    '{{to.text}}',
+                '</button>',
+            '</div>'
+        ].join(' '),
         wrapper: ['bootstrapLabel'],
         defaultOptions: {
             templateOptions: {

@@ -45,8 +45,8 @@ DuckieTV
                 }
 
                 service.activityList = [];
-                var period = SettingsService.get('autodownload.period'); // Period to check for updates up until today current time, default 1
-                var delay = SettingsService.get('autodownload.delay'); // Period in minutes to wait after episode has aired before auto-downloading, default 15m
+                var period = parseInt(SettingsService.get('autodownload.period')); // Period to check for updates up until today current time, default 1
+                var settingsDelay = parseInt(SettingsService.get('autodownload.delay')); // Period in minutes to wait after episode has aired before auto-downloading, default 15m
                 var lastRun = SettingsService.get('autodownload.lastrun'),
                     from = new Date();
                 if (lastRun) {
@@ -70,22 +70,7 @@ DuckieTV
                                     ID_Serie: episode.ID_Serie
                                 }).then(function(serie) {
                                     var serieEpisode = serie.name + ' ' + episode.getFormattedEpisode();
-                                    /**
-                                     * is episode onair? don't go looking for torrent yet. (saves pointless broadband usage)
-                                     * default onair end-time is calculated as firstaired timestamp + runtime minutes + delay minutes
-                                     * if firstaired < 1 or null, default to (now - runtime - delay)
-                                     * if runtime is null, default to 60mins
-                                     * delay defaults to 15mins in settings
-                                     */
-                                    var epfa = (episode.firstaired !== null && episode.firstaired > 0) ? new Date(episode.firstaired) : service.toDT - runtime - delay;
-                                    var runtime = (serie.runtime) ? parseInt(serie.runtime) : 60;
-                                    var episodeAired = new Date(epfa.getFullYear(), epfa.getMonth(), epfa.getDate(), epfa.getHours(), epfa.getMinutes() + runtime + delay, epfa.getSeconds()).getTime();
-
                                     // filter out episode from torrent search
-                                    if (episodeAired > service.toDT) {
-                                        service.activityUpdate(serie, episode, serieEpisode, 8); // 'onair + delay'
-                                        return; // the episode is broadcasting right now
-                                    };
                                     if (episode.seasonnumber === 0 && !showSpecials && serie.ignoreHideSpecials !== 1) {
                                         service.activityUpdate(serie, episode, serieEpisode, 3, ' HS'); // 'autoDL disabled'
                                         return; // user has chosen not to show specials on calendar so we assume they do not expect them to be auto-downloaded
@@ -101,6 +86,22 @@ DuckieTV
                                     if (episode.magnetHash !== null && (episode.magnetHash in remote.torrents)) {
                                             service.activityUpdate(serie, episode, serieEpisode, 2); // 'has magnet'
                                         return; // if the episode already has a magnet, skip it.
+                                    };
+                                    /**
+                                     * is episode onair? don't go looking for torrent yet. (saves pointless broadband usage)
+                                     * default onair end-time is calculated as firstaired + runtime minutes + delay minutes
+                                     * if firstaired < 1 or null default to (now - runtime - delay) (i.e. force looking for torrent)
+                                     * if runtime is null defaults to 60mins
+                                     * delay defaults to 15mins in settings
+                                     */
+                                    var delay = (serie.customDelay) ? parseInt(serie.customDelay) : settingsDelay; // override settings delay with series custom delay if used
+                                    delay = (delay > (period * 24 * 60)) ? period * 24 * 60 : delay; // sanity check.  Period could have changed after serie.CustomDelay was set.
+                                    var epfa = (episode.firstaired !== null && episode.firstaired > 0) ? new Date(episode.firstaired) : service.toDT - runtime - delay;
+                                    var runtime = (serie.runtime) ? parseInt(serie.runtime) : 60;
+                                    var episodeAired = new Date(epfa.getFullYear(), epfa.getMonth(), epfa.getDate(), epfa.getHours(), epfa.getMinutes() + runtime + delay, epfa.getSeconds()).getTime();
+                                    if (episodeAired > service.toDT) {
+                                        service.activityUpdate(serie, episode, serieEpisode, 8); // 'onair + delay'
+                                        return; // the episode is broadcasting right now
                                     };
 
                                     if (serie.autoDownload == 1) {
