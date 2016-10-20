@@ -2,8 +2,6 @@
   "nodejs": true,
   "additional_trust_anchors": "",
   "private": true,
-  "inject-js-end": "",
-  "node-remote": "",
   "keywords": [
     "DuckieTV",
     "bittorrent",
@@ -54,7 +52,7 @@
   "user-agent": "DuckieTV Standalone v1.1.4",
   "window": {
     "show": false,
-    "always-on-top": false,
+    "always_on_top": false,
     "as_desktop": true,
     "exe_icon": "C:/xampp/htdocs/deploy/newtab/img/logo/icon128.png",
     "frame": false,
@@ -69,13 +67,13 @@
     "resizable": true,
     "show_in_taskbar": true,
     "title": "DuckieTV Standalone v1.1.4",
-    "toolbar": false,
     "transparent": false,
     "visible": true,
     "width": 1000
   },
   "version": "1.1.4",
-  "inject-js-start": "",
+  "inject_js_start": "",
+  "inject_js_end": "",
   "main": "tab.html",
   "chromium-args": "",
   "webexe_settings": {
@@ -87,7 +85,7 @@
     "mac-x32": true,
     "mac-x64": false,
     "nw_compression_level": 5,
-    "nw_version": "0.12.3",
+    "nw_version": "0.14.7",
     "windows": true,
     "windows-x32": true,
     "windows-x64": false
@@ -107,6 +105,5 @@
   "license": "MIT",
   "name": "DuckieTV-Standalone",
   "node-main": "",
-  "single-instance": true,
-  "snapshot": ""
+  "default_locale": "en"
 }

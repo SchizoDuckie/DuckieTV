@@ -47,13 +47,13 @@ var DuckieTV = angular.module('DuckieTV', [
  * which ensures that standalone gets some pre-processing done before actioning
  * the window.location.reload()  fixes #569
  */
-.service('DuckietvReload', function() {
+.service('DuckietvReload', ["$rootScope", function($rootScope) {
     var service = {
         windowLocationReload: function() {
             if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
                 // reload for standalones
                 //console.debug('DuckietvReload for standalone');
-                require('nw.gui').Window.get().emit('locationreload');
+                $rootScope.$emit('locationreload');
             } else {
                 // reload for non-standalone
                 //console.debug('DuckietvReload for non-standalone');
@@ -62,7 +62,7 @@ var DuckieTV = angular.module('DuckieTV', [
         }
     };
     return service;
-})
+}])
 
 /**
  * BackupService is injected whenever a backup is requested
