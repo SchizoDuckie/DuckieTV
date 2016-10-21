@@ -11,16 +11,21 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     details: '%s'
                 },
                 selectors: {
-                    resultContainer: 'div.tab-detail ul.clearfix li',
-                    releasename: ['div.coll-1 strong a', 'innerText'],
-                    seeders: ['div.coll-2 span', 'innerText'],
-                    leechers: ['div.coll-3 span', 'innerText'],
-                    size: ['div.coll-4 span', 'innerText'],
-                    detailUrl: ['div.coll-1 strong a', 'href']
+                    resultContainer: 'tr',
+                    releasename: ['td.coll-1 a:nth-of-type(2)', 'innerText'],
+                    seeders: ['td.coll-2', 'innerText'],
+                    leechers: ['td.coll-3', 'innerText'],
+                    size: ['td.coll-4', 'innerHTML',
+                        function(text) {
+                            var textPart = text.split('<');
+                            return textPart[0];
+                        }
+                    ],
+                    detailUrl: ['td.coll-1 a:nth-of-type(2)', 'href']
                 },
                 detailsSelectors: {
-                    detailsContainer: 'div.content',
-                    magnetUrl: ['#magnetdl', 'href']
+                    detailsContainer: 'div[class^="torrent-category-detail"]',
+                    magnetUrl: ['li a', 'href']
                 },
                 orderby: {
                     age: {d: 'time/desc', a: 'time/asc'},
