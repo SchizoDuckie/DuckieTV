@@ -27,23 +27,22 @@
 }, {
     "className": "row",
     "fieldGroup": [{
-        "key": "customDelay",
+        "key": "customDelayInput",
         "className": "col-xs-6",
-        "type": "integer",
+        "type": "delay",
+        "validators": "$mappings.validators.customDelayInput",
         "templateOptions": {
-            "min": "0",
-            "max": "$mappings.data.customDelayMax"
+            "pattern": "([0-9]){1,2}(\\s){1}([0-2][0-9]){1}([:]){1}([0-5][0-9]){1}",
+            "placeholder": "d hh:mm (days hours:minutes)"
         },
         "validation": {
             "messages": {
-                "min": "$mappings.data.delayErrorMessage",
-                "max": "$mappings.data.delayErrorMessage",
+                "expression": "$mappings.data.delayErrorMessage",
                 "pattern": "$mappings.data.delayErrorMessage"
             }
         },
         "expressionProperties": {
-            "templateOptions.label": "\"SERIESETTINGSCTRLjs/custom-delay/lbl\" | translate",
-            "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/custom-delay/placeholder\" | translate"
+            "templateOptions.label": "\"SERIESETTINGSCTRLjs/custom-delay/lbl\" | translate"
         }
     }, {
         "key": "searchProvider",

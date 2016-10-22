@@ -67,15 +67,15 @@
         <p><span translate-once>SETTINGS/TORRENT/autodownload-delay/desc</span><br/><span translate-once>SETTINGS/TORRENT/autodownload-delay-default/lbl</span></p>
 
         <form name="d">
-          <span translate-once>SETTINGS/TORRENT/autodownload-delay/form</span> <input type="number" name="delay" ng-model="adDelay" ng-change="editingD = true;" min="0" ng-max="adPeriod * 24 * 60" pattern="[0-9]{0,}" required />
-          <a ng-show="!d.delay.$valid" class="btn btn-{{editingD ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
-            <i class="glyphicon glyphicon-floppy-save {{editingD ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
-          </a>
+          <span translate-once>SETTINGS/TORRENT/autodownload-delay/form</span> <input type="text" name="delay" ng-model="adDelay" ng-change="editingD = true;" pattern="([0-9]){1,2}(\s){1}([0-2][0-9]){1}([:]){1}([0-5][0-9]){1}" required ad-delay-validation style="width: 100px" />
           <a ng-show="d.delay.$valid" class="btn btn-{{editingD ? 'info' : 'success'}}" ng-click="saveADDelay(adDelay); editingD = false;" style="float:right; margin-top:-10px;">
             <i class="glyphicon glyphicon-floppy-save {{editingD ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
           </a>
+          <a ng-hide="d.delay.$valid" class="btn btn-{{editingD ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
+            <i class="glyphicon glyphicon-floppy-save {{editingD ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+          </a>
         </form>
-        <span class="alert alert-danger" ng-show="!d.delay.$valid" translate-value-addelaymax="{{adPeriod * 24 * 60}}" translate>COMMON/autodownload-delay-range/alert</span>
+        <span class="alert alert-danger" ng-hide="d.delay.$valid" translate-value-addelaymax="{{(adPeriod * 24 * 60).minsToDhm()}}" translate>COMMON/autodownload-delay-range/alert</span>
 
         <hr class="setting-divider">
 

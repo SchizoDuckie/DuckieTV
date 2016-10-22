@@ -323,7 +323,7 @@ var DuckieTV = angular.module('DuckieTV', [
                 '</div>',
             '</div>'
         ].join(' '),
-        types: 'integer'
+        types: ['integer', 'delay']
         }
     ]);
 
@@ -338,6 +338,23 @@ var DuckieTV = angular.module('DuckieTV', [
           templateOptions: {
             type: "number",
             pattern: "[0-9]{0,}",
+            label: "",
+            placeholder: ""
+          }
+        }
+      }
+    });
+
+    /**
+     * define a custom extension to formly type=input, so the wrapper above can be tied to it.
+     */
+    formlyConfig.setType({
+        name: "delay",
+        extends: "input",
+      defaultOptions: function(options) {
+        return {
+          templateOptions: {
+            type: "text",
             label: "",
             placeholder: ""
           }

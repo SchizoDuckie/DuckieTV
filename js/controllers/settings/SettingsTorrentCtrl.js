@@ -25,7 +25,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.adMinSeeders = SettingsService.get('autodownload.minSeeders');
         $scope.chromiumEnabled = SettingsService.get('torrenting.launch_via_chromium');
         $scope.useTD2 = SettingsService.get('torrentDialog.2.enabled');
-        $scope.adDelay = SettingsService.get('autodownload.delay');
+        $scope.adDelay = SettingsService.get('autodownload.delay').minsToDhm();
 
         $scope.katmirrorStatus = [];
         $scope.tpbmirrorStatus = [];
@@ -203,7 +203,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
          * Changes the delay that AutoDownload waits before searching for an episodes' torrent
          */
         $scope.saveADDelay = function(delay) {
-            SettingsService.set('autodownload.delay', delay);
+            SettingsService.set('autodownload.delay', delay.dhmToMins());
             AutoDownloadService.detach(); // restart kickoff method.
             AutoDownloadService.attach();
         };
@@ -287,3 +287,32 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
 
     }
 ])
+.directive('adDelayValidation', ["SettingsService", function(SettingsService) {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, element, attr, ctrl) {
+            function validationError(value) {
+                // if empty then exit
+                if (null === value || undefined === value || '' === value) {
+                    ctrl.$setValidity('addelayinvalid', true);
+                    return value;
+                }
+                // customDelay.max cannot exceed adPeriod (days converted to minutes).
+                var adDelayMaxMinutes = parseInt(SettingsService.get('autodownload.period') * 24 * 60); 
+                // parse dhm
+                var dhmPart = value.split(/[\s:]+/);
+                var days = parseInt(dhmPart[0]);
+                var hours = parseInt(dhmPart[1]);
+                var minutes = parseInt(dhmPart[2]);
+                // test validity
+                var valid = (days >= 0 && days <= 21 && hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59 && value.dhmToMins() <= adDelayMaxMinutes);
+                // set error state
+                ctrl.$setValidity('addelayinvalid', valid);
+                return value;
+            }
+            // insert function into parsers list
+            ctrl.$parsers.push(validationError);
+        }
+    }
+}])
