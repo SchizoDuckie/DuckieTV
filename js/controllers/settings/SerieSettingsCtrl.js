@@ -91,7 +91,7 @@ function($scope, $filter, $modalInstance, FavoritesService, SettingsService, For
         // despite (because?) type=number, some invalid data trapped by formly returns undefined. so this ensures that we persist as null to stop downstream errors.
         $scope.model.customSearchSizeMin = (typeof $scope.model.customSearchSizeMin === 'undefined') ? null : $scope.model.customSearchSizeMin;
         $scope.model.customSearchSizeMax = (typeof $scope.model.customSearchSizeMax === 'undefined') ? null : $scope.model.customSearchSizeMax;
-        $scope.model.customDelay = (typeof $scope.model.customDelayInput === 'undefined') ? null : $scope.model.customDelayInput.dhmToMins();
+        $scope.model.customDelay = (typeof $scope.model.customDelayInput === 'undefined'  || $scope.model.customDelayInput === null || $scope.model.customDelayInput === '') ? null : $scope.model.customDelayInput.dhmToMins();
         if ($scope.model.isDownloadPathSupportedLocal) {
             // save model dlPath from content of model dlPathLocal
             $scope.model.dlPath = (typeof $scope.model.dlPathLocal === 'undefined' || $scope.model.dlPathLocal === '') ? null : $scope.model.dlPathLocal;
