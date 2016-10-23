@@ -3,6 +3,7 @@ factory('SceneXemResolver', ["$q", "$http",
     function($q, $http) {
         var mappings = [],
             cache = {},
+            logged = [],
             getXemCacheForSerie = function(tvdb_id) {
                 if ((tvdb_id in cache)) {
                     return $q.resolve(cache[tvdb_id]);
@@ -13,6 +14,13 @@ factory('SceneXemResolver', ["$q", "$http",
                     });
                 }
 
+            },
+            isNotLogged = function(id) {
+                var found = (logged.indexOf(id) > -1);
+                if (!found) {
+                    logged.push(id);
+                }
+                return !found;
             };
 
         var service = {
@@ -37,15 +45,21 @@ factory('SceneXemResolver', ["$q", "$http",
                             return show.tvdb.season == episode.seasonnumber && show.tvdb.episode == episode.episodenumber;
                         });
                         if (matches.length > 0) {
-                            console.info("Xem has episode for %s (%s), using mapped format.", serie.name, serie.TVDB_ID, matches[0].scene);
+                            if (isNotLogged(serie.TVDB_ID.toString() + episode.getFormattedEpisode() + 'Y')) {
+                                console.info("Xem has episode %s for %s (%s), using mapped format.", episode.getFormattedEpisode(), serie.name, serie.TVDB_ID, matches[0].scene);
+                            }
                             return sceneName + episode.formatEpisode(matches[0].scene.season, matches[0].scene.episode) + append;
                         } else {
-                            console.info("Xem does not have episode for %s (%s), using default format.", serie.name, serie.TVDB_ID);
+                            if (isNotLogged(serie.TVDB_ID.toString() + episode.getFormattedEpisode() + 'N')) {
+                                console.info("Xem does not have episode %s for %s (%s), using default format.", episode.getFormattedEpisode(), serie.name, serie.TVDB_ID);
+                            }
                             return sceneName + episode.getFormattedEpisode() + append;
                         }
                     });
                 } else {
-                    console.info("Xem does not have series %s (%s), using default format.", serie.name, serie.TVDB_ID);
+                    if (isNotLogged(serie.TVDB_ID.toString())) {
+                        console.info("Xem does not have series %s (%s), using default format.", serie.name, serie.TVDB_ID);
+                    }
                     return $q.resolve(sceneName + episode.getFormattedEpisode() + append);
                 }
             }
