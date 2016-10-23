@@ -100,7 +100,12 @@ DuckieTV
                                     var runtime = (serie.runtime) ? parseInt(serie.runtime) : 60;
                                     var episodeAired = new Date(epfa.getFullYear(), epfa.getMonth(), epfa.getDate(), epfa.getHours(), epfa.getMinutes() + runtime + delay, epfa.getSeconds()).getTime();
                                     if (episodeAired > service.toDT) {
-                                        service.activityUpdate(serie, episode, serieEpisode, 8, ' ' + new Date(episodeAired).toTimeString().substr(0, 5)); // 'onair + delay'
+                                        var totalMinutesToGo = ((episodeAired - service.toDT) / 1000 / 60);
+                                        var dhm = totalMinutesToGo.minsToDhm();
+                                        if (totalMinutesToGo < (24 * 60)) {
+                                            dhm = dhm.substr(2); // less that 24 hours, strip the leading days
+                                        }
+                                        service.activityUpdate(serie, episode, serieEpisode, 8, ' ' + dhm); // 'onair + delay'
                                         return; // the episode is broadcasting right now
                                     };
 
