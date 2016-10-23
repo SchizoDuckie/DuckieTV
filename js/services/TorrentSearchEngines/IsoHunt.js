@@ -2,7 +2,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
     function(TorrentSearchEngines, SettingsService, $q, $http, $injector) {
         if (SettingsService.get('torrenting.enabled')) {
             TorrentSearchEngines.registerSearchEngine('IsoHunt', new GenericTorrentSearchEngine({
-                mirror: ' https://isohunt.to',
+                mirror: 'https://isohunt.to',
                 mirrorResolver: null, 
                 includeBaseURL: true,
                 endpoints: {
@@ -14,7 +14,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     releasename: ['td:nth-child(2) a span', 'innerText'],
                     magnetUrl: ['a[title="BitLord streaming"]', 'data-href',
                         function(href) {
-                            return href.replace('torrentstream','magnet') + '&tr=udp://tracker.coppersurfer.tk:6969/announce&tr=udp://tracker.openbittorrent.com:80/announce&tr=udp://11.rarbg.me:80/announce&tr=udp://9.rarbg.me:2710/announce&tr=udp://9.rarbg.com:2710/announce';
+                            return href.replace('torrentstream','magnet') + TorrentSearchEngines.trackers;
                         }
                     ],
                     size: ['td:nth-child(6)', 'innerText'],

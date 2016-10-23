@@ -49,6 +49,30 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
 
         var service = {
 
+            // list of common current trackers for SE that don't provide any on their magnets (IsoHunt, Zooqle, Idope, TorrentZ2)
+            trackers: [
+                "&tr=http://tracker.trackerfix.com:80/announce",
+                "&tr=udp://9.rarbg.com:2710/announce",
+                "&tr=udp://9.rarbg.me:2710/announce",
+                "&tr=udp://9.rarbg.to:2710/announce",
+                "&tr=udp://coppersurfer.tk:6969/announce",
+                "&tr=udp://eddie4.nl:6969/announce",
+                "&tr=udp://exodus.desync.com:6969",
+                "&tr=udp://glotorrents.pw:6969/announce",
+                "&tr=udp://open.demonii.com:1337",
+                "&tr=udp://p4p.arenabg.ch:1337/announce",
+                "&tr=udp://p4p.arenabg.com:1337",
+                "&tr=udp://torrent.gresille.org:80/announce",
+                "&tr=udp://tracker.aletorrenty.pl:2710/announce",
+                "&tr=udp://tracker.coppersurfer.tk:6969/announce",
+                "&tr=udp://tracker.glotorrents.com:6969/announce",
+                "&tr=udp://tracker.internetwarriors.net:1337",
+                "&tr=udp://tracker.leechers-paradise.org:6969/announce",
+                "&tr=udp://tracker.openbittorrent.com:80/announce",
+                "&tr=udp://tracker.opentrackr.org:1337/announce",
+                "&tr=udp://zer0day.ch:1337/announce"
+            ].join(''),
+
             registerSearchEngine: function(name, implementation) {
                 name in engines ? console.info("Updating torrent search engine", name) : console.info("Registering torrent search engine:", name);
                 engines[name] = nativeEngines[name] = implementation;
@@ -154,6 +178,8 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     }, 1500);
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.getInfoHash());
                 }
+                var audio = new Audio('Exclamation.wav');
+                audio.play();
             },
 
             launchTorrentByUpload: function(data, TVDB_ID, name, dlPath) {
@@ -168,6 +194,8 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
                     }, 1500);
                 }
+                var audio = new Audio('Exclamation.wav');
+                audio.play();
             },
 
             launchTorrentByURL: function(torrentUrl, TVDB_ID, name, dlPath) {
@@ -198,6 +226,8 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                         }
                     }, 1500);
                 }
+                var audio = new Audio('Exclamation.wav');
+                audio.play();
             }
         }; 
 

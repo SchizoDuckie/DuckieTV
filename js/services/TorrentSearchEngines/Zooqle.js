@@ -15,7 +15,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     releasename: ['td:nth-child(2) > a', 'innerText'],
                     magnetUrl: ['a[title^="Magnet link"]', 'href',
                         function(href) {
-                            return href + '&tr=udp://tracker.coppersurfer.tk:6969/announce&tr=udp://9.rarbg.me:2780/announce&tr=udp://9.rarbg.to:2710/announce&tr=udp://9.rarbg.com:2740/announce&tr=udp://eddie4.nl:6969/announce&tr=udp://tracker.leechers-paradise.org:6969/announce&tr=udp://explodie.org:6969/announce&tr=udp://p4p.arenabg.ch:1337/announce';
+                            return href + TorrentSearchEngines.trackers;
                         }
                     ],
                     size: ['td:nth-child(4)', 'innerText',
