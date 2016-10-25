@@ -7,6 +7,7 @@
  * Works for both 3.2+ and below.
  *
  * - Does not support setting the download directory
+ * - Does not support setting the label
  */
 qBittorrentData = function(data) {
     this.update(data);

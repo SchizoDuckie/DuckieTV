@@ -4,7 +4,8 @@
  * API Docs:
  * https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-Documentation
  * 
- * - Supports setting download directory (After qBittorrent v3.3.1, using API7)
+ * - Supports setting download directory (After qBittorrent v3.3.1, using API7+)
+ * - Supports setting label (After qBittorrent v3.3.1, using API7+)
  */
 
 DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
@@ -40,7 +41,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                     return false;
                 });
             },
-            addMagnet: function(magnetHash, dlPath) {
+            addMagnet: function(magnetHash, dlPath, label) {
                 var self = this;
                 if (self.config.version > 6) {
                     // API7
@@ -48,6 +49,9 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                     fd.append('urls', magnetHash);
                     if (dlPath !== undefined && dlPath !== null) {
                         fd.append('savepath', dlPath);
+                    }
+                    if (label !== undefined && label !== null) {
+                        fd.append('category', label);
                     }
                     var headers = {
                         'Content-Type': undefined,
@@ -148,6 +152,13 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
              * qBittorrent API7+ supports setting the Download Path when adding magnets and .torrents. 
              */
             isDownloadPathSupported: function() {
+                var self = this;
+                return (self.config.version > 6);
+            },
+            /**
+             * qBittorrent API7+ supports setting the Label when adding magnets and .torrents. 
+             */
+            isLabelSupported: function() {
                 var self = this;
                 return (self.config.version > 6);
             },
