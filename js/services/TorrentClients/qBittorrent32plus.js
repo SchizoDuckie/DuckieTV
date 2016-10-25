@@ -69,13 +69,23 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                     });
                 }
             },
-            addTorrentByUpload: function(data, releaseName) {
+            addTorrentByUpload: function(data, releaseName, dlPath, label) {
                 var self = this;
                 var headers = {
                     'Content-Type': undefined
                 };
                 var fd = new FormData();
                 fd.append('torrents', data, releaseName + '.torrent');
+
+                if (self.config.version > 6) {
+                    // API7
+                    if (dlPath !== undefined && dlPath !== null) {
+                        fd.append('savepath', dlPath);
+                    }
+                    if (label !== undefined && label !== null) {
+                        fd.append('category', label);
+                    }
+                };
 
                 return $http.post(this.getUrl('addfile'), fd, {
                     transformRequest: angular.identity,
