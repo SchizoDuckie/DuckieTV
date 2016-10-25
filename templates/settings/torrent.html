@@ -142,6 +142,23 @@
           <i class="glyphicon glyphicon-{{autostopAllEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopAllEnabled ? 'SETTINGS/TORRENT/autostopall-disabled/btn' : 'SETTINGS/TORRENT/autostopall-enabled/btn'|translate}}
         </a>
     </div>
+    <div class="hide-prod">
+      <hr class="setting-divider">
+
+      <h2>
+        <span uib-tooltip="{{labelEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
+          <i class="glyphicon glyphicon-{{labelEnabled ? 'tag alert-success' : 'remove alert-info'}}" ></i>
+        </span>
+        <li translate-once>SETTINGS/TORRENT/label/hdr</li>
+      </h2>
+
+      <p translate-once>SETTINGS/TORRENT/label/desc</p>
+      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+       {{labelEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+      <a ng-click="toggleLabel()" class="btn btn-{{labelEnabled ? 'info' : 'success'}}">
+        <i class="glyphicon glyphicon-{{labelEnabled ? 'remove' : 'tag'}}"></i>&nbsp;{{labelEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+      </a>
+    </div>
     <div>
       <hr class="setting-divider">
 
