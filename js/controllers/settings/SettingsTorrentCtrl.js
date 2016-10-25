@@ -26,6 +26,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.chromiumEnabled = SettingsService.get('torrenting.launch_via_chromium');
         $scope.useTD2 = SettingsService.get('torrentDialog.2.enabled');
         $scope.adDelay = SettingsService.get('autodownload.delay').minsToDhm();
+        $scope.labelEnabled = SettingsService.get('torrenting.label');
 
         $scope.katmirrorStatus = [];
         $scope.tpbmirrorStatus = [];
@@ -141,6 +142,11 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.toggleDirectory = function() {
             $scope.directoryEnabled = !$scope.directoryEnabled;
             SettingsService.set('torrenting.directory', $scope.directoryEnabled);
+        };
+
+        $scope.toggleLabel = function() {
+            $scope.labelEnabled = !$scope.labelEnabled;
+            SettingsService.set('torrenting.label', $scope.labelEnabled);
         };
 
         $scope.toggleProgress = function() {

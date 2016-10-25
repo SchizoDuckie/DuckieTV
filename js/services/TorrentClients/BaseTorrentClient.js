@@ -357,6 +357,16 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
                 return this.getAPI().isDownloadPathSupported();
             },
 
+            /**
+             * the default is that the client does not support setting a Label when adding magnets and .torrents. 
+             */
+            isLabelSupported: function() {
+                if (!('isLabelSupported' in this.getAPI())) {
+                    return false;
+                }
+                return this.getAPI().isLabelSupported();
+            },
+
             request: function(type, params, options) {
                 return request(type, params, options);
             }
