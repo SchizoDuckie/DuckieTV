@@ -588,6 +588,7 @@ serieheader .badge {
   transition: opacity 0.2s ease-in-out;
 }
 
+
 [series-grid=true] serieheader[mode=poster] {
   top: 0px;
   left: 0px;
@@ -595,20 +596,26 @@ serieheader .badge {
   transition: transform 0.35s ease-in-out;
 }
 
+[series-grid=false] .series-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
 /* Main container for the posters
  * Note: The posters class itself has no margins or paddings and is just the size of the poster
  * this means the only thing seperating the posters is this margin here. This allows easy distancing
  * of the posters but also easily allows a no-gap mode between posters which looks kinda nice. */
 
+serieheader[mode='poster'] {
+ margin: 0px 5px 11px 5px;
+}
+
 serieheader[mode='poster'] .serieheader {
   position: relative;
   background-color: transparent;
   border: 0;
-  display: inline-block;
-  margin: 0px 5px 11px 5px;
 }
-
 
 /* Standard Poster Size */
 
@@ -645,14 +652,13 @@ serieheader .poster .img {
   transition: opacity .175s ease-in-out;
 }
 
-serieheader .poster.active, serieheader .banner.active {
+.serieheader.active .poster, .serieheader.active .banner {
   border: 1px solid yellow;
 }
 
 serieheader .poster.img-loading .img, serieheader .banner.img-loading .img {
   opacity: 0;
 }
-
 
 /* Hovering Poster Highlight */
 

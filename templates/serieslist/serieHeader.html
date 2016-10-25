@@ -1,11 +1,11 @@
 <!-- serieHeader.html -->
-<div class="serieheader" uib-tooltip-template="'serieHeaderTitleTooltip.html'" tooltip-popup-delay="150" tooltip-append-to-body="true">
+<div class="serieheader" ui-sref-active="active" uib-tooltip-template="'serieHeaderTitleTooltip.html'" tooltip-popup-delay="150" tooltip-append-to-body="true">
   <div ng-show="!noBadge">
     <em ng-show="data.notWatchedCount != 0 " class="badge">
       <i class="glyphicon glyphicon-eye-close" ></i> {{data.notWatchedCount}}
     </em>
   </div>
-  <a class="{{mode}}" ng-if="!noListButton" ui-sref="serie({id: data.ID_Serie})" ui-sref-opts="{reload: true}" ui-sref-active="active" lazy-background="{{mode == 'poster' ? data.poster : data.banner}}" alt-lazy="1">
+  <a class="{{mode}}" ng-if="!noListButton" ui-sref="serie({id: data.ID_Serie})" ui-sref-opts="{reload: true}" lazy-background="{{mode == 'poster' ? data.poster : data.banner}}" alt-lazy="1">
     <figure>
       <div class="img"></div>
       <figcaption>

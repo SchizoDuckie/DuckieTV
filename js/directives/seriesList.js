@@ -45,12 +45,9 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
         restrict: 'A',
         controllerAs: 'grid',
         controller: ["$scope", "SidePanelState", "SettingsService", function($scope, SidePanelState, SettingsService) {
-            if (SettingsService.get('library.seriesgrid') == false) {
-                return;
-            }
             var posterWidth, posterHeight, postersPerRow, centeringOffset, verticalOffset, oldClientWidth;
             var container = document.querySelector('[series-grid]');
-            var el = container.querySelector('.series-grid');
+            var seriesGrid = container.querySelector('.series-grid');
             var noScroll = container.hasAttribute('no-scroll');
 
             // ease in out function thanks to:
@@ -64,17 +61,22 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 return start + (end - start) * easeInOutCubic(elapsed / duration); // <-- you can change the easing funtion there
             };
 
-            var smoothScroll = function(parent, el, duration) {
-                if (el === null || !el.offsetParent || !el.offsetParent.offsetParent || noScroll) {
+            var smoothScroll = function(el, duration) {
+                if (!el || noScroll) {
                     return;
                 }
                 duration = duration || 350;
-                var start = parent.scrollTop;
-                var end = el.offsetParent.offsetParent.offsetParent.offsetTop;
+                var start = container.scrollTop;
+                var end;
+                if (SettingsService.get('library.seriesgrid') == true) {
+                  end = parseInt(el.parentElement.style.transform.replace('translate3d(', '').split(',')[1].slice(1, -2)) - 150;
+                } else {
+                  end = el.offsetTop;
+                }
                 var clock = Date.now();
                 var step = function() {
                     var elapsed = Date.now() - clock;
-                    parent.scrollTop = position(start, end, elapsed, duration);
+                    container.scrollTop = position(start, end, elapsed, duration);
                     if (elapsed < duration) {
                         window.requestAnimationFrame(step);
                     }
@@ -84,34 +86,34 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
 
             var activeScroller = null;
 
-            scrollToActive = function() {
+            var scrollToActive = function() {
                 clearTimeout(activeScroller);
                 activeScroller = setTimeout(function() {
-                    smoothScroll(container, el.querySelector('.serieheader .active'));
+                    smoothScroll(seriesGrid.querySelector('.serieheader.active'));
                 }, 800);
             };
 
-            this.smoothScrollTo = function() {
-                scrollToActive();
-            };
-
             function recalculate() {
+                if (SettingsService.get('library.seriesgrid') == false) {
+                    return scrollToActive();
+                }
                 var isMini = container.classList.contains('miniposter');
                 var maxPosters = container.getAttribute('max-posters') ? parseInt(container.getAttribute('max-posters')) : 0;
                 posterWidth = isMini ? 140 : 175; // Includes paddings
                 posterHeight = isMini ? 206 : 258; // Includes paddings
-                oldClientWidth = el.clientWidth;
-                postersPerRow = Math.floor(el.clientWidth / posterWidth);
-                centeringOffset = (el.clientWidth - (postersPerRow * posterWidth)) / 2;
+                oldClientWidth = seriesGrid.clientWidth;
+                postersPerRow = Math.floor(seriesGrid.clientWidth / posterWidth);
+                centeringOffset = (seriesGrid.clientWidth - (postersPerRow * posterWidth)) / 2;
 
                 if (maxPosters != 0) {
-                    el.style.height = (Math.ceil(maxPosters / postersPerRow) * posterHeight) + 'px';
+                    seriesGrid.style.height = (Math.ceil(maxPosters / postersPerRow) * posterHeight) + 'px';
                 }
+
                 $scope.$applyAsync();
                 scrollToActive();
             }
 
-            var observer = new MutationObserver(function(mutations) {
+            var observer = new MutationObserver(function() {
                 recalculate();
             });
 
@@ -123,15 +125,19 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             observer.observe(container, config);
             observer.observe(document.querySelector('sidepanel'), config);
 
-            this.getLeft = function(idx, max) {
-                if (idx === 0 && oldClientWidth != el.clientWidth) {
+            this.getPosition = function(idx, max) {
+              return 'transform: translate3d(' + getLeft(idx, max) + 'px, ' + getTop(idx) + 'px, 0px)';
+            };
+
+            var getLeft = function(idx, max) {
+                if (idx === 0 && oldClientWidth != seriesGrid.clientWidth) {
                     recalculate();
                 }
                 var rowCentering = 0;
                 var leftovers = max - (max % postersPerRow);
                 if (max < postersPerRow || idx >= leftovers) { // if we're on the last line
                     var postersInRow = max < postersPerRow ? max : max - leftovers;
-                    rowCentering = (el.clientWidth / 2) - ((postersInRow * posterWidth) / 2) - rowCentering;
+                    rowCentering = (seriesGrid.clientWidth / 2) - ((postersInRow * posterWidth) / 2) - rowCentering;
                     var positionInRow = postersInRow - (max - idx);
                     return rowCentering + (positionInRow * posterWidth);
                 } else {
@@ -139,8 +145,8 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 }
             };
 
-            this.getTop = function(idx) {
-                if (idx === 0 && oldClientWidth != el.clientWidth) {
+            var getTop = function(idx) {
+                if (idx === 0 && oldClientWidth != seriesGrid.clientWidth) {
                     recalculate();
                 }
                 idx = idx + 1;
