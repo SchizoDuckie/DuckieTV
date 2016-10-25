@@ -609,6 +609,7 @@ serieheader .badge {
 
 serieheader[mode='poster'] {
  margin: 0px 5px 11px 5px;
+ display: inline-block;
 }
 
 serieheader[mode='poster'] .serieheader {
