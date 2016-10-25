@@ -8,6 +8,7 @@
  * http://deluge.readthedocs.io/en/develop/index.html
  *
  * - Supports setting download directory
+ * - Does not supports setting a label during add.torrent
  */
 DelugeData = function(data) {
     this.update(data);
