@@ -36,6 +36,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
         };
 
         BaseTorrentRemote.prototype.getByHash = function(hash) {
+            console.debug(hash);
             if (!hash) return null;
             hash = hash.toUpperCase();
             return (hash in this.torrents) ? this.torrents[hash] : null;
@@ -319,11 +320,11 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
             /**
              * Implement this function to be able to add a magnet to the client
              */
-            addMagnet: function(magnet, dlPath) {
+            addMagnet: function(magnet, dlPath, label) {
                 if (!('addMagnet' in this.getAPI())) {
                     throw "addMagnet not implemented for " + this.getName();
                 }
-                return this.getAPI().addMagnet(magnet, dlPath);
+                return this.getAPI().addMagnet(magnet, dlPath, label);
 
             },
 
@@ -333,18 +334,18 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
              * submitting a new torrent, so that you can fetch the updated torrent list and parse it out
              * by name.
              */
-            addTorrentByUrl: function(magnet, releaseName, dlPath) {
+            addTorrentByUrl: function(magnet, releaseName, dlPath, label) {
                 if (!('addTorrentByUrl' in this.getAPI())) {
                     throw "addTorrentByUrl not implemented for " + this.getName();
                 }
-                return this.getAPI().addTorrentByUrl(magnet, releaseName, dlPath);
+                return this.getAPI().addTorrentByUrl(magnet, releaseName, dlPath, label);
             },
 
-            addTorrentByUpload: function(data, releaseName, dlPath) {
+            addTorrentByUpload: function(data, releaseName, dlPath, label) {
                 if (!('addTorrentByUpload' in this.getAPI())) {
                     throw "addTorrentByUpload not implemented for " + this.getName();
                 }
-                return this.getAPI().addTorrentByUpload(data, releaseName, dlPath);
+                return this.getAPI().addTorrentByUpload(data, releaseName, dlPath, label);
             },
 
             /**

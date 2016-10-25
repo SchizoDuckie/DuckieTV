@@ -140,6 +140,7 @@ DuckieTV
                 var globalSizeMin = SettingsService.get('torrenting.global_size_min'); // torrents smaller than this are filtered out
                 var globalSizeMax = SettingsService.get('torrenting.global_size_max'); // torrents larger than this are filtered out
                 var searchEngine = TorrentSearchEngines.getDefaultEngine();
+                var label = (SettingsService.get('torrenting.label')) ? serie.name : null;
                 var GIL_String = ''; // for use in filterByScore when GIL mode is set to ALL
                 if (serie.ignoreGlobalQuality != 0) {
                     globalQuality = ''; // series custom settings specify to ignore the global quality
@@ -271,7 +272,7 @@ DuckieTV
                                     var torrentHash = url.getInfoHash();
                                     // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                                     DuckieTorrent.getClient().AutoConnect().then(function() {
-                                        TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID, serie.dlPath);
+                                        TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID, serie.dlPath, label);
                                         episode.magnetHash = torrentHash;
                                         episode.Persist();
                                         // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
@@ -285,7 +286,7 @@ DuckieTV
                                 var torrentHash = url.getInfoHash();
                                 // launch the magnet uri via the TorrentSearchEngines's launchMagnet Method
                                 DuckieTorrent.getClient().AutoConnect().then(function() {
-                                    TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID, serie.dlPath);
+                                    TorrentSearchEngines.launchMagnet(url, episode.TVDB_ID, serie.dlPath, label);
                                     episode.magnetHash = torrentHash;
                                     episode.Persist();
                                     // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.

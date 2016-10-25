@@ -50,6 +50,8 @@ DuckieTV
             $scope.sortBy = $scope.sortByDir[sortby] + sortby;
         };
 
+        var usingLabel = SettingsService.get('torrenting.label');
+
         $scope.search = function(q, TVDB_ID) {
             $scope.searching = true;
             $scope.error = false;
@@ -265,20 +267,20 @@ DuckieTV
         };
 
         // Selects and launches magnet
-        var magnetSelect = function(magnet, dlPath) {
-            //console.debug("Magnet selected!", magnet, dlPath);
+        var magnetSelect = function(magnet, dlPath, label) {
+            console.debug("Magnet selected!", magnet, dlPath, label);
             if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
                 $modalInstance.close(magnet);
             }
 
             var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-            TorrentSearchEngines.launchMagnet(magnet, channel, dlPath);
+            TorrentSearchEngines.launchMagnet(magnet, channel, dlPath, label);
             // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
             TorrentHashListService.addToHashList(magnet.getInfoHash());
         },
 
-        urlSelect = function(url, releasename, dlPath) {
-            //console.debug("Torrent URL selected!", url, dlPath);
+        urlSelect = function(url, releasename, dlPath, label) {
+            console.debug("Torrent URL selected!", url, dlPath, label);
             if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
                 $modalInstance.close(url);
             }
@@ -288,9 +290,9 @@ DuckieTV
                 responseType: 'blob'
             }).then(function(result) {
                 try {
-                    TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename, dlPath);
+                    TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename, dlPath, label);
                 } catch (E) {
-                    TorrentSearchEngines.launchTorrentByURL(url, channel, releasename, dlPath);
+                    TorrentSearchEngines.launchTorrentByURL(url, channel, releasename, dlPath, label);
                 }
             });
         };
@@ -298,16 +300,17 @@ DuckieTV
         $scope.select = function(result) {
             var config = TorrentSearchEngines.getSearchEngine(result.engine).config;
             var dlPath = ($scope.serie) ? $scope.serie.dlPath : null;
+            var label = ($scope.serie && usingLabel) ? $scope.serie.name : null;
             if (config && 'noMagnet' in config && config.noMagnet) {
                 if ('noDetailsMagnet' in config && config.noDetailsMagnet) {
-                    return urlSelect(result.torrentUrl, result.releasename, dlPath);
+                    return urlSelect(result.torrentUrl, result.releasename, dlPath, label);
                 } else {
                     TorrentSearchEngines.getSearchEngine(result.engine).getDetails(result.detailUrl, result.releasename).then(function(details)  {
-                        return magnetSelect(details.magnetUrl, dlPath);
+                        return magnetSelect(details.magnetUrl, dlPath, label);
                     });
                 }
             } else {
-                return magnetSelect(result.magnetUrl, dlPath);
+                return magnetSelect(result.magnetUrl, dlPath, label);
             }
         };
 

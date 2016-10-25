@@ -150,12 +150,12 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
             /**
              * launch magnet via a hidden iframe and broadcast the fact that it's selected to anyone listening
              */
-            launchMagnet: function(magnet, TVDB_ID, dlPath) {
-                console.info("Firing magnet URI! ", magnet, TVDB_ID, dlPath);
+            launchMagnet: function(magnet, TVDB_ID, dlPath, label) {
+                console.info("Firing magnet URI! ", magnet, TVDB_ID, dlPath, label);
 
                 if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
                     //console.debug("Adding via TorrentClient.addMagnet API! ", magnet, TVDB_ID);
-                    DuckieTorrent.getClient().addMagnet(magnet, dlPath);
+                    DuckieTorrent.getClient().addMagnet(magnet, dlPath, label);
                     setTimeout(function() {
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
                     }, 1500);
@@ -182,12 +182,12 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 audio.play();
             },
 
-            launchTorrentByUpload: function(data, TVDB_ID, name, dlPath) {
-                console.info("Firing Torrent By data upload! ", TVDB_ID, name, dlPath);
+            launchTorrentByUpload: function(data, TVDB_ID, name, dlPath, label) {
+                console.info("Firing Torrent By data upload! ", TVDB_ID, name, dlPath, label);
 
                 if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
                     //console.debug("Adding via TorrentClient.addTorrentByUpload API! ", TVDB_ID, name);
-                    DuckieTorrent.getClient().addTorrentByUpload(data, name, dlPath).then(function(infoHash) {
+                    DuckieTorrent.getClient().addTorrentByUpload(data, name, dlPath, label).then(function(infoHash) {
                         $rootScope.$broadcast('magnet:select:' + TVDB_ID, infoHash.getInfoHash());
                     });
                     setTimeout(function() {
@@ -198,12 +198,12 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 audio.play();
             },
 
-            launchTorrentByURL: function(torrentUrl, TVDB_ID, name, dlPath) {
-                console.info("Firing Torrent By URL! ", torrentUrl, TVDB_ID, name, dlPath);
+            launchTorrentByURL: function(torrentUrl, TVDB_ID, name, dlPath, label) {
+                console.info("Firing Torrent By URL! ", torrentUrl, TVDB_ID, name, dlPath, label);
 
                 if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
                     //console.debug("Adding via TorrentClient.addTorrentByUrl API! ", torrentUrl, TVDB_ID, name);
-                    DuckieTorrent.getClient().addTorrentByUrl(torrentUrl, name, dlPath).then(function(infoHash) {
+                    DuckieTorrent.getClient().addTorrentByUrl(torrentUrl, name, dlPath, label).then(function(infoHash) {
                         $rootScope.$broadcast('magnet:select:' + TVDB_ID, infoHash.getInfoHash());
                     });
                     setTimeout(function() {
