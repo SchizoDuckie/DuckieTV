@@ -26,6 +26,7 @@ DuckieTorrent
  * local state (stored in the uTorrentRemote service)
  *
  * - Does not support setting the download directory (I have not found any docs so far for parms of btapp.add.torrent(). Garfield69)
+ * - Does not support setting a Label during add.torrent (I have not found any docs so far for parms of btapp.add.torrent(). Garfield69)
  */
 .provider('uTorrent', function() {
 
