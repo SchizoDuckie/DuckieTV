@@ -6,6 +6,7 @@
  * https://github.com/rakshasa/rtorrent/wiki/rTorrent-0.9-Comprehensive-Command-list-(WIP)
  * 
  * - Supports setting download directory
+ * - Does not supports setting a Label
  */
 rTorrentData = function(data) {
     this.update(data);
