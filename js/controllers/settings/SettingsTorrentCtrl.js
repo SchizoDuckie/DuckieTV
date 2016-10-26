@@ -27,6 +27,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.useTD2 = SettingsService.get('torrentDialog.2.enabled');
         $scope.adDelay = SettingsService.get('autodownload.delay').minsToDhm();
         $scope.labelEnabled = SettingsService.get('torrenting.label');
+        $scope.isLabelSupported = DuckieTorrent.getClient().isLabelSupported();
 
         $scope.katmirrorStatus = [];
         $scope.tpbmirrorStatus = [];

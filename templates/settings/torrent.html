@@ -142,7 +142,7 @@
           <i class="glyphicon glyphicon-{{autostopAllEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopAllEnabled ? 'SETTINGS/TORRENT/autostopall-disabled/btn' : 'SETTINGS/TORRENT/autostopall-enabled/btn'|translate}}
         </a>
     </div>
-    <div class="hide-prod">
+    <div ng-show="isLabelSupported">
       <hr class="setting-divider">
 
       <h2>
