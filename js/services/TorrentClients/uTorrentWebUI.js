@@ -8,6 +8,8 @@
  * - Does not support setting download directory
  * - you can add sub directories to the default download directory by appending
  *   '&download_dir=0,&path=' + encodeURIComponent(subdir)
+ *   or select a predefined path and using &download_dir=n (where n is the index to the path table :-( )
+ * - Does not support setting a Label during add.torrent
  */
 uTorrentWebUIData = function(data) {
     this.update(data);
