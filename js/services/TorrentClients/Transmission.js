@@ -5,6 +5,7 @@
  * https://trac.transmissionbt.com/browser/trunk/extras/rpc-spec.txt
  *
  * - Supports setting download directory
+ * - Does not supports setting a Label
  */
 TransmissionData = function(data) {
     this.update(data);
