@@ -8,6 +8,7 @@
  * XMLHTTP API listens on localhost:8080
  *
  * - Does not support setting or fetching the download directory
+ * - Does not support setting or fetching a Label
  *
  * torrent data [array of torrent objects] containing:
  *   name: "Angie.Tribeca.S02E01.HDTV.x264-LOL[ettv]"
