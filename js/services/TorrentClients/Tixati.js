@@ -15,6 +15,7 @@
  * Make sure to use the default skin
  *
  * - Does not support setting or fetching the download directory
+ * - Does not support setting or fetching Labels
  */
 
 /**
