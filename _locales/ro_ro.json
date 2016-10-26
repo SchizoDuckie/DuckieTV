@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "Activați setările legate de torrente",
     "SETTINGS/TORRENT/functions-show/desc": "Dând click pe butonul de mai jos, veți activa toate setările legate de torrente în întreaga aplicație",
     "SETTINGS/TORRENT/hdr": "Setări legate de torrent",
+    "SETTINGS/TORRENT/label/desc": "Atunci când încărcarea magneți și .torrents clientului dvs., puteți alege să setați o etichetă care conține titlul seriei.",
+    "SETTINGS/TORRENT/label/hdr": "Torent Eticheta",
     "SETTINGS/TORRENT/progressbar-hide/btn": "Dezactivați bara de progres a torrentelor",
     "SETTINGS/TORRENT/progressbar-hide/desc": "Dând click pe butonul de mai jos ascundeți bara de progres corespondentă descărcării unui episod în calendar",
     "SETTINGS/TORRENT/progressbar-show/btn": "Activați bara de progres a torrentelor",

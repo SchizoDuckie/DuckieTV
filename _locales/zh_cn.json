@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "启用所有功能洪流 ",
     "SETTINGS/TORRENT/functions-show/desc": "点击下面的按钮,使所有的洪流相关的功能在整个应用程序 ",
     "SETTINGS/TORRENT/hdr": "激流功能 ",
+    "SETTINGS/TORRENT/label/desc": "当将磁铁和.torrent文件加载到您的客户端时,您可以选择设置包含系列标题的标签.",
+    "SETTINGS/TORRENT/label/hdr": "激流标签",
     "SETTINGS/TORRENT/progressbar-hide/btn": "禁用洪流进度条 ",
     "SETTINGS/TORRENT/progressbar-hide/desc": "点击下面的按钮,将删除在压延一个小插曲,而出现下载进度条 ",
     "SETTINGS/TORRENT/progressbar-show/btn": "让洪流进度条 ",

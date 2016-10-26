@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "Enable all torrent functionality",
     "SETTINGS/TORRENT/functions-show/desc": "Clicking the button below enables all torrent related functionalities throughout the app",
     "SETTINGS/TORRENT/hdr": "Torrent Functionality",
+    "SETTINGS/TORRENT/label/desc": "When loading magnets and .torrents to your client, you can choose to set a label containing the series title.",
+    "SETTINGS/TORRENT/label/hdr": "Torrent Label",
     "SETTINGS/TORRENT/progressbar-hide/btn": "Disable Torrent Progress Bar",
     "SETTINGS/TORRENT/progressbar-hide/desc": "Clicking the button below removes the progress bar that appears on an episode in the calender while downloading",
     "SETTINGS/TORRENT/progressbar-show/btn": "Enable Torrent Progress Bar",

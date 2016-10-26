@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "すべての急流の機能を有効にする ",
     "SETTINGS/TORRENT/functions-show/desc": "下のボタンをクリックすると,アプリ全体のすべての急流関連の機能を可能にします ",
     "SETTINGS/TORRENT/hdr": "トレント機能 ",
+    "SETTINGS/TORRENT/label/desc": "あなたのクライアントに磁石と.torrentsをロードするときは,シリーズタイトルを含むラベルを設定することができます.",
+    "SETTINGS/TORRENT/label/hdr": "急流ラベル",
     "SETTINGS/TORRENT/progressbar-hide/btn": "トレントプログレスバーを無効にする ",
     "SETTINGS/TORRENT/progressbar-hide/desc": "下のボタンをクリックすると,ダウンロード中にカレンダー内のエピソードに表示されるプログレスバーを削除します ",
     "SETTINGS/TORRENT/progressbar-show/btn": "トレントプログレスバーを有効にする ",

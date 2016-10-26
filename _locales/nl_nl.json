@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "Alle torrent functionaliteit aanzetten",
     "SETTINGS/TORRENT/functions-show/desc": "Als je op de knop hieronder drukt wordt alle torrent gerelateerde functionalitiet aangezet",
     "SETTINGS/TORRENT/hdr": "Torrent Functionaliteit",
+    "SETTINGS/TORRENT/label/desc": "Bij het laden van magneten en .torrents aan uw klant, kunt u ervoor kiezen om een label met de titel van de reeks in te stellen.",
+    "SETTINGS/TORRENT/label/hdr": "Stortvloed Etiket",
     "SETTINGS/TORRENT/progressbar-hide/btn": "Voortgangsbalken verbergen",
     "SETTINGS/TORRENT/progressbar-hide/desc": "Als je op de knop hieronder drukt wordt de download-voortgang verborgen van de kalender",
     "SETTINGS/TORRENT/progressbar-show/btn": "Voortgangsbalken weergeven",

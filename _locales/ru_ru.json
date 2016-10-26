@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "Включить торрент-функции",
     "SETTINGS/TORRENT/functions-show/desc": "Включить торрент-функции в приложении",
     "SETTINGS/TORRENT/hdr": "Торрент-функциональность",
+    "SETTINGS/TORRENT/label/desc": "При загрузке магниты и .torrents к вашему клиенту, вы можете установить ярлык, содержащий название серии.",
+    "SETTINGS/TORRENT/label/hdr": "поток метка",
     "SETTINGS/TORRENT/progressbar-hide/btn": "Скрыть статус загрузки торрента",
     "SETTINGS/TORRENT/progressbar-hide/desc": "Удалить статус загрузки торрента в календарь во время загрузки эпизода",
     "SETTINGS/TORRENT/progressbar-show/btn": "Показать статус загрузки торрента",

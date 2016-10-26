@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "Aktivera alla upp funktionalitet ",
     "SETTINGS/TORRENT/functions-show/desc": "Om du klickar på knappen nedan kan alla torrent relaterade funktioner i hela appen ",
     "SETTINGS/TORRENT/hdr": "torrent Funktionalitet ",
+    "SETTINGS/TORRENT/label/desc": "När du laddar magneter och .torrents till din klient, kan du välja att ställa in en etikett med serietitel.",
+    "SETTINGS/TORRENT/label/hdr": "Torrent Märka",
     "SETTINGS/TORRENT/progressbar-hide/btn": "Inaktivera Torrent Progress Bar ",
     "SETTINGS/TORRENT/progressbar-hide/desc": "Om du klickar på knappen nedan avlägsnar förloppsfältet som visas på en episod i kalendern vid nedladdning ",
     "SETTINGS/TORRENT/progressbar-show/btn": "Aktivera Torrent Förloppsindikator ",

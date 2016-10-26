@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "Attiva tutte le funzioni torrent",
     "SETTINGS/TORRENT/functions-show/desc": "Facendo clic sul pulsante in basso abilita tutte le funzioni torrent",
     "SETTINGS/TORRENT/hdr": "Funzioni Torrent",
+    "SETTINGS/TORRENT/label/desc": "Quando si carica magneti e .torrent al vostro cliente, è possibile scegliere di impostare una etichetta che contiene il titolo della serie.",
+    "SETTINGS/TORRENT/label/hdr": "Torrente Etichetta",
     "SETTINGS/TORRENT/progressbar-hide/btn": "Disattiva la barra di avanzamento torrent",
     "SETTINGS/TORRENT/progressbar-hide/desc": "Facendo clic sul pulsante in basso si elimina la barra di avanzamento che appare sugli episodi del calendario durante il download",
     "SETTINGS/TORRENT/progressbar-show/btn": "Abilita la barra di avanzamento torrent",

@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "Aktiver all torrent-funksjonalitet",
     "SETTINGS/TORRENT/functions-show/desc": "Trykk knappen nedenfor for å aktivere all torrent-relatert funksjonalitet igjennom hele applikasjonen",
     "SETTINGS/TORRENT/hdr": "Torrent Funksjonalitet",
+    "SETTINGS/TORRENT/label/desc": "Når du legger magneter og .torrents til klienten, kan du velge å sette en etikett som inneholder serien tittelen.",
+    "SETTINGS/TORRENT/label/hdr": "Torrent Merkelapp",
     "SETTINGS/TORRENT/progressbar-hide/btn": "Deaktiver Torrent Framdriftsviser ",
     "SETTINGS/TORRENT/progressbar-hide/desc": "Trykk knappen nedenfor for å fjerne framdriftsviseren som vises på en episode i kalenderen mens den lastes ned",
     "SETTINGS/TORRENT/progressbar-show/btn": "Aktiver Torrent Framdriftsviser",

@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "Aktivieren Sie alle Torrent-Funktionalität ",
     "SETTINGS/TORRENT/functions-show/desc": "Klicken Sie auf die Schaltfläche unten, können alle Torrent-bezogene Funktionen in der gesamten App ",
     "SETTINGS/TORRENT/hdr": "Torrent-Funktionalität ",
+    "SETTINGS/TORRENT/label/desc": "Wenn Sie Magnete und Torrents auf Ihren Client laden, können Sie ein Label mit dem Serientitel festlegen.",
+    "SETTINGS/TORRENT/label/hdr": "Torrent Etikette",
     "SETTINGS/TORRENT/progressbar-hide/btn": "Deaktivieren Torrent Progress Bar ",
     "SETTINGS/TORRENT/progressbar-hide/desc": "Klicken Sie auf die Schaltfläche unten, die Fortschrittsanzeige, die auf einer Episode in der Kalender erscheint beim Herunterladen entfernt ",
     "SETTINGS/TORRENT/progressbar-show/btn": "Torrent Progress Bar aktivieren ",

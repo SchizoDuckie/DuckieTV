@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "Omogoči vse torrent funkcionalnosti",
     "SETTINGS/TORRENT/functions-show/desc": "S klikom na spodnji gumb omogočite vse funkcionalnosti torrent odjemalca z to aplikacijo",
     "SETTINGS/TORRENT/hdr": "Torrent Funkcionalnost",
+    "SETTINGS/TORRENT/label/desc": "Pri vstavljanju magnetov in .torrents za vašo stranko, se lahko odločite za nastavitev etiketo, ki vsebuje naslov serije.",
+    "SETTINGS/TORRENT/label/hdr": "Torrent Label",
     "SETTINGS/TORRENT/progressbar-hide/btn": "Onemogoči vrstico z napredkom v torrentu",
     "SETTINGS/TORRENT/progressbar-hide/desc": "S klikom na spodnji gumb odstranite vrstico napredka, ki se pojavi na koledarju med nalaganjem nove epizode",
     "SETTINGS/TORRENT/progressbar-show/btn": "Omogoči vrstico z napredkom v torrentu",

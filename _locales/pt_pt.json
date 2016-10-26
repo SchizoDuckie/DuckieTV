@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "Habilitar todas as funcionalidades torrente ",
     "SETTINGS/TORRENT/functions-show/desc": "Clicando no botão abaixo permite que todas as funcionalidades relacionadas com todo o aplicativo de torrent ",
     "SETTINGS/TORRENT/hdr": "Torrent Funcionalidade ",
+    "SETTINGS/TORRENT/label/desc": "Ao carregar ímãs e .torrents para o seu cliente, você pode optar por definir uma etiqueta contendo o título da série.",
+    "SETTINGS/TORRENT/label/hdr": "Torrente Rótulo",
     "SETTINGS/TORRENT/progressbar-hide/btn": "Desativar Torrent Progress Bar ",
     "SETTINGS/TORRENT/progressbar-hide/desc": "Clicando no botão abaixo remove a barra de progresso que aparece em um episódio no calendário durante o download ",
     "SETTINGS/TORRENT/progressbar-show/btn": "Habilitar Torrent Barra de progresso ",

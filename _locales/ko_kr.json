@@ -427,6 +427,8 @@
     "SETTINGS/TORRENT/functions-show/btn": "모든 토런트 기능을 사용 ",
     "SETTINGS/TORRENT/functions-show/desc": "아래 버튼을 클릭하면 응용 프로그램 전반에 걸쳐 모든 토런트 관련 기능을 수 ",
     "SETTINGS/TORRENT/hdr": "토런트 기능 ",
+    "SETTINGS/TORRENT/label/desc": "클라이언트에 자석과 .torrents를로드 할 때, 당신은 시리즈 타이틀을 포함하는 라벨을 설정 할 수 있습니다.",
+    "SETTINGS/TORRENT/label/hdr": "급류상표",
     "SETTINGS/TORRENT/progressbar-hide/btn": "토런트 진행률 표시 줄을 사용하지 않도록 설정 ",
     "SETTINGS/TORRENT/progressbar-hide/desc": "아래 버튼을 클릭하면 다운로드하는 동안 캘린더의 에피소드에 표시되는 진행률 표시 줄을 제거합니다 ",
     "SETTINGS/TORRENT/progressbar-show/btn": "토런트 진행 바 사용 ",
