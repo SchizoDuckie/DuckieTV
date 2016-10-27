@@ -86,7 +86,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                 if (out.indexOf('%token%') > -1) {
                     out = out.replace('%token%', this.config.token);
                 }
-                return (param) ? out.replace('%s', encodeURIComponent(param)) : out;
+                return (param) ? out.replace('%s', param) : out;
             },
             portscan: function() {
                 var self = this;
