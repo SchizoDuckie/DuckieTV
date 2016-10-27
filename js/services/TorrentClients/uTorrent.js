@@ -435,6 +435,12 @@ DuckieTorrent
                 isDownloadPathSupported: function() {
                     return false;
                 },
+                /**
+                 * this API does not currently support setting a Label when adding magnets and .torrents. 
+                 */
+                isLabelSupported: function() {
+                    return false;
+                },
                 hasTorrent: function(torrent) {
                     return $q.resolve(torrent in uTorrentRemote.torrents && 'hash' in uTorrentRemote.torrents[torrent]);
                 }
