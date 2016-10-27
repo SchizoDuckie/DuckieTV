@@ -1,12 +1,11 @@
 /**
- * Controller for the torrent settings tab
+ * Controller for the torrent related setting tabs (auto-download, torrent-search, torrent, utorrent)
  */
 DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector", "SettingsService", "DuckieTorrent", "TorrentSearchEngines", "ThePirateBayMirrorResolver", "TraktTVv2", "AutoDownloadService",
     function($scope, $rootScope, $injector, SettingsService, DuckieTorrent, TorrentSearchEngines, ThePirateBayMirrorResolver, TraktTVv2, AutoDownloadService) {
 
         $scope.log = [];
 
-        $scope.customkatmirror = SettingsService.get('KickAssTorrents.mirror');
         $scope.customtpbmirror = SettingsService.get('ThePirateBay.mirror');
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
         $scope.searchquality = SettingsService.get('torrenting.searchquality');
@@ -29,7 +28,6 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.labelEnabled = SettingsService.get('torrenting.label');
         $scope.isLabelSupported = ($scope.torrentEnabled) ? DuckieTorrent.getClient().isLabelSupported() : false;
 
-        $scope.katmirrorStatus = [];
         $scope.tpbmirrorStatus = [];
 
         $scope.searchProviders = Object.keys(TorrentSearchEngines.getSearchEngines());
@@ -39,45 +37,39 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min');
         $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max');
 
+        $scope.usingMultiSE = SettingsService.get('autodownload.multiSE.enabled');
+        $scope.multiSE = SettingsService.get('autodownload.multiSE'); // get multi search engines list previously saved
+        $scope.searchProviders.forEach(function(name) {
+            // add any new search engines discovered, default them as active.
+            if (!(name in $scope.multiSE)) {
+                $scope.multiSE[name] = true;
+            }
+        });
+        SettingsService.set('autodownload.multiSE',$scope.multiSE); // save updated multiSE list.
+
+        // save multi Search Engine states
+        $scope.saveMultiSE = function() {
+            SettingsService.set('autodownload.multiSE',$scope.multiSE);
+            AutoDownloadService.detach(); // recycle AD to pick up changes.
+            AutoDownloadService.attach();
+        };
+
+        /**
+         * Toggle the AutoDownload Multi Search Engines usage
+         */
+        $scope.toggleUsingMultiSE = function() {
+            $scope.usingMultiSE = !$scope.usingMultiSE;
+            SettingsService.set('autodownload.multiSE.enabled', $scope.usingMultiSE);
+            AutoDownloadService.detach(); // recycle AD to pick up changes.
+            AutoDownloadService.attach();
+        };
+
         /**
          * Inject an event to display mirror resolving progress.
          */
-        $rootScope.$on('katmirrorresolver:status', function(evt, status) {
-            $scope.katmirrorStatus.unshift(status);
-        });
         $rootScope.$on('tpbmirrorresolver:status', function(evt, status) {
             $scope.tpbmirrorStatus.unshift(status);
         });
-
-        /**
-         * Resolve a new random KickassTorrents  mirror.
-         * Log progress while this is happening.
-         * Save the new mirror in the kickasstorrents.mirror settings key
-         */
-        $scope.findRandomKATMirror = function() {
-            KickassMirrorResolver.findKATMirror().then(function(result) {
-                $scope.customkatmirror = result;
-                SettingsService.set('KickAssTorrents.mirror', $scope.customkatmirror);
-                $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
-            }, function(err) {
-                console.error("Could not find a working KAT mirror!", err);
-            });
-        };
-
-        /**
-         * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
-         */
-        $scope.validateCustomKATMirror = function(mirror) {
-            $scope.mirrorStatus = [];
-            KickassMirrorResolver.verifyKATMirror(mirror).then(function(result) {
-                $scope.customkatmirror = result;
-                SettingsService.set('KickAssTorrents.mirror', $scope.customkatmirror);
-                $rootScope.$broadcast('katmirrorresolver:status', 'Saved!');
-            }, function(err) {
-                console.error("Could not validate custom mirror!", mirror);
-                //$scope.customMirror = '';
-            });
-        };
 
         /**
          * @todo : migrate these to a directive that's a generic interface for mirror resolvers based on the config.MirrorResolver properties

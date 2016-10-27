@@ -1,0 +1,101 @@
+<!-- settings/auto-download.html -->
+<div ng-controller="SettingsTorrentCtrl" class="buttons">
+  <h2>
+    <span uib-tooltip="{{adEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
+      <i class="glyphicon glyphicon-{{adEnabled ? 'ok alert-success' : 'remove  alert-danger'}}" ></i>
+    </span>
+    <li translate-once>COMMON/autodownload/hdr</li>
+  </h2>
+
+  <p ng-hide="adEnabled" ><span translate-once>SETTINGS/AUTODOWNLOAD/enable/desc</span>{{getSetting('autodownload.period')}}<span translate-once>SETTINGS/AUTODOWNLOAD/enable/desc2</span>{{getSetting('autodownload.minSeeders')}}<span translate-once>SETTINGS/AUTODOWNLOAD/enable/desc3</span></p>
+  <p ng-show="adEnabled" translate-once>SETTINGS/AUTODOWNLOAD/disable/desc</p>
+  <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+   {{adEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+  <a ng-click="toggleAutoDownload()" class="btn btn-{{adEnabled ? 'danger' : 'success'}}">
+    <i class="glyphicon glyphicon-{{adEnabled ? 'remove-sign' : 'cloud-download'}}"></i>&nbsp;{{adEnabled ? 'SETTINGS/AUTODOWNLOAD/disable/btn' : 'SETTINGS/AUTODOWNLOAD/enable/btn'|translate}}
+  </a>
+
+  <div ng-show="adEnabled">
+    <hr class="setting-divider">
+
+    <div class="autodownload">
+      <h2 translate-once>SETTINGS/AUTODOWNLOAD/period/hdr</h2>
+      <p><span translate-once>SETTINGS/AUTODOWNLOAD/period/desc</span>{{adPeriod}}<span translate-once>SETTINGS/AUTODOWNLOAD/period/desc2</span><br><span translate-once>SETTINGS/AUTODOWNLOAD/period-default/lbl</span></p>
+
+      <form name="p">
+        <span translate-once>SETTINGS/AUTODOWNLOAD/period/form</span> <input type="number" name="period" ng-model="adPeriod" ng-change="editingP = true;" min="1" max="21" pattern="[0-9]{0,}" required />
+        <a ng-show="!p.period.$valid" class="btn btn-{{editingP ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
+          <i class="glyphicon glyphicon-floppy-save {{editingP ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+        </a>
+        <a ng-show="p.period.$valid" class="btn btn-{{editingP ? 'info' : 'success'}}" ng-click="saveADPeriod(adPeriod); editingP = false;" style="float:right; margin-top:-10px;">
+          <i class="glyphicon glyphicon-floppy-save {{editingP ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+        </a>
+      </form>
+      <span class="alert alert-danger" ng-show="!p.period.$valid" translate-once>SETTINGS/AUTODOWNLOAD/days-range/alert</span>
+
+      <hr class="setting-divider">
+
+      <h2 translate-once>SETTINGS/AUTODOWNLOAD/delay/hdr</h2>
+      <p><span translate-once>SETTINGS/AUTODOWNLOAD/delay/desc</span><br/><span translate-once>SETTINGS/AUTODOWNLOAD/delay-default/lbl</span></p>
+
+      <form name="d">
+        <span translate-once>SETTINGS/AUTODOWNLOAD/delay/form</span> <input type="text" name="delay" ng-model="adDelay" ng-change="editingD = true;" pattern="([0-9]){1,2}(\s){1}([0-2][0-9]){1}([:]){1}([0-5][0-9]){1}" required ad-delay-validation style="width: 100px" />
+        <a ng-show="d.delay.$valid" class="btn btn-{{editingD ? 'info' : 'success'}}" ng-click="saveADDelay(adDelay); editingD = false;" style="float:right; margin-top:-10px;">
+          <i class="glyphicon glyphicon-floppy-save {{editingD ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+        </a>
+        <a ng-hide="d.delay.$valid" class="btn btn-{{editingD ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
+          <i class="glyphicon glyphicon-floppy-save {{editingD ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+        </a>
+      </form>
+      <span class="alert alert-danger" ng-hide="d.delay.$valid" translate-value-addelaymax="{{(adPeriod * 24 * 60).minsToDhm()}}" translate>COMMON/autodownload-delay-range/alert</span>
+
+      <hr class="setting-divider">
+
+      <h2 translate-once>SETTINGS/AUTODOWNLOAD/seeders/hdr</h2>
+      <p><span translate-once>SETTINGS/AUTODOWNLOAD/seeders/desc</span><br><span translate-once>SETTINGS/AUTODOWNLOAD/seeders-default/lbl</span></p>
+
+      <form name="s">
+        <span translate-once>SETTINGS/AUTODOWNLOAD/seeders/form</span> <input type="number" name="seeders" ng-model="adMinSeeders" ng-change="editingS = true;" min="0" max="3000" pattern="[0-9]{0,}" required />
+        <a ng-show="!s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-disabled="true"  style="float:right; margin-top:-10px;">
+          <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+        </a>
+        <a ng-show="s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-click="saveADMinSeeders(adMinSeeders); editingS = false;" style="float:right; margin-top:-10px;">
+          <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+        </a>
+      </form>
+      <span class="alert alert-danger" ng-show="!s.seeders.$valid" translate-once>SETTINGS/AUTODOWNLOAD/seeders-range/alert</span>
+    </div>
+
+    <hr class="setting-divider">
+
+    <h2>
+      <span uib-tooltip="{{usingMultiSE ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
+        <i class="glyphicon glyphicon-{{usingMultiSE ? 'ok alert-success' : 'remove alert-info'}}"></i>
+      </span>
+      <li translate-once>SETTINGS/AUTODOWNLOAD/multi-se/hdr</li>
+    </h2>
+
+    <p>{{usingMultiSE ? 'SETTINGS/AUTODOWNLOAD/multi-se-disabled/desc' : 'SETTINGS/AUTODOWNLOAD/multi-se-enabled/desc'|translate}}</p>
+    <p><strong translate-once>COMMON/current-setting/hdr</strong>
+     {{usingMultiSE ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+    <a ng-click="toggleUsingMultiSE()" class="btn btn-{{usingMultiSE ? 'info' : 'success'}}">
+      <i class="glyphicon glyphicon-{{usingMultiSE ? 'remove' : 'ok'}}"></i> {{usingMultiSE ? 'SETTINGS/AUTODOWNLOAD/multi-se-disable/btn' : 'SETTINGS/AUTODOWNLOAD/multi-se-enable/btn'|translate}}
+    </a>
+
+    <div ng-show="usingMultiSE">
+      <hr class="setting-divider">
+
+      <!-- multi search engines check boxes -->
+      <p translate-once>SETTINGS/AUTODOWNLOAD/multi-se/desc</p>
+      <div style="padding-bottom: 3px">
+        <div style="display: flex; overflow-y: auto">
+          <div class="checkbox" ng-repeat="name in searchProviders | orderBy: name">
+            <input ng-disabled="name === searchprovider" type="checkbox" ng-model="multiSE[name]" ng-change="saveMultiSE()" id="mse_{{name}}}">
+            <label for="mse_{{name}}" ng-style="{color: name !== searchprovider ? 'white' : 'gray'}">{{name}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
