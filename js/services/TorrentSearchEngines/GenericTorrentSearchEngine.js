@@ -173,7 +173,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                     magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                 }
                 if (magnetHash && magnetHash.length) {
-                    out.torrent = 'https://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                    out.torrent = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                 }
             }
             output.push(out);
@@ -208,7 +208,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                     magnetHash = output.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                 }
                 if (magnetHash && magnetHash.length) {
-                    output.torrent = 'https://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(releaseName.trim());
+                    output.torrent = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(releaseName.trim());
                 }
             }
         }
@@ -279,7 +279,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
      * returns 
      * {
      *    magnetUrl: "magnet:?xt=urn:btih:<hash>",
-     *    torrent: "https://itorrents.org/torrent/<hash>.torrent?title=<releaseName>"
+     *    torrent: "http://itorrents.org/torrent/<hash>.torrent?title=<releaseName>"
      * }
      */
     this.getDetails = function(url, releaseName) {
