@@ -27,11 +27,7 @@
  *          },
  *          selectors: {                                                    // CSS selectors to grab content from search page.
  *              resultContainer: '#searchResult tbody tr',                  // CSS selector to select repeating results.
- *              releasename: ['td:nth-child(2) > div', 'innerText',         // selector, element attribute, [parser function].
- *                  function(text) {
- *                      return text.trim();
- *                  }
- *              ],
+ *              releasename: ['td:nth-child(2) > div', 'innerText'],        // selector, element attribute, [parser function].
  *              magnetUrl: ['td:nth-child(2) > a', 'href'],
  *              size: ['td:nth-child(2) .detDesc', 'innerText',
  *                  function(innerText) {
@@ -97,6 +93,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             }
         }
         var results = doc.querySelectorAll(selectors.resultContainer);
+        //console.debug(results);
         var output = [];
 
         function getPropertyForSelector(parentNode, propertyConfig) {
@@ -153,7 +150,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             seed = (seed != null) ? seed.replace(',','') : 0;
             leech = (leech != null) ? leech.replace(',','') : 0;
             var out = {
-                releasename: releasename,
+                releasename: releasename.trim(),
                 size: sizeToMB(getPropertyForSelector(results[i], selectors.size)),
                 seeders: seed,
                 leechers: leech,
@@ -178,6 +175,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             }
             output.push(out);
         }
+        //console.debug('parseSearch',output);
         return output;
     }
 
@@ -191,6 +189,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             var doc = parser.parseFromString(data.data, "text/html");
             var selectors = config.detailsSelectors;
             var container = doc.querySelector(selectors.detailsContainer);
+            //console.debug(container);
             function getPropertyForSelector(parentNode, propertyConfig) {
                 var node = parentNode.querySelector(propertyConfig[0]);
                 if (!node) return null;
@@ -212,6 +211,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 }
             }
         }
+        //console.debug('parseDetails',output);
         return output;
     }
 

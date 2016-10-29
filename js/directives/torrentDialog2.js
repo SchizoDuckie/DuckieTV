@@ -30,7 +30,7 @@ DuckieTV
         $scope.globalSizeMaxEnabled = SettingsService.get('torrenting.global_size_max_enabled'); // only applies to torrentDialog
         $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min'); // torrents smaller than this are filtered out
         $scope.globalSizeMinEnabled = SettingsService.get('torrenting.global_size_min_enabled'); // only applies to torrentDialog
-        $scope.sortByDir = {'releasename': '+', 'engine': '+', 'seedersInt': '+', 'leechersInt': '+', 'sizeInt': '+'}; // the default sort direction for each possible sortBy
+        $scope.sortByDir = {'sortname': '-', 'engine': '+', 'seedersInt': '+', 'leechersInt': '+', 'sizeInt': '+'}; // the default sort direction for each possible sortBy
         $scope.sortBy = '+engine'; // the default order
         $scope.items = [];
         $scope.defaultProvider = SettingsService.get('torrenting.searchprovider');
@@ -189,6 +189,7 @@ DuckieTV
                             item.sizeInt = isNaN(item.size.replace(' MB','')) ? 0 : parseInt(item.size); // used for torrentDialog2 sorting
                             item.seedersInt = isNaN(item.seeders) ? 0 : parseInt(item.seeders); // used for torrentDialog2 sorting
                             item.leechersInt = isNaN(item.leechers) ? 0 : parseInt(item.leechers); // used for torrentDialog2 sorting
+                            item.sortname = item.releasename.replace(/\./g,' ').toLowerCase(); // used for torrentDialog2 sorting
                         });
                         items = results.filter(filterByScore);
                         items = items.filter(filterBySize);

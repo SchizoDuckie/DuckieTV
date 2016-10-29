@@ -13,11 +13,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 },
                 selectors: {
                     resultContainer: '#searchResult tbody tr',
-                    releasename: ['td:nth-child(2) > div', 'innerText',
-                        function(text) {
-                            return text.trim();
-                        }
-                    ],
+                    releasename: ['td:nth-child(2) > div', 'innerText'],
                     magnetUrl: ['td:nth-child(2) > a', 'href'],
                     size: ['td:nth-child(2) .detDesc', 'innerText',
                         function(text) {
