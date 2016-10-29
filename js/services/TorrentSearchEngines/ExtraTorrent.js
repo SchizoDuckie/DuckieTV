@@ -5,7 +5,6 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 mirror: 'https://extratorrent.cc',
                 mirrorResolver: null,
                 includeBaseURL: true,
-                noMagnet: true,
                 endpoints: {
                     search: '/search/?search=%s&srt=%o',
                     details: '%s'
@@ -24,6 +23,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                             return (text.trim() == '---') ? null : text.trim();
                         }
                     ],
+                    magnetUrl: ['td a[title^="Magnet link"]', 'href'],
                     detailUrl: ['td.tli > a', 'href'],
                     torrentUrl: ['td a[title^="Download "]', 'href',
                         function(href) {
