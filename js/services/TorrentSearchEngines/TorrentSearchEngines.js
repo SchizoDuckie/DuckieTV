@@ -178,8 +178,6 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     }, 1500);
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.getInfoHash());
                 }
-                var audio = new Audio('Exclamation.wav');
-                audio.play();
             },
 
             launchTorrentByUpload: function(data, TVDB_ID, name, dlPath, label) {
@@ -194,8 +192,6 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
                     }, 1500);
                 }
-                var audio = new Audio('Exclamation.wav');
-                audio.play();
             },
 
             launchTorrentByURL: function(torrentUrl, TVDB_ID, name, dlPath, label) {
@@ -226,8 +222,6 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                         }
                     }, 1500);
                 }
-                var audio = new Audio('Exclamation.wav');
-                audio.play();
             }
         }; 
 
