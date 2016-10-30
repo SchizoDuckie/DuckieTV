@@ -86,7 +86,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                 if (out.indexOf('%token%') > -1) {
                     out = out.replace('%token%', this.config.token);
                 }
-                return (param) ? out.replace('%s', param) : out;
+                return (param) ? out.replace('%s', encodeURIComponent(param)) : out;
             },
             portscan: function() {
                 var self = this;
@@ -173,12 +173,14 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
             },
             addMagnet: function(magnetHash) {
                 var headers = {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': undefined
                 };
                 if (this.config.use_auth) {
                     headers.Authorization = [this.config.username, this.config.password];
                 }
-                return $http.post(this.getUrl('addmagnet', magnetHash), {
+                var fd = new FormData();
+                fd.append('s', magnetHash);
+                return $http.post(this.getUrl('addmagnet'), fd, {
                     headers: headers
                 });
             },
@@ -305,7 +307,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
         service.setEndpoints({
             portscan: '/gui/token.html',
             torrents: '/gui/?token=%token%&list=1',
-            addmagnet: '/gui/?token=%token%&action=add-url&s=%s',
+            addmagnet: '/gui/?token=%token%&action=add-url',
             addfile: '/gui/?token=%token%&action=add-file&download_dir=0&path=',
             stop: '/gui/?token=%token%&action=stop&hash=%s',
             start: '/gui/?token=%token%&action=start&hash=%s',
