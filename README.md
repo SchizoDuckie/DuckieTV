@@ -30,7 +30,7 @@ DuckieTV for Chrome comes in 2 versions: One that installs itself as your browse
 
 Try DuckieTV online
 -------------------
-* You can now also try DuckieTV online, provided you have a Chrome, Safari, Opera or an Android browser. Note that it is using a third party service to work around cross-domain limitations and can be broken at any time.
+* You can now also try DuckieTV online, provided you have a Chrome, Safari, Opera or an Android browser. Note that this demonstration model it is using a third party service to work around cross-domain limitations and can be broken at any time. It is not suitable for daily use.
   Try it [here](http://DuckieTV.github.io/DuckieTV/)
 
 Screenshots:
