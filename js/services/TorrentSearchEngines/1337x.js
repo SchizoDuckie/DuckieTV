@@ -25,7 +25,12 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 },
                 detailsSelectors: {
                     detailsContainer: 'div[class^="torrent-category-detail"]',
-                    magnetUrl: ['li a', 'href']
+                    magnetUrl: ['li a', 'href',
+                        function(href) {
+                            var hrefPart = href.split('&tr');
+                            return hrefPart[0] + TorrentSearchEngines.trackers;
+                        }
+                    ]
                 },
                 orderby: {
                     age: {d: 'time/desc', a: 'time/asc'},
