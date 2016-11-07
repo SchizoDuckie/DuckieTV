@@ -37,7 +37,8 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
 
         BaseTorrentRemote.prototype.getByHash = function(hash) {
             if (!hash) return null;
-            hash = hash.toUpperCase();
+            // sometimes hash is passed as an Array (culprit unknown) instead of an expected String!!!
+            hash = (Object.prototype.toString.call(hash) === '[object Array]') ? (hash[0]).toUpperCase() : hash.toUpperCase();
             return (hash in this.torrents) ? this.torrents[hash] : null;
         };
 
