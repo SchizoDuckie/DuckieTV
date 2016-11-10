@@ -29,13 +29,24 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
             getSeasonPoster: function(seasonnumber, fanart) {
                 if(('seasonposter' in fanart)) {
                     var hit = fanart.seasonposter.filter(function(image) {
-                        if(image.season == seasonnumber) {
-                            return image.url;
-                        }
-                    })
+                        return parseInt(image.season) == parseInt(seasonnumber);
+                    });
                     if(hit && hit.length > 0) {
-                        return hit[0];
+                        return hit[0].url;
                     }
+                }
+                if(('tvposter' in fanart)) {
+                    return fanart.tvposter[0].url.replace('/fanart','/preview')
+                }
+
+                return null;
+            },
+            getEpisodePoster: function(fanart) {
+                if(('tvthumb' in fanart)) {
+                    return fanart.tvthumb[0].url;
+                }
+                if('hdtvlogo' in fanart) {
+                    return fanart.hdtvlogo[0].url;
                 }
                 return null;
             },

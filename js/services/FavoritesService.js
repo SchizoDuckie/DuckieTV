@@ -73,14 +73,14 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                 serie.poster = fanart.tvposter[0].url.replace('/fanart','/preview');
             }
             if(null !== fanart && ('showbackground' in fanart)) {
-                serie.poster = fanart.showbackground[0].url;
+                serie.fanart = fanart.showbackground[0].url;
             }
         };
         /**
          * Helper function to map properties from the input data from Trakt.TV into a Episode CRUD object.
          * Input information will always overwrite existing information.
          */
-        fillEpisode = function(episode, data, season, serie, watched) {
+        fillEpisode = function(episode, data, season, serie, watched, fanart) {
             // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
             data.TVDB_ID = data.tvdb_id;
             data.IMDB_ID = data.imdb_id;
@@ -114,6 +114,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                     episode[i] = data[i];
                 }
             }
+            episode.filename = FanartService.getEpisodePoster(fanart);
             episode.seasonnumber = season.seasonnumber;
             // if there's an entry for the episode in watchedEpisodes, this is a backup restore
             watched.map(function(el) {
@@ -184,14 +185,14 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
             });
         };
 
-        updateEpisodes = function(serie, seasons, watched, seasonCache) {
+        updateEpisodes = function(serie, seasons, watched, seasonCache, fanart) {
             // console.debug(" Update episodes!", serie, seasons, watched, seasonCache);
             return serie.getEpisodesMap().then(function(episodeCache) {
                 return Promise.all(seasons.map(function(season) {
                     return Promise.all(season.episodes.map(function(episode) {
                         if (episode.tvdb_id == null) return;
                         var dbEpisode = (!(episode.tvdb_id in episodeCache)) ? new Episode() : episodeCache[episode.tvdb_id];
-                        return fillEpisode(dbEpisode, episode, seasonCache[season.number], serie, watched).Persist().then(function() {
+                        return fillEpisode(dbEpisode, episode, seasonCache[season.number], serie, watched, fanart).Persist().then(function() {
                             episodeCache[episode.tvdb_id] = dbEpisode;
                             return true;
                         });
