@@ -16,10 +16,11 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
             get: function(tvdb_id) {
                 return $q(function(resolve, reject) {
                     if((tvdb_id in cache)) {
-                        resolve(cache[tvdb_id]);
+                        console.debug('Using cache', cache[tvdb_id].name);
+                        return resolve(cache[tvdb_id]);
                     }
                     return $http.get(getUrl(tvdb_id)).then(function(result) {
-                        console.log("Fetched ", result.data);
+                        console.debug('Fetched', result.data.name, result.data);
                         cache[tvdb_id] = result.data;
                         service.store();
                         resolve(result.data);
