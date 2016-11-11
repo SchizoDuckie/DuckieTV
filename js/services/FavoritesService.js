@@ -73,6 +73,9 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                 if ('showbackground' in fanart) {
                     serie.fanart = fanart.showbackground[0].url;
                 }
+                if (!('tvposter' in fanart) && !('clearlogo' in fanart) && ('hdtvlogo' in fanart)) {
+                    serie.poster = fanart.hdtvlogo[0].url;
+                }
                 if (!('tvposter' in fanart) && ('clearlogo' in fanart)) {
                     serie.poster = fanart.clearlogo[0].url;
                 }
