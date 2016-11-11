@@ -63,17 +63,22 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                     serie[i] = data[i];
                 }
             }
-            if(null !== fanart && ('tvbanner' in fanart)) {
-                serie.banner = fanart.tvbanner[0].url;
-            }
-            if(null !== fanart && !('showbackground' in fanart) && ('hdclearart' in fanart)) {
-                serie.fanart = fanart.hdclearart[0].url;
-            }
-            if(null !== fanart && ('tvposter' in fanart)) {
-                serie.poster = fanart.tvposter[0].url.replace('/fanart','/preview');
-            }
-            if(null !== fanart && ('showbackground' in fanart)) {
-                serie.fanart = fanart.showbackground[0].url;
+            if (null !== fanart) {
+                if ('tvbanner' in fanart) {
+                    serie.banner = fanart.tvbanner[0].url;
+                }
+                if (!('showbackground' in fanart) && ('hdclearart' in fanart)) {
+                    serie.fanart = fanart.hdclearart[0].url;
+                }
+                if ('showbackground' in fanart) {
+                    serie.fanart = fanart.showbackground[0].url;
+                }
+                if (!('tvposter' in fanart) && ('clearlogo' in fanart)) {
+                    serie.poster = fanart.clearlogo[0].url;
+                }
+                if ('tvposter' in fanart) {
+                    serie.poster = fanart.tvposter[0].url.replace('/fanart','/preview');
+                }
             }
         };
         /**
