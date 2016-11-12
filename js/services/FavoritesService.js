@@ -169,7 +169,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
          * @return object seasonCache indexed by seasonnumber
          */
         updateSeasons = function(serie, seasons, fanart) {
-            //console.debug("Update seasons!", seasons);
+            //console.debug("Update seasons!", seasons, fanart);
             return serie.getSeasonsByNumber().then(function(seasonCache) { // fetch the seasons and cache them by number.
                 return Promise.all(seasons.map(function(season) {
                     var SE = (season.number in seasonCache) ? seasonCache[season.number] : new Season();
@@ -193,7 +193,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
         };
 
         updateEpisodes = function(serie, seasons, watched, seasonCache, fanart) {
-            // console.debug(" Update episodes!", serie, seasons, watched, seasonCache);
+            //console.debug(" Update episodes!", serie, seasons, watched, seasonCache, fanart);
             return serie.getEpisodesMap().then(function(episodeCache) {
                 return Promise.all(seasons.map(function(season) {
                     return Promise.all(season.episodes.map(function(episode) {

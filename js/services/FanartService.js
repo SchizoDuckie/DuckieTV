@@ -33,11 +33,18 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                         console.debug('Fetched', result.data.name, result.data);
                         cache[tvdb_id] = result.data;
                         service.store();
-                        resolve(result.data);
+                        return resolve(result.data);
+                    }, function(error) {
+                        //console.debug(error.status, error.statusText, error);
+                        return resolve(null);
                     });    
                 })  
             },
             getSeasonPoster: function(seasonnumber, fanart) {
+                //console.debug('fanart.getSeasonPoster', seasonnumber, fanart);
+                if (!fanart) {
+                    return null;
+                }
                 if(('seasonposter' in fanart)) {
                     var hit = fanart.seasonposter.filter(function(image) {
                         return parseInt(image.season) == parseInt(seasonnumber);
@@ -47,12 +54,16 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                     }
                 }
                 if(('tvposter' in fanart)) {
-                    return fanart.tvposter[0].url.replace('/fanart','/preview')
+                    return fanart.tvposter[0].url.replace('/fanart','/preview');
                 }
 
                 return null;
             },
             getEpisodePoster: function(fanart) {
+                //console.debug('fanart.getEpisodePoster', fanart);
+                if (!fanart) {
+                    return null;
+                }
                 if(('tvthumb' in fanart)) {
                     return fanart.tvthumb[0].url;
                 }
