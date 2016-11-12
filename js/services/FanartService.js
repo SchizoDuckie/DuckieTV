@@ -77,8 +77,10 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
             },
             restore: function() {
                 if(localStorage.getItem('fanart.cache')) {
+                    console.info('Loading localStorage fanart.cache');
                     cache = JSON.parse(localStorage.getItem('fanart.cache'));
                 } else {
+                    console.info('Loading file fanart.cache.json');
                     $http.get('fanart.cache.json').then(function(result) {
                         cache = result.data;
                         service.store();
