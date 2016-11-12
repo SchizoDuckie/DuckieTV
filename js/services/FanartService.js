@@ -1,3 +1,7 @@
+/**
+ * Fanart API v3 service
+ * docs: http://docs.fanarttv.apiary.io/#
+ */
 DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
         var endpoint = 'http://webservice.fanart.tv/v3/tv/';
         var API_KEY = "mæ¶ën|{W´íïtßg½÷¾6mÍ9Õýß";
@@ -7,7 +11,6 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
         function getUrl(tvdb_id) {
             return [endpoint, tvdb_id, '?api_key=', btoa(API_KEY)].join('');
         }
-
 
         var service = {
             initialize: function() {
@@ -20,6 +23,13 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                         return resolve(cache[tvdb_id]);
                     }
                     return $http.get(getUrl(tvdb_id)).then(function(result) {
+                        Object.keys(result.data).forEach(function(key) {
+                            // for all but the season posters, keep only the first url
+                            if (key !== 'seasonposter' && key !== 'name' && key !== 'thetvdb_id') {
+                                var url = result.data[key].slice(0);
+                                result.data[key] = [{url: url[0].url}];
+                            }
+                        });                        
                         console.debug('Fetched', result.data.name, result.data);
                         cache[tvdb_id] = result.data;
                         service.store();
