@@ -244,6 +244,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                 };
                 var serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id) : service.getById(data.tvdb_id) || new Serie();
                 return FanartService.get(data.tvdb_id).then(function(fanart) {
+                    fanart = ('json' in fanart) ? fanart.json : {};
                     fillSerie(serie, data, fanart);
                     return serie.Persist().then(function() {
                             return serie;

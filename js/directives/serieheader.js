@@ -18,7 +18,6 @@ DuckieTV.directive('serieheader', ['FanartService', function(FanartService) {
             return $iAttrs.seriesList ? "templates/serieslist/serieHeader.html" : "templates/serieHeader.html";
         },
         controller: ["$element","$attrs", "$scope", function($element, $attrs, $scope) {
-            console.log("serieheader scope: ", $scope);
             if(!$scope.data.poster) {
                 FanartService.get($scope.data.tvdb_id).then(function(found){
                     $scope.data.poster = found.poster

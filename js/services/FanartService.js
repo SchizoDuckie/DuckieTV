@@ -17,10 +17,8 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
             art.TVDB_ID = json.thetvdb_id;
             art.json = json;
             art.poster = service.getTrendingPoster(json);
-            return art.Persist().then(function(obj){
-                console.log("Fanartstoredindb", obj);
-                return art;
-            })
+            art.Persist();
+            return art;
         }
 
         var service = {
