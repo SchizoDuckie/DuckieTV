@@ -250,6 +250,12 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                 activeSearchRequest = $q.defer();
                 return promiseRequest('search', what, null, activeSearchRequest.promise).then(function(results) {
                     activeSearchRequest = false;
+                    results.map(function(show) {
+                        FanartService.get(show.tvdb_id).then(function(fanart) {
+                            show.poster = FanartService.getTrendingPoster(fanart);
+                            return show;
+                        });
+                    })
                     return results;
                 });
             },
