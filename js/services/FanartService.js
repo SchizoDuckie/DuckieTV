@@ -6,8 +6,6 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
         var endpoint = 'http://webservice.fanart.tv/v3/tv/';
         var API_KEY = "mæ¶ën|{W´íïtßg½÷¾6mÍ9Õýß";
 
-        var cache = {};
-
         function getUrl(tvdb_id) {
             return [endpoint, tvdb_id, '?api_key=', btoa(API_KEY)].join('');
         }
@@ -39,7 +37,7 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                     }
                 }, function(err) {
                     console.error('Could not load fanart', err);
-                    
+                    return false;
                 })
             },
             getTrendingPoster: function(fanart) {
@@ -91,33 +89,44 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                 }
                 return null;
             },
+            /**
+             * To populate fanart.cache
+             */
             store: function() {
+                var cache = {};
+                CRUD.Find('Fanart', {}, {'limit': '0,99999'}).then(function(result) {
+                    result.map(function(fanart) {
+                        cache[fanart.TVDB_ID] = fanart.json;
+                    });
+                    console.log(JSON.stringify(cache));
+                    debugger;
+                })
                 localStorage.setItem('fanart.cache', JSON.stringify(cache));
             },
-            restore: function() {
+            /**
+             * Populate fanart cache if there is none
+             */
+            initialize: function() {
                 if(localStorage.getItem('fanart.cache')) {
-                    console.info('Loading localStorage fanart.cache');
                     cache = JSON.parse(localStorage.getItem('fanart.cache'));
-                    console.log("Unserialized cache: ", cache);
                     Object.keys(cache).map(function(tvdb_id) {
                         storeInDB(cache[tvdb_id]);
                     });
                     localStorage.removeItem('fanart.cache');
                 } 
                 if(!localStorage.getItem("fanart.bootstrapped")) {
-                    console.info('Loading file fanart.cache.json');
                     $http.get('fanart.cache.json').then(function(result) {
                         return Promise.all(Object.keys(result.data).map(function(tvdb_id) {
                             return storeInDB(result.data[tvdb_id]);
                         }));
                     }).then(function() {
                      localStorage.setItem('fanart.bootstrapped',1);
-                       console.log("Fanart bootstrap cache filled"); 
                     });
                 }
             }
         };
-        service.restore();
         return service;
     }
-]);
+]).run(["FanartService", function(FanartService) {
+    FanartService.initialize();
+}]);
