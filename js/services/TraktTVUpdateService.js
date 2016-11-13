@@ -1,11 +1,11 @@
-/** 
+/**
  * Trakt TV V2 API interfacing.
  * Throughout the app the API from Trakt.TV is used to fetch content about shows and optionally the user's data
  *
  * For API docs: check here: http://docs.trakt.apiary.io/#
  */
-DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
-    function($q, TraktTVv2, FavoritesService) {
+DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService", "FanartService",
+    function($q, TraktTVv2, FavoritesService, FanartService) {
 
 
 
@@ -41,19 +41,42 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
             },
             /**
              * Save Trakt.TV's trending list to localstorage once a week
+             * Fetches images for any new shows added to the trending list
+             * Existing shows with posters use their existing poster urls
              */
             updateCachedTrending: function() {
+                var oldCache = localStorage.getItem('trakttv.trending.cache');
+                oldCache = oldCache ? JSON.parse(oldCache) : [];
+                var oldCacheIds = oldCache ? oldCache.map(function(a) {
+                    return a.tvdb_id;
+                }) : [];
                 return TraktTVv2.trending(true).then(function(result) {
-                    localStorage.setItem('trakttv.trending.cache', JSON.stringify(result.map(function(serie) {
-                        delete serie.images;
-                        delete serie.ids;
-                        delete serie.available_translations;
-                        delete serie.fanart;
-                        delete serie.banner;
-                        delete serie.tmdb_id;
-                        return serie;
-                    })));
-                    return true;
+                    return Promise.all(result.map(function(serie) {
+                        return new Promise(function(resolve) {
+                            // Delete bunch of stuff we don't need to save space
+                            delete serie.ids;
+                            delete serie.available_translations;
+                            delete serie.title;
+                            delete serie.tvrage_id;
+                            delete serie.imdb_id;
+                            delete serie.updated_at;
+                            delete serie.aired_episodes;
+                            delete serie.homepage;
+                            delete serie.slug_id;
+                            var originalSerie = oldCache[oldCacheIds.indexOf(serie.tvdb_id)];
+                            if (originalSerie && originalSerie.poster) {
+                                serie.poster = originalSerie.poster;
+                                return resolve(serie);
+                            }
+                            FanartService.get(serie.tvdb_id).then(function(fanart) {
+                                serie.poster = FanartService.getTrendingPoster(fanart);
+                                return resolve(serie);
+                            });
+                        });
+                    })).then(function(shows) {
+                        localStorage.setItem('trakttv.trending.cache', JSON.stringify(shows));
+                        return true;
+                    });
                 });
             }
         };

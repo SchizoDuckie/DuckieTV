@@ -19,7 +19,7 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
             get: function(tvdb_id) {
                 return $q(function(resolve, reject) {
                     if((tvdb_id in cache)) {
-                        console.debug('Using cache', cache[tvdb_id].name);
+                        //console.debug('Using cache', cache[tvdb_id].name);
                         return resolve(cache[tvdb_id]);
                     }
                     return $http.get(getUrl(tvdb_id)).then(function(result) {
@@ -30,7 +30,7 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                                 result.data[key] = [{url: url[0].url}];
                             }
                         });                        
-                        console.debug('Fetched', result.data.name, result.data);
+                        //console.debug('Fetched', result.data.name, result.data);
                         cache[tvdb_id] = result.data;
                         service.store();
                         return resolve(result.data);
@@ -39,6 +39,23 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                         return resolve(null);
                     });    
                 })  
+            },
+            getTrendingPoster: function(fanart) {
+                //console.debug('fanart.getTrendingPoster', fanart);
+                if (!fanart) {
+                    return null;
+                }
+                if (!('tvposter' in fanart) && !('clearlogo' in fanart) && ('hdtvlogo' in fanart)) {
+                    return fanart.hdtvlogo[0].url.replace('/fanart','/preview');
+                }
+                if (!('tvposter' in fanart) && ('clearlogo' in fanart)) {
+                    return fanart.clearlogo[0].url.replace('/fanart','/preview');
+                }
+                if ('tvposter' in fanart) {
+                    return fanart.tvposter[0].url.replace('/fanart','/preview');
+                }
+
+                return null;
             },
             getSeasonPoster: function(seasonnumber, fanart) {
                 //console.debug('fanart.getSeasonPoster', seasonnumber, fanart);

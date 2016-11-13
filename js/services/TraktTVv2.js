@@ -4,8 +4,8 @@
  *
  * For API docs: check here: http://docs.trakt.apiary.io/#
  */
-DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
-    function(SettingsService, $q, $http, toaster) {
+DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "FanartService",
+    function(SettingsService, $q, $http, toaster, FanartService) {
 
         var activeSearchRequest = false,
             activeTrendingRequest = false,
@@ -17,31 +17,26 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
 
         var endpoints = {
             people: 'shows/%s/people',
-            serie: 'shows/%s?extended=full,images',
-            seasons: 'shows/%s/seasons?extended=full,images',
-            episodes: 'shows/%s/seasons/%s/episodes?extended=full,images',
-            search: 'search/show?extended=full,images&limit=50&query=%s',
-            trending: 'shows/trending?extended=full,images&limit=500',
+            serie: 'shows/%s?extended=full',
+            seasons: 'shows/%s/seasons?extended=full',
+            episodes: 'shows/%s/seasons/%s/episodes?extended=full',
+            search: 'search/show?extended=full&limit=50&query=%s',
+            trending: 'shows/trending?extended=full&limit=500',
             tvdb_id: 'search/tvdb/%s?type=show',
             trakt_id: 'search/trakt/%s?type=show',
             login: 'auth/login',
             updated: 'shows/updates/%s?limit=10000',
             config: 'users/settings',
             token: 'oauth/token',
-            watched: 'sync/watched/shows?extended=full,images&limit=10000',
+            watched: 'sync/watched/shows?extended=full&limit=10000',
             episodeSeen: 'sync/history',
             episodeUnseen: 'sync/history/remove',
-            userShows: 'sync/collection/shows?extended=full,images&limit=10000',
+            userShows: 'sync/collection/shows?extended=full&limit=10000',
             addCollection: 'sync/collection',
             removeCollection: 'sync/collection/remove'
         };
 
         var parsers = {
-            /**
-             * When the series lists are fetched, put the poster / banner / fanart properties on the main
-             * object instead of inside data.images. This makes sure that the API between the CRUD entity and the
-             * incoming data is the same.
-             */
             trakt: function(show) {
                 Object.keys(show.ids).map(function(key) {
                     show[key + '_id'] = show.ids[key];
@@ -268,14 +263,18 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster",
                 return (activeSearchRequest && activeSearchRequest.resolve);
             },
             trending: function(noCache) {
-                if (undefined === noCache) {
+                if (!noCache) {
                     if (!localStorage.getItem('trakttv.trending.cache')) {
                         return $http.get('trakt-trending-500.json').then(function(result) {
                             var output = result.data.filter(function(show) {
-                                return typeof(show.show.ids.tvdb) !== "undefined";
+                                if (show.tvdb_id) return true;
                             }).map(function(show) {
-                                return parsers.trakt(show.show);
+                                return FanartService.get(data.tvdb_id).then(function(fanart) {
+                                    show.poster = FanartService.getTrendingPoster(fanart);
+                                    return show;
+                                });
                             });
+                            localStorage.setItem('trakttv.trending.cache', JSON.stringify(output));
                             return output;
                         });
                     } else {
