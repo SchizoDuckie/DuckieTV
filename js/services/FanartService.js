@@ -12,33 +12,37 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
             return [endpoint, tvdb_id, '?api_key=', btoa(API_KEY)].join('');
         }
 
+        function storeInDB(json) {
+            var art = new Fanart();
+            art.TVDB_ID = json.thetvdb_id;
+            art.json = json;
+            art.poster = service.getTrendingPoster(json);
+            return art.Persist().then(function(obj){
+                console.log("Fanartstoredindb", obj);
+                return art;
+            })
+        }
+
         var service = {
             initialize: function() {
             
             },
             get: function(tvdb_id) {
-                return $q(function(resolve, reject) {
-                    if((tvdb_id in cache)) {
-                        //console.debug('Using cache', cache[tvdb_id].name);
-                        return resolve(cache[tvdb_id]);
+                return CRUD.FindOne('Fanart', { TVDB_ID: tvdb_id}).then(function(result) {
+                    if(result) {
+                        return result;
+                    } else {
+                         return $http.get(getUrl(tvdb_id)).then(function(result) {
+                            return storeInDB(result.data);
+                        }, function(err) {
+                            console.error('Could not load fanart', err);
+                            return false;
+                        });   
                     }
-                    return $http.get(getUrl(tvdb_id)).then(function(result) {
-                        Object.keys(result.data).forEach(function(key) {
-                            // for all but the season posters, keep only the first url
-                            if (key !== 'seasonposter' && key !== 'name' && key !== 'thetvdb_id') {
-                                var url = result.data[key].slice(0);
-                                result.data[key] = [{url: url[0].url}];
-                            }
-                        });                        
-                        //console.debug('Fetched', result.data.name, result.data);
-                        cache[tvdb_id] = result.data;
-                        service.store();
-                        return resolve(result.data);
-                    }, function(error) {
-                        //console.debug(error.status, error.statusText, error);
-                        return resolve(null);
-                    });    
-                })  
+                }, function(err) {
+                    console.error('Could not load fanart', err);
+                    
+                })
             },
             getTrendingPoster: function(fanart) {
                 //console.debug('fanart.getTrendingPoster', fanart);
@@ -96,11 +100,21 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                 if(localStorage.getItem('fanart.cache')) {
                     console.info('Loading localStorage fanart.cache');
                     cache = JSON.parse(localStorage.getItem('fanart.cache'));
-                } else {
+                    console.log("Unserialized cache: ", cache);
+                    Object.keys(cache).map(function(tvdb_id) {
+                        storeInDB(cache[tvdb_id]);
+                    });
+                    localStorage.removeItem('fanart.cache');
+                } 
+                if(!localStorage.getItem("fanart.bootstrapped")) {
                     console.info('Loading file fanart.cache.json');
                     $http.get('fanart.cache.json').then(function(result) {
-                        cache = result.data;
-                        service.store();
+                        return Promise.all(Object.keys(result.data).map(function(tvdb_id) {
+                            return storeInDB(result.data[tvdb_id]);
+                        }));
+                    }).then(function() {
+                     localStorage.setItem('fanart.bootstrapped',1);
+                       console.log("Fanart bootstrap cache filled"); 
                     });
                 }
             }

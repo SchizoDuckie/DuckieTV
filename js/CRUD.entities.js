@@ -37,6 +37,12 @@ function SearchEngine() {
     CRUD.Entity.call(this);
 }
 
+function Fanart() {
+    this.instance = false;
+    CRUD.Entity.call(this);
+}
+
+
 
 /**
  * Allow CRUD.js to register itself and the properties defined on each named function.
@@ -688,6 +694,21 @@ CRUD.define(SearchEngine, {
             }
         }
     }
+});
+
+
+CRUD.define(Fanart, {
+    className: 'Fanart',
+    table: 'Fanart',
+    primary: 'ID_Fanart',
+    fields: ['ID_Fanart', 'TVDB_ID', 'poster', 'json'],
+    autoSerialize: ['json'],
+    relations: {},
+    createStatement: 'CREATE TABLE Fanart ( ID_Fanart INTEGER PRIMARY KEY NOT NULL, TVDB_ID INTEGER NOT NULL, poster VARCHAR(255) NULL, json TEXT)',
+    adapter: 'dbAdapter',
+    indexes: ['TVDB_ID']
+}, {
+
 });
 
 CRUD.DEBUG = false;
