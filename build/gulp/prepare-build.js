@@ -140,7 +140,7 @@ gulp.task('copyToDeploy', ['concatScripts', 'concatBackgroundPage', 'concatStyle
     if (!fs.existsSync('../deploy/cordova')){
       fs.mkdirSync('../deploy/cordova');
     }
-    return gulp.src(['VERSION', 'trakt-trending-500.json', '_locales/**', 'dist/**', 'fonts/**', 'img/**', 'templates/**'], {
+    return gulp.src(['VERSION', 'fanart.cache.json', 'trakt-trending-500.json', '_locales/**', 'dist/**', 'fonts/**', 'img/**', 'templates/**'], {
             "base": "."
         })
         .pipe(gulp.dest('../deploy/browseraction'))
