@@ -73,7 +73,7 @@ DuckieTV
                 });
                 console.log('1.1.4refresh done!');
                 localStorage.setItem('1.1.4refresh', new Date());
-            }, 8000);
+            }, 10000);
             console.info("Executing the 1.1.4refresh to update Trakt_id for all Series, Seasons and Episodes");
         }
 
