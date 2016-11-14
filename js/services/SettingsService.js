@@ -223,10 +223,13 @@ DuckieTV.factory('ChromePermissions', ["$q",
              */
             restore: function() {
                 if (!localStorage.getItem('userPreferences')) {
-                    service.defaults['topSites.enabled'] = ('chrome' in window && 'topSites' in (window.chrome));
+                    service.defaults['topSites.enabled'] = (navigator.userAgent.indexOf('Standalone') == -1 && 'chrome' in window && 'topSites' in (window.chrome));
                     service.settings = service.defaults;
                 } else {
                     service.settings = angular.fromJson(localStorage.getItem('userPreferences'));
+                    if(navigator.userAgent.indexOf('Standalone') > -1) {
+                        service.settings['topSites.enabled'] = false;
+                    }
                 }
             },
             /*
