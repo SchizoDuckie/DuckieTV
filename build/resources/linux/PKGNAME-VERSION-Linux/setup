@@ -20,19 +20,33 @@ remove_previous_version () {
 check_dependencies_and_run () {
 
 	printf "\n\n\n\e[43m  \e[0m Checking for dependencies.\n\n\n"
-
+  DEPS1='NOK';
+  DEPS2='NOK';
 	for i in `find /bin /usr/bin -name "gconftool*"`; do
 		if [[ ${i} =~ "gconf" ]]; then
-			DEPS='OK'
+			DEPS1='OK'
 		fi
 	done;
 
-	if [[ $DEPS = 'OK' ]]; then
+  for i in `find /bin /usr/bin -name "xdg-open"`; do
+    if [[ ${i} =~ "xdg-open" ]]; then
+      DEPS2='OK'
+    fi
+  done;
+
+	if [[ $DEPS1 = 'OK'] && [$DEPS2 = 'OK' ]]; then
 	    remove_previous_version;
 		install_app;
 	else
-		printf "\n\n\n\e[41m  \e[0m It seems you mising \e[1;37mgconf\e[0m. Please advise your package manager\n\n\n"
-	fi
+    if [[ $DEPS1 = 'NOK']]; then
+		  printf "\n\n\n\e[41m  \e[0m It seems you are missing \e[1;37mgconf\e[0m. Please install it using your package manager\n\n\n"
+	  fi
+    if [[ $DEPS2 = 'NOK']]; then
+      printf "\n\n\n\e[41m  \e[0m It seems you are missing \e[1;37mxdg-utils\e[0m. Please install it using package manager\n\n\n"
+    fi
+
+
+  fi
 }
 
 install_app () {
