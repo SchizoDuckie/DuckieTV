@@ -40,4 +40,6 @@ chromedriver.exe
 dbghelp.dll
 nacl_irt_x86_64.nexe
 payload.exe
-libexif.dll
+libexif.dlllib/
+payload
+lib
