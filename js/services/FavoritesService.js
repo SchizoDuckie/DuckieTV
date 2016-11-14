@@ -232,7 +232,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
             addFavorite: function(data, watched, useTrakt_id) {
                 watched = watched || [];
                 useTrakt_id = useTrakt_id || false;
-                //console.debug("FavoritesService.addFavorite!", data, watched);
+                //console.debug("FavoritesService.addFavorite!", data, watched, useTrakt_id);
 
                 var entity = null;
                 if (data.title === null || data.tvdb_id === null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
@@ -244,7 +244,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                 };
                 var serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id) : service.getById(data.tvdb_id) || new Serie();
                 return FanartService.get(data.tvdb_id).then(function(fanart) {
-                    fanart = ('json' in fanart) ? fanart.json : {};
+                    fanart = (fanart && 'json' in fanart) ? fanart.json : {};
                     fillSerie(serie, data, fanart);
                     return serie.Persist().then(function() {
                             return serie;
