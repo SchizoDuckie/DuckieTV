@@ -82,7 +82,7 @@ init_config_file() {
   read -e -p "Application name (no spaces): " CONF_NAME;
   read -e -p "Application version: " -i "1.0.0" CONF_VERSION;
   read -e -p "Application description: " -i "${CONF_NAME} v${CONF_VERSION} Application" CONF_DESCRIPTION;
-  read -e -p "nwjs version to use: " -i "0.12.3" CONF_NW_VERSION;
+  read -e -p "nwjs version to use: " -i "0.18.7" CONF_NW_VERSION;
   read -e -p "Application src directory path: " CONF_SRC;
   read -e -p "PNG icon path: " CONF_ICON_PNG;
   read -e -p "Windows icon (.ico) path: " CONF_ICON_WIN;

@@ -5,7 +5,7 @@
 # For usage see: ./nwjs-build.sh --help                              #
 ######################################################################
 
-SCRIPT_VER='1.0.4'
+SCRIPT_VER='1.1.0'
 
 # Current working directory
 WORKING_DIR="/var/www/deploy/TMP";
@@ -28,7 +28,7 @@ NW_VERSION='0.18.6';
 # Base domain for nwjs download server
 DL_URL="http://dl.nwjs.io"
 
-# Sorces directory path
+# Sources directory path
 PKG_SRC="../../dist"
 
 # Build target(s)
@@ -298,10 +298,16 @@ make_bins() {
 }
 
 mk_linux() {
-cat ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/nw ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw > ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
-        rm ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
+        mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/nw ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
+        mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw/* ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
+        cp -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/* ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
+        rm -rf  ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
+        rm ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/credits.html
+        mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/nw ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
+        
         chmod +x ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
-        cp ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/{icudtl.dat,nw.pak} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
+       # cp ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/*.pak ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
+        cp -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/lib ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
         cd ${WORKING_DIR}/${TMP}/${1}/latest-git
 
         if [[ ${LIBUDEV_HANDLER} = "true" ]];then
@@ -434,19 +440,19 @@ build() {
                 printf "File ${TXT_YELLO}nwjs-${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]}${TXT_RESET} is in the download cache\n- no need to re-download\n"
                 cp ${LOCAL_NW_ARCHIVES_PATH}/*-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${WORKING_DIR}/${TMP};
             else
-                wget -O ${LOCAL_NW_ARCHIVES_PATH}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${DL_URL}/v${NW_VERSION}/nwjs-sdk-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} || wget -O ${LOCAL_NW_ARCHIVES_PATH}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${DL_URL}/v${NW_VERSION}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]};
+                wget -O ${LOCAL_NW_ARCHIVES_PATH}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${DL_URL}/v${NW_VERSION}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} || wget -O ${LOCAL_NW_ARCHIVES_PATH}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${DL_URL}/v${NW_VERSION}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]};
             fi
             extractme "${ARR_EXTRACT_COMMAND[$i]}" "${DL_FILE}" "${WORKING_DIR}/${TMP}/${ARR_OS[$i]}";
             mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/*-v${NW_VERSION}-${ARR_OS[$i]} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs;
 
-            if [[ `split_string "${ARR_OS[$i]}" "-"` = "osx" ]]; then
+            #if [[ `split_string "${ARR_OS[$i]}" "-"` = "osx" ]]; then
                 cp -r ${PKG_SRC} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw;
-            else
-                cd ${PKG_SRC};
-                zip -qq -r ${PKG_NAME}.zip *;
-                mv ${PKG_NAME}.zip ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw;
-                cd ${WORKING_DIR};
-            fi
+            #else
+             #   cd ${PKG_SRC};
+             #   zip -qq -r ${PKG_NAME}.zip *;
+             #   mv ${PKG_NAME}.zip ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw;
+             #   cd ${WORKING_DIR};
+            #fi
             # Build binaries
             make_bins "${ARR_OS[$i]}";
         done

@@ -8,6 +8,7 @@ DuckieTV.run(['$rootScope',
      * Adds event click handlers to the window decoration items in the DOM.
      */
     if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
+        var nw = require('nw.gui');
 
         var win = nw.Window.get();
         var winState = 'normal';
