@@ -232,12 +232,7 @@ pack_windows() {
             NWJS_APP_REPLACE_LICENSE $(get_value_by_key license) \
             NWJS_APP_REPLACE_VERSION $(get_value_by_key version) \
             NWJS_APP_REPLACE_EXE_NAME $(get_value_by_key name)-$(get_value_by_key version)-Windows-${arch}.exe \
-            NWJS_APP_REPLACE_INC_FILE_1 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/$(get_value_by_key name).exe \
-            NWJS_APP_REPLACE_INC_FILE_2 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/icudtl.dat \
-            NWJS_APP_REPLACE_INC_FILE_3 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/libEGL.dll \
-            NWJS_APP_REPLACE_INC_FILE_4 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/libGLESv2.dll \
-            NWJS_APP_REPLACE_INC_FILE_5 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/nw.pak \
-            NWJS_APP_REPLACE_INC_FILE_6 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/d3dcompiler_47.dll \
+            NWJS_APP_REPLACE_INC_FILE_1 ${WORKING_DIR}/WORK_DIR/win-${arch}/latest-git/\*.\* \
             NWJS_APP_REPLACE_ICO_FILE_NAME $(basename $(get_value_by_key windowsIconPath)) \
             NWJS_APP_REPLACE_INC_FILE_ICO $(get_value_by_key windowsIconPath) -- app.nsi;
         makensis app.nsi

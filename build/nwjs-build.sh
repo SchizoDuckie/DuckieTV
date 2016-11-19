@@ -303,7 +303,6 @@ mk_linux() {
         cp -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/* ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
         rm -rf  ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
         rm ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/credits.html
-        mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/nw ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
         
         chmod +x ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
        # cp ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/*.pak ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
@@ -346,13 +345,31 @@ gisto_libudev_helper
 }
 
 mk_windows() {
-    cat ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/nw.exe ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw > ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.exe
-    rm ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
+
+    #determine if winresourcer is available (for embedding custom .ico in windows executable using Wine)
+    if ! command -v winresourcer >/dev/null 2>&1; then
+        WINRESOURCER_AVAILABLE=false
+    else
+        WINRESOURCER_AVAILABLE=true
+    fi
+
+    cp -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/* ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
+    mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/nw.exe ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.exe
+    mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw/* ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
+    rm -rf  ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
+    rm ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/credits.html
     
     if [[ -f "${WIN_RESOURCE_ICO}" ]];then
         cp ${WIN_RESOURCE_ICO} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
     fi
-	cp ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/{icudtl.dat,nw.pak,*.dll} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
+    if [[ "$WINRESOURCER_AVAILABLE" = "true" ]];then
+        # Run winresourcer (requires wine 1.7 and mono)
+        winresourcer --operation=Update --exeFile=${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.exe --resourceType=Icongroup --resourceName:IDR_MAINFRAME --lang:1033 --resourceFile:${WIN_RESOURCE_ICO}
+        # Remove iconfile
+        ICONFILENAME="${WIN_RESOURCE_ICO##*/}"
+        # cleanup now redundant icon
+        rm ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${ICONFILENAME}
+    fi
 	
     cd ${WORKING_DIR}/${TMP}/${1}/latest-git
     zip -qq -r ${PKG_NAME}-${DATE}-${1}.zip *;
@@ -440,7 +457,7 @@ build() {
                 printf "File ${TXT_YELLO}nwjs-${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]}${TXT_RESET} is in the download cache\n- no need to re-download\n"
                 cp ${LOCAL_NW_ARCHIVES_PATH}/*-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${WORKING_DIR}/${TMP};
             else
-                wget -O ${LOCAL_NW_ARCHIVES_PATH}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${DL_URL}/v${NW_VERSION}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} || wget -O ${LOCAL_NW_ARCHIVES_PATH}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${DL_URL}/v${NW_VERSION}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]};
+                wget -O ${LOCAL_NW_ARCHIVES_PATH}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${DL_URL}/v${NW_VERSION}/nwjs-sdk-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} || wget -O ${LOCAL_NW_ARCHIVES_PATH}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]} ${DL_URL}/v${NW_VERSION}/nwjs-v${NW_VERSION}-${ARR_OS[$i]}.${ARR_DL_EXT[$i]};
             fi
             extractme "${ARR_EXTRACT_COMMAND[$i]}" "${DL_FILE}" "${WORKING_DIR}/${TMP}/${ARR_OS[$i]}";
             mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/*-v${NW_VERSION}-${ARR_OS[$i]} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs;
