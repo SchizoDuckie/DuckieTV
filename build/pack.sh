@@ -133,12 +133,15 @@ pack_linux () {
             PKGNAME "$(get_value_by_key name)" \
             PKGDESCRIPTION "$(get_value_by_key description)" \
             PKGVERSION $(get_value_by_key version) \
+            PKGARCHITECTURE ${arch} \
             -- ${PKG_MK_DIR}/setup \
             ${PKG_MK_DIR}/README \
+            ${PKG_MK_DIR}/DEBIAN/control \
             ${PKG_MK_DIR}/share/applications/$(get_value_by_key name).desktop \
             ${PKG_MK_DIR}/share/menu/$(get_value_by_key name); 
         # app file
-        cp ${BUILD_DIR}/TMP/WORK_DIR/linux-${arch}/latest-git/* ${PKG_MK_DIR}/$(get_value_by_key name)/
+        cp -r ${BUILD_DIR}/TMP/WORK_DIR/linux-${arch}/latest-git/* ${PKG_MK_DIR}/$(get_value_by_key name)/
+        debtool --build --md5sums ${PKG_MK_DIR}
         # make the tar
         echo "tar -C ${BUILD_DIR}/TMP/WORK_DIR/ -czf $(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}.tar.gz $(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}"
         tar -C ${BUILD_DIR}/TMP/WORK_DIR/ -czf $(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}.tar.gz $(get_value_by_key name)-$(get_value_by_key version)-Linux-${arch}
