@@ -298,10 +298,10 @@ make_bins() {
 }
 
 mk_linux() {
-        mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/nw ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
         mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw/* ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
         cp -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/* ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/
         rm -rf  ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
+        mv ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/nw ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
         rm ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/credits.html
         
         chmod +x ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}
