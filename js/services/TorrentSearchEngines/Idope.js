@@ -5,13 +5,12 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 mirror: 'https://www.idope.se',
                 mirrorResolver: null,
                 includeBaseURL: true,
-                noMagnet: true,
                 endpoints: {
                     search: '/torrent/%s/?&o=%o',
                     details: '%s'
                 },
                 selectors: {
-                    resultContainer: 'div.resultdiv',
+                    resultContainer: '#div2',
                     releasename: ['div.resultdivtopname', 'innerText'],
                     seeders: ['div.resultdivbottonseed', 'innerText'],
                     leechers:  ['div.resultdivbottonseed', 'innerText',
@@ -20,15 +19,13 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                         }
                     ],
                     size: ['div.resultdivbottonlength', 'innerText'],
-                    detailUrl: ['div.resultdivtop a', 'href']
-                },
-                detailsSelectors: {
-                    detailsContainer: '#attributediv',
-                    magnetUrl: ['#mangetinfo', 'href',
+                    magnetUrl: ['a', 'href',
                         function(href) {
-                            return href + TorrentSearchEngines.trackers;
+                            var magnetHash = href.match(/([0-9ABCDEFabcdef]{40})/);
+                            return 'magnet:?xt=urn:btih:' + magnetHash[0] + TorrentSearchEngines.trackers;
                         }
                     ],
+                    detailUrl: ['a', 'href']
                 },
                 orderby: {
                     age: {d: '-3', a: '3'},
