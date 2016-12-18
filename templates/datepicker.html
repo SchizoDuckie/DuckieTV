@@ -54,9 +54,9 @@
         <tr ng-repeat="week in weeks">
           <td ng-repeat="day in week" class="day">
               <div ng-repeat="episodes in getSeries(day)" ng-if="hasEvent(day)">
-                <calendar-event serie="::event.serie" episode="event.episode" ng-if="episodes.length <= 2" ng-repeat="event in episodes|filter:filterEvents"></calendar-event>
+                <calendar-event serie="::event.serie" episode="event.episode" ng-if="episodes.length <= 2" ng-repeat="event in episodes|filter:filterEvents|orderBy:['episode.getAirTime()','serie.name','episode.getFormattedEpisode()']"></calendar-event>
                 <calendar-event serie="episodes[0].serie" episode="episodes[0].episode" count="episodes.length" ng-if="episodes.length > 2 && !isExpanded(day, episodes[0].serie.ID_Serie)" style='color:red'></calendar-event>
-                 <calendar-event serie="event.serie" episode="event.episode" ng-repeat="event in episodes|filter:filterEvents" ng-if="episodes.length > 2 && isExpanded(day, episodes[0].serie.ID_Serie)" style='color:red'></calendar-event>
+                 <calendar-event serie="event.serie" episode="event.episode" ng-repeat="event in episodes|filter:filterEvents|orderBy:['episode.getAirTime()','serie.name','episode.getFormattedEpisode()']" ng-if="episodes.length > 2 && isExpanded(day, episodes[0].serie.ID_Serie)" style='color:red'></calendar-event>
               </div>
               <span ng-class="{'now':isNow(day),'active':isSameDay(day),'disabled':(day.getMonth()!=date.getMonth()),'after':isAfter(day),'before':isBefore(day)}">
                 <em class="dayofweek">{{ day|date:"EEE" }} 
