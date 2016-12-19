@@ -171,13 +171,13 @@ create_bin
 }
 
 pack_osx () {
-    for arch in ${architechture[@]}; do
+arch="x64";
         cd ${WORKING_DIR}
         if [[ ! -d "${WORKING_DIR}/bomutils" ]]; then
             git clone https://github.com/hogliux/bomutils && cd bomutils && make && cd ${WORKING_DIR}
         fi
-        if [[ ! -d "${WORKING_DIR}/xar-1.5.2" ]]; then
-            wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/xar/xar-1.5.2.tar.gz && tar -zxvf ./xar-1.5.2.tar.gz && cd xar-1.5.2 && ./configure && make && cd ${WORKING_DIR}
+        if [[ ! -d "${WORKING_DIR}/xar-1.6.1" ]]; then
+            wget https://github.com/mackyle/xar/archive/xar-1.6.1.tar.gz && tar -zxvf ./xar-1.6.1.tar.gz && cd xar-xar-1.6.1/xar && ./autogen.sh && make && cd ${WORKING_DIR}
         fi
 
         mkdir -p ${WORKING_DIR}/build_osx/flat/base.pkg
@@ -236,11 +236,10 @@ cat << osx_distribution_helper > ${WORKING_DIR}/build_osx/flat/Distribution
     <pkg-ref id="$(get_value_by_key CFBundleIdentifier).base.pkg" installKBytes="${INSTALL_KB_SIZE}" version="$(get_value_by_key version)" auth="Root">#base.pkg</pkg-ref>
 </installer-script>
 osx_distribution_helper
-
+    mv ${WORKING_DIR}/build_osx/root/Applications/$(get_value_by_key name).app/Contents/MacOS/nwjs ${WORKING_DIR}/build_osx/root/Applications/$(get_value_by_key name).app/Contents/MacOS/DuckieTV
     ${WORKING_DIR}/bomutils/build/bin/mkbom -u 0 -g 80 ${WORKING_DIR}/build_osx/root ${WORKING_DIR}/build_osx/flat/base.pkg/Bom
-    ( cd ${WORKING_DIR}/build_osx/flat/ && ${WORKING_DIR}/xar-1.5.2/src/xar --compression none -cf "${RELEASE_DIR}/${PKG_NAME}-$(get_value_by_key version)-OSX-${arch}.pkg" * )
+    ( cd ${WORKING_DIR}/build_osx/flat/ && ${WORKING_DIR}/xar-xar-1.6.1/xar/src/xar --compression none -cf "${RELEASE_DIR}/${PKG_NAME}-$(get_value_by_key version)-OSX-${arch}.pkg" * )
     printf "\nDone OSX ${arch}\n"
-    done;
 }
 
 pack_windows() {
@@ -329,7 +328,7 @@ elif [[ ${1} = "--linux" ]]; then
 elif [[ ${1} = "--osx" ]]; then
     clean;
     hook "before";
-    build "4 5";
+    build "4";
     hook "after_build";
     pack_osx;
     hook "after";
@@ -343,7 +342,7 @@ elif [[ ${1} = "--windows" ]]; then
 elif [[ ${1} = "--all" ]]; then
     clean;
     hook "before";
-    build "0 1 2 3 4 5";
+    build "0 1 2 3 4";
     hook "after_build";
     pack_osx;
     pack_linux;

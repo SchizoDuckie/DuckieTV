@@ -3,7 +3,7 @@
     "version": "1.1.4",
     "description": "The TV Show Tracker you've been waiting for",
     "src": "/var/www/deploy/standalone",
-    "nwjsVersion": "0.18.8",
+    "nwjsVersion": "0.19.1",
     "iconPath": "/var/www/DuckieTV/img/logo/icon256.png",
     "windowsIconPath": "/var/www/DuckieTV/img/favicon-inverted.ico",
     "osxIconPath": "/var/www/DuckieTV/build/resources/osx/duckietv.icns",

@@ -23,7 +23,7 @@ TMP="WORK_DIR"
 LOCAL_NW_ARCHIVES_PATH="${WORKING_DIR}/../nwjs_download_cache"
 
 # Default nwjs version
-NW_VERSION='0.18.6';
+NW_VERSION='0.19.1';
 
 # Base domain for nwjs download server
 DL_URL="http://dl.nwjs.io"
@@ -36,9 +36,8 @@ PKG_SRC="../../dist"
 # 1 - linux-x64
 # 2 - win-ia32
 # 3 - win-x64
-# 4 - osx-ia32
-# 5 - osx-x64
-TARGET="0 1 2 3 4 5"
+# 4 - osx-x64
+TARGET="0 1 2 3 4"
 
 # Final output directory (relative to current directory where this script running from)
 RELEASE_DIR="${WORKING_DIR}/${TMP}/output"
@@ -70,22 +69,19 @@ ARR_OS[0]="linux-ia32"
 ARR_OS[1]="linux-x64"
 ARR_OS[2]="win-ia32"
 ARR_OS[3]="win-x64"
-ARR_OS[4]="osx-ia32"
-ARR_OS[5]="osx-x64"
+ARR_OS[4]="osx-x64"
 
 ARR_DL_EXT[0]="tar.gz"
 ARR_DL_EXT[1]="tar.gz"
 ARR_DL_EXT[2]="zip"
 ARR_DL_EXT[3]="zip"
 ARR_DL_EXT[4]="zip"
-ARR_DL_EXT[5]="zip"
 
 ARR_EXTRACT_COMMAND[0]="tar"
 ARR_EXTRACT_COMMAND[1]="tar"
 ARR_EXTRACT_COMMAND[2]="zip"
 ARR_EXTRACT_COMMAND[3]="zip"
 ARR_EXTRACT_COMMAND[4]="zip"
-ARR_EXTRACT_COMMAND[5]="zip"
 
 TXT_BOLD="\e[1m"
 TXT_NORMAL="\e[1m"
@@ -148,7 +144,6 @@ OPTIONS
                 1 - linux-x64
                 2 - win-ia32
                 3 - win-x64
-                4 - osx-ia32
                 5 - osx-x64
 
     --nw=VERSION
@@ -378,16 +373,12 @@ mk_windows() {
 }
 
 mk_osx() {
-    cp -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/*.app ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app;
-    cp -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app/Contents/Resources/app.nw;
+    cp -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/*.app ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app
+    cp -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw/* ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app/Contents/Resources/
     rm -r ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw
 
 	# check if it is nwjs or node-webkit
-	if [[ -d "${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/nwjs/nwjs.app" ]]; then
-		CFBundleExecutable="nwjs"
-	else
-		CFBundleExecutable="node-webkit"
-	fi
+	CFBundleExecutable="nwjs"
 
     if [[ -f "${OSX_RESOURCE_ICNS}" ]];then
         cp -r ${OSX_RESOURCE_ICNS} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.app/Contents/Resources/
@@ -464,6 +455,7 @@ build() {
 
             #if [[ `split_string "${ARR_OS[$i]}" "-"` = "osx" ]]; then
                 cp -r ${PKG_SRC} ${WORKING_DIR}/${TMP}/${ARR_OS[$i]}/latest-git/${PKG_NAME}.nw;
+                cd ${WORKING_DIR};
             #else
              #   cd ${PKG_SRC};
              #   zip -qq -r ${PKG_NAME}.zip *;
