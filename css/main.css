@@ -999,6 +999,11 @@ series-list .trakt-import serieheader, series-list .backup-import serieheader {
   position: inherit !important;
 }
 
+series-list .trakt-import serieheader h3, series-list .backup-import serieheader h3 {
+  font-size: 18px;
+  text-align: center;
+}
+
 .trakt-import .trakt-login td {
   padding: 5px 5px 1px 0px;
 }
