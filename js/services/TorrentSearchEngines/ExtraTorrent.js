@@ -168,7 +168,6 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
                 }
             } else {
                 console.warn('encryptedData not found', resultED);
-                return output;
             };
             // process decrypted search results
             var parser = new DOMParser();
