@@ -8,55 +8,6 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
 
         var activeRequest = null;
 
-        var config = {
-            mirror: 'https://extratorrent.cc',
-            mirrorResolver: null,
-            includeBaseURL: true,
-            endpoints: {
-                search: '/search/?search=%s&srt=%o',
-                details: '%s' /* unused but required? TBD */
-            },
-            noMagnet: false,
-            selectors: {
-                resultContainer: 'table.tl tr[class^=tl]',
-                releasename: ['td.tli > a', 'innerText'],
-                size: ['td:nth-of-type(5)', 'innerText'],
-                seeders: ['td:nth-child(6)', 'innerText',
-                    function(text) {
-                        return (text.trim() == '---') ? null : text.trim();
-                    }
-                ],
-                leechers: ['td:nth-child(7)', 'innerText',
-                    function(text) {
-                        return (text.trim() == '---') ? null : text.trim();
-                    }
-                ],
-                magnetUrl: ['td a[title^="Magnet link"]', 'href'],
-                detailUrl: ['td.tli > a', 'href'],
-                torrentUrl: ['td a[title^="Download "]', 'href',
-                    function(href) {
-                        return href.replace('torrent_','');
-                    }
-                ]
-            },
-            /* cryptoSelectors: { 17-dec-2016
-                cryptoContainer: 'table tr td[style="vertical-align:top; padding: 3px 5px 0 10px; width: 100%"]',
-                cryptoData: ['#e_content', 'innerText'],
-                cryptoSecret: ['script', 'text']
-            }, */
-            cryptoSelectors: {  /* 23-dec-2016 */
-                cryptoDataContainer: 'table tr td[style="vertical-align:top; padding: 3px 5px 0 10px; width: 100%"]',
-                cryptoData: ['#e_content', 'innerText'],
-                cryptoSecretContainer: 'table tr td[style^="vertical-align:top;"]',
-                cryptoSecret: ['div.blog_content ul.ten_articles li a', 'href']
-            },
-            orderby: {
-                seeders: {d: 'seeds&order=desc', a: 'seeds&order=asc'},
-                leechers: {d: 'leechers&order=desc', a: 'leechers&order=asc'},
-                size: {d: 'size&order=desc', a: 'size&order=asc'}
-            }
-        };
-
         /**
          * crypto formatter as used by http://extratorrent.cc/scripts/main.js?221202:12
          */
@@ -92,11 +43,11 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
          * Grab optional overridden url from settings.
          */
         var getUrl = function(type, param, sortParam) {
-            var url = config.mirror + config.endpoints[type];
+            var url = service.config.mirror + service.config.endpoints[type];
             // does provider support search sorting?
             var sortPart = (typeof sortParam !== 'undefined') ? sortParam.split('.') : [];
-            if (typeof sortParam !== 'undefined' && 'orderby' in config && sortPart.length == 2 && sortPart[0] in config.orderby && sortPart[1] in config.orderby[sortPart[0]]) {
-                url = url.replace('%o', config.orderby[sortPart[0]][sortPart[1]]);
+            if (typeof sortParam !== 'undefined' && 'orderby' in service.config && sortPart.length == 2 && sortPart[0] in service.config.orderby && sortPart[1] in service.config.orderby[sortPart[0]]) {
+                url = url.replace('%o', service.config.orderby[sortPart[0]][sortPart[1]]);
             }
             return url.replace('%s', encodeURIComponent(param));
         };
@@ -117,7 +68,7 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
 
             var parser = new DOMParser();
             var doc = parser.parseFromString(result.data, "text/html");
-            var selectors = config.cryptoSelectors;
+            var selectors = service.config.cryptoSelectors;
             var encryptedData = null, secretData = null, secret = null;
             // process encrypted search results
             /* var results = doc.querySelectorAll(selectors.cryptoContainer); */
@@ -172,7 +123,7 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
             // process decrypted search results
             var parser = new DOMParser();
             var doc = parser.parseFromString(result.data, "text/html");
-            var selectors = config.selectors;
+            var selectors = service.config.selectors;
             var results = doc.querySelectorAll(selectors.resultContainer);
             //console.debug('searchcontainer',results);
 
@@ -227,12 +178,12 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
                     size: sizeToMB(getPropertyForSelector(results[i], selectors.size)),
                     seeders: seed,
                     leechers: leech,
-                    detailUrl: (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.detailUrl),
+                    detailUrl: (service.config.includeBaseURL ? service.config.mirror : '') + getPropertyForSelector(results[i], selectors.detailUrl),
                     noMagnet: false
                 };
-                if (config.noMagnet === true) {
-                    if (config.noDetailsMagnet === true) {
-                        out.torrentUrl = (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.torrentUrl);
+                if (service.config.noMagnet === true) {
+                    if (service.config.noDetailsMagnet === true) {
+                        out.torrentUrl = (service.config.includeBaseURL ? service.config.mirror : '') + getPropertyForSelector(results[i], selectors.torrentUrl);
                         out.noMagnet = true;
                     }
                 } else {
@@ -253,6 +204,55 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
         };
 
         var service = {
+            config: {
+                mirror: 'https://extratorrent.cc',
+                mirrorResolver: null,
+                includeBaseURL: true,
+                endpoints: {
+                    search: '/search/?search=%s&srt=%o',
+                    details: '%s' /* unused but required? TBD */
+                },
+                noMagnet: false,
+                selectors: {
+                    resultContainer: 'table.tl tr[class^=tl]',
+                    releasename: ['td.tli > a', 'innerText'],
+                    size: ['td:nth-of-type(5)', 'innerText'],
+                    seeders: ['td:nth-child(6)', 'innerText',
+                        function(text) {
+                            return (text.trim() == '---') ? null : text.trim();
+                        }
+                    ],
+                    leechers: ['td:nth-child(7)', 'innerText',
+                        function(text) {
+                            return (text.trim() == '---') ? null : text.trim();
+                        }
+                    ],
+                    magnetUrl: ['td a[title^="Magnet link"]', 'href'],
+                    detailUrl: ['td.tli > a', 'href'],
+                    torrentUrl: ['td a[title^="Download "]', 'href',
+                        function(href) {
+                            return href.replace('torrent_','');
+                        }
+                    ]
+                },
+                /* cryptoSelectors: { 17-dec-2016
+                    cryptoContainer: 'table tr td[style="vertical-align:top; padding: 3px 5px 0 10px; width: 100%"]',
+                    cryptoData: ['#e_content', 'innerText'],
+                    cryptoSecret: ['script', 'text']
+                }, */
+                cryptoSelectors: {  /* 23-dec-2016 */
+                    cryptoDataContainer: 'table tr td[style="vertical-align:top; padding: 3px 5px 0 10px; width: 100%"]',
+                    cryptoData: ['#e_content', 'innerText'],
+                    cryptoSecretContainer: 'table tr td[style^="vertical-align:top;"]',
+                    cryptoSecret: ['div.blog_content ul.ten_articles li a', 'href']
+                },
+                orderby: {
+                    age: {d: 'added&order=desc', a: 'added&order=asc'},
+                    seeders: {d: 'seeds&order=desc', a: 'seeds&order=asc'},
+                    leechers: {d: 'leechers&order=desc', a: 'leechers&order=asc'},
+                    size: {d: 'size&order=desc', a: 'size&order=asc'}
+                }
+            },
             search: function(what, noCancel, orderBy) {
                 noCancel = (noCancel == undefined) ? false : noCancel; 
                 orderBy = (orderBy == undefined) ? 'seeders.d' : orderBy; 
@@ -273,8 +273,8 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
                     if (err.status > 300) {
                         if (err.status == 404) {
                             d.resolve([]);
-                        } else if (config.mirrorResolver && config.mirrorResolver !== null) {
-                            $injector.get(config.mirrorResolver).findMirror().then(function(result) {
+                        } else if (service.config.mirrorResolver && service.config.mirrorResolver !== null) {
+                            $injector.get(service.config.mirrorResolver).findMirror().then(function(result) {
                                 //console.debug("Resolved a new working mirror!", result);
                                 mirror = result;
                                 return service.search(what, undefined, orderBy);
