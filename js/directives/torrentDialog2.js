@@ -74,10 +74,11 @@ DuckieTV
             function filterByScore(item) {
                 var score = 0;
                 var GIL_String = $scope.globalIncludeEnabled ? $scope.globalIncludeAny ? '' : $scope.globalInclude : ''; // if GIL mode is ALL then add GIL to q
-                var query = [q, $scope.searchquality, GIL_String].join(' ').toLowerCase().split(' ');
+                // ignore double-quotes and plus symbols on query, and any query minus words
+                var query = [q, $scope.searchquality, GIL_String].join(' ').toLowerCase().replace(/[\"\+]/g,' ').trim().split(' ');
                 name = item.releasename.toLowerCase();
                 query.map(function(part) {
-                    if (name.indexOf(part) > -1) {
+                    if (part[0] === '-' || name.indexOf(part) > -1) {
                         score++;
                     }
                 });
