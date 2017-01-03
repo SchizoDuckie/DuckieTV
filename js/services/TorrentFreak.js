@@ -63,7 +63,6 @@ DuckieTV.provider('TorrentFreak', function() {
                     prevRank: rowItems[1].innerText.replace('(', '').replace(')', ''),
                     title: rowItems[2].innerText,
                     searchTitle: rowItems[2].querySelector('a').innerText,
-                    rottenTomatoes: rowItems[2].querySelector('a').href,
                     rating: rowItems[3].querySelectorAll('a')[0].innerText,
                     imdb: rowItems[3].querySelectorAll('a')[0].href,
                     trailer: (rowItems[3].querySelectorAll('a').length == 2 ? rowItems[3].querySelectorAll('a')[1].href : false),
