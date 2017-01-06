@@ -23,7 +23,7 @@
   </ul>
 </div>
 <!-- search Providers list -->
-<div class="btn-group" style="padding:0px 5px 5px 0px;vertical-align:initial">
+<div class="btn-group" style="padding:0px 5px 5px 0px;vertical-align:initial;display:flex;overflow-y:auto">
  <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
 </div>
 <a ng-click="toggleShowAdvanced()" style="display:block;text-align:right"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
