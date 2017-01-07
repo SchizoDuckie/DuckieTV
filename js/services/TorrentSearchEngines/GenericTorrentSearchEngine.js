@@ -82,6 +82,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
     function parseSearch(result) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result.data, "text/html");
+        //console.debug(doc);
         var selectors = config.selectors;
         if ('loginRequired' in config && config.loginRequired) {
             var loginTest = doc.querySelectorAll(config.loginTestSelector);
@@ -93,11 +94,16 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             }
         }
         var results = doc.querySelectorAll(selectors.resultContainer);
-        //console.debug(results);
+        //console.debug('searchcontainer',selectors.resultContainer,results);
         var output = [];
 
         function getPropertyForSelector(parentNode, propertyConfig) {
-            var node = parentNode.querySelector(propertyConfig[0]);
+            if (propertyConfig[0] === '' ) {
+                var node = parentNode;                
+            } else {
+                var node = parentNode.querySelector(propertyConfig[0]);
+            }
+            //console.debug('search',parentNode,propertyConfig[0],node);
             if (!node) return null;
             var propertyValue = node.getAttribute(propertyConfig[1]) !== null ? node.getAttribute(propertyConfig[1]) : node[propertyConfig[1]];
             return propertyConfig.length == 3 && null !== propertyConfig[2] && typeof(propertyConfig[2]) == 'function' ? propertyConfig[2](propertyValue) : propertyValue;
@@ -189,9 +195,10 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             var doc = parser.parseFromString(data.data, "text/html");
             var selectors = config.detailsSelectors;
             var container = doc.querySelector(selectors.detailsContainer);
-            //console.debug(container);
+            //console.debug('detailscontainer',container);
             function getPropertyForSelector(parentNode, propertyConfig) {
                 var node = parentNode.querySelector(propertyConfig[0]);
+                //console.debug('detail',propertyConfig[0],node);
                 if (!node) return null;
                 var propertyValue = node.getAttribute(propertyConfig[1]) !== null ? node.getAttribute(propertyConfig[1]) : node[propertyConfig[1]];
                 return propertyConfig.length == 3 && null !== propertyConfig[2] && typeof(propertyConfig[2]) == 'function' ? propertyConfig[2](propertyValue) : propertyValue;
