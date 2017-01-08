@@ -19,7 +19,7 @@
     </div>
     <!-- episode watched, show icon. -->
     <span ng-show="episode.watched" class="glyphicon glyphicon-ok watchedpos"></span>
-    <span ng-show="!episode.watched && (episode.hasAired() || episode.isLeaked())" class="glyphicon glyphicon-unchecked markpos" uib-tooltip="{{ 'COMMON/not-marked/lbl'|translate }}" tooltip-append-to-body="true" ng-click="episode.markWatched(); $event.stopPropagation();"></span>
+    <span ng-show="!episode.watched && (episode.hasAired() || episode.isLeaked())" class="glyphicon glyphicon-unchecked markpos" uib-tooltip="{{ 'COMMON/not-marked/lbl'|translate }}" tooltip-append-to-body="true" tooltip-placement="left" ng-click="episode.markWatched(); $event.stopPropagation();"></span>
     <span ng-show="count > 2" class="badge badge-alert" ng-click="expand()">x {{count}}</span>
   </a>
 </div>
