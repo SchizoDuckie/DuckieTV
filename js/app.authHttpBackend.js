@@ -10,6 +10,9 @@
  * Example:
  * $http.get('http://myUrl/endpoint', { headers: { Authorization: ['admin','password']}});
  *
+ * dependants: AngularJS 1.5.10 https://github.com/SchizoDuckie/DuckieTV/issues/815
+ *                      at some point after AngularJS 1.5.6, callbacks.counter became callbacks.$$counter
+ *
  */
 
 DuckieTV.config(["$provide", function($provide) {
@@ -50,7 +53,7 @@ DuckieTV.config(["$provide", function($provide) {
                     url = url || $browser.url();
 
                     if (lowercase(method) == 'jsonp') {
-                        var callbackId = '_' + (callbacks.counter++).toString(36);
+                        var callbackId = '_' + (callbacks.$$counter++).toString(36);
                         callbacks[callbackId] = function(data) {
                             callbacks[callbackId].data = data;
                             callbacks[callbackId].called = true;
