@@ -2236,7 +2236,7 @@ sidepanel .serie-bg-img {
 
 sidepanel .serie-img {
   margin: 5px auto;
-  background-size: 100% 100%;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
   position: relative;
