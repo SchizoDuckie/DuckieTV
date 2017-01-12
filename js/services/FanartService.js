@@ -23,9 +23,13 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
             initialize: function() {
             
             },
-            get: function(tvdb_id) {
+            get: function(tvdb_id, refresh) {
+                if (!tvdb_id) {
+                    return $q.reject('Could not load fanart', 'null tvdb_id'); // prevent http-not-found errors
+                }
+                refresh = refresh || false;
                 return CRUD.FindOne('Fanart', { TVDB_ID: tvdb_id}).then(function(result) {
-                    if(result) {
+                    if(result && !refresh) {
                         return result;
                     } else {
                          return $http.get(getUrl(tvdb_id)).then(function(result) {

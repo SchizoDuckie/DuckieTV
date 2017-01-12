@@ -100,7 +100,7 @@ DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "
             if (!FavoritesService.isAdding(serie.tvdb_id)) {
                 FavoritesService.adding(serie.tvdb_id);
                 return TraktTVv2.serie(serie.slug_id).then(function(serie) {
-                    return FavoritesService.addFavorite(serie).then(function() {
+                    return FavoritesService.addFavorite(serie, undefined, undefined, true).then(function() {
                         $rootScope.$broadcast('storage:update');
                         FavoritesService.added(serie.tvdb_id);
                     });

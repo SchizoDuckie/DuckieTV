@@ -159,7 +159,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
             FavoritesService.favorites.map(function(serie) {
                 FavoritesService.adding(serie.TVDB_ID);
                 return TraktTVv2.serie(serie.TRAKT_ID).then(function(s) {
-                    return FavoritesService.addFavorite(s, undefined, true).then(function() {
+                    return FavoritesService.addFavorite(s, undefined, true, true).then(function() {
                         $rootScope.$broadcast('storage:update');
                         FavoritesService.added(s.tvdb_id);
                     });

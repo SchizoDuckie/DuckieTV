@@ -229,10 +229,11 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
              * @param object data input data from TraktTV.findSerieByTVDBID(data.TVDB_ID)
              * @param object watched { TVDB_ID => watched episodes } mapped object to auto-mark as watched
              */
-            addFavorite: function(data, watched, useTrakt_id) {
+            addFavorite: function(data, watched, useTrakt_id, refreshFanart) {
                 watched = watched || [];
                 useTrakt_id = useTrakt_id || false;
-                //console.debug("FavoritesService.addFavorite!", data, watched, useTrakt_id);
+                refreshFanart = refreshFanart || false;
+                //console.debug("FavoritesService.addFavorite!", data, watched, useTrakt_id, refreshFanart);
 
                 var entity = null;
                 if (data.title === null || data.tvdb_id === null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
@@ -243,7 +244,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                     });
                 };
                 var serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id) : service.getById(data.tvdb_id) || new Serie();
-                return FanartService.get(data.tvdb_id).then(function(fanart) {
+                return FanartService.get(data.tvdb_id, refreshFanart).then(function(fanart) {
                     fanart = (fanart && 'json' in fanart) ? fanart.json : {};
                     fillSerie(serie, data, fanart);
                     return serie.Persist().then(function() {
