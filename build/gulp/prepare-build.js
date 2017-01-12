@@ -156,7 +156,6 @@ gulp.task('copyCordovaAssets', function() {
 
 gulp.task('renameLocalesForAndroid', ['copyToDeploy', 'copyCordovaAssets'], function() {
 
-    setTimeout(function() {
     var app = '../deploy/cordova/dist/app.js';
     var src = fs.readFileSync(app);
     fs.writeFileSync(app, String(fs.readFileSync(app)).replace('_locales', 'locales'));
@@ -182,7 +181,7 @@ gulp.task('renameLocalesForAndroid', ['copyToDeploy', 'copyCordovaAssets'], func
     child.stdout.on('data', function(data) {
         console.log(data.toString());
     });
-}, 10000);
+    return true;
 });
 
 /**
