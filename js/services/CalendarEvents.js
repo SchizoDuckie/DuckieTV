@@ -220,9 +220,13 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
 
             getTodoEvents: function() {
                 var eps = [];
+                var today = new Date().setHours(23, 59, 59, 999);
+                console.log(calendarEvents);
                 Object.keys(calendarEvents).forEach(function(day) {
-                  calendarEvents[day].forEach(function(episode) {
-                    eps.push(episode);
+                  calendarEvents[day].forEach(function(event) {
+                    if (event.start.getTime() < today && !event.episode.isWatched()) {
+                      eps.push(event);
+                    }
                   });
                 });
                 return eps;
