@@ -5,7 +5,7 @@
  * set as css background image.
  */
 DuckieTV.directive('lazyBackground', ["$document", "$parse",
-    function($document, $parse) {
+    function($document) {
         return {
             restrict: 'A',
             scope: {
@@ -26,7 +26,7 @@ DuckieTV.directive('lazyBackground', ["$document", "$parse",
                     elementCont = $element;
                     element = $element;
                 }
-                /** 
+                /**
                  * Observe the lazy-background attribute so that when it's set on a rendered element
                  * it can fetch the new image and fade to it
                  */
@@ -45,23 +45,23 @@ DuckieTV.directive('lazyBackground', ["$document", "$parse",
                     elementCont.removeClass('img-load-error');
                     elementCont.addClass('img-loading');
 
-                    /** 
+                    /**
                      * Use some oldskool preloading techniques to load the image
                      */
                     var img = $document[0].createElement('img');
                     img.onload = function() {
-                        element.css('background-image', 'url('+this.src+')');
+                        element.css('background-image', 'url("'+this.src+'")');
                         elementCont.removeClass('img-loading');
                     };
-                    img.onerror = function(e) {
+                    img.onerror = function() {
                         //Remove any existing background-image & loading class and apply error class
                         element.css('background-image', '');
                         elementCont.removeClass('img-loading');
                         elementCont.addClass('img-load-error');
                     };
-                    img.src = newSrc;
+                    img.src = encodeURI(newSrc);
                 });
             }
         };
     }
-])
+]);
