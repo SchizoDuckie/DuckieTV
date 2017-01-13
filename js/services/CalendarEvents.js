@@ -225,7 +225,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 Object.keys(calendarEvents).forEach(function(day) {
                   calendarEvents[day].forEach(function(event) {
                     var startTime = event.start.getTime();
-                    if (startTime >= firstDay && startTime < today && !event.episode.isWatched()) {
+                    if (event.serie && startTime >= firstDay && startTime < today && !event.episode.isWatched() && event.serie.displaycalendar) {
                       eps.push(event);
                     }
                   });
