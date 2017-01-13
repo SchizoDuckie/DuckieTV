@@ -1677,12 +1677,13 @@ td.day {
 
 [date-picker] .todo a.todo_event {
   float: left;
-  margin-top: 5px !important;
-  margin-bottom: 5px !important;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 5px 6px;
   width: 265px;
   height: auto;
+}
+
+[date-picker] .todo a.todo_event:hover h3 {
+  text-decoration: underline;
 }
 
 [date-picker] .todo a.todo_event h3 {
