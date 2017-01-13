@@ -167,11 +167,6 @@ DuckieTV
                     }
                 });
 
-                var today = new Date();
-                scope.hasTodoEvent = function(date) {
-                    return (scope.eventService && date <= today) ? scope.eventService.hasTodoEvent(date) : false;
-                };
-
                 scope.hasEvent = function(date) {
                     return (scope.eventService) ? scope.eventService.hasEvent(date) : false;
                 };
@@ -180,8 +175,8 @@ DuckieTV
                     return (scope.eventService) ? scope.eventService.getEvents(date) : false;
                 };
 
-                scope.getTodoEvents = function(date) {
-                    return (scope.eventService) ? scope.eventService.getTodoEvents(date) : false;
+                scope.getTodoEvents = function() {
+                    return (scope.eventService) ? scope.eventService.getTodoEvents() : false;
                 };
 
 
@@ -388,7 +383,7 @@ DuckieTV
         controllerAs: 'grid',
         controller: function() {
             var oldClientWidth, episodesPerRow, centeringOffset;
-            var episodeWidth = 275; // +5px padding each side 
+            var episodeWidth = 275; // +5px padding each side
             var container = document.querySelector('.todo_container');
 
             function recalculate() {
@@ -405,7 +400,7 @@ DuckieTV
                     recalculate();
                 }
                 return centeringOffset;
-            }
+            };
         }
     };
 });

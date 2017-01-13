@@ -1668,9 +1668,11 @@ td.day {
 }
 
 [date-picker] .todo .todo_container {
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: 8px;
   margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 [date-picker] .todo a.todo_event {
