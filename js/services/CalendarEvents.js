@@ -219,10 +219,12 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
             },
 
             getTodoEvents: function() {
-                var date = new Date(), today = date.setHours(23, 59, 59, 999),  y = date.getFullYear(), m = date.getMonth();
+                var dates = Object.keys(calendarEvents);
+                var date = new Date(dates[12]), y = date.getFullYear(), m = date.getMonth(), currentMonth = new Date().getMonth();
                 var firstDay = new Date(y, m, 1).getTime();
+                var today = currentMonth == m ? new Date().setHours(23, 59, 59, 999) : new Date(y, m + 1, 0).setHours(23, 59, 59, 999);
                 var eps = [];
-                Object.keys(calendarEvents).forEach(function(day) {
+                dates.forEach(function(day) {
                   calendarEvents[day].forEach(function(event) {
                     var startTime = event.start.getTime();
                     if (event.serie && startTime >= firstDay && startTime < today && !event.episode.isWatched() && event.serie.displaycalendar) {
