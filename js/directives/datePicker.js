@@ -167,11 +167,6 @@ DuckieTV
                     }
                 });
 
-                var today = new Date();
-                scope.hasTodoEvent = function(date) {
-                    return (scope.eventService && date <= today) ? scope.eventService.hasTodoEvent(date) : false;
-                };
-
                 scope.hasEvent = function(date) {
                     return (scope.eventService) ? scope.eventService.hasEvent(date) : false;
                 };
@@ -180,8 +175,8 @@ DuckieTV
                     return (scope.eventService) ? scope.eventService.getEvents(date) : false;
                 };
 
-                scope.getTodoEvents = function(date) {
-                    return (scope.eventService) ? scope.eventService.getTodoEvents(date) : false;
+                scope.getTodoEvents = function() {
+                    return (scope.eventService) ? scope.eventService.getTodoEvents() : false;
                 };
 
 
@@ -208,12 +203,6 @@ DuckieTV
                     var key = [new Date(date).toDateString(), '_', serie].join('');
                     expandedSeries[key] = true;
                 });
-
-                scope.filterEvents = function(event) {
-                    if (!event.serie) return false;
-                    if (event.serie.displaycalendar == 0) return false;
-                    else return true;
-                };
 
                 scope.setView = function(nextView) {
                     if (scope.views.indexOf(nextView) !== -1) {
@@ -380,32 +369,4 @@ DuckieTV
             }
         };
     }
-])
-
-.directive('episodesGrid', function() {
-    return {
-        restrict: 'A',
-        controllerAs: 'grid',
-        controller: function() {
-            var oldClientWidth, episodesPerRow, centeringOffset;
-            var episodeWidth = 275; // +5px padding each side 
-            var container = document.querySelector('.todo_container');
-
-            function recalculate() {
-                oldClientWidth = container.clientWidth; // minus 16px padding around Container
-                episodesPerRow = Math.floor(container.clientWidth / episodeWidth);
-                // We divide the offset by the number of episodes to get the padding for each episode
-                // to space them out evenly in the container. *2 is for the padding to be on both sides
-                //centeringOffset = (containerWidth - (episodesPerRow * episodeWidth)) / (episodesPerRow * 2);
-                centeringOffset = (container.clientWidth - (episodesPerRow * episodeWidth)) / 2;
-            }
-
-            this.getOffset = function() {
-                if (oldClientWidth != container.clientWidth) {
-                    recalculate();
-                }
-                return centeringOffset;
-            }
-        }
-    };
-});
+]);

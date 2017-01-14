@@ -1668,19 +1668,22 @@ td.day {
 }
 
 [date-picker] .todo .todo_container {
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: 8px;
   margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 [date-picker] .todo a.todo_event {
   float: left;
-  margin-top: 5px !important;
-  margin-bottom: 5px !important;
-  margin-left: 5px;
-  margin-right: 5px;
-  width: auto;
+  margin: 5px 6px;
+  width: 265px;
   height: auto;
+}
+
+[date-picker] .todo a.todo_event:hover h3 {
+  text-decoration: underline;
 }
 
 [date-picker] .todo a.todo_event h3 {

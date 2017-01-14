@@ -9,11 +9,9 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
 
         var calendarEvents = {};
         var seriesForDate = {};
-        var expandedSeries = {};
         var calendarEpisodeSortCache = {};
         var calendarStartDate = null;
         var calendarEndDate = null;
-        var today = new Date();
         var showSpecials = SettingsService.get('calendar.show-specials');
 
         /**
@@ -47,7 +45,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
          */
         function calendarEpisodeSort(a, b) {
             var ad = new Date(a.episode.firstaired_iso).getTime();
-            var bd = new Date(b.episode.firstaired_iso).getTime()
+            var bd = new Date(b.episode.firstaired_iso).getTime();
             if (ad < bd) return -1;
             else if (ad > bd) return 1;
             else {
@@ -107,7 +105,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 calendarEndDate = new Date((range[range.length - 1][range[range.length - 1].length - 1].getTime()) + 86399999); // add 23:59:59 to endDate
                 calendarEvents = {};
                 seriesForDate = {};
-                expandedSeries = {};
                 range.map(function(week) {
                     week.map(function(day) {
                         day = new Date(day).toDateString();
@@ -116,7 +113,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                             calendarEvents[day] = [];
                             seriesForDate[day] = {};
                         }
-                    })
+                    });
                 });
                 Object.keys(calendarEvents).map(function(day) {
                     if (dates.indexOf(day) == -1) {
@@ -166,7 +163,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     deleteDuplicates(event.episode.getID(), date);
                     if ((!showSpecials && event.episode.seasonnumber > 0) || showSpecials || event.serie.ignoreHideSpecials == 1) {
                         addEvent(date, event);
-                    };
+                    }
                 });
                 $rootScope.$applyAsync();
             },
@@ -193,16 +190,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 return (new Date(date).toDateString() in calendarEvents);
             },
 
-            hasTodoEvent: function(date) {
-                date = new Date(date);
-                if (!(date.toDateString() in calendarEvents) || date < today.toDateString()) {
-                    return false;
-                }
-                return calendarEvents[date.toDateString()].filter(function(event) {
-                    return !event.episode.isWatched();
-                }).length > 0;
-            },
-
             markDayWatched: function(day, rootScope, downloadedPaired) {
                 var str = day instanceof Date ? day.toDateString() : new Date(day).toDateString();
                 if (str in calendarEvents) {
@@ -220,7 +207,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                         if (calEvent.episode.hasAired()) {
                             calEvent.episode.markDownloaded(rootScope);
                         }
-                    })
+                    });
                 }
             },
             /**
@@ -231,11 +218,21 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 return (str in calendarEvents) ? calendarEvents[str] : [];
             },
 
-            getTodoEvents: function(date) {
-                var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
-                return (str in calendarEvents) ? calendarEvents[str].filter(function(event) {
-                    return !event.episode.isWatched();
-                }) : [];
+            getTodoEvents: function() {
+                var dates = Object.keys(calendarEvents);
+                var date = new Date(dates[12]), y = date.getFullYear(), m = date.getMonth(), currentMonth = new Date().getMonth();
+                var firstDay = new Date(y, m, 1).getTime();
+                var today = currentMonth == m ? new Date().setHours(23, 59, 59, 999) : new Date(y, m + 1, 0).setHours(23, 59, 59, 999);
+                var eps = [];
+                dates.forEach(function(day) {
+                  calendarEvents[day].forEach(function(event) {
+                    var startTime = event.start.getTime();
+                    if (event.serie && startTime >= firstDay && startTime < today && !event.episode.isWatched() && event.serie.displaycalendar) {
+                      eps.push(event);
+                    }
+                  });
+                });
+                return eps;
             },
             /**
              * Sort the series for a day, that are now grouped by ID_Serie. It needs to return
@@ -258,4 +255,4 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
 
         return service;
     }
-])
+]);

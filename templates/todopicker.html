@@ -7,7 +7,7 @@
           <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left"></i>
           </th>
           <th colspan="5" class="switch" ng-click="setView('month')">
-            <h2>{{date|date:"MMMM yyyy"}} <i class="glyphicon glyphicon-chevron-up" uib-tooltip="{{'DATEPICKER/calendar-weekview/glyph/tooltip'|translate}}" ng-click="setView('week')"></i>
+            <h2>{{date|date:"MMMM yyyy"}}
             </h2>
           </th>
           <th ng-click="next()" style='text-align:center'><i class="glyphicon glyphicon-chevron-right"></i>
@@ -15,17 +15,13 @@
         </tr>
       </thead>
     </table>
-    <div class="todo_container row" style="padding-left:{{grid.getOffset()}}px" episodes-grid>
-      <div ng-repeat="week in weeks">
-        <div ng-repeat="day in week" class="day" ng-if="hasTodoEvent(day)">
-          <a class="todo_event" ng-repeat="event in getTodoEvents(day)|filter:filterEvents" ui-sref="episode({episode_id: event.episode.ID_Episode})">
-             <div class="episode-img" lazy-background="{{::event.episode.filename}}"></div>
-             <h3>{{event.serie.name }} {{::event.episode.name}} {{::event.episode.getFormattedEpisode()}}</h3>
-             <em class="dayofweek">{{ day|date:"EEE" }}</em>
-             {{day.getDate()}}
-          </a>
-        </div>
-      </div>
+    <div class="todo_container row">
+      <a class="todo_event" ng-repeat="event in getTodoEvents() track by $index" ui-sref="episode({episode_id: event.episode.ID_Episode})">
+         <div class="episode-img" lazy-background="{{event.episode.filename}}"></div>
+         <h3>{{event.serie.name}} {{event.episode.name}} {{event.episode.getFormattedEpisode()}}</h3>
+         <em class="dayofweek">{{ day|date:"EEE" }}</em>
+         {{day.getDate()}}
+      </a>
     </div>
   </div>
   <div ng-switch-when="year">
