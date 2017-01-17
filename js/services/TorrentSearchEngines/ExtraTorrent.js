@@ -1,5 +1,5 @@
 /** 
- * ExtraTorrent.cc custom Torrent API interfacing.
+ * ExtraTorrent.cc custom Torrent API interfacing as at 17-Jan-2017.
  * Scrapes the torrents list from ExtraTorrent after using AES decryption.
  * dependants: CryptoJS
  */
@@ -65,50 +65,45 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
                 var propertyValue = node.getAttribute(propertyConfig[1]) !== null ? node.getAttribute(propertyConfig[1]) : node[propertyConfig[1]];
                 return propertyConfig.length == 3 && null !== propertyConfig[2] && typeof(propertyConfig[2]) == 'function' ? propertyConfig[2](propertyValue) : propertyValue;
             };
+            
+            function decryptET(secret1, secret2, salt) {
+                var decrypted = [];
+                var encodeUtf8 = '';
+                // try key 1
+                decrypted = CryptoJS.AES.decrypt(encryptedData, salt[2] + '1000' + secret1 + salt[6], { format: CryptoJSAesJson });
+                try {
+                    encodeUtf8 = decrypted.toString(CryptoJS.enc.Utf8);
+                }
+                catch (err) {
+                    // must be key 2
+                    decrypted = CryptoJS.AES.decrypt(encryptedData, salt[2] + '0000' + secret2 + salt[3], { format: CryptoJSAesJson });
+                    encodeUtf8 = decrypted.toString(CryptoJS.enc.Utf8);
+                }
+                return JSON.parse(encodeUtf8);
+            };
 
             var parser = new DOMParser();
             var doc = parser.parseFromString(result.data, "text/html");
             var selectors = service.config.cryptoSelectors;
-            var encryptedData = null, secretData = null, secret = null;
+            var encryptedData = null, secretData1 = null, secret1 = null, secretData2 = null, secret2 = null;
             // process encrypted search results
-            /* var results = doc.querySelectorAll(selectors.cryptoContainer); */
             var resultED = doc.querySelectorAll(selectors.cryptoDataContainer);
             encryptedData = getPropertyForSelector(resultED[0], selectors.cryptoData);
             if (encryptedData) {
                 var resultSD = doc.querySelectorAll(selectors.cryptoSecretContainer);
-                secretData = getPropertyForSelector(resultSD[0], selectors.cryptoSecret);
-                if (secretData) {
+                secretData1 = getPropertyForSelector(resultSD[0], selectors.cryptoSecret1);
+                secretData2 = getPropertyForSelector(resultSD[0], selectors.cryptoSecret2);
+                if (secretData1) {
 
                     /**
                      * Password generator
                      * adapted from http://extratorrent.cc/scripts/main.js?221202:9
                      */
-/*
-                    //  (as at 17-dec-2016)
-                    var secret = secretData.match(/function\set\(\)\{var\sg=\'(\d+)\'/i);
-                    if (secret) {
-                        secret = secret[1];
-                        //console.debug('secret', secret);
+                    var secret1 = secretData1.match(/\/article\/(\d+)\//i);
+                    var secret2 = secretData2.match(/\/article\/(\d+)\//i);
+                    if (secret1) {
                         var salt = JSON.parse(encryptedData).s;
-                        //console.debug('salt', salt);
-                        var password = '';
-                        for (var i = 1; i <= secret.length / 2; i++) {
-                            password += salt[parseInt(secret.substr(2 * (i - 1), 2))];
-                        };
-                        //console.debug('password', password);
-                        result.data = JSON.parse(CryptoJS.AES.decrypt(encryptedData, password, { format: CryptoJSAesJson }).toString(CryptoJS.enc.Utf8));
-*/
-                    // (as at 23-dec-2016)
-                    var secret = secretData.match(/\/article\/(\d+)\//i);
-                    if (secret) {
-                        //console.debug('secret', secret);
-                        var salt = JSON.parse(encryptedData).s;
-                        //console.debug('salt', salt);
-                        var password = salt[1] + '000' + secret[1] + salt[5];
-                        //console.debug('password', password);
-                        result.data = JSON.parse(CryptoJS.AES.decrypt(encryptedData, password, { format: CryptoJSAesJson }).toString(CryptoJS.enc.Utf8));
-                    
-                        //console.debug(result);
+                        result.data = decryptET(secret1[1], secret2[1], salt);
                     } else {
                         console.warn('secret not found', secretData);
                         return output;
@@ -235,16 +230,12 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
                         }
                     ]
                 },
-                /* cryptoSelectors: { 17-dec-2016
-                    cryptoContainer: 'table tr td[style="vertical-align:top; padding: 3px 5px 0 10px; width: 100%"]',
-                    cryptoData: ['#e_content', 'innerText'],
-                    cryptoSecret: ['script', 'text']
-                }, */
-                cryptoSelectors: {  /* 23-dec-2016 */
+                cryptoSelectors: {
                     cryptoDataContainer: 'table tr td[style="vertical-align:top; padding: 3px 5px 0 10px; width: 100%"]',
                     cryptoData: ['#e_content', 'innerText'],
                     cryptoSecretContainer: 'table tr td[style^="vertical-align:top;"]',
-                    cryptoSecret: ['div.blog_content ul.ten_articles li a', 'href']
+                    cryptoSecret1: ['div.blog_content ul.ten_articles li a', 'href'],
+                    cryptoSecret2: ['div.blog_content ul.ten_articles li:nth-of-type(2) a', 'href']
                 },
                 orderby: {
                     age: {d: 'added&order=desc', a: 'added&order=asc'},
