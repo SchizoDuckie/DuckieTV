@@ -1,8 +1,8 @@
 /**
  * Fetches and displays various statistics about current DuckieTV Setup on About Page
  */
-DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "TorrentSearchEngines", "DuckieTorrent",
-    function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, TorrentSearchEngines, DuckieTorrent) {
+DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "TorrentSearchEngines", "DuckieTorrent", "AutoDownloadService",
+    function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, TorrentSearchEngines, DuckieTorrent, AutoDownloadService) {
 
         /**
          * Closes the SidePanel 
@@ -89,20 +89,36 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 }
             };
 
-            // Get default search engine
+            // Get default search engine and status
             var defaultSE = 'n/a';
             if (SettingsService.get('torrenting.enabled')) {
-                defaultSE = TorrentSearchEngines.getDefault() + " (Active)";
+                defaultSE = TorrentSearchEngines.getDefault() + " (Enabled)";
             } else {
-                defaultSE = SettingsService.get('torrenting.searchprovider') + " (Inactive)";
+                defaultSE = SettingsService.get('torrenting.searchprovider') + " (Disabled)";
             }
 
-            // Get default torrent client engine
+            // Get default torrent client engine and connection to host status
             var defaultTC = 'n/a';
             if (SettingsService.get('torrenting.enabled')) {
-                defaultTC = DuckieTorrent.getClient().getName() + " (Active)";
+                if (DuckieTorrent.getClient().isConnected()) {
+                    defaultTC = DuckieTorrent.getClient().getName() + " (Enabled and Connected to Host)";
+                } else {
+                    defaultTC = DuckieTorrent.getClient().getName() + " (Enabled but Not Connected to Host)";
+                }
             } else {
-                defaultTC = SettingsService.get('torrenting.client') + " (Inactive)";
+                defaultTC = SettingsService.get('torrenting.client') + " (Disabled)";
+            }
+
+            // Get auto download service  status
+            var autoDL = 'n/a';
+            if (SettingsService.get('torrenting.enabled') && SettingsService.get('torrenting.autodownload')) {
+                if (AutoDownloadService.checkTimeout) {
+                    autoDL = "(Enabled and Active)";
+                } else {
+                    autoDL = "(Enabled but Inactive)";
+                }
+            } else {
+                autoDL = "(Disabled)";
             }
 
             // Get date of last trakt update
@@ -125,6 +141,9 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 name: 'Default Torrent Client',
                 data: defaultTC
             }, {
+                name: 'Auto Download Service',
+                data: autoDL
+            }, {
                 name: 'Last checked TraktTV for DB updates on',
                 data: lastUpdated.toGMTString()
             }];
@@ -133,7 +152,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
                 $scope.statistics.unshift({
                     name: 'NWJS, Chromium',
-                    data: process.versions['node-webkit'] + ' , ' + process.versions['chromium']
+                    data: process.versions['nw'] + ' , ' + process.versions['chromium']
                 });
             };
 
