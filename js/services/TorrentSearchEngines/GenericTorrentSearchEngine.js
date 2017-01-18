@@ -178,8 +178,10 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 if (out.magnetUrl != null) {
                     magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                 }
-                if (magnetHash && magnetHash.length) {
-                    out.torrentUrl = torrentUrl ? torrentUrl : 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                if (torrentUrl) {
+                    out.torrentUrl = torrentUrl;
+                } else if (magnetHash && magnetHash.length) {
+                    out.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                 }
             }
             output.push(out);
@@ -210,8 +212,10 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 if (output.magnetUrl != null) {
                     magnetHash = output.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                 }
-                if (magnetHash && magnetHash.length) {
-                    output.torrentUrl = torrentUrl ? torrentUrl : 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(releaseName.trim());
+                if (torrentUrl) {
+                    output.torrentUrl = torrentUrl;
+                } else if (magnetHash && magnetHash.length) {
+                    output.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(releaseName.trim());
                 }
             }
         }
