@@ -203,13 +203,15 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 output.torrentUrl = (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(container, selectors.torrentUrl);
             } else {
                 var magnet = getPropertyForSelector(container, selectors.magnetUrl);
+                var torrent = getPropertyForSelector(container, selectors.torrentUrl);
+                var torrentUrl = torrent ? (config.includeBaseURL ? config.mirror : '') + torrent : null;
                 output.magnetUrl = magnet;
                 var magnetHash = null;
                 if (output.magnetUrl != null) {
                     magnetHash = output.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                 }
                 if (magnetHash && magnetHash.length) {
-                    output.torrent = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(releaseName.trim());
+                    output.torrentUrl = torrentUrl ? torrentUrl : 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(releaseName.trim());
                 }
             }
         }
