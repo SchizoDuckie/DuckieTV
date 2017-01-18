@@ -1,5 +1,5 @@
 /** 
- * ExtraTorrent.cc custom Torrent API interfacing as at 17-Jan-2017.
+ * ExtraTorrent.cc custom Torrent API interfacing as at 19-Jan-2017.
  * Scrapes the torrents list from ExtraTorrent after using AES decryption.
  * dependants: CryptoJS
  */
@@ -66,44 +66,34 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
                 return propertyConfig.length == 3 && null !== propertyConfig[2] && typeof(propertyConfig[2]) == 'function' ? propertyConfig[2](propertyValue) : propertyValue;
             };
             
-            function decryptET(secret1, secret2, salt) {
+            function decryptET(salt, padding, secret) {
                 var decrypted = [];
                 var encodeUtf8 = '';
-                // try key 1
-                decrypted = CryptoJS.AES.decrypt(encryptedData, salt[2] + '1000' + secret1 + salt[6], { format: CryptoJSAesJson });
-                try {
-                    encodeUtf8 = decrypted.toString(CryptoJS.enc.Utf8);
-                }
-                catch (err) {
-                    // must be key 2
-                    decrypted = CryptoJS.AES.decrypt(encryptedData, salt[2] + '0000' + secret2 + salt[3], { format: CryptoJSAesJson });
-                    encodeUtf8 = decrypted.toString(CryptoJS.enc.Utf8);
-                }
+                decrypted = CryptoJS.AES.decrypt(encryptedData, salt[5] + padding + secret[1] + salt[2], { format: CryptoJSAesJson });
+                encodeUtf8 = decrypted.toString(CryptoJS.enc.Utf8);
                 return JSON.parse(encodeUtf8);
             };
 
             var parser = new DOMParser();
             var doc = parser.parseFromString(result.data, "text/html");
             var selectors = service.config.cryptoSelectors;
-            var encryptedData = null, secretData1 = null, secret1 = null, secretData2 = null, secret2 = null;
+            var encryptedData = null, secretData = null, secret = null;
             // process encrypted search results
             var resultED = doc.querySelectorAll(selectors.cryptoDataContainer);
             encryptedData = getPropertyForSelector(resultED[0], selectors.cryptoData);
             if (encryptedData) {
                 var resultSD = doc.querySelectorAll(selectors.cryptoSecretContainer);
-                secretData1 = getPropertyForSelector(resultSD[0], selectors.cryptoSecret1);
-                secretData2 = getPropertyForSelector(resultSD[0], selectors.cryptoSecret2);
-                if (secretData1) {
+                secretData = getPropertyForSelector(resultSD[0], selectors.cryptoSecret);
+                if (secretData) {
 
                     /**
                      * Password generator
                      * adapted from http://extratorrent.cc/scripts/main.js?221202:9
                      */
-                    var secret1 = secretData1.match(/\/article\/(\d+)\//i);
-                    var secret2 = secretData2.match(/\/article\/(\d+)\//i);
-                    if (secret1) {
+                    var secret = secretData.match(/\/article\/(\d+)\//i);
+                    if (secret) {
                         var salt = JSON.parse(encryptedData).s;
-                        result.data = decryptET(secret1[1], secret2[1], salt);
+                        result.data = decryptET(salt, '000', secret);
                     } else {
                         console.warn('secret not found', secretData);
                         return output;
@@ -234,8 +224,7 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
                     cryptoDataContainer: 'table tr td[style="vertical-align:top; padding: 3px 5px 0 10px; width: 100%"]',
                     cryptoData: ['#e_content', 'innerText'],
                     cryptoSecretContainer: 'table tr td[style^="vertical-align:top;"]',
-                    cryptoSecret1: ['div.blog_content ul.ten_articles li a', 'href'],
-                    cryptoSecret2: ['div.blog_content ul.ten_articles li:nth-of-type(2) a', 'href']
+                    cryptoSecret: ['div.blog_content ul.ten_articles li:nth-of-type(4) a', 'href']
                 },
                 orderby: {
                     age: {d: 'added&order=desc', a: 'added&order=asc'},
