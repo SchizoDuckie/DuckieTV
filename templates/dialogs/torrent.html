@@ -24,11 +24,11 @@
       </ul>
     </div>
   </div>
+
+  <!-- search Providers list -->
   <div class="torrentBtns btn-group">
     <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
   </div>
-  <!-- search Providers list -->
-
   <a ng-click="toggleShowAdvanced()" style="display:block;text-align:right"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
   <!-- global include/exclude and size min/max check boxes -->
   <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
