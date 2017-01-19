@@ -254,7 +254,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 } else if (config.mirrorResolver && config.mirrorResolver !== null) {
                     $injector.get(config.mirrorResolver).findMirror().then(function(result) {
                         //console.log("Resolved a new working mirror!", result);
-                        mirror = result; // This doesn't do anything ??
+                        config.mirror = result;
                         return self.search(what, undefined, orderBy);
                     }, function(err) {
                         d.reject(err);
