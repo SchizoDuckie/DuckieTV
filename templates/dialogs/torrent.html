@@ -1,170 +1,171 @@
 <!-- dialogs/torrent.html -->
-<button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
-<h1 translate-once="TORRENTDIALOG/hdr"></h1>
-<a href="#settings/torrent-search" ng-click="cancel()" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once="COMMON/torrent-search-settings/glyph"></span></a>
-<input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
-<i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
-<!-- quality list -->
-<div class="btn-group" style='padding:5px 5px 5px 0px;vertical-align:initial'>
-  <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
-  <button ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setQuality(quality)" type="button" class="btn btn-default" ng-class="{active: searchquality == quality}">{{quality}}</button>
-</div>
-<!-- OrderBy sort button -->
-<div ng-show="allowTDsortMenu && orderByList.length > 0" class="btn-group" uib-dropdown style="padding:5px 0px 0px 0px;vertical-align:top">
-  <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle style="background-color:transparent;color:white;border-color: rgba(255,255,255,0.4)">
-    <i class="glyphicon glyphicon-sort-by-attributes"></i>
-    <span translate-once="COMMON/orderby/glyph"></span>
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li ng-repeat="item in orderByList" ng-click="setOrderBy(item)">
-      <label>{{translateOrderBy(item)}} <span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir[item] === '.a', 'sortorder': orderByDir[item] === '.d'}"></span> </label>
-    </li>
-  </ul>
-</div>
-<!-- search Providers list -->
-<div class="btn-group" style="padding:0px 5px 5px 0px;vertical-align:initial;display:flex;overflow-y:auto">
- <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
-</div>
-<a ng-click="toggleShowAdvanced()" style="display:block;text-align:right"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
-<!-- global include/exclude and size min/max check boxes -->
-<div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
-  <div style="display: flex">
-    <div class="checkbox">
-      <input type="checkbox" ng-model="globalIncludeEnabled" ng-change="setGlobalIncludeState()" id="tc_gie">
-      <label for="tc_gie"><span translate-once="TORRENTDIALOG/search-include/lbl"></span> ({{globalInclude}})</label>
+<div id="torrentDialog">
+  <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
+  <h1 translate-once>TORRENTDIALOG/hdr</h1>
+  <a href="#settings/torrent-search" ng-click="cancel()" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/torrent-search-settings/glyph</span></a>
+  <input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
+  <!-- quality list -->
+  <div class="torrentBtns">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
+      <button ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setQuality(quality)" type="button" class="btn btn-default" ng-class="{active: searchquality == quality}">{{quality}}</button>
     </div>
-
-    <div class="checkbox">
-      <input type="checkbox" ng-model="globalExcludeEnabled" ng-change="setGlobalExcludeState()" id="tc_gee">
-      <label for="tc_gee"><span translate-once="TORRENTDIALOG/search-exclude/lbl"></span> ({{globalExclude}})</label>
-    </div>
-
-    <div class="checkbox" ng-show="serie.customSearchSizeMin == null">
-      <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" id="tc_gsm">
-      <label for="tc_gsm"><span translate-once="TORRENTDIALOG/search-global-size-min/lbl"></span> ({{globalSizeMin}}) MB</label>
-    </div>
-
-    <div class="checkbox" ng-show="serie.customSearchSizeMin != null">
-      <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" id="tc_gsm2">
-      <label for="tc_gsm2"><span translate-once="TORRENTDIALOG/search-custom-size-min/lbl"></span> ({{serie.customSearchSizeMin}}) MB</label>
-    </div>
-
-    <div class="checkbox" ng-show="serie.customSearchSizeMax == null">
-      <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" id="tc_gsme">
-      <label for="tc_gsme"><span translate-once="TORRENTDIALOG/search-global-size-max/lbl"></span> ({{globalSizeMax}}) MB</label>
-    </div>
-
-    <div class="checkbox" ng-show="serie.customSearchSizeMax != null">
-      <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" id="tc_gsme2">
-      <label for="tc_gsme2"><span translate-once="TORRENTDIALOG/search-custom-size-max/lbl"></span> ({{serie.customSearchSizeMax}}) MB</label>
+    <!-- OrderBy sort button -->
+    <div ng-show="allowTDsortMenu && orderByList.length > 0" class="btn-group" uib-dropdown>
+      <button type="button" class="btn btn-default sort-btn dropdown-toggle" uib-dropdown-toggle>
+        <i class="glyphicon glyphicon-sort-by-attributes"></i>
+        <span translate-once>COMMON/orderby/glyph</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="item in orderByList" ng-click="setOrderBy(item)">
+          <label>{{translateOrderBy(item)}} <span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir[item] === '.a', 'sortorder': orderByDir[item] === '.d'}"></span> </label>
+        </li>
+      </ul>
     </div>
   </div>
-</div>
-<!-- search results -->
-<div style="max-height: 620px;overflow-x: auto">
-  <table class="torrents table table-condensed white">
-    <thead>
-      <tr ng-show="searching">
-        <td>
-           <loading-spinner style="margin:0 auto; display:block; width:50px; height:50px; position:relative;"></loading-spinner>
-          <p style='text-align:center; padding:10px;'><span translate-once="COMMON/searching/lbl"></span> {{getName(searchprovider)}}<span translate-once="COMMON/searching-please-wait/lbl"></span>.</p>
-        </td>
-      </tr>
-    </thead>
-    <tbody ng-show="!searching && items.length == 0">
-      <tr>
-        <th>
-          <p translate-once="COMMON/no-results/lbl"></p>
-          "<strong>{{query}} {{searchquality}}</strong>"
-        </th>
-      </tr>
-    </tbody>
-    <tbody ng-show="!searching && error == 'null' ">
-      <tr>
-        <th>
-          <h2 style='text-align:center' translate-once="COMMON/type-your-search/lbl"></h2>
-        </th>
-      </tr>
-    </tbody>
-    <tbody ng-show="!searching && error != false && error != 'null' ">
-      <tr>
-        <th>
-          <h1 style='text-align:center'> :( </h1>
-          <h2 style='text-align:center'>{{error}}<h2>
-        </th>
-      </tr>
-    </tbody>
-    <tbody ng-show="!searching && items.length > 0">
-      <tr>
-        <th>&nbsp;</th>
-        <th>
-          <strong translate-once="COMMON/torrent-name/lbl"></strong>
-        </th>
-        <th ng-show="orderByList.indexOf('size') == -1" style="text-align:right">
-          <strong translate-once="COMMON/torrent-size/lbl"></strong>
-        </th>
-        <th ng-show="orderByList.indexOf('size') > -1" style="cursor: pointer;text-align:right">
-          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('size')"><strong translate-once="COMMON/torrent-size/lbl"></strong><span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir['size'] === '.a', 'sortorder': orderByDir['size'] === '.d'}"></span></u>
-        </th>
-        <th ng-show="orderByList.indexOf('seeders') == -1" style="text-align:right">
-          <strong translate-once="COMMON/torrent-seed/lbl"></strong>
-        </th>
-        <th ng-show="orderByList.indexOf('seeders') > -1" style="cursor: pointer;text-align:right">
-          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('seeders')"><strong translate-once="COMMON/torrent-seed/lbl"></strong><span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir['seeders'] === '.a', 'sortorder': orderByDir['seeders'] === '.d'}"></span></u>
-        </th>
-        <th ng-show="orderByList.indexOf('leechers') == -1" style="text-align:right">
-          <strong translate-once="COMMON/torrent-leech/lbl"></strong>
-        </th>
-        <th ng-show="orderByList.indexOf('leechers') > -1" style="cursor: pointer;text-align:right">
-          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('leechers')"><strong translate-once="COMMON/torrent-leech/lbl"></strong><span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir['leechers'] === '.a', 'sortorder': orderByDir['leechers'] === '.d'}"></span></u>
-        </th>
+  <div class="torrentBtns btn-group">
+    <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
+  </div>
+  <!-- search Providers list -->
 
-      </tr>
-      <tr ng-repeat="seed in items" class="no-animate">
-        <td style='width:80px; padding:5px; vertical-align: top;'>
-          <a ng-if="!seed.noMagnet" ng-click="select(seed)">
-            <i class="glyphicon glyphicon-magnet" uib-tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
-          </a>
-          <a ng-if="seed.noMagnet">
-            <i class="glyphicon glyphicon-magnet" style="color:gray"></i>
-          </a>
-          <a ng-if="seed.torrentUrl" ng-href="{{::seed.torrentUrl}}" target="iframe_a">
-            <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
-          </a>
-          <a ng-if="seed.torrent" ng-href="{{::seed.torrent}}" target="iframe_a">
-            <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
-          </a>
-          <a ng-if="!seed.torrent && !seed.torrentUrl">
-            <i class="glyphicon glyphicon-download" style="color:gray"></i>
-          </a>
-          <a ng-if="seed.magnetUrl" ng-href="{{::seed.magnetUrl}}" target="iframe_a">
-            <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
-          </a>
-          <a ng-if="!seed.magnetUrl">
-            <i class="glyphicon glyphicon-link" style="color:gray"></i>
-          </a>
-          <a ng-if="seed.detailUrl" ng-href="{{::seed.detailUrl}}" target='_blank'>
-            <i class="glyphicon glyphicon-info-sign" uib-tooltip="{{'COMMON/torrent-details/lbl'|translate}}"></i>
-          </a>
-          <a ng-if="!seed.detailUrl">
-            <i class="glyphicon glyphicon-info-sign" style="color:gray"></i>
-          </a>
-        </td>
-        <td style="word-break:break-word">
-          <a ng-bind-html="::seed.releasename | unsafe" ng-click="select(seed)"></a>
-        </td>
-        <td style="text-align:right">
-          <a ng-bind-html="::seed.size" ng-click="select(seed)" style='white-space:nowrap'></a>
-        </td>
-        <td style='width:50px; text-align:right'>
-          <a  ng-bind="::seed.seeders" ng-click="select(seed)"></a>
-        </td>
-        <td style='width:50px; text-align:right'>
-          <a  ng-bind="::seed.leechers" ng-click="select(seed)"></a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <a ng-click="toggleShowAdvanced()" style="display:block;text-align:right"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
+  <!-- global include/exclude and size min/max check boxes -->
+  <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
+    <div style="display: flex">
+      <div class="checkbox">
+        <input type="checkbox" ng-model="globalIncludeEnabled" ng-change="setGlobalIncludeState()" id="tc_gie">
+        <label for="tc_gie"><span translate-once>TORRENTDIALOG/search-include/lbl</span> ({{globalInclude}})</label>
+      </div>
+
+      <div class="checkbox">
+        <input type="checkbox" ng-model="globalExcludeEnabled" ng-change="setGlobalExcludeState()" id="tc_gee">
+        <label for="tc_gee"><span translate-once>TORRENTDIALOG/search-exclude/lbl</span> ({{globalExclude}})</label>
+      </div>
+
+      <div class="checkbox" ng-show="serie.customSearchSizeMin == null">
+        <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" id="tc_gsm">
+        <label for="tc_gsm"><span translate-once>TORRENTDIALOG/search-global-size-min/lbl</span> ({{globalSizeMin}}) MB</label>
+      </div>
+
+      <div class="checkbox" ng-show="serie.customSearchSizeMin != null">
+        <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" id="tc_gsm2">
+        <label for="tc_gsm2"><span translate-once>TORRENTDIALOG/search-custom-size-min/lbl</span> ({{serie.customSearchSizeMin}}) MB</label>
+      </div>
+
+      <div class="checkbox" ng-show="serie.customSearchSizeMax == null">
+        <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" id="tc_gsme">
+        <label for="tc_gsme"><span translate-once>TORRENTDIALOG/search-global-size-max/lbl</span> ({{globalSizeMax}}) MB</label>
+      </div>
+
+      <div class="checkbox" ng-show="serie.customSearchSizeMax != null">
+        <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" id="tc_gsme2">
+        <label for="tc_gsme2"><span translate-once>TORRENTDIALOG/search-custom-size-max/lbl</span> ({{serie.customSearchSizeMax}}) MB</label>
+      </div>
+    </div>
+  </div>
+  <!-- search results -->
+  <div style="max-height: 620px;overflow-x: auto">
+    <table class="torrents table table-condensed white">
+      <thead>
+        <tr ng-show="searching">
+          <td>
+             <loading-spinner style="margin:0 auto; display:block; width:50px; height:50px; position:relative;"></loading-spinner>
+            <p style='text-align:center; padding:10px;'><span translate-once>COMMON/searching/lbl</span> {{getName(searchprovider)}}<span translate-once>COMMON/searching-please-wait/lbl</span>.</p>
+          </td>
+        </tr>
+      </thead>
+      <tbody ng-show="!searching && items.length == 0">
+        <tr>
+          <th>
+            <p translate-once>COMMON/no-results/lbl</p>
+            "<strong>{{query}} {{searchquality}}</strong>"
+          </th>
+        </tr>
+      </tbody>
+      <tbody ng-show="!searching && error == 'null' ">
+        <tr>
+          <th>
+            <h2 style='text-align:center' translate-once>COMMON/type-your-search/lbl</h2>
+          </th>
+        </tr>
+      </tbody>
+      <tbody ng-show="!searching && error != false && error != 'null' ">
+        <tr>
+          <th>
+            <h1 style='text-align:center'> :( </h1>
+            <h2 style='text-align:center'>{{error}}<h2>
+          </th>
+        </tr>
+      </tbody>
+      <tbody ng-show="!searching && items.length > 0">
+        <tr>
+          <th>&nbsp;</th>
+          <th>
+            <strong translate-once>COMMON/torrent-name/lbl</strong>
+          </th>
+          <th ng-show="orderByList.indexOf('size') == -1" style="text-align:right">
+            <strong translate-once>COMMON/torrent-size/lbl</strong>
+          </th>
+          <th ng-show="orderByList.indexOf('size') > -1" style="cursor: pointer;text-align:right">
+            <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('size')"><strong translate-once>COMMON/torrent-size/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['size'] === '.a'}"></span></u>
+          </th>
+          <th ng-show="orderByList.indexOf('seeders') == -1" style="text-align:right">
+            <strong translate-once>COMMON/torrent-seed/lbl</strong>
+          </th>
+          <th ng-show="orderByList.indexOf('seeders') > -1" style="cursor: pointer;text-align:right">
+            <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('seeders')"><strong translate-once>COMMON/torrent-seed/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['seeders'] === '.a'}"></span></u>
+          </th>
+          <th ng-show="orderByList.indexOf('leechers') == -1" style="text-align:right">
+            <strong translate-once>COMMON/torrent-leech/lbl</strong>
+          </th>
+          <th ng-show="orderByList.indexOf('leechers') > -1" style="cursor: pointer;text-align:right">
+            <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('leechers')"><strong translate-once>COMMON/torrent-leech/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['leechers'] === '.a'}"></span></u>
+          </th>
+
+        </tr>
+        <tr ng-repeat="seed in items" class="no-animate">
+          <td style='width:80px; padding:5px; vertical-align: top;'>
+            <a ng-if="!seed.noMagnet" ng-click="select(seed)">
+              <i class="glyphicon glyphicon-magnet" uib-tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
+            </a>
+            <a ng-if="seed.noMagnet">
+              <i class="glyphicon glyphicon-magnet" style="color:gray"></i>
+            </a>
+            <a ng-if="seed.torrentUrl" ng-href="{{::seed.torrentUrl}}" target="iframe_a">
+              <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
+            </a>
+            <a ng-if="!seed.torrentUrl">
+              <i class="glyphicon glyphicon-download" style="color:gray"></i>
+            </a>
+            <a ng-if="seed.magnetUrl" ng-href="{{::seed.magnetUrl}}" target="iframe_a">
+              <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
+            </a>
+            <a ng-if="!seed.magnetUrl">
+              <i class="glyphicon glyphicon-link" style="color:gray"></i>
+            </a>
+            <a ng-if="seed.detailUrl" ng-href="{{::seed.detailUrl}}" target='_blank'>
+              <i class="glyphicon glyphicon-info-sign" uib-tooltip="{{'COMMON/torrent-details/lbl'|translate}}"></i>
+            </a>
+            <a ng-if="!seed.detailUrl">
+              <i class="glyphicon glyphicon-info-sign" style="color:gray"></i>
+            </a>
+          </td>
+          <td style="word-break:break-word">
+            <a ng-bind-html="::seed.releasename | unsafe" ng-click="select(seed)"></a>
+          </td>
+          <td style="text-align:right">
+            <a ng-bind-html="::seed.size" ng-click="select(seed)" style='white-space:nowrap'></a>
+          </td>
+          <td style='width:50px; text-align:right'>
+            <a  ng-bind="::seed.seeders" ng-click="select(seed)"></a>
+          </td>
+          <td style='width:50px; text-align:right'>
+            <a  ng-bind="::seed.leechers" ng-click="select(seed)"></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <iframe name="iframe_a" style="border:none;visibility:hidden" height="1" width="1"></iframe>
 </div>
-<iframe name="iframe_a" style="border:none;visibility:hidden" height="1" width="1"></iframe>

@@ -76,6 +76,20 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         return url.replace('%s', encodeURIComponent(param));
     }
 
+    function getPropertyForSelector(parentNode, propertyConfig) {
+        if (!propertyConfig || !propertyConfig.length || propertyConfig.length < 2) return null;
+        var node;
+        if (propertyConfig[0] === '' ) {
+            node = parentNode;
+        } else {
+            node = parentNode.querySelector(propertyConfig[0]);
+        }
+        //console.debug('search',parentNode,propertyConfig[0],node);
+        if (!node) return null;
+        var propertyValue = node.getAttribute(propertyConfig[1]) !== null ? node.getAttribute(propertyConfig[1]) : node[propertyConfig[1]];
+        return propertyConfig.length == 3 && null !== propertyConfig[2] && typeof(propertyConfig[2]) == 'function' ? propertyConfig[2](propertyValue) : propertyValue;
+    }
+
     /**
      * Generic search parser that has a selector, a property to fetch from the selector and an optional callback function for formatting/modifying
      */
@@ -96,19 +110,6 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         var results = doc.querySelectorAll(selectors.resultContainer);
         //console.debug('searchcontainer',selectors.resultContainer,results);
         var output = [];
-
-        function getPropertyForSelector(parentNode, propertyConfig) {
-            if (propertyConfig[0] === '' ) {
-                var node = parentNode;                
-            } else {
-                var node = parentNode.querySelector(propertyConfig[0]);
-            }
-            //console.debug('search',parentNode,propertyConfig[0],node);
-            if (!node) return null;
-            var propertyValue = node.getAttribute(propertyConfig[1]) !== null ? node.getAttribute(propertyConfig[1]) : node[propertyConfig[1]];
-            return propertyConfig.length == 3 && null !== propertyConfig[2] && typeof(propertyConfig[2]) == 'function' ? propertyConfig[2](propertyValue) : propertyValue;
-        }
-
         function sizeToMB(size) {
             size = (typeof size !== 'undefined' && size !== null && size !== '') ? size : '0 MB';
             var sizeA = (size.replace(',','').split(/\s{1}/)); // size split into value and unit
@@ -170,13 +171,17 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 }
             } else {
                 var magnet = getPropertyForSelector(results[i], selectors.magnetUrl);
+                var torrent = getPropertyForSelector(results[i], selectors.torrentUrl);
+                var torrentUrl = torrent ? (config.includeBaseURL ? config.mirror : '') + torrent : null;
                 out.magnetUrl = magnet;
                 var magnetHash = null;
                 if (out.magnetUrl != null) {
                     magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                 }
-                if (magnetHash && magnetHash.length) {
-                    out.torrent = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                if (torrentUrl) {
+                    out.torrentUrl = torrentUrl;
+                } else if (magnetHash && magnetHash.length) {
+                    out.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                 }
             }
             output.push(out);
@@ -195,26 +200,22 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             var doc = parser.parseFromString(data.data, "text/html");
             var selectors = config.detailsSelectors;
             var container = doc.querySelector(selectors.detailsContainer);
-            //console.debug('detailscontainer',container);
-            function getPropertyForSelector(parentNode, propertyConfig) {
-                var node = parentNode.querySelector(propertyConfig[0]);
-                //console.debug('detail',propertyConfig[0],node);
-                if (!node) return null;
-                var propertyValue = node.getAttribute(propertyConfig[1]) !== null ? node.getAttribute(propertyConfig[1]) : node[propertyConfig[1]];
-                return propertyConfig.length == 3 && null !== propertyConfig[2] && typeof(propertyConfig[2]) == 'function' ? propertyConfig[2](propertyValue) : propertyValue;
-            }
-
+            //console.debug('detailscontainer',container)
             if ('noDetailsMagnet' in config && config.noDetailsMagnet === true) {
                 output.torrentUrl = (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(container, selectors.torrentUrl);
             } else {
                 var magnet = getPropertyForSelector(container, selectors.magnetUrl);
+                var torrent = getPropertyForSelector(container, selectors.torrentUrl);
+                var torrentUrl = torrent ? (config.includeBaseURL ? config.mirror : '') + torrent : null;
                 output.magnetUrl = magnet;
                 var magnetHash = null;
                 if (output.magnetUrl != null) {
                     magnetHash = output.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                 }
-                if (magnetHash && magnetHash.length) {
-                    output.torrent = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(releaseName.trim());
+                if (torrentUrl) {
+                    output.torrentUrl = torrentUrl;
+                } else if (magnetHash && magnetHash.length) {
+                    output.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(releaseName.trim());
                 }
             }
         }
@@ -253,7 +254,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 } else if (config.mirrorResolver && config.mirrorResolver !== null) {
                     $injector.get(config.mirrorResolver).findMirror().then(function(result) {
                         //console.log("Resolved a new working mirror!", result);
-                        mirror = result;
+                        config.mirror = result;
                         return self.search(what, undefined, orderBy);
                     }, function(err) {
                         d.reject(err);
@@ -283,7 +284,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
     /**
      * Get SE details page with the supplied url
      * the supplied releaseName is used to build itorrents.org url
-     * returns 
+     * returns
      * {
      *    magnetUrl: "magnet:?xt=urn:btih:<hash>",
      *    torrent: "http://itorrents.org/torrent/<hash>.torrent?title=<releaseName>"
@@ -337,7 +338,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 leechers: [this.config.leecherSelector, this.config.leecherProperty],
                 detailUrl: [this.config.detailUrlSelector, this.config.detailUrlProperty]
             }
-        }
-    }
+        };
+    };
 
 }

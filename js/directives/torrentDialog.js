@@ -88,7 +88,7 @@ DuckieTV
                 var GIL_String = $scope.globalIncludeEnabled ? $scope.globalIncludeAny ? '' : $scope.globalInclude : ''; // if GIL mode is ALL then add GIL to q
                 // ignore double-quotes and plus symbols on query, and any query minus words
                 var query = [q, $scope.searchquality, GIL_String].join(' ').toLowerCase().replace(/[\"\+]/g,' ').trim().split(' ');
-                name = item.releasename.toLowerCase();
+                var name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (part[0] === '-' || name.indexOf(part) > -1) {
                         score++;
@@ -106,7 +106,7 @@ DuckieTV
                 }
                 var score = 0;
                 var query = $scope.globalInclude.toLowerCase().split(' ');
-                name = item.releasename.toLowerCase();
+                var name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (name.indexOf(part) > -1) {
                         score++;
@@ -128,7 +128,7 @@ DuckieTV
                 query = query.filter(function(el) {
                     return q.indexOf(el) == -1;
                 });
-                name = item.releasename.toLowerCase();
+                var name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (name.indexOf(part) > -1) {
                         score++;
@@ -173,7 +173,7 @@ DuckieTV
                 var arr = {};
                 for (var i = 0, len = items.length; i < len; i++) {
                     if (!items[i].detailUrl) {
-                        arr[items[i]['releasename']] = items[i];                        
+                        arr[items[i]['releasename']] = items[i];
                     } else {
                         arr[items[i]['detailUrl']] = items[i];
                     }
@@ -195,7 +195,10 @@ DuckieTV
                         $scope.items = $scope.items.filter(filterGlobalInclude);
                     }
                     $scope.items = $scope.items.filter(filterGlobalExclude);
-                    $scope.items = dropDuplicates($scope.items);
+                    // ShowRSS uses the same detailUrl for all of a series' episodes, so don't call dropDuplicates
+                    if ($scope.searchprovider !== 'ShowRSS') {
+                        $scope.items = dropDuplicates($scope.items);
+                    }
                     $scope.searching = false;
                 },
                 function(e) {
@@ -349,7 +352,7 @@ DuckieTV
             // if torrenting features are disabled hide
             return {
                 template: '<a></a>'
-            }
+            };
         } else {
             return {
                 restrict: 'E',

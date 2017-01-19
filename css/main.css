@@ -1018,17 +1018,32 @@ series-list .trakt-import serieheader h3, series-list .backup-import serieheader
   white-space: nowrap;
 }
 
+#torrentDialog .torrentBtns {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 3px 0;
+}
+
+#torrentDialog .torrentBtns .btn-group {
+  padding: 0 5px;
+}
+
+#torrentDialog .torrentBtns .sort-btn {
+  border-color: rgba(255,255,255,0.4);
+}
+
 .torrent-dialog, .subtitle-dialog {
   display: inline-block;
   list-style: none;
 }
 
 .modal-content table.torrents tr {
-  -webkit-transition: all 0.5s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .modal-content table.torrents tr:hover {
-  background-color: rgba(0, 0, 0, 0.55)
+  background-color: rgba(0, 0, 0, 0.45)
 }
 
 .modal-content table.torrents tr:hover td {
@@ -1762,7 +1777,7 @@ a:hover i.glyphicon-plus-sign {
   background-repeat: no-repeat;
 }
 
-.btn-default {
+.btn-default, .btn-default:focus {
   color: white;
   background-color: #333;
   border-color: #000;
@@ -2749,10 +2764,13 @@ ng-dial-gauge {
 
 /* favorites orderBy */
 
+.sortorder {
+  cursor: pointer;
+}
+
 .sortorder:after {
   content: '\25b2';
 }
-
 .sortorder.reverse:after {
   content: '\25bc';
 }

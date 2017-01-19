@@ -76,7 +76,7 @@ DuckieTV
                 var GIL_String = $scope.globalIncludeEnabled ? $scope.globalIncludeAny ? '' : $scope.globalInclude : ''; // if GIL mode is ALL then add GIL to q
                 // ignore double-quotes and plus symbols on query, and any query minus words
                 var query = [q, $scope.searchquality, GIL_String].join(' ').toLowerCase().replace(/[\"\+]/g,' ').trim().split(' ');
-                name = item.releasename.toLowerCase();
+                var name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (part[0] === '-' || name.indexOf(part) > -1) {
                         score++;
@@ -94,7 +94,7 @@ DuckieTV
                 }
                 var score = 0;
                 var query = $scope.globalInclude.toLowerCase().split(' ');
-                name = item.releasename.toLowerCase();
+                var name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (name.indexOf(part) > -1) {
                         score++;
@@ -116,7 +116,7 @@ DuckieTV
                 query = query.filter(function(el) {
                     return q.indexOf(el) == -1;
                 });
-                name = item.releasename.toLowerCase();
+                var name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (name.indexOf(part) > -1) {
                         score++;
@@ -161,7 +161,7 @@ DuckieTV
                 var arr = {};
                 for (var i = 0, len = items.length; i < len; i++) {
                     if (!items[i].detailUrl) {
-                        arr[items[i]['releasename']] = items[i];                        
+                        arr[items[i]['releasename']] = items[i];
                     } else {
                         arr[items[i]['detailUrl']] = items[i];
                     }
@@ -186,7 +186,7 @@ DuckieTV
                     provider = TorrentSearchEngines.getSearchEngine(engine);
                     provider.search([q, $scope.searchquality].join(' '), undefined, 'seeders.d').then(function(results) {
                         results.forEach(function(item){
-                            item.engine = engine; // used by torrentDialog2
+                            item.engine = engine; // used by torrentDialog2.html
                             item.sizeInt = isNaN(item.size.replace(' MB','')) ? 0 : parseInt(item.size); // used for torrentDialog2 sorting
                             item.seedersInt = isNaN(item.seeders) ? 0 : parseInt(item.seeders); // used for torrentDialog2 sorting
                             item.leechersInt = isNaN(item.leechers) ? 0 : parseInt(item.leechers); // used for torrentDialog2 sorting
@@ -198,7 +198,10 @@ DuckieTV
                             items = items.filter(filterGlobalInclude);
                         }
                         items = items.filter(filterGlobalExclude);
-                        items = dropDuplicates(items);
+                        // ShowRSS uses the same detailUrl for every episode torrent in a series, so don't dropDuplicates
+                        if (engine !== 'ShowRSS') {
+                            items = dropDuplicates(items);
+                        };
                         $scope.items = $scope.items.concat(items);
                         $scope.searching = false;
                     },
@@ -326,7 +329,7 @@ DuckieTV
             // if torrenting features are disabled hide
             return {
                 template: '<a></a>'
-            }
+            };
         } else {
             return {
                 restrict: 'E',

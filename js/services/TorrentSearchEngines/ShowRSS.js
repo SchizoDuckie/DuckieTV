@@ -51,7 +51,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
 
                     var magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                     if (magnetHash && magnetHash.length) {
-                        out.torrent = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                        out.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                         output.push(out);
                     }
                 });
@@ -88,33 +88,32 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
 
         return {
             search: function(query) {
+                query = query.toUpperCase();
                 //console.debug("Searching showrss!", query);
-                if (!query.toUpperCase().match(/S([0-9]{1,2})E([0-9]{1,3})/)) {
+                if (!query.match(/S([0-9]{1,2})E([0-9]{1,3})/)) {
                     return $q(function(resolve, reject) {
                         reject("Sorry, ShowRSS only works for queries in format : 'Seriename SXXEXX'");
                     });
                 }
                 return promiseRequest('list').then(function(results) {
                     var found = Object.keys(results).filter(function(value) {
-                        return query.indexOf(value) === 0;
+                        return query.indexOf(value.toUpperCase()) === 0;
                     });
                     if (found.length == 1) {
                         var serie = found[0];
 
                         return promiseRequest('serie', results[found[0]]).then(function(results) {
-                            var seasonepisode = query.replace(serie, '').trim().toUpperCase();
-                            var parts = seasonepisode.match(/S([0-9]{1,2})E([0-9]{1,3})/);
-                            if (seasonepisode.length === 0) return results;
+                            var parts = query.match(/S([0-9]{1,2})E([0-9]{1,3})/);
+                            if (!parts) {
+                                return results;
+                            }
+                            var seasonepisode = parts[0];
                             var showRSSseasonepisode = seasonepisode.replace('S' + parts[1], parseInt(parts[1], 10)).replace('E' + parts[2], '×' + parts[2]);
-                            var searchparts = showRSSseasonepisode.split(' ');
                             return results.filter(function(el) {
-                                if (searchparts.length > 1 && el.releasename.indexOf(searchparts[1]) == -1) {
-                                    return false;
-                                }
                                 // replace the showRSS season episode string ssXee with SssEee or it will fail the strict filterByScore in autoDownload and torrentDialog
                                 var originalReleaseName = el.releasename;
                                 el.releasename = el.releasename.replace(showRSSseasonepisode,seasonepisode);
-                                return originalReleaseName.indexOf(searchparts[0]) > -1;
+                                return originalReleaseName.indexOf(showRSSseasonepisode) > -1;
                             });
                         });
                     } else {
