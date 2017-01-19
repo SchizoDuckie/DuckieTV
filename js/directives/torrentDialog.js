@@ -195,7 +195,10 @@ DuckieTV
                         $scope.items = $scope.items.filter(filterGlobalInclude);
                     }
                     $scope.items = $scope.items.filter(filterGlobalExclude);
-                    $scope.items = dropDuplicates($scope.items);
+                    // ShowRSS uses the same detailUrl for all of a series' episodes, so don't call dropDuplicates
+                    if ($scope.searchprovider !== 'ShowRSS') {
+                        $scope.items = dropDuplicates($scope.items);
+                    }
                     $scope.searching = false;
                 },
                 function(e) {
