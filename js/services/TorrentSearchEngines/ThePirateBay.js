@@ -3,13 +3,12 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
         if (SettingsService.get('torrenting.enabled')) {
 
             TorrentSearchEngines.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({
-                mirror: 'https://thepiratebay.se',
+                mirror: 'https://thepiratebay.org',
                 mirrorSettingsKey: 'ThePirateBay.mirror',
                 mirrorResolver: 'ThePirateBayMirrorResolver',
                 includeBaseURL: true,
                 endpoints: {
-                    search: '/search/%s/0/%o/0',
-                    details: '%s'
+                    search: '/search/%s/0/%o/0'
                 },
                 selectors: {
                     resultContainer: '#searchResult tbody tr',
@@ -23,10 +22,6 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     seeders: ['td:nth-child(3)', 'innerHTML'],
                     leechers: ['td:nth-child(4)', 'innerHTML'],
                     detailUrl: ['a.detLink', 'href']
-                },
-                detailsSelectors: {
-                    detailsContainer: '#detailsframe',
-                    magnetUrl: ['div.download a', 'href']
                 },
                 orderby: {
                     age: {d: '3', a: '4'},

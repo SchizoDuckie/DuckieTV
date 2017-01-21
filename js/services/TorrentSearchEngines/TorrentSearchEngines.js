@@ -45,6 +45,22 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     engines[name] = customEngines[name].getInstance($q, $http, $injector);
                 });
             })
+        }
+        function createIframe(id, url) {
+            var d = document.createElement('iframe');
+            d.id = id + 'url_' + new Date().getTime();
+            d.style.visibility = 'hidden';
+            d.src = url;
+            document.body.appendChild(d);
+            //console.debug("Submit via Chromium", d.id, url);
+            var dTimer = setInterval(function () {
+                var dDoc = d.contentDocument || d.contentWindow.document;
+                if (dDoc.readyState == 'complete') {
+                    document.body.removeChild(d);
+                    clearInterval(dTimer);
+                    return;
+                }
+            }, 1500);
         };
 
         var service = {
@@ -161,21 +177,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     }, 1500);
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.getInfoHash());
                 } else {
-                    var d = document.createElement('iframe');
-                    d.id = 'torrentmagnet_' + new Date().getTime();
-                    d.name = 'torrentmagnet_' + new Date().getTime();
-                    d.style.visibility = 'hidden';
-                    d.src = magnet;
-                    document.body.appendChild(d);
-                    //console.debug("Adding via Chromium! ", d.id, magnet, TVDB_ID);
-                    var dTimer = setInterval(function () {
-                        var dDoc = d.contentDocument || d.contentWindow.document;
-                        if (dDoc.readyState == 'complete') {
-                            document.body.removeChild(d);
-                            clearInterval(dTimer);
-                            return;
-                        }
-                    }, 1500);
+                    createIframe('magnet', magnet);
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.getInfoHash());
                 }
             },
@@ -206,21 +208,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
                     }, 1500);
                 } else {
-                    var d = document.createElement('iframe');
-                    d.id = 'torrenturl_' + new Date().getTime();
-                    d.name = 'torrenturl_' + new Date().getTime();
-                    d.style.visibility = 'hidden';
-                    d.src = torrentUrl;
-                    document.body.appendChild(d);
-                    //console.debug("Adding via Chromium! ", d.id, magnet, TVDB_ID);
-                    var dTimer = setInterval(function () {
-                        var dDoc = d.contentDocument || d.contentWindow.document;
-                        if (dDoc.readyState == 'complete') {
-                            document.body.removeChild(d);
-                            clearInterval(dTimer);
-                            return;
-                        }
-                    }, 1500);
+                    createIframe('torrent', torrentUrl);
                 }
             }
         }; 

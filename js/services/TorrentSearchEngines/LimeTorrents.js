@@ -6,10 +6,8 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 mirrorResolver: null,
                 includeBaseURL: true,
                 endpoints: {
-                    search: '/search/all/%s/%o',
-                    details: '%s'
+                    search: '/search/all/%s/%o'
                 },
-                noMagnet: true,
                 selectors: {
                     resultContainer: 'tr[bgcolor^="#F"]',
                     releasename: ['td div a:nth-child(2)', 'innerText'],
@@ -25,7 +23,8 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                             var magnetHash = href.match(/([0-9ABCDEFabcdef]{40})/);
                             return  'magnet:?xt=urn:btih:' + magnetHash[0] + $injector.get('TorrentSearchEngines').trackers;
                         }
-                    ]
+                    ],
+                    torrentUrl: ['a[title$="torrent"]', 'href']
                 },
                 orderby: {
                     age: {d: '', a: ''},

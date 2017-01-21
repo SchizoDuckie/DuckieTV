@@ -7,7 +7,6 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 endpoints: {
                     search: '/?page=search&sort=%o&term=%s'
                 },
-                noMagnet: true,
                 selectors: {
                     resultContainer: 'tr.tlistrow',
                     releasename: ['td.tlistname a', 'innerText'],
@@ -25,7 +24,6 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                         }
                     ]
                 },
-                noDetailsMagnet: true,
                 orderby: {
                     age: {d: '1', a: '1&order=2'},
                     leechers: {d: '3', a: '3&order=2'},

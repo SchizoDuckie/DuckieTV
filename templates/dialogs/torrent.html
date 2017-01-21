@@ -132,16 +132,16 @@
             <a ng-if="seed.noMagnet">
               <i class="glyphicon glyphicon-magnet" style="color:gray"></i>
             </a>
-            <a ng-if="seed.torrentUrl" ng-href="{{::seed.torrentUrl}}" target="iframe_a">
+            <a ng-if="!seed.noTorrent" ng-click="submitTorrentLink(seed)">
               <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
             </a>
-            <a ng-if="!seed.torrentUrl">
+            <a ng-if="seed.noTorrent">
               <i class="glyphicon glyphicon-download" style="color:gray"></i>
             </a>
-            <a ng-if="seed.magnetUrl" ng-href="{{::seed.magnetUrl}}" target="iframe_a">
+            <a ng-if="!seed.noMagnet" ng-click="submitMagnetLink(seed)">
               <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
             </a>
-            <a ng-if="!seed.magnetUrl">
+            <a ng-if="seed.noMagnet">
               <i class="glyphicon glyphicon-link" style="color:gray"></i>
             </a>
             <a ng-if="seed.detailUrl" ng-href="{{::seed.detailUrl}}" target='_blank'>
@@ -167,5 +167,4 @@
       </tbody>
     </table>
   </div>
-  <iframe name="iframe_a" style="border:none;visibility:hidden" height="1" width="1"></iframe>
 </div>

@@ -164,27 +164,36 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
                     seeders: seed,
                     leechers: leech,
                     detailUrl: (service.config.includeBaseURL ? service.config.mirror : '') + getPropertyForSelector(results[i], selectors.detailUrl),
-                    noMagnet: false
+                    noMagnet: true,
+                    noTorrent: true
                 };
-                if (service.config.noMagnet === true) {
-                    if (service.config.noDetailsMagnet === true) {
-                        out.torrentUrl = (service.config.includeBaseURL ? service.config.mirror : '') + getPropertyForSelector(results[i], selectors.torrentUrl);
-                        out.noMagnet = true;
-                    }
-                } else {
-                    var magnet = getPropertyForSelector(results[i], selectors.magnetUrl);
+                var magnet = getPropertyForSelector(results[i], selectors.magnetUrl);
+                var magnetHash = null;
+                if (magnet) {
                     out.magnetUrl = magnet;
-                    var magnetHash = null;
-                    if (out.magnetUrl != null) {
-                        magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
+                    out.noMagnet = false;
+                    magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
+                }
+                var torrent = getPropertyForSelector(results[i], selectors.torrentUrl);
+                if (torrent) {
+                    out.torrentUrl = (torrent.startsWith('http')) ? torrent : service.config.mirror + torrent;
+                    out.noTorrent = false;
+                } else if (magnetHash && magnetHash.length) {
+                    out.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                    out.noTorrent = false;
+                }
+                // if there is no magnet and/or no torrent, check of detailsSelectors has been provided.
+                if ('detailsSelectors' in service.config) {
+                    if ('magnetUrl' in service.config.detailsSelectors) {
+                        out.noMagnet = false;
                     }
-                    if (magnetHash && magnetHash.length) {
-                        out.torrent = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                    if ('torrentUrl' in service.config.detailsSelectors) {
+                        out.noTorrent = false;
                     }
                 }
                 output.push(out);
             }
-            //console.debug('parseSearch',output);
+            //console.debug('parseSearch', service.config.mirror, output);
             return output;
         };
 
@@ -194,10 +203,8 @@ DuckieTV.factory('ExtraTorrent', ["$q", "$http", "$injector",
                 mirrorResolver: null,
                 includeBaseURL: true,
                 endpoints: {
-                    search: '/search/?search=%s&srt=%o',
-                    details: '%s' /* unused but required? TBD */
+                    search: '/search/?search=%s&srt=%o'
                 },
-                noMagnet: false,
                 selectors: {
                     resultContainer: 'table.tl tr[class^=tl]',
                     releasename: ['td.tli > a', 'innerText'],

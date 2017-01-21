@@ -5,10 +5,8 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 mirror: 'https://1337x.to',
                 mirrorResolver: null,
                 includeBaseURL: true,
-                noMagnet: true,
                 endpoints: {
-                    search: '/sort-search/%s/%o/1/',
-                    details: '%s'
+                    search: '/sort-search/%s/%o/1/'
                 },
                 selectors: {
                     resultContainer: 'tr',
@@ -30,7 +28,8 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                             var hrefPart = href.split('&tr');
                             return hrefPart[0] + TorrentSearchEngines.trackers;
                         }
-                    ]
+                    ],
+                    torrentUrl: ['li.dropdown li a', 'href']
                 },
                 orderby: {
                     age: {d: 'time/desc', a: 'time/asc'},

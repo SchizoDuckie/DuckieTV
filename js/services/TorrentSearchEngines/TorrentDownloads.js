@@ -5,10 +5,8 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 mirror: 'https://www.torrentdownloads.me',
                 mirrorResolver: null,
                 includeBaseURL: true,
-                noMagnet: true,
                 endpoints: {
-                    search: '/search/?search=%s',
-                    details: '%s'
+                    search: '/search/?search=%s'
                 },
                 selectors: {
                     resultContainer: 'div[class^="grey_bar3"]',
@@ -20,7 +18,8 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 },
                 detailsSelectors: {
                     detailsContainer: 'div[class="inner_container"]',
-                    magnetUrl: ['a[href^="magnet:"]', 'href']
+                    magnetUrl: ['a[href^="magnet:"]', 'href'],
+                    torrentUrl: ['a[href^="http://itorrents.org/torrent/"]', 'href']
                 }
             }, $q, $http, $injector));
         }

@@ -318,21 +318,67 @@ DuckieTV
         };
 
         $scope.select = function(result) {
-            var config = TorrentSearchEngines.getSearchEngine($scope.searchprovider).config;
             var dlPath = ($scope.serie) ? $scope.serie.dlPath : null;
             var label = ($scope.serie && usingLabel) ? $scope.serie.name : null;
-            if (config && 'noMagnet' in config && config.noMagnet) {
-                if ('noDetailsMagnet' in config && config.noDetailsMagnet) {
-                    return urlSelect(result.torrentUrl, result.releasename, dlPath, label);
-                } else {
-                    TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
-                        return magnetSelect(details.magnetUrl, dlPath, label);
-                    });
-                }
-            } else {
+            if (result.magnetUrl) {
                 return magnetSelect(result.magnetUrl, dlPath, label);
+            } else if (result.torrentUrl) {
+                return urlSelect(result.torrentUrl, result.releasename, dlPath, label);
+            } else {
+                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
+                    if (details.magnetUrl) {
+                        return magnetSelect(details.magnetUrl, dlPath, label);
+                    } else if (details.torrentUrl) {
+                        return urlSelect(details.torrentUrl, result.releasename, dlPath, label);
+                    } 
+                });
             }
         };
+
+        function createIframe(id, url) {
+            var d = document.createElement('iframe');
+            d.id = id + 'url_' + new Date().getTime();
+            d.style.visibility = 'hidden';
+            d.src = url;
+            document.body.appendChild(d);
+            //console.debug("Submit via Chromium", d.id, url);
+            var dTimer = setInterval(function () {
+                var dDoc = d.contentDocument || d.contentWindow.document;
+                if (dDoc.readyState == 'complete') {
+                    document.body.removeChild(d);
+                    clearInterval(dTimer);
+                    return;
+                }
+            }, 1500);
+        }
+
+        $scope.submitMagnetLink = function(result) {
+            if (result.magnetUrl) {
+                // we have magnetUrl from search, use it
+                createIframe('magnet', result.magnetUrl);
+            } else {
+                // we don't have magnetUrl from search, fetch from details instead
+                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
+                    if (details.magnetUrl) {
+                        createIframe('magnet', details.magnetUrl);
+                    }
+                });
+            }
+        }
+
+        $scope.submitTorrentLink = function(result) {
+            if (result.torrentUrl) {
+                // we have torrentUrl from search, use it
+                createIframe('torrent', result.torrentUrl);
+            } else {
+                // we don't have torrentUrl from search, fetch from details instead
+                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
+                    if (details.torrentUrl) {
+                        createIframe('torrent', details.torrentUrl);
+                    }
+                });
+            }
+        }
 
         /*
          * Takes the English orderBy (elements from TorrentSearchEngines.getSearchEngine($scope.searchprovider).config.orderby) and returns a translation

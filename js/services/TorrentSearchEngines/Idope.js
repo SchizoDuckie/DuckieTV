@@ -6,8 +6,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 mirrorResolver: null,
                 includeBaseURL: true,
                 endpoints: {
-                    search: '/torrent-list/%s/?&o=%o',
-                    details: '%s'
+                    search: '/torrent-list/%s/?&o=%o'
                 },
                 selectors: {
                     resultContainer: 'a[href^="/torrent/"]',

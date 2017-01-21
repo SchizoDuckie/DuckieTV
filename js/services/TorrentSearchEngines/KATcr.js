@@ -5,10 +5,8 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 mirror: 'https://katcr.co/new/',
                 mirrorResolver: null,
                 includeBaseURL: true,
-                noMagnet: true,
                 endpoints: {
-                    search: 'torrents-search.php?search=%s&sort=%o',
-                    details: '%s'
+                    search: 'torrents-search.php?search=%s&sort=%o'
                 },
                 selectors: {
                     resultContainer: 'tr[class="t-row"]',
@@ -16,6 +14,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     size: ['td:nth-child(2)', 'innerText'],
                     seeders: ['td:nth-child(4)', 'innerText'],
                     leechers: ['td:nth-child(5)', 'innerText'],
+                    torrentUrl: ['td:first-child div[class^="iaconbox"] a:nth-child(3)', 'href'],
                     detailUrl: ['td:first-child div[class^="iaconbox"] a:nth-child(2)', 'href']
                 },
                 detailsSelectors: {

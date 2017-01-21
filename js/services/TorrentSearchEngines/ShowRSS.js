@@ -42,6 +42,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                     var out = {
                         magnetUrl: node.href,
                         noMagnet: false,
+                        noTorrent: true,
                         releasename: node.innerText.replace(/\s/g,' ').trim(),
                         size: 'n/a',
                         seeders: 'n/a',
@@ -52,6 +53,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                     var magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                     if (magnetHash && magnetHash.length) {
                         out.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                        out.noTorrent = false;
                         output.push(out);
                     }
                 });
