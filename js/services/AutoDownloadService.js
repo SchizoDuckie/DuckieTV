@@ -72,8 +72,12 @@ DuckieTV
                                     var serieEpisode = serie.name + ' ' + episode.getFormattedEpisode();
                                     // filter out episode from torrent search
                                     if (episode.seasonnumber === 0 && !showSpecials && serie.ignoreHideSpecials !== 1) {
-                                        service.activityUpdate(serie, episode, serieEpisode, 3, ' HS'); // 'autoDL disabled'
+                                        service.activityUpdate(serie, episode, serieEpisode, 3, ' HS'); // 'autoDL disabled HS'
                                         return; // user has chosen not to show specials on calendar so we assume they do not expect them to be auto-downloaded
+                                    };
+                                    if (serie.displaycalendar !== 1) {
+                                        service.activityUpdate(serie, episode, serieEpisode, 3, ' HC'); // 'autoDL disabled HC'
+                                        return; // user has chosen not to show series on calendar so we assume they do not expect them to be auto-downloaded
                                     };
                                     if (episode.isDownloaded()) {
                                             service.activityUpdate(serie, episode, serieEpisode, 0); // 'downloaded'
@@ -245,19 +249,19 @@ DuckieTV
                         };
                         items = items.filter(filterBySize);
                         if (items.length === 0) {
-                            service.activityUpdate(serie, episode, q, 5, ' GS'); // 'filtered out by GS'
+                            service.activityUpdate(serie, episode, q, 5, ' GS'); // 'filtered out GS'
                             return; // no results, abort
                         };
                         if (globalIncludeAny) {
                             items = items.filter(filterGlobalInclude);
                             if (items.length === 0) {
-                                service.activityUpdate(serie, episode, q, 5, ' GI'); // 'filtered out by GI'
+                                service.activityUpdate(serie, episode, q, 5, ' GI'); // 'filtered out GI'
                                 return; // no results, abort
                             }
                         };
                         items = items.filter(filterGlobalExclude);
                         if (items.length === 0) {
-                            service.activityUpdate(serie, episode, q, 5, ' GE'); // 'filtered out by GE'
+                            service.activityUpdate(serie, episode, q, 5, ' GE'); // 'filtered out GE'
                             return; // no results, abort
                         }
                         if (items[0].seeders != 'n/a' && parseInt(items[0].seeders, 10) < minSeeders) { // not enough seeders are available.
