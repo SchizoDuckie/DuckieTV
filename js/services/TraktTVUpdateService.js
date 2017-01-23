@@ -34,7 +34,9 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
                     });
                     return $q.all(
                         toUpdate.map(function(serie) {
-                            return TraktTVv2.serie(serie.slug_id).then(FavoritesService.addFavorite);
+                            return TraktTVv2.serie(serie.slug_id).then(function(serie) {
+                                return FavoritesService.addFavorite(serie, undefined, undefined, true);
+                            });
                         })
                     );
                 });
