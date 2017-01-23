@@ -19,8 +19,6 @@
       <a class="todo_event" ng-repeat="event in getTodoEvents() track by $index" ui-sref="episode({episode_id: event.episode.ID_Episode})">
          <div class="episode-img" lazy-background="{{event.episode.filename}}"></div>
          <h3>{{event.serie.name}} {{event.episode.name}} {{event.episode.getFormattedEpisode()}}</h3>
-         <em class="dayofweek">{{ day|date:"EEE" }}</em>
-         {{day.getDate()}}
       </a>
     </div>
   </div>
