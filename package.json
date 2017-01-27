@@ -85,7 +85,7 @@
     "mac-x32": true,
     "mac-x64": false,
     "nw_compression_level": 5,
-    "nw_version": "0.14.7",
+    "nw_version": "0.20.0",
     "windows": true,
     "windows-x32": true,
     "windows-x64": false
