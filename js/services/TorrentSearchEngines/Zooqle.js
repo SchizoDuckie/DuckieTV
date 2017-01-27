@@ -12,11 +12,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 selectors: {
                     resultContainer: 'tr ',
                     releasename: ['td:nth-child(2) > a', 'innerText'],
-                    magnetUrl: ['a[title^="Magnet link"]', 'href',
-                        function(href) {
-                            return href + TorrentSearchEngines.trackers;
-                        }
-                    ],
+                    magnetUrl: ['a[title^="Magnet link"]', 'href'],
                     size: ['td:nth-child(4)', 'innerText',
                         function(text) {
                             return (text == '– N/A –') ? null : text;
