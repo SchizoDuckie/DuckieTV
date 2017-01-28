@@ -1,8 +1,0 @@
-Package: DuckieTV
-Priority: optional
-Section: Media
-Installed-Size: 95328
-Maintainer: SchizoDuckie
-Architecture: PKGARCHITECTURE
-Version: PKGVERSION
-Description: The TV Show Tracker You've been waiting for 
