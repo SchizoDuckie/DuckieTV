@@ -319,32 +319,39 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
             }
         };
 
-        function createIframe(id, url) {
-            var d = document.createElement('iframe');
-            d.id = id + 'url_' + new Date().getTime();
-            d.style.visibility = 'hidden';
-            d.src = url;
-            document.body.appendChild(d);
-            //console.debug("Submit via Chromium", d.id, url);
-            var dTimer = setInterval(function () {
-                var dDoc = d.contentDocument || d.contentWindow.document;
-                if (dDoc.readyState == 'complete') {
-                    document.body.removeChild(d);
-                    clearInterval(dTimer);
-                    return;
-                }
-            }, 1500);
+        function openUrl(id, url) {
+            if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) && id === 'magnet') {
+                // for standalone, open magnet url direct to os https://github.com/SchizoDuckie/DuckieTV/issues/834
+                require('nw.gui').Shell.openExternal(url);
+                //console.debug("Open via OS", id, url);
+            } else {
+                // for chrome extension, open url on chromium via iframe
+                var d = document.createElement('iframe');
+                d.id = id + 'url_' + new Date().getTime();
+                d.style.visibility = 'hidden';
+                d.src = url;
+                document.body.appendChild(d);
+                //console.debug("Open via Chromium", d.id, url);
+                var dTimer = setInterval(function () {
+                    var dDoc = d.contentDocument || d.contentWindow.document;
+                    if (dDoc.readyState == 'complete') {
+                        document.body.removeChild(d);
+                        clearInterval(dTimer);
+                        return;
+                    }
+                }, 1500);
+            }
         };
 
         $scope.submitMagnetLink = function(result) {
             if (result.magnetUrl) {
                 // we have magnetUrl from search, use it
-                createIframe('magnet', result.magnetUrl);
+                openUrl('magnet', result.magnetUrl);
             } else {
                 // we don't have magnetUrl from search, fetch from details instead
                 TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
                     if (details.magnetUrl) {
-                        createIframe('magnet', details.magnetUrl);
+                        openUrl('magnet', details.magnetUrl);
                     }
                 });
             }
@@ -353,12 +360,12 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         $scope.submitTorrentLink = function(result) {
             if (result.torrentUrl) {
                 // we have torrentUrl from search, use it
-                createIframe('torrent', result.torrentUrl);
+                openUrl('torrent', result.torrentUrl);
             } else {
                 // we don't have torrentUrl from search, fetch from details instead
                 TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
                     if (details.torrentUrl) {
-                        createIframe('torrent', details.torrentUrl);
+                        openUrl('torrent', details.torrentUrl);
                     }
                 });
             }

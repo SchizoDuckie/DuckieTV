@@ -46,21 +46,28 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 });
             })
         }
-        function createIframe(id, url) {
-            var d = document.createElement('iframe');
-            d.id = id + 'url_' + new Date().getTime();
-            d.style.visibility = 'hidden';
-            d.src = url;
-            document.body.appendChild(d);
-            //console.debug("Submit via Chromium", d.id, url);
-            var dTimer = setInterval(function () {
-                var dDoc = d.contentDocument || d.contentWindow.document;
-                if (dDoc.readyState == 'complete') {
-                    document.body.removeChild(d);
-                    clearInterval(dTimer);
-                    return;
-                }
-            }, 1500);
+        function openUrl(id, url) {
+            if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) && id === 'magnet') {
+                // for standalone, open magnet url direct to os https://github.com/SchizoDuckie/DuckieTV/issues/834
+                require('nw.gui').Shell.openExternal(url);
+                //console.debug("Open via OS", id, url);
+            } else {
+                // for chrome extension, open url on chromium via iframe
+                var d = document.createElement('iframe');
+                d.id = id + 'url_' + new Date().getTime();
+                d.style.visibility = 'hidden';
+                d.src = url;
+                document.body.appendChild(d);
+                //console.debug("Open via Chromium", d.id, url);
+                var dTimer = setInterval(function () {
+                    var dDoc = d.contentDocument || d.contentWindow.document;
+                    if (dDoc.readyState == 'complete') {
+                        document.body.removeChild(d);
+                        clearInterval(dTimer);
+                        return;
+                    }
+                }, 1500);
+            }
         };
 
         var service = {
@@ -177,7 +184,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     }, 1500);
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.getInfoHash());
                 } else {
-                    createIframe('magnet', magnet);
+                    openUrl('magnet', magnet);
                     $rootScope.$broadcast('magnet:select:' + TVDB_ID, magnet.getInfoHash());
                 }
             },
@@ -208,7 +215,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
                     }, 1500);
                 } else {
-                    createIframe('torrent', torrentUrl);
+                    openUrl('torrent', torrentUrl);
                 }
             }
         }; 
