@@ -276,7 +276,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
 
         // Selects and launches magnet
         var magnetSelect = function(magnet) {
-            console.info("Magnet selected!", magnet);
+            //console.debug("Magnet selected!", magnet);
             $modalInstance.close(magnet);
 
             TorrentSearchEngines.launchMagnet(magnet, data.key);
@@ -285,7 +285,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         };
 
         var urlSelect = function(url, releasename) {
-            console.info("Torrent URL selected!", url);
+            //console.debug("Torrent URL selected!", url);
             $modalInstance.close(url);
 
             $injector.get('$http').get(url, {
@@ -299,18 +299,68 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
             });
         };
 
-        $scope.torrentSelect = function(result) {
-            var config = TorrentSearchEngines.getSearchEngine($scope.searchprovider).config;
-            if (config && 'noMagnet' in config && config.noMagnet) {
-                if ('noDetailsMagnet' in config && config.noDetailsMagnet) {
-                    return urlSelect(result.torrentUrl, result.releasename);
-                } else {
-                    TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
-                        return magnetSelect(details.magnetUrl);
-                    });
-                }
-            } else {
+        $scope.select = function(result) {
+            if (result.magnetUrl) {
+                //console.debug('using search magnet');
                 return magnetSelect(result.magnetUrl);
+            } else if (result.torrentUrl) {
+                //console.debug('using search torrent');
+                return urlSelect(result.torrentUrl, result.releasename);
+            } else {
+                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
+                    if (details.magnetUrl) {
+                        //console.debug('using details magnet');
+                        return magnetSelect(details.magnetUrl);
+                    } else if (details.torrentUrl) {
+                        //console.debug('using details torrent');
+                        return urlSelect(details.torrentUrl, result.releasename);
+                    } 
+                });
+            }
+        };
+
+        function createIframe(id, url) {
+            var d = document.createElement('iframe');
+            d.id = id + 'url_' + new Date().getTime();
+            d.style.visibility = 'hidden';
+            d.src = url;
+            document.body.appendChild(d);
+            //console.debug("Submit via Chromium", d.id, url);
+            var dTimer = setInterval(function () {
+                var dDoc = d.contentDocument || d.contentWindow.document;
+                if (dDoc.readyState == 'complete') {
+                    document.body.removeChild(d);
+                    clearInterval(dTimer);
+                    return;
+                }
+            }, 1500);
+        };
+
+        $scope.submitMagnetLink = function(result) {
+            if (result.magnetUrl) {
+                // we have magnetUrl from search, use it
+                createIframe('magnet', result.magnetUrl);
+            } else {
+                // we don't have magnetUrl from search, fetch from details instead
+                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
+                    if (details.magnetUrl) {
+                        createIframe('magnet', details.magnetUrl);
+                    }
+                });
+            }
+        };
+
+        $scope.submitTorrentLink = function(result) {
+            if (result.torrentUrl) {
+                // we have torrentUrl from search, use it
+                createIframe('torrent', result.torrentUrl);
+            } else {
+                // we don't have torrentUrl from search, fetch from details instead
+                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
+                    if (details.torrentUrl) {
+                        createIframe('torrent', details.torrentUrl);
+                    }
+                });
             }
         };
 

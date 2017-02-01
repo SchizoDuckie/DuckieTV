@@ -70,25 +70,22 @@
           </tr>
           <tr ng-repeat="seed in searchResults.torrents | limitTo: 9" class="no-animate">
             <td style='width:80px; padding:5px; vertical-align: top;'>
-              <a ng-if="!seed.noMagnet" ng-click="torrentSelect(seed)">
+              <a ng-if="!seed.noMagnet" ng-click="select(seed)">
                 <i class="glyphicon glyphicon-magnet" uib-tooltip="{{'COMMON/download-magnet/tooltip'|translate}}"></i>
               </a>
               <a ng-if="seed.noMagnet">
                 <i class="glyphicon glyphicon-magnet" style="color:gray"></i>
               </a>
-              <a ng-if="seed.torrentUrl" ng-href="{{::seed.torrentUrl}}" target="iframe_a">
+              <a ng-if="!seed.noTorrent" ng-click="submitTorrentLink(seed)">
                 <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
               </a>
-              <a ng-if="seed.torrent" ng-href="{{::seed.torrent}}" target="iframe_a">
-                <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
-              </a>
-              <a ng-if="!seed.torrent && !seed.torrentUrl">
+              <a ng-if="seed.noTorrent">
                 <i class="glyphicon glyphicon-download" style="color:gray"></i>
               </a>
-              <a ng-if="seed.magnetUrl" ng-href="{{::seed.magnetUrl}}" target="iframe_a">
+              <a ng-if="!seed.noMagnet" ng-click="submitMagnetLink(seed)">
                 <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
               </a>
-              <a ng-if="!seed.magnetUrl">
+              <a ng-if="seed.noMagnet">
                 <i class="glyphicon glyphicon-link" style="color:gray"></i>
               </a>
               <a ng-if="seed.detailUrl" ng-href="{{::seed.detailUrl}}" target='_blank'>
@@ -99,20 +96,19 @@
               </a>
             </td>
             <td>
-              <a ng-bind-html="::seed.releasename | unsafe" ng-click="torrentSelect(seed)"></a>
+              <a ng-bind-html="::seed.releasename | unsafe" ng-click="select(seed)"></a>
             </td>
             <td>
-              <a ng-bind-html="::seed.size" ng-click="torrentSelect(seed)" style='white-space:nowrap'></a>
+              <a ng-bind-html="::seed.size" ng-click="select(seed)" style='white-space:nowrap'></a>
             </td>
             <td style='width:50px; text-align:right'>
-              <a  ng-bind="::seed.seeders" ng-click="torrentSelect(seed)"></a>
+              <a  ng-bind="::seed.seeders" ng-click="select(seed)"></a>
             </td>
             <td style='width:50px; text-align:right'>
-              <a  ng-bind="::seed.leechers" ng-click="torrentSelect(seed)"></a>
+              <a  ng-bind="::seed.leechers" ng-click="select(seed)"></a>
             </td>
           </tr>
         </table>
-        <iframe name="iframe_a" style="border:none;visibility:hidden" height="1" width="1"></iframe>
       </div>
     </div>
 
