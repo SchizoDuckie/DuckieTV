@@ -274,7 +274,7 @@
     "SETTINGS/AUTODOWNLOAD/multi-se-enabled/desc": "Clicca qui sotto se vuoi estendere la ricerca dei torrent degli episodi ad altri motori di ricerca, qualora non siano disponibili torrent nel motore di ricerca di default.",
     "SETTINGS/AUTODOWNLOAD/multi-se/desc": "Seleziona quali motori di ricerca utilizzare.",
     "SETTINGS/AUTODOWNLOAD/multi-se/hdr": "Motori di ricerca multipli",
-	"SETTINGS/AUTODOWNLOAD/period-default/lbl": "Predefinito: 1 giorno",
+    "SETTINGS/AUTODOWNLOAD/period-default/lbl": "Predefinito: 1 giorno",
     "SETTINGS/AUTODOWNLOAD/period/desc": "Cerca un download per gli episodi andati in onda negli ultimi ",
     "SETTINGS/AUTODOWNLOAD/period/desc2": " giorni. Aumentare questo valore se non si utilizza DuckieTV ogni giorno.",
     "SETTINGS/AUTODOWNLOAD/period/form": "Giorni:",
