@@ -169,7 +169,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
             }).then(function(result) {
                 return parser(result);
             }, function(err) {
-                if (err.code == 401) {
+                if (err.status == 401) {
                     // token auth expired, renew
                     service.renewToken();
                     // restart request and return original promise
@@ -384,6 +384,17 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                     }
                 }).then(function(result) {
                     //console.debug("Episode watched:", serie, episode);
+                }, function(err) {
+                    if (err.status == 401) {
+                        // token auth expired, renew
+                        service.renewToken();
+                        // restart request and return original promise
+                        return service.markEpisodeWatched(serie, episode);
+                    }
+                    if (err.status !== 0) { // only if this is not a cancelled request, rethrow
+                        console.error("Trakt tv error!", err);
+                        throw "Error " + err.status + ":" + err.statusText;
+                    }
                 });
             },
             /**
@@ -412,6 +423,17 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                     }
                 }).then(function(result) {
                     console.debug("trakt.TV episodes marked as watched:", episodes, result);
+                }, function(err) {
+                    if (err.status == 401) {
+                        // token auth expired, renew
+                        service.renewToken();
+                        // restart request and return original promise
+                        return service.markEpisodesWatched(episodes);
+                    }
+                    if (err.status !== 0) { // only if this is not a cancelled request, rethrow
+                        console.error("Trakt tv error!", err);
+                        throw "Error " + err.status + ":" + err.statusText;
+                    }
                 });
             },
             /**
@@ -441,6 +463,17 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                     }
                 }).then(function(result) {
                     //console.debug("Episode un-watched:", serie, episode);
+                }, function(err) {
+                    if (err.status == 401) {
+                        // token auth expired, renew
+                        service.renewToken();
+                        // restart request and return original promise
+                        return service.markEpisodeNotWatched(serie, episode);
+                    }
+                    if (err.status !== 0) { // only if this is not a cancelled request, rethrow
+                        console.error("Trakt tv error!", err);
+                        throw "Error " + err.status + ":" + err.statusText;
+                    }
                 });
             },
             /**
@@ -475,6 +508,17 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                     }
                 }).then(function(result) {
                     console.info("Show added to collection:", serieID);
+                }, function(err) {
+                    if (err.status == 401) {
+                        // token auth expired, renew
+                        service.renewToken();
+                        // restart request and return original promise
+                        return service.addToCollection(serieID);
+                    }
+                    if (err.status !== 0) { // only if this is not a cancelled request, rethrow
+                        console.error("Trakt tv error!", err);
+                        throw "Error " + err.status + ":" + err.statusText;
+                    }
                 });
             },
             /**
@@ -498,6 +542,17 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                     }
                 }).then(function(result) {
                     console.info("Removed serie from collection", serieID);
+                }, function(err) {
+                    if (err.status == 401) {
+                        // token auth expired, renew
+                        service.renewToken();
+                        // restart request and return original promise
+                        return service.removeFromCollection(serieID);
+                    }
+                    if (err.status !== 0) { // only if this is not a cancelled request, rethrow
+                        console.error("Trakt tv error!", err);
+                        throw "Error " + err.status + ":" + err.statusText;
+                    }
                 });
             }
         };
