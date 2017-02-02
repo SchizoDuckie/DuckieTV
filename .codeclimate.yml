@@ -1,0 +1,34 @@
+prepare:
+  fetch:
+  - url: "https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml"
+    path: ".rubocop.yml"
+  - url: "https://github.com/codeclimate/community-styleguide/blob/master/JavaScript/Angular/.eslintrc"
+    path: ".eslintrc"
+engines:
+  csslint:
+    enabled: false
+  duplication:
+    enabled: false
+    config:
+      languages:
+      - ruby
+      - javascript
+      - python
+      - php
+  eslint:
+    enabled: true
+    channel: "eslint-3"
+  fixme:
+    enabled: false
+ratings:
+  paths:
+  - "**.css"
+  - "**.inc"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.php"
+  - "**.py"
+  - "**.rb"
+exclude_paths:
+- tests/
