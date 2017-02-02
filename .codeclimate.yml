@@ -1,4 +1,9 @@
----
+prepare:
+  fetch:
+  - url: "https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml"
+    path: ".rubocop.yml"
+  - url: "https://github.com/codeclimate/community-styleguide/blob/master/JavaScript/Angular/.eslintrc"
+    path: ".eslintrc"
 engines:
   csslint:
     enabled: false
@@ -12,7 +17,7 @@ engines:
       - php
   eslint:
     enabled: true
-    channel: "eslint-2"
+    channel: "eslint-3"
   fixme:
     enabled: false
 ratings:
