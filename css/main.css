@@ -609,19 +609,17 @@ serieheader .badge {
 
 serieheader[mode='poster'] {
  margin: 0px 5px 11px 5px;
- display: inline-block;
 }
 
 serieheader[mode='poster'] .serieheader {
   position: relative;
-  background-color: transparent;
   border: 0;
 }
 
 /* Standard Poster Size */
 
 .poster {
-  height: 247px;
+  height: 236px;
   width: 165px;
 }
 
@@ -632,7 +630,7 @@ serieheader[mode='poster'] .serieheader {
 
 serieheader .poster {
   display: block;
-  transition: width 0.4s ease-in-out, height 0.4s ease-in-out, background-color 0.175s ease-in-out, border 0.2s ease-in-out;
+  transition: width 0.4s ease-in-out, height 0.4s ease-in-out, border 0.2s ease-in-out;
 }
 
 serieheader .poster figure, serieheader .banner figure {
@@ -648,7 +646,12 @@ serieheader .poster .img {
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
-  transition: opacity .175s ease-in-out;
+  transition: opacity .175s ease-in-out, filter .175s ease-in-out;
+  filter: brightness(0.90);
+}
+
+serieheader .poster:hover .img {
+  filter: brightness(1.04);
 }
 
 .serieheader.active .poster, .serieheader.active .banner {
@@ -659,21 +662,11 @@ serieheader .poster.img-loading .img, serieheader .banner.img-loading .img {
   opacity: 0;
 }
 
-/* Hovering Poster Highlight */
-
-.series serieheader[mode='poster'] .poster:hover:not(.img-loading), .seasons serieheader[mode='poster'] .poster:hover:not(.img-loading), .series serieheader[mode='poster'].context .poster:not(.img-loading) {
-  background-color: #e5e5e5;
-}
-
-.series serieheader[mode='poster'] .poster:hover .img, .seasons serieheader[mode='poster'] .poster:hover .img, .series serieheader[mode='poster'].context .poster .img {
-  opacity: 0.95;
-}
-
 
 /* Mini Poster Style */
 
 .miniposter .poster {
-  height: 195px;
+  height: 186px;
   width: 130px;
 }
 
