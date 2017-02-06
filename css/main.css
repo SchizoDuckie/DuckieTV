@@ -75,6 +75,10 @@ p, input, select, span, #aboutpage, #autodlstatuspage {
   -webkit-user-select: initial;
 }
 
+input:-webkit-autofill {
+    text-shadow: 0 0 0px black !important;
+}
+
 textarea {
   color: white;
 }
