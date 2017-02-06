@@ -3,7 +3,7 @@
  * docs: http://docs.fanarttv.apiary.io/#
  */
 DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
-        var endpoint = 'http://webservice.fanart.tv/v3/tv/';
+        var endpoint = 'https://webservice.fanart.tv/v3/tv/';
         var API_KEY = "mæ¶ën|{W´íïtßg½÷¾6mÍ9Õýß";
 
         function getUrl(tvdb_id) {
