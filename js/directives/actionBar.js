@@ -59,20 +59,30 @@ DuckieTV.directive('actionBar', function() {
                 };
 
                 // Tooltips
-                var libraryHide = $filter('translate')('TAB/library-hide/glyph'),
-                    libraryShow = $filter('translate')('TAB/library-show/glyph'),
-                    tcConnecting = ': ' + $filter('translate')('COMMON/tc-connecting/lbl'),
-                    tcConnected = ': ' + $filter('translate')('COMMON/tc-connected/lbl'),
-                    tcOffline = ': ' + $filter('translate')('COMMON/tc-offline/lbl');
+                this.libraryHide = function() {
+                    return $filter('translate')('TAB/library-hide/glyph');
+                };
+                this.libraryShow = function() {
+                    return $filter('translate')('TAB/library-show/glyph');
+                };
+                this.tcConnecting = function() {
+                    return ': ' + $filter('translate')('COMMON/tc-connecting/lbl');
+                };
+                this.tcConnected = function() {
+                    return ': ' + $filter('translate')('COMMON/tc-connected/lbl');
+                };
+                this.tcOffline = function() {
+                    return ': ' + $filter('translate')('COMMON/tc-offline/lbl');
+                };
 
                 this.getHeartTooltip = function() {
-                    return SeriesListState.state.isShowing ? libraryHide : libraryShow;
+                    return SeriesListState.state.isShowing ? this.libraryHide() : this.libraryShow();
                 };
 
                 this.getTorrentClientTooltip = function() {
                     var output = DuckieTorrent.getClient().getName();
-                    if (this.isTorrentClientConnecting()) return output + tcConnecting;
-                    return (this.isTorrentClientConnected()) ? output + tcConnected : output + tcOffline;
+                    if (this.isTorrentClientConnecting()) return output + this.tcConnecting();
+                    return (this.isTorrentClientConnected()) ? output + this.tcConnected() : output + this.tcOffline();
                 };
 
                 this.getTorrentClientClass = function() {
