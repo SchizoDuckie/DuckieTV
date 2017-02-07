@@ -13,10 +13,11 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     resultContainer: 'table.forum_header_border tr.forum_header_border',
                     releasename: ['td > a.epinfo', 'innerText'],
                     magnetUrl: ['td > a.magnet', 'href'],
+                    torrentUrl: ['td:nth-child(3) a:nth-child(2)', 'href'],
                     size: ['td:nth-child(4)', 'innerText'],
                     seeders: ['td:nth-child(6)', 'innerText'],
                     leechers: ['td:nth-child(6)', 'innerText', function(a) {
-                        return '?';
+                        return 'n/a';
                     }],
                     detailUrl: ['td.forum_thread_post > a.epinfo', 'href']
                 }
