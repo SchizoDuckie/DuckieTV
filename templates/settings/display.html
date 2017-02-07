@@ -92,24 +92,6 @@
     </li>
   </ul>
 &nbsp;
-  <div class="hide-prod">
-  <hr class="setting-divider">
-
-  <h2>
-    <span uib-tooltip="{{mixedCase ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
-      <i class="glyphicon glyphicon-{{mixedCase ? 'ok alert-success' : 'remove alert-danger'}}"></i>
-    </span>
-    <li translate-once="SETTINGS/DISPLAY/mixedcase/hdr"></li>
-  </h2>
-
-  <p translate-once="SETTINGS/DISPLAY/mixedcase/desc"></p>
-  <p><strong translate-once="COMMON/current-setting/hdr"></strong>
-   {{mixedCase ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-  <a ng-click="toggleMixedcase()" class="btn btn-{{mixedCase ? 'danger' : 'success'}}">
-    <i class="glyphicon glyphicon-{{mixedCase ? 'remove' : 'ok'}}" ></i> {{mixedCase ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
-  </a>
-  </div>
-
   <div class="kc">
   <br>
     <hr class="setting-divider">
