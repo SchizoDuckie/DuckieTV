@@ -256,7 +256,7 @@ CRUD.define(Serie, {
                 return resolve(true)
             });
         })
-        
+
     },
     markSerieAsUnWatched: function($rootScope) {
         var self = this;
@@ -269,7 +269,7 @@ CRUD.define(Serie, {
                 });
                 return resolve(true);
             });
-        }); 
+        });
     }
 });
 
@@ -445,7 +445,10 @@ CRUD.define(Episode, {
         return this.firstaired === 0 ? '?' : new Date(this.firstaired);
     },
     getAirTime: function() {
-        return new Date(this.firstaired).toTimeString().substring(0, 5);
+        if (!this.cachedAirTime) {
+            this.cachedAirTime = new Date(this.firstaired).toTimeString().substring(0, 5);
+        }
+        return this.cachedAirTime;
     },
     hasAired: function() {
         return this.firstaired && this.firstaired !== 0 && this.firstaired <= new Date().getTime();
@@ -457,7 +460,7 @@ CRUD.define(Episode, {
         return this.leaked && parseInt(this.leaked) == 1;
     },
 
-    markWatched: function(downloadedPaired,$rootScope) {
+    markWatched: function(downloadedPaired, $rootScope) {
         if (typeof downloadedPaired === 'undefined') {
             downloadedPaired = true;
         }
@@ -467,7 +470,7 @@ CRUD.define(Episode, {
             // if you are marking this as watched you must have also downloaded it!
             this.downloaded = 1;
         }
-       return this.Persist().then(function() {
+        return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:watched', this);
             }
@@ -497,7 +500,7 @@ CRUD.define(Episode, {
         }.bind(this));
     },
 
-    markNotDownloaded: function(watchedPaired,$rootScope) {
+    markNotDownloaded: function(watchedPaired, $rootScope) {
         if (typeof watchedPaired === 'undefined') {
             watchedPaired = true;
         }
@@ -658,8 +661,8 @@ CRUD.define(SearchEngine, {
     }]
 }, {
     getInstance: function($q, $http, $injector) {
-        console.log("Serving getInstance for " , this.name);
-        if(!this.instance) {
+        console.log("Serving getInstance for ", this.name);
+        if (!this.instance) {
             this.instance = new GenericTorrentSearchEngine(this.asObject(), $q, $http, $injector);
         }
         return this.instance;
