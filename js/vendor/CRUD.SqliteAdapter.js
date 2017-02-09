@@ -115,12 +115,18 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                                     });
                                 })).then(function(results) {
                                     CRUD.log("All migrations executed for " + entityName + " version ", version);
-                                    return { version: version, results: results };
+                                    return {
+                                        version: version,
+                                        results: results
+                                    };
                                 }, function(err) {
                                     throw "Migration failed for entity " + entityName;
                                 });
                             }
-                            return { version: version, results: [] };
+                            return {
+                                version: version,
+                                results: []
+                            };
                         })).then(function(results) {
                             var executed = results.filter(function(migration) {
                                 return migration.results.length == CRUD.EntityManager.entities[entityName].migrations[migration.version].length

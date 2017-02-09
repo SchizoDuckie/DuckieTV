@@ -4,9 +4,14 @@ if (!CRUD) var CRUD = {
     RELATION_MANY: 3,
     RELATION_CUSTOM: 4,
     DEBUG: false,
-    stats: {
+    __log: {
         writesQueued: 0,
         writesExecuted: 0
+    },
+    __statsListeners: [],
+    stats: {},
+    addStatsListener: function(listener) {
+        CRUD.__statsListeners.push(listener);
     },
     log: function() {
         if (CRUD.DEBUG) {
@@ -14,6 +19,36 @@ if (!CRUD) var CRUD = {
         }
     }
 };
+
+/** 
+ * Turn CRUD.stats into a proxy object with dynamic getters and setters (pipes to _log)
+ * This way, we can fire events async
+ */
+Object.defineProperty(CRUD.stats, 'writesQueued', {
+    get: function() {
+        return CRUD.__log.writesQueued;
+    },
+    set: function(newValue) {
+        CRUD.__log.writesQueued = newValue;
+        CRUD.__statsListeners.map(function(listener) {
+            listener(CRUD.__log);
+        });
+    }
+});
+Object.defineProperty(CRUD.stats, 'writesExecuted', {
+    get: function() {
+        return CRUD.__log.writesExecuted;
+    },
+    set: function(newValue) {
+        CRUD.__log.writesExecuted = newValue;
+        CRUD.__statsListeners.map(function(listener) {
+            listener(CRUD.__log);
+        });
+    }
+});
+
+
+
 
 
 /** 
@@ -136,7 +171,7 @@ CRUD.EntityManager = (function() {
 
         Object.keys(dbSetup.relations).map(function(name) {
             CRUD.log("creating relation search for ", name, " to ", className);
-            namedFunction['findBy' + name] = function(filter,options) {
+            namedFunction['findBy' + name] = function(filter, options) {
                 var filters = {};
                 filters[name] = filter;
                 return CRUD.Find(className, filters, options || {});

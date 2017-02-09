@@ -8,18 +8,15 @@ DuckieTV.directive('queryMonitor', ["$filter",
             templateUrl: 'templates/querymonitor.html',
             link: function($scope, iElement) {
 
-                var unloadBreaker = function() {
-                    return $filter('translate')('QUERYMONITORjs/close-tab-prompt/lbl');
-                }
+                var unloadBreaker = $filter('translate')('QUERYMONITORjs/close-tab-prompt/lbl');
 
-                $scope.queryStats = CRUD.stats;
+                $scope.queryStats = CRUD._log;
                 progress = 100;
 
-                Object.observe(CRUD.stats, function() {
-                    $scope.queryStats = CRUD.stats;
-                    $scope.progress = Math.floor(($scope.queryStats.writesExecuted / $scope.queryStats.writesQueued) * 100);
-                    window.onbeforeunload = ($scope.queryStats.writesExecuted < $scope.queryStats.writesQueued) ? unloadBreaker : null;
-                    $scope.$digest();
+                CRUD.addStatsListener(function(stats) {
+                    $scope.queryStats = stats;
+                    $scope.progress = Math.floor((stats.writesExecuted / stats.writesQueued) * 100);
+                    window.onbeforeunload = (stats.writesExecuted < stats.writesQueued) ? unloadBreaker : null;
                 });
             }
         }
