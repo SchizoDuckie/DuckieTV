@@ -145,7 +145,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                     })
                 })).then(function() {
                     if (isRestoring == 'N') {
-                        $injector.get('DuckietvReload').windowLocationReload();
+                        window.location.reload();
                     } else {
                         importBackup();
                     }
@@ -175,7 +175,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
         $scope.$watch('autoBackupPeriod', function(newVal, oldVal) {
             if (newVal == oldVal) return;
             SettingsService.set('autobackup.period', newVal);
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         });
 
     }

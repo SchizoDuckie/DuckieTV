@@ -29,7 +29,7 @@ DuckieTV.controller("tixatiCtrl", ["$injector", "Tixati", "SettingsService", "Fo
             Tixati.connect().then(function(connected) {
                 console.info("Tixati connected! (save settings)", connected);
                 Tixati.saveConfig();
-                $injector.get('DuckietvReload').windowLocationReload();
+                window.location.reload();
             }, function(error) {
                 console.error("Tixati connect error!", error);
             });

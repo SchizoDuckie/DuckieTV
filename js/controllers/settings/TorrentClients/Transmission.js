@@ -28,7 +28,7 @@ DuckieTV.controller("tbtCtrl", ["$injector", "Transmission", "SettingsService", 
             Transmission.connect().then(function(connected) {
                 console.info("Transmission connected! (save settings)", connected);
                 Transmission.saveConfig();
-                $injector.get('DuckietvReload').windowLocationReload();
+                window.location.reload();
             }, function(error) {
                 console.error("Transmission connect error!", error);
             });

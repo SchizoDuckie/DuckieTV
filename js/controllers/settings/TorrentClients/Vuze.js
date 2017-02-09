@@ -30,7 +30,7 @@ DuckieTV.controller("vuzeCtrl", ["$injector", "Vuze", "SettingsService", "Formly
             Vuze.connect().then(function(connected) {
                 console.info("Vuze connected! (save settings)", connected);
                 Vuze.saveConfig();
-                $injector.get('DuckietvReload').windowLocationReload();
+                window.location.reload();
             }, function(error) {
                 console.error("Vuze connect error!", error);
             });

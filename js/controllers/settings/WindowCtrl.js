@@ -34,7 +34,7 @@ DuckieTV.controller('WindowCtrl', ["$scope", "$injector", "$filter",
         $scope.toggleAlwaysShowTray = function() {
             //console.debug("Always show tray", $scope.alwaysShowTray);
             localStorage.setItem('standalone.alwaysShowTray', $scope.alwaysShowTray);
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
 
         // Toggles whether minimize button minimizes to tray
@@ -62,7 +62,7 @@ DuckieTV.controller('WindowCtrl', ["$scope", "$injector", "$filter",
                     localStorage.setItem('standalone.trayColor', '-'+color);
             }
             $scope.activeTrayColor = color;
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
     }
 ]);

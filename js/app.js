@@ -43,28 +43,6 @@ var DuckieTV = angular.module('DuckieTV', [
 ])
 
 /**
- * DuckietvReload service is injected whenever a window.location.reload is required,
- * which ensures that standalone gets some pre-processing done before actioning
- * the window.location.reload()  fixes #569
- */
-.service('DuckietvReload', ["$rootScope", function($rootScope) {
-    var service = {
-        windowLocationReload: function() {
-            if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
-                // reload for standalones
-                //console.debug('DuckietvReload for standalone');
-                $rootScope.$emit('locationreload');
-            } else {
-                // reload for non-standalone
-                //console.debug('DuckietvReload for non-standalone');
-                window.location.reload();
-            }
-        }
-    };
-    return service;
-}])
-
-/**
  * BackupService is injected whenever a backup is requested
  *
  * The backup format is a simple JSON file that has the following structure:
@@ -161,7 +139,7 @@ var DuckieTV = angular.module('DuckieTV', [
     var tommorow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
     var timeToMidnight = (tommorow - today) + 1000; // a second after midnight
     var timer = setTimeout(function() {
-        $injector.get('DuckietvReload').windowLocationReload();
+        window.location.reload();
     }, timeToMidnight);
 }])
 

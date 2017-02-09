@@ -20,7 +20,7 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent", 
         this.removeToken = function() {
             localStorage.removeItem("utorrent.token");
             localStorage.removeItem("utorrent.preventconnecting");
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
 
         this.getTorrentClientName = function() {

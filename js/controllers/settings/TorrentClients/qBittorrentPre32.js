@@ -27,7 +27,7 @@ DuckieTV.controller("qbtCtrl", ["$injector", "qBittorrent", "SettingsService", "
             qBittorrent.connect().then(function(connected) {
                 console.info("qBittorrent (pre3.2) connected! (save settings)", connected);
                 qBittorrent.saveConfig();
-                $injector.get('DuckietvReload').windowLocationReload();
+                window.location.reload();
             }, function(error) {
                 console.error("qBittorrent {pre3.2) connect error!", error);
             });

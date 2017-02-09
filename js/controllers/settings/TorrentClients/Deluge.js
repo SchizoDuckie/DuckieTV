@@ -27,7 +27,7 @@ DuckieTV.controller("delugeCtrl", ["$injector", "Deluge", "SettingsService", "Fo
             Deluge.connect().then(function(connected) {
                 console.info("Deluge connected! (save settings)", connected);
                 Deluge.saveConfig();
-                $injector.get('DuckietvReload').windowLocationReload();
+                window.location.reload();
             }, function(error) {
                 console.error("Deluge connect error!", error);
             });

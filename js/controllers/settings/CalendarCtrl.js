@@ -14,21 +14,21 @@ DuckieTV.controller('CalendarCtrl', ["$scope", "$rootScope", "$injector", "Setti
         $scope.toggleSpecials = function() {
             $scope.showSpecials = !$scope.showSpecials;
             SettingsService.set('calendar.show-specials', $scope.showSpecials);
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
 
         // Toggles calendar starting on Sunday or Monday
         $scope.toggleCalendarStartDay = function() {
             $scope.startSunday = !$scope.startSunday;
             SettingsService.set('calendar.startSunday', $scope.startSunday);
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
 
         // Toggles calendar view mode, week or month
         $scope.toggleCalendarDisplayMode = function() {
             $scope.displayMode = $scope.displayMode == 'date' ? 'week' : 'date';
             SettingsService.set('calendar.mode', $scope.displayMode);
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
 
         // Toggles whether downloaded episodes are highlighted on the Calendar

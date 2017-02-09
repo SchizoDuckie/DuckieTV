@@ -222,7 +222,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$injector", "TraktTVv2", "Fav
          */
         vm.saveTUPeriod = function(period) {
             SettingsService.set('trakt-update.period', period);
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
     }
 ]);

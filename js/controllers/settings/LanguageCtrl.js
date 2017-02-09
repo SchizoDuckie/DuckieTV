@@ -36,7 +36,7 @@ DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "$injector", "Settings
         $scope.setLocale = function(lang) {
             SettingsService.changeLanguage(lang);
             $scope.activeLocale = lang;
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
 
         // test if determined locale is one of our supported languages

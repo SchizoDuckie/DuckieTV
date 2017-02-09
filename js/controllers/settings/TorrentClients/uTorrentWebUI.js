@@ -28,7 +28,7 @@ DuckieTV.controller("uTorrentWebUICtrl", ["$injector", "uTorrentWebUI", "Setting
             uTorrentWebUI.connect().then(function(connected) {
                 console.info("uTorrent WEBUI connected! (save settings)", connected);
                 uTorrentWebUI.saveConfig();
-                $injector.get('DuckietvReload').windowLocationReload();
+                window.location.reload();
             }, function(error) {
                 console.error("uTorrent WEBUI connect error!", error);
             });

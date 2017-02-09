@@ -24,11 +24,11 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             if (localStorage.getItem('optin_error_reporting')) {
                 localStorage.removeItem('optin_error_reporting');
                 localStorage.removeItem('optin_error_reporting.start_time');
-                $injector.get('DuckietvReload').windowLocationReload();
+                window.location.reload();
             } else {
                 localStorage.setItem('optin_error_reporting', true);
                 localStorage.setItem('optin_error_reporting.start_time', new Date().getTime());
-                $injector.get('DuckietvReload').windowLocationReload();
+                window.location.reload();
             }
         };
 

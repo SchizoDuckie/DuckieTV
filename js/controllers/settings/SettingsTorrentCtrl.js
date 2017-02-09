@@ -108,7 +108,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.toggleTorrent = function() {
             $scope.torrentEnabled = !$scope.torrentEnabled;
             SettingsService.set('torrenting.enabled', $scope.torrentEnabled);
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
 
         $scope.toggleUnsafeProxy = function() {
@@ -129,7 +129,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.toggleTD2 = function() {
             $scope.useTD2 = !$scope.useTD2;
             SettingsService.set('torrentDialog.2.enabled', $scope.useTD2);
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
 
         $scope.toggleDirectory = function() {
@@ -231,7 +231,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
 
         $scope.connect = function() {
             localStorage.removeItem('utorrent.preventconnecting');
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
 
         $scope.getTorrentClients = function() {
@@ -249,7 +249,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.currentClient = localStorage.getItem('torrenting.client');
 
         $scope.reload = function() {
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
 
         /**

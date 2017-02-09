@@ -29,7 +29,7 @@ DuckieTV.controller("ktorrentCtrl", ["$injector", "Ktorrent", "SettingsService",
             Ktorrent.connect().then(function(connected) {
                 console.info("Ktorrent connected! (save settings)", connected);
                 Ktorrent.saveConfig();
-                $injector.get('DuckietvReload').windowLocationReload();
+                window.location.reload();
             }, function(error) {
                 console.error("Ktorrent connect error!", error);
             });

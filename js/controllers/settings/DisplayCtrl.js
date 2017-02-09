@@ -45,7 +45,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "$injector", "SettingsService",
         $scope.toggleSeriesGrid = function() {
             $scope.sgEnabled = !$scope.sgEnabled;
             SettingsService.set('library.seriesgrid', $scope.sgEnabled);
-            $injector.get('DuckietvReload').windowLocationReload();
+            window.location.reload();
         };
     }
 ]);
