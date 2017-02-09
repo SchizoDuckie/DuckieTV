@@ -234,6 +234,7 @@
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Je favoriete series. Klik op een poster voor meer details",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "Klaar met toevoegen",
     "SERIESLIST/TOOLS/ADDING/addshow-protip/lbl": "Pro Tip: Druk op [Enter] om het eerste zoekresultaat gelijk toe te voegen",
+    "SERIESLIST/TOOLS/ADDING/addshow-return-to-fav-list/tooltip": "Terug naar je favorieten lijst",
     "SERIESLIST/TOOLS/ADDING/addshow-start-typing/lbl": "Start met typen om een serie te zoeken",
     "SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder": "Type de naam van een serie",
     "SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip": "Voeg een serie toe aan je favorieten lijst",

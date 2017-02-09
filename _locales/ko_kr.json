@@ -234,6 +234,7 @@
     "SERIESLIST/FAVORITES/click-to-see/lbl": "당신이 좋아하는 시리즈입니다. 세부 정보를 볼 하나를 클릭",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "나는 쇼를 추가 할거야 ",
     "SERIESLIST/TOOLS/ADDING/addshow-protip/lbl": "프로 팁 : 즐겨 찾기 첫 번째 검색 결과를 추가 할 [리턴]을 명중 ",
+    "SERIESLIST/TOOLS/ADDING/addshow-return-to-fav-list/tooltip": "즐겨 찾기 목록에 돌아갑니다 ",
     "SERIESLIST/TOOLS/ADDING/addshow-start-typing/lbl": "즐겨 찾기 목록에 추가 할 쇼를 검색하는 입력을 시작 ",
     "SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder": "수동으로 쇼를 검색하는 입력을 시작 ",
     "SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip": "즐겨 찾기 목록에 시리즈 추가 ",

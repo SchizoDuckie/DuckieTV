@@ -234,6 +234,7 @@
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Ваши избранные сериалы",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "Я закончил добавлять шоу",
     "SERIESLIST/TOOLS/ADDING/addshow-protip/lbl": "Совет: [return] чтобы добавить первый результат в избранное",
+    "SERIESLIST/TOOLS/ADDING/addshow-return-to-fav-list/tooltip": "Вернутся в избранное",
     "SERIESLIST/TOOLS/ADDING/addshow-start-typing/lbl": "Поиск по шоу для добавление в избранное",
     "SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder": "Ручной поиск по шоу",
     "SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip": "Добавить сериалы в избранное ",

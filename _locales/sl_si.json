@@ -234,6 +234,7 @@
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Tvoje najljubše serije. Kliknite nanjo, da si ogledate podrobnosti",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "Končaj z dodajanjem serij",
     "SERIESLIST/TOOLS/ADDING/addshow-protip/lbl": "Pro Nasvet: Pritisni [backspace], da se vrnete v iskanje med najbolj gledane",
+    "SERIESLIST/TOOLS/ADDING/addshow-return-to-fav-list/tooltip": "Kliknite, da se vrnete na seznam priljubljenih",
     "SERIESLIST/TOOLS/ADDING/addshow-start-typing/lbl": "Začnite pisati za iskanje, da dodate na svoj seznam priljubljenih",
     "SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder": "Vnesi naslov v iskalnik",
     "SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip": "Dodaj serijo na seznam priljubljenih ",

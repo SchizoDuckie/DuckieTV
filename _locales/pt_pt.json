@@ -234,6 +234,7 @@
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Suas séries favoritas. Clique em um para ver os detalhes",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "Eu sou feito acrescentando espectáculos ",
     "SERIESLIST/TOOLS/ADDING/addshow-protip/lbl": "Pro Dica: Bata [retorno] para adicionar o primeiro resultado da pesquisa a seus favoritos",
+    "SERIESLIST/TOOLS/ADDING/addshow-return-to-fav-list/tooltip": "Clique para retornar à sua lista de favoritos ",
     "SERIESLIST/TOOLS/ADDING/addshow-start-typing/lbl": "Comece a digitar para procurar shows para adicionar à sua lista de favoritos ",
     "SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder": "Comece a digitar para procurar manualmente para um show ",
     "SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip": "Adicionar série para sua lista de favoritos ",

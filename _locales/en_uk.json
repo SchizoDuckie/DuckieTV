@@ -234,6 +234,7 @@
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Your favourite series. Click one to view details",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "I'm done adding shows",
     "SERIESLIST/TOOLS/ADDING/addshow-protip/lbl": "Pro Tip: Hit [return] to add the first search result to your favourites",
+    "SERIESLIST/TOOLS/ADDING/addshow-return-to-fav-list/tooltip": "Click to return to your favourites list",
     "SERIESLIST/TOOLS/ADDING/addshow-start-typing/lbl": "Start typing to search for shows to add to your favourites list",
     "SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder": "Start typing to manually search for a show",
     "SERIESLIST/TOOLS/FAVORITES/addshow-add-to-list/tooltip": "Add series to your favourites list ",
