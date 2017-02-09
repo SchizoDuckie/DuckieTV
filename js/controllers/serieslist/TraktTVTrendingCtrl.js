@@ -62,7 +62,7 @@ DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrendin
                 $state.go('favorites.add.trakt-serie', {
                     id: serie.trakt_id
                 });
-            }.bind(this), 500);
+            }.bind(this), 1000);
         };
 
         this.clearHoverTimer = function() {

@@ -1,34 +1,34 @@
-DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "$location", "$locale", "$q", "$state", "dialogs", "FavoritesService",  "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SeriesListState", "SettingsService", "TraktTVv2",
-    function($rootScope, $scope, $filter, $location, $locale, $q, $state, dialogs, FavoritesService,  latestSeason, notWatchedSeason, serie, SidePanelState,SeriesListState, SettingsService, TraktTVv2) {
+DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$scope", "$filter", "$location", "$locale", "$q", "$state", "dialogs", "FavoritesService", "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SeriesListState", "SettingsService", "TraktTVv2",
+    function($rootScope, $scope, $filter, $location, $locale, $q, $state, dialogs, FavoritesService, latestSeason, notWatchedSeason, serie, SidePanelState, SeriesListState, SettingsService, TraktTVv2) {
 
         var self = this;
 
         this.serie = serie;
         this.latestSeason = latestSeason;
         this.notWatchedSeason = notWatchedSeason;
-        this.notWatchedEpsBtn =  SettingsService.get('series.not-watched-eps-btn');
+        this.notWatchedEpsBtn = SettingsService.get('series.not-watched-eps-btn');
         this.isRefreshing = false;
         this.markAllWatchedAlert = false;
 
-    /**
-     * Closes the SidePanel 
-     */
-    this.closeSidePanel = function() {
-        if (SeriesListState.state.isShowing) {
-            SidePanelState.hide();
-            $state.go('favorites');
-        } else {
-            $state.go('calendar');
+        /**
+         * Closes the SidePanel 
+         */
+        this.closeSidePanel = function() {
+            if (SeriesListState.state.isShowing) {
+                SidePanelState.hide();
+                $state.go('favorites');
+            } else {
+                $state.go('calendar');
+            }
         }
-    }
 
-    /**
-     * Closes the SidePanel expansion
-     */
-    this.closeSidePanelExpansion = function() {
-        SidePanelState.contract();
-        $state.go('serie');
-    }
+        /**
+         * Closes the SidePanel expansion
+         */
+        this.closeSidePanelExpansion = function() {
+            SidePanelState.contract();
+            $state.go('serie');
+        }
 
         this.refresh = function(serie) {
             this.isRefreshing = true;
@@ -57,7 +57,7 @@ DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "
                 self.totalRunLbl = totalRunDays.toString() + dayLbl + totalRunHours.toString() + hourLbl + totalRunMinutes.toString() + minuteLbl;
             } else {
                 self.totalRunTime = 1;
-                self.totalRunLbl = '0' +  timePlurals[1] + '0' +  timePlurals[3] + '0' +  timePlurals[5];
+                self.totalRunLbl = '0' + timePlurals[1] + '0' + timePlurals[3] + '0' + timePlurals[5];
             }
         });
 
@@ -98,17 +98,26 @@ DuckieTV.controller('SidepanelSerieCtrl', [ "$rootScope", "$scope", "$filter", "
          */
         this.selectSerie = function(serie) {
             if (!FavoritesService.isAdding(serie.tvdb_id)) {
-                FavoritesService.adding(serie.tvdb_id);
-                return TraktTVv2.serie(serie.slug_id).then(function(serie) {
-                    return FavoritesService.addFavorite(serie, undefined, undefined, true).then(function() {
-                        $rootScope.$broadcast('storage:update');
+                if (!FavoritesService.isAdded(serie.tvdb_id)) {
+                    FavoritesService.adding(serie.tvdb_id);
+                    return TraktTVv2.serie(serie.slug_id).then(function(serie) {
+                        return FavoritesService.addFavorite(serie, undefined, undefined, true).then(function() {
+                            $rootScope.$broadcast('storage:update');
+                            FavoritesService.added(serie.tvdb_id);
+                            $state.go('serie', {
+                                id: FavoritesService.getById(serie.tvdb_id).ID_Serie
+                            });
+                        });
+                    }, function(err) {
+                        console.error("Error adding show!", err);
                         FavoritesService.added(serie.tvdb_id);
+                        FavoritesService.addError(serie.tvdb_id, err);
                     });
-                }, function(err) {
-                    console.error("Error adding show!", err);
-                    FavoritesService.added(serie.tvdb_id);
-                    FavoritesService.addError(serie.tvdb_id, err);
-                });
+                } else {
+                    $state.go('serie', {
+                        id: FavoritesService.getById(serie.tvdb_id).ID_Serie
+                    });
+                }
             }
         };
 

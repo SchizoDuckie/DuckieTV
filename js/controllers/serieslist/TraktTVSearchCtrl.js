@@ -36,7 +36,7 @@ DuckieTV.controller('traktTvSearchCtrl', ["$rootScope", "TraktTVv2", "$statePara
                     id: serie.trakt_id,
                     serie: serie
                 });
-            }.bind(this), 500);
+            }.bind(this), 1000);
         };
 
         this.clearHoverTimer = function() {

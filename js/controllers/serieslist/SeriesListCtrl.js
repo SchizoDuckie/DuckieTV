@@ -113,8 +113,8 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             vm.statusFilter = status;
         });
 
-        Object.observe(SeriesListState.state, function(newValue) {
-            vm.activated = newValue[0].object.isShowing;
+        $rootScope.$on('serieslist:stateChange', function(evt, showing) {
+            vm.activated = showing;
             $scope.$applyAsync();
         });
 
@@ -218,11 +218,18 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                         return FavoritesService.addFavorite(serie).then(function() {
                             $rootScope.$broadcast('storage:update');
                             FavoritesService.added(serie.tvdb_id);
+                            $state.go('serie', {
+                                id: FavoritesService.getById(serie.tvdb_id).ID_Serie
+                            });
                         });
                     }, function(err) {
                         console.error("Error adding show!", err);
                         FavoritesService.added(serie.tvdb_id);
                         FavoritesService.addError(serie.tvdb_id, err);
+                    });
+                } else {
+                    $state.go('serie', {
+                        id: FavoritesService.getById(serie.tvdb_id).ID_Serie
                     });
                 }
             }

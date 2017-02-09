@@ -8,13 +8,14 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 document.body.scrollTop = 0;
                 service.state.isShowing = true;
                 document.body.classList.add("serieslistActive");
+                $rootScope.$broadcast('serieslist:stateChange', service.state.isShowing);
                 $rootScope.$applyAsync();
             },
             hide: function() {
-                service.state.isShowing = false;
-                $rootScope.$applyAsync();
                 document.body.classList.remove("serieslistActive");
-
+                service.state.isShowing = false;
+                $rootScope.$broadcast('serieslist:stateChange', service.state.isShowing);
+                $rootScope.$applyAsync();
                 if ($state.url == '/favorites') {
                     setTimeout(function() {
                         $state.go('calendar');
@@ -69,9 +70,9 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
                 var start = container.scrollTop;
                 var end;
                 if (SettingsService.get('library.seriesgrid') == true) {
-                  end = parseInt(el.parentElement.style.transform.replace('translate3d(', '').split(',')[1].slice(1, -2)) - 150;
+                    end = parseInt(el.parentElement.style.transform.replace('translate3d(', '').split(',')[1].slice(1, -2)) - 150;
                 } else {
-                  end = el.offsetTop;
+                    end = el.offsetTop;
                 }
                 var clock = Date.now();
                 var step = function() {
@@ -126,7 +127,7 @@ DuckieTV.factory('SeriesListState', ["$rootScope", "FavoritesService", "$state",
             observer.observe(document.querySelector('sidepanel'), config);
 
             this.getPosition = function(idx, max) {
-              return 'transform: translate3d(' + getLeft(idx, max) + 'px, ' + getTop(idx) + 'px, 0px)';
+                return 'transform: translate3d(' + getLeft(idx, max) + 'px, ' + getTop(idx) + 'px, 0px)';
             };
 
             var getLeft = function(idx, max) {

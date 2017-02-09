@@ -29,33 +29,35 @@ DuckieTV.directive('calendar', function() {
             }
 
         },
-        controller: ["$scope", "SidePanelState", function($scope, SidePanelState) {
+        controller: ["$rootScope", "$scope", "SidePanelState", function($rootScope, $scope, SidePanelState) {
             var calendar = this;
             this.isShowing = false;
             this.isExpanded = false;
-            Object.observe(SidePanelState.state, function(newValue) {
-                if (newValue[0].object.isExpanded) {
-                    calendar.isExpanded = true;
-                    $scope.zoom(840);
-                } else if (newValue[0].object.isShowing) {
-                    calendar.isShowing = true;
-                    $scope.zoom(450);
-                } else {
-                    calendar.isExpanded = calendar.isShowing = false;
 
-                    $scope.zoom(0);
-                }
-                $scope.$applyAsync();
-            });
-
-            window.addEventListener('resize', function() {
+            function zoom() {
                 if (calendar.isExpanded) {
                     $scope.zoom(840);
                 } else if (calendar.isShowing) {
                     $scope.zoom(450);
+                } else {
+                    $scope.zoom(0);
                 }
                 $scope.$applyAsync();
+            };
+
+            $rootScope.$on("sidepanel:stateChange", function(event, state) {
+                calendar.isShowing = state;
+                console.warn("Sidepanel statechange from calendar:", event, state);
+                zoom();
             });
+            $rootScope.$on("sidepanel:sizeChange", function(event, expanded) {
+                calendar.isExpanded = expanded;
+                console.warn("Sidepanel sizechange from calendar:", event, expanded);
+                zoom();
+            })
+
+
+            window.addEventListener('resize', zoom);
         }]
-    };
+    }
 });

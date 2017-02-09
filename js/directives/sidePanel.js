@@ -1,4 +1,4 @@
-DuckieTV.factory('SidePanelState', function() {
+DuckieTV.factory('SidePanelState', ["$rootScope", function($rootScope) {
 
     var service = {
         state: {
@@ -10,29 +10,40 @@ DuckieTV.factory('SidePanelState', function() {
                 document.body.style.overflowY = 'auto';
             }
             document.body.scrollTop = 0;
-            service.state.isShowing = true;
-            service.state.isExpanded = false;
-            document.body.classList.add('sidepanelActive');
-            document.body.classList.remove('sidepanelExpanded');
+
+            service.contract();
+            if (!service.state.isShowing) {
+                document.body.classList.add('sidepanelActive');
+                service.state.isShowing = true;
+                $rootScope.$broadcast("sidepanel:stateChange", true);
+            }
         },
         hide: function() {
             document.body.style.overflowY = '';
-            service.state.isShowing = false;
-            service.state.isExpanded = false;
-            document.body.classList.remove('sidepanelActive');
-            document.body.classList.remove('sidepanelExpanded');
+            service.contract();
+            if (service.state.isShowing) {
+                service.state.isShowing = false;
+                document.body.classList.remove('sidepanelActive');
+                $rootScope.$broadcast("sidepanel:stateChange", false);
+            }
         },
         expand: function() {
-            document.body.classList.add('sidepanelExpanded');
-            service.state.isExpanded = true;
+            if (!service.state.isExpanded) {
+                document.body.classList.add('sidepanelExpanded');
+                service.state.isExpanded = true;
+                $rootScope.$broadcast("sidepanel:sizeChange", true);
+            }
         },
         contract: function() {
-            document.body.classList.remove('sidepanelExpanded');
-            service.state.isExpanded = false;
+            if (service.state.isExpanded) {
+                document.body.classList.remove('sidepanelExpanded');
+                service.state.isExpanded = false;
+                $rootScope.$broadcast("sidepanel:sizeChange", false);
+            }
         }
     };
     return service;
-})
+}])
 
 .directive('sidepanel', function() {
     return {
@@ -48,21 +59,14 @@ DuckieTV.factory('SidePanelState', function() {
             this.isShowing = false;
             this.isExpanded = false;
 
-            Object.observe(SidePanelState.state, function(newValue) {
-                panel.isShowing = newValue[0].object.isShowing;
-                panel.isExpanded = newValue[0].object.isExpanded;
-                $scope.$applyAsync();
-                setTimeout(function() {
-                    $scope.$applyAsync();
-                }, 250);
+            $rootScope.$on("sidepanel:stateChange", function(evt, showing) {
+                panel.isShowing = showing;
             });
 
-            if (SidePanelState.state.isShowing) {
-                this.isShowing = true;
-            }
-            if (SidePanelState.state.isExpanded) {
-                this.isExpanded = true;
-            }
+            $rootScope.$on("sidepanel:sizeChange", function(evt, expanded) {
+                panel.isExpanded = expanded;
+            });
+
 
             this.toggle = function() {
                 this.isShowing ? SidePanelState.hide() : SidePanelState.show();
