@@ -1,5 +1,5 @@
 <div id="actionbar">
-  <div class="logo" ui-sref="calendar" uib-tooltip="Quack!" tooltip-placement="right" ng-click="actionbar.hidePanels();actionbar.resetCalendar();"></div>
+  <div class="logo" ui-sref="calendar" uib-tooltip="Quack!" tooltip-append-to-body="true" tooltip-placement="right" ng-click="actionbar.hidePanels();actionbar.resetCalendar();"></div>
   <ul class="list-unstyled">
     <li id="actionbar_calendar" ui-sref-active="calendar_active">
       <a ui-sref="calendar" class="glyphicon glyphicon-calendar" uib-tooltip="{{'COMMON/calendar/hdr'|translate}}" tooltip-placement="right" ng-click="actionbar.hidePanels();" tooltip-append-to-body="true"></a>
