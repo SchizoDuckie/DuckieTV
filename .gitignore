@@ -43,3 +43,6 @@ payload.exe
 libexif.dlllib/
 payload
 lib
+chromedriver
+minidump_stackwalk
+nacl_*
