@@ -266,7 +266,8 @@ DuckieTV
         };
 
         // save active Search Engine states
-        $scope.saveActiveSE = function() {
+        $scope.toggleSE = function(name) {
+            $scope.activeSE[name] = !$scope.activeSE[name];
             SettingsService.set('torrentDialog.2.activeSE',$scope.activeSE);
             $scope.search($scope.query, undefined, 'seeders.d');
         };

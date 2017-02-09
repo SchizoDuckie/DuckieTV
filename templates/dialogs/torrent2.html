@@ -5,18 +5,15 @@
 <input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
 <!-- quality list -->
-<div class="btn-group" style='padding:5px 5px 5px 0px;vertical-align:initial'>
+<div class="torrentBtns btn-group">
   <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
   <button ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setQuality(quality)" type="button" class="btn btn-default" ng-class="{active: searchquality == quality}">{{quality}}</button>
 </div>
 <a ng-click="toggleShowAdvanced()" style="display:block;text-align:right"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
 <!-- active search engines check boxes -->
 <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
-  <div style="display: flex; overflow-y: auto">
-    <div class="checkbox" ng-repeat="name in clients | orderBy: name">
-      <input ng-disabled="name === defaultProvider" type="checkbox" ng-model="activeSE[name]" ng-change="saveActiveSE()" id="tc_{{name}}}">
-      <label for="tc_{{name}}" ng-style="{color: name !== defaultProvider ? 'white' : 'gray'}">{{name}}</label>
-    </div>
+  <div class="torrentBtns btn-group">
+    <button ng-disabled="name === defaultProvider" type="button" class="btn btn-default" ng-repeat="name in clients | orderBy: name" ng-click="toggleSE(name)" ng-style="{color: name !== defaultProvider ? 'white' : 'gray'}"><i class="glyphicon glyphicon-{{activeSE[name] ? 'ok' : 'remove'}}"></i>&nbsp;{{::name}}</button>
   </div>
 </div>
 <!-- global include/exclude and size min/max check boxes -->

@@ -1016,18 +1016,18 @@ series-list .trakt-import serieheader h3, series-list .backup-import serieheader
   white-space: nowrap;
 }
 
-#torrentDialog .torrentBtns {
+.torrentBtns {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   padding: 3px 0;
 }
 
-#torrentDialog .torrentBtns .btn-group {
+.torrentBtns .btn-group {
   padding: 0 5px;
 }
 
-#torrentDialog .torrentBtns .sort-btn {
+.torrentBtns .sort-btn {
   border-color: rgba(255,255,255,0.4);
 }
 
