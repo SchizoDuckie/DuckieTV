@@ -25,15 +25,15 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
             csmLbl = $filter('translate')('COMMON/custom-search-size-min-max/lbl'), // Custom Search Size Min/Max
             cssLbl = $filter('translate')('COMMON/custom-search-string/lbl'), // Custom Search String
             gqLbl = $filter('translate')('COMMON/global-quality/hdr'), // Global Quality
-            giLbl = $filter('translate')('COMMON/require-keywords/hdr'), // Global Includes List
-            geLbl = $filter('translate')('COMMON/ignore-keywords/hdr'), // Global Excludes List
-            dayLbl = ($scope.period === 1) ? timePlurals[0].replace(',', '') : timePlurals[1].replace(',', '');
-        $scope.onMagnet = [];
+            giLbl = $filter('translate')('COMMON/global-include/hdr'), // Global Includes List
+            geLbl = $filter('translate')('COMMON/global-exclude/hdr'), // Global Excludes List
+            dayLbl = ($scope.period === 1) ? timePlurals[0].replace(',','') : timePlurals[1].replace(',','');
+            $scope.onMagnet = [];
 
         $scope.isActive = function() {
             return $scope.status == activeLbl;
         };
-
+        
         var getActivity = function() {
             $scope.activityList = AutoDownloadService.activityList;
             $scope.lastRun = SettingsService.get('autodownload.lastrun');
@@ -45,16 +45,14 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
                  * This watches for the magnet:select event that will be fired by the
                  * TorrentSearchEngines when a user selects a magnet link for an episode from the autoDLstatus side panel.
                  */
-                angular.forEach($scope.activityList, function(activity) {
+                angular.forEach($scope.activityList, function(activity) { 
                     if (activity.status > 2) { // only interested in not-found, filtered-out, seeders-min, no-magnet
                         var tvdbid = activity.episode.TVDB_ID;
                         var episodeid = activity.episode.ID_Episode;
                         if ($scope.onMagnet.indexOf(tvdbid) == -1) { // don't set $on if we've already done it
-                            CRUD.FindOne('Episode', {
-                                'ID_Episode': episodeid
-                            }).then(function(episode) {
+                            CRUD.FindOne('Episode', {'ID_Episode': episodeid}).then(function(episode) {
                                 if (!episode) {
-                                    console.warn('episode id=[%s] not found!', episodeid);
+                                    console.warn('episode id=[%s] not found!',episodeid);
                                 } else {
                                     $scope.$on('magnet:select:' + tvdbid, function(evt, magnet) {
                                         episode.magnetHash = magnet;
@@ -67,17 +65,17 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
                         }
                     }
                 })
-            } else {
+                } else {
                 $scope.nextRun = 'n/a';
                 $scope.fromDT = 'n/a';
                 $scope.toDT = 'n/a';
             };
-        };
+       };
 
         // set up static scope data
         $scope.status = (AutoDownloadService.checkTimeout == null) ? inactiveLbl : activeLbl;
-        $scope.requireKeywords = SettingsService.get('torrenting.global_include');
-        $scope.excludeKeywords = SettingsService.get('torrenting.global_exclude');
+        $scope.globalInclude = SettingsService.get('torrenting.global_include');
+        $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
         $scope.globalQuality = (SettingsService.get('torrenting.searchquality') == '') ? 'All' : SettingsService.get('torrenting.searchquality');
         $scope.searchEngine = SettingsService.get('torrenting.searchprovider');
         $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max');
@@ -93,19 +91,14 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
             $scope.status = (DuckieTorrent.getClient().isConnecting) ? activeLbl : status;
             getActivity();
         });
-
+        
         $scope.getTooltip = function(option, item) {
             switch (option) {
-                case 'csm':
-                    return (item.csm == 0) ? notusingLbl + ' ' + csmLbl : usingLbl + ' ' + csmLbl + ' (' + (item.serie.customSearchSizeMin == null ? '-' : item.serie.customSearchSizeMin) + '/' + (item.serie.customSearchSizeMax == null ? '-' : item.serie.customSearchSizeMax) + ')';
-                case 'css':
-                    return (item.css == 0) ? notusingLbl + ' ' + cssLbl : usingLbl + ' ' + cssLbl + ' (' + item.serie.customSearchString + ')';
-                case 'igq':
-                    return (item.igq == 0) ? usingLbl + ' ' + gqLbl : notusingLbl + ' ' + gqLbl;
-                case 'igi':
-                    return (item.igi == 0) ? usingLbl + ' ' + giLbl : notusingLbl + ' ' + giLbl;
-                case 'ige':
-                    return (item.ige == 0) ? usingLbl + ' ' + geLbl : notusingLbl + ' ' + geLbl;
+                case 'csm': return (item.csm == 0) ? notusingLbl + ' ' + csmLbl : usingLbl + ' ' + csmLbl + ' (' + (item.serie.customSearchSizeMin == null ? '-' : item.serie.customSearchSizeMin) + '/'  + (item.serie.customSearchSizeMax == null ? '-' :  item.serie.customSearchSizeMax) + ')';
+                case 'css': return (item.css == 0) ? notusingLbl + ' ' + cssLbl : usingLbl + ' ' + cssLbl + ' (' + item.serie.customSearchString + ')';
+                case 'igq': return (item.igq == 0) ? usingLbl + ' ' + gqLbl : notusingLbl + ' ' + gqLbl;                    
+                case 'igi': return (item.igi == 0) ? usingLbl + ' ' + giLbl : notusingLbl + ' ' + giLbl;                    
+                case 'ige': return (item.ige == 0) ? usingLbl + ' ' + geLbl : notusingLbl + ' ' + geLbl;                    
             };
         };
 
@@ -116,8 +109,8 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
         };
 
         $scope.getStatusCode = function(code, extra) {
-            extra = typeof(extra) == 'undefined' ? '' : extra;
-            if (statusCodes.length - 1 >= code) {
+            extra = typeof(extra) == 'undefined' ? '' : extra; 
+            if (statusCodes.length -1 >= code) {
                 return statusCodes[code] + extra;
             } else {
                 return 'n/a ' + extra;

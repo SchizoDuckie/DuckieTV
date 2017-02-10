@@ -1,6 +1,6 @@
 [{
-    "className": "row",
-    "fieldGroup": [{
+     "className": "row",
+     "fieldGroup": [{
         "key": "ignoreHideSpecials",
         "className": "inline-checkbox-small col-xs-6",
         "type": "input",
@@ -92,7 +92,7 @@
             "label": ""
         },
         "expressionProperties": {
-            "templateOptions.label": "\"COMMON/ignore-require-keywords/lbl\" | translate"
+            "templateOptions.label": "\"COMMON/ignore-global-includes/lbl\" | translate"
         }
     }, {
         "key": "ignoreGlobalExcludes",
@@ -103,7 +103,7 @@
             "label": ""
         },
         "expressionProperties": {
-            "templateOptions.label": "\"COMMON/ignore-ignore-keywords/lbl\" | translate"
+            "templateOptions.label": "\"COMMON/ignore-global-excludes/lbl\" | translate"
         }
     }]
 }, {
@@ -149,7 +149,7 @@
     "type": "input",
     "hideExpression": "!model.isDownloadPathSupportedRemote || model.isDownloadPathSupportedLocal",
     "templateOptions": {
-        "type": "text",
+        "type": "text", 
         "label": ""
     },
     "expressionProperties": {
@@ -157,8 +157,8 @@
         "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/dl-path/placeholder\" | translate"
     }
 }, {
-    "className": "row",
-    "fieldGroup": [{
+     "className": "row",
+     "fieldGroup": [{
         "type": "button",
         "className": "col-xs-1",
         "templateOptions": {
