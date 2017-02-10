@@ -27,44 +27,44 @@
 
   <hr class="setting-divider">
 
-  <h2 style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/global-include-mode/hdr</h2cont>
-    <span uib-tooltip="{{GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}" tooltip-placement="left">
-      <i class="glyphicon glyphicon-{{GILmodeAny ? 'menu-hamburger alert-success' : 'align-justify alert-info'}}" ></i>
+  <h2 style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/require-keywords-mode/hdr</h2cont>
+    <span uib-tooltip="{{keywordMatchModeOR ? 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-or/lbl' : 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-and/lbl'|translate}}" tooltip-placement="left">
+      <i class="glyphicon glyphicon-{{keywordMatchModeOR ? 'menu-hamburger alert-success' : 'align-justify alert-info'}}" ></i>
     </span>
   </h2>
   <ul class="list-unstyled">
     <li>
-      <p style='text-align:left;white-space:normal'>{{!GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/desc' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/desc'|translate}}</p>
+      <p style='text-align:left;white-space:normal'>{{!keywordMatchModeOR ? 'SETTINGS/TORRENT-SEARCH/keyword-match-and/desc' : 'SETTINGS/TORRENT-SEARCH/keyword-match-or/desc'|translate}}</p>
       <p><strong  translate-once>COMMON/current-setting/hdr</strong>
-             {{GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}</p>
-      <a ng-click="toggleGILmode()" class="btn btn-{{GILmodeAny ? 'info' : 'success'}}">
-        <i class="glyphicon glyphicon-{{!GILmodeAny ? 'menu-hamburger' : 'align-justify'}}" ></i>&nbsp; {{!GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-mode-any/lbl' : 'SETTINGS/TORRENT-SEARCH/global-include-mode-all/lbl'|translate}}
+             {{keywordMatchModeOR ? 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-or/lbl' : 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-and/lbl'|translate}}</p>
+      <a ng-click="toggleKeywordMatchMode()" class="btn btn-{{keywordMatchModeOR ? 'info' : 'success'}}">
+        <i class="glyphicon glyphicon-{{!keywordMatchModeOR ? 'menu-hamburger' : 'align-justify'}}" ></i>&nbsp; {{!keywordMatchModeOR ? 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-or/lbl' : 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-and/lbl'|translate}}
       </a>
     </li>
   </ul>
 
   <hr class="setting-divider">
 
-  <h2 translate-once>COMMON/global-include/hdr</h2>
-  <p style='text-align:left;white-space:normal'>{{GILmodeAny ? 'SETTINGS/TORRENT-SEARCH/global-include-any/desc' : 'SETTINGS/TORRENT-SEARCH/global-include-all/desc'|translate}}</p>
+  <h2 translate-once>COMMON/require-keywords/hdr</h2>
+  <p style='text-align:left;white-space:normal'>{{keywordMatchModeOR ? 'SETTINGS/TORRENT-SEARCH/require-keywords-mode-or/lbl' : 'SETTINGS/TORRENT-SEARCH/require-keywords-mode-and/lbl'|translate}}</p>
   <ul class="list-unstyled">
-    <li><span translate-once>COMMON/global-include/hdr</span><br>
-      <input type='text' style='width:350px' ng-model="globalInclude" ng-change="editingGI = true;" translate-once-placeholder="COMMON/global-search/placeholder">
-      <a class="btn btn-{{editingGI ? 'info' : 'success'}}" ng-click="saveGlobalInclude(globalInclude); editingGI = false;">
-        <i class="glyphicon glyphicon-floppy-save {{editingGI ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+    <li><span translate-once>COMMON/require-keywords/hdr</span><br>
+      <input type='text' style='width:350px' ng-model="requireKeywords" ng-change="editingRequireKeywords = true;" translate-once-placeholder="COMMON/global-search/placeholder">
+      <a class="btn btn-{{editingRequireKeywords ? 'info' : 'success'}}" ng-click="saverequireKeywords(requireKeywords); editingRequireKeywords = false;">
+        <i class="glyphicon glyphicon-floppy-save {{editingRequireKeywords ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
       </a>
     </li>
   </ul>
 
   <hr class="setting-divider">
 
-  <h2 translate-once>COMMON/global-exclude/hdr</h2>
-  <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/global-exclude/desc</p>
+  <h2 translate-once>COMMON/ignore-keywords/hdr</h2>
+  <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/ignore-keywords/desc</p>
   <ul class="list-unstyled">
-    <li><span translate-once>COMMON/global-exclude/hdr</span><br>
-      <input type='text' style='width:350px' ng-model="globalExclude" ng-change="editingGE = true;" translate-once-placeholder="COMMON/global-search/placeholder">
-      <a class="btn btn-{{editingGE ? 'info' : 'success'}}" ng-click="saveGlobalExclude(globalExclude); editingGE = false;">
-        <i class="glyphicon glyphicon-floppy-save {{editingGE ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+    <li><span translate-once>COMMON/ignore-keywords/hdr</span><br>
+      <input type='text' style='width:350px' ng-model="excludeKeywords" ng-change="editingExcludeKeywords = true;" translate-once-placeholder="COMMON/global-search/placeholder">
+      <a class="btn btn-{{editingExcludeKeywords ? 'info' : 'success'}}" ng-click="saveexcludeKeywords(excludeKeywords); editingExcludeKeywords = false;">
+        <i class="glyphicon glyphicon-floppy-save {{editingExcludeKeywords ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
       </a>
     </li>
   </ul>

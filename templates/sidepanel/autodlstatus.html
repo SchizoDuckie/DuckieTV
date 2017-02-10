@@ -22,8 +22,8 @@
         <td><strong translate-once>AUTODLSTATUS/scan-range/hdr</strong>: {{fromDT | date: 'short'}} - {{toDT | date: 'short'}}</td>
       </tr>
       <tr>
-        <td><strong translate-once>COMMON/global-include/hdr</strong>: {{globalInclude}}</td>
-        <td><strong translate-once>COMMON/global-exclude/hdr</strong>: {{globalExclude}}</td>
+        <td><strong translate-once>COMMON/require-keywords/hdr</strong>: {{requireKeywords}}</td>
+        <td><strong translate-once>COMMON/ignore-keywords/hdr</strong>: {{excludeKeywords}}</td>
       </tr>
       <tr>
         <td><strong translate-once>COMMON/global-size-min/hdr</strong>: {{globalSizeMin}}{{(globalSizeMin)?' MB':''}}</td>
@@ -44,8 +44,8 @@
         <th style="width:45px" align="center" uib-tooltip="{{'COMMON/custom-search-size-min-max/lbl'|translate}}" tooltip-append-to-body="true">CSM</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/custom-search-string/lbl'|translate}}" tooltip-append-to-body="true">CSS</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-quality/lbl'|translate}}" tooltip-append-to-body="true">IGQ</th>
-        <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-includes/lbl'|translate}}" tooltip-append-to-body="true">IGI</th>
-        <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-excludes/lbl'|translate}}" tooltip-append-to-body="true">IGE</th>
+        <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-require-keywords/lbl'|translate}}" tooltip-append-to-body="true">IGI</th>
+        <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-ignore-keywords/lbl'|translate}}" tooltip-append-to-body="true">IGE</th>
         <th ng-show="sortBy.length==2" translate-once>COMMON/status/hdr</th>
         <th ng-show="sortBy.length==1"><u ng-click="sortBy=['-status', 'search'];" uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong translate-once>COMMON/status/hdr</strong></u></th>
       </tr>
