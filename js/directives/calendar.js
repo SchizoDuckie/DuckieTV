@@ -47,12 +47,12 @@ DuckieTV.directive('calendar', function() {
 
             $rootScope.$on("sidepanel:stateChange", function(event, state) {
                 calendar.isShowing = state;
-                console.warn("Sidepanel statechange from calendar:", event, state);
+                //console.debug("Sidepanel statechange from calendar:", event, state);
                 zoom();
             });
             $rootScope.$on("sidepanel:sizeChange", function(event, expanded) {
                 calendar.isExpanded = expanded;
-                console.warn("Sidepanel sizechange from calendar:", event, expanded);
+                //console.debug("Sidepanel sizechange from calendar:", event, expanded);
                 zoom();
             })
 
