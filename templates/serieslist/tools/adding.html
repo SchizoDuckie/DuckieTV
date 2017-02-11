@@ -1,8 +1,6 @@
 <form ng-submit="serieslist.selectFirstResult()" name="search.searchForm">
   <!-- Disable adding button -->
-  <a uib-tooltip="{{'SERIESLIST/TOOLS/ADDING/addshow-return-to-fav-list/tooltip'|translate}}" tooltip-append-to-body="true" tooltip-placement="bottom" ui-sref="favorites()" style='float:left' ng-click="serieslist.closeSidePanel()">
-    <i class="glyphicon glyphicon-ok-sign" style="top: 2px"></i> <span translate-once="SERIESLIST/TOOLS/ADDING/addshow-hide/glyph"></span>
-  </a>
+  
   <input type="text" focus-watch="'serieslist.searchingForSerie'" ng-model="search.query" ng-model-options="{debounce: 500}"  ng-change="search.search(search.query)" style='float:left; margin-left:10px; width:35%; margin-right:10px; margin-top:-5px' translate-once-placeholder="SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder">
   <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh"></i>
   <p class="protip"><span translate-once="SERIESLIST/TOOLS/ADDING/addshow-protip/lbl"></span>
