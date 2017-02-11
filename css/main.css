@@ -912,6 +912,12 @@ series-list .series.adding {
 
 series-list .filters {
   padding: 0px 30px 15px 30px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+series-list .filters .btn {
+  padding: 1px 7px;
 }
 
 series-list p.protip {
@@ -1912,7 +1918,7 @@ query-monitor.show {
 
 .img-loading {
   opacity: 0.6;
-  background: url('../img/spinner.gif'), -webkit-linear-gradient(top, rgb(20, 20, 20), rgb(15, 15, 15));
+  background: url('../img/spinner.gif'), -webkit-linear-gradient(top, rgb(25, 25, 25), rgb(20, 20, 20));
   background-size: auto !important;
   background-repeat: no-repeat;
   background-position: center center;
@@ -1920,9 +1926,9 @@ query-monitor.show {
 
 .img-load-error {
   opacity: 0.8;
-  background: url('../img/logo/icon256-inverted.png'), -webkit-linear-gradient(top, rgb(20, 20, 20), rgb(15, 15, 15));
+  background: url('../img/logo/icon256-inverted.png'), -webkit-linear-gradient(top, rgb(25, 25, 25), rgb(20, 20, 20));
   background-size: contain !important;
-  border: 5px solid rgb(15, 15, 15);
+  border: 5px solid rgb(30, 30, 30);
   background-repeat: no-repeat;
   background-position: center center;
 }
