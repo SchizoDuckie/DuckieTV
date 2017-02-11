@@ -93,7 +93,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 "&tr=udp://tracker.leechers-paradise.org:6969/announce",
                 "&tr=udp://tracker.openbittorrent.com:80/announce",
                 "&tr=udp://tracker.opentrackr.org:1337/announce",
-                "&tr=udp://zer0day.ch:1337/announce"
+                "&tr=udp://tracker.zer0day.to:1337/announce"
             ].join(''),
 
             registerSearchEngine: function(name, implementation) {
