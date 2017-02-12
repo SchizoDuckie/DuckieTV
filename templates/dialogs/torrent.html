@@ -1,66 +1,59 @@
 <!-- dialogs/torrent.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
 <h1 translate-once>TORRENTDIALOG/hdr</h1>
-<a href="#settings/torrent-search" ng-click="cancel()" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/torrent-search-settings/glyph</span></a>
-<input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
+<div  style="float:right; margin-top:-25px;">
+<a ng-click="toggleShowAdvanced()"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
+
+<a href="#settings/torrent-search" ng-click="cancel()"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/torrent-search-settings/glyph</span></a>
+</div>
+
+<input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl" style="width:59%; display:inline-block;">
 <!-- quality list -->
-<div class="torrentBtns">
+<div class="torrentBtns" style="display:inline-block;">
   <div class="btn-group">
     <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
     <button ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setQuality(quality)" type="button" class="btn btn-default" ng-class="{active: searchquality == quality}">{{quality}}</button>
   </div>
-  <!-- OrderBy sort button -->
-  <div ng-show="allowTDsortMenu && orderByList.length > 0" class="btn-group" uib-dropdown>
-    <button type="button" class="btn btn-default sort-btn dropdown-toggle" uib-dropdown-toggle>
-      <i class="glyphicon glyphicon-sort-by-attributes"></i>
-      <span translate-once>COMMON/orderby/glyph</span>
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-      <li ng-repeat="item in orderByList" ng-click="setOrderBy(item)">
-        <label>{{translateOrderBy(item)}} <span ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'sortorder reverse': orderByDir[item] === '.a', 'sortorder': orderByDir[item] === '.d'}"></span> </label>
-      </li>
-    </ul>
-  </div>
+  
 </div>
-<div class="torrentBtns btn-group">
+<div class="torrentBtns btn-group" style="margin-top:10px; margin-bottom:10px;">
   <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
 </div>
 <!-- search Providers list -->
 
-<a ng-click="toggleShowAdvanced()" style="display:block;text-align:right"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
-<!-- Require Keywords/exclude and size min/max check boxes -->
+<!-- global include/exclude and size min/max check boxes -->
 <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
-  <div style="display: flex">
-    <div class="checkbox">
-      <input type="checkbox" ng-model="requireKeywordsEnabled" ng-change="setRequireKeywordsState()" id="tc_gie">
-      <label for="tc_gie"><span translate-once>TORRENTDIALOG/search-include/lbl</span> ({{requireKeywords}})</label>
+  <div class="row">
+    <div class="col col-md-3 checkbox" ng-if="requireKeywords.length > 0">
+      <input type="checkbox" ng-model="requireKeywordsEnabled" ng-change="setrequireKeywordsState()" id="tc_gie">
+      <label for="tc_gie"><strong translate-once>TORRENTDIALOG/search-require-keywords/lbl</strong><br>({{requireKeywords}})</label>
     </div>
 
-    <div class="checkbox">
-      <input type="checkbox" ng-model="ignoreKeywordsEnabled" ng-change="setIgnoreKeywordsState()" id="tc_gee">
-      <label for="tc_gee"><span translate-once>TORRENTDIALOG/search-exclude/lbl</span> ({{ignoreKeywords}})</label>
+    <div class="col col-md-3 checkbox" ng-if="ignoreKeywords.length > 0">
+      <input type="checkbox" ng-model="ignoreKeywordsEnabled" ng-change="setexcludeKeywordsState()" id="tc_gee">
+      <label for="tc_gee"><strong translate-once>TORRENTDIALOG/search-ignore-keywords/lbl</strong><br>({{ignoreKeywords}})</label>
     </div>
 
-    <div class="checkbox" ng-show="serie.customSearchSizeMin == null">
+    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMin == null && globalSizeMin > 0">
       <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" id="tc_gsm">
-      <label for="tc_gsm"><span translate-once>TORRENTDIALOG/search-global-size-min/lbl</span> ({{globalSizeMin}}) MB</label>
+      <label for="tc_gsm"><strong translate-once>TORRENTDIALOG/search-global-size-min/lbl</strong><br>({{globalSizeMin}} MB)</label>
     </div>
 
-    <div class="checkbox" ng-show="serie.customSearchSizeMin != null">
+    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMin != null">
       <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" id="tc_gsm2">
-      <label for="tc_gsm2"><span translate-once>TORRENTDIALOG/search-custom-size-min/lbl</span> ({{serie.customSearchSizeMin}}) MB</label>
+      <label for="tc_gsm2"><strong translate-once>TORRENTDIALOG/search-custom-size-min/lbl</strong><br> ({{serie.customSearchSizeMin}}) MB</label>
     </div>
 
-    <div class="checkbox" ng-show="serie.customSearchSizeMax == null">
+    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMax == null">
       <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" id="tc_gsme">
-      <label for="tc_gsme"><span translate-once>TORRENTDIALOG/search-global-size-max/lbl</span> ({{globalSizeMax}}) MB</label>
+      <label for="tc_gsme"><strong translate-once>TORRENTDIALOG/search-global-size-max/lbl</strong><br>({{globalSizeMax}} MB)</label>
     </div>
 
-    <div class="checkbox" ng-show="serie.customSearchSizeMax != null">
+    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMax != null">
       <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" id="tc_gsme2">
-      <label for="tc_gsme2"><span translate-once>TORRENTDIALOG/search-custom-size-max/lbl</span> ({{serie.customSearchSizeMax}}) MB</label>
+      <label for="tc_gsme2"><strong translate-once>TORRENTDIALOG/search-custom-size-max/lbl</strong><br> ({{serie.customSearchSizeMax}} MB)</label>
     </div>
+
   </div>
 </div>
 <!-- search results -->
