@@ -1,5 +1,5 @@
-DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "$state", "$http", "$filter", "dialogs",
-    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, $state, $http, $filter, dialogs) {
+DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "SeriesAddingState", "$state", "$http", "$filter", "dialogs",
+    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, SeriesAddingState, $state, $http, $filter, dialogs) {
 
         var vm = this;
 
@@ -60,7 +60,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
             });
         };
 
-        vm.activated = SeriesListState.state.isShowing; // Toggles when the favorites panel activated
+        vm.activated = true; //SeriesListState.state.isShowing || SeriesAddingState.state.isShowing; // Toggles when the favorites panel activated
         vm.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
         vm.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
         vm.sgEnabled = SettingsService.get('library.seriesgrid');
@@ -94,7 +94,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         vm.query = ''; // local filter query, set from LocalSerieCtrl
         vm.genreFilter = []; // genre filter from localseriectrl
         vm.statusFilter = [];
-        vm.isFiltering = false;
+        vm.isFiltering = true;
 
         vm.toggleFiltering = function() {
             vm.isFiltering = !vm.isFiltering;
@@ -111,11 +111,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
 
         $rootScope.$on('serieslist:statusFilter', function(evt, status) {
             vm.statusFilter = status;
-        });
-
-        $rootScope.$on('serieslist:stateChange', function(evt, showing) {
-            vm.activated = showing;
-            $scope.$applyAsync();
         });
 
         vm.localFilter = function(el) {
@@ -204,7 +199,8 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
         };
 
         /**
-         * Add a show to favorites.*The serie object is a Trakt.TV TV Show Object.
+         * Add a show to favorites.
+         * The serie object is a Trakt.TV TV Show Object.
          * Queues up the tvdb_id in the serieslist.adding array so that the spinner can be shown.
          * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
          * It can show the checkmark.

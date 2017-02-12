@@ -14,12 +14,7 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$scope", "$filter", "$
          * Closes the SidePanel 
          */
         this.closeSidePanel = function() {
-            if (SeriesListState.state.isShowing) {
-                SidePanelState.hide();
-                $state.go('favorites');
-            } else {
-                $state.go('calendar');
-            }
+
         }
 
         /**

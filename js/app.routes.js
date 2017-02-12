@@ -34,15 +34,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             return SidePanelState;
         }
 
-        function showSeriesList(SeriesListState) {
-            SeriesListState.show();
-            return SeriesListState;
-        }
-
-        function hideSeriesList(SeriesListState) {
-            SeriesListState.hide();
-            return SeriesListState;
-        }
 
         function findEpisodes($stateParams) {
             return Episode.findByID_Season($stateParams.season_id);
@@ -60,31 +51,54 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             return Serie.findByID($stateParams.id);
         }
 
+        function hideAddingList(SeriesAddingState) {
+            SeriesAddingState.hide();
+            return SeriesAddingState;
+        }
+
+        function hideSeriesList(SeriesListState) {
+            SeriesListState.hide();
+            return SeriesListState;
+        }
+
+        function showSeriesList(SeriesListState) {
+            SeriesListState.show();
+            return SeriesListState
+        }
+
+        function showAddingList(SeriesAddingState) {
+            SeriesAddingState.show();
+            return SeriesAddingState;
+        }
+
+
         // if the path doesn't match any of the urls you configured
         // otherwise will take care of routing the user to the specified url
 
         $stateProvider
-
-        .state('calendar', {
-            url: '/',
-            resolve: {
-                SidePanelState: hideSidePanel,
-                SeriesListState: hideSeriesList
-            }
-        })
+            .state('calendar', {
+                url: '/',
+                resolve: {
+                    SidePanelState: hideSidePanel,
+                    SeriesAddingState: hideAddingList,
+                    SeriesListState: hideSeriesList
+                }
+            })
 
         .state('favorites', {
-            sticky: true,
             url: '/favorites',
+            sticky: true,
             resolve: {
-                SeriesListState: showSeriesList,
                 SidePanelState: hideSidePanel,
+                SeriesListState: showSeriesList,
+                SeriesAddingState: hideAddingList,
                 FavoritesService: function(FavoritesService) {
                     return FavoritesService.waitForInitialization().then(function() {
                         return FavoritesService;
                     });
                 },
             },
+
             views: {
                 favorites: {
                     templateUrl: 'templates/seriesList.html',
@@ -109,7 +123,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         .state('favorites.search', {
             url: '/search',
-
             views: {
                 'tools@favorites': {
                     templateUrl: 'templates/serieslist/tools/localfilter.html',
@@ -123,27 +136,39 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             }
         })
 
-        .state('favorites.add', {
+        .state('add_favorites', {
             url: '/add',
+            sticky: true,
+            resolve: {
+                SidePanelState: hideSidePanel,
+                SeriesListState: hideSeriesList,
+                SeriesAddingState: showAddingList
+            },
             views: {
-                'tools@favorites': {
+                favorites: {
+                    templateUrl: 'templates/seriesList.html',
+                    controller: 'seriesListCtrl',
+                    controllerAs: 'serieslist',
+                    bindToController: true
+                },
+                'tools@add_favorites': {
                     templateUrl: 'templates/serieslist/tools/adding.html',
                     controller: ["$state", "$stateParams", function($state, $stateParams) {
                         this.query = $stateParams.query;
                         this.search = function(q) {
                             if (q.length > 0) {
-                                $state.go('favorites.add.search', {
+                                $state.go('add_favorites.search', {
                                     query: q
                                 });
                             } else {
-                                $state.go('favorites.add');
+                                $state.go('add_favorites');
                             }
                         };
                     }],
                     controllerAs: 'search',
                     bindToController: true
                 },
-                'content@favorites': {
+                'content@add_favorites': {
                     templateUrl: 'templates/serieslist/trakt-trending.html',
                     controller: 'traktTvTrendingCtrl',
                     controllerAs: 'trending'
@@ -151,13 +176,13 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             }
         })
 
-        .state('favorites.add.search', {
+        .state('add_favorites.search', {
             url: '/search/:query',
             resolve: {
                 SidePanelState: showSidePanel
             },
             views: {
-                'content@favorites': {
+                'content@add_favorites': {
                     templateUrl: 'templates/serieslist/trakt-searching.html',
                     controller: 'traktTvSearchCtrl',
                     controllerAs: 'traktSearch'
@@ -166,7 +191,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         })
 
-        .state('favorites.add.search.trakt-serie', {
+        .state('add_favorites.search.trakt-serie', {
             url: '/:id',
             params: {
                 serie: {}
@@ -186,7 +211,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             }
         })
 
-        .state('favorites.add.trakt-serie', {
+        .state('add_favorites.trakt-serie', {
             url: '/info/:id',
             resolve: {
                 SidePanelState: showSidePanel,
@@ -210,8 +235,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     setTimeout(function() {
                         expandSidePanel(SidePanelState);
                     }, 0);
-                },
-                SeriesListState: hideSeriesList
+                }
             },
             views: {
                 sidePanel: {
@@ -223,6 +247,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         // note: separate state from serie.season.episode navigation because we want to only open the sidepanel from the calendar, not expand it
         .state('episode', {
+            sticky: true,
             url: '/episode/:episode_id',
             resolve: {
                 SidePanelState: showSidePanel,
@@ -251,6 +276,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('serie', {
+            sticky: true,
             url: '/series/:id',
             resolve: {
                 SidePanelState: showSidePanel,
@@ -264,7 +290,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     return Serie.findByID($stateParams.id).then(function(result) {
                         return result.getNotWatchedSeason();
                     });
-                },
+                }
 
             },
             views: {
@@ -277,6 +303,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('serie.details', {
+            sticky: true,
             url: '/details',
             resolve: {
                 SidePanelState: expandSidePanel,
@@ -289,6 +316,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('serie.seasons', {
+            sticky: true,
             url: '/seasons',
             resolve: {
                 SidePanelState: expandSidePanel,
@@ -309,6 +337,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         // note: this is a sub state of the serie state. the serie is already resolved here and doesn't need to be redeclared!
         .state('serie.season', {
+            sticky: true,
             url: '/season/:season_id',
             resolve: {
                 SidePanelState: expandSidePanel,
@@ -331,6 +360,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         // note: this is a sub state of the serie state. the serie is already resolved here and doesn't need to be redeclared!
         .state('serie.season.episode', {
+            sticky: true,
             url: '/episode/:episode_id',
             resolve: {
                 SidePanelState: expandSidePanelIfOpen,
@@ -355,7 +385,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             sticky: false,
             resolve: {
                 SidePanelState: showSidePanel,
-                SeriesListState: hideSeriesList
             },
             views: {
                 sidePanel: {
@@ -369,7 +398,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             url: '/:tab',
             resolve: {
                 SidePanelState: expandSidePanel,
-                SeriesListState: hideSeriesList
             },
             views: {
                 settingsTab: {
@@ -384,7 +412,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             url: '/torrent',
             resolve: {
                 SidePanelState: showSidePanel,
-                SeriesListState: hideSeriesList
             },
             views: {
                 sidePanel: {
@@ -427,8 +454,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     setTimeout(function() {
                         expandSidePanel(SidePanelState);
                     }, 0);
-                },
-                SeriesListState: hideSeriesList
+                }
             },
             views: {
                 sidePanel: {
@@ -445,8 +471,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     setTimeout(function() {
                         expandSidePanel(SidePanelState);
                     }, 0);
-                },
-                SeriesListState: hideSeriesList
+                }
             },
             views: {
                 sidePanel: {

@@ -30,7 +30,7 @@
 
   <div class="container" ng-class="{'topsites': getSetting('topSites.enabled')}">
     <clicktrap></clicktrap>
-    <calendar ng-if="getSetting('main.viewmode') == 'calendar'" event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}"></calendar>
+    <calendar ng-if="getSetting('main.viewmode') == 'calendar' && !isPanelOpen()" event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}"></calendar>
     <calendar ng-if="getSetting('main.viewmode') == 'todo'" template="templates/todopicker.html" event-service="CalendarEvents" view="date"></calendar>
   </div>
 
@@ -147,6 +147,7 @@
   <script src="js/directives/serieDetails.js"></script>
   <script src="js/directives/serieheader.js"></script>
   <script src="js/directives/seriesList.js"></script>
+  <script src="js/directives/seriesGrid.js"></script>
   <script src="js/directives/stopEvent.js"></script>
   <script src="js/directives/sidePanel.js"></script>
   <script src="js/directives/subtitleDialog.js"></script>
@@ -173,6 +174,8 @@
   <script src="js/services/SceneNameResolver.js"></script>
   <script src="js/services/SceneXemResolver.js"></script>
   <script src="js/services/MigrationService.js"></script>
+  <script src="js/services/SeriesListState.js"></script>
+  <script src="js/services/SeriesAddingState.js"></script>
   <script src="js/services/SettingsService.js"></script>
   <script src="js/services/StorageSyncService.js"></script>
   <script src="js/services/TorrentHashListService.js"></script>

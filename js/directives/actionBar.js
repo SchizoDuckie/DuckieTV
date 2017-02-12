@@ -3,17 +3,14 @@ DuckieTV.directive('actionBar', function() {
         restrict: 'E',
         templateUrl: 'templates/actionBar.html',
         controllerAs: 'actionbar',
-        controller: ["$rootScope", "$state", "$filter", "SeriesListState", "SidePanelState", "DuckieTorrent",
-            function($rootScope, $state, $filter, SeriesListState, SidePanelState, DuckieTorrent) {
+        controller: ["$rootScope", "$state", "$filter", "SeriesListState", "SeriesAddingState", "SidePanelState", "DuckieTorrent",
+            function($rootScope, $state, $filter, SeriesListState, SeriesAddingState, SidePanelState, DuckieTorrent) {
                 if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
                     // listen for standalone menu go-to events
                     $rootScope.$on('standalone.calendar', function() {
                         $state.go('calendar');
-                        SeriesListState.hide();
                     });
                     $rootScope.$on('standalone.favorites', function() {
-                        SidePanelState.hide();
-                        SeriesListState.show();
                         $state.go('favorites');
                     });
                     $rootScope.$on('standalone.adlstatus', function() {
@@ -32,24 +29,39 @@ DuckieTV.directive('actionBar', function() {
                     $rootScope.$broadcast('calendar:setdate', new Date());
                 };
 
-                this.hidePanels = function() {
-                    SeriesListState.hide();
-                    SidePanelState.hide();
-                };
 
                 /**
                  * SeriesList state needs to be managed manually because it is stickied and navigating away from
                  * it doesn't actually close the state so reponing it doesn't refire it's resolves.
                  */
                 this.toggleSeriesList = function() {
-                    if (SeriesListState.state.isShowing) {
-                        $state.go('calendar');
-                        SeriesListState.hide();
-                    } else {
-                        SidePanelState.hide();
+                    if (!$state.is('favorites')) {
+                        $state.go('favorites', {
+                            refresh: new Date().getTime()
+                        });
                         SeriesListState.show();
-                        $state.go('favorites');
+                        SeriesAddingState.hide();
+                    } else {
+                        $state.go('calendar');
                     }
+                    $rootScope.$applyAsync();
+                };
+
+                /**
+                 * SeriesList state needs to be managed manually because it is stickied and navigating away from
+                 * it doesn't actually close the state so reponing it doesn't refire it's resolves.
+                 */
+                this.toggleAddingList = function() {
+                    if (!$state.is('add_favorites')) {
+                        $state.go('add_favorites', {
+                            refresh: new Date().getTime()
+                        });
+                        SeriesListState.hide();
+                        SeriesAddingState.show();
+                    } else {
+                        $state.go('calendar');
+                    }
+                    $rootScope.$applyAsync();
                 };
 
                 // Used by Settings to button

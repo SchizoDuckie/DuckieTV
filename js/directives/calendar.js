@@ -28,11 +28,16 @@ DuckieTV.directive('calendar', function() {
                 calendar.setAttribute('class', (zoom < 1) ? 'zoom' : '');
             }
 
+
         },
-        controller: ["$rootScope", "$scope", "SidePanelState", function($rootScope, $scope, SidePanelState) {
+        controller: ["$rootScope", "$scope", "SidePanelState", "SeriesListState", "SeriesAddingState", function($rootScope, $scope, SidePanelState, SeriesListState, SeriesAddingState) {
             var calendar = this;
             this.isShowing = false;
             this.isExpanded = false;
+
+            $rootScope.isPanelOpen = function() {
+                return (!SeriesListState.state.isShowing && !SeriesAddingState.state.isShowing) ? false : true;
+            }
 
             function zoom() {
                 if (calendar.isExpanded) {
@@ -45,14 +50,24 @@ DuckieTV.directive('calendar', function() {
                 $scope.$applyAsync();
             };
 
+            /**
+             * Hide the calendar (performance and weirds scrollbars) when the serieslist
+             */
             $rootScope.$on("sidepanel:stateChange", function(event, state) {
                 calendar.isShowing = state;
-                //console.debug("Sidepanel statechange from calendar:", event, state);
+                console.debug("Sidepanel statechange from calendar:", event, state);
                 zoom();
             });
+
             $rootScope.$on("sidepanel:sizeChange", function(event, expanded) {
                 calendar.isExpanded = expanded;
                 //console.debug("Sidepanel sizechange from calendar:", event, expanded);
+                zoom();
+            })
+
+            $rootScope.$on("serieslist:stateChange", function(event, state) {
+                calendar.isShowing = !state;
+                console.debug("Calendar statechange from fav panels:", event, state);
                 zoom();
             })
 

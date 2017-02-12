@@ -348,6 +348,11 @@ background-rotator .placeholder {
   transform: rotateY(360deg);
 }
 
+.seriesaddingActive #actionbar_add_favorites a {
+  color: rgba(215, 85, 85, 0.8);
+  transform: rotateY(360deg);
+}
+
 #actionbar_torrent a {
   background-repeat: no-repeat;
   background-position: center center;
@@ -439,10 +444,12 @@ background-rotator .placeholder {
   max-height: 550px;
   overflow-y: auto;
   padding: 3px 0px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .dropdown-menu li {
   padding: 2px 0px;
+  white-space:nowrap;
 }
 
 .dropdown-menu li:hover:not(.divider) {
@@ -457,6 +464,7 @@ background-rotator .placeholder {
   padding: 4px 6px;
   cursor: pointer;
   display: flex;
+  text-transform: capitalize;
 }
 
 .dropdown-menu label input[type=checkbox] {
@@ -511,7 +519,7 @@ button span, .dropdown-menu span, .dropdown-menu input {
 }
 
 input[type=text], input[type=url], input[type=password], input[type=number], option, select, select.form-control {
-  border: 1px solid #333;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   background-color: rgba(0, 0, 0, 0.2);
   font-size: 17px;
   height: 40px;
@@ -522,6 +530,17 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
   text-shadow: 2px 2px 2px black;
   transition: all 0.5s ease-in-out;
   padding-left: 5px;
+}
+
+.input-group-addon {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
+.input-group .input-group-addon+input {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
@@ -894,19 +913,19 @@ series-list> div {
   transform: translate3d(-100%, 0, 0);
 }
 
-body.serieslistActive {
+body.serieslistActive, body.seriesaddingActive {
   overflow-y: hidden;
 }
 
-.serieslistActive> .container {
+.serieslistActive > .container, .seriesaddingActive > .container{
   opacity: 0;
 }
 
-.serieslistActive series-list {
+.serieslistActive series-list,.seriesaddingActive series-list {
   background-color: rgb(20, 22, 24);
 }
 
-.serieslistActive series-list> div {
+.serieslistActive series-list> div, .seriesaddingActive series-list> div {
   transform: translate3d(0, 0, 0);
 }
 
@@ -924,7 +943,6 @@ body.sidepanelActive {
 
 series-list .tools {
   width: 100%;
-  text-align: right;
   padding: 22px 60px 22px 85px;
   font-size: 20px;
   box-shadow: 0 3px 8px black;
@@ -941,7 +959,8 @@ series-list .tools .btn-group {
 series-list .tools .btn-group button {
   background-color: transparent;
   color: white;
-  border-color: rgba(255, 255, 255, 0.4)
+  border-color: rgba(255, 255, 255, 0.4);
+  height:40px;
 }
 
 series-list .tools .btn-group:hover button {
