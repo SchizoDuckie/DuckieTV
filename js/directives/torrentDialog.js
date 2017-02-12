@@ -19,16 +19,16 @@ DuckieTV
         if ('serie' in data && $scope.serie.ignoreGlobalQuality != 0) {
             $scope.searchquality = ''; // override quality when the series has the IgnoreQuality flag enabled.
         }
-        $scope.globalInclude = SettingsService.get('torrenting.global_include');
-        $scope.globalIncludeAny = SettingsService.get('torrenting.global_include_any'); // set the GIL mode (Any or All)
-        $scope.globalIncludeEnabled = SettingsService.get('torrenting.global_include_enabled'); // only applies to torrentDialog
+        $scope.requireKeywords = SettingsService.get('torrenting.require_keywords');
+        $scope.requireKeywordsModeOR = SettingsService.get('torrenting.require_keywords_mode_or'); // set the Require Keywords mode (Any or All)
+        $scope.requireKeywordsEnabled = SettingsService.get('torrenting.require_keywords_enabled'); // only applies to torrentDialog
         if ('serie' in data && $scope.serie.ignoreGlobalIncludes != 0) {
-            $scope.globalIncludeEnabled = false; // override include-list when the series has the IgnoreIncludeList flag enabled.
+            $scope.requireKeywordsEnabled = false; // override include-list when the series has the IgnoreIncludeList flag enabled.
         }
-        $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
-        $scope.globalExcludeEnabled = SettingsService.get('torrenting.global_exclude_enabled'); // only applies to torrentDialog
+        $scope.ignoreKeywords = SettingsService.get('torrenting.ignore_keywords');
+        $scope.ignoreKeywordsEnabled = SettingsService.get('torrenting.ignore_keywords_enabled'); // only applies to torrentDialog
         if ('serie' in data && $scope.serie.ignoreGlobalExcludes != 0) {
-            $scope.globalExcludeEnabled = false; // override exclude-list when the series has the IgnoreExcludeList flag enabled.
+            $scope.ignoreKeywordsEnabled = false; // override exclude-list when the series has the IgnoreExcludeList flag enabled.
         }
         $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max'); // torrents larger than this are filtered out
         $scope.globalSizeMaxEnabled = SettingsService.get('torrenting.global_size_max_enabled'); // only applies to torrentDialog
@@ -85,9 +85,9 @@ DuckieTV
              */
             function filterByScore(item) {
                 var score = 0;
-                var GIL_String = $scope.globalIncludeEnabled ? $scope.globalIncludeAny ? '' : $scope.globalInclude : ''; // if GIL mode is ALL then add GIL to q
+                var RequireKeywords_String = $scope.requireKeywordsEnabled ? $scope.requireKeywordsModeOR ? '' : $scope.requireKeywords : ''; // if Require Keywords mode is AND then add require keywords to q
                 // ignore double-quotes and plus symbols on query, and any query minus words
-                var query = [q, $scope.searchquality, GIL_String].join(' ').toLowerCase().replace(/[\"\+]/g,' ').trim().split(' ');
+                var query = [q, $scope.searchquality, RequireKeywords_String].join(' ').toLowerCase().replace(/[\"\+]/g,' ').trim().split(' ');
                 var name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (part[0] === '-' || name.indexOf(part) > -1) {
@@ -98,14 +98,14 @@ DuckieTV
             }
 
             /**
-             * Any words in the global include list causes the result to be filtered in.
+             * Any words in the Require Keywords list causes the result to be filtered in.
              */
-            function filterGlobalInclude(item) {
-                if (!$scope.globalIncludeEnabled || $scope.globalInclude == '') {
+            function filterRequireKeywords(item) {
+                if (!$scope.requireKeywordsEnabled || $scope.requireKeywords == '') {
                     return true;
                 }
                 var score = 0;
-                var query = $scope.globalInclude.toLowerCase().split(' ');
+                var query = $scope.requireKeywords.toLowerCase().split(' ');
                 var name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (name.indexOf(part) > -1) {
@@ -116,14 +116,14 @@ DuckieTV
             }
 
             /**
-             * Any words in the global exclude list causes the result to be filtered out.
+             * Any words in the ignore keyword list causes the result to be filtered out.
              */
-            function filterGlobalExclude(item) {
-                if (!$scope.globalExcludeEnabled || $scope.globalExclude == '') {
+            function filterIgnoreKeywords(item) {
+                if (!$scope.ignoreKeywordsEnabled || $scope.ignoreKeywords == '') {
                     return true;
                 }
                 var score = 0;
-                var query = $scope.globalExclude.toLowerCase().split(' ');
+                var query = $scope.ignoreKeywords.toLowerCase().split(' ');
                 // prevent the exclude list from overriding the primary search string
                 query = query.filter(function(el) {
                     return q.indexOf(el) == -1;
@@ -191,10 +191,10 @@ DuckieTV
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' '), undefined, $scope.orderBy).then(function(results) {
                     $scope.items = results.filter(filterByScore);
                     $scope.items = $scope.items.filter(filterBySize);
-                    if ($scope.globalIncludeAny) {
-                        $scope.items = $scope.items.filter(filterGlobalInclude);
+                    if ($scope.requireKeywordsModeOR) {
+                        $scope.items = $scope.items.filter(filterRequireKeywords);
                     }
-                    $scope.items = $scope.items.filter(filterGlobalExclude);
+                    $scope.items = $scope.items.filter(filterIgnoreKeywords);
                     // ShowRSS uses the same detailUrl for all of a series' episodes, so don't call dropDuplicates
                     if ($scope.searchprovider !== 'ShowRSS') {
                         $scope.items = dropDuplicates($scope.items);
@@ -212,15 +212,15 @@ DuckieTV
                 });
         };
 
-        // Save state of torrenting global include check-box
-        $scope.setGlobalIncludeState = function() {
-            SettingsService.set('torrenting.global_include_enabled', $scope.globalIncludeEnabled);
+        // Save state of torrenting Require Keywords check-box
+        $scope.setRequireKeywordsState = function() {
+            SettingsService.set('torrenting.require_keywords_enabled', $scope.requireKeywordsEnabled);
             $scope.search($scope.query, undefined, $scope.orderBy);
         };
 
-        // Save state of torrenting global exclude check-box
-        $scope.setGlobalExcludeState = function() {
-            SettingsService.set('torrenting.global_exclude_enabled', $scope.globalExcludeEnabled);
+        // Save state of torrenting ignore keyword check-box
+        $scope.setIgnoreKeywordsState = function() {
+            SettingsService.set('torrenting.ignore_keywords_enabled', $scope.ignoreKeywordsEnabled);
             $scope.search($scope.query, undefined, $scope.orderBy);
         };
 

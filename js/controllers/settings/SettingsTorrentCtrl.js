@@ -12,7 +12,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
 
         $scope.torrentEnabled = SettingsService.get('torrenting.enabled');
         $scope.allowUnsafe = SettingsService.get('proxy.allowUnsafe');
-        $scope.GILmodeAny = SettingsService.get('torrenting.global_include_any');
+        $scope.RequireKeywordsModeOR = SettingsService.get('torrenting.require_keywords_mode_or');
         $scope.allowTDsortMenu = SettingsService.get('torrentDialog.sortMenu.enabled');
         $scope.directoryEnabled = SettingsService.get('torrenting.directory');
         $scope.streamingEnabled = SettingsService.get('torrenting.streaming');
@@ -32,8 +32,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
 
         $scope.searchProviders = Object.keys(TorrentSearchEngines.getSearchEngines());
 
-        $scope.globalInclude = SettingsService.get('torrenting.global_include');
-        $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
+        $scope.requireKeywords = SettingsService.get('torrenting.require_keywords');
+        $scope.ignoreKeywords = SettingsService.get('torrenting.ignore_keywords');
         $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min');
         $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max');
 
@@ -116,9 +116,9 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
             SettingsService.set('proxy.allowUnsafe', $scope.allowUnsafe);
         };
 
-        $scope.toggleGILmode = function() {
-            $scope.GILmodeAny = !$scope.GILmodeAny;
-            SettingsService.set('torrenting.global_include_any', $scope.GILmodeAny);
+        $scope.toggleRequireKeywordsMode = function() {
+            $scope.RequireKeywordsModeOR = !$scope.RequireKeywordsModeOR;
+            SettingsService.set('torrenting.require_keywords_mode_or', $scope.RequireKeywordsModeOR);
         };
 
         $scope.toggleTDsortMenu = function() {
@@ -253,19 +253,19 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         };
 
         /**
-         * Save Global Include list
+         * Save Require Keywords list
          */
-        $scope.saveGlobalInclude = function(list) {
-            $scope.globalInclude = list;
-            SettingsService.set('torrenting.global_include', $scope.globalInclude);
+        $scope.saveRequireKeywords = function(list) {
+            $scope.requireKeywords = list;
+            SettingsService.set('torrenting.require_keywords', $scope.requireKeywords);
         };
 
         /**
-         * Save Global Exclude list
+         * Save ignore keyword list
          */
-        $scope.saveGlobalExclude = function(list) {
-            $scope.globalExclude = list;
-            SettingsService.set('torrenting.global_exclude', $scope.globalExclude);
+        $scope.saveIgnoreKeywords = function(list) {
+            $scope.ignoreKeywords = list;
+            SettingsService.set('torrenting.ignore_keywords', $scope.ignoreKeywords);
         };
 
         /**

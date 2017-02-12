@@ -25,8 +25,8 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
             csmLbl = $filter('translate')('COMMON/custom-search-size-min-max/lbl'), // Custom Search Size Min/Max
             cssLbl = $filter('translate')('COMMON/custom-search-string/lbl'), // Custom Search String
             gqLbl = $filter('translate')('COMMON/global-quality/hdr'), // Global Quality
-            giLbl = $filter('translate')('COMMON/global-include/hdr'), // Global Includes List
-            geLbl = $filter('translate')('COMMON/global-exclude/hdr'), // Global Excludes List
+            giLbl = $filter('translate')('COMMON/require-keywords/hdr'), // Require Keywordss List
+            geLbl = $filter('translate')('COMMON/ignore-keywords/hdr'), // ignore keywords List
             dayLbl = ($scope.period === 1) ? timePlurals[0].replace(',','') : timePlurals[1].replace(',','');
             $scope.onMagnet = [];
 
@@ -74,8 +74,8 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
 
         // set up static scope data
         $scope.status = (AutoDownloadService.checkTimeout == null) ? inactiveLbl : activeLbl;
-        $scope.globalInclude = SettingsService.get('torrenting.global_include');
-        $scope.globalExclude = SettingsService.get('torrenting.global_exclude');
+        $scope.requireKeywords = SettingsService.get('torrenting.require_keywords');
+        $scope.ignoreKeywords = SettingsService.get('torrenting.ignore_keywords');
         $scope.globalQuality = (SettingsService.get('torrenting.searchquality') == '') ? 'All' : SettingsService.get('torrenting.searchquality');
         $scope.searchEngine = SettingsService.get('torrenting.searchprovider');
         $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max');

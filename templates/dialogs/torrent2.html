@@ -16,17 +16,17 @@
     <button ng-disabled="name === defaultProvider" type="button" class="btn btn-default" ng-repeat="name in clients | orderBy: name" ng-click="toggleSE(name)" ng-style="{color: name !== defaultProvider ? 'white' : 'gray'}"><i class="glyphicon glyphicon-{{activeSE[name] ? 'ok' : 'remove'}}"></i>&nbsp;{{::name}}</button>
   </div>
 </div>
-<!-- global include/exclude and size min/max check boxes -->
+<!-- Require Keywords/exclude and size min/max check boxes -->
 <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
   <div style="display: flex">
     <div class="checkbox">
-      <input type="checkbox" ng-model="globalIncludeEnabled" ng-change="setGlobalIncludeState()" id="tc_gie">
-      <label for="tc_gie"><span translate-once>TORRENTDIALOG/search-include/lbl</span> ({{globalInclude}})</label>
+      <input type="checkbox" ng-model="requireKeywordsEnabled" ng-change="setRequireKeywordsState()" id="tc_gie">
+      <label for="tc_gie"><span translate-once>TORRENTDIALOG/search-include/lbl</span> ({{requireKeywords}})</label>
     </div>
 
     <div class="checkbox">
-      <input type="checkbox" ng-model="globalExcludeEnabled" ng-change="setGlobalExcludeState()" id="tc_gee">
-      <label for="tc_gee"><span translate-once>TORRENTDIALOG/search-exclude/lbl</span> ({{globalExclude}})</label>
+      <input type="checkbox" ng-model="ignoreKeywordsEnabled" ng-change="setIgnoreKeywordsState()" id="tc_gee">
+      <label for="tc_gee"><span translate-once>TORRENTDIALOG/search-exclude/lbl</span> ({{ignoreKeywords}})</label>
     </div>
 
     <div class="checkbox" ng-show="serie.customSearchSizeMin == null">
