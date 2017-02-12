@@ -4,7 +4,7 @@
  * Provides functionality to add and remove series and is the glue between Trakt.TV,
  */
 DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$injector",
-    function($q, $rootScope, FanartService,  $injector) {
+    function($q, $rootScope, FanartService, $injector) {
 
         /** 
          * Helper function to add a serie to the service.favorites hash if it doesn't already exist.
@@ -80,7 +80,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                     serie.poster = fanart.clearlogo[0].url;
                 }
                 if ('tvposter' in fanart) {
-                    serie.poster = fanart.tvposter[0].url.replace('/fanart','/preview');
+                    serie.poster = fanart.tvposter[0].url.replace('/fanart', '/preview');
                 }
             }
         };
@@ -330,7 +330,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
              */
             remove: function(serie) {
                 serie.displaycalendar = 0;
-                //console.debug("Remove serie from favorites!", serie);
+                console.debug("Remove serie from favorites!", serie);
                 var seriesToBeDeleted = service.getById(serie.TVDB_ID);
                 CRUD.executeQuery('delete from Seasons where ID_Serie = ' + serie.ID_Serie);
                 CRUD.executeQuery('delete from Episodes where ID_Serie = ' + serie.ID_Serie);
@@ -466,7 +466,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
     $rootScope.$on('serieslist:empty', function() {
         //console.log("Series list is empty!, going to add screen.");
         setTimeout(function() {
-            $state.go('favorites.add');
+            $state.go('add_favorites');
         }, 500);
     });
 

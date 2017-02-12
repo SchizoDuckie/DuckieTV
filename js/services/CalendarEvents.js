@@ -14,6 +14,11 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         var calendarEndDate = null;
         var showSpecials = SettingsService.get('calendar.show-specials');
 
+        $rootScope.$on("storage:update", function() {
+            console.log("Calendar detected that storage was updated removing deleted.");
+            removeDeleted();
+        }.bind(this))
+
         /**
          * Check if an episode already exists on a date in the calendar.
          */
@@ -82,11 +87,21 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
          * Remove shows that were deleted from the database from the calendar.
          */
         function removeDeleted() {
+            /**
+             * Why god whydowehave 2 now?
+             */
             Object.keys(calendarEvents).map(function(date) {
                 var eventList = calendarEvents[date];
                 for (var index = eventList.length - 1; index > -1; index--) {
                     if (FavoritesService.favoriteIDs.indexOf(eventList[index].TVDB_ID) == -1) {
                         calendarEvents[date].splice(index, 1);
+                    }
+                }
+                var eventList = calendarEpisodeSortCache[date];
+                for (var index = eventList.length - 1; index > -1; index--) {
+
+                    if (FavoritesService.favoriteIDs.indexOf(eventList[index][0].serie.TVDB_ID.toString()) == -1) {
+                        calendarEpisodeSortCache[date].splice(index, 1);
                     }
                 }
             });
@@ -195,7 +210,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                 if (str in calendarEvents) {
                     calendarEvents[str].map(function(calEvent) {
                         if (calEvent.episode.hasAired()) {
-                            calEvent.episode.markWatched(downloadedPaired,rootScope);
+                            calEvent.episode.markWatched(downloadedPaired, rootScope);
                         }
                     });
                 }
@@ -220,17 +235,20 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
 
             getTodoEvents: function() {
                 var dates = Object.keys(calendarEvents);
-                var date = new Date(dates[12]), y = date.getFullYear(), m = date.getMonth(), currentMonth = new Date().getMonth();
+                var date = new Date(dates[12]),
+                    y = date.getFullYear(),
+                    m = date.getMonth(),
+                    currentMonth = new Date().getMonth();
                 var firstDay = new Date(y, m, 1).getTime();
                 var today = currentMonth == m ? new Date().setHours(23, 59, 59, 999) : new Date(y, m + 1, 0).setHours(23, 59, 59, 999);
                 var eps = [];
                 dates.forEach(function(day) {
-                  calendarEvents[day].forEach(function(event) {
-                    var startTime = event.start.getTime();
-                    if (event.serie && startTime >= firstDay && startTime < today && !event.episode.isWatched() && event.serie.displaycalendar) {
-                      eps.push(event);
-                    }
-                  });
+                    calendarEvents[day].forEach(function(event) {
+                        var startTime = event.start.getTime();
+                        if (event.serie && startTime >= firstDay && startTime < today && !event.episode.isWatched() && event.serie.displaycalendar) {
+                            eps.push(event);
+                        }
+                    });
                 });
                 return eps;
             },
