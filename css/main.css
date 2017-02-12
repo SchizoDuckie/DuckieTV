@@ -20,6 +20,68 @@
   font-style: normal;
 }
 
+ /* Bootstrap Overrides */
+.modal {
+	overflow: auto;
+	background-color: rgba(0,0,0,0.4);
+}
+
+.dropdown-menu .divider {
+	opacity: 0.7;
+}
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+	pointer-events: none;
+}
+
+button[disabled], html input[disabled] {
+	cursor: not-allowed;
+	opacity: .65;
+	filter: alpha(opacity=65);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+/* Something? I dunno
+.tooltip {
+    border: 0 !important;
+    line-height: inherit;
+} */
+
+/* Fix to prevent tooltips from the calendar overflowing edge of screen  */
+.tooltip.calendar {
+    max-width: 85px;
+}
+
+/* White Tooltips */
+.tooltip.right .tooltip-arrow {
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+    border-right-color: white;
+    left: 1px !important;
+}
+.tooltip.left .tooltip-arrow {
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+    border-left-color: white;
+    right: 1px !important;
+}
+.tooltip.top .tooltip-arrow {
+    border-top-color: white !important;
+    border-bottom-color: white !important;
+    bottom: 1px !important;
+}
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: white !important;
+    top: 1px !important;
+}
+.tooltip .tooltip-inner {
+    background-color: white !important;
+    color: black !important;
+    text-shadow: none !important;
+    white-space: normal;
+}
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
   display: none !important;
 }
@@ -2953,88 +3015,4 @@ ng-dial-gauge {
 }
 .tray.tray-violet {
   background-image: url('../img/logo/icon64-violet.png');
-}
-
-
-/* Include this file in your html if you are using the CSP mode. */
-
-[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,
-[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,
-[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,
-[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,
-[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,
-[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,
-[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,
-[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,
-[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,
-[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,
-[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,
-[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,
-[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,
-[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,
-[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,
-[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,
-[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,
-[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,
-[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,
-[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,
-[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,
-[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,
-[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,
-[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,
-[uib-popover-popup].popover.top-left > .arrow,
-[uib-popover-popup].popover.top-right > .arrow,
-[uib-popover-popup].popover.bottom-left > .arrow,
-[uib-popover-popup].popover.bottom-right > .arrow,
-[uib-popover-popup].popover.left-top > .arrow,
-[uib-popover-popup].popover.left-bottom > .arrow,
-[uib-popover-popup].popover.right-top > .arrow,
-[uib-popover-popup].popover.right-bottom > .arrow,
-[uib-popover-html-popup].popover.top-left > .arrow,
-[uib-popover-html-popup].popover.top-right > .arrow,
-[uib-popover-html-popup].popover.bottom-left > .arrow,
-[uib-popover-html-popup].popover.bottom-right > .arrow,
-[uib-popover-html-popup].popover.left-top > .arrow,
-[uib-popover-html-popup].popover.left-bottom > .arrow,
-[uib-popover-html-popup].popover.right-top > .arrow,
-[uib-popover-html-popup].popover.right-bottom > .arrow,
-[uib-popover-template-popup].popover.top-left > .arrow,
-[uib-popover-template-popup].popover.top-right > .arrow,
-[uib-popover-template-popup].popover.bottom-left > .arrow,
-[uib-popover-template-popup].popover.bottom-right > .arrow,
-[uib-popover-template-popup].popover.left-top > .arrow,
-[uib-popover-template-popup].popover.left-bottom > .arrow,
-[uib-popover-template-popup].popover.right-top > .arrow,
-[uib-popover-template-popup].popover.right-bottom > .arrow {
-  top: auto;
-  bottom: auto;
-  left: auto;
-  right: auto;
-  margin: 0;
-}
-
-[uib-popover-popup].popover,
-[uib-popover-html-popup].popover,
-[uib-popover-template-popup].popover {
-  display: block !important;
-}
-
-.uib-position-measure {
-  display: block !important;
-  visibility: hidden !important;
-  position: absolute !important;
-  top: -9999px !important;
-  left: -9999px !important;
-}
-
-.uib-position-scrollbar-measure {
-  position: absolute !important;
-  top: -9999px !important;
-  width: 50px !important;
-  height: 50px !important;
-  overflow: scroll !important;
-}
-
-.uib-position-body-scrollbar-measure {
-  overflow: scroll !important;
 }
