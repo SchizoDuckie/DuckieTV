@@ -98,6 +98,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     }
                 }
                 var eventList = calendarEpisodeSortCache[date];
+                if (!eventList) return;
                 for (var index = eventList.length - 1; index > -1; index--) {
 
                     if (FavoritesService.favoriteIDs.indexOf(eventList[index][0].serie.TVDB_ID.toString()) == -1) {

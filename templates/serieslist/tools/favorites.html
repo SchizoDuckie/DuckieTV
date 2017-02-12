@@ -50,7 +50,7 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li ng-repeat="orderBy in serieslist.orderByList" ng-click="serieslist.setOrderBy(orderBy, $event);">
-              <label><span class="sortorder" ng-class="{reverse:serieslist.orderReverseList[{{$index}}]}"></span> {{serieslist.translateOrderBy(orderBy)}} </label>
+              <label><span class="sortorder" ng-class="{reverse:serieslist.orderReverseList[{{$index}}]}"></span>&nbsp; {{serieslist.translateOrderBy(orderBy)}} </label>
             </li>
           </ul>
         </div>

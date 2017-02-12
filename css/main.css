@@ -998,7 +998,8 @@ series-list .filters {
 }
 
 series-list .filters .btn {
-  padding: 1px 7px;
+  padding: 3px 11px;
+  font-size: 15px;
 }
 
 series-list p.protip {

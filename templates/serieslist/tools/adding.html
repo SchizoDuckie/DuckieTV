@@ -1,14 +1,24 @@
-<form ng-submit="serieslist.selectFirstResult()" name="search.searchForm">
+<form ng-submit="serieslist.selectFirstResult(traktSearch)" name="search.searchForm">
   <!-- Disable adding button -->
-  
-  <input type="text" focus-watch="'serieslist.searchingForSerie'" ng-model="search.query" ng-model-options="{debounce: 500}"  ng-change="search.search(search.query)" style='float:left; margin-left:10px; width:35%; margin-right:10px; margin-top:-5px' translate-once-placeholder="SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder">
-  <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh"></i>
-  <p class="protip"><span translate-once="SERIESLIST/TOOLS/ADDING/addshow-protip/lbl"></span>
-    <!-- Make posters smaller button -->
-    <a ng-click="serieslist.toggleSmall();" style="display:inline-block;">
-      <i uib-tooltip="{{serieslist.isSmall ? 'COMMON/make-posters-large/tooltip' : 'COMMON/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
-    </a>
-  </p>
+  <div class="row">
+	  	<div class="col col-md-8">
+		  <div class="input-group pull-left">
+	          <span class="input-group-addon">
+	             <i style='font-size:15px;' class="glyphicon glyphicon-search"></i>
+	           </span>
+	          <input type="text" focus-watch="'serieslist.searchingForSerie'" ng-model="search.query" ng-model-options="{debounce: 500}"  ng-change="search.search(search.query)" style='width:80%;' translate-once-placeholder="SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder">
+	        </div>
+		  
+		  <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh"></i>
+		
+	  	</div>
+	  	<div class="col col-md-2 pull-right" style="text-align:right">
+	  	    <!-- Make posters smaller button -->
+		    <a ng-click="serieslist.toggleSmall();" style="display:inline-block;">
+		      <i uib-tooltip="{{serieslist.isSmall ? 'COMMON/make-posters-large/tooltip' : 'COMMON/make-posters-small/tooltip' |translate}}" tooltip-placement="bottom" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
+		    </a>
+	    </div>
+	</div>
 </form>
 
 <h1 style='text-align:center' ng-show="traktSearch.searching"><loading-spinner style='width:34px; height: 34px;'></loading-spinner><br><span translate-once="SERIESLIST/TOOLS/ADDING/addshow-start-typing/lbl"></span></h1>
