@@ -25,12 +25,12 @@
 <!-- Require/Ignore Keywords and size min/max check boxes -->
 <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
   <div class="row">
-    <div class="col col-md-3 checkbox" ng-if="requireKeywords.length > 0">
+    <div class="col col-md-3 checkbox" ng-show="requireKeywords.length > 0">
       <input type="checkbox" ng-model="requireKeywordsEnabled" ng-change="setRequireKeywordsState()" id="tc_gie">
       <label for="tc_gie"><strong translate-once>TORRENTDIALOG/search-require-keywords/lbl</strong><br>({{requireKeywords}})</label>
     </div>
 
-    <div class="col col-md-3 checkbox" ng-if="ignoreKeywords.length > 0">
+    <div class="col col-md-3 checkbox" ng-show="ignoreKeywords.length > 0">
       <input type="checkbox" ng-model="ignoreKeywordsEnabled" ng-change="setIgnoreKeywordsState()" id="tc_gee">
       <label for="tc_gee"><strong translate-once>TORRENTDIALOG/search-ignore-keywords/lbl</strong><br>({{ignoreKeywords}})</label>
     </div>
