@@ -31,7 +31,7 @@
       </tr>
     </tbody>
       <tr>
-        <td><strong translate-once>COMMON/global-quality/hdr</strong>: {{globalQuality}}</td>
+        <td><strong translate-once>COMMON/global-quality/hdr</strong>: {{preferredQuality}}</td>
         <td><strong translate-once>AUTODLSTATUS/search-engine/hdr</strong>: {{searchEngine}}</td>
       </tr>
   </table>
@@ -43,9 +43,9 @@
         <th ng-show="sortBy.length==2" style="width:410px" align="center"><u ng-click="sortBy=['search'];" uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong translate-once>AUTODLSTATUS/search-criteria/hdr</strong>{{lastRun | date: 'medium'}}</u></th>
         <th style="width:45px" align="center" uib-tooltip="{{'COMMON/custom-search-size-min-max/lbl'|translate}}" tooltip-append-to-body="true">CSM</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/custom-search-string/lbl'|translate}}" tooltip-append-to-body="true">CSS</th>
-        <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-quality/lbl'|translate}}" tooltip-append-to-body="true">IGQ</th>
-        <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-includes/lbl'|translate}}" tooltip-append-to-body="true">IGI</th>
-        <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-excludes/lbl'|translate}}" tooltip-append-to-body="true">IGE</th>
+        <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-quality/lbl'|translate}}" tooltip-append-to-body="true">IPQ</th>
+        <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-require-keywords/lbl'|translate}}" tooltip-append-to-body="true">IRK</th>
+        <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-ignore-keywords/lbl'|translate}}" tooltip-append-to-body="true">IIK</th>
         <th ng-show="sortBy.length==2" translate-once>COMMON/status/hdr</th>
         <th ng-show="sortBy.length==1"><u ng-click="sortBy=['-status', 'search'];" uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong translate-once>COMMON/status/hdr</strong></u></th>
       </tr>
@@ -64,9 +64,9 @@
         </td>
         <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.csm == 1, 'glyphicon-remove' : item.csm == 0 }" uib-tooltip="{{getTooltip('csm', item)}}"></div></td>
         <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.css == 1, 'glyphicon-remove' : item.css == 0 }" uib-tooltip="{{getTooltip('css', item)}}"></div></td>
-        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.igq == 1, 'glyphicon-remove' : item.igq == 0 }" uib-tooltip="{{getTooltip('igq', item)}}"></></div></td>
-        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.igi == 1, 'glyphicon-remove' : item.igi == 0 }" uib-tooltip="{{getTooltip('igi', item)}}"></></div></td>
-        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.ige == 1, 'glyphicon-remove' : item.ige == 0 }" uib-tooltip="{{getTooltip('ige', item)}}"></></div></td>
+        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.ipq == 1, 'glyphicon-remove' : item.ipq == 0 }" uib-tooltip="{{getTooltip('ipq', item)}}"></></div></td>
+        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.irk == 1, 'glyphicon-remove' : item.irk == 0 }" uib-tooltip="{{getTooltip('irk', item)}}"></></div></td>
+        <td style="width:40px" align="center"><div class="glyphicon" ng-class="{ 'glyphicon-ok' : item.iik == 1, 'glyphicon-remove' : item.iik == 0 }" uib-tooltip="{{getTooltip('iik', item)}}"></></div></td>
         <td>{{getStatusCode(item.status, item.extra)}}</td>
       </tr>
     </tbody>

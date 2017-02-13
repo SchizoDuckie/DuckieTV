@@ -34,7 +34,7 @@ DuckieTV
                 }
                 var css = (serie.customSearchString && serie.customSearchString != '') ? 1 : 0;
                 var sp = (serie.searchProvider && serie.searchProvider != null) ? ' (' + serie.searchProvider + ')' : '';
-                service.activityList.push({'search': search, 'searchProvider': sp, 'csmExtra': csmExtra, 'csm': csm,  'css': css, 'igq': serie.ignoreGlobalQuality, 'igi': serie.ignoreGlobalIncludes, 'ige': serie.ignoreGlobalExcludes, 'status': status, 'extra': extra, 'serie': serie, 'episode': episode});
+                service.activityList.push({'search': search, 'searchProvider': sp, 'csmExtra': csmExtra, 'csm': csm,  'css': css, 'ipq': serie.ignoreGlobalQuality, 'irk': serie.ignoreGlobalIncludes, 'iik': serie.ignoreGlobalExcludes, 'status': status, 'extra': extra, 'serie': serie, 'episode': episode});
                 $rootScope.$broadcast('autodownload:activity');
             },
 
@@ -137,25 +137,25 @@ DuckieTV
 
             autoDownload: function(serie, episode) {
                 var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 50
-                var globalQuality = ' ' + SettingsService.get('torrenting.searchquality'); // Global Quality to append to search string.
+                var preferredQuality = ' ' + SettingsService.get('torrenting.searchquality'); // Preferred Quality to append to search string.
                 var requireKeywords =  SettingsService.get('torrenting.require_keywords'); // Any words in the Require Keywords list causes the result to be filtered in.
-                var requireKeywordsModeOR = SettingsService.get('torrenting.require_keywords_mode_or'); // set the Require Keywords mode (Any or All)
-                var ignoreKeywords = SettingsService.get('torrenting.ignore_keywords'); // Any words in the ignore keyword list causes the result to be filtered out.
+                var requireKeywordsModeOR = SettingsService.get('torrenting.require_keywords_mode_or'); // set the Require Keywords mode (true=Any or false=All)
+                var ignoreKeywords = SettingsService.get('torrenting.ignore_keywords'); // Any words in the Ignore Keywords list causes the result to be filtered out.
                 var globalSizeMin = SettingsService.get('torrenting.global_size_min'); // torrents smaller than this are filtered out
                 var globalSizeMax = SettingsService.get('torrenting.global_size_max'); // torrents larger than this are filtered out
                 var searchEngine = TorrentSearchEngines.getDefaultEngine();
                 var label = (SettingsService.get('torrenting.label')) ? serie.name : null;
                 var RequireKeywords_String = ''; // for use in filterByScore when Require Keywords mode is set to ALL
                 if (serie.ignoreGlobalQuality != 0) {
-                    globalQuality = ''; // series custom settings specify to ignore the global quality
+                    preferredQuality = ''; // series custom settings specify to ignore the preferred quality
                 };
                 if (serie.ignoreGlobalIncludes != 0) {
-                    requireKeywords = ''; // series custom settings specify to ignore the Require Keywordss List
+                    requireKeywords = ''; // series custom settings specify to ignore the Require Keywords List
                 } else {
                     RequireKeywords_String = requireKeywordsModeOR ? '' : ' ' + requireKeywords; // for use with filterByScore when Require Keywords mode is set to ALL
                 };
                 if (serie.ignoreGlobalExcludes != 0) {
-                    ignoreKeywords = ''; // series custom settings specify to ignore the ignore keywords List
+                    ignoreKeywords = ''; // series custom settings specify to ignore the Ignore Keywords List
                 };
                 if (serie.searchProvider != null) {
                     searchEngine = TorrentSearchEngines.getSearchEngine(serie.searchProvider); // series custom search engine specified
@@ -163,7 +163,7 @@ DuckieTV
                 // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
                 return SceneNameResolver.getSearchStringForEpisode(serie, episode)
                 .then(function(searchString) {
-                    var q = searchString + globalQuality + RequireKeywords_String;
+                    var q = searchString + preferredQuality + RequireKeywords_String;
                     /**
                      * Word-by-word scoring for search results.
                      * All words need to be in the search result's release name, or the result will be filtered out.
@@ -249,19 +249,19 @@ DuckieTV
                         };
                         items = items.filter(filterBySize);
                         if (items.length === 0) {
-                            service.activityUpdate(serie, episode, q, 5, ' GS'); // 'filtered out GS'
+                            service.activityUpdate(serie, episode, q, 5, ' MS'); // 'filtered out MS'
                             return; // no results, abort
                         };
                         if (requireKeywordsModeOR) {
                             items = items.filter(filterRequireKeywords);
                             if (items.length === 0) {
-                                service.activityUpdate(serie, episode, q, 5, ' GI'); // 'filtered out GI'
+                                service.activityUpdate(serie, episode, q, 5, ' RK'); // 'filtered out RK'
                                 return; // no results, abort
                             }
                         };
                         items = items.filter(filterIgnoreKeywords);
                         if (items.length === 0) {
-                            service.activityUpdate(serie, episode, q, 5, ' GE'); // 'filtered out GE'
+                            service.activityUpdate(serie, episode, q, 5, ' IK'); // 'filtered out IK'
                             return; // no results, abort
                         }
                         if (items[0].seeders != 'n/a' && parseInt(items[0].seeders, 10) < minSeeders) { // not enough seeders are available.

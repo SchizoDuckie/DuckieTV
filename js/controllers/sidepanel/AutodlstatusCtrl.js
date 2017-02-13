@@ -24,9 +24,9 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
             notusingLbl = $filter('translate')('AUTODLSTATUSCTRLjs/not-using/lbl'), // not using
             csmLbl = $filter('translate')('COMMON/custom-search-size-min-max/lbl'), // Custom Search Size Min/Max
             cssLbl = $filter('translate')('COMMON/custom-search-string/lbl'), // Custom Search String
-            gqLbl = $filter('translate')('COMMON/global-quality/hdr'), // Global Quality
-            giLbl = $filter('translate')('COMMON/require-keywords/hdr'), // Require Keywordss List
-            geLbl = $filter('translate')('COMMON/ignore-keywords/hdr'), // ignore keywords List
+            pqLbl = $filter('translate')('COMMON/global-quality/hdr'), // Preferred Quality
+            rkLbl = $filter('translate')('COMMON/require-keywords/hdr'), // require keywords List
+            ikLbl = $filter('translate')('COMMON/ignore-keywords/hdr'), // ignore keywords List
             dayLbl = ($scope.period === 1) ? timePlurals[0].replace(',','') : timePlurals[1].replace(',','');
             $scope.onMagnet = [];
 
@@ -76,7 +76,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
         $scope.status = (AutoDownloadService.checkTimeout == null) ? inactiveLbl : activeLbl;
         $scope.requireKeywords = SettingsService.get('torrenting.require_keywords');
         $scope.ignoreKeywords = SettingsService.get('torrenting.ignore_keywords');
-        $scope.globalQuality = (SettingsService.get('torrenting.searchquality') == '') ? 'All' : SettingsService.get('torrenting.searchquality');
+        $scope.preferredQuality = (SettingsService.get('torrenting.searchquality') == '') ? 'All' : SettingsService.get('torrenting.searchquality');
         $scope.searchEngine = SettingsService.get('torrenting.searchprovider');
         $scope.globalSizeMax = SettingsService.get('torrenting.global_size_max');
         $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min');
@@ -96,9 +96,9 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
             switch (option) {
                 case 'csm': return (item.csm == 0) ? notusingLbl + ' ' + csmLbl : usingLbl + ' ' + csmLbl + ' (' + (item.serie.customSearchSizeMin == null ? '-' : item.serie.customSearchSizeMin) + '/'  + (item.serie.customSearchSizeMax == null ? '-' :  item.serie.customSearchSizeMax) + ')';
                 case 'css': return (item.css == 0) ? notusingLbl + ' ' + cssLbl : usingLbl + ' ' + cssLbl + ' (' + item.serie.customSearchString + ')';
-                case 'igq': return (item.igq == 0) ? usingLbl + ' ' + gqLbl : notusingLbl + ' ' + gqLbl;                    
-                case 'igi': return (item.igi == 0) ? usingLbl + ' ' + giLbl : notusingLbl + ' ' + giLbl;                    
-                case 'ige': return (item.ige == 0) ? usingLbl + ' ' + geLbl : notusingLbl + ' ' + geLbl;                    
+                case 'ipq': return (item.ipq == 0) ? usingLbl + ' ' + pqLbl : notusingLbl + ' ' + pqLbl;                    
+                case 'irk': return (item.irk == 0) ? usingLbl + ' ' + rkLbl : notusingLbl + ' ' + rkLbl;                    
+                case 'iik': return (item.iik == 0) ? usingLbl + ' ' + ikLbl : notusingLbl + ' ' + ikLbl;                    
             };
         };
 
