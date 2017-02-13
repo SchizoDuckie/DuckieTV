@@ -117,7 +117,7 @@
     "COMMON/global-size/alert": "메가 바이트의 숫자로 크기를 입력합니다.",
     "COMMON/global-size/form": "MB:",
     "COMMON/ignore-ignore-keywords/lbl": "이 쇼의 전역 제외 무시",
-    "COMMON/ignore-require-keywords/lb": "글로벌이 쇼를 위해 포함 무시",
+    "COMMON/ignore-require-keywords/lbl": "글로벌이 쇼를 위해 포함 무시",
     "COMMON/ignore-global-quality/lbl": "이 쇼를 위해 글로벌 품질 무시",
     "COMMON/integration/hdr": "통합",
     "COMMON/language/hdr": "언어",

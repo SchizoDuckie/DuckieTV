@@ -117,7 +117,7 @@
     "COMMON/global-size/alert": "Ange storlek som ett antal megabyte.",
     "COMMON/global-size/form": "MB:",
     "COMMON/ignore-ignore-keywords/lbl": "Ignorera globala Utesluter för denna show",
-    "COMMON/ignore-require-keywords/lb": "Ignorera Global Inkluderar för denna show",
+    "COMMON/ignore-require-keywords/lbl": "Ignorera Global Inkluderar för denna show",
     "COMMON/ignore-global-quality/lbl": "Ignorera globala kvalitet för denna show",
     "COMMON/integration/hdr": "Integrering",
     "COMMON/language/hdr": "Språk",

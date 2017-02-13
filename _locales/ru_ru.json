@@ -117,7 +117,7 @@
     "COMMON/global-size/alert": "Введите размер как количество мегабайт.",
     "COMMON/global-size/form": "МБ:",
     "COMMON/ignore-ignore-keywords/lbl": "Игнорировать глобальные исключения для этого шоу",
-    "COMMON/ignore-require-keywords/lb": "Игнорировать список по умолчанию для этого шоу",
+    "COMMON/ignore-require-keywords/lbl": "Игнорировать список по умолчанию для этого шоу",
     "COMMON/ignore-global-quality/lbl": "Игнорировать качество по умолчанию для этого шоу",
     "COMMON/integration/hdr": "Интеграция",
     "COMMON/language/hdr": "Язык",

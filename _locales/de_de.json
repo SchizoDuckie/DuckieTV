@@ -117,7 +117,7 @@
     "COMMON/global-size/alert": "Geben Sie die Größe als eine Anzahl von Megabytes.",
     "COMMON/global-size/form": "MB:",
     "COMMON/ignore-ignore-keywords/lbl": "Ignorieren der globale Ausschlüsse für diese Show",
-    "COMMON/ignore-require-keywords/lb": "Ignorieren der globale Enthält für diese Show",
+    "COMMON/ignore-require-keywords/lbl": "Ignorieren der globale Enthält für diese Show",
     "COMMON/ignore-global-quality/lbl": "Ignorieren der globale Qualitäts für diese Show",
     "COMMON/integration/hdr": "Einbindung",
     "COMMON/language/hdr": "Sprache",

@@ -117,7 +117,7 @@
     "COMMON/global-size/alert": "Enter the size as a number of MegaBytes.",
     "COMMON/global-size/form": "MB:",
     "COMMON/ignore-ignore-keywords/lbl": "Ignore the Global Excludes for this show",
-    "COMMON/ignore-require-keywords/lb": "Ignore the Global Includes for this show",
+    "COMMON/ignore-require-keywords/lbl": "Ignore the Global Includes for this show",
     "COMMON/ignore-global-quality/lbl": "Ignore the Global Quality for this show",
     "COMMON/integration/hdr": "Integration",
     "COMMON/language/hdr": "Language",

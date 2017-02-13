@@ -117,7 +117,7 @@
     "COMMON/global-size/alert": "Oppgi størrelse som et antall megabytes.",
     "COMMON/global-size/form": "MB:",
     "COMMON/ignore-ignore-keywords/lbl": "Ignorer Global Ekskluderer for dette showet",
-    "COMMON/ignore-require-keywords/lb": "Ignorer Global Inkluderer for dette showet",
+    "COMMON/ignore-require-keywords/lbl": "Ignorer Global Inkluderer for dette showet",
     "COMMON/ignore-global-quality/lbl": "Ignorer Global Quality for dette showet",
     "COMMON/integration/hdr": "Integrering",
     "COMMON/language/hdr": "Språk",

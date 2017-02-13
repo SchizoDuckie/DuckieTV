@@ -117,7 +117,7 @@
     "COMMON/global-size/alert": "メガバイト数としてサイズを入力します.",
     "COMMON/global-size/form": "MB:",
     "COMMON/ignore-ignore-keywords/lbl": "このショーのためにグローバル除外を無視",
-    "COMMON/ignore-require-keywords/lb": "Globalは、このショーのために含まれて無視",
+    "COMMON/ignore-require-keywords/lbl": "Globalは、このショーのために含まれて無視",
     "COMMON/ignore-global-quality/lbl": "このショーのためにグローバル品質を無視",
     "COMMON/integration/hdr": "統合",
     "COMMON/language/hdr": "言語",

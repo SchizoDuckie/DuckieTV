@@ -117,7 +117,7 @@
     "COMMON/global-size/alert": "Introduceți dimensiunea ca un număr de megabytes.",
     "COMMON/global-size/form": "MB:",
     "COMMON/ignore-ignore-keywords/lbl": "Ignora exclude global pentru acest spectacol",
-    "COMMON/ignore-require-keywords/lb": "Ignora globală include de acest spectacol",
+    "COMMON/ignore-require-keywords/lbl": "Ignora globală include de acest spectacol",
     "COMMON/ignore-global-quality/lbl": "Ignoră calitatea globală pentru acest spectacol",
     "COMMON/integration/hdr": "Integrare",
     "COMMON/language/hdr": "Limbă",
