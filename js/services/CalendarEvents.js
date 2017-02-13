@@ -25,7 +25,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         function hasEvent(date, event) {
             return calendarEvents[date].filter(function(el) {
                 return el.episode.getID() == event.episode.getID();
-            }).length == 1;
+            }).length > 0;
         }
 
         /**
