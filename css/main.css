@@ -909,7 +909,7 @@ series-list> div {
   background-color: rgb(20, 22, 24);
   z-index: 1000;
   width: 100%;
-  transition: width 0.35s linear, transform 0.3s ease-in;
+  transition: width 0.35s linear, transform 0.15s ease-in;
   transform: translate3d(-100%, 0, 0);
 }
 

@@ -247,7 +247,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         // note: separate state from serie.season.episode navigation because we want to only open the sidepanel from the calendar, not expand it
         .state('episode', {
-            sticky: true,
             url: '/episode/:episode_id',
             resolve: {
                 SidePanelState: showSidePanel,
@@ -276,7 +275,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('serie', {
-            sticky: true,
             url: '/series/:id',
             resolve: {
                 SidePanelState: showSidePanel,
@@ -303,7 +301,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('serie.details', {
-            sticky: true,
             url: '/details',
             resolve: {
                 SidePanelState: expandSidePanel,
@@ -316,7 +313,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
         })
 
         .state('serie.seasons', {
-            sticky: true,
             url: '/seasons',
             resolve: {
                 SidePanelState: expandSidePanel,
@@ -337,7 +333,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         // note: this is a sub state of the serie state. the serie is already resolved here and doesn't need to be redeclared!
         .state('serie.season', {
-            sticky: true,
             url: '/season/:season_id',
             resolve: {
                 SidePanelState: expandSidePanel,
@@ -360,7 +355,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         // note: this is a sub state of the serie state. the serie is already resolved here and doesn't need to be redeclared!
         .state('serie.season.episode', {
-            sticky: true,
             url: '/episode/:episode_id',
             resolve: {
                 SidePanelState: expandSidePanelIfOpen,
@@ -382,7 +376,6 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
 
         .state('settings', {
             url: '/settings',
-            sticky: false,
             resolve: {
                 SidePanelState: showSidePanel,
             },

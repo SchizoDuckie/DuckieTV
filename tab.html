@@ -30,7 +30,7 @@
 
   <div class="container" ng-class="{'topsites': getSetting('topSites.enabled')}">
     <clicktrap></clicktrap>
-    <calendar ng-if="getSetting('main.viewmode') == 'calendar' && !isPanelOpen()" event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}"></calendar>
+    <calendar ng-if="getSetting('main.viewmode') == 'calendar'" ng-show="!isPanelOpen()" event-service="CalendarEvents" view="{{getSetting('calendar.mode')}}"></calendar>
     <calendar ng-if="getSetting('main.viewmode') == 'todo'" template="templates/todopicker.html" event-service="CalendarEvents" view="date"></calendar>
   </div>
 
