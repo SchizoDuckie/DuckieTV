@@ -29,12 +29,12 @@
    </div>  
 </div>
 
+<!-- search Providers list -->
 <div class="torrentBtns btn-group" style="margin-top:10px; margin-bottom:10px;">
   <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
 </div>
-<!-- search Providers list -->
 
-<!-- global include/exclude and size min/max check boxes -->
+<!-- Require/Ignore Keywords and size min/max check boxes -->
 <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
   <div class="row">
     <div class="col col-md-3 checkbox" ng-if="requireKeywords.length > 0">
@@ -69,6 +69,7 @@
 
   </div>
 </div>
+
 <!-- search results -->
 <div style="max-height: 620px;overflow-x: auto">
   <table class="torrents table table-condensed white">
