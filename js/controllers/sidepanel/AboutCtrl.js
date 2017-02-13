@@ -10,6 +10,8 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
         $scope.closeSidePanel = function() {
             $injector.get('$state').go('calendar');
         }
+        
+        $scope.isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1);
 
         // If we load onto the page highlight the button
         document.querySelector('#actionbar_about').classList.add('active');
@@ -30,6 +32,11 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 localStorage.setItem('optin_error_reporting.start_time', new Date().getTime());
                 window.location.reload();
             }
+        };
+
+        $scope.copyStatsToClipboard = function() {
+            var clip = require('nw.gui').Clipboard.get();
+            clip.set(angular.toJson($scope.statistics, true), 'text');
         };
 
         var getStats = function() {
@@ -149,7 +156,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             }];
 
             // nwjs and chromium for standalone versions
-            if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
+            if ($scope.isStandalone) {
                 $scope.statistics.unshift({
                     name: 'NWJS, Chromium',
                     data: process.versions['nw'] + ' , ' + process.versions['chromium']
