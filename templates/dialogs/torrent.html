@@ -34,7 +34,7 @@
       <label for="tc_gee"><strong translate-once>TORRENTDIALOG/search-ignore-keywords/lbl</strong><br>({{ignoreKeywords}})</label>
     </div>
 
-    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMin == null && globalSizeMin > 0">
+    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMin == null && globalSizeMin != null">
       <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" id="tc_gsm">
       <label for="tc_gsm"><strong translate-once>TORRENTDIALOG/search-global-size-min/lbl</strong><br>({{globalSizeMin}} MB)</label>
     </div>
@@ -44,7 +44,7 @@
       <label for="tc_gsm2"><strong translate-once>TORRENTDIALOG/search-custom-size-min/lbl</strong><br> ({{serie.customSearchSizeMin}}) MB</label>
     </div>
 
-    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMax == null">
+    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMax == null && globalSizeMax != null">
       <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" id="tc_gsme">
       <label for="tc_gsme"><strong translate-once>TORRENTDIALOG/search-global-size-max/lbl</strong><br>({{globalSizeMax}} MB)</label>
     </div>
