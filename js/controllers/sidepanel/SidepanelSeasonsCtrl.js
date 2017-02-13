@@ -1,7 +1,7 @@
 /**
  * Controller for all seasons view
  */
-DuckieTV.controller('SidepanelSeasonsCtrl', ["seasons", "$rootScope", "$q", "$filter", "$injector", function(seasons, $rootScope, $q, $filter, $injector) {
+DuckieTV.controller('SidepanelSeasonsCtrl', ["seasons", "$rootScope", "$q", "SidePanelState", "$state", function(seasons, $rootScope, $q, $filter, SidePanelState, $state) {
     var self = this;
     this.seasons = seasons;
     this.markAllWatchedAlert = false;
@@ -10,8 +10,10 @@ DuckieTV.controller('SidepanelSeasonsCtrl', ["seasons", "$rootScope", "$q", "$fi
      * Closes the SidePanel expansion
      */
     this.closeSidePanelExpansion = function() {
-        $injector.get('SidePanelState').contract();
-        $injector.get('$state').go('serie');
+        SidePanelState.contract();
+        $state.go('serie', {
+            id: this.seasons[0].ID_Serie
+        });
     }
 
     this.markAllWatched = function() {

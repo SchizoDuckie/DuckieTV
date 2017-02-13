@@ -515,8 +515,10 @@ button span, .dropdown-menu span, .dropdown-menu input {
 }
 
 .close:focus, .close:hover, button.close {
-  color: gray;
+  color: white;
+  opacity: 0.8;
 }
+
 
 input[type=text], input[type=url], input[type=password], input[type=number], option, select, select.form-control {
   border: 1px solid rgba(255, 255, 255, 0.4);

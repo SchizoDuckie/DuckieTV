@@ -1,4 +1,5 @@
 DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$scope", "$filter", "$location", "$locale", "$q", "$state", "dialogs", "FavoritesService", "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SeriesListState", "SettingsService", "TraktTVv2",
+
     function($rootScope, $scope, $filter, $location, $locale, $q, $state, dialogs, FavoritesService, latestSeason, notWatchedSeason, serie, SidePanelState, SeriesListState, SettingsService, TraktTVv2) {
 
         var self = this;
@@ -10,22 +11,17 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$scope", "$filter", "$
         this.isRefreshing = false;
         this.markAllWatchedAlert = false;
 
-        /**
-         * Closes the SidePanel 
-         */
-        this.closeSidePanel = function() {
 
-        }
 
         /**
          * Closes the SidePanel expansion
          */
-        this.closeSidePanelExpansion = function() {
-            SidePanelState.contract();
-            $state.go('serie');
+        this.closeSidePanel = function() {
+            SidePanelState.hide();
         }
 
         this.refresh = function(serie) {
+
             this.isRefreshing = true;
             //console.debug("Refreshing!");
             TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(self.selectSerie).then(function(result) {
@@ -49,12 +45,34 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$scope", "$filter", "$
                 var dayLbl = (totalRunDays === 1) ? timePlurals[0] : timePlurals[1];
                 var hourLbl = (totalRunHours === 1) ? timePlurals[2] : timePlurals[3];
                 var minuteLbl = (totalRunMinutes === 1) ? timePlurals[4] : timePlurals[5];
-                self.totalRunLbl = totalRunDays.toString() + dayLbl + totalRunHours.toString() + hourLbl + totalRunMinutes.toString() + minuteLbl;
+                self.totalRunLbl = ((totalRunDays > 0) ? (totalRunDays.toString() + dayLbl) : "") + totalRunHours.toString() + hourLbl + totalRunMinutes.toString() + minuteLbl;
             } else {
                 self.totalRunTime = 1;
                 self.totalRunLbl = '0' + timePlurals[1] + '0' + timePlurals[3] + '0' + timePlurals[5];
             }
-        });
+            return true;
+        }).then(function() {
+
+            CRUD.executeQuery('select count(ID_Episode) as amount from Episodes where seasonnumber > 0 AND firstaired > 0 AND firstaired < ? AND ID_Serie = ? AND watched = 1 group by episodes.ID_Serie', [new Date().getTime(), self.serie.ID_Serie]).then(function(result) {
+                if (result.rs.rows.length > 0) {
+                    self.totalWatchedTime = result.rs.rows.item(0).amount * self.serie.runtime;
+                    var totalRunDays = Math.floor(self.totalWatchedTime / 60 / 24);
+                    var totalRunHours = Math.floor((self.totalWatchedTime % (60 * 24)) / 60);
+                    var totalRunMinutes = self.totalWatchedTime % 60;
+                    var dayLbl = (totalRunDays === 1) ? timePlurals[0] : timePlurals[1];
+                    var hourLbl = (totalRunHours === 1) ? timePlurals[2] : timePlurals[3];
+                    var minuteLbl = (totalRunMinutes === 1) ? timePlurals[4] : timePlurals[5];
+                    self.totalWatchedLbl = ((totalRunDays > 0) ? totalRunDays.toString() + dayLbl : "") + ((totalRunHours > 0) ? totalRunHours.toString() + hourLbl : "") + totalRunMinutes.toString() + minuteLbl;
+                    self.totalWatchedPercent = $filter('number')(self.totalWatchedTime / self.totalRunTime * 100, 2);
+                } else {
+                    self.totalWatchedTime = 1;
+                    self.totalWatchedLbl = '0' + timePlurals[1] + '0' + timePlurals[3] + '0' + timePlurals[5];
+                    self.totalWatchedPercent = 0;
+                }
+                $scope.$applyAsync();
+            });
+        })
+
 
         this.nextEpisode = null;
         this.prevEpisode = null;
