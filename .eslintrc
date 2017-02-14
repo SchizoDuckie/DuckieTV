@@ -47,6 +47,8 @@
         "angular/no-angular-mock": 0,
         "angular/no-controller": 0,
         "angular/no-cookiestore": 2,
+        "angular/no-directive-replace": 2,
+        "angular/no-http-callback": 2,
         "angular/no-jquery-angularelement": 2,
         "angular/no-private-call": 2,
         "angular/no-service-method": 2,

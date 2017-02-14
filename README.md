@@ -1,4 +1,5 @@
-DuckieTV Binary, Chrome and Online [![Build Status](https://travis-ci.org/SchizoDuckie/DuckieTV.svg?branch=angular)](https://travis-ci.org/SchizoDuckie/DuckieTV)
+DuckieTV Binary, Chrome and Online [![Build Status](https://travis-ci.org/SchizoDuckie/DuckieTV.svg?branch=angular)](https://travis-ci.org/SchizoDuckie/DuckieTV) 
+[![Test Coverage](https://codeclimate.com/repos/587fe049eb86656e960029f3/badges/48187b164e477049019f/coverage.svg)](https://codeclimate.com/repos/587fe049eb86656e960029f3/coverage)
 ==============================================
 
 DuckieTV is an application that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
