@@ -5,48 +5,65 @@ module.exports = function(config) {
     var configuration = {
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '',
+        basePath: '.',
 
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['jasmine', 'requirejs'],
+        frameworks: ['jasmine'],
 
         // list of files / patterns to load in the browser
         files: [
-            'tests/test-main.js',
-            'js/vendor/promise-3.2.0.js',
+            'js/vendor/promise.min.js',
             'js/vendor/CRUD.js',
             'js/vendor/CRUD.SqliteAdapter.js',
             'js/vendor/angular.js',
             'js/vendor/angular-mocks.js',
             'js/vendor/angular-animate.min.js',
             'js/vendor/angular-sanitize.min.js',
-            'js/vendor/angular-route.min.js',
-            'js/vendor/angular-translate.min.js',
+            'js/vendor/angular-messages.min.js',
+            'js/vendor/angular-translate.js',
             'js/vendor/angular-translate-loader-static-files.min.js',
+            'js/vendor/angular-translate-loader-partial.min.js',
             'js/vendor/tmhDynamicLocale.js',
-            'js/vendor/dialogs.js',
-            'js/vendor/datePicker.js',
-            'js/vendor/ui-bootstrap-tpls-0.13.0.min.js',
-			'js/vendor/ui-router-0.2.13.min.js',
-			'js/vendor/ct-ui-router-extras.core.min.js',
-			'js/vendor/ct-ui-router-extras.sticky.min.js',
-
+            'js/vendor/dialogs.quacked.js',
+            'js/vendor/ui-bootstrap-custom-tpls-2.5.0.min.js',
+            'js/vendor/ui-router.min.js',
+            'js/vendor/ct-ui-router-extras.core.min.js',
+            'js/vendor/ct-ui-router-extras.sticky.min.js',
+            'js/vendor/api-check.min.js',
+            'js/vendor/formly.min.js',
+            'js/vendor/formly.min.js',
+            'js/vendor/angular-formly-templates-bootstrap.min.js',
+            'js/vendor/moment.quacked.js',
+            'js/vendor/toaster.js',
+            'js/vendor/angular-xmlrpc.js',
+            'js/vendor/angular-dialgauge.quacked.js',
+            'tests/bootstrap.js',
             'js/CRUD.entities.js',
             'js/*.js',
-            'js/directives/*.js',
+            'js/directives/**.js',
             'js/services/*.js',
-            'js/controllers/*.js', {
-                pattern: 'tests/**.test.js',
-                included: false
+            'js/services/TorrentClients/TorrentData.js',
+            'js/services/*/*.js',
+            'js/controllers/**.js',
+            'tests/test-main.js', {
+                pattern: 'tests/CalendarEvents.test.js',
+                included: true
             }, {
                 pattern: 'tests/fixtures/*.json',
-                included: false
+                included: false,
+                served: true
+            }, {
+                pattern: '_locales/*.json',
+                included: false,
+                served: true
             }
+
         ],
 
         exclude: [
+
             'js/background.js',
             'tests/*.spec.js'
         ],

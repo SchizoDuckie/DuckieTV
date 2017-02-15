@@ -109,6 +109,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         }
 
         var service = {
+            events: calendarEvents,
             /**
              * setVisibleDays function is called from the calendar directive.
              * It fills the CalendarEvents with days that are currently on display and makes sure
@@ -231,6 +232,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
              */
             getEvents: function(date) {
                 var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
+
                 return (str in calendarEvents) ? calendarEvents[str] : [];
             },
 
