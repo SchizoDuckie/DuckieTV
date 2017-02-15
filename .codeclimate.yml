@@ -2,3 +2,4 @@ exclude_paths:
 - "js/vendor/*"
 - "_locales/*"
 - "test/fixtures/*"
+- "js/directives/datePicker.js"
