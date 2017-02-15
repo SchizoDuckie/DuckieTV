@@ -84,7 +84,7 @@ Function.prototype.extends = function(ParentClass, prototypeImplementations) {
     }, this);
 };
 
-console.log("%cDuckieTV", "color:transparent; font-size: 16pt; line-height: 125px; padding:25px; padding-top:30px; padding-bottom:60px; background-image:url(https://duckietv.github.io/DuckieTV/img/logo/icon128.png); background-repeat:no-repeat; ", "quack!\n\n\n\n\n\n");
+console.info("%cDuckieTV", "color:transparent; font-size: 16pt; line-height: 125px; padding:25px; padding-top:30px; padding-bottom:60px; background-image:url(https://duckietv.github.io/DuckieTV/img/logo/icon128.png); background-repeat:no-repeat; ", "quack!\n\n\n\n\n\n");
 
 
 if (localStorage.getItem('optin_error_reporting')) {
@@ -131,8 +131,10 @@ if (localStorage.getItem('optin_error_reporting')) {
                 }
             });
             // dump local storage with exceptions to avoid overload.
-            var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage)); 
-            ['userPreferences','torrenting.hashList','trakttv.token','trakttv.trending.cache','alarms','xem.mappings','snr.name-exceptions','snr.date-exceptions'].map(function(key) { delete dumpLocalStorage[key]; });
+            var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage));
+            ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'alarms', 'xem.mappings', 'snr.name-exceptions', 'snr.date-exceptions'].map(function(key) {
+                delete dumpLocalStorage[key];
+            });
             var data = "Message: " + msg + "<br>";
             data += "URL: " + url + "<br>";
             data += "Line: " + line + "<br>";
@@ -161,7 +163,7 @@ if (localStorage.getItem('optin_error_reporting')) {
             var wanted = true;
             blacklist.map(function(unwanted) {
                 if (args[0].indexOf(unwanted) > -1) {
-                    wanted = false; 
+                    wanted = false;
                 };
             });
             if (wanted) {
@@ -173,13 +175,15 @@ if (localStorage.getItem('optin_error_reporting')) {
                     }
                 });
                 // dump local storage with exceptions to avoid overload.
-                var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage)); 
-                ['userPreferences','torrenting.hashList','trakttv.token','trakttv.trending.cache','alarms','xem.mappings','snr.name-exceptions','snr.date-exceptions'].map(function(key) { delete dumpLocalStorage[key]; });
+                var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage));
+                ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'alarms', 'xem.mappings', 'snr.name-exceptions', 'snr.date-exceptions'].map(function(key) {
+                    delete dumpLocalStorage[key];
+                });
                 var data = "Message: " + JSON.stringify(arguments) + "<br>";
                 data += "Platform: " + navigator.platform + "<br>";
                 data += "User Agent: " + navigator.userAgent + "<br>";
                 data += "Config: <pre>" + angular.toJson(userPrefs, true) + "</pre>";
-                data += "Local Storage (filtered): <pre>" + angular.toJson(dumpLocalStorage, true)  + "</pre>";
+                data += "Local Storage (filtered): <pre>" + angular.toJson(dumpLocalStorage, true) + "</pre>";
                 log.events.createEvent()
                     .text("Console.error: " + JSON.stringify(arguments))
                     .tags("error")
@@ -202,8 +206,8 @@ if (localStorage.getItem('optin_error_reporting')) {
  * if the String contains a base16 infoHash then extract it and return it
  * if the String contains a base32 infoHash then extract it, convert it to base16 and return that.
  */
-String.prototype.getInfoHash = function () {
-    var infoHash16 = this.match(/([0-9A-Fa-f]{40})/);  // extract base16 infoHash
+String.prototype.getInfoHash = function() {
+    var infoHash16 = this.match(/([0-9A-Fa-f]{40})/); // extract base16 infoHash
     if (infoHash16 && infoHash16.length) {
         return infoHash16[0].toUpperCase();
     } else {
@@ -221,8 +225,8 @@ String.prototype.getInfoHash = function () {
  * if the String contains a base16 infoHash then return the String with the infoHash in UpperCase.
  * if the String contains a base32 infoHash then replace it with the base16 equivalent.
  */
-String.prototype.replaceInfoHash = function () {
-    var infoHash16 = this.match(/([0-9A-Fa-f]{40})/);  // extract base16 infoHash
+String.prototype.replaceInfoHash = function() {
+    var infoHash16 = this.match(/([0-9A-Fa-f]{40})/); // extract base16 infoHash
     if (infoHash16 && infoHash16.length) {
         return this.replace(infoHash16[0], infoHash16[0].toUpperCase()); // replace base16 with upperCase
     } else {
@@ -241,7 +245,7 @@ String.prototype.replaceInfoHash = function () {
  */
 Number.prototype.minsToDhm = function() {
     var days = parseInt(this / (60 * 24));
-    var hours = parseInt(this / 60 ) % 24;
+    var hours = parseInt(this / 60) % 24;
     var minutes = parseInt(this) % 60;
     return days + " " + ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2);
 };
@@ -251,11 +255,10 @@ Number.prototype.minsToDhm = function() {
  * converts a "days hours:minutes" string to numerical total minutes
  */
 String.prototype.dhmToMins = function() {
-    var dhmPart = this.split(/[\s:]+/,3);
+    var dhmPart = this.split(/[\s:]+/, 3);
     if (dhmPart.length === 3) {
-        return parseInt(dhmPart[0] * 24 * 60) + parseInt(dhmPart[1] * 60) + parseInt(dhmPart[2]);       
+        return parseInt(dhmPart[0] * 24 * 60) + parseInt(dhmPart[1] * 60) + parseInt(dhmPart[2]);
     } else {
         return undefined;
     }
 };
-   

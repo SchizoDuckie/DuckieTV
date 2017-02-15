@@ -93,7 +93,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
             Object.keys(calendarEvents).map(function(date) {
                 var eventList = calendarEvents[date];
                 for (var index = eventList.length - 1; index > -1; index--) {
-                    if (FavoritesService.favoriteIDs.indexOf(eventList[index].TVDB_ID) == -1) {
+                if (FavoritesService.favoriteIDs.indexOf(eventList[index].serie.TVDB_ID) == -1) {
                         calendarEvents[date].splice(index, 1);
                     }
                 }
@@ -109,7 +109,9 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         }
 
         var service = {
-            events: calendarEvents,
+            getAllEvents: function() {
+                return calendarEvents;
+            },
             /**
              * setVisibleDays function is called from the calendar directive.
              * It fills the CalendarEvents with days that are currently on display and makes sure
@@ -175,8 +177,11 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
             setEvents: function(events) {
                 removeDeleted();
                 events.map(function(event) {
-                    var date = new Date(new Date(event.start).getTime()).toDateString();
-                    if (!(date in calendarEvents)) return;
+
+                    var date = new Date(event.start).toDateString();
+                    if (!(date in calendarEvents)) {
+                        return;
+                    }
                     deleteDuplicates(event.episode.getID(), date);
                     if ((!showSpecials && event.episode.seasonnumber > 0) || showSpecials || event.serie.ignoreHideSpecials == 1) {
                         addEvent(date, event);
@@ -232,7 +237,6 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
              */
             getEvents: function(date) {
                 var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString();
-
                 return (str in calendarEvents) ? calendarEvents[str] : [];
             },
 

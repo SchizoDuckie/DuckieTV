@@ -88,7 +88,18 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'autobackup.period': 'monthly',
                 'autodownload.delay': 15,
                 'autodownload.minSeeders': 50,
-                'autodownload.multiSE': {"ThePirateBay": true, "1337x": true, "IsoHunt": true, "KATcr": true, "Nyaa": true, "RarBG": true, "ShowRSS": true, "TorrentDownloads": true, "TorrentZ2": true, "Zooqle": true},
+                'autodownload.multiSE': {
+                    "ThePirateBay": true,
+                    "1337x": true,
+                    "IsoHunt": true,
+                    "KATcr": true,
+                    "Nyaa": true,
+                    "RarBG": true,
+                    "ShowRSS": true,
+                    "TorrentDownloads": true,
+                    "TorrentZ2": true,
+                    "Zooqle": true
+                },
                 'autodownload.multiSE.enabled': false,
                 'autodownload.period': 1,
                 'background-rotator.opacity': '0.4',
@@ -124,7 +135,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'qbittorrent32plus.server': 'http://localhost',
                 'qbittorrent32plus.use_auth': true,
                 'qbittorrent32plus.username': 'admin',
-                'rtorrent.path' : '/RPC2',
+                'rtorrent.path': '/RPC2',
                 'rtorrent.port': 80,
                 'rtorrent.server': 'http://localhost',
                 'rtorrent.use_auth': false,
@@ -140,7 +151,18 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'tixati.username': 'admin',
                 'topSites.enabled': true,
                 'topSites.mode': 'onhover',
-                'torrentDialog.2.activeSE': {"ThePirateBay": true, "1337x": true, "IsoHunt": true, "KATcr": true, "Nyaa": true, "RarBG": true, "ShowRSS": true, "TorrentDownloads": true, "TorrentZ2": true, "Zooqle": true},
+                'torrentDialog.2.activeSE': {
+                    "ThePirateBay": true,
+                    "1337x": true,
+                    "IsoHunt": true,
+                    "KATcr": true,
+                    "Nyaa": true,
+                    "RarBG": true,
+                    "ShowRSS": true,
+                    "TorrentDownloads": true,
+                    "TorrentZ2": true,
+                    "Zooqle": true
+                },
                 'torrentDialog.2.enabled': false,
                 'torrentDialog.showAdvanced.enabled': true,
                 'torrentDialog.sortMenu.enabled': true,
@@ -164,7 +186,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'torrenting.progress': true,
                 'torrenting.searchprovider': 'ThePirateBay',
                 'torrenting.searchquality': '',
-                'torrenting.searchqualitylist': [ "480p", "HDTV", "720p", "1080p", "2160p" ],
+                'torrenting.searchqualitylist': ["480p", "HDTV", "720p", "1080p", "2160p"],
                 'torrenting.streaming': true,
                 'trakt-update.period': 12,
                 'trakttv.passwordHash': null,
@@ -226,7 +248,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                     service.settings = service.defaults;
                 } else {
                     service.settings = angular.fromJson(localStorage.getItem('userPreferences'));
-                    if(navigator.userAgent.indexOf('Standalone') > -1) {
+                    if (navigator.userAgent.indexOf('Standalone') > -1) {
                         service.settings['topSites.enabled'] = false;
                     }
                 }
@@ -235,7 +257,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
              * Change the UI language and locale to use for translations tmhDynamicLocale
              */
             changeLanguage: function(langKey, locale) {
-                console.warn("SettingsService.changeLanguage", langKey, locale);
+                console.info("SettingsService.changeLanguage", langKey, locale);
                 langKey = angular.lowercase(langKey) || 'en_us';
                 var locale = langKey;
 

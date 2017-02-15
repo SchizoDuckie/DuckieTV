@@ -23,7 +23,7 @@ DuckieTV.factory('StorageSyncService', ["$rootScope", "$q", "FavoritesService", 
             wipeMode: false,
 
             registerTarget: function(targetName) {
-                console.log("Register new storage sync target!", targetName);
+                console.info("Register new storage sync target!", targetName);
                 service.targets.push($injector.get(targetName));
             },
 

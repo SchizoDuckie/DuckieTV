@@ -1,3 +1,5 @@
+console.info = function() {};
+
 var DuckieTV = angular.module('DuckieTV', [
     'formly',
     'formlyBootstrap',
