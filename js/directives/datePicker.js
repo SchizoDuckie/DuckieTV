@@ -204,6 +204,12 @@ DuckieTV
                     expandedSeries[key] = true;
                 });
 
+               scope.filterEvents = function(event) {
+                     if (!event.serie) return false;
+                     if (event.serie.displaycalendar == 0) return false;
+                     else return true;
+                 };
+
                 scope.setView = function(nextView) {
                     if (scope.views.indexOf(nextView) !== -1) {
                         scope.view = nextView;
