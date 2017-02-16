@@ -56,7 +56,8 @@
     "dependencies": {},
     "scripts": {
         "test": "node_modules/.bin/karma start --single-run",
-        "test-watch": "node_modules/.bin/karma start --no-single-run --auto-watch --browsers PhantomJS"
+        "test-watch": "node_modules/.bin/karma start --no-single-run --auto-watch --browsers PhantomJS",
+        "test-debug": "node_modules/.bin/karma start --no-single-run --auto-watch"
     },
     "webkit": {
         "java": false,
