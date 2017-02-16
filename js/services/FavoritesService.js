@@ -323,7 +323,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                 })[0];
             },
             hasFavorite: function(id) {
-                return service.favoriteIDs.indexOf(id) > -1;
+                return service.favoriteIDs.indexOf(id.toString()) > -1;
             },
             /**
              * Remove a serie, it's seasons, and it's episodes from the database.

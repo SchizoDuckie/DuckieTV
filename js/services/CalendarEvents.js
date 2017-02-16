@@ -16,7 +16,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
 /* #843
         $rootScope.$on("storage:update", function() {
             console.log("Calendar detected that storage was updated removing deleted.");
-            removeDeleted();
+            service.removeDeleted();
         }.bind(this))
 */
         /**
@@ -83,32 +83,30 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
             }
         }
 
-        /**
-         * Remove shows that were deleted from the database from the calendar.
-         */
-        function removeDeleted() {
-            /**
-             * Why god whydowehave 2 now?
-             */
-            Object.keys(calendarEvents).map(function(date) {
-                var eventList = calendarEvents[date];
-                for (var index = eventList.length - 1; index > -1; index--) {
-                if (FavoritesService.favoriteIDs.indexOf(eventList[index].serie.TVDB_ID) == -1) {
-                        calendarEvents[date].splice(index, 1);
-                    }
-                }
-                var eventList = calendarEpisodeSortCache[date];
-                if (!eventList) return;
-                for (var index = eventList.length - 1; index > -1; index--) {
-
-                    if (FavoritesService.favoriteIDs.indexOf(eventList[index][0].serie.TVDB_ID.toString()) == -1) {
-                        calendarEpisodeSortCache[date].splice(index, 1);
-                    }
-                }
-            });
-        }
 
         var service = {
+            /**
+             * Remove shows that were deleted from the database from the calendar.
+             */
+            removeDeleted: function() {
+
+                Object.keys(calendarEvents).map(function(date) {
+                    var eventList = calendarEvents[date];
+                    for (var index = eventList.length - 1; index > -1; index--) {
+                        if (FavoritesService.favoriteIDs.indexOf(eventList[index].serie.TVDB_ID.toString()) == -1) {
+                            calendarEvents[date].splice(index, 1);
+                        }
+                    }
+                    var eventList = calendarEpisodeSortCache[date];
+                    if (!eventList) return;
+                    for (var index = eventList.length - 1; index > -1; index--) {
+
+                        if (FavoritesService.favoriteIDs.indexOf(eventList[index][0].serie.TVDB_ID.toString()) == -1) {
+                            calendarEpisodeSortCache[date].splice(index, 1);
+                        }
+                    }
+                });
+            },
             getAllEvents: function() {
                 return calendarEvents;
             },
@@ -175,7 +173,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
              * The calendarEvents cache is updated per day so the calendar doesn't refresh unnecessarily
              */
             setEvents: function(events) {
-                removeDeleted();
+                service.removeDeleted();
                 events.map(function(event) {
 
                     var date = new Date(event.start).toDateString();

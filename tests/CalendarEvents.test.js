@@ -1,13 +1,13 @@
 describe('CalendarEvents', function() {
 
-    var CalendarEvents, FavoritesService, $rootScope, $scope;
+    var CalendarEvents, FavoritesService, SettingsService, rootScope, $scope;
 
     function loadFixtures() {
         var events = fixture('calendarevents');
 
         Object.keys(events).map(function(date) {
             events[date].map(function(value, key) {
-                FavoritesService.favoriteIDs.push(value.serie.TVDB_ID);
+                FavoritesService.favoriteIDs.push(value.serie.TVDB_ID.toString());
                 events[date][key].serie = CRUD.fromCache(Serie, value.serie);
                 events[date][key].episode = CRUD.fromCache(Episode, value.episode);
             });
@@ -19,7 +19,7 @@ describe('CalendarEvents', function() {
         var events = fixture('calendarupdate');
 
         events.serie = CRUD.fromCache(Serie, events.serie);
-        FavoritesService.favoriteIDs.push(events.serie.TVDB_ID);
+        FavoritesService.favoriteIDs.push(events.serie.TVDB_ID.toString());
 
         Object.keys(events.episodes).map(function(id) {
             events.episodes[id] = CRUD.fromCache(Episode, events.episodes[id]);
@@ -27,9 +27,12 @@ describe('CalendarEvents', function() {
         return events;
     }
 
-    beforeEach(inject(function(_CalendarEvents_, _FavoritesService_) {
+    beforeEach(inject(function(_CalendarEvents_, _FavoritesService_, _SettingsService_, $rootScope) {
+
         CalendarEvents = _CalendarEvents_;
         FavoritesService = _FavoritesService_;
+        SettingsService = _SettingsService_;
+        rootScope = $rootScope;
         CalendarEvents.setVisibleDays([
             [
                 new Date("Sun Jan 39 2017"),
@@ -147,12 +150,41 @@ describe('CalendarEvents', function() {
         expect(CalendarEvents.getEvents("Mon Jan 30 2017").length).toBe(3);
     });
 
-    it('should be able to handle updates from the TraktTVUpdateService', function() {
-        expect(CalendarEvents.getEvents("Wed Feb 01 2017").length).toBe(4);
+    it('should be able to update events via processEpisodes', function() {
         var fixtures = loadUpdateFixtures();
         CalendarEvents.processEpisodes(fixtures.serie, fixtures.episodes);
+        expect(CalendarEvents.getEvents("Tue Jan 31 2017").length).toBe(4);
 
-        expect(CalendarEvents.getEvents("Wed Feb 01 2017").length).toBe(4);
+    });
+
+    it('should be able to run removeDeleted at any time and not modify the episode count if nothing changed', function() {
+
+        spyOn(CalendarEvents, 'removeDeleted').and.callThrough();
+
+        var fixtures = loadFixtures()["Tue Jan 31 2017"];
+        CalendarEvents.setEvents(fixtures);
+        expect(CalendarEvents.removeDeleted).toHaveBeenCalled();
+        expect(CalendarEvents.getEvents("Tue Jan 31 2017").length).toBe(4);
+        rootScope.$broadcast('storage:update');
+        expect(CalendarEvents.getEvents("Tue Jan 31 2017").length).toBe(4);
+        expect(CalendarEvents.removeDeleted).toHaveBeenCalled();
+    });
+
+    it('should be able to run removeDeleted when the TVDB_IDs in FavoritesService.favoriteIDs are strings instead of ints', function() {
+
+        spyOn(CalendarEvents, 'removeDeleted').and.callThrough();
+
+        var fixtures = loadFixtures()["Mon Jan 30 2017"];
+
+        FavoritesService.favoriteIDs.map(function(value, key) {
+            FavoritesService.favoriteIDs[key] = value.toString();
+        });
+
+        CalendarEvents.setEvents(fixtures);
+
+        rootScope.$broadcast('storage:update');
+        expect(CalendarEvents.getEvents("Mon Jan 30 2017").length).toBe(3);
+        expect(CalendarEvents.removeDeleted).toHaveBeenCalled();
     });
 
 
