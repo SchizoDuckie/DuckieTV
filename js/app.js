@@ -43,6 +43,21 @@ var DuckieTV = angular.module('DuckieTV', [
 ])
 
 /**
+ * Filter for calendar events as used by templates/datepicker.html for instance.
+ */
+.filter('filterEvents',
+    function() {
+        return function(events) {
+            return events.filter(function (event) {
+                if (!event.serie) return false;
+                if (event.serie.displaycalendar == 0) return false;
+                else return true;
+            })
+        }
+    }
+)
+
+/**
  * BackupService is injected whenever a backup is requested
  *
  * The backup format is a simple JSON file that has the following structure:
