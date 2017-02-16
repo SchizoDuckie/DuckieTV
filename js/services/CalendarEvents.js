@@ -13,12 +13,12 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
         var calendarStartDate = null;
         var calendarEndDate = null;
         var showSpecials = SettingsService.get('calendar.show-specials');
-
+/* #843
         $rootScope.$on("storage:update", function() {
             console.log("Calendar detected that storage was updated removing deleted.");
             removeDeleted();
         }.bind(this))
-
+*/
         /**
          * Check if an episode already exists on a date in the calendar.
          */
