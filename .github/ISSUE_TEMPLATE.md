@@ -1,7 +1,7 @@
 **What build of DuckieTV are you using (Standlone / Chrome Extension (New Tab / Browser Action))**
 ...
 
-**What version of DuckieTV are you using (Stable 1.1.x / Nightly yyyymmdd)**
+**What version of DuckieTV are you using (Stable 1.1.x / Nightly yyyymmddHHMM)**
 ...
 
 **What is your Operating System (Windows, Mac, Linux, Android)**
