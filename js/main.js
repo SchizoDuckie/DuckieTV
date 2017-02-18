@@ -34,7 +34,8 @@ $.extend($.easing, {
             $('html,body').animate({
                     scrollTop: sections[navID] - settings.scrollToOffset
                 },
-                settings.scrollSpeed, "easeInOutExpo", function() {
+                settings.scrollSpeed, "easeInOutExpo",
+                function() {
                     disableScrollFn = false;
                 }
             );
@@ -76,9 +77,9 @@ $.extend($.easing, {
 
 // Manually add the caption box as FeatherLight doesn't support it natively
 $.featherlight.prototype.beforeContent = function() {
-  var caption = this.$currentTarget.find('img').attr('data-caption');
-  this.$instance.find('.caption').remove();
-  $('<div class="caption">').text(caption).appendTo(this.$instance.find('.featherlight-content'));
+    var caption = this.$currentTarget.find('img').attr('data-caption');
+    this.$instance.find('.caption').remove();
+    $('<div class="caption">').text(caption).appendTo(this.$instance.find('.featherlight-content'));
 };
 
 $(document).ready(function() {
@@ -118,19 +119,19 @@ jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').th
     result[0].assets.map(function(release) {
         console.log(release.name);
         if (release.name.indexOf('debug') > -1) return;
-        if (release.name.indexOf('Linux') > -1 && release.name.indexOf(isX64 ? 'x64' : 'ia32') > -1) {
+        if (release.name.indexOf('ubuntu') > -1 && release.name.indexOf(isX64 ? 'x64' : 'x32') > -1) {
             $('.down.linux').click(function() {
                 window.open(release.browser_download_url);
             });
             return;
         }
-        if (release.name.indexOf('Windows') > -1 && release.name.indexOf(isX64 ? 'x64' : 'ia32') > -1) {
+        if (release.name.indexOf('windows') > -1 && release.name.indexOf(isX64 ? 'x64' : 'x32') > -1) {
             $('.down.windows').click(function() {
                 window.open(release.browser_download_url);
             });
             return;
         }
-        if (release.name.indexOf('OSX') > -1 && release.name.indexOf(isX64 ? 'x64' : 'ia32') > -1) {
+        if (release.name.indexOf('OSX') > -1 && release.name.indexOf(isX64 ? 'x64' : 'x32') > -1) {
             $('.down.apple').click(function() {
                 window.open(release.browser_download_url);
             });
