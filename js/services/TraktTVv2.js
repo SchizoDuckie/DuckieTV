@@ -33,7 +33,8 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
             episodeUnseen: 'sync/history/remove',
             userShows: 'sync/collection/shows?extended=full&limit=10000',
             addCollection: 'sync/collection',
-            removeCollection: 'sync/collection/remove'
+            removeCollection: 'sync/collection/remove',
+            newshows: 'calendars/all/shows/new/%s/180'
         };
 
         var parsers = {
@@ -60,6 +61,11 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                 });
             },
             trending: function(result) {
+                return result.data.map(function(show) {
+                    return parsers.trakt(show.show);
+                });
+            },
+            newshows: function(result) {
                 return result.data.map(function(show) {
                     return parsers.trakt(show.show);
                 });
@@ -274,6 +280,11 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                 return promiseRequest('trending', null, null, activeTrendingRequest.promise).then(function(results) {
                     activePromiseRequest = false;
                     cachedTrending = results;
+                    return results;
+                });
+            },
+            newShows: function() {
+                return promiseRequest('newshows', moment('yyyy-mm-dd')).then(function(results) {
                     return results;
                 });
             },

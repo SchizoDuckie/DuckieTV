@@ -6,8 +6,8 @@
  */
 DuckieTV
 
-.factory('TorrentMonitor', ["DuckieTorrent", "SettingsService", "TorrentHashListService",
-    function(DuckieTorrent, SettingsService, TorrentHashListService) {
+    .factory('TorrentMonitor', ["DuckieTorrent", "SettingsService", "TorrentHashListService", "FavoritesService", "NotificationService",
+    function(DuckieTorrent, SettingsService, TorrentHashListService, FavoritesService, NotificationService) {
 
         /**
          * Event that gets called on each torrentdata instance when it updates
@@ -46,7 +46,19 @@ DuckieTV
                     magnetHash: torrenthash
                 }).then(function(episode) {
                     TorrentHashListService.markDownloaded(torrenthash);
-                    if (!episode) return;
+
+                    if (!episode) {
+                        NotificationService.notify(
+                            "Torrent finished",
+                            torrent.name
+                        );
+                    } else {
+                        NotificationService.notify("Torrent finished", [
+                            FavoritesService.getByID_Serie(episode.ID_Serie).name,
+                            episode.getFormattedEpisode()
+                        ].join(" "));
+                    }
+                    return;
                     episode.markDownloaded().then(function(result) {
                         console.info("Episode marked as downloaded in database. ", episode.ID_Serie, episode.getFormattedEpisode());
                     });

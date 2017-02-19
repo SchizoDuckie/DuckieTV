@@ -1,7 +1,7 @@
 DuckieTV
 
-    .controller('torrentDialogCtrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "$filter", "data", "TorrentSearchEngines", "SettingsService", "TorrentHashListService",
-    function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, TorrentHashListService) {
+    .controller('torrentDialogCtrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "$filter", "data", "TorrentSearchEngines", "SettingsService", "TorrentHashListService", "NotificationService", "DuckieTorrent",
+    function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, TorrentHashListService, NotificationService, DuckieTorrent) {
         //-- Variables --//
 
         $scope.items = [];
@@ -41,13 +41,23 @@ DuckieTV
             $scope.searchprovider = $scope.serie.searchProvider;
         }
         $scope.supportsByDir = true; // assume provider supports desc and asc sorting
-        $scope.orderByDir = {'seeders': '.d', 'leechers': '.a', 'size': '.a', 'age': '.d'}; // the default sort direction for each possible sortBy (NOTE: seeders is flipped)
+        $scope.orderByDir = {
+            'seeders': '.d',
+            'leechers': '.a',
+            'size': '.a',
+            'age': '.d'
+        }; // the default sort direction for each possible sortBy (NOTE: seeders is flipped)
         if ('config' in provider && 'orderby' in provider.config) {
             $scope.orderByList = Object.keys(provider.config.orderby); // this SE's sort options
             if (provider.config.orderby['seeders']['d'] === provider.config.orderby['seeders']['a']) {
                 // provider does not support desc and asc sorting
                 $scope.supportsByDir = false;
-                $scope.orderByDir = {'seeders': '.a', 'leechers': '.a', 'size': '.a', 'age': '.d'}; // the default sort direction for each possible sortBy
+                $scope.orderByDir = {
+                    'seeders': '.a',
+                    'leechers': '.a',
+                    'size': '.a',
+                    'age': '.d'
+                }; // the default sort direction for each possible sortBy
             }
         } else {
             $scope.orderByList = [];
@@ -87,7 +97,7 @@ DuckieTV
                 var score = 0;
                 var RequireKeywords_String = $scope.requireKeywordsEnabled ? $scope.requireKeywordsModeOR ? '' : $scope.requireKeywords : ''; // if Require Keywords mode is AND then add require keywords to q
                 // ignore double-quotes and plus symbols on query, and any query minus words
-                var query = [q, $scope.searchquality, RequireKeywords_String].join(' ').toLowerCase().replace(/[\"\+]/g,' ').trim().split(' ');
+                var query = [q, $scope.searchquality, RequireKeywords_String].join(' ').toLowerCase().replace(/[\"\+]/g, ' ').trim().split(' ');
                 var name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (part[0] === '-' || name.indexOf(part) > -1) {
@@ -248,14 +258,24 @@ DuckieTV
             $scope.searchprovider = newProvider;
             provider = TorrentSearchEngines.getSearchEngine($scope.searchprovider);
             $scope.supportsByDir = true; // assume provider supports desc and asc sorting
-            $scope.orderByDir = {'seeders': '.d', 'leechers': '.a', 'size': '.a', 'age': '.d'}; // the default sort direction for each possible sortBy (NOTE: flipped)
+            $scope.orderByDir = {
+                'seeders': '.d',
+                'leechers': '.a',
+                'size': '.a',
+                'age': '.d'
+            }; // the default sort direction for each possible sortBy (NOTE: flipped)
             if ('config' in provider && 'orderby' in provider.config) {
                 // load this provider's orderBy list
                 $scope.orderByList = Object.keys(provider.config.orderby); // this SE's sort options
                 if (provider.config.orderby['seeders']['d'] === provider.config.orderby['seeders']['a']) {
                     // provider does not support desc and asc sorting
                     $scope.supportsByDir = false;
-                    $scope.orderByDir = {'seeders': '.a', 'leechers': '.a', 'size': '.a', 'age': '.d'}; // the default sort direction for each possible sortBy
+                    $scope.orderByDir = {
+                        'seeders': '.a',
+                        'leechers': '.a',
+                        'size': '.a',
+                        'age': '.d'
+                    }; // the default sort direction for each possible sortBy
                 }
             } else {
                 // this provider does not support orderBy sorting
@@ -270,7 +290,7 @@ DuckieTV
         $scope.setOrderBy = function(orderby) {
             if ($scope.supportsByDir) {
                 // provider supports desc and asc sorting, so flip the direction
-                $scope.orderByDir[orderby] === '.a' ? $scope.orderByDir[orderby] = '.d' : $scope.orderByDir[orderby] = '.a' ; // flip sort direction
+                $scope.orderByDir[orderby] === '.a' ? $scope.orderByDir[orderby] = '.d' : $scope.orderByDir[orderby] = '.a'; // flip sort direction
             }
             $scope.orderBy = orderby + $scope.orderByDir[orderby];
             $scope.search($scope.query, undefined, $scope.orderBy);
@@ -283,44 +303,47 @@ DuckieTV
         // Toggle advanced filter state
         $scope.toggleShowAdvanced = function() {
             $scope.showAdvanced = !$scope.showAdvanced;
-            SettingsService.set('torrentDialog.showAdvanced.enabled',$scope.showAdvanced);
+            SettingsService.set('torrentDialog.showAdvanced.enabled', $scope.showAdvanced);
         };
 
         // Selects and launches magnet
         var magnetSelect = function(magnet, dlPath, label) {
-            //console.debug("Magnet selected!", magnet, dlPath, label);
-            if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
-                $modalInstance.close(magnet);
-            }
-
-            var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-            TorrentSearchEngines.launchMagnet(magnet, channel, dlPath, label);
-            // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
-            TorrentHashListService.addToHashList(magnet.getInfoHash());
-        },
-
-        urlSelect = function(url, releasename, dlPath, label) {
-            //console.debug("Torrent URL selected!", url, dlPath, label);
-            if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
-                $modalInstance.close(url);
-            }
-
-            var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-            $injector.get('$http').get(url, {
-                responseType: 'blob'
-            }).then(function(result) {
-                try {
-                    TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename, dlPath, label);
-                } catch (E) {
-                    TorrentSearchEngines.launchTorrentByURL(url, channel, releasename, dlPath, label);
+                //console.debug("Magnet selected!", magnet, dlPath, label);
+                if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
+                    $modalInstance.close(magnet);
                 }
-            });
-        };
+
+                var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
+                TorrentSearchEngines.launchMagnet(magnet, channel, dlPath, label);
+                // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
+                TorrentHashListService.addToHashList(magnet.getInfoHash());
+
+            },
+
+            urlSelect = function(url, releasename, dlPath, label) {
+                //console.debug("Torrent URL selected!", url, dlPath, label);
+                if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
+                    $modalInstance.close(url);
+                }
+
+                var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
+                $injector.get('$http').get(url, {
+                    responseType: 'blob'
+                }).then(function(result) {
+                    try {
+                        TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename, dlPath, label);
+                    } catch (E) {
+                        TorrentSearchEngines.launchTorrentByURL(url, channel, releasename, dlPath, label);
+                    }
+                });
+            };
 
         $scope.select = function(result) {
             //console.debug('select', result);
             var dlPath = ($scope.serie) ? $scope.serie.dlPath : null;
             var label = ($scope.serie && usingLabel) ? $scope.serie.name : null;
+            NotificationService.notify(result.releasename,
+                "Download started on " + DuckieTorrent.getClient().getName());
             if (result.magnetUrl) {
                 //console.debug('using search magnet');
                 return magnetSelect(result.magnetUrl, dlPath, label);
@@ -328,14 +351,14 @@ DuckieTV
                 //console.debug('using search torrent');
                 return urlSelect(result.torrentUrl, result.releasename, dlPath, label);
             } else {
-                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
+                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details) {
                     if (details.magnetUrl) {
                         //console.debug('using details magnet');
                         return magnetSelect(details.magnetUrl, dlPath, label);
                     } else if (details.torrentUrl) {
                         //console.debug('using details torrent');
                         return urlSelect(details.torrentUrl, result.releasename, dlPath, label);
-                    } 
+                    }
                 });
             }
         };
@@ -353,7 +376,7 @@ DuckieTV
                 d.src = url;
                 document.body.appendChild(d);
                 //console.debug("Open via Chromium", d.id, url);
-                var dTimer = setInterval(function () {
+                var dTimer = setInterval(function() {
                     var dDoc = d.contentDocument || d.contentWindow.document;
                     if (dDoc.readyState == 'complete') {
                         document.body.removeChild(d);
@@ -370,7 +393,7 @@ DuckieTV
                 openUrl('magnet', result.magnetUrl);
             } else {
                 // we don't have magnetUrl from search, fetch from details instead
-                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
+                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details) {
                     if (details.magnetUrl) {
                         openUrl('magnet', details.magnetUrl);
                     }
@@ -384,7 +407,7 @@ DuckieTV
                 openUrl('torrent', result.torrentUrl);
             } else {
                 // we don't have torrentUrl from search, fetch from details instead
-                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
+                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details) {
                     if (details.torrentUrl) {
                         openUrl('torrent', details.torrentUrl);
                     }

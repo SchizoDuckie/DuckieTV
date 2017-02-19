@@ -10,19 +10,19 @@
  * @see GenericTorrentSearch for more info or browse through the other torrent clients in this folder.
  */
 
-DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialogs", "$q", "SettingsService", "SceneNameResolver", "$http","$injector",
+DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialogs", "$q", "SettingsService", "SceneNameResolver", "$http", "$injector",
     function(DuckieTorrent, $rootScope, dialogs, $q, SettingsService, SceneNameResolver, $http, $injector) {
         var activeMagnet = false,
-             engines = {},
-             nativeEngines = {},
-             customEngines = {},
-             defaultEngine = 'ThePirateBay',
-             templateName = 'templates/dialogs/torrent.html',
-             dialogCtrl = 'torrentDialogCtrl';
-        
+            engines = {},
+            nativeEngines = {},
+            customEngines = {},
+            defaultEngine = 'ThePirateBay',
+            templateName = 'templates/dialogs/torrent.html',
+            dialogCtrl = 'torrentDialogCtrl';
+
         if (SettingsService.get('torrentDialog.2.enabled')) {
-             templateName = 'templates/dialogs/torrent2.html';
-             dialogCtrl = 'torrentDialog2Ctrl';   
+            templateName = 'templates/dialogs/torrent2.html';
+            dialogCtrl = 'torrentDialog2Ctrl';
         }
 
         function init() {
@@ -39,13 +39,14 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                         return;
                     }
                     console.log("Custom search engine loaded and added to default engines: ", name);
-                    if(name in engines) {
+                    if (name in engines) {
                         console.warn(name, "overrides built-in search engine with the same name!");
                     }
                     engines[name] = customEngines[name].getInstance($q, $http, $injector);
                 });
             })
         }
+
         function openUrl(id, url) {
             if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) && id === 'magnet') {
                 // for standalone, open magnet url direct to os https://github.com/SchizoDuckie/DuckieTV/issues/834
@@ -59,7 +60,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 d.src = url;
                 document.body.appendChild(d);
                 //console.debug("Open via Chromium", d.id, url);
-                var dTimer = setInterval(function () {
+                var dTimer = setInterval(function() {
                     var dDoc = d.contentDocument || d.contentWindow.document;
                     if (dDoc.readyState == 'complete') {
                         document.body.removeChild(d);
@@ -218,7 +219,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     openUrl('torrent', torrentUrl);
                 }
             }
-        }; 
+        };
 
         init();
         service.setDefault(SettingsService.get('torrenting.searchprovider'));
