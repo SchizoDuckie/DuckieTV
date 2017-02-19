@@ -50,6 +50,8 @@
  *      }, $q, $http, $injector));
  *  }]);
  */
+
+
 function GenericTorrentSearchEngine(config, $q, $http, $injector) {
 
     var self = this;
@@ -78,7 +80,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
     function getPropertyForSelector(parentNode, propertyConfig) {
         if (!propertyConfig || !propertyConfig.length || propertyConfig.length < 2) return null;
         var node;
-        if (propertyConfig[0] === '' ) {
+        if (propertyConfig[0] === '') {
             node = parentNode;
         } else {
             node = parentNode.querySelector(propertyConfig[0]);
@@ -109,9 +111,10 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         var results = doc.querySelectorAll(selectors.resultContainer);
         //console.debug('searchcontainer',selectors.resultContainer,results);
         var output = [];
+
         function sizeToMB(size) {
-            size = (typeof size !== 'undefined' && size !== null && size !== '') ? size : '0 MB';
-            var sizeA = (size.replace(',','').split(/\s{1}/)); // size split into value and unit
+            size = (typeof size !== 'undefined' && size !== null && size !== '') ? size.match(/[0-9.]{1,}[\W]{0,}[KTMGmgiBytes]{2,}/)[0] : '0 MB';
+            var sizeA = (size.replace(',', '').split(/\s{1}/)); // size split into value and unit
             var newSize = null; // size converted to MB
             switch (sizeA[1].toUpperCase()) {
                 case 'B':
@@ -153,8 +156,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             if (releasename === null) continue;
             var seed = getPropertyForSelector(results[i], selectors.seeders);
             var leech = getPropertyForSelector(results[i], selectors.leechers);
-            seed = (seed != null) ? seed.replace(',','') : 0;
-            leech = (leech != null) ? leech.replace(',','') : 0;
+            seed = (seed != null) ? seed.replace(',', '') : 0;
+            leech = (leech != null) ? leech.replace(',', '') : 0;
             var out = {
                 releasename: releasename.trim(),
                 size: sizeToMB(getPropertyForSelector(results[i], selectors.size)),
@@ -208,7 +211,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             var magnet = getPropertyForSelector(container, selectors.magnetUrl);
             var magnetHash = null;
             if (magnet) {
-                output.magnetUrl = magnet;   
+                output.magnetUrl = magnet;
                 magnetHash = output.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
             }
             var torrent = getPropertyForSelector(container, selectors.torrentUrl);
@@ -223,7 +226,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
     }
 
     this.cancelActiveRequest = function() {
-        if(activeRequest) {
+        if (activeRequest) {
             activeRequest.resolve();
         }
     };
