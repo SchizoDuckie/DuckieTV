@@ -59,7 +59,7 @@ Screenshots:
 **Instant access to Torrent Client features from the calendar**
 ![Stream with uTorrent player](http://i.imgur.com/cGuQ6LU.png)
 
-**DuckieTorrent Torrent clients built-in (&micro;Torrent/BitTorrent, Deluge, qBittorrent, Tixati, Transmission, Vuze)**
+**DuckieTorrent Torrent clients built-in (&micro;Torrent/BitTorrent, Deluge, Ktorrent, qBittorrent, rTorrent, Tixati, Transmission, Vuze)**
 ![DuckieTorrent Torrent integration](http://i.imgur.com/6bXbxHk.png)
 
 **Instant access to QuickSearch, just start typing**
