@@ -60,10 +60,10 @@
   <Program_Info>
     <AppID>app-8e00b706db6d</AppID>
     <Program_Name>DuckieTV</Program_Name>
-    <Program_Version>1.01</Program_Version>
-    <Program_Release_Month>05</Program_Release_Month>
-    <Program_Release_Day>14</Program_Release_Day>
-    <Program_Release_Year>2015</Program_Release_Year>
+    <Program_Version>1.1.4</Program_Version>
+    <Program_Release_Month>02</Program_Release_Month>
+    <Program_Release_Day>19</Program_Release_Day>
+    <Program_Release_Year>2017</Program_Release_Year>
     <Program_Cost_Dollars>0</Program_Cost_Dollars>
     <Program_Cost_Other_Code></Program_Cost_Other_Code>
     <Program_Cost_Other></Program_Cost_Other>
@@ -75,7 +75,7 @@
     <Program_Install_Support>No Install Support</Program_Install_Support>
     <Program_OS_Support>Win2000,WinXP,Win7 x32,Win7 x64,Windows 8,Windows2000,Windows2003,Windows Server 2000,Windows Server 2003,Windows Server 2008,Windows Server 2008r2,Windows Server 2012,WinVista,Windows Vista Starter,Windows Vista Home Basic,Windows Vista Home Premium,Windows Vista Business,Windows Vista Enterprise,Windows Vista Ultimate,WinVista x64,Windows Vista Home Basic x64,Windows Vista Home Premium x64,Windows Vista Business x64,Windows Vista Enterprise x64,Windows Vista Ultimate x64,Linux,Linux Gnome,Linux GPL,Linux Open Source,Mac OS X 10.1,Mac OS X 10.2,Mac OS X 10.3,Mac OS X 10.4,Mac OS X 10.5,Mac OS X 10.6,Mac OS X 10.7,Mac OS X 10.8,Mac OS X 10.9</Program_OS_Support>
     <Program_Language>English,ChineseSimplified,Dutch,French,German,Italian,Japanese,Korean,Polish,Portuguese,Swedish</Program_Language>
-    <Program_Change_Info>Fixed a missing dependency that broke the qBittorrent and Transmission integration</Program_Change_Info>
+    <Program_Change_Info>See the changelog on https://github.com/SchizoDuckie/DuckieTV/releases/tag/1.1.4</Program_Change_Info>
     <Program_System_Requirements>Internet connection</Program_System_Requirements>
     <Limitations>no limits</Limitations>
     <Awards></Awards>
@@ -108,11 +108,11 @@
       <Application_Order_URL>http://duckie.tv/</Application_Order_URL>
       <Application_Screenshot_URL>http://i.imgur.com/aJMxHWS.png</Application_Screenshot_URL>
       <Application_Icon_URL>http://i.imgur.com/q5JIEf0.png</Application_Icon_URL>
-      <Application_XML_File_URL>http://repository.appvisor.com/app-8e00b706db6d/site-01/DuckieTV_pad.xml</Application_XML_File_URL>
+      <Application_XML_File_URL>http://schizoduckie.github.io/DuckieTV/DuckieTV_pad.xml</Application_XML_File_URL>
       <Video_Link_1_URL>https://www.youtube.com/watch?v=cipuVrQU0UU</Video_Link_1_URL>
     </Application_URLs>
     <Download_URLs>
-      <Primary_Download_URL>https://github.com/SchizoDuckie/DuckieTV/releases/download/1.0.1/DuckieTV-1.0.1-windows-x32.zip</Primary_Download_URL>
+      <Primary_Download_URL>https://github.com/SchizoDuckie/DuckieTV/releases/tag/1.1.4</Primary_Download_URL>
       <Secondary_Download_URL>https://github.com/SchizoDuckie/DuckieTV/releases/latest</Secondary_Download_URL>
       <Additional_Download_URL_1>https://github.com/SchizoDuckie/DuckieTV/releases/latest/</Additional_Download_URL_1>
       <Additional_Download_URL_2></Additional_Download_URL_2>
@@ -239,10 +239,10 @@ Also available: Links to DuckietV for Chrome in the chrome webstore.</Site_Descr
       <DP_Pad_Enabled>TRUE</DP_Pad_Enabled>
       <DP_AtFormFill_Enabled>TRUE</DP_AtFormFill_Enabled>
       <DP_Distributive_Enabled>TRUE</DP_Distributive_Enabled>
-      <DP_Script_Base_URL>http://repository.appvisor.com/</DP_Script_Base_URL>
+      <DP_Script_Base_URL>https://schizoduckie.github.io/DuckieTV/</DP_Script_Base_URL>
       <DP_Pad_Mask>DuckieTV_pad.xml</DP_Pad_Mask>
-      <DP_Distributive_Primary_URL>https://github.com/SchizoDuckie/DuckieTV/releases/download/1.0.1/DuckieTV-1.0.1-windows-x32.zip</DP_Distributive_Primary_URL>
-      <DP_Distributive_Mask>DuckieTV-1.0.1-windows-x32.zip</DP_Distributive_Mask>
+      <DP_Distributive_Primary_URL>https://github.com/SchizoDuckie/DuckieTV/releases/download/1.1.4/DuckieTV-1.1.4-windows-x64.zip</DP_Distributive_Primary_URL>
+      <DP_Distributive_Mask>DuckieTV-1.1.4-windows-x64.zip</DP_Distributive_Mask>
     </General>
   </Dynamic_PAD>
 </XML_DIZ_INFO>
