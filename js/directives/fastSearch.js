@@ -82,8 +82,8 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
     }
 ])
 
-.controller('fastSearchCtrl', ["$scope", "data", "FavoritesService", "TraktTVv2", "$rootScope", "$uibModalInstance", "$state", "SeriesListState", "SidePanelState", "TorrentSearchEngines", "SettingsService", "$injector", "TorrentHashListService",
-    function($scope, data, FavoritesService, TraktTVv2, $rootScope, $modalInstance, $state, SeriesListState, SidePanelState, TorrentSearchEngines, SettingsService,  $injector, TorrentHashListService) {
+.controller('fastSearchCtrl', ["$scope", "data", "FavoritesService", "TraktTVv2", "$rootScope", "$uibModalInstance", "$state", "SeriesListState", "SidePanelState", "TorrentSearchEngines", "SettingsService", "$injector", "TorrentHashListService", "NotificationService", "DuckieTorrent",
+    function($scope, data, FavoritesService, TraktTVv2, $rootScope, $modalInstance, $state, SeriesListState, SidePanelState, TorrentSearchEngines, SettingsService,  $injector, TorrentHashListService, NotificationService, DuckieTorrent) {
 
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
         $scope.hasFocus = true;
@@ -300,6 +300,8 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
         };
 
         $scope.select = function(result) {
+            NotificationService.notify(result.releasename,
+                "Download started on " + DuckieTorrent.getClient().getName());
             if (result.magnetUrl) {
                 //console.debug('using search magnet');
                 return magnetSelect(result.magnetUrl);

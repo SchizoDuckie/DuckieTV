@@ -1,7 +1,7 @@
 DuckieTV
 
-    .controller('torrentDialog2Ctrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "$filter", "data", "TorrentSearchEngines", "SettingsService", "TorrentHashListService",
-    function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, TorrentHashListService) {
+    .controller('torrentDialog2Ctrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "$filter", "data", "TorrentSearchEngines", "SettingsService", "TorrentHashListService", "NotificationService", "DuckieTorrent",
+    function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, TorrentHashListService,  NotificationService, DuckieTorrent) {
         //-- Variables --//
 
         $scope.searching = true;
@@ -307,6 +307,8 @@ DuckieTV
             //console.debug('select', result);
             var dlPath = ($scope.serie) ? $scope.serie.dlPath : null;
             var label = ($scope.serie && usingLabel) ? $scope.serie.name : null;
+            NotificationService.notify(result.releasename,
+                "Download started on " + DuckieTorrent.getClient().getName());
             if (result.magnetUrl) {
                 //console.debug('using search magnet');
                 return magnetSelect(result.magnetUrl, dlPath, label);
