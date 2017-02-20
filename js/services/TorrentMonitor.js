@@ -46,19 +46,18 @@ DuckieTV
                     magnetHash: torrenthash
                 }).then(function(episode) {
                     TorrentHashListService.markDownloaded(torrenthash);
-
                     if (!episode) {
                         NotificationService.notify(
                             "Torrent finished",
                             torrent.name
                         );
+                        return;
                     } else {
                         NotificationService.notify("Torrent finished", [
                             FavoritesService.getByID_Serie(episode.ID_Serie).name,
                             episode.getFormattedEpisode()
                         ].join(" "));
                     }
-                    return;
                     episode.markDownloaded().then(function(result) {
                         console.info("Episode marked as downloaded in database. ", episode.ID_Serie, episode.getFormattedEpisode());
                     });
