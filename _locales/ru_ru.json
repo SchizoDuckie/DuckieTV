@@ -230,6 +230,7 @@
     "SERIESETTINGSCTRLjs/dl-path/lbl": "Скачать торрент без регистрации Путь",
     "SERIESETTINGSCTRLjs/dl-path/placeholder": "Введите полный путь для этой серии загрузки торрентов.",
     "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "Отображение специальных эпизодов в календаре",
+    "SERIESETTINGSCTRLjs/no-dl-path/placeholder": "Подключенный торрент хост не поддерживает эту функцию.",
     "SERIESETTINGSCTRLjs/search-provider/lbl": "Поставщик Поиска для этого шоу",
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Ваши избранные сериалы",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "Я закончил добавлять шоу",

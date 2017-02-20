@@ -230,6 +230,7 @@
     "SERIESETTINGSCTRLjs/dl-path/lbl": "Aangepaste torrent Download directory",
     "SERIESETTINGSCTRLjs/dl-path/placeholder": "Voer het volledige pad in waar je torrent client downloads voor deze serie moet opslaan",
     "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "Speciale afleveringen weergeven op de kalender",
+    "SERIESETTINGSCTRLjs/no-dl-path/placeholder": "De aangesloten torrent host geen ondersteuning voor deze functie.",
     "SERIESETTINGSCTRLjs/search-provider/lbl": "Torrent zoekmachine voor deze serie",
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Je favoriete series. Klik op een poster voor meer details",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "Klaar met toevoegen",

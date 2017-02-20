@@ -230,6 +230,7 @@
     "SERIESETTINGSCTRLjs/dl-path/lbl": "トレントのダウンロードパス",
     "SERIESETTINGSCTRLjs/dl-path/placeholder": "このシリーズの急流のダウンロードのための完全なパスを入力します.",
     "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "カレンダー上の特別なエピソードを表示",
+    "SERIESETTINGSCTRLjs/no-dl-path/placeholder": "接続されたトレントホストはこの機能をサポートしていません.",
     "SERIESETTINGSCTRLjs/search-provider/lbl": "このショーのための検索プロバイダ",
     "SERIESLIST/FAVORITES/click-to-see/lbl": "あなたのお気に入りのシリーズ. 詳細を表示するには,いずれかをクリックします",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "私はショーの追加が完了してい ",

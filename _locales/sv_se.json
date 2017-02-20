@@ -230,6 +230,7 @@
     "SERIESETTINGSCTRLjs/dl-path/lbl": "Torrent Hämta Path",
     "SERIESETTINGSCTRLjs/dl-path/placeholder": "Ange hela sökvägen för den här serien torrent downloads.",
     "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "Visa särskilda episoder i kalendern",
+    "SERIESETTINGSCTRLjs/no-dl-path/placeholder": "Den anslutna torrent värd stöder inte den här funktionen.",
     "SERIESETTINGSCTRLjs/search-provider/lbl": "Sökleverantör för denna show",
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Din favorit serie. Klicka på en för att se detaljer",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "Jag är klar med att lägga shows ",

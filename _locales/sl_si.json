@@ -230,6 +230,7 @@
     "SERIESETTINGSCTRLjs/dl-path/lbl": "Torrent Download Path",
     "SERIESETTINGSCTRLjs/dl-path/placeholder": "Vnesite polno pot za to serijo torrent prenosi.",
     "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "Prikaz posebnih epizod na koledarju",
+    "SERIESETTINGSCTRLjs/no-dl-path/placeholder": "Povezani torrent strežnik ne podpira te funkcije.",
     "SERIESETTINGSCTRLjs/search-provider/lbl": "Ponudnik iskanja za to predstavo",
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Tvoje najljubše serije. Kliknite nanjo, da si ogledate podrobnosti",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "Končaj z dodajanjem serij",

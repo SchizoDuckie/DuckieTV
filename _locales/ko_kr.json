@@ -230,6 +230,7 @@
     "SERIESETTINGSCTRLjs/dl-path/lbl": "토런트 다운로드 경로",
     "SERIESETTINGSCTRLjs/dl-path/placeholder": "이 시리즈 토런트 다운로드의 전체 경로를 입력합니다.",
     "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "달력에서 특별한 에피소드를 표시",
+    "SERIESETTINGSCTRLjs/no-dl-path/placeholder": "연결된 토런트 호스트는이 기능을 지원하지 않습니다.",
     "SERIESETTINGSCTRLjs/search-provider/lbl": "이 쇼에 대한 검색 공급자",
     "SERIESLIST/FAVORITES/click-to-see/lbl": "당신이 좋아하는 시리즈입니다. 세부 정보를 볼 하나를 클릭",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "나는 쇼를 추가 할거야 ",

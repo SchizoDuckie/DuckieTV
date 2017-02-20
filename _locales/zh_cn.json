@@ -230,6 +230,7 @@
     "SERIESETTINGSCTRLjs/dl-path/lbl": "洪流下载路径",
     "SERIESETTINGSCTRLjs/dl-path/placeholder": "输入此系列Torrent下载的完整路径",
     "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "显示在日历上的特殊情节",
+    "SERIESETTINGSCTRLjs/no-dl-path/placeholder": "连接的torrent主机不支持此功能.",
     "SERIESETTINGSCTRLjs/search-provider/lbl": "搜索提供商对本次车展",
     "SERIESLIST/FAVORITES/click-to-see/lbl": "你最喜欢的系列. 点击1查看详情",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "我添加完节目 ",

@@ -230,6 +230,7 @@
     "SERIESETTINGSCTRLjs/dl-path/lbl": "Torrent Descarca Path",
     "SERIESETTINGSCTRLjs/dl-path/placeholder": "Introduceți calea completă pentru acest download-uri torrent serie.",
     "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "Afișează episoade speciale pe calendar",
+    "SERIESETTINGSCTRLjs/no-dl-path/placeholder": "Gazda torrent conectat nu acceptă această caracteristică.",
     "SERIESETTINGSCTRLjs/search-provider/lbl": "Furnizorul de căutare pentru acest spectacol",
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Serialele favorite. Dați click pe oricare pentru a vedea detalii",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "Am terminat de adăugat seriale",

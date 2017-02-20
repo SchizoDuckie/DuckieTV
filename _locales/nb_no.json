@@ -230,6 +230,7 @@
     "SERIESETTINGSCTRLjs/dl-path/lbl": "Torrent Download Sti",
     "SERIESETTINGSCTRLjs/dl-path/placeholder": "Skriv inn hele banen for denne serien torrent nedlastinger.",
     "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "Vise spesielle episoder på kalenderen",
+    "SERIESETTINGSCTRLjs/no-dl-path/placeholder": "Den tilkoblede torrent Verten støtter ikke denne funksjonen.",
     "SERIESETTINGSCTRLjs/search-provider/lbl": "Søk Provider for dette showet",
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Dine favorittserier. Trykk én for å vise detaljer",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "Jeg er ferdig med å legge til serier",

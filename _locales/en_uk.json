@@ -230,6 +230,7 @@
     "SERIESETTINGSCTRLjs/dl-path/lbl": "Torrent Download Path",
     "SERIESETTINGSCTRLjs/dl-path/placeholder": "Enter the full path for this series torrent downloads.",
     "SERIESETTINGSCTRLjs/ignore-hide-specials/lbl": "Display specials on the calendar",
+    "SERIESETTINGSCTRLjs/no-dl-path/placeholder": "The connected torrent host does not support this feature.",
     "SERIESETTINGSCTRLjs/search-provider/lbl": "Search Provider for this show",
     "SERIESLIST/FAVORITES/click-to-see/lbl": "Your favourite series. Click one to view details",
     "SERIESLIST/TOOLS/ADDING/addshow-hide/glyph": "I'm done adding shows",

@@ -181,4 +181,18 @@
         }
     }],
     "hideExpression": "!model.isDownloadPathSupportedLocal || model.isDownloadPathSupportedRemote"
+}, {
+    "key": "dlPathNotAvailable",
+    "className": "col-xs-12",
+    "type": "input",
+    "hideExpression": "model.isDownloadPathSupportedRemote || model.isDownloadPathSupportedLocal",
+    "templateOptions": {
+        "type": "text", 
+        "label": ""
+    },
+    "expressionProperties": {
+        "templateOptions.label": "\"SERIESETTINGSCTRLjs/dl-path/lbl\" | translate",
+        "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/no-dl-path/placeholder\" | translate",
+        "templateOptions.disabled": "true"
+    }
 }]
