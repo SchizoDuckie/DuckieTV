@@ -72,6 +72,11 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                         localStorage.setItem(key, value);
                     });
                     SettingsService.restore();
+                    // schedule the next auto-backup after the import in a days time.
+                    var localDT = new Date();
+                    var nextBackupDT = new Date(localDT.getFullYear(), localDT.getMonth(), localDT.getDate() + 1, localDT.getHours(), localDT.getMinutes(), localDT.getSeconds()).getTime();
+                    localStorage.setItem('autobackup.lastrun', nextBackupDT);
+                    // adjust other settings
                     SettingsService.set('autodownload.lastrun', new Date().getTime());
                     SettingsService.set('torrenting.enabled', torrentingEnabled); // restore torrenting setting to value prior to restore
                     // save series/seasons/episodes
