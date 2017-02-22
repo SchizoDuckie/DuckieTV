@@ -51,16 +51,15 @@ DuckieTV
                             "Torrent finished",
                             torrent.name
                         );
-                        return;
                     } else {
                         NotificationService.notify("Torrent finished", [
                             FavoritesService.getByID_Serie(episode.ID_Serie).name,
                             episode.getFormattedEpisode()
                         ].join(" "));
+                        episode.markDownloaded().then(function(result) {
+                            console.info("Episode marked as downloaded in database. ", episode.ID_Serie, episode.getFormattedEpisode());
+                        });
                     }
-                    episode.markDownloaded().then(function(result) {
-                        console.info("Episode marked as downloaded in database. ", episode.ID_Serie, episode.getFormattedEpisode());
-                    });
                 });
             }
         }
