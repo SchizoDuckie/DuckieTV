@@ -120,10 +120,55 @@ if (localStorage.getItem('optin_error_reporting')) {
             console.info("Generated unique user identifier for opt-in error tracking:", localStorage.getItem('uniqueId'));
         }
 
-        if (Loggr) {
-            // trap runtime errors 
-            window.onerror = function(msg, url, line) {
-                var log = Loggr.Log;
+        // trap runtime errors 
+        window.onerror = function(msg, url, line) {
+            var log = Loggr.Log;
+            // dump UserPreferences
+            var userPrefs = JSON.parse(localStorage.getItem('userPreferences'));
+            Object.keys(userPrefs).map(function(key) {
+                if (key.indexOf('password') > -1) {
+                    userPrefs[key] = "*****";
+                }
+            });
+            // dump local storage with exceptions to avoid overload.
+            var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage));
+            ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'alarms', 'xem.mappings', 'snr.name-exceptions', 'snr.date-exceptions'].map(function(key) {
+                delete dumpLocalStorage[key];
+            });
+            var data = "Message: " + msg + "<br>";
+            data += "URL: " + url + "<br>";
+            data += "Line: " + line + "<br>";
+            data += "Platform: " + navigator.platform + "<br>";
+            data += "User Agent: " + navigator.userAgent + "<br>";
+            data += "Config: <pre>" + angular.toJson(userPrefs, true) + "</pre>";
+            data += "Local Storage (filtered): <pre>" + angular.toJson(dumpLocalStorage, true) + "</pre>";
+            log.events.createEvent()
+                .text("Runtime error: " + msg)
+                .tags("error")
+                .user(localStorage.getItem('uniqueId'))
+                .dataType(Loggr.dataType.html)
+                .data(data)
+                .post();
+            console.error(msg, url, line);
+        };
+
+        // trap console errors
+        console.olderror = console.error;
+        console.error = function() {
+            console.olderror(arguments);
+            var log = Loggr.Log;
+            // filter out unwanted error logging 
+            var blacklist = ["Connect call failed. No client listening","Could not load fanart"];
+            var args = Array.prototype.slice.call(arguments);
+            var wanted = true;
+            if (typeof args !== 'undefined' && args.length > 0) {
+                blacklist.map(function(unwanted) {
+                    if (args[0].indexOf(unwanted) > -1) {
+                        wanted = false; 
+                    };
+                });
+            }
+            if (wanted) {
                 // dump UserPreferences
                 var userPrefs = JSON.parse(localStorage.getItem('userPreferences'));
                 Object.keys(userPrefs).map(function(key) {
@@ -136,68 +181,19 @@ if (localStorage.getItem('optin_error_reporting')) {
                 ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'alarms', 'xem.mappings', 'snr.name-exceptions', 'snr.date-exceptions'].map(function(key) {
                     delete dumpLocalStorage[key];
                 });
-                var data = "Message: " + msg + "<br>";
-                data += "URL: " + url + "<br>";
-                data += "Line: " + line + "<br>";
+                var data = "Message: " + JSON.stringify(arguments) + "<br>";
                 data += "Platform: " + navigator.platform + "<br>";
                 data += "User Agent: " + navigator.userAgent + "<br>";
                 data += "Config: <pre>" + angular.toJson(userPrefs, true) + "</pre>";
                 data += "Local Storage (filtered): <pre>" + angular.toJson(dumpLocalStorage, true) + "</pre>";
                 log.events.createEvent()
-                    .text("Runtime error: " + msg)
+                    .text("Console.error: " + JSON.stringify(arguments))
                     .tags("error")
                     .user(localStorage.getItem('uniqueId'))
                     .dataType(Loggr.dataType.html)
                     .data(data)
                     .post();
-                console.error(msg, url, line);
-            };
-
-            // trap console errors
-            console.olderror = console.error;
-            console.error = function() {
-                console.olderror(arguments);
-                var log = Loggr.Log;
-                // filter out unwanted error logging 
-                var blacklist = ["Connect call failed. No client listening","Could not load fanart"];
-                var args = Array.prototype.slice.call(arguments);
-                var wanted = true;
-                if (typeof args !== 'undefined' && args.length > 0) {
-                    blacklist.map(function(unwanted) {
-                        if (args[0].indexOf(unwanted) > -1) {
-                            wanted = false; 
-                        };
-                    });
-                }
-                if (wanted) {
-                    // dump UserPreferences
-                    var userPrefs = JSON.parse(localStorage.getItem('userPreferences'));
-                    Object.keys(userPrefs).map(function(key) {
-                        if (key.indexOf('password') > -1) {
-                            userPrefs[key] = "*****";
-                        }
-                    });
-                    // dump local storage with exceptions to avoid overload.
-                    var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage));
-                    ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'alarms', 'xem.mappings', 'snr.name-exceptions', 'snr.date-exceptions'].map(function(key) {
-                        delete dumpLocalStorage[key];
-                    });
-                    var data = "Message: " + JSON.stringify(arguments) + "<br>";
-                    data += "Platform: " + navigator.platform + "<br>";
-                    data += "User Agent: " + navigator.userAgent + "<br>";
-                    data += "Config: <pre>" + angular.toJson(userPrefs, true) + "</pre>";
-                    data += "Local Storage (filtered): <pre>" + angular.toJson(dumpLocalStorage, true) + "</pre>";
-                    log.events.createEvent()
-                        .text("Console.error: " + JSON.stringify(arguments))
-                        .tags("error")
-                        .user(localStorage.getItem('uniqueId'))
-                        .dataType(Loggr.dataType.html)
-                        .data(data)
-                        .post();
-                }
             }
-        } else {
-            console.error('Opt-In Error Tracking not available as Loggr script failed to fetched.');
         }
     } else {
         console.warn('Opt-In Error Tracking time limit of 7 days has expired. Turning off Error Tracking Service.');
