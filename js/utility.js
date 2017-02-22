@@ -158,14 +158,16 @@ if (localStorage.getItem('optin_error_reporting')) {
             console.olderror(arguments);
             var log = Loggr.Log;
             // filter out unwanted error logging 
-            var blacklist = ["Connect call failed. No client listening"];
+            var blacklist = ["Connect call failed. No client listening","Could not load fanart"];
             var args = Array.prototype.slice.call(arguments);
             var wanted = true;
-            blacklist.map(function(unwanted) {
-                if (args[0].indexOf(unwanted) > -1) {
-                    wanted = false;
-                };
-            });
+            if (typeof args !== 'undefined' && args.length > 0) {
+                blacklist.map(function(unwanted) {
+                    if (args[0].indexOf(unwanted) > -1) {
+                        wanted = false; 
+                    };
+                });
+            }
             if (wanted) {
                 // dump UserPreferences
                 var userPrefs = JSON.parse(localStorage.getItem('userPreferences'));
