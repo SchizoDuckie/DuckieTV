@@ -55,7 +55,7 @@ DuckieTV.directive('calendar', function() {
              */
             $rootScope.$on("sidepanel:stateChange", function(event, state) {
                 calendar.isShowing = state;
-                console.debug("Sidepanel statechange from calendar:", event, state);
+                //console.debug("Sidepanel statechange from calendar:", event, state);
                 zoom();
             });
 
@@ -67,7 +67,7 @@ DuckieTV.directive('calendar', function() {
 
             $rootScope.$on("serieslist:stateChange", function(event, state) {
                 calendar.isShowing = !state;
-                console.debug("Calendar statechange from fav panels:", event, state);
+                //console.debug("Calendar statechange from fav panels:", event, state);
                 zoom();
             })
 
