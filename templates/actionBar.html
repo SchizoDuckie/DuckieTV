@@ -24,6 +24,9 @@
     </li>
     <div style="position:absolute;bottom:0px">
       <!-- Translation Required -->
+      <li ng-if="getSetting('synology.enabled')" id="actionbar_videoplayer" ui-sref-active="active">
+        <a ui-sref="videoplayer" class="glyphicon glyphicon-play" uib-tooltip="Play a downloaded video" tooltip-placement="right"></a>
+      </li>
       <li id="actionbar_switch" ui-sref-active="active">
         <a ng-click="setSetting('main.viewmode', getSetting('main.viewmode') == 'calendar' ? 'todo' : 'calendar')" class="glyphicon glyphicon-check" uib-tooltip="{{'ACTIONBAR/switch-todo-calendar/tooltip'|translate}}" tooltip-placement="right"></a>
       </li>

@@ -1,0 +1,31 @@
+<!-- sidepanel/synology.html -->
+<div id="autodlstatuspage" class="synology-client"> 
+  <h1>Available devices</h1> 
+  <div ng-if="syno.devices">
+    <ul>
+      <li ng-repeat="device in syno.devices" style="text-align:left">
+        <strong>{{device.title}}</strong> <span class="badge" style="float:right">{{device.type}}</span>
+      </li>
+    </ul>
+  </div>
+
+  <h1>Libraries</h1> 
+  <div ng-if="syno.library">
+    <ul>
+      <li ng-repeat="lib in syno.library" style="text-align:left">
+        <strong>{{lib.title}}</strong> <span class="badge" style="float:right">{{lib.type}}</span>
+      </li>
+    </ul>
+  </div>
+
+  <h1>Folders</h1> 
+  <div ng-if="syno.folders">
+    <ul>
+      <li ng-repeat="folder in syno.folders" style="text-align:left">
+        {{folder.title}} <span class="badge" style="float:right">{{folder.type}}</span><br>
+        <a class="btn " ng-click="syno.play(folder)"><i class="glyphicon glyphicon-play"></i> Play</a>
+      </li>
+    </ul>
+  </div>
+
+</div>

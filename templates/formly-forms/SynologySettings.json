@@ -1,0 +1,52 @@
+[{
+    "key": "protocol",
+    "type": "select",
+    "templateOptions": {
+        "required": true,
+        "label": "Protocol",
+        "valueProp": "name",
+        "options": "$mappings.protocols"
+    }
+}, {
+    "key": "ip",
+    "type": "input",
+    "templateOptions": {
+        "type": "text",
+        "label": ""
+    },
+    "expressionProperties": {
+        "templateOptions.label": "\"COMMON/address/lbl\"|translate"
+    }
+}, {
+    "key": "port",
+    "type": "input",
+    "templateOptions": {
+        "type": "number",
+        "label": ""
+    },
+    "expressionProperties": {
+        "templateOptions.label": "\"COMMON/port/lbl\"|translate"
+    }
+}, {
+    "key": "username",
+    "type": "input",
+    "hideExpression": "model.username === undefined || model.hideUsername === true || model.use_auth === false",
+    "templateOptions": {
+        "type": "text",
+        "label": ""
+    },
+    "expressionProperties": {
+        "templateOptions.label": "\"COMMON/username/lbl\"|translate"
+    }
+}, {
+    "key": "password",
+    "type": "input",
+    "hideExpression": "model.password === undefined || model.hidePassword === true || model.use_auth === false",
+    "templateOptions": {
+        "type": "password",
+        "label": ""
+    },
+    "expressionProperties": {
+        "templateOptions.label": "\"COMMON/password/lbl\"|translate"
+    }
+}]

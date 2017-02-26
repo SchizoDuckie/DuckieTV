@@ -472,7 +472,26 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
                     controller: 'AutodlstatusCtrl'
                 }
             }
+        })
+
+        .state('videoplayer', {
+            url: '/videoplayer',
+            resolve: {
+                SidePanelState: function(SidePanelState) {
+                    setTimeout(function() {
+                        expandSidePanel(SidePanelState);
+                    }, 0);
+                }
+            },
+            views: {
+                sidePanel: {
+                    templateUrl: 'templates/sidepanel/synology.html',
+                    controller: 'SynologyDSVideoCtrl',
+                    controllerAs: 'syno'
+                }
+            }
         });
+
 
         $urlRouterProvider.otherwise('/');
     }
