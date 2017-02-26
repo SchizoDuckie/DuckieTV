@@ -26,5 +26,14 @@ DuckieTV.controller('SynologyDSVideoCtrl', ["SynologyAPI", "$scope",
         this.play = function(file) {
             SynologyAPI.PlayFile(file, self.devices[0]);
         }
+
+        this.getFilesForFolder = function(folder) {
+            return SynologyAPI.Folder({
+                id: folder.id
+            }).then(function(result) {
+                folder.files = result;
+                return folder;
+            });
+        }
     }
 ]);

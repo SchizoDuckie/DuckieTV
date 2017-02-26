@@ -13,7 +13,7 @@
   <div ng-if="syno.library">
     <ul>
       <li ng-repeat="lib in syno.library" style="text-align:left">
-        <strong>{{lib.title}}</strong> <span class="badge" style="float:right">{{lib.type}}</span>
+        <strong>{{lib.title}}</strong> <span class="badge" style="float:right">{{lib.type}} [ID:{{lib.id}}]</span>
       </li>
     </ul>
   </div>
@@ -21,9 +21,39 @@
   <h1>Folders</h1> 
   <div ng-if="syno.folders">
     <ul>
-      <li ng-repeat="folder in syno.folders" style="text-align:left">
-        {{folder.title}} <span class="badge" style="float:right">{{folder.type}}</span><br>
-        <a class="btn " ng-click="syno.play(folder)"><i class="glyphicon glyphicon-play"></i> Play</a>
+      <li ng-repeat="folder in syno.folders track by $index" style="text-align:left">
+        <!-- closed folder -->
+        <a ng-if="folder.type=='folder' && !folder.files" ng-click="syno.getFilesForFolder(folder)">
+            <i class="glyphicon glyphicon-folder-close"></i>
+            {{folder.title}} 
+            <span class="badge" style="float:right">{{folder.type}}</span>
+        </a>
+
+        <!-- opened folder -->
+        
+        <span ng-if="folder.type=='folder' && folder.files">
+            <i class="glyphicon glyphicon-folder-close"></i>
+            {{folder.title}} 
+            <span class="badge" style="float:right">{{folder.type}}</span>
+        </span>
+        
+        <!-- opened folder with files -->
+        <ul ng-if="folder.files">
+          <li ng-repeat="file in folder.files" style="text-align:left">
+           {{file.title}} <span class="badge" style="float:right">{{file.type}}</span><br>
+            <a ng-if="file.type=='file'" class="btn" ng-click="syno.play(file)"><i class="glyphicon glyphicon-play"></i> Play</a>
+          </li>
+        </ul>
+
+        <!-- file -->
+        <div ng-if="folder.type=='file'">
+            <i class="glyphicon glyphicon-facetime-video"></i>
+            {{folder.title}} 
+            <a ng-if="folder.type=='file'" class="btn" style="display:block; text-align:left" ng-click="syno.play(folder)">
+              <i class="glyphicon glyphicon-play" style="color:green"></i> Play</a>
+              <span class="badge" style="float:right">{{folder.type}}</span>
+        </div>
+        
       </li>
     </ul>
   </div>

@@ -20,7 +20,13 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
         105: "The logged in session does not have permission",
         106: "Session timeout",
         107: "Session interrupted by duplicate login",
-        400: "Authorization failure"
+        400: "Authorization failure",
+        401: "Guest or disabled account",
+        402: "Permission denied - DSM-Session: make sure user is member of Admin-group",
+        403: "One time password not specified",
+        404: "One time password authenticate failed",
+        407: "Permission denied - IP banned in DSM blocklist?",
+        450: "Unknown Error"
     }
 
     /**
