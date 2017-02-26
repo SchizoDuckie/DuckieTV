@@ -1,11 +1,11 @@
-DuckieTV.run(['$rootScope',
-    function($rootScope) {
+DuckieTV.run(['$rootScope', 'SettingsService',
+    function($rootScope, SettingsService) {
     /**
      * Chrome compatible zoom keyboard control implementation for nw.js
      * Zoomlevel is stored in localStorage because this code runs early.
      * Also attaches DevTools F12 key handler
      */
-    if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
+    if (SettingsService.isStandalone()) {
 
         var win = nw.Window.get(),
             zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500],

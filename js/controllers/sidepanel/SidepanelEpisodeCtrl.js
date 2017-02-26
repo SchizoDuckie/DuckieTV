@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "SceneNameResolver", "AutoDownloadService", "TorrentSearchEngines", "SubtitleDialog", "DuckieTorrent", "Netflix", "dialogs", "$scope", "$filter", "$injector", function(serie, episode, season, SceneNameResolver, AutoDownloadService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, Netflix, dialogs, $scope, $filter, $injector) {
+DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "SceneNameResolver", "AutoDownloadService", "TorrentSearchEngines", "SubtitleDialog", "DuckieTorrent", "Netflix", "dialogs", "$scope", "$filter", "$injector", "SettingsService", function(serie, episode, season, SceneNameResolver, AutoDownloadService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, Netflix, dialogs, $scope, $filter, $injector, SettingsService) {
 
     this.serie = serie;
     this.episode = episode;
@@ -47,7 +47,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "Scen
     };
 
     this.isNetflixSupported = function() {
-        return navigator.userAgent.toLowerCase().indexOf('standalone') === -1;
+        return !SettingsService.isStandalone();
     };
 
     this.isNetflixSerie = function() {

@@ -3,9 +3,9 @@ DuckieTV.directive('actionBar', function() {
         restrict: 'E',
         templateUrl: 'templates/actionBar.html',
         controllerAs: 'actionbar',
-        controller: ["$rootScope", "$state", "$filter", "SeriesListState", "SeriesAddingState", "SidePanelState", "DuckieTorrent",
-            function($rootScope, $state, $filter, SeriesListState, SeriesAddingState, SidePanelState, DuckieTorrent) {
-                if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
+        controller: ["$rootScope", "$state", "$filter", "SeriesListState", "SeriesAddingState", "SidePanelState", "DuckieTorrent", "SettingsService",
+            function($rootScope, $state, $filter, SeriesListState, SeriesAddingState, SidePanelState, DuckieTorrent, SettingsService) {
+                if (SettingsService.isStandalone()) {
                     // listen for standalone menu go-to events
                     $rootScope.$on('standalone.calendar', function() {
                         $state.go('calendar');

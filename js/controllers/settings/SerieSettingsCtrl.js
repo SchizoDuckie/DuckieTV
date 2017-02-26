@@ -24,7 +24,7 @@ function($scope, $filter, $modalInstance, FavoritesService, SettingsService, For
         }
         var isLocal = (server === 'http://127.0.0.1' || server === 'http://localhost');
         // determine if this is standalone
-        var isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1);
+        var isStandalone = (SettingsService.isStandalone());
         // determine if downloadPath is supported by client
         var isDownloadPathSupported = DuckieTorrent.getClient().isDownloadPathSupported();
         $scope.model.dlPathLocal = $scope.model.dlPath;

@@ -3,7 +3,7 @@ DuckieTV.run(['$rootScope', "SettingsService",
         /**
          * nw.js standalone systray
          */
-        if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1)) {
+        if (SettingsService.isStandalone()) {
             var nw = require('nw.gui');
             var tray = null,
                 showdtv, calendar, favorites, settings, about, exit, traymenu;

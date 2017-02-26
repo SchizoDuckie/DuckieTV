@@ -11,7 +11,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             $injector.get('$state').go('calendar');
         }
         
-        $scope.isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1);
+        $scope.isStandalone = SettingsService.isStandalone();
 
         // If we load onto the page highlight the button
         document.querySelector('#actionbar_about').classList.add('active');

@@ -2,10 +2,10 @@
  * DuckieTV Standalone update check
  * Fetches the latest release from github every 2 days and diffs it with the local version
  */
-DuckieTV.run(['$http', 'dialogs',
-    function($http, dialogs) {
+DuckieTV.run(['$http', 'dialogs', 'SettingsService',
+    function($http, dialogs, SettingsService) {
 
-        if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
+        if (SettingsService.isStandalone()) {
             // check last updated every 2 days.
             var updateDialog = false;
             var lastUpdateCheck = localStorage.getItem('github.lastupdatecheck');

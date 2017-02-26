@@ -48,7 +48,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
         }
 
         function openUrl(id, url) {
-            if ((navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) && id === 'magnet') {
+            if (SettingsService.isStandalone() && id === 'magnet') {
                 // for standalone, open magnet url direct to os https://github.com/SchizoDuckie/DuckieTV/issues/834
                 require('nw.gui').Shell.openExternal(url);
                 //console.debug("Open via OS", id, url);

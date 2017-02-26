@@ -1,5 +1,5 @@
-DuckieTV.run(['$rootScope',
-    function($rootScope) {
+DuckieTV.run(['$rootScope', 'SettingsService',
+    function($rootScope, SettingsService) {
     /**
      * Window decorations and position storage for DuckieTV standalone.
      * Stores window position in localStorage on app close
@@ -7,7 +7,7 @@ DuckieTV.run(['$rootScope',
      * Auto minimizes app when indicated in localStorage
      * Adds event click handlers to the window decoration items in the DOM.
      */
-    if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
+    if (SettingsService.isStandalone()) {
         var nw = require('nw.gui');
 
         var win = nw.Window.get();

@@ -4,8 +4,7 @@
 DuckieTV.factory('ChromePermissions', ["$q",
     function($q) {
         var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1,
-            isExtension = (('chrome' in window) && ('permissions' in chrome)),
-            isOpera = navigator.vendor.toLowerCase().indexOf('opera');
+            isExtension = (('chrome' in window) && ('permissions' in chrome));
 
         var service = {
             /**
@@ -244,11 +243,11 @@ DuckieTV.factory('ChromePermissions', ["$q",
              */
             restore: function() {
                 if (!localStorage.getItem('userPreferences')) {
-                    service.defaults['topSites.enabled'] = (navigator.userAgent.indexOf('Standalone') == -1 && 'chrome' in window && 'topSites' in (window.chrome));
+                    service.defaults['topSites.enabled'] = (!service.isStandalone() && 'chrome' in window && 'topSites' in (window.chrome));
                     service.settings = service.defaults;
                 } else {
                     service.settings = angular.fromJson(localStorage.getItem('userPreferences'));
-                    if (navigator.userAgent.indexOf('Standalone') > -1) {
+                    if(service.isStandalone()) {
                         service.settings['topSites.enabled'] = false;
                     }
                 }
@@ -284,6 +283,12 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 $injector.get('tmhDynamicLocale').set(locale); // the SettingsService is also required in the background page and we don't need $translate there
                 $injector.get('$translate').use(langKey, locale); // get these via the injector so that we don't have to use these dependencies hardcoded.
                 return langKey;
+            },
+            /**
+             * DuckieTV is running Standalone 
+             */
+            isStandalone: function() {
+                return navigator.userAgent.toLowerCase().indexOf('standalone') > -1;
             }
         };
         service.restore();
@@ -296,7 +301,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
  */
 .run(["$rootScope", "SettingsService", function($rootScope, SettingsService) {
 
-    $rootScope.isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') > -1);
+    $rootScope.isStandalone = (SettingsService.isStandalone());
     $rootScope.isMac = (navigator.platform.toLowerCase().indexOf('mac') !== -1);
 
     $rootScope.getSetting = function(key) {
