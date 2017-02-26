@@ -1,5 +1,6 @@
+<!-- torrentClient.details.html -->
 <div class="torrent-details">
-  <h1><span translate-once="COMMON/torrent-details/lbl"></span>
+  <h1><span translate-once>COMMON/torrent-details/lbl</span>
     <span><button type="button" class="close" ng-click="vm.closeSidePanelExpansion()" class="pull-right" style="margin-top:15px" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/torrent-details/lbl'|translate}}" tooltip-placement="left">&times;</button></span>
   </h1>
 
@@ -7,37 +8,37 @@
 
   <div class="dg">
     <ng-dial-gauge id="gauge1"
-                  scale-min="0"
-                  scale-max="10"
-                  scale-max-relative=true
-                  border-width="0"
-                  ng-model="vm.downloadSpeed"
-                  track-color="white"
-                  bar-color="#00FF00"
-                  bar-color-end="#FF0000"
-                  bar-width="10"
-                  units="kB/s"
-                  angle="180"
-                  border-color="white"
-                  line-cap="square"
-                  title="Download Speed"
-                  style="fill:white;font-weight:100;height:450px;">
+      scale-min="0"
+      scale-max="10"
+      scale-max-relative=true
+      border-width="0"
+      ng-model="vm.downloadSpeed"
+      track-color="white"
+      bar-color="#00FF00"
+      bar-color-end="#FF0000"
+      bar-width="10"
+      units="kB/s"
+      angle="180"
+      border-color="white"
+      line-cap="square"
+      title="Download Speed"
+      style="fill:white;font-weight:100;height:450px;">
     </ng-dial-gauge>
     <ng-dial-gauge id="gauge2"
-                  scale-min="0"
-                  scale-max="100"
-                  border-width="0"
-                  ng-model="vm.progress"
-                  track-color="white"
-                  bar-color="#0000FF"
-                  bar-color-end="#00FF00"
-                  bar-width="10"
-                  units="%"
-                  angle="180"
-                  border-color="white"
-                  line-cap="square"
-                  title="Progress"
-                  style="fill:white;font-weight:100;height:450px;">
+      scale-min="0"
+      scale-max="100"
+      border-width="0"
+      ng-model="vm.progress"
+      track-color="white"
+      bar-color="#0000FF"
+      bar-color-end="#00FF00"
+      bar-width="10"
+      units="%"
+      angle="180"
+      border-color="white"
+      line-cap="square"
+      title="Progress"
+      style="fill:white;font-weight:100;height:450px;">
     </ng-dial-gauge>
   </div>
 
@@ -50,33 +51,33 @@
         <!-- start button -->
         <a ng-click="vm.torrent.start();" style='display:inline-block'>
           <i class="glyphicon glyphicon-play"></i>
-          <span translate-once="COMMON/start/btn"></span>
+          <span translate-once>COMMON/start/btn</span>
         </a>
         <!-- pause button -->
         <a ng-click="vm.torrent.pause();" style='display:inline-block'>
           <i class="glyphicon  glyphicon-pause"></i>
-          <span translate-once="COMMON/pause/btn"></span>
+          <span translate-once>COMMON/pause/btn</span>
         </a>
         <!-- stop button -->
         <a ng-click="vm.torrent.stop();"  style='display:inline-block'>
           <i class="glyphicon glyphicon-stop"></i>
-          <span translate-once="COMMON/stop/btn"></span>
+          <span translate-once>COMMON/stop/btn</span>
         </a>
         <!-- remove button -->
         <a ng-click="vm.torrent.remove();"  style='display:inline-block'>
           <i class="glyphicon glyphicon-eject"></i>
-          <span translate-once="COMMON/remove/btn"></span>
+          <span translate-once>COMMON/remove/btn</span>
         </a>
       </div>
       <!-- streamable button, only for utorrent -->
       <a ng-if="!vm.isWebUI && getSetting('torrenting.streaming') && vm.torrent.properties.all.is_streamable" style="margin-top:5px" ng-click="vm.torrent.stream();">
         <i class="glyphicon glyphicon-bullhorn"></i>
-        <span translate-once="COMMON/stream-play/btn"></span>
+        <span translate-once>COMMON/stream-play/btn</span>
       </a>
       <!-- open containing folder button, only for utorrent -->
       <a ng-if="!vm.isWebUI && getSetting('torrenting.directory') && vm.torrent.open_containing" style="margin-top:5px" ng-click="vm.torrent.open_containing();">
         <i class="glyphicon glyphicon-folder-open" style='padding-right: 10px'></i>
-        <span translate-once="COMMON/open-folder/btn"></span>
+        <span translate-once>COMMON/open-folder/btn</span>
       </a>
     </div>
   </div>
