@@ -3,18 +3,18 @@
   <!-- no series, show intro text and trakt connect/ backup import -->
   <div ng-if="trending.noFavs" class="alert alert-info" style='margin:20px;text-align:left;white-space:normal;font-size: 14px'>
     <button type="button" class="close" ng-click="trending.noFavs = false"><span>&times;</span></button>
-    <strong translate-once="SERIESLIST/TRAKT-TRENDING/series-no/hdr"></strong>
-    <span translate-once="SERIESLIST/TRAKT-TRENDING/series-no/desc"></span>
+    <strong translate-once>SERIESLIST/TRAKT-TRENDING/series-no/hdr</strong>
+    <span translate-once>SERIESLIST/TRAKT-TRENDING/series-no/desc</span>
     <br>
-    <strong style='display:inline'><button ng-click="showBackup = true; showTrakt = false" style='color:black; position:relative;' translate-once="SERIESLIST/TRAKT-TRENDING/import/btn"></button></strong> or <strong style='display:inline'><button ng-click="showTrakt = true;showBackup = false" style='color:black' translate-once="SERIESLIST/TRAKT-TRENDING/connect-to-traktTV/btn"></button></strong>
+    <strong style='display:inline'><button ng-click="showBackup = true; showTrakt = false" style='color:black; position:relative;' translate-once>SERIESLIST/TRAKT-TRENDING/import/btn</button></strong> or <strong style='display:inline'><button ng-click="showTrakt = true;showBackup = false" style='color:black' translate-once>SERIESLIST/TRAKT-TRENDING/connect-to-traktTV/btn</button></strong>
     <div ng-show="showTrakt == true" ng-include="'templates/settings/trakt-import.html'"></div>
     <div ng-show="showBackup == true" ng-include="'templates/settings/backup-import.html'"></div>
   </div>
 
-  <h1 style='margin-bottom:15px;margin-top:15px;color:rgb(225,225,225);'><span translate-once="COMMON/addtrending/hdr"></span> - <span translate-once="SERIESLIST/TRAKT-TRENDING/addtrending-help-click-to-show/hdr"></span></h1>
+  <h1 style='margin-bottom:15px;margin-top:15px;color:rgb(225,225,225);'><span translate-once>COMMON/addtrending/hdr</span> - <span translate-once>SERIESLIST/TRAKT-TRENDING/addtrending-help-click-to-show/hdr</span></h1>
 
   <!-- Trending series loading -->
-  <h1 style='text-align:center' ng-show="trending.filtered.length == 0"><loading-spinner style="display: block; width: 37px; height: 37px; position: relative; margin: 0 auto;"></loading-spinner><br><span translate-once="SERIESLIST/TRAKT-TRENDING/addtrending-help-please-wait/hdr"></span></h1>
+  <h1 style='text-align:center' ng-show="trending.filtered.length == 0"><loading-spinner style="display: block; width: 37px; height: 37px; position: relative; margin: 0 auto;"></loading-spinner><br><span translate-once>SERIESLIST/TRAKT-TRENDING/addtrending-help-please-wait/hdr</span></h1>
 
   <div class="filters" ng-if="trending.getCategories().length > 0">
     <button ng-repeat="category in trending.getCategories()" class="btn btn-xs btn-default" ng-click="trending.toggleCategory(category)" ng-class="{'active': trending.activeCategory == category}">{{::trending.translateCategory(category)}}</button>
@@ -33,6 +33,6 @@
     </serieHeader>
   </div>
   <button class="btn btn-info" ng-click="trending.limit = trending.limit + 75; trending.oldLimit = trending.limit" ng-show="trending.filtered && trending.limit < trending.filtered.length" style="margin:5px auto;width:50%;opacity:0.8">
-    <i class="glyphicon glyphicon-plus"></i><span translate-once="SERIESLIST/TRAKT-TRENDING/show-more/btn"></span>
+    <i class="glyphicon glyphicon-plus"></i><span translate-once>SERIESLIST/TRAKT-TRENDING/show-more/btn</span>
   </button>
 </div>

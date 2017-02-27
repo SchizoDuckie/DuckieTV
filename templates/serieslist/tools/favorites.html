@@ -17,7 +17,7 @@
         
          <div class="btn-group sort-status" uib-dropdown>
             <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle>
-              <span translate-once="COMMON/status/hdr"></span>
+              <span translate-once>COMMON/status/hdr</span>
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
@@ -30,7 +30,7 @@
         <!-- genre filter list -->
          <div class="btn-group sort-genre" uib-dropdown>
           <button type="button" class="btn btn-large dropdown-toggle" uib-dropdown-toggle >
-            <span translate-once="COMMON/genre/hdr"></span>
+            <span translate-once>COMMON/genre/hdr</span>
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
@@ -45,7 +45,7 @@
         <div class="btn-group sort-btn" uib-dropdown>
           <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle>
             <i class="glyphicon glyphicon-sort-by-attributes"></i>
-            <span translate-once="COMMON/orderby/glyph"></span>
+            <span translate-once>COMMON/orderby/glyph</span>
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
@@ -60,11 +60,11 @@
 
         <!-- Banner mode button -->
       <a accesskey="l" ng-show="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" uib-tooltip="{{'SERIESLIST/TOOLS/FAVORITES/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom" tooltip-delay="150">
-        <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/list-show/glyph"></span>
+        <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> <span translate-once>SERIESLIST/TOOLS/FAVORITES/list-show/glyph</span>
       </a>
       <!-- Poster mode button -->
       <a accesskey="g" ng-show="serieslist.mode != 'poster'" ng-click="serieslist.setMode('poster');" uib-tooltip="{{'SERIESLIST/TOOLS/FAVORITES/grid-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + g)" tooltip-placement="bottom" tooltip-delay="150">
-        <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> <span translate-once="SERIESLIST/TOOLS/FAVORITES/grid-show/glyph"></span>
+        <i style='font-size:15px;' class="glyphicon glyphicon-th"></i> <span translate-once>SERIESLIST/TOOLS/FAVORITES/grid-show/glyph</span>
       </a>
       <!-- Make posters smaller button -->
       <a ng-show="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">

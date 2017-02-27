@@ -1,16 +1,16 @@
 <!-- serieslist\trakt-searching.html -->
 <div class="series adding" series-grid="{{serieslist.sgEnabled}}" no-scroll ng-class="{'miniposter': serieslist.isSmall}">
-  <h1 ng-show="traktSearch.error"><img src="img/logo/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' /><span translate-once="SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl"></span><br>{{traktSearch.error.statusText}}</h1>
+  <h1 ng-show="traktSearch.error"><img src="img/logo/icon64-inverted.png" style='-webkit-transform:rotate(-220deg); display:block; margin:0 auto;' /><span translate-once>SERIESLIST/TRAKT-SEARCHING/error-with-trakttv/lbl</span><br>{{traktSearch.error.statusText}}</h1>
 
   <div ng-show="traktSearch.searching">
     <img src="img/trakt.png" class="spin">
-    <h3 translate-once="SERIESLIST/TRAKT-SEARCHING/please-wait/lbl"></h3>
+    <h3 translate-once>SERIESLIST/TRAKT-SEARCHING/please-wait/lbl</h3>
   </div>
 
   <!-- If no results -->
   <div ng-show="!traktSearch.searching && traktSearch.results.length == 0">
     <img src="img/trakt.png">
-    <h3><span translate-once="SERIESLIST/TRAKT-SEARCHING/no-results/lbl"></span> {{traktSearch.search.query}}</h3>
+    <h3><span translate-once>SERIESLIST/TRAKT-SEARCHING/no-results/lbl</span> {{traktSearch.search.query}}</h3>
   </div>
 
   <div class="series-grid" style="position:relative;margin-top:22px">
