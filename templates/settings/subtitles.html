@@ -1,18 +1,18 @@
  <div ng-controller="SubtitlesCtrl as vm" class="buttons languages">
 
-	<h2 translate-once="COMMON/subtitles/hdr"></h2>
+	<h2 translate-once>COMMON/subtitles/hdr</h2>
 
-	<p translate-once="SETTINGS/SUBTITLES/desc"></p>
+	<p translate-once>SETTINGS/SUBTITLES/desc</p>
 
 	<hr>
 	<p>
-		<strong ng-if="vm.enabledLanguages != ''" translate-once="SETTINGS/SUBTITLES/selected/lbl"></strong><br> {{vm.enabledLanguages}}<br>
-		<strong ng-if="vm.enabledLanguages == ''" translate-once="SETTINGS/SUBTITLES/selected-none/lbl"></strong>
+		<strong ng-if="vm.enabledLanguages != ''" translate-once>SETTINGS/SUBTITLES/selected/lbl</strong><br> {{vm.enabledLanguages}}<br>
+		<strong ng-if="vm.enabledLanguages == ''" translate-once>SETTINGS/SUBTITLES/selected-none/lbl</strong>
 	</p>
 	<p style='text-align: right'>
   	<a ng-if="vm.enabledLanguages != ''" ng-click="vm.selectNone()" class="btn btn-xs btn-warning" style="display:inline-block; padding-right:15px;">
   		<i class="glyphicon glyphicon-trash" style='font-size:15px; line-height: 23px; vertical-align:middle'></i>
-  		<span translate-once="SETTINGS/SUBTITLES/clear-selection/lbl"></span>
+  		<span translate-once>SETTINGS/SUBTITLES/clear-selection/lbl</span>
   	</a>
 	</p>
 

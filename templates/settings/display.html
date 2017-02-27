@@ -4,11 +4,11 @@
       <span uib-tooltip="{{topSites ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
         <i class="glyphicon glyphicon-{{topSites ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
-      <li translate-once="SETTINGS/DISPLAY/topsites/hdr"></li>
+      <li translate-once>SETTINGS/DISPLAY/topsites/hdr</li>
     </h2>
 
     <p>{{topSites ? 'SETTINGS/DISPLAY/topsites-hide/desc' : 'SETTINGS/DISPLAY/topsites-show/desc'|translate}}</p>
-    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+    <p><strong  translate-once>COMMON/current-setting/hdr</strong>
      {{topSites ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
     <a ng-click="toggleTopSites()" class="btn btn-{{topSites ? 'danger' : 'success'}}"><i class="glyphicon glyphicon-{{topSites ? 'ban-circle' : 'th'}}"></i>{{topSites ? 'SETTINGS/DISPLAY/topsites-hide/btn' : 'SETTINGS/DISPLAY/topsites-show/btn'|translate}}</a>
 
@@ -19,11 +19,11 @@
         <span uib-tooltip="{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-hover/tooltip' : 'SETTINGS/DISPLAY/topsites-mode-click/tooltip'|translate}}" tooltip-placement="left">
           <i class="glyphicon glyphicon-{{topSitesMode == 'onhover' ? 'download-alt alert-info' : 'screenshot alert-success'}}" ></i>
         </span>
-        <li translate-once="SETTINGS/DISPLAY/topsites-activation/hdr"></li>
+        <li translate-once>SETTINGS/DISPLAY/topsites-activation/hdr</li>
       </h2>
 
       <p>{{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-click/desc' : 'SETTINGS/DISPLAY/topsites-mode-hover/desc'|translate}}</p>
-      <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
        {{topSitesMode == 'onhover' ? 'SETTINGS/DISPLAY/topsites-mode-hover/tooltip' : 'SETTINGS/DISPLAY/topsites-mode-click/tooltip'|translate}}</p>
       <a ng-click="toggleTopSitesMode()" class="btn btn-{{topSitesMode == 'onhover' ? 'info' : 'success'}}">
         <i class="glyphicon glyphicon-{{topSitesMode == 'onhover' ? 'screenshot' : 'download-alt'}}"></i>
@@ -38,11 +38,11 @@
     <span uib-tooltip="{{showRatings ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{showRatings ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
-    <li translate-once="SETTINGS/DISPLAY/download-ratings/hdr"></li>
+    <li translate-once>SETTINGS/DISPLAY/download-ratings/hdr</li>
   </h2>
 
-  <p translate-once="SETTINGS/DISPLAY/download-ratings/desc"></p>
-  <p><strong translate-once="COMMON/current-setting/hdr"></strong>
+  <p translate-once>SETTINGS/DISPLAY/download-ratings/desc</p>
+  <p><strong translate-once>COMMON/current-setting/hdr</strong>
    {{showRatings ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="toggleRatings()" class="btn btn-{{showRatings ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{showRatings ? 'remove' : 'ok'}}" ></i> {{showRatings ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
@@ -54,11 +54,11 @@
     <span uib-tooltip="{{notWatchedEpsBtn ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{notWatchedEpsBtn ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
-    <li translate-once="SETTINGS/DISPLAY/notWatchedEpsBtn/hdr"></li>
+    <li translate-once>SETTINGS/DISPLAY/notWatchedEpsBtn/hdr</li>
   </h2>
 
-  <p translate-once="SETTINGS/DISPLAY/notWatchedEpsBtn/desc"></p>
-  <p><strong translate-once="COMMON/current-setting/hdr"></strong>
+  <p translate-once>SETTINGS/DISPLAY/notWatchedEpsBtn/desc</p>
+  <p><strong translate-once>COMMON/current-setting/hdr</strong>
    {{notWatchedEpsBtn ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="togglenotWatchedEpsBtn()" class="btn btn-{{notWatchedEpsBtn ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{notWatchedEpsBtn ? 'remove' : 'ok'}}" ></i> {{notWatchedEpsBtn ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
@@ -70,11 +70,11 @@
     <span uib-tooltip="{{sgEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{sgEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
-    <li translate-once="SETTINGS/DISPLAY/transitions/hdr"></li>
+    <li translate-once>SETTINGS/DISPLAY/transitions/hdr</li>
   </h2>
 
-  <p translate-once="SETTINGS/DISPLAY/transitions/desc"></p>
-  <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+  <p translate-once>SETTINGS/DISPLAY/transitions/desc</p>
+  <p><strong  translate-once>COMMON/current-setting/hdr</strong>
    {{sgEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="toggleSeriesGrid()" class="btn btn-{{sgEnabled ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{sgEnabled ? 'remove' : 'ok'}}" ></i> {{sgEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
@@ -82,7 +82,7 @@
 
   <hr class="setting-divider">
 
-  <h2 translate-once="SETTINGS/DISPLAY/background-opacity/hdr"></h2>
+  <h2 translate-once>SETTINGS/DISPLAY/background-opacity/hdr</h2>
 
   <ul class="list-unstyled btns">
     <li>
@@ -99,10 +99,10 @@
       <span uib-tooltip="{{getSetting('kc.always') ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
         <i class="glyphicon glyphicon-{{getSetting('kc.always') ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
-      <li translate-once="SETTINGS/DISPLAY/cheatmode/hdr"></li>
+      <li translate-once>SETTINGS/DISPLAY/cheatmode/hdr</li>
     </h2>
-    <p  translate-once="SETTINGS/DISPLAY/cheatmode/desc"></p>
-    <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+    <p  translate-once>SETTINGS/DISPLAY/cheatmode/desc</p>
+    <p><strong  translate-once>COMMON/current-setting/hdr</strong>
      {{getSetting('kc.always') ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
     <a ng-click="setSetting('kc.always',!getSetting('kc.always'))" class="btn btn-{{getSetting('kc.always') ? 'info' : 'success'}}">
       <i class="glyphicon glyphicon-{{getSetting('kc.always') ? 'remove' : 'ok'}}"></i> {{getSetting('kc.always') ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}

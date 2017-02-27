@@ -3,12 +3,12 @@
     <span uib-tooltip="{{watchedDownloadedPaired ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{watchedDownloadedPaired ? 'ok alert-success' : 'remove alert-info'}}"></i>
     </span>
-    <li translate-once="SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr"></li>
+    <li translate-once>SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/hdr</li>
   </h2>
 
-  <p translate-once="SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc"></p>
+  <p translate-once>SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc</p>
 
-   <p><strong  translate-once="COMMON/current-setting/hdr"></strong>
+   <p><strong  translate-once>COMMON/current-setting/hdr</strong>
    {{watchedDownloadedPaired ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
   <a ng-click="togglewatchedDownloadedPaired()" class="btn btn-{{watchedDownloadedPaired ? 'info' : 'success'}}">
     <i class="glyphicon glyphicon-{{watchedDownloadedPaired ? 'remove' : 'ok'}}" ></i> {{watchedDownloadedPaired ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
