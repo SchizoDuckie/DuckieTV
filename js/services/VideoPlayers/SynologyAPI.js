@@ -33,9 +33,10 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
      * API will be automagically loaded from synology device, then initialized goes to true.
      */
     this.initialized = false;
+    this.initializing = false;
 
     this.api = {
-
+        'SYNO.API.Info': {}
     };
 
     this.devices = [];
@@ -44,36 +45,20 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
 
 
     var parsers = {
-        'SYNO.API.Info': function(data) {
-            self.api = data;
-            self.initialized = true;
-            return data;
-        },
-        'SYNO.API.Auth': function(response) {
-            self.sessionID = response.sid;
-            SettingsService.set('synology.sessionID', response.sid);
-            return response.sid;
-        },
-        'SYNO.VideoController.Device': function(response) {
-            self.devices = response.devices;
-            return response.devices;
-        },
-        'SYNO.VideoStation.Library': function(response) {
-            return response.libraries;
-        },
+
         'SYNO.VideoStation.Folder': function(response) {
             return response.objects;
         }
 
     }
 
-    function request(apiMethod, parameters, postData, method) {
+    function request(apiMethod, parameters) {
         /**
          * Always auto-initialize.
          */
         if (!self.initialized && apiMethod != 'SYNO.API.Info') {
-            return fetchAPIInfo().then(function() {
-                return request(apiMethod, parameters, postData, method);
+            return service.fetchAPIInfo().then(function() {
+                return request(apiMethod, parameters);
             });
         }
 
@@ -85,16 +70,12 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
         if (parameters.path) {
             delete parameters.path;
         }
-        return $http.get(url, postData || null)
+        return $http.get(url)
             .then(function(result) {
                 if (result.data.error) {
                     throw Error(errors[result.data.error.code]);
                 }
-                if ((apiMethod in parsers)) {
-                    var response = parsers[apiMethod](result.data.data);
-                    return response;
-                }
-                return result;
+                return result.data.data;
             }, function(err) {
                 console.error("Synology API ERROR", err);
                 throw Error("ERROR executing " + apiMethod + (err.message ? ":" + err.message : ""));
@@ -110,37 +91,10 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
             delete params.path;
         } else if ((apiMethod in self.api)) {
             url = url.replace('%s', self.api[apiMethod].path);
-        } else {
-            throw new Error("Unknown api method: ", apiMethod);
         }
         params.api = apiMethod;
 
         return URLBuilder.build(config.protocol + '://' + config.ip + ':' + config.port + url, params);
-    }
-
-    function fetchAPIInfo() {
-        return request('SYNO.API.Info', {
-            'path': 'query.cgi',
-            'method': 'query',
-            'version': '1',
-            'query': 'all'
-        }, null, 'get');
-    }
-
-    function login() {
-        if (self.sessionID !== null) {
-            return $q(function(resolve) {
-                resolve(self.sessionID);
-            })
-        }
-        return request('SYNO.API.Auth', {
-            'method': 'login',
-            'version': '2',
-            'session': 'VideoStation',
-            'format': 'cookie',
-            'account': config.username,
-            'passwd': config.password
-        });
     }
 
     /**
@@ -162,10 +116,50 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
     var service = {
 
         fetchAPIInfo: function() {
-            return fetchAPIInfo()
+            if (!self.initialized && !self.initializing) {
+                self.initializing = true;
+                return request('SYNO.API.Info', {
+                    'path': 'query.cgi',
+                    'method': 'query',
+                    'version': '1',
+                    'query': 'all'
+                }).then(function(result) {
+                    debugger;
+                    self.api = result;
+                    self.initialized = true;
+                    self.initializing = false;
+                    return self.api;
+                });
+            } else if (self.initialized) {
+                return $q.when(function() {
+                    return self.api;
+                });
+            } else {
+                return $q(function(resolve) {
+                    setTimeout(function() {
+                        resolve(service.fetchAPIInfo);
+                    }, 1000);
+                });
+            }
         },
         init: function() {
-            return login();
+            if (self.sessionID !== null) {
+                return $q.when(function() {
+                    return self.sessionID
+                });
+            }
+            return request('SYNO.API.Auth', {
+                'method': 'login',
+                'version': '2',
+                'session': 'VideoStation',
+                'format': 'cookie',
+                'account': config.username,
+                'passwd': config.password
+            }).then(function(result) {
+                self.sessionID = result.sid;
+                SettingsService.set('synology.sessionID', result.sid);
+                return true;
+            })
         },
         deAuthorize: function() {
             this.sessionID = null;
@@ -186,6 +180,9 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
             return request('SYNO.VideoController.Device', {
                 method: 'list',
                 version: 1
+            }).then(function(result) {
+                self.devices = result.devices;
+                return result.devices;
             });
         },
         Library: function(parameters) {
@@ -194,7 +191,9 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
                 offset: 0,
                 limit: 1000,
                 version: 1
-            }));
+            })).then(function(response) {
+                return response.libraries;
+            });
         },
         Poster: function(parameters) {
             return request('SYNO.VideoStation.Poster', parameters);
@@ -229,7 +228,9 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
                 type: 'tvshow',
                 id: '',
                 version: 1
-            }));
+            })).then(function(result) {
+                return result.objects;
+            })
         },
         Metadata: function(parameters) {
             if (!('method' in parameters)) {
