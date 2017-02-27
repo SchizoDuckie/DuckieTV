@@ -1,11 +1,11 @@
 <!-- querymonitor.html -->
 <div>
 <i class="glyphicon glyphicon-info-sign"></i>
-<span translate-once="QUERYMONITOR/writing/lbl"></span>: {{queryStats.writesExecuted}}/{{queryStats.writesQueued}}
+<span translate-once>QUERYMONITOR/writing/lbl</span>: {{queryStats.writesExecuted}}/{{queryStats.writesQueued}}
  <div class="progress-striped progress" class='active' >
     <span ng-if="queryStats.writesQueued != queryStats.writesExecuted"></span>
     <div class="progress-bar progress-bar-success" ng-style="{ width: progress + '%' }">&nbsp;
     </div>
   </div>
-  <small translate-once="QUERYMONITOR/please-wait/lbl"></small>
+  <small translate-once>QUERYMONITOR/please-wait/lbl</small>
 </div>

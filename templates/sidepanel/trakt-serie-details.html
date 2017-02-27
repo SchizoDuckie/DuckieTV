@@ -17,19 +17,19 @@
         </td>
       </tr>
       <tr ng-if="sidepanel.serie.airs.day" >
-        <th translate-once="COMMON/airs-on/hdr"></th>
+        <th translate-once>COMMON/airs-on/hdr</th>
         <td>{{sidepanel.translateDayOfWeek(sidepanel.serie.airs.day)}} {{sidepanel.serie.airs.time}} {{sidepanel.serie.airs.timezone}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.first_aired" >
-        <th translate-once="COMMON/first-aired/hdr"></th>
+        <th translate-once>COMMON/first-aired/hdr</th>
         <td>{{ sidepanel.serie.first_aired | date:'mediumDate' }}</td>
       </tr>
       <tr ng-if="sidepanel.serie.status" >
-        <th translate-once="COMMON/status/hdr"></th>
+        <th translate-once>COMMON/status/hdr</th>
         <td>{{sidepanel.translateStatus(sidepanel.serie.status)}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.genres" >
-        <th translate-once="COMMON/genre/hdr"></th>
+        <th translate-once>COMMON/genre/hdr</th>
         <td>
           <ul class="list-unstyled">
             <li ng-repeat="genre in sidepanel.serie.genres track by $index">{{sidepanel.translateGenre(genre)}}</li>
@@ -37,27 +37,27 @@
         </td>
       </tr>
       <tr ng-if="sidepanel.serie.certification" >
-        <th translate-once="COMMON/content-rating/hdr"></th>
+        <th translate-once>COMMON/content-rating/hdr</th>
         <td>{{sidepanel.serie.certification}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.country" >
-        <th translate-once="COMMON/country/hdr"></th>
+        <th translate-once>COMMON/country/hdr</th>
         <td>{{sidepanel.serie.country}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.network" >
-        <th translate-once="COMMON/network/hdr"></th>
+        <th translate-once>COMMON/network/hdr</th>
         <td>{{sidepanel.serie.network}}</td>
       </tr>
       <tr ng-if="sidepanel.serie.rating" >
-        <th translate-once="COMMON/rating/hdr"></th>
-        <td>{{sidepanel.ratingPercentage(sidepanel.serie.rating)}}% ({{sidepanel.serie.votes}} <span translate-once="COMMON/votes/lbl"></span>)</td>
+        <th translate-once>COMMON/rating/hdr</th>
+        <td>{{sidepanel.ratingPercentage(sidepanel.serie.rating)}}% ({{sidepanel.serie.votes}} <span translate-once>COMMON/votes/lbl</span>)</td>
       </tr>
       <tr ng-if="sidepanel.serie.runtime" >
-        <th translate-once="COMMON/run-time/hdr"></th>
-        <td>{{sidepanel.serie.runtime}}  <span translate-once="COMMON/minutes/lbl"></span></td>
+        <th translate-once>COMMON/run-time/hdr</th>
+        <td>{{sidepanel.serie.runtime}}  <span translate-once>COMMON/minutes/lbl</span></td>
       </tr>
       <tr ng-if="sidepanel.serie.actors" >
-        <th translate-once="COMMON/actors/hdr"></th>
+        <th translate-once>COMMON/actors/hdr</th>
         <td>
           <ul class="list-unstyled">
             <li ng-repeat="actors in sidepanel.serie.actors track by $index">{{actors}}</li>
