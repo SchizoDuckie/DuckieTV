@@ -70,7 +70,12 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
         if (parameters.path) {
             delete parameters.path;
         }
-        return $http.get(url)
+        return $http.post(url, URLBuilder.build('', parameters).slice(1), {
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': "application/x-www-form-urlencoded"
+                }
+            })
             .then(function(result) {
                 if (result.data.error) {
                     throw Error(errors[result.data.error.code]);
@@ -94,7 +99,7 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
         }
         params.api = apiMethod;
 
-        return URLBuilder.build(config.protocol + '://' + config.ip + ':' + config.port + url, params);
+        return URLBuilder.build(config.protocol + '://' + config.ip + ':' + config.port + url);
     }
 
     /**
@@ -124,7 +129,6 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
                     'version': '1',
                     'query': 'all'
                 }).then(function(result) {
-                    debugger;
                     self.api = result;
                     self.initialized = true;
                     self.initializing = false;
