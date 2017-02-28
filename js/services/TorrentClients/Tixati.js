@@ -103,7 +103,14 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
 
         TixatiAPI.extends(BaseHTTPApi, {
             portscan: function() {
-                return this.request('portscan').then(function(result) {
+                var headers = {
+                    'Content-Type': 'text/html',
+                    'charset': 'utf-8'
+                };
+                if (this.config.use_auth) {
+                    headers.Authorization = [this.config.username, this.config.password];
+                };
+                return this.request('portscan', {headers: headers}).then(function(result) {
                     var scraper = new HTMLScraper(result.data),
                         categories = {},
                         categoriesList = [];
@@ -317,6 +324,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
         service.setConfigMappings({
             server: 'tixati.server',
             port: 'tixati.port',
+            use_auth: 'tixati.use_auth',
             username: 'tixati.username',
             password: 'tixati.password'
         });
