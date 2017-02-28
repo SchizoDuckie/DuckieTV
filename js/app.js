@@ -22,6 +22,7 @@ var DuckieTV = angular.module('DuckieTV', [
 FIXME
 DEBUG
 FIXME
+DEBUG
 
 /**
  * Disable debug info for speed improvements
@@ -33,7 +34,7 @@ FIXME
         $compileProvider.debugInfoEnabled(false);
     }
 }])
-
+ FIXME
 /**
  * Unsafe HTML entities pass-through.
  * (Used for for instance typeAheadIMDB.html)
