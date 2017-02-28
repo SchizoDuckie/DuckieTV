@@ -18,13 +18,13 @@
     <li translate-once>SETTINGS/WINDOW/system-tray/hdr</li>
   </h2>
   <div style="text-align: left">
-    <div class="checkbox" ng-hide="isMac">
+    <div class="checkbox">
       <input type="checkbox" ng-model="alwaysShowTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleAlwaysShowTray()" id="w_ast"><label for="w_ast" translate-once>SETTINGS/WINDOW/system-tray-always/lbl</label>
     </div>
     <div class="checkbox">
       <input type="checkbox" ng-model="minimizeToTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleMinimizeToTray()" id="w_mtt"><label for="w_mtt" translate-once>SETTINGS/WINDOW/system-tray-minimize/lbl</label>
     </div>
-    <div class="checkbox" ng-hide="isMac">
+    <div class="checkbox">
       <input type="checkbox" ng-model="closeToTray" ng-true-value="'Y'" ng-false-value="'N'" ng-change="toggleCloseToTray()" id="w_ctt"><label for="w_ctt" translate-once>SETTINGS/WINDOW/system-tray-close/lbl</label>
     </div>
   </div>
