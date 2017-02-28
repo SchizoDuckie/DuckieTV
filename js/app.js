@@ -19,6 +19,9 @@ var DuckieTV = angular.module('DuckieTV', [
     'angular-dialgauge'
 ])
 
+FIXME
+DEBUG
+
 /**
  * Disable debug info for speed improvements
  */
