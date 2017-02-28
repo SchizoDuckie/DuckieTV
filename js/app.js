@@ -21,6 +21,7 @@ var DuckieTV = angular.module('DuckieTV', [
 
 FIXME
 DEBUG
+FIXME
 
 /**
  * Disable debug info for speed improvements
