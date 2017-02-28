@@ -3,8 +3,8 @@
  *
  * see app.js for the backup format structure description
  */
-DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector", "$q", "$state", "dialogs", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents",
-    function($rootScope, $scope, $filter, $injector,  $q, $state, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents) {
+DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupService", "$q", "$state", "dialogs", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents",
+    function($rootScope, $scope, $filter, BackupService, $q, $state, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents) {
 
         $scope.backupString = false;
         $scope.wipeBeforeImport = false;
@@ -20,19 +20,20 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
         $scope.autoBackupPeriod = SettingsService.get('autobackup.period');
         $scope.autoBackupSelect = [];
         for (var idx = 0; idx < englishAutoBackupPeriodList.length; idx++) {
-            $scope.autoBackupSelect.push({'name': translatedAutoBackupPeriodList[idx], 'value': englishAutoBackupPeriodList[idx]});
+            $scope.autoBackupSelect.push({
+                'name': translatedAutoBackupPeriodList[idx],
+                'value': englishAutoBackupPeriodList[idx]
+            });
         };
 
-        /**
-         * Select all series from the database in the format described above, serialize them as a data uri string
-         * that's set up on the $scope.backupString, so that it can be used as a trigger for
-         * <a ng-if="backupString" download="DuckieTV.backup" ng-href="{{ backupString }}">Backup ready! Click to download.</a>
-         */
 
+        /**
+         * Create backup via download service and force the download.
+         */
         $scope.createBackup = function() {
-            $injector.get('BackupService').createBackup().then(function(backupString) {
-                $scope.backupString = backupString;
-                $scope.backupTime = new Date();
+            BackupService.createBackup().then(function(backupString) {
+                var filename = 'DuckieTV %s.backup'.replace('%s', $filter('date')(new Date(), 'shortDate'));
+                download(backupString, filename, 'application/json');
             });
         };
 
@@ -91,7 +92,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                         }).then(function() {
                             // save series custom settings
                             CRUD.FindOne('Serie', {
-                                'TVDB_ID' : TVDB_ID
+                                'TVDB_ID': TVDB_ID
                             }).then(function(serie) {
                                 if (!serie) {
                                     console.warn("Series by TVDB_ID %s not found.", TVDB_ID);
@@ -102,8 +103,8 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "$injector
                                             // this is a pre 1.1.4 backup, skip it
                                         } else {
                                             // this is a 1.1.4 or newer backup, process the series custom settings
-                                            serie = angular.extend(serie,data[0]);
-                                            serie.Persist();                                           
+                                            serie = angular.extend(serie, data[0]);
+                                            serie.Persist();
                                         }
                                     }
                                 };

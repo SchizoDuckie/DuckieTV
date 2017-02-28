@@ -93,26 +93,6 @@ var DuckieTV = angular.module('DuckieTV', [
         });
 }])
 
-
-/**
- * controller for the autoBackup dialogue
- */
-.controller('backupDialogCtrl', ['$scope', "$uibModalInstance", "data",
-    function($scope, $modalInstance, data) {
-        $scope.backupString = data.backupString;
-        $scope.backupTime = data.backupTime;
-
-        $scope.cancel = function() {
-            $modalInstance.dismiss('Canceled');
-        };
-
-        $scope.saved = function() {
-            $modalInstance.dismiss('Canceled');
-            localStorage.setItem('autobackup.lastrun', new Date().getTime());
-        };
-    }
-])
-
 /**
  * at start-up set up some formly custom types
  */

@@ -34,7 +34,7 @@
  *  }
  */
 DuckieTV.service('BackupService', function() {
-    
+
     var service = {
         createBackup: function() {
             // Fetch all the series
@@ -119,7 +119,7 @@ DuckieTV.service('BackupService', function() {
                     }
                 } else {
                     setTimeout(function() {
-                    scheduleAutoBackup();
+                        scheduleAutoBackup();
                     }, 1000);
                 }
             }, timeToNextBackup);
