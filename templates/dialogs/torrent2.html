@@ -128,7 +128,9 @@
           <a ng-if="seed.noTorrent">
             <i class="glyphicon glyphicon-download" style="color:gray"></i>
           </a>
-          <a ng-if="!seed.noMagnet" ng-click="submitMagnetLink(seed)">
+          <!-- sneaky: update the $scope.seed with a dangling ref to the magic hash fetched from a promise.
+               It's leaking memory until the torrent dialog is closed, won't be much of a problem imo. -->
+          <a ng-if="!seed.noMagnet" ng-href="{{seed.magnetUrl}}" ng-click="seed=submitMagnetLink(seed)">
             <i class="glyphicon glyphicon-link" uib-tooltip="{{'COMMON/magnet-link/tooltip'|translate}}"></i>
           </a>
           <a ng-if="seed.noMagnet">

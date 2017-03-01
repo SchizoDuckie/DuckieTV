@@ -312,6 +312,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                 TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
                     if (details.magnetUrl) {
                         //console.debug('using details magnet');
+                        result.magnetUrl = details.magnetUrl;
                         return magnetSelect(details.magnetUrl);
                     } else if (details.torrentUrl) {
                         //console.debug('using details torrent');
@@ -353,10 +354,12 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                 // we don't have magnetUrl from search, fetch from details instead
                 TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(result.detailUrl, result.releasename).then(function(details)  {
                     if (details.magnetUrl) {
+                        result.magnetUrl = details.magnetUrl;
                         openUrl('magnet', details.magnetUrl);
                     }
                 });
             }
+            return result;
         };
 
         $scope.submitTorrentLink = function(result) {
