@@ -618,6 +618,10 @@ serieheader[mode='search'] {
   border-radius: 0;
 }
 
+serieheader {
+  overflow:hidden;
+}
+
 serieheader[mode='search'] h3 {
   position: initial;
   margin-top: 0;
@@ -829,6 +833,21 @@ serieheader em.earmark.trailer {
   color: white;
   transition: opacity 0.2s ease-in-out;
   opacity: 0;
+  cursor: pointer;
+}
+
+serieheader .earmark.add {
+  transform: translateY(100px);
+  width: 100%;
+  vertical-align: middle;
+  background-color: rgba(125,125,125,0.4);
+  transition: all 0.2s ease-in;
+
+  cursor: pointer;
+}
+
+serieheader:hover .earmark.add {
+ transform: translateY(0px); 
 }
 
 serieheader em.earmark.trailer .glyphicon {

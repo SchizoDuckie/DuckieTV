@@ -1,5 +1,5 @@
-DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$scope", "$filter", "$location", "$locale", "$q", "$state", "dialogs", "FavoritesService", "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SeriesListState", "SettingsService", "TraktTVv2",
-    function($rootScope, $scope, $filter, $location, $locale, $q, $state, dialogs, FavoritesService, latestSeason, notWatchedSeason, serie, SidePanelState, SeriesListState, SettingsService, TraktTVv2) {
+DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$filter", "$location", "$locale", "$q", "$state", "dialogs", "FavoritesService", "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SettingsService", "FavoritesManager",
+    function($rootScope, $filter, $location, $locale, $q, $state, dialogs, FavoritesService, latestSeason, notWatchedSeason, serie, SidePanelState, SettingsService, FavoritesManager) {
 
         var self = this;
         this.serie = serie;
@@ -17,13 +17,9 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$scope", "$filter", "$
 
         this.refresh = function(serie) {
             this.isRefreshing = true;
-            TraktTVv2.resolveTVDBID(serie.TVDB_ID).then(function(serie) {
-                self.selectSerie(serie, true).then(function(data) {
-                    setTimeout(function() {
-                        self.isRefreshing = false;
-                        $scope.$applyAsync();
-                    }, 500);
-                });
+            return FavoritesManager.refresh(serie.TVDB_ID).then(function() {
+                self.isRefreshing = false;
+                $rootScope.$applyAsync();
             });
         };
 
@@ -62,7 +58,7 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$scope", "$filter", "$
                     self.totalWatchedLbl = '0' + timePlurals[1] + '0' + timePlurals[3] + '0' + timePlurals[5];
                     self.totalWatchedPercent = 0;
                 }
-                $scope.$applyAsync();
+                $rootScope.$applyAsync();
             });
         });
 
@@ -72,12 +68,12 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$scope", "$filter", "$
 
         serie.getLastEpisode().then(function(result) {
             self.prevEpisode = result;
-            $scope.$applyAsync();
+            $rootScope.$applyAsync();
         });
 
         serie.getNextEpisode().then(function(result) {
             self.nextEpisode = result;
-            $scope.$applyAsync();
+            $rootScope.$applyAsync();
         });
 
 
@@ -96,45 +92,6 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$scope", "$filter", "$
             self.markAllWatchedAlert = true; // set alert flag
         };
 
-        /**
-         * Add a show to favorites.*The serie object is a Trakt.TV TV Show Object.
-         * Queues up the tvdb_id in the serieslist.adding array so that the spinner can be shown.
-         * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
-         * It can show the checkmark.
-         */
-        this.selectSerie = function(serie, refresh) {
-          return $q(function(resolve) {
-            if (!FavoritesService.isAdding(serie.tvdb_id)) {
-                if (!FavoritesService.isAdded(serie.tvdb_id) || refresh) {
-                    FavoritesService.adding(serie.tvdb_id);
-                    TraktTVv2.serie(serie.slug_id).then(function(serie) {
-                        FavoritesService.addFavorite(serie, undefined, undefined, true).then(function(data) {
-                            $rootScope.$broadcast('storage:update');
-                            FavoritesService.added(serie.tvdb_id);
-                            if (!refresh) {
-                              $state.go('serie', {
-                                  id: FavoritesService.getById(serie.tvdb_id).ID_Serie
-                              });
-                            }
-                            resolve(data);
-                        });
-                    }, function(err) {
-                        console.error("Error adding show!", err);
-                        FavoritesService.added(serie.tvdb_id);
-                        FavoritesService.addError(serie.tvdb_id, err);
-                        resolve();
-                    });
-                } else {
-                    if (!refresh) {
-                        $state.go('serie', {
-                            id: FavoritesService.getById(serie.tvdb_id).ID_Serie
-                        });
-                    }
-                    resolve();
-                }
-            }
-          });
-        };
 
         this.torrentSettings = function() {
             var d = dialogs.create('templates/settings/serieSettings.html', 'serieSettingsCtrl', {
@@ -154,23 +111,12 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$scope", "$filter", "$
             });
         };
 
-        /**
-         * Pop up a confirm dialog and remove the serie from favorites when confirmed.
-         */
         this.removeFromFavorites = function() {
-            var dlg = dialogs.confirm($filter('translate')('COMMON/serie-delete/hdr'),
-                $filter('translate')('COMMON/serie-delete-question/desc') +
-                this.serie.name +
-                $filter('translate')('COMMON/serie-delete-question/desc2')
-            );
-            dlg.result.then(function(btn) {
-                console.info("Removing serie '" + serie.name + "' from favorites!");
-                FavoritesService.remove(serie);
+            FavoritesManager.remove(this.serie).then(function() {
                 SidePanelState.hide();
-            }, function(btn) {
-                this.confirmed = $filter('translate')('COMMON/cancelled/lbl');
             });
-        };
+        }
+
 
         var genreList = 'action|adventure|animation|biography|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sports|sporting-event|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|'), // used by this.translateGenre()
             translatedGenreList = $filter('translate')('GENRELIST').split(','),

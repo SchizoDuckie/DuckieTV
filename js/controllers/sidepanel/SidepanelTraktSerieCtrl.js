@@ -1,6 +1,7 @@
-DuckieTV.controller('sidepanelTraktSerieCtrl', ["$rootScope", "$filter", "$locale", "serie", "SidePanelState" , function($rootScope, $filter, $locale, serie, SidePanelState) {
+DuckieTV.controller('sidepanelTraktSerieCtrl', ["$rootScope", "$filter", "$locale", "serie", "SidePanelState", "FavoritesManager", "$state", function($rootScope, $filter, $locale, serie, SidePanelState, FavoritesManager, $state) {
 
     this.serie = serie;
+    var self = this;
 
     /**
      * Takes a rating (8.12345) and converts it percentage presentation (81)
@@ -44,5 +45,16 @@ DuckieTV.controller('sidepanelTraktSerieCtrl', ["$rootScope", "$filter", "$local
     this.closeSidePanel = function() {
         SidePanelState.hide();
     };
+
+    /**
+     * Add to favorites, navigate to the show details
+     */
+    this.selectSerie = function() {
+        return FavoritesManager.add(this.serie).then(function() {
+            $state.go('serie', {
+                id: FavoritesManager.getById(self.serie.tvdb_id).ID_Serie
+            });
+        })
+    }
 
 }]);

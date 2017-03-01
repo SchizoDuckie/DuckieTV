@@ -1,5 +1,5 @@
-DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope", "SettingsService", "TraktTVv2", "SidePanelState", "SeriesListState", "SeriesAddingState", "$state", "$http", "$filter", "dialogs",
-    function(FavoritesService, $rootScope, $scope, SettingsService, TraktTVv2, SidePanelState, SeriesListState, SeriesAddingState, $state, $http, $filter, dialogs) {
+DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "SettingsService", "SidePanelState", "SeriesListState", "$state", "$filter", "FavoritesManager",
+    function(FavoritesService, $rootScope, SettingsService, SidePanelState, SeriesListState, $state, $filter, FavoritesManager) {
 
         var vm = this;
 
@@ -33,34 +33,17 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
                         serie.toggleCalendarDisplay();
                     }
                 ],
-                [ //Remove Serie option
-                    $filter('translate')('COMMON/delete-serie/btn'),
+                [ //Remove Serie option, pops up confirmation.
+        $filter('translate')('COMMON/delete-serie/btn'),
                     function() {
-                        removeFromFavorites(serie);
+                        FavoritesManager.remove(serie);
                     }
                 ]
 
             ];
         };
 
-        /**
-         * Pop up a confirm dialog and remove the serie from favorites when confirmed.
-         */
-        var removeFromFavorites = function(serie) {
-            var dlg = dialogs.confirm($filter('translate')('COMMON/serie-delete/hdr'),
-                $filter('translate')('COMMON/serie-delete-question/desc') +
-                serie.name +
-                $filter('translate')('COMMON/serie-delete-question/desc2')
-            );
-            dlg.result.then(function() {
-                console.info("Removing serie '" + serie.name + "' from favorites!");
-                FavoritesService.remove(serie);
-            }, function() {
-                vm.confirmed = $filter('translate')('COMMON/cancelled/lbl');
-            });
-        };
-
-        vm.activated = true; //SeriesListState.state.isShowing || SeriesAddingState.state.isShowing; // Toggles when the favorites panel activated
+        vm.activated = true;
         vm.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
         vm.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
         vm.sgEnabled = SettingsService.get('library.seriesgrid');
@@ -206,29 +189,11 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "$scope
          * It can show the checkmark.
          */
         vm.selectSerie = function(serie) {
-            if (!FavoritesService.isAdding(serie.tvdb_id)) {
-                if (!FavoritesService.isAdded(serie.tvdb_id)) {
-                    FavoritesService.adding(serie.tvdb_id);
-                    var id = ('trakt_id' in serie && serie.trakt_id != null) ? serie.trakt_id : ('imdb_id' in serie && serie.imdb_id != null) ? serie.imdb_id : serie.slug_id;
-                    return TraktTVv2.serie(id).then(function(serie) {
-                        return FavoritesService.addFavorite(serie).then(function() {
-                            $rootScope.$broadcast('storage:update');
-                            FavoritesService.added(serie.tvdb_id);
-                            $state.go('serie', {
-                                id: FavoritesService.getById(serie.tvdb_id).ID_Serie
-                            });
-                        });
-                    }, function(err) {
-                        console.error("Error adding show!", err);
-                        FavoritesService.added(serie.tvdb_id);
-                        FavoritesService.addError(serie.tvdb_id, err);
-                    });
-                } else {
-                    $state.go('serie', {
-                        id: FavoritesService.getById(serie.tvdb_id).ID_Serie
-                    });
-                }
-            }
+            FavoritesManager.add(serie).then(function() {
+                $state.go('serie', {
+                    id: FavoritesService.getById(serie.tvdb_id).ID_Serie
+                });
+            })
         };
 
         /**

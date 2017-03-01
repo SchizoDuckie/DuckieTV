@@ -190,7 +190,7 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
             });
         },
         Library: function(parameters) {
-            return request('SYNO.VideoStation.Library', mergeDefaults(parameters, {
+            return request('SYNO.VideoStation2.Library', mergeDefaults(parameters, {
                 method: 'list',
                 offset: 0,
                 limit: 1000,
