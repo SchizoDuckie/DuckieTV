@@ -14,11 +14,7 @@ DuckieTV.controller('backupDialogCtrl', ['$scope', "$uibModalInstance", "$filter
         $scope.createBackup = function() {
             BackupService.createBackup().then(function(backupString) {
                 var filename = 'DuckieTV %s.backup'.replace('%s', $filter('date')(new Date(), 'shortDate'));
-                var blob = new Blob([backupString], {
-                    type: "text/plain;charset=utf-8"
-                })
-
-                saveAs(filename, blob);
+                download(backupString, filename, 'application/json');
             });
             $modalInstance.dismiss('Canceled');
             localStorage.setItem('autobackup.lastrun', new Date().getTime());
