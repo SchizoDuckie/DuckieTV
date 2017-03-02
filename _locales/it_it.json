@@ -287,7 +287,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "Seed minimi richiesti",
     "SETTINGS/BACKUP-IMPORT/hdr": "Backup / Importa",
     "SETTINGS/BACKUP/autobackup/desc": "Si può pianificare il backup selezionando un periodo di tempo qui sotto. Al termine del periodo stabilito sarà mostrata una finestra di dialogo per salvare il file di backup.",
-    "SETTINGS/BACKUP/create/btn": "Crea un backup del Database",
+    "COMMON/create/btn": "Crea un backup del Database",
     "SETTINGS/BACKUP/import/hdr": "Importa un backup",
     "SETTINGS/BACKUP/refresh/btn": "Aggiorna tutte le serie ora",
     "SETTINGS/BACKUP/refresh/desc": "Aggiorna i dati per tutte le serie nei preferiti. Questa operazione potrebbe richiedere del tempo!",

@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "Мин. сидеров",
     "SETTINGS/BACKUP-IMPORT/hdr": "Резервная копия / Импорт",
     "SETTINGS/BACKUP/autobackup/desc": "Вы можете иметь DuckieTV запланировать резервное копирование путем выбора интервала периода ниже. По истечении интервала вам будет представлен с диалоговое окно для сохранения файла резервной копии.",
-    "SETTINGS/BACKUP/create/btn": "Создать резервную копию базы",
+    "COMMON/create/btn": "Создать резервную копию базы",
     "SETTINGS/BACKUP/import/hdr": "Импорт резервной копии",
     "SETTINGS/BACKUP/refresh/btn": "Обновить все сериалы",
     "SETTINGS/BACKUP/refresh/desc": "Получить свежие данные для всех сериалов в избранном. Это займет немного времени!",

@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "Min. Seedere Påkrevd",
     "SETTINGS/BACKUP-IMPORT/hdr": "Backup / Importer",
     "SETTINGS/BACKUP/autobackup/desc": "Du kan ha DuckieTV planlegge en backup ved å velge et intervall periode under. Når intervallet utløper vil du bli presentert med en dialogboks for å lagre sikkerhetskopifilen.",
-    "SETTINGS/BACKUP/create/btn": "Opprett Database Backup",
+    "COMMON/create/btn": "Opprett Database Backup",
     "SETTINGS/BACKUP/import/hdr": "Importer en backup",
     "SETTINGS/BACKUP/refresh/btn": "Oppdater alle serier nå",
     "SETTINGS/BACKUP/refresh/desc": "Hent fersk data for alle serier i din favorittliste. Dette vil ta litt tid!",

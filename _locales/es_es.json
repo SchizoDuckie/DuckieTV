@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "Mínimo Obligatorio de Seeders",
     "SETTINGS/BACKUP-IMPORT/hdr": "Copia de seguridad (Backup) / Importar ",
     "SETTINGS/BACKUP/autobackup/desc": "Usted puede tener DuckieTV programar una copia de seguridad por la elección de un período de intervalo a continuación. Cuando finalice el intervalo se le presentará un cuadro de diálogo para guardar el archivo de copia de seguridad.",
-    "SETTINGS/BACKUP/create/btn": "Crear base de datos de copia de seguridad (backup)",
+    "COMMON/create/btn": "Crear base de datos de copia de seguridad (backup)",
     "SETTINGS/BACKUP/import/hdr": "Importar una copia de seguridad ",
     "SETTINGS/BACKUP/refresh/btn": "Actualizar todas las series ahora",
     "SETTINGS/BACKUP/refresh/desc": "Obtener los datos frescos para todas las series en su lista de favoritos. ¡Esto tomará algún tiempo!",

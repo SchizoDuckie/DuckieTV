@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "Mindest Sämaschinen Pflicht",
     "SETTINGS/BACKUP-IMPORT/hdr": "Sicherungskopie / Import ",
     "SETTINGS/BACKUP/autobackup/desc": "Sie können haben DuckieTV ein Backup planen, indem eine Intervallperiode unten wählen. Wenn das Intervall abläuft wird Ihnen ein Dialogfenster angezeigt werden, um Ihre Backup-Datei zu speichern.",
-    "SETTINGS/BACKUP/create/btn": "Neues Datenbank-Backup ",
+    "COMMON/create/btn": "Neues Datenbank-Backup ",
     "SETTINGS/BACKUP/import/hdr": "Importiere ein Backup ",
     "SETTINGS/BACKUP/refresh/btn": "Aktualisieren Sie die ganze Serie jetzt",
     "SETTINGS/BACKUP/refresh/desc": "Abrufen neue Daten für die ganze Serie in Ihre Favoriten-Liste. Dies wird einige Zeit dauern!",

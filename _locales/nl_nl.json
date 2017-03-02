@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "Minimum Seeders Vereiste",
     "SETTINGS/BACKUP-IMPORT/hdr": "Backup / Importeren",
     "SETTINGS/BACKUP/autobackup/desc": "Kies een interval waarop DuckieTV je automatisch zal vragen om een backup op te slaan.",
-    "SETTINGS/BACKUP/create/btn": "Maak een database backup",
+    "COMMON/create/btn": "Maak een database backup",
     "SETTINGS/BACKUP/import/hdr": "Importeer een backup",
     "SETTINGS/BACKUP/refresh/btn": "Alle series nu bijwerken",
     "SETTINGS/BACKUP/refresh/desc": "Zoek naar bijgewerkte informatie voor alle series in je lijst met favorieten. Dit kan even duren!",

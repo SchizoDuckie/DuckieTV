@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "Min. Seeders Required",
     "SETTINGS/BACKUP-IMPORT/hdr": "Backup / Import",
     "SETTINGS/BACKUP/autobackup/desc": "You can have DuckieTV schedule a backup by choosing an interval period below. When the interval expires you will be presented with a dialogue to save your backup file.",
-    "SETTINGS/BACKUP/create/btn": "Create Database Backup",
+    "COMMON/create/btn": "Create Database Backup",
     "SETTINGS/BACKUP/import/hdr": "Import a backup",
     "SETTINGS/BACKUP/refresh/btn": "Refresh all series now",
     "SETTINGS/BACKUP/refresh/desc": "Fetch fresh data for all series in your favourites list. This will take some time!",

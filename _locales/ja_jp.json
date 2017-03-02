@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "最小シーダー必須",
     "SETTINGS/BACKUP-IMPORT/hdr": "バックアップ/インポート ",
     "SETTINGS/BACKUP/autobackup/desc": "あなたはDuckieTVは以下のインターバル期間を選択してバックアップをスケジュールすることができます.間隔が経過すると,あなたのバックアップファイルを保存するためのダイアログが表示されます.",
-    "SETTINGS/BACKUP/create/btn": "データベースのバックアップを作成します. ",
+    "COMMON/create/btn": "データベースのバックアップを作成します. ",
     "SETTINGS/BACKUP/import/hdr": "バックアップをインポートする ",
     "SETTINGS/BACKUP/refresh/btn": "今,すべてのシリーズをリフレッシュ",
     "SETTINGS/BACKUP/refresh/desc": "あなたのお気に入りのリスト内のすべての系列のための新鮮なデータを取得します.これにはしばらく時間がかかります!",

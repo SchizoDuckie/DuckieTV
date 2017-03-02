@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "Zahtevno število sejalcev",
     "SETTINGS/BACKUP-IMPORT/hdr": "Varnostna kopija / Uvozi",
     "SETTINGS/BACKUP/autobackup/desc": "Lahko imaš DuckieTV urnik varnostnih kopij z izbiro intervalno obdobje spodaj. Ko se izteče interval vam bo prikazalo pogovorno okno, da shranite varnostno kopijo.",
-    "SETTINGS/BACKUP/create/btn": "Ustvari varnostno kopijo baze podatkov",
+    "COMMON/create/btn": "Ustvari varnostno kopijo baze podatkov",
     "SETTINGS/BACKUP/import/hdr": "Uvozite varnostno kopijo",
     "SETTINGS/BACKUP/refresh/btn": "Osveži vse serije",
     "SETTINGS/BACKUP/refresh/desc": "Osveži podatke za vse serije na vašem seznamu priljubljenih. To bo trajalo nekaj časa!",

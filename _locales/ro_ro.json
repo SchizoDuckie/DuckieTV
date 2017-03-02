@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "Numărul minim de seederi necesari",
     "SETTINGS/BACKUP-IMPORT/hdr": "Backup / Import",
     "SETTINGS/BACKUP/autobackup/desc": "Puteți avea DuckieTV programa o copie de rezervă prin alegerea unei perioade de interval de mai jos. Atunci când expiră intervalul pe care va fi prezentat cu un dialog pentru a salva fișierul copie de rezervă.",
-    "SETTINGS/BACKUP/create/btn": "Creați o copie backup pentru baza de date",
+    "COMMON/create/btn": "Creați o copie backup pentru baza de date",
     "SETTINGS/BACKUP/import/hdr": "Importați o copie backup",
     "SETTINGS/BACKUP/refresh/btn": "Reîncărcați lista de seriale acum",
     "SETTINGS/BACKUP/refresh/desc": "Actualizați datele pentru toate serialele din lista de favorite. Va dura câteva minute!",

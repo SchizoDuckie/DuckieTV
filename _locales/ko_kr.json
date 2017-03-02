@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "최소 씨앗받는 필수",
     "SETTINGS/BACKUP-IMPORT/hdr": "백업 / 가져 오기 ",
     "SETTINGS/BACKUP/autobackup/desc": "당신은 DuckieTV 아래 간격 기간을 선택하여 백업을 예약 할 수 있습니다. 간격이 만료되면 당신은 당신의 백업 파일을 저장하는 대화 상자가 표시됩니다.",
-    "SETTINGS/BACKUP/create/btn": "데이터베이스 백업 만들기 ",
+    "COMMON/create/btn": "데이터베이스 백업 만들기 ",
     "SETTINGS/BACKUP/import/hdr": "백업을 가져 오기 ",
     "SETTINGS/BACKUP/refresh/btn": "이제 모든 시리즈를 새로 고침",
     "SETTINGS/BACKUP/refresh/desc": "즐겨 찾기 목록의 모든 시리즈를위한 새로운 데이터를 가져옵니다. 이것은 시간이 좀 걸릴 것입니다!",

@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "Nombre mini de seeders",
     "SETTINGS/BACKUP-IMPORT/hdr": "Sauvegarder / Importer ",
     "SETTINGS/BACKUP/autobackup/desc": "Vous pouvez avoir DuckieTV planifier une sauvegarde en choisissant une période d'intervalle ci-dessous. Lorsque l'intervalle expire, vous sera présenté avec une boîte de dialogue pour enregistrer votre fichier de sauvegarde.",
-    "SETTINGS/BACKUP/create/btn": "Créer une sauvegarde de la base de données",
+    "COMMON/create/btn": "Créer une sauvegarde de la base de données",
     "SETTINGS/BACKUP/import/hdr": "Importez une sauvegarde",
     "SETTINGS/BACKUP/refresh/btn": "Actualiser toutes les séries maintenant",
     "SETTINGS/BACKUP/refresh/desc": "Chercher de nouvelles données pour toutes les séries de votre liste de favoris. Cela va prendre un certain temps!",

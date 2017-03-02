@@ -281,7 +281,7 @@
     "SETTINGS/AUTODOWNLOAD/seeders/hdr": "Minsta Såmaskiner Obligatorisk",
     "SETTINGS/BACKUP-IMPORT/hdr": "Säkerhetskopia / Import ",
     "SETTINGS/BACKUP/autobackup/desc": "Du kan ha DuckieTV schemalägga en backup genom att välja ett intervall period nedan. När intervallet löper du kommer att presenteras med en dialogruta för att spara säkerhetskopian.",
-    "SETTINGS/BACKUP/create/btn": "Skapa Database Backup ",
+    "COMMON/create/btn": "Skapa Database Backup ",
     "SETTINGS/BACKUP/import/hdr": "Importera en backup ",
     "SETTINGS/BACKUP/refresh/btn": "Uppdatera alla serier nu",
     "SETTINGS/BACKUP/refresh/desc": "Hämta nya data för alla serier i din favoritlista. Detta kommer att ta tid!",
