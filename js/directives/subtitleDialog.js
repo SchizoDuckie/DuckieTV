@@ -1,25 +1,25 @@
 DuckieTV.provider('SubtitleDialog', function() {
-    this.$get = ["$injector", "$rootScope", "$q",
-        function($injector, $rootScope, $q) {
+    this.$get = ["dialogs",
+        function(dialogs) {
             // all web-enabled languages on 
 
             return {
                 search: function(str) {
-                    return $injector.get('dialogs').create('templates/dialogs/subtitle.html', 'subtitleDialogCtrl', {
+                    return dialogs.create('templates/dialogs/subtitle.html', 'subtitleDialogCtrl', {
                         query: str
                     }, {
                         size: 'lg'
                     });
                 },
                 searchFilename: function(filename) {
-                    return $injector.get('dialogs').create('templates/dialogs/subtitle.html', 'subtitleDialogCtrl', {
+                    return dialogs.create('templates/dialogs/subtitle.html', 'subtitleDialogCtrl', {
                         filename: filename
                     }, {
                         size: 'lg'
                     });
                 },
                 searchEpisode: function(serie, episode) {
-                    return $injector.get('dialogs').create('templates/dialogs/subtitle.html', 'subtitleDialogCtrl', {
+                    return dialogs.create('templates/dialogs/subtitle.html', 'subtitleDialogCtrl', {
                         serie: serie,
                         episode: episode
                     }, {
