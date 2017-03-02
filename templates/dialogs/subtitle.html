@@ -2,7 +2,7 @@
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
 <h1><span translate-once>COMMON/find-subtitle/lbl</span> <img src='./img/opensubtitles.png' uib-tooltip='{{"SUBTITLEDIALOG/powered-by/tooltip"|translate}}OpenSubtitles.org' style='float:right; margin-top: -10px; opacity: 0.7'>
 </h1>
-<input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)"  class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
+<input type="text" ng-model="query" ng-model-options="{debounce: 1000}" focus-watch='searching' ng-change="search(query)"  class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
 <a href="#settings/subtitles" ng-click="cancel()" style="float:right"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>SUBTITLEDIALOG/settings/glyph</span></a>
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
 

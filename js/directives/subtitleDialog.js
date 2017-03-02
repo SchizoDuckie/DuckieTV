@@ -59,6 +59,7 @@ DuckieTV.provider('SubtitleDialog', function() {
         }
         $scope.search = function(query) {
             $scope.searching = true;
+            $scope.items = [];
             var promise = null;
             if (query) {
                 $scope.query = query;
@@ -76,6 +77,7 @@ DuckieTV.provider('SubtitleDialog', function() {
             promise.then(function(results) {
                     $scope.items = results;
                     $scope.searching = false;
+                    $scope.$applyAsync();
                 },
                 function(e) {
                     $scope.searching = false;
