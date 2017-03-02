@@ -80,7 +80,7 @@ DuckieTV.service('BackupService', function() {
                     var blob = new Blob([angular.toJson(out, true)], {
                         type: 'text/json'
                     });
-                    return URL.createObjectURL(blob);
+                    return blob;
                 })
             })
         }
@@ -102,16 +102,11 @@ DuckieTV.service('BackupService', function() {
                 if (FavoritesService.initialized == true) {
                     // only do the backup if there are shows in favorites.
                     if (FavoritesService.favoriteIDs.length !== 0) {
-                        if (timeToNextBackup <= 0) {
+                        if (timeToNextBackup == 60000) {
                             console.info('Scheduled autoBackup run at ', new Date());
-                            BackupService.createBackup().then(function(backupString) {
-                                var backupTime = new Date();
-                                dialogs.create('templates/dialogs/backup.html', 'backupDialogCtrl', {
-                                    backupString: backupString,
-                                    backupTime: backupTime
-                                }, {
-                                    size: 'lg'
-                                });
+                            dialogs.create('templates/dialogs/backup.html', 'backupDialogCtrl', {
+                            }, {
+                                size: 'lg'
                             });
                         }
                     } else {

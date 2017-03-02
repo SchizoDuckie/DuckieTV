@@ -4,9 +4,9 @@
 <a href="#settings/backup" ng-click="cancel()" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/settings/lbl</span><span translate-once>COMMON/autobackup/hdr</span></a>
 <p translate-once>COMMON/backup/desc</p>
 <div class="buttons">
-  <a class="btn btn-info" ng-href="{{backupString}}" ng-click="saveBackup()">
-    <i class="glyphicon glyphicon-floppy-saved"></i> <span translate-once>COMMON/download/btn</span>
-  </a>
+    <a class="btn btn-success" ng-click="createBackup();">
+      <i class="glyphicon glyphicon-floppy-save"></i> <span translate-once>SETTINGS/BACKUP/create/btn</span>
+    </a>
   <a class="btn btn-danger" ng-click="cancel()">
     <i class="glyphicon glyphicon-ban-circle"></i> <span translate-once>COMMON/cancel/btn</span>
   </a>
