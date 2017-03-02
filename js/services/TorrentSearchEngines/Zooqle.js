@@ -33,7 +33,6 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     detailUrl: ['td:nth-child(2) > a', 'href']
                 },
                 orderby: {
-                    age: {d: 'dt&sd=d', a: 'dt&sd=a'},
                     seeders: {d: 'ns&sd=d', a: 'ns&sd=a'},
                     size: {d: 'sz&sd=d', a: 'sz&sd=a'}
                 }

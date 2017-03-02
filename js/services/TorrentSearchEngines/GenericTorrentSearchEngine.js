@@ -36,10 +36,9 @@
  *              detailUrl: ['a.detLink', 'href'],
  *          },
  *          orderby: {                                                      // search-order sorting options.
- *              age: {d: '3', a: '4'},                                      // if the provider does not support sorting then leave the orderby group out.
- *              leechers: {d: '9', a: '10'},                                // d: descending, a: ascending
- *              seeders: {d: '99', a: '8'},                                 // Note: only these four have language translation support.
- *              size: {d: '5', a: '6'}
+ *              leechers: {d: '9', a: '10'},                                // if the provider does not support sorting then leave the orderby group out.
+ *              seeders: {d: '99', a: '8'},                                 // d: descending, a: ascending
+ *              size: {d: '5', a: '6'}                                      // Note: only these three have language translation support.
  *          },
  *          detailsSelectors: {                                             // CSS selectors to grab content from details page.
  *                                                                          Required if magnet/torrent is not in search selectors

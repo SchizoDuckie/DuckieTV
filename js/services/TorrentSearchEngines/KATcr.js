@@ -22,7 +22,6 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     magnetUrl: ['a[title="Magnet link"]', 'href']
                 },
                 orderby: {
-                    age: {d: 'id&order=desc', a: 'id&order=asc'},
                     seeders: {d: 'seeders&order=desc', a: 'seeders&order=asc'},
                     leechers: {d: 'leechers&order=desc', a: 'leechers&order=asc'},
                     size: {d: 'size&order=desc', a: 'size&order=asc'}

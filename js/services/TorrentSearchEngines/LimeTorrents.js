@@ -27,7 +27,6 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     torrentUrl: ['a[title$="torrent"]', 'href']
                 },
                 orderby: {
-                    age: {d: '', a: ''},
                     seeders: {d: 'seeds/1/', a: 'seeds/1/'},
                     size: {d: 'size/1/', a: 'size/1/'}
                 }

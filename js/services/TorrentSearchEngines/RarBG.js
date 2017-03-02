@@ -124,7 +124,6 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             activeToken: null,
             config: {
                 orderby: {
-                    age: {d: 'last', a: 'last'},
                     leechers: {d: 'leechers', a: 'leechers'},
                     seeders: {d: 'seeders', a: 'seeders'}
                 }
