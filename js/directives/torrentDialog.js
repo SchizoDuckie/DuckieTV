@@ -65,6 +65,14 @@ DuckieTV
         $scope.engOrderByList = 'age|leechers|seeders|size'.split('|');
         $scope.translatedOrderByList = $filter('translate')('TDORDERBYLIST').split(',');
 
+        $scope.canOrderBy = function(order) {
+            return ($scope.orderByList.indexOf(order) > -1);
+        };
+
+        $scope.isOrderBy = function(order) {
+            return ($scope.orderBy.indexOf(order) > -1);
+        };
+
         $scope.getName = function(provider) {
             return provider;
         };

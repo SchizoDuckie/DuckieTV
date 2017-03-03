@@ -97,22 +97,52 @@
         <th>
           <strong translate-once>COMMON/torrent-name/lbl</strong>
         </th>
-        <th ng-show="orderByList.indexOf('size') == -1" style="text-align:right">
+        <!-- size sort is n/a -->
+        <th ng-hide="canOrderBy('size')" style="text-align:right">
           <strong translate-once>COMMON/torrent-size/lbl</strong>
         </th>
-        <th ng-show="orderByList.indexOf('size') > -1" style="cursor: pointer;text-align:right">
+        <!-- is sorted by size, but one way only -->
+        <th ng-show="canOrderBy('size') && isOrderBy('size') && !supportsByDir" style="text-align:right">
+          <strong translate-once>COMMON/torrent-size/lbl</strong>
+        </th>
+        <!-- can sort by size, but one way only -->
+        <th ng-show="canOrderBy('size') && !isOrderBy('size') && !supportsByDir" style="cursor: pointer;text-align:right">
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('size')"><strong translate-once>COMMON/torrent-size/lbl</strong></u>
+        </th>
+        <!-- can sort by size, in asc and desc -->
+        <th ng-show="canOrderBy('size') && supportsByDir" style="cursor: pointer;text-align:right">
           <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('size')"><strong translate-once>COMMON/torrent-size/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['size'] === '.a'}"></span></u>
         </th>
-        <th ng-show="orderByList.indexOf('seeders') == -1" style="text-align:right">
+        <!-- seeders sort is n/a -->
+        <th ng-hide="canOrderBy('seeders')" style="text-align:right">
           <strong translate-once>COMMON/torrent-seed/lbl</strong>
         </th>
-        <th ng-show="orderByList.indexOf('seeders') > -1" style="cursor: pointer;text-align:right">
+        <!-- is sorted by seeders, but one way only -->
+        <th ng-show="canOrderBy('seeders') && isOrderBy('seeders') && !supportsByDir" style="text-align:right">
+          <strong translate-once>COMMON/torrent-seed/lbl</strong>
+        </th>
+        <!-- can sort by seeders, but one way only -->
+        <th ng-show="canOrderBy('seeders') && !isOrderBy('seeders') && !supportsByDir" style="cursor: pointer;text-align:right">
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('seeders')"><strong translate-once>COMMON/torrent-seed/lbl</strong></u>
+        </th>
+        <!-- can sort by seeders, in asc and desc -->
+        <th ng-show="canOrderBy('seeders') && supportsByDir" style="cursor: pointer;text-align:right">
           <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('seeders')"><strong translate-once>COMMON/torrent-seed/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['seeders'] === '.a'}"></span></u>
         </th>
-        <th ng-show="orderByList.indexOf('leechers') == -1" style="text-align:right">
+        <!-- leechers sort is n/a -->
+        <th ng-hide="canOrderBy('leechers')" style="text-align:right">
           <strong translate-once>COMMON/torrent-leech/lbl</strong>
         </th>
-        <th ng-show="orderByList.indexOf('leechers') > -1" style="cursor: pointer;text-align:right">
+        <!-- is sorted by leechers, but one way only -->
+        <th ng-show="canOrderBy('leechers') && isOrderBy('leechers') && !supportsByDir" style="text-align:right">
+          <strong translate-once>COMMON/torrent-leech/lbl</strong>
+        </th>
+        <!-- can sort by seeders, but one way only -->
+        <th ng-show="canOrderBy('leechers') && !isOrderBy('leechers') && !supportsByDir" style="cursor: pointer;text-align:right">
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('leechers')"><strong translate-once>COMMON/torrent-leech/lbl</strong></u>
+        </th>
+        <!-- can sort by leechers, in asc and desc -->
+        <th ng-show="canOrderBy('leechers') && supportsByDir" style="cursor: pointer;text-align:right">
           <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('leechers')"><strong translate-once>COMMON/torrent-leech/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['leechers'] === '.a'}"></span></u>
         </th>
 
