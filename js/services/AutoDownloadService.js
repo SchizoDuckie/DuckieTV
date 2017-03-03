@@ -260,11 +260,6 @@ DuckieTV
                                 service.activityUpdate(serie, episode, q, 4); // 'nothing found'
                                 return; // no results, abort
                             };
-                            items = items.filter(filterBySize);
-                            if (items.length === 0) {
-                                service.activityUpdate(serie, episode, q, 5, ' MS'); // 'filtered out MS'
-                                return; // no results, abort
-                            };
                             if (requireKeywordsModeOR) {
                                 items = items.filter(filterRequireKeywords);
                                 if (items.length === 0) {
@@ -277,6 +272,11 @@ DuckieTV
                                 service.activityUpdate(serie, episode, q, 5, ' IK'); // 'filtered out IK'
                                 return; // no results, abort
                             }
+                            items = items.filter(filterBySize);
+                            if (items.length === 0) {
+                                service.activityUpdate(serie, episode, q, 5, ' MS'); // 'filtered out MS'
+                                return; // no results, abort
+                            };
                             if (items[0].seeders != 'n/a' && parseInt(items[0].seeders, 10) < minSeeders) { // not enough seeders are available.
                                 service.activityUpdate(serie, episode, q, 7, items[0].seeders + ' < ' + minSeeders); // 'seeders x < y'
                                 return; // no results, abort
