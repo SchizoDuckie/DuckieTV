@@ -28,22 +28,6 @@ DuckieTorrent.provider('DuckieTorrent', function() {
     };
 })
 
-.run(function() {
-    // setting platform specific defaults (uTorrent for windows, uTorrent Web UI or non-windows)
-    if (!localStorage.getItem('torrenting.client')) {
-        if (navigator.platform.toLowerCase().indexOf('win') !== -1) {
-            localStorage.setItem('torrenting.client', 'uTorrent'); // default for windows platforms
-        } else {
-            localStorage.setItem('torrenting.client', 'uTorrent Web UI'); // default for non-windows platforms
-        }
-    } else {
-        if (localStorage.getItem('torrenting.client') === 'uTorrent' && navigator.platform.toLowerCase().indexOf('win') === -1) {
-            localStorage.setItem('torrenting.client', 'uTorrent Web UI'); // override for non-windows platforms prior to #592
-        }
-    }
-})
-
-
 /**
  * Angular's private URL Builder method + unpublished dependencies converted to a public service
  * So we can properly build a GET url with parameters for a JSONP request.
