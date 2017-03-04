@@ -11,11 +11,12 @@ DuckieTV
         $scope.TVDB_ID = angular.copy(data.TVDB_ID);
         $scope.serie = angular.copy(data.serie);
         $scope.episode = angular.copy(data.episode);
-        $scope.allowTDsortMenu = SettingsService.get('torrentDialog.sortMenu.enabled'); // Show/Hide sort menu on torrent dialogue
         $scope.showAdvanced = SettingsService.get('torrentDialog.showAdvanced.enabled'); // Show/Hide advanced torrent dialog filter options
         $scope.orderBy = 'seeders.d'; // default sort column and sort direction (descending)
         $scope.searchprovider = SettingsService.get('torrenting.searchprovider');
         $scope.searchquality = SettingsService.get('torrenting.searchquality');
+        $scope.minSeeders = SettingsService.get('torrenting.min_seeders');
+        $scope.minSeedersEnabled = SettingsService.get('torrenting.min_seeders_enabled'); // only applies to torrentDialog
         if ('serie' in data && $scope.serie.ignoreGlobalQuality != 0) {
             $scope.searchquality = ''; // override quality when the series has the IgnoreQuality flag enabled.
         }
@@ -62,8 +63,6 @@ DuckieTV
         } else {
             $scope.orderByList = [];
         }
-        $scope.engOrderByList = 'age|leechers|seeders|size'.split('|');
-        $scope.translatedOrderByList = $filter('translate')('TDORDERBYLIST').split(',');
 
         $scope.canOrderBy = function(order) {
             return ($scope.orderByList.indexOf(order) > -1);
@@ -204,15 +203,26 @@ DuckieTV
             }
 
             /**
+             * filter by minimum seeders.
+             */
+            function filterByMinSeeders(item) {
+                if (!$scope.minSeedersEnabled) {
+                    return true;
+                }
+                return (item.seeders === 'n/a' || parseInt(item.seeders, 10) >= $scope.minSeeders);
+            }
+
+            /**
              * Search torrent SE  for the torrent query
              */
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' '), undefined, $scope.orderBy).then(function(results) {
                     $scope.items = results.filter(filterByScore);
-                    $scope.items = $scope.items.filter(filterBySize);
+                    $scope.items = $scope.items.filter(filterByMinSeeders);
                     if ($scope.requireKeywordsModeOR) {
                         $scope.items = $scope.items.filter(filterRequireKeywords);
                     }
                     $scope.items = $scope.items.filter(filterIgnoreKeywords);
+                    $scope.items = $scope.items.filter(filterBySize);
                     // ShowRSS uses the same detailUrl for all of a series' episodes, so don't call dropDuplicates
                     if ($scope.searchprovider !== 'ShowRSS') {
                         $scope.items = dropDuplicates($scope.items);
@@ -228,6 +238,12 @@ DuckieTV
                     }
                     $scope.items = null;
                 });
+        };
+
+        // Save state of torrenting minSeeders check-box
+        $scope.setMinSeedersState = function() {
+            SettingsService.set('torrenting.min_seeders_enabled', $scope.minSeedersEnabled);
+            $scope.search($scope.query, undefined, $scope.orderBy);
         };
 
         // Save state of torrenting Require Keywords check-box
@@ -425,14 +441,6 @@ DuckieTV
                 });
             }
         }
-
-        /*
-         * Takes the English orderBy (elements from TorrentSearchEngines.getSearchEngine($scope.searchprovider).config.orderby) and returns a translation
-         */
-        $scope.translateOrderBy = function(orderBy) {
-            var idx = $scope.engOrderByList.indexOf(orderBy);
-            return (idx != -1) ? $scope.translatedOrderByList[idx] : 'n/a';
-        };
 
         $scope.search($scope.query, undefined, $scope.orderBy);
     }

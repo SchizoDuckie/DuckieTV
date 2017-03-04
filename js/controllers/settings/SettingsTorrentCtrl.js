@@ -20,7 +20,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.autostopAllEnabled = SettingsService.get('torrenting.autostop_all');
         $scope.adEnabled = SettingsService.get('torrenting.autodownload');
         $scope.adPeriod = SettingsService.get('autodownload.period');
-        $scope.adMinSeeders = SettingsService.get('autodownload.minSeeders');
+        $scope.minSeeders = SettingsService.get('torrenting.min_seeders');
         $scope.chromiumEnabled = SettingsService.get('torrenting.launch_via_chromium');
         $scope.useTD2 = SettingsService.get('torrentDialog.2.enabled');
         $scope.adDelay = SettingsService.get('autodownload.delay').minsToDhm();
@@ -203,10 +203,10 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         };
 
         /**
-         * Changes the amount of seeders required for AutoDownload
+         * Changes the amount of seeders required 
          */
-        $scope.saveADMinSeeders = function(seeds) {
-            SettingsService.set('autodownload.minSeeders', seeds);
+        $scope.saveMinSeeders = function(seeds) {
+            SettingsService.set('torrenting.min_seeders', seeds);
             AutoDownloadService.detach(); // restart kickoff method when changing search period and seeders.
             AutoDownloadService.attach();
 

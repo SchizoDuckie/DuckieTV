@@ -149,7 +149,7 @@ DuckieTV
             },
 
             autoDownload: function(serie, episode) {
-                var minSeeders = SettingsService.get('autodownload.minSeeders'); // Minimum amount of seeders required, default 50
+                var minSeeders = SettingsService.get('torrenting.min_seeders'); // Minimum amount of seeders required, default 50
                 var preferredQuality = ' ' + SettingsService.get('torrenting.searchquality'); // Preferred Quality to append to search string.
                 var requireKeywords = SettingsService.get('torrenting.require_keywords'); // Any words in the Require Keywords list causes the result to be filtered in.
                 var requireKeywordsModeOR = SettingsService.get('torrenting.require_keywords_mode_or'); // set the Require Keywords mode (true=Any or false=All)

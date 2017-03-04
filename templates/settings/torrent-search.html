@@ -71,6 +71,24 @@
 
   <hr class="setting-divider">
 
+  <div class="autodownload">
+    <h2 translate-once>SETTINGS/TORRENT-SEARCH/seeders/hdr</h2>
+    <p><span translate-once>SETTINGS/TORRENT-SEARCH/seeders/desc</span><br><span translate-once>SETTINGS/TORRENT-SEARCH/seeders-default/lbl</span></p>
+
+    <form name="s">
+      <span translate-once>SETTINGS/TORRENT-SEARCH/seeders/form</span> <input type="number" name="seeders" ng-model="minSeeders" ng-change="editingS = true;" min="0" max="3000" pattern="[0-9]{0,}" required />
+      <a ng-show="!s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-disabled="true"  style="float:right; margin-top:-10px;">
+        <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+      </a>
+      <a ng-show="s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-click="saveMinSeeders(minSeeders); editingS = false;" style="float:right; margin-top:-10px;">
+        <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+      </a>
+    </form>
+    <span class="alert alert-danger" ng-show="!s.seeders.$valid" translate-once>SETTINGS/TORRENT-SEARCH/seeders/-range/alert</span>
+  </div>
+
+  <hr class="setting-divider">
+
   <h2 translate-once>COMMON/global-size-min/hdr</h2>
   <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/global-size-min/desc</p>
 

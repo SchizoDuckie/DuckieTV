@@ -7,7 +7,7 @@
     <li translate-once>COMMON/autodownload/hdr</li>
   </h2>
 
-  <p ng-hide="adEnabled" ><span translate-once>SETTINGS/AUTODOWNLOAD/enable/desc</span>{{getSetting('autodownload.period')}}<span translate-once>SETTINGS/AUTODOWNLOAD/enable/desc2</span>{{getSetting('autodownload.minSeeders')}}<span translate-once>SETTINGS/AUTODOWNLOAD/enable/desc3</span></p>
+  <p ng-hide="adEnabled" ><span translate-once>SETTINGS/AUTODOWNLOAD/enable/desc</span>{{getSetting('autodownload.period')}}<span translate-once>SETTINGS/AUTODOWNLOAD/enable/desc2</span>{{getSetting('torrenting.min_seeders')}}<span translate-once>SETTINGS/AUTODOWNLOAD/enable/desc3</span></p>
   <p ng-show="adEnabled" translate-once>SETTINGS/AUTODOWNLOAD/disable/desc</p>
   <p><strong  translate-once>COMMON/current-setting/hdr</strong>
    {{adEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
@@ -48,21 +48,6 @@
     </form>
     <span class="alert alert-danger" ng-hide="d.delay.$valid" translate-value-addelaymax="{{(adPeriod * 24 * 60).minsToDhm()}}" translate>COMMON/autodownload-delay-range/alert</span>
 
-    <hr class="setting-divider">
-
-    <h2 translate-once>SETTINGS/AUTODOWNLOAD/seeders/hdr</h2>
-    <p><span translate-once>SETTINGS/AUTODOWNLOAD/seeders/desc</span><br><span translate-once>SETTINGS/AUTODOWNLOAD/seeders-default/lbl</span></p>
-
-    <form name="s">
-      <span translate-once>SETTINGS/AUTODOWNLOAD/seeders/form</span> <input type="number" name="seeders" ng-model="adMinSeeders" ng-change="editingS = true;" min="0" max="3000" pattern="[0-9]{0,}" required />
-      <a ng-show="!s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-disabled="true"  style="float:right; margin-top:-10px;">
-        <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
-      </a>
-      <a ng-show="s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-click="saveADMinSeeders(adMinSeeders); editingS = false;" style="float:right; margin-top:-10px;">
-        <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
-      </a>
-    </form>
-    <span class="alert alert-danger" ng-show="!s.seeders.$valid" translate-once>SETTINGS/AUTODOWNLOAD/seeders-range/alert</span>
   </div>
   <!--hide until complete>
   <hr class="setting-divider">

@@ -12,6 +12,8 @@ DuckieTV
         $scope.episode = angular.copy(data.episode);
         $scope.showAdvanced = SettingsService.get('torrentDialog.showAdvanced.enabled'); // Show/Hide advanced torrent dialog filter options
         $scope.searchquality = SettingsService.get('torrenting.searchquality');
+        $scope.minSeeders = SettingsService.get('torrenting.min_seeders');
+        $scope.minSeedersEnabled = SettingsService.get('torrenting.min_seeders_enabled'); // only applies to torrentDialog
         if ('serie' in data && $scope.serie.ignoreGlobalQuality != 0) {
             $scope.searchquality = ''; // override quality when the series has the IgnoreQuality flag enabled.
         }
@@ -174,6 +176,16 @@ DuckieTV
             }
 
             /**
+             * filter by minimum seeders.
+             */
+            function filterByMinSeeders(item) {
+                if (!$scope.minSeedersEnabled) {
+                    return true;
+                }
+                return (item.seeders === 'n/a' || parseInt(item.seeders, 10) >= $scope.minSeeders);
+            }
+
+            /**
              * Search with each torrent SE for the torrent query
              */
             $scope.items = [];
@@ -193,11 +205,12 @@ DuckieTV
                             item.sortname = item.releasename.replace(/\./g,' ').toLowerCase(); // used for torrentDialog2 sorting
                         });
                         items = results.filter(filterByScore);
-                        items = items.filter(filterBySize);
+                        items = items.filter(filterByMinSeeders);
                         if ($scope.requireKeywordsModeOR) {
                             items = items.filter(filterRequireKeywords);
                         }
                         items = items.filter(filterIgnoreKeywords);
+                        items = items.filter(filterBySize);
                         // ShowRSS uses the same detailUrl for every episode torrent in a series, so don't dropDuplicates
                         if (engine !== 'ShowRSS') {
                             items = dropDuplicates(items);
@@ -223,6 +236,12 @@ DuckieTV
                     });
                 }
             });
+        };
+
+        // Save state of torrenting minSeeders check-box
+        $scope.setMinSeedersState = function() {
+            SettingsService.set('torrenting.min_seeders_enabled', $scope.minSeedersEnabled);
+            $scope.search($scope.query, undefined, 'seeders.d');
         };
 
         // Save state of torrenting Require Keywords check-box

@@ -21,35 +21,40 @@
   <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
 </div>
 
-<!-- Require/Ignore Keywords and size min/max check boxes -->
+<!-- Require/Ignore Keywords size min/max and minSeeders check boxes -->
 <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
-  <div class="row">
-    <div class="col col-md-3 checkbox" ng-show="requireKeywords.length > 0">
+  <div class="row" style="display: flex">
+    <div class="checkbox">
+      <input type="checkbox" ng-model="minSeedersEnabled" ng-change="setMinSeedersState()" id="tc_gms">
+      <label for="tc_gms"><strong translate-once>COMMON/min-seeders/hdr</strong><br> ({{minSeeders}})</label>
+    </div>
+
+    <div class="checkbox" ng-show="requireKeywords.length > 0">
       <input type="checkbox" ng-model="requireKeywordsEnabled" ng-change="setRequireKeywordsState()" id="tc_gie">
       <label for="tc_gie"><strong translate-once>TORRENTDIALOG/search-require-keywords/lbl</strong><br>({{requireKeywords}})</label>
     </div>
 
-    <div class="col col-md-3 checkbox" ng-show="ignoreKeywords.length > 0">
+    <div class="checkbox" ng-show="ignoreKeywords.length > 0">
       <input type="checkbox" ng-model="ignoreKeywordsEnabled" ng-change="setIgnoreKeywordsState()" id="tc_gee">
       <label for="tc_gee"><strong translate-once>TORRENTDIALOG/search-ignore-keywords/lbl</strong><br>({{ignoreKeywords}})</label>
     </div>
 
-    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMin == null && globalSizeMin != null">
+    <div class="checkbox" ng-show="serie.customSearchSizeMin == null && globalSizeMin != null">
       <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" id="tc_gsm">
       <label for="tc_gsm"><strong translate-once>TORRENTDIALOG/search-global-size-min/lbl</strong><br>({{globalSizeMin}} MB)</label>
     </div>
 
-    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMin != null">
+    <div class="checkbox" ng-show="serie.customSearchSizeMin != null">
       <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" id="tc_gsm2">
       <label for="tc_gsm2"><strong translate-once>TORRENTDIALOG/search-custom-size-min/lbl</strong><br> ({{serie.customSearchSizeMin}}) MB</label>
     </div>
 
-    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMax == null && globalSizeMax != null">
+    <div class="checkbox" ng-show="serie.customSearchSizeMax == null && globalSizeMax != null">
       <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" id="tc_gsme">
       <label for="tc_gsme"><strong translate-once>TORRENTDIALOG/search-global-size-max/lbl</strong><br>({{globalSizeMax}} MB)</label>
     </div>
 
-    <div class="col col-md-3 checkbox" ng-show="serie.customSearchSizeMax != null">
+    <div class="checkbox" ng-show="serie.customSearchSizeMax != null">
       <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" id="tc_gsme2">
       <label for="tc_gsme2"><strong translate-once>TORRENTDIALOG/search-custom-size-max/lbl</strong><br> ({{serie.customSearchSizeMax}} MB)</label>
     </div>

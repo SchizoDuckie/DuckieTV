@@ -113,14 +113,14 @@ DuckieTV
         if (!localStorage.getItem('1.1.4updateTransmissionPath')) {
             console.info("Executing 1.1.4updateTransmissionPath to clone transmission.key to transmission.path");
             if (SettingsService.get('transmission.key')) {
-                SettingsService.set('transmission.path', SettingsService.get('transmission.key'));                
+                SettingsService.set('transmission.path', SettingsService.get('transmission.key'));
             } else {
                 SettingsService.set('transmission.path', '/transmission/rpc');
             }
             if (SettingsService.get('vuze.key')) {
                 SettingsService.set('vuze.path', SettingsService.get('vuze.key'));
             } else {
-                SettingsService.set('vuze.path', '/transmission/rpc');                
+                SettingsService.set('vuze.path', '/transmission/rpc');
             }
             localStorage.setItem('1.1.4updateTransmissionPath', new Date());
             console.info("1.1.4updateTransmissionPath done!");
@@ -145,6 +145,17 @@ DuckieTV
                 });
             }, 6000);
             console.info("Executing 1.1.4TorrentHashListCleanup to remove obsolete torrentHashes from TorrentHashListService");
+        }
+
+        // copy autodownload.minSeeders to torrenting.min_seeders if previously set
+
+        if (!localStorage.getItem('1.1.5updateTorrenting.min_seeders')) {
+            console.info("Executing 1.1.5updateTorrenting.min_seeders to clone autodownload.minSeeders to torrenting.min_seeders");
+            if (SettingsService.get('autodownload.minSeeders')) {
+                SettingsService.set('torrenting.min_seeders', SettingsService.get('autodownload.minSeeders'));
+            } 
+            localStorage.setItem('1.1.5updateTorrenting.min_seeders', new Date());
+            console.info("1.1.5updateTorrenting.min_seeders done!");
         }
     }
 ])
