@@ -380,7 +380,13 @@ CRUD.Entity.prototype = {
 
     importValues: function(values, dirty) {
         for (var field in values) {
-            this.__values__[field] = CRUD.EntityManager.entities[this.getType()].autoSerialize.indexOf(field) > -1 ? JSON.parse(values[field]) : values[field];
+            if (CRUD.EntityManager.entities[this.getType()].autoSerialize.indexOf(field) > -1) {
+                if (typeof values[field] !== "object") {
+                    this.__values__[field] = JSON.parse(values[field]);
+                    continue;
+                }
+            }
+            this.__values__[field] = values[field];
         }
         if (dirty) {
             this.__dirtyValues__ = this.__values__;
@@ -585,6 +591,9 @@ CRUD.Entity.prototype = {
                 "ID": ID
             });
         }
+    },
+    toJSON: function() {
+        return this.asObject();
     }
 };
 

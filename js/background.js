@@ -28,3 +28,53 @@ chrome.runtime.onInstalled.addListener(function(details) {
         }
     };
 });
+
+chrome.runtime.onConnect.addListener(function(port) {
+    console.log("New incoming connection from foreground page");
+    if (port.name != "CRUD") return;
+
+    port.onMessage.addListener(function(msg) {
+        console.log("Message received from foreground page ", msg);
+        switch (msg.type) {
+            case "Find":
+                CRUD.Find(msg.what, msg.filters, msg.options).then(function(result) {
+                    console.log("Returning result for ", msg.what, msg.filters, result);
+                    port.postMessage({
+                        guid: msg.guid,
+                        result: result
+                    });
+                }, function(err) {
+                    console.error("Error: ", err, msg);
+                    port.postMessage({
+                        guid: msg.guid,
+                        error: err
+                    });
+                });
+                break;
+            case "Persist":
+                throw ("Todo");
+                break;
+            case "Delete":
+                throw ("Todo");
+                break;
+            case "query":
+                CRUD.executeQuery(msg.sql, msg.params).then(function(result) {
+                    port.postMessage({
+                        guid: msg.guid,
+                        result: result
+                    });
+                }, function(err) {
+                    console.error("Error: ", err, msg);
+                    port.postMessage({
+                        guid: msg.guid,
+                        error: err
+                    });
+                });
+                break;
+        }
+    });
+
+    port.onDisconnect.addListener(function() {
+        console.log("Port disconnected");
+    })
+});
