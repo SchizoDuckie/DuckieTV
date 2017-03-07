@@ -29,13 +29,19 @@ chrome.runtime.onInstalled.addListener(function(details) {
     };
 });
 
+/**
+ * Listen for incoming CRUD.js queries coming from the BackgroundPageAdapter
+ * This adapter opens a channel to the background page and forwards all queries here to be executed.
+ * 
+ * 
+ */
 chrome.runtime.onConnect.addListener(function(port) {
     console.log("New incoming connection from foreground page");
     if (port.name != "CRUD") return;
 
     port.onMessage.addListener(function(msg) {
         console.log("Message received from foreground page ", msg);
-        switch (msg.type) {
+        switch (msg.command) {
             case "Find":
                 CRUD.Find(msg.what, msg.filters, msg.options).then(function(result) {
                     console.log("Returning result for ", msg.what, msg.filters, result);
@@ -52,10 +58,39 @@ chrome.runtime.onConnect.addListener(function(port) {
                 });
                 break;
             case "Persist":
-                throw ("Todo");
+                var tmp = CRUD.fromCache(msg.type, msg.values);
+                tmp.Persist().then(function(result) {
+                    port.postMessage({
+                        guid: msg.guid,
+                        result: {
+                            rs: {
+                                rows: result.rs.rows,
+                                rowsAffected: result.rs.rowsAffected
+                            }
+                        }
+                    });
+                }, function(err) {
+                    console.error("Error: ", err, msg);
+                    port.postMessage({
+                        guid: msg.guid,
+                        error: err
+                    });
+                });
                 break;
             case "Delete":
-                throw ("Todo");
+                var tmp = CRUD.fromCache(msg.type, msg.values);
+                tmp.Delete().then(function(result) {
+                    port.postMessage({
+                        guid: msg.guid,
+                        result: result
+                    });
+                }, function(err) {
+                    console.error("Error: ", err, msg);
+                    port.postMessage({
+                        guid: msg.guid,
+                        error: err
+                    });
+                });
                 break;
             case "query":
                 CRUD.executeQuery(msg.sql, msg.params).then(function(result) {

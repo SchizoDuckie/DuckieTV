@@ -39,7 +39,7 @@ CRUD.BackgroundPageAdapter = function(database, dbOptions) {
 
     this.Persist = function(what, forceInsert) {
         CRUD.stats.writesQueued++;
-        return this.connection.Persist(what, forceInsert).then(querySuccess, queryError);
+        return this.db.Persist(what, forceInsert).then(querySuccess, queryError);
     };
 
     this.Delete = function(what, events) {
@@ -60,12 +60,25 @@ CRUD.BackgroundPageAdapter = function(database, dbOptions) {
     return this;
 };
 
+/**
+ * Background page connection
+ * Opens a transparent promise-based connection pipe to the background page
+ * where all SQL queries are handled as if they were on the foreground.
+ * 
+ */
 CRUD.BackgroundPageConnection = function() {
 
     var connection = false;
     var self = this;
     var unhandled = {};
 
+
+    /**
+     * Open a port to the background page and listen for incoming messages on it.
+     * Incoming messages are matched against the unhandled guid list and when matched 
+     * the promise is resolved or rejected based on if an 'error' property is available
+     * in the response message.
+     */
     this.connect = function() {
         connection = chrome.runtime.connect({
             name: "CRUD"
@@ -80,78 +93,96 @@ CRUD.BackgroundPageConnection = function() {
             }
             if (!msg.error) {
                 unhandled[msg.guid].resolve(msg.result);
+                delete unhandled[msg.guid];
             } else {
                 unhandled[msg.guid].reject(msg);
+                delete unhandled[msg.guid];
             }
         });
         return new Promise(function(resolve) {
-            return true;
+            resolve(true);
         });
     }
 
+    /**
+     * generate a new message to send to the background page
+     * takes a json object with at least a 'command' property.
+     * a GUID is auto-generated and sent along to the background page,
+     * where the command is processed and the result sent back wrapped in a message with the GUID.
+     * 
+     * A new Promise is created, that's stored under the GUID in the 'unhandled' object.
+     * The promise then resolves when the background page sends back a message with the same GUID
+     * and the promise is deleted and memory freed.
+     * @return Promise
+     */
     function send(msg) {
-        connectionCheck();
-        connection.postMessage(msg);
-    }
 
-    function connectionCheck() {
         if (!connection) {
             throw new Error("Not connected");
         }
+
+        msg.guid = guid();
+        return new Promise(function(resolve, reject) {
+            unhandled[msg.guid] = {
+                msg: msg,
+                resolve: resolve,
+                reject: reject
+            };
+            connection.postMessage(msg);
+        });
+
     }
 
+    /**
+     *
+     */
     this.Find = function(what, filters, options) {
-        connectionCheck();
-        var msg = {
-            guid: guid(),
-            type: 'Find',
+        return send({
+            command: 'Find',
             what: what,
             filters: filters,
             options: options
-        }
-        return new Promise(function(resolve, reject) {
-            unhandled[msg.guid] = {
-                resolve: resolve,
-                reject: reject
-            };
-            send(msg);
         });
     }
 
-    this.Persist = function() {
-        connectionCheck();
-
+    /**
+     * Send an entity to the background page to have it persisted
+     */
+    this.Persist = function(what, forceInsert) {
+        return send({
+            command: 'Persist',
+            type: what.getType(),
+            values: what
+        });
     }
 
-    this.Delete = function() {
-        connectionCheck();
-
+    /**
+     * Forward a 'Delete' instruction to the background page
+     */
+    this.Delete = function(what) {
+        return send({
+            command: 'Delete',
+            what: what,
+            type: what.getType(),
+            params: params
+        });
     }
 
+    /**
+     * Execute raw SQL query
+     */
     this.execute = function(sql, params) {
-        connectionCheck();
-        var msg = {
-            guid: guid(),
-            type: 'query',
+        return send({
+            command: 'query',
             sql: sql,
             params: params
-        }
-        return new Promise(function(resolve, reject) {
-            unhandled[msg.guid] = {
-                resolve: resolve,
-                reject: reject
-            };
-            send(msg);
         });
-
     }
 
 
     function guid() {
         function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-                .toString(16)
-                .substring(1);
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
         }
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }

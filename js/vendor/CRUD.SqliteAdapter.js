@@ -256,7 +256,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         }
     };
 
-    this.Delete = function(what, events) {
+    this.Delete = function(what) {
         if (what.getID() !== false) {
             query = ['delete from', CRUD.EntityManager.entities[what.getType()].table, 'where', CRUD.EntityManager.getPrimary(what.getType()), '= ?'].join(' ');
             return db.execute(query, [what.getID()]).then(function(resultSet) {
