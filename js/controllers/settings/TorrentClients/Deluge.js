@@ -2,6 +2,7 @@ DuckieTV.controller("delugeCtrl", ["$injector", "Deluge", "SettingsService", "Fo
     function($injector, Deluge, SettingsService, FormlyLoader) {
 
         var self = this;
+        this.error = null;
 
         this.isConnected = function() {
             return Deluge.isConnected();
@@ -21,14 +22,17 @@ DuckieTV.controller("delugeCtrl", ["$injector", "Deluge", "SettingsService", "Fo
         });
 
         this.test = function() {
+            this.error = false;
             //console.log("Testing settings");
             Deluge.Disconnect();
             Deluge.setConfig(this.model);
             Deluge.connect().then(function(connected) {
                 console.info("Deluge connected! (save settings)", connected);
+                self.error = null;
                 Deluge.saveConfig();
                 window.location.reload();
             }, function(error) {
+                self.error = error;
                 console.error("Deluge connect error!", error);
             });
         };

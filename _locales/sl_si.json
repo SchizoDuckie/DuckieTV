@@ -197,7 +197,7 @@
     "DATEPICKER/calendar-weekview/glyph/tooltip": "preklopite na tedenski pogled",
     "DIALOGSjs/confirm/hdr": "Potrditev",
     "DIALOGSjs/confirm/msg": "Potrebna potrditev.",
-    "DIALOGSjs/error/hdr": "Napaka",
+    "COMMON/error/hdr": "Napaka",
     "DIALOGSjs/error/msg": "Prišlo je do neznane napake.",
     "DIALOGSjs/no-all/btn": "Ne, vse",
     "DIALOGSjs/no/btn": "Ne",

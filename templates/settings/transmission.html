@@ -5,12 +5,16 @@
 
   <p><a href='https://github.com/SchizoDuckie/DuckieTV/wiki/Setting-up-Transmission-with-DuckieTV' target='_blank' translate-once>COMMON/set-up-instructions/lbl</a></p>
 
-	<p  ng-if="tbt.isConnected()"><span translate-once>COMMON/status/hdr</span>:
-	<span translate-once>COMMON/connected/lbl</span> Transmission API &#64; {{tbt.model.server}}:{{tbt.model.port}}
+	<p ng-show="tbt.isConnected()"><span translate-once>COMMON/status/hdr</span>:
+    <span translate-once>COMMON/connected/lbl</span> Transmission API &#64; {{tbt.model.server}}:{{tbt.model.port}}
 	</p>
 
-	<p ng-if="!tbt.isConnected()"><span translate-once>COMMON/status/hdr</span>:
-	<span translate-once>COMMON/not-connected/lbl</span>
+	<p ng-show="!tbt.isConnected()"><span translate-once>COMMON/status/hdr</span>:
+    <span translate-once>COMMON/not-connected/lbl</span>
+	</p>
+
+	<p ng-show="tbt.error"><span translate-once>COMMON/error/hdr</span>:
+    <span >{{tbt.error}}</span>
 	</p>
 
   <form ng-submit="tbt.test()" novalidate>

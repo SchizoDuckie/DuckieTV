@@ -5,13 +5,17 @@
 
   <p><a href='https://github.com/SchizoDuckie/DuckieTV/wiki/Setting-up-Vuze-with-DuckieTV' target='_blank' translate-once>COMMON/set-up-instructions/lbl</a></p>
 
-  <p  ng-if="vuze.isConnected()"><span translate-once>COMMON/status/hdr</span>:
-  <span translate-once>COMMON/connected/lbl</span> Vuze API &#64; {{vuze.model.server}}:{{vuze.model.port}}
+  <p ng-show="vuze.isConnected()"><span translate-once>COMMON/status/hdr</span>:
+    <span translate-once>COMMON/connected/lbl</span> Vuze API &#64; {{vuze.model.server}}:{{vuze.model.port}}
   </p>
 
-  <p ng-if="!vuze.isConnected()"><span translate-once>COMMON/status/hdr</span>:
-  <span translate-once>COMMON/not-connected/lbl</span>
+  <p ng-show="!vuze.isConnected()"><span translate-once>COMMON/status/hdr</span>:
+    <span translate-once>COMMON/not-connected/lbl</span>
   </p>
+
+	<p ng-show="vuze.error"><span translate-once>COMMON/error/hdr</span>:
+    <span >{{vuze.error}}</span>
+	</p>
 
   <form ng-submit="vuze.test()" novalidate>
     <formly-form model="vuze.model" fields="vuze.fields">

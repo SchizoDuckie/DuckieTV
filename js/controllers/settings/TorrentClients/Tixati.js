@@ -2,6 +2,7 @@ DuckieTV.controller("tixatiCtrl", ["$injector", "Tixati", "SettingsService", "Fo
     function($injector, Tixati, SettingsService, FormlyLoader) {
 
         var self = this;
+        this.error = null;
 
         FormlyLoader.load('TorrentClientSettings').then(function(fields) {
 
@@ -23,14 +24,17 @@ DuckieTV.controller("tixatiCtrl", ["$injector", "Tixati", "SettingsService", "Fo
 
 
         this.test = function() {
+            this.error = false;
             //console.log("Testing settings");
             Tixati.Disconnect();
             Tixati.setConfig(this.model);
             Tixati.connect().then(function(connected) {
                 console.info("Tixati connected! (save settings)", connected);
+                self.error = null;
                 Tixati.saveConfig();
                 window.location.reload();
             }, function(error) {
+                self.error = error;
                 console.error("Tixati connect error!", error);
             });
         };

@@ -2,6 +2,7 @@ DuckieTV.controller("uTorrentWebUICtrl", ["$injector", "uTorrentWebUI", "Setting
     function($injector, uTorrentWebUI, SettingsService, FormlyLoader) {
 
         var self = this;
+        this.error = null;
 
         FormlyLoader.load('TorrentClientSettings').then(function(fields) {
 
@@ -22,14 +23,17 @@ DuckieTV.controller("uTorrentWebUICtrl", ["$injector", "uTorrentWebUI", "Setting
         };
 
         this.test = function() {
+            this.error = false;
             //console.log("Testing settings");
             uTorrentWebUI.Disconnect();
             uTorrentWebUI.setConfig(this.model);
             uTorrentWebUI.connect().then(function(connected) {
                 console.info("uTorrent WEBUI connected! (save settings)", connected);
+                self.error = null;
                 uTorrentWebUI.saveConfig();
                 window.location.reload();
             }, function(error) {
+                self.error = error;
                 console.error("uTorrent WEBUI connect error!", error);
             });
         };

@@ -197,7 +197,7 @@
     "DATEPICKER/calendar-weekview/glyph/tooltip": "cambiar a la vista por Semana ",
     "DIALOGSjs/confirm/hdr": "Confirmación",
     "DIALOGSjs/confirm/msg": "Confirmación requerida.",
-    "DIALOGSjs/error/hdr": "Error",
+    "COMMON/error/hdr": "Error",
     "DIALOGSjs/error/msg": "Se ha producido un error desconocido.",
     "DIALOGSjs/no-all/btn": "No, Todas",
     "DIALOGSjs/no/btn": "No",

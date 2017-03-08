@@ -197,7 +197,7 @@
     "DATEPICKER/calendar-weekview/glyph/tooltip": "bytt til Ukesvisning",
     "DIALOGSjs/confirm/hdr": "Bekreftelse",
     "DIALOGSjs/confirm/msg": "Bekreftelse påkrevd.",
-    "DIALOGSjs/error/hdr": "Feil",
+    "COMMON/error/hdr": "Feil",
     "DIALOGSjs/error/msg": "En ukjent feil har oppstått.",
     "DIALOGSjs/no-all/btn": "Nei, Alle",
     "DIALOGSjs/no/btn": "Nei",

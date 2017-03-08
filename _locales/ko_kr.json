@@ -197,7 +197,7 @@
     "DATEPICKER/calendar-weekview/glyph/tooltip": "주보기로 전환 ",
     "DIALOGSjs/confirm/hdr": "확인 ",
     "DIALOGSjs/confirm/msg": "확인이 필요합니다. ",
-    "DIALOGSjs/error/hdr": "오류 ",
+    "COMMON/error/hdr": "오류 ",
     "DIALOGSjs/error/msg": "알 수없는 오류가 발생했습니다. ",
     "DIALOGSjs/no-all/btn": "아니, 모든",
     "DIALOGSjs/no/btn": "아니 ",

@@ -2,6 +2,7 @@ DuckieTV.controller("ktorrentCtrl", ["$injector", "Ktorrent", "SettingsService",
     function($injector, Ktorrent, SettingsService, FormlyLoader) {
 
         var self = this;
+        this.error = null;
 
         FormlyLoader.load('TorrentClientSettings').then(function(fields) {
 
@@ -23,14 +24,17 @@ DuckieTV.controller("ktorrentCtrl", ["$injector", "Ktorrent", "SettingsService",
 
 
         this.test = function() {
+            this.error = false;
             //console.log("Testing settings");
             Ktorrent.Disconnect();
             Ktorrent.setConfig(this.model);
             Ktorrent.connect().then(function(connected) {
                 console.info("Ktorrent connected! (save settings)", connected);
+                self.error = null;
                 Ktorrent.saveConfig();
                 window.location.reload();
             }, function(error) {
+                self.error = error;
                 console.error("Ktorrent connect error!", error);
             });
         };

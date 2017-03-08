@@ -197,7 +197,7 @@
     "DATEPICKER/calendar-weekview/glyph/tooltip": "Schakel over naar weekkalender",
     "DIALOGSjs/confirm/hdr": "Bevestigen",
     "DIALOGSjs/confirm/msg": "Bevestiging vereist.",
-    "DIALOGSjs/error/hdr": "Fout",
+    "COMMON/error/hdr": "Fout",
     "DIALOGSjs/error/msg": "Er is een onbekende fout opgetreden.",
     "DIALOGSjs/no-all/btn": "Nee, Alle",
     "DIALOGSjs/no/btn": "Nee",

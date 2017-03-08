@@ -197,7 +197,7 @@
     "DATEPICKER/calendar-weekview/glyph/tooltip": "切换到周视图 ",
     "DIALOGSjs/confirm/hdr": "确认 ",
     "DIALOGSjs/confirm/msg": "需要确认. ",
-    "DIALOGSjs/error/hdr": "错误 ",
+    "COMMON/error/hdr": "错误 ",
     "DIALOGSjs/error/msg": "发生未知错误. ",
     "DIALOGSjs/no-all/btn": "不,所有的",
     "DIALOGSjs/no/btn": "无 ",

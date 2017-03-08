@@ -197,7 +197,7 @@
     "DATEPICKER/calendar-weekview/glyph/tooltip": "In die Wochenansicht wechseln ",
     "DIALOGSjs/confirm/hdr": "Bestätigung ",
     "DIALOGSjs/confirm/msg": "Bestätigung erforderlich. ",
-    "DIALOGSjs/error/hdr": "Fehler ",
+    "COMMON/error/hdr": "Fehler ",
     "DIALOGSjs/error/msg": "Ein unbekannter Fehler ist aufgetreten. ",
     "DIALOGSjs/no-all/btn": "Nein, Alle",
     "DIALOGSjs/no/btn": "Nein ",

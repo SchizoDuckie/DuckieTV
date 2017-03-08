@@ -2,6 +2,7 @@ DuckieTV.controller("vuzeCtrl", ["$injector", "Vuze", "SettingsService", "Formly
     function($injector, Vuze, SettingsService, FormlyLoader) {
 
         var self = this;
+        this.error = null;
 
         FormlyLoader.load('TorrentClientSettings').then(function(fields) {
 
@@ -24,14 +25,17 @@ DuckieTV.controller("vuzeCtrl", ["$injector", "Vuze", "SettingsService", "Formly
 
 
         this.test = function() {
+            this.error = false;
             //console.log("Testing settings");
             Vuze.Disconnect();
             Vuze.setConfig(this.model);
             Vuze.connect().then(function(connected) {
                 console.info("Vuze connected! (save settings)", connected);
+                self.error = null;
                 Vuze.saveConfig();
                 window.location.reload();
             }, function(error) {
+                self.error = error;
                 console.error("Vuze connect error!", error);
             });
         };

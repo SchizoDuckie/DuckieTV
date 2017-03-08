@@ -2,6 +2,7 @@ DuckieTV.controller("qbt32plusCtrl", ["$injector", "qBittorrent32plus", "Setting
     function($injector, qBittorrent32plus, SettingsService, FormlyLoader) {
 
         var self = this;
+        this.error = null;
 
         FormlyLoader.load('TorrentClientSettings').then(function(fields) {
 
@@ -21,14 +22,17 @@ DuckieTV.controller("qbt32plusCtrl", ["$injector", "qBittorrent32plus", "Setting
         };
 
         this.test = function() {
+            this.error = false;
             //console.log("Testing settings");
             qBittorrent32plus.Disconnect();
             qBittorrent32plus.setConfig(this.model);
             qBittorrent32plus.connect().then(function(connected) {
                 console.info("qBittorrent 3.2+ connected! (save settings)", connected);
+                self.error = null;
                 qBittorrent32plus.saveConfig();
                 window.location.reload();
             }, function(error) {
+                self.error = error;
                 console.error("qBittorrent 3.2+ connect error!", error);
             });
         };

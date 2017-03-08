@@ -197,7 +197,7 @@
     "DATEPICKER/calendar-weekview/glyph/tooltip": "schimbați pe vizualizarea pe săptămână",
     "DIALOGSjs/confirm/hdr": "Confirmare",
     "DIALOGSjs/confirm/msg": "Confirmare necesară.",
-    "DIALOGSjs/error/hdr": "Eroare",
+    "COMMON/error/hdr": "Eroare",
     "DIALOGSjs/error/msg": "A intervenit o eroare neidentificată.",
     "DIALOGSjs/no-all/btn": "Nu, Toate",
     "DIALOGSjs/no/btn": "Nu",

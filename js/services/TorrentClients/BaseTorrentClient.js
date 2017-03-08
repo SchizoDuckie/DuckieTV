@@ -205,6 +205,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
                 }, function(error) {
                     self.isPolling = false;
                     self.isConnnecting = false;
+                    self.connected = false;
                     self.offline = true;
                     clearTimeout(self.retryTimeout);
                     self.retryTimeout = setTimeout(function() {
@@ -285,8 +286,9 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
                     //console.debug(self.getName() + " check result: ", result);
                     if (!result) {
                         self.isConnecting = false;
+                        self.connected = false;
                         self.isPolling = false;
-                        throw self.getName() + " Connect call failed. No client listening.";
+                        throw self.getName() + " Connect call failed.";
                     }
                     self.connected = result; // we are now connected
                     self.isConnecting = !result; // we are no longer connecting

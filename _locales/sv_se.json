@@ -197,7 +197,7 @@
     "DATEPICKER/calendar-weekview/glyph/tooltip": "byta till veckovy ",
     "DIALOGSjs/confirm/hdr": "Bekräftelse ",
     "DIALOGSjs/confirm/msg": "Bekräftelse krävs. ",
-    "DIALOGSjs/error/hdr": "fel ",
+    "COMMON/error/hdr": "fel ",
     "DIALOGSjs/error/msg": "Ett okänt fel har inträffat. ",
     "DIALOGSjs/no-all/btn": "Nej, Alla",
     "DIALOGSjs/no/btn": "Ingen ",

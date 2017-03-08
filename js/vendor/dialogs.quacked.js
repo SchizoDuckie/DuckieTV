@@ -94,7 +94,7 @@ try{
 ctrlrs.controller('errorDialogCtrl',['$scope','$uibModalInstance','$translate','data',function($scope,$uibModalInstance,$translate,data){
     //-- Variables -----//
 
-    $scope.header = (angular.isDefined(data.header)) ? data.header : $translate.instant('DIALOGSjs/error/hdr');
+    $scope.header = (angular.isDefined(data.header)) ? data.header : $translate.instant('COMMON/error/hdr');
     $scope.msg = (angular.isDefined(data.msg)) ? data.msg : $translate.instant('DIALOGSjs/error/msg');
     $scope.icon = (angular.isDefined(data.fa) && angular.equals(data.fa,true)) ? 'fa fa-warning' : 'glyphicon glyphicon-warning-sign';
 
@@ -527,7 +527,7 @@ angular.module('dialogs.main',['dialogs.services','ngSanitize']) // requires ang
             // This will set default modal buttons, header and message text
             //--Dtv--// begin
             $translateProvider.translations('en-US',{
-                "DIALOGSjs/error/hdr": "Error",
+                "COMMON/error/hdr": "Error",
                 "DIALOGSjs/error/msg": "An unknown error has occurred.",
                 "COMMON/close/btn": "Close",
                 "DIALOGSjs/wait/hdr": "Please Wait",

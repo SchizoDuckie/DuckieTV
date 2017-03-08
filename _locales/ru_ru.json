@@ -197,7 +197,7 @@
     "DATEPICKER/calendar-weekview/glyph/tooltip": "переключить на неделю",
     "DIALOGSjs/confirm/hdr": "Подтверждение",
     "DIALOGSjs/confirm/msg": "Требуется подтверждение.",
-    "DIALOGSjs/error/hdr": "Ошибка",
+    "COMMON/error/hdr": "Ошибка",
     "DIALOGSjs/error/msg": "Произошла неизвестная ошибка.",
     "DIALOGSjs/no-all/btn": "Нет, Все",
     "DIALOGSjs/no/btn": "Нет",
