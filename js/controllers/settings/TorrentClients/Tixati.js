@@ -34,8 +34,12 @@ DuckieTV.controller("tixatiCtrl", ["$injector", "Tixati", "SettingsService", "Fo
                 Tixati.saveConfig();
                 window.location.reload();
             }, function(error) {
-                self.error = error;
-                console.error("Tixati connect error!", error);
+                if ('status' in error && 'statusText' in error) {
+                    self.error = ["Tixati connect error!", "Status:", error.status, "Reason:", error.statusText || "Unknown"].join(' ');
+                } else {
+                    self.error = error;
+                }
+                console.error(self.error);
             });
         };
     }
