@@ -2,6 +2,7 @@
     "key": "server",
     "type": "input",
     "templateOptions": {
+        "required": true,
         "type": "url",
         "label": ""
     },
@@ -10,10 +11,21 @@
     }
 }, {
     "key": "port",
-    "type": "input",
+    "type": "integer",
     "templateOptions": {
+        "required": true,
         "type": "number",
-        "label": ""
+        "label": "",
+        "max": "65535",
+        "min": "0"
+    },
+    "validation": {
+        "messages": {
+            "min": "\"COMMON/port-range/alert\" | translate",
+            "max": "\"COMMON/port-range/alert\" | translate",
+            "pattern": "\"COMMON/port-range/alert\" | translate",
+            "required": "\"COMMON/port-range/alert\" | translate"
+        }
     },
     "expressionProperties": {
         "templateOptions.label": "\"COMMON/port/lbl\"|translate"
