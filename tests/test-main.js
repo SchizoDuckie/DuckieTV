@@ -58,6 +58,10 @@ beforeEach(inject(function($injector) {
         return [200, []];
     });
 
+    $httpBackend.whenGET('http://admin:@localhost:8080/gui/token.html').respond(function(method, url, data) {
+        return [500, []];
+    });
+
     $httpBackend.whenGET('VERSION').respond(function(method, url, data) {
         return [200, null];
     });
