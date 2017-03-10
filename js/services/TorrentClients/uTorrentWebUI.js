@@ -80,9 +80,6 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
              */
             getUrl: function(type, param) {
                 var out = this.config.server + ':' + this.config.port + this.endpoints[type];
-                if (this.config.use_auth) {
-                    out = out.replace('://', '://' + this.config.username + ':' + this.config.password + '@');
-                }
                 if (out.indexOf('%token%') > -1) {
                     out = out.replace('%token%', this.config.token);
                 }
