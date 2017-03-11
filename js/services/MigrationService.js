@@ -2,7 +2,7 @@ DuckieTV
 /**
  * Migrations that run when updating DuckieTV version.
  */
-.run(['FavoritesService', '$rootScope', 'SettingsService', 'TorrentHashListService', 'TraktTVv2',
+    .run(['FavoritesService', '$rootScope', 'SettingsService', 'TorrentHashListService', 'TraktTVv2',
     function(FavoritesService, $rootScope, SettingsService, TorrentHashListService, TraktTVv2) {
 
         // Update the newly introduced series' and seasons'  watched and notWatchedCount entities
@@ -10,8 +10,8 @@ DuckieTV
         if (!localStorage.getItem('1.1migration')) {
             setTimeout(function() {
                 $rootScope.$broadcast('series:recount:watched');
-                    console.info("1.1 migration done.");
-                    localStorage.setItem('1.1migration', new Date());
+                console.info("1.1 migration done.");
+                localStorage.setItem('1.1migration', new Date());
             }, 3000);
             console.info("Executing the 1.1 migration to populate watched and notWatchedCount entities");
         }
@@ -22,11 +22,11 @@ DuckieTV
             setTimeout(function() {
                 var serieIds = [];
                 CRUD.executeQuery('select distinct(ID_Serie) from Series').then(function(res) {
-                    while(r = res.next()) {
+                    while (r = res.next()) {
                         serieIds.push(r.row.ID_Serie)
                     }
-                    CRUD.executeQuery('delete from Seasons where ID_Serie not in ('+serieIds.join(',')+') ').then(function(res) {
-                        console.log('1.1.4cleanupOrphanedSeasons done!', res.rs.rowsAffected, 'season records deleted!')
+                    CRUD.executeQuery('delete from Seasons where ID_Serie not in (' + serieIds.join(',') + ') ').then(function(res) {
+                        console.log('1.1.4cleanupOrphanedSeasons done!', res.rowsAffected, 'season records deleted!')
                     });
                 });
                 localStorage.setItem('1.1.4cleanupOrphanedSeasons', new Date());
@@ -40,11 +40,11 @@ DuckieTV
             setTimeout(function() {
                 var serieIds = [];
                 CRUD.executeQuery('select distinct(ID_Serie) from Series').then(function(res) {
-                    while(r = res.next()) {
+                    while (r = res.next()) {
                         serieIds.push(r.row.ID_Serie)
                     }
-                    CRUD.executeQuery('delete from Episodes where ID_Serie not in ('+serieIds.join(',')+') ').then(function(res) {
-                        console.log('1.1.4cleanupOrphanedEpisodes done!', res.rs.rowsAffected, 'episode records deleted!')
+                    CRUD.executeQuery('delete from Episodes where ID_Serie not in (' + serieIds.join(',') + ') ').then(function(res) {
+                        console.log('1.1.4cleanupOrphanedEpisodes done!', res.rowsAffected, 'episode records deleted!')
                     });
                 });
                 localStorage.setItem('1.1.4cleanupOrphanedEpisodes', new Date());
@@ -133,7 +133,7 @@ DuckieTV
                 // collect known good torrent hashes
                 var newTorrentHashList = {};
                 CRUD.executeQuery("select magnetHash,downloaded from Episodes where magnetHash != ''").then(function(res) {
-                    while(r = res.next()) {
+                    while (r = res.next()) {
                         newTorrentHashList[r.row.magnetHash] = (parseInt(r.row.downloaded) == 1);
                     };
                     // save new hashList
@@ -153,7 +153,7 @@ DuckieTV
             console.info("Executing 1.1.5updateTorrenting.min_seeders to clone autodownload.minSeeders to torrenting.min_seeders");
             if (SettingsService.get('autodownload.minSeeders')) {
                 SettingsService.set('torrenting.min_seeders', SettingsService.get('autodownload.minSeeders'));
-            } 
+            }
             localStorage.setItem('1.1.5updateTorrenting.min_seeders', new Date());
             console.info("1.1.5updateTorrenting.min_seeders done!");
         }

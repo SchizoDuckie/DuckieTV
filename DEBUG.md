@@ -69,7 +69,7 @@ CRUD.executeQuery('select distinct(ID_Serie) from Series').then(function(res) {
     }
 
     CRUD.executeQuery('delete from Episodes where ID_Serie not in ('+serieIds.join(',')+') ').then(function(res) {
-        console.log('done!', res.rs.rowsAffected, 'items deleted!')
+        console.log('done!', res.rowsAffected, 'items deleted!')
     });
 
 });

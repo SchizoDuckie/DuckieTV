@@ -27,8 +27,8 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$filter", "$location",
         this.totalRunTime = null;
         this.totalRunLbl = null;
         CRUD.executeQuery('select count(ID_Episode) as amount from Episodes where seasonnumber > 0 AND firstaired > 0 AND firstaired < ? AND ID_Serie = ? group by episodes.ID_Serie', [new Date().getTime(), this.serie.ID_Serie]).then(function(result) {
-            if (result.rs.rows.length > 0) {
-                self.totalRunTime = result.rs.rows.item(0).amount * self.serie.runtime;
+            if (result.length > 0) {
+                self.totalRunTime = result[0].amount * self.serie.runtime;
                 var totalRunDays = Math.floor(self.totalRunTime / 60 / 24);
                 var totalRunHours = Math.floor((self.totalRunTime % (60 * 24)) / 60);
                 var totalRunMinutes = self.totalRunTime % 60;
@@ -43,8 +43,8 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$filter", "$location",
             return true;
         }).then(function() {
             CRUD.executeQuery('select count(ID_Episode) as amount from Episodes where seasonnumber > 0 AND firstaired > 0 AND firstaired < ? AND ID_Serie = ? AND watched = 1 group by episodes.ID_Serie', [new Date().getTime(), self.serie.ID_Serie]).then(function(result) {
-                if (result.rs.rows.length > 0) {
-                    self.totalWatchedTime = result.rs.rows.item(0).amount * self.serie.runtime;
+                if (result.length > 0) {
+                    self.totalWatchedTime = result[0].amount * self.serie.runtime;
                     var totalRunDays = Math.floor(self.totalWatchedTime / 60 / 24);
                     var totalRunHours = Math.floor((self.totalWatchedTime % (60 * 24)) / 60);
                     var totalRunMinutes = self.totalWatchedTime % 60;

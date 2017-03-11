@@ -62,12 +62,7 @@ chrome.runtime.onConnect.addListener(function(port) {
                 tmp.Persist().then(function(result) {
                     port.postMessage({
                         guid: msg.guid,
-                        result: {
-                            rs: {
-                                rows: result.rs.rows,
-                                rowsAffected: result.rs.rowsAffected
-                            }
-                        }
+                        result: result
                     });
                 }, function(err) {
                     console.error("Error: ", err, msg);

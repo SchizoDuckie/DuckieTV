@@ -21,8 +21,8 @@ DuckieTV.factory('watchedCounter', ["$q", "FavoritesService", function($q, Favor
     function parseEpisodeCounts(counts) {
         var seasons = {};
         var seasonsWatched = 0;
-        for (var i = 0; i < counts.rs.rows.length; i++) {
-            var row = counts.rs.rows.item(i);
+        for (var i = 0; i < counts.length; i++) {
+            var row = counts[i];
             if (!(row.ID_Season in seasons)) {
                 seasons[row.ID_Season] = {
                     watched: 0,

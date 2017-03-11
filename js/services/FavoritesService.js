@@ -155,8 +155,8 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
             });
 
             return CRUD.executeQuery('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [serie.ID_Serie]).then(function(result) {
-                if (result.rs.rowsAffected > 0) {
-                    console.info("Cleaned up " + result.rs.rowsAffected + " orphaned episodes for series [" + serie.ID_Serie + "] " + serie.name);
+                if (result.rowsAffected > 0) {
+                    console.info("Cleaned up " + result.rowsAffected + " orphaned episodes for series [" + serie.ID_Serie + "] " + serie.name);
                 };
                 return seasons;
             });
@@ -388,8 +388,8 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                 // dafuq. no RANDOM() in sqlite in chrome... 
                 // then we pick a random array item from the resultset based on the amount.
                 CRUD.executeQuery("select fanart from Series where fanart != ''").then(function(result) {
-                    if (result.rs.rows.length > 0) {
-                        $rootScope.$broadcast('background:load', result.rs.rows.item(Math.floor(Math.random() * (result.rs.rows.length - 1))).fanart);
+                    if (result.length > 0) {
+                        $rootScope.$broadcast('background:load', result[Math.floor(Math.random() * (result.length - 1))].fanart);
                     }
                 });
             },

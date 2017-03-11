@@ -38,7 +38,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
 
     function insertQuerySuccess(resultSet) {
         resultSet.Action = 'inserted';
-        resultSet.ID = resultSet.rs.insertId;
+        resultSet.ID = resultSet.insertId;
         CRUD.stats.writesExecuted++;
         return resultSet;
     }
@@ -55,8 +55,8 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                 indexes = {};
             // fetch existing tables
             return db.execute("select type,name,tbl_name from sqlite_master").then(function(resultset) {
-                for (var i = 0; i < resultset.rs.rows.length; i++) {
-                    var row = resultset.rs.rows.item(i);
+                for (var i = 0; i < resultset.length; i++) {
+                    var row = resultset[i];
                     if (row.name.indexOf('sqlite_autoindex') > -1 || row.name == '__WebKitDatabaseInfoTable__') continue;
                     if (row.type == 'table') {
                         tables.push(row.tbl_name);
@@ -188,19 +188,12 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         var query = builder.buildQuery();
 
         return new Promise(function(resolve, fail) {
-            return delayUntilSetupDone(function() {
+            delayUntilSetupDone(function() {
                 CRUD.log("Executing query via sqliteadapter: ", options, query);
-                db.execute(query.query, query.parameters).then(function(resultset) {
-                        var output = [];
-                        for (var i = 0; i < resultset.rs.rows.length; i++) {
-                            output.push(resultset.rs.rows.item(i));
-                        }
-                        resolve(output);
-                    },
-                    function(resultSet, sqlError) {
-                        CRUD.log('SQL Error in FIND : ', sqlError, resultSet, query);
-                        fail();
-                    });
+                db.execute(query.query, query.parameters).then(resolve, function(resultSet, sqlError) {
+                    CRUD.log('SQL Error in FIND : ', sqlError, resultSet, query);
+                    fail();
+                });
             });
         });
     };
@@ -335,7 +328,17 @@ CRUD.Database = function(name, options) {
                 localQueue.map(function(query) {
 
                     function sqlOK(transaction, rs) {
-                        query.resolve(new CRUD.Database.ResultSet(rs));
+                        var output = [];
+                        for (var i = 0; i < rs.rows.length; i++) {
+                            output.push(rs.rows.item(i));
+                        }
+                        if (('rowsAffected' in rs)) {
+                            output.rowsAffected = rs.rowsAffected;
+                            if (rs.rowsAffected > 0 && query.sql.indexOf('INSERT INTO') > -1) {
+                                output.insertId = rs.insertId;
+                            }
+                        }
+                        query.resolve(output);
                     }
 
                     function sqlFail(transaction, error) {
@@ -364,30 +367,6 @@ CRUD.Database = function(name, options) {
             }
         });
     };
-};
-
-CRUD.Database.ResultSet = function(rs) {
-    this.rs = rs;
-    this.index = 0;
-    return this;
-};
-
-CRUD.Database.ResultSet.prototype.next = function() {
-    var row = null;
-    if (this.index < this.rs.rows.length) {
-        row = new CRUD.Database.ResultSet.Row(this.rs.rows.item(this.index++));
-    }
-    return row;
-};
-
-CRUD.Database.ResultSet.Row = function(row) {
-    this.row = row;
-    return this;
-};
-
-CRUD.Database.ResultSet.Row.prototype.get = function(index, defaultValue) {
-    var col = this.row[index];
-    return (col) ? col : defaultValue;
 };
 
 /**
