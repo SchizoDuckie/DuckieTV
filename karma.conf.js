@@ -41,6 +41,7 @@ module.exports = function(config) {
             'js/vendor/angular-dialgauge.quacked.js',
             'tests/bootstrap.js',
             'js/CRUD.entities.js',
+            'js/CRUD.background.bootstrap.js',
             'js/*.js',
             'js/directives/**.js',
             'js/services/*.js',
