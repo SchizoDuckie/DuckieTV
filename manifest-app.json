@@ -19,6 +19,9 @@
     ],
     "background": {
         "scripts": [
+            "js/vendor/CRUD.js",
+            "js/vendor/CRUD.SqliteAdapter.js",
+            "js/CRUD.entities.js",
             "js/background.js",
             "launch.js"
         ],
