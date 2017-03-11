@@ -10,7 +10,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
         $scope.closeSidePanel = function() {
             $injector.get('$state').go('calendar');
         }
-        
+
         $scope.isStandalone = SettingsService.isStandalone();
 
         // If we load onto the page highlight the button
@@ -53,7 +53,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 CRUD.executeQuery('select count(*) as count from ' + entity).then(function(result) {
                     $scope.statistics.push({
                         name: "DB " + entity,
-                        data: result.next().row.count
+                        data: result.rows[0].count
                     });
                 });
             };
@@ -63,7 +63,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
                 CRUD.executeQuery("select count(displaycalendar) as count from Series where displaycalendar like 0").then(function(result) {
                     $scope.statistics.push({
                         name: "DB Series Hidden From Calendar",
-                        data: result.next().row.count
+                        data: result.rows[0].count
                     });
                 });
             };

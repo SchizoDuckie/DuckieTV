@@ -22,9 +22,9 @@ DuckieTV
             setTimeout(function() {
                 var serieIds = [];
                 CRUD.executeQuery('select distinct(ID_Serie) from Series').then(function(res) {
-                    while (r = res.next()) {
-                        serieIds.push(r.row.ID_Serie)
-                    }
+                    res.rows.map(function(row) {
+                        serieIds.push(row.ID_Serie)
+                    });
                     CRUD.executeQuery('delete from Seasons where ID_Serie not in (' + serieIds.join(',') + ') ').then(function(res) {
                         console.log('1.1.4cleanupOrphanedSeasons done!', res.rowsAffected, 'season records deleted!')
                     });
@@ -40,9 +40,9 @@ DuckieTV
             setTimeout(function() {
                 var serieIds = [];
                 CRUD.executeQuery('select distinct(ID_Serie) from Series').then(function(res) {
-                    while (r = res.next()) {
-                        serieIds.push(r.row.ID_Serie)
-                    }
+                    res.rows.map(function(row) {
+                        serieIds.push(row.ID_Serie)
+                    })
                     CRUD.executeQuery('delete from Episodes where ID_Serie not in (' + serieIds.join(',') + ') ').then(function(res) {
                         console.log('1.1.4cleanupOrphanedEpisodes done!', res.rowsAffected, 'episode records deleted!')
                     });
@@ -133,9 +133,9 @@ DuckieTV
                 // collect known good torrent hashes
                 var newTorrentHashList = {};
                 CRUD.executeQuery("select magnetHash,downloaded from Episodes where magnetHash != ''").then(function(res) {
-                    while (r = res.next()) {
-                        newTorrentHashList[r.row.magnetHash] = (parseInt(r.row.downloaded) == 1);
-                    };
+                    res.rows.map(function(row) {
+                        newTorrentHashList[row.magnetHash] = (parseInt(row.downloaded) == 1);
+                    });
                     // save new hashList
                     localStorage.setItem(['torrenting.hashList'], JSON.stringify(newTorrentHashList));
                     // reload TorrentHashListService.hashList

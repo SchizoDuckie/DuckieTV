@@ -388,8 +388,8 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                 // dafuq. no RANDOM() in sqlite in chrome... 
                 // then we pick a random array item from the resultset based on the amount.
                 CRUD.executeQuery("select fanart from Series where fanart != ''").then(function(result) {
-                    if (result.length > 0) {
-                        $rootScope.$broadcast('background:load', result[Math.floor(Math.random() * (result.length - 1))].fanart);
+                    if (result.rows.length > 0) {
+                        $rootScope.$broadcast('background:load', result.rows[Math.floor(Math.random() * (result.rows.length - 1))].fanart);
                     }
                 });
             },

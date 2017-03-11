@@ -64,10 +64,10 @@ CRUD.Find('Season', {}, {'limit': 10000}).then(function(elements) {
 var serieIds = [];
 
 CRUD.executeQuery('select distinct(ID_Serie) from Series').then(function(res) {
-    while(r = res.next()) {
-        serieIds.push(r.row.ID_Serie)
-    }
-
+    res.rows.map(function(row) {
+        serieIds.push(row.ID_Serie)
+    })
+    
     CRUD.executeQuery('delete from Episodes where ID_Serie not in ('+serieIds.join(',')+') ').then(function(res) {
         console.log('done!', res.rowsAffected, 'items deleted!')
     });

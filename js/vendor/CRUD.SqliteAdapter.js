@@ -55,19 +55,20 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                 indexes = {};
             // fetch existing tables
             return db.execute("select type,name,tbl_name from sqlite_master").then(function(resultset) {
-                for (var i = 0; i < resultset.length; i++) {
-                    var row = resultset[i];
-                    if (row.name.indexOf('sqlite_autoindex') > -1 || row.name == '__WebKitDatabaseInfoTable__') continue;
-                    if (row.type == 'table') {
-                        tables.push(row.tbl_name);
-                    } else if (row.type == 'index') {
-                        if (!(row.tbl_name in indexes)) {
-                            indexes[row.tbl_name] = [];
+                return resultset.rows
+                    .filter(function(row) {
+                        return (row.name.indexOf('sqlite_autoindex') > -1 || row.name == '__WebKitDatabaseInfoTable__') ? false : true;
+                    })
+                    .map(function(row) {
+                        if (row.type == 'table') {
+                            tables.push(row.tbl_name);
+                        } else if (row.type == 'index') {
+                            if (!(row.tbl_name in indexes)) {
+                                indexes[row.tbl_name] = [];
+                            }
+                            indexes[row.tbl_name].push(row.name);
                         }
-                        indexes[row.tbl_name].push(row.name);
-                    }
-                }
-                return;
+                    })
             }).then(function() {
                 // verify that all tables exist
                 return Promise.all(Object.keys(CRUD.EntityManager.entities).map(function(entityName) {
@@ -190,10 +191,13 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
         return new Promise(function(resolve, fail) {
             delayUntilSetupDone(function() {
                 CRUD.log("Executing query via sqliteadapter: ", options, query);
-                db.execute(query.query, query.parameters).then(resolve, function(resultSet, sqlError) {
-                    CRUD.log('SQL Error in FIND : ', sqlError, resultSet, query);
-                    fail();
-                });
+                db.execute(query.query, query.parameters).then(function(result) {
+                        resolve(result.rows)
+                    },
+                    function(resultSet, sqlError) {
+                        CRUD.log('SQL Error in FIND : ', sqlError, resultSet, query);
+                        fail();
+                    });
             });
         });
     };
@@ -328,9 +332,11 @@ CRUD.Database = function(name, options) {
                 localQueue.map(function(query) {
 
                     function sqlOK(transaction, rs) {
-                        var output = [];
+                        var output = {
+                            rows: []
+                        };
                         for (var i = 0; i < rs.rows.length; i++) {
-                            output.push(rs.rows.item(i));
+                            output.rows.push(rs.rows.item(i));
                         }
                         if (('rowsAffected' in rs)) {
                             output.rowsAffected = rs.rowsAffected;

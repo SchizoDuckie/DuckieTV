@@ -36,18 +36,18 @@ chrome.runtime.onInstalled.addListener(function(details) {
  * 
  */
 chrome.runtime.onConnect.addListener(function(port) {
-    console.log("New incoming connection from foreground page");
+    CRUD.log("New incoming connection from foreground page");
     if (port.name != "CRUD") return;
 
     port.onMessage.addListener(function(msg) {
-        console.log("Message received from foreground page ", msg);
+        CRUD.log(msg.command + " Message received from foreground page ", msg);
         switch (msg.command) {
             case "Find":
                 CRUD.Find(msg.what, msg.filters, msg.options).then(function(result) {
-                    console.log("Returning result for ", msg.what, msg.filters, result);
                     port.postMessage({
                         guid: msg.guid,
-                        result: result
+                        result: result,
+                        Action: 'find'
                     });
                 }, function(err) {
                     console.error("Error: ", err, msg);
@@ -59,10 +59,17 @@ chrome.runtime.onConnect.addListener(function(port) {
                 break;
             case "Persist":
                 var tmp = CRUD.fromCache(msg.type, msg.values);
+                var isNew = msg.ID === false;
+                if (!isNew) {
+                    tmp.__values__[CRUD.EntityManager.getPrimary(msg.type)] = msg.ID;
+                }
                 tmp.Persist().then(function(result) {
                     port.postMessage({
                         guid: msg.guid,
-                        result: result
+                        result: {
+                            ID: tmp.getID(),
+                            Action: isNew ? 'inserted' : 'updated'
+                        }
                     });
                 }, function(err) {
                     console.error("Error: ", err, msg);
@@ -77,7 +84,8 @@ chrome.runtime.onConnect.addListener(function(port) {
                 tmp.Delete().then(function(result) {
                     port.postMessage({
                         guid: msg.guid,
-                        result: result
+                        result: result,
+                        Action: 'deleted'
                     });
                 }, function(err) {
                     console.error("Error: ", err, msg);
@@ -91,7 +99,8 @@ chrome.runtime.onConnect.addListener(function(port) {
                 CRUD.executeQuery(msg.sql, msg.params).then(function(result) {
                     port.postMessage({
                         guid: msg.guid,
-                        result: result
+                        result: result,
+                        action: 'query'
                     });
                 }, function(err) {
                     console.error("Error: ", err, msg);
@@ -105,6 +114,10 @@ chrome.runtime.onConnect.addListener(function(port) {
     });
 
     port.onDisconnect.addListener(function() {
-        console.log("Port disconnected");
+        CRUD.log("Port disconnected");
+        port.disconnected = true;
+        port.postMessage = function() {
+            console.log("Dropping message on closed port: ", arguments);
+        };
     })
 });

@@ -51,32 +51,32 @@ DuckieTV.service('BackupService', function() {
                     out.settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i));
                 }
                 // Store all the series
-                while (serie = series.next()) {
-                    out.series[serie.get('TVDB_ID')] = [];
-                    out.series[serie.get('TVDB_ID')].push({
-                        'displaycalendar': serie.get('displaycalendar', 0),
-                        'autoDownload': serie.get('autoDownload', 0),
-                        'customSearchString': serie.get('customSearchString'),
-                        'ignoreGlobalQuality': serie.get('ignoreGlobalQuality'),
-                        'ignoreGlobalIncludes': serie.get('ignoreGlobalIncludes'),
-                        'ignoreGlobalExcludes': serie.get('ignoreGlobalExcludes'),
-                        'searchProvider': serie.get('searchProvider'),
-                        'ignoreHideSpecials': serie.get('ignoreHideSpecials'),
-                        'customSearchSizeMin': serie.get('customSearchSizeMin'),
-                        'customSearchSizeMax': serie.get('customSearchSizeMax'),
-                        'dlPath': serie.get('dlPath'),
-                        'customDelay': serie.get('customDelay')
+                series.rows.map(function(serie) {
+                    out.series[serie.TVDB_ID] = [];
+                    out.series[serie.TVDB_ID].push({
+                        'displaycalendar': serie.displaycalendar || 0,
+                        'autoDownload': serie.autoDownload || 0,
+                        'customSearchString': serie.customSearchString,
+                        'ignoreGlobalQuality': serie.ignoreGlobalQuality,
+                        'ignoreGlobalIncludes': serie.ignoreGlobalIncludes,
+                        'ignoreGlobalExcludes': serie.ignoreGlobalExcludes,
+                        'searchProvider': serie.searchProvider,
+                        'ignoreHideSpecials': serie.ignoreHideSpecials,
+                        'customSearchSizeMin': serie.customSearchSizeMin,
+                        'customSearchSizeMax': serie.customSearchSizeMax,
+                        'dlPath': serie.dlPath,
+                        'customDelay': serie.customDelay
                     })
-                }
+                });
                 // Store watched episodes for each serie
                 return CRUD.executeQuery('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
-                    while (row = res.next()) {
-                        out.series[row.get('TVDB_ID')].push({
-                            'TVDB_ID': row.get('epTVDB_ID'),
-                            'watchedAt': new Date(row.get('watchedAt')).getTime(),
+                    res.rows.map(function(row) {
+                        out.series[row.TVDB_ID].push({
+                            'TVDB_ID': row.epTVDB_ID,
+                            'watchedAt': new Date(row.watchedAt).getTime(),
                             'downloaded': 1
                         })
-                    }
+                    });
                     var blob = new Blob([angular.toJson(out, true)], {
                         type: 'text/json'
                     });
@@ -104,8 +104,7 @@ DuckieTV.service('BackupService', function() {
                     if (FavoritesService.favoriteIDs.length !== 0) {
                         if (timeToNextBackup == 60000) {
                             console.info('Scheduled autoBackup run at ', new Date());
-                            dialogs.create('templates/dialogs/backup.html', 'backupDialogCtrl', {
-                            }, {
+                            dialogs.create('templates/dialogs/backup.html', 'backupDialogCtrl', {}, {
                                 size: 'lg'
                             });
                         }

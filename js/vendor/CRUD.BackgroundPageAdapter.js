@@ -46,7 +46,6 @@ CRUD.BackgroundPageAdapter = function(database, dbOptions) {
         if (what.getID() !== false) {
             query = ['delete from', CRUD.EntityManager.entities[what.getType()].table, 'where', CRUD.EntityManager.getPrimary(what.getType()), '= ?'].join(' ');
             return db.execute(query, [what.getID()]).then(function(resultSet) {
-                resultSet.Action = 'deleted';
                 return resultSet;
             }, function(e) {
                 CRUD.log("error deleting element from db: ", e);
@@ -152,7 +151,8 @@ CRUD.BackgroundPageConnection = function() {
         return send({
             command: 'Persist',
             type: what.getType(),
-            values: what
+            ID: what.getID(),
+            values: what.__dirtyValues__
         });
     }
 
@@ -179,12 +179,13 @@ CRUD.BackgroundPageConnection = function() {
         });
     }
 
+    var counter = 0;
 
     function guid() {
         function s4() {
             return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
         }
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4() + "-" + counter++;
     }
 
     return this;

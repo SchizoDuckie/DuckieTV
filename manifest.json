@@ -28,6 +28,7 @@
             "js/vendor/CRUD.js",
             "js/vendor/CRUD.SqliteAdapter.js",
             "js/CRUD.entities.js",
+            "js/CRUD.background.bootstrap.js",
             "js/background.js"
         ],
         "persistent": false
