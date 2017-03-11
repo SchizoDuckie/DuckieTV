@@ -66,6 +66,7 @@ module.exports = function(config) {
         exclude: [
 
             'js/background.js',
+            'js/CRUD.bootstrap.js',
             'tests/*.spec.js'
         ],
 
