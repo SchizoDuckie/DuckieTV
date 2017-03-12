@@ -12,9 +12,10 @@ if (localStorage.getItem('CRUD.DEBUG')) {
 
 /**
  * If we detect a background page connection possible, use the background adapter.
- * for otther environments, run in the foreground
+ * for other environments, run in the foreground
  */
-if (('chrome' in window) && ('runtime' in chrome) && ('connect' in chrome.runtime)) {
+var isStandalone = (navigator.userAgent.toLowerCase().indexOf('standalone') > -1);
+if ((!isStandalone) && ('chrome' in window) && ('runtime' in chrome) && ('connect' in chrome.runtime)) {
     var conn = new CRUD.BackgroundPageAdapter();
     conn.Init();
     CRUD.setAdapter(conn);
