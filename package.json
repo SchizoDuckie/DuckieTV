@@ -69,5 +69,6 @@
     "name": "DuckieTV-Standalone",
     "node-main": "",
     "default_locale": "en",
-    "bg-script": "standalone-background.js"
+    "bg-script": "standalone-background.js",
+    "dom_storage_quota": 50
 }
