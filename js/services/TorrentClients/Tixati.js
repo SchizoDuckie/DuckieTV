@@ -133,6 +133,13 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
 
             getTorrents: function() {
                 var self = this;
+                var headers = {
+                    'Content-Type': 'text/html',
+                    'charset': 'utf-8'
+                };
+                if (this.config.use_auth) {
+                    headers.Authorization = [this.config.username, this.config.password];
+                };
                 return this.request('torrents', {}).then(function(result) {
                     var scraper = new HTMLScraper(result.data);
 
@@ -166,6 +173,13 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             },
 
             getInfoHash: function(guid) {
+                var headers = {
+                    'Content-Type': 'text/html',
+                    'charset': 'utf-8'
+                };
+                if (this.config.use_auth) {
+                    headers.Authorization = [this.config.username, this.config.password];
+                };
                 return this.request('infohash', guid).then(function(result) {
                     var magnet = result.data.match(/([0-9ABCDEFabcdef]{40})/);
                     if (magnet && magnet.length) {
@@ -175,6 +189,13 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             },
 
             getFiles: function(guid) {
+                var headers = {
+                    'Content-Type': 'text/html',
+                    'charset': 'utf-8'
+                };
+                if (this.config.use_auth) {
+                    headers.Authorization = [this.config.username, this.config.password];
+                };
                 return this.request('files', guid).then(function(result) {
 
                     var scraper = new HTMLScraper(result.data);
@@ -199,12 +220,17 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 var fd = new FormData();
                 fd.append('addlinktext', magnet);
                 fd.append('addlink', 'Add');
+                var headers = {
+                    'Content-Type': undefined,
+                    'charset': 'utf-8'
+                };
+                if (this.config.use_auth) {
+                    headers.Authorization = [this.config.username, this.config.password];
+                };
 
                 return $http.post(this.getUrl('addmagnet'), fd, {
                     transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
+                    headers: headers
                 });
             },
 
@@ -215,12 +241,17 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
 
                 fd.append('metafile', data, releaseName + '.torrent');
                 fd.append('addmetafile', 'Add');
+                var headers = {
+                    'Content-Type': undefined,
+                    'charset': 'utf-8'
+                };
+                if (this.config.use_auth) {
+                    headers.Authorization = [this.config.username, this.config.password];
+                };
 
                 return this.request('addmagnet', {}, fd, {
                     transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
+                    headers: headers
                 }).then(function(result) {
                     var currentTry = 0;
                     var maxTries = 5;
@@ -292,11 +323,16 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             },
 
             execute: function(guid, formData) {
+                var headers = {
+                    'Content-Type': undefined,
+                    'charset': 'utf-8'
+                };
+                if (this.config.use_auth) {
+                    headers.Authorization = [this.config.username, this.config.password];
+                };
                 return $http.post(this.getUrl('torrentcontrol', guid), formData, {
                     transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
+                    headers: headers
                 });
             }
 
