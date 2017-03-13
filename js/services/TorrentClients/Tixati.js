@@ -128,6 +128,8 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                     });
 
                     return categories;
+                }, function() {
+                    return false;
                 });
             },
 
@@ -140,7 +142,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 if (this.config.use_auth) {
                     headers.Authorization = [this.config.username, this.config.password];
                 };
-                return this.request('torrents', {}).then(function(result) {
+                return this.request('torrents', {headers: headers}).then(function(result) {
                     var scraper = new HTMLScraper(result.data);
 
                     var torrents = [];
@@ -173,13 +175,6 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             },
 
             getInfoHash: function(guid) {
-                var headers = {
-                    'Content-Type': 'text/html',
-                    'charset': 'utf-8'
-                };
-                if (this.config.use_auth) {
-                    headers.Authorization = [this.config.username, this.config.password];
-                };
                 return this.request('infohash', guid).then(function(result) {
                     var magnet = result.data.match(/([0-9ABCDEFabcdef]{40})/);
                     if (magnet && magnet.length) {
@@ -189,13 +184,6 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
             },
 
             getFiles: function(guid) {
-                var headers = {
-                    'Content-Type': 'text/html',
-                    'charset': 'utf-8'
-                };
-                if (this.config.use_auth) {
-                    headers.Authorization = [this.config.username, this.config.password];
-                };
                 return this.request('files', guid).then(function(result) {
 
                     var scraper = new HTMLScraper(result.data);
@@ -249,7 +237,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                     headers.Authorization = [this.config.username, this.config.password];
                 };
 
-                return this.request('addmagnet', {}, fd, {
+                return this.request('addmagnet', fd, {
                     transformRequest: angular.identity,
                     headers: headers
                 }).then(function(result) {
