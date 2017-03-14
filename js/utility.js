@@ -102,7 +102,7 @@ if (localStorage.getItem('optin_error_reporting')) {
         console.info('Opt-In Error Tracking Service Enabled.');
         var s = document.createElement('script');
         s.type = 'text/javascript';
-        s.src = 'https://api.loggr.net/1/loggr.min.js?l=duckietv_halp&a=6586d951da1e4d43aa594bb63591af21';
+        s.src = 'https://api.loggr.net/1/loggr.min.js?l=duckietv_115_halp&a=3f85c533e09d4a6e9af2065d597f511b';
         //s.src = 'https://api.loggr.net/1/loggr.min.js?l=duckietv_dev_halp&a=8c835f96de1e401597feb2389e4af473';  // garfield69's development testing loggr 
         document.body.appendChild(s);
 
@@ -158,12 +158,12 @@ if (localStorage.getItem('optin_error_reporting')) {
             console.olderror(arguments);
             var log = Loggr.Log;
             // filter out unwanted error logging 
-            var blacklist = ["Connect call failed. No client listening","Could not load fanart"];
+            var blacklist = ["connect call failed","could not load fanart"];
             var args = Array.prototype.slice.call(arguments);
             var wanted = true;
             if (typeof args !== 'undefined' && args.length > 0) {
                 blacklist.map(function(unwanted) {
-                    if (args[0].indexOf(unwanted) > -1) {
+                    if (args[0].toLowerCase().indexOf(unwanted) > -1) {
                         wanted = false; 
                     };
                 });
