@@ -157,5 +157,24 @@ DuckieTV
             localStorage.setItem('1.1.5updateTorrenting.min_seeders', new Date());
             console.info("1.1.5updateTorrenting.min_seeders done!");
         }
+
+
+        // Clean up duplicate records from fanart
+
+        if (!localStorage.getItem('1.1.5fanartCleanup')) {
+            var cleanupDelay = 30000;
+            if (localStorage.getItem('1.1.4refresh')) {
+                cleanupDelay = 10000;
+            }
+            setTimeout(function() {
+                CRUD.executeQuery("delete from Fanart where ID_Fanart not in (select max(ID_Fanart) from Fanart group by TVDB_ID)")
+                .then(function(res) {
+                    console.log('1.1.5fanartCleanup done!', res.rowsAffected, 'items deleted!');
+                    localStorage.setItem('1.1.5fanartCleanup', new Date());
+                });
+            }, cleanupDelay);
+            console.info("Executing the 1.1.5fanartCleanup to drop duplicate records in", cleanupDelay / 1000, "seconds.");
+        }
+
     }
 ])
