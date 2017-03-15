@@ -10,8 +10,8 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
             return [endpoint, tvdb_id, '?api_key=', btoa(API_KEY)].join('');
         }
 
-        function storeInDB(json) {
-            var art = new Fanart();
+        function storeInDB(json, entity) {
+            var art = entity || new Fanart();
             art.TVDB_ID = json.thetvdb_id;
             art.json = json;
             art.poster = service.getTrendingPoster(json);
@@ -28,12 +28,12 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                     return $q.reject('Could not load fanart', 'null tvdb_id'); // prevent http-not-found errors
                 }
                 refresh = refresh || false;
-                return CRUD.FindOne('Fanart', { TVDB_ID: tvdb_id}).then(function(result) {
-                    if(result && !refresh) {
-                        return result;
+                return CRUD.FindOne('Fanart', { TVDB_ID: tvdb_id}).then(function(entity) {
+                    if(entity && !refresh) {
+                        return entity;
                     } else {
                          return $http.get(getUrl(tvdb_id)).then(function(result) {
-                            return storeInDB(result.data);
+                            return storeInDB(result.data, entity);
                         }, function(err) {
                             console.error('Could not load fanart', err);
                             return false;
