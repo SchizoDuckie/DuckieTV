@@ -1,3 +1,8 @@
+CRUD.DEBUG = false;
+if (localStorage.getItem('CRUD.DEBUG')) {
+    CRUD.DEBUG = (localStorage.getItem('CRUD.DEBUG') === 'true') ? true : false;
+};
+
 /**
  * handy Shorthand function
  */
