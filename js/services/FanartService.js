@@ -102,10 +102,8 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                     result.map(function(fanart) {
                         cache[fanart.TVDB_ID] = fanart.json;
                     });
-                    console.log(JSON.stringify(cache));
-                    debugger;
+                    localStorage.setItem('fanart.cache', JSON.stringify(cache));
                 })
-                localStorage.setItem('fanart.cache', JSON.stringify(cache));
             },
             /**
              * Populate fanart cache if there is none
