@@ -180,7 +180,7 @@ CRUD.define(Serie, {
 
     getActiveSeason: function() {
         var firstAiredFilter = {
-            Episode: ["Episodes.seasonnumber > 0 AND firstaired < " + new Date().getTime()]
+            Episode: ['Episodes.ID_Serie = ' + this.getID() + ' AND Episodes.seasonnumber > 0 AND firstaired < ' + new Date().getTime()]
         };
         var self = this;
 
@@ -196,7 +196,7 @@ CRUD.define(Serie, {
 
     getNotWatchedSeason: function() {
         var notWatchedFilter = {
-            Episode: ["Episodes.seasonnumber > 0 AND Episodes.watched = 0"]
+            Episode: ['Episodes.ID_Serie = ' + this.getID() + ' AND Episodes.seasonnumber > 0 AND Episodes.watched = 0']
         };
         var self = this;
 
@@ -228,7 +228,7 @@ CRUD.define(Serie, {
     },
 
     getLastEpisode: function() {
-        var filter = ['(Episodes.firstaired > 0 and Episodes.firstAired < ' + new Date().getTime() + ')'];
+        var filter = ['(Episodes.ID_Serie = ' + this.getID() + ' AND Episodes.firstaired > 0 and Episodes.firstAired < ' + new Date().getTime() + ')'];
         filter.ID_Serie = this.getID();
         return CRUD.FindOne('Episode', filter, {
             orderBy: 'seasonnumber desc, episodenumber desc, firstaired desc'

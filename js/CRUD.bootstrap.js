@@ -14,14 +14,12 @@ if (localStorage.getItem('CRUD.DEBUG')) {
  * If we detect a background page connection possible, use the background adapter.
  * for other environments, run in the foreground
  */
-/* to be enabled once #874 is resolved
 if (('chrome' in window) && ('runtime' in chrome) && ('connect' in chrome.runtime) && ('getBackgroundPage' in chrome.runtime)) {
     var conn = new CRUD.BackgroundPageAdapter();
     conn.Init();
     CRUD.setAdapter(conn);
 } else {
-*/
     CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', {
         estimatedSize: 25 * 1024 * 1024
     }));
-//}
+}
