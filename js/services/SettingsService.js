@@ -292,10 +292,12 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 return langKey;
             },
             /**
-             * DuckieTV is running Standalone 
+             * is DuckieTV running Standalone?
+             * note: Since NWJS 0.13.x, we can just look for the nw object in window. 
+             *          The legacy way of loading NW.js APIs using require('nw.gui') is supported but no longer necessary. It returns the same nw object.
              */
             isStandalone: function() {
-                return navigator.userAgent.toLowerCase().indexOf('standalone') > -1;
+                return ('nw' in window);
             }
         };
         service.restore();
