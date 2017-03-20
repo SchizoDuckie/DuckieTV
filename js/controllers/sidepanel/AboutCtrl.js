@@ -4,6 +4,12 @@
 DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "TorrentSearchEngines", "DuckieTorrent", "AutoDownloadService",
     function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, TorrentSearchEngines, DuckieTorrent, AutoDownloadService) {
 
+        $scope.showDevTools = function() {
+            require('nw.gui').Window.get().showDevTools();
+        }
+
+        $scope.isNightly = navigator.userAgent.toLowerCase().indexOf('nightly') > -1;
+
         /**
          * Closes the SidePanel 
          */
