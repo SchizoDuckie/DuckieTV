@@ -34,7 +34,7 @@ DuckieTV.run(['$http', 'dialogs', 'SettingsService',
                     ].join(''));
 
                     dlg.result.then(function(btn) {
-                        require('nw.gui').Shell.openExternal(result[0].html_url);
+                        nw.Shell.openExternal(result[0].html_url);
                     });
                 });
             }

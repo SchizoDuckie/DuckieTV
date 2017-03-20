@@ -351,7 +351,7 @@ DuckieTV
         function openUrl(id, url) {
             if (SettingsService.isStandalone() && id === 'magnet') {
                 // for standalone, open magnet url direct to os https://github.com/SchizoDuckie/DuckieTV/issues/834
-                require('nw.gui').Shell.openExternal(url);
+                nw.Shell.openExternal(url);
                 //console.debug("Open via OS", id, url);
             } else {
                 // for chrome extension, open url on chromium via iframe

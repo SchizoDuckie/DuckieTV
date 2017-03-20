@@ -39,7 +39,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
         };
 
         $scope.copyStatsToClipboard = function() {
-            var clip = require('nw.gui').Clipboard.get();
+            var clip = nw.Clipboard.get();
             clip.set(angular.toJson($scope.statistics, true), 'text');
         };
 

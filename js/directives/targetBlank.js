@@ -4,7 +4,7 @@
  * so that we don't create new windows inside DuckieTV unintentionally.
  */
 
-if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
+if ('nw' in window) {
 
     DuckieTV.directive('target', function() {
         return {
@@ -15,7 +15,7 @@ if (navigator.userAgent.toLowerCase().indexOf('standalone') !== -1) {
                     element[0].addEventListener('click', function(e) {
                         e.stopPropagation();
                         e.preventDefault();
-                        require('nw.gui').Shell.openExternal(element[0].getAttribute('href'));
+                        nw.Shell.openExternal(element[0].getAttribute('href'));
                         return false;
                     });
                 }

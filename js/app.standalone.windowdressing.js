@@ -8,8 +8,6 @@ DuckieTV.run(['$rootScope', 'SettingsService',
      * Adds event click handlers to the window decoration items in the DOM.
      */
     if (SettingsService.isStandalone()) {
-        var nw = require('nw.gui');
-
         var win = nw.Window.get();
         var winState = 'normal';
         var pos, maximize, unmaximize;
