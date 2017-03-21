@@ -4,10 +4,6 @@
 DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "TorrentSearchEngines", "DuckieTorrent", "AutoDownloadService",
     function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, TorrentSearchEngines, DuckieTorrent, AutoDownloadService) {
 
-        $scope.showDevTools = function() {
-            nw.Window.get().showDevTools();
-        }
-
         /**
          * Closes the SidePanel 
          */
