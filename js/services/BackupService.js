@@ -71,10 +71,11 @@ DuckieTV.service('BackupService', function() {
                 // Store watched episodes for each serie
                 return CRUD.executeQuery('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
                     res.rows.map(function(row) {
+                        var watchedAt = (row.watchedAt) ? new Date(row.watchedAt).getTime() : null;
                         out.series[row.TVDB_ID].push({
                             'TVDB_ID': row.epTVDB_ID,
-                            'watchedAt': new Date(row.watchedAt).getTime(),
-                            'downloaded': 1
+                            'watchedAt': watchedAt,
+                            'downloaded': row.downloaded
                         })
                     });
                     var blob = new Blob([angular.toJson(out, true)], {
