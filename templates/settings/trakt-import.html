@@ -17,7 +17,7 @@
           </tr>
           <tr class="password" ng-if="!trakt.credentials.success">
             <td>
-              <input type='password' style="width: 100%" ng-model='trakt.credentials.pincode' placeholder="Trakt.TV PIN" ng-disabled="!trakt.credentials.getpin" ng-keyup="$event.keyCode == 13 && trakt.onLoginEnter()" />
+              <input type='password' style="width: 100%" ng-model='trakt.credentials.pincode' placeholder="Trakt.TV PIN" ng-keyup="$event.keyCode == 13 && trakt.onLoginEnter()" />
             </td>
           </tr>
           <tr class="button">
@@ -26,7 +26,7 @@
                 <strong>TraktTV <span translate-once>SETTINGS/TRAKT-IMPORT/authorized/alert</span></strong>
                 Token: {{trakt.credentials.success}}
               </p>
-              <a ng-click="trakt.authorize(trakt.credentials.pincode)" class="btn btn-success" style="position:relative" ng-disabled="!trakt.credentials.getpin" ng-hide="trakt.credentials.success">
+              <a ng-click="trakt.authorize(trakt.credentials.pincode)" class="btn btn-success" style="position:relative" ng-hide="trakt.credentials.success">
                 <i class="glyphicon glyphicon-log-in" style="float:left;top:3px"></i><span translate-once>SETTINGS/TRAKT-IMPORT/login-to/btn</span><span>Trakt.TV</span>
                 <loading-spinner ng-show="trakt.credentials.authorizing" style="width:20px;height:20px;position:absolute;right:5px"></loading-spinner>
               </a>
