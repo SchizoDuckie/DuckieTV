@@ -12,6 +12,12 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
 
         function storeInDB(json, entity) {
             var art = entity || new Fanart();
+            // remove unused art
+            ['characterart', 'seasonbanner', 'seasonthumb', 'clearart'].map(function(item) {
+                if (item in json) {
+                    delete json[item];
+                }
+            });
             art.TVDB_ID = json.thetvdb_id;
             art.json = json;
             art.poster = service.getTrendingPoster(json);
