@@ -354,6 +354,8 @@
     "SETTINGS/DISPLAY/locale/zh_cn": "简体中文（中国）",
     "SETTINGS/DISPLAY/mixedcase/desc": "Enable this option if you prefer to view all your text in a mixed case font.",
     "SETTINGS/DISPLAY/mixedcase/hdr": "Mixed case Font",
+    "SETTINGS/DISPLAY/notifications/hdr": "Notifications",
+    "SETTINGS/DISPLAY/notifications/desc": "Enable or disable popup notifications on events like torrents that started or finished downloading.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "Choose the mode for the Episodes button on the Series side panel. Enable to view the first non watched season. Disable to view the latest season.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "Series Episodes Button Mode",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Topsites activation mode",

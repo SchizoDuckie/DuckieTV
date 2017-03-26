@@ -123,6 +123,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'library.seriesgrid': true,
                 'library.smallposters': true,
                 'main.viewmode': 'calendar', // todo || calendar
+                'notifications.enabled': true, // chrome notifications for download started/finished
                 'qbittorrent.password': 'admin',
                 'qbittorrent.port': 8080,
                 'qbittorrent.server': 'http://localhost',
@@ -254,7 +255,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                     service.settings = service.defaults;
                 } else {
                     service.settings = angular.fromJson(localStorage.getItem('userPreferences'));
-                    if(service.isStandalone()) {
+                    if (service.isStandalone()) {
                         service.settings['topSites.enabled'] = false;
                     }
                 }

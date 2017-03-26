@@ -91,6 +91,22 @@
       <strong style="float:left">0%</strong> <strong style='float:right'>100%</strong>
     </li>
   </ul>
+
+  <hr class="setting-divider">
+  <h2>
+    <span uib-tooltip="{{getSetting('notifications.enabled') ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
+      <i class="glyphicon glyphicon-{{getSetting('notifications.enabled') ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+    </span>
+    <li translate-once>SETTINGS/DISPLAY/notifications/hdr</li>
+  </h2>
+  <p  translate-once>SETTINGS/DISPLAY/notifications/desc</p>
+  <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+   {{getSetting('notifications.enabled') ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+  <a ng-click="setSetting('notifications.enabled',!getSetting('notifications.enabled'))" class="btn btn-{{getSetting('notifications.enabled') ? 'info' : 'success'}}">
+    <i class="glyphicon glyphicon-{{getSetting('notifications.enabled') ? 'remove' : 'ok'}}"></i> {{getSetting('notifications.enabled') ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+  </a>
+</div>
+
 &nbsp;
   <div class="kc">
   <br>
