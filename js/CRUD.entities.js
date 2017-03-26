@@ -247,7 +247,7 @@ CRUD.define(Serie, {
             self.getEpisodes().then(function(episodes) {
                 episodes.forEach(function(episode) {
                     if (episode.hasAired() && (!episode.isWatched())) {
-                        return episode.markWatched($rootScope);
+                        return episode.markWatched(undefined, $rootScope);
                     }
                 });
                 return resolve(true)
@@ -330,7 +330,7 @@ CRUD.define(Season, {
             self.getEpisodes().then(function(episodes) {
                 episodes.forEach(function(episode) {
                     if (episode.hasAired() && (!episode.isWatched())) {
-                        return episode.markWatched($rootScope);
+                        return episode.markWatched(undefined, $rootScope);
                     }
                 });
                 self.watched = 1;
@@ -369,9 +369,6 @@ CRUD.define(Episode, {
     },
     createStatement: 'CREATE TABLE Episodes ( ID_Episode INTEGER PRIMARY KEY NOT NULL,ID_Serie INTEGER NOT NULL, ID_Season INTEGER NULL, TVDB_ID INTEGER DEFAULT(NULL), episodename VARCHAR(255), episodenumber INTEGER , seasonnumber INTEGER NULL ,firstaired TIMESTAMP, firstaired_iso varchar(25), IMDB_ID VARCHAR(20), language VARCHAR(3), overview TEXT default NULL, rating INTEGER DEFAULT(NULL), ratingcount INTEGER DEFAULT(NULL), filename VARCHAR(255) , images TEXT, watched INTEGER DEFAULT 0, watchedAt TIMESTAMP NULL, downloaded INTEGER DEFAULT 0, magnetHash VARCHAR(40) NULL, TRAKT_ID INTEGER DEFAULT NULL, leaked INTEGER DEFAULT 0 )',
     adapter: 'dbAdapter',
-    defaultValues: {
-        watched: 0
-    },
     indexes: [
         'watched',
         'TVDB_ID',
