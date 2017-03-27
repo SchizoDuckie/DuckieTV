@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "混合大小写字体",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "选择用于系列侧面板的情节按钮模式.允许查看的第一个非看季节.禁止以查看最新的季节.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "连续剧按钮模式",
+    "SETTINGS/DISPLAY/notifications/desc": "启用或禁用启动或完成下载的洪流的事件弹出通知.",
+    "SETTINGS/DISPLAY/notifications/hdr": "通知",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Topsites激活模式",
     "SETTINGS/DISPLAY/topsites-hide/btn": "残最常访问的网站",
     "SETTINGS/DISPLAY/topsites-hide/desc": "单击该按钮将隐藏在新标签页最常访问的网站列表",

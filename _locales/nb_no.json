@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "Blandet tilfelle Font",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "Velg den modusen for Episodes knappen på Series sidepanelet . Aktiver for å vise den første ikke sett sesong. Deaktiver for å se den nyeste sesongen.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "Series Episodes knappemodus",
+    "SETTINGS/DISPLAY/notifications/desc": "Aktivere eller deaktivere varsler på hendelser som torrents som startet eller lastet ned.",
+    "SETTINGS/DISPLAY/notifications/hdr": "Varsler",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Toppside-aktiveringsmodus",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Deaktiver Mest Besøkte Sider",
     "SETTINGS/DISPLAY/topsites-hide/desc": "Trykk knappen for å skjule listen over dine mest besøkte sider fra 'ny fane'-siden",

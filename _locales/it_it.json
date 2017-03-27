@@ -354,6 +354,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "Dimensione testo variabile",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "Scegliere la modalità per il pulsante episodi sul pannello laterale delle serie. Se attivato viene visualizzata la prima stagione non guardata, se disattivata viene mostrata l'attuale stagione.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "Modalità Pulsante Episodi della serie",
+    "SETTINGS/DISPLAY/notifications/desc": "Attivare o disattivare le notifiche popup su eventi come torrenti che hanno iniziato o terminato il download.",
+    "SETTINGS/DISPLAY/notifications/hdr": "Notifiche",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Modalità di attivazione Topsites",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Disattivare  siti più visitati",
     "SETTINGS/DISPLAY/topsites-hide/desc": "Facendo clic sul pulsante nascondere l'elenco dei siti più visitati dalla nuova scheda",

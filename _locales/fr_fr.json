@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "Mixte cas de la police",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "Choisissez le mode du bouton Episodes sur le panneau latéral de la série. Activer pour afficher la première non saison regardé. Désactiver pour afficher la dernière saison.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "Série Mode Bouton Episodes",
+    "SETTINGS/DISPLAY/notifications/desc": "Activez ou désactivez les notifications contextuelles sur des événements comme les torrents qui ont démarré ou terminé le téléchargement.",
+    "SETTINGS/DISPLAY/notifications/hdr": "Notifications",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Mode d'activation des Top sites",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Désactiver les sites les plus visités",
     "SETTINGS/DISPLAY/topsites-hide/desc": "Cliquer sur ce bouton permet de masquer la liste de vos sites les plus visités sur la page nouvel onglet",

@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "Смешанный случай шрифта",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "Выберите режим для кнопки Эпизоды на боковой панели серии. Включить для просмотра первого не наблюдал сезон. Отключить для просмотра последнего сезона.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "Режим Кнопка Эпизоды серии",
+    "SETTINGS/DISPLAY/notifications/desc": "Включить или отключить всплывающие уведомления о таких событиях, как торренты, которые начали или завершили загрузку.",
+    "SETTINGS/DISPLAY/notifications/hdr": "Оповещения",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Режим просмотра самых посещаемых сайтов",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Отключить самые посещаемые сайты",
     "SETTINGS/DISPLAY/topsites-hide/desc": "Скрыть список самых посещаемых сайтов с новой вкладки",

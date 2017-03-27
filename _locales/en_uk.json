@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "Mixed case Font",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "Choose the mode for the Episodes button on the Series side panel. Enable to view the first non watched season. Disable to view the latest season.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "Series Episodes Button Mode",
+    "SETTINGS/DISPLAY/notifications/desc": "Enable or disable popup notifications on events like torrents that started or finished downloading.",
+    "SETTINGS/DISPLAY/notifications/hdr": "Notifications",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Topsites activation mode",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Disable Most Visited Sites",
     "SETTINGS/DISPLAY/topsites-hide/desc": "Clicking the button will hide the list of your most visited sites from the new tab page",

@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "Mešani primer pisave",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "Izberite način za gumb epizod na serije stranski plošči. Omogočite, če želite videti prvi non gledal sezono. Onemogočiti, da si ogledate zadnji sezoni.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "Serija Način Button epizode",
+    "SETTINGS/DISPLAY/notifications/desc": "Omogočanje ali onemogočanje pojavnih obvestil o dogodkih, kot so hudourniki, ki so se začeli ali končali prenos.",
+    "SETTINGS/DISPLAY/notifications/hdr": "Obvestila",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Način aktivacije najbolj obiskanih spletnih strani",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Onemogoči Najbolj obiskane spletne strani",
     "SETTINGS/DISPLAY/topsites-hide/desc": "Z klikom na gumb se bo skril seznam vaših najbolj obiskanih spletnih mest",

@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "Font caz mixt",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "Alegeți modul pentru butonul Episoadele de pe panoul lateral Series. Activați pentru a vizualiza primul sezon non vizionat. Pentru a nu fi de acord vizualiza cele mai recente sezon.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "Seria Episoade Modul Button",
+    "SETTINGS/DISPLAY/notifications/desc": "Activați sau dezactivați notificările pop-up pe evenimente cum ar fi torrentele care au început sau terminat de descărcat.",
+    "SETTINGS/DISPLAY/notifications/hdr": "Notificări",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Mod activare cele mai vizitate site-uri",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Dezactivați cele mai vizitate site-uri",
     "SETTINGS/DISPLAY/topsites-hide/desc": "Dând click pe acest buton, veți ascunde lista celor mai vizitate site-uri dintr-un tab nou",

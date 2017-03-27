@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "Mixed Fall Font",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "Wählen Sie den Modus für die Folgen Taste auf der Series Seitenwand . Aktivieren Sie die erste nicht beobachtet Saison zu sehen. Deaktivieren Sie die aktuelle Saison zu sehen.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "Series Episoden Taste Modus",
+    "SETTINGS/DISPLAY/notifications/desc": "Aktivieren oder Deaktivieren von Popup-Benachrichtigungen bei Ereignissen wie Torrents, die mit dem Herunterladen begonnen haben.",
+    "SETTINGS/DISPLAY/notifications/hdr": "Benachrichtigungen",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Topsites Aktivierungsmodus",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Behindert Meistbesuchte Seiten",
     "SETTINGS/DISPLAY/topsites-hide/desc": "Klicken auf die Schaltfläche wird die Liste der am häufigsten besuchten Websites aus dem neuen Registerkarte verstecken",

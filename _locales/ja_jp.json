@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "混在ケースフォント",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "シリーズのサイドパネルのエピソードボタンのモードを選択します.最初の非見シーズンを表示することができます.最新シーズンを表示するには、無効にします.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "シリーズエピソードボタンモード",
+    "SETTINGS/DISPLAY/notifications/desc": "ダウンロードを開始または完了したトレントのようなイベントのポップアップ通知を有効または無効にします.",
+    "SETTINGS/DISPLAY/notifications/hdr": "通知",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "誰でも簡単に設置できる高機能のアクティブ化モード",
     "SETTINGS/DISPLAY/topsites-hide/btn": "使用禁止最も訪問されたサイト",
     "SETTINGS/DISPLAY/topsites-hide/desc": "ボタンをクリックすると,新しいタブページからあなたの最も訪問されたサイトのリストが非表示になります",

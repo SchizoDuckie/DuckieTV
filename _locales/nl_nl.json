@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "Mixed case Font",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "Navigeer automatisch naar het laatste seizoen wat je gekeken hebt bij een klik op de 'afleveringen' knop bij een serie in plaats van naar het nieuwste beschikbare seizoen.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "Automatisch naar laatst bekeken seizoen",
+    "SETTINGS/DISPLAY/notifications/desc": "Inschakelen of uitschakelen popup bekendmakingen op evenementen zoals torrents die gestart of klaar zijn met downloaden.",
+    "SETTINGS/DISPLAY/notifications/hdr": "Bekendmakingen",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Activatie",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Meest Bezochte Sites uitschakelen",
     "SETTINGS/DISPLAY/topsites-hide/desc": "Als je op deze knop klikt wordt de lijst de meest bezochte sites boven de kalender verborgen",

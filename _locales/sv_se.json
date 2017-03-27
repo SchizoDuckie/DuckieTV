@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "Blandade fallet Font",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "Välj läge för Episodes knappen på sidopanelen serien. Aktivera för att visa den första icke såg säsong. Inaktivera för att visa den senaste säsongen.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "Serie episoder knappläge",
+    "SETTINGS/DISPLAY/notifications/desc": "Aktivera eller inaktivera popup-meddelanden om händelser som torrents som började eller hämtats.",
+    "SETTINGS/DISPLAY/notifications/hdr": "Notifiering",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Topsites aktiveringsläge",
     "SETTINGS/DISPLAY/topsites-hide/btn": "Funktionshindrade mest besökta webbplatser",
     "SETTINGS/DISPLAY/topsites-hide/desc": "Genom att klicka på knappen kommer att dölja listan på dina mest besökta webbplatser från sidan Ny flik",

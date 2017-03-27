@@ -348,6 +348,8 @@
     "SETTINGS/DISPLAY/mixedcase/hdr": "혼합 된 경우 글꼴",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/desc": "시리즈 사이드 패널의 에피소드 버튼의 모드를 선택합니다. 첫 번째 비 지켜 시즌을 볼 수 있습니다. 최신 시즌을 볼 수 비활성화합니다.",
     "SETTINGS/DISPLAY/notWatchedEpsBtn/hdr": "시리즈 에피소드 버튼 모드",
+    "SETTINGS/DISPLAY/notifications/desc": "다운로드를 시작하거나 완료 한 급류와 같은 이벤트에 대한 팝업 알림을 사용 또는 사용 중지합니다.",
+    "SETTINGS/DISPLAY/notifications/hdr": "알림",
     "SETTINGS/DISPLAY/topsites-activation/hdr": "Topsites 활성화 모드",
     "SETTINGS/DISPLAY/topsites-hide/btn": "장애인 자주 방문한 사이트",
     "SETTINGS/DISPLAY/topsites-hide/desc": "버튼을 클릭하면 새 탭 페이지에서 가장 방문한 사이트의 목록을 숨 깁니다",
