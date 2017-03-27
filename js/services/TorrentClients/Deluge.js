@@ -77,6 +77,9 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
 
             rpc: function(method, params, options) {
                 var self = this,
+                    headers = {
+                        'Content-Type': 'application/json'
+                    },
                     request = {
                         method: method,
                         params: params || [],
@@ -84,7 +87,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                     };
 
 
-                return $http.post(this.getUrl('rpc'), request).then(function(response) {
+                return $http.post(this.getUrl('rpc'), request, {headers: headers}).then(function(response) {
                     return response.data;
                 }, function(e, f) {
                     throw e;
