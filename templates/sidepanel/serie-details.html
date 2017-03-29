@@ -14,7 +14,7 @@
           <th translate-once>SIDEPANEL/SERIE-DETAILS/links/hdr</th>
           <td>
             <a style="text-decoration: underline" ng-href="https://www.google.com/search?q={{::sidepanel.serie.name}} (TV series)+Wikipedia&btnI=745" target="_blank">Wikipedia</a><strong> | </strong>
-            <a style="text-decoration: underline" ng-href="http://www.imdb.com/title/{{::sidepanel.serie.IMDB_ID}}" ng-show="sidepanel.serie.IMDB_ID" target="_blank">IMDB</a><strong ng-show="sidepanel.serie.IMDB_ID"> | </strong>
+            <a style="text-decoration: underline" ng-href="https://www.imdb.com/title/{{::sidepanel.serie.IMDB_ID}}" ng-show="sidepanel.serie.IMDB_ID" target="_blank">IMDB</a><strong ng-show="sidepanel.serie.IMDB_ID"> | </strong>
             <a style="text-decoration: underline" ng-href="https://www.trakt.tv/shows/{{::sidepanel.serie.TRAKT_ID}}" ng-hide="sidepanel.serie.TRAKT_ID < 1" target="_blank">Trakt</a>
             <span><button type="button" class="close" ng-click="sidepanel.closeSidePanelExpansion()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/series-details/lbl'|translate}}" tooltip-placement="left">&times;</button></span>
           </td>
