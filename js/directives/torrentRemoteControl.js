@@ -82,21 +82,23 @@ DuckieTV
                          * exception: when using launch_via_chromium, only do the check when the torrent has downloaded
                          * otherwise we could delete DuckieTV's infoHash before the user has completed the add-new-torrent dialogue on the TorrentHost
                         **/
-                        var lvc = $rootScope.getSetting('torrenting.launch_via_chromium');
-                        if ( (!lvc) || (lvc && $scope.episodeDownloaded) ) {
-                            DuckieTorrent.getClient().hasTorrent(remote.infoHash).then(function(hasTorrent) {
-                                if (!hasTorrent) {
-                                    TorrentHashListService.removeFromHashList(remote.infoHash);
-                                    Episode.findOneByMagnetHash(remote.infoHash).then(function(result) {
-                                        if (result) {
-                                            console.info('remote torrent not found, removed magnetHash[%s] from episode[%s] of series[%s]', result.magnetHash, result.getFormattedEpisode(), result.ID_Serie);
-                                            result.magnetHash = null;
-                                            result.Persist();
-                                        }
-                                    })
-                                }
-                            })
-                        }
+                        setTimeout(function() {
+                            var lvc = $rootScope.getSetting('torrenting.launch_via_chromium');
+                            if ( (!lvc) || (lvc && $scope.episodeDownloaded) ) {
+                                DuckieTorrent.getClient().hasTorrent(remote.infoHash).then(function(hasTorrent) {
+                                    if (!hasTorrent) {
+                                        TorrentHashListService.removeFromHashList(remote.infoHash);
+                                        Episode.findOneByMagnetHash(remote.infoHash).then(function(result) {
+                                            if (result) {
+                                                console.info('remote torrent not found, removed magnetHash[%s] from episode[%s] of series[%s]', result.magnetHash, result.getFormattedEpisode(), result.ID_Serie);
+                                                result.magnetHash = null;
+                                                result.Persist();
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        }, 5000);
                     };
 
                 }
