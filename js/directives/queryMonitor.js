@@ -17,6 +17,9 @@ DuckieTV.directive('queryMonitor', ["$filter",
                     $scope.queryStats = stats;
                     $scope.progress = Math.floor((stats.writesExecuted / stats.writesQueued) * 100);
                     window.onbeforeunload = (stats.writesExecuted < stats.writesQueued) ? unloadBreaker : null;
+                    if (stats.writesExecuted == stats.writesQueued) {
+                        $scope.$digest;
+                    }
                 });
             }
         }
