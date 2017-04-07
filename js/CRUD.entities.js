@@ -615,7 +615,7 @@ CRUD.define(SearchEngine, {
         name: 'ThePirateBay custom',
         enabled: 0,
         testSearch: 'test',
-        mirror: 'https://thepiratebay.se',
+        mirror: 'https://thepiratebay.org',
         mirrorResolverClass: 'MirrorResolver',
         searchEndpoint: '/search/%s/0/7/0',
         searchResultsContainer: '#searchResult tbody tr',

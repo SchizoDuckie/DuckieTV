@@ -81,7 +81,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
         var service = {
             settings: {},
             defaults: {
-                'ThePirateBay.mirror': 'https://thepiratebay.se',
+                'ThePirateBay.mirror': 'https://thepiratebay.org',
                 'application.language': null,
                 'application.locale': 'en_us',
                 'autobackup.period': 'monthly',

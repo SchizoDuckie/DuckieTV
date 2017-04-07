@@ -14,7 +14,7 @@
  *  DuckieTV.run(["TorrentSearchEngines", "$q", "$http", "$injector", function(TorrentSearchEngines, $q, $http, $injector) {
  *
  *      TorrentSearchEngines.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({ // name, instance
- *          mirror: 'https://thepiratebay.cr',                              // base endpoint
+ *          mirror: 'https://thepiratebay.org',                             // base endpoint
  *          mirrorResolver: 'MirrorResolver',                               // Angular class to $inject fetching a mirror
  *          includeBaseURL: true,                                           // Prefix the base url (config.mirror) to detailUrl & torrentUrl
  *          endpoints: {                                                    // endpoints for details and search calls. Needs to be GET
