@@ -102,7 +102,8 @@ DuckieTV.run(['$rootScope', "SettingsService",
             exit = new nw.MenuItem({
                 label: "Exit",
                 click: function() {
-                    win.close(true);
+                    //win.close(true);
+                    nw.App.quit();
                 },
                 key: "q",
                 modifiers: "cmd",
@@ -184,7 +185,8 @@ DuckieTV.run(['$rootScope', "SettingsService",
                     // Create a new tray if one isn't already
                     createTray();
                 } else {
-                    win.close(true);
+                    //win.close(true);
+                    nw.App.quit();
                 }
             });
 
