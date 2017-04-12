@@ -23,7 +23,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     magnetUrl: ['.hideinfohash', 'innerText',
                         function(href) {
                             var magnetHash = href.match(/([0-9ABCDEFabcdef]{40})/);
-                            return 'magnet:?xt=urn:btih:' + magnetHash[0] + $injector.get('TorrentSearchEngines').trackers;
+                            return 'magnet:?xt=urn:btih:' + magnetHash[0] + TorrentSearchEngines.trackers;
                         }
                     ]
                 },
