@@ -12,8 +12,7 @@
 
 DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialogs", "$q", "SettingsService", "SceneNameResolver", "$http", "$injector",
     function(DuckieTorrent, $rootScope, dialogs, $q, SettingsService, SceneNameResolver, $http, $injector) {
-        var activeMagnet = false,
-            engines = {},
+        var engines = {},
             nativeEngines = {},
             customEngines = {},
             defaultEngine = 'ThePirateBay',
@@ -26,6 +25,24 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
         }
 
         function init() {
+            var lastFetched = ('trackers.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('trackers.lastFetched'))) : new Date();
+            if (('trackers.fallBackList' in localStorage) && lastFetched.getTime() + 2592000000 > new Date().getTime()) {
+                // its not been 30 days since the last update, use existing trackers fall back list
+                service.trackers = localStorage.getItem('trackers.fallBackList');
+                console.info("Fetched trackers fall back list from localStorage.");
+            } else {
+                // its been 30 days since the last update, time to refresh
+                $http.get('https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt').then(function(response) {
+                    // prefix each tracker url with &tr= and strip CRLFs
+                    var rawTrackers = response.data.split(/\n\n/);
+                    service.trackers = rawTrackers.map(function(url) {
+                        return (url) ? "&tr=" + url : '';
+                    }).join('');
+                    localStorage.setItem('trackers.fallBackList', service.trackers);
+                    localStorage.setItem('trackers.lastFetched', new Date().getTime());
+                    console.info("Updated localStorage with latest trackers fall back list.");
+                });
+            };
             engines = angular.copy(nativeEngines);
             return CRUD.Find("SearchEngine").then(function(results) {
                 results.map(function(engine) {
@@ -73,29 +90,8 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
 
         var service = {
 
-            // list of common current trackers for SE that don't provide any on their magnets (IsoHunt, Zooqle, Idope, TorrentZ2)
-            trackers: [
-                "&tr=http://tracker.trackerfix.com:80/announce",
-                "&tr=udp://9.rarbg.com:2710/announce",
-                "&tr=udp://9.rarbg.me:2710/announce",
-                "&tr=udp://9.rarbg.to:2710/announce",
-                "&tr=udp://coppersurfer.tk:6969/announce",
-                "&tr=udp://eddie4.nl:6969/announce",
-                "&tr=udp://exodus.desync.com:6969",
-                "&tr=udp://glotorrents.pw:6969/announce",
-                "&tr=udp://open.demonii.com:1337",
-                "&tr=udp://p4p.arenabg.ch:1337/announce",
-                "&tr=udp://p4p.arenabg.com:1337",
-                "&tr=udp://torrent.gresille.org:80/announce",
-                "&tr=udp://tracker.aletorrenty.pl:2710/announce",
-                "&tr=udp://tracker.coppersurfer.tk:6969/announce",
-                "&tr=udp://tracker.glotorrents.com:6969/announce",
-                "&tr=udp://tracker.internetwarriors.net:1337",
-                "&tr=udp://tracker.leechers-paradise.org:6969/announce",
-                "&tr=udp://tracker.openbittorrent.com:80/announce",
-                "&tr=udp://tracker.opentrackr.org:1337/announce",
-                "&tr=udp://tracker.zer0day.to:1337/announce"
-            ].join(''),
+            // list of common current trackers for SE that don't provide any on their magnets (1337x, IsoHunt, Idope, LimeTorrents, TorrentZ2)
+            trackers: '',
 
             registerSearchEngine: function(name, implementation) {
                 name in engines ? console.info("Updating torrent search engine", name) : console.info("Registering torrent search engine:", name);
