@@ -41,6 +41,19 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     localStorage.setItem('trackers.fallBackList', service.trackers);
                     localStorage.setItem('trackers.lastFetched', new Date().getTime());
                     console.info("Updated localStorage with latest trackers fall back list.");
+                }, function(error) {
+                    // oops, something when wrong. provide default if there is no previous save
+                    if ('trackers.fallBackList' in localStorage) {
+                        console.warn("Failed to fetch latest trackers fall back list, keeping previous.", error.status, error.statusText);                        
+                    } else {
+                        service.trackers = [
+                            "&tr=udp://tracker.coppersurfer.tk:6969/announce",
+                            "&tr=udp://tracker.zer0day.to:1337/announce",
+                            "&tr=udp://9.rarbg.com:2710/announce"
+                        ].join('');
+                        localStorage.setItem('trackers.fallBackList', service.trackers);
+                        console.warn("Failed to fetch latest trackers fall back list, saving default.", error.status, error.statusText);      
+                    }
                 });
             };
             engines = angular.copy(nativeEngines);
