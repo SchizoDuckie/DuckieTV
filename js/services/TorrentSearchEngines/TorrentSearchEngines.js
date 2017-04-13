@@ -44,6 +44,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 }, function(error) {
                     // oops, something when wrong. provide default if there is no previous save
                     if ('trackers.fallBackList' in localStorage) {
+                        service.trackers = localStorage.getItem('trackers.fallBackList');
                         console.warn("Failed to fetch latest trackers fall back list, keeping previous.", error.status, error.statusText);                        
                     } else {
                         service.trackers = [
