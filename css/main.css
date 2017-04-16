@@ -133,7 +133,7 @@ body> .container calendar {
   display: none;
 }
 
-p, input, select, span, #aboutpage, #autodlstatuspage {
+p, input, select, span, #aboutpage, #autodlstatuspage, #synologypage {
   -webkit-user-select: initial;
 }
 
@@ -2736,6 +2736,14 @@ sidepanel .seasons serieheader {
 
 #autodlstatuspage .table a {
   text-decoration: underline;
+}
+
+#synologypage {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  padding: 10px;
 }
 
 [ui-view]:before {
