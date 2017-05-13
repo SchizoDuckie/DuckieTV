@@ -66,6 +66,10 @@ beforeEach(inject(function($injector) {
         return [200, null];
     });
 
+    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fraw.githubusercontent.com%2Fngosang%2Ftrackerslist%2Fmaster%2Ftrackers_best.txt').respond(function(method, url, data) {
+        return [200, []];
+    });
+
 }));
 
 
