@@ -101,11 +101,11 @@ DuckieTV
 
         // update deluge auth
 
-        if (!localStorage.getItem('1.1.4updateDelugeAuth')) {
-            console.info("Executing 1.1.4updateDelugeAuth to set deluge.use_auth to true");
+        if (!localStorage.getItem('1.1.5updateDelugeAuth')) {
+            console.info("Executing 1.1.5updateDelugeAuth to set deluge.use_auth to true");
             SettingsService.set('deluge.use_auth', true);
-            localStorage.setItem('1.1.4updateDelugeAuth', new Date());
-            console.info("1.1.4updateDelugeAuth done!");
+            localStorage.setItem('1.1.5updateDelugeAuth', new Date());
+            console.info("1.1.5updateDelugeAuth done!");
         }
 
         // update transmission path (and vuze)
