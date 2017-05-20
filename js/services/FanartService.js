@@ -26,9 +26,6 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
         }
 
         var service = {
-            initialize: function() {
-            
-            },
             get: function(tvdb_id, refresh) {
                 if (!tvdb_id) {
                     return $q.reject('Could not load fanart', 'null tvdb_id'); // prevent http-not-found errors
@@ -116,7 +113,7 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
              */
             initialize: function() {
                 if(localStorage.getItem('fanart.cache')) {
-                    cache = JSON.parse(localStorage.getItem('fanart.cache'));
+                    var cache = JSON.parse(localStorage.getItem('fanart.cache'));
                     Object.keys(cache).map(function(tvdb_id) {
                         storeInDB(cache[tvdb_id]);
                     });
