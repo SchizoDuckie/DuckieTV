@@ -24,60 +24,6 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
             dialogCtrl = 'torrentDialog2Ctrl';
         }
 
-        function init() {
-            var lastFetched = ('trackers.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('trackers.lastFetched'))) : new Date();
-            if (('trackers.fallBackList' in localStorage) && lastFetched.getTime() + 2592000000 > new Date().getTime()) {
-                // its not been 30 days since the last update, use existing trackers fall back list
-                service.trackers = localStorage.getItem('trackers.fallBackList');
-                console.info("Fetched trackers fall back list from localStorage.");
-            } else {
-                // its been 30 days since the last update, time to refresh
-                $http.get('https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt').then(function(response) {
-                    // prefix each tracker url with &tr= and strip CRLFs
-                    var rawTrackers = response.data.split(/\n\n/);
-                    service.trackers = rawTrackers.map(function(url) {
-                        return (url) ? "&tr=" + url : '';
-                    }).join('');
-                    localStorage.setItem('trackers.fallBackList', service.trackers);
-                    localStorage.setItem('trackers.lastFetched', new Date().getTime());
-                    console.info("Updated localStorage with latest trackers fall back list.");
-                }, function(error) {
-                    // oops, something when wrong. provide default if there is no previous save
-                    if ('trackers.fallBackList' in localStorage) {
-                        service.trackers = localStorage.getItem('trackers.fallBackList');
-                        console.warn("Failed to fetch latest trackers fall back list, keeping previous.", error.status, error.statusText);                        
-                    } else {
-                        service.trackers = [
-                            "&tr=udp://tracker.coppersurfer.tk:6969/announce",
-                            "&tr=udp://tracker.zer0day.to:1337/announce",
-                            "&tr=udp://9.rarbg.com:2710/announce"
-                        ].join('');
-                        localStorage.setItem('trackers.fallBackList', service.trackers);
-                        console.warn("Failed to fetch latest trackers fall back list, saving default.", error.status, error.statusText);      
-                    }
-                });
-            };
-            engines = angular.copy(nativeEngines);
-            return CRUD.Find("SearchEngine").then(function(results) {
-                results.map(function(engine) {
-                    customEngines[engine.name] = engine;
-                });
-                return customEngines;
-            }).then(function() {
-                Object.keys(customEngines).map(function(name) {
-                    var engine = customEngines[name];
-                    if (!engine.enabled) {
-                        return;
-                    }
-                    console.log("Custom search engine loaded and added to default engines: ", name);
-                    if (name in engines) {
-                        console.warn(name, "overrides built-in search engine with the same name!");
-                    }
-                    engines[name] = customEngines[name].getInstance($q, $http, $injector);
-                });
-            })
-        }
-
         function openUrl(id, url) {
             if (SettingsService.isStandalone() && id === 'magnet') {
                 // for standalone, open magnet url direct to os https://github.com/SchizoDuckie/DuckieTV/issues/834
@@ -228,11 +174,69 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                 } else {
                     openUrl('torrent', torrentUrl);
                 }
+            },
+            initialize: function() {
+                var lastFetched = ('trackers.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('trackers.lastFetched'))) : new Date();
+                if (('trackers.fallBackList' in localStorage) && lastFetched.getTime() + 2592000000 > new Date().getTime()) {
+                    // its not been 30 days since the last update, use existing trackers fall back list
+                    service.trackers = localStorage.getItem('trackers.fallBackList');
+                    console.info("Fetched trackers fall back list from localStorage.");
+                } else {
+                    // its been 30 days since the last update, time to refresh
+                    $http.get('https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt').then(function(response) {
+                        // prefix each tracker url with &tr= and strip CRLFs
+                        var rawTrackers = response.data.split(/\n\n/);
+                        service.trackers = rawTrackers.map(function(url) {
+                            return (url) ? "&tr=" + url : '';
+                        }).join('');
+                        localStorage.setItem('trackers.fallBackList', service.trackers);
+                        localStorage.setItem('trackers.lastFetched', new Date().getTime());
+                        console.info("Updated localStorage with latest trackers fall back list.");
+                    }, function(error) {
+                        // oops, something when wrong. provide default if there is no previous save
+                        if ('trackers.fallBackList' in localStorage) {
+                            service.trackers = localStorage.getItem('trackers.fallBackList');
+                            console.warn("Failed to fetch latest trackers fall back list, keeping previous.", error.status, error.statusText);                        
+                        } else {
+                            service.trackers = [
+                                "&tr=udp://tracker.coppersurfer.tk:6969/announce",
+                                "&tr=udp://tracker.zer0day.to:1337/announce",
+                                "&tr=udp://9.rarbg.com:2710/announce"
+                            ].join('');
+                            localStorage.setItem('trackers.fallBackList', service.trackers);
+                            console.warn("Failed to fetch latest trackers fall back list, saving default.", error.status, error.statusText);      
+                        }
+                    });
+                };
+                engines = angular.copy(nativeEngines);
+                CRUD.Find("Jackett").then(function(results) {
+                    results.map(function(jackett) {
+                        var config = {
+                            'name': jackett.name,
+                            'torznab': jackett.torznab + '/api?t=search&cat=&apikey=' + SettingsService.get('jackett.apikey') + '&q=',
+                            'useTorznab': (jackett.useTorznab()) ? true : false,
+                            'mirror': jackett.torznab.substr(0, jackett.torznab.indexOf('torznab')) + 'Admin/search',
+                            'tracker': jackett.torznab.substr(jackett.torznab.indexOf('torznab') + 8),
+                            'isJackett': true
+                        };
+                        //console.debug('config', config);
+                        var engine = new GenericTorrentSearchEngine(config, $q, $http, $injector);
+                        customEngines[jackett.name] = engine;
+                        if (jackett.isEnabled()) {
+                            console.log("Custom search engine loaded and added to default engines: ", jackett.name);
+                            if (jackett.name in engines) {
+                                console.warn(jackett.name, "overrides built-in search engine with the same name!");
+                            }
+                            engines[jackett.name] = engine;
+                        }
+                    });
+                })
             }
         };
-
-        init();
-        service.setDefault(SettingsService.get('torrenting.searchprovider'));
         return service;
     }
-]);
+])
+.run(["TorrentSearchEngines", "SettingsService", function(TorrentSearchEngines, SettingsService) {
+    TorrentSearchEngines.initialize();
+    TorrentSearchEngines.setDefault(SettingsService.get('torrenting.searchprovider'));
+}]);

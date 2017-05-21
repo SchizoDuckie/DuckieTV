@@ -38,10 +38,12 @@ function SearchEngine() {
 }
 
 function Fanart() {
-    this.instance = false;
     CRUD.Entity.call(this);
 }
 
+function Jackett() {
+    CRUD.Entity.call(this);
+}
 
 
 /**
@@ -431,7 +433,7 @@ CRUD.define(Episode, {
     formatEpisode: function(season, episode) {
         var sn = season.toString(),
             en = episode.toString(),
-            out = ['S', sn.length == 1 ? '0' + sn : sn, 'E', en.length == 1 ? '0' + en : en].join('');
+            out = ['s', sn.length == 1 ? '0' + sn : sn, 'e', en.length == 1 ? '0' + en : en].join('');
         return out;
     },
 
@@ -705,5 +707,48 @@ CRUD.define(Fanart, {
     adapter: 'dbAdapter',
     indexes: ['TVDB_ID']
 }, {
+
+});
+
+
+CRUD.define(Jackett, {
+    className: 'Jackett',
+    table: 'Jackett',
+    primary: 'ID_Jackett',
+    fields: ['ID_Jackett', 'name', 'enabled', 'torznab', 'torznabEnabled'],
+    relations: {},
+    createStatement: 'CREATE TABLE Jackett ( ID_Jackett INTEGER PRIMARY KEY NOT NULL, name VARCHAR(40) DEFAULT(NULL), torznab VARCHAR(200) DEFAULT(NULL), enabled INTEGER DEFAULT(0), torznabEnabled INTEGER DEFAULT(0) )',
+    adapter: 'dbAdapter'
+}, {
+    isEnabled: function() {
+        return this.enabled && parseInt(this.enabled) == 1;
+    },
+    setEnabled: function() {
+        this.enabled = 1;
+        return this.Persist().then(function() {
+            return this;
+        }.bind(this));
+    },
+    setDisabled: function() {
+        this.enabled = 0;
+        return this.Persist().then(function() {
+            return this;
+        }.bind(this));
+    },
+    useTorznab: function() {
+        return this.torznabEnabled && parseInt(this.torznabEnabled) == 1;
+    },
+    setTorznabEnabled: function() {
+        this.torznabEnabled = 1;
+        return this.Persist().then(function() {
+            return this;
+        }.bind(this));
+    },
+    setTorznabDisabled: function() {
+        this.torznabEnabled = 0;
+        return this.Persist().then(function() {
+            return this;
+        }.bind(this));
+    },
 
 });

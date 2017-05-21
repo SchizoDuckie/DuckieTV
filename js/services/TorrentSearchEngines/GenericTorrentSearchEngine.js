@@ -94,106 +94,197 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
      * Generic search parser that has a selector, a property to fetch from the selector and an optional callback function for formatting/modifying
      */
     function parseSearch(result) {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(result.data, "text/html");
-        //console.debug(doc);
-        var selectors = config.selectors;
-        if ('loginRequired' in config && config.loginRequired) {
-            var loginTest = doc.querySelectorAll(config.loginTestSelector);
-            if (loginTest.length > 0) {
-                if (confirm("Not logged in @ " + config.mirror + '. Do you want to open a new window so that you can login?')) {
-                    window.open(config.mirror + config.loginPage);
+        if ('isJackett' in config && config.isJackett) {
+            // this is a jackett Search Engine
+            var output = [];
+            if (config.useTorznab) {
+                // jackett via torznab returns xml 
+                var x2js = new X2JS({arrayAccessForm : "property"});
+                var jsonObj = x2js.xml2json((new DOMParser()).parseFromString(result.data, "text/xml"));
+                if ('rss' in jsonObj && 'channel' in jsonObj.rss && 'item' in jsonObj.rss.channel) {
+                    //console.debug(jsonObj.rss.channel.item_asArray);
+                    jsonObj.rss.channel.item_asArray.map(function(data) {
+                        var seeds = 0;
+                        var peers = 0;
+                        data.attr_asArray.map(function(attr) {
+                            if (attr._name === 'seeders') {
+                                seeds = attr._value;
+                            }
+                            if (attr._name === 'peers') {
+                                peers = attr._value;
+                            }
+                        });
+                        var out = {
+                            releasename: data.title,
+                            size: (parseFloat(data.size) / 1000 / 1000).toFixed(2) + ' MB',
+                            seeders: seeds,
+                            leechers: peers,
+                            detailUrl: data.guid,
+                            noMagnet: true,
+                            noTorrent: true
+                        };
+                        var magnet = null;
+                        if (data.link.indexOf('magnet:?') === 0) {
+                            magnet = data.link;
+                        }
+                        var magnetHash = null;
+                        if (magnet) {
+                            out.magnetUrl = magnet;
+                            out.noMagnet = false;
+                            magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
+                        }
+                        var torrent = null;
+                        if (data.link.indexOf('http') === 0) {
+                            torrent = data.link;
+                        }
+                        if (torrent) {
+                            out.torrentUrl = torrent;
+                            out.noTorrent = false;
+                        } else if (magnetHash && magnetHash.length) {
+                            out.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                            out.noTorrent = false;
+                        }
+                        output.push(out);
+                    })
                 }
-                throw "Not logged in!";
+            } else {
+                // jackett via Admin/search returns json
+                if ('Results' in result.data && result.data.Results !== output) {
+                    //console.debug(result.data.Results);
+                    result.data.Results.map(function(data) {
+                        var out = {
+                            releasename: data.Title,
+                            size: (parseFloat(data.Size) / 1000 / 1000).toFixed(2) + ' MB',
+                            seeders: data.Seeders,
+                            leechers: data.Peers,
+                            detailUrl: data.Guid,
+                            noMagnet: true,
+                            noTorrent: true
+                        };
+                        var magnet = data.MagnetUri;
+                        var magnetHash = null;
+                        if (magnet) {
+                            out.magnetUrl = magnet;
+                            out.noMagnet = false;
+                            magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
+                        }
+                        var torrent = data.Link;
+                        if (torrent) {
+                            out.torrentUrl = torrent;
+                            out.noTorrent = false;
+                        } else if (magnetHash && magnetHash.length) {
+                            out.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
+                            out.noTorrent = false;
+                        }
+                        output.push(out);
+                    })
+                }
             }
-        }
-        var results = doc.querySelectorAll(selectors.resultContainer);
-        //console.debug('searchcontainer',selectors.resultContainer,results);
-        var output = [];
+            //console.debug('jackett output', output);
+            return output;
+        } else {
+            // this is a standard (or custom) Search Engine
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(result.data, "text/html");
+            //console.debug(doc);
+            var selectors = config.selectors;
+            if ('loginRequired' in config && config.loginRequired) {
+                var loginTest = doc.querySelectorAll(config.loginTestSelector);
+                if (loginTest.length > 0) {
+                    if (confirm("Not logged in @ " + config.mirror + '. Do you want to open a new window so that you can login?')) {
+                        window.open(config.mirror + config.loginPage);
+                    }
+                    throw "Not logged in!";
+                }
+            }
+            var results = doc.querySelectorAll(selectors.resultContainer);
+            //console.debug('searchcontainer',selectors.resultContainer,results);
+            var output = [];
 
-        function sizeToMB(size) {
-            size = (typeof size !== 'undefined' && size !== null && size !== '') ? size.match(/[0-9.]{1,}[\W]{0,}[KTMGmgiBytes]{2,}/)[0] : '0 MB';
-            var sizeA = (size.replace(',', '').split(/\s{1}/)); // size split into value and unit
-            var newSize = null; // size converted to MB
-            switch (sizeA[1].toUpperCase()) {
-                case 'B':
-                case 'BYTES':
-                    newSize = (parseFloat(sizeA[0]) / 1000 / 1000).toFixed(2);
-                    break;
-                case 'KB':
-                    newSize = (parseFloat(sizeA[0]) / 1000).toFixed(2);
-                    break;
-                case 'MB':
-                    newSize = (parseFloat(sizeA[0])).toFixed(2);
-                    break;
-                case 'GB':
-                    newSize = (parseFloat(sizeA[0]) * 1000).toFixed(2);
-                    break;
-                case 'TB':
-                    newSize = (parseFloat(sizeA[0]) * 1000 * 1000).toFixed(2);
-                    break;
-                case 'KIB':
-                    newSize = ((parseFloat(sizeA[0]) * 1024) / 1000 / 1000).toFixed(2);
-                    break;
-                case 'MIB':
-                    newSize = ((parseFloat(sizeA[0]) * 1024 * 1024) / 1000 / 1000).toFixed(2);
-                    break;
-                case 'GIB':
-                    newSize = ((parseFloat(sizeA[0]) * 1024 * 1024 * 1024) / 1000 / 1000).toFixed(2);
-                    break;
-                case 'TIB':
-                    newSize = ((parseFloat(sizeA[0]) * 1024 * 1024 * 1024 * 1024) / 1000 / 1000).toFixed(2);
-                    break;
-                default:
-                    return size;
+            function sizeToMB(size) {
+                size = (typeof size !== 'undefined' && size !== null && size !== '') ? size.match(/[0-9.]{1,}[\W]{0,}[KTMGmgiBytes]{2,}/)[0] : '0 MB';
+                var sizeA = (size.replace(',', '').split(/\s{1}/)); // size split into value and unit
+                var newSize = null; // size converted to MB
+                switch (sizeA[1].toUpperCase()) {
+                    case 'B':
+                    case 'BYTES':
+                        newSize = (parseFloat(sizeA[0]) / 1000 / 1000).toFixed(2);
+                        break;
+                    case 'KB':
+                        newSize = (parseFloat(sizeA[0]) / 1000).toFixed(2);
+                        break;
+                    case 'MB':
+                        newSize = (parseFloat(sizeA[0])).toFixed(2);
+                        break;
+                    case 'GB':
+                        newSize = (parseFloat(sizeA[0]) * 1000).toFixed(2);
+                        break;
+                    case 'TB':
+                        newSize = (parseFloat(sizeA[0]) * 1000 * 1000).toFixed(2);
+                        break;
+                    case 'KIB':
+                        newSize = ((parseFloat(sizeA[0]) * 1024) / 1000 / 1000).toFixed(2);
+                        break;
+                    case 'MIB':
+                        newSize = ((parseFloat(sizeA[0]) * 1024 * 1024) / 1000 / 1000).toFixed(2);
+                        break;
+                    case 'GIB':
+                        newSize = ((parseFloat(sizeA[0]) * 1024 * 1024 * 1024) / 1000 / 1000).toFixed(2);
+                        break;
+                    case 'TIB':
+                        newSize = ((parseFloat(sizeA[0]) * 1024 * 1024 * 1024 * 1024) / 1000 / 1000).toFixed(2);
+                        break;
+                    default:
+                        return size;
+                }
+                return newSize + ' MB';
             }
-            return newSize + ' MB';
-        }
 
-        for (var i = 0; i < results.length; i++) {
-            var releasename = getPropertyForSelector(results[i], selectors.releasename);
-            if (releasename === null) continue;
-            var seed = getPropertyForSelector(results[i], selectors.seeders);
-            var leech = getPropertyForSelector(results[i], selectors.leechers);
-            seed = (seed != null) ? seed.replace(',', '') : 0;
-            leech = (leech != null) ? leech.replace(',', '') : 0;
-            var out = {
-                releasename: releasename.trim(),
-                size: sizeToMB(getPropertyForSelector(results[i], selectors.size)),
-                seeders: seed,
-                leechers: leech,
-                detailUrl: (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.detailUrl),
-                noMagnet: true,
-                noTorrent: true
-            };
-            var magnet = getPropertyForSelector(results[i], selectors.magnetUrl);
-            var magnetHash = null;
-            if (magnet) {
-                out.magnetUrl = magnet;
-                out.noMagnet = false;
-                magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
-            }
-            var torrent = getPropertyForSelector(results[i], selectors.torrentUrl);
-            if (torrent) {
-                out.torrentUrl = (torrent.startsWith('http')) ? torrent : config.mirror + torrent;
-                out.noTorrent = false;
-            } else if (magnetHash && magnetHash.length) {
-                out.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
-                out.noTorrent = false;
-            }
-            // if there is no magnet and/or no torrent, check of detailsSelectors has been provided.
-            if ('detailsSelectors' in config) {
-                if ('magnetUrl' in config.detailsSelectors) {
+            for (var i = 0; i < results.length; i++) {
+                var releasename = getPropertyForSelector(results[i], selectors.releasename);
+                if (releasename === null) continue;
+                var seed = getPropertyForSelector(results[i], selectors.seeders);
+                var leech = getPropertyForSelector(results[i], selectors.leechers);
+                seed = (seed != null) ? seed.replace(',', '') : 0;
+                leech = (leech != null) ? leech.replace(',', '') : 0;
+                var out = {
+                    releasename: releasename.trim(),
+                    size: sizeToMB(getPropertyForSelector(results[i], selectors.size)),
+                    seeders: seed,
+                    leechers: leech,
+                    detailUrl: (config.includeBaseURL ? config.mirror : '') + getPropertyForSelector(results[i], selectors.detailUrl),
+                    noMagnet: true,
+                    noTorrent: true
+                };
+                var magnet = getPropertyForSelector(results[i], selectors.magnetUrl);
+                var magnetHash = null;
+                if (magnet) {
+                    out.magnetUrl = magnet;
                     out.noMagnet = false;
+                    magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                 }
-                if ('torrentUrl' in config.detailsSelectors) {
+                var torrent = getPropertyForSelector(results[i], selectors.torrentUrl);
+                if (torrent) {
+                    out.torrentUrl = (torrent.startsWith('http')) ? torrent : config.mirror + torrent;
+                    out.noTorrent = false;
+                } else if (magnetHash && magnetHash.length) {
+                    out.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                     out.noTorrent = false;
                 }
+                // if there is no magnet and/or no torrent, check of detailsSelectors has been provided.
+                if ('detailsSelectors' in config) {
+                    if ('magnetUrl' in config.detailsSelectors) {
+                        out.noMagnet = false;
+                    }
+                    if ('torrentUrl' in config.detailsSelectors) {
+                        out.noTorrent = false;
+                    }
+                }
+                output.push(out);
             }
-            output.push(out);
+            //console.debug('parseSearch',config.mirror, output);
+            return output;
         }
-        //console.debug('parseSearch',config.mirror, output);
-        return output;
     }
 
     /**
@@ -270,16 +361,41 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         if (!timeout) {
             timeout = $q.defer();
         }
-        if (!sortBy) {
-            sortBy = 'seeders.d';
+        if ('isJackett' in config && config.isJackett) {
+            // this is a jackett Search Engine
+            if (config.useTorznab) {
+                // jacket via torznab
+                return $http({
+                    method: 'GET',
+                    url: config.torznab + what.trim().replace(/\s/g,'+'),
+                    cache: false,
+                    timeout: timeout.promise,
+                    cancel: timeout
+                });            
+            } else {
+                // jackett via Admin/search
+                return $http.post(config.mirror, 'Query=' + what.trim().replace(/\s/g,'+') + '&Category=&Tracker=' + config.tracker, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'cache': false,
+                        'timeout': timeout.promise,
+                        'cancel': timeout
+                    }
+                });            
+            }
+        } else {
+            // this is a standard Search Engine
+            if (!sortBy) {
+                sortBy = 'seeders.d';
+            }
+            return $http({
+                method: 'GET',
+                url: getUrl('search', what, sortBy),
+                cache: false,
+                timeout: timeout.promise,
+                cancel: timeout
+            });
         }
-        return $http({
-            method: 'GET',
-            url: getUrl('search', what, sortBy),
-            cache: false,
-            timeout: timeout.promise,
-            cancel: timeout
-        });
     };
 
     /**
