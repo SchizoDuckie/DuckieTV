@@ -7,7 +7,7 @@ DuckieTV.factory('OpenSubtitles', ["xmlrpc", "SettingsService",
             token = null;
 
         xmlrpc.config({
-            hostName: "http://api.opensubtitles.org", // Default is empty
+            hostName: "https://api.opensubtitles.org", // Default is empty
             pathName: "/xml-rpc", // Default is /rpc2
             401: function() {
                 console.warn("You shall not pass !");
