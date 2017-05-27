@@ -5,6 +5,7 @@
   <a ng-repeat="provider in searchProviders" ng-click="setSearchProvider(provider)" class="btn {{ searchprovider == provider ? 'btn-success' : '' }}" style='padding:10px; height:45px;'>
       <i ng-if="searchprovider == provider" class="glyphicon glyphicon-ok"></i>
       <strong style='position: absolute; left: 60px'>{{provider}}</strong>
+      <i ng-if="isJackett(provider)" class="glyphicon glyphicon-jackett" style="float:right"></i>
   </a>
 
   <hr class="setting-divider">

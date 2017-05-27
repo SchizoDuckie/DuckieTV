@@ -1974,6 +1974,14 @@ calendar-event .progress-bar {
   opacity: 0.3;
 }
 
+.glyphicon.glyphicon-jackett {
+  background-image: url('../img/icon-jackett-white.png');
+  background-size: contain;
+  width: 24px;
+  height: 22px;
+  background-repeat: no-repeat;
+}
+
 calendar-event h2 {
   font-size: 24px;
 }

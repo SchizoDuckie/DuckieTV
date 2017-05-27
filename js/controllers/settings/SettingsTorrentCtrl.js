@@ -30,6 +30,7 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
         $scope.tpbmirrorStatus = [];
 
         $scope.searchProviders = Object.keys(TorrentSearchEngines.getSearchEngines());
+        $scope.jackettProviders = TorrentSearchEngines.getJackettEngines();
 
         $scope.requireKeywords = SettingsService.get('torrenting.require_keywords');
         $scope.ignoreKeywords = SettingsService.get('torrenting.ignore_keywords');
@@ -279,6 +280,12 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
             SettingsService.set('torrenting.global_size_max', $scope.globalSizeMax);
         };
 
+        /**
+         * is provider a Jackett SE?
+         */
+        $scope.isJackett = function(jse) {
+            return (jse in $scope.jackettProviders && $scope.jackettProviders[jse].enabled);
+        };
     }
 ])
 .directive('adDelayValidation', ["SettingsService", function(SettingsService) {
