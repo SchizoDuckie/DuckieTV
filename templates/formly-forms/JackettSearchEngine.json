@@ -1,0 +1,32 @@
+[{
+    "key": "apiKey",
+    "type": "input",
+    "templateOptions": {
+        "required": true,
+        "type": "text",
+        "label": "Jackett ApiKey"
+    }
+}, {
+    "key": "name",
+    "type": "input",
+    "templateOptions": {
+        "required": true,
+        "type": "text",
+        "label": "Search Engine Name"
+    }
+}, {
+    "key": "torznab",
+    "type": "input",
+    "templateOptions": {
+        "required": true,
+        "type": "text",
+        "label": "Jackett Torznab"
+    }
+}, {
+    "key": "torznabEnabled",
+    "type": "input",
+    "templateOptions": {
+        "type": "checkbox",
+        "label": "Use the Torznab API instead of the default Admin API"
+    }
+}]

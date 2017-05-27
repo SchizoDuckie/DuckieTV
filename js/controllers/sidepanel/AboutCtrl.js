@@ -99,7 +99,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             // Get default search engine and status
             var defaultSE = 'n/a';
             if (SettingsService.get('torrenting.enabled')) {
-                defaultSE = TorrentSearchEngines.getDefault() + " (Enabled)";
+                defaultSE = TorrentSearchEngines.getDefaultEngineName() + " (Enabled)";
             } else {
                 defaultSE = SettingsService.get('torrenting.searchprovider') + " (Disabled)";
             }

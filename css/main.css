@@ -1170,11 +1170,11 @@ series-list .trakt-import serieheader h3, series-list .backup-import serieheader
   margin: bottom: 0px;
 }
 
-#customSearchEngine .col-xs-8, #customSearchEngine .col-xs-10 {
+#jackettSearchEngine .col-xs-8, #jackettSearchEngine .col-xs-10 {
   padding-left: 0;
 }
 
-#customSearchEngine h1 {
+#jackettSearchEngine h1 {
   margin-top: 10px;
 }
 

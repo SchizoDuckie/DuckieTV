@@ -703,7 +703,7 @@ CRUD.define(Fanart, {
     fields: ['ID_Fanart', 'TVDB_ID', 'poster', 'json'],
     autoSerialize: ['json'],
     relations: {},
-    createStatement: 'CREATE TABLE Fanart ( ID_Fanart INTEGER PRIMARY KEY NOT NULL, TVDB_ID INTEGER NOT NULL, poster VARCHAR(255) NULL, json TEXT)',
+    createStatement: 'CREATE TABLE Fanart ( ID_Fanart INTEGER PRIMARY KEY NOT NULL, TVDB_ID INTEGER NOT NULL, poster VARCHAR(255) NULL, json TEXT )',
     adapter: 'dbAdapter',
     indexes: ['TVDB_ID']
 }, {
@@ -715,10 +715,18 @@ CRUD.define(Jackett, {
     className: 'Jackett',
     table: 'Jackett',
     primary: 'ID_Jackett',
-    fields: ['ID_Jackett', 'name', 'enabled', 'torznab', 'torznabEnabled'],
+    fields: ['ID_Jackett', 'name', 'enabled', 'torznab', 'torznabEnabled', 'apiKey', 'json'],
     relations: {},
-    createStatement: 'CREATE TABLE Jackett ( ID_Jackett INTEGER PRIMARY KEY NOT NULL, name VARCHAR(40) DEFAULT(NULL), torznab VARCHAR(200) DEFAULT(NULL), enabled INTEGER DEFAULT(0), torznabEnabled INTEGER DEFAULT(0) )',
-    adapter: 'dbAdapter'
+    createStatement: 'CREATE TABLE Jackett ( ID_Jackett INTEGER PRIMARY KEY NOT NULL, name VARCHAR(40) DEFAULT(NULL), torznab VARCHAR(200) DEFAULT(NULL), enabled INTEGER DEFAULT(0), torznabEnabled INTEGER DEFAULT(0), apiKey VARCHAR(40) DEFAULT(NULL), json TEXT )',
+    adapter: 'dbAdapter',
+    migrations: {
+        2: [
+            'ALTER TABLE Jackett RENAME TO Jackett_bak',
+           'CREATE TABLE Jackett ( ID_Jackett INTEGER PRIMARY KEY NOT NULL, name VARCHAR(40) DEFAULT(NULL), torznab VARCHAR(200) DEFAULT(NULL), enabled INTEGER DEFAULT(0), torznabEnabled INTEGER DEFAULT(0), apiKey VARCHAR(40) DEFAULT(NULL), json TEXT )',
+            'INSERT OR IGNORE INTO Jackett (ID_Jackett, name, torznab, enabled, torznabEnabled ) select ID_Jackett, name, torznab, enabled, torznabEnabled  from Jackett_bak',
+            'DROP TABLE Jackett_bak'
+        ]
+    }
 }, {
     isEnabled: function() {
         return this.enabled && parseInt(this.enabled) == 1;
@@ -734,21 +742,5 @@ CRUD.define(Jackett, {
         return this.Persist().then(function() {
             return this;
         }.bind(this));
-    },
-    useTorznab: function() {
-        return this.torznabEnabled && parseInt(this.torznabEnabled) == 1;
-    },
-    setTorznabEnabled: function() {
-        this.torznabEnabled = 1;
-        return this.Persist().then(function() {
-            return this;
-        }.bind(this));
-    },
-    setTorznabDisabled: function() {
-        this.torznabEnabled = 0;
-        return this.Persist().then(function() {
-            return this;
-        }.bind(this));
-    },
-
+    }
 });

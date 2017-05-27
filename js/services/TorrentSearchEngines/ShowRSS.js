@@ -125,7 +125,8 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
             },
             cancelActiveRequest: function() {
                 // dummy stub to satisfy call from  TorrentSearchEngines.getSearchEngine($scope.searchprovider).cancelActiveRequest();
-            }
+            },
+            config: {}
         };
     }
 ])

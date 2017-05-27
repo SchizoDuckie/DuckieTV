@@ -12,10 +12,10 @@
 
 DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialogs", "$q", "SettingsService", "SceneNameResolver", "$http", "$injector",
     function(DuckieTorrent, $rootScope, dialogs, $q, SettingsService, SceneNameResolver, $http, $injector) {
-        var engines = {},
+        var activeEngines = {},
             nativeEngines = {},
-            customEngines = {},
-            defaultEngine = 'ThePirateBay',
+            jackettEngines = {},
+            defaultEngineName = 'ThePirateBay',
             templateName = 'templates/dialogs/torrent.html',
             dialogCtrl = 'torrentDialogCtrl';
 
@@ -53,55 +53,162 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
             // list of common current trackers for SE that don't provide any on their magnets (1337x, IsoHunt, Idope, LimeTorrents, TorrentZ2)
             trackers: '',
 
+            // cache of DB jackett elements
+            jackettCache: [],
+
+            // return DB jackett element from cache by name
+            getJackettFromCache: function(name) {
+                return service.jackettCache.filter(function(el) {
+                    return el.name == name;
+                })[0];
+            },
+
+            // delete DB jackett element from cache
+            removeJackettFromCache: function(name) {
+                var jackett = service.getJackettFromCache(name);
+                if (jackett) {
+                    service.jackettCache = service.jackettCache.filter(function(el) {
+                        return el.getID() != jackett.getID();
+                    });
+                }
+            },
+
+            // register native SE (and disable jackett SE of same name)
             registerSearchEngine: function(name, implementation) {
-                name in engines ? console.info("Updating torrent search engine", name) : console.info("Registering torrent search engine:", name);
-                engines[name] = nativeEngines[name] = implementation;
+                if (name in jackettEngines) {
+                    var jackett = service.getJackettFromCache(name);
+                    jackett.setDisabled();
+                    jackettEngines[name].enabled = false;
+                    console.info('Jackett Engine %s disabled.', name);
+                }                
+                implementation.enabled = true;
+                implementation.config.name = name;
+                activeEngines[name] = nativeEngines[name] = implementation;
+                name in activeEngines ? console.info("Updating torrent search engine", name) : console.info("Registering torrent search engine:", name);
             },
 
+            // register jackett SE (and disable native SE of same name)
+            registerJackettEngine: function(name, implementation) {
+                if (name in nativeEngines) {
+                    nativeEngines[name].enabled = false;
+                    console.info('torrent Engine %s disabled.', name);
+                }
+                implementation.enabled = true;
+                activeEngines[name] = jackettEngines[name] = implementation;
+                name in activeEngines ? console.info("Updating Jackett search engine", name) : console.info("Registering Jackett search engine:", name);
+            },
+
+            // add jackett SE from DB jackett element (add to cache, and register it if enabled)
+            addJackettEngine: function(jackett) {
+                var config = JSON.parse(jackett.json);
+                var engine = new GenericTorrentSearchEngine(config, $q, $http, $injector);
+                engine.testOK = true;
+                engine.testMessage = '';
+                engine.testing = false;
+                engine.enabled = false;
+                jackettEngines[jackett.name] = engine;
+                if (jackett.isEnabled()) {
+                    engine.enabled = true;
+                    console.log("Jackett search engine loaded and added to activeEngines: ", jackett.name);
+                    if (jackett.name in activeEngines) {
+                        console.warn(jackett.name, "overrides built-in search engine with the same name!");
+                        nativeEngines[jackett.name].enabled = false;                    
+                    }
+                    service.registerJackettEngine(jackett.name, engine);
+                }
+                service.jackettCache.push(jackett);
+            },
+
+            // return all active engines (both native and jackett)
             getSearchEngines: function() {
-                return engines;
+                return activeEngines;
             },
 
-            getDefaultEngine: function() {
-                return engines[defaultEngine];
-            },
-            getDefault: function() {
-                return defaultEngine;
-            },
-            getCustomSearchEngines: function() {
-                return customEngines;
-            },
-            getCustomSearchEngine: function(name) {
-                return customEngines[name];
-            },
-            getSearchEngine: function(engine) {
-                if (engine in engines) {
-                    return engines[engine];
+            // return active SE by name
+            getSearchEngine: function(name) {
+                if (name in activeEngines) {
+                    return activeEngines[name];
                 } else {
-                    console.warn('search provider %s not found. default %s provider used instead.', engine, defaultEngine);
-                    return engines[defaultEngine];
+                    console.warn('search provider %s not found. default %s provider used instead.', name, defaultEngineName);
+                    return activeEngines[defaultEngineName];
                 }
             },
 
+            // return all native SEs
+            getNativeEngines: function() {
+                return nativeEngines;
+            },
+
+            // return the default search engine
+            getDefaultEngine: function() {
+                return activeEngines[defaultEngineName];
+            },
+
+            // return the default search engine name
+            getDefaultEngineName: function() {
+                return defaultEngineName;
+            },
+
+            // return all jackett SEs
+            getJackettEngines: function() {
+                return jackettEngines;
+            },
+
+            // return a jackett SE by name
+            getJackettEngine: function(name) {
+                return jackettEngines[name];
+            },
+
+            // set the default SE by name
             setDefault: function(name) {
-                if (name in engines) {
-                    defaultEngine = name;
+                if (name in activeEngines) {
+                    defaultEngineName = name;
                 }
             },
 
-            removeSearchEngine: function(engine) {
-                delete engine.customEngines[name];
-                engine.deleteYourSelf().then(init);
+            // delete a jackett engine (from everywhere)
+            removeJackettEngine: function(engine) {
+                delete jackettEngines[engine.config.name];
+                if (engine.enabled) {
+                    delete activeEngines[engine.config.name];                    
+                }
+                var jackett = service.getJackettFromCache(engine.config.name);
+                if ('Delete' in jackett) {
+                    jackett.Delete().then(function() {
+                        service.jackettCache = service.jackettCache.filter(function(el) {
+                            return el.getID() != jackett.getID();
+                        });
+                        console.info("Jackett '" + jackett.name + "' deleted.");
+                    });
+                }
             },
 
+            // disable active SE (and if jackett then enable native SE of same name)
             disableSearchEngine: function(engine) {
-                engine.enabled = 0;
-                engine.Persist().then(init)
+                delete activeEngines[engine.config.name];                    
+                if ('isJackett' in engine.config && engine.config.isJackett) {
+                    var jackett = service.getJackettFromCache(engine.config.name);
+                    jackett.setDisabled();
+                    jackettEngines[engine.config.name].enabled = false;
+                    console.info('Jackett Engine %s disabled.', engine.config.name);
+                    if (engine.config.name in nativeEngines) {
+                        service.enableSearchEngine(nativeEngines[engine.config.name]);
+                    }
+                } else {
+                    nativeEngines[engine.config.name].enabled = false;                    
+                    console.info('torrent Engine %s disabled.', engine.config.name);
+                }
             },
 
+            // enable SE (either jackett or native)
             enableSearchEngine: function(engine) {
-                engine.enabled = 1;
-                engine.Persist().then(init)
+                if ('isJackett' in engine.config && engine.config.isJackett) {
+                    service.registerJackettEngine(engine.config.name, engine);
+                    var jackett = service.getJackettFromCache(engine.config.name);
+                    jackett.setEnabled();
+                } else {
+                    service.registerSearchEngine(engine.config.name, engine);
+                }
             },
 
             findEpisode: function(serie, episode) {
@@ -175,6 +282,7 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     openUrl('torrent', torrentUrl);
                 }
             },
+
             initialize: function() {
                 var lastFetched = ('trackers.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('trackers.lastFetched'))) : new Date();
                 if (('trackers.fallBackList' in localStorage) && lastFetched.getTime() + 2592000000 > new Date().getTime()) {
@@ -208,27 +316,10 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                         }
                     });
                 };
-                engines = angular.copy(nativeEngines);
+                // load jackett engines
                 CRUD.Find("Jackett").then(function(results) {
                     results.map(function(jackett) {
-                        var config = {
-                            'name': jackett.name,
-                            'torznab': jackett.torznab + '/api?t=search&cat=&apikey=' + SettingsService.get('jackett.apikey') + '&q=',
-                            'useTorznab': (jackett.useTorznab()) ? true : false,
-                            'mirror': jackett.torznab.substr(0, jackett.torznab.indexOf('torznab')) + 'Admin/search',
-                            'tracker': jackett.torznab.substr(jackett.torznab.indexOf('torznab') + 8),
-                            'isJackett': true
-                        };
-                        //console.debug('config', config);
-                        var engine = new GenericTorrentSearchEngine(config, $q, $http, $injector);
-                        customEngines[jackett.name] = engine;
-                        if (jackett.isEnabled()) {
-                            console.log("Custom search engine loaded and added to default engines: ", jackett.name);
-                            if (jackett.name in engines) {
-                                console.warn(jackett.name, "overrides built-in search engine with the same name!");
-                            }
-                            engines[jackett.name] = engine;
-                        }
+                        service.addJackettEngine(jackett);
                     });
                 })
             }

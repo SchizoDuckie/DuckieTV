@@ -102,7 +102,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 var x2js = new X2JS({arrayAccessForm : "property"});
                 var jsonObj = x2js.xml2json((new DOMParser()).parseFromString(result.data, "text/xml"));
                 if ('rss' in jsonObj && 'channel' in jsonObj.rss && 'item' in jsonObj.rss.channel) {
-                    //console.debug(jsonObj.rss.channel.item_asArray);
+                    //console.debug(config.name,jsonObj.rss.channel.item_asArray);
                     jsonObj.rss.channel.item_asArray.map(function(data) {
                         var seeds = 0;
                         var peers = 0;
@@ -150,7 +150,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             } else {
                 // jackett via Admin/search returns json
                 if ('Results' in result.data && result.data.Results !== output) {
-                    //console.debug(result.data.Results);
+                    //console.debug(config.name,result.data.Results);
                     result.data.Results.map(function(data) {
                         var out = {
                             releasename: data.Title,
@@ -180,7 +180,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                     })
                 }
             }
-            //console.debug('jackett output', output);
+            //console.debug(config.name,output);
             return output;
         } else {
             // this is a standard (or custom) Search Engine
@@ -416,29 +416,6 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         }).then(function(response) {
             return parseDetails(response, releaseName);
         });
-    };
-
-    this.asObject = function() {
-        return {
-            mirror: this.config.mirror,
-            includeBaseURL: true, // this.model.includeBaseUrl,
-            loginRequired: this.config.loginRequired,
-            loginPage: this.config.loginPage,
-            loginTestSelector: this.config.loginTestSelector,
-            endpoints: {
-                search: this.config.searchEndpoint
-            },
-            selectors: {
-                resultContainer: this.config.searchResultsContainer,
-                releasename: [this.config.releaseNameSelector, this.config.releaseNameProperty],
-                magnetUrl: [this.config.magnetUrlSelector, this.config.magnetUrlProperty],
-                torrentUrl: [this.config.torrentUrlSelector, this.config.torrentUrlProperty],
-                size: [this.config.sizeSelector, this.config.sizeProperty],
-                seeders: [this.config.seederSelector, this.config.seederProperty],
-                leechers: [this.config.leecherSelector, this.config.leecherProperty],
-                detailUrl: [this.config.detailUrlSelector, this.config.detailUrlProperty]
-            }
-        };
     };
 
 }
