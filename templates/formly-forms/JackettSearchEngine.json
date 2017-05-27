@@ -4,29 +4,44 @@
     "templateOptions": {
         "required": true,
         "type": "text",
-        "label": "Jackett ApiKey"
-    }
+        "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"JACKETTSEDIALOGCTRLjs/apikey/lbl\" | translate",
+            "templateOptions.placeholder": "\"JACKETTSEDIALOGCTRLjs/apikey/placeholder\" | translate"
+        }
 }, {
     "key": "name",
     "type": "input",
     "templateOptions": {
         "required": true,
         "type": "text",
-        "label": "Search Engine Name"
-    }
+        "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"JACKETTSEDIALOGCTRLjs/name/lbl\" | translate",
+            "templateOptions.placeholder": "\"JACKETTSEDIALOGCTRLjs/name/placeholder\" | translate"
+        }
 }, {
     "key": "torznab",
     "type": "input",
     "templateOptions": {
         "required": true,
         "type": "text",
-        "label": "Jackett Torznab"
-    }
+        "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"JACKETTSEDIALOGCTRLjs/torznab/lbl\" | translate",
+            "templateOptions.placeholder": "\"JACKETTSEDIALOGCTRLjs/torznab/placeholder\" | translate"
+        }
 }, {
     "key": "torznabEnabled",
     "type": "input",
     "templateOptions": {
         "type": "checkbox",
-        "label": "Use the Torznab API instead of the default Admin API"
-    }
+        "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"JACKETTSEDIALOGCTRLjs/torznab-enabled/lbl\" | translate"
+        }
 }]
