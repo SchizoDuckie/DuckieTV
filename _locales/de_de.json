@@ -580,6 +580,7 @@
     "TORRENTDIALOG/search-ignore-keywords/lbl": "Suche mit Ausschlussliste",
     "TORRENTDIALOG/search-require-keywords/lbl": "Suche mit weltweiten gehören Liste",
     "TORRENTDIALOG2/hdr": "Torrent Search <small>(unter Verwendung mehrerer SE)</small> [{{itemslength}} gefunden]",
+    "TORRENTDIALOG2/search-now/tooltip": "Suche jetzt",
     "TORRENTFREAK/info/hdr": "info ",
     "TORRENTFREAK/rank/hdr": "Rang "
 }

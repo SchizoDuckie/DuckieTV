@@ -580,6 +580,7 @@
     "TORRENTDIALOG/search-ignore-keywords/lbl": "IGNORE keywords",
     "TORRENTDIALOG/search-require-keywords/lbl": "REQUIRE keywords",
     "TORRENTDIALOG2/hdr": "Torrent Search <small>(using multiple SE)</small> [{{itemslength}} found]",
+    "TORRENTDIALOG2/search-now/tooltip": "Search Now",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Rank"
 }

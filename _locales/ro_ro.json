@@ -580,6 +580,7 @@
     "TORRENTDIALOG/search-ignore-keywords/lbl": "căutare folosind listă exclude",
     "TORRENTDIALOG/search-require-keywords/lbl": "căutare folosind lista includ",
     "TORRENTDIALOG2/hdr": "Torrent Search <small>(folosind mai multe MC)</small> [{{itemslength}} găsite]",
+    "TORRENTDIALOG2/search-now/tooltip": "Cauta acum",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Rang"
 }

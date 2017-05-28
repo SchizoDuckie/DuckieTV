@@ -580,6 +580,7 @@
     "TORRENTDIALOG/search-ignore-keywords/lbl": "リストをグローバル除外使用して検索",
     "TORRENTDIALOG/search-require-keywords/lbl": "グローバルリストが含まれて検索",
     "TORRENTDIALOG2/hdr": "トレント検索<small>(使用して複数の検索エンジン)</small>[{{itemslength}}が見つかり]",
+    "TORRENTDIALOG2/search-now/tooltip": "今すぐ検索",
     "TORRENTFREAK/info/hdr": "インフォメーション ",
     "TORRENTFREAK/rank/hdr": "ランク "
 }

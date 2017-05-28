@@ -580,6 +580,7 @@
     "TORRENTDIALOG/search-ignore-keywords/lbl": "söka med undantagslista",
     "TORRENTDIALOG/search-require-keywords/lbl": "söka med inkluderar listan",
     "TORRENTDIALOG2/hdr": "Torrent Search <small>(med flera sökmotor)</small> [{{itemslength}} hittades]",
+    "TORRENTDIALOG2/search-now/tooltip": "Sök nu",
     "TORRENTFREAK/info/hdr": "info ",
     "TORRENTFREAK/rank/hdr": "Placering "
 }

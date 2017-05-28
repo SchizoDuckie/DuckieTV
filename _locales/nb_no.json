@@ -580,6 +580,7 @@
     "TORRENTDIALOG/search-ignore-keywords/lbl": "søke ved hjelp utelukke liste",
     "TORRENTDIALOG/search-require-keywords/lbl": "søke ved hjelp inkluderer liste",
     "TORRENTDIALOG2/hdr": "Torrent Search <small>(bruker flere SE)</small> [{{itemslength}} funnet]",
+    "TORRENTDIALOG2/search-now/tooltip": "Søk nå",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Rangering"
 }

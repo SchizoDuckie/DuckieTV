@@ -580,6 +580,7 @@
     "TORRENTDIALOG/search-ignore-keywords/lbl": "Filter zoektermen ",
     "TORRENTDIALOG/search-require-keywords/lbl": "Vereiste zoektermen ",
     "TORRENTDIALOG2/hdr": "Torrent Search <small>(met behulp van meerdere SE)</small> [{{itemslength}} gevonden]",
+    "TORRENTDIALOG2/search-now/tooltip": "Zoek nu",
     "TORRENTFREAK/info/hdr": "Informatie",
     "TORRENTFREAK/rank/hdr": "Score"
 }

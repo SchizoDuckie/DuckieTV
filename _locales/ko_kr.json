@@ -580,6 +580,7 @@
     "TORRENTDIALOG/search-ignore-keywords/lbl": "목록을 제외 글로벌 사용하여 검색",
     "TORRENTDIALOG/search-require-keywords/lbl": "전역 목록을 포함하여 검색",
     "TORRENTDIALOG2/hdr": "토렌트 검색 <small>(사용하여 여러 검색 엔진)</small> [{{itemslength}} 발견]",
+    "TORRENTDIALOG2/search-now/tooltip": "지금 검색",
     "TORRENTFREAK/info/hdr": "정보 ",
     "TORRENTFREAK/rank/hdr": "계급 "
 }
