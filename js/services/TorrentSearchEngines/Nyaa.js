@@ -12,7 +12,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     resultContainer: 'tr',
                     releasename: ['td:nth-of-type(2) a', 'innerText'],
                     magnetUrl: ['td:nth-of-type(3) a[href^="magnet:?"]', 'href'],
-                    torrentUrl: ['td:nth-of-type(3) a[href$="/torrent"]', 'href'],
+                    torrentUrl: ['td:nth-of-type(3) a[href$=".torrent"]', 'href'],
                     size: ['td:nth-of-type(4)', 'innerText'],
                     seeders: ['td:nth-of-type(6)', 'innerText'],
                     leechers: ['td:nth-of-type(7)', 'innerText'],
