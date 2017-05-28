@@ -8,6 +8,7 @@
 </div>
 
 <input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl" style="width:59%; display:inline-block;">
+<i class="glyphicon glyphicon-search" ng-click="search(query)"></i>
 <!-- quality list -->
 <div class="torrentBtns" style="display:inline-block;">
   <div class="btn-group">
