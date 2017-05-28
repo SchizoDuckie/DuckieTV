@@ -190,6 +190,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             countEntity('Seasons');
             countEntity('Episodes');
             countEntity('Fanart');
+            countEntity('Jackett');
 
             // dump user preferences, redact passwords
             var userPrefs = angular.fromJson(localStorage.getItem('userPreferences'));
