@@ -1,16 +1,4 @@
 [{
-    "key": "apiKey",
-    "type": "input",
-    "templateOptions": {
-        "required": true,
-        "type": "text",
-        "label": ""
-        },
-        "expressionProperties": {
-            "templateOptions.label": "\"JACKETTSEDIALOGCTRLjs/apikey/lbl\" | translate",
-            "templateOptions.placeholder": "\"JACKETTSEDIALOGCTRLjs/apikey/placeholder\" | translate"
-        }
-}, {
     "key": "name",
     "type": "input",
     "templateOptions": {
@@ -22,6 +10,18 @@
             "templateOptions.placeholder": "\"JACKETTSEDIALOGCTRLjs/name/placeholder\" | translate",
             "templateOptions.disabled": "!model.isNew",
             "templateOptions.required": "model.isNew"
+        }
+}, {
+    "key": "apiKey",
+    "type": "input",
+    "templateOptions": {
+        "required": true,
+        "type": "text",
+        "label": ""
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"JACKETTSEDIALOGCTRLjs/apikey/lbl\" | translate",
+            "templateOptions.placeholder": "\"JACKETTSEDIALOGCTRLjs/apikey/placeholder\" | translate"
         }
 }, {
     "key": "torznab",
