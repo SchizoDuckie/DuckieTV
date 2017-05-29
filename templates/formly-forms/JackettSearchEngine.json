@@ -14,13 +14,14 @@
     "key": "name",
     "type": "input",
     "templateOptions": {
-        "required": true,
         "type": "text",
         "label": ""
         },
         "expressionProperties": {
             "templateOptions.label": "\"JACKETTSEDIALOGCTRLjs/name/lbl\" | translate",
-            "templateOptions.placeholder": "\"JACKETTSEDIALOGCTRLjs/name/placeholder\" | translate"
+            "templateOptions.placeholder": "\"JACKETTSEDIALOGCTRLjs/name/placeholder\" | translate",
+            "templateOptions.disabled": "!model.isNew",
+            "templateOptions.required": "model.isNew"
         }
 }, {
     "key": "torznab",

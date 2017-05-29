@@ -71,7 +71,7 @@ DuckieTV.controller("jackettSearchEngineCtrl", ["$scope", "$injector", "$http", 
 
         var self = this;
         this.jackett = new Jackett();
-        this.isNew = data.isNew;
+        this.isNew = data.isNew == 1;
         if (data.engine && !data.isNew) {
             this.jackett = TorrentSearchEngines.getJackettFromCache(data.engine.config.name);
         }
@@ -80,6 +80,7 @@ DuckieTV.controller("jackettSearchEngineCtrl", ["$scope", "$injector", "$http", 
             self.model = self.jackett;
             // turn integer into boolean for check-box
             self.model.torznabEnabled = self.model.torznabEnabled == 1;
+            self.model.isNew = self.isNew;
             self.fields = form;
         });
 
