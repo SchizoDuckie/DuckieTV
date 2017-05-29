@@ -11,7 +11,7 @@ DuckieTV
 
         var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="https://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="https://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="https://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
         var notifications = {
-            '1.1.5': ["<li>SearchEngines: Settings for Jackett! You can now add as DuckieTV Search engines any of the public/semi-private/private trackers accessible via the Jackett proxy.",
+            '1.1.5': ["<li>SearchEngines: Settings for Jackett! You can now add, as DuckieTV Search engines, any of the public/semi-private/private trackers accessible via the Jackett proxy.",
                 "<li>Standalone: (upgrade) nwjs 22.3 chromium 58 Node 7.10",
                 "<li>Misc bug fixes"
             ].join('')
