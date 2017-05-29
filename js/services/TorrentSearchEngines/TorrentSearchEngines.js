@@ -112,7 +112,6 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
                     console.log("Jackett search engine loaded and added to activeEngines: ", jackett.name);
                     if (jackett.name in activeEngines) {
                         console.warn(jackett.name, "overrides built-in search engine with the same name!");
-                        nativeEngines[jackett.name].enabled = false;                    
                     }
                     service.registerJackettEngine(jackett.name, engine);
                 }
