@@ -22,7 +22,7 @@
 		<h3>Default Search Engines</h2>
 		<a ng-repeat="nse in searchEngine.nativeEngines" style="text-decoration:none;margin:10px 0px 10px 0px;padding:10px 1px 10px 1px">
 			<h4>{{nse.config.name}}</h4>
-			<button ng-if="nse.enabled" class="btn btn-xs btn-danger" style="display:inline-block !important" ng-click="searchEngine.disable(nse)"><i class="glyphicon glyphicon-remove-circle" style="margin:2px 5px 2px 2px"></i><span translate-once>SETTINGS/JACKETT-SEARCH/disable/btn</span></button>
+			<button ng-disabled="searchEngine.isDefault(nse.config.name)" ng-if="nse.enabled" class="btn btn-xs btn-danger" style="display:inline-block !important" ng-click="searchEngine.disable(nse)"><i class="glyphicon glyphicon-remove-circle" style="margin:2px 5px 2px 2px"></i><span translate-once>SETTINGS/JACKETT-SEARCH/disable/btn</span></button>
 			<button ng-if="!nse.enabled" class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.enable(nse)"><i class="glyphicon glyphicon-play-circle" style="margin:2px 5px 2px 2px"></i><span translate-once>SETTINGS/JACKETT-SEARCH/enable/btn</span></button>
 		</a>
 	</div>

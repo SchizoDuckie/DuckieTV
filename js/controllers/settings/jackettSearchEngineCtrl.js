@@ -63,6 +63,11 @@ DuckieTV.controller("jackettSearchEngineCtrl", ["$scope", "$injector", "$http", 
             });
         };
 
+        // is this the default SE ?
+        this.isDefault = function(engineName) {
+            return (engineName === TorrentSearchEngines.getDefaultEngineName());
+        };
+
     }
 ])
 
