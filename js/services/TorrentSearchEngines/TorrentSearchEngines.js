@@ -326,7 +326,24 @@ DuckieTV.factory('TorrentSearchEngines', ["DuckieTorrent", "$rootScope", "dialog
         return service;
     }
 ])
-.run(["TorrentSearchEngines", "SettingsService", function(TorrentSearchEngines, SettingsService) {
-    TorrentSearchEngines.initialize();
-    TorrentSearchEngines.setDefault(SettingsService.get('torrenting.searchprovider'));
-}]);
+.run(["TorrentSearchEngines", "SettingsService",
+    function(TorrentSearchEngines, SettingsService) {
+        TorrentSearchEngines.initialize();
+        TorrentSearchEngines.setDefault(SettingsService.get('torrenting.searchprovider'));
+        if (SettingsService.get('torrenting.enabled')) {
+
+            // delay for 1 second so that custom clients can register themselves before determining default engine.
+            setTimeout(function() {
+
+                var providers = TorrentSearchEngines.getSearchEngines();
+                if (!(SettingsService.get('torrenting.searchprovider') in providers)) {
+                    // auto-config migration, fallback to first provider in the list when we detect an invalid provider.
+                    console.warn("Invalid search provider detected: ", SettingsService.get('torrenting.searchprovider'), " defaulting to ", Object.keys(providers)[0]);
+                    SettingsService.set('torrenting.searchprovider', Object.keys(providers)[0]);
+                }
+                TorrentSearchEngines.setDefault(SettingsService.get('torrenting.searchprovider'));
+
+            }, 1000);
+        }
+    }
+]);
