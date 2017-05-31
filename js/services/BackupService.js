@@ -33,7 +33,7 @@
  *    // repeat
  *  }
  */
-DuckieTV.service('BackupService', function() {
+DuckieTV.service('BackupService', ["TorrentSearchEngines", function(TorrentSearchEngines) {
 
     var service = {
         createBackup: function() {
@@ -43,8 +43,14 @@ DuckieTV.service('BackupService', function() {
                     settings: {},
                     series: {}
                 };
+                /*
+                 * grab Jackett from cache and convert into pseudo localStorage for saving into the backup's _settings_ section
+                 * this allows us to maintain backward compatibility with older DuckieTV versions
+                 */
+                out.settings['jackett'] = JSON.stringify(TorrentSearchEngines.jackettCache);
                 // Store all the settings
                 for (var i = 0; i < localStorage.length; i++) {
+                    if (localStorage.key(i) == 'jackett') continue;
                     if (localStorage.key(i).indexOf('database.version') > -1) continue;
                     if (localStorage.key(i).indexOf('trakttv.trending.cache') > -1) continue;
                     if (localStorage.key(i).indexOf('trakttv.lastupdated.trending') > -1) continue;
@@ -87,7 +93,7 @@ DuckieTV.service('BackupService', function() {
         }
     };
     return service;
-})
+}])
 
 /**
  * at start-up set up a timer for the autoBackup

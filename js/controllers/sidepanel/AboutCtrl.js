@@ -209,7 +209,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
 
             // dump local storage with exceptions to avoid overload.
             var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage));
-            ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'trakttvtrending.cache', 'alarms', 'xem.mappings', 'snr.name-exceptions', 'snr.date-exceptions', 'fanart.cache'].map(function(key) {
+            ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'trakttvtrending.cache', 'alarms', 'xem.mappings', 'snr.name-exceptions', 'snr.date-exceptions', 'fanart.cache', 'jackett'].map(function(key) {
                 delete dumpLocalStorage[key];
             });
             $scope.statistics.push({

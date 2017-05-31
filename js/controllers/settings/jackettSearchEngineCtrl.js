@@ -91,8 +91,8 @@ DuckieTV.controller("jackettSearchEngineCtrl", ["$scope", "$injector", "$http", 
 
 
         this.save = function() {
+            self.model.enabled = self.model.enabled ? 1 : 0;
             var config = {
-                'enabled': self.model.enabled,
                 'isJackett': true,
                 'mirror': self.model.torznab.substr(0, self.model.torznab.indexOf('torznab')) + 'Admin/search',
                 'name': self.model.name,

@@ -3,8 +3,8 @@
  *
  * see app.js for the backup format structure description
  */
-DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupService", "$q", "$state", "dialogs", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents",
-    function($rootScope, $scope, $filter, BackupService, $q, $state, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents) {
+DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupService", "$q", "$state", "dialogs", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "TorrentSearchEngines",
+    function($rootScope, $scope, $filter, BackupService, $q, $state, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, TorrentSearchEngines) {
 
         $scope.backupString = false;
         $scope.wipeBeforeImport = false;
@@ -70,6 +70,29 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupSer
                     // save settings
                     angular.forEach(result.settings, function(value, key) {
                         if (key == 'utorrent.token') return; // skip utorrent auth token since it can be invalid.
+                        /*
+                         * process psuedo localStorage _jackett_ in backup's _settings_ 
+                         */
+                        if (key == 'jackett') {
+                            fillJackett = function(jackett, data) {
+                                jackett.name = data.name;
+                                jackett.torznab = data.torznab;
+                                jackett.enabled = data.enabled;
+                                jackett.torznabEnabled = data.torznabEnabled;
+                                jackett.apiKey = data.apiKey;
+                                jackett.json = data.json;
+                            };
+                            var importedJackett = JSON.parse(value);
+                            importedJackett.map(function(data) {
+                                var jackett = TorrentSearchEngines.getJackettFromCache(data.name) || new Jackett();
+                                fillJackett(jackett, data);
+                                jackett.Persist().then(function(){
+                                    TorrentSearchEngines.removeJackettFromCache(jackett.name);
+                                    TorrentSearchEngines.addJackettEngine(jackett);
+                                });
+                            });
+                            return;
+                        }
                         localStorage.setItem(key, value);
                     });
                     SettingsService.restore();
@@ -144,7 +167,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupSer
                 FavoritesService.flushAdding();
                 CalendarEvents.clearCache();
 
-                return Promise.all(['Series', 'Seasons', 'Episodes'].map(function(table) {
+                return Promise.all(['Series', 'Seasons', 'Episodes', 'Jackett'].map(function(table) {
                     return db.execute('DELETE from ' + table + ' where 1').then(function(result) {
                         console.log("Database Deleted");
                         return true;
