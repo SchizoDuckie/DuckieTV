@@ -99,7 +99,10 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filte
             // Get default search engine and status
             var defaultSE = 'n/a';
             if (SettingsService.get('torrenting.enabled')) {
-                defaultSE = TorrentSearchEngines.getDefaultEngineName() + " (Enabled)";
+                var jackettProviders = TorrentSearchEngines.getJackettEngines();
+                defaultSE = TorrentSearchEngines.getDefaultEngineName();
+                var jackett = (defaultSE in jackettProviders && jackettProviders[defaultSE].enabled) ? ' [Jackett]' : '';
+                 defaultSE = [defaultSE, jackett, " (Enabled)"].join('');
             } else {
                 defaultSE = SettingsService.get('torrenting.searchprovider') + " (Disabled)";
             }
