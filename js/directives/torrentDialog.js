@@ -40,6 +40,7 @@ DuckieTV
             provider = TorrentSearchEngines.getSearchEngine($scope.serie.searchProvider); // override searchProvider when the series has one defined.
             $scope.searchprovider = $scope.serie.searchProvider;
         }
+        $scope.jackettProviders = TorrentSearchEngines.getJackettEngines();
         $scope.supportsByDir = true; // assume provider supports desc and asc sorting
         $scope.orderByDir = {
             'seeders': '.d',
@@ -62,6 +63,13 @@ DuckieTV
         } else {
             $scope.orderByList = [];
         }
+
+        /**
+         * is provider a Jackett SE?
+         */
+        $scope.isJackett = function(jse) {
+            return (jse in $scope.jackettProviders && $scope.jackettProviders[jse].enabled);
+        };
 
         $scope.canOrderBy = function(order) {
             return ($scope.orderByList.indexOf(order) > -1);

@@ -44,7 +44,14 @@ DuckieTV
                 $scope.activeSE[name] = true;
             }
         });
+        $scope.jackettProviders = TorrentSearchEngines.getJackettEngines();
         SettingsService.set('torrentDialog.2.activeSE',$scope.activeSE); // save updated active SE list.
+        /**
+         * is provider a Jackett SE?
+         */
+        $scope.isJackett = function(jse) {
+            return (jse in $scope.jackettProviders && $scope.jackettProviders[jse].enabled);
+        };
 
         // Changes the sort order of the search results
         $scope.setSortBy = function(sortby) {

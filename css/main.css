@@ -1982,6 +1982,14 @@ calendar-event .progress-bar {
   background-repeat: no-repeat;
 }
 
+.glyphicon.glyphicon-jackett-small {
+  background-image: url('../img/icon-jackett-white.png');
+  background-size: contain;
+  width: 14px;
+  height: 13px;
+  background-repeat: no-repeat;
+}
+
 calendar-event h2 {
   font-size: 24px;
 }

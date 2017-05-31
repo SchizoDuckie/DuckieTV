@@ -18,7 +18,7 @@
 
 <!-- search Providers list -->
 <div class="torrentBtns btn-group" style="margin-top:10px; margin-bottom:10px;">
-  <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}</button>
+  <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}&nbsp;<i ng-if="isJackett(name)" class="glyphicon glyphicon-jackett-small" style="float:right"></i></button>
 </div>
 
 <!-- Require/Ignore Keywords size min/max and minSeeders check boxes -->

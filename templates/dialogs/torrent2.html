@@ -19,7 +19,11 @@
 <!-- active search engines list -->
 <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
   <div class="torrentBtns btn-group">
-    <button ng-disabled="name === defaultProvider" type="button" class="btn btn-default" ng-repeat="name in clients | orderBy: name" ng-click="toggleSE(name)" ng-style="{color: name !== defaultProvider ? 'white' : 'gray'}"><i class="glyphicon glyphicon-{{activeSE[name] ? 'ok' : 'remove'}}"></i>&nbsp;{{::name}}</button>
+    <button ng-disabled="name === defaultProvider" type="button" class="btn btn-default" ng-repeat="name in clients | orderBy: name" ng-click="toggleSE(name)" ng-style="{color: name !== defaultProvider ? 'white' : 'gray'}">
+    <i class="glyphicon glyphicon-{{activeSE[name] ? 'ok' : 'remove'}}"></i>
+    &nbsp;{{::name}}&nbsp;
+    <i ng-if="isJackett(name)" class="glyphicon glyphicon-jackett-small" style="float:right"></i>
+</button>
   </div>
 </div>
 
