@@ -176,5 +176,15 @@ DuckieTV
             console.info("Executing the 1.1.5fanartCleanup to drop duplicate records in", cleanupDelay / 1000, "seconds.");
         }
 
+        // delete custom engines
+
+        if (!localStorage.getItem('1.1.5deleteSearchEngines')) {
+            console.info("Executing 1.1.5deleteSearchEngines");
+            CRUD.executeQuery('drop table SearchEngines');
+            localStorage.setItem('1.1.5deleteSearchEngines', new Date());
+            console.info("1.1.5deleteSearchEngines done!");
+        }
+
+
     }
 ])
