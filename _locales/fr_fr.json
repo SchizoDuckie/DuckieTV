@@ -573,7 +573,7 @@
     "TORRENTDIALOG/hdr": "Recherche torrent ",
     "TORRENTDIALOG/search-custom-size-max/lbl": "recherche en utilisant la taille maximale personnalisée",
     "TORRENTDIALOG/search-custom-size-min/lbl": "recherche en utilisant la taille minimum personnalisée",
-    "TORRENTDIALOG/search-download-any/tooltip": "Rechercher tout les téléchargements ",
+    "TORRENTDIALOG/search-download-any/tooltip": "Rechercher tous les téléchargements ",
     "TORRENTDIALOG/search-download-this/tooltip": "Rechercher un téléchargement ",
     "TORRENTDIALOG/search-global-size-max/lbl": "la recherche en utilisant la taille maximale",
     "TORRENTDIALOG/search-global-size-min/lbl": "la recherche en utilisant la taille minimum",
