@@ -1,20 +1,20 @@
 {
-    "appNameNewTab": {
-        "message": "Mode «Nouvel onglet» - DuckieTV "
-    },
-    "appShortNameNewTab": {
-        "message": "DuckieTV "
-    },
-    "appDescNewTab": {
-        "message": "Tout ce que vous devez savoir quand vous venez de la série TV préférée à l'international "
-    },
-    "appNameBrowserAction": {
-        "message": "DuckieTV - mode 'Touche du navigateur' "
-    },
-    "appShortNameBrowserAction": {
-        "message": "DuckieTV "
-    },
-    "appDescBrowserAction": {
-        "message": "Tout ce que vous devez savoir quand vous venez de la série TV préférée à l'international"
-    }
+  "appNameNewTab": {
+    "message": "Mode «Nouvel onglet» - DuckieTV "
+  },
+  "appShortNameNewTab": {
+    "message": "DuckieTV "
+  },
+  "appDescNewTab": {
+    "message": "Gérez vos séries et films favoris depuis l'onglet du navigateur"
+  },
+  "appNameBrowserAction": {
+    "message": "DuckieTV - mode 'Onglet du navigateur' "
+  },
+  "appShortNameBrowserAction": {
+    "message": "DuckieTV "
+  },
+  "appDescBrowserAction": {
+    "message": "Gérez vos séries et films favoris à l'aide du navigateur en cliquant simplement sur un bouton"
+  }
 }
