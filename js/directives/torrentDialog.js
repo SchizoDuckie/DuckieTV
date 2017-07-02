@@ -1,6 +1,6 @@
 DuckieTV
-.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "$filter", "data", "TorrentSearchEngines", "SettingsService", "TorrentHashListService", "NotificationService", "DuckieTorrent",
-    function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, TorrentHashListService, NotificationService, DuckieTorrent) {
+.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "$filter", "data", "TorrentSearchEngines", "SettingsService", "NotificationService", "DuckieTorrent",
+    function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, NotificationService, DuckieTorrent) {
         //-- Variables --//
 
         $scope.items = [];
@@ -339,35 +339,38 @@ DuckieTV
 
         // Selects and launches magnet
         var magnetSelect = function(magnet, dlPath, label) {
-                //console.debug("Magnet selected!", magnet, dlPath, label);
-                if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
-                    $modalInstance.close(magnet);
+            //console.debug("Magnet selected!", magnet, dlPath, label);
+            if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
+                $modalInstance.close(magnet);
+            }
+
+            var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
+            TorrentSearchEngines.launchMagnet(magnet, channel, dlPath, label);
+        },
+
+        urlSelect = function(url, releasename, dlPath, label) {
+            //console.debug("Torrent URL selected!", url, dlPath, label);
+            if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
+                $modalInstance.close(url);
+            }
+
+            var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
+            window.parseTorrent.remote(url, function(err, torrentDecoded) {
+                if (err) {
+                    throw err;
                 }
-
-                var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-                TorrentSearchEngines.launchMagnet(magnet, channel, dlPath, label);
-                // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
-                TorrentHashListService.addToHashList(magnet.getInfoHash());
-
-            },
-
-            urlSelect = function(url, releasename, dlPath, label) {
-                //console.debug("Torrent URL selected!", url, dlPath, label);
-                if (typeof $scope.episode !== 'undefined') { // don't close dialogue if search is free-form
-                    $modalInstance.close(url);
-                }
-
-                var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
+                var infoHash = torrentDecoded.infoHash.getInfoHash();
                 $injector.get('$http').get(url, {
                     responseType: 'blob'
                 }).then(function(result) {
                     try {
-                        TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename, dlPath, label);
+                        TorrentSearchEngines.launchTorrentByUpload(result.data, infoHash, channel, releasename, dlPath, label);
                     } catch (E) {
-                        TorrentSearchEngines.launchTorrentByURL(url, channel, releasename, dlPath, label);
+                        TorrentSearchEngines.launchTorrentByURL(url, infoHash, channel, releasename, dlPath, label);
                     }
                 });
-            };
+            });
+        };
 
         $scope.select = function(result) {
             //console.debug('select', result);

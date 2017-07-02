@@ -156,14 +156,14 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                     //console.debug(magnetHash, dlPath, response);
                 });
             },
-            addTorrentByUpload: function(data, filename, dlPath) {
+            addTorrentByUpload: function(data, infoHash, releaseName, dlPath) {
                 var self = this;
                 var headers = {
                     'Content-Type': undefined
                 };
 
                 var fd = new FormData();
-                fd.append('file', data, filename + '.torrent');
+                fd.append('file', data, releaseName + '.torrent');
 
                 return $http.post(this.getUrl('upload'), fd, {
                     transformRequest: angular.identity,
@@ -173,7 +173,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                 }.bind(this)).then(function() {
                     return this.getTorrents().then(function(torrents) {
                         return torrents.filter(function(torrent) {
-                            return torrent.name == filename;
+                            return torrent.hash == infoHash;
                         })[0].hash;
                     });
                 }.bind(this));

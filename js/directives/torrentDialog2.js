@@ -1,7 +1,7 @@
 DuckieTV
 
-    .controller('torrentDialog2Ctrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "$filter", "data", "TorrentSearchEngines", "SettingsService", "TorrentHashListService", "NotificationService", "DuckieTorrent",
-    function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, TorrentHashListService,  NotificationService, DuckieTorrent) {
+    .controller('torrentDialog2Ctrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "$filter", "data", "TorrentSearchEngines", "SettingsService", "NotificationService", "DuckieTorrent",
+    function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, NotificationService, DuckieTorrent) {
         //-- Variables --//
 
         $scope.searching = true;
@@ -307,8 +307,6 @@ DuckieTV
 
             var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
             TorrentSearchEngines.launchMagnet(magnet, channel, dlPath, label);
-            // record that this magnet was launched under DuckieTV's control. Used by auto-Stop.
-            TorrentHashListService.addToHashList(magnet.getInfoHash());
         },
 
         urlSelect = function(url, releasename, dlPath, label) {
@@ -318,14 +316,20 @@ DuckieTV
             }
 
             var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query;
-            $injector.get('$http').get(url, {
-                responseType: 'blob'
-            }).then(function(result) {
-                try {
-                    TorrentSearchEngines.launchTorrentByUpload(result.data, channel, releasename, dlPath, label);
-                } catch (E) {
-                    TorrentSearchEngines.launchTorrentByURL(url, channel, releasename, dlPath, label);
+            window.parseTorrent.remote(url, function(err, torrentDecoded) {
+                if (err) {
+                    throw err;
                 }
+                var infoHash = torrentDecoded.infoHash.getInfoHash();
+                $injector.get('$http').get(url, {
+                    responseType: 'blob'
+                }).then(function(result) {
+                    try {
+                        TorrentSearchEngines.launchTorrentByUpload(result.data, infoHash, channel, releasename, dlPath, label);
+                    } catch (E) {
+                        TorrentSearchEngines.launchTorrentByURL(url, infoHash, channel, releasename, dlPath, label);
+                    }
+                });
             });
         };
 

@@ -544,7 +544,7 @@
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " Stream con reproductor de Torrent",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "El torrent no se encuentra en cliente de torrent.",
     "SIDEPANELEPISODECTRLjs/please-login-netflix/alert": "No te has identificado a Netflix. Por favor, inicia sesión, entonces puedes cerrar la ventana, y pulsar el botón de nuevo.",
-    "STATUSCODES": "descargados|vistos|tiene magnet|autoDL desactivado|no se encontró nada|filtrados|magnet puesto en marcha|seeders |en el aire + retraso",
+    "STATUSCODES": "descargados|vistos|tiene torrent|autoDL desactivado|no se encontró nada|filtrados|torrent lanzado|seeders |en el aire + retraso",
     "STATUSLIST": "Se canceló,Ha finalizado,En producción,Volverá a emitirse,Planeado",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV detectó que la serie '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' ha sido eliminada en otro equipo en el que está a conectado. ¿Quieres eliminarla aquí también? (Si selecciona no, se volverá a agregar al equipo remoto en la próxima sincronización)",

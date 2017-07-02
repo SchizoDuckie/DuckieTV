@@ -544,7 +544,7 @@
     "SIDEPANEL/TORRENTRC/stream-play/glyph": "  Córrego com Torrent jogador ",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent não encontrado no cliente torrent.",
     "SIDEPANELEPISODECTRLjs/please-login-netflix/alert": "Você não está logado para Netflix. Por favor, faça o login, então você pode fechar a janela e pressione novamente o botão.",
-    "STATUSCODES": "baixado|assisti|tem ímã|AutoDL desativada|Nada encontrado|filtrados|ímã lançado|semeadoras |em ar + atraso",
+    "STATUSCODES": "baixado|assisti|Tem torrent|AutoDL desativada|Nada encontrado|filtrados|torrent lançado|semeadoras |em ar + atraso",
     "STATUSLIST": "Cancelado,Findo,em Produção,Continuando,Planejado",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV detectou que o show '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' foi eliminado em outro computador que você está LoggedIn diante. Você quer excluí-lo aqui também? (Se você selecionar não, ele vai voltar a ser adicionado ao computador remoto na próxima sincronização)",

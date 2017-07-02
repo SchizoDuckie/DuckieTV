@@ -544,7 +544,7 @@
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " Mit Torrent-Player streamen",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent nicht in Torrent-Client gefunden.",
     "SIDEPANELEPISODECTRLjs/please-login-netflix/alert": "Du bist nicht bei Netflix angemeldet. Bitte melden dich an, schließe das Fenster und drücke diese Taste erneut.",
-    "STATUSCODES": "heruntergeladen|beobachtete|hat magnet|autoDL behinderte|nichts gefunden|herausgefiltert|magnet gestartet|sämaschine |Auf Luft + Verzögerung",
+    "STATUSCODES": "heruntergeladen|beobachtete|hat torrent|autoDL behinderte|nichts gefunden|herausgefiltert|torrent gestartet|sämaschine |Auf Luft + Verzögerung",
     "STATUSLIST": "Annulliert,Beendet,in Produktion,Fortgesetzt,Geplant",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV hat erkannt, dass die Show '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": " auf einem anderen Computer, auf dem du angemeldet bist gelöscht wurde. Willst du es auch hier löschen? (Wenn Sie nein wählen, wird es auf dem Remote-Computer bei der nächsten Synchronisation wieder hinzugefügt werden)",

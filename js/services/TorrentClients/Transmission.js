@@ -159,12 +159,12 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                     arguments: parms
                 });
             },
-            addTorrentByUrl: function(url, releaseName, dlPath) {
+            addTorrentByUrl: function(url, infoHash, releaseName, dlPath) {
                 return this.addMagnet(url, dlPath).then(function(result) {
                     return result.arguments['torrent-added'].hashString.toUpperCase();
                 });
             },
-            addTorrentByUpload: function(data, releaseName, dlPath) {
+            addTorrentByUpload: function(data, infoHash, releaseName, dlPath) {
                 var self = this;
                 if (dlPath !== undefined && dlPath !== null) {
                     // using download path

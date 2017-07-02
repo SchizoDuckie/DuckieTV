@@ -17,7 +17,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
         // set up static translated labels
         $scope.period = SettingsService.get('autodownload.period');
         var timePlurals = $filter('translate')('TIMEPLURALS').split('|'), //" day, | days, | hour and | hours and | minute | minutes "
-            statusCodes = $filter('translate')('STATUSCODES').split('|'), // "downloaded|watched|has magnet|autoDL disabled|nothing found|filtered out|magnet launched|seeders |onair + delay"
+            statusCodes = $filter('translate')('STATUSCODES').split('|'), // "downloaded|watched|has torrent|autoDL disabled|nothing found|filtered out|torrent launched|seeders |onair + delay"
             inactiveLbl = $filter('translate')('AUTODLSTATUSCTRLjs/inactive/lbl'), // inactive
             activeLbl = $filter('translate')('AUTODLSTATUSCTRLjs/active/lbl'), // active
             usingLbl = $filter('translate')('AUTODLSTATUSCTRLjs/using/lbl'), // using
@@ -42,8 +42,8 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
                 $scope.fromDT = AutoDownloadService.fromDT;
                 $scope.toDT = AutoDownloadService.toDT;
                 /**
-                 * This watches for the magnet:select event that will be fired by the
-                 * TorrentSearchEngines when a user selects a magnet link for an episode from the autoDLstatus side panel.
+                 * This watches for the torrent:select event that will be fired by the
+                 * TorrentSearchEngines when a user selects a magnet or .torrent link for an episode from the autoDLstatus side panel.
                  */
                 angular.forEach($scope.activityList, function(activity) { 
                     if (activity.status > 2) { // only interested in not-found, filtered-out, seeders-min, no-magnet
@@ -54,7 +54,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
                                 if (!episode) {
                                     console.warn('episode id=[%s] not found!',episodeid);
                                 } else {
-                                    $scope.$on('magnet:select:' + tvdbid, function(evt, magnet) {
+                                    $scope.$on('torrent:select:' + tvdbid, function(evt, magnet) {
                                         episode.magnetHash = magnet;
                                         episode.downloaded = 0;
                                         episode.Persist();

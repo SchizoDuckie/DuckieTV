@@ -160,7 +160,7 @@
           <a ng-if="seed.noMagnet">
             <i class="glyphicon glyphicon-magnet" style="color:gray"></i>
           </a>
-          <a ng-if="!seed.noTorrent" ng-click="submitTorrentLink(seed)">
+          <a ng-if="!seed.noTorrent" ng-click="select(seed)">
             <i class="glyphicon glyphicon-download" uib-tooltip="{{'COMMON/download-torrent/tooltip'|translate}}"></i>
           </a>
           <a ng-if="seed.noTorrent">

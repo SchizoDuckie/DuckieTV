@@ -544,7 +544,7 @@
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " 流与Torrent播放器 ",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent不是Torrent客户发现.",
     "SIDEPANELEPISODECTRLjs/please-login-netflix/alert": "您还没有登录Netflix的.请登录,然后就可以关闭该窗口,再次按下此按钮.",
-    "STATUSCODES": "下载|看着|有磁铁|禁用的自动下载|什么都没找到|过滤掉|磁铁推出|播种机 |空气+延迟",
+    "STATUSCODES": "下载|看着|有一个洪流|禁用的自动下载|什么都没找到|过滤掉|洪流推出|播种机 |空气+延迟",
     "STATUSLIST": "已取消,结束了,生产中,持续关,计划",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV检测到展会 '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "'对了你在登录另一台计算机中删除.你要在这里删除呢？（如果你没有选择,它将被重新加入到远程计算机上的下一个同步）",

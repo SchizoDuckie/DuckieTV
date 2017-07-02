@@ -185,7 +185,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                 }
                 return this.rpc('load_start', parms);
             },
-            addTorrentByUrl: function(url, releaseName, dlPath) {
+            addTorrentByUrl: function(url, infoHash, releaseName, dlPath) {
                 var self = this;
                 return this.addMagnet(url, dlPath).then(function(result) {
                          
@@ -193,52 +193,14 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                     var maxTries = 5;
                     // wait for rTorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
                     return $q(function(resolve, reject) {
-                        /*
-                         * find the most likely torrent candidate in the uTorrent host,
-                         * based on the .torrent releaseName we just uploaded via the uTorrent WebUi client
-                         */
                         function verifyAdded() {
-                            // helper function that counts how many words in source are in target
-                            function getScore(source, target) {
-                                var score = 0;
-                                // strip source of non alphabetic characters and duplicate words
-                                var sourceArray = source
-                                .toUpperCase()
-                                .replace(/[^A-Z0-9]+/g, ' ')
-                                .trim()
-                                .split(' ')
-                                .filter(function(item, i, allItems) {
-                                    return i == allItems.indexOf(item);
-                                });
-                                // strip target of non alphabetic characters and duplicate words
-                                var targetString = target
-                                .toUpperCase()
-                                .replace(/[^A-Z0-9]+/g, ' ')
-                                .trim()
-                                .split(' ')
-                                .filter(function(item, i, allItems) {
-                                    return i == allItems.indexOf(item)
-                                })
-                                .join(' ');
-                                // count how many words of source are in target
-                                sourceArray.map(function(sourceWord) {
-                                    if (targetString.indexOf(sourceWord) > -1) {
-                                        score++;
-                                    }
-                                });
-                                return score;
-                            }
-
                             currentTry++;
                             self.getTorrents().then(function(result) {
                                 var hash = null;
-                                var bestScore = 0;
-                                // for each torrent compare the torrent.name with .torrent releaseName and record the number of matching words
+                                // for each torrent compare the torrent.hash with .torrent infoHash
                                 result.map(function(torrent) {
-                                    var score = getScore(releaseName, torrent.name);
-                                    if (score > bestScore) {
-                                        hash = torrent.hash.toUpperCase();
-                                        bestScore = score;
+                                    if (torrent.hash.toUpperCase() == infoHash) {
+                                        hash = infoHash;
                                     }
                                 });
                                 if (hash !== null) {
@@ -247,7 +209,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                                     if (currentTry < maxTries) {
                                         setTimeout(verifyAdded, 1000);
                                     } else {
-                                        throw "No hash found for torrent " + releaseName + " in 5 tries.";
+                                        throw "Hash " + infoHash + " not found for torrent " + releaseName + " in " + maxTries + " tries.";
                                     }
                                 }
                             });
@@ -256,7 +218,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                     });
                 });
             },
-            addTorrentByUpload: function(data, releaseName, dlPath) {
+            addTorrentByUpload: function(data, infoHash, releaseName, dlPath) {
                 var self = this;
                 return new PromiseFileReader().readAsDataURL(data).then(function(contents) {
                     var key = "base64,",
@@ -276,52 +238,14 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                             var maxTries = 5;
                             // wait for rTorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
                             return $q(function(resolve, reject) {
-                                /*
-                                 * find the most likely torrent candidate in the uTorrent host,
-                                 * based on the .torrent releaseName we just uploaded via the uTorrent WebUi client
-                                 */
                                 function verifyAdded() {
-                                    // helper function that counts how many words in source are in target
-                                    function getScore(source, target) {
-                                        var score = 0;
-                                        // strip source of non alphabetic characters and duplicate words
-                                        var sourceArray = source
-                                        .toUpperCase()
-                                        .replace(/[^A-Z0-9]+/g, ' ')
-                                        .trim()
-                                        .split(' ')
-                                        .filter(function(item, i, allItems) {
-                                            return i == allItems.indexOf(item);
-                                        });
-                                        // strip target of non alphabetic characters and duplicate words
-                                        var targetString = target
-                                        .toUpperCase()
-                                        .replace(/[^A-Z0-9]+/g, ' ')
-                                        .trim()
-                                        .split(' ')
-                                        .filter(function(item, i, allItems) {
-                                            return i == allItems.indexOf(item)
-                                        })
-                                        .join(' ');
-                                        // count how many words of source are in target
-                                        sourceArray.map(function(sourceWord) {
-                                            if (targetString.indexOf(sourceWord) > -1) {
-                                                score++;
-                                            }
-                                        });
-                                        return score;
-                                    }
-
                                     currentTry++;
                                     self.getTorrents().then(function(result) {
                                         var hash = null;
-                                        var bestScore = 0;
-                                        // for each torrent compare the torrent.name with .torrent releaseName and record the number of matching words
+                                        // for each torrent compare the torrent.hash with .torrent infoHash
                                         result.map(function(torrent) {
-                                            var score = getScore(releaseName, torrent.name);
-                                            if (score > bestScore) {
-                                                hash = torrent.hash.toUpperCase();
-                                                bestScore = score;
+                                            if (torrent.hash.toUpperCase() == infoHash) {
+                                                hash = infoHash;
                                             }
                                         });
                                         if (hash !== null) {
@@ -330,7 +254,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                                             if (currentTry < maxTries) {
                                                 setTimeout(verifyAdded, 1000);
                                             } else {
-                                                throw "No hash found for torrent " + releaseName + " in " + maxTries + " tries.";
+                                                throw "Hash " + infoHash + " not found for torrent " + releaseName + " in " + maxTries + " tries.";
                                             }
                                         }
                                     });

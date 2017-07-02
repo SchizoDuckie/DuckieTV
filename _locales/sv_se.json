@@ -544,7 +544,7 @@
     "SIDEPANEL/TORRENTRC/stream-play/glyph": "  Strömma med calibre spelare ",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent som inte finns i torrent-klient.",
     "SIDEPANELEPISODECTRLjs/please-login-netflix/alert": "Du är inte inloggad på Netflix. Logga in, då kan du stänga fönstret och tryck på knappen igen.",
-    "STATUSCODES": "nedladdade|betraktade|har magnet|autoDL inaktiverad|inget hittat|filtreras ut|magnet lanserade|såningsmaskin |på luft + fördröjning",
+    "STATUSCODES": "nedladdade|betraktade|har torrent|autoDL inaktiverad|inget hittat|filtreras ut|torrent lanserade|såningsmaskin |på luft + fördröjning",
     "STATUSLIST": "Avbokning minst,Avslutade,I Produktion,Fortsätter,Planerade",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV upptäckt att showen'",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' Har tagits bort på en annan dator som du är inloggad på. Vill du ta bort det här också? (Om du väljer nej, det kommer åter läggas till fjärrdatorn på nästa synkronisering) ",

@@ -319,6 +319,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
                         throw "Error executing " + self.getName() + " getTorrents";
                     });
             },
+
             /**
              * Implement this function to be able to add a magnet to the client
              */
@@ -331,23 +332,23 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
             },
 
             /**
-             * Implement this function to be able to add a torrent by to URL the client.
-             * Torrent releaseName is also passed for clients that do not return the hash right after
-             * submitting a new torrent, so that you can fetch the updated torrent list and parse it out
-             * by name.
+             * Implement this function to be able to add a torrent by URL to the client.
              */
-            addTorrentByUrl: function(magnet, releaseName, dlPath, label) {
+            addTorrentByUrl: function(url, infoHash, releaseName, dlPath, label) {
                 if (!('addTorrentByUrl' in this.getAPI())) {
                     throw "addTorrentByUrl not implemented for " + this.getName();
                 }
-                return this.getAPI().addTorrentByUrl(magnet, releaseName, dlPath, label);
+                return this.getAPI().addTorrentByUrl(url, infoHash, releaseName, dlPath, label);
             },
 
-            addTorrentByUpload: function(data, releaseName, dlPath, label) {
+            /**
+             * Implement this function to be able to add a torrent by torrent Blob to the client.
+             */
+            addTorrentByUpload: function(data, infoHash, releaseName, dlPath, label) {
                 if (!('addTorrentByUpload' in this.getAPI())) {
                     throw "addTorrentByUpload not implemented for " + this.getName();
                 }
-                return this.getAPI().addTorrentByUpload(data, releaseName, dlPath, label);
+                return this.getAPI().addTorrentByUpload(data, infoHash, releaseName, dlPath, label);
             },
 
             /**
