@@ -173,7 +173,7 @@ DuckieTorrent.factory('DelugeRemote', ["BaseTorrentRemote",
                 }.bind(this)).then(function() {
                     return this.getTorrents().then(function(torrents) {
                         return torrents.filter(function(torrent) {
-                            return torrent.hash == infoHash;
+                            return torrent.hash.toUpperCase() == infoHash;
                         })[0].hash;
                     });
                 }.bind(this));
