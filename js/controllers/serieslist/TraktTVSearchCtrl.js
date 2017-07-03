@@ -25,35 +25,5 @@ DuckieTV.controller('traktTvSearchCtrl', ["$rootScope", "TraktTVv2", "$statePara
             traktSearch.results = [];
         });
 
-        /**
-         * load details side panel only after hovering for half a second
-         * this prevents accidental loading if mouse is moving across posters
-         */
-        this.startHoverTimer = function(serie) {
-            this.clearHoverTimer();
-            this.hoverTimer = setTimeout(function() {
-            $state.go('add_favorites.search.trakt-serie', {
-                    id: serie.trakt_id,
-                    serie: serie
-                });
-            }.bind(this), 1000);
-        };
-
-        this.clearHoverTimer = function() {
-            clearTimeout(this.hoverTimer);
-        };
-
-        /**
-         * When in add mode, ng-mouseenter sets this serie on the scope, so that it can be shown
-         * by the seriedetails directive
-         * @param {[type]} serie [description]
-         */
-        this.setHoverSerie = function(serie) {
-            //console.log("Hover serie!", serie);
-            $state.go('add_favorites.search.trakt-serie', {
-                id: serie.trakt_id,
-                serie: serie
-            });
-        };
     }
 ]);
