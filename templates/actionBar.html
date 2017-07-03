@@ -24,7 +24,7 @@
     </li>
     <div style="position:absolute;bottom:0px">
       <!-- Translation Required -->
-      <li ng-if="getSetting('synology.enabled')" id="actionbar_videoplayer" ui-sref-active="active">
+      <li class="hide-prod" ng-if="getSetting('synology.enabled')" id="actionbar_videoplayer" ui-sref-active="active">
         <a ui-sref="videoplayer" class="glyphicon glyphicon-play" uib-tooltip="Play a downloaded video" tooltip-placement="right"></a>
       </li>
       <li id="actionbar_switch" ui-sref-active="active">
