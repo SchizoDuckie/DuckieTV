@@ -174,11 +174,11 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
         };
 
         /**
-         * Fires when user hits enter in the search serie box.Auto - selects the first result and adds it to favorites.
+         * Fires when user hits enter in the search serie box.Auto - selects the first result and opens details subpanel.
          */
 
         vm.selectFirstResult = function() {
-            vm.selectSerie(vm.results[0]);
+            document.querySelectorAll("serieheader")[0].click();
         };
 
         /**
