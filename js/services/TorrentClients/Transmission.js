@@ -199,9 +199,7 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
              * Transmission supports setting the Download Path when adding magnets and .torrents. 
              */
             isDownloadPathSupported: function() {
-                var self = this;
-                // dlPath supported only on local machine
-                return !(self.isWebServer());
+                return true;
             },
             execute: function(method, id) {
                 return this.rpc(method, {
