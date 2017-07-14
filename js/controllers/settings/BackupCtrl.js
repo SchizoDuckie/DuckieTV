@@ -6,7 +6,6 @@
 DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupService", "$q", "$state", "dialogs", "FileReader", "TraktTVv2", "SettingsService", "FavoritesService", "CalendarEvents", "TorrentSearchEngines",
     function($rootScope, $scope, $filter, BackupService, $q, $state, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, TorrentSearchEngines) {
 
-        $scope.backupString = false;
         $scope.wipeBeforeImport = false;
         $scope.declined = false;
         $scope.completed = false;
@@ -25,7 +24,25 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupSer
                 'value': englishAutoBackupPeriodList[idx]
             });
         };
-
+        $scope.nextAutoBackupDate = '';
+        // determine next run time
+        var lastRun = new Date(parseInt(localStorage.getItem('autobackup.lastrun')));
+        var nextBackupDT = null;
+        switch ($scope.autoBackupPeriod) {
+            case 'daily':
+                nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth(), lastRun.getDate() + 1, lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
+                $scope.nextAutoBackupDate = 'The next autoBackup is scheduled for ' + new Date(parseInt(nextBackupDT));
+                break;
+            case 'weekly':
+                nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth(), lastRun.getDate() + 7, lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
+                $scope.nextAutoBackupDate = 'The next autoBackup is scheduled for ' + new Date(parseInt(nextBackupDT));
+                break;
+            case 'monthly':
+                nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth() + 1, lastRun.getDate(), lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
+                $scope.nextAutoBackupDate = 'The next autoBackup is scheduled for ' + new Date(parseInt(nextBackupDT));
+                break;
+            default:
+        };
 
         /**
          * Create backup via download service and force the download.
