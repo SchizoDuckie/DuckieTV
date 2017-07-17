@@ -237,7 +237,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                     headers.Authorization = [this.config.username, this.config.password];
                 };
 
-                return this.request('addmagnet', fd, {
+                return $http.post(this.getUrl('addmagnet'), fd, {
                     transformRequest: angular.identity,
                     headers: headers
                 }).then(function(result) {
