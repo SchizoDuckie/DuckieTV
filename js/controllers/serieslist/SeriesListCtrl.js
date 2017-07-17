@@ -56,13 +56,15 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
             vm.orderReverseList = vm.orderReverseResetList.slice();
             vm.orderReverseList[idx] = !vm.reverse;
             vm.orderBy = orderBy;
+            SettingsService.set('library.order.by', vm.orderBy);
+            SettingsService.set('library.order.reverseList', vm.orderReverseList);
         };
 
         vm.orderByList = 'getSortName()|added|firstaired|notWatchedCount'.split('|');
         vm.orderReverseResetList = [true, false, true, true];
-        vm.orderReverseList = [true, false, true, true];
-        vm.orderBy = 'getSortName()';
-        vm.reverse = false;
+        vm.orderReverseList = SettingsService.get('library.order.reverseList'); // default [true, false, true, true]
+        vm.orderBy = SettingsService.get('library.order.by'); // default 'getSortName()'
+        vm.reverse = !vm.orderReverseList[vm.orderByList.indexOf(vm.orderBy)]; // default false;
         vm.translatedOrderByList = $filter('translate')('ORDERBYLIST').split(',');
 
         /*

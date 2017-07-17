@@ -33,7 +33,8 @@ DuckieTV
         $scope.globalSizeMin = SettingsService.get('torrenting.global_size_min'); // torrents smaller than this are filtered out
         $scope.globalSizeMinEnabled = SettingsService.get('torrenting.global_size_min_enabled'); // only applies to torrentDialog
         $scope.sortByDir = {'sortname': '-', 'engine': '+', 'seedersInt': '+', 'leechersInt': '+', 'sizeInt': '+'}; // the default sort direction for each possible sortBy
-        $scope.sortBy = '+engine'; // the default order
+        $scope.sortBy = SettingsService.get('torrentDialog.2.sortBy'); // '+engine' the default order
+        $scope.sortByDir[$scope.sortBy.replace(/\-|\+/g,'')] = $scope.sortBy.substring(0,1);
         $scope.items = [];
         $scope.defaultProvider = SettingsService.get('torrenting.searchprovider');
         $scope.clients = Object.keys(TorrentSearchEngines.getSearchEngines());
@@ -57,6 +58,7 @@ DuckieTV
         $scope.setSortBy = function(sortby) {
             $scope.sortByDir[sortby] === '-' ? $scope.sortByDir[sortby] = '+' : $scope.sortByDir[sortby] = '-' ; // flip sort direction
             $scope.sortBy = $scope.sortByDir[sortby] + sortby;
+            SettingsService.set('torrentDialog.2.sortBy',$scope.sortBy);
         };
 
         var usingLabel = SettingsService.get('torrenting.label');
