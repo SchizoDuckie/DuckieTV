@@ -200,8 +200,8 @@ DuckieTorrent.factory('KtorrentRemote', ["BaseTorrentRemote",
             },
 
             addTorrentByUrl: function(url, infoHash, releaseName) {
+                var self = this;
                 return this.addMagnet(url).then(function(result) {
-                         
                     var currentTry = 0;
                     var maxTries = 5;
                     // wait for Ktorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
