@@ -12,8 +12,10 @@ DuckieTV
         var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="https://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="https://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="https://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
         var notifications = {
             '1.1.5': ["<li>AutoDownload: (new) Now able to download using .torrent files.",
+                "<li>Favourites: (new) Remembers last used sort selection.",
                 "<li>SearchEngines: Settings for Jackett! You can now add, as DuckieTV Search engines, any of the public/semi-private/private trackers accessible via the Jackett proxy.",
                 "<li>Standalone: (upgrade) nwjs 23.5 chromium 59 Node 8.1.2",
+                "<li>Torrent Dialog [multi-SE]: (new) Remembers last used sort selection.",
                 "<li>Trakt-Trending sidepanel: (upgrade) Now using buttons instead of mouse-hover to improve browsing experience.",
                 "<li>Misc bug fixes"
             ].join('')
