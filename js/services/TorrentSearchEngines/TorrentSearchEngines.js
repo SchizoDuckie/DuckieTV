@@ -338,7 +338,7 @@ DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injecto
         TorrentSearchEngines.setDefault(SettingsService.get('torrenting.searchprovider'));
         if (SettingsService.get('torrenting.enabled')) {
 
-            // delay for 1 second so that custom clients can register themselves before determining default engine.
+            // delay for 2 second so that custom clients can register themselves before determining default engine.
             setTimeout(function() {
 
                 var providers = TorrentSearchEngines.getSearchEngines();
@@ -349,7 +349,7 @@ DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injecto
                 }
                 TorrentSearchEngines.setDefault(SettingsService.get('torrenting.searchprovider'));
 
-            }, 1000);
+            }, 2000);
         }
     }
 ]);
