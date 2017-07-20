@@ -20,7 +20,8 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
             login: function() {
                 return $http.post(this.getUrl('login'), 'username=' + encodeURIComponent(this.config.username) + '&password=' + encodeURIComponent(this.config.password), {
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Forwarded-Host': window.location.origin
                     }
                 }).then(function(result) {
                     if (result.data == "Ok.") {
@@ -55,6 +56,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                     }
                     var headers = {
                         'Content-Type': undefined,
+                        'X-Forwarded-Host': window.location.origin,
                     };
                     return $http.post(this.getUrl('addmagnet'), fd, {
                         headers: headers
@@ -72,7 +74,8 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
             addTorrentByUpload: function(data, infoHash, releaseName, dlPath, label) {
                 var self = this;
                 var headers = {
-                    'Content-Type': undefined
+                    'Content-Type': undefined,
+                    'X-Forwarded-Host': window.location.origin,
                 };
                 var fd = new FormData();
                 fd.append('torrents', data, releaseName + '.torrent');
@@ -134,9 +137,18 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                 var self = this;
                 return (self.config.version > 6);
             },
+            remove: function(magnetHash) {
+                return $http.post(this.getUrl('remove'), 'hashes=' + encodeURIComponent(magnetHash), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Forwarded-Host': window.location.origin,
+                    }
+                });
+            },
             execute: function(method, id) {
                 var headers = {
                     'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Forwarded-Host': window.location.origin,
                 };
                 return $http.post(this.getUrl(method), 'hash=' + id, {
                     headers: headers
