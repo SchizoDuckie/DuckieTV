@@ -33,7 +33,7 @@ DuckieTV.provider('TorrentFreak', function() {
                 'creator': typeof(results[i].getElementsByTagName('creator')[0]) != 'undefined' ? results[i].getElementsByTagName('creator')[0].textContent : 'n/a',
                 'category': typeof(results[i].getElementsByTagName('category')[0]) != 'undefined' ? results[i].getElementsByTagName('category')[0].textContent : 'n/a',
                 'description': typeof(results[i].getElementsByTagName('description')[0]) != 'undefined' ? results[i].getElementsByTagName('description')[0].textContent : 'n/a',
-                'content': typeof(results[i].getElementsByTagName('encoded')[0]) != 'undefined' ? results[i].getElementsByTagName('encoded')[0].textContent : 'n/a',
+                'content': typeof(results[i].getElementsByTagName('encoded')[0]) == 'undefined' ? typeof(results[i].getElementsByTagName('content:encoded')[0]) != 'undefined' ? results[i].getElementsByTagName('content:encoded')[0].textContent :  'n/a' : results[i].getElementsByTagName('encoded')[0].textContent,
                 'wfw': typeof(results[i].getElementsByTagName('commentRss')[0]) != 'undefined' ? results[i].getElementsByTagName('commentRss')[0].textContent : 'n/a',
                 'slash': typeof(results[i].getElementsByTagName('comments')[0]) != 'undefined' ? results[i].getElementsByTagName('comments')[0].textContent : 'n/a'
             };
