@@ -72,7 +72,7 @@
     "COMMON/all-watched/tooltip": "Toate episoadele vizionate",
     "COMMON/are-you-sure/lbl": "Esti sigur?",
     "COMMON/authentication/lbl": "Folosiți autentificare",
-    "COMMON/auto-download-status/hdr": "Auto-Descarcare Starea",
+    "COMMON/auto-download-status/hdr": "Auto-descărcare serviciu Monitor",
     "COMMON/auto-download/lbl": "Descărcare automată",
     "COMMON/autobackup/hdr": "Copie de siguranta automata",
     "COMMON/autodownload-delay-range/alert": "Ziele trebuie să fie între 0 00:00 - {{addelaymax}} (d hh:mm)",

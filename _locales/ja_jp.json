@@ -72,7 +72,7 @@
     "COMMON/all-watched/tooltip": "すべてのエピソードを見て",
     "COMMON/are-you-sure/lbl": "本気ですか?",
     "COMMON/authentication/lbl": "利用認証",
-    "COMMON/auto-download-status/hdr": "自動ダウンロードステータス",
+    "COMMON/auto-download-status/hdr": "自動ダウンロードサービスモニタ",
     "COMMON/auto-download/lbl": "自動ダウンロード",
     "COMMON/autobackup/hdr": "自動バックアップ",
     "COMMON/autodownload-delay-range/alert": "{{addelaymax}} - 遅延が0 00:00の範囲内でなければなりません (d hh:mm)",

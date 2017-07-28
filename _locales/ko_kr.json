@@ -72,7 +72,7 @@
     "COMMON/all-watched/tooltip": "모든 에피소드 시청",
     "COMMON/are-you-sure/lbl": "확실합니까?",
     "COMMON/authentication/lbl": "인증 사용",
-    "COMMON/auto-download-status/hdr": "자동 다운로드 상태",
+    "COMMON/auto-download-status/hdr": "자동 다운로드 서비스 모니터",
     "COMMON/auto-download/lbl": "자동 다운로드",
     "COMMON/autobackup/hdr": "자동 백업",
     "COMMON/autodownload-delay-range/alert": "{{addelaymax}} - 지연 0 00:00 내에 있어야합니다 (d hh:mm)",

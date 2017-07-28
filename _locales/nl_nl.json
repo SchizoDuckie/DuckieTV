@@ -72,7 +72,7 @@
     "COMMON/all-watched/tooltip": "Alle afleveringen bekeken",
     "COMMON/are-you-sure/lbl": "Weet je het zeker?",
     "COMMON/authentication/lbl": "Gebruik authenticatie",
-    "COMMON/auto-download-status/hdr": "Auto-Download Status",
+    "COMMON/auto-download-status/hdr": "Auto-Download Service Monitor",
     "COMMON/auto-download/lbl": "Automatisch Downloaden",
     "COMMON/autobackup/hdr": "Automatische back-up",
     "COMMON/autodownload-delay-range/alert": "kies een getal tussen 0 00:00 en {{addelaymax}} (d hh:mm)",

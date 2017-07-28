@@ -72,7 +72,7 @@
     "COMMON/all-watched/tooltip": "All episodes watched",
     "COMMON/are-you-sure/lbl": "Are you sure?",
     "COMMON/authentication/lbl": "Use authentication",
-    "COMMON/auto-download-status/hdr": "Auto-Download Monitor",
+    "COMMON/auto-download-status/hdr": "Auto-Download Service Monitor",
     "COMMON/auto-download/lbl": "Auto Download",
     "COMMON/autobackup/hdr": "Auto-Backup",
     "COMMON/autodownload-delay-range/alert": "Choose from 0 00:00 to {{addelaymax}} (d hh:mm)",

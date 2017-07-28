@@ -72,7 +72,7 @@
     "COMMON/all-watched/tooltip": "Все эпизоды просмотрены",
     "COMMON/are-you-sure/lbl": "Ты уверен?",
     "COMMON/authentication/lbl": "Использовать авторизацию",
-    "COMMON/auto-download-status/hdr": "Статус автозагрузка",
+    "COMMON/auto-download-status/hdr": "Auto-Download Service Monitor",
     "COMMON/auto-download/lbl": "Автоматическая загрузка",
     "COMMON/autobackup/hdr": "Автобэкап",
     "COMMON/autodownload-delay-range/alert": "В пределах 0 00:00 - {{addelaymax}} (d hh:mm)",

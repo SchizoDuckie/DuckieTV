@@ -72,7 +72,7 @@
     "COMMON/all-watched/tooltip": "Alle episoder sett",
     "COMMON/are-you-sure/lbl": "Er du sikker?",
     "COMMON/authentication/lbl": "Bruk autentisering",
-    "COMMON/auto-download-status/hdr": "Auto-Download Status",
+    "COMMON/auto-download-status/hdr": "Auto-Download Service Monitor",
     "COMMON/auto-download/lbl": "Auto Nedlasting",
     "COMMON/autobackup/hdr": "Auto-Backup",
     "COMMON/autodownload-delay-range/alert": "Dager må være innenfor 0 00:00 - {{addelaymax}} (d hh:mm)",

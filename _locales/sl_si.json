@@ -72,7 +72,7 @@
     "COMMON/all-watched/tooltip": "Vse epizode gledal",
     "COMMON/are-you-sure/lbl": "Ali si prepričan?",
     "COMMON/authentication/lbl": "Uporabi overovitev",
-    "COMMON/auto-download-status/hdr": "Auto-Download Status",
+    "COMMON/auto-download-status/hdr": "Auto-Download Service Monitor",
     "COMMON/auto-download/lbl": "Samodejni prenos",
     "COMMON/autobackup/hdr": "Samodejno varnostno kopiranje",
     "COMMON/autodownload-delay-range/alert": "Dni morajo biti v 0 00:00 - {{addelaymax}} (d hh:mm)",

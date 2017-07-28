@@ -72,7 +72,7 @@
     "COMMON/all-watched/tooltip": "Todos los episodios vistos",
     "COMMON/are-you-sure/lbl": "¿Estás seguro?",
     "COMMON/authentication/lbl": "Uso de autenticación",
-    "COMMON/auto-download-status/hdr": "Auto-Estado de la descarga",
+    "COMMON/auto-download-status/hdr": "Monitor de servicio de descarga automática",
     "COMMON/auto-download/lbl": "Descarga automática",
     "COMMON/autobackup/hdr": "Copia de seguridad automática",
     "COMMON/autodownload-delay-range/alert": "Elegir un día entre 0 00:00 y {{addelaymax}} (d hh:mm)",
