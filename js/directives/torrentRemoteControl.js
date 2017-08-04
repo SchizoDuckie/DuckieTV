@@ -65,14 +65,18 @@ DuckieTV
                         remote.isConnected = true;
                         remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash);
                         observeTorrent(rpc, remote.infoHash);
-                        remote.cleanupHashCheck();
+                        if (DuckieTorrent.getClient().getName() === 'uTorrent') {
+                            remote.cleanupHashCheck();
+                        };
                     }, function(fail) {
                         // Failed to connect to torrent client for monitoring. Creating an event watcher for when torrent client is connected.
                         $rootScope.$on('torrentclient:connected', function(rpc) {
                             remote.isConnected = true;
                             remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash);
                             observeTorrent(rpc, remote.infoHash);
-                            remote.cleanupHashCheck();
+                            if (DuckieTorrent.getClient().getName() === 'uTorrent') {
+                                remote.cleanupHashCheck();
+                            };
                         });
                     });
 
