@@ -35,6 +35,9 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
         };
         
         var getActivity = function() {
+            var jackettProviders = TorrentSearchEngines.getJackettEngines();
+            var defaultSE = TorrentSearchEngines.getDefaultEngineName();
+            $scope.searchEngine = (defaultSE in jackettProviders && jackettProviders[defaultSE].enabled) ? defaultSE + ' [Jackett]' : SettingsService.get('torrenting.searchprovider');
             $scope.activityList = AutoDownloadService.activityList;
             $scope.lastRun = SettingsService.get('autodownload.lastrun');
             if ($scope.isActive()) {
