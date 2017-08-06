@@ -10,7 +10,7 @@ seo: "Screenshots"
 
 DuckieTV is an application that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV makes sure the information is always up-to-date and gives you an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
 
-With the integrated DuckieTorrent client you can connect DuckieTV to your local Torrent client and be updated on the download progress without switching applications. Deluge, Ktorrent, rTorrent, µTorrent/BitTorrent, qBittorrent, Tixati, Transmission and Vuze are supported.
+With the integrated DuckieTorrent client you can connect DuckieTV to your local Torrent client and be updated on the download progress without switching applications. BiglyBT, Deluge, Ktorrent, rTorrent, µTorrent/BitTorrent, qBittorrent, Tixati, Transmission and Vuze are supported.
 
 DuckieTV can even automatically start downloading shows that have aired.
 
@@ -59,7 +59,7 @@ Translations are available in 15 languages (English, Deutch, Español, Français
   </a>
   <a href="img/screenshots/full/duckietorrent.jpg" data-featherlight="image">
     <div class="imgcont">
-      <img src="img/screenshots/duckietorrent.png" alt="duckietorrent" data-caption="DuckieTorrent Torrent clients built-in (Deluge, &micro;Torrent/BitTorrent, qBittorrent, Tixati, Transmission and Vuze)" />
+      <img src="img/screenshots/duckietorrent.png" alt="duckietorrent" data-caption="DuckieTorrent Torrent clients built-in (BiglyBT, Deluge, Ktorrent, &micro;Torrent/BitTorrent, qBittorrent, rTorrent, Tixati, Transmission and Vuze)" />
     </div>
   </a>
   <a href="img/screenshots/full/quicksearch.jpg" data-featherlight="image">
