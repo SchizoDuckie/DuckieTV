@@ -16,6 +16,7 @@ DuckieTV
                 "<li>qBitTorrent 3.2+ Client: (fix) DuckieTV can now connect with qBitTorrent 3.3.14",
                 "<li>SearchEngines: Settings for Jackett! You can now add, as DuckieTV Search engines, any of the public/semi-private/private trackers accessible via the Jackett proxy.",
                 "<li>Standalone: (upgrade) nwjs 23.5 chromium 59 Node 8.1.2",
+                "<li>TorrentClient: (new) Added BiglyBT client.",
                 "<li>Torrent Dialog [multi-SE]: (new) Remembers last used sort selection.",
                 "<li>Trakt-Trending sidepanel: (upgrade) Now using buttons instead of mouse-hover to improve browsing experience.",
                 "<li>Misc bug fixes"
