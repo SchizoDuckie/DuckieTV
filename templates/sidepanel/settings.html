@@ -6,7 +6,7 @@
   </h2>
 
   <table class="buttons" width="100%" border="0">
-   <tr>
+    <tr>
       <td colspan="2">
           <a ui-sref-active='active' ui-sref=".tab({tab: 'display'})">
               <i class="glyphicon glyphicon-picture"></i><strong translate-once>SIDEPANEL/SETTINGS/display/hdr</strong>
@@ -20,7 +20,7 @@
           </a>
       </td>
     </tr>
-     <tr>
+    <tr>
       <td colspan="2">
           <a ui-sref-active='active' ui-sref=".tab({tab: 'language'})">
                <i class="glyphicon glyphicon-flag"></i><strong translate-once>COMMON/language/hdr</strong>
@@ -48,28 +48,35 @@
           </a>
       </td>
     </tr>
-     <tr ui-sref-active='active' ui-sref=".tab({tab: 'utorrent'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'uTorrent'">
+    <tr ui-sref-active='active' ui-sref=".tab({tab: 'utorrent'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'uTorrent'">
       <td colspan="2">
           <a href="#/settings/utorrent">
               <img src="img/torrentclients/utorrent-small.png" class="smallsettingicon"> <strong><span>&micro;Torrent</span> <span translate-once>COMMON/integration/hdr</span></strong>
           </a>
       </td>
     </tr>
-     <tr ui-sref-active='active' ui-sref=".tab({tab: 'deluge'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'Deluge'">
+    <tr ui-sref-active='active' ui-sref=".tab({tab: 'biglybt'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'BiglyBT'">
+      <td colspan="2">
+          <a href="#/settings/biglybt">
+              <img src="img/torrentclients/biglybt-small.png" class="smallsettingicon"> <strong><span>BiglyBT</span> <span translate-once>COMMON/integration/hdr</span></strong>
+          </a>
+      </td>
+    </tr>
+    <tr ui-sref-active='active' ui-sref=".tab({tab: 'deluge'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'Deluge'">
       <td colspan="2">
           <a href="#/settings/deluge">
               <img src="img/torrentclients/deluge-small.png" class="smallsettingicon"> <strong><span>Deluge</span> <span translate-once>COMMON/integration/hdr</span></strong>
           </a>
       </td>
     </tr>
-     <tr ui-sref-active='active' ui-sref=".tab({tab: 'utorrentwebui'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'uTorrent Web UI'">
+    <tr ui-sref-active='active' ui-sref=".tab({tab: 'utorrentwebui'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'uTorrent Web UI'">
       <td colspan="2">
           <a href="#/settings/utorrentwebui">
               <img src="img/torrentclients/utorrent-small.png" class="smallsettingicon"> <strong><span>&micro;Torrent Web UI</span> <span translate-once>COMMON/integration/hdr</span></strong>
           </a>
       </td>
     </tr>
-     <tr ui-sref-active='active' ui-sref=".tab({tab: 'rtorrent'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'rTorrent'">
+    <tr ui-sref-active='active' ui-sref=".tab({tab: 'rtorrent'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'rTorrent'">
       <td colspan="2">
           <a href="#/settings/rtorrent">
               <img src="img/torrentclients/rtorrent-small.png" class="smallsettingicon"> <strong><span>rTorrent</span> <span translate-once>COMMON/integration/hdr</span></strong>
@@ -146,7 +153,7 @@
           </a>
       </td>
     </tr>
-     <tr>
+    <tr>
       <td colspan="2">
           <a ui-sref-active='active' ui-sref=".tab({tab: 'subtitles'})">
               <i class="glyphicon glyphicon-text-width"></i><strong translate-once>COMMON/subtitles/hdr</strong>
@@ -167,7 +174,7 @@
           </a>
       </td>
     </tr>
-     <tr class="hide-prod">
+    <tr class="hide-prod">
       <td colspan="2">
           <a ui-sref-active='active' ui-sref=".tab({tab: 'synology'})">
               <i class="glyphicon glyphicon-play"></i><strong>Synology DS-Video</strong>

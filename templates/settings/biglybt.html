@@ -1,0 +1,25 @@
+<div class="buttons" ng-controller="biglybtCtrl as biglybt">
+  <h2>BiglyBT <h2cont translate-once>COMMON/integration/hdr</h2cont></h2>
+
+  <img src="img/torrentclients/biglybt-colored.png" style='width:200px; margin: 0 auto'>
+
+  <p><a href='https://github.com/SchizoDuckie/DuckieTV/wiki/Setting-up-BiglyBT-with-DuckieTV' target='_blank' translate-once>COMMON/set-up-instructions/lbl</a></p>
+
+  <p ng-show="biglybt.isConnected()"><span translate-once>COMMON/status/hdr</span>:
+    <span translate-once>COMMON/connected/lbl</span> BiglyBT API &#64; {{biglybt.model.server}}:{{biglybt.model.port}}
+  </p>
+
+  <p ng-show="!biglybt.isConnected()"><span translate-once>COMMON/status/hdr</span>:
+    <span translate-once>COMMON/not-connected/lbl</span>
+  </p>
+
+	<p ng-show="biglybt.error"><span translate-once>COMMON/error/hdr</span>:
+    <span >{{biglybt.error}}</span>
+	</p>
+
+  <form ng-submit="biglybt.test()" novalidate>
+    <formly-form model="biglybt.model" fields="biglybt.fields">
+      <button type="submit" class="btn btn-primary submit-button" translate-once>COMMON/test-save/btn</button>
+    </formly-form>
+  </form>
+</div>

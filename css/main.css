@@ -379,6 +379,10 @@ background-rotator .placeholder {
   color: orange !important;
 }
 
+#actionbar_torrent a.biglybt, .torrentlogo.biglybt {
+  background-image: url('../img/torrentclients/biglybt-small.png');
+}
+
 #actionbar_torrent a.vuze, .torrentlogo.vuze {
   background-image: url('../img/torrentclients/vuze-small.png');
 }
