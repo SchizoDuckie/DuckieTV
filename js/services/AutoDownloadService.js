@@ -300,7 +300,7 @@ DuckieTV
                                     });
                                 });
                             } else {
-                                TorrentSearchEngines.getSearchEngine($scope.searchprovider).getDetails(items[0].detailUrl, items[0].releasename).then(function(details)  {
+                                searchEngine.getDetails(items[0].detailUrl, items[0].releasename).then(function(details)  {
                                     if (details.magnetUrl) {
                                         torrentHash = details.magnetUrl.getInfoHash();
                                         TorrentSearchEngines.launchMagnet(details.magnetUrl, episode.TVDB_ID, serie.dlPath, label);
