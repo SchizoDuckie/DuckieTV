@@ -15,6 +15,11 @@ DuckieTV.controller("jackettSearchEngineCtrl", ["$scope", "$injector", "$http", 
             self.jackettEngines = TorrentSearchEngines.getJackettEngines();
         }
 
+        // is the test button available?
+        this.isTestDisabled = function(engine) {
+            return engine.config.useTorznab;
+        }
+        
         // test jackett SE (using jackett admin test api)
         this.test = function(engine) {
             self.jackettEngines[engine.config.name].testing = true;
