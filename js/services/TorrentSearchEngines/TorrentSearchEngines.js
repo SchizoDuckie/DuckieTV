@@ -239,13 +239,13 @@ DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injecto
                 console.info("Firing magnet URI! ", magnet, TVDB_ID, dlPath, label);
 
                 if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
-                    //console.debug("Adding via TorrentClient.addMagnet API! ", magnet, TVDB_ID, dlPath, label);
+                    if (window.debug926) console.debug("Adding via TorrentClient.addMagnet API! ", magnet, TVDB_ID, dlPath, label);
                     DuckieTorrent.getClient().addMagnet(magnet, dlPath, label);
                     setTimeout(function() {
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
                     }, 1500);
                 } else {
-                    //console.debug("Adding via openURL! ", magnet, TVDB_ID, dlPath, label);
+                    if (window.debug926) console.debug("Adding via openURL! ", magnet, TVDB_ID, dlPath, label);
                     openUrl('magnet', magnet);
                 }
                 $rootScope.$broadcast('torrent:select:' + TVDB_ID, magnet.getInfoHash());
@@ -257,7 +257,7 @@ DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injecto
                 console.info("Firing Torrent By data upload! ", TVDB_ID, infoHash, releaseName, dlPath, label);
 
                 if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
-                    //console.debug("Adding via TorrentClient.addTorrentByUpload API! ", TVDB_ID, infoHash, releaseName, dlPath, label);
+                    if (window.debug926) console.debug("Adding via TorrentClient.addTorrentByUpload API! ", TVDB_ID, infoHash, releaseName, dlPath, label);
                     DuckieTorrent.getClient().addTorrentByUpload(data, infoHash, releaseName, dlPath, label).then(function() {
                         $rootScope.$broadcast('torrent:select:' + TVDB_ID, infoHash);
                         // record that this .torrent was launched under DuckieTV's control. Used by auto-Stop.
@@ -273,7 +273,7 @@ DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injecto
                 console.info("Firing Torrent By URL! ", torrentUrl, TVDB_ID, infoHash, releaseName, dlPath, label);
 
                 if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
-                    //console.debug("Adding via TorrentClient.addTorrentByUrl API! ", torrentUrl, TVDB_ID, infoHash, releaseName, dlPath, label);
+                    if (window.debug926) console.debug("Adding via TorrentClient.addTorrentByUrl API! ", torrentUrl, TVDB_ID, infoHash, releaseName, dlPath, label);
                     DuckieTorrent.getClient().addTorrentByUrl(torrentUrl, infoHash, releaseName, dlPath, label).then(function() {
                         $rootScope.$broadcast('torrent:select:' + TVDB_ID, infoHash);
                         // record that this .torrent was launched under DuckieTV's control. Used by auto-Stop.
@@ -283,7 +283,7 @@ DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injecto
                         DuckieTorrent.getClient().Update(true); // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
                     }, 1500);
                 } else {
-                    //console.debug("Adding via openURL! ", torrentUrl, TVDB_ID, infoHash, releaseName, dlPath, label);
+                    if (window.debug926) console.debug("Adding via openURL! ", torrentUrl, TVDB_ID, infoHash, releaseName, dlPath, label);
                     openUrl('torrent', torrentUrl);
                 }
             },

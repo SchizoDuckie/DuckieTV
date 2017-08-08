@@ -40,24 +40,27 @@ DuckieTV
          * If not marked, updates the database and the torrenthashlist service so that this doesn't have to happen again
          */
         function isDownloaded(torrent) {
-            var torrenthash = ('hash' in torrent) ? torrent.hash.toUpperCase() : undefined;
-            if (!TorrentHashListService.isDownloaded(torrenthash) && torrent.getProgress() == 100) {
+            var torrentHash = ('hash' in torrent) ? torrent.hash.toUpperCase() : undefined;
+            if (!TorrentHashListService.isDownloaded(torrentHash) && torrent.getProgress() == 100) {
                 CRUD.FindOne('Episode', {
-                    magnetHash: torrenthash
+                    magnetHash: torrentHash
                 }).then(function(episode) {
-                    TorrentHashListService.markDownloaded(torrenthash);
+                    TorrentHashListService.markDownloaded(torrentHash);
                     if (!episode) {
+                        if (window.debug926) console.debug('TorrentMonitor: non-episode hash(%s) torrent.name(%s) downloaded', torrentHash, torrent.name);
                         NotificationService.notify(
                             "Torrent finished",
                             torrent.name
                         );
                     } else {
-                        NotificationService.notify("Torrent finished", [
+                        var episodeDetails = [
                             FavoritesService.getByID_Serie(episode.ID_Serie).name,
                             episode.getFormattedEpisode()
-                        ].join(" "));
+                        ].join(" ");
+                        if (window.debug926) console.debug('TorrentMonitor: episode hash(%s) torrent.name(%s) episodeDetails(%s) downloaded', torrentHash, torrent.name, episodeDetails);
+                        NotificationService.notify("Torrent finished", episodeDetails);
                         episode.markDownloaded().then(function(result) {
-                            console.info("Episode marked as downloaded in database. ", episode.ID_Serie, episode.getFormattedEpisode());
+                            console.info("Episode marked as downloaded in database. ", episodeDetails);
                         });
                     }
                 });

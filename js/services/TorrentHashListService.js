@@ -26,6 +26,7 @@ DuckieTV.factory('TorrentHashListService', [
              * only add to list if we don't already have it, store for persistence.
              */
             addToHashList: function(torrentHash) {
+                if (window.debug926) console.debug('TorrentHashListService.addToHashList(%s)', torrentHash);
                 if (!service.hasHash(torrentHash)) {
                     service.hashList[torrentHash] = false;
                     persist();
@@ -36,6 +37,7 @@ DuckieTV.factory('TorrentHashListService', [
              * used by the remove torrent feature (uTorrent and BaseTorrentClient)
              */
             removeFromHashList: function(torrentHash) {
+                if (window.debug926) console.debug('TorrentHashListService.removeFromHashList(%s)', torrentHash);
                 if (service.hasHash(torrentHash)) {
                     delete service.hashList[torrentHash];
                     persist();
@@ -46,6 +48,7 @@ DuckieTV.factory('TorrentHashListService', [
              * Default state of a torrent in the hashlist is false, when it's downloaded it flips to true
              */
             markDownloaded: function(torrentHash) {
+                if (window.debug926) console.debug('TorrentHashListService.markDownloaded(%s)', torrentHash);
                 service.hashList[torrentHash] = true;
                 persist();
             },

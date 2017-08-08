@@ -325,6 +325,7 @@ DuckieTV
                             }
                             episode.magnetHash = torrentHash;
                             episode.Persist();
+                            if (window.debug926) console.debug('ADS: episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash);
                             service.activityUpdate(serie, episode, q, 6); // 'torrent launched'
                         });
                     });
