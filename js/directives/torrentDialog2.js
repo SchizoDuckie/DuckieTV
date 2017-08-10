@@ -205,7 +205,7 @@ DuckieTV
                     items = [];
                     $scope.searching = true;
                     provider = TorrentSearchEngines.getSearchEngine(engine);
-                    provider.search([q, $scope.searchquality].join(' '), undefined, 'seeders.d').then(function(results) {
+                    provider.search([q, $scope.searchquality].join(' ').trim(), undefined, 'seeders.d').then(function(results) {
                         results.forEach(function(item){
                             item.engine = engine; // used by torrentDialog2.html
                             item.sizeInt = isNaN(item.size.replace(' MB','')) ? 0 : parseInt(item.size); // used for torrentDialog2 sorting

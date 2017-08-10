@@ -145,7 +145,7 @@ DuckieTV
 
             autoDownload: function(serie, episode) {
                 var minSeeders = SettingsService.get('torrenting.min_seeders'); // Minimum amount of seeders required, default 50
-                var preferredQuality = ' ' + SettingsService.get('torrenting.searchquality'); // Preferred Quality to append to search string.
+                var preferredQuality = SettingsService.get('torrenting.searchquality'); // Preferred Quality to append to search string.
                 var requireKeywords = SettingsService.get('torrenting.require_keywords'); // Any words in the Require Keywords list causes the result to be filtered in.
                 var requireKeywordsModeOR = SettingsService.get('torrenting.require_keywords_mode_or'); // set the Require Keywords mode (true=Any or false=All)
                 var ignoreKeywords = SettingsService.get('torrenting.ignore_keywords'); // Any words in the Ignore Keywords list causes the result to be filtered out.
@@ -170,7 +170,7 @@ DuckieTV
                 };
                 // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
                 return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(searchString) {
-                    var q = searchString + preferredQuality + RequireKeywords_String;
+                    var q = [searchString,preferredQuality,RequireKeywords_String].join(' ').trim();      
                     /**
                      * Word-by-word scoring for search results.
                      * All words need to be in the search result's release name, or the result will be filtered out.

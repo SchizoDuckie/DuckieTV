@@ -222,7 +222,7 @@ DuckieTV
             /**
              * Search torrent SE  for the torrent query
              */
-            TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' '), undefined, $scope.orderBy).then(function(results) {
+            TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' ').trim(), undefined, $scope.orderBy).then(function(results) {
                     $scope.items = results.filter(filterByScore);
                     $scope.items = $scope.items.filter(filterByMinSeeders);
                     if ($scope.requireKeywordsModeOR) {
