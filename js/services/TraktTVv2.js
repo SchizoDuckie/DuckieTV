@@ -117,6 +117,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
             userShows: function(result) {
                 return result.data.map(function(show) {
                     out = parsers.trakt(show.show);
+                    out.seasons = show.seasons;
                     return out;
                 });
             }
@@ -179,7 +180,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                     // token auth expired, renew
                     service.renewToken();
                     // restart request and return original promise
-                    return service.promiseRequest(type, param, param2, promise);
+                    return promiseRequest(type, param, param2, promise);
                 }
                 if (err.status !== 0) { // only if this is not a cancelled request, rethrow
                     console.error("Trakt tv error!", err);
