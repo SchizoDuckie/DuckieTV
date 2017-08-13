@@ -38,12 +38,12 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                          return $http.get(getUrl(tvdb_id)).then(function(result) {
                             return storeInDB(result.data, entity);
                         }, function(err) {
-                            console.error('Could not load fanart', err);
+                            console.error('Could not load fanart for tvdb_id=', tvdb_id, err);
                             return false;
                         });   
                     }
                 }, function(err) {
-                    console.error('Could not load fanart', err);
+                    console.error('Could not load fanart for tvdb_id=', tvdb_id, err);
                     return false;
                 })
             },
