@@ -32,7 +32,7 @@ DuckieTV.controller("jackettSearchEngineCtrl", ["$scope", "$injector", "$http", 
                 self.jackettEngines[engine.config.name].testing = false;
                 if (result.data.result == 'success' || result.status == 204) { // api2 currently returns 204 for tests
                     self.jackettEngines[engine.config.name].testOK = true;
-                    self.jackettEngines[engine.config.name].testMessage = (result.status == 204) ? 'success' : result.data.result;
+                    self.jackettEngines[engine.config.name].testMessage = 'success';
                 } else {
                     self.jackettEngines[engine.config.name].testOK = false;
                     self.jackettEngines[engine.config.name].testMessage = (result.data.error) ? result.data.error : 'Error, unknown reason.';
