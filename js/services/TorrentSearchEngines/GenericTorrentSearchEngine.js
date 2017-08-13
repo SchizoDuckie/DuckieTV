@@ -365,23 +365,44 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             // this is a jackett Search Engine
             if (config.useTorznab) {
                 // jacket via torznab
+                if (('apiVersion' in config && config.apiVersion == 1) || !('apiVersion' in config)) {
+                    // api 1
+                    var payload =  what.trim().replace(/\s/g,'+');
+                } else {
+                    // api 2
+                    var payload =  '?t=search&cat=&apikey=' + config.apiKey + '&q=' + what.trim().replace(/\s/g,'+');                    
+                }                
                 return $http({
                     method: 'GET',
-                    url: config.torznab + what.trim().replace(/\s/g,'+'),
+                    url: config.torznab + payload,
                     cache: false,
                     timeout: timeout.promise,
                     cancel: timeout
                 });            
             } else {
                 // jackett via Admin/search
-                return $http.post(config.mirror, 'Query=' + what.trim().replace(/\s/g,'+') + '&Category=&Tracker=' + config.tracker, {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                        'cache': false,
-                        'timeout': timeout.promise,
-                        'cancel': timeout
-                    }
-                });            
+                if (('apiVersion' in config && config.apiVersion == 1) || !('apiVersion' in config)) {
+                    // api 1
+                    var payload =  'Query=' + what.trim().replace(/\s/g,'+') + '&Category=&Tracker=' + config.tracker;
+                    return $http.post(config.mirror, payload, {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                            'cache': false,
+                            'timeout': timeout.promise,
+                            'cancel': timeout
+                        }
+                    });
+                } else {
+                    // api 2
+                    var payload =  '?apikey=' + config.apiKey + '&Query=' + what.trim().replace(/\s/g,'+') + '&Category=&Tracker=' + config.tracker;
+                    return $http({
+                        method: 'GET',
+                        url: config.mirror + payload,
+                        cache: false,
+                        timeout: timeout.promise,
+                        cancel: timeout
+                    });            
+                }
             }
         } else {
             // this is a standard Search Engine

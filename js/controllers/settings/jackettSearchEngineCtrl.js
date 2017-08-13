@@ -30,9 +30,9 @@ DuckieTV.controller("jackettSearchEngineCtrl", ["$scope", "$injector", "$http", 
                 }
             }).then(function(result){
                 self.jackettEngines[engine.config.name].testing = false;
-                if (result.data.result == 'success') {
+                if (result.data.result == 'success' || result.status == 204) { // api2 currently returns 204 for tests
                     self.jackettEngines[engine.config.name].testOK = true;
-                    self.jackettEngines[engine.config.name].testMessage = result.data.result;
+                    self.jackettEngines[engine.config.name].testMessage = (result.status == 204) ? 'success' : result.data.result;
                 } else {
                     self.jackettEngines[engine.config.name].testOK = false;
                     self.jackettEngines[engine.config.name].testMessage = (result.data.error) ? result.data.error : 'Error, unknown reason.';
@@ -97,15 +97,35 @@ DuckieTV.controller("jackettSearchEngineCtrl", ["$scope", "$injector", "$http", 
 
         this.save = function() {
             self.model.enabled = self.model.enabled ? 1 : 0;
-            var config = {
-                'isJackett': true,
-                'mirror': self.model.torznab.substr(0, self.model.torznab.indexOf('torznab')) + 'Admin/search',
-                'name': self.model.name,
-                'test': self.model.torznab.substr(0, self.model.torznab.indexOf('torznab')) + 'Admin/test_indexer',
-                'torznab': self.model.torznab + '/api?t=search&cat=&apikey=' + self.model.apiKey + '&q=',
-                'tracker': self.model.torznab.substr(self.model.torznab.indexOf('torznab') + 8),
-                'useTorznab': (self.model.torznabEnabled) ? true : false
-            };
+            var apiVersion = 1;
+            if (self.model.torznab.indexOf('/api/v2.') > -1) {
+                apiVersion = 2;
+            }
+            if (apiVersion == 1) {
+                var config = {
+                    'isJackett': true,
+                    'apiVersion': apiVersion,
+                    'mirror': self.model.torznab.substr(0, self.model.torznab.indexOf('torznab')) + 'Admin/search',
+                    'name': self.model.name,
+                    'test': self.model.torznab.substr(0, self.model.torznab.indexOf('torznab')) + 'Admin/test_indexer',
+                    'torznab': self.model.torznab + '/api?t=search&cat=&apikey=' + self.model.apiKey + '&q=',
+                    'tracker': self.model.torznab.substr(self.model.torznab.indexOf('torznab') + 8),
+                    'useTorznab': (self.model.torznabEnabled) ? true : false
+                };
+            } else {
+                // API 2
+                var config = {
+                    'isJackett': true,
+                    'apiVersion': apiVersion,
+                    'apiKey': self.model.apiKey,
+                    'mirror': self.model.torznab.replace('/torznab/','/'),
+                    'name': self.model.name,
+                    'test': self.model.torznab.replace('/results/torznab/','/test'),
+                    'torznab': self.model.torznab,
+                    'tracker': self.model.torznab.substr(self.model.torznab.indexOf('/indexers/') + 10).replace('/results/torznab/',''),
+                    'useTorznab': (self.model.torznabEnabled) ? true : false
+                };
+            }
             self.model.json = JSON.stringify(config);
             // turn check-box boolean back into integer
             self.model.torznabEnabled = self.model.torznabEnabled ? 1 : 0;                  
