@@ -1,5 +1,5 @@
-<!-- serieHeader.html -->
-<div class="serieheader" ui-sref-active="active" uib-tooltip-template="'serieHeaderTitleTooltip.html'" tooltip-popup-delay="130" tooltip-append-to-body="true">
+<!-- serieslist/serieHeader.html -->
+<div class="serieheader" ui-sref-active="active" uib-tooltip-template="'serieslist.serieHeaderTitleTooltip.html'" tooltip-popup-delay="130" tooltip-append-to-body="true">
   <div ng-show="!noBadge">
     <em ng-show="data.notWatchedCount != 0 " class="badge">
       <i class="glyphicon glyphicon-eye-close" ></i> {{data.notWatchedCount}}
@@ -24,7 +24,7 @@
   </div>
   <div ng-transclude></div>
 </div>
-<script type="text/ng-template" id="serieHeaderTitleTooltip.html">
+<script type="text/ng-template" id="serieslist.serieHeaderTitleTooltip.html">
   <strong ng-if="mode == 'poster'">{{data.name}}</strong>
   <div ng-show="!noBadge">
     <div ng-show="data.notWatchedCount == 0 ">
