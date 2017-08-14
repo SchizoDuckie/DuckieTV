@@ -13,11 +13,12 @@ DuckieTV.factory("FavoritesManager", ["FavoritesService", "TraktTVv2", "$rootSco
          * @return Promise 
          */
         add: function(serie, refresh) {
+            refresh = refresh || false;
             if (!FavoritesService.isAdding(serie.tvdb_id) && (refresh || !FavoritesService.isAdded(serie.tvdb_id))) {
                 FavoritesService.adding(serie.tvdb_id);
                 var id = serie.trakt_id || serie.imdb_id || serie.slug_id;
                 return TraktTVv2.serie(id).then(function(serie) {
-                    return FavoritesService.addFavorite(serie, undefined, true, true).then(function() {
+                    return FavoritesService.addFavorite(serie, undefined, true, refresh).then(function() {
                         $rootScope.$broadcast('storage:update');
                         FavoritesService.added(serie.tvdb_id);
                         return true;
