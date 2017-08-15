@@ -14,7 +14,7 @@ DuckieTV
             '1.1.5': ["<li>AutoDownload: (new) Now able to download .torrent files \o/.",
                 "<li>Favourites: (new) Remembers last used sort selection.",
                 "<li>SearchEngines: Settings for Jackett! You can use the Jackett proxy to access your favourite open/semi-private/private trackers as DuckieTV Search Engines.",
-                "<li>Standalone: (upgrade) nwjs 24.0 chromium 60 Node 8.1.2",
+                "<li>Standalone: (upgrade) nwjs 24.2 chromium 60 Node 8.3.0",
                 "<li>TorrentClient: (new) Added BiglyBT client.",
                 "<li>TorrentClient: (fix) DuckieTV can now connect with qBitTorrent 3.3.14 (and newer) with CSRF protection.",
                 "<li>TorrentClient: (fix) DuckieTV can now connect with Deluge 1.3.14 (and newer) with CSRF protection.",
