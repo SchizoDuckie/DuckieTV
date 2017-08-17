@@ -6,8 +6,8 @@
  */
 DuckieTV
 
-    .factory('TorrentMonitor', ["DuckieTorrent", "SettingsService", "TorrentHashListService", "FavoritesService", "NotificationService",
-    function(DuckieTorrent, SettingsService, TorrentHashListService, FavoritesService, NotificationService) {
+    .factory('TorrentMonitor', ["$rootScope", "DuckieTorrent", "SettingsService", "TorrentHashListService", "FavoritesService", "NotificationService",
+    function($rootScope, DuckieTorrent, SettingsService, TorrentHashListService, FavoritesService, NotificationService) {
 
         /**
          * Event that gets called on each torrentdata instance when it updates
@@ -60,6 +60,7 @@ DuckieTV
                         if (window.debug926) console.debug('TorrentMonitor: episode hash(%s) torrent.name(%s) episodeDetails(%s) downloaded', torrentHash, torrent.name, episodeDetails);
                         NotificationService.notify("Torrent finished", episodeDetails);
                         episode.markDownloaded().then(function(result) {
+                            $rootScope.$broadcast('episode:marked:downloaded', episode);
                             console.info("Episode marked as downloaded in database. ", episodeDetails);
                         });
                     }

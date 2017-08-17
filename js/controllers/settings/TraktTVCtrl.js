@@ -223,8 +223,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$injector", "TraktTVv2", "Fav
         // Push current series and watched episodes to TraktTV
         vm.pushToTraktTV = function() {
             FavoritesService.favorites.map(function(serie) {
-                console.info("Adding series %s to Trakt.TV user's collection.", serie.name);
-                TraktTVv2.addToCollection(serie.TVDB_ID);
+                TraktTVv2.addShowToCollection(serie);
             });
 
             CRUD.Find('Episode', {

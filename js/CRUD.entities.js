@@ -464,6 +464,9 @@ CRUD.define(Episode, {
         return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:watched', this);
+                if (downloadedPaired) {
+                    $rootScope.$broadcast('episode:marked:downloaded', this);
+                }
             }
             return this;
         }.bind(this));
@@ -487,6 +490,9 @@ CRUD.define(Episode, {
     markDownloaded: function($rootScope) {
         this.downloaded = 1;
         return this.Persist().then(function() {
+            if ($rootScope) {
+                $rootScope.$broadcast('episode:marked:downloaded', this);
+            }
             return this;
         }.bind(this));
     },
@@ -504,7 +510,10 @@ CRUD.define(Episode, {
         }
         return this.Persist().then(function() {
             if ($rootScope) {
-                $rootScope.$broadcast('episode:marked:notwatched', this);
+                $rootScope.$broadcast('episode:marked:notdownloaded', this);
+                if (watchedPaired) {
+                    $rootScope.$broadcast('episode:marked:notwatched', this);
+                }
             }
             return this;
         }.bind(this));

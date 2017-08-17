@@ -189,6 +189,33 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
             });
         };
 
+        var performPost = function(type, param) {
+            var url = getUrl(type);
+            var headers = {
+                'trakt-api-key': APIkey,
+                'trakt-api-version': 2,
+                'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            };
+            return $http.post(url, param, {
+                headers: headers,
+            }).then(function(result) {
+                return result;
+            }, function(err) {
+                if (err.status == 401) {
+                    // token auth expired, renew
+                    service.renewToken();
+                    // restart request and return original promise
+                    return performPost(type, param);
+                }
+                if (err.status !== 0) { // only if this is not a cancelled request, rethrow
+                    console.error("Trakt tv error!", err);
+                    throw "Error " + err.status + ":" + err.statusText;
+                }
+            });
+        };
+
         var service = {
             /**
              * get a single show summary.
@@ -279,7 +306,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                 service.cancelSearch();
                 activeTrendingRequest = $q.defer();
                 return promiseRequest('trending', null, null, activeTrendingRequest.promise).then(function(results) {
-                    activePromiseRequest = false;
+                    activeTrendingRequest = false;
                     cachedTrending = results;
                     return results;
                 });
@@ -379,34 +406,16 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
              * http://docs.trakt.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
              */
             markEpisodeWatched: function(serie, episode) {
-                $http.post(getUrl('episodeSeen'), {
+                return performPost('episodeSeen', {
                     episodes: [{
                         'watched_at': new Date(episode.watchedAt).toISOString(),
                         ids: {
                             trakt: episode.TRAKT_ID
                         }
                     }]
-                }, {
-                    headers: {
-                        'trakt-api-key': APIkey,
-                        'trakt-api-version': 2,
-                        'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
                 }).then(function(result) {
-                    //console.debug("Episode watched:", serie, episode);
-                }, function(err) {
-                    if (err.status == 401) {
-                        // token auth expired, renew
-                        service.renewToken();
-                        // restart request and return original promise
-                        return service.markEpisodeWatched(serie, episode);
-                    }
-                    if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-                        console.error("Trakt tv error!", err);
-                        throw "Error " + err.status + ":" + err.statusText;
-                    }
+                    //console.debug("Episode watched:", serie, episode, result);
+                    return result;
                 });
             },
             /**
@@ -423,29 +432,11 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                         }
                     });
                 });
-                $http.post(getUrl('episodeSeen'), {
+                return performPost('episodeSeen', {
                     episodes: episodesArray
-                }, {
-                    headers: {
-                        'trakt-api-key': APIkey,
-                        'trakt-api-version': 2,
-                        'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
                 }).then(function(result) {
-                    console.debug("trakt.TV episodes marked as watched:", episodes, result);
-                }, function(err) {
-                    if (err.status == 401) {
-                        // token auth expired, renew
-                        service.renewToken();
-                        // restart request and return original promise
-                        return service.markEpisodesWatched(episodes);
-                    }
-                    if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-                        console.error("Trakt tv error!", err);
-                        throw "Error " + err.status + ":" + err.statusText;
-                    }
+                    //console.debug("trakt.TV episodes marked as watched:", episodes, result);
+                    return result;
                 });
             },
             /**
@@ -453,39 +444,15 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
              * http://docs.trakt.apiary.io/#reference/sync/remove-from-history/remove-items-from-history
              */
             markEpisodeNotWatched: function(serie, episode) {
-                var s = (serie instanceof CRUD.Entity) ? serie.get('TVDB_ID') : serie;
-                var sn = episode.seasonnumber;
-                var en = episode.episodenumber;
-
-                $http.post(getUrl('episodeUnseen'), {
-                    movies: [],
-                    shows: [],
+                return performPost('episodeUnseen', {
                     episodes: [{
                         ids: {
                             trakt: episode.TRAKT_ID
                         }
                     }]
-                }, {
-                    headers: {
-                        'trakt-api-key': APIkey,
-                        'trakt-api-version': 2,
-                        'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
                 }).then(function(result) {
-                    //console.debug("Episode un-watched:", serie, episode);
-                }, function(err) {
-                    if (err.status == 401) {
-                        // token auth expired, renew
-                        service.renewToken();
-                        // restart request and return original promise
-                        return service.markEpisodeNotWatched(serie, episode);
-                    }
-                    if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-                        console.error("Trakt tv error!", err);
-                        throw "Error " + err.status + ":" + err.statusText;
-                    }
+                    //console.debug("Episode un-watched:", serie, episode, result);
+                    return result;
                 });
             },
             /**
@@ -495,76 +462,71 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
             userShows: function() {
                 return promiseRequest('userShows').then(function(result) {
                     console.info("Fetched V2 API User Shows: ", result);
-
                     return result;
                 });
             },
             /**
-             * add all shows to a users collection.
+             * add a show to a users collection.
              * http://docs.trakt.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
              */
-            addToCollection: function(serieID) {
-                $http.post(getUrl('addCollection'), {
+            addShowToCollection: function(serie) {
+                return performPost('addCollection', {
                     shows: [{
                         ids: {
-                            tvdb: serieID
+                            trakt: serie.TRAKT_ID
                         }
                     }]
-                }, {
-                    headers: {
-                        'trakt-api-key': APIkey,
-                        'trakt-api-version': 2,
-                        'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
                 }).then(function(result) {
-                    console.info("Show added to collection:", serieID);
-                }, function(err) {
-                    if (err.status == 401) {
-                        // token auth expired, renew
-                        service.renewToken();
-                        // restart request and return original promise
-                        return service.addToCollection(serieID);
-                    }
-                    if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-                        console.error("Trakt tv error!", err);
-                        throw "Error " + err.status + ":" + err.statusText;
-                    }
+                    //console.debug("Added series %s to Trakt.TV user's collection.", serie.name, result);
+                    return result;
                 });
             },
             /**
-             * removes all shows from a users collection.
-             * http://docs.trakt.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
+             * add an episode to a users collection.
+             * http://docs.trakt.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
              */
-            removeFromCollection: function(serieID) {
-                $http.post(getUrl('removeCollection'), {
-                    shows: [{
+            markEpisodeDownloaded: function(serie, episode) {
+                return performPost('addCollection', {
+                    episodes: [{
                         ids: {
-                            tvdb: serieID
+                            trakt: episode.TRAKT_ID
                         }
                     }]
-                }, {
-                    headers: {
-                        'trakt-api-key': APIkey,
-                        'trakt-api-version': 2,
-                        'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
                 }).then(function(result) {
-                    console.info("Removed serie from collection", serieID);
-                }, function(err) {
-                    if (err.status == 401) {
-                        // token auth expired, renew
-                        service.renewToken();
-                        // restart request and return original promise
-                        return service.removeFromCollection(serieID);
-                    }
-                    if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-                        console.error("Trakt tv error!", err);
-                        throw "Error " + err.status + ":" + err.statusText;
-                    }
+                    //console.debug("Added episode %s of series %s to Trakt.TV user's collection.", episode.getFormattedEpisode(), serie.name, result);
+                    return result;
+                });
+            },
+            /**
+             * removes a show from a users collection.
+             * http://docs.trakt.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
+             */
+            removeShowFromCollection: function(serie) {
+                return performPost('removeCollection', {
+                    shows: [{
+                        ids: {
+                            trakt: serie.TRAKT_ID
+                        }
+                    }]
+                }).then(function(result) {
+                    //console.debug("Removed series %s from Trakt.TV user's collection.", serie.name, result);
+                    return result;
+                });
+            },
+            /**
+             * removes an episode from a users collection.
+             * http://docs.trakt.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
+             */
+            markEpisodeNotDownloaded: function(serie, episode) {
+                return performPost('removeCollection', {
+                    episodes: [{
+                        ids: {
+                            trakt: episode.TRAKT_ID
+                        }
+                    }]
+                }).then(function(result) {
+                    //console.debug("Removed episode %s of series %s from Trakt.TV user's collection.", episode.getFormattedEpisode(), serie.name, result);
+                    return result;
                 });
             }
         };
@@ -578,7 +540,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
      * and forward it to TraktTV if syncing enabled.
      */
     $rootScope.$on('episode:marked:watched', function(evt, episode) {
-        //console.log("Mark as watched and sync!");
+        //console.debug("Mark as watched and sync!", episode);
         if (SettingsService.get('trakttv.sync')) {
             CRUD.FindOne('Serie', {
                 ID_Serie: episode.get('ID_Serie')
@@ -592,11 +554,40 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
      * and forward it to TraktTV if syncing enabled.
      */
     $rootScope.$on('episode:marked:notwatched', function(evt, episode) {
+        //console.debug("Mark as not watched and sync!", episode);
         if (SettingsService.get('trakttv.sync')) {
             CRUD.FindOne('Serie', {
                 ID_Serie: episode.get('ID_Serie')
             }).then(function(serie) {
                 TraktTVv2.markEpisodeNotWatched(serie, episode);
+            });
+        }
+    });
+    /**
+     * Catch the event when an episode is marked as downloaded
+     * and forward it to TraktTV if syncing enabled.
+     */
+    $rootScope.$on('episode:marked:downloaded', function(evt, episode) {
+        //console.debug("Mark as downloaded and sync!", episode);
+        if (SettingsService.get('trakttv.sync')) {
+            CRUD.FindOne('Serie', {
+                ID_Serie: episode.get('ID_Serie')
+            }).then(function(serie) {
+                TraktTVv2.markEpisodeDownloaded(serie, episode);
+            });
+        }
+    });
+    /**
+     * Catch the event when an episode is marked as NOT downloaded
+     * and forward it to TraktTV if syncing enabled.
+     */
+    $rootScope.$on('episode:marked:notdownloaded', function(evt, episode) {
+        //console.debug("Mark as not downloaded and sync!", episode);
+        if (SettingsService.get('trakttv.sync')) {
+            CRUD.FindOne('Serie', {
+                ID_Serie: episode.get('ID_Serie')
+            }).then(function(serie) {
+                TraktTVv2.markEpisodeNotDownloaded(serie, episode);
             });
         }
     });
