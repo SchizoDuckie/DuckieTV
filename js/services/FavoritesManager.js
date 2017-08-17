@@ -18,7 +18,7 @@ DuckieTV.factory("FavoritesManager", ["FavoritesService", "TraktTVv2", "$rootSco
                 FavoritesService.adding(serie.tvdb_id);
                 var id = serie.trakt_id || serie.imdb_id || serie.slug_id;
                 return TraktTVv2.serie(id).then(function(serie) {
-                    return FavoritesService.addFavorite(serie, undefined, true, refresh).then(function() {
+                    return FavoritesService.addFavorite(serie, undefined, undefined, refresh).then(function() {
                         $rootScope.$broadcast('storage:update');
                         FavoritesService.added(serie.tvdb_id);
                         return true;
