@@ -115,6 +115,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                 // if episode has aired then reset the leaked flag
                 data.leaked = 0;
             };
+            data.absolute = data.number_abs;
 
             for (var i in data) {
                 if ((i in episode)) {
