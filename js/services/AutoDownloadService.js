@@ -283,6 +283,10 @@ DuckieTV
                             if (items[0].magnetUrl) {
                                 torrentHash = items[0].magnetUrl.getInfoHash();
                                 TorrentSearchEngines.launchMagnet(items[0].magnetUrl, episode.TVDB_ID, serie.dlPath, label);
+                                episode.magnetHash = torrentHash;
+                                episode.Persist().then(function(){
+                                    if (window.debug926) console.debug('ADS (search=magnet): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash);
+                                });
                             } else if (items[0].torrentUrl) {
                                 window.parseTorrent.remote(items[0].torrentUrl, function(err, torrentDecoded){
                                     if (err) {
@@ -297,6 +301,10 @@ DuckieTV
                                         } catch (E) {
                                             TorrentSearchEngines.launchTorrentByURL(items[0].torrentUrl, torrentHash, episode.TVDB_ID, items[0].releasename, serie.dlPath, label);
                                         }
+                                        episode.magnetHash = torrentHash;
+                                        episode.Persist().then(function(){
+                                            if (window.debug926) console.debug('ADS (search=url/upload): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash);
+                                        });
                                     });
                                 });
                             } else {
@@ -304,6 +312,10 @@ DuckieTV
                                     if (details.magnetUrl) {
                                         torrentHash = details.magnetUrl.getInfoHash();
                                         TorrentSearchEngines.launchMagnet(details.magnetUrl, episode.TVDB_ID, serie.dlPath, label);
+                                        episode.magnetHash = torrentHash;
+                                        episode.Persist().then(function(){
+                                            if (window.debug926) console.debug('ADS (details=magnet): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash);
+                                        });
                                     } else if (details.torrentUrl) {
                                         window.parseTorrent.remote(details.torrentUrl, function(err, torrentDecoded){
                                             if (err) {
@@ -321,11 +333,12 @@ DuckieTV
                                             });
                                         });
                                     } 
+                                    episode.magnetHash = torrentHash;
+                                    episode.Persist().then(function(){
+                                        if (window.debug926) console.debug('ADS (details=url/upload): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash);
+                                    });
                                 });
                             }
-                            episode.magnetHash = torrentHash;
-                            episode.Persist();
-                            if (window.debug926) console.debug('ADS: episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash);
                             service.activityUpdate(serie, episode, q, 6); // 'torrent launched'
                         });
                     });
