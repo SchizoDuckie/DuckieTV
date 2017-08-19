@@ -428,13 +428,14 @@ CRUD.define(Episode, {
         return this.FindOne('Season');
     },
     getFormattedEpisode: function() {
-        return this.formatEpisode(this.seasonnumber, this.episodenumber);
+        return this.formatEpisode(this.seasonnumber, this.episodenumber, this.absolute || '');
     },
 
-    formatEpisode: function(season, episode) {
+    formatEpisode: function(season, episode, absolute) {
         var sn = season.toString(),
             en = episode.toString(),
-            out = ['s', sn.length == 1 ? '0' + sn : sn, 'e', en.length == 1 ? '0' + en : en].join('');
+            abs = absolute.toString(),
+            out = ['s', sn.length == 1 ? '0' + sn : sn, 'e', en.length == 1 ? '0' + en : en, abs != '' ? abs.length == 1 ? '(0' + abs + ')' : '(' + abs + ')': ''].join('');
         return out;
     },
 
