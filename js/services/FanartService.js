@@ -36,6 +36,7 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                         return entity;
                     } else {
                          return $http.get(getUrl(tvdb_id)).then(function(result) {
+                            //console.debug('Refreshed fanart for tvdb_id=', tvdb_id);
                             return storeInDB(result.data, entity);
                         }, function(err) {
                             console.error('Could not load fanart for tvdb_id=', tvdb_id, err);
