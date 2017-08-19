@@ -13,7 +13,7 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
             $rootScope.$applyAsync();
         };
 
-        var engGenreList = 'action|adventure|animation|biography|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sports|sporting-event|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|');
+        var engGenreList = 'action|adventure|animation|anime|biography|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sports|sporting-event|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|');
         var engStatusList = 'canceled|ended|in production|returning series|planned'.split('|');
         var translatedGenreList = $filter('translate')('GENRELIST').split(',');
         var translatedStatusList = $filter('translate')('STATUSLIST').split(',');
