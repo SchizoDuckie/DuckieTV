@@ -210,7 +210,6 @@ CRUD.define(Serie, {
             this.sortName = this.name.replace('The ', '');
         }
         return this.sortName;
-
     },
 
     getNextEpisode: function() {
@@ -230,14 +229,17 @@ CRUD.define(Serie, {
             return result;
         });
     },
+
     toggleAutoDownload: function() {
         this.autoDownload = this.autoDownload == 1 ? 0 : 1;
         this.Persist();
     },
+
     toggleCalendarDisplay: function() {
         this.displaycalendar = this.displaycalendar == 1 ? 0 : 1;
         this.Persist();
     },
+
     markSerieAsWatched: function($rootScope) {
         var self = this;
         return new Promise(function(resolve) {
@@ -250,8 +252,8 @@ CRUD.define(Serie, {
                 return resolve(true)
             });
         })
-
     },
+
     markSerieAsUnWatched: function($rootScope) {
         var self = this;
         return new Promise(function(resolve) {
@@ -264,6 +266,10 @@ CRUD.define(Serie, {
                 return resolve(true);
             });
         });
+    },
+
+    isAnime: function() {
+        return (this.genre && this.genre.indexOf('anime') > -1);
     }
 });
 
