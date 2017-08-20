@@ -103,7 +103,7 @@ DuckieTV.factory('watchedCounter', ["$q", "FavoritesService", function($q, Favor
 
     function processSerie(ID_Serie) {
         //console.debug("Re counting! ", ID_Serie);
-        var query = "select ID_Season, watched, count(watched) as amount from Episodes where ID_Serie = ? AND seasonnumber > 0 AND firstaired <= ? AND firstaired > 0 GROUP BY ID_Season, watched";
+        var query = "select ID_Season, watched, count(watched) as amount from Episodes where ID_Serie = ? AND seasonnumber > 0 AND firstaired <= ? AND firstaired_iso NOT null GROUP BY ID_Season, watched";
         CRUD.executeQuery(query, [ID_Serie, new Date().getTime()])
             .then(parseEpisodeCounts)
             .then(markSeasonsWatched)
