@@ -105,7 +105,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                     //console.debug(config.name,jsonObj.rss.channel.item_asArray);
                     jsonObj.rss.channel.item_asArray.map(function(data) {
                         var seeds = null,
-                            peers= null;
+                            peers = null;
                         data.attr_asArray.map(function(attr) {
                             if (attr._name === 'seeders') {
                                 seeds = attr._value;
