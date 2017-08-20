@@ -104,8 +104,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 if ('rss' in jsonObj && 'channel' in jsonObj.rss && 'item' in jsonObj.rss.channel) {
                     //console.debug(config.name,jsonObj.rss.channel.item_asArray);
                     jsonObj.rss.channel.item_asArray.map(function(data) {
-                        var seeds = 0;
-                        var peers = 0;
+                        var seeds = null,
+                            peers= null;
                         data.attr_asArray.map(function(attr) {
                             if (attr._name === 'seeders') {
                                 seeds = attr._value;
@@ -117,8 +117,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                         var out = {
                             releasename: data.title,
                             size: (parseFloat(data.size) / 1000 / 1000).toFixed(2) + ' MB',
-                            seeders: seeds,
-                            leechers: peers,
+                            seeders: (seeds != null) ? seeds : 'n/a',
+                            leechers: (peers != null) ? peers : 'n/a',
                             detailUrl: data.guid,
                             noMagnet: true,
                             noTorrent: true
@@ -155,8 +155,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                         var out = {
                             releasename: data.Title,
                             size: (parseFloat(data.Size) / 1000 / 1000).toFixed(2) + ' MB',
-                            seeders: data.Seeders,
-                            leechers: data.Peers,
+                            seeders: (data.Seeders != null) ? data.Seeders : 'n/a',
+                            leechers: (data.Peers != null) ? data.Peers : 'n/a',
                             detailUrl: data.Guid,
                             noMagnet: true,
                             noTorrent: true
@@ -245,8 +245,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 if (releasename === null) continue;
                 var seed = getPropertyForSelector(results[i], selectors.seeders);
                 var leech = getPropertyForSelector(results[i], selectors.leechers);
-                seed = (seed != null) ? seed.replace(',', '') : 0;
-                leech = (leech != null) ? leech.replace(',', '') : 0;
+                seed = (seed != null) ? seed.replace(',', '') : 'n/a';
+                leech = (leech != null) ? leech.replace(',', '') : 'n/a';
                 var out = {
                     releasename: releasename.trim(),
                     size: sizeToMB(getPropertyForSelector(results[i], selectors.size)),
