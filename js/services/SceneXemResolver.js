@@ -2,8 +2,10 @@ DuckieTV.
 factory('SceneXemResolver', ["$q", "$http",
     function($q, $http) {
         var mappings = [],
+            aliasmap = [],
             cache = {},
             logged = [],
+
             getXemCacheForSerie = function(tvdb_id) {
                 if ((tvdb_id in cache)) {
                     return $q.resolve(cache[tvdb_id]);
@@ -32,10 +34,18 @@ factory('SceneXemResolver', ["$q", "$http",
 
         var service = {
             initialize: function() {
+                if (!localStorage.getItem('1.1.5FirstFetchXemAliasMap')) {
+                    console.info("Executing 1.1.5FirstFetchXemAliasMap");
+                    localStorage.removeItem('xem.lastFetched');
+                    localStorage.setItem('1.1.5FirstFetchXemAliasMap', new Date());
+                    console.info("1.1.5FirstFetchXemAliasMap done!");
+                }
                 var lastFetched = ('xem.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('xem.lastFetched'))) : new Date();
                 if (('xem.mappings' in localStorage) && lastFetched.getTime() + 86400000 > new Date().getTime()) {
                     mappings = JSON.parse(localStorage.getItem('xem.mappings'));
                     console.info("Fetched localstorage Xem series list: ", mappings);
+                    aliasmap = JSON.parse(localStorage.getItem('xem.aliasmap'));
+                    console.info("Fetched localstorage Xem series alias map:", aliasmap);
                 } else {
                     $http.get('https://duckietv.github.io/xem-cache/mappings.json').then(function(response) {
                         mappings = response.data;
@@ -43,8 +53,14 @@ factory('SceneXemResolver', ["$q", "$http",
                         localStorage.setItem('xem.lastFetched', new Date().getTime());
                         console.info("Updating localstorage Xem series list:", mappings);
                     });
+                    $http.get('https://duckietv.github.io/xem-cache/aliasmap.json').then(function(response) {
+                        aliasmap = response.data;
+                        localStorage.setItem('xem.aliasmap', JSON.stringify(aliasmap));
+                        console.info("Updating localstorage Xem series alias map:", aliasmap);
+                    });
                 }
             },
+
             getEpisodeMapping: function(serie, episode, sceneName, append) {
                 if (mappings.indexOf(parseInt(serie.TVDB_ID)) > -1) {
                     return getXemCacheForSerie(serie.TVDB_ID).then(function(result) {
