@@ -434,10 +434,11 @@ CRUD.define(Episode, {
         return this.FindOne('Season');
     },
     getFormattedEpisode: function() {
-        return this.formatEpisode(this.seasonnumber, this.episodenumber, this.absolute || '');
+        return this.formatEpisode(this.seasonnumber, this.episodenumber, this.absolute);
     },
 
     formatEpisode: function(season, episode, absolute) {
+        absolute = absolute || '';
         var sn = season.toString(),
             en = episode.toString(),
             abs = absolute.toString(),
