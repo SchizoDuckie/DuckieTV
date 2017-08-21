@@ -13,14 +13,21 @@ factory('SceneXemResolver', ["$q", "$http",
                         return result.data;
                     });
                 }
-
             },
+
             isNotLogged = function(id) {
                 var found = (logged.indexOf(id) > -1);
                 if (!found) {
                     logged.push(id);
                 }
                 return !found;
+            },
+
+            formatAbsolute = function(absolute, fallback) {
+                absolute = absolute || '';
+                var abs = absolute.toString(),
+                    out = (abs != '') ? (abs.length == 1) ? '0' + abs : abs : fallback;
+                return out;
             };
 
         var service = {
@@ -48,19 +55,31 @@ factory('SceneXemResolver', ["$q", "$http",
                             if (isNotLogged(serie.TVDB_ID.toString() + episode.getFormattedEpisode() + 'Y')) {
                                 console.info("Xem has episode %s for %s (%s), using mapped format.", episode.getFormattedEpisode(), serie.name, serie.TVDB_ID, matches[0].scene);
                             }
-                            return sceneName + episode.formatEpisode(matches[0].scene.season, matches[0].scene.episode, '') + append;
+                            if (serie.isAnime()) {
+                                return $q.resolve(sceneName + formatAbsolute(matches[0].scene.absolute, episode.getFormattedEpisode()) + append);
+                            } else {
+                                return $q.resolve(sceneName + episode.formatEpisode(matches[0].scene.season, matches[0].scene.episode) + append);
+                            }
                         } else {
                             if (isNotLogged(serie.TVDB_ID.toString() + episode.getFormattedEpisode() + 'N')) {
                                 console.info("Xem does not have episode %s for %s (%s), using default format.", episode.getFormattedEpisode(), serie.name, serie.TVDB_ID);
                             }
-                            return sceneName + episode.getFormattedEpisode() + append;
+                            if (serie.isAnime()) {
+                                return $q.resolve(sceneName + formatAbsolute(episode.absolute, episode.getFormattedEpisode()) + append);
+                            } else {
+                                return $q.resolve(sceneName + episode.getFormattedEpisode() + append);
+                            }
                         }
                     });
                 } else {
                     if (isNotLogged(serie.TVDB_ID.toString())) {
                         console.info("Xem does not have series %s (%s), using default format.", serie.name, serie.TVDB_ID);
                     }
-                    return $q.resolve(sceneName + episode.getFormattedEpisode() + append);
+                    if (serie.isAnime()) {
+                        return $q.resolve(sceneName + formatAbsolute(episode.absolute, episode.getFormattedEpisode()) + append);
+                    } else {
+                        return $q.resolve(sceneName + episode.getFormattedEpisode() + append);
+                    }
                 }
             }
         };
