@@ -58,6 +58,10 @@ beforeEach(inject(function($injector) {
         return [200, []];
     });
 
+    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2Fxem-cache%2Faliasmap.json').respond(function(method, url, data) {
+        return [200, []];
+    });
+
     $httpBackend.whenGET('http://localhost:8080/gui/token.html').respond(function(method, url, data) {
         return [500, []];
     });
