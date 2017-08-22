@@ -42,6 +42,10 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
                 var tvdbID = parseInt(serie.TVDB_ID);
                 var exception = (tvdbID in exceptions) ? replaceDiacritics(exceptions[tvdbID]) + ' ' : replaceDiacritics(serie.name) + ' ';
                 var sceneName = exception.replace(/\(([12][09][0-9]{2})\)/, '').replace(/[^0-9a-zA-Z- ]/g, '');
+                if (serie.alias) {
+                    // replaces sceneName with serie.alias if it has been set. NOTE: alias is unfiltered
+                    sceneName = serie.alias + ' ';
+                }
                 if (serie.TVDB_ID in episodesWithDateFormat) {
                     var parts = episode.firstaired_iso.split(/([0-9]{4})-([0-9]{2})-([0-9]{2})T.*/);
                     if ("undefined" == typeof(moment)) {

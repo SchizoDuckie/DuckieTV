@@ -25,6 +25,20 @@
         }
     }]
 }, {
+    "key": "alias",
+    "className": "col-xs-12",
+    "type": "select",
+    "hideExpression": "!model.hasXemAlias",
+    "templateOptions": {
+        "label": "",
+        "options": "$mappings.options.searchAlias",
+        "nameProp": "name",
+        "valueProp": "value"
+    },
+    "expressionProperties": {
+        "templateOptions.label": "\"COMMON/alias/hdr\" | translate"
+    }
+}, {
     "className": "row",
     "fieldGroup": [{
         "key": "customDelayInput",

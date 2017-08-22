@@ -34,11 +34,11 @@ factory('SceneXemResolver', ["$q", "$http",
 
         var service = {
             initialize: function() {
-                if (!localStorage.getItem('1.1.5FirstFetchXemAliasMap')) {
-                    console.info("Executing 1.1.5FirstFetchXemAliasMap");
-                    localStorage.removeItem('xem.lastFetched');
-                    localStorage.setItem('1.1.5FirstFetchXemAliasMap', new Date());
-                    console.info("1.1.5FirstFetchXemAliasMap done!");
+                if (!localStorage.getItem('1.1.5FetchFirstXemAliasMap')) {
+                    console.info("Executing 1.1.5FetchFirstXemAliasMap");
+                    localStorage.removeItem('xem.mappings');
+                    localStorage.setItem('1.1.5FetchFirstXemAliasMap', new Date());
+                    console.info("1.1.5FetchFirstXemAliasMap done!");
                 }
                 var lastFetched = ('xem.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('xem.lastFetched'))) : new Date();
                 if (('xem.mappings' in localStorage) && lastFetched.getTime() + 86400000 > new Date().getTime()) {
@@ -97,6 +97,10 @@ factory('SceneXemResolver', ["$q", "$http",
                         return $q.resolve(sceneName + episode.getFormattedEpisode() + append);
                     }
                 }
+            },
+
+            getXemAliasListForSerie: function(serie) {
+                return (serie.TVDB_ID in aliasmap) ? aliasmap[serie.TVDB_ID] : [];
             }
         };
 

@@ -1,6 +1,6 @@
 DuckieTV
-.controller('serieSettingsCtrl', ["$scope", "$filter", "$uibModalInstance", "FavoritesService", "SettingsService", "FormlyLoader", "data", "TorrentSearchEngines", "DuckieTorrent",
-function($scope, $filter, $modalInstance, FavoritesService, SettingsService, FormlyLoader, data, TorrentSearchEngines, DuckieTorrent) {
+.controller('serieSettingsCtrl', ["$scope", "$filter", "$uibModalInstance", "FavoritesService", "SettingsService", "FormlyLoader", "data", "TorrentSearchEngines", "DuckieTorrent", "SceneXemResolver",
+function($scope, $filter, $modalInstance, FavoritesService, SettingsService, FormlyLoader, data, TorrentSearchEngines, DuckieTorrent, SceneXemResolver) {
 
     // customDelay.max cannot exceed adPeriod (days converted to minutes).
     var adDelayMaxMinutes = parseInt(SettingsService.get('autodownload.period') * 24 * 60); 
@@ -15,6 +15,7 @@ function($scope, $filter, $modalInstance, FavoritesService, SettingsService, For
         $scope.model.ignoreGlobalQuality = $scope.model.ignoreGlobalQuality == 1;
         $scope.model.ignoreGlobalIncludes = $scope.model.ignoreGlobalIncludes == 1;
         $scope.model.ignoreGlobalExcludes = $scope.model.ignoreGlobalExcludes == 1;
+        $scope.model.hasXemAlias = (SceneXemResolver.getXemAliasListForSerie(data.serie).length > 0);
 
         // determine if client is local or remote (not fool proof, is there a better way?)
         if (DuckieTorrent.getClient().getName() === 'uTorrent') {
@@ -46,8 +47,16 @@ function($scope, $filter, $modalInstance, FavoritesService, SettingsService, For
     Object.keys(TorrentSearchEngines.getSearchEngines()).map(function(searchProvider) {
         $scope.searchProviders.push({'name': searchProvider, 'value': searchProvider});
     });
+    /**
+     * set up select list for xem alias
+     */
+    $scope.searchAlias = [{'name': '', 'value': null}];
+    SceneXemResolver.getXemAliasListForSerie(data.serie).map(function(alias) {
+        $scope.searchAlias.push({'name': alias, 'value': alias});
+    });
     FormlyLoader.setMapping('options', {
-        'searchProviders': $scope.searchProviders
+        'searchProviders': $scope.searchProviders,
+        'searchAlias': $scope.searchAlias
     });
 
     /**

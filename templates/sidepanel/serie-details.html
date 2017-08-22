@@ -10,6 +10,10 @@
     </div>
     <table class="metadata" width="100%" border="0" style="margin-top: 10px">
       <tbody>
+        <tr ng-show="sidepanel.serie.alias.length > 0">
+          <th translate-once>COMMON/alias/hdr</th>
+          <td>{{::sidepanel.serie.alias}}</td>
+        </tr>
         <tr>
           <th translate-once>SIDEPANEL/SERIE-DETAILS/links/hdr</th>
           <td>
@@ -60,7 +64,7 @@
           <th translate-once>COMMON/status/hdr</th>
           <td>{{::sidepanel.translateStatus(sidepanel.serie.status)}}</td>
         </tr>
-        <tr ng-if="sidepanel.serie.actors.length > 0  " >
+        <tr ng-if="sidepanel.serie.actors.length > 0">
           <th translate-once>COMMON/actors/hdr</th>
           <td>
             <ul class="actors list-unstyled">
