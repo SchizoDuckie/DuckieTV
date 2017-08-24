@@ -1,9 +1,7 @@
 <div class="filtertools">
   <div class="row">
-
-    <nav class="col col-md-5" navbar navbar-default" role="navigation">
-      <form class="navbar-left" ng-submit="serieslist.execFilter()" name="filterForm">
-        
+    <div class="col col-md-5">
+      <form ng-submit="serieslist.execFilter()" name="filterForm">
         <div class="input-group pull-left">
           <span class="input-group-addon">
              <i style='font-size:15px;' class="glyphicon glyphicon-search"></i>
@@ -11,55 +9,55 @@
           <input type='text' focus-watch="'serieslist.isFiltering'" ng-change="localFilter.setFilter(localFilter.query)" ng-model='localFilter.query' ng-model-options="{debounce: 300}" translate-once-placeholder="SERIESLIST/TOOLS/FAVORITES/filter-placeholder" style="width:100%">
         </div>
       </form>
-    </nav>
-    <nav class="col col-md-4">
-        <!-- statusfilter list -->
-        
-         <div class="btn-group sort-status" uib-dropdown>
-            <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle>
-              <span translate-once>COMMON/status/hdr</span>
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="(status, count) in localFilter.statusList track by $index" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)">
-              <label for="status{{$index}}"><input id="status{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedStatus(status)"  ng-click="localFilter.selectStatus(status)">{{localFilter.translateStatus(status)}} ({{count}})</label>
-            </li>
-          </ul>
-        </div>
-     
-        <!-- genre filter list -->
-         <div class="btn-group sort-genre" uib-dropdown>
-          <button type="button" class="btn btn-large dropdown-toggle" uib-dropdown-toggle >
-            <span translate-once>COMMON/genre/hdr</span>
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="(genre, count) in localFilter.genreList track by $index" ng-click="$event.stopPropagation(); localFilter.selectGenre(genre)">
-              <label for="genre{{$index}}"><input id="genre{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedGenre(genre)"  ng-click="localFilter.selectGenre(genre)">{{localFilter.translateGenre(genre)}} ({{count}})</label>
-            </li>
-          </ul>
-        </div>
+    </div>
 
-        <!-- OrderBy library button -->
-      
-        <div class="btn-group sort-btn" uib-dropdown>
-          <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle>
-            <i class="glyphicon glyphicon-sort-by-attributes"></i>
-            <span translate-once>COMMON/orderby/glyph</span>
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="orderBy in serieslist.orderByList" ng-click="serieslist.setOrderBy(orderBy, $event);">
-              <label><span class="sortorder" ng-class="{reverse:serieslist.orderReverseList[{{$index}}]}"></span>&nbsp; {{serieslist.translateOrderBy(orderBy)}} </label>
-            </li>
-          </ul>
-        </div>
-    
-    </nav>
-    <div class="col col-md-3" style="text-align:right;white-space:nowrap">
+    <div class="col col-md-4">
+      <!-- statusfilter list -->
+      <div class="btn-group sort-status" uib-dropdown>
+        <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle>
+          <span translate-once>COMMON/status/hdr</span>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-repeat="(status, count) in localFilter.statusList track by $index" ng-click="$event.stopPropagation(); localFilter.selectStatus(status)">
+            <label for="status{{$index}}">
+              <input id="status{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedStatus(status)" ng-click="localFilter.selectStatus(status)">{{localFilter.translateStatus(status)}} ({{count}})</label>
+          </li>
+        </ul>
+      </div>
 
-        <!-- Banner mode button -->
-      <a accesskey="l" ng-show="serieslist.mode != 'banner'"  ng-click="serieslist.setMode('banner');" uib-tooltip="{{'SERIESLIST/TOOLS/FAVORITES/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom" tooltip-delay="150">
+      <!-- genre filter list -->
+      <div class="btn-group sort-genre" uib-dropdown>
+        <button type="button" class="btn btn-large dropdown-toggle" uib-dropdown-toggle>
+          <span translate-once>COMMON/genre/hdr</span>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-repeat="(genre, count) in localFilter.genreList track by $index" ng-click="$event.stopPropagation(); localFilter.selectGenre(genre)">
+            <label for="genre{{$index}}">
+              <input id="genre{{$index}}" type="checkbox" ng-checked="localFilter.getCheckedGenre(genre)" ng-click="localFilter.selectGenre(genre)">{{localFilter.translateGenre(genre)}} ({{count}})</label>
+          </li>
+        </ul>
+      </div>
+
+      <!-- OrderBy library button -->
+      <div class="btn-group sort-btn" uib-dropdown>
+        <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle>
+          <i class="glyphicon glyphicon-sort-by-attributes"></i>
+          <span translate-once>COMMON/orderby/glyph</span>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-repeat="orderBy in serieslist.orderByList" ng-click="serieslist.setOrderBy(orderBy, $event);">
+            <label><span class="sortorder" ng-class="{reverse:serieslist.orderReverseList[{{$index}}]}"></span>&nbsp; {{serieslist.translateOrderBy(orderBy)}} </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col col-md-3" style="display: flex; height: 40px; justify-content: flex-end; align-items: center;">
+      <!-- Banner mode button -->
+      <a accesskey="l" ng-show="serieslist.mode != 'banner'" ng-click="serieslist.setMode('banner');" uib-tooltip="{{'SERIESLIST/TOOLS/FAVORITES/list-show-mode/tooltip'|translate}}({{'SERIESLIST/TOOLS/FAVORITES/hotkey/lbl'|translate}}: alt + l)" tooltip-placement="bottom" tooltip-delay="150">
         <i style='font-size:15px;' class="glyphicon glyphicon-th-list"></i> <span translate-once>SERIESLIST/TOOLS/FAVORITES/list-show/glyph</span>
       </a>
       <!-- Poster mode button -->
@@ -70,7 +68,6 @@
       <a ng-show="serieslist.mode == 'poster'" ng-click="serieslist.toggleSmall();">
         <i uib-tooltip="{{serieslist.isSmall ? 'COMMON/make-posters-large/tooltip' : 'COMMON/make-posters-small/tooltip'|translate}}" tooltip-placement="bottom" tooltip-delay="150" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>
       </a>
-
     </div>
-  </div> 
+  </div>
 </div>
