@@ -20,27 +20,30 @@
   font-style: normal;
 }
 
- /* Bootstrap Overrides */
+
+/* Bootstrap Overrides */
+
 .modal {
-	overflow: auto;
-	background-color: rgba(0,0,0,0.4);
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .dropdown-menu .divider {
-	opacity: 0.7;
+  opacity: 0.7;
 }
 
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
-	pointer-events: none;
+  pointer-events: none;
 }
 
 button[disabled], html input[disabled] {
-	cursor: not-allowed;
-	opacity: .65;
-	filter: alpha(opacity=65);
-	-webkit-box-shadow: none;
-	box-shadow: none;
+  cursor: not-allowed;
+  opacity: .65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
+
 
 /* Something? I dunno
 .tooltip {
@@ -48,38 +51,46 @@ button[disabled], html input[disabled] {
     line-height: inherit;
 } */
 
+
 /* Fix to prevent tooltips from the calendar overflowing edge of screen  */
+
 .tooltip.calendar {
-    max-width: 85px;
+  max-width: 85px;
 }
 
+
 /* White Tooltips */
+
 .tooltip.right .tooltip-arrow {
-    border-top-color: transparent !important;
-    border-bottom-color: transparent !important;
-    border-right-color: white;
-    left: 1px !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+  border-right-color: white;
+  left: 1px !important;
 }
+
 .tooltip.left .tooltip-arrow {
-    border-top-color: transparent !important;
-    border-bottom-color: transparent !important;
-    border-left-color: white;
-    right: 1px !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+  border-left-color: white;
+  right: 1px !important;
 }
+
 .tooltip.top .tooltip-arrow {
-    border-top-color: white !important;
-    border-bottom-color: white !important;
-    bottom: 1px !important;
+  border-top-color: white !important;
+  border-bottom-color: white !important;
+  bottom: 1px !important;
 }
+
 .tooltip.bottom .tooltip-arrow {
-    border-bottom-color: white !important;
-    top: 1px !important;
+  border-bottom-color: white !important;
+  top: 1px !important;
 }
+
 .tooltip .tooltip-inner {
-    background-color: white !important;
-    color: black !important;
-    text-shadow: none !important;
-    white-space: normal;
+  background-color: white !important;
+  color: black !important;
+  text-shadow: none !important;
+  white-space: normal;
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
@@ -91,7 +102,7 @@ ng\:form {
 }
 
 html {
-  -webkit-user-select: none;
+  user-select: none;
 }
 
 body {
@@ -101,14 +112,14 @@ body {
   background-repeat: no-repeat;
   font-family: helvetica, sans-serif;
   color: #444;
-  -webkit-transition: all 0.5px ease-in-out;
+  transition: all 0.5px ease-in-out;
 }
 
 body.modal-open sidepanel, body.modal-open div[date-picker] {
-  -webkit-filter: blur(1px);
+  filter: blur(1px);
 }
 
-body> .container {
+body>.container {
   width: calc(100% - 57px);
   padding: 20px 35px 10px 35px;
   float: right;
@@ -116,11 +127,11 @@ body> .container {
   transition: padding-top 0.2s ease-in, opacity 0.2s ease-in;
 }
 
-body> .container.topsites {
+body>.container.topsites {
   padding-top: 45px;
 }
 
-body> .container calendar {
+body>.container calendar {
   transform: translate3d(0, 0, 0);
   position: relative;
 }
@@ -134,11 +145,11 @@ body> .container calendar {
 }
 
 p, input, select, span, #aboutpage, #autodlstatuspage, #synologypage {
-  -webkit-user-select: initial;
+  user-select: initial;
 }
 
 input:-webkit-autofill {
-    text-shadow: 0 0 0px black !important;
+  text-shadow: 0 0 0px black !important;
 }
 
 textarea {
@@ -189,7 +200,7 @@ a:hover .glyphicon {
 *::-webkit-scrollbar-track {
   border: 1px gray solid;
   border-radius: 5px;
-  -webkit-box-shadow: 0 0 2px gray inset;
+  box-shadow: 0 0 2px gray inset;
 }
 
 *::-webkit-scrollbar-thumb:hover {
@@ -217,9 +228,9 @@ a:hover .glyphicon {
   -webkit-app-region: no-drag;
   -webkit-appearance: none;
   background-color: transparent;
-  -webkit-filter: invert(100%);
+  filter: invert(100%);
   border: none;
-  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
 }
 
 .windowChrome button:hover {
@@ -234,7 +245,7 @@ background-rotator {
   opacity: 0.4;
 }
 
-background-rotator> div {
+background-rotator>div {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -248,7 +259,7 @@ background-rotator> div {
   transition: opacity 1s ease-in-out;
 }
 
-background-rotator> div.active {
+background-rotator>div.active {
   opacity: 1;
 }
 
@@ -268,7 +279,7 @@ background-rotator .placeholder {
   height: 100%;
   min-height: 520px;
   width: 58px;
-  -webkit-transition: background-color .5s;
+  transition: background-color .5s;
   overflow: visible;
 }
 
@@ -283,11 +294,11 @@ background-rotator .placeholder {
   background-position: 50%;
   width: 58px;
   height: 58px;
-  -webkit-transition: transform .6s ease;
+  transition: transform .6s ease;
 }
 
 #actionbar .logo:hover {
-  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
 }
 
 #actionbar ul {
@@ -416,7 +427,6 @@ background-rotator .placeholder {
 }
 
 .torrentlogo {
-  display: inline-block;
   width: 34px;
   float: left;
   height: 34px;
@@ -453,7 +463,7 @@ background-rotator .placeholder {
 
 .dropdown-menu li {
   padding: 2px 0px;
-  white-space:nowrap;
+  white-space: nowrap;
 }
 
 .dropdown-menu li:hover:not(.divider) {
@@ -523,7 +533,6 @@ button span, .dropdown-menu span, .dropdown-menu input {
   opacity: 0.8;
 }
 
-
 input[type=text], input[type=url], input[type=password], input[type=number], option, select, select.form-control {
   border: 1px solid rgba(255, 255, 255, 0.4);
   background-color: rgba(0, 0, 0, 0.2);
@@ -545,8 +554,8 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
 }
 
 .input-group .input-group-addon+input {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
@@ -562,7 +571,7 @@ input::-webkit-input-placeholder {
 }
 
 input:disabled {
-  background-color: rgba(0, 0, 0, 0.8 !important);
+  background-color: rgba(0, 0, 0, 0.8) !important;
   border-color: rgba(255, 0, 0, 0.1) !important;
 }
 
@@ -574,13 +583,12 @@ option {
 .form-control:focus {
   border-color: #222;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(2, 2, 2, .6);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(2, 2, 2, .6);
   background-color: rgba(0, 0, 0, 0.6);
 }
 
 input[type=checkbox], input[type=radio] {
-  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 .checkbox {
@@ -618,12 +626,12 @@ serieheader[mode='search'] {
   margin-right: 2px;
 }
 
-.series serieheader[mode='search']:first-child> div {
+.series serieheader[mode='search']:first-child>div {
   border-radius: 0;
 }
 
 serieheader {
-  overflow:hidden;
+  overflow: hidden;
 }
 
 serieheader[mode='search'] h3 {
@@ -648,7 +656,7 @@ serieheader .banner {
   display: block;
   width: 100%;
   height: 100%;
-  -webkit-transition: border 0.2s ease-in-out;
+  transition: border 0.2s ease-in-out;
 }
 
 serieheader .banner .img {
@@ -683,7 +691,6 @@ serieheader .badge {
   transition: opacity 0.2s ease-in-out;
 }
 
-
 [series-grid=true] serieheader[mode=poster] {
   top: 0px;
   left: 0px;
@@ -697,19 +704,21 @@ serieheader .badge {
   flex-wrap: wrap;
 }
 
+
 /* Main container for the posters
  * Note: The posters class itself has no margins or paddings and is just the size of the poster
  * this means the only thing seperating the posters is this margin here. This allows easy distancing
  * of the posters but also easily allows a no-gap mode between posters which looks kinda nice. */
 
 serieheader[mode='poster'] {
- margin: 0px 5px 11px 5px;
+  margin: 0px 5px 11px 5px;
 }
 
 serieheader[mode='poster'] .serieheader {
   position: relative;
   border: 0;
 }
+
 
 /* Standard Poster Size */
 
@@ -844,18 +853,17 @@ serieheader .earmark.add {
   transform: translateY(100px);
   width: 100%;
   vertical-align: middle;
-  background-color: rgba(125,125,125,0.4);
+  background-color: rgba(125, 125, 125, 0.4);
   transition: all 0.2s ease-in;
-
   cursor: pointer;
 }
 
 serieheader:hover .earmark.add {
- transform: translateY(0px); 
+  transform: translateY(0px);
 }
 
 serieheader em.earmark.trailer .glyphicon {
-  -webkit-filter: drop-shadow(2px 2px 2px black);
+  filter: drop-shadow(2px 2px 2px black);
 }
 
 serieheader .serieheader:hover em.earmark.trailer {
@@ -874,13 +882,13 @@ serieheader em.earmark.adding img {
 serieheader em.earmark.delete, serieheader em.earmark.error {
   background-color: rgba(150, 0, 0, 0.4);
   cursor: pointer;
-  -webkit-transition: all 0.2s ease-in;
-  -webkit-transform: translateX(100px);
+  transition: all 0.2s ease-in;
+  transform: translateX(100px);
 }
 
 serieheader em.earmark.adding, serieheader em.earmark.error {
-  -webkit-transform: translateX(0px);
-  -webkit-transition: all 0.2s ease-in;
+  transform: translateX(0px);
+  transition: all 0.2s ease-in;
 }
 
 serieheader em.earmark.refresh {
@@ -888,12 +896,12 @@ serieheader em.earmark.refresh {
   left: 0px;
   right: initial;
   cursor: pointer;
-  -webkit-transition: all 0.2s ease-in;
-  -webkit-transform: translateX(-100px);
+  transition: all 0.2s ease-in;
+  transform: translateX(-100px);
 }
 
 serieheader em.earmark.refresh.adding {
-  -webkit-transform: translateX(0px);
+  transform: translateX(0px);
 }
 
 serieheader em.earmark.delete i.glyphicon {
@@ -903,7 +911,7 @@ serieheader em.earmark.delete i.glyphicon {
 }
 
 serieheader:hover em.earmark.delete, serieheader:hover em.earmark.refresh {
-  -webkit-transform: translateX(0);
+  transform: translateX(0);
 }
 
 serieheader em.glyphicon {
@@ -915,7 +923,7 @@ serieheader em.glyphicon {
   width: 45px;
   height: 35px;
   padding: 1px 0px 1px 1px;
-  -webkit-filter: drop-shadow(2px 2px 2px rgba(5, 5, 5, 0.9));
+  filter: drop-shadow(2px 2px 2px rgba(5, 5, 5, 0.9));
 }
 
 series-list {
@@ -925,7 +933,7 @@ series-list {
   transition: background-color 0.2s ease-in;
 }
 
-series-list> div {
+series-list>div {
   position: fixed;
   bottom: 0px;
   top: 0px;
@@ -942,15 +950,15 @@ body.serieslistActive, body.seriesaddingActive {
   overflow-y: hidden;
 }
 
-.serieslistActive > .container, .seriesaddingActive > .container{
+.serieslistActive>.container, .seriesaddingActive>.container {
   opacity: 0;
 }
 
-.serieslistActive series-list,.seriesaddingActive series-list {
+.serieslistActive series-list, .seriesaddingActive series-list {
   background-color: rgb(20, 22, 24);
 }
 
-.serieslistActive series-list> div, .seriesaddingActive series-list> div {
+.serieslistActive series-list>div, .seriesaddingActive series-list>div {
   transform: translate3d(0, 0, 0);
 }
 
@@ -958,11 +966,11 @@ body.sidepanelActive {
   overflow-y: hidden;
 }
 
-.sidepanelActive series-list> div {
+.sidepanelActive series-list>div {
   width: calc(100% - 400px);
 }
 
-.sidepanelExpanded series-list> div {
+.sidepanelExpanded series-list>div {
   width: calc(100% - 800px);
 }
 
@@ -976,7 +984,6 @@ series-list .tools {
   position: absolute;
 }
 
-
 series-list .tools .btn-group {
   cursor: pointer;
 }
@@ -985,7 +992,7 @@ series-list .tools .btn-group button {
   background-color: transparent;
   color: white;
   border-color: rgba(255, 255, 255, 0.4);
-  height:40px;
+  height: 40px;
 }
 
 series-list .tools .btn-group:hover button {
@@ -1057,7 +1064,7 @@ trakt-tv-search .series {
   margin-top: 35px;
 }
 
-trakt-tv-search> form {
+trakt-tv-search>form {
   padding: 20px;
 }
 
@@ -1097,11 +1104,11 @@ series-list .trakt-import .toggleWatchSync, series-list .trakt-import .pushToTra
 }
 
 series-list .trakt-import .trakt-login input {
-    background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-series-list .trakt-import .trakt-login > table {
-    max-width: 500px;
+series-list .trakt-import .trakt-login>table {
+  max-width: 500px;
 }
 
 series-list .trakt-import serieheader, series-list .backup-import serieheader {
@@ -1141,7 +1148,7 @@ series-list .trakt-import serieheader h3, series-list .backup-import serieheader
 }
 
 .torrentBtns .sort-btn {
-  border-color: rgba(255,255,255,0.4);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .torrent-dialog, .subtitle-dialog {
@@ -1171,7 +1178,7 @@ series-list .trakt-import serieheader h3, series-list .backup-import serieheader
 }
 
 .modal-content .form-group {
-  margin: bottom: 0px;
+  margin-bottom: 0px;
 }
 
 #jackettSearchEngine .col-xs-8, #jackettSearchEngine .col-xs-10 {
@@ -1252,12 +1259,12 @@ chrome-top-sites {
   z-index: 500;
   background-color: rgb(20, 22, 24);
   border-bottom: 1px solid white;
-  -webkit-transition: -webkit-transform 0.5s ease-in;
-  -webkit-transform: translateY(-100%);
+  transition: transform 0.5s ease-in;
+  transform: translateY(-100%);
 }
 
 chrome-top-sites.onhover:hover, chrome-top-sites.onclick.active {
-  -webkit-transform: translateY(0);
+  transform: translateY(0);
 }
 
 chrome-top-sites h2 {
@@ -1270,7 +1277,7 @@ chrome-top-sites h2 {
   margin-top: 1px;
   padding: 5px;
   left: 0px;
-  -webkit-transition: background-color 0.5s ease-in-out;
+  transition: background-color 0.5s ease-in-out;
   cursor: pointer;
 }
 
@@ -1440,14 +1447,14 @@ div [date-picker] {
 
 [date-picker] {
   border-radius: 10px;
-  -webkit-user-select: none;
+  user-select: none;
   transition: transform 0.4s ease-in-out, background-color 0.3s ease-in-out;
   z-index: 101;
   position: relative;
 }
 
 [date-picker] span {
-  -webkit-user-select: none;
+  user-select: none;
 }
 
 [date-picker]:hover {
@@ -1509,7 +1516,7 @@ div [date-picker] {
   transform: scale(1.5) translate3d(50px, 15px, 0px);
 }
 
-[date-picker].zoom td.day:hover> span {
+[date-picker].zoom td.day:hover>span {
   top: 0px;
   left: -30%;
   color: white;
@@ -1520,7 +1527,7 @@ div [date-picker] {
   min-height: 75px;
 }
 
-[date-picker].zoom td.day:hover> span em.dayofweek {
+[date-picker].zoom td.day:hover>span em.dayofweek {
   display: block;
 }
 
@@ -1554,7 +1561,7 @@ div [date-picker] {
   vertical-align: top;
 }
 
-[date-picker] td> span {
+[date-picker] td>span {
   font-size: 40px;
   display: block;
   color: rgba(255, 255, 2550, 0.2);
@@ -1570,7 +1577,7 @@ td.day {
   position: relative
 }
 
-[date-picker] td:not(.day)> span {
+[date-picker] td:not(.day)>span {
   border-right: 1px solid white;
   border-bottom: 1px solid white;
 }
@@ -1607,7 +1614,6 @@ td.day {
 [date-picker] h2 .glyphicon {
   font-size: 15px;
   line-height: 100%;
-  vertical-align: middle;
   clear: both;
   display: block;
   padding-top: 5px;
@@ -1636,7 +1642,7 @@ td.day {
   cursor: default;
 }
 
-[date-picker] div[ng-switch-when=month] td> span, [date-picker] div[ng-switch-when=year] td> span {
+[date-picker] div[ng-switch-when=month] td>span, [date-picker] div[ng-switch-when=year] td>span {
   font-size: 40px;
   display: block;
   color: rgba(255, 255, 2550, 0.8);
@@ -1726,11 +1732,11 @@ td.day {
   display: block;
 }
 
-[date-picker] .event> a {
+[date-picker] .event>a {
   padding-left: 3px;
 }
 
-[date-picker] .event> a span {
+[date-picker] .event>a span {
   display: inline-block;
   line-height: 18px;
   cursor: pointer;
@@ -1831,12 +1837,12 @@ clicktrap {
 }
 
 a.hover i.glyphicon-plus-sign {
-  -webkit-transition: all 1s ease-in;
-  -webkit-transform: scale(1, 1);
+  transition: all 1s ease-in;
+  transform: scale(1, 1);
 }
 
 a:hover i.glyphicon-plus-sign {
-  -webkit-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1);
 }
 
 .watchlist li {
@@ -1916,7 +1922,8 @@ calendar-event .progress {
 calendar-event .progress-bar {
   color: black;
   line-height: 16px;
-  vertical-align: middle height: auto;
+  vertical-align: middle;
+  height: auto;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -2019,8 +2026,8 @@ query-monitor {
   border-radius: 10px;
   height: 80px;
   opacity: 0;
-  -webkit-transform: translateX(120%);
-  -webkit-transition: all 0.2s ease-in;
+  transform: translateX(120%);
+  transition: all 0.2s ease-in;
 }
 
 query-monitor i {
@@ -2036,7 +2043,7 @@ query-monitor .progress {
 
 query-monitor.show {
   opacity: 1;
-  -webkit-transform: translateX(0);
+  transform: translateX(0);
 }
 
 .img-loading {
@@ -2066,7 +2073,7 @@ sidepanel a.btn.btn-success.binputhover {
   border-color: rgba(71, 164, 71, 1) !important;
 }
 
-sidepanel> div {
+sidepanel>div {
   position: fixed;
   top: 0;
   right: 0;
@@ -2122,7 +2129,7 @@ sidepanel .buttons a {
   border-radius: 9px;
   text-align: center;
   transition: background-color 0.3s;
-  -webkit-user-select: none;
+  user-select: none;
 }
 
 sidepanel .buttons a.btn:hover {
@@ -2141,7 +2148,6 @@ sidepanel .buttons.languages a i {
 }
 
 sidepanel .buttons a.subtitle-dialog {
-  display: inline-block;
   float: right;
   margin-top: -15px !important;
   border-radius: 5px !important;
@@ -2295,7 +2301,7 @@ sidepanel .buttons .two-face-torrent .torrent-settings {
   margin: 0;
 }
 
-sidepanel .buttons .torrent-mini-remote-control> span {
+sidepanel .buttons .torrent-mini-remote-control>span {
   /* Replicate of the strong tag */
   font-size: 18px;
   letter-spacing: 1px;
@@ -2321,7 +2327,7 @@ sidepanel .buttons .torrent-mini-remote-control-progress {
   background-color: rgba(210, 210, 210, 0.4);
 }
 
-sidepanel .buttons .torrent-mini-remote-control-progress> span {
+sidepanel .buttons .torrent-mini-remote-control-progress>span {
   /* Somehow positions it in the center dont even know */
   position: absolute;
   left: 0px;
@@ -2767,8 +2773,8 @@ sidepanel .seasons serieheader {
 }
 
 [ui-view]:before {
-  -webkit-transition: all 0.8s ease-in;
-  -webkit-transform: translateY(-500px);
+  transition: all 0.8s ease-in;
+  transform: translateY(-500px);
   position: absolute;
   top: 0px;
   left: 0px;
@@ -2784,7 +2790,7 @@ sidepanel .seasons serieheader {
 }
 
 .ui-loading:before {
-  -webkit-transform: translateY(0px);
+  transform: translateY(0px);
 }
 
 
@@ -2906,6 +2912,7 @@ ng-dial-gauge {
 .sortorder:after {
   content: '\25b2';
 }
+
 .sortorder.reverse:after {
   content: '\25bc';
 }
@@ -3061,27 +3068,35 @@ ng-dial-gauge {
 .tray.tray-black {
   background-image: url('../img/logo/icon64.png');
 }
+
 .tray.tray-white {
   background-image: url('../img/logo/icon64-inverted.png');
 }
+
 .tray.tray-red {
   background-image: url('../img/logo/icon64-red.png');
 }
+
 .tray.tray-orange {
   background-image: url('../img/logo/icon64-orange.png');
 }
+
 .tray.tray-yellow {
   background-image: url('../img/logo/icon64-yellow.png');
 }
+
 .tray.tray-green {
   background-image: url('../img/logo/icon64-green.png');
 }
+
 .tray.tray-blue {
   background-image: url('../img/logo/icon64-blue.png');
 }
+
 .tray.tray-indigo {
   background-image: url('../img/logo/icon64-indigo.png');
 }
+
 .tray.tray-violet {
   background-image: url('../img/logo/icon64-violet.png');
 }

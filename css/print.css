@@ -1,64 +1,65 @@
-body > .container {
-	padding: 0;
-	width: 100%;
+body>.container {
+  padding: 0;
+  width: 100%;
 }
 
 .container-fluid, .topsites-true {
-	margin :0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 chrome-top-sites, series-list {
-	display:none;
+  display: none;
 }
 
 #actionbar {
-	display:none;
+  display: none;
 }
 
 sidepanel {
-	display: none;
+  display: none;
 }
 
 calendar {
-	width: 100%;
-}
-calendar th .glyphicon {
-	display:none !important;
+  width: 100%;
 }
 
-[date-picker] td > span {
-	opacity: 0.2;
+calendar th .glyphicon {
+  display: none !important;
+}
+
+[date-picker] td>span {
+  opacity: 0.2;
 }
 
 [date-picker] .now {
-	color: black;
+  color: black;
 }
 
 [date-picker] td, [date-picker] th {
-	border: 1px solid black;
-	padding: 1px;
+  border: 1px solid black;
+  padding: 1px;
 }
 
 body:before {
-	content: 'TV Show Calendar by DuckieTV';
-	font-size: 12px;
-	margin-right: 10px;
-	position: absolute;
-	top: 15px;
-	right: 50px;
-	color: #ccc;
+  content: 'TV Show Calendar by DuckieTV';
+  font-size: 12px;
+  margin-right: 10px;
+  position: absolute;
+  top: 15px;
+  right: 50px;
+  color: #ccc;
 }
 
 body {
-	background-image: url('img/logo/icon64.png');
-	background-position: bottom right;
+  background-image: url('img/logo/icon64.png');
+  background-position: bottom right;
 }
 
 .printlogo {
-	display: block;
-	position: absolute;
-	top: 15px;
-	right: 15px;
-	opacity: 0.4;
+  display: block;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  opacity: 0.4;
 }
