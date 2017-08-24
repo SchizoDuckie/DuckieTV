@@ -20,7 +20,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
             serie: 'shows/%s?extended=full',
             seasons: 'shows/%s/seasons?extended=full',
             episodes: 'shows/%s/seasons/%s/episodes?extended=full',
-            search: 'search/show?extended=full&limit=50&query=%s',
+            search: 'search/show?extended=full&limit=50&fields=title&query=%s',
             trending: 'shows/trending?extended=full&limit=500',
             tvdb_id: 'search/tvdb/%s?type=show',
             trakt_id: 'search/trakt/%s?type=show',
