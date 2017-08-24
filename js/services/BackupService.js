@@ -22,6 +22,8 @@
  *          "customSearchSizeMax": <integer>||null,
  *          "dlPath": <string>||null,
  *          "customDelay": <integer>||null,
+ *          "alias": <string>||null,
+ *          "customFormat": <string>||null,
  *      },
  *      {
  *          "TVDB_ID": <Episode_TVDB_ID>,
@@ -38,7 +40,7 @@ DuckieTV.service('BackupService', ["TorrentSearchEngines", function(TorrentSearc
     var service = {
         createBackup: function() {
             // Fetch all the series
-            return CRUD.executeQuery('select Series.TVDB_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax, Series.dlPath, Series.customDelay from Series').then(function(series) {
+            return CRUD.executeQuery('select Series.TVDB_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax, Series.dlPath, Series.customDelay, Series.alias, Series.customFormat from Series').then(function(series) {
                 var out = {
                     settings: {},
                     series: {}
@@ -71,7 +73,9 @@ DuckieTV.service('BackupService', ["TorrentSearchEngines", function(TorrentSearc
                         'customSearchSizeMin': serie.customSearchSizeMin,
                         'customSearchSizeMax': serie.customSearchSizeMax,
                         'dlPath': serie.dlPath,
-                        'customDelay': serie.customDelay
+                        'customDelay': serie.customDelay,
+                        'alias': serie.alias,
+                        'customFormat': serie.customFormat
                     })
                 });
                 // Store watched episodes for each serie
