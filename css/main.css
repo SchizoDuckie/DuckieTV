@@ -36,7 +36,7 @@
   pointer-events: none;
 }
 
-button[disabled], html input[disabled] {
+button[disabled], html input[disabled], .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
   cursor: not-allowed;
   opacity: .65;
   filter: alpha(opacity=65);
@@ -1175,10 +1175,6 @@ series-list .trakt-import serieheader h3, series-list .backup-import serieheader
 .modal-content .row {
   margin-left: 0px;
   margin-right: 0px;
-}
-
-.modal-content .form-group {
-  margin-bottom: 0px;
 }
 
 #jackettSearchEngine .col-xs-8, #jackettSearchEngine .col-xs-10 {
