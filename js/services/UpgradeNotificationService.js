@@ -11,7 +11,7 @@ DuckieTV
 
         var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="https://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="https://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="https://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
         var notifications = {
-            '1.1.5': ["<li>AutoDownload: (new) Now able to download .torrent files \o/.",
+            '1.1.5': ["<li>AutoDownload: (new) Now able to download .torrent files \\o/.",
                 "<li>Database: (fix) Moved the database management services to the *Background* task, to minimise interruptions to DB writes and maintain integrity.",
                 "<li>Favourites: (new) Remembers last used sort selection.",
                 "<li>Favourites: (new) Introducing Anime support. Now search uses the absolute episode number when available. Series Settings allows user to select any available Alias to be used in searches instead of the default Title.",
