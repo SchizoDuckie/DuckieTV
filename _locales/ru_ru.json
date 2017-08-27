@@ -69,6 +69,7 @@
     "COMMON/address/lbl": "Адрес",
     "COMMON/addtrending/hdr": "Популярные шоу на Trakt.TV",
     "COMMON/airs-on/hdr": "Эфир",
+    "COMMON/alias/hdr": "псевдоним",
     "COMMON/all-watched/tooltip": "Все эпизоды просмотрены",
     "COMMON/are-you-sure/lbl": "Ты уверен?",
     "COMMON/authentication/lbl": "Использовать авторизацию",

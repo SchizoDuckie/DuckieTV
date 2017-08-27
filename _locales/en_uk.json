@@ -69,6 +69,7 @@
     "COMMON/address/lbl": "Address",
     "COMMON/addtrending/hdr": "Trending shows on Trakt.TV",
     "COMMON/airs-on/hdr": "Currently Airs on",
+    "COMMON/alias/hdr": "Alias",
     "COMMON/all-watched/tooltip": "All episodes watched",
     "COMMON/are-you-sure/lbl": "Are you sure?",
     "COMMON/authentication/lbl": "Use authentication",

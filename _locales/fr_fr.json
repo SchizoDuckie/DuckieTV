@@ -69,6 +69,7 @@
     "COMMON/address/lbl": "Adresse",
     "COMMON/addtrending/hdr": "Séries populaires sur Trakt.tv",
     "COMMON/airs-on/hdr": "Diffusé actuellement le",
+    "COMMON/alias/hdr": "Alias",
     "COMMON/all-watched/tooltip": "Tous les épisodes regardés",
     "COMMON/are-you-sure/lbl": "Êtes-vous sûr?",
     "COMMON/authentication/lbl": "Utiliser l'authentification",
