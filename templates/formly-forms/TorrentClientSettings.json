@@ -74,4 +74,12 @@
     "expressionProperties": {
         "templateOptions.label": "\"COMMON/password/lbl\"|translate"
     }
+}, {
+    "key": "progressX100",
+    "type": "input",
+    "hideExpression": "model.progressX100 === undefined || model.hidePath === true",
+    "templateOptions": {
+        "type": "checkbox",
+        "label": "%x100"
+    }
 }]

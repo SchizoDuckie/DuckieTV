@@ -20,7 +20,8 @@ DuckieTorrent.factory('Vuze', ["BaseTorrentClient", "TransmissionRemote", "Trans
             path: 'vuze.path',
             username: 'vuze.username',
             password: 'vuze.password',
-            use_auth: 'vuze.use_auth'
+            use_auth: 'vuze.use_auth',
+            progressX100: 'vuze.progressX100'
         });
         service.readConfig();
 

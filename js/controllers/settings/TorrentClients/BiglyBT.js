@@ -13,6 +13,7 @@ DuckieTV.controller("biglybtCtrl", ["$injector", "BiglyBT", "SettingsService", "
                 use_auth: SettingsService.get('biglybt.use_auth'),
                 username: SettingsService.get('biglybt.username'),
                 password: SettingsService.get('biglybt.password'),
+                progressX100: SettingsService.get('biglybt.progressX100'),
                 hidePath: true
             };
 

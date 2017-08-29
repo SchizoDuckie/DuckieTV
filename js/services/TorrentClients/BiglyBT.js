@@ -20,7 +20,8 @@ DuckieTorrent.factory('BiglyBT', ["BaseTorrentClient", "TransmissionRemote", "Tr
             path: 'biglybt.path',
             username: 'biglybt.username',
             password: 'biglybt.password',
-            use_auth: 'biglybt.use_auth'
+            use_auth: 'biglybt.use_auth',
+            progressX100: 'biglybt.progressX100'
         });
         service.readConfig();
 

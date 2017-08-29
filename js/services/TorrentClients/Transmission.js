@@ -34,7 +34,7 @@ TransmissionData.extends(TorrentData, {
         return this.name;
     },
     getProgress: function() {
-        var unit = (this.getClient().getAPI().isWebServer()) ? 1 : 100;
+        var unit = (this.getClient().getAPI().config.progressX100) ? 100 : 1;
         return this.round(this.percentDone * unit, 1);
     },
     getDownloadSpeed: function() {
@@ -192,9 +192,6 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                     }
                 });
             },
-            isWebServer: function() {
-                return (this.config.path !== '/transmission/rpc');
-            },
             /**
              * Transmission supports setting the Download Path when adding magnets and .torrents. 
              */
@@ -232,7 +229,8 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
             path: 'transmission.path',
             username: 'transmission.username',
             password: 'transmission.password',
-            use_auth: 'transmission.use_auth'
+            use_auth: 'transmission.use_auth',
+            progressX100: 'transmission.progressX100'
         });
         service.readConfig();
 
