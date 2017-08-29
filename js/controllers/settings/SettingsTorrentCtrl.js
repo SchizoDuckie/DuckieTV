@@ -175,6 +175,10 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
             $scope.searchprovider = provider;
             SettingsService.set('torrenting.searchprovider', provider);
             TorrentSearchEngines.setDefault(provider);
+            if ($scope.adEnabled) {
+                AutoDownloadService.detach();
+                AutoDownloadService.attach();
+            }
         };
 
         /**
