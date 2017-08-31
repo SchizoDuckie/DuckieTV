@@ -393,8 +393,9 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                         }
                     });
                 } else {
-                    // api 2
-                    var payload =  '?apikey=' + config.apiKey + '&Query=' + what.trim().replace(/\s/g,'%20') + '&Tracker%5B%5D=' + config.tracker;
+                    // api 2 (0.8.136.0)
+                    var trackerid = (config.tracker == 'all') ? '' : '&Tracker%5B%5D=' + config.tracker;
+                    var payload =  '?apikey=' + config.apiKey + '&Query=' + what.trim().replace(/\s/g,'%20') + trackerid;
                     return $http({
                         method: 'GET',
                         url: config.mirror + payload,
