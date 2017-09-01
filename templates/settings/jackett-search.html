@@ -10,7 +10,7 @@
   <button class="btn btn-xs btn-{{showDefault ? 'info' : 'success'}}" style="display:inline-block !important;margin-left:7px" ng-click="showDefault = !showDefault">{{showDefault ? 'SETTINGS/JACKETT-SEARCH/default-engines-hide/btn' : 'SETTINGS/JACKETT-SEARCH/default-engines-show/btn'|translate}}</button>
 
   <a ng-repeat="jse in searchEngine.jackettEngines" style="text-decoration:none;margin:10px 0px 10px 0px;padding:10px 1px 10px 1px">
-    <h4>{{jse.config.name}}</h4>
+    <h4>{{jse.config.name}}<i class="glyphicon glyphicon-{{jse.enabled ? 'ok' : 'remove'}}" style="float:right;color:{{jse.enabled ? 'green' : 'red'}}"></i></h4>
     <button class="btn btn-xs btn-danger" style="display:inline-block !important" ng-if="jse.enabled" ng-click="searchEngine.disable(jse)"><i class="glyphicon glyphicon-remove-circle" style="margin:2px 5px 2px 2px"></i><span translate-once>SETTINGS/JACKETT-SEARCH/disable/btn</span></button>
     <button class="btn btn-xs btn-info" style="display:inline-block !important" ng-if="!jse.enabled" ng-click="searchEngine.enable(jse)"><i class="glyphicon glyphicon-play-circle" style="margin:2px 5px 2px 2px"></i><span translate-once>SETTINGS/JACKETT-SEARCH/enable/btn</span></button>
     <button class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.openDialog(jse,0)"><i class="glyphicon glyphicon-edit" style="margin:2px 5px 2px 2px"></i><span translate-once>SETTINGS/JACKETT-SEARCH/edit/btn</span></button>
@@ -21,7 +21,7 @@
 	<div class="buttons" style="margin-top:15px"  ng-show="showDefault">
 		<h3>Default Search Engines</h2>
 		<a ng-repeat="nse in searchEngine.nativeEngines" style="text-decoration:none;margin:10px 0px 10px 0px;padding:10px 1px 10px 1px">
-			<h4>{{nse.config.name}}</h4>
+			<h4>{{nse.config.name}}<i class="glyphicon glyphicon-{{nse.enabled ? 'ok' : 'remove'}}" style="float:right;color:{{nse.enabled ? 'green' : 'red'}}"></i></h4>
 			<button ng-disabled="searchEngine.isDefault(nse.config.name)" ng-if="nse.enabled" class="btn btn-xs btn-danger" style="display:inline-block !important" ng-click="searchEngine.disable(nse)"><i class="glyphicon glyphicon-remove-circle" style="margin:2px 5px 2px 2px"></i><span translate-once>SETTINGS/JACKETT-SEARCH/disable/btn</span></button>
 			<button ng-if="!nse.enabled" class="btn btn-xs btn-info" style="display:inline-block !important" ng-click="searchEngine.enable(nse)"><i class="glyphicon glyphicon-play-circle" style="margin:2px 5px 2px 2px"></i><span translate-once>SETTINGS/JACKETT-SEARCH/enable/btn</span></button>
 		</a>
