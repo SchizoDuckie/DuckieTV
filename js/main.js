@@ -110,13 +110,13 @@ $(document).ready(function() {
 });
 
 jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases/latest').then(function(result) {
-    $('#version').html(result[0].tag_name);
-    $('#date').html(new Date(result[0].published_at).toLocaleDateString());
-    $("#releasenotes").html('<p style="text-align:left">' + marked(result[0].body) + '</p>');
+    $('#version').html(result.tag_name);
+    $('#date').html(new Date(result.published_at).toLocaleDateString());
+    $("#releasenotes").html('<p style="text-align:left">' + marked(result.body) + '</p>');
 
     var isX64 = navigator.userAgent.search(/x86_64|x86-64|Win64|x64;|amd64|AMD64|WOW64|x64_64/) > -1;
 
-    result[0].assets.map(function(release) {
+    result.assets.map(function(release) {
         console.log(release.name);
         if (release.name.indexOf('debug') > -1) return;
         if (release.name.indexOf('ubuntu') > -1 && release.name.indexOf(isX64 ? 'x64' : 'x32') > -1) {
