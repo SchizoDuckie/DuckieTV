@@ -109,7 +109,7 @@ $(document).ready(function() {
 
 });
 
-jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').then(function(result) {
+jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases/latest').then(function(result) {
     $('#version').html(result[0].tag_name);
     $('#date').html(new Date(result[0].published_at).toLocaleDateString());
     $("#releasenotes").html('<p style="text-align:left">' + marked(result[0].body) + '</p>');
