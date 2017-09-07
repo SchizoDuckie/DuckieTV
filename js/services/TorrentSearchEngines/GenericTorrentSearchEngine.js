@@ -202,7 +202,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             var output = [];
 
             function sizeToMB(size) {
-                size = (typeof size !== 'undefined' && size !== null && size !== '') ? size.match(/[0-9.]{1,}[\W]{0,}[KTMGmgibBytes]{2,}/)[0] : '0 MB';
+                size = (typeof size !== 'undefined' && size !== null && size !== '') ? size.replace(',', '').match(/[0-9.]{1,}[\W]{0,}[KTMGmgibBytes]{2,}/)[0] : '0 MB';
                 var sizeA = (size.replace(',', '').split(/\s{1}/)); // size split into value and unit
                 var newSize = null; // size converted to MB
                 switch (sizeA[1].toUpperCase()) {
