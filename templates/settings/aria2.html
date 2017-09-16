@@ -1,0 +1,25 @@
+<div class="buttons" ng-controller="aria2Ctrl as aria2">
+	<h2>Aria2 <h2cont translate-once>COMMON/integration/hdr</h2cont></h2>
+
+	<img src="img/torrentclients/aria2-colored.png" style='width:200px; margin: 0 auto'>
+
+  <p><a href='https://github.com/SchizoDuckie/DuckieTV/wiki/Setting-up-Aria2-with-DuckieTV' target='_blank' translate-once>COMMON/set-up-instructions/lbl</a></p>
+
+	<p ng-show="aria2.isConnected()"><span translate-once>COMMON/status/hdr</span>:
+    <span translate-once>COMMON/connected/lbl</span> Aria2 API &#64; {{aria2.model.server}}:{{aria2.model.port}}
+	</p>
+
+	<p ng-show="!aria2.isConnected()"><span translate-once>COMMON/status/hdr</span>:
+    <span translate-once>COMMON/not-connected/lbl</span>
+	</p>
+
+	<p ng-show="aria2.error"><span translate-once>COMMON/error/hdr</span>:
+    <span >{{aria2.error}}</span>
+	</p>
+
+  <form ng-submit="aria2.test()" novalidate>
+    <formly-form model="aria2.model" fields="aria2.fields">
+      <button type="submit" class="btn btn-primary submit-button" translate-once>COMMON/test-save/btn</button>
+    </formly-form>
+  </form>
+</div>
