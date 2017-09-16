@@ -75,6 +75,17 @@
         "templateOptions.label": "\"COMMON/password/lbl\"|translate"
     }
 }, {
+    "key": "token",
+    "type": "input",
+    "hideExpression": "model.token === undefined || model.hideToken === true",
+    "templateOptions": {
+        "type": "text",
+        "label": ""
+    },
+    "expressionProperties": {
+        "templateOptions.label": "\"COMMON/token/lbl\"|translate"
+    }
+}, {
     "key": "progressX100",
     "type": "input",
     "hideExpression": "model.progressX100 === undefined || model.hidePath === true",
