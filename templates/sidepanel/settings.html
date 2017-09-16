@@ -111,6 +111,13 @@
           </a>
       </td>
     </tr>
+    <tr ui-sref-active='active' ui-sref=".tab({tab: 'aria2'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'Aria2'">
+      <td colspan="2">
+          <a href="#/settings/aria2">
+              <img src="img/torrentclients/aria2-small.png" class="smallsettingicon"> <strong><span>Aria2</span> <span translate-once>COMMON/integration/hdr</span></strong>
+          </a>
+      </td>
+    </tr>
     <tr ui-sref-active='active' ui-sref=".tab({tab: 'transmission'})" ng-if="getSetting('torrenting.enabled') && getSetting('torrenting.client') == 'Transmission'">
       <td colspan="2">
           <a href="#/settings/transmission">
