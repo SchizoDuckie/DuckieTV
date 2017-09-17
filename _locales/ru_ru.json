@@ -184,6 +184,7 @@
     "COMMON/test-save/btn": "Проверить и сохранить",
     "COMMON/title/hdr": "Заголовок",
     "COMMON/to-watch/tooltip": "Эпизоды к просмотру",
+    "COMMON/token/lbl": "токен",
     "COMMON/torrent-details/lbl": "Детали торрента",
     "COMMON/torrent-engine/lbl": "двигатель",
     "COMMON/torrent-leech/lbl": "Лич",
