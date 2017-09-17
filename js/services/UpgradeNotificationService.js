@@ -18,6 +18,7 @@ DuckieTV
                 "<li>SearchEngines: (new) Introducing Jackett! You can use the Jackett proxy to access your favourite open/semi-private/private trackers as DuckieTV Search Engines.",
                 "<li>SearchEngines: (removed) IsoHunt.to is gone.",
                 "<li>Standalone: (upgrade) NWJS 25.0 with Chromium 61 and Node 8.4.0",
+                "<li>TorrentClient: (new) Introducing Aria2 client.",
                 "<li>TorrentClient: (new) Introducing BiglyBT client.",
                 "<li>TorrentClient: (fix) Can now connect with qBitTorrent 3.3.14 (and newer) with CSRF protection.",
                 "<li>TorrentClient: (fix) Can now connect with Deluge 1.3.14 (and newer) with CSRF protection.",
