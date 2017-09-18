@@ -2,7 +2,7 @@
  * Aria2 web client implementation
  *
  * API Docs:
- * https://aria2.github.io/manual/en/html/aria2c.html?highlight=remove#rpc-interface
+ * https://aria2.github.io/manual/en/html/aria2c.html#rpc-interface
  *
  * JSON-PRC API listens on localhost:6800 by default
  *
