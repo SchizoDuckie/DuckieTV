@@ -2,9 +2,9 @@
  * Aria2 web client implementation
  *
  * API Docs:
- * https://aria2.github.io/manual/en/html/aria2c.html
+ * https://aria2.github.io/manual/en/html/aria2c.html?highlight=remove#rpc-interface
  *
- * JSON-PRC API listens on localhost:6800
+ * JSON-PRC API listens on localhost:6800 by default
  *
  * - supports setting the download directory
  * - Does not support setting or fetching a Label
@@ -97,7 +97,37 @@ DuckieTorrent.factory('Aria2Remote', ["BaseTorrentRemote",
             },
 
             getTorrents: function() {
-                return this.execute('tellActive').then(function(torrents) {	// JSON list
+                // bah! the tellStatus method only works for one gid, and so
+                // we need to make 3 requests to the other tell* methods to list all the torrents :-(
+                var torrents = [];
+                var token = 'token:' + (this.config.token || '');
+                var paramArray = [[
+                    {'methodName':'aria2.tellActive',
+                     'params': [token]},
+                    {'methodName':'aria2.tellWaiting',
+                    'params': [token, 0, 9999]},
+                    {'methodName':'aria2.tellStopped',
+                    'params': [token, 0, 9999]}
+                ]];
+                return $http.post(this.getUrl('jsonrpc'), {
+                    jsonrpc: "2.0",
+                    method: "system.multicall",
+                    id: "DuckieTV",
+                    params: paramArray
+                }).then(function(response) {
+                    var jsonObject = response && response.data || {};
+                    if (jsonObject.result) {
+                        jsonObject.result.map(function(tellResults) {
+                            tellResults.map(function(torrentList) {
+                                torrentList.map(function(torrent) {
+                                    if ((torrent.bitfield && "80" !== torrent.bitfield ) && (torrent.status && 'removed' !== torrent.status)) {
+                                        // not interested in completed metadata records, or removed torrents
+                                        torrents.push(torrent);
+                                    }
+                                });
+                            });
+                        });
+                    }
                     return torrents.map(function(dl) {
                         dl.hash = dl.infoHash;
                         if (dl.bittorrent && dl.bittorrent.info) {
@@ -126,12 +156,12 @@ DuckieTorrent.factory('Aria2Remote', ["BaseTorrentRemote",
                 });
             },
 
-            addMagnet: function(magnet) {
-                return this.execute('addUri', [[magnet]]);
+            addMagnet: function(magnet, dlPath) {
+                return this.execute('addUri', dlPath ? [[magnet], {dir: dlPath}] : [[magnet]]);
             },
 
             addTorrentByUrl: function(url, infoHash, releaseName, dlPath) {
-                return this.execute('addUri', dlpath ? [[magnet], {dir: dlPath}] : [[magnet]]);
+                return this.execute('addUri', dlPath ? [[magnet], {dir: dlPath}] : [[magnet]]);
             },
 
             addTorrentByUpload: function(data, infoHash, releaseName, dlPath) {
@@ -139,7 +169,7 @@ DuckieTorrent.factory('Aria2Remote', ["BaseTorrentRemote",
                 return new PromiseFileReader().readAsDataURL(data).then(function(contents) {
                     var key = "base64,", index = contents.indexOf(key);
                     if (index > -1) {
-                        return self.execute('addTorrent', dlpath ? [contents.substring(index + key.length), [], {dir: dlPath}] : [contents.substring(index + key.length)]);
+                        return self.execute('addTorrent', dlPath ? [contents.substring(index + key.length), [], {dir: dlPath}] : [contents.substring(index + key.length)]);
                     }
                 });
             },
@@ -149,8 +179,8 @@ DuckieTorrent.factory('Aria2Remote', ["BaseTorrentRemote",
             },
 
             execute: function(method, paramArray) {
-		paramArray = paramArray || [];
-		paramArray.unshift('token:' + (this.config.token || ''));
+                paramArray = paramArray || [];
+                paramArray.unshift('token:' + (this.config.token || ''));
                 return $http.post(this.getUrl('jsonrpc'), {
                     jsonrpc: "2.0",
                     method: "aria2." + method,
@@ -159,7 +189,7 @@ DuckieTorrent.factory('Aria2Remote', ["BaseTorrentRemote",
                 }).then(function(response) {
                     var jsonObject = response && response.data || {};
                     //console.error(method + ": " + JSON.stringify(jsonObject));
-                    return '2.0' === jsonObject.jsonrpc && 'DuckieTV' === jsonObject.id ? jsonObject.result : null;
+                    return (jsonObject.result) ? jsonObject.result : null;
                 }, function() {
                     return false;
                 });
