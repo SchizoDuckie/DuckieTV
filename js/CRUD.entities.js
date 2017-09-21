@@ -24,14 +24,6 @@ function Episode() {
     CRUD.Entity.call(this);
 }
 
-function WatchListItem() {
-    CRUD.Entity.call(this);
-}
-
-function WatchListObject() {
-    CRUD.Entity.call(this);
-}
-
 function Fanart() {
     CRUD.Entity.call(this);
 }
@@ -539,41 +531,6 @@ CRUD.define(Episode, {
             return this;
         }.bind(this));
     },
-});
-
-CRUD.define(WatchListItem, {
-    className: 'WatchListItem',
-    table: 'WatchList',
-    primary: 'ID_WatchListItem',
-    fields: ['ID_WatchListItem', 'searchstring', 'watchservice', 'downloaded', 'watched', 'lastchecked'],
-    createStatement: 'CREATE TABLE WatchList ( ID_WatchListItem INTEGER PRIMARY KEY NOT NULL, searchstring varchar(255) NOT NULL, watchservice VARCHAR(25) NULL, downloaded SMALLINT, watched SMALLINT, lastchecked TIMESTAMP)',
-    adapter: 'dbAdapter',
-    relations: {
-        'WatchListObject': CRUD.RELATION_FOREIGN
-    },
-    defaultValues: {
-        watched: '0',
-        downloaded: '0',
-    }
-}, {
-    imdb: null
-
-});
-
-
-CRUD.define(WatchListObject, {
-    className: 'WatchListObject',
-    table: 'WatchListObject',
-    primary: 'ID_WatchListObject',
-    fields: ['ID_WatchListObject', 'ID_WatchListItem', 'property', 'json'],
-    createStatement: 'CREATE TABLE WatchListObject ( ID_WatchListObject INTEGER PRIMARY KEY NOT NULL, ID_WatchListItem INTEGER NOT NULL, property VARCHAR(25) NULL, json TEXT)',
-    adapter: 'dbAdapter',
-    relations: {
-        'WatchListItem': CRUD.RELATION_FOREIGN
-    },
-
-}, {
-
 });
 
 
