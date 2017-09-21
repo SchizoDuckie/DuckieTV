@@ -236,8 +236,7 @@ DuckieTV.config(["$stateProvider", "$urlRouterProvider",
             },
             views: {
                 sidePanel: {
-                    templateUrl: 'templates/watchlist.html',
-                    controller: 'WatchlistCtrl'
+                    templateUrl: 'templates/watchlist.html'
                 }
             }
         })

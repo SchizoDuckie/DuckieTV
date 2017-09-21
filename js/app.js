@@ -32,7 +32,6 @@ var DuckieTV = angular.module('DuckieTV', [
 
 /**
  * Unsafe HTML entities pass-through.
- * (Used for for instance typeAheadIMDB.html)
  */
 .filter('unsafe', ["$sce",
     function($sce) {

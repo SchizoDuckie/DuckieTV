@@ -224,7 +224,6 @@
     "FASTSEARCHjs/placeholder": "série dans vos favoris, nouvelle série à ajouter, des épisodes, des torrents",
     "FASTSEARCHjs/search-anything/lbl": "Recherche pour quelque chose",
     "GENRELIST": "Action,Aventure,Animation,Anime,Biographie,Enfants,Comédie,Crime,Catastrophe,Documentaire,Drame,Oriental,Famille,Fan-film,Fantaisie,Film noir,Cuisine,Emission de jeu,Histoire,Vacances,Maison et jardin,Horreur,Indie,Mini-série,Musique,Comédie musicale,Mystère,Infos,Nen,Réalité,Route,Romance,Science-fiction,Court,Soap,Intérêt particulier,Sport,Événement sportif,Suspense,Talk-show,Polar,Voyage,Film TV,Guerre,Western",
-    "IMDBjs/placeholder": "Chercher sur IMDB des films ou des séries",
     "JACKETTSEDIALOG/save-new-engine/btn": "Sauvegarder un nouveau moteur",
     "JACKETTSEDIALOG/update-search-engine/btn": "Mettre à jour le moteur de recherche",
     "JACKETTSEDIALOGCTRLjs/apikey/lbl": "Jackett ApiKey",

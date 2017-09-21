@@ -81,8 +81,6 @@ CRUD.executeQuery('select distinct(ID_Serie) from Series').then(function(res) {
 CRUD.executeQuery('drop table Episodes');
 CRUD.executeQuery('drop table Series');
 CRUD.executeQuery('drop table Seasons');
-CRUD.executeQuery('drop table WatchList');
-CRUD.executeQuery('drop table WatchListObject');
 localStorage.clear();
 ```
 
