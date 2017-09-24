@@ -155,7 +155,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'storage.sync': false, // off by default so that permissions must be requested
                 'subtitles.languages': ['eng'],
                 'sync.progress': true,
-                'synology.enabled': true,
+                'synology.enabled': false,
                 'synology.ip': '192.168.x.x',
                 'synology.password': 'password',
                 'synology.playback_devices': {},
