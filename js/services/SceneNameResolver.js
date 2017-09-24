@@ -15,9 +15,9 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
         // remove (US)
         // line sort
 
-        var episodesWithDateFormat = null;
+        var episodesWithDateFormat = {};
 
-        var exceptions = null;
+        var exceptions = {};
         
         /**
          * Replace the most common diacritics in English that are most likely to not be used in torrent scene names
