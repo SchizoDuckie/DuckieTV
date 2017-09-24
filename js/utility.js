@@ -124,14 +124,26 @@ if (localStorage.getItem('optin_error_reporting')) {
             var log = Loggr.Log;
             // dump UserPreferences
             var userPrefs = JSON.parse(localStorage.getItem('userPreferences'));
+            var unwantedClientKeys = ['aria2', 'biglybt', 'deluge', 'ktorrent', 'qbittorrent', 'qbittorrent32plus', 'rtorrent', 'tixati', 'transmission', 'utorrent', 'utorrentwebui', 'vuze'];
+            var activeClientKey = localStorage.getItem('torrenting.client').replace(/ /g, '').replace('3.2+', '32plus').replace('(pre3.2)', '').toLowerCase();
+            if (localStorage.getItem('torrenting.client')) {
+                unwantedClientKeys.splice(unwantedClientKeys.indexOf(activeClientKey), 1); // drop active client from list
+            }
             Object.keys(userPrefs).map(function(key) {
+                // redact passwords
                 if (key.indexOf('password') > -1) {
                     userPrefs[key] = "*****";
                 }
+                // reduce list by dropping inactive keys (to help prevent loggr trunc)
+                unwantedClientKeys.map(function(unwantedClientKey) {
+                    if (key.indexOf(unwantedClientKey + '.') > -1) {
+                        delete userPrefs[key];
+                    }
+                });
             });
             // dump local storage with exceptions to avoid overload.
             var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage));
-            ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'alarms', 'xem.mappings', 'snr.name-exceptions', 'snr.date-exceptions'].map(function(key) {
+            ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'trakttvtrending.cache', 'alarms', 'xem.mappings', 'xem.aliasmap', 'snr.name-exceptions', 'snr.date-exceptions', 'fanart.cache', 'jackett', 'trackers.fallBackList'].map(function(key) {
                 delete dumpLocalStorage[key];
             });
             var data = "Message: " + msg + "<br>";
@@ -170,14 +182,26 @@ if (localStorage.getItem('optin_error_reporting')) {
             if (wanted) {
                 // dump UserPreferences
                 var userPrefs = JSON.parse(localStorage.getItem('userPreferences'));
+                var unwantedClientKeys = ['aria2', 'biglybt', 'deluge', 'ktorrent', 'qbittorrent', 'qbittorrent32plus', 'rtorrent', 'tixati', 'transmission', 'utorrent', 'utorrentwebui', 'vuze'];
+                var activeClientKey = localStorage.getItem('torrenting.client').replace(/ /g, '').replace('3.2+', '32plus').replace('(pre3.2)', '').toLowerCase();
+                if (localStorage.getItem('torrenting.client')) {
+                    unwantedClientKeys.splice(unwantedClientKeys.indexOf(activeClientKey), 1); // drop active client from list
+                }
                 Object.keys(userPrefs).map(function(key) {
+                    // redact passwords
                     if (key.indexOf('password') > -1) {
                         userPrefs[key] = "*****";
                     }
+                    // reduce list by dropping inactive keys (to help prevent loggr trunc)
+                    unwantedClientKeys.map(function(unwantedClientKey) {
+                        if (key.indexOf(unwantedClientKey + '.') > -1) {
+                            delete userPrefs[key];
+                        }
+                    });
                 });
                 // dump local storage with exceptions to avoid overload.
                 var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage));
-                ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'alarms', 'xem.mappings', 'snr.name-exceptions', 'snr.date-exceptions'].map(function(key) {
+                ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'trakttvtrending.cache', 'alarms', 'xem.mappings', 'xem.aliasmap', 'snr.name-exceptions', 'snr.date-exceptions', 'fanart.cache', 'jackett', 'trackers.fallBackList'].map(function(key) {
                     delete dumpLocalStorage[key];
                 });
                 var data = "Message: " + JSON.stringify(arguments) + "<br>";
