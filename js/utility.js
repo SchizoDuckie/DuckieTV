@@ -143,7 +143,7 @@ if (localStorage.getItem('optin_error_reporting')) {
             });
             // dump local storage with exceptions to avoid overload.
             var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage));
-            ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'trakttvtrending.cache', 'alarms', 'xem.mappings', 'xem.aliasmap', 'snr.name-exceptions', 'snr.date-exceptions', 'fanart.cache', 'jackett', 'trackers.fallBackList'].map(function(key) {
+            ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'alarms', 'xem.mappings', 'xem.aliasmap', 'snr.name-exceptions', 'snr.date-exceptions', 'fanart.cache', 'jackett', 'trackers.fallBackList'].map(function(key) {
                 delete dumpLocalStorage[key];
             });
             var data = "Message: " + msg + "<br>";
@@ -201,7 +201,7 @@ if (localStorage.getItem('optin_error_reporting')) {
                 });
                 // dump local storage with exceptions to avoid overload.
                 var dumpLocalStorage = JSON.parse(JSON.stringify(localStorage));
-                ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'trakttvtrending.cache', 'alarms', 'xem.mappings', 'xem.aliasmap', 'snr.name-exceptions', 'snr.date-exceptions', 'fanart.cache', 'jackett', 'trackers.fallBackList'].map(function(key) {
+                ['userPreferences', 'torrenting.hashList', 'trakttv.token', 'trakttv.trending.cache', 'alarms', 'xem.mappings', 'xem.aliasmap', 'snr.name-exceptions', 'snr.date-exceptions', 'fanart.cache', 'jackett', 'trackers.fallBackList'].map(function(key) {
                     delete dumpLocalStorage[key];
                 });
                 var data = "Message: " + JSON.stringify(arguments) + "<br>";
