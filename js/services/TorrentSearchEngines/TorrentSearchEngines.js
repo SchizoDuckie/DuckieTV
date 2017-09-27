@@ -111,7 +111,7 @@ DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injecto
                     engine.enabled = true;
                     console.log("Jackett search engine loaded and added to activeEngines: ", jackett.name);
                     if (jackett.name in activeEngines) {
-                        console.warn(jackett.name, "overrides built-in search engine with the same name!");
+                        console.warn("Jackett engine %s overrides built-in search engine with the same name.",  jackett.name);
                     }
                     service.registerJackettEngine(jackett.name, engine);
                 }
