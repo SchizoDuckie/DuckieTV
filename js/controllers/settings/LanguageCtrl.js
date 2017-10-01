@@ -9,6 +9,7 @@ DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "$injector", "Settings
 
         // Set up the language list used in settings/display template
         $scope.languageList = {
+            'el_gr': 'el_gr',
             'en_au': 'au',
             'en_ca': 'ca',
             'en_nz': 'nz',

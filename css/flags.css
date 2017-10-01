@@ -85,7 +85,7 @@
 .flag.flag-gn {background-position: -64px -160px}
 .flag.flag-gp {background-position: -96px -160px}
 .flag.flag-gq {background-position: -128px -160px}
-.flag.flag-gr {background-position: -160px -160px}
+.flag.flag-gr, .flag.flag-el_gr {background-position: -160px -160px}
 .flag.flag-gt {background-position: -192px -160px}
 .flag.flag-gu {background-position: -224px -160px}
 .flag.flag-gw {background-position: -256px -160px}
