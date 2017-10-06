@@ -49,6 +49,9 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
          * then by title if multiple series at the same time.
          */
         function calendarEpisodeSort(a, b) {
+            if (null == a.serie || null == b.serie) {
+                return 0;
+            }
             var ad = new Date(a.episode.firstaired_iso).getTime();
             var bd = new Date(b.episode.firstaired_iso).getTime();
             if (ad < bd) return -1;
@@ -60,7 +63,7 @@ DuckieTV.factory('CalendarEvents', ["$rootScope", "FavoritesService", "SettingsS
                     if (a.episode.episodenumber > b.episode.episodenumber) return 1;
 
                 } else {
-                    return a.serie.title > b.serie.title;
+                    return a.serie.name > b.serie.name;
                 }
             }
         }
