@@ -65,7 +65,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
         vm.orderReverseList = SettingsService.get('library.order.reverseList'); // default [true, false, true, true]
         vm.orderBy = SettingsService.get('library.order.by'); // default 'getSortName()'
         vm.reverse = !vm.orderReverseList[vm.orderByList.indexOf(vm.orderBy)]; // default false;
-        vm.translatedOrderByList = $filter('translate')('ORDERBYLIST').split(',');
+        vm.translatedOrderByList = $filter('translate')('ORDERBYLIST').split('|');
 
         /*
          * Takes the English orderBy (elements from Series table) and returns a translation

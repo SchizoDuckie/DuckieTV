@@ -48,11 +48,11 @@
         </ul>
         <h3 translate-once>ABOUT/contributing/hdr</h3>
         <p><span translate-once>ABOUT/contributing/p1</span><a href='https://github.com/SchizoDuckie/DuckieTV/fork' target='_blank' translate-once>ABOUT/contributing/link</a>!</p>
-        <p><span class="glyphicon glyphicon-heart"></span>&nbsp;<span translate-once>ABOUT/contributing/p2</span><span> AlecRust, CosmoKramer, Gabri3l, galeksandrp, Garfield69, hexjelly, honeybunny from Addic7ed, Js41637, kevincaradant, lamaresh, rahxam, samunders-core, sbodomerle, stormfighter, Tra-Vis, Turingoo, wck963, zero77.</span></p>
+        <p><span class="glyphicon glyphicon-heart"></span>&nbsp;<span translate-once>ABOUT/contributing/p2</span><span> AlecRust, CosmoKramer, dzogas, Gabri3l, galeksandrp, Garfield69, hexjelly, honeybunny from Addic7ed, Js41637, kevincaradant, lamaresh, rahxam, samunders-core, sbodomerle, stormfighter, Tra-Vis, Turingoo, wck963, zero77.</span></p>
         <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white; border-top:0px; overflow-x:scroll'>
           <tr>
             <td ng-if="!isStandalone" colspan='2' style='border-top:0px'><h3 translate-once>ABOUT/statistics/hdr</h3></td>
-            <td ng-if="isStandalone" colspan='2' style='border-top:0px'><h3><a uib-tooltip="Copy Statistics to Clipboard" tooltip-append-to-body="true" tooltip-placement="right" ng-click="copyStatsToClipboard()" translate-once>ABOUT/statistics/hdr</a></h3></td>
+            <td ng-if="isStandalone" colspan='2' style='border-top:0px'><h3><a uib-tooltip="{{ 'ABOUT/statistics/tooltip'|translate}}" tooltip-append-to-body="true" tooltip-placement="right" ng-click="copyStatsToClipboard()" translate-once>ABOUT/statistics/hdr</a></h3></td>
           </tr>
           <tr ng-repeat="stats in statistics">
             <td style='width:160px; white-space:nowrap;'>{{::stats.name}}</td>

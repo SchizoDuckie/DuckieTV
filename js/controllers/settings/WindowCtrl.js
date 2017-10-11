@@ -15,7 +15,7 @@ DuckieTV.controller('WindowCtrl', ["$scope", "$injector", "$filter",
             $scope.activeTrayColor = (localStorage.getItem('standalone.trayColor') === '') ? 'black' : localStorage.getItem('standalone.trayColor').replace('-', '').replace('inverted', 'white');
         }
         $scope.colorList = 'black|white|red|orange|yellow|green|blue|indigo|violet'.split('|'); // used by $scope.translateColor()
-        var translatedColorList = $filter('translate')('COLORLIST').split(',');
+        var translatedColorList = $filter('translate')('COLORLIST').split('|');
 
         // Takes the English color and returns a translation
         $scope.translateColor = function(color) {

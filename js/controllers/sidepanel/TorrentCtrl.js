@@ -1,9 +1,11 @@
 /**
  * Torrent Control for the torrenting window
  */
-DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent", "SidePanelState",
-    function($rootScope, $injector, DuckieTorrent, SidePanelState) {
+DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "$filter", "DuckieTorrent", "SidePanelState",
+    function($rootScope, $injector, $filter, DuckieTorrent, SidePanelState) {
         var vm = this;
+        var connectedLbl = $filter('translate')('COMMON/tc-connected/lbl');
+        var connectingLbl = $filter('translate')('COMMON/tc-connecting/lbl') + '...';
         
         /**
          * Closes the SidePanel 
@@ -15,7 +17,7 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent", 
         this.authToken = localStorage.getItem('utorrent.token');
         //uTorrent.setPort(localStorage.getItem('utorrent.port'));
         this.rpc = null;
-        this.status = 'Connecting';
+        this.status = connectingLbl;
 
         this.removeToken = function() {
             localStorage.removeItem("utorrent.token");
@@ -48,11 +50,11 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "DuckieTorrent", 
         };
 
         var autoConnectPoll = function() {
-            vm.status = 'Connecting...';
+            vm.status = connectingLbl;
             $rootScope.$applyAsync();
             DuckieTorrent.getClient().offline = false;
             DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
-                vm.status = 'Connected';
+                vm.status = connectedLbl;
                 vm.rpc = rpc;
                 $rootScope.$applyAsync();
             });

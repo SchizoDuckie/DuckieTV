@@ -12,7 +12,7 @@
 <!-- quality list -->
 <div class="torrentBtns" style="display:inline-block;">
   <div class="btn-group">
-    <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');">All</button>
+    <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');" translate-once>COMMON/all/btn</button>
     <button ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setQuality(quality)" type="button" class="btn btn-default" ng-class="{active: searchquality == quality}">{{quality}}</button>
   </div>
 

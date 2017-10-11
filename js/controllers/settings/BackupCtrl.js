@@ -14,7 +14,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupSer
         var completedCount = 0;
 
         // set up the auto-backup-period selection-options
-        var translatedAutoBackupPeriodList = $filter('translate')('AUTOBACKUP').split(',');
+        var translatedAutoBackupPeriodList = $filter('translate')('AUTOBACKUPLIST').split('|');
         var englishAutoBackupPeriodList = "never|daily|weekly|monthly".split('|');
         $scope.autoBackupPeriod = SettingsService.get('autobackup.period');
         $scope.autoBackupSelect = [];
@@ -31,15 +31,15 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupSer
         switch ($scope.autoBackupPeriod) {
             case 'daily':
                 nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth(), lastRun.getDate() + 1, lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
-                $scope.nextAutoBackupDate = 'The next autoBackup is scheduled for ' + new Date(parseInt(nextBackupDT));
+                $scope.nextAutoBackupDate = '' + new Date(parseInt(nextBackupDT));
                 break;
             case 'weekly':
                 nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth(), lastRun.getDate() + 7, lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
-                $scope.nextAutoBackupDate = 'The next autoBackup is scheduled for ' + new Date(parseInt(nextBackupDT));
+                $scope.nextAutoBackupDate = '' + new Date(parseInt(nextBackupDT));
                 break;
             case 'monthly':
                 nextBackupDT = new Date(lastRun.getFullYear(), lastRun.getMonth() + 1, lastRun.getDate(), lastRun.getHours(), lastRun.getMinutes(), lastRun.getSeconds()).getTime();
-                $scope.nextAutoBackupDate = 'The next autoBackup is scheduled for ' + new Date(parseInt(nextBackupDT));
+                $scope.nextAutoBackupDate = '' + new Date(parseInt(nextBackupDT));
                 break;
             default:
         };
