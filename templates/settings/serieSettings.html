@@ -1,6 +1,6 @@
 <!-- serieSettings.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
-<h1>{{model.name}} <h1cont translate-once>COMMON/settings/hdr</h1cont></h1>
+<h1 bebas="{{bebas}}">{{model.name}} <h1cont translate-once>COMMON/settings/hdr</h1cont></h1>
 
 <form ng-submit="save()" novalidate name="serieSettingsForm" id="serieSettingsForm">
 	<formly-form model="model" fields="fields"></formly-form>
@@ -9,6 +9,6 @@
 <hr style="margin-top:0px;margin-bottom:10px">
 
 <div style='text-align:right'>
-	<button class="btn btn-default" ng-click="cancel()" translate-once>COMMON/cancel/btn</button>
-	<button class="btn btn-success" ng-click="save()" ng-disabled="serieSettingsForm.$invalid" translate-once>COMMON/save/btn</button>
+	<button class="btn bebas-{{bebas}} btn-default" ng-click="cancel()" translate-once>COMMON/cancel/btn</button>
+	<button class="btn bebas-{{bebas}} btn-success" ng-click="save()" ng-disabled="serieSettingsForm.$invalid" translate-once>COMMON/save/btn</button>
 </div>

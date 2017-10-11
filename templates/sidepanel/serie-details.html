@@ -17,9 +17,9 @@
         <tr>
           <th translate-once>SIDEPANEL/SERIE-DETAILS/links/hdr</th>
           <td>
-            <a style="text-decoration: underline" ng-href="https://www.google.com/search?q={{::sidepanel.serie.name}} (TV series)+Wikipedia&btnI=745" target="_blank">Wikipedia</a><strong> | </strong>
-            <a style="text-decoration: underline" ng-href="https://www.imdb.com/title/{{::sidepanel.serie.IMDB_ID}}" ng-show="sidepanel.serie.IMDB_ID" target="_blank">IMDB</a><strong ng-show="sidepanel.serie.IMDB_ID"> | </strong>
-            <a style="text-decoration: underline" ng-href="https://thetvdb.com/?tab=series&id={{::sidepanel.serie.TVDB_ID}}" ng-show="sidepanel.serie.TVDB_ID > 0" target="_blank">TVDB</a><strong ng-show="sidepanel.serie.TVDB_ID > 0"> | </strong>
+            <a style="text-decoration: underline" ng-href="https://www.google.com/search?q={{::sidepanel.serie.name}} (TV series)+Wikipedia&btnI=745" target="_blank">Wikipedia</a><strong bebas="{{bebas}}"> | </strong>
+            <a style="text-decoration: underline" ng-href="https://www.imdb.com/title/{{::sidepanel.serie.IMDB_ID}}" ng-show="sidepanel.serie.IMDB_ID" target="_blank">IMDB</a><strong bebas="{{bebas}}" ng-show="sidepanel.serie.IMDB_ID"> | </strong>
+            <a style="text-decoration: underline" ng-href="https://thetvdb.com/?tab=series&id={{::sidepanel.serie.TVDB_ID}}" ng-show="sidepanel.serie.TVDB_ID > 0" target="_blank">TVDB</a><strong bebas="{{bebas}}" ng-show="sidepanel.serie.TVDB_ID > 0"> | </strong>
             <a style="text-decoration: underline" ng-href="https://www.trakt.tv/shows/{{::sidepanel.serie.TRAKT_ID}}" ng-hide="sidepanel.serie.TRAKT_ID < 1" target="_blank">Trakt</a>
             <span><button type="button" class="close" ng-click="sidepanel.closeSidePanelExpansion()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/series-details/lbl'|translate}}" tooltip-placement="left">&times;</button></span>
           </td>
@@ -74,35 +74,35 @@
         </tr>
         <tr style='border-top: 1px solid white'>
           <th colspan="2" style="text-align: center">
-            <h3 style="margin:10px 0 10px 0" translate-once>SIDEPANEL/SERIE-DETAILS/it-would-take/hdr</h3>
-            <h1 style="margin:10px 0 10px 0" ng-if="sidepanel.totalRunTime">{{sidepanel.totalRunLbl}}</h1>
+            <h3 bebas="{{bebas}}" style="margin:10px 0 10px 0" translate-once>SIDEPANEL/SERIE-DETAILS/it-would-take/hdr</h3>
+            <h1 bebas="{{bebas}}" style="margin:10px 0 10px 0" ng-if="sidepanel.totalRunTime">{{sidepanel.totalRunLbl}}</h1>
 
             <div style="position:relative" ng-show="!sidepanel.totalRunTime">
-              <h3 style="margin:5px 0 5px 0"><h3cont translate-once>SIDEPANEL/SERIE-DETAILS/calculating/hdr</h3cont>
+              <h3 bebas="{{bebas}}" style="margin:5px 0 5px 0"><h3cont translate-once>SIDEPANEL/SERIE-DETAILS/calculating/hdr</h3cont>
                 <loading-spinner class="small" style="margin:-2px 0 0 5px;position:absolute"></loading-spinner>
               </h3>
             </div>
-            <h3 style='text-align:center;margin:10px 0 10px 0'>
+            <h3 bebas="{{bebas}}" style='text-align:center;margin:10px 0 10px 0'>
               <h3cont translate-once>SIDEPANEL/SERIE-DETAILS/to-binge-watch/hdr</h3cont>{{::sidepanel.serie.name}}
             </h3>
           </th>
         </tr>
         <tr>
           <th colspan="2" style="text-align:center">
-            <h3 translate-once>SIDEPANEL/SERIE-DETAILS/you-have-already-spent/hdr</h3>
+            <h3 bebas="{{bebas}}" translate-once>SIDEPANEL/SERIE-DETAILS/you-have-already-spent/hdr</h3>
             <div style="position:relative" ng-show="!sidepanel.totalRunTime">
-              <h3 style="margin:5px 0 5px 0"><h3cont translate-once>SIDEPANEL/SERIE-DETAILS/calculating/hdr</h3cont>
+              <h3 bebas="{{bebas}}" style="margin:5px 0 5px 0"><h3cont translate-once>SIDEPANEL/SERIE-DETAILS/calculating/hdr</h3cont>
                 <loading-spinner class="small" style="margin:-2px 0 0 5px;position:absolute"></loading-spinner>
               </h3>
             </div>
-            <h1 style="margin:10px 0 10px 0" ng-if="sidepanel.totalWatchedTime">{{sidepanel.totalWatchedLbl}}</h1>
-            <h3 translate-once>SIDEPANEL/SERIE-DETAILS/which-is/hdr</h3>
+            <h1 bebas="{{bebas}}" style="margin:10px 0 10px 0" ng-if="sidepanel.totalWatchedTime">{{sidepanel.totalWatchedLbl}}</h1>
+            <h3 bebas="{{bebas}}" translate-once>SIDEPANEL/SERIE-DETAILS/which-is/hdr</h3>
               <div style="position:relative" ng-show="!sidepanel.totalRunTime">     
-                <h3 style="margin:5px 0 5px 0"><h3cont translate-once>SIDEPANEL/SERIE-DETAILS/calculating/hdr</h3cont>
+                <h3 bebas="{{bebas}}" style="margin:5px 0 5px 0"><h3cont translate-once>SIDEPANEL/SERIE-DETAILS/calculating/hdr</h3cont>
                 <loading-spinner class="small" style="margin:-2px 0 0 5px;position:absolute"></loading-spinner>
               </h3>
             </div>
-            <h1 style="margin:10px 0 10px 0" ng-if="sidepanel.totalWatchedTime">{{sidepanel.totalWatchedPercent}} %</h1>
+            <h1 bebas="{{bebas}}" style="margin:10px 0 10px 0" ng-if="sidepanel.totalWatchedTime">{{sidepanel.totalWatchedPercent}} %</h1>
           </th>
 
         </tr>

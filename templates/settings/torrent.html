@@ -1,5 +1,5 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
-  <h2>
+  <h2 bebas="{{bebas}}">
     <span uib-tooltip="{{torrentEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{torrentEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
@@ -7,24 +7,24 @@
   </h2>
 
   <p>{{torrentEnabled ? 'SETTINGS/TORRENT/functions-hide/desc' : 'SETTINGS/TORRENT/functions-show/desc'|translate}}</p>
-  <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+  <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
    {{torrentEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-  <a ng-click="toggleTorrent()" class="btn btn-{{torrentEnabled ? 'danger' : 'success'}}">
+  <a ng-click="toggleTorrent()" class="btn bebas-{{bebas}} btn-{{torrentEnabled ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{torrentEnabled ? 'remove-sign' : 'ok-sign'}}"></i> {{torrentEnabled ? 'SETTINGS/TORRENT/functions-hide/btn' : 'SETTINGS/TORRENT/functions-show/btn'|translate}}
   </a>
 
   <div ng-show="torrentEnabled">
     <hr class="setting-divider">
 
-    <h2 translate-once>SETTINGS/TORRENT/choose-client/hdr</h2>
+    <h2 bebas="{{bebas}}" translate-once>SETTINGS/TORRENT/choose-client/hdr</h2>
 
-    <a ng-click="setTorrentClient(client)" ng-repeat="client in getTorrentClients()" class="choose-client btn btn-{{ currentClient == client ? 'success' : '' }}" >
+    <a ng-click="setTorrentClient(client)" ng-repeat="client in getTorrentClients()" class="choose-client btn bebas-{{bebas}} btn-{{ currentClient == client ? 'success' : '' }}" >
         <i class="torrentlogo {{client.toLowerCase()}}"></i> {{client}}
     </a>
 
     <hr class="setting-divider">
 
-    <h2>
+    <h2 bebas="{{bebas}}">
       <span uib-tooltip="{{progressEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
         <i class="glyphicon glyphicon-{{progressEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
@@ -32,47 +32,47 @@
     </h2>
 
     <p>{{progressEnabled ? 'SETTINGS/TORRENT/progressbar-hide/desc' : 'SETTINGS/TORRENT/progressbar-show/desc'|translate}}</p>
-    <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+    <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
      {{progressEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-    <a ng-click="toggleProgress()" class="btn btn-{{progressEnabled ? 'danger' : 'success'}}">
+    <a ng-click="toggleProgress()" class="btn bebas-{{bebas}} btn-{{progressEnabled ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{progressEnabled ? 'ban-circle' : 'minus'}}"></i> {{progressEnabled ? 'SETTINGS/TORRENT/progressbar-hide/btn' : 'SETTINGS/TORRENT/progressbar-show/btn'|translate}}
     </a>
 
     <hr class="setting-divider">
 
-    <h2>
+    <h2 bebas="{{bebas}}">
       <span uib-tooltip="{{autostopEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
         <i class="glyphicon glyphicon-{{autostopEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
       </span>
       <li translate-once>SETTINGS/TORRENT/autostop/hdr</li>
     </h2>
     <p>{{autostopEnabled ? 'SETTINGS/TORRENT/autostop-disabled/desc' : 'SETTINGS/TORRENT/autostop-enabled/desc'|translate}}</p>
-    <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+    <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
      {{autostopEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-    <a ng-click="toggleAutoStop(); reload();" class="btn btn-{{autostopEnabled ? 'danger' : 'success'}}">
+    <a ng-click="toggleAutoStop(); reload();" class="btn bebas-{{bebas}} btn-{{autostopEnabled ? 'danger' : 'success'}}">
       <i class="glyphicon glyphicon-{{autostopEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopEnabled ? 'SETTINGS/TORRENT/autostop-disabled/btn' : 'SETTINGS/TORRENT/autostop-enabled/btn'|translate}}
     </a>
 
     <div ng-show="autostopEnabled">
       <hr class="setting-divider">
 
-      <h2>
+      <h2 bebas="{{bebas}}">
         <span uib-tooltip="{{autostopAllEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
           <i class="glyphicon glyphicon-{{autostopAllEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
         </span>
         <li translate-once>SETTINGS/TORRENT/autostopall/hdr</li>
       </h2>
         <p>{{autostopAllEnabled ? 'SETTINGS/TORRENT/autostopall-disabled/desc' : 'SETTINGS/TORRENT/autostopall-enabled/desc'|translate}}</p>
-        <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+        <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
          {{autostopAllEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-        <a ng-click="toggleAutoStopAll()" class="btn btn-{{autostopAllEnabled ? 'danger' : 'success'}}">
+        <a ng-click="toggleAutoStopAll()" class="btn bebas-{{bebas}} btn-{{autostopAllEnabled ? 'danger' : 'success'}}">
           <i class="glyphicon glyphicon-{{autostopAllEnabled ? 'ban-circle' : 'stop'}}"></i> {{autostopAllEnabled ? 'SETTINGS/TORRENT/autostopall-disabled/btn' : 'SETTINGS/TORRENT/autostopall-enabled/btn'|translate}}
         </a>
     </div>
     <div ng-show="isLabelSupported">
       <hr class="setting-divider">
 
-      <h2>
+      <h2 bebas="{{bebas}}">
         <span uib-tooltip="{{labelEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
           <i class="glyphicon glyphicon-{{labelEnabled ? 'tag alert-success' : 'remove alert-info'}}" ></i>
         </span>
@@ -80,25 +80,25 @@
       </h2>
 
       <p translate-once>SETTINGS/TORRENT/label/desc</p>
-      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+      <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
        {{labelEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-      <a ng-click="toggleLabel()" class="btn btn-{{labelEnabled ? 'info' : 'success'}}">
+      <a ng-click="toggleLabel()" class="btn bebas-{{bebas}} btn-{{labelEnabled ? 'info' : 'success'}}">
         <i class="glyphicon glyphicon-{{labelEnabled ? 'remove' : 'tag'}}"></i>&nbsp;{{labelEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
       </a>
     </div>
     <div>
       <hr class="setting-divider">
 
-      <h2>
+      <h2 bebas="{{bebas}}">
         <span uib-tooltip="{{chromiumEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
           <i class="glyphicon glyphicon-{{chromiumEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
         </span>
         <li translate-once>SETTINGS/TORRENT/chromium/hdr</li>
       </h2>
       <p>{{chromiumEnabled ? 'SETTINGS/TORRENT/chromium-disabled/desc' : 'SETTINGS/TORRENT/chromium-enabled/desc'|translate}}</p>
-      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+      <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
        {{chromiumEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-      <a ng-click="toggleChromium()" class="btn btn-{{chromiumEnabled ? 'danger' : 'success'}}">
+      <a ng-click="toggleChromium()" class="btn bebas-{{bebas}} btn-{{chromiumEnabled ? 'danger' : 'success'}}">
         <i class="glyphicon glyphicon-{{chromiumEnabled ? 'remove' : 'ok'}}"></i> {{chromiumEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
       </a>
     </div>

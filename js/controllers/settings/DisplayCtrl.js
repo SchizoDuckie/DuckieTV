@@ -13,6 +13,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "$injector", "SettingsService",
         $scope.showRatings = SettingsService.get('download.ratings');
         $scope.sgEnabled = SettingsService.get('library.seriesgrid');
         $scope.notWatchedEpsBtn =  SettingsService.get('series.not-watched-eps-btn');
+        $scope.mcEnabled =  !SettingsService.get('font.bebas.enabled');
 
         $scope.togglenotWatchedEpsBtn = function() {
             $scope.notWatchedEpsBtn = !$scope.notWatchedEpsBtn;
@@ -45,6 +46,13 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "$injector", "SettingsService",
         $scope.toggleSeriesGrid = function() {
             $scope.sgEnabled = !$scope.sgEnabled;
             SettingsService.set('library.seriesgrid', $scope.sgEnabled);
+            window.location.reload();
+        };
+
+        // Toggles the bebas enabled font (for mixed case display)
+        $scope.toggleMixedCase = function() {
+            $scope.mcEnabled = !$scope.mcEnabled;
+            SettingsService.set('font.bebas.enabled', !$scope.mcEnabled);
             window.location.reload();
         };
     }

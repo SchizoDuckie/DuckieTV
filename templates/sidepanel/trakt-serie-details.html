@@ -3,7 +3,7 @@
     <tbody>
       <tr>
         <td colspan="2">
-          <h3 style="text-align:center">{{sidepanel.serie.title}}
+          <h3 bebas="{{bebas}}" style="text-align:center">{{sidepanel.serie.title}}
             <span><button type="button" class="close" ng-click="sidepanel.closeSidePanel()" class="pull-right">&times;</button></span>
           </h3>
         </td>
@@ -17,17 +17,17 @@
           <div class="buttons">
             <a class='btn' ng-if="sidepanel.serie.trailer" href="{{sidepanel.serie.trailer}}" target="_blank">
               <i class="glyphicon glyphicon-facetime-video"></i>
-              <strong translate-once>COMMON/watch-trailer/tooltip</strong>
+              <strong bebas="{{bebas}}" translate-once>COMMON/watch-trailer/tooltip</strong>
             </a>
             <a class='btn' ng-if="!sidepanel.serie.trailer" href="https://www.youtube.com/results?search_query={{sidepanel.serie.name}}+official+trailer" target="_blank">
               <i class="glyphicon glyphicon-facetime-video"></i>
-              <strong translate-once>COMMON/watch-trailer/tooltip</strong>
+              <strong bebas="{{bebas}}" translate-once>COMMON/watch-trailer/tooltip</strong>
             </a>
 
 
             <a class='btn' ng-click="sidepanel.selectSerie()">
               <i class="glyphicon glyphicon-plus"></i> 
-              <strong>Add to favorites</strong>
+              <strong bebas="{{bebas}}">Add to favorites</strong>
             </a>
 
           </div>

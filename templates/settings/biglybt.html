@@ -1,5 +1,5 @@
 <div class="buttons" ng-controller="biglybtCtrl as biglybt">
-  <h2>BiglyBT <h2cont translate-once>COMMON/integration/hdr</h2cont></h2>
+  <h2 bebas="{{bebas}}">BiglyBT <h2cont translate-once>COMMON/integration/hdr</h2cont></h2>
 
   <img src="img/torrentclients/biglybt-colored.png" style='width:200px; margin: 0 auto'>
 
@@ -19,7 +19,7 @@
 
   <form ng-submit="biglybt.test()" novalidate>
     <formly-form model="biglybt.model" fields="biglybt.fields">
-      <button type="submit" class="btn btn-primary submit-button" translate-once>COMMON/test-save/btn</button>
+      <button type="submit" class="btn bebas-{{bebas}} btn-primary submit-button" translate-once>COMMON/test-save/btn</button>
     </formly-form>
   </form>
 </div>

@@ -1,5 +1,5 @@
 <div ng-controller="MiscellaneousCtrl" class="buttons">
-  <h2>
+  <h2 bebas="{{bebas}}">
     <span uib-tooltip="{{watchedDownloadedPaired ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{watchedDownloadedPaired ? 'ok alert-success' : 'remove alert-info'}}"></i>
     </span>
@@ -8,9 +8,9 @@
 
   <p translate-once>SETTINGS/MISCELLANEOUS/watchedDownloadedPaired/desc</p>
 
-   <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+   <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
    {{watchedDownloadedPaired ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-  <a ng-click="togglewatchedDownloadedPaired()" class="btn btn-{{watchedDownloadedPaired ? 'info' : 'success'}}">
+  <a ng-click="togglewatchedDownloadedPaired()" class="btn bebas-{{bebas}} btn-{{watchedDownloadedPaired ? 'info' : 'success'}}">
     <i class="glyphicon glyphicon-{{watchedDownloadedPaired ? 'remove' : 'ok'}}" ></i> {{watchedDownloadedPaired ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
 </div>

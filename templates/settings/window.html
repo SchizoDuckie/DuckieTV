@@ -1,5 +1,5 @@
 <div ng-controller="WindowCtrl" class="buttons windowCtrl">
-  <h2>
+  <h2 bebas="{{bebas}}">
     <span uib-tooltip="{{standaloneStartupMinimized ? 'SETTINGS/WINDOW/standalone-startup-minimized/tooltip' : 'SETTINGS/WINDOW/standalone-startup-normalized/tooltip'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{standaloneStartupMinimized ? 'win-minimize alert-success' : 'win-maximize alert-info'}}" style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i>
     </span>
@@ -7,14 +7,14 @@
   </h2>
 
   <p translate-once>SETTINGS/WINDOW/standalone-startup-window/desc</p>
-  <p><strong translate-once>COMMON/current-setting/hdr</strong>
+  <p><strong bebas="{{bebas}}" translate-once>COMMON/current-setting/hdr</strong>
    {{startupMinimized ? 'SETTINGS/WINDOW/standalone-startup-minimized/tooltip' : 'SETTINGS/WINDOW/standalone-startup-normalized/tooltip'|translate}}</p>
-  <a ng-click="toggleStartupMinimized()" class="btn btn-{{startupMinimized ? 'info' : 'success'}}">
+  <a ng-click="toggleStartupMinimized()" class="btn bebas-{{bebas}} btn-{{startupMinimized ? 'info' : 'success'}}">
     <i class="glyphicon glyphicon-{{startupMinimized ? 'win-maximize' : 'win-minimize'}}"  style="-webkit-transform: scale(1.5);-webkit-filter: invert(100%)"></i> {{startupMinimized ? 'SETTINGS/WINDOW/standalone-startup-normal/btn' : 'COMMON/minimize/btn'|translate}}
   </a>
   <hr class="setting-divider">
 
-  <h2>
+  <h2 bebas="{{bebas}}">
     <li translate-once>SETTINGS/WINDOW/system-tray/hdr</li>
   </h2>
   <div style="text-align: left">
@@ -30,10 +30,10 @@
   </div>
   <hr class="setting-divider">
 
-  <h2 translate-once>SETTINGS/WINDOW/tray-color/hdr</h2>
+  <h2 bebas="{{bebas}}" translate-once>SETTINGS/WINDOW/tray-color/hdr</h2>
   <p translate-once>SETTINGS/WINDOW/tray-color/desc</p>
   <div class="tray-icons">
-    <a ng-click="setTrayColor(color)" ng-repeat="color in colorList" class="btn {{ activeTrayColor == color ? 'btn-success' : '' }}">
+    <a ng-click="setTrayColor(color)" ng-repeat="color in colorList" class="btn bebas-{{bebas}} {{ activeTrayColor == color ? 'btn-success' : '' }}">
       <i class="tray tray-{{color}}"></i>
       <span>{{translateColor(color)}}</span>
     </a>

@@ -7,7 +7,7 @@
           <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left"></i>
           </th>
           <th colspan="5" class="switch" ng-click="setView('month')">
-            <h2>{{date|date:"MMMM yyyy"}}
+            <h2 bebas="{{bebas}}">{{date|date:"MMMM yyyy"}}
             </h2>
           </th>
           <th ng-click="next()" style='text-align:center'><i class="glyphicon glyphicon-chevron-right"></i>
@@ -18,7 +18,7 @@
     <div class="todo_container row">
       <a class="todo_event" ng-repeat="event in getTodoEvents() track by $index" ui-sref="episode({episode_id: event.episode.ID_Episode})">
          <div class="episode-img" lazy-background="{{event.episode.filename}}"></div>
-         <h3>{{event.serie.name}} {{event.episode.name}} {{event.episode.getFormattedEpisode()}}</h3>
+         <h3 bebas="{{bebas}}">{{event.serie.name}} {{event.episode.name}} {{event.episode.getFormattedEpisode()}}</h3>
       </a>
     </div>
   </div>
@@ -29,7 +29,7 @@
           <th ng-click="prev(10)"><i class="glyphicon glyphicon-chevron-left"></i>
           </th>
           <th colspan="5" class="switch">
-            <h2>{{years[0].getFullYear()}}-{{years[years.length-1].getFullYear()}}</h2>
+            <h2 bebas="{{bebas}}">{{years[0].getFullYear()}}-{{years[years.length-1].getFullYear()}}</h2>
           </th>
           <th ng-click="next(10)"><i class="glyphicon glyphicon-chevron-right"></i>
           </th>
@@ -51,7 +51,7 @@
           <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left"></i>
           </th>
           <th colspan="5" class="switch" ng-click="setView('year')">
-            <h2>{{ date|date:"yyyy" }}</h2>
+            <h2 bebas="{{bebas}}">{{ date|date:"yyyy" }}</h2>
           </th>
           <th ng-click="next()"><i class="glyphicon glyphicon-chevron-right"></i>
           </th>

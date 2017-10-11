@@ -1,16 +1,16 @@
  <div ng-controller="SubtitlesCtrl as vm" class="buttons languages">
 
-	<h2 translate-once>COMMON/subtitles/hdr</h2>
+	<h2 bebas="{{bebas}}" translate-once>COMMON/subtitles/hdr</h2>
 
 	<p translate-once>SETTINGS/SUBTITLES/desc</p>
 
 	<hr>
 	<p>
-		<strong ng-if="vm.enabledLanguages != ''" translate-once>SETTINGS/SUBTITLES/selected/lbl</strong><br> {{vm.enabledLanguages}}<br>
-		<strong ng-if="vm.enabledLanguages == ''" translate-once>SETTINGS/SUBTITLES/selected-none/lbl</strong>
+		<strong bebas="{{bebas}}" ng-if="vm.enabledLanguages != ''" translate-once>SETTINGS/SUBTITLES/selected/lbl</strong><br> {{vm.enabledLanguages}}<br>
+		<strong bebas="{{bebas}}" ng-if="vm.enabledLanguages == ''" translate-once>SETTINGS/SUBTITLES/selected-none/lbl</strong>
 	</p>
 	<p style='text-align: right'>
-  	<a ng-if="vm.enabledLanguages != ''" ng-click="vm.selectNone()" class="btn btn-xs btn-warning" style="display:inline-block; padding-right:15px;">
+  	<a ng-if="vm.enabledLanguages != ''" ng-click="vm.selectNone()" class="btn bebas-{{bebas}} btn-xs btn-warning" style="display:inline-block; padding-right:15px;">
   		<i class="glyphicon glyphicon-trash" style='font-size:15px; line-height: 23px; vertical-align:middle'></i>
   		<span translate-once>SETTINGS/SUBTITLES/clear-selection/lbl</span>
   	</a>
@@ -18,7 +18,7 @@
 
 	<hr>
 
-	<a ng-repeat="locale in vm.languages" class="btn {{ vm.isEnabled(locale) ? 'btn-success' : '' }}" ng-click="vm.toggleSubtitle(locale)">
+	<a ng-repeat="locale in vm.languages" class="btn bebas-{{bebas}} {{ vm.isEnabled(locale) ? 'btn-success' : '' }}" ng-click="vm.toggleSubtitle(locale)">
 		<i class="flag flag-{{ vm.getShortCode(locale) }}"></i>
 	  <span style='line-height:25px; position:relative; top:-5px;'>{{locale}}</span>
 	</a>

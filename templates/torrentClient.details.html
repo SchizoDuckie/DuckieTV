@@ -1,10 +1,10 @@
 <!-- torrentClient.details.html -->
 <div class="torrent-details">
-  <h1><span translate-once>COMMON/torrent-details/lbl</span>
+  <h1 bebas="{{bebas}}"><span translate-once>COMMON/torrent-details/lbl</span>
     <span><button type="button" class="close" ng-click="vm.closeSidePanelExpansion()" class="pull-right" style="margin-top:15px" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/torrent-details/lbl'|translate}}" tooltip-placement="left">&times;</button></span>
   </h1>
 
-  <h2>{{vm.torrent.getName()}}</h2>
+  <h2 bebas="{{bebas}}">{{vm.torrent.getName()}}</h2>
 
   <div class="dg">
     <ng-dial-gauge id="gauge1"

@@ -1,7 +1,7 @@
 <!-- serie-overview.html -->
 <div lazy-background="{{sidepanel.serie.poster}}" class="serie-bg-img"></div>
 <div class="leftpanel serie-overview">
-  <h2>
+  <h2 bebas="{{bebas}}">
     <span>{{::sidepanel.serie.name}}</span>
     <span><button type="button" class="close" ng-click="sidepanel.closeSidePanel()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{::sidepanel.serie.name}}" tooltip-placement="left">&times;</button></span>
   </h2>
@@ -14,23 +14,23 @@
       </tr>
       <tr>
         <td>
-          <h2 translate-once>SIDEPANEL/SERIE-OVERVIEW/last-episode/hdr</h2>
-          <h3 ng-if="sidepanel.prevEpisode" style="margin-bottom:13px"><a ui-sref="serie.season.episode({episode_id: sidepanel.prevEpisode.ID_Episode,season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">{{sidepanel.prevEpisode.getFormattedEpisode()}}</a></h3>
+          <h2 bebas="{{bebas}}" translate-once>SIDEPANEL/SERIE-OVERVIEW/last-episode/hdr</h2>
+          <h3 bebas="{{bebas}}" ng-if="sidepanel.prevEpisode" style="margin-bottom:13px"><a ui-sref="serie.season.episode({episode_id: sidepanel.prevEpisode.ID_Episode,season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">{{sidepanel.prevEpisode.getFormattedEpisode()}}</a></h3>
         </td>
         <td ng-if="sidepanel.prevEpisode">
           {{sidepanel.prevEpisode.episodename}}<br>
-          <strong translate-once>SIDEPANEL/SERIE-OVERVIEW/airdate/lbl</strong> {{sidepanel.prevEpisode.firstaired || '?' |date: 'shortDate'}}
+          <strong bebas="{{bebas}}" translate-once>SIDEPANEL/SERIE-OVERVIEW/airdate/lbl</strong> {{sidepanel.prevEpisode.firstaired || '?' |date: 'shortDate'}}
         </td>
         <td ng-if="!sidepanel.prevEpisode" translate-once>SIDEPANEL/SERIE-OVERVIEW/unknown/lbl</td>
           </tr>
         <tr ng-if="sidepanel.serie.status != 'ended'">
           <td valign="top" style="text-align: center; padding-bottom:15px;">
-            <h2 style="margin-top:0" translate-once>SIDEPANEL/SERIE-OVERVIEW/next-episode/hdr</h2>
-            <h3 ng-if="sidepanel.nextEpisode"><a ui-sref="serie.season.episode({episode_id: sidepanel.nextEpisode.ID_Episode,season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">{{sidepanel.nextEpisode.getFormattedEpisode()}}</a></h3>
+            <h2 bebas="{{bebas}}" style="margin-top:0" translate-once>SIDEPANEL/SERIE-OVERVIEW/next-episode/hdr</h2>
+            <h3 bebas="{{bebas}}" ng-if="sidepanel.nextEpisode"><a ui-sref="serie.season.episode({episode_id: sidepanel.nextEpisode.ID_Episode,season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">{{sidepanel.nextEpisode.getFormattedEpisode()}}</a></h3>
           </td>
           <td ng-if="sidepanel.nextEpisode">
             {{sidepanel.nextEpisode.episodename}}<br>
-            <strong translate-once>SIDEPANEL/SERIE-OVERVIEW/airdate/lbl</strong> {{sidepanel.nextEpisode.firstaired || '?' | date: 'shortDate'}}
+            <strong bebas="{{bebas}}" translate-once>SIDEPANEL/SERIE-OVERVIEW/airdate/lbl</strong> {{sidepanel.nextEpisode.firstaired || '?' | date: 'shortDate'}}
           </td>
           <td ng-if="!sidepanel.nextEpisode" translate-once>SIDEPANEL/SERIE-OVERVIEW/unknown/lbl</td>
       </tr>
@@ -39,42 +39,42 @@
       <tr>
         <td colspan="2">
             <a ui-sref="serie.details()">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once>COMMON/series-details/lbl</strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong bebas="{{bebas}}" translate-once>COMMON/series-details/lbl</strong>
             </a>
         </td>
       </tr>
       <tr class="two-face">
         <td>
             <a ui-sref="serie.seasons({id: sidepanel.serie.ID_Serie})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once>COMMON/seasons/lbl</strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong bebas="{{bebas}}" translate-once>COMMON/seasons/lbl</strong>
             </a>
         </td>
         <td ng-show="!sidepanel.notWatchedEpsBtn">
             <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once>COMMON/episodes/lbl</strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong bebas="{{bebas}}" translate-once>COMMON/episodes/lbl</strong>
             </a>
         </td>
         <td ng-show="sidepanel.notWatchedEpsBtn">
             <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.notWatchedSeason ? sidepanel.notWatchedSeason.ID_Season : sidepanel.season.ID_Season})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once>COMMON/episodes/lbl</strong>
+                <i class="glyphicon glyphicon-info-sign"></i><strong bebas="{{bebas}}" translate-once>COMMON/episodes/lbl</strong>
             </a>
         </td>
       </tr>
       <tr>
         <td colspan="2">
           <a ng-show="!sidepanel.markAllWatchedAlert" ng-click="sidepanel.markAllWatchedQuery()">
-            <i class="glyphicon glyphicon-eye-open"></i><strong translate-once>COMMON/mark-all-watched/lbl</strong>
+            <i class="glyphicon glyphicon-eye-open"></i><strong bebas="{{bebas}}" translate-once>COMMON/mark-all-watched/lbl</strong>
           </a>
           <table ng-show="sidepanel.markAllWatchedAlert" class="buttons" width="100%" border="0">
             <tr>
               <td>
-                <a  class="btn btn-danger" ng-click="sidepanel.markAllWatched(sidepanel.serie)">
-                  <i class="glyphicon glyphicon-question-sign spin"></i><strong translate-once>COMMON/are-you-sure/lbl</strong>&nbsp;<strong translate-once>DIALOGSjs/yes/btn</strong>
+                <a  class="btn bebas-{{bebas}} btn-danger" ng-click="sidepanel.markAllWatched(sidepanel.serie)">
+                  <i class="glyphicon glyphicon-question-sign spin"></i><strong bebas="{{bebas}}" translate-once>COMMON/are-you-sure/lbl</strong>&nbsp;<strong bebas="{{bebas}}" translate-once>DIALOGSjs/yes/btn</strong>
                 </a>
               </td>
               <td>
-                <a class="btn btn-success" ng-show="sidepanel.markAllWatchedAlert" ng-click="sidepanel.markAllWatchedCancel()">
-                  <i class="glyphicon glyphicon-ban-circle"></i><strong translate-once>COMMON/cancel/btn</strong>
+                <a class="btn bebas-{{bebas}} btn-success" ng-show="sidepanel.markAllWatchedAlert" ng-click="sidepanel.markAllWatchedCancel()">
+                  <i class="glyphicon glyphicon-ban-circle"></i><strong bebas="{{bebas}}" translate-once>COMMON/cancel/btn</strong>
                 </a>
               </td>
             </tr>
@@ -84,9 +84,9 @@
       <tr ng-show="getSetting('torrenting.enabled')">
         <td colspan="2">
            <a ng-click="sidepanel.serie.toggleAutoDownload()">
-              <i class="glyphicon glyphicon-cloud-download" ng-style="{ color: sidepanel.serie.autoDownload == 1 ? 'green' : 'white' }"></i><strong translate-once>COMMON/auto-download/lbl</strong>: 
-              <strong ng-if="sidepanel.serie.autoDownload == 1" translate-once>COMMON/enabled/lbl</strong>
-              <strong ng-if="sidepanel.serie.autoDownload == 0" translate-once>COMMON/disabled/lbl</strong>
+              <i class="glyphicon glyphicon-cloud-download" ng-style="{ color: sidepanel.serie.autoDownload == 1 ? 'green' : 'white' }"></i><strong bebas="{{bebas}}" translate-once>COMMON/auto-download/lbl</strong>: 
+              <strong bebas="{{bebas}}" ng-if="sidepanel.serie.autoDownload == 1" translate-once>COMMON/enabled/lbl</strong>
+              <strong bebas="{{bebas}}" ng-if="sidepanel.serie.autoDownload == 0" translate-once>COMMON/disabled/lbl</strong>
             </a>
         </td>
       </tr>
@@ -95,7 +95,7 @@
           <a ng-click="sidepanel.refresh(sidepanel.serie)">
             <i class="glyphicon glyphicon-refresh" ng-show="!sidepanel.isRefreshing"></i>
             <i ng-show="sidepanel.isRefreshing"><loading-spinner style="width: 25px; height: 25px; left: 0px; top: 0px; position: relative; float: left;"></loading-spinner></i>
-            <strong translate-once>SIDEPANEL/SERIE-OVERVIEW/refresh/lbl</strong>
+            <strong bebas="{{bebas}}" translate-once>SIDEPANEL/SERIE-OVERVIEW/refresh/lbl</strong>
           </a>
         </td>
       </tr>
@@ -103,11 +103,11 @@
         <td colspan="2">
           <a ng-show="sidepanel.serie.displaycalendar == 1" ng-click="sidepanel.serie.toggleCalendarDisplay()">
             <i class="glyphicon glyphicon-ban-circle"></i>
-            <strong translate-once>COMMON/calendar-hide/btn</strong>
+            <strong bebas="{{bebas}}" translate-once>COMMON/calendar-hide/btn</strong>
             </a>
           <a ng-show="sidepanel.serie.displaycalendar == 0" ng-click="sidepanel.serie.toggleCalendarDisplay()">
              <i class="glyphicon glyphicon-ok-circle"></i>
-             <strong translate-once>COMMON/calendar-show/btn</strong>
+             <strong bebas="{{bebas}}" translate-once>COMMON/calendar-show/btn</strong>
           </a>
         </td>
       </tr>
@@ -115,7 +115,7 @@
         <td colspan="2">
             <a class="torrent-settings" style="text-decoration:none" ng-click="sidepanel.torrentSettings(serie)">
               <i class="glyphicon glyphicon-cog"></i>
-              <strong translate-once>COMMON/settings/lbl</strong><strong>{{::sidepanel.serie.name}}</strong>
+              <strong bebas="{{bebas}}" translate-once>COMMON/settings/lbl</strong><strong bebas="{{bebas}}">{{::sidepanel.serie.name}}</strong>
             </a>
           </td>
       </tr>
@@ -123,7 +123,7 @@
         <td colspan="2">
           <a ng-click="sidepanel.removeFromFavorites(sidepanel.serie)" style="background-color:rgba(250,55,55,0.1)">
             <i class="glyphicon glyphicon-trash"></i>
-            <strong translate-once>COMMON/delete-serie/btn</strong>
+            <strong bebas="{{bebas}}" translate-once>COMMON/delete-serie/btn</strong>
           </a>
         </td>
       </tr>

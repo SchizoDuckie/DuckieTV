@@ -9,14 +9,14 @@
     <figure>
       <div class="img"></div>
       <figcaption>
-        <h3 class="title" ng-show="!noTitle || mode == 'banner'">{{data.name}}</h3></figcaption>
+        <h3 bebas="{{bebas}}" class="title" ng-show="!noTitle || mode == 'banner'">{{data.name}}</h3></figcaption>
     </figure>
   </a>
   <a class="{{mode}}" ng-if="noListButton" lazy-background="{{mode == 'poster' ? data.poster : data.banner}}" alt-lazy="1">
     <figure>
       <div class="img"></div>
       <figcaption>
-        <h3 class="title" ng-show="!noTitle || mode == 'banner'">{{data.name}}</h3></figcaption>
+        <h3 bebas="{{bebas}}" class="title" ng-show="!noTitle || mode == 'banner'">{{data.name}}</h3></figcaption>
     </figure>
   </a>
   <div ng-show="!noOverview" class='overview'>
@@ -25,7 +25,7 @@
   <div ng-transclude></div>
 </div>
 <script type="text/ng-template" id="serieslist.serieHeaderTitleTooltip.html">
-  <strong ng-if="mode == 'poster'">{{data.name}}</strong>
+  <strong bebas="{{bebas}}" ng-if="mode == 'poster'">{{data.name}}</strong>
   <div ng-show="!noBadge">
     <div ng-show="data.notWatchedCount == 0 ">
       ({{'COMMON/all-watched/tooltip'|translate}})

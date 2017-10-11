@@ -4,12 +4,12 @@
     <div class="trakt-logo" style="float:left"><img src="img/trakt.png"></div>
     <div class="trakt-login">
       <p translate-once>SETTINGS/TRAKT-IMPORT/sync/desc</p>
-      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+      <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
        {{trakt.traktSync ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
         <table style="width: 100%">
           <tr ng-if="!trakt.credentials.success">
             <td>
-              <a ng-href="{{trakt.getPinUrl()}}" ng-click="trakt.getPin()" class="btn btn-success" target='_blank' translate-once>SETTINGS/TRAKT-IMPORT/authorize/btn</a>
+              <a ng-href="{{trakt.getPinUrl()}}" ng-click="trakt.getPin()" class="btn bebas-{{bebas}} btn-success" target='_blank' translate-once>SETTINGS/TRAKT-IMPORT/authorize/btn</a>
             </td>
           </tr>
           <tr style="text-align: center" ng-if="!trakt.credentials.success">
@@ -23,18 +23,18 @@
           <tr class="button">
             <td>
               <p class="alert alert-success" role="alert" ng-show="trakt.credentials.success" style="white-space: normal; word-break:break-all">
-                <strong>TraktTV <span translate-once>SETTINGS/TRAKT-IMPORT/authorized/alert</span></strong>
+                <strong bebas="{{bebas}}">TraktTV <span translate-once>SETTINGS/TRAKT-IMPORT/authorized/alert</span></strong>
                 Token: {{trakt.credentials.success}}
               </p>
-              <a ng-click="trakt.authorize(trakt.credentials.pincode)" class="btn btn-success" style="position:relative" ng-hide="trakt.credentials.success">
+              <a ng-click="trakt.authorize(trakt.credentials.pincode)" class="btn bebas-{{bebas}} btn-success" style="position:relative" ng-hide="trakt.credentials.success">
                 <i class="glyphicon glyphicon-log-in" style="float:left;top:3px"></i><span translate-once>SETTINGS/TRAKT-IMPORT/login-to/btn</span><span>Trakt.TV</span>
                 <loading-spinner ng-show="trakt.credentials.authorizing" style="width:20px;height:20px;position:absolute;right:5px"></loading-spinner>
               </a>
 
-              <a ng-click="trakt.clearCredentials()" ng-if="trakt.credentials.success" class="btn btn-danger">
+              <a ng-click="trakt.clearCredentials()" ng-if="trakt.credentials.success" class="btn bebas-{{bebas}} btn-danger">
                 <i class="glyphicon glyphicon-trash" style="float:left;top:3px"></i><span translate-once>SETTINGS/TRAKT-IMPORT/clear-credentials/btn</span>
               </a>
-              <a ng-click="trakt.renewCredentials()" ng-if="trakt.credentials.success" class="btn btn-success">
+              <a ng-click="trakt.renewCredentials()" ng-if="trakt.credentials.success" class="btn bebas-{{bebas}} btn-success">
                 <i class="glyphicon glyphicon-refresh" style="float:left;top:3px"></i><span translate-once>SETTINGS/TRAKT-IMPORT/renew-credentials/btn</span>
               </a>
             </td>
@@ -47,23 +47,23 @@
   <div ng-show="trakt.credentials.success" class="buttons">
     <div class="toggleWatchSync">
       <hr class="setting-divider">
-      <h2>
+      <h2 bebas="{{bebas}}">
         <span uib-tooltip="{{trakt.traktSync ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
           <i class="glyphicon glyphicon-{{trakt.traktSync ? 'ok alert-success' : 'remove alert-danger'}}" style="font-size:22px;background-color:transparent"></i>
         </span>
         <li translate-once>SETTINGS/TRAKT-IMPORT/watched-sync/hdr</li>
       </h2>
       <p translate-once>SETTINGS/TRAKT-IMPORT/watched-sync/desc</p>
-      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+      <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
        {{trakt.traktSync ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-      <a ng-click="trakt.toggleTraktSync()" class="btn btn-{{trakt.traktSync ? 'danger' : 'success'}}">
+      <a ng-click="trakt.toggleTraktSync()" class="btn bebas-{{bebas}} btn-{{trakt.traktSync ? 'danger' : 'success'}}">
         <i class="glyphicon glyphicon-{{trakt.traktSync ? 'remove-circle' : 'export'}}" style="float:left;top:3px"></i>{{trakt.traktSync ? 'SETTINGS/TRAKT-IMPORT/sync-disabled/btn' : 'SETTINGS/TRAKT-IMPORT/sync-enabled/btn'|translate}}
       </a>
     </div>
 
     <hr class="setting-divider">
 
-    <h2 translate-once>SETTINGS/TRAKT-IMPORT/hdr</h2>
+    <h2 bebas="{{bebas}}" translate-once>SETTINGS/TRAKT-IMPORT/hdr</h2>
     <p translate-once>SETTINGS/TRAKT-IMPORT/desc</p>
 
     <div class="checkbox">
@@ -71,17 +71,17 @@
       <label for="onlyCollection" translate-once>SETTINGS/TRAKT-IMPORT/only-collection/lbl</label>
     </div>
 
-    <a ng-click="trakt.readTraktTV()" class="btn btn-info">
+    <a ng-click="trakt.readTraktTV()" class="btn bebas-{{bebas}} btn-info">
       <i class="glyphicon glyphicon-import" style="float:left;top:3px"></i> <span translate-once>SETTINGS/TRAKT-IMPORT/sync-import/btn</span>
     </a>
 
     <div class="pushToTrakt">
       <hr class="setting-divider">
 
-      <h2 translate-once>SETTINGS/TRAKT-IMPORT/push/hdr</h2>
+      <h2 bebas="{{bebas}}" translate-once>SETTINGS/TRAKT-IMPORT/push/hdr</h2>
       <p translate-once>SETTINGS/TRAKT-IMPORT/push/desc</p>
 
-      <a ng-click="trakt.pushToTraktTV()" class="btn btn-info">
+      <a ng-click="trakt.pushToTraktTV()" class="btn bebas-{{bebas}} btn-info">
         <i class="glyphicon glyphicon-export" style="float:left;top:3px"></i> <span translate-once>SETTINGS/TRAKT-IMPORT/push/btn</span>
       </a>
     </div>

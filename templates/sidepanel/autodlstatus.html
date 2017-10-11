@@ -1,6 +1,6 @@
 <!-- sidepanel/autodlstatus.html -->
 <div id="autodlstatuspage">
-  <h2><span translate-once>COMMON/auto-download-status/hdr</span>
+  <h2 bebas="{{bebas}}"><span translate-once>COMMON/auto-download-status/hdr</span>
     <span><button type="button" class="close" ng-click="closeSidePanel()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/auto-download-status/hdr'|translate}}" tooltip-placement="left">&times;</button></span>
   </h2>
   <div>
@@ -10,29 +10,29 @@
   <table class="table table-condensed table-light" colspan='2' style="background-color: rgba(0,0,0,0.0); color:white; border-top:0px; word-break:break-word">
     <tbody>
       <tr>
-        <td><strong translate-once>COMMON/status/hdr</strong>: {{status}}</td>
-        <td><strong translate-once>AUTODLSTATUS/last-run/hdr</strong>: {{lastRun | date: 'medium'}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>COMMON/status/hdr</strong>: {{status}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>AUTODLSTATUS/last-run/hdr</strong>: {{lastRun | date: 'medium'}}</td>
       </tr>
       <tr>
-        <td><strong translate-once>COMMON/min-seeders/hdr</strong>: {{minSeeders}}</td>
-        <td><strong translate-once>AUTODLSTATUS/next-run/hdr</strong>: {{nextRun | date: 'medium'}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>COMMON/min-seeders/hdr</strong>: {{minSeeders}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>AUTODLSTATUS/next-run/hdr</strong>: {{nextRun | date: 'medium'}}</td>
       </tr>
       <tr>
-        <td><strong translate-once>AUTODLSTATUS/scan-period/hdr</strong>: {{period}}</td>
-        <td><strong translate-once>AUTODLSTATUS/scan-range/hdr</strong>: {{fromDT | date: 'short'}} - {{toDT | date: 'short'}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>AUTODLSTATUS/scan-period/hdr</strong>: {{period}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>AUTODLSTATUS/scan-range/hdr</strong>: {{fromDT | date: 'short'}} - {{toDT | date: 'short'}}</td>
       </tr>
       <tr>
-        <td><strong translate-once>COMMON/require-keywords/hdr</strong>: {{requireKeywords}}</td>
-        <td><strong translate-once>COMMON/ignore-keywords/hdr</strong>: {{ignoreKeywords}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>COMMON/require-keywords/hdr</strong>: {{requireKeywords}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>COMMON/ignore-keywords/hdr</strong>: {{ignoreKeywords}}</td>
       </tr>
       <tr>
-        <td><strong translate-once>COMMON/global-size-min/hdr</strong>: {{globalSizeMin}}{{(globalSizeMin)?' MB':''}}</td>
-        <td><strong translate-once>COMMON/global-size-max/hdr</strong>: {{globalSizeMax}}{{(globalSizeMax)?' MB':''}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>COMMON/global-size-min/hdr</strong>: {{globalSizeMin}}{{(globalSizeMin)?' MB':''}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>COMMON/global-size-max/hdr</strong>: {{globalSizeMax}}{{(globalSizeMax)?' MB':''}}</td>
       </tr>
     </tbody>
       <tr>
-        <td><strong translate-once>COMMON/global-quality/hdr</strong>: {{preferredQuality}}</td>
-        <td><strong translate-once>AUTODLSTATUS/search-engine/hdr</strong>: {{searchEngine}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>COMMON/global-quality/hdr</strong>: {{preferredQuality}}</td>
+        <td><strong bebas="{{bebas}}" translate-once>AUTODLSTATUS/search-engine/hdr</strong>: {{searchEngine}}</td>
       </tr>
   </table>
   <hr class="setting-divider">
@@ -40,19 +40,19 @@
     <thead>
       <tr>
         <th ng-show="sortBy.length==1" style="width:410px" align="center"><span translate-once>AUTODLSTATUS/search-criteria/hdr</span>{{lastRun | date: 'medium'}}</th>
-        <th ng-show="sortBy.length==2" style="width:410px" align="center"><u ng-click="sortBy=['search'];" uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong translate-once>AUTODLSTATUS/search-criteria/hdr</strong>{{lastRun | date: 'medium'}}</u></th>
+        <th ng-show="sortBy.length==2" style="width:410px" align="center"><u ng-click="sortBy=['search'];" uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong bebas="{{bebas}}" translate-once>AUTODLSTATUS/search-criteria/hdr</strong>{{lastRun | date: 'medium'}}</u></th>
         <th style="width:45px" align="center" uib-tooltip="{{'COMMON/custom-search-size-min-max/lbl'|translate}}" tooltip-append-to-body="true">CSM</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/custom-search-string/lbl'|translate}}" tooltip-append-to-body="true">CSS</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-global-quality/lbl'|translate}}" tooltip-append-to-body="true">IPQ</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-require-keywords/lbl'|translate}}" tooltip-append-to-body="true">IRK</th>
         <th style="width:40px" align="center" uib-tooltip="{{'COMMON/ignore-ignore-keywords/lbl'|translate}}" tooltip-append-to-body="true">IIK</th>
         <th ng-show="sortBy.length==2" translate-once>COMMON/status/hdr</th>
-        <th ng-show="sortBy.length==1"><u ng-click="sortBy=['-status', 'search'];" uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong translate-once>COMMON/status/hdr</strong></u></th>
+        <th ng-show="sortBy.length==1"><u ng-click="sortBy=['-status', 'search'];" uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true"><strong bebas="{{bebas}}" translate-once>COMMON/status/hdr</strong></u></th>
       </tr>
     </thead>
     <tbody ng-show="activityList.length == 0">
       <tr>
-        <td><h3 ng-show="activityList.length == 0">{{getTorrentClientNameAndStatus()}}</h3></td>
+        <td><h3 bebas="{{bebas}}" ng-show="activityList.length == 0">{{getTorrentClientNameAndStatus()}}</h3></td>
       </tr>
     </tbody>
     <tbody ng-show="activityList.length != 0">
@@ -74,7 +74,7 @@
   <table ng-show="!isActive()" class="table table-condensed table-light" style="background-color: rgba(0,0,0,0.0); color:white; border-top:0px; word-break:break-word">
     <thead>
       <tr>
-        <td><h3>{{getTorrentClientNameAndStatus()}}</h3></td>
+        <td><h3 bebas="{{bebas}}">{{getTorrentClientNameAndStatus()}}</h3></td>
       </tr>
     </thead>
   </table>

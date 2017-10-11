@@ -1,5 +1,5 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
-  <h2>&micro;Torrent <h2cont translate-once>COMMON/integration/hdr</h2cont></h2>
+  <h2 bebas="{{bebas}}">&micro;Torrent <h2cont translate-once>COMMON/integration/hdr</h2cont></h2>
 
   <p ng-show="isuTorrentAuthenticated()">
     <span translate-once>SETTINGS/UTORRENT/is-authenticated/desc</span> <em>{{getToken()}}.</em><br />
@@ -7,12 +7,12 @@
   </p>
   <p ng-show="!isuTorrentAuthenticated()"><span translate-once>SETTINGS/UTORRENT/is-not-authenticated/desc</span></p>
 
-  <a class='btn btn-small btn-warning' ng-if="isuTorrentAuthenticated()" ng-click='removeToken()'><i class="glyphicon glyphicon-ban-circle"></i> <span translate-once>SETTINGS/UTORRENT/clear-authority/btn</span></a>
-  <a class='btn btn-small btn-success' ng-if="!isuTorrentAuthenticated()" ng-click='connect()'><i class="glyphicon glyphicon-refresh"></i> <span translate-once>SETTINGS/UTORRENT/connect-to-utorrent/btn</span></a>
+  <a class='btn bebas-{{bebas}} btn-small btn-warning' ng-if="isuTorrentAuthenticated()" ng-click='removeToken()'><i class="glyphicon glyphicon-ban-circle"></i> <span translate-once>SETTINGS/UTORRENT/clear-authority/btn</span></a>
+  <a class='btn bebas-{{bebas}} btn-small btn-success' ng-if="!isuTorrentAuthenticated()" ng-click='connect()'><i class="glyphicon glyphicon-refresh"></i> <span translate-once>SETTINGS/UTORRENT/connect-to-utorrent/btn</span></a>
 
   <hr class="setting-divider">
 
-  <h2>
+  <h2 bebas="{{bebas}}">
     <span uib-tooltip="{{streamingEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{streamingEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
@@ -20,15 +20,15 @@
   </h2>
 
   <p>{{streamingEnabled ? 'SETTINGS/UTORRENT/streaming-disabled/desc' : 'SETTINGS/UTORRENT/streaming-enabled/desc'|translate}}</p>
-  <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+  <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
    {{streamingEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-  <a ng-click="toggleStreaming()" class="btn btn-{{streamingEnabled ? 'danger' : 'success'}}">
+  <a ng-click="toggleStreaming()" class="btn bebas-{{bebas}} btn-{{streamingEnabled ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{streamingEnabled ? 'ban-circle' : 'film'}}"></i> {{streamingEnabled ? 'SETTINGS/UTORRENT/streaming-disabled/btn' : 'SETTINGS/UTORRENT/streaming-enabled/btn'|translate}}
   </a>
 
   <hr class="setting-divider">
 
-  <h2>
+  <h2 bebas="{{bebas}}">
     <span uib-tooltip="{{directoryEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{directoryEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
@@ -36,15 +36,15 @@
   </h2>
 
   <p>{{directoryEnabled ? 'SETTINGS/UTORRENT/directory-folder-hide/desc' : 'SETTINGS/UTORRENT/directory-folder-show/desc'|translate}}</p>
-  <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+  <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
    {{directoryEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-  <a ng-click="toggleDirectory()" class="btn btn-{{directoryEnabled ? 'danger' : 'success'}}">
+  <a ng-click="toggleDirectory()" class="btn bebas-{{bebas}} btn-{{directoryEnabled ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{directoryEnabled ? 'ban-circle' : 'folder-open'}}"></i> {{directoryEnabled ? 'SETTINGS/UTORRENT/directory-folder-hide/btn' : 'SETTINGS/UTORRENT/directory-folder-show/btn'|translate}}
   </a>
 
   <hr class="settings-divider">
-  <h2 translate-once>COMMON/remove-ads/hdr</h2>
+  <h2 bebas="{{bebas}}" translate-once>COMMON/remove-ads/hdr</h2>
   <img src="img/xtodaz.png" style='width:365px'>
   <p translate-once>COMMON/remove-ads/desc</p>
-  <a target="_blank" href="http://schizoduckie.github.io/PimpMyuTorrent/?from=DuckieTV#" class="btn btn-success" translate-once>COMMON/remove-ads/btn</a>
+  <a target="_blank" href="http://schizoduckie.github.io/PimpMyuTorrent/?from=DuckieTV#" class="btn bebas-{{bebas}} btn-success" translate-once>COMMON/remove-ads/btn</a>
 </div>
