@@ -293,26 +293,23 @@ window.debug926 = (localStorage.getItem('debug926'));
 /**
  * drop bebasRegular fontFamily if user enabled mixedCase
  */
-function init() {
-    if (localStorage.getItem('font.bebas.disabled')) {
-        var elemStyle = document.createElement('style');
-        elemStyle.id = "bebas-override";
-        elemStyle.innerHTML = [
-            "h1, h2, h3, strong, .inline-checkbox label, sidepanel .buttons .torrent-mini-remote-control>span, .settings .buttons .btn {",
-                "font-family: helvetica,sans-serif !important;",
-            "}",
-            "strong {",
-                "letter-spacing: normal !important;",
-                "font-weight: bold !important;",
-            "}",
-                "sidepanel .buttons .torrent-mini-remote-control> span {",
-                "letter-spacing: normal !important;",
-            "}",
-                "sidepanel .buttons strong {",
-                "letter-spacing: normal !important;",
-            "}"
-        ].join(' ');
-        document.body.insertBefore(elemStyle,document.body.firstChild);            
-    }
+if (localStorage.getItem('font.bebas.disabled')) {
+    var elemStyle = document.createElement('style');
+    elemStyle.id = "bebas-override";
+    elemStyle.innerHTML = [
+        "h1, h2, h3, strong, .inline-checkbox label, sidepanel .buttons .torrent-mini-remote-control>span, .settings .buttons .btn {",
+            "font-family: helvetica,sans-serif !important;",
+        "}",
+        "strong {",
+            "letter-spacing: normal !important;",
+            "font-weight: bold !important;",
+        "}",
+            "sidepanel .buttons .torrent-mini-remote-control> span {",
+            "letter-spacing: normal !important;",
+        "}",
+            "sidepanel .buttons strong {",
+            "letter-spacing: normal !important;",
+        "}"
+    ].join(' ');
+    document.body.insertBefore(elemStyle,document.body.firstChild);            
 }
-window.onload = init;
