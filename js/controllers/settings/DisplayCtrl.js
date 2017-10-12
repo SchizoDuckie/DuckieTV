@@ -52,6 +52,11 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "$injector", "SettingsService",
         // Toggles the bebas enabled font (for mixed case display)
         $scope.toggleMixedCase = function() {
             $scope.mcEnabled = !$scope.mcEnabled;
+            if ($scope.mcEnabled) {
+                localStorage.setItem('font.bebas.disabled', "true");                
+            } else {
+                localStorage.removeItem('font.bebas.disabled');                
+            }
             SettingsService.set('font.bebas.enabled', !$scope.mcEnabled);
             window.location.reload();
         };
