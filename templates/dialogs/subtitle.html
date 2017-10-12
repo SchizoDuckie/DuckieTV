@@ -1,6 +1,6 @@
 <!-- dialogs/subtitle.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
-<h1 bebas="{{bebas}}"><span translate-once>COMMON/find-subtitle/lbl</span> <img src='./img/opensubtitles.png' uib-tooltip='{{"SUBTITLEDIALOG/powered-by/tooltip"|translate}}OpenSubtitles.org' style='float:right; margin-top: -10px; opacity: 0.7'>
+<h1><span translate-once>COMMON/find-subtitle/lbl</span> <img src='./img/opensubtitles.png' uib-tooltip='{{"SUBTITLEDIALOG/powered-by/tooltip"|translate}}OpenSubtitles.org' style='float:right; margin-top: -10px; opacity: 0.7'>
 </h1>
 <input type="text" ng-model="query" ng-model-options="{debounce: 1000}" focus-watch='searching' ng-change="search(query)"  class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
 <a href="#settings/subtitles" ng-click="cancel()" style="float:right"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>SUBTITLEDIALOG/settings/glyph</span></a>
@@ -17,23 +17,23 @@
     <tr ng-show="!searching && items.length == 0">
       <td>
         <p translate-once>COMMON/no-results/lbl</p>
-        <strong bebas="{{bebas}}">{{ query }}</strong>
+        <strong>{{ query }}</strong>
       </td>
     </tr>
   </thead>
   <tbody>
     <tr ng-show="!searching && items.length > 0">
       <th>
-        <strong bebas="{{bebas}}">S/E</strong>
+        <strong>S/E</strong>
       </th>
       <th>
-        <strong bebas="{{bebas}}" translate-once>COMMON/language/hdr</strong>
+        <strong translate-once>COMMON/language/hdr</strong>
       </th>
       <th>
-        <strong bebas="{{bebas}}" translate-once>COMMON/title/hdr</strong>
+        <strong translate-once>COMMON/title/hdr</strong>
       </th>
       <th>
-        <strong bebas="{{bebas}}" translate-once>SUBTITLEDIALOG/downloads/lbl</strong>
+        <strong translate-once>SUBTITLEDIALOG/downloads/lbl</strong>
       </th>
      
     </tr>

@@ -1,44 +1,44 @@
-<h1 bebas="{{bebas}}">Sync will be back soon, I promise ;-) </h1>
+<h1>Sync will be back soon, I promise ;-) </h1>
 
 <div ng-controller="SyncCtrl" ng-if="getSetting('sync.supported')">
-	<h1 bebas="{{bebas}}">Storage sync</h1>
+	<h1>Storage sync</h1>
 
-  <strong bebas="{{bebas}}" style='white-space:nowrap; display:block;'>{{'SETTINGS/DEFAULT/sync/desc'|translate}}</strong>
+  <strong style='white-space:nowrap; display:block;'>{{'SETTINGS/DEFAULT/sync/desc'|translate}}</strong>
       <p class="label label-success" ng-show="getSetting('storage.sync')">{{'COMMON/enabled/lbl'|translate}}</p>
       <p class="label label-danger" ng-show="!getSetting('storage.sync')">{{'COMMON/disabled/lbl'|translate}}</p>
 
 <ul class="list-unstyled">
         <li>
-          <p><strong bebas="{{bebas}}">{{'SETTINGS/DEFAULT/sync-push/hdr'|translate}}</strong> {{'SETTINGS/DEFAULT/sync-push/desc'|translate}}</p>
+          <p><strong>{{'SETTINGS/DEFAULT/sync-push/hdr'|translate}}</strong> {{'SETTINGS/DEFAULT/sync-push/desc'|translate}}</p>
         </li><br>
         <li style="padding-top:4px">
           <p ng-show="!getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-doit/desc'|translate}}</p>
           <p ng-show="getSetting('storage.sync')">{{'SETTINGS/DEFAULT/sync-dont/desc'|translate}}</p>
-          <button ng-show="!getSetting('storage.sync')" ng-click="enableSync()" class="btn bebas-{{bebas}} btn-success">{{'SETTINGS/DEFAULT/sync-doit/btn'|translate}}</button>
-          <button ng-show="getSetting('storage.sync')" ng-click="disableSync()" class="btn bebas-{{bebas}} btn-danger">{{'SETTINGS/DEFAULT/sync-dont/btn'|translate}}</button>
+          <button ng-show="!getSetting('storage.sync')" ng-click="enableSync()" class="btn btn-success">{{'SETTINGS/DEFAULT/sync-doit/btn'|translate}}</button>
+          <button ng-show="getSetting('storage.sync')" ng-click="disableSync()" class="btn btn-danger">{{'SETTINGS/DEFAULT/sync-dont/btn'|translate}}</button>
         </li>
       </ul>
 
-	<h2 bebas="{{bebas}}" style="float: right; margin-top: -40px;"> Current status: {{sync.isSyncing ? 'Syncing' : 'Not Syncing'}}</h2>
+	<h2 style="float: right; margin-top: -40px;"> Current status: {{sync.isSyncing ? 'Syncing' : 'Not Syncing'}}</h2>
 
-	<h3 bebas="{{bebas}}">Registered Sync targets:</h3>
+	<h3>Registered Sync targets:</h3>
 	<hr>
 	<div ng-repeat="target in targets">
-		<h1 bebas="{{bebas}}">{{ target.name }} </h1>
-		<strong bebas="{{bebas}}">Last sync: </strong> {{ target.lastSync }}<br>
-		<strong bebas="{{bebas}}">Status:</strong> {{ target.status }} {{ target.statusMessage }}<br>
-		<strong bebas="{{bebas}}">Enabled: </strong> {{ target.isEnabled() ? 'Yes' : 'No' }}<br>
-		<button class="btn bebas-{{bebas}} btn-xs btn-info" ng-click="target.sync()">Sync now</button>
-		<button class="btn bebas-{{bebas}} btn-xs btn-info" ng-click="read(target)">Read</button>
-		<button class="btn bebas-{{bebas}} btn-xs btn-info" ng-click="target.write()">Write</button><br>
+		<h1>{{ target.name }} </h1>
+		<strong>Last sync: </strong> {{ target.lastSync }}<br>
+		<strong>Status:</strong> {{ target.status }} {{ target.statusMessage }}<br>
+		<strong>Enabled: </strong> {{ target.isEnabled() ? 'Yes' : 'No' }}<br>
+		<button class="btn btn-xs btn-info" ng-click="target.sync()">Sync now</button>
+		<button class="btn btn-xs btn-info" ng-click="read(target)">Read</button>
+		<button class="btn btn-xs btn-info" ng-click="target.write()">Write</button><br>
 
-		<button class="btn bebas-{{bebas}} btn-xs btn-success" ng-click="compare(target)">Compare</button>
+		<button class="btn btn-xs btn-success" ng-click="compare(target)">Compare</button>
 
 
-		<button class="btn bebas-{{bebas}} btn-xs btn-info" ng-click="target.disable()">Disable</button>
-		<button class="btn bebas-{{bebas}} btn-xs btn-info" ng-click="target.enable()">Enable</button>
+		<button class="btn btn-xs btn-info" ng-click="target.disable()">Disable</button>
+		<button class="btn btn-xs btn-info" ng-click="target.enable()">Enable</button>
 
-		<h2 bebas="{{bebas}}">Local series not in remote storage ({{target.nonRemote.length}})</h2>
+		<h2>Local series not in remote storage ({{target.nonRemote.length}})</h2>
 		<ul>
 		<li ng-repeat="show in target.nonRemote" ng-if="!show.title">{{ show + ' (loading)'}}</li>
 		</ul>
@@ -47,7 +47,7 @@
 		    <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
 		 </serieheader>
 
-		 <h2 bebas="{{bebas}}">Remote series not in local storage ({{target.nonLocal.length}})</h2>
+		 <h2>Remote series not in local storage ({{target.nonLocal.length}})</h2>
 		<ul>
 			<li ng-repeat="show in target.nonLocal" ng-if="!show.title">{{show + ' (loading)'}}</li>
 		</ul>
@@ -56,9 +56,9 @@
 		    <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
 		 </serieheader>
 
-		<h2 bebas="{{bebas}}">All Series in remote storage engine {{target.name}} ({{target.series.length}}) 
-		<button class="btn bebas-{{bebas}} btn-warning" ng-show="!showAll" ng-click="showAll = true">Show</button>
-		<button class="btn bebas-{{bebas}} btn-warning" ng-show="showAll" ng-click="showAll = false">Hide</button>
+		<h2>All Series in remote storage engine {{target.name}} ({{target.series.length}}) 
+		<button class="btn btn-warning" ng-show="!showAll" ng-click="showAll = true">Show</button>
+		<button class="btn btn-warning" ng-show="showAll" ng-click="showAll = false">Hide</button>
 		</h2>
 		<serieheader ng-if="showAll" ng-repeat="serie in target.series" style='display:inline-block;margin:5px;cursor:pointer' data="serie" no-overview="1" mode="poster" ng-click="selectSerie(serie)">
 		    <em class="earmark" ng-show="isAdded(serie.tvdb_id)"><i class='glyphicon glyphicon-ok'></i></em>

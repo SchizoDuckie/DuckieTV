@@ -1,20 +1,20 @@
 <!-- about.html -->
 <div id="aboutpage">
-  <h2 bebas="{{bebas}}"><span translate-once>COMMON/about/hdr</span><span> v<ng-include src="'VERSION'"></ng-include></span>
+  <h2><span translate-once>COMMON/about/hdr</span><span> v<ng-include src="'VERSION'"></ng-include></span>
     <span><button type="button" class="close" ng-click="closeSidePanel()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/about/hdr'|translate}}" tooltip-placement="left">&times;</button></span>
   </h2>
   <table class="table light" style="word-break:break-word">
     <tr>
       <td>
-        <h3 bebas="{{bebas}}" translate-once>ABOUT/help/hdr</h3>
+        <h3 translate-once>ABOUT/help/hdr</h3>
         <p><span translate-once>ABOUT/help/p1</span><a href='https://reddit.com/r/duckietv' target='_blank'>Reddit/r/DuckieTV</a></p>
         <p><span translate-once>ABOUT/help/p2</span><a href='https://github.com/SchizoDuckie/DuckieTV#changelog-' target='_blank' translate-once>ABOUT/help-changelog/link</a></p>
-        <h3 bebas="{{bebas}}" translate-once>ABOUT/bugs/hdr</h3>
+        <h3 translate-once>ABOUT/bugs/hdr</h3>
         <p><span translate-once>ABOUT/bugs/p1</span><a href="https://github.com/SchizoDuckie/DuckieTV/issues" target='_blank'>Github</a><span  translate-once>ABOUT/bugs/p2</span></p>
-        <h3 bebas="{{bebas}}" translate-once>ABOUT/tvinfo/hdr</h3>
+        <h3 translate-once>ABOUT/tvinfo/hdr</h3>
         <p><span translate-once>ABOUT/tvinfo/p1</span><a href='https://thetvdb.com' target='_blank' translate-once>ABOUT/tvinfo-tvdb/link</a><span translate-once>ABOUT/tvinfo/p2</span><a href='https://www.thetvdb.com/wiki/index.php/Main_Page' target='_blank' translate-once>ABOUT/tvinfo-tvdbwiki/link</a></p>
-        <h3 bebas="{{bebas}}" translate-once>ABOUT/privacy/hdr</h3>
-        <strong bebas="{{bebas}}" translate-once>ABOUT/privacy/lbl</strong>
+        <h3 translate-once>ABOUT/privacy/hdr</h3>
+        <strong translate-once>ABOUT/privacy/lbl</strong>
         <ul>
         <li translate-once>ABOUT/privacy/li1</li>
         <li translate-once>ABOUT/privacy/li2</li>
@@ -22,7 +22,7 @@
         <li><span translate-once>ABOUT/privacy/li4-1</span><em translate-once>ABOUT/privacy/li4-2</em><span translate-once>ABOUT/privacy/li4-3</span></li>
         <li translate-once>ABOUT/privacy/li5</li>
         </ul>
-        <h3 bebas="{{bebas}}" translate-once>ABOUT/credits/hdr</h3>
+        <h3 translate-once>ABOUT/credits/hdr</h3>
         <p translate-once>ABOUT/credits/p1</p>
         <ul>
           <li><a href='https://TheTVDB.com' target='_blank'>TheTVDB.com</a><span translate-once>ABOUT/credits/li1</span></li>
@@ -38,21 +38,21 @@
           <li><a href='https://github.com/ngosang/trackerslist' target='_blank'>ngosang/trackerslist</a><span translate-once>ABOUT/credits/li11</span></li>
           <li><a href='https://github.com/Jackett/Jackett' target='_blank'>Jackett/Jackett</a><span translate-once>ABOUT/credits/li12</span></li>
         </ul>
-        <h3 bebas="{{bebas}}" translate-once>ABOUT/dtvlinks/hdr</h3>
+        <h3 translate-once>ABOUT/dtvlinks/hdr</h3>
         <ul>
           <li>
-          <strong bebas="{{bebas}}" translate-once>ABOUT/dtvlinks-github/lbl</strong> <a href='http://duckie.tv' target='_blank'>http://duckie.tv</a></p>
+          <strong translate-once>ABOUT/dtvlinks-github/lbl</strong> <a href='http://duckie.tv' target='_blank'>http://duckie.tv</a></p>
           </li><li>
-          <strong bebas="{{bebas}}" translate-once>ABOUT/dtvlinks-chrome/lbl</strong> <a href='https://chrome.google.com/webstore/detail/hkbamkappmgfjjahmnlngibomenmbbdf/' target='_blank' translate-once>ABOUT/dtvlinks-chrome-tabmode/link</a> <a href='https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/' target='_blank' translate-once>ABOUT/dtvlinks-chrome-actmode/link</a></p>
+          <strong translate-once>ABOUT/dtvlinks-chrome/lbl</strong> <a href='https://chrome.google.com/webstore/detail/hkbamkappmgfjjahmnlngibomenmbbdf/' target='_blank' translate-once>ABOUT/dtvlinks-chrome-tabmode/link</a> <a href='https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/' target='_blank' translate-once>ABOUT/dtvlinks-chrome-actmode/link</a></p>
           </li>
         </ul>
-        <h3 bebas="{{bebas}}" translate-once>ABOUT/contributing/hdr</h3>
+        <h3 translate-once>ABOUT/contributing/hdr</h3>
         <p><span translate-once>ABOUT/contributing/p1</span><a href='https://github.com/SchizoDuckie/DuckieTV/fork' target='_blank' translate-once>ABOUT/contributing/link</a>!</p>
         <p><span class="glyphicon glyphicon-heart"></span>&nbsp;<span translate-once>ABOUT/contributing/p2</span><span> AlecRust, CosmoKramer, dzogas, Gabri3l, galeksandrp, Garfield69, hexjelly, honeybunny from Addic7ed, Js41637, kevincaradant, lamaresh, rahxam, samunders-core, sbodomerle, stormfighter, Tra-Vis, Turingoo, wck963, zero77.</span></p>
         <table class="table table-condensed table-light" style='background-color: rgba(0,0,0,0.0); color:white; border-top:0px; overflow-x:scroll'>
           <tr>
-            <td ng-if="!isStandalone" colspan='2' style='border-top:0px'><h3 bebas="{{bebas}}" translate-once>ABOUT/statistics/hdr</h3></td>
-            <td ng-if="isStandalone" colspan='2' style='border-top:0px'><h3 bebas="{{bebas}}"><a uib-tooltip="{{ 'ABOUT/statistics/tooltip'|translate}}" tooltip-append-to-body="true" tooltip-placement="right" ng-click="copyStatsToClipboard()" translate-once>ABOUT/statistics/hdr</a></h3></td>
+            <td ng-if="!isStandalone" colspan='2' style='border-top:0px'><h3 translate-once>ABOUT/statistics/hdr</h3></td>
+            <td ng-if="isStandalone" colspan='2' style='border-top:0px'><h3><a uib-tooltip="{{ 'ABOUT/statistics/tooltip'|translate}}" tooltip-append-to-body="true" tooltip-placement="right" ng-click="copyStatsToClipboard()" translate-once>ABOUT/statistics/hdr</a></h3></td>
           </tr>
           <tr ng-repeat="stats in statistics">
             <td style='width:160px; white-space:nowrap;'>{{::stats.name}}</td>
@@ -64,12 +64,12 @@
     </tr>
     <tr>
       <td>
-        <h1 bebas="{{bebas}}" translate-once>ABOUT/optInTracking/hdr</h1>
+        <h1 translate-once>ABOUT/optInTracking/hdr</h1>
         <p translate-once>ABOUT/optInTracking/desc</p>
         <p translate-once>ABOUT/optInTracking/desc2</p>
-        <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
+        <p><strong  translate-once>COMMON/current-setting/hdr</strong>
         {{ optInTrackingEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-        <p ng-if='optInTrackingEnabled'><strong bebas="{{bebas}}" translate-once>ABOUT/optInTracking-id/hdr</strong> {{uniqueTrackingID}}</p>
+        <p ng-if='optInTrackingEnabled'><strong translate-once>ABOUT/optInTracking-id/hdr</strong> {{uniqueTrackingID}}</p>
 
         <button class='btn' ng-class="{'btn-danger': !optInTrackingEnabled, 'btn-success': optInTrackingEnabled}" ng-click="toggleOptInErrorReporting()">{{ optInTrackingEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
         <span translate-once>ABOUT/optInTracking/hdr</span></button>

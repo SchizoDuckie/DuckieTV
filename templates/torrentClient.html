@@ -1,7 +1,7 @@
 <!-- torrentClient.html -->
 <div class="leftpanel torrent-client">
   <div>
-    <h2 bebas="{{bebas}}">DuckieTorrent {{::client.getTorrentClientName()}} <span translate-once>TORRENTCLIENT/hdr</span></h2>
+    <h2>DuckieTorrent {{::client.getTorrentClientName()}} <span translate-once>TORRENTCLIENT/hdr</span></h2>
 
     <!-- top right settings hotbuttons -->
     <div class="settingsbtn" style="float:left">
@@ -17,15 +17,15 @@
     &nbsp;
     <!-- utorrent remove token panel -->
     <div class="alert alert-info" style="margin:10px" ng-if="client.getTorrentClientName()  == 'uTorrent'">
-      <strong bebas="{{bebas}}"><span translate-once>TORRENTCLIENT/desc/p1</span><a style="color: #428bca" href='http://www.utorrent.com/downloads/complete/os/win/track/stable'>v3.4.1+</a><span translate-once>TORRENTCLIENT/desc/p2</span></strong><span translate-once>TORRENTCLIENT/desc/p3</span>
-      <button class='btn bebas-{{bebas}} btn-small btn-warning' style='display:block;margin-top:7px' ng-click='client.removeToken()' translate-once>TORRENTCLIENT/clear-authority/btn</button>
+      <strong><span translate-once>TORRENTCLIENT/desc/p1</span><a style="color: #428bca" href='http://www.utorrent.com/downloads/complete/os/win/track/stable'>v3.4.1+</a><span translate-once>TORRENTCLIENT/desc/p2</span></strong><span translate-once>TORRENTCLIENT/desc/p3</span>
+      <button class='btn btn-small btn-warning' style='display:block;margin-top:7px' ng-click='client.removeToken()' translate-once>TORRENTCLIENT/clear-authority/btn</button>
     </div>
 
     <!-- logo spinner that hides when connected -->
     <div ng-hide="client.rpc" style='padding:40px; text-align:center'>
       <img ng-src="img/torrentclients/{{client.getTorrentClientName().toLowerCase().replace(' (pre3.2)','').replace(' 3.2+','').replace(' web ui','')}}.png" class="spin" style="width:100%;height:100%">
-      <h2 bebas="{{bebas}}"><span translate-once>TORRENTCLIENT/connecting/hdr</span> {{::client.getTorrentClientName()}}</h2>
-      <strong bebas="{{bebas}}" style=' display:block; text-align:center;' translate-once>TORRENTCLIENT/please-wait/lbl</strong>
+      <h2><span translate-once>TORRENTCLIENT/connecting/hdr</span> {{::client.getTorrentClientName()}}</h2>
+      <strong style=' display:block; text-align:center;' translate-once>TORRENTCLIENT/please-wait/lbl</strong>
       {{client.status}}
     </div>
     <h4 id="getTorrentsCount" ng-show="client.rpc"><span translate-once>TORRENTCLIENT/torrents-found/hdr</span>{{client.getTorrentsCount()}}
@@ -35,7 +35,7 @@
 
   <!-- torrent list -->
   <div class="torrent" ng-repeat="torrent in client.rpc.getTorrents()| orderBy:'getStarted()':true">
-    <a ui-sref-active='active' ui-sref=".details({torrent: torrent})"><strong bebas="{{bebas}}">{{::torrent.getName()}}</strong></a>
+    <a ui-sref-active='active' ui-sref=".details({torrent: torrent})"><strong>{{::torrent.getName()}}</strong></a>
     <div class="progress-striped progress" uib-tooltip="{{torrent.getProgress()}}%"  ng-class="{'progress-big':isCollapsed}">
       <div class="progress-bar " ng-class="{ 'progress-bar-danger': !torrent.isStarted() && torrent.getProgress() < 100, 'progress-bar-info': torrent.isStarted() && torrent.getProgress() < 100 , 'progress-bar-success': !torrent.isStarted() && torrent.getProgress() == 100, 'progress-bar-warning': torrent.isStarted() && torrent.getProgress() == 100 }" ng-style="{ width: torrent.getProgress() + '%' }">
         <span>{{torrent.getProgress()}}%</span>

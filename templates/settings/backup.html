@@ -1,14 +1,14 @@
 <div ng-controller="BackupCtrl">
-  <h2 bebas="{{bebas}}" translate-once>COMMON/backup/desc</h2>
+  <h2 translate-once>COMMON/backup/desc</h2>
   <div class="buttons">
-    <a class="btn bebas-{{bebas}} btn-success" ng-click="createBackup();">
+    <a class="btn btn-success" ng-click="createBackup();">
       <i class="glyphicon glyphicon-floppy-save"></i> <span translate-once>COMMON/create/btn</span>
     </a>
   </div>
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" translate-once>COMMON/autobackup/hdr</h2>
+  <h2 translate-once>COMMON/autobackup/hdr</h2>
   <p translate-once>SETTINGS/BACKUP/autobackup/desc</p>
   <form name="autoBackupForm">
     <label for="autoBackup"><span translate-once>COMMON/autobackup/hdr</span>:</label>
@@ -21,7 +21,7 @@
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" translate-once>SETTINGS/BACKUP/import/hdr</h2>
+  <h2 translate-once>SETTINGS/BACKUP/import/hdr</h2>
 
   <div ng-show="!restoring" class="checkbox">
     <input type="checkbox" ng-model="wipeBeforeImport" id="wipebeforeImport">
@@ -29,16 +29,16 @@
   </div>
 
   <div style="position:relative">
-    <div class="buttons"><a ng-show="!restoring" class="btn bebas-{{bebas}} btn-success" ng-class="{binputhover:inputhover}">
+    <div class="buttons"><a ng-show="!restoring" class="btn btn-success" ng-class="{binputhover:inputhover}">
       <i class="glyphicon glyphicon-floppy-open"></i> <span translate-once>COMMON/choose-backup-load/btn</span>
     </a></div>
     <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute;opacity:0;width:100%;top:0;padding:0;height:100%;cursor:pointer" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false" />
   </div>
 
   <div ng-if="restoring" style="padding:5px;text-align:center" class="miniposter x2">
-    <h1 bebas="{{bebas}}" ng-show="!declined && !completed" style='margin-top: 20px;' translate-once>COMMON/loading-please-wait/lbl</h1>
-    <h1 bebas="{{bebas}}" ng-show="!declined && completed" style='margin-top: 20px;' translate-once>COMMON/loading-completed/lbl</h1>
-    <h1 bebas="{{bebas}}" ng-show="declined" style='margin-top: 20px;' translate-once>COMMON/cancelled/lbl</h1>
+    <h1 ng-show="!declined && !completed" style='margin-top: 20px;' translate-once>COMMON/loading-please-wait/lbl</h1>
+    <h1 ng-show="!declined && completed" style='margin-top: 20px;' translate-once>COMMON/loading-completed/lbl</h1>
+    <h1 ng-show="declined" style='margin-top: 20px;' translate-once>COMMON/cancelled/lbl</h1>
     <serieHeader ng-repeat="serie in series" data="serie" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
       <em class="earmark" ng-show="isAdded(serie.tvdb_id)"><i class='glyphicon glyphicon-ok'></i></em>
       <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
@@ -47,16 +47,16 @@
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" translate-once>COMMON/wipe/hdr</h2>
+  <h2 translate-once>COMMON/wipe/hdr</h2>
   <p translate-once>SETTINGS/BACKUP/wipe/desc</p>
-  <div class="buttons"><a class="btn bebas-{{bebas}} btn-danger" ng-click="wipeDatabase()">
+  <div class="buttons"><a class="btn btn-danger" ng-click="wipeDatabase()">
     <i class="glyphicon glyphicon-trash"></i> <span translate-once>SETTINGS/BACKUP/wipe/btn</span>
   </a></div>
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" translate-once>SETTINGS/BACKUP/refresh/hdr</h2>
+  <h2 translate-once>SETTINGS/BACKUP/refresh/hdr</h2>
   <p translate-once>SETTINGS/BACKUP/refresh/desc</p>
-  <div class="buttons"><a class="btn bebas-{{bebas}} btn-danger" ng-click="refreshDatabase()">
+  <div class="buttons"><a class="btn btn-danger" ng-click="refreshDatabase()">
     <i class="glyphicon glyphicon-refresh"></i> <span translate-once>SETTINGS/BACKUP/refresh/btn</span> </a></div>
 </div>

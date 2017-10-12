@@ -1,13 +1,13 @@
 <!-- chrome-top-sites.html -->
 <div class="topSites">
-  <h2 bebas="{{bebas}}" ng-if="getSetting('topSites.mode') == 'onclick'" ng-click="toggleTop()">
+  <h2 ng-if="getSetting('topSites.mode') == 'onclick'" ng-click="toggleTop()">
     <div>
       <i class="glyphicon" ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
       <a translate-once>CHROMETOPSITES-click/hdr</a>
       <i class="glyphicon"  ng-class="{'glyphicon-chevron-down' : !isShowing, 'glyphicon-chevron-up': isShowing }"></i>
    </div>
   </h2>
-  <h2 bebas="{{bebas}}" ng-if="getSetting('topSites.mode') == 'onhover'">
+  <h2 ng-if="getSetting('topSites.mode') == 'onhover'">
     <div>
       <i class="glyphicon glyphicon-chevron-down"></i>
       <a translate-once>CHROMETOPSITES-hover/hdr</a>

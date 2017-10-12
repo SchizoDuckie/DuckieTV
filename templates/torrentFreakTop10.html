@@ -6,7 +6,7 @@
     <button type="button" class="close" ng-click="vm.closeSidePanel()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'ACTIONBAR/watchlist/tooltip'|translate}}" tooltip-placement="left">&times;</button>
   </center></div>
   <div ng-if="vm.activeItem">
-  <h2 bebas="{{bebas}}">{{vm.getLocal(vm.activeItem.title)}}</h2>
+  <h2>{{vm.getLocal(vm.activeItem.title)}}</h2>
     <table class="table table-condensed table-light">
       <thead>
         <tr>
@@ -18,11 +18,11 @@
       </thead>
       <tr ng-repeat="row in vm.activeItem.top10">
         <td>
-          <strong bebas="{{bebas}}" style='color:white'>{{::row.rank}} / ({{::row.prevRank}})</strong>
+          <strong style='color:white'>{{::row.rank}} / ({{::row.prevRank}})</strong>
         </td>
         <td>
           <a href="{{row.imdb}}" uib-tooltip="IMDB" target="_blank">
-            <strong bebas="{{bebas}}">{{::row.title}}</strong>
+            <strong>{{::row.title}}</strong>
           </a>
         </td>
         <td style='color:white'>{{::row.rating}}</td>

@@ -1,34 +1,34 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
-  <h2 bebas="{{bebas}}" translate-once>SETTINGS/TORRENT-SEARCH/default-provider/hdr</h2>
+  <h2 translate-once>SETTINGS/TORRENT-SEARCH/default-provider/hdr</h2>
   <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/default-provider/desc</p>
 
-  <a ng-repeat="provider in searchProviders" ng-click="setSearchProvider(provider)" class="btn bebas-{{bebas}} {{ searchprovider == provider ? 'btn-success' : '' }}" style='padding:10px; height:45px;'>
+  <a ng-repeat="provider in searchProviders" ng-click="setSearchProvider(provider)" class="btn {{ searchprovider == provider ? 'btn-success' : '' }}" style='padding:10px; height:45px;'>
       <i ng-if="searchprovider == provider" class="glyphicon glyphicon-ok"></i>
-      <strong bebas="{{bebas}}" style='position: absolute; left: 60px'>{{provider}}</strong>
+      <strong style='position: absolute; left: 60px'>{{provider}}</strong>
       <i ng-if="isJackett(provider)" class="glyphicon glyphicon-jackett" style="float:right"></i>
   </a>
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" translate-once>SETTINGS/TORRENT-SEARCH/quality/hdr</h2>
+  <h2 translate-once>SETTINGS/TORRENT-SEARCH/quality/hdr</h2>
   <p style='text-align:left;white-space:normal'>
     <span translate-once>SETTINGS/TORRENT-SEARCH/quality/desc</span><br>
-    <strong bebas="{{bebas}}"><span translate-once>SETTINGS/TORRENT-SEARCH/quality-select/hdr</span></strong><span translate-once>SETTINGS/TORRENT-SEARCH/quality-select/desc</span><br>
+    <strong><span translate-once>SETTINGS/TORRENT-SEARCH/quality-select/hdr</span></strong><span translate-once>SETTINGS/TORRENT-SEARCH/quality-select/desc</span><br>
     <span translate-once>SETTINGS/TORRENT-SEARCH/quality-select/desc2</span>
   </p>
 
-   <a ng-click="setSearchQuality('')" style="padding:10px; height:45px;" class="btn bebas-{{bebas}} {{ searchquality == '' ? 'btn-success' : '' }}">
+   <a ng-click="setSearchQuality('')" style="padding:10px; height:45px;" class="btn {{ searchquality == '' ? 'btn-success' : '' }}">
     <i class="glyphicon glyphicon-ok" ng-if="searchquality == ''"></i>
-    <strong bebas="{{bebas}}" style='position:absolute; left:60px' translate-once>SETTINGS/TORRENT-SEARCH/quality-select-all/lbl</strong>
+    <strong style='position:absolute; left:60px' translate-once>SETTINGS/TORRENT-SEARCH/quality-select-all/lbl</strong>
   </a>
-  <a ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setSearchQuality(quality)" style="padding:10px; height:45px;" class="btn bebas-{{bebas}} {{searchquality == quality ? 'btn-success' : '' }}">
+  <a ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setSearchQuality(quality)" style="padding:10px; height:45px;" class="btn {{searchquality == quality ? 'btn-success' : '' }}">
     <i class="glyphicon glyphicon-ok" ng-if="searchquality == quality"></i>
-    <strong bebas="{{bebas}}" style='position:absolute; left:60px'>{{quality}}</strong>
+    <strong style='position:absolute; left:60px'>{{quality}}</strong>
   </a>
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/require-keywords-mode/hdr</h2cont>
+  <h2 style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/require-keywords-mode/hdr</h2cont>
     <span uib-tooltip="{{RequireKeywordsModeOR ? 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-or/lbl' : 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-and/lbl'|translate}}" tooltip-placement="left">
       <i style='font-style:normal'>{{RequireKeywordsModeOR ? '||' : '&&'}}</i>
     </span>
@@ -36,9 +36,9 @@
   <ul class="list-unstyled">
     <li>
       <p style='text-align:left;white-space:normal'>{{RequireKeywordsModeOR ? 'SETTINGS/TORRENT-SEARCH/keyword-match-or/desc' : 'SETTINGS/TORRENT-SEARCH/keyword-match-and/desc'|translate}}</p>
-      <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
+      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
              {{RequireKeywordsModeOR ? 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-or/lbl' : 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-and/lbl'|translate}}</p>
-      <a ng-click="toggleRequireKeywordsMode()" class="btn bebas-{{bebas}} btn-{{RequireKeywordsModeOR ? 'info' : 'success'}}">
+      <a ng-click="toggleRequireKeywordsMode()" class="btn btn-{{RequireKeywordsModeOR ? 'info' : 'success'}}">
          <i style='font-style:normal; font-weight:bold; float:left'>{{!RequireKeywordsModeOR ? '||' : '&&'}}</i>&nbsp; {{!RequireKeywordsModeOR ? 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-or/lbl' : 'SETTINGS/TORRENT-SEARCH/keyword-match-mode-and/lbl'|translate}}
       </a>
     </li>
@@ -46,12 +46,12 @@
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" translate-once>COMMON/require-keywords/hdr</h2>
+  <h2 translate-once>COMMON/require-keywords/hdr</h2>
   <p style='text-align:left;white-space:normal'>{{RequireKeywordsModeOR ? 'SETTINGS/TORRENT-SEARCH/require-keywords-mode-or/lbl' : 'SETTINGS/TORRENT-SEARCH/require-keywords-mode-and/lbl'|translate}}</p>
   <ul class="list-unstyled">
     <li><span translate-once>COMMON/require-keywords/hdr</span><br>
       <input type='text' style='width:350px' ng-model="requireKeywords" ng-change="editingGI = true;" translate-once-placeholder="COMMON/global-search/placeholder">
-      <a class="btn bebas-{{bebas}} btn-{{editingGI ? 'info' : 'success'}}" ng-click="saveRequireKeywords(requireKeywords); editingGI = false;">
+      <a class="btn btn-{{editingGI ? 'info' : 'success'}}" ng-click="saveRequireKeywords(requireKeywords); editingGI = false;">
         <i class="glyphicon glyphicon-floppy-save {{editingGI ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
       </a>
     </li>
@@ -59,12 +59,12 @@
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" translate-once>COMMON/ignore-keywords/hdr</h2>
+  <h2 translate-once>COMMON/ignore-keywords/hdr</h2>
   <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/ignore-keywords/desc</p>
   <ul class="list-unstyled">
     <li><span translate-once>COMMON/ignore-keywords/hdr</span><br>
       <input type='text' style='width:350px' ng-model="ignoreKeywords" ng-change="editingGE = true;" translate-once-placeholder="COMMON/global-search/placeholder">
-      <a class="btn bebas-{{bebas}} btn-{{editingGE ? 'info' : 'success'}}" ng-click="saveIgnoreKeywords(ignoreKeywords); editingGE = false;">
+      <a class="btn btn-{{editingGE ? 'info' : 'success'}}" ng-click="saveIgnoreKeywords(ignoreKeywords); editingGE = false;">
         <i class="glyphicon glyphicon-floppy-save {{editingGE ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
       </a>
     </li>
@@ -73,15 +73,15 @@
   <hr class="setting-divider">
 
   <div class="autodownload">
-    <h2 bebas="{{bebas}}" translate-once>SETTINGS/TORRENT-SEARCH/seeders/hdr</h2>
+    <h2 translate-once>SETTINGS/TORRENT-SEARCH/seeders/hdr</h2>
     <p><span translate-once>SETTINGS/TORRENT-SEARCH/seeders/desc</span><br><span translate-once>SETTINGS/TORRENT-SEARCH/seeders-default/lbl</span></p>
 
     <form name="s">
       <span translate-once>SETTINGS/TORRENT-SEARCH/seeders/form</span> <input type="number" name="seeders" ng-model="minSeeders" ng-change="editingS = true;" min="0" max="3000" pattern="[0-9]{0,}" required />
-      <a ng-if="!s.seeders.$valid" class="btn bebas-{{bebas}} btn-{{editingS ? 'info' : 'success'}}" ng-disabled="true"  style="float:right; margin-top:-10px;">
+      <a ng-show="!s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-disabled="true"  style="float:right; margin-top:-10px;">
         <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
       </a>
-      <a ng-if="s.seeders.$valid" class="btn bebas-{{bebas}} btn-{{editingS ? 'info' : 'success'}}" ng-click="saveMinSeeders(minSeeders); editingS = false;" style="float:right; margin-top:-10px;">
+      <a ng-show="s.seeders.$valid" class="btn btn-{{editingS ? 'info' : 'success'}}" ng-click="saveMinSeeders(minSeeders); editingS = false;" style="float:right; margin-top:-10px;">
         <i class="glyphicon glyphicon-floppy-save {{editingS ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
       </a>
     </form>
@@ -90,15 +90,15 @@
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" translate-once>COMMON/global-size-min/hdr</h2>
+  <h2 translate-once>COMMON/global-size-min/hdr</h2>
   <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/global-size-min/desc</p>
 
   <form name="sizemin">
     <span translate-once>COMMON/global-size/form</span> <input type="number" min="0" pattern="[0-9]{0,}" name="mb" ng-model="globalSizeMin" ng-change="editingGSm = true;" translate-once-placeholder="COMMON/search-size/placeholder">
-    <a ng-if="!sizemin.mb.$valid" class="btn bebas-{{bebas}} btn-{{editingGSm ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
+    <a ng-show="!sizemin.mb.$valid" class="btn btn-{{editingGSm ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save {{editingGSm ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
     </a>
-    <a ng-if="sizemin.mb.$valid" class="btn bebas-{{bebas}} btn-{{editingGSm ? 'info' : 'success'}}" ng-click="saveGlobalSizeMin(globalSizeMin); editingGSm = false;" style="float:right; margin-top:-10px;">
+    <a ng-show="sizemin.mb.$valid" class="btn btn-{{editingGSm ? 'info' : 'success'}}" ng-click="saveGlobalSizeMin(globalSizeMin); editingGSm = false;" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save {{editingGSm ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
     </a>
   </form>
@@ -106,15 +106,15 @@
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" translate-once>COMMON/global-size-max/hdr</h2>
+  <h2 translate-once>COMMON/global-size-max/hdr</h2>
   <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/global-size-max/desc</p>
 
   <form name="sizemax">
     <span translate-once>COMMON/global-size/form</span> <input type="number" min="0" pattern="[0-9]{0,}" name="mb" ng-model="globalSizeMax"  ng-change="editingGSM = true;" translate-once-placeholder="COMMON/search-size/placeholder">
-    <a ng-if="!sizemax.mb.$valid" class="btn bebas-{{bebas}} btn-{{editingGSM ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
+    <a ng-show="!sizemax.mb.$valid" class="btn btn-{{editingGSM ? 'info' : 'success'}}" ng-disabled="true" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save {{editingGSM ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
     </a>
-    <a ng-if="sizemax.mb.$valid" class="btn bebas-{{bebas}} btn-{{editingGSM ? 'info' : 'success'}}" ng-click="saveGlobalSizeMax(globalSizeMax); editingGSM = false;" style="float:right; margin-top:-10px;">
+    <a ng-show="sizemax.mb.$valid" class="btn btn-{{editingGSM ? 'info' : 'success'}}" ng-click="saveGlobalSizeMax(globalSizeMax); editingGSM = false;" style="float:right; margin-top:-10px;">
       <i class="glyphicon glyphicon-floppy-save {{editingGSM ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
     </a>
   </form>
@@ -122,16 +122,16 @@
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" style='white-space:nowrap'>The Pirate Bay</h2>
+  <h2 style='white-space:nowrap'>The Pirate Bay</h2>
   <p style='text-align:left;white-space:normal' translate-once>SETTINGS/TORRENT-SEARCH/tpb/desc</p>
 
   <ul class="list-unstyled">
     <li><span translate-once>SETTINGS/TORRENT-SEARCH/tpb-mirror/hdr</span><br>
       <input type='url' style='width:350px' ng-model="customtpbmirror" ng-change="editingTPB = true;">
-      <a class="btn bebas-{{bebas}} btn-{{editingTPB ? 'info' : 'success'}}" ng-click="validateCustomTPBMirror(customtpbmirror); editingTPB = false;">
+      <a class="btn btn-{{editingTPB ? 'info' : 'success'}}" ng-click="validateCustomTPBMirror(customtpbmirror); editingTPB = false;">
         <i class="glyphicon glyphicon-floppy-save {{editingTPB ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>SETTINGS/TORRENT-SEARCH/tpb-validate/btn</span>
       </a>
-      <a class="btn bebas-{{bebas}} btn-info" ng-click="findRandomTPBMirror()">
+      <a class="btn btn-info" ng-click="findRandomTPBMirror()">
         <i class="glyphicon glyphicon-search" ></i>&nbsp; <span translate-once>SETTINGS/TORRENT-SEARCH/tpb-find-mirror/btn</span>
       </a>
       <p ng-show="tpbmirrorStatus.length > 0">
@@ -145,7 +145,7 @@
 
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr</h2cont>
+  <h2 style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/unsafe-proxies/hdr</h2cont>
     <span uib-tooltip="{{allowUnsafe ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{allowUnsafe ? 'ok alert-success' : 'remove alert-danger'}}" ></i>
     </span>
@@ -154,16 +154,16 @@
   <ul class="list-unstyled">
     <li>
       <p>{{allowUnsafe ? 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-enabled/desc' : 'SETTINGS/TORRENT-SEARCH/unsafe-proxies-disabled/desc'|translate}}</p>
-      <p><strong bebas="{{bebas}}"  translate-once>COMMON/current-setting/hdr</strong>
+      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
        {{allowUnsafe ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-      <a ng-click="toggleUnsafeProxy()" class="btn bebas-{{bebas}} btn-{{allowUnsafe ? 'danger' : 'success'}}">
+      <a ng-click="toggleUnsafeProxy()" class="btn btn-{{allowUnsafe ? 'danger' : 'success'}}">
         <i class="glyphicon glyphicon-{{allowUnsafe ? 'remove' : 'ok'}}" ></i>&nbsp; {{allowUnsafe ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
       </a>
     </li>
   </ul>
   <hr class="setting-divider">
 
-  <h2 bebas="{{bebas}}" style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/td2/hdr</h2cont>
+  <h2 style='white-space:nowrap'><h2cont translate-once>SETTINGS/TORRENT-SEARCH/td2/hdr</h2cont>
     <span uib-tooltip="{{useTD2 ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
       <i class="glyphicon glyphicon-{{useTD2 ? 'ok alert-info' : 'remove alert-success'}}" ></i>
     </span>
@@ -172,9 +172,9 @@
   <ul class="list-unstyled">
     <li>
       <p>{{useTD2 ? 'SETTINGS/TORRENT-SEARCH/td/desc' : 'SETTINGS/TORRENT-SEARCH/td2/desc'|translate}}</p>
-      <p><strong bebas="{{bebas}}" translate-once>COMMON/current-setting/hdr</strong>
+      <p><strong translate-once>COMMON/current-setting/hdr</strong>
        {{useTD2 ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-      <a ng-click="toggleTD2()" class="btn bebas-{{bebas}} btn-{{useTD2 ? 'success' : 'info'}}">
+      <a ng-click="toggleTD2()" class="btn btn-{{useTD2 ? 'success' : 'info'}}">
         <i class="glyphicon glyphicon-{{useTD2 ? 'remove' : 'ok'}}" ></i>&nbsp; {{useTD2 ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
       </a>
     </li>

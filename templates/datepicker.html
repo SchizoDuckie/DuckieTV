@@ -7,7 +7,7 @@
           <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left" uib-tooltip="{{'COMMON/previous/lbl'|translate}}"></i>
           </th>
           <th colspan="5" class="switch" ng-click="setView('month')" mouse-wheel-up="next()" mouse-wheel-down="prev()">
-            <h2 bebas="{{bebas}}">{{date|date:"MMMM yyyy"}} <i class="glyphicon glyphicon-chevron-down" uib-tooltip="{{'DATEPICKER/calendar-monthview/glyph/tooltip'|translate}}" ng-click="setView('date')"></i>
+            <h2>{{date|date:"MMMM yyyy"}} <i class="glyphicon glyphicon-chevron-down" uib-tooltip="{{'DATEPICKER/calendar-monthview/glyph/tooltip'|translate}}" ng-click="setView('date')"></i>
             </h2>
           </th>
           <th ng-click="next()" style='text-align:center'><i class="glyphicon glyphicon-chevron-right" uib-tooltip="{{'COMMON/next/lbl'|translate}}"></i>
@@ -40,7 +40,7 @@
           <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left" uib-tooltip="{{'COMMON/previous/lbl'|translate}}"></i>
           </th>
           <th colspan="5" class="switch" ng-click="setView('month')" mouse-wheel-up="next()" mouse-wheel-down="prev()">
-            <h2 bebas="{{bebas}}">{{date|date:"MMMM yyyy"}} <i class="glyphicon glyphicon-chevron-up" uib-tooltip="{{'DATEPICKER/calendar-weekview/glyph/tooltip'|translate}}" ng-click="setView('week')"></i>
+            <h2>{{date|date:"MMMM yyyy"}} <i class="glyphicon glyphicon-chevron-up" uib-tooltip="{{'DATEPICKER/calendar-weekview/glyph/tooltip'|translate}}" ng-click="setView('week')"></i>
             </h2>
           </th>
           <th ng-click="next()" style='text-align:center'><i class="glyphicon glyphicon-chevron-right" uib-tooltip="{{'COMMON/next/lbl'|translate}}"></i>
@@ -77,7 +77,7 @@
           <th ng-click="prev(10)"><i class="glyphicon glyphicon-chevron-left" uib-tooltip="{{'COMMON/previous/lbl'|translate}}"></i>
           </th>
           <th colspan="5" class="switch" mouse-wheel-up="next(10)" mouse-wheel-down="prev(10)">
-            <h2 bebas="{{bebas}}">{{years[0].getFullYear()}}-{{years[years.length-1].getFullYear()}}</h2>
+            <h2>{{years[0].getFullYear()}}-{{years[years.length-1].getFullYear()}}</h2>
           </th>
           <th ng-click="next(10)"><i class="glyphicon glyphicon-chevron-right" uib-tooltip="{{'COMMON/next/lbl'|translate}}"></i>
           </th>
@@ -99,7 +99,7 @@
           <th ng-click="prev()"><i class="glyphicon glyphicon-chevron-left" uib-tooltip="{{'COMMON/previous/lbl'|translate}}"></i>
           </th>
           <th colspan="5" class="switch" ng-click="setView('year')" mouse-wheel-up="next()" mouse-wheel-down="prev()">
-            <h2 bebas="{{bebas}}">{{ date|date:"yyyy" }}</h2>
+            <h2>{{ date|date:"yyyy" }}</h2>
           </th>
           <th ng-click="next()"><i class="glyphicon glyphicon-chevron-right" uib-tooltip="{{'COMMON/next/lbl'|translate}}"></i>
           </th>

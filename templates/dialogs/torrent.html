@@ -1,6 +1,6 @@
 <!-- dialogs/torrent.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
-<h1 bebas="{{bebas}}" translate-once>TORRENTDIALOG/hdr</h1>
+<h1 translate-once>TORRENTDIALOG/hdr</h1>
 <div  style="float:right; margin-top:-25px;">
 <a ng-click="toggleShowAdvanced()"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
 
@@ -11,14 +11,14 @@
 <!-- quality list -->
 <div class="torrentBtns" style="display:inline-block;">
   <div class="btn-group">
-    <button type="button" class="btn bebas-{{bebas}} btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');" translate-once>COMMON/all/btn</button>
-    <button ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setQuality(quality)" type="button" class="btn bebas-{{bebas}} btn-default" ng-class="{active: searchquality == quality}">{{quality}}</button>
+    <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');" translate-once>COMMON/all/btn</button>
+    <button ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setQuality(quality)" type="button" class="btn btn-default" ng-class="{active: searchquality == quality}">{{quality}}</button>
   </div>
 </div>
 
 <!-- search Providers list -->
 <div class="torrentBtns btn-group" style="margin-top:10px; margin-bottom:10px;">
-  <button ng-repeat="name in clients | orderBy: name" type="button" class="btn bebas-{{bebas}} btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}&nbsp;<i ng-if="isJackett(name)" class="glyphicon glyphicon-jackett-small" style="float:right"></i></button>
+  <button ng-repeat="name in clients | orderBy: name" type="button" class="btn btn-default" ng-class="{'active': searchprovider == name}" ng-click="setProvider(name)">{{::name}}&nbsp;<i ng-if="isJackett(name)" class="glyphicon glyphicon-jackett-small" style="float:right"></i></button>
 </div>
 
 <!-- Require/Ignore Keywords size min/max and minSeeders check boxes -->
@@ -26,37 +26,37 @@
   <div class="row" style="display: flex">
     <div class="checkbox">
       <input type="checkbox" ng-model="minSeedersEnabled" ng-change="setMinSeedersState()" id="tc_gms">
-      <label for="tc_gms"><strong bebas="{{bebas}}" translate-once>COMMON/min-seeders/hdr</strong><br> ({{minSeeders}})</label>
+      <label for="tc_gms"><strong translate-once>COMMON/min-seeders/hdr</strong><br> ({{minSeeders}})</label>
     </div>
 
     <div class="checkbox" ng-show="requireKeywords.length > 0">
       <input type="checkbox" ng-model="requireKeywordsEnabled" ng-change="setRequireKeywordsState()" id="tc_gie">
-      <label for="tc_gie"><strong bebas="{{bebas}}" translate-once>TORRENTDIALOG/search-require-keywords/lbl</strong><br>({{requireKeywords}})</label>
+      <label for="tc_gie"><strong translate-once>TORRENTDIALOG/search-require-keywords/lbl</strong><br>({{requireKeywords}})</label>
     </div>
 
     <div class="checkbox" ng-show="ignoreKeywords.length > 0">
       <input type="checkbox" ng-model="ignoreKeywordsEnabled" ng-change="setIgnoreKeywordsState()" id="tc_gee">
-      <label for="tc_gee"><strong bebas="{{bebas}}" translate-once>TORRENTDIALOG/search-ignore-keywords/lbl</strong><br>({{ignoreKeywords}})</label>
+      <label for="tc_gee"><strong translate-once>TORRENTDIALOG/search-ignore-keywords/lbl</strong><br>({{ignoreKeywords}})</label>
     </div>
 
     <div class="checkbox" ng-show="serie.customSearchSizeMin == null && globalSizeMin != null">
       <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" id="tc_gsm">
-      <label for="tc_gsm"><strong bebas="{{bebas}}" translate-once>TORRENTDIALOG/search-global-size-min/lbl</strong><br>({{globalSizeMin}} MB)</label>
+      <label for="tc_gsm"><strong translate-once>TORRENTDIALOG/search-global-size-min/lbl</strong><br>({{globalSizeMin}} MB)</label>
     </div>
 
     <div class="checkbox" ng-show="serie.customSearchSizeMin != null">
       <input type="checkbox" ng-model="globalSizeMinEnabled" ng-change="setGlobalSizeMinState()" id="tc_gsm2">
-      <label for="tc_gsm2"><strong bebas="{{bebas}}" translate-once>TORRENTDIALOG/search-custom-size-min/lbl</strong><br> ({{serie.customSearchSizeMin}}) MB</label>
+      <label for="tc_gsm2"><strong translate-once>TORRENTDIALOG/search-custom-size-min/lbl</strong><br> ({{serie.customSearchSizeMin}}) MB</label>
     </div>
 
     <div class="checkbox" ng-show="serie.customSearchSizeMax == null && globalSizeMax != null">
       <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" id="tc_gsme">
-      <label for="tc_gsme"><strong bebas="{{bebas}}" translate-once>TORRENTDIALOG/search-global-size-max/lbl</strong><br>({{globalSizeMax}} MB)</label>
+      <label for="tc_gsme"><strong translate-once>TORRENTDIALOG/search-global-size-max/lbl</strong><br>({{globalSizeMax}} MB)</label>
     </div>
 
     <div class="checkbox" ng-show="serie.customSearchSizeMax != null">
       <input type="checkbox" ng-model="globalSizeMaxEnabled" ng-change="setGlobalSizeMaxState()" id="tc_gsme2">
-      <label for="tc_gsme2"><strong bebas="{{bebas}}" translate-once>TORRENTDIALOG/search-custom-size-max/lbl</strong><br> ({{serie.customSearchSizeMax}} MB)</label>
+      <label for="tc_gsme2"><strong translate-once>TORRENTDIALOG/search-custom-size-max/lbl</strong><br> ({{serie.customSearchSizeMax}} MB)</label>
     </div>
 
   </div>
@@ -77,22 +77,22 @@
       <tr>
         <th>
           <p translate-once>COMMON/no-results/lbl</p>
-          "<strong bebas="{{bebas}}">{{query}} {{searchquality}}</strong>"
+          "<strong>{{query}} {{searchquality}}</strong>"
         </th>
       </tr>
     </tbody>
     <tbody ng-show="!searching && error == 'null' ">
       <tr>
         <th>
-          <h2 bebas="{{bebas}}" style='text-align:center' translate-once>COMMON/type-your-search/lbl</h2>
+          <h2 style='text-align:center' translate-once>COMMON/type-your-search/lbl</h2>
         </th>
       </tr>
     </tbody>
     <tbody ng-show="!searching && error != false && error != 'null' ">
       <tr>
         <th>
-          <h1 bebas="{{bebas}}" style='text-align:center'> :( </h1>
-          <h2 bebas="{{bebas}}" style='text-align:center'>{{error}}<h2 bebas="{{bebas}}">
+          <h1 style='text-align:center'> :( </h1>
+          <h2 style='text-align:center'>{{error}}<h2>
         </th>
       </tr>
     </tbody>
@@ -100,55 +100,55 @@
       <tr>
         <th>&nbsp;</th>
         <th>
-          <strong bebas="{{bebas}}" translate-once>COMMON/torrent-name/lbl</strong>
+          <strong translate-once>COMMON/torrent-name/lbl</strong>
         </th>
         <!-- size sort is n/a -->
         <th ng-hide="canOrderBy('size')" style="text-align:right">
-          <strong bebas="{{bebas}}" translate-once>COMMON/torrent-size/lbl</strong>
+          <strong translate-once>COMMON/torrent-size/lbl</strong>
         </th>
         <!-- is sorted by size, but one way only -->
         <th ng-show="canOrderBy('size') && isOrderBy('size') && !supportsByDir" style="text-align:right">
-          <strong bebas="{{bebas}}" translate-once>COMMON/torrent-size/lbl</strong>
+          <strong translate-once>COMMON/torrent-size/lbl</strong>
         </th>
         <!-- can sort by size, but one way only -->
         <th ng-show="canOrderBy('size') && !isOrderBy('size') && !supportsByDir" style="cursor: pointer;text-align:right">
-          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('size')"><strong bebas="{{bebas}}" translate-once>COMMON/torrent-size/lbl</strong></u>
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('size')"><strong translate-once>COMMON/torrent-size/lbl</strong></u>
         </th>
         <!-- can sort by size, in asc and desc -->
         <th ng-show="canOrderBy('size') && supportsByDir" style="cursor: pointer;text-align:right">
-          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('size')"><strong bebas="{{bebas}}" translate-once>COMMON/torrent-size/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['size'] === '.a'}"></span></u>
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('size')"><strong translate-once>COMMON/torrent-size/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['size'] === '.a'}"></span></u>
         </th>
         <!-- seeders sort is n/a -->
         <th ng-hide="canOrderBy('seeders')" style="text-align:right">
-          <strong bebas="{{bebas}}" translate-once>COMMON/torrent-seed/lbl</strong>
+          <strong translate-once>COMMON/torrent-seed/lbl</strong>
         </th>
         <!-- is sorted by seeders, but one way only -->
         <th ng-show="canOrderBy('seeders') && isOrderBy('seeders') && !supportsByDir" style="text-align:right">
-          <strong bebas="{{bebas}}" translate-once>COMMON/torrent-seed/lbl</strong>
+          <strong translate-once>COMMON/torrent-seed/lbl</strong>
         </th>
         <!-- can sort by seeders, but one way only -->
         <th ng-show="canOrderBy('seeders') && !isOrderBy('seeders') && !supportsByDir" style="cursor: pointer;text-align:right">
-          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('seeders')"><strong bebas="{{bebas}}" translate-once>COMMON/torrent-seed/lbl</strong></u>
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('seeders')"><strong translate-once>COMMON/torrent-seed/lbl</strong></u>
         </th>
         <!-- can sort by seeders, in asc and desc -->
         <th ng-show="canOrderBy('seeders') && supportsByDir" style="cursor: pointer;text-align:right">
-          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('seeders')"><strong bebas="{{bebas}}" translate-once>COMMON/torrent-seed/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['seeders'] === '.a'}"></span></u>
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('seeders')"><strong translate-once>COMMON/torrent-seed/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['seeders'] === '.a'}"></span></u>
         </th>
         <!-- leechers sort is n/a -->
         <th ng-hide="canOrderBy('leechers')" style="text-align:right">
-          <strong bebas="{{bebas}}" translate-once>COMMON/torrent-leech/lbl</strong>
+          <strong translate-once>COMMON/torrent-leech/lbl</strong>
         </th>
         <!-- is sorted by leechers, but one way only -->
         <th ng-show="canOrderBy('leechers') && isOrderBy('leechers') && !supportsByDir" style="text-align:right">
-          <strong bebas="{{bebas}}" translate-once>COMMON/torrent-leech/lbl</strong>
+          <strong translate-once>COMMON/torrent-leech/lbl</strong>
         </th>
         <!-- can sort by seeders, but one way only -->
         <th ng-show="canOrderBy('leechers') && !isOrderBy('leechers') && !supportsByDir" style="cursor: pointer;text-align:right">
-          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('leechers')"><strong bebas="{{bebas}}" translate-once>COMMON/torrent-leech/lbl</strong></u>
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('leechers')"><strong translate-once>COMMON/torrent-leech/lbl</strong></u>
         </th>
         <!-- can sort by leechers, in asc and desc -->
         <th ng-show="canOrderBy('leechers') && supportsByDir" style="cursor: pointer;text-align:right">
-          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('leechers')"><strong bebas="{{bebas}}" translate-once>COMMON/torrent-leech/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['leechers'] === '.a'}"></span></u>
+          <u uib-tooltip="{{'COMMON/sort-column/tooltip'|translate}}" tooltip-append-to-body="true" ng-click="setOrderBy('leechers')"><strong translate-once>COMMON/torrent-leech/lbl</strong><span class="sortorder" ng-style="{color: supportsByDir ? 'white' : 'gray'}" ng-class="{'reverse': orderByDir['leechers'] === '.a'}"></span></u>
         </th>
 
       </tr>

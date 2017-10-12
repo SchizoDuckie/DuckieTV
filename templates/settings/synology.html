@@ -1,21 +1,21 @@
 <div class="buttons" ng-controller="SynologyCtrl as syno">
-  <h2 bebas="{{bebas}}">Synology DS-Video</h2>
+  <h2>Synology DS-Video</h2>
 
   <p>Connect DuckieTV to your Synology NAS to play downloaded videos on your TV via DLNA.</p>
   <p>DuckieTV can access DS Video on your DiskStation and remote control it. Enable and configure it here.</p>
 
   <p>Current status: 
-    <strong bebas="{{bebas}}" ng-if='syno.enabled'>DS Video integration enabled</strong>
-    <strong bebas="{{bebas}}" ng-if='!syno.enabled'>DS Video integration disabled</strong>
+    <strong ng-if='syno.enabled'>DS Video integration enabled</strong>
+    <strong ng-if='!syno.enabled'>DS Video integration disabled</strong>
   </p>
   <p>
 
   <p class="info" ng-if="syno.isAuthenticated()">
     Synology Session token: {{syno.sessionID}} 
-    <button class="btn bebas-{{bebas}} btn-xs btn-danger" ng-click="syno.deAuthorize()">Revoke</button>
+    <button class="btn btn-xs btn-danger" ng-click="syno.deAuthorize()">Revoke</button>
   </p>
 
-  <a ng-click="syno.toggleEnabled()" class="btn bebas-{{bebas}} btn-{{syno.enabled ? 'danger' : 'success'}}"><i class="glyphicon glyphicon-{{syno.enabled ? 'ban-circle' : 'play'}}"></i>
+  <a ng-click="syno.toggleEnabled()" class="btn btn-{{syno.enabled ? 'danger' : 'success'}}"><i class="glyphicon glyphicon-{{syno.enabled ? 'ban-circle' : 'play'}}"></i>
     <span ng-if='syno.enabled'>Disable</span>
     <span ng-if='!syno.enabled'>Enable</span>
   </a>
@@ -23,19 +23,19 @@
   <div ng-if="syno.enabled">
     <form ng-submit="syno.test()" novalidate>
       <formly-form model="syno.model" fields="syno.fields">
-        <button type="submit" class="btn bebas-{{bebas}} btn-primary submit-button" translate-once>COMMON/test-save/btn</button>
+        <button type="submit" class="btn btn-primary submit-button" translate-once>COMMON/test-save/btn</button>
       </formly-form>
     </form>
-    <h3 bebas="{{bebas}}" ng-if="syno.connecting">Connecting...</h3>
-    <h3 bebas="{{bebas}}" ng-if="syno.connected">Connected!</h3>
-    <h3 bebas="{{bebas}}" ng-if="syno.error">Error: {{syno.error}}</h3>
+    <h3 ng-if="syno.connecting">Connecting...</h3>
+    <h3 ng-if="syno.connected">Connected!</h3>
+    <h3 ng-if="syno.error">Error: {{syno.error}}</h3>
   
 
     <div ng-if="syno.deviceList">
-      <h3 bebas="{{bebas}}">Available devices</h3> 
+      <h3>Available devices</h3> 
       <ul>
         <li ng-repeat="device in syno.deviceList" style="text-align:left">
-          <strong bebas="{{bebas}}">{{device.title}}</strong> <span class="badge" style="float:right">{{device.type}}</span>
+          <strong>{{device.title}}</strong> <span class="badge" style="float:right">{{device.type}}</span>
         </li>
       </ul>
     </div>

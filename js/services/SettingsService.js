@@ -123,7 +123,6 @@ DuckieTV.factory('ChromePermissions', ["$q",
                 'deluge.use_auth': true,
                 'download.ratings': true,
                 'episode.watched-downloaded.pairing': true,
-                'font.bebas.enabled': true,
                 'kc.always': false,
                 'ktorrent.password': 'ktorrent',
                 'ktorrent.port': 8080,
@@ -328,7 +327,6 @@ DuckieTV.factory('ChromePermissions', ["$q",
 .run(["$rootScope", "SettingsService", function($rootScope, SettingsService) {
 
     $rootScope.isStandalone = (SettingsService.isStandalone());
-    $rootScope.bebas = (SettingsService.get('font.bebas.enabled'));
     $rootScope.isMac = (navigator.platform.toLowerCase().indexOf('mac') !== -1);
 
     $rootScope.getSetting = function(key) {

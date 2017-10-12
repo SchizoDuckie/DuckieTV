@@ -32,7 +32,7 @@
   opacity: 0.7;
 }
 
-.btn.disabled, .btn[disabled], fieldset[disabled] .btn, .btn.disabled .bebas-true, .btn[disabled] .bebas-true, fieldset[disabled] .btn .bebas-true, .btn.disabled  .bebas-false, .btn[disabled] .bebas-false, fieldset[disabled] .btn .bebas-false {
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
   pointer-events: none;
 }
 
@@ -43,6 +43,14 @@ button[disabled], html input[disabled], .form-control[disabled], .form-control[r
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+
+
+/* Something? I dunno
+.tooltip {
+    border: 0 !important;
+    line-height: inherit;
+} */
+
 
 /* Fix to prevent tooltips from the calendar overflowing edge of screen  */
 
@@ -152,23 +160,13 @@ p, span {
   cursor: default;
 }
 
-h1, h2, h3, h1[bebas=true], h2[bebas=true], h3[bebas=true] {
+h1, h2, h3 {
   font-family: 'bebasregular', helvetica, sans-serif;
 }
 
-h1[bebas=false], h2[bebas=false], h3[bebas=false] {
-  font-family: helvetica, sans-serif;
-}
-
-strong, strong[bebas=true] {
-  font-family: 'bebasregular', helvetica, sans-serif;
+strong {
+  font-family: 'bebasregular';
   letter-spacing: 2px;
-}
-
-strong[bebas=false] {
-  font-family: helvetica, sans-serif;
-  letter-spacing: normal;
-  font-weight: bold;
 }
 
 a, a:hover, a:focus, a span {
@@ -441,7 +439,7 @@ background-rotator .placeholder {
   background-repeat: no-repeat;
 }
 
-.settings .buttons .btn.choose-client, .settings .buttons .btn.choose-client .bebas-true, .settings .buttons .btn.choose-client .bebas-false {
+.settings .buttons .btn.choose-client {
   cursor: pointer;
   padding: 4px;
   text-align: left;
@@ -450,7 +448,7 @@ background-rotator .placeholder {
   padding-left: 25px;
 }
 
-.settings .buttons .btn.choose-client:hover, .settings .buttons .btn.choose-client:hover .bebas-true, .settings .buttons .btn.choose-client:hover .bebas-false {
+.settings .buttons .btn.choose-client:hover {
   color: white;
 }
 
@@ -508,7 +506,7 @@ button span, .dropdown-menu span, .dropdown-menu input {
   margin-bottom: -20px;
 }
 
-.navbar-default .btn, .navbar-default .btn .bebas-true, .navbar-default .btn .bebas-false {
+.navbar-default .btn {
   background-color: transparent;
   color: white;
   border-color: rgba(255, 255, 255, 0.4);
@@ -1035,7 +1033,7 @@ series-list .filters {
   margin: 0 auto;
 }
 
-series-list .filters .btn, series-list .filters .btn .bebas-true, series-list .filters .btn .bebas-false {
+series-list .filters .btn {
   padding: 3px 11px;
   font-size: 15px;
 }
@@ -1095,13 +1093,13 @@ series-list .trakt-import .trakt-login {
   margin-left: 145px;
 }
 
-series-list .trakt-import .trakt-login .btn, series-list .trakt-import .trakt-login .btn .bebas-true, series-list .trakt-import .trakt-login .btn .bebas-false {
+series-list .trakt-import .trakt-login .btn {
   display: block;
   width: initial;
   margin: 4px 0;
 }
 
-series-list .trakt-import .btn, series-list .trakt-import .btn .bebas-true, series-list .trakt-import .btn .bebas-false {
+series-list .trakt-import .btn {
   width: 290px;
 }
 
@@ -2011,7 +2009,7 @@ calendar-event h2 {
   white-space: normal;
 }
 
-.alert strong, .alert strong[bebas=true], .alert strong[bebas=false] {
+.alert strong {
   display: block;
 }
 
@@ -2070,7 +2068,7 @@ series-list .binputhover {
   border-color: #398439;
 }
 
-sidepanel a.btn.btn-success.binputhover, sidepanel a.btn.btn-success.binputhover .bebas-true, sidepanel a.btn.btn-success.binputhover .bebas-false {
+sidepanel a.btn.btn-success.binputhover {
   background-color: rgba(71, 164, 71, 0.6) !important;
   border-color: rgba(71, 164, 71, 1) !important;
 }
@@ -2116,16 +2114,9 @@ sidepanel .buttons p {
   padding-top: 5px;
 }
 
-sidepanel .buttons strong, sidepanel .buttons strong[bebas=true] {
+sidepanel .buttons strong {
   font-size: 18px;
   letter-spacing: 1px;
-  font-weight: normal;
-  color: white;
-}
-
-sidepanel .buttons strong[bebas=false] {
-  font-size: 18px;
-  letter-spacing: normal;
   font-weight: normal;
   color: white;
 }
@@ -2141,7 +2132,7 @@ sidepanel .buttons a {
   user-select: none;
 }
 
-sidepanel .buttons a.btn:hover, sidepanel .buttons a.btn:hover .bebas-true, sidepanel .buttons a.btn:hover .bebas-false {
+sidepanel .buttons a.btn:hover {
   color: white;
 }
 
@@ -2621,7 +2612,7 @@ sidepanel .seasons serieheader {
   position: relative;
 }
 
-.torrent-client .torrent strong, .torrent-client .torrent strong[bebas=true], .torrent-client .torrent strong[bebas=false] {
+.torrent-client .torrent strong {
   text-align: left;
   display: block;
   font-size: 14px;
@@ -2674,7 +2665,7 @@ sidepanel .seasons serieheader {
   background-color: transparent !important;
 }
 
-.settings .btn, .settings .btn .bebas-true, .settings .btn .bebas-false {
+.settings .btn {
   margin: 4px auto;
   display: block;
   font-weight: bold;
@@ -2684,19 +2675,13 @@ sidepanel .seasons serieheader {
   text-align: center;
 }
 
-.settings .btns .btn, .settings .btns .btn.bebas-true, .settings .btns .btn.bebas-false {
+.settings .btns .btn {
   display: inline-block;
   margin: 3px 1px;
 }
 
-.settings .buttons .btn, .settings .buttons .btn.bebas-true {
-  font-family: 'bebasregular', helvetica, sans-serif;
-  font-size: 18px;
-  font-weight: normal;
-}
-
-.settings .buttons .btn.bebas-false {
-  font-family: helvetica, sans-serif;
+.settings .buttons .btn {
+  font-family: 'bebasregular';
   font-size: 18px;
   font-weight: normal;
 }
@@ -2711,7 +2696,7 @@ sidepanel .seasons serieheader {
   font-size: 22px;
 }
 
-.settings .autodownload .btn, .settings .autodownload .btn .bebas-true, .settings .autodownload .btn .bebas-false {
+.settings .autodownload .btn {
   display: inline-block;
   margin-top: -3px;
   margin-left: 5px;
@@ -2734,7 +2719,7 @@ sidepanel .seasons serieheader {
   font-size: 22px;
 }
 
-.settings .traktupdate .btn, .settings .traktupdate .btn .bebas-true, .settings .traktupdate .btn .bebas-false {
+.settings .traktupdate .btn {
   display: inline-block;
   margin-top: -3px;
   margin-left: 5px;
@@ -3055,14 +3040,14 @@ ng-dial-gauge {
   flex-wrap: wrap;
 }
 
-.settings .tray-icons a.btn, .settings .tray-icons a.btn .bebas-true, .settings .tray-icons a.btn .bebas-false {
+.settings .tray-icons a.btn {
   width: 48%;
   text-align: left;
   display: flex;
   align-items: center;
 }
 
-.settings .tray-icons a.btn span, .settings .tray-icons a.btn .bebas-true span, .settings .tray-icons a.btn .bebas-false span {
+.settings .tray-icons a.btn span {
   margin-left: 8px;
 }
 

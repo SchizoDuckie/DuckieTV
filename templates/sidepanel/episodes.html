@@ -5,14 +5,14 @@
       <a ng-click="season.gotoFirstSeason()" ng-show="season.seasons.length > 2" ng-class="{disabled: season.seasonIndex == season.seasons.length-1}" uib-tooltip="{{'SIDEPANEL/EPISODES/first-season/tooltip'|translate}}" tooltip-placement="right"><i class="glyphicon glyphicon-step-backward"></i></a>
       <a ng-click="season.gotoPreviousSeason()" ng-class="{disabled: season.seasonIndex == season.seasons.length-1}" uib-tooltip="{{'SIDEPANEL/EPISODES/previous-season/tooltip'|translate}}" tooltip-placement="right"><i class="glyphicon glyphicon-chevron-left"></i></a>
     </div>
-    <h2 bebas="{{bebas}}">{{::season.getPageHeader(season.season)}}</h2>
+    <h2>{{::season.getPageHeader(season.season)}}</h2>
     <div class="season-control-right">
       <a ng-click="season.gotoLastSeason()" ng-show="season.seasons.length > 2" ng-class="{disabled: season.seasonIndex === 0}" uib-tooltip="{{'SIDEPANEL/EPISODES/last-season/tooltip'|translate}}" tooltip-placement="left"><i class="glyphicon glyphicon-step-forward"></i></a>
       <a ng-click="season.gotoNextSeason()" ng-class="{disabled: season.seasonIndex === 0}" uib-tooltip="{{'SIDEPANEL/EPISODES/next-season/tooltip'|translate}}" tooltip-placement="left"><i class="glyphicon glyphicon-chevron-right"></i></a>
     </div> 
   </div>
   <p class="overview" style="text-align:justify">{{::season.season.overview}}</p>
-  <strong bebas="{{bebas}}"><span translate-once>COMMON/episodes/lbl</span>
+  <strong><span translate-once>COMMON/episodes/lbl</span>
   <span><button type="button" class="close" ng-click="season.closeSidePanelExpansion()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/episodes/lbl'|translate}}" tooltip-placement="left">&times;</button></span>
   </strong>
   <table class="table table-condensed light episodelist" style='margin:10px 0 10px 0; background-color:transparent' ng-class="{'hover':getSetting('torrenting.enabled')}">
@@ -52,7 +52,7 @@
     </tbody>
   </table>
   <div ng-if="getSetting('download.ratings')">
-    <h2 bebas="{{bebas}}" style='border-bottom:1px solid white;padding:5px;margin-top:10px' translate-once>SIDEPANEL/EPISODES/episode-ratings/hdr</h2>
+    <h2 style='border-bottom:1px solid white;padding:5px;margin-top:10px' translate-once>SIDEPANEL/EPISODES/episode-ratings/hdr</h2>
     <div class="chart">
       <div class="chartLine" ng-repeat="p in season.points track by $index" ng-style="{ height: p.y + '%', left: ((100 / season.points.length) * $index) + '%',  width: (100 / season.points.length)+'%' }" ng-attr-uib-tooltip="{{p.label}}" tooltip-append-to-body="true" tooltip-popup-delay="75"></div>
     </div>
@@ -64,13 +64,13 @@
           <tr>
             <td style="width:100%;padding-left:20px">
               <a class="download" ng-click="season.autoDownloadAll()">
-                <i class="glyphicon glyphicon-cloud-download"></i><strong bebas="{{bebas}}" translate-once>SIDEPANEL/EPISODES/auto-download-all/lbl</strong>
+                <i class="glyphicon glyphicon-cloud-download"></i><strong translate-once>SIDEPANEL/EPISODES/auto-download-all/lbl</strong>
                 <span class="sr-only" translate-once>COMMON/split-button/sr</span>
               </a>
             </td>
             <td style="padding-right:20px">
               <torrent-dialog class="auto-download" q='season.getSeasonSearchString(sidepanel.serie,season.season)'>
-                <strong bebas="{{bebas}}" style="display:flex">&nbsp;</strong>
+                <strong style="display:flex">&nbsp;</strong>
               </torrent-dialog>
               <span class="sr-only" translate-once>COMMON/split-button/sr</span>
             </td>
@@ -87,7 +87,7 @@
                 <i class="glyphicon glyphicon-floppy-saved" style="top:0"></i>
               </td>
               <td style="width:auto">
-                <strong bebas="{{bebas}}" translate-once>COMMON/mark-all-downloaded/lbl</strong>
+                <strong translate-once>COMMON/mark-all-downloaded/lbl</strong>
               </td>
             </tr>
           </table>
@@ -101,7 +101,7 @@
                 <i class="glyphicon glyphicon-eye-open" style="top:0"></i>
               </td>
               <td style="width:auto">
-                <strong bebas="{{bebas}}" translate-once>COMMON/mark-all-watched/lbl</strong>
+                <strong translate-once>COMMON/mark-all-watched/lbl</strong>
               </td>
             </tr>
           </table>
@@ -111,7 +111,7 @@
   </table>
 </div>
 <script type="text/ng-template" id="episodeDetailsTooltip.html">
-  <strong bebas="{{bebas}}">{{sidepanel.serie.name}} {{season.getEpisodeNumber(episode)}}</strong><br>
-  <strong bebas="{{bebas}}">{{episode.episodename}}</strong>
+  <strong>{{sidepanel.serie.name}} {{season.getEpisodeNumber(episode)}}</strong><br>
+  <strong>{{episode.episodename}}</strong>
   <p style="text-align:justify">{{episode.overview}}</p>
 </script>

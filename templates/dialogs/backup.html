@@ -1,13 +1,13 @@
 <!-- dialogs/backup.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
-<h2 bebas="{{bebas}}" translate-once>COMMON/autobackup/hdr</h2>
+<h2 translate-once>COMMON/autobackup/hdr</h2>
 <a href="#settings/backup" ng-click="cancel()" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/settings/lbl</span><span translate-once>COMMON/autobackup/hdr</span></a>
 <p translate-once>COMMON/backup/desc</p>
 <div class="buttons">
-    <a class="btn bebas-{{bebas}} btn-success" ng-click="createBackup();">
+    <a class="btn btn-success" ng-click="createBackup();">
       <i class="glyphicon glyphicon-floppy-save"></i> <span translate-once>COMMON/create/btn</span>
     </a>
-  <a class="btn bebas-{{bebas}} btn-danger" ng-click="cancel()">
+  <a class="btn btn-danger" ng-click="cancel()">
     <i class="glyphicon glyphicon-ban-circle"></i> <span translate-once>COMMON/cancel/btn</span>
   </a>
 </div>

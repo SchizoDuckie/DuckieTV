@@ -1,6 +1,6 @@
 <!-- seasons.html -->
 <div class="seasons miniposter" style="text-align:center">
-  <h2 bebas="{{bebas}}" style="margin-bottom:50px;">
+  <h2 style="margin-bottom:50px;">
     <span style='border-bottom: 1px solid white; padding:5px;margin-bottom:15px'><h2cont translate-once>COMMON/seasons/lbl</h2cont></span>
     <span><button type="button" class="close" ng-click="seasons.closeSidePanelExpansion()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/seasons/lbl'|translate}}" tooltip-placement="left">&times;</button></span>
     <small style='float:right;line-height:2' translate-once>SIDEPANEL/SEASONS/click-to-see/lbl</small>
@@ -8,7 +8,7 @@
 
   <serieHeader ng-repeat="season in seasons.seasons" data="season" no-badge="0" no-button="1" no-title="1" no-overview="1" mode="poster" ui-sref="serie.season({season_id: season.ID_Season})">
     <p style="text-align:center">
-      <strong bebas="{{bebas}}" style='color:white'>{{::seasons.getPosterLabel(season.seasonnumber)}}</strong>
+      <strong style='color:white'>{{::seasons.getPosterLabel(season.seasonnumber)}}</strong>
     </p>
   </serieHeader>
 </div>
@@ -17,18 +17,18 @@
     <tr>
       <td colspan="2">
         <a ng-show="!seasons.markAllWatchedAlert" ng-click="seasons.markAllWatchedQuery()">
-          <i class="glyphicon glyphicon-eye-open"></i><strong bebas="{{bebas}}" translate-once>COMMON/mark-all-watched/lbl</strong>
+          <i class="glyphicon glyphicon-eye-open"></i><strong translate-once>COMMON/mark-all-watched/lbl</strong>
         </a>
         <table ng-show="seasons.markAllWatchedAlert" class="buttons" width="100%" border="0">
           <tr>
             <td>
-              <a  class="btn bebas-{{bebas}} btn-danger" ng-click="seasons.markAllWatched()">
-                <i class="glyphicon glyphicon-question-sign spin"></i><strong bebas="{{bebas}}" translate-once>COMMON/are-you-sure/lbl</strong>&nbsp;<strong bebas="{{bebas}}" translate-once>DIALOGSjs/yes/btn</strong>
+              <a  class="btn btn-danger" ng-click="seasons.markAllWatched()">
+                <i class="glyphicon glyphicon-question-sign spin"></i><strong translate-once>COMMON/are-you-sure/lbl</strong>&nbsp;<strong translate-once>DIALOGSjs/yes/btn</strong>
               </a>
             </td>
             <td>
-              <a class="btn bebas-{{bebas}} btn-success" ng-show="seasons.markAllWatchedAlert" ng-click="seasons.markAllWatchedCancel()">
-                <i class="glyphicon glyphicon-ban-circle"></i><strong bebas="{{bebas}}" translate-once>COMMON/cancel/btn</strong>
+              <a class="btn btn-success" ng-show="seasons.markAllWatchedAlert" ng-click="seasons.markAllWatchedCancel()">
+                <i class="glyphicon glyphicon-ban-circle"></i><strong translate-once>COMMON/cancel/btn</strong>
               </a>
             </td>
           </tr>

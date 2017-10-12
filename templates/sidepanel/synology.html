@@ -1,24 +1,24 @@
 <!-- sidepanel/synology.html -->
 <div id="synologypage" class="synology-client"> 
-  <h1 bebas="{{bebas}}">Available devices</h1> 
+  <h1>Available devices</h1> 
   <div ng-if="syno.devices">
     <ul>
       <li ng-repeat="device in syno.devices" style="text-align:left">
-        <strong bebas="{{bebas}}">{{device.title}}</strong> <span class="badge" style="float:right">{{device.type}}</span>
+        <strong>{{device.title}}</strong> <span class="badge" style="float:right">{{device.type}}</span>
       </li>
     </ul>
   </div>
 
-  <h1 bebas="{{bebas}}">Libraries</h1> 
+  <h1>Libraries</h1> 
   <div ng-if="syno.library">
     <ul>
       <li ng-repeat="lib in syno.library" style="text-align:left">
-        <strong bebas="{{bebas}}">{{lib.title}}</strong> <span class="badge" style="float:right">{{lib.type}} [ID:{{lib.id}}]</span>
+        <strong>{{lib.title}}</strong> <span class="badge" style="float:right">{{lib.type}} [ID:{{lib.id}}]</span>
       </li>
     </ul>
   </div>
 
-  <h1 bebas="{{bebas}}">Folders</h1> 
+  <h1>Folders</h1> 
   <div ng-if="syno.folders">
     <ul>
       <li ng-repeat="folder in syno.folders track by $index" style="text-align:left">
