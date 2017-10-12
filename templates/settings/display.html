@@ -107,6 +107,20 @@
     <i class="glyphicon glyphicon-{{getSetting('notifications.enabled') ? 'remove' : 'ok'}}"></i> {{getSetting('notifications.enabled') ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
 
+  <hr class="setting-divider">
+  <h2>
+    <span uib-tooltip="{{mcEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
+      <i class="glyphicon glyphicon-{{mcEnabled ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+    </span>
+    <li translate-once>SETTINGS/DISPLAY/mixedcase/hdr</li>
+  </h2>
+  <p  translate-once>SETTINGS/DISPLAY/mixedcase/desc</p>
+  <p><strong translate-once>COMMON/current-setting/hdr</strong>
+   {{mcEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+  <a ng-click="toggleMixedCase()" class="btn btn-{{mcEnabled ? 'info' : 'success'}}">
+    <i class="glyphicon glyphicon-{{mcEnabled ? 'remove' : 'ok'}}"></i> {{mcEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+  </a>
+
   <div class="kc">
     <hr class="setting-divider">
     <h2>

@@ -93,6 +93,35 @@ var DuckieTV = angular.module('DuckieTV', [
 }])
 
 /**
+ * drop bebasRegular fontFamily if user enabled mixedCase
+ */
+.run(['SettingsService', function(SettingsService) {
+    function init() {
+        if (!SettingsService.get('font.bebas.enabled')) {
+            var elemStyle = document.createElement('style');
+            elemStyle.id = "bebas-override";
+            elemStyle.innerHTML = [
+                "h1, h2, h3, strong, .inline-checkbox label, sidepanel .buttons .torrent-mini-remote-control>span, .settings .buttons .btn {",
+                    "font-family: helvetica,sans-serif !important;",
+                "}",
+                "strong {",
+                    "letter-spacing: normal !important;",
+                    "font-weight: bold !important;",
+                "}",
+                    "sidepanel .buttons .torrent-mini-remote-control> span {",
+                    "letter-spacing: normal !important;",
+                "}",
+                    "sidepanel .buttons strong {",
+                    "letter-spacing: normal !important;",
+                "}"
+            ].join(' ');
+            document.body.appendChild(elemStyle);            
+        }
+    }
+    window.onload = init;
+}])
+
+/**
  * setting platform specific defaults (uTorrent for windows, uTorrent Web UI or non-windows)
  */
 .run(['SettingsService', function(SettingsService) {
