@@ -313,7 +313,7 @@ DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injecto
                         } else {
                             service.trackers = [
                                 "&tr=udp://tracker.coppersurfer.tk:6969/announce",
-                                "&tr=udp://tracker.zer0day.to:1337/announce",
+                                "&tr=udp://tracker.leechers-paradise.org:6969/announce",
                                 "&tr=udp://9.rarbg.com:2710/announce"
                             ].join('');
                             localStorage.setItem('trackers.fallBackList', service.trackers);
