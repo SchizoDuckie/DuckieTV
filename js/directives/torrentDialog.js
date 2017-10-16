@@ -372,12 +372,15 @@ DuckieTV
             });
         };
 
+        var debugNotify = function(notificationId) { if (window.debug982) console.debug('TD notify id', notificationId);};
         $scope.select = function(result) {
             //console.debug('select', result);
             var dlPath = ($scope.serie) ? $scope.serie.dlPath : null;
             var label = ($scope.serie && usingLabel) ? $scope.serie.name : null;
             NotificationService.notify(result.releasename,
-                "Download started on " + DuckieTorrent.getClient().getName());
+                "Download started on " + DuckieTorrent.getClient().getName(),
+                debugNotify
+            );
             if (result.magnetUrl) {
                 //console.debug('using search magnet');
                 return magnetSelect(result.magnetUrl, dlPath, label);

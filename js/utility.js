@@ -288,7 +288,7 @@ String.prototype.dhmToMins = function() {
     }
 };
 
-window.debug926 = (localStorage.getItem('debug926'));
+window.debug982 = (localStorage.getItem('debug982'));
 
 /**
  * drop bebasRegular fontFamily if user enabled mixedCase
