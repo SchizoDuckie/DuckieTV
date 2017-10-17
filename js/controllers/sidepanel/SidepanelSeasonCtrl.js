@@ -1,13 +1,15 @@
 /**
  * Controller for individual season view (episodes view)
  */
-DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$filter", "$q", "$injector", "seasons", "season", "episodes", "SceneNameResolver", "AutoDownloadService", function($rootScope, $scope, $state, $filter, $q, $injector, seasons, season, episodes, SceneNameResolver, AutoDownloadService) {
+DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$filter", "$q", "$injector", "seasons", "season", "episodes", "SceneNameResolver", "AutoDownloadService", "SettingsService",
+    function($rootScope, $scope, $state, $filter, $q, $injector, seasons, season, episodes, SceneNameResolver, AutoDownloadService, SettingsService) {
 
     var vm = this;
     this.season = season;
     this.seasons = seasons;
     this.episodes = episodes;
     this.seasonIndex = null;
+    this.watchedDownloadedPaired = SettingsService.get('episode.watched-downloaded.pairing');
 
     /**
      * Closes the SidePanel expansion
@@ -96,7 +98,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$
     };
 
     this.markAllWatched = function() {
-        this.season.markSeasonAsWatched($rootScope).then(function() {
+        this.season.markSeasonAsWatched(this.watchedDownloadedPaired,$rootScope).then(function() {
             $rootScope.$broadcast('serie:recount:watched', season.ID_Serie);
         });
     };

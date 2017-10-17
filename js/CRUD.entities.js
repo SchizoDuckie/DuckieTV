@@ -239,13 +239,13 @@ CRUD.define(Serie, {
         this.Persist();
     },
 
-    markSerieAsWatched: function($rootScope) {
+    markSerieAsWatched: function(watchedDownloadedPaired, $rootScope) {
         var self = this;
         return new Promise(function(resolve) {
             self.getEpisodes().then(function(episodes) {
                 episodes.forEach(function(episode) {
                     if (episode.hasAired() && (!episode.isWatched())) {
-                        return episode.markWatched(undefined, $rootScope);
+                        return episode.markWatched(watchedDownloadedPaired, $rootScope);
                     }
                 });
                 return resolve(true)
@@ -326,13 +326,13 @@ CRUD.define(Season, {
     getEpisodes: function() {
         return Episode.findByID_Season(this.getID());
     },
-    markSeasonAsWatched: function($rootScope) {
+    markSeasonAsWatched: function(watchedDownloadedPaired, $rootScope) {
         var self = this;
         return new Promise(function(resolve) {
             self.getEpisodes().then(function(episodes) {
                 episodes.forEach(function(episode) {
                     if (episode.hasAired() && (!episode.isWatched())) {
-                        return episode.markWatched(undefined, $rootScope);
+                        return episode.markWatched(watchedDownloadedPaired, $rootScope);
                     }
                 });
                 self.watched = 1;
@@ -464,20 +464,20 @@ CRUD.define(Episode, {
         return this.leaked && parseInt(this.leaked) == 1;
     },
 
-    markWatched: function(downloadedPaired, $rootScope) {
-        if (typeof downloadedPaired === 'undefined') {
-            downloadedPaired = true;
+    markWatched: function(watchedDownloadedPaired, $rootScope) {
+        if (typeof watchedDownloadedPaired === 'undefined') {
+            watchedDownloadedPaired = true;
         }
         this.watched = 1;
         this.watchedAt = new Date().getTime();
-        if (downloadedPaired) {
+        if (watchedDownloadedPaired) {
             // if you are marking this as watched you must have also downloaded it!
             this.downloaded = 1;
         }
         return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:watched', this);
-                if (downloadedPaired) {
+                if (watchedDownloadedPaired) {
                     $rootScope.$broadcast('episode:marked:downloaded', this);
                 }
             }
@@ -510,12 +510,12 @@ CRUD.define(Episode, {
         }.bind(this));
     },
 
-    markNotDownloaded: function(watchedPaired, $rootScope) {
-        if (typeof watchedPaired === 'undefined') {
-            watchedPaired = true;
+    markNotDownloaded: function(watchedDownloadedPaired, $rootScope) {
+        if (typeof watchedDownloadedPaired === 'undefined') {
+            watchedDownloadedPaired = true;
         }
         this.downloaded = 0;
-        if (watchedPaired) {
+        if (watchedDownloadedPaired) {
             // if you are marking this as NOT downloaded, you can not have watched it either!
             this.watched = 0;
             this.watchedAt = null;
@@ -524,7 +524,7 @@ CRUD.define(Episode, {
         return this.Persist().then(function() {
             if ($rootScope) {
                 $rootScope.$broadcast('episode:marked:notdownloaded', this);
-                if (watchedPaired) {
+                if (watchedDownloadedPaired) {
                     $rootScope.$broadcast('episode:marked:notwatched', this);
                 }
             }

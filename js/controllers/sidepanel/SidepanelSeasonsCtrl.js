@@ -1,10 +1,12 @@
 /**
  * Controller for all seasons view
  */
-DuckieTV.controller('SidepanelSeasonsCtrl', ["seasons", "$rootScope", "$q", "$filter", "SidePanelState", "$state", function(seasons, $rootScope, $q, $filter, SidePanelState, $state) {
+DuckieTV.controller('SidepanelSeasonsCtrl', ["$rootScope", "$q", "$filter", "$state", "seasons", "SidePanelState", "SettingsService",
+    function($rootScope, $q, $filter, $state, seasons, SidePanelState, SettingsService) {
     var self = this;
     this.seasons = seasons;
     this.markAllWatchedAlert = false;
+    this.watchedDownloadedPaired = SettingsService.get('episode.watched-downloaded.pairing');
 
     /**
      * Closes the SidePanel expansion
@@ -15,7 +17,7 @@ DuckieTV.controller('SidepanelSeasonsCtrl', ["seasons", "$rootScope", "$q", "$fi
 
     this.markAllWatched = function() {
         this.seasons.map(function(season) {
-            season.markSeasonAsWatched($rootScope).then(function() {
+            season.markSeasonAsWatched(this.watchedDownloadedPaired,$rootScope).then(function() {
                 $rootScope.$broadcast('serie:recount:watched', season.ID_Serie);
                 self.markAllWatchedAlert = false; // reset alert flag
             });

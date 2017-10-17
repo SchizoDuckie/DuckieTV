@@ -2,6 +2,13 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
     function(FavoritesService, $rootScope, SettingsService, SidePanelState, SeriesListState, $state, $filter, FavoritesManager) {
 
         var vm = this;
+        vm.activated = true;
+        vm.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
+        vm.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
+        vm.sgEnabled = SettingsService.get('library.seriesgrid');
+        vm.hideEnded = false;
+        vm.watchedDownloadedPaired = SettingsService.get('episode.watched-downloaded.pairing');
+
 
         /**
          * Context Menu that appears when right clicking on series
@@ -15,7 +22,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
                 [ // Mark all watched
                     $filter('translate')('COMMON/mark-all-watched/lbl'),
                     function() {
-                        serie.markSerieAsWatched($rootScope).then(function() {
+                        serie.markSerieAsWatched(vm.watchedDownloadedPaired,$rootScope).then(function() {
                             $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
                         });
                     },
@@ -34,7 +41,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
                     }
                 ],
                 [ //Remove Serie option, pops up confirmation.
-        $filter('translate')('COMMON/delete-serie/btn'),
+                    $filter('translate')('COMMON/delete-serie/btn'),
                     function() {
                         FavoritesManager.remove(serie);
                     }
@@ -42,12 +49,6 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
 
             ];
         };
-
-        vm.activated = true;
-        vm.mode = SettingsService.get('series.displaymode'); // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
-        vm.isSmall = SettingsService.get('library.smallposters'); // library posters size , true for small, false for large
-        vm.sgEnabled = SettingsService.get('library.seriesgrid');
-        vm.hideEnded = false;
 
         vm.setOrderBy = function(orderBy, evt) {
             evt.stopPropagation()
