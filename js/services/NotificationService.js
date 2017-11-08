@@ -1,6 +1,5 @@
 /** 
  * The notification service can create Chrome Notifications to notify users of aired episodes.
- * Currently still needs to be implemented by hooking into the AutoDownloadService
  */
 DuckieTV.factory("NotificationService", ["SettingsService", function(SettingsService) {
     var ids = {}; // track existing notifications
@@ -9,12 +8,27 @@ DuckieTV.factory("NotificationService", ["SettingsService", function(SettingsSer
      * Create a Chrome Notification
      */
     var create = function(options, callback) {
-        if (!SettingsService.get('notifications.enabled')) {
+        if ('chrome' in window && 'notifications' in window.chrome && 'create' in window.chrome.notifications && 'getPermissionLevel' in window.chrome.notifications) {
+            if (!SettingsService.get('notifications.enabled')) {
+                return;
+            }
+            window.chrome.notifications.getPermissionLevel( function(level) {
+                // User has elected not to show notifications from the app or extension.
+                if (level.toLowerCase() == 'denied') {
+                    SettingsService.set('notifications.enabled', false);
+                    return;
+                }
+            });
+        } else {
+            // notifications not supported
+            if (SettingsService.get('notifications.enabled')) {
+                SettingsService.set('notifications.enabled', false);
+            }
             return;
         }
         var id = 'seriesguide_' + new Date().getTime();
         ids[id] = options;
-        var notification = chrome.notifications.create(id, options, callback || function() {});
+        var notification = window.chrome.notifications.create(id, options, callback || function() {});
     }
 
 
