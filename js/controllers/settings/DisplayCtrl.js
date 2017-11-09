@@ -7,7 +7,7 @@ DuckieTV.controller('DisplayCtrl', ["$scope", "$injector", "SettingsService",
     function($scope, $injector, SettingsService ) {
 
         $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome);
-        $scope.hasNotifications = ('chrome' in window && 'notifications' in window.chrome && 'create' in window.chrome.notifications&& 'getPermissionLevel' in window.chrome.notifications);
+        $scope.hasNotifications = ('chrome' in window && 'notifications' in window.chrome && 'create' in window.chrome.notifications && 'getPermissionLevel' in window.chrome.notifications);
         $scope.topSites = SettingsService.get('topSites.enabled');
         $scope.topSitesMode = SettingsService.get('topSites.mode');
         $scope.bgOpacity = SettingsService.get('background-rotator.opacity');
