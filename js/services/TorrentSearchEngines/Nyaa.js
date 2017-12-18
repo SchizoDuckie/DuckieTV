@@ -10,13 +10,13 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 },
                 selectors: {
                     resultContainer: 'tr',
-                    releasename: ['td:nth-of-type(2) a', 'innerText'],
+                    releasename: ['td:nth-of-type(2) a:last-of-type', 'innerText'],
                     magnetUrl: ['td:nth-of-type(3) a[href^="magnet:?"]', 'href'],
                     torrentUrl: ['td:nth-of-type(3) a[href$=".torrent"]', 'href'],
                     size: ['td:nth-of-type(4)', 'innerText'],
                     seeders: ['td:nth-of-type(6)', 'innerText'],
                     leechers: ['td:nth-of-type(7)', 'innerText'],
-                    detailUrl: ['td:nth-of-type(2) a', 'href']
+                    detailUrl: ['td:nth-of-type(2) a:last-of-type', 'href']
                 },
                 orderby: {
                     leechers: {d: '&s=leechers&o=desc', a: '&s=leechers&o=asc'},
