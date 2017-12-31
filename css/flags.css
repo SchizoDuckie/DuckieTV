@@ -206,7 +206,7 @@
 .flag.flag-tm {background-position: -96px -416px}
 .flag.flag-tn {background-position: -128px -416px}
 .flag.flag-to {background-position: -160px -416px}
-.flag.flag-tr {background-position: -192px -416px}
+.flag.flag-tr, .flag.flag-tr_tr {background-position: -192px -416px}
 .flag.flag-tt {background-position: -224px -416px}
 .flag.flag-tv {background-position: -256px -416px}
 .flag.flag-tw {background-position: -288px -416px}
