@@ -2,29 +2,20 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
     function(TorrentSearchEngines, SettingsService, $q, $http, $injector) {
         if (SettingsService.get('torrenting.enabled')) {
             TorrentSearchEngines.registerSearchEngine('KATcr', new GenericTorrentSearchEngine({
-                mirror: 'https://katcr.co/new/',
+                mirror: 'https://katcr.co/',
                 mirrorResolver: null,
-                includeBaseURL: true,
+                includeBaseURL: false,
                 endpoints: {
-                    search: 'search-torrents.php?search=%s&sort=%o'
+                    search: 'katsearch/page/1/%s'
                 },
                 selectors: {
-                    resultContainer: 'tr[class="t-row"]',
-                    releasename: ['td:first-child div.torrentname div a.cellMainLink', 'innerText'],
-                    size: ['td:nth-child(2)', 'innerText'],
-                    seeders: ['td:nth-child(4)', 'innerText'],
-                    leechers: ['td:nth-child(5)', 'innerText'],
-                    torrentUrl: ['td:first-child div[class^="iaconbox"] a:nth-child(3)', 'href'],
-                    detailUrl: ['td:first-child div[class^="iaconbox"] a:nth-child(2)', 'href']
-                },
-                detailsSelectors: {
-                    detailsContainer: 'table tr td div[class="myFrame torrent-title"]',
-                    magnetUrl: ['a[title="Magnet link"]', 'href']
-                },
-                orderby: {
-                    seeders: {d: 'seeders&order=desc', a: 'seeders&order=asc'},
-                    leechers: {d: 'leechers&order=desc', a: 'leechers&order=asc'},
-                    size: {d: 'size&order=desc', a: 'size&order=asc'}
+                    resultContainer: 'table.torrents_table > tbody > tr',
+                    releasename: ['a.torrents_table__torrent_title b', 'innerText'],
+                    size: ['td[data-title="Size"]', 'innerText'],
+                    seeders: ['td[data-title="Seed"]', 'innerText'],
+                    leechers: ['td[data-title="Leech"]', 'innerText'],
+                    magnetUrl: ['a[href^="magnet:?xt="]', 'href'],
+                    detailUrl: ['a.torrents_table__torrent_title', 'href']
                 }
             }, $q, $http, $injector));
         }
