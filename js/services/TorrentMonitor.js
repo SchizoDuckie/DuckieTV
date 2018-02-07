@@ -13,7 +13,7 @@ DuckieTV
          * Event that gets called on each torrentdata instance when it updates
          * If the progress is 100%, the torrent is stopped based on:
          * autostop all enabled? always stop the torrent
-         * autostop all disabled? stop the torrent only if it was added by DuckieTV.
+         * autostop all disabled & autostop enabled? stop the torrent only if it was added by DuckieTV.
          */
         function autoStop(torrent) {
             var torrenthash = ('hash' in torrent) ? torrent.hash.toUpperCase() : undefined;
@@ -24,11 +24,13 @@ DuckieTV
                     console.info('Torrent finished. Auto-stopping', torrent.name || torrenthash);
                     torrent.stop();
                 } else {
-                    // only torrents launched by DuckieTV in the torrent-client are allowed to be stopped                   
-                    if (TorrentHashListService.hasHash(torrenthash)) {
-                        // this torrent was launched by DuckieTV. Stopping torrent.
-                        console.info('Torrent finished. Auto-stopping', torrent.name || torrenthash);
-                        torrent.stop();
+                    if (SettingsService.get('torrenting.autostop')) {
+                        // only torrents launched by DuckieTV in the torrent-client are allowed to be stopped                   
+                        if (TorrentHashListService.hasHash(torrenthash)) {
+                            // this torrent was launched by DuckieTV. Stopping torrent.
+                            console.info('Torrent finished. Auto-stopping', torrent.name || torrenthash);
+                            torrent.stop();
+                        }
                     }
                 }
             }
