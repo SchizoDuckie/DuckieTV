@@ -1,5 +1,5 @@
-DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$filter", "$location", "$locale", "$q", "$state", "dialogs", "FavoritesService", "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SettingsService", "FavoritesManager",
-    function($rootScope, $filter, $location, $locale, $q, $state, dialogs, FavoritesService, latestSeason, notWatchedSeason, serie, SidePanelState, SettingsService, FavoritesManager) {
+DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$filter", "$location", "$locale", "$q", "$state", "$injector", "dialogs", "FavoritesService", "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SettingsService", "FavoritesManager",
+    function($rootScope, $filter, $location, $locale, $q, $state, $injector, dialogs, FavoritesService, latestSeason, notWatchedSeason, serie, SidePanelState, SettingsService, FavoritesManager) {
 
         var self = this;
         this.serie = serie;
@@ -15,6 +15,13 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$filter", "$location",
         this.closeSidePanel = function() {
             SidePanelState.hide();
         };
+        /**
+         * Closes the SidePanel expansion
+         */
+        this.closeSidePanelExpansion = function() {
+            $injector.get('SidePanelState').contract();
+            $state.go('serie');
+        }
 
         this.refresh = function(serie) {
             this.isRefreshing = true;
@@ -153,6 +160,11 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$filter", "$location",
          */
         this.isAdding = function(tvdb_id) {
             return FavoritesService.isAdding(tvdb_id);
+        };
+
+        this.dataToClipboard = function(data) {
+            var clip = nw.Clipboard.get();
+            clip.set(data.replace(/\|/g,'\r\n'), 'text');
         };
     }
 ]);
