@@ -375,10 +375,16 @@ DuckieTV
     function($rootScope, AutoDownloadService, SettingsService) {
 
         if (SettingsService.get('torrenting.enabled') === true && SettingsService.get('torrenting.autodownload') === true) {
+
+            var timeoutDelay = 5000; // optional customisation for #1062
+            if (localStorage.getItem('custom_AutoDownload_delay')) {
+                timeoutDelay = localStorage.getItem('custom_AutoDownload_delay');
+            };
+
             setTimeout(function() {
                 console.info('Initializing AutoDownload Service!');
                 AutoDownloadService.attach();
-            }, 5000);
+            }, timeoutDelay);
         }
     }
 ]);
