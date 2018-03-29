@@ -1,6 +1,16 @@
 <div ng-controller="SettingsTorrentCtrl" class="buttons">
   <h2>&micro;Torrent <h2cont translate-once>COMMON/integration/hdr</h2cont></h2>
 
+  <div class="alert alert-info" style="margin:10px">
+    <strong style="color:red">
+      For this to work you need to be running &micro;Torrent (Windows) versions 3.3.x through 3.5.2.<br />
+      If you are using &micro;Torrent 3.5.3 or newer, then you will need to connect via the &micro;Torrent WEBUI. 
+      <p><a href='https://github.com/SchizoDuckie/DuckieTV/wiki/Setting-up-uTorrent-Web-UI-with-DuckieTV' target='_blank' style="color:red">Click here to read the &micro;Torrent WEBUI Setup Wiki</a></p>
+    </strong>
+  </div>
+
+  <hr class="setting-divider">
+  
   <p ng-show="isuTorrentAuthenticated()">
     <span translate-once>SETTINGS/UTORRENT/is-authenticated/desc</span> <em>{{getToken()}}.</em><br />
     <span translate-once>SETTINGS/UTORRENT/is-authenticated/desc2</span>
