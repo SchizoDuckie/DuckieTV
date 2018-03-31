@@ -164,7 +164,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
             var headers = {
                 'trakt-api-key': APIkey,
                 'trakt-api-version': 2,
-                'accept': 'application/json'
+                'Content-Type': 'application/json'
             };
             if (authorized.indexOf(type) > -1) {
                 headers.Authorization = 'Bearer ' + localStorage.getItem('trakttv.token');
@@ -195,8 +195,7 @@ DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "toaster", "Fan
                 'trakt-api-key': APIkey,
                 'trakt-api-version': 2,
                 'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Content-Type': 'application/json'
             };
             return $http.post(url, param, {
                 headers: headers,
