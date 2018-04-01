@@ -1,10 +1,10 @@
 DuckieTV Binary, Chrome and Online [![Build Status](https://travis-ci.org/SchizoDuckie/DuckieTV.svg?branch=angular)](https://travis-ci.org/SchizoDuckie/DuckieTV)
 ==============================================
 
-DuckieTV is an application that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV ensures the information is always up-to-date and provides an integrated blocking-resistant torrent search to help you get to the right download as easy as possible.
+DuckieTV is an application that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV ensures the information is always up to date and provides an integrated blocking resistant torrent search so that the download can be as easy as possible.
 
 
-With the integrated DuckieTorrent client you can connect DuckieTV to your local Torrent client and be updated on the download progress without switching applications. Support is available for clients of &micro;Torrent/BitTorrent, Aria2, BiglyBT, Deluge, Ktorrent, qBittorrent, rTorrent, Tixati, Transmission and Vuze.
+With the integrated DuckieTorrent client, users can connect DuckieTV to local Torrent client and be updated on the download progress without switching applications. Support is available for clients of &micro;Torrent/BitTorrent, Aria2, BiglyBT, Deluge, Ktorrent, qBittorrent, rTorrent, Tixati, Transmission and Vuze.
 
 
 As of v0.60, DuckieTV is finally becoming a worthy SickBeard competitor by introducing an automatic downloading of shows that have aired and translations into 15 languages (English, Deutch, Español, Français, Italiano, 日本, 한국어, Nederlands, Norsk bokmål, Português, Русский, Română, Slovenščina, Svenska, 简体中文).
