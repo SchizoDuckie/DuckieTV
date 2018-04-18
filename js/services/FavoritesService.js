@@ -111,10 +111,6 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                 data.watched = 0;
                 data.watchedAt = null;
             };
-            if (episode.isLeaked() && data.firstaired !== 0 && new Date().getTime() > data.firstaired) {
-                // if episode has aired then reset the leaked flag
-                data.leaked = 0;
-            };
             data.absolute = (serie.isAnime()) ? data.number_abs : null;
 
             for (var i in data) {
