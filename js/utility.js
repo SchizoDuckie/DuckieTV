@@ -124,7 +124,7 @@ if (localStorage.getItem('optin_error_reporting')) {
             var log = Loggr.Log;
             // dump UserPreferences
             var userPrefs = JSON.parse(localStorage.getItem('userPreferences'));
-            var unwantedClientKeys = ['aria2', 'biglybt', 'deluge', 'ktorrent', 'qbittorrent', 'qbittorrent32plus', 'rtorrent', 'tixati', 'transmission', 'utorrent', 'utorrentwebui', 'vuze'];
+            var unwantedClientKeys = ['aria2', 'biglybt', 'deluge', 'ktorrent', 'qbittorrent', 'qbittorrent32plus', 'rtorrent', 'tixati', 'transmission', 'ttorrent', 'utorrent', 'utorrentwebui', 'vuze'];
             var activeClientKey = localStorage.getItem('torrenting.client').replace(/ /g, '').replace('3.2+', '32plus').replace('(pre3.2)', '').toLowerCase();
             if (localStorage.getItem('torrenting.client')) {
                 unwantedClientKeys.splice(unwantedClientKeys.indexOf(activeClientKey), 1); // drop active client from list
@@ -172,7 +172,7 @@ if (localStorage.getItem('optin_error_reporting')) {
             var blacklist = ["connect call failed","could not load fanart"];
             var args = Array.prototype.slice.call(arguments);
             var wanted = true;
-            if (typeof args !== 'undefined' && args.length > 0) {
+            if (typeof args !== 'undefined' && null !== args && args.length > 0) {
                 blacklist.map(function(unwanted) {
                     if (args[0].toLowerCase().indexOf(unwanted) > -1) {
                         wanted = false; 
@@ -182,7 +182,7 @@ if (localStorage.getItem('optin_error_reporting')) {
             if (wanted) {
                 // dump UserPreferences
                 var userPrefs = JSON.parse(localStorage.getItem('userPreferences'));
-                var unwantedClientKeys = ['aria2', 'biglybt', 'deluge', 'ktorrent', 'qbittorrent', 'qbittorrent32plus', 'rtorrent', 'tixati', 'transmission', 'utorrent', 'utorrentwebui', 'vuze'];
+                var unwantedClientKeys = ['aria2', 'biglybt', 'deluge', 'ktorrent', 'qbittorrent', 'qbittorrent32plus', 'rtorrent', 'tixati', 'transmission', 'ttorrent', 'utorrent', 'utorrentwebui', 'vuze'];
                 var activeClientKey = localStorage.getItem('torrenting.client').replace(/ /g, '').replace('3.2+', '32plus').replace('(pre3.2)', '').toLowerCase();
                 if (localStorage.getItem('torrenting.client')) {
                     unwantedClientKeys.splice(unwantedClientKeys.indexOf(activeClientKey), 1); // drop active client from list
