@@ -106,7 +106,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$
     this.markAllDownloaded = function(episodes) {
         episodes.map(function(episode) {
             if ((episode.hasAired()) && (!episode.isDownloaded())) {
-                episode.markDownloaded();
+                episode.markDownloaded($rootScope);
             }
         });
     };
