@@ -64,8 +64,7 @@ DuckieTV
                         ].join(" ");
                         if (window.debug982) console.debug('TorrentMonitor: episode hash(%s) torrent.name(%s) episodeDetails(%s) downloaded', torrentHash, torrent.name, episodeDetails);
                         NotificationService.notify("Torrent finished", episodeDetails, debugNotify);
-                        episode.markDownloaded().then(function(result) {
-                            $rootScope.$broadcast('episode:marked:downloaded', episode);
+                        episode.markDownloaded($rootScope).then(function(result) {
                             console.info("Episode marked as downloaded in database. ", episodeDetails);
                         });
                     }
