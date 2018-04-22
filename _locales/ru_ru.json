@@ -589,7 +589,7 @@
     "TORRENTDIALOG/search-global-size-min/lbl": "поиск с использованием глобального минимального размера",
     "TORRENTDIALOG/search-ignore-keywords/lbl": "поиск в глобальных исключениях",
     "TORRENTDIALOG/search-require-keywords/lbl": "поиск в списке по умолчанию",
-    "TORRENTDIALOG2/hdr": "Torrent Поиск <small>(с использованием нескольких SE)</small> [{{itemslength}} найден]",
+    "TORRENTDIALOG2/hdr": "Torrent Поиск <small>(с использованием нескольких SE) [{{itemslength}} найден]</small>",
     "TORRENTDIALOG2/search-now/tooltip": "Ищи сейчас",
     "TORRENTFREAK/info/hdr": "Информация",
     "TORRENTFREAK/rank/hdr": "Оценка"

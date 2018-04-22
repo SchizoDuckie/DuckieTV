@@ -589,7 +589,7 @@
     "TORRENTDIALOG/search-global-size-min/lbl": "buscar utilizando el tamaño mínimo",
     "TORRENTDIALOG/search-ignore-keywords/lbl": "buscar utilizando mundial lista de exclusión",
     "TORRENTDIALOG/search-require-keywords/lbl": "buscar usando mundial incluyen la lista",
-    "TORRENTDIALOG2/hdr": "Torrent Search <small>(utilizando múltiples MB)</small> [{{itemslength}} encontrado]",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(utilizando múltiples MB) [{{itemslength}} encontrado]</small>",
     "TORRENTDIALOG2/search-now/tooltip": "Buscar ahora",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Clasificación"

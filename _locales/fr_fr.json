@@ -589,7 +589,7 @@
     "TORRENTDIALOG/search-global-size-min/lbl": "la recherche en utilisant la taille minimum",
     "TORRENTDIALOG/search-ignore-keywords/lbl": "recherche en utilisant la liste de mots-clés 'EXCLUS'",
     "TORRENTDIALOG/search-require-keywords/lbl": "recherche en utilisant la liste de mots-clés 'REQUIS'",
-    "TORRENTDIALOG2/hdr": "Torrent Search <small>(en utilisant plusieurs MR)</small> [{{itemslength}} trouvés]",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(en utilisant plusieurs MR) [{{itemslength}} trouvés]</small>",
     "TORRENTDIALOG2/search-now/tooltip": "Rechercher maintenant",
     "TORRENTFREAK/info/hdr": "Infos ",
     "TORRENTFREAK/rank/hdr": "Rang "

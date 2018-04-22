@@ -589,7 +589,7 @@
     "TORRENTDIALOG/search-global-size-min/lbl": "søke ved hjelp minimumsstørrelse",
     "TORRENTDIALOG/search-ignore-keywords/lbl": "søke ved hjelp utelukke liste",
     "TORRENTDIALOG/search-require-keywords/lbl": "søke ved hjelp inkluderer liste",
-    "TORRENTDIALOG2/hdr": "Torrent Search <small>(bruker flere SE)</small> [{{itemslength}} funnet]",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(bruker flere SE) [{{itemslength}} funnet]</small>",
     "TORRENTDIALOG2/search-now/tooltip": "Søk nå",
     "TORRENTFREAK/info/hdr": "Info",
     "TORRENTFREAK/rank/hdr": "Rangering"

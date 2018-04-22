@@ -589,7 +589,7 @@
     "TORRENTDIALOG/search-global-size-min/lbl": "iskanje s pomočjo najmanjšo velikost",
     "TORRENTDIALOG/search-ignore-keywords/lbl": "iskanje s pomočjo izključuje seznam",
     "TORRENTDIALOG/search-require-keywords/lbl": "iskanje s pomočjo vključuje seznam",
-    "TORRENTDIALOG2/hdr": "Torrent Search <small>(z uporabo multiple Iskalnik)</small> [{{itemslength}} najdenih]",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(z uporabo multiple Iskalnik) [{{itemslength}} najdenih]</small>",
     "TORRENTDIALOG2/search-now/tooltip": "Iskanje Zdaj",
     "TORRENTFREAK/info/hdr": "Informacije",
     "TORRENTFREAK/rank/hdr": "Rank"

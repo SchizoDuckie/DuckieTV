@@ -589,7 +589,7 @@
     "TORRENTDIALOG/search-global-size-min/lbl": "En küçük beden",
     "TORRENTDIALOG/search-ignore-keywords/lbl": "IGNORE anahtar kelimeler",
     "TORRENTDIALOG/search-require-keywords/lbl": "REQUIRE anahtar kelimeler",
-    "TORRENTDIALOG2/hdr": "Torrent Search <small>(birden çok SE kullanarak)</small> [{{itemslength}} bulundu]",
+    "TORRENTDIALOG2/hdr": "Torrent Search <small>(birden çok SE kullanarak) [{{itemslength}} bulundu]</small>",
     "TORRENTDIALOG2/search-now/tooltip": "Şimdi araştır",
     "TORRENTFREAK/info/hdr": "Bilgi",
     "TORRENTFREAK/rank/hdr": "Derece"
