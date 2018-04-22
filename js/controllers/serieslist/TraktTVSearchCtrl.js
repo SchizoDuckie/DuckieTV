@@ -1,29 +1,24 @@
-DuckieTV.controller('traktTvSearchCtrl', ["$rootScope", "TraktTVv2", "$stateParams", "$state",
-    function($rootScope, TraktTVv2, $stateParams, $state) {
+DuckieTV.controller('traktTvSearchCtrl', ["$rootScope", "TraktTVv2", "$stateParams", function($rootScope, TraktTVv2, $stateParams) {
+        var vm = this;
 
-        var traktSearch = this;
-
-        this.results = [];
-        this.searching = true;
-        this.error = false;
-
-        this.search = {
+        vm.results = [];
+        vm.searching = true;
+        vm.error = false;
+        vm.search = {
             query: ''
         };
 
-
         TraktTVv2.search($stateParams.query).then(function(res) {
-            traktSearch.search.query = $stateParams.query;
-            traktSearch.error = false;
-            traktSearch.searching = false;
-            traktSearch.results = res || [];
+            vm.search.query = $stateParams.query;
+            vm.error = false;
+            vm.searching = false;
+            vm.results = res || [];
             $rootScope.$applyAsync();
         }).catch(function(err) {
             console.error("Search error!", err);
-            traktSearch.error = err;
-            traktSearch.searching = false;
-            traktSearch.results = [];
+            vm.error = err;
+            vm.searching = false;
+            vm.results = [];
         });
-
     }
 ]);

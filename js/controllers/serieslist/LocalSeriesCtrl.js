@@ -8,7 +8,7 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
         $rootScope.$broadcast('serieslist:statusFilter', '');
 
         // Tells the filter control what to filter, updates 300ms after input
-        this.setFilter = function(val) {
+        vm.setFilter = function(val) {
             $rootScope.$broadcast('serieslist:filter', val);
             $rootScope.$applyAsync();
         };
@@ -18,59 +18,59 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
         var translatedGenreList = $filter('translate')('GENRELIST').split('|');
         var translatedStatusList = $filter('translate')('STATUSLIST').split('|');
 
-        this.genreList = {};
-        this.statusList = {};
-        this.selectedGenres = [];
-        this.selectedStatus = [];
+        vm.genreList = {};
+        vm.statusList = {};
+        vm.selectedGenres = [];
+        vm.selectedStatus = [];
 
         FavoritesService.favorites.map(function(serie) {
             if (serie.status !== '') {
-                if (!(serie.status in this.statusList)) {
-                    this.statusList[serie.status] = 0;
+                if (!(serie.status in vm.statusList)) {
+                    vm.statusList[serie.status] = 0;
                 }
-                this.statusList[serie.status]++;
+                vm.statusList[serie.status]++;
             }
             serie.genre.split('|').map(function(genre) {
                 if (genre.length === 0) {
                     return;
                 }
-                if (!(genre in this.genreList)) {
-                    this.genreList[genre] = 0;
+                if (!(genre in vm.genreList)) {
+                    vm.genreList[genre] = 0;
                 }
-                this.genreList[genre]++;
-            }, this);
-        }, this);
+                vm.genreList[genre]++;
+            }, vm);
+        }, vm);
 
-        this.selectGenre = function(genre) {
-            if (this.selectedGenres.indexOf(genre) === -1) {
-                this.selectedGenres.push(genre);
+        vm.selectGenre = function(genre) {
+            if (vm.selectedGenres.indexOf(genre) === -1) {
+                vm.selectedGenres.push(genre);
             } else {
-                this.selectedGenres.splice(this.selectedGenres.indexOf(genre), 1);
+                vm.selectedGenres.splice(vm.selectedGenres.indexOf(genre), 1);
             }
-            $rootScope.$broadcast('serieslist:genreFilter', this.selectedGenres);
+            $rootScope.$broadcast('serieslist:genreFilter', vm.selectedGenres);
         };
 
-        this.selectStatus = function(status) {
-            if (this.selectedStatus.indexOf(status) === -1) {
-                this.selectedStatus.push(status);
+        vm.selectStatus = function(status) {
+            if (vm.selectedStatus.indexOf(status) === -1) {
+                vm.selectedStatus.push(status);
             } else {
-                this.selectedStatus.splice(this.selectedStatus.indexOf(status), 1);
+                vm.selectedStatus.splice(vm.selectedStatus.indexOf(status), 1);
             }
-            $rootScope.$broadcast('serieslist:statusFilter', this.selectedStatus);
+            $rootScope.$broadcast('serieslist:statusFilter', vm.selectedStatus);
         };
 
-        this.getCheckedGenre = function(genre) {
-            return this.selectedGenres.indexOf(genre) > -1;
+        vm.getCheckedGenre = function(genre) {
+            return vm.selectedGenres.indexOf(genre) > -1;
         };
 
-        this.getCheckedStatus = function(status) {
-            return this.selectedStatus.indexOf(status) > -1;
+        vm.getCheckedStatus = function(status) {
+            return vm.selectedStatus.indexOf(status) > -1;
         };
 
         /*
          * Takes the English Genre (as fetched from TraktTV) and returns a translation
          */
-        this.translateGenre = function(genre) {
+        vm.translateGenre = function(genre) {
             var idx = engGenreList.indexOf(genre);
             return (idx !== -1) ? translatedGenreList[idx] : genre;
         };
@@ -78,10 +78,9 @@ DuckieTV.controller('localSeriesCtrl', ["$rootScope", "$filter", "FavoritesServi
         /*
          * Takes the English status (as fetched from TraktTV) and returns a translation
          */
-        this.translateStatus = function(status) {
+        vm.translateStatus = function(status) {
             var idx = engStatusList.indexOf(status);
             return (idx !== -1) ? translatedStatusList[idx] : status;
         };
-
     }
 ]);

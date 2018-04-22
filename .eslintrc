@@ -23,6 +23,8 @@
     "rules": {
         "no-console": "off",
         "semi": 2,
+        "comma-spacing": 2,
+        "no-multiple-empty-lines": 2,
         "angular/angularelement": 1,
         "angular/controller-as": 0,
         "angular/controller-as-route": 2,
@@ -33,7 +35,7 @@
         "angular/di-order": [0, true],
         "angular/directive-name": 0,
         "angular/component-limit": [0, 1],
-        "angular/document-service": 2,
+        "angular/document-service": 0,
         "angular/empty-controller": 0,
         "angular/file-name": 0,
         "angular/filter-name": 0,
@@ -51,7 +53,7 @@
         "angular/no-private-call": 2,
         "angular/no-service-method": 2,
         "angular/no-services": [2, ["$http", "$resource", "Restangular"]],
-        "angular/on-watch": 2,
+        "angular/on-watch": 0,
         "angular/rest-service": 0,
         "angular/service-name": 2,
         "angular/timeout-service": 0,
@@ -62,7 +64,6 @@
         "angular/typecheck-object": 0,
         "angular/typecheck-string": 2,
         "angular/watchers-execution": [0, "$digest"],
-        "angular/window-service": 0,
-        "no-use-before-define": 0
+        "angular/window-service": 0
     }
 }

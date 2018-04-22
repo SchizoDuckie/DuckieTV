@@ -20,7 +20,7 @@ DuckieTV.factory('watchedCounter', ["$q", "FavoritesService", function($q, Favor
      */
     function parseEpisodeCounts(counts) {
         var seasons = {};
-        var seasonsWatched = 0;
+
         counts.rows.map(function(row) {
             if (!(row.ID_Season in seasons)) {
                 seasons[row.ID_Season] = {
@@ -29,7 +29,8 @@ DuckieTV.factory('watchedCounter', ["$q", "FavoritesService", function($q, Favor
                 };
             }
             seasons[row.ID_Season][row.watched === 0 ? 'notWatched' : 'watched'] = row.amount;
-        })
+        });
+
         return seasons;
     }
 
@@ -150,10 +151,9 @@ DuckieTV.run(["$rootScope", "FavoritesService", "watchedCounter", function($root
     /**
      * Catch global recount event (for migrations 'n stuff )
      */
-    $rootScope.$on('series:recount:watched', function(evt) {
+    $rootScope.$on('series:recount:watched', function() {
         angular.forEach(FavoritesService.favorites, function(serie) {
             watchedCounter.recountSerie(serie.ID_Serie);
         });
     });
-
 }]);
