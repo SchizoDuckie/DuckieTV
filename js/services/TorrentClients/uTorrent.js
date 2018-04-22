@@ -13,6 +13,10 @@ DuckieTorrent
  *
  * The Utorrent/Bittorrent clients listen on one of 20 ports on localhost to allow other apps to connect
  * to them.
+ * *****************************************************************
+ * port 10000 is no longer discoverable as at version 3.5.3
+ * https://engineering.bittorrent.com/2018/02/22/httprpc-security-vulnerabilities-resolved-in-utorrent-bittorrent-and-utorrent-web/
+ * *****************************************************************
  * Discovery is done by performing a /version request to these ports until the first hit
  * After that, an authentication token is requested on the client (you need to save this somewhere, the demo does so in localStorage)
  * With the token you can get a session ID, and with the session ID you can start polling for data. Don't poll and the session will expire
