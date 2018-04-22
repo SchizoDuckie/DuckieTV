@@ -36,7 +36,6 @@ module.exports = function(config) {
             'js/vendor/formly.min.js',
             'js/vendor/angular-formly-templates-bootstrap.min.js',
             'js/vendor/moment.quacked.js',
-            'js/vendor/toaster.js',
             'js/vendor/angular-xmlrpc.js',
             'js/vendor/angular-dialgauge.quacked.js',
             'tests/bootstrap.js',

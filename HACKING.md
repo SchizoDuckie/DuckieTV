@@ -14,7 +14,6 @@ On top of that, the following libraries (and their dependencies) are used (these
 - tmhDynamicLocale (locale management) https://github.com/lgalfaso/angular-dynamic-locale
 - moment (Parse, validate, manipulate, and display dates) https://momentjs.com
 - moment-timezone (timezone support) https://github.com/moment/moment-timezone
-- AngularJS-Toaster (customized version of "toastr" non-blocking notification library) https://github.com/jirikavi/AngularJS-Toaster
 - UI-router Extras (enhancements for UI-Router) https://christopherthielen.github.io/ui-router-extras
 - angular-dialgauge (dial gauge directive) https://cdjackson.github.io/angular-dialgauge/
 

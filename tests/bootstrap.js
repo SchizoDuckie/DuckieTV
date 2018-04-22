@@ -13,6 +13,5 @@ var DuckieTV = angular.module('DuckieTV', [
     'ui.bootstrap',
     'dialogs.main',
     'DuckieTorrent.torrent',
-    'toaster',
     'angular-dialgauge'
 ]);
