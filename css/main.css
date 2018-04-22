@@ -1453,9 +1453,10 @@ div [date-picker] {
 [date-picker] {
   border-radius: 10px;
   user-select: none;
-  transition: transform 0.4s ease-in-out, background-color 0.3s ease-in-out;
+  transition: transform 0.32s linear, background-color 0.3s linear;
   z-index: 101;
   position: relative;
+  will-change: transform;
 }
 
 [date-picker] span {
@@ -2088,7 +2089,8 @@ sidepanel>div {
   color: white;
   background-color: rgba(25, 25, 25, 1);
   transform: translate3d(800px, 0px, 0px);
-  transition: all 0.35s linear;
+  transition: transform 0.32s linear;
+  will-change: transform;
 }
 
 .sidepanelActive sidepanel .sidepanel {
