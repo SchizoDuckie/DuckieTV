@@ -2969,8 +2969,8 @@ ng-dial-gauge {
 }
 
 #serieSettingsForm label.control-label {
-  font-size: larger;
-  line-height: 35px;
+  font-size: 15px;
+  line-height: 30px;
   vertical-align: middle;
   display: inline-block;
 }
