@@ -2125,12 +2125,12 @@ sidepanel .buttons strong {
 
 sidepanel .buttons a {
   display: block;
-  padding: 14px;
+  padding: 12px;
   margin: 5px 15px;
   border: 1px solid #fff;
   border-radius: 9px;
   text-align: center;
-  transition: background-color 0.3s;
+  transition: background-color 0.25s;
   user-select: none;
 }
 
@@ -2167,13 +2167,17 @@ sidepanel a {
   transition: background-color 0.3s;
 }
 
-sidepanel .buttons a.delete {
-  background-color: rgba(250, 66, 66, 0.3);
-}
-
 sidepanel .buttons a:hover {
   background-color: rgba(66, 66, 66, 0.8);
   cursor: pointer;
+}
+
+sidepanel .buttons a.btn-danger {
+  background-color:rgba(250, 55, 55, 0.1);
+}
+
+sidepanel .buttons a.btn-danger:hover {
+  background-color:rgba(250, 55, 55, 0.2);
 }
 
 sidepanel .buttons a.no-hover {
@@ -2992,6 +2996,10 @@ ng-dial-gauge {
 @media (max-height: 768px) {
   sidepanel .buttons a {
     padding: 8px;
+    margin: 4px 5px;
+  }
+  sidepanel .buttons a strong {
+    font-size: 17px;
   }
   sidepanel .buttons i.glyphicon {
     font-size: 20px;
