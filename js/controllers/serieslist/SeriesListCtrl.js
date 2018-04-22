@@ -22,16 +22,21 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
                 [ // Mark all watched
                     $filter('translate')('COMMON/mark-all-watched/lbl'),
                     function() {
-                        serie.markSerieAsWatched(vm.watchedDownloadedPaired,$rootScope).then(function() {
+                        serie.markSerieAsWatched(vm.watchedDownloadedPaired, $rootScope).then(function() {
                             $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
                         });
                     },
                     function() {
-                        return serie.notWatchedCount == 0 ?
-                            false : true;
+                        return serie.notWatchedCount == 0 ? false : true;
                     }
                 ],
-                null, //Divider
+                [ // Mark all downloaded
+                    $filter('translate')('COMMON/mark-all-downloaded/lbl'),
+                    function() {
+                        serie.markSerieAsDownloaded($rootScope);
+                    }
+                ],
+                null, // Divider
                 [ // Toggle Calendar Display Option
                     serie.displaycalendar == 1 ?
                     $filter('translate')('COMMON/calendar-hide/btn') :
@@ -40,7 +45,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
                         serie.toggleCalendarDisplay();
                     }
                 ],
-                [ //Remove Serie option, pops up confirmation.
+                [ // Remove Serie option, pops up confirmation.
                     $filter('translate')('COMMON/delete-serie/btn'),
                     function() {
                         FavoritesManager.remove(serie);
@@ -51,7 +56,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
         };
 
         vm.setOrderBy = function(orderBy, evt) {
-            evt.stopPropagation()
+            evt.stopPropagation();
             var idx = vm.orderByList.indexOf(orderBy);
             vm.reverse = vm.orderReverseList[idx];
             vm.orderReverseList = vm.orderReverseResetList.slice();
@@ -85,7 +90,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
         vm.toggleFiltering = function() {
             vm.isFiltering = !vm.isFiltering;
             vm.query = '';
-        }
+        };
 
         $rootScope.$on('serieslist:filter', function(evt, query) {
             vm.query = query;
@@ -196,7 +201,7 @@ DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "Settin
                 $state.go('serie', {
                     id: FavoritesService.getById(serie.tvdb_id).ID_Serie
                 });
-            })
+            });
         };
 
         /**
