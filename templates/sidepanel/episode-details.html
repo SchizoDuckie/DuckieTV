@@ -1,12 +1,17 @@
 <!-- episode-details.html -->
 <div lazy-background="{{::sidepanel.serie.poster}}" class="serie-bg-img"></div>
 <div class="leftpanel serie-overview">
+  <button type="button" class="close" ng-click="sidepanel.closeSidePanel()" uib-tooltip="{{'COMMON/close/btn'|translate}} {{::sidepanel.serie.name}}{{::sidepanel.episode.getFormattedEpisode()?' - ':''}}{{::sidepanel.episode.getFormattedEpisode()}}" tooltip-placement="left">&times;</button>
   <div class="episode-img large" ng-show="sidepanel.episode" lazy-background="{{::sidepanel.episode.filename}}"></div>
-  <center ng-show="sidepanel.serie && !sidepanel.episode"><serieheader style="margin:0 auto;" data="sidepanel.serie" no-overview="1" no-title="1" mode="poster"></serieheader></center>
+
+  <center ng-show="sidepanel.serie && !sidepanel.episode">
+    <serieheader style="margin:0 auto;" data="sidepanel.serie" no-overview="1" no-title="1" mode="poster"></serieheader>
+  </center>
+
   <h2>
-  <span>{{::sidepanel.serie.name}}{{::sidepanel.episode.getFormattedEpisode()?' - ':''}}{{::sidepanel.episode.getFormattedEpisode()}}</span>
-  <span><button type="button" class="close" ng-click="sidepanel.closeSidePanel()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{::sidepanel.serie.name}}{{::sidepanel.episode.getFormattedEpisode()?' - ':''}}{{::sidepanel.episode.getFormattedEpisode()}}" tooltip-placement="left">&times;</button></span>
+    <span>{{::sidepanel.serie.name}}{{::sidepanel.episode.getFormattedEpisode()?' - ':''}}{{::sidepanel.episode.getFormattedEpisode()}}</span>
   </h2>
+
   <h3>{{::sidepanel.episode.episodename}}</h3>
   <h5 style="text-align: center;">{{::sidepanel.episode.firstaired | date: 'shortDate'}}</h5>
   <p class="overview" style="text-align:justify">{{::sidepanel.episode.overview}}</p>

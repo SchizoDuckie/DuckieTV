@@ -537,6 +537,9 @@ button span, .dropdown-menu span, .dropdown-menu input {
 .close:focus, .close:hover, button.close {
   color: white;
   opacity: 0.8;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 input[type=text], input[type=url], input[type=password], input[type=number], option, select, select.form-control {

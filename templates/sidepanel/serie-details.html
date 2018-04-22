@@ -1,5 +1,6 @@
 <!-- serie-details.html -->
 <div class="serie-overview" style="color:black">
+    <button type="button" class="close" ng-click="sidepanel.closeSidePanelExpansion()" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/series-details/lbl'|translate}}" tooltip-placement="left">&times;</button>
     <div class="serie-img poster large" lazy-background="{{::sidepanel.serie.poster}}" uib-tooltip="{{::sidepanel.serie.name}}" tooltip-append-to-body="true" tooltip-placement="left">
       <em ng-show="sidepanel.serie.watched" class="badge" tooltip-placement="bottom" tooltip-append-to-body="true" uib-tooltip="{{'COMMON/all-watched/tooltip'|translate}}">
         <i class="glyphicon glyphicon-eye-open" style="color:white !important"></i>
@@ -21,7 +22,6 @@
             <a style="text-decoration: underline" ng-href="https://www.imdb.com/title/{{::sidepanel.serie.IMDB_ID}}" ng-show="sidepanel.serie.IMDB_ID" target="_blank">IMDB</a><strong ng-show="sidepanel.serie.IMDB_ID"> | </strong>
             <a style="text-decoration: underline" ng-href="https://thetvdb.com/?tab=series&id={{::sidepanel.serie.TVDB_ID}}" ng-show="sidepanel.serie.TVDB_ID > 0" target="_blank">TVDB</a><strong ng-show="sidepanel.serie.TVDB_ID > 0"> | </strong>
             <a style="text-decoration: underline" ng-href="https://www.trakt.tv/shows/{{::sidepanel.serie.TRAKT_ID}}" ng-hide="sidepanel.serie.TRAKT_ID < 1" target="_blank">Trakt</a>
-            <span><button type="button" class="close" ng-click="sidepanel.closeSidePanelExpansion()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/series-details/lbl'|translate}}" tooltip-placement="left">&times;</button></span>
           </td>
         </tr>
         <tr>

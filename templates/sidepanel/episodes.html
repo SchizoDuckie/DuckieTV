@@ -1,5 +1,6 @@
 <!-- episodes.html -->
 <div class="episodes">
+  <button type="button" class="close" ng-click="season.closeSidePanelExpansion()" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/episodes/lbl'|translate}}" tooltip-placement="left">&times;</button>
   <div class="season-control">
     <div class="season-control-left">
       <a ng-click="season.gotoFirstSeason()" ng-show="season.seasons.length > 2" ng-class="{disabled: season.seasonIndex == season.seasons.length-1}" uib-tooltip="{{'SIDEPANEL/EPISODES/first-season/tooltip'|translate}}" tooltip-placement="right"><i class="glyphicon glyphicon-step-backward"></i></a>
@@ -13,7 +14,6 @@
   </div>
   <p class="overview" style="text-align:justify">{{::season.season.overview}}</p>
   <strong><span translate-once>COMMON/episodes/lbl</span>
-  <span><button type="button" class="close" ng-click="season.closeSidePanelExpansion()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} {{'COMMON/episodes/lbl'|translate}}" tooltip-placement="left">&times;</button></span>
   </strong>
   <table class="table table-condensed light episodelist" style='margin:10px 0 10px 0; background-color:transparent' ng-class="{'hover':getSetting('torrenting.enabled')}">
     <tbody ng-if="!season.episodes || season.episodes.length == 0">
