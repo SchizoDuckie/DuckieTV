@@ -1514,7 +1514,7 @@ div [date-picker] {
 }
 
 [date-picker].zoom td.day:first-child:hover {
-  transform: scale(1.5) translate3d(80px, 15px, 0px);
+  transform: scale(1.5) translateX(85px);
   transform-origin: center center;
 }
 
