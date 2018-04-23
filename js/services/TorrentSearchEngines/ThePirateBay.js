@@ -16,7 +16,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     magnetUrl: ['td:nth-child(2) > a', 'href'],
                     size: ['td:nth-child(2) .detDesc', 'innerText',
                         function(text) {
-                            return text.split(', ')[1].split(' ')[1];
+                            return text.split(', ')[1].split(' ')[1].replace('i', '');
                         }
                     ],
                     seeders: ['td:nth-child(3)', 'innerHTML'],
