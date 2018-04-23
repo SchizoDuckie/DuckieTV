@@ -74,14 +74,6 @@
         </table>
       </td>
     </tr>
-    <tr ng-if="sidepanel.isNetflixSerie() && sidepanel.isNetflixSupported()">
-      <td colspan="2" class="buttons">
-        <a ng-click="sidepanel.openNetflix()">
-            <img src="img/icon-netflix-small.png" class="smallsettingicon">
-            <strong translate-once>SIDEPANEL/EPISODE-DETAILS/watch-netflix/btn</strong>
-        </a>
-      </td>
-    </tr>
     <tr ng-if="getSetting('torrenting.enabled') && sidepanel.episode.magnetHash">
       <td colspan="2" class="buttons">
         <a class="no-hover" >

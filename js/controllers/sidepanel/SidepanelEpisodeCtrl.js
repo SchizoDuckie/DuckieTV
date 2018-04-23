@@ -1,4 +1,4 @@
-DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "SceneNameResolver", "AutoDownloadService", "TorrentSearchEngines", "SubtitleDialog", "DuckieTorrent", "Netflix", "dialogs", "$scope", "$filter", "$injector", "SettingsService", function(serie, episode, season, SceneNameResolver, AutoDownloadService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, Netflix, dialogs, $scope, $filter, $injector, SettingsService) {
+DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "SceneNameResolver", "AutoDownloadService", "TorrentSearchEngines", "SubtitleDialog", "DuckieTorrent", "dialogs", "$scope", "$filter", "$injector", "SettingsService", function(serie, episode, season, SceneNameResolver, AutoDownloadService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, dialogs, $scope, $filter, $injector, SettingsService) {
 
     this.serie = serie;
     this.episode = episode;
@@ -44,32 +44,6 @@ DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "Scen
 
     this.isTorrentClientConnected = function() {
         return DuckieTorrent.getClient().getRemote().isConnected();
-    };
-
-    this.isNetflixSupported = function() {
-        return !SettingsService.isStandalone();
-    };
-
-    this.isNetflixSerie = function() {
-        if (!this.serie.network) return false;
-        return this.serie.network.toLowerCase() == 'netflix';
-    };
-
-    this.openNetflix = function() {
-        Netflix.isLoggedIn().then(function(result) {
-            if (!result) {
-                alert($filter('translate')('SIDEPANELEPISODECTRLjs/please-login-netflix/alert'));
-                window.open('https://www.netflix.com/Login');
-            } else {
-                Netflix.findShow(self.serie.name).then(function(result) {
-                    Netflix.findEpisode(result.id, episode.episodename).then(function(result) {
-                        if (result !== false) {
-                            window.open(result);
-                        }
-                    });
-                });
-            }
-        });
     };
 
     this.findSubtitle = function() {
