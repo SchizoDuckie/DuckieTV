@@ -6,7 +6,7 @@
         "ecmaFeatures": {}
     },
     "env": {
-        "node": true,
+        "node": false,
         "browser": true
     },
     "globals": {
@@ -15,7 +15,8 @@
         "document": true,
         "CRUD": true,
         "Promise": true,
-        "X2JS": true
+        "X2JS": true,
+        "GenericTorrentSearchEngine": true
     },
     "plugins": [
         "angular"
