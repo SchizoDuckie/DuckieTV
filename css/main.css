@@ -400,6 +400,10 @@ background-rotator .placeholder {
   background-image: url('../img/torrentclients/vuze-small.png');
 }
 
+#actionbar_torrent a.ttorrent, .torrentlogo.ttorrent {
+  background-image: url('../img/torrentclients/ttorrent-small.png');
+}
+
 #actionbar_torrent a.utorrent, .torrentlogo.utorrent {
   background-image: url('../img/torrentclients/utorrent-small.png');
 }

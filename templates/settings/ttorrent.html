@@ -1,0 +1,32 @@
+<div class="buttons" ng-controller="tTorrentCtrl as ttorrent">
+	<h2>tTorrent  <h2cont translate-once>COMMON/integration/hdr</h2cont></h2>
+
+	<img src="img/torrentclients/ttorrent-colored.png" style='width:200px; margin: 0 auto'>
+
+  <p><a href='https://github.com/SchizoDuckie/DuckieTV/wiki/Setting-up-tTorrent-with-DuckieTV' target='_blank' translate-once>COMMON/set-up-instructions/lbl</a></p>
+
+  <h3>This interface is W.I.P. Has only currently been tested against tTorrentLite 1.5.12 running on Android emulator 
+ RemixOS</br>Looking for volunteers for testing on a real android platform, and additionally with tTorrent Pro</br>If you want to help, report any problems at</h3>
+  <p><a href='https://github.com/SchizoDuckie/DuckieTV/issues/new' target='_blank'>DuckieTV/issues/new</a></p>
+  <p>Currently supports only magnet. If you want to test .torrent then enable switch below, but be warned, it caused tTorrentLite to crash.</p>
+ <button ng-show="!getSetting('ttorrent.dot.torrent.enabled')" ng-click="setSetting('ttorrent.dot.torrent.enabled',true)" class="btn btn-danger">enable .torrent</button>
+<button ng-show="getSetting('ttorrent.dot.torrent.enabled')" ng-click="setSetting('ttorrent.dot.torrent.enabled',false)" class="btn btn-success">disable .torrent</button>
+
+	<p ng-show="ttorrent.isConnected()"><span translate-once>COMMON/status/hdr</span>:
+    <span translate-once>COMMON/connected/lbl</span> tTorrent  API &#64; {{ttorrent.model.server}}:{{ttorrent.model.port}}
+	</p>
+
+	<p ng-show="!ttorrent.isConnected()"><span translate-once>COMMON/status/hdr</span>:
+    <span translate-once>COMMON/not-connected/lbl</span>
+	</p>
+
+	<p ng-show="ttorrent.error"><span translate-once>COMMON/error/hdr</span>:
+    <span >{{ttorrent.error}}</span>
+	</p>
+
+  <form ng-submit="ttorrent.test()" novalidate>
+    <formly-form model="ttorrent.model" fields="ttorrent.fields">
+      <button type="submit" class="btn btn-primary submit-button" translate-once>COMMON/test-save/btn</button>
+    </formly-form>
+  </form>
+</div>
