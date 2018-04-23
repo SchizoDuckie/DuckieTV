@@ -5,12 +5,15 @@
 
   <p><a href='https://github.com/SchizoDuckie/DuckieTV/wiki/Setting-up-tTorrent-with-DuckieTV' target='_blank' translate-once>COMMON/set-up-instructions/lbl</a></p>
 
-  <h3>This interface is W.I.P. Has only currently been tested against tTorrentLite 1.5.12 running on Android emulator 
- RemixOS</br>Looking for volunteers for testing on a real android platform, and additionally with tTorrent Pro</br>If you want to help, report any problems at</h3>
-  <p><a href='https://github.com/SchizoDuckie/DuckieTV/issues/new' target='_blank'>DuckieTV/issues/new</a></p>
-  <p>Currently supports only magnet. If you want to test .torrent then enable switch below, but be warned, it caused tTorrentLite to crash.</p>
- <button ng-show="!getSetting('ttorrent.dot.torrent.enabled')" ng-click="setSetting('ttorrent.dot.torrent.enabled',true)" class="btn btn-danger">enable .torrent</button>
-<button ng-show="getSetting('ttorrent.dot.torrent.enabled')" ng-click="setSetting('ttorrent.dot.torrent.enabled',false)" class="btn btn-success">disable .torrent</button>
+  <div class="alert alert-info" style="margin:10px">
+    <strong style="color:red">
+      This interface is W.I.P. Has only currently been tested against tTorrentLite 1.5.12 running on Android emulator  RemixOS<br />Looking for volunteers for testing on a real android platform, and additionally with tTorrent Pro<br />If you want to help, report any problems at
+        <p><a href='https://github.com/SchizoDuckie/DuckieTV/issues/new' target='_blank'>DuckieTV/issues/new</a></p>
+        <p>Currently supports only magnet. If you want to test .torrent then enable switch below, but be warned, it caused tTorrentLite to crash.</p>
+       <button ng-show="!getSetting('ttorrent.dot.torrent.enabled')" ng-click="setSetting('ttorrent.dot.torrent.enabled',true)" class="btn btn-danger">enable .torrent</button>
+      <button ng-show="getSetting('ttorrent.dot.torrent.enabled')" ng-click="setSetting('ttorrent.dot.torrent.enabled',false)" class="btn btn-success">disable .torrent</button>
+    </strong>
+  </div>
 
 	<p ng-show="ttorrent.isConnected()"><span translate-once>COMMON/status/hdr</span>:
     <span translate-once>COMMON/connected/lbl</span> tTorrent  API &#64; {{ttorrent.model.server}}:{{ttorrent.model.port}}
