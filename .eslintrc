@@ -14,7 +14,8 @@
         "angular": true,
         "document": true,
         "CRUD": true,
-        "Promise": true
+        "Promise": true,
+        "X2JS": true
     },
     "plugins": [
         "angular"

@@ -51,8 +51,7 @@
  */
 
 
-function GenericTorrentSearchEngine(config, $q, $http, $injector) {
-
+function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-disable-line
     var self = this;
 
     var activeRequest = null;
@@ -94,9 +93,10 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
      * Generic search parser that has a selector, a property to fetch from the selector and an optional callback function for formatting/modifying
      */
     function parseSearch(result) {
+        var output = [];
+
         if ('isJackett' in config && config.isJackett) {
             // this is a jackett Search Engine
-            var output = [];
             if (config.useTorznab) {
                 // jackett via torznab returns xml 
                 var x2js = new X2JS({arrayAccessForm : "property"});
@@ -145,7 +145,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                             out.noTorrent = false;
                         }
                         output.push(out);
-                    })
+                    });
                 }
             } else {
                 // jackett via Admin/search returns json
@@ -177,7 +177,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                             out.noTorrent = false;
                         }
                         output.push(out);
-                    })
+                    });
                 }
             }
             //console.debug(config.name,output);
@@ -186,8 +186,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             // this is a standard (or custom) Search Engine
             var parser = new DOMParser();
             var doc = parser.parseFromString(result.data, "text/html");
-            //console.debug(doc);
             var selectors = config.selectors;
+
             if ('loginRequired' in config && config.loginRequired) {
                 var loginTest = doc.querySelectorAll(config.loginTestSelector);
                 if (loginTest.length > 0) {
@@ -197,56 +197,19 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                     throw "Not logged in!";
                 }
             }
+
             var results = doc.querySelectorAll(selectors.resultContainer);
             //console.debug('searchcontainer',selectors.resultContainer,results);
-            var output = [];
-
-            function sizeToMB(size) {
-                size = (typeof size !== 'undefined' && size !== null && size !== '') ? size.replace(',', '').match(/[0-9.]{1,}[\W]{0,}[KTMGmgibBytes]{2,}/)[0] : '0 MB';
-                var sizeA = (size.replace(',', '').split(/\s{1}/)); // size split into value and unit
-                var newSize = null; // size converted to MB
-                switch (sizeA[1].toUpperCase()) {
-                    case 'B':
-                    case 'BYTES':
-                        newSize = (parseFloat(sizeA[0]) / 1000 / 1000).toFixed(2);
-                        break;
-                    case 'KB':
-                        newSize = (parseFloat(sizeA[0]) / 1000).toFixed(2);
-                        break;
-                    case 'MB':
-                        newSize = (parseFloat(sizeA[0])).toFixed(2);
-                        break;
-                    case 'GB':
-                        newSize = (parseFloat(sizeA[0]) * 1000).toFixed(2);
-                        break;
-                    case 'TB':
-                        newSize = (parseFloat(sizeA[0]) * 1000 * 1000).toFixed(2);
-                        break;
-                    case 'KIB':
-                        newSize = ((parseFloat(sizeA[0]) * 1024) / 1000 / 1000).toFixed(2);
-                        break;
-                    case 'MIB':
-                        newSize = ((parseFloat(sizeA[0]) * 1024 * 1024) / 1000 / 1000).toFixed(2);
-                        break;
-                    case 'GIB':
-                        newSize = ((parseFloat(sizeA[0]) * 1024 * 1024 * 1024) / 1000 / 1000).toFixed(2);
-                        break;
-                    case 'TIB':
-                        newSize = ((parseFloat(sizeA[0]) * 1024 * 1024 * 1024 * 1024) / 1000 / 1000).toFixed(2);
-                        break;
-                    default:
-                        return size;
-                }
-                return newSize + ' MB';
-            }
 
             for (var i = 0; i < results.length; i++) {
                 var releasename = getPropertyForSelector(results[i], selectors.releasename);
                 if (releasename === null) continue;
+
                 var seed = getPropertyForSelector(results[i], selectors.seeders);
                 var leech = getPropertyForSelector(results[i], selectors.leechers);
                 seed = (seed != null) ? seed.replace(',', '') : 'n/a';
                 leech = (leech != null) ? leech.replace(',', '') : 'n/a';
+
                 var out = {
                     releasename: releasename.trim(),
                     size: sizeToMB(getPropertyForSelector(results[i], selectors.size)),
@@ -256,14 +219,17 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                     noMagnet: true,
                     noTorrent: true
                 };
+
                 var magnet = getPropertyForSelector(results[i], selectors.magnetUrl);
+                var torrent = getPropertyForSelector(results[i], selectors.torrentUrl);
                 var magnetHash = null;
+
                 if (magnet) {
                     out.magnetUrl = magnet;
                     out.noMagnet = false;
                     magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/);
                 }
-                var torrent = getPropertyForSelector(results[i], selectors.torrentUrl);
+
                 if (torrent) {
                     out.torrentUrl = (torrent.startsWith('http')) ? torrent : config.mirror + torrent;
                     out.noTorrent = false;
@@ -271,6 +237,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                     out.torrentUrl = 'http://itorrents.org/torrent/' + magnetHash[0].toUpperCase() + '.torrent?title=' + encodeURIComponent(out.releasename.trim());
                     out.noTorrent = false;
                 }
+
                 // if there is no magnet and/or no torrent, check of detailsSelectors has been provided.
                 if ('detailsSelectors' in config) {
                     if ('magnetUrl' in config.detailsSelectors) {
@@ -280,8 +247,10 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                         out.noTorrent = false;
                     }
                 }
+
                 output.push(out);
             }
+
             //console.debug('parseSearch',config.mirror, output);
             return output;
         }
@@ -325,7 +294,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
      * Execute a generic torrent search, parse the results and return them as an array
      */
     this.search = function(what, noCancel, orderBy) {
-        what = what.replace(/\'/g, '');
+        what = what.replace(/'/g, '');
         var d = $q.defer();
         if (noCancel !== true && activeRequest) {
             activeRequest.resolve();
@@ -358,19 +327,21 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
     };
 
     this.executeSearch = function(what, timeout, sortBy) {
+        var payload;
         if (!timeout) {
             timeout = $q.defer();
         }
+
         if ('isJackett' in config && config.isJackett) {
             // this is a jackett Search Engine
             if (config.useTorznab) {
                 // jacket via torznab
                 if (('apiVersion' in config && config.apiVersion == 1) || !('apiVersion' in config)) {
                     // api 1
-                    var payload =  what.trim().replace(/\s/g,'+');
+                    payload =  what.trim().replace(/\s/g, '+');
                 } else {
                     // api 2
-                    var payload =  '?t=search&cat=&apikey=' + config.apiKey + '&q=' + what.trim().replace(/\s/g,'+');                    
+                    payload = '?t=search&cat=&apikey=' + config.apiKey + '&q=' + what.trim().replace(/\s/g, '+');                    
                 }                
                 return $http({
                     method: 'GET',
@@ -383,7 +354,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 // jackett via Admin/search
                 if (('apiVersion' in config && config.apiVersion == 1) || !('apiVersion' in config)) {
                     // api 1
-                    var payload =  'Query=' + what.trim().replace(/\s/g,'+') + '&Category=&Tracker=' + config.tracker;
+                    payload =  'Query=' + what.trim().replace(/\s/g, '+') + '&Category=&Tracker=' + config.tracker;
                     return $http.post(config.mirror, payload, {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -395,7 +366,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
                 } else {
                     // api 2 (0.8.136.0)
                     var trackerid = (config.tracker == 'all') ? '' : '&Tracker%5B%5D=' + config.tracker;
-                    var payload =  '?apikey=' + config.apiKey + '&Query=' + what.trim().replace(/\s/g,'%20') + trackerid;
+                    payload =  '?apikey=' + config.apiKey + '&Query=' + what.trim().replace(/\s/g, '%20') + trackerid;
                     return $http({
                         method: 'GET',
                         url: config.mirror + payload,
@@ -410,6 +381,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
             if (!sortBy) {
                 sortBy = 'seeders.d';
             }
+
             return $http({
                 method: 'GET',
                 url: getUrl('search', what, sortBy),
@@ -440,4 +412,43 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) {
         });
     };
 
+    function sizeToMB(size) {
+        size = (typeof size !== 'undefined' && size !== null && size !== '') ? size.replace(',', '').match(/[0-9.]{1,}[\W]{0,}[KTMGmgibBytes]{2,}/)[0] : '0 MB';
+        var sizeA = (size.replace(',', '').split(/\s{1}/)); // size split into value and unit
+        var newSize = null; // size converted to MB
+
+        switch (sizeA[1].toUpperCase()) {
+            case 'B':
+            case 'BYTES':
+                newSize = (parseFloat(sizeA[0]) / 1000 / 1000).toFixed(2);
+                break;
+            case 'KB':
+                newSize = (parseFloat(sizeA[0]) / 1000).toFixed(2);
+                break;
+            case 'MB':
+                newSize = (parseFloat(sizeA[0])).toFixed(2);
+                break;
+            case 'GB':
+                newSize = (parseFloat(sizeA[0]) * 1000).toFixed(2);
+                break;
+            case 'TB':
+                newSize = (parseFloat(sizeA[0]) * 1000 * 1000).toFixed(2);
+                break;
+            case 'KIB':
+                newSize = ((parseFloat(sizeA[0]) * 1024) / 1000 / 1000).toFixed(2);
+                break;
+            case 'MIB':
+                newSize = ((parseFloat(sizeA[0]) * 1024 * 1024) / 1000 / 1000).toFixed(2);
+                break;
+            case 'GIB':
+                newSize = ((parseFloat(sizeA[0]) * 1024 * 1024 * 1024) / 1000 / 1000).toFixed(2);
+                break;
+            case 'TIB':
+                newSize = ((parseFloat(sizeA[0]) * 1024 * 1024 * 1024 * 1024) / 1000 / 1000).toFixed(2);
+                break;
+            default:
+                return size;
+        }
+        return newSize + ' MB';
+    }
 }
