@@ -167,23 +167,23 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
             addTorrentByUpload: function(data, infoHash, releaseName, dlPath) {
                 var self = this;
                 return new PromiseFileReader().readAsDataURL(data).then(function(contents) {
-                    if (dlPath !== undefined && dlPath !== null) {
-                        // using download path
-                        var parms = {
-                            paused: false,
-                            metainfo: contents.substring(index + key.length),
-                            'download-dir': dlPath
-                        };
-                    } else {
-                        // without download path
-                        var parms = {
-                            paused: false,
-                            metainfo: contents.substring(index + key.length)
-                        };
-                    };
                     var key = "base64,",
                         index = contents.indexOf(key);
                     if (index > -1) {
+                        if (dlPath !== undefined && dlPath !== null) {
+                            // using download path
+                            var parms = {
+                                paused: false,
+                                metainfo: contents.substring(index + key.length),
+                                'download-dir': dlPath
+                            };
+                        } else {
+                            // without download path
+                            var parms = {
+                                paused: false,
+                                metainfo: contents.substring(index + key.length)
+                            };
+                        };
                         return self.rpc('torrent-add', {
                             arguments: parms
                         }).then(function(result) {
