@@ -161,7 +161,7 @@ DuckieTorrent.factory('Aria2Remote', ["BaseTorrentRemote",
             },
 
             addTorrentByUrl: function(url, infoHash, releaseName, dlPath) {
-                return this.execute('addUri', dlPath ? [[magnet], {dir: dlPath}] : [[magnet]]);
+                return this.execute('addUri', dlPath ? [[url], {dir: dlPath}] : [[url]]);
             },
 
             addTorrentByUpload: function(data, infoHash, releaseName, dlPath) {
