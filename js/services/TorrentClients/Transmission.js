@@ -187,9 +187,7 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                         return self.rpc('torrent-add', {
                             arguments: parms
                         }).then(function(result) {
-                            console.debug("infoHash we are expecting to see from Transmission:",infoHash);
-                            console.debug("what the Transmission rpc torrent-add gave us:",result);
-                            return result.arguments['torrent-added'].hashString.toUpperCase() || infoHash;
+                            return result.arguments['torrent-added'].hashString.toUpperCase();
                         })
                     }
                 });
