@@ -5,12 +5,12 @@
 
     <!-- top right settings hotbuttons -->
     <div class="settingsbtn" style="float:left">
-      <a href="#settings/torrent" >
+      <a ui-sref="settings.tab({tab: 'torrent'})">
         <i class="glyphicon glyphicon-cog"></i> <span translate-once>TORRENTCLIENT/choose-client/glyph</span>
       </a>
     </div>
     <div class="settingsbtn" style="float:right">
-      <a href="#settings/{{client.getTorrentClientTemplate()}}">
+      <a ui-sref="settings.tab({tab: '{{client.getTorrentClientTemplate()}}'})">
         <i class="glyphicon glyphicon-cog"></i> <span>{{client.getTorrentClientName()}}</span> <span translate-once>COMMON/settings/hdr</span>
       </a>
     </div>
