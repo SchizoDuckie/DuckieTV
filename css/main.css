@@ -546,6 +546,10 @@ button span, .dropdown-menu span, .dropdown-menu input {
   right: 10px;
 }
 
+.standalone .close:focus, .standalone .close:hover, .standalone button.close {
+  top: 26px;
+}
+
 input[type=text], input[type=url], input[type=password], input[type=number], option, select, select.form-control {
   border: 1px solid rgba(255, 255, 255, 0.4);
   background-color: rgba(0, 0, 0, 0.2);
@@ -2228,6 +2232,11 @@ sidepanel .rightpanel {
   z-index: 0;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.standalone sidepanel .leftpanel,
+.standalone sidepanel .rightpanel {
+  padding-top: 25px;
 }
 
 sidepanel .rightpanel h2 {
