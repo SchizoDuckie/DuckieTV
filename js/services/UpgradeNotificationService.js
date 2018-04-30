@@ -11,20 +11,10 @@ DuckieTV
 
         var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="https://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="https://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="https://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
         var notifications = {
-            '1.1.5': ["<li>AutoDownload: (new) Now able to download .torrent files \\o/.",
-                "<li>Database: (fix) Moved the database management services to the *Background* task, to minimise interruptions to DB updates and maintain integrity.",
-                "<li>Favourites: (new) Remembers last used sort selection.",
-                "<li>Favourites: (new) Introducing Anime support. Now a search can use the absolute episode number when available. Series Settings allows the user to select any available Alias to replace the default Title in searches.",
-                "<li>SearchEngines: (new) Introducing Jackett! You can use the Jackett proxy to access your favourite open/semi-private/private trackers as DuckieTV Search Engines.",
-                "<li>SearchEngines: (removed) IsoHunt.to is gone.",
-                "<li>Standalone: (upgrade) NWJS 25.0 with Chromium 61 and Node 8.4.0",
-                "<li>TorrentClient: (new) Introducing Aria2 client.",
-                "<li>TorrentClient: (new) Introducing BiglyBT client.",
-                "<li>TorrentClient: (fix) Can now connect with qBitTorrent 3.3.14 (and newer) with CSRF protection.",
-                "<li>TorrentClient: (fix) Can now connect with Deluge 1.3.14 (and newer) with CSRF protection.",
-                "<li>Torrent Dialog [multi-SE]: (new) Remembers last used sort selection.",
-                "<li>Trakt-Sync: (upgrade) When an episode is marked as downloaded it is added to the collected list of a user's Trakt account.",
-                "<li>Trakt-Trending sidepanel: (upgrade) Now using buttons instead of mouse-hover to improve browsing experience.",
+            '1.1.6': ["<li>Languages: (new) Greek and Turkish.",
+                "<li>SearchEngines: (new) Add ETTV (ettv.tv), ETag (extratorrent.ag), IsoHunt2 (isohunt2.net).",
+                "<li>Standalone: (upgrade) NWJS 30.2 with Chromium 66 and Node 10.0.0",
+                "<li>TorrentClient: (new) Introducing tTorrent client.",
                 "<li>Misc: Bug fixes."
             ].join('')
         };

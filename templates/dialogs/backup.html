@@ -1,7 +1,7 @@
 <!-- dialogs/backup.html -->
 <button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
 <h2 translate-once>COMMON/autobackup/hdr</h2>
-<a href="#settings/backup" ng-click="cancel()" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/settings/lbl</span><span translate-once>COMMON/autobackup/hdr</span></a>
+<a ui-sref="settings.tab({tab: 'backup'})" ng-click="cancel()" style="float:right; margin-top:-25px;"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/settings/lbl</span><span translate-once>COMMON/autobackup/hdr</span></a>
 <p translate-once>COMMON/backup/desc</p>
 <div class="buttons">
     <a class="btn btn-success" ng-click="createBackup();">
