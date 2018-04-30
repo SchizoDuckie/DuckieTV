@@ -4,10 +4,10 @@ DuckieTV Binary, Chrome and Online [![Build Status](https://travis-ci.org/Schizo
 DuckieTV is an application that takes care of TV-Show addicts by providing a personalized TV-Show calendar. DuckieTV ensures the information is always up to date and provides an integrated blocking resistant torrent search so that the download can be as easy as possible.
 
 
-With the integrated DuckieTorrent client, users can connect DuckieTV to local Torrent client and be updated on the download progress without switching applications. Support is available for clients of &micro;Torrent/BitTorrent, Aria2, BiglyBT, Deluge, Ktorrent, qBittorrent, rTorrent, Tixati, Transmission and Vuze.
+With the integrated DuckieTorrent client, users can connect DuckieTV to local Torrent client and be updated on the download progress without switching applications. Support is available for clients of &micro;Torrent/BitTorrent, Aria2, BiglyBT, Deluge, Ktorrent, qBittorrent, rTorrent, Tixati, Transmission, tTorrent and Vuze.
 
 
-As of v0.60, DuckieTV is finally becoming a worthy SickBeard competitor by introducing an automatic downloading of shows that have aired and translations into 15 languages (English, Deutch, Español, Français, Italiano, 日本, 한국어, Nederlands, Norsk bokmål, Português, Русский, Română, Slovenščina, Svenska, 简体中文).
+As of v0.60, DuckieTV is finally becoming a worthy SickBeard competitor by introducing an automatic downloading of shows that have aired and translations into 17 languages (English, Deutch, Ελληνικά, Español, Français, Italiano, 日本, 한국어, Nederlands, Norsk bokmål, Português, Русский, Română, Slovenščina, Svenska, Türkçe, 简体中文).
 
 How can I get it?
 =================
@@ -50,7 +50,7 @@ Screenshots:
 **Track and mark which shows you have downloaded, and which ones you have watched.**
 ![Mark episodes as downloaded and watched](http://i.imgur.com/rM9fO3c.png)
 
-**Control various settings to adjust DuckieTV to your needs, translated into your choice of 15 languages**
+**Control various settings to adjust DuckieTV to your needs, translated into your choice of 17 languages**
 ![Settings](http://i.imgur.com/wuooBSS.png)
 
 **You can either completely turn off Torrent integration or tune it to your preference**
@@ -59,7 +59,7 @@ Screenshots:
 **Instant access to Torrent Client features from the calendar**
 ![Stream with uTorrent player](http://i.imgur.com/cGuQ6LU.png)
 
-**DuckieTorrent Torrent clients built-in (&micro;Torrent/BitTorrent, Aria2, BiglyBT, Deluge, Ktorrent, qBittorrent, rTorrent, Tixati, Transmission, Vuze)**
+**DuckieTorrent Torrent clients built-in (&micro;Torrent/BitTorrent, Aria2, BiglyBT, Deluge, Ktorrent, qBittorrent, rTorrent, Tixati, Transmission, tTorrent, Vuze)**
 ![DuckieTorrent Torrent integration](http://i.imgur.com/6bXbxHk.png)
 
 **Instant access to QuickSearch, just start typing**
