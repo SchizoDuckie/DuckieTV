@@ -5,8 +5,8 @@
  */
 DuckieTV
 
-    .factory('AutoDownloadService', ["$rootScope", "$injector", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentSearchEngines", "DuckieTorrent", "TorrentHashListService", "NotificationService",
-    function($rootScope, $injector, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, DuckieTorrent, TorrentHashListService, NotificationService) {
+    .factory('AutoDownloadService', ["$rootScope", "$injector", "$filter", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentSearchEngines", "DuckieTorrent", "TorrentHashListService", "NotificationService",
+    function($rootScope, $injector, $filter, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, DuckieTorrent, TorrentHashListService, NotificationService) {
 
         var service = {
             checkTimeout: null,
@@ -249,7 +249,8 @@ DuckieTV
                      * Search torrent SE for the torrent query
                      */
                     return searchEngine.search(q, true).then(function(results) {
-                        var items = results.filter(filterByScore);
+                        var items = $filter('orderBy')(results, '-seeders');
+                        items = items.filter(filterByScore);
                         if (items.length === 0) {
                             service.activityUpdate(serie, episode, q, 4); // 'nothing found'
                             return; // no results, abort
