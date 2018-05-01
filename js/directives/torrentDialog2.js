@@ -39,6 +39,7 @@ DuckieTV
         $scope.defaultProvider = SettingsService.get('torrenting.searchprovider');
         $scope.clients = Object.keys(TorrentSearchEngines.getSearchEngines());
         $scope.activeSE = SettingsService.get('torrentDialog.2.activeSE'); // get active search engines previously saved
+        $scope.activeSE[$scope.defaultProvider] = true;
         $scope.clients.forEach(function(name) {
             // add any new search engines discovered, default them as active.
             if (!(name in $scope.activeSE)) {
