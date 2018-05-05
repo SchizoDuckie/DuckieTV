@@ -8444,6 +8444,7 @@
                         }
                         return torrentId;
                     } else {
+                        console.warn('Invalid torrent identifier');
                         throw new Error('Invalid torrent identifier');
                     }
                 }
