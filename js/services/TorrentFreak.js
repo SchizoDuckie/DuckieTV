@@ -57,7 +57,14 @@ DuckieTV.provider('TorrentFreak', function() {
 
             for (var k = 0; k < rows.length; k++) {
                 var rowItems = rows[k].querySelectorAll('td');
-                if (rowItems.length < 3) continue;
+                if (rowItems.length < 4) continue;
+                //console.debug('rank: ',rowItems[0].innerText);
+                //console.debug('prevRank: ',rowItems[1].innerText.replace('(', '').replace(')', ''));
+                //console.debug('title: ',rowItems[2].innerText);
+                //console.debug('searchTitle: ',rowItems[2].querySelector('a').innerText);
+                //console.debug('rating: ',rowItems[3].querySelectorAll('a')[0].innerText);
+                //console.debug('imdb: ',rowItems[3].querySelectorAll('a')[0].href);
+                //console.debug('trailer: ',(rowItems[3].querySelectorAll('a').length == 2 ? rowItems[3].querySelectorAll('a')[1].href : false));
                 var row = {
                     rank: rowItems[0].innerText,
                     prevRank: rowItems[1].innerText.replace('(', '').replace(')', ''),
