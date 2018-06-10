@@ -44,7 +44,7 @@ DuckieTV
         function isDownloaded(torrent) {
             var debugNotify = function(notificationId) { if (window.debug982) console.debug('TM notify id', notificationId);};
             var torrentHash = ('hash' in torrent) ? torrent.hash.toUpperCase() : undefined;
-            if (!TorrentHashListService.isDownloaded(torrentHash) && torrent.getProgress() == 100) {
+            if (TorrentHashListService.hasHash(torrentHash) && !TorrentHashListService.isDownloaded(torrentHash) && torrent.getProgress() == 100) {
                 CRUD.FindOne('Episode', {
                     magnetHash: torrentHash
                 }).then(function(episode) {

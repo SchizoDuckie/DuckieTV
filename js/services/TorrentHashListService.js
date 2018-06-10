@@ -48,9 +48,11 @@ DuckieTV.factory('TorrentHashListService', [
              * Default state of a torrent in the hashlist is false, when it's downloaded it flips to true
              */
             markDownloaded: function(torrentHash) {
-                if (window.debug982) console.debug('TorrentHashListService.markDownloaded(%s)', torrentHash);
-                service.hashList[torrentHash] = true;
-                persist();
+                if (service.hasHash(torrentHash)) {
+                    if (window.debug982) console.debug('TorrentHashListService.markDownloaded(%s)', torrentHash);
+                    service.hashList[torrentHash] = true;
+                    persist();
+                }
             },
             /**
              *
