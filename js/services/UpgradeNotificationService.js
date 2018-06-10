@@ -13,8 +13,9 @@ DuckieTV
         var notifications = {
             '1.1.6': ["<li>Languages: (new) Greek and Turkish.",
                 "<li>SearchEngines: (new) Add ETTV (ettv.tv), ETag (extratorrent.ag), IsoHunt2 (isohunt2.net).",
-                "<li>Standalone: (upgrade) NWJS 30.2 with Chromium 66 and Node 10.0.0",
+                "<li>Standalone: (upgrade) NWJS 31.1 with Chromium 67 and Node 10.1.0",
                 "<li>TorrentClient: (new) Introducing tTorrent client.",
+                "<li>TorrentMonitor: (fix) Auto-Stop-All now works as intended.",
                 "<li>Misc: Bug fixes."
             ].join('')
         };
