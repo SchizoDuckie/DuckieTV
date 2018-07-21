@@ -39,6 +39,9 @@
       <li id="actionbar_about" ui-sref-active="active">
         <a ui-sref="about" class="glyphicon glyphicon-info-sign" uib-tooltip="{{'COMMON/about/hdr'|translate}}" tooltip-placement="right"></a>
       </li>
+      <li id="actionbar_exit" ng-if="isAndroid" ui-sref-active="active">
+        <a ng-click="actionbar.closeApp()" class="glyphicon glyphicon-off" uib-tooltip="{{'COMMON/close/btn'|translate}}" tooltip-placement="right"></a>
+      </li>
     </div>
   </ul>
 </div>

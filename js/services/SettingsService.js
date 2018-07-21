@@ -334,6 +334,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
 
     $rootScope.isStandalone = (SettingsService.isStandalone());
     $rootScope.isMac = (navigator.platform.toLowerCase().indexOf('mac') !== -1);
+    $rootScope.isAndroid = (navigator.userAgent.toLowerCase().indexOf('android') !== -1);
 
     $rootScope.getSetting = function(key) {
         return SettingsService.get(key);
