@@ -3,8 +3,8 @@ DuckieTV.directive('actionBar', function() {
         restrict: 'E',
         templateUrl: 'templates/actionBar.html',
         controllerAs: 'actionbar',
-        controller: ["$rootScope", "$state", "$filter", "$window", "SeriesListState", "SeriesAddingState", "SidePanelState", "DuckieTorrent", "SettingsService",
-            function($rootScope, $state, $filter, $window, SeriesListState, SeriesAddingState, SidePanelState, DuckieTorrent, SettingsService) {
+        controller: ["$rootScope", "$state", "$filter", "SeriesListState", "SeriesAddingState", "SidePanelState", "DuckieTorrent", "SettingsService",
+            function($rootScope, $state, $filter, SeriesListState, SeriesAddingState, SidePanelState, DuckieTorrent, SettingsService) {
                 if (SettingsService.isStandalone()) {
                     // listen for standalone menu go-to events
                     $rootScope.$on('standalone.calendar', function() {
@@ -66,7 +66,13 @@ DuckieTV.directive('actionBar', function() {
 
                 // for android platform {phonegap}
                 this.closeApp = function() {
-                    $window.close();
+                    if ('app' in navigator && 'exitApp' in navigator.app) {
+                        navigator.app.exitApp();
+                    } else if ('device' in navigator && 'exitApp' in navigator.device) {
+                        navigator.device.exitApp();
+                    } else {
+                        window.close();
+                    }
                 }
 
                 // Used by Settings to button
