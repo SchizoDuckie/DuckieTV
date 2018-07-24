@@ -86,11 +86,14 @@ DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$
     };
 
     this.autoDownload = function(serie, episode) {
-        AutoDownloadService.autoDownload(serie, episode);
+        if (!episode.isDownloaded() && episode.hasAired()) {
+            AutoDownloadService.autoDownload(serie, episode);
+        }
     };
 
     this.autoDownloadAll = function() {
-        Array.prototype.map.call(document.querySelectorAll(".rightpanel .auto-download-episode"), function(el, idx) {
+        var clickList = Array.from(document.querySelectorAll(".rightpanel .auto-download-episode"));
+        clickList.reverse().map(function(el, idx) {
             setTimeout(function() {
                 el.click();
             }, (idx + 1) * 100); // a setTimeout with 0ms (first element index of 0 times 100) seems to result in the first click to not fire,so we bump idx up by 1
