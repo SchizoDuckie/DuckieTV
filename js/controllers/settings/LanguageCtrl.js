@@ -15,6 +15,7 @@ DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "$injector", "Settings
             'en_nz': 'nz',
             'en_uk': 'uk',
             'en_us': 'us',
+            'en_za': 'za',
             'de_de': 'de_de',
             'es_es': 'es_es',
             'fr_ca': 'fr_ca',
