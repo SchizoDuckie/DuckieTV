@@ -8,7 +8,7 @@
 		"description": "O título abreviado de 'Nova Aba', para ser usado na pesquisa e outros."
 	},
 	"appDescNewTab": {
-		"message": "Faça a gestão das suas séries e filmes favoritos a partir da nova aba do seu navegador",
+		"message": "Faz a gestão das suas séries e filmes favoritos a partir da nova aba do teu navegador",
 		"description": "Etiqueta da loja web para a versão de 'Nova Aba'."
 	},
 	"appNameBrowserAction": {
@@ -20,7 +20,7 @@
 		"description": "O título abreviado de 'Botão do Navegador', para ser usado na pesquisa e outros."
 	},
 	"appDescBrowserAction": {
-		"message": "Faça a gestão das suas séries e filmes favoritos a partir do seu navegador com apenas um clique",
+		"message": "Faz a gestão das tuas séries e filmes favoritos a partir do teu navegador com apenas um clique",
 		"description": "Etiqueta da loja web para a versão de 'Botão do Navegador'."
 	}
 }
