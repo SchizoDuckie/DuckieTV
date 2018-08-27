@@ -16,11 +16,11 @@
         "description": "O título da 'Botão do Navegador' que é exibida na loja web."
     },
     "appShortNameBrowserAction": {
-        "message": "DuckieTV",
+	"message": "DuckieTV",
 	"description": "O título abreviado de 'Botão do Navegador', para ser usado na pesquisa e outros."
     },
     "appDescBrowserAction": {
-        "message": "Faz a gestão das tuas séries e filmes favoritos a partir do teu navegador com apenas um clique",
+	"message": "Faz a gestão das tuas séries e filmes favoritos a partir do teu navegador com apenas um clique",
 	"description": "Etiqueta da loja web para a versão de 'Botão do Navegador'."
     }
 }
