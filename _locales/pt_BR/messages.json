@@ -1,26 +1,26 @@
 {
-    "appNameNewTab": {
-        "message": "DuckieTV - Modo 'Nova Aba'",
-        "description": "O título da 'Nova Aba' que é exibida na loja web."
-    },
-    "appShortNameNewTab": {
-        "message": "DuckieTV",
-        "description": "O título abreviado de 'Nova Aba', para ser usado na pesquisa e outros."
-    },
-    "appDescNewTab": {
-        "message": "Faça a gestão das suas séries e filmes favoritos a partir da nova aba do seu navegador",
-	"description": "Etiqueta da loja web para a versão de 'Nova Aba'."
-    },
-    "appNameBrowserAction": {
-        "message": "DuckieTV - Modo 'Botão do Navegador'",
-        "description": "O título da 'Botão do Navegador' que é exibida na loja web."
-    },
-    "appShortNameBrowserAction": {
-        "message": "DuckieTV",
-	"description": "O título abreviado de 'Botão do Navegador', para ser usado na pesquisa e outros."
-    },
-    "appDescBrowserAction": {
-        "message": "Faça a gestão das suas séries e filmes favoritos a partir do seu navegador com apenas um clique",
-	"description": "Etiqueta da loja web para a versão de 'Botão do Navegador'."
-    }
+  "appNameNewTab": {
+    "message": "DuckieTV - Modo 'Nova Aba'",
+    "description": "O título da 'Nova Aba' que é exibida na loja web."
+  },
+  "appShortNameNewTab": {
+    "message": "DuckieTV",
+    "description": "O título abreviado de 'Nova Aba', para ser usado na pesquisa e outros."
+  },
+  "appDescNewTab": {
+    "message": "Faça a gestão das suas séries e filmes favoritos a partir da nova aba do seu navegador",
+    "description": "Etiqueta da loja web para a versão de 'Nova Aba'."
+  },
+  "appNameBrowserAction": {
+    "message": "DuckieTV - Modo 'Botão do Navegador'",
+    "description": "O título da 'Botão do Navegador' que é exibida na loja web."
+  },
+  "appShortNameBrowserAction": {
+    "message": "DuckieTV",
+    "description": "O título abreviado de 'Botão do Navegador', para ser usado na pesquisa e outros."
+  },
+  "appDescBrowserAction": {
+    "message": "Faça a gestão das suas séries e filmes favoritos a partir do seu navegador com apenas um clique",
+    "description": "Etiqueta da loja web para a versão de 'Botão do Navegador'."
+  }
 }
