@@ -117,7 +117,7 @@ body {
   transition: all 0.5px ease-in-out;
 }
 
-body.modal-open sidepanel, body.modal-open div[date-picker] {
+body.modal-open .sidepanel, body.modal-open div[date-picker] {
   filter: blur(1px);
 }
 
