@@ -286,7 +286,7 @@ DuckieTV.factory('ChromePermissions', ["$q",
              */
             changeLanguage: function(langKey, locale) {
                 console.info("SettingsService.changeLanguage", langKey, locale);
-                langKey = angular.lowercase(langKey) || 'en_us';
+                langKey = langKey.toLowerCase() || 'en_us';
                 var locale = langKey;
 
                 if (availableLanguageKeys.indexOf(langKey) === -1 && Object.keys(customLanguageKeyMappings).indexOf(langKey) === -1 && customLanguageKeyMappings.indexOf(langKey) === -1) {

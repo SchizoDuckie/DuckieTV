@@ -52,7 +52,7 @@ DuckieTV.config(["$provide", function($provide) {
                     $browser.$$incOutstandingRequestCount();
                     url = url || $browser.url();
 
-                    if (lowercase(method) == 'jsonp') {
+                    if (method.toLowerCase() == 'jsonp') {
                         var callbackId = '_' + (callbacks.$$counter++).toString(36);
                         callbacks[callbackId] = function(data) {
                             callbacks[callbackId].data = data;

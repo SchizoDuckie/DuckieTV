@@ -147,10 +147,10 @@ DuckieTV
 
 .run(["SettingsService", "$translate", "datePickerConfig", function(SettingsService, $translate, datePickerConfig) {
 
-    SettingsService.set('client.determinedlocale', $translate.proposedLanguage() === undefined ? 'en_us' : angular.lowercase($translate.proposedLanguage()));
+    SettingsService.set('client.determinedlocale', $translate.proposedLanguage() === undefined ? 'en_us' : $translate.proposedLanguage().toLowerCase());
 
     var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage();
-    var finalLocale = SettingsService.changeLanguage(angular.lowercase(configuredLocale), $translate.proposedLanguage());
+    var finalLocale = SettingsService.changeLanguage(configuredLocale.toLowerCase(), $translate.proposedLanguage());
 
     if (finalLocale != configuredLocale) {
         SettingsService.set('application.locale', finalLocale);
