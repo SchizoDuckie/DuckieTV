@@ -26,22 +26,27 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
         replaceDiacritics = function(source) {
             return source.replace(/[ÀÁÂÃÄÅ]/g,"A").replace(/[ÈÉÊË]/g,"E").replace(/[ÌÍÎÏ]/g,"I").replace(/[ÒÓÔÕÖ]/g,"O").replace(/[ÙÚÛÜ]/g,"U").replace(/[Ç]/g,"C").replace(/[àáâãäå]/g,"a").replace(/[èéêë]/g,"e").replace(/[ìíîï]/g,"i").replace(/[òóôõö]/g,"o").replace(/[ùúûü]/g,"u").replace(/[ç]/g,"c");
         };
+        /**
+         * strip the bracketed year, and all special characters apart from space and minus, and replace diacritics
+         */
+        filterName = function(source) {
+            return replaceDiacritics(source).replace(/\(([12][09][0-9]{2})\)/, '').replace(/[^0-9a-zA-Z- ]/g, '');
+        };
 
         return {
             /**
-             * Return the scene name of the provided TVDB_ID if it's in the list.
+             * Return the scene name of the provided TVDB_ID if it's in the list, unfiltered.
              */
             getSceneName: function(tvdbID, name) {
                 tvdbID = parseInt(tvdbID);
-                var exception = (tvdbID in exceptions) ? replaceDiacritics(exceptions[tvdbID]) : replaceDiacritics(name);
-                return exception.replace(/\(([12][09][0-9]{2})\)/, '').replace(/[^0-9a-zA-Z- ]/g, '');
+                return (tvdbID in exceptions) ? exceptions[tvdbID] : filterName(name);
             },
 
             getSearchStringForEpisode: function(serie, episode) {
                 var append = (serie.customSearchString && serie.customSearchString != '') ? ' ' + serie.customSearchString : '';
                 var tvdbID = parseInt(serie.TVDB_ID);
-                var exception = (tvdbID in exceptions) ? replaceDiacritics(exceptions[tvdbID]) + ' ' : replaceDiacritics(serie.name) + ' ';
-                var sceneName = exception.replace(/\(([12][09][0-9]{2})\)/, '').replace(/[^0-9a-zA-Z- ]/g, '');
+                // Return the scene name of the provided TVDB_ID if it's in the list, unfiltered.
+                var sceneName = (tvdbID in exceptions) ? exceptions[tvdbID] + ' ' : filterName(serie.name) + ' ';
                 if (serie.alias) {
                     // replaces sceneName with serie.alias if it has been set. NOTE: alias is unfiltered
                     sceneName = serie.alias + ' ';
