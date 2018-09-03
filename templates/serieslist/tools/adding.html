@@ -6,7 +6,7 @@
 	          <span class="input-group-addon">
 	             <i style='font-size:15px;' class="glyphicon glyphicon-search"></i>
 	           </span>
-	          <input type="text" focus-watch="'serieslist.searchingForSerie'" ng-model="search.query" ng-model-options="{debounce: 500}"  ng-change="search.search(search.query)" style='width:80%;' translate-once-placeholder="SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder">
+	          <input type="text" focus-watch='traktSearch.searching' ng-model="search.query" ng-model-options="{debounce: 500}"  ng-change="search.search(search.query)" style='width:80%;' translate-once-placeholder="SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder">
 	        </div>
 		  
 		  <i ng-show="traktSearch.loadingSeries" class="glyphicon glyphicon-refresh"></i>
