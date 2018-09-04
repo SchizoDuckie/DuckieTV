@@ -10,6 +10,7 @@
  *   '&download_dir=0,&path=' + encodeURIComponent(subdir)
  *   or select a predefined path and using &download_dir=n (where n is the index to the path table :-( )
  * - Does not support setting a Label during add.torrent
+ * - there is a maximum length limit of 1K on magnet strings. see #1114 for details.
  */
 uTorrentWebUIData = function(data) {
     this.update(data);
@@ -168,7 +169,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                     };
                 });
             },
-            addMagnet: function(magnetHash) {
+            addMagnet: function(magnetURI) {
                 var headers = {
                     'Content-Type': undefined
                 };
@@ -176,7 +177,25 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                     headers.Authorization = [this.config.username, this.config.password];
                 }
                 var fd = new FormData();
-                fd.append('s', magnetHash);
+                // check the length of the magnet #1114
+                if (magnetURI.length > 1024) {
+                    var discardedTrackers = '',
+                        trackersList = [];
+                    // split the magnet by &tr
+                    trackersList = magnetURI.split('&tr');
+                    magnetURI = trackersList[0]; // first part of magnetURI prior to trackers list
+                    // iterate through the trackers until the length is below the limit
+                    for (var i = 1, aTracker; aTracker = trackersList[i]; i++) {
+                        if ((magnetURI + '&tr' + aTracker).length <= 1024) {
+                            magnetURI = magnetURI + '&tr' + aTracker;
+                        } else {
+                            discardedTrackers = discardedTrackers + '&tr' + aTracker;
+                        };
+                    };
+                    // post a message explaining tracker trimming
+                    console.info('Magnet %s has had the following trackers [%s] removed to fit within the interface 1K length limit', magnetURI.getInfoHash(), discardedTrackers);
+                };
+                fd.append('s', magnetURI);
                 return $http.post(this.getUrl('addmagnet'), fd, {
                     headers: headers
                 });

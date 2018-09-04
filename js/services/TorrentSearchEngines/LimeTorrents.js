@@ -18,12 +18,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                 },
                 detailsSelectors: {
                     detailsContainer: 'div.torrentinfo',
-                    magnetUrl: ['a[title$="magnet"]', 'href',
-                        function(href) {
-                            var magnetHash = href.match(/([0-9ABCDEFabcdef]{40})/);
-                            return  'magnet:?xt=urn:btih:' + magnetHash[0] + TorrentSearchEngines.trackers;
-                        }
-                    ],
+                    magnetUrl: ['a[title$="magnet"]', 'href'],
                     torrentUrl: ['a[title$="torrent"]', 'href']
                 },
                 orderby: {
