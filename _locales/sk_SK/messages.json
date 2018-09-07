@@ -1,0 +1,26 @@
+{
+  "appNameNewTab": {
+    "message": "DuckieTV - 'New Tab' mode",
+    "description": "The title of the 'New Tab' application, displayed in the web store."
+  },
+  "appShortNameNewTab": {
+    "message": "DuckieTV",
+    "description": "The short title of the 'New Tab' application, for use in search and stuff."
+  },
+  "appDescNewTab": {
+    "message": "Manage your favorite TV series and movies from your browser's new tab page",
+    "description": "Webstore Tagline for the 'New Tab' version."
+  },
+  "appNameBrowserAction": {
+    "message": "DuckieTV - 'Browser Action' mode",
+    "description": "The title of the 'Browser Action' application, displayed in the web store."
+  },
+  "appShortNameBrowserAction": {
+    "message": "DuckieTV",
+    "description": "The short title of the 'Browser Action' application, for use in search and stuff."
+  },
+  "appDescBrowserAction": {
+    "message": "Manage your favorite TV series and movies from within your browser with the click of a button",
+    "description": "Webstore Tagline for the 'Browser Action' version."
+  }
+}

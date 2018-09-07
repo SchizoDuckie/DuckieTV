@@ -4,7 +4,7 @@
 DuckieTV
 
 .constant('availableLanguageKeys', [
-    'de_de', 'el_gr', 'en_uk', 'en_us', 'en_za', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nb_no', 'nl_nl', 'pt_pt', 'ro_ro', 'ru_ru', 'sl_si', 'sv_se', 'tr_tr', 'zh_cn'
+    'de_de', 'el_gr', 'en_uk', 'en_us', 'en_za', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nb_no', 'nl_nl', 'pt_pt', 'ro_ro', 'ru_ru', 'sk_sk', 'sl_si', 'sv_se', 'tr_tr', 'zh_cn'
 ])
 
 .constant('customLanguageKeyMappings', {
@@ -51,6 +51,8 @@ DuckieTV
     'ro_RO': 'ro_ro',
     'ru': 'ru_ru',
     'ru_RU': 'ru_ru',
+    'sk': 'sk_sk',
+    'sk_SK': 'sk_sk',
     'si': 'sl_si',
     'sl_SI': 'sl_si',
     'sv': 'sv_se',

@@ -29,6 +29,7 @@ DuckieTV.controller('LanguageCtrl', ["$scope", "$filter", "$injector", "Settings
             'pt_pt': 'pt_pt',
             'ro_ro': 'ro_ro',
             'ru_ru': 'ru_ru',
+            'sk_sk': 'sk_sk',
             'sl_si': 'sl_si',
             'sv_se': 'sv_se',
             'tr_tr': 'tr_tr',
