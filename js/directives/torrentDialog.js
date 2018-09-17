@@ -223,16 +223,75 @@ DuckieTV
              * Search torrent SE  for the torrent query
              */
             TorrentSearchEngines.getSearchEngine($scope.searchprovider).search([q, $scope.searchquality].join(' ').trim(), undefined, $scope.orderBy).then(function(results) {
+                    if (localStorage.getItem('debugSE')) {
+                        if ('serie' in data) {
+                            console.debug('TD manual search with preloaded series');
+                        } else {
+                            console.debug('TD manual search free-form');
+                        };
+                        console.debug('sp=[%s]',$scope.searchprovider);
+                        console.debug('Q=[%s]', q);
+                        if ('serie' in data) {
+                            console.debug('cIGQ=[%s]', $scope.serie.ignoreGlobalQuality);
+                        };
+                        console.debug('q=[%s]', $scope.searchquality);
+                        if ('serie' in data) {
+                            console.debug('cIRK=[%s]', $scope.serie.ignoreGlobalIncludes);
+                        };
+                        console.debug('RKe=[%s], RKm=[%s], RK=[%s]', $scope.requireKeywordsEnabled, $scope.requireKeywordsModeOR, $scope.requireKeywords);
+                        if ('serie' in data) {
+                            console.debug('cIIK=[%s]', $scope.serie.ignoreGlobalExcludes);
+                        };
+                        console.debug('IKe=[%s], IK=[%s]', $scope.ignoreKeywordsEnabled, $scope.ignoreKeywords);
+                        if ('serie' in data) {
+                            console.debug('cSmin=[%s], cSmax=[%s]',  $scope.serie.customSearchSizeMin, $scope.serie.customSearchSizeMax);
+                        };
+                        console.debug('SminE=[%s], Smin=[%s], SmaxE=[%s], Smax=[%s]', $scope.globalSizeMinEnabled, $scope.globalSizeMin, $scope.globalSizeMaxEnabled, $scope.globalSizeMax);
+                        console.debug('Se=[%s], S=[%s]', $scope.minSeedersEnabled, $scope.minSeeders);
+                        results.map(function(item) {
+                            console.debug('releasename=[%s], size=[%s], seeders=[%s]', item.releasename, item.size, item.seeders);
+                        });
+                    };
                     $scope.items = results.filter(filterByScore);
+                    if (localStorage.getItem('debugSE')) {
+                        $scope.items.map(function(item) {
+                            console.debug('afterFilterByScore: releasename=[%s], size=[%s], seeders=[%s]', item.releasename, item.size, item.seeders);
+                        });
+                    };
                     $scope.items = $scope.items.filter(filterByMinSeeders);
+                    if (localStorage.getItem('debugSE')) {
+                        $scope.items.map(function(item) {
+                            console.debug('afterFilterByMinSeeders: releasename=[%s], size=[%s], seeders=[%s]', item.releasename, item.size, item.seeders);
+                        });
+                    };
                     if ($scope.requireKeywordsModeOR) {
                         $scope.items = $scope.items.filter(filterRequireKeywords);
+                        if (localStorage.getItem('debugSE')) {
+                            $scope.items.map(function(item) {
+                                console.debug('afterFilterRequireKeywords: releasename=[%s], size=[%s], seeders=[%s]', item.releasename, item.size, item.seeders);
+                            });
+                        };
                     }
                     $scope.items = $scope.items.filter(filterIgnoreKeywords);
+                    if (localStorage.getItem('debugSE')) {
+                        $scope.items.map(function(item) {
+                            console.debug('AfterFilterIgnoreKeywords: releasename=[%s], size=[%s], seeders=[%s]', item.releasename, item.size, item.seeders);
+                        });
+                    };
                     $scope.items = $scope.items.filter(filterBySize);
+                    if (localStorage.getItem('debugSE')) {
+                        $scope.items.map(function(item) {
+                            console.debug('afterFilterBySize: releasename=[%s], size=[%s], seeders=[%s]', item.releasename, item.size, item.seeders);
+                        });
+                    };
                     // ShowRSS uses the same detailUrl for all of a series' episodes, so don't call dropDuplicates
                     if ($scope.searchprovider !== 'ShowRSS') {
                         $scope.items = dropDuplicates($scope.items);
+                        if (localStorage.getItem('debugSE')) {
+                            $scope.items.map(function(item) {
+                                console.debug('afterFilterDuplicates: releasename=[%s], size=[%s], seeders=[%s]', item.releasename, item.size, item.seeders);
+                            });
+                        };
                     }
                     $scope.searching = false;
                 },
