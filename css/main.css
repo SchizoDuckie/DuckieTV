@@ -881,8 +881,8 @@ serieheader .earmark.add {
   transform: translateY(100px);
   width: 100%;
   vertical-align: middle;
-  background-color: rgba(125, 125, 125, 0.4);
-  transition: all 0.2s ease-in;
+  background-color: rgba(50, 50, 50, 0.65);
+  transition: transform 150ms;
   cursor: pointer;
 }
 
