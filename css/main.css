@@ -1148,6 +1148,10 @@ series-list .trakt-import serieheader h3, series-list .backup-import serieheader
   text-align: center;
 }
 
+.import-container serieheader {
+  display: inline-block;
+}
+
 .trakt-import .trakt-login td {
   padding: 5px 5px 1px 0px;
 }
