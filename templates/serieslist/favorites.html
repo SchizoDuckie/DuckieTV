@@ -9,7 +9,6 @@
       no-overview="1"
       mode="{{serieslist.mode}}"
       context-menu="serieslist.contextMenu(serie)"
-      series-list="true"
       style="{{serieslist.mode == 'poster' ? grid.getPosition($index, filteredFavorites.length) : ''}}"
       ng-repeat="serie in filteredFavorites = (serieslist.getFavorites() | orderBy: serieslist.orderBy : serieslist.reverse| filter: serieslist.localFilter)">
     </serieHeader>
