@@ -693,7 +693,7 @@ serieheader[mode=banner]:hover .title {
   margin-top: -36px;
 }
 
-serieheader:hover .badge {
+serieheader:hover .badge, serieheader:hover .leftbadge {
   opacity: 1;
 }
 
@@ -701,6 +701,17 @@ serieheader .badge {
   position: absolute;
   top: 2px;
   right: 2px;
+  border-radius: 6px;
+  z-index: 1;
+  background-color: rgb(68, 68, 68);
+  opacity: 0.9;
+  transition: opacity 0.2s ease-in-out;
+}
+
+serieheader .leftbadge {
+  position: absolute;
+  top: 2px;
+  left: 2px;
   border-radius: 6px;
   z-index: 1;
   background-color: rgb(68, 68, 68);
@@ -2421,6 +2432,17 @@ sidepanel .serie-img .badge {
   position: absolute;
   top: 2px;
   right: 2px;
+  border-radius: 6px;
+  z-index: 1;
+  background-color: rgb(68, 68, 68);
+  opacity: 0.9;
+  transition: opacity 0.2s ease-in-out;
+}
+
+sidepanel .serie-img .leftbadge {
+  position: absolute;
+  top: 2px;
+  left: 2px;
   border-radius: 6px;
   z-index: 1;
   background-color: rgb(68, 68, 68);
