@@ -778,12 +778,12 @@ serieheader .poster .img {
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
-  transition: opacity .175s ease-in-out, filter .175s ease-in-out;
-  filter: brightness(0.90);
+  transition: opacity 150ms ease-in-out, filter 150ms ease-in-out;
+  filter: brightness(0.95);
 }
 
 serieheader .poster:hover .img {
-  filter: brightness(1.04);
+  filter: brightness(1.06);
 }
 
 .serieheader.active .poster, .serieheader.active .banner {
