@@ -4,7 +4,7 @@
       <em ng-show="data.notWatchedCount != 0 " class="badge">
         <i class="glyphicon glyphicon-eye-close" ></i> {{data.notWatchedCount}}
       </em>
-      <em ng-show="data.displaycalendar == 0" class="badge leftbadge">
+      <em ng-show="data.displaycalendar == 0" class="badge leftbadge"  tooltip-placement="bottom" tooltip-append-to-body="true" uib-tooltip="{{'COMMON/series-hidden/tooltip'|translate}}">
         <i class="glyphicon glyphicon-ban-circle" style="color:white !important"></i>
       </em>
     </div>
