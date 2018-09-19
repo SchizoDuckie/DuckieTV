@@ -765,6 +765,10 @@ serieheader .poster {
   transition: width 0.4s ease-in-out, height 0.4s ease-in-out, border 0.2s ease-in-out;
 }
 
+serieheader .poster:not(.img-load-error) {
+  border: 1px solid transparent;
+}
+
 serieheader .poster figure, serieheader .banner figure {
   width: 100%;
   height: 100%;
@@ -775,7 +779,7 @@ serieheader .poster .img {
   width: 100%;
   height: 100%;
   opacity: 1;
-  background-size: contain;
+  background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
   transition: opacity 150ms ease-in-out, filter 150ms ease-in-out;
@@ -786,8 +790,9 @@ serieheader .poster:hover .img {
   filter: brightness(1.06);
 }
 
+serieheader.active .poster, serieheader.active .banner,
 .serieheader.active .poster, .serieheader.active .banner {
-  border: 1px solid yellow;
+  border: 1px solid yellow !important;
 }
 
 serieheader .poster.img-loading .img, serieheader .banner.img-loading .img {

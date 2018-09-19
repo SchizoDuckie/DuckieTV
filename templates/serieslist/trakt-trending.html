@@ -22,7 +22,7 @@
 
   <div class="series-grid" style="position:relative;width:100%;margin-top:10px">
     <!-- Repeated trending serie results -->
-    <serieHeader ng-repeat="serie in filteredTrending = (trending.getFilteredResults()  | limitTo: trending.limit ) track by serie.trakt_id" data="serie" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" style="{{grid.getPosition($index, filteredTrending.length)}}" ui-sref="add_favorites.trakt-serie({ id: serie.trakt_id})">
+    <serieHeader ui-sref-active="active" ng-repeat="serie in filteredTrending = (trending.getFilteredResults()  | limitTo: trending.limit ) track by serie.trakt_id" data="serie" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" style="{{grid.getPosition($index, filteredTrending.length)}}" ui-sref="add_favorites.trakt-serie({ id: serie.trakt_id})">
       <em class="earmark add" ng-if="!serieslist.isAdded(serie.tvdb_id) && !serieslist.isAdding(serie.tvdb_id)" ng-click="serieslist.selectSerie(serie)">
         <i class="glyphicon glyphicon-plus"></i>
       </em>

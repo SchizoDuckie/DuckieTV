@@ -15,7 +15,7 @@
 
   <div class="series-grid" style="position:relative;margin-top:22px">
     <!-- Repeated serie search results -->
-    <serieHeader ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results track by serie.trakt_id" data="serie" no-badge="1" no-overview="1" no-button="1" mode="{{serieslist.mode}}" style="{{grid.getPosition($index, filteredTrending.length)}}" ui-sref="add_favorites.search.trakt-serie({ serie: serie})">
+    <serieHeader ui-sref-active="active" ng-if="traktSearch.results.length > 0" ng-repeat="serie in traktSearch.results track by serie.trakt_id" data="serie" no-badge="1" no-overview="1" no-button="1" mode="{{serieslist.mode}}" style="{{grid.getPosition($index, filteredTrending.length)}}" ui-sref="add_favorites.search.trakt-serie({ serie: serie})">
       <em class="earmark add" ng-if="!serieslist.isAdded(serie.tvdb_id) && !serieslist.isAdding(serie.tvdb_id)" ng-click="serieslist.selectSerie(serie)">
         <i class="glyphicon glyphicon-plus"></i>
       </em>
