@@ -12,9 +12,9 @@ DuckieTV
         var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="https://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="https://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="https://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
         var notifications = {
             '1.1.6': ["<li>Languages: (new) Greek, Turkish, Slovak and South African English.",
-                "<li>SearchEngines: (new) Add ETTV (ettv.tv), ETag (extratorrent.ag), IsoHunt2 (isohunt2.net), IdopeClone (idope.top).",
+                "<li>SearchEngines: (new) Add ETTV (ettv.tv), ETag (extratorrent.ag), IsoHunt2 (isohunt2.net), IdopeClone (idope.top), TGx (torrentgalaxy.org).",
                 "<li>SearchEngines: (del) Remove idope.",
-                "<li>Standalone: (upgrade) NWJS 33.0 with Chromium 69 and Node 10.9.0",
+                "<li>Standalone: (upgrade) NWJS 33.3 with Chromium 69 and Node 10.10.0",
                 "<li>TorrentClient: (new) Introducing tTorrent client.",
                 "<li>TorrentMonitor: (fix) Auto-Stop-All now works as intended.",
                 "<li>Misc: Bug fixes."
