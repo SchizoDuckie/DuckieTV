@@ -436,6 +436,10 @@ background-rotator .placeholder {
   background-image: url('../img/torrentclients/aria2-small.png');
 }
 
+#actionbar_torrent a.none, .torrentlogo.none {
+  background-image: url('../img/torrentclients/none-small.png');
+}
+
 .torrentlogo {
   width: 34px;
   float: left;
