@@ -2,7 +2,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
     function(TorrentSearchEngines, SettingsService, $q, $http, $injector) {
         if (SettingsService.get('torrenting.enabled')) {
             TorrentSearchEngines.registerSearchEngine('LimeTorrents', new GenericTorrentSearchEngine({
-                mirror: 'https://www.limetorrents.cc',
+                mirror: 'https://www.limetorrents.info',
                 mirrorResolver: null,
                 includeBaseURL: true,
                 endpoints: {
