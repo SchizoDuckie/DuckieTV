@@ -18,13 +18,17 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                             return text.replace('Seed: ', '');
                         }
                     ],
-                    leechers: ['div.seedbar span:nth-child(1)', 'innerText',
+                    leechers: ['div.seedbar span:nth-child(2)', 'innerText',
                         function(text) {
-                            return null;
+                            return text.replace('Leech: ', '');
                         }
                     ],
-                    size: ['div.seedbar span:nth-child(2)', 'innerText'],
-                    magnetUrl: ['div.opt-text-w3layouts a', 'href']
+                    size: ['div.seedbar span:nth-child(3)', 'innerText',
+                        function(text) {
+                            return text.replace('Size: ', '');
+                        }
+                    ],
+                    magnetUrl: ['a[href^="magnet:?"]', 'href']
                 }
             }, $q, $http, $injector));
         }
