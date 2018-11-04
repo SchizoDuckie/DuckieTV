@@ -3,7 +3,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
         if (SettingsService.get('torrenting.enabled')) {
 
             TorrentSearchEngines.registerSearchEngine('EzTV.ag', new GenericTorrentSearchEngine({
-                mirror: 'https://eztv.ag/',
+                mirror: 'https://eztv.re/',
                 mirrorResolver: null,
                 includeBaseURL: true,
                 endpoints: {
