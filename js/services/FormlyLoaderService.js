@@ -8,26 +8,24 @@
  *
  *
  */
-DuckieTV.service('FormlyLoader', ["$http", "$parse", function($http, $parse) {
+DuckieTV.service('FormlyLoader', ['$http', '$parse', function($http, $parse) {
+  var config = {
+    basePath: 'templates/formly-forms/',
+    mappings: {}
+  }
 
-    var config = {
-        basePath: 'templates/formly-forms/',
-        mappings: {}
-    };
-
-    /** 
+  /**
      * Recursively process the formly form's fieldGroup, process individual formly elements when no fieldgroups found
      */
-    function recursivePropertyMap(field) {
-        if (field.fieldGroup) {
-            field.fieldGroup = field.fieldGroup.map(recursivePropertyMap);
-            return field;
-        }
-        return processMappings(field);
-
+  function recursivePropertyMap(field) {
+    if (field.fieldGroup) {
+      field.fieldGroup = field.fieldGroup.map(recursivePropertyMap)
+      return field
     }
+    return processMappings(field)
+  }
 
-    /**
+  /**
      * Recursively process the properties of the json file loaded.
      * Find properties that are strings and start with $mappings.
      * If this is a property registered with setMapping, it will grab the value of it via $parse
@@ -48,38 +46,37 @@ DuckieTV.service('FormlyLoader', ["$http", "$parse", function($http, $parse) {
      *  }
      *
      */
-    function processMappings(field) {
-        Object.keys(field).map(function(key) {
-            if (angular.isObject(field[key])) {
-                field[key] = processMappings(field[key]);
-            } else if (field[key].toString().indexOf('$mappings') === 0) {
-                var getter = $parse(field[key].split('$mappings.')[1]);
-                field[key] = getter(config.mappings);
-            }
-        });
-        return field;
-    }
+  function processMappings(field) {
+    Object.keys(field).map(function(key) {
+      if (angular.isObject(field[key])) {
+        field[key] = processMappings(field[key])
+      } else if (field[key].toString().indexOf('$mappings') === 0) {
+        var getter = $parse(field[key].split('$mappings.')[1])
+        field[key] = getter(config.mappings)
+      }
+    })
+    return field
+  }
 
-
-    var service = {
-        /**
+  var service = {
+    /**
          * Configure base path to load forms from.
          * @param string path
          */
-        setBasePath: function(path) {
-            config.basePath = path;
-        },
-        /**
+    setBasePath: function(path) {
+      config.basePath = path
+    },
+    /**
          * Load a form from json and process the registered mappings.
          * @param string form name of the form to load (wrapped between basepath and  .json)
          * @returns Promise(form config)
          */
-        load: function(form) {
-            return $http.get(config.basePath + form + '.json').then(function(result) {
-                return result.data.map(recursivePropertyMap);
-            });
-        },
-        /**
+    load: function(form) {
+      return $http.get(config.basePath + form + '.json').then(function(result) {
+        return result.data.map(recursivePropertyMap)
+      })
+    },
+    /**
          * Register a property and an object that you will target at any point in your formly json config to have them
          * automagically swapped out at load.
          * This prevents duplication in your forms (for for instance repeating properties and validators) and allows you
@@ -117,13 +114,11 @@ DuckieTV.service('FormlyLoader', ["$http", "$parse", function($http, $parse) {
          * @param object mappings to register for the key
          *
          */
-        setMapping: function(key, option) {
-            config.mappings[key] = option;
-        }
+    setMapping: function(key, option) {
+      config.mappings[key] = option
+    }
 
-    };
+  }
 
-    return service;
-
-
-}]);
+  return service
+}])

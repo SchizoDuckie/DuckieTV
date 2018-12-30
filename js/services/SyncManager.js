@@ -1,5 +1,5 @@
 DuckieTV.factory('SyncManager', function() {
-    /*
+  /*
     targets: [],
 
     registerTarget
@@ -99,7 +99,6 @@ DuckieTV.factory('SyncManager', function() {
         });
     }
 
-
     $rootScope.$on('sync:processremoteupdate', function(event, progress) {
         console.log("Process storagesync remote updates!", progress);
 
@@ -107,12 +106,12 @@ DuckieTV.factory('SyncManager', function() {
         //service.checkSyncProgress(progress);
     });
 
-    /** 
+    /**
      * Forward an event to the storagesync service when it's not already syncing.
      * This make sure that local additions / deletions get stored in the cloud.
      */
-    $rootScope.$on('storage:update', function() {
-        console.info("Received storage:update, writing new series list to cloud storage!");
-        service.synchronize();
-    });
+  $rootScope.$on('storage:update', function() {
+    console.info('Received storage:update, writing new series list to cloud storage!')
+    service.synchronize()
+  })
 })

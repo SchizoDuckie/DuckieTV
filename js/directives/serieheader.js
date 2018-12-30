@@ -8,19 +8,19 @@ DuckieTV.directive('serieheader', ['FanartService', function (FanartService) {
     transclude: true,
     scope: {
       'data': '=data',
-      'noBadge': "=noBadge",
-      'noListButton': "=noButton",
-      "noOverview": "=noOverview",
-      "noTitle": "=noTitle",
-      "mode": "@"
+      'noBadge': '=noBadge',
+      'noListButton': '=noButton',
+      'noOverview': '=noOverview',
+      'noTitle': '=noTitle',
+      'mode': '@'
     },
-    templateUrl: "templates/serieHeader.html",
-    controller: ["$element", "$attrs", "$scope", function ($element, $attrs, $scope) {
-      if(!$scope.data.poster) {
+    templateUrl: 'templates/serieHeader.html',
+    controller: ['$element', '$attrs', '$scope', function ($element, $attrs, $scope) {
+      if (!$scope.data.poster) {
         FanartService.get($scope.data.tvdb_id).then(function (found) {
-          $scope.data.poster = found.poster;
-        });
+          $scope.data.poster = found.poster
+        })
       }
     }]
-  };
-}]);
+  }
+}])

@@ -3,11 +3,11 @@
  */
 DuckieTV
 
-.constant('availableLanguageKeys', [
+  .constant('availableLanguageKeys', [
     'de_de', 'el_gr', 'en_uk', 'en_us', 'en_za', 'es_es', 'fr_fr', 'it_it', 'ja_jp', 'ko_kr', 'nb_no', 'nl_nl', 'pt_pt', 'ro_ro', 'ru_ru', 'sk_sk', 'sl_si', 'sv_se', 'tr_tr', 'zh_cn'
-])
+  ])
 
-.constant('customLanguageKeyMappings', {
+  .constant('customLanguageKeyMappings', {
     'au': 'en_uk',
     'ca': 'en_uk',
     'de': 'de_de',
@@ -62,13 +62,11 @@ DuckieTV
     'uk': 'en_uk',
     'zh': 'zh_cn',
     'zh_CN': 'zh_cn'
-})
+  })
 
-
-.config(["$translateProvider", "availableLanguageKeys", "customLanguageKeyMappings",
+  .config(['$translateProvider', 'availableLanguageKeys', 'customLanguageKeyMappings',
     function($translateProvider, availableLanguageKeys, customLanguageKeyMappings) {
-
-        $translateProvider
+      $translateProvider
         /*
          * Escape all outputs from Angular Translate for security, not that
          * it is really needed in this case but it stops throwing a warning
@@ -80,8 +78,8 @@ DuckieTV
          * example ../_Locales/en_us.json
          */
         .useStaticFilesLoader({
-            prefix: '_locales/',
-            suffix: '.json'
+          prefix: '_locales/',
+          suffix: '.json'
         })
 
         /*
@@ -95,7 +93,7 @@ DuckieTV
          */
         .preferredLanguage('en_us')
 
-        /*
+      /*
          * determine the local language
          *
          * Using this method at our own risk! Be aware that each browser can return different values on these properties.
@@ -117,46 +115,44 @@ DuckieTV
         .determinePreferredLanguage()
 
         // error logging. missing keys are sent to $log
-        .useMissingTranslationHandler('duckietvMissingTranslationHandler');
+        .useMissingTranslationHandler('duckietvMissingTranslationHandler')
     }
-])
+  ])
 
 /*
  * Custom Missing Translation key Handler
  */
-.factory("duckietvMissingTranslationHandler", ["$translate", "SettingsService",
+  .factory('duckietvMissingTranslationHandler', ['$translate', 'SettingsService',
     function($translate, SettingsService) {
-        var previousKeys = []; // list of missing keys we have processed once already
-        var appLocale = SettingsService.get('application.locale'); // the application language the user wants
+      var previousKeys = [] // list of missing keys we have processed once already
+      var appLocale = SettingsService.get('application.locale') // the application language the user wants
 
-        return function(translationID, lang) {
-            if (typeof lang === 'undefined') {
-                // ignore translation errors until the appLocale's translation table has been loaded
-                return translationID;
-            }
-            if (previousKeys.indexOf(lang + translationID) !== -1) {
-                // we have had this key already, do nothing
-                return translationID;
-            } else {
-                // first time we have had this key, log it
-                previousKeys.push(lang + translationID);
-                console.warn("Translation for (" + lang + ") key " + translationID + " doesn't exist");
-                return translationID;
-            }
-        };
+      return function(translationID, lang) {
+        if (typeof lang === 'undefined') {
+          // ignore translation errors until the appLocale's translation table has been loaded
+          return translationID
+        }
+        if (previousKeys.indexOf(lang + translationID) !== -1) {
+          // we have had this key already, do nothing
+          return translationID
+        } else {
+          // first time we have had this key, log it
+          previousKeys.push(lang + translationID)
+          console.warn('Translation for (' + lang + ') key ' + translationID + " doesn't exist")
+          return translationID
+        }
+      }
     }
-])
+  ])
 
-.run(["SettingsService", "$translate", "datePickerConfig", function(SettingsService, $translate, datePickerConfig) {
+  .run(['SettingsService', '$translate', 'datePickerConfig', function(SettingsService, $translate, datePickerConfig) {
+    SettingsService.set('client.determinedlocale', $translate.proposedLanguage() === undefined ? 'en_us' : $translate.proposedLanguage().toLowerCase())
 
-    SettingsService.set('client.determinedlocale', $translate.proposedLanguage() === undefined ? 'en_us' : $translate.proposedLanguage().toLowerCase());
-
-    var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage();
-    var finalLocale = SettingsService.changeLanguage(configuredLocale.toLowerCase(), $translate.proposedLanguage());
+    var configuredLocale = SettingsService.get('application.locale') || $translate.proposedLanguage()
+    var finalLocale = SettingsService.changeLanguage(configuredLocale.toLowerCase(), $translate.proposedLanguage())
 
     if (finalLocale != configuredLocale) {
-        SettingsService.set('application.locale', finalLocale);
+      SettingsService.set('application.locale', finalLocale)
     }
-    datePickerConfig.startSunday = SettingsService.get('calendar.startSunday');
-
-}]);
+    datePickerConfig.startSunday = SettingsService.get('calendar.startSunday')
+  }])

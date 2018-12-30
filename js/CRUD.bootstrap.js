@@ -5,9 +5,9 @@
  * loads CRUD.background.bootstrap.js to always use CRUD.SqliteAdapter
  */
 
-CRUD.DEBUG = false;
+CRUD.DEBUG = false
 if (localStorage.getItem('CRUD.DEBUG')) {
-    CRUD.DEBUG = (localStorage.getItem('CRUD.DEBUG') === 'true') ? true : false;
+  CRUD.DEBUG = (localStorage.getItem('CRUD.DEBUG') === 'true')
 }
 
 /**
@@ -15,11 +15,11 @@ if (localStorage.getItem('CRUD.DEBUG')) {
  * for other environments, run in the foreground
  */
 if (('chrome' in window) && ('runtime' in chrome) && ('connect' in chrome.runtime) && ('getBackgroundPage' in chrome.runtime)) {
-    var conn = new CRUD.BackgroundPageAdapter();
-    conn.Init();
-    CRUD.setAdapter(conn);
+  var conn = new CRUD.BackgroundPageAdapter()
+  conn.Init()
+  CRUD.setAdapter(conn)
 } else {
-    CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', {
-        estimatedSize: 25 * 1024 * 1024
-    }));
+  CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', {
+    estimatedSize: 25 * 1024 * 1024
+  }))
 }

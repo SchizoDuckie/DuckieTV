@@ -1,32 +1,31 @@
 DuckieTV.directive('sidepanel', function() {
-    return {
-        restrict: 'E',
-        templateUrl: 'templates/sidepanel/sidepanel.html',
-        controllerAs: 'panel',
-        bindToController: true,
-        transclude: true,
+  return {
+    restrict: 'E',
+    templateUrl: 'templates/sidepanel/sidepanel.html',
+    controllerAs: 'panel',
+    bindToController: true,
+    transclude: true,
 
-        controller: ["$rootScope", "SidePanelState", function($rootScope, SidePanelState) {
-            var panel = this;
+    controller: ['$rootScope', 'SidePanelState', function($rootScope, SidePanelState) {
+      var panel = this
 
-            this.isShowing = false;
-            this.isExpanded = false;
+      this.isShowing = false
+      this.isExpanded = false
 
-            $rootScope.$on("sidepanel:stateChange", function(evt, showing) {
-                panel.isShowing = showing;
-            });
+      $rootScope.$on('sidepanel:stateChange', function(evt, showing) {
+        panel.isShowing = showing
+      })
 
-            $rootScope.$on("sidepanel:sizeChange", function(evt, expanded) {
-                panel.isExpanded = expanded;
-            });
+      $rootScope.$on('sidepanel:sizeChange', function(evt, expanded) {
+        panel.isExpanded = expanded
+      })
 
-
-            this.toggle = function() {
-                this.isShowing ? SidePanelState.hide() : SidePanelState.show();
-            };
-            this.hide = function() {
-                SidePanelState.hide();
-            };
-        }]
-    };
-});
+      this.toggle = function() {
+        this.isShowing ? SidePanelState.hide() : SidePanelState.show()
+      }
+      this.hide = function() {
+        SidePanelState.hide()
+      }
+    }]
+  }
+})
