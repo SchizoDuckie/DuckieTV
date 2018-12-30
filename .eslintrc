@@ -24,7 +24,7 @@
     "extends": "eslint:recommended",
     "rules": {
         "no-console": "off",
-        "semi": 2,
+        "semi": 0,
         "comma-spacing": 2,
         "no-multiple-empty-lines": 2,
         "angular/angularelement": 1,
