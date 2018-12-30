@@ -1,13 +1,13 @@
 DuckieTV
-/** 
+/**
  * A little service that checks localStorage for the upgrade.notify key.
  * If it's not null we fetch the upgrade notification message the notifications key
  * and present it in a dialog if it's available.
  *
  * If the user closes the dialog, the notification is dismissed and not shown again.
  */
-    .run(["dialogs", "$http", "$q",
-    function(dialogs, $http, $q) {
+    .run(["dialogs", "$http",
+    function(dialogs, $http) {
 
         var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="https://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="https://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="https://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>';
         var notifications = {

@@ -6,7 +6,7 @@ DuckieTV.directive('queryMonitor', ["$filter",
         return {
             restrict: 'E',
             templateUrl: 'templates/querymonitor.html',
-            link: function($scope, iElement) {
+            link: function($scope) {
 
                 var unloadBreaker = $filter('translate')('QUERYMONITORjs/close-tab-prompt/lbl');
 

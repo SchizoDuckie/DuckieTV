@@ -1,8 +1,8 @@
 /**
  * Controller for all seasons view
  */
-DuckieTV.controller('SidepanelSeasonsCtrl', ["$rootScope", "$q", "$filter", "$state", "seasons", "SidePanelState", "SettingsService",
-    function($rootScope, $q, $filter, $state, seasons, SidePanelState, SettingsService) {
+DuckieTV.controller('SidepanelSeasonsCtrl', ["$rootScope", "$filter", "seasons", "SidePanelState", "SettingsService",
+    function($rootScope, $filter, seasons, SidePanelState, SettingsService) {
     var self = this;
     this.seasons = seasons;
     this.markAllWatchedAlert = false;

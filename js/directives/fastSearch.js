@@ -1,4 +1,4 @@
-DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
+DuckieTV.directive('fastSearch', ["$window", "dialogs",
     function($window, dialogs) {
         var self = this;
 
@@ -321,7 +321,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs", "$rootScope",
                     } else if (details.torrentUrl) {
                         //console.debug('using details torrent');
                         return urlSelect(details.torrentUrl, result.releasename);
-                    } 
+                    }
                 });
             }
         };

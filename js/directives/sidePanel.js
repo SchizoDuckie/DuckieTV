@@ -6,7 +6,7 @@ DuckieTV.directive('sidepanel', function() {
         bindToController: true,
         transclude: true,
 
-        controller: ["$rootScope", "$scope", "SidePanelState", function($rootScope, $scope, SidePanelState) {
+        controller: ["$rootScope", "SidePanelState", function($rootScope, SidePanelState) {
             var panel = this;
 
             this.isShowing = false;

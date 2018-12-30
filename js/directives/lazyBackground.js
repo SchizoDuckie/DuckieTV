@@ -4,7 +4,7 @@
  * Fades in the element that you set the lazy-background property to after the image has been loaded and
  * set as css background image.
  */
-DuckieTV.directive('lazyBackground', ["$document", "$parse",
+DuckieTV.directive('lazyBackground', ["$document",
     function($document) {
         return {
             restrict: 'A',

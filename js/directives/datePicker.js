@@ -8,8 +8,8 @@ DuckieTV
     startSunday: true
 })
 
-.directive('datePicker', ["datePickerConfig", "SettingsService", "$injector", "$rootScope",
-    function datePickerDirective(datePickerConfig, SettingsService, $injector, $rootScope) {
+.directive('datePicker', ["datePickerConfig", "$injector", "$rootScope",
+    function datePickerDirective(datePickerConfig, $injector, $rootScope) {
         //noinspection JSUnusedLocalSymbols
         return {
             template: '<div ng-include="template"></div>',

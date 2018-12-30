@@ -1,11 +1,11 @@
 /**
  * Fetches and displays various statistics about current DuckieTV Setup on About Page
  */
-DuckieTV.controller('AboutCtrl', ["$scope", "$rootScope", "$q", "$http", "$filter", "$injector", "SettingsService", "StorageSyncService", "TorrentSearchEngines", "DuckieTorrent", "AutoDownloadService",
-    function($scope, $rootScope, $q, $http, $filter, $injector, SettingsService, StorageSyncService, TorrentSearchEngines, DuckieTorrent, AutoDownloadService) {
+DuckieTV.controller('AboutCtrl', ["$scope", "$http", "$injector", "SettingsService", "StorageSyncService", "TorrentSearchEngines", "DuckieTorrent", "AutoDownloadService",
+    function($scope, $http, $injector, SettingsService, StorageSyncService, TorrentSearchEngines, DuckieTorrent, AutoDownloadService) {
 
         /**
-         * Closes the SidePanel 
+         * Closes the SidePanel
          */
         $scope.closeSidePanel = function() {
             $injector.get('$state').go('calendar');

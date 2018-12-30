@@ -1,8 +1,8 @@
 /**
  * Controller for individual season view (episodes view)
  */
-DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$filter", "$q", "$injector", "seasons", "season", "episodes", "SceneNameResolver", "AutoDownloadService", "SettingsService",
-    function($rootScope, $scope, $state, $filter, $q, $injector, seasons, season, episodes, SceneNameResolver, AutoDownloadService, SettingsService) {
+DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$filter", "$injector", "seasons", "season", "episodes", "SceneNameResolver", "AutoDownloadService", "SettingsService",
+    function($rootScope, $scope, $state, $filter, $injector, seasons, season, episodes, SceneNameResolver, AutoDownloadService, SettingsService) {
 
     var vm = this;
     this.season = season;

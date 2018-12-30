@@ -2,8 +2,8 @@ DuckieTV.directive('seriesGrid', function() {
     return {
         restrict: 'A',
         controllerAs: 'grid',
-        controller: ["$scope", "SidePanelState", "SettingsService", function($scope, SidePanelState, SettingsService) {
-            var posterWidth, posterHeight, postersPerRow, centeringOffset, verticalOffset, oldClientWidth;
+        controller: ["$scope", "SettingsService", function($scope, SettingsService) {
+            var posterWidth, posterHeight, postersPerRow, centeringOffset, oldClientWidth;
             var container = document.querySelector('[series-grid]');
             var seriesGrid = container.querySelector('.series-grid');
             var noScroll = container.hasAttribute('no-scroll');

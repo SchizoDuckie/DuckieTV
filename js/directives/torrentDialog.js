@@ -1,6 +1,6 @@
 DuckieTV
-.controller('torrentDialogCtrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "$filter", "data", "TorrentSearchEngines", "SettingsService", "NotificationService", "DuckieTorrent",
-    function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, NotificationService, DuckieTorrent) {
+.controller('torrentDialogCtrl', ["$scope", "$uibModalInstance", "$injector", "data", "TorrentSearchEngines", "SettingsService", "NotificationService", "DuckieTorrent",
+    function($scope, $modalInstance, $injector, data, TorrentSearchEngines, SettingsService, NotificationService, DuckieTorrent) {
         //-- Variables --//
 
         $scope.items = [];

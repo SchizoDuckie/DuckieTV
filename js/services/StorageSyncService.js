@@ -1,4 +1,4 @@
-/** 
+/**
  * The StorageSyncService provides synchronized storage to chrome's chrome.storage.sync api.
  * Chrome.storage.sync is called whenever the preference is enabled and stores the current favorite
  * list of series in the cloud.
@@ -10,8 +10,8 @@
  * that a user can close or navigate away from the current DuckieTV tab while the addToFavorites promise is
  * still running.
  */
-DuckieTV.factory('StorageSyncService', ["$rootScope", "$q", "FavoritesService", "TraktTVv2", "SettingsService", "$injector", "$filter",
-    function($rootScope, $q, FavoritesService, TraktTVv2, SettingsService, $injector, $filter) {
+DuckieTV.factory('StorageSyncService', ["$rootScope", "$q", "FavoritesService", "SettingsService", "$injector",
+    function($q, FavoritesService, SettingsService, $injector) {
 
         var service = {
 
@@ -27,7 +27,7 @@ DuckieTV.factory('StorageSyncService', ["$rootScope", "$q", "FavoritesService", 
                 service.targets.push($injector.get(targetName));
             },
 
-            /** 
+            /**
              * Fetch the list of tvdb id's from the FavoritesService
              * @returns array of TVDB_ID's
              */
@@ -98,7 +98,7 @@ DuckieTV.factory('StorageSyncService', ["$rootScope", "$q", "FavoritesService", 
             });
         },*/
 
-            /** 
+            /**
              * Execute a sync (write) step if syncing is not currently already in progress
              */
             synchronize: function() {

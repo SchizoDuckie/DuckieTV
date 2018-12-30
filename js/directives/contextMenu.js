@@ -17,7 +17,7 @@
  * Note: you can add , null, between options to add a divider
  **/
 
-DuckieTV.directive('contextMenu', ["$parse", function ($parse) {
+DuckieTV.directive('contextMenu', [function () {
     var renderContextMenu = function ($scope, event, options, model) {
         if (!$) { var $ = angular.element; }
         var currentTarget = $(event.currentTarget);

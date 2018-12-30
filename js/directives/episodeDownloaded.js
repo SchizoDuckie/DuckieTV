@@ -1,9 +1,9 @@
-/** 
+/**
  * The <episode-downloaded> directive shows the floppy-disk icon that marks an episode as downloaded.
  * Floppy-saved becomes green when it's downloaded.
  */
-DuckieTV.directive('episodeDownloaded', ["$filter", "$document", "$injector",
-    function($filter, $document, $injector) {
+DuckieTV.directive('episodeDownloaded', ["$filter", "$injector",
+    function($filter, $injector) {
         var is_downloaded_lbl = $filter('translate')('EPISODEDOWNLOADEDjs/is-downloaded/lbl');
         var not_downloaded_lbl = $filter('translate')('EPISODEDOWNLOADEDjs/not-downloaded/lbl');
         return {

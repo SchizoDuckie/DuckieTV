@@ -1,4 +1,5 @@
-DuckieTV.controller('sidepanelTraktSerieCtrl', ["$rootScope", "$filter", "$locale", "serie", "SidePanelState", "FavoritesManager", "$state", function($rootScope, $filter, $locale, serie, SidePanelState, FavoritesManager, $state) {
+DuckieTV.controller('sidepanelTraktSerieCtrl', ["$filter", "$locale", "serie", "SidePanelState", "FavoritesManager", "$state",
+  function($filter, $locale, serie, SidePanelState, FavoritesManager, $state) {
 
     this.serie = serie;
     var self = this;
@@ -40,7 +41,7 @@ DuckieTV.controller('sidepanelTraktSerieCtrl', ["$rootScope", "$filter", "$local
     };
 
     /**
-     * Closes the trakt-serie-details sidepanel 
+     * Closes the trakt-serie-details sidepanel
      */
     this.closeSidePanel = function() {
         SidePanelState.hide();

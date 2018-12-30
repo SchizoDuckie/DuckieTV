@@ -1,5 +1,5 @@
-DuckieTV.controller('traktTvTrendingCtrl', ["$scope", "$filter", "TraktTVTrending", "$state", "FavoritesService",
-    function($scope, $filter, TraktTVTrending, $state, FavoritesService) {
+DuckieTV.controller('traktTvTrendingCtrl', ["$filter", "TraktTVTrending", "FavoritesService",
+    function($filter, TraktTVTrending, FavoritesService) {
         var vm = this;
         vm.results = [];
         vm.filtered = [];

@@ -1,5 +1,5 @@
-DuckieTV.factory('SeriesAddingState', ["$rootScope", "FavoritesService", "$state",
-    function($rootScope, FavoritesService, $state) {
+DuckieTV.factory('SeriesAddingState', ["$rootScope",
+    function($rootScope) {
         var service = {
             state: {
                 isShowing: false

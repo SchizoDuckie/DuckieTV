@@ -1,9 +1,9 @@
-/** 
+/**
  * The <episode-watched> directive shows the eye icon that marks an episode as watched.
  * Eye becomes green and not striked through when it's watched.
  */
-DuckieTV.directive('episodeWatched', ["$filter", "$document", "$injector",
-    function($filter, $document, $injector) {
+DuckieTV.directive('episodeWatched', ["$filter", "$injector",
+    function($filter, $injector) {
         var is_marked_lbl = $filter('translate')('EPISODEWATCHEDjs/is-marked/lbl');
         var not_marked_lbl = $filter('translate')('COMMON/not-marked/lbl');
         return {

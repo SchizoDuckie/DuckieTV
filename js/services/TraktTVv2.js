@@ -4,8 +4,8 @@
  *
  * For API docs: check here: http://docs.trakt.apiary.io/#
  */
-DuckieTV.factory('TraktTVv2', ["SettingsService", "$q", "$http", "FanartService",
-    function(SettingsService, $q, $http, FanartService) {
+DuckieTV.factory('TraktTVv2', ["$q", "$http",
+    function($q, $http) {
 
         var activeSearchRequest = false,
             activeTrendingRequest = false,

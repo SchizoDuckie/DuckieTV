@@ -16,7 +16,9 @@
         "CRUD": true,
         "Promise": true,
         "X2JS": true,
-        "GenericTorrentSearchEngine": true
+        "GenericTorrentSearchEngine": true,
+        "nw": true,
+        "process": true
     },
     "plugins": [
         "angular"

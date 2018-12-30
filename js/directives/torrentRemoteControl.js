@@ -2,8 +2,8 @@ DuckieTV
 /**
  * Torrent Remote Control Directive
  */
-.directive('torrentRemoteControl', ["DuckieTorrent", "$rootScope", "TorrentHashListService",
-    function(DuckieTorrent, $rootScope, TorrentHashListService) {
+.directive('torrentRemoteControl', ["DuckieTorrent", "TorrentHashListService",
+    function(DuckieTorrent, TorrentHashListService) {
         return {
             restrict: 'E',
             transclude: true,

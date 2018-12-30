@@ -1,7 +1,7 @@
 DuckieTV
 
-    .controller('torrentDialog2Ctrl', ["$scope", "$rootScope", "$uibModalInstance", "$injector", "$filter", "data", "TorrentSearchEngines", "SettingsService", "NotificationService", "DuckieTorrent",
-    function($scope, $rootScope, $modalInstance, $injector, $filter, data, TorrentSearchEngines, SettingsService, NotificationService, DuckieTorrent) {
+    .controller('torrentDialog2Ctrl', ["$scope", "$uibModalInstance", "$injector", "data", "TorrentSearchEngines", "SettingsService", "NotificationService", "DuckieTorrent",
+    function($scope, $modalInstance, $injector, data, TorrentSearchEngines, SettingsService, NotificationService, DuckieTorrent) {
         //-- Variables --//
 
         $scope.searching = true;
@@ -200,7 +200,7 @@ DuckieTV
              */
             $scope.items = [];
             $scope.error = false;
-            $scope.errorEngine = null;                            
+            $scope.errorEngine = null;
             $scope.clients.forEach(function(engine) {
                 if ($scope.activeSE[engine]) {
                     items = [];
@@ -240,7 +240,7 @@ DuckieTV
                             $scope.errorEngine = engine;
                         } else {
                             $scope.error = $scope.error + '\n' + errorText;
-                            $scope.errorEngine = $scope.errorEngine + '\n' + engine;                            
+                            $scope.errorEngine = $scope.errorEngine + '\n' + engine;
                         }
                         items = null;
                     });
@@ -357,7 +357,7 @@ DuckieTV
                     } else if (details.torrentUrl) {
                         //console.debug('using details torrent');
                         return urlSelect(details.torrentUrl, result.releasename, dlPath, label);
-                    } 
+                    }
                 });
             }
         };

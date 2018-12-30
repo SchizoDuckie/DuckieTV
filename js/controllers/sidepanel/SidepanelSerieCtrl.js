@@ -1,5 +1,5 @@
-DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$filter", "$location", "$locale", "$q", "$state", "$injector", "dialogs", "FavoritesService", "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SettingsService", "FavoritesManager",
-    function($rootScope, $filter, $location, $locale, $q, $state, $injector, dialogs, FavoritesService, latestSeason, notWatchedSeason, serie, SidePanelState, SettingsService, FavoritesManager) {
+DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$filter", "$locale", "$state", "$injector", "dialogs", "FavoritesService", "latestSeason", "notWatchedSeason", "serie", "SidePanelState", "SettingsService", "FavoritesManager",
+    function($rootScope, $filter, $locale, $state, $injector, dialogs, FavoritesService, latestSeason, notWatchedSeason, serie, SidePanelState, SettingsService, FavoritesManager) {
 
         var self = this;
         this.serie = serie;

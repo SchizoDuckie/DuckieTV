@@ -1,5 +1,5 @@
-DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "SettingsService", "SidePanelState", "SeriesListState", "$state", "$filter", "FavoritesManager",
-    function(FavoritesService, $rootScope, SettingsService, SidePanelState, SeriesListState, $state, $filter, FavoritesManager) {
+DuckieTV.controller('seriesListCtrl', ["FavoritesService", "$rootScope", "SettingsService", "SidePanelState", "$state", "$filter", "FavoritesManager",
+    function(FavoritesService, $rootScope, SettingsService, SidePanelState, $state, $filter, FavoritesManager) {
 
         var vm = this;
         vm.activated = true;

@@ -5,8 +5,8 @@
  */
 DuckieTV
 
-    .factory('AutoDownloadService', ["$rootScope", "$injector", "$filter", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentSearchEngines", "DuckieTorrent", "TorrentHashListService", "NotificationService",
-    function($rootScope, $injector, $filter, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, DuckieTorrent, TorrentHashListService, NotificationService) {
+    .factory('AutoDownloadService', ["$rootScope", "$injector", "$filter", "FavoritesService", "SceneNameResolver", "SettingsService", "TorrentSearchEngines", "DuckieTorrent", "NotificationService",
+    function($rootScope, $injector, $filter, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, DuckieTorrent, NotificationService) {
 
         var service = {
             checkTimeout: null,
@@ -170,7 +170,7 @@ DuckieTV
                 };
                 // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
                 return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(searchString) {
-                    var q = [searchString,preferredQuality,RequireKeywords_String].join(' ').trim();      
+                    var q = [searchString,preferredQuality,RequireKeywords_String].join(' ').trim();
                     /**
                      * Word-by-word scoring for search results.
                      * All words need to be in the search result's release name, or the result will be filtered out.
@@ -341,7 +341,7 @@ DuckieTV
                                                 });
                                             });
                                         });
-                                    } 
+                                    }
                                 });
                             }
                             service.activityUpdate(serie, episode, q, 6); // 'torrent launched'

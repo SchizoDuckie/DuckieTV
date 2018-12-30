@@ -1,4 +1,5 @@
-DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "SceneNameResolver", "AutoDownloadService", "TorrentSearchEngines", "SubtitleDialog", "DuckieTorrent", "dialogs", "$scope", "$filter", "$injector", "SettingsService", function(serie, episode, season, SceneNameResolver, AutoDownloadService, TorrentSearchEngines, SubtitleDialog, DuckieTorrent, dialogs, $scope, $filter, $injector, SettingsService) {
+DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "AutoDownloadService", "SubtitleDialog", "DuckieTorrent", "dialogs", "$scope", "$injector",
+  function(serie, episode, season, AutoDownloadService, SubtitleDialog, DuckieTorrent, dialogs, $scope, $injector) {
 
     this.serie = serie;
     this.episode = episode;
@@ -6,7 +7,7 @@ DuckieTV.controller('SidepanelEpisodeCtrl', ["serie", "episode", "season", "Scen
     var self = this;
 
     /**
-     * Closes the SidePanel 
+     * Closes the SidePanel
      */
     this.closeSidePanel = function() {
         $injector.get('$state').go('calendar');
