@@ -45,8 +45,8 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                         default:
                             console.warn('Error [%s], Reason [%s]', result.data.error_code, result.data.error);
                             return [];
-                    };
-                };
+                    }
+                }
                 result.data.torrent_results.map(function(hit) {
                     var out = {
                         magnetUrl: hit.download,
@@ -106,7 +106,7 @@ DuckieTV.factory('RarBG', ["$q", "$http",
             if (isTokenExpired) {
                 service.activeToken = null;
                 activeTokenRequest = false;
-            };
+            }
             if (!activeTokenRequest && !service.activeToken) {
                 activeTokenRequest = promiseRequest('token').then(function(token) {
                     service.activeToken = token.token;
@@ -139,20 +139,20 @@ DuckieTV.factory('RarBG', ["$q", "$http",
                 isTokenExpired = (isTokenExpired == undefined) ? false : isTokenExpired;
                 if (noCancel === false) {
                     service.cancelSearch();
-                };
+                }
                 if (!activeSearchRequest) {
                     activeSearchRequest = $q.defer();
                     return getToken(isTokenExpired).then(function(token) {
                         return promiseRequest('search', token, what, orderBy, activeSearchRequest.promise).then(function(results) {
                             if (activeSearchRequest && activeSearchRequest.resolve) {
                                 activeSearchRequest.resolve(true);
-                            };
+                            }
                             activeSearchRequest = false;
                             if (results === 4) { // token expired
                                 return service.search(what, true, orderBy, true);
                             } else if (results === 5) { // retry later
                                 return service.search(what, true, orderBy);
-                            };
+                            }
                             return results;
                         });
                     });

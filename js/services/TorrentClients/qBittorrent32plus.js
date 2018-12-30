@@ -92,7 +92,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
                     if (label !== undefined && label !== null) {
                         fd.append('category', label);
                     }
-                };
+                }
 
                 return $http.post(this.getUrl('addfile'), fd, {
                     transformRequest: angular.identity,

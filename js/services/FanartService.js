@@ -54,13 +54,13 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                     return null;
                 }
                 if (!('tvposter' in fanart) && !('clearlogo' in fanart) && ('hdtvlogo' in fanart)) {
-                    return fanart.hdtvlogo[0].url.replace('/fanart','/preview');
+                    return fanart.hdtvlogo[0].url.replace('/fanart', '/preview');
                 }
                 if (!('tvposter' in fanart) && ('clearlogo' in fanart)) {
-                    return fanart.clearlogo[0].url.replace('/fanart','/preview');
+                    return fanart.clearlogo[0].url.replace('/fanart', '/preview');
                 }
                 if ('tvposter' in fanart) {
-                    return fanart.tvposter[0].url.replace('/fanart','/preview');
+                    return fanart.tvposter[0].url.replace('/fanart', '/preview');
                 }
 
                 return null;
@@ -79,7 +79,7 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                     }
                 }
                 if(('tvposter' in fanart)) {
-                    return fanart.tvposter[0].url.replace('/fanart','/preview');
+                    return fanart.tvposter[0].url.replace('/fanart', '/preview');
                 }
 
                 return null;
@@ -126,7 +126,7 @@ DuckieTV.factory('FanartService', ["$q", "$http", function($q, $http) {
                             return storeInDB(result.data[tvdb_id]);
                         }));
                     }).then(function() {
-                     localStorage.setItem('fanart.bootstrapped',1);
+                     localStorage.setItem('fanart.bootstrapped', 1);
                     });
                 }
             }

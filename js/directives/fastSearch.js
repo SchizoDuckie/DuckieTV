@@ -348,7 +348,7 @@ DuckieTV.directive('fastSearch', ["$window", "dialogs",
                     }
                 }, 1500);
             }
-        };
+        }
 
         $scope.submitMagnetLink = function(result) {
             if (result.magnetUrl) {

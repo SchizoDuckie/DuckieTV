@@ -48,7 +48,7 @@ DuckieTV.directive('calendar', function() {
                     $scope.zoom(0);
                 }
                 $scope.$applyAsync();
-            };
+            }
 
             /**
              * Hide the calendar (performance and weirds scrollbars) when the serieslist

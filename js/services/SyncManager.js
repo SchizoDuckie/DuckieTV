@@ -100,7 +100,6 @@ DuckieTV.factory('SyncManager', function() {
     }
 
 
-
     $rootScope.$on('sync:processremoteupdate', function(event, progress) {
         console.log("Process storagesync remote updates!", progress);
 

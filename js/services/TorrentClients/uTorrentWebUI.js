@@ -166,7 +166,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                         });
                     } else {
                         return [];
-                    };
+                    }
                 });
             },
             addMagnet: function(magnetURI) {
@@ -190,11 +190,11 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ["BaseTorrentRemote",
                             magnetURI = magnetURI + '&tr' + aTracker;
                         } else {
                             discardedTrackers = discardedTrackers + '&tr' + aTracker;
-                        };
-                    };
+                        }
+                    }
                     // post a message explaining tracker trimming
                     console.info('Magnet %s has had the following trackers [%s] removed to fit within the interface 1K length limit', magnetURI.getInfoHash(), discardedTrackers);
-                };
+                }
                 fd.append('s', magnetURI);
                 return $http.post(this.getUrl('addmagnet'), fd, {
                     headers: headers

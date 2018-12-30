@@ -42,7 +42,7 @@ DuckieTV.controller('TorrentCtrl', ["$rootScope", "$injector", "$filter", "Ducki
                                 SidePanelState.contract();
                             }
                     }, 1000);
-                };
+                }
                 return count;
             } else {
                 return 0;

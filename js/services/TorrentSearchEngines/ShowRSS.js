@@ -43,7 +43,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                         magnetUrl: node.href,
                         noMagnet: false,
                         noTorrent: true,
-                        releasename: node.innerText.replace(/\s/g,' ').trim(),
+                        releasename: node.innerText.replace(/\s/g, ' ').trim(),
                         size: 'n/a',
                         seeders: 'n/a',
                         leechers: 'n/a',
@@ -114,7 +114,7 @@ DuckieTV.factory('ShowRSS', ["$q", "$http",
                             return results.filter(function(el) {
                                 // replace the showRSS season episode string ssXee with SssEee or it will fail the strict filterByScore in autoDownload and torrentDialog
                                 var originalReleaseName = el.releasename;
-                                el.releasename = el.releasename.replace(showRSSseasonepisode,seasonepisode);
+                                el.releasename = el.releasename.replace(showRSSseasonepisode, seasonepisode);
                                 return originalReleaseName.indexOf(showRSSseasonepisode) > -1;
                             });
                         });

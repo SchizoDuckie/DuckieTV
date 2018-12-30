@@ -34,7 +34,7 @@ DuckieTV
         $scope.globalSizeMinEnabled = SettingsService.get('torrenting.global_size_min_enabled'); // only applies to torrentDialog
         $scope.sortByDir = {'sortname': '-', 'engine': '+', 'seedersInt': '+', 'leechersInt': '+', 'sizeInt': '+'}; // the default sort direction for each possible sortBy
         $scope.sortBy = SettingsService.get('torrentDialog.2.sortBy'); // '+engine' the default order
-        $scope.sortByDir[$scope.sortBy.replace(/\-|\+/g,'')] = $scope.sortBy.substring(0,1);
+        $scope.sortByDir[$scope.sortBy.replace(/\-|\+/g, '')] = $scope.sortBy.substring(0, 1);
         $scope.items = [];
         $scope.defaultProvider = SettingsService.get('torrenting.searchprovider');
         $scope.clients = Object.keys(TorrentSearchEngines.getSearchEngines());
@@ -47,7 +47,7 @@ DuckieTV
             }
         });
         $scope.jackettProviders = TorrentSearchEngines.getJackettEngines();
-        SettingsService.set('torrentDialog.2.activeSE',$scope.activeSE); // save updated active SE list.
+        SettingsService.set('torrentDialog.2.activeSE', $scope.activeSE); // save updated active SE list.
         /**
          * is provider a Jackett SE?
          */
@@ -59,7 +59,7 @@ DuckieTV
         $scope.setSortBy = function(sortby) {
             $scope.sortByDir[sortby] === '-' ? $scope.sortByDir[sortby] = '+' : $scope.sortByDir[sortby] = '-' ; // flip sort direction
             $scope.sortBy = $scope.sortByDir[sortby] + sortby;
-            SettingsService.set('torrentDialog.2.sortBy',$scope.sortBy);
+            SettingsService.set('torrentDialog.2.sortBy', $scope.sortBy);
         };
 
         var usingLabel = SettingsService.get('torrenting.label');
@@ -87,7 +87,7 @@ DuckieTV
                 var score = 0;
                 var RequireKeywords_String = $scope.requireKeywordsEnabled ? $scope.requireKeywordsModeOR ? '' : $scope.requireKeywords : ''; // if Require Keywords mode is AND then add require keywords to q
                 // ignore double-quotes and plus symbols on query, and any query minus words
-                var query = [q, $scope.searchquality, RequireKeywords_String].join(' ').toLowerCase().replace(/[\"\+]/g,' ').trim().split(' ');
+                var query = [q, $scope.searchquality, RequireKeywords_String].join(' ').toLowerCase().replace(/[\"\+]/g, ' ').trim().split(' ');
                 var name = item.releasename.toLowerCase();
                 query.map(function(part) {
                     if (part[0] === '-' || name.indexOf(part) > -1) {
@@ -209,10 +209,10 @@ DuckieTV
                     provider.search([q, $scope.searchquality].join(' ').trim(), undefined, 'seeders.d').then(function(results) {
                         results.forEach(function(item){
                             item.engine = engine; // used by torrentDialog2.html
-                            item.sizeInt = isNaN(item.size.replace(' MB','')) ? 0 : parseInt(item.size); // used for torrentDialog2 sorting
+                            item.sizeInt = isNaN(item.size.replace(' MB', '')) ? 0 : parseInt(item.size); // used for torrentDialog2 sorting
                             item.seedersInt = isNaN(item.seeders) ? 0 : parseInt(item.seeders); // used for torrentDialog2 sorting
                             item.leechersInt = isNaN(item.leechers) ? 0 : parseInt(item.leechers); // used for torrentDialog2 sorting
-                            item.sortname = item.releasename.replace(/\./g,' ').toLowerCase(); // used for torrentDialog2 sorting
+                            item.sortname = item.releasename.replace(/\./g, ' ').toLowerCase(); // used for torrentDialog2 sorting
                         });
                         items = results.filter(filterByScore);
                         items = items.filter(filterByMinSeeders);
@@ -224,7 +224,7 @@ DuckieTV
                         // ShowRSS uses the same detailUrl for every episode torrent in a series, so don't dropDuplicates
                         if (engine !== 'ShowRSS') {
                             items = dropDuplicates(items);
-                        };
+                        }
                         $scope.items = $scope.items.concat(items);
                         $scope.searching = false;
                     },
@@ -291,13 +291,13 @@ DuckieTV
         // Toggle advanced filter state
         $scope.toggleShowAdvanced = function() {
             $scope.showAdvanced = !$scope.showAdvanced;
-            SettingsService.set('torrentDialog.showAdvanced.enabled',$scope.showAdvanced);
+            SettingsService.set('torrentDialog.showAdvanced.enabled', $scope.showAdvanced);
         };
 
         // save active Search Engine states
         $scope.toggleSE = function(name) {
             $scope.activeSE[name] = !$scope.activeSE[name];
-            SettingsService.set('torrentDialog.2.activeSE',$scope.activeSE);
+            SettingsService.set('torrentDialog.2.activeSE', $scope.activeSE);
             $scope.search($scope.query, undefined, 'seeders.d');
         };
 

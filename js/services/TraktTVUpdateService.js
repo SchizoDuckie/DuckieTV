@@ -8,7 +8,6 @@ DuckieTV.factory('TraktTVUpdateService', ["$q", "TraktTVv2", "FavoritesService",
     function($q, TraktTVv2, FavoritesService, FanartService) {
 
 
-
         var service = {
             /**
              * Update shows in favorites list

@@ -21,14 +21,14 @@ DuckieTV.run(['$rootScope', 'SettingsService',
                 setTimeout(function() {
                     if (localStorage.getItem('standalone.startupMinimized') !== 'Y') {
                         win.maximize();
-                    };
+                    }
                     if (maximize && unmaximize) {
                         maximize.style.display = 'none';
                         unmaximize.style.display = '';
                     }
                 }, 230);
                 winState = 'maximized';
-                $rootScope.$emit('winstate',winState);
+                $rootScope.$emit('winstate', winState);
             }
         }
 
@@ -68,7 +68,7 @@ DuckieTV.run(['$rootScope', 'SettingsService',
                 unmaximize.style.display = '';
                 win.maximize();
                 winState = 'maximized';
-                $rootScope.$emit('winstate',winState);
+                $rootScope.$emit('winstate', winState);
             });
 
             unmaximize.addEventListener('click', function() {
@@ -76,7 +76,7 @@ DuckieTV.run(['$rootScope', 'SettingsService',
                 maximize.style.display = '';
                 win.unmaximize();
                 winState = 'normal';
-                $rootScope.$emit('winstate',winState);
+                $rootScope.$emit('winstate', winState);
             });
         });
     }

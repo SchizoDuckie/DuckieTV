@@ -8,7 +8,7 @@
 CRUD.DEBUG = false;
 if (localStorage.getItem('CRUD.DEBUG')) {
     CRUD.DEBUG = (localStorage.getItem('CRUD.DEBUG') === 'true') ? true : false;
-};
+}
 
 /**
  * If we detect a background page connection possible, use the background adapter.

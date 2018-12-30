@@ -160,7 +160,7 @@ DuckieTV.config(["$provide", function($provide) {
                         callback(status, response, headersString, statusText);
                         $browser.$$completeOutstandingRequest(noop);
                     }
-                };
+                }
 
                 function jsonpReq(url, callbackId, done) {
                     // we can't use jQuery/jqLite here because jQuery does crazy stuff with script elements, e.g.:

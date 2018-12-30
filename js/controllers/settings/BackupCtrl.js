@@ -23,7 +23,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupSer
                 'name': translatedAutoBackupPeriodList[idx],
                 'value': englishAutoBackupPeriodList[idx]
             });
-        };
+        }
         $scope.nextAutoBackupDate = '';
         // determine next run time
         var lastRun = new Date(parseInt(localStorage.getItem('autobackup.lastrun')));
@@ -42,7 +42,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupSer
                 $scope.nextAutoBackupDate = '' + new Date(parseInt(nextBackupDT));
                 break;
             default:
-        };
+        }
 
         /**
          * Create backup via download service and force the download.
@@ -147,7 +147,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupSer
                                             serie.Persist();
                                         }
                                     }
-                                };
+                                }
                             });
                             FavoritesService.added(TVDB_ID);
                             completedCount++;
@@ -168,7 +168,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupSer
         $scope.wipeDatabase = function(isRestoring) {
             if (!isRestoring) {
                 isRestoring = 'N';
-            };
+            }
             var dlg = dialogs.confirm($filter('translate')('COMMON/wipe/hdr'),
                 $filter('translate')('BACKUPCTRLjs/wipe/desc')
             );
@@ -178,7 +178,7 @@ DuckieTV.controller('BackupCtrl', ["$rootScope", "$scope", "$filter", "BackupSer
                     if (i.indexOf('database.version') == 0) continue;
                     if (i.indexOf('utorrent.token') == 0) continue;
                     localStorage.removeItem(i);
-                };
+                }
                 FavoritesService.favorites = [];
                 FavoritesService.favoriteIDs = [];
                 FavoritesService.flushAdding();

@@ -1,5 +1,5 @@
 DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListService",
-    function($rootScope,TorrentHashListService) {
+    function($rootScope, TorrentHashListService) {
 
         function BaseTorrentRemote() {
             this.torrents = {};
@@ -81,8 +81,8 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
                         delete self.torrents[torrenthash].hash;
                         $rootScope.$broadcast('torrent:update:' + torrenthash, self.torrents[torrenthash]);
                         $rootScope.$broadcast('torrent:update:', self.torrents[torrenthash]);            
-                    };
-                };
+                    }
+                }
             });
             this.torrents = self.torrents;
         };
@@ -266,7 +266,6 @@ DuckieTorrent.factory('BaseTorrentRemote', ["$rootScope", "TorrentHashListServic
              * You shouldn't have to, your API implementation should do the work.
              * -------------------------------------------------------------
              */
-
 
 
             /**

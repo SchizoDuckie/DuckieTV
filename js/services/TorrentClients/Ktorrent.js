@@ -58,7 +58,7 @@ KtorrentData.extends(TorrentData, {
                 break;
             case 'B/s': 
             default:
-        };
+        }
         return rate; // Bytes/second
     },
     start: function() {
@@ -81,7 +81,7 @@ KtorrentData.extends(TorrentData, {
         * 'downloading', 'stopped', 'not started', 'stalled', 'download completed', 'seeding',
         * 'superseeding', 'allocating diskspace', 'checking data', 'error', 'queued', 'seeding complete'
         */
-        return ['stalled','downloading'].indexOf(this.status.toLowerCase()) !== -1;
+        return ['stalled', 'downloading'].indexOf(this.status.toLowerCase()) !== -1;
     },
     getFiles: function() {
         if (!this.files) {

@@ -87,23 +87,23 @@ DuckieTV
                                     if (episode.seasonnumber === 0 && !showSpecials && serie.ignoreHideSpecials !== 1) {
                                         service.activityUpdate(serie, episode, serieEpisode, 3, ' HS'); // 'autoDL disabled HS'
                                         return; // user has chosen not to show specials on calendar so we assume they do not expect them to be auto-downloaded
-                                    };
+                                    }
                                     if (serie.displaycalendar !== 1) {
                                         service.activityUpdate(serie, episode, serieEpisode, 3, ' HC'); // 'autoDL disabled HC'
                                         return; // user has chosen not to show series on calendar so we assume they do not expect them to be auto-downloaded
-                                    };
+                                    }
                                     if (episode.isDownloaded()) {
                                         service.activityUpdate(serie, episode, serieEpisode, 0); // 'downloaded'
                                         return; // if the episode was already downloaded, skip it.
-                                    };
+                                    }
                                     if (episode.watchedAt !== null) {
                                         service.activityUpdate(serie, episode, serieEpisode, 1); // 'watched'
                                         return; // if the episode has been marked as watched, skip it.
-                                    };
+                                    }
                                     if (episode.magnetHash !== null && (episode.magnetHash in remote.torrents)) {
                                         service.activityUpdate(serie, episode, serieEpisode, 2); // 'has magnet'
                                         return; // if the episode already has a magnet, skip it.
-                                    };
+                                    }
                                     /**
                                      * is episode onair? don't go looking for torrent yet. (saves pointless broadband usage)
                                      * default onair end-time is calculated as firstaired + runtime minutes + delay minutes
@@ -124,7 +124,7 @@ DuckieTV
                                         }
                                         service.activityUpdate(serie, episode, serieEpisode, 8, ' ' + dhm); // 'onair + delay'
                                         return; // the episode is broadcasting right now
-                                    };
+                                    }
 
                                     if (serie.autoDownload == 1) {
                                         service.autoDownload(serie, episode);
@@ -156,21 +156,21 @@ DuckieTV
                 var RequireKeywords_String = ''; // for use in filterByScore when Require Keywords mode is set to ALL
                 if (serie.ignoreGlobalQuality != 0) {
                     preferredQuality = ''; // series custom settings specify to ignore the preferred quality
-                };
+                }
                 if (serie.ignoreGlobalIncludes != 0) {
                     requireKeywords = ''; // series custom settings specify to ignore the Require Keywords List
                 } else {
                     RequireKeywords_String = requireKeywordsModeOR ? '' : ' ' + requireKeywords; // for use with filterByScore when Require Keywords mode is set to ALL
-                };
+                }
                 if (serie.ignoreGlobalExcludes != 0) {
                     ignoreKeywords = ''; // series custom settings specify to ignore the Ignore Keywords List
-                };
+                }
                 if (serie.searchProvider != null) {
                     searchEngine = TorrentSearchEngines.getSearchEngine(serie.searchProvider); // series custom search engine specified
-                };
+                }
                 // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
                 return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(searchString) {
-                    var q = [searchString,preferredQuality,RequireKeywords_String].join(' ').trim();
+                    var q = [searchString, preferredQuality, RequireKeywords_String].join(' ').trim();
                     /**
                      * Word-by-word scoring for search results.
                      * All words need to be in the search result's release name, or the result will be filtered out.
@@ -193,7 +193,7 @@ DuckieTV
                     function filterRequireKeywords(item) {
                         if (requireKeywords == '') {
                             return true;
-                        };
+                        }
                         var score = 0;
                         var query = requireKeywords.toLowerCase().split(' ');
                         name = item.releasename.toLowerCase();
@@ -203,7 +203,7 @@ DuckieTV
                             }
                         });
                         return (score > 0);
-                    };
+                    }
 
                     /**
                      * Any words in the ignore keyword list causes the result to be filtered out.
@@ -211,7 +211,7 @@ DuckieTV
                     function filterIgnoreKeywords(item) {
                         if (ignoreKeywords == '') {
                             return true;
-                        };
+                        }
                         var score = 0;
                         var query = ignoreKeywords.toLowerCase().split(' ');
                         // prevent the exclude list from overriding the primary search string
@@ -225,7 +225,7 @@ DuckieTV
                             }
                         });
                         return (score == 0);
-                    };
+                    }
 
                     /**
                      * Torrent sizes outside min-max range causes the result to be filtered out.
@@ -243,7 +243,7 @@ DuckieTV
                         sizeMin = (sizeMin == null) ? 0 : sizeMin;
                         sizeMax = (sizeMax == null) ? Number.MAX_SAFE_INTEGER : sizeMax;
                         return (size >= sizeMin && size <= sizeMax);
-                    };
+                    }
 
                     /**
                      * Search torrent SE for the torrent query
@@ -254,14 +254,14 @@ DuckieTV
                         if (items.length === 0) {
                             service.activityUpdate(serie, episode, q, 4); // 'nothing found'
                             return; // no results, abort
-                        };
+                        }
                         if (requireKeywordsModeOR) {
                             items = items.filter(filterRequireKeywords);
                             if (items.length === 0) {
                                 service.activityUpdate(serie, episode, q, 5, ' RK'); // 'filtered out RK'
                                 return; // no results, abort
                             }
-                        };
+                        }
                         items = items.filter(filterIgnoreKeywords);
                         if (items.length === 0) {
                             service.activityUpdate(serie, episode, q, 5, ' IK'); // 'filtered out IK'
@@ -271,7 +271,7 @@ DuckieTV
                         if (items.length === 0) {
                             service.activityUpdate(serie, episode, q, 5, ' MS'); // 'filtered out MS'
                             return; // no results, abort
-                        };
+                        }
                         if (items[0].seeders != 'n/a' && parseInt(items[0].seeders, 10) < minSeeders) { // not enough seeders are available.
                             service.activityUpdate(serie, episode, q, 7, items[0].seeders + ' < ' + minSeeders); // 'seeders x < y'
                             return; // no results, abort
@@ -380,7 +380,7 @@ DuckieTV
             var timeoutDelay = 5000; // optional customisation for #1062
             if (localStorage.getItem('custom_AutoDownload_delay')) {
                 timeoutDelay = localStorage.getItem('custom_AutoDownload_delay');
-            };
+            }
 
             setTimeout(function() {
                 console.info('Initializing AutoDownload Service!');

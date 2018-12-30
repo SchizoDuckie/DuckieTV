@@ -27,7 +27,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
             pqLbl = $filter('translate')('COMMON/global-quality/hdr'), // Preferred Quality
             rkLbl = $filter('translate')('COMMON/require-keywords/hdr'), // require keywords List
             ikLbl = $filter('translate')('COMMON/ignore-keywords/hdr'), // ignore keywords List
-            dayLbl = ($scope.period === 1) ? timePlurals[0].replace(',','') : timePlurals[1].replace(',','');
+            dayLbl = ($scope.period === 1) ? timePlurals[0].replace(',', '') : timePlurals[1].replace(',', '');
             $scope.onMagnet = [];
 
         $scope.isActive = function() {
@@ -55,7 +55,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
                         if ($scope.onMagnet.indexOf(tvdbid) == -1) { // don't set $on if we've already done it
                             CRUD.FindOne('Episode', {'ID_Episode': episodeid}).then(function(episode) {
                                 if (!episode) {
-                                    console.warn('episode id=[%s] not found!',episodeid);
+                                    console.warn('episode id=[%s] not found!', episodeid);
                                 } else {
                                     $scope.$on('torrent:select:' + tvdbid, function(evt, magnet) {
                                         episode.magnetHash = magnet;
@@ -72,7 +72,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
                 $scope.nextRun = 'n/a';
                 $scope.fromDT = 'n/a';
                 $scope.toDT = 'n/a';
-            };
+            }
        };
 
         // set up static scope data
@@ -102,7 +102,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
                 case 'ipq': return (item.ipq == 0) ? usingLbl + ' ' + pqLbl : notusingLbl + ' ' + pqLbl;                    
                 case 'irk': return (item.irk == 0) ? usingLbl + ' ' + rkLbl : notusingLbl + ' ' + rkLbl;                    
                 case 'iik': return (item.iik == 0) ? usingLbl + ' ' + ikLbl : notusingLbl + ' ' + ikLbl;                    
-            };
+            }
         };
 
         $scope.getTorrentClientNameAndStatus = function() {
@@ -117,7 +117,7 @@ DuckieTV.controller('AutodlstatusCtrl', ["$scope", "$filter", "$injector", "Sett
                 return statusCodes[code] + extra;
             } else {
                 return 'n/a ' + extra;
-            };
+            }
         };
 
     }

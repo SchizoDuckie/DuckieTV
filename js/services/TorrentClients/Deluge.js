@@ -34,7 +34,7 @@ DelugeData.extends(TorrentData, {
         this.stop();
     },
     remove: function() {
-        this.getClient().getAPI().execute('core.remove_torrent', [this.hash,false]);
+        this.getClient().getAPI().execute('core.remove_torrent', [this.hash, false]);
     },
     isStarted: function() {
         return ["Downloading", "Seeding", "Active"].indexOf(this.state) > -1;

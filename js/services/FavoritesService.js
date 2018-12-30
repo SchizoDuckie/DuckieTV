@@ -110,7 +110,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                 data.downloaded = 0;
                 data.watched = 0;
                 data.watchedAt = null;
-            };
+            }
             data.absolute = (serie.isAnime()) ? data.number_abs : null;
 
             for (var i in data) {
@@ -129,7 +129,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                         episode.watched = 1;
                     } else {
                         episode.watched = 0;
-                    };
+                    }
                 }
             });
             episode.ID_Serie = serie.getID();
@@ -154,7 +154,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
             return CRUD.executeQuery('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [serie.ID_Serie]).then(function(result) {
                 if (result.rowsAffected > 0) {
                     console.info("Cleaned up " + result.rowsAffected + " orphaned episodes for series [" + serie.ID_Serie + "] " + serie.name);
-                };
+                }
                 return seasons;
             });
         };
@@ -239,7 +239,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                         name: data.title,
                         TVDB_ID: data.tvdb_id
                     });
-                };
+                }
                 var serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id) : service.getById(data.tvdb_id) || new Serie();
                 return FanartService.get(data.tvdb_id, refreshFanart).then(function(fanart) {
                     fanart = (fanart && 'json' in fanart) ? fanart.json : {};
@@ -345,7 +345,7 @@ DuckieTV.factory('FavoritesService', ["$q", "$rootScope", "FanartService", "$inj
                             $rootScope.$broadcast('serieslist:empty');
                         }
                     });
-                };
+                }
                 service.clearAdding(serie.TVDB_ID);
             },
             refresh: function() {

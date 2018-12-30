@@ -45,11 +45,11 @@ DuckieTV.controller('SettingsTorrentCtrl', ["$scope", "$rootScope", "$injector",
                 $scope.multiSE[name] = true;
             }
         });
-        SettingsService.set('autodownload.multiSE',$scope.multiSE); // save updated multiSE list.
+        SettingsService.set('autodownload.multiSE', $scope.multiSE); // save updated multiSE list.
 
         // save multi Search Engine states
         $scope.saveMultiSE = function() {
-            SettingsService.set('autodownload.multiSE',$scope.multiSE);
+            SettingsService.set('autodownload.multiSE', $scope.multiSE);
             AutoDownloadService.detach(); // recycle AD to pick up changes.
             AutoDownloadService.attach();
         };

@@ -37,7 +37,7 @@ DuckieTV.controller("jackettSearchEngineCtrl", ["$scope", "$injector", "$http", 
                     self.jackettEngines[engine.config.name].testOK = false;
                     self.jackettEngines[engine.config.name].testMessage = (result.data.error) ? result.data.error : 'Error, unknown reason.';
                 }
-            },function(err){
+            }, function(err){
                 self.jackettEngines[engine.config.name].testOK = false;
                 if (err.status == -1) {
                     self.jackettEngines[engine.config.name].testMessage = ['Status:', err.status, 'Reason:', 'Unknown, probably the Jackett Service or App is not active.'].join(' ');
@@ -120,9 +120,9 @@ DuckieTV.controller("jackettSearchEngineCtrl", ["$scope", "$injector", "$http", 
                     'apiKey': self.model.apiKey,
                     'mirror': self.model.torznab.replace(self.model.torznab.substr(self.model.torznab.indexOf('/indexers/') + 10), 'all') + '/results',
                     'name': self.model.name,
-                    'test': self.model.torznab.replace('/results/torznab/','/test'),
+                    'test': self.model.torznab.replace('/results/torznab/', '/test'),
                     'torznab': self.model.torznab,
-                    'tracker': self.model.torznab.substr(self.model.torznab.indexOf('/indexers/') + 10).replace('/results/torznab/',''),
+                    'tracker': self.model.torznab.substr(self.model.torznab.indexOf('/indexers/') + 10).replace('/results/torznab/', ''),
                     'useTorznab': (self.model.torznabEnabled) ? true : false
                 };
             }

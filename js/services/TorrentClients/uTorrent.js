@@ -124,7 +124,7 @@ DuckieTorrent
 
                     var nextPort = function() {
                         self.port = ports[self.currentPort];
-                        jsonp('version',{},{timeout: 850}).then(function(result) {
+                        jsonp('version', {}, {timeout: 850}).then(function(result) {
                             if (typeof result === 'undefined') {
                                 d.reject("no torrent client listening on port " + self.port);
                             }
@@ -707,7 +707,7 @@ DuckieTorrent
                             result.Persist();
                         }
                     })
-                };
+                }
                 TorrentHashListService.removeFromHashList(torrent[key].hash.toUpperCase());
                 delete service.torrents[torrent[key].hash].hash;
                 delete service.eventHandlers[torrent[key].hash];

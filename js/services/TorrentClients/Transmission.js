@@ -183,7 +183,7 @@ DuckieTorrent.factory('TransmissionRemote', ["BaseTorrentRemote",
                                 paused: false,
                                 metainfo: contents.substring(index + key.length)
                             };
-                        };
+                        }
                         return self.rpc('torrent-add', {
                             arguments: parms
                         }).then(function(result) {

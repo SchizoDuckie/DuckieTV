@@ -16,7 +16,7 @@ DuckieTV.run(['$rootScope', "SettingsService",
             if (localStorage.getItem('standalone.position')) {
                 var pos = JSON.parse(localStorage.getItem('standalone.position'));
                 winState = pos.state;
-            };
+            }
 
             // debugging
             //console.debug('debugging source version=3');
@@ -117,7 +117,7 @@ DuckieTV.run(['$rootScope', "SettingsService",
                     // tray exists, do nothing
                     //console.debug('createTray: tray exists id=',tray.id);
                     return true;
-                };
+                }
                 tray = new nw.Tray({
                     icon: 'img/logo/icon64' + trayColor + '.png'
                 });
@@ -136,14 +136,14 @@ DuckieTV.run(['$rootScope', "SettingsService",
             if (localStorage.getItem('standalone.alwaysShowTray') === 'Y') {
                 //console.debug('alwaysShowTray');
                 createTray();
-            };
+            }
 
             // create tray if are we going to minimize after start-up (default is N or null)
             if (localStorage.getItem('standalone.startupMinimized') === 'Y') {
                 //console.debug('startupMinimized');
                 // Create a new tray if one isn't already
                 createTray();
-            };
+            }
 
             // On Minimize Event
             win.on('minimize', function() {
@@ -167,7 +167,7 @@ DuckieTV.run(['$rootScope', "SettingsService",
                     //console.debug('on restoredtv: tray.remove id=',tray.id);
                     tray.remove();
                     tray = null;
-                };
+                }
                 if (winState == 'maximized') {
                     setTimeout(function() {
                         win.maximize();
@@ -206,7 +206,7 @@ DuckieTV.run(['$rootScope', "SettingsService",
                     //console.debug('on locationreload: tray.remove id=',tray.id);
                     tray.remove();
                     tray = null;
-                };
+                }
                 win.removeAllListeners();
                 //console.debug('on locationreload: window.location.reload()');
             }

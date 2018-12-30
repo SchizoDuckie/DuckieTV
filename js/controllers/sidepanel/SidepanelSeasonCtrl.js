@@ -101,7 +101,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', ["$rootScope", "$scope", "$state", "$
     };
 
     this.markAllWatched = function() {
-        this.season.markSeasonAsWatched(this.watchedDownloadedPaired,$rootScope).then(function() {
+        this.season.markSeasonAsWatched(this.watchedDownloadedPaired, $rootScope).then(function() {
             $rootScope.$broadcast('serie:recount:watched', season.ID_Serie);
         });
     };

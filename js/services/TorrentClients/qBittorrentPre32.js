@@ -34,11 +34,11 @@ qBittorrentData.extends(TorrentData, {
                     break;
                 case 'B/s': 
                 default:
-            };
+            }
         } else {
             // qBitTorrent 3.2+
             rate = this.dlspeed;
-        };
+        }
         return rate; // Bytes/second
     },
     getProgress: function() {

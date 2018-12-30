@@ -90,7 +90,7 @@ if (localStorage.getItem('optin_error_reporting')) {
     /* duckietv_halp */
     if (!localStorage.getItem('optin_error_reporting.start_time')) {
         localStorage.setItem('optin_error_reporting.start_time', new Date().getTime());
-    };
+    }
     // if opt-in was enabled for more than 7 days then disable it
     var localDT = new Date().getTime();
     var halpEnabled = new Date(parseInt(localStorage.getItem('optin_error_reporting.start_time')));
@@ -169,14 +169,14 @@ if (localStorage.getItem('optin_error_reporting')) {
             console.olderror(arguments);
             var log = Loggr.Log;
             // filter out unwanted error logging 
-            var blacklist = ["connect call failed","could not load fanart"];
+            var blacklist = ["connect call failed", "could not load fanart"];
             var args = Array.prototype.slice.call(arguments);
             var wanted = true;
             if (typeof args !== 'undefined' && null !== args && args.length > 0) {
                 blacklist.map(function(unwanted) {
                     if (args[0].toLowerCase().indexOf(unwanted) > -1) {
                         wanted = false; 
-                    };
+                    }
                 });
             }
             if (wanted) {
@@ -222,9 +222,9 @@ if (localStorage.getItem('optin_error_reporting')) {
         console.warn('Opt-In Error Tracking time limit of 7 days has expired. Turning off Error Tracking Service.');
         localStorage.removeItem('optin_error_reporting');
         localStorage.removeItem('optin_error_reporting.start_time');
-    };
+    }
 
-};
+}
 
 /**
  * extend the String object to add the getInfoHash method
@@ -307,5 +307,5 @@ if (localStorage.getItem('font.bebas.disabled')) {
             "letter-spacing: normal !important;",
         "}"
     ].join(' ');
-    document.body.insertBefore(elemStyle,document.body.firstChild);            
+    document.body.insertBefore(elemStyle, document.body.firstChild);            
 }

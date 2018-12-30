@@ -164,7 +164,7 @@ DuckieTV.controller('AboutCtrl', ["$scope", "$http", "$injector", "SettingsServi
                     name: 'NWJS, Chromium',
                     data: process.versions['nw'] + ' , ' + process.versions['chromium']
                 });
-            };
+            }
 
             // DuckieTV version
             if ('chrome' in window && 'app' in window.chrome && 'getDetails' in window.chrome.app && window.chrome.app.getDetails() !== null && 'version' in window.chrome.app.getDetails()) {

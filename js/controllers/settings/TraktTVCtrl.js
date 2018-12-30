@@ -118,7 +118,7 @@ DuckieTV.controller('TraktTVCtrl', ["$rootScope", "$injector", "TraktTVv2", "Fav
                                 vm.traktTVSeries.push(show);
                             }
                         })
-                    };
+                    }
                     // process collected episodes
                     Promise.all(userShows.map(function(serie) {
                         if (serie.trakt_id in localSeries) { // Don't re-add serie if it's already added

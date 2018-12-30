@@ -86,7 +86,7 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$filter", "$locale", "
 
 
         this.markAllWatched = function(serie) {
-            serie.markSerieAsWatched(this.watchedDownloadedPaired,$rootScope).then(function() {
+            serie.markSerieAsWatched(this.watchedDownloadedPaired, $rootScope).then(function() {
                 $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie);
                 self.markAllWatchedAlert = false; // reset alert flag
             });
@@ -164,7 +164,7 @@ DuckieTV.controller('SidepanelSerieCtrl', ["$rootScope", "$filter", "$locale", "
 
         this.dataToClipboard = function(data) {
             var clip = nw.Clipboard.get();
-            clip.set(data.replace(/\|/g,'\r\n'), 'text');
+            clip.set(data.replace(/\|/g, '\r\n'), 'text');
         };
     }
 ]);

@@ -90,7 +90,7 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ["$q", "$http", "$injector",
             verifyTPBMirror: function(location, maxTries) {
                 if (maxTries) {
                     maxAttempts = maxTries;
-                };
+                }
                 $rootScope.$broadcast('tpbmirrorresolver:status', "Verifying if mirror is using magnet links!: " + location);
                 var q = $q.defer();
                 var slash = '';

@@ -14,7 +14,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     seeders: ['td:nth-child(4)', 'innerText'],
                     leechers:  ['td:nth-child(5)', 'innerText'],
                     size: ['td:nth-child(3)', 'innerText'],
-                    detailUrl: ['td div a:nth-child(2)','href'],
+                    detailUrl: ['td div a:nth-child(2)', 'href'],
                 },
                 detailsSelectors: {
                     detailsContainer: 'div.torrentinfo',

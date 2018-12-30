@@ -107,7 +107,7 @@ DuckieTV.directive('serieDetails', ["FavoritesService", "$location", "dialogs", 
                         } else {
                             $scope.serie.displaycalendar = 1;
                             serie2.set('displaycalendar', 1);
-                        };
+                        }
                         // save updates to db
                         $scope.$digest();
                         serie2.Persist();

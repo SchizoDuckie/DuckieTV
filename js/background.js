@@ -26,7 +26,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
         if (details.previousVersion != thisVersion) {
             localStorage.setItem('install.notify', thisVersion);
         }
-    };
+    }
 });
 
 /**

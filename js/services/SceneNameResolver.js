@@ -24,7 +24,7 @@ DuckieTV.factory('SceneNameResolver', ["$q", "$http", "SceneXemResolver",
          * its not all-inclusive, that list is just too huge, but we can easily add any more that we come across. 
          */
         replaceDiacritics = function(source) {
-            return source.replace(/[ÀÁÂÃÄÅ]/g,"A").replace(/[ÈÉÊË]/g,"E").replace(/[ÌÍÎÏ]/g,"I").replace(/[ÒÓÔÕÖ]/g,"O").replace(/[ÙÚÛÜ]/g,"U").replace(/[Ç]/g,"C").replace(/[àáâãäå]/g,"a").replace(/[èéêë]/g,"e").replace(/[ìíîï]/g,"i").replace(/[òóôõö]/g,"o").replace(/[ùúûü]/g,"u").replace(/[ç]/g,"c");
+            return source.replace(/[ÀÁÂÃÄÅ]/g, "A").replace(/[ÈÉÊË]/g, "E").replace(/[ÌÍÎÏ]/g, "I").replace(/[ÒÓÔÕÖ]/g, "O").replace(/[ÙÚÛÜ]/g, "U").replace(/[Ç]/g, "C").replace(/[àáâãäå]/g, "a").replace(/[èéêë]/g, "e").replace(/[ìíîï]/g, "i").replace(/[òóôõö]/g, "o").replace(/[ùúûü]/g, "u").replace(/[ç]/g, "c");
         };
         /**
          * strip the bracketed year, and all special characters apart from space and minus, and replace diacritics

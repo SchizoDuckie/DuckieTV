@@ -125,7 +125,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                 return this.rpc('download_list').then(function(data) {
                     var args = [];
                     var indexMap = {};
-                    var props = ["d.get_base_filename", "d.get_base_path", "d.get_bytes_done", "d.get_completed_bytes","d.get_directory", "d.get_directory_base", "d.get_down_rate", "d.get_down_total", "d.get_hash", "d.get_name", "d.get_size_bytes", "d.get_state", "d.get_up_rate"];
+                    var props = ["d.get_base_filename", "d.get_base_path", "d.get_bytes_done", "d.get_completed_bytes", "d.get_directory", "d.get_directory_base", "d.get_down_rate", "d.get_down_total", "d.get_hash", "d.get_name", "d.get_size_bytes", "d.get_state", "d.get_up_rate"];
 
                     data.map(function(hash) {
                         indexMap[hash] = {};
@@ -144,7 +144,7 @@ DuckieTorrent.factory('rTorrentRemote', ["BaseTorrentRemote",
                         Object.keys(indexMap).map(function(hash) {
                             var torrent = { hash: hash};
                             Object.keys(indexMap[hash]).map(function(property) {
-                                torrent[property.replace('d.get_','')] = result[indexMap[hash][property]][0];
+                                torrent[property.replace('d.get_', '')] = result[indexMap[hash][property]][0];
                             })
                             output.push(torrent);
                         })

@@ -109,7 +109,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 };
                 if (this.config.use_auth) {
                     headers.Authorization = [this.config.username, this.config.password];
-                };
+                }
                 return this.request('portscan', {headers: headers}).then(function(result) {
                     var scraper = new HTMLScraper(result.data),
                         categories = {},
@@ -141,7 +141,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 };
                 if (this.config.use_auth) {
                     headers.Authorization = [this.config.username, this.config.password];
-                };
+                }
                 return this.request('torrents', {headers: headers}).then(function(result) {
                     var scraper = new HTMLScraper(result.data);
 
@@ -154,8 +154,8 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                             bytes: tds[2].innerText,
                             progress: parseInt(tds[3].innerText),
                             status: tds[4].innerText,
-                            downSpeed: parseInt(tds[5].innerText == "" ? "0" : tds[5].innerText.replace(',','')) * 1000,
-                            upSpeed: parseInt(tds[6].innerText == "" ? "0" : tds[6].innerText.replace(',','')) * 1000,
+                            downSpeed: parseInt(tds[5].innerText == "" ? "0" : tds[5].innerText.replace(',', '')) * 1000,
+                            upSpeed: parseInt(tds[6].innerText == "" ? "0" : tds[6].innerText.replace(',', '')) * 1000,
                             priority: tds[7].innerText,
                             eta: tds[8].innerText,
                             guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1]
@@ -214,7 +214,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 };
                 if (this.config.use_auth) {
                     headers.Authorization = [this.config.username, this.config.password];
-                };
+                }
 
                 return $http.post(this.getUrl('addmagnet'), fd, {
                     transformRequest: angular.identity,
@@ -235,7 +235,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 };
                 if (this.config.use_auth) {
                     headers.Authorization = [this.config.username, this.config.password];
-                };
+                }
 
                 return $http.post(this.getUrl('addmagnet'), fd, {
                     transformRequest: angular.identity,
@@ -279,7 +279,7 @@ DuckieTorrent.factory('TixatiRemote', ["BaseTorrentRemote",
                 };
                 if (this.config.use_auth) {
                     headers.Authorization = [this.config.username, this.config.password];
-                };
+                }
                 return $http.post(this.getUrl('torrentcontrol', guid), formData, {
                     transformRequest: angular.identity,
                     headers: headers

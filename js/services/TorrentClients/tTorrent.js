@@ -87,7 +87,7 @@ DuckieTorrent.factory('tTorrentRemote', ["BaseTorrentRemote",
                 };
                 if (this.config.use_auth) {
                     headers.Authorization = [this.config.username, this.config.password];
-                };
+                }
                 return this.request('portscan', {headers: headers}).then(function(result) {
                     var scraper = new HTMLScraper(result.data);
                     if (scraper.querySelector('.header').innerText.trim() !== 'tTorrent web interface') {
@@ -107,7 +107,7 @@ DuckieTorrent.factory('tTorrentRemote', ["BaseTorrentRemote",
                 };
                 if (this.config.use_auth) {
                     headers.Authorization = [this.config.username, this.config.password];
-                };
+                }
                 return this.request('torrents', {headers: headers}).then(function(result) {
                     var scraper = new HTMLScraper(result.data);
                     var torrents = [];
@@ -128,9 +128,9 @@ DuckieTorrent.factory('tTorrentRemote', ["BaseTorrentRemote",
                                 break;
                             default:
                             console.warn('unexpected rate units ', units);
-                        };
+                        }
                         return rate; // Bytes/second
-                    };
+                    }
                     scraper.walkSelector('.torrent', function(torrentNode) {
                         var torrentName = torrentNode.querySelector('.torrentTitle').innerText.trim();
                         // <form action="/cmd/remove/bd5143fcf96b4e11c61c1748f2173a722378fa97" method="post" class="inlineForm">
@@ -308,7 +308,7 @@ DuckieTorrent.factory('tTorrentRemote', ["BaseTorrentRemote",
                 return $http.post(this.getUrl(method, id), {
                     headers: headers
                 }).then(function(response) {
-                    console.debug('exec', method,id,response);
+                    console.debug('exec', method, id, response);
                 });
             }
         });

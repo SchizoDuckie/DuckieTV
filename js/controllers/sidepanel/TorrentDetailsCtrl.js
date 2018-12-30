@@ -8,7 +8,7 @@ DuckieTV.controller('TorrentDetailsCtrl', ["DuckieTorrent", "torrent", "$scope",
         this.torrent = torrent;
         if ('hash' in torrent && torrent.hash !== undefined) {
             this.infoHash = torrent.hash.toUpperCase();
-        };
+        }
         this.progress = 0;
         this.downloadSpeed = 0;
         this.isWebUI = (this.torrent instanceof TorrentData); // web or uTorrent?

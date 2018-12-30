@@ -10,7 +10,7 @@
  * @see GenericTorrentSearch for more info or browse through the other torrent clients in this folder.
  */
 
-DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injector", "DuckieTorrent", "dialogs", "SettingsService", "SceneNameResolver", "TorrentHashListService",
+DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http", "$injector", "DuckieTorrent", "dialogs", "SettingsService", "SceneNameResolver", "TorrentHashListService",
     function($rootScope, $q, $http, $injector, DuckieTorrent, dialogs, SettingsService, SceneNameResolver, TorrentHashListService) {
         var activeEngines = {},
             nativeEngines = {},
@@ -46,7 +46,7 @@ DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injecto
                     }
                 }, 1500);
             }
-        };
+        }
 
         var service = {
 
@@ -321,7 +321,7 @@ DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injecto
                             console.warn("Failed to fetch latest trackers fall back list, saving default.", error.status, error.statusText);      
                         }
                     });
-                };
+                }
                 // load jackett engines
                 CRUD.Find("Jackett").then(function(results) {
                     results.map(function(jackett) {
@@ -342,7 +342,7 @@ DuckieTV.factory('TorrentSearchEngines', ["$rootScope", "$q", "$http" ,"$injecto
             var timeoutDelay = 2000; // optional customisation for #1062
             if (localStorage.getItem('custom_default_SE_providers_delay')) {
                 timeoutDelay = localStorage.getItem('custom_default_SE_providers_delay');
-            };
+            }
 
             // delay for 2 second so that custom clients can register themselves before determining default engine.
             setTimeout(function() {
