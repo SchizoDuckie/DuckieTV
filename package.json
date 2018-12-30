@@ -12,6 +12,8 @@
         "utorrent"
     ],
     "devDependencies": {
+        "eslint": "^5.11.1",
+        "eslint-plugin-angular": "^4.0.0",
         "jasmine-core": "^2.5.0",
         "karma": "^1.4.1",
         "karma-chrome-launcher": "^2.0.0",
