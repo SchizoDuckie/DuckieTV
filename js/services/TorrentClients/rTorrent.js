@@ -8,7 +8,7 @@
  * - Supports setting download directory
  * - Does not supports setting a Label
  */
-rTorrentData = function(data) {
+var rTorrentData = function(data) {
   this.update(data)
 }
 

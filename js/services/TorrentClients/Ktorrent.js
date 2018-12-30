@@ -32,7 +32,7 @@
  * It extends the base TorrentData class.
  *
  */
-KtorrentData = function(data) {
+var KtorrentData = function(data) {
   this.update(data)
 }
 

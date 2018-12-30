@@ -24,7 +24,7 @@
  * It extends the base TorrentData class.
  *
  */
-TixatiData = function(data) {
+var TixatiData = function(data) {
   this.update(data)
 }
 

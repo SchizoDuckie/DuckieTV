@@ -35,14 +35,11 @@ DuckieTV.factory('RarBG', ['$q', '$http',
           switch (result.data.error_code) {
             case 20: // No results found
               return []
-              break
             case 4: // Invalid token. Use get_token for a new one!
               return 4
-              break
             case 5: // Too many requests per second. Maximum requests allowed are 1req/2sec Please try again later!
               console.warn('Error [%s], Reason [%s]', result.data.error_code, result.data.error)
               return 5
-              break
             default:
               console.warn('Error [%s], Reason [%s]', result.data.error_code, result.data.error)
               return []

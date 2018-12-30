@@ -12,7 +12,7 @@
  * - Does not support setting a Label during add.torrent
  * - there is a maximum length limit of 1K on magnet strings. see #1114 for details.
  */
-uTorrentWebUIData = function(data) {
+var uTorrentWebUIData = function(data) {
   this.update(data)
 }
 

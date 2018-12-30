@@ -6,7 +6,7 @@
     "ecmaFeatures": {}
   },
   "env": {
-    "node": false,
+    "node": true,
     "browser": true
   },
   "globals": {
@@ -18,7 +18,15 @@
     "X2JS": true,
     "GenericTorrentSearchEngine": true,
     "nw": true,
-    "process": true
+    "process": true,
+    "moment": true,
+    "Loggr": true,
+    "Episode": true,
+    "TorrentData": true,
+    "DuckieTorrent": true,
+    "HTMLScraper": true,
+    "chrome": true,
+    "Fanart": true
   },
   "plugins": [
         "angular"
@@ -228,12 +236,12 @@
     "angular/rest-service": 0,
     "angular/service-name": 2,
     "angular/timeout-service": 1,
-    "angular/typecheck-array": 2,
-    "angular/typecheck-date": 2,
-    "angular/typecheck-function": 2,
-    "angular/typecheck-number": 2,
-    "angular/typecheck-object": 0,
-    "angular/typecheck-string": 2,
+    "angular/typecheck-array": 1,
+    "angular/typecheck-date": 1,
+    "angular/typecheck-function": 1,
+    "angular/typecheck-number": 1,
+    "angular/typecheck-object": 1,
+    "angular/typecheck-string": 1,
     "angular/watchers-execution": [0, "$digest"],
     "angular/window-service": 0
   }

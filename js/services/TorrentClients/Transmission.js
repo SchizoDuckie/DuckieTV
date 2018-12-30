@@ -7,11 +7,11 @@
  * - Supports setting download directory
  * - Does not supports setting a Label
  */
-TransmissionData = function(data) {
+var TransmissionData = function(data) {
   this.update(data)
 }
 
-PromiseFileReader = function() {
+var PromiseFileReader = function() {
   this.readAsDataURL = function(blob) {
     return new Promise(function(resolve, reject) {
       var reader = new FileReader()

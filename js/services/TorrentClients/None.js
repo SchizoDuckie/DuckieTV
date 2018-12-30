@@ -7,7 +7,7 @@
  * and allows other processes to complete successfully, such as marking a torrent as downloaded after the user launches a torrent manually.
  *
  */
-NoneData = function(data) {
+var NoneData = function(data) {
   this.update(data)
 }
 

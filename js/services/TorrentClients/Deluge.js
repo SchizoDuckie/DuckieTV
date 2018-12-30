@@ -10,7 +10,7 @@
  * - Supports setting download directory
  * - Does not supports setting a label during add.torrent
  */
-DelugeData = function(data) {
+var DelugeData = function(data) {
   this.update(data)
 }
 

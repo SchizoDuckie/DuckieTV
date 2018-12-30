@@ -16,11 +16,12 @@
  * It extends the base TorrentData class.
  *
  */
-Aria2Data = function(data) {
+var Aria2Data = function(data) {
   this.update(data)
 }
 
-Aria2Data.extends(TorrentData, {	// https://aria2.github.io/manual/en/html/aria2c.html#aria2.tellStatus
+// https://aria2.github.io/manual/en/html/aria2c.html#aria2.tellStatus
+Aria2Data.extends(TorrentData, {
   getName: function() {
     return this.name
   },

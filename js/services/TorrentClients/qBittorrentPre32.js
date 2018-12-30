@@ -9,7 +9,7 @@
  * - Does not support setting the download directory
  * - Does not support setting the label
  */
-qBittorrentData = function(data) {
+var qBittorrentData = function(data) {
   this.update(data)
 }
 
