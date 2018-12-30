@@ -1,0 +1,8 @@
+<span class="eventName">
+    <i ng-if="::episode.episodenumber == 1" class="glyphicon glyphicon-star" style="color:#FFEB3B"></i>
+    <i ng-if="::episode.seasonnumber == 0" class="glyphicon glyphicon-certificate" style="color:#3bb1ff"></i>
+    <span class="eventNameInner">
+        {{::serie.name}}
+        <span ng-if="getSetting('calendar.show-episode-numbers')"> - {{::episode.getFormattedEpisode()}}</span>
+    </span>
+</span>

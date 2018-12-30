@@ -1,8 +1,8 @@
 /**
  * The <calendar-event> directive displays an episode on the calendar
  */
-DuckieTV.directive('calendarEvent', ["SceneNameResolver", "AutoDownloadService", "SettingsService", "$location",
-    function(SceneNameResolver, AutoDownloadService, SettingsService, $location) {
+DuckieTV.directive('calendarEvent', ["SettingsService",
+    function(SettingsService) {
         return {
             restrict: 'E',
             scope: {
@@ -12,17 +12,11 @@ DuckieTV.directive('calendarEvent', ["SceneNameResolver", "AutoDownloadService",
             },
             transclude: true,
             templateUrl: 'templates/event.html',
-            controller: ["$scope", "$rootScope", "$location", function($scope, $rootScope, $location) {
-
+            controller: ["$scope", "$location", function($scope, $location) {
                 $scope.getSetting = SettingsService.get;
                 $scope.hoverTimer = null;
-                var cachedSearchString = false;
 
-                /**
-                 * Auto-switch background image to a relevant one for the calendar item when
-                 * hovering over an item for 1.5s
-                 * @return {[type]} [description]
-                 */
+                // Auto-switch background image to a relevant one for the calendar item when hovering over an item for 1.5s
                 $scope.startHoverTimer = function() {
                     $scope.clearHoverTimer();
                     // Make sure serie has fanart defined
@@ -50,3 +44,11 @@ DuckieTV.directive('calendarEvent', ["SceneNameResolver", "AutoDownloadService",
         };
     }
 ]);
+
+DuckieTV.directive('eventName', [function() {
+    return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'templates/event/eventName.html',
+    }
+}])

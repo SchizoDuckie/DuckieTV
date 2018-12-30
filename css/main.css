@@ -1747,16 +1747,29 @@ td.day {
 }
 
 [date-picker] .event .markpos.glyphicon-unchecked {
-  top: 1px;
-  opacity: 0.2;
+  opacity: 0.25;
+  top: 4px;
 }
 
 [date-picker] .event:hover .markpos.glyphicon-unchecked {
-  opacity: 0.3;
+  opacity: 0.35;
+}
+
+[date-picker] .event:hover .markpos.glyphicon-unchecked:hover {
+  opacity: 0.5;
+}
+
+[date-picker] .event a:hover,
+[date-picker] .event a:hover span {
+  text-decoration: none
+}
+
+[date-picker] .event a:hover .eventName .eventNameInner {
+  text-decoration: underline;
 }
 
 [date-picker] .event:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(140, 140, 140, 0.35);
   overflow: visible;
 }
 
@@ -1769,21 +1782,17 @@ td.day {
   padding-left: 3px;
 }
 
-[date-picker] .event>a span {
-  display: inline-block;
-  line-height: 18px;
-  cursor: pointer;
-}
-
 [date-picker] .event a .badge {
   position: absolute;
-  top: 0px;
+  top: 2px;
   right: 2px;
-  padding: 2px 4px;
-  border-radius: 6px;
+  padding: 2px 3px;
+  border-radius: 4px;
   cursor: row-resize;
   text-decoration: none !important;
-  height: 21px;
+  height: 17px;
+  font-size: 11px;
+  line-height: 13px;
 }
 
 [date-picker] calendar-event:first-of-type {
