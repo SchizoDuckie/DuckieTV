@@ -12,6 +12,7 @@
         "utorrent"
     ],
     "devDependencies": {
+        "babel-eslint": "^10.0.1",
         "eslint": "^5.11.1",
         "eslint-plugin-angular": "^4.0.0",
         "jasmine-core": "^2.5.0",
