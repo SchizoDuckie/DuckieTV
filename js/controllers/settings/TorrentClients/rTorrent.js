@@ -1,34 +1,34 @@
-DuckieTV.controller('rTorrentCtrl', ['$injector', 'rTorrent', 'SettingsService', 'FormlyLoader',
-  function($injector, rTorrent, SettingsService, FormlyLoader) {
-    var self = this
-    this.error = null
+DuckieTV.controller('rTorrentCtrl', ['rTorrent', 'SettingsService', 'FormlyLoader',
+  function(rTorrent, SettingsService, FormlyLoader) {
+    var vm = this
+    vm.error = null
 
     FormlyLoader.load('TorrentClientSettings').then(function(fields) {
-      self.model = {
+      vm.model = {
         server: SettingsService.get('rtorrent.server'),
         port: SettingsService.get('rtorrent.port'),
         path: SettingsService.get('rtorrent.path')
       }
 
-      self.fields = fields
+      vm.fields = fields
     })
 
-    this.isConnected = function() {
+    vm.isConnected = function() {
       return rTorrent.isConnected()
     }
 
-    this.test = function() {
-      this.error = false
+    vm.test = function() {
+      vm.error = false
       // console.log("Testing settings");
       rTorrent.Disconnect()
-      rTorrent.setConfig(this.model)
+      rTorrent.setConfig(vm.model)
       rTorrent.connect().then(function(connected) {
         console.info('rTorrent connected! (save settings)', connected)
-        self.error = null
+        vm.error = null
         rTorrent.saveConfig()
         window.location.reload()
       }, function(error) {
-        self.error = error
+        vm.error = error
         console.error('rTorrent connect error!', error)
       })
     }

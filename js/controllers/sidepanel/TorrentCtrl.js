@@ -8,32 +8,32 @@ DuckieTV.controller('TorrentCtrl', ['$rootScope', '$injector', '$filter', 'Ducki
     var connectingLbl = $filter('translate')('COMMON/tc-connecting/lbl') + '...'
 
     /**
-         * Closes the SidePanel
-         */
-    this.closeSidePanel = function() {
+     * Closes the SidePanel
+     */
+    vm.closeSidePanel = function() {
       $injector.get('$state').go('calendar')
     }
 
-    this.authToken = localStorage.getItem('utorrent.token')
+    vm.authToken = localStorage.getItem('utorrent.token')
     // uTorrent.setPort(localStorage.getItem('utorrent.port'));
-    this.rpc = null
-    this.status = connectingLbl
+    vm.rpc = null
+    vm.status = connectingLbl
 
-    this.removeToken = function() {
+    vm.removeToken = function() {
       localStorage.removeItem('utorrent.token')
       localStorage.removeItem('utorrent.preventconnecting')
       window.location.reload()
     }
 
-    this.getTorrentClientName = function() {
+    vm.getTorrentClientName = function() {
       return DuckieTorrent.getClientName()
     }
 
-    this.getTorrentClientTemplate = function() {
+    vm.getTorrentClientTemplate = function() {
       return DuckieTorrent.getClientName().toLowerCase().replace(/ /g, '').replace('(pre3.2)', 'Pre32').replace(/3.2\+/, '32plus')
     }
 
-    this.getTorrentsCount = function() {
+    vm.getTorrentsCount = function() {
       if (vm.rpc) {
         var count = vm.rpc.getTorrents().length
         if (SidePanelState.state.isExpanded && count === 0) {

@@ -1,8 +1,8 @@
 /**
  * Controller for the torrent related setting tabs (auto-download, torrent-search, torrent, utorrent)
  */
-DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', '$injector', 'SettingsService', 'DuckieTorrent', 'TorrentSearchEngines', 'ThePirateBayMirrorResolver', 'TraktTVv2', 'AutoDownloadService',
-  function($scope, $rootScope, $injector, SettingsService, DuckieTorrent, TorrentSearchEngines, ThePirateBayMirrorResolver, TraktTVv2, AutoDownloadService) {
+DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', 'SettingsService', 'DuckieTorrent', 'TorrentSearchEngines', 'ThePirateBayMirrorResolver', 'AutoDownloadService',
+  function($scope, $rootScope, SettingsService, DuckieTorrent, TorrentSearchEngines, ThePirateBayMirrorResolver, AutoDownloadService) {
     $scope.log = []
 
     $scope.customtpbmirror = SettingsService.get('ThePirateBay.mirror')
@@ -54,8 +54,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', '$injector',
     }
 
     /**
-         * Toggle the AutoDownload Multi Search Engines usage
-         */
+     * Toggle the AutoDownload Multi Search Engines usage
+     */
     $scope.toggleUsingMultiSE = function() {
       $scope.usingMultiSE = !$scope.usingMultiSE
       SettingsService.set('autodownload.multiSE.enabled', $scope.usingMultiSE)
@@ -64,21 +64,21 @@ DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', '$injector',
     }
 
     /**
-         * Inject an event to display mirror resolving progress.
-         */
+     * Inject an event to display mirror resolving progress.
+     */
     $rootScope.$on('tpbmirrorresolver:status', function(evt, status) {
       $scope.tpbmirrorStatus.unshift(status)
     })
 
     /**
-         * @todo : migrate these to a directive that's a generic interface for mirror resolvers based on the config.MirrorResolver properties
-         */
+     * @todo : migrate these to a directive that's a generic interface for mirror resolvers based on the config.MirrorResolver properties
+     */
 
     /*
-         * Resolve a new random ThePirateBay mirror.
-         * Log progress while this is happening.
-         * Save the new mirror in the thepiratebay.mirror settings key
-         */
+    * Resolve a new random ThePirateBay mirror.
+    * Log progress while this is happening.
+    * Save the new mirror in the thepiratebay.mirror settings key
+    */
     $scope.findRandomTPBMirror = function() {
       ThePirateBayMirrorResolver.findTPBMirror().then(function(result) {
         $scope.customtpbmirror = result
@@ -90,15 +90,15 @@ DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', '$injector',
     }
 
     /**
-         * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
-         */
+     * Validate a mirror by checking if it doesn't proxy all links and supports magnet uri's
+     */
     $scope.validateCustomTPBMirror = function(mirror) {
       $scope.mirrorStatus = []
       ThePirateBayMirrorResolver.verifyTPBMirror(mirror).then(function(result) {
         $scope.customtpbmirror = result
         SettingsService.set('ThePirateBay.mirror', $scope.customtpbmirror)
         $rootScope.$broadcast('tpbmirrorresolver:status', 'Saved!')
-      }, function(err) {
+      }, function() {
         console.error('Could not validate custom mirror!', mirror)
         // $scope.customMirror = '';
       })
@@ -168,8 +168,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', '$injector',
     }
 
     /**
-         * Change the default torrent search provider
-         */
+     * Change the default torrent search provider
+     */
     $scope.setSearchProvider = function(provider) {
       $scope.searchprovider = provider
       SettingsService.set('torrenting.searchprovider', provider)
@@ -181,16 +181,16 @@ DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', '$injector',
     }
 
     /**
-         * Changes the default torrent search quality (hdtv, 720p, etc)
-         */
+     * Changes the default torrent search quality (hdtv, 720p, etc)
+     */
     $scope.setSearchQuality = function(quality) {
       SettingsService.set('torrenting.searchquality', quality)
       $scope.searchquality = quality
     }
 
     /**
-         * Changes the period allowed to AutoDownload episodes
-         */
+     * Changes the period allowed to AutoDownload episodes
+     */
     $scope.saveADPeriod = function(period) {
       SettingsService.set('autodownload.period', period)
       AutoDownloadService.detach() // restart kickoff method when changing search period and seeders.
@@ -198,8 +198,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', '$injector',
     }
 
     /**
-         * Changes the delay that AutoDownload waits before searching for an episodes' torrent
-         */
+     * Changes the delay that AutoDownload waits before searching for an episodes' torrent
+     */
     $scope.saveADDelay = function(delay) {
       SettingsService.set('autodownload.delay', delay.dhmToMins())
       AutoDownloadService.detach() // restart kickoff method.
@@ -207,8 +207,8 @@ DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', '$injector',
     }
 
     /**
-         * Changes the amount of seeders required
-         */
+     * Changes the amount of seeders required
+     */
     $scope.saveMinSeeders = function(seeds) {
       SettingsService.set('torrenting.min_seeders', seeds)
       AutoDownloadService.detach() // restart kickoff method when changing search period and seeders.
@@ -251,46 +251,48 @@ DuckieTV.controller('SettingsTorrentCtrl', ['$scope', '$rootScope', '$injector',
     }
 
     /**
-         * Save Require Keywords list
-         */
+     * Save Require Keywords list
+     */
     $scope.saveRequireKeywords = function(list) {
       $scope.requireKeywords = list
       SettingsService.set('torrenting.require_keywords', $scope.requireKeywords)
     }
 
     /**
-         * Save ignore keyword list
-         */
+     * Save ignore keyword list
+     */
     $scope.saveIgnoreKeywords = function(list) {
       $scope.ignoreKeywords = list
       SettingsService.set('torrenting.ignore_keywords', $scope.ignoreKeywords)
     }
 
     /**
-         * Save Global Size Min
-         */
+     * Save Global Size Min
+     */
     $scope.saveGlobalSizeMin = function(size) {
       $scope.globalSizeMin = size
       SettingsService.set('torrenting.global_size_min', $scope.globalSizeMin)
     }
 
     /**
-         * Save Global Size Max
-         */
+     * Save Global Size Max
+     */
     $scope.saveGlobalSizeMax = function(size) {
       $scope.globalSizeMax = size
       SettingsService.set('torrenting.global_size_max', $scope.globalSizeMax)
     }
 
     /**
-         * is provider a Jackett SE?
-         */
+     * is provider a Jackett SE?
+     */
     $scope.isJackett = function(jse) {
       return (jse in $scope.jackettProviders && $scope.jackettProviders[jse].enabled)
     }
   }
 ])
-  .directive('adDelayValidation', ['SettingsService', function(SettingsService) {
+
+DuckieTV.directive('adDelayValidation', ['SettingsService',
+  function(SettingsService) {
     return {
       restrict: 'A',
       require: 'ngModel',

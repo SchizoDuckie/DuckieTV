@@ -1,8 +1,8 @@
 /**
  * Controller for Sync settings tab
  */
-DuckieTV.controller('SyncCtrl', ['$scope', 'StorageSyncService', '$injector', 'TraktTVv2',
-  function($scope, StorageSyncService, $injector, TraktTVv2) {
+DuckieTV.controller('SyncCtrl', ['$scope', 'StorageSyncService', 'TraktTVv2',
+  function($scope, StorageSyncService, TraktTVv2) {
     $scope.targets = StorageSyncService.targets
 
     $scope.read = function(StorageEngine) {

@@ -9,12 +9,12 @@ DuckieTV.controller('seriesListCtrl', ['FavoritesService', '$rootScope', 'Settin
     vm.watchedDownloadedPaired = SettingsService.get('episode.watched-downloaded.pairing')
 
     /**
-         * Context Menu that appears when right clicking on series
-         * * Mark all watched/unwatched
-         * * --
-         * * Hide/Show series on calendar
-         * * Remove from Favorites
-         **/
+     * Context Menu that appears when right clicking on series
+     * * Mark all watched/unwatched
+     * * --
+     * * Hide/Show series on calendar
+     * * Remove from Favorites
+     **/
     vm.contextMenu = function(serie) {
       return [
         [ // Mark all watched
@@ -72,8 +72,8 @@ DuckieTV.controller('seriesListCtrl', ['FavoritesService', '$rootScope', 'Settin
     vm.translatedOrderByList = $filter('translate')('ORDERBYLIST').split('|')
 
     /*
-         * Takes the English orderBy (elements from Series table) and returns a translation
-         */
+    * Takes the English orderBy (elements from Series table) and returns a translation
+    */
     vm.translateOrderBy = function(orderBy) {
       var idx = vm.orderByList.indexOf(orderBy)
       return (idx != -1) ? vm.translatedOrderByList[idx] : vm.translatedOrderByList[0]
@@ -127,8 +127,8 @@ DuckieTV.controller('seriesListCtrl', ['FavoritesService', '$rootScope', 'Settin
     }
 
     /**
-         * Automatically launch the first search result when user hits enter in the filter form
-         */
+     * Automatically launch the first search result when user hits enter in the filter form
+     */
     vm.execFilter = function() {
       setTimeout(function() {
         document.querySelector('.series serieheader a').click()
@@ -140,9 +140,9 @@ DuckieTV.controller('seriesListCtrl', ['FavoritesService', '$rootScope', 'Settin
     }
 
     /**
-         * Set the series list display mode to either banner or poster.
-         * Temporary mode is for enabling for instance the search, it's not stored.
-         */
+     * Set the series list display mode to either banner or poster.
+     * Temporary mode is for enabling for instance the search, it's not stored.
+     */
     vm.setMode = function(mode, temporary) {
       if (!temporary) {
         SettingsService.set('series.displaymode', mode)
@@ -151,50 +151,49 @@ DuckieTV.controller('seriesListCtrl', ['FavoritesService', '$rootScope', 'Settin
     }
 
     /**
-         * Closes the trakt-serie-details sidepanel when exiting adding mode
-         */
+     * Closes the trakt-serie-details sidepanel when exiting adding mode
+     */
     vm.closeSidePanel = function() {
       SidePanelState.hide()
     }
 
     /**
-         * Toggles small mode on off
-         */
+     * Toggles small mode on off
+     */
     vm.toggleSmall = function() {
       vm.isSmall = !vm.isSmall
       SettingsService.set('library.smallposters', vm.isSmall)
     }
 
     /**
-         * Toggle or untoggle the favorites panel
-         */
+     * Toggle or untoggle the favorites panel
+     */
     vm.activate = function() {
       vm.activated = true
     }
 
     /**
-         * Close the drawer
-         */
+     * Close the drawer
+     */
     vm.closeDrawer = function() {
       vm.activated = false
       document.body.style.overflowY = 'auto'
     }
 
     /**
-         * Fires when user hits enter in the search serie box.Auto - selects the first result and opens details subpanel.
-         */
-
+     * Fires when user hits enter in the search serie box.Auto - selects the first result and opens details subpanel.
+     */
     vm.selectFirstResult = function() {
       document.querySelectorAll('serieheader')[0].click()
     }
 
     /**
-         * Add a show to favorites.
-         * The serie object is a Trakt.TV TV Show Object.
-         * Queues up the tvdb_id in the serieslist.adding array so that the spinner can be shown.
-         * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
-         * It can show the checkmark.
-         */
+     * Add a show to favorites.
+     * The serie object is a Trakt.TV TV Show Object.
+     * Queues up the tvdb_id in the serieslist.adding array so that the spinner can be shown.
+     * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
+     * It can show the checkmark.
+     */
     vm.selectSerie = function(serie) {
       FavoritesManager.add(serie).then(function() {
         $state.go('serie', {
@@ -204,23 +203,23 @@ DuckieTV.controller('seriesListCtrl', ['FavoritesService', '$rootScope', 'Settin
     }
 
     /**
-         * Verify with the favoritesservice if a specific TVDB_ID is registered.
-         * Used to show checkmarks in the add modes for series that you already have.
-         */
+     * Verify with the favoritesservice if a specific TVDB_ID is registered.
+     * Used to show checkmarks in the add modes for series that you already have.
+     */
     vm.isAdded = function(tvdb_id) {
       return FavoritesService.isAdded(tvdb_id)
     }
 
     /**
-         * Returns true as long as the add a show to favorites promise is running.
-         */
+     * Returns true as long as the add a show to favorites promise is running.
+     */
     vm.isAdding = function(tvdb_id) {
       return FavoritesService.isAdding(tvdb_id)
     }
 
     /**
-         * Returns true as long as the add a show to favorites promise is running.
-         */
+     * Returns true as long as the add a show to favorites promise is running.
+     */
     vm.isError = function(tvdb_id) {
       return FavoritesService.isError(tvdb_id)
     }

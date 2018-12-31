@@ -68,16 +68,16 @@ DuckieTV.controller('localSeriesCtrl', ['$rootScope', '$filter', 'FavoritesServi
     }
 
     /*
-         * Takes the English Genre (as fetched from TraktTV) and returns a translation
-         */
+    * Takes the English Genre (as fetched from TraktTV) and returns a translation
+    */
     vm.translateGenre = function(genre) {
       var idx = engGenreList.indexOf(genre)
       return (idx !== -1) ? translatedGenreList[idx] : genre
     }
 
     /*
-         * Takes the English status (as fetched from TraktTV) and returns a translation
-         */
+    * Takes the English status (as fetched from TraktTV) and returns a translation
+    */
     vm.translateStatus = function(status) {
       var idx = engStatusList.indexOf(status)
       return (idx !== -1) ? translatedStatusList[idx] : status

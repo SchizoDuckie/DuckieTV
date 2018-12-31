@@ -1,8 +1,8 @@
 /**
  * TraktTV Controller for TraktTV Directive Stuff and the settings tab
  */
-DuckieTV.controller('TraktTVCtrl', ['$rootScope', '$injector', 'TraktTVv2', 'FavoritesService', 'SettingsService',
-  function($rootScope, $injector, TraktTVv2, FavoritesService, SettingsService) {
+DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService', 'SettingsService',
+  function($rootScope, TraktTVv2, FavoritesService, SettingsService) {
     var vm = this
 
     // Array for credentials
@@ -82,22 +82,20 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', '$injector', 'TraktTVv2', 'Fav
     }
 
     /* Note: I intentionally used my own cache and not the FavoritesService adding Cache because
-         *  if we use FavoritesService cache while importing on the Serieslist it will also cause
-         *  all the shows below that are being added to update with the spinners and with a lot of
-         *  series the performance impact is noticeable.
-         */
+    *  if we use FavoritesService cache while importing on the Serieslist it will also cause
+    *  all the shows below that are being added to update with the spinners and with a lot of
+    *  series the performance impact is noticeable.
+    */
     vm.isAdding = function(trakt_id) {
-      return addedSeries.indexOf(trakt_id) == -1
+      return addedSeries.indexOf(trakt_id) === -1
     }
 
     // Imports users collected Series and Watched episodes from TraktTV
     var collectionIDCache = []
-
     var addedSeries = []
-
     var localSeries = {}
-
     var alreadyImported = false
+
     vm.readTraktTV = function() {
       if (alreadyImported) return
       alreadyImported = true
@@ -245,8 +243,8 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', '$injector', 'TraktTVv2', 'Fav
     }
 
     /**
-         * Changes the hourly period DuckieTV fetches Trakt.TV episodes updates with.
-         */
+     * Changes the hourly period DuckieTV fetches Trakt.TV episodes updates with.
+     */
     vm.saveTUPeriod = function(period) {
       SettingsService.set('trakt-update.period', period)
       window.location.reload()

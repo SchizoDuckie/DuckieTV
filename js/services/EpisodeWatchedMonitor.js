@@ -34,14 +34,14 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
   }
 
   /**
-     * Iterate the output from parseEpisodeCounts
-     * and mark every season as either watched or not watched based if notWatched = 0 (indicating that all episodes are watched)
-     * Persist new season watched statuses, and return an intermediate array with boolean values that have a true/false for
-     * every serie. reduce the boolean array into a single digit representing watched seasons for serie.
-     * Return boolean that tells if number of seasons in the show matches watched season count.
-     *
-     * @return {boolean allSeasonsWatched, integer notWatchedTotal}
-     */
+   * Iterate the output from parseEpisodeCounts
+   * and mark every season as either watched or not watched based if notWatched = 0 (indicating that all episodes are watched)
+   * Persist new season watched statuses, and return an intermediate array with boolean values that have a true/false for
+   * every serie. reduce the boolean array into a single digit representing watched seasons for serie.
+   * Return boolean that tells if number of seasons in the show matches watched season count.
+   *
+   * @return {boolean allSeasonsWatched, integer notWatchedTotal}
+   */
   function markSeasonsWatched(seasons) {
     var notWatchedTotal = 0 // sum of all serie's seasons' notWatched episodes
     return $q.all(Object.keys(seasons).map(function(season) {
@@ -68,8 +68,8 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
   }
 
   /**
-     * Fetch serie from favoritesservice for performance and toggle watched flag.
-     */
+   * Fetch serie from favoritesservice for performance and toggle watched flag.
+   */
   function markSerieWatched(ID_Serie, data) {
     var serie = FavoritesService.getByID_Serie(ID_Serie)
     // console.debug("Serie watched? ", serie.name, serie.watched, data.allSeasonsWatched, data.notWatchedTotal);
@@ -79,9 +79,9 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
   }
 
   /**
-     * When all database queries are done, process a serie.
-     * If not, delay processing for 50ms.
-     */
+   * When all database queries are done, process a serie.
+   * If not, delay processing for 50ms.
+   */
   function processQueue() {
     if (CRUD.stats.writesExecuted == CRUD.stats.writesQueued) {
       if (Object.keys(queue).length > 0) {

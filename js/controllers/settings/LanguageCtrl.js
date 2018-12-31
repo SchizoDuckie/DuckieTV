@@ -1,8 +1,8 @@
 /*
  * Controller for the language settings tab
  */
-DuckieTV.controller('LanguageCtrl', ['$scope', '$filter', '$injector', 'SettingsService',
-  function($scope, $filter, $injector, SettingsService) {
+DuckieTV.controller('LanguageCtrl', ['$scope', 'SettingsService',
+  function($scope, SettingsService) {
     $scope.activeLocale = SettingsService.get('application.locale')
     $scope.clientLocale = SettingsService.get('client.determinedlocale')
 

@@ -1,10 +1,10 @@
-DuckieTV.controller('tixatiCtrl', ['$injector', 'Tixati', 'SettingsService', 'FormlyLoader',
-  function($injector, Tixati, SettingsService, FormlyLoader) {
-    var self = this
-    this.error = null
+DuckieTV.controller('tixatiCtrl', ['Tixati', 'SettingsService', 'FormlyLoader',
+  function(Tixati, SettingsService, FormlyLoader) {
+    var vm = this
+    vm.error = null
 
     FormlyLoader.load('TorrentClientSettings').then(function(fields) {
-      self.model = {
+      vm.model = {
         server: SettingsService.get('tixati.server'),
         port: SettingsService.get('tixati.port'),
         use_auth: SettingsService.get('tixati.use_auth'),
@@ -13,28 +13,28 @@ DuckieTV.controller('tixatiCtrl', ['$injector', 'Tixati', 'SettingsService', 'Fo
         hideUseAuth: true
       }
 
-      self.fields = fields
+      vm.fields = fields
     })
 
-    this.isConnected = function() {
+    vm.isConnected = function() {
       return Tixati.isConnected()
     }
 
-    this.test = function() {
-      this.error = false
+    vm.test = function() {
+      vm.error = false
       // console.log("Testing settings");
       Tixati.Disconnect()
-      Tixati.setConfig(this.model)
+      Tixati.setConfig(vm.model)
       Tixati.connect().then(function(connected) {
         console.info('Tixati connected! (save settings)', connected)
-        self.error = null
+        vm.error = null
         Tixati.saveConfig()
         window.location.reload()
       }, function(error) {
         if ('status' in error && 'statusText' in error) {
-          self.error = ['Tixati connect error!', 'Status:', error.status, 'Reason:', error.statusText || 'Unknown'].join(' ')
+          vm.error = ['Tixati connect error!', 'Status:', error.status, 'Reason:', error.statusText || 'Unknown'].join(' ')
         } else {
-          self.error = error
+          vm.error = error
         }
         console.error(self.error)
       })

@@ -3,20 +3,20 @@
  */
 DuckieTV.controller('TorrentDetailsCtrl', ['DuckieTorrent', 'torrent', '$scope', '$injector',
   function(DuckieTorrent, torrent, $scope, $injector) {
-    var self = this
+    var vm = this
 
-    this.torrent = torrent
+    vm.torrent = torrent
     if ('hash' in torrent && torrent.hash !== undefined) {
-      this.infoHash = torrent.hash.toUpperCase()
+      vm.infoHash = torrent.hash.toUpperCase()
     }
-    this.progress = 0
-    this.downloadSpeed = 0
-    this.isWebUI = (this.torrent instanceof TorrentData) // web or uTorrent?
+    vm.progress = 0
+    vm.downloadSpeed = 0
+    vm.isWebUI = (vm.torrent instanceof TorrentData) // web or uTorrent?
 
     /**
          * Closes the SidePanel expansion
          */
-    this.closeSidePanelExpansion = function() {
+    vm.closeSidePanelExpansion = function() {
       $injector.get('SidePanelState').contract()
       $injector.get('$state').go('torrent')
     }
@@ -26,25 +26,25 @@ DuckieTV.controller('TorrentDetailsCtrl', ['DuckieTorrent', 'torrent', '$scope',
          */
     function observeTorrent(rpc, infoHash) {
       DuckieTorrent.getClient().getRemote().onTorrentUpdate(infoHash, function(newData) {
-        self.torrent = newData
-        self.torrent.getFiles().then(function(files) {
+        vm.torrent = newData
+        vm.torrent.getFiles().then(function(files) {
           if (!files) {
             return []
           } else {
             // console.debug('received files!', files);
-            self.torrent.torrent_files = files.map(function(file) {
+            vm.torrent.torrent_files = files.map(function(file) {
               file.isMovie = file.name.substring(file.name.length - 3).match(/mp4|avi|mkv|mpeg|mpg|flv|ts/g)
               if (file.isMovie) {
                 file.searchFileName = file.name.indexOf('/') > -1 ? file.name.split('/').pop().split(' ').pop() : file.name
-                file.path = self.torrent.getDownloadDir()
+                file.path = vm.torrent.getDownloadDir()
               }
               return file
             })
           }
         })
-        self.progress = self.torrent.getProgress()
-        self.downloadSpeed = Math.floor((self.torrent.getDownloadSpeed() / 1000) * 10) / 10 // B/s -> kB/s
-        self.isWebUI = (self.torrent instanceof TorrentData) // web or uTorrent?
+        vm.progress = vm.torrent.getProgress()
+        vm.downloadSpeed = Math.floor((vm.torrent.getDownloadSpeed() / 1000) * 10) / 10 // B/s -> kB/s
+        vm.isWebUI = (vm.torrent instanceof TorrentData) // web or uTorrent?
         $scope.$applyAsync()
       })
     }
@@ -52,11 +52,11 @@ DuckieTV.controller('TorrentDetailsCtrl', ['DuckieTorrent', 'torrent', '$scope',
     // If the connected info hash changes, remove the old event and start observing the new one.
     $scope.$watch('infoHash', function(newVal, oldVal) {
       if (newVal == oldVal) return
-      self.infoHash = newVal
+      vm.infoHash = newVal
       DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
-        self.torrent = DuckieTorrent.getClient().getRemote().getByHash(self.infoHash)
+        vm.torrent = DuckieTorrent.getClient().getRemote().getByHash(vm.infoHash)
         DuckieTorrent.getClient().getRemote().offTorrentUpdate(oldVal, observeTorrent)
-        observeTorrent(rpc, self.infoHash)
+        observeTorrent(rpc, vm.infoHash)
       })
     })
 
@@ -64,8 +64,8 @@ DuckieTV.controller('TorrentDetailsCtrl', ['DuckieTorrent', 'torrent', '$scope',
          * start monitoring updates for the torrent hash in the infoHash
          */
     DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
-      self.torrent = DuckieTorrent.getClient().getRemote().getByHash(self.infoHash)
-      observeTorrent(rpc, self.infoHash)
+      vm.torrent = DuckieTorrent.getClient().getRemote().getByHash(vm.infoHash)
+      observeTorrent(rpc, vm.infoHash)
     })
   }
 ])

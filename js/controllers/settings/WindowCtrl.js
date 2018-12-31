@@ -1,9 +1,9 @@
-DuckieTV.controller('WindowCtrl', ['$scope', '$injector', '$filter',
-  function($scope, $injector, $filter) {
+DuckieTV.controller('WindowCtrl', ['$scope', '$filter',
+  function($scope, $filter) {
     /**
-         * All nw.js specific window settings are stored in localStorage because
-         * they need to be accessed before DuckieTV starts up
-         */
+     * All nw.js specific window settings are stored in localStorage because
+     * they need to be accessed before DuckieTV starts up
+     */
 
     $scope.startupMinimized = (localStorage.getItem('standalone.startupMinimized') === 'Y')
     $scope.alwaysShowTray = localStorage.getItem('standalone.alwaysShowTray')

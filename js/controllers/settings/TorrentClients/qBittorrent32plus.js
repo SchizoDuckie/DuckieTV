@@ -1,10 +1,10 @@
-DuckieTV.controller('qbt32plusCtrl', ['$injector', 'qBittorrent32plus', 'SettingsService', 'FormlyLoader',
-  function($injector, qBittorrent32plus, SettingsService, FormlyLoader) {
-    var self = this
-    this.error = null
+DuckieTV.controller('qbt32plusCtrl', ['qBittorrent32plus', 'SettingsService', 'FormlyLoader',
+  function(qBittorrent32plus, SettingsService, FormlyLoader) {
+    var vm = this
+    vm.error = null
 
     FormlyLoader.load('TorrentClientSettings').then(function(fields) {
-      self.model = {
+      vm.model = {
         server: SettingsService.get('qbittorrent32plus.server'),
         port: SettingsService.get('qbittorrent32plus.port'),
         use_auth: SettingsService.get('qbittorrent32plus.use_auth'),
@@ -12,25 +12,25 @@ DuckieTV.controller('qbt32plusCtrl', ['$injector', 'qBittorrent32plus', 'Setting
         password: SettingsService.get('qbittorrent32plus.password')
       }
 
-      self.fields = fields
+      vm.fields = fields
     })
 
-    this.isConnected = function() {
+    vm.isConnected = function() {
       return qBittorrent32plus.isConnected()
     }
 
-    this.test = function() {
-      this.error = false
+    vm.test = function() {
+      vm.error = false
       // console.log("Testing settings");
       qBittorrent32plus.Disconnect()
-      qBittorrent32plus.setConfig(this.model)
+      qBittorrent32plus.setConfig(vm.model)
       qBittorrent32plus.connect().then(function(connected) {
         console.info('qBittorrent 3.2+ connected! (save settings)', connected)
-        self.error = null
+        vm.error = null
         qBittorrent32plus.saveConfig()
         window.location.reload()
       }, function(error) {
-        self.error = error
+        vm.error = error
         console.error('qBittorrent 3.2+ connect error!', error)
       })
     }

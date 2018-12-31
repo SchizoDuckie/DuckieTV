@@ -98,8 +98,8 @@ DuckieTV.factory('FanartService', ['$q', '$http', function($q, $http) {
       return null
     },
     /**
-             * To populate fanart.cache
-             */
+     * To populate fanart.cache
+     */
     store: function() {
       var cache = {}
       CRUD.Find('Fanart', {}, {'limit': '0,99999'}).then(function(result) {
@@ -110,8 +110,8 @@ DuckieTV.factory('FanartService', ['$q', '$http', function($q, $http) {
       })
     },
     /**
-             * Populate fanart cache if there is none
-             */
+     * Populate fanart cache if there is none
+     */
     initialize: function() {
       if (localStorage.getItem('fanart.cache')) {
         var cache = JSON.parse(localStorage.getItem('fanart.cache'))
@@ -133,6 +133,8 @@ DuckieTV.factory('FanartService', ['$q', '$http', function($q, $http) {
   }
   return service
 }
-]).run(['FanartService', function(FanartService) {
+])
+
+DuckieTV.run(['FanartService', function(FanartService) {
   FanartService.initialize()
 }])

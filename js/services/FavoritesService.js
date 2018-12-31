@@ -6,10 +6,10 @@
 DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$injector',
   function($q, $rootScope, FanartService, $injector) {
     /**
-         * Helper function to add a serie to the service.favorites hash if it doesn't already exist.
-         * update existing otherwise.
-         */
-    addToFavoritesList = function(serie) {
+     * Helper function to add a serie to the service.favorites hash if it doesn't already exist.
+     * update existing otherwise.
+     */
+    var addToFavoritesList = function(serie) {
       var existing = service.favorites.filter(function(el) {
         return el.TVDB_ID == serie.TVDB_ID
       })
@@ -22,10 +22,10 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
     }
 
     /**
-         * Helper function to map properties from the input data on a serie from Trakt.TV into a Serie CRUD object.
-         * Input information will always overwrite existing information.
-         */
-    fillSerie = function(serie, data, fanart) {
+     * Helper function to map properties from the input data on a serie from Trakt.TV into a Serie CRUD object.
+     * Input information will always overwrite existing information.
+     */
+    var fillSerie = function(serie, data, fanart) {
       data.TVDB_ID = data.tvdb_id
       data.TVRage_ID = data.tvrage_id
       data.IMDB_ID = data.imdb_id
@@ -84,10 +84,10 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
       }
     }
     /**
-         * Helper function to map properties from the input data from Trakt.TV into a Episode CRUD object.
-         * Input information will always overwrite existing information.
-         */
-    fillEpisode = function(episode, data, season, serie, watched, fanart) {
+     * Helper function to map properties from the input data from Trakt.TV into a Episode CRUD object.
+     * Input information will always overwrite existing information.
+     */
+    var fillEpisode = function(episode, data, season, serie, watched, fanart) {
       // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
       data.TVDB_ID = data.tvdb_id
       data.IMDB_ID = data.imdb_id
@@ -137,11 +137,11 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
     }
 
     /**
-         * Wipe episodes from the database that were cached locally but are no longer in the latest update.
-         * @param object seasons Trakt.TV seasons/episodes input
-         * @param object series serie entity
-         */
-    cleanupEpisodes = function(seasons, serie) {
+     * Wipe episodes from the database that were cached locally but are no longer in the latest update.
+     * @param object seasons Trakt.TV seasons/episodes input
+     * @param object series serie entity
+     */
+    var cleanupEpisodes = function(seasons, serie) {
       var tvdbList = []
       seasons.map(function(season) {
         season.episodes.map(function(episode) {
@@ -159,12 +159,12 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
     }
 
     /**
-         * Insert all seasons into the database and return a cached array map
-         * @param  CRUD.Entity serie serie to update seasons for
-         * @param  object seasons extended seasons input data from Trakt
-         * @return object seasonCache indexed by seasonnumber
-         */
-    updateSeasons = function(serie, seasons, fanart) {
+     * Insert all seasons into the database and return a cached array map
+     * @param  CRUD.Entity serie serie to update seasons for
+     * @param  object seasons extended seasons input data from Trakt
+     * @return object seasonCache indexed by seasonnumber
+     */
+    var updateSeasons = function(serie, seasons, fanart) {
       // console.debug("Update seasons!", seasons, fanart);
       return serie.getSeasonsByNumber().then(function(seasonCache) { // fetch the seasons and cache them by number.
         return Promise.all(seasons.map(function(season) {
@@ -188,7 +188,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
       })
     }
 
-    updateEpisodes = function(serie, seasons, watched, seasonCache, fanart) {
+    var updateEpisodes = function(serie, seasons, watched, seasonCache, fanart) {
       // console.debug(" Update episodes!", serie, seasons, watched, seasonCache, fanart);
       return serie.getEpisodesMap().then(function(episodeCache) {
         return Promise.all(seasons.map(function(season) {
@@ -215,16 +215,16 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
       downloadRatings: $injector.get('SettingsService').get('download.ratings'), // determines if Ratings are processed or discarded
 
       /**
-             * Handles adding, deleting and updating a show to the local database.
-             * Grabs the existing serie, seasons and episode from the database if they exist
-             * and inserts or updates the information.
-             * Deletes the episode from the database if TraktTV no longer has it.
-             * Returns a promise that gets resolved when all the updates have been launched
-             * (but not necessarily finished, they'll continue to run)
-             *
-             * @param object data input data from TraktTV.findSerieByTVDBID(data.TVDB_ID)
-             * @param object watched { TVDB_ID => watched episodes } mapped object to auto-mark as watched
-             */
+       * Handles adding, deleting and updating a show to the local database.
+       * Grabs the existing serie, seasons and episode from the database if they exist
+       * and inserts or updates the information.
+       * Deletes the episode from the database if TraktTV no longer has it.
+       * Returns a promise that gets resolved when all the updates have been launched
+       * (but not necessarily finished, they'll continue to run)
+       *
+       * @param object data input data from TraktTV.findSerieByTVDBID(data.TVDB_ID)
+       * @param object watched { TVDB_ID => watched episodes } mapped object to auto-mark as watched
+       */
       addFavorite: function(data, watched, useTrakt_id, refreshFanart) {
         watched = watched || []
         useTrakt_id = useTrakt_id || false
@@ -239,7 +239,9 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
             TVDB_ID: data.tvdb_id
           })
         }
+
         var serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id) : service.getById(data.tvdb_id) || new Serie()
+
         return FanartService.get(data.tvdb_id, refreshFanart).then(function(fanart) {
           fanart = (fanart && 'json' in fanart) ? fanart.json : {}
           fillSerie(serie, data, fanart)
@@ -269,19 +271,19 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
         })
       },
       /**
-             * Helper function to fetch all the episodes for a serie
-             * Optionally, filters can be provided which will be turned into an SQL where.
-             */
+       * Helper function to fetch all the episodes for a serie
+       * Optionally, filters can be provided which will be turned into an SQL where.
+       */
       getEpisodes: function(serie, filters) {
         serie = serie instanceof CRUD.Entity ? serie : this.getById(serie)
         return serie.Find('Episode', filters || {}).then(function(episodes) {
           return episodes
-        }, function(err) {
+        }, function() {
           console.error('Error in getEpisodes', serie, filters || {})
         })
       },
       waitForInitialization: function() {
-        return $q(function(resolve, reject) {
+        return $q(function(resolve) {
           function waitForInitialize() {
             if (service.initialized) {
               resolve()
@@ -301,8 +303,8 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
         })
       },
       /**
-             * Find a serie by it's TVDB_ID (the main identifier for series since they're consistent regardless of local config)
-             */
+       * Find a serie by it's TVDB_ID (the main identifier for series since they're consistent regardless of local config)
+       */
       getById: function(id) {
         return service.favorites.filter(function(el) {
           return el.TVDB_ID == id
@@ -322,24 +324,28 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
         return service.favoriteIDs.indexOf(id.toString()) > -1
       },
       /**
-             * Remove a serie, it's seasons, and it's episodes from the database.
-             */
+       * Remove a serie, it's seasons, and it's episodes from the database.
+       */
       remove: function(serie) {
         serie.displaycalendar = 0
         console.debug('Remove serie from favorites!', serie)
-        var seriesToBeDeleted = service.getById(serie.TVDB_ID)
+
         CRUD.executeQuery('delete from Seasons where ID_Serie = ' + serie.ID_Serie)
         CRUD.executeQuery('delete from Episodes where ID_Serie = ' + serie.ID_Serie)
+
         service.favoriteIDs = service.favoriteIDs.filter(function(id) {
           return id != serie.TVDB_ID
         })
+
         if ('Delete' in serie) {
           serie.Delete().then(function() {
             service.favorites = service.favorites.filter(function(el) {
               return el.getID() != serie.getID()
             })
+
             console.info("Serie '" + serie.name + "' deleted. Syncing storage.")
             $rootScope.$broadcast('storage:update')
+
             if (service.favorites.length === 0) {
               $rootScope.$broadcast('serieslist:empty')
             }
@@ -351,9 +357,11 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
         return service.getSeries().then(function(results) {
           service.favorites = results
           var ids = []
+
           results.map(function(el) {
             ids.push(el.TVDB_ID.toString())
           })
+
           service.favoriteIDs = ids
           if (ids.length === 0) {
             setTimeout(function() {
@@ -364,10 +372,10 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
         })
       },
       /**
-             * Fetch all the series asynchronously and return them as POJO's
-             * (Plain Old Javascript Objects)
-             * Runs automatically when this factory is instantiated
-             */
+       * Fetch all the series asynchronously and return them as POJO's
+       * (Plain Old Javascript Objects)
+       * Runs automatically when this factory is instantiated
+       */
       getSeries: function() {
         return CRUD.Find('Serie', ['name is not NULL']).then(function(results) {
           results.map(function(el, idx) {
@@ -377,9 +385,9 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
         })
       },
       /**
-             * Load a random background from the shows database
-             * The BackgroundRotator service is listening for this event
-             */
+       * Load a random background from the shows database
+       * The BackgroundRotator service is listening for this event
+       */
       loadRandomBackground: function() {
         // dafuq. no RANDOM() in sqlite in chrome...
         // then we pick a random array item from the resultset based on the amount.
@@ -390,8 +398,8 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
         })
       },
       /**
-             * set true the adding status for this series. used to indicate spinner icon required
-             */
+       * set true the adding status for this series. used to indicate spinner icon required
+       */
       adding: function(tvdb_id) {
         if (!(tvdb_id in service.addingList)) {
           service.addingList[tvdb_id] = true
@@ -399,54 +407,54 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
         }
       },
       /**
-             * set false the adding status for this series. used to indicate checkmark icon required
-             */
+       * set false the adding status for this series. used to indicate checkmark icon required
+       */
       added: function(tvdb_id) {
         if (tvdb_id in service.addingList) service.addingList[tvdb_id] = false
       },
       /**
-             * flush the adding and error status list
-             */
+       * flush the adding and error status list
+       */
       flushAdding: function() {
         service.addingList = {}
         service.errorList = {}
       },
       /**
-             * Returns true as long as the add a show to favorites promise is running.
-             */
+       * Returns true as long as the add a show to favorites promise is running.
+       */
       isAdding: function(tvdb_id) {
         if (tvdb_id === null) return false
         return ((tvdb_id in service.addingList) && (service.addingList[tvdb_id] === true))
       },
       /**
-             * Used to show checkmarks in the add modes for series that you already have.
-             */
+       * Used to show checkmarks in the add modes for series that you already have.
+       */
       isAdded: function(tvdb_id) {
         if (tvdb_id === null) return false
         return service.hasFavorite(tvdb_id.toString())
       },
       /**
-             * clear the adding status for this series. used to indicate spinner and checkmark are NOT required.
-             */
+       * clear the adding status for this series. used to indicate spinner and checkmark are NOT required.
+       */
       clearAdding: function(tvdb_id) {
         if ((tvdb_id in service.addingList)) delete service.addingList[tvdb_id]
       },
       /**
-             * add the error status for this series. used to indicate sadface icon is required.
-             */
+       * add the error status for this series. used to indicate sadface icon is required.
+       */
       addError: function(tvdb_id, error) {
         service.errorList[tvdb_id] = error
       },
       /**
-             * Used to show sadface icon in the add modes for series that you already have.
-             */
+       * Used to show sadface icon in the add modes for series that you already have.
+       */
       isError: function(tvdb_id) {
         if (tvdb_id === null) return false
         return ((tvdb_id in service.errorList))
       },
       /**
-             * clear the error status for this series. used to indicate sadface icon is NOT required.
-             */
+       * clear the error status for this series. used to indicate sadface icon is NOT required.
+       */
       clearError: function(tvdb_id) {
         if ((tvdb_id in service.errorList)) delete service.errorList[tvdb_id]
       }
@@ -456,20 +464,20 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
   }
 ])
 
-  .run(['FavoritesService', '$state', '$rootScope', function(FavoritesService, $state, $rootScope) {
-    // console.log("Executing favoritesservice.run block");
-    $rootScope.$on('serieslist:empty', function() {
-      // console.log("Series list is empty!, going to add screen.");
-      setTimeout(function() {
-        $state.go('add_favorites')
-      }, 500)
-    })
+DuckieTV.run(['FavoritesService', '$state', '$rootScope', function(FavoritesService, $state, $rootScope) {
+  // console.log("Executing favoritesservice.run block");
+  $rootScope.$on('serieslist:empty', function() {
+    // console.log("Series list is empty!, going to add screen.");
+    setTimeout(function() {
+      $state.go('add_favorites')
+    }, 500)
+  })
 
-    // console.log("Executing favoritesservice.refresh.");
+  // console.log("Executing favoritesservice.refresh.");
 
-    FavoritesService.refresh().then(function(favorites) {
-      // console.log("Favoritesservice refreshed!");
-      FavoritesService.loadRandomBackground()
-      FavoritesService.initialized = true
-    })
-  }])
+  FavoritesService.refresh().then(function(favorites) {
+    // console.log("Favoritesservice refreshed!");
+    FavoritesService.loadRandomBackground()
+    FavoritesService.initialized = true
+  })
+}])

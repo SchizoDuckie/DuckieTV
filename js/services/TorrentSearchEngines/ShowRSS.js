@@ -67,10 +67,10 @@ DuckieTV.factory('ShowRSS', ['$q', '$http',
     }
 
     /**
-         * Promise requests with batchmode toggle to auto-kill a previous request when running.
-         * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple
-         * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
-         */
+     * Promise requests with batchmode toggle to auto-kill a previous request when running.
+     * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple
+     * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
+     */
     var promiseRequest = function(type, param, param2, promise) {
       var url = getUrl(type, param, param2)
       var parser = getParser(type)
@@ -97,8 +97,6 @@ DuckieTV.factory('ShowRSS', ['$q', '$http',
             return query.indexOf(value.toUpperCase()) === 0
           })
           if (found.length == 1) {
-            var serie = found[0]
-
             return promiseRequest('serie', results[found[0]]).then(function(results) {
               var parts = query.match(/S([0-9]{1,2})E([0-9]{1,3})/)
               if (!parts) {
@@ -126,10 +124,10 @@ DuckieTV.factory('ShowRSS', ['$q', '$http',
   }
 ])
 
-  .run(['TorrentSearchEngines', 'SettingsService', 'ShowRSS',
-    function(TorrentSearchEngines, SettingsService, ShowRSS) {
-      if (SettingsService.get('torrenting.enabled')) {
-        TorrentSearchEngines.registerSearchEngine('ShowRSS', ShowRSS)
-      }
+DuckieTV.run(['TorrentSearchEngines', 'SettingsService', 'ShowRSS',
+  function(TorrentSearchEngines, SettingsService, ShowRSS) {
+    if (SettingsService.get('torrenting.enabled')) {
+      TorrentSearchEngines.registerSearchEngine('ShowRSS', ShowRSS)
     }
-  ])
+  }
+])

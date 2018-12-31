@@ -5,16 +5,17 @@ DuckieTV.factory('NotificationService', ['SettingsService', function(SettingsSer
   var ids = {} // track existing notifications
 
   /**
-     * Create a Chrome Notification
-     */
+   * Create a Chrome Notification
+   */
   var create = function(options, callback) {
     if ('chrome' in window && 'notifications' in window.chrome && 'create' in window.chrome.notifications && 'getPermissionLevel' in window.chrome.notifications) {
       if (!SettingsService.get('notifications.enabled')) {
         return
       }
+
       window.chrome.notifications.getPermissionLevel(function(level) {
         // User has elected not to show notifications from the app or extension.
-        if (level.toLowerCase() == 'denied') {
+        if (level.toLowerCase() === 'denied') {
           SettingsService.set('notifications.enabled', false)
           return
         }
@@ -24,17 +25,19 @@ DuckieTV.factory('NotificationService', ['SettingsService', function(SettingsSer
       if (SettingsService.get('notifications.enabled')) {
         SettingsService.set('notifications.enabled', false)
       }
+
       return
     }
+
     var id = 'seriesguide_' + new Date().getTime()
     ids[id] = options
-    var notification = window.chrome.notifications.create(id, options, callback || function() {})
+    window.chrome.notifications.create(id, options, callback || function() {})
   }
 
   return {
     /**
-         * Create a basic notification with the duckietv icon
-         */
+     * Create a basic notification with the duckietv icon
+     */
     notify: function(title, message, callback) {
       create({
         type: 'basic',
@@ -44,8 +47,8 @@ DuckieTV.factory('NotificationService', ['SettingsService', function(SettingsSer
       }, callback)
     },
     /**
-         * Create a notification of the type 'list' with the DuckieTV icon
-         */
+     * Create a notification of the type 'list' with the DuckieTV icon
+     */
     list: function(title, message, items, callback) {
       create({
         type: 'list',
@@ -55,6 +58,5 @@ DuckieTV.factory('NotificationService', ['SettingsService', function(SettingsSer
         items: items
       })
     }
-
   }
 }])

@@ -8,46 +8,47 @@ DuckieTV.controller('SubtitlesCtrl', ['OpenSubtitles', 'SettingsService',
       reverseLanguages[allLanguages[key]] = key
     })
 
-    this.languages = Object.keys(allLanguages).map(function(key) {
+    vm.languages = Object.keys(allLanguages).map(function(key) {
       return allLanguages[key]
     })
-    this.codes = OpenSubtitles.getShortCodes()
+    vm.codes = OpenSubtitles.getShortCodes()
 
-    this.enabled = SettingsService.get('subtitles.languages')
+    vm.enabled = SettingsService.get('subtitles.languages')
 
-    this.isEnabled = function(code) {
-      return this.enabled.indexOf(reverseLanguages[code]) > -1
+    vm.isEnabled = function(code) {
+      return vm.enabled.indexOf(reverseLanguages[code]) > -1
     }
 
-    this.getShortCode = function(lang) {
-      return this.codes[reverseLanguages[lang]]
+    vm.getShortCode = function(lang) {
+      return vm.codes[reverseLanguages[lang]]
     }
 
-    this.getEnabledLanguages = function() {
-      this.enabledLanguages = this.enabled.map(function(code) {
+    vm.getEnabledLanguages = function() {
+      vm.enabledLanguages = vm.enabled.map(function(code) {
         return allLanguages[code]
       }).join(', ')
-      return this.enabledLanguages
+      return vm.enabledLanguages
     }
 
-    this.selectNone = function() {
+    vm.selectNone = function() {
       SettingsService.set('subtitles.languages', [])
-      this.enabled = []
-      this.enabledLanguages = ''
+      vm.enabled = []
+      vm.enabledLanguages = ''
     }
 
-    this.toggleSubtitle = function(language) {
+    vm.toggleSubtitle = function(language) {
       console.debug('togglesubtitle', language, reverseLanguages[language])
       var lang = reverseLanguages[language]
-      if (this.enabled.indexOf(lang) === -1) {
-        this.enabled.push(lang)
+      if (vm.enabled.indexOf(lang) === -1) {
+        vm.enabled.push(lang)
       } else {
-        this.enabled.splice(this.enabled.indexOf(lang), 1)
+        vm.enabled.splice(vm.enabled.indexOf(lang), 1)
       }
-      SettingsService.set('subtitles.languages', this.enabled)
-      this.getEnabledLanguages()
+
+      SettingsService.set('subtitles.languages', vm.enabled)
+      vm.getEnabledLanguages()
     }
 
-    this.getEnabledLanguages()
+    vm.getEnabledLanguages()
   }
 ])

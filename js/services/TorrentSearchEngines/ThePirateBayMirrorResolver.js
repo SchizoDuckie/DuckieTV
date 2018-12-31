@@ -13,15 +13,15 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
     }
 
     /**
-         * Switch between search and details
-         */
+     * Switch between search and details
+     */
     function getUrl(type) {
       return endpoints[type]
     }
 
     /**
-         * Find a random mirror from piratebayproxylist.com
-         */
+     * Find a random mirror from piratebayproxylist.com
+     */
     function parsePirateBayProxyList(result) {
       var parser = new DOMParser()
       var doc = parser.parseFromString(result.data, 'text/html')
@@ -30,20 +30,19 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
     }
 
     /**
-         * When a TPB test search has been executed, verify that at least one magnet link is available in the
-         * expected layout. (Some proxies proxy your magnet links so they can track them, we don't want that.)
-         */
+     * When a TPB test search has been executed, verify that at least one magnet link is available in the
+     * expected layout. (Some proxies proxy your magnet links so they can track them, we don't want that.)
+     */
     function parseTPBTestSearch(result, allowUnsafe) {
-      var parser = new DOMParser()
       return result.data.indexOf('magnet:') > -1
     }
 
     var service = {
       /**
-             * Find a random mirror for ThePirateBay and return the promise when
-             * one is found and verified. If a valid working server is not found within x tries, it fails.
-             * Provides up-to-date status messages via mirrorresolver:status while doing that
-             */
+       * Find a random mirror for ThePirateBay and return the promise when
+       * one is found and verified. If a valid working server is not found within x tries, it fails.
+       * Provides up-to-date status messages via mirrorresolver:status while doing that
+       */
       findTPBMirror: function(attempt) {
         attempt = attempt || 1
         $rootScope.$broadcast('tpbmirrorresolver:status', 'Finding a random TPB Mirror, attempt ' + attempt)
@@ -76,20 +75,21 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
         return d.promise
       },
       /**
-             * alias for GenericTorrentSearchEngine.js
-             */
+       * alias for GenericTorrentSearchEngine.js
+       */
       findMirror: function() {
         return service.findTPBMirror()
       },
       /**
-             * Verify that a specific TPB mirror is working and using magnet links by executing a test search
-             * Parses the results and checks that magnet links are available like they are on TPB.
-             * Some mirrors will not provide direct access to magnet links so we filter those out
-             */
+       * Verify that a specific TPB mirror is working and using magnet links by executing a test search
+       * Parses the results and checks that magnet links are available like they are on TPB.
+       * Some mirrors will not provide direct access to magnet links so we filter those out
+       */
       verifyTPBMirror: function(location, maxTries) {
         if (maxTries) {
           maxAttempts = maxTries
         }
+
         $rootScope.$broadcast('tpbmirrorresolver:status', 'Verifying if mirror is using magnet links!: ' + location)
         var q = $q.defer()
         var slash = ''
@@ -97,7 +97,8 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
         if (location.substr(location.length - 1) !== '/') {
           slash = '/'
         }
-        testLocation = location + slash + 'search/test/0/7/0'
+
+        var testLocation = location + slash + 'search/test/0/7/0'
         $http({
           method: 'GET',
           url: testLocation
@@ -120,5 +121,4 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
 
     return service
   }
-
 ])

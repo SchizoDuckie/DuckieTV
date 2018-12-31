@@ -3,8 +3,8 @@
  *
  * Controller for the display settings tab
  */
-DuckieTV.controller('DisplayCtrl', ['$scope', '$injector', 'SettingsService',
-  function($scope, $injector, SettingsService) {
+DuckieTV.controller('DisplayCtrl', ['$scope', 'SettingsService',
+  function($scope, SettingsService) {
     $scope.hasTopSites = ('chrome' in window && 'topSites' in window.chrome)
     $scope.hasNotifications = ('chrome' in window && 'notifications' in window.chrome && 'create' in window.chrome.notifications && 'getPermissionLevel' in window.chrome.notifications)
     $scope.topSites = SettingsService.get('topSites.enabled')
@@ -57,6 +57,7 @@ DuckieTV.controller('DisplayCtrl', ['$scope', '$injector', 'SettingsService',
       } else {
         localStorage.removeItem('font.bebas.disabled')
       }
+
       SettingsService.set('font.bebas.enabled', !$scope.mcEnabled)
       window.location.reload()
     }

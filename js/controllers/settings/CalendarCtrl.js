@@ -1,8 +1,8 @@
 /*
  * Controller for the calendar settings tab
  */
-DuckieTV.controller('CalendarCtrl', ['$scope', '$rootScope', '$injector', 'SettingsService',
-  function($scope, $rootScope, $injector, SettingsService) {
+DuckieTV.controller('CalendarCtrl', ['$scope', 'SettingsService',
+  function($scope, SettingsService) {
     $scope.showSpecials = SettingsService.get('calendar.show-specials')
     $scope.startSunday = SettingsService.get('calendar.startSunday')
     $scope.displayMode = SettingsService.get('calendar.mode')

@@ -74,8 +74,8 @@ DuckieTV.factory('RarBG', ['$q', '$http',
     }
 
     /**
-         * Promise requests with built in delay to avoid the RarBG API's 1req/2sec frequency limit
-         */
+     * Promise requests with built in delay to avoid the RarBG API's 1req/2sec frequency limit
+     */
     var nextRequest = new Date().getTime()
 
     var promiseRequest = function(type, param, param2, param3, promise) {
@@ -170,10 +170,10 @@ DuckieTV.factory('RarBG', ['$q', '$http',
   }
 ])
 
-  .run(['TorrentSearchEngines', 'SettingsService', 'RarBG',
-    function(TorrentSearchEngines, SettingsService, RarBG) {
-      if (SettingsService.get('torrenting.enabled')) {
-        TorrentSearchEngines.registerSearchEngine('RarBG', RarBG)
-      }
+DuckieTV.run(['TorrentSearchEngines', 'SettingsService', 'RarBG',
+  function(TorrentSearchEngines, SettingsService, RarBG) {
+    if (SettingsService.get('torrenting.enabled')) {
+      TorrentSearchEngines.registerSearchEngine('RarBG', RarBG)
     }
-  ])
+  }
+])

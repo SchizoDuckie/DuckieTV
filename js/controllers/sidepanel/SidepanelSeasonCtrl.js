@@ -4,95 +4,94 @@
 DuckieTV.controller('SidepanelSeasonCtrl', ['$rootScope', '$scope', '$state', '$filter', '$injector', 'seasons', 'season', 'episodes', 'SceneNameResolver', 'AutoDownloadService', 'SettingsService',
   function($rootScope, $scope, $state, $filter, $injector, seasons, season, episodes, SceneNameResolver, AutoDownloadService, SettingsService) {
     var vm = this
-    this.season = season
-    this.seasons = seasons
-    this.episodes = episodes
-    this.seasonIndex = null
-    this.watchedDownloadedPaired = SettingsService.get('episode.watched-downloaded.pairing')
+    vm.season = season
+    vm.seasons = seasons
+    vm.episodes = episodes
+    vm.seasonIndex = null
+    vm.watchedDownloadedPaired = SettingsService.get('episode.watched-downloaded.pairing')
 
     /**
      * Closes the SidePanel expansion
      */
-    this.closeSidePanelExpansion = function() {
+    vm.closeSidePanelExpansion = function() {
       $injector.get('SidePanelState').contract()
       $state.go('serie')
     }
 
     // Find the current Season Index relative to all Seasons
-    for (var i = 0; i < this.seasons.length; i++) {
-      if (this.seasons[i].ID_Season == this.season.ID_Season) {
-        this.seasonIndex = i
+    for (var i = 0; i < vm.seasons.length; i++) {
+      if (vm.seasons[i].ID_Season == vm.season.ID_Season) {
+        vm.seasonIndex = i
       }
     }
 
-    this.gotoPreviousSeason = function() {
+    vm.gotoPreviousSeason = function() {
       // If we're on the last season or specials
-      if (this.seasonIndex === this.seasons.length - 1) {
+      if (vm.seasonIndex === vm.seasons.length - 1) {
         return
       } else {
         $state.go('serie.season', {
-          'season_id': seasons[this.seasonIndex + 1].ID_Season
+          'season_id': seasons[vm.seasonIndex + 1].ID_Season
         })
       }
     }
 
-    this.gotoFirstSeason = function() {
+    vm.gotoFirstSeason = function() {
       $state.go('serie.season', {
-        'season_id': seasons[this.seasons.length - 1].ID_Season
+        'season_id': seasons[vm.seasons.length - 1].ID_Season
       })
     }
 
-    this.gotoNextSeason = function() {
+    vm.gotoNextSeason = function() {
       // Seasons are sorted by latest to oldest therefore 0 should always the be latest.
-      if (this.seasonIndex === 0) {
+      if (vm.seasonIndex === 0) {
         return
       } else {
         $state.go('serie.season', {
-          'season_id': seasons[this.seasonIndex - 1].ID_Season
+          'season_id': seasons[vm.seasonIndex - 1].ID_Season
         })
       }
     }
 
-    this.gotoLastSeason = function() {
+    vm.gotoLastSeason = function() {
       $state.go('serie.season', {
         'season_id': seasons[0].ID_Season
       })
     }
 
-    this.episodes.map(function(episode) {
+    vm.episodes.map(function(episode) {
       /**
-         * This watches for the torrent:select event that will be fired by the
-         * TorrentSearchEngines when a user selects a magnet or .torrent link for an episode.
-         */
+       * This watches for the torrent:select event that will be fired by the
+       * TorrentSearchEngines when a user selects a magnet or .torrent link for an episode.
+       */
       $scope.$on('torrent:select:' + episode.TVDB_ID, function(evt, magnet) {
-        this.magnetHash = magnet
-        this.downloaded = 0
-        this.Persist()
-      }.bind(episode))
+        episode.magnetHash = magnet
+        episode.downloaded = 0
+        episode.Persist()
+      })
     })
 
     // Return 'Specials' header if current season is Specials.
-    this.getPageHeader = function(season) {
+    vm.getPageHeader = function(season) {
       if (!season) return ''
       return season.seasonnumber === 0 ? $filter('translate')('COMMON/specials/lbl') : $filter('translate')('COMMON/season/lbl') + ' ' + season.seasonnumber
     }
 
-    this.getSortEpisodeNumber = function(episode) {
+    vm.getSortEpisodeNumber = function(episode) {
       var sn = episode.seasonnumber.toString()
-
       var en = episode.episodenumber.toString()
 
-      var out = ['S', sn.length == 1 ? '0' + sn : sn, 'E', en.length == 1 ? '00' + en : en.length == 2 ? '0' + en : en].join('')
+      var out = ['S', sn.length === 1 ? '0' + sn : sn, 'E', en.length === 1 ? '00' + en : en.length === 2 ? '0' + en : en].join('')
       return out
     }
 
-    this.autoDownload = function(serie, episode) {
+    vm.autoDownload = function(serie, episode) {
       if (!episode.isDownloaded() && episode.hasAired()) {
         AutoDownloadService.autoDownload(serie, episode)
       }
     }
 
-    this.autoDownloadAll = function() {
+    vm.autoDownloadAll = function() {
       var clickList = Array.from(document.querySelectorAll('.rightpanel .auto-download-episode'))
       clickList.reverse().map(function(el, idx) {
         setTimeout(function() {
@@ -101,13 +100,13 @@ DuckieTV.controller('SidepanelSeasonCtrl', ['$rootScope', '$scope', '$state', '$
       })
     }
 
-    this.markAllWatched = function() {
-      this.season.markSeasonAsWatched(this.watchedDownloadedPaired, $rootScope).then(function() {
+    vm.markAllWatched = function() {
+      vm.season.markSeasonAsWatched(vm.watchedDownloadedPaired, $rootScope).then(function() {
         $rootScope.$broadcast('serie:recount:watched', season.ID_Serie)
       })
     }
 
-    this.markAllDownloaded = function(episodes) {
+    vm.markAllDownloaded = function(episodes) {
       episodes.map(function(episode) {
         if ((episode.hasAired()) && (!episode.isDownloaded())) {
           episode.markDownloaded($rootScope)
@@ -115,17 +114,17 @@ DuckieTV.controller('SidepanelSeasonCtrl', ['$rootScope', '$scope', '$state', '$
       })
     }
 
-    this.getSearchString = function(serie, episode) {
+    vm.getSearchString = function(serie, episode) {
       if (!serie || !episode) return
       return serie.name + ' ' + episode.getFormattedEpisode()
     }
 
-    this.getSeasonSearchString = function(serie, season) {
+    vm.getSeasonSearchString = function(serie, season) {
       if (!serie || !season) return
       return SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' season ' + season.seasonnumber
     }
 
-    this.getEpisodeNumber = function(episode) {
+    vm.getEpisodeNumber = function(episode) {
       var sn = episode.seasonnumber.toString()
 
       var en = episode.episodenumber.toString()
@@ -135,8 +134,8 @@ DuckieTV.controller('SidepanelSeasonCtrl', ['$rootScope', '$scope', '$state', '$
     }
 
     // Ratings graph
-    this.points = []
-    var data = $filter('orderBy')(this.episodes, this.getEpisodeNumber, false) // sort episodes by episode number
+    vm.points = []
+    var data = $filter('orderBy')(vm.episodes, vm.getEpisodeNumber, false) // sort episodes by episode number
     data.map(function(episode) {
       vm.points.push({
         y: episode.rating,
@@ -144,4 +143,5 @@ DuckieTV.controller('SidepanelSeasonCtrl', ['$rootScope', '$scope', '$state', '$
         season: parseInt(episode.seasonnumber, 10)
       })
     })
-  }])
+  }
+])

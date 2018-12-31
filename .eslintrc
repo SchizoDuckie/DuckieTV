@@ -22,11 +22,15 @@
     "moment": true,
     "Loggr": true,
     "Episode": true,
+    "Serie": true,
+    "Season": true,
     "TorrentData": true,
     "DuckieTorrent": true,
     "HTMLScraper": true,
     "chrome": true,
-    "Fanart": true
+    "Fanart": true,
+    "download": true,
+    "Jackett": true
   },
   "plugins": [
         "angular"
@@ -224,13 +228,13 @@
     "angular/json-functions": 1,
     "angular/module-getter": 0,
     "angular/module-name": 0,
-    "angular/module-setter": 2,
+    "angular/module-setter": 1,
     "angular/no-angular-mock": 0,
     "angular/no-controller": 0,
     "angular/no-cookiestore": 2,
     "angular/no-jquery-angularelement": 2,
     "angular/no-private-call": 2,
-    "angular/no-service-method": 2,
+    "angular/no-service-method": 1,
     "angular/no-services": [2, ["$http", "$resource", "Restangular"]],
     "angular/on-watch": 0,
     "angular/rest-service": 0,

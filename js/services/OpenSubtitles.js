@@ -5,8 +5,6 @@ DuckieTV.factory('OpenSubtitles', ['xmlrpc', 'SettingsService',
   function(xmlrpc, SettingsService) {
     var self = this
 
-    var token = null
-
     xmlrpc.config({
       hostName: 'https://api.opensubtitles.org', // Default is empty
       pathName: '/xml-rpc', // Default is /rpc2
@@ -23,11 +21,13 @@ DuckieTV.factory('OpenSubtitles', ['xmlrpc', 'SettingsService',
 
     var parseSubtitles = function(data, query) {
       var output = []
+
       if (data && 'data' in data) {
         data.data.map(function(sub) {
           if (sub.SubFormat !== 'srt') {
             return
           }
+
           if (query.season && query.episode) {
             if (parseInt(sub.SeriesIMDBParent) !== parseInt(query.imdbid.replace('tt', '')) || sub.SeriesSeason.toString() !== query.season.toString() || sub.SeriesEpisode.toString() !== query.episode.toString()) {
               return

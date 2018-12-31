@@ -2,11 +2,8 @@ DuckieTV
   .factory('SceneXemResolver', ['$q', '$http',
     function($q, $http) {
       var mappings = []
-
       var aliasmap = []
-
       var cache = {}
-
       var logged = []
 
       var getXemCacheForSerie = function(tvdb_id) {
@@ -25,6 +22,7 @@ DuckieTV
         if (!found) {
           logged.push(id)
         }
+
         return !found
       }
 
@@ -32,19 +30,20 @@ DuckieTV
         absolute = absolute || ''
         var abs = absolute.toString()
 
-        var out = (abs != '') ? (abs.length == 1) ? '0' + abs : abs : fallback
-        return out
+        return (abs !== '') ? (abs.length === 1) ? '0' + abs : abs : fallback
       }
 
       var service = {
         initialize: function() {
+          var lastFetched = ('xem.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('xem.lastFetched'))) : new Date()
+
           if (!localStorage.getItem('1.1.5FetchFirstXemAliasMap')) {
             console.info('Executing 1.1.5FetchFirstXemAliasMap')
             localStorage.removeItem('xem.mappings')
             localStorage.setItem('1.1.5FetchFirstXemAliasMap', new Date())
             console.info('1.1.5FetchFirstXemAliasMap done!')
           }
-          var lastFetched = ('xem.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('xem.lastFetched'))) : new Date()
+
           if (('xem.mappings' in localStorage) && lastFetched.getTime() + 86400000 > new Date().getTime()) {
             mappings = JSON.parse(localStorage.getItem('xem.mappings'))
             console.info('Fetched localstorage Xem series list: ', mappings)
@@ -57,6 +56,7 @@ DuckieTV
               localStorage.setItem('xem.lastFetched', new Date().getTime())
               console.info('Updating localstorage Xem series list:', mappings)
             })
+
             $http.get('https://duckietv.github.io/xem-cache/aliasmap.json').then(function(response) {
               aliasmap = response.data
               localStorage.setItem('xem.aliasmap', JSON.stringify(aliasmap))
@@ -71,10 +71,12 @@ DuckieTV
               var matches = result.filter(function(show) {
                 return show.tvdb.season == episode.seasonnumber && show.tvdb.episode == episode.episodenumber
               })
+
               if (matches.length > 0) {
                 if (isNotLogged(serie.TVDB_ID.toString() + episode.getFormattedEpisode() + 'Y')) {
                   console.info('Xem has episode %s for %s (%s), using mapped format.', episode.getFormattedEpisode(), serie.name, serie.TVDB_ID, matches[0].scene)
                 }
+
                 if (serie.isAnime()) {
                   return $q.resolve(sceneName + formatAbsolute(matches[0].scene.absolute, episode.getFormattedEpisode()) + append)
                 } else {
@@ -84,6 +86,7 @@ DuckieTV
                 if (isNotLogged(serie.TVDB_ID.toString() + episode.getFormattedEpisode() + 'N')) {
                   console.info('Xem does not have episode %s for %s (%s), using default format.', episode.getFormattedEpisode(), serie.name, serie.TVDB_ID)
                 }
+
                 if (serie.isAnime()) {
                   return $q.resolve(sceneName + formatAbsolute(episode.absolute, episode.getFormattedEpisode()) + append)
                 } else {
@@ -95,6 +98,7 @@ DuckieTV
             if (isNotLogged(serie.TVDB_ID.toString())) {
               console.info('Xem does not have series %s (%s), using default format.', serie.name, serie.TVDB_ID)
             }
+
             if (serie.isAnime()) {
               return $q.resolve(sceneName + formatAbsolute(episode.absolute, episode.getFormattedEpisode()) + append)
             } else {
@@ -102,7 +106,6 @@ DuckieTV
             }
           }
         },
-
         getXemAliasListForSerie: function(serie) {
           return (serie.TVDB_ID in aliasmap) ? aliasmap[serie.TVDB_ID] : []
         }

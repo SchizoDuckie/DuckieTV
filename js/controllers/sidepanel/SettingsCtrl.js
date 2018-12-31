@@ -4,8 +4,8 @@
 DuckieTV.controller('SettingsCtrl', ['$scope', '$injector',
   function($scope, $injector) {
     /**
-         * Closes the SidePanel
-         */
+     * Closes the SidePanel
+     */
     $scope.closeSidePanel = function() {
       $injector.get('$state').go('calendar')
     }

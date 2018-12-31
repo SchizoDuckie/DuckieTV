@@ -1,60 +1,63 @@
 DuckieTV.factory('TraktTVTrending', ['TraktTVv2', 'FavoritesService', '$q',
   function(TraktTVv2, FavoritesService, $q) {
-    var self = this
-    this.trending = []
-    this.categories = []
-    this.initializing = true
+    var vm = this
+    vm.trending = []
+    vm.categories = []
+    vm.initializing = true
 
     /*
-         * enables excluding series already in favourites from trending results
-         */
+    * enables excluding series already in favourites from trending results
+    */
     var alreadyAddedSerieFilter = function(serie) {
-      return this.favoriteIDs.indexOf(serie.tvdb_id.toString()) === -1
-    }.bind(FavoritesService)
+      return FavoritesService.favoriteIDs.indexOf(serie.tvdb_id.toString()) === -1
+    }
 
     var service = {
       getAll: function() {
-        if (self.initializing) {
+        if (vm.initializing) {
           return TraktTVv2.trending().then(function(series) {
             if (!series) {
               series = []
             }
-            self.trending = series
+
+            vm.trending = series
             var cats = {}
+
             series.filter(alreadyAddedSerieFilter).map(function(serie) {
               if (!serie.genres) return
               serie.genres.map(function(category) {
                 cats[category] = true
               })
             })
-            self.categories = Object.keys(cats)
+
+            vm.categories = Object.keys(cats)
             return series
           })
         } else {
           return $q(function(resolve) {
-            resolve(self.trending)
+            resolve(vm.trending)
           })
         }
       },
 
       getById: function(tvdb_id) {
-        return self.trending.filter(function(el) {
+        return vm.trending.filter(function(el) {
           return el.tvdb_id == tvdb_id
         })[0]
       },
 
       getByTraktId: function(trakt_id) {
-        return self.trending.filter(function(el) {
+        return vm.trending.filter(function(el) {
           return el.trakt_id == trakt_id
         })[0]
       },
 
       getCategories: function() {
-        return self.categories
+        return vm.categories
       },
 
       getByCategory: function(category) {
-        var filtered = self.trending.filter(function(show) {
+        var filtered = vm.trending.filter(function(show) {
           if (!show.genres) return
           return show.genres.indexOf(category) > -1
         })
@@ -63,7 +66,7 @@ DuckieTV.factory('TraktTVTrending', ['TraktTVv2', 'FavoritesService', '$q',
     }
 
     service.getAll().then(function() {
-      self.initializing = false
+      vm.initializing = false
     })
 
     return service

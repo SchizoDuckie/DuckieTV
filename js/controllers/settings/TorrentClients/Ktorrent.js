@@ -1,10 +1,10 @@
-DuckieTV.controller('ktorrentCtrl', ['$injector', 'Ktorrent', 'SettingsService', 'FormlyLoader',
-  function($injector, Ktorrent, SettingsService, FormlyLoader) {
-    var self = this
-    this.error = null
+DuckieTV.controller('ktorrentCtrl', ['Ktorrent', 'SettingsService', 'FormlyLoader',
+  function(Ktorrent, SettingsService, FormlyLoader) {
+    var vm = this
+    vm.error = null
 
     FormlyLoader.load('TorrentClientSettings').then(function(fields) {
-      self.model = {
+      vm.model = {
         server: SettingsService.get('ktorrent.server'),
         port: SettingsService.get('ktorrent.port'),
         use_auth: SettingsService.get('ktorrent.use_auth'),
@@ -13,25 +13,25 @@ DuckieTV.controller('ktorrentCtrl', ['$injector', 'Ktorrent', 'SettingsService',
         hideUseAuth: true
       }
 
-      self.fields = fields
+      vm.fields = fields
     })
 
-    this.isConnected = function() {
+    vm.isConnected = function() {
       return Ktorrent.isConnected()
     }
 
-    this.test = function() {
-      this.error = false
+    vm.test = function() {
+      vm.error = false
       // console.log("Testing settings");
       Ktorrent.Disconnect()
-      Ktorrent.setConfig(this.model)
+      Ktorrent.setConfig(vm.model)
       Ktorrent.connect().then(function(connected) {
         console.info('Ktorrent connected! (save settings)', connected)
-        self.error = null
+        vm.error = null
         Ktorrent.saveConfig()
         window.location.reload()
       }, function(error) {
-        self.error = error
+        vm.error = error
         console.error('Ktorrent connect error!', error)
       })
     }

@@ -1,10 +1,10 @@
-DuckieTV.controller('vuzeCtrl', ['$injector', 'Vuze', 'SettingsService', 'FormlyLoader',
-  function($injector, Vuze, SettingsService, FormlyLoader) {
-    var self = this
-    this.error = null
+DuckieTV.controller('vuzeCtrl', ['Vuze', 'SettingsService', 'FormlyLoader',
+  function(Vuze, SettingsService, FormlyLoader) {
+    var vm = this
+    vm.error = null
 
     FormlyLoader.load('TorrentClientSettings').then(function(fields) {
-      self.model = {
+      vm.model = {
         server: SettingsService.get('vuze.server'),
         port: SettingsService.get('vuze.port'),
         path: SettingsService.get('vuze.path'),
@@ -15,25 +15,25 @@ DuckieTV.controller('vuzeCtrl', ['$injector', 'Vuze', 'SettingsService', 'Formly
         hidePath: true
       }
 
-      self.fields = fields
+      vm.fields = fields
     })
 
-    this.isConnected = function() {
+    vm.isConnected = function() {
       return Vuze.isConnected()
     }
 
-    this.test = function() {
-      this.error = false
+    vm.test = function() {
+      vm.error = false
       // console.log("Testing settings");
       Vuze.Disconnect()
-      Vuze.setConfig(this.model)
+      Vuze.setConfig(vm.model)
       Vuze.connect().then(function(connected) {
         console.info('Vuze connected! (save settings)', connected)
-        self.error = null
+        vm.error = null
         Vuze.saveConfig()
         window.location.reload()
       }, function(error) {
-        self.error = error
+        vm.error = error
         console.error('Vuze connect error!', error)
       })
     }

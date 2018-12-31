@@ -16,18 +16,18 @@ DuckieTV.controller('traktTvTrendingCtrl', ['$filter', 'TraktTVTrending', 'Favor
     })
 
     /*
-         * enables excluding series already in favourites from trending results
-         */
+    * enables excluding series already in favourites from trending results
+    */
     var alreadyAddedSerieFilter = function(serie) {
       return FavoritesService.favoriteIDs.indexOf(serie.tvdb_id.toString()) === -1
     }
 
     /*
-         * Takes the English Category (as fetched from TraktTV) and returns a translation
-         */
+    * Takes the English Category (as fetched from TraktTV) and returns a translation
+    */
     vm.translateCategory = function(category) {
       var idx = categories.indexOf(category)
-      return (idx != -1) ? translatedCategoryList[idx] : category
+      return (idx !== -1) ? translatedCategoryList[idx] : category
     }
 
     vm.getCategories = function() {

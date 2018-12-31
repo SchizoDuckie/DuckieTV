@@ -14,18 +14,18 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           magnetUrl: ['a[title^="Magnet link"]', 'href'],
           size: ['td:nth-child(4)', 'innerText',
             function(text) {
-              return (text == '– N/A –') ? null : text
+              return (text === '– N/A –') ? null : text
             }
           ],
           seeders: ['div[title^="Seeders:"]', 'title',
             function(text) {
-              var textPart = text.split(/[\:\|]/)
+              var textPart = text.split(/[:|]/)
               return textPart[1].trim()
             }
           ],
           leechers: ['div[title^="Seeders:"]', 'title',
             function(text) {
-              var textPart = text.split(/[\:\|]/)
+              var textPart = text.split(/[:|]/)
               return textPart[3].trim()
             }
           ],

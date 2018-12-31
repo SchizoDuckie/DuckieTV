@@ -3,8 +3,8 @@
  *
  * see app.js for the backup format structure description
  */
-DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupService', '$q', '$state', 'dialogs', 'FileReader', 'TraktTVv2', 'SettingsService', 'FavoritesService', 'CalendarEvents', 'TorrentSearchEngines',
-  function($rootScope, $scope, $filter, BackupService, $q, $state, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, TorrentSearchEngines) {
+DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupService', 'dialogs', 'FileReader', 'TraktTVv2', 'SettingsService', 'FavoritesService', 'CalendarEvents', 'TorrentSearchEngines',
+  function($rootScope, $scope, $filter, BackupService, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, TorrentSearchEngines) {
     $scope.wipeBeforeImport = false
     $scope.declined = false
     $scope.completed = false
@@ -44,8 +44,8 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
     }
 
     /**
-         * Create backup via download service and force the download.
-         */
+     * Create backup via download service and force the download.
+     */
     $scope.createBackup = function() {
       BackupService.createBackup().then(function(backupString) {
         var filename = 'DuckieTV %s.backup'.replace('%s', $filter('date')(new Date(), 'shortDate'))
@@ -73,24 +73,27 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
     }
 
     /**
-         * Read the backup file and feed it to the FavoritesService to resolve and add.
-         * The FavoritesService has a method to automagically import the watched episodes
-         * (which is a bit hacky as it should be part of the import)
-         */
+     * Read the backup file and feed it to the FavoritesService to resolve and add.
+     * The FavoritesService has a method to automagically import the watched episodes
+     * (which is a bit hacky as it should be part of the import)
+     */
     var importBackup = function() {
       var torrentingEnabled = SettingsService.get('torrenting.enabled') // remember current torrenting setting
       FileReader.readAsText($scope.file, $scope)
         .then(function(result) {
           result = angular.fromJson(result)
           console.log('Backup read!', result)
+
           // save settings
           angular.forEach(result.settings, function(value, key) {
-            if (key == 'utorrent.token') return // skip utorrent auth token since it can be invalid.
+            if (key === 'utorrent.token') return // skip utorrent auth token since it can be invalid.
+
             /*
-                         * process psuedo localStorage _jackett_ in backup's _settings_
-                         */
-            if (key == 'jackett') {
-              fillJackett = function(jackett, data) {
+            * process psuedo localStorage _jackett_ in backup's _settings_
+            */
+            if (key === 'jackett') {
+              var importedJackett = JSON.parse(value)
+              var fillJackett = function(jackett, data) {
                 jackett.name = data.name
                 jackett.torznab = data.torznab
                 jackett.enabled = data.enabled
@@ -98,7 +101,7 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
                 jackett.apiKey = data.apiKey
                 jackett.json = data.json
               }
-              var importedJackett = JSON.parse(value)
+
               importedJackett.map(function(data) {
                 var jackett = TorrentSearchEngines.getJackettFromCache(data.name) || new Jackett()
                 fillJackett(jackett, data)
@@ -107,18 +110,23 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
                   TorrentSearchEngines.addJackettEngine(jackett)
                 })
               })
+
               return
             }
+
             localStorage.setItem(key, value)
           })
+
           SettingsService.restore()
           // schedule the next auto-backup after the import in a days time.
           var localDT = new Date()
           var nextBackupDT = new Date(localDT.getFullYear(), localDT.getMonth(), localDT.getDate() + 1, localDT.getHours(), localDT.getMinutes(), localDT.getSeconds()).getTime()
           localStorage.setItem('autobackup.lastrun', nextBackupDT)
+
           // adjust other settings
           SettingsService.set('autodownload.lastrun', new Date().getTime())
           SettingsService.set('torrenting.enabled', torrentingEnabled) // restore torrenting setting to value prior to restore
+
           // save series/seasons/episodes
           angular.forEach(result.series, function(data, TVDB_ID) {
             FavoritesService.adding(TVDB_ID)
@@ -150,20 +158,20 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
               })
               FavoritesService.added(TVDB_ID)
               completedCount++
-              $scope.completed = (backupCount == completedCount)
+              $scope.completed = (backupCount === completedCount)
             })
           }, function(err) {
             console.error('ERROR!', err)
-            FavoritesService.added(TVDB_ID)
-            FavoritesService.addError(TVDB_ID, err)
+            // FavoritesService.added(TVDB_ID)
+            // FavoritesService.addError(TVDB_ID, err)
             completedCount++
           })
         })
     }
 
     /**
-         * Wipes the database of all series, seasons and episodes and removes all settings
-         */
+     * Wipes the database of all series, seasons and episodes and removes all settings
+     */
     $scope.wipeDatabase = function(isRestoring) {
       if (!isRestoring) {
         isRestoring = 'N'

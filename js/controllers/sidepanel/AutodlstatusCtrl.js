@@ -4,8 +4,8 @@
 DuckieTV.controller('AutodlstatusCtrl', ['$scope', '$filter', '$injector', 'SettingsService', 'AutoDownloadService', 'TorrentSearchEngines', 'DuckieTorrent',
   function($scope, $filter, $injector, SettingsService, AutoDownloadService, TorrentSearchEngines, DuckieTorrent) {
     /**
-         * Closes the SidePanel
-         */
+     * Closes the SidePanel
+     */
     $scope.closeSidePanel = function() {
       $injector.get('$state').go('calendar')
     }
@@ -66,9 +66,9 @@ DuckieTV.controller('AutodlstatusCtrl', ['$scope', '$filter', '$injector', 'Sett
         $scope.fromDT = AutoDownloadService.fromDT
         $scope.toDT = AutoDownloadService.toDT
         /**
-                 * This watches for the torrent:select event that will be fired by the
-                 * TorrentSearchEngines when a user selects a magnet or .torrent link for an episode from the autoDLstatus side panel.
-                 */
+         * This watches for the torrent:select event that will be fired by the
+         * TorrentSearchEngines when a user selects a magnet or .torrent link for an episode from the autoDLstatus side panel.
+         */
         angular.forEach($scope.activityList, function(activity) {
           if (activity.status > 2) { // only interested in not-found, filtered-out, seeders-min, no-magnet
             var tvdbid = activity.episode.TVDB_ID

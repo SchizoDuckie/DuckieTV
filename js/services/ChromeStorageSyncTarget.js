@@ -1,5 +1,8 @@
-DuckieTV.factory('ChromeStorageSyncTarget', ['SettingsService', 'StorageSyncService', 'ChromePermissions', '$injector', '$q',
-  function(SettingsService, StorageSyncService, ChromePermissions, $injector, $q) {
+/**
+ * This file is UNUSED
+ */
+DuckieTV.factory('ChromeStorageSyncTarget', ['SettingsService', 'ChromePermissions', '$q',
+  function(SettingsService, ChromePermissions, $q) {
     var service = {
       name: 'Chrome Storage Sync Target',
       lastSync: 'never',
@@ -31,8 +34,8 @@ DuckieTV.factory('ChromeStorageSyncTarget', ['SettingsService', 'StorageSyncServ
         })
       },
       /**
-             * Entry point for chrome permissions
-             */
+       * Entry point for chrome permissions
+       */
       isSupported: function() {
         return ChromePermissions.isSupported()
       },
@@ -44,8 +47,8 @@ DuckieTV.factory('ChromeStorageSyncTarget', ['SettingsService', 'StorageSyncServ
         })
       },
       /**
-             * Fetch a value from the storage.sync api.
-             */
+       * Fetch a value from the storage.sync api.
+       */
       get: function(key) {
         return service.isPermissionGranted().then(function() {
           return $q(function(resolve, reject) {
@@ -60,8 +63,8 @@ DuckieTV.factory('ChromeStorageSyncTarget', ['SettingsService', 'StorageSyncServ
         })
       },
       /**
-             * Store a new value in the storage.sync api
-             */
+       * Store a new value in the storage.sync api
+       */
       set: function(key, value) {
         return service.isPermissionGranted().then(function() {
           var setting = {
@@ -85,8 +88,8 @@ DuckieTV.factory('ChromeStorageSyncTarget', ['SettingsService', 'StorageSyncServ
         })
       },
       /**
-             * Attach background page sync event
-             */
+       * Attach background page sync event
+       */
       attach: function() {
         ChromePermissions.checkGranted('storage').then(function() {
           chrome.storage.onChanged.addListener(function(changes, namespace) {
@@ -107,7 +110,7 @@ DuckieTV.factory('ChromeStorageSyncTarget', ['SettingsService', 'StorageSyncServ
         })
       },
       write: function() {
-        service.set(tvdb, watchedList[tvdb])
+        // service.set(tvdb, watchedList[tvdb])
       },
       initialize: function() {
         ChromePermissions.checkGranted('storage').then(function() {

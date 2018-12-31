@@ -8,13 +8,14 @@ DuckieTV.controller('backupDialogCtrl', ['$scope', '$uibModalInstance', '$filter
     }
 
     /**
-         * Create backup via download service and force the download.
-         */
+     * Create backup via download service and force the download.
+     */
     $scope.createBackup = function() {
       BackupService.createBackup().then(function(backupString) {
         var filename = 'DuckieTV %s.backup'.replace('%s', $filter('date')(new Date(), 'shortDate'))
         download(backupString, filename, 'application/json')
       })
+
       $modalInstance.dismiss('Canceled')
       localStorage.setItem('autobackup.lastrun', new Date().getTime())
     }

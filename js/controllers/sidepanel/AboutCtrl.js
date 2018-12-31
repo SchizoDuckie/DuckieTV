@@ -4,8 +4,8 @@
 DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsService', 'StorageSyncService', 'TorrentSearchEngines', 'DuckieTorrent', 'AutoDownloadService',
   function($scope, $http, $injector, SettingsService, StorageSyncService, TorrentSearchEngines, DuckieTorrent, AutoDownloadService) {
     /**
-         * Closes the SidePanel
-         */
+     * Closes the SidePanel
+     */
     $scope.closeSidePanel = function() {
       $injector.get('$state').go('calendar')
     }
@@ -72,8 +72,8 @@ DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsServi
       // Unused
       var getSyncTime = function() {
         /*
-                 * if sync is supported get the synctime else indicate not available
-                 */
+        * if sync is supported get the synctime else indicate not available
+        */
         if (StorageSyncService.isSupported()) {
           StorageSyncService.get('lastSync').then(function(syncTime) {
             if (syncTime !== null) {

@@ -1,10 +1,10 @@
-DuckieTV.controller('tbtCtrl', ['$injector', 'Transmission', 'SettingsService', 'FormlyLoader',
-  function($injector, Transmission, SettingsService, FormlyLoader) {
-    var self = this
-    this.error = null
+DuckieTV.controller('tbtCtrl', ['Transmission', 'SettingsService', 'FormlyLoader',
+  function(Transmission, SettingsService, FormlyLoader) {
+    var vm = this
+    vm.error = null
 
     FormlyLoader.load('TorrentClientSettings').then(function(fields) {
-      self.model = {
+      vm.model = {
         server: SettingsService.get('transmission.server'),
         port: SettingsService.get('transmission.port'),
         path: SettingsService.get('transmission.path'),
@@ -14,25 +14,25 @@ DuckieTV.controller('tbtCtrl', ['$injector', 'Transmission', 'SettingsService', 
         progressX100: SettingsService.get('transmission.progressX100')
       }
 
-      self.fields = fields
+      vm.fields = fields
     })
 
-    this.isConnected = function() {
+    vm.isConnected = function() {
       return Transmission.isConnected()
     }
 
-    this.test = function() {
-      this.error = false
+    vm.test = function() {
+      vm.error = false
       // console.log("Testing settings");
       Transmission.Disconnect()
-      Transmission.setConfig(this.model)
+      Transmission.setConfig(vm.model)
       Transmission.connect().then(function(connected) {
         console.info('Transmission connected! (save settings)', connected)
-        self.error = null
+        vm.error = null
         Transmission.saveConfig()
         window.location.reload()
       }, function(error) {
-        self.error = error
+        vm.error = error
         console.error('Transmission connect error!', error)
       })
     }

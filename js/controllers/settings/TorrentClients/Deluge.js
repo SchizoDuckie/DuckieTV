@@ -1,14 +1,14 @@
-DuckieTV.controller('delugeCtrl', ['$injector', 'Deluge', 'SettingsService', 'FormlyLoader',
-  function($injector, Deluge, SettingsService, FormlyLoader) {
-    var self = this
-    this.error = null
+DuckieTV.controller('delugeCtrl', ['Deluge', 'SettingsService', 'FormlyLoader',
+  function(Deluge, SettingsService, FormlyLoader) {
+    var vm = this
+    vm.error = null
 
-    this.isConnected = function() {
+    vm.isConnected = function() {
       return Deluge.isConnected()
     }
 
     FormlyLoader.load('TorrentClientSettings').then(function(fields) {
-      self.model = {
+      vm.model = {
         server: SettingsService.get('deluge.server'),
         port: SettingsService.get('deluge.port'),
         use_auth: SettingsService.get('deluge.use_auth'),
@@ -16,21 +16,21 @@ DuckieTV.controller('delugeCtrl', ['$injector', 'Deluge', 'SettingsService', 'Fo
         hideUseAuth: true
       }
 
-      self.fields = fields
+      vm.fields = fields
     })
 
-    this.test = function() {
-      this.error = false
+    vm.test = function() {
+      vm.error = false
       // console.log("Testing settings");
       Deluge.Disconnect()
-      Deluge.setConfig(this.model)
+      Deluge.setConfig(vm.model)
       Deluge.connect().then(function(connected) {
         console.info('Deluge connected! (save settings)', connected)
-        self.error = null
+        vm.error = null
         Deluge.saveConfig()
         window.location.reload()
       }, function(error) {
-        self.error = error
+        vm.error = error
         console.error('Deluge connect error!', error)
       })
     }
