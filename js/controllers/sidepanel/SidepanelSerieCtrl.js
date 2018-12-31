@@ -1,5 +1,5 @@
-DuckieTV.controller('SidepanelSerieCtrl', ['$rootScope', '$filter', '$locale', '$state', '$injector', 'dialogs', 'FavoritesService', 'latestSeason', 'notWatchedSeason', 'serie', 'SidePanelState', 'SettingsService', 'FavoritesManager',
-  function($rootScope, $filter, $locale, $state, $injector, dialogs, FavoritesService, latestSeason, notWatchedSeason, serie, SidePanelState, SettingsService, FavoritesManager) {
+DuckieTV.controller('SidepanelSerieCtrl', ['$rootScope', '$filter', '$state', '$injector', 'dialogs', 'FavoritesService', 'latestSeason', 'notWatchedSeason', 'serie', 'SidePanelState', 'SettingsService', 'FavoritesManager', 'SeriesMetaTranslations',
+  function($rootScope, $filter, $state, $injector, dialogs, FavoritesService, latestSeason, notWatchedSeason, serie, SidePanelState, SettingsService, FavoritesManager, SeriesMetaTranslations) {
     var vm = this
     vm.serie = serie
     vm.latestSeason = latestSeason
@@ -8,17 +8,16 @@ DuckieTV.controller('SidepanelSerieCtrl', ['$rootScope', '$filter', '$locale', '
     vm.watchedDownloadedPaired = SettingsService.get('episode.watched-downloaded.pairing')
     vm.isRefreshing = false
     vm.markAllWatchedAlert = false
+    vm.translateGenre = SeriesMetaTranslations.translateGenre
+    vm.translateStatus = SeriesMetaTranslations.translateStatus
+    vm.translateDayOfWeek = SeriesMetaTranslations.translateDayOfWeek
 
-    /**
-     * Closes the SidePanel expansion
-     */
+    // Closes the SidePanel expansion
     vm.closeSidePanel = function() {
       SidePanelState.hide()
     }
 
-    /**
-     * Closes the SidePanel expansion
-     */
+    // Closes the SidePanel expansion
     vm.closeSidePanelExpansion = function() {
       $injector.get('SidePanelState').contract()
       $state.go('serie')
@@ -120,41 +119,6 @@ DuckieTV.controller('SidepanelSerieCtrl', ['$rootScope', '$filter', '$locale', '
       FavoritesManager.remove(vm.serie).then(function() {
         SidePanelState.hide()
       })
-    }
-
-    var genreList = 'action|adventure|animation|anime|biography|children|comedy|crime|disaster|documentary|drama|eastern|family|fan-film|fantasy|film-noir|food|game-show|history|holiday|home-and-garden|horror|indie|mini-series|music|musical|mystery|news|none|reality|road|romance|science-fiction|short|soap|special-interest|sports|sporting-event|superhero|suspense|talk-show|thriller|travel|tv-movie|war|western'.split('|')
-    // used by vm.translateGenre()
-
-    var translatedGenreList = $filter('translate')('GENRELIST').split('|')
-
-    var translatedStatusList = $filter('translate')('STATUSLIST').split('|')
-
-    var statusList = 'canceled|ended|in production|returning series|planned'.split('|')
-    // used by vm.translateStatus()
-
-    var daysOfWeekList = 'Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday'.split('|') // used by vm.translateDayOfWeek()
-
-    /**
-     * Takes the English Genre (as fetched from TraktTV) and returns a translation
-     */
-    vm.translateGenre = function(genre) {
-      var idx = genreList.indexOf(genre)
-      return (idx != -1) ? translatedGenreList[idx] : genre
-    }
-
-    /**
-     * Takes the English day of the week (as fetched from TraktTV) and returns a translation
-     */
-    vm.translateDayOfWeek = function(dayofweek) {
-      return $locale.DATETIME_FORMATS.DAY[daysOfWeekList.indexOf(dayofweek)]
-    }
-
-    /**
-     * Takes the English status (as fetched from TraktTV) and returns a translation
-     */
-    vm.translateStatus = function(status) {
-      var idx = statusList.indexOf(status)
-      return (idx != -1) ? translatedStatusList[idx] : status
     }
 
     /**
