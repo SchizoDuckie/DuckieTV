@@ -8,9 +8,7 @@ DuckieTV.controller('SidepanelSeasonsCtrl', ['$rootScope', '$filter', 'seasons',
     vm.markAllWatchedAlert = false
     vm.watchedDownloadedPaired = SettingsService.get('episode.watched-downloaded.pairing')
 
-    /**
-     * Closes the SidePanel expansion
-     */
+    // Closes the SidePanel expansion
     vm.closeSidePanelExpansion = function() {
       SidePanelState.contract()
     }
@@ -19,17 +17,17 @@ DuckieTV.controller('SidepanelSeasonsCtrl', ['$rootScope', '$filter', 'seasons',
       vm.seasons.map(function(season) {
         season.markSeasonAsWatched(vm.watchedDownloadedPaired, $rootScope).then(function() {
           $rootScope.$broadcast('serie:recount:watched', season.ID_Serie)
-          self.markAllWatchedAlert = false // reset alert flag
+          vm.markAllWatchedAlert = false // reset alert flag
         })
       })
     }
 
     vm.markAllWatchedCancel = function() {
-      self.markAllWatchedAlert = false // reset alert flag
+      vm.markAllWatchedAlert = false // reset alert flag
     }
 
     vm.markAllWatchedQuery = function() {
-      self.markAllWatchedAlert = true // set alert flag
+      vm.markAllWatchedAlert = true // set alert flag
     }
 
     vm.getPosterLabel = function(seasonNumber) {

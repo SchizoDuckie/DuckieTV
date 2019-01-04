@@ -36,7 +36,7 @@ DuckieTV.controller('tixatiCtrl', ['Tixati', 'SettingsService', 'FormlyLoader',
         } else {
           vm.error = error
         }
-        console.error(self.error)
+        console.error(vm.error)
       })
     }
   }
