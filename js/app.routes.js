@@ -3,10 +3,6 @@
  */
 DuckieTV.config(['$stateProvider', '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
-    var applyTranslation = function($translate, SettingsService) {
-      $translate.use(SettingsService.get('application.locale'))
-    }
-
     function showSidePanel(SidePanelState) {
       SidePanelState.show()
       return SidePanelState
@@ -272,18 +268,7 @@ DuckieTV.config(['$stateProvider', '$urlRouterProvider',
         url: '/series/:id',
         resolve: {
           SidePanelState: showSidePanel,
-          serie: findSerieByID,
-          latestSeason: function($stateParams) {
-            return Serie.findByID($stateParams.id).then(function(result) {
-              return result.getActiveSeason()
-            })
-          },
-          notWatchedSeason: function($stateParams) {
-            return Serie.findByID($stateParams.id).then(function(result) {
-              return result.getNotWatchedSeason()
-            })
-          }
-
+          serie: findSerieByID
         },
         views: {
           sidePanel: {

@@ -1,5 +1,5 @@
-DuckieTV.controller('SidepanelEpisodeCtrl', ['serie', 'episode', 'season', 'AutoDownloadService', 'SubtitleDialog', 'DuckieTorrent', 'dialogs', '$scope', '$injector',
-  function(serie, episode, season, AutoDownloadService, SubtitleDialog, DuckieTorrent, dialogs, $scope, $injector) {
+DuckieTV.controller('SidepanelEpisodeCtrl', ['serie', 'episode', 'season', 'AutoDownloadService', 'SubtitleDialog', 'DuckieTorrent', 'dialogs', '$scope', '$injector', 'SettingsService', '$state',
+  function(serie, episode, season, AutoDownloadService, SubtitleDialog, DuckieTorrent, dialogs, $scope, $injector, SettingsService, $state) {
     var vm = this
     vm.serie = serie
     vm.episode = episode
@@ -15,6 +15,18 @@ DuckieTV.controller('SidepanelEpisodeCtrl', ['serie', 'episode', 'season', 'Auto
     vm.markLeaked = function() {
       vm.episode.leaked = 1
       vm.episode.Persist()
+    }
+
+    var gotoFirstUnwatchedSeason = SettingsService.get('series.not-watched-eps-btn')
+    vm.gotoEpisodes = function() {
+      var getSeasonFunc = gotoFirstUnwatchedSeason ? serie.getNotWatchedSeason() : serie.getActiveSeason()
+
+      getSeasonFunc.then(function(result) {
+        $state.go('serie.season', {
+          id: serie.ID_Serie,
+          season_id: result.ID_Season
+        })
+      })
     }
 
     vm.autoDownload = function() {

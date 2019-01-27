@@ -16,7 +16,7 @@
       <tr>
         <td>
           <h2 translate-once>SIDEPANEL/SERIE-OVERVIEW/last-episode/hdr</h2>
-          <h3 ng-if="sidepanel.prevEpisode" style="margin-bottom:13px"><a ui-sref="serie.season.episode({episode_id: sidepanel.prevEpisode.ID_Episode,season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">{{sidepanel.prevEpisode.getFormattedEpisode()}}</a></h3>
+          <h3 ng-if="sidepanel.prevEpisode" style="margin-bottom:13px"><a ui-sref="serie.season.episode({episode_id: sidepanel.prevEpisode.ID_Episode,season_id: sidepanel.prevEpisode.ID_Season})">{{sidepanel.prevEpisode.getFormattedEpisode()}}</a></h3>
         </td>
         <td ng-if="sidepanel.prevEpisode">
           {{sidepanel.prevEpisode.episodename}}<br>
@@ -27,7 +27,7 @@
         <tr ng-if="sidepanel.serie.status != 'ended'">
           <td valign="top" style="text-align: center; padding-bottom:15px;">
             <h2 style="margin-top:0" translate-once>SIDEPANEL/SERIE-OVERVIEW/next-episode/hdr</h2>
-            <h3 ng-if="sidepanel.nextEpisode"><a ui-sref="serie.season.episode({episode_id: sidepanel.nextEpisode.ID_Episode,season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">{{sidepanel.nextEpisode.getFormattedEpisode()}}</a></h3>
+            <h3 ng-if="sidepanel.nextEpisode"><a ui-sref="serie.season.episode({episode_id: sidepanel.nextEpisode.ID_Episode,season_id: sidepanel.nextEpisode.ID_Season})">{{sidepanel.nextEpisode.getFormattedEpisode()}}</a></h3>
           </td>
           <td ng-if="sidepanel.nextEpisode">
             {{sidepanel.nextEpisode.episodename}}<br>
@@ -50,13 +50,8 @@
                 <i class="glyphicon glyphicon-info-sign"></i><strong translate-once>COMMON/seasons/lbl</strong>
             </a>
         </td>
-        <td ng-show="!sidepanel.notWatchedEpsBtn">
-            <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.latestSeason ? sidepanel.latestSeason.ID_Season : sidepanel.season.ID_Season})">
-                <i class="glyphicon glyphicon-info-sign"></i><strong translate-once>COMMON/episodes/lbl</strong>
-            </a>
-        </td>
-        <td ng-show="sidepanel.notWatchedEpsBtn">
-            <a ui-sref="serie.season({id: sidepanel.serie.ID_Serie, season_id: sidepanel.notWatchedSeason ? sidepanel.notWatchedSeason.ID_Season : sidepanel.season.ID_Season})">
+        <td>
+            <a  ng-click="sidepanel.gotoEpisodes()">
                 <i class="glyphicon glyphicon-info-sign"></i><strong translate-once>COMMON/episodes/lbl</strong>
             </a>
         </td>
@@ -85,7 +80,7 @@
       <tr ng-show="getSetting('torrenting.enabled')">
         <td colspan="2">
            <a ng-click="sidepanel.serie.toggleAutoDownload()">
-              <i class="glyphicon glyphicon-cloud-download" ng-style="{ color: sidepanel.serie.autoDownload == 1 ? 'green' : 'white' }"></i><strong translate-once>COMMON/auto-download/lbl</strong>: 
+              <i class="glyphicon glyphicon-cloud-download" ng-style="{ color: sidepanel.serie.autoDownload == 1 ? 'green' : 'white' }"></i><strong translate-once>COMMON/auto-download/lbl</strong>:
               <strong ng-if="sidepanel.serie.autoDownload == 1" translate-once>COMMON/enabled/lbl</strong>
               <strong ng-if="sidepanel.serie.autoDownload == 0" translate-once>COMMON/disabled/lbl</strong>
             </a>

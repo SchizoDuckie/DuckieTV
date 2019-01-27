@@ -1,10 +1,7 @@
-DuckieTV.controller('SidepanelSerieCtrl', ['$rootScope', '$filter', '$state', '$injector', 'dialogs', 'FavoritesService', 'latestSeason', 'notWatchedSeason', 'serie', 'SidePanelState', 'SettingsService', 'FavoritesManager', 'SeriesMetaTranslations',
-  function($rootScope, $filter, $state, $injector, dialogs, FavoritesService, latestSeason, notWatchedSeason, serie, SidePanelState, SettingsService, FavoritesManager, SeriesMetaTranslations) {
+DuckieTV.controller('SidepanelSerieCtrl', ['$rootScope', '$filter', '$state', '$injector', 'dialogs', 'FavoritesService', 'serie', 'SidePanelState', 'SettingsService', 'FavoritesManager', 'SeriesMetaTranslations',
+  function($rootScope, $filter, $state, $injector, dialogs, FavoritesService, serie, SidePanelState, SettingsService, FavoritesManager, SeriesMetaTranslations) {
     var vm = this
     vm.serie = serie
-    vm.latestSeason = latestSeason
-    vm.notWatchedSeason = notWatchedSeason
-    vm.notWatchedEpsBtn = SettingsService.get('series.not-watched-eps-btn')
     vm.watchedDownloadedPaired = SettingsService.get('episode.watched-downloaded.pairing')
     vm.isRefreshing = false
     vm.markAllWatchedAlert = false
@@ -82,6 +79,18 @@ DuckieTV.controller('SidepanelSerieCtrl', ['$rootScope', '$filter', '$state', '$
       vm.nextEpisode = result
       $rootScope.$applyAsync()
     })
+
+    var gotoFirstUnwatchedSeason = SettingsService.get('series.not-watched-eps-btn')
+    vm.gotoEpisodes = function() {
+      var getSeasonFunc = gotoFirstUnwatchedSeason ? serie.getNotWatchedSeason() : serie.getActiveSeason()
+
+      getSeasonFunc.then(function(result) {
+        $state.go('serie.season', {
+          id: serie.ID_Serie,
+          season_id: result.ID_Season
+        })
+      })
+    }
 
     vm.markAllWatched = function(serie) {
       serie.markSerieAsWatched(vm.watchedDownloadedPaired, $rootScope).then(function() {
