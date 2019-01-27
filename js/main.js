@@ -114,7 +114,7 @@ jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases/late
     $('#date').html(new Date(result.published_at).toLocaleDateString());
     $("#releasenotes").html('<p style="text-align:left">' + marked(result.body) + '</p>');
 
-    var isX64 = navigator.userAgent.search(/x86_64|x86-64|Win64|x64;|amd64|AMD64|WOW64|x64_64/) > -1;
+    var isX64 = navigator.userAgent.search(/x86_64|x86-64|Win64|x64;|amd64|AMD64|WOW64|x64_64|OS X/) > -1;
 
     result.assets.map(function(release) {
         console.log(release.name);
