@@ -6,7 +6,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         mirrorResolver: null,
         includeBaseURL: true,
         endpoints: {
-          search: '/torrents/?ihq=%s&Torrent_sort=%o'
+          search: '/torrents/?ihq=%s&fiht=2&&verified=0'
         },
         selectors: {
           resultContainer: 'table > tbody > tr[data-key="0"]',
@@ -24,13 +24,9 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           detailsContainer: 'div[class="row mt"]',
           magnetUrl: ['a:nth-of-type(2)', 'href',
             function(shortlink) {
-              return decodeURIComponent(shortlink.replace('https://shortlink.st/?url=', ''))
+              return decodeURIComponent(shortlink.replace('https://mylink.me.uk/?url=', ''))
             }
           ]
-        },
-        orderby: {
-          seeders: {d: 'seeders', a: '-seeders'},
-          size: {d: 'size', a: '-size'}
         }
       }, $q, $http, $injector))
     }
