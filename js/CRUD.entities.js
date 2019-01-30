@@ -181,9 +181,11 @@ CRUD.define(Serie, {
     return CRUD.FindOne('Season', firstAiredFilter, {
       orderBy: 'ID_Season desc'
     }).then(function(result) {
-      return result || self.getLatestSeason().then(function(result) {
+      if (result) {
         return result
-      })
+      }
+
+      return self.getLatestSeason()
     })
   },
 
@@ -196,9 +198,11 @@ CRUD.define(Serie, {
     return CRUD.FindOne('Season', notWatchedFilter, {
       orderBy: 'seasonnumber asc'
     }).then(function(result) {
-      return result || self.getLatestSeason().then(function(result) {
+      if (result) {
         return result
-      })
+      }
+
+      return self.getLatestSeason()
     })
   },
 
