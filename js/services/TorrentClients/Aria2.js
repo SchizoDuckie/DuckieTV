@@ -85,8 +85,13 @@ DuckieTorrent.factory('Aria2Remote', ['BaseTorrentRemote',
       }
       Aria2API.extends(BaseHTTPApi, {
         portscan: function() {
+        var self = this
+        self.config.version = 1.32 // first supported version
           return this.execute('getVersion').then(function(result) {	// JSON object
             var enabledFeatures = result && result.enabledFeatures || []
+            if (result && result.version) {
+              self.config.version = parseFloat(result.version)
+            }
             return enabledFeatures.indexOf('BitTorrent') > -1
           }, function() {
             return false
@@ -94,6 +99,7 @@ DuckieTorrent.factory('Aria2Remote', ['BaseTorrentRemote',
         },
 
         getTorrents: function() {
+          var self = this
           // bah! the tellStatus method only works for one gid, and so
           // we need to make 3 requests to the other tell* methods to list all the torrents :-(
           var torrents = []
@@ -113,11 +119,15 @@ DuckieTorrent.factory('Aria2Remote', ['BaseTorrentRemote',
             params: paramArray
           }).then(function(response) {
             var jsonObject = response && response.data || {}
+            var metadatabitfield = '80' // v1.32
+            if (self.config.version > 1.32) {
+              metadatabitfield = 'c0'
+            }
             if (jsonObject.result) {
               jsonObject.result.map(function(tellResults) {
                 tellResults.map(function(torrentList) {
                   torrentList.map(function(torrent) {
-                    if ((torrent.bitfield && torrent.bitfield !== '80') && (torrent.status && torrent.status !== 'removed')) {
+                    if ((torrent.bitfield && torrent.bitfield !== metadatabitfield) && (torrent.status && torrent.status !== 'removed')) {
                       // not interested in completed metadata records, or removed torrents
                       torrents.push(torrent)
                     }
@@ -185,7 +195,7 @@ DuckieTorrent.factory('Aria2Remote', ['BaseTorrentRemote',
             params: paramArray
           }).then(function(response) {
             var jsonObject = response && response.data || {}
-            // console.error(method + ": " + JSON.stringify(jsonObject));
+            // console.error(method + ": " + JSON.stringify(jsonObject))
             return (jsonObject.result) ? jsonObject.result : null
           }, function() {
             return false
