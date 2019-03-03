@@ -10,12 +10,12 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         },
         selectors: {
           resultContainer: 'div[class="tgxtablerow clickable-row click"] ',
-          releasename: ['div.tgxtablecell:nth-child(3) div a', 'title'],
-          magnetUrl: ['div.tgxtablecell:nth-child(4) a:nth-child(2)', 'href'],
-          size: ['div.tgxtablecell:nth-child(7) span', 'innerText'],
-          seeders: ['div.tgxtablecell:nth-child(10) span font b', 'innerText'],
-          leechers: ['div.tgxtablecell:nth-child(10) span font:nth-child(2) b', 'innerText'],
-          detailUrl: ['div.tgxtablecell:nth-child(3) div a', 'href']
+          releasename: ['div a[href^="/torrent/"]', 'title'],
+          magnetUrl: ['div a[href^="magnet:?"]', 'href'],
+          size: ['div span[style^="border-radius"]', 'innerText'],
+          seeders: ['div span[title="Seeders/Leechers"] font b', 'innerText'],
+          leechers: ['div span[title="Seeders/Leechers"] font:nth-child(2) b', 'innerText'],
+          detailUrl: ['div a[href^="/torrent/"]', 'href']
         },
         orderby: {
           seeders: {d: 'seeders&order=desc', a: 'seeders&order=asc'},
