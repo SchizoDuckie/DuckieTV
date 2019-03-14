@@ -194,8 +194,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ['BaseTorrentRemote',
             // post a message explaining tracker trimming
             console.info('Magnet %s has had the following trackers [%s] removed to fit within the interface 1K length limit', magnetURI.getInfoHash(), discardedTrackers)
           }
-          fd.append('s', magnetURI)
-          return $http.post(this.getUrl('addmagnet'), fd, {
+          return $http.post(this.getUrl('addmagnet', magnetURI), {
             headers: headers
           })
         },
@@ -281,7 +280,7 @@ DuckieTorrent.factory('uTorrentWebUIRemote', ['BaseTorrentRemote',
       service.setEndpoints({
         portscan: '/gui/token.html',
         torrents: '/gui/?token=%token%&list=1',
-        addmagnet: '/gui/?token=%token%&action=add-url',
+        addmagnet: '/gui/?token=%token%&action=add-url&s=%s',
         addfile: '/gui/?token=%token%&action=add-file&download_dir=0&path=',
         stop: '/gui/?token=%token%&action=stop&hash=%s',
         start: '/gui/?token=%token%&action=start&hash=%s',
