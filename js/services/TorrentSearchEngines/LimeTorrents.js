@@ -18,8 +18,8 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         },
         detailsSelectors: {
           detailsContainer: 'div.torrentinfo',
-          magnetUrl: ['a[title$="magnet"]', 'href'],
-          torrentUrl: ['a[title$="torrent"]', 'href']
+          magnetUrl: ['a[title$="agnet"]', 'href'],
+          torrentUrl: ['a[title$="orrent"]', 'href']
         },
         orderby: {
           seeders: {d: 'seeds/1/', a: 'seeds/1/'},
