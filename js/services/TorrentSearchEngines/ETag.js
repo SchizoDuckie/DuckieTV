@@ -12,12 +12,12 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           resultContainer: 'tr[class^="tl"]',
           releasename: ['td.tli a', 'innerText'],
           magnetUrl: ['td a[href^="magnet:?xt="]', 'href'],
-          seeders: ['td:nth-last-of-type(2)', 'innerText',
+          seeders: ['td.sy', 'innerText',
             function(text) {
               return (text === '---') ? null : text
             }
           ],
-          leechers: ['td:nth-last-of-type(3)', 'innerText',
+          leechers: ['td.ly', 'innerText',
             function(text) {
               return (text === '---') ? null : text
             }
