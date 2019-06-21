@@ -22,9 +22,9 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           detailUrl: ['td.coll-1 a:nth-of-type(2)', 'href']
         },
         detailsSelectors: {
-          detailsContainer: 'div[class^="torrent-category-detail"]',
-          magnetUrl: ['li a', 'href'],
-          torrentUrl: ['li.dropdown li a', 'href']
+          detailsContainer: 'div.no-top-radius',
+          magnetUrl: ['ul li a[href^="magnet:?"]', 'href'],
+          torrentUrl: ['ul li a[href^="http://itorrents.org/"]', 'href']
         },
         orderby: {
           seeders: {d: 'seeders/desc', a: 'seeders/asc'},
