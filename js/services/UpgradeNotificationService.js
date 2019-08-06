@@ -12,7 +12,7 @@ DuckieTV.run(['dialogs', '$http',
       '1.1.6': ['<li>Languages: (new) Greek, Turkish, Slovak and South African English.',
         '<li>SearchEngines: (new) Add ETTV (ettv.to), ETag (extratorrent.ag), IsoHunt2 (isohunt2.net), TGx (torrentgalaxy.org).',
         '<li>SearchEngines: (fix) EzTVag new domain (eztv.io) and results, limetorrrents dl links, 1337x dl links, TPB mirror resolver, RarBG details links.',
-        '<li>Standalone: (upgrade) NWJS 37.3 with Chromium 73',
+        '<li>Standalone: (upgrade) NWJS 39.3 with Chromium 75',
         '<li>TorrentClient: (new) Introducing tTorrent client.',
         '<li>TorrentMonitor: (fix) Auto-Stop-All now works as intended.',
         '<li>Misc: Bug fixes.'
