@@ -118,7 +118,7 @@ DuckieTorrent.factory('rTorrentRemote', ['BaseTorrentRemote',
           return this.rpc('download_list').then(function(data) {
             var args = []
             var indexMap = {}
-            var props = ['d.get_base_filename', 'd.get_base_path', 'd.get_bytes_done', 'd.get_completed_bytes', 'd.get_directory', 'd.get_directory_base', 'd.get_down_rate', 'd.get_down_total', 'd.get_hash', 'd.get_name', 'd.get_size_bytes', 'd.get_state', 'd.get_up_rate']
+            var props = ['d.get_base_filename', 'd.get_base_path', 'd.get_bytes_done', 'd.get_completed_bytes', 'd.directory', 'd.directory_base', 'd.down.rate', 'd.down.total', 'd.hash', 'd.get_name', 'd.size_bytes', 'd.state', 'd.up_rate']
 
             data.map(function(hash) {
               indexMap[hash] = {}
@@ -128,16 +128,16 @@ DuckieTorrent.factory('rTorrentRemote', ['BaseTorrentRemote',
             })
 
             function propTransformer(prop, hash) {
-              var idx = args.push({ 'methodName': prop, 'params': [hash]})
+              var idx = args.push({ 'methodName': prop, 'params': [hash] })
               indexMap[hash][prop] = idx - 1
             }
 
             return self.rpc('system.multicall', [args]).then(function(result) {
               var output = []
               Object.keys(indexMap).map(function(hash) {
-                var torrent = { hash: hash}
+                var torrent = { hash: hash }
                 Object.keys(indexMap[hash]).map(function(property) {
-                  torrent[property.replace('d.get_', '')] = result[indexMap[hash][property]][0]
+                  torrent[property] = result[indexMap[hash][property]][0]
                 })
                 output.push(torrent)
               })
@@ -170,12 +170,12 @@ DuckieTorrent.factory('rTorrentRemote', ['BaseTorrentRemote',
         addMagnet: function(magnet, dlPath) {
           if (dlPath !== undefined && dlPath !== null) {
             // using custom download directory
-            var parms = [magnet, 'd.set_directory_base="' + dlPath + '"']
+            var parms = ["", magnet, 'd.directory_base.set="' + dlPath + '"']
           } else {
             // using default download directory
-            var parms = [magnet]
+            var parms = ["", magnet]
           }
-          return this.rpc('load_start', parms)
+          return this.rpc('load.start', parms)
         },
         addTorrentByUrl: function(url, infoHash, releaseName, dlPath) {
           var self = this
@@ -219,12 +219,12 @@ DuckieTorrent.factory('rTorrentRemote', ['BaseTorrentRemote',
               var value = new base64_xmlrpc_value(contents.substring(index + key.length))
               if (dlPath !== undefined && dlPath !== null) {
                 // using custom download directory
-                var parms = [value, 'd.set_directory_base="' + dlPath + '"']
+                var parms = [value, 'd.directory_base.set="' + dlPath + '"']
               } else {
                 // using default download directory
                 var parms = [value]
               }
-              return self.rpc('load_raw_start', parms).then(function(result) {
+              return self.rpc('load.raw_start', parms).then(function(result) {
                 var currentTry = 0
                 var maxTries = 5
                 // wait for rTorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
