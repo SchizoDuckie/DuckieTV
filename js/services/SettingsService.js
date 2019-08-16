@@ -208,7 +208,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'torrenting.require_keywords_mode_or': true,
         'torrenting.searchprovider': 'ThePirateBay',
         'torrenting.searchquality': '',
-        'torrenting.searchqualitylist': ['480p', 'HDTV', '720p', '1080p', '2160p'],
+        'torrenting.searchqualitylist': ['HDTV', '720p', '1080p', '2160p', 'x265'],
         'torrenting.streaming': true,
         'trakt-update.period': 12,
         'trakttv.passwordHash': null,
