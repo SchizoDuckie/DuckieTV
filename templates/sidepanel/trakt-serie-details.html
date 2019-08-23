@@ -1,5 +1,5 @@
 <div class="leftpanel">
-   <table style="width:100%">
+  <table style="width:100%">
     <tbody>
       <tr>
         <td colspan="2">
@@ -14,7 +14,7 @@
             <div class="poster large" style="background-size:contain;background-position:center center;background-repeat:no-repeat;margin-bottom:5px" lazy-background="{{sidepanel.serie.poster}}"></div>
             <div style="color:rgb(208,208,208);font-size: 13px;text-align:justify"><p>{{sidepanel.serie.overview}}</p></div>
           </center>
-          <div class="buttons">
+          <div class="buttons" style="margin-bottom: 16px;">
             <a class='btn' ng-if="sidepanel.serie.trailer" href="{{sidepanel.serie.trailer}}" target="_blank">
               <i class="glyphicon glyphicon-facetime-video"></i>
               <strong translate-once>COMMON/watch-trailer/tooltip</strong>
@@ -24,9 +24,8 @@
               <strong translate-once>COMMON/watch-trailer/tooltip</strong>
             </a>
 
-
             <a class='btn' ng-click="sidepanel.selectSerie()">
-              <i class="glyphicon glyphicon-plus"></i> 
+              <i class="glyphicon glyphicon-plus"></i>
               <strong>Add to favorites</strong>
             </a>
 
