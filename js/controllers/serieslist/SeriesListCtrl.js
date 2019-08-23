@@ -5,7 +5,6 @@ DuckieTV.controller('seriesListCtrl', ['FavoritesService', '$rootScope', 'Settin
     FavoritesService.flushAdding() // flush the adding and error status list
 
     vm.activated = true
-    vm.mode = SettingsService.get('series.displaymode') // series display mode. Either 'banner' or 'poster', banner being wide mode, poster for portrait.
     vm.isSmall = SettingsService.get('library.smallposters') // library posters size , true for small, false for large
     vm.sgEnabled = SettingsService.get('library.seriesgrid')
     vm.watchedDownloadedPaired = SettingsService.get('episode.watched-downloaded.pairing')
@@ -147,18 +146,6 @@ DuckieTV.controller('seriesListCtrl', ['FavoritesService', '$rootScope', 'Settin
 
     vm.getFavorites = function() {
       return FavoritesService.favorites
-    }
-
-    /**
-     * Set the series list display mode to either banner or poster.
-     * Temporary mode is for enabling for instance the search, it's not stored.
-     */
-    vm.setMode = function(mode, temporary) {
-      if (!temporary) {
-        SettingsService.set('series.displaymode', mode)
-      }
-
-      vm.mode = mode
     }
 
     // Closes the trakt-serie-details sidepanel when exiting adding mode

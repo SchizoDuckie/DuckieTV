@@ -11,8 +11,7 @@ DuckieTV.directive('serieheader', ['FanartService', function (FanartService) {
       'noBadge': '=noBadge',
       'noListButton': '=noButton',
       'noOverview': '=noOverview',
-      'noTitle': '=noTitle',
-      'mode': '@'
+      'noTitle': '=noTitle'
     },
     templateUrl: 'templates/serieHeader.html',
     controller: ['$element', '$attrs', '$scope', function ($element, $attrs, $scope) {

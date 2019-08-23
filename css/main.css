@@ -660,43 +660,6 @@ serieheader[mode='search'] h3 {
   margin-top: 0;
 }
 
-serieheader[mode=banner] {
-  width: 50%;
-  height: 140px;
-  overflow: hidden;
-  display: inline-block;
-}
-
-serieheader[mode=banner] .serieheader {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-serieheader .banner {
-  display: block;
-  width: 100%;
-  height: 100%;
-  transition: border 0.2s ease-in-out;
-}
-
-serieheader .banner .img {
-  width: 100%;
-  height: 100%;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-
-serieheader[mode=banner] .title {
-  background-color: rgba(0, 0, 0, 0.8);
-  transition: margin 0.2s ease-in-out;
-  bottom: initial;
-}
-
-serieheader[mode=banner]:hover .title {
-  margin-top: -36px;
-}
-
 serieheader:hover .badge {
   opacity: 1;
 }
@@ -718,7 +681,7 @@ sidepanel .serie-img .leftbadge {
   right: unset !important;
 }
 
-[series-grid=true] serieheader[mode=poster] {
+[series-grid=true] serieheader {
   top: 0px;
   left: 0px;
   position: absolute;
@@ -737,11 +700,11 @@ sidepanel .serie-img .leftbadge {
  * this means the only thing seperating the posters is this margin here. This allows easy distancing
  * of the posters but also easily allows a no-gap mode between posters which looks kinda nice. */
 
-serieheader[mode='poster'] {
+serieheader {
   margin: 0px 5px 11px 5px;
 }
 
-serieheader[mode='poster'] .serieheader {
+serieheader .serieheader {
   position: relative;
   border: 0;
 }
@@ -768,7 +731,7 @@ serieheader .poster:not(.img-load-error) {
   border: 1px solid transparent;
 }
 
-serieheader .poster figure, serieheader .banner figure {
+serieheader .poster figure {
   width: 100%;
   height: 100%;
   position: relative;
@@ -789,12 +752,12 @@ serieheader .poster:hover .img {
   filter: brightness(1.06);
 }
 
-serieheader.active .poster, serieheader.active .banner,
-.serieheader.active .poster, .serieheader.active .banner {
+serieheader.active .poster,
+.serieheader.active .poster {
   border: 1px solid yellow !important;
 }
 
-serieheader .poster.img-loading .img, serieheader .banner.img-loading .img {
+serieheader .poster.img-loading .img {
   opacity: 0;
 }
 
@@ -833,7 +796,7 @@ serieheader h3.title {
   right: 0px;
 }
 
-serieheader[mode=poster] h3 {
+serieheader h3 {
   font-size: 21px;
   word-break: break-word;
   white-space: normal;
@@ -3020,24 +2983,6 @@ ng-dial-gauge {
 /**
  * Resolution Specific Touchups
  */
-
-@media (max-width: 1080px) {
-  serieheader[mode=banner] {
-    width: 100%;
-  }
-}
-
-@media (max-width: 1366px) {
-  .sidepanelActive serieheader[mode=banner] {
-    width: 100%;
-  }
-}
-
-@media (max-width: 1560px) {
-  .sidepanelExpanded serieheader[mode=banner] {
-    width: 100%;
-  }
-}
 
 @media (max-height: 768px) {
   sidepanel .buttons a {
