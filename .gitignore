@@ -46,3 +46,5 @@ lib
 chromedriver
 minidump_stackwalk
 nacl_*
+notification_helper.exe
+v8_context_snapshot.bin
