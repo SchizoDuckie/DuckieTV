@@ -1,8 +1,7 @@
 /**
  * RARBG.com API interface via torrentapi.org..
  * Fetches list of torrent results and tries to fetch the magnet links for an episode.
- * docs: http://torrentapi.org/apidocs_v2.txt&app_id=DuckieTV
- * error codes: https://github.com/rarbg/torrentapi/issues/1#issuecomment-114763312
+ * docs: http://torrentapi.org/apidocs_v2.txt?app_id=DuckieTV
  */
 DuckieTV.factory('RarBG', ['$q', '$http',
   function($q, $http) {
