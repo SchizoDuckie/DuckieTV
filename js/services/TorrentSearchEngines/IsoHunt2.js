@@ -24,7 +24,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           detailsContainer: 'div[class="row mt"]',
           magnetUrl: ['a:nth-of-type(2)', 'href',
             function(shortlink) {
-              return decodeURIComponent(shortlink.replace('https://mylink.me.uk/?url=', ''))
+              return decodeURIComponent(shortlink.replace('https://mylink.cx/?url=', ''))
             }
           ]
         }
