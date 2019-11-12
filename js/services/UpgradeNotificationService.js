@@ -10,6 +10,7 @@ DuckieTV.run(['dialogs', '$http',
     var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="https://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="https://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="https://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>'
     var notifications = {
       '1.1.6': ['<li>Languages: (new) Greek, Turkish, Slovak and South African English.',
+        '<li>Languages: (fix) Chinese, Dutch.',
         '<li>SearchEngines: (new) Add ETTV (ettv.to), ETag (extratorrent.ag), IsoHunt2 (isohunt2.net), TGx (torrentgalaxy.org), EXT (ext.to).',
         '<li>SearchEngines: (fix) EzTVag new domain (eztv.io) and results, limetorrrents dl links, 1337x dl links, TPB mirror resolver, RarBG details links.',
         '<li>Standalone: (upgrade) NWJS 39.3 with Chromium 75',
