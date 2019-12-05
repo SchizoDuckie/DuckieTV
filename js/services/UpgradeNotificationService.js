@@ -15,7 +15,7 @@ DuckieTV.run(['dialogs', '$http',
         '<li>SearchEngines: (fix) EzTVag new domain (eztv.io) and results, limetorrrents dl links, 1337x dl links, TPB mirror resolver, RarBG details links.',
         '<li>Standalone: (upgrade) NWJS 39.3 with Chromium 75',
         '<li>TorrentClient: (new) Introducing tTorrent client.',
-        '<li>TorrentClient: (fix) Replace deprecaded rTorrent calls.',
+        '<li>TorrentClient: (fix) Replace deprecaded rTorrent calls, add support for qBitTorrent 4.2+.',
         '<li>TorrentMonitor: (fix) Auto-Stop-All now works as intended.',
         '<li>Misc: Bug fixes.'
       ].join('')
