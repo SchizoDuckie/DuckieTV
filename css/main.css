@@ -788,12 +788,13 @@ serieheader h3.title {
   background-color: rgba(0, 0, 0, 0.6);
   padding: 5px;
   margin-bottom: 0;
-  white-space: nowrap;
   text-overflow: ellipsis;
   position: absolute;
   bottom: 0px;
   left: 0px;
   right: 0px;
+  max-height: 54px;
+  overflow: hidden;
 }
 
 serieheader h3 {
