@@ -98,6 +98,10 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
 
     vm.readTraktTV = function() {
       if (alreadyImported) return
+
+      var watchedShowIdMapping = {}
+      var collectedShowIdMapping = {}
+
       alreadyImported = true
       FavoritesService.getSeries().then(function(series) {
         console.info('Mapping currently added series')
@@ -108,20 +112,25 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
         console.info('Found', userShows.length, 'shows in users collection')
         TraktTVv2.watched().then(function(watchedShows) {
           console.info('Found', watchedShows.length, 'shows in users watched episodes collection')
+
           // Go through and determine all the shows we're adding
           userShows.forEach(function(serie) {
+            collectedShowIdMapping[serie.trakt_id] = serie
             vm.traktTVSeries.push(serie)
             collectionIDCache.push(serie.trakt_id)
           })
-          if (!vm.onlyCollection) { // If we're only adding shows in collection then skip
-            watchedShows.forEach(function(show) {
-              if (collectionIDCache.indexOf(show.trakt_id) !== -1) { // if it's in the collection don't add to traktTVSeries
-                vm.traktTVSeries.push(show)
-              }
-            })
-          }
-          // process collected episodes
-          Promise.all(userShows.map(function(serie) {
+
+          watchedShows.forEach(function(serie) {
+            watchedShowIdMapping[serie.trakt_id] = serie
+
+            if (!vm.onlyCollection && collectionIDCache.indexOf(serie.trakt_id) == -1) {
+              vm.traktTVSeries.push(serie)
+              collectionIDCache.push(serie.trakt_id)
+            }
+          })
+
+          // add the shows
+          Promise.all(vm.traktTVSeries.map(function(serie) {
             if (serie.trakt_id in localSeries) { // Don't re-add serie if it's already added
               return Promise.resolve(serie)
             }
@@ -132,11 +141,11 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
                 return serie
               })
             }).catch(function() {}) // Ignore errors, resolve anyway
-          })).then(function(userShows) {
-            var shows = userShows.filter(Boolean)
-            console.info('Done importing collected shows, marking episodes as downloaded in DB')
-            Promise.all(shows.map(function(show) {
-              // var downloadedEpisodesReport = [];
+          })).then(function() {
+            console.info('Done importing shows and adding them to database. Marking episodes as downloaded/watched')
+            Promise.all(vm.traktTVSeries.map(function(serie) {
+              var show = collectedShowIdMapping[serie.trakt_id] || { seasons: [] } // just to be safe
+
               return Promise.all(show.seasons.map(function(season) {
                 return Promise.all(season.episodes.map(function(episode) {
                   return CRUD.FindOne('Episode', {
@@ -150,42 +159,14 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
                       console.warn('Episode s%se%s not found for %s', season.number, episode.number, show.name)
                     } else {
                       vm.downloadedEpisodes++
-                      // downloadedEpisodesReport.push(epi.getFormattedEpisode());
                       return epi.markDownloaded()
                     }
                   }).catch(function() {})
                 }))
               })).then(function() {
-                addedSeries.push(show.trakt_id)
-                // console.info("Episodes marked as downloaded for ", show.name, downloadedEpisodesReport);
-              })
-            })).then(function() {
-              console.info('Successfully marked all episodes as downloaded')
-            })
-          }).then(function() {
-            // process watched episodes
-            Promise.all(watchedShows.map(function(show) {
-              if (vm.onlyCollection) { // Don't fetch show if we're in collection only
-                return Promise.resolve(show)
-              }
-              if (show.trakt_id in localSeries) { // Don't re-add serie if it's already added
-                return Promise.resolve(show)
-              }
+                console.info('Successfully marked all episodes as downloaded. Marking all episodes as watched.')
+                var show = watchedShowIdMapping[serie.trakt_id] || { seasons: [] } // just to be safe
 
-              return TraktTVv2.serie(show.trakt_id).then(function(data) {
-                return FavoritesService.addFavorite(data).then(function(s) {
-                  localSeries[show.trakt_id] = s
-                  return show
-                })
-              }).catch(function() {}) // Ignore errors, resolve anyway
-            })).then(function(watchedShows) {
-              var shows = watchedShows.filter(Boolean)
-              console.info('Done importing watched shows, marking episodes as watched in DB')
-              Promise.all(shows.map(function(show) {
-                if (vm.onlyCollection) { // Don't mark as watched if we're in collection only
-                  return Promise.resolve(show)
-                }
-                // var watchedEpisodesReport = [];
                 return Promise.all(show.seasons.map(function(season) {
                   return Promise.all(season.episodes.map(function(episode) {
                     return CRUD.FindOne('Episode', {
@@ -199,22 +180,20 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
                         console.warn('Episode s%se%s not found for %s', season.number, episode.number, show.name)
                       } else {
                         vm.watchedEpisodes++
-                        // watchedEpisodesReport.push(epi.getFormattedEpisode());
                         return epi.markWatched(vm.downloadedPaired)
                       }
                     }).catch(function() {})
                   }))
                 })).then(function() {
-                  addedSeries.push(show.trakt_id)
-                  // console.info("Episodes marked as watched for ", show.name, watchedEpisodesReport);
+                  addedSeries.push(serie.trakt_id)
                 })
-              })).then(function() {
-                console.info('Successfully marked all episodes as watched')
-                setTimeout(function() {
-                  console.info('Firing series:recount:watched')
-                  $rootScope.$broadcast('series:recount:watched')
-                }, 7000)
               })
+            })).then(function() {
+              console.info('Finished marking all episodes as downloaded/watched.')
+              setTimeout(function() {
+                console.info('Firing series:recount:watched')
+                $rootScope.$broadcast('series:recount:watched')
+              }, 6000)
             })
           })
         })
