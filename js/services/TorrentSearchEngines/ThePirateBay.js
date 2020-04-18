@@ -2,7 +2,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
   function(TorrentSearchEngines, SettingsService, $q, $http, $injector) {
     if (SettingsService.get('torrenting.enabled')) {
       TorrentSearchEngines.registerSearchEngine('ThePirateBay', new GenericTorrentSearchEngine({
-        mirror: 'https://thepiratebay.org',
+        mirror: 'https://thepiratebay.vip/',
         mirrorSettingsKey: 'ThePirateBay.mirror',
         mirrorResolver: 'ThePirateBayMirrorResolver',
         includeBaseURL: true,
