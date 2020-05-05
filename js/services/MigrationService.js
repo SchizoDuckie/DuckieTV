@@ -3,6 +3,13 @@
  * Migrations that run when updating DuckieTV version.
  */
 DuckieTV.run(['SettingsService', function(SettingsService) {
+  // switch tpb default domain
+  if (!localStorage.getItem('1.1.6TPBorgtovip')) {
+    console.info('Executing 1.1.6TPBorgtovip')
+    SettingsService.set('ThePirateBay.mirror', 'https://thepiratebay.vip/');
+    localStorage.setItem('1.1.6TPBorgtovip', new Date())
+    console.info('1.1.6TPBorgtovip done!')
+  }
   // delete watchlist
   if (!localStorage.getItem('1.1.6deleteWatchList')) {
     console.info('Executing 1.1.6deleteWatchList')
