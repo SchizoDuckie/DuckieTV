@@ -64,16 +64,19 @@ DuckieTV.provider('TorrentFreak', function() {
         // console.debug('rating: ',rowItems[3].querySelectorAll('a')[0].innerText);
         // console.debug('imdb: ',rowItems[3].querySelectorAll('a')[0].href);
         // console.debug('trailer: ',(rowItems[3].querySelectorAll('a').length == 2 ? rowItems[3].querySelectorAll('a')[1].href : false));
-        var row = {
-          rank: rowItems[0].innerText,
-          prevRank: rowItems[1].innerText.replace('(', '').replace(')', ''),
-          title: rowItems[2].innerText,
-          searchTitle: rowItems[2].querySelector('a').innerText,
-          rating: rowItems[3].querySelectorAll('a')[0].innerText,
-          imdb: rowItems[3].querySelectorAll('a')[0].href,
-          trailer: (rowItems[3].querySelectorAll('a').length == 2 ? rowItems[3].querySelectorAll('a')[1].href : false)
+        var row = {};
+        try {
+          row.rank = rowItems[0].innerText;
+          row.prevRank = rowItems[1].innerText.replace('(', '').replace(')', '');
+          row.title = rowItems[2].innerText;
+          row.searchTitle = rowItems[2].querySelectorAll('a').length > 0 ? rowItems[2].querySelector('a').innerText : rowItems[2].innerText;
+          row.rating = rowItems[3].querySelectorAll('a')[0].innerText;
+          row.imdb = rowItems[3].querySelectorAll('a')[0].href;
+          row.trailer = (rowItems[3].querySelectorAll('a').length == 2 ? rowItems[3].querySelectorAll('a')[1].href : false);
+          top10.push(row) 
+        } catch(E) {
+          console.log("Parse error in row", E, rowItems);
         }
-        top10.push(row)
       }
       out.top10 = top10
       output.push(out)
