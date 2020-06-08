@@ -71,8 +71,8 @@ DuckieTV.provider('TorrentFreak', function() {
           row.title = rowItems[2].innerText;
           row.searchTitle = rowItems[2].querySelectorAll('a').length > 0 ? rowItems[2].querySelector('a').innerText : rowItems[2].innerText;
           row.rating = rowItems[3].querySelectorAll('a').length > 0 ? rowItems[3].querySelectorAll('a')[0].innerText : '?';
-          row.imdb = rowItems[3].querySelectorAll('a').length ? rowItems[3].querySelectorAll('a')[0].href : false;
-          row.trailer = rowItems[3].querySelectorAll('a').length == 2 ? rowItems[3].querySelectorAll('a')[1].href : false;
+          row.imdb = rowItems[3].querySelectorAll('a').length ? rowItems[3].querySelectorAll('a')[0].href : '';
+          row.trailer = rowItems[3].querySelectorAll('a').length == 2 ? rowItems[3].querySelectorAll('a')[1].href : '';
           top10.push(row)
         } catch(E) {
           console.log("Parse error in row", E, rowItems);
