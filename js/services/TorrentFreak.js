@@ -60,20 +60,20 @@ DuckieTV.provider('TorrentFreak', function() {
         // console.debug('rank: ',rowItems[0].innerText);
         // console.debug('prevRank: ',rowItems[1].innerText.replace('(', '').replace(')', ''));
         // console.debug('title: ',rowItems[2].innerText);
-        // console.debug('searchTitle: ',rowItems[2].querySelector('a').innerText);
-        // console.debug('rating: ',rowItems[3].querySelectorAll('a')[0].innerText);
-        // console.debug('imdb: ',rowItems[3].querySelectorAll('a')[0].href);
-        // console.debug('trailer: ',(rowItems[3].querySelectorAll('a').length == 2 ? rowItems[3].querySelectorAll('a')[1].href : false));
+        // console.debug('searchTitle: ',rowItems[2].querySelectorAll('a').length > 0 ? rowItems[2].querySelector('a').innerText : 'null');
+        // console.debug('rating: ',rowItems[3].querySelectorAll('a').length > 0 ? rowItems[3].querySelectorAll('a')[0].innerText : 'null');
+        // console.debug('imdb: ',rowItems[3].querySelectorAll('a').length > 0 ? rowItems[3].querySelectorAll('a')[0].href : 'null');
+        // console.debug('trailer: ',(rowItems[3].querySelectorAll('a').length == 2 ? rowItems[3].querySelectorAll('a')[1].href : 'null'));
         var row = {};
         try {
           row.rank = rowItems[0].innerText;
           row.prevRank = rowItems[1].innerText.replace('(', '').replace(')', '');
           row.title = rowItems[2].innerText;
           row.searchTitle = rowItems[2].querySelectorAll('a').length > 0 ? rowItems[2].querySelector('a').innerText : rowItems[2].innerText;
-          row.rating = rowItems[3].querySelectorAll('a')[0].innerText;
-          row.imdb = rowItems[3].querySelectorAll('a')[0].href;
-          row.trailer = (rowItems[3].querySelectorAll('a').length == 2 ? rowItems[3].querySelectorAll('a')[1].href : false);
-          top10.push(row) 
+          row.rating = rowItems[3].querySelectorAll('a').length > 0 ? rowItems[3].querySelectorAll('a')[0].innerText : '?';
+          row.imdb = rowItems[3].querySelectorAll('a').length ? rowItems[3].querySelectorAll('a')[0].href : false;
+          row.trailer = rowItems[3].querySelectorAll('a').length == 2 ? rowItems[3].querySelectorAll('a')[1].href : false;
+          top10.push(row)
         } catch(E) {
           console.log("Parse error in row", E, rowItems);
         }
