@@ -2,11 +2,11 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
   function(TorrentSearchEngines, SettingsService, $q, $http, $injector) {
     if (SettingsService.get('torrenting.enabled')) {
       TorrentSearchEngines.registerSearchEngine('KATcr', new GenericTorrentSearchEngine({
-        mirror: 'https://katcr.co/',
+        mirror: 'https://newkatcr.co/',
         mirrorResolver: null,
         includeBaseURL: false,
         endpoints: {
-          search: 'katsearch/page/1/%s'
+          search: 'search/?q=%s'
         },
         selectors: {
           resultContainer: 'table.torrents_table > tbody > tr',
