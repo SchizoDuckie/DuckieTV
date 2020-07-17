@@ -2,7 +2,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
   function(TorrentSearchEngines, SettingsService, $q, $http, $injector) {
     if (SettingsService.get('torrenting.enabled')) {
       TorrentSearchEngines.registerSearchEngine('ETag', new GenericTorrentSearchEngine({
-        mirror: 'https://extratorrent.ag',
+        mirror: 'https://extratorrent.si',
         mirrorResolver: null,
         includeBaseURL: true,
         endpoints: {
@@ -10,20 +10,20 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         },
         selectors: {
           resultContainer: 'tr[class^="tl"]',
-          releasename: ['td.tli a', 'innerText'],
-          magnetUrl: ['td a[href^="magnet:?xt="]', 'href'],
-          seeders: ['td.sy', 'innerText',
+          releasename: ['a[href*="/torrent/"][title^="view"]', 'innerText'],
+          magnetUrl: ['a[href^="magnet:?xt="]', 'href'],
+          seeders: ['td.sy, td.sn', 'innerText',
             function(text) {
-              return (text === '---') ? null : text
+              return (text == null) ? 0 : text
             }
           ],
-          leechers: ['td.ly', 'innerText',
+          leechers: ['td.ly, td.ln', 'innerText',
             function(text) {
-              return (text === '---') ? null : text
+              return (text == null) ? 0 : text
             }
           ],
           size: ['td:nth-last-of-type(4)', 'innerText'],
-          detailUrl: ['td.tli a', 'href']
+          detailUrl: ['a[href*="/torrent/"]', 'href']
         },
         orderby: {
           seeders: {d: 'seeds&order=desc', a: 'seeds&order=desc'},
