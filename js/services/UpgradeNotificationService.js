@@ -11,7 +11,7 @@ DuckieTV.run(['dialogs', '$http',
     var notifications = {
       '1.1.6': ['<li>Languages: (new) Greek, Turkish, Slovak and South African English.',
         '<li>Languages: (fix) Chinese, Dutch.',
-        '<li>SearchEngines: (new) Add ETTV (ettvdl.com), ETag (extratorrent.ag), IsoHunt2 (isohunt2.net), TGx (torrentgalaxy.org), EXT (ext.to).',
+        '<li>SearchEngines: (new) Add ETTV (ettvdl.com), ETag (extratorrent.si), IsoHunt2 (isohunt2.net), TGx (torrentgalaxy.org), EXT (ext.to).',
         '<li>SearchEngines: (fix) Katcr new domain (newkatcr.co), EzTVag new domain (eztv.io) and results, limetorrrents dl links, 1337x dl links, TPB (*0.org), TPB mirror resolver, RarBG details links.',
         '<li>Standalone: (upgrade) NWJS 44.6 with Chromium 80',
         '<li>TorrentClient: (new) Introducing tTorrent client.',
