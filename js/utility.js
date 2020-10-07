@@ -13,6 +13,7 @@
       // text/html parsing is natively supported
       return
     }
+  // eslint-disable-next-line no-empty
   } catch (ex) {}
 
   DOMParser_proto.parseFromString = function(markup, type) {
@@ -43,6 +44,7 @@
  * });
  *
  */
+// eslint-disable-next-line no-unused-vars
 var HTMLScraper = function(text) {
   var parser = new DOMParser()
   this.doc = parser.parseFromString(text, 'text/html')
@@ -72,6 +74,7 @@ var HTMLScraper = function(text) {
  * Call the parent class's prototype methods by referring to prototype.constructor.
  */
 
+// eslint-disable-next-line no-extend-native
 Function.prototype.extends = function(ParentClass, prototypeImplementations) {
   this.prototype = Object.create(ParentClass.prototype)
   this.prototype.constructor = ParentClass
@@ -107,6 +110,7 @@ if (localStorage.getItem('optin_error_reporting')) {
     document.body.appendChild(s)
 
     if (!localStorage.getItem('uniqueId')) {
+      // eslint-disable-next-line no-inner-declarations
       function guid() {
         function s4() {
           return Math.floor((1 + Math.random()) * 0x10000)
@@ -231,6 +235,7 @@ if (localStorage.getItem('optin_error_reporting')) {
  * if the String contains a base16 infoHash then extract it and return it
  * if the String contains a base32 infoHash then extract it, convert it to base16 and return that.
  */
+// eslint-disable-next-line no-extend-native
 String.prototype.getInfoHash = function() {
   var infoHash16 = this.match(/([0-9A-Fa-f]{40})/) // extract base16 infoHash
   if (infoHash16 && infoHash16.length) {
@@ -238,6 +243,7 @@ String.prototype.getInfoHash = function() {
   } else {
     var infoHash32 = this.match(/([2-7A-Z]{32})/) // extract base32 infoHash
     if (infoHash32 && infoHash32.length) {
+      // eslint-disable-next-line no-undef
       return ('0'.repeat(40) + basex16.encode(basex32.decode(infoHash32[0]))).slice(-40) // convert to base16 infohash (may need padding with zeroes to length 40)
     } else {
       return null // infoHash not found in String.
@@ -250,6 +256,7 @@ String.prototype.getInfoHash = function() {
  * if the String contains a base16 infoHash then return the String with the infoHash in UpperCase.
  * if the String contains a base32 infoHash then replace it with the base16 equivalent.
  */
+// eslint-disable-next-line no-extend-native
 String.prototype.replaceInfoHash = function() {
   var infoHash16 = this.match(/([0-9A-Fa-f]{40})/) // extract base16 infoHash
   if (infoHash16 && infoHash16.length) {
@@ -257,6 +264,7 @@ String.prototype.replaceInfoHash = function() {
   } else {
     var infoHash32 = this.match(/([2-7A-Z]{32})/) // extract base32 infoHash
     if (infoHash32 && infoHash32.length) {
+      // eslint-disable-next-line no-undef
       return this.replace(infoHash32[0], ('0'.repeat(40) + basex16.encode(basex32.decode(infoHash32[0]))).slice(-40)) // convert base32 to base16 infohash (may need padding with zeroes to length 40) and replace it in String
     } else {
       return this.toString() // infoHash not found in String
@@ -268,6 +276,7 @@ String.prototype.replaceInfoHash = function() {
  * extend the Number object to add the minsToDhm method
  * converts numerical total minutes to a "days hours:minutes" string
  */
+// eslint-disable-next-line no-extend-native
 Number.prototype.minsToDhm = function() {
   var days = parseInt(this / (60 * 24))
   var hours = parseInt(this / 60) % 24
@@ -279,6 +288,7 @@ Number.prototype.minsToDhm = function() {
  * extend the String object to add the dhmToMins method
  * converts a "days hours:minutes" string to numerical total minutes
  */
+// eslint-disable-next-line no-extend-native
 String.prototype.dhmToMins = function() {
   var dhmPart = this.split(/[\s:]+/, 3)
   if (dhmPart.length === 3) {
