@@ -62,6 +62,7 @@ var DuckieTV = angular.module('DuckieTV', [
     var today = new Date()
     var tommorow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
     var timeToMidnight = (tommorow - today) + 1000 // a second after midnight
+    // eslint-disable-next-line no-unused-vars
     var timer = setTimeout(function() {
       window.location.reload()
     }, timeToMidnight)
@@ -237,3 +238,7 @@ var DuckieTV = angular.module('DuckieTV', [
       })
     }
   ])
+/** This module can be used for when you decide to set config in when site before completely loaded */
+DuckieTV.controller('mainController', ['$scope', '$routeParams', '$location', '$compile', '$http', 'ngDialog', 'noticeService', '$templateCache', '$window', '$rootScope', '$cacheFactory', function ($scope, $routeParams, $location, $compile, $http, ngDialog, noticeService, $templateCache, $window, $rootScope, $cacheFactory) {
+
+}])
