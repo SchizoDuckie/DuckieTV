@@ -58,6 +58,12 @@
 
   <h2 translate-once>SETTINGS/BACKUP/refresh/hdr</h2>
   <p translate-once>SETTINGS/BACKUP/refresh/desc</p>
-  <div class="buttons"><a class="btn btn-danger" ng-click="refreshDatabase()">
+  <div class="buttons"><a class="btn btn-danger" ng-click="refreshDatabase()" ng-disabled="refreshingDatabase && !refreshingDatabaseDone">
     <i class="glyphicon glyphicon-refresh"></i> <span translate-once>SETTINGS/BACKUP/refresh/btn</span> </a></div>
+
+  <div ng-if="refreshingDatabase" style="text-align: center;">
+    <h3 ng-show="!refreshingDatabaseDone" style='margin-top: 20px;' translate-once>COMMON/loading-please-wait/lbl</h3>
+    <h3 ng-show="refreshingDatabaseDone" style='margin-top: 20px;' translate-once>COMMON/loading-completed/lbl</h3>
+    <h4 ng-show="!refreshingDatabaseDone">{{seriesCompleted}}/{{totalSeries}} - {{processingSerie}}...</h4>
+  </div>
 </div>

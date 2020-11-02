@@ -208,20 +208,26 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
       })
     }
 
-    $scope.refreshDatabase = function() {
-      FavoritesService.favorites.map(function(serie) {
-        FavoritesService.adding(serie.TVDB_ID)
-        return TraktTVv2.serie(serie.TRAKT_ID).then(function(s) {
-          return FavoritesService.addFavorite(s, undefined, true, true).then(function() {
-            $rootScope.$broadcast('storage:update')
-            FavoritesService.added(s.tvdb_id)
-          })
-        }, function(err) {
-          console.error('Error adding show!', err)
-          FavoritesService.added(serie.TVDB_ID)
-          FavoritesService.addError(serie.TVDB_ID, err)
-        })
-      })
+    $scope.refreshDatabase = async function() {
+      $scope.refreshingDatabase = true
+      $scope.refreshingDatabaseDone = false
+      $scope.totalSeries = FavoritesService.favorites.length
+      $scope.seriesCompleted = 0
+
+      for (var serie of FavoritesService.favorites) {
+        try {
+          $scope.processingSerie = serie.name
+          var newSerie = await TraktTVv2.serie(serie.TRAKT_ID)
+          await FavoritesService.addFavorite(newSerie, undefined, true, true)
+
+          $scope.seriesCompleted++
+        } catch (err) {
+          console.error('Error refreshing serie', serie.name, err)
+        }
+      }
+
+      $rootScope.$broadcast('storage:update')
+      $scope.refreshingDatabaseDone = true
     }
 
     // save the auto-backup-period setting when changed via the autoBackupForm.

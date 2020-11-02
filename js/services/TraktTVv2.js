@@ -122,6 +122,12 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
       }
     }
 
+    function delay(ms) {
+      return new Promise(function(resolve) {
+        setTimeout(resolve, ms)
+      })
+    }
+
     // trakt api GET methods that require authorisation
     var authorized = [
       'watched', 'userShows', 'config'
@@ -180,6 +186,19 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
           // restart request and return original promise
           return promiseRequest(type, param, param2, promise)
         }
+
+        if (err.status == 429) {
+          // rate limited, look at headers to see when we should try again otherwise just wait for a few seconds
+          var headers = err && err.headers ? err.headers() : {}
+          var retryAfterSeconds = +headers['retry-after']
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds * 1000 : 3000
+          console.error('rate limited! trying again in', retryAfterSeconds)
+
+          return delay(retryAfterSeconds).then(function() {
+            return promiseRequest(type, param, param2, promise)
+          })
+        }
+
         if (err.status !== 0) { // only if this is not a cancelled request, rethrow
           console.error('Trakt tv error!', err)
           throw 'Error ' + err.status + ':' + err.statusText
@@ -219,25 +238,26 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
        * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
        * http://docs.trakt.apiary.io/#reference/shows/summary/get-a-single-show
        */
-      serie: function(id) {
-        return promiseRequest('serie', id).then(function(serie) {
-          return service.people(serie.trakt_id).then(function(result) {
-            serie.people = result
-          }, rethrow).then(function() {
-            return service.seasons(serie.trakt_id).then(function(result) {
-              serie.seasons = result
-            }, rethrow).then(function() {
-              return $q.all(serie.seasons.map(function(season, index) {
-                return service.episodes(serie.trakt_id, season.number).then(function(episodes) {
-                  serie.seasons[index].episodes = episodes
-                  return true
-                }, rethrow)
-              }))
-            }, rethrow).then(function() {
-              return serie
-            }, rethrow)
+      serie: async function(id) {
+        try {
+          var serie = await promiseRequest('serie', id)
+          await Promise.all([
+            service.people(serie.trakt_id),
+            service.seasons(serie.trakt_id)
+          ]).then(function([people, seasons]) {
+            serie.people = people
+            serie.seasons = seasons
           })
-        })
+
+          await Promise.all(serie.seasons.map(async function(season) {
+            season.episodes = await service.episodes(serie.trakt_id, season.number)
+            return season
+          }))
+
+          return serie
+        } catch (err) {
+          rethrow(err)
+        }
       },
       /**
        * get all seasons for a show.
