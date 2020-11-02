@@ -21,22 +21,25 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
         return date.toISOString().split('T')[0]
       },
 
-      update: function(from) {
-        return TraktTVv2.updated(service.getDateString(from)).then(function(results) {
-          var toUpdate = results.filter(function(res) {
-            if (!res || !res.tvdb_id) return false
-            return FavoritesService.favorites.filter(function(favorite) {
-              return favorite.TVDB_ID == res.tvdb_id && (favorite.lastupdated === null || new Date(favorite.lastupdated) < new Date(res.remote_updated))
-            }).length > 0
-          })
-          return $q.all(
-            toUpdate.map(function(serie) {
-              return TraktTVv2.serie(serie.trakt_id).then(function(serie) {
-                return FavoritesService.addFavorite(serie, undefined, undefined, true)
-              })
-            })
-          )
-        })
+      update: async function() {
+        for (var serie of FavoritesService.favorites) {
+          try {
+            var serieLastUpdated = new Date(serie.lastupdated)
+            var newSerie = await TraktTVv2.serie(serie.TRAKT_ID, null, true)
+            var timeUpdated = new Date(newSerie.updated_at)
+
+            // Hasn't been updated
+            if (timeUpdated <= serieLastUpdated) {
+              continue
+            }
+
+            newSerie = await TraktTVv2.serie(newSerie.trakt_id, newSerie)
+            await FavoritesService.addFavorite(newSerie, undefined, undefined, true)
+          } catch (err) {
+            console.error(err)
+            // ignored
+          }
+        }
       },
 
       /**

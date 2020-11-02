@@ -238,9 +238,13 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
        * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
        * http://docs.trakt.apiary.io/#reference/shows/summary/get-a-single-show
        */
-      serie: async function(id) {
+      serie: async function(id, existingSerie, seriesOnly) {
         try {
-          var serie = await promiseRequest('serie', id)
+          var serie = existingSerie || await promiseRequest('serie', id)
+          if (seriesOnly) {
+            return serie
+          }
+
           await Promise.all([
             service.people(serie.trakt_id),
             service.seasons(serie.trakt_id)
