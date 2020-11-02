@@ -7,10 +7,7 @@
 DuckieTV.factory('TraktTVv2', ['$q', '$http',
   function($q, $http) {
     var activeSearchRequest = false
-
     var activeTrendingRequest = false
-
-    var cachedTrending = null
 
     var APIkey = '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0'
     var endpoint = 'https://api-v2launch.trakt.tv/'
@@ -84,10 +81,10 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         return episodes
       },
       /**
-             * Trakt returns a list of search results here. We want only the first object that has a serie detail object in it.
-             * @param  trakt result data
-             * @return serie parsed serie
-             */
+       * Trakt returns a list of search results here. We want only the first object that has a serie detail object in it.
+       * @param  trakt result data
+       * @return serie parsed serie
+       */
       serie: function(result) {
         return parsers.trakt(result.data)
       },
@@ -131,16 +128,16 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
     ]
 
     /**
-         * Get one of the urls from the endpoint and replace the parameters in it when provided.
-         */
+     * Get one of the urls from the endpoint and replace the parameters in it when provided.
+     */
     var getUrl = function(type, param, param2) {
       var out = endpoint + endpoints[type].replace('%s', encodeURIComponent(param))
       return (param2 !== undefined) ? out.replace('%s', encodeURIComponent(param2)) : out
     }
 
     /**
-         * If a customized parser is available for the data, run it through that.
-         */
+     * If a customized parser is available for the data, run it through that.
+     */
     var getParser = function(type) {
       return type in parsers ? parsers[type] : function(data) {
         return data.data
@@ -148,17 +145,17 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
     }
 
     /**
-         * Generic error-catching and re-throwing
-         */
+     * Generic error-catching and re-throwing
+     */
     var rethrow = function(err) {
       throw err
     }
 
     /**
-         * Promise requests with batchmode toggle to auto-kill a previous request when running.
-         * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple
-         * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
-         */
+     * Promise requests with batchmode toggle to auto-kill a previous request when running.
+     * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple
+     * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
+     */
     var promiseRequest = function(type, param, param2, promise) {
       var url = getUrl(type, param, param2)
       var parser = getParser(type)
@@ -218,10 +215,10 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
 
     var service = {
       /**
-             * get a single show summary.
-             * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-             * http://docs.trakt.apiary.io/#reference/shows/summary/get-a-single-show
-             */
+       * get a single show summary.
+       * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
+       * http://docs.trakt.apiary.io/#reference/shows/summary/get-a-single-show
+       */
       serie: function(id) {
         return promiseRequest('serie', id).then(function(serie) {
           return service.people(serie.trakt_id).then(function(result) {
@@ -243,27 +240,27 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         })
       },
       /**
-             * get all seasons for a show.
-             * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-             * http://docs.trakt.apiary.io/#reference/seasons/summary/get-all-seasons-for-a-show
-             */
+       * get all seasons for a show.
+       * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
+       * http://docs.trakt.apiary.io/#reference/seasons/summary/get-all-seasons-for-a-show
+       */
       seasons: function(id) {
         return promiseRequest('seasons', id)
       },
       /**
-             * get all episodes for a show.
-             * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-             * season is a number
-             * http://docs.trakt.apiary.io/#reference/episodes/summary
-             */
+       * get all episodes for a show.
+       * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
+       * season is a number
+       * http://docs.trakt.apiary.io/#reference/episodes/summary
+       */
       episodes: function(id, seasonNumber) {
         return promiseRequest('episodes', id, seasonNumber)
       },
       /**
-             * get all actors in a show.
-             * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-             * http://docs.trakt.apiary.io/#reference/shows/people/get-all-people-for-a-show
-             */
+       * get all actors in a show.
+       * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
+       * http://docs.trakt.apiary.io/#reference/shows/people/get-all-people-for-a-show
+       */
       people: function(id) {
         return promiseRequest('people', id)
       },
@@ -333,9 +330,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         return pinUrl
       },
       /**
-             * Exchange code for access token.
-             * http://docs.trakt.apiary.io/#reference/authentication-oauth/get-token/exchange-code-for-access_token
-             */
+       * Exchange code for access token.
+       * http://docs.trakt.apiary.io/#reference/authentication-oauth/get-token/exchange-code-for-access_token
+       */
       login: function(pin) {
         return $http.post(getUrl('token'), JSON.stringify({
           'code': pin,
@@ -358,9 +355,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         })
       },
       /**
-             * Exchange refresh_token for access token.
-             * http://docs.trakt.apiary.io/#reference/authentication-oauth/get-token/exchange-refresh_token-for-access_token
-             */
+       * Exchange refresh_token for access token.
+       * http://docs.trakt.apiary.io/#reference/authentication-oauth/get-token/exchange-refresh_token-for-access_token
+       */
       renewToken: function() {
         return $http.post(getUrl('token'), JSON.stringify({
           'refresh_token': localStorage.getItem('trakttv.refresh_token'),
@@ -384,16 +381,16 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         })
       },
       /**
-             * Returns recently updated shows.
-             * http://docs.trakt.apiary.io/#reference/shows/updates/get-recently-updated-shows
-             */
+       * Returns recently updated shows.
+       * http://docs.trakt.apiary.io/#reference/shows/updates/get-recently-updated-shows
+       */
       updated: function(since) {
         return promiseRequest('updated', since)
       },
       /**
-             * Returns all shows a user has watched.
-             * http://docs.trakt.apiary.io/#reference/sync/get-watched/get-watched
-             */
+       * Returns all shows a user has watched.
+       * http://docs.trakt.apiary.io/#reference/sync/get-watched/get-watched
+       */
       watched: function() {
         return promiseRequest('watched').then(function(result) {
           console.info('Fetched V2 API watched results: ', result)
@@ -401,9 +398,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         })
       },
       /**
-             * Mark an episode as watched.
-             * http://docs.trakt.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
-             */
+       * Mark an episode as watched.
+       * http://docs.trakt.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
+       */
       markEpisodeWatched: function(serie, episode) {
         return performPost('episodeSeen', {
           episodes: [{
@@ -418,9 +415,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         })
       },
       /**
-             * Batch mark episodes as watched.
-             * http://docs.trakt.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
-             */
+       * Batch mark episodes as watched.
+       * http://docs.trakt.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
+       */
       markEpisodesWatched: function(episodes) {
         var episodesArray = []
         angular.forEach(episodes, function(episode) {
@@ -439,9 +436,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         })
       },
       /**
-             * Mark an episode as not watched.
-             * http://docs.trakt.apiary.io/#reference/sync/remove-from-history/remove-items-from-history
-             */
+       * Mark an episode as not watched.
+       * http://docs.trakt.apiary.io/#reference/sync/remove-from-history/remove-items-from-history
+       */
       markEpisodeNotWatched: function(serie, episode) {
         return performPost('episodeUnseen', {
           episodes: [{
@@ -455,9 +452,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         })
       },
       /**
-             * Returns all shows in a users collection.
-             * http://docs.trakt.apiary.io/#reference/sync/get-collection/get-collection
-             */
+       * Returns all shows in a users collection.
+       * http://docs.trakt.apiary.io/#reference/sync/get-collection/get-collection
+       */
       userShows: function() {
         return promiseRequest('userShows').then(function(result) {
           console.info('Fetched V2 API User Shows: ', result)
@@ -465,9 +462,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         })
       },
       /**
-             * add a show to a users collection.
-             * http://docs.trakt.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
-             */
+       * add a show to a users collection.
+       * http://docs.trakt.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
+       */
       addShowToCollection: function(serie) {
         return performPost('addCollection', {
           shows: [{
@@ -481,9 +478,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         })
       },
       /**
-             * add an episode to a users collection.
-             * http://docs.trakt.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
-             */
+       * add an episode to a users collection.
+       * http://docs.trakt.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
+       */
       markEpisodeDownloaded: function(serie, episode) {
         return performPost('addCollection', {
           episodes: [{
@@ -497,9 +494,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         })
       },
       /**
-             * removes a show from a users collection.
-             * http://docs.trakt.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
-             */
+       * removes a show from a users collection.
+       * http://docs.trakt.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
+       */
       removeShowFromCollection: function(serie) {
         return performPost('removeCollection', {
           shows: [{
@@ -513,9 +510,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
         })
       },
       /**
-             * removes an episode from a users collection.
-             * http://docs.trakt.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
-             */
+       * removes an episode from a users collection.
+       * http://docs.trakt.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
+       */
       markEpisodeNotDownloaded: function(serie, episode) {
         return performPost('removeCollection', {
           episodes: [{
