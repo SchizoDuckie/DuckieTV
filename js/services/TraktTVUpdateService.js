@@ -22,24 +22,31 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
       },
 
       update: async function() {
+        var updatedCount = 0
+        var i = -1
+        var totalSeries = FavoritesService.favorites.length
         for (var serie of FavoritesService.favorites) {
           try {
-            var serieLastUpdated = new Date(serie.lastupdated)
+            i++
             var newSerie = await TraktTVv2.serie(serie.TRAKT_ID, null, true)
             var timeUpdated = new Date(newSerie.updated_at)
+            var serieLastUpdated = new Date(serie.lastupdated)
 
-            // Hasn't been updated
             if (timeUpdated <= serieLastUpdated) {
-              continue
+              continue // Hasn't been updated
             }
 
+            console.log('[TraktTVUpdateService] [' + i + '/' + totalSeries + ']', 'updating', serie.name)
             newSerie = await TraktTVv2.serie(newSerie.trakt_id, newSerie)
             await FavoritesService.addFavorite(newSerie, undefined, undefined, true)
+            updatedCount++
           } catch (err) {
             console.error(err)
             // ignored
           }
         }
+
+        return updatedCount
       },
 
       /**
@@ -100,8 +107,8 @@ DuckieTV.run(['TraktTVUpdateService', 'SettingsService',
 
       var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')))
       if ((parseInt(localStorage.getItem('trakttv.lastupdated')) + (1000 * 60 * 60 * tuPeriod)) /* hours */ <= localDateTime) {
-        TraktTVUpdateService.update(lastUpdated).then(function(result) {
-          console.info('TraktTV update check completed. ' + result.length + ' shows updated since ' + lastUpdated)
+        TraktTVUpdateService.update(lastUpdated).then(function(count) {
+          console.info('TraktTV update check completed. ' + count + ' shows updated since ' + lastUpdated)
           localStorage.setItem('trakttv.lastupdated', localDateTime)
         })
       } else {
