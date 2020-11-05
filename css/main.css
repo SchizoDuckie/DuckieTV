@@ -2019,7 +2019,7 @@ calendar-event h2 {
   display: block;
 }
 
-query-monitor {
+.query-monitor {
   position: fixed;
   bottom: 0px;
   right: 0px;
@@ -2036,20 +2036,29 @@ query-monitor {
   transition: all 0.2s ease-in;
 }
 
-query-monitor i {
+.query-monitor i {
   float: left;
   font-size: 35px;
   margin: 4px;
   margin-right: 8px;
 }
 
-query-monitor .progress {
+.query-monitor .progress {
   margin-bottom: 10px;
 }
 
-query-monitor.show {
+.query-monitor.show {
   opacity: 1;
   transform: translateX(0);
+}
+
+.query-monitor .count {
+  color: black;
+  width: 183px;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 0.4px;
+  display: block;
 }
 
 .img-loading {

@@ -4,8 +4,8 @@
  *
  * For API docs: check here: http://docs.trakt.apiary.io/#
  */
-DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService', 'FanartService',
-  function($q, TraktTVv2, FavoritesService, FanartService) {
+DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService', 'FanartService', '$rootScope',
+  function($q, TraktTVv2, FavoritesService, FanartService, $rootScope) {
     var service = {
       /**
        * Update shows in favorites list
@@ -25,6 +25,11 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
         var updatedCount = 0
         var i = -1
         var totalSeries = FavoritesService.favorites.length
+        $rootScope.$broadcast('TraktUpdateService:update', {
+          type: 'start',
+          payload: { total: totalSeries, current: 0 }
+        })
+
         for (var serie of FavoritesService.favorites) {
           try {
             i++
@@ -32,7 +37,13 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
             var timeUpdated = new Date(newSerie.updated_at)
             var serieLastUpdated = new Date(serie.lastupdated)
 
+            $rootScope.$broadcast('TraktUpdateService:update', {
+              type: 'progress',
+              payload: { total: totalSeries, current: i, name: serie.name }
+            })
+
             if (timeUpdated <= serieLastUpdated) {
+              await new Promise(resolve => setTimeout(resolve, 800))
               continue // Hasn't been updated
             }
 
@@ -45,6 +56,11 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
             // ignored
           }
         }
+
+        $rootScope.$broadcast('TraktUpdateService:update', {
+          type: 'finish',
+          payload: { total: totalSeries, current: i + 1 }
+        })
 
         return updatedCount
       },

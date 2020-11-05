@@ -1,26 +1,42 @@
-/**
- * <query-monitor> directive that shows when database writes are happening and how many are left
- */
-DuckieTV.directive('queryMonitor', ['$filter',
-  function($filter) {
-    return {
-      restrict: 'E',
-      templateUrl: 'templates/querymonitor.html',
-      link: function($scope) {
-        var unloadBreaker = $filter('translate')('QUERYMONITORjs/close-tab-prompt/lbl')
+DuckieTV.directive('queryMonitor', ['$timeout', '$rootScope', function($timeout, $rootScope) {
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: 'templates/querymonitor.html',
+    link: function($scope) {
+      $scope.isRunning = false
+      $scope.isFinished = false
+      $scope.progress = 0
+      $scope.data = {}
 
-        $scope.queryStats = CRUD._log
-        progress = 100
-
-        CRUD.addStatsListener(function(stats) {
-          $scope.queryStats = stats
-          $scope.progress = Math.floor((stats.writesExecuted / stats.writesQueued) * 100)
-          window.onbeforeunload = (stats.writesExecuted < stats.writesQueued) ? unloadBreaker : null
-          if (stats.writesExecuted == stats.writesQueued) {
+      $rootScope.$on('TraktUpdateService:update', function(event, data) {
+        switch (data.type) {
+          case 'start':
+            $scope.progress = 0
+            $scope.isRunning = true
+            $scope.isFinished = false
+            $scope.data = data.payload
+            break
+          case 'progress':
+            $scope.data = data.payload
+            $scope.progress = data.payload.current / data.payload.total * 100
+            window.onbeforeunload = () => '' // need to return a string for it to work
             $scope.$digest()
-          }
-        })
-      }
+            break
+          case 'finish':
+            $scope.data = data.payload
+            $scope.progress = data.payload.current / data.payload.total * 100
+            $scope.isFinished = true
+            window.onbeforeunload = null
+            $scope.$digest()
+
+            // Small timeout before we hide it to show that it's done
+            $timeout(function() {
+              $scope.isRunning = false
+            }, 1500)
+            break
+        }
+      })
     }
   }
-])
+}])

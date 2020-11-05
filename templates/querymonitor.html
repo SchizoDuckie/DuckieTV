@@ -1,10 +1,11 @@
 <!-- querymonitor.html -->
-<div>
-<i class="glyphicon glyphicon-info-sign"></i>
-<span translate-once>QUERYMONITOR/writing/lbl</span>: {{queryStats.writesExecuted}}/{{queryStats.writesQueued}}
- <div class="progress-striped progress" class='active' >
+<div class="query-monitor" ng-class="{ show: isRunning }">
+  <i class="glyphicon glyphicon-info-sign"></i>
+  <span translate-once>Updating data from Trakt.Tv</span>:
+  <div class="progress-striped progress" class='active' >
     <span ng-if="queryStats.writesQueued != queryStats.writesExecuted"></span>
-    <div class="progress-bar progress-bar-success" ng-style="{ width: progress + '%' }">&nbsp;
+    <div class="progress-bar progress-bar-success" ng-class="{active: progress == 100}" ng-style="{ width: progress + '%' }">
+      <span class="count">{{data.current}}/{{data.total}}</span>
     </div>
   </div>
   <small translate-once>QUERYMONITOR/please-wait/lbl</small>
