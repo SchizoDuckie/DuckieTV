@@ -33,7 +33,7 @@ DuckieTV.directive('queryMonitor', ['$timeout', '$rootScope', function($timeout,
             // Small timeout before we hide it to show that it's done
             $timeout(function() {
               $scope.isRunning = false
-            }, 1500)
+            }, 1600)
             break
         }
       })

@@ -43,7 +43,6 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
             })
 
             if (timeUpdated <= serieLastUpdated) {
-              await new Promise(resolve => setTimeout(resolve, 800))
               continue // Hasn't been updated
             }
 
@@ -147,7 +146,7 @@ DuckieTV.run(['TraktTVUpdateService', 'SettingsService',
       setTimeout(updateFunc, 1000 * 60 * 60 * tuPeriod) // schedule update check every tuPeriod hour(s) for long running apps.
     }
 
-    setTimeout(updateFunc, 8000)
+    setTimeout(updateFunc, 7000)
   }
 ])
 
