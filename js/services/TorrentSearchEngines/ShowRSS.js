@@ -2,9 +2,9 @@
  * ShowRSS.info custom Torrent API interfacing.
  * Scrapes the shows list from ShowRSS.info and tries to fetch the magnet links for an episode.
  */
-DuckieTV.factory('ShowRSS', ['$q', '$http',
-  function($q, $http) {
-    var endpoint = 'https://showrss.info/'
+DuckieTV.factory('ShowRSS', ['SettingsService', '$q', '$http',
+  function(SettingsService, $q, $http) {
+    var endpoint = SettingsService.get('mirror.ShowRSS')
 
     var endpoints = {
       list: 'browse',

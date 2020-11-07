@@ -2,7 +2,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
   function(TorrentSearchEngines, SettingsService, $q, $http, $injector) {
     if (SettingsService.get('torrenting.enabled')) {
       TorrentSearchEngines.registerSearchEngine('1337x', new GenericTorrentSearchEngine({
-        mirror: 'https://1337x.to',
+        mirror: SettingsService.get('mirror.1337x'),
         mirrorResolver: null,
         includeBaseURL: true,
         endpoints: {

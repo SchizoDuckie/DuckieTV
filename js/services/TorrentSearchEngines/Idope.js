@@ -2,7 +2,7 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
     function(TorrentSearchEngines, SettingsService, $q, $http, $injector) {
         if (SettingsService.get('torrenting.enabled')) {
             TorrentSearchEngines.registerSearchEngine('Idope', new GenericTorrentSearchEngine({
-                mirror: 'https://idope.se',
+                mirror: SettingsService.get('mirror.Idope'),
                 mirrorResolver: null,
                 includeBaseURL: true,
                 endpoints: {

@@ -2,7 +2,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
   function(TorrentSearchEngines, SettingsService, $q, $http, $injector) {
     if (SettingsService.get('torrenting.enabled')) {
       TorrentSearchEngines.registerSearchEngine('TorrentZ2', new GenericTorrentSearchEngine({
-        mirror: 'https://torrentz2.unblockninja.com/',
+        mirror: SettingsService.get('mirror.TorrentZ2'),
         mirrorResolver: null,
         includeBaseURL: true,
         endpoints: {
