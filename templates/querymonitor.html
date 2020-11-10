@@ -5,7 +5,7 @@
   <div class="progress-striped progress" class='active' >
     <span ng-if="queryStats.writesQueued != queryStats.writesExecuted"></span>
     <div class="progress-bar progress-bar-success" ng-class="{active: progress == 100}" ng-style="{ width: progress + '%' }">
-      <span class="count">{{data.current}}/{{data.total}}</span>
+      <span class="count">{{data.current}}/{{data.total}} {{data.name}}</span>
     </div>
   </div>
   <small translate-once>QUERYMONITOR/please-wait/lbl</small>
