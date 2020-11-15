@@ -50,7 +50,8 @@ DuckieTV.directive('lazyBackground', ['$document',
           elementCont.addClass('img-loading')
 
           function loadImg(changes) {
-            if (changes[0].isIntersecting) {
+            const change = changes[0]
+            if (change.isIntersecting) {
               // Use some oldskool preloading techniques to load the image
               var img = $document[0].createElement('img')
               img.onload = function() {
