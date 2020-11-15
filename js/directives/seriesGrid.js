@@ -2,7 +2,18 @@ DuckieTV.directive('seriesGrid', function() {
   return {
     restrict: 'A',
     controllerAs: 'grid',
+    link: function(scope, el) {
+      /**
+       * defer the initialization so we don't do transitions on first render
+       * the reason for this is we want to only load images that are in view but on first render all the images start at 0, 0 which means they all load
+       * disabling the animations on first run means we don't load every image all at once if poster transitions are enabled
+       */
+      setTimeout(function() {
+        el.attr('sg-init', 'true')
+      }, 0)
+    },
     controller: ['$scope', 'SettingsService', function($scope, SettingsService) {
+      var isEnabled = SettingsService.get('library.seriesgrid') == true
       var posterWidth, posterHeight, postersPerRow, centeringOffset, oldClientWidth
       var container = document.querySelector('[series-grid]')
       var seriesGrid = container.querySelector('.series-grid')
@@ -26,7 +37,7 @@ DuckieTV.directive('seriesGrid', function() {
         duration = duration || 350
         var start = container.scrollTop
         var end
-        if (SettingsService.get('library.seriesgrid') == true) {
+        if (isEnabled) {
           end = parseInt(el.parentElement.style.transform.replace('translate3d(', '').split(',')[1].slice(1, -2)) - 150
         } else {
           end = el.offsetTop
@@ -52,9 +63,10 @@ DuckieTV.directive('seriesGrid', function() {
       }
 
       function recalculate() {
-        if (SettingsService.get('library.seriesgrid') == false) {
+        if (!isEnabled) {
           return scrollToActive()
         }
+
         var isMini = container.classList.contains('miniposter')
         var maxPosters = container.getAttribute('max-posters') ? parseInt(container.getAttribute('max-posters')) : 0
         posterWidth = isMini ? 140 : 175 // Includes paddings
