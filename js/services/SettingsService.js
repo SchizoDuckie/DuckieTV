@@ -144,7 +144,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'mirror.EzTVag': 'https://eztv.re/',
         'mirror.Idope': 'https://idope.se',
         'mirror.IsoHunt2': 'https://isohunt.tv',
-        'mirror.KATcr': 'https://newkatcr.co/',
+        'mirror.KATws': 'https://kickass.ws',
         'mirror.LimeTorrents': 'https://www.limetorrents.info',
         'mirror.Nyaa': 'https://nyaa.si',
         'mirror.RarBG': 'https://torrentapi.org/pubapi_v2.php?app_id=DuckieTV&',
