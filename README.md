@@ -29,11 +29,11 @@ DuckieTV for Chrome comes in 2 versions: One that installs itself as your browse
 
 ~~[DuckieTV 'Browser Action mode': Adds a button next to your address bar]~~
 
-Due to changes to the Google Chrome Web Store security rules (Dec 2019), Dtv is no longer being accepted as an extention app.
+Due to changes to the Google Chrome Web Store security rules (Dec 2019), Dtv is no longer being accepted as an extension app.
 
 The only way to run Dtv as a Chrome extention currently, is to manually install it under the development mode extensions page.
 
-See https://github.com/SchizoDuckie/DuckieTV/wiki/How-to-Install-a-Development-version-of-the-DuckieTV-Chrome-Browser-Extension-NIGHTLY
+See [Installing DuckieTV Nightly Chrome Browser Extensions](https://github.com/SchizoDuckie/DuckieTV/wiki/How-to-Install-a-Development-version-of-the-DuckieTV-Chrome-Browser-Extension-NIGHTLY) for details.
 
 Try DuckieTV online
 -------------------
