@@ -109,7 +109,7 @@ $(document).ready(function() {
 
 });
 
-jQuery.getJSON('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases/latest').then(function(result) {
+jQuery.getJSON('https://api.github.com/repos/DuckieTV/Nightlies/releases/latest').then(function(result) {
     $('#version').html(result.tag_name);
     $('#date').html(new Date(result.published_at).toLocaleDateString());
     $("#releasenotes").html('<p style="text-align:left">' + marked(result.body) + '</p>');
