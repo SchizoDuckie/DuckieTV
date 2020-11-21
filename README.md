@@ -12,21 +12,24 @@ As of v0.60, DuckieTV is finally becoming a worthy SickBeard competitor by intro
 How can I get it?
 =================
 
-DuckieTV can be installed as either a standalone application on Windows (7, 8.1, 10), Linux (Debian based such as Ubuntu 15.10 and newer), Mac OSX (10.10 and newer) and Android (Marshmallow, Nougat and newer), or installed as a Google Chrome Browser Extension, and you can try the basic features in an online version.
+DuckieTV can be installed as either a standalone application on Windows (7, 8.1, 10), Linux (Debian based such as Ubuntu 15.10 and newer), Mac OSX (10.10 and newer) and Android (Marshmallow, Nougat and newer), or installed as a Google Chrome Browser Extension (in development mode), and you can try the basic features in an online version.
 
 Install DuckieTV Standalone
 -------------------------------------------
 As of v0.81, DuckieTV is available as a standalone build.
 Get the latest release here:
 
-https://github.com/SchizoDuckie/DuckieTV/releases/latest
+https://github.com/DuckieTV/Nightlies/releases
 
 Install DuckieTV For Chrome
 ---------------------------
 DuckieTV for Chrome comes in 2 versions: One that installs itself as your browser's "new tab" page, and one that just provides an easily accessible button to open DuckieTV.
 
-* [DuckieTV 'New Tab mode': Installs itself as your new tab page](https://chrome.google.com/webstore/detail/hkbamkappmgfjjahmnlngibomenmbbdf/)
-* [DuckieTV 'Browser Action mode': Adds a button next to your address bar](https://chrome.google.com/webstore/detail/cdfkaloficjmdjbgmckaddgfcghgidei/)
+~~[DuckieTV 'New Tab mode': Installs itself as your new tab page]~~
+~~[DuckieTV 'Browser Action mode': Adds a button next to your address bar]~~
+Due to changes to the Google Chrome Web Store security rules (Dec 2019), Dtv is no longer being accepted as an extention app.
+The only way to run Dtv as a Chrome extention currently, is to manually install it under the development mode extensions page.
+See https://github.com/SchizoDuckie/DuckieTV/wiki/How-to-Install-a-Development-version-of-the-DuckieTV-Chrome-Browser-Extension-NIGHTLY
 
 Try DuckieTV online
 -------------------
