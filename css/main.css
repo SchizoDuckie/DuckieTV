@@ -681,7 +681,7 @@ sidepanel .serie-img .leftbadge {
   right: unset !important;
 }
 
-[sg-init=true][series-grid=true] serieheader {
+[sg-init=true] serieheader {
   top: 0px;
   left: 0px;
   position: absolute;
