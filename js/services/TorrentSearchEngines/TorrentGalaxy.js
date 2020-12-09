@@ -9,7 +9,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           search: '/torrents.php?search=%s&lang=0&sort=%o'
         },
         selectors: {
-          resultContainer: 'div[class="tgxtablerow"] ',
+          resultContainer: 'div[onmouseover]',
           releasename: ['div a[href^="/torrent/"]', 'title'],
           magnetUrl: ['div a[href^="magnet:?"]', 'href'],
           size: ['div span[style^="border-radius"]', 'innerText'],
