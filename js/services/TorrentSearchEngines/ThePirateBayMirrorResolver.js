@@ -1,5 +1,5 @@
 /**
- * Automatic mirror resolver for ThePirateBay by utilizing proxybay.app
+ * Automatic mirror resolver for ThePirateBay by utilizing proxybay.buzz
  */
 DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
   function($q, $http, $injector) {
@@ -8,7 +8,7 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
     var maxAttempts = 3
 
     var endpoints = {
-      thepiratebay: 'https://proxybay.app/'
+      thepiratebay: 'https://proxybay.buzz/'
     }
 
     /**
