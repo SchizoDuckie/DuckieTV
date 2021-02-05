@@ -229,7 +229,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
             }
         }
 
-        // iterate all fields changed 
+        // iterate all fields changed
         Object.keys(what.__dirtyValues__).map(mapValues);
         // add defaults
         Object.keys(CRUD.EntityManager.entities[what.getType()].defaultValues).map(mapChangedValues);
@@ -305,7 +305,7 @@ CRUD.Database = function(name, options) {
 
     var queryQueue = [];
 
-    /** 
+    /**
      * Execute a db query and promise a resultset.
      * Queries are queue up based upon if they are insert or select queries.
      * selects get highest priority to not lock the UI when batch inserts or updates
@@ -408,7 +408,7 @@ CRUD.Database.SQLBuilder = function(entity, filters, options) {
         this.groups.push(this.options.groupBy.replace('GROUP BY', ''));
     }
 
-    this.limit = this.options.limit ? 'LIMIT ' + options.limit : 'LIMIT 0,1000';
+    this.limit = this.options.limit ? 'LIMIT ' + options.limit : 'LIMIT 0,2000';
 
     (this.options.justthese || CRUD.EntityManager.entities[this.entity].fields).map(function(field) {
         this.fields.push(this.getFieldName(field));
