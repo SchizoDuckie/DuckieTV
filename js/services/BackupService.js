@@ -5,10 +5,11 @@
  *
  * {
  * "settings": {
+ *   "useTrakt_id": true // included in versions after 1.1.5 to indicate that the series id key in the backup is the trakt_id instead of tvdb_id
  *   // serialized settings
  * },
  * "series": {
- *  <SHOW_TVDB_ID> : [ // array of objects
+ *  <SHOW_TVDB_ID>||<SHOW_TRAKT_ID> : [ // array of objects
  *      {
  *          "displaycalendar": 1||0,
  *          "autoDownload": 1||0,
@@ -40,11 +41,13 @@ DuckieTV.factory('BackupService', ['TorrentSearchEngines', function(TorrentSearc
   var service = {
     createBackup: function() {
       // Fetch all the series
-      return CRUD.executeQuery('select Series.TVDB_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax, Series.dlPath, Series.customDelay, Series.alias, Series.customFormat from Series').then(function(series) {
+      return CRUD.executeQuery('select Series.TRAKT_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax, Series.dlPath, Series.customDelay, Series.alias, Series.customFormat from Series').then(function(series) {
         var out = {
           settings: {},
           series: {}
         }
+        // flag indicating series id is a trakt_id and not a tvdb_id (included in versions after 1.1.5)
+        out.settings['useTrakt_id'] = true
         /*
         * grab Jackett from cache and convert into pseudo localStorage for saving into the backup's _settings_ section
         * this allows us to maintain backward compatibility with older DuckieTV versions
@@ -61,8 +64,8 @@ DuckieTV.factory('BackupService', ['TorrentSearchEngines', function(TorrentSearc
 
         // Store all the series
         series.rows.map(function(serie) {
-          out.series[serie.TVDB_ID] = []
-          out.series[serie.TVDB_ID].push({
+          out.series[serie.TRAKT_ID] = []
+          out.series[serie.TRAKT_ID].push({
             'displaycalendar': serie.displaycalendar || 0,
             'autoDownload': serie.autoDownload || 0,
             'customSearchString': serie.customSearchString,
@@ -81,10 +84,10 @@ DuckieTV.factory('BackupService', ['TorrentSearchEngines', function(TorrentSearc
         })
 
         // Store watched episodes for each serie
-        return CRUD.executeQuery('select Series.TVDB_ID, Episodes.TRAKT_ID as epTRAKT_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
+        return CRUD.executeQuery('select Series.TRAKT_ID, Episodes.TRAKT_ID as epTRAKT_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
           res.rows.map(function(row) {
             var watchedAt = (row.watchedAt) ? new Date(row.watchedAt).getTime() : null
-            out.series[row.TVDB_ID].push({
+            out.series[row.TRAKT_ID].push({
               'TRAKT_ID': row.epTRAKT_ID,
               'watchedAt': watchedAt,
               'downloaded': row.downloaded

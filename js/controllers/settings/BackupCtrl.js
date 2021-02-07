@@ -11,6 +11,8 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
     $scope.series = []
     var backupCount = 0
     var completedCount = 0
+    var useTrakt_id = false
+    var TRAKTorTVDB_LBL = 'TVDB_ID'
 
     // set up the auto-backup-period selection-options
     var translatedAutoBackupPeriodList = $filter('translate')('AUTOBACKUPLIST').split('|')
@@ -53,12 +55,12 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
       })
     }
 
-    $scope.isAdded = function(tvdb_id) {
-      return FavoritesService.isAdded(tvdb_id)
+    $scope.isAdded = function(TRAKTorTVDB_ID) {
+      return FavoritesService.isAdded(TRAKTorTVDB_ID)
     }
 
-    $scope.isAdding = function(tvdb_id) {
-      return FavoritesService.isAdding(tvdb_id)
+    $scope.isAdding = function(TRAKTorTVDB_ID) {
+      return FavoritesService.isAdding(TRAKTorTVDB_ID)
     }
 
     $scope.restore = function() {
@@ -87,6 +89,12 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
           // save settings
           angular.forEach(result.settings, function(value, key) {
             if (key === 'utorrent.token') return // skip utorrent auth token since it can be invalid.
+            if (key === 'useTrakt_id') {
+              // flag indicating series id is a trakt_id and not a tvdb_id (included in versions after 1.1.5)
+              useTrakt_id = true
+              TRAKTorTVDB_LBL = 'TRAKT_ID'
+              return // skip since this is not a localStorage key.
+            }
 
             /*
             * process psuedo localStorage _jackett_ in backup's _settings_
@@ -128,21 +136,20 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
           SettingsService.set('torrenting.enabled', torrentingEnabled) // restore torrenting setting to value prior to restore
 
           // save series/seasons/episodes
-          angular.forEach(result.series, function(data, TVDB_ID) {
-            FavoritesService.adding(TVDB_ID)
+          angular.forEach(result.series, function(data, TRAKTorTVDB_ID) {
+            FavoritesService.adding(TRAKTorTVDB_ID)
             backupCount++
-            return TraktTVv2.resolveTVDBID(TVDB_ID).then(function(searchResult) {
-              return TraktTVv2.serie(searchResult.slug_id)
+            return TraktTVv2.resolveID(TRAKTorTVDB_ID, useTrakt_id).then(function(searchResult) {
+              return TraktTVv2.serie(searchResult.trakt_id)
             }).then(function(serie) {
               $scope.series.push(serie)
               return FavoritesService.addFavorite(serie, data)
             }).then(function() {
               // save series custom settings
-              CRUD.FindOne('Serie', {
-                'TVDB_ID': TVDB_ID
-              }).then(function(serie) {
+              var filters = { [TRAKTorTVDB_LBL]: TRAKTorTVDB_ID }
+              CRUD.FindOne('Serie', filters).then(function(serie) {
                 if (!serie) {
-                  console.warn('Series by TVDB_ID %s not found.', TVDB_ID)
+                  console.warn('Series by %s %s not found.', TRAKTorTVDB_LBL, TRAKTorTVDB_ID)
                 } else {
                   // are we dealing with a pre-1.1.4 backup?
                   if (data.length > 0) {
@@ -156,7 +163,7 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
                   }
                 }
               })
-              FavoritesService.added(TVDB_ID)
+              FavoritesService.added(TRAKTorTVDB_ID)
               completedCount++
               $scope.completed = (backupCount === completedCount)
             })

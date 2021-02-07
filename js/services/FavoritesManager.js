@@ -55,7 +55,7 @@ DuckieTV.factory('FavoritesManager', ['FavoritesService', 'TraktTVv2', '$rootSco
        * Resolves the basic serie info from trakt and re-adds it, overriding the not-added check.
        */
       refresh: function(TVDB_ID) {
-        return TraktTVv2.resolveTVDBID(TVDB_ID).then(function(serie) {
+        return TraktTVv2.resolveID(TVDB_ID, false).then(function(serie) {
           return service.add(serie, true)
         })
       },

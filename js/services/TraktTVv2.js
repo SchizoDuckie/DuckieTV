@@ -99,6 +99,17 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
           throw 'No results for search by tvdb_id'
         }
       },
+      trakt_id: function(result) {
+        // this prevents choking on series custom settings during import of backup
+        var results = result.data.filter(function(record) {
+          return record.type == 'show'
+        })
+        if (results.length > 0) {
+          return parsers.trakt(results[0].show)
+        } else {
+          throw 'No results for search by trakt_id'
+        }
+      },
       updated: function(result) {
         return result.data.map(function(show) {
           out = parsers.trakt(show.show)
@@ -343,11 +354,12 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
           activeTrendingRequest = false
         }
       },
-      resolveTVDBID: function(id) {
-        return promiseRequest('tvdb_id', id).then(function(result) {
+      resolveID: function(id, useTrakt_id) {
+        var TRAKTorTVDB_ID = useTrakt_id ? 'trakt_id' : 'tvdb_id'
+        return promiseRequest(TRAKTorTVDB_ID, id).then(function(result) {
           return result
         }, function(error) {
-          throw 'Could not resolve TVDB_ID ' + id + ' from Trakt.TV: ' + error
+          throw 'Could not resolve ' + TRAKTorTVDB_ID + ' ' + id + ' from Trakt.TV: ' + error
         })
       },
       getPinUrl: function() {
