@@ -162,8 +162,6 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
             })
           }, function(err) {
             console.error('ERROR!', err)
-            // FavoritesService.added(TVDB_ID)
-            // FavoritesService.addError(TVDB_ID, err)
             completedCount++
           })
         })

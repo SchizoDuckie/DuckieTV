@@ -59,6 +59,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
       }
       for (var i in data) {
         if ((i in serie)) {
+          if (serie[i] !== data[i]) console.debug('serie ' + i + '=[' + data[i] + ']')
           serie[i] = data[i]
         }
       }
@@ -112,16 +113,18 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
       }
       data.absolute = (serie.isAnime()) ? data.number_abs : null
 
+      episode.filename = FanartService.getEpisodePoster(fanart)
+      episode.seasonnumber = season.seasonnumber
       for (var i in data) {
         if ((i in episode)) {
+          if (episode[i] !== data[i]) console.debug('episode S' + episode.seasonnumber + 'E' + data.episodenumber  + ' ' + i + '=[' + data[i] + ']')
           episode[i] = data[i]
         }
       }
-      episode.filename = FanartService.getEpisodePoster(fanart)
-      episode.seasonnumber = season.seasonnumber
       // if there's an entry for the episode in watchedEpisodes, this is a backup restore
       watched.map(function(el) {
-        if (el.TVDB_ID == episode.TVDB_ID) {
+        // Dtv.Backups upto 1.1.5 use TVDB_ID, after 1.1.5 use TRAKT_ID
+        if (('TVDB_ID' in el && el.TVDB_ID && el.TVDB_ID == episode.TVDB_ID) || ('TRAKT_ID' in el && el.TRAKT_ID && el.TRAKT_ID == episode.TRAKT_ID)) {
           episode.downloaded = 1 // an entry means it has to have been downloaded
           episode.watchedAt = el.watchedAt // an entry may mean it's watched ... or not.
           if (el.watchedAt != null) {
@@ -142,15 +145,15 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
      * @param object series serie entity
      */
     var cleanupEpisodes = function(seasons, serie) {
-      var tvdbList = []
+      var traktList = []
       seasons.map(function(season) {
         season.episodes.map(function(episode) {
-          if (isNaN(parseInt(episode.tvdb_id))) return
-          tvdbList.push(episode.tvdb_id)
+          if (isNaN(parseInt(episode.trakt_id))) return
+          traktList.push(episode.trakt_id)
         })
       })
 
-      return CRUD.executeQuery('delete from Episodes where ID_Serie = ? and TVDB_ID NOT IN (' + tvdbList.join(',') + ')', [serie.ID_Serie]).then(function(result) {
+      return CRUD.executeQuery('delete from Episodes where ID_Serie = ? and TRAKT_ID NOT IN (' + traktList.join(',') + ')', [serie.ID_Serie]).then(function(result) {
         if (result.rowsAffected > 0) {
           console.info('Cleaned up ' + result.rowsAffected + ' orphaned episodes for series [' + serie.ID_Serie + '] ' + serie.name)
         }
@@ -193,10 +196,10 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
       return serie.getEpisodesMap().then(function(episodeCache) {
         return Promise.all(seasons.map(function(season) {
           return Promise.all(season.episodes.map(function(episode) {
-            if (episode.tvdb_id == null) return
-            var dbEpisode = (!(episode.tvdb_id in episodeCache)) ? new Episode() : episodeCache[episode.tvdb_id]
+            // if (episode.tvdb_id == null) return /* https://github.com/SchizoDuckie/DuckieTV/issues/1299 */
+            var dbEpisode = (!(episode.trakt_id in episodeCache)) ? new Episode() : episodeCache[episode.trakt_id]
             return fillEpisode(dbEpisode, episode, seasonCache[season.number], serie, watched, fanart).Persist().then(function() {
-              episodeCache[episode.tvdb_id] = dbEpisode
+              episodeCache[episode.trakt_id] = dbEpisode
               return true
             })
           }))

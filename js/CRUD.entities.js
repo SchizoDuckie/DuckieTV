@@ -146,13 +146,13 @@ CRUD.define(Serie, {
   },
 
   /**
-     * Fetch episodes as object mapped by TVDB_ID
+     * Fetch episodes as object mapped by TRAKT_ID
      */
   getEpisodesMap: function() {
     return this.getEpisodes().then(function(result) {
       var out = {}
       result.map(function(episode) {
-        out[episode.TVDB_ID] = episode
+        out[episode.TRAKT_ID] = episode
       })
       return out
     })

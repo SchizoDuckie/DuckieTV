@@ -26,7 +26,8 @@
  *          "customFormat": <string>||null,
  *      },
  *      {
- *          "TVDB_ID": <Episode_TVDB_ID>,
+ *          "TVDB_ID": <Episode_TVDB_ID>, // included in versions upto 1.1.5
+ *          "TRAKT_ID": <Episode_TRAKT_ID>, // included after 1.1.5
  *          "watchedAt": <timestamp watchedAt>||null,
  *          "downloaded": 1
  *      },
@@ -80,11 +81,11 @@ DuckieTV.factory('BackupService', ['TorrentSearchEngines', function(TorrentSearc
         })
 
         // Store watched episodes for each serie
-        return CRUD.executeQuery('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
+        return CRUD.executeQuery('select Series.TVDB_ID, Episodes.TRAKT_ID as epTRAKT_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
           res.rows.map(function(row) {
             var watchedAt = (row.watchedAt) ? new Date(row.watchedAt).getTime() : null
             out.series[row.TVDB_ID].push({
-              'TVDB_ID': row.epTVDB_ID,
+              'TRAKT_ID': row.epTRAKT_ID,
               'watchedAt': watchedAt,
               'downloaded': row.downloaded
             })
