@@ -27,6 +27,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
      */
     var fillSerie = function(serie, data, fanart) {
       data.TVDB_ID = data.tvdb_id
+      data.TMDB_ID = data.tmdb_id
       data.TVRage_ID = data.tvrage_id
       data.IMDB_ID = data.imdb_id
       data.TRAKT_ID = data.trakt_id
@@ -91,6 +92,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
     var fillEpisode = function(episode, data, season, serie, watched, fanart) {
       // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
       data.TVDB_ID = data.tvdb_id
+      data.TMDB_ID = data.tmdb_id
       data.IMDB_ID = data.imdb_id
       data.TRAKT_ID = data.trakt_id
       if (service.downloadRatings && (!episode.ratingcount || episode.ratingcount + 25 > data.votes)) {
@@ -177,6 +179,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
           SE.ID_Serie = serie.getID()
           SE.overview = season.overview
           SE.TRAKT_ID = season.trakt_id
+          SE.TMDB_ID = season.tmdb_id
           if (service.downloadRatings && (!SE.ratingcount || SE.ratingcount + 25 > season.votes)) {
             SE.ratings = Math.round(season.rating * 10)
             SE.ratingcount = season.votes
