@@ -9,6 +9,7 @@ DuckieTV.run(['SettingsService', function(SettingsService) {
     localStorage.removeItem('snr.name-exceptions')
     localStorage.removeItem('snr.date-exceptions')
     localStorage.removeItem('snr.lastFetched')
+    localStorage.setItem('1.1.6TraktSceneTables', new Date())
     console.info('1.1.6TraktSceneTables done!')
   }
   // switch tpb default domain
