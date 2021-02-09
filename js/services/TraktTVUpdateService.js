@@ -25,7 +25,7 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
         var updatedCount = 0
         var i = -1
         var totalSeries = FavoritesService.favorites.length
-        $rootScope.$broadcast('TraktUpdateService:update', {
+        $rootScope.$broadcast('queryMonitor:update', {
           type: 'start',
           payload: { total: totalSeries, current: 0 }
         })
@@ -37,7 +37,7 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
             var timeUpdated = new Date(newSerie.updated_at)
             var serieLastUpdated = new Date(serie.lastupdated)
 
-            $rootScope.$broadcast('TraktUpdateService:update', {
+            $rootScope.$broadcast('queryMonitor:update', {
               type: 'progress',
               payload: { total: totalSeries, current: i, name: serie.name }
             })
@@ -56,7 +56,7 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
           }
         }
 
-        $rootScope.$broadcast('TraktUpdateService:update', {
+        $rootScope.$broadcast('queryMonitor:update', {
           type: 'finish',
           payload: { total: totalSeries, current: i + 1 }
         })

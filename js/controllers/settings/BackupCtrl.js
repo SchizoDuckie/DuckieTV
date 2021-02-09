@@ -218,14 +218,23 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
       $scope.refreshingDatabaseDone = false
       $scope.totalSeries = FavoritesService.favorites.length
       $scope.seriesCompleted = 0
+      $rootScope.$broadcast('queryMonitor:update', {
+        type: 'start',
+        payload: { total: $scope.totalSeries, current: 0 }
+      })
 
       for (var serie of FavoritesService.favorites) {
         try {
           $scope.processingSerie = serie.name
+          console.log('[RefreshDataBase] [' + $scope.seriesCompleted + '/' + $scope.totalSeries + ']', 'updating', $scope.processingSerie)
           var newSerie = await TraktTVv2.serie(serie.TRAKT_ID)
           await FavoritesService.addFavorite(newSerie, undefined, true, true)
 
           $scope.seriesCompleted++
+          $rootScope.$broadcast('queryMonitor:update', {
+            type: 'progress',
+            payload: { total: $scope.totalSeries, current: $scope.seriesCompleted, name: $scope.processingSerie }
+          })
         } catch (err) {
           console.error('Error refreshing serie', serie.name, err)
         }
@@ -233,6 +242,10 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
 
       $rootScope.$broadcast('storage:update')
       $scope.refreshingDatabaseDone = true
+      $rootScope.$broadcast('queryMonitor:update', {
+        type: 'finish',
+        payload: { total: $scope.totalSeries, current: $scope.seriesCompleted + 1 }
+      })
     }
 
     // save the auto-backup-period setting when changed via the autoBackupForm.

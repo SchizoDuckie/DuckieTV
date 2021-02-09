@@ -9,7 +9,7 @@ DuckieTV.directive('queryMonitor', ['$timeout', '$rootScope', function($timeout,
       $scope.progress = 0
       $scope.data = {}
 
-      $rootScope.$on('TraktUpdateService:update', function(event, data) {
+      $rootScope.$on('queryMonitor:update', function(event, data) {
         switch (data.type) {
           case 'start':
             $scope.progress = 0
