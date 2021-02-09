@@ -173,34 +173,34 @@ DuckieTV.controller('seriesListCtrl', ['FavoritesService', '$rootScope', 'Settin
     /**
      * Add a show to favorites.
      * The serie object is a Trakt.TV TV Show Object.
-     * Queues up the tvdb_id in the serieslist.adding array so that the spinner can be shown.
+     * Queues up the trakt_id in the serieslist.adding array so that the spinner can be shown.
      * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
      * It can show the checkmark.
      */
     vm.selectSerie = function(serie) {
       FavoritesManager.add(serie).then(function() {
         $state.go('serie', {
-          id: FavoritesService.getById(serie.tvdb_id).ID_Serie
+          id: FavoritesService.getByTRAKT_ID(serie.trakt_id).ID_Serie
         })
       })
     }
 
     /**
-     * Verify with the favoritesservice if a specific TVDB_ID is registered.
+     * Verify with the favoritesservice if a specific trakt_id is registered.
      * Used to show checkmarks in the add modes for series that you already have.
      */
-    vm.isAdded = function(tvdb_id) {
-      return FavoritesService.isAdded(tvdb_id)
+    vm.isAdded = function(trakt_id) {
+      return FavoritesService.isAdded(trakt_id)
     }
 
     // Returns true as long as the add a show to favorites promise is running.
-    vm.isAdding = function(tvdb_id) {
-      return FavoritesService.isAdding(tvdb_id)
+    vm.isAdding = function(trakt_id) {
+      return FavoritesService.isAdding(trakt_id)
     }
 
     // Returns true as long as the add a show to favorites promise is running.
-    vm.isError = function(tvdb_id) {
-      return FavoritesService.isError(tvdb_id)
+    vm.isError = function(trakt_id) {
+      return FavoritesService.isError(trakt_id)
     }
   }
 ])

@@ -11,14 +11,14 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
      */
     var addToFavoritesList = function(serie) {
       var existing = service.favorites.filter(function(el) {
-        return el.TVDB_ID == serie.TVDB_ID
+        return el.TRAKT_ID == serie.TRAKT_ID
       })
       if (existing.length === 0) {
         service.favorites.push(serie)
       } else {
         service.favorites[service.favorites.indexOf(existing[0])] = serie
       }
-      service.favoriteIDs.push(serie.TVDB_ID.toString())
+      service.favoriteIDs.push(serie.TRAKT_ID.toString())
     }
 
     /**
@@ -211,8 +211,8 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
 
     var service = {
       initialized: false,
-      addingList: {}, // holds any TVDB_ID's that are adding, used for spinner/checkmark icon control
-      errorList: {}, // holds any TVDB_ID's that had an error, used for sadface icon control
+      addingList: {}, // holds any TRAKT_ID's that are adding, used for spinner/checkmark icon control
+      errorList: {}, // holds any TRAKT_ID's that had an error, used for sadface icon control
       favorites: [],
       favoriteIDs: [],
       downloadRatings: $injector.get('SettingsService').get('download.ratings'), // determines if Ratings are processed or discarded
@@ -225,8 +225,8 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
        * Returns a promise that gets resolved when all the updates have been launched
        * (but not necessarily finished, they'll continue to run)
        *
-       * @param object data input data from TraktTV.findSerieByTVDBID(data.TVDB_ID)
-       * @param object watched { TVDB_ID => watched episodes } mapped object to auto-mark as watched
+       * @param object data input data from TraktTV or restore-from-backup
+       * @param object watched { TRAKT_ID => watched episodes } mapped object to auto-mark as watched
        */
       addFavorite: function(data, watched, useTrakt_id, refreshFanart) {
         watched = watched || []
@@ -235,15 +235,15 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
         // console.debug("FavoritesService.addFavorite!", data, watched, useTrakt_id, refreshFanart);
 
         var entity = null
-        if (data.title === null || data.tvdb_id === null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
+        if (data.title === null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
           console.error('received error data as input, removing from favorites.')
           return service.remove({
             name: data.title,
-            TVDB_ID: data.tvdb_id
+            TRAKT_ID: data.trakt_id
           })
         }
 
-        var serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id) : service.getById(data.tvdb_id) || new Serie()
+        var serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id) : service.getByTVDB_ID(data.tvdb_id) || new Serie()
 
         return FanartService.get(data.tvdb_id, refreshFanart).then(function(fanart) {
           fanart = (fanart && 'json' in fanart) ? fanart.json : {}
@@ -273,18 +273,6 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
             })
         })
       },
-      /**
-       * Helper function to fetch all the episodes for a serie
-       * Optionally, filters can be provided which will be turned into an SQL where.
-       */
-      getEpisodes: function(serie, filters) {
-        serie = serie instanceof CRUD.Entity ? serie : this.getById(serie)
-        return serie.Find('Episode', filters || {}).then(function(episodes) {
-          return episodes
-        }, function() {
-          console.error('Error in getEpisodes', serie, filters || {})
-        })
-      },
       waitForInitialization: function() {
         return $q(function(resolve) {
           function waitForInitialize() {
@@ -305,10 +293,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
           })
         })
       },
-      /**
-       * Find a serie by it's TVDB_ID (the main identifier for series since they're consistent regardless of local config)
-       */
-      getById: function(id) {
+      getByTVDB_ID: function(id) {
         return service.favorites.filter(function(el) {
           return el.TVDB_ID == id
         })[0]
@@ -337,7 +322,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
         CRUD.executeQuery('delete from Episodes where ID_Serie = ' + serie.ID_Serie)
 
         service.favoriteIDs = service.favoriteIDs.filter(function(id) {
-          return id != serie.TVDB_ID
+          return id != serie.TRAKT_ID
         })
 
         if ('Delete' in serie) {
@@ -354,7 +339,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
             }
           })
         }
-        service.clearAdding(serie.TVDB_ID)
+        service.clearAdding(serie.TRAKT_ID)
       },
       refresh: function() {
         return service.getSeries().then(function(results) {
@@ -362,7 +347,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
           var ids = []
 
           results.map(function(el) {
-            ids.push(el.TVDB_ID.toString())
+            ids.push(el.TRAKT_ID.toString())
           })
 
           service.favoriteIDs = ids
@@ -403,17 +388,17 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
       /**
        * set true the adding status for this series. used to indicate spinner icon required
        */
-      adding: function(tvdb_id) {
-        if (!(tvdb_id in service.addingList)) {
-          service.addingList[tvdb_id] = true
-          service.clearError(tvdb_id)
+      adding: function(trakt_id) {
+        if (!(trakt_id in service.addingList)) {
+          service.addingList[trakt_id] = true
+          service.clearError(trakt_id)
         }
       },
       /**
        * set false the adding status for this series. used to indicate checkmark icon required
        */
-      added: function(tvdb_id) {
-        if (tvdb_id in service.addingList) service.addingList[tvdb_id] = false
+      added: function(trakt_id) {
+        if (trakt_id in service.addingList) service.addingList[trakt_id] = false
       },
       /**
        * flush the adding and error status list
@@ -425,41 +410,41 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
       /**
        * Returns true as long as the add a show to favorites promise is running.
        */
-      isAdding: function(tvdb_id) {
-        if (tvdb_id === null) return false
-        return ((tvdb_id in service.addingList) && (service.addingList[tvdb_id] === true))
+      isAdding: function(trakt_id) {
+        if (trakt_id === null) return false
+        return ((trakt_id in service.addingList) && (service.addingList[trakt_id] === true))
       },
       /**
        * Used to show checkmarks in the add modes for series that you already have.
        */
-      isAdded: function(tvdb_id) {
-        if (tvdb_id === null) return false
-        return service.hasFavorite(tvdb_id.toString())
+      isAdded: function(trakt_id) {
+        if (trakt_id === null) return false
+        return service.hasFavorite(trakt_id.toString())
       },
       /**
        * clear the adding status for this series. used to indicate spinner and checkmark are NOT required.
        */
-      clearAdding: function(tvdb_id) {
-        if ((tvdb_id in service.addingList)) delete service.addingList[tvdb_id]
+      clearAdding: function(trakt_id) {
+        if ((trakt_id in service.addingList)) delete service.addingList[trakt_id]
       },
       /**
        * add the error status for this series. used to indicate sadface icon is required.
        */
-      addError: function(tvdb_id, error) {
-        service.errorList[tvdb_id] = error
+      addError: function(trakt_id, error) {
+        service.errorList[trakt_id] = error
       },
       /**
        * Used to show sadface icon in the add modes for series that you already have.
        */
-      isError: function(tvdb_id) {
-        if (tvdb_id === null) return false
-        return ((tvdb_id in service.errorList))
+      isError: function(trakt_id) {
+        if (trakt_id === null) return false
+        return ((trakt_id in service.errorList))
       },
       /**
        * clear the error status for this series. used to indicate sadface icon is NOT required.
        */
-      clearError: function(tvdb_id) {
-        if ((tvdb_id in service.errorList)) delete service.errorList[tvdb_id]
+      clearError: function(trakt_id) {
+        if ((trakt_id in service.errorList)) delete service.errorList[trakt_id]
       }
     }
 

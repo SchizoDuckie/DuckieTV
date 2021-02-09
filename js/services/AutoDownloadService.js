@@ -301,7 +301,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
 
               if (items[0].magnetUrl) {
                 torrentHash = items[0].magnetUrl.getInfoHash()
-                TorrentSearchEngines.launchMagnet(items[0].magnetUrl, episode.TVDB_ID, serie.dlPath, label)
+                TorrentSearchEngines.launchMagnet(items[0].magnetUrl, episode.TRAKT_ID, serie.dlPath, label)
                 episode.magnetHash = torrentHash
                 episode.Persist().then(function() {
                   if (window.debug982) console.debug('ADS (search=magnet): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
@@ -316,9 +316,9 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
                     responseType: 'blob'
                   }).then(function(result) {
                     try {
-                      TorrentSearchEngines.launchTorrentByUpload(result.data, torrentHash, episode.TVDB_ID, items[0].releasename, serie.dlPath, label)
+                      TorrentSearchEngines.launchTorrentByUpload(result.data, torrentHash, episode.TRAKT_ID, items[0].releasename, serie.dlPath, label)
                     } catch (E) {
-                      TorrentSearchEngines.launchTorrentByURL(items[0].torrentUrl, torrentHash, episode.TVDB_ID, items[0].releasename, serie.dlPath, label)
+                      TorrentSearchEngines.launchTorrentByURL(items[0].torrentUrl, torrentHash, episode.TRAKT_ID, items[0].releasename, serie.dlPath, label)
                     }
                     episode.magnetHash = torrentHash
                     episode.Persist().then(function() {
@@ -330,7 +330,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
                 searchEngine.getDetails(items[0].detailUrl, items[0].releasename).then(function(details) {
                   if (details.magnetUrl) {
                     torrentHash = details.magnetUrl.getInfoHash()
-                    TorrentSearchEngines.launchMagnet(details.magnetUrl, episode.TVDB_ID, serie.dlPath, label)
+                    TorrentSearchEngines.launchMagnet(details.magnetUrl, episode.TRAKT_ID, serie.dlPath, label)
                     episode.magnetHash = torrentHash
                     episode.Persist().then(function() {
                       if (window.debug982) console.debug('ADS (details=magnet): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
@@ -345,9 +345,9 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
                         responseType: 'blob'
                       }).then(function(result) {
                         try {
-                          TorrentSearchEngines.launchTorrentByUpload(result.data, torrentHash, episode.TVDB_ID, items[0].releasename, serie.dlPath, label)
+                          TorrentSearchEngines.launchTorrentByUpload(result.data, torrentHash, episode.TRAKT_ID, items[0].releasename, serie.dlPath, label)
                         } catch (E) {
-                          TorrentSearchEngines.launchTorrentByURL(details.torrentUrl, torrentHash, episode.TVDB_ID, items[0].releasename, serie.dlPath, label)
+                          TorrentSearchEngines.launchTorrentByURL(details.torrentUrl, torrentHash, episode.TRAKT_ID, items[0].releasename, serie.dlPath, label)
                         }
                         episode.magnetHash = torrentHash
                         episode.Persist().then(function() {

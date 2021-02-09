@@ -73,7 +73,7 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
         var oldCache = localStorage.getItem('trakttv.trending.cache')
         oldCache = oldCache ? JSON.parse(oldCache) : []
         var oldCacheIds = oldCache ? oldCache.map(function(a) {
-          return a.tvdb_id
+          return a.trakt_id
         }) : []
 
         return TraktTVv2.trending(true).then(function(result) {
@@ -89,7 +89,7 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
               delete serie.aired_episodes
               delete serie.homepage
               delete serie.slug_id
-              var originalSerie = oldCache[oldCacheIds.indexOf(serie.tvdb_id)]
+              var originalSerie = oldCache[oldCacheIds.indexOf(serie.trakt_id)]
               if (originalSerie && originalSerie.poster) {
                 serie.poster = originalSerie.poster
                 return resolve(serie)

@@ -232,49 +232,49 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
 
       /**
          * Add a show to favorites.*The serie object is a Trakt.TV TV Show Object.
-         * Queues up the tvdb_id in the serieslist.adding array so that the spinner can be shown.
+         * Queues up the trakt_id in the serieslist.adding array so that the spinner can be shown.
          * Then adds it to the favorites list and when that 's done, toggles the adding flag to false so that
          * It can show the checkmark.
          */
       $scope.addTraktSerie = function(serie) {
-        if (!FavoritesService.isAdding(serie.tvdb_id)) {
-          FavoritesService.adding(serie.tvdb_id)
-          return TraktTVv2.serie(serie.slug_id).then(function(serie) {
+        if (!FavoritesService.isAdding(serie.trakt_id)) {
+          FavoritesService.adding(serie.trakt_id)
+          return TraktTVv2.serie(serie.trakt_id).then(function(serie) {
             return FavoritesService.addFavorite(serie).then(function() {
               SidePanelState.hide()
               $rootScope.$broadcast('storage:update')
-              FavoritesService.added(serie.tvdb_id)
+              FavoritesService.added(serie.trakt_id)
               $scope.search(self.fsquery)
             })
           }, function(err) {
             SidePanelState.hide()
             console.error('Error adding show!', err)
-            FavoritesService.added(serie.tvdb_id)
-            FavoritesService.addError(serie.tvdb_id, err)
+            FavoritesService.added(serie.trakt_id)
+            FavoritesService.addError(serie.trakt_id, err)
           })
         }
       }
 
       /**
-         * Verify with the favoritesservice if a specific TVDB_ID is registered.
+         * Verify with the favoritesservice if a specific trakt_id is registered.
          * Used to show checkmarks in the add modes for series that you already have.
          */
-      $scope.isAdded = function(tvdb_id) {
-        return FavoritesService.isAdded(tvdb_id)
+      $scope.isAdded = function(trakt_id) {
+        return FavoritesService.isAdded(trakt_id)
       }
 
       /**
          * Returns true as long as the add a show to favorites promise is running.
          */
-      $scope.isAdding = function(tvdb_id) {
-        return FavoritesService.isAdding(tvdb_id)
+      $scope.isAdding = function(trakt_id) {
+        return FavoritesService.isAdding(trakt_id)
       }
 
       /**
          * Returns true as long as the add a show to favorites promise is running.
          */
-      $scope.isError = function(tvdb_id) {
-        return FavoritesService.isError(tvdb_id)
+      $scope.isError = function(trakt_id) {
+        return FavoritesService.isError(trakt_id)
       }
 
       // Selects and launches magnet

@@ -14,19 +14,19 @@ DuckieTV.factory('FavoritesManager', ['FavoritesService', 'TraktTVv2', '$rootSco
        */
       add: function(serie, refresh) {
         refresh = refresh || false
-        if (!FavoritesService.isAdding(serie.tvdb_id) && (refresh || !FavoritesService.isAdded(serie.tvdb_id))) {
-          FavoritesService.adding(serie.tvdb_id)
+        if (!FavoritesService.isAdding(serie.trakt_id) && (refresh || !FavoritesService.isAdded(serie.trakt_id))) {
+          FavoritesService.adding(serie.trakt_id)
           var id = serie.trakt_id || serie.imdb_id || serie.slug_id
           return TraktTVv2.serie(id).then(function(serie) {
             return FavoritesService.addFavorite(serie, undefined, undefined, refresh).then(function() {
               $rootScope.$broadcast('storage:update')
-              FavoritesService.added(serie.tvdb_id)
+              FavoritesService.added(serie.trakt_id)
               return true
             })
           }, function(err) {
             console.error('Error adding show!', err)
-            FavoritesService.added(serie.tvdb_id)
-            FavoritesService.addError(serie.tvdb_id, err)
+            FavoritesService.added(serie.trakt_id)
+            FavoritesService.addError(serie.trakt_id, err)
             return false
           })
         } else {
@@ -51,21 +51,21 @@ DuckieTV.factory('FavoritesManager', ['FavoritesService', 'TraktTVv2', '$rootSco
         }, function() {})
       },
       /**
-       * Refresh a show by passing a TVDB_ID
+       * Refresh a show by passing a TRAKT_ID
        * Resolves the basic serie info from trakt and re-adds it, overriding the not-added check.
        */
-      refresh: function(TVDB_ID) {
-        return TraktTVv2.resolveID(TVDB_ID, false).then(function(serie) {
+      refresh: function(TRAKT_ID) {
+        return TraktTVv2.resolveID(TRAKT_ID, true).then(function(serie) {
           return service.add(serie, true)
         })
       },
 
-      isAdding: function(serie) {
-        return FavoritesService.isAdding(serie)
+      isAdding: function(trakt_id) {
+        return FavoritesService.isAdding(trakt_id)
       },
 
-      getById: function(id) {
-        return FavoritesService.getById(id)
+      getByTrakt_id: function(id) {
+        return FavoritesService.getByTRAKT_ID(id)
       }
 
     }

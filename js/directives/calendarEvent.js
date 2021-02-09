@@ -33,7 +33,7 @@ DuckieTV.directive('calendarEvent', ['SettingsService',
         }
 
         $scope.selectEpisode = function(serie, episode) {
-          $location.path('/serie/' + serie.TVDB_ID + '/season/' + episode.seasonnumber + '?episode=' + episode.TVDB_ID)
+          $location.path('/serie/' + serie.TRAKT_ID + '/season/' + episode.seasonnumber + '?episode=' + episode.TRAKT_ID)
         }
 
         $scope.expand = function() {

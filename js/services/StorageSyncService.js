@@ -1,4 +1,5 @@
 /**
+ * ****************** NOT IN USE AND LIKELY BROKEN *********************************
  * The StorageSyncService provides synchronized storage to chrome's chrome.storage.sync api.
  * Chrome.storage.sync is called whenever the preference is enabled and stores the current favorite
  * list of series in the cloud.
@@ -27,13 +28,13 @@ DuckieTV.factory('StorageSyncService', ['$rootScope', '$q', 'FavoritesService', 
       },
 
       /**
-             * Fetch the list of tvdb id's from the FavoritesService
-             * @returns array of TVDB_ID's
+             * Fetch the list of trakt id's from the FavoritesService
+             * @returns array of TRAKT_ID's
              */
       getLocalSeriesList: function() {
         return FavoritesService.getSeries().then(function(series) {
           return $q.all(series.map(function(el) {
-            return el.TVDB_ID
+            return el.TRAKT_ID
           }))
         })
       },
@@ -53,8 +54,8 @@ DuckieTV.factory('StorageSyncService', ['$rootScope', '$q', 'FavoritesService', 
             })
             console.log(' Non-remote series: ', target.nonRemote)
 
-            function fetchDetailedInfo(tvdb_id) {
-              return TraktTV.enableBatchMode().findSerieByTVDBID(tvdb_id, true).then(function(result) {
+            function fetchDetailedInfo(trakt_id) {
+              return TraktTV.enableBatchMode().findSerieByTRAKTID(trakt_id, true).then(function(result) {
                 console.log('found serie!')
                 return result
               })
@@ -76,25 +77,6 @@ DuckieTV.factory('StorageSyncService', ['$rootScope', '$q', 'FavoritesService', 
           })
         })
       },
-      /* .then(function(series) {
-                    return $q.when(CRUD.executeQuery('select Series.TVDB_ID, Episodes.TVDB_ID as epTVDB_ID, Episodes.watchedAt from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.watchedAt is not null').then(function(res) {
-                        var watchedList = {},
-                            row;
-                        series.map(function(TVDB_ID) {
-                            watchedList[TVDB_ID] = {};
-                        });
-                        while (row = res.next()) {
-                            var id = parseInt(row.get('TVDB_ID'), 10);
-                            if (!(id in watchedList)) {
-                                watchedList[id] = {};
-                            }
-                            watchedList[id][row.get('epTVDB_ID')] = new Date(row.get('watchedAt')).getTime();
-                        }
-                        return watchedList;
-                    }));
-                });
-            });
-        }, */
 
       /**
              * Execute a sync (write) step if syncing is not currently already in progress

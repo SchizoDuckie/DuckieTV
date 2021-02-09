@@ -27,7 +27,7 @@ DuckieTV.factory('TraktTVStorageSyncTarget', ['StorageSyncService', 'SettingsSer
         service.status = 'reading'
         return TraktTVv2.watched().then(function(series) {
           series = series.map(function(el) {
-            return parseInt(el.tvdb_id)
+            return parseInt(el.trakt_id)
           })
           service.status = 'idle'
           return series

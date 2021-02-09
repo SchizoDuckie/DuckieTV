@@ -71,19 +71,19 @@ DuckieTV.controller('AutodlstatusCtrl', ['$scope', '$filter', '$injector', 'Sett
          */
         angular.forEach($scope.activityList, function(activity) {
           if (activity.status > 2) { // only interested in not-found, filtered-out, seeders-min, no-magnet
-            var tvdbid = activity.episode.TVDB_ID
+            var traktid = activity.episode.TRAKT_ID
             var episodeid = activity.episode.ID_Episode
-            if ($scope.onMagnet.indexOf(tvdbid) == -1) { // don't set $on if we've already done it
+            if ($scope.onMagnet.indexOf(traktid) == -1) { // don't set $on if we've already done it
               CRUD.FindOne('Episode', {'ID_Episode': episodeid}).then(function(episode) {
                 if (!episode) {
                   console.warn('episode id=[%s] not found!', episodeid)
                 } else {
-                  $scope.$on('torrent:select:' + tvdbid, function(evt, magnet) {
+                  $scope.$on('torrent:select:' + traktid, function(evt, magnet) {
                     episode.magnetHash = magnet
                     episode.downloaded = 0
                     episode.Persist()
                   })
-                  $scope.onMagnet.push(tvdbid)
+                  $scope.onMagnet.push(traktid)
                 }
               })
             }

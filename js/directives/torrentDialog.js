@@ -7,7 +7,7 @@ DuckieTV
       $scope.searching = true
       $scope.error = false
       $scope.query = angular.copy(data.query)
-      $scope.TVDB_ID = angular.copy(data.TVDB_ID)
+      $scope.TRAKT_ID = angular.copy(data.TRAKT_ID)
       $scope.serie = angular.copy(data.serie)
       $scope.episode = angular.copy(data.episode)
       $scope.showAdvanced = SettingsService.get('torrentDialog.showAdvanced.enabled') // Show/Hide advanced torrent dialog filter options
@@ -85,12 +85,12 @@ DuckieTV
 
       var usingLabel = SettingsService.get('torrenting.label')
 
-      $scope.search = function(q, TVDB_ID, orderBy) {
+      $scope.search = function(q, TRAKT_ID, orderBy) {
         $scope.searching = true
         $scope.error = false
         $scope.query = q
-        if (TVDB_ID !== undefined) {
-          $scope.TVDB_ID = TVDB_ID
+        if (TRAKT_ID !== undefined) {
+          $scope.TRAKT_ID = TRAKT_ID
         }
         if (typeof orderBy !== 'undefined') {
           $scope.orderBy = orderBy
@@ -403,7 +403,7 @@ DuckieTV
           $modalInstance.close(magnet)
         }
 
-        var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query
+        var channel = $scope.TRAKT_ID !== null ? $scope.TRAKT_ID : $scope.query
         TorrentSearchEngines.launchMagnet(magnet, channel, dlPath, label)
       }
 
@@ -413,7 +413,7 @@ DuckieTV
           $modalInstance.close(url)
         }
 
-        var channel = $scope.TVDB_ID !== null ? $scope.TVDB_ID : $scope.query
+        var channel = $scope.TRAKT_ID !== null ? $scope.TRAKT_ID : $scope.query
         window.parseTorrent.remote(url, function(err, torrentDecoded) {
           if (err) {
             throw err
@@ -533,7 +533,7 @@ DuckieTV
           replace: true,
           scope: {
             q: '=q',
-            TVDB_ID: '=tvdbid',
+            TRAKT_ID: '=traktid',
             serie: '=serie',
             episode: '=episode'
           },
@@ -555,7 +555,7 @@ DuckieTV
                 if ($scope.serie && $scope.episode) {
                   TorrentSearchEngines.findEpisode($scope.serie, $scope.episode)
                 } else {
-                  TorrentSearchEngines.search($scope.q, $scope.TVDB_ID)
+                  TorrentSearchEngines.search($scope.q, $scope.TRAKT_ID)
                 }
               }
             }

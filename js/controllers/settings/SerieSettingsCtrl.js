@@ -7,7 +7,7 @@ DuckieTV.controller('serieSettingsCtrl', ['$scope', '$filter', '$uibModalInstanc
      * set up form field contents
      */
     FormlyLoader.load('SerieSettings').then(function(form) {
-      $scope.model = FavoritesService.getById(data.serie.TVDB_ID) // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)
+      $scope.model = FavoritesService.getByTRAKT_ID(data.serie.TRAKT_ID) // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)
       $scope.model.ignoreHideSpecials = $scope.model.ignoreHideSpecials == 1
       $scope.model.autoDownload = $scope.model.autoDownload == 1
       $scope.model.ignoreGlobalQuality = $scope.model.ignoreGlobalQuality == 1

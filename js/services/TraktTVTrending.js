@@ -9,7 +9,7 @@ DuckieTV.factory('TraktTVTrending', ['TraktTVv2', 'FavoritesService', '$q',
     * enables excluding series already in favourites from trending results
     */
     var alreadyAddedSerieFilter = function(serie) {
-      return FavoritesService.favoriteIDs.indexOf(serie.tvdb_id.toString()) === -1
+      return FavoritesService.favoriteIDs.indexOf(serie.trakt_id.toString()) === -1
     }
 
     var service = {
@@ -38,12 +38,6 @@ DuckieTV.factory('TraktTVTrending', ['TraktTVv2', 'FavoritesService', '$q',
             resolve(vm.trending)
           })
         }
-      },
-
-      getById: function(tvdb_id) {
-        return vm.trending.filter(function(el) {
-          return el.tvdb_id == tvdb_id
-        })[0]
       },
 
       getByTraktId: function(trakt_id) {

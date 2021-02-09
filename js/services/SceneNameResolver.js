@@ -1,17 +1,18 @@
 /**
  * Scene name provider
- * Resolves TheTvDB ID's into something that you can use on search engines.
+ * Converts Trakt series names into scene torrent names that you can use on search engines.
  */
 DuckieTV.factory('SceneNameResolver', ['$q', '$http', 'SceneXemResolver',
   function($q, $http, SceneXemResolver) {
     // credits to Sickbeard's exception list https://raw.github.com/midgetspy/sb_tvdb_scene_exceptions/gh-pages/exceptions.txt
+    //
     // filters applied:
-    // - Remove :
-    // - Remove \(([12][09][0-9]{2})\) (all years between 19* and 20* within () )
-    // - replace \' with '
-    // - replace surrounding " with '
-    // remove (US)
-    // line sort
+    // - Removed `(([12][09][0-9]{2}))` (all years between 19* and 20* within () )
+    // - Replaced `\'` with `'`
+    // - Replaced surrounding `'` with `"`
+    // - Replaced `.` with ` `
+    // - Remove special characters `(){}[]/\|:;<>!@#$%^&*-=_+`
+    // - line sort
 
     var episodesWithDateFormat = {}
     var exceptions = {}
@@ -33,53 +34,53 @@ DuckieTV.factory('SceneNameResolver', ['$q', '$http', 'SceneXemResolver',
 
     return {
       /**
-       * Return the scene name of the provided TVDB_ID if it's in the list, unfiltered.
+       * Return the scene name of the provided TRAKT_ID if it's in the list, unfiltered.
        */
-      getSceneName: function(tvdbID, name) {
-        tvdbID = parseInt(tvdbID)
-        return (tvdbID in exceptions) ? exceptions[tvdbID] : filterName(name)
+      getSceneName: function(traktID, name) {
+        traktID = parseInt(traktID)
+        return (traktID in exceptions) ? exceptions[traktID] : filterName(name)
       },
 
       getSearchStringForEpisode: function(serie, episode) {
         var append = (serie.customSearchString && serie.customSearchString != '') ? ' ' + serie.customSearchString : ''
-        var tvdbID = parseInt(serie.TVDB_ID)
-        // Return the scene name of the provided TVDB_ID if it's in the list, unfiltered.
-        var sceneName = (tvdbID in exceptions) ? exceptions[tvdbID] + ' ' : filterName(serie.name) + ' '
+        var traktID = parseInt(serie.TRAKT_ID)
+        // Return the scene name of the provided TRAKT_ID if it's in the list, unfiltered.
+        var sceneName = (traktID in exceptions) ? exceptions[traktID] + ' ' : filterName(serie.name) + ' '
         if (serie.alias) {
           // replaces sceneName with serie.alias if it has been set. NOTE: alias is unfiltered
           sceneName = serie.alias + ' '
         }
-        if (serie.TVDB_ID in episodesWithDateFormat) {
+        if (serie.TRAKT_ID in episodesWithDateFormat) {
           if (typeof (moment) === 'undefined') {
             moment = require('./js/vendor/moment.min')
           }
 
-          return $q.resolve(sceneName + moment.tz(episode.firstaired_iso, serie.timezone).format(episodesWithDateFormat[serie.TVDB_ID]) + append)
+          return $q.resolve(sceneName + moment.tz(episode.firstaired_iso, serie.timezone).format(episodesWithDateFormat[serie.TRAKT_ID]) + append)
         } else {
           return SceneXemResolver.getEpisodeMapping(serie, episode, sceneName, append)
         }
       },
 
       initialize: function() {
-        var lastFetched = ('snr.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('snr.lastFetched'))) : new Date()
+        var lastFetched = ('snrt.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('snrt.lastFetched'))) : new Date()
 
-        if (('snr.name-exceptions' in localStorage) && lastFetched.getTime() + 86400000 > new Date().getTime()) {
-          exceptions = JSON.parse(localStorage.getItem('snr.name-exceptions'))
-          episodesWithDateFormat = JSON.parse(localStorage.getItem('snr.date-exceptions'))
+        if (('snrt.name-exceptions' in localStorage) && lastFetched.getTime() + 86400000 > new Date().getTime()) {
+          exceptions = JSON.parse(localStorage.getItem('snrt.name-exceptions'))
+          episodesWithDateFormat = JSON.parse(localStorage.getItem('snrt.date-exceptions'))
           console.info('Fetched SNR name and date exceptions from localStorage.')
         } else {
-          $http.get('https://duckietv.github.io/SceneNameExceptions/SceneNameExceptions.json').then(function(response) {
+          $http.get('https://duckietv.github.io/SceneNameExceptions/TraktSceneNameExceptions.json').then(function(response) {
             exceptions = response.data
-            localStorage.setItem('snr.name-exceptions', JSON.stringify(exceptions))
+            localStorage.setItem('snrt.name-exceptions', JSON.stringify(exceptions))
           })
 
-          $http.get('https://duckietv.github.io/SceneNameExceptions/SceneDateExceptions.json').then(function(response) {
+          $http.get('https://duckietv.github.io/SceneNameExceptions/TraktSceneDateExceptions.json').then(function(response) {
             episodesWithDateFormat = response.data
-            localStorage.setItem('snr.date-exceptions', JSON.stringify(episodesWithDateFormat))
-            localStorage.setItem('snr.lastFetched', new Date().getTime())
+            localStorage.setItem('snrt.date-exceptions', JSON.stringify(episodesWithDateFormat))
+            localStorage.setItem('snrt.lastFetched', new Date().getTime())
           })
 
-          console.info('Updated localStorage with SNR name and date exceptions.')
+          console.info('Updated localStorage with SNRT name and date exceptions.')
         }
       }
     }

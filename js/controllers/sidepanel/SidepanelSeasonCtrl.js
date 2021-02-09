@@ -64,7 +64,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', ['$rootScope', '$scope', '$state', '$
        * This watches for the torrent:select event that will be fired by the
        * TorrentSearchEngines when a user selects a magnet or .torrent link for an episode.
        */
-      $scope.$on('torrent:select:' + episode.TVDB_ID, function(evt, magnet) {
+      $scope.$on('torrent:select:' + episode.TRAKT_ID, function(evt, magnet) {
         episode.magnetHash = magnet
         episode.downloaded = 0
         episode.Persist()
@@ -121,7 +121,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', ['$rootScope', '$scope', '$state', '$
 
     vm.getSeasonSearchString = function(serie, season) {
       if (!serie || !season) return
-      return SceneNameResolver.getSceneName(serie.TVDB_ID, serie.name) + ' season ' + season.seasonnumber
+      return SceneNameResolver.getSceneName(serie.TRAKT_ID, serie.name) + ' season ' + season.seasonnumber
     }
 
     vm.getEpisodeNumber = function(episode) {

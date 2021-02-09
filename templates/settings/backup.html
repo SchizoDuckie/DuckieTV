@@ -41,8 +41,8 @@
 
   <div ng-if="restoring" style="padding:5px;text-align:center" class="miniposter x2 import-container">
     <serieHeader ng-repeat="serie in series" data="serie" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
-      <em class="earmark" ng-show="isAdded(serie.tvdb_id)"><i class='glyphicon glyphicon-ok'></i></em>
-      <em class="earmark adding" ng-show="isAdding(serie.tvdb_id)"><loading-spinner></loading-spinner></em>
+      <em class="earmark" ng-show="isAdded(serie.trakt_id)"><i class='glyphicon glyphicon-ok'></i></em>
+      <em class="earmark adding" ng-show="isAdding(serie.trakt_id)"><loading-spinner></loading-spinner></em>
     </serieHeader>
   </div>
 
