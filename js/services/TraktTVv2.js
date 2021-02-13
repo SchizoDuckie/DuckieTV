@@ -210,6 +210,30 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
           })
         }
 
+        if (err.status == 502) {
+          // cloudflare bad gateway, look at headers to see when we should try again otherwise just wait for a few seconds
+          var headers = err && err.headers ? err.headers() : {}
+          var retryAfterSeconds = +headers['retry-after']
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds * 1000 : 3000
+          console.error('cloudflare bad gateway, trying again in', retryAfterSeconds)
+
+          return delay(retryAfterSeconds).then(function() {
+            return promiseRequest(type, param, param2, promise)
+          })
+        }
+
+        if (err.status == 504) {
+          // cloudflare gateway timeout, look at headers to see when we should try again otherwise just wait for a few seconds
+          var headers = err && err.headers ? err.headers() : {}
+          var retryAfterSeconds = +headers['retry-after']
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds * 1000 : 3000
+          console.error('cloudflare gateway timeout, trying again in', retryAfterSeconds)
+
+          return delay(retryAfterSeconds).then(function() {
+            return promiseRequest(type, param, param2, promise)
+          })
+        }
+
         if (err.status !== 0) { // only if this is not a cancelled request, rethrow
           console.error('Trakt tv error!', err)
           throw 'Error ' + err.status + ':' + err.statusText
