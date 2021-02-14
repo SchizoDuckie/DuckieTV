@@ -260,6 +260,16 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http',
           // restart request and return original promise
           return performPost(type, param)
         }
+        if (err.status == 429) {
+          // rate limited
+          var headers = err && err.headers ? err.headers() : {}
+          var retryAfterSeconds = +headers['retry-after']
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds * 1000 : 3000
+          console.error('rate limited! trying again in', retryAfterSeconds)
+          return delay(retryAfterSeconds).then(function() {
+            return performPost(type, param)
+          })
+        }
         if (err.status !== 0) { // only if this is not a cancelled request, rethrow
           console.error('Trakt tv error!', err)
           throw 'Error ' + err.status + ':' + err.statusText
