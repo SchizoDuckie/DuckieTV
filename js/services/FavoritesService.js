@@ -60,7 +60,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
       }
       for (var i in data) {
         if ((i in serie)) {
-          if (serie[i] !== data[i]) console.debug('serie ' + i + '=[' + data[i] + ']')
+          // if (serie[i] !== data[i]) console.debug('serie ' + i + '=[' + data[i] + ']')
           serie[i] = data[i]
         }
       }
@@ -119,7 +119,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
       episode.seasonnumber = season.seasonnumber
       for (var i in data) {
         if ((i in episode)) {
-          if (episode[i] !== data[i]) console.debug('episode S' + episode.seasonnumber + 'E' + data.episodenumber  + ' ' + i + '=[' + data[i] + ']')
+          // if (episode[i] !== data[i]) console.debug('episode S' + episode.seasonnumber + 'E' + data.episodenumber  + ' ' + i + '=[' + data[i] + ']')
           episode[i] = data[i]
         }
       }
@@ -319,7 +319,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
        */
       remove: function(serie) {
         serie.displaycalendar = 0
-        console.debug('Remove serie from favorites!', serie)
+        console.info('Remove serie from favorites!', serie)
 
         CRUD.executeQuery('delete from Seasons where ID_Serie = ' + serie.ID_Serie)
         CRUD.executeQuery('delete from Episodes where ID_Serie = ' + serie.ID_Serie)

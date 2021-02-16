@@ -67,7 +67,7 @@ DuckieTV.factory('SceneNameResolver', ['$q', '$http', 'SceneXemResolver',
         if (('snrt.name-exceptions' in localStorage) && lastFetched.getTime() + 86400000 > new Date().getTime()) {
           exceptions = JSON.parse(localStorage.getItem('snrt.name-exceptions'))
           episodesWithDateFormat = JSON.parse(localStorage.getItem('snrt.date-exceptions'))
-          console.info('Fetched SNR name and date exceptions from localStorage.')
+          console.info('Fetched SNRT name and date exceptions from localStorage.')
         } else {
           $http.get('https://duckietv.github.io/SceneNameExceptions/TraktSceneNameExceptions.json').then(function(response) {
             exceptions = response.data
