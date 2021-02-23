@@ -247,7 +247,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
           })
         }
 
-        var serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id) : service.getByTVDB_ID(data.tvdb_id) || new Serie()
+        var serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id)  || new Serie() : service.getByTVDB_ID(data.tvdb_id) || new Serie()
 
         return FanartService.get(data.tvdb_id, refreshFanart).then(function(fanart) {
           fanart = (fanart && 'json' in fanart) ? fanart.json : {}
