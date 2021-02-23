@@ -3,8 +3,8 @@
  *
  * Provides functionality to add and remove series and is the glue between Trakt.TV,
  */
-DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$injector',
-  function($q, $rootScope, FanartService, $injector) {
+DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'SceneNameResolver', '$injector',
+  function($q, $rootScope, FanartService, SceneNameResolver, $injector) {
     /**
      * Helper function to add a serie to the service.favorites hash if it doesn't already exist.
      * update existing otherwise.
@@ -26,11 +26,12 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', '$inj
      * Input information will always overwrite existing information.
      */
     var fillSerie = function(serie, data, fanart) {
-      data.TVDB_ID = data.tvdb_id
+      data.TRAKT_ID = data.trakt_id
+      // tvdb_id may be missing from Trakt.tv API beginning march 2021
+      data.TVDB_ID = ('tvdb_id' in data && data.tvdb_id !== null && data.tvdb_id !== 0) ? data.tvdb_id : SceneNameResolver.getTvdbidFromTraktid(data.trakt_id)
       data.TMDB_ID = data.tmdb_id
       data.TVRage_ID = data.tvrage_id
       data.IMDB_ID = data.imdb_id
-      data.TRAKT_ID = data.trakt_id
       data.contentrating = data.certification
       data.name = data.title
       data.airs_dayofweek = data.airs.day

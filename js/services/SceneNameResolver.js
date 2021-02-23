@@ -16,6 +16,7 @@ DuckieTV.factory('SceneNameResolver', ['$q', '$http', 'SceneXemResolver',
 
     var episodesWithDateFormat = {}
     var exceptions = {}
+    var traktidTvdbidXref = {}
 
     /**
      * Replace the most common diacritics in English that are most likely to not be used in torrent scene names
@@ -61,13 +62,30 @@ DuckieTV.factory('SceneNameResolver', ['$q', '$http', 'SceneXemResolver',
         }
       },
 
+      /**
+       * Return a TVDB_ID given the provided TRAKT_ID if it's in the list or 0.
+       */
+      getTvdbidFromTraktid: function(traktID) {
+        traktID = parseInt(traktID)
+        return (traktID in traktidTvdbidXref) ? traktidTvdbidXref[traktID] : 0
+      },
+
+      /**
+       * Return last TRAKT_ID in traktidTvdbidXref
+       */
+      getLastTraktidXref: function() {
+        return parseInt(Object.keys(traktidTvdbidXref)[Object.keys(traktidTvdbidXref).length-1])
+      },
+
       initialize: function() {
         var lastFetched = ('snrt.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('snrt.lastFetched'))) : new Date()
 
-        if (('snrt.name-exceptions' in localStorage) && lastFetched.getTime() + 86400000 > new Date().getTime()) {
+        if (('snrt.traktid-tvdbid-xref' in localStorage) && lastFetched.getTime() + 86400000 > new Date().getTime()) {
           exceptions = JSON.parse(localStorage.getItem('snrt.name-exceptions'))
           episodesWithDateFormat = JSON.parse(localStorage.getItem('snrt.date-exceptions'))
-          console.info('Fetched SNRT name and date exceptions from localStorage.')
+          traktidTvdbidXref = JSON.parse(localStorage.getItem('snrt.traktid-tvdbid-xref'))
+          console.info('Next SNRT update is due after ', new Date(lastFetched.getTime() + 86400000))
+          console.info('Fetched SNRT name and date exceptions, and TraktTvdbXref from localStorage.')
         } else {
           $http.get('https://duckietv.github.io/SceneNameExceptions/TraktSceneNameExceptions.json').then(function(response) {
             exceptions = response.data
@@ -77,10 +95,15 @@ DuckieTV.factory('SceneNameResolver', ['$q', '$http', 'SceneXemResolver',
           $http.get('https://duckietv.github.io/SceneNameExceptions/TraktSceneDateExceptions.json').then(function(response) {
             episodesWithDateFormat = response.data
             localStorage.setItem('snrt.date-exceptions', JSON.stringify(episodesWithDateFormat))
+          })
+
+          $http.get('https://duckietv.github.io/SceneNameExceptions/TraktidTvdbidXref.json').then(function(response) {
+            traktidTvdbidXref = response.data
+            localStorage.setItem('snrt.traktid-tvdbid-xref', JSON.stringify(traktidTvdbidXref))
             localStorage.setItem('snrt.lastFetched', new Date().getTime())
           })
 
-          console.info('Updated localStorage with SNRT name and date exceptions.')
+          console.info('Updated localStorage with SNRT name and date exceptions, and TraktTvdbXref.')
         }
       }
     }
