@@ -22,6 +22,7 @@ DuckieTV.controller('SidepanelSerieCtrl', ['$rootScope', '$filter', '$state', '$
 
     vm.refresh = function(serie) {
       vm.isRefreshing = true
+      console.log('[SerieRefresh] [TRAKT_ID=' + serie.TRAKT_ID + ']', 'updating', serie.name)
       return FavoritesManager.refresh(serie.TRAKT_ID).then(function() {
         vm.isRefreshing = false
         $rootScope.$applyAsync()
