@@ -44,8 +44,8 @@ DuckieTV.run(['$rootScope', 'SettingsService',
         // and handle their events.
         document.getElementById('close').addEventListener('click', function() {
           localStorage.setItem('standalone.position', JSON.stringify({
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: window.outerWidth,
+            height: window.outerHeight,
             x: window.screenX,
             y: window.screenY,
             state: winState
