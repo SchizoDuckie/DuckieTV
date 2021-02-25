@@ -27,8 +27,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
      */
     var fillSerie = function(serie, data, fanart) {
       data.TRAKT_ID = data.trakt_id
-      // tvdb_id may be missing from Trakt.tv API beginning march 2021
-      data.TVDB_ID = ('tvdb_id' in data && data.tvdb_id !== null && data.tvdb_id !== 0) ? data.tvdb_id : SceneNameResolver.getTvdbidFromTraktid(data.trakt_id)
+      data.TVDB_ID = data.tvdb_id
       data.TMDB_ID = data.tmdb_id
       data.TVRage_ID = data.tvrage_id
       data.IMDB_ID = data.imdb_id

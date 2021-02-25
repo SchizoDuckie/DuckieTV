@@ -63,11 +63,11 @@ DuckieTV.factory('SceneNameResolver', ['$q', '$http', 'SceneXemResolver',
       },
 
       /**
-       * Return a TVDB_ID given the provided TRAKT_ID if it's in the list or 0.
+       * Return a TVDB_ID given the provided TRAKT_ID if it's in the list or null.
        */
       getTvdbidFromTraktid: function(traktID) {
         traktID = parseInt(traktID)
-        return (traktID in traktidTvdbidXref) ? traktidTvdbidXref[traktID] : 0
+        return (traktID in traktidTvdbidXref) ? traktidTvdbidXref[traktID] : null
       },
 
       /**
