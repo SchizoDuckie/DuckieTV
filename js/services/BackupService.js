@@ -59,6 +59,10 @@ DuckieTV.factory('BackupService', ['TorrentSearchEngines', function(TorrentSearc
           if (localStorage.key(i).indexOf('database.version') > -1) continue
           if (localStorage.key(i).indexOf('trakttv.trending.cache') > -1) continue
           if (localStorage.key(i).indexOf('trakttv.lastupdated.trending') > -1) continue
+          if (localStorage.key(i).indexOf('snrt.name-exceptions') > -1) continue
+          if (localStorage.key(i).indexOf('snrt.date-exceptions') > -1) continue
+          if (localStorage.key(i).indexOf('snrt.traktid-tvdbid-xref') > -1) continue
+          if (localStorage.key(i).indexOf('snrt.lastFetched') > -1) continue
           out.settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i))
         }
 
