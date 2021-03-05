@@ -4,7 +4,9 @@
  * API Docs:
  * https://aria2.github.io/manual/en/html/aria2c.html#rpc-interface
  *
- * JSON-PRC API listens on localhost:6800 by default
+ * JSON-RPC API listens on localhost:6800 by default
+ * to set up aria2 see https://github.com/SchizoDuckie/DuckieTV/wiki/Setting-up-Aria2-with-DuckieTV
+ * example win startup c:/programdata/aria2c/aria2c --conf-path=c:/home/garfield69/.aria2.conf
  *
  * - supports setting the download directory
  * - Does not support setting or fetching a Label
@@ -119,16 +121,13 @@ DuckieTorrent.factory('Aria2Remote', ['BaseTorrentRemote',
             params: paramArray
           }).then(function(response) {
             var jsonObject = response && response.data || {}
-            var metadatabitfield = '80' // v1.32
-            if (self.config.version > 1.32) {
-              metadatabitfield = 'c0'
-            }
             if (jsonObject.result) {
               jsonObject.result.map(function(tellResults) {
                 tellResults.map(function(torrentList) {
                   torrentList.map(function(torrent) {
-                    if ((torrent.bitfield && torrent.bitfield !== metadatabitfield) && (torrent.status && torrent.status !== 'removed')) {
-                      // not interested in completed metadata records, or removed torrents
+                    //console.debug(torrent)
+                    if ((torrent.bitfield && torrent.bitfield !== '80' && torrent.bitfield !== 'c0') && (torrent.status && torrent.status !== 'removed')) {
+                      // not interested in completed metadata records (bitfield 80 or c0), or removed torrents
                       torrents.push(torrent)
                     }
                   })
