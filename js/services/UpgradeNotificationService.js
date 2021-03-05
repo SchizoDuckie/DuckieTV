@@ -17,6 +17,7 @@ DuckieTV.run(['dialogs', '$http',
         '<li>Standalone: (upgrade) NWJS 49.1 with Chromium 86',
         '<li>TorrentClient: (new) Introducing tTorrent client.',
         '<li>TorrentClient: (fix) Replace deprecaded rTorrent calls, add support for qBitTorrent 4.2+.',
+        '<li>TorrentClient: (fix) ignore aria2 metadata file reports.',
         '<li>TorrentMonitor: (fix) Auto-Stop-All now works as intended.',
         '<li>TraktUpdateServices: (fix) Support added for new API restrictions.',
         '<li>Misc: Bug fixes.'
