@@ -46,6 +46,18 @@ beforeEach(inject(function($injector) {
         return [200, []];
     });
 
+    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2FSceneNameExceptions%2FTraktSceneNameExceptions.json').respond(function(method, url, data) {
+        return [200, []];
+    });
+
+    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2FSceneNameExceptions%2FTraktSceneDateExceptions.json').respond(function(method, url, data) {
+        return [200, []];
+    });
+
+    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2FSceneNameExceptions%2FTraktidTvdbidXref.json').respond(function(method, url, data) {
+        return [200, []];
+    });
+
     $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2FSceneNameExceptions%2FSceneNameExceptions.json').respond(function(method, url, data) {
         return [200, []];
     });
