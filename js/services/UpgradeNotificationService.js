@@ -17,6 +17,7 @@ DuckieTV.run(['dialogs', '$http',
         '<li>Standalone: (upgrade) NWJS 51.2 with Chromium 88',
         '<li>TorrentClient: (new) Introducing tTorrent client.',
         '<li>TorrentClient: (fix) Replace deprecaded rTorrent calls, add support for qBitTorrent 4.2+, ignore aria2 metadata file reports.',
+        '<li>TorrentDialogs: (fix) magnetLinks were being submitted twice due to NWJS bug.',
         '<li>TorrentMonitor: (fix) Auto-Stop-All now works as intended.',
         '<li>TraktUpdateServices: (fix) Support added for new API restrictions.',
         '<li>Misc: Bug fixes.'
