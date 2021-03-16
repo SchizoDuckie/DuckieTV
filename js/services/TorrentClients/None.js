@@ -108,11 +108,12 @@ DuckieTorrent.factory('NoneRemote', ['BaseTorrentRemote',
           })
         },
         openUrl: function(id, url) {
-          if (SettingsService.isStandalone() && id === 'magnet') {
+          // revert back to using iframe, https://github.com/SchizoDuckie/DuckieTV/issues/1308
+/*          if (SettingsService.isStandalone() && id === 'magnet') {
             // for standalone, open magnet url direct to os https://github.com/SchizoDuckie/DuckieTV/issues/834
             nw.Shell.openExternal(url)
             // console.debug("Open via OS", id, url);
-          } else {
+          } else {*/
             // for chrome extension, open url on chromium via iframe
             var d = document.createElement('iframe')
             d.id = id + 'url_' + new Date().getTime()
@@ -128,7 +129,7 @@ DuckieTorrent.factory('NoneRemote', ['BaseTorrentRemote',
                 return
               }
             }, 1500)
-          }
+//          }
         }
       })
 
