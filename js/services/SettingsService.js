@@ -227,7 +227,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'torrenting.searchquality': '',
         'torrenting.searchqualitylist': ['HDTV', '720p', '1080p', '2160p', 'x265'],
         'torrenting.streaming': true,
-        'trakt-update.period': 12,
+        'trakt-update.period': 1,
         'trakttv.passwordHash': null,
         'trakttv.sync': false,
         'trakttv.username': null,
