@@ -35,8 +35,8 @@
     <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute;opacity:0;width:100%;top:0;padding:0;height:100%;cursor:pointer" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false" />
   </div>
 
-  <h1 ng-show="!declined && !completed" style='margin-top: 20px;' translate-once>COMMON/loading-please-wait/lbl</h1>
-  <h1 ng-show="!declined && completed" style='margin-top: 20px;' translate-once>COMMON/loading-completed/lbl</h1>
+  <h1 ng-show="restoring && !declined && !completed" style='margin-top: 20px;' translate-once>COMMON/loading-please-wait/lbl</h1>
+  <h1 ng-show="restoring && !declined && completed" style='margin-top: 20px;' translate-once>COMMON/loading-completed/lbl</h1>
   <h1 ng-show="declined" style='margin-top: 20px;' translate-once>COMMON/cancelled/lbl</h1>
 
   <div ng-if="restoring" style="padding:5px;text-align:center" class="miniposter x2 import-container">
