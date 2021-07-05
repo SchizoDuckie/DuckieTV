@@ -8,7 +8,7 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
     var maxAttempts = 3
 
     var endpoints = {
-      thepiratebay: 'https://proxy-bay.co/'
+      thepiratebay: 'https://proxy-bay.com/'
     }
 
     /**
