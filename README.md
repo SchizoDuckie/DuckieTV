@@ -19,7 +19,7 @@ Install DuckieTV Standalone
 As of v0.81, DuckieTV is available as a standalone build.
 Get the latest release here:
 
-https://github.com/DuckieTV/Nightlies/releases
+https://github.com/DuckieTV/Nightlies/releases/latest
 
 Install DuckieTV For Chrome
 ---------------------------
