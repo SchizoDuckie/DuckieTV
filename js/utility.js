@@ -172,9 +172,9 @@ if (localStorage.getItem('optin_error_reporting')) {
       // filter out unwanted error logging
       var blacklist = ['not connected.', 'connect call failed', 'could not load fanart']
       var args = Array.prototype.slice.call(arguments)
-      var arg0 = args[0].toString().toLowerCase()
+      var arg0 = (args[0] === null || typeof args[0] === 'undefined') ? 'args[0] null or undefined' : args[0].toString().toLowerCase()
       var wanted = true
-      if (typeof arg0 !== 'undefined' && arg0 !== null && arg0.length > 0) {
+      if (arg0.length > 0) {
         blacklist.map(function(unwanted) {
           if (arg0.indexOf(unwanted) > -1) {
             wanted = false
