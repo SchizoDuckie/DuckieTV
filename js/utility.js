@@ -170,12 +170,13 @@ if (localStorage.getItem('optin_error_reporting')) {
       console.olderror(arguments)
       var log = Loggr.Log
       // filter out unwanted error logging
-      var blacklist = ['connect call failed', 'could not load fanart']
+      var blacklist = ['not connected.', 'connect call failed', 'could not load fanart']
       var args = Array.prototype.slice.call(arguments)
+      var arg0 = args[0].toString().toLowerCase()
       var wanted = true
-      if (typeof args !== 'undefined' && args !== null && args.length > 0) {
+      if (typeof arg0 !== 'undefined' && arg0 !== null && arg0.length > 0) {
         blacklist.map(function(unwanted) {
-          if (args[0].toLowerCase().indexOf(unwanted) > -1) {
+          if (arg0.indexOf(unwanted) > -1) {
             wanted = false
           }
         })
