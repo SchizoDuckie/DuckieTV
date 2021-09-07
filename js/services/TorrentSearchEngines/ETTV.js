@@ -17,8 +17,8 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           detailUrl: ['td:nth-child(2) > a', 'href']
         },
         detailsSelectors: {
-          detailsContainer: 'div.torrent_data > div.data_group',
-          magnetUrl: ['td a[href^="magnet:?xt="]', 'href']
+          detailsContainer: 'div.downloadbox',
+          magnetUrl: ['a[href^="magnet:?xt="]', 'href']
         },
         orderby: {
           seeders: {d: 'seeders&order=desc', a: 'seeders&order=asc'},
