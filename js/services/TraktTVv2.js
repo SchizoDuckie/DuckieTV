@@ -204,10 +204,10 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           // rate limited, look at headers to see when we should try again otherwise just wait for a few seconds
           var headers = err && err.headers ? err.headers() : {}
           var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds * 1000 : 3000
-          console.error('rate limited! trying again in', retryAfterSeconds)
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+          console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
 
-          return delay(retryAfterSeconds).then(function() {
+          return delay(retryAfterSeconds * 1000).then(function() {
             return promiseRequest(type, param, param2, promise)
           })
         }
@@ -216,10 +216,10 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           // cloudflare bad gateway, look at headers to see when we should try again otherwise just wait for a few seconds
           var headers = err && err.headers ? err.headers() : {}
           var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds * 1000 : 3000
-          console.error('cloudflare bad gateway, trying again in', retryAfterSeconds)
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+          console.error('cloudflare bad gateway, trying again in %s seconds', retryAfterSeconds)
 
-          return delay(retryAfterSeconds).then(function() {
+          return delay(retryAfterSeconds * 1000).then(function() {
             return promiseRequest(type, param, param2, promise)
           })
         }
@@ -228,10 +228,10 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           // cloudflare gateway timeout, look at headers to see when we should try again otherwise just wait for a few seconds
           var headers = err && err.headers ? err.headers() : {}
           var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds * 1000 : 3000
-          console.error('cloudflare gateway timeout, trying again in', retryAfterSeconds)
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+          console.error('cloudflare gateway timeout, trying again in %s seconds', retryAfterSeconds)
 
-          return delay(retryAfterSeconds).then(function() {
+          return delay(retryAfterSeconds * 1000).then(function() {
             return promiseRequest(type, param, param2, promise)
           })
         }
@@ -266,9 +266,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           // rate limited
           var headers = err && err.headers ? err.headers() : {}
           var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds * 1000 : 3000
-          console.error('rate limited! trying again in', retryAfterSeconds)
-          return delay(retryAfterSeconds).then(function() {
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+          console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
+          return delay(retryAfterSeconds * 1000).then(function() {
             return performPost(type, param)
           })
         }
