@@ -128,7 +128,7 @@ DuckieTV.run(['$rootScope', 'SettingsService',
           $rootScope.$emit('restoredtv')
         })
 
-        tray.tooltip = navigator.userAgent
+        tray.tooltip = "DuckieTV"
         // tray.tooltip = 'id='+tray.id;
         tray.menu = traymenu
       }
