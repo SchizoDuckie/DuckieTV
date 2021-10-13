@@ -6,11 +6,11 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         mirrorResolver: null,
         includeBaseURL: true,
         endpoints: {
-          search: '/search/?search=%s&srt=%o'
+          search: '/search/?search=%s&srt=%o&new=1&x=0&y=0'
         },
         selectors: {
           resultContainer: 'tr[class^="tl"]',
-          releasename: ['a[href*="/torrent/"][title^="view"]', 'innerText'],
+          releasename: ['a[href^="/torrent/"]', 'innerText'],
           magnetUrl: ['a[href^="magnet:?xt="]', 'href'],
           seeders: ['td.sy, td.sn', 'innerText',
             function(text) {
@@ -23,7 +23,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
             }
           ],
           size: ['td:nth-last-of-type(4)', 'innerText'],
-          detailUrl: ['a[href*="/torrent/"]', 'href']
+          detailUrl: ['a[href^="/torrent/"]', 'href']
         },
         orderby: {
           seeders: {d: 'seeds&order=desc', a: 'seeds&order=desc'},

@@ -144,7 +144,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'library.smallposters': true,
         'main.viewmode': 'calendar', // todo || calendar
         'mirror.1337x': 'https://1337x.to',
-        'mirror.ETag': 'https://extratorrent.si',
+        'mirror.ETag': 'https://extratorrent.st/',
         'mirror.ETTV': 'https://www.ettvcentral.com/',
         'mirror.EXT': 'https://ext.to',
         'mirror.EzTVag': 'https://eztv.re/',
