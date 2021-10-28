@@ -12,8 +12,8 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           resultContainer: 'table.table-striped > tbody > tr',
           releasename: ['td:nth-child(1) div a', 'innerText'],
           size: ['td:nth-child(2)', 'innerText'],
-          seeders: ['td:nth-child(5)', 'innerText'],
-          leechers: ['td:nth-child(6)', 'innerText'],
+          seeders: ['span.text-success', 'innerText'],
+          leechers: ['span.text-danger', 'innerText'],
           detailUrl: ['td:nth-child(1) div a', 'href']
         },
         detailsSelectors: {
