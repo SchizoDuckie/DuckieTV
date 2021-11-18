@@ -7,8 +7,8 @@ DuckieTV.factory('ShowRSS', ['SettingsService', '$q', '$http',
     var endpoint = SettingsService.get('mirror.ShowRSS')
 
     var endpoints = {
-      list: 'browse',
-      serie: 'browse/%s'
+      list: '/browse',
+      serie: '/browse/%s'
     }
 
     var getUrl = function(type, param, param2) {
@@ -43,7 +43,7 @@ DuckieTV.factory('ShowRSS', ['SettingsService', '$q', '$http',
             size: 'n/a',
             seeders: 'n/a',
             leechers: 'n/a',
-            detailUrl: doc.querySelector("a[href^='" + endpoint + "browse/']").href
+            detailUrl: doc.querySelector("a[href^='" + endpoint + "/browse/']").href
           }
 
           var magnetHash = out.magnetUrl.match(/([0-9ABCDEFabcdef]{40})/)

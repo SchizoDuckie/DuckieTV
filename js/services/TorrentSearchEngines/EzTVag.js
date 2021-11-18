@@ -6,7 +6,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         mirrorResolver: null,
         includeBaseURL: true,
         endpoints: {
-          search: 'search/%s'
+          search: '/search/%s'
         },
         selectors: {
           resultContainer: 'table.forum_header_border tr.forum_header_border',
