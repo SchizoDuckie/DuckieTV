@@ -119,7 +119,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
               size: (parseFloat(data.size) / 1000 / 1000).toFixed(2) + ' MB',
               seeders: (seeds != null) ? seeds : 'n/a',
               leechers: (peers != null) ? peers : 'n/a',
-              detailUrl: data.guid,
+              detailUrl: data.comments,
               noMagnet: true,
               noTorrent: true
             }
@@ -157,7 +157,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
               size: (parseFloat(data.Size) / 1000 / 1000).toFixed(2) + ' MB',
               seeders: (data.Seeders != null) ? data.Seeders : 'n/a',
               leechers: (data.Peers != null) ? data.Peers : 'n/a',
-              detailUrl: data.Guid,
+              detailUrl: data.Details,
               noMagnet: true,
               noTorrent: true
             }
