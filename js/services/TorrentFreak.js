@@ -20,11 +20,12 @@ DuckieTV.provider('TorrentFreak', function() {
     var parser = new DOMParser()
     var doc = parser.parseFromString(result.data, 'text/html')
     var tables = doc.querySelectorAll('table.css.hover');
+    var titles = doc.querySelectorAll('h2');
     var output = [];
     for(var i=0; i<tables.length; i++) {
       var rows = tables[i].querySelectorAll('tbody tr'),
       out = {
-        title: tables[i].previousElementSibling.textContent,
+        title: titles[i].textContent,
         top10: []
       };
 
