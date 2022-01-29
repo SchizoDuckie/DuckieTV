@@ -33,7 +33,7 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
      * expected layout. (Some proxies proxy your magnet links so they can track them, we don't want that.)
      */
     function parseTPBTestSearch(result, allowUnsafe) {
-      return result.data.indexOf('magnet:') > -1
+      return allowUnsafe ? true : result.data.indexOf('magnet:') > -1
     }
 
     var service = {
