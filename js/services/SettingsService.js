@@ -94,7 +94,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
           'ThePirateBay': true,
           '1337x': true,
           'ETag': true,
-          'ETTV': true,
           'EXT': true,
           'EzTV.ag': true,
           'Idope': true,
@@ -145,7 +144,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'main.viewmode': 'calendar', // todo || calendar
         'mirror.1337x': 'https://1337x.to',
         'mirror.ETag': 'https://extratorrent.st',
-        'mirror.ETTV': 'https://www.ettvcentral.com',
         'mirror.EXT': 'https://ext.to',
         'mirror.EzTVag': 'https://eztv.re',
         'mirror.Idope': 'https://idope.se',
@@ -197,7 +195,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
           'ThePirateBay': true,
           '1337x': true,
           'ETag': true,
-          'ETTV': true,
           'EXT': true,
           'EzTV.ag': true,
           'Idope': true,
