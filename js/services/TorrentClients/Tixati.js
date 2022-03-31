@@ -1,5 +1,5 @@
 /**
- * Tixati web client implementation
+ * Tixati web client implementation minimum version 2.86
  *
  * API Docs:
  * None. reverse engineered from Tixati base implementation
@@ -145,7 +145,7 @@ DuckieTorrent.factory('TixatiRemote', ['BaseTorrentRemote',
 
             var torrents = []
 
-            scraper.walkSelector('.xferstable tr:not(:first-child)', function(node) {
+            scraper.walkSelector('.xferslist > tbody > tr', function(node) {
               var tds = node.querySelectorAll('td')
               var torrent = new TixatiData({
                 name: tds[1].innerText,
@@ -156,7 +156,7 @@ DuckieTorrent.factory('TixatiRemote', ['BaseTorrentRemote',
                 upSpeed: parseInt(tds[6].innerText == '' ? '0' : tds[6].innerText.replace(',', '')) * 1000,
                 priority: tds[7].innerText,
                 eta: tds[8].innerText,
-                guid: tds[1].querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1]
+                guid: tds[1].querySelector('div.listcell').querySelector('a').getAttribute('href').match(/\/transfers\/([a-z-A-Z0-9]+)\/details/)[1]
               })
               if ((torrent.guid in self.infohashCache)) {
                 torrent.hash = self.infohashCache[torrent.guid]
@@ -186,7 +186,7 @@ DuckieTorrent.factory('TixatiRemote', ['BaseTorrentRemote',
             var scraper = new HTMLScraper(result.data)
             var files = []
 
-            scraper.walkSelector('.xferstable tr:not(:first-child)', function(node) {
+            scraper.walkSelector('.listtable > tbody > tr', function(node) {
               var cells = node.querySelectorAll('td')
               files.push({
                 name: cells[1].innerText.trim(),
