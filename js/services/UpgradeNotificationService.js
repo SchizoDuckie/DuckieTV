@@ -11,6 +11,7 @@ DuckieTV.run(['dialogs', '$http',
     var notifications = {
       '1.1.6': ['<li>Languages: (new) Greek, Turkish, Slovak and South African English.',
         '<li>Languages: (fix) Chinese, Dutch.',
+        '<li>Calendar: (fix) unable to click on calendar in chromium 101.',
         '<li>SearchEngines: (new) Add ETag (extratorrent.st), IsoHunt2 (isohunt.tv), TGx (torrentgalaxy.to), EXT (ext.to), KATws (kickass.ws).',
         '<li>SearchEngines: (del) Katcr is broken, TorrentZ2 is gone, ETTV is gone.',
         '<li>SearchEngines: (fix) EzTVag new domain (eztv.re) and results, limetorrrents DL links and new domain, 1337x DL links, TPB (*0.org), TPB mirror resolver, RarBG details links, torrentdownloads new domain, ETTV DL link, fix details link for Jackett indexers.',
