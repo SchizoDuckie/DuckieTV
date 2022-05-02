@@ -82,7 +82,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
     var service = {
       settings: {},
       defaults: {
-        'ThePirateBay.mirror': 'https://thepiratebay.org',
+        'ThePirateBay.mirror': 'https://thepiratebay0.org/',
         'application.language': null,
         'application.locale': 'en_us',
         'aria2.port': 6800,
@@ -149,7 +149,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'mirror.Idope': 'https://idope.se',
         'mirror.IsoHunt2': 'https://isohunt.tv',
         'mirror.KATws': 'https://kickass.ws',
-        'mirror.LimeTorrents': 'https://www.limetorrents.pro',
+        'mirror.LimeTorrents': 'https://www.limetorrents.lol',
         'mirror.Nyaa': 'https://nyaa.si',
         'mirror.RarBG': 'https://torrentapi.org/pubapi_v2.php?app_id=DuckieTV&',
         'mirror.ShowRSS': 'https://showrss.info',
