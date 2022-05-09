@@ -37,7 +37,7 @@ See [Installing DuckieTV Nightly Chrome Browser Extensions](https://github.com/S
 
 Try DuckieTV DEMO online
 -------------------
-* You can now also try DuckieTV DEMO online, provided you have a Chrome, Safari, Opera. Vivaldi or Edge. Note that this demonstration model is using a third party service to work around cross-domain limitations and can be broken at any time. It is not suitable for daily use.
+* You can now also try DuckieTV DEMO online, provided you have a Chrome, Safari, Opera, Vivaldi or Edge Browser. Note that this demonstration model is using a third party service to work around cross-domain limitations and can be broken at any time. It is not suitable for daily use.
   Try it [here](http://DuckieTV.github.io/DuckieTV/)
 
 Screenshots:
