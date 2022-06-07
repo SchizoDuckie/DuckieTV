@@ -98,6 +98,24 @@ DuckieTV.run(['$rootScope', 'SettingsService',
       traymenu.append(new nw.MenuItem({
         type: 'separator'
       }))
+        // Add a devtools button
+        var devtools = new nw.MenuItem({
+            label: "Open DevTools",
+            click: function() {
+                //console.debug('menu devtools');
+                win.showDevTools();
+            }
+        });
+        traymenu.append(devtools);
+        // Add a reload button
+        var devreload = new nw.MenuItem({
+            label: "Reload",
+            click: function() {
+                //console.debug('menu reload');
+                window.location.reload();
+            }
+        });
+        traymenu.append(devreload);
 
       // Add a exit button
       exit = new nw.MenuItem({
