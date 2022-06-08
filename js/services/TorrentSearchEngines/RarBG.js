@@ -33,6 +33,10 @@ DuckieTV.factory('RarBG', ['SettingsService', '$q', '$http',
         if (result.data.error_code) {
           switch (result.data.error_code) {
             case 20: // No results found
+              if (result.data.rate_limit) {
+                console.warn('Error [%s], Rate Limit=%s', result.data.error_code, result.data.rate_limit)
+                return 5
+              }
               return []
             case 4: // Invalid token. Use get_token for a new one!
               return 4
