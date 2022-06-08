@@ -12,7 +12,7 @@ As of v0.60, DuckieTV is finally becoming a worthy SickBeard competitor by intro
 How can I get it?
 =================
 
-DuckieTV can be installed as either a standalone application on Windows (7, 8.1, 10), Linux (Debian based such as Ubuntu 15.10 and newer), and Mac OSX (10.10 and newer), or installed as a Google Chrome Browser Extension (in development mode), and you can try the basic features in an online version.
+DuckieTV can be installed as either a standalone application on Windows (7, 8.1, 10), Linux (Debian based such as Ubuntu 15.10 and newer), and Mac OSX (10.10 and newer), or installed as a Google Chrome Browser Extension (in development mode).
 
 Install DuckieTV Standalone
 -------------------------------------------
@@ -34,11 +34,6 @@ Due to changes to the Google Chrome Web Store security rules (Dec 2019), Dtv is 
 Currently the only way to run Dtv as a Chrome extension, is to manually install it under the development mode extensions page.
 
 See [Installing DuckieTV Nightly Chrome Browser Extensions](https://github.com/SchizoDuckie/DuckieTV/wiki/How-to-Install-a-Development-version-of-the-DuckieTV-Chrome-Browser-Extension-NIGHTLY) for details.
-
-Try DuckieTV DEMO online
--------------------
-* You can now also try DuckieTV DEMO online, provided you have a Chrome, Safari, Opera, Vivaldi or Edge Browser. Note that this demonstration model is using a third party service to work around cross-domain limitations and can be broken at any time. It is not suitable for daily use.
-  Try it [here](http://DuckieTV.github.io/DuckieTV/)
 
 Screenshots:
 ============
