@@ -54,7 +54,7 @@
     "inject_js_start": "",
     "inject_js_end": "",
     "main": "tab.html",
-    "chromium-args": "--disable-backgrounding-occluded-windows",
+    "chromium-args": "--disable-calculate-native-win-occlusion",
     "description": "DuckieTV helps you manage your favorite TV Shows on a sweet calendar",
     "dependencies": {},
     "scripts": {
