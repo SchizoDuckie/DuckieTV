@@ -36,7 +36,7 @@ DuckieTV.directive('backgroundRotator', ['$rootScope',
 
         $rootScope.$on($scope.channel, function(event, url) {
           if (!cooldown) {
-            load(url)
+            if (url) load(url)
             cooldown = true
             setTimeout(function() { cooldown = false }, 1300)
           }
