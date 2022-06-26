@@ -1463,6 +1463,10 @@ div [date-picker] {
   cursor: pointer;
 }
 
+[date-picker] tbody.date {
+  height: 80vh;
+}
+
 [date-picker] tbody tr:nth-child(odd) {
   background-color: rgba(0, 0, 0, 0.1);
 }
