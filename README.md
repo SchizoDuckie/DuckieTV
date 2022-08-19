@@ -12,7 +12,7 @@ As of v0.60, DuckieTV is finally becoming a worthy SickBeard competitor by intro
 How can I get it?
 =================
 
-DuckieTV can be installed as either a standalone application on Windows (7, 8.1, 10), Linux (Debian based such as Ubuntu 15.10 and newer), and Mac OSX (10.15 and newer), or installed as a Google Chrome Browser Extension (in development mode).
+DuckieTV can be installed as either a standalone application on Windows (7, 8.1, 10, 11), Linux (Debian based such as Ubuntu 15.10 and newer), and Mac OSX (10.15 and newer), or installed as a Google Chrome Browser Extension (in development mode).
 
 Install DuckieTV Standalone
 -------------------------------------------
