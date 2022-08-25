@@ -55,15 +55,35 @@ DuckieTV.factory('FanartService', ['$q', '$http', function($q, $http) {
         return null
       }
       if (!('tvposter' in fanart) && !('clearlogo' in fanart) && ('hdtvlogo' in fanart)) {
-        return fanart.hdtvlogo[0].url.replace('/fanart', '/preview')
+        var hdtvlogo = fanart.hdtvlogo[0] // default
+        for (var i=0; i<fanart.hdtvlogo.length; i++) {
+          if (fanart.hdtvlogo[i].lang == "en") {
+              hdtvlogo = fanart.hdtvlogo[i]
+              break
+          }
+        }
+        return hdtvlogo.url.replace('/fanart', '/preview')
       }
       if (!('tvposter' in fanart) && ('clearlogo' in fanart)) {
-        return fanart.clearlogo[0].url.replace('/fanart', '/preview')
+        var clearlogo = fanart.clearlogo[0] // default
+        for (var i=0; i<fanart.clearlogo.length; i++) {
+          if (fanart.clearlogo[i].lang == "en") {
+            clearlogo = fanart.clearlogo[i]
+            break
+          }
+        }
+        return clearlogo.url.replace('/fanart', '/preview')
       }
       if ('tvposter' in fanart) {
-        return fanart.tvposter[0].url.replace('/fanart', '/preview')
+        var tvposter = fanart.tvposter[0] // default
+        for (var i=0; i<fanart.tvposter.length; i++) {
+          if (fanart.tvposter[i].lang == "en") {
+            tvposter = fanart.tvposter[i]
+            break
+          }
+        }
+        return tvposter.url.replace('/fanart', '/preview')
       }
-
       return null
     },
     getSeasonPoster: function(seasonnumber, fanart) {
@@ -76,13 +96,26 @@ DuckieTV.factory('FanartService', ['$q', '$http', function($q, $http) {
           return parseInt(image.season) == parseInt(seasonnumber)
         })
         if (hit && hit.length > 0) {
-          return hit[0].url
+          var seasonposter = hit[0] // default
+          for (var i=0; i<hit.length; i++) {
+            if (hit[i].lang == "en") {
+              seasonposter = hit[i]
+              break
+            }
+          }
+          return seasonposter.url
         }
       }
       if (('tvposter' in fanart)) {
-        return fanart.tvposter[0].url.replace('/fanart', '/preview')
+        var tvposter = fanart.tvposter[0] // default
+        for (var i=0; i<fanart.tvposter.length; i++) {
+          if (fanart.tvposter[i].lang == "en") {
+            tvposter = fanart.tvposter[i]
+            break
+          }
+        }
+        return tvposter.url.replace('/fanart', '/preview')
       }
-
       return null
     },
     getEpisodePoster: function(fanart) {
@@ -91,10 +124,24 @@ DuckieTV.factory('FanartService', ['$q', '$http', function($q, $http) {
         return null
       }
       if (('tvthumb' in fanart)) {
-        return fanart.tvthumb[0].url
+        var tvthumb = fanart.tvthumb[0] // default
+        for (var i=0; i<fanart.tvthumb.length; i++) {
+          if (fanart.tvthumb[i].lang == "en") {
+            tvthumb = fanart.tvthumb[i]
+            break
+          }
+        }
+        return tvthumb.url
       }
       if ('hdtvlogo' in fanart) {
-        return fanart.hdtvlogo[0].url
+        var hdtvlogo = fanart.hdtvlogo[0] // default
+        for (var i=0; i<fanart.hdtvlogo.length; i++) {
+          if (fanart.hdtvlogo[i].lang == "en") {
+            hdtvlogo = fanart.hdtvlogo[i].url
+            break
+          }
+        }
+        return hdtvlogo.url
       }
       return null
     },
