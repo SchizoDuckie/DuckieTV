@@ -11,6 +11,7 @@ DuckieTV.run(['dialogs', '$http',
     var notifications = {
       '1.1.6': ['<li>Languages: (new) Greek, Turkish, Slovak and South African English.',
         '<li>Languages: (fix) Chinese, Dutch.',
+        '<li>FanArt: (fix) Previously the default image was selected, now select the first English image if available.',
         '<li>Calendar: (fix) unable to click on calendar in chromium 101.',
         '<li>SearchEngines: (new) Add ETag (extratorrent.st), IsoHunt2 (isohunt.tv), TGx (torrentgalaxy.to), EXT (ext.to), KATws (kickass.ws), Knaben (knaben.eu).',
         '<li>SearchEngines: (del) Katcr is broken, TorrentZ2 is gone, ETTV is gone, Zooqle is gone.',
