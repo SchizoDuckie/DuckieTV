@@ -54,36 +54,49 @@ DuckieTV.factory('FanartService', ['$q', '$http', function($q, $http) {
       if (!fanart) {
         return null
       }
-      if (!('tvposter' in fanart) && !('clearlogo' in fanart) && ('hdtvlogo' in fanart)) {
-        var hdtvlogo = fanart.hdtvlogo[0] // default
+      // prefer english over others, and tvposter over clearlogo over hdtvlogo
+      var hdtvlogo
+      var clearlogo
+      var tvposter
+      if ('hdtvlogo' in fanart) {
+        hdtvlogo = fanart.hdtvlogo[0] // default
         for (var i=0; i<fanart.hdtvlogo.length; i++) {
           if (fanart.hdtvlogo[i].lang == "en") {
               hdtvlogo = fanart.hdtvlogo[i]
               break
           }
         }
-        return hdtvlogo.url.replace('/fanart', '/preview')
       }
-      if (!('tvposter' in fanart) && ('clearlogo' in fanart)) {
-        var clearlogo = fanart.clearlogo[0] // default
+      if ('clearlogo' in fanart) {
+        clearlogo = fanart.clearlogo[0] // default
         for (var i=0; i<fanart.clearlogo.length; i++) {
           if (fanart.clearlogo[i].lang == "en") {
             clearlogo = fanart.clearlogo[i]
             break
           }
         }
-        return clearlogo.url.replace('/fanart', '/preview')
       }
       if ('tvposter' in fanart) {
-        var tvposter = fanart.tvposter[0] // default
+        tvposter = fanart.tvposter[0] // default
         for (var i=0; i<fanart.tvposter.length; i++) {
           if (fanart.tvposter[i].lang == "en") {
             tvposter = fanart.tvposter[i]
             break
           }
         }
-        return tvposter.url.replace('/fanart', '/preview')
       }
+      if (tvposter && tvposter.lang == "en")
+        return tvposter.url.replace('/fanart', '/preview')
+      if (clearlogo && clearlogo.lang == "en")
+        return clearlogo.url.replace('/fanart', '/preview')
+      if (hdtvlogo && hdtvlogo.lang == "en")
+        return hdtvlogo.url.replace('/fanart', '/preview')
+      if (tvposter)
+        return tvposter.url.replace('/fanart', '/preview')
+      if (clearlogo)
+        return clearlogo.url.replace('/fanart', '/preview')
+      if (hdtvlogo)
+        return hdtvlogo.url.replace('/fanart', '/preview')
       return null
     },
     getSeasonPoster: function(seasonnumber, fanart) {
@@ -91,31 +104,40 @@ DuckieTV.factory('FanartService', ['$q', '$http', function($q, $http) {
       if (!fanart) {
         return null
       }
-      if (('seasonposter' in fanart)) {
+      // prefer english over others, and seasonposter over tvposter
+      var seasonposter
+      var tvposter
+      if ('seasonposter' in fanart) {
         var hit = fanart.seasonposter.filter(function(image) {
           return parseInt(image.season) == parseInt(seasonnumber)
         })
         if (hit && hit.length > 0) {
-          var seasonposter = hit[0] // default
+          seasonposter = hit[0] // default
           for (var i=0; i<hit.length; i++) {
             if (hit[i].lang == "en") {
               seasonposter = hit[i]
               break
             }
           }
-          return seasonposter.url
         }
       }
       if (('tvposter' in fanart)) {
-        var tvposter = fanart.tvposter[0] // default
+        tvposter = fanart.tvposter[0] // default
         for (var i=0; i<fanart.tvposter.length; i++) {
           if (fanart.tvposter[i].lang == "en") {
             tvposter = fanart.tvposter[i]
             break
           }
         }
-        return tvposter.url.replace('/fanart', '/preview')
       }
+      if (seasonposter && seasonposter.lang == "en")
+        return seasonposter.url
+      if (tvposter && tvposter.lang == "en")
+        return tvposter.url.replace('/fanart', '/preview')
+      if (seasonposter)
+        return seasonposter.url
+      if (tvposter)
+        return tvposter.url.replace('/fanart', '/preview')
       return null
     },
     getEpisodePoster: function(fanart) {
@@ -123,26 +145,35 @@ DuckieTV.factory('FanartService', ['$q', '$http', function($q, $http) {
       if (!fanart) {
         return null
       }
+      // prefer english over others, and tvthumb over hdtvlogo
+      var tvthumb
+      var hdtvlogo
       if (('tvthumb' in fanart)) {
-        var tvthumb = fanart.tvthumb[0] // default
+        tvthumb = fanart.tvthumb[0] // default
         for (var i=0; i<fanart.tvthumb.length; i++) {
           if (fanart.tvthumb[i].lang == "en") {
             tvthumb = fanart.tvthumb[i]
             break
           }
         }
-        return tvthumb.url
       }
       if ('hdtvlogo' in fanart) {
-        var hdtvlogo = fanart.hdtvlogo[0] // default
+        hdtvlogo = fanart.hdtvlogo[0] // default
         for (var i=0; i<fanart.hdtvlogo.length; i++) {
           if (fanart.hdtvlogo[i].lang == "en") {
-            hdtvlogo = fanart.hdtvlogo[i].url
+            hdtvlogo = fanart.hdtvlogo[i]
             break
           }
         }
-        return hdtvlogo.url
       }
+      if (tvthumb && tvthumb.lang == "en")
+        return tvthumb.url
+      if (hdtvlogo && hdtvlogo.lang == "en")
+        return hdtvlogo.url.replace('/fanart', '/preview')
+      if (tvthumb)
+        return tvthumb.url
+      if (hdtvlogo)
+        return hdtvlogo.url.replace('/fanart', '/preview')
       return null
     },
     /**
