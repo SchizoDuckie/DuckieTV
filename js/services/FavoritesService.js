@@ -26,6 +26,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
      * Input information will always overwrite existing information.
      */
     var fillSerie = function(serie, data, fanart) {
+      // console.debug(fanart)
       data.TRAKT_ID = data.trakt_id
       data.TVDB_ID = data.tvdb_id
       data.TMDB_ID = data.tmdb_id
@@ -65,24 +66,9 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
         }
       }
       if (fanart !== null) {
-        if ('tvbanner' in fanart) {
-          serie.banner = fanart.tvbanner[0].url
-        }
-        if (!('showbackground' in fanart) && ('hdclearart' in fanart)) {
-          serie.fanart = fanart.hdclearart[0].url
-        }
-        if ('showbackground' in fanart) {
-          serie.fanart = fanart.showbackground[0].url
-        }
-        if (!('tvposter' in fanart) && !('clearlogo' in fanart) && ('hdtvlogo' in fanart)) {
-          serie.poster = fanart.hdtvlogo[0].url
-        }
-        if (!('tvposter' in fanart) && ('clearlogo' in fanart)) {
-          serie.poster = fanart.clearlogo[0].url
-        }
-        if ('tvposter' in fanart) {
-          serie.poster = fanart.tvposter[0].url.replace('/fanart', '/preview')
-        }
+        serie.banner =  FanartService.getSeriesBanner(fanart)
+        serie.fanart =  FanartService.getSeriesBackground(fanart)
+        serie.poster =  FanartService.getSeriesPoster(fanart)
       }
     }
     /**
