@@ -25,6 +25,10 @@
  *          "customDelay": <integer>||null,
  *          "alias": <string>||null,
  *          "customFormat": <string>||null,
+ *          "customSeeders": <integer>||null,
+ *          "customIncludes": <string>||null,
+ *          "customExcludes": <string>||null,
+ *          "customSeeders": <integer>||null
  *      },
  *      {
  *          "TVDB_ID": <Episode_TVDB_ID>, // included in versions upto 1.1.5
@@ -41,7 +45,7 @@ DuckieTV.factory('BackupService', ['TorrentSearchEngines', function(TorrentSearc
   var service = {
     createBackup: function() {
       // Fetch all the series
-      return CRUD.executeQuery('select Series.TRAKT_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax, Series.dlPath, Series.customDelay, Series.alias, Series.customFormat from Series').then(function(series) {
+      return CRUD.executeQuery('select Series.TRAKT_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax, Series.dlPath, Series.customDelay, Series.alias, Series.customFormat, Series.customIncludes, Series.customExcludes, Series.customSeeders from Series').then(function(series) {
         var out = {
           settings: {},
           series: {}
@@ -83,7 +87,10 @@ DuckieTV.factory('BackupService', ['TorrentSearchEngines', function(TorrentSearc
             'dlPath': serie.dlPath,
             'customDelay': serie.customDelay,
             'alias': serie.alias,
-            'customFormat': serie.customFormat
+            'customFormat': serie.customFormat,
+            'customIncludes': serie.customIncludes,
+            'customExcludes': serie.customExcludes,
+            'customSeeders': serie.customSeeders
           })
         })
 
