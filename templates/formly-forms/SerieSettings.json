@@ -85,16 +85,63 @@
         "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/custom-search/placeholder\" | translate"
     }
 }, {
-    "key": "ignoreGlobalQuality",
-    "className": "inline-checkbox-small col-xs-6",
-    "type": "input",
-    "templateOptions": {
-        "type": "checkbox",
-        "label": ""
-    },
-    "expressionProperties": {
-        "templateOptions.label": "\"COMMON/ignore-global-quality/lbl\" | translate"
-    }
+    "className": "row",
+    "fieldGroup": [{
+      "key": "customIncludes",
+      "className": "col-xs-6",
+      "type": "input",
+      "templateOptions": {
+          "type": "text",
+          "label": ""
+      },
+      "expressionProperties": {
+          "templateOptions.label": "\"custom Includes\"",
+          "templateOptions.placeholder": "\"list of any keywords that must be present in torrent titles\""
+      }
+    }, {
+      "key": "customExcludes",
+      "className": "col-xs-6",
+      "type": "input",
+      "templateOptions": {
+          "type": "text",
+          "label": ""
+      },
+      "expressionProperties": {
+          "templateOptions.label": "\"custom Excludes\"",
+          "templateOptions.placeholder": "\"list of any keywords that must not be present in torrent titles\""
+      }
+    }]
+}, {
+    "className": "row",
+    "fieldGroup": [{
+      "key": "ignoreGlobalQuality",
+      "className": "inline-checkbox-small col-xs-6",
+      "type": "input",
+      "templateOptions": {
+          "type": "checkbox",
+          "label": ""
+      },
+      "expressionProperties": {
+          "templateOptions.label": "\"COMMON/ignore-global-quality/lbl\" | translate"
+      }
+    }, {
+        "key": "customSeeders",
+        "className": "col-xs-6",
+        "type": "integer",
+        "templateOptions": {
+            "min": "0"
+        },
+        "validation": {
+            "messages": {
+                "min": "\"minimum custom seeders is 0\"",
+                "pattern": "\"enter the custom seeders as a number\""
+            }
+        },
+        "expressionProperties": {
+            "templateOptions.label": "\"custom minimum seeders required\"",
+            "templateOptions.placeholder": "\"enter a number\""
+        }
+    }]
 }, {
     "className": "row",
     "fieldGroup": [{
@@ -163,7 +210,7 @@
     "type": "input",
     "hideExpression": "!model.isDownloadPathSupportedRemote || model.isDownloadPathSupportedLocal",
     "templateOptions": {
-        "type": "text", 
+        "type": "text",
         "label": ""
     },
     "expressionProperties": {
@@ -201,7 +248,7 @@
     "type": "input",
     "hideExpression": "model.isDownloadPathSupportedRemote || model.isDownloadPathSupportedLocal",
     "templateOptions": {
-        "type": "text", 
+        "type": "text",
         "label": ""
     },
     "expressionProperties": {

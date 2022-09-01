@@ -97,6 +97,7 @@ DuckieTV.controller('serieSettingsCtrl', ['$scope', '$filter', '$uibModalInstanc
       $scope.model.ignoreGlobalIncludes = $scope.model.ignoreGlobalIncludes ? 1 : 0
       $scope.model.ignoreGlobalExcludes = $scope.model.ignoreGlobalExcludes ? 1 : 0
       // despite (because?) type=number, some invalid data trapped by formly returns undefined. so this ensures that we persist as null to stop downstream errors.
+      $scope.model.customSeeders = (typeof $scope.model.customSeeders === 'undefined') ? null : $scope.model.customSeeders
       $scope.model.customSearchSizeMin = (typeof $scope.model.customSearchSizeMin === 'undefined') ? null : $scope.model.customSearchSizeMin
       $scope.model.customSearchSizeMax = (typeof $scope.model.customSearchSizeMax === 'undefined') ? null : $scope.model.customSearchSizeMax
       $scope.model.customDelay = (typeof $scope.model.customDelayInput === 'undefined' || $scope.model.customDelayInput === null || $scope.model.customDelayInput === '') ? null : $scope.model.customDelayInput.dhmToMins()

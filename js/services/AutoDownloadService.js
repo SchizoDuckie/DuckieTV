@@ -29,7 +29,9 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
         if (csm == 0) {
           csmExtra = ''
         }
+        if (serie.customSeeders && serie.customSeeders != null) csmExtra = csmExtra + ' [' + serie.customSeeders + ']'
         var css = (serie.customSearchString && serie.customSearchString != '') ? 1 : 0
+        var cs = (serie.customSeeders && serie.customSeeders != null) ? 1 : 0
         var sp = (serie.searchProvider && serie.searchProvider != null) ? ' (' + serie.searchProvider + ')' : ''
         service.activityList.push({
           'search': search,
@@ -37,6 +39,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
           'csmExtra': csmExtra,
           'csm': csm,
           'css': css,
+          'cs': cs,
           'ipq': serie.ignoreGlobalQuality,
           'irk': serie.ignoreGlobalIncludes,
           'iik': serie.ignoreGlobalExcludes,
@@ -144,7 +147,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
       },
 
       autoDownload: function(serie, episode) {
-        var minSeeders = SettingsService.get('torrenting.min_seeders') // Minimum amount of seeders required, default 50
+        var minSeeders = (serie.customSeeders && serie.customSeeders != null) ? serie.customSeeders : SettingsService.get('torrenting.min_seeders') // Minimum amount of seeders required, default 50
         var preferredQuality = SettingsService.get('torrenting.searchquality') // Preferred Quality to append to search string.
         var requireKeywords = SettingsService.get('torrenting.require_keywords') // Any words in the Require Keywords list causes the result to be filtered in.
         var requireKeywordsModeOR = SettingsService.get('torrenting.require_keywords_mode_or') // set the Require Keywords mode (true=Any or false=All)
@@ -295,8 +298,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
 
               NotificationService.notify(
                 [serie.name, episode.getFormattedEpisode()].join(' '),
-                [items[0].releasename, 'Download started on', DuckieTorrent.getClient().getName()].join(' '),
-                debugNotify
+                [items[0].releasename, 'Download started on', DuckieTorrent.getClient().getName()].join(' ')
               )
 
               if (items[0].magnetUrl) {
