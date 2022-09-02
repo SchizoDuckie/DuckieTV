@@ -36,6 +36,15 @@ DuckieTV.controller('AutodlstatusCtrl', ['$scope', '$filter', '$injector', 'Sett
     var csmLbl = $filter('translate')('COMMON/custom-search-size-min-max/lbl')
     // Custom Search Size Min/Max
 
+    var csLbl = 'custom Seeders'
+    // Custom Seeders
+
+    var ciLbl = 'custom Includes'
+    // Custom Includes
+
+    var ceLbl = 'custom Excludes'
+    // Custom Excludes
+
     var cssLbl = $filter('translate')('COMMON/custom-search-string/lbl')
     // Custom Search String
 
@@ -118,6 +127,9 @@ DuckieTV.controller('AutodlstatusCtrl', ['$scope', '$filter', '$injector', 'Sett
 
     $scope.getTooltip = function(option, item) {
       switch (option) {
+        case 'cs': return (item.cs == 0) ? notusingLbl + ' ' + csLbl : usingLbl + ' ' + csLbl + ' [' + item.serie.customSeeders + ']'
+        case 'ci': return (item.ci == 0) ? notusingLbl + ' ' + ciLbl : usingLbl + ' ' + ciLbl + ' {' + item.serie.customIncludes + '}'
+        case 'ce': return (item.ce == 0) ? notusingLbl + ' ' + ceLbl : usingLbl + ' ' + ceLbl + ' <' + item.serie.customExcludes + '>'
         case 'csm': return (item.csm == 0) ? notusingLbl + ' ' + csmLbl : usingLbl + ' ' + csmLbl + ' (' + (item.serie.customSearchSizeMin == null ? '-' : item.serie.customSearchSizeMin) + '/' + (item.serie.customSearchSizeMax == null ? '-' : item.serie.customSearchSizeMax) + ')'
         case 'css': return (item.css == 0) ? notusingLbl + ' ' + cssLbl : usingLbl + ' ' + cssLbl + ' (' + item.serie.customSearchString + ')'
         case 'ipq': return (item.ipq == 0) ? usingLbl + ' ' + pqLbl : notusingLbl + ' ' + pqLbl

@@ -13,33 +13,39 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
 
       activityUpdate: function(serie, episode, search, status, extra) {
         var csm = 0
-        var csmExtra = ''
+        var searchExtra = ''
         if (serie.customSearchSizeMin && serie.customSearchSizeMin != null) {
           csm = 1
-          csmExtra = ' (' + serie.customSearchSizeMin.toString() + '/'
+          searchExtra = ' (' + serie.customSearchSizeMin.toString() + '/'
         } else {
-          csmExtra = ' (-/'
+          searchExtra = ' (-/'
         }
         if (serie.customSearchSizeMax && serie.customSearchSizeMax != null) {
           csm = 1
-          csmExtra = csmExtra + serie.customSearchSizeMax.toString() + ')'
+          searchExtra = searchExtra + serie.customSearchSizeMax.toString() + ')'
         } else {
-          csmExtra = csmExtra + '-)'
+          searchExtra = searchExtra + '-)'
         }
         if (csm == 0) {
-          csmExtra = ''
+          searchExtra = ''
         }
-        if (serie.customSeeders && serie.customSeeders != null) csmExtra = csmExtra + ' [' + serie.customSeeders + ']'
         var css = (serie.customSearchString && serie.customSearchString != '') ? 1 : 0
         var cs = (serie.customSeeders && serie.customSeeders != null) ? 1 : 0
+        if (cs) searchExtra = searchExtra + ' [' + serie.customSeeders + ']'
+        var ci = (serie.customIncludes && serie.customIncludes != null) ? 1 : 0
+        if (ci) searchExtra = searchExtra + ' {' + serie.customIncludes + '}'
+        var ce = (serie.customExcludes && serie.customExcludes != null) ? 1 : 0
+        if (ce) searchExtra = searchExtra + ' <' + serie.customExcludes + '>'
         var sp = (serie.searchProvider && serie.searchProvider != null) ? ' (' + serie.searchProvider + ')' : ''
         service.activityList.push({
           'search': search,
           'searchProvider': sp,
-          'csmExtra': csmExtra,
+          'searchExtra': searchExtra,
           'csm': csm,
           'css': css,
           'cs': cs,
+          'ci': ci,
+          'ce': ce,
           'ipq': serie.ignoreGlobalQuality,
           'irk': serie.ignoreGlobalIncludes,
           'iik': serie.ignoreGlobalExcludes,
@@ -147,30 +153,37 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
       },
 
       autoDownload: function(serie, episode) {
-        var minSeeders = (serie.customSeeders && serie.customSeeders != null) ? serie.customSeeders : SettingsService.get('torrenting.min_seeders') // Minimum amount of seeders required, default 50
-        var preferredQuality = SettingsService.get('torrenting.searchquality') // Preferred Quality to append to search string.
-        var requireKeywords = SettingsService.get('torrenting.require_keywords') // Any words in the Require Keywords list causes the result to be filtered in.
-        var requireKeywordsModeOR = SettingsService.get('torrenting.require_keywords_mode_or') // set the Require Keywords mode (true=Any or false=All)
-        var ignoreKeywords = SettingsService.get('torrenting.ignore_keywords') // Any words in the Ignore Keywords list causes the result to be filtered out.
-        var globalSizeMin = SettingsService.get('torrenting.global_size_min') // torrents smaller than this are filtered out
-        var globalSizeMax = SettingsService.get('torrenting.global_size_max') // torrents larger than this are filtered out
-        var searchEngine = TorrentSearchEngines.getDefaultEngine()
+        var hasCustomSeeders = (serie.customSeeders && serie.customSeeders != null) ? 1 : 0
+        var hasCustomIncludes = (serie.customIncludes && serie.customIncludes != null) ? 1 : 0
+        var hasCustomExcludes = (serie.customExcludes && serie.customExcludes != null) ? 1 : 0
+
+        // Minimum amount of seeders required, default 50, overridden by customSeeders
+        var minSeeders = (hasCustomSeeders) ? serie.customSeeders : SettingsService.get('torrenting.min_seeders')
+        // Preferred Quality to append to search string.
+        var preferredQuality = (serie.ignoreGlobalQuality != 0) ? '' : SettingsService.get('torrenting.searchquality')
+
+        // Any words in the Ignore Keywords list causes the result to be filtered out.
+        var ignoreKeywords = (hasCustomExcludes) ? serie.customExcludes + ' ' + SettingsService.get('torrenting.ignore_keywords') : SettingsService.get('torrenting.ignore_keywords')
+        // series custom settings specify to ignore the Global Ignore Keywords List
+        if (serie.ignoreGlobalExcludes != 0) ignoreKeywords = (hasCustomExcludes) ? serie.customExcludes : ''
+
+        // Any words in the Require Keywords list causes the result to be filtered in.
+        var requireKeywords = (hasCustomIncludes) ? serie.customIncludes + ' ' + SettingsService.get('torrenting.require_keywords') : SettingsService.get('torrenting.require_keywords')
+        // series custom settings specify to ignore the Global Require Keywords List
+        if (serie.ignoreGlobalIncludes != 0) requireKeywords = (hasCustomIncludes) ? serie.customIncludes : ''
+
+        // torrents smaller than this are filtered out
+        var globalSizeMin = SettingsService.get('torrenting.global_size_min')
+        // torrents larger than this are filtered out
+        var globalSizeMax = SettingsService.get('torrenting.global_size_max')
+        // series custom search engine specified or default SE
+        var searchEngine = (serie.searchProvider != null) ? TorrentSearchEngines.getSearchEngine(serie.searchProvider) : TorrentSearchEngines.getDefaultEngine()
         var label = (SettingsService.get('torrenting.label')) ? serie.name : null
-        var RequireKeywords_String = '' // for use in filterByScore when Require Keywords mode is set to ALL
-        if (serie.ignoreGlobalQuality != 0) {
-          preferredQuality = '' // series custom settings specify to ignore the preferred quality
-        }
-        if (serie.ignoreGlobalIncludes != 0) {
-          requireKeywords = '' // series custom settings specify to ignore the Require Keywords List
-        } else {
-          RequireKeywords_String = requireKeywordsModeOR ? '' : ' ' + requireKeywords // for use with filterByScore when Require Keywords mode is set to ALL
-        }
-        if (serie.ignoreGlobalExcludes != 0) {
-          ignoreKeywords = '' // series custom settings specify to ignore the Ignore Keywords List
-        }
-        if (serie.searchProvider != null) {
-          searchEngine = TorrentSearchEngines.getSearchEngine(serie.searchProvider) // series custom search engine specified
-        }
+
+        // set the Require Keywords mode (true=Any or false=All)
+        var requireKeywordsModeOR = SettingsService.get('torrenting.require_keywords_mode_or')
+        // used to add to query when Require Keywords mode is set to ALL
+        var RequireKeywords_String = (requireKeywordsModeOR) ? '' : requireKeywords
 
         // Fetch the Scene Name for the series and compile the search string for the episode with the quality requirement.
         return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(searchString) {
@@ -195,9 +208,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
            * Any words in the Require Keywords list causes the result to be filtered in.
            */
           function filterRequireKeywords(item) {
-            if (requireKeywords === '') {
-              return true
-            }
+            if (requireKeywords === '') return true
 
             var score = 0
             var query = requireKeywords.toLowerCase().split(' ')
@@ -215,9 +226,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
            * Any words in the ignore keyword list causes the result to be filtered out.
            */
           function filterIgnoreKeywords(item) {
-            if (ignoreKeywords === '') {
-              return true
-            }
+            if (ignoreKeywords === '') return true
 
             var score = 0
             var query = ignoreKeywords.toLowerCase().split(' ')
