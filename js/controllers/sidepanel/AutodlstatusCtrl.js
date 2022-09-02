@@ -36,13 +36,13 @@ DuckieTV.controller('AutodlstatusCtrl', ['$scope', '$filter', '$injector', 'Sett
     var csmLbl = $filter('translate')('COMMON/custom-search-size-min-max/lbl')
     // Custom Search Size Min/Max
 
-    var csLbl = 'custom Seeders'
+    var csLbl = $filter('translate')('COMMON/custom-seeders/lbl')
     // Custom Seeders
 
-    var ciLbl = 'custom Includes'
+    var ciLbl = $filter('translate')('COMMON/custom-includes/lbl')
     // Custom Includes
 
-    var ceLbl = 'custom Excludes'
+    var ceLbl = $filter('translate')('COMMON/custom-excludes/lbl')
     // Custom Excludes
 
     var cssLbl = $filter('translate')('COMMON/custom-search-string/lbl')

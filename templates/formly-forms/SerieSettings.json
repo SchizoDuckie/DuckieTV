@@ -95,8 +95,8 @@
           "label": ""
       },
       "expressionProperties": {
-          "templateOptions.label": "\"custom Includes\"",
-          "templateOptions.placeholder": "\"list of any keywords that must be present in torrent titles\""
+          "templateOptions.label": "\"COMMON/custom-includes/lbl\" | translate",
+          "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/custom-includes/placeholder\" | translate"
       }
     }, {
       "key": "customExcludes",
@@ -107,8 +107,8 @@
           "label": ""
       },
       "expressionProperties": {
-          "templateOptions.label": "\"custom Excludes\"",
-          "templateOptions.placeholder": "\"list of any keywords that must not be present in torrent titles\""
+          "templateOptions.label": "\"COMMON/custom-excludes/lbl\" | translate",
+          "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/custom-excludes/placeholder\" | translate"
       }
     }]
 }, {
@@ -129,17 +129,17 @@
         "className": "col-xs-6",
         "type": "integer",
         "templateOptions": {
-            "min": "0"
+            "min": "1"
         },
         "validation": {
             "messages": {
-                "min": "\"minimum custom seeders is 0\"",
-                "pattern": "\"enter the custom seeders as a number\""
+                "min": "\"SERIESETTINGSCTRLjs/custom-seeders-min/alert\" | translate",
+                "pattern": "\"SERIESETTINGSCTRLjs/custom-seeders/placeholder\" | translate"
             }
         },
         "expressionProperties": {
-            "templateOptions.label": "\"custom minimum seeders required\"",
-            "templateOptions.placeholder": "\"enter a number\""
+            "templateOptions.label": "\"COMMON/custom-seeders/lbl\" | translate",
+            "templateOptions.placeholder": "\"SERIESETTINGSCTRLjs/custom-seeders/placeholder\" | translate"
         }
     }]
 }, {
