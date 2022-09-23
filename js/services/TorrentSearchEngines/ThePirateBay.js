@@ -5,7 +5,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         mirror: SettingsService.get('mirror.ThePirateBay'),
         mirrorSettingsKey: 'ThePirateBay.mirror',
         mirrorResolver: 'ThePirateBayMirrorResolver',
-        includeBaseURL: true,
+        includeBaseURL: false,
         endpoints: {
           search: '/search/%s/0/%o/0'
         },
