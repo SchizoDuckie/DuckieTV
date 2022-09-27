@@ -145,7 +145,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'mirror.1337x': 'https://1337x.to',
         'mirror.ETag': 'https://extratorrent.st',
         'mirror.EXT': 'https://ext.to',
-        'mirror.EzTVag': 'https://eztv.re',
+        'mirror.EzTVag': 'https://eztv.wf',
         'mirror.Idope': 'https://idope.se',
         'mirror.IsoHunt2': 'https://isohunt.tv',
         'mirror.KATws': 'https://kickass.ws',
