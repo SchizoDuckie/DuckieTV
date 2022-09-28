@@ -6,10 +6,10 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         mirrorResolver: null,
         includeBaseURL: false,
         endpoints: {
-          search: '/search/?cat=All&q=%s&fast=0&s=%o'
+          search: '/search/%s/0/1/%o'
         },
         selectors: {
-          resultContainer: 'table#myTable > tbody > tr',
+          resultContainer: 'tr[title^="Cached "]',
           releasename: ['td:nth-child(2) a', 'innerText'],
           magnetUrl: ['td:nth-child(2) a', 'href'],
           size: ['td:nth-child(3)', 'innerText'],
@@ -18,10 +18,10 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           detailUrl: ['td:last-child a', 'href']
         },
         orderby: {
-          age: {d: 'Date', a: 'Date'},
-          leechers: {d: 'Peers', a: 'Peers'},
-          seeders: {d: 'Seeders', a: 'Seeders'},
-          size: {d: 'Size', a: 'Size'}
+          age: {d: '+date', a: '-date'},
+          leechers: {d: '+peers', a: '-peers'},
+          seeders: {d: '+seeders', a: '-seeders'},
+          size: {d: '+bytes', a: '-bytes'}
         }
       }, $q, $http, $injector))
     }
