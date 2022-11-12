@@ -81,10 +81,10 @@ DuckieTV.factory('RarBG', ['SettingsService', '$q', '$http',
      */
     var nextRequest = new Date().getTime()
 
-    var promiseRequest = function(type, param, param2, param3, promise) {
+    var promiseRequest = function(type, param, param2, param3, promise, extraDelay) {
       var url = getUrl(type, param, param2, param3)
       return $q(function(resolve, reject) {
-        var timeout = (type === 'token') ? 0 : 2100
+        var timeout = (type === 'token') ? 5000 : 2500 + extraDelay
         nextRequest = nextRequest + timeout
         setTimeout(function() {
           $http.get(url, {
@@ -132,7 +132,8 @@ DuckieTV.factory('RarBG', ['SettingsService', '$q', '$http',
           activeSearchRequest.resolve()
         }
       },
-      search: function(what, noCancel, orderBy, isTokenExpired) {
+      search: function(what, noCancel, orderBy, isTokenExpired, extraDelay) {
+        extraDelay = (extraDelay == undefined) ? 0 : 2500
         noCancel = (noCancel == undefined) ? false : noCancel
         orderBy = (orderBy == undefined) ? 'seeders.d' : orderBy
         isTokenExpired = (isTokenExpired == undefined) ? false : isTokenExpired
@@ -142,7 +143,7 @@ DuckieTV.factory('RarBG', ['SettingsService', '$q', '$http',
         if (!activeSearchRequest) {
           activeSearchRequest = $q.defer()
           return getToken(isTokenExpired).then(function(token) {
-            return promiseRequest('search', token, what, orderBy, activeSearchRequest.promise).then(function(results) {
+            return promiseRequest('search', token, what, orderBy, activeSearchRequest.promise, extraDelay).then(function(results) {
               if (activeSearchRequest && activeSearchRequest.resolve) {
                 activeSearchRequest.resolve(true)
               }
@@ -150,7 +151,7 @@ DuckieTV.factory('RarBG', ['SettingsService', '$q', '$http',
               if (results === 4) { // token expired
                 return service.search(what, true, orderBy, true)
               } else if (results === 5) { // retry later
-                return service.search(what, true, orderBy)
+                return service.search(what, true, orderBy, false , true)
               }
               return results
             })
