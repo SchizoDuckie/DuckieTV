@@ -133,7 +133,7 @@ DuckieTV.factory('RarBG', ['SettingsService', '$q', '$http',
         }
       },
       search: function(what, noCancel, orderBy, isTokenExpired, extraDelay) {
-        extraDelay = (extraDelay == undefined) ? 0 : 2500
+        extraDelay = (extraDelay == undefined) ? 0 : 5000
         noCancel = (noCancel == undefined) ? false : noCancel
         orderBy = (orderBy == undefined) ? 'seeders.d' : orderBy
         isTokenExpired = (isTokenExpired == undefined) ? false : isTokenExpired
@@ -151,7 +151,7 @@ DuckieTV.factory('RarBG', ['SettingsService', '$q', '$http',
               if (results === 4) { // token expired
                 return service.search(what, true, orderBy, true)
               } else if (results === 5) { // retry later
-                return service.search(what, true, orderBy, false , true)
+                return service.search(what, false, orderBy, false , true)
               }
               return results
             })
