@@ -84,7 +84,7 @@ DuckieTV.factory('RarBG', ['SettingsService', '$q', '$http',
     var promiseRequest = function(type, param, param2, param3, promise, extraDelay) {
       var url = getUrl(type, param, param2, param3)
       return $q(function(resolve, reject) {
-        var timeout = (type === 'token') ? 5000 : 2500 + extraDelay
+        var timeout = (type === 'token') ? 5000 : 5000 + extraDelay
         nextRequest = nextRequest + timeout
         setTimeout(function() {
           $http.get(url, {
