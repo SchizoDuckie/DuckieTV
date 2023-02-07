@@ -118,7 +118,7 @@ DuckieTV
   .run(['SettingsService', 'SceneXemResolver',
     function(SettingsService, SceneXemResolver) {
       if (SettingsService.get('torrenting.enabled')) {
-        console.info('Initializing Xross Entity Mapping (http://thexem.de/) service for Scene Name episode format.')
+        console.info('Initializing Xross Entity Mapping (https://thexem.info/) service for Scene Name episode format.')
         SceneXemResolver.initialize()
       }
     }
