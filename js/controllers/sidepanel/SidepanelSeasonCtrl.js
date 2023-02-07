@@ -78,10 +78,8 @@ DuckieTV.controller('SidepanelSeasonCtrl', ['$rootScope', '$scope', '$state', '$
     }
 
     vm.getSortEpisodeNumber = function(episode) {
-      var sn = episode.seasonnumber.toString()
-      var en = episode.episodenumber.toString()
-
-      var out = ['S', sn.length === 1 ? '0' + sn : sn, 'E', en.length === 1 ? '00' + en : en.length === 2 ? '0' + en : en].join('')
+      var en = episode.episodenumber
+      var out = ['S', sn.length === 1 ? '0' + sn : sn, 'E', en.length === 1 ? '000' + en : en.length === 2 ? '00' + en : en.length === 3 ? '0' + en : en].join('')
       return out
     }
 
