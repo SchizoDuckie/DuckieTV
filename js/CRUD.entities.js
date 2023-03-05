@@ -11,19 +11,73 @@
  * These will be extended by CreateReadUpdateDelete.js. It is important to call the CRUD.Entity constructor
  * So that each instance can be set up with instance __values__ and __dirtyValues__ properties.
  */
+
+/**
+ * @constructor
+ * @extends CRUD.Entity
+ * @property {number} ID_Serie
+ * @property {string} name
+ * @property {string} overview
+ * @property {number} TRAKT_ID
+ * @property {number} TVDB_ID
+ * @property {number} TMDB_ID
+ * @property {string} IMDB_ID
+ * @property {string} poster
+ * @property {string} fanart
+ */
 function Serie() {
   CRUD.Entity.call(this)
 }
 
+/**
+ * @constructor
+ * @extends CRUD.Entity
+ * @property {number} ID_Season
+ * @property {number} seasonnumber
+ * @property {string} overview
+ * @property {number} TRAKT_ID
+ * @property {number} TMDB_ID
+ * @property {string} poster
+ */
 function Season() {
   CRUD.Entity.call(this)
 }
 
+/**
+ * @constructor
+ * @extends CRUD.Entity
+ * @property {number} ID_Episode
+ * @property {number} ID_Serie
+ * @property {number} ID_Season
+ * @property {number} seasonnumber
+ * @property {number} episodenumber
+ * @property {string} episodename
+ * @property {number} TRAKT_ID
+ * @property {number} TVDB_ID
+ * @property {number} TMDB_ID
+ * @property {string} IMDB_ID
+ * @property {string} filename
+ */
 function Episode() {
   CRUD.Entity.call(this)
 }
 
 function Fanart() {
+  CRUD.Entity.call(this)
+}
+
+/**
+ * @constructor
+ * @extends CRUD.Entity
+ * @property {number} id
+ * @property {number} entity_type
+ * @property {number} TMDB_ID
+ * @property {string} poster
+ * @property {string} fanart
+ * @property {string} screenshot
+ * @property {number} added
+ */
+function TMDBFanart() {
   CRUD.Entity.call(this)
 }
 
@@ -586,6 +640,18 @@ CRUD.define(Fanart, {
   indexes: ['TVDB_ID']
 }, {
 
+})
+
+CRUD.define(TMDBFanart, {
+  className: 'TMDBFanart',
+  table: 'TMDBFanart',
+  primary: 'id',
+  fields: ['id', 'entity_type', 'TMDB_ID', 'poster', 'fanart', 'screenshot', 'added'],
+  relations: {},
+  createStatement: 'CREATE TABLE TMDBFanart (id INTEGER PRIMARY KEY NOT NULL, entity_type INTEGER NOT NULL, tmdb_id INTEGER NOT NULL, poster TEXT DEFAULT(NULL), fanart TEXT DEFAULT(NULL), screenshot TEXT DEFAULT(NULL), added DATE DEFAULT(NULL))',
+  adapter: 'dbAdapter',
+  indexes: ['entity_type', 'TMDB_ID']
+}, {
 })
 
 CRUD.define(Jackett, {

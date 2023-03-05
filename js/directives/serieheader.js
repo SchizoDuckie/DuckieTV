@@ -14,12 +14,19 @@ DuckieTV.directive('serieheader', ['FanartService', function (FanartService) {
       'noTitle': '=noTitle'
     },
     templateUrl: 'templates/serieHeader.html',
-    controller: ['$element', '$attrs', '$scope', function ($element, $attrs, $scope) {
+    link: function ($scope, element, attrs) {
+      $scope.posterUrl = $scope.data.poster
       if (!$scope.data.poster) {
-        FanartService.get($scope.data.tvdb_id).then(function (found) {
-          $scope.data.poster = found.poster
+        $scope.posterUrl = '_loading'
+
+        FanartService.getShowImages($scope.data).then(function (fanart) {
+          $scope.posterUrl = fanart?.poster
+
+          // mutate poster on serie, this is a hack to mutate the data for the trakt side panel when you click on a show
+          $scope.data.poster = fanart?.poster
+          $scope.$digest()
         })
       }
-    }]
+    }
   }
 }])

@@ -21,6 +21,23 @@ DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsServi
     $scope.optInTrackingEnabled = localStorage.getItem('optin_error_reporting')
     $scope.uniqueTrackingID = localStorage.getItem('uniqueId')
 
+    $scope.clearStatData = function(stat) {
+      if (!stat || !stat.allowDelete || !stat.tableName) {
+        return
+      }
+
+      if (!stat.clicked) {
+        stat.clicked = true
+        return
+      }
+
+      CRUD.executeQuery(`DELETE FROM ${stat.tableName}`).then(() => {
+        stat.data = 0
+        stat.clicked = false
+        $scope.$digest()
+      })
+    }
+
     $scope.toggleOptInErrorReporting = function() {
       if (localStorage.getItem('optin_error_reporting')) {
         localStorage.removeItem('optin_error_reporting')
@@ -49,11 +66,13 @@ DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsServi
       }
 
       // Get Database Stats
-      var countEntity = function(entity) {
-        CRUD.executeQuery('select count(*) as count from ' + entity).then(function(result) {
+      var countEntity = function(tableName, entityName, allowDelete) {
+        CRUD.executeQuery('select count(*) as count from ' + tableName).then(function(result) {
           $scope.statistics.push({
-            name: 'DB ' + entity,
-            data: result.rows[0].count
+            tableName: tableName,
+            name: 'DB ' + (entityName || tableName),
+            data: result.rows[0].count,
+            allowDelete: allowDelete
           })
         })
       }
@@ -192,7 +211,8 @@ DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsServi
       countHiddenShows()
       countEntity('Seasons')
       countEntity('Episodes')
-      countEntity('Fanart')
+      countEntity('Fanart', 'Fanart.TV (legacy)', true)
+      countEntity('TMDBFanart', null, true)
       countEntity('Jackett')
 
       // dump filtered user preferences, redact passwords

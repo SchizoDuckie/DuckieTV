@@ -11,16 +11,8 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
        * Update shows in favorites list
        * Fetches all updated shows from trakt.tv since date of passed timestamp, checks if local series were updated
        * before that, and updates those.
-       * @param Date from fetch all updates from Trakt.TV since this date (limited to 10.000)
        * @return promise updated items
        */
-      getDateString: function(date) {
-        if (!date || isNaN(date.getTime())) {
-          date = new Date()
-        }
-        return date.toISOString().split('T')[0]
-      },
-
       update: async function() {
         var updatedCount = 0
         var i = -1
@@ -51,7 +43,7 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
             await FavoritesService.addFavorite(newSerie, undefined, undefined, true)
             updatedCount++
           } catch (err) {
-            console.error(err)
+            console.error('Error updating', serie.name, `[Id=${serie.ID_Serie}] [Trakt=${serie.TRAKT_ID}]`, err)
             // ignored
           }
         }
@@ -69,41 +61,23 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
        * Fetches images for any new shows added to the trending list
        * Existing shows with posters use their existing poster urls
        */
-      updateCachedTrending: function() {
-        var oldCache = localStorage.getItem('trakttv.trending.cache')
-        oldCache = oldCache ? JSON.parse(oldCache) : []
-        var oldCacheIds = oldCache ? oldCache.map(function(a) {
-          return a.trakt_id
-        }) : []
-
-        return TraktTVv2.trending(true).then(function(result) {
-          return Promise.all(result.map(function(serie) {
-            return new Promise(function(resolve) {
-              // Delete bunch of stuff we don't need to save space
-              delete serie.ids
-              delete serie.available_translations
-              delete serie.title
-              delete serie.tvrage_id
-              delete serie.imdb_id
-              delete serie.updated_at
-              delete serie.aired_episodes
-              delete serie.homepage
-              delete serie.slug_id
-              var originalSerie = oldCache[oldCacheIds.indexOf(serie.trakt_id)]
-              if (originalSerie && originalSerie.poster) {
-                serie.poster = originalSerie.poster
-                return resolve(serie)
-              }
-              FanartService.get(serie.tvdb_id).then(function(fanart) {
-                serie.poster = FanartService.getTrendingPoster(fanart)
-                return resolve(serie)
-              })
-            })
-          })).then(function(shows) {
-            localStorage.setItem('trakttv.trending.cache', JSON.stringify(shows))
-            return true
-          })
+      updateCachedTrending: async function() {
+        const trendingData = await TraktTVv2.trending(true)
+        const data = trendingData.map(serie => {
+          delete serie.ids
+          delete serie.available_translations
+          delete serie.title
+          delete serie.tvrage_id
+          delete serie.imdb_id
+          delete serie.updated_at
+          delete serie.aired_episodes
+          delete serie.homepage
+          delete serie.slug_id
+          return serie
         })
+
+        localStorage.setItem('trakttv.trending.cache', JSON.stringify(data))
+        return true
       }
     }
 
@@ -146,11 +120,6 @@ DuckieTV.run(['TraktTVUpdateService', 'SettingsService',
       setTimeout(updateFunc, 1000 * 60 * 60 * tuPeriod) // schedule update check every tuPeriod hour(s) for long running apps.
     }
 
-    setTimeout(updateFunc, 7000)
+    setTimeout(updateFunc, 5000)
   }
 ])
-
-/**
- * todo: create generic update service that we can extend  so that it can also fetch xem updates
- * and trakt updates
- */

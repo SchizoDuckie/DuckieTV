@@ -8,7 +8,7 @@
         <i class="glyphicon glyphicon-ban-circle" style="color:white !important"></i>
       </em>
     </div>
-    <a class="poster" ng-if="!noListButton" ui-sref="serie({id: data.ID_Serie})" ui-sref-opts="{reload: true}" lazy-background="{{data.poster}}" alt-lazy="1">
+    <a class="poster" ng-if="!noListButton" ui-sref="serie({id: data.ID_Serie})" ui-sref-opts="{reload: true}" lazy-background="{{posterUrl}}" alt-lazy="1">
       <figure>
         <div class="img"></div>
         <figcaption>
@@ -16,7 +16,7 @@
         </figcaption>
       </figure>
     </a>
-    <a class="poster" ng-if="noListButton" lazy-background="{{data.poster}}" alt-lazy="1">
+    <a class="poster" ng-if="noListButton" lazy-background="{{posterUrl}}" alt-lazy="1">
       <figure>
         <div class="img"></div>
         <figcaption>

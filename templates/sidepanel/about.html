@@ -53,8 +53,15 @@
           </tr>
           <tr ng-repeat="stats in statistics">
             <td style='width:160px; white-space:nowrap;'>{{::stats.name}}</td>
-            <td ng-if="stats.data.length && stats.data.length > 200"><pre style="max-width:480px; border:0; padding:0;background-color:transparent;color:white;">{{::stats.data}}</pre></td>
-            <td ng-if="!stats.data.length || stats.data.length <= 200">{{::stats.data}}</td>
+            <td>
+              <span ng-if="!stats.data.length || stats.data.length <= 200">{{stats.data}}</span>
+              <pre ng-if="stats.data.length && stats.data.length > 200" style="max-width:480px; border:0; padding:0;background-color:transparent;color:white;">{{stats.data}}</pre>
+              <span ng-if="stats.allowDelete" class="btn btn-danger btn-sm" ng-click="clearStatData(stats)">
+                <span ng-show="!stats.clicked" translate-once>COMMON/clear/btn</span>
+                <span ng-show="stats.clicked" translate-once>COMMON/are-you-sure/lbl</span>
+                <span class="glyphicon glyphicon-trash"></span>
+              </span>
+            </td>
           </tr>
         </table>
       </td>

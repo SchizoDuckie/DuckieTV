@@ -24,9 +24,11 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
     /**
      * Helper function to map properties from the input data on a serie from Trakt.TV into a Serie CRUD object.
      * Input information will always overwrite existing information.
+     * @param {Serie} serie the serie to update
+     * @param {Object} data from trakt
+     * @param {TMDBFanart} fanart
      */
     var fillSerie = function(serie, data, fanart) {
-      // console.debug(fanart)
       data.TRAKT_ID = data.trakt_id
       data.TVDB_ID = data.tvdb_id
       data.TMDB_ID = data.tmdb_id
@@ -65,17 +67,17 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
           serie[i] = data[i]
         }
       }
-      if (fanart !== null) {
-        serie.banner =  FanartService.getSeriesBanner(fanart)
-        serie.fanart =  FanartService.getSeriesBackground(fanart)
-        serie.poster =  FanartService.getSeriesPoster(fanart)
+
+      if (fanart) {
+        serie.fanart = fanart.fanart
+        serie.poster = fanart.poster
       }
     }
     /**
      * Helper function to map properties from the input data from Trakt.TV into a Episode CRUD object.
      * Input information will always overwrite existing information.
      */
-    var fillEpisode = function(episode, data, season, serie, watched, fanart) {
+    function fillEpisode(episode, data, season, serie, watched, sceneStillImage) {
       // remap some properties on the data object to make them easy to set with a for loop. the CRUD object doesn't persist properties that are not registered, so that's cheap.
       data.TVDB_ID = data.tvdb_id
       data.TMDB_ID = data.tmdb_id
@@ -101,7 +103,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
       }
       data.absolute = (serie.isAnime()) ? data.number_abs : null
 
-      episode.filename = FanartService.getEpisodePoster(fanart)
+      episode.filename = sceneStillImage
       episode.seasonnumber = season.seasonnumber
       for (var i in data) {
         if ((i in episode)) {
@@ -155,47 +157,51 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
      * @param  object seasons extended seasons input data from Trakt
      * @return object seasonCache indexed by seasonnumber
      */
-    var updateSeasons = function(serie, seasons, fanart) {
+    async function updateSeasons(serie, seasons) {
       // console.debug("Update seasons!", seasons, fanart);
-      return serie.getSeasonsByNumber().then(function(seasonCache) { // fetch the seasons and cache them by number.
-        return Promise.all(seasons.map(function(season) {
-          var SE = (season.number in seasonCache) ? seasonCache[season.number] : new Season()
-          SE.poster = FanartService.getSeasonPoster(season.number, fanart)
-          SE.seasonnumber = season.number
-          SE.ID_Serie = serie.getID()
-          SE.overview = season.overview
-          SE.TRAKT_ID = season.trakt_id
-          SE.TMDB_ID = season.tmdb_id
-          if (service.downloadRatings && (!SE.ratingcount || SE.ratingcount + 25 > season.votes)) {
-            SE.ratings = Math.round(season.rating * 10)
-            SE.ratingcount = season.votes
-          }
-          seasonCache[season.number] = SE
-          return SE.Persist().then(function() {
-            return true
-          })
-        })).then(function() {
-          return seasonCache
-        })
-      })
+      const seasonCache = await serie.getSeasonsByNumber()
+
+      await Promise.all(seasons.map(async season => {
+        const SE = (season.number in seasonCache) ? seasonCache[season.number] : new Season()
+        SE.poster = await FanartService.getSeasonPoster(season.tmdb_id)
+        SE.seasonnumber = season.number
+        SE.ID_Serie = serie.getID()
+        SE.overview = season.overview
+        SE.TRAKT_ID = season.trakt_id
+        SE.TMDB_ID = season.tmdb_id
+        if (service.downloadRatings && (!SE.ratingcount || SE.ratingcount + 25 > season.votes)) {
+          SE.ratings = Math.round(season.rating * 10)
+          SE.ratingcount = season.votes
+        }
+        seasonCache[season.number] = SE
+        await SE.Persist()
+      }))
+
+      return seasonCache
     }
 
-    var updateEpisodes = function(serie, seasons, watched, seasonCache, fanart) {
-      // console.debug(" Update episodes!", serie, seasons, watched, seasonCache, fanart);
-      return serie.getEpisodesMap().then(function(episodeCache) {
-        return Promise.all(seasons.map(function(season) {
-          return Promise.all(season.episodes.map(function(episode) {
-            // if (episode.tvdb_id == null) return /* https://github.com/SchizoDuckie/DuckieTV/issues/1299 */
-            var dbEpisode = (!(episode.trakt_id in episodeCache)) ? new Episode() : episodeCache[episode.trakt_id]
-            return fillEpisode(dbEpisode, episode, seasonCache[season.number], serie, watched, fanart).Persist().then(function() {
-              episodeCache[episode.trakt_id] = dbEpisode
-              return true
-            })
-          }))
-        })).then(function() {
-          return episodeCache
-        })
-      })
+    /**
+     * Insert all episodes into the database and return a cached array map
+     * @param {Serie|any} serie
+     * @param seasons
+     * @param watched
+     * @param {Record<number, Season>} seasonCache
+     * @return {Promise<*>}
+     */
+    async function updateEpisodes(serie, seasons, watched, seasonCache) {
+      const episodeCache = await serie.getEpisodesMap()
+
+      await Promise.all(seasons.map(async season => {
+        const episodeImages = await FanartService.getEpisodeImagesForSeason(serie.TMDB_ID, season.number)
+        return Promise.all(season.episodes.map(async episode => {
+          const dbEpisode = (!(episode.trakt_id in episodeCache)) ? new Episode() : episodeCache[episode.trakt_id]
+          fillEpisode(dbEpisode, episode, seasonCache[season.number], serie, watched, episodeImages[episode.tmdb_id])
+          await dbEpisode.Persist()
+          episodeCache[episode.trakt_id] = dbEpisode
+        }))
+      }))
+
+      return episodeCache
     }
 
     var service = {
@@ -217,13 +223,10 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
        * @param object data input data from TraktTV or restore-from-backup
        * @param object watched { TRAKT_ID => watched episodes } mapped object to auto-mark as watched
        */
-      addFavorite: function(data, watched, useTrakt_id, refreshFanart) {
+      addFavorite: async function(data, watched, useTrakt_id, updateImages) {
         watched = watched || []
         useTrakt_id = useTrakt_id || false
-        refreshFanart = refreshFanart || false
-        // console.debug("FavoritesService.addFavorite!", data, watched, useTrakt_id, refreshFanart);
 
-        var entity = null
         if (data.title === null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
           console.error('received error data as input, removing from favorites.')
           return service.remove({
@@ -232,35 +235,26 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
           })
         }
 
-        var serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id)  || new Serie() : service.getByTVDB_ID(data.tvdb_id) || new Serie()
+        const serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id) || new Serie() : service.getByTVDB_ID(data.tvdb_id) || new Serie()
 
-        return FanartService.get(data.tvdb_id, refreshFanart).then(function(fanart) {
-          fanart = (fanart && 'json' in fanart) ? fanart.json : {}
-          fillSerie(serie, data, fanart)
-          return serie.Persist().then(function() {
-            return serie
-          }).then(function(serie) {
-            addToFavoritesList(serie) // cache serie in favoritesservice.favorites
-            $rootScope.$applyAsync()
-            entity = serie
-            return cleanupEpisodes(data.seasons, entity)
-          })
-            .then(function() {
-              return updateSeasons(entity, data.seasons, fanart)
-            })
-            .then(function(seasonCache) {
-              return updateEpisodes(entity, data.seasons, watched, seasonCache, fanart)
-            })
-            .then(function(episodeCache) {
-              $injector.get('CalendarEvents').processEpisodes(entity, episodeCache)
-              // console.debug("FavoritesService.Favorites", service.favorites)
-              $rootScope.$applyAsync()
-              $rootScope.$broadcast('background:load', serie.fanart)
-              $rootScope.$broadcast('storage:update')
-              $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie)
-              return entity
-            })
-        })
+        const showFanart = await FanartService.getShowImages(data, updateImages)
+        fillSerie(serie, data, showFanart)
+        await serie.Persist()
+
+        addToFavoritesList(serie) // cache serie in favoritesservice.favorites
+        $rootScope.$applyAsync()
+        await cleanupEpisodes(data.seasons, serie)
+        const seasonCache = await updateSeasons(serie, data.seasons)
+        const episodeCache = await updateEpisodes(serie, data.seasons, watched, seasonCache)
+
+        $injector.get('CalendarEvents').processEpisodes(serie, episodeCache)
+        // console.debug("FavoritesService.Favorites", service.favorites)
+        $rootScope.$applyAsync()
+        $rootScope.$broadcast('background:load', serie.fanart)
+        $rootScope.$broadcast('storage:update')
+        $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie)
+
+        return serie
       },
       waitForInitialization: function() {
         return $q(function(resolve) {
