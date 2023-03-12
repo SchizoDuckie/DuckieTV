@@ -168,7 +168,18 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
       remove: function(magnetHash) {
         var self = this
         if (self.config.apiVersion == 2) {
-          return this.request('removev2', magnetHash)
+          var fd = new FormData()
+          fd.append('hashes', magnetHash)
+          fd.append('deleteFiles', false)
+          var headers = {
+            'Content-Type': undefined,
+            'X-Forwarded-Host': window.location.origin
+          }
+          return $http.post(this.getUrl('removev2'), fd, {
+            headers: headers
+          }).then(function(result) {
+            if (window.debug982) console.debug('qBittorrent32plusAPI.removev2', result.data)
+          })
         } else {
           return $http.post(this.getUrl('remove'), 'hashes=' + encodeURIComponent(magnetHash), {
             headers: {
@@ -246,7 +257,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
         pause: '/command/pause',
         pausev2: '/api/v2/torrents/pause',
         remove: '/command/delete',
-        removev2: '/api/v2/torrents/delete?hashes=%s&deleteFiles=false',
+        removev2: '/api/v2/torrents/delete',
         files: '/query/propertiesFiles/%s',
         filesv2: '/api/v2/torrents/files?hash=%s',
         general: '/query/propertiesGeneral/%s',
