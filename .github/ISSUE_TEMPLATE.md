@@ -4,7 +4,7 @@
 **What version of DuckieTV are you using (Stable 1.1.x / Nightly yyyymmddHHMM)**
 ...
 
-**What is your Operating System (Windows, Mac, Linux, Android)**
+**What is your Operating System (Windows, MacOSx, Linux)**
 ...
 
 **Describe the problem you are having and steps to reproduce if available**
