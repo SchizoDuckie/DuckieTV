@@ -17,10 +17,6 @@ DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsServi
 
     $scope.statistics = []
 
-    // defined by utility.js
-    $scope.optInTrackingEnabled = localStorage.getItem('optin_error_reporting')
-    $scope.uniqueTrackingID = localStorage.getItem('uniqueId')
-
     $scope.clearStatData = function(stat) {
       if (!stat || !stat.allowDelete || !stat.tableName) {
         return
@@ -36,18 +32,6 @@ DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsServi
         stat.clicked = false
         $scope.$digest()
       })
-    }
-
-    $scope.toggleOptInErrorReporting = function() {
-      if (localStorage.getItem('optin_error_reporting')) {
-        localStorage.removeItem('optin_error_reporting')
-        localStorage.removeItem('optin_error_reporting.start_time')
-        window.location.reload()
-      } else {
-        localStorage.setItem('optin_error_reporting', true)
-        localStorage.setItem('optin_error_reporting.start_time', new Date().getTime())
-        window.location.reload()
-      }
     }
 
     $scope.copyStatsToClipboard = function() {

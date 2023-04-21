@@ -22,11 +22,7 @@ var DuckieTV = angular.module('DuckieTV', [
  * Disable debug info for speed improvements
  */
   .config(['$compileProvider', function($compileProvider) {
-    if (localStorage.getItem('optin_error_reporting')) {
-      $compileProvider.debugInfoEnabled(true)
-    } else {
-      $compileProvider.debugInfoEnabled(false)
-    }
+    $compileProvider.debugInfoEnabled(false)
   }])
 
 /**

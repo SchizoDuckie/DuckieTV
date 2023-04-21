@@ -66,18 +66,5 @@
         </table>
       </td>
     </tr>
-    <tr>
-      <td>
-        <h1 translate-once>ABOUT/optInTracking/hdr</h1>
-        <p translate-once>ABOUT/optInTracking/desc</p>
-        <p translate-once>ABOUT/optInTracking/desc2</p>
-        <p><strong  translate-once>COMMON/current-setting/hdr</strong>
-        {{ optInTrackingEnabled ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-        <p ng-if='optInTrackingEnabled'><strong translate-once>ABOUT/optInTracking-id/hdr</strong> {{uniqueTrackingID}}</p>
-
-        <button class='btn' ng-class="{'btn-danger': !optInTrackingEnabled, 'btn-success': optInTrackingEnabled}" ng-click="toggleOptInErrorReporting()">{{ optInTrackingEnabled ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
-        <span translate-once>ABOUT/optInTracking/hdr</span></button>
-      </td>
-    </tr>
   </table>
 </div>
