@@ -27,7 +27,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
           }
         }).then(function(result) {
           if (result.data == 'Ok.') {
-            if (window.debug982) console.debug('qBittorrent32plusAPI.login', result.data)
+            if (window.debugTSE) console.debug('qBittorrent32plusAPI.login', result.data)
               if (self.config.apiVersion == 2) {
                 return self.request('versionv2').then(function(result) {
                   var subs = result.data.split('.')
@@ -37,7 +37,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
               }
             return true
           } else {
-            if (window.debug982) console.debug('qBittorrent32plusAPI.login', result.data)
+            if (window.debugTSE) console.debug('qBittorrent32plusAPI.login', result.data)
             throw 'Login failed!'
           }
         })
@@ -85,7 +85,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
           return $http.post(this.getUrl(method), fd, {
             headers: headers
           }).then(function(result) {
-            if (window.debug982) console.debug('qBittorrent32plusAPI.addmagnet', result.data)
+            if (window.debugTSE) console.debug('qBittorrent32plusAPI.addmagnet', result.data)
           })
         } else {
           // APIv1 sub < 7
@@ -121,7 +121,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
           transformRequest: angular.identity,
           headers: headers
         }).then(function(result) {
-          if (window.debug982) console.debug('qBittorrent32plusAPI.addTorrentByUpload', result.data)
+          if (window.debugTSE) console.debug('qBittorrent32plusAPI.addTorrentByUpload', result.data)
           var currentTry = 0
           var maxTries = 5
           // wait for qBittorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
@@ -178,7 +178,7 @@ DuckieTorrent.factory('qBittorrent32plusAPI', ['qBittorrentAPI', '$http', '$q',
           return $http.post(this.getUrl('removev2'), fd, {
             headers: headers
           }).then(function(result) {
-            if (window.debug982) console.debug('qBittorrent32plusAPI.removev2', result.data)
+            if (window.debugTSE) console.debug('qBittorrent32plusAPI.removev2', result.data)
           })
         } else {
           return $http.post(this.getUrl('remove'), 'hashes=' + encodeURIComponent(magnetHash), {

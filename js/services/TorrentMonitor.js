@@ -41,7 +41,7 @@ DuckieTV
          * If not marked, updates the database and the torrenthashlist service so that this doesn't have to happen again
          */
       function isDownloaded(torrent) {
-        var debugNotify = function(notificationId) { if (window.debug982) console.debug('TM notify id', notificationId) }
+        var debugNotify = function(notificationId) { if (window.debugTSE) console.debug('TM notify id', notificationId) }
         var torrentHash = ('hash' in torrent) ? torrent.hash.toUpperCase() : undefined
         if (TorrentHashListService.hasHash(torrentHash) && !TorrentHashListService.isDownloaded(torrentHash) && torrent.getProgress() == 100) {
           CRUD.FindOne('Episode', {
@@ -49,7 +49,7 @@ DuckieTV
           }).then(function(episode) {
             TorrentHashListService.markDownloaded(torrentHash)
             if (!episode) {
-              if (window.debug982) console.debug('TorrentMonitor: non-episode hash(%s) torrent.name(%s) downloaded', torrentHash, torrent.name)
+              if (window.debugTSE) console.debug('TorrentMonitor: non-episode hash(%s) torrent.name(%s) downloaded', torrentHash, torrent.name)
               NotificationService.notify(
                 'Torrent finished',
                 torrent.name,
@@ -61,7 +61,7 @@ DuckieTV
                 episode.getFormattedEpisode(),
                 torrent.name
               ].join(' ')
-              if (window.debug982) console.debug('TorrentMonitor: episode hash(%s) torrent.name(%s) episodeDetails(%s) downloaded', torrentHash, torrent.name, episodeDetails)
+              if (window.debugTSE) console.debug('TorrentMonitor: episode hash(%s) torrent.name(%s) episodeDetails(%s) downloaded', torrentHash, torrent.name, episodeDetails)
               NotificationService.notify('Torrent finished', episodeDetails, debugNotify)
               episode.markDownloaded($rootScope).then(function(result) {
                 console.info('Episode marked as downloaded in database. ', episodeDetails)

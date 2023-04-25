@@ -431,7 +431,7 @@ DuckieTV
         })
       }
 
-      var debugNotify = function(notificationId) { if (window.debug982) console.debug('TD notify id', notificationId) }
+      var debugNotify = function(notificationId) { if (window.debugTSE) console.debug('TD notify id', notificationId) }
       $scope.select = function(result) {
         // console.debug('select', result);
         var dlPath = ($scope.serie) ? $scope.serie.dlPath : null

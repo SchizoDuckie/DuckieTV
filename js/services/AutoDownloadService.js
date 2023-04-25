@@ -303,7 +303,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
 
             DuckieTorrent.getClient().AutoConnect().then(function() {
               var torrentHash = null
-              var debugNotify = function(notificationId) { if (window.debug982) console.debug('ADS notify id', notificationId) }
+              var debugNotify = function(notificationId) { if (window.debugTSE) console.debug('ADS notify id', notificationId) }
 
               NotificationService.notify(
                 [serie.name, episode.getFormattedEpisode()].join(' '),
@@ -315,7 +315,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
                 TorrentSearchEngines.launchMagnet(items[0].magnetUrl, episode.TRAKT_ID, serie.dlPath, label)
                 episode.magnetHash = torrentHash
                 episode.Persist().then(function() {
-                  if (window.debug982) console.debug('ADS (search=magnet): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
+                  if (window.debugTSE) console.debug('ADS (search=magnet): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
                 })
               } else if (items[0].torrentUrl) {
                 window.parseTorrent.remote(items[0].torrentUrl, function(err, torrentDecoded) {
@@ -333,7 +333,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
                     }
                     episode.magnetHash = torrentHash
                     episode.Persist().then(function() {
-                      if (window.debug982) console.debug('ADS (search=url/upload): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
+                      if (window.debugTSE) console.debug('ADS (search=url/upload): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
                     })
                   })
                 })
@@ -344,7 +344,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
                     TorrentSearchEngines.launchMagnet(details.magnetUrl, episode.TRAKT_ID, serie.dlPath, label)
                     episode.magnetHash = torrentHash
                     episode.Persist().then(function() {
-                      if (window.debug982) console.debug('ADS (details=magnet): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
+                      if (window.debugTSE) console.debug('ADS (details=magnet): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
                     })
                   } else if (details.torrentUrl) {
                     window.parseTorrent.remote(details.torrentUrl, function(err, torrentDecoded) {
@@ -362,7 +362,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
                         }
                         episode.magnetHash = torrentHash
                         episode.Persist().then(function() {
-                          if (window.debug982) console.debug('ADS (details=url/upload): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
+                          if (window.debugTSE) console.debug('ADS (details=url/upload): episode download started ID_Episode(%s), ID_Serie(%s), episodename(%s), episodenumber(%s), seasonnumber(%s), watched(%s), watchedAt(%s), downloaded(%s), torrentHash(%s)', episode.ID_Episode, episode.ID_Serie, episode.episodename, episode.episodenumber, episode.seasonnumber, episode.watched, episode.watchedAt, episode.downloaded, episode.magnetHash)
                         })
                       })
                     })

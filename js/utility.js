@@ -149,7 +149,8 @@ String.prototype.dhmToMins = function() {
   }
 }
 
-window.debug982 = (localStorage.getItem('debug982'))
+window.debugTSE = (localStorage.getItem('debugTSE'))
+window.debugTraktTVv2 = (localStorage.getItem('debugTraktTVv2'))
 
 /**
  * drop bebasRegular fontFamily if user enabled mixedCase

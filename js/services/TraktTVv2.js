@@ -482,7 +482,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
             }
           }]
         }).then(function(result) {
-          // console.debug("Episode watched:", serie, episode, result);
+          if (window.debugTraktTVv2) console.debug("Episode watched:", serie, episode, result)
           return result
         })
       },
@@ -503,7 +503,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         return performPost('episodeSeen', {
           episodes: episodesArray
         }).then(function(result) {
-          // console.debug("trakt.TV episodes marked as watched:", episodes, result);
+          if (window.debugTraktTVv2) console.debug("trakt.TV episodes marked as watched:", episodes, result)
           return result
         })
       },
@@ -519,7 +519,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
             }
           }]
         }).then(function(result) {
-          // console.debug("Episode un-watched:", serie, episode, result);
+          if (window.debugTraktTVv2) console.debug("Episode un-watched:", serie, episode, result)
           return result
         })
       },
@@ -545,7 +545,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
             }
           }]
         }).then(function(result) {
-          // console.debug("Added series %s to Trakt.TV user's collection.", serie.name, result);
+          if (window.debugTraktTVv2) console.debug("Added series %s to Trakt.TV user's collection.", serie.name, result)
           return result
         })
       },
@@ -561,7 +561,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
             }
           }]
         }).then(function(result) {
-          // console.debug("Added episode %s of series %s to Trakt.TV user's collection.", episode.getFormattedEpisode(), serie.name, result);
+          if (window.debugTraktTVv2) console.debug("Added episode %s of series %s to Trakt.TV user's collection.", episode.getFormattedEpisode(), serie.name, result)
           return result
         })
       },
@@ -577,7 +577,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
             }
           }]
         }).then(function(result) {
-          // console.debug("Removed series %s from Trakt.TV user's collection.", serie.name, result);
+          if (window.debugTraktTVv2) console.debug("Removed series %s from Trakt.TV user's collection.", serie.name, result)
           return result
         })
       },
@@ -593,7 +593,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
             }
           }]
         }).then(function(result) {
-          // console.debug("Removed episode %s of series %s from Trakt.TV user's collection.", episode.getFormattedEpisode(), serie.name, result);
+          if (window.debugTraktTVv2) console.debug("Removed episode %s of series %s from Trakt.TV user's collection.", episode.getFormattedEpisode(), serie.name, result)
           return result
         })
       }
@@ -608,7 +608,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
      * and forward it to TraktTV if syncing enabled.
      */
     $rootScope.$on('episode:marked:watched', function(evt, episode) {
-      // console.debug("Mark as watched and sync!", episode);
+      if (window.debugTraktTVv2) console.debug("Mark as watched and sync!", episode)
       if (SettingsService.get('trakttv.sync')) {
         CRUD.FindOne('Serie', {
           ID_Serie: episode.get('ID_Serie')
@@ -622,7 +622,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
      * and forward it to TraktTV if syncing enabled.
      */
     $rootScope.$on('episode:marked:notwatched', function(evt, episode) {
-      // console.debug("Mark as not watched and sync!", episode);
+      if (window.debugTraktTVv2) console.debug("Mark as not watched and sync!", episode)
       if (SettingsService.get('trakttv.sync')) {
         CRUD.FindOne('Serie', {
           ID_Serie: episode.get('ID_Serie')
@@ -636,7 +636,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
      * and forward it to TraktTV if syncing enabled.
      */
     $rootScope.$on('episode:marked:downloaded', function(evt, episode) {
-      // console.debug("Mark as downloaded and sync!", episode);
+      if (window.debugTraktTVv2) console.debug("Mark as downloaded and sync!", episode)
       if (SettingsService.get('trakttv.sync')) {
         CRUD.FindOne('Serie', {
           ID_Serie: episode.get('ID_Serie')
@@ -650,7 +650,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
      * and forward it to TraktTV if syncing enabled.
      */
     $rootScope.$on('episode:marked:notdownloaded', function(evt, episode) {
-      // console.debug("Mark as not downloaded and sync!", episode);
+      if (window.debugTraktTVv2) console.debug("Mark as not downloaded and sync!", episode)
       if (SettingsService.get('trakttv.sync')) {
         CRUD.FindOne('Serie', {
           ID_Serie: episode.get('ID_Serie')

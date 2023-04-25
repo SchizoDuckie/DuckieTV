@@ -42,7 +42,7 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
         d.style.visibility = 'hidden'
         d.src = url
         document.body.appendChild(d)
-        // console.debug("Open via Chromium", d.id, url);
+         if (window.debugTSE) console.debug("Open via Chromium", d.id, url)
         var dTimer = setInterval(function() {
           var dDoc = d.contentDocument || d.contentWindow.document
           if (dDoc.readyState == 'complete') {
@@ -244,13 +244,13 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
         console.info('Firing magnet URI! ', magnet, TRAKT_ID, dlPath, label)
 
         if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
-          if (window.debug982) console.debug('Adding via TorrentClient.addMagnet API! ', magnet, TRAKT_ID, dlPath, label)
+          if (window.debugTSE) console.debug('Adding via TorrentClient.addMagnet API! ', magnet, TRAKT_ID, dlPath, label)
           DuckieTorrent.getClient().addMagnet(magnet, dlPath, label)
           setTimeout(function() {
             DuckieTorrent.getClient().Update(true) // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
           }, 1500)
         } else {
-          if (window.debug982) console.debug('Adding via openURL! ', magnet, TRAKT_ID, dlPath, label)
+          if (window.debugTSE) console.debug('Adding via openURL! ', magnet, TRAKT_ID, dlPath, label)
           openUrl('magnet', magnet)
         }
         $rootScope.$broadcast('torrent:select:' + TRAKT_ID, magnet.getInfoHash())
@@ -262,7 +262,7 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
         console.info('Firing Torrent By data upload! ', TRAKT_ID, infoHash, releaseName, dlPath, label)
 
         if (DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
-          if (window.debug982) console.debug('Adding via TorrentClient.addTorrentByUpload API! ', TRAKT_ID, infoHash, releaseName, dlPath, label)
+          if (window.debugTSE) console.debug('Adding via TorrentClient.addTorrentByUpload API! ', TRAKT_ID, infoHash, releaseName, dlPath, label)
           DuckieTorrent.getClient().addTorrentByUpload(data, infoHash, releaseName, dlPath, label).then(function() {
             $rootScope.$broadcast('torrent:select:' + TRAKT_ID, infoHash)
             // record that this .torrent was launched under DuckieTV's control. Used by auto-Stop.
@@ -278,7 +278,7 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
         console.info('Firing Torrent By URL! ', torrentUrl, TRAKT_ID, infoHash, releaseName, dlPath, label)
 
         if (!SettingsService.get('torrenting.launch_via_chromium') && DuckieTorrent.getClient().isConnected()) { // fast method when using utorrent api.
-          if (window.debug982) console.debug('Adding via TorrentClient.addTorrentByUrl API! ', torrentUrl, TRAKT_ID, infoHash, releaseName, dlPath, label)
+          if (window.debugTSE) console.debug('Adding via TorrentClient.addTorrentByUrl API! ', torrentUrl, TRAKT_ID, infoHash, releaseName, dlPath, label)
           DuckieTorrent.getClient().addTorrentByUrl(torrentUrl, infoHash, releaseName, dlPath, label).then(function() {
             $rootScope.$broadcast('torrent:select:' + TRAKT_ID, infoHash)
             // record that this .torrent was launched under DuckieTV's control. Used by auto-Stop.
@@ -288,7 +288,7 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
             DuckieTorrent.getClient().Update(true) // force an update from torrent clients after 1.5 second to show the user that the torrent has been added.
           }, 1500)
         } else {
-          if (window.debug982) console.debug('Adding via openURL! ', torrentUrl, TRAKT_ID, infoHash, releaseName, dlPath, label)
+          if (window.debugTSE) console.debug('Adding via openURL! ', torrentUrl, TRAKT_ID, infoHash, releaseName, dlPath, label)
           openUrl('torrent', torrentUrl)
         }
       },
