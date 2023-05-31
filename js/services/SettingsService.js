@@ -102,7 +102,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
           'Knaben': true,
           'LimeTorrents': true,
           'Nyaa': true,
-          'RarBG': true,
           'ShowRSS': true,
           'TGx': true,
           'TorrentDownloads': true
@@ -152,7 +151,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'mirror.Knaben': 'https://knaben.eu',
         'mirror.LimeTorrents': 'https://www.limetorrents.lol',
         'mirror.Nyaa': 'https://nyaa.si',
-        'mirror.RarBG': 'https://torrentapi.org/pubapi_v2.php?app_id=DuckieTV&',
         'mirror.ShowRSS': 'https://showrss.info',
         'mirror.ThePirateBay': 'https://thepiratebay0.org/',
         'mirror.TorrentDownloads': 'https://www.torrentdownloads.pro',
@@ -203,7 +201,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
           'Knaben': true,
           'LimeTorrents': true,
           'Nyaa': true,
-          'RarBG': true,
           'ShowRSS': true,
           'TGx': true,
           'TorrentDownloads': true
