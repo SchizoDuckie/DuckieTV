@@ -35,6 +35,11 @@ localStorage.removeItem('debugTraktTVv2')
 CRUD.executeQuery('select TRAKT_ID from Episodes where ID_Episode = 36584').then(function(element) { console.log(element.rows[0]); })
 ```
 
+##delete a single episode
+```
+CRUD.executeQuery('delete from Episodes where ID_Episode = 36584').then(function(element) { console.log("deleted."); })
+```
+
 ##Reset all watchedAt values
 ```javascript
 CRUD.Find('Episode', {}, {'limit': 100000}).then(function(elements) {
