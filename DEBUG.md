@@ -37,7 +37,7 @@ CRUD.executeQuery('select TRAKT_ID from Episodes where ID_Episode = 36584').then
 
 ##delete a single episode
 ```
-CRUD.executeQuery('delete from Episodes where ID_Episode = 36584').then(function(element) { console.log("deleted."); })
+CRUD.executeQuery('delete from Episodes where ID_Episode = 36584').then(function(element) { if (element.rowsAffected == 0) console.log('not found'); else console.log('deleted')})
 ```
 
 ##Reset all watchedAt values
