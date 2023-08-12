@@ -14,7 +14,7 @@
 <div  ng-controller="TraktTVCtrl as trakt" class="buttons">
   <h2>
     <span uib-tooltip="{{trakt.syncDownloaded ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
-      <i class="glyphicon glyphicon-{{trakt.syncDownloaded ? 'ok alert-success' : 'remove alert-info'}}"></i>
+      <i class="glyphicon glyphicon-{{trakt.syncDownloaded ? 'ok alert-success' : 'remove alert-danger'}}"></i>
     </span>
     <li translate-once>SETTINGS/TRAKTTV/sync-downloaded/hdr</li>
   </h2>
@@ -23,7 +23,7 @@
 
    <p><strong  translate-once>COMMON/current-setting/hdr</strong>
    {{trakt.syncDownloaded ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
-  <a ng-click="trakt.toggleSyncDownloaded()" class="btn btn-{{trakt.syncDownloaded ? 'info' : 'success'}}">
+  <a ng-click="trakt.toggleSyncDownloaded()" class="btn btn-{{trakt.syncDownloaded ? 'danger' : 'success'}}">
     <i class="glyphicon glyphicon-{{trakt.syncDownloaded ? 'remove' : 'ok'}}" ></i> {{trakt.syncDownloaded ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
   </a>
 
