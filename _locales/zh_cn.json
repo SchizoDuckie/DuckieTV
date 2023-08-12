@@ -495,7 +495,7 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Trakt.TV接受了同步",
     "SETTINGS/TRAKTTV/sync/hdr": "同步",
     "SETTINGS/TRAKTTV/sync-downloaded/hdr": "同步下载状态",
-    "SETTINGS/TRAKTTV/sync-downloaded/desc": "在 Trakt.TV 上将下载状态同步为“已收集”",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "在 Trakt.TV 上将下载状态同步为\"已收集\"",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "小时必须在1和24之间",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "默认值：12小时",
     "SETTINGS/TRAKTTV/update-period/desc": "每一个 ",
