@@ -494,6 +494,8 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/desc": "DuckieTV automatisch schieben Sie beobachtete Episoden Trakt.TV jetzt, dass Sie authentifiziert sind. Schalten Sie die Integration unten",
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Trakt.TV Gesehen Sync",
     "SETTINGS/TRAKTTV/sync/hdr": "synchronisieren",
+    "SETTINGS/TRAKTTV/sync-downloaded/hdr": "Heruntergeladenen Status synchronisieren",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "Synchronisieren Sie den Download-Status als \"gesammelt\" auf Trakt.TV",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "Stunden müssen innerhalb von 1 und 24",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "Default: 12 Stunden",
     "SETTINGS/TRAKTTV/update-period/desc": "Jeden ",
