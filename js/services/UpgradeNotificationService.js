@@ -27,6 +27,7 @@ DuckieTV.run(['dialogs', '$http',
         '<li>TorrentDialogs: (fix) magnetLinks were being submitted twice due to NWJS bug.',
         '<li>TorrentMonitor: (fix) Auto-Stop-All now works as intended.',
         '<li>TraktUpdateServices: (fix) Support added for new API restrictions.',
+        '<li>Trakt: (new) Preserve watched timestamp from Trakt.TV during import.',
         '<li>Log_GR: (del) Drop Error-Tracking-Loggr, the service is no longer available. ',
         '<li>Misc: Bug fixes.'
       ].join('')
