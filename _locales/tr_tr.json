@@ -494,6 +494,8 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/desc": "DuckieTV indirdiğiniz ve izlediğiniz bölümleri otomatik olarak Trakt.TV'ye aktardığından, kimliği doğrulanmış olduğundan, aşağıdaki entegrasyonu aç / kapat",
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Trakt.TV İzlenen Senkronizasyon",
     "SETTINGS/TRAKTTV/sync/hdr": "senkronizasyon",
+    "SETTINGS/TRAKTTV/sync-downloaded/hdr": "İndirilen Durumu Senkronize Et",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "İndirilen durumu Trakt.TV'de \"toplandı\" olarak senkronize edin",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "Saatler 1 ile 24 arasında olmalıdır",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "Varsayılan: 12 Saat",
     "SETTINGS/TRAKTTV/update-period/desc": "Her ",
