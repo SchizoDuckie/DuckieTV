@@ -213,10 +213,11 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
 
       markDayWatched: function(day, rootScope, downloadedPaired) {
         var str = day instanceof Date ? day.toDateString() : new Date(day).toDateString()
+        var now = new Date()
         if (str in calendarEvents) {
           calendarEvents[str].map(function(calEvent) {
             if (calEvent.episode.hasAired()) {
-              calEvent.episode.markWatched(downloadedPaired, rootScope)
+              calEvent.episode.markWatched(downloadedPaired, now, rootScope)
             }
           })
         }

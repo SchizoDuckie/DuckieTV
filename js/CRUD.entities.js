@@ -310,10 +310,11 @@ CRUD.define(Serie, {
   markSerieAsWatched: function(watchedDownloadedPaired, $rootScope) {
     var self = this
     return new Promise(function(resolve) {
+      var now = new Date()
       self.getEpisodes().then(function(episodes) {
         episodes.forEach(function(episode) {
           if (episode.hasAired() && (!episode.isWatched())) {
-            return episode.markWatched(watchedDownloadedPaired, $rootScope)
+            return episode.markWatched(watchedDownloadedPaired, now, $rootScope)
           }
         })
         return resolve(true)
@@ -415,11 +416,12 @@ CRUD.define(Season, {
   },
   markSeasonAsWatched: function(watchedDownloadedPaired, $rootScope) {
     var self = this
+    var now = new Date()
     return new Promise(function(resolve) {
       self.getEpisodes().then(function(episodes) {
         episodes.forEach(function(episode) {
           if (episode.hasAired() && (!episode.isWatched())) {
-            return episode.markWatched(watchedDownloadedPaired, $rootScope)
+            return episode.markWatched(watchedDownloadedPaired, now, $rootScope)
           }
         })
         self.watched = 1
@@ -559,12 +561,12 @@ CRUD.define(Episode, {
     return this.leaked && parseInt(this.leaked) == 1
   },
 
-  markWatched: function(watchedDownloadedPaired, $rootScope) {
+  markWatched: function(watchedDownloadedPaired, watchedAt, $rootScope) {
     if (typeof watchedDownloadedPaired === 'undefined') {
       watchedDownloadedPaired = true
     }
     this.watched = 1
-    this.watchedAt = new Date().getTime()
+    this.watchedAt = (watchedAt || new Date()).getTime()
     if (watchedDownloadedPaired) {
       // if you are marking this as watched you must have also downloaded it!
       this.downloaded = 1

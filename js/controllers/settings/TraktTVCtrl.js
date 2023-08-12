@@ -181,7 +181,9 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
                         console.warn('Episode s%se%s not found for %s', season.number, episode.number, show.name)
                       } else {
                         vm.watchedEpisodes++
-                        return epi.markWatched(vm.downloadedPaired)
+                        var d = new Date(episode.last_watched_at)
+                        if (isNaN(d)) d = new Date()
+                        return epi.markWatched(vm.downloadedPaired, d)
                       }
                     }).catch(function() {})
                   }))
