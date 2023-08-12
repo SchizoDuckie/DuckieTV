@@ -494,6 +494,8 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/desc": "DuckieTV 자동 이제 인증됨을 Trakt.TV에 지켜 에피소드를 밀어 수 있습니다. 아래의 통합을 전환",
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Trakt.TV 동기화 감시",
     "SETTINGS/TRAKTTV/sync/hdr": "동기화",
+    "SETTINGS/TRAKTTV/sync-downloaded/hdr": "다운로드 상태 동기화",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "Trakt.TV에서 다운로드 상태를 \"수집됨\"으로 동기화",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "시간은 1과 24 내에 있어야합니다",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "기본값 : 12 시간",
     "SETTINGS/TRAKTTV/update-period/desc": "마다 ",
