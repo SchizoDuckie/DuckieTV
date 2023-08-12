@@ -494,6 +494,8 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/desc": "DuckieTV peut automatiquement renseigner vos épisodes regardés à Trakt.TV maintenant que vous êtes authentifié. Activer l'intégration ci-dessous",
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Synchronisation Trakt.TV des épisodes regardés",
     "SETTINGS/TRAKTTV/sync/hdr": "Synchroniser",
+    "SETTINGS/TRAKTTV/sync-downloaded/hdr": "Synchroniser le statut téléchargé",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "Synchroniser le statut téléchargé en tant que \"collecté\" sur Trakt.TV",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "Heures doivent être dans 1 et 24",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "Par défaut: 12 heures",
     "SETTINGS/TRAKTTV/update-period/desc": "Tous les ",
