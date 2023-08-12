@@ -495,7 +495,7 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Sincronizarea episoadelor vizionate cu Trakt.TV",
     "SETTINGS/TRAKTTV/sync/hdr": "sincronizare",
     "SETTINGS/TRAKTTV/sync-downloaded/hdr": "Sincronizați starea descărcată",
-    "SETTINGS/TRAKTTV/sync-downloaded/desc": "Sincronizați starea descărcată ca „colectată” pe Trakt.TV",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "Sincronizați starea descărcată ca /"colectată/" pe Trakt.TV",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "Ore trebuie să fie în termen de 1 și 24",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "Implicit: 12 ore",
     "SETTINGS/TRAKTTV/update-period/desc": "Fiecare ",
