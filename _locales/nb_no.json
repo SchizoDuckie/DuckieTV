@@ -494,6 +494,8 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/desc": "DuckieTV kan automatisk dytte dine sett episoder til Trakt.TV nå som du er autentisert. Velg integrasjon nedenfor",
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Trakt.TV Sett Synkronisering",
     "SETTINGS/TRAKTTV/sync/hdr": "synkroniser",
+    "SETTINGS/TRAKTTV/sync-downloaded/hdr": "Synkroniser nedlastet status",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "Synkroniser nedlastet status som \"samlet\" på Trakt.TV",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "Timer må være innenfor 1 og 24",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "Standard: 12 timer",
     "SETTINGS/TRAKTTV/update-period/desc": "Hver ",
