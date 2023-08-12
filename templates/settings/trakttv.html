@@ -11,7 +11,24 @@
 
 <hr class="setting-divider">
 
-<div  ng-controller="TraktTVCtrl as trakt" class="traktupdate">
+<div  ng-controller="TraktTVCtrl as trakt" class="buttons">
+  <h2>
+    <span uib-tooltip="{{trakt.syncDownloaded ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
+      <i class="glyphicon glyphicon-{{trakt.syncDownloaded ? 'ok alert-success' : 'remove alert-danger'}}"></i>
+    </span>
+    <li translate-once>SETTINGS/TRAKTTV/sync-downloaded/hdr</li>
+  </h2>
+
+  <p translate-once>SETTINGS/TRAKTTV/sync-downloaded/desc</p>
+
+   <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+   {{trakt.syncDownloaded ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
+  <a ng-click="trakt.toggleSyncDownloaded()" class="btn btn-{{trakt.syncDownloaded ? 'danger' : 'success'}}">
+    <i class="glyphicon glyphicon-{{trakt.syncDownloaded ? 'remove' : 'ok'}}" ></i> {{trakt.syncDownloaded ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
+  </a>
+
+  <hr class="setting-divider">
+
   <h2 translate-once>SETTINGS/TRAKTTV/update-period/hdr</h2>
   <p><span translate-once>SETTINGS/TRAKTTV/update-period/desc</span>{{trakt.tuPeriod}}<span translate-once>SETTINGS/TRAKTTV/update-period/desc2</span><br><span translate-once>SETTINGS/TRAKTTV/update-period-default/lbl</span></p>
 

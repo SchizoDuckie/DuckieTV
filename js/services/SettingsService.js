@@ -235,6 +235,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'trakt-update.period': 1,
         'trakttv.passwordHash': null,
         'trakttv.sync': false,
+        'trakttv.sync-downloaded': true,
         'trakttv.username': null,
         'transmission.password': 'admin',
         'transmission.path': '/transmission/rpc',

@@ -494,6 +494,8 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/desc": "DuckieTV kan je bekeken afleveringen automatisch terugsynchroniseren naar Trakt.TV. Schakel hieronder de integratie in of uit",
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Trakt.TV bekeken Sync",
     "SETTINGS/TRAKTTV/sync/hdr": "synchroniseren",
+    "SETTINGS/TRAKTTV/sync-downloaded/hdr": "Synchroniseer de gedownloade status",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "Synchroniseer de gedownloade status als \"verzameld\" op Trakt.TV",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "Uur moet binnen 1 en 24",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "Standaard: 12 uren",
     "SETTINGS/TRAKTTV/update-period/desc": "Elke ",

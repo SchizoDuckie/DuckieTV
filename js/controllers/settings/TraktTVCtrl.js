@@ -16,6 +16,7 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
 
     vm.tuPeriod = SettingsService.get('trakt-update.period')
     vm.traktSync = SettingsService.get('trakttv.sync')
+    vm.syncDownloaded = SettingsService.get('trakttv.sync-downloaded')
     vm.downloadedPaired = SettingsService.get('episode.watched-downloaded.pairing')
     vm.traktTVSeries = []
     vm.pushError = [false, null]
@@ -202,9 +203,11 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
 
     // Push current series and watched episodes to TraktTV
     vm.pushToTraktTV = function() {
-      FavoritesService.favorites.map(function(serie) {
-        TraktTVv2.addShowToCollection(serie)
-      })
+      if (vm.syncDownloaded) {
+        FavoritesService.favorites.map(function(serie) {
+          TraktTVv2.addShowToCollection(serie)
+        })
+      }
 
       CRUD.Find('Episode', {
         'watched': '1'
@@ -219,6 +222,11 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
     vm.toggleTraktSync = function() {
       vm.traktSync = !vm.traktSync
       SettingsService.set('trakttv.sync', vm.traktSync)
+    }
+
+    vm.toggleSyncDownloaded = function() {
+      vm.syncDownloaded = !vm.syncDownloaded
+      SettingsService.set('trakttv.sync-downloaded', vm.syncDownloaded)
     }
 
     /**

@@ -494,6 +494,8 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/desc": "DuckieTV lahko samodejno poveže ogledane epizode z Trakt.TV. Preklopi integracijo spodaj",
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Trakt.TV gledani Sync",
     "SETTINGS/TRAKTTV/sync/hdr": "sinhronizacijo",
+    "SETTINGS/TRAKTTV/sync-downloaded/hdr": "Sinhroniziraj preneseno stanje",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "Sinhroniziraj preneseno stanje kot \"zbrano\" na Trakt.TV",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "Ure mora biti v 1 in 24",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "Privzeto: 12 ur",
     "SETTINGS/TRAKTTV/update-period/desc": "Vsak ",

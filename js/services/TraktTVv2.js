@@ -637,7 +637,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
      */
     $rootScope.$on('episode:marked:downloaded', function(evt, episode) {
       if (window.debugTraktTVv2) console.debug("Mark as downloaded and sync!", episode)
-      if (SettingsService.get('trakttv.sync')) {
+      if (SettingsService.get('trakttv.sync') && SettingsService.get('trakttv.sync-downloaded')) {
         CRUD.FindOne('Serie', {
           ID_Serie: episode.get('ID_Serie')
         }).then(function(serie) {
@@ -651,7 +651,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
      */
     $rootScope.$on('episode:marked:notdownloaded', function(evt, episode) {
       if (window.debugTraktTVv2) console.debug("Mark as not downloaded and sync!", episode)
-      if (SettingsService.get('trakttv.sync')) {
+      if (SettingsService.get('trakttv.sync') && SettingsService.get('trakttv.sync-downloaded')) {
         CRUD.FindOne('Serie', {
           ID_Serie: episode.get('ID_Serie')
         }).then(function(serie) {

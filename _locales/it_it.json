@@ -494,6 +494,8 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/desc": "DuckieTV può salvare automaticamente su Trakt.TV gli episodi guardati, se sei autenticato.",
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Sincronizzazione episodi visti",
     "SETTINGS/TRAKTTV/sync/hdr": "sincronizzazione",
+    "SETTINGS/TRAKTTV/sync-downloaded/hdr": "Sincronizza lo stato scaricato",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "Sincronizza lo stato scaricato come \"raccolto\" su Trakt.TV",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "Ore devono essere tra 1 e 24",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "Predefinito: 12 ore",
     "SETTINGS/TRAKTTV/update-period/desc": "Ogni ",

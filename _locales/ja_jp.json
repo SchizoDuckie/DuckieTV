@@ -494,6 +494,8 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/desc": "DuckieTVは自動的に今,あなたは認証されているTrakt.TVにあなたの見エピソードをプッシュすることができます.以下の統合を切り替える",
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Trakt.TV同期ランキング",
     "SETTINGS/TRAKTTV/sync/hdr": "同期する",
+    "SETTINGS/TRAKTTV/sync-downloaded/hdr": "ダウンロードステータスの同期",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "ダウンロードされたステータスを Trakt.TV で「収集済み」として同期します",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "営業時間は,1〜24の範囲内でなければなりません",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "デフォルト：12時間",
     "SETTINGS/TRAKTTV/update-period/desc": "あらゆる ",

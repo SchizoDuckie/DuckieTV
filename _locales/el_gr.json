@@ -494,6 +494,8 @@
     "SETTINGS/TRAKT-IMPORT/watched-sync/desc": "Το DuckieTV μπορεί να προωθήσει αυτόματα τα επεισόδια που έχετε κατεβάσει και έχετε παρακολουθήσει τώρα που έχει γίνει πιστοποίηση. Κάντε εναλλαγή της επιλογής αυτής παρακάτω",
     "SETTINGS/TRAKT-IMPORT/watched-sync/hdr": "Συγχρ. Επεισοδίων με το Trakt.TV",
     "SETTINGS/TRAKTTV/sync/hdr": "συγχρονισμός",
+    "SETTINGS/TRAKTTV/sync-downloaded/hdr": "Συγχρονισμός κατάστασης λήψης",
+    "SETTINGS/TRAKTTV/sync-downloaded/desc": "Συγχρονίστε την κατάσταση λήψης ως \"συλλέχθηκε\" στο Trakt.TV",
     "SETTINGS/TRAKTTV/update-hours-range/alert": "Οι ώρες θα πρέπει να είναι μεταξύ 1 και 24",
     "SETTINGS/TRAKTTV/update-period-default/lbl": "Προεπιλογή: 12 Ώρες",
     "SETTINGS/TRAKTTV/update-period/desc": "Κάθε ",
