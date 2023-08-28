@@ -317,10 +317,16 @@ DuckieTV.factory('TorrentSearchEngines', ['$rootScope', '$q', '$http', '$injecto
               console.warn('Failed to fetch latest trackers fall back list, keeping previous.', error.status, error.statusText)
             } else {
               service.trackers = [
-                '&tr=udp://tracker.coppersurfer.tk:6969/announce',
-                '&tr=udp://tracker.zer0day.to:1337/announce',
-                '&tr=udp://tracker.leechers-paradise.org:6969/announce',
-                '&tr=udp://9.rarbg.com:2710/announce'
+                '&tr=udp://tracker.opentrackr.org:1337/announce',
+                '&tr=udp://opentracker.i2p.rocks:6969/announce',
+                '&tr=udp://open.demonii.com:1337/announce',
+                '&tr=udp://tracker.openbittorrent.com:6969/announce',
+                '&tr=udp://open.stealth.si:80/announce',
+                '&tr=udp://exodus.desync.com:6969/announce',
+                '&tr=udp://tracker.torrent.eu.org:451/announce',
+                '&tr=udp://tracker.tiny-vps.com:6969/announce',
+                '&tr=udp://tracker.moeking.me:6969/announce',
+                '&tr=udp://tracker1.bt.moack.co.kr:80/announce'
               ].join('')
               localStorage.setItem('trackers.fallBackList', service.trackers)
               console.warn('Failed to fetch latest trackers fall back list, saving default.', error.status, error.statusText)
