@@ -33,7 +33,11 @@ Due to changes to the Google Chrome Web Store security rules (Dec 2019), Dtv is 
 
 Currently the only way to run Dtv as a Chrome extension, is to manually install it under the development mode extensions page.
 
-**Due to Chromium 119 no longer supporting Web SQL (The database that Dtv uses) you will only be able to use Dtv on browsers that are at Chromuim 118 or older.**
+**Starting with Chromium 119 Web SQL (The database that Dtv uses) is no longer supported.**    
+You can re-enable the WebSQL support by using this override flag:
+`chrome://flags/#web-sql-access` then clicking enable and relaunch.
+
+I do not know for how long this bypass will be available, so expect it to vanish by version 123.
 
 See [Installing DuckieTV Nightly Chrome Browser Extensions](https://github.com/SchizoDuckie/DuckieTV/wiki/How-to-Install-a-Development-version-of-the-DuckieTV-Chrome-Browser-Extension-NIGHTLY) for details.
 
