@@ -103,6 +103,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
           'Nyaa': true,
           'ShowRSS': true,
           'TGx': true,
+          'theRARBG': true,
           'TorrentDownloads': true
         },
         'autodownload.multiSE.enabled': false,
@@ -150,6 +151,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'mirror.LimeTorrents': 'https://www.limetorrents.lol',
         'mirror.Nyaa': 'https://nyaa.si',
         'mirror.ShowRSS': 'https://showrss.info',
+        'mirror.theRARBG': 'https://t-rb.org/',
         'mirror.ThePirateBay': 'https://thepiratebay0.org/',
         'mirror.TorrentDownloads': 'https://www.torrentdownloads.pro',
         'mirror.TGx': 'https://torrentgalaxy.to',
@@ -200,6 +202,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
           'Nyaa': true,
           'ShowRSS': true,
           'TGx': true,
+          'theRARBG': true,
           'TorrentDownloads': true
         },
         'torrentDialog.2.enabled': false,
