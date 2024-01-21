@@ -108,7 +108,7 @@ DuckieTV.run(['TraktTVUpdateService', 'SettingsService',
         localStorage.setItem('trakttv.lastupdated.trending', 0)
       }
 
-      if ((parseInt(localStorage.getItem('trakttv.lastupdated.trending')) + (1000 * 60 * 60 * 24 * 7)) /* 1 week */ < new Date().getTime()) {
+      if ((parseInt(localStorage.getItem('trakttv.lastupdated.trending')) + (1000 * 60 * 60 * 24 * 1)) /* 1 day */ < new Date().getTime()) {
         TraktTVUpdateService.updateCachedTrending().then(function() {
           console.info('TraktTV trending update completed. last updated:' + new Date(parseInt(localStorage.getItem('trakttv.lastupdated.trending'))).toString())
           localStorage.setItem('trakttv.lastupdated.trending', new Date().getTime())
