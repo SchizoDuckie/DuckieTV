@@ -1020,9 +1020,15 @@ series-list .series.adding {
 }
 
 series-list .filters {
+  display: flex;
   padding: 0px 30px 15px 30px;
   max-width: 1300px;
   margin: 0 auto;
+}
+
+series-list .filters h3 {
+  color: white;
+  margin: 0;
 }
 
 series-list .filters .btn {

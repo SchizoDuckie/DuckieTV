@@ -3,6 +3,7 @@ DuckieTV.factory('TraktTVTrending', ['TraktTVv2', 'FavoritesService', '$q',
     var vm = this
     vm.trending = []
     vm.categories = []
+    vm.statuses = []
     vm.initializing = true
 
     /*
@@ -22,15 +23,22 @@ DuckieTV.factory('TraktTVTrending', ['TraktTVv2', 'FavoritesService', '$q',
 
             vm.trending = series
             var cats = {}
+            var statuses = []
 
             series.filter(alreadyAddedSerieFilter).map(function(serie) {
               if (!serie.genres) return
               serie.genres.map(function(category) {
                 cats[category] = true
               })
+
+              if (serie.status && !statuses.includes(serie.status)) {
+                statuses.push(serie.status)
+              }
             })
 
             vm.categories = Object.keys(cats)
+            vm.statuses = statuses
+
             return series
           })
         } else {
@@ -50,12 +58,21 @@ DuckieTV.factory('TraktTVTrending', ['TraktTVv2', 'FavoritesService', '$q',
         return vm.categories
       },
 
+      getStatuses: function() {
+        return vm.statuses
+      },
+
       getByCategory: function(category) {
-        var filtered = vm.trending.filter(function(show) {
+        return vm.trending.filter(function(show) {
           if (!show.genres) return
           return show.genres.indexOf(category) > -1
         })
-        return filtered
+      },
+
+      getByStatus: function(status) {
+        return vm.trending.filter(function(show) {
+          return show.status === status
+        })
       }
     }
 

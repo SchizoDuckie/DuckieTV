@@ -1,5 +1,5 @@
-DuckieTV.controller('traktTvTrendingCtrl', ['TraktTVTrending', 'FavoritesService', 'SeriesMetaTranslations',
-  function(TraktTVTrending, FavoritesService, SeriesMetaTranslations) {
+DuckieTV.controller('traktTvTrendingCtrl', ['$scope', 'TraktTVTrending', 'FavoritesService', 'SeriesMetaTranslations',
+  function($scope, TraktTVTrending, FavoritesService, SeriesMetaTranslations) {
     var vm = this
 
     vm.results = []
@@ -7,7 +7,9 @@ DuckieTV.controller('traktTvTrendingCtrl', ['TraktTVTrending', 'FavoritesService
     vm.limit = 75
     vm.oldLimit = 75
     vm.activeCategory = false
+    vm.activeStatus = false
     vm.translateCategory = SeriesMetaTranslations.translateGenre
+    vm.translateStatus = SeriesMetaTranslations.translateStatus
 
     FavoritesService.waitForInitialization().then(function() {
       if (FavoritesService.favorites.length === 0) {
@@ -24,19 +26,54 @@ DuckieTV.controller('traktTvTrendingCtrl', ['TraktTVTrending', 'FavoritesService
       return TraktTVTrending.getCategories()
     }
 
+    vm.getStatuses = function() {
+      return TraktTVTrending.getStatuses()
+    }
+
     vm.toggleCategory = function(category) {
       if (!category || vm.activeCategory === category) {
         vm.activeCategory = false
-        vm.limit = vm.oldLimit
-
-        TraktTVTrending.getAll().then(function(result) {
-          vm.filtered = result.filter(alreadyAddedSerieFilter)
-        })
       } else {
         vm.activeCategory = category
-        vm.filtered = TraktTVTrending.getByCategory(category).filter(alreadyAddedSerieFilter)
-        vm.limit = vm.filtered.length
       }
+
+      filterResults()
+    }
+
+    vm.toggleStatus = function(status) {
+      if (!status || vm.activeStatus === status) {
+        vm.activeStatus = false
+      } else {
+        vm.activeStatus = status
+      }
+
+      filterResults()
+    }
+
+    async function filterResults() {
+      var trending = await TraktTVTrending.getAll()
+      var results = trending.filter(alreadyAddedSerieFilter)
+
+      if (!vm.activeCategory && !vm.activeStatus) {
+        vm.limit = vm.oldLimit
+        vm.filtered = results
+      }
+
+      if (vm.activeCategory) {
+        results = results.filter(function(el) {
+          return el.genres.indexOf(vm.activeCategory) > -1
+        })
+      }
+
+      if (vm.activeStatus) {
+        results = results.filter(function(el) {
+          return el.status === vm.activeStatus
+        })
+      }
+
+      vm.filtered = results
+      vm.limit = vm.filtered.length
+      $scope.$applyAsync()
     }
 
     vm.getFilteredResults = function() {
