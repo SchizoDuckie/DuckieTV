@@ -28,10 +28,10 @@ DuckieTV.run(['SettingsService', function(SettingsService) {
     console.info('1.1.6deleteWatchList done!')
   }
   // update quality list
-  if (!localStorage.getItem('1.1.6updateQualityList')) {
-    console.info('Executing 1.1.6updateQualityList')
+  if (!localStorage.getItem('1.1.6updateQualityList2')) {
+    console.info('Executing 1.1.6updateQualityList2')
     SettingsService.set('torrenting.searchqualitylist', ['HDTV', 'WEB', '720p', '1080p', '2160p', 'x265']);
-    localStorage.setItem('1.1.6updateQualityList', new Date())
-    console.info('1.1.6updateQualityList done!')
+    localStorage.setItem('1.1.6updateQualityList2', new Date())
+    console.info('1.1.6updateQualityList2 done!')
   }
 }])
