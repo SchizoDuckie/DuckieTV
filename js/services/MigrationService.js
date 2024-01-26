@@ -30,7 +30,7 @@ DuckieTV.run(['SettingsService', function(SettingsService) {
   // update quality list
   if (!localStorage.getItem('1.1.6updateQualityList2')) {
     console.info('Executing 1.1.6updateQualityList2')
-    SettingsService.set('torrenting.searchqualitylist', ['HDTV', 'WEB', '720p', '1080p', '2160p', 'x265']);
+    SettingsService.set('torrenting.searchqualitylist', ['HDTV', 'WEB', '480p', '720p', '1080p', '2160p', 'HDR', 'x264', 'x265', 'H264', 'H265', 'AV1']);
     localStorage.setItem('1.1.6updateQualityList2', new Date())
     console.info('1.1.6updateQualityList2 done!')
   }
