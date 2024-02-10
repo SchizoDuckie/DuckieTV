@@ -36,6 +36,7 @@ DuckieTV
       $scope.sortBy = SettingsService.get('torrentDialog.2.sortBy') // '+engine' the default order
       $scope.sortByDir[$scope.sortBy.replace(/\-|\+/g, '')] = $scope.sortBy.substring(0, 1)
       $scope.items = []
+      $scope.searchingSE = [] // the searching flag for an active engine
       $scope.defaultProvider = SettingsService.get('torrenting.searchprovider')
       $scope.clients = Object.keys(TorrentSearchEngines.getSearchEngines())
       $scope.activeSE = SettingsService.get('torrentDialog.2.activeSE') // get active search engines previously saved
@@ -44,6 +45,10 @@ DuckieTV
         // add any new search engines discovered, default them as active.
         if (!(name in $scope.activeSE)) {
           $scope.activeSE[name] = true
+        }
+        // set the engine searching flag
+        if (!(name in $scope.searchingSE)) {
+          $scope.searchingSE[name] = false
         }
       })
       $scope.jackettProviders = TorrentSearchEngines.getJackettEngines()
@@ -205,6 +210,7 @@ DuckieTV
           if ($scope.activeSE[engine]) {
             items = []
             $scope.searching = true
+            $scope.searchingSE[engine] = true
             provider = TorrentSearchEngines.getSearchEngine(engine)
             provider.search([q, $scope.searchquality].join(' ').trim(), undefined, 'seeders.d').then(function(results) {
               results.forEach(function(item) {
@@ -226,9 +232,11 @@ DuckieTV
                 items = dropDuplicates(items)
               }
               $scope.items = $scope.items.concat(items)
+              $scope.searchingSE[engine] = false
               $scope.searching = false
             },
             function(e) {
+              $scope.searchingSE[engine] = false
               $scope.searching = false
               if (e !== null && typeof e === 'object' && 'status' in e && 'statusText' in e) {
                 var errorText = 'status ' + e.status + ' ' + e.statusText
