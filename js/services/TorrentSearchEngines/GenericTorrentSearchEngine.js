@@ -309,6 +309,9 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
         d.reject(E)
       }
     }, function(err) {
+      if (err.status == -1) {
+        d.reject("net:ERR see console log for details.")
+      }
       if (err.status > 300) {
         if (err.status == 404) {
           d.resolve([])
