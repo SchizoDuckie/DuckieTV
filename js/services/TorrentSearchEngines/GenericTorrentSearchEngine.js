@@ -320,6 +320,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
           }, function(err) {
             d.reject(err)
           })
+        } else {
+          d.reject(err)
         }
       }
     })

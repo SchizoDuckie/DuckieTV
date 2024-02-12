@@ -32,7 +32,7 @@
       <i class="glyphicon glyphicon-{{activeSE[name] ? 'ok' : 'remove'}}"></i>
       &nbsp;{{::name}}&nbsp;
       <i ng-if="isJackett(name)" class="glyphicon glyphicon-jackett-small" style="float:right"></i>
-      <loading-spinner ng-if="searchingSE[name]" style="margin:0 auto; display:block; width:20px; height:20px; position:relative;"></loading-spinner>
+      <loading-spinner ng-show="searchingSE[name]" style="margin:0 auto; display:block; width:20px; height:20px; position:relative;"></loading-spinner>
     </button>
   </div>
 </div>
