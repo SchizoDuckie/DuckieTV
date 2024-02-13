@@ -89,8 +89,8 @@ DuckieTV.provider('SubtitleDialog', function() {
         $scope.search($scope.query)
       }
 
-      $scope.cancel = function() {
-        $modalInstance.dismiss('Canceled')
+      $scope.close = function() {
+        $modalInstance.close('Closed')
       }
 
       $scope.search()

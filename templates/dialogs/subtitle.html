@@ -1,11 +1,11 @@
 <!-- dialogs/subtitle.html -->
-<button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
+<button type="button" class="close" ng-click="close()" class="pull-right">&times;</button>
 <h1 style="margin-top: 10px">
   <span translate-once>COMMON/find-subtitle/lbl</span>
   <img src='./img/opensubtitles.png' uib-tooltip='{{"SUBTITLEDIALOG/powered-by/tooltip"|translate}}OpenSubtitles.org' style='float:right; margin-top: -10px; margin-right: 16px; opacity: 0.7'>
 </h1>
 <input type="text" ng-model="query" ng-model-options="{debounce: 1000}" focus-watch='searching' ng-change="search(query)"  class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
-<a ui-sref="settings.tab({tab: 'subtitles'})" ng-click="cancel()" style="float:right"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>SUBTITLEDIALOG/settings/glyph</span></a>
+<a ui-sref="settings.tab({tab: 'subtitles'})" ng-click="close()" style="float:right"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>SUBTITLEDIALOG/settings/glyph</span></a>
 <i ng-show="loadingTPB" class="glyphicon glyphicon-refresh"></i>
 
 <table class="torrents table table-condensed white">
@@ -37,7 +37,7 @@
       <th>
         <strong translate-once>SUBTITLEDIALOG/downloads/lbl</strong>
       </th>
-     
+
     </tr>
     <tr ng-show="!searching && items.length > 0 " ng-repeat="subtitle in items | orderBy:'LanguageName' track by $index">
       <td>
@@ -47,10 +47,10 @@
         <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.LanguageName }}</a>
       </td>
       <td>
-        <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.MovieReleaseName }}</a> 
+        <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.MovieReleaseName }}</a>
         <i ng-if="subtitle.SubHearingImpaired == '1'" class="glyphicon glyphicon-bullhorn" uib-tooltip='{{"SUBTITLEDIALOG/hearing-impaired/tooltip"|translate}}'></i>
       </td>
-      <td>  
+      <td>
         <a href="{{subtitle.url}}" target="_blank">{{ ::subtitle.SubDownloadsCnt }}</a>
       </td>
 

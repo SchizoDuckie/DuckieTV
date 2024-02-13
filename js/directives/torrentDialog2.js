@@ -292,8 +292,8 @@ DuckieTV
         $scope.search($scope.query, undefined, 'seeders.d')
       }
 
-      $scope.cancel = function() {
-        $modalInstance.dismiss('Canceled')
+      $scope.close = function() {
+        $modalInstance.close('Closed')
       }
 
       // Toggle advanced filter state

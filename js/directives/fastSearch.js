@@ -226,8 +226,8 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
         }
       }
 
-      $scope.cancel = function() {
-        $modalInstance.dismiss('Canceled')
+      $scope.close = function() {
+        $modalInstance.close('Closed')
       }
 
       /**

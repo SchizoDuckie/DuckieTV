@@ -1,10 +1,10 @@
 <!-- dialogs/torrent2.html -->
-<button type="button" class="close" ng-click="cancel()" class="pull-right">&times;</button>
+<button type="button" class="close" ng-click="close()" class="pull-right">&times;</button>
 <h1 translate-value-itemslength="{{items.length || 0}}" translate>TORRENTDIALOG2/hdr</h1>
 
 <div style="float:right; margin-top:-25px;">
   <a ng-click="toggleShowAdvanced()"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
-  <a ui-sref="settings.tab({tab: 'torrent-search'})" ng-click="cancel()"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/torrent-search-settings/glyph</span></a>
+  <a ui-sref="settings.tab({tab: 'torrent-search'})" ng-click="close()"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/torrent-search-settings/glyph</span></a>
 </div>
 
 <div style="width:52%; display:inline-block;">
