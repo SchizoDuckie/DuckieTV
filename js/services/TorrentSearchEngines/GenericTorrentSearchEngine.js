@@ -291,8 +291,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
   }
 
   /**
-     * Execute a generic torrent search, parse the results and return them as an array
-     */
+   * Execute a generic torrent search, parse the results and return them as an array
+   */
   this.search = function(what, noCancel, orderBy) {
     what = what.replace(/'/g, '')
     var d = $q.defer()
@@ -309,11 +309,19 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
         d.reject(E)
       }
     }, function(err) {
-      if (err.status == -1) {
-        d.reject("net::ERR_NO_RESPONSE. see console log for details.")
+      if (err.status === -1) {
+        d.reject('net::ERR_NO_RESPONSE. see console log for details.')
       }
+
+      // cloudflare challenge, the page needs to be opened normally for the challenge to be complete which
+      // will allow future requests for a short time
+      if (err.status === 403 && err.data?.includes('challenge-platform')) {
+        d.reject('status 403 - cloudflare challenge, see console log for details.')
+        console.warn('Cloudflare challege detected, open url or torrent website in new tab to solve challenge', err.config?.url)
+      }
+
       if (err.status > 300) {
-        if (err.status == 404) {
+        if (err.status === 404) {
           d.resolve([])
         } else if (config.mirrorResolver && config.mirrorResolver !== null) {
           $injector.get(config.mirrorResolver).findMirror().then(function(result) {
