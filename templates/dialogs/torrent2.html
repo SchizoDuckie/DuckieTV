@@ -7,21 +7,21 @@
   <a ui-sref="settings.tab({tab: 'torrent-search'})" ng-click="close()"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/torrent-search-settings/glyph</span></a>
 </div>
 
-<div style="width:52%; display:inline-block;">
-  <div class="input-group">
+<div class="torrentDialog_topNav">
+  <div class="input-group torrentDialog_searchBar">
     <input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
     <span class="input-group-btn">
-      <button class="btn btn-default" style="height: 40px">
-        <i class="glyphicon glyphicon-search" ng-click="search(query)" uib-tooltip="{{'TORRENTDIALOG2/search-now/tooltip'|translate}}" tooltip-append-to-body="true"></i>
+      <button class="btn btn-default" style="height: 40px" ng-click="search(query)" uib-tooltip="{{'TORRENTDIALOG2/search-now/tooltip'|translate}}" tooltip-append-to-body="true">
+        <i class="glyphicon glyphicon-search"></i>
       </button>
     </span>
   </div>
-</div>
-<!-- quality list -->
-<div class="torrentBtns" style="display:inline-block; vertical-align: top;">
-  <div class="btn-group">
-    <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');" translate-once>COMMON/all/btn</button>
-    <button ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setQuality(quality)" type="button" class="btn btn-default" ng-class="{active: searchquality == quality}">{{quality}}</button>
+
+  <div class="torrentBtns torrentDialog_qualityBtns">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default" ng-class="{active: searchquality == ''}" ng-click="setQuality('');" translate-once>COMMON/all/btn</button>
+      <button ng-repeat="quality in getSetting('torrenting.searchqualitylist') " ng-click="setQuality(quality)" type="button" class="btn btn-default" ng-class="{active: searchquality == quality}">{{quality}}</button>
+    </div>
   </div>
 </div>
 
@@ -29,10 +29,10 @@
 <div style="padding-bottom: 3px" uib-collapse="!showAdvanced">
   <div class="torrentBtns btn-group">
     <button ng-disabled="name === defaultProvider" type="button" class="btn btn-default" ng-repeat="name in clients | orderBy: name" ng-click="toggleSE(name)" ng-style="{color: name !== defaultProvider ? 'white' : 'gray'}">
-      <i class="glyphicon glyphicon-{{activeSE[name] ? 'ok' : 'remove'}}"></i>
+      <i class="tb-activeIcon glyphicon glyphicon-{{activeSE[name] ? 'ok' : 'remove'}}"></i>
       &nbsp;{{::name}}&nbsp;
-      <i ng-if="isJackett(name)" class="glyphicon glyphicon-jackett-small" style="float:right"></i>
-      <loading-spinner ng-show="searchingSE[name]" style="margin:0 auto; display:block; width:20px; height:20px; position:relative;"></loading-spinner>
+      <i ng-if="isJackett(name)" class="tb-jackettIcon glyphicon glyphicon-jackett-small" style="float:right"></i>
+      <loading-spinner ng-show="searchingSE[name]"></loading-spinner>
     </button>
   </div>
 </div>
@@ -79,7 +79,7 @@
 </div>
 
 <!-- search results -->
-<div style="max-height: 620px;overflow-x: auto">
+<div style="max-height: 660px; overflow-x: auto">
   <table class="torrents table table-condensed white" style="max-height: 800px;overflow-x: auto">
     <thead>
       <tr ng-show="searching">
@@ -104,13 +104,10 @@
       </tr>
     </tbody>
     <tbody ng-show="!searching && error != false && error != 'null' ">
-      <tr>
-        <th style='text-align:center'>:(</th>
-        <th style='text-align:left;white-space:pre-wrap;'>{{errorEngine}}</th>
-        <th style='text-align:left;white-space:pre-wrap;'>{{error}}</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
+      <tr style="font-size: 12px;">
+        <td style='text-align:center'>:(</td>
+        <td style='text-align:left;white-space:pre-wrap;'>{{errorEngine}}</td>
+        <td style='text-align:left;white-space:pre-wrap;' colspan="4">{{error}}</td>
       </tr>
     </tbody>
     <tbody ng-show="!searching && items.length > 0">

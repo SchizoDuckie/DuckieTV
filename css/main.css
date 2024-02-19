@@ -564,7 +564,7 @@ input[type=text], input[type=url], input[type=password], input[type=number], opt
   border-radius: 5px;
   font-family: helvetica, sans-serif;
   text-shadow: 2px 2px 2px black;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.35s ease-in-out;
   padding-left: 5px;
 }
 
@@ -602,10 +602,9 @@ option {
 }
 
 .form-control:focus {
-  border-color: #222;
+  border-color: #66afe9;
   outline: 0;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(2, 2, 2, .6);
-  background-color: rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px rgba(102, 175, 233,.6);
 }
 
 input[type=checkbox], input[type=radio] {
@@ -1153,8 +1152,53 @@ series-list .trakt-import serieheader h3, series-list .backup-import serieheader
   padding: 0 5px;
 }
 
+.torrentBtns .tb-activeIcon {
+  margin-right: 3px;
+}
+
+.torrentBtns .tb-jackettIcon {
+  margin-left: 2px;
+}
+
 .torrentBtns .sort-btn {
   border-color: rgba(255, 255, 255, 0.4);
+}
+
+.torrentBtns button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.torrentBtns loading-spinner {
+  margin: 0 0 0 3px;
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.torrentDialog_topNav {
+  display: flex;
+  flex-flow: row nowrap;
+  margin-bottom: 3px;
+}
+
+.torrentDialog_qualityBtns {
+  flex-shrink: 0;
+}
+
+.torrentDialog_searchBar {
+  width: 54%;
+  width: -webkit-fill-available;
+}
+
+.torrentDialog_searchBar .input-group-btn button {
+  background-color: rgba(55, 55, 55, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.torrentDialog_searchBar .input-group-btn button:hover {
+  background-color: rgba(60, 60, 60, 0.6);
 }
 
 .torrent-dialog, .subtitle-dialog {
