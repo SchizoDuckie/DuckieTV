@@ -57,3 +57,15 @@
 .modal-content .table strong {
     color: white;
 }
+
+@media (min-width: 1120px) {
+  /* Increase default modal size a bit but also to offset the margin added to .modal-content */
+  .modal-lg {
+    width: 1030px;
+  }
+
+  .modal-content {
+    /* Small margin prevents accidently clicking outside the modal */
+    margin: 10px 20px 0;
+  }
+}
