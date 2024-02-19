@@ -11,9 +11,9 @@ DuckieTV.run(['dialogs', '$http',
     var notifications = {
       '1.1.6': [
         '<li>AutoDownload: (new) Now able to use series custom Seeders, custom Includes and custom Excludes.',
+        '<li>DataBase: (fix) Make TRAKT_ID unique to prevent duplicate records.',
         '<li>TMDBfanArt: (new) Refactor image loading to use TMDB. This complements and progressively takes over from FanArt.',
-        '<li>Languages: (new) Greek, Turkish, Slovak and South African English.',
-        '<li>Languages: (fix) Chinese, Dutch.',
+        '<li>Languages: (new) Greek, Turkish, Slovak and South African English. Languages: (fix) Chinese, Dutch.',
         '<li>Log_GR: (del) Drop Error-Tracking-Loggr, the service is no longer available.',
         '<li>SceneNameResolver: (new) add custom support to subtract/add days from date formated serie names eg YYYY MM DD[-1].',
         '<li>SearchEngines: (new) Add ETag (extratorrent.st), IsoHunt2 (isohunt.tv), TGx (torrentgalaxy.to), EXT (ext.to), KATws (kickass.ws), Knaben (knaben.eu), TheRARBG (t-rb.org).',
