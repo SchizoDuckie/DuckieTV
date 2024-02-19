@@ -455,7 +455,7 @@ background-rotator .placeholder {
   text-align: left;
   line-height: 37px;
   vertical-align: super;
-  padding-left: 25px;
+  padding-left: 15px;
 }
 
 .settings .buttons .btn.choose-client:hover {
@@ -2169,7 +2169,7 @@ sidepanel h2 {
   color: #fff;
   margin-top: 13px;
   margin-bottom: 0;
-  font-size: 28px;
+  font-size: 26px;
 }
 
 sidepanel .buttons {
@@ -2193,7 +2193,7 @@ sidepanel .buttons strong {
 
 sidepanel .buttons a {
   display: block;
-  padding: 12px;
+  padding: 11px 12px;
   margin: 5px 15px;
   border: 1px solid #fff;
   border-radius: 9px;
@@ -2251,6 +2251,10 @@ sidepanel .buttons a.btn-danger:hover {
 sidepanel .buttons a.no-hover {
   background-color: initial;
   cursor: initial;
+  text-decoration: none;
+}
+
+sidepanel .buttons a.no-hover:hover, sidepanel .buttons a.no-hover:hover span {
   text-decoration: none;
 }
 
@@ -2367,7 +2371,6 @@ sidepanel .buttons .two-face-torrent .download {
 }
 
 sidepanel .buttons .two-face-torrent .auto-download {
-  padding: 12px 10px;
   margin: 0px;
   border-left: 0px;
   border-bottom-left-radius: 0;
@@ -2376,7 +2379,8 @@ sidepanel .buttons .two-face-torrent .auto-download {
 }
 
 sidepanel .buttons .two-face-torrent .torrent-settings {
-  padding: 15px 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   margin: 0;
 }
 
@@ -2393,7 +2397,8 @@ sidepanel .buttons .torrent-mini-remote-control>span {
 
 sidepanel .buttons .torrent-mini-remote-control a {
   margin: 0 1px;
-  padding: 5px;
+  padding: 4px 6px;
+  border-radius: 6px;
 }
 
 sidepanel .buttons .torrent-mini-remote-control a i.glyphicon {
@@ -2424,7 +2429,7 @@ sidepanel .serie-overview .mark-button .left-glyph i {
 
 sidepanel .serie-overview .mark-button .right-text-glyph {
   width: 100%;
-  text-align: center
+  text-align: center;
 }
 
 sidepanel .serie-overview .mark-button .right-text-glyph span {
@@ -2436,6 +2441,7 @@ sidepanel .serie-overview .mark-button .right-text-glyph i {
   font-size: 14px;
   color: white !important;
   left: -1px;
+  margin-left: 2px;
 }
 
 sidepanel h1 {
@@ -2725,8 +2731,8 @@ sidepanel .seasons serieheader {
 }
 
 .setting-divider {
-  margin-top: 22.5px;
-  margin-bottom: 22.5px;
+  margin-top: 18px;
+  margin-bottom: 18px;
 }
 
 .settings .label {
@@ -2789,10 +2795,10 @@ sidepanel .seasons serieheader {
 }
 
 .smallsettingicon {
-  width: 34px;
-  height: 34px;
-  margin-left: -5px;
-  margin-top: -5px;
+  width: 30px;
+  height: 30px;
+  margin-left: -4px;
+  margin-top: -4px;
   float: left;
 }
 

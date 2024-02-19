@@ -538,7 +538,7 @@ DuckieTV
             serie: '=serie',
             episode: '=episode'
           },
-          template: '<a class="torrent-dialog" ng-click="openDialog()" uib-tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-download"></i><span ng-transclude></span></a>',
+          template: '<a class="torrent-dialog" ng-click="openDialog()" uib-tooltip="{{getTooltip()}}"><i class="glyphicon glyphicon-download"></i><strong ng-transclude></strong></a>',
           controller: ['$scope',
             function($scope) {
               // Translates the tooltip
