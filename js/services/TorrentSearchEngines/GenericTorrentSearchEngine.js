@@ -310,13 +310,13 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
       }
     }, function(err) {
       if (err.status === -1) {
-        d.reject('net::ERR_NO_RESPONSE. see console log for details.')
+        d.reject('net::ERR_NO_RESPONSE. Ctrl+Shift+J or Cmd+Option+J for details.')
       }
 
       // cloudflare challenge, the page needs to be opened normally for the challenge to be complete which
       // will allow future requests for a short time
       if (err.status === 403 && err.data?.includes('challenge-platform')) {
-        d.reject('status 403 - cloudflare challenge, see console log for details.')
+        d.reject('status 403 - cloudflare challenge, Ctrl+Shift+J or Cmd+Option+J for details.')
         console.warn('Cloudflare challege detected, open url or torrent website in new tab to solve challenge', err.config?.url)
       }
 
