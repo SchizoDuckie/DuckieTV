@@ -55,6 +55,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
 
   var activeRequest = null
   var SettingsService = $injector.get('SettingsService')
+  var viewlog = (navigator.platform.toLowerCase().indexOf('mac') !== -1) ? "Cmd+Option+J" : "Ctrl+Shift+J" // for use in error 403 cloudflare msg
 
   this.config = config
 
@@ -310,13 +311,13 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
       }
     }, function(err) {
       if (err.status === -1) {
-        d.reject('net::ERR_NO_RESPONSE. Ctrl+Shift+J or Cmd+Option+J for details.')
+        d.reject('net::ERR_NO_RESPONSE. ' + viewlog + ' for details.')
       }
 
       // cloudflare challenge, the page needs to be opened normally for the challenge to be complete which
       // will allow future requests for a short time
       if (err.status === 403 && err.data?.includes('challenge-platform')) {
-        d.reject('status 403 - cloudflare challenge, Ctrl+Shift+J or Cmd+Option+J for details.')
+        d.reject('status 403 - cloudflare challenge, ' + viewlog + ' for details.')
         console.warn('Cloudflare challege detected, open url or torrent website in new tab to solve challenge', err.config?.url)
       }
 
