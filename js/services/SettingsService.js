@@ -156,11 +156,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'mirror.TorrentDownloads': 'https://www.torrentdownloads.pro',
         'mirror.TGx': 'https://torrentgalaxy.to',
         'notifications.enabled': true, // chrome notifications for download started/finished
-        'qbittorrent.password': 'admin',
-        'qbittorrent.port': 8080,
-        'qbittorrent.server': 'http://localhost',
-        'qbittorrent.use_auth': true,
-        'qbittorrent.username': 'admin',
         'qbittorrent32plus.password': 'admin',
         'qbittorrent32plus.port': 8080,
         'qbittorrent32plus.server': 'http://localhost',

@@ -1,5 +1,5 @@
-DuckieTV.controller('qbt32plusCtrl', ['qBittorrent32plus', 'SettingsService', 'FormlyLoader',
-  function(qBittorrent32plus, SettingsService, FormlyLoader) {
+DuckieTV.controller('qbt41plusCtrl', ['qBittorrent41plus', 'SettingsService', 'FormlyLoader',
+  function(qBittorrent41plus, SettingsService, FormlyLoader) {
     var vm = this
     vm.error = null
 
@@ -16,22 +16,22 @@ DuckieTV.controller('qbt32plusCtrl', ['qBittorrent32plus', 'SettingsService', 'F
     })
 
     vm.isConnected = function() {
-      return qBittorrent32plus.isConnected()
+      return qBittorrent41plus.isConnected()
     }
 
     vm.test = function() {
       vm.error = false
       // console.log("Testing settings");
-      qBittorrent32plus.Disconnect()
-      qBittorrent32plus.setConfig(vm.model)
-      qBittorrent32plus.connect().then(function(connected) {
-        console.info('qBittorrent 3.2+ connected! (save settings)', connected)
+      qBittorrent41plus.Disconnect()
+      qBittorrent41plus.setConfig(vm.model)
+      qBittorrent41plus.connect().then(function(connected) {
+        console.info('qBittorrent 4.1+ connected! (save settings)', connected)
         vm.error = null
-        qBittorrent32plus.saveConfig()
+        qBittorrent41plus.saveConfig()
         window.location.reload()
       }, function(error) {
         vm.error = error
-        console.error('qBittorrent 3.2+ connect error!', error)
+        console.error('qBittorrent 4.1+ connect error!', error)
       })
     }
   }

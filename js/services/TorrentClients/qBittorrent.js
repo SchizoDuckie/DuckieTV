@@ -2,9 +2,9 @@
  * qBittorrent
  *
  * API Docs:
- * https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-Documentation
+ * https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-Documentation (appears to have been deleted)
  *
- * Works for both 3.2+ and below.
+ * base qBt support, for 4.1+
  *
  * - Does not support setting the download directory
  * - Does not support setting the label
@@ -18,28 +18,7 @@ qBittorrentData.extends(TorrentData, {
     return this.name
   },
   getDownloadSpeed: function() {
-    if (typeof this.dlspeed === 'string') {
-      // qBitTorrent < 3.2
-      var rate = parseInt(this.dlspeed.split(' ')[0])
-      var units = this.dlspeed.split(' ')[1]
-      switch (units) {
-        case 'KiB/s':
-          rate = rate * 1024
-          break
-        case 'MiB/s':
-          rate = rate * 1024 * 1024
-          break
-        case 'GiB/s':
-          rate = rate * 1024 * 1024 * 1024
-          break
-        case 'B/s':
-        default:
-      }
-    } else {
-      // qBitTorrent 3.2+
-      rate = this.dlspeed
-    }
-    return rate // Bytes/second
+    return this.dlspeed // Bytes/second
   },
   getProgress: function() {
     return this.round(this.progress * 100, 1)
@@ -72,7 +51,7 @@ qBittorrentData.extends(TorrentData, {
 })
 
 /**
- * qBittorrent < 3.2 client
+ * qBittorrent client
  */
 DuckieTorrent.factory('qBittorrentRemote', ['BaseTorrentRemote',
   function(BaseTorrentRemote) {
@@ -223,7 +202,7 @@ DuckieTorrent.factory('qBittorrentRemote', ['BaseTorrentRemote',
       qBittorrent.extends(BaseTorrentClient, {})
 
       var service = new qBittorrent()
-      service.setName('qBittorrent (pre3.2)')
+      service.setName('qBittorrent')
       service.setAPI(new qBittorrentAPI())
       service.setRemote(new qBittorrentRemote())
       service.setConfigMappings({
@@ -247,13 +226,5 @@ DuckieTorrent.factory('qBittorrentRemote', ['BaseTorrentRemote',
       service.readConfig()
 
       return service
-    }
-  ])
-
-  .run(['DuckieTorrent', 'qBittorrent', 'SettingsService',
-    function(DuckieTorrent, qBittorrent, SettingsService) {
-      if (SettingsService.get('torrenting.enabled')) {
-        DuckieTorrent.register('qBittorrent (pre3.2)', qBittorrent)
-      }
     }
   ])

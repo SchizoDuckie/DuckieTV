@@ -30,7 +30,7 @@ DuckieTV.controller('TorrentCtrl', ['$rootScope', '$injector', '$filter', 'Ducki
     }
 
     vm.getTorrentClientTemplate = function() {
-      return DuckieTorrent.getClientName().toLowerCase().replace(/ /g, '').replace('(pre3.2)', 'Pre32').replace(/3.2\+/, '32plus')
+      return DuckieTorrent.getClientName().toLowerCase().replace(/ /g, '').replace(/4.1\+/, '41plus')
     }
 
     vm.getTorrentsCount = function() {
