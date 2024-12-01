@@ -39,6 +39,8 @@ DuckieTorrent.factory('qBittorrent41plusAPI', ['qBittorrentAPI', '$http', '$q',
         var self = this
         return self.login().then(function() {
           return true
+        }, function(err) {
+          return false
         })
       },
       addMagnet: function(magnetHash, dlPath, label) {
