@@ -5,15 +5,70 @@
  * https://github.com/qbittorrent/qBittorrent/wiki/Web-API-Documentation v4.1+ APIv2 (appear to have been deleted)
  *
  */
+var qBittorrentData = function(data) {
+  this.update(data)
+}
 
-DuckieTorrent.factory('qBittorrent41plusAPI', ['qBittorrentAPI', '$http', '$q',
-  function(qBittorrentAPI, $http, $q) {
+qBittorrentData.extends(TorrentData, {
+  getName: function() {
+    return this.name
+  },
+  getDownloadSpeed: function() {
+    return this.dlspeed // Bytes/second
+  },
+  getProgress: function() {
+    return this.round(this.progress * 100, 1)
+  },
+  start: function() {
+    this.getClient().getAPI().execute('resume', this.hash)
+  },
+  stop: function() {
+    this.pause()
+  },
+  pause: function() {
+    this.getClient().getAPI().execute('pause', this.hash)
+  },
+  remove: function() {
+    this.getClient().getAPI().remove(this.hash)
+  },
+  getFiles: function() {
+    var self = this
+    return this.getClient().getAPI().getFiles(this.hash).then(function(results) {
+      self.files = results
+      return results
+    })
+  },
+  getDownloadDir: function() {
+    return this.files.downloaddir
+  },
+  isStarted: function() {
+    return ['downloading', 'uploading', 'stalledDL', 'stalledUP'].indexOf(this.state) > -1
+  }
+})
+
+/**
+ * qBittorrent client
+ */
+DuckieTorrent.factory('qBittorrentRemote', ['BaseTorrentRemote',
+  function(BaseTorrentRemote) {
+    var qBittorrentRemote = function() {
+      BaseTorrentRemote.call(this)
+      this.dataClass = qBittorrentData
+    }
+    qBittorrentRemote.extends(BaseTorrentRemote)
+
+    return qBittorrentRemote
+  }
+])
+
+DuckieTorrent.factory('qBittorrent41plusAPI', ['BaseHTTPApi', '$http', '$q',
+  function(BaseHTTPApi, $http, $q) {
     var qBittorrent41plusAPI = function() {
-      qBittorrentAPI.call(this)
+      BaseHTTPApi.call(this)
       this.config.apiVersion = 2
       this.config.apiSubVersion = 0
     }
-    qBittorrent41plusAPI.extends(qBittorrentAPI, {
+    qBittorrent41plusAPI.extends(BaseHTTPApi, {
       login: function() {
         var self = this
         return $http.post(this.getUrl('login'), 'username=' + encodeURIComponent(this.config.username) + '&password=' + encodeURIComponent(this.config.password), {
@@ -84,6 +139,38 @@ DuckieTorrent.factory('qBittorrent41plusAPI', ['qBittorrentAPI', '$http', '$q',
           headers: headers
         }).then(function(result) {
           if (window.debugTSE) console.debug('qBittorrent41plusAPI.addTorrentByUpload', result.data)
+          var currentTry = 0
+          var maxTries = 5
+          // wait for qBittorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
+          return $q(function(resolve, reject) {
+            function verifyAdded() {
+              currentTry++
+              self.getTorrents().then(function(result) {
+                var hash = null
+                // for each torrent compare the torrent.hash with .torrent infoHash
+                result.map(function(torrent) {
+                  if (torrent.hash.toUpperCase() == infoHash) {
+                    hash = infoHash
+                  }
+                })
+                if (hash !== null) {
+                  resolve(hash)
+                } else {
+                  if (currentTry < maxTries) {
+                    setTimeout(verifyAdded, 1000)
+                  } else {
+                    throw 'Hash ' + infoHash + ' not found for torrent ' + releaseName + ' in ' + maxTries + ' tries.'
+                  }
+                }
+              })
+            }
+            setTimeout(verifyAdded, 1000)
+          })
+        })
+      },
+      addTorrentByUrl: function(url, infoHash, releaseName) {
+        var self = this
+        return this.addMagnet(url).then(function(result) {
           var currentTry = 0
           var maxTries = 5
           // wait for qBittorrent to add the torrent to the list. we poll 5 times until we find it, otherwise abort.
