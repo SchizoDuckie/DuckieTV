@@ -134,6 +134,10 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
           // adjust other settings
           SettingsService.set('autodownload.lastrun', new Date().getTime())
           SettingsService.set('torrenting.enabled', torrentingEnabled) // restore torrenting setting to value prior to restore
+          if (localStorage.getItem('torrenting.client') == "qBittorrent 3.2+") {
+            console.info('found qBittorrent 3.2+, switching to qBittorrent 4.1+')
+            localStorage.setItem('torrenting.client', 'qBittorrent 4.1+')
+          }
 
           // save series/seasons/episodes
           angular.forEach(result.series, function(data, TRAKTorTVDB_ID) {
