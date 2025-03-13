@@ -114,7 +114,7 @@ jQuery.getJSON('https://api.github.com/repos/DuckieTV/Nightlies/releases/latest'
     $('#date').html(new Date(result.published_at).toLocaleDateString());
     $("#releasenotes").html('<p style="text-align:left">' + marked(result.body) + '</p>');
 
-    var isX64 = navigator.userAgent.search(/x86_64|x86-64|Win64|x64;|amd64|AMD64|WOW64|x64_64|OS X/) > -1;
+    var isX64 = navigator.userAgent.search(/x86_64|x86-64|Win64|x64;|amd64|AMD64|WOW64|x64_64/) > -1;
 
     result.assets.map(function(release) {
         console.log(release.name);
@@ -131,7 +131,7 @@ jQuery.getJSON('https://api.github.com/repos/DuckieTV/Nightlies/releases/latest'
             });
             return;
         }
-        if (release.name.indexOf('OSX') > -1 && release.name.indexOf(isX64 ? 'x64' : 'x32') > -1) {
+        if (release.name.indexOf('OSX') > -1 && release.name.indexOf('arm64') > -1) {
             $('.down.apple').click(function() {
                 window.open(release.browser_download_url);
             });
