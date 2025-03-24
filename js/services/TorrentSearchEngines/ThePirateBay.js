@@ -23,8 +23,9 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           detailUrl: ['a.detLink', 'href']
         },
         orderby: {
+          age: {d: '3', a: '4'},
           leechers: {d: '9', a: '10'},
-          seeders: {d: '99', a: '8'},
+          seeders: {d: '7', a: '8'},
           size: {d: '5', a: '6'}
         }
       }, $q, $http, $injector))
