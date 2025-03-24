@@ -21,8 +21,9 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           magnetUrl: ['a[href^="magnet:?xt="]', 'href']
         },
         orderby: {
-          leechers: {d: 'order=leech&sort=desc', a: 'order=leech&sort=asc'},
+          age: {d: 'order=age&sort=desc', a: 'order=age&sort=asc'},
           seeders: {d: 'order=seed&sort=desc', a: 'order=seed&sort=asc'},
+          leechers: {d: 'order=leech&sort=desc', a: 'order=leech&sort=asc'},
           size: {d: 'order=size&sort=desc', a: 'order=size&sort=asc'}
         }
       }, $q, $http, $injector))
