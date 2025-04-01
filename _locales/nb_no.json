@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "Nedlastingsfremgang",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " Strøm gjennom torrent-spiller",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent ble ikke funnet i torrent-klient.",
-    "STATUSCODES": "lastet ned|overvåket|har torrent|AutNrV deaktivert|Ingenting funnet|filtrert ut|torrent lansert|såmaskin |på lufta + forsinkelse",
+    "STATUSCODES": "lastet ned|overvåket|har torrent|AutNrV deaktivert|Ingenting funnet|filtrert ut|torrent lansert|såmaskin |på lufta + forsinkelse|TVDB_ID",
     "STATUSLIST": "Kansellert|Avsluttet|I Produksjon|Returnerende Serie|Planlagt",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV oppdaget at serien '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' ble slettet på en annen datamaskin du er logget inn på. Vil du slette den på denne datamaskinen i tillegg? (Hvis du velger 'nei', så vil den bli lagt til igjen på den eksterne datamaskinen under neste synkronisering)",

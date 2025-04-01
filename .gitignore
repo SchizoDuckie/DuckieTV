@@ -3,6 +3,7 @@ node_modules/
 locales/
 pnacl/
 dist/
+_nwjs/
 npm-debug.log
 DuckieTV.exe
 ffmpegsumo.dll

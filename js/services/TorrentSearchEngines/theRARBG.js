@@ -6,7 +6,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         mirrorResolver: null,
         includeBaseURL: true,
         endpoints: {
-          search: 'get-posts/keywords:%s:order:%o/'
+          search: '/get-posts/keywords:%s:order:%o/'
         },
         selectors: {
           resultContainer: 'tr.list-entry',

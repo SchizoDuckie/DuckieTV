@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "Progression du téléchargement",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " Diffuser avec le lecteur torrent",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent se trouve pas dans le client torrent.",
-    "STATUSCODES": "téléchargé en|vus|a un torrent|AutoDL désactivé|Rien trouvé|filtré|torrent lancé|seeders |sur l'air + retard",
+    "STATUSCODES": "téléchargé en|vus|a un torrent|AutoDL désactivé|Rien trouvé|filtré|torrent lancé|seeders |sur l'air + retard|TVDB_ID",
     "STATUSLIST": "Annulée|Terminée|En cours|Renouvelée|Planifiée",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV a détecté que la série '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' a été supprimée sur un autre ordinateur sur lequel vous êtes connecté. Voulez-vous la supprimer ici aussi? (Si vous sélectionnez non, elle sera rajouté à l'ordinateur distant lors de la prochaine synchronisation)",

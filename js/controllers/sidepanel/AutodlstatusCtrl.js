@@ -19,7 +19,7 @@ DuckieTV.controller('AutodlstatusCtrl', ['$scope', '$filter', '$injector', 'Sett
     // " day, | days, | hour and | hours and | minute | minutes "
 
     var statusCodes = $filter('translate')('STATUSCODES').split('|')
-    // "downloaded|watched|has torrent|autoDL disabled|nothing found|filtered out|torrent launched|seeders |onair + delay"
+    // "downloaded|watched|has torrent|autoDL disabled|nothing found|filtered out|torrent launched|seeders |onair + delay|TVDB_ID"
 
     var inactiveLbl = $filter('translate')('AUTODLSTATUSCTRLjs/inactive/lbl')
     // inactive

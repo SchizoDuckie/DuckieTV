@@ -24,7 +24,7 @@
     <button class="glyphicon glyphicon-win-close" id='close' uib-tooltip="{{ 'COMMON/close/btn'|translate }}" tooltip-placement="bottom"></button>
   </div>
 
-  <background-rotator channel="'background:load'" style="opacity:{{getSetting('background-rotator.opacity')}}"></background-rotator>
+  <background-rotator channel="'background:load'"></background-rotator>
   <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>
 
   <div class="container" ng-class="{'topsites': getSetting('topSites.enabled')}">
@@ -113,8 +113,7 @@
   <script src="js/controllers/settings/TorrentClients/Aria2.js"></script>
   <script src="js/controllers/settings/TorrentClients/BiglyBT.js"></script>
   <script src="js/controllers/settings/TorrentClients/Deluge.js"></script>
-  <script src="js/controllers/settings/TorrentClients/qBittorrentPre32.js"></script>
-  <script src="js/controllers/settings/TorrentClients/qBittorrent32plus.js"></script>
+  <script src="js/controllers/settings/TorrentClients/qBittorrent41plus.js"></script>
   <script src="js/controllers/settings/TorrentClients/Ktorrent.js"></script>
   <script src="js/controllers/settings/TorrentClients/rTorrent.js"></script>
   <script src="js/controllers/settings/TorrentClients/Tixati.js"></script>
@@ -193,8 +192,7 @@
   <script src="js/services/TorrentClients/Aria2.js"></script>
   <script src="js/services/TorrentClients/BiglyBT.js"></script>
   <script src="js/services/TorrentClients/Deluge.js"></script>
-  <script src="js/services/TorrentClients/qBittorrentPre32.js"></script>
-  <script src="js/services/TorrentClients/qBittorrent32plus.js"></script>
+  <script src="js/services/TorrentClients/qBittorrent41plus.js"></script>
   <script src="js/services/TorrentClients/Ktorrent.js"></script>
   <script src="js/services/TorrentClients/rTorrent.js"></script>
   <script src="js/services/TorrentClients/Tixati.js"></script>
@@ -218,9 +216,11 @@
   <script src="js/services/TorrentSearchEngines/LimeTorrents.js"></script>
   <script src="js/services/TorrentSearchEngines/Nyaa.js"></script>
   <script src="js/services/TorrentSearchEngines/ShowRSS.js"></script>
+  <script src="js/services/TorrentSearchEngines/PiratesParadise.js"></script>
   <script src="js/services/TorrentSearchEngines/theRARBG.js"></script>
   <script src="js/services/TorrentSearchEngines/TorrentDownloads.js"></script>
   <script src="js/services/TorrentSearchEngines/TorrentGalaxy.js"></script>
+  <script src="js/services/TorrentSearchEngines/Uindex.js"></script>
   <script src="js/services/VideoPlayers/SynologyAPI.js"></script>
 
   <script src="js/services/UpgradeNotificationService.js"></script>

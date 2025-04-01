@@ -85,8 +85,6 @@ Function.prototype.extends = function(ParentClass, prototypeImplementations) {
   }, this)
 }
 
-console.info('%cDuckieTV', 'color:transparent; font-size: 16pt; line-height: 125px; padding:25px; padding-top:30px; padding-bottom:60px; background-image:url(https://duckietv.github.io/DuckieTV/img/logo/icon128.png); background-repeat:no-repeat; ', 'quack!\n\n\n\n\n\n')
-
 /**
  * extend the String object to add the getInfoHash method
  * if the String contains a base16 infoHash then extract it and return it

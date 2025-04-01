@@ -1,5 +1,5 @@
 <!-- serieHeader.html -->
-<div class="serieheader" ui-sref-active="active" uib-tooltip-template="'serieslist.serieHeaderTitleTooltip.html'" tooltip-popup-delay="100" tooltip-append-to-body="true">
+<div class="serieheader" ui-sref-active="active" uib-tooltip-template="'serieslist.serieHeaderTitleTooltip.html'" tooltip-popup-delay="75" tooltip-append-to-body="true">
     <div ng-show="!noBadge">
       <em ng-show="data.notWatchedCount != 0 " class="badge">
         <i class="glyphicon glyphicon-eye-close" ></i> {{data.notWatchedCount}}
@@ -32,11 +32,11 @@
 
   <script type="text/ng-template" id="serieslist.serieHeaderTitleTooltip.html">
     <strong>{{data.name}}</strong>
-    <div ng-show="!noBadge">
-      <div ng-show="data.notWatchedCount == 0 ">
+    <div ng-if="!noBadge">
+      <div ng-if="data.notWatchedCount == 0 ">
         ({{'COMMON/all-watched/tooltip'|translate}})
       </div>
-      <div ng-show="data.notWatchedCount != 0">
+      <div ng-if="data.notWatchedCount != 0">
         ({{data.notWatchedCount}} {{'COMMON/to-watch/tooltip'|translate}})
       </div>
     </div>

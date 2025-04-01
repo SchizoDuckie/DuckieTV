@@ -1,5 +1,5 @@
 /**
- * Automatic mirror resolver for ThePirateBay by utilizing proxybay
+ * Automatic mirror resolver for ThePirateBay by utilizing piratebayproxy
  */
 DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
   function($q, $http, $injector) {
@@ -8,7 +8,7 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
     var maxAttempts = 3
 
     var endpoints = {
-      thepiratebay: 'https://proxybay.unblockit.casa/'
+      thepiratebay: 'https://piratebayproxy.net/'
     }
 
     /**
@@ -19,12 +19,12 @@ DuckieTV.factory('ThePirateBayMirrorResolver', ['$q', '$http', '$injector',
     }
 
     /**
-     * Find a random mirror from proxybay.app
+     * Find a random mirror from piratebayproxy
      */
     function parsePirateBayProxyList(result) {
       var parser = new DOMParser()
       var doc = parser.parseFromString(result.data, 'text/html')
-      var resultList = doc.querySelectorAll('td.site a[rel=nofollow]')
+      var resultList = doc.querySelectorAll('td.tableurl a[rel*=nofollow]')
       return resultList[Math.floor(Math.random() * resultList.length)].href
     }
 

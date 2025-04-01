@@ -200,6 +200,12 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           return promiseRequest(type, param, param2, promise)
         }
 
+        if (err.status == 420) {
+          // limit exceeded
+          console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
+          return
+        }
+
         if (err.status == 429) {
           // rate limited, look at headers to see when we should try again otherwise just wait for a few seconds
           var headers = err && err.headers ? err.headers() : {}
@@ -261,6 +267,11 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           service.renewToken()
           // restart request and return original promise
           return performPost(type, param)
+        }
+        if (err.status == 420) {
+          // limit exceeded
+          console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
+          return
         }
         if (err.status == 429) {
           // rate limited

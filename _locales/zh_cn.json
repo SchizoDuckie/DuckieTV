@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "下载进度",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " 流与Torrent播放器",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent客户中未发现种子。",
-    "STATUSCODES": "已下载|已观看|有种子|禁用自动下载|什么都没找到|已过滤|种子已推出|seeders |空气+延迟",
+    "STATUSCODES": "已下载|已观看|有种子|禁用自动下载|什么都没找到|已过滤|种子已推出|seeders |空气+延迟|TVDB_ID",
     "STATUSLIST": "已取消|已结束|更新中|回归系列|已计划",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV检测到节目'",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "'如果你在登录的另一台计算机中删除，你是否也要在这里删除呢？（如果你没有选择，它将被重新加入到远程计算机上的下一个同步）",

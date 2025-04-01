@@ -11,7 +11,7 @@
       </form>
     </div>
 
-    <div class="col col-md-4">
+    <div class="col col-md-5">
       <!-- statusfilter list -->
       <div class="btn-group sort-status" uib-dropdown>
         <button type="button" class="btn dropdown-toggle" uib-dropdown-toggle>
@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <div class="col col-md-3" style="display: flex; height: 40px; justify-content: flex-end; align-items: center;">
+    <div class="col col-md-2" style="display: flex; height: 40px; justify-content: flex-end; align-items: center;">
       <!-- Make posters smaller button -->
       <a ng-click="serieslist.toggleSmall();">
         <i uib-tooltip="{{serieslist.isSmall ? 'COMMON/make-posters-large/tooltip' : 'COMMON/make-posters-small/tooltip'|translate}}" tooltip-placement="bottom" tooltip-delay="150" style='font-size:20px;top:3px;margin-left:8px;' class="glyphicon" ng-class="{'glyphicon-th-large':serieslist.isSmall, 'glyphicon-th': !serieslist.isSmall}"></i>

@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "Hämta framsteg",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": "  Strömma med calibre spelare ",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent som inte finns i torrent-klient.",
-    "STATUSCODES": "nedladdade|betraktade|har torrent|autoDL inaktiverad|inget hittat|filtreras ut|torrent lanserade|såningsmaskin |på luft + fördröjning",
+    "STATUSCODES": "nedladdade|betraktade|har torrent|autoDL inaktiverad|inget hittat|filtreras ut|torrent lanserade|såningsmaskin |på luft + fördröjning|TVDB_ID",
     "STATUSLIST": "Avbokning minst|Avslutade|I Produktion|Fortsätter|Planerade",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV upptäckt att showen'",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' Har tagits bort på en annan dator som du är inloggad på. Vill du ta bort det här också? (Om du väljer nej, det kommer åter läggas till fjärrdatorn på nästa synkronisering) ",

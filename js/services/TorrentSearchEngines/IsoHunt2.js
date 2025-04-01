@@ -6,11 +6,11 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         mirrorResolver: null,
         includeBaseURL: true,
         endpoints: {
-          search: '/torrent/?ihq=%s&iht=0&verified=0'
+          search: '/torrent/?ihq=%s&iht=0'
         },
         selectors: {
-          resultContainer: 'table > tbody > tr[data-key="0"]',
-          releasename: ['td.title-row > a[href^="/"] > span', 'innerText'],
+          resultContainer: 'tr[data-key="0"]',
+          releasename: ['td.title-row > a[href^="/torrent_details/"]', 'innerText'],
           size: ['td.size-row', 'innerText'],
           seeders: ['td.sn', 'innerText'],
           leechers: ['td.sn', 'innerText',
@@ -18,13 +18,13 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
               return 'n/a'
             }
           ],
-          detailUrl: ['td.title-row > a[href^="/"]', 'href']
+          detailUrl: ['td.title-row > a[href^="/torrent_details/"]', 'href']
         },
         detailsSelectors: {
           detailsContainer: 'div[class="row mt"]',
           magnetUrl: ['a:nth-of-type(2)', 'href',
             function(shortlink) {
-              return decodeURIComponent(shortlink.replace('https://mylink.cx/?url=', ''))
+              return decodeURIComponent(shortlink.replace('https://mylink.cloud/?url=', ''))
             }
           ]
         }

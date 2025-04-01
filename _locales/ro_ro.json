@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "Progres descărcare",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " Redare video cu playerul din clientul de torrent",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent nu a fost găsit în client torrent.",
-    "STATUSCODES": "descărcat|vizionat|are torrent|autoDL dezactivat|nu s-a găsit nimic|filtrat|torrent lansat|semanare |pe a aerului + întârziere",
+    "STATUSCODES": "descărcat|vizionat|are torrent|autoDL dezactivat|nu s-a găsit nimic|filtrat|torrent lansat|semanare |pe a aerului + întârziere|TVDB_ID",
     "STATUSLIST": "Canceled|Ended|In Production|Returning Series|Planned",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV a detectat că serialul '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' a fost șters pe un alt calculator pe care sunteți logat. Vreți să îl ștergeți și aici? (Dacă selectați Nu, va fi readăugat pe celălalt calculator la următoarea sincronizare)",

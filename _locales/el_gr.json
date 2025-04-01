@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "Πρόοδος Λήψης",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " Stream με τον torrent player",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Το Torrent δεν βρέθηκε στο πρόγραμμα torrent.",
-    "STATUSCODES": "downloaded|watched|has torrent|autoDL disabled|nothing found|filtered out|torrent launched|seeders |onair + delay",
+    "STATUSCODES": "downloaded|watched|has torrent|autoDL disabled|nothing found|filtered out|torrent launched|seeders |onair + delay|TVDB_ID",
     "STATUSLIST": "Ακυρωμένο|Τελείωσε|Σε Παραγωγή|Επιστροφή Σειράς|Σχεδιασμένη",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "Το DuckieTV ανίχνευσε ότι η σειρά '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' διεγράφη σε έναν άλλον Η/Υ που έχετε συνδεθεί. Θέλετε ν ατο διαγράψετε και από εδώ; (αν επιλέξετε όχι, θα ξαναπροστεθεί και στον άλλον Η/Υ στον επόμενο συγχρονισμό)",

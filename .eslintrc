@@ -239,7 +239,7 @@
     "angular/on-watch": 0,
     "angular/rest-service": 0,
     "angular/service-name": 2,
-    "angular/timeout-service": 1,
+    "angular/timeout-service": 0,
     "angular/typecheck-array": 1,
     "angular/typecheck-date": 1,
     "angular/typecheck-function": 1,

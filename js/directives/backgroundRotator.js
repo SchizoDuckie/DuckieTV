@@ -20,7 +20,11 @@ DuckieTV.directive('backgroundRotator', ['$rootScope',
         $scope.bg2 = false
         $scope.bg1on = false
         $scope.bg2on = false
+
+        $scope.bgItem = null
+        $scope.bgUrl = null
         var cooldown = false
+        $scope.getSetting = $rootScope.getSetting
 
         load = function(url) {
           var img = document.createElement('img')
@@ -30,17 +34,42 @@ DuckieTV.directive('backgroundRotator', ['$rootScope',
             $scope[target + 'on'] = true
             $scope[(target == 'bg1' ? 'bg2on' : 'bg1on')] = false
             $scope.$applyAsync()
+
+            updateItemDetails()
           }
+
           img.src = url
         }
 
-        $rootScope.$on($scope.channel, function(event, url) {
+        $rootScope.$on($scope.channel, function(event, item) {
           if (!cooldown) {
-            if (url) load(url)
+            const url = item?.fanart
+
+            if (url && $scope.bgUrl != url) {
+              $scope.bgItem = item
+              $scope.bgUrl = url
+              load(url)
+            }
+
             cooldown = true
             setTimeout(function() { cooldown = false }, 1300)
           }
         })
+
+        function updateItemDetails() {
+          if (!$scope.bgItem) {
+            return
+          }
+
+          const name = $scope.bgItem.name?.slice(0, 30)
+          const year = new Date($scope.bgItem.firstaired)?.getFullYear()
+
+          if (name && year) {
+            $scope.itemDetails = `${name} (${year})`
+          } else if (name) {
+            $scope.itemDetails = name
+          }
+        }
       }
     }
   }

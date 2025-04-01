@@ -134,10 +134,14 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
                     return // the episode is broadcasting right now
                   }
 
-                  if (serie.autoDownload == 1) {
-                    service.autoDownload(serie, episode)
+                  if (!serie.TVDB_ID) {
+                    service.activityUpdate(serie, episode, serieEpisode, 9) // 'TVDB_ID'
                   } else {
-                    service.activityUpdate(serie, episode, serieEpisode, 3) // 'autoDL disabled'
+                    if (serie.autoDownload == 1) {
+                      service.autoDownload(serie, episode)
+                    } else {
+                      service.activityUpdate(serie, episode, serieEpisode, 3) // 'autoDL disabled'
+                    }
                   }
                 })
               })

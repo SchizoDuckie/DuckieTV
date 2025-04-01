@@ -34,4 +34,14 @@ DuckieTV.run(['SettingsService', function(SettingsService) {
     localStorage.setItem('1.1.6updateQualityList2', new Date())
     console.info('1.1.6updateQualityList2 done!')
   }
+  // bump qBittorrent 3.2+ to qBittorrent 4.1+
+  if (!localStorage.getItem('1.1.6updateqBt32+toqBt41+')) {
+    console.info('Executing 1.1.6updateqBt32+toqBt41+')
+    if (localStorage.getItem('torrenting.client') == "qBittorrent 3.2+") {
+      console.info('found qBittorrent 3.2+, switching to qBittorrent 4.1+')
+      localStorage.setItem('torrenting.client', 'qBittorrent 4.1+')
+    }
+    localStorage.setItem('1.1.6updateqBt32+toqBt41+', new Date())
+    console.info('1.1.6updateqBt32+toqBt41+ done!')
+  }
 }])

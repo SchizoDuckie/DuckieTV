@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "Baixar Progresso",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": "  Córrego com Torrent jogador ",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent não encontrado no cliente torrent.",
-    "STATUSCODES": "baixado|assisti|Tem torrent|AutoDL desativada|Nada encontrado|filtrados|torrent lançado|semeadoras |em ar + atraso",
+    "STATUSCODES": "baixado|assisti|Tem torrent|AutoDL desativada|Nada encontrado|filtrados|torrent lançado|semeadoras |em ar + atraso|TVDB_ID",
     "STATUSLIST": "Cancelado|Findo|em Produção|Continuando|Planejado",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV detectou que o show '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' foi eliminado em outro computador que você está LoggedIn diante. Você quer excluí-lo aqui também? (Se você selecionar não, ele vai voltar a ser adicionado ao computador remoto na próxima sincronização)",

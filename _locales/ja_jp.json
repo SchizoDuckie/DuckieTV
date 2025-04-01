@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "ダウンロードの進行状況",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " Torrentのプレーヤーでストリーミング ",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "トレントは,トレントクライアントでは見られません.",
-    "STATUSCODES": "ダウンロード|見|トレントを持っている|のAutoDL無効に|何も見つかりません|フィルタアウト|急流打ち上げ|シーダ |空気+遅延について",
+    "STATUSCODES": "ダウンロード|見|トレントを持っている|のAutoDL無効に|何も見つかりません|フィルタアウト|急流打ち上げ|シーダ |空気+遅延について|TVDB_ID",
     "STATUSLIST": "キャンセル|終了した|製造中|連続|計画されました",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTVは,検出されたことを示して '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "'あなたがログオンしている別のコンピュータ上で削除されました.あなたにもここでそれを削除しますか？（[いいえ]を選択する場合は,次回の同期時にリモートコンピュータに再度追加されます）",

@@ -1,3 +1,6 @@
-<div class="placeholder" ng-class="{active: bg1 == false}"></div>
-<div ng-style="{backgroundImage: bg1 ? 'url('+bg1+')': ''}" ng-class="{active: bg1on}"></div>
-<div ng-style="{backgroundImage: bg2 ? 'url('+bg2+')': ''}" ng-class="{active: bg2on}"></div>
+<div class="background-image-container" style="opacity:{{getSetting('background-rotator.opacity')}}">
+  <div class="placeholder" ng-class="{active: bg1 == false}"></div>
+  <div ng-style="{backgroundImage: bg1 ? 'url('+bg1+')': ''}" ng-class="{active: bg1on}"></div>
+  <div ng-style="{backgroundImage: bg2 ? 'url('+bg2+')': ''}" ng-class="{active: bg2on}"></div>
+</div>
+<span class="background-details" ng-show="itemDetails">{{itemDetails}}</span>

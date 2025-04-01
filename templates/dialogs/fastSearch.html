@@ -12,7 +12,7 @@
       <h3 translate-once>FASTSEARCH/series-favorites/hdr</h3>
       <loading-spinner class="small" ng-show="seriesLoading"></loading-spinner>
       <div class="fs-series no-animate" ng-if="searchResults.series.length > 0 && !seriesLoading">
-        <serieheader ng-repeat="serie in searchResults.series  | orderBy: 'name' | limitTo: 6 track by $index" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1" ng-click="close()" class="no-animate"></serieheader>
+        <serieheader ng-repeat="serie in searchResults.series  | orderBy: 'name' | limitTo: 6 track by serie.ID_Serie" data="serie" mode="poster" no-badge="1" no-title="0" no-overview="1" ng-click="close()" class="no-animate"></serieheader>
       </div>
     </div>
 <!-- series from trakt.tv -->

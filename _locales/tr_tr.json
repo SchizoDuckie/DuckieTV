@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "İndirme İlerlemesi",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": "Torrent oynatıcı ile akış",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent istemcisinde Torrent bulunamadı.",
-    "STATUSCODES": "indirilen|izlendi|torrent var|autoDL devre dışı|hiçbir şey bulunamadı|filtrelendi|torrent başlatıldı|ekiciler |onair + gecikme",
+    "STATUSCODES": "indirilen|izlendi|torrent var|autoDL devre dışı|hiçbir şey bulunamadı|filtrelendi|torrent başlatıldı|ekiciler |onair + gecikme|TVDB_ID",
     "STATUSLIST": "İptal Edildi|Bitti|Üretimde|Geri Dönen Seriler|Planlanmış",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV, gösterinin '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' Oturum açtığınız başka bir bilgisayarda silindi. Burada da silmek istiyor musunuz? (Hayır seçerseniz, sonraki senkronizasyon sırasında uzak bilgisayara yeniden eklenecektir)",

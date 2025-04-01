@@ -21,9 +21,8 @@ DuckieTV.directive('calendarEvent', ['SettingsService',
           $scope.clearHoverTimer()
           // Make sure serie has fanart defined
           if ($scope.serie.fanart) {
-            var background = $scope.serie.fanart
             $scope.hoverTimer = setTimeout(function() {
-              $scope.$root.$broadcast('background:load', background)
+              $scope.$root.$broadcast('background:load', $scope.serie)
             }, 1500)
           }
         }

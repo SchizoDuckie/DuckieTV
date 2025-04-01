@@ -29,11 +29,11 @@
             <h2 style="margin-top:0" translate-once>SIDEPANEL/SERIE-OVERVIEW/next-episode/hdr</h2>
             <h3 ng-if="sidepanel.nextEpisode"><a ui-sref="serie.season.episode({episode_id: sidepanel.nextEpisode.ID_Episode,season_id: sidepanel.nextEpisode.ID_Season})">{{sidepanel.nextEpisode.getFormattedEpisode()}}</a></h3>
           </td>
-          <td ng-if="sidepanel.nextEpisode">
+          <td ng-if="sidepanel.nextEpisode" style="padding-bottom:15px;">
             {{sidepanel.nextEpisode.episodename}}<br>
             <strong translate-once>SIDEPANEL/SERIE-OVERVIEW/airdate/lbl</strong> {{sidepanel.nextEpisode.firstaired || '?' | date: 'shortDate'}}
           </td>
-          <td ng-if="!sidepanel.nextEpisode" translate-once>SIDEPANEL/SERIE-OVERVIEW/unknown/lbl</td>
+          <td ng-if="!sidepanel.nextEpisode" style="padding-bottom:15px;" translate-once>SIDEPANEL/SERIE-OVERVIEW/unknown/lbl</td>
       </tr>
     </tbody>
     <tbody class="buttons">

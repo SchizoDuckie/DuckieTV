@@ -9,7 +9,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           search: '/search/%s/0/1/%o'
         },
         selectors: {
-          resultContainer: 'tr[title^="Cached "]',
+          resultContainer: 'tr[data-id]',
           releasename: ['td:nth-child(2) a', 'innerText'],
           magnetUrl: ['td:nth-child(2) a', 'href'],
           size: ['td:nth-child(3)', 'innerText'],
@@ -18,10 +18,10 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           detailUrl: ['td:last-child a', 'href']
         },
         orderby: {
-          age: {d: '+date', a: '-date'},
-          leechers: {d: '+peers', a: '-peers'},
-          seeders: {d: '+seeders', a: '-seeders'},
-          size: {d: '+bytes', a: '-bytes'}
+          age: {d: 'date', a: '-date'},
+          leechers: {d: 'peers', a: '-peers'},
+          seeders: {d: 'seeders', a: '-seeders'},
+          size: {d: 'bytes', a: '-bytes'}
         }
       }, $q, $http, $injector))
     }

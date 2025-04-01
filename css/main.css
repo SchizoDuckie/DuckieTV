@@ -123,7 +123,7 @@ body.modal-open .sidepanel, body.modal-open div[date-picker] {
 
 body>.container {
   width: calc(100% - 57px);
-  padding: 20px 35px 10px 35px;
+  padding: 28px 35px 10px 35px;
   float: right;
   margin: 0;
   transition: padding-top 0.2s ease-in, opacity 0.2s ease-in;
@@ -243,11 +243,15 @@ a:hover .glyphicon {
   display: block;
 }
 
-background-rotator {
+background-rotator .background-image-container {
   opacity: 0.4;
+  z-index: -2;
+  top: 0;
+  left: 0;
+  position: fixed;
 }
 
-background-rotator>div {
+background-rotator .background-image-container > div {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -256,17 +260,30 @@ background-rotator>div {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  z-index: -1;
+  z-index: -2;
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
-background-rotator>div.active {
+background-rotator .background-image-container > div.active {
   opacity: 1;
 }
 
-background-rotator .placeholder {
-  z-index: -2;
+background-rotator .background-details {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 2px 6px;
+  font-size: 10px;
+  color: rgb(230, 230, 230);
+  background: rgba(60, 60, 60, 0.4);
+  border-top-left-radius: 6px;
+  opacity: 0.9;
+  z-index: -1;
+}
+
+background-rotator .background-image-container .placeholder {
+  z-index: -3;
   background-image: url(../img/logo/duckietv.png);
   background-color: #A9A9A9;
   background-size: initial;
@@ -546,12 +563,13 @@ button span, .dropdown-menu span, .dropdown-menu input {
   color: white;
   opacity: 0.8;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
+  font-family: helvetica, sans-serif;
 }
 
 .standalone .close:focus, .standalone .close:hover, .standalone button.close {
-  top: 26px;
+  top: 30px;
 }
 
 input[type=text], input[type=url], input[type=password], input[type=number], option, select, select.form-control {
@@ -2295,7 +2313,7 @@ sidepanel .rightpanel {
 
 .standalone sidepanel .leftpanel,
 .standalone sidepanel .rightpanel {
-  padding-top: 25px;
+  padding-top: 30px;
 }
 
 sidepanel .rightpanel h2 {

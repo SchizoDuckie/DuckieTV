@@ -19,8 +19,9 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
           detailUrl: ['td:nth-of-type(2) a:last-of-type', 'href']
         },
         orderby: {
-          leechers: {d: '&s=leechers&o=desc', a: '&s=leechers&o=asc'},
+          age: {d: '&s=id&o=desc', a: '&s=id&o=asc'},
           seeders: {d: '&s=seeders&o=desc', a: '&s=seeders&o=asc'},
+          leechers: {d: '&s=leechers&o=desc', a: '&s=leechers&o=asc'},
           size: {d: '&s=size&o=desc', a: '&s=size&o=asc'}
         }
       }, $q, $http, $injector))

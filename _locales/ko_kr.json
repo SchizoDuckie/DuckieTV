@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "다운로드 진행",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": "  Torrent 플레이어와 스트리밍 ",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "토런트는 토런트 클라이언트에서 찾을 수 없습니다.",
-    "STATUSCODES": "다운로드|시청|급류가있다.|하는 AutoDL 비활성화|아무것도 찾을 수 없음|필터링|토런트 출시|파종기 |공기 + 지연에",
+    "STATUSCODES": "다운로드|시청|급류가있다.|하는 AutoDL 비활성화|아무것도 찾을 수 없음|필터링|토런트 출시|파종기 |공기 + 지연에|TVDB_ID",
     "STATUSLIST": "취소|종단|생산 중|계속|계획",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV 감지하는 쇼 '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "'당신이있는에 로그인 한 다른 컴퓨터에서 삭제되었습니다. 당신은뿐만 아니라 여기를 삭제 하시겠습니까? (No를 선택하면 다음에 동기화에 원격 컴퓨터에 다시 추가됩니다)",

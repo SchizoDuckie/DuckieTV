@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "Voortgang Download",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " Streamen met Torrent speler",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent niet gevonden in de torrent-client.",
-    "STATUSCODES": "gedownload|bekeken|heeft torrent|auto-download uitgeschakeld|niets gevonden|uitgefilterd|torrent gevonden|Zoekmachines |On Air + vertraging",
+    "STATUSCODES": "gedownload|bekeken|heeft torrent|auto-download uitgeschakeld|niets gevonden|uitgefilterd|torrent gevonden|Zoekmachines |On Air + vertraging|TVDB_ID",
     "STATUSLIST": "Geannuleerd|Afgelopen|Bezig met filmen|Wordt nu uitgezonden|Gepland",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV heeft geconstateerd dat de serie '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "' werd verwijderd op een andere computer waar je op ingelogd bent. Wil je deze ook verwijderen? (Als je hier 'Nee' selecteert, zal deze opnieuw toegevoegd aan de andere computer bij de volgende synchronisatie)",

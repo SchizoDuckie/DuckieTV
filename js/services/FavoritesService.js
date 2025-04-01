@@ -250,7 +250,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
         $injector.get('CalendarEvents').processEpisodes(serie, episodeCache)
         // console.debug("FavoritesService.Favorites", service.favorites)
         $rootScope.$applyAsync()
-        $rootScope.$broadcast('background:load', serie.fanart)
+        $rootScope.$broadcast('background:load', serie)
         $rootScope.$broadcast('storage:update')
         $rootScope.$broadcast('serie:recount:watched', serie.ID_Serie)
 
@@ -362,9 +362,10 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
       loadRandomBackground: function() {
         // dafuq. no RANDOM() in sqlite in chrome...
         // then we pick a random array item from the resultset based on the amount.
-        CRUD.executeQuery("select fanart from Series where fanart != ''").then(function(result) {
+        CRUD.executeQuery("select name, firstaired, fanart from Series where fanart != ''").then(function(result) {
+          var item = result.rows[Math.floor(Math.random() * (result.rows.length - 1))]
           if (result.rows.length > 0) {
-            $rootScope.$broadcast('background:load', result.rows[Math.floor(Math.random() * (result.rows.length - 1))].fanart)
+            $rootScope.$broadcast('background:load', item)
           }
         })
       },

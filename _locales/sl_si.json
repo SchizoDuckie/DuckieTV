@@ -560,7 +560,7 @@
     "SIDEPANEL/TORRENTRC/download-progress/lbl": "Prenos Progress",
     "SIDEPANEL/TORRENTRC/stream-play/glyph": " Stream z torrent predvajalnikom",
     "SIDEPANEL/TORRENTRC/torrent-not-found/lbl": "Torrent ni bilo mogoče najti v torrent odjemalcu.",
-    "STATUSCODES": "prenesli|gledal|ima torrent|autoDL onemogočeno|nič našel|filtrirane|torrent začela|sejanje |na zraka + zamudo",
+    "STATUSCODES": "prenesli|gledal|ima torrent|autoDL onemogočeno|nič našel|filtrirane|torrent začela|sejanje |na zraka + zamudo|TVDB_ID",
     "STATUSLIST": "Odpovedano|Končano|v Izdelavi|se Predvaja|Načrtovani",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p1": "DuckieTV zaznal, da predstava '",
     "STORAGESYNCSERVICEjs/serie-deleted-remote-question/p2": "'Je bil izbrisan na drugem računalniku ste prijavljeni v naprej. Ali želite izbrisati tudi tukaj? (Če izberete Ne, se bo ponovno dodane z oddaljenim računalnikom na naslednji sinhronizaciji)",
