@@ -103,7 +103,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
           'Nyaa': true,
           'PiratesParadise': true,
           'ShowRSS': true,
-          'TGx': true,
           'theRARBG': true,
           'TorrentDownloads': true,
           'Uindex': true
@@ -157,7 +156,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'mirror.theRARBG': 'https://therarbg.to',
         'mirror.ThePirateBay': 'https://thepiratebay0.org/',
         'mirror.TorrentDownloads': 'https://www.torrentdownloads.pro',
-        'mirror.TGx': 'https://torrentgalaxy.to',
         'mirror.Uindex': 'https://uindex.org',
         'notifications.enabled': true, // chrome notifications for download started/finished
         'qbittorrent32plus.password': 'admin',
@@ -201,7 +199,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
           'Nyaa': true,
           'PiratesParadise': true,
           'ShowRSS': true,
-          'TGx': true,
           'theRARBG': true,
           'TorrentDownloads': true,
           'Uindex': true
