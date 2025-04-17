@@ -13,7 +13,7 @@ body:
   id: contributing-guidelines
   attributes:
     label: Have you read the Bug Report Guidelines?
-    description: Please read our <a href="https://github.com/SchizoDuckie/DuckieTV/wiki/How-to-raise-a-Bug-Report">the Bug Report Guidelines</a> before submitting your issue on how to provide all the relevant details that we will need to solve your problem.
+    description: Please read the <a href="https://github.com/SchizoDuckie/DuckieTV/wiki/How-to-raise-a-Bug-Report">Bug Report Guidelines</a> before submitting your issue on how to provide all the relevant details that we will need to solve your problem.
     options:
       - label: I have read the Bug Report Guidelines
         required: true
