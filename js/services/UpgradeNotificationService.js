@@ -10,6 +10,7 @@ DuckieTV.run(['dialogs', '$http',
     var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="https://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="https://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="https://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>'
     var notifications = {
       '1.1.6': [
+        '<li>AutoDownload: (fix) Seeders now correctly sorted by largest first.',
         '<li>AutoDownload: (new) Now able to use series custom Seeders, custom Includes and custom Excludes.',
         '<li>DataBase: (fix) Make TRAKT_ID unique to prevent duplicate records.',
         '<li>TMDBfanArt: (new) Refactor image loading to use TMDB. This complements and progressively takes over from FanArt.',
