@@ -272,7 +272,7 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
            * Search torrent SE for the torrent query
            */
           return searchEngine.search(q, true).then(function(results) {
-            var items = $filter('orderBy')(results, 'seeders')
+            var items = $filter('orderBy')(results, '-seeders')
             items = items.filter(filterByScore)
 
             if (items.length === 0) {

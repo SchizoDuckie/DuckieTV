@@ -41,8 +41,8 @@ DuckieTV.factory('ShowRSS', ['SettingsService', '$q', '$http',
             noTorrent: true,
             releasename: node.innerText.replace(/\s/g, ' ').trim(),
             size: 'n/a',
-            seeders: 'n/a',
-            leechers: 'n/a',
+            seeders: '1',
+            leechers: '0',
             detailUrl: doc.querySelector("a[href^='" + endpoint + "/browse/']").href
           }
 

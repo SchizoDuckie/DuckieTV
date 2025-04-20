@@ -118,8 +118,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
             var out = {
               releasename: data.title,
               size: (parseFloat(data.size) / 1000 / 1000).toFixed(2) + ' MB',
-              seeders: (seeds != null) ? seeds : 'n/a',
-              leechers: (peers != null) ? peers : 'n/a',
+              seeders: (seeds != null) ? Number(seeds) : 1,
+              leechers: (peers != null) ? Number(peers) : 0,
               detailUrl: data.comments,
               noMagnet: true,
               noTorrent: true
@@ -156,8 +156,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
             var out = {
               releasename: data.Title,
               size: (parseFloat(data.Size) / 1000 / 1000).toFixed(2) + ' MB',
-              seeders: (data.Seeders != null) ? data.Seeders : 'n/a',
-              leechers: (data.Peers != null) ? data.Peers : 'n/a',
+              seeders: (data.Seeders != null) ? Number(data.Seeders) : 1,
+              leechers: (data.Peers != null) ? Number(data.Peers) : 0,
               detailUrl: data.Details,
               noMagnet: true,
               noTorrent: true
@@ -208,8 +208,8 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
 
         var seed = getPropertyForSelector(results[i], selectors.seeders)
         var leech = getPropertyForSelector(results[i], selectors.leechers)
-        seed = (seed != null) ? seed.replace(',', '') : 'n/a'
-        leech = (leech != null) ? leech.replace(',', '') : 'n/a'
+        seed = (seed != null) ? Number(seed.replace(',', '')) : 1,
+        leech = (leech != null) ? Number(leech.replace(',', '')) : 0
 
         var out = {
           releasename: releasename.trim(),
