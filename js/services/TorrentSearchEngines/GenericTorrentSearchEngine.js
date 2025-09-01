@@ -72,7 +72,7 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
     if (typeof sortParam !== 'undefined' && 'orderby' in config && sortPart.length == 2 && sortPart[0] in config.orderby && sortPart[1] in config.orderby[sortPart[0]]) {
       url = url.replace('%o', config.orderby[sortPart[0]][sortPart[1]])
     }
-    return url.replace('%s', encodeURIComponent(param))
+    return url.replace('%s', encodeURIComponent(param)).toLowerCase()
   }
 
   function getPropertyForSelector(parentNode, propertyConfig) {
