@@ -151,7 +151,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'mirror.IsoHunt2': 'https://isohunt.ch',
         'mirror.KATws': 'https://kickass.ws',
         'mirror.Knaben': 'https://knaben.org',
-        'mirror.LimeTorrents': 'https://www.limetorrents.lol',
+        'mirror.LimeTorrents': 'https://www.limetorrents.fun',
         'mirror.Nyaa': 'https://nyaa.si',
         'mirror.PiratesParadise': 'https://piratesparadise.org',
         'mirror.ShowRSS': 'https://showrss.info',
