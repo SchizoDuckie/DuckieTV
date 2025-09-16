@@ -1,0 +1,71 @@
+name: Bug report
+description: Create a report of your issue
+body:
+- type: checkboxes
+  id: troubleshooting
+  attributes:
+    label: Have you checked our FAQ page for your issue?
+    description: Please read the <a href="https://github.com/SchizoDuckie/DuckieTV/wiki/FAQ">FAQ</a> page for steps to resolve common issues.
+    options:
+      - label: I have checked the FAQ page
+        required: true
+- type: checkboxes
+  id: contributing-guidelines
+  attributes:
+    label: Have you read the Bug Report Guidelines?
+    description: Please read the <a href="https://github.com/SchizoDuckie/DuckieTV/wiki/How-to-raise-a-Bug-Report">Bug Report Guidelines</a> before submitting your issue on how to provide all the relevant details that we will need to solve your problem.
+    options:
+      - label: I have read the Bug Report Guidelines
+        required: true
+- type: textarea
+  id: build
+  attributes:
+    label: Build
+    description: What build of DuckieTV are you using?
+    placeholder: |
+      Standlone
+      or
+      Chrome Extension (New Tab)
+      or
+      Chrome Extension (Browser Action)
+    render: markdown
+  validations:
+    required: true
+- type: textarea
+  id: version
+  attributes:
+    label: Version
+    description: What version of DuckieTV are you using?
+    placeholder: |
+      Nightly yyyymmddHHMM
+  validations:
+    required: true
+- type: textarea
+  id: system
+  attributes:
+    label: System
+    description: What is your Operating System?
+    placeholder: |
+      Windows
+      or
+      Mac
+      or
+      Linux
+    render: text
+  validations:
+    required: true
+- type: textarea
+  id: description
+  attributes:
+    label: Description
+    description: Describe the problem you are having and steps to reproduce if available
+    render: text
+  validations:
+    required: true
+- type: textarea
+  id: attachments
+  attributes:
+    label: Attachements
+    description: Attach any DuckieTV statistics or Developer Console logs if available
+  validations:
+    required: false
