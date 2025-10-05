@@ -94,7 +94,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
           'ThePirateBay': true,
           '1337x': true,
           'ETag': true,
-          'EXT': true,
           'FileMood': true,
           'Idope': true,
           'IsoHunt2': true,
@@ -145,7 +144,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'main.viewmode': 'calendar', // todo || calendar
         'mirror.1337x': 'https://1337x.to',
         'mirror.ETag': 'https://extratorrent.st',
-        'mirror.EXT': 'https://ext.to',
         'mirror.FileMood': 'https://filemood.com',
         'mirror.Idope': 'https://idope.me',
         'mirror.IsoHunt2': 'https://isohunt.ch',
@@ -192,7 +190,6 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
           'ThePirateBay': true,
           '1337x': true,
           'ETag': true,
-          'EXT': true,
           'FileMood': true,
           'Idope': true,
           'IsoHunt2': true,

@@ -49,7 +49,6 @@ DuckieTV.run(['SettingsService', function(SettingsService) {
     console.info('Executing 1.1.6SEdomainUpdate2')
     SettingsService.set('mirror.1337x', 'https://1337x.to');
     SettingsService.set('mirror.ETag', 'https://extratorrent.st');
-    SettingsService.set('mirror.EXT', 'https://ext.to');
     SettingsService.set('mirror.FileMood', 'https://filemood.com');
     SettingsService.set('mirror.Idope', 'https://idope.me');
     SettingsService.set('mirror.IsoHunt2', 'https://isohunt.ch');
