@@ -45,13 +45,13 @@ DuckieTV.run(['SettingsService', function(SettingsService) {
     console.info('1.1.6updateqBt32+toqBt41+ done!')
   }
   // SE domain updates (for those that have used a backup restore)
-  if (!localStorage.getItem('1.1.6SEdomainUpdate2')) {
-    console.info('Executing 1.1.6SEdomainUpdate2')
+  if (!localStorage.getItem('1.1.6SEdomainUpdate3')) {
+    console.info('Executing 1.1.6SEdomainUpdate3')
     SettingsService.set('mirror.1337x', 'https://1337x.to');
     SettingsService.set('mirror.ETag', 'https://extratorrent.st');
     SettingsService.set('mirror.FileMood', 'https://filemood.com');
     SettingsService.set('mirror.Idope', 'https://idope.me');
-    SettingsService.set('mirror.IsoHunt2', 'https://isohunt.ch');
+    SettingsService.set('mirror.IsoHunt2', 'https://isohunt.sh');
     SettingsService.set('mirror.KATws', 'https://kickass.ws');
     SettingsService.set('mirror.Knaben', 'https://knaben.org');
     SettingsService.set('mirror.LimeTorrents', 'https://www.limetorrents.fun');
@@ -62,7 +62,7 @@ DuckieTV.run(['SettingsService', function(SettingsService) {
     SettingsService.set('mirror.ThePirateBay', 'https://thepiratebay0.org/');
     SettingsService.set('mirror.TorrentDownloads', 'https://www.torrentdownloads.pro');
     SettingsService.set('mirror.Uindex', 'https://uindex.org');
-    localStorage.setItem('1.1.6SEdomainUpdate2', new Date())
-    console.info('1.1.6SEdomainUpdate2 done!')
+    localStorage.setItem('1.1.6SEdomainUpdate3', new Date())
+    console.info('1.1.6SEdomainUpdate3 done!')
   }
 }])
