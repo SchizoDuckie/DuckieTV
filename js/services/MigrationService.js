@@ -51,7 +51,7 @@ DuckieTV.run(['SettingsService', function(SettingsService) {
     SettingsService.set('mirror.ETag', 'https://extratorrent.st');
     SettingsService.set('mirror.FileMood', 'https://filemood.com');
     SettingsService.set('mirror.Idope', 'https://idope.me');
-    SettingsService.set('mirror.IsoHunt2', 'https://isohunt.ch');
+    SettingsService.set('mirror.IsoHunt2', 'https://isohunt.sh');
     SettingsService.set('mirror.KATws', 'https://kickass.ws');
     SettingsService.set('mirror.Knaben', 'https://knaben.org');
     SettingsService.set('mirror.LimeTorrents', 'https://www.limetorrents.fun');
