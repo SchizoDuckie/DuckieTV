@@ -146,7 +146,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'mirror.ETag': 'https://extratorrent.st',
         'mirror.FileMood': 'https://filemood.com',
         'mirror.Idope': 'https://idope.me',
-        'mirror.IsoHunt2': 'https://isohunt.ch',
+        'mirror.IsoHunt2': 'https://isohunt.sh',
         'mirror.KATws': 'https://kickass.ws',
         'mirror.Knaben': 'https://knaben.org',
         'mirror.LimeTorrents': 'https://www.limetorrents.fun',
