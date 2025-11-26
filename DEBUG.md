@@ -154,3 +154,8 @@ localStorage.removeItem('snrt.traktid-tvdbid-xref')
 ```javascript
 CRUD.executeQuery("update episodes set absolute = 1053 where episodenumber == 1053 and seasonnumber == 21").then(function(result) { console.log(result); })
 ```
+
+## update a series tvdbid record
+```javascript
+CRUD.executeQuery("update series set TVDB_ID = 397060 where TRAKT_ID == 173996").then(function(result) { console.log(result); })
+```
