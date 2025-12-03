@@ -187,7 +187,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         headers.Authorization = 'Bearer ' + localStorage.getItem('trakttv.token')
       }
       // trakt limits are 1000 GET in 5 minutes, so delay 300ms should help stay within limit
-      return delay(300).then(function() {
+      return delay(350).then(function() {
         return $http.get(url, {
           timeout: promise || 120000,
           headers: headers,
@@ -261,7 +261,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         'Content-Type': 'application/json'
       }
       // trakt limits are 1000 POST in 5 minutes, so delay 300ms should help stay within limit
-      return delay(300).then(function() {
+      return delay(350).then(function() {
         return $http.post(url, param, {
           headers: headers
         }).then(function(result) {
