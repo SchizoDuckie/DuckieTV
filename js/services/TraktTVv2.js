@@ -2,7 +2,7 @@
  * Trakt TV V2 API interfacing.
  * Throughout the app the API from Trakt.TV is used to fetch content about shows and optionally the user's data
  *
- * For API docs: check here: http://docs.trakt.apiary.io/#
+ * For API docs: check here: https://trakt.docs.apiary.io/#
  */
 DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
   function($q, $http, SceneNameResolver) {
@@ -186,66 +186,69 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       if (authorized.indexOf(type) > -1) {
         headers.Authorization = 'Bearer ' + localStorage.getItem('trakttv.token')
       }
-      return $http.get(url, {
-        timeout: promise || 120000,
-        headers: headers,
-        cache: false
-      }).then(function(result) {
-        return parser(result)
-      }, function(err) {
-        if (err.status == 401) {
-          // token auth expired, renew
-          service.renewToken()
-          // restart request and return original promise
-          return promiseRequest(type, param, param2, promise)
-        }
-
-        if (err.status == 420) {
-          // limit exceeded
-          console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
-          return
-        }
-
-        if (err.status == 429) {
-          // rate limited, look at headers to see when we should try again otherwise just wait for a few seconds
-          var headers = err && err.headers ? err.headers() : {}
-          var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-          console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
-
-          return delay(retryAfterSeconds * 1000).then(function() {
+      // trakt limits are 1000 GET in 5 minutes, so delay 300ms should help stay within limit
+      return delay(300).then(function() {
+        return $http.get(url, {
+          timeout: promise || 120000,
+          headers: headers,
+          cache: false
+        }).then(function(result) {
+          return parser(result)
+        }, function(err) {
+          if (err.status == 401) {
+            // token auth expired, renew
+            service.renewToken()
+            // restart request and return original promise
             return promiseRequest(type, param, param2, promise)
-          })
-        }
+          }
 
-        if (err.status == 502) {
-          // cloudflare bad gateway, look at headers to see when we should try again otherwise just wait for a few seconds
-          var headers = err && err.headers ? err.headers() : {}
-          var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-          console.error('cloudflare bad gateway, trying again in %s seconds', retryAfterSeconds)
+          if (err.status == 420) {
+            // limit exceeded
+            console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
+            return
+          }
 
-          return delay(retryAfterSeconds * 1000).then(function() {
-            return promiseRequest(type, param, param2, promise)
-          })
-        }
+          if (err.status == 429) {
+            // rate limited, look at headers to see when we should try again otherwise just wait for a few seconds
+            var headers = err && err.headers ? err.headers() : {}
+            var retryAfterSeconds = +headers['retry-after']
+            retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+            console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
 
-        if (err.status == 504) {
-          // cloudflare gateway timeout, look at headers to see when we should try again otherwise just wait for a few seconds
-          var headers = err && err.headers ? err.headers() : {}
-          var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-          console.error('cloudflare gateway timeout, trying again in %s seconds', retryAfterSeconds)
+            return delay(retryAfterSeconds * 1000).then(function() {
+              return promiseRequest(type, param, param2, promise)
+            })
+          }
 
-          return delay(retryAfterSeconds * 1000).then(function() {
-            return promiseRequest(type, param, param2, promise)
-          })
-        }
+          if (err.status == 502) {
+            // cloudflare bad gateway, look at headers to see when we should try again otherwise just wait for a few seconds
+            var headers = err && err.headers ? err.headers() : {}
+            var retryAfterSeconds = +headers['retry-after']
+            retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+            console.error('cloudflare bad gateway, trying again in %s seconds', retryAfterSeconds)
 
-        if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-          //console.error('Trakt tv error!', err)
-          throw 'Error ' + err.status + ':' + err.statusText
-        }
+            return delay(retryAfterSeconds * 1000).then(function() {
+              return promiseRequest(type, param, param2, promise)
+            })
+          }
+
+          if (err.status == 504) {
+            // cloudflare gateway timeout, look at headers to see when we should try again otherwise just wait for a few seconds
+            var headers = err && err.headers ? err.headers() : {}
+            var retryAfterSeconds = +headers['retry-after']
+            retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+            console.error('cloudflare gateway timeout, trying again in %s seconds', retryAfterSeconds)
+
+            return delay(retryAfterSeconds * 1000).then(function() {
+              return promiseRequest(type, param, param2, promise)
+            })
+          }
+
+          if (err.status !== 0) { // only if this is not a cancelled request, rethrow
+            //console.error('Trakt tv error!', err)
+            throw 'Error ' + err.status + ':' + err.statusText
+          }
+        })
       })
     }
 
@@ -257,36 +260,39 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
         'Content-Type': 'application/json'
       }
-      return $http.post(url, param, {
-        headers: headers
-      }).then(function(result) {
-        return result
-      }, function(err) {
-        if (err.status == 401) {
-          // token auth expired, renew
-          service.renewToken()
-          // restart request and return original promise
-          return performPost(type, param)
-        }
-        if (err.status == 420) {
-          // limit exceeded
-          console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
-          return
-        }
-        if (err.status == 429) {
-          // rate limited
-          var headers = err && err.headers ? err.headers() : {}
-          var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-          console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
-          return delay(retryAfterSeconds * 1000).then(function() {
+      // trakt limits are 1000 POST in 5 minutes, so delay 300ms should help stay within limit
+      return delay(300).then(function() {
+        return $http.post(url, param, {
+          headers: headers
+        }).then(function(result) {
+          return result
+        }, function(err) {
+          if (err.status == 401) {
+            // token auth expired, renew
+            service.renewToken()
+            // restart request and return original promise
             return performPost(type, param)
-          })
-        }
-        if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-          console.error('Trakt tv error!', err)
-          throw 'Error ' + err.status + ':' + err.statusText
-        }
+          }
+          if (err.status == 420) {
+            // limit exceeded
+            console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
+            return
+          }
+          if (err.status == 429) {
+            // rate limited
+            var headers = err && err.headers ? err.headers() : {}
+            var retryAfterSeconds = +headers['retry-after']
+            retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+            console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
+            return delay(retryAfterSeconds * 1000).then(function() {
+              return performPost(type, param)
+            })
+          }
+          if (err.status !== 0) { // only if this is not a cancelled request, rethrow
+            console.error('Trakt tv error!', err)
+            throw 'Error ' + err.status + ':' + err.statusText
+          }
+        })
       })
     }
 
@@ -294,7 +300,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       /**
        * get a single show summary.
        * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-       * http://docs.trakt.apiary.io/#reference/shows/summary/get-a-single-show
+       * https://trakt.docs.apiary.io/#reference/shows/summary/get-a-single-show
        */
       serie: async function(id, existingSerie, seriesOnly) {
         try {
@@ -324,7 +330,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       /**
        * get all seasons for a show.
        * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-       * http://docs.trakt.apiary.io/#reference/seasons/summary/get-all-seasons-for-a-show
+       * https://trakt.docs.apiary.io/#reference/seasons/summary/get-all-seasons-for-a-show
        */
       seasons: function(id) {
         return promiseRequest('seasons', id)
@@ -333,7 +339,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
        * get all episodes for a show.
        * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
        * season is a number
-       * http://docs.trakt.apiary.io/#reference/episodes/summary
+       * https://trakt.docs.apiary.io/#reference/episodes/summary
        */
       episodes: function(id, seasonNumber) {
         return promiseRequest('episodes', id, seasonNumber)
@@ -341,7 +347,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       /**
        * get all actors in a show.
        * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-       * http://docs.trakt.apiary.io/#reference/shows/people/get-all-people-for-a-show
+       * https://trakt.docs.apiary.io/#reference/shows/people/get-all-people-for-a-show
        */
       people: function(id) {
         return promiseRequest('people', id)
@@ -414,7 +420,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Exchange code for access token.
-       * http://docs.trakt.apiary.io/#reference/authentication-oauth/get-token/exchange-code-for-access_token
+       * https://trakt.docs.apiary.io/#reference/authentication-oauth/get-token/exchange-code-for-access_token
        */
       login: function(pin) {
         return $http.post(getUrl('token'), JSON.stringify({
@@ -439,7 +445,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Exchange refresh_token for access token.
-       * http://docs.trakt.apiary.io/#reference/authentication-oauth/get-token/exchange-refresh_token-for-access_token
+       * https://trakt.docs.apiary.io/#reference/authentication-oauth/get-token/exchange-refresh_token-for-access_token
        */
       renewToken: function() {
         return $http.post(getUrl('token'), JSON.stringify({
@@ -465,14 +471,14 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Returns recently updated shows.
-       * http://docs.trakt.apiary.io/#reference/shows/updates/get-recently-updated-shows
+       * https://trakt.docs.apiary.io/#reference/shows/updates/get-recently-updated-shows
        */
       updated: function(since) {
         return promiseRequest('updated', since)
       },
       /**
        * Returns all shows a user has watched.
-       * http://docs.trakt.apiary.io/#reference/sync/get-watched/get-watched
+       * https://trakt.docs.apiary.io/#reference/sync/get-watched/get-watched
        */
       watched: function() {
         return promiseRequest('watched').then(function(result) {
@@ -482,7 +488,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Mark an episode as watched.
-       * http://docs.trakt.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
+       * https://trakt.docs.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
        */
       markEpisodeWatched: function(serie, episode) {
         return performPost('episodeSeen', {
@@ -499,7 +505,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Batch mark episodes as watched.
-       * http://docs.trakt.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
+       * https://trakt.docs.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
        */
       markEpisodesWatched: function(episodes) {
         var episodesArray = []
@@ -520,7 +526,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Mark an episode as not watched.
-       * http://docs.trakt.apiary.io/#reference/sync/remove-from-history/remove-items-from-history
+       * https://trakt.docs.apiary.io/#reference/sync/remove-from-history/remove-items-from-history
        */
       markEpisodeNotWatched: function(serie, episode) {
         return performPost('episodeUnseen', {
@@ -536,7 +542,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Returns all shows in a users collection.
-       * http://docs.trakt.apiary.io/#reference/sync/get-collection/get-collection
+       * https://trakt.docs.apiary.io/#reference/sync/get-collection/get-collection
        */
       userShows: function() {
         return promiseRequest('userShows').then(function(result) {
@@ -546,7 +552,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * add a show to a users collection.
-       * http://docs.trakt.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
+       * https://trakt.docs.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
        */
       addShowToCollection: function(serie) {
         return performPost('addCollection', {
@@ -562,7 +568,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * add an episode to a users collection.
-       * http://docs.trakt.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
+       * https://trakt.docs.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
        */
       markEpisodeDownloaded: function(serie, episode) {
         return performPost('addCollection', {
@@ -578,7 +584,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * removes a show from a users collection.
-       * http://docs.trakt.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
+       * https://trakt.docs.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
        */
       removeShowFromCollection: function(serie) {
         return performPost('removeCollection', {
@@ -594,7 +600,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * removes an episode from a users collection.
-       * http://docs.trakt.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
+       * https://trakt.docs.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
        */
       markEpisodeNotDownloaded: function(serie, episode) {
         return performPost('removeCollection', {
