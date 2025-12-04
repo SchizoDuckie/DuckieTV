@@ -65,3 +65,65 @@ DuckieTV.factory('TransparentFixtureProxyInterceptor', ['$q', '$injector',
       $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image|filesystem:|chrome-extension:/)
     }
   ])
+
+/**
+ * Interceptor to queue Trakt HTTP requests.
+ */
+  .config(['$httpProvider',
+    function($httpProvider){
+      $httpProvider.interceptors.push(['$q', function($q) {
+        var _queue = []
+        /**
+         * Shifts and executes the top function on the queue (if any). Note this function executes asynchronously (with a timeout of 350ms). This
+         * gives 'response' and 'responseError' chance to return their values and have them processed by their calling 'success' or 'error'
+         * methods.
+         */
+        function _shiftAndExecuteTop() {
+          setTimeout(function() {
+            _queue.shift()
+            if (_queue.length > 0) {
+              _queue[0]()
+            }
+          }, 350)
+        }
+        return {
+          /**
+           * Blocks each request on the queue. If the first request, processes immediately.
+           */
+          request: function(config) {
+            if (config.url.substring(0, 20) == 'https://api.trakt.tv') {
+              var deferred = $q.defer()
+              _queue.push(function() {
+                deferred.resolve(config);
+              })
+              if (_queue.length === 1) {
+                _queue[0]()
+              }
+              return deferred.promise
+            }
+            else {
+              return config
+            }
+          },
+          /**
+          * After each response completes, unblocks the next request.
+          */
+          response: function(response) {
+            if (response.config.url.substring(0, 20) == 'https://api.trakt.tv') {
+              _shiftAndExecuteTop()
+            }
+            return response
+          },
+          /**
+          * After each response errors, unblocks the next request.
+          */
+          responseError: function(responseError) {
+            if (responseError.config.url.substring(0, 20) == 'https://api.trakt.tv') {
+              _shiftAndExecuteTop()
+            }
+            return $q.reject(responseError)
+          },
+        }
+      }])
+    }
+  ])

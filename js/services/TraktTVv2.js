@@ -186,69 +186,66 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       if (authorized.indexOf(type) > -1) {
         headers.Authorization = 'Bearer ' + localStorage.getItem('trakttv.token')
       }
-      // trakt limits are 1000 GET in 5 minutes, so delay 350ms should help stay within limit
-      return delay(350).then(function() {
-        return $http.get(url, {
-          timeout: promise || 120000,
-          headers: headers,
-          cache: false
-        }).then(function(result) {
-          return parser(result)
-        }, function(err) {
-          if (err.status == 401) {
-            // token auth expired, renew
-            service.renewToken()
-            // restart request and return original promise
+      return $http.get(url, {
+        timeout: promise || 120000,
+        headers: headers,
+        cache: false
+      }).then(function(result) {
+        return parser(result)
+      }, function(err) {
+        if (err.status == 401) {
+          // token auth expired, renew
+          service.renewToken()
+          // restart request and return original promise
+          return promiseRequest(type, param, param2, promise)
+        }
+
+        if (err.status == 420) {
+          // limit exceeded
+          console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
+          return
+        }
+
+        if (err.status == 429) {
+          // rate limited, look at headers to see when we should try again otherwise just wait for a few seconds
+          var headers = err && err.headers ? err.headers() : {}
+          var retryAfterSeconds = +headers['retry-after']
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+          console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
+
+          return delay(retryAfterSeconds * 1000).then(function() {
             return promiseRequest(type, param, param2, promise)
-          }
+          })
+        }
 
-          if (err.status == 420) {
-            // limit exceeded
-            console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
-            return
-          }
+        if (err.status == 502) {
+          // cloudflare bad gateway, look at headers to see when we should try again otherwise just wait for a few seconds
+          var headers = err && err.headers ? err.headers() : {}
+          var retryAfterSeconds = +headers['retry-after']
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+          console.error('cloudflare bad gateway, trying again in %s seconds', retryAfterSeconds)
 
-          if (err.status == 429) {
-            // rate limited, look at headers to see when we should try again otherwise just wait for a few seconds
-            var headers = err && err.headers ? err.headers() : {}
-            var retryAfterSeconds = +headers['retry-after']
-            retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-            console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
+          return delay(retryAfterSeconds * 1000).then(function() {
+            return promiseRequest(type, param, param2, promise)
+          })
+        }
 
-            return delay(retryAfterSeconds * 1000).then(function() {
-              return promiseRequest(type, param, param2, promise)
-            })
-          }
+        if (err.status == 504) {
+          // cloudflare gateway timeout, look at headers to see when we should try again otherwise just wait for a few seconds
+          var headers = err && err.headers ? err.headers() : {}
+          var retryAfterSeconds = +headers['retry-after']
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+          console.error('cloudflare gateway timeout, trying again in %s seconds', retryAfterSeconds)
 
-          if (err.status == 502) {
-            // cloudflare bad gateway, look at headers to see when we should try again otherwise just wait for a few seconds
-            var headers = err && err.headers ? err.headers() : {}
-            var retryAfterSeconds = +headers['retry-after']
-            retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-            console.error('cloudflare bad gateway, trying again in %s seconds', retryAfterSeconds)
+          return delay(retryAfterSeconds * 1000).then(function() {
+            return promiseRequest(type, param, param2, promise)
+          })
+        }
 
-            return delay(retryAfterSeconds * 1000).then(function() {
-              return promiseRequest(type, param, param2, promise)
-            })
-          }
-
-          if (err.status == 504) {
-            // cloudflare gateway timeout, look at headers to see when we should try again otherwise just wait for a few seconds
-            var headers = err && err.headers ? err.headers() : {}
-            var retryAfterSeconds = +headers['retry-after']
-            retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-            console.error('cloudflare gateway timeout, trying again in %s seconds', retryAfterSeconds)
-
-            return delay(retryAfterSeconds * 1000).then(function() {
-              return promiseRequest(type, param, param2, promise)
-            })
-          }
-
-          if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-            //console.error('Trakt tv error!', err)
-            throw 'Error ' + err.status + ':' + err.statusText
-          }
-        })
+        if (err.status !== 0) { // only if this is not a cancelled request, rethrow
+          //console.error('Trakt tv error!', err)
+          throw 'Error ' + err.status + ':' + err.statusText
+        }
       })
     }
 
@@ -260,39 +257,36 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
         'Content-Type': 'application/json'
       }
-      // trakt limits are 1000 POST in 5 minutes, so delay 350ms should help stay within limit
-      return delay(350).then(function() {
-        return $http.post(url, param, {
-          headers: headers
-        }).then(function(result) {
-          return result
-        }, function(err) {
-          if (err.status == 401) {
-            // token auth expired, renew
-            service.renewToken()
-            // restart request and return original promise
+      return $http.post(url, param, {
+        headers: headers
+      }).then(function(result) {
+        return result
+      }, function(err) {
+        if (err.status == 401) {
+          // token auth expired, renew
+          service.renewToken()
+          // restart request and return original promise
+          return performPost(type, param)
+        }
+        if (err.status == 420) {
+          // limit exceeded
+          console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
+          return
+        }
+        if (err.status == 429) {
+          // rate limited
+          var headers = err && err.headers ? err.headers() : {}
+          var retryAfterSeconds = +headers['retry-after']
+          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
+          console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
+          return delay(retryAfterSeconds * 1000).then(function() {
             return performPost(type, param)
-          }
-          if (err.status == 420) {
-            // limit exceeded
-            console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
-            return
-          }
-          if (err.status == 429) {
-            // rate limited
-            var headers = err && err.headers ? err.headers() : {}
-            var retryAfterSeconds = +headers['retry-after']
-            retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-            console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
-            return delay(retryAfterSeconds * 1000).then(function() {
-              return performPost(type, param)
-            })
-          }
-          if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-            console.error('Trakt tv error!', err)
-            throw 'Error ' + err.status + ':' + err.statusText
-          }
-        })
+          })
+        }
+        if (err.status !== 0) { // only if this is not a cancelled request, rethrow
+          console.error('Trakt tv error!', err)
+          throw 'Error ' + err.status + ':' + err.statusText
+        }
       })
     }
 
