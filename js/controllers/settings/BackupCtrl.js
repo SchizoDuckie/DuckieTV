@@ -144,6 +144,7 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
             FavoritesService.adding(TRAKTorTVDB_ID)
             backupCount++
             return TraktTVv2.resolveID(TRAKTorTVDB_ID, useTrakt_id).then(function(searchResult) {
+              console.log('[import] [TRAKT_ID=' + searchResult.trakt_id + ']', 'importing', searchResult.name)
               return TraktTVv2.serie(searchResult.trakt_id)
             }).then(function(serie) {
               $scope.series.push(serie)
