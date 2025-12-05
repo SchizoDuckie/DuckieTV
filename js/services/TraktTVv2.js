@@ -284,7 +284,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           })
         }
         if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-          console.error('Trakt tv error!', err)
+          //console.error('Trakt tv error!', err)
           throw 'Error ' + err.status + ':' + err.statusText
         }
       })
