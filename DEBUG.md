@@ -33,7 +33,7 @@ localStorage.removeItem('debugTraktTVv2')
 ##view details of an element
 ```
 CRUD.executeQuery('select TRAKT_ID from Episodes where ID_Episode = 36584').then(function(element) { console.log(element.rows[0]); })
-CRUD.executeQuery('select lastUpdated from Series where TRAKT_ID = 34485').then(function(element) { console.log(element.rows[0].lastUpdated); })
+CRUD.executeQuery('select lastUpdated from Series where TRAKT_ID = 34485').then(function(element) { console.log(element.rows[0].lastupdated); })
 ```
 
 ##delete a single episode
