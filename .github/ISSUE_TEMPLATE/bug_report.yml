@@ -59,7 +59,6 @@ body:
   attributes:
     label: Description
     description: Describe the problem you are having and steps to reproduce if available
-    render: text
   validations:
     required: true
 - type: textarea
