@@ -91,6 +91,11 @@ DuckieTV.factory('TransparentFixtureProxyInterceptor', ['$q', '$injector',
            * Blocks each request on the queue. If the first request, processes immediately.
            */
           request: function(config) {
+            // ignore uTorrent
+            if (config.method == 'JSONP')
+            {
+              return config
+            }
             if (config.url.substring(0, 20) == 'https://api.trakt.tv') {
               var deferred = $q.defer()
               _queue.push(function() {
@@ -109,6 +114,10 @@ DuckieTV.factory('TransparentFixtureProxyInterceptor', ['$q', '$injector',
           * After each response completes, unblocks the next request.
           */
           response: function(response) {
+            if (response.config.method == 'JSONP')
+            {
+              return response
+            }
             if (response.config.url.substring(0, 20) == 'https://api.trakt.tv') {
               _shiftAndExecuteTop()
             }
@@ -118,6 +127,10 @@ DuckieTV.factory('TransparentFixtureProxyInterceptor', ['$q', '$injector',
           * After each response errors, unblocks the next request.
           */
           responseError: function(responseError) {
+            if (responseError.config.method == 'JSONP')
+            {
+              return responseError
+            }
             if (responseError.config.url.substring(0, 20) == 'https://api.trakt.tv') {
               _shiftAndExecuteTop()
             }
