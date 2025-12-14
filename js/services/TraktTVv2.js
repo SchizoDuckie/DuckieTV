@@ -199,13 +199,16 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           // restart request and return original promise
           return promiseRequest(type, param, param2, promise)
         }
-
         if (err.status == 420) {
           // limit exceeded
           console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
           return
         }
-
+        if (err.status == 423) {
+          // trakt user account locked
+          console.error('Trakt 423: Trakt user account locked, email support@trakt.tv so they can fix your account.')
+          return
+        }
         if (err.status == 429) {
           // rate limited, look at headers to see when we should try again otherwise just wait for a few seconds
           var headers = err && err.headers ? err.headers() : {}
@@ -217,7 +220,6 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
             return promiseRequest(type, param, param2, promise)
           })
         }
-
         if (err.status == 502) {
           // cloudflare bad gateway, look at headers to see when we should try again otherwise just wait for a few seconds
           var headers = err && err.headers ? err.headers() : {}
@@ -229,7 +231,6 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
             return promiseRequest(type, param, param2, promise)
           })
         }
-
         if (err.status == 504) {
           // cloudflare gateway timeout, look at headers to see when we should try again otherwise just wait for a few seconds
           var headers = err && err.headers ? err.headers() : {}
@@ -241,7 +242,6 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
             return promiseRequest(type, param, param2, promise)
           })
         }
-
         if (err.status !== 0) { // only if this is not a cancelled request, rethrow
           //console.error('Trakt tv error!', err)
           throw 'Error ' + err.status + ':' + err.statusText
@@ -271,6 +271,11 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         if (err.status == 420) {
           // limit exceeded
           console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
+          return
+        }
+        if (err.status == 423) {
+          // trakt user account locked
+          console.error('Trakt 423: Trakt user account locked, email support@trakt.tv so they can fix your account.')
           return
         }
         if (err.status == 429) {
