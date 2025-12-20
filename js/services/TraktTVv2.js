@@ -8,22 +8,22 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
   function($q, $http, SceneNameResolver) {
     var activeSearchRequest = false
     var activeTrendingRequest = false
+    var dtv_refresh = new Date().toISOString().substring(0, 10)
 
     var APIkey = '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0'
     var endpoint = 'https://api.trakt.tv/'
     var pinUrl = 'https://trakt.tv/pin/948'
 
     var endpoints = {
-      people: 'shows/%s/people',
-      serie: 'shows/%s?extended=full',
-      seasons: 'shows/%s/seasons?extended=full',
-      episodes: 'shows/%s/seasons/%s/episodes?extended=full',
-      search: 'search/show?extended=full&limit=100&fields=title,aliases&query=%s',
-      trending: 'shows/trending?extended=full&limit=500',
-      tvdb_id: 'search/tvdb/%s?type=show',
-      trakt_id: 'search/trakt/%s?type=show',
+      people: 'shows/%s/people?dtv_refresh=' + dtv_refresh,
+      serie: 'shows/%s?extended=full&dtv_refresh=' + dtv_refresh,
+      seasons: 'shows/%s/seasons?extended=full&dtv_refresh=' + dtv_refresh,
+      episodes: 'shows/%s/seasons/%s/episodes?extended=full&dtv_refresh=' + dtv_refresh,
+      search: 'search/show?extended=full&limit=100&fields=title,aliases&query=%s&dtv_refresh=' + dtv_refresh,
+      trending: 'shows/trending?extended=full&limit=500&dtv_refresh=' + dtv_refresh,
+      tvdb_id: 'search/tvdb/%s?type=show&dtv_refresh=' + dtv_refresh,
+      trakt_id: 'search/trakt/%s?type=show&dtv_refresh=' + dtv_refresh,
       login: 'auth/login',
-      updated: 'shows/updates/%s?limit=10000',
       config: 'users/settings',
       token: 'oauth/token',
       watched: 'sync/watched/shows?limit=10000',
@@ -31,8 +31,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       episodeUnseen: 'sync/history/remove',
       userShows: 'sync/collection/shows?limit=10000',
       addCollection: 'sync/collection',
-      removeCollection: 'sync/collection/remove',
-      newshows: 'calendars/all/shows/new/%s/180'
+      removeCollection: 'sync/collection/remove'
     }
 
     var parsers = {
@@ -61,11 +60,6 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         })
       },
       trending: function(result) {
-        return result.data.map(function(show) {
-          return parsers.trakt(show.show)
-        })
-      },
-      newshows: function(result) {
         return result.data.map(function(show) {
           return parsers.trakt(show.show)
         })
@@ -111,13 +105,6 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         } else {
           throw 'No results for search by trakt_id'
         }
-      },
-      updated: function(result) {
-        return result.data.map(function(show) {
-          out = parsers.trakt(show.show)
-          out.remote_updated = show.updated_at
-          return out
-        })
       },
       watched: function(result) {
         return result.data.map(function(show) {
@@ -395,11 +382,6 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           return results
         })
       },
-      newShows: function() {
-        return promiseRequest('newshows', moment('yyyy-mm-dd')).then(function(results) {
-          return results
-        })
-      },
       cancelTrending: function() {
         if (activeTrendingRequest && activeTrendingRequest.resolve) {
           activeTrendingRequest.resolve()
@@ -467,13 +449,6 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         }, function(error) {
           throw error
         })
-      },
-      /**
-       * Returns recently updated shows.
-       * https://trakt.docs.apiary.io/#reference/shows/updates/get-recently-updated-shows
-       */
-      updated: function(since) {
-        return promiseRequest('updated', since)
       },
       /**
        * Returns all shows a user has watched.
