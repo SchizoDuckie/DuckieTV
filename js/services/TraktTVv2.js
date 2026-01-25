@@ -4,15 +4,38 @@
  *
  * For API docs: check here: https://trakt.docs.apiary.io/#
  */
-DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
-  function($q, $http, SceneNameResolver) {
+
+const TRAKT_CLIENT_ID = '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0'
+const TRAKT_CLIENT_SECRET = 'f1c3e2df8f7a5e2705879fb33db655bc4aa96c0f33a674f3fc7749211ea46794'
+
+DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver', 'SettingsService',
+  function($q, $http, SceneNameResolver, SettingsService) {
     var activeSearchRequest = false
     var activeTrendingRequest = false
     var dtv_refresh = new Date().toISOString().substring(0, 10)
 
-    var APIkey = '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0'
+    /**
+     * Get the client ID from settings or use the default
+     */
+    var getClientId = function() {
+      return SettingsService.get('trakttv.client_id') || TRAKT_CLIENT_ID
+    }
+
+    /**
+     * Get the client secret from settings or use the default
+     */
+    var getClientSecret = function() {
+      return SettingsService.get('trakttv.client_secret') || TRAKT_CLIENT_SECRET
+    }
+
+    /**
+     * Get the app ID from settings or use the default
+     */
+    var getAppId = function() {
+      return SettingsService.get('trakttv.app_id') || '948'
+    }
+
     var endpoint = 'https://api.trakt.tv/'
-    var pinUrl = 'https://trakt.tv/pin/948'
 
     var endpoints = {
       people: 'shows/%s/people?dtv_refresh=' + dtv_refresh,
@@ -166,7 +189,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       var url = getUrl(type, param, param2)
       var parser = getParser(type)
       var headers = {
-        'trakt-api-key': APIkey,
+        'trakt-api-key': getClientId(),
         'trakt-api-version': 2,
         'Content-Type': 'application/json'
       }
@@ -239,7 +262,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
     var performPost = function(type, param) {
       var url = getUrl(type)
       var headers = {
-        'trakt-api-key': APIkey,
+        'trakt-api-key': getClientId(),
         'trakt-api-version': 2,
         'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
         'Content-Type': 'application/json'
@@ -397,7 +420,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         })
       },
       getPinUrl: function() {
-        return pinUrl
+        return 'https://trakt.tv/pin/' + getAppId()
       },
       /**
        * Exchange code for access token.
@@ -406,13 +429,13 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       login: function(pin) {
         return $http.post(getUrl('token'), JSON.stringify({
           'code': pin,
-          'client_id': '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0',
-          'client_secret': 'f1c3e2df8f7a5e2705879fb33db655bc4aa96c0f33a674f3fc7749211ea46794',
+          'client_id': getClientId(),
+          'client_secret': getClientSecret(),
           'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
           'grant_type': 'authorization_code'
         }), {
           headers: {
-            'trakt-api-key': APIkey,
+            'trakt-api-key': getClientId(),
             'trakt-api-version': 2,
             'Content-Type': 'application/json'
           }
@@ -431,13 +454,13 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       renewToken: function() {
         return $http.post(getUrl('token'), JSON.stringify({
           'refresh_token': localStorage.getItem('trakttv.refresh_token'),
-          'client_id': '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0',
-          'client_secret': 'f1c3e2df8f7a5e2705879fb33db655bc4aa96c0f33a674f3fc7749211ea46794',
+          'client_id': getClientId(),
+          'client_secret': getClientSecret(),
           'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
           'grant_type': 'refresh_token'
         }), {
           headers: {
-            'trakt-api-key': APIkey,
+            'trakt-api-key': getClientId(),
             'trakt-api-version': 2,
             'Content-Type': 'application/json'
           }

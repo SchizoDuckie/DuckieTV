@@ -18,6 +18,10 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
     vm.traktSync = SettingsService.get('trakttv.sync')
     vm.syncDownloaded = SettingsService.get('trakttv.sync-downloaded')
     vm.downloadedPaired = SettingsService.get('episode.watched-downloaded.pairing')
+    vm.customAppId = SettingsService.get('trakttv.app_id') || ''
+    vm.customClientId = SettingsService.get('trakttv.client_id') || ''
+    vm.customClientSecret = SettingsService.get('trakttv.client_secret') || ''
+    vm.editingCredentials = false
     vm.traktTVSeries = []
     vm.pushError = [false, null]
     vm.onlyCollection = false
@@ -237,6 +241,29 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
     vm.saveTUPeriod = function(period) {
       SettingsService.set('trakt-update.period', period)
       window.location.reload()
+    }
+
+    /**
+     * Saves custom Trakt Client ID and Secret
+     */
+    vm.saveCustomCredentials = function() {
+      SettingsService.set('trakttv.app_id', vm.customAppId || null)
+      SettingsService.set('trakttv.client_id', vm.customClientId || null)
+      SettingsService.set('trakttv.client_secret', vm.customClientSecret || null)
+      vm.editingCredentials = false
+    }
+
+    /**
+     * Clears custom Trakt Client ID and Secret (reverts to defaults)
+     */
+    vm.clearCustomCredentials = function() {
+      vm.customAppId = ''
+      vm.customClientId = ''
+      vm.customClientSecret = ''
+      SettingsService.set('trakttv.app_id', null)
+      SettingsService.set('trakttv.client_id', null)
+      SettingsService.set('trakttv.client_secret', null)
+      vm.editingCredentials = false
     }
   }
 ])

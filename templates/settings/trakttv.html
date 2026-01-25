@@ -41,4 +41,41 @@
   </form>
   <span class="alert alert-danger" ng-show="tu.period.$error.number" translate-once>COMMON/only-numbers/alert</span>
   <span class="alert alert-danger" ng-show="tu.period.$error.min || tu.period.$error.max" translate-once>SETTINGS/TRAKTTV/update-hours-range/alert</span>
+
+  <hr class="setting-divider">
+
+  <div style="text-align: left;font-size: 13px;">
+    <h2 translate-once>SETTINGS/TRAKTTV/custom-credentials/hdr</h2>
+    <p translate-once>SETTINGS/TRAKTTV/custom-credentials/desc</p>
+    <p translate-once>SETTINGS/TRAKTTV/custom-credentials/instructions</p>
+    <ol>
+      <li translate-once>SETTINGS/TRAKTTV/custom-credentials/step1</li>
+      <li translate-once>SETTINGS/TRAKTTV/custom-credentials/step2</li>
+      <li translate-once>SETTINGS/TRAKTTV/custom-credentials/step3</li>
+      <li translate-once>SETTINGS/TRAKTTV/custom-credentials/step4</li>
+    </ol>
+    <p><strong translate-once>COMMON/current-setting/hdr</strong> {{trakt.customClientId && trakt.customClientSecret ? 'Using custom credentials' : 'Using default credentials'}}</p>
+
+    <form name="customCreds">
+      <div class="form-group">
+        <label translate-once>SETTINGS/TRAKTTV/app-id/lbl</label>
+        <input type="text" class="form-control" ng-model="trakt.customAppId" ng-change="trakt.editingCredentials = true;" placeholder="Enter your Trakt App ID (from URL)" />
+        <small class="form-text text-muted" translate-once>SETTINGS/TRAKTTV/app-id/help</small>
+      </div>
+      <div class="form-group">
+        <label translate-once>SETTINGS/TRAKTTV/client-id/lbl</label>
+        <input type="text" class="form-control" ng-model="trakt.customClientId" ng-change="trakt.editingCredentials = true;" placeholder="Enter your Trakt Client ID" />
+      </div>
+      <div class="form-group">
+        <label translate-once>SETTINGS/TRAKTTV/client-secret/lbl</label>
+        <input type="text" class="form-control" ng-model="trakt.customClientSecret" ng-change="trakt.editingCredentials = true;" placeholder="Enter your Trakt Client Secret" />
+      </div>
+      <a class="btn btn-{{trakt.editingCredentials ? 'info' : 'success'}}" ng-click="trakt.saveCustomCredentials()" ng-disabled="!trakt.editingCredentials">
+        <i class="glyphicon glyphicon-floppy-save {{trakt.editingCredentials ? 'spin' : ''}}"></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+      </a>
+      <a class="btn btn-warning" ng-click="trakt.clearCustomCredentials()" ng-show="trakt.customAppId || trakt.customClientId || trakt.customClientSecret">
+        <i class="glyphicon glyphicon-remove"></i>&nbsp; Clear Custom Credentials
+      </a>
+    </form>
+  </div>
 </div>
