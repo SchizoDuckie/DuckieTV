@@ -4,16 +4,18 @@
  *
  * For API docs: check here: https://trakt.docs.apiary.io/#
  */
+const TRAKT_CLIENT_ID = 'e65088ee83478f54ffd9d5775dc63d0c64312eabd72b6b2e5623194675959bac'
+const TRAKT_CLIENT_SECRET = '3e97816f32ac913e51a96d2b0296b8f2172e7dee4b01e62df381ad7f62560c96'
+const PIN_URL = 'https://trakt.tv/pin/179590'
+const REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
+
 DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
   function($q, $http, SceneNameResolver) {
     var activeSearchRequest = false
     var activeTrendingRequest = false
     var dtv_refresh = new Date().toISOString().substring(0, 10)
 
-    var APIkey = '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0'
     var endpoint = 'https://api.trakt.tv/'
-    var pinUrl = 'https://trakt.tv/pin/948'
-
     var endpoints = {
       people: 'shows/%s/people?dtv_refresh=' + dtv_refresh,
       serie: 'shows/%s?extended=full&dtv_refresh=' + dtv_refresh,
@@ -166,7 +168,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       var url = getUrl(type, param, param2)
       var parser = getParser(type)
       var headers = {
-        'trakt-api-key': APIkey,
+        'trakt-api-key': TRAKT_CLIENT_ID,
         'trakt-api-version': 2,
         'Content-Type': 'application/json'
       }
@@ -239,7 +241,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
     var performPost = function(type, param) {
       var url = getUrl(type)
       var headers = {
-        'trakt-api-key': APIkey,
+        'trakt-api-key': TRAKT_CLIENT_ID,
         'trakt-api-version': 2,
         'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
         'Content-Type': 'application/json'
@@ -397,7 +399,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         })
       },
       getPinUrl: function() {
-        return pinUrl
+        return PIN_URL
       },
       /**
        * Exchange code for access token.
@@ -406,13 +408,13 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       login: function(pin) {
         return $http.post(getUrl('token'), JSON.stringify({
           'code': pin,
-          'client_id': '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0',
-          'client_secret': 'f1c3e2df8f7a5e2705879fb33db655bc4aa96c0f33a674f3fc7749211ea46794',
-          'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
+          'client_id': TRAKT_CLIENT_ID,
+          'client_secret': TRAKT_CLIENT_SECRET,
+          'redirect_uri': REDIRECT_URI,
           'grant_type': 'authorization_code'
         }), {
           headers: {
-            'trakt-api-key': APIkey,
+            'trakt-api-key': TRAKT_CLIENT_ID,
             'trakt-api-version': 2,
             'Content-Type': 'application/json'
           }
@@ -431,13 +433,13 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       renewToken: function() {
         return $http.post(getUrl('token'), JSON.stringify({
           'refresh_token': localStorage.getItem('trakttv.refresh_token'),
-          'client_id': '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0',
-          'client_secret': 'f1c3e2df8f7a5e2705879fb33db655bc4aa96c0f33a674f3fc7749211ea46794',
-          'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
+          'client_id': TRAKT_CLIENT_ID,
+          'client_secret': TRAKT_CLIENT_SECRET,
+          'redirect_uri': REDIRECT_URI,
           'grant_type': 'refresh_token'
         }), {
           headers: {
-            'trakt-api-key': APIkey,
+            'trakt-api-key': TRAKT_CLIENT_ID,
             'trakt-api-version': 2,
             'Content-Type': 'application/json'
           }
