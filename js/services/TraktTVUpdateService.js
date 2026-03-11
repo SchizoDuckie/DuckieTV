@@ -6,6 +6,7 @@
  */
 DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService', 'FanartService', '$rootScope',
   function($q, TraktTVv2, FavoritesService, FanartService, $rootScope) {
+    var RECOVERY_LOOKBACK_MS = 1000 * 60 * 60 * 24 * 7
     var service = {
       /**
        * Update shows in favorites list
@@ -78,6 +79,49 @@ DuckieTV.factory('TraktTVUpdateService', ['$q', 'TraktTVv2', 'FavoritesService',
 
         localStorage.setItem('trakttv.trending.cache', JSON.stringify(data))
         return true
+      },
+
+      /**
+       * Detect a stale-calendar profile where visible returning favorites have no
+       * future episodes and all known episodes already fell behind the current date window.
+       * In that case the startup `trakttv.lastupdated` gate may be newer than the actual DB.
+       */
+      needsRecoveryUpdate: function() {
+        return FavoritesService.waitForInitialization().then(function() {
+          var now = new Date().getTime()
+          var staleBefore = now - RECOVERY_LOOKBACK_MS
+          return CRUD.executeQuery(`
+            SELECT
+              SUM(CASE WHEN displaycalendar = 1 AND status = 'returning series' THEN 1 ELSE 0 END) AS visibleReturningCount,
+              SUM(CASE
+                WHEN displaycalendar = 1
+                  AND status = 'returning series'
+                  AND NOT EXISTS (
+                    SELECT 1
+                    FROM Episodes
+                    WHERE Episodes.ID_Serie = Series.ID_Serie
+                      AND Episodes.seasonnumber > 0
+                      AND Episodes.firstaired >= ?
+                  )
+                  AND IFNULL((
+                    SELECT MAX(Episodes.firstaired)
+                    FROM Episodes
+                    WHERE Episodes.ID_Serie = Series.ID_Serie
+                      AND Episodes.seasonnumber > 0
+                  ), 0) < ?
+                THEN 1 ELSE 0
+              END) AS staleReturningCount
+            FROM Series
+          `, [now, staleBefore]).then(function(result) {
+            var row = result.rows.length > 0 ? result.rows.item(0) : { visibleReturningCount: 0, staleReturningCount: 0 }
+            var visibleReturningCount = +row.visibleReturningCount || 0
+            var staleReturningCount = +row.staleReturningCount || 0
+            return visibleReturningCount > 0 && staleReturningCount === visibleReturningCount
+          }, function(err) {
+            console.error('Unable to evaluate stale calendar recovery state.', err)
+            return false
+          })
+        })
       }
     }
 
@@ -90,11 +134,13 @@ DuckieTV.run(['TraktTVUpdateService', 'SettingsService',
     var updateFunc = function() {
       var localDateTime = new Date().getTime()
       var tuPeriod = parseInt(SettingsService.get('trakt-update.period')) // TraktTV Update period in hours.
+      var recoveryCooldownMs = 1000 * 60 * 60 * 24
       if (!localStorage.getItem('trakttv.lastupdated')) {
         localStorage.setItem('trakttv.lastupdated', localDateTime)
       }
 
       var lastUpdated = new Date(parseInt(localStorage.getItem('trakttv.lastupdated')))
+      var recoveryLastAttempt = parseInt(localStorage.getItem('trakttv.lastforcedupdate')) || 0
       if ((parseInt(localStorage.getItem('trakttv.lastupdated')) + (1000 * 60 * 60 * tuPeriod)) /* hours */ <= localDateTime) {
         TraktTVUpdateService.update(lastUpdated).then(function(count) {
           console.info('TraktTV update check completed. ' + count + ' shows updated since ' + lastUpdated)
@@ -102,6 +148,23 @@ DuckieTV.run(['TraktTVUpdateService', 'SettingsService',
         })
       } else {
         console.info('Not performing TraktTV update check. Already done within the last %s hour(s).', tuPeriod)
+        TraktTVUpdateService.needsRecoveryUpdate().then(function(needsRecoveryUpdate) {
+          if (!needsRecoveryUpdate) {
+            return
+          }
+
+          if (recoveryLastAttempt + recoveryCooldownMs > localDateTime) {
+            console.info('Skipping stale-calendar recovery update. Already attempted within the last 24 hour(s).')
+            return
+          }
+
+          console.info('Forcing TraktTV recovery update because visible returning favorites appear stale.')
+          localStorage.setItem('trakttv.lastforcedupdate', localDateTime)
+          TraktTVUpdateService.update(lastUpdated).then(function(count) {
+            console.info('TraktTV recovery update completed. ' + count + ' shows updated since ' + lastUpdated)
+            localStorage.setItem('trakttv.lastupdated', localDateTime)
+          })
+        })
       }
 
       if (!localStorage.getItem('trakttv.lastupdated.trending')) {
