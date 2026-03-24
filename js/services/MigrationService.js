@@ -45,24 +45,24 @@ DuckieTV.run(['SettingsService', function(SettingsService) {
     console.info('1.1.6updateqBt32+toqBt41+ done!')
   }
   // SE domain updates (for those that have used a backup restore)
-  if (!localStorage.getItem('1.1.6SEdomainUpdate3')) {
-    console.info('Executing 1.1.6SEdomainUpdate3')
+  if (!localStorage.getItem('1.1.6SEdomainUpdate4')) {
+    console.info('Executing 1.1.6SEdomainUpdate4')
     SettingsService.set('mirror.1337x', 'https://1337x.to');
     SettingsService.set('mirror.ETag', 'https://extratorrent.st');
     SettingsService.set('mirror.FileMood', 'https://filemood.com');
     SettingsService.set('mirror.Idope', 'https://idope.me');
-    SettingsService.set('mirror.IsoHunt2', 'https://isohunt.sh');
+    SettingsService.set('mirror.IsoHunt2', 'gone');
     SettingsService.set('mirror.KATws', 'https://kickass.ws');
     SettingsService.set('mirror.Knaben', 'https://knaben.org');
     SettingsService.set('mirror.LimeTorrents', 'https://www.limetorrents.fun');
     SettingsService.set('mirror.Nyaa', 'https://nyaa.si');
-    SettingsService.set('mirror.PiratesParadise', 'https://piratesparadise.org');
+    SettingsService.set('mirror.PiratesParadise', 'gone');
     SettingsService.set('mirror.ShowRSS', 'https://showrss.info');
     SettingsService.set('mirror.theRARBG', 'https://therarbg.to');
     SettingsService.set('mirror.ThePirateBay', 'https://thepiratebay0.org/');
     SettingsService.set('mirror.TorrentDownloads', 'https://www.torrentdownloads.pro');
     SettingsService.set('mirror.Uindex', 'https://uindex.org');
-    localStorage.setItem('1.1.6SEdomainUpdate3', new Date())
-    console.info('1.1.6SEdomainUpdate3 done!')
+    localStorage.setItem('1.1.6SEdomainUpdate4', new Date())
+    console.info('1.1.6SEdomainUpdate4 done!')
   }
 }])
