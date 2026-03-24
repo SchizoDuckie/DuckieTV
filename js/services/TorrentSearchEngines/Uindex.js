@@ -9,11 +9,11 @@ DuckieTV.run(["TorrentSearchEngines", "SettingsService", "$q", "$http", "$inject
                     search: '/search.php?search=%s'
                 },
                 selectors: {
-                    resultContainer: 'table.maintable > tbody > tr:has(a[href^="magnet:?xt="]',
+                    resultContainer: 'table.sr-table > tbody > tr:has(a[href^="magnet:?xt="]',
                     releasename: ['a[href^="/details.php?id="]', 'innerText'],
-                    seeders: ['td:nth-child(4)', 'innerText'],
-                    leechers: ['td:nth-child(5)', 'innerText'],
-                    size: ['td:nth-child(3)', 'innerText'],
+                    seeders: ['td.sr-col-seeders', 'innerText'],
+                    leechers: ['td.sr-col-leechers', 'innerText'],
+                    size: ['td.sr-col-size', 'innerText'],
                     detailUrl: ['a[href^="/details.php?id="]', 'href'],
                     magnetUrl: ['a[href^="magnet:?xt="]', 'href']
                 },
