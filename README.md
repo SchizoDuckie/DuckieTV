@@ -1,8 +1,8 @@
 DuckieTV status is now EOL
 ==============================================
 
-DuckieTV is very close to retiring.
-There will not be any enhancements, upgrades, or other significant updates made to this version of the app, apart from minor housekeeping.
+DuckieTV is End of Life (EOL) and very close to retiring.
+There will **not** be any enhancements, upgrades, or other significant updates made to this version of the app, apart from minor housekeeping.
 
 [DuckieTV.Next](https://github.com/SchizoDuckie/DuckieTV.Next) is being developed by SchizoDuckie to bring DuckieTV back into the future by porting it to NativePHP.
 Once the new app is out of beta and published, this repo will be archived and I can finally retire from public Dtv view and turn the lights off \o/
