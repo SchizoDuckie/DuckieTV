@@ -74,6 +74,7 @@
     "COMMON/alias/hdr": "Alias",
     "COMMON/all-watched/tooltip": "Tüm bölümler izlendi",
     "COMMON/all/btn": "Herşey",
+    "COMMON/apikey/lbl": "APIkey",
     "COMMON/are-you-sure/lbl": "Emin misiniz?",
     "COMMON/authentication/lbl": "Kimlik doğrulamayı kullan",
     "COMMON/auto-download-status/hdr": "Otomatik İndirme Hizmeti İzleyicisi",

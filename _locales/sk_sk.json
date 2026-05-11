@@ -74,6 +74,7 @@
     "COMMON/alias/hdr": "Prezývka",
     "COMMON/all-watched/tooltip": "Všetky epizódy pozreté",
     "COMMON/all/btn": "Všetko",
+    "COMMON/apikey/lbl": "APIkey",
     "COMMON/are-you-sure/lbl": "Si si istý?",
     "COMMON/authentication/lbl": "Použi overenie",
     "COMMON/auto-download-status/hdr": "Auto-Download Service Monitor",

@@ -74,6 +74,7 @@
     "COMMON/alias/hdr": "별명",
     "COMMON/all-watched/tooltip": "모든 에피소드 시청",
     "COMMON/all/btn": "모든",
+    "COMMON/apikey/lbl": "APIkey",
     "COMMON/are-you-sure/lbl": "확실합니까?",
     "COMMON/authentication/lbl": "인증 사용",
     "COMMON/auto-download-status/hdr": "자동 다운로드 서비스 모니터",

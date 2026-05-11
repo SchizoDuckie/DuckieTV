@@ -74,6 +74,7 @@
     "COMMON/alias/hdr": "Alias",
     "COMMON/all-watched/tooltip": "Alla avsnitt såg",
     "COMMON/all/btn": "Allt",
+    "COMMON/apikey/lbl": "APIkey",
     "COMMON/are-you-sure/lbl": "Är du säker?",
     "COMMON/authentication/lbl": "Använd autentisering",
     "COMMON/auto-download-status/hdr": "Auto-Download Service Monitor",

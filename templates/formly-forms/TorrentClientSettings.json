@@ -86,6 +86,17 @@
         "templateOptions.label": "\"COMMON/token/lbl\"|translate"
     }
 }, {
+    "key": "apikey",
+    "type": "input",
+    "hideExpression": "model.apikey === undefined || model.hideToken === true",
+    "templateOptions": {
+        "type": "text",
+        "label": ""
+    },
+    "expressionProperties": {
+        "templateOptions.label": "\"COMMON/apikey/lbl\"|translate"
+    }
+}, {
     "key": "progressX100",
     "type": "input",
     "hideExpression": "model.progressX100 === undefined || model.hidePath === true",

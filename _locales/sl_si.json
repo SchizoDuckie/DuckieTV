@@ -74,6 +74,7 @@
     "COMMON/alias/hdr": "Alias",
     "COMMON/all-watched/tooltip": "Vse epizode gledal",
     "COMMON/all/btn": "Vse",
+    "COMMON/apikey/lbl": "APIkey",
     "COMMON/are-you-sure/lbl": "Ali si prepričan?",
     "COMMON/authentication/lbl": "Uporabi overovitev",
     "COMMON/auto-download-status/hdr": "Auto-Download Service Monitor",

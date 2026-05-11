@@ -74,6 +74,7 @@
     "COMMON/alias/hdr": "псевдоним",
     "COMMON/all-watched/tooltip": "Все эпизоды просмотрены",
     "COMMON/all/btn": "Все",
+    "COMMON/apikey/lbl": "APIkey",
     "COMMON/are-you-sure/lbl": "Ты уверен?",
     "COMMON/authentication/lbl": "Использовать авторизацию",
     "COMMON/auto-download-status/hdr": "Auto-Download Service Monitor",

@@ -74,6 +74,7 @@
     "COMMON/alias/hdr": "Ψευδώνυμο",
     "COMMON/all-watched/tooltip": "Έχετε παρακολουθήσει όλα τα επεισόδια",
     "COMMON/all/btn": "Ολα",
+    "COMMON/apikey/lbl": "APIkey",
     "COMMON/are-you-sure/lbl": "Είστε σίγουρος;",
     "COMMON/authentication/lbl": "Χρησιμοποιήστε τον έλεγχο ταυτότητας",
     "COMMON/auto-download-status/hdr": "Παρακολούθηση Υπηρεσίας Αυτόματης Λήψης",

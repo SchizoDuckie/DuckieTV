@@ -74,6 +74,7 @@
     "COMMON/alias/hdr": "Alias",
     "COMMON/all-watched/tooltip": "Todos os episódios observava",
     "COMMON/all/btn": "Todos",
+    "COMMON/apikey/lbl": "APIkey",
     "COMMON/are-you-sure/lbl": "Você tem certeza?",
     "COMMON/authentication/lbl": "Use a autenticação",
     "COMMON/auto-download-status/hdr": "Auto-Download Service Monitor",

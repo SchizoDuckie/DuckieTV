@@ -74,6 +74,7 @@
     "COMMON/alias/hdr": "Alias",
     "COMMON/all-watched/tooltip": "Toate episoadele vizionate",
     "COMMON/all/btn": "Toate",
+    "COMMON/apikey/lbl": "APIkey",
     "COMMON/are-you-sure/lbl": "Esti sigur?",
     "COMMON/authentication/lbl": "Folosiți autentificare",
     "COMMON/auto-download-status/hdr": "Auto-descărcare serviciu Monitor",

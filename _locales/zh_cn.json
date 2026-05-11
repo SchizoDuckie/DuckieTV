@@ -74,6 +74,7 @@
     "COMMON/alias/hdr": "别名",
     "COMMON/all-watched/tooltip": "全部已观看剧集",
     "COMMON/all/btn": "所有",
+    "COMMON/apikey/lbl": "APIkey",
     "COMMON/are-you-sure/lbl": "您确定吗?",
     "COMMON/authentication/lbl": "使用验证",
     "COMMON/auto-download-status/hdr": "自动下载服务监视器",
