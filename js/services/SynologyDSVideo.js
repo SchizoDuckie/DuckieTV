@@ -1,10 +1,10 @@
 DuckieTV.factory('SynologyDSVideo', ['$q', '$http', function($q, $http) {
   var config = {
-    ip: '192.168.1.139',
+    ip: '',
     port: '5000',
     protocol: 'http',
-    account: 'admin',
-    password: 'admin'
+    account: '',
+    password: ''
   }
 
   var api = {
