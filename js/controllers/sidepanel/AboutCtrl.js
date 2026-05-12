@@ -201,12 +201,16 @@ DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsServi
 
       // dump filtered user preferences, redact passwords
       var userPrefs = angular.fromJson(localStorage.getItem('userPreferences'))
-      var unwantedClientKeys = ['aria2', 'biglybt', 'deluge', 'ktorrent', 'qbittorrent', 'qbittorrent52plus', 'qbittorrent41plus', 'rtorrent', 'tixati', 'transmission', 'utorrent', 'utorrentwebui', 'vuze']
-      var activeClientKey = localStorage.getItem('torrenting.client').replace(/ /g, '').replace('4.1+', '41plus').toLowerCase()
+      var unwantedClientKeys = ['aria2', 'biglybt', 'deluge', 'ktorrent', 'qbittorrent', 'qbittorrent52plus', 'qbittorrent41plus', 'qbittorrent32plus', 'rtorrent', 'tixati', 'transmission', 'utorrent', 'utorrentwebui', 'vuze']
+      var activeClientKey = localStorage.getItem('torrenting.client').replace(/ /g, '').replace('4.1+', '41plus').replace('5.2+', '52plus').toLowerCase()
       unwantedClientKeys.splice(unwantedClientKeys.indexOf(activeClientKey), 1) // drop active client from list
       Object.keys(userPrefs).map(function(key) {
         // redact passwords
         if (key.indexOf('password') > -1) {
+          userPrefs[key] = '*****'
+        }
+        // redact apikey
+        if (key.indexOf('apikey') > -1) {
           userPrefs[key] = '*****'
         }
         // reduce list by dropping inactive client keys
