@@ -3,6 +3,7 @@
  *
  * API Docs:
  * https://github.com/qbittorrent/qBittorrent/wiki/Web-API-Documentation v4.1+ APIv2 (appear to have been deleted)
+ * https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-(qBittorrent-5.0) v5.0+ APIv2
  *
  */
 var qBittorrentData = function(data) {
@@ -77,7 +78,8 @@ DuckieTorrent.factory('qBittorrent41plusAPI', ['BaseHTTPApi', '$http', '$q',
             'X-Forwarded-Host': window.location.origin
           }
         }).then(function(result) {
-          if (result.data == 'Ok.') {
+          // qBittorrent < 5.0 returns 'Ok.' in the body; 5.0+ returns HTTP 204 with no body
+          if (result.data == 'Ok.' || result.status === 204) {
             if (window.debugTSE) console.debug('qBittorrent41plusAPI.login', result.data)
             return self.request('version').then(function(result) {
               var subs = result.data.split('.')
