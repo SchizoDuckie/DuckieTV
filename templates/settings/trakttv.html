@@ -1,3 +1,18 @@
+<div  ng-controller="TraktTVCtrl as trakt" class="buttons">
+  <h2 translate-once>SETTINGS/TRAKTTV/update-period/hdr</h2>
+  <p><span translate-once>SETTINGS/TRAKTTV/update-period/desc</span>{{trakt.tuPeriod}}<span translate-once>SETTINGS/TRAKTTV/update-period/desc2</span><br><span translate-once>SETTINGS/TRAKTTV/update-period-default/lbl</span></p>
+
+  <form name="tu">
+    <span translate-once>SETTINGS/TRAKTTV/update-period/form</span> <input type='number' name="period" ng-model="trakt.tuPeriod" ng-change="trakt.editingTU = true;" min="1" max="24" />
+    <a class="btn btn-{{trakt.editingTU ? 'info' : 'success'}}" ng-click="trakt.saveTUPeriod(trakt.tuPeriod); trakt.editingTU = false;" ng-disabled="tu.period.$error.number || tu.period.$error.min || tu.period.$error.max" style="float:right; margin-top:-10px;">
+      <i class="glyphicon glyphicon-floppy-save {{trakt.editingTU ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
+    </a>
+  </form>
+  <span class="alert alert-danger" ng-show="tu.period.$error.number" translate-once>COMMON/only-numbers/alert</span>
+  <span class="alert alert-danger" ng-show="tu.period.$error.min || tu.period.$error.max" translate-once>SETTINGS/TRAKTTV/update-hours-range/alert</span>
+
+  <hr class="setting-divider">
+
 <h2>Trakt.TV <h2cont translate-once>SETTINGS/TRAKTTV/sync/hdr</h2cont>
   <span ng-show="getSetting('trakttv.sync')" uib-tooltip="{{'COMMON/enabled/lbl'|translate}}" tooltip-placement="left">
   	<i class="glyphicon glyphicon-ok alert-success" style="font-size:22px"></i>
@@ -9,7 +24,6 @@
 
 <div ng-include="'templates/settings/trakt-import.html'"></div>
 
-<div  ng-controller="TraktTVCtrl as trakt" class="buttons">
   <div ng-show="trakt.credentials.success">
     <hr class="setting-divider">
       <h2>
@@ -27,18 +41,4 @@
         <i class="glyphicon glyphicon-{{trakt.syncDownloaded ? 'remove' : 'ok'}}" ></i> {{trakt.syncDownloaded ? 'COMMON/disable/btn' : 'COMMON/enable/btn'|translate}}
       </a>
   </div>
-
-  <hr class="setting-divider">
-
-  <h2 translate-once>SETTINGS/TRAKTTV/update-period/hdr</h2>
-  <p><span translate-once>SETTINGS/TRAKTTV/update-period/desc</span>{{trakt.tuPeriod}}<span translate-once>SETTINGS/TRAKTTV/update-period/desc2</span><br><span translate-once>SETTINGS/TRAKTTV/update-period-default/lbl</span></p>
-
-  <form name="tu">
-    <span translate-once>SETTINGS/TRAKTTV/update-period/form</span> <input type='number' name="period" ng-model="trakt.tuPeriod" ng-change="trakt.editingTU = true;" min="1" max="24" />
-    <a class="btn btn-{{trakt.editingTU ? 'info' : 'success'}}" ng-click="trakt.saveTUPeriod(trakt.tuPeriod); trakt.editingTU = false;" ng-disabled="tu.period.$error.number || tu.period.$error.min || tu.period.$error.max" style="float:right; margin-top:-10px;">
-      <i class="glyphicon glyphicon-floppy-save {{trakt.editingTU ? 'spin' : ''}}" ></i>&nbsp; <span translate-once>COMMON/save/btn</span>
-    </a>
-  </form>
-  <span class="alert alert-danger" ng-show="tu.period.$error.number" translate-once>COMMON/only-numbers/alert</span>
-  <span class="alert alert-danger" ng-show="tu.period.$error.min || tu.period.$error.max" translate-once>SETTINGS/TRAKTTV/update-hours-range/alert</span>
 </div>

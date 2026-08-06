@@ -2,11 +2,10 @@
  * Trakt TV V2 API interfacing.
  * Throughout the app the API from Trakt.TV is used to fetch content about shows and optionally the user's data
  *
- * For API docs: check here: https://trakt.docs.apiary.io/#
+ * For API docs: check here: https://docs.trakt.tv/docs/getting-started
  */
 const TRAKT_CLIENT_ID = 'e65088ee83478f54ffd9d5775dc63d0c64312eabd72b6b2e5623194675959bac'
 const TRAKT_CLIENT_SECRET = '3e97816f32ac913e51a96d2b0296b8f2172e7dee4b01e62df381ad7f62560c96'
-const PIN_URL = 'https://trakt.tv/pin/179590'
 const REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
 
 DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
@@ -19,21 +18,26 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
     var endpoints = {
       people: 'shows/%s/people?dtv_refresh=' + dtv_refresh,
       serie: 'shows/%s?extended=full&dtv_refresh=' + dtv_refresh,
+      serie2: 'shows/%s&dtv_refresh=' + dtv_refresh,
       seasons: 'shows/%s/seasons?extended=full&dtv_refresh=' + dtv_refresh,
       episodes: 'shows/%s/seasons/%s/episodes?extended=full&dtv_refresh=' + dtv_refresh,
       search: 'search/show?extended=full&limit=100&fields=title,aliases&query=%s&dtv_refresh=' + dtv_refresh,
       trending: 'shows/trending?extended=full&limit=500&dtv_refresh=' + dtv_refresh,
       tvdb_id: 'search/tvdb/%s?type=show&dtv_refresh=' + dtv_refresh,
       trakt_id: 'search/trakt/%s?type=show&dtv_refresh=' + dtv_refresh,
-      login: 'auth/login',
       config: 'users/settings',
-      token: 'oauth/token',
       watched: 'sync/watched/shows?limit=10000',
       episodeSeen: 'sync/history',
       episodeUnseen: 'sync/history/remove',
       userShows: 'sync/collection/shows?limit=10000',
       addCollection: 'sync/collection',
       removeCollection: 'sync/collection/remove'
+    }
+    var oauthendpoint = 'https://auth.trakt.tv/'
+    var oauthendpoints = {
+      devicecode: 'oauth/device/code',
+      devicetoken: 'oauth/device/token',
+      token: 'oauth/token'
     }
 
     var parsers = {
@@ -84,6 +88,9 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
        * @return serie parsed serie
        */
       serie: function(result) {
+        return parsers.trakt(result.data)
+      },
+      serie2: function(result) {
         return parsers.trakt(result.data)
       },
       tvdb_id: function(result) {
@@ -140,6 +147,13 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
      */
     var getUrl = function(type, param, param2) {
       var out = endpoint + endpoints[type].replace('%s', encodeURIComponent(param))
+      return (param2 !== undefined) ? out.replace('%s', encodeURIComponent(param2)) : out
+    }
+    /**
+     * Get one of the urls from the oauthendpoint and replace the parameters in it when provided.
+     */
+    var getOauthUrl = function(type, param, param2) {
+      var out = oauthendpoint + oauthendpoints[type].replace('%s', encodeURIComponent(param))
       return (param2 !== undefined) ? out.replace('%s', encodeURIComponent(param2)) : out
     }
 
@@ -288,7 +302,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       /**
        * get a single show summary.
        * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-       * https://trakt.docs.apiary.io/#reference/shows/summary/get-a-single-show
+       * https://docs.trakt.tv/reference/getshowssummary
        */
       serie: async function(id, existingSerie, seriesOnly) {
         try {
@@ -315,10 +329,18 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           rethrow(err)
         }
       },
+      serie2: async function(id) {
+        try {
+          var serie = await promiseRequest('serie2', id)
+          return serie
+        } catch (err) {
+            rethrow(err)
+        }
+      },
       /**
        * get all seasons for a show.
        * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-       * https://trakt.docs.apiary.io/#reference/seasons/summary/get-all-seasons-for-a-show
+       * https://docs.trakt.tv/reference/getshowsseasons
        */
       seasons: function(id) {
         return promiseRequest('seasons', id)
@@ -327,7 +349,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
        * get all episodes for a show.
        * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
        * season is a number
-       * https://trakt.docs.apiary.io/#reference/episodes/summary
+       * https://docs.trakt.tv/reference/getshowsepisodesummary
        */
       episodes: function(id, seasonNumber) {
         return promiseRequest('episodes', id, seasonNumber)
@@ -335,7 +357,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       /**
        * get all actors in a show.
        * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-       * https://trakt.docs.apiary.io/#reference/shows/people/get-all-people-for-a-show
+       * https://docs.trakt.tv/reference/getshowspeople
        */
       people: function(id) {
         return promiseRequest('people', id)
@@ -398,20 +420,45 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           throw 'Could not resolve ' + TRAKTorTVDB_ID + ' ' + id + ' from Trakt.TV: ' + error
         })
       },
-      getPinUrl: function() {
-        return PIN_URL
+      /**
+       * generate a device code which the user authorizes on trakt web
+       * https://docs.trakt.tv/reference/postoauthdevicecode
+       */
+      devicecode: function() {
+        return $http.post(getOauthUrl('devicecode'), JSON.stringify({
+          'client_id': TRAKT_CLIENT_ID
+        }), {
+          headers: {
+            'trakt-api-key': TRAKT_CLIENT_ID,
+            'trakt-api-version': 2,
+            'Content-Type': 'application/json'
+          }
+        }).then(function(result) {
+          /* example
+          result.data.:
+          device_code:"xxXwHG0xXAJxQxxxxxWS1jxxxHI6U-xF8x2YExBDxxZx"
+          expires_in:600 (seconds)
+          interval:6 (seconds)
+          user_code:"X5HZX8BX"
+          verification_url:"https://auth.trakt.tv/activate"
+          */
+          // if 200 then present the usercode and the url to user and get them to authorize
+          // else error
+          // poll got the access token via https://auth.trakt.tv/oauth/device/token
+          return result
+        }, function(error) {
+          throw error
+        })
       },
       /**
-       * Exchange code for access token.
-       * https://trakt.docs.apiary.io/#reference/authentication-oauth/get-token/exchange-code-for-access_token
+       * poll for the access token generated once the user completes authorization on their trakt.tv account
+       * https://docs.trakt.tv/reference/postoauthdevicetoken
        */
-      login: function(pin) {
-        return $http.post(getUrl('token'), JSON.stringify({
-          'code': pin,
+      pollaccesstoken: function(devicecode, expiresin, interval) {
+        return $http.post(getOauthUrl('devicetoken'), JSON.stringify({
+          'code': devicecode,
           'client_id': TRAKT_CLIENT_ID,
-          'client_secret': TRAKT_CLIENT_SECRET,
-          'redirect_uri': REDIRECT_URI,
-          'grant_type': 'authorization_code'
+          'client_secret': TRAKT_CLIENT_SECRET
         }), {
           headers: {
             'trakt-api-key': TRAKT_CLIENT_ID,
@@ -422,16 +469,51 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
           localStorage.setItem('trakttv.token', result.data.access_token)
           localStorage.setItem('trakttv.refresh_token', result.data.refresh_token)
           return result.data.access_token
-        }, function(error) {
-          throw error
+        }, function(err) {
+          if (err.status == 400) {
+            // Pending - waiting for the user to authorize your app
+            console.debug('Pending - waiting for the user to authorize your app, retry in %s seconds', interval)
+            return delay(interval * 1000).then(function() {
+              return service.pollaccesstoken(devicecode, expiresin, interval)
+            })
+          }
+          if (err.status == 404) {
+            // Not Found - invalid device_code
+            throw 'Error 404: Not Found - invalid device_code'
+          }
+          if (err.status == 409) {
+            // Already Used - user already approved this code
+            throw 'Error 409: Already Used - user already approved this code'
+          }
+          if (err.status == 410) {
+            // Expired - the tokens have expired, restart the process
+            throw 'Error 410: Expired - the tokens have expired, restart the process'
+          }
+          if (err.status == 418) {
+            // Denied - user explicitly denied this code
+            throw 'Error 418: Denied - user explicitly denied this code'
+          }
+          if (err.status == 429) {
+            // Slow Down - your app is polling too quickly
+            var headers = err && err.headers ? err.headers() : {}
+            var retryAfterSeconds = +headers['retry-after']
+            retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : interval
+            console.error('Trakt poll access token rate limited! trying again in %s seconds', retryAfterSeconds)
+            return delay(retryAfterSeconds * 1000).then(function() {
+              return service.pollaccesstoken(devicecode, expiresin, interval)
+            })
+          }
+          if (err.status !== 0) { // only if this is not a cancelled request, rethrow
+            throw 'Error ' + err.status + ':' + err.statusText
+          }
         })
       },
       /**
        * Exchange refresh_token for access token.
-       * https://trakt.docs.apiary.io/#reference/authentication-oauth/get-token/exchange-refresh_token-for-access_token
+       * https://docs.trakt.tv/reference/postoauthtoken
        */
       renewToken: function() {
-        return $http.post(getUrl('token'), JSON.stringify({
+        return $http.post(getOauthUrl('token'), JSON.stringify({
           'refresh_token': localStorage.getItem('trakttv.refresh_token'),
           'client_id': TRAKT_CLIENT_ID,
           'client_secret': TRAKT_CLIENT_SECRET,
@@ -454,7 +536,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Returns all shows a user has watched.
-       * https://trakt.docs.apiary.io/#reference/sync/get-watched/get-watched
+       * https://docs.trakt.tv/reference/getsyncwatched
        */
       watched: function() {
         return promiseRequest('watched').then(function(result) {
@@ -464,7 +546,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Mark an episode as watched.
-       * https://trakt.docs.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
+       *https://docs.trakt.tv/reference/postsynchistoryadd
        */
       markEpisodeWatched: function(serie, episode) {
         return performPost('episodeSeen', {
@@ -481,7 +563,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Batch mark episodes as watched.
-       * https://trakt.docs.apiary.io/#reference/sync/add-to-history/add-items-to-watched-history
+       *https://docs.trakt.tv/reference/postsynchistoryadd
        */
       markEpisodesWatched: function(episodes) {
         var episodesArray = []
@@ -502,7 +584,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Mark an episode as not watched.
-       * https://trakt.docs.apiary.io/#reference/sync/remove-from-history/remove-items-from-history
+       * https://docs.trakt.tv/reference/postsynchistoryremove
        */
       markEpisodeNotWatched: function(serie, episode) {
         return performPost('episodeUnseen', {
@@ -518,7 +600,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * Returns all shows in a users collection.
-       * https://trakt.docs.apiary.io/#reference/sync/get-collection/get-collection
+       * https://docs.trakt.tv/reference/getsynccollectionall
        */
       userShows: function() {
         return promiseRequest('userShows').then(function(result) {
@@ -528,7 +610,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * add a show to a users collection.
-       * https://trakt.docs.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
+       * https://docs.trakt.tv/reference/postsynccollectionadd
        */
       addShowToCollection: function(serie) {
         return performPost('addCollection', {
@@ -544,7 +626,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * add an episode to a users collection.
-       * https://trakt.docs.apiary.io/#reference/sync/add-to-collection/add-items-to-collection
+       * https://docs.trakt.tv/reference/postsynccollectionadd
        */
       markEpisodeDownloaded: function(serie, episode) {
         return performPost('addCollection', {
@@ -560,7 +642,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * removes a show from a users collection.
-       * https://trakt.docs.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
+       * https://docs.trakt.tv/reference/postsynccollectionremove
        */
       removeShowFromCollection: function(serie) {
         return performPost('removeCollection', {
@@ -576,7 +658,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       /**
        * removes an episode from a users collection.
-       * https://trakt.docs.apiary.io/#reference/sync/remove-from-collection/remove-items-from-collection
+       * https://docs.trakt.tv/reference/postsynccollectionremove
        */
       markEpisodeNotDownloaded: function(serie, episode) {
         return performPost('removeCollection', {

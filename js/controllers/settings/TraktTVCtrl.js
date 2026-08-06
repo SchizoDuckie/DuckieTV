@@ -7,11 +7,17 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
 
     // Array for credentials
     vm.credentials = {
-      pincode: '',
       success: localStorage.getItem('trakttv.token') || false,
       error: false,
       authorizing: false,
-      getpin: false
+      getdevicecode: false,
+      getverification: false,
+      devicecode: '',
+      usercode: '',
+      verificationurl: '',
+      expiresin: '',
+      interval: ''
+
     }
 
     vm.tuPeriod = SettingsService.get('trakt-update.period')
@@ -24,26 +30,28 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
     vm.watchedEpisodes = 0
     vm.downloadedEpisodes = 0
 
-    vm.onAuthorizeEnter = function() {
-      window.open(vm.getPinUrl(), '_blank')
-      vm.credentials.getpin = true
+    vm.getVerification = function() {
+      vm.credentials.getverification = true
+      return vm.authorize()
     }
 
-    vm.onLoginEnter = function() {
-      vm.authorize(vm.credentials.pincode)
-    }
-
-    vm.getPin = function() {
-      vm.credentials.getpin = true
+    vm.getVerificationUrl = function() {
+      return vm.credentials.verificationurl
     }
 
     // Clears all local credentials and token in local storage
     vm.clearCredentials = function() {
-      vm.credentials.pincode = ''
       vm.credentials.success = false
       vm.credentials.error = false
       vm.credentials.authorizing = false
-      vm.credentials.getpin = false
+      vm.credentials.getdevicecode = false
+      vm.credentials.getverification = false,
+      vm.credentials.devicecode = ''
+      vm.credentials.usercode = ''
+      vm.credentials.verificationurl = ''
+      vm.credentials.expiresin = '',
+      vm.credentials.interval = ''
+
       localStorage.removeItem('trakttv.token')
       localStorage.removeItem('trakttv.refresh_token')
     }
@@ -61,25 +69,34 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
       })
     }
 
-    // Validates pin with TraktTV
-    vm.authorize = function(pin) {
-      vm.credentials.authorizing = true
-      return TraktTVv2.login(pin).then(function(result) {
-        vm.credentials.success = result
+    // send device code to TraktTV and get user code and verification url back
+    vm.devicecode = function() {
+      return TraktTVv2.devicecode().then(function(result) {
         vm.credentials.error = false
-        vm.credentials.authorizing = false
-      }, function(error) {
+        vm.credentials.devicecode = result.data.device_code
+        vm.credentials.usercode = result.data.user_code
+        vm.credentials.verificationurl = result.data.verification_url
+        vm.credentials.expiresin = result.data.expires_in
+        vm.credentials.interval = result.data.interval
+        vm.credentials.getdevicecode = true
+      }, function(err) {
         vm.clearCredentials()
-        if (error.data && error.data.error && error.data.error_description) {
-          vm.credentials.error = 'Error! ' + error.status + ' - ' + error.data.error + ' - ' + error.data.error_description
-        } else {
-          vm.credentials.error = 'Error! ' + error.status + ' - ' + error.statusText
-        }
+        vm.credentials.error = err
       })
     }
 
-    vm.getPinUrl = function() {
-      return TraktTVv2.getPinUrl()
+    // fetch token from TraktTV
+    vm.authorize = function() {
+      vm.credentials.authorizing = true
+      return TraktTVv2.pollaccesstoken(vm.credentials.devicecode, vm.credentials.expiresin, vm.credentials.interval).then(function(result) {
+        vm.credentials.success = result
+        vm.credentials.error = false
+        vm.credentials.authorizing = false
+        vm.credentials.getverification = false
+      }, function(err) {
+        vm.clearCredentials()
+        vm.credentials.error = err
+      })
     }
 
     /* Note: I intentionally used my own cache and not the FavoritesService adding Cache because

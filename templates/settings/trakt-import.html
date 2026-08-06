@@ -4,20 +4,26 @@
     <div class="trakt-logo" style="float:left"><img src="img/trakt.png"></div>
     <div class="trakt-login">
       <p translate-once>SETTINGS/TRAKT-IMPORT/sync/desc</p>
-      <p><strong  translate-once>COMMON/current-setting/hdr</strong>
+      <p><strong translate-once>COMMON/current-setting/hdr</strong>
        {{trakt.traktSync ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}</p>
         <table style="width: 100%">
           <tr ng-if="!trakt.credentials.success">
             <td>
-              <a ng-href="{{trakt.getPinUrl()}}" ng-click="trakt.getPin()" class="btn btn-success" target='_blank' translate-once>SETTINGS/TRAKT-IMPORT/authorize/btn</a>
-            </td>
-          </tr>
-          <tr style="text-align: center" ng-if="!trakt.credentials.success">
-            <td translate-once>SETTINGS/TRAKT-IMPORT/password/hdr</td>
-          </tr>
-          <tr class="password" ng-if="!trakt.credentials.success">
-            <td>
-              <input type='password' style="width: 100%" ng-model='trakt.credentials.pincode' placeholder="Trakt.TV PIN" ng-keyup="$event.keyCode == 13 && trakt.onLoginEnter()" />
+              <a ng-click="trakt.devicecode()" class="btn btn-success" style="position:relative" ng-hide="trakt.credentials.success || trakt.credentials.getdevicecode">
+                <i class="glyphicon glyphicon-download-alt" style="float:left;top:3px"></i><span translate-once>SETTINGS/TRAKT-IMPORT/fetch-code/btn</span><span>Trakt.TV</span>
+              </a>
+              <div ng-show="!trakt.credentials.success && trakt.credentials.getdevicecode">
+                <p style="margin-top:5px;white-space:normal">
+                  <strong><span translate-once>SETTINGS/TRAKT-IMPORT/code/lbl</span><input type="text" readonly value="{{trakt.credentials.usercode}}"></input></strong>
+                  <p translate-once>SETTINGS/TRAKT-IMPORT/codeusage/lbl</p>
+              </p>
+              </div>
+              <a ng-href="{{trakt.getVerificationUrl()}}" ng-click="trakt.getVerification()" ng-show="!trakt.credentials.success && trakt.credentials.getdevicecode" class="btn btn-success" target='_blank'>
+                <i class="glyphicon glyphicon-log-in" style="float:left;top:3px">
+                  <loading-spinner ng-show="trakt.credentials.getverification" style="width:25px;height:25px;position:absolute;left:30px"></loading-spinner>
+                </i>
+                <span translate-once>SETTINGS/TRAKT-IMPORT/authorize/btn</span>
+              </a>
             </td>
           </tr>
           <tr class="button">
@@ -26,10 +32,6 @@
                 <strong>TraktTV <span translate-once>SETTINGS/TRAKT-IMPORT/authorized/alert</span></strong>
                 Token: {{trakt.credentials.success}}
               </p>
-              <a ng-click="trakt.authorize(trakt.credentials.pincode)" class="btn btn-success" style="position:relative" ng-hide="trakt.credentials.success">
-                <i class="glyphicon glyphicon-log-in" style="float:left;top:3px"></i><span translate-once>SETTINGS/TRAKT-IMPORT/login-to/btn</span><span>Trakt.TV</span>
-                <loading-spinner ng-show="trakt.credentials.authorizing" style="width:20px;height:20px;position:absolute;right:5px"></loading-spinner>
-              </a>
 
               <a ng-click="trakt.clearCredentials()" ng-if="trakt.credentials.success" class="btn btn-danger">
                 <i class="glyphicon glyphicon-trash" style="float:left;top:3px"></i><span translate-once>SETTINGS/TRAKT-IMPORT/clear-credentials/btn</span>
