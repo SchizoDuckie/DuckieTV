@@ -3,7 +3,7 @@
  */
 DuckieTV.provider('TorrentFreak', function() {
   var endpoints = {
-    archive: 'https://torrentfreak.com/most-pirated-movies-of-%s/' // may need maintenance?
+    archive: 'https://torrentfreak.com/most-pirated-movies-of-%s-weekly-archive/' // may need maintenance?
   }
 
   /**
@@ -23,9 +23,9 @@ DuckieTV.provider('TorrentFreak', function() {
     var titles = doc.querySelectorAll('h2');
     var output = [];
     for(var i=0; i<tables.length; i++) {
-      var rows = tables[i].querySelectorAll('tbody tr'),
+      var rows = tables[i].querySelectorAll('tr:has(a[href])'),
       out = {
-        title: titles[i].textContent,
+        title: titles[i]?.textContent,
         top10: []
       };
 
