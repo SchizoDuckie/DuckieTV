@@ -24,7 +24,7 @@ DuckieTV.run(['TorrentSearchEngines', 'SettingsService', '$q', '$http', '$inject
         detailsSelectors: {
           detailsContainer: 'div.no-top-radius',
           magnetUrl: ['ul li a[href^="magnet:?"]', 'href'],
-          torrentUrl: ['ul li a[href^="http://itorrents.org/"]', 'href']
+          torrentUrl: ['ul li a[href^="https://itorrents.net/"]', 'href']
         }
       }, $q, $http, $injector))
     }
