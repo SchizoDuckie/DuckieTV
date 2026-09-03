@@ -163,7 +163,7 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
             console.info('Done importing shows and adding them to database. Marking episodes as downloaded/watched')
             Promise.all(vm.traktTVSeries.map(function(serie) {
               var show = collectedShowIdMapping[serie.trakt_id]
-              if (show.seasons === undefined)
+              if (!('seasons' in show))
               {
                 show.seasons = [] // just to be safe
               }
@@ -188,7 +188,7 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
               })).then(function() {
                 console.info('Successfully marked all episodes as downloaded. Marking all episodes as watched.')
                 var show = watchedShowIdMapping[serie.trakt_id]
-                if (show.seasons === undefined)
+                if (!('seasons' in show))
                 {
                   show.seasons = [] // just to be safe
                 }
