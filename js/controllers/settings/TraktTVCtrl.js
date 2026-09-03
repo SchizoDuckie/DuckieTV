@@ -162,19 +162,19 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
           })).then(function() {
             console.info('Done importing shows and adding them to database. Marking episodes as downloaded/watched')
             Promise.all(vm.traktTVSeries.map(function(serie) {
-              var show = collectedShowIdMapping[serie.trakt_id]
-              if (show.seasons === undefined)
+              vm.show = collectedShowIdMapping[serie.trakt_id]
+              if (vm.show === undefined)
               {
-                show.seasons = [] // just to be safe
+                vm.show = { seasons: [] }
               }
 
-              return Promise.all(show.seasons.map(function(season) {
+              return Promise.all(vm.show.seasons.map(function(season) {
                 return Promise.all(season.episodes.map(function(episode) {
                   return CRUD.FindOne('Episode', {
                     seasonnumber: season.number,
                     episodenumber: episode.number,
                     'Serie': {
-                      TRAKT_ID: show.trakt_id
+                      TRAKT_ID: vm.show.trakt_id
                     }
                   }).then(function(epi) {
                     if (!epi) {
@@ -187,19 +187,19 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
                 }))
               })).then(function() {
                 console.info('Successfully marked all episodes as downloaded. Marking all episodes as watched.')
-                var show = watchedShowIdMapping[serie.trakt_id]
-                if (show.seasons === undefined)
+                vm.show = watchedShowIdMapping[serie.trakt_id]
+                if (vm.show === undefined)
                 {
-                  show.seasons = [] // just to be safe
+                  vm.show = { seasons: [] }
                 }
 
-                return Promise.all(show.seasons.map(function(season) {
+                return Promise.all(vm.show.seasons.map(function(season) {
                   return Promise.all(season.episodes.map(function(episode) {
                     return CRUD.FindOne('Episode', {
                       seasonnumber: season.number,
                       episodenumber: episode.number,
                       'Serie': {
-                        TRAKT_ID: show.trakt_id
+                        TRAKT_ID: vm.show.trakt_id
                       }
                     }).then(function(epi) {
                       if (!epi) {
