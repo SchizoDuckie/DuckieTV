@@ -162,23 +162,28 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
           })).then(function() {
             console.info('Done importing shows and adding them to database. Marking episodes as downloaded/watched')
             Promise.all(vm.traktTVSeries.map(function(serie) {
-              var show = collectedShowIdMapping[serie.trakt_id]
-              if (show.seasons === undefined)
+              var collectedShow = collectedShowIdMapping[serie.trakt_id]
+              // in the event cS is missing
+              if (collectedShow === undefined || collectedShow === null )
               {
-                show.seasons = [] // just to be safe
+                collectedShow = { seasons: [] }
               }
-
-              return Promise.all(show.seasons.map(function(season) {
+              // in the event cS exist but without seasons
+              if (collectedShow.seasons === undefined)
+              {
+                collectedShow.seasons = []
+              }
+              return Promise.all(collectedShow.seasons.map(function(season) {
                 return Promise.all(season.episodes.map(function(episode) {
                   return CRUD.FindOne('Episode', {
                     seasonnumber: season.number,
                     episodenumber: episode.number,
                     'Serie': {
-                      TRAKT_ID: show.trakt_id
+                      TRAKT_ID: collectedShow.trakt_id
                     }
                   }).then(function(epi) {
                     if (!epi) {
-                      console.warn('Episode s%se%s not found for %s', season.number, episode.number, show.name)
+                      console.warn('Episode s%se%s not found for %s', season.number, episode.number, collectedShow.name)
                     } else {
                       vm.downloadedEpisodes++
                       return epi.markDownloaded()
@@ -187,23 +192,29 @@ DuckieTV.controller('TraktTVCtrl', ['$rootScope', 'TraktTVv2', 'FavoritesService
                 }))
               })).then(function() {
                 console.info('Successfully marked all episodes as downloaded. Marking all episodes as watched.')
-                var show = watchedShowIdMapping[serie.trakt_id]
-                if (show.seasons === undefined)
+                // watched show data does not have seasons so this section is defunct
+                var watchedShow = watchedShowIdMapping[serie.trakt_id]
+                // in the event wS is missing
+                if (watchedShow === undefined || watchedShow === null )
                 {
-                  show.seasons = [] // just to be safe
+                  watchedShow = { seasons: [] }
                 }
-
-                return Promise.all(show.seasons.map(function(season) {
+                // in the event wS exist but without seasons
+                if (watchedShow.seasons === undefined)
+                {
+                  watchedShow.seasons = []
+                }
+                return Promise.all(watchedShow.seasons.map(function(season) {
                   return Promise.all(season.episodes.map(function(episode) {
                     return CRUD.FindOne('Episode', {
                       seasonnumber: season.number,
                       episodenumber: episode.number,
                       'Serie': {
-                        TRAKT_ID: show.trakt_id
+                        TRAKT_ID: watchedShow.trakt_id
                       }
                     }).then(function(epi) {
                       if (!epi) {
-                        console.warn('Episode s%se%s not found for %s', season.number, episode.number, show.name)
+                        console.warn('Episode s%se%s not found for %s', season.number, episode.number, watchedShow.name)
                       } else {
                         vm.watchedEpisodes++
                         var d = new Date(episode.last_watched_at)

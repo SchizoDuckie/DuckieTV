@@ -77,6 +77,14 @@
       <i class="glyphicon glyphicon-import" style="float:left;top:3px"></i> <span translate-once>SETTINGS/TRAKT-IMPORT/sync-import/btn</span>
     </a>
 
+    <div class="miniposter x2 import-container" ng-if="trakt.traktTVSeries[0]" style="text-align:center">
+      <serieheader style='display:inline-block; margin:5px;' data="serie" no-badge="1" no-button="1" no-overview="1" no-title="1" mode="poster" ng-repeat="serie in trakt.traktTVSeries">
+        <em class="earmark" ng-hide="trakt.isAdding(serie.trakt_id)"><i class='glyphicon glyphicon-ok'></i></em>
+        <em class="earmark adding" ng-show="trakt.isAdding(serie.trakt_id)"><loading-spinner></loading-spinner></em>
+      </serieheader>
+      <small style="display:block"><span translate-once>SETTINGS/CALENDAR/downloaded/hdr</span>: {{ trakt.downloadedEpisodes }} <span translate-once>SETTINGS/TRAKT-IMPORT/watched-episodes/lbl</span> {{ trakt.watchedEpisodes }} </small>
+    </div>
+
     <div class="pushToTrakt">
       <hr class="setting-divider">
 
@@ -87,12 +95,5 @@
         <i class="glyphicon glyphicon-export" style="float:left;top:3px"></i> <span translate-once>SETTINGS/TRAKT-IMPORT/push/btn</span>
       </a>
     </div>
-  </div>
-  <div class="miniposter x2 import-container" ng-if="trakt.traktTVSeries[0]" style="text-align:center">
-    <serieheader style='display:inline-block; margin:5px;' data="serie" no-badge="1" no-button="1" no-overview="1" no-title="1" mode="poster" ng-repeat="serie in trakt.traktTVSeries">
-      <em class="earmark" ng-hide="trakt.isAdding(serie.trakt_id)"><i class='glyphicon glyphicon-ok'></i></em>
-      <em class="earmark adding" ng-show="trakt.isAdding(serie.trakt_id)"><loading-spinner></loading-spinner></em>
-    </serieheader>
-    <small style="display:block"><span translate-once>SETTINGS/CALENDAR/downloaded/hdr</span>: {{ trakt.downloadedEpisodes }} <span translate-once>SETTINGS/TRAKT-IMPORT/watched-episodes/lbl</span> {{ trakt.watchedEpisodes }} </small>
   </div>
 </div>
