@@ -10,33 +10,45 @@ DuckieTV.run(['$http', 'dialogs', 'SettingsService', function ($http, dialogs, S
   // check last updated every 2 days.
   var updateDialog = false
   var lastUpdateCheck = localStorage.getItem('github.lastupdatecheck')
-  if (!lastUpdateCheck || lastUpdateCheck + (60 * 60 * 24 * 2 * 1000) < new Date().getTime()) {
+  if (!lastUpdateCheck || Number(lastUpdateCheck) + (60 * 60 * 24 * 2 * 1000) < new Date().getTime()) {
     $http.get('https://api.github.com/repos/SchizoDuckie/DuckieTV/releases').then(function (result) {
       result = result.data
       // store current update time.
       localStorage.setItem('github.lastupdatecheck', new Date().getTime())
+      if (!Array.isArray(result) || !result.length || !result[0].tag_name || !result[0].html_url) {
+        return
+      }
       // if release is older than current version, skip.
-      if (parseFloat(result[0].tag_name) <= parseFloat(navigator.userAgent.replace('DuckieTV Standalone v', ''))) {
+      var currentVersion = nw.App.manifest.version.split('.').map(Number)
+      var releaseVersion = String(result[0].tag_name).replace(/^v/, '').split('.').map(Number)
+      var newer = false
+      for (var index = 0; index < 3; index++) {
+        if ((releaseVersion[index] || 0) === (currentVersion[index] || 0)) continue
+        newer = (releaseVersion[index] || 0) > (currentVersion[index] || 0)
+        break
+      }
+      if (!newer) {
         return
       }
-      // if release was dismissed, skip.
-      var settingsKey = 'notification.dontshow.' + result[0].tag_name
-      if (!localStorage.getItem(settingsKey)) {
-        return
-      }
-      var releasenotes = '\n' + result[0].body
-      var dlg = dialogs.confirm('New DuckieTV release!', [
-        'A new version of DuckieTV is available (v', result[0].tag_name, ', released ', new Date(result[0].published_at).toLocaleDateString(), ')<br>',
-        '<p style="margin: 20px 0px; white-space: pre; overflow-wrap: break-word; background-color: transparent; color:white;">',
-        releasenotes.replace(/\n- /g, '<li>'),
-        '</p>',
-        'Do you wish to download it now?',
-        '<br><label class="btn btn-danger" onclick="localStorage.setItem(\'', settingsKey, '\', 1);"> Don\'t show this notification again for v', result[0].tag_name, '</button>'
+      // The upstream release feed does not declare its bundled NW.js version or
+      // native-SQLite profile compatibility. Record the informational result,
+      // but never direct this profile to a potentially older runtime package.
+      localStorage.setItem('github.latestrelease', JSON.stringify({
+        tag: result[0].tag_name,
+        publishedAt: result[0].published_at,
+        url: result[0].html_url,
+        runtimeCompatibility: 'unverified'
+      }))
+      console.info('A newer upstream DuckieTV release exists, but its NW.js storage compatibility is unverified', result[0].tag_name)
+      var safeTag = String(result[0].tag_name).replace(/[^0-9A-Za-z._-]/g, '')
+      var settingsKey = 'notification.dontshow.' + safeTag
+      if (localStorage.getItem(settingsKey)) return
+      var dlg = dialogs.confirm('Upstream DuckieTV release', [
+        'DuckieTV ', safeTag, ' is listed upstream. Its NW.js 0.116 native-SQLite profile compatibility has not been verified, so this app cannot recommend installing it.',
+        '<br><br>Open the release details page for review?',
+        '<br><button class="btn btn-danger" onclick="localStorage.setItem(\'', settingsKey, '\', 1);">Do not show this notice again for ', safeTag, '</button>'
       ].join(''))
-
-      dlg.result.then(function (btn) {
-        nw.Shell.openExternal(result[0].html_url)
-      })
+      dlg.result.then(function() { nw.Shell.openExternal(result[0].html_url) })
     })
   }
 }])

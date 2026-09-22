@@ -135,6 +135,9 @@ DuckieTV.directive('downloadpath', [function () {
     },
     link: function (scope, element, attributes) {
       element.bind('change', function (changeEvent) {
+        if (!changeEvent.target.files || !changeEvent.target.files.length) {
+          return
+        }
         scope.$apply(function () {
           scope.downloadpath = changeEvent.target.files[0].path
         })

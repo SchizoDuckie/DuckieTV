@@ -18,8 +18,24 @@ if (typeof openDatabase !== 'function') {
   CRUD.Database.connectionFactory = NWDatabase.createConnection
 }
 
-window.DuckieTVStorageReady = (window.DuckieTVStoragePreflight || Promise.resolve()).then(function(preflight) {
+var storagePreflight = window.DuckieTVStoragePreflight
+if (typeof openDatabase !== 'function' && (!storagePreflight || typeof storagePreflight.then !== 'function')) {
+  storagePreflight = Promise.reject(new Error('Background storage preflight was not initialized'))
+}
+
+window.DuckieTVStorageReady = (storagePreflight || Promise.resolve()).then(function(preflight) {
   return CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', databaseOptions))
 }).then(function() {
   if (typeof openDatabase !== 'function') localStorage.setItem('duckietv.storage.state', 'native-v1-ready')
 })
+
+var storageShutdownPromise
+window.DuckieTVStorageShutdown = function() {
+  if (storageShutdownPromise) return storageShutdownPromise
+  storageShutdownPromise = window.DuckieTVStorageReady.then(function() {
+    var adapter = CRUD.EntityManager.getAdapter()
+    if (typeof openDatabase === 'function' || !adapter || !adapter.db || typeof adapter.db.close !== 'function') return
+    return adapter.db.close()
+  })
+  return storageShutdownPromise
+}

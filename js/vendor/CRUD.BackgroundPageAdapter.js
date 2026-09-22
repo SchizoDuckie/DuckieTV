@@ -51,6 +51,7 @@ CRUD.BackgroundPageAdapter = function(database, dbOptions) {
         if (what.getID() !== false) {
             query = ['delete from', CRUD.EntityManager.entities[what.getType()].table, 'where', CRUD.EntityManager.getPrimary(what.getType()), '= ?'].join(' ');
             return db.execute(query, [what.getID()]).then(function(resultSet) {
+                resultSet.Action = 'deleted';
                 return resultSet;
             }, function(e) {
                 CRUD.log("error deleting element from db: ", e);
@@ -75,6 +76,8 @@ CRUD.BackgroundPageConnection = function() {
     var connection = false;
     var self = this;
     var unhandled = {};
+    var shuttingDown = false;
+    var shutdownPromise = null;
 
 
     /**
@@ -148,10 +151,13 @@ CRUD.BackgroundPageConnection = function() {
      * and the promise is deleted and memory freed.
      * @return Promise
      */
-    function send(msg) {
+    function send(msg, allowWhileShuttingDown) {
 
         if (!connection) {
             return Promise.reject(new Error("Not connected"));
+        }
+        if (shuttingDown && !allowWhileShuttingDown) {
+            return Promise.reject(new Error("Background database connection is shutting down"));
         }
 
         msg.guid = guid();
@@ -175,6 +181,13 @@ CRUD.BackgroundPageConnection = function() {
         });
 
     }
+
+    this.shutdown = function() {
+        if (shutdownPromise) return shutdownPromise;
+        shuttingDown = true;
+        shutdownPromise = send({ command: 'shutdown' }, true);
+        return shutdownPromise;
+    };
 
     /**
      *

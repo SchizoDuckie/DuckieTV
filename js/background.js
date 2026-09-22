@@ -75,6 +75,8 @@ chrome.runtime.onConnect.addListener(function(port) {
         return deleted.Delete()
       case 'query':
         return CRUD.executeQuery(msg.sql, msg.params)
+      case 'shutdown':
+        return window.DuckieTVStorageShutdown().then(function() { return { closed: true } })
       default:
         return Promise.reject(new Error('Unknown background database command: ' + msg.command))
     }

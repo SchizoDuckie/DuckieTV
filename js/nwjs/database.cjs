@@ -20,6 +20,7 @@ class NWDatabaseConnection {
     this.connected = false
     this.closing = false
     this.closePromise = null
+    this.operationTail = Promise.resolve()
     this.lastInsertRowId = 0
   }
 
@@ -45,11 +46,11 @@ class NWDatabaseConnection {
 
   execute(sql, bindings) {
     if (!this.worker || this.closing) return Promise.reject(new Error(this.closing ? 'Database is closing' : 'Database is not connected'))
-    return this.ready.then(function() {
+    return this.queueOperation(function() {
       return this.request('execute', {
         sql: sql,
         bindings: (bindings || []).map(normalizeBinding)
-      })
+      }, true)
     }.bind(this)).then(function(result) {
       if (result.insertId !== undefined) this.lastInsertRowId = result.insertId
       return result
@@ -58,7 +59,7 @@ class NWDatabaseConnection {
 
   batch(statements) {
     if (!this.worker || this.closing) return Promise.reject(new Error(this.closing ? 'Database is closing' : 'Database is not connected'))
-    return this.ready.then(function() {
+    return this.queueOperation(function() {
       return this.request('batch', {
         statements: statements.map(function(statement) {
           return {
@@ -66,8 +67,16 @@ class NWDatabaseConnection {
             bindings: (statement.bindings || []).map(normalizeBinding)
           }
         })
-      })
+      }, true)
     }.bind(this))
+  }
+
+  queueOperation(operation) {
+    const accepted = this.operationTail.then(function() {
+      return this.ready.then(operation)
+    }.bind(this))
+    this.operationTail = accepted.catch(function() {})
+    return accepted
   }
 
   getSchemaVersion(table) {
@@ -92,7 +101,9 @@ class NWDatabaseConnection {
     if (this.closePromise) return this.closePromise
     if (!this.worker) return Promise.resolve()
     this.closing = true
-    this.closePromise = this.ready.then(function() {
+    this.closePromise = this.operationTail.then(function() {
+      return this.ready
+    }.bind(this)).then(function() {
       return this.request('close', {}, true)
     }.bind(this)).finally(function() {
       if (this.worker) this.worker.terminate()
