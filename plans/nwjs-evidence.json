@@ -21,7 +21,7 @@
         "version": "0.116.0",
         "flavor": "sdk",
         "archiveSha256": "5522a5848f509daff487847c0163b613d2cb5d6a43737df0759980908af941ff",
-        "packageSha256": "e88c3c12215c09665bc73c47c7514d4df1ba6bf98a923ca75736dc757f55d503",
+        "packageSha256": "f1f79357171a6882bc46e3135301abcf0c3c3b09b3d084b4ef2d5983791f1e3d",
         "scope": "unsigned-local-app-nw",
         "hashScope": "this local build; ZIP staging timestamps make rebuilds behaviorally repeatable but not bit-for-bit identical"
       },
@@ -67,7 +67,7 @@
       "id": "startup-and-profile-choice",
       "status": "PASS_LOCAL_SCOPED",
       "evidence": [
-        "actual first-run choice click, pre-Angular window controls, background reload, Angular bootstrap and corrupt-library error controls"
+        "clean dedicated profile auto-initialization, sibling legacy detection with automated hit tests and independent real-mouse Import/Start Fresh journeys, ready-profile retention, unknown-nonempty rejection, native traffic-light close, Angular bootstrap and corrupt-library error presentation"
       ]
     },
     {
@@ -116,7 +116,7 @@
       "id": "native-shell",
       "status": "PASS_LOCAL_SCOPED",
       "evidence": [
-        "window maximize/restore, zoom persistence, directory-picker cancel, pre-Angular error controls, API construction, ordered production shutdown and explicit failed-shutdown force-quit flow passed; tray/menu/dialog presentation remains pending"
+        "native window frame, first-run/error native close lifecycle, window maximize/restore, zoom persistence, directory-picker cancel, API construction, ordered production shutdown and explicit failed-shutdown force-quit flow passed; tray/menu/dialog presentation remains pending"
       ]
     },
     {
@@ -151,7 +151,7 @@
       "id": "release-ui-and-assets",
       "status": "PASS_LOCAL_SCOPED",
       "evidence": [
-        "unsigned arm64 package create/reopen/rebuild passed from unrelated cwd"
+        "unsigned arm64 package with native frame and DuckieTV ICNS/CFBundleIconFile metadata passed create/reopen/rebuild from unrelated cwd"
       ]
     }
   ],

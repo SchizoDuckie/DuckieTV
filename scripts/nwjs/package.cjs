@@ -49,12 +49,15 @@ function main() {
     const app = path.join(output, 'DuckieTV.app')
     fs.cpSync(path.join(runtime, 'nwjs.app'), app, { recursive: true, dereference: false, verbatimSymlinks: true })
     const archive = path.join(app, 'Contents', 'Resources', 'app.nw')
+    const iconName = 'DuckieTV.icns'
+    fs.copyFileSync(path.join(root, 'img', 'logo', 'duckietv.icns'), path.join(app, 'Contents', 'Resources', iconName))
     const zip = spawnSync('zip', ['-q', '-r', archive, '.'], { cwd: staging, stdio: 'inherit' })
     if (zip.status !== 0) throw new Error('Application archive creation failed')
     const plist = path.join(app, 'Contents', 'Info.plist')
     ;[
       ['-replace', 'CFBundleDisplayName', '-string', 'DuckieTV', plist],
-      ['-replace', 'CFBundleName', '-string', 'DuckieTV', plist]
+      ['-replace', 'CFBundleName', '-string', 'DuckieTV', plist],
+      ['-replace', 'CFBundleIconFile', '-string', iconName, plist]
     ].forEach(function(args) {
       const result = spawnSync('plutil', args, { stdio: 'inherit' })
       if (result.status !== 0) throw new Error('Bundle metadata update failed')

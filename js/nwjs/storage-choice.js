@@ -14,9 +14,12 @@
   var choiceKey = 'duckietv.storage.choice'
   var fs = require('node:fs')
   var path = require('node:path')
+  var profileRoot = path.dirname(nw.App.dataPath)
+  var standardNamespace = path.basename(profileRoot) === 'DuckieTV-Standalone-SQLite'
+  var legacyProfileRoot = path.join(path.dirname(profileRoot), 'DuckieTV-Standalone')
   var namespaceMarkerPath = path.join(nw.App.dataPath, 'duckietv-native-profile.json')
-  var legacyDatabasePath = path.join(nw.App.dataPath, 'databases')
-  if (fs.existsSync(legacyDatabasePath)) {
+  var targetLegacyDatabasePath = path.join(nw.App.dataPath, 'databases')
+  if (fs.existsSync(targetLegacyDatabasePath)) {
     window.DuckieTVStoragePreflight = Promise.reject(new Error('This profile contains legacy Web SQL data and cannot be opened by the new runtime'))
     return
   }
@@ -31,7 +34,7 @@
       return
     }
   }
-  var startFresh = args.indexOf('--duckietv-start-fresh') > -1 || process.env.DUCKIETV_START_FRESH === '1' || localStorage.getItem(choiceKey) === 'fresh'
+  var explicitFresh = args.indexOf('--duckietv-start-fresh') > -1 || process.env.DUCKIETV_START_FRESH === '1' || localStorage.getItem(choiceKey) === 'fresh'
   var recoverFresh = args.indexOf('--duckietv-recover-fresh') > -1 || process.env.DUCKIETV_RECOVER_FRESH === '1'
   var state = localStorage.getItem(stateKey)
 
@@ -54,6 +57,17 @@
     window.DuckieTVStoragePreflight = Promise.resolve({ backend: 'node:sqlite', state: state })
     return
   }
+
+  var legacyProfileDetected = false
+  if (standardNamespace) {
+    try {
+      var legacyProfileEntry = fs.lstatSync(legacyProfileRoot)
+      legacyProfileDetected = legacyProfileEntry.isDirectory() || legacyProfileEntry.isSymbolicLink()
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+    }
+  }
+  var startFresh = explicitFresh || !legacyProfileDetected
 
   if (startFresh) {
     var ownedKeys = [stateKey, 'duckietv.storage.createdAt', choiceKey, 'runtime.event', 'install.notify']
@@ -86,6 +100,7 @@
 
   var error = new Error('Choose Import or Start Fresh before opening DuckieTV with the new storage profile')
   error.code = 'DUCKIETV_STORAGE_CHOICE_REQUIRED'
+  error.legacyProfilePath = legacyProfileRoot
   window.DuckieTVStoragePreflight = Promise.reject(error)
   } catch (error) {
     window.DuckieTVStoragePreflight = Promise.reject(error)

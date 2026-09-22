@@ -32,7 +32,7 @@ https://github.com/DuckieTV/Nightlies/releases/latest
 
 DuckieTV For Chrome, Safari, Opera, Vivaldi or Edge browsers is no longer supported.
 ---------------------------
-**Chromium no longer provides Web SQL.** The standalone app now stores its library in Node's native SQLite backend. Existing NW.js 0.87 profiles must be migrated into the new dedicated profile before they can be opened; see [Migrate an NW.js 0.87 profile](HACKING.md#migrate-an-nwjs-087-profile).
+**Chromium no longer provides Web SQL.** The standalone app now stores its library in Node's native SQLite backend. A clean installation initializes automatically. When the standard legacy profile is detected beside the new dedicated profile, DuckieTV offers migration or an explicit fresh start. Existing NW.js 0.87 data must be migrated into the new profile before it can be opened; see [Migrate an NW.js 0.87 profile](HACKING.md#migrate-an-nwjs-087-profile).
 
 Screenshots:
 ============

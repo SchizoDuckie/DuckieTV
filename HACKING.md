@@ -64,7 +64,7 @@ DUCKIETV_TEST_PROFILE="$(mktemp -d "${TMPDIR:-/tmp}/duckietv-nw116.XXXXXX")"
 
 Quit DuckieTV before removing the disposable directory.
 
-On its first launch, the new standalone profile requires an explicit choice. **Start Fresh** creates an empty native SQLite library. **Import Existing Library** displays the destination path to use with the migration command below.
+A truly empty new standalone profile creates its native SQLite library automatically. When the standard `DuckieTV-Standalone-SQLite` profile has a sibling `DuckieTV-Standalone` legacy profile, startup instead offers **Start Fresh** and **Import Existing Library**. Detection only checks for that sibling path and never opens it with NW.js 0.116. **Import Existing Library** displays the destination path to use with the migration command below. Legacy profiles stored in custom locations are migrated with explicit paths using the command below.
 
 ## Migrate an NW.js 0.87 profile
 
@@ -79,7 +79,7 @@ npm run nw:migrate -- \
   --legacy-binary=/absolute/path/to/nwjs-sdk-v0.87.0/nw
 ```
 
-The destination may be the untouched profile created by viewing the first-run choice screen. It must not contain a native database or application settings. A completed import is journaled and can be invoked again safely; it will not overwrite changes made after activation. Keep the old profile as rollback data until the migrated library has been checked in the new app.
+The destination may be the untouched profile created by viewing the detected-legacy choice screen. It must not contain a native database or application settings. A completed import is journaled and can be invoked again safely; it will not overwrite changes made after activation. Keep the old profile as rollback data until the migrated library has been checked in the new app.
 
 
 ## Building DuckieTV-Standalone

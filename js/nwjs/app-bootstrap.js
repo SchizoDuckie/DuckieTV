@@ -1,31 +1,9 @@
 'use strict'
 
 ;(function() {
-  function bindFailureWindowControls() {
-    if (!globalThis.nw || !nw.Window || document.body.dataset.failureControlsBound === 'true') return
-    document.body.dataset.failureControlsBound = 'true'
-    document.body.classList.add('standalone')
-    var win = nw.Window.get()
-    var minimize = document.getElementById('minimize')
-    var maximize = document.getElementById('maximize')
-    var unmaximize = document.getElementById('unmaximize')
-    var close = document.getElementById('close')
-    if (minimize) minimize.addEventListener('click', function() { win.minimize() })
-    if (maximize) maximize.addEventListener('click', function() {
-      maximize.style.display = 'none'
-      if (unmaximize) unmaximize.style.display = ''
-      win.maximize()
-    })
-    if (unmaximize) unmaximize.addEventListener('click', function() {
-      unmaximize.style.display = 'none'
-      if (maximize) maximize.style.display = ''
-      win.restore()
-    })
-    if (close) close.addEventListener('click', function() { nw.App.quit() })
-  }
-
   var readiness = window.DuckieTVStorageReady || Promise.resolve()
   readiness.then(function() {
+    document.body.classList.remove('storage-pending')
     angular.element(document).ready(function() {
       angular.bootstrap(document, ['DuckieTV'], { strictDi: true })
     })
@@ -67,7 +45,6 @@
         message.appendChild(migrate)
       }
     }
-    bindFailureWindowControls()
     if (globalThis.nw && nw.Window) nw.Window.get().show()
   })
 })()

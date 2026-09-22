@@ -3,7 +3,7 @@
  * Stores window position in localStorage on app close
  * Restores window position when available in localStorage
  * Auto minimizes app when indicated in localStorage
- * Adds event click handlers to the window decoration items in the DOM.
+ * Tracks native window movement, resize, maximize and close state.
  */
 DuckieTV.run(['SettingsService', 'StandaloneWindowRuntime', function (SettingsService, StandaloneWindowRuntime) {
   if (!SettingsService.isStandalone()) {
@@ -11,7 +11,7 @@ DuckieTV.run(['SettingsService', 'StandaloneWindowRuntime', function (SettingsSe
   }
 
   var win = StandaloneWindowRuntime.getWindow()
-  var pos, maximize, unmaximize
+  var pos
 
   if (localStorage.getItem('standalone.position')) {
     pos = JSON.parse(localStorage.getItem('standalone.position'))
@@ -25,10 +25,6 @@ DuckieTV.run(['SettingsService', 'StandaloneWindowRuntime', function (SettingsSe
         if (localStorage.getItem('standalone.startupMinimized') !== 'Y') {
           StandaloneWindowRuntime.maximize()
         }
-        if (maximize && unmaximize) {
-          maximize.style.display = 'none'
-          unmaximize.style.display = ''
-        }
       }, 230)
     }
   }
@@ -39,36 +35,8 @@ DuckieTV.run(['SettingsService', 'StandaloneWindowRuntime', function (SettingsSe
     }, 120)
   }
 
-  function bindWindowControls() {
-    // add standalone window decorators
+  function bindWindowState() {
     document.body.classList.add('standalone')
-
-    // and handle their events.
-    document.getElementById('close').addEventListener('click', function () {
-      saveWindowState()
-      win.close() // we call window.close so that the close event can fire
-    })
-
-    document.getElementById('minimize').addEventListener('click', function () {
-      saveWindowState()
-      StandaloneWindowRuntime.minimize()
-    })
-
-    maximize = document.getElementById('maximize')
-    unmaximize = document.getElementById('unmaximize')
-
-    // show/hide maximize/unmaximize button on toggle.
-    maximize.addEventListener('click', function () {
-      maximize.style.display = 'none'
-      unmaximize.style.display = ''
-      StandaloneWindowRuntime.maximize()
-    })
-
-    unmaximize.addEventListener('click', function () {
-      unmaximize.style.display = 'none'
-      maximize.style.display = ''
-      StandaloneWindowRuntime.restore()
-    })
 
     // Save window state on resize and move with a 500ms debounce as the events fire continously while resizing or moving
     var windowMoveTimeout = false
@@ -92,6 +60,8 @@ DuckieTV.run(['SettingsService', 'StandaloneWindowRuntime', function (SettingsSe
       }, 500)
     })
 
+    win.on('close', saveWindowState)
+
     function saveWindowState() {
       console.debug('saving window state: state=%s,h=%i,w=%i,x=%i,y=%i', StandaloneWindowRuntime.getState(), window.outerHeight, window.outerWidth, window.screenX, window.screenY)
       localStorage.setItem('standalone.position', JSON.stringify({
@@ -105,8 +75,8 @@ DuckieTV.run(['SettingsService', 'StandaloneWindowRuntime', function (SettingsSe
   }
 
   if (document.readyState === 'loading') {
-    window.addEventListener('DOMContentLoaded', bindWindowControls)
+    window.addEventListener('DOMContentLoaded', bindWindowState)
   } else {
-    bindWindowControls()
+    bindWindowState()
   }
 }])

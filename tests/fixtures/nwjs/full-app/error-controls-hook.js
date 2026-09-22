@@ -3,28 +3,12 @@
 window.addEventListener('load', async function() {
   var message = document.getElementById('storage-startup-error')
   for (var attempt = 0; attempt < 100 && message.style.display === 'none'; attempt++) await new Promise(function(resolve) { setTimeout(resolve, 50) })
-  var win = nw.Window.get()
-  var actions = []
-  var originalMinimize = win.minimize
-  var originalMaximize = win.maximize
-  var originalRestore = win.restore
-  var originalQuit = nw.App.quit
-  win.minimize = function() { actions.push('minimize') }
-  win.maximize = function() { actions.push('maximize') }
-  win.restore = function() { actions.push('restore') }
-  nw.App.quit = function() { actions.push('quit') }
-  document.getElementById('minimize').click()
-  document.getElementById('maximize').click()
-  document.getElementById('unmaximize').click()
-  document.getElementById('close').click()
+  var rectangle = message.getBoundingClientRect()
+  var target = document.elementFromPoint(rectangle.left + rectangle.width / 2, rectangle.top + rectangle.height / 2)
   require('node:fs').writeFileSync(process.env.NW_TEST_OUTPUT, JSON.stringify({
-    pass: message.style.display === 'block' && document.body.classList.contains('standalone') && actions.join(',') === 'minimize,maximize,restore,quit',
+    pass: message.style.display === 'block' && document.body.classList.contains('storage-pending') && nw.App.manifest.window.frame === true && !document.querySelector('.windowChrome') && (target === message || message.contains(target)),
     message: message.textContent,
-    actions: actions
+    hitTarget: target && target.tagName
   }, null, 2))
-  win.minimize = originalMinimize
-  win.maximize = originalMaximize
-  win.restore = originalRestore
-  nw.App.quit = originalQuit
-  nw.App.quit()
+  nw.Window.get().close()
 })

@@ -16,15 +16,8 @@
   <!-- /deploy:replace -->
   <link rel="shortcut icon" type="image/png" href="img/logo/icon16.png" />
 </head>
-<body kc>
+<body kc class="storage-pending">
   <div id="storage-startup-error" class="alert alert-danger" style="display:none"></div>
-  <div class="windowChrome">
-    <button class="glyphicon glyphicon-win-minimize" id='minimize' uib-tooltip="{{ 'COMMON/minimize/btn'|translate }}" tooltip-placement="bottom"></button>
-    <button class="glyphicon glyphicon-win-restore" id='unmaximize' uib-tooltip="{{ 'TAB/unmaximize/glyph'|translate }}" tooltip-placement="bottom" style='display:none'></button>
-    <button class="glyphicon glyphicon-win-maximize" id='maximize' uib-tooltip="{{ 'TAB/maximize/glyph'|translate }}" tooltip-placement="bottom"></button>
-    <button class="glyphicon glyphicon-win-close" id='close' uib-tooltip="{{ 'COMMON/close/btn'|translate }}" tooltip-placement="bottom"></button>
-  </div>
-
   <background-rotator channel="'background:load'"></background-rotator>
   <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>
 
