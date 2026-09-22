@@ -7,7 +7,6 @@
 DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsService',
   function($rootScope, FavoritesService, SettingsService) {
     var calendarEvents = {}
-    var seriesForDate = {}
     var calendarEpisodeSortCache = {}
     var calendarStartDate = null
     var calendarEndDate = null
@@ -36,10 +35,6 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
       if (!hasEvent(date, event)) {
         calendarEvents[date].push(event)
         calendarEvents[date].sort(calendarEpisodeSort)
-        if (!(event.ID_Serie in seriesForDate[date])) {
-          seriesForDate[date][event.ID_Serie] = []
-        }
-        seriesForDate[date][event.ID_Serie].push(event)
         delete calendarEpisodeSortCache[date]
       }
     }
@@ -63,7 +58,7 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
           if (a.episode.episodenumber < b.episode.episodenumber) return -1
           if (a.episode.episodenumber > b.episode.episodenumber) return 1
         } else {
-          return a.serie.name > b.serie.name
+          return a.serie.name < b.serie.name ? -1 : 1
         }
       }
     }
@@ -76,10 +71,11 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
         if (aDate !== eventDate) {
           var eventList = calendarEvents[aDate]
           for (var index = eventList.length - 1; index > -1; index--) {
-            if (eventList[index].episodeID === duplicateID) {
+            if (eventList[index].episode.getID() === duplicateID) {
+              var duplicate = eventList[index]
               calendarEvents[aDate].splice(index, 1)
-              delete seriesForDate[aDate][eventList[index].TRAKT_ID]
-              return
+              delete calendarEpisodeSortCache[aDate]
+              return duplicate
             }
           }
         }
@@ -96,15 +92,7 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
           for (var index = eventList.length - 1; index > -1; index--) {
             if (FavoritesService.favoriteIDs.indexOf(eventList[index].serie.TRAKT_ID.toString()) == -1) {
               calendarEvents[date].splice(index, 1)
-            }
-          }
-
-          eventList = calendarEpisodeSortCache[date]
-          if (!eventList) return
-
-          for (index = eventList.length - 1; index > -1; index--) {
-            if (FavoritesService.favoriteIDs.indexOf(eventList[index][0].serie.TRAKT_ID.toString()) == -1) {
-              calendarEpisodeSortCache[date].splice(index, 1)
+              delete calendarEpisodeSortCache[date]
             }
           }
         })
@@ -123,21 +111,20 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
         calendarStartDate = new Date(range[0][0])
         calendarEndDate = new Date((range[range.length - 1][range[range.length - 1].length - 1].getTime()) + 86399999) // add 23:59:59 to endDate
         calendarEvents = {}
-        seriesForDate = {}
+        calendarEpisodeSortCache = {}
         range.map(function(week) {
           week.map(function(day) {
             day = new Date(day).toDateString()
             dates.push(day)
             if (!(day in calendarEvents)) {
               calendarEvents[day] = []
-              seriesForDate[day] = {}
             }
           })
         })
         Object.keys(calendarEvents).map(function(day) {
           if (dates.indexOf(day) == -1) {
             delete calendarEvents[day]
-            delete seriesForDate[day]
+            delete calendarEpisodeSortCache[day]
           }
         })
         service.getEventsForDateRange(calendarStartDate, calendarEndDate)
@@ -167,6 +154,7 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
         calendarStartDate = null
         calendarEndDate = null
         calendarEvents = {}
+        calendarEpisodeSortCache = {}
       },
 
       /**
@@ -178,10 +166,10 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
         service.removeDeleted()
         events.map(function(event) {
           var date = new Date(event.start).toDateString()
+          deleteDuplicates(event.episode.getID(), date)
           if (!(date in calendarEvents)) {
             return
           }
-          deleteDuplicates(event.episode.getID(), date)
           if ((!showSpecials && event.episode.seasonnumber > 0) || showSpecials || event.serie.ignoreHideSpecials == 1) {
             addEvent(date, event)
           }
@@ -192,8 +180,9 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
       processEpisodes: function(serie, episodes) {
         Object.keys(episodes).map(function(id) {
           var date = new Date(new Date(episodes[id].firstaired).getTime()).toDateString()
+          deleteDuplicates(episodes[id].getID(), date)
           if (!(date in calendarEvents)) return
-          if (episodes[id].seasonnumber == 0 && !showSpecials) return
+          if (episodes[id].seasonnumber == 0 && !showSpecials && serie.ignoreHideSpecials != 1) return
 
           addEvent(date, {
             start: new Date(episodes[id].firstaired),
@@ -270,7 +259,13 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
       getSeries: function(date) {
         var str = date instanceof Date ? date.toDateString() : new Date(date).toDateString()
         if (!(str in calendarEpisodeSortCache)) { // no cache yet?
-          var seriesForDay = seriesForDate[str] || {}
+          var seriesForDay = (calendarEvents[str] || []).reduce(function(grouped, event) {
+            if (!(event.ID_Serie in grouped)) {
+              grouped[event.ID_Serie] = []
+            }
+            grouped[event.ID_Serie].push(event)
+            return grouped
+          }, {})
           calendarEpisodeSortCache[str] = Object.keys(seriesForDay).map(function(serieId) { // turn the object into an array
             return seriesForDay[serieId]
           }).sort(function(a, b) {

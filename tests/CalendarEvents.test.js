@@ -189,5 +189,50 @@ describe('CalendarEvents', function() {
         expect(CalendarEvents.removeDeleted).toHaveBeenCalled();
     });
 
+    it('derives multi-episode series groups from the canonical day events', function() {
+        var date = 'Tue Jan 31 2017';
+        var events = CalendarEvents.getEvents(date);
+        var grouped = CalendarEvents.getSeries(date);
+        var flattened = [].concat.apply([], grouped);
+
+        expect(flattened.length).toBe(events.length);
+        expect(flattened.map(function(event) { return event.episode.getID(); }).sort()).toEqual(
+            events.map(function(event) { return event.episode.getID(); }).sort()
+        );
+    });
+
+    it('moves an episode between dates and invalidates both grouped views', function() {
+        var oldDate = 'Mon Jan 30 2017';
+        var newDate = 'Tue Jan 31 2017';
+        var event = CalendarEvents.getEvents(oldDate)[0];
+        var episodeID = event.episode.getID();
+        CalendarEvents.getSeries(oldDate);
+        CalendarEvents.getSeries(newDate);
+        event.start = new Date('2017-01-31T12:00:00Z');
+        event.episode.firstaired = event.start.getTime();
+        event.episode.firstaired_iso = event.start.toISOString();
+
+        CalendarEvents.setEvents([event]);
+
+        expect(CalendarEvents.getEvents(oldDate).some(function(item) { return item.episode.getID() === episodeID; })).toBe(false);
+        expect(CalendarEvents.getEvents(newDate).some(function(item) { return item.episode.getID() === episodeID; })).toBe(true);
+        expect([].concat.apply([], CalendarEvents.getSeries(oldDate)).some(function(item) { return item.episode.getID() === episodeID; })).toBe(false);
+        expect([].concat.apply([], CalendarEvents.getSeries(newDate)).some(function(item) { return item.episode.getID() === episodeID; })).toBe(true);
+    });
+
+    it('removes deleted favorites from events and derived groups together', function() {
+        var date = 'Tue Jan 31 2017';
+        var removedTraktID = CalendarEvents.getEvents(date)[0].serie.TRAKT_ID.toString();
+        CalendarEvents.getSeries(date);
+        FavoritesService.favoriteIDs = FavoritesService.favoriteIDs.filter(function(id) {
+            return id.toString() !== removedTraktID;
+        });
+
+        CalendarEvents.removeDeleted();
+
+        expect(CalendarEvents.getEvents(date).some(function(event) { return event.serie.TRAKT_ID.toString() === removedTraktID; })).toBe(false);
+        expect([].concat.apply([], CalendarEvents.getSeries(date)).some(function(event) { return event.serie.TRAKT_ID.toString() === removedTraktID; })).toBe(false);
+    });
+
 
 });
