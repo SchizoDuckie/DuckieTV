@@ -23,6 +23,9 @@ DuckieTV
             remote.infoHash = $scope.infoHash
             remote.torrent = null
             remote.isConnected = false
+            var disposeTorrentUpdate = angular.noop
+            var disposeConnectedListener = angular.noop
+            var destroyed = false
 
             this.getFiles = function(torrent) {
               remote.torrent.getFiles().then(function(files) {
@@ -40,27 +43,35 @@ DuckieTV
                      * Observes the torrent and watches for changes (progress)
                      */
             function observeTorrent(rpc, infoHash) {
-              DuckieTorrent.getClient().getRemote().onTorrentUpdate(infoHash, function(newData) {
+              disposeTorrentUpdate()
+              disposeTorrentUpdate = DuckieTorrent.getClient().getRemote().onTorrentUpdate(infoHash, function(newData) {
                 remote.torrent = newData
                 $scope.$applyAsync()
               })
             }
 
-            // If the connected info hash changes, remove the old event and start observing the new one.
+            // If the connected info hash changes, replace the old subscription.
             $scope.$watch('infoHash', function(newVal, oldVal) {
               if (newVal == oldVal) return
               remote.infoHash = newVal
               DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
+                if (destroyed || newVal !== remote.infoHash) return
                 remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash)
-                DuckieTorrent.getClient().getRemote().offTorrentUpdate(oldVal, observeTorrent)
                 observeTorrent(rpc, remote.infoHash)
               })
+            })
+
+            $scope.$on('$destroy', function() {
+              destroyed = true
+              disposeTorrentUpdate()
+              disposeConnectedListener()
             })
 
             /**
                      * Auto connect and wait for initialisation, then start monitoring updates for the torrent hash in the infoHash
                      */
             DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
+              if (destroyed) return
               remote.isConnected = true
               remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash)
               observeTorrent(rpc, remote.infoHash)
@@ -69,7 +80,9 @@ DuckieTV
               }
             }, function(fail) {
               // Failed to connect to torrent client for monitoring. Creating an event watcher for when torrent client is connected.
-              $rootScope.$on('torrentclient:connected', function(rpc) {
+              if (destroyed) return
+              disposeConnectedListener = $rootScope.$on('torrentclient:connected', function(rpc) {
+                if (destroyed) return
                 remote.isConnected = true
                 remote.torrent = DuckieTorrent.getClient().getRemote().getByHash(remote.infoHash)
                 observeTorrent(rpc, remote.infoHash)

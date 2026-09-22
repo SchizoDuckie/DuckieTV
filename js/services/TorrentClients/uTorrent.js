@@ -763,16 +763,39 @@ DuckieTorrent
           if (!(key in service.offEvents)) {
             service.offEvents[key] = []
           }
-          service.offEvents[key].push($rootScope.$on(key, function(evt, torrent) {
-            callback(torrent)
-          }))
+          var registration = {
+            callback: callback,
+            deregister: $rootScope.$on(key, function(evt, torrent) {
+              callback(torrent)
+            })
+          }
+          service.offEvents[key].push(registration)
+
+          var disposed = false
+          registration.dispose = function() {
+            if (disposed) return
+            disposed = true
+            registration.deregister()
+            var registrations = service.offEvents[key]
+            if (!registrations) return
+            var index = registrations.indexOf(registration)
+            if (index !== -1) {
+              registrations.splice(index, 1)
+            }
+            if (registrations.length === 0) {
+              delete service.offEvents[key]
+            }
+          }
+          return registration.dispose
         },
 
         offTorrentUpdate: function(hash, callback) {
           var key = 'torrent:update:' + hash
           if ((key in service.offEvents)) {
-            service.offEvents[key].map(function(dereg) {
-              dereg()
+            service.offEvents[key].slice().forEach(function(registration) {
+              if (!callback || registration.callback === callback) {
+                registration.dispose()
+              }
             })
           }
         },

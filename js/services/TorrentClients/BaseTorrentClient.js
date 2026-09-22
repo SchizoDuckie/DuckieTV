@@ -3,7 +3,7 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
     function BaseTorrentRemote() {
       this.torrents = {}
       this.dataClass = null
-      this.offMethods = {} // callbacks map to de-register $rootScope.$on events
+      this.offMethods = {}
     }
 
     BaseTorrentRemote.prototype.handleEvent = function(data) {
@@ -45,17 +45,40 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
       if (!(key in this.offMethods)) {
         this.offMethods[key] = []
       }
-      this.offMethods[key].push($rootScope.$on(key, function(evt, torrent) {
-        callback(torrent)
-      }))
+      var self = this
+      var registration = {
+        callback: callback,
+        deregister: $rootScope.$on(key, function(evt, torrent) {
+          callback(torrent)
+        })
+      }
+      this.offMethods[key].push(registration)
+
+      var disposed = false
+      registration.dispose = function() {
+        if (disposed) return
+        disposed = true
+        registration.deregister()
+        var registrations = self.offMethods[key]
+        if (!registrations) return
+        var index = registrations.indexOf(registration)
+        if (index !== -1) {
+          registrations.splice(index, 1)
+        }
+        if (registrations.length === 0) {
+          delete self.offMethods[key]
+        }
+      }
+      return registration.dispose
     }
 
     BaseTorrentRemote.prototype.offTorrentUpdate = function(hash, callback) {
       var key = 'torrent:update:' + hash
-
       if ((key in this.offMethods)) {
-        this.offMethods[key].map(function(dereg) {
-          dereg()
+        this.offMethods[key].slice().forEach(function(registration) {
+          if (!callback || registration.callback === callback) {
+            registration.dispose()
+          }
         })
       }
     }

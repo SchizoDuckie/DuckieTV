@@ -12,6 +12,8 @@ DuckieTV.controller('TorrentDetailsCtrl', ['DuckieTorrent', 'torrent', '$scope',
     vm.progress = 0
     vm.downloadSpeed = 0
     vm.isWebUI = (vm.torrent instanceof TorrentData) // web or uTorrent?
+    var disposeTorrentUpdate = angular.noop
+    var destroyed = false
 
     /**
          * Closes the SidePanel expansion
@@ -25,7 +27,8 @@ DuckieTV.controller('TorrentDetailsCtrl', ['DuckieTorrent', 'torrent', '$scope',
          * Observes the torrent and watches for changes (progress)
          */
     function observeTorrent(rpc, infoHash) {
-      DuckieTorrent.getClient().getRemote().onTorrentUpdate(infoHash, function(newData) {
+      disposeTorrentUpdate()
+      disposeTorrentUpdate = DuckieTorrent.getClient().getRemote().onTorrentUpdate(infoHash, function(newData) {
         vm.torrent = newData
         vm.torrent.getFiles().then(function(files) {
           if (!files) {
@@ -49,21 +52,27 @@ DuckieTV.controller('TorrentDetailsCtrl', ['DuckieTorrent', 'torrent', '$scope',
       })
     }
 
-    // If the connected info hash changes, remove the old event and start observing the new one.
+    // If the connected info hash changes, replace the old subscription.
     $scope.$watch('infoHash', function(newVal, oldVal) {
       if (newVal == oldVal) return
       vm.infoHash = newVal
       DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
+        if (destroyed || newVal !== vm.infoHash) return
         vm.torrent = DuckieTorrent.getClient().getRemote().getByHash(vm.infoHash)
-        DuckieTorrent.getClient().getRemote().offTorrentUpdate(oldVal, observeTorrent)
         observeTorrent(rpc, vm.infoHash)
       })
+    })
+
+    $scope.$on('$destroy', function() {
+      destroyed = true
+      disposeTorrentUpdate()
     })
 
     /**
          * start monitoring updates for the torrent hash in the infoHash
          */
     DuckieTorrent.getClient().AutoConnect().then(function(rpc) {
+      if (destroyed) return
       vm.torrent = DuckieTorrent.getClient().getRemote().getByHash(vm.infoHash)
       observeTorrent(rpc, vm.infoHash)
     })
