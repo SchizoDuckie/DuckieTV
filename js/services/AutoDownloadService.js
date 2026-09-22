@@ -3,8 +3,8 @@
  * and automatically downloads the first search result if it passes all the filters and more than minSeeders seeders are available.
  * SE must have magnets as we need the torrentHash to track progress. magnets on details page are supported.
  */
-DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', 'FavoritesService', 'SceneNameResolver', 'SettingsService', 'TorrentSearchEngines', 'DuckieTorrent', 'NotificationService',
-  function($rootScope, $injector, $filter, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, DuckieTorrent, NotificationService) {
+DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', 'FavoritesService', 'SceneNameResolver', 'SettingsService', 'TorrentSearchEngines', 'TorrentResultPolicy', 'DuckieTorrent', 'NotificationService',
+  function($rootScope, $injector, $filter, FavoritesService, SceneNameResolver, SettingsService, TorrentSearchEngines, TorrentResultPolicy, DuckieTorrent, NotificationService) {
     var service = {
       checkTimeout: null,
       activityList: [],
@@ -193,117 +193,54 @@ DuckieTV.factory('AutoDownloadService', ['$rootScope', '$injector', '$filter', '
         return SceneNameResolver.getSearchStringForEpisode(serie, episode).then(function(searchString) {
           var q = [searchString, preferredQuality, RequireKeywords_String].join(' ').trim()
           /**
-           * Word-by-word scoring for search results.
-           * All words need to be in the search result's release name, or the result will be filtered out.
-           */
-          function filterByScore(item) {
-            var score = 0
-            var query = q.toLowerCase().split(' ')
-            var name = item.releasename.toLowerCase()
-            query.map(function(part) {
-              if (name.indexOf(part) > -1) {
-                score++
-              }
-            })
-            return (score === query.length)
-          }
-
-          /**
-           * Any words in the Require Keywords list causes the result to be filtered in.
-           */
-          function filterRequireKeywords(item) {
-            if (requireKeywords === '') return true
-
-            var score = 0
-            var query = requireKeywords.toLowerCase().split(' ')
-            var name = item.releasename.toLowerCase()
-            query.map(function(part) {
-              if (name.indexOf(part) > -1) {
-                score++
-              }
-            })
-
-            return (score > 0)
-          }
-
-          /**
-           * Any words in the ignore keyword list causes the result to be filtered out.
-           */
-          function filterIgnoreKeywords(item) {
-            if (ignoreKeywords === '') return true
-
-            var score = 0
-            var query = ignoreKeywords.toLowerCase().split(' ')
-            // prevent the exclude list from overriding the primary search string
-            query = query.filter(function(el) {
-              return q.indexOf(el) == -1
-            })
-
-            var name = item.releasename.toLowerCase()
-            query.map(function(part) {
-              if (name.indexOf(part) > -1) {
-                score++
-              }
-            })
-
-            return (score === 0)
-          }
-
-          /**
-           * Torrent sizes outside min-max range causes the result to be filtered out.
-           */
-          function filterBySize(item) {
-            if (item.size == null || item.size === 'n/a') {
-              // if item size not available then accept item
-              return true
-            }
-
-            var size = item.size.split(/\s{1}/)[0] // size split into value and unit
-            // serie custom Search Size is available for override
-            var sizeMin = (serie.customSearchSizeMin !== null) ? serie.customSearchSizeMin : globalSizeMin
-            var sizeMax = (serie.customSearchSizeMax !== null) ? serie.customSearchSizeMax : globalSizeMax
-            // set up accepted size range
-            sizeMin = (sizeMin == null) ? 0 : sizeMin
-            sizeMax = (sizeMax == null) ? Number.MAX_SAFE_INTEGER : sizeMax
-            return (size >= sizeMin && size <= sizeMax)
-          }
-
-          /**
            * Search torrent SE for the torrent query
            */
           return searchEngine.search(q, true).then(function(results) {
             var items = $filter('orderBy')(results, '-seeders')
-            items = items.filter(filterByScore)
+            var sizeMin = serie.customSearchSizeMin !== null ? serie.customSearchSizeMin : globalSizeMin
+            var sizeMax = serie.customSearchSizeMax !== null ? serie.customSearchSizeMax : globalSizeMax
+            var filtered = TorrentResultPolicy.filter(items, {
+              scoreQuery: q,
+              primaryQuery: q,
+              stripSearchPunctuation: false,
+              negativeTermsPass: false,
+              requireAny: requireKeywordsModeOR,
+              requiredKeywords: requireKeywords,
+              ignoredKeywords: ignoreKeywords,
+              sizeMin: sizeMin,
+              sizeMax: sizeMax,
+              minSeedersEnabled: true,
+              minSeeders: minSeeders,
+              deduplicate: false,
+              stages: ['score', 'required', 'ignored', 'size', 'seeders']
+            })
 
-            if (items.length === 0) {
+            if (filtered.counts.score === 0) {
               service.activityUpdate(serie, episode, q, 4) // 'nothing found'
               return // no results, abort
             }
 
-            if (requireKeywordsModeOR) {
-              items = items.filter(filterRequireKeywords)
-              if (items.length === 0) {
-                service.activityUpdate(serie, episode, q, 5, ' RK') // 'filtered out RK'
-                return // no results, abort
-              }
+            if (requireKeywordsModeOR && filtered.counts.required === 0) {
+              service.activityUpdate(serie, episode, q, 5, ' RK') // 'filtered out RK'
+              return // no results, abort
             }
 
-            items = items.filter(filterIgnoreKeywords)
-            if (items.length === 0) {
+            if (filtered.counts.ignored === 0) {
               service.activityUpdate(serie, episode, q, 5, ' IK') // 'filtered out IK'
               return // no results, abort
             }
 
-            items = items.filter(filterBySize)
-            if (items.length === 0) {
+            if (filtered.counts.size === 0) {
               service.activityUpdate(serie, episode, q, 5, ' MS') // 'filtered out MS'
               return // no results, abort
             }
 
-            if (items[0].seeders != 'n/a' && parseInt(items[0].seeders, 10) < minSeeders) { // not enough seeders are available.
-              service.activityUpdate(serie, episode, q, 7, items[0].seeders + ' < ' + minSeeders) // 'seeders x < y'
+            if (filtered.counts.seeders === 0) {
+              var bestSeeders = filtered.snapshots.size[0]
+              service.activityUpdate(serie, episode, q, 7, bestSeeders.seeders + ' < ' + minSeeders) // 'seeders x < y'
               return // no results, abort
             }
+            items = filtered.items
 
             DuckieTorrent.getClient().AutoConnect().then(function() {
               var torrentHash = null

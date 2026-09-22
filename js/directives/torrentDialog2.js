@@ -1,7 +1,7 @@
 DuckieTV
 
-  .controller('torrentDialog2Ctrl', ['$scope', '$uibModalInstance', '$injector', 'data', 'TorrentSearchEngines', 'SettingsService', 'NotificationService', 'DuckieTorrent',
-    function($scope, $modalInstance, $injector, data, TorrentSearchEngines, SettingsService, NotificationService, DuckieTorrent) {
+  .controller('torrentDialog2Ctrl', ['$scope', '$uibModalInstance', '$injector', 'data', 'TorrentSearchEngines', 'TorrentResultPolicy', 'SettingsService', 'NotificationService', 'DuckieTorrent',
+    function($scope, $modalInstance, $injector, data, TorrentSearchEngines, TorrentResultPolicy, SettingsService, NotificationService, DuckieTorrent) {
       // -- Variables --//
 
       $scope.searching = true
@@ -85,122 +85,6 @@ DuckieTV
         }
 
         /**
-             * Word-by-word scoring for search results.
-             * All words need to be in the search result's release name, or the result will be filtered out.
-             */
-        function filterByScore(item) {
-          var score = 0
-          var RequireKeywords_String = $scope.requireKeywordsEnabled ? $scope.requireKeywordsModeOR ? '' : $scope.requireKeywords : '' // if Require Keywords mode is AND then add require keywords to q
-          // ignore double-quotes and plus symbols on query, and any query minus words
-          var query = [q, $scope.searchquality, RequireKeywords_String].join(' ').toLowerCase().replace(/[\"\+]/g, ' ').trim().split(' ')
-          var name = item.releasename.toLowerCase()
-          query.map(function(part) {
-            if (part[0] === '-' || name.indexOf(part) > -1) {
-              score++
-            }
-          })
-          return (score == query.length)
-        }
-
-        /**
-             * Any words in the Require Keywords list causes the result to be filtered in.
-             */
-        function filterRequireKeywords(item) {
-          if (!$scope.requireKeywordsEnabled || $scope.requireKeywords == '') {
-            return true
-          }
-          var score = 0
-          var query = $scope.requireKeywords.toLowerCase().split(' ')
-          var name = item.releasename.toLowerCase()
-          query.map(function(part) {
-            if (name.indexOf(part) > -1) {
-              score++
-            }
-          })
-          return (score > 0)
-        }
-
-        /**
-             * Any words in the ignore keyword list causes the result to be filtered out.
-             */
-        function filterIgnoreKeywords(item) {
-          if (!$scope.ignoreKeywordsEnabled || $scope.ignoreKeywords == '') {
-            return true
-          }
-          var score = 0
-          var query = $scope.ignoreKeywords.toLowerCase().split(' ')
-          // prevent the exclude list from overriding the primary search string
-          query = query.filter(function(el) {
-            return q.indexOf(el) == -1
-          })
-          var name = item.releasename.toLowerCase()
-          query.map(function(part) {
-            if (name.indexOf(part) > -1) {
-              score++
-            }
-          })
-          return (score == 0)
-        }
-
-        /**
-             * Torrent sizes outside min-max range causes the result to be filtered out.
-             */
-        function filterBySize(item) {
-          if (item.size == null || item.size == 'n/a') {
-            // if item size not available then accept item
-            return true
-          }
-          var size = item.size.split(/\s{1}/)[0] // size split into value and unit
-          var sizeMin = null
-          var sizeMax = null
-          if ('serie' in data) {
-            // if called from TorrentSearchEngines.findEpisode then serie custom search size is available for override
-            sizeMin = ($scope.serie.customSearchSizeMin !== null) ? $scope.serie.customSearchSizeMin : $scope.globalSizeMin
-            sizeMax = ($scope.serie.customSearchSizeMax !== null) ? $scope.serie.customSearchSizeMax : $scope.globalSizeMax
-          } else {
-            sizeMin = $scope.globalSizeMin
-            sizeMax = $scope.globalSizeMax
-          }
-          // set up accepted size range
-          sizeMin = (sizeMin == null) ? 0 : sizeMin
-          sizeMax = (sizeMax == null) ? Number.MAX_SAFE_INTEGER : sizeMax
-          // ignore global and custom search size min ?
-          sizeMin = ($scope.globalSizeMinEnabled) ? sizeMin : 0
-          // ignore global and custom search size max ?
-          sizeMax = ($scope.globalSizeMaxEnabled) ? sizeMax : Number.MAX_SAFE_INTEGER
-          return (size >= sizeMin && size <= sizeMax)
-        }
-
-        /**
-             * drop duplicates from results by matching detailUrl (or releasename if former is not available)
-             */
-        function dropDuplicates(items) {
-          var arr = {}
-          for (var i = 0, len = items.length; i < len; i++) {
-            if (!items[i].detailUrl) {
-              arr[items[i]['releasename']] = items[i]
-            } else {
-              arr[items[i]['detailUrl']] = items[i]
-            }
-          }
-          items = new Array()
-          for (var key in arr) {
-            items.push(arr[key])
-          }
-          return items
-        }
-
-        /**
-             * filter by minimum seeders.
-             */
-        function filterByMinSeeders(item) {
-          if (!$scope.minSeedersEnabled) {
-            return true
-          }
-          return (item.seeders === 'n/a' || parseInt(item.seeders, 10) >= $scope.minSeeders)
-        }
-
-        /**
              * Search with each torrent SE for the torrent query
              */
         $scope.items = []
@@ -220,17 +104,23 @@ DuckieTV
                 item.leechersInt = isNaN(item.leechers) ? 0 : parseInt(item.leechers) // used for torrentDialog2 sorting
                 item.sortname = item.releasename.replace(/\./g, ' ').toLowerCase() // used for torrentDialog2 sorting
               })
-              items = results.filter(filterByScore)
-              items = items.filter(filterByMinSeeders)
-              if ($scope.requireKeywordsModeOR) {
-                items = items.filter(filterRequireKeywords)
-              }
-              items = items.filter(filterIgnoreKeywords)
-              items = items.filter(filterBySize)
-              // ShowRSS uses the same detailUrl for every episode torrent in a series, so don't dropDuplicates
-              if (engine !== 'ShowRSS') {
-                items = dropDuplicates(items)
-              }
+              var sizeMin = 'serie' in data && $scope.serie.customSearchSizeMin !== null ? $scope.serie.customSearchSizeMin : $scope.globalSizeMin
+              var sizeMax = 'serie' in data && $scope.serie.customSearchSizeMax !== null ? $scope.serie.customSearchSizeMax : $scope.globalSizeMax
+              var requiredForScore = $scope.requireKeywordsEnabled && !$scope.requireKeywordsModeOR ? $scope.requireKeywords : ''
+              items = TorrentResultPolicy.filter(results, {
+                scoreQuery: [q, $scope.searchquality, requiredForScore].join(' '),
+                primaryQuery: q,
+                stripSearchPunctuation: true,
+                negativeTermsPass: true,
+                requireAny: $scope.requireKeywordsEnabled && $scope.requireKeywordsModeOR,
+                requiredKeywords: $scope.requireKeywords,
+                ignoredKeywords: $scope.ignoreKeywordsEnabled ? $scope.ignoreKeywords : '',
+                sizeMin: $scope.globalSizeMinEnabled ? sizeMin : 0,
+                sizeMax: $scope.globalSizeMaxEnabled ? sizeMax : Number.MAX_SAFE_INTEGER,
+                minSeedersEnabled: $scope.minSeedersEnabled,
+                minSeeders: $scope.minSeeders,
+                deduplicate: engine !== 'ShowRSS'
+              }).items
               $scope.items = $scope.items.concat(items)
               $scope.searchingSE[engine] = false
               $scope.searching = false
