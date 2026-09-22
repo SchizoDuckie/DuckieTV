@@ -85,6 +85,16 @@ function Jackett() {
   CRUD.Entity.call(this)
 }
 
+function mutateEpisodes(owner, predicate, mutation, persistOwner) {
+  return owner.getEpisodes().then(function(episodes) {
+    return Promise.all(episodes.filter(predicate).map(mutation))
+  }).then(function() {
+    return persistOwner ? persistOwner() : true
+  }).then(function() {
+    return true
+  })
+}
+
 /**
  * Allow CRUD.js to register itself and the properties defined on each named function.
  */
@@ -314,45 +324,27 @@ CRUD.define(Serie, {
   },
 
   markSerieAsWatched: function(watchedDownloadedPaired, $rootScope) {
-    var self = this
-    return new Promise(function(resolve) {
-      var now = new Date()
-      self.getEpisodes().then(function(episodes) {
-        episodes.forEach(function(episode) {
-          if (episode.hasAired() && (!episode.isWatched())) {
-            return episode.markWatched(watchedDownloadedPaired, now, $rootScope)
-          }
-        })
-        return resolve(true)
-      })
+    var now = new Date()
+    return mutateEpisodes(this, function(episode) {
+      return episode.hasAired() && !episode.isWatched()
+    }, function(episode) {
+      return episode.markWatched(watchedDownloadedPaired, now, $rootScope)
     })
   },
 
   markSerieAsDownloaded: function($rootScope) {
-    var self = this
-    return new Promise(function(resolve) {
-      self.getEpisodes().then(function(episodes) {
-        episodes.forEach(function(episode) {
-          if (episode.hasAired() && (!episode.isDownloaded())) {
-            return episode.markDownloaded($rootScope)
-          }
-        })
-        return resolve(true)
-      })
+    return mutateEpisodes(this, function(episode) {
+      return episode.hasAired() && !episode.isDownloaded()
+    }, function(episode) {
+      return episode.markDownloaded($rootScope)
     })
   },
 
   markSerieAsUnWatched: function($rootScope) {
-    var self = this
-    return new Promise(function(resolve) {
-      self.getEpisodes().then(function(episodes) {
-        episodes.forEach(function(episode) {
-          if (episode.isWatched()) {
-            return episode.markNotWatched($rootScope)
-          }
-        })
-        return resolve(true)
-      })
+    return mutateEpisodes(this, function(episode) {
+      return episode.isWatched()
+    }, function(episode) {
+      return episode.markNotWatched($rootScope)
     })
   },
 
@@ -429,32 +421,24 @@ CRUD.define(Season, {
   markSeasonAsWatched: function(watchedDownloadedPaired, $rootScope) {
     var self = this
     var now = new Date()
-    return new Promise(function(resolve) {
-      self.getEpisodes().then(function(episodes) {
-        episodes.forEach(function(episode) {
-          if (episode.hasAired() && (!episode.isWatched())) {
-            return episode.markWatched(watchedDownloadedPaired, now, $rootScope)
-          }
-        })
-        self.watched = 1
-        self.Persist()
-        return resolve(true)
-      })
+    return mutateEpisodes(this, function(episode) {
+      return episode.hasAired() && !episode.isWatched()
+    }, function(episode) {
+      return episode.markWatched(watchedDownloadedPaired, now, $rootScope)
+    }, function() {
+      self.watched = 1
+      return self.Persist()
     })
   },
   markSeasonAsUnWatched: function($rootScope) {
     var self = this
-    return new Promise(function(resolve) {
-      self.getEpisodes().then(function(episodes) {
-        episodes.forEach(function(episode) {
-          if (episode.isWatched()) {
-            return episode.markNotWatched($rootScope)
-          }
-        })
-        self.watched = 0
-        self.Persist()
-        return resolve(true)
-      })
+    return mutateEpisodes(this, function(episode) {
+      return episode.isWatched()
+    }, function(episode) {
+      return episode.markNotWatched($rootScope)
+    }, function() {
+      self.watched = 0
+      return self.Persist()
     })
   }
 })
