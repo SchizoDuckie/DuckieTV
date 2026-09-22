@@ -49,15 +49,6 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
       }
       data.genre = data.genres.join('|')
       data.lastupdated = data.updated_at
-      if (data.people && 'cast' in data.people) {
-        data.actors = data.people.cast.map(function(actor) {
-          if ('character' in actor && actor.character != '') {
-            return actor.person.name + ' (' + actor.character + ')'
-          } else {
-            return actor.person.name
-          }
-        }).join('|')
-      }
       if (serie.added == null) {
         data.added = new Date().getTime()
       }

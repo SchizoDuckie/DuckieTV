@@ -17,7 +17,6 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
 
     var endpoint = 'https://api.trakt.tv/'
     var endpoints = {
-      people: 'shows/%s/people?dtv_refresh=' + dtv_refresh,
       serie: 'shows/%s?extended=full&dtv_refresh=' + dtv_refresh,
       serie2: 'shows/%s&dtv_refresh=' + dtv_refresh,
       seasons: 'shows/%s/seasons?extended=full&dtv_refresh=' + dtv_refresh,
@@ -52,9 +51,6 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
         // fill in the tvdb_id if it is missing from  the Trakt.tv API and we have it in our Xref table
         show.tvdb_id = ('tvdb_id' in show && show.tvdb_id !== null && show.tvdb_id !== 0) ? show.tvdb_id : SceneNameResolver.getTvdbidFromTraktid(show.trakt_id)
         return show
-      },
-      people: function(result) {
-        return result.data
       },
       seasons: function(result) {
         return result.data.map(function(season) {
@@ -274,13 +270,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
             return serie
           }
 
-          await Promise.all([
-            service.people(serie.trakt_id),
-            service.seasons(serie.trakt_id)
-          ]).then(function([people, seasons]) {
-            serie.people = people
-            serie.seasons = seasons
-          })
+          serie.seasons = await service.seasons(serie.trakt_id)
 
           await Promise.all(serie.seasons.map(async function(season) {
             season.episodes = await service.episodes(serie.trakt_id, season.number)
@@ -316,14 +306,6 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
        */
       episodes: function(id, seasonNumber) {
         return promiseRequest('episodes', id, seasonNumber)
-      },
-      /**
-       * get all actors in a show.
-       * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
-       * https://docs.trakt.tv/reference/getshowspeople
-       */
-      people: function(id) {
-        return promiseRequest('people', id)
       },
       search: function(what) {
         service.cancelTrending()

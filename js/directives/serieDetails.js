@@ -1,6 +1,6 @@
 /**
  * The serie-details directive is what handles the overview for a tv-show.
- * It shows show details, actors, if it's still airing, the individual seasons and the delete show button.
+ * It shows show details, whether it is still airing, the individual seasons and the delete show button.
  */
 DuckieTV.directive('serieDetails', ['FavoritesService', '$location', 'dialogs', '$filter', '$locale', 'SeriesMetaTranslations',
   function(FavoritesService, $location, dialogs, $filter, SeriesMetaTranslations) {

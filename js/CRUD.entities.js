@@ -103,7 +103,7 @@ CRUD.define(Serie, {
   className: 'Serie',
   table: 'Series',
   primary: 'ID_Serie',
-  fields: ['ID_Serie', 'name', 'banner', 'overview', 'TVDB_ID', 'IMDB_ID', 'TVRage_ID', 'actors', 'airs_dayofweek', 'airs_time', 'timezone', 'contentrating', 'firstaired', 'genre', 'country', 'language', 'network', 'rating', 'ratingcount', 'runtime', 'status', 'added', 'addedby', 'fanart', 'poster', 'lastupdated', 'lastfetched', 'nextupdate', 'displaycalendar', 'autoDownload', 'customSearchString', 'watched', 'notWatchedCount', 'ignoreGlobalQuality', 'ignoreGlobalIncludes', 'ignoreGlobalExcludes', 'searchProvider', 'ignoreHideSpecials', 'customSearchSizeMin', 'customSearchSizeMax', 'TRAKT_ID', 'dlPath', 'customDelay', 'alias', 'customFormat', 'TMDB_ID', 'customIncludes', 'customExcludes', 'customSeeders'],
+  fields: ['ID_Serie', 'name', 'banner', 'overview', 'TVDB_ID', 'IMDB_ID', 'TVRage_ID', 'airs_dayofweek', 'airs_time', 'timezone', 'contentrating', 'firstaired', 'genre', 'country', 'language', 'network', 'rating', 'ratingcount', 'runtime', 'status', 'added', 'addedby', 'fanart', 'poster', 'lastupdated', 'lastfetched', 'nextupdate', 'displaycalendar', 'autoDownload', 'customSearchString', 'watched', 'notWatchedCount', 'ignoreGlobalQuality', 'ignoreGlobalIncludes', 'ignoreGlobalExcludes', 'searchProvider', 'ignoreHideSpecials', 'customSearchSizeMin', 'customSearchSizeMax', 'TRAKT_ID', 'dlPath', 'customDelay', 'alias', 'customFormat', 'TMDB_ID', 'customIncludes', 'customExcludes', 'customSeeders'],
   relations: {
     'Episode': CRUD.RELATION_FOREIGN,
     'Season': CRUD.RELATION_FOREIGN

@@ -68,14 +68,6 @@
           <th translate-once>COMMON/status/hdr</th>
           <td>{{::sidepanel.translateStatus(sidepanel.serie.status)}}</td>
         </tr>
-        <tr ng-if="sidepanel.serie.actors.length > 0">
-          <th translate-once>COMMON/actors/hdr</th>
-          <td>
-            <ul class="actors list-unstyled">
-              <li ng-repeat="actors in sidepanel.serie.actors.split('|') track by $index">{{::actors}}</li>
-            </ul>
-          </td>
-        </tr>
         <tr style='border-top: 1px solid white'>
           <th colspan="2" style="text-align: center">
             <h3 style="margin:10px 0 10px 0" translate-once>SIDEPANEL/SERIE-DETAILS/it-would-take/hdr</h3>

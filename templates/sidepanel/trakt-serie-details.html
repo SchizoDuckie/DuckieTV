@@ -82,14 +82,6 @@
         <th translate-once>COMMON/run-time/hdr</th>
         <td>{{sidepanel.serie.runtime}}  <span translate-once>COMMON/minutes/lbl</span></td>
       </tr>
-      <tr ng-if="sidepanel.serie.actors" >
-        <th translate-once>COMMON/actors/hdr</th>
-        <td>
-          <ul class="list-unstyled">
-            <li ng-repeat="actors in sidepanel.serie.actors track by $index">{{actors}}</li>
-          </ul>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>
