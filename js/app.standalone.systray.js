@@ -1,7 +1,7 @@
 /**
  * DuckieTV Standalone System Tray
  */
-DuckieTV.run(['$rootScope', 'SettingsService', function ($rootScope, SettingsService) {
+DuckieTV.run(['$rootScope', 'SettingsService', 'StandaloneWindowRuntime', function ($rootScope, SettingsService, StandaloneWindowRuntime) {
   if (!SettingsService.isStandalone()) {
     return
   }
@@ -9,18 +9,12 @@ DuckieTV.run(['$rootScope', 'SettingsService', function ($rootScope, SettingsSer
   var tray = null
 
   var showdtv; var calendar; var favorites; var settings; var about; var exit; var traymenu
-  var win = nw.Window.get()
+  var win = StandaloneWindowRuntime.getWindow()
   var alwaysShowTray = (localStorage.getItem('standalone.alwaysShowTray') === 'Y')
   var trayColor = '' // default colour of the tray icon
   if (localStorage.getItem('standalone.trayColor')) {
     trayColor = localStorage.getItem('standalone.trayColor')
   }
-  var winState = 'normal'
-  if (localStorage.getItem('standalone.position')) {
-    var pos = JSON.parse(localStorage.getItem('standalone.position'))
-    winState = pos.state
-  }
-
   // debugging
   // console.debug('debugging source version=3');
   // console.debug('standalone.alwaysShowTray=' + localStorage.getItem('standalone.alwaysShowTray'));
@@ -182,16 +176,16 @@ DuckieTV.run(['$rootScope', 'SettingsService', function ($rootScope, SettingsSer
   // On Restore Event
   $rootScope.$on('restoredtv', function () {
     // console.debug('on restoredtv');
-    win.show()
+    StandaloneWindowRuntime.show()
     // If we're not always showing tray, remove it
     if (tray !== null && !alwaysShowTray) {
       // console.debug('on restoredtv: tray.remove id=',tray.id);
       tray.remove()
       tray = null
     }
-    if (winState == 'maximized') {
+    if (StandaloneWindowRuntime.getState() == 'maximized') {
       setTimeout(function () {
-        win.maximize()
+        StandaloneWindowRuntime.maximize()
       }, 150)
     }
   })
@@ -209,12 +203,6 @@ DuckieTV.run(['$rootScope', 'SettingsService', function ($rootScope, SettingsSer
       // win.close(true);
       nw.App.quit()
     }
-  })
-
-  // on winstate event, update winState
-  $rootScope.$on('winstate', function (winstate) {
-    // console.debug('winState=',winstate);
-    winState = winstate
   })
 
   // on locationreload event, delete tray and listeners.

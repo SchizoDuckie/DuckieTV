@@ -3,12 +3,12 @@
  * Zoomlevel is stored in localStorage because this code runs early.
  * Also attaches DevTools F12 key handler
  */
-DuckieTV.run(['$rootScope', 'SettingsService', function ($rootScope, SettingsService) {
+DuckieTV.run(['$rootScope', 'SettingsService', 'StandaloneWindowRuntime', function ($rootScope, SettingsService, StandaloneWindowRuntime) {
   if (!SettingsService.isStandalone()) {
     return
   }
 
-  var win = nw.Window.get()
+  var win = StandaloneWindowRuntime.getWindow()
   var zoomLevels = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
   var zoomIndex = 'standalone.zoomlevel' in localStorage ? parseInt(localStorage.getItem('standalone.zoomlevel')) : 6
 
