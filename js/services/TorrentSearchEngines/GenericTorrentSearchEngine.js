@@ -296,48 +296,40 @@ function GenericTorrentSearchEngine(config, $q, $http, $injector) { // eslint-di
    */
   this.search = function(what, noCancel, orderBy) {
     what = what.replace(/'/g, '')
-    var d = $q.defer()
     if (noCancel !== true && activeRequest) {
       activeRequest.resolve()
     }
     activeRequest = $q.defer()
-    this.executeSearch(what, activeRequest, orderBy).then(function(response) {
-      // console.log("Torrent search executed!", response);
-      try {
-        var result = parseSearch(response)
-        d.resolve(result)
-      } catch (E) {
-        d.reject(E)
-      }
-    }, function(err) {
-      if (err.status === -1) {
-        d.reject('net::ERR_NO_RESPONSE. ' + viewlog + ' for details.')
-      }
 
-      // cloudflare challenge, the page needs to be opened normally for the challenge to be complete which
-      // will allow future requests for a short time
-      if (err.status === 403 && err.data?.includes('challenge-platform')) {
-        d.reject('status 403 - cloudflare challenge, ' + viewlog + ' for details.')
-        console.warn('Cloudflare challege detected, open url or torrent website in new tab to solve challenge', err.config?.url)
-      }
-
-      if (err.status > 300) {
-        if (err.status === 404) {
-          d.resolve([])
-        } else if (config.mirrorResolver && config.mirrorResolver !== null) {
-          $injector.get(config.mirrorResolver).findMirror().then(function(result) {
-            // console.log("Resolved a new working mirror!", result);
-            config.mirror = result
-            return self.search(what, undefined, orderBy)
-          }, function(err) {
-            d.reject(err)
-          })
-        } else {
-          d.reject(err)
+    function execute(allowMirrorRetry) {
+      return self.executeSearch(what, activeRequest, orderBy).then(parseSearch).catch(function(err) {
+        if (err.status === -1) {
+          throw 'net::ERR_NO_RESPONSE. ' + viewlog + ' for details.'
         }
-      }
-    })
-    return d.promise
+
+        // cloudflare challenge, the page needs to be opened normally for the challenge to be complete which
+        // will allow future requests for a short time
+        if (err.status === 403 && err.data?.includes('challenge-platform')) {
+          console.warn('Cloudflare challege detected, open url or torrent website in new tab to solve challenge', err.config?.url)
+          throw 'status 403 - cloudflare challenge, ' + viewlog + ' for details.'
+        }
+
+        if (err.status === 404) {
+          return []
+        }
+
+        if (err.status > 300 && allowMirrorRetry && config.mirrorResolver) {
+          return $injector.get(config.mirrorResolver).findMirror().then(function(result) {
+            config.mirror = result
+            return execute(false)
+          })
+        }
+
+        throw err
+      })
+    }
+
+    return execute(true)
   }
 
   this.executeSearch = function(what, timeout, sortBy) {
