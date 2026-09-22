@@ -1,0 +1,43 @@
+{
+  "version": "0.116.0",
+  "channel": "stable",
+  "published": "2026-09-13",
+  "components": {
+    "chromium": "153.0.8010.12",
+    "node": "26.7.0"
+  },
+  "source": {
+    "versions": "https://nwjs.io/versions.json",
+    "checksums": "https://dl.nwjs.io/v0.116.0/SHASUMS256.txt",
+    "release": "https://nwjs.io/blog/v0.116.0/"
+  },
+  "platforms": {
+    "linux-arm64": { "archive": "tar.gz", "minimumOs": null },
+    "linux-x64": { "archive": "tar.gz", "minimumOs": null },
+    "osx-arm64": { "archive": "zip", "minimumOs": "13.0" },
+    "osx-x64": { "archive": "zip", "minimumOs": null },
+    "win-arm64": { "archive": "zip", "minimumOs": null },
+    "win-ia32": { "archive": "zip", "minimumOs": null },
+    "win-x64": { "archive": "zip", "minimumOs": null }
+  },
+  "checksums": {
+    "normal": {
+      "linux-arm64": "97ec6ab1e2a21acab9bb8a637206c6b5acddf97f56a13ff82571e385d2fb1865",
+      "linux-x64": "cdb46dff2405dcbd6ce6341d8a1ab35c3c314d3cb7fea989f532626be988e828",
+      "osx-arm64": "f2209b78fb1832552adc32d28fd314a970277b0f4d32fbb98d68c31625796f6a",
+      "osx-x64": "deaf2b81bb90fa04c8e2558d3ec081b5bb060904ec8066fe86350f2cad584a33",
+      "win-arm64": "c8844702c2a1333fea37d0496d5ca452dbc2f05c67952b81aeb3a00691b30e3c",
+      "win-ia32": "8eedfdff9b0e375ba7105e0388898f50c111b2d80b5c34c8ddb3b8bf7c1b4f95",
+      "win-x64": "c21aabe872d140b62b00d90beeca76dfc0aa0a9a39ed87abc2672721bab247a7"
+    },
+    "sdk": {
+      "linux-arm64": "32d15c3c5c33a19f851bbf044f06da86b46deb2dad0a01c9c944decbcecd89a4",
+      "linux-x64": "f1518f6f20abd43b00fd8c5bd527353063f5d738bf7aec03167bb82395720225",
+      "osx-arm64": "5522a5848f509daff487847c0163b613d2cb5d6a43737df0759980908af941ff",
+      "osx-x64": "d882c338fcd836d13d3bf7021e58ea3af206939ae5ce85321b5b9649923d7114",
+      "win-arm64": "64fc6c4ea8af1afb11419625c950696c31b678feaa0766e09a646ab188184467",
+      "win-ia32": "619b127144f6b7a830187bec79e007ef8175a2ff808b78a316690bb5548d033e",
+      "win-x64": "2074f64d9c798b23a7338a87353087734a1f3fca3b9000d16e0bdf87466d5a08"
+    }
+  }
+}

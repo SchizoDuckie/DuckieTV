@@ -484,7 +484,8 @@ CRUD.Entity.prototype = {
             if (result.Action == 'deleted') {
                 CRUD.log(that.getType() + " " + that.getID() + " has been deleted! ");
                 delete CRUD.EntityManager.cache[that.getType()][that.getID()];
-                that.__values__[CRUD.EntityManager.getPrimary(that.getType())].ID = false;
+                that.__values__[CRUD.EntityManager.getPrimary(that.getType())] = false;
+                that.ID = false;
             };
             return result;
         });

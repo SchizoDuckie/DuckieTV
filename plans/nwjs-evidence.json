@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "target": {
+    "nw": "0.116.0",
+    "chromium": "153.0.8010.12",
+    "node": "26.7.0",
+    "flavor": "sdk"
+  },
+  "storageDecision": "node:sqlite",
+  "supportDecision": {
+    "macosMinimum": "13+",
+    "approvedByUser": true,
+    "verifiedHost": "macOS 27 arm64",
+    "macos13RuntimeVerification": "PENDING"
+  },
+  "platforms": [
+    {
+      "platform": "macos",
+      "arch": "arm64",
+      "artifact": {
+        "version": "0.116.0",
+        "flavor": "sdk",
+        "archiveSha256": "5522a5848f509daff487847c0163b613d2cb5d6a43737df0759980908af941ff",
+        "packageSha256": "f1f79357171a6882bc46e3135301abcf0c3c3b09b3d084b4ef2d5983791f1e3d",
+        "scope": "unsigned-local-app-nw",
+        "hashScope": "this local build; ZIP staging timestamps make rebuilds behaviorally repeatable but not bit-for-bit identical"
+      },
+      "automated": "PASS",
+      "nativePresentation": "PENDING"
+    },
+    {
+      "platform": "macos",
+      "arch": "x64",
+      "artifact": null,
+      "automated": "PENDING",
+      "nativePresentation": "PENDING"
+    },
+    {
+      "platform": "linux",
+      "arch": "x64",
+      "artifact": null,
+      "automated": "PENDING",
+      "nativePresentation": "PENDING"
+    },
+    {
+      "platform": "windows",
+      "arch": "x64",
+      "artifact": null,
+      "automated": "PENDING",
+      "nativePresentation": "PENDING"
+    }
+  ],
+  "localResults": {
+    "runtimeIdentity": "PASS",
+    "websql": "FAIL_EXPECTED_PATH_B",
+    "nodeSqlite": "PASS",
+    "backgroundTransport": "PASS",
+    "freshBootstrap": "PASS",
+    "networkPreflight": "PASS_LOOPBACK_TLS_SCOPED",
+    "unitTests": "PASS_94",
+    "localeDescriptors": "PASS_25",
+    "legacyMigration": "PASS_SYNTHETIC_CURRENT_SCHEMA_FAILURE_RECOVERY",
+    "packagedUpgrade": "PASS_LOCAL_UNSIGNED_ARM64"
+  },
+  "features": [
+    {
+      "id": "startup-and-profile-choice",
+      "status": "PASS_LOCAL_SCOPED",
+      "evidence": [
+        "clean dedicated profile auto-initialization, sibling legacy detection with automated hit tests and independent real-mouse Import/Start Fresh journeys, ready-profile retention, unknown-nonempty rejection, native traffic-light close, Angular bootstrap and corrupt-library error presentation"
+      ]
+    },
+    {
+      "id": "storage-and-orm",
+      "status": "PASS_LOCAL_SCOPED",
+      "evidence": [
+        "actual runtime ORM insert/update/find/delete and shutdown/reopen persistence"
+      ]
+    },
+    {
+      "id": "legacy-profile-migration",
+      "status": "PASS_SYNTHETIC_SCOPED",
+      "evidence": [
+        "six-table current-schema export/import equality, idempotence, negative cases, six SIGKILL boundaries"
+      ]
+    },
+    {
+      "id": "library-and-calendar",
+      "status": "PASS_LOCAL_SCOPED",
+      "evidence": [
+        "real hidden app added a series, season and episode, deduplicated calendar processing, mutated watched/downloaded state, restored through BackupCtrl and reopened exact state"
+      ]
+    },
+    {
+      "id": "trakt-and-metadata",
+      "status": "PASS_DETERMINISTIC_SERVICE_SCOPED",
+      "evidence": [
+        "actual Trakt service parsed mocked metadata, posted history and renewed persisted OAuth tokens; live Trakt remains pending"
+      ]
+    },
+    {
+      "id": "search-and-downloads",
+      "status": "PASS_DETERMINISTIC_PROVIDER_SCOPED",
+      "evidence": [
+        "actual ShowRSS service normalized a deterministic provider result; magnet, torrent-byte upload and torrent-URL routes preserved hash/path/label; AutoDownloadService selected and persisted a magnet across reopen; torrent-dialog presentation remains pending"
+      ]
+    },
+    {
+      "id": "networking",
+      "status": "PASS_LOOPBACK_TLS_SCOPED",
+      "evidence": [
+        "deterministic loopback cases cover HTTP, auth, cookies, multipart, cancellation, timeout, default rejection of an untrusted HTTPS certificate and success with a fixture-only manifest trust anchor; LAN remains pending"
+      ]
+    },
+    {
+      "id": "native-shell",
+      "status": "PASS_LOCAL_SCOPED",
+      "evidence": [
+        "native window frame, first-run/error native close lifecycle, window maximize/restore, zoom persistence, directory-picker cancel, API construction, ordered production shutdown and explicit failed-shutdown force-quit flow passed; tray/menu/dialog presentation remains pending"
+      ]
+    },
+    {
+      "id": "notifications",
+      "status": "PASS_API_SERVICE_SCOPED",
+      "evidence": [
+        "actual chrome notification create/clear passed with a packaged icon and NotificationService option/callback contract passed; visible OS delivery remains pending"
+      ]
+    },
+    {
+      "id": "settings-and-backup",
+      "status": "PASS_LOCAL_SCOPED",
+      "evidence": [
+        "actual BackupService export, BackupCtrl restore through real FavoritesService/CRUD, protected-token retention, daily schedule selection, exact settings and library persistence, directory cancel and reopen passed"
+      ]
+    },
+    {
+      "id": "scheduled-and-background-work",
+      "status": "PASS_HIDDEN_TIMER_SCOPED",
+      "evidence": [
+        "hidden full app proved idempotent AutoDownloadService attach, single scheduled handle and detach, then executed AutoDownloadService through provider selection, client handoff and persisted/reopened magnet state; timed favorites refresh remains pending"
+      ]
+    },
+    {
+      "id": "torrent-clients",
+      "status": "PASS_LOOPBACK_PROTOCOL_SCOPED",
+      "evidence": [
+        "all twelve client families registered on macOS passed deterministic loopback connection/version, authentication where supported, list, magnet/path and start/pause/remove controls through their actual APIs; real daemons and the Windows-only client remain pending"
+      ]
+    },
+    {
+      "id": "release-ui-and-assets",
+      "status": "PASS_LOCAL_SCOPED",
+      "evidence": [
+        "unsigned arm64 package with native frame and DuckieTV ICNS/CFBundleIconFile metadata passed create/reopen/rebuild from unrelated cwd"
+      ]
+    }
+  ],
+  "releaseGates": [
+    {
+      "id": "macos13-runtime-floor",
+      "status": "PENDING",
+      "evidence": [
+        "binary loader minimum is measured at 13.0; actual macOS 13 runtime verification is pending"
+      ]
+    },
+    {
+      "id": "installer-upgrade-identity",
+      "status": "PENDING",
+      "evidence": [
+        "local unsigned package preserves the known application identity; installer upgrade behavior is pending"
+      ]
+    },
+    {
+      "id": "distribution-signing-notarization",
+      "status": "PENDING",
+      "evidence": [
+        "signing and notarization infrastructure was not available for this local implementation"
+      ]
+    }
+  ],
+  "complete": false
+}

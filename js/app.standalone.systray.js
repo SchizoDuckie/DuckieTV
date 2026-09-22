@@ -113,12 +113,36 @@ DuckieTV.run(['$rootScope', 'SettingsService', 'StandaloneWindowRuntime', functi
   });
   traymenu.append(devreload);
 
+  var quitting = false
+  var terminalShutdownError = null
+  var offerForceQuit = function () {
+    var forceQuit = window.confirm('DuckieTV could not finish saving its library and the database connection is now closed to new work. Choose OK to force quit, or Cancel to leave the app open while you review the error log.')
+    if (forceQuit) nw.App.quit()
+  }
+  var quitWhenStorageDrained = function () {
+    if (terminalShutdownError) {
+      offerForceQuit()
+      return
+    }
+    if (quitting) return
+    quitting = true
+    var adapter = CRUD.EntityManager.getAdapter()
+    var shutdown = adapter && adapter.db && typeof adapter.db.shutdown === 'function' ? adapter.db.shutdown() : Promise.resolve()
+    shutdown.then(function () { nw.App.quit() }).catch(function (error) {
+      console.error('DuckieTV storage shutdown failed', error)
+      terminalShutdownError = error
+      quitting = false
+      StandaloneWindowRuntime.show()
+      offerForceQuit()
+    })
+  }
+
   // Add a exit button
   exit = new nw.MenuItem({
     label: 'Exit',
     click: function () {
       // win.close(true);
-      nw.App.quit()
+      quitWhenStorageDrained()
     },
     key: 'q',
     modifiers: 'cmd'
@@ -201,7 +225,7 @@ DuckieTV.run(['$rootScope', 'SettingsService', 'StandaloneWindowRuntime', functi
       createTray()
     } else {
       // win.close(true);
-      nw.App.quit()
+      quitWhenStorageDrained()
     }
   })
 

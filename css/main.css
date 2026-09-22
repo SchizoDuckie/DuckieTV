@@ -117,6 +117,21 @@ body {
   transition: all 0.5s ease-in-out;
 }
 
+body.storage-pending > :not(#storage-startup-error):not(script) {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#storage-startup-error {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  left: 16px;
+  z-index: 2147483647;
+  pointer-events: auto;
+  -webkit-app-region: no-drag;
+}
+
 body.modal-open .sidepanel, body.modal-open div[date-picker] {
   filter: blur(1px);
 }
@@ -211,36 +226,6 @@ a:hover .glyphicon {
 
 *::-webkit-scrollbar-thumb:active {
   background-color: #5C5C5C;
-}
-
-.windowChrome {
-  display: none;
-  position: fixed;
-  top: 0px;
-  right: 0px;
-  left: 0px;
-  text-align: right;
-  z-index: 99999;
-  cursor: move !important;
-  -webkit-app-region: drag;
-  padding: 1px 10px 0px 1px;
-}
-
-.windowChrome button {
-  -webkit-app-region: no-drag;
-  -webkit-appearance: none;
-  background-color: transparent;
-  filter: invert(100%);
-  border: none;
-  transition: all 0.2s ease-in;
-}
-
-.windowChrome button:hover {
-  background-color: rgba(255, 255, 255, 0.4);
-}
-
-.standalone .windowChrome {
-  display: block;
 }
 
 background-rotator .background-image-container {

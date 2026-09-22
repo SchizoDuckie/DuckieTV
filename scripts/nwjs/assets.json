@@ -1,0 +1,14 @@
+{
+  "directories": ["_locales", "css", "fonts", "img", "js", "templates"],
+  "files": [
+    "LICENSE.md",
+    "HACKING.md",
+    "VERSION",
+    "fanart.cache.json",
+    "manifest.json",
+    "package.json",
+    "standalone-background.js",
+    "tab.html",
+    "trakt-trending-500.json"
+  ]
+}

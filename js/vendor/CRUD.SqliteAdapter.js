@@ -7,20 +7,25 @@ CRUD.executeQuery = function(query, bindings) {
 
 CRUD.SQLiteAdapter = function(database, dbOptions) {
     this.databaseName = database;
-    this.dbOptions = dbOptions;
+    this.dbOptions = Object.assign({ version: '1.0', estimatedSize: 655360 }, dbOptions || {});
     this.lastQuery = false;
     this.initializing = true;
     CRUD.ConnectionAdapter.apply(this, arguments);
     var db;
     var self = this;
+    var initializationError = null;
 
     this.Init = function() {
-        this.db = db = new CRUD.Database(self.databaseName);
+        this.db = db = new CRUD.Database(self.databaseName, self.dbOptions);
         return db.connect().then(function() {
             CRUD.log("SQLITE connection created to ", self.databaseName);
             return verifyTables().then(function() {
                 self.initializing = false;
             });
+        }).catch(function(error) {
+            initializationError = error;
+            self.initializing = false;
+            throw error;
         });
     };
 
@@ -33,7 +38,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
     function updateQueryError(err, tx) {
         console.error("Update query error!", err);
         CRUD.stats.writesExecuted++;
-        return;
+        throw err;
     }
 
     function insertQuerySuccess(resultSet) {
@@ -46,99 +51,110 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
     function insertQueryError(err, tx) {
         CRUD.stats.writesExecuted++;
         console.error("Insert query error: ", err);
-        return err;
+        throw err;
+    }
+
+    function highestVersion(entity) {
+        return entity.migrations ? Math.max.apply(Math, Object.keys(entity.migrations).map(Number)) : 1;
+    }
+
+    function writeSchemaVersion(entity, version) {
+        var write = db.setSchemaVersion ? db.setSchemaVersion(entity.table, version) : Promise.resolve();
+        return write.then(function() {
+            localStorage.setItem('database.version.' + entity.table, version);
+        });
+    }
+
+    function readSchemaVersion(entity) {
+        if (db.getSchemaVersion) {
+            return db.getSchemaVersion(entity.table).then(function(version) {
+                if (version === null) throw new Error('Missing native schema version for ' + entity.table);
+                return version;
+            });
+        }
+        var version = parseInt(localStorage.getItem('database.version.' + entity.table), 10);
+        return Promise.resolve(isNaN(version) ? 1 : version);
+    }
+
+    function migrateEntity(entityName) {
+        var entity = CRUD.EntityManager.entities[entityName];
+        if (!entity.migrations) return Promise.resolve();
+        return readSchemaVersion(entity).then(function(currentVersion) {
+            var versions = Object.keys(entity.migrations).map(Number).filter(function(version) {
+                return version > currentVersion;
+            }).sort(function(a, b) {
+                return a - b;
+            });
+            return versions.reduce(function(promise, version) {
+                return promise.then(function() {
+                    CRUD.log('Executing migrations for ', entity.table, version);
+                    if (db.batch) {
+                        var statements = entity.migrations[version].map(function(sql) {
+                            return { sql: sql, bindings: [] };
+                        });
+                        statements.push({
+                            sql: 'INSERT INTO duckietv_schema (table_name, version) VALUES (?, ?) ON CONFLICT(table_name) DO UPDATE SET version = excluded.version',
+                            bindings: [entity.table, version]
+                        });
+                        return db.batch(statements).then(function() {
+                            localStorage.setItem('database.version.' + entity.table, version);
+                        });
+                    }
+                    return entity.migrations[version].reduce(function(migrationPromise, migration) {
+                        return migrationPromise.then(function() { return db.execute(migration); });
+                    }, Promise.resolve()).then(function() {
+                        return writeSchemaVersion(entity, version);
+                    });
+                });
+            }, Promise.resolve());
+        });
     }
 
     var verifyTables = function() {
             CRUD.log('verifying that tables exist');
             var tables = [],
                 indexes = {};
-            // fetch existing tables
             return db.execute("select type,name,tbl_name from sqlite_master").then(function(resultset) {
-                return resultset.rows
-                    .filter(function(row) {
-                        return (row.name.indexOf('sqlite_autoindex') > -1 || row.name == '__WebKitDatabaseInfoTable__') ? false : true;
-                    })
-                    .map(function(row) {
-                        if (row.type == 'table') {
-                            tables.push(row.tbl_name);
-                        } else if (row.type == 'index') {
-                            if (!(row.tbl_name in indexes)) {
-                                indexes[row.tbl_name] = [];
-                            }
-                            indexes[row.tbl_name].push(row.name);
-                        }
-                    })
+                return resultset.rows.filter(function(row) {
+                    return row.name.indexOf('sqlite_autoindex') == -1 && row.name != '__WebKitDatabaseInfoTable__';
+                }).map(function(row) {
+                    if (row.type == 'table') {
+                        tables.push(row.tbl_name);
+                    } else if (row.type == 'index') {
+                        if (!(row.tbl_name in indexes)) indexes[row.tbl_name] = [];
+                        indexes[row.tbl_name].push(row.name);
+                    }
+                });
             }).then(function() {
-                // verify that all tables exist
                 return Promise.all(Object.keys(CRUD.EntityManager.entities).map(function(entityName) {
                     var entity = CRUD.EntityManager.entities[entityName];
-                    if (tables.indexOf(entity.table) == -1) {
-                        if (!entity.createStatement) {
-                            throw "No create statement found for " + entity.className + ". Don't know how to create table.";
-                        }
-                        return db.execute(entity.createStatement).then(function() {
-                            tables.push(entity.table);
-                            localStorage.setItem('database.version.' + entity.table, ('migrations' in entity) ? Math.max.apply(Math, Object.keys(entity.migrations)) : 1);
-                            CRUD.log(entity.className + " table created.");
-                            return entity;
-                        }, function(err) {
-                            CRUD.log("Error creating " + entity.className, err);
-                            throw "Error creating table: " + entity.table + " for " + entity.className;
-                        }).then(createFixtures).then(function() {
-                            CRUD.log("Table created and fixtures inserted for ", entity.className);
-                            return;
-                        });
-                    }
-                    return;
+                    if (tables.indexOf(entity.table) > -1) return;
+                    if (!entity.createStatement) throw new Error("No create statement found for " + entity.className);
+                    var version = highestVersion(entity);
+                    var create = db.batch ? db.batch([{
+                        sql: entity.createStatement,
+                        bindings: []
+                    }, {
+                        sql: 'INSERT INTO duckietv_schema (table_name, version) VALUES (?, ?)',
+                        bindings: [entity.table, version]
+                    }]) : db.execute(entity.createStatement).then(function() {
+                        return writeSchemaVersion(entity, version);
+                    });
+                    return create.then(function() {
+                        tables.push(entity.table);
+                        localStorage.setItem('database.version.' + entity.table, version);
+                    }).then(function() {
+                        CRUD.log(entity.className + " table created.");
+                        return createFixtures(entity);
+                    }).catch(function(err) {
+                        CRUD.log("Error creating " + entity.className, err);
+                        throw err;
+                    });
                 }));
             }).then(function() {
-                // verify that all indexes exist.
-                return Promise.all(Object.keys(CRUD.EntityManager.entities).map(function(entityName) {
-                    var entity = CRUD.EntityManager.entities[entityName];
-                    if (entity.migrations) {
-                        var currentVersion = !localStorage.getItem('database.version.' + entity.table) ? 1 : parseInt(localStorage.getItem('database.version.' + entity.table), 10);
-                        if (isNaN(currentVersion)) {
-                            currentVersion = 1;
-                        }
-                        var highestVersion = Math.max.apply(Math, Object.keys(entity.migrations));
-                        if (currentVersion == highestVersion) return;
-                        return Promise.all(Object.keys(entity.migrations).map(function(version) {
-                            if (parseInt(version) > currentVersion) {
-                                return Promise.all(entity.migrations[version].map(function(migration, idx) {
-                                    CRUD.log('Executing migration: ', migration);
-                                    return db.execute(migration).then(function(result) {
-                                        CRUD.log("Migration success!", migration, result);
-                                        return idx;
-                                    }, function(err) {
-                                        CRUD.log("Migration failed!", idx, version, migration);
-                                        throw "Migration " + version + " failed for entity " + entityName;
-                                    });
-                                })).then(function(results) {
-                                    CRUD.log("All migrations executed for " + entityName + " version ", version);
-                                    return {
-                                        version: version,
-                                        results: results
-                                    };
-                                }, function(err) {
-                                    throw "Migration failed for entity " + entityName;
-                                });
-                            }
-                            return {
-                                version: version,
-                                results: []
-                            };
-                        })).then(function(results) {
-                            var executed = results.filter(function(migration) {
-                                return migration.results.length == CRUD.EntityManager.entities[entityName].migrations[migration.version].length
-                            }).map(function(migration) {
-                                return migration.version;
-                            });
-                            CRUD.log("Migrations executed for  " + entity.table, ": " + executed.join(",") + ". Version is now: " + highestVersion);
-                            localStorage.setItem('database.version.' + entity.table, highestVersion);
-                        });
-                    }
-                }));
+                return Object.keys(CRUD.EntityManager.entities).reduce(function(promise, entityName) {
+                    return promise.then(function() { return migrateEntity(entityName); });
+                }, Promise.resolve());
             }).then(function() {
                 // create listed indexes if they don't already exist.
                 return Promise.all(Object.keys(CRUD.EntityManager.entities).map(function(entityName) {
@@ -171,16 +187,17 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                 if (!entity.fixtures) return resolve();
                 return Promise.all(entity.fixtures.map(function(fixture) {
 
-                    CRUD.fromCache(entity.className, fixture).Persist(true);
+                    return CRUD.fromCache(entity.className, fixture).Persist(true);
                 })).then(resolve, reject);
             });
         },
 
-        delayUntilSetupDone = function(func) {
+        delayUntilSetupDone = function(func, fail) {
+            if (initializationError) return fail(initializationError);
             if (!self.initializing) {
                 return func();
             } else {
-                setTimeout(delayUntilSetupDone, 50, func);
+                setTimeout(delayUntilSetupDone, 50, func, fail);
             }
         };
 
@@ -198,7 +215,7 @@ CRUD.SQLiteAdapter = function(database, dbOptions) {
                         CRUD.log('SQL Error in FIND : ', sqlError, resultSet, query);
                         fail();
                     });
-            });
+            }, fail);
         });
     };
 
@@ -282,10 +299,13 @@ December 2013: Updated for use of promises.
 ...
 */
 CRUD.Database = function(name, options) {
-    options = options || {
+    if (CRUD.Database.connectionFactory) {
+        return CRUD.Database.connectionFactory(name, options || {});
+    }
+    options = Object.assign({
         version: '1.0',
         estimatedSize: 655360
-    };
+    }, options || {});
 
     var lastInsertRowId = 0;
     var db = false;

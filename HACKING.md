@@ -25,8 +25,11 @@ On top of that, you can check out the dependency graph on [http://duckietv.githu
 
 If you want to run and hack on DuckieTV standalone yourself, the process is really simple:
 
-## Running DuckieTV from Git as a new-tab Chrome extension
-This is the easiest way to get going. DuckieTV will install itself as your new-tab page and run directly from git source.
+## Historical browser extension workflow
+
+The Chrome new-tab and browser-action extensions are no longer supported. The load-unpacked steps below are retained only as historical project context and are not a supported development or release-validation path.
+
+### New-tab extension
 
 - Clone the repository or download and extract the latest HEAD as a [.zip](https://github.com/SchizoDuckie/DuckieTV/archive/angular.zip) file
 - Fire up chrome
@@ -35,7 +38,7 @@ This is the easiest way to get going. DuckieTV will install itself as your new-t
 - click the 'Load unpacked extension' button, and point it to the DuckieTV directory
 - Click OK and fire up a new tab. DuckieTV should be running.
 
-## Running DuckieTV from Git as a browser-action Chrome extension
+### Browser-action extension
 
 - Execute all the steps above for the 'new tab' version
 - rename manifest-app.json to manifest.json (delete the original manifest.json)
@@ -43,62 +46,51 @@ This is the easiest way to get going. DuckieTV will install itself as your new-t
 
 ## Running DuckieTV-Standalone in dev mode
 
-- Clone the repo
-- Download [nw.js](http://nwjs.io/) for your platform
-- Extract all files to the freshly cloned DuckieTV directory
-- run nw.exe or ./nw
-- Now you can just work in the directory and pull repo updates
+- Clone the repository and run `npm ci`.
+- Run `npm test` and `npm run locales:check`.
+- Download and verify the pinned NW.js SDK with `npm run nw:fetch -- --version=0.116.0 --flavor=sdk`.
+- Run the isolated capability probe with `npm run nw:probe -- --version=0.116.0`.
+
+The probe and app must use a disposable `--user-data-dir`. NW.js 0.116 must never be launched against an existing NW.js 0.87 DuckieTV profile because Chromium can change profile data before application scripts run.
+
+On macOS arm64, launch the checked-out application with the exact SDK and a disposable profile from the repository root:
+
+```sh
+DUCKIETV_TEST_PROFILE="$(mktemp -d "${TMPDIR:-/tmp}/duckietv-nw116.XXXXXX")"
+"$PWD/_nwjs/nwjs-sdk-v0.116.0-osx-arm64/nwjs.app/Contents/MacOS/nwjs" \
+  --user-data-dir="$DUCKIETV_TEST_PROFILE" \
+  --nwapp="$PWD"
+```
+
+Quit DuckieTV before removing the disposable directory.
+
+A truly empty new standalone profile creates its native SQLite library automatically. When the standard `DuckieTV-Standalone-SQLite` profile has a sibling `DuckieTV-Standalone` legacy profile, startup instead offers **Start Fresh** and **Import Existing Library**. Detection only checks for that sibling path and never opens it with NW.js 0.116. **Import Existing Library** displays the destination path to use with the migration command below. Legacy profiles stored in custom locations are migrated with explicit paths using the command below.
+
+## Migrate an NW.js 0.87 profile
+
+Close every DuckieTV window before migrating. The migration command checks Chromium lock files, copies the complete source profile, exports Web SQL with NW.js 0.87 from that copy, and imports the result into the separate native SQLite profile. The target runtime never opens the source profile or its copy as its user-data directory, and the command verifies that the source tree is unchanged even when migration fails.
+
+Use explicit absolute paths for the old profile and the destination shown by **Import Existing Library**:
+
+```sh
+npm run nw:migrate -- \
+  --source-profile=/absolute/path/to/old/DuckieTV-Standalone \
+  --destination-profile=/absolute/path/to/new/DuckieTV-Standalone-SQLite \
+  --legacy-binary=/absolute/path/to/nwjs-sdk-v0.87.0/nw
+```
+
+The destination may be the untouched profile created by viewing the detected-legacy choice screen. It must not contain a native database or application settings. A completed import is journaled and can be invoked again safely; it will not overwrite changes made after activation. Keep the old profile as rollback data until the migrated library has been checked in the new app.
 
 
 ## Building DuckieTV-Standalone
 
-If you want to build the setups and files that are deployed on github yourself there are some dependencies:
+Fetch the exact SDK for the target, then build an allowlisted local package:
 
-- wine 1.7 (for embedding .ico file in the windows .exe)
-- bomutils (to be able to build a mac compatible installer)
-- libxml2-dev and libssl-dev
-- nsis (for building installers for windows)
-
-```
-sudo add-apt-repository ppa:ubuntu-wine/ppa
-sudo apt-get update
-sudo apt-get install wine1.7 
-git clone https://github.com/hogliux/bomutils && cd bomutils && make && sudo make install
-sudo apt-get install libxml2-dev libssl-dev
-sudo apt-get install nsis
+```sh
+npm run nw:fetch -- --version=0.116.0 --flavor=sdk --platform=osx --arch=arm64
+npm run nw:package -- --platform=osx --arch=arm64
 ```
 
-##Building individual releases:
+Packages are written under `dist/nwjs-packages`. These are unsigned local test artifacts and are not release installers. Signing, notarization, installer identity, and native Windows/Linux/macOS x64 validation remain release gates.
 
-Gulp is used as the generic utility library. Make sure you have the local dependencies set up by running
-
-``npm install``
-
-Then, to prepare the release, concat the scripts and css, and put platform specific patches into place execute
-
-``gulp deploy``
-
-This does all the actual concatting and renaming work and puts files in place for all the platforms and flavours DuckieTV runs as:
-
-- Chrome Browseraction
-- Chrome New Tab
-- Standalone (Via nw.js)
-- Android (Via Cordova)
-
-Once you have this, execute the individual build scripts to create setup installers
-
-```
-cd build/
-./build_chrome_browseraction.sh
-./build_chrome_newtab.sh
-./build_windows.sh
-./build_mac.sh
-./build_linux.sh
-```
-
-The command ```push-cordova.sh``` is a shell script that force pushes the cordova output from ```gulp deploy``` in ```../deploy/cordova/``` to the repository that's connected to Adobe's Phonegap Build system.
-
-You can see the latest builds here:
-https://build.phonegap.com/apps/1473540/share
-
-Rebuilding the APK is a matter of logging in with the permitted account on http://build.phonegap.com/, refreshing the repostory with a click of the button, unlocking the deploy key by entering the password for the keychain and hitting the rebuild button. You can do this with your own account to verify the process, just add https://github.com/SchizoDuckie/DuckieTV-Cordova as your git source.
+The former Gulp, Wine, NSIS, Cordova, and PhoneGap release instructions referred to build scripts and hosted services that are no longer present in this repository. They are historical and must not be used to produce or validate an NW.js 0.116 release.

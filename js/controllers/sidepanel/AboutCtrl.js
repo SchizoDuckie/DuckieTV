@@ -142,7 +142,12 @@ DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsServi
       }
 
       // DuckieTV version
-      if ('chrome' in window && 'app' in window.chrome && 'getDetails' in window.chrome.app && window.chrome.app.getDetails() !== null && 'version' in window.chrome.app.getDetails()) {
+      if ($scope.isStandalone && window.nw && nw.App && nw.App.manifest) {
+        $scope.statistics.unshift({
+          name: 'DuckieTV',
+          data: nw.App.manifest.version
+        })
+      } else if ('chrome' in window && 'app' in window.chrome && 'getDetails' in window.chrome.app && window.chrome.app.getDetails() !== null && 'version' in window.chrome.app.getDetails()) {
         $scope.statistics.unshift({
           name: window.chrome.app.getDetails().name,
           data: window.chrome.app.getDetails().version

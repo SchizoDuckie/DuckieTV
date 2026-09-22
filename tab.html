@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="DuckieTV" ng-csp ng-strict-di>
+<html ng-csp ng-strict-di>
 <head>
   <meta charset="UTF-8">
   <title>DuckieTV</title>
@@ -16,14 +16,8 @@
   <!-- /deploy:replace -->
   <link rel="shortcut icon" type="image/png" href="img/logo/icon16.png" />
 </head>
-<body kc>
-  <div class="windowChrome">
-    <button class="glyphicon glyphicon-win-minimize" id='minimize' uib-tooltip="{{ 'COMMON/minimize/btn'|translate }}" tooltip-placement="bottom"></button>
-    <button class="glyphicon glyphicon-win-restore" id='unmaximize' uib-tooltip="{{ 'TAB/unmaximize/glyph'|translate }}" tooltip-placement="bottom" style='display:none'></button>
-    <button class="glyphicon glyphicon-win-maximize" id='maximize' uib-tooltip="{{ 'TAB/maximize/glyph'|translate }}" tooltip-placement="bottom"></button>
-    <button class="glyphicon glyphicon-win-close" id='close' uib-tooltip="{{ 'COMMON/close/btn'|translate }}" tooltip-placement="bottom"></button>
-  </div>
-
+<body kc class="storage-pending">
+  <div id="storage-startup-error" class="alert alert-danger" style="display:none"></div>
   <background-rotator channel="'background:load'"></background-rotator>
   <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>
 
@@ -230,6 +224,7 @@
   <script src="js/services/TraktTVv2.js"></script>
   <script src="js/services/TraktTVTrending.js"></script>
   <script src="js/services/TraktTVUpdateService.js"></script>
+  <script src="js/nwjs/app-bootstrap.js"></script>
   <!-- /deploy:replace -->
 </body>
 </html>

@@ -35,7 +35,7 @@ CRUD.BackgroundPageAdapter = function(database, dbOptions) {
     function queryError(err) {
         CRUD.stats.writesExecuted++;
         console.error("Query error: ", err);
-        return err;
+        throw err;
     }
 
     this.Find = function(what, filters, options) {
@@ -51,6 +51,7 @@ CRUD.BackgroundPageAdapter = function(database, dbOptions) {
         if (what.getID() !== false) {
             query = ['delete from', CRUD.EntityManager.entities[what.getType()].table, 'where', CRUD.EntityManager.getPrimary(what.getType()), '= ?'].join(' ');
             return db.execute(query, [what.getID()]).then(function(resultSet) {
+                resultSet.Action = 'deleted';
                 return resultSet;
             }, function(e) {
                 CRUD.log("error deleting element from db: ", e);
@@ -75,6 +76,8 @@ CRUD.BackgroundPageConnection = function() {
     var connection = false;
     var self = this;
     var unhandled = {};
+    var shuttingDown = false;
+    var shutdownPromise = null;
 
 
     /**
@@ -84,27 +87,56 @@ CRUD.BackgroundPageConnection = function() {
      * in the response message.
      */
     this.connect = function() {
-        connection = chrome.runtime.connect({
-            name: "CRUD"
+        return waitForBackgroundScripts().then(function() {
+            connection = chrome.runtime.connect({ name: "CRUD" });
+            connection.onMessage.addListener(function(msg) {
+                if (!msg.guid || !(msg.guid in unhandled)) return;
+                clearTimeout(unhandled[msg.guid].timeout);
+                if (!msg.error) {
+                    unhandled[msg.guid].resolve(msg.result);
+                } else {
+                    var error = new Error(msg.error.message || 'Background database request failed');
+                    error.code = msg.error.code;
+                    error.stack = msg.error.stack || error.stack;
+                    unhandled[msg.guid].reject(error);
+                }
+                delete unhandled[msg.guid];
+            });
+            connection.onDisconnect.addListener(function() {
+                var error = new Error((chrome.runtime.lastError && chrome.runtime.lastError.message) || 'Background database connection disconnected');
+                Object.keys(unhandled).forEach(function(id) {
+                    clearTimeout(unhandled[id].timeout);
+                    unhandled[id].reject(error);
+                    delete unhandled[id];
+                });
+                connection = false;
+            });
+            return send({ command: 'ready' });
         });
+    }
 
-        connection.onMessage.addListener(function(msg) {
-            if (!msg.guid) {
-                throw new Error("unidentified port response");
-            }
-            if (!(msg.guid in unhandled)) {
-                throw new Error("port response already handled or unknown");
-            }
-            if (!msg.error) {
-                unhandled[msg.guid].resolve(msg.result);
-                delete unhandled[msg.guid];
-            } else {
-                unhandled[msg.guid].reject(msg);
-                delete unhandled[msg.guid];
-            }
-        });
-        return new Promise(function(resolve) {
-            resolve(true);
+    function waitForBackgroundScripts() {
+        return new Promise(function(resolve, reject) {
+            var timeout = setTimeout(function() {
+                reject(new Error('Background script loading timed out'));
+            }, 30000);
+            chrome.runtime.getBackgroundPage(function(background) {
+                if (chrome.runtime.lastError) {
+                    clearTimeout(timeout);
+                    return reject(new Error(chrome.runtime.lastError.message));
+                }
+                if (!background || !background.DuckieTVBackgroundScriptsReady) {
+                    clearTimeout(timeout);
+                    return reject(new Error('Background script readiness is unavailable'));
+                }
+                Promise.resolve(background.DuckieTVBackgroundScriptsReady).then(function() {
+                    clearTimeout(timeout);
+                    resolve();
+                }, function(error) {
+                    clearTimeout(timeout);
+                    reject(error);
+                });
+            });
         });
     }
 
@@ -119,10 +151,13 @@ CRUD.BackgroundPageConnection = function() {
      * and the promise is deleted and memory freed.
      * @return Promise
      */
-    function send(msg) {
+    function send(msg, allowWhileShuttingDown) {
 
         if (!connection) {
-            throw new Error("Not connected");
+            return Promise.reject(new Error("Not connected"));
+        }
+        if (shuttingDown && !allowWhileShuttingDown) {
+            return Promise.reject(new Error("Background database connection is shutting down"));
         }
 
         msg.guid = guid();
@@ -130,12 +165,29 @@ CRUD.BackgroundPageConnection = function() {
             unhandled[msg.guid] = {
                 msg: msg,
                 resolve: resolve,
-                reject: reject
+                reject: reject,
+                timeout: setTimeout(function() {
+                    delete unhandled[msg.guid];
+                    reject(new Error('Background database request timed out: ' + msg.command));
+                }, 30000)
             };
-            connection.postMessage(msg);
+            try {
+                connection.postMessage(msg);
+            } catch (error) {
+                clearTimeout(unhandled[msg.guid].timeout);
+                delete unhandled[msg.guid];
+                reject(error);
+            }
         });
 
     }
+
+    this.shutdown = function() {
+        if (shutdownPromise) return shutdownPromise;
+        shuttingDown = true;
+        shutdownPromise = send({ command: 'shutdown' }, true);
+        return shutdownPromise;
+    };
 
     /**
      *
@@ -167,9 +219,9 @@ CRUD.BackgroundPageConnection = function() {
     this.Delete = function(what) {
         return send({
             command: 'Delete',
-            what: what,
             type: what.getType(),
-            params: params
+            ID: what.getID(),
+            values: what.__values__
         });
     }
 
