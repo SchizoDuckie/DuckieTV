@@ -20,7 +20,8 @@
         "karma-chrome-launcher": "^3.2.0",
         "karma-jasmine": "^5.1.0",
         "karma-mocha-reporter": "^2.2.5",
-        "requirejs": "^2.1.0"
+        "requirejs": "^2.1.0",
+        "ws": "^8.21.3"
     },
     "author": "DuckieTV",
     "user-agent": "%name v%ver %osinfo",
@@ -51,11 +52,15 @@
     "main": "tab.html",
     "chromium-args": "--flag-switches-begin --disable-features=HighEfficiencyModeAvailable --flag-switches-end",
     "description": "DuckieTV helps you manage your favorite TV Shows on a sweet calendar",
-    "dependencies": {},
     "scripts": {
         "locales:check": "node scripts/validate-locales.js",
         "nw:fetch": "node scripts/nwjs/fetch.cjs",
+        "nw:migrate": "node scripts/nwjs/migrate.cjs",
+        "nw:package": "node scripts/nwjs/package.cjs",
         "nw:probe": "node scripts/nwjs/probe.cjs",
+        "nw:verify-evidence": "node scripts/nwjs/verify-evidence.cjs",
+        "test:nw": "node scripts/nwjs/test.cjs",
+        "verify:nw": "node scripts/nwjs/verify.cjs",
         "test": "karma start --single-run",
         "test-watch": "karma start --no-single-run --auto-watch --browsers ChromeHeadless",
         "test-debug": "karma start --no-single-run --auto-watch --browsers Chrome"

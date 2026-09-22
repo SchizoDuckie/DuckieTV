@@ -14,7 +14,7 @@
     "macos13RuntimeVerification": "PENDING"
   },
   "platforms": [
-    { "platform": "macos", "arch": "arm64", "artifact": "sdk", "automated": "PASS", "nativePresentation": "PENDING" },
+    { "platform": "macos", "arch": "arm64", "artifact": { "version": "0.116.0", "flavor": "sdk", "archiveSha256": "5522a5848f509daff487847c0163b613d2cb5d6a43737df0759980908af941ff", "packageSha256": "2b6acbce19951dbcd4572152fb017c651b982263773bdbc7f8ab03a74daadb75", "scope": "unsigned-local-app-nw" }, "automated": "PASS", "nativePresentation": "PENDING" },
     { "platform": "macos", "arch": "x64", "artifact": null, "automated": "PENDING", "nativePresentation": "PENDING" },
     { "platform": "linux", "arch": "x64", "artifact": null, "automated": "PENDING", "nativePresentation": "PENDING" },
     { "platform": "windows", "arch": "x64", "artifact": null, "automated": "PENDING", "nativePresentation": "PENDING" }
@@ -25,11 +25,26 @@
     "nodeSqlite": "PASS",
     "backgroundTransport": "PASS",
     "freshBootstrap": "PASS",
-    "networkPreflight": "PASS_SCOPED",
+    "networkPreflight": "PASS_LOOPBACK_SCOPED",
     "unitTests": "PASS_94",
     "localeDescriptors": "PASS_25",
-    "legacyMigration": "PENDING",
-    "packagedUpgrade": "PENDING"
+    "legacyMigration": "PASS_SYNTHETIC_CURRENT_SCHEMA_FAILURE_RECOVERY",
+    "packagedUpgrade": "PASS_LOCAL_UNSIGNED_ARM64"
   },
+  "features": [
+    { "id": "startup-and-profile-choice", "status": "PASS_LOCAL_SCOPED", "evidence": ["actual first-run choice click, background reload, Angular bootstrap"] },
+    { "id": "storage-and-orm", "status": "PASS_LOCAL_SCOPED", "evidence": ["actual runtime ORM insert/update/find/delete and shutdown/reopen persistence"] },
+    { "id": "legacy-profile-migration", "status": "PASS_SYNTHETIC_SCOPED", "evidence": ["six-table current-schema export/import equality, idempotence, negative cases, six SIGKILL boundaries"] },
+    { "id": "library-and-calendar", "status": "PENDING", "evidence": ["browser unit coverage only; full native journey pending"] },
+    { "id": "trakt-and-metadata", "status": "PENDING", "evidence": ["transport unit coverage only; live/native journey pending"] },
+    { "id": "search-and-downloads", "status": "PENDING", "evidence": ["loopback transport coverage only; providers and client journey pending"] },
+    { "id": "networking", "status": "PASS_LOOPBACK_SCOPED", "evidence": ["nine deterministic old/target loopback cases; HTTPS and LAN pending"] },
+    { "id": "native-shell", "status": "PASS_LOCAL_SCOPED", "evidence": ["API construction and ordered database shutdown passed; presentation pending"] },
+    { "id": "notifications", "status": "PENDING", "evidence": ["API exists; visible delivery and asset behavior pending"] },
+    { "id": "settings-and-backup", "status": "PENDING", "evidence": ["backup codec unit coverage only; native import/export journey pending"] },
+    { "id": "scheduled-and-background-work", "status": "PENDING", "evidence": ["background transport passed; scheduling journey pending"] },
+    { "id": "torrent-clients", "status": "PENDING", "evidence": ["client contract unit coverage only; real clients pending"] },
+    { "id": "release-ui-and-assets", "status": "PASS_LOCAL_SCOPED", "evidence": ["unsigned arm64 package create/reopen/rebuild passed from unrelated cwd"] }
+  ],
   "complete": false
 }

@@ -1,0 +1,70 @@
+name: NW.js compatibility
+
+on:
+  push:
+    branches: [angular]
+  pull_request:
+
+jobs:
+  runtime:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14
+            platform: osx
+            arch: arm64
+            artifact: dist/nwjs-packages/DuckieTV-0.116.0-osx-arm64/DuckieTV.app
+          - os: macos-15-intel
+            platform: osx
+            arch: x64
+            artifact: dist/nwjs-packages/DuckieTV-0.116.0-osx-x64/DuckieTV.app
+          - os: ubuntu-latest
+            platform: linux
+            arch: x64
+            artifact: dist/nwjs-packages/DuckieTV-0.116.0-linux-x64
+          - os: windows-latest
+            platform: win
+            arch: x64
+            artifact: dist/nwjs-packages/DuckieTV-0.116.0-win-x64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26.7.0
+          cache: npm
+      - run: npm ci
+      - name: Start Linux display server
+        if: runner.os == 'Linux'
+        run: |
+          Xvfb :99 -screen 0 1280x1024x24 &
+          echo "DISPLAY=:99" >> "$GITHUB_ENV"
+      - run: npm test
+      - run: npm run locales:check
+      - run: npm run nw:fetch -- --version=0.116.0 --flavor=sdk --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
+      - run: npm run test:nw -- --suite=bootstrap
+      - run: npm run test:nw -- --suite=storage
+      - run: npm run test:nw -- --suite=network
+      - run: npm run test:nw -- --suite=shell
+      - run: npm run nw:package -- --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
+      - run: npm run test:nw -- --suite=packaged --artifact=${{ github.workspace }}/${{ matrix.artifact }}
+
+  migration:
+    runs-on: macos-14
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26.7.0
+          cache: npm
+      - run: npm ci
+      - run: npm run nw:fetch -- --version=0.116.0 --flavor=sdk --platform=osx --arch=arm64
+      - name: Fetch verified NW.js 0.87 migration fixture
+        run: |
+          curl --fail --location --max-time 120 --retry 3 -o /tmp/nwjs-sdk-v0.87.0-osx-arm64.zip https://dl.nwjs.io/v0.87.0/nwjs-sdk-v0.87.0-osx-arm64.zip
+          echo "ec2aa8c64bd46d6bbfe60693bfa429d7a22ace422ddb034f37458ea855b2a419  /tmp/nwjs-sdk-v0.87.0-osx-arm64.zip" | shasum -a 256 -c -
+          unzip -q /tmp/nwjs-sdk-v0.87.0-osx-arm64.zip -d /tmp/duckietv-legacy
+          npm run test:nw -- --suite=migration --legacy-binary=/tmp/duckietv-legacy/nwjs-sdk-v0.87.0-osx-arm64/nwjs.app/Contents/MacOS/nwjs

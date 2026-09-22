@@ -22,7 +22,7 @@ As of v0.60, DuckieTV is finally becoming a worthy SickBeard competitor by intro
 How can I get it?
 =================
 
-DuckieTV can be installed as an application on Windows (7, 8.1, 10, 11), Linux (Debian based such as Ubuntu 15.10 and newer), and Mac OSX (10.15 and newer).
+This source tree now targets NW.js 0.116.0. The macOS build requires macOS 13 or newer. Windows and Linux release support is pending native validation of the new runtime and packages; the older Windows 7/8.1 and Ubuntu 15.10 claims no longer describe a supported NW.js runtime.
 
 Install DuckieTV
 -------------------------------------------
@@ -32,7 +32,7 @@ https://github.com/DuckieTV/Nightlies/releases/latest
 
 DuckieTV For Chrome, Safari, Opera, Vivaldi or Edge browsers is no longer supported.
 ---------------------------
-**Starting with Chromium 124 Web SQL (The database that Dtv uses) is no longer available.**
+**Chromium no longer provides Web SQL.** The standalone app now stores its library in Node's native SQLite backend. Existing NW.js 0.87 profiles must be migrated into the new dedicated profile before they can be opened; see [Migrate an NW.js 0.87 profile](HACKING.md#migrate-an-nwjs-087-profile).
 
 Screenshots:
 ============

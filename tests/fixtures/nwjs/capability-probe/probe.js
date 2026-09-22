@@ -109,6 +109,27 @@ function probeNodeSQLite(phase) {
   return { DatabaseSync: typeof sqlite.DatabaseSync === 'function', persisted: true }
 }
 
+async function probeQueuedClose() {
+  var path = require('node:path')
+  var fixtureDirectory = require('./probe-node.cjs').dirname
+  var module = require(path.resolve(fixtureDirectory, '..', '..', '..', '..', 'js', 'nwjs', 'database.cjs'))
+  var filename = path.join(nw.App.dataPath, 'duckietv-close-probe.sqlite3')
+  require('node:fs').rmSync(filename, { force: true })
+  var database = module.createConnection('close-probe', { filename: filename, dataPath: nw.App.dataPath })
+  await database.connect()
+  await database.execute('CREATE TABLE probe (value TEXT)')
+  var acceptedWrite = database.execute('INSERT INTO probe (value) VALUES (?)', ['drained'])
+  var closing = database.close()
+  var settled = await Promise.allSettled([acceptedWrite, closing])
+  if (settled.some(function(result) { return result.status !== 'fulfilled' })) throw new Error('Accepted write did not drain before close')
+  var reopened = module.createConnection('close-probe', { filename: filename, dataPath: nw.App.dataPath })
+  await reopened.connect()
+  var rows = await reopened.execute('SELECT value FROM probe')
+  await reopened.close()
+  if (rows.rows.length !== 1 || rows.rows[0].value !== 'drained') throw new Error('Drained write was not persisted')
+  return { acceptedWriteDrained: true, reopenPersisted: true }
+}
+
 function probeNativeShell() {
   var win = nw.Window.get()
   var menu = new nw.Menu()
@@ -135,6 +156,7 @@ window.addEventListener('load', function() {
   Promise.all([
     capability(function() { return probeWebSQL(phase) }),
     capability(function() { return probeNodeSQLite(phase) }),
+    capability(probeQueuedClose),
     capability(probeBackground),
     capability(probeNotification),
     capability(probeNativeShell)
@@ -163,9 +185,10 @@ window.addEventListener('load', function() {
       capabilities: {
         websql: results[0],
         nodeSqlite: results[1],
-        background: results[2],
-        notifications: results[3],
-        nativeShell: results[4]
+        queuedClose: results[2],
+        background: results[3],
+        notifications: results[4],
+        nativeShell: results[5]
       }
     }
     fs.writeFileSync(output, JSON.stringify(evidence, null, 2) + '\n')
