@@ -12,6 +12,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
   function($q, $http, SceneNameResolver) {
     var activeSearchRequest = false
     var activeTrendingRequest = false
+    var refreshPromise = null
     var dtv_refresh = new Date().toISOString().substring(0, 10)
 
     var endpoint = 'https://api.trakt.tv/'
@@ -173,127 +174,89 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       throw err
     }
 
+    function renewTokenOnce() {
+      if (refreshPromise === null) {
+        refreshPromise = service.renewToken().finally(function() {
+          refreshPromise = null
+        })
+      }
+      return refreshPromise
+    }
+
+    function requestApi(request, attempt, refreshed) {
+      attempt = attempt || 0
+      refreshed = refreshed || false
+      var headers = {
+        'trakt-api-key': TRAKT_CLIENT_ID,
+        'trakt-api-version': 2,
+        'Content-Type': 'application/json'
+      }
+      if (request.method === 'POST' || authorized.indexOf(request.type) > -1) {
+        headers.Authorization = 'Bearer ' + localStorage.getItem('trakttv.token')
+      }
+
+      return $http({
+        method: request.method,
+        url: getUrl(request.type, request.param, request.param2),
+        data: request.body,
+        timeout: request.timeout || 120000,
+        headers: headers,
+        cache: false
+      }).then(function(result) {
+        return request.parser(result)
+      }, function(err) {
+        if (err.status == 401 && !refreshed) {
+          return renewTokenOnce().then(function() {
+            return requestApi(request, attempt, true)
+          })
+        }
+        if (err.status == 420) {
+          console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
+          return
+        }
+        if (err.status == 423) {
+          console.error('Trakt 423: Trakt user account locked, email support@trakt.tv so they can fix your account.')
+          return
+        }
+        if ([429, 502, 504].indexOf(err.status) > -1 && attempt < 2) {
+          var headers = err && err.headers ? err.headers() : {}
+          var retryAfterSeconds = +headers['retry-after']
+          retryAfterSeconds = retryAfterSeconds || 3
+          console.error('Trakt request failed with status %s, trying again in %s seconds', err.status, retryAfterSeconds)
+
+          return delay(retryAfterSeconds * 1000).then(function() {
+            return requestApi(request, attempt + 1, refreshed)
+          })
+        }
+        if (err.status > 0) {
+          throw 'Error ' + err.status + ':' + err.statusText
+        }
+      })
+    }
+
     /**
      * Promise requests with batchmode toggle to auto-kill a previous request when running.
      * The activeRequest and batchMode toggles make sure that find-as-you-type can execute multiple
      * queries in rapid succession by aborting the previous one. Can be turned off at will by using enableBatchMode()
      */
     var promiseRequest = function(type, param, param2, promise) {
-      var url = getUrl(type, param, param2)
-      var parser = getParser(type)
-      var headers = {
-        'trakt-api-key': TRAKT_CLIENT_ID,
-        'trakt-api-version': 2,
-        'Content-Type': 'application/json'
-      }
-      if (authorized.indexOf(type) > -1) {
-        headers.Authorization = 'Bearer ' + localStorage.getItem('trakttv.token')
-      }
-      return $http.get(url, {
-        timeout: promise || 120000,
-        headers: headers,
-        cache: false
-      }).then(function(result) {
-        return parser(result)
-      }, function(err) {
-        if (err.status == 401) {
-          // token auth expired, renew
-          service.renewToken()
-          // restart request and return original promise
-          return promiseRequest(type, param, param2, promise)
-        }
-        if (err.status == 420) {
-          // limit exceeded
-          console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
-          return
-        }
-        if (err.status == 423) {
-          // trakt user account locked
-          console.error('Trakt 423: Trakt user account locked, email support@trakt.tv so they can fix your account.')
-          return
-        }
-        if (err.status == 429) {
-          // rate limited, look at headers to see when we should try again otherwise just wait for a few seconds
-          var headers = err && err.headers ? err.headers() : {}
-          var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-          console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
-
-          return delay(retryAfterSeconds * 1000).then(function() {
-            return promiseRequest(type, param, param2, promise)
-          })
-        }
-        if (err.status == 502) {
-          // cloudflare bad gateway, look at headers to see when we should try again otherwise just wait for a few seconds
-          var headers = err && err.headers ? err.headers() : {}
-          var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-          console.error('cloudflare bad gateway, trying again in %s seconds', retryAfterSeconds)
-
-          return delay(retryAfterSeconds * 1000).then(function() {
-            return promiseRequest(type, param, param2, promise)
-          })
-        }
-        if (err.status == 504) {
-          // cloudflare gateway timeout, look at headers to see when we should try again otherwise just wait for a few seconds
-          var headers = err && err.headers ? err.headers() : {}
-          var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-          console.error('cloudflare gateway timeout, trying again in %s seconds', retryAfterSeconds)
-
-          return delay(retryAfterSeconds * 1000).then(function() {
-            return promiseRequest(type, param, param2, promise)
-          })
-        }
-        if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-          //console.error('Trakt tv error!', err)
-          throw 'Error ' + err.status + ':' + err.statusText
-        }
+      return requestApi({
+        method: 'GET',
+        type: type,
+        param: param,
+        param2: param2,
+        timeout: promise,
+        parser: getParser(type)
       })
     }
 
     var performPost = function(type, param) {
-      var url = getUrl(type)
-      var headers = {
-        'trakt-api-key': TRAKT_CLIENT_ID,
-        'trakt-api-version': 2,
-        'Authorization': 'Bearer ' + localStorage.getItem('trakttv.token'),
-        'Content-Type': 'application/json'
-      }
-      return $http.post(url, param, {
-        headers: headers
-      }).then(function(result) {
-        return result
-      }, function(err) {
-        if (err.status == 401) {
-          // token auth expired, renew
-          service.renewToken()
-          // restart request and return original promise
-          return performPost(type, param)
-        }
-        if (err.status == 420) {
-          // limit exceeded
-          console.error('Trakt 420: Limit exceeded, see https://github.com/SchizoDuckie/DuckieTV/issues/1447 for more details.')
-          return
-        }
-        if (err.status == 423) {
-          // trakt user account locked
-          console.error('Trakt 423: Trakt user account locked, email support@trakt.tv so they can fix your account.')
-          return
-        }
-        if (err.status == 429) {
-          // rate limited
-          var headers = err && err.headers ? err.headers() : {}
-          var retryAfterSeconds = +headers['retry-after']
-          retryAfterSeconds  = retryAfterSeconds ? retryAfterSeconds : 3
-          console.error('Trakt rate limited! trying again in %s seconds', retryAfterSeconds)
-          return delay(retryAfterSeconds * 1000).then(function() {
-            return performPost(type, param)
-          })
-        }
-        if (err.status !== 0) { // only if this is not a cancelled request, rethrow
-          //console.error('Trakt tv error!', err)
-          throw 'Error ' + err.status + ':' + err.statusText
+      return requestApi({
+        method: 'POST',
+        type: type,
+        body: param,
+        parser: function(result) {
+          return result
         }
       })
     }
@@ -373,7 +336,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
       },
       cancelSearch: function() {
         if (activeSearchRequest && activeSearchRequest.resolve) {
-          activeSearchRequest.reject('search abort')
+          activeSearchRequest.resolve()
           activeSearchRequest = false
         }
       },
