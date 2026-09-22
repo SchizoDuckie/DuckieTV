@@ -14,26 +14,30 @@ DuckieTV.factory('FavoritesManager', ['FavoritesService', 'TraktTVv2', '$rootSco
        */
       add: function(serie, refresh) {
         refresh = refresh || false
-        if (!FavoritesService.isAdding(serie.trakt_id) && (refresh || !FavoritesService.isAdded(serie.trakt_id))) {
-          FavoritesService.adding(serie.trakt_id)
-          var id = serie.trakt_id || serie.imdb_id || serie.slug_id
-          return TraktTVv2.serie(id).then(function(serie) {
-            return FavoritesService.addFavorite(serie, undefined, true, refresh).then(function() {
-              $rootScope.$broadcast('storage:update')
-              FavoritesService.added(serie.trakt_id)
-              return true
-            })
-          }, function(err) {
-            console.error('Error adding show!', err)
-            FavoritesService.added(serie.trakt_id)
-            FavoritesService.addError(serie.trakt_id, err)
-            return false
-          })
-        } else {
-          return $q.when(function() {
-            return true
-          })
+        var traktId = serie.trakt_id
+        var operation = FavoritesService.getOperation(traktId)
+        if (operation.state === 'adding') return operation.promise || $q.when(false)
+        if (!refresh && FavoritesService.isAdded(traktId)) {
+          FavoritesService.added(traktId)
+          return $q.when(true)
         }
+
+        var id = traktId || serie.imdb_id || serie.slug_id
+        var promise = $q.when().then(function() {
+          return TraktTVv2.serie(id)
+        }).then(function(resolvedSerie) {
+          return FavoritesService.addFavorite(resolvedSerie, undefined, true, refresh)
+        }).then(function() {
+          $rootScope.$broadcast('storage:update')
+          FavoritesService.added(traktId)
+          return true
+        }).catch(function(err) {
+          console.error('Error adding show!', err)
+          FavoritesService.addError(traktId, err)
+          return false
+        })
+        FavoritesService.adding(traktId, promise)
+        return promise
       },
       /**
        * Popup dialog to confirm removal and perform removal.

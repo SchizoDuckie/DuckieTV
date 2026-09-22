@@ -82,8 +82,8 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
   }
 ])
 
-  .controller('fastSearchCtrl', ['$rootScope', '$scope', '$uibModalInstance', '$state', '$injector', 'data', 'FavoritesService', 'TraktTVv2', 'SeriesListState', 'SidePanelState', 'TorrentSearchEngines', 'SettingsService', 'NotificationService', 'DuckieTorrent',
-    function($rootScope, $scope, $modalInstance, $state, $injector, data, FavoritesService, TraktTVv2, SeriesListState, SidePanelState, TorrentSearchEngines, SettingsService, NotificationService, DuckieTorrent) {
+  .controller('fastSearchCtrl', ['$rootScope', '$scope', '$uibModalInstance', '$state', '$injector', 'data', 'FavoritesService', 'FavoritesManager', 'TraktTVv2', 'SeriesListState', 'SidePanelState', 'TorrentSearchEngines', 'SettingsService', 'NotificationService', 'DuckieTorrent',
+    function($rootScope, $scope, $modalInstance, $state, $injector, data, FavoritesService, FavoritesManager, TraktTVv2, SeriesListState, SidePanelState, TorrentSearchEngines, SettingsService, NotificationService, DuckieTorrent) {
       $scope.searchprovider = SettingsService.get('torrenting.searchprovider')
       $scope.hasFocus = true
       $scope.model = {
@@ -237,22 +237,11 @@ DuckieTV.directive('fastSearch', ['$window', 'dialogs',
          * It can show the checkmark.
          */
       $scope.addTraktSerie = function(serie) {
-        if (!FavoritesService.isAdding(serie.trakt_id)) {
-          FavoritesService.adding(serie.trakt_id)
-          return TraktTVv2.serie(serie.trakt_id).then(function(serie) {
-            return FavoritesService.addFavorite(serie).then(function() {
-              SidePanelState.hide()
-              $rootScope.$broadcast('storage:update')
-              FavoritesService.added(serie.trakt_id)
-              $scope.search(self.fsquery)
-            })
-          }, function(err) {
-            SidePanelState.hide()
-            console.error('Error adding show!', err)
-            FavoritesService.added(serie.trakt_id)
-            FavoritesService.addError(serie.trakt_id, err)
-          })
-        }
+        return FavoritesManager.add(serie).then(function(added) {
+          SidePanelState.hide()
+          if (added) $scope.search(self.fsquery)
+          return added
+        })
       }
 
       /**

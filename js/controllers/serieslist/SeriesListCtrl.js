@@ -178,7 +178,8 @@ DuckieTV.controller('seriesListCtrl', ['FavoritesService', '$rootScope', 'Settin
      * It can show the checkmark.
      */
     vm.selectSerie = function(serie) {
-      FavoritesManager.add(serie).then(function() {
+      FavoritesManager.add(serie).then(function(added) {
+        if (!added) return
         $state.go('serie', {
           id: FavoritesService.getByTRAKT_ID(serie.trakt_id).ID_Serie
         })

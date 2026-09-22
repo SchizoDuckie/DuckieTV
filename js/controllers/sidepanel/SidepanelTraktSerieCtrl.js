@@ -19,7 +19,8 @@ DuckieTV.controller('sidepanelTraktSerieCtrl', ['serie', 'SidePanelState', 'Favo
 
     // Add to favorites, navigate to the show details
     vm.selectSerie = function() {
-      return FavoritesManager.add(vm.serie).then(function() {
+      return FavoritesManager.add(vm.serie).then(function(added) {
+        if (!added) return
         $state.go('serie', {
           id: FavoritesManager.getByTrakt_id(vm.serie.trakt_id).ID_Serie
         })

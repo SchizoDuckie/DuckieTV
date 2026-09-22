@@ -206,8 +206,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
 
     var service = {
       initialized: false,
-      addingList: {}, // holds any TRAKT_ID's that are adding, used for spinner/checkmark icon control
-      errorList: {}, // holds any TRAKT_ID's that had an error, used for sadface icon control
+      operationByTraktId: {},
       favorites: [],
       favoriteIDs: [],
       downloadRatings: $injector.get('SettingsService').get('download.ratings'), // determines if Ratings are processed or discarded
@@ -372,31 +371,35 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
       /**
        * set true the adding status for this series. used to indicate spinner icon required
        */
-      adding: function(trakt_id) {
-        if (!(trakt_id in service.addingList)) {
-          service.addingList[trakt_id] = true
-          service.clearError(trakt_id)
+      adding: function(trakt_id, promise) {
+        service.operationByTraktId[trakt_id] = {
+          state: 'adding',
+          error: null,
+          promise: promise || null
         }
       },
       /**
        * set false the adding status for this series. used to indicate checkmark icon required
        */
       added: function(trakt_id) {
-        if (trakt_id in service.addingList) service.addingList[trakt_id] = false
+        service.operationByTraktId[trakt_id] = {
+          state: 'idle',
+          error: null,
+          promise: null
+        }
       },
       /**
        * flush the adding and error status list
        */
       flushAdding: function() {
-        service.addingList = {}
-        service.errorList = {}
+        service.operationByTraktId = {}
       },
       /**
        * Returns true as long as the add a show to favorites promise is running.
        */
       isAdding: function(trakt_id) {
         if (trakt_id === null) return false
-        return ((trakt_id in service.addingList) && (service.addingList[trakt_id] === true))
+        return service.getOperation(trakt_id).state === 'adding'
       },
       /**
        * Used to show checkmarks in the add modes for series that you already have.
@@ -409,26 +412,37 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
        * clear the adding status for this series. used to indicate spinner and checkmark are NOT required.
        */
       clearAdding: function(trakt_id) {
-        if ((trakt_id in service.addingList)) delete service.addingList[trakt_id]
+        delete service.operationByTraktId[trakt_id]
       },
       /**
        * add the error status for this series. used to indicate sadface icon is required.
        */
       addError: function(trakt_id, error) {
-        service.errorList[trakt_id] = error
+        service.operationByTraktId[trakt_id] = {
+          state: 'error',
+          error: error,
+          promise: null
+        }
       },
       /**
        * Used to show sadface icon in the add modes for series that you already have.
        */
       isError: function(trakt_id) {
         if (trakt_id === null) return false
-        return ((trakt_id in service.errorList))
+        return service.getOperation(trakt_id).state === 'error'
       },
       /**
        * clear the error status for this series. used to indicate sadface icon is NOT required.
        */
       clearError: function(trakt_id) {
-        if ((trakt_id in service.errorList)) delete service.errorList[trakt_id]
+        if (service.isError(trakt_id)) service.added(trakt_id)
+      },
+      getOperation: function(trakt_id) {
+        return service.operationByTraktId[trakt_id] || {
+          state: 'idle',
+          error: null,
+          promise: null
+        }
       }
     }
 
