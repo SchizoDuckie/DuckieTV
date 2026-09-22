@@ -16,10 +16,9 @@ if (localStorage.getItem('CRUD.DEBUG')) {
  */
 if (('chrome' in window) && ('runtime' in chrome) && ('connect' in chrome.runtime) && ('getBackgroundPage' in chrome.runtime)) {
   var conn = new CRUD.BackgroundPageAdapter()
-  conn.Init()
-  CRUD.setAdapter(conn)
+  window.DuckieTVStorageReady = CRUD.setAdapter(conn)
 } else {
-  CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', {
+  window.DuckieTVStorageReady = CRUD.setAdapter(new CRUD.SQLiteAdapter('seriesguide_chrome', {
     estimatedSize: 25 * 1024 * 1024
   }))
 }

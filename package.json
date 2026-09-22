@@ -54,6 +54,8 @@
     "dependencies": {},
     "scripts": {
         "locales:check": "node scripts/validate-locales.js",
+        "nw:fetch": "node scripts/nwjs/fetch.cjs",
+        "nw:probe": "node scripts/nwjs/probe.cjs",
         "test": "karma start --single-run",
         "test-watch": "karma start --no-single-run --auto-watch --browsers ChromeHeadless",
         "test-debug": "karma start --no-single-run --auto-watch --browsers Chrome"
@@ -65,8 +67,8 @@
     },
     "js-flags": "",
     "license": "SEE LICENSE IN LICENSE.md",
-    "name": "DuckieTV-Standalone",
-    "node-main": "",
+    "name": "DuckieTV-Standalone-SQLite",
+    "node-main": "--no-experimental-webstorage js/nwjs/node-main.cjs",
     "default_locale": "en",
     "bg-script": "standalone-background.js",
     "dom_storage_quota": 50

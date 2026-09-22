@@ -41,83 +41,50 @@ chrome.runtime.onConnect.addListener(function(port) {
 
   port.onMessage.addListener(function(msg) {
     CRUD.log(msg.command + ' Message received from foreground page ', msg)
-    switch (msg.command) {
-      case 'Find':
-        CRUD.Find(msg.what, msg.filters, msg.options).then(function(result) {
-          port.postMessage({
-            guid: msg.guid,
-            result: result,
-            Action: 'find'
-          })
-        }, function(err) {
-          console.error('Error: ', err, msg)
-          port.postMessage({
-            guid: msg.guid,
-            error: err
-          })
-        })
-        break
-      case 'Persist':
-        var tmp = CRUD.fromCache(msg.type, msg.values)
-        var isNew = msg.ID === false
-        if (!isNew) {
-          tmp.__values__[CRUD.EntityManager.getPrimary(msg.type)] = msg.ID
-        }
-        tmp.Persist().then(function(result) {
-          port.postMessage({
-            guid: msg.guid,
-            result: {
-              ID: tmp.getID(),
-              Action: isNew ? 'inserted' : 'updated'
-            }
-          })
-        }, function(err) {
-          console.error('Error: ', err, msg)
-          port.postMessage({
-            guid: msg.guid,
-            error: err
-          })
-        })
-        break
-      case 'Delete':
-        var tmp = CRUD.fromCache(msg.type, msg.values)
-        tmp.Delete().then(function(result) {
-          port.postMessage({
-            guid: msg.guid,
-            result: result,
-            Action: 'deleted'
-          })
-        }, function(err) {
-          console.error('Error: ', err, msg)
-          port.postMessage({
-            guid: msg.guid,
-            error: err
-          })
-        })
-        break
-      case 'query':
-        CRUD.executeQuery(msg.sql, msg.params).then(function(result) {
-          port.postMessage({
-            guid: msg.guid,
-            result: result,
-            action: 'query'
-          })
-        }, function(err) {
-          console.error('Error: ', err, msg)
-          port.postMessage({
-            guid: msg.guid,
-            error: err
-          })
-        })
-        break
-    }
+    Promise.resolve(window.DuckieTVStorageReady).then(function() {
+      return handleCommand(msg)
+    }).then(function(result) {
+      if (!port.disconnected) port.postMessage({ guid: msg.guid, result: result })
+    }).catch(function(error) {
+      console.error('Background database command failed', error, msg.command)
+      if (!port.disconnected) port.postMessage({ guid: msg.guid, error: serializeError(error) })
+    })
   })
 
   port.onDisconnect.addListener(function() {
     CRUD.log('Port disconnected')
     port.disconnected = true
-    port.postMessage = function() {
-      console.log('Dropping message on closed port: ', arguments)
-    }
   })
+
+  function handleCommand(msg) {
+    switch (msg.command) {
+      case 'ready':
+        return { ready: true }
+      case 'Find':
+        return CRUD.Find(msg.what, msg.filters, msg.options)
+      case 'Persist':
+        var persisted = CRUD.fromCache(msg.type, msg.values)
+        var isNew = msg.ID === false
+        if (!isNew) persisted.__values__[CRUD.EntityManager.getPrimary(msg.type)] = msg.ID
+        return persisted.Persist().then(function() {
+          return { ID: persisted.getID(), Action: isNew ? 'inserted' : 'updated' }
+        })
+      case 'Delete':
+        var deleted = CRUD.fromCache(msg.type, msg.values || {})
+        deleted.__values__[CRUD.EntityManager.getPrimary(msg.type)] = msg.ID
+        return deleted.Delete()
+      case 'query':
+        return CRUD.executeQuery(msg.sql, msg.params)
+      default:
+        return Promise.reject(new Error('Unknown background database command: ' + msg.command))
+    }
+  }
+
+  function serializeError(error) {
+    return {
+      message: String(error && (error.message || error)),
+      code: error && error.code,
+      stack: error && error.stack
+    }
+  }
 })

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "target": {
+    "nw": "0.116.0",
+    "chromium": "153.0.8010.12",
+    "node": "26.7.0",
+    "flavor": "sdk"
+  },
+  "storageDecision": "node:sqlite",
+  "supportDecision": {
+    "macosMinimum": "13+",
+    "approvedByUser": true,
+    "verifiedHost": "macOS 27 arm64",
+    "macos13RuntimeVerification": "PENDING"
+  },
+  "platforms": [
+    { "platform": "macos", "arch": "arm64", "artifact": "sdk", "automated": "PASS", "nativePresentation": "PENDING" },
+    { "platform": "macos", "arch": "x64", "artifact": null, "automated": "PENDING", "nativePresentation": "PENDING" },
+    { "platform": "linux", "arch": "x64", "artifact": null, "automated": "PENDING", "nativePresentation": "PENDING" },
+    { "platform": "windows", "arch": "x64", "artifact": null, "automated": "PENDING", "nativePresentation": "PENDING" }
+  ],
+  "localResults": {
+    "runtimeIdentity": "PASS",
+    "websql": "FAIL_EXPECTED_PATH_B",
+    "nodeSqlite": "PASS",
+    "backgroundTransport": "PASS",
+    "freshBootstrap": "PASS",
+    "networkPreflight": "PASS_SCOPED",
+    "unitTests": "PASS_94",
+    "localeDescriptors": "PASS_25",
+    "legacyMigration": "PENDING",
+    "packagedUpgrade": "PENDING"
+  },
+  "complete": false
+}

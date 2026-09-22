@@ -1,0 +1,10 @@
+{
+  "name": "DuckieTV-NW-Compatibility-Probe",
+  "version": "1.0.0",
+  "main": "probe.html",
+  "bg-script": "background.js",
+  "nodejs": true,
+  "window": {
+    "show": false
+  }
+}

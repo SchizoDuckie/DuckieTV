@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="DuckieTV" ng-csp ng-strict-di>
+<html ng-csp ng-strict-di>
 <head>
   <meta charset="UTF-8">
   <title>DuckieTV</title>
@@ -17,6 +17,7 @@
   <link rel="shortcut icon" type="image/png" href="img/logo/icon16.png" />
 </head>
 <body kc>
+  <div id="storage-startup-error" class="alert alert-danger" style="display:none"></div>
   <div class="windowChrome">
     <button class="glyphicon glyphicon-win-minimize" id='minimize' uib-tooltip="{{ 'COMMON/minimize/btn'|translate }}" tooltip-placement="bottom"></button>
     <button class="glyphicon glyphicon-win-restore" id='unmaximize' uib-tooltip="{{ 'TAB/unmaximize/glyph'|translate }}" tooltip-placement="bottom" style='display:none'></button>
@@ -230,6 +231,7 @@
   <script src="js/services/TraktTVv2.js"></script>
   <script src="js/services/TraktTVTrending.js"></script>
   <script src="js/services/TraktTVUpdateService.js"></script>
+  <script src="js/nwjs/app-bootstrap.js"></script>
   <!-- /deploy:replace -->
 </body>
 </html>

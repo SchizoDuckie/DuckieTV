@@ -39,7 +39,7 @@ DuckieTV.run(['SettingsService', 'StandaloneWindowRuntime', function (SettingsSe
     }, 120)
   }
 
-  window.addEventListener('DOMContentLoaded', function () {
+  function bindWindowControls() {
     // add standalone window decorators
     document.body.classList.add('standalone')
 
@@ -102,5 +102,11 @@ DuckieTV.run(['SettingsService', 'StandaloneWindowRuntime', function (SettingsSe
         state: StandaloneWindowRuntime.getState()
       }))
     }
-  })
+  }
+
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', bindWindowControls)
+  } else {
+    bindWindowControls()
+  }
 }])
