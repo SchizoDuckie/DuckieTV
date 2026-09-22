@@ -44,7 +44,7 @@ module.exports = function(config) {
             'js/services/*.js',
             'js/services/TorrentClients/TorrentData.js',
             'js/services/*/*.js',
-            'js/controllers/**.js',
+            'js/controllers/**/*.js',
             'tests/test-main.js', {
                 pattern: 'tests/**/*.test.js',
                 included: true

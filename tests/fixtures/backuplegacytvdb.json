@@ -1,0 +1,18 @@
+{
+  "settings": {
+    "theme": "light"
+  },
+  "series": {
+    "123": [
+      {
+        "displaycalendar": 1,
+        "alias": "Legacy Show"
+      },
+      {
+        "TVDB_ID": 456,
+        "watchedAt": 2000,
+        "downloaded": 1
+      }
+    ]
+  }
+}

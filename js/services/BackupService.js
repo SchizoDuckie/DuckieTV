@@ -1,62 +1,181 @@
 /**
- * BackupService is injected whenever a backup is requested
- *
- * The backup format is a simple JSON file that has the following structure:
- *
- * {
- * "settings": {
- *   "useTrakt_id": true // included in versions after 1.1.5 to indicate that the series id key in the backup is the trakt_id instead of tvdb_id
- *   // serialized settings
- * },
- * "series": {
- *  <SHOW_TVDB_ID>||<SHOW_TRAKT_ID> : [ // array of objects
- *      {
- *          "displaycalendar": 1||0,
- *          "autoDownload": 1||0,
- *          "customSearchString": <string>||null,
- *          "ignoreGlobalQuality": 1||0,
- *          "ignoreGlobalIncludes": 1||0,
- *          "ignoreGlobalExcludes": 1||0,
- *          "searchProvider": <string>||null,
- *          "ignoreHideSpecials": 1||0,
- *          "customSearchSizeMin": <integer>||null,
- *          "customSearchSizeMax": <integer>||null,
- *          "dlPath": <string>||null,
- *          "customDelay": <integer>||null,
- *          "alias": <string>||null,
- *          "customFormat": <string>||null,
- *          "customSeeders": <integer>||null,
- *          "customIncludes": <string>||null,
- *          "customExcludes": <string>||null,
- *          "customSeeders": <integer>||null
- *      },
- *      {
- *          "TVDB_ID": <Episode_TVDB_ID>, // included in versions upto 1.1.5
- *          "TRAKT_ID": <Episode_TRAKT_ID>, // included after 1.1.5
- *          "watchedAt": <timestamp watchedAt>||null,
- *          "downloaded": 1
- *      },
- *      // repeat
- *    ],
- *    // repeat
- *  }
+ * Owns the current backup wire format and converts historical TVDB- and
+ * Trakt-keyed backups into the same validated restore plan.
  */
-DuckieTV.factory('BackupService', ['TorrentSearchEngines', function(TorrentSearchEngines) {
+DuckieTV.factory('BackupCodec', [function() {
+  var FORMAT_VERSION = 2
+  var preferenceKeys = [
+    'displaycalendar', 'autoDownload', 'customSearchString', 'ignoreGlobalQuality',
+    'ignoreGlobalIncludes', 'ignoreGlobalExcludes', 'searchProvider', 'ignoreHideSpecials',
+    'customSearchSizeMin', 'customSearchSizeMax', 'dlPath', 'customDelay', 'alias',
+    'customFormat', 'customIncludes', 'customExcludes', 'customSeeders'
+  ]
+
+  function copyPreferences(source) {
+    return preferenceKeys.reduce(function(output, key) {
+      if (key in source) output[key] = source[key]
+      return output
+    }, {})
+  }
+
+  function parse(input) {
+    if (angular.isString(input)) {
+      try {
+        return angular.fromJson(input)
+      } catch (error) {
+        throw new Error('Backup is not valid JSON')
+      }
+    }
+    return input
+  }
+
+  function normalizeSettings(settings) {
+    if (!settings || !angular.isObject(settings) || angular.isArray(settings)) {
+      throw new Error('Backup settings must be an object')
+    }
+    var output = angular.copy(settings)
+    var jackett = []
+    if ('jackett' in output) {
+      try {
+        jackett = angular.isString(output.jackett) ? angular.fromJson(output.jackett) : output.jackett
+      } catch (error) {
+        throw new Error('Backup Jackett settings are malformed')
+      }
+      if (!angular.isArray(jackett)) throw new Error('Backup Jackett settings must be an array')
+      delete output.jackett
+    }
+    delete output.useTrakt_id
+    jackett = jackett.map(function(item) {
+      if (!item || !angular.isObject(item) || angular.isArray(item) || !angular.isString(item.name)) {
+        throw new Error('Backup Jackett entry is invalid')
+      }
+      return angular.copy(item)
+    })
+    return { settings: output, jackett: jackett }
+  }
+
+  function validateIdentity(identity, label) {
+    if (!identity || ['trakt', 'tvdb'].indexOf(identity.type) === -1 || identity.id === null || typeof identity.id === 'undefined') {
+      throw new Error(label + ' identity is invalid')
+    }
+    return { type: identity.type, id: identity.id }
+  }
+
+  function normalizeCurrent(input, normalizedSettings) {
+    if (!angular.isArray(input.series)) throw new Error('Backup series must be an array')
+    return {
+      formatVersion: FORMAT_VERSION,
+      sourceFormatVersion: input.formatVersion,
+      settings: normalizedSettings.settings,
+      jackett: normalizedSettings.jackett,
+      series: input.series.map(function(item) {
+        if (!item || !angular.isObject(item)) throw new Error('Backup series entry is invalid')
+        if (!item.preferences || !angular.isObject(item.preferences) || angular.isArray(item.preferences) || !angular.isArray(item.episodes)) {
+          throw new Error('Backup series entry is incomplete')
+        }
+        return {
+          identity: validateIdentity(item.identity, 'Series'),
+          preferences: copyPreferences(item.preferences),
+          episodes: item.episodes.map(function(episode) {
+            if (!episode || !angular.isObject(episode) || angular.isArray(episode)) {
+              throw new Error('Backup episode entry is invalid')
+            }
+            return {
+              identity: validateIdentity(episode.identity, 'Episode'),
+              watchedAt: episode.watchedAt || null,
+              downloaded: episode.downloaded || 0
+            }
+          })
+        }
+      })
+    }
+  }
+
+  function normalizeLegacy(input, normalizedSettings) {
+    if (!input.series || !angular.isObject(input.series) || angular.isArray(input.series)) {
+      throw new Error('Legacy backup series must be an object')
+    }
+    var identityType = input.settings.useTrakt_id ? 'trakt' : 'tvdb'
+    return {
+      formatVersion: FORMAT_VERSION,
+      sourceFormatVersion: 1,
+      settings: normalizedSettings.settings,
+      jackett: normalizedSettings.jackett,
+      series: Object.keys(input.series).map(function(id) {
+        var data = input.series[id]
+        if (!angular.isArray(data)) throw new Error('Legacy backup series entry must be an array')
+        var first = data[0]
+        if (data.length > 0 && (!first || !angular.isObject(first) || angular.isArray(first))) {
+          throw new Error('Legacy backup series data is invalid')
+        }
+        var preferences = data.length > 0 && !('TVDB_ID' in first) && !('TRAKT_ID' in first) ? first : {}
+        var episodes = data.slice(preferences === data[0] ? 1 : 0).map(function(episode) {
+          if (!episode || !angular.isObject(episode) || angular.isArray(episode)) {
+            throw new Error('Legacy backup episode entry is invalid')
+          }
+          var episodeType = episode.TRAKT_ID ? 'trakt' : 'tvdb'
+          var episodeID = episode.TRAKT_ID || episode.TVDB_ID
+          return {
+            identity: validateIdentity({ type: episodeType, id: episodeID }, 'Episode'),
+            watchedAt: episode.watchedAt || null,
+            downloaded: episode.downloaded || 0
+          }
+        })
+        return {
+          identity: { type: identityType, id: id },
+          preferences: copyPreferences(preferences),
+          episodes: episodes
+        }
+      })
+    }
+  }
+
+  return {
+    formatVersion: FORMAT_VERSION,
+    serialize: function(settings, seriesRows, episodeRows) {
+      var series = seriesRows.map(function(row) {
+        return {
+          identity: { type: 'trakt', id: row.TRAKT_ID },
+          preferences: copyPreferences(row),
+          episodes: []
+        }
+      })
+      var byID = series.reduce(function(map, item) {
+        map[item.identity.id] = item
+        return map
+      }, {})
+      episodeRows.forEach(function(row) {
+        if (!byID[row.TRAKT_ID]) return
+        byID[row.TRAKT_ID].episodes.push({
+          identity: { type: 'trakt', id: row.epTRAKT_ID },
+          watchedAt: row.watchedAt ? new Date(row.watchedAt).getTime() : null,
+          downloaded: row.downloaded || 0
+        })
+      })
+      return { formatVersion: FORMAT_VERSION, settings: settings, series: series }
+    },
+    normalize: function(input) {
+      input = parse(input)
+      if (!input || !angular.isObject(input) || angular.isArray(input)) throw new Error('Backup root must be an object')
+      var normalizedSettings = normalizeSettings(input.settings)
+      if (typeof input.formatVersion === 'undefined') return normalizeLegacy(input, normalizedSettings)
+      if (input.formatVersion !== FORMAT_VERSION) throw new Error('Unsupported backup format version ' + input.formatVersion)
+      return normalizeCurrent(input, normalizedSettings)
+    }
+  }
+}])
+
+DuckieTV.factory('BackupService', ['TorrentSearchEngines', 'BackupCodec', function(TorrentSearchEngines, BackupCodec) {
   var service = {
     createBackup: function() {
       // Fetch all the series
       return CRUD.executeQuery('select Series.TRAKT_ID, Series.displaycalendar, Series.autoDownload, Series.customSearchString, Series.ignoreGlobalQuality, Series.ignoreGlobalIncludes, Series.ignoreGlobalExcludes, Series.searchProvider, Series.ignoreHideSpecials, Series.customSearchSizeMin, Series.customSearchSizeMax, Series.dlPath, Series.customDelay, Series.alias, Series.customFormat, Series.customIncludes, Series.customExcludes, Series.customSeeders from Series').then(function(series) {
-        var out = {
-          settings: {},
-          series: {}
-        }
-        // flag indicating series id is a trakt_id and not a tvdb_id (included in versions after 1.1.5)
-        out.settings['useTrakt_id'] = true
+        var settings = {}
         /*
         * grab Jackett from cache and convert into pseudo localStorage for saving into the backup's _settings_ section
         * this allows us to maintain backward compatibility with older DuckieTV versions
         */
-        out.settings['jackett'] = JSON.stringify(TorrentSearchEngines.jackettCache)
+        settings.jackett = JSON.stringify(TorrentSearchEngines.jackettCache)
         // Store all the settings
         for (var i = 0; i < localStorage.length; i++) {
           if (localStorage.key(i) == 'jackett') continue
@@ -67,43 +186,12 @@ DuckieTV.factory('BackupService', ['TorrentSearchEngines', function(TorrentSearc
           if (localStorage.key(i).indexOf('snrt.date-exceptions') > -1) continue
           if (localStorage.key(i).indexOf('snrt.traktid-tvdbid-xref') > -1) continue
           if (localStorage.key(i).indexOf('snrt.lastFetched') > -1) continue
-          out.settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i))
+          settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i))
         }
-
-        // Store all the series
-        series.rows.map(function(serie) {
-          out.series[serie.TRAKT_ID] = []
-          out.series[serie.TRAKT_ID].push({
-            'displaycalendar': serie.displaycalendar || 0,
-            'autoDownload': serie.autoDownload || 0,
-            'customSearchString': serie.customSearchString,
-            'ignoreGlobalQuality': serie.ignoreGlobalQuality,
-            'ignoreGlobalIncludes': serie.ignoreGlobalIncludes,
-            'ignoreGlobalExcludes': serie.ignoreGlobalExcludes,
-            'searchProvider': serie.searchProvider,
-            'ignoreHideSpecials': serie.ignoreHideSpecials,
-            'customSearchSizeMin': serie.customSearchSizeMin,
-            'customSearchSizeMax': serie.customSearchSizeMax,
-            'dlPath': serie.dlPath,
-            'customDelay': serie.customDelay,
-            'alias': serie.alias,
-            'customFormat': serie.customFormat,
-            'customIncludes': serie.customIncludes,
-            'customExcludes': serie.customExcludes,
-            'customSeeders': serie.customSeeders
-          })
-        })
 
         // Store watched episodes for each serie
         return CRUD.executeQuery('select Series.TRAKT_ID, Episodes.TRAKT_ID as epTRAKT_ID, Episodes.watchedAt, Episodes.downloaded from Series left join Episodes on Episodes.ID_Serie = Series.ID_Serie where Episodes.downloaded == 1 or  Episodes.watchedAt is not null').then(function(res) {
-          res.rows.map(function(row) {
-            var watchedAt = (row.watchedAt) ? new Date(row.watchedAt).getTime() : null
-            out.series[row.TRAKT_ID].push({
-              'TRAKT_ID': row.epTRAKT_ID,
-              'watchedAt': watchedAt,
-              'downloaded': row.downloaded
-            })
-          })
+          var out = BackupCodec.serialize(settings, series.rows, res.rows)
 
           var blob = new Blob([angular.toJson(out, true)], {
             type: 'text/json'

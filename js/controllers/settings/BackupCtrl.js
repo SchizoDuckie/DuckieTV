@@ -3,16 +3,14 @@
  *
  * see app.js for the backup format structure description
  */
-DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupService', 'dialogs', 'FileReader', 'TraktTVv2', 'SettingsService', 'FavoritesService', 'CalendarEvents', 'TorrentSearchEngines',
-  function($rootScope, $scope, $filter, BackupService, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, TorrentSearchEngines) {
+DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupService', 'BackupCodec', 'dialogs', 'FileReader', 'TraktTVv2', 'SettingsService', 'FavoritesService', 'CalendarEvents', 'TorrentSearchEngines',
+  function($rootScope, $scope, $filter, BackupService, BackupCodec, dialogs, FileReader, TraktTVv2, SettingsService, FavoritesService, CalendarEvents, TorrentSearchEngines) {
     $scope.wipeBeforeImport = false
     $scope.declined = false
     $scope.completed = false
     $scope.series = []
     var backupCount = 0
     var completedCount = 0
-    var useTrakt_id = false
-    var TRAKTorTVDB_LBL = 'TVDB_ID'
 
     // set up the auto-backup-period selection-options
     var translatedAutoBackupPeriodList = $filter('translate')('AUTOBACKUPLIST').split('|')
@@ -64,7 +62,6 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
     }
 
     $scope.restore = function() {
-      console.log('Import backup!', $scope)
       FavoritesService.flushAdding()
       $scope.series = []
       if ($scope.wipeBeforeImport) {
@@ -83,46 +80,29 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
       var torrentingEnabled = SettingsService.get('torrenting.enabled') // remember current torrenting setting
       FileReader.readAsText($scope.file, $scope)
         .then(function(result) {
-          result = angular.fromJson(result)
-          console.log('Backup read!', result)
+          return BackupCodec.normalize(result)
+        })
+        .then(function(plan) {
+          console.log('Backup validated!', plan)
 
-          // save settings
-          angular.forEach(result.settings, function(value, key) {
-            if (key === 'utorrent.token') return // skip utorrent auth token since it can be invalid.
-            if (key === 'useTrakt_id') {
-              // flag indicating series id is a trakt_id and not a tvdb_id (included in versions after 1.1.5)
-              useTrakt_id = true
-              TRAKTorTVDB_LBL = 'TRAKT_ID'
-              return // skip since this is not a localStorage key.
-            }
-
-            /*
-            * process psuedo localStorage _jackett_ in backup's _settings_
-            */
-            if (key === 'jackett') {
-              var importedJackett = JSON.parse(value)
-              var fillJackett = function(jackett, data) {
-                jackett.name = data.name
-                jackett.torznab = data.torznab
-                jackett.enabled = data.enabled
-                jackett.torznabEnabled = data.torznabEnabled
-                jackett.apiKey = data.apiKey
-                jackett.json = data.json
-              }
-
-              importedJackett.map(function(data) {
-                var jackett = TorrentSearchEngines.getJackettFromCache(data.name) || new Jackett()
-                fillJackett(jackett, data)
-                jackett.Persist().then(function() {
-                  TorrentSearchEngines.removeJackettFromCache(jackett.name)
-                  TorrentSearchEngines.addJackettEngine(jackett)
-                })
-              })
-
-              return
-            }
-
+          var protectedSettings = ['utorrent.token', 'trakttv.token', 'trakttv.refresh_token']
+          angular.forEach(plan.settings, function(value, key) {
+            if (protectedSettings.indexOf(key) !== -1) return
             localStorage.setItem(key, value)
+          })
+
+          var jackettWrites = plan.jackett.map(function(data) {
+            var jackett = TorrentSearchEngines.getJackettFromCache(data.name) || new Jackett()
+            jackett.name = data.name
+            jackett.torznab = data.torznab
+            jackett.enabled = data.enabled
+            jackett.torznabEnabled = data.torznabEnabled
+            jackett.apiKey = data.apiKey
+            jackett.json = data.json
+            return jackett.Persist().then(function() {
+              TorrentSearchEngines.removeJackettFromCache(jackett.name)
+              TorrentSearchEngines.addJackettEngine(jackett)
+            })
           })
 
           SettingsService.restore()
@@ -139,43 +119,54 @@ DuckieTV.controller('BackupCtrl', ['$rootScope', '$scope', '$filter', 'BackupSer
             localStorage.setItem('torrenting.client', 'qBittorrent 4.1+')
           }
 
-          // save series/seasons/episodes
-          angular.forEach(result.series, function(data, TRAKTorTVDB_ID) {
-            FavoritesService.adding(TRAKTorTVDB_ID)
-            backupCount++
-            return TraktTVv2.resolveID(TRAKTorTVDB_ID, useTrakt_id).then(function(searchResult) {
-              console.log('[import] [TRAKT_ID=' + searchResult.trakt_id + ']', 'importing', searchResult.name)
-              return TraktTVv2.serie(searchResult.trakt_id)
-            }).then(function(serie) {
-              $scope.series.push(serie)
-              return FavoritesService.addFavorite(serie, data)
-            }).then(function() {
-              // save series custom settings
-              var filters = { [TRAKTorTVDB_LBL]: TRAKTorTVDB_ID }
-              CRUD.FindOne('Serie', filters).then(function(serie) {
-                if (!serie) {
-                  console.warn('Series by %s %s not found.', TRAKTorTVDB_LBL, TRAKTorTVDB_ID)
-                } else {
-                  // are we dealing with a pre-1.1.4 backup?
-                  if (data.length > 0) {
-                    if ('TVDB_ID' in data[0]) {
-                      // this is a pre 1.1.4 backup, skip it
-                    } else {
-                      // this is a 1.1.4 or newer backup, process the series custom settings
-                      serie = angular.extend(serie, data[0])
-                      serie.Persist()
-                    }
-                  }
+          backupCount = plan.series.length
+          completedCount = 0
+          return Promise.all(jackettWrites).then(function() {
+            return Promise.all(plan.series.map(function(item) {
+              var identity = item.identity
+              var identityLabel = identity.type === 'trakt' ? 'TRAKT_ID' : 'TVDB_ID'
+              var favoriteData = item.episodes.map(function(episode) {
+                var data = {
+                  watchedAt: episode.watchedAt,
+                  downloaded: episode.downloaded
                 }
+                data[episode.identity.type === 'trakt' ? 'TRAKT_ID' : 'TVDB_ID'] = episode.identity.id
+                return data
               })
-              FavoritesService.added(TRAKTorTVDB_ID)
-              completedCount++
-              $scope.completed = (backupCount === completedCount)
-            })
-          }, function(err) {
-            console.error('ERROR!', err)
-            completedCount++
+              FavoritesService.adding(identity.id)
+              return TraktTVv2.resolveID(identity.id, identity.type === 'trakt').then(function(searchResult) {
+                console.log('[import] [TRAKT_ID=' + searchResult.trakt_id + ']', 'importing', searchResult.name)
+                return TraktTVv2.serie(searchResult.trakt_id)
+              }).then(function(serie) {
+                $scope.series.push(serie)
+                return FavoritesService.addFavorite(serie, favoriteData)
+              }).then(function() {
+                var filters = {}
+                filters[identityLabel] = identity.id
+                return CRUD.FindOne('Serie', filters).then(function(serie) {
+                  if (!serie) {
+                    console.warn('Series by %s %s not found.', identityLabel, identity.id)
+                  } else {
+                    angular.extend(serie, item.preferences)
+                    return serie.Persist()
+                  }
+                })
+              }).then(function() {
+                FavoritesService.added(identity.id)
+                completedCount++
+                $scope.completed = (backupCount === completedCount)
+              }, function(error) {
+                FavoritesService.addError(identity.id, error)
+                completedCount++
+                $scope.completed = (backupCount === completedCount)
+                return error
+              })
+            }))
           })
+        })
+        .catch(function(err) {
+          console.error('Backup import failed', err)
+          $scope.restoreError = err.message || err
         })
     }
 
