@@ -32,7 +32,6 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
      * API will be automagically loaded from synology device, then initialized goes to true.
      */
   this.initialized = false
-  this.initializing = false
 
   this.api = {
     'SYNO.API.Info': {}
@@ -41,6 +40,9 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
   this.devices = []
 
   this.sessionID = SettingsService.get('synology.sessionID', null)
+
+  var apiInfoPromise = null
+  var sessionPromise = null
 
   var parsers = {
 
@@ -116,9 +118,14 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
   var service = {
 
     fetchAPIInfo: function() {
-      if (!self.initialized && !self.initializing) {
-        self.initializing = true
-        return request('SYNO.API.Info', {
+      if (self.initialized) {
+        return $q.when(self.api)
+      }
+      if (apiInfoPromise !== null) {
+        return apiInfoPromise
+      }
+
+      apiInfoPromise = request('SYNO.API.Info', {
           'path': 'query.cgi',
           'method': 'query',
           'version': '1',
@@ -126,28 +133,22 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
         }).then(function(result) {
           self.api = result
           self.initialized = true
-          self.initializing = false
           return self.api
+        }, function(error) {
+          apiInfoPromise = null
+          throw error
         })
-      } else if (self.initialized) {
-        return $q.when(function() {
-          return self.api
-        })
-      } else {
-        return $q(function(resolve) {
-          setTimeout(function() {
-            resolve(service.fetchAPIInfo)
-          }, 1000)
-        })
-      }
+      return apiInfoPromise
     },
     init: function() {
       if (self.sessionID !== null) {
-        return $q.when(function() {
-          return self.sessionID
-        })
+        return $q.when(self.sessionID)
       }
-      return request('SYNO.API.Auth', {
+      if (sessionPromise !== null) {
+        return sessionPromise
+      }
+
+      sessionPromise = request('SYNO.API.Auth', {
         'method': 'login',
         'version': '2',
         'session': 'VideoStation',
@@ -157,11 +158,16 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
       }).then(function(result) {
         self.sessionID = result.sid
         SettingsService.set('synology.sessionID', result.sid)
-        return true
+        return self.sessionID
+      }, function(error) {
+        sessionPromise = null
+        throw error
       })
+      return sessionPromise
     },
     deAuthorize: function() {
-      this.sessionID = null
+      self.sessionID = null
+      sessionPromise = null
       SettingsService.set('synology.sessionID', null)
     },
     isAuthenticated: function() {
@@ -267,7 +273,7 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
           version: '2'
         })
       }
-      request('SYNO.VideoStation.Movie', parameters)
+      return request('SYNO.VideoStation.Movie', parameters)
     },
     Device: function(parameters) {
       return request('SYNO.Videostation2.Controller.Device', mergeDefaults(parameters, {
