@@ -1,77 +1,4 @@
 /**
- * Wrapper from accessing and requesting chrome permissions
- */
-DuckieTV.factory('ChromePermissions', ['$q',
-  function ($q) {
-    var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1
-
-    var isExtension = (('chrome' in window) && ('permissions' in chrome))
-
-    var service = {
-      /**
-       * Storage sync only supported in chrome extensions
-       */
-      isSupported: function () {
-        return isChrome && isExtension
-      },
-      /**
-       * Verify that a permission is available in chrome
-       */
-      checkGranted: function (permission) {
-        return $q(function (resolve, reject) {
-          console.info('Verify if permission is granted', permission)
-
-          if (!service.isSupported()) {
-            console.info('Nope, not chrome or an extension')
-            reject()
-          }
-          chrome.permissions.contains({
-            permissions: [permission]
-          }, function (supported) {
-            console.info(supported ? 'Permission ' + permission + ' granted.' : 'Permission ' + permission + ' denied.')
-            return (supported && 'sync' in chrome.storage) ? resolve() : reject()
-          })
-        })
-      },
-      requestPermission: function (permission) {
-        return $q(function (resolve, reject) {
-          console.info('Request permission', permission)
-
-          if (!service.isSupported()) {
-            console.info('Nope, not chrome or an extension')
-            reject()
-          }
-          chrome.permissions.request({
-            permissions: [permission]
-          }, function (granted) {
-            console.info(granted ? 'Permission ' + permission + ' granted.' : 'Permission ' + permission + ' denied.')
-            return (granted) ? resolve() : reject()
-          })
-        })
-      },
-      revokePermission: function (permission) {
-        return $q(function (resolve, reject) {
-          console.info('Revoke permission', permission)
-
-          if (!service.isSupported()) {
-            console.info('Nope, not chrome or an extension')
-            reject()
-          }
-          chrome.permissions.request({
-            permissions: [permission]
-          }, function (result) {
-            console.info(result ? 'Permission ' + permission + ' revoked.' : 'Permission ' + permission + ' not revoked.')
-            return (result) ? resolve() : reject()
-          })
-        })
-      }
-    }
-
-    return service
-  }
-])
-
-/**
  * The Settings Service stores user preferences and provides defaults.
  * Storage is in localStorage. values get serialized on save and deserialized on initialization.
  *
@@ -168,9 +95,7 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
         'rtorrent.use_auth': false,
         'series.displaymode': 'poster',
         'series.not-watched-eps-btn': false,
-        'storage.sync': false, // off by default so that permissions must be requested
         'subtitles.languages': ['eng'],
-        'sync.progress': true,
         'synology.enabled': false,
         'synology.ip': '192.168.x.x',
         'synology.password': 'password',

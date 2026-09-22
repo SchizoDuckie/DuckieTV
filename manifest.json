@@ -14,7 +14,7 @@
         "unlimitedStorage"
     ],
     "optional_permissions": [
-        "storage", "cookies", "http://*/", "https://*/"
+        "cookies", "http://*/", "https://*/"
     ],
     "icons": {
         "16": "img/logo/icon16.png",

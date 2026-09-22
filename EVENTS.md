@@ -43,7 +43,6 @@ Event Descriptions (as at v1.1.4)
  -  **episodes:updated**
 
     Fires when episodes have been updated from trakt.tv
-    *WIP Will be listened for by the SyncManager.*
 
  -  **expand:serie**
 
@@ -91,12 +90,7 @@ Event Descriptions (as at v1.1.4)
 
  -  **storage:update**
 
-    Notify the SyncManager service that something has changed in the favorite series list.
-
- -  **sync:processremoteupdate**
-
-     When the SyncManager service is not already syncing, this make sure that local additions / deletions get stored in the cloud.
-     *WIP Listener in place but Publisher yet to be created.*
+    Notify local listeners that something has changed in the favorite series list.
 
  -  **torrent:update:**{{infoHash}}
 
@@ -156,7 +150,6 @@ Listeners
       Listeners -> FavoritesService [style="invis"];
       Listeners -> SeriesListCtrl [style="invis"];
       Listeners -> SettingsTorrentCtrl [style="invis"];
-      Listeners -> SyncManager [style="invis"];
       Listeners -> BaseTorrentClient [style="invis"];
       Listeners -> uTorrent [style="invis"];
       Listeners -> AutoDownloadService [style="invis"];
@@ -186,8 +179,6 @@ Listeners
       stateChangeStart -> app;
       standalonemenuitem -> ActionBarCtrl;
       stateChangeSuccess -> app;
-      storageupdate -> SyncManager;
-      syncprocessremoteupdate -> SyncManager;
       torrentclientconnected -> AutoDownloadService;
       torrentclientconnected -> TorrentCtrl;
       torrentclientconnected -> TorrentRemoteControl;
@@ -247,10 +238,6 @@ Listeners
 
       SidepanelSeasonCtrl [ label="SidepanelSeasonCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
 
-      SyncManager [ label="SyncManager.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
-        syncprocessremoteupdate [label="sync:processremoteupdate", shape=box,fillcolor="white",style="filled"];
-        storageupdate [label="storage:update", shape=box,fillcolor="white",style="filled"];
-
       TorrentCtrl [label="TorrentCtrl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
 
       TorrentRemoteControl [label="TorrentRemoteControl.js", shape=box,fillcolor="#efefef",color="white",style="filled"];
@@ -304,7 +291,6 @@ Publishers
       Publishers -> FastSearch [style="invis"];
       Publishers -> SeriesListCtrl [style="invis"];
       Publishers -> LocalSeriesCtrl [style="invis"];
-      Publishers -> SyncManager [style="invis"];
       Publishers -> BaseTorrentClient [style="invis"];
       Publishers -> uTorrent [style="invis"];
       Publishers -> WatchlistService [style="invis"];
@@ -315,7 +301,6 @@ Publishers
       calendarsetdate -> ActionBarCtrl [dir="back"];
       episodemarkednotwatched -> CRUDentities [dir="back"];
       episodemarkedwatched -> CRUDentities [dir="back"];
-      episodesupdated -> SyncManager [dir="back"];
       expandserie -> calendar [dir="back"];
       katmirrorresolverstatus -> KickassMirrorResolver [dir="back"];
       katmirrorresolverstatus -> SettingsTorrentCtrl [dir="back"];
@@ -414,9 +399,6 @@ Publishers
       SidepanelSeasonsCtrl [label="SidepanelSeasonsCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
 
       SidepanelSerieCtrl [label="SidepanelSerieCtrl.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-
-      SyncManager [label="SyncManager.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
-        episodesupdated [label="episodes:updated", shape=box,fillcolor="white",style="filled"];
 
       ThePirateBayMirrorResolver [label="ThePirateBayMirrorResolver.js",shape=box,color="white",fillcolor="#efefef",style="filled"];
         tpbmirrorresolverstatus [label="tpbmirrorresolver:status", shape=box,fillcolor="white",style="filled"];

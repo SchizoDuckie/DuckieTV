@@ -1,8 +1,8 @@
 /**
  * Fetches and displays various statistics about current DuckieTV Setup on About Page
  */
-DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsService', 'StorageSyncService', 'TorrentSearchEngines', 'DuckieTorrent', 'AutoDownloadService',
-  function($scope, $http, $injector, SettingsService, StorageSyncService, TorrentSearchEngines, DuckieTorrent, AutoDownloadService) {
+DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsService', 'TorrentSearchEngines', 'DuckieTorrent', 'AutoDownloadService',
+  function($scope, $http, $injector, SettingsService, TorrentSearchEngines, DuckieTorrent, AutoDownloadService) {
     /**
      * Closes the SidePanel
      */
@@ -69,34 +69,6 @@ DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsServi
             data: result.rows[0].count
           })
         })
-      }
-
-      // Get sync stats
-      // Unused
-      var getSyncTime = function() {
-        /*
-        * if sync is supported get the synctime else indicate not available
-        */
-        if (StorageSyncService.isSupported()) {
-          StorageSyncService.get('lastSync').then(function(syncTime) {
-            if (syncTime !== null) {
-              $scope.statistics.push({
-                name: 'Storage Sync Last Synced on',
-                data: new Date(syncTime).toGMTString()
-              })
-            } else {
-              $scope.statistics.push({
-                name: 'Storage Sync has',
-                data: 'Never Signed in to Google'
-              })
-            }
-          })
-        } else {
-          $scope.statistics.push({
-            name: 'Storage Sync is',
-            data: 'Not Available'
-          })
-        }
       }
 
       // Get default search engine and status
@@ -190,7 +162,6 @@ DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsServi
         data: new Date().toGMTString()
       })
 
-      // getSyncTime();
       countEntity('Series')
       countHiddenShows()
       countEntity('Seasons')
