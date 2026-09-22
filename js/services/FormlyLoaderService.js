@@ -8,25 +8,13 @@
  */
 DuckieTV.factory('FormlyLoader', ['$http', '$parse', function($http, $parse) {
   var config = {
-    basePath: 'templates/formly-forms/',
-    mappings: {}
-  }
-
-  /**
-   * Recursively process the formly form's fieldGroup, process individual formly elements when no fieldgroups found
-   */
-  function recursivePropertyMap(field) {
-    if (field.fieldGroup) {
-      field.fieldGroup = field.fieldGroup.map(recursivePropertyMap)
-      return field
-    }
-    return processMappings(field)
+    basePath: 'templates/formly-forms/'
   }
 
   /**
    * Recursively process the properties of the json file loaded.
    * Find properties that are strings and start with $mappings.
-   * If this is a property registered with setMapping, it will grab the value of it via $parse
+   * Resolve each mapping from the object captured by the current load request.
    * Example:
    *
    *
@@ -44,13 +32,15 @@ DuckieTV.factory('FormlyLoader', ['$http', '$parse', function($http, $parse) {
    *  }
    *
    */
-  function processMappings(field) {
-    Object.keys(field).map(function(key) {
-      if (angular.isObject(field[key])) {
-        field[key] = processMappings(field[key])
-      } else if (field[key].toString().indexOf('$mappings') === 0) {
-        var getter = $parse(field[key].split('$mappings.')[1])
-        field[key] = getter(config.mappings)
+  function processMappings(field, mappings) {
+    if (!angular.isObject(field)) return field
+
+    Object.keys(field).forEach(function(key) {
+      if (angular.isString(field[key]) && field[key].indexOf('$mappings.') === 0) {
+        var getter = $parse(field[key].substring('$mappings.'.length))
+        field[key] = getter(mappings)
+      } else if (angular.isObject(field[key])) {
+        field[key] = processMappings(field[key], mappings)
       }
     })
     return field
@@ -65,55 +55,18 @@ DuckieTV.factory('FormlyLoader', ['$http', '$parse', function($http, $parse) {
       config.basePath = path
     },
     /**
-     * Load a form from json and process the registered mappings.
+     * Load a form from json and process the mappings supplied for this request.
      * @param string form name of the form to load (wrapped between basepath and  .json)
+     * @param object mappings values and functions referenced by the form
      * @returns Promise(form config)
      */
-    load: function(form) {
+    load: function(form, mappings) {
+      mappings = mappings || {}
       return $http.get(config.basePath + form + '.json').then(function(result) {
-        return result.data.map(recursivePropertyMap)
+        return result.data.map(function(field) {
+          return processMappings(field, mappings)
+        })
       })
-    },
-    /**
-     * Register a property and an object that you will target at any point in your formly json config to have them
-     * automagically swapped out at load.
-     * This prevents duplication in your forms (for for instance repeating properties and validators) and allows you
-     * to map javascript functions while still storing your form as json.
-     *
-     * usage:
-     *
-     * // In your controller before FormlyLoader.load('myFormName')
-     *
-     * FormlyLoader.setMapping('modelOptions', {
-     *   keyup: {
-     *       "updateOn": "keyup",
-     *       "debounce": 200
-     *   }
-     *  });
-     *
-     * // In your myFormName.json:
-     *
-     * {
-     *   "className": "row",
-     *   "fieldGroup": [{
-     *       "key": "leecherSelector",
-     *       "className": "cseSelector col-xs-6",
-     *       "type": "input",
-     *       "templateOptions": {
-     *           "required": true,
-     *           "label": "Leechers Selector (element that has the 'leechers')",
-     *           "type": "text"
-     *       },
-     *       "asyncValidators": "$mappings.validators.propertySelector",
-     *       "modelOptions": "$mappings.modelOptions.keyup"
-     *  }
-     *
-     * @param string key mapping key to register
-     * @param object mappings to register for the key
-     *
-     */
-    setMapping: function(key, option) {
-      config.mappings[key] = option
     }
   }
 

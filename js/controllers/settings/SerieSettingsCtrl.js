@@ -4,9 +4,60 @@ DuckieTV.controller('serieSettingsCtrl', ['$scope', '$filter', '$uibModalInstanc
     var adDelayMaxMinutes = parseInt(SettingsService.get('autodownload.period') * 24 * 60)
 
     /**
+     * set up select list for search providers
+     */
+    $scope.searchProviders = [{'name': '', 'value': null}]
+    Object.keys(TorrentSearchEngines.getSearchEngines()).map(function(searchProvider) {
+      $scope.searchProviders.push({'name': searchProvider, 'value': searchProvider})
+    })
+
+    /**
+     * set up select list for xem alias
+     */
+    $scope.searchAlias = [{'name': '', 'value': null}]
+    SceneXemResolver.getXemAliasListForSerie(data.serie).map(function(alias) {
+      $scope.searchAlias.push({'name': alias, 'value': alias})
+    })
+    var mappings = {
+      options: {
+        'searchProviders': $scope.searchProviders,
+        'searchAlias': $scope.searchAlias
+      }
+    }
+
+    /**
+     * set up delay error message interpolation
+     */
+    mappings.data = {
+      'delayErrorMessage': '"' + $filter('translate')('COMMON/autodownload-delay-range/alert', {addelaymax: adDelayMaxMinutes.minsToDhm()}) + '"'
+    }
+
+    /**
+     * set up days, hours and minutes validation
+     */
+    mappings.validators = {
+      'customDelayInput': {
+        'expression': function(viewValue, modelValue, scope) {
+          var value = modelValue || viewValue
+          // if empty then exit
+          if (value === null || undefined === value || value === '') {
+            return true
+          }
+          // parse dhm
+          var dhmPart = value.split(/[\s:]+/)
+          var days = parseInt(dhmPart[0])
+          var hours = parseInt(dhmPart[1])
+          var minutes = parseInt(dhmPart[2])
+          // test validity and set error state
+          return (days >= 0 && days <= 21 && hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59 && value.dhmToMins() <= adDelayMaxMinutes)
+        }
+      }
+    }
+
+    /**
      * set up form field contents
      */
-    FormlyLoader.load('SerieSettings').then(function(form) {
+    FormlyLoader.load('SerieSettings', mappings).then(function(form) {
       $scope.model = FavoritesService.getByTRAKT_ID(data.serie.TRAKT_ID) // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)
       $scope.model.ignoreHideSpecials = $scope.model.ignoreHideSpecials == 1
       $scope.model.autoDownload = $scope.model.autoDownload == 1
@@ -36,55 +87,6 @@ DuckieTV.controller('serieSettingsCtrl', ['$scope', '$filter', '$uibModalInstanc
       // note: we are not using $scope.model.customDelay directly as input, to prevent downstream issues with dialogue save and cancel
       $scope.model.customDelayInput = ($scope.model.customDelay === null) ? null : $scope.model.customDelay.minsToDhm()
       $scope.fields = form
-    })
-
-    /**
-     * set up select list for search providers
-     */
-    $scope.searchProviders = [{'name': '', 'value': null}]
-    Object.keys(TorrentSearchEngines.getSearchEngines()).map(function(searchProvider) {
-      $scope.searchProviders.push({'name': searchProvider, 'value': searchProvider})
-    })
-
-    /**
-     * set up select list for xem alias
-     */
-    $scope.searchAlias = [{'name': '', 'value': null}]
-    SceneXemResolver.getXemAliasListForSerie(data.serie).map(function(alias) {
-      $scope.searchAlias.push({'name': alias, 'value': alias})
-    })
-    FormlyLoader.setMapping('options', {
-      'searchProviders': $scope.searchProviders,
-      'searchAlias': $scope.searchAlias
-    })
-
-    /**
-     * set up delay error message interpolation
-     */
-    FormlyLoader.setMapping('data', {
-      'delayErrorMessage': '"' + $filter('translate')('COMMON/autodownload-delay-range/alert', {addelaymax: adDelayMaxMinutes.minsToDhm()}) + '"'
-    })
-
-    /**
-     * set up days, hours and minutes validation
-     */
-    FormlyLoader.setMapping('validators', {
-      'customDelayInput': {
-        'expression': function(viewValue, modelValue, scope) {
-          var value = modelValue || viewValue
-          // if empty then exit
-          if (value === null || undefined === value || value === '') {
-            return true
-          }
-          // parse dhm
-          var dhmPart = value.split(/[\s:]+/)
-          var days = parseInt(dhmPart[0])
-          var hours = parseInt(dhmPart[1])
-          var minutes = parseInt(dhmPart[2])
-          // test validity and set error state
-          return (days >= 0 && days <= 21 && hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59 && value.dhmToMins() <= adDelayMaxMinutes)
-        }
-      }
     })
 
     /**

@@ -3,13 +3,9 @@ DuckieTV.controller('SynologyCtrl', ['SynologyAPI', 'SettingsService', 'FormlyLo
     var self = this
     this.enabled = SettingsService.get('synology.enabled')
 
-    FormlyLoader.setMapping('protocols', [{
-      name: 'http'
-    }, {
-      name: 'https'
-    }])
-
-    FormlyLoader.load('SynologySettings').then(function(fields) {
+    FormlyLoader.load('SynologySettings', {
+      protocols: [{ name: 'http' }, { name: 'https' }]
+    }).then(function(fields) {
       self.model = {
         protocol: SettingsService.get('synology.protocol'),
         ip: SettingsService.get('synology.ip'),
