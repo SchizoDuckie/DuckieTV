@@ -4,8 +4,8 @@
  *
  * Shorthands to the get and set functions are provided in $rootScope by the getSetting and setSetting functions
  */
-DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'customLanguageKeyMappings',
-  function ($injector, availableLanguageKeys, customLanguageKeyMappings) {
+DuckieTV.factory('SettingsService', ['$injector', 'LocaleRegistry',
+  function ($injector, LocaleRegistry) {
     var service = {
       settings: {},
       defaults: {
@@ -230,32 +230,13 @@ DuckieTV.factory('SettingsService', ['$injector', 'availableLanguageKeys', 'cust
        */
       changeLanguage: function (langKey, locale) {
         console.info('SettingsService.changeLanguage', langKey, locale)
-        langKey = langKey.toLowerCase() || 'en_us'
-        locale = langKey
+        var descriptor = LocaleRegistry.find(langKey) || LocaleRegistry.find(locale) || LocaleRegistry.resolve('en_us')
 
-        if (availableLanguageKeys.indexOf(langKey) === -1 && Object.keys(customLanguageKeyMappings).indexOf(langKey) === -1 && customLanguageKeyMappings.indexOf(langKey) === -1) {
-          var matched = false
-
-          if (langKey.indexOf('_') === -1) {
-            for (var key in customLanguageKeyMappings) {
-              console.debug(key, langKey, key.indexOf(langKey))
-              if (key.indexOf(langKey) > -1) {
-                langKey = key
-                matched = true
-                break
-              }
-            }
-          }
-          if (!matched) {
-            langKey = locale = 'en_us'
-          }
-        }
-
-        service.set('application.language', langKey)
-        service.set('application.locale', locale)
-        $injector.get('tmhDynamicLocale').set(locale) // the SettingsService is also required in the background page and we don't need $translate there
-        $injector.get('$translate').use(langKey, locale) // get these via the injector so that we don't have to use these dependencies hardcoded.
-        return langKey
+        service.set('application.language', descriptor.translation)
+        service.set('application.locale', descriptor.id)
+        $injector.get('tmhDynamicLocale').set(descriptor.angular) // the SettingsService is also required in the background page and we don't need $translate there
+        $injector.get('$translate').use(descriptor.translation) // get these via the injector so that we don't have to use these dependencies hardcoded.
+        return descriptor.id
       },
       /**
        * is DuckieTV running Standalone?

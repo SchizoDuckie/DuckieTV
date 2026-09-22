@@ -17,8 +17,8 @@
     <span style='display:inline-block; position: relative; top: -3px;'> ({{clientLocale}})</span>
   </a>
 
-  <a ng-click="setLocale(locale)" ng-repeat="(locale, name) in languageList" class="btn {{ activeLocale == locale ? 'btn-success' : '' }}">
-    <i class="flag flag-{{ locale }}"></i>
-    <span style='display-inline-block; top: -5px; position: relative;'>{{'SETTINGS/DISPLAY/locale/'+name|translate}}</span>
+  <a ng-click="setLocale(locale.id)" ng-repeat="locale in languageList" class="btn {{ activeLocale == locale.id ? 'btn-success' : '' }}">
+    <i class="flag flag-{{ locale.flag }}"></i>
+    <span style='display-inline-block; top: -5px; position: relative;'>{{'SETTINGS/DISPLAY/locale/'+locale.label|translate}}</span>
   </a>
 </div>

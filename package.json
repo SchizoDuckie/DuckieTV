@@ -53,6 +53,7 @@
     "description": "DuckieTV helps you manage your favorite TV Shows on a sweet calendar",
     "dependencies": {},
     "scripts": {
+        "locales:check": "node scripts/validate-locales.js",
         "test": "karma start --single-run",
         "test-watch": "karma start --no-single-run --auto-watch --browsers ChromeHeadless",
         "test-debug": "karma start --no-single-run --auto-watch --browsers Chrome"
