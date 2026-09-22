@@ -3,10 +3,8 @@
  * Count all episodes watched for a season when changes occur, flip switches accordingly.
  */
 DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, FavoritesService) {
-  var queue = {
-
-  }
-  var queueTimer = null
+  var pending = {}
+  var drainPromise = null
 
   /**
      * Parse the episodes count returned from the recountSerie function into an object with season keys.
@@ -52,8 +50,9 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
         s.notWatchedCount = seasons[season].notWatched
         notWatchedTotal = notWatchedTotal + seasons[season].notWatched
         // console.debug("Season watched? ", season, s.watched === 1);
-        s.Persist()
-        return s.watched === 1
+        return s.Persist().then(function() {
+          return s.watched === 1
+        })
       })
     })).then(function(result) {
       var watchedSeasonCount = result.reduce(function(prev, current) {
@@ -75,49 +74,65 @@ DuckieTV.factory('watchedCounter', ['$q', 'FavoritesService', function($q, Favor
     // console.debug("Serie watched? ", serie.name, serie.watched, data.allSeasonsWatched, data.notWatchedTotal);
     serie.watched = data.allSeasonsWatched === false ? 0 : 1
     serie.notWatchedCount = data.notWatchedTotal
-    serie.Persist()
+    return serie.Persist()
   }
 
-  /**
-   * When all database queries are done, process a serie.
-   * If not, delay processing for 50ms.
-   */
-  function processQueue() {
-    if (CRUD.stats.writesExecuted == CRUD.stats.writesQueued) {
-      if (Object.keys(queue).length > 0) {
-        var ID_Serie = Object.keys(queue)[0]
-        if (ID_Serie !== undefined) {
-          delete queue[ID_Serie]
-          processSerie(ID_Serie)
-        }
-      }
-    }
-    if (queueTimer !== null) {
-      clearTimeout(queueTimer)
-      queueTimer = null
-    }
-    if (Object.keys(queue).length > 0) {
-      setTimeout(processQueue, 50)
-    }
+  function waitForWrites() {
+    if (CRUD.stats.writesExecuted == CRUD.stats.writesQueued) return $q.when()
+    return $q(function(resolve) {
+      setTimeout(resolve, 50)
+    }).then(waitForWrites)
   }
 
   function processSerie(ID_Serie) {
     // console.debug("Re counting! ", ID_Serie);
     var query = 'select ID_Season, watched, count(watched) as amount from Episodes where ID_Serie = ? AND seasonnumber > 0 AND firstaired <= ? AND firstaired_iso NOT null GROUP BY ID_Season, watched'
-    CRUD.executeQuery(query, [ID_Serie, new Date().getTime()])
+    return CRUD.executeQuery(query, [ID_Serie, new Date().getTime()])
       .then(parseEpisodeCounts)
       .then(markSeasonsWatched)
       .then(function(result) {
-        markSerieWatched(ID_Serie, result)
+        return markSerieWatched(ID_Serie, result)
       })
+  }
+
+  function drain() {
+    var firstError = null
+
+    function next() {
+      var ID_Serie = Object.keys(pending)[0]
+      if (ID_Serie === undefined) {
+        if (firstError !== null) throw firstError
+        return true
+      }
+
+      delete pending[ID_Serie]
+      return waitForWrites()
+        .then(function() {
+          return processSerie(ID_Serie)
+        })
+        .catch(function(error) {
+          firstError = firstError || error
+        })
+        .then(next)
+    }
+
+    return next()
   }
 
   return {
     recountSerie: function(ID_Serie) {
-      if (!(ID_Serie in queue)) {
-        queue[ID_Serie] = true
+      pending[ID_Serie] = true
+      if (drainPromise === null) {
+        drainPromise = drain().finally(function() {
+          drainPromise = null
+          if (Object.keys(pending).length > 0) {
+            drainPromise = drain().finally(function() {
+              drainPromise = null
+            })
+          }
+        })
       }
-      processQueue()
+      return drainPromise
     }
   }
 }])
