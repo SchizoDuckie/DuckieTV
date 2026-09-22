@@ -27,17 +27,17 @@ DuckieTV.factory('BaseHTTPApi', ['$http',
     /**
      * Build a JSON request using the URLBuilder service.
      * @param string type url to fetch from the request types
-     * @param object params GET parameters
-     * @param object options $http optional options
+     * @param string|number pathParam value for an endpoint's %s placeholder
+     * @param object httpOptions options passed to $http.get
      */
-    BaseHTTPApi.prototype.request = function(type, params, options) {
-      params = params || {}
-      var url = this.getUrl(type, params)
-      var httpOptions = this.config.use_auth ? {
-        headers: {
-          Authorization: [this.config.username, this.config.password]
-        }
+    BaseHTTPApi.prototype.request = function(type, pathParam, httpOptions) {
+      var url = this.getUrl(type, pathParam)
+      httpOptions = angular.copy(httpOptions || {})
+      var authHeaders = this.config.use_auth ? {
+        Authorization: [this.config.username, this.config.password]
       } : {}
+      // Explicit request headers take precedence over the default basic-auth header.
+      httpOptions.headers = angular.extend({}, authHeaders, httpOptions.headers || {})
       return $http.get(url, httpOptions)
     }
 

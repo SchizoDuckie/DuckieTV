@@ -150,7 +150,7 @@ DuckieTorrent.factory('KtorrentRemote', ['BaseTorrentRemote',
         },
 
         getTorrents: function() {
-          return this.request('torrents', {}).then(function(result) {
+          return this.request('torrents').then(function(result) {
             var x2js = new X2JS({arrayAccessForm: 'property'})
             var jsonObj = x2js.xml2json((new DOMParser()).parseFromString(result.data, 'text/xml'))
             if (jsonObj.torrents == '') { // no torrents found

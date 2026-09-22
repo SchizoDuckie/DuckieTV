@@ -86,7 +86,7 @@ DuckieTorrent.factory('tTorrentRemote', ['BaseTorrentRemote',
           if (this.config.use_auth) {
             headers.Authorization = [this.config.username, this.config.password]
           }
-          return this.request('portscan', {headers: headers}).then(function(result) {
+          return this.request('portscan', undefined, {headers: headers}).then(function(result) {
             var scraper = new HTMLScraper(result.data)
             if (scraper.querySelector('.header').innerText.trim() !== 'tTorrent web interface') {
               console.warn('webui not found', result)
@@ -106,7 +106,7 @@ DuckieTorrent.factory('tTorrentRemote', ['BaseTorrentRemote',
           if (this.config.use_auth) {
             headers.Authorization = [this.config.username, this.config.password]
           }
-          return this.request('torrents', {headers: headers}).then(function(result) {
+          return this.request('torrents', undefined, {headers: headers}).then(function(result) {
             var scraper = new HTMLScraper(result.data)
             var torrents = []
             function convertRate(rateString) {

@@ -106,7 +106,7 @@ DuckieTorrent.factory('TixatiRemote', ['BaseTorrentRemote',
           if (this.config.use_auth) {
             headers.Authorization = [this.config.username, this.config.password]
           }
-          return this.request('portscan', {headers: headers}).then(function(result) {
+          return this.request('portscan', undefined, {headers: headers}).then(function(result) {
             var scraper = new HTMLScraper(result.data)
 
             var categories = {}
@@ -140,7 +140,7 @@ DuckieTorrent.factory('TixatiRemote', ['BaseTorrentRemote',
           if (this.config.use_auth) {
             headers.Authorization = [this.config.username, this.config.password]
           }
-          return this.request('torrents', {headers: headers}).then(function(result) {
+          return this.request('torrents', undefined, {headers: headers}).then(function(result) {
             var scraper = new HTMLScraper(result.data)
 
             var torrents = []
