@@ -131,11 +131,21 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
         this.remoteClass = null
         this.apiImplementation = null
 
-        this.isPolling = false
-        this.isConnecting = false
-        this.connected = false
-        this.initialized = false
-        this.offline = false
+        this.phase = 'idle'
+        this.connectPromise = null
+        this.retryTimeout = null
+        this.pollTimeout = null
+        this.connectionGeneration = 0
+        setPhase(this, 'idle')
+      }
+
+      function setPhase(client, phase) {
+        client.phase = phase
+        client.isConnecting = phase === 'connecting' || phase === 'synchronizing'
+        client.connected = phase === 'synchronizing' || phase === 'ready'
+        client.initialized = phase === 'ready'
+        client.offline = phase === 'offline'
+        client.isPolling = phase === 'synchronizing' || phase === 'ready'
       }
 
       var methods = {
@@ -201,45 +211,53 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
              * off on resolving until the client is connected.
              * If it's connected and initialized, a promise will return that immediately resolves with the remote interface.
              */
-        retryTimeout: null,
         AutoConnect: function() {
-          if (!this.offline && !this.isConnecting && !this.connected) {
-            this.connectPromise = $q.defer()
-            this.isConnecting = true
-          } else {
-            return (!this.connected || !this.initialized) ? this.connectPromise.promise : $q(function(resolve) {
-              resolve(this.getRemote())
-            }.bind(this))
+          if (this.phase === 'ready') {
+            return $q.when(this.getRemote())
           }
+          if (this.connectPromise !== null) {
+            return this.connectPromise
+          }
+
           var self = this
-          this.connect().then(function(result) {
+          var generation = ++this.connectionGeneration
+          clearTimeout(this.retryTimeout)
+          this.retryTimeout = null
+          setPhase(this, 'connecting')
+
+          this.connectPromise = this.connect().then(function(result) {
+            if (generation !== self.connectionGeneration) throw 'Connection cancelled.'
             console.info(self.getName() + ' connected!')
-            if (!self.isPolling) {
-              self.isPolling = true
-              self.Update()
-            }
-            self.connectPromise.resolve(self.getRemote())
+            setPhase(self, 'synchronizing')
+            $rootScope.$broadcast('torrentclient:connected', self.getRemote())
+            self.Update()
+            setPhase(self, 'ready')
+            return self.getRemote()
           }, function(error) {
-            self.isPolling = false
-            self.isConnnecting = false
-            self.connected = false
-            self.offline = true
-            clearTimeout(self.retryTimeout)
+            if (generation !== self.connectionGeneration) throw error
+            setPhase(self, 'offline')
             self.retryTimeout = setTimeout(function() {
-              self.offline = false
-              self.AutoConnect()
+              if (generation !== self.connectionGeneration) return
+              setPhase(self, 'idle')
+              self.AutoConnect().catch(angular.noop)
             }, 15000)
             console.info('Unable to connect to ' + self.getName() + ' Retry in 15 seconds')
-            self.connectPromise.reject('Not connected.')
-            return false
+            throw 'Not connected.'
+          }).finally(function() {
+            if (generation === self.connectionGeneration) {
+              self.connectPromise = null
+            }
           })
 
-          return self.connectPromise.promise
+          return this.connectPromise
         },
 
         togglePolling: function() {
-          this.isPolling = !this.isPolling
-          this.Update()
+          if (this.isPolling) {
+            this.Disconnect()
+          } else {
+            this.AutoConnect()
+          }
         },
         /**
              * Start the status update polling.
@@ -247,14 +265,15 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
              * Starts polling every 1s.
              */
         Update: function(dontLoop) {
-          if (this.isPolling === true) {
+          if (this.phase === 'synchronizing' || this.phase === 'ready') {
             var self = this
-            this.getTorrents().then(function(data) {
-              if (undefined === dontLoop && self.isPolling && !data.error) {
-                setTimeout(function() {
+            return this.getTorrents().then(function(data) {
+              if (undefined === dontLoop && (self.phase === 'synchronizing' || self.phase === 'ready') && !data.error) {
+                self.pollTimeout = setTimeout(function() {
                   self.Update()
                 }, 3000)
               }
+              return data
             })
           }
         },
@@ -268,7 +287,13 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
         },
 
         Disconnect: function() {
-          this.isPolling = false
+          this.connectionGeneration++
+          clearTimeout(this.retryTimeout)
+          clearTimeout(this.pollTimeout)
+          this.retryTimeout = null
+          this.pollTimeout = null
+          this.connectPromise = null
+          setPhase(this, 'idle')
           this.getRemote().torrents = {}
           this.getRemote().eventHandlers = {}
         },
@@ -300,14 +325,8 @@ DuckieTorrent.factory('BaseTorrentRemote', ['$rootScope', 'TorrentHashListServic
           return this.getAPI().portscan().then(function(result) { // check if client WebUI is reachable
             // console.debug(self.getName() + " check result: ", result);
             if (!result) {
-              self.isConnecting = false
-              self.connected = false
-              self.isPolling = false
               throw self.getName() + ' Connect call failed.'
             }
-            self.connected = result // we are now connected
-            self.isConnecting = !result // we are no longer connecting
-            $rootScope.$broadcast('torrentclient:connected', self.getRemote())
             return result
           })
         },
