@@ -25,6 +25,10 @@ describe('FavoritesService', function() {
 
     beforeEach(module('DuckieTV'));
 
+    beforeEach(function() {
+        spyOn(CRUD, 'Find').and.returnValue(Promise.resolve([]));
+    });
+
     beforeEach(inject(function($injector) {
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');

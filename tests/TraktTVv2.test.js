@@ -9,13 +9,11 @@ describe('TrakTVv2', function() {
     }));
 
     beforeEach(inject(function($injector) {
-        // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
-
-        $httpBackend.whenGET(/.*/).respond(function(method, url, data) {
-            var response = fixture(url);
-            return [response ? 200 : 404, response];
-        });
+        var searchResults = fixture('https://api-v2launch.trakt.tv/search?type=show&extended=full,images&query=doctor%20who&limit=50');
+        var resolvedID = fixture('https://api-v2launch.trakt.tv/search?id_type=trakt&id=56872');
+        $httpBackend.whenGET(/tests\/proxy\.php\?url=.*search%2Fshow/).respond(200, searchResults);
+        $httpBackend.whenGET(/tests\/proxy\.php\?url=.*search%2Ftrakt%2F56872/).respond(200, resolvedID);
     }));
 
 

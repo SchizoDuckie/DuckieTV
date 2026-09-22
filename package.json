@@ -15,16 +15,11 @@
         "babel-eslint": "^10.0.1",
         "eslint": "^5.11.1",
         "eslint-plugin-angular": "^4.0.0",
-        "jasmine-core": "^2.5.0",
-        "karma": "^1.4.1",
-        "karma-chrome-launcher": "^2.0.0",
-        "karma-cli": "1.0.1",
-        "karma-html-reporter": "^0.2.4",
-        "karma-jasmine": "^1.1.0",
-        "karma-jasmine-html-reporter": "^0.2.2",
-        "karma-mocha": "^1.3.0",
-        "karma-mocha-reporter": "^2.2.0",
-        "karma-phantomjs-launcher": "^1.0.2",
+        "jasmine-core": "^5.7.1",
+        "karma": "^6.4.4",
+        "karma-chrome-launcher": "^3.2.0",
+        "karma-jasmine": "^5.1.0",
+        "karma-mocha-reporter": "^2.2.5",
         "requirejs": "^2.1.0"
     },
     "author": "DuckieTV",
@@ -58,9 +53,9 @@
     "description": "DuckieTV helps you manage your favorite TV Shows on a sweet calendar",
     "dependencies": {},
     "scripts": {
-        "test": "node_modules/.bin/karma start --single-run",
-        "test-watch": "node_modules/.bin/karma start --no-single-run --auto-watch --browsers PhantomJS",
-        "test-debug": "node_modules/.bin/karma start --no-single-run --auto-watch"
+        "test": "karma start --single-run",
+        "test-watch": "karma start --no-single-run --auto-watch --browsers ChromeHeadless",
+        "test-debug": "karma start --no-single-run --auto-watch --browsers Chrome"
     },
     "webkit": {
         "java": false,

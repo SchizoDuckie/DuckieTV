@@ -5,6 +5,8 @@ describe('GenericTorrentSearchEngine', function() {
     var mirrorResolver;
     var engine;
 
+    beforeEach(module('DuckieTV'));
+
     beforeEach(inject(function(_$q_, _$rootScope_) {
         $q = _$q_;
         $rootScope = _$rootScope_;

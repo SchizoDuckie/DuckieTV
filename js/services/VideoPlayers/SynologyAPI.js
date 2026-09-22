@@ -62,14 +62,11 @@ DuckieTV.factory('SynologyAPI', ['$q', '$http', 'URLBuilder', 'SettingsService',
       })
     }
 
+    parameters = angular.extend({}, parameters)
     if (self.sessionID) {
       parameters._sid = self.sessionID
     }
     var url = buildUrl(apiMethod, parameters)
-    delete (parameters._sid)
-    if (parameters.path) {
-      delete parameters.path
-    }
     return $http.post(url, URLBuilder.build('', parameters).slice(1), {
       transformRequest: angular.identity,
       headers: {

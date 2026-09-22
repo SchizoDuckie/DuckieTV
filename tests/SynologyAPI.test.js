@@ -84,13 +84,18 @@ describe('SynologyAPI', function() {
 
     it('adds the active session to requests without retaining it in caller parameters', function() {
         createService('session-id');
-        var deferred = $q.defer();
+        var apiDeferred = $q.defer();
+        var posterDeferred = $q.defer();
         var parameters = { path: 'query.cgi', method: 'query', version: 1 };
-        $http.post.and.returnValue(deferred.promise);
+        $http.post.and.returnValues(apiDeferred.promise, posterDeferred.promise);
 
         SynologyAPI.Poster(parameters);
+        apiDeferred.resolve(response({
+            'SYNO.VideoStation.Poster': { path: 'poster.cgi' }
+        }));
+        $rootScope.$digest();
 
-        expect($http.post.calls.argsFor(0)[1]).toContain('_sid=session-id');
+        expect($http.post.calls.argsFor(1)[1]).toContain('_sid=session-id');
         expect(parameters._sid).toBeUndefined();
     });
 });

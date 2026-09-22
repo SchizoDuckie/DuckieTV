@@ -1,24 +1,18 @@
-End2End and unit testing with Protractor and Karma
-==================================================
+Unit testing with Karma and Jasmine
+====================================
 
-Based loosely (to get started) on
-https://github.com/angular/protractor/blob/master/docs/tutorial.md
+The supported test lane runs every file matching `tests/**/*.test.js` exactly once.
+Browser fixtures under `tests/fixtures` are served by Karma and are not test files.
 
 Usage
 =====
 
-Install Karma, The Chrome Driver, Protraktor and all other testing dependencies by typing ``npm install``
+Install the test dependencies with `npm install`.
 
-To run Karma tests:
-- on PhantomJS: type ``npm test``
-- on Chrome (For debugging) type ``karma start``
+- Run the suite once in headless Chrome with `npm test`.
+- Watch the suite in headless Chrome with `npm run test-watch`.
+- Debug the suite in a visible Chrome window with `npm run test-debug`.
 
-To run Protractor tests:
-- Make sure you run apache on localhost
-- make sure that duckietv runs on http://localhost/duckietv/
-- type ``protractor`` in the duckietv root directory
-- behold the magic
-
-Current build status: [![Build Status](https://travis-ci.org/SchizoDuckie/DuckieTV.svg?branch=trakt-api-v2)](https://travis-ci.org/SchizoDuckie/DuckieTV)
-
-Travis-CI Details: https://travis-ci.org/SchizoDuckie/DuckieTV
+The retired Protractor files were removed because the repository had no Protractor
+dependency or executable package script. New browser journeys should use a deliberately
+configured end-to-end lane instead of adding `.spec.js` files to the unit directory.

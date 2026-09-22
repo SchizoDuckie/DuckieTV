@@ -2,6 +2,8 @@ describe('CalendarEvents', function() {
 
     var CalendarEvents, FavoritesService, SettingsService, rootScope, $scope;
 
+    beforeEach(module('DuckieTV'));
+
     function loadFixtures() {
         var events = fixture('calendarevents');
 

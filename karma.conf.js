@@ -33,14 +33,12 @@ module.exports = function(config) {
             'js/vendor/ct-ui-router-extras.sticky.min.js',
             'js/vendor/api-check.min.js',
             'js/vendor/formly.min.js',
-            'js/vendor/formly.min.js',
             'js/vendor/angular-formly-templates-bootstrap.min.js',
             'js/vendor/moment.quacked.js',
             'js/vendor/angular-xmlrpc.js',
             'js/vendor/angular-dialgauge.quacked.js',
             'tests/bootstrap.js',
             'js/CRUD.entities.js',
-            'js/CRUD.background.bootstrap.js',
             'js/*.js',
             'js/directives/**.js',
             'js/services/*.js',
@@ -48,7 +46,7 @@ module.exports = function(config) {
             'js/services/*/*.js',
             'js/controllers/**.js',
             'tests/test-main.js', {
-                pattern: 'tests/CalendarEvents.test.js',
+                pattern: 'tests/**/*.test.js',
                 included: true
             }, {
                 pattern: 'tests/fixtures/*.json',
@@ -66,7 +64,7 @@ module.exports = function(config) {
 
             'js/background.js',
             'js/CRUD.bootstrap.js',
-            'tests/*.spec.js'
+            'js/CRUD.background.bootstrap.js'
         ],
 
 
@@ -98,16 +96,16 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: process.env.TRAVIS ? ['ChromeTravis'] : ['Chrome'],
+        browsers: process.env.CI ? ['ChromeHeadlessCI'] : ['ChromeHeadless'],
 
         browserDisconnectTimeout: 30000,
         browserNoActivityTimeout: 60000,
 
 
         customLaunchers: {
-            ChromeTravis: {
-                base: 'ChromeCanary',
-                flags: ['--no-sandbox'],
+            ChromeHeadlessCI: {
+                base: 'ChromeHeadless',
+                flags: ['--no-sandbox', '--disable-dev-shm-usage'],
             },
         },
 

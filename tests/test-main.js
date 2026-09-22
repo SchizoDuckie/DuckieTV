@@ -35,63 +35,6 @@ beforeEach(module(function($translateProvider) {
     }
 }));
 
-beforeEach(module('DuckieTV'));
-
-
-beforeEach(inject(function($injector) {
-    // Set up the mock http service responses
-    $httpBackend = $injector.get('$httpBackend');
-
-    $httpBackend.whenGET('fanart.cache.json').respond(function(method, url, data) {
-        return [200, []];
-    });
-
-    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2FSceneNameExceptions%2FTraktSceneNameExceptions.json').respond(function(method, url, data) {
-        return [200, []];
-    });
-
-    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2FSceneNameExceptions%2FTraktSceneDateExceptions.json').respond(function(method, url, data) {
-        return [200, []];
-    });
-
-    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2FSceneNameExceptions%2FTraktidTvdbidXref.json').respond(function(method, url, data) {
-        return [200, []];
-    });
-
-    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2FSceneNameExceptions%2FSceneNameExceptions.json').respond(function(method, url, data) {
-        return [200, []];
-    });
-
-    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2FSceneNameExceptions%2FSceneDateExceptions.json').respond(function(method, url, data) {
-        return [200, []];
-    });
-
-    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2Fxem-cache%2Fmappings.json').respond(function(method, url, data) {
-        return [200, []];
-    });
-
-    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fduckietv.github.io%2Fxem-cache%2Faliasmap.json').respond(function(method, url, data) {
-        return [200, []];
-    });
-
-    $httpBackend.whenGET('http://localhost:8080/gui/token.html').respond(function(method, url, data) {
-        return [500, []];
-    });
-
-    $httpBackend.whenGET('VERSION').respond(function(method, url, data) {
-        return [200, null];
-    });
-
-    $httpBackend.whenGET('./tests/proxy.php?url=https%3A%2F%2Fraw.githubusercontent.com%2Fngosang%2Ftrackerslist%2Fmaster%2Ftrackers_best.txt').respond(function(method, url, data) {
-        return [200, []];
-    });
-
-}));
-
-
-
-afterEach(function() {
-    inject(function(_$rootScope_) {
-        _$rootScope_.$apply();
-    })
-});
+// Unit tests instantiate services directly. Application startup blocks perform
+// database, network, and navigation work that belongs in an end-to-end lane.
+DuckieTV._runBlocks = [];
