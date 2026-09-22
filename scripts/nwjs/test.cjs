@@ -11,6 +11,7 @@ const catalog = require('./runtime.json')
 
 const root = path.resolve(__dirname, '..', '..')
 const outputRoot = path.join(root, 'dist', 'nwjs-tests')
+const isolatedNetwork = '--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE localhost, EXCLUDE 127.0.0.1'
 const allowed = new Set(['suite', 'artifact', 'legacy-binary'])
 const options = {}
 process.argv.slice(2).forEach(function(arg) {
@@ -18,7 +19,7 @@ process.argv.slice(2).forEach(function(arg) {
   if (!match || !allowed.has(match[1])) throw new Error('Unknown argument: ' + arg)
   options[match[1]] = match[2]
 })
-const suites = ['bootstrap', 'storage', 'migration', 'network', 'shell', 'packaged']
+const suites = ['bootstrap', 'storage', 'features', 'protocols', 'migration', 'network', 'shell', 'packaged']
 if (!suites.includes(options.suite)) throw new Error('Unknown or missing --suite; expected ' + suites.join(', '))
 
 function targetBinary() {
@@ -69,24 +70,79 @@ async function fullAppSuite(name, hookName) {
   const profile = path.join(directory, 'profile')
   const output = path.join(directory, 'result.json')
   assembleFull(app, path.join(root, 'tests', 'fixtures', 'nwjs', 'full-app', hookName))
-  await run(targetBinary(), app, profile, output, name === 'storage' ? ['--duckietv-start-fresh'] : [], {}, 35000)
+  await run(targetBinary(), app, profile, output, (name === 'storage' ? ['--duckietv-start-fresh'] : []).concat(isolatedNetwork), {}, 35000)
   const result = JSON.parse(fs.readFileSync(output, 'utf8'))
   if (result.runtime !== catalog.version) throw new Error('Runtime identity mismatch')
   const unexpectedErrors = (result.errors || []).filter(function(error) { return !/no such table: WatchList(?:Object)?/.test(error) })
-  if (name === 'bootstrap' && (!result.injector || !result.standalone || result.storageState !== 'native-v1-ready' || unexpectedErrors.length || result.errors.length > 2)) throw new Error('Full application bootstrap failed: ' + JSON.stringify(result))
+  if (name === 'bootstrap' && (!result.injector || !result.standalone || result.storageState !== 'native-v1-ready' || result.firstRunControls !== 'pass' || unexpectedErrors.length || result.errors.length > 2)) throw new Error('Full application bootstrap failed: ' + JSON.stringify(result))
   if (name === 'storage' && !result.pass) throw new Error('ORM storage contract failed: ' + JSON.stringify(result))
+  if (name === 'bootstrap') {
+    const database = path.join(profile, 'Default', 'seriesguide_chrome.sqlite3')
+    fs.writeFileSync(database, 'corrupt database fixture')
+    fs.rmSync(database + '-wal', { force: true }); fs.rmSync(database + '-shm', { force: true })
+    fs.rmSync(app, { recursive: true, force: true }); fs.mkdirSync(app, { recursive: true })
+    assembleFull(app, path.join(root, 'tests', 'fixtures', 'nwjs', 'full-app', 'error-controls-hook.js'))
+    const failureOutput = path.join(directory, 'error-controls.json')
+    await run(targetBinary(), app, profile, failureOutput, [isolatedNetwork], {}, 35000)
+    const failure = JSON.parse(fs.readFileSync(failureOutput, 'utf8'))
+    if (!failure.pass || !/could not open its library/i.test(failure.message)) throw new Error('Pre-Angular storage error controls failed: ' + JSON.stringify(failure))
+  }
 }
 
 async function networkSuite() {
   const directory = reset('network')
   const fixture = path.join(root, 'tests', 'fixtures', 'nwjs', 'network')
-  ;['package.json', 'index.html', 'test.js'].forEach(function(name) { fs.copyFileSync(path.join(fixture, name), path.join(directory, name)) })
+  ;['package.json', 'index.html', 'test.js', 'tls-key.pem', 'tls-cert.pem', 'ca.pem'].forEach(function(name) { fs.copyFileSync(path.join(fixture, name), path.join(directory, name)) })
   fs.copyFileSync(path.join(root, 'js', 'vendor', 'angular.js'), path.join(directory, 'angular.js'))
   fs.copyFileSync(path.join(root, 'js', 'app.authHttpBackend.js'), path.join(directory, 'backend.js'))
-  const output = path.join(directory, 'result.json')
-  await run(targetBinary(), directory, path.join(directory, 'profile'), output)
+  const output = path.join(directory, 'untrusted-result.json')
+  const key = path.join(directory, 'tls-key.pem'), certificate = path.join(directory, 'tls-cert.pem')
+  await run(targetBinary(), directory, path.join(directory, 'profile'), output, [isolatedNetwork], { NW_TEST_TLS_KEY: key, NW_TEST_TLS_CERT: certificate })
   const result = JSON.parse(fs.readFileSync(output, 'utf8'))
-  if (result.runtime !== catalog.version || result.results.length !== 9 || result.results.some(function(test) { return !test.pass })) throw new Error('Network contract failed: ' + JSON.stringify(result))
+  if (result.runtime !== catalog.version || result.results.length !== 10 || result.results.some(function(test) { return !test.pass })) throw new Error('Network contract failed: ' + JSON.stringify(result))
+  const untrusted = result.results[result.results.length - 1]
+  if (untrusted.name !== 'untrusted HTTPS is rejected by default' || untrusted.value !== -1) throw new Error('Default TLS rejection contract failed')
+  const manifestPath = path.join(directory, 'package.json')
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  manifest.additional_trust_anchors = [fs.readFileSync(path.join(directory, 'ca.pem'), 'utf8')]
+  fs.writeFileSync(manifestPath, JSON.stringify(manifest))
+  const trustedOutput = path.join(directory, 'trusted-result.json')
+  await run(targetBinary(), directory, path.join(directory, 'trusted-profile'), trustedOutput, [isolatedNetwork], { NW_TEST_TLS_KEY: key, NW_TEST_TLS_CERT: certificate, NW_TEST_TLS_TRUSTED: '1' })
+  const trusted = JSON.parse(fs.readFileSync(trustedOutput, 'utf8'))
+  const trustedCase = trusted.results[trusted.results.length - 1]
+  if (trusted.runtime !== catalog.version || trusted.results.length !== 10 || trusted.results.some(function(test) { return !test.pass }) || trustedCase.name !== 'fixture-trusted HTTPS succeeds' || trustedCase.value !== 200) throw new Error('Fixture-trusted TLS contract failed: ' + JSON.stringify(trusted))
+}
+
+async function featuresSuite() {
+  const directory = reset('features')
+  const profile = path.join(directory, 'profile')
+  const app = path.join(directory, 'app')
+  const createOutput = path.join(directory, 'create.json')
+  assembleFull(app, path.join(root, 'tests', 'fixtures', 'nwjs', 'full-app', 'features-create-hook.js'))
+  await run(targetBinary(), app, profile, createOutput, ['--duckietv-start-fresh', isolatedNetwork], {}, 45000)
+  const created = JSON.parse(fs.readFileSync(createOutput, 'utf8'))
+  if (!created.pass) throw new Error('Feature create journey failed: ' + JSON.stringify(created))
+  fs.rmSync(app, { recursive: true, force: true }); fs.mkdirSync(app, { recursive: true })
+  assembleFull(app, path.join(root, 'tests', 'fixtures', 'nwjs', 'full-app', 'features-reopen-hook.js'))
+  const reopenOutput = path.join(directory, 'reopen.json')
+  await run(targetBinary(), app, profile, reopenOutput, [isolatedNetwork], {}, 45000)
+  const reopened = JSON.parse(fs.readFileSync(reopenOutput, 'utf8'))
+  if (!reopened.pass) throw new Error('Feature reopen journey failed: ' + JSON.stringify(reopened))
+}
+
+async function protocolsSuite() {
+  const directory = reset('protocols')
+  const profile = path.join(directory, 'profile')
+  const app = path.join(directory, 'app')
+  const output = path.join(directory, 'result.json')
+  assembleFull(app, path.join(root, 'tests', 'fixtures', 'nwjs', 'full-app', 'protocols-hook.js'))
+  await run(targetBinary(), app, profile, output, ['--duckietv-start-fresh', isolatedNetwork], {}, 45000)
+  const result = JSON.parse(fs.readFileSync(output, 'utf8'))
+  const expected = ['Transmission', 'BiglyBT', 'Vuze', 'Deluge', 'Aria2', 'qBittorrent 4.1+', 'qBittorrent 5.2+', 'uTorrent Web UI', 'tTorrent', 'Ktorrent', 'Tixati', 'rTorrent']
+  if (!result.pass || result.results.length !== expected.length || expected.some(function(name) {
+    const item = result.results.find(function(candidate) { return candidate.name === name })
+    return !item || !item.pass || !(item.auth || item.challengeAuth || item.version) || !item.list || !(item.addPath || item.addMagnet) || !item.controls
+  })) throw new Error('Torrent client protocol contracts failed: ' + JSON.stringify(result.results))
 }
 
 async function shellSuite() {
@@ -100,13 +156,20 @@ async function shellSuite() {
   const app = path.join(directory, 'app')
   const output = path.join(directory, 'result.json')
   assembleFull(app, path.join(root, 'tests', 'fixtures', 'nwjs', 'full-app', 'shutdown-hook.js'))
-  await run(targetBinary(), app, profile, output, ['--duckietv-start-fresh'])
+  await run(targetBinary(), app, profile, output, ['--duckietv-start-fresh', isolatedNetwork])
   if (!JSON.parse(fs.readFileSync(output, 'utf8')).pass) throw new Error('Ordered foreground shutdown failed')
   fs.rmSync(app, { recursive: true, force: true }); fs.mkdirSync(app, { recursive: true })
   assembleFull(app, path.join(root, 'tests', 'fixtures', 'nwjs', 'full-app', 'shutdown-verify-hook.js'))
   const verifyOutput = path.join(directory, 'verify.json')
-  await run(targetBinary(), app, profile, verifyOutput)
+  await run(targetBinary(), app, profile, verifyOutput, [isolatedNetwork])
   if (!JSON.parse(fs.readFileSync(verifyOutput, 'utf8')).pass) throw new Error('Ordered foreground shutdown lost an accepted write')
+  const failureDirectory = reset('shutdown-failure')
+  const failureApp = path.join(failureDirectory, 'app')
+  const failureOutput = path.join(failureDirectory, 'result.json')
+  assembleFull(failureApp, path.join(root, 'tests', 'fixtures', 'nwjs', 'full-app', 'shutdown-failure-hook.js'))
+  await run(targetBinary(), failureApp, path.join(failureDirectory, 'profile'), failureOutput, ['--duckietv-start-fresh', isolatedNetwork])
+  const failureResult = JSON.parse(fs.readFileSync(failureOutput, 'utf8'))
+  if (!failureResult.pass) throw new Error('Failed shutdown did not preserve explicit force-quit control: ' + JSON.stringify(failureResult))
 }
 
 async function migrationSuite() {
@@ -133,6 +196,17 @@ async function migrationSuite() {
   const bundle = JSON.parse(fs.readFileSync(summary.migrationBundle, 'utf8'))
   const repeat = spawnSync(process.execPath, migrationArgs, { cwd: root, encoding: 'utf8' })
   if (repeat.status !== 0) throw new Error('Repeated migration failed\n' + repeat.stdout + '\n' + repeat.stderr)
+  if (process.platform === 'darwin') {
+    const crashCheck = spawnSync(process.execPath, [
+      path.join(root, 'tests', 'fixtures', 'nwjs', 'migration-crash-check.cjs'),
+      '--binary=' + targetBinary(),
+      '--bundle=' + path.resolve(summary.migrationBundle),
+      '--work=' + path.join(directory, 'crash-recovery')
+    ], { cwd: root, encoding: 'utf8', timeout: 240000 })
+    if (crashCheck.status !== 0) throw new Error('Process-kill migration recovery failed\n' + crashCheck.stdout + '\n' + crashCheck.stderr)
+  } else {
+    console.log('SKIP macOS-specific process-kill migration recovery fixture')
+  }
   const DatabaseSync = require('node:sqlite').DatabaseSync
   const imported = new DatabaseSync(path.join(directory, 'destination-profile', 'Default', 'seriesguide_chrome.sqlite3'), { readOnly: true })
   const exactCounts = ['Series', 'Seasons', 'Episodes', 'Fanart', 'TMDBFanart', 'Jackett'].every(function(table) { return imported.prepare('SELECT COUNT(*) AS count FROM ' + table).get().count === 1 })
@@ -178,7 +252,7 @@ async function migrationSuite() {
   const verifyApp = path.join(directory, 'verify-app')
   const verifyOutput = path.join(directory, 'verify.json')
   assembleFull(verifyApp, path.join(root, 'tests', 'fixtures', 'nwjs', 'full-app', 'migration-hook.js'))
-  await run(targetBinary(), verifyApp, path.join(directory, 'destination-profile'), verifyOutput)
+  await run(targetBinary(), verifyApp, path.join(directory, 'destination-profile'), verifyOutput, [isolatedNetwork])
   const verified = JSON.parse(fs.readFileSync(verifyOutput, 'utf8'))
   if (!verified.pass) throw new Error('Migrated app equality failed: ' + JSON.stringify(verified))
 }
@@ -204,6 +278,8 @@ function packagedSuite() {
 Promise.resolve().then(function() {
   if (options.suite === 'bootstrap') return fullAppSuite('bootstrap', 'bootstrap-hook.js')
   if (options.suite === 'storage') return fullAppSuite('storage', 'storage-hook.js')
+  if (options.suite === 'features') return featuresSuite()
+  if (options.suite === 'protocols') return protocolsSuite()
   if (options.suite === 'network') return networkSuite()
   if (options.suite === 'shell') return shellSuite()
   if (options.suite === 'migration') return migrationSuite()

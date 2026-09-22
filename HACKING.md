@@ -53,6 +53,17 @@ The Chrome new-tab and browser-action extensions are no longer supported. The lo
 
 The probe and app must use a disposable `--user-data-dir`. NW.js 0.116 must never be launched against an existing NW.js 0.87 DuckieTV profile because Chromium can change profile data before application scripts run.
 
+On macOS arm64, launch the checked-out application with the exact SDK and a disposable profile from the repository root:
+
+```sh
+DUCKIETV_TEST_PROFILE="$(mktemp -d "${TMPDIR:-/tmp}/duckietv-nw116.XXXXXX")"
+"$PWD/_nwjs/nwjs-sdk-v0.116.0-osx-arm64/nwjs.app/Contents/MacOS/nwjs" \
+  --user-data-dir="$DUCKIETV_TEST_PROFILE" \
+  --nwapp="$PWD"
+```
+
+Quit DuckieTV before removing the disposable directory.
+
 On its first launch, the new standalone profile requires an explicit choice. **Start Fresh** creates an empty native SQLite library. **Import Existing Library** displays the destination path to use with the migration command below.
 
 ## Migrate an NW.js 0.87 profile

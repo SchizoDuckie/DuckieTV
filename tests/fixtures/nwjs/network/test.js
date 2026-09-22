@@ -2,6 +2,7 @@
 
 var results = []
 var fs = require('node:fs')
+var httpsServer = require('node:https').createServer({ key: fs.readFileSync(process.env.NW_TEST_TLS_KEY), cert: fs.readFileSync(process.env.NW_TEST_TLS_CERT) }, function(req, res) { res.end('{"ok":true}') })
 var server = require('node:http').createServer(function(req, res) {
   var url = new URL(req.url, 'http://localhost')
   if (url.pathname === '/auth' && req.headers.authorization !== 'Basic ' + Buffer.from('probe:synthetic').toString('base64')) {
@@ -22,7 +23,7 @@ var server = require('node:http').createServer(function(req, res) {
   res.setHeader('Content-Type', 'application/json'); res.end(JSON.stringify({ ok: true }))
 })
 
-server.listen(0, '127.0.0.1', async function() {
+httpsServer.listen(0, '127.0.0.1', function() { server.listen(0, '127.0.0.1', async function() {
   var injector = angular.injector(['ng', 'DuckieTV'])
   var http = injector.get('$http')
   var sce = injector.get('$sce')
@@ -40,6 +41,11 @@ server.listen(0, '127.0.0.1', async function() {
   await test('multipart bytes', async function() { var data = new FormData(); data.append('label', 'synthetic'); data.append('file', new Blob(['torrent-bytes']), 'probe.torrent'); var value = (await http.post(base + '/upload', data, { transformRequest: angular.identity, headers: { 'Content-Type': undefined } })).data; if (value.type.indexOf('multipart/form-data; boundary=') !== 0 || value.body.indexOf('torrent-bytes') < 0) throw new Error('multipart altered'); return true })
   await test('promise cancellation settles once', async function() { var deferred = injector.get('$q').defer(), count = 0; var request = http.get(base + '/slow', { timeout: deferred.promise }).then(function() { count++; throw new Error('not cancelled') }, function(error) { count++; if (error.status !== -1) throw error }); setTimeout(function() { deferred.resolve() }, 20); await request; await new Promise(function(resolve) { setTimeout(resolve, 50) }); if (count !== 1) throw new Error('duplicate completion'); return count })
   await test('timeout settles', async function() { try { await http.get(base + '/slow', { timeout: 30 }); throw new Error('not cancelled') } catch (error) { if (error.status !== -1) throw error; return error.status } })
+  if (process.env.NW_TEST_TLS_TRUSTED === '1') {
+    await test('fixture-trusted HTTPS succeeds', async function() { var response = await http.get('https://127.0.0.1:' + httpsServer.address().port + '/tls'); if (response.status !== 200 || !response.data.ok) throw new Error('HTTPS response mismatch'); return response.status })
+  } else {
+    await test('untrusted HTTPS is rejected by default', async function() { try { await http.get('https://127.0.0.1:' + httpsServer.address().port + '/tls'); throw new Error('untrusted TLS unexpectedly succeeded') } catch (error) { if (error.status !== -1) throw error; return error.status } })
+  }
   fs.writeFileSync(process.env.NW_TEST_OUTPUT, JSON.stringify({ runtime: process.versions.nw, results: results }, null, 2))
-  server.close(); nw.App.quit()
-})
+  server.close(); httpsServer.close(); nw.App.quit()
+}) })

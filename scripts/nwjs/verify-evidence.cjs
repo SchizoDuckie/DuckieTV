@@ -17,6 +17,7 @@ const requiredFeatures = [
   'networking', 'native-shell', 'notifications', 'settings-and-backup',
   'scheduled-and-background-work', 'torrent-clients', 'release-ui-and-assets'
 ]
+const requiredReleaseGates = ['macos13-runtime-floor', 'installer-upgrade-identity', 'distribution-signing-notarization']
 const requiredLocalResults = {
   runtimeIdentity: 'PASS', websql: 'FAIL_EXPECTED_PATH_B', nodeSqlite: 'PASS',
   backgroundTransport: 'PASS', freshBootstrap: 'PASS', networkPreflight: 'PASS',
@@ -62,6 +63,16 @@ requiredFeatures.forEach(function(id) {
 })
 if (features.some(function(item, index) { return requiredFeatures.indexOf(item.id) === -1 || features.findIndex(function(value) { return value.id === item.id }) !== index })) {
   errors.push('feature IDs do not match the required set')
+}
+
+const releaseGates = Array.isArray(evidence.releaseGates) ? evidence.releaseGates : []
+requiredReleaseGates.forEach(function(id) {
+  const gate = releaseGates.find(function(item) { return item.id === id })
+  if (!gate) errors.push('missing release gate ' + id)
+  else if (gate.status !== 'PASS' || !Array.isArray(gate.evidence) || gate.evidence.length === 0) errors.push(id + '=' + String(gate.status))
+})
+if (releaseGates.some(function(item, index) { return requiredReleaseGates.indexOf(item.id) === -1 || releaseGates.findIndex(function(value) { return value.id === item.id }) !== index })) {
+  errors.push('release gate IDs do not match the required set')
 }
 
 if (evidence.complete !== true) errors.push('complete=false')

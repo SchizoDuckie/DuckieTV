@@ -11,7 +11,8 @@ const catalog = require(path.resolve(__dirname, '..', '..', '..', 'scripts', 'nw
 const binary = process.platform === 'darwin' ? path.join(options.artifact, 'Contents', 'MacOS', 'nwjs') : path.join(options.artifact, process.platform === 'win32' ? 'nw.exe' : 'nw')
 const profile = path.join(options.work, 'profile')
 fs.mkdirSync(profile, { recursive: true }); fs.rmSync(path.join(profile, 'DevToolsActivePort'), { force: true })
-const child = spawn(binary, ['--user-data-dir=' + profile, '--remote-debugging-port=0'].concat(options.phase === 'create' ? ['--duckietv-start-fresh'] : []), { cwd: require('node:os').tmpdir(), stdio: 'ignore' })
+const isolatedNetwork = '--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE localhost, EXCLUDE 127.0.0.1'
+const child = spawn(binary, ['--user-data-dir=' + profile, '--remote-debugging-port=0', isolatedNetwork].concat(options.phase === 'create' ? ['--duckietv-start-fresh'] : []), { cwd: require('node:os').tmpdir(), stdio: 'ignore' })
 let socket
 const timeout = setTimeout(function() { child.kill('SIGKILL'); process.exit(1) }, 30000)
 function delay(ms) { return new Promise(function(resolve) { setTimeout(resolve, ms) }) }

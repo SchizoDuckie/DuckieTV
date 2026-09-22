@@ -22,7 +22,7 @@ function command(program, args) {
 function npm(args) { command(process.execPath, [npmCli].concat(args)) }
 npm(['test'])
 npm(['run', 'locales:check'])
-;['bootstrap', 'storage', 'network', 'shell'].forEach(function(suite) { npm(['run', 'test:nw', '--', '--suite=' + suite]) })
+;['bootstrap', 'storage', 'features', 'protocols', 'network', 'shell'].forEach(function(suite) { npm(['run', 'test:nw', '--', '--suite=' + suite]) })
 npm(['run', 'test:nw', '--', '--suite=migration', '--legacy-binary=' + path.resolve(legacyBinary)])
 npm(['run', 'nw:package', '--', '--platform=' + platform, '--arch=' + process.arch])
 npm(['run', 'test:nw', '--', '--suite=packaged', '--artifact=' + artifact])

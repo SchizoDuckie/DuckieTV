@@ -82,7 +82,7 @@ function probeNotification() {
   return new Promise(function(resolve, reject) {
     chrome.notifications.create('duckietv-nw-probe', {
       type: 'basic',
-      iconUrl: '../../../../img/logo/icon16.png',
+      iconUrl: chrome.runtime.getURL('probe-icon.svg'),
       title: 'DuckieTV probe',
       message: 'Runtime capability check'
     }, function(id) {

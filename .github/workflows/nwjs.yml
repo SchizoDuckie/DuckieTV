@@ -46,6 +46,8 @@ jobs:
       - run: npm run nw:fetch -- --version=0.116.0 --flavor=sdk --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
       - run: npm run test:nw -- --suite=bootstrap
       - run: npm run test:nw -- --suite=storage
+      - run: npm run test:nw -- --suite=features
+      - run: npm run test:nw -- --suite=protocols
       - run: npm run test:nw -- --suite=network
       - run: npm run test:nw -- --suite=shell
       - run: npm run nw:package -- --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
