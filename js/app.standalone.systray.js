@@ -182,6 +182,7 @@ DuckieTV.run(['$rootScope', 'SettingsService', 'StandaloneWindowRuntime', functi
     // console.debug('startupMinimized');
     // Create a new tray if one isn't already
     createTray()
+    StandaloneWindowRuntime.hideToTray()
   }
 
   // On Minimize Event
@@ -189,11 +190,8 @@ DuckieTV.run(['$rootScope', 'SettingsService', 'StandaloneWindowRuntime', functi
     // Should we minimize to systray or taskbar? (default is N or null)
     // console.debug('on minimize');
     if (localStorage.getItem('standalone.minimizeSystray') === 'Y') {
-      // console.debug('on minimize: minimizeSystray');
-      // Hide window
-      win.hide()
-      // Create a new tray if one isn't already
       createTray()
+      StandaloneWindowRuntime.hideToTray()
     }
   })
 
@@ -215,18 +213,8 @@ DuckieTV.run(['$rootScope', 'SettingsService', 'StandaloneWindowRuntime', functi
   })
 
   // On Close Event, fired before anything happens
-  win.on('close', function () {
-    // does close mean go to systray? (default N or null)
-    if (localStorage.getItem('standalone.closeSystray') === 'Y') {
-      // console.debug('closeSystray');
-      // Hide window
-      win.hide()
-      // Create a new tray if one isn't already
-      createTray()
-    } else {
-      // win.close(true);
-      quitWhenStorageDrained()
-    }
+  win.on('close', function (reason) {
+    StandaloneWindowRuntime.handleClose(reason, localStorage.getItem('standalone.closeSystray') === 'Y', createTray, quitWhenStorageDrained)
   })
 
   // on locationreload event, delete tray and listeners.

@@ -42,6 +42,7 @@ jobs:
           Xvfb :99 -screen 0 1280x1024x24 &
           echo "DISPLAY=:99" >> "$GITHUB_ENV"
       - run: npm test
+      - run: npm run test:startup
       - run: npm run locales:check
       - run: npm run scripts:typecheck
       - run: npm run nw:fetch -- --version=0.116.0 --flavor=sdk --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}

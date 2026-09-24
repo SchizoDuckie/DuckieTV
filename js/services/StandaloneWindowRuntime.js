@@ -24,7 +24,23 @@ DuckieTV.factory('StandaloneWindowRuntime', [function() {
       return state
     },
     show: function() {
-      getWindow().show()
+      var window = getWindow()
+      window.setShowInTaskbar(true)
+      window.show()
+      window.focus()
+    },
+    hideToTray: function() {
+      var window = getWindow()
+      window.hide()
+      window.setShowInTaskbar(false)
+    },
+    handleClose: function(reason, closeToTray, createTray, quit) {
+      if (reason === 'quit' || !closeToTray) {
+        quit()
+        return
+      }
+      createTray()
+      this.hideToTray()
     },
     minimize: function() {
       getWindow().minimize()

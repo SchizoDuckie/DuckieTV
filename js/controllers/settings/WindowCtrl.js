@@ -9,6 +9,35 @@ DuckieTV.controller('WindowCtrl', ['$scope', '$filter',
     $scope.alwaysShowTray = localStorage.getItem('standalone.alwaysShowTray')
     $scope.minimizeToTray = localStorage.getItem('standalone.minimizeSystray')
     $scope.closeToTray = localStorage.getItem('standalone.closeSystray')
+    $scope.loginStartupSupported = false
+    $scope.loginStartupEnabled = false
+    $scope.loginStartupError = null
+    var loginStartup = null
+    if (typeof global !== 'undefined' && global.DuckieTVRequireFromRoot && (process.platform === 'darwin' || process.platform === 'win32')) {
+      try {
+        loginStartup = global.DuckieTVRequireFromRoot('js/nwjs/login-startup.cjs')
+        $scope.loginStartupSupported = loginStartup.isSupported()
+        $scope.loginStartupEnabled = loginStartup.isEnabled()
+      } catch (error) {
+        $scope.loginStartupError = error.message
+      }
+    }
+
+    $scope.toggleLoginStartup = function() {
+      if (!loginStartup || !$scope.loginStartupSupported) {
+        return
+      }
+      var enabled = $scope.loginStartupEnabled
+      try {
+        loginStartup.setEnabled(enabled)
+        $scope.loginStartupEnabled = loginStartup.isEnabled()
+        $scope.loginStartupError = null
+      } catch (error) {
+        $scope.loginStartupEnabled = !enabled
+        $scope.loginStartupError = error.message
+      }
+    }
+
     $scope.activeTrayColor = 'black' // default color of the tray icon
     if (localStorage.getItem('standalone.trayColor')) {
       $scope.activeTrayColor = (localStorage.getItem('standalone.trayColor') === '') ? 'black' : localStorage.getItem('standalone.trayColor').replace('-', '').replace('inverted', 'white')

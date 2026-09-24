@@ -113,6 +113,7 @@ async function main() {
       chromium: process.versions.chromium,
       version: nw.App.manifest.version,
       buildCommit: nw.App.manifest.build_commit,
+      loginStartupSupported: global.DuckieTVRequireFromRoot('js/nwjs/login-startup.cjs').isSupported(),
       injector: Boolean(angular.element(document).injector()),
       nativeFrame: nw.App.manifest.window.frame === true && !document.querySelector('.windowChrome'),
       rows: rows
@@ -120,11 +121,24 @@ async function main() {
   })()`
   const result = await rpc('Runtime.evaluate', { expression: expression, awaitPromise: true, returnByValue: true })
   const value = result.result.result.value
-  if (!value.injector || !value.nativeFrame || value.runtime !== catalog.version || value.node !== catalog.components.node || value.chromium !== catalog.components.chromium || value.version !== expectedVersion || value.buildCommit !== expectedCommit || value.rows.length !== 1 || value.rows[0].name !== 'Packaged synthetic') {
+  if (!value.injector || !value.nativeFrame || value.loginStartupSupported !== (process.platform === 'darwin' || process.platform === 'win32') || value.runtime !== catalog.version || value.node !== catalog.components.node || value.chromium !== catalog.components.chromium || value.version !== expectedVersion || value.buildCommit !== expectedCommit || value.rows.length !== 1 || value.rows[0].name !== 'Packaged synthetic') {
     throw new Error(JSON.stringify(result))
   }
 
   fs.writeFileSync(path.join(options.work, options.phase + '.json'), JSON.stringify({ pass: true, phase: options.phase, result: value }, null, 2))
+  if (options.phase === 'rebuilt') {
+    const closeResult = await rpc('Runtime.evaluate', {
+      expression: "localStorage.setItem('standalone.closeSystray', 'Y'); nw.Window.get().close(); true",
+      returnByValue: true
+    })
+    if (closeResult.result.exceptionDetails) {
+      throw new Error(JSON.stringify(closeResult))
+    }
+    await delay(300)
+    if (child.exitCode !== null) {
+      throw new Error('Close to tray unexpectedly exited the app')
+    }
+  }
   socket.send(JSON.stringify({ id: ++counter, method: 'Runtime.evaluate', params: { expression: 'nw.App.quit()' } }))
   await new Promise(function(resolve) {
     child.once('exit', resolve)

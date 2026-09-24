@@ -72,7 +72,7 @@ function main(): void {
 
   const output = path.join(root, 'dist', 'nwjs-packages', 'DuckieTV-' + catalog.version + '-' + target)
   const staging = path.join(root, 'dist', 'nwjs-packages', '.staging-' + process.pid)
-  fs.rmSync(output, { recursive: true, force: true })
+  fs.rmSync(output, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 })
   fs.rmSync(staging, { recursive: true, force: true })
   fs.mkdirSync(staging, { recursive: true })
 
@@ -95,7 +95,31 @@ function main(): void {
     fs.cpSync(path.join(runtime, 'nwjs.app'), app, { recursive: true, dereference: false, verbatimSymlinks: true })
     const archive = path.join(app, 'Contents', 'Resources', 'app.nw')
     const iconName = 'DuckieTV.icns'
-    fs.copyFileSync(path.join(root, 'img', 'logo', 'duckietv.icns'), path.join(app, 'Contents', 'Resources', iconName))
+    const resources = path.join(app, 'Contents', 'Resources')
+    fs.copyFileSync(path.join(root, 'img', 'logo', 'duckietv.icns'), path.join(resources, iconName))
+
+    let hasLayeredIcon = false
+    if (process.platform === 'darwin') {
+      const actool = spawnSync('xcrun', ['--find', 'actool'], { stdio: 'ignore' })
+      if (actool.status === 0) {
+        const iconSource = path.join(root, 'img', 'logo', 'DuckieTV.icon')
+        const iconInfo = path.join(output, 'icon-info.plist')
+        const iconBuild = spawnSync('xcrun', [
+          'actool', '--compile', resources,
+          '--platform', 'macosx',
+          '--minimum-deployment-target', '13.0',
+          '--app-icon', 'DuckieTV',
+          '--output-partial-info-plist', iconInfo,
+          iconSource
+        ], { stdio: 'inherit' })
+        if (iconBuild.status !== 0) {
+          throw new Error('Layered macOS icon compilation failed')
+        }
+        fs.rmSync(iconInfo)
+        hasLayeredIcon = true
+      }
+    }
+
     const zip = spawnSync('zip', ['-q', '-r', archive, '.'], { cwd: staging, stdio: 'inherit' })
     if (zip.status !== 0) {
       throw new Error('Application archive creation failed')
@@ -107,6 +131,9 @@ function main(): void {
       ['-replace', 'CFBundleName', '-string', 'DuckieTV', plist],
       ['-replace', 'CFBundleIconFile', '-string', iconName, plist]
     ]
+    if (hasLayeredIcon) {
+      plistUpdates.push(['-insert', 'CFBundleIconName', '-string', 'DuckieTV', plist])
+    }
     plistUpdates.forEach(function(args) {
       const result = spawnSync('plutil', args, { stdio: 'inherit' })
       if (result.status !== 0) {

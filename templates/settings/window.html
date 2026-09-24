@@ -14,6 +14,17 @@
   </a>
   <hr class="setting-divider">
 
+  <div ng-if="loginStartupSupported">
+    <h2 translate-once>SETTINGS/WINDOW/login-startup/hdr</h2>
+    <div class="checkbox">
+      <input type="checkbox" ng-model="loginStartupEnabled" ng-change="toggleLoginStartup()" id="w_login_startup">
+      <label for="w_login_startup" translate-once>SETTINGS/WINDOW/login-startup/lbl</label>
+    </div>
+    <p translate-once>SETTINGS/WINDOW/login-startup/desc</p>
+    <p class="alert alert-danger" ng-if="loginStartupError">{{loginStartupError}}</p>
+    <hr class="setting-divider">
+  </div>
+
   <h2>
     <li translate-once>SETTINGS/WINDOW/system-tray/hdr</li>
   </h2>

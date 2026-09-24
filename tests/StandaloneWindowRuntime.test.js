@@ -5,6 +5,9 @@ describe('StandaloneWindowRuntime', function() {
     localStorage.removeItem('standalone.position')
     win = {
       show: jasmine.createSpy('show'),
+      hide: jasmine.createSpy('hide'),
+      focus: jasmine.createSpy('focus'),
+      setShowInTaskbar: jasmine.createSpy('setShowInTaskbar'),
       minimize: jasmine.createSpy('minimize'),
       maximize: jasmine.createSpy('maximize'),
       unmaximize: jasmine.createSpy('unmaximize')
@@ -38,7 +41,37 @@ describe('StandaloneWindowRuntime', function() {
 
     expect(window.nw.Window.get.calls.count()).toBe(1)
     expect(win.show).toHaveBeenCalled()
+    expect(win.setShowInTaskbar).toHaveBeenCalledWith(true)
+    expect(win.focus).toHaveBeenCalled()
     expect(win.minimize).toHaveBeenCalled()
+  })
+
+  it('removes the Dock or taskbar entry only while hidden in the tray', function() {
+    loadRuntime()
+
+    StandaloneWindowRuntime.hideToTray()
+    expect(win.hide).toHaveBeenCalledBefore(win.setShowInTaskbar)
+    expect(win.setShowInTaskbar).toHaveBeenCalledWith(false)
+
+    StandaloneWindowRuntime.show()
+    expect(win.setShowInTaskbar.calls.mostRecent().args).toEqual([true])
+    expect(win.show).toHaveBeenCalled()
+    expect(win.focus).toHaveBeenCalled()
+  })
+
+  it('quits on a macOS quit request even when close to tray is enabled', function() {
+    loadRuntime()
+    var createTray = jasmine.createSpy('createTray')
+    var quit = jasmine.createSpy('quit')
+
+    StandaloneWindowRuntime.handleClose('quit', true, createTray, quit)
+    expect(quit).toHaveBeenCalled()
+    expect(createTray).not.toHaveBeenCalled()
+    expect(win.hide).not.toHaveBeenCalled()
+
+    StandaloneWindowRuntime.handleClose(undefined, true, createTray, quit)
+    expect(createTray).toHaveBeenCalled()
+    expect(win.hide).toHaveBeenCalled()
   })
 
   it('owns maximized and normal state transitions', function() {

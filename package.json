@@ -62,6 +62,7 @@
         "nw:probe": "node scripts/nwjs/probe.cjs",
         "nw:verify-evidence": "node scripts/nwjs/verify-evidence.cjs",
         "test:nw": "node scripts/nwjs/test.cjs",
+        "test:startup": "node --test tests/LoginStartup.test.cjs",
         "scripts:typecheck": "tsc --project tsconfig.scripts.json",
         "verify:nw": "node scripts/nwjs/verify.cjs",
         "test": "karma start --single-run",

@@ -31,6 +31,7 @@ function npm(args) {
 }
 
 npm(['test'])
+npm(['run', 'test:startup'])
 npm(['run', 'locales:check'])
 npm(['run', 'scripts:typecheck'])
 

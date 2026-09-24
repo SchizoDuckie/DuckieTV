@@ -94,6 +94,8 @@ npm run nw:package -- --platform=osx --arch=arm64
 
 Packages are written under `dist/nwjs-packages`. These are unsigned local test artifacts and are not release installers. Signing, notarization, installer identity, and native Windows/Linux/macOS x64 validation remain release gates.
 
+The standalone Window settings offer **Start DuckieTV when I log in** for packaged macOS and Windows apps. On macOS, enabling it installs a per-user LaunchAgent that opens the current `.app` path; move the app to its permanent location first. On Windows, it writes a per-user `Run` entry for the packaged executable. Disabling the setting removes the corresponding entry. Closing or minimizing to the tray hides the macOS Dock or Windows taskbar icon; use the tray menu to show the window again. Dock **Quit** exits the app even when close-to-tray is enabled.
+
 The package step reads `git rev-parse HEAD` and stamps the full commit hash as `build_commit` in the packaged `package.json`. The About statistics show that hash for standalone builds. A Git checkout is required to build a package; the hash identifies the checked-out commit, so commit source changes before making a release artifact.
 
 The former Gulp, Wine, NSIS, Cordova, and PhoneGap release instructions referred to build scripts and hosted services that are no longer present in this repository. They are historical and must not be used to produce or validate an NW.js 0.116 release.

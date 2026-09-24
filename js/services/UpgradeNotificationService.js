@@ -12,6 +12,7 @@ DuckieTV.run(['dialogs', '$http',
       '1.1.7': [
         '<li>Standalone: Upgraded to NW.js 0.116.0 and Chromium 153 with native SQLite storage and safe migration of existing profiles.',
         '<li>Standalone: Added native window chrome, a larger default window, and the build commit in About statistics.',
+        '<li>Standalone: Improved tray and Dock controls, added a start-at-login option, and refreshed the macOS icon.',
         '<li>Builds: Added package verification for the new NW.js runtime.',
         '<li>Reliability: Improved torrent search and client behavior, Trakt requests and import, backup and restore, calendar events, watched counts, favorites, and locale handling.'
       ].join(''),
