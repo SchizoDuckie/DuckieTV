@@ -293,21 +293,36 @@ async function migrationSuite() {
 }
 
 function packagedSuite() {
-  if (!options.artifact) throw new Error('--artifact is required for the packaged suite')
+  if (!options.artifact) {
+    throw new Error('--artifact is required for the packaged suite')
+  }
+
   const helper = path.join(root, 'tests', 'fixtures', 'nwjs', 'packaged-check.cjs')
   const directory = reset('packaged')
-  ;['create', 'reopen'].forEach(function(phase) {
+  const phases = ['create', 'reopen']
+  phases.forEach(function(phase) {
     const result = spawnSync(process.execPath, [helper, '--artifact=' + path.resolve(options.artifact), '--work=' + directory, '--phase=' + phase], { cwd: os.tmpdir(), stdio: 'inherit' })
-    if (result.status !== 0) throw new Error('Packaged ' + phase + ' failed')
+    if (result.status !== 0) {
+      throw new Error('Packaged ' + phase + ' failed')
+    }
   })
+
   const platform = process.platform === 'darwin' ? 'osx' : process.platform === 'win32' ? 'win' : 'linux'
   const baseArtifact = path.join(root, 'dist', 'nwjs-packages', 'DuckieTV-' + catalog.version + '-' + platform + '-' + process.arch)
   const expectedArtifact = process.platform === 'darwin' ? path.join(baseArtifact, 'DuckieTV.app') : baseArtifact
-  if (path.resolve(options.artifact) !== expectedArtifact) throw new Error('Second-build verification requires the standard host artifact path')
-  const rebuild = spawnSync(process.execPath, [path.join(root, 'scripts', 'nwjs', 'package.cjs'), '--platform=' + platform, '--arch=' + process.arch], { cwd: root, stdio: 'inherit' })
-  if (rebuild.status !== 0) throw new Error('Packaged second build failed')
+  if (path.resolve(options.artifact) !== expectedArtifact) {
+    throw new Error('Second-build verification requires the standard host artifact path')
+  }
+
+  const rebuild = spawnSync(process.execPath, [path.join(root, 'scripts', 'nwjs', 'package.cts'), '--platform=' + platform, '--arch=' + process.arch], { cwd: root, stdio: 'inherit' })
+  if (rebuild.status !== 0) {
+    throw new Error('Packaged second build failed')
+  }
+
   const rebuilt = spawnSync(process.execPath, [helper, '--artifact=' + expectedArtifact, '--work=' + directory, '--phase=rebuilt'], { cwd: os.tmpdir(), stdio: 'inherit' })
-  if (rebuilt.status !== 0) throw new Error('Packaged rebuilt launch failed')
+  if (rebuilt.status !== 0) {
+    throw new Error('Packaged rebuilt launch failed')
+  }
 }
 
 Promise.resolve().then(function() {

@@ -9,6 +9,12 @@ DuckieTV.run(['dialogs', '$http',
   function(dialogs, $http) {
     var dlgLinks = '<h2>Questions? Suggestions? Bugs? Kudo\'s?</h2>Find DuckieTV on <a href="https://reddit.com/r/DuckieTV" target="_blank">Reddit</a> or <a href="https://facebook.com/DuckieTV/" target="_blank">Facebook</a>.<br>If you find a bug, please report it on <a href="https://github.com/SchizoDuckie/DuckieTV/issues">Github</a></em>'
     var notifications = {
+      '1.1.7': [
+        '<li>Standalone: Upgraded to NW.js 0.116.0 and Chromium 153 with native SQLite storage and safe migration of existing profiles.',
+        '<li>Standalone: Added native window chrome, a larger default window, and the build commit in About statistics.',
+        '<li>Builds: Added package verification for the new NW.js runtime.',
+        '<li>Reliability: Improved torrent search and client behavior, Trakt requests and import, backup and restore, calendar events, watched counts, favorites, and locale handling.'
+      ].join(''),
       '1.1.6': [
         '<li>AutoDownload: (fix) Seeders now numerically sorted by largest first.',
         '<li>AutoDownload: (new) Now able to use series custom Seeders, custom Includes and custom Excludes.',

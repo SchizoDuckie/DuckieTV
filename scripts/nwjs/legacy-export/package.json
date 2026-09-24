@@ -1,6 +1,6 @@
 {
   "name": "DuckieTV-Standalone",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "main": "export.html",
   "nodejs": true,
   "window": { "show": false }

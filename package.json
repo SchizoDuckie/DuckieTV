@@ -12,6 +12,7 @@
         "utorrent"
     ],
     "devDependencies": {
+        "@types/node": "26.6.2",
         "babel-eslint": "^10.0.1",
         "eslint": "^5.11.1",
         "eslint-plugin-angular": "^4.0.0",
@@ -21,6 +22,7 @@
         "karma-jasmine": "^5.1.0",
         "karma-mocha-reporter": "^2.2.5",
         "requirejs": "^2.1.0",
+        "typescript": "5.9.3",
         "ws": "^8.21.3"
     },
     "author": "DuckieTV",
@@ -32,7 +34,7 @@
         "exe_icon": "./img/logo/icon128.png",
         "frame": true,
         "fullscreen": false,
-        "height": 750,
+        "height": 820,
         "icon": "./img/logo/icon128.png",
         "mac_app_icon": "./img/logo/duckietv.icns",
         "mac_icon": "./img/logo/duckietv.icns",
@@ -41,12 +43,12 @@
         "position": "center",
         "resizable": true,
         "show_in_taskbar": true,
-        "title": "DuckieTV Standalone v1.1.6",
+        "title": "DuckieTV Standalone v1.1.7",
         "transparent": false,
         "visible": true,
-        "width": 1000
+        "width": 1100
     },
-    "version": "1.1.6",
+    "version": "1.1.7",
     "inject_js_start": "",
     "inject_js_end": "",
     "main": "tab.html",
@@ -56,10 +58,11 @@
         "locales:check": "node scripts/validate-locales.js",
         "nw:fetch": "node scripts/nwjs/fetch.cjs",
         "nw:migrate": "node scripts/nwjs/migrate.cjs",
-        "nw:package": "node scripts/nwjs/package.cjs",
+        "nw:package": "node scripts/nwjs/package.cts",
         "nw:probe": "node scripts/nwjs/probe.cjs",
         "nw:verify-evidence": "node scripts/nwjs/verify-evidence.cjs",
         "test:nw": "node scripts/nwjs/test.cjs",
+        "scripts:typecheck": "tsc --project tsconfig.scripts.json",
         "verify:nw": "node scripts/nwjs/verify.cjs",
         "test": "karma start --single-run",
         "test-watch": "karma start --no-single-run --auto-watch --browsers ChromeHeadless",

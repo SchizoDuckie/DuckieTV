@@ -43,6 +43,7 @@ jobs:
           echo "DISPLAY=:99" >> "$GITHUB_ENV"
       - run: npm test
       - run: npm run locales:check
+      - run: npm run scripts:typecheck
       - run: npm run nw:fetch -- --version=0.116.0 --flavor=sdk --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
       - run: npm run test:nw -- --suite=bootstrap
       - run: npm run test:nw -- --suite=storage

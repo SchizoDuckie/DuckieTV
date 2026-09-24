@@ -143,6 +143,12 @@ DuckieTV.controller('AboutCtrl', ['$scope', '$http', '$injector', 'SettingsServi
 
       // DuckieTV version
       if ($scope.isStandalone && window.nw && nw.App && nw.App.manifest) {
+        if (nw.App.manifest.build_commit) {
+          $scope.statistics.unshift({
+            name: 'Build commit',
+            data: nw.App.manifest.build_commit
+          })
+        }
         $scope.statistics.unshift({
           name: 'DuckieTV',
           data: nw.App.manifest.version

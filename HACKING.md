@@ -48,6 +48,7 @@ The Chrome new-tab and browser-action extensions are no longer supported. The lo
 
 - Clone the repository and run `npm ci`.
 - Run `npm test` and `npm run locales:check`.
+- Run `npm run scripts:typecheck` to check the TypeScript packaging script.
 - Download and verify the pinned NW.js SDK with `npm run nw:fetch -- --version=0.116.0 --flavor=sdk`.
 - Run the isolated capability probe with `npm run nw:probe -- --version=0.116.0`.
 
@@ -92,5 +93,7 @@ npm run nw:package -- --platform=osx --arch=arm64
 ```
 
 Packages are written under `dist/nwjs-packages`. These are unsigned local test artifacts and are not release installers. Signing, notarization, installer identity, and native Windows/Linux/macOS x64 validation remain release gates.
+
+The package step reads `git rev-parse HEAD` and stamps the full commit hash as `build_commit` in the packaged `package.json`. The About statistics show that hash for standalone builds. A Git checkout is required to build a package; the hash identifies the checked-out commit, so commit source changes before making a release artifact.
 
 The former Gulp, Wine, NSIS, Cordova, and PhoneGap release instructions referred to build scripts and hosted services that are no longer present in this repository. They are historical and must not be used to produce or validate an NW.js 0.116 release.
