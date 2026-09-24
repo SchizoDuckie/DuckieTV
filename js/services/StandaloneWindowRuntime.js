@@ -23,6 +23,11 @@ DuckieTV.factory('StandaloneWindowRuntime', [function() {
     getState: function() {
       return state
     },
+    shouldStartInTray: function() {
+      // Login launch is independent of the user's normal startup window choice.
+      return localStorage.getItem('standalone.startupMinimized') === 'Y' ||
+        (nw.App.argv || []).indexOf('--duckietv-start-in-tray') !== -1
+    },
     show: function() {
       var window = getWindow()
       window.setShowInTaskbar(true)

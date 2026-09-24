@@ -39,7 +39,9 @@ const profile = path.join(options.work, 'profile')
 fs.mkdirSync(profile, { recursive: true })
 fs.rmSync(path.join(profile, 'DevToolsActivePort'), { force: true })
 const isolatedNetwork = '--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE localhost, EXCLUDE 127.0.0.1'
-const child = spawn(binary, ['--user-data-dir=' + profile, '--remote-debugging-port=0', isolatedNetwork].concat(options.phase === 'create' ? ['--duckietv-start-fresh'] : []), { cwd: require('node:os').tmpdir(), stdio: 'ignore' })
+// The first run uses the same argument as the login agent. Later runs verify
+// that an ordinary launch still takes the normal window startup path.
+const child = spawn(binary, ['--user-data-dir=' + profile, '--remote-debugging-port=0', isolatedNetwork].concat(options.phase === 'create' ? ['--duckietv-start-fresh', '--duckietv-start-in-tray'] : []), { cwd: require('node:os').tmpdir(), stdio: 'ignore' })
 let socket
 const timeout = setTimeout(function() {
   child.kill('SIGKILL')
@@ -114,6 +116,7 @@ async function main() {
       version: nw.App.manifest.version,
       buildCommit: nw.App.manifest.build_commit,
       loginStartupSupported: global.DuckieTVRequireFromRoot('js/nwjs/login-startup.cjs').isSupported(),
+      startupInTray: angular.element(document).injector().get('StandaloneWindowRuntime').shouldStartInTray(),
       injector: Boolean(angular.element(document).injector()),
       nativeFrame: nw.App.manifest.window.frame === true && !document.querySelector('.windowChrome'),
       rows: rows
@@ -121,7 +124,7 @@ async function main() {
   })()`
   const result = await rpc('Runtime.evaluate', { expression: expression, awaitPromise: true, returnByValue: true })
   const value = result.result.result.value
-  if (!value.injector || !value.nativeFrame || value.loginStartupSupported !== (process.platform === 'darwin' || process.platform === 'win32') || value.runtime !== catalog.version || value.node !== catalog.components.node || value.chromium !== catalog.components.chromium || value.version !== expectedVersion || value.buildCommit !== expectedCommit || value.rows.length !== 1 || value.rows[0].name !== 'Packaged synthetic') {
+  if (!value.injector || !value.nativeFrame || value.loginStartupSupported !== (process.platform === 'darwin' || process.platform === 'win32') || value.startupInTray !== (options.phase === 'create') || value.runtime !== catalog.version || value.node !== catalog.components.node || value.chromium !== catalog.components.chromium || value.version !== expectedVersion || value.buildCommit !== expectedCommit || value.rows.length !== 1 || value.rows[0].name !== 'Packaged synthetic') {
     throw new Error(JSON.stringify(result))
   }
 

@@ -2,6 +2,9 @@
 
 'use strict'
 
+// Migrate a copied legacy profile with the old NW.js runtime, then import its
+// Web SQL data into a separate native SQLite profile for the new runtime.
+
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const os = require('node:os')

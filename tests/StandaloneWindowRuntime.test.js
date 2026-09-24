@@ -13,6 +13,7 @@ describe('StandaloneWindowRuntime', function() {
       unmaximize: jasmine.createSpy('unmaximize')
     }
     window.nw = {
+      App: { argv: [] },
       Window: {
         get: jasmine.createSpy('get').and.returnValue(win)
       }
@@ -21,6 +22,7 @@ describe('StandaloneWindowRuntime', function() {
 
   afterEach(function() {
     localStorage.removeItem('standalone.position')
+    localStorage.removeItem('standalone.startupMinimized')
     delete window.nw
   })
 
@@ -72,6 +74,17 @@ describe('StandaloneWindowRuntime', function() {
     StandaloneWindowRuntime.handleClose(undefined, true, createTray, quit)
     expect(createTray).toHaveBeenCalled()
     expect(win.hide).toHaveBeenCalled()
+  })
+
+  it('starts login launches in the tray independently of the normal startup window setting', function() {
+    loadRuntime()
+
+    expect(StandaloneWindowRuntime.shouldStartInTray()).toBe(false)
+    window.nw.App.argv.push('--duckietv-start-in-tray')
+    expect(StandaloneWindowRuntime.shouldStartInTray()).toBe(true)
+    window.nw.App.argv = []
+    localStorage.setItem('standalone.startupMinimized', 'Y')
+    expect(StandaloneWindowRuntime.shouldStartInTray()).toBe(true)
   })
 
   it('owns maximized and normal state transitions', function() {

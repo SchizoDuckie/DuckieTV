@@ -17,6 +17,11 @@ DuckieTV.controller('WindowCtrl', ['$scope', '$filter',
       try {
         loginStartup = global.DuckieTVRequireFromRoot('js/nwjs/login-startup.cjs')
         $scope.loginStartupSupported = loginStartup.isSupported()
+        // Preserve an existing opt-in while moving older direct plist installs
+        // to macOS Service Management registration.
+        if ($scope.loginStartupSupported && loginStartup.hasLegacyAgent()) {
+          loginStartup.setEnabled(true)
+        }
         $scope.loginStartupEnabled = loginStartup.isEnabled()
       } catch (error) {
         $scope.loginStartupError = error.message

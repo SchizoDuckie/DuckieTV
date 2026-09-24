@@ -565,7 +565,7 @@
     "SETTINGS/UTORRENT/streaming-enabled/btn": "Habilitar Streaming",
     "SETTINGS/UTORRENT/streaming-enabled/desc": "Al hacer clic en el botón de abajo permite la opción de transmisión durante la descarga de torrents",
     "SETTINGS/UTORRENT/streaming/hdr": "torrent Streaming ",
-    "SETTINGS/WINDOW/login-startup/desc": "DuckieTV will launch when you sign in. Its window follows the startup window setting above.",
+    "SETTINGS/WINDOW/login-startup/desc": "DuckieTV will start in the system tray when you sign in, without opening its window.",
     "SETTINGS/WINDOW/login-startup/hdr": "Start at login",
     "SETTINGS/WINDOW/login-startup/lbl": "Launch DuckieTV when I sign in",
     "SETTINGS/WINDOW/standalone-startup-minimized/tooltip": "Minimiza",

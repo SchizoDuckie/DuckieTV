@@ -178,7 +178,7 @@ DuckieTV.run(['$rootScope', 'SettingsService', 'StandaloneWindowRuntime', functi
   }
 
   // create tray if are we going to minimize after start-up (default is N or null)
-  if (localStorage.getItem('standalone.startupMinimized') === 'Y') {
+  if (StandaloneWindowRuntime.shouldStartInTray()) {
     // console.debug('startupMinimized');
     // Create a new tray if one isn't already
     createTray()

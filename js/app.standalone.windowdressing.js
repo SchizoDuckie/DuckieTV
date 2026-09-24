@@ -22,14 +22,14 @@ DuckieTV.run(['SettingsService', 'StandaloneWindowRuntime', function (SettingsSe
 
     if (pos.state == 'maximized') {
       setTimeout(function () {
-        if (localStorage.getItem('standalone.startupMinimized') !== 'Y') {
+        if (!StandaloneWindowRuntime.shouldStartInTray()) {
           StandaloneWindowRuntime.maximize()
         }
       }, 230)
     }
   }
 
-  if (localStorage.getItem('standalone.startupMinimized') !== 'Y') {
+  if (!StandaloneWindowRuntime.shouldStartInTray()) {
     setTimeout(function () {
       StandaloneWindowRuntime.show()
     }, 120)

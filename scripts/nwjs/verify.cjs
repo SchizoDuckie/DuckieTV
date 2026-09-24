@@ -2,6 +2,9 @@
 
 'use strict'
 
+// Run the local NW.js verification suites in order, including legacy migration
+// and a package made from the current checkout. Distribution gates are separate.
+
 const path = require('node:path')
 const { spawnSync } = require('node:child_process')
 const catalog = require('./runtime.json')

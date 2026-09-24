@@ -2,6 +2,9 @@
 
 'use strict'
 
+// Download the pinned NW.js SDK, verify its archive checksum against
+// runtime.json, and write the extraction marker required by package.cts.
+
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const https = require('node:https')

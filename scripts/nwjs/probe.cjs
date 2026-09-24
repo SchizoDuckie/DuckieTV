@@ -2,6 +2,9 @@
 
 'use strict'
 
+// Launch an isolated SDK fixture to check runtime capabilities before letting
+// the new NW.js version touch any DuckieTV profile or application data.
+
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')

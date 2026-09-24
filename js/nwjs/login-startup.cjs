@@ -1,5 +1,9 @@
 'use strict'
 
+// The renderer uses this module to manage OS login registration. The macOS
+// helper performs Service Management calls inside the signed app bundle;
+// Windows uses the current user's Run registry value.
+
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
@@ -8,10 +12,7 @@ const { spawnSync } = require('node:child_process')
 const registryKey = 'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run'
 const registryName = 'DuckieTV'
 const agentName = 'tv.duckie.DuckieTV.login'
-
-function escapeXml(value) {
-  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
-}
+const startInTray = '--duckietv-start-in-tray'
 
 function createLoginStartup(options) {
   options = options || {}
@@ -23,6 +24,8 @@ function createLoginStartup(options) {
 
   function applicationPath() {
     if (platform === 'darwin') {
+      // process.execPath may point to an NW.js Renderer helper several bundles
+      // below DuckieTV.app, so climb until the app containing app.nw is found.
       let directory = path.dirname(executable)
       while (directory !== path.dirname(directory)) {
         if (directory.endsWith('.app') && fileSystem.existsSync(path.join(directory, 'Contents', 'Resources', 'app.nw'))) {
@@ -39,19 +42,31 @@ function createLoginStartup(options) {
   }
 
   function agentPath() {
+    // Older builds wrote this file directly. It is removed after migration to
+    // the bundled Service Management agent to avoid a second login launch.
     return path.join(home, 'Library', 'LaunchAgents', agentName + '.plist')
   }
 
-  function agentContents(app) {
-    return '<?xml version="1.0" encoding="UTF-8"?>\n' +
-      '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n' +
-      '<plist version="1.0">\n<dict>\n' +
-      '  <key>Label</key><string>' + agentName + '</string>\n' +
-      '  <key>ProgramArguments</key>\n  <array>\n' +
-      '    <string>/usr/bin/open</string>\n    <string>-a</string>\n' +
-      '    <string>' + escapeXml(app) + '</string>\n' +
-      '  </array>\n  <key>RunAtLoad</key><true/>\n' +
-      '</dict>\n</plist>\n'
+  function macHelper(app) {
+    return path.join(app, 'Contents', 'MacOS', 'duckietv-login-helper')
+  }
+
+  function macStatus(app) {
+    // Keep Service Management inside the signed native helper. Node itself has
+    // no binding for SMAppService, and reading a plist would miss user approval.
+    const result = run(macHelper(app), ['status'], { encoding: 'utf8' })
+    if (result.error || result.status !== 0) {
+      throw result.error || new Error((result.stderr || 'Could not read the macOS login item').trim())
+    }
+    return result.stdout.trim()
+  }
+
+  function runMacHelper(app, action) {
+    const result = run(macHelper(app), [action], { encoding: 'utf8' })
+    if (result.error || result.status !== 0) {
+      throw result.error || new Error((result.stderr || 'Could not update the macOS login item').trim())
+    }
+    return result.stdout.trim()
   }
 
   function registryValue() {
@@ -83,7 +98,11 @@ function createLoginStartup(options) {
 
   return {
     isSupported: function() {
-      return applicationPath() !== null
+      const app = applicationPath()
+      return app !== null && (platform !== 'darwin' || fileSystem.existsSync(macHelper(app)))
+    },
+    hasLegacyAgent: function() {
+      return platform === 'darwin' && fileSystem.existsSync(agentPath())
     },
     isEnabled: function() {
       const app = applicationPath()
@@ -91,16 +110,9 @@ function createLoginStartup(options) {
         return false
       }
       if (platform === 'darwin') {
-        try {
-          return fileSystem.readFileSync(agentPath(), 'utf8') === agentContents(app)
-        } catch (error) {
-          if (error.code === 'ENOENT') {
-            return false
-          }
-          throw error
-        }
+        return macStatus(app) === 'enabled' || fileSystem.existsSync(agentPath())
       }
-      return registryValue() === '"' + app + '"'
+      return registryValue() === '"' + app + '" ' + startInTray
     },
     setEnabled: function(enabled) {
       const app = applicationPath()
@@ -109,27 +121,24 @@ function createLoginStartup(options) {
       }
 
       if (platform === 'darwin') {
-        const file = agentPath()
-        if (!enabled) {
-          fileSystem.rmSync(file, { force: true })
-          return
+        // Remove a legacy agent only after the new registration was attempted.
+        let result = 'disabled'
+        if (enabled) {
+          if (macStatus(app) !== 'enabled') {
+            result = runMacHelper(app, 'enable')
+          }
+        } else {
+          runMacHelper(app, 'disable')
         }
-        if (this.isEnabled()) {
-          return
-        }
-        fileSystem.mkdirSync(path.dirname(file), { recursive: true })
-        const temporary = file + '.' + process.pid + '.tmp'
-        try {
-          fileSystem.writeFileSync(temporary, agentContents(app), { mode: 0o600 })
-          fileSystem.renameSync(temporary, file)
-        } finally {
-          fileSystem.rmSync(temporary, { force: true })
+        fileSystem.rmSync(agentPath(), { force: true })
+        if (result === 'requiresApproval') {
+          throw new Error('Approve DuckieTV in System Settings > General > Login Items, then reopen Window settings')
         }
         return
       }
 
       if (enabled) {
-        runRegistry(['add', registryKey, '/v', registryName, '/t', 'REG_SZ', '/d', '"' + app + '"', '/f'])
+        runRegistry(['add', registryKey, '/v', registryName, '/t', 'REG_SZ', '/d', '"' + app + '" ' + startInTray, '/f'])
       } else if (registryValue() !== null) {
         runRegistry(['delete', registryKey, '/v', registryName, '/f'])
       }

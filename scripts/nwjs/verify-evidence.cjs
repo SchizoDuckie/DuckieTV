@@ -2,6 +2,9 @@
 
 'use strict'
 
+// Validate the recorded platform and feature evidence against the release
+// matrix. This checks the report shape; runtime suites provide live evidence.
+
 const fs = require('node:fs')
 const path = require('node:path')
 const crypto = require('node:crypto')

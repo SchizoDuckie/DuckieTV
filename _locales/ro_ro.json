@@ -565,7 +565,7 @@
     "SETTINGS/UTORRENT/streaming-enabled/btn": "Activați redarea video",
     "SETTINGS/UTORRENT/streaming-enabled/desc": "Dând click pe butonul de mai jos activați opțiunea de redare video în timpul descărcării torrentelor",
     "SETTINGS/UTORRENT/streaming/hdr": "Redare video a torrentelor",
-    "SETTINGS/WINDOW/login-startup/desc": "DuckieTV will launch when you sign in. Its window follows the startup window setting above.",
+    "SETTINGS/WINDOW/login-startup/desc": "DuckieTV will start in the system tray when you sign in, without opening its window.",
     "SETTINGS/WINDOW/login-startup/hdr": "Start at login",
     "SETTINGS/WINDOW/login-startup/lbl": "Launch DuckieTV when I sign in",
     "SETTINGS/WINDOW/standalone-startup-minimized/tooltip": "Minimizat",

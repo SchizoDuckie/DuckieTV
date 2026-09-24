@@ -2,6 +2,9 @@
 
 'use strict'
 
+// Run each NW.js integration suite with disposable profiles and blocked
+// external networking. The packaged suite also checks the built app bundle.
+
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')

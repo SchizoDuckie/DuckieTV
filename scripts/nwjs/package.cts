@@ -2,6 +2,9 @@
 
 'use strict'
 
+// Build a local NW.js app from the verified SDK and the explicit application
+// allowlist. Only files copied to staging are placed in app.nw.
+
 const fs: typeof import('node:fs') = require('node:fs')
 const path: typeof import('node:path') = require('node:path')
 const { spawnSync }: typeof import('node:child_process') = require('node:child_process')
@@ -55,6 +58,7 @@ function main(): void {
   const runtimeName = 'nwjs-sdk-v' + catalog.version + '-' + target
   const runtime = path.join(root, '_nwjs', runtimeName)
   const marker = path.join(runtime, '.duckietv-runtime.json')
+  // nw:fetch writes this checksum marker only after verifying the SDK archive.
   if (!fs.existsSync(marker)) {
     throw new Error('Verified SDK extraction is missing; run nw:fetch for ' + target)
   }
@@ -86,6 +90,7 @@ function main(): void {
 
   const manifestPath = path.join(staging, 'package.json')
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as PackageManifest
+  // Stamp the checkout revision into the packaged manifest, never the source file.
   manifest.build_commit = buildCommit
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 4) + '\n')
 
@@ -96,12 +101,14 @@ function main(): void {
     const archive = path.join(app, 'Contents', 'Resources', 'app.nw')
     const iconName = 'DuckieTV.icns'
     const resources = path.join(app, 'Contents', 'Resources')
+    // The .icns works on older Macs and when the build host lacks Icon Composer.
     fs.copyFileSync(path.join(root, 'img', 'logo', 'duckietv.icns'), path.join(resources, iconName))
 
     let hasLayeredIcon = false
     if (process.platform === 'darwin') {
       const actool = spawnSync('xcrun', ['--find', 'actool'], { stdio: 'ignore' })
       if (actool.status === 0) {
+        // actool adds the layered icon catalog used by newer macOS releases.
         const iconSource = path.join(root, 'img', 'logo', 'DuckieTV.icon')
         const iconInfo = path.join(output, 'icon-info.plist')
         const iconBuild = spawnSync('xcrun', [
@@ -129,6 +136,7 @@ function main(): void {
     const plistUpdates = [
       ['-replace', 'CFBundleDisplayName', '-string', 'DuckieTV', plist],
       ['-replace', 'CFBundleName', '-string', 'DuckieTV', plist],
+      ['-replace', 'CFBundleIdentifier', '-string', 'tv.duckie.DuckieTV', plist],
       ['-replace', 'CFBundleIconFile', '-string', iconName, plist]
     ]
     if (hasLayeredIcon) {
@@ -140,6 +148,30 @@ function main(): void {
         throw new Error('Bundle metadata update failed')
       }
     })
+
+    if (process.platform === 'darwin') {
+      // Service Management reads the bundled agent plist. Its helper registers
+      // the login item and, when launchd starts it, opens DuckieTV in the tray.
+      const helper = path.join(app, 'Contents', 'MacOS', 'duckietv-login-helper')
+      const agentDirectory = path.join(app, 'Contents', 'Library', 'LaunchAgents')
+      fs.mkdirSync(agentDirectory, { recursive: true })
+      fs.copyFileSync(path.join(root, 'scripts', 'nwjs', 'mac-login-agent.plist'), path.join(agentDirectory, 'tv.duckie.DuckieTV.login.plist'))
+      const helperBuild = spawnSync('swiftc', [
+        '-target', (arch === 'arm64' ? 'arm64' : 'x86_64') + '-apple-macos13.0',
+        path.join(root, 'scripts', 'nwjs', 'mac-login-helper.swift'),
+        '-o', helper
+      ], { stdio: 'inherit' })
+      if (helperBuild.status !== 0) {
+        throw new Error('macOS login helper compilation failed')
+      }
+      // Changing NW.js bundle resources invalidates its original signature.
+      // A local ad hoc signature is enough for Service Management registration;
+      // release signing and notarization remain separate distribution steps.
+      const signature = spawnSync('codesign', ['--force', '--deep', '--sign', '-', app], { stdio: 'inherit' })
+      if (signature.status !== 0) {
+        throw new Error('macOS package signing failed')
+      }
+    }
   } else {
     fs.cpSync(runtime, output, { recursive: true })
     const archive = path.join(output, 'app.nw')

@@ -565,7 +565,7 @@
     "SETTINGS/UTORRENT/streaming-enabled/btn": "스트리밍에게 사용 ",
     "SETTINGS/UTORRENT/streaming-enabled/desc": "급류를 다운로드하는 동안 아래의 버튼을 클릭하면 스트리밍 옵션을 활성화 ",
     "SETTINGS/UTORRENT/streaming/hdr": "토런트 스트리밍 ",
-    "SETTINGS/WINDOW/login-startup/desc": "DuckieTV will launch when you sign in. Its window follows the startup window setting above.",
+    "SETTINGS/WINDOW/login-startup/desc": "DuckieTV will start in the system tray when you sign in, without opening its window.",
     "SETTINGS/WINDOW/login-startup/hdr": "Start at login",
     "SETTINGS/WINDOW/login-startup/lbl": "Launch DuckieTV when I sign in",
     "SETTINGS/WINDOW/standalone-startup-minimized/tooltip": "최소화",
