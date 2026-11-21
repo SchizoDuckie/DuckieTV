@@ -264,10 +264,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
       },
       getEpisodesForDateRange: function(start, end) {
         return service.waitForInitialization().then(function() {
-          var filter = ['Episodes.firstaired >= "' + start + '" AND Episodes.firstaired <= "' + end + '" ']
-          return CRUD.Find('Episode', filter).then(function(ret) {
-            return ret
-          })
+          return CRUD.Find('Episode', [['Episodes.firstaired BETWEEN ? AND ?', start, end]])
         })
       },
       getByTVDB_ID: function(id) {

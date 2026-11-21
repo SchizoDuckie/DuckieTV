@@ -50,6 +50,22 @@ describe('FavoritesService', function() {
         $rootScope.$apply();
     }));
 
+    it('binds both calendar date bounds as numeric values in the episode query', async function() {
+        var start = new Date(2026, 10, 1).getTime();
+        var end = new Date(2026, 11, 1).getTime() - 1;
+        var query;
+        spyOn(FavoritesService, 'waitForInitialization').and.resolveTo();
+        CRUD.Find.and.callFake(function(type, filters) {
+            query = new CRUD.Database.SQLBuilder(type, filters).buildQuery();
+            return Promise.resolve([]);
+        });
+
+        await FavoritesService.getEpisodesForDateRange(start, end);
+
+        expect(query.query).toContain('Episodes.firstaired BETWEEN ? AND ?');
+        expect(query.parameters).toEqual([start, end]);
+    });
+
 
     describe('It should be initialized', function() {
 

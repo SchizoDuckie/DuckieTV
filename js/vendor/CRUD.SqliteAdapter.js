@@ -462,8 +462,13 @@ CRUD.Database.SQLBuilder.prototype = {
                 this.buildFilters(val, value[val], what);
                 this.buildJoins(_class, what);
             }
-        } else if (!isNaN(parseInt(what, 10))) { // it's a custom sql where clause, just field=>value). unsafe because parameters are unbound, but very for custom queries.
-            this.wheres.push(value);
+        } else if (!isNaN(parseInt(what, 10))) { // Raw predicate, optionally [sql, ...bindings].
+            if (Array.isArray(value)) {
+                this.wheres.push(value[0]);
+                this.parameters.push(...value.slice(1));
+            } else {
+                this.wheres.push(value);
+            }
         } else { // standard field=>value whereclause. Prefix with tablename for easy joins and push a value to the .
             if (what == 'ID') what = CRUD.EntityManager.getPrimary(_class);
             this.wheres.push(this.getFieldName(what, CRUD.EntityManager.entities[_class].table) + ' = ?');
