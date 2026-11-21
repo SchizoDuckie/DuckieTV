@@ -102,6 +102,50 @@ describe('CalendarEvents', function() {
         expect(angular.isObject(CalendarEvents)).toBe(true);
     });
 
+    it('queries through the end of the last local calendar day on a clock change', function() {
+        spyOn(CalendarEvents, 'getEventsForDateRange');
+        // Sydney ends daylight saving on April 5 and starts it on October 4 in 2026.
+        [new Date(2026, 3, 5), new Date(2026, 9, 4)].forEach(function(sunday) {
+            var saturday = new Date(sunday.getFullYear(), sunday.getMonth(), sunday.getDate() - 1);
+            CalendarEvents.setVisibleDays([[saturday, sunday]]);
+            var end = CalendarEvents.getEventsForDateRange.calls.mostRecent().args[1];
+            expect(end.getTime()).toBe(new Date(2026, sunday.getMonth(), sunday.getDate(), 23, 59, 59, 999).getTime());
+        });
+    });
+
+    it('ignores an earlier range query that finishes after navigation', inject(function($q) {
+        var oldQuery = $q.defer();
+        var currentQuery = $q.defer();
+        spyOn(FavoritesService, 'getEpisodesForDateRange').and.returnValues(oldQuery.promise, currentQuery.promise);
+        spyOn(CalendarEvents, 'setEvents');
+        CalendarEvents.setVisibleDays([[new Date(2026, 1, 1), new Date(2026, 1, 2)]]);
+        CalendarEvents.setVisibleDays([[new Date(2026, 1, 2), new Date(2026, 1, 3)]]);
+        currentQuery.resolve([]);
+        rootScope.$digest();
+        oldQuery.resolve([]);
+        rootScope.$digest();
+        expect(CalendarEvents.setEvents.calls.count()).toBe(1);
+    }));
+
+    it('keeps local favorites without a Trakt ID and skips orphaned episodes', function() {
+        var date = 'Tue Jan 31 2017';
+        var local = { ID_Serie: 900000, TRAKT_ID: null };
+        var event = { start: new Date(date), serie: local, ID_Serie: local.ID_Serie,
+            episode: { getID: function() { return 990000; }, seasonnumber: 1 } };
+        FavoritesService.favorites.push(local);
+        var orphan = { start: event.start, serie: undefined,
+            episode: { getID: function() { return 990001; }, seasonnumber: 1 } };
+        CalendarEvents.setEvents([event, orphan]);
+        expect(CalendarEvents.getEvents(date)).not.toContain(orphan);
+        CalendarEvents.removeDeleted();
+        expect(CalendarEvents.getEvents(date)).toContain(event);
+        expect(CalendarEvents.getEvents(date).every(function(item) { return !!item.serie; })).toBe(true);
+
+        FavoritesService.favorites.pop();
+        CalendarEvents.removeDeleted();
+        expect(CalendarEvents.getEvents(date)).not.toContain(event);
+    });
+
     it('should have getEvents and setEvents functions', function() {
         expect(typeof CalendarEvents.getEvents).toBe("function");
         expect(typeof CalendarEvents.setEvents).toBe("function");

@@ -8,8 +8,6 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
   function($rootScope, FavoritesService, SettingsService) {
     var calendarEvents = {}
     var calendarEpisodeSortCache = {}
-    var calendarStartDate = null
-    var calendarEndDate = null
     var showSpecials = SettingsService.get('calendar.show-specials')
 
     /* #843
@@ -87,10 +85,15 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
        * Remove shows that were deleted from the database from the calendar.
        */
       removeDeleted: function() {
-        Object.keys(calendarEvents).map(function(date) {
+        var favoriteIDs = new Set(FavoritesService.favoriteIDs.map(String))
+        Object.keys(calendarEvents).forEach(function(date) {
           var eventList = calendarEvents[date]
           for (var index = eventList.length - 1; index > -1; index--) {
-            if (FavoritesService.favoriteIDs.indexOf(eventList[index].serie.TRAKT_ID.toString()) == -1) {
+            var serie = eventList[index].serie
+            var favorite = serie && (serie.TRAKT_ID != null
+              ? favoriteIDs.has(String(serie.TRAKT_ID))
+              : FavoritesService.getByID_Serie(serie.ID_Serie))
+            if (!favorite) {
               calendarEvents[date].splice(index, 1)
               delete calendarEpisodeSortCache[date]
             }
@@ -107,25 +110,16 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
        */
       setVisibleDays: function(range) {
         if (!range || range.length == 1 && range[0].length == 1) return
-        var dates = []
-        calendarStartDate = new Date(range[0][0])
-        calendarEndDate = new Date((range[range.length - 1][range[range.length - 1].length - 1].getTime()) + 86399999) // add 23:59:59 to endDate
+        var calendarStartDate = new Date(range[0][0])
+        var lastWeek = range[range.length - 1]
+        var calendarEndDate = new Date(lastWeek[lastWeek.length - 1])
+        calendarEndDate.setHours(23, 59, 59, 999)
         calendarEvents = {}
         calendarEpisodeSortCache = {}
-        range.map(function(week) {
-          week.map(function(day) {
-            day = new Date(day).toDateString()
-            dates.push(day)
-            if (!(day in calendarEvents)) {
-              calendarEvents[day] = []
-            }
+        range.forEach(function(week) {
+          week.forEach(function(day) {
+            calendarEvents[new Date(day).toDateString()] = []
           })
-        })
-        Object.keys(calendarEvents).map(function(day) {
-          if (dates.indexOf(day) == -1) {
-            delete calendarEvents[day]
-            delete calendarEpisodeSortCache[day]
-          }
         })
         service.getEventsForDateRange(calendarStartDate, calendarEndDate)
       },
@@ -137,8 +131,10 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
        * @param  Date end endDate
        */
       getEventsForDateRange: function(start, end) {
+        var visibleDays = calendarEvents
         // fetch episodes between 2 timestamps
         return FavoritesService.getEpisodesForDateRange(start.getTime(), end.getTime()).then(function(episodes) {
+          if (visibleDays !== calendarEvents) return
           // iterate all the episodes and bind it together with the serie into an event array
           return service.setEvents(episodes.map(function(episode) {
             return {
@@ -151,8 +147,6 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
         })
       },
       clearCache: function() {
-        calendarStartDate = null
-        calendarEndDate = null
         calendarEvents = {}
         calendarEpisodeSortCache = {}
       },
@@ -164,7 +158,8 @@ DuckieTV.factory('CalendarEvents', ['$rootScope', 'FavoritesService', 'SettingsS
        */
       setEvents: function(events) {
         service.removeDeleted()
-        events.map(function(event) {
+        events.forEach(function(event) {
+          if (!event.serie) return
           var date = new Date(event.start).toDateString()
           deleteDuplicates(event.episode.getID(), date)
           if (!(date in calendarEvents)) {

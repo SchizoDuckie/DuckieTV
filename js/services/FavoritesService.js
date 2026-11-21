@@ -5,20 +5,25 @@
  */
 DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'SceneNameResolver', '$injector',
   function($q, $rootScope, FanartService, SceneNameResolver, $injector) {
-    /**
-     * Helper function to add a serie to the service.favorites hash if it doesn't already exist.
-     * update existing otherwise.
-     */
-    var addToFavoritesList = function(serie) {
-      var existing = service.favorites.filter(function(el) {
-        return el.TRAKT_ID == serie.TRAKT_ID
+    function refreshFavoriteIDs() {
+      service.favoriteIDs = []
+      service.favorites.forEach(function(serie) {
+        if (serie.TRAKT_ID != null) service.favoriteIDs.push(serie.TRAKT_ID.toString())
       })
-      if (existing.length === 0) {
+    }
+
+    function addToFavoritesList(serie, previousTraktId) {
+      var index = service.favorites.findIndex(function(el) {
+        return el === serie || (serie.TRAKT_ID != null && el.TRAKT_ID == serie.TRAKT_ID)
+      })
+      if (index === -1) {
         service.favorites.push(serie)
+        if (serie.TRAKT_ID != null) service.favoriteIDs.push(serie.TRAKT_ID.toString())
       } else {
-        service.favorites[service.favorites.indexOf(existing[0])] = serie
+        service.favorites[index] = serie
+        // TVDB-based updates can assign a new Trakt ID to an existing row.
+        if (previousTraktId != serie.TRAKT_ID) refreshFavoriteIDs()
       }
-      service.favoriteIDs.push(serie.TRAKT_ID.toString())
     }
 
     /**
@@ -221,21 +226,19 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
         watched = watched || []
         useTrakt_id = useTrakt_id || false
 
-        if (data.title === null) { // if odd invalid data comes back from trakt.tv, remove the whole serie from db.
-          console.error('received error data as input, removing from favorites.')
-          return service.remove({
-            name: data.title,
-            TRAKT_ID: data.trakt_id
-          })
+        if (!data || typeof data.title !== 'string' || !data.title.trim()) {
+          throw new Error('Trakt returned show metadata without a title')
         }
 
-        const serie = (useTrakt_id) ? service.getByTRAKT_ID(data.trakt_id) || new Serie() : service.getByTVDB_ID(data.tvdb_id) || new Serie()
+        const existing = (useTrakt_id || data.tvdb_id == null) ? service.getByTRAKT_ID(data.trakt_id) : service.getByTVDB_ID(data.tvdb_id)
+        const serie = existing || new Serie()
+        const previousTraktId = serie.TRAKT_ID
 
         const showFanart = await FanartService.getShowImages(data, updateImages)
         fillSerie(serie, data, showFanart)
         await serie.Persist()
 
-        addToFavoritesList(serie) // cache serie in favoritesservice.favorites
+        addToFavoritesList(serie, previousTraktId)
         $rootScope.$applyAsync()
         await cleanupEpisodes(data.seasons, serie)
         const seasonCache = await updateSeasons(serie, data.seasons)
@@ -268,19 +271,19 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
         })
       },
       getByTVDB_ID: function(id) {
-        return service.favorites.filter(function(el) {
+        return service.favorites.find(function(el) {
           return el.TVDB_ID == id
-        })[0]
+        })
       },
       getByTRAKT_ID: function(id) {
-        return service.favorites.filter(function(el) {
+        return service.favorites.find(function(el) {
           return el.TRAKT_ID == id
-        })[0]
+        })
       },
       getByID_Serie: function(id) {
-        return service.favorites.filter(function(el) {
+        return service.favorites.find(function(el) {
           return el.ID_Serie == id
-        })[0]
+        })
       },
       hasFavorite: function(id) {
         return service.favoriteIDs.indexOf(id.toString()) > -1
@@ -318,14 +321,8 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
       refresh: function() {
         return service.getSeries().then(function(results) {
           service.favorites = results
-          var ids = []
-
-          results.map(function(el) {
-            ids.push(el.TRAKT_ID.toString())
-          })
-
-          service.favoriteIDs = ids
-          if (ids.length === 0) {
+          refreshFavoriteIDs()
+          if (results.length === 0) {
             setTimeout(function() {
               $rootScope.$broadcast('serieslist:empty')
             }, 0)
@@ -339,12 +336,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
        * Runs automatically when this factory is instantiated
        */
       getSeries: function() {
-        return CRUD.Find('Serie', ['name is not NULL']).then(function(results) {
-          results.map(function(el, idx) {
-            results[idx] = el
-          })
-          return results
-        })
+        return CRUD.Find('Serie', ['name is not NULL'])
       },
       /**
        * Load a random background from the shows database

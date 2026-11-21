@@ -8,8 +8,8 @@ DuckieTV
     startSunday: true
   })
 
-  .directive('datePicker', ['datePickerConfig', '$injector', '$rootScope',
-    function datePickerDirective(datePickerConfig, $injector, $rootScope) {
+  .directive('datePicker', ['datePickerConfig', '$injector',
+    function datePickerDirective(datePickerConfig, $injector) {
       // noinspection JSUnusedLocalSymbols
       return {
         template: '<div ng-include="template"></div>',
@@ -162,7 +162,7 @@ DuckieTV
             }
           }
 
-          $rootScope.$on('calendar:setdate', function(evt, newDate) {
+          scope.$on('calendar:setdate', function(evt, newDate) {
             if (newDate !== undefined && scope.date.toDateString() != newDate.toDateString()) {
               scope.date = newDate
               update()
@@ -301,7 +301,10 @@ DuckieTV
                 date.setDate(date.getDate() + (7 * delta))
                 break
               case 'date':
-                date.setMonth(date.getMonth() + delta)
+                var day = date.getDate()
+                date.setMonth(date.getMonth() + delta, 1)
+                var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+                date.setDate(Math.min(day, lastDay))
                 break
               case 'hours':
                 /* falls through */

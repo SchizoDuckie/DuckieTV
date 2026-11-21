@@ -241,3 +241,91 @@ describe('FavoritesService backup episode state', function() {
     expect(downloaded.Persist).toHaveBeenCalled()
   })
 })
+
+describe('FavoritesService library cache', function() {
+  var favorites
+
+  beforeEach(module('DuckieTV'))
+
+  beforeEach(inject(function(FavoritesService, FanartService, CalendarEvents) {
+    favorites = FavoritesService
+    spyOn(CRUD, 'executeQuery').and.resolveTo({ rowsAffected: 0 })
+    spyOn(FanartService, 'getShowImages').and.resolveTo()
+    spyOn(CalendarEvents, 'processEpisodes')
+    spyOn(Serie.prototype, 'Persist').and.resolveTo()
+    spyOn(Serie.prototype, 'getSeasonsByNumber').and.resolveTo({})
+    spyOn(Serie.prototype, 'getEpisodesMap').and.resolveTo({})
+  }))
+
+  function show(trakt, tvdb, title) {
+    return { trakt_id: trakt, tvdb_id: tvdb, title: title, airs: {}, genres: [], seasons: [] }
+  }
+
+  it('keeps one ID across repeated add and refresh operations, and removes it with the series', async function() {
+    var added = await favorites.addFavorite(show(42, 16, 'First title'), [], true)
+    added.ID_Serie = 9
+    var updated = await favorites.addFavorite(show('42', 16, 'Renamed show'), [], true)
+    await favorites.addFavorite(show(42, '16', 'Renamed show'))
+
+    expect(updated).toBe(added)
+    expect(favorites.getByTRAKT_ID('42')).toBe(added)
+    expect(favorites.getByTVDB_ID('16')).toBe(added)
+    expect(favorites.getByID_Serie('9')).toBe(added)
+    expect(favorites.favorites).toEqual([added])
+    expect(favorites.favoriteIDs).toEqual(['42'])
+
+    spyOn(favorites, 'getSeries').and.resolveTo([added])
+    await favorites.refresh()
+    await favorites.addFavorite(show(42, 16, 'Refreshed'))
+    expect(favorites.favoriteIDs).toEqual(['42'])
+
+    var deleted = Promise.resolve()
+    spyOn(added, 'Delete').and.returnValue(deleted)
+    favorites.remove(added)
+    await deleted
+    expect(favorites.favoriteIDs).toEqual([])
+    expect(favorites.favorites).toEqual([])
+    expect(favorites.getByID_Serie(9)).toBeUndefined()
+    expect(favorites.hasFavorite(42)).toBeFalse()
+  })
+
+  it('rejects missing show metadata before changing the library or writing to its series, seasons or episodes', async function() {
+    var existing = await favorites.addFavorite(show(42, 16, 'Saved show'), [], true)
+    var remove = spyOn(existing, 'Delete')
+    CRUD.executeQuery.calls.reset()
+    Serie.prototype.Persist.calls.reset()
+
+    for (var data of [show(42, 16, null), { trakt_id: 42 }, null]) {
+      await expectAsync(favorites.addFavorite(data, [], true)).toBeRejectedWithError('Trakt returned show metadata without a title')
+    }
+
+    expect(existing.name).toBe('Saved show')
+    expect(favorites.getByTRAKT_ID(42)).toBe(existing)
+    expect(favorites.favoriteIDs).toEqual(['42'])
+    expect(remove).not.toHaveBeenCalled()
+    expect(Serie.prototype.Persist).not.toHaveBeenCalled()
+    expect(CRUD.executeQuery).not.toHaveBeenCalled()
+  })
+
+  it('keeps a legacy row when its Trakt ID is missing and updates membership when it changes', async function() {
+    var legacy = new Serie()
+    legacy.ID_Serie = 1
+    legacy.TVDB_ID = 16
+    var noTvdb = new Serie()
+    noTvdb.ID_Serie = 2
+    noTvdb.TRAKT_ID = 11
+    spyOn(favorites, 'getSeries').and.resolveTo([legacy, noTvdb])
+    expect(await favorites.refresh()).toEqual([legacy, noTvdb])
+    expect(favorites.favoriteIDs).toEqual(['11'])
+
+    expect(await favorites.addFavorite(show(21, 16, 'Migrated show'))).toBe(legacy)
+    expect(await favorites.addFavorite(show(22, 16, 'Corrected show'))).toBe(legacy)
+    expect(favorites.favoriteIDs).toEqual(['22', '11'])
+    expect(favorites.hasFavorite('21')).toBeFalse()
+
+    var other = await favorites.addFavorite(show(33, null, 'Another show without a TVDB ID'))
+    expect(other).not.toBe(noTvdb)
+    expect(favorites.favorites).toEqual([legacy, noTvdb, other])
+    expect(favorites.favoriteIDs).toEqual(['22', '11', '33'])
+  })
+})

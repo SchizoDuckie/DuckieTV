@@ -460,6 +460,7 @@ CRUD.define(Episode, {
     'TVDB_ID',
     'TRAKT_ID',
     'ID_Serie, firstaired',
+    'firstaired',
     'ID_Season'
   ],
   fixtures: [

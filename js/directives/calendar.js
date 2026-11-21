@@ -51,25 +51,28 @@ DuckieTV.directive('calendar', function() {
       /**
              * Hide the calendar (performance and weirds scrollbars) when the serieslist
              */
-      $rootScope.$on('sidepanel:stateChange', function(event, state) {
+      $scope.$on('sidepanel:stateChange', function(event, state) {
         calendar.isShowing = state
         // console.debug("Sidepanel statechange from calendar:", event, state);
         zoom()
       })
 
-      $rootScope.$on('sidepanel:sizeChange', function(event, expanded) {
+      $scope.$on('sidepanel:sizeChange', function(event, expanded) {
         calendar.isExpanded = expanded
         // console.debug("Sidepanel sizechange from calendar:", event, expanded);
         zoom()
       })
 
-      $rootScope.$on('serieslist:stateChange', function(event, state) {
+      $scope.$on('serieslist:stateChange', function(event, state) {
         calendar.isShowing = !state
         // console.debug("Calendar statechange from fav panels:", event, state);
         zoom()
       })
 
       window.addEventListener('resize', zoom)
+      $scope.$on('$destroy', function() {
+        window.removeEventListener('resize', zoom)
+      })
     }]
   }
 })
