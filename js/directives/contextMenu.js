@@ -4,7 +4,7 @@
  * [string/function, function, optional function]
  * menuOptions = function () {
  *    return [
- *       ['name', action, disabled]
+ *       ['name', action, enabled]
  *    ];
  * };
  *
@@ -19,7 +19,7 @@
 
 DuckieTV.directive('contextMenu', [function () {
   var renderContextMenu = function ($scope, event, options, model) {
-    if (!$) { var $ = angular.element }
+    var $ = angular.element
     var currentTarget = $(event.currentTarget)
     currentTarget.addClass('context')
     var $contextMenu = $('<div>')
@@ -27,12 +27,17 @@ DuckieTV.directive('contextMenu', [function () {
     var $ul = $('<ul>')
     $ul.addClass('dropdown-menu')
     $ul.attr({ 'role': 'menu' })
-    $ul.css({
-      display: 'block',
-      position: 'absolute',
-      left: event.pageX + 'px',
-      top: event.pageY + 'px'
-    })
+    function close() {
+      currentTarget.removeClass('context')
+      $contextMenu.remove()
+      document.removeEventListener('keydown', onKeyDown)
+      unbindDestroy()
+    }
+    function onKeyDown(e) {
+      if (e.key === 'Escape') close()
+    }
+    var unbindDestroy = $scope.$on('$destroy', close)
+    document.addEventListener('keydown', onKeyDown)
     angular.forEach(options, function (item, i) {
       var $li = $('<li>')
       if (item === null) {
@@ -48,8 +53,7 @@ DuckieTV.directive('contextMenu', [function () {
           $li.on('click', function ($event) {
             $event.preventDefault()
             $scope.$apply(function () {
-              currentTarget.removeClass('context')
-              $contextMenu.remove()
+              close()
               item[1].call($scope, $scope, event, model)
             })
           })
@@ -63,45 +67,29 @@ DuckieTV.directive('contextMenu', [function () {
       $ul.append($li)
     })
     $contextMenu.append($ul)
-    var height = Math.max(
-      document.body.scrollHeight, document.documentElement.scrollHeight,
-      document.body.offsetHeight, document.documentElement.offsetHeight,
-      document.body.clientHeight, document.documentElement.clientHeight
-    )
-    $contextMenu.css({
-      width: '100%',
-      height: height + 'px',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      zIndex: 9999
+    $(document.body).append($contextMenu)
+    var viewport = $contextMenu[0].getBoundingClientRect()
+    var menu = $ul[0].getBoundingClientRect()
+    $ul.css({
+      left: Math.max(0, Math.min(event.clientX, viewport.width - menu.width)) + 'px',
+      top: Math.max(0, Math.min(event.clientY, viewport.height - menu.height)) + 'px'
     })
-    $(document).find('body').append($contextMenu)
     $contextMenu.on('mousedown', function (e) {
-      if ($(e.target).hasClass('dropdown')) {
-        currentTarget.removeClass('context')
-        $contextMenu.remove()
-      }
+      if (e.target === $contextMenu[0]) close()
     }).on('contextmenu', function (event) {
-      currentTarget.removeClass('context')
       event.preventDefault()
-      $contextMenu.remove()
+      close()
     })
   }
   return function ($scope, element, attrs) {
     element.on('contextmenu', function (event) {
-      event.stopPropagation()
-      $scope.$apply(function () {
+      var options = $scope.$eval(attrs.contextMenu)
+      if (!Array.isArray(options)) throw new Error('"' + attrs.contextMenu + '" is not an array')
+      if (options.length) {
+        event.stopPropagation()
         event.preventDefault()
-        var options = $scope.$eval(attrs.contextMenu)
-        var model = $scope.$eval(attrs.model)
-        if (options instanceof Array) {
-          if (options.length === 0) { return }
-          renderContextMenu($scope, event, options, model)
-        } else {
-          throw '"' + attrs.contextMenu + '" not an array'
-        }
-      })
+        renderContextMenu($scope, event, options, $scope.$eval(attrs.model))
+      }
     })
   }
 }])

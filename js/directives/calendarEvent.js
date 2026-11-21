@@ -1,8 +1,8 @@
 /**
  * The <calendar-event> directive displays an episode on the calendar
  */
-DuckieTV.directive('calendarEvent', ['SettingsService',
-  function(SettingsService) {
+DuckieTV.directive('calendarEvent', ['SettingsService', 'AutoDownloadService', '$translate',
+  function(SettingsService, AutoDownloadService, $translate) {
     return {
       restrict: 'E',
       scope: {
@@ -15,6 +15,15 @@ DuckieTV.directive('calendarEvent', ['SettingsService',
       controller: ['$scope', '$location', function($scope, $location) {
         $scope.getSetting = SettingsService.get
         $scope.hoverTimer = null
+
+        $scope.episodeMenu = function(serie, episode, count) {
+          if (count > 2 || !SettingsService.get('torrenting.enabled') || !serie?.TVDB_ID ||
+              !(episode.hasAired() || episode.isLeaked())) return []
+
+          return [[$translate.instant('COMMON/auto-download/lbl'), function() {
+            return AutoDownloadService.autoDownload(serie, episode, true)
+          }]]
+        }
 
         // Auto-switch background image to a relevant one for the calendar item when hovering over an item for 1.5s
         $scope.startHoverTimer = function() {
@@ -30,6 +39,7 @@ DuckieTV.directive('calendarEvent', ['SettingsService',
         $scope.clearHoverTimer = function() {
           clearTimeout($scope.hoverTimer)
         }
+        $scope.$on('$destroy', $scope.clearHoverTimer)
 
         $scope.selectEpisode = function(serie, episode) {
           $location.path('/serie/' + serie.TRAKT_ID + '/season/' + episode.seasonnumber + '?episode=' + episode.TRAKT_ID)

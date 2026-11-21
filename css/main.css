@@ -153,8 +153,17 @@ body>.container calendar {
   z-index: 101;
 }
 
+.context-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
 .context-menu .dropdown-menu {
-  padding: 4px 0px;
+  position: absolute;
+  display: block;
+  margin: 0;
+  padding: 4px 0;
 }
 
 .printlogo {

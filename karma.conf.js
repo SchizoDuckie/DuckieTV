@@ -56,6 +56,10 @@ module.exports = function(config) {
                 pattern: '_locales/*.json',
                 included: false,
                 served: true
+            }, {
+                pattern: 'templates/**/*.html',
+                included: false,
+                served: true
             }
 
         ],
