@@ -1,5 +1,12 @@
 <div ng-controller="DisplayCtrl" class="buttons">
+  <h2 translate-once>SETTINGS/DISPLAY/density/hdr</h2>
+  <div class="density-options" role="group" aria-label="{{'SETTINGS/DISPLAY/density/hdr'|translate}}">
+    <button type="button" data-density="cozy" ng-attr-aria-pressed="{{getSetting('display.density') !== 'dense'}}" ng-click="setSetting('display.density', 'cozy')" translate-once>SETTINGS/DISPLAY/density-cozy/lbl</button>
+    <button type="button" data-density="dense" ng-attr-aria-pressed="{{getSetting('display.density') === 'dense'}}" ng-click="setSetting('display.density', 'dense')" translate-once>SETTINGS/DISPLAY/density-dense/lbl</button>
+  </div>
+
   <div ng-show="hasTopSites">
+    <hr class="setting-divider">
     <h2>
       <span uib-tooltip="{{topSites ? 'COMMON/enabled/lbl' : 'COMMON/disabled/lbl'|translate}}" tooltip-placement="left">
         <i class="glyphicon glyphicon-{{topSites ? 'ok alert-success' : 'remove alert-danger'}}"></i>

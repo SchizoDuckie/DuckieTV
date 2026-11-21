@@ -108,6 +108,12 @@ html {
 }
 
 body {
+  --rail-size: clamp(40px, 7.5vh, 52px);
+  --panel-inset: 14px;
+  --row-padding: 8px;
+  --control-height: 36px;
+  --label-size: 17px;
+  --heading-size: 24px;
   background-color: #000;
   background-size: cover;
   background-attachment: fixed;
@@ -115,6 +121,15 @@ body {
   font-family: helvetica, sans-serif;
   color: #444;
   transition: all 0.5s ease-in-out;
+}
+
+body.density-dense {
+  --rail-size: clamp(36px, 6.5vh, 44px);
+  --panel-inset: 10px;
+  --row-padding: 4px;
+  --control-height: 30px;
+  --label-size: 15px;
+  --heading-size: 21px;
 }
 
 body.storage-pending > :not(#storage-startup-error):not(script) {
@@ -137,8 +152,8 @@ body.modal-open .sidepanel, body.modal-open div[date-picker] {
 }
 
 body>.container {
-  width: calc(100% - 57px);
-  padding: 28px 35px 10px 35px;
+  width: calc(100% - var(--rail-size));
+  padding: var(--panel-inset) calc(var(--panel-inset) * 1.5) 10px;
   float: right;
   margin: 0;
   transition: padding-top 0.2s ease-in, opacity 0.2s ease-in;
@@ -290,8 +305,7 @@ background-rotator .background-image-container .placeholder {
   left: 0px;
   z-index: 1000;
   height: 100%;
-  min-height: 520px;
-  width: 58px;
+  width: var(--rail-size);
   transition: background-color .5s;
   overflow: visible;
 }
@@ -302,11 +316,11 @@ background-rotator .background-image-container .placeholder {
 
 #actionbar .logo {
   background-image: url("../img/logo/icon64-inverted.png");
-  background-size: 48px;
+  background-size: 82%;
   background-repeat: no-repeat;
   background-position: 50%;
-  width: 58px;
-  height: 58px;
+  width: var(--rail-size);
+  height: var(--rail-size);
   transition: transform .6s ease;
 }
 
@@ -316,13 +330,13 @@ background-rotator .background-image-container .placeholder {
 
 #actionbar ul {
   list-style-type: none;
-  margin-top: 50px;
+  margin-top: var(--panel-inset);
 }
 
 #actionbar li {
-  height: 58px;
-  width: 58px;
-  font-size: 23.5px;
+  height: var(--rail-size);
+  width: var(--rail-size);
+  font-size: calc(var(--rail-size) * 0.43);
   transition: background-color .3s;
 }
 
@@ -335,13 +349,15 @@ background-rotator .background-image-container .placeholder {
 }
 
 #actionbar a {
-  height: inherit;
-  width: inherit;
+  display: grid;
+  place-items: center;
+  height: var(--rail-size);
+  width: var(--rail-size);
   font-size: inherit;
   color: white;
   text-decoration: none;
   text-shadow: 2px 2px rgba(25, 25, 25, 0.8);
-  padding: 16.5px;
+  padding: 0;
 }
 
 #actionbar_calendar a {
@@ -553,24 +569,41 @@ button span, .dropdown-menu span, .dropdown-menu input {
   cursor: pointer;
 }
 
-.close:focus, .close:hover, button.close {
-  color: white;
-  opacity: 0.8;
+button.close {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  font-family: helvetica, sans-serif;
+  top: var(--panel-inset);
+  right: var(--panel-inset);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--control-height);
+  height: var(--control-height);
+  padding: 0;
+  border-radius: 4px;
+  color: white;
+  font: 24px/1 helvetica, sans-serif;
+  text-shadow: none;
+  opacity: .8;
 }
 
-.standalone .close:focus, .standalone .close:hover, .standalone button.close {
-  top: 30px;
+button.close:hover, button.close:focus {
+  background-color: rgba(128, 128, 128, .25);
+  color: white;
+  opacity: 1;
+}
+
+sidepanel button.close + h2,
+sidepanel .torrent-details h1:first-child,
+sidepanel .trakt-panel-title {
+  padding-inline: var(--control-height);
+  overflow-wrap: anywhere;
 }
 
 input[type=text], input[type=url], input[type=password], input[type=number], option, select, select.form-control {
   border: 1px solid rgba(255, 255, 255, 0.4);
   background-color: rgba(0, 0, 0, 0.2);
-  font-size: 17px;
-  height: 40px;
+  font-size: calc(var(--label-size) - 1px);
+  height: var(--control-height);
   color: white;
   font-style: italic;
   border-radius: 5px;
@@ -1016,7 +1049,7 @@ series-list .series {
   top: 72px;
   position: absolute;
   right: 20px;
-  left: 58px;
+  left: var(--rail-size);
   text-align: center;
   padding: 10px 25px 15px 25px;
   margin-top: 6px;
@@ -1196,20 +1229,30 @@ series-list .trakt-import serieheader h3, series-list .backup-import serieheader
 
 .torrentDialog_topNav {
   display: flex;
-  flex-flow: row nowrap;
-  margin-bottom: 3px;
-}
-
-.torrentDialog_qualityBtns {
-  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--row-padding);
 }
 
 .torrentDialog_searchBar {
-  width: 54%;
-  width: -webkit-fill-available;
+  display: flex;
+  flex: 1 1 200px;
+  width: auto;
+}
+
+.torrentDialog_searchBar .form-control {
+  flex: 1;
+  min-width: 0;
+}
+
+.torrentDialog_searchBar .input-group-btn {
+  display: block;
+  width: auto;
 }
 
 .torrentDialog_searchBar .input-group-btn button {
+  height: var(--control-height);
   background-color: rgba(55, 55, 55, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.4);
 }
@@ -1316,8 +1359,8 @@ series-list .trakt-import serieheader h3, series-list .backup-import serieheader
 chrome-top-sites {
   position: fixed;
   top: 0px;
-  left: 58px;
-  width: calc(100% - 116px);
+  left: var(--rail-size);
+  width: calc(100% - 2 * var(--rail-size));
   padding: 15px;
   z-index: 500;
   background-color: rgb(20, 22, 24);
@@ -1630,7 +1673,7 @@ div [date-picker] {
 }
 
 [date-picker] td>span {
-  font-size: 40px;
+  font-size: 36px;
   display: block;
   color: rgba(255, 255, 2550, 0.2);
   padding: 10px;
@@ -1676,7 +1719,8 @@ td.day {
 
 [date-picker] h2 {
   cursor: pointer;
-  font-size: 48px;
+  font-size: calc(var(--heading-size) * 1.65);
+  margin: var(--row-padding) 0;
 }
 
 [date-picker] h2 .glyphicon {
@@ -1830,13 +1874,24 @@ td.day {
   line-height: 13px;
 }
 
+body.density-dense [date-picker] td.day > span {
+  font-size: 30px;
+  line-height: 32px;
+  padding: 5px;
+}
+
+body.density-dense [date-picker] .event {
+  padding-block: 1px;
+  margin-top: 1px;
+}
+
 [date-picker] calendar-event:first-of-type {
-  margin-top: 4px;
+  margin-top: calc(var(--row-padding) / 2);
   display: block;
 }
 
 [date-picker] calendar-event:last-of-type {
-  margin-bottom: 4px;
+  margin-bottom: calc(var(--row-padding) / 2);
   display: block;
 }
 
@@ -2242,7 +2297,7 @@ sidepanel h2 {
   color: #fff;
   margin-top: 13px;
   margin-bottom: 0;
-  font-size: 26px;
+  font-size: var(--heading-size);
 }
 
 sidepanel .buttons {
@@ -2258,7 +2313,7 @@ sidepanel .buttons p {
 }
 
 sidepanel .buttons strong {
-  font-size: 18px;
+  font-size: var(--label-size);
   letter-spacing: 1px;
   font-weight: normal;
   color: white;
@@ -2266,10 +2321,10 @@ sidepanel .buttons strong {
 
 sidepanel .buttons a {
   display: block;
-  padding: 11px 12px;
-  margin: 5px 15px;
-  border: 1px solid #fff;
-  border-radius: 9px;
+  padding: var(--row-padding) var(--panel-inset);
+  margin: calc(var(--row-padding) / 2) 5px;
+  border: 1px solid #8b8b8b;
+  border-radius: 5px;
   text-align: center;
   transition: background-color 0.25s;
   user-select: none;
@@ -2333,7 +2388,7 @@ sidepanel .buttons a.no-hover:hover, sidepanel .buttons a.no-hover:hover span {
 
 sidepanel .buttons i.glyphicon {
   float: left;
-  font-size: 22px;
+  font-size: calc(var(--label-size) + 2px);
 }
 
 sidepanel .leftpanel .buttons i.glyphicon {
@@ -2347,7 +2402,7 @@ sidepanel .leftpanel {
   left: 0px;
   width: 400px;
   height: 100%;
-  padding: 15px;
+  padding: var(--panel-inset);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -2359,16 +2414,11 @@ sidepanel .rightpanel {
   left: 400px;
   width: 400px;
   height: 100%;
-  padding: 15px;
+  padding: var(--panel-inset);
   background-color: rgba(23, 23, 23, 0.7);
   z-index: 0;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-.standalone sidepanel .leftpanel,
-.standalone sidepanel .rightpanel {
-  padding-top: 30px;
 }
 
 sidepanel .rightpanel h2 {
@@ -2588,7 +2638,7 @@ sidepanel .metadata ul.actors {
 
 sidepanel .episodes .season-control {
   text-align: center;
-  padding: 0 22px 0 22px;
+  padding: 0 var(--control-height) 0 0;
   margin-top: 13px;
   margin-bottom: 8px;
 }
@@ -2800,12 +2850,11 @@ sidepanel .seasons serieheader {
 .settings h2 {
   white-space: normal;
   display: block;
-  margin-top: 20px;
+  margin-top: var(--panel-inset);
 }
 
 .setting-divider {
-  margin-top: 18px;
-  margin-bottom: 18px;
+  margin-block: var(--panel-inset);
 }
 
 .settings .label {
@@ -2829,6 +2878,28 @@ sidepanel .seasons serieheader {
   font-weight: bold;
 }
 
+.settings .density-options {
+  display: flex;
+  width: fit-content;
+  margin-top: var(--row-padding);
+  padding: 2px;
+  border: 1px solid #666;
+  border-radius: 5px;
+}
+
+.density-options button {
+  min-width: 72px;
+  min-height: calc(var(--control-height) - 6px);
+  border: 0;
+  border-radius: 3px;
+  padding: 2px 10px;
+  background: transparent;
+  color: #ddd;
+}
+
+.density-options button:hover { background: #333; }
+.density-options button[aria-pressed=true] { background: #e3e3e3; color: #202020; }
+
 .settings .btns {
   text-align: center;
 }
@@ -2840,7 +2911,7 @@ sidepanel .seasons serieheader {
 
 .settings .buttons .btn {
   font-family: 'bebasregular';
-  font-size: 18px;
+  font-size: var(--label-size);
   font-weight: normal;
 }
 
@@ -2904,10 +2975,9 @@ sidepanel .seasons serieheader {
 }
 
 .smallsettingicon {
-  width: 30px;
-  height: 30px;
-  margin-left: -4px;
-  margin-top: -4px;
+  width: calc(var(--label-size) + 6px);
+  height: calc(var(--label-size) + 6px);
+  margin-top: -1px;
   float: left;
 }
 
@@ -3141,31 +3211,6 @@ ng-dial-gauge {
  */
 
 @media (max-height: 768px) {
-  sidepanel .buttons a {
-    padding: 8px;
-    margin: 4px 5px;
-  }
-  sidepanel .buttons a strong {
-    font-size: 17px;
-  }
-  sidepanel .buttons i.glyphicon {
-    font-size: 20px;
-    top: 2px;
-  }
-  sidepanel .buttons a img {
-    width: 29px !important;
-    height: 29px !important;
-    margin-top: -2px !important;
-    margin-left: -3px !important;
-  }
-  sidepanel .buttons .two-face-torrent .auto-download {
-    padding: 8px;
-    height: 43px;
-  }
-  sidepanel .buttons .two-face-torrent .torrent-settings {
-    padding: 8px 10px;
-    height: 43px;
-  }
   sidepanel .leftpanel .episode-img {
     height: 165px;
     width: 295px;

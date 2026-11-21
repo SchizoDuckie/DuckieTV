@@ -28,7 +28,7 @@
 
 .modal-content {
     background-color: rgba(20,20,20,0.97);
-    padding:10px;
+    padding: var(--panel-inset);
     border: 1px solid white;
     color: white;
 }
@@ -42,8 +42,42 @@
 }
 
 
-.modal-content h1 {
-    color:white;
+.modal-content h1,
+.modal-content > .close + h2 {
+    margin: 0 0 var(--panel-inset);
+    padding-right: calc(var(--control-height) + 6px);
+    color: white;
+    font-size: calc(var(--heading-size) + 4px);
+    line-height: var(--control-height);
+    overflow-wrap: anywhere;
+}
+
+.modal-content .form-group {
+    margin-bottom: var(--panel-inset);
+}
+
+.search-dialog-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px var(--panel-inset);
+    margin-bottom: var(--panel-inset);
+    padding-right: calc(var(--control-height) + 8px);
+}
+
+.search-dialog-header > h1,
+.search-dialog-header > h2 {
+    margin: 0;
+    padding: 0;
+    font-size: calc(var(--heading-size) + 4px);
+    line-height: var(--control-height);
+}
+
+.search-dialog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px var(--panel-inset);
+    margin-left: auto;
 }
 
 .modal-content a {

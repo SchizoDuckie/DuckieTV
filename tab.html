@@ -16,7 +16,7 @@
   <!-- /deploy:replace -->
   <link rel="shortcut icon" type="image/png" href="img/logo/icon16.png" />
 </head>
-<body kc class="storage-pending">
+<body kc class="storage-pending" ng-class="{'density-dense': getSetting('display.density') === 'dense'}">
   <div id="storage-startup-error" class="alert alert-danger" style="display:none"></div>
   <background-rotator channel="'background:load'"></background-rotator>
   <chrome-top-sites ng-if="getSetting('topSites.enabled')" class="{{getSetting('topSites.mode')}}"></chrome-top-sites>

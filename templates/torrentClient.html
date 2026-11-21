@@ -1,6 +1,7 @@
 <!-- torrentClient.html -->
 <div class="leftpanel torrent-client">
   <div>
+    <button type="button" class="close" ng-click="client.closeSidePanel()" uib-tooltip="{{'COMMON/close/btn'|translate}} DuckieTorrent" tooltip-placement="left">&times;</button>
     <h2>DuckieTorrent {{::client.getTorrentClientName()}} <span translate-once>TORRENTCLIENT/hdr</span></h2>
 
     <!-- top right settings hotbuttons -->
@@ -28,9 +29,7 @@
       <strong style=' display:block; text-align:center;' translate-once>TORRENTCLIENT/please-wait/lbl</strong>
       {{client.status}}
     </div>
-    <h4 id="getTorrentsCount" ng-show="client.rpc"><span translate-once>TORRENTCLIENT/torrents-found/hdr</span>{{client.getTorrentsCount()}}
-    <button type="button" class="close" ng-click="client.closeSidePanel()" class="pull-right" uib-tooltip="{{'COMMON/close/btn'|translate}} DuckieTorrent" tooltip-placement="left">&times;</button>
-    </h4>
+    <h4 id="getTorrentsCount" ng-show="client.rpc"><span translate-once>TORRENTCLIENT/torrents-found/hdr</span>{{client.getTorrentsCount()}}</h4>
   </div>
 
   <!-- torrent list -->

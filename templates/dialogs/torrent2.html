@@ -1,17 +1,18 @@
 <!-- dialogs/torrent2.html -->
-<button type="button" class="close" ng-click="close()" class="pull-right">&times;</button>
-<h1 translate-value-itemslength="{{items.length || 0}}" translate>TORRENTDIALOG2/hdr</h1>
-
-<div style="float:right; margin-top:-25px;">
-  <a ng-click="toggleShowAdvanced()"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
-  <a ui-sref="settings.tab({tab: 'torrent-search'})" ng-click="close()"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/torrent-search-settings/glyph</span></a>
-</div>
+<button type="button" class="close" ng-click="close()">&times;</button>
+<header class="search-dialog-header">
+  <h1 translate-value-itemslength="{{items.length || 0}}" translate>TORRENTDIALOG2/hdr</h1>
+  <div class="search-dialog-actions">
+    <a ng-click="toggleShowAdvanced()"> <i class="glyphicon glyphicon-cog"></i> <span>{{showAdvanced ? 'TORRENTDIALOG/advanced-hide/btn' : 'TORRENTDIALOG/advanced-show/btn'|translate}}</span></a>
+    <a ui-sref="settings.tab({tab: 'torrent-search'})" ng-click="close()"> <i class="glyphicon glyphicon-cog"></i> <span translate-once>COMMON/torrent-search-settings/glyph</span></a>
+  </div>
+</header>
 
 <div class="torrentDialog_topNav">
   <div class="input-group torrentDialog_searchBar">
     <input type="text" ng-model="query" ng-model-options="{debounce: 500}" focus-watch='searching' ng-change="search(query)" class="form-control" translate-once-placeholder="COMMON/type-your-search/lbl">
     <span class="input-group-btn">
-      <button class="btn btn-default" style="height: 40px" ng-click="search(query)" uib-tooltip="{{'TORRENTDIALOG2/search-now/tooltip'|translate}}" tooltip-append-to-body="true">
+      <button class="btn btn-default" ng-click="search(query)" uib-tooltip="{{'TORRENTDIALOG2/search-now/tooltip'|translate}}" tooltip-append-to-body="true">
         <i class="glyphicon glyphicon-search"></i>
       </button>
     </span>
