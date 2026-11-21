@@ -44,6 +44,10 @@ DuckieTV.factory('BackupCodec', [function() {
       if (!angular.isArray(jackett)) throw new Error('Backup Jackett settings must be an array')
       delete output.jackett
     }
+    // The destination profile owns its storage readiness and migration state.
+    Object.keys(output).forEach(function(key) {
+      if (key.startsWith('duckietv.storage.')) delete output[key]
+    })
     delete output.useTrakt_id
     jackett = jackett.map(function(item) {
       if (!item || !angular.isObject(item) || angular.isArray(item) || !angular.isString(item.name)) {
@@ -118,7 +122,7 @@ DuckieTV.factory('BackupCodec', [function() {
           return {
             identity: validateIdentity({ type: episodeType, id: episodeID }, 'Episode'),
             watchedAt: episode.watchedAt || null,
-            downloaded: episode.downloaded || 0
+            downloaded: typeof episode.downloaded === 'undefined' ? 1 : episode.downloaded || 0
           }
         })
         return {
@@ -178,7 +182,7 @@ DuckieTV.factory('BackupService', ['TorrentSearchEngines', 'BackupCodec', functi
         settings.jackett = JSON.stringify(TorrentSearchEngines.jackettCache)
         // Store all the settings
         for (var i = 0; i < localStorage.length; i++) {
-          if (localStorage.key(i) == 'jackett') continue
+          if (localStorage.key(i) == 'jackett' || localStorage.key(i).startsWith('duckietv.storage.')) continue
           if (localStorage.key(i).indexOf('database.version') > -1) continue
           if (localStorage.key(i).indexOf('trakttv.trending.cache') > -1) continue
           if (localStorage.key(i).indexOf('trakttv.lastupdated.trending') > -1) continue

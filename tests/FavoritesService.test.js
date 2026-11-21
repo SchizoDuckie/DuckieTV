@@ -156,3 +156,72 @@ describe('FavoritesService', function() {
     });
 
 });
+
+describe('FavoritesService backup episode state', function() {
+  var FavoritesService, FanartService, CalendarEvents
+
+  beforeEach(module('DuckieTV'))
+
+  beforeEach(inject(function(_FavoritesService_, _FanartService_, _CalendarEvents_) {
+    FavoritesService = _FavoritesService_
+    FanartService = _FanartService_
+    CalendarEvents = _CalendarEvents_
+  }))
+
+  it('keeps watched and downloaded status independent when restoring', async function() {
+    var series = new Serie()
+    var season = new Season()
+    var watched = new Episode()
+    var downloaded = new Episode()
+    var aired = '2024-01-02T00:00:00.000Z'
+    var watchedAt = Date.parse('2024-01-03T00:00:00.000Z')
+    var backupFlags = [
+      { TRAKT_ID: 11, watchedAt: watchedAt, downloaded: 0 },
+      { TRAKT_ID: 12, watchedAt: null, downloaded: 1 }
+    ]
+    var metadata = {
+      trakt_id: 1, title: 'Example Show', airs: {}, genres: [],
+      seasons: [{ number: 1, episodes: [
+        { trakt_id: 11, number: 1, first_aired: aired },
+        { trakt_id: 12, number: 2, first_aired: aired }
+      ] }]
+    }
+
+    spyOn(FavoritesService, 'getByTRAKT_ID').withArgs(1).and.returnValue(series)
+    spyOn(CRUD, 'executeQuery').and.resolveTo({ rowsAffected: 0 })
+    spyOn(CalendarEvents, 'processEpisodes')
+    spyOn(FanartService, 'getShowImages').and.resolveTo()
+    spyOn(FanartService, 'getSeasonPoster').and.resolveTo()
+    spyOn(FanartService, 'getEpisodeImagesForSeason').and.resolveTo({})
+    spyOn(series, 'getSeasonsByNumber').and.resolveTo({ 1: season })
+    spyOn(series, 'getEpisodesMap').and.resolveTo({ 11: watched, 12: downloaded })
+    var entities = [series, season]
+    entities.forEach(function(entity) {
+      spyOn(entity, 'Persist').and.resolveTo()
+    })
+
+    var finishDownloadWrite
+    var downloadWrite = new Promise(function(resolve) { finishDownloadWrite = resolve })
+    var committed = 0
+    spyOn(watched, 'Persist').and.callFake(function() {
+      return Promise.resolve().then(function() { committed++ })
+    })
+    spyOn(downloaded, 'Persist').and.callFake(function() {
+      return downloadWrite.then(function() { committed++ })
+    })
+    var progress = jasmine.createSpy('saved episodes').and.callFake(function(done) {
+      expect(done).toBe(committed)
+      if (done === 1) finishDownloadWrite()
+    })
+
+    await FavoritesService.addFavorite(metadata, backupFlags, true, false, progress)
+
+    expect(progress.calls.allArgs().filter(function(args) { return args[0] > 0 })).toEqual([[1, 2], [2, 2]])
+
+    expect([watched.watched, watched.watchedAt, watched.downloaded]).toEqual([1, watchedAt, 0])
+    expect([downloaded.watched, downloaded.downloaded]).toEqual([0, 1])
+    expect(downloaded.watchedAt == null).toBeTrue()
+    expect(watched.Persist).toHaveBeenCalled()
+    expect(downloaded.Persist).toHaveBeenCalled()
+  })
+})

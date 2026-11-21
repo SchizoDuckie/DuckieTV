@@ -16,7 +16,7 @@ DuckieTV.factory('FileReader', ['$q',
     var onError = function(reader, deferred, $scope) {
       return function() {
         $scope.$apply(function() {
-          deferred.reject(reader.result)
+          deferred.reject(reader.error)
         })
       }
     }

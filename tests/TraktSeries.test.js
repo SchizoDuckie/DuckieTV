@@ -34,4 +34,23 @@ describe('TraktTVv2 series requests', function() {
     expect(urls[1]).toContain('/shows/42/seasons?extended=full')
     expect(urls.some(function(url) { return url.indexOf('/people') > -1 })).toBe(false)
   })
+
+  it('reports seasons as their episode requests finish', async function() {
+    var show = { trakt_id: 42 }
+    var finishFirstSeason
+    var slowSeason = new Promise(function(resolve) { finishFirstSeason = resolve })
+    var progress = jasmine.createSpy('season progress').and.callFake(function(completed) {
+      if (completed === 1) finishFirstSeason([{ season: 1, number: 1 }])
+    })
+    spyOn(TraktTVv2, 'seasons').and.resolveTo([{ number: 1 }, { number: 2 }])
+    spyOn(TraktTVv2, 'episodes').and.callFake(function(id, season) {
+      return season === 1 ? slowSeason : Promise.resolve([{ season: 2, number: 1 }])
+    })
+
+    var result = await TraktTVv2.serie(42, show, false, progress)
+
+    expect(progress.calls.allArgs()).toEqual([[0, 2], [1, 2], [2, 2]])
+    expect(result.seasons[0].episodes).toEqual([{ season: 1, number: 1 }])
+    expect(result.seasons[1].episodes).toEqual([{ season: 2, number: 1 }])
+  })
 })

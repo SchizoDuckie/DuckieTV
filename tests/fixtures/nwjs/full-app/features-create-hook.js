@@ -67,14 +67,12 @@ window.addEventListener('load', function() {
     var restoreScope = rootScope.$new()
     injector.get('$controller')('BackupCtrl', {
       $scope: restoreScope,
-      FileReader: { readAsText: function() { return Promise.resolve(JSON.stringify(backup)) } },
       TraktTVv2: {
         resolveID: function() { return Promise.resolve({ trakt_id: 97001, name: 'Feature Matrix' }) },
         serie: function() { return Promise.resolve(restoredShow) }
       }
     })
-    restoreScope.file = { name: 'feature-matrix.backup' }
-    restoreScope.restore()
+    restoreScope.restore(new File([JSON.stringify(backup)], 'feature-matrix.backup'))
     for (var restoreAttempt = 0; restoreAttempt < 200 && !restoreScope.completed && !restoreScope.restoreError; restoreAttempt++) await new Promise(function(resolve) { setTimeout(resolve, 25) })
     fanart.getShowImages = originalShowImages
     fanart.getSeasonPoster = originalSeasonPoster

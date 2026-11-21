@@ -263,7 +263,7 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
        * id can be Trakt.tv ID, Trakt.tv slug, or IMDB ID
        * https://docs.trakt.tv/reference/getshowssummary
        */
-      serie: async function(id, existingSerie, seriesOnly) {
+      serie: async function(id, existingSerie, seriesOnly, onSeasonProgress) {
         try {
           var serie = existingSerie || await promiseRequest('serie', id)
           if (seriesOnly) {
@@ -272,8 +272,11 @@ DuckieTV.factory('TraktTVv2', ['$q', '$http', 'SceneNameResolver',
 
           serie.seasons = await service.seasons(serie.trakt_id)
 
+          var fetched = 0
+          if (onSeasonProgress) onSeasonProgress(fetched, serie.seasons.length)
           await Promise.all(serie.seasons.map(async function(season) {
             season.episodes = await service.episodes(serie.trakt_id, season.number)
+            if (onSeasonProgress) onSeasonProgress(++fetched, serie.seasons.length)
             return season
           }))
 

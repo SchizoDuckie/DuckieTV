@@ -28,23 +28,14 @@
     <label for="wipebeforeImport" translate-once>SETTINGS/BACKUP/wipe-before-import/lbl</label>
   </div>
 
-  <div style="position:relative">
-    <div class="buttons"><a ng-show="!restoring" class="btn btn-success" ng-class="{binputhover:inputhover}">
+  <div ng-if="!restoring" style="position:relative">
+    <div class="buttons"><a class="btn btn-success" ng-class="{binputhover:inputhover}">
       <i class="glyphicon glyphicon-floppy-open"></i> <span translate-once>COMMON/choose-backup-load/btn</span>
     </a></div>
-    <input ng-show="!restoring" file-input="file" on-change="restoring = true; restore()" style="position:absolute;opacity:0;width:100%;top:0;padding:0;height:100%;cursor:pointer" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false" />
+    <input file-input="file" on-change="restore(file)" style="position:absolute;opacity:0;width:100%;top:0;padding:0;height:100%;cursor:pointer" ng-mouseover="inputhover=true" ng-mouseleave="inputhover=false" />
   </div>
 
-  <h1 ng-show="restoring && !declined && !completed" style='margin-top: 20px;' translate-once>COMMON/loading-please-wait/lbl</h1>
-  <h1 ng-show="restoring && !declined && completed" style='margin-top: 20px;' translate-once>COMMON/loading-completed/lbl</h1>
-  <h1 ng-show="declined" style='margin-top: 20px;' translate-once>COMMON/cancelled/lbl</h1>
-
-  <div ng-if="restoring" style="padding:5px;text-align:center" class="miniposter x2 import-container">
-    <serieHeader ng-repeat="serie in series" data="serie" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" ng-mouseenter="setHoverSerie(serie)">
-      <em class="earmark" ng-show="isAdded(serie.trakt_id)"><i class='glyphicon glyphicon-ok'></i></em>
-      <em class="earmark adding" ng-show="isAdding(serie.trakt_id)"><loading-spinner></loading-spinner></em>
-    </serieHeader>
-  </div>
+  <div ng-include="'templates/settings/backup-restore-progress.html'"></div>
 
   <hr class="setting-divider">
 

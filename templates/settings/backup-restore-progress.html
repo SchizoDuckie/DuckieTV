@@ -1,0 +1,29 @@
+<div role="status">
+  <p ng-if="declined" translate-once>COMMON/cancelled/lbl</p>
+  <p ng-if="completed && !restoreFailed" translate-once>COMMON/loading-completed/lbl</p>
+  <p ng-if="(restoring || completed) && restoreTotal">
+    {{'SETTINGS/BACKUP/restore-progress/lbl' | translate:{processed: restoreProcessed, total: restoreTotal} }}
+  </p>
+  <p ng-if="restoreFailed" class="text-warning">
+    {{'SETTINGS/BACKUP/restore-failed-count/lbl' | translate:{count: restoreFailed} }}
+  </p>
+</div>
+
+<label ng-if="restoring" class="backup-restore-activity">
+  <span>{{('SETTINGS/BACKUP/restore-' + restoreActivity.phase + '/lbl') | translate:{name: restoreActivity.name, done: restoreActivity.done, total: restoreActivity.total} }}</span>
+  <progress ng-if="restoreActivity.total > 0" value="{{restoreActivity.done}}" max="{{restoreActivity.total}}"></progress>
+  <progress ng-if="!restoreActivity.total"></progress>
+</label>
+
+<div ng-if="restoreError != null" class="alert alert-danger" role="alert">
+  <strong translate-once>SETTINGS/BACKUP/restore-failed/lbl</strong>
+  <div ng-if="restoreError" ng-bind="restoreError"></div>
+</div>
+
+<div ng-if="series.length" style="padding:5px;text-align:center" class="miniposter x2 import-container">
+  <serieHeader ng-repeat="poster in series" data="poster.data" class="no-animate" no-badge="1" no-overview="1" no-title="1" no-button="1" mode="poster" ng-mouseenter="setHoverSerie(poster.data)">
+    <em class="earmark" ng-show="poster.state === 'added'"><i class="glyphicon glyphicon-ok"></i></em>
+    <em class="earmark adding" ng-show="poster.state === 'adding'"><loading-spinner></loading-spinner></em>
+    <em class="earmark error" ng-show="poster.state === 'error'"><i class="glyphicon glyphicon-exclamation-sign"></i></em>
+  </serieHeader>
+</div>

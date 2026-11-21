@@ -1124,6 +1124,11 @@ series-list .trakt-import serieheader h3, series-list .backup-import serieheader
   text-align: center;
 }
 
+.backup-restore-activity, .backup-restore-activity progress {
+  display: block;
+  width: 100%;
+}
+
 .import-container serieheader {
   display: inline-block;
 }

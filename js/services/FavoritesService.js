@@ -106,7 +106,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
       watched.map(function(el) {
         // Dtv.Backups upto 1.1.5 use TVDB_ID, after 1.1.5 use TRAKT_ID
         if (('TVDB_ID' in el && el.TVDB_ID && el.TVDB_ID == episode.TVDB_ID) || ('TRAKT_ID' in el && el.TRAKT_ID && el.TRAKT_ID == episode.TRAKT_ID)) {
-          episode.downloaded = 1 // an entry means it has to have been downloaded
+          episode.downloaded = el.downloaded
           episode.watchedAt = el.watchedAt // an entry may mean it's watched ... or not.
           if (el.watchedAt != null) {
             episode.watched = 1
@@ -179,7 +179,10 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
      * @param {Record<number, Season>} seasonCache
      * @return {Promise<*>}
      */
-    async function updateEpisodes(serie, seasons, watched, seasonCache) {
+    async function updateEpisodes(serie, seasons, watched, seasonCache, onEpisodeProgress) {
+      let saved = 0
+      const total = onEpisodeProgress ? seasons.reduce((count, season) => count + season.episodes.length, 0) : 0
+      if (onEpisodeProgress) onEpisodeProgress(saved, total)
       const episodeCache = await serie.getEpisodesMap()
 
       await Promise.all(seasons.map(async season => {
@@ -188,6 +191,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
           const dbEpisode = (!(episode.trakt_id in episodeCache)) ? new Episode() : episodeCache[episode.trakt_id]
           fillEpisode(dbEpisode, episode, seasonCache[season.number], serie, watched, episodeImages[episode.tmdb_id])
           await dbEpisode.Persist()
+          if (onEpisodeProgress) onEpisodeProgress(++saved, total)
           episodeCache[episode.trakt_id] = dbEpisode
         }))
       }))
@@ -213,7 +217,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
        * @param object data input data from TraktTV or restore-from-backup
        * @param object watched { TRAKT_ID => watched episodes } mapped object to auto-mark as watched
        */
-      addFavorite: async function(data, watched, useTrakt_id, updateImages) {
+      addFavorite: async function(data, watched, useTrakt_id, updateImages, onEpisodeProgress) {
         watched = watched || []
         useTrakt_id = useTrakt_id || false
 
@@ -235,7 +239,7 @@ DuckieTV.factory('FavoritesService', ['$q', '$rootScope', 'FanartService', 'Scen
         $rootScope.$applyAsync()
         await cleanupEpisodes(data.seasons, serie)
         const seasonCache = await updateSeasons(serie, data.seasons)
-        const episodeCache = await updateEpisodes(serie, data.seasons, watched, seasonCache)
+        const episodeCache = await updateEpisodes(serie, data.seasons, watched, seasonCache, onEpisodeProgress)
 
         $injector.get('CalendarEvents').processEpisodes(serie, episodeCache)
         // console.debug("FavoritesService.Favorites", service.favorites)
