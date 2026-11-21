@@ -3,6 +3,14 @@
 <h1>{{model.name}} <h1cont translate-once>COMMON/settings/hdr</h1cont></h1>
 
 <form ng-submit="save()" novalidate name="serieSettingsForm" id="serieSettingsForm">
+    <div class="form-group" ng-if="model">
+      <label for="series-search-name" translate-once>COMMON/torrent-search-name/lbl</label>
+      <input id="series-search-name" type="text" class="form-control" ng-model="model.alias"
+             list="series-search-names" ng-attr-placeholder="{{defaultSearchName}}">
+      <datalist id="series-search-names">
+        <option ng-repeat="name in searchAliases track by $index" ng-value="name"></option>
+      </datalist>
+    </div>
 	<formly-form model="model" fields="fields"></formly-form>
 </form>
 

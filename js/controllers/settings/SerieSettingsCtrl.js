@@ -1,5 +1,5 @@
-DuckieTV.controller('serieSettingsCtrl', ['$scope', '$filter', '$uibModalInstance', 'FavoritesService', 'SettingsService', 'FormlyLoader', 'data', 'TorrentSearchEngines', 'DuckieTorrent', 'SceneXemResolver',
-  function($scope, $filter, $modalInstance, FavoritesService, SettingsService, FormlyLoader, data, TorrentSearchEngines, DuckieTorrent, SceneXemResolver) {
+DuckieTV.controller('serieSettingsCtrl', ['$scope', '$filter', '$uibModalInstance', 'FavoritesService', 'SettingsService', 'FormlyLoader', 'data', 'TorrentSearchEngines', 'DuckieTorrent', 'SceneXemResolver', 'SceneNameResolver',
+  function($scope, $filter, $modalInstance, FavoritesService, SettingsService, FormlyLoader, data, TorrentSearchEngines, DuckieTorrent, SceneXemResolver, SceneNameResolver) {
     // customDelay.max cannot exceed adPeriod (days converted to minutes).
     var adDelayMaxMinutes = parseInt(SettingsService.get('autodownload.period') * 24 * 60)
 
@@ -11,19 +11,16 @@ DuckieTV.controller('serieSettingsCtrl', ['$scope', '$filter', '$uibModalInstanc
       $scope.searchProviders.push({'name': searchProvider, 'value': searchProvider})
     })
 
-    /**
-     * set up select list for xem alias
-     */
-    $scope.searchAlias = [{'name': '', 'value': null}]
-    SceneXemResolver.getXemAliasListForSerie(data.serie).map(function(alias) {
-      $scope.searchAlias.push({'name': alias, 'value': alias})
-    })
-    var mappings = {
-      options: {
-        'searchProviders': $scope.searchProviders,
-        'searchAlias': $scope.searchAlias
-      }
-    }
+    var serie = FavoritesService.getByTRAKT_ID(data.serie.TRAKT_ID)
+    var preferenceFields = [
+      'alias', 'autoDownload', 'ignoreHideSpecials', 'ignoreGlobalQuality',
+      'ignoreGlobalIncludes', 'ignoreGlobalExcludes', 'customSearchString',
+      'searchProvider', 'customSeeders', 'customIncludes', 'customExcludes',
+      'customSearchSizeMin', 'customSearchSizeMax', 'customDelay', 'dlPath'
+    ]
+    $scope.defaultSearchName = SceneNameResolver.getSceneName(serie.TRAKT_ID, serie.name)
+    $scope.searchAliases = SceneXemResolver.getXemAliasListForSerie(serie)
+    var mappings = { options: { searchProviders: $scope.searchProviders } }
 
     /**
      * set up delay error message interpolation
@@ -58,25 +55,21 @@ DuckieTV.controller('serieSettingsCtrl', ['$scope', '$filter', '$uibModalInstanc
      * set up form field contents
      */
     FormlyLoader.load('SerieSettings', mappings).then(function(form) {
-      $scope.model = FavoritesService.getByTRAKT_ID(data.serie.TRAKT_ID) // refresh the model because it's cached somehow by the $modalInstance. (serialisation probably)
+      // Keep edits in the dialog until Save, including changes made by Formly.
+      $scope.model = { name: serie.name }
+      preferenceFields.forEach(function(key) { $scope.model[key] = serie[key] })
       $scope.model.ignoreHideSpecials = $scope.model.ignoreHideSpecials == 1
       $scope.model.autoDownload = $scope.model.autoDownload == 1
       $scope.model.ignoreGlobalQuality = $scope.model.ignoreGlobalQuality == 1
       $scope.model.ignoreGlobalIncludes = $scope.model.ignoreGlobalIncludes == 1
       $scope.model.ignoreGlobalExcludes = $scope.model.ignoreGlobalExcludes == 1
-      $scope.model.hasXemAlias = (SceneXemResolver.getXemAliasListForSerie(data.serie).length > 0)
 
       // determine if client is local or remote (not fool proof, is there a better way?)
-      var server
-      if (DuckieTorrent.getClient().getName() === 'uTorrent') {
-        server = 'http://localhost' // uTorrent does not have a config.server
-      } else {
-        server = DuckieTorrent.getClient().config.server
-      }
-
+      var client = DuckieTorrent.getClient()
+      var server = client && (client.getName() === 'uTorrent' ? 'http://localhost' : client.config.server)
       var isLocal = (server === 'http://127.0.0.1' || server === 'http://localhost')
-      var isStandalone = (SettingsService.isStandalone()) // determine if this is standalone
-      var isDownloadPathSupported = DuckieTorrent.getClient().isDownloadPathSupported() // determine if downloadPath is supported by client
+      var isStandalone = SettingsService.isStandalone()
+      var isDownloadPathSupported = client && client.isDownloadPathSupported()
 
       $scope.model.dlPathLocal = $scope.model.dlPath
       $scope.model.dlPathRemote = $scope.model.dlPath
@@ -85,7 +78,7 @@ DuckieTV.controller('serieSettingsCtrl', ['$scope', '$filter', '$uibModalInstanc
       $scope.model.isDownloadPathSupportedRemote = (isDownloadPathSupported && ((!isStandalone) || (isStandalone && !isLocal)))
 
       // note: we are not using $scope.model.customDelay directly as input, to prevent downstream issues with dialogue save and cancel
-      $scope.model.customDelayInput = ($scope.model.customDelay === null) ? null : $scope.model.customDelay.minsToDhm()
+      $scope.model.customDelayInput = ($scope.model.customDelay == null) ? null : $scope.model.customDelay.minsToDhm()
       $scope.fields = form
     })
 
@@ -112,7 +105,9 @@ DuckieTV.controller('serieSettingsCtrl', ['$scope', '$filter', '$uibModalInstanc
         $scope.model.dlPath = (typeof $scope.model.dlPathRemote === 'undefined' || $scope.model.dlPathRemote === '') ? null : $scope.model.dlPathRemote
       }
 
-      $scope.model.Persist().then(function() {
+      $scope.model.alias = ($scope.model.alias || '').trim() || null
+      preferenceFields.forEach(function(key) { serie[key] = $scope.model[key] })
+      return serie.Persist().then(function() {
         $modalInstance.close()
         $scope.$destroy()
       })

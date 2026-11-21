@@ -47,7 +47,7 @@ DuckieTV
           if (('xem.mappings' in localStorage) && lastFetched.getTime() + 86400000 > new Date().getTime()) {
             mappings = JSON.parse(localStorage.getItem('xem.mappings'))
             console.info('Fetched localstorage Xem series list: ', mappings)
-            aliasmap = JSON.parse(localStorage.getItem('xem.aliasmap'))
+            aliasmap = JSON.parse(localStorage.getItem('xem.aliasmap')) || {}
             console.info('Fetched localstorage Xem series alias map:', aliasmap)
           } else {
             $http.get('https://duckietv.github.io/xem-cache/mappings.json').then(function(response) {
@@ -95,7 +95,7 @@ DuckieTV
               }
             })
           } else {
-            if (isNotLogged(serie.TVDB_ID.toString())) {
+            if (serie.TVDB_ID && isNotLogged(serie.TVDB_ID.toString())) {
               console.info('Xem does not have series %s (%s), using default format.', serie.name, serie.TVDB_ID)
             }
 

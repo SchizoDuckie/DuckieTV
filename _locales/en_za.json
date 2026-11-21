@@ -205,6 +205,7 @@
     "COMMON/torrent-engine/lbl": "Engine",
     "COMMON/torrent-leech/lbl": "Leech",
     "COMMON/torrent-name/lbl": "Name",
+    "COMMON/torrent-search-name/lbl": "Torrent search name",
     "COMMON/torrent-search-settings/glyph": "Torrent Search Settings",
     "COMMON/torrent-seed/lbl": "Seed",
     "COMMON/torrent-size/lbl": "Size",

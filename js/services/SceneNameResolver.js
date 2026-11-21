@@ -33,24 +33,18 @@ DuckieTV.factory('SceneNameResolver', ['$q', '$http', 'SceneXemResolver',
       return replaceDiacritics(source).replace(/\(([12][09][0-9]{2})\)/, '').replace(/[^0-9a-zA-Z- ]/g, '')
     }
 
+    // An explicit search name takes precedence over the scene exception list.
+    function getSceneName(traktID, name, alias) {
+      var override = (alias || '').trim()
+      return override || exceptions[parseInt(traktID)] || filterName(name)
+    }
+
     return {
-      /**
-       * Return the scene name of the provided TRAKT_ID if it's in the list, unfiltered.
-       */
-      getSceneName: function(traktID, name) {
-        traktID = parseInt(traktID)
-        return (traktID in exceptions) ? exceptions[traktID] : filterName(name)
-      },
+      getSceneName: getSceneName,
 
       getSearchStringForEpisode: function(serie, episode) {
         var append = (serie.customSearchString && serie.customSearchString != '') ? ' ' + serie.customSearchString : ''
-        var traktID = parseInt(serie.TRAKT_ID)
-        // Return the scene name of the provided TRAKT_ID if it's in the list, unfiltered.
-        var sceneName = (traktID in exceptions) ? exceptions[traktID] + ' ' : filterName(serie.name) + ' '
-        if (serie.alias) {
-          // replaces sceneName with serie.alias if it has been set. NOTE: alias is unfiltered
-          sceneName = serie.alias + ' '
-        }
+        var sceneName = getSceneName(serie.TRAKT_ID, serie.name, serie.alias) + ' '
         if (serie.TRAKT_ID in episodesWithDateFormat) {
           if (typeof (moment) === 'undefined') {
             moment = require('./js/vendor/moment.quacked.js')
@@ -99,8 +93,8 @@ DuckieTV.factory('SceneNameResolver', ['$q', '$http', 'SceneXemResolver',
         var lastFetched = ('snrt.lastFetched' in localStorage) ? new Date(parseInt(localStorage.getItem('snrt.lastFetched'))) : new Date()
 
         if (('snrt.traktid-tvdbid-xref' in localStorage) && lastFetched.getTime() + 86400000 > new Date().getTime()) {
-          exceptions = JSON.parse(localStorage.getItem('snrt.name-exceptions'))
-          episodesWithDateFormat = JSON.parse(localStorage.getItem('snrt.date-exceptions'))
+          exceptions = JSON.parse(localStorage.getItem('snrt.name-exceptions')) || {}
+          episodesWithDateFormat = JSON.parse(localStorage.getItem('snrt.date-exceptions')) || {}
           traktidTvdbidXref = JSON.parse(localStorage.getItem('snrt.traktid-tvdbid-xref'))
           console.info('Next SNRT update is due after ', new Date(lastFetched.getTime() + 86400000))
           console.info('Fetched SNRT name and date exceptions, and TraktTvdbXref from localStorage.')

@@ -121,7 +121,7 @@ DuckieTV.controller('SidepanelSeasonCtrl', ['$rootScope', '$scope', '$state', '$
 
     vm.getSeasonSearchString = function(serie, season) {
       if (!serie || !season) return
-      return SceneNameResolver.getSceneName(serie.TRAKT_ID, serie.name) + ' season ' + season.seasonnumber
+      return SceneNameResolver.getSceneName(serie.TRAKT_ID, serie.name, serie.alias) + ' season ' + season.seasonnumber
     }
 
     vm.getEpisodeNumber = function(episode) {
